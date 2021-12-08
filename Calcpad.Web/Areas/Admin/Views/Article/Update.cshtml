@@ -1,0 +1,59 @@
+﻿@model Calcpad.web.ViewModels.ArticleViewModel
+@{
+    string Action = Model.Id == 0 ? "Add" : "Update";
+    ViewData["Title"] = Action + " article: " + Model.Title;
+}
+@section Styles{
+    <environment include="Development">
+        <link rel="stylesheet" href="~/css/help.css">
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/css/help.min.css">
+    </environment>
+}
+<br />
+<h1>@Action article:</h1>
+<hr />
+<h2 class="h3 text-secondary">@Model.Title</h2>
+<br />
+<form asp-action="@Action" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input type="hidden" asp-for="TopicId" value="@Model.TopicId">
+    <input type="hidden" asp-for="Topic.Id" value="@Model.Topic.Id">
+    <input type="hidden" asp-for="Topic.Name" value="@Model.Topic.Name">
+    <h4>Topic: @Model.Topic.Name</h4><br />
+    <div class="form-group w-50">
+        <label asp-for="Title"></label>
+        <input asp-for="Title" class="form-control text-left" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Html"></label>
+        <div class="form-group">
+            <textarea rows="24" id="Html" name="Html">@Model.Html</textarea>
+            <span asp-validation-for="Html" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="text-center">
+        <a asp-area=""
+           asp-controller="help"
+           asp-action="index"
+           asp-route-id="@Model.Id"
+           class="btn btn-success mr-4">Cancel</a>
+        <input class="btn btn-primary" type="submit" value="@Action" />
+    </div>
+</form>
+<br />
+<br />
+@section Scripts
+{
+    <script src="/lib/tinymce/tinymce.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        tinymce.init({
+            selector: "textarea",
+            plugins: [
+                "image paste table link code media"
+            ],
+        });
+    </script>
+}

@@ -1,0 +1,81 @@
+﻿@model Calcpad.web.ViewModels.TopicsViewModel
+@{ 
+    bool isAdmin = User.Identity.IsAuthenticated && User.IsInRole(Constants.RoleNames.Administrator);
+}
+<div class="toc ml-4">
+    <h5>Table of contents</h5>
+    <ul>
+        @foreach (var topic in Model.Topics)
+        {
+            ArticleBaseModel first = topic.Articles.First();
+            bool skipFirst = first.Title.ToLowerInvariant().Trim() == topic.Name.ToLowerInvariant().Trim();
+            string tocClass, tocToggle;
+            string itemClass = first.Id == Model.ArticleId ? "toc-active" : string.Empty;
+            string slug = TextHelper.SeoFriendly(first.Title);
+            if (topic.Id == Model.TopicId)
+            {
+                tocClass = "toc-visible";
+                tocToggle = "−";
+            }
+
+            else
+            {
+                tocClass = "toc-hidden";
+                tocToggle = "+";
+            }
+            <li>
+                <span class="toc-toggle">@tocToggle</span>
+                <span class="@itemClass">
+                    <a asp-controller="help"
+                       asp-route-id="@first.Id"
+                       asp-route-slug="@slug">@topic.Name</a>
+                </span>
+                @if (isAdmin)
+                {
+                    <span class="float-right">
+                        <a asp-area="Admin"
+                            asp-controller="Topic"
+                            asp-action="Rename"
+                            asp-route-id="@topic.Id"
+                            title="Edit"><i class="icofont-pencil-alt-2 mr-2 text-primary"></i></a>
+                        <a asp-area="Admin"
+                            asp-controller="Topic"
+                            asp-action="Delete"
+                            asp-route-id="@topic.Id"
+                            title="Delete"><i class="icofont-ui-delete mr-2 text-danger"></i></a>
+                    </span>
+                }
+                <br />
+                <ul class="@tocClass">
+                    @foreach (var article in topic.Articles)
+                    {
+                        if (!skipFirst)
+                        {
+                            itemClass = article.Id == Model.ArticleId ? "toc-active" : string.Empty;
+                            slug = TextHelper.SeoFriendly(article.Title);
+                            <li class="toc-item @itemClass">
+                                <a asp-controller="help"
+                                   asp-route-id="@article.Id"
+                                   asp-route-slug="@slug">@article.Title</a>
+                            </li>
+                        }
+                        skipFirst = false;
+                    }
+                    @if (isAdmin)
+                    {
+                        <li class="toc-item ml-1">
+                            <a asp-area="Admin"
+                               asp-controller="Article"
+                               asp-action="Add"
+                               asp-route-id="@topic.Id"
+                               title="Add"
+                               class="text-primary">
+                                <i class="icofont-ui-add mr-2 text-primary"></i>Add new article
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </li>
+        }
+    </ul>
+</div>

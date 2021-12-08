@@ -1,0 +1,651 @@
+﻿@using Microsoft.AspNetCore.Html;
+@{
+    IHtmlContent refUnit(string code, string name, string description) =>
+        Html.Raw($"<li class=\"dropdown-item ref-link\" title=\"{code}\"><i>{name}</i> ({description})</li>");
+
+    IHtmlContent refToggle(string title) =>
+        Html.Raw($"<a href=\"#\" class=\"dropdown-item ref-toggle\">{title} <i class=\"icofont-caret-right\"></i></a>");
+
+}
+<h2 class="h5 font-weight-bold mb-4">Units of measurement</h2>
+<div class="dropdown btn-group">
+    <button class="btn btn-light dropdown-toggle" type="button" data-toggle="dropdown">
+        Metric
+    </button>
+    <ul class="dropdown-menu">
+        <li class="dropdown-submenu dropright">
+            @refToggle("Common")
+            <ul class="dropdown-menu">
+                <li class="dropdown-submenu dropright">
+                     @refToggle("Mass")
+                    <ul class="dropdown-menu">
+                        @refUnit("g", "g", "gram")
+                        @refUnit("hg", "hg", "hectogram")
+                        @refUnit("kg", "kg", "kilogram")
+                        @refUnit("t", "t", "ton")
+                        @refUnit("kt", "kt", "kiloton")
+                        @refUnit("Mt", "Mt", "megaton")
+                        @refUnit("Gt", "Gt", "gigaton")
+                        @refUnit("dg", "dg", "decigram")
+                        @refUnit("cg", "cg", "centigram")
+                        @refUnit("mg", "mg", "milligram")
+                        @refUnit("μg", "μg", "microgram")
+                        @refUnit("ng", "ng", "nanogram")
+                        @refUnit("pg", "pg", "picogram")
+                    </ul>
+                </li>
+                <li class="dropdown-submenu dropright">
+                     @refToggle("Length")
+                    <ul class="dropdown-menu">
+                        @refUnit("m", "m", "meter")
+                        @refUnit("km", "km", "kilometer")
+                        @refUnit("dm", "dm", "decimeter")
+                        @refUnit("cm", "cm", "centimeter")
+                        @refUnit("mm", "mm", "millimeter")
+                        @refUnit("μm", "μm", "micrometer")
+                        @refUnit("nm", "nm", "nanometer")
+                        @refUnit("pm", "pm", "picometer")
+                    </ul>
+                </li>
+                <li class="dropdown-submenu dropright">
+                     @refToggle("Area")
+                    <ul class="dropdown-menu">
+                        @refUnit("m^2", "m²", "sq. meter")
+                        @refUnit("km^2", "km²", "sq. kilometer")
+                        @refUnit("dm^2", "dm²", "sq. decimeter")
+                        @refUnit("cm^2", "cm²", "sq. centimeter")
+                        @refUnit("mm^2", "mm²", "sq. millimeter")
+                        @refUnit("a", "a", "are")
+                        @refUnit("daa", "daa", "decare")
+                        @refUnit("ha", "ha", "hectare")
+                    </ul>
+                </li>
+                <li class="dropdown-submenu dropright">
+                     @refToggle("Volume")
+                    <ul class="dropdown-menu">
+                        @refUnit("m^3", "m³", "cubic meter")
+                        @refUnit("km^3", "km³", "cubic kilometer")
+                        @refUnit("dm^3", "dm³", "cubic decimeter")
+                        @refUnit("cm^3", "cm³", "cubic centimeter")
+                        @refUnit("mm^3", "mm³", "cubic millimeter")
+                        @refUnit("L", "L", "litre")
+                        @refUnit("mL", "mL", "millilitre")
+                        @refUnit("cL", "cL", "centilitre")
+                        @refUnit("dL", "dL", "decilitre")
+                        @refUnit("hL", "hL", "hectolitre")
+                    </ul>
+                </li>
+                <li class="dropdown-submenu dropright">
+                     @refToggle("Time")
+                    <ul class="dropdown-menu">
+                        @refUnit("s", "s", "second")
+                        @refUnit("ms", "ms", "millisecond")
+                        @refUnit("μs", "μs", "microsecond")
+                        @refUnit("ns", "ns", "nanosecond")
+                        @refUnit("ps", "ps", "picosecond")
+                        @refUnit("min", "min", "minute")
+                        @refUnit("h", "h", "hour")
+                    </ul>
+                </li>
+                <li class="dropdown-submenu dropright">
+                     @refToggle("Velocity")
+                    <ul class="dropdown-menu">
+                        @refUnit("m/s", "m/s", "meters per second")
+                        @refUnit("kmh", "kmh", "kilometers per hour")
+                    </ul>
+                </li>
+                <li class="dropdown-submenu dropright">
+                     @refToggle("Temperature")
+                    <ul class="dropdown-menu">
+                        @refUnit("°C", "°C", "degrees Celsius")
+                        @refUnit("Δ°C", "Δ°C", "difference in °C")
+                        @refUnit("K", "K", "Kelvin")
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li class="dropdown-submenu dropright">
+             @refToggle("Mechanical")
+            <ul class="dropdown-menu">
+                <li class="dropdown-submenu dropright">
+                     @refToggle("Frequency")
+                    <ul class="dropdown-menu">
+                        @refUnit("Hz", "Hz", "Hertz")
+                        @refUnit("kHz", "kHz", "kilohertz")
+                        @refUnit("MHz", "MHz", "megahertz")
+                        @refUnit("GHz", "GHz", "gigahertz")
+                        @refUnit("THz", "THz", "terahertz")
+                        @refUnit("rpm", "rpm", "rotations per min.")
+                    </ul>
+                </li>
+                <li class="dropdown-submenu dropright">
+                     @refToggle("Force")
+                    <ul class="dropdown-menu">
+                        @refUnit("N", "N", "Newton")
+                        @refUnit("daN", "daN", "decanewton")
+                        @refUnit("hN", "hN", "hectonewton")
+                        @refUnit("kN", "kN", "kilonewton")
+                        @refUnit("MN", "MN", "meganewton")
+                        @refUnit("GN", "GN", "giganewton")
+                        @refUnit("TN", "TN", "teranewton")
+                        @refUnit("kgf", "kgf", "kilogram-force")
+                        @refUnit("tf", "tf", "tonne-force")
+                    </ul>
+                </li>
+                <li class="dropdown-submenu dropright">
+                     @refToggle("Torque/Moment")
+                    <ul class="dropdown-menu">
+                        @refUnit("Nm", "Nm", "Newton-meter")
+                        @refUnit("N*mm", "N·mm", "Newton-millimeter")
+                        @refUnit("N*cm", "N·cm", "Newton-centimeter")
+                        @refUnit("kN*cm", "kN·cm", "kilonewton-centimeter")
+                        @refUnit("kNm", "kNm", "kilonewton-meter")
+                    </ul>
+                </li>
+                <li class="dropdown-submenu dropright">
+                     @refToggle("Pressure")
+                    <ul class="dropdown-menu">
+                        @refUnit("N/mm^2", "N/mm²", "Newton per sq. mm")
+                        @refUnit("N/cm^2", "N/cm²", "Newton per sq. cm")
+                        @refUnit("N/m^2", "N/m²", "Newton per sq. meter")
+                        @refUnit("kN/cm^2", "kN/cm²", "kN per sq. cm")
+                        @refUnit("kN/m^2", "kN/m²", "kN per sq. meter")
+                        @refUnit("kgf/cm^2", "kgf/cm²", "kg-force per sq. cm")
+                        @refUnit("tf/m^2", "tf/m²", "tonne-force per sq. meter")
+                        @refUnit("Pa", "Pa", "Pascal")
+                        @refUnit("daPa", "daPa", "decapascal")
+                        @refUnit("hPa", "hPa", "hectopascal")
+                        @refUnit("kPa", "kPa", "kilopascal")
+                        @refUnit("MPa", "MPa", "megapascal")
+                        @refUnit("GPa", "GPa", "gigapascal")
+                        @refUnit("TPa", "TPa", "terapascal")
+                        @refUnit("bar", "bar", "bar")
+                        @refUnit("mbar", "mbar", "millibar")
+                        @refUnit("μbar", "μbar", "microbar")
+                        @refUnit("atm", "atm", "atmosphere")
+                        @refUnit("at", "at", "technical amosphere")
+                        @refUnit("Torr", "Torr", "Torr")
+                    </ul>
+                </li>
+                <li class="dropdown-submenu dropright">
+                     @refToggle("Density/Unit weight")
+                    <ul class="dropdown-menu">
+                        @refUnit("g/mm^3", "g/mm³", "gram per cubic mm")
+                        @refUnit("kg/cm^3", "kg/cm³", "kilogram per cubic cm")
+                        @refUnit("t/m^3", "t/m³", "tonne per cubic meter")
+                        @refUnit("kgf/cm^3", "kgf/cm³", "kg-force per cubic cm")
+                        @refUnit("tf/m^3", "tf/m³", "tonne-force per cubic meter")
+                        @refUnit("N/mm^3", "N/mm³", "Newton per cubic mm")
+                        @refUnit("N/cm^3", "N/cm³", "Newton per cubic cm")
+                        @refUnit("kN/cm^3", "kN/cm³", "kilonewton per cubic cm")
+                        @refUnit("kN/m^3", "kN/m³", "kilonewton per cubic m")
+                    </ul>
+                </li>
+                <li class="dropdown-submenu dropright">
+                     @refToggle("Energy/Work")
+                    <ul class="dropdown-menu">
+                        @refUnit("J", "J", "Joule")
+                        @refUnit("kJ", "kJ", "kilojoule")
+                        @refUnit("MJ", "MJ", "megajoule")
+                        @refUnit("GJ", "GJ", "gigajoule")
+                        @refUnit("TJ", "TJ", "terajoule")
+                        @refUnit("mJ", "mJ", "millijoule")
+                        @refUnit("μJ", "μJ", "microjoule")
+                        @refUnit("nJ", "nJ", "nanojoule")
+                        @refUnit("pJ", "pJ", "picojoule")
+                        @refUnit("erg", "erg", "erg")
+                        @refUnit("cal", "cal", "calorie")
+                        @refUnit("kcal", "kcal", "kilocalorie")
+                    </ul>
+                </li>
+                <li class="dropdown-submenu dropright">
+                     @refToggle("Power")
+                    <ul class="dropdown-menu">
+                        @refUnit("W", "W", "Watt")
+                        @refUnit("kW", "kW", "kilowatt")
+                        @refUnit("MW", "MW", "megawatt")
+                        @refUnit("GW", "GW", "gigawatt")
+                        @refUnit("TW", "TW", "terawatt")
+                        @refUnit("mW", "mW", "milliwatt")
+                        @refUnit("μW", "μW", "microwatt")
+                        @refUnit("nW", "nW", "nanowatt")
+                        @refUnit("pW", "pW", "picowatt")
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li class="dropdown-submenu dropright">
+             @refToggle("Electric")
+            <ul class="dropdown-menu">
+                <li class="dropdown-submenu dropright">
+                    @refToggle("Current")
+                    <ul class="dropdown-menu">
+                        @refUnit("A", "A", "Ampere")
+                        @refUnit("kA", "kA", "kiloampere")
+                        @refUnit("MA", "MA", "megaampere")
+                        @refUnit("GA", "GA", "gigaampere")
+                        @refUnit("TA", "TA", "teraampere")
+                        @refUnit("mA", "mA", "milliampere")
+                        @refUnit("μA", "μA", "microampere")
+                        @refUnit("nA", "nA", "nanoampere")
+                        @refUnit("pA", "pA", "picoampere")
+                    </ul>
+                </li>
+                <li class="dropdown-submenu dropright">
+                    @refToggle("Charge")
+                    <ul class="dropdown-menu">
+                        @refUnit("C", "C", "Coulomb")
+                        @refUnit("kC", "kC", "kilocoulomb")
+                        @refUnit("MC", "MC", "megacoulomb")
+                        @refUnit("GC", "GC", "gigacoulomb")
+                        @refUnit("TC", "TC", "teracoulomb")
+                        @refUnit("mC", "mC", "millicoulomb")
+                        @refUnit("μC", "μC", "microcoulomb")
+                        @refUnit("nC", "nC", "nanocoulomb")
+                        @refUnit("pC", "pC", "picocoulomb")
+                        @refUnit("Ah", "Ah", "Ampere-hour")
+                        @refUnit("mAh", "mAh", "milliampere-hour")
+                    </ul>
+                </li>
+                <li class="dropdown-submenu dropright">
+                    @refToggle("Potential")
+                    <ul class="dropdown-menu">
+                        @refUnit("V", "V", "Volt")
+                        @refUnit("kV", "kV", "kilovolt")
+                        @refUnit("MV", "MV", "megavolt")
+                        @refUnit("GV", "GV", "gigavolt")
+                        @refUnit("TV", "TV", "teravolt")
+                        @refUnit("mV", "mV", "millivolt")
+                        @refUnit("μV", "μV", "microvolt")
+                        @refUnit("nV", "nV", "nanovolt")
+                        @refUnit("pV", "pV", "picovolt")
+                    </ul>
+                </li>
+                <li class="dropdown-submenu dropright">
+                    @refToggle("Capacitance")
+                    <ul class="dropdown-menu">
+                        @refUnit("F", "F", "Farad")
+                        @refUnit("kF", "kF", "kilofarad")
+                        @refUnit("MF", "MF", "megafarad")
+                        @refUnit("GF", "GF", "gigafarad")
+                        @refUnit("TF", "TF", "terafarad")
+                        @refUnit("mF", "mF", "millifarad")
+                        @refUnit("μF", "μF", "microfarad")
+                        @refUnit("nF", "nF", "nanofarad")
+                        @refUnit("pF", "pF", "picofarad")
+                    </ul>
+                </li>
+                <li class="dropdown-submenu dropright">
+                    @refToggle("Resistance")
+                    <ul class="dropdown-menu">
+                        @refUnit("Ω", "Ω", "Ohm")
+                        @refUnit("kΩ", "kΩ", "kiloohm")
+                        @refUnit("MΩ", "MΩ", "megaohm")
+                        @refUnit("GΩ", "GΩ", "gigaohm")
+                        @refUnit("TΩ", "TΩ", "teraohm")
+                        @refUnit("mΩ", "mΩ", "milliohm")
+                        @refUnit("μΩ", "μΩ", "microohm")
+                        @refUnit("nΩ", "nΩ", "nanoohm")
+                        @refUnit("pΩ", "pΩ", "picoohm")
+                    </ul>
+                </li>
+                <li class="dropdown-submenu dropright">
+                    @refToggle("Conductance")
+                    <ul class="dropdown-menu">
+                        @refUnit("S", "S", "Siemens")
+                        @refUnit("kS", "kS", "kilosiemens")
+                        @refUnit("MS", "MS", "megasiemens")
+                        @refUnit("GS", "GS", "gigasiemens")
+                        @refUnit("TS", "TS", "terasiemens")
+                        @refUnit("mS", "mS", "millisiemens")
+                        @refUnit("μS", "μS", "microsiemens")
+                        @refUnit("nS", "nS", "nanosiemens")
+                        @refUnit("pS", "pS", "picosiemens")
+                    </ul>
+                </li>
+                <li class="dropdown-submenu dropright">
+                    @refToggle("Energy")
+                    <ul class="dropdown-menu">
+                        @refUnit("Wh", "Wh", "Watt-hour")
+                        @refUnit("kWh", "kWh", "kilowatt-hour")
+                        @refUnit("MWh", "MWh", "megawatt-hour")
+                        @refUnit("GWh", "GWh", "gigawatt-hour")
+                        @refUnit("TWh", "TWh", "terawatt-hour")
+                        @refUnit("mWh", "mWh", "milliwatt-hour")
+                        @refUnit("μWh", "μWh", "microwatt-hour")
+                        @refUnit("nWh", "nWh", "nanowatt-hour")
+                        @refUnit("pWh", "pWh", "picowatt-hour")
+                        @refUnit("eV", "eV", "electronvolt")
+                        @refUnit("keV", "keV", "kiloelectronvolt")
+                        @refUnit("MeV", "MeV", "megaelectronvolt")
+                        @refUnit("GeV", "GeV", "gigaelectronvolt")
+                        @refUnit("TeV", "TeV", "teraelectronvolt")
+                        @refUnit("PeV", "PeV", "petaelectronvolt")
+                        @refUnit("EeV", "EeV", "exaelectronvolt")
+                    </ul>
+                </li>
+                <li class="dropdown-submenu dropright">
+                    @refToggle("Power")
+                    <ul class="dropdown-menu">
+                        @refUnit("var", "var", "Volt-ampere")
+                        @refUnit("kvar", "kvar", "kilovolt-ampere")
+                        @refUnit("kVA", "kVA", "kilovolt-ampere")
+                        @refUnit("MVA", "MVA", "megavolt-ampere")
+                        @refUnit("GVA", "GVA", "gigavolt-ampere")
+                        @refUnit("TVA", "TVA", "teravolt-ampere")
+                        @refUnit("mVA", "mVA", "millivolt-ampere")
+                        @refUnit("μVA", "μVA", "microvolt-ampere")
+                        @refUnit("nVA", "nVA", "nanovolt-ampere")
+                        @refUnit("pVA", "pVA", "picovolt-ampere")
+                    </ul>
+                </li>
+                <li class="dropdown-submenu dropright">
+                    @refToggle("Electric field")
+                    <ul class="dropdown-menu">
+                        @refUnit("V/m", "V/m", "Volts per meter")
+                        @refUnit("N/C", "N/C", "Newtons per Coulomb")
+                    </ul>
+                </li>
+                <li class="dropdown-submenu dropright">
+                    @refToggle("Other")
+                    <ul class="dropdown-menu">
+                        @refUnit("Ω*m", "Ω∙m", "Resistivity - Ohm-meter")
+                        @refUnit("S/m", "S/m", "Conductivity - Siemens per meter")
+                        @refUnit("V*m", "V∙m", "Electric flux - Volt-meter")
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li class="dropdown-submenu dropright">
+             @refToggle("Magnetic")
+            <ul class="dropdown-menu">
+                <li class="dropdown-submenu dropright">
+                     @refToggle("Flux")
+                    <ul class="dropdown-menu">
+                        @refUnit("Wb", "Wb", "Weber")
+                        @refUnit("kWb", "kWb", "kiloweber")
+                        @refUnit("MWb", "MWb", "megaweber")
+                        @refUnit("GWb", "GWb", "gigaweber")
+                        @refUnit("TWb", "TWb", "teraweber")
+                        @refUnit("mWb", "mWb", "milliweber")
+                        @refUnit("μWb", "μWb", "microweber")
+                        @refUnit("nWb", "nWb", "nanoweber")
+                        @refUnit("pWb", "pWb", "picoweber")
+                    </ul>
+                </li>
+                <li class="dropdown-submenu dropright">
+                     @refToggle("Flux density")
+                    <ul class="dropdown-menu">
+                        @refUnit("T", "T", "Tesla")
+                        @refUnit("kT", "kT", "kilotesla")
+                        @refUnit("MT", "MT", "megatesla")
+                        @refUnit("GT", "GT", "gigatesla")
+                        @refUnit("TT", "TT", "teratesla")
+                        @refUnit("mT", "mT", "millitesla")
+                        @refUnit("μT", "μT", "microtesla")
+                        @refUnit("nT", "nT", "nanotesla")
+                        @refUnit("pT", "pT", "picotesla")
+                    </ul>
+                </li>
+                <li class="dropdown-submenu dropright">
+                     @refToggle("Inductance")
+                    <ul class="dropdown-menu">
+                        @refUnit("H", "H", "Henri")
+                        @refUnit("kH", "kH", "kilohenri")
+                        @refUnit("MH", "MH", "megahenri")
+                        @refUnit("GH", "GH", "gigahenri")
+                        @refUnit("TH", "TH", "terahenri")
+                        @refUnit("mH", "mH", "millihenri")
+                        @refUnit("μH", "μH", "microhenri")
+                        @refUnit("nH", "nH", "nanohenri")
+                        @refUnit("pH", "pH", "picohenri")
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li class="dropdown-submenu dropright">
+             @refToggle("Light/Radiation")
+            <ul class="dropdown-menu">
+                <li class="dropdown-submenu dropright">
+                     @refToggle("Radioactivity")
+                    <ul class="dropdown-menu">
+                        @refUnit("Bq", "Bq", "Becquerel")
+                        @refUnit("kBq", "kBq", "kilobecquerel")
+                        @refUnit("MBq", "MBq", "megabecquerel")
+                        @refUnit("GBq", "GBq", "gigabecquerel")
+                        @refUnit("TBq", "TBq", "terabecquerel")
+                        @refUnit("mBq", "mBq", "millibecquerel")
+                        @refUnit("μBq", "μBq", "microbecquerel")
+                        @refUnit("nBq", "nBq", "nanobecquerel")
+                        @refUnit("pBq", "pBq", "picobecquerel")
+                        @refUnit("Ci", "Ci", "Curie")
+                        @refUnit("Rd", "Rd", "Rutherford")
+                    </ul>
+                </li>
+                <li class="dropdown-submenu dropright">
+                     @refToggle("Exposure")
+                    <ul class="dropdown-menu">
+                        @refUnit("R", "R", "Röntgen")
+                        @refUnit("C/kg", "C/kg", "Coulomb per kg")
+                    </ul>
+                </li>
+                <li class="dropdown-submenu dropright">
+                     @refToggle("Absorbed dose")
+                    <ul class="dropdown-menu">
+                        @refUnit("Gy", "Gy", "Gray")
+                        @refUnit("kGy", "kGy", "kilogray")
+                        @refUnit("MGy", "MGy", "megagray")
+                        @refUnit("GGy", "GGy", "gigagray")
+                        @refUnit("TGy", "TGy", "teragray")
+                        @refUnit("mGy", "mGy", "milligray")
+                        @refUnit("μGy", "μGy", "microgray")
+                        @refUnit("nGy", "nGy", "nanogray")
+                        @refUnit("pGy", "pGy", "picogray")
+                    </ul>
+                </li>
+                <li class="dropdown-submenu dropright">
+                     @refToggle("Equivalent dose")
+                    <ul class="dropdown-menu">
+                        @refUnit("Sv", "Sv ", "Sievert")
+                        @refUnit("kSv", "kSv", "kilosievert")
+                        @refUnit("MSv", "MSv", "megasievert")
+                        @refUnit("GSv", "GSv", "gigasievert")
+                        @refUnit("TSv", "TSv", "terasievert")
+                        @refUnit("mSv", "mSv", "millisievert")
+                        @refUnit("μSv", "μSv", "microsievert")
+                        @refUnit("nSv", "nSv", "nanosievert")
+                        @refUnit("pSv", "pSv", "picosievert")
+                    </ul>
+                </li>
+                <li class="dropdown-submenu dropright">
+                     @refToggle("Other")
+                    <ul class="dropdown-menu">
+                        @refUnit("cd", "cd", "Luminous intensity - candela")
+                        @refUnit("lm", "lm", "Luminous flux - lumen")
+                        @refUnit("lm*s", "lm·s", "Luminous energy - lumen-second")
+                        @refUnit("lm*s/m^3", "lm·s/m³", "Luminous energy density - lumen-second per m³")
+                        @refUnit("lm/W", "lm/W", "Luminous efficacy - lumen per Watt")
+                        @refUnit("cd/m^2", "cd/m²", "Luminance - candela per sq. meter")
+                        @refUnit("lx", "lx", "Illuminance - lux")
+                        @refUnit("lx*s", "lx·s", "Luminous exposure - lux-second")
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li class="dropdown-submenu dropright">
+             @refToggle("Other")
+            <ul class="dropdown-menu">
+                @refUnit("mol", "mol", "amount of substance")
+                @refUnit("kat", "kat", "catalytic activity")
+            </ul>
+        </li>
+     </ul>
+</div>
+<div class="dropdown btn-group">
+    <button class="btn btn-light dropdown-toggle" type="button" data-toggle="dropdown">
+        Imperial/US
+    </button>
+    <ul class="dropdown-menu dropdown-menu-right">
+        <li class="dropdown-submenu dropright">
+             @refToggle("Mass")
+            <ul class="dropdown-menu">
+                @refUnit("gr", "gr", "grain")
+                @refUnit("dr", "dr", "drachm")
+                @refUnit("oz", "oz", "ounce")
+                @refUnit("lb", "lb", "pound")
+                @refUnit("kip", "kip", "kilopound")
+                @refUnit("st", "st", "stone")
+                @refUnit("qr", "qr", "quarter")
+                @refUnit("cwt_UK", "cwt<sub> UK</sub>", "hundredweight - UK")
+                @refUnit("cwt_US", "cwt<sub> US</sub>", "hundredweight - US")
+                @refUnit("ton_UK", "ton<sub> UK</sub>", "ton - UK")
+                @refUnit("ton_US", "ton<sub> US</sub>", "ton - US")
+                @refUnit("slug", "slug", "slug")
+            </ul>
+        </li>
+        <li class="dropdown-submenu dropright">
+             @refToggle("Length")
+            <ul class="dropdown-menu">
+                @refUnit("th", "th", "thou")
+                @refUnit("in", "in", "inch")
+                @refUnit("ft", "ft", "foot")
+                @refUnit("yd", "yd", "yard")
+                @refUnit("ch", "ch", "chain")
+                @refUnit("fur", "fur", "furlong")
+                @refUnit("mi", "mi", "mile")
+                @refUnit("ftm", "ftm", "fathom")
+                @refUnit("cable", "cable", "cable")
+                @refUnit("nmi", "nmi", "nautical mile")
+                @refUnit("li", "li", "link")
+                @refUnit("rod", "rod", "rod")
+                @refUnit("pole", "pole", "pole")
+                @refUnit("perch", "perch", "perch")
+                @refUnit("lea", "lea", "league")
+            </ul>
+        </li>
+        <li class="dropdown-submenu dropright">
+             @refToggle("Area")
+            <ul class="dropdown-menu">
+                @refUnit("th^2", "th²", "square thou")
+                @refUnit("in^2", "in²", "square inch")
+                @refUnit("ft^2", "ft²", "square foot")
+                @refUnit("yd^2", "yd²", "square yard")
+                @refUnit("mi^2", "mi²", "square mile")
+                @refUnit("rod^2", "rod²", "square rod")
+                @refUnit("pole^2", "pole²", "sq. pole")
+                @refUnit("perch^2", "perch²", "sq. perch")
+                @refUnit("rood", "rood", "rood")
+                @refUnit("ac", "ac", "acre")
+            </ul>
+        </li>
+        <li class="dropdown-submenu dropright">
+             @refToggle("Volume")
+            <ul class="dropdown-menu">
+                @refUnit("th^3", "th³", "cubic thou")
+                @refUnit("in^3", "in³", "cubic inch")
+                @refUnit("ft^3", "ft³", "cubic foot")
+                @refUnit("yd^3", "yd³", "cubic yard")
+                @refUnit("mi^3", "mi³", "cubic mile")
+                @refUnit("fl_oz_UK", "fl_oz<sub> UK</sub>", "fluid ounce - UK")
+                @refUnit("gi_UK", "gi<sub> UK</sub>", "gill - UK")
+                @refUnit("pt_UK", "pt<sub> UK</sub>", "pint - UK")
+                @refUnit("qt_UK", "qt<sub> UK</sub>", "quart - UK")
+                @refUnit("gal_UK", "gal<sub> UK</sub>", "gallon - UK")
+                @refUnit("bbl_UK", "bbl<sub> UK</sub>", "barrel - UK")
+                @refUnit("bu_UK", "bu<sub> UK</sub>", "bushel - UK")
+                @refUnit("fl_oz_US", "fl_oz<sub> US</sub>", "fluid ounce - US")
+                @refUnit("gi_US", "gi<sub> US</sub>", "gill - US")
+                @refUnit("pt_US", "pt<sub> US</sub>", "pint - US")
+                @refUnit("qt_US", "qt<sub> US</sub>", "quart - US")
+                @refUnit("gal_US", "gal<sub> US</sub>", "gallon - US")
+                @refUnit("bbl_US", "bbl<sub> US</sub>", "barrel - US")
+                @refUnit("bu_US", "bu<sub> US</sub>", "bushel - US")
+            </ul>
+        </li>
+        <li class="dropdown-submenu dropright">
+             @refToggle("Velocity")
+            <ul class="dropdown-menu">
+                @refUnit("in/s", "in/s", "inches per second")
+                @refUnit("ft/s", "ft/s", "feet per second")
+                @refUnit("yd/s", "yd/s", "yards per second")
+                @refUnit("mph", "mph", "miles per hour")
+            </ul>
+        </li>
+        <li class="dropdown-submenu dropright">
+             @refToggle("Temperature")
+            <ul class="dropdown-menu">
+                @refUnit("°F", "°F", "degrees Fahrenheit")
+                @refUnit("Δ°F", "Δ°F", "difference in °F")
+                @refUnit("°R", "°R", "degrees Rankine")
+            </ul>
+        </li>
+        <li class="dropdown-submenu dropright">
+             @refToggle("Force")
+            <ul class="dropdown-menu">
+                @refUnit("ozf", "ozf", "ounce-force")
+                @refUnit("lbf", "lbf", "pound-force")
+                @refUnit("kipf", "kipf", "kilopound-force")
+                @refUnit("tonf", "tonf", "ton-force")
+            </ul>
+        </li>
+        <li class="dropdown-submenu dropright">
+             @refToggle("Torque/Moment")
+            <ul class="dropdown-menu">
+                @refUnit("ozf*in", "ozf·in", "ounce-force-inch")
+                @refUnit("ozf*ft", "ozf·ft", "ounce-force-foot")
+                @refUnit("lbf*in", "lbf·in", "pound-force-inch")
+                @refUnit("lbf*ft", "lbf·ft", "pound-force-foot")
+            </ul>
+        </li>
+        <li class="dropdown-submenu dropright">
+             @refToggle("Pressure")
+            <ul class="dropdown-menu">
+                @refUnit("osi", "osi", "ounce-force per sq. inch")
+                @refUnit("osf", "osf", "ounce-force per sq. foot")
+                @refUnit("psi", "psi", "pound-force per sq. inch")
+                @refUnit("psf", "psf", "pound-force per sq. foot")
+                @refUnit("ksi", "ksi", "kilopound-force per sq. inch")
+                @refUnit("ksf", "ksf", "kilopound-force per sq. foot")
+                @refUnit("tsi", "tsi", "ton-force per sq. inch")
+                @refUnit("tsf", "tsf", "ton-force per sq. foot")
+            </ul>
+        </li>
+        <li class="dropdown-submenu dropright">
+             @refToggle("Density/Unit weight")
+            <ul class="dropdown-menu">
+                @refUnit("oz/in^3", "oz/in³", "ounce per cubic inch")
+                @refUnit("oz/ft^3", "oz/ft³", "ounce per cubic foot")
+                @refUnit("lb/in^3", "lb/in³", "pound per cubic inch")
+                @refUnit("lb/ft^3", "lb/ft³", "pound per cubic foot")
+                @refUnit("lb/yd^3", "lb/yd³", "pound per cubic yard")
+                @refUnit("lb/gal", "lb/gal³", "pound per gallon")
+                @refUnit("lb/bu", "lb/bu", "pound per bushel")
+                @refUnit("slug/ft^3", "slug/ft³", "slug per cubic foot")
+                @refUnit("ton/yd^3", "ton/yd³", "ton per cubic yard")
+            </ul>
+        </li>
+        <li class="dropdown-submenu dropright">
+             @refToggle("Energy/Work")
+            <ul class="dropdown-menu">
+                @refUnit("in*ozf", "in·ozf", "inch-ounce-force")
+                @refUnit("ft*ozf", "ft·ozf", "foot-ounce-force")
+                @refUnit("in*lbf", "in·lbf", "inch-pound-force")
+                @refUnit("ft*lbf", "ft·lbf", "foot-pound-force")
+                @refUnit("BTU", "BTU", "British Thermal Unit")
+                @refUnit("therm", "therm", "therm")
+                @refUnit("quad", "quad", "quad")
+            </ul>
+        </li>
+        <li class="dropdown-submenu dropright">
+             @refToggle("Power")
+            <ul class="dropdown-menu">
+                @refUnit("ft*lbf/s", "ft·lbf/s", "foot-pound-force per second")
+                @refUnit("ft*lbf/min", "ft·lbf/min", "foot-pound-force per minute")
+                @refUnit("ft*lbf/h", "ft·lbf/h", "foot-pound-force per hour")
+                @refUnit("hp", "hp", "horsepower")
+                @refUnit("hpE", "hpE", "electrical horsepower")
+                @refUnit("hpS", "hpS", "boiler horsepower")
+            </ul>
+        </li>
+    </ul>
+</div>

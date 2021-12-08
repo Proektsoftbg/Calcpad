@@ -1,0 +1,9 @@
+﻿@model string
+<br />
+<form asp-action="search" method="get" class="form-group form-inline btn-group">
+    <input type="search" name="q" , id="q" class="form-control" value="@Model" placeholder="Search...">
+    <button type="submit" class="btn btn-secondary">
+        <i class="icofont-search"></i>
+    </button>
+</form>
+<br /><br />

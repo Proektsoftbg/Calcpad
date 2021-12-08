@@ -1,0 +1,128 @@
+﻿@model Calcpad.web.ViewModels.ParseViewModel;
+@{
+    ViewData["Title"] = "Online IDE";
+}
+
+@section Meta{
+    <meta name="description" content="Calcpad online developement Ide">
+    <meta name="keywords" content="Calcpad,online,developement,programming,language,IDE,functions,operators,units">
+}
+
+@section Styles{
+    <link rel="stylesheet" href="~/lib/codemirror/lib/codemirror.css">
+    <link rel="stylesheet" href="~/lib/codemirror/theme/calcpad.css">
+}
+<div id="Ide" class="container-fluid">
+    <form asp-controller="Ide" asp-action="Preview" method="post">
+        <input type="file" id="File" accept=".txt,.clx,.cpd" />
+        <div class="row">
+            <div class="col-md-6">
+                <div class="bg-light p-1">
+                    <div class="Calcpad-toolbar float-right btn-group">
+                        <span class="btn btn-light px-2" id="New" title="New"><img src="~/images/new.png" /></span>
+                        <span class="btn btn-light px-2" id="Open" title="Open"><img src="~/images/open.png" /></span>
+                        <button class="btn btn-light px-2" type="submit" asp-action="Save" title="Save"><img src="~/images/save.png" /></button>
+                        <span class="btn btn-light px-2" id="Undo" title="Undo"><img src="~/images/undo.png" /></span>
+                        <span class="btn btn-light px-2" id="Redo" title="Redo"><img src="~/images/redo.png" /></span>
+                        <span class="btn btn-light px-2" title="Settings" data-toggle="modal" data-target="#settingsDialog"><img src="~/images/settings.png" /></span>
+                    </div>
+                    <div class="Calcpad-toolbar float-left mr-2">
+                        <a class="btn btn-light px-2" asp-controller="Home" title="Go back to home page"><img src="~/images/Calcpad.png" /></a>
+                    </div>
+                    <h3><small><i class="icofont-code-alt"></i> Code</small></h3>
+                </div>
+                <textarea asp-for="Code" rows="24"></textarea>
+            </div>
+            <div class="col-md-6">
+                <div class="bg-light p-1 pl-3">
+                    <span class="Calcpad-toolbar btn-group float-right">
+                        <button type="submit" asp-action="Download" class="btn btn-light px-2" id="Word" title="Open with MS Word"><img src="~/images/word.png" /></button>
+                        <button type="submit" class="btn btn-light float-right px-2" formtarget="_blank" title="Preview and print"><img src="~/images/print.png" /></button>
+                        <span class="btn btn-light px-2" id="Help" title="Show Help"><img src="~/images/help.png" /></span>
+                        <a class="btn btn-light px-2 pt-2" asp-controller="Home" title="Go back to home page">
+                            <i class="icofont-exit h4 text-danger"></i>
+                        </a>
+                    </span>
+                    <h3>
+                        <small><i class="icofont-refresh text-success" id="Refresh"></i> Results</small>
+                    </h3>
+                </div>
+                <div id="Output" class="aside">
+                    <div class="Calcpad px-4 ml-4" id="Reference">
+                        <partial name="~/Views/Ide/_ReferencePartial.cshtml" />
+                    </div>
+                    <div asp-validation-summary="All" class="Calcpad" id="Results"></div>
+                </div>
+            </div>
+        </div>
+        <partial name="~/Views/Shared/_SettingsPartial.cshtml" for="Settings" />
+    </form>
+    <partial name="~/Views/Shared/_KeypadPartial.cshtml" model="4" />
+    <div class="float-right" style="margin-top:-2em;">
+        <a href="javascript:window.scrollTo(0,document.body.scrollHeight)"
+           class="btn btn-light px-2">
+            <i class="icofont-square-down"></i>
+        </a>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-7">
+            <h4>How does it work?</h4>
+            <ol>
+                <li>Enter your formulas and text into the "<strong>Code</strong>" area on the left.</li>
+                <li>Press <kbd>Enter</kbd> or click <i class="icofont-refresh text-success"></i> to calculate. The results will appear in the "<strong>Results</strong>" box on the right.</li>
+                <li>Click "<strong>Preview</strong>" to preview and print the calculation notes.</li>
+            </ol>
+            <p>You can use variables, functions and <strong>units</strong> of measurement in expressions, e.g.: <code>4<i>cm</i> + 3<i>in</i></code>. To <strong>convert</strong> to other units, add vertical bar "|" and target units at the end: <code>4<i>cm</i>|<i>in</i></code>.</p>
+            <p>The Calcpad language also supports complex numbers, custom functions, plotting, numerical methods, sums, products, conditional statements, iteration blocks, etc. Check our quick reference or the complete user manual.</p>
+        </div>
+        <div class="col-sm-5">
+            <button id="Copy-Sample" class="btn btn-light float-right">Copy</button>
+            <h4>Example:</h4>
+            <p>
+                <pre id="Sample">"Quadratic equation example:
+a = 3 ', ' b = 4 ', ' c = -5
+f(x) = a*x^2 + b*x + c '= 0
+'Discriminant - ' D = b^2 - 4*a*c
+#if D < 0
+    'D < 0. No real roots exist.'
+    $Plot{f(x) &#64; x = -3 : 2}
+#else
+    x_1 = (-b - sqr(D))/(2*a)
+    x_2 = (-b + sqr(D))/(2*a)
+    $Plot{f(x) & x_1|0 & x_2|0 &#64; x = -3 : 2}
+#end if</pre>
+            </p>
+        </div>
+    </div>
+</div>
+<a href="javascript:window.scrollTo(0,0)"
+   class="btn btn-light px-2 float-right mr-3"><i class="icofont-square-up"></i></a>
+@section Scripts{
+    <script src="~/lib/codemirror/lib/codemirror.js"></script>
+    <script src="~/lib/codemirror/mode/calcpad/calcpad.js"></script>
+    <script src="~/lib/codemirror/addon/edit/matchbrackets.js"></script>
+    <script src="~/lib/codemirror/addon/selection/active-line.js"></script>
+    <script>
+        var editor = CodeMirror.fromTextArea(document.getElementById("Code"), {
+            lineNumbers: true,
+            styleActiveLine: true,
+            mode: "text/x-Calcpad",
+            theme: "Calcpad",
+            matchBrackets: true
+        });
+    </script>
+    <environment include="Development">
+        <script src="~/js/calcpad/code.js"></script>
+        <script src="~/js/calcpad/fold.js"></script>
+        <script src="~/js/calcpad/select.js"></script>
+        <script src="~/js/calcpad/units.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/calcpad/code.min.js"></script>
+        <script src="~/js/calcpad/fold.min.js"></script>
+        <script src="~/js/calcpad/select.min.js"></script>
+        <script src="~/js/calcpad/units.min.js"></script>
+    </environment>
+}

@@ -1,0 +1,41 @@
+﻿@model Calcpad.web.Areas.Admin.Models.TopicInputModel
+@{
+    ViewData["Title"] = "Delete category: " + Model.Name;
+}
+<br />
+<h1>Delete topic:</h1>
+<hr />
+<h2 class="h3 text-secondary">@Model.Name</h2>
+<hr />
+<br />
+
+@if (Model.IsEmpty)
+{
+    <p class="h5 text-danger">Are you sure that you want to delete this topic?</p>
+    <br />
+    <p>It will be removed permanently from database.</p>
+}
+else
+{
+    <p class=" h5 text-danger">Error! Topic not empty.</p>
+    <br />
+    <p>You cannot delete a topic that contains articles.</p>
+}
+<br />
+<br />
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id">
+    <p>
+        <a asp-area=""
+           asp-controller="help"
+           asp-action="index"
+           asp-route-id="@Model.Id"
+           class="btn btn-success mr-4">Cancel</a>
+        @if (Model.IsEmpty)
+        {
+            <input class="btn btn-danger" type="submit" value="Delete" />
+        }
+    </p>
+</form>
+<br />
+<br />

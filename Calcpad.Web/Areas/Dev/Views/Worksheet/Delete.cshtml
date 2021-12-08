@@ -1,0 +1,27 @@
+﻿@model Calcpad.web.Areas.Dev.Models.WorksheetInputModel
+@{
+    ViewData["Title"] = "Delete worksheet: " + Model.Title;
+}
+<br />
+<h1>Delete worksheet: </h1>
+<hr />
+<h2 class="h3 text-secondary">@Model.Title</h2>
+<br />
+<p class="h5 text-danger">Are you sure that you want to delete this worksheet?</p>
+<br />
+<p>It will be removed permanently from database.</p>
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id">
+    <input type="hidden" asp-for="CategoryId">
+    <br /><br />
+    <p>
+        <a asp-area=""
+           asp-controller="worksheet"
+           asp-action="index"
+           asp-route-id="@Model.Id"
+           class="btn btn-success mr-4">Cancel</a>
+        <input class="btn btn-danger" type="submit" value="Delete" />
+    </p>
+</form>
+<br />
+<br />

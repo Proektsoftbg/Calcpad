@@ -1,0 +1,592 @@
+﻿@using Microsoft.AspNetCore.Html;
+@functions
+{
+    IHtmlContent refLink(string data, string html) =>
+        Html.Raw("<span class=\"ref-link\" data-text=\"" + data + "\">" + html + "</span>");
+
+    IHtmlContent refOperator(string text) =>
+        refLink(text, $"<b>{text}</b>");
+
+    IHtmlContent refFunction(string text) =>
+        refLink(text + '(', $"<b>{text}</b>(<var>x</var>)</span>");
+
+    IHtmlContent refFunction2(string text) =>
+        refLink(text + '(', $"<b>{text}</b>(<var>x</var>; <var>y</var>)</span>");
+
+    IHtmlContent refCmdGen(string name, string text, string html) =>
+        refLink($"${name}{{{text}}}", $"<span class=\"cond\">${name}</span>{{ {html} }}");
+
+    IHtmlContent refCmdStd(string name) =>
+        refLink($"${name}{{f(x) @ x = a : b}}", $"<span class=\"cond\">${name}</span>{{ <b>f</b>(<var>x</var>) @ <var>x</var> = <var>a</var> : <var>b</var> }}");
+
+    IHtmlContent refCmdNum(string name) =>
+        refLink($"${name}{{f(k) @ k = a : b}}", $"<span class=\"cond\">${name}</span>{{ <b>f</b>(<var>k</var>) @ <var>k</var> = <var>a</var> : <var>b</var> }}");
+
+    IHtmlContent refCond(string name) =>
+        refLink($"#{name}", $"<span class=\"cond\">#{name}</span>");
+
+    IHtmlContent refUnit(string name, string description) =>
+        Html.Raw($"<span class=\"ref-link\" data-text=\"{name}\" title=\"{description}\"><i>{name}</i></span>");
+
+    IHtmlContent space(int chars) => Html.Raw((new string(' ', chars)).Replace(" ", "&nbsp;"));
+}
+
+<h5>Quick Reference</h5>
+<p>The Calcpad language includes the following elements (click an item to insert):</p>
+<p class="ref-list">Real numbers: digits "<b>0</b>" - "<b>9</b>" and decimal point "<b>.</b>";</p>
+<p class="ref-list">Complex numbers: <b>re</b> &plusmn; <b>im</b><var>i</var> (e.g. <b>3</b> - <b>2</b><var>i</var>);</p>
+<details>
+    <summary>Variables:</summary>
+    <p class="ref-list">
+        - Latin letters "<var>a</var>" - "<var>z</var>", "<var>A</var>" - "<var>Z</var>";<br />
+        - Greek letters "<var>&alpha;</var>" - "<var>&omega;</var>", "<var>&Alpha;</var>" - "<var>&Omega;</var>";<br />
+        - digits "<b>0</b>" - "<b>9</b>";<br />
+        - comma "<b>,</b>";<br />
+        - "<b>_</b>" for subscript;<br />
+        A variable name must start with a letter. Names are case sensitive.
+    </p>
+</details>
+<details>
+    <summary>Operators:</summary>
+    <p class="ref-list">
+        "@refOperator("!")" - factorial;<br />
+        "@refOperator("^")" - exponent;<br />
+        "@refOperator("/")" - division;<br />
+        "@refOperator("÷")" - force division bar;<br />
+        "@refOperator("\\")" - division; <br />
+        "@refOperator("%")" - reminder;<br />
+        "@refOperator("*")" - multiplication;<br />
+        "@refOperator("-")" - minus;<br />
+        "@refOperator("+")" - plus;<br />
+        "@refOperator("≡")" - equal to;<br />
+        "@refOperator("≠")" - not equal to;<br />
+        "@refOperator("&lt;")" - less than;<br />
+        "@refOperator("&gt;")" - greater than; <br />
+        "@refOperator("&le;")" - less or equal;<br />
+        "@refOperator("&ge;")" - greater or equal;<br />
+        "@refOperator("=")" - assignment;
+    </p>
+</details>
+<span class="ref-list">Custom functions of type <b>f</b> (<var>x</var>; <var>y</var>; <var>z</var>; ...);</span>
+<details>
+    <summary>Built-in functions:</summary>
+    <p class="ref-list">
+        @refFunction("abs") - absolute value/magnitude;<br />
+        @refFunction("sin") - sine;<br />
+        @refFunction("cos") - cosine;<br />
+        @refFunction("tan") - tangent;<br />
+        @refFunction("csc") - cosecant;<br />
+        @refFunction("sec") - secant;<br />
+        @refFunction("cot") - cotangent;<br />
+        @refFunction("sinh") - hyperbolic sine;<br />
+        @refFunction("cosh") - hyperbolic cosine;<br />
+        @refFunction("tanh") - hyperbolic tangent;<br />
+        @refFunction("csch") - hyperbolic cosecant;<br />
+        @refFunction("sech") - hyperbolic secant;<br />
+        @refFunction("coth") - hyperbolic cotangent;<br />
+        @refFunction("asin") - inverse sine;<br />
+        @refFunction("acos") - inverse cosine;<br />
+        @refFunction("atan") - inverse tangent;<br />
+        @refFunction("acsc") - inverse cosecant;<br />
+        @refFunction("asec") - inverse secant;<br />
+        @refFunction("acot") - inverse cotangent;<br />
+        @refFunction("asinh") - inverse hyperbolic sine;<br />
+        @refFunction("acosh") - inverse hyperbolic cosine;<br />
+        @refFunction("atanh") - inverse hyperbolic tangent;<br />
+        @refFunction("acsch") - inverse hyperbolic cosecant;<br />
+        @refFunction("asech") - inverse hyperbolic secant;<br />
+        @refFunction("acoth") - inverse hyperbolic cotangent;<br />
+        @refFunction("log") - decimal logarithm;<br />
+        @refFunction("ln")  - natural logarithm;<br />
+        @refFunction("log_2")  - binary logarithm;<br />
+        @refFunction("sqrt") - square root;<br />
+        @refFunction("cbrt") - cubic root;<br />
+        @refFunction2("root") - n-th root;<br />
+        @refFunction2("min") - the minimum of two values;<br />
+        @refFunction2("max") - the maximum of two values;<br />
+        @refFunction2("atan2") - the angle whose tangent is the quotient of <var>x</var> and <var>y</var>;<br />
+        @refFunction("round") - round to the nearest integer;<br />
+        @refFunction("floor") - round to the lower integer;<br />
+        @refFunction("ceiling") - round to the greater integer;<br />
+        @refFunction("trunc") - round to the nearest integer towards zero;<br />
+        @refFunction("re") - rhe real part of a complex number;<br />
+        @refFunction("im") - rhe imaginary part of a complex number;<br />
+        @refFunction("phase") - rhe phase of a complex number;<br />
+        @refFunction("random") - a random number between 0 and <var>x</var>;<br />
+        @refLink("if(", "<b>if</b>(&lt;<em>cond</em>&gt;; &lt;<em>value-if-true</em>&gt;; &lt;<em>value-if-false</em>&gt;)") - conditional evaluation;
+    </p>
+</details>
+<span class="ref-list">Comments: @refLink("\"Title\"", "<b>\"Title\"</b>") or @refLink("'text'", "<b>'text'</b>") in double or single quotes, respectively. <strong>HTML</strong>, <strong>CSS</strong>, <strong>JS</strong> and <strong>SVG</strong> are allowed.</span>
+<details>
+    <summary>Graphing and plotting:</summary>
+    <p class="ref-list">
+        @refCmdStd("Plot") - simple plot;<br />
+        @refCmdGen("Plot", "x(t) | y(t) @ t = a : b", "<b>x</b>(<var>t</var>) | <b>y</b>(<var>t</var>) @ <var>t</var> = <var>a</var> : <var>b</var>") - parametric;<br />
+        @refCmdGen("Plot", "f_1(x) & f_2(x) @ x = a : b", "<b>f</b><sub>1</sub>(<var>x</var>) & <b>f</b><sub>2</sub>(<var>x</var>) & ... @ <var>x</var> = <var>a</var> : <var>b</var>") - multiple;<br />
+        @refCmdGen("Plot", "x_1(x) | y_1(t) & x_2(x) | y_2(t) @ t = a : b", "<b>x</b><sub>1</sub>(<var>t</var>) | <b>y</b><sub>1</sub>(<var>t</var>) & <b>x</b><sub>2</sub>(<var>t</var>) | <b>y</b><sub>2</sub>(<var>t</var>) & ... @ <var>t</var> = <var>a</var> : <var>b</var>") - multiple parametric;<br />
+        @refCmdGen("Map", "f(x; y) &#64; x = a : b & y = c : d", "<b>f</b>(<var>x</var>; <var>y</var>) @ <var>x</var> = <var>a</var> : <var>b</var> & <var>y</var> = <var>c</var> : <var>d</var>") - 2D color map of a 3D surface;<br />
+        @refLink("PlotHeight = ", "<var>PlotHeight</var>") - height of plot area in pixels;<br />
+        @refLink("PlotWidth = ", "<var>PlotWidth</var>") - width of plot area in pixels;
+    </p>
+</details>
+<details>
+    <summary>Iterative and numerical methods:</summary>
+    <p class="ref-list">
+        @refCmdGen("Root", "f(x) = const @ x = a : b", "<b>f</b>(<var>x</var>) = const @ <var>x</var> = <var>a</var> : <var>b</var>") - root finding for <b>f</b>(<var>x</var>) = const;<br />
+        @refCmdStd("Root") - root finding for <b>f</b>(<var>x</var>) = 0;<br />
+        @refCmdStd("Find") - similar to previous, but <var>x</var> is not required to be a precise solution;<br />
+        @refCmdStd("Sup") - local maximum of a function;<br />
+        @refCmdStd("Inf") - local minimum of a function;<br />
+        @refCmdStd("Area") - numerical integration;<br />
+        @refCmdGen("Slope", "f(x) @ x = a", "<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var>") - numerical differentiation;<br />
+        @refCmdNum("Sum") - iterative sum;<br />
+        @refCmdNum("Product") - iterative product;<br />
+        @refCmdNum("Repeat") - general inline iterative procedure;<br />
+        @refLink("Precision = ", "<var>Precision</var>") - relative precision for numerical methods [10<sup>-2</sup>; 10<sup>-16</sup>] (default is 10<sup>-12</sup>)
+    </p>
+</details>
+<details>
+    <summary>Program flow control:</summary>
+    <p class="ref-list">
+        Simple:<br />
+               <span class="ref-link" data-text="#if 'condition
+    'Your code here
+#end if">
+                   @space(4)<span class="cond">#if</span> &lt;<em>condition</em>&gt;<br />
+                   @space(8)&lt;<em>Your code here</em>&gt;<br />
+                   @space(4)<span class="cond">#end if</span>
+               </span><br />
+        Alternative:<br />
+                    <span class="ref-link" data-text="#if 'condition
+    'Your code here
+#else
+    'Some other code
+#end if">
+                        @space(4)<span class="cond">#if</span> &lt;<em>condition</em>&gt;<br />
+                        @space(8)&lt;<em>Your code here</em>&gt;<br />
+                        @space(4)<span class="cond">#else</span><br />
+                        @space(8)&lt;<em>Some other code</em>&gt;<br />
+                        @space(4)<span class="cond">#end if</span>
+                    </span><br />
+        Complete:<br />
+                 <span class="ref-link" data-text="#if 'condition1
+    'Your code here
+#else if 'condition2
+    'Your code here
+#else
+    'Some other code
+#end if">
+                     @space(4)<span class="cond">#if</span> &lt;<em>condition1</em>&gt;<br />
+                     @space(8)&lt;<em>Your code here</em>&gt;<br />
+                     @space(4)<span class="cond">#else if</span> &lt;<em>condition2</em>&gt;<br />
+                     @space(8)&lt;<em>Your code here</em>&gt;<br />
+                     @space(4)<span class="cond">#else</span><br />
+                     @space(8)&lt;<em>Some other code</em>&gt;<br />
+                     @space(4)<span class="cond">#end if</span>
+                 </span><br />
+        You can add or omit as many "<span class="cond">#else if</span>'s" as needed. Only one "<span class="cond">#else</span>" is allowed. You can omit this too.
+</p>
+</details>
+<details>
+    <summary>Iteration blocks:</summary>
+    <p class="ref-list">
+        Simple:<br />
+        <span class="ref-link" data-text="#repeat 'number of repetitions
+    'Your code here
+#loop">
+            @space(4)<span class="cond">#repeat</span> &lt;<em>number of repetitions</em>&gt;<br />
+            @space(8)&lt;<em>Your code here</em>&gt;<br />
+            @space(4)<span class="cond">#loop</span>
+        </span><br />
+        With conditional break:<br />
+        <span class="ref-link" data-text="#repeat 'number of repetitions
+    'Your code here
+#if 'condition
+    #break
+#end if
+    'Some more code
+#loop">
+            @space(4)<span class="cond">#repeat</span> &lt;<em>number of repetitions</em>&gt;<br />
+            @space(8)&lt;<em>Your code here</em>&gt;<br />
+            @space(8)<span class="cond">#if</span> &lt;<em>condition</em>&gt;<br />
+            @space(12)<span class="cond">#break</span><br />
+            @space(8)<span class="cond">#end if</span><br />
+            @space(8)&lt;<em>Some more code</em>&gt;<br />
+            @space(4)<span class="cond">#loop</span>
+        </span><br />
+    </p>
+</details>
+<details>
+    <summary>Output control:</summary>
+    <p class="ref-list">
+        @refCond("hide") - hide the report contents;<br />
+        @refCond("show") - always show the contents (default);<br />
+        @refCond("pre") - show the next contents only before calculations;<br />
+        @refCond("post") - show the next contents  only after calculations;<br />
+        @refCond("val") - show only the calculated results;<br />
+        @refCond("equ") - show the complete equations (default);<br />
+        Each of the above commands is effective after the current line until the end of the report or another command that overwrites it.
+    </p>
+</details>
+<p class="ref-list">
+    Units for trigonometric functions:
+    @refCond("deg") - degrees,
+    @refCond("rad") - radians;
+</p>
+<p class="ref-list">Separator for target units: <span class="ref-link" title="must be at the end of the line" data-text="|">|</span>;</p>
+<details>
+    <summary>Metric units (SI and compatible):</summary>
+    <p class="ref-list">
+        Mass:
+        @refUnit("g", "gram"),
+        @refUnit("hg", "hectogram"),
+        @refUnit("kg", "kilogram"),
+        @refUnit("t", "ton"),
+        @refUnit("kt", "kiloton"),
+        @refUnit("Mt", "megaton"),
+        @refUnit("Gt", "gigaton"),
+        @refUnit("dg", "decigram"),
+        @refUnit("cg", "centigram"),
+        @refUnit("mg", "milligram"),
+        @refUnit("μg", "microgram"),
+        @refUnit("ng", "nanogram"),
+        @refUnit("pg", "picogram");
+        @refUnit("Da", "Dalton");
+        @refUnit("u", "Dalton (alt.)");<br />
+        Length:
+        @refUnit("m", "meter"),
+        @refUnit("km", "kilometer"),
+        @refUnit("dm", "decimeter"),
+        @refUnit("cm", "centimeter"),
+        @refUnit("mm", "millimeter"),
+        @refUnit("μm", "micrometer"),
+        @refUnit("nm", "nanometer"),
+        @refUnit("pm", "picometer");
+        @refUnit("AU", "astronomical unit");
+        @refUnit("pm", "light year");<br />
+        Time:
+        @refUnit("s", "second"),
+        @refUnit("ms", "millisecond"),
+        @refUnit("μs", "microsecond"),
+        @refUnit("ns", "nanosecond"),
+        @refUnit("ps", "picosecond"),
+        @refUnit("min", "minute"),
+        @refUnit("h", "hour");
+        @refUnit("d", "day");<br />
+        Frequency:
+        @refUnit("Hz", "Hertz"),
+        @refUnit("kHz", "kilohertz"),
+        @refUnit("MHz", "megahertz"),
+        @refUnit("GHz", "gigahertz"),
+        @refUnit("THz", "terahertz"),
+        @refUnit("mHz", "millihertz"),
+        @refUnit("μHz", "microhertz"),
+        @refUnit("nHz", "nanohertz"),
+        @refUnit("pHz", "picohertz"),
+        @refUnit("rpm", "rotations per minute");<br />
+        Velocity:
+        @refUnit("kmh", "kilometers per hour");<br />
+        Electric current:
+        @refUnit("A", "Ampere"),
+        @refUnit("kA", "kiloampere"),
+        @refUnit("MA", "megaampere"),
+        @refUnit("GA", "gigaampere"),
+        @refUnit("TA", "teraampere"),
+        @refUnit("mA", "milliampere"),
+        @refUnit("μA", "microampere"),
+        @refUnit("nA", "nanoampere"),
+        @refUnit("pA", "picoampere");<br />
+        Temperature:
+        @refUnit("°C", "degrees Celsius"),
+        @refUnit("Δ°C", "difference in degrees Celsius"),
+        @refUnit("K", "Kelvin");<br />
+        Amount of substance:
+        @refUnit("mol", "Mole");<br />
+        Luminous intensity:
+        @refUnit("cd", "Candela");<br />
+        Area:
+        @refUnit("a", "are"),
+        @refUnit("daa", "decare"),
+        @refUnit("ha", "hectore");<br />
+        Volume:
+        @refUnit("L", "litre"),
+        @refUnit("mL", "millilitre"),
+        @refUnit("cL", "centilitre"),
+        @refUnit("dL", "decilitre"),
+        @refUnit("hL", "hectolitre");<br />
+        Force:
+        @refUnit("dyn", "dyne"),
+        @refUnit("N", "Newthon"),
+        @refUnit("daN", "decanewthon"),
+        @refUnit("hN", "hectonewthon"),
+        @refUnit("kN", "kilonewthon"),
+        @refUnit("MN", "meganewthon"),
+        @refUnit("GN", "giganewthon"),
+        @refUnit("TN", "teranewthon"),
+        @refUnit("kgf", "kilogram-force"),
+        @refUnit("tf", "tonne-force");<br />
+        Moment:
+        @refUnit("Nm", "Newton-meter"),
+        @refUnit("kNm", "kilonewton-meter");<br />
+        Pressure:
+        @refUnit("Pa", "Pascal"),
+        @refUnit("daPa", "decapascal"),
+        @refUnit("hPa", "hectpascal"),
+        @refUnit("kPa", "kilopascal"),
+        @refUnit("MPa", "megapascal"),
+        @refUnit("GPa", "gigapascal"),
+        @refUnit("TPa", "terapascal"),
+        @refUnit("dPa", "decipascal"),
+        @refUnit("cPa", "centipascal"),
+        @refUnit("mPa", "millipascal"),
+        @refUnit("μPa", "micropascal"),
+        @refUnit("nPa", "nanopascal"),
+        @refUnit("pPa", "picopascal"),
+        @refUnit("bar", "bar"),
+        @refUnit("mbar", "millibar"),
+        @refUnit("μbar", "microbar"),
+        @refUnit("atm", "atmosphere"),
+        @refUnit("at", "technical atmosphere"),
+        @refUnit("Torr", "Torr");
+        @refUnit("mmHg", "millimeters of mercury");<br />
+        Energy work:
+        @refUnit("J", "Joule"),
+        @refUnit("kJ", "kilojoule"),
+        @refUnit("MJ", "megajoule"),
+        @refUnit("GJ", "gigajoule"),
+        @refUnit("TJ", "terajoule"),
+        @refUnit("mJ", "millijoule"),
+        @refUnit("μJ", "microjoule"),
+        @refUnit("nJ", "nanojoule"),
+        @refUnit("pJ", "picojoule"),
+        @refUnit("Wh", "watt-hour"),
+        @refUnit("kWh", "kilowatt-hour"),
+        @refUnit("MWh", "megawatt-hour"),
+        @refUnit("GWh", "gigawatt-hour"),
+        @refUnit("TWh", "terawatt-hour"),
+        @refUnit("cal", "calorie"),
+        @refUnit("kcal", "kilocalorie"),
+        @refUnit("erg", "erg"),
+        @refUnit("eV", "electron-Volt"),
+        @refUnit("keV", "kiloelectron-Volt"),
+        @refUnit("MeV", "megaelectron-Volt"),
+        @refUnit("GeV", "gigaelectron-Volt"),
+        @refUnit("TeV", "teraelectron-Volt"),
+        @refUnit("PeV", "pentaelectron-Volt"),
+        @refUnit("EeV", "exaelectron-Volt");<br />
+        Power:
+        @refUnit("W", "Watt"),
+        @refUnit("kW", "kilowatt"),
+        @refUnit("MW", "megawatt"),
+        @refUnit("GW", "gigawatt"),
+        @refUnit("TW", "terawatt"),
+        @refUnit("mW", "milliwatt"),
+        @refUnit("μW", "microwatt"),
+        @refUnit("nW", "nanowatt"),
+        @refUnit("pW", "picowatt"),
+        @refUnit("hpM", "horsepower (metric)"),
+        @refUnit("ks", "horsepower (metric)");<br />
+        Electric charge:
+        @refUnit("C", "Coulomb"),
+        @refUnit("kC", "kilocoulomb"),
+        @refUnit("MC", "megacoulomb"),
+        @refUnit("GC", "gigacoulomb"),
+        @refUnit("TC", "teracoulomb"),
+        @refUnit("mC", "millicoulomb"),
+        @refUnit("μC", "microcoulomb"),
+        @refUnit("nC", "nanocoulomb"),
+        @refUnit("pC", "picocoulomb"),
+        @refUnit("Ah", "Ampere-hour"),
+        @refUnit("mAh", "milliampere-hour");<br />
+        Potential:
+        @refUnit("V", "Volt"),
+        @refUnit("kV", "kilovolt"),
+        @refUnit("MV", "megavolt"),
+        @refUnit("GV", "gigavolt"),
+        @refUnit("TV", "teravolt"),
+        @refUnit("mV", "millivolt"),
+        @refUnit("μV", "microvolt"),
+        @refUnit("nV", "nanovolt"),
+        @refUnit("pV", "picovolt");<br />
+        Capacitance:
+        @refUnit("F", "Farad"),
+        @refUnit("kF", "kilofarad"),
+        @refUnit("MF", "megafarad"),
+        @refUnit("GF", "gigafarad"),
+        @refUnit("TF", "terafarad"),
+        @refUnit("mF", "millifarad"),
+        @refUnit("μF", "microfarad"),
+        @refUnit("nF", "nanofarad"),
+        @refUnit("pF", "picofarad");<br />
+        Resistance:
+        @refUnit("Ω", "Ohm"),
+        @refUnit("kΩ", "kiloohm"),
+        @refUnit("MΩ", "megaohm"),
+        @refUnit("GΩ", "gigaohm"),
+        @refUnit("TΩ", "teraohm"),
+        @refUnit("mΩ", "milliohm"),
+        @refUnit("μΩ", "microohm"),
+        @refUnit("nΩ", "nanoohm"),
+        @refUnit("pΩ", "picoohm");<br />
+        Conductance:
+        @refUnit("S", "Siemens"),
+        @refUnit("kS", "kilosiemens"),
+        @refUnit("MS", "megasiemens"),
+        @refUnit("GS", "gigasiemens"),
+        @refUnit("TS", "terasiemens"),
+        @refUnit("mS", "millisiemens"),
+        @refUnit("μS", "microsiemens"),
+        @refUnit("nS", "nanosiemens"),
+        @refUnit("pS", "picosiemens");<br />
+        Magnetic flux:
+        @refUnit("Wb", "Weber"),
+        @refUnit("kWb", "kiloweber"),
+        @refUnit("MWb", "megaweber"),
+        @refUnit("GWb", "gigaweber"),
+        @refUnit("TWb", "teraweber"),
+        @refUnit("mWb", "milliweber"),
+        @refUnit("μWb", "microweber"),
+        @refUnit("nWb", "nanoweber"),
+        @refUnit("pWb", "picoweber");<br />
+        Magnetic flux density:
+        @refUnit("T", "Tesla"),
+        @refUnit("kT", "kilotesla"),
+        @refUnit("MT", "megatesla"),
+        @refUnit("GT", "gigatesla"),
+        @refUnit("TT", "teratesla"),
+        @refUnit("mT", "millitesla"),
+        @refUnit("μT", "microtesla"),
+        @refUnit("nT", "nanotesla"),
+        @refUnit("pT", "picotesla");<br />
+        Inductance:
+        @refUnit("H", "Henri"),
+        @refUnit("kH", "kilohenri"),
+        @refUnit("MH", "megahenri"),
+        @refUnit("GH", "gigahenri"),
+        @refUnit("TH", "terahenri"),
+        @refUnit("mH", "millihenri"),
+        @refUnit("μH", "microhenri"),
+        @refUnit("nH", "nanohenri"),
+        @refUnit("pH", "picohenri");<br />
+        Luminous flux:
+        @refUnit("lm", "lumen");<br />
+        Illuminance:
+        @refUnit("lx", "lux");<br />
+        Radioactivity:
+        @refUnit("Bq", "Becquerel"),
+        @refUnit("kBq", "kilobecquerel"),
+        @refUnit("MBq", "megacquerel"),
+        @refUnit("GBq", "gigacquerel"),
+        @refUnit("TBq", "teracquerel"),
+        @refUnit("mBq", "millicquerel"),
+        @refUnit("μBq", "microcquerel"),
+        @refUnit("nBq", "nanocquerel"),
+        @refUnit("pBq", "picocquerel"),
+        @refUnit("Ci", "Curie"),
+        @refUnit("Rd", "Rutherford");<br />
+        Absorbed dose:
+        @refUnit("Gy", "Gray"),
+        @refUnit("kGy", "kilogray"),
+        @refUnit("MGy", "megagray"),
+        @refUnit("GGy", "gigagray"),
+        @refUnit("TGy", "teragray"),
+        @refUnit("mGy", "milligray"),
+        @refUnit("μGy", "microgray"),
+        @refUnit("nGy", "nanogray"),
+        @refUnit("pGy", "picogray");<br />
+        Equivalent dose:
+        @refUnit("Sv", "Sievert"),
+        @refUnit("kSv", "kilosievert"),
+        @refUnit("MSv", "megasievert"),
+        @refUnit("GSv", "gigasievert"),
+        @refUnit("TSv", "terasievert"),
+        @refUnit("mSv", "millisievert"),
+        @refUnit("μSv", "microsievert"),
+        @refUnit("nSv", "nanosievert"),
+        @refUnit("pSv", "picosievert");<br />
+        Catalytic activity:
+        @refUnit("kat", "katal");
+    </p>
+</details>
+<details>
+    <summary>Non-metric units (Imperial/US):</summary>
+    <p class="ref-list">
+        Mass:
+        @refUnit("gr", "grain"),
+        @refUnit("dr", "drachm"),
+        @refUnit("oz", "ounce"),
+        @refUnit("lb", "pound"),
+        @refUnit("kip", "kilopound"),
+        @refUnit("st", "stone"),
+        @refUnit("qr", "quarter"),
+        @refUnit("cwt_UK", "hundredweight - UK"),
+        @refUnit("cwt_US", "hundredweight - US"),
+        @refUnit("ton_UK", "ton - UK"),
+        @refUnit("ton_US", "ton - US"),
+        @refUnit("slug", "slug");<br />
+        Length:
+        @refUnit("th", "thou"),
+        @refUnit("in", "inch"),
+        @refUnit("ft", "foot"),
+        @refUnit("yd", "yard"),
+        @refUnit("ch", "chain"),
+        @refUnit("fur", "furlong"),
+        @refUnit("mi", "mile"),
+        @refUnit("ftm", "fathom"),
+        @refUnit("cable", "cable"),
+        @refUnit("nmi", "nautical mile"),
+        @refUnit("li", "link"),
+        @refUnit("rod", "rod"),
+        @refUnit("pole", "pole"),
+        @refUnit("perch", "perch"),
+        @refUnit("lea", "league");<br />
+        Velocity:
+        @refUnit("mph", "miles per hour");<br />
+        Temperature:
+        @refUnit("°F", "degrees Farad"),
+        @refUnit("Δ°F", "difference in degrees Farad"),
+        @refUnit("°R", "degrees Rankine");<br />
+        Area:
+        @refUnit("rood", "rood"),
+        @refUnit("ac", "acre");<br />
+        Volume (fluid):<br />
+        @refUnit("fl_oz_UK", "fluid ounce - UK"),
+        @refUnit("gi_UK", "gill - UK"),
+        @refUnit("pt_UK", "pint - UK"),
+        @refUnit("qt_UK", "quart - UK"),
+        @refUnit("gal_UK", "gallon - UK"),
+        @refUnit("bbl_UK", "barrel - UK"),
+        @refUnit("bu_UK", "bushel (dry) - UK");<br />
+        @refUnit("fl_oz_US", "fluid ounce - US"),
+        @refUnit("gi_US", "gill - US"),
+        @refUnit("pt_US", "pint - US"),
+        @refUnit("qt_US", "quart - US"),
+        @refUnit("gal_US", "gallon - US"),
+        @refUnit("bbl_US", "barrel - US"),
+        @refUnit("bu_US", "bushel (dry) - US");<br />
+        Force:
+        @refUnit("ozf", "ounce-force"),
+        @refUnit("lbf", "pound-force"),
+        @refUnit("kipf", "kilopound-force"),
+        @refUnit("tonf", "ton-force"),
+        @refUnit("pdl", "poundal");<br />
+        Pressure:
+        @refUnit("osi", "ounce-force per sq. inch"),
+        @refUnit("osf", "ounce-force per sq. foot")
+        @refUnit("psi", "pound-force per sq. inch"),
+        @refUnit("psf", "pound-force per sq. foot"),
+        @refUnit("ksi", "kilopound-force per sq. inch"),
+        @refUnit("ksf", "kilopound-force per sq. foot"),
+        @refUnit("tsi", "ton-force per sq. inch"),
+        @refUnit("tsf", "ton-force per sq. foot");
+        @refUnit("inHg", "inches of mercury");<br />
+        Energy work:
+        @refUnit("BTU", "British Thermal Unit"),
+        @refUnit("therm", "therm"),
+        @refUnit("quad", "quad");<br />
+        Power:
+        @refUnit("hp", "horsepower"),
+        @refUnit("hpE", "horsepower (electrical)"),
+        @refUnit("hpS", "horsepower (boiler)").
+    </p>
+</details>

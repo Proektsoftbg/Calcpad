@@ -1,0 +1,101 @@
+﻿@model Calcpad.web.Areas.Dev.Models.WorksheetInputModel
+@{
+    string Action = Model.Id == 0 ? "Add" : "Update";
+    ViewData["Title"] = Action + " worksheet: " + Model.Title;
+}
+
+@section Styles{
+    <link rel="stylesheet" href="~/lib/codemirror/lib/codemirror.css">
+    <link rel="stylesheet" href="~/lib/codemirror/theme/Calcpad.css">
+    <style>
+        .CodeMirror {
+            border: 1px solid #ccc;
+            width: 100%;
+            height: 50vh;
+            min-height: 20em;
+            max-height: 50em;
+        }
+    </style>
+}
+<br />
+<h1>@Action worksheet:</h1>
+<hr />
+<h2 class="h3 text-secondary">@Model.Title</h2>
+<br />
+<form asp-action="@Action" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input type="hidden" asp-for="CategoryId" value="@Model.CategoryId">
+    <input type="hidden" asp-for="Category.Id" value="@Model.Category.Id">
+    <input type="hidden" asp-for="Category.Name" value="@Model.Category.Name">
+    <h4>Category: @Model.Category.Name</h4><br />
+    <div class="form-group">
+        <label for="File">Load from file:</label>
+        <input type="file" accept=".txt,.clx,.cpd" id="File" name="File">
+        <span id="FileResult" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Title"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <input asp-for="Description" class="form-control" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="SourceCode"></label>
+        <div class="form-group">
+            <textarea rows="24" id="SourceCode" name="SourceCode">@Model.SourceCode</textarea>
+            <span asp-validation-for="SourceCode" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-check form-check-inline mx-2">
+        <input class="form-check-input" asp-for="IsFree">
+        <label class="form-check-label" asp-for="IsFree"></label>
+    </div>
+    <div class="text-center">
+        @if (Model.Id == 0)
+        {
+            <a asp-area=""
+               asp-controller="category"
+               asp-action="index"
+               asp-route-id="@Model.CategoryId"
+               class="btn btn-success mr-4">Cancel</a>
+        }
+        else
+        {
+            <a asp-area=""
+               asp-controller="worksheet"
+               asp-action="index"
+               asp-route-id="@Model.Id"
+               class="btn btn-success mr-4">Cancel</a>
+        }
+        <input class="btn btn-primary" type="submit" value="@Action" />
+    </div>
+</form>
+<br />
+<br />
+@section Scripts
+{
+    <script src="~/lib/codemirror/lib/codemirror.js"></script>
+    <script src="~/lib/codemirror/mode/Calcpad/Calcpad.js"></script>
+    <script src="~/lib/codemirror/addon/edit/matchbrackets.js"></script>
+    <script src="~/lib/codemirror/addon/selection/active-line.js"></script>
+    <script>
+        var editor = CodeMirror.fromTextArea(document.getElementById("SourceCode"), {
+            lineNumbers: true,
+            styleActiveLine: true,
+            mode: "text/x-Calcpad",
+            theme: "Calcpad",
+            matchBrackets: true
+        });
+    </script>
+    <environment include="Developement">
+        <script src="~/js/upload.js"></script>
+    </environment>
+    <environment exclude="Developement">
+        <script src="~/js/upload.min.js"></script>
+    </environment>
+
+}

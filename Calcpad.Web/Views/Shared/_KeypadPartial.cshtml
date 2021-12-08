@@ -1,0 +1,152 @@
+﻿@model int;
+@{
+    string[,] keys =
+    {
+        {"7", "7"},
+        {"8", "8"},
+        {"9", "9"},
+        {"*", "✕"},
+        {"/", "/"},
+        {"÷", "÷"},
+        {"^2", "x<sup>2</sup>"},
+        {"e", "e"},
+        {"4", "4"},
+        {"5", "5"},
+        {"6", "6"},
+        {" + ", "+"},
+        {" - ", "–"},
+        {"\\", "\\"},
+        {"^3", "x<sup>3</sup>"},
+        {"π", "π"},
+        {"1", "1"},
+        {"2", "2"},
+        {"3", "3"},
+        {" ≡ ", "≡"},
+        {" ≠ ", "≠"},
+        {"%", "%"},
+        {"^", "x<sup>y</sup>"},
+        {"i", "i"},
+        {"0", "0"},
+        {".", "."},
+        {" = ", "="},
+        {" ≤ ", "≤"},
+        {" ≥ ", "≥"},
+        {"10^", "10<sup>x</sup>"},
+        {"e^", "e<sup>x</sup>"}
+    };
+    string hypInv = "<span class=\"hyp\">h</span><sup class=\"inv\">-1</sup>";
+    string[] fkeys =
+    {
+        "sin",
+        "if",
+        "min",
+        "max",
+        "re",
+        "cos",
+        "sqr",
+        "round",
+        "trunc",
+        "im",
+        "tan",
+        "log",
+        "floor",
+        "ceiling",
+        "phase",
+        "cot",
+        "ln",
+        "atan2",
+        "random",
+        "abs"
+    };
+    string[] letters = { "Γ", "Δ", "Θ", "Π", "Σ", "Ψ", "Ω"};
+    string[,] commands =
+    {
+        {"$Root{f(x) @ x = a : b}", "Root"},
+        {"$Root{f(x) = const @ x = a : b}", "Root2"},
+        {"$Find{f(x) @ x = a : b}", "Find"},
+        {"$Plot{f(x) @ x = a : b}", "Plot"},
+        {"$Map{f(x) @ x = a : b & y = d : d}", "Map"},
+        {"$Sum{f(k) @ k = a : b}", "Sum"},
+        {"$Sup{f(x) @ x = a : b}", "Sup"},
+        {"$Inf{f(x) @ x = a : b}", "Inf"},
+        {"$Product{f(k) @ k = a : b}", "Product"},
+        {"$Area{f(x) @ x = a : b}", "Area"},
+        {"$Slope{f(x) @ x = a}", "Slope"},
+        {"$Repeat{f(k) @ k = a : b}", "Repeat"}
+    };
+}
+<div class="KeyPad">
+    <div class="KeyPanel">
+        @for (int i = 0; i < keys.GetLength(0); i++)
+        {
+            <button class="btn btn-light key" title="@keys[i, 0]">@Html.Raw(keys[i, 1])</button>
+            if (i == 7)
+            {
+                <button class="btn btn-light ckey" id="AC">AC</button><br />
+            }
+            else if (i == 15)
+            {
+                <button class="btn btn-light ckey" id="C"><i class="icofont-arrow-left"></i></button><br />
+            }
+            else if (i == 23)
+            {
+                <button class="btn btn-light ckey" id="LF">&#9166;</button><br />
+            }
+        }
+        <button class="btn btn-light key bracket" title="(">(</button>
+        <button class="btn btn-light key bracket" title=")">)</button>
+        <br />
+    </div>
+    @if (Model > 1)
+    {
+        <div class="KeyPanel">
+            @for (int i = 0; i < fkeys.Length; i++)
+            {
+                var text = fkeys[i] + ((i + 5) % 5 == 0 ? hypInv : string.Empty);
+                <button class="btn btn-light fkey" title="@(fkeys[i])("><small>@Html.Raw(@text)</small></button>
+                if ((i + 1) % 5 == 0)
+                {
+                    <br />
+                }
+            }
+        </div>
+    }
+    @if (Model > 3)
+    {
+        <div class="KeyPanel command">
+            @for (int i = 0; i < commands.GetLength(0); i++)
+            {
+                <button class="btn btn-light skey" title="@commands[i, 0]"><small>@Html.Raw(commands[i, 1])</small></button>
+                if ((i + 1) % 3 == 0)
+                {
+                    <br />
+                }
+            }
+        </div>
+        <div class="KeyPanel">
+            @for (char c = 'α'; c <= 'ω'; c++)
+            {
+                <button class="btn btn-light key" title="@c">@c</button>
+                if ((c - 'α' + 1) % 8 == 0)
+                {
+                    <br />
+                }
+            }
+            @for (int i = 0; i < letters.Length; i++)
+            {
+                <button class="btn btn-light key" title="@letters[i]">@letters[i]</button>
+            }
+        </div>
+        <div class="form-row m-2 ml-5">
+            <div class="form-check from-check-inline mx-2">
+                <input class="form-check-input" type="checkbox" name="inv" id="inv" value="true">
+                <label class="form-check-label" for="inv"> inv</label>
+            </div>
+            <div class="form-check from-check-inline mx-2">
+                <input class="form-check-input" type="checkbox" name="hyp" id="hyp" value="true">
+                <label class="form-check-label" for="hyp"> hyp</label>
+            </div>
+        </div>
+    }        
+</div>        
+

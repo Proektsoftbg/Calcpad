@@ -1,0 +1,27 @@
+﻿@model Calcpad.web.Areas.Admin.Models.TopicInputModel
+@{
+    string Action = Model.Id == 0 ? "Add" : "Rename";
+    ViewData["Title"] = Action + " category: " + Model.Name;
+}
+<br />
+<h1>@Action topic:</h1>
+<hr />
+<h2 class="h3 text-secondary">@Model.Name</h2>
+<br />
+<form asp-action="@Action" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <br /><br />
+    <div class="form-group col-4">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+        <br /><br />
+        <a asp-area="" 
+           asp-controller="help"
+           asp-action="Index"
+            class="btn btn-success mr-4">Cancel</a>
+        <input class="btn btn-primary" type="submit" value="@Action" />
+    </div>
+</form>
+<br />
+<br />

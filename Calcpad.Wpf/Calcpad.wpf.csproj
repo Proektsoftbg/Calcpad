@@ -1,0 +1,91 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net6.0-windows</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <UseWPF>true</UseWPF>
+        <StartupObject>Calcpad.App</StartupObject>
+        <ApplicationIcon>calcpad.ico</ApplicationIcon>
+        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+        <Authors>Nedelcho Ganchovski</Authors>
+        <RootNamespace>Calcpad.Wpf</RootNamespace>
+        <Platforms>AnyCPU</Platforms>
+		<Version>5.5</Version>
+		<Authors>Nedelcho Ganchovski</Authors>
+		<Company>Proektsoft EOOD</Company>
+        <PackageId>Calcpad</PackageId>
+        <Product>Calcpad</Product>
+        <AssemblyName>Calcpad</AssemblyName>
+        <NoWin32Manifest>true</NoWin32Manifest>
+        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+        <AnalysisLevel>latest</AnalysisLevel>
+    </PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<!--<DefineConstants>BG</DefineConstants>-->
+	</PropertyGroup>
+	
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+		<!--<DefineConstants>BG</DefineConstants>-->
+		<Optimize>false</Optimize>
+        <WarningLevel>0</WarningLevel>
+    </PropertyGroup>
+	
+    <ItemGroup>
+        <COMReference Include="SHDocVw">
+            <WrapperTool>tlbimp</WrapperTool>
+            <VersionMinor>1</VersionMinor>
+            <VersionMajor>1</VersionMajor>
+            <Guid>eab22ac0-30c1-11cf-a7eb-0000c05bae0b</Guid>
+            <Lcid>0</Lcid>
+            <Isolated>false</Isolated>
+            <EmbedInteropTypes>true</EmbedInteropTypes>
+            <Private>true</Private>
+        </COMReference>
+    </ItemGroup>
+  
+    <ItemGroup>
+        <PackageReference Include="DocumentFormat.OpenXml" Version="2.14.0" />
+        <PackageReference Include="HtmlAgilityPack" Version="1.11.38" />
+        <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+    </ItemGroup>
+  
+    <ItemGroup>
+        <ProjectReference Include="..\Calcpad.core\Calcpad.Core.csproj">
+            <Private></Private>
+            <CopyLocalSatelliteAssemblies></CopyLocalSatelliteAssemblies>
+        </ProjectReference>
+        <ProjectReference Include="..\Calcpad.OpenXml\Calcpad.OpenXml.csproj">
+            <Private></Private>
+            <CopyLocalSatelliteAssemblies></CopyLocalSatelliteAssemblies>
+        </ProjectReference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Resource Include="resources\calc.png" />
+        <Resource Include="resources\Calcpad.ico" />
+        <Resource Include="resources\copy.png" />
+        <Resource Include="resources\form.png" />
+        <Resource Include="resources\help.png" />
+        <Resource Include="resources\image.png" />
+        <Resource Include="resources\logo.png" />
+        <Resource Include="resources\new.png" />
+        <Resource Include="resources\open.png" />
+        <Resource Include="resources\paste.png" />
+        <Resource Include="resources\pdf.png" />
+        <Resource Include="resources\play.png" />
+        <Resource Include="resources\print.png" />
+        <Resource Include="resources\redo.png" />
+        <Resource Include="resources\save.png" />
+        <Resource Include="resources\undo.png" />
+        <Resource Include="resources\word.png" />
+    </ItemGroup>
+
+	<PropertyGroup>
+		<ServerGarbageCollection>true</ServerGarbageCollection>
+		<ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
+	</PropertyGroup>
+</Project>

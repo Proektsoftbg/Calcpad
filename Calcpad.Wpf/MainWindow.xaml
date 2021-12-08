@@ -1,0 +1,1296 @@
+<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="Calcpad.Wpf.MainWindow"
+        Closing="Window_Closing" 
+        Title="Calcpad 5.5" 
+        Height="800" 
+        Width="1200"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
+        HorizontalContentAlignment="Center" 
+        KeyUp="Window_KeyUp" 
+        Icon="Resources/calcpad.ico" 
+        Unloaded="Window_Unloaded" Loaded="Window_Loaded" WindowStyle="ThreeDBorderWindow">
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.5"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="RoundButton" TargetType="{x:Type Button}">
+            <Setter Property="Width" Value="26"/>
+            <Setter Property="Height" Value="26"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Focusable" Value="false"/>
+            <Setter Property="IsTabStop" Value="false"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid x:Name="grid">
+                            <Border x:Name="ButtonBorder" CornerRadius="6" Background="#FFFFFF">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="#3C7FB1"/>
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="#BEE6FD"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="GreekLetter" TargetType="{x:Type TextBlock}">
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Width" Value="14"/>
+            <Setter Property="Height" Value="14"/>
+            <Setter Property="FontFamily" Value="Times New Romans"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Background" Value="Bisque"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Key="Q"
+              Modifiers="Control" 
+              Command="ApplicationCommands.Close" />
+    </Window.InputBindings>
+    <Window.CommandBindings>
+        <CommandBinding Executed="Command_New" Command="New"/>
+        <CommandBinding Executed="Command_Open" Command="Open"/>
+        <CommandBinding Executed="Command_Save" Command="Save"/>
+        <CommandBinding Executed="Command_SaveAs" Command="SaveAs"/>
+        <CommandBinding Executed="Command_Close" Command="Close"/>
+        <CommandBinding Executed="Command_Help" Command="Help"/>
+        <CommandBinding Executed="Command_Print" Command="Print"/>
+        <CommandBinding Executed="Command_Find" Command="Find"/>
+        <CommandBinding Executed="Command_FindNext" Command="Search"/>
+        <CommandBinding Executed="Command_Copy" Command="Copy"/>
+        <CommandBinding Executed="Command_Paste" Command="Paste"/>
+        <CommandBinding Executed="Command_Undo" Command="Undo"/>
+        <CommandBinding Executed="Command_Redo" Command="Redo"/>
+    </Window.CommandBindings>
+    <Grid MinWidth="1000">
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" Offset="0"/>
+                <GradientStop Color="White" Offset="0.5"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="56"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Menu x:Name="MainMenu" VerticalAlignment="Top" Margin="2,2,2,0" Background="{x:Null}" Grid.ColumnSpan="2" Height="18">
+            <MenuItem Header="_File">
+                <MenuItem Command="ApplicationCommands.New" Header="_New"/>
+                <MenuItem Command="ApplicationCommands.Open" Header="_Open"/>
+                <MenuItem x:Name="MenuRecent" Header="_Resent files"/>
+                <MenuItem x:Name="MenuSave" Command="ApplicationCommands.Save" Header="_Save"/>
+                <MenuItem Command="ApplicationCommands.SaveAs" Header="Save _As..."/>
+                <MenuItem Command="ApplicationCommands.Close" Header="_Exit"/>
+            </MenuItem>
+            <MenuItem x:Name="MenuEdit" Header="_Edit">
+                <MenuItem Command="ApplicationCommands.Find" Header="_Find"/>
+                <Separator/>
+                <MenuItem Command="ApplicationCommands.Undo" Header="_Undo"/>
+                <MenuItem Command="ApplicationCommands.Redo" Header="_Redo"/>
+                <Separator/>
+                <MenuItem Command="ApplicationCommands.Cut" Header="Cu_t"/>
+                <MenuItem Command="ApplicationCommands.Copy" Header="_Copy"/>
+                <MenuItem Command="ApplicationCommands.Paste" Header="_Paste"/>
+                <Separator/>
+                <MenuItem Command="ApplicationCommands.SelectAll" Header="Select _All"/>
+            </MenuItem>
+            <MenuItem x:Name="MenuInsert" Header="_Insert">
+                <MenuItem Header="Operators">
+                    <MenuItem Click="Button_Click" Tag="!" Icon="  !" Header="Factorial"/>
+                    <MenuItem Click="Button_Click" Tag="^" Icon="  ^" Header="Exponent"/>
+                    <MenuItem Click="Button_Click" Tag="/" Icon="  /" Header="Division"/>
+                    <MenuItem Click="Button_Click" Tag="÷" Icon="  ÷" Header="Division Bar"/>
+                    <MenuItem Click="Button_Click" Tag="\" Icon="  \" Header="Integer Division"/>
+                    <MenuItem Click="Button_Click" Tag="%" Icon="  %" Header="Reminder"/>
+                    <MenuItem Click="Button_Click" Tag="*" Icon="  *" Header="Multiplication"/>
+                    <MenuItem Click="Button_Click" Tag="-" Icon="  -" Header="Subtraction"/>
+                    <MenuItem Click="Button_Click" Tag="+" Icon="  +" Header="Addition"/>
+                    <MenuItem Click="Button_Click" Tag="≡" Icon="  ≡" Header="Equal to"/>
+                    <MenuItem Click="Button_Click" Tag="≠" Icon="  ≠" Header="Not Equal to"/>
+                    <MenuItem Click="Button_Click" Tag="&lt;" Icon="  &lt;" Header="Less Than"/>
+                    <MenuItem Click="Button_Click" Tag="&gt;" Icon="  &gt;" Header="Greater Than"/>
+                    <MenuItem Click="Button_Click" Tag="≤" Icon="  ≤" Header="Less Than or Equal"/>
+                    <MenuItem Click="Button_Click" Tag="≥" Icon="  ≥" Header="Greater Than or Equal"/>
+                    <Separator/>
+                    <MenuItem Click="Button_Click" Tag="=" Icon="  =" Header="Assignment"/>
+                </MenuItem>
+                <MenuItem Header="Functions">
+                    <MenuItem Header="Trigonometric">
+                        <MenuItem Click="Button_Click" Tag="sin(" Header="sin(x)" ToolTip="Sine"/>
+                        <MenuItem Click="Button_Click" Tag="cos(" Header="cos(x)" ToolTip="Cosine"/>
+                        <MenuItem Click="Button_Click" Tag="tan(" Header="tan(x)" ToolTip="Tangent"/>
+                        <Separator/>
+                        <MenuItem Click="Button_Click" Tag="csc(" Header="csc(x)" ToolTip="Cosecant"/>
+                        <MenuItem Click="Button_Click" Tag="sec(" Header="sec(x)" ToolTip="Secant"/>
+                        <MenuItem Click="Button_Click" Tag="cot(" Header="cot(x)" ToolTip="Cotangent"/>
+                    </MenuItem>
+                    <MenuItem Header="Hyperbolic">
+                        <MenuItem Click="Button_Click" Tag="sinh(" Header="sinh(x)" ToolTip="Hyperbolic Sine"/>
+                        <MenuItem Click="Button_Click" Tag="cosh(" Header="cosh(x)" ToolTip="Hyperbolic Cosine"/>
+                        <MenuItem Click="Button_Click" Tag="tanh(" Header="tanh(x)" ToolTip="Hyperbolic Tangent"/>
+                        <Separator/>
+                        <MenuItem Click="Button_Click" Tag="csch(" Header="csch(x)" ToolTip="Hyperbolic Cosecant"/>
+                        <MenuItem Click="Button_Click" Tag="sech(" Header="sech(x)" ToolTip="Hyperbolic Secant"/>
+                        <MenuItem Click="Button_Click" Tag="coth(" Header="coth(x)" ToolTip="Hyperbolic Cotangent"/>
+                    </MenuItem>
+                    <MenuItem Header="Inverse Trigonometric">
+                        <MenuItem Click="Button_Click" Tag="asin(" Header="asin(x)" ToolTip="Inverse Sine"/>
+                        <MenuItem Click="Button_Click" Tag="acos(" Header="acos(x)" ToolTip="Inverse Cosine"/>
+                        <MenuItem Click="Button_Click" Tag="atan(" Header="atan(x)" ToolTip="Inverse Tangent"/>
+                        <MenuItem Click="Button_Click" Tag="atan2(x; y" Header="atan2(x; y)" ToolTip="The angle whose tangent is x/y"/>
+                        <Separator/>
+                        <MenuItem Click="Button_Click" Tag="acsc(" Header="acsc(x)" ToolTip="Inverse Cosecant"/>
+                        <MenuItem Click="Button_Click" Tag="asec(" Header="asec(x)" ToolTip="Inverse Secant"/>
+                        <MenuItem Click="Button_Click" Tag="acot(" Header="acot(x)" ToolTip="Inverse Cotangent"/>
+                    </MenuItem>
+                    <MenuItem Header="Inverse Hyperbolic">
+                        <MenuItem Click="Button_Click" Tag="asinh(" Header="asinh(x)" ToolTip="Inverse Hyperbolic Sine"/>
+                        <MenuItem Click="Button_Click" Tag="acosh(" Header="acosh(x)" ToolTip="Inverse Hyperbolic Cosine"/>
+                        <MenuItem Click="Button_Click" Tag="atanh(" Header="atanh(x)" ToolTip="Inverse Hyperbolic Tangent"/>
+                        <Separator/>
+                        <MenuItem Click="Button_Click" Tag="acsch(" Header="acsch(x)" ToolTip="Inverse Hyperbolic Cosecant"/>
+                        <MenuItem Click="Button_Click" Tag="asech(" Header="asech(x)" ToolTip="Inverse Hyperbolic Secant"/>
+                        <MenuItem Click="Button_Click" Tag="acoth(" Header="acoth(x)" ToolTip="Inverse Hyperbolic Cotangent"/>
+                    </MenuItem>
+                    <MenuItem Header="Exponential and Logarithmic">
+                        <MenuItem Click="Button_Click" Tag="log("  Header="log(x)"  ToolTip="Decimal Logarithm"/>
+                        <MenuItem Click="Button_Click" Tag="ln("   Header="ln(x)"   ToolTip="Natural Logarithm"/>
+                        <MenuItem Click="Button_Click" Tag="log_2(" Header="log2(x)"   ToolTip="Binary Logarithm"/>
+                        <Separator/>
+                        <MenuItem Click="Button_Click" Tag="sqrt(" Header="sqrt(x)" ToolTip="Square Root"/>
+                        <MenuItem Click="Button_Click" Tag="cbrt(" Header="cbrt(x)" ToolTip="Cubic Root"/>
+                        <MenuItem Click="Button_Click" Tag="root(x; n" Header="root(x; n)" ToolTip="n-th Root"/>
+                    </MenuItem>
+                    <MenuItem Header="Rounding">
+                        <MenuItem Click="Button_Click" Tag="round("   Header="round(x)"   ToolTip="Round to the nearest integer"/>
+                        <MenuItem Click="Button_Click" Tag="floor("   Header="floor(x)"   ToolTip="Round to the lower integer"/>
+                        <MenuItem Click="Button_Click" Tag="ceiling(" Header="ceiling(x)" ToolTip="Round uto the greater integer"/>
+                        <MenuItem Click="Button_Click" Tag="trunc("   Header="trunc(x)"   ToolTip="Round towards zero"/>
+                    </MenuItem>
+                    <MenuItem Header="Complex">
+                        <MenuItem Click="Button_Click" Tag="re("    Header="re(x)"    ToolTip="The real part of a complex number"/>
+                        <MenuItem Click="Button_Click" Tag="im("    Header="im(x)"    ToolTip="The imaginary part of a complex number"/>
+                        <MenuItem Click="Button_Click" Tag="phase(" Header="phase(x)" ToolTip="The phase of a complex number"/>
+                        <MenuItem Click="Button_Click" Tag="abs("   Header="abs(x)"   ToolTip="Absolute value/magitute"/>
+                    </MenuItem>
+                    <MenuItem Header="Other">
+                        <MenuItem Click="Button_Click" Tag="random("    Header="random(x)"   ToolTip="Random number between 0 and x"/>
+                        <MenuItem Click="Button_Click" Tag="min(x; y"   Header="min(x; y)"   ToolTip="Minimum of two values"/>
+                        <MenuItem Click="Button_Click" Tag="max(x; y"   Header="max(x; y)"   ToolTip="Maximum of two values"/>
+                        <MenuItem Click="Button_Click" Tag="if(a; b; c" Header="if(a; b; c)" ToolTip="Conditional evaluation"/>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="Units">
+                    <MenuItem Header="Metric">
+                        <MenuItem Header="Mass">
+                            <MenuItem Click="Button_Click" Tag="g"   Header="g (gram)"/>
+                            <MenuItem Click="Button_Click" Tag="hg"  Header="hg (hectogram)"/>
+                            <MenuItem Click="Button_Click" Tag="kg"  Header="kg (kilogram)"/>
+                            <MenuItem Click="Button_Click" Tag="t"   Header="t (ton)"/>
+                            <MenuItem Click="Button_Click" Tag="kt"  Header="kt (kiloton)"/>
+                            <MenuItem Click="Button_Click" Tag="Mt"  Header="Mt (megaton)"/>
+                            <MenuItem Click="Button_Click" Tag="Gt"  Header="Gt (gigaton)"/>
+                            <MenuItem Click="Button_Click" Tag="dg"  Header="dg (decigram)"/>
+                            <MenuItem Click="Button_Click" Tag="cg"  Header="cg (centigram)"/>
+                            <MenuItem Click="Button_Click" Tag="mg"  Header="mg (milligram)"/>
+                            <MenuItem Click="Button_Click" Tag="μg"  Header="μg (microgram)"/>
+                            <MenuItem Click="Button_Click" Tag="ng"  Header="ng (nanogram)"/>
+                            <MenuItem Click="Button_Click" Tag="pg"  Header="pg (picogram)"/>
+                            <MenuItem Click="Button_Click" Tag="Da"  Header="Da (Dalton)"/>
+                            <MenuItem Click="Button_Click" Tag="u"  Header="u (Dalton alt.)"/>
+                        </MenuItem>
+                        <MenuItem Header="Length">
+                            <MenuItem Click="Button_Click" Tag="m"  Header="m (meter)"/>
+                            <MenuItem Click="Button_Click" Tag="km" Header="km (kilometer)"/>
+                            <MenuItem Click="Button_Click" Tag="dm" Header="dm (decimeter)"/>
+                            <MenuItem Click="Button_Click" Tag="cm" Header="cm (centimeter)"/>
+                            <MenuItem Click="Button_Click" Tag="mm" Header="mm (millimeter)"/>
+                            <MenuItem Click="Button_Click" Tag="μm" Header="μm (micrometer)"/>
+                            <MenuItem Click="Button_Click" Tag="nm" Header="nm (nanometer)"/>
+                            <MenuItem Click="Button_Click" Tag="pm" Header="pm (picometer)"/>
+                            <MenuItem Click="Button_Click" Tag="AU" Header="AU (astronomical unit)"/>
+                            <MenuItem Click="Button_Click" Tag="ly" Header="ly (light year)"/>
+                        </MenuItem>
+                        <MenuItem Header="Area">
+                            <MenuItem Click="Button_Click" Tag="m^2"  Header="m² (sq. meter)"/>
+                            <MenuItem Click="Button_Click" Tag="km^2" Header="km² (sq. kilometer)"/>
+                            <MenuItem Click="Button_Click" Tag="dm^2" Header="dm² (sq. decimeter)"/>
+                            <MenuItem Click="Button_Click" Tag="cm^2" Header="cm² (sq. centimeter)"/>
+                            <MenuItem Click="Button_Click" Tag="mm^2" Header="mm² (sq. millimeter)"/>
+                            <MenuItem Click="Button_Click" Tag="a"    Header="a (are)"/>
+                            <MenuItem Click="Button_Click" Tag="daa"  Header="daa (decare)"/>
+                            <MenuItem Click="Button_Click" Tag="ha"   Header="ha (hectare)"/>
+                        </MenuItem>
+                        <MenuItem Header="Volume">
+                            <MenuItem Click="Button_Click" Tag="m^3"  Header="m³ (cubic meter)"/>
+                            <MenuItem Click="Button_Click" Tag="km^3" Header="km³ (cubic kilometer)"/>
+                            <MenuItem Click="Button_Click" Tag="dm^3" Header="dm³ (cubic decimeter)"/>
+                            <MenuItem Click="Button_Click" Tag="cm^3" Header="cm³ (cubic centimeter)"/>
+                            <MenuItem Click="Button_Click" Tag="mm^3" Header="mm³ (cubic millimeter)"/>
+                            <MenuItem Click="Button_Click" Tag="L"    Header="L (litre)"/>
+                            <MenuItem Click="Button_Click" Tag="mL"   Header="mL (millilitre)"/>
+                            <MenuItem Click="Button_Click" Tag="cL"   Header="cL (centilitre)"/>
+                            <MenuItem Click="Button_Click" Tag="dL"   Header="dL (decilitre)"/>
+                            <MenuItem Click="Button_Click" Tag="hL"   Header="hL (hectolitre)"/>
+                        </MenuItem>
+                        <MenuItem Header="Time">
+                            <MenuItem Click="Button_Click" Tag="s"   Header="s (second)"/>
+                            <MenuItem Click="Button_Click" Tag="ms"  Header="ms (millisecond)"/>
+                            <MenuItem Click="Button_Click" Tag="μs"  Header="μs (microsecond)"/>
+                            <MenuItem Click="Button_Click" Tag="ns"  Header="ns (nanosecond)"/>
+                            <MenuItem Click="Button_Click" Tag="ps"  Header="ps (picosecond)"/>
+                            <MenuItem Click="Button_Click" Tag="min" Header="min (minute)"/>
+                            <MenuItem Click="Button_Click" Tag="h"   Header="h (hour)"/>
+                            <MenuItem Click="Button_Click" Tag="d"   Header="d (day)"/>
+                        </MenuItem>
+                        <MenuItem Header="Frequency">
+                            <MenuItem Click="Button_Click" Tag="Hz"  Header="Hz (Hertz)"/>
+                            <MenuItem Click="Button_Click" Tag="kHz" Header="kHz (kilohertz)"/>
+                            <MenuItem Click="Button_Click" Tag="MHz" Header="MHz (megahertz)"/>
+                            <MenuItem Click="Button_Click" Tag="GHz" Header="GHz (gigahertz)"/>
+                            <MenuItem Click="Button_Click" Tag="THz" Header="THz (terahertz)"/>
+                            <MenuItem Click="Button_Click" Tag="mHz" Header="kHz (millihertz)"/>
+                            <MenuItem Click="Button_Click" Tag="μHz" Header="MHz (microhertz)"/>
+                            <MenuItem Click="Button_Click" Tag="nHz" Header="GHz (nanohertz)"/>
+                            <MenuItem Click="Button_Click" Tag="pHz" Header="THz (picohertz)"/>
+                            <MenuItem Click="Button_Click" Tag="rpm" Header="rpm (rotations per minute)"/>
+                        </MenuItem>
+                        <MenuItem Header="Velocity">
+                            <MenuItem Click="Button_Click" Tag="m/s" Header="m/s (meters per second)"/>
+                            <MenuItem Click="Button_Click" Tag="kmh" Header="kmh (kilometers per hour)"/>
+                        </MenuItem>
+                        <MenuItem Header="Temperature">
+                            <MenuItem Click="Button_Click" Tag="°C"  Header="°C (degree Celsius)"/>
+                            <MenuItem Click="Button_Click" Tag="Δ°C" Header="Δ°C (difference in °C)"/>
+                            <MenuItem Click="Button_Click" Tag="K"   Header="K (Kelvin)"/>
+                        </MenuItem>
+                        <MenuItem Header="Force">
+                            <MenuItem Click="Button_Click" Tag="N"   Header="N (Newton)"/>
+                            <MenuItem Click="Button_Click" Tag="daN" Header="daN (decanewton)"/>
+                            <MenuItem Click="Button_Click" Tag="hN"  Header="hN (hectonewton)"/>
+                            <MenuItem Click="Button_Click" Tag="kN"  Header="kN (kilonewton)"/>
+                            <MenuItem Click="Button_Click" Tag="MN"  Header="MN (meganewton)"/>
+                            <MenuItem Click="Button_Click" Tag="GN"  Header="GN (giganewton)"/>
+                            <MenuItem Click="Button_Click" Tag="TN"  Header="TN (teranewton)"/>
+                            <MenuItem Click="Button_Click" Tag="kgf" Header="kgf (kilogram-force)"/>
+                            <MenuItem Click="Button_Click" Tag="tf"  Header="tf (tonne-force)"/>
+                        </MenuItem>
+                        <MenuItem Header="Torque/Moment">
+                            <MenuItem Click="Button_Click" Tag="Nm"    Header="Nm (Newton-meter)"/>
+                            <MenuItem Click="Button_Click" Tag="N*mm"  Header="N·mm (Newton-millimeter)"/>
+                            <MenuItem Click="Button_Click" Tag="N*cm"  Header="N·cm (Newton-centimeter)"/>
+                            <MenuItem Click="Button_Click" Tag="kN*cm" Header="kN·cm (kilonewton-centimeter)"/>
+                            <MenuItem Click="Button_Click" Tag="kNm"   Header="kNm (kilonewton-meter)"/>
+                        </MenuItem>
+                        <MenuItem Header="Pressure">
+                            <MenuItem Click="Button_Click" Tag="N/mm^2"   Header="N/mm² (Newton per sq. mm)"/>
+                            <MenuItem Click="Button_Click" Tag="N/cm^2"   Header="N/cm² (Newton per sq. cm)"/>
+                            <MenuItem Click="Button_Click" Tag="N/m^2"    Header="N/m² (Newton per sq. meter)"/>
+                            <MenuItem Click="Button_Click" Tag="kN/cm^2"  Header="kN/cm² (kN per sq. cm)"/>
+                            <MenuItem Click="Button_Click" Tag="kN/m^2"   Header="kN/m² (kN per sq. meter)"/>
+                            <MenuItem Click="Button_Click" Tag="kgf/cm^2" Header="kgf/cm² (kg-force per sq. cm)"/>
+                            <MenuItem Click="Button_Click" Tag="tf/m^2"   Header="tf/m² (tonne-force per sq. meter)"/>
+                            <MenuItem Click="Button_Click" Tag="Pa"       Header="Pa (Pascal)"/>
+                            <MenuItem Click="Button_Click" Tag="daPa"     Header="daPa (decapascal)"/>
+                            <MenuItem Click="Button_Click" Tag="hPa"      Header="hPa (hectopascal)"/>
+                            <MenuItem Click="Button_Click" Tag="kPa"      Header="kPa (kilopascal)"/>
+                            <MenuItem Click="Button_Click" Tag="MPa"      Header="MPa (megapascal)"/>
+                            <MenuItem Click="Button_Click" Tag="GPa"      Header="GPa (gigapascal)"/>
+                            <MenuItem Click="Button_Click" Tag="TPa"      Header="TPa (terapascal)"/>
+                            <MenuItem Click="Button_Click" Tag="dPa"      Header="dPa (decipascal)"/>
+                            <MenuItem Click="Button_Click" Tag="cPa"      Header="cPa (centipascal)"/>
+                            <MenuItem Click="Button_Click" Tag="mPa"      Header="mPa (micropascal)"/>
+                            <MenuItem Click="Button_Click" Tag="μPa"      Header="μPa (millipascal)"/>
+                            <MenuItem Click="Button_Click" Tag="nPa"      Header="nPa (nanopascal)"/>
+                            <MenuItem Click="Button_Click" Tag="pPa"      Header="pPa (picopascal)"/>
+                            <MenuItem Click="Button_Click" Tag="bar"      Header="bar (bar)"/>
+                            <MenuItem Click="Button_Click" Tag="mbar"     Header="mbar (millibar)"/>
+                            <MenuItem Click="Button_Click" Tag="μbar"     Header="μbar (microbar)"/>
+                            <MenuItem Click="Button_Click" Tag="atm"      Header="atm (atmosphere)"/>
+                            <MenuItem Click="Button_Click" Tag="at"       Header="at (technical atmosphere)"/>
+                            <MenuItem Click="Button_Click" Tag="Torr"     Header="Torr (Torr)"/>
+                            <MenuItem Click="Button_Click" Tag="mmHg"     Header="mmHg (millimeters of mercury)"/>
+                        </MenuItem>
+                        <MenuItem Header="Density/Unit weight">
+                            <MenuItem Click="Button_Click" Tag="g/mm^3"   Header="g/mm³ (gram per cubic mm)"/>
+                            <MenuItem Click="Button_Click" Tag="kg/cm^3"  Header="kg/cm³ (kilogram per cubic cm)"/>
+                            <MenuItem Click="Button_Click" Tag="t/m^3"    Header="t/m³ (tonne per cubic meter)"/>
+                            <MenuItem Click="Button_Click" Tag="kgf/cm^3" Header="kgf/cm³ (kg-force per cubic cm)"/>
+                            <MenuItem Click="Button_Click" Tag="tf/m^3"   Header="tf/m³ (tonne-force per cubic meter)"/>
+                            <MenuItem Click="Button_Click" Tag="N/mm^3"   Header="N/mm³ (Newton per cubic mm)"/>
+                            <MenuItem Click="Button_Click" Tag="N/cm^3"   Header="N/cm³ (Newton per cubic cm)"/>
+                            <MenuItem Click="Button_Click" Tag="kN/cm^3"  Header="kN/cm³ (kilonewton per cubic cm)"/>
+                            <MenuItem Click="Button_Click" Tag="kN/m^3"   Header="kN/m³ (kilonewton per cubic m)"/>
+                        </MenuItem>
+                        <MenuItem Header="Energy/Work">
+                            <MenuItem Click="Button_Click" Tag="J"    Header="J (Joule)"/>
+                            <MenuItem Click="Button_Click" Tag="kJ"   Header="kJ (kilojoule)"/>
+                            <MenuItem Click="Button_Click" Tag="MJ"   Header="MJ (megajoule)"/>
+                            <MenuItem Click="Button_Click" Tag="GJ"   Header="GJ (gigajoule)"/>
+                            <MenuItem Click="Button_Click" Tag="TJ"   Header="TJ (terajoule)"/>
+                            <MenuItem Click="Button_Click" Tag="mJ"   Header="mJ (millijoule)"/>
+                            <MenuItem Click="Button_Click" Tag="μJ"   Header="μJ (microjoule)"/>
+                            <MenuItem Click="Button_Click" Tag="nJ"   Header="nJ (nanojoule)"/>
+                            <MenuItem Click="Button_Click" Tag="pJ"   Header="pJ (picojoule)"/>
+                            <MenuItem Click="Button_Click" Tag="eV"   Header="eV (electronvolt)"/>
+                            <MenuItem Click="Button_Click" Tag="keV"  Header="keV (kiloelectronvolt)"/>
+                            <MenuItem Click="Button_Click" Tag="MeV"  Header="MeV (megaelectronvolt)"/>
+                            <MenuItem Click="Button_Click" Tag="GeV"  Header="GeV (gigaelectronvolt)"/>
+                            <MenuItem Click="Button_Click" Tag="TeV"  Header="TeV (teraelectronvolt)"/>
+                            <MenuItem Click="Button_Click" Tag="PeV"  Header="PeV (petaelectronvolt)"/>
+                            <MenuItem Click="Button_Click" Tag="EeV"  Header="EeV (exaelectronvolt)"/>
+                            <MenuItem Click="Button_Click" Tag="erg"  Header="erg (erg)"/>
+                            <MenuItem Click="Button_Click" Tag="cal"  Header="cal (calorie)"/>
+                            <MenuItem Click="Button_Click" Tag="kcal" Header="kcal (kilocalorie)"/>
+                        </MenuItem>
+                        <MenuItem Header="Power">
+                            <MenuItem Click="Button_Click" Tag="W"  Header="W (Watt)"/>
+                            <MenuItem Click="Button_Click" Tag="kW" Header="kW (kilowatt)"/>
+                            <MenuItem Click="Button_Click" Tag="MW" Header="MW (megawatt)"/>
+                            <MenuItem Click="Button_Click" Tag="GW" Header="GW (gigawatt)"/>
+                            <MenuItem Click="Button_Click" Tag="TW" Header="TW (terawatt)"/>
+                            <MenuItem Click="Button_Click" Tag="mW" Header="mW (milliwatt)"/>
+                            <MenuItem Click="Button_Click" Tag="μW" Header="μW (microwatt)"/>
+                            <MenuItem Click="Button_Click" Tag="nW" Header="nW (nanowatt)"/>
+                            <MenuItem Click="Button_Click" Tag="pW" Header="pW (picowatt)"/>
+                        </MenuItem>
+                        <MenuItem Header="Electric">
+                            <MenuItem Header="Current">
+                                <MenuItem Click="Button_Click" Tag="A"  Header="A (Ampere)"/>
+                                <MenuItem Click="Button_Click" Tag="kA" Header="kA (kiloampere)"/>
+                                <MenuItem Click="Button_Click" Tag="MA" Header="MA (megaampere)"/>
+                                <MenuItem Click="Button_Click" Tag="GA" Header="GA (gigaampere)"/>
+                                <MenuItem Click="Button_Click" Tag="TA" Header="TA (teraampere)"/>
+                                <MenuItem Click="Button_Click" Tag="mA" Header="mA (milliampere)"/>
+                                <MenuItem Click="Button_Click" Tag="μA" Header="μA (microampere)"/>
+                                <MenuItem Click="Button_Click" Tag="nA" Header="nA (nanoampere)"/>
+                                <MenuItem Click="Button_Click" Tag="pA" Header="pA (picoampere)"/>
+                            </MenuItem>
+                            <MenuItem Header="Charge">
+                                <MenuItem Click="Button_Click" Tag="C"   Header="C (Coulomb)"/>
+                                <MenuItem Click="Button_Click" Tag="kC"  Header="kC (kilocoulomb)"/>
+                                <MenuItem Click="Button_Click" Tag="MC"  Header="MC (megacoulomb)"/>
+                                <MenuItem Click="Button_Click" Tag="GC"  Header="GC (gigacoulomb)"/>
+                                <MenuItem Click="Button_Click" Tag="TC"  Header="TC (teracoulomb)"/>
+                                <MenuItem Click="Button_Click" Tag="mC"  Header="mC (millicoulomb)"/>
+                                <MenuItem Click="Button_Click" Tag="μC"  Header="μC (microcoulomb)"/>
+                                <MenuItem Click="Button_Click" Tag="nC"  Header="nC (nanocoulomb)"/>
+                                <MenuItem Click="Button_Click" Tag="pC"  Header="pC (picocoulomb)"/>
+                                <MenuItem Click="Button_Click" Tag="Ah"  Header="Ah (Ampere-hour)"/>
+                                <MenuItem Click="Button_Click" Tag="mAh" Header="mAh (milliampere-hour)"/>
+                            </MenuItem>
+                            <MenuItem Header="Potential" Height= "20">
+                                <MenuItem Click="Button_Click" Tag="V"  Header="V (Volt)"/>
+                                <MenuItem Click="Button_Click" Tag="kV" Header="kV (kilovolt)"/>
+                                <MenuItem Click="Button_Click" Tag="MV" Header="MV (megavolt)"/>
+                                <MenuItem Click="Button_Click" Tag="GV" Header="GV (gigavolt)"/>
+                                <MenuItem Click="Button_Click" Tag="TV" Header="TV (teravolt)"/>
+                                <MenuItem Click="Button_Click" Tag="mV" Header="mV (millivolt)"/>
+                                <MenuItem Click="Button_Click" Tag="μV" Header="μV (microvolt)"/>
+                                <MenuItem Click="Button_Click" Tag="nV" Header="nV (nanovolt)"/>
+                                <MenuItem Click="Button_Click" Tag="pV" Header="pV (picovolt)"/>
+                            </MenuItem>
+                            <MenuItem Header="Capacitance">
+                                <MenuItem Click="Button_Click" Tag="F"  Header="F (Farad)"/>
+                                <MenuItem Click="Button_Click" Tag="kF" Header="kF (kilofarad)"/>
+                                <MenuItem Click="Button_Click" Tag="MF" Header="MF (megafarad)"/>
+                                <MenuItem Click="Button_Click" Tag="GF" Header="GF (gigafarad)"/>
+                                <MenuItem Click="Button_Click" Tag="TF" Header="TF (terafarad)"/>
+                                <MenuItem Click="Button_Click" Tag="mF" Header="mF (millifarad)"/>
+                                <MenuItem Click="Button_Click" Tag="μF" Header="μF (microfarad)"/>
+                                <MenuItem Click="Button_Click" Tag="nF" Header="nF (nanofarad)"/>
+                                <MenuItem Click="Button_Click" Tag="pF" Header="pF (picofarad)"/>
+                            </MenuItem>
+                            <MenuItem Header="Resistance">
+                                <MenuItem Click="Button_Click" Tag="Ω"  Header="Ω (Ohm)"/>
+                                <MenuItem Click="Button_Click" Tag="kΩ" Header="kΩ (kiloohm)"/>
+                                <MenuItem Click="Button_Click" Tag="MΩ" Header="MΩ (megaohm)"/>
+                                <MenuItem Click="Button_Click" Tag="GΩ" Header="GΩ (gigaohm)"/>
+                                <MenuItem Click="Button_Click" Tag="TΩ" Header="TΩ (teraohm)"/>
+                                <MenuItem Click="Button_Click" Tag="mΩ" Header="mΩ (milliohm)"/>
+                                <MenuItem Click="Button_Click" Tag="μΩ" Header="μΩ (microohm)"/>
+                                <MenuItem Click="Button_Click" Tag="nΩ" Header="nΩ (nanoohm)"/>
+                                <MenuItem Click="Button_Click" Tag="pΩ" Header="pΩ (picoohm)"/>
+                            </MenuItem>
+                            <MenuItem Header="Conductance">
+                                <MenuItem Click="Button_Click" Tag="S"  Header="S (Siemens)"/>
+                                <MenuItem Click="Button_Click" Tag="kS" Header="kS (kilosiemens)"/>
+                                <MenuItem Click="Button_Click" Tag="MS" Header="MS (megasiemens)"/>
+                                <MenuItem Click="Button_Click" Tag="GS" Header="GS (gigasiemens)"/>
+                                <MenuItem Click="Button_Click" Tag="TS" Header="TS (terasiemens)"/>
+                                <MenuItem Click="Button_Click" Tag="mS" Header="mS (millisiemens)"/>
+                                <MenuItem Click="Button_Click" Tag="μS" Header="μS (microsiemens)"/>
+                                <MenuItem Click="Button_Click" Tag="nS" Header="nS (nanosiemens)"/>
+                                <MenuItem Click="Button_Click" Tag="pS" Header="pS (picosiemens)"/>
+                            </MenuItem>
+                            <MenuItem Header="Energy">
+                                <MenuItem Click="Button_Click" Tag="Wh"  Header="Wh (Watt-hour)"/>
+                                <MenuItem Click="Button_Click" Tag="kWh" Header="kWh (kilowatt-hour)"/>
+                                <MenuItem Click="Button_Click" Tag="MWh" Header="MWh (megawatt-hour)"/>
+                                <MenuItem Click="Button_Click" Tag="GWh" Header="GWh (gigawatt-hour)"/>
+                                <MenuItem Click="Button_Click" Tag="TWh" Header="TWh (terawatt-hour)"/>
+                                <MenuItem Click="Button_Click" Tag="mWh" Header="mWh (milliwatt-hour)"/>
+                                <MenuItem Click="Button_Click" Tag="μWh" Header="μWh (microwatt-hour)"/>
+                                <MenuItem Click="Button_Click" Tag="nWh" Header="nWh (nanowatt-hour)"/>
+                                <MenuItem Click="Button_Click" Tag="pWh" Header="pWh (picowatt-hour)"/>
+                            </MenuItem>
+                            <MenuItem Header="Power">
+                                <MenuItem Click="Button_Click" Tag="var"  Header="var (Volt-Ampere)"/>
+                                <MenuItem Click="Button_Click" Tag="kvar" Header="kvar (kilovolt-Ampere)"/>
+                                <MenuItem Click="Button_Click" Tag="kVA"  Header="kVA (kilovolt-Ampere)"/>
+                                <MenuItem Click="Button_Click" Tag="MVA"  Header="MVA (megavolt-Ampere)"/>
+                                <MenuItem Click="Button_Click" Tag="GVA"  Header="GVA (gigavolt-Ampere)"/>
+                                <MenuItem Click="Button_Click" Tag="TVA"  Header="TVA (teravolt-Ampere)"/>
+                                <MenuItem Click="Button_Click" Tag="mVA"  Header="mVA (millivolt-Ampere)"/>
+                                <MenuItem Click="Button_Click" Tag="μVA"  Header="μVA (microvolt-Ampere)"/>
+                                <MenuItem Click="Button_Click" Tag="nVA"  Header="nVA (nanovolt-Ampere)"/>
+                                <MenuItem Click="Button_Click" Tag="pVA"  Header="pVA (picovolt-Ampere)"/>
+                            </MenuItem>
+                            <MenuItem Header="Electric field">
+                                <MenuItem Click="Button_Click" Tag="V/m" Header="V/m (Volts per meter)"/>
+                                <MenuItem Click="Button_Click" Tag="N/C" Header="N/C (Newtons per Coulomb)"/>
+                            </MenuItem>
+                            <MenuItem Click="Button_Click" Tag="Ω*m" ToolTip="Resistivity"   Header="Ω∙m (Ohm-meter)"/>
+                            <MenuItem Click="Button_Click" Tag="S/m" ToolTip="Conductivity"  Header="S/m (Siemens per meter)"/>
+                            <MenuItem Click="Button_Click" Tag="V*m" ToolTip="Electric flux" Header="V∙m (Volt-meter)"/>
+                        </MenuItem>
+                        <MenuItem Header="Magnetic">
+                            <MenuItem Header="Flux">
+                                <MenuItem Click="Button_Click" Tag="Wb"  Header="Wb (Weber)"/>
+                                <MenuItem Click="Button_Click" Tag="kWb" Header="kWb (kiloweber)"/>
+                                <MenuItem Click="Button_Click" Tag="MWb" Header="MWb (megaweber)"/>
+                                <MenuItem Click="Button_Click" Tag="GWb" Header="GWb (gigaweber)"/>
+                                <MenuItem Click="Button_Click" Tag="TWb" Header="TWb (teraweber)"/>
+                                <MenuItem Click="Button_Click" Tag="mWb" Header="mWb (milliweber)"/>
+                                <MenuItem Click="Button_Click" Tag="μWb" Header="μWb (microweber)"/>
+                                <MenuItem Click="Button_Click" Tag="nWb" Header="nWb (nanoweber)"/>
+                                <MenuItem Click="Button_Click" Tag="pWb" Header="pWb (picoweber)"/>
+                            </MenuItem>
+                            <MenuItem Header="Flux density">
+                                <MenuItem Click="Button_Click" Tag="T"  Header="T (Tesla)"/>
+                                <MenuItem Click="Button_Click" Tag="kT" Header="kT (kilotesla)"/>
+                                <MenuItem Click="Button_Click" Tag="MT" Header="MT (megatesla)"/>
+                                <MenuItem Click="Button_Click" Tag="GT" Header="GT (gigatesla)"/>
+                                <MenuItem Click="Button_Click" Tag="TT" Header="TT (teratesla)"/>
+                                <MenuItem Click="Button_Click" Tag="mT" Header="mT (millitesla)"/>
+                                <MenuItem Click="Button_Click" Tag="μT" Header="μT (microtesla)"/>
+                                <MenuItem Click="Button_Click" Tag="nT" Header="nT (nanotesla)"/>
+                                <MenuItem Click="Button_Click" Tag="pT" Header="pT (picotesla)"/>
+                            </MenuItem>
+                            <MenuItem Header="Inductance">
+                                <MenuItem Click="Button_Click" Tag="H"  Header="H (Henry)"/>
+                                <MenuItem Click="Button_Click" Tag="kH" Header="kH (kilohenry)"/>
+                                <MenuItem Click="Button_Click" Tag="MH" Header="MH (megahenry)"/>
+                                <MenuItem Click="Button_Click" Tag="GH" Header="GH (gigahenry)"/>
+                                <MenuItem Click="Button_Click" Tag="TH" Header="TH (terahenry)"/>
+                                <MenuItem Click="Button_Click" Tag="mH" Header="mH (millihenry)"/>
+                                <MenuItem Click="Button_Click" Tag="μH" Header="μH (microhenry)"/>
+                                <MenuItem Click="Button_Click" Tag="nH" Header="nH (nanohenry)"/>
+                                <MenuItem Click="Button_Click" Tag="pH" Header="pH (picohenry)"/>
+                            </MenuItem>
+                        </MenuItem>
+                        <MenuItem Header="Light/Radiation">
+                            <MenuItem Click="Button_Click" Tag="cd"       ToolTip="Luminous intensity"      Header="cd (candela)"/>
+                            <MenuItem Click="Button_Click" Tag="lm"       ToolTip="Luminous flux"           Header="lm (lumen)"/>
+                            <MenuItem Click="Button_Click" Tag="lm*s"     ToolTip="Luminous energy"         Header="lm·s (lumen-second)"/>
+                            <MenuItem Click="Button_Click" Tag="lm*s/m^3" ToolTip="Luminous energy density" Header="lm·s/m³ (lumen-second per m³)"/>
+                            <MenuItem Click="Button_Click" Tag="lm/W"     ToolTip="Luminous efficacy"       Header="lm/W (lumen per Watt)"/>
+                            <MenuItem Click="Button_Click" Tag="cd/m^2"   ToolTip="Luminance"               Header="cd/m² (candela per sq. meter)"/>
+                            <MenuItem Click="Button_Click" Tag="lx"       ToolTip="Illuminance"             Header="lx (lux)"/>
+                            <MenuItem Click="Button_Click" Tag="lx*s"     ToolTip="Luminous exposure"       Header="lx·s (lux-second)"/>
+                            <MenuItem Header="Radioactivity">
+                                <MenuItem Click="Button_Click" Tag="Bq"  Header="Bq (Becquerel)"/>
+                                <MenuItem Click="Button_Click" Tag="kBq" Header="kBq (kilobecquerel)"/>
+                                <MenuItem Click="Button_Click" Tag="MBq" Header="MBq (megabecquerel)"/>
+                                <MenuItem Click="Button_Click" Tag="GBq" Header="GBq (gigabecquerel)"/>
+                                <MenuItem Click="Button_Click" Tag="TBq" Header="TBq (terabecquerel)"/>
+                                <MenuItem Click="Button_Click" Tag="mBq" Header="mBq (millibecquerel)"/>
+                                <MenuItem Click="Button_Click" Tag="μBq" Header="μBq (microbecquerel)"/>
+                                <MenuItem Click="Button_Click" Tag="nBq" Header="nBq (nanobecquerel)"/>
+                                <MenuItem Click="Button_Click" Tag="pBq" Header="pBq (picobecquerel)"/>
+                                <MenuItem Click="Button_Click" Tag="Ci"  Header="Ci (Curie)"/>
+                                <MenuItem Click="Button_Click" Tag="Rd"  Header="Rd (Rutherford)"/>
+                            </MenuItem>
+                            <MenuItem Header="Exposure">
+                                <MenuItem Click="Button_Click" Tag="R"    Header="R (Röntgen)"/>
+                                <MenuItem Click="Button_Click" Tag="C/kg" Header="C/kg (Coulomb per kg)"/>
+                            </MenuItem>
+                            <MenuItem Header="Absorbed dose">
+                                <MenuItem Click="Button_Click" Tag="Gy"  Header="Gy (Gray)"/>
+                                <MenuItem Click="Button_Click" Tag="kGy" Header="kGy (kilogray)"/>
+                                <MenuItem Click="Button_Click" Tag="MGy" Header="MGy (megagray)"/>
+                                <MenuItem Click="Button_Click" Tag="GGy" Header="GGy (gigagray)"/>
+                                <MenuItem Click="Button_Click" Tag="TGy" Header="TGy (teragray)"/>
+                                <MenuItem Click="Button_Click" Tag="mGy" Header="mGy (milligray)"/>
+                                <MenuItem Click="Button_Click" Tag="μGy" Header="μGy (microgray)"/>
+                                <MenuItem Click="Button_Click" Tag="nGy" Header="nGy (nanogray)"/>
+                                <MenuItem Click="Button_Click" Tag="pGy" Header="pGy (picogray)"/>
+                            </MenuItem>
+                            <MenuItem Header="Equivalent dose">
+                                <MenuItem Click="Button_Click" Tag="Sv"  Header="Sv  (Sievert)"/>
+                                <MenuItem Click="Button_Click" Tag="kSv" Header="kSv (kilosievert)"/>
+                                <MenuItem Click="Button_Click" Tag="MSv" Header="MSv (megasievert)"/>
+                                <MenuItem Click="Button_Click" Tag="GSv" Header="GSv (gigasievert)"/>
+                                <MenuItem Click="Button_Click" Tag="TSv" Header="TSv (terasievert)"/>
+                                <MenuItem Click="Button_Click" Tag="mSv" Header="mSv (millisievert)"/>
+                                <MenuItem Click="Button_Click" Tag="μSv" Header="μSv (microsievert)"/>
+                                <MenuItem Click="Button_Click" Tag="nSv" Header="nSv (nanosievert)"/>
+                                <MenuItem Click="Button_Click" Tag="pSv" Header="pSv (picosievert)"/>
+                            </MenuItem>
+                        </MenuItem>
+                        <MenuItem Header="Other">
+                            <MenuItem Click="Button_Click" Tag="mol" Header="mol (amount of substance)"/>
+                            <MenuItem Click="Button_Click" Tag="kat" Header="kat (catalytic activity)"/>
+                        </MenuItem>
+                    </MenuItem>
+                    <MenuItem Header="Imperial/US">
+                        <MenuItem Header="Mass">
+                            <MenuItem Click="Button_Click" Tag="gr"   Header="gr (grain)"/>
+                            <MenuItem Click="Button_Click" Tag="dr"   Header="dr (drachm)"/>
+                            <MenuItem Click="Button_Click" Tag="oz"   Header="oz (ounce)"/>
+                            <MenuItem Click="Button_Click" Tag="lb"   Header="lb (pound)"/>
+                            <MenuItem Click="Button_Click" Tag="kip"  Header="kip (kilopound)"/>
+                            <MenuItem Click="Button_Click" Tag="st"   Header="st (stone)"/>
+                            <MenuItem Click="Button_Click" Tag="qr"   Header="qr (quarter)"/>
+                            <MenuItem Click="Button_Click" Tag="cwt_UK"  Header="cwt (hundredweight) - UK"/>
+                            <MenuItem Click="Button_Click" Tag="cwt_US"  Header="cwt (hundredweight) - US"/>
+                            <MenuItem Click="Button_Click" Tag="ton_UK"  Header="ton - UK"/>
+                            <MenuItem Click="Button_Click" Tag="ton_US"  Header="ton - US"/>
+                            <MenuItem Click="Button_Click" Tag="slug" Header="slug"/>
+                        </MenuItem>
+                        <MenuItem Header="Length">
+                            <MenuItem Click="Button_Click" Tag="th"    Header="th (thou)"/>
+                            <MenuItem Click="Button_Click" Tag="in"    Header="in (inch)"/>
+                            <MenuItem Click="Button_Click" Tag="ft"    Header="ft (foot)"/>
+                            <MenuItem Click="Button_Click" Tag="yd"    Header="yd (yard)"/>
+                            <MenuItem Click="Button_Click" Tag="ch"    Header="ch (chain)"/>
+                            <MenuItem Click="Button_Click" Tag="fur"   Header="fur (furlong)"/>
+                            <MenuItem Click="Button_Click" Tag="mi"    Header="mi (mile)"/>
+                            <MenuItem Click="Button_Click" Tag="ftm"   Header="ftm (fathom)"/>
+                            <MenuItem Click="Button_Click" Tag="cable" Header="cable"/>
+                            <MenuItem Click="Button_Click" Tag="nmi"   Header="nmi (nautical mile)"/>
+                            <MenuItem Click="Button_Click" Tag="li"    Header="li (link)"/>
+                            <MenuItem Click="Button_Click" Tag="rod"   Header="rod"/>
+                            <MenuItem Click="Button_Click" Tag="pole"  Header="pole"/>
+                            <MenuItem Click="Button_Click" Tag="perch" Header="perch"/>
+                            <MenuItem Click="Button_Click" Tag="lea"   Header="lea (league)"/>
+                        </MenuItem>
+                        <MenuItem Header="Area">
+                            <MenuItem Click="Button_Click" Tag="th^2"     Header="th² (square thou)"/>
+                            <MenuItem Click="Button_Click" Tag="in^2"     Header="in² (square inch)"/>
+                            <MenuItem Click="Button_Click" Tag="ft^2"     Header="ft² (square foot)"/>
+                            <MenuItem Click="Button_Click" Tag="yd^2"     Header="yd² (square yard)"/>
+                            <MenuItem Click="Button_Click" Tag="mi^2"     Header="mi² (square mile)"/>
+                            <MenuItem Click="Button_Click" Tag="rod^2"    Header="rod² (square rod)"/>
+                            <MenuItem Click="Button_Click" Tag="pole^2"   Header="pole² (sq. pole)"/>
+                            <MenuItem Click="Button_Click" Tag="perch^2"  Header="perch² (sq. perch)"/>
+                            <MenuItem Click="Button_Click" Tag="rood"     Header="rood (rood)"/>
+                            <MenuItem Click="Button_Click" Tag="ac"       Header="ac (acre)"/>
+                        </MenuItem>
+                        <MenuItem Header="Volume">
+                            <MenuItem Click="Button_Click" Tag="th^3"   Header="th³ (cubic thou)"/>
+                            <MenuItem Click="Button_Click" Tag="in^3"   Header="in³ (cubic inch)"/>
+                            <MenuItem Click="Button_Click" Tag="ft^3"   Header="ft³ (cubic foot)"/>
+                            <MenuItem Click="Button_Click" Tag="yd^3"   Header="yd³ (cubic yard)"/>
+                            <MenuItem Click="Button_Click" Tag="mi^3"   Header="mi³ (cubic mile)"/>
+                            <MenuItem Click="Button_Click" Tag="fl_oz_UK"  Header="fl_oz (fluid ounce) - UK"/>
+                            <MenuItem Click="Button_Click" Tag="gi_UK"     Header="gi (gill) - UK"/>
+                            <MenuItem Click="Button_Click" Tag="pt_UK"     Header="pt (pint) - UK"/>
+                            <MenuItem Click="Button_Click" Tag="qt_UK"     Header="qt (quart) - UK"/>
+                            <MenuItem Click="Button_Click" Tag="gal_UK"    Header="gal (gallon) - UK"/>
+                            <MenuItem Click="Button_Click" Tag="bbl_UK"    Header="bbl (barrel) - UK"/>
+                            <MenuItem Click="Button_Click" Tag="bu_UK"     Header="bu (bushel) - UK"/>
+                            <MenuItem Click="Button_Click" Tag="fl_oz_US"  Header="fl_oz (fluid ounce) - US"/>
+                            <MenuItem Click="Button_Click" Tag="gi_US"     Header="gi (gill) - US"/>
+                            <MenuItem Click="Button_Click" Tag="pt_US"     Header="pt (pint) - US"/>
+                            <MenuItem Click="Button_Click" Tag="qt_US"     Header="qt (quart) - US"/>
+                            <MenuItem Click="Button_Click" Tag="gal_US"    Header="gal (gallon) - US"/>
+                            <MenuItem Click="Button_Click" Tag="bbl_US"    Header="bbl (barrel) - US"/>
+                            <MenuItem Click="Button_Click" Tag="bu_US"     Header="bu (bushel) - US"/>
+                        </MenuItem>
+                        <MenuItem Header="Velocity">
+                            <MenuItem Click="Button_Click" Tag="in/s" Header="in/s (inches per second)"/>
+                            <MenuItem Click="Button_Click" Tag="ft/s" Header="ft/s (feet per second)"/>
+                            <MenuItem Click="Button_Click" Tag="yd/s" Header="yd/s (yards per second)"/>
+                            <MenuItem Click="Button_Click" Tag="mph"  Header="mph (miles per hour)"/>
+                        </MenuItem>
+                        <MenuItem Header="Temperature">
+                            <MenuItem Click="Button_Click" Tag="°F"  Header="°F (degrees Fahrenheit)"/>
+                            <MenuItem Click="Button_Click" Tag="Δ°F" Header="Δ°F (difference in °F)"/>
+                            <MenuItem Click="Button_Click" Tag="°R"  Header="°R (degrees Rankine)"/>
+                        </MenuItem>
+                        <MenuItem Header="Force">
+                            <MenuItem Click="Button_Click" Tag="ozf"  Header="ozf (ounce-force)"/>
+                            <MenuItem Click="Button_Click" Tag="lbf"  Header="lbf (pound-force)"/>
+                            <MenuItem Click="Button_Click" Tag="kipf" Header="kipf (kilopound-force)"/>
+                            <MenuItem Click="Button_Click" Tag="tonf" Header="tonf (ton-force)"/>
+                        </MenuItem>
+                        <MenuItem Header="Torque/Moment">
+                            <MenuItem Click="Button_Click" Tag="ozf*in" Header="ozf·in (ounce-force-inch)"/>
+                            <MenuItem Click="Button_Click" Tag="ozf*ft" Header="ozf·ft (ounce-force-foot)"/>
+                            <MenuItem Click="Button_Click" Tag="lbf*in" Header="lbf·in (pound-force-inch)"/>
+                            <MenuItem Click="Button_Click" Tag="lbf*ft" Header="lbf·ft (pound-force-foot)"/>
+                        </MenuItem>
+                        <MenuItem Header="Pressure">
+                            <MenuItem Click="Button_Click" Tag="osi" Header="osi (ounce-force per sq. inch)"/>
+                            <MenuItem Click="Button_Click" Tag="osf" Header="osf (ounce-force per sq. foot)"/>
+                            <MenuItem Click="Button_Click" Tag="psi" Header="psi (pound-force per sq. inch)"/>
+                            <MenuItem Click="Button_Click" Tag="psf" Header="psf (pound-force per sq. foot)"/>
+                            <MenuItem Click="Button_Click" Tag="ksi" Header="ksi (kilopound-force per sq. inch)"/>
+                            <MenuItem Click="Button_Click" Tag="ksf" Header="ksf (kilopound-force per sq. foot)"/>
+                            <MenuItem Click="Button_Click" Tag="tsi" Header="tsi (ton-force per sq. inch)"/>
+                            <MenuItem Click="Button_Click" Tag="tsf" Header="tsf (ton-force per sq. foot)"/>
+                            <MenuItem Click="Button_Click" Tag="inHg" Header="inHg (inches of mercuty)"/>
+                        </MenuItem>
+                        <MenuItem Header="Density/Unit weight">
+                            <MenuItem Click="Button_Click" Tag="oz/in^3"   Header="oz/in³ (ounce per cubic inch)"/>
+                            <MenuItem Click="Button_Click" Tag="oz/ft^3"   Header="oz/ft³ (ounce per cubic foot)"/>
+                            <MenuItem Click="Button_Click" Tag="lb/in^3"   Header="lb/in³ (pound per cubic inch)"/>
+                            <MenuItem Click="Button_Click" Tag="lb/ft^3"   Header="lb/ft³ (pound per cubic foot)"/>
+                            <MenuItem Click="Button_Click" Tag="lb/yd^3"   Header="lb/yd³ (pound per cubic yard)"/>
+                            <MenuItem Click="Button_Click" Tag="lb/gal"    Header="lb/gal³ (pound per gallon)"/>
+                            <MenuItem Click="Button_Click" Tag="lb/bu"     Header="lb/bu (pound per bushel)"/>
+                            <MenuItem Click="Button_Click" Tag="slug/ft^3" Header="slug/ft³ (slug per cubic foot)"/>
+                            <MenuItem Click="Button_Click" Tag="ton/yd^3"  Header="ton/yd³ (ton per cubic yard)"/>
+                        </MenuItem>
+                        <MenuItem Header="Energy/Work">
+                            <MenuItem Click="Button_Click" Tag="in*ozf" Header="in·ozf (inch-ounce-force)"/>
+                            <MenuItem Click="Button_Click" Tag="ft*ozf" Header="ft·ozf (foot-ounce-force)"/>
+                            <MenuItem Click="Button_Click" Tag="in*lbf" Header="in·lbf (inch-pound-force)"/>
+                            <MenuItem Click="Button_Click" Tag="ft*lbf" Header="ft·lbf (foot-pound-force)"/>
+                            <MenuItem Click="Button_Click" Tag="BTU"    Header="BTU (British Thermal Unit)"/>
+                            <MenuItem Click="Button_Click" Tag="therm"  Header="therm"/>
+                            <MenuItem Click="Button_Click" Tag="quad"   Header="quad"/>
+                        </MenuItem>
+                        <MenuItem Header="Power">
+                            <MenuItem Click="Button_Click" Tag="ft*lbf/s"   Header="ft·lbf/s (foot-pound-force per second)"/>
+                            <MenuItem Click="Button_Click" Tag="ft*lbf/min" Header="ft·lbf/min (foot-pound-force per minute)"/>
+                            <MenuItem Click="Button_Click" Tag="ft*lbf/h"   Header="ft·lbf/h (foot-pound-force per hour)"/>
+                            <MenuItem Click="Button_Click" Tag="hp"         Header="hp (horsepower)"/>
+                            <MenuItem Click="Button_Click" Tag="hpE"        Header="hpE (electrical horsepower)"/>
+                            <MenuItem Click="Button_Click" Tag="hpS"        Header="hpS (boiler horsepower)"/>
+                        </MenuItem>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="Function Plot">
+                    <MenuItem Click="Button_Click" Tag="$Plot{f(x) @ x = a : b}"        Header="Simple plot"/>
+                    <MenuItem Click="Button_Click" Tag="$Plot{x(t) | y(t) @ t = a : b}" Header="Parametric"/>
+                    <MenuItem Click="Button_Click" Tag="$Plot{f1(x) &amp; f2(x) &amp; ... @ x = a : b}" Header="Multiple"/>
+                    <MenuItem Click="Button_Click" Tag="$Plot{x1(t) | y1(t) &amp; x2(t) | y2(t) &amp; ... @ t = a : b}" Header="Multiple parametric"/>
+                    <Separator/>
+                    <MenuItem Click="Button_Click" Tag="$Map{f(x; y) @ x = a : b &amp; y = c : d }"     Header="2D color map of a surface"/>
+                </MenuItem>
+                <MenuItem Header="Numerical method">
+                    <MenuItem Click="Button_Click" Tag="$Root{f(x) = const @ x = a : b }" Header="Root finding for f(x)=const"/>
+                    <MenuItem Click="Button_Click" Tag="$Root{f(x) @ x = a : b }"         Header="Root finding for f(x)=0"/>
+                    <MenuItem Click="Button_Click" Tag="$Find{f(x) @ x = a : b }"         Header="Non-strict root finding"/>
+                    <MenuItem Click="Button_Click" Tag="$Sup{f(x) @ x = a : b }"          Header="Local maximum of a function"/>
+                    <MenuItem Click="Button_Click" Tag="$Inf{f(x) @ x = a : b }"          Header="Local minimum of a function"/>
+                    <MenuItem Click="Button_Click" Tag="$Area{f(x) @ x = a : b }"         Header="Numerical integration"/>
+                    <MenuItem Click="Button_Click" Tag="$Slope{f(x) @ x = a }"            Header="Numerical differentiation"/>
+                    <Separator/>
+                    <MenuItem Click="Button_Click" Tag="$Sum{f(k) @ k = a : b }"          Header="Iterative sum"/>
+                    <MenuItem Click="Button_Click" Tag="$Product{f(k) @ k = a : b }"      Header="Iterative product"/>
+                    <MenuItem Click="Button_Click" Tag="$Repeat{f(k) @ k = a : b }"       Header="General inline iterative procedure"/>
+                </MenuItem>
+                <MenuItem Header="Program Flow Control">
+                    <MenuItem Click="Button_Click" Tag="#if 'condition§'Your code here§#end if" Header="Simple: if-end if"/>
+                    <MenuItem Click="Button_Click" Tag="#if 'condition§'Your code here§#else§'Your code here§#end if" Header="Alternative: if-else-end if"/>
+                    <MenuItem Click="Button_Click" Tag="#if 'condition§'Your code here§#else if 'condition§'Your code here§#else§'Some other code§#end if" Header="Complete: if-else if-else-end if"/>
+                </MenuItem>
+                <MenuItem Header="Iteration">
+                    <MenuItem Click="Button_Click" Tag="#repeat 'number of repetitions§'Your code here§#loop" Header="Simple: repeat-loop"/>
+                    <MenuItem Click="Button_Click" Tag="#repeat 'number of repetitions§'Your code here§#if 'condition§#break§#end if§'Some more code§#loop" Header="Conditional: repeat-break-loop"/>
+                </MenuItem>
+                <MenuItem Header="Html">
+                    <MenuItem Click="Button_Click" Tag="&lt;h3&gt;|&lt;/h3&gt;" Header="Heading 3"/>
+                    <MenuItem Click="Button_Click" Tag="&lt;h4&gt;|&lt;/h4&gt;" Header="Heading 4"/>
+                    <MenuItem Click="Button_Click" Tag="&lt;h5&gt;|&lt;/h5&gt;" Header="Heading 5"/>
+                    <MenuItem Click="Button_Click" Tag="&lt;h6&gt;|&lt;/h6&gt;" Header="Heading 6"/>
+                    <MenuItem Click="Button_Click" Tag="&lt;p&gt;|&lt;/p&gt;"   Header="Paragraph"/>
+                    <MenuItem Click="Button_Click" Tag="|&lt;br /&gt;"          Header="Line break"/>
+                    <Separator/>
+                    <MenuItem Click="Button_Click" Tag="&lt;strong&gt;|&lt;/strong&gt;" Header="Bold"/>
+                    <MenuItem Click="Button_Click" Tag="&lt;em&gt;|&lt;/em&gt;"   Header="Italic"/>
+                    <MenuItem Click="Button_Click" Tag="&lt;ins&gt;|&lt;/ins&gt;" Header="Underline"/>
+                    <MenuItem Click="Button_Click" Tag="&lt;del&gt;|&lt;/del&gt;" Header="Striketrough"/>
+                    <MenuItem Click="Button_Click" Tag="&lt;sub&gt;|&lt;/sub&gt;" Header="Subscript"/>
+                    <MenuItem Click="Button_Click" Tag="&lt;sup&gt;|&lt;/sup&gt;" Header="Superscript"/>
+                    <MenuItem Click="Button_Click" Tag="&lt;span class=&quot;err&quot;&gt;|&lt;/span&gt;" Header="Red color"/>
+                    <MenuItem Click="Button_Click" Tag="&lt;span&gt;|&lt;/span&gt;" Header="Span"/>
+                    <Separator/>
+                    <MenuItem Click="Button_Click" Tag="'&lt;div&gt;§'&lt;/div&gt;" Header="Div"/>
+                    <MenuItem Click="Button_Click" Tag="'&lt;div class=&quot;fold&quot;&gt;§'&lt;h4&gt;Folded heading&lt;/h4&gt;§'&lt;/div&gt;" Header="Folded div"/>
+                    <Separator/>
+                    <MenuItem Click="Button_Click" Tag="'&lt;img src=&quot;&quot; alt=&quot;&quot; style=&quot;float:right;&quot; /&gt;" Header="Image"/>
+                    <MenuItem Click="Button_Click" Tag="§'&lt;table class=&quot;bordered&quot;&gt;§'&lt;thead&gt;§'&lt;tr&gt;&lt;th&gt;col 1&lt;/th&gt;&lt;th&gt;col 2&lt;/th&gt;&lt;/tr&gt;§'&lt;/thead&gt;§'&lt;tbody&gt;§'&lt;tr&gt;&lt;td&gt;'11'&lt;/td&gt;&lt;td&gt;'12'&lt;/td&gt;&lt;/tr&gt;§'&lt;tr&gt;&lt;td&gt;'21'&lt;/td&gt;&lt;td&gt;'22'&lt;/td&gt;&lt;/tr&gt;§'&lt;/tbody&gt;§'&lt;/table&gt;§" Header="Table"/>
+                    <MenuItem Click="Button_Click" Tag="'&lt;hr /&gt;" Header="Dividing line"/>
+                    <MenuItem Click="Button_Click" Tag="§'Select option: &lt;select data-target=&quot;target1&quot;&gt;§'&lt;option value=&quot;11;12&quot;&gt;x1; y1&lt;/option&gt;§'&lt;option value=&quot;21;22&quot;&gt;x2; y2&lt;/option&gt;§'&lt;option value=&quot;31;32&quot;&gt;x3; y3&lt;/option&gt;§'&lt;/select&gt;§'...§'&lt;p id=&quot;target1&quot;&gt; Values:'x = ?','y = ?'&lt;/p&gt;§" Header="Selection"/>
+                </MenuItem>
+                <MenuItem Header="Drawing/SVG">
+                    <MenuItem Click="Button_Click" Tag="#val§#hide§w = 400§h = 400§#show§'&lt;svg viewbox=&quot;'0' '0' 'w' 'h'&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; version=&quot;1.1&quot; style=&quot;font-size:16px; width:'w'px; height:'h'px&quot;&gt;§'&lt;rect x=&quot;'0'&quot; y=&quot;'0'&quot; width=&quot;'w'&quot; height=&quot;'h'&quot; style=&quot;stroke:black; stroke-width:1; fill:WhiteSmoke; fill-opacity:0.2; stroke-opacity:0.1&quot; /&gt;§'&lt;text x=&quot;'w/2'&quot; y=&quot;'h/2'&quot; text-anchor=&quot;middle&quot; fill=&quot;red&quot; style=&quot;font-size:32px;&quot;&gt;Your drawing goes here!&lt;/text&gt;§'&lt;/svg&gt;§#equ" Header="Drawing"/>
+                    <MenuItem Click="Button_Click" Tag="#hide§x1 = 30§y1 = 30§x2 = 380§y2 = 200§#show§'&lt;line x1=&quot;'x1'&quot; y1=&quot;'y1'&quot; x2=&quot;'x2'&quot; y2=&quot;'y2'&quot; style=&quot;stroke:black; stroke-width:2; stroke-opacity:0.8&quot; /&gt;" Header="Line"/>
+                    <MenuItem Click="Button_Click" Tag="#hide§x = 80§y = 60§w = 300§h = 200§#show§'&lt;rect x=&quot;'x'&quot; y=&quot;'y'&quot; width=&quot;'w'&quot; height=&quot;'h'&quot; style=&quot;stroke:black; stroke-width:2; fill:yellow; fill-opacity:0.2; stroke-opacity:0.8&quot; /&gt;" Header="Rectangle"/>
+                    <MenuItem Click="Button_Click" Tag="#hide§cx = 250§cy = 150§r = 70§#show§'&lt;circle cx=&quot;'cx'&quot; cy=&quot;'cy'&quot; r=&quot;'r'&quot; style=&quot;stroke:black; stroke-width:2; fill:lime; fill-opacity:0.2; stroke-opacity:0.8&quot; /&gt;" Header="Circle"/>
+                    <MenuItem Click="Button_Click" Tag="#hide§cx = 300§cy = 320§rx = 80§ry = 50§#show§'&lt;ellipse cx=&quot;'cx'&quot; cy=&quot;'cy'&quot; rx=&quot;'rx'&quot; ry=&quot;'ry'&quot; style=&quot;stroke:black; stroke-width:2; fill:magenta; fill-opacity:0.1; stroke-opacity:0.8&quot; /&gt;" Header="Ellipse"/>
+                    <MenuItem Click="Button_Click" Tag="#hide§x1 = 20','y1 = 40§x2 = 60','y2 = 350§x3 = 250','y3 = 300§x4 = 360','y4 = 150§#show§'&lt;polyline points=&quot;'x1','y1' 'x2','y2' 'x3','y3' 'x4','y4'&quot; style=&quot;stroke:black; stroke-width:2; fill:none; fill-opacity:0.2; stroke-opacity:0.8&quot; /&gt;" Header="Polyline"/>
+                    <MenuItem Click="Button_Click" Tag="#hide§x1 = 150','y1 = 20§x2 = 10','y2 = 140§x3 = 120','y3 = 360§x4 = 280','y4 = 120§#show§'&lt;polygon points=&quot;'x1','y1' 'x2','y2' 'x3','y3' 'x4','y4'&quot; style=&quot;stroke:black; stroke-width:2; fill:cyan; fill-opacity:0.2; stroke-opacity:0.8&quot; /&gt;" Header="Polygon"/>
+                    <MenuItem Click="Button_Click" Tag="#hide§x = 50§y = 30§#show§'&lt;text x=&quot;'x'&quot; y=&quot;'y'&quot; text-anchor=&quot;start&quot;&gt;text1&lt;/text&gt;§" Header="Text"/>
+                </MenuItem>
+                <MenuItem Header="Output visibility control">
+                    <MenuItem Click="Button_Click" Tag="#hide" Header="#hide" ToolTip="Hide report contents"/>
+                    <MenuItem Click="Button_Click" Tag="#show" Header="#show" ToolTip="Always show the contents (default)"/>
+                    <MenuItem Click="Button_Click" Tag="#pre"  Header="#pre"  ToolTip="Show the bellow contents only before calculations"/>
+                    <MenuItem Click="Button_Click" Tag="#post" Header="#post" ToolTip="Show the bellow contents only after calculations"/>
+                    <Separator/>
+                    <MenuItem Click="Button_Click" Tag="#val"  Header="#val"  ToolTip="Show only the calculated values"/>
+                    <MenuItem Click="Button_Click" Tag="#equ"  Header="#equ"  ToolTip="Show the complete equations (default)"/>
+                    <Separator/>
+                    <MenuItem Click="Button_Click" Tag="#deg"  Header="#deg"  ToolTip="Set angle measurement in degrees"/>
+                    <MenuItem Click="Button_Click" Tag="#rad"  Header="#rad"  ToolTip="Set angle measurement in radians"/>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Output">
+                <MenuItem x:Name="MenuWebForm" Click="WebFormButton_Click" Header="Input form"/>
+                <MenuItem x:Name="MenuCalculate" Click="CalcButton_Click" Header="Calculate"/>
+                <Separator/>
+                <MenuItem Click="SaveOutputButton_Click" Header="Save"/>
+                <MenuItem Command="ApplicationCommands.Print" Header="Print"/>
+                <MenuItem Click="CopyOutputButton_Click" Header="Copy"/>
+                <Separator/>
+                <MenuItem Click="WordButton_Click" Header="Open with MS Word"/>
+                <MenuItem Click="PdfButton_Click" Header="Save as pdf file"/>
+            </MenuItem>
+            <MenuItem Command="ApplicationCommands.Help" Header="Help"/>
+        </Menu>
+        <Button Click="CopyOutputButton_Click" x:Name="CopyOutputButton" Height="28" VerticalAlignment="Top"
+            BorderThickness="0" Margin="0,26,67,0" HorizontalAlignment="Right" Width="28"
+            Focusable="false" ToolTip="Copy all output" IsTabStop="false" Background="{x:Null}" Grid.Column="1">
+            <Image Source="Resources/copy.png" Width="24" Height="24" VerticalAlignment="Center"
+                HorizontalAlignment="Center"/>
+        </Button>
+        <Button Click="WordButton_Click" x:Name="WordButton" Height="28" VerticalAlignment="Top"
+            BorderThickness="0" Margin="0,26,36,0" HorizontalAlignment="Right" Width="28"
+            Focusable="false" ToolTip="Open with MS Word" IsTabStop="false" Background="{x:Null}" Grid.Column="1">
+            <Image Source="Resources/word.png" Width="24" Height="24" VerticalAlignment="Center"
+                HorizontalAlignment="Center"/>
+        </Button>
+        <Button Click="PdfButton_Click" x:Name="PdfButton" Height="28" VerticalAlignment="Top"
+            BorderThickness="0" Margin="0,26,5,0"
+            Focusable="false" ToolTip="Save output as pdf flie" IsTabStop="false" Background="{x:Null}" HorizontalAlignment="Right" Width="28" Grid.Column="1">
+            <Image Source="Resources\pdf.png" Width="24" Height="24" VerticalAlignment="Center"
+                HorizontalAlignment="center"/>
+        </Button>
+        <Button x:Name="PrintButton" Height="28" VerticalAlignment="Top" BorderThickness="0" Margin="0,26,98,0"
+            HorizontalAlignment="Right" Width="28" Focusable="false" ToolTip="Print Preview"
+            IsTabStop="false" Command="ApplicationCommands.Print" Background="{x:Null}" Grid.Column="1">
+            <Image Source="Resources/print.png" Width="24" Height="24" VerticalAlignment="Center"
+                HorizontalAlignment="Center"/>
+        </Button>
+        <Button Click="SaveOutputButton_Click" x:Name="SaveOutputButton" Height="28" VerticalAlignment="Top"
+            BorderThickness="0" Margin="0,26,129,0" Focusable="false" ToolTip="Save output as Html file"
+            IsTabStop="false" HorizontalAlignment="Right" Width="28" Background="{x:Null}" Grid.Column="1">
+            <Image Source="Resources/save.png" Width="24" Height="24" VerticalAlignment="Center"
+                HorizontalAlignment="Center"/>
+        </Button>
+        <Button x:Name="SaveButton" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Width="28"
+            BorderThickness="0" Margin="78,26,0,0" Focusable="false" ToolTip="Save"
+            IsTabStop="false" Command="ApplicationCommands.Save" Background="{x:Null}">
+            <Image Source="Resources/save.png" Width="24" Height="24" VerticalAlignment="Center"
+                HorizontalAlignment="Center"/>
+        </Button>
+        <Button x:Name="OpenButton" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Width="28"
+            BorderThickness="0" Margin="36,26,0,0" Focusable="false" ToolTip="Open"
+            IsTabStop="false" Command="ApplicationCommands.Open" Background="{x:Null}">
+            <Image Source="Resources/open.png" Width="24" Height="24" VerticalAlignment="Center"
+                   HorizontalAlignment="Center"/>
+        </Button>
+        <Button x:Name="RecentFliesListButton" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Width="10"
+                BorderThickness="0" Margin="65,26,0,0" Focusable="false" ToolTip="Recent files"
+                IsTabStop="false" Background="{x:Null}" Click="RecentFliesListButton_Click" IsEnabled="False" ClickMode="Press">
+            <Button.ContextMenu>
+                <ContextMenu x:Name="RecentFilesListContextMenu" HorizontalAlignment="Right" HorizontalOffset="-35" VerticalOffset="30"/>
+            </Button.ContextMenu>
+            <TextBlock FontSize="9" Foreground="#FF404040"><Run Text="▼"/></TextBlock>
+        </Button>
+        <Button x:Name="NewButton" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Width="28"
+            Margin="5,26,0,0" Focusable="false" ToolTip="New file" IsTabStop="false"
+            Command="ApplicationCommands.New" BorderThickness="0" Background="{x:Null}">
+            <Image Source="Resources/new.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="24"
+                Height="24"/>
+        </Button>
+        <Button x:Name="HelpButton" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Width="28"
+            BorderThickness="0" Margin="305,26,0,0" Focusable="false" ToolTip="Help" IsTabStop="false"
+            Command="ApplicationCommands.Help" Background="{x:Null}">
+            <Image Source="Resources/help.png" Width="24" Height="24" VerticalAlignment="Center"
+                HorizontalAlignment="Center"/>
+        </Button>
+        <Button x:Name="CopyButton" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Width="28"
+            BorderThickness="0" Margin="114,26,0,0" Focusable="false" ToolTip="Copy"
+            IsTabStop="false" Command="ApplicationCommands.Copy" Background="{x:Null}" Padding="5,1,1,1">
+            <Image Source="Resources/copy.png" Width="24" Height="24" VerticalAlignment="Center"
+                HorizontalAlignment="Center"/>
+        </Button>
+        <Button x:Name="PasteButton" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Width="28"
+            BorderThickness="0" Margin="145,26,0,0" Focusable="false" ToolTip="Paste" IsTabStop="false"
+            Command="ApplicationCommands.Paste" Background="{x:Null}">
+            <Image Source="Resources/paste.png" Width="24" Height="24" VerticalAlignment="Center"
+                HorizontalAlignment="Center"/>
+        </Button>
+        <Button x:Name="UndoButton" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Width="28"
+            BorderThickness="0" Margin="176,26,0,0" Focusable="false" ToolTip="Undo" IsTabStop="false"
+            Command="ApplicationCommands.Undo" Background="{x:Null}">
+            <Image Source="Resources/undo.png" Width="24" Height="24" VerticalAlignment="Center"
+                HorizontalAlignment="Center"/>
+        </Button>
+        <Button x:Name="RedoButton" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Width="28"
+            BorderThickness="0" Margin="207,26,0,0" Focusable="false" ToolTip="Redo" IsTabStop="false"
+            Command="ApplicationCommands.Redo" Background="{x:Null}">
+            <Image Source="Resources/redo.png" Width="24" Height="24" VerticalAlignment="Center"
+                HorizontalAlignment="Center"/>
+        </Button>
+        <Button Click="ImageButton_Click" x:Name="ImageButton" HorizontalAlignment="Left" Height="28"
+            VerticalAlignment="Top" Width="28" BorderThickness="0" Margin="243,26,0,0" Focusable="false"
+            ToolTip="Insert Image" IsTabStop="false" Background="{x:Null}">
+            <Image Source="Resources/image.png" Width="24" Height="24" VerticalAlignment="Top"
+                HorizontalAlignment="Center"/>
+        </Button>
+        <Button Click="KeyPadButton_Click" x:Name="KeyPadButton" Tag="F" Height="28" Margin="274,26,0,0"
+            VerticalAlignment="Top" Background="AliceBlue" Focusable="false" HorizontalAlignment="Left"
+            Width="28" ToolTip="Show/hide numeric keypad" IsTabStop="false" BorderBrush="SteelBlue">
+            <Image Source="Resources/calc.png" Width="24" Height="24" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+        </Button>
+        <Canvas Margin="0,26,0,2" HorizontalAlignment="Center" Width="60">
+            <Button Click="WebFormButton_Click" x:Name="WebFormButton" Tag="F" Height="28" VerticalAlignment="Top"
+                Focusable="false" ToolTip="Compile to input form" IsTabStop="false" Background="{x:Null}" HorizontalAlignment="Left" Width="28" BorderBrush="{x:Null}">
+                <Image Source="Resources/form.png" Width="24" Height="24" VerticalAlignment="Center"
+                    HorizontalAlignment="Center"/>
+            </Button>
+            <Button Click="CalcButton_Click" x:Name="CalcButton" Tag="F" Height="28" VerticalAlignment="Top"
+                Focusable="false" ToolTip="Run calculation and display output" IsTabStop="false" Background="{x:Null}" HorizontalAlignment="Left" Width="28" Canvas.Left="32" BorderBrush="{x:Null}">
+                <Image Source="Resources/play.png" Width="24" Height="24" VerticalAlignment="Center"
+                    HorizontalAlignment="Center"/>
+            </Button>
+        </Canvas>
+        <Separator HorizontalAlignment="Left" Height="2" Margin="96,39,0,0" VerticalAlignment="Top" Width="28" IsTabStop="False" ScrollViewer.VerticalScrollBarVisibility="Disabled" RenderTransformOrigin="0.5,0.5">
+            <Separator.RenderTransform>
+                <RotateTransform Angle="90"/>
+            </Separator.RenderTransform>
+        </Separator>
+        <Separator HorizontalAlignment="Left" Height="2" Margin="225,39,0,0" VerticalAlignment="Top" Width="28" IsTabStop="False" ScrollViewer.VerticalScrollBarVisibility="Disabled" RenderTransformOrigin="0.5,0.5">
+            <Separator.RenderTransform>
+                <RotateTransform Angle="90"/>
+            </Separator.RenderTransform>
+        </Separator>
+        <TextBlock TextWrapping="Wrap" FontSize="11" Margin="0,12,273,0" Height="16" VerticalAlignment="Top" Foreground="#CC000000" Text="Non-metric units:" TextAlignment="Left" HorizontalAlignment="Right" Width="90"/>
+        <RadioButton Checked="UnitsRadioButton_Checked" x:Name="UK" Content="UK" GroupName="Units" TabIndex="5" IsChecked="True" RenderTransformOrigin="0,0" FontFamily="Calibri" Padding="2,0,0,0" Margin="0,33,317,0" FontWeight="Bold" HorizontalAlignment="Right" Width="35" Height="16" VerticalAlignment="Top" FontSize="13">
+            <RadioButton.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </RadioButton.RenderTransform>
+        </RadioButton>
+        <RadioButton Checked="UnitsRadioButton_Checked" x:Name="US" Content="US" GroupName="Units" Height="16" TabIndex="6" RenderTransformOrigin="0,0" FontFamily="Calibri" VerticalAlignment="Top" Padding="2,0,0,0" Margin="0,33,281,0" HorizontalAlignment="Right" Width="35" FontWeight="Bold" FontSize="13">
+            <RadioButton.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </RadioButton.RenderTransform>
+        </RadioButton>
+        <TextBlock TextWrapping="Wrap" FontFamily="Segoe UI" FontSize="11" Margin="0,12,165,0" Height="16" VerticalAlignment="Top" Foreground="#CC000000" Text="Equation format:" HorizontalAlignment="Right" Width="91"/>
+        <RadioButton Checked="EquationRadioButton_Checked" x:Name="Professional" Content="Pro" GroupName="EquationFormatting" IsChecked="True" FontFamily="Calibri" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" TabIndex="7" Margin="0,33,220,0" HorizontalAlignment="Right" Width="40" FontSize="14" FontWeight="Bold" RenderTransformOrigin="0,0">
+            <RadioButton.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </RadioButton.RenderTransform>
+        </RadioButton>
+        <RadioButton Checked="EquationRadioButton_Checked" x:Name="Inline" Content="Inline" GroupName="EquationFormatting" FontFamily="Calibri" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" TabIndex="8" Margin="0,33,165,0" HorizontalAlignment="Right" Width="55" RenderTransformOrigin="0,0" FontSize="14" FontWeight="Bold">
+            <RadioButton.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </RadioButton.RenderTransform>
+        </RadioButton>
+        <TextBlock Height="16" TextWrapping="Wrap" FontSize="11" VerticalAlignment="Top" Margin="346,13,0,0" Text="Numbers: " RenderTransformOrigin="0.291,0.394" Foreground="#CC000000" HorizontalAlignment="Left" Width="50" TextDecorations="{x:Null}"/>
+        <RadioButton Checked="ModeRadioButton_Checked" x:Name="Real" GroupName="Mode" Content="Real" TabIndex="1" IsChecked="True" Padding="2,0,0,0" Margin="346,33,0,7" FontFamily="Calibri" HorizontalAlignment="Left" Width="48" RenderTransformOrigin="0,0" FontSize="14" FontWeight="Bold">
+            <RadioButton.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </RadioButton.RenderTransform>
+        </RadioButton>
+        <RadioButton Checked="ModeRadioButton_Checked" x:Name="Complex" GroupName="Mode" TabIndex="2" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" Margin="391,33,0,0" FontFamily="Calibri" HorizontalAlignment="Left" Width="74" Content="Complex" FontSize="14" FontWeight="Bold" RenderTransformOrigin="0,0" >
+            <RadioButton.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </RadioButton.RenderTransform>
+        </RadioButton>
+        <StatusBar Grid.Row="1" Height="35" VerticalAlignment="Bottom" BorderThickness="0,1,0,0" Margin="0,0,0,0" HorizontalContentAlignment="Right" Grid.ColumnSpan="2">
+            <StatusBar.Background>
+                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                    <GradientStop Color="White"/>
+                    <GradientStop Color="#FFE0E0E0" Offset="1"/>
+                </LinearGradientBrush>
+            </StatusBar.Background>
+            <TextBlock Height="18" TextWrapping="Wrap" FontFamily="Segoe UI" FontSize="12" VerticalAlignment="Top" HorizontalAlignment="Left" Text="Round to " Margin="20,0,0,0"/>
+            <TextBox TextChanged="DecimalsTextBox_TextChanged" x:Name="DecimalsTextBox" TextWrapping="Wrap" Text="2" TextAlignment="Center"
+                ToolTip="Number of digits after the decimal point" UndoLimit="0" TabIndex="9" Width="30" FontFamily="Segoe UI Semibold" FontSize="13" Height="22" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Normal"/>
+            <StatusBarItem Width="26" Margin="0,-5,0,-5" RenderTransformOrigin="0,0.5">
+                <StatusBarItem.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="0.7" ScaleY="0.7"/>
+                    </TransformGroup>
+                </StatusBarItem.RenderTransform>
+                <ScrollBar x:Name="DecimalScrollBar" Height="34" Width="20" Maximum="15" SmallChange="1" Value="13" ValueChanged="DecimalScrollBar_ValueChanged" RenderTransformOrigin="0.5,0.5" />
+            </StatusBarItem>
+            <TextBlock Height="18" TextWrapping="Wrap" Width="40" FontFamily="Segoe UI" FontSize="12" VerticalAlignment="Center" HorizontalAlignment="Left" Text="digits after the decimal point"/>
+            <CheckBox Click="SubstituteCheckBox_Clicked" x:Name="SubstituteCheckBox" Content="Substitute" Height="16" Width="80"
+                IsChecked="True" ToolTip="Substitute variables in equations" TabIndex="10" FontFamily="Segoe UI" FontSize="12" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="2,0,0,0"/>
+            <TextBlock Height="18" TextWrapping="Wrap" Width="29" FontFamily="Segoe UI" FontSize="12" Text="Plot:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+            <CheckBox Click="AdaptiveCheckBox_Clicked" x:Name="AdaptiveCheckBox" Content="Adaptive" Height="16" VerticalAlignment="Center"
+                ToolTip="Adaptive 1D function plot" TabIndex="11" Background="White" HorizontalAlignment="Center" IsChecked="True" Width="72"/>
+            <CheckBox Click="ShadowsCheckBox_Clicked" x:Name="ShadowsCheckBox" Content="Shadows:" Height="16" VerticalAlignment="Top"
+                ToolTip="Draw surface maps with shadows" TabIndex="12" Background="White" HorizontalAlignment="Right" Margin="5,0,0,0"/>
+            <ComboBox x:Name="LightDirectionComboBox" VerticalAlignment="Top" SelectionChanged="LightDirectionComboBox_SelectionChanged" HorizontalAlignment="Center" Width="100" ToolTip="Shadow direction" TabIndex="13" Height="22">
+                <ComboBoxItem Content="North"/>
+                <ComboBoxItem Content="North-east"/>
+                <ComboBoxItem Content="East"/>
+                <ComboBoxItem Content="South-east"/>
+                <ComboBoxItem Content="South"/>
+                <ComboBoxItem Content="South-west"/>
+                <ComboBoxItem Content="West"/>
+                <ComboBoxItem Content="North-west" IsSelected="True"/>
+            </ComboBox>
+            <TextBlock Height="16" TextWrapping="Wrap" VerticalAlignment="Center" Text="Palette:" HorizontalAlignment="Left" Margin="5,0,0,0"/>
+            <ComboBox x:Name="ColorScaleComboBox" VerticalAlignment="Top" SelectionChanged="ColorScaleComboBox_SelectionChanged" HorizontalAlignment="Right" Width="120" ToolTip="Surface map color scale" TabIndex="14" Height="22">
+                <ComboBoxItem Content="None" HorizontalAlignment="Left" Width="120" Margin="0,0,-2,0"/>
+                <ComboBoxItem Content="Gray" HorizontalAlignment="Left" Width="120" Margin="0,0,-2,0">
+                    <ComboBoxItem.Background>
+                        <LinearGradientBrush EndPoint="0,0.5" MappingMode="RelativeToBoundingBox" StartPoint="1,0.5">
+                            <GradientStop Color="#FFFFFFFF"/>
+                            <GradientStop Color="#FF464646" Offset="1"/>
+                        </LinearGradientBrush>
+                    </ComboBoxItem.Background>
+                </ComboBoxItem>
+                <ComboBoxItem Content="Rainbow" HorizontalAlignment="Left" Width="120" IsSelected="True">
+                    <ComboBoxItem.Background>
+                        <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
+                            <GradientStop Color="#FFFF0000" Offset="0"/>
+                            <GradientStop Color="#FF0000FF" Offset="1"/>
+                            <GradientStop Color="#FFFFFF00" Offset="0.25"/>
+                            <GradientStop Color="#FF00FF00" Offset="0.5"/>
+                            <GradientStop Color="#FF00FFFF" Offset="0.75"/>
+                        </LinearGradientBrush>
+                    </ComboBoxItem.Background>
+                </ComboBoxItem>
+                <ComboBoxItem Content="Terrain" HorizontalAlignment="Left" Width="120">
+                    <ComboBoxItem.Background>
+                        <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
+                            <GradientStop Color="#FFFF7F00" Offset="0"/>
+                            <GradientStop Color="#FFFFFF00" Offset="0.333"/>
+                            <GradientStop Color="#FF00FF00" Offset="0.666"/>
+                            <GradientStop Color="#FF007F7F" Offset="1"/>
+                        </LinearGradientBrush>
+                    </ComboBoxItem.Background>
+                </ComboBoxItem>
+                <ComboBoxItem Content="Violet-yellow" HorizontalAlignment="Left" Width="120">
+                    <ComboBoxItem.Background>
+                        <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
+                            <GradientStop Color="#FFffff00" Offset="0"/>
+                            <GradientStop Color="#FFa93bd4" Offset="1"/>
+                        </LinearGradientBrush>
+                    </ComboBoxItem.Background>
+                </ComboBoxItem>
+                <ComboBoxItem Content="Green-yellow" HorizontalAlignment="Left" Width="120">
+                    <ComboBoxItem.Background>
+                        <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
+                            <GradientStop Color="#FFffff00" Offset="0"/>
+                            <GradientStop Color="#FF006e70" Offset="1"/>
+                        </LinearGradientBrush>
+                    </ComboBoxItem.Background>
+                </ComboBoxItem>
+                <ComboBoxItem Content="Blues" HorizontalAlignment="Left" Width="120">
+                    <ComboBoxItem.Background>
+                        <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
+                            <GradientStop Color="#FF35fdff" Offset="0"/>
+                            <GradientStop Color="#FF2f35d5" Offset="1"/>
+                        </LinearGradientBrush>
+                    </ComboBoxItem.Background>
+                </ComboBoxItem>
+            </ComboBox>
+            <CheckBox Click="SmoothCheckBox_Clicked" x:Name="SmoothCheckBox" Content="Smooth" Height="16" VerticalAlignment="Top"
+                ToolTip="Smooth shading for surface map" Background="White" HorizontalAlignment="Right" TabIndex="15" Margin="5,0,0,0"/>
+            <Image x:Name="Logo" Source="Resources/logo.png" Height="20"
+                VerticalAlignment="Top" HorizontalAlignment="Right" Width="2000" Margin="0,0,10,0" Cursor="Hand" MouseUp="Logo_MouseUp"/>
+            <Grid/>
+        </StatusBar>
+        <Grid x:Name="FramesGrid" Margin="0,1,0,35" Grid.Row="1" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <GroupBox x:Name="InputFrame" Header="Code" FontSize="13" FontFamily="Segoe UI Semibold" BorderBrush="#FFE3E3E3" Margin="5,1,5,1" MinWidth="590">
+                <GroupBox.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="White" Offset="0.543"/>
+                        <GradientStop Color="#FFF0F0F0" Offset="1"/>
+                    </LinearGradientBrush>
+                </GroupBox.Background>
+                <Grid x:Name="InputGrid" Margin="0,0,0,1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="154"/>
+                    </Grid.RowDefinitions>
+                    <RichTextBox TextChanged="RichTextBox_TextChanged" SelectionChanged="RichTextBox_SelectionChanged"
+                        KeyUp="RichTextBox_KeyUp" GotFocus="RichTextBox_GotFocus" LostFocus="RichTextBox_LostFocus"
+                        PreviewKeyDown="RichTextBox_PreviewKeyDown" PreviewDrop="RichTextBox_PreviewDrop"
+                        PreviewMouseWheel="RichTextBox_PreviewMouseWheel" x:Name="RichTextBox" Margin="50,10,5,28"
+                        FontFamily="Consolas" FontSize="14" IsDocumentEnabled="true" AcceptsTab="true"
+                        Block.LineHeight="3" BorderThickness="0" TabIndex="0" SelectionOpacity="0.2" AllowDrop="true"
+                        UndoLimit="0" IsUndoEnabled="false" VerticalScrollBarVisibility="Auto" AutoWordSelection="false"
+                        TextOptions.TextFormattingMode="Display"  BorderBrush="{x:Null}" SizeChanged="RichTextBox_SizeChanged">
+                        <FlowDocument>
+                            <Paragraph/>
+                        </FlowDocument>
+                    </RichTextBox>
+                    <Grid x:Name="KeyPadGrid" Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="481"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Click="Button_Click" Content="1" Tag="1" Margin="5,92,0,0" Style="{StaticResource RoundButton}"  FontFamily="Segoe UI Semibold"/>
+                        <Button Click="Button_Click" Content="2" Tag="2" Margin="36,92,0,0" Style="{StaticResource RoundButton}" FontFamily="Segoe UI Semibold"/>
+                        <Button Click="Button_Click" Content="3" Tag="3" Margin="67,92,0,0" Style="{StaticResource RoundButton}" HorizontalAlignment="Left" Width="26" FontFamily="Segoe UI Semibold"/>
+                        <Button Click="Button_Click" Content="4" Tag="4" Margin="5,61,0,0" Style="{StaticResource RoundButton}"  FontFamily="Segoe UI Semibold"/>
+                        <Button Click="Button_Click" Content="5" Tag="5" Margin="36,61,0,0" Style="{StaticResource RoundButton}" FontFamily="Segoe UI Semibold"/>
+                        <Button Click="Button_Click" Content="6" Tag="6" Margin="67,61,0,0" Style="{StaticResource RoundButton}" FontFamily="Segoe UI Semibold"/>
+                        <Button Click="Button_Click" Content="7" Tag="7" Margin="5,31,0,0" Style="{StaticResource RoundButton}"  FontFamily="Segoe UI Semibold"/>
+                        <Button Click="Button_Click" Content="8" Tag="8" Margin="36,31,0,0" Style="{StaticResource RoundButton}" FontFamily="Segoe UI Semibold"/>
+                        <Button Click="Button_Click" Content="9" Tag="9" Margin="67,31,0,0" Style="{StaticResource RoundButton}" FontFamily="Segoe UI Semibold"/>
+                        <Button Click="Button_Click" Content="0" Tag="0" Margin="5,123,0,0" Style="{StaticResource RoundButton}" FontFamily="Segoe UI Semibold"/>
+                        <Button Click="Button_Click" Content="." Tag="." Margin="36,123,0,0" Style="{StaticResource RoundButton}"
+                            ToolTip="Decimal point" FontFamily="Segoe UI Semibold"/>
+                        <Button Click="Button_Click" Content="=" Tag=" = " Margin="67,123,0,0" Style="{StaticResource RoundButton}"
+                            ToolTip="Assignment" FontFamily="Segoe UI Semibold"/>
+                        <Button Click="Button_Click" Content="/" Tag="/" Margin="104,31,0,0" Style="{StaticResource RoundButton}"   ToolTip="Divide"/>
+                        <Button Click="Button_Click" Content="*" Tag="*" Margin="104,61,0,0" Style="{StaticResource RoundButton}"   ToolTip="Multiply"/>
+                        <Button Click="Button_Click" Content="-" Tag=" - " Margin="104,92,0,0" Style="{StaticResource RoundButton}" ToolTip="Subtract"/>
+                        <Button Click="Button_Click" Content="+" Tag=" + " Margin="104,123,0,0"
+                            Style="{StaticResource RoundButton}" ToolTip="Add"/>
+                        <Button Click="Button_Click" Tag="≡" Margin="135,31,0,0" Style="{StaticResource RoundButton}" Content="≡" ToolTip="Equal (comparision)"/>
+                        <Button Click="Button_Click" Content="≠" Tag="≠" Margin="135,61,0,0" Style="{StaticResource RoundButton}" ToolTip="Not equal"/>
+                        <Button Click="Button_Click" Content="≤" Tag="≤" Margin="135,92,0,0" Style="{StaticResource RoundButton}" ToolTip="Less or equal"/>
+                        <Button Click="Button_Click" x:Name="SinButton" Content="sin" Tag="sin(" Margin="203,31,0,0"
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Sine" Width="36"/>
+                        <Button Click="Button_Click" x:Name="CosButton" Content="cos" Tag="cos(" Margin="203,61,0,0"
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Cosine" Width="36"/>
+                        <Button Click="Button_Click" x:Name="TanButton" Content="tan" Tag="tan(" Margin="203,92,0,0"
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Tangent" Width="36"/>
+                        <Button Click="Button_Click" x:Name="CotButton" Content="cot" Tag="cot(" Margin="203,123,0,0"
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Cotangent" Width="36"/>
+                        <Button Click="Button_Click" Content="min" Tag="min(" Margin="285,31,0,0"
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Minimum" Width="36"/>
+                        <Button Click="Button_Click" Content="rnd" Tag="round(" Margin="285,61,0,0"
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Round" Width="36"/>
+                        <Button Click="Button_Click" Content="ceil" Tag="ceiling(" Margin="285,92,0,0"
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Ceiling" Width="36"/>
+                        <Button Click="Button_Click" Content="flo" Tag="floor(" Margin="285,123,0,0"
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Floor" Width="36"/>
+                        <Button Click="Button_Click" Content="max" Tag="max(" Margin="326,31,0,0"
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Maximum" Width="36"/>
+                        <Button Click="Button_Click" Content="re" Tag="re(" Margin="326,61,0,0"
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Real" Width="36"/>
+                        <Button Click="Button_Click" Content="im" Tag="im(" Margin="326,92,0,0"
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Imaginary" HorizontalAlignment="Left" Width="36"/>
+                        <Button Click="Button_Click" Content="ph" Tag="phase(" Margin="326,123,0,0"
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Phase" Width="36"/>
+                        <Button Click="Button_Click" Content="e" Tag="e" Margin="372,31,0,0" Style="{StaticResource RoundButton}" ToolTip="Euler's number"/>
+                        <Button Click="Button_Click" Content="π" Tag="π" Margin="372,61,0,0" Style="{StaticResource RoundButton}"
+                            FontStyle="Italic" ToolTip="Constant π (pi)"/>
+                        <Button Click="Button_Click" Content="g" Tag="g" Margin="372,92,0,0" Style="{StaticResource RoundButton}" ToolTip="Gravity acceleration on Earth" FontSize="16"/>
+                        <Button Click="Button_Click" Content="(" Tag="(" Margin="372,123,0,0" Style="{StaticResource RoundButton}" ToolTip="Left bracket"/>
+                        <Button Click="Button_Click" Content=")" Tag=")" Margin="404,123,0,0" Style="{StaticResource RoundButton}" ToolTip="Right bracket"/>
+                        <Button Click="Button_Click" Tag="≥" Margin="135,123,0,0" Style="{StaticResource RoundButton}" Content="≥" ToolTip="Greater or equal"/>
+                        <Button Click="Button_Click" MouseDoubleClick="Button_MouseDoubleClick" Content="AC" Tag="AC"
+                            Margin="404,31,0,0" Style="{StaticResource RoundButton}" Foreground="Red"
+                            ToolTip="Reset" FontSize="14" FontWeight="Bold" HorizontalAlignment="Left" Width="26" RenderTransformOrigin="0.218,0.487"/>
+                        <Button Click="Button_Click" Content="C" Tag="C" Margin="404,61,0,0" Style="{StaticResource RoundButton}" Foreground="Red" ToolTip="Backspace" FontSize="14" FontWeight="Bold"/>
+                        <Button Click="Button_Click" Content=" ⏎ " Tag="Enter" Margin="404,92,0,0"
+                            Style="{StaticResource RoundButton}" FontSize="22" Foreground="Red"
+                            ToolTip="New line"/>
+                        <Label Content="── Numbers ──" HorizontalAlignment="Left" Padding="1"
+                            Height="22" VerticalAlignment="Top" Width="88" BorderThickness="0,0,0,1" HorizontalContentAlignment="Center" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" FontSize="13" Margin="5,5,0,0"/>
+                        <Label Content="─ Operators ─" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Padding="1"
+                            Height="22" VerticalAlignment="Top" Width="88" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" FontSize="13" Margin="104,5,0,0"/>
+                        <Button Click="Button_Click" Content="√x" Tag="sqr(" Margin="244,31,0,0"
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Square root" Width="36"/>
+                        <Button Click="Button_Click" Content="log" Tag="log(" Margin="244,61,0,0"
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Decimal logarithm" Width="36"/>
+                        <Button Click="Button_Click" Content="ln" Tag="ln(" Margin="244,92,0,0"
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="natural logarithm" Width="36"/>
+                        <Button Click="Button_Click" Content="| x |" Tag="abs(" Margin="244,123,0,0"
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Absolute value" Width="36"/>
+                        <Button Click="Button_Click" Tag="^" x:Name="PowButton" Margin="166,31,0,0" Style="{StaticResource RoundButton}">
+                            <TextBlock ToolTip="Raise to y"><Run Text="x"/><Run BaselineAlignment="TextTop" FontSize="10" Text=" y"/></TextBlock>
+                        </Button>
+                        <Button Click="Button_Click" Content="x²" x:Name="SqrButton" Tag="^2" Margin="166,61,0,0"
+                            Style="{StaticResource RoundButton}" ToolTip="Raise to sqare"/>
+                        <Button Click="Button_Click" Content="x³" x:Name="CubeButton" Tag="^3" Margin="166,92,0,0"
+                            Style="{StaticResource RoundButton}" ToolTip="Raise to cube" HorizontalAlignment="Left" Width="26"/>
+                        <Button Click="Button_Click" Tag="e^" x:Name="ExpButton" Margin="166,123,0,0" Style="{StaticResource RoundButton}" ToolTip="Natural exponent (e = 2.71...)">
+                            <TextBlock><Run Text="e"/><Run BaselineAlignment="TextTop" FontSize="10" Text=" x"/></TextBlock>
+                        </Button>
+                        <Button Click="InvHypButton_Click" x:Name="InvButton" Content="inv" Margin="372,1,0,0"
+                            Style="{StaticResource RoundButton}" FontSize="11" ToolTip="Inverse functions"
+                            Height="26" FontFamily="Segoe UI Semibold"/>
+                        <Button Click="InvHypButton_Click" x:Name="HypButton" Content="hyp" Margin="404,1,0,0"
+                            Style="{StaticResource RoundButton}" FontSize="11" ToolTip="Hyperbolic functions"
+                            Height="26" FontFamily="Segoe UI Semibold" HorizontalAlignment="Left" Width="26"/>
+                        <Button Click="Button_Click" Content="Plot" Tag="$Plot{f(x) @ x = a : b}" Margin="439,1,-14,0"
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Function plot"
+                            Width="57" Height="26" VerticalContentAlignment="Center"/>
+                        <Button Click="Button_Click" Content="Map" Tag="$Map{f(x;y) @ x = a : b &amp; y = c : d}"
+                            Margin="501,1,-81,0" Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Surface map"
+                            Width="62" Height="26"/>
+                        <Button Click="Button_Click" Content="Root" Tag="$Root{f(x) @ x = a : b}" Margin="439,31,-14,0"
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Find a root of equation f(x) = 0"
+                            Width="57" Height="26"/>
+                        <Button Click="Button_Click" Content="Area" Tag="$Area{f(x) @ x = a : b}" Margin="439,92,-14,0"
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Numerical integration" Width="57"
+                            Height="26"/>
+                        <Button Click="Button_Click" Content="Slope" Tag="$Slope{f(x) @ x = a}" Margin="501,92,-81,0"
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Numerical differentiation"
+                            Width="62" Height="26"/>
+                        <Button Click="Button_Click" Content="Sup" Tag="$Sup{f(x) @ x = a : b}" Margin="439,61,-14,0"
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Local maximum of a function"
+                            Height="26" Width="57"/>
+                        <Button Click="Button_Click" Content="Inf" Tag="$Inf{f(x) @ x = a : b}" Margin="501,61,-81,0"
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Local minimum of a function"
+                            Height="26" Width="62" HorizontalAlignment="Left"/>
+                        <Button Click="Button_Click" Content="Repeat" Tag="$Repeat{f(k) @ k = 1 : n}" Margin="501,31,-81,0"
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Calculate by iterations"
+                            Width="62" Height="26"/>
+                        <Button Click="Button_Click" Content="Sum" Tag="$Sum{f(k) @ k = 1 : n}" Margin="439,123,-14,0"
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Finite sum" 
+                            Width="57" Height="26"/>
+                        <Button Click="Button_Click" Content="Product" Tag="$Product{f(k) @ k = 1 : n}" Margin="501,123,-81,0"
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Finite product"
+                            Width="62" Height="26"/>
+                        <Label Content="─────── Functions ───────" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Padding="1"
+                            Height="22" VerticalAlignment="Top" Width="158" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" FontSize="13" RenderTransformOrigin="0.5,0.5" Margin="204,5,0,0"/>
+                    </Grid>
+                    <Canvas x:Name="LineNumbers" HorizontalAlignment="Left" Margin="6,10,0,28" Width="40"/>
+                    <Border BorderThickness="0,0,1,0" HorizontalAlignment="Left" Margin="0,10,0,28" Width="50" BorderBrush="#FFE3E3E3"/>
+                    <WrapPanel ToolTip="Greek letters" Margin="0,0,0,5" Height="18" VerticalAlignment="Bottom">
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="°" Style="{StaticResource GreekLetter}"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="α" Style="{StaticResource GreekLetter}"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="β" Style="{StaticResource GreekLetter}"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="γ" Style="{StaticResource GreekLetter}"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="δ" Style="{StaticResource GreekLetter}"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="ε" Style="{StaticResource GreekLetter}"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="ζ" Style="{StaticResource GreekLetter}"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="η" Style="{StaticResource GreekLetter}"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="θ" Style="{StaticResource GreekLetter}"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="λ" Style="{StaticResource GreekLetter}"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="μ" Style="{StaticResource GreekLetter}"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="ν" Style="{StaticResource GreekLetter}"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="ξ" Style="{StaticResource GreekLetter}"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="π" Style="{StaticResource GreekLetter}"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="ρ" Style="{StaticResource GreekLetter}"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="ς" Style="{StaticResource GreekLetter}"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="σ" Style="{StaticResource GreekLetter}"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="τ" Style="{StaticResource GreekLetter}"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="υ" Style="{StaticResource GreekLetter}"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="φ" Style="{StaticResource GreekLetter}"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="χ" Style="{StaticResource GreekLetter}"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="ψ" Style="{StaticResource GreekLetter}"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="ω" Style="{StaticResource GreekLetter}"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="Γ" Style="{StaticResource GreekLetter}"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="Δ" Style="{StaticResource GreekLetter}"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="Θ" Style="{StaticResource GreekLetter}"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="Π" Style="{StaticResource GreekLetter}"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="Σ" Style="{StaticResource GreekLetter}"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="Φ" Style="{StaticResource GreekLetter}"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="Ψ" Style="{StaticResource GreekLetter}"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="Ω" Style="{StaticResource GreekLetter}"/>
+                    </WrapPanel>
+                </Grid>
+            </GroupBox>
+            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />
+            <GroupBox x:Name="OutputFrame" Header="Output" Margin="5,1,5,1" Grid.Column="2" FontSize="13"
+                FontWeight="Bold" Background="White" FontFamily="Segoe UI Semibold" VerticalContentAlignment="Stretch">
+                <GroupBox.BorderBrush>
+                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
+                </GroupBox.BorderBrush>
+                <WebBrowser x:Name="WebBrowser" Margin="5" LoadCompleted="WebBrowser_LoadCompleted" KeyUp="WebBrowser_KeyUp"/>
+            </GroupBox>
+        </Grid>
+        <TextBlock TextWrapping="Wrap" FontSize="11" Margin="0,12,412,0" TextAlignment="Left" Height="16" VerticalAlignment="Top" Foreground="#CC000000" Text="Angles:" HorizontalAlignment="Right" Width="42"/>
+        <RadioButton Checked="AngleRadioButton_Checked" x:Name="Deg" Content="DEG" GroupName="Angle" TabIndex="3" IsChecked="True" FontFamily="Calibri" Padding="2,0,0,0" Margin="0,33,413,0" Height="16" VerticalAlignment="Top" HorizontalAlignment="Right" Width="42" FontWeight="Bold" FontSize="13" RenderTransformOrigin="0,0">
+            <RadioButton.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </RadioButton.RenderTransform>
+        </RadioButton>
+        <RadioButton Checked="AngleRadioButton_Checked" x:Name="Rad" Content="RAD" GroupName="Angle" TabIndex="4" FontFamily="Calibri" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" Margin="0,33,370,0" HorizontalAlignment="Right" Width="43" FontWeight="Bold" FontSize="13" RenderTransformOrigin="0,0">
+            <RadioButton.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </RadioButton.RenderTransform>
+        </RadioButton>
+    </Grid>
+</Window>

@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <RootNamespace>Calcpad.OpenXml</RootNamespace>
+        <AnalysisLevel>preview</AnalysisLevel>
+		<Version>5.5</Version>
+		<Authors>Nedelcho Ganchovski</Authors>
+		<Company>Proektsoft EOOD</Company>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <OutputPath>..\Calcpad.Wpf\bin\Release\net6.0-windows\</OutputPath>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<!--<DefineConstants>BG</DefineConstants>-->
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <OutputPath>..\Calcpad.Wpf\bin\Debug\net6.0-windows\</OutputPath>
+        <PlatformTarget>AnyCPU</PlatformTarget>
+		<!--<DefineConstants>BG</DefineConstants>-->
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="DocumentFormat.OpenXml" Version="2.14.0" />
+        <PackageReference Include="HtmlAgilityPack" Version="1.11.38" />
+        <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+    </ItemGroup>
+
+	<PropertyGroup>
+		<ServerGarbageCollection>true</ServerGarbageCollection>
+		<ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
+	</PropertyGroup>
+</Project>
