@@ -1,5 +1,7 @@
 # Calcpad Readme
 
+[Project Website](https://calcpad.eu)
+
 Calcpad is free software for mathematical and engineering calculations. It represents a flexible and modern programmable calculator with Html report generator. It is simple and easy to use, but it also includes many advanced features:
 
 * real and complex numbers;</li>
@@ -28,6 +30,7 @@ This software is suitable for engineers and other professionals that need to per
 
 ## Installation
 The installation is performed by the automated setup program [calcpad-setup-en-x64.exe](https://github.com/Proektsoftbg/Calcpad/blob/main/Setup/calcpad-setup-en-x64.exe). Follow the instruction of the setup wizard. The software requires a 64 bit computer with Windows 10 and [Microsoft .NET 6.0](https://download.visualstudio.microsoft.com/download/pr/a865ccae-2219-4184-bcd6-0178dc580589/ba452d37e8396b7a49a9adc0e1a07e87/windowsdesktop-runtime-6.0.0-win-x64.exe).
+You can also use Calcpad directly in the browser from our website: [https://calcpad.eu/Ide](https://calcpad.eu/Ide)
 
 ## Licensing and terms of use
 This software is free for both commercial and non-commercial use. It is distributed under the MIT license:
