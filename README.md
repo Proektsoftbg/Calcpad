@@ -1,6 +1,6 @@
 # Calcpad Readme
 
-[Project Website](https://calcpad.eu)
+Project Website: [https://calcpad.eu](https://calcpad.eu)
 
 Calcpad is free software for mathematical and engineering calculations. It represents a flexible and modern programmable calculator with Html report generator. It is simple and easy to use, but it also includes many advanced features:
 
