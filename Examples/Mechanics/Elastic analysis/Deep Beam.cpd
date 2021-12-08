@@ -1,0 +1,67 @@
+"Elastic Analysis of Deep Beam
+'<hr />
+#rad
+'Beam length -'l = ?m
+'Height -'h = ?m
+'Load -'q = ?*(kN/m)
+'Length of load -'b = ?m
+'Length of support -'d = ?m
+'Number of iterations -'N = ?
+#hide
+a = (l - b)/2
+c = a + b
+q(x) = if((x < a) + (x > c); 0kN/m; q)
+α(n) = n*π/l
+αh(n) = n*π*h/l
+q_n(n) = 2*q/(α(n)*l)*(cos(α(n)*a) - cos(α(n)*c))
+r = q*b/(2*d)
+e = l - d
+r(x) = if((x < d) + (x > e); r; 0kN/m)
+r_n(n) = 2*r/(α(n)*l)*(1 - cos(α(n)*l) - (cos(α(n)*d) - cos(α(n)*e)))
+q_series(x) = $Sum{q_n(n)*sin(α(n)*x) @ n = 1 : N}
+r_series(x) = $Sum{r_n(n)*sin(α(n)*x) @ n = 1 : N}
+PlotWidth = 400
+PlotHeight = 150
+#post
+'Original and Fourier functions for the load
+$Plot{q(x) & q_series(x) @ x = 0m : l}
+'Original and Fourier functions for the reaction in supports
+$Plot{r(x) & r_series(x) @ x = 0m : l}
+#hide
+sh(n) = sinh(αh(n))
+cth(n) = coth(αh(n))
+β(n) = αh(n)/sh(n)
+Δ(n) = α(n)*(1 - β(n))*(1 + β(n))
+A(n) = r_n(n)/α(n)^2
+B(n) = q_n(n)*(1/sh(n) + β(n)*cth(n))/(α(n)*Δ(n)) - r_n(n)*(cth(n) + β(n)/sh(n))/(α(n)*Δ(n))
+C(n) = -B(n)*α(n)
+D(n) = (q_n(n)*β(n) - r_n(n))/Δ(n)
+ch(n; x) = cosh(α(n)*x)
+th(n; x) = tanh(α(n)*x)
+Y(n; y) = ch(n; y)*(A(n) + B(n)*th(n; y) + C(n)*y + D(n)*y*th(n; y))
+Y_1(n; y) = ch(n; y)*(α(n)*(A(n)*th(n; y) + B(n)) + C(n)*(1 + α(n)*y*th(n; y)) + D(n)*(th(n; y) + α(n)*y))
+Y_2(n; y) = ch(n; y)*α(n)*(A(n)*α(n) + B(n)*α(n)*th(n; y) + C(n)*(2*th(n; y) + α(n)*y) + D(n)*(2 + α(n)*y*th(n; y)))
+Y(N; 0m) - r_n(N)/α(N)^2
+Y_1(N; 0m)
+Y_1(N; h)
+Y(N; h) - q_n(N)/α(N)^2
+PlotStep = 5
+PlotHeight = PlotWidth*h/l
+#post
+'Calculation of stresses
+σ_x(x; y) = $Sum{Y_2(n; y)*sin(α(n)*x) @ n = 1 : N}
+'<!--'k = round(abs(σ_x(l/2; h))/20)*50'-->
+$Map{σ_x(x; y) @ x = 0m : l & y = 0m : h}
+'Plot for σ<sub>x</sub> за <var>x</var> = <var>l</var>/2
+$Plot{σ_x(l/2; y)|y & -k|0 & k|0 @ y = 0m : h}
+σ_y(x; y) = -$Sum{α(n)^2*Y(n; y)*sin(α(n)*x) @ n = 1 : N}
+$Map{σ_y(x; y) @ x = 0m : l & y = 0m : h}
+τ_xy(x; y) = -$Sum{α(n)*Y_1(n; y)*cos(α(n)*x) @ n = 1 : N}
+$Map{τ_xy(x; y) @ x = 0m : l & y = 0m : h}
+σ_m(x; y) = 0.5*(σ_x(x; y) + σ_y(x; y))
+Δσ(x; y) = 0.5*sqr((σ_x(x; y) - σ_y(x; y))^2 + 4*τ_xy(x; y)^2)
+σ_1(x; y) = σ_m(x; y) + Δσ(x; y)
+$Map{σ_1(x; y) @ x = 0m : l & y = 0m : h}
+σ_2(x; y) = σ_m(x; y) - Δσ(x; y)
+$Map{σ_2(x; y) @ x = 0m : l & y = 0m : h}
+4	2	100	0.8	0.4	21
