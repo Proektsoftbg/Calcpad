@@ -179,7 +179,7 @@ namespace Calcpad.Core
 
         private void PurgeCache()
         {
-            for (var i = 0; i < _functions.Count; i++)
+            for (int i = 0, count = _functions.Count; i < count; i++)
                 _functions[i].PurgeCache();
         }
 
@@ -328,8 +328,7 @@ namespace Calcpad.Core
 
         private void BindParameters(Parameter[] parameters, Token[] rpn)
         {
-            var n = rpn.Length;
-            for (var i = 0; i < n; i++)
+            for (int i = 0, n = rpn.Length; i < n; i++)
             {
                 var t = rpn[i];
                 if (t.Type == TokenTypes.Variable)
@@ -367,7 +366,7 @@ namespace Calcpad.Core
             _assignmentIndex = 0;
             int MultOrder =  Calculator.OperatorOrder[Calculator.OperatorIndex['*']];
             expression = s[0] + ' ';
-            for (var i = 0; i < expression.Length; i++)
+            for (int i = 0, n = expression.Length; i < n; i++)
             {
                 var c = expression[i];
                 var tt = GetCharType(c); //Get the type from predefined array
@@ -491,6 +490,11 @@ namespace Calcpad.Core
                                         t = new Token(functionLiteral, TokenTypes.Function2)
                                         {
                                             Index = Calculator.Function2Index[functionLiteral]
+                                        };
+                                    else if (Calculator.IsMultiFunction(functionLiteral))
+                                        t = new FunctionToken(functionLiteral)
+                                        {
+                                            Index = Calculator.MultiFunctionIndex[functionLiteral]
                                         };
                                     else if (functionLiteral == "if")
                                         t = new Token(functionLiteral, TokenTypes.If);
@@ -830,6 +834,7 @@ namespace Calcpad.Core
                             stackBuffer.Push(t);
                         break;
                     case TokenTypes.Function2:
+                    case TokenTypes.MultiFunction:
                     case TokenTypes.If:
                     case TokenTypes.CustomFunction:
                         stackBuffer.Push(t);
@@ -896,7 +901,7 @@ namespace Calcpad.Core
                         continue;
                     case TokenTypes.Operator:
                     case TokenTypes.Function:
-                    case TokenTypes.Function2:
+                        
                         Value c;
                         if (t.Type == TokenTypes.Function || t.Content == NegateString)
                         {
@@ -946,14 +951,22 @@ namespace Calcpad.Core
                             vCond = _stackBuffer[_tos--];
                         _stackBuffer[++_tos] = EvaluateIf(vCond, vTrue, vFalse);
                         continue;
+                    case TokenTypes.MultiFunction:
+                        var mfParamCount = ((FunctionToken)t).ParameterCount;
+                        var mfParams = new Value[mfParamCount];
+                        for (var j = mfParamCount - 1; j >= 0; j--)
+                            mfParams[j] = _stackBuffer[_tos--];
+
+                        _stackBuffer[++_tos] = _calc.EvaluateMultiFunction(t.Index, mfParams);
+                        continue;
                     case TokenTypes.CustomFunction:
                         var cf = _functions[t.Index];
-                        var np = cf.ParameterCount;
-                        var parameters = new Value[np];
-                        for (var j = np - 1; j >= 0; j--)
-                            parameters[j] = _stackBuffer[_tos--];
+                        var cfParamCount = cf.ParameterCount;
+                        var cfParams = new Value[cfParamCount];
+                        for (var j = cfParamCount - 1; j >= 0; j--)
+                            cfParams[j] = _stackBuffer[_tos--];
 
-                        _stackBuffer[++_tos] = EvaluateFunction(cf, parameters);
+                        _stackBuffer[++_tos] = EvaluateFunction(cf, cfParams);
                         continue;
                     case TokenTypes.Solver:
                         _stackBuffer[++_tos] = EvaluateSolver(t);
@@ -1238,6 +1251,14 @@ namespace Calcpad.Core
                             vCond = stackBuffer.Pop();
                         stackBuffer.Push(ParseIf(vCond, vTrue, vFalse));
                         continue;
+                    case TokenTypes.MultiFunction:
+                        var mfValueCount = ((FunctionToken)t).ParameterCount;
+                        var mfValues = new Expression[mfValueCount];
+                        for (var j = mfValueCount - 1; j >= 0; j--)
+                            mfValues[j] = stackBuffer.Pop();
+
+                        stackBuffer.Push(ParseMultiFunction(t.Index, mfValues));
+                        continue;
                     case TokenTypes.CustomFunction:
                         if (t.Index < 0)
 #if BG
@@ -1246,12 +1267,12 @@ namespace Calcpad.Core
                             throw new MathParserException($"Invalid function: \"{t.Content}\".");
 #endif
                         var cf = _functions[t.Index];
-                        var np = cf.ParameterCount;
-                        var values = new Expression[np];
-                        for (var j = np - 1; j >= 0; j--)
-                            values[j] = stackBuffer.Pop();
+                        var cfValueCount = cf.ParameterCount;
+                        var cfValues = new Expression[cfValueCount];
+                        for (var j = cfValueCount - 1; j >= 0; j--)
+                            cfValues[j] = stackBuffer.Pop();
 
-                        stackBuffer.Push(ParseFunction(cf, values));
+                        stackBuffer.Push(ParseFunction(cf, cfValues));
                         continue;
                     case TokenTypes.Solver:
                         stackBuffer.Push(ParseSolver(t));
@@ -1407,6 +1428,13 @@ namespace Calcpad.Core
             return Expression.Call(instance, method, Expression.Constant(cf), args);
         }
 
+        private Expression ParseMultiFunction(int Index, Expression[] parameters)
+        {
+            var method = Expression.Constant(_calc.GetMultiFunction(Index));
+            Expression args = Expression.NewArrayInit(typeof(Value), parameters);
+            return Expression.Invoke(method, args);
+        }
+
         public string ResultAsString => Complex.Format(Result, _settings.Decimals, OutputWriter.OutputFormat.Text) + Units?.Text;
         public override string ToString() => RenderOutput(OutputWriter.OutputFormat.Text);
         public string ToHtml() => RenderOutput(OutputWriter.OutputFormat.Html);
@@ -1492,8 +1520,7 @@ namespace Calcpad.Core
         {
             var stackBuffer = new Stack<RenderToken>();
             hasOperators = _targetUnits is not null;
-            var n = rpn.Length;
-            for (var i = 0; i < n; i++)
+            for (int i = 0, n = rpn.Length; i < n; i++)
             {
                 var t = new RenderToken(rpn[i], 0);
                 var tt = t.Type;
@@ -1596,7 +1623,7 @@ namespace Calcpad.Core
                             }
                             else
                             {
-                                var formatEquation = !(writer is TextWriter) && (_settings.FormatEquations && t.Content == "/" || t.Content == "÷");
+                                var formatEquation = writer is not TextWriter && (_settings.FormatEquations && t.Content == "/" || t.Content == "÷");
                                 if (
                                         !formatEquation &&
                                         (
@@ -1684,13 +1711,28 @@ namespace Calcpad.Core
                         t.Content = writer.FormatFunction(t.Content) + writer.AddBrackets(c.Content + div + a.Content + div + sb, t.Level);
                         hasOperators = true;
                     }
+                    else if (tt == TokenTypes.MultiFunction)
+                    {
+                        var mfParamCount = t.ParameterCount - 1;
+                        var s = sb;
+                        t.Level = b.Level;
+                        for (var j = 0; j < mfParamCount; ++j)
+                        {
+                            var a = stackBuffer.Pop();
+                            s = a.Content + div + s;
+                            if (a.Level > t.Level)
+                                t.Level = a.Level;
+                        }
+                        t.Content = writer.FormatFunction(t.Content) + writer.AddBrackets(s, t.Level);
+                        hasOperators = true;
+                    }
                     else if (tt == TokenTypes.CustomFunction)
                     {
                         var cf = _functions[t.Index];
-                        var np = cf.ParameterCount - 1;
+                        var cfParamCount = cf.ParameterCount - 1;
                         var s = sb;
                         t.Level = b.Level;
-                        for (var j = 0; j < np; ++j)
+                        for (var j = 0; j < cfParamCount; ++j)
                         {
                             var a = stackBuffer.Pop();
                             s = a.Content + div + s;
@@ -1876,6 +1918,7 @@ namespace Calcpad.Core
             Operator,
             Function,
             Function2,
+            MultiFunction,
             If,
             CustomFunction,
             BracketLeft,
@@ -1906,6 +1949,11 @@ namespace Calcpad.Core
                 Order = order;
             }
         }
+        private class FunctionToken : Token
+        {
+            internal int ParameterCount;
+            internal FunctionToken(string content) : base(content, TokenTypes.MultiFunction) { }
+        }
 
         private class ValueToken : Token
         {
@@ -1933,7 +1981,9 @@ namespace Calcpad.Core
             internal byte ValType;  //0 - none, 1 - number, 2 - unit, 3 - number + unit
             internal int Level;
             internal int Offset; //-1 - down, 0 - none, 1 - up
+            internal int ParameterCount;
             internal bool IsCompositeValue;
+  
             internal RenderToken(string content, TokenTypes type, int level) : base(content, type)
             {
                 Level = level;
@@ -1944,6 +1994,8 @@ namespace Calcpad.Core
                 Index = t.Index;
                 Level = level;
                 Order = t.Order;
+                if (t is FunctionToken ft)
+                    ParameterCount = ft.ParameterCount;
                 if (t.Type == TokenTypes.Unit || t.Type == TokenTypes.Constant || t.Type == TokenTypes.Variable || t.Type == TokenTypes.Input)
                 {
                     Value v = Value.Zero;
@@ -2049,7 +2101,7 @@ namespace Calcpad.Core
                 _items = new SolverItem[5];
                 int current = 0, bracketCounter = 0;
                 _stringBuilder.Clear();
-                for (var i = 0; i < Script.Length; i++)
+                for (int i = 0, len = Script.Length; i < len; i++)
                 {
                     var c = Script[i];
                     if (c == '{')
@@ -2484,8 +2536,7 @@ namespace Calcpad.Core
 
             internal void SubscribeCache(Container<CustomFunction> functions)
             {
-                var n = Rpn.Length;
-                for (var i = 0; i < n; i++)
+                for (int i = 0, n = Rpn.Length; i < n; i++)
                 {
                     var t = Rpn[i];
                     if (t is VariableToken vt)
@@ -2508,8 +2559,7 @@ namespace Calcpad.Core
                 }
                 IsRecursion = false;
                 f ??= this;
-                var n = Rpn.Length;
-                for (var i = 0; i < n; i++)
+                for (int i = 0, n = Rpn.Length; i < n; i++)
                 {
                     var t = Rpn[i];
                     if (t.Type == TokenTypes.CustomFunction)
@@ -2550,7 +2600,7 @@ namespace Calcpad.Core
                     }
                     return z;
                 }
-                for (var i = 0; i < parameters.Length; ++i)
+                for (int i = 0, n = parameters.Length; i < n; ++i)
                     _parameters[i].SetValue(parameters[i]);
 
                 return Function();
@@ -2559,9 +2609,37 @@ namespace Calcpad.Core
 
         private class Validator
         {
-            private static readonly int[] OrderIndex = { 0, 1, 1, 1, 1, 2, 3, 3, 3, 3, 4, 5, 6, 1, 0 };
-
-            //None, Constant, Variable, Unit, Input, Operator, Function, Function2, If, CustomFunction, BracketLeft, BracketRight, Divisor, Solver, Error,
+            private struct MultiFunctionStackItem
+            {
+                internal Token Token;
+                internal int CountOfBrackets;
+                internal int CountOfDivisors;
+                internal MultiFunctionStackItem(Token token, int countOfBrackets, int countOfDivisors)
+                {
+                    Token = token;
+                    CountOfBrackets = countOfBrackets;
+                    CountOfDivisors = countOfDivisors;
+                }
+            }
+            private static readonly int[] OrderIndex = 
+                //N  C  V  U  I  O  F  2  M  I  C  L  R  D  S  E
+                { 0, 1, 1, 1, 1, 2, 3, 3, 3, 3, 3, 4, 5, 6, 1, 0 };
+                //[N]one
+                //[C]onstant
+                //[V]ariable
+                //[U]nit
+                //[I]nput
+                //[O]perator
+                //[F]unction
+                //Function[2]
+                //[M]ultiFunction
+                //[I]f
+                //[C]ustomFunction
+                //Bracket[L]eft
+                //Bracket[R]ight
+                //[D]ivisor
+                //[S]olver
+                //[E]rror
             private static readonly bool[,] CorrectOrder =
             {
                 {true, true, true, true, true, true, true},
@@ -2589,6 +2667,7 @@ namespace Calcpad.Core
                 var countOfBrackets = 0;
                 var countOfOperators = 0;
                 var countOfDivisors = 0;
+                var multiFunctionStack = new Stack<MultiFunctionStackItem>();
                 var pt = new Token(string.Empty, TokenTypes.None);
                 var firstToken = input.Peek();
                 foreach (var t in input)
@@ -2597,6 +2676,8 @@ namespace Calcpad.Core
                         countOfDivisors--;
                     else if (t.Type == TokenTypes.If)
                         countOfDivisors -= 2;
+                    else if (t.Type == TokenTypes.MultiFunction)
+                        multiFunctionStack.Push(new MultiFunctionStackItem(t, countOfBrackets, countOfDivisors));
                     else if (t.Type == TokenTypes.CustomFunction)
                     {
                         if (t.Index < 0)
@@ -2622,6 +2703,16 @@ namespace Calcpad.Core
 #else
                             throw new MathParserException("Missing left bracket '('.");
 #endif
+                        if (multiFunctionStack.TryPeek(out var mfsItem))
+                        {
+                            if (countOfBrackets == mfsItem.CountOfBrackets)
+                            {
+                                multiFunctionStack.Pop();
+                                FunctionToken ft = (FunctionToken)mfsItem.Token;
+                                ft.ParameterCount = countOfDivisors - mfsItem.CountOfDivisors + 1;
+                                countOfDivisors = mfsItem.CountOfDivisors;
+                            }
+                        }
                     }
                     else if (t.Type == TokenTypes.Divisor)
                         countOfDivisors++;
@@ -2677,6 +2768,7 @@ namespace Calcpad.Core
                 if (pt.Type == TokenTypes.Operator ||
                     pt.Type == TokenTypes.Function && pt.Content != "!" ||
                     pt.Type == TokenTypes.Function2 ||
+                    pt.Type == TokenTypes.MultiFunction ||
                     pt.Type == TokenTypes.If ||
                     pt.Type == TokenTypes.CustomFunction ||
                     pt.Type == TokenTypes.BracketLeft)

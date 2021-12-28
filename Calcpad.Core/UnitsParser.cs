@@ -374,7 +374,7 @@ namespace Calcpad.Core
         private static Token EvaluateOperator(Token T, UnitToken a, UnitToken b)
         {
             char c = T.Content[0];
-            double d = c == '^' ? 1.0 : Unit.GetProductOrDivideFactor(a.Value, b.Value);
+            double d = c == '^' ? 1.0 : Unit.GetProductOrDivisionFactor(a.Value, b.Value);
             return c switch
             {
                 '*' => new UnitToken(a.Value * b.Value * d),

@@ -39,7 +39,7 @@ namespace Calcpad.Wpf
             internal static readonly string Version;
             internal static readonly string Title;
         }
-
+        private const int OffsetBase = 100000;
         private string _cfn;
         private readonly ExpressionParser _parser;
         private readonly string _htmlWorksheet;
@@ -277,7 +277,7 @@ namespace Calcpad.Wpf
             var element = (FrameworkElement)sender;
             var tag = element.Tag.ToString();
             RichTextBox.BeginChange();
-            if (tag.Contains("|"))
+            if (tag.Contains('|'))
             {
                 var parts = tag.Split('|');
                 if (RichTextBox.Selection.Start.GetOffsetToPosition(RichTextBox.Selection.End) == 0)
@@ -302,7 +302,7 @@ namespace Calcpad.Wpf
                 }
                 RichTextBox.Selection.Select(RichTextBox.Selection.End, RichTextBox.Selection.End);
             }
-            else if (tag.Contains("§"))
+            else if (tag.Contains('§'))
             {
                 var parts = tag.Split('§');
                 TextPointer tp;
@@ -416,7 +416,6 @@ namespace Calcpad.Wpf
                 InsertText(data);
                 tp.GetPositionAtOffset(lines[0].Length);
                 RichTextBox.Selection.Select(tp, tp);
-
             }
             else
             {
@@ -434,6 +433,7 @@ namespace Calcpad.Wpf
                 RichTextBox.EndChange();
                 _isTextChangedEnabled = true;
                 DispatchAutoIndent();
+                Record();
             }
             RichTextBox.Focus();
         }
@@ -472,6 +472,7 @@ namespace Calcpad.Wpf
             ShowHelp();
             SaveButton.Tag = null;
             _undoMan.Reset();
+            Record();
         }
 
         private void Command_Open(object sender, ExecutedRoutedEventArgs e)
@@ -660,7 +661,7 @@ namespace Calcpad.Wpf
             string s;
             if (string.IsNullOrWhiteSpace(CurrentFileName))
                 s = Path.GetExtension(CurrentFileName);
-            else if (InputText.Contains("?"))
+            else if (InputText.Contains('?'))
                 s = ".cpd";
             else
                 s = ".txt";
@@ -700,7 +701,7 @@ namespace Calcpad.Wpf
         private void FileSave()
         {
             var text = GetInputText();
-            if (text.Contains("?"))
+            if (text.Contains('?'))
             {
                 if (IsWebForm)
                 {
@@ -1109,7 +1110,7 @@ namespace Calcpad.Wpf
             foreach (var line in lines)
             {
                 string s;
-                if (line.Contains("\v"))
+                if (line.Contains('\v'))
                 {
                     hasForm = true;
                     var n = line.IndexOf('\v');
@@ -1117,7 +1118,7 @@ namespace Calcpad.Wpf
                     var inputFields = s.Split('\t');
                     _parser.ClearInputFields();
                     SetInputFields(inputFields);
-                    s = line.Substring(0, n);
+                    s = line[..n];
                 }
                 else if (highLight)
                     s = line.TrimStart('\t');
@@ -1138,6 +1139,7 @@ namespace Calcpad.Wpf
                 Dispatcher.InvokeAsync(SetAutoIndent, DispatcherPriority.ApplicationIdle);
             }
             _undoMan.Reset();
+            Record();
             _isTextChangedEnabled = true;
             _forceHighlight = !highLight;
             return hasForm;
@@ -1287,7 +1289,7 @@ namespace Calcpad.Wpf
                 FileName = appName
             };
             if (fileName != null)
-                startInfo.Arguments = fileName.Contains(" ") ? '\"' + fileName + '\"' : fileName;
+                startInfo.Arguments = fileName.Contains(' ') ? '\"' + fileName + '\"' : fileName;
 
             startInfo.UseShellExecute = true;
             startInfo.WindowStyle = ProcessWindowStyle.Maximized;
@@ -1348,16 +1350,17 @@ namespace Calcpad.Wpf
                     _document.Blocks.Add(p);
                 }
             }
-            var pointer = _document.ContentStart;
-            pointer = pointer.GetPositionAtOffset(_undoMan.RestorePointer);
-            if (pointer != null)
-            {
-                var p = pointer.Paragraph;
-                if (p != null)
-                    RichTextBox.CaretPosition = p.ContentEnd;
-            }
-            _currentParagraph = RichTextBox.CaretPosition.Paragraph;
+            var contentOffset = _undoMan.RestorePointer / OffsetBase;
+            var lineOffset = _undoMan.RestorePointer - contentOffset * OffsetBase;
+            var pointer = _document.ContentStart.GetPositionAtOffset(contentOffset);
+            if (pointer is null)
+                pointer = RichTextBox.CaretPosition;
+
+            _currentParagraph = pointer.Paragraph;
             HighLighter.Clear(_currentParagraph);
+            if (_currentParagraph is not null)
+                pointer = _currentParagraph.ContentStart.GetPositionAtOffset(lineOffset);
+            RichTextBox.Selection.Select(pointer, pointer);
             DispatchLineNumbers();
             RichTextBox.EndChange();
             _isTextChangedEnabled = true;
@@ -1624,9 +1627,6 @@ namespace Calcpad.Wpf
                 }
             }
         }
-
-        private int _textLength;
-        private bool _forceUndo;
         private bool _forceBackSpace;
         private bool _isPasting;
         private int _pasteOffset;
@@ -1643,17 +1643,8 @@ namespace Calcpad.Wpf
                     if (p != null)
                         RichTextBox.CaretPosition = p.ContentEnd.GetPositionAtOffset(_pasteOffset);
                     _isPasting = false;
-                    _forceUndo = true;
                 }
-                var txtLen = InputTextLength;
-                if (_forceUndo || Math.Abs(_textLength - txtLen) > 1)
-                {
-                    var tp = RichTextBox.Selection.Start;
-                    var values = ReadInputFromCode();
-                    _undoMan.Record(InputText, _document.ContentStart.GetOffsetToPosition(tp), values);
-                    _forceUndo = false;
-                }
-                _textLength = txtLen;
+                Record();
                 IsSaved = false;
                 if (IsCalculated)
                 {
@@ -1671,8 +1662,12 @@ namespace Calcpad.Wpf
         {
             var tps = RichTextBox.Selection.Start;
             var tpe = RichTextBox.Selection.End;
+            _offset = _document.ContentStart.GetOffsetToPosition(tpe) * OffsetBase;
+            if (tpe.Paragraph is not null)
+                _offset += tpe.Paragraph.ContentStart.GetOffsetToPosition(tpe);
+            
             if (ReferenceEquals(_currentParagraph, tps.Paragraph) ||
-                ReferenceEquals(_currentParagraph, tpe.Paragraph)) 
+                ReferenceEquals(_currentParagraph, tpe.Paragraph))
                 return;
 
             _isTextChangedEnabled = false;
@@ -1782,24 +1777,17 @@ namespace Calcpad.Wpf
             _sizeChanged = false;
         }
 
-        private Key _oldKey = Key.Enter;
         private void RichTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key != _oldKey)
-            {
-                _oldKey = e.Key;
-                _forceUndo = _oldKey == Key.Space ||
-                             _oldKey == Key.Enter ||
-                             _oldKey == Key.Delete ||
-                             _oldKey == Key.Back;
-            }
 
-            if (_oldKey == Key.Enter)
+            if (e.Key == Key.Enter)
                 RichTextBox.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Black);
-            if (_oldKey == Key.Back)
+            
+            if (e.Key == Key.Back)
             {
                 var tp = RichTextBox.Selection.Start;
-                _forceBackSpace = tp.IsAtLineStartPosition && tp.Paragraph.TextIndent > 0;
+                var selLength = tp.GetOffsetToPosition(RichTextBox.Selection.End);
+                _forceBackSpace = tp.IsAtLineStartPosition && tp.Paragraph.TextIndent > 0 && selLength == 0;
             }
             else
                 _forceBackSpace = false;
@@ -1917,7 +1905,7 @@ namespace Calcpad.Wpf
             while (p != null)
             {
                 if (p.Tag is Queue<string> cache)
-                    for (var j = 0; j < cache.Count; j++)
+                    for (int j = 0, count = cache.Count; j < count; j++)
                     {
                         cache.Dequeue();
                         if (i < n)
@@ -1940,7 +1928,7 @@ namespace Calcpad.Wpf
             while (p != null)
             {
                 if (p.Tag is Queue<string> cache)
-                    for (var i = 0; i < cache.Count; i++)
+                    for (int i = 0, count = cache.Count; i < count; i++)
                     {
                         var s = cache.Dequeue();
                         values.Add(s);
@@ -2169,9 +2157,6 @@ namespace Calcpad.Wpf
                     ShowHelp(); //WebView.NavigateToString(" ");
                     IsCalculated = false;
                 }
-                var tp = RichTextBox.Selection.Start;
-                var values = ReadInputFromCode();
-                _undoMan.Record(InputText, _document.ContentStart.GetOffsetToPosition(tp), values);
                 e.Handled = true;
             }
         }
@@ -2213,7 +2198,7 @@ namespace Calcpad.Wpf
                 FileName = AppInfo.Path + "wkhtmltopdf.exe"
             };
             const string s = " --enable-local-file-access --disable-smart-shrinking --page-size A4  --margin-bottom 15 --margin-left 15 --margin-right 10 --margin-top 15 ";
-            if (htmlFileName.Contains(" "))
+            if (htmlFileName.Contains(' '))
                 startInfo.Arguments = s + '\"' + htmlFileName + "\" \"" + pdfFileName + '\"';
             else
                 startInfo.Arguments = s + htmlFileName + " " + pdfFileName;
@@ -2268,5 +2253,8 @@ namespace Calcpad.Wpf
         {
             DecimalsTextBox.Text = (15 - e.NewValue).ToString();
         }
+
+        private int _offset = 0;
+        private void Record() => _undoMan.Record(InputText, _offset, ReadInputFromCode());
     }
 }

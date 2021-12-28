@@ -38,11 +38,12 @@ namespace Calcpad.Wpf
         {
             if (_undoStack.Count > 1)
             {
-                Add(_redoStack, _undoStack.Last());
-                _undoStack.RemoveAt(_undoStack.Count - 1);
                 var last = _undoStack.Last();
-                RestoreText = last.Text;
+                Add(_redoStack, last);
                 RestorePointer = last.Pointer;
+                _undoStack.RemoveAt(_undoStack.Count - 1);
+                last = _undoStack.Last();
+                RestoreText = last.Text;
                 RestoreValues = last.Values;
                 return true;
             }

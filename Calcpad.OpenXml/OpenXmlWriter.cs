@@ -187,7 +187,7 @@ namespace Calcpad.OpenXml
         {
             const string refShading = "008800";
             if (parentElement is Table && !(childElement is TableRow || childElement is CustomXmlBlock b && b.Element == "tbody") ||
-                parentElement is TableRow && !(childElement is TableCell))
+                parentElement is TableRow && childElement is not TableCell)
                 return;
 
             var cellPara = parentElement is TableCell ?
@@ -531,7 +531,7 @@ namespace Calcpad.OpenXml
         private static OpenXmlElement AddText(HtmlNode domNode)
         {
             var s = HttpUtility.HtmlDecode(domNode.InnerText);
-            var hasNewLine = s.Contains("\n");
+            var hasNewLine = s.Contains('\n');
             if (hasNewLine && string.IsNullOrWhiteSpace(s))
                 return null;
 

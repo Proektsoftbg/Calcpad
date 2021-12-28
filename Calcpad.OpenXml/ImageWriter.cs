@@ -16,7 +16,7 @@ namespace Calcpad.OpenXml
             ImageProcessor imageProcessor;
             if (src.StartsWith("data:image/"))
                 imageProcessor = new Base64ImageProcessor(src);
-            else if (src.Contains("/"))
+            else if (src.Contains('/'))
             {
                 if (!Uri.IsWellFormedUriString(src, UriKind.Absolute))
                     src = url + src;
