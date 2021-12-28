@@ -10,6 +10,7 @@ namespace Calcpad.Core
         protected const double Rad2deg = 180.0 / Math.PI;
         internal delegate Value Operator(Value a, Value b);
         internal delegate Value Function(in Value a);
+        internal delegate Value MultiFunction(Value[] a);
 
         internal abstract bool Degrees { set; }
         //                                               ^  ÷  \  %  *  -  +  <  >  ≤  ≥  ≡  ≠  =
@@ -81,22 +82,37 @@ namespace Calcpad.Core
 
         internal static readonly Dictionary<string, int> Function2Index = new ()
         {
-            {"min", 0 },
-            {"max", 1 },
-            {"atan2", 2},
-            {"root", 3},
-            {"mandelbrot", 4}
+            {"atan2", 0},
+            {"root", 1},
+            {"mandelbrot", 2}
+        };
+
+        internal static readonly Dictionary<string, int> MultiFunctionIndex = new()
+        {
+            { "min", 0 },
+            { "max", 1 },
+            { "sum", 2 },
+            { "sumsq", 3 },
+            { "srss", 4 },
+            { "average", 5 },
+            { "product", 6 },
+            { "mean", 7 },
+            { "switch", 8 },
+            { "take", 9 }
         };
 
         internal static bool IsOperator(char name) => OperatorIndex.ContainsKey(name);
         internal static bool IsFunction(string name) => FunctionIndex.ContainsKey(name);
         internal static bool IsFunction2(string name) => Function2Index.ContainsKey(name);
+        internal static bool IsMultiFunction(string name) => MultiFunctionIndex.ContainsKey(name);
         internal abstract Value EvaluateOperator(int index, Value a, Value b);
         internal abstract Value EvaluateFunction(int index, Value a);
         internal abstract Value EvaluateFunction2(int index, Value a, Value b);
+        internal abstract Value EvaluateMultiFunction(int index, Value[] a);
         internal abstract Operator GetOperator(int index);
         internal abstract Function GetFunction(int index);
         internal abstract Operator GetFunction2(int index);
+        internal abstract MultiFunction GetMultiFunction(int index);
 
         internal static readonly int PowerIndex = OperatorIndex['^'];
         internal static readonly int SqrIndex = FunctionIndex["sqr"];
@@ -111,6 +127,7 @@ namespace Calcpad.Core
         private static readonly Function[] DegFunctions, RadFunctions;
         private Function[] _functions;
         private static readonly Operator[] Functions2;
+        private static readonly MultiFunction[] MultiFunctions;
 
         internal override bool Degrees
         {
@@ -205,11 +222,23 @@ namespace Calcpad.Core
 
             Functions2 = new Operator []
             {
-                Value.Min,
-                Value.Max,
                 Value.Atan2,
                 Value.UnitRoot,
                 Value.MandelbrotSet
+            };
+
+            MultiFunctions = new MultiFunction[]
+            {
+                Value.Min,
+                Value.Max,
+                Value.Sum,
+                Value.SumSq,
+                Value.Srss,
+                Value.Average,
+                Value.Product,
+                Value.Mean,
+                Value.Switch,
+                Value.Take
             };
         }
 
@@ -221,6 +250,7 @@ namespace Calcpad.Core
         internal override Value EvaluateOperator(int index, Value a, Value b) => Operators[index](a, b);
         internal override Value EvaluateFunction(int index, Value a) => _functions[index](a);
         internal override Value EvaluateFunction2(int index, Value a, Value b) => Functions2[index](a, b);
+        internal override Value EvaluateMultiFunction(int index, Value[] a) => MultiFunctions[index](a);
         internal override Operator GetOperator(int index) => index == PowerIndex ? Value.Pow : Operators[index];
 
         internal override Function GetFunction(int index)
@@ -235,6 +265,7 @@ namespace Calcpad.Core
         }
             
         internal override Operator GetFunction2(int index) => index == RootIndex ? Value.Root : Functions2[index];
+        internal override MultiFunction GetMultiFunction(int index) => MultiFunctions[index];
     }
 
     internal class ComplexCalculator : Calculator
@@ -242,6 +273,7 @@ namespace Calcpad.Core
         private static readonly Operator[] Operators;
         private static readonly Function[] DegFunctions, RadFunctions;
         private static readonly Operator[] Functions2;
+        private static readonly MultiFunction[] MultiFunctions;
         private Function[] _functions;
 
         internal override bool Degrees
@@ -337,11 +369,23 @@ namespace Calcpad.Core
 
             Functions2 = new Operator[]
             {
-                Value.ComplexMin,
-                Value.ComplexMax,
                 Value.ComplexAtan2,
                 Value.ComplexRoot,
                 Value.MandelbrotSet
+            };
+
+            MultiFunctions = new MultiFunction[]
+            {
+                Value.ComplexMin,
+                Value.ComplexMax,
+                Value.ComplexSum,
+                Value.ComplexSumSq,
+                Value.ComplexSrss,
+                Value.ComplexAverage,
+                Value.ComplexProduct,
+                Value.ComplexMean,
+                Value.Switch,
+                Value.Take
             };
         }
 
@@ -353,8 +397,10 @@ namespace Calcpad.Core
         internal override Value EvaluateOperator(int index, Value a, Value b) => Operators[index](a, b);
         internal override Value EvaluateFunction(int index, Value a) =>  _functions[index](a);
         internal override Value EvaluateFunction2(int index, Value a, Value b) => Functions2[index](a, b);
+        internal override Value EvaluateMultiFunction(int index, Value[] a) => MultiFunctions[index](a);
         internal override Operator GetOperator(int index) => Operators[index];
         internal override Function GetFunction(int index) => _functions[index];
         internal override Operator GetFunction2(int index) => Functions2[index];
+        internal override MultiFunction GetMultiFunction(int index) => MultiFunctions[index];
     }
 }

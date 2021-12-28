@@ -61,7 +61,10 @@ namespace Calcpad.Wpf
             "asinh", "acosh", "atanh", "acsch", "asech", "acoth",
             "log", "ln", "log_2", "sqr", "sqrt", "cbrt", "root",
             "round", "floor", "ceiling", "sign", MathParser.NegateString,
-            "min", "max", "re", "im", "phase"};
+            "re", "im", "phase",
+            "min", "max", "sum", "sumsq", "srss", "product", "average", "mean",
+            "switch", "take"
+        };
 
         private static readonly HashSet<string> Conditions = new() {"#if", "#else", "#else if", "#end if", "#rad", "#deg", "#val", "#equ", "#show", "#hide", "#pre", "#post", "#repeat", "#loop", "#break"};
 

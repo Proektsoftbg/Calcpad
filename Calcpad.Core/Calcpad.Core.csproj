@@ -10,20 +10,19 @@
 	</PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-        <OutputPath>..\Calcpad.Wpf\bin\Release\net6.0-windows\</OutputPath>
+    <OutputPath>..\Calcpad.Wpf\bin\Release\net6.0-windows\</OutputPath>
 		<PlatformTarget>AnyCPU</PlatformTarget>
 		<!--<DefineConstants>BG</DefineConstants>-->
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-        <OutputPath>..\Calcpad.Wpf\bin\Debug\net6.0-windows\</OutputPath>
-        <PlatformTarget>AnyCPU</PlatformTarget>
+    <OutputPath>..\Calcpad.Wpf\bin\Debug\net6.0-windows\</OutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
 		<!--<DefineConstants>BG</DefineConstants>-->
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
-        <Folder Include="Properties\" />
     </ItemGroup>
 	
 	<PropertyGroup>

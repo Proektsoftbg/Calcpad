@@ -331,8 +331,8 @@ namespace Calcpad.Core
 
             return offset switch
             {
-                -1 => s.Substring(0, n) + " down" + s[n..],
-                1 => s.Substring(0, n) + " up" + s[n..],
+                -1 => s[..n] + " down" + s[n..],
+                1 => s[..n] + " up" + s[n..],
                 _ => s
             };
         }
@@ -361,7 +361,7 @@ namespace Calcpad.Core
             {
                 var i1 = i + 1;
                 if (i1 < s.Length)
-                    return FormatSubscript($"<var>{s.Substring(0, i)}</var>", s[i1..]);
+                    return FormatSubscript($"<var>{s[..i]}</var>", s[i1..]);
             }
 
             return $"<var>{s}</var>";
@@ -375,7 +375,7 @@ namespace Calcpad.Core
             {
                 var i1 = i + 1;
                 if (i1 < s.Length)
-                    return FormatSubscript($"<b>{s.Substring(0, i)}</b>", s[i1..]);
+                    return FormatSubscript($"<b>{s[..i]}</b>", s[i1..]);
             }
             return $"<b>{s}</b>";
         }
@@ -460,8 +460,8 @@ namespace Calcpad.Core
                     i1++;
             }
             return sign is '-' ?
-                $"{s.Substring(0, i)}×10<sup>-{s[i1..]}</sup>" :
-                $"{s.Substring(0, i)}×10<sup>{s[i1..]}</sup>";
+                $"{s[..i]}×10<sup>-{s[i1..]}</sup>" :
+                $"{s[..i]}×10<sup>{s[i1..]}</sup>";
         }
 
         internal override string FormatComplex(Complex c, int decimals)
@@ -542,7 +542,7 @@ namespace Calcpad.Core
         {
             const string se = "</m:sup></m:sSup>";
             if (order == PowerOrder)
-                return sa.Substring(0, sa.Length - se.Length) + FormatOperator('*') + sb + se;
+                return sa[..^se.Length] + FormatOperator('*') + sb + se;
 
             return $"<m:sSup><m:e>{sa}</m:e><m:sup>{sb}{se}";
         }
@@ -588,7 +588,7 @@ namespace Calcpad.Core
             if (s[i1] == '+')
                 i1++;
 
-            return $"<m:r><m:t>{s.Substring(0, i)}×</m:t></m:r><m:sSup><m:e><m:r><m:t>10</m:t></m:r></m:e><m:sup><m:r><m:t>{s[i1..]}</m:t></m:r></m:sup></m:sSup>";
+            return $"<m:r><m:t>{s[..i]}×</m:t></m:r><m:sSup><m:e><m:r><m:t>10</m:t></m:r></m:e><m:sup><m:r><m:t>{s[i1..]}</m:t></m:r></m:sup></m:sSup>";
         }
 
         internal override string FormatComplex(Complex c, int decimals)

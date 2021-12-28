@@ -443,25 +443,15 @@ namespace Calcpad.Core
         internal static Complex Random(in Complex value) =>
             new Complex(Rand.NextDouble(), Rand.NextDouble()) * value;
 
-        internal static Complex Min(in Complex left, in Complex right) =>
-            left.IsComplex || right.IsComplex ? 
-                double.NaN : 
-                Math.Min(left._a, right._a);
-
-        internal static Complex Max(in Complex left, in Complex right) =>
-            left.IsComplex || right.IsComplex ? 
-                double.NaN : 
-                Math.Max(left._a, right._a);
-
         internal static Complex Atan2(in Complex left, in Complex right) =>
-            left.IsComplex || right.IsComplex ? 
-                double.NaN : 
-                Math.Atan2(left._a, right._a);
+            left.IsReal && right.IsReal ?
+                Math.Atan2(left._a, right._a) :
+                double.NaN;
 
         internal static Complex MandelbrotSet(in Complex left, in Complex right) =>
-            left.IsComplex || right.IsComplex ? 
-                double.NaN : 
-                MandelbrotSet(left._a, right._a);
+            left.IsReal && right.IsReal ?
+                MandelbrotSet(left._a, right._a) :
+                double.NaN; 
 
         internal static double MandelbrotSet(double x, double y)
         {

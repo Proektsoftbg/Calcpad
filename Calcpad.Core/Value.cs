@@ -4,6 +4,7 @@ namespace Calcpad.Core
 {
     internal readonly struct Value : IEquatable<Value>
     {
+        private static readonly char[] CompositeUnitChars = {'/', '*', '×', '^'};
         internal readonly Complex Number;
         internal readonly Unit Units;
         internal readonly bool IsUnit;
@@ -45,18 +46,13 @@ namespace Calcpad.Core
             return false;
         }
 
-        internal bool IsComposite()
-        {
-            if (Unit.IsNullOrEmpty(Units))
-                return false;
-
-            var real = Number.Re;
-            var text = Units.Text;
-            return real > 0.0 && real != 1.0 ||
-                   text.Contains("^") || 
-                   text.Contains("*") || 
-                   text.Contains("/");
-        }
+        internal bool IsComposite() =>
+            !Unit.IsNullOrEmpty(Units) && 
+            (   
+                Number.Re > 0.0 && 
+                Number.Re != 1.0 || 
+                Units.Text.IndexOfAny(CompositeUnitChars) >= 0.0
+            );
 
         public static Value Fact(in Value a)
         {
@@ -89,7 +85,7 @@ namespace Calcpad.Core
             if (a.Units is null && b.IsUnit)
                 return new Value(a.Number, b.Units);
 
-            var uc = MultiplyUnits(a, b, out var d);
+            var uc = MultiplyUnits(a.Units, b.Units, out var d);
             return new Value(a.Number.Re * b.Number.Re * d, uc);
         }
 
@@ -98,7 +94,7 @@ namespace Calcpad.Core
             if (a.Units is null && b.IsUnit)
                 return new Value(a.Number, b.Units);
 
-            var uc = MultiplyUnits(a, b, out var d, true);
+            var uc = MultiplyUnits(a.Units, b.Units, out var d, b.IsUnit);
             return new Value(a.Number.Re * b.Number.Re * d, uc, a.IsUnit && b.IsUnit);
         }
 
@@ -353,33 +349,33 @@ namespace Calcpad.Core
         internal static Value Pow(Value value, Value power) =>
             new(
                 Math.Pow(value.Number.Re, power.Number.Re), 
-                PowUnits(value, power)
+                PowUnits(value.Units, power)
             );
 
         internal static Value UnitPow(Value value, Value power) =>
             new(
                 Math.Pow(value.Number.Re, power.Number.Re),
-                PowUnits(value, power, true),
+                PowUnits(value.Units, power, value.IsUnit),
                 value.IsUnit
             );
 
         internal static Value Sqrt(in Value value) => value.Units is null ?
                 new (Math.Sqrt(value.Number.Re)) :
-                new (Math.Sqrt(value.Number.Re), RootUnits(value, 2));
+                new (Math.Sqrt(value.Number.Re), RootUnits(value.Units, 2));
 
         internal static Value UnitSqrt(in Value value) =>value.Units is null ?
                 new (Math.Sqrt(value.Number.Re)) :
-                new (Math.Sqrt(value.Number.Re), RootUnits(value, 2, true), value.IsUnit);
+                new (Math.Sqrt(value.Number.Re), RootUnits(value.Units, 2, value.IsUnit), value.IsUnit);
 
         internal static Value Cbrt(in Value value) =>
             value.Units is null ?
                 new (Math.Cbrt(value.Number.Re)) :
-                new (Math.Cbrt(value.Number.Re), RootUnits(value, 3));
+                new (Math.Cbrt(value.Number.Re), RootUnits(value.Units, 3));
 
         internal static Value UnitCbrt(in Value value) =>
             value.Units is null ?
                 new (Math.Cbrt(value.Number.Re)) :
-                new (Math.Cbrt(value.Number.Re), RootUnits(value, 3, true), value.IsUnit);
+                new (Math.Cbrt(value.Number.Re), RootUnits(value.Units, 3, value.IsUnit), value.IsUnit);
 
         internal static Value Root(Value value, Value root)
         {
@@ -387,7 +383,7 @@ namespace Calcpad.Core
             var result = Math.Pow(value.Number.Re, 1.0 / n);
             return value.Units is null ?
                 new (result) :
-                new (result, RootUnits(value, n));
+                new (result, RootUnits(value.Units, n));
         }
 
         internal static Value UnitRoot(Value value, Value root)
@@ -396,7 +392,7 @@ namespace Calcpad.Core
             var result = Math.Pow(value.Number.Re, 1.0 / n);
             return value.Units is null ?
                 new (result) :
-                new (result, RootUnits(value, n, true), value.IsUnit);
+                new (result, RootUnits(value.Units, n, value.IsUnit), value.IsUnit);
         }
 
         internal static Value Round(in Value value) =>
@@ -414,18 +410,6 @@ namespace Calcpad.Core
         internal static Value Random(in Value value) =>
             new(Complex.RealRandom(value.Number.Re), value.Units);
 
-        internal static Value Min(Value a, Value b) =>
-            new(
-                Math.Min(a.Number.Re, b.Number.Re * ConvertUnits(a.Units, b.Units, ',')),
-                a.Units
-            );
-
-        internal static Value Max(Value a, Value b) =>
-            new(
-                Math.Max(a.Number.Re, b.Number.Re * ConvertUnits(a.Units, b.Units, ',')),
-                a.Units
-            );
-
         internal static Value Atan2(Value a, Value b) =>
             new(
                 Math.Atan2(b.Number.Re * ConvertUnits(a.Units, b.Units, ','), a.Number.Re )
@@ -437,6 +421,105 @@ namespace Calcpad.Core
                     a.Number, b.Number * ConvertUnits(a.Units, b.Units, ',')
                 )
             );
+
+        internal static Value Min(Value[] a)
+        {
+            var result = a[0].Number.Re;
+            var u = a[0].Units;
+            for (int i = 1, n = a.Length; i < n; i++)
+            {
+                var b = a[i].Number.Re * ConvertUnits(u, a[i].Units, ',');
+                if (b < result)
+                    result = b;
+            }
+            return new(result, u);
+        }
+
+        internal static Value Max(Value[] a)
+        {
+            var result = a[0].Number.Re;
+            var u = a[0].Units;
+            for (int i = 1, n = a.Length; i < n; i++)
+            {
+                var b = a[i].Number.Re * ConvertUnits(u, a[i].Units, ',');
+                if (b > result)
+                    result = b;
+            }
+            return new(result, u);
+        }
+
+        internal static Value Sum(Value[] a)
+        {
+            var result = a[0].Number.Re;
+            var u = a[0].Units;
+            for (int i = 1, n = a.Length; i < n; i++)
+                result += a[i].Number.Re * ConvertUnits(u, a[i].Units, ',');
+
+            return new(result, u);
+        }
+
+        internal static Value SumSq(Value[] a)
+        {
+            var result = a[0].Number.Re;
+            var u = a[0].Units;
+            result *= result;
+            for (int i = 1, n = a.Length; i < n; i++)
+            {
+                var b = a[i].Number.Re * ConvertUnits(u, a[i].Units, ',');
+                result += b * b;
+            }
+            return new(result, u is null ? null : u * u);
+        }
+
+        internal static Value Srss(Value[] a)
+        {
+            var result = a[0].Number.Re;
+            var u = a[0].Units;
+            result *= result;
+            for (int i = 1, n = a.Length; i < n; i++)
+            {
+                var b = a[i].Number.Re * ConvertUnits(u, a[i].Units, ',');
+                result += b * b;
+            }
+            return new(Math.Sqrt(result), u);
+        }
+
+        internal static Value Average(Value[] a)
+        {
+            var result = a[0].Number.Re;
+            var u = a[0].Units;
+            for (int i = 1, n = a.Length; i < n; i++)
+                result += a[i].Number.Re * ConvertUnits(u, a[i].Units, ',');
+
+            return new(result / a.Length, u);
+        }
+
+        internal static Value Product(Value[] a)
+        {
+            var result = a[0].Number.Re;
+            var u = a[0].Units;
+            for (int i = 1, n = a.Length; i < n; i++)
+            {
+                u = MultiplyUnits(u, a[i].Units, out var b);
+                result *= a[i].Number.Re * b;
+            }
+            return new(result, u);
+        }
+
+        internal static Value Mean(Value[] a)
+        {
+            var result = a[0].Number.Re;
+            var u = a[0].Units;
+            for (int i = 1, n = a.Length; i < n; i++)
+            {
+                u = MultiplyUnits(u, a[i].Units, out var b, a[i].IsUnit);
+                result *= a[i].Number.Re * b;
+            }
+            if (u is not null)
+                u = RootUnits(u, a.Length);
+
+            return new(Math.Pow(result, 1.0 / a.Length), u);
+        }
 
         internal static Value Real(in Value value) =>
             new(value.Number.Real, value.Units);
@@ -463,7 +546,7 @@ namespace Calcpad.Core
 
         public static Value ComplexMultiply(Value a, Value b)
         {
-            var uc = MultiplyUnits(a, b, out var d, true);
+            var uc = MultiplyUnits(a.Units, b.Units, out var d, b.IsUnit);
             var c = a.Number * b.Number * d;
             return new Value(c, uc, a.IsUnit && b.IsUnit);
         }
@@ -678,7 +761,7 @@ namespace Calcpad.Core
         internal static Value ComplexPow(Value value, Value power)
         {
             var result = Complex.Pow(value.Number, power.Number);
-            var unit = PowUnits(value, power, true);
+            var unit = PowUnits(value.Units, power, value.IsUnit);
             return new Value(result, unit, value.IsUnit);
         }
 
@@ -714,7 +797,7 @@ namespace Calcpad.Core
             if (value.Units is null)
                 return new Value(result);
 
-            var unit = RootUnits(value, 2, true);
+            var unit = RootUnits(value.Units, 2, value.IsUnit);
             return new Value(result, unit);
         }
 
@@ -724,7 +807,7 @@ namespace Calcpad.Core
             if (value.Units is null)
                 return new Value(result);
 
-            var unit = RootUnits(value, 3, true);
+            var unit = RootUnits(value.Units, 3, value.IsUnit);
             return new Value(result, unit);
         }
 
@@ -736,7 +819,7 @@ namespace Calcpad.Core
             if (value.Units is null)
                 return new Value(result);
 
-            var unit = RootUnits(value, n, true);
+            var unit = RootUnits(value.Units, n, value.IsUnit);
             return new Value(result, unit);
         }
 
@@ -755,43 +838,143 @@ namespace Calcpad.Core
         internal static Value ComplexRandom(in Value value) =>
             new(Complex.Random(value.Number), value.Units);
 
-        internal static Value ComplexMin(Value a, Value b) =>
-            new(
-                Complex.Min(a.Number, b.Number * ConvertUnits(a.Units, b.Units, ',')), 
-                a.Units
-            );
-
-        internal static Value ComplexMax(Value a, Value b) =>
-            new(
-                Complex.Max(a.Number, b.Number * ConvertUnits(a.Units, b.Units, ',')),
-                a.Units
-            );
-
         internal static Value ComplexAtan2(Value a, Value b) =>
             new(
                 Complex.Atan2(b.Number * ConvertUnits(a.Units, b.Units, ','), a.Number),
                 a.Units
             );
 
-        private static Unit MultiplyUnits(in Value a, in Value b, out double d, bool updateText = false)
+        private static bool AreAllReal(Value[] a)
         {
-            d = 1d;
-            Unit ua = a.Units, ub = b.Units;
+            for(int i = 0, n = a.Length; i < n; i++)
+            {
+                if (!a[i].Number.IsReal)
+                    return false;
+            }
+            return true;
+        }
+
+
+        internal static Value ComplexMin(Value[] a) =>
+            AreAllReal(a) ?
+                Min(a) :
+                new(double.NaN, a[0].Units);
+
+        internal static Value ComplexMax(Value[] a) =>
+            AreAllReal(a) ?
+                Max(a) :
+                new (double.NaN, a[0].Units);
+
+        internal static Value ComplexSum(Value[] a)
+        {
+            var result = a[0].Number;
+            var u = a[0].Units;
+            for (int i = 1, n = a.Length; i < n; i++)
+                result += a[i].Number * ConvertUnits(u, a[i].Units, ',');
+
+            return new(result, u);
+        }
+
+        internal static Value ComplexSumSq(Value[] a)
+        {
+            var result = a[0].Number;
+            var u = a[0].Units;
+            result *= result;
+            for (int i = 1, n = a.Length; i < n; i++)
+            {
+                var b = a[i].Number * ConvertUnits(u, a[i].Units, ',');
+                result += b * b;
+            }
+            return new(result, u * u);
+        }
+
+        internal static Value ComplexSrss(Value[] a)
+        {
+            var result = a[0].Number;
+            var u = a[0].Units;
+            result *= result;
+            for (int i = 1, n = a.Length; i < n; i++)
+            {
+                var b = a[i].Number * ConvertUnits(u, a[i].Units, ',');
+                result += b * b;
+            }
+            return new(Complex.Sqrt(result), u);
+        }
+
+        internal static Value ComplexAverage(Value[] a)
+        {
+            var result = a[0].Number;
+            var u = a[0].Units;
+            for (int i = 1, n = a.Length; i < n; i++)
+                result += a[i].Number * ConvertUnits(u, a[i].Units, ',');
+
+            return new(result / a.Length, u);
+        }
+
+        internal static Value ComplexProduct(Value[] a)
+        {
+            var result = a[0].Number;
+            var u = a[0].Units;
+            for (int i = 1, n = a.Length; i < n; i++)
+            {
+                u = MultiplyUnits(u, a[i].Units, out var b);
+                result *= a[i].Number * b;
+            }
+            return new(result, u);
+        }
+
+        internal static Value ComplexMean(Value[] a)
+        {
+            var result = a[0].Number;
+            var u = a[0].Units;
+            for (int i = 1, n = a.Length; i < n; i++)
+            {
+                u = MultiplyUnits(u, a[i].Units, out var b, a[i].IsUnit);
+                result *= a[i].Number * b;
+            }
+            return new(Complex.Pow(result, 1.0 / a.Length), RootUnits(u, a.Length));
+        }
+
+        internal static Value Switch(Value[] a)
+        {
+            for (int i = 0; i < a.Length - 1; i+=2)
+            {
+                if (!a[i].Number.Equals(Complex.Zero))
+                    return a[i + 1];
+            }
+            if (a.Length % 2 != 0)
+                return a[^1];
+
+            return new Value(double.NaN);
+        }
+
+        internal static Value Take(Value[] a)
+        {
+            var d = Math.Round(a[0].Number.Re);
+            if (d < 1 || d >= a.Length)
+                return new Value(double.NaN);
+
+            return a[(int)d];
+        }
+
+        private static Unit MultiplyUnits(Unit ua, Unit ub, out double d, bool updateText = false)
+        {
             if (Unit.IsNullOrEmpty(ua))
+            {
+                d = 1d;
                 return Unit.IsNullOrEmpty(ub) ? null : ub;
-
+            }
             if (Unit.IsNullOrEmpty(ub))
+            {
+                d = 1d;
                 return ua;
-
-            d = Unit.GetProductOrDivideFactor(ua, ub);
+            }
+            d = Unit.GetProductOrDivisionFactor(ua, ub);
             var uc = ua * ub;
             if (Unit.IsNullOrEmpty(uc))
                 return null;
 
-            if (updateText && b.IsUnit && 
-                 !(Unit.IsNullOrEmpty(ua) ||
-                   Unit.IsNullOrEmpty(ub) ||
-                   Unit.IsMultiple(ua, ub)))
+            if (updateText && !Unit.IsMultiple(ua, ub))
             {
                 uc.Scale(d); 
                 d = 1d;
@@ -810,7 +993,7 @@ namespace Calcpad.Core
             if (Unit.IsNullOrEmpty(ua))
                 return ub.Pow(-1.0);
 
-            d = Unit.GetProductOrDivideFactor(ua, ub, true);
+            d = Unit.GetProductOrDivisionFactor(ua, ub, true);
             var uc = ua / ub;   
             if (Unit.IsNullOrEmpty(uc))
                 return null;
@@ -840,7 +1023,7 @@ namespace Calcpad.Core
             return n;
         }
 
-        private static Unit PowUnits(in Value value, in Value power, bool updateText = false)
+        private static Unit PowUnits(Unit u, in Value power, bool updateText = false)
         {
             if (!Unit.IsNullOrEmpty(power.Units))
 #if BG
@@ -848,7 +1031,7 @@ namespace Calcpad.Core
 #else
                 throw new MathParser.MathParserException("Power must be unitless.");
 #endif
-            if (value.Units is null)
+            if (u is null)
                 return null;
 
             if (!power.Number.IsReal)
@@ -857,43 +1040,41 @@ namespace Calcpad.Core
 #else
                 throw new MathParser.MathParserException("Units cannon be raised to complex power.");
 #endif
-            var u = value.Units;
             var result = u.Pow(power.Number.Re);
-
-            if (updateText && value.IsUnit && !value.Units.Text.Contains("^"))
+            var s = u.Text;
+            if (updateText && !s.Contains('^'))
             {
-                var s = Complex.Format(power.Number, 2, OutputWriter.OutputFormat.Text);
-                if (u.Text.Contains('/') || u.Text.Contains('*') || u.Text.Contains('×'))
-                    result.Text = $"({u.Text})^{s}";
-                else
-                    result.Text = u.Text + '^' + s;
+                var ps = Complex.Format(power.Number, 2, OutputWriter.OutputFormat.Text);
+                result.Text = 
+                    s.IndexOfAny(CompositeUnitChars) >= 0.0 ?
+                    $"({s})^{ps}":
+                    s + '^' + ps;
             }
             return result;
         }
 
-        private static Unit RootUnits(in Value value, int n, bool updateText = false)
+        private static Unit RootUnits(Unit u, int n, bool updateText = false)
         {
-            var unit = value.Units;
-            var result = unit.Pow(1.0 / n);
-            if (updateText && value.IsUnit && !value.Units.Text.Contains("^"))
-            {
-                if (unit.Text.Contains('/') || unit.Text.Contains('*') || unit.Text.Contains('×'))
-                    result.Text = $"({unit.Text})^1/{n}";
-                else
-                    result.Text = unit.Text + $"^1/{n}";
-            }
+            var result = u.Pow(1.0 / n);
+            var s = u.Text;
+            if (updateText && !s.Contains('^'))
+                result.Text = 
+                    s.IndexOfAny(CompositeUnitChars) >= 0 ?
+                    $"({s})^1/{n}":
+                    s + $"^1/{n}";
+
             return result;
         }
 
-        private static double ConvertUnits(Unit a, Unit b, char op)
+        private static double ConvertUnits(Unit ua, Unit ub, char op)
         {
-            if (!Unit.IsConsistent(a, b))
+            if (!Unit.IsConsistent(ua, ub))
 #if BG
                 throw new MathParser.MathParserException($"Несъвместими мерни единици: \"{Unit.GetText(a)} {op} {Unit.GetText(b)}\".");
 #else
-                throw new MathParser.MathParserException($"Inconsistent units: \"{Unit.GetText(a)} {op} {Unit.GetText(b)}\".");
+                throw new MathParser.MathParserException($"Inconsistent units: \"{Unit.GetText(ua)} {op} {Unit.GetText(ub)}\".");
 #endif
-            return a is null ? 1.0 : b.ConvertTo(a);
+            return ua is null ? 1.0 : ub.ConvertTo(ua);
         }
 
         private static void CheckFunctionUnits(string func, Unit unit)

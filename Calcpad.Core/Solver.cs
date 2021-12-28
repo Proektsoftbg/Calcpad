@@ -362,7 +362,7 @@ namespace Calcpad.Core
                 Units = u;
                 return MakeNumber(area);
             }
-            double factor = Unit.GetProductOrDivideFactor(Units, u);
+            double factor = Unit.GetProductOrDivisionFactor(Units, u);
             Units *= u;
             return MakeNumber(area * factor);
         }
@@ -535,7 +535,7 @@ namespace Calcpad.Core
                 Units = u;
                 return MakeNumber(slope);
             }
-            double factor = Unit.GetProductOrDivideFactor(Units, u, true);
+            double factor = Unit.GetProductOrDivisionFactor(Units, u, true);
             Units /= u;
             return MakeNumber(slope * factor);
         }

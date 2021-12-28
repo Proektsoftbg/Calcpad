@@ -52,7 +52,7 @@ namespace Calcpad.Core
             }
         }
 
-        internal bool IsForce => _powers.Length > 2 && _powers[0] == 1f && _powers[2] == -2f && Text.Contains("s");
+        internal bool IsForce => _powers.Length > 2 && _powers[0] == 1f && _powers[2] == -2f && Text.Contains('s');
 
         internal bool IsTemp => _powers.Length == 5 && 
                                   _powers[4] == 1f &&
@@ -102,7 +102,7 @@ namespace Calcpad.Core
             if (_hashCode == 0)
             {
                 var hash = new HashCode();
-                for (var i = 0; i < _powers.Length; i++)
+                for (int i = 0, n = _powers.Length; i < n; i++)
                 {
                     hash.Add(_powers[i]);
                     hash.Add(_factors[i]);
@@ -125,11 +125,11 @@ namespace Calcpad.Core
         {
             if (other is null)
                 return false;
-
-            if (_powers.Length != other._powers.Length)
+            int n = _powers.Length;
+            if (n != other._powers.Length)
                 return false;
 
-            for (var i = 0; i < _powers.Length; ++i)
+            for (var i = 0; i < n; ++i)
             {
                 if (_powers[i] != other._powers[i] || _factors[i] != other._factors[i])
                     return false;
@@ -638,14 +638,12 @@ namespace Calcpad.Core
 
         internal void Scale(double factor)
         {
-            for (var i = 0; i < _powers.Length; ++i)
-            {
+            for (int i = 0, n = _powers.Length; i < n; ++i)
                 if (_powers[i] != 0f)
                 {
                     _factors[i] *= Math.Pow(factor, 1.0 / _powers[i]);
                     break;
                 }
-            }
         }
 
         internal Unit Shift(int n)
@@ -679,8 +677,7 @@ namespace Calcpad.Core
             };
             var stringBuilder = new StringBuilder();
             var isFirst = true;
-            for (var i = 0; i < _powers.Length; i++)
-            {
+            for (int i = 0, n = _powers.Length; i < n; i++)
                 if (_powers[i] != 0f)
                 {
                     var p = isFirst ? _powers[i] : Math.Abs(_powers[i]);
@@ -699,7 +696,6 @@ namespace Calcpad.Core
                             stringBuilder.Append(oper);
                     }
                     stringBuilder.Append(s);
-                }
             }
             return stringBuilder.ToString();
         }
@@ -707,7 +703,7 @@ namespace Calcpad.Core
         public static Unit operator *(Unit u, double d)
         {
             var unit = new Unit(u);
-            for (var i = 0; i < unit._powers.Length; i++)
+            for (int i = 0, n = unit._powers.Length; i < n; i++)
             {
                 ref float p = ref unit._powers[i];
                 if (p != 0f)
@@ -755,7 +751,7 @@ namespace Calcpad.Core
             return unit;
         }
 
-        public static double GetProductOrDivideFactor(Unit u1, Unit u2, bool divide = false)
+        public static double GetProductOrDivisionFactor(Unit u1, Unit u2, bool divide = false)
         {
             var n1 = u1._powers.Length;
             var n2 = u2._powers.Length;
@@ -785,8 +781,9 @@ namespace Calcpad.Core
         internal Unit Pow(double x)
         {
             float xf = (float)x;
-            Unit unit = new(_powers.Length);
-            for (var i = 0; i < _powers.Length; i++)
+            int n = _powers.Length;
+            Unit unit = new(n);
+            for (var i = 0; i < n; i++)
             {
                 unit._factors[i] = _factors[i];
                 unit._powers[i] = _powers[i] * xf;
@@ -856,7 +853,7 @@ namespace Calcpad.Core
         internal double ConvertTo(Unit u)
         {
             var d = 1.0;
-            for (var i = 0; i < _powers.Length; i++)
+            for (int i = 0, n = _powers.Length; i < n; i++)
             {
                 ref float p = ref _powers[i];
                 if (p != 0f)
