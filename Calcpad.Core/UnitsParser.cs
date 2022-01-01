@@ -160,7 +160,7 @@ namespace Calcpad.Core
             var terminatedExpression = expression + " ";
             var literal = string.Empty;
             //HasSolver = false;
-            for (var i = 0; i < terminatedExpression.Length; i++)
+            for (int i = 0, n = terminatedExpression.Length; i < n; ++i)
             {
                 var c = terminatedExpression[i];
                 //Get the type of the token

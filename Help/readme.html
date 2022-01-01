@@ -157,7 +157,7 @@ input, select {
 		<li><a class="toc" href="#TOC_1001">New</a></li>
 		<li><a class="toc" href="#TOC_1002">Open</a></li>
 		<li><a class="toc" href="#TOC_1003">Save</a></li>
-		<li><a class="toc" href="#TOC_1004">Save As...</a></li>
+		<li><a class="toc" href="#TOC_1004">Save As…</a></li>
 	</ul>
 </li>
 </ul>
@@ -169,7 +169,7 @@ input, select {
 <li><a href="mailto:proektsoft.bg@gmail.com">proektsoft.bg@gmail.com</a></li>
 </ul>
 <h1><img alt="Calcpad.png" src="Images/Calcpad.png" height="32"> Calcpad</h1>
-<p style="margin-left:42px; margin-top:0;">Version 5.5 Readme!</p>
+<p style="margin-left:42px; margin-top:0;">Version 5.6 Readme!</p>
 <h2 id="TOC_100">About Calcpad</h2>
 <p>Calcpad is free software for mathematical and engineering calculations. It represents a flexible and modern programmable calculator with Html report generator. It is simple and easy to use, but it also includes many advanced features:</p>
 <ul>
@@ -177,7 +177,7 @@ input, select {
 <li>units of measurement (SI, Imperial and USCS);</li>
 <li>custom variables;</li>
 <li>built-in library with common math functions;</li>
-<li>custom functions of multiple parameters f(x; y; z; ...);</li>
+<li>custom functions of multiple parameters f(x; y; z; …);</li>
 <li>powerful numerical methods for root and extremum finding, numerical integration and differentiation;</li>
 <li>finite sum, product and iteration procedures;</li>
 <li>program flow control with conditions and loops;</li>
@@ -215,7 +215,7 @@ input, select {
 <ol>
 <li><strong>Enter</strong> text and formulas into the "<strong>Code</strong>" box on the left.</li>
 <li>Click <img alt="Play" height="24" src="Images/Play.png"> to calculate. Results will appear in the "<b>Output</b>" box on the right as a professionally formatted Html <b>report</b>.</li>
-<li>Click <img alt="PrintPreview" height="24" src="Images/PrintPreview.png"> to <b>print</b> or <img alt="Copy" height="24" src="Images/Copy.png"> to <b>copy</b> the output.<br />You can also <b>export</b> it to Html <img alt="Html" height="24" src="Images/Html.png">, PDF <img alt="PDF" height="24" src="Images/Pdf.png"> or MS Word <img alt="Word" height="24" src="Images/Word.png"> document.</li>
+<li>Click <img alt="PrintPreview" height="24" src="Images/PrintPreview.png"> to <b>print</b> or <img alt="Copy" height="24" src="Images/Copy.png"> to <b>copy</b> the output.<br />You can also <b>export</b> it to Html <img alt="Html" height="24" src="Images/Save.png">, PDF <img alt="PDF" height="24" src="Images/Pdf.png"> or MS Word <img alt="Word" height="24" src="Images/Word.png"> document.</li>
 </ol>
 <p>The program can be used in two different modes:</p>
 <ul>
@@ -274,7 +274,7 @@ input, select {
 <p>You can search for a certain text inside the code. Select the "<b>Edit/Find</b>" menu or press "<b>Ctrl+F</b>" and enter a phrase to search for. The programs starts from the current position down to the end. If the searched phrase is found, it is selected and the procedure is stopped. Press "<b>F3</b>" or click the "<b>Edit/Find Next</b>" menu to resume with the same phrase. If the program reaches the end of the text, it will prompt you to continue from the beginning.</p>
 
 <h3 id="TOC_509">Using Notepad++</h3>
-<p><b>Notepad++</b> is a popular text/code editor. It is free and open source and can be downloaded from the official website <a href="https://notepad-plus-plus.org" target="_blank">https://notepad-plus-plus.org</a>. It supports many programming or scripting languages. Its text editing capabilities are much more powerful than Calcpad. It is also very useful for writing Html code. <b>Calcpad</b> syntax can be also used with Notepad++. It is predefined as an XML file that can be inserted in Notepad++. You can do this by selecting the "<b>Language</b>" menu, then click "<b>Define your language</b>" and then, "<b>Import...</b>". Find the <b>Calcpad</b> folder inside your <b>Program Files</b> directory or wherever Calcpad is installed and select the file named <a href="https://www.proektsoft.bg/calcpad/Notepad++.zip" target="_blank">Notepad++.xml</a>.</p>
+<p><b>Notepad++</b> is a popular text/code editor. It is free and open source and can be downloaded from the official website <a href="https://notepad-plus-plus.org" target="_blank">https://notepad-plus-plus.org</a>. It supports many programming or scripting languages. Its text editing capabilities are much more powerful than Calcpad. It is also very useful for writing Html code. <b>Calcpad</b> syntax can be also used with Notepad++. It is predefined as an XML file that can be inserted in Notepad++. You can do this by selecting the "<b>Language</b>" menu, then click "<b>Define your language</b>" and then, "<b>Import…</b>". Find the <b>Calcpad</b> folder inside your <b>Program Files</b> directory or wherever Calcpad is installed and select the file named <a href="https://www.proektsoft.bg/calcpad/Notepad++.zip" target="_blank">Notepad++.xml</a>.</p>
 
 <h2 id="TOC_600">Expressions</h2>
 <p>The main purpose of Calcpad is to perform calculations. That is why, everything inside the input window is assumed to be mathematical expressions, unless it is enclosed in quotes. Then it is treated as comments. By default, each expression has to be in a separate line, e.g.:</p>
@@ -372,46 +372,56 @@ If you redefine an existing variable with a new value, it will replace the old o
 <h4>Library (built-in) functions</h4>
 <p>Calcpad includes a library with common math functions, ready to use:</p>
 <ul style="list-style-type:none;">
-<li><code><b>abs</b>(<var>x</var>)</code>  - absolute value (modulus) |<var>x</var>|;</li>
-<li><code><b>sin</b>(<var>x</var>)</code>  - sine;</li>
-<li><code><b>cos</b>(<var>x</var>)</code>  - cosine;</li>
-<li><code><b>tan</b>(<var>x</var>)</code>  - tangent = <code>sin(<var>x</var>)/cos(<var>x</var>)</code>, for each <var>x</var> ≠ kπ, k=1, 2, 3...;</li>
-<li><code><b>csc</b>(<var>x</var>)</code> - cosecant = <code>1/sin(<var>x</var>)</code>, for each <var>x</var> ≠  kπ, k=1, 2, 3...;</li>
-<li><code><b>sec</b>(<var>x</var>)</code> - secant = <code>1/cos(<var>x</var>)</code>, for each <var>x</var> ≠ π/2 + kπ, k=1, 2, 3...;</li>
-<li><code><b>cot</b>(<var>x</var>)</code>  - cotangent = <code>cos(<var>x</var>)/sin(<var>x</var>)</code>, for each <var>x</var> ≠ π/2 + kπ, k=1, 2, 3...;</li>
-<li><code><b>sinh</b>(<var>x</var>)</code>  - hyperbolic sine = <code>(e<sup><var>x</var></sup> - e<sup>-<var>x</var></sup>)/2</code>;</li>
-<li><code><b>cosh</b>(<var>x</var>)</code>  - hyperbolic cosine = <code>(e<sup><var>x</var></sup> + e<sup>-<var>x</var></sup>)/2</code>;</li>
+<li><code><b>abs</b>(<var>x</var>)</code> - absolute value (modulus) |<var>x</var>|;</li>
+<li><code><b>sin</b>(<var>x</var>)</code> - sine;</li>
+<li><code><b>cos</b>(<var>x</var>)</code> - cosine;</li>
+<li><code><b>tan</b>(<var>x</var>)</code> - tangent = <code><b>sin</b>(<var>x</var>)/<b>cos</b>(<var>x</var>)</code>, for each <var>x</var> ≠ kπ, k=1, 2, 3…;</li>
+<li><code><b>csc</b>(<var>x</var>)</code> - cosecant = <code>1/<b>sin</b>(<var>x</var>)</code>, for each <var>x</var> ≠ kπ, k=1, 2, 3…;</li>
+<li><code><b>sec</b>(<var>x</var>)</code> - secant = <code>1/<b>cos</b>(<var>x</var>)</code>, for each <var>x</var> ≠ π/2 + kπ, k=1, 2, 3…;</li>
+<li><code><b>cot</b>(<var>x</var>)</code> - cotangent = <code><b>cos</b>(<var>x</var>)/<b>sin</b>(<var>x</var>)</code>, for each <var>x</var> ≠ π/2 + kπ, k=1, 2, 3…;</li>
+<li><code><b>sinh</b>(<var>x</var>)</code> - hyperbolic sine = <code>(e<sup><var>x</var></sup> - e<sup>-<var>x</var></sup>)/2</code>;</li>
+<li><code><b>cosh</b>(<var>x</var>)</code> - hyperbolic cosine = <code>(e<sup><var>x</var></sup> + e<sup>-<var>x</var></sup>)/2</code>;</li>
 <li><code><b>tanh</b> (<var>x</var>)</code> - hyperbolic tangent = <code>(e<sup><var>x</var></sup> - e<sup>-<var>x</var></sup>)/(e<sup><var>x</var></sup> + e<sup>-<var>x</var></sup>)</code>;</li>
-<li><code><b>csch</b>(<var>x</var>)</code> - hyperbolic cosecant = <code>1/sinh(<var>x</var>)</code>;</li>
-<li><code><b>sech</b>(<var>x</var>)</code> - hyperbolic secant = <code>1/cosh(<var>x</var>)</code>;</li>
-<li><code><b>coth</b>(<var>x</var>)</code>  - hyperbolic cotangent = <code>(e<sup><var>x</var></sup> + e<sup>-<var>x</var></sup>)/(e<sup><var>x</var></sup> - e<sup>-<var>x</var></sup>), for <var>x</var> ≠ 0</code>;</li>
-<li><code><b>asin</b> (<var>x</var>)</code> - inverted sine, defined for -1 &le; <var>x</var> &le; 1;</li>
-<li><code><b>acos</b>(<var>x</var>)</code>  - inverted cosine, defined for -1 &le; <var>x</var> &le; 1;</li>
-<li><code><b>atan</b>(<var>x</var>)</code>  - inverted tangent;</li>
+<li><code><b>csch</b>(<var>x</var>)</code> - hyperbolic cosecant = <code>1/<b>sinh</b>(<var>x</var>)</code>;</li>
+<li><code><b>sech</b>(<var>x</var>)</code> - hyperbolic secant = <code>1/<b>cosh</b>(<var>x</var>)</code>;</li>
+<li><code><b>coth</b>(<var>x</var>)</code> - hyperbolic cotangent = <code>(e<sup><var>x</var></sup> + e<sup>-<var>x</var></sup>)/(e<sup><var>x</var></sup> - e<sup>-<var>x</var></sup>), for <var>x</var> ≠ 0</code>;</li>
+<li><code><b>asin</b>(<var>x</var>)</code> - inverted sine, defined for -1 &le; <var>x</var> &le; 1;</li>
+<li><code><b>acos</b>(<var>x</var>)</code> - inverted cosine, defined for -1 &le; <var>x</var> &le; 1;</li>
+<li><code><b>atan</b>(<var>x</var>)</code> - inverted tangent;</li>
 <li><code><b>atan2</b>(<var>x</var>; <var>y</var>)</code>  - the angle whose tangent is the quotient of <var>y</var> and <var>x</var>;</li>
-<li><code><b>acsc</b>(<var>x</var>)</code> - inverted cosecant = <code>asin(1/<var>x</var>)</code>;</li>
-<li><code><b>asec</b>(<var>x</var>)</code> - inverted secant = <code>acos(1/<var>x</var>)</code>;</li>
-<li><code><b>acot</b>(<var>x</var>)</code>  - inverted cotangent;</li>
+<li><code><b>acsc</b>(<var>x</var>)</code> - inverted cosecant = <code><b>asin</b>(1/<var>x</var>)</code>;</li>
+<li><code><b>asec</b>(<var>x</var>)</code> - inverted secant = <code><b>acos</b>(1/<var>x</var>)</code>;</li>
+<li><code><b>acot</b>(<var>x</var>)</code> - inverted cotangent;</li>
 <li><code><b>asinh</b> (<var>x</var>)</code> - inverted hyperbolic sine = <code><b>ln</b>(<var>x</var> + <span class="root">√</span><span class="ovr"><var>x</var><sup>2</sup> + 1</span>)</code>, defined for -∞ &le; <var>x</var> &le; +∞;</li>
-<li><code><b>acosh</b>(<var>x</var>)</code>  - inverted hyperbolic cosine = <code><b>ln</b>(<var>x</var> + <span class="root">√</span><span class="ovr"><var>x</var> + 1</span>&middot;<span class="root">√</span><span class="ovr"><var>x</var> - 1</span>)</code>, defined for <var>x</var> &ge; 1;</li>
-<li><code><b>atanh</b>(<var>x</var>)</code>  - inverted hyperbolic tangent = <code>1/2&middot;<b>ln</b>[(1 + <var>x</var>)/(1 - <var>x</var>)]</code>, for -1 &lt; <var>x</var> &lt; 1;</li>
-<li><code><b>acsch</b>(<var>x</var>)</code> - inverted hyperbolic cosecant = <code>asinh(1/<var>x</var>)</code>;</li>
-<li><code><b>asech</b>(<var>x</var>)</code> - inverted hyperbolic secant = <code>acosh(1/<var>x</var>)</code>;</li>
-<li><code><b>acoth</b>(<var>x</var>)</code>  - inverted hyperbolic cotangent = <code>1/2&middot;<b>ln</b>[(<var>x</var> + 1)/(<var>x</var> - 1)]</code>, for |<var>x</var>| &gt; 1;</li>
-<li><code><b>log</b>(<var>x</var>)</code>  - decimal logarithm (with base 10), for each <var>x</var> &gt; 0;</li>
-<li><code><b>ln</b>(<var>x</var>)</code>  - natural logarithm (with base <var>e</var> ≈ 2.7183), for each <var>x</var> &gt; 0;</li>
+<li><code><b>acosh</b>(<var>x</var>)</code> - inverted hyperbolic cosine = <code><b>ln</b>(<var>x</var> + <span class="root">√</span><span class="ovr"><var>x</var> + 1</span>&middot;<span class="root">√</span><span class="ovr"><var>x</var> - 1</span>)</code>, defined for <var>x</var> &ge; 1;</li>
+<li><code><b>atanh</b>(<var>x</var>)</code> - inverted hyperbolic tangent = <code>1/2&middot;<b>ln</b>[(1 + <var>x</var>)/(1 - <var>x</var>)]</code>, for -1 &lt; <var>x</var> &lt; 1;</li>
+<li><code><b>acsch</b>(<var>x</var>)</code> - inverted hyperbolic cosecant = <code><b>atanh</b>(1/<var>x</var>)</code>;</li>
+<li><code><b>asech</b>(<var>x</var>)</code> - inverted hyperbolic secant = <code><b>acosh</b>(1/<var>x</var>)</code>;</li>
+<li><code><b>acoth</b>(<var>x</var>)</code> - inverted hyperbolic cotangent = <code>1/2&middot;<b>ln</b>[(<var>x</var> + 1)/(<var>x</var> - 1)]</code>, for |<var>x</var>| &gt; 1;</li>
+<li><code><b>log</b>(<var>x</var>)</code> - decimal logarithm (with base 10), for each <var>x</var> &gt; 0;</li>
+<li><code><b>ln</b>(<var>x</var>)</code> - natural logarithm (with base <var>e</var> ≈ 2.7183), for each <var>x</var> &gt; 0;</li>
 <li><code><b>log</b><sub>2</sub>(<var>x</var>)</code>  - binary logarithm (with base 2), for each <var>x</var> &gt; 0;</li>
 <li><code><b>sqr</b>(<var>x</var>)</code>  or <code><b>sqrt</b>(<var>x</var>)</code>  - square root (<span class="root">√</span><span class="ovr"><var>x</var></span> ), defined for each <var>x</var> &ge; 0;</li> 
 <li><code><b>cbrt</b>(<var>x</var>)</code> - cubic root ( <sup><sup>3</sup></sup><span class="root">√</span><span class="ovr"><var>x</var></span> );</li>
 <li><code><b>root</b>(<var>x</var>; <var>n</var>)</code> - n-th root ( <sup><sup>n</sup></sup><span class="root">√</span><span class="ovr"><var>x</var></span> );</li> 
-<li><code><b>round</b>(<var>x</var>)</code>  - rounds to the nearest integer;</li> 
-<li><code><b>floor</b>(<var>x</var>)</code>  - rounds to the smaller integer;</li> 
-<li><code><b>ceiling</b>(<var>x</var>)</code>  - rounds to the greater integer;</li> 
-<li><code><b>trunc</b>(<var>x</var>)</code>  - rounds to the nearest integer towards zero;</li> 
-<li><code><b>random</b>(<var>x</var>)</code>  - a random number between 0 and <var>x</var>;</li> 
-<li><code><b>min</b>(<var>x</var>; <var>y</var>)</code>  - the smaller value of <var>x</var> and <var>y</var>;</li>
-<li><code><b>max</b>(<var>x</var>; <var>y</var>)</code>  - the greater value of <var>x</var> and <var>y</var>;</li>
-<li><code><b>if</b>(<em>cond</em>; <em>value-if-true</em>; <em>value-if-false</em>)</code>  - if the condition <var>cond</var> is satisfied, the function returns the first value, otherwise it returns the second value. The condition is satisfied when it evaluates to any non-zero number;</li>
+<li><code><b>round</b>(<var>x</var>)</code> - rounds to the nearest integer;</li> 
+<li><code><b>floor</b>(<var>x</var>)</code> - rounds to the smaller integer;</li> 
+<li><code><b>ceiling</b>(<var>x</var>)</code> - rounds to the greater integer;</li> 
+<li><code><b>trunc</b>(<var>x</var>)</code> - rounds to the nearest integer towards zero;</li> 
+<li><code><b>random</b>(<var>x</var>)</code> - a random number between 0 and <var>x</var>;</li> 
+<li><code><b>min</b>(<var>x</var>; <var>y</var>; <var>z</var>…)</code> - the smallest of multiple values;</li>
+<li><code><b>max</b>(<var>x</var>; <var>y</var>; <var>z</var>…)</code> - the greatest of  of multiple values;</li>
+<li><code><b>sum</b>(<var>x</var>; <var>y</var>; <var>z</var>…)</code> - sum of multiple values<code> = <var>x</var> + <var>y</var> + <var>z</var>…</code>;</li>
+<li><code><b>sumsq</b>(<var>x</var>; <var>y</var>; <var>z</var>…)</code> - sum of squares<code> = <var>x</var>² + <var>y</var>² + <var>z</var>²…</code>;</li>
+<li><code><b>srss</b>(<var>x</var>; <var>y</var>; <var>z</var>…)</code> - square root of sum of squares<code> = <b>sqrt</b>(<var>x</var>² + <var>y</var>² + <var>z</var>²…)</code>;</li>
+<li><code><b>average</b>(<var>x</var>; <var>y</var>; <var>z</var>…)</code> - average of multiple values<code> = (<var>x</var> + <var>y</var> + <var>z</var>…)/n</code>;</li>
+<li><code><b>product</b>(<var>x</var>; <var>y</var>; <var>z</var>…)</code> - product of multiple values<code> = <var>x</var>·<var>y</var>·<var>z</var>…;</code></li>
+<li><code><b>mean</b>(<var>x</var>; <var>y</var>; <var>z</var>…)</code> - geometric mean<code> = n-th <b>root</b>(<var>x</var>·<var>y</var>·<var>z</var>…)</code>;</li>
+<li><code><b>if</b>(&lt;<em>cond</em>&gt;; &lt;<em>value-if-true</em>&gt;; &lt;<em>value-if-false</em>&gt;)</code> - if the condition <var>cond</var> is satisfied, the function returns the first value, otherwise it returns the second value. The condition is satisfied when it evaluates to any non-zero number;</li>
+<li><code><b>switch</b>(&lt;<em>cond1</em>&gt;; &lt;<em>value1</em>&gt;; &lt;<em>cond2</em>&gt;; &lt;<em>value2</em>&gt;;…; &lt;<em>default-value</em>&gt;)</code> - returns the value for which the respective condition is satisfied. Conditions are checked from left to right. If none is satisfied, it returns the default value in the end;</li>
+<li><code><b>take</b>(<var>n</var>; <var>a</var>; <var>b</var>; <var>c</var>…)</code> - returns the n-th element from the list;</li>
+<li><code><b>line</b>(<var>x</var>; <var>a</var>; <var>b</var>; <var>c</var>…)</code> - performs linear interpolation among the specified values for parameter <var>x</var>;</li>
+<li><code><b>spline</b>(<var>x</var>; <var>a</var>; <var>b</var>; <var>c</var>…)</code> - performs Hermite spline interpolation;</li>
 </ul>
 <p>Arguments must be enclosed in round brackets. They can be constants, variables or any valid expression. Multiple arguments must be separated by semicolons ";". When arguments are out of range, the function returns "<span class="err">Undefined</span>". Exceptions from this rule are "<b>cot</b>(0)" and "<b>coth</b>(0)", which return "<span class="err">+∞</span>". Arguments of trigonometric functions can be in <b>degrees</b> or <b>radians</b>. This option is selected trough the radio buttons above the output window. Alternatively, it can be specified inside the code. You have to insert a separate line containing: <span class="cond">#deg</span> for <b>degrees</b> or <span class="cond">#rad</span> for <b>radians</b>. It will affect all expressions after the current line to the end or until the alternative directive is found. The settings specified in the source code are of higher priority than those by the radio buttons.</p>
 <p>All functions are also defined in the complex domain, except <b>min</b>(<var>x</var>; <var>y</var>) and <b>max</b>(<var>x</var>; <var>y</var>). Rounding functions affect both real and imaginary part. There are also several functions for complex numbers only:</p>
@@ -423,7 +433,7 @@ If you redefine an existing variable with a new value, it will replace the old o
 </ul>
 
 <h4>Custom (user defined) functions</h4>
-<p>You can define your own functions, and use them further in the calculations. Custom functions can have unlimited number of parameters. They are specified after the function name, enclosed in brackets "(" ... ")" and separated by semicolons ";". Each function is defined, using the following format: "<b>f</b> ( <var>x</var>; <var>y</var>; <var>z</var>; ... ) = <b>expression</b>", where "<b>f</b>" is the function name and "<b>x</b>", "<b>y</b>" and "<b>z</b>" are function parameters. On the right side you can have any valid expression including constants, operators, variables and even other functions, e.g.:</p>
+<p>You can define your own functions, and use them further in the calculations. Custom functions can have unlimited number of parameters. They are specified after the function name, enclosed in brackets "(" … ")" and separated by semicolons ";". Each function is defined, using the following format: "<b>f</b> ( <var>x</var>; <var>y</var>; <var>z</var>; … ) = <b>expression</b>", where "<b>f</b>" is the function name and "<b>x</b>", "<b>y</b>" and "<b>z</b>" are function parameters. On the right side you can have any valid expression including constants, operators, variables and even other functions, e.g.:</p>
 <ul style="list-style-type:none;">
 <li><code><b>f</b>(<var>x</var>) = <var>x</var>^2 + 2*x*<b>sin</b>(<var>x</var>)</code></li>
 <li><code><b>g</b>(<var>x</var>; <var>y</var>) = <b>f</b>(<var>x</var>)/(<var>y</var> - 4)</code></li>
@@ -451,12 +461,12 @@ If you redefine an existing variable with a new value, it will replace the old o
 <p style="text-align:center;"><img width="400" src="Images/Plot.png" alt="Plot.png"></p>
 <p>The above command plots only one function of one variable at a time. There are also other formats that you can use:</p>
 <p style="margin-left: 2em;"><code><span class="cond">$Plot</span>{<b>x</b>(<var>t</var>)|<b>y</b>(<var>t</var>) &#64; <var>t</var> = <var>a</var> : <var>b</var>}</code> - parametric plot: both coordinates are functions of a parameter;<br />
-<code><span class="cond">$Plot</span>{<b>y</b><sub>1</sub>(<var>x</var>) &amp; <b>y</b><sub>2</sub>(<var>x</var>) &amp;  ... &#64; <var>x</var> = <var>a</var> : <var>b</var>}</code> - multiple: plots several functions on a single graph;<br />
-<code><span class="cond">$Plot</span>{<b>x</b><sub>1</sub>(<var>t</var>)|<b>y</b><sub>1</sub>(<var>t</var>) &amp; <b>x</b><sub>2</sub>(<var>t</var>)|<b>y</b><sub>2</sub>(<var>t</var>) &amp; ... &#64; <var>t</var> = <var>a</var> : <var>b</var>}</code> - multiple parametric;<br />
+<code><span class="cond">$Plot</span>{<b>y</b><sub>1</sub>(<var>x</var>) &amp; <b>y</b><sub>2</sub>(<var>x</var>) &amp;  … &#64; <var>x</var> = <var>a</var> : <var>b</var>}</code> - multiple: plots several functions on a single graph;<br />
+<code><span class="cond">$Plot</span>{<b>x</b><sub>1</sub>(<var>t</var>)|<b>y</b><sub>1</sub>(<var>t</var>) &amp; <b>x</b><sub>2</sub>(<var>t</var>)|<b>y</b><sub>2</sub>(<var>t</var>) &amp; … &#64; <var>t</var> = <var>a</var> : <var>b</var>}</code> - multiple parametric;<br />
 <code><span class="cond">$Map</span>{<b>f</b>(<var>x</var>; <var>y</var>) &#64; <var>x</var> = <var>a</var> : <var>b</var> &amp; <var>y</var> = <var>c</var> : <var>d</var>}</code> - draws a 2D color map of a 3D surface, defined by <b>f</b>(<var>x</var>; <var>y</var>).</p>
-<p>The <span class="cond">$Plot</span>{...} function must be the first thing in a line. You can have only spaces and tabs beofre, not even comments. Otherwise, the program will return an error. Any text after the closing bracket "}" will be ignored. Plotting supports only real numbers. You can use it in complex mode, only if <var>x</var> and <var>y</var> are real and the function returns real result along the plotting interval.</p>
+<p>The <span class="cond">$Plot</span>{…} function must be the first thing in a line. You can have only spaces and tabs beofre, not even comments. Otherwise, the program will return an error. Any text after the closing bracket "}" will be ignored. Plotting supports only real numbers. You can use it in complex mode, only if <var>x</var> and <var>y</var> are real and the function returns real result along the plotting interval.</p>
 <p>You can specify the size of the plot area by defining two variables: <var>PlotWidth</var> and <var>PlotHeight</var> in pixels. The default values are <var>PlotWidth</var> = 400 and <var>PlotHeight</var> = 250.</p>
-<p>The <span class="cond">$Map</span>{...} function can work with different color palettes. Select the preferred one from the "<b>Palette</b>" combo box on the bottom of the program window. If you select the "<b>Smooth</b>" checkbox, the scale will be displayed as a smooth gradient. Otherwise, the program will draw color strips. You can also add 3D effects to the graph by selecting the "<b>Shadows</b>" checkbox. You can also specify light direction by the respective combo.</p>
+<p>The <span class="cond">$Map</span>{…} function can work with different color palettes. Select the preferred one from the "<b>Palette</b>" combo box on the bottom of the program window. If you select the "<b>Smooth</b>" checkbox, the scale will be displayed as a smooth gradient. Otherwise, the program will draw color strips. You can also add 3D effects to the graph by selecting the "<b>Shadows</b>" checkbox. You can also specify light direction by the respective combo.</p>
 <p>Examples of different plotting methods are provided bellow:</p>
 <table class="nb">
 <tr><td style="line-height:150%;">
@@ -1174,7 +1184,7 @@ You can use it further to calculate binomial coefficients by the well-known form
 <li><code class="cond">#Loop</code></li>
 </ul>
 <p>You can omit the number of repetitions <var>n</var> only if you are sure that the condition will be satisfied and the loop will brake sooner or later. Anyway, to avoid infinite loop, the number of iterations is limited to 100 000 if nothing else is specified.</p>
-<p>Besides repetative calculations, you can use loops to generate repetative report content (like table rows). If you want to hide the iteration details, you can use output control directives (see the previous section). For example, you can enclose the "repeat-loop" block with <span class="cond">#Hide</span> and <span class="cond">#Show</span> statements.</p>
+<p>Besides repetitive calculations, you can use loops to generate repetitive report content (like table rows). If you want to hide the iteration details, you can use output control directives (see the previous section). For example, you can enclose the "repeat-loop" block with <span class="cond">#Hide</span> and <span class="cond">#Show</span> statements.</p>
 
 <h2 id="TOC_800">Input Forms</h2>
 <p>If you have long and complicated problem or you want to share your solution with others, it is a good idea to create an input form. It is very easy to do that with Calcpad. Just replace the values that need to be entered with question marks "<b>?</b>", e.g. "<var>a</var> = ?". Please note that after that, you will not be able to calculate the results directly by clicking <img alt="Play" height="24" src="Images/Play.png">. You must compile it first to an input form, using the <img alt="Form" height="24" src="Images/Form.png"> button.</p> 
@@ -1187,7 +1197,7 @@ You can use it further to calculate binomial coefficients by the well-known form
 <li>The user can see clearly which parameters should be entered. You can also provide pictures and additional explanations. This is more comprehensible for the user, especially if the program is developed by someone else;</li>
 <li>The rest of the source code is protected from modification, unless you unlock it on purpose. This prevents an inexperienced user to accidentally damage the calculation formulas.</li>
 </ul>
-<p>If you save the document as a "<b>*.cpdz</b>" file, you will make the source code completely inaccessible. It will not be possible to unlock it inside Calcpad anymore. Also, no one could edit the file in external text editor, because it is encoded. That is how you can protect your source code from unauthorised coping, viewing and modification.</p> 
+<p>If you save the document as a "<b>*.cpdz</b>" file, you will make the source code completely inaccessible. It will not be possible to unlock it inside Calcpad anymore. Also, no one could edit the file in external text editor, because it is encoded. That is how you can protect your source code from unauthorized coping, viewing and modification.</p> 
 <p>You can put question marks "<b>?</b>" not only in variable definitions, but at any place in the code e.g.:
 <p style="margin-left: 2em;">2 + ?</p>
 <p style="margin-left: 2em;">2 + <input type="text" size="2"></p>
@@ -1283,7 +1293,7 @@ You can use it further to calculate binomial coefficients by the well-known form
 <p><img alt="Sample5" height="360" src="Images/Sample5.png"></p>
 <p>It allows you to set the printing layout and margins. Click the <img alt="Page Setup" height="24" src="Images/PageSetup.png"> button to change the paper size and type. Finally, press the <img alt="Print" height="24" src="Images/Print.png"> button. A printer selection dialog will appear. Choose the preferred printer and click "<b>Print</b>".</p>
 <p><img alt="PrintDialog" height="360" src="Images/PrintDialog.png"></p>
-<p>Printing in Calcpad uses the built-in functionality of Windows and Edge. The above screenshots may look differently on your computer, depending on the versions you use. Alternatively, you can right click in the output window and select "<b>Print preview...</b>" from the context menu. If you select "<b>Print</b>", you will skip the preview and proceed directly to printing.</p>
+<p>Printing in Calcpad uses the built-in functionality of Windows and Edge. The above screenshots may look differently on your computer, depending on the versions you use. Alternatively, you can right click in the output window and select "<b>Print preview…</b>" from the context menu. If you select "<b>Print</b>", you will skip the preview and proceed directly to printing.</p>
 
 <h3 id="TOC_907">Coping</h3>
 <p>You can copy the entire output at once by clicking the <img alt="Copy" height="24" src="Images/Copy.png"> button over the output window. Then, you can paste it in any other program. If the target program supports Html, like Word, the formatting will be preserved. Otherwise, the content will be pasted as plain text.</p>
@@ -1309,10 +1319,10 @@ You can use it further to calculate binomial coefficients by the well-known form
 <h3 id="TOC_1003">Save</h3>
 <p>You can save the current file by clicking the <img alt="Save" height="24" src="Images/Save.png"> button. If the file has not been saved so far, you will be prompted to select path and name. Otherwise, it will be rewritten at the current location.</p>
 
-<h3 id="TOC_1004">Save As...</h3>
-<p>If you need to save the current file with a different name, select the "<b>File/Save As...</b>" menu command. A file selection dialog will be displayed. Select file path and name and click "<b>Save</b>"</p>
+<h3 id="TOC_1004">Save As…</h3>
+<p>If you need to save the current file with a different name, select the "<b>File/Save As…</b>" menu command. A file selection dialog will be displayed. Select file path and name and click "<b>Save</b>"</p>
 <hr />
-<p>Last edited on 4.12.2021 by eng. Nedelcho Ganchovski.</p>
+<p>Last edited on 30.12.2021 by eng. Nedelcho Ganchovski.</p>
 </div>
 <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.3.min.js"></script>
 <script>

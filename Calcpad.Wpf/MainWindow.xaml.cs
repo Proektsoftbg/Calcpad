@@ -325,7 +325,7 @@ namespace Calcpad.Wpf
                 if (selectionLength > 0)
                     tp = RichTextBox.Selection.End;
 
-                for (var i = 1; i < parts.Length; i++)
+                for (int i = 1; i < parts.Length; ++i)
                 {
                     tp = tp.Paragraph.ContentEnd.InsertParagraphBreak();
                     tp.InsertTextInRun(parts[i]);
@@ -524,7 +524,7 @@ namespace Calcpad.Wpf
                     if (string.IsNullOrWhiteSpace(fileName) || !File.Exists(fileName))
                         continue;
 
-                    j++;
+                    ++j;
                     var menu = new MenuItem()
                     {
                         ToolTip = fileName,
@@ -556,7 +556,7 @@ namespace Calcpad.Wpf
                 new StringCollection();
 
             list.Clear();
-            for (var i = 0; i < n; i++)
+            for (int i = 0; i < n; ++i)
             {
                 var menu = (MenuItem)MenuRecent.Items[i];
                 var value = (string) menu.ToolTip;
@@ -573,13 +573,13 @@ namespace Calcpad.Wpf
                 return;
 
             var n = MenuRecent.Items.Count;
-            for (var i = 0; i < n; i++)
+            for (int i = 0; i < n; ++i)
             {
                 var menu = (MenuItem)MenuRecent.Items[i];
                 if (!string.Equals(menu.ToolTip, fileName))
                     continue;
 
-                for (var j = i; j > 0; j--)
+                for (int j = i; j > 0; j--)
                 {
                     menu = (MenuItem) MenuRecent.Items[j];
                     menu.Header = ((MenuItem) MenuRecent.Items[j - 1]).Header;
@@ -604,7 +604,7 @@ namespace Calcpad.Wpf
             };
             newMenu.Click += RecentFileList_Click;
             MenuRecent.Items.Insert(0, newMenu);
-            for (var i = 1; i <= n; i++)
+            for (int i = 1; i <= n; ++i)
             {
                 var menu = (MenuItem)MenuRecent.Items[i];
                 menu.Icon = $"   {i + 1}";
@@ -1429,7 +1429,7 @@ namespace Calcpad.Wpf
 
         private void SetInputFields(string[] s)
         {
-            for (var i = 0; i < s.Length; i++)
+            for (int i = 0; i < s.Length; ++i)
             {
                 if (s[i] is null || s[i].Length == 0)
                     _parser.SetInputField("0");
@@ -1735,7 +1735,7 @@ namespace Calcpad.Wpf
             var i = 0;
             foreach (var block in _document.Blocks)
             {
-                i++;
+                ++i;
                 if (ReferenceEquals(block, b))
                     break;
             }
@@ -1767,10 +1767,10 @@ namespace Calcpad.Wpf
                         };
                         LineNumbers.Children.Add(tb);
                     }
-                    j++;
+                    ++j;
                 }
                 b = b.NextBlock;
-                i++;
+                ++i;
             }
             if (j < n)
                 LineNumbers.Children.RemoveRange(j, n - j);
@@ -1833,7 +1833,7 @@ namespace Calcpad.Wpf
                 {
                     if (p.TextIndent == indent)
                     {
-                        i++;
+                        ++i;
                         if (i > 5)
                             break;
                     }
@@ -1905,7 +1905,7 @@ namespace Calcpad.Wpf
             while (p != null)
             {
                 if (p.Tag is Queue<string> cache)
-                    for (int j = 0, count = cache.Count; j < count; j++)
+                    for (int j = 0, count = cache.Count; j < count; ++j)
                     {
                         cache.Dequeue();
                         if (i < n)
@@ -1928,7 +1928,7 @@ namespace Calcpad.Wpf
             while (p != null)
             {
                 if (p.Tag is Queue<string> cache)
-                    for (int i = 0, count = cache.Count; i < count; i++)
+                    for (int i = 0, count = cache.Count; i < count; ++i)
                     {
                         var s = cache.Dequeue();
                         values.Add(s);

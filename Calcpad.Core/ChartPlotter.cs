@@ -29,10 +29,10 @@ namespace Calcpad.Core
             Box limits = new();
             var n = Settings.IsAdaptive ? 2 : 1;
             double x0 = 0.0, y0 = 0.0, xs = 0.0, ys = 0.0;
-            for (var k = 0; k < n; ++k)
+            for (int k = 0; k < n; ++k)
             {
                 limits = new();
-                for (var i = 0; i < fx.Length; ++i)
+                for (int i = 0, len = fx.Length; i < len; ++i)
                 {
                     if (k == 0)   
                         points = Calculate(fx[i], fy[i], start, end, u);
@@ -93,7 +93,7 @@ namespace Calcpad.Core
             var t = start;
             var c = Parser.MakeNumber(t);
             _var.SetValue(c, u);
-            for (var i = 0; i <= n; i++)
+            for (int i = 0; i <= n; ++i)
             {
                 points[i] = CalculatePoint(fx, fy, t);
                 t += s;
@@ -108,7 +108,7 @@ namespace Calcpad.Core
             if (chart.PointCount < 4)
                 return points;
 
-            for (var i = 0; i < 5; i++)
+            for (int i = 0; i < 5; ++i)
             {
                 var n1 = points.First;
                 var n2 = n1.Next;
@@ -179,13 +179,13 @@ namespace Calcpad.Core
 
         private static void GetPngPoints(Chart[] charts, double x0, double y0, double xs, double ys)
         {
-            for (var i = 0; i < charts.Length; i++)
+            for (int i = 0, n = charts.Length; i < n; ++i)
                 charts[i].GetPngPoints(x0, y0, xs, ys);
         }
 
         private static void GetSvgPoints(Chart[] charts, double x0, double y0, double xs, double ys)
         {
-            for (var i = 0; i < charts.Length; i++)
+            for (int i = 0, n = charts.Length; i < n; ++i)
                 charts[i].GetSvgPoints(x0, y0, xs, ys);
         }
                                                                                                                                                                   
@@ -247,7 +247,7 @@ namespace Calcpad.Core
             else
                 src = Settings.ImageUri + PngToFile(canvas, Settings.ImagePath);
 
-            for (var j = 0; j < chartPens.Length; j++)
+            for (int j = 0; j < chartPens.Length; ++j)
                 chartPens[j].Dispose();
             
             g.Dispose();
@@ -313,7 +313,7 @@ namespace Calcpad.Core
             internal void GetPngPoints(double x0, double y0, double xs, double ys)
             {
                 PngPoints = new PointF[PointCount];
-                for (var i = 0; i < PointCount; ++i)
+                for (int i = 0; i < PointCount; ++i)
                 {
                     var x = (float)(x0 + _points[i].X * xs);
                     if (Math.Abs(x) > GDILimit)
@@ -330,7 +330,7 @@ namespace Calcpad.Core
             internal void GetSvgPoints(double x0, double y0, double xs, double ys)
             {
                 SvgPoints = new SvgPoint[PointCount];
-                for (var i = 0; i < PointCount; ++i)
+                for (int i = 0; i < PointCount; ++i)
                     SvgPoints[i] = new SvgPoint(x0 + _points[i].X * xs, y0 - _points[i].Y * ys);
             }
         }

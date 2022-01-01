@@ -39,8 +39,8 @@ namespace Calcpad.Core
 
             private void GetBounds()
             {
-                for (var i = 0; i < _nx; i++)
-                    for (var j = 0; j < _ny; j++)
+                for (int i = 0; i < _nx; ++i)
+                    for (int j = 0; j < _ny; ++j)
                     {
                         var z = Points[i, j].Z;
                         if (!(double.IsNaN(z) || double.IsInfinity(z)))
@@ -54,8 +54,8 @@ namespace Calcpad.Core
             private void GetShadows()
             {
                 double dMax = 0;
-                for (var i = 1; i < _nx; i++)
-                    for (var j = 1; j < _ny; j++)
+                for (int i = 1; i < _nx; ++i)
+                    for (int j = 1; j < _ny; ++j)
                     {
                         var d = Math.Abs(Points[i, j].Z - Points[i - 1, j].Z);
                         if (d > dMax)
@@ -71,12 +71,12 @@ namespace Calcpad.Core
                 if (dMax > 0)
                     k = Math.Sqrt(dx * dx + dy * dy) / (1.618 * dMax);
 
-                for (var i = 0; i < _nx; i++)
+                for (int i = 0; i < _nx; ++i)
                 {
                     var i1 = i == 0 ? 0 : i - 1;
                     var i2 = i == nx ? i : i + 1;
                     dx = k / (Points[i2, 0].X - Points[i1, 0].X);
-                    for (var j = 0; j < _ny; j++)
+                    for (int j = 0; j < _ny; ++j)
                     {
                         var j1 = j == 0 ? 0 : j - 1;
                         var j2 = j == ny ? j : j + 1;
@@ -90,15 +90,15 @@ namespace Calcpad.Core
 
             internal void GetPngPoints(double x0, double y0, double xs, double ys)
             {
-                for (var i = 0; i < _nx; i++)
-                    for (var j = 0; j < _ny; j++)
+                for (int i = 0; i < _nx; ++i)
+                    for (int j = 0; j < _ny; ++j)
                         _pngPoints[i, j] = new PointF((float)(x0 + Points[i, j].X * xs), (float)(y0 - Points[i, j].Y * ys));
             }
 
             internal void GetSvgPoints(double x0, double y0, double xs, double ys)
             {
-                for (var i = 0; i < _nx; i++)
-                    for (var j = 0; j < _ny; j++)
+                for (int i = 0; i < _nx; ++i)
+                    for (int j = 0; j < _ny; ++j)
                         _svgPoints[i, j] = new SvgPoint((x0 + Points[i, j].X * xs), (y0 - Points[i, j].Y * ys));
             }
         }
@@ -170,12 +170,12 @@ namespace Calcpad.Core
             //Unit zUnits = null;
             varX.SetUnits(xUnits);
             varY.SetUnits(yUnits);
-            for (var i = 0; i <= _nx; i++)
+            for (int i = 0; i <= _nx; ++i)
             {
                 var number = Parser.MakeNumber(x);
                 varX.SetNumber(number);
                 var y = startY;
-                for (var j = 0; j <= _ny; j++)
+                for (int j = 0; j <= _ny; ++j)
                 {
                     number = Parser.MakeNumber(y);
                     varY.SetNumber(number);
@@ -225,7 +225,7 @@ namespace Calcpad.Core
 
         private void GetColorScale()
         {
-            for (var i = 0; i < NColors; i++)
+            for (int i = 0; i < NColors; ++i)
             {
                 var value = (double)i / (NColors - 1);
                 GetRgb(out var red, out var green, out var blue, value);
@@ -331,7 +331,7 @@ namespace Calcpad.Core
             if (Settings.SmoothScale)
                 n = h / size + 1;
             var dh = (float)h / n;
-            for (var i = 0; i < n; i++)
+            for (int i = 0; i < n; ++i)
             {
                 GetColor(out var red, out var green, out var blue, (i + 0.5) / n, 1.0);
                 Brush b = new SolidBrush(Color.FromArgb(255, red, green, blue));
@@ -345,7 +345,7 @@ namespace Calcpad.Core
             var th = sz.Height / 2;
             var dy = (m.Max - m.Min) / NColors;
             dh = (float)h / NColors;
-            for (var i = 0; i <= NColors; i++)
+            for (int i = 0; i <= NColors; ++i)
             {
                 var y = y0 - i * dh;
                 g.DrawLine(gridPen, x0, y, x0 + w, y);
@@ -367,7 +367,7 @@ namespace Calcpad.Core
                 n = h / size + 1;
             var dh = (double)h / n;
             const double th = 11, th05 = th / 2;
-            for (var i = 0; i < n; i++)
+            for (int i = 0; i < n; ++i)
             {
                 GetColor(out var red, out var green, out var blue, (i + 0.5) / n, 1.0);
                 g.FillRectangle(x0, y0 - i * dh - dh, w, dh, $"#{red:x2}{green:x2}{blue:x2}");
@@ -376,7 +376,7 @@ namespace Calcpad.Core
 
             var dy = (m.Max - m.Min) / NColors;
             dh = (double)h / NColors;
-            for (var i = 0; i <= NColors; i++)
+            for (int i = 0; i <= NColors; ++i)
             {
                 var y = y0 - i * dh;
                 g.DrawLine(x0, y, x0 + w, y, "PlotGrid");
@@ -396,10 +396,10 @@ namespace Calcpad.Core
             int nxs = _nx * size, nys = _ny * size;
             var d = new double[nxs + 1, nys + 1, 3];
             int i0 = 0, i1 = 0;
-            for (var i = 0; i <= nxs; i += size)
+            for (int i = 0; i <= nxs; i += size)
             {
                 int j0 = 0, j1 = 0;
-                for (var j = 0; j <= nys; j += size)
+                for (int j = 0; j <= nys; j += size)
                 {
                     d[i, j, 0] = (m.Points[i1, j1].Z - m.Min) * delta;
                     d[i, j, 1] = m.Vertices[i1, j1].X;
@@ -408,18 +408,18 @@ namespace Calcpad.Core
                     {
                         var d0 = d[i, j0, 0];
                         var d1 = (d[i, j, 0] - d0) * factor;
-                        for (var k = 1; k < size; k++)
+                        for (int k = 1; k < size; k++)
                         {
                             d0 += d1;
                             d[i, j0 + k, 0] = d0;
                         }
                         if (Settings.Shadows)
                         {
-                            for (var p = 1; p <= 2; p++)
+                            for (int p = 1; p <= 2; p++)
                             {
                                 d0 = d[i, j0, p];
                                 d1 = (d[i, j, p] - d0) * factor;
-                                for (var k = 1; k < size; k++)
+                                for (int k = 1; k < size; k++)
                                 {
                                     d0 += d1;
                                     d[i, j0 + k, p] = d0;
@@ -432,11 +432,11 @@ namespace Calcpad.Core
                 }
                 if (i > 0 && size > 1)
                 {
-                    for (var j = 0; j < nys; j++)
+                    for (int j = 0; j < nys; ++j)
                     {
                         var d0 = d[i0, j, 0];
                         var d1 = (d0 - d[i, j, 0]) * factor;
-                        for (var k = 1; k < size; k++)
+                        for (int k = 1; k < size; k++)
                         {
                             d0 -= d1;
                             d[i0 + k, j, 0] = d0;
@@ -444,11 +444,11 @@ namespace Calcpad.Core
 
                         if (Settings.Shadows)
                         {
-                            for (var p = 1; p <= 2; p++)
+                            for (int p = 1; p <= 2; p++)
                             {
                                 d0 = d[i0, j, p];
                                 d1 = (d0 - d[i, j, p]) * factor;
-                                for (var k = 1; k < size; k++)
+                                for (int k = 1; k < size; k++)
                                 {
                                     d0 -= d1;
                                     d[i0 + k, j, p] = d0;
@@ -499,10 +499,10 @@ namespace Calcpad.Core
             var bmpData = canvas.LockBits(r, ImageLockMode.ReadOnly, canvas.PixelFormat);
             var n = 4 * w * h;
             var b = new byte[n];
-            for (var i = 0; i < ny; i++)
+            for (int i = 0; i < ny; ++i)
             {
                 var iStr = (mt + i) * w + ml;
-                for (var j = 0; j < nx; j++)
+                for (int j = 0; j < nx; ++j)
                 {
                     var n1 = ny - i - 1;
                     var d = values[j, n1, 0];

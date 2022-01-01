@@ -14,7 +14,7 @@ namespace Calcpad.Core
             char[] delimiters = { '{', '@', '=', ':', '}' };
             var input = new string[4];
             var index = 0;
-            for (var i = 0; i < script.Length; i++)
+            for (int i = 0, len = script.Length; i < len; ++i)
             {
                 var c = script[i];
                 if (c == delimiters[index])
@@ -33,7 +33,7 @@ namespace Calcpad.Core
                 return $"<span class = \"err\">Missing delimiter \"{delimiters[index]}\" in plot command \"{script}\".</span>";
 #endif
 
-            for (var j = 0; j < n; j++)
+            for (int j = 0; j < n; ++j)
                 if (string.IsNullOrWhiteSpace(input[j]))
 #if BG
                     return $"<span class = \"err\">Липсва {Parts[j]} в команда за графика \"{script}\".</span>.";
@@ -50,7 +50,7 @@ namespace Calcpad.Core
                 var count = charts.Length;
                 _fx = new Func<Value>[count];
                 _fy = new Func<Value>[count];
-                for (var i = 0; i < count; i++)
+                for (int i = 0; i < count; ++i)
                 {
                     var xy = charts[i].Split('|');
                     if (xy.Length > 2)
@@ -142,7 +142,7 @@ namespace Calcpad.Core
                 }
             }
             input[0] = string.Join(" & ", charts);
-            for (var i = 1; i < input.Length; ++i)
+            for (int i = 1; i < input.Length; ++i)
             {
                 Parser.Parse(input[i]);
                 input[i] = Parser.ToHtml();

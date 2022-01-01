@@ -14,7 +14,7 @@ namespace Calcpad.Core
             var input = new string[n];
             string result;
             var index = 0;
-            for (var i = 0; i < script.Length; i++)
+            for (int i = 0, len = script.Length; i < len; ++i)
             {
                 var c = script[i];
                 if (c == delimiters[index])
@@ -32,7 +32,7 @@ namespace Calcpad.Core
 #else            
                 return $"<span class = \"err\">Missing delimiter \"{delimiters[index]}\" in surface map command \"{script}\".</span>";
 #endif
-            for (var i = 0; i < n; i++)
+            for (int i = 0; i < n; ++i)
             {
                 if (string.IsNullOrWhiteSpace(input[i]))
                 {
@@ -109,7 +109,7 @@ namespace Calcpad.Core
 
         private string GetHtmlText(string[] input)
         {
-            for (var i = 0; i < input.Length; i++)
+            for (int i = 0, n = input.Length; i < n; ++i)
             {
                 Parser.Parse(input[i]);
                 input[i] = Parser.ToHtml();

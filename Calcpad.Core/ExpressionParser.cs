@@ -468,7 +468,7 @@ namespace Calcpad.Core
         private void PurgeObsoleteInput(string s)
         {
             var isExpression = true;
-            for (var i = 0; i < s.Length; i++)
+            for (int i = 0, n = s.Length; i < n; ++i)
             {
                 var c = s[i];
                 if (c == '\'' || c == '\"')
@@ -483,7 +483,7 @@ namespace Calcpad.Core
             var tokens = new List<Token>();
             var stringBuilder = new StringBuilder();
             var currentSeparator = ' ';
-            for (var i = startIndex; i < s.Length; i++)
+            for (int i = startIndex, n = s.Length; i < n; ++i)
             {
                 var c = s[i];
                 if (c == '\'' || c == '\"')

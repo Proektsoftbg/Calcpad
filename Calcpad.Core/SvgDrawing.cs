@@ -81,7 +81,7 @@ namespace Calcpad.Core
             var n = 0;
             var nPoints = points.Length;
             _stringBld.Append(" points=\"" + points[0]);
-            for (var i = 1; i < nPoints; i++)
+            for (int i = 1; i < nPoints; ++i)
             {
                 var dy2 = (points[i].Y - y1) / (i - n);
                 if (Math.Abs(dy2 - dy1) > dyLim)

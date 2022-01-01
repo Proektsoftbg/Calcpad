@@ -59,7 +59,7 @@ namespace Calcpad.OpenXml
             var tc = CreateTableCell(isHead);
             var tcp = tc.TableCellProperties;
             var n = colSpan == 0 ? 1 : colSpan;
-            for (var i = 0; i < n; i++)
+            for (int i = 0; i < n; ++i)
             {
                 _currentRowSpan.Add(new CellData(rowSpan, isHead));
             }
@@ -136,7 +136,7 @@ namespace Calcpad.OpenXml
         {
             var i1 = _currentRowSpan.Count;
             var n = _prevRowSpan.Count;
-            for (var i = i1; i < n; i++)
+            for (int i = i1; i < n; ++i)
             {
                 var cellData = _prevRowSpan[i].CopyDown();
                 if (!cellData.IsMerged)

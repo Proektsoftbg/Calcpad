@@ -45,7 +45,7 @@ namespace Calcpad.OpenXml
         {
             var styles = styleDefinitionsPart.Styles;
             string[] fontSizes = { "48", "40", "36", "32", "28", "26" };
-            for (var i = 0; i < 6; i++)
+            for (int i = 0; i < 6; ++i)
             {
                 var id = 'h' + (i + 1).ToString();
                 styles.AppendChild(new Style()

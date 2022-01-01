@@ -75,7 +75,7 @@ namespace Calcpad.OpenXml
             {
                 var c = text[i];
                 if (c == term[j])
-                    j++;
+                    ++j;
                 else
                 {
                     j = 0;
