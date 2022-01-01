@@ -27,7 +27,7 @@ namespace Calcpad.Core
             byte sub = 0;
             var brackets = new Stack<int>();
 
-            for (var i = 0; i < text.Length; i++)
+            for (int i = 0; i < text.Length; ++i)
             {
                 var c = text[i];
                 if (c == '·')

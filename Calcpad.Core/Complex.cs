@@ -24,7 +24,7 @@ namespace Calcpad.Core
         {
             Factorial = new double[171];
             Factorial[0] = 1;
-            for (var i = 1; i < 171; i++)
+            for (int i = 1; i < 171; ++i)
                 Factorial[i] = Factorial[i - 1] * i;
         }
 
@@ -478,7 +478,7 @@ namespace Calcpad.Core
                 }
             }
             double re = x, im = y;
-            for (var i = 0; i <= 1000; i++)
+            for (int i = 0; i <= 1000; ++i)
             {
                 double reSq = re * re, imSq = im * im;
                 if (reSq + imSq > 4)

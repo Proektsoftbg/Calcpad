@@ -319,7 +319,7 @@ namespace Calcpad.Core
                 maxSteps = 15;
 
             var step = 2.5 * Math.Round(4.0 * st / maxSteps);
-            for (var i = 0; i < 4; i++)
+            for (int i = 0; i < 4; ++i)
             {
                 var d = Math.Abs(st - Steps[i]);
                 if (d < dMin && Math.Floor(10.0 * st / Steps[i]) <= maxSteps)

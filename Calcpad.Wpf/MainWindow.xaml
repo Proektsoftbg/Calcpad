@@ -200,18 +200,20 @@
                         <MenuItem Click="Button_Click" Tag="abs("   Header="abs(x)"   ToolTip="Absolute value/magitute"/>
                     </MenuItem>
                     <MenuItem Header="Other">
-                        <MenuItem Click="Button_Click" Tag="random("  Header="random(x)"   ToolTip="Random number between 0 and x"/>
-                        <MenuItem Click="Button_Click" Tag="min("     Header="min(x; y; z...)"     ToolTip="Minimum of multiple values"/>
-                        <MenuItem Click="Button_Click" Tag="max("     Header="max(x; y; z...)"     ToolTip="Maximum of multiple values"/>
-                        <MenuItem Click="Button_Click" Tag="sum("     Header="sum(x; y; z...)"     ToolTip="Sum of multiple values"/>
-                        <MenuItem Click="Button_Click" Tag="sumsq("   Header="sumsq(x; y; z...)"   ToolTip="Sum of squares"/>
-                        <MenuItem Click="Button_Click" Tag="srss("    Header="srss(x; y; z...)"    ToolTip="Square root of sum of squares"/>
-                        <MenuItem Click="Button_Click" Tag="average(" Header="average(x; y; z...)" ToolTip="Average of multiple values"/>
-                        <MenuItem Click="Button_Click" Tag="product(" Header="product(x; y; z...)" ToolTip="Product of multiple values"/>
-                        <MenuItem Click="Button_Click" Tag="mean("    Header="mean(x; y; z...)"    ToolTip="Geometric mean"/>
-                        <MenuItem Click="Button_Click" Tag="if("      Header="if(cond; x; y)"      ToolTip="Conditional evaluation"/>
+                        <MenuItem Click="Button_Click" Tag="random("  Header="random(x)"             ToolTip="Random number between 0 and x"/>
+                        <MenuItem Click="Button_Click" Tag="min("     Header="min(x; y; z...)"       ToolTip="Minimum of multiple values"/>
+                        <MenuItem Click="Button_Click" Tag="max("     Header="max(x; y; z...)"       ToolTip="Maximum of multiple values"/>
+                        <MenuItem Click="Button_Click" Tag="sum("     Header="sum(x; y; z...)"       ToolTip="Sum of multiple values"/>
+                        <MenuItem Click="Button_Click" Tag="sumsq("   Header="sumsq(x; y; z...)"     ToolTip="Sum of squares"/>
+                        <MenuItem Click="Button_Click" Tag="srss("    Header="srss(x; y; z...)"      ToolTip="Square root of sum of squares"/>
+                        <MenuItem Click="Button_Click" Tag="average(" Header="average(x; y; z...)"   ToolTip="Average of multiple values"/>
+                        <MenuItem Click="Button_Click" Tag="product(" Header="product(x; y; z...)"   ToolTip="Product of multiple values"/>
+                        <MenuItem Click="Button_Click" Tag="mean("    Header="mean(x; y; z...)"      ToolTip="Geometric mean"/>
+                        <MenuItem Click="Button_Click" Tag="if("      Header="if(cond; x; y)"        ToolTip="Conditional evaluation"/>
                         <MenuItem Click="Button_Click" Tag="switch("  Header="switch(c1; x; c2; y...; z)" ToolTip="Selective evaluation"/>
-                        <MenuItem Click="Button_Click" Tag="take("    Header="take(n; x; y; z...)" ToolTip="Take the n-th element"/>
+                        <MenuItem Click="Button_Click" Tag="take("    Header="take(n; a; b; c...)"   ToolTip="Take the n-th element"/>
+                        <MenuItem Click="Button_Click" Tag="line("    Header="line(x; a; b; c...)"   ToolTip="Linear interpolation"/>
+                        <MenuItem Click="Button_Click" Tag="spline("  Header="spline(x; a; b; c...)" ToolTip="Hermite spline interpolation"/>
                     </MenuItem>
                 </MenuItem>
                 <MenuItem Header="Units">

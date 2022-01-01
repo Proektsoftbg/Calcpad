@@ -63,7 +63,7 @@ namespace Calcpad.Wpf
             "round", "floor", "ceiling", "sign", MathParser.NegateString,
             "re", "im", "phase",
             "min", "max", "sum", "sumsq", "srss", "product", "average", "mean",
-            "switch", "take"
+            "switch", "take", "line", "spline"
         };
 
         private static readonly HashSet<string> Conditions = new() {"#if", "#else", "#else if", "#end if", "#rad", "#deg", "#val", "#equ", "#show", "#hide", "#pre", "#post", "#repeat", "#loop", "#break"};
@@ -180,7 +180,7 @@ namespace Calcpad.Wpf
                 isPlot = st.ToLowerInvariant().StartsWith("$plot");
             AllowUnaryMinus = true;
             Types t = Types.None, pt = Types.None;
-            for (var i = 0; i < s.Length; i++)
+            for (int i = 0, n = s.Length; i < n; ++i)
             {
                 var c = s[i];
                 //Check for leading spaces.

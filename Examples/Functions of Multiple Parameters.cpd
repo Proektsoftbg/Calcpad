@@ -1,0 +1,51 @@
+"Functions of multiple variables
+a = min(2; 3; -1; 5; 7; -4)' - minimum
+b = max(2; 3; -1; 5; 7; -4; 9; 6)' - maximum
+s = sum(2; 3; -1; 5; 7; -4)' - sum
+s_1 = sumsq(2; 3; -1; 5; 7; -4)' - sum of squares
+s_2 = srss(2; 3; -1; 5; 7; -4)' - square root of sum of squares
+c = average(2; 3; -1; 5; 7; -4)' - average
+p = product(2; 3; 2; 5)' - product
+m = mean(2; 3; 2; 5)' - geometric mean
+f(x) = switch(x < -2; 1; x > 4; x - 2; x > 1; 2; -1)' - selective evaluation
+'<!--'PlotWidth = 200','PlotHeight = 120'-->
+$Plot{f(x) @ x = -4 : 6}
+a(n) = take(n; 2; 3; -1; 5; 7; -4)' - vector function (returns a number with specified index)
+b(n) = a(7 - n)' - transpoze
+c(n) = a(n)*b(n)' - dot product
+'Output vectors to a table
+#val
+'<!--'n = 0'-->
+'<table class="bordered">
+'<tr><th>n</th><th>a</th><th>b</th><th>c</th></tr>
+#repeat 6
+	'<tr><th>'n = n + 1'</th><td>'a(n)'</td><td>'b(n)'</td><td>'c(n)'</td></tr>
+#loop
+'</table>
+#equ
+'Matrix
+R_1(j) = take(j; 11; 12; 13)' - first row
+R_2(j) = take(j; 21; 22; 23)' - second row
+R_3(j) = take(j; 31; 32; 33)' - third row
+M(i; j) = take(i; R_1(j); R_2(j); R_3(j))' - assemble the whole matrix
+M(2; 2)
+M(3; 1)
+M(3; 3)
+'Output a matrix to a table
+#val
+'<!--'i = 0''j = 0'-->
+'<table class="bordered">
+'<tr><th></th> 
+#repeat 3
+	'<th>'j = j + 1'</th>
+#loop
+'</tr> 
+#repeat 3
+	'<tr><th>'i = i + 1'<!--'j = 0'--></th>
+	#repeat 3
+		'<td><!--'j = j + 1'-->'M(i; j)'</td>
+	#loop
+	'</tr>
+#loop
+'</table>
+#equ

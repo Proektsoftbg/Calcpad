@@ -103,7 +103,7 @@ namespace Calcpad.OpenXml
                 var childNodes = domNode.ChildNodes;
                 var n = childNodes.Count;
                 var count = _buffer.Count;
-                for (var i = 0; i < n; i++)
+                for (int i = 0; i < n; ++i)
                 {
                     var childNode = childNodes[i];
                     var childElement = ParseHtmlNode(childNode, mainPart);
@@ -146,7 +146,7 @@ namespace Calcpad.OpenXml
                     var i = 0;
                     foreach (var e in _buffer)
                     {
-                        i++;
+                        ++i;
                         if (i > count && e is Run)
                             CopyRunProperties(parentElement, e);
                     }

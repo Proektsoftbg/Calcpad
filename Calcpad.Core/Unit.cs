@@ -102,7 +102,7 @@ namespace Calcpad.Core
             if (_hashCode == 0)
             {
                 var hash = new HashCode();
-                for (int i = 0, n = _powers.Length; i < n; i++)
+                for (int i = 0, n = _powers.Length; i < n; ++i)
                 {
                     hash.Add(_powers[i]);
                     hash.Add(_factors[i]);
@@ -129,7 +129,7 @@ namespace Calcpad.Core
             if (n != other._powers.Length)
                 return false;
 
-            for (var i = 0; i < n; ++i)
+            for (int i = 0; i < n; ++i)
             {
                 if (_powers[i] != other._powers[i] || _factors[i] != other._factors[i])
                     return false;
@@ -141,7 +141,7 @@ namespace Calcpad.Core
         {
             _powers = new float[n];
             _factors = new double[n];
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < n; ++i)
                 _factors[i] = i == 0 ? 1000.0 : 1.0;
         }
 
@@ -175,7 +175,7 @@ namespace Calcpad.Core
                 n = 1;
 
             _factors = new double[n];
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < n; ++i)
                 _factors[i] = i == 0 ? 1000.0 : 1.0;
 
             _powers = new float[n];
@@ -677,7 +677,7 @@ namespace Calcpad.Core
             };
             var stringBuilder = new StringBuilder();
             var isFirst = true;
-            for (int i = 0, n = _powers.Length; i < n; i++)
+            for (int i = 0, n = _powers.Length; i < n; ++i)
                 if (_powers[i] != 0f)
                 {
                     var p = isFirst ? _powers[i] : Math.Abs(_powers[i]);
@@ -703,7 +703,7 @@ namespace Calcpad.Core
         public static Unit operator *(Unit u, double d)
         {
             var unit = new Unit(u);
-            for (int i = 0, n = unit._powers.Length; i < n; i++)
+            for (int i = 0, n = unit._powers.Length; i < n; ++i)
             {
                 ref float p = ref unit._powers[i];
                 if (p != 0f)
@@ -738,7 +738,7 @@ namespace Calcpad.Core
                 size = i;
             }
             Unit unit = new(size);
-            for (var i = 0; i < n; i++)
+            for (int i = 0; i < n; ++i)
             {
                 var p1 = i < n1 ? u1._powers[i] : 0f;
                 var p2 = i < n2 ? k * u2._powers[i] : 0f;
@@ -758,7 +758,7 @@ namespace Calcpad.Core
             var n = n1 > n2 ? n1 : n2;
             var k = divide ? -1d : 1d;
             var factor = 1.0;
-            for (var i = 0; i < n; i++)
+            for (int i = 0; i < n; ++i)
             {
                 var p1 = i < n1 ? u1._powers[i] : 0d;
                 var p2 = i < n2 ? k * u2._powers[i] : 0d;
@@ -783,7 +783,7 @@ namespace Calcpad.Core
             float xf = (float)x;
             int n = _powers.Length;
             Unit unit = new(n);
-            for (var i = 0; i < n; i++)
+            for (int i = 0; i < n; ++i)
             {
                 unit._factors[i] = _factors[i];
                 unit._powers[i] = _powers[i] * xf;
@@ -803,7 +803,7 @@ namespace Calcpad.Core
             if (u2._powers.Length != n)
                 return false;
 
-            for (var i = 0; i < n; ++i)
+            for (int i = 0; i < n; ++i)
             {
                 if (u1._powers[i] != u2._powers[i])
                     return false;
@@ -824,7 +824,7 @@ namespace Calcpad.Core
                 return false;
 
             double? d1 = null;
-            for (var i = 0; i < n; ++i)
+            for (int i = 0; i < n; ++i)
             {
                 ref float p1 = ref u1._powers[i];
                 ref float p2 = ref u2._powers[i];
@@ -853,7 +853,7 @@ namespace Calcpad.Core
         internal double ConvertTo(Unit u)
         {
             var d = 1.0;
-            for (int i = 0, n = _powers.Length; i < n; i++)
+            for (int i = 0, n = _powers.Length; i < n; ++i)
             {
                 ref float p = ref _powers[i];
                 if (p != 0f)

@@ -98,7 +98,9 @@ namespace Calcpad.Core
             { "product", 6 },
             { "mean", 7 },
             { "switch", 8 },
-            { "take", 9 }
+            { "take", 9 },
+            { "line", 10 },
+            { "spline", 11 }
         };
 
         internal static bool IsOperator(char name) => OperatorIndex.ContainsKey(name);
@@ -201,7 +203,7 @@ namespace Calcpad.Core
 
             var n = RadFunctions.Length;
             DegFunctions = new Function[n];
-            for (var i = 12; i < n; i++)
+            for (int i = 12; i < n; ++i)
             {
                 DegFunctions[i] = RadFunctions[i];
             }
@@ -238,7 +240,9 @@ namespace Calcpad.Core
                 Value.Product,
                 Value.Mean,
                 Value.Switch,
-                Value.Take
+                Value.Take,
+                Value.Line,
+                Value.Spline
             };
         }
 
@@ -349,7 +353,7 @@ namespace Calcpad.Core
 
             var n = RadFunctions.Length;
             DegFunctions = new Function[n];
-            for (var i = 12; i < n; i++)
+            for (int i = 12; i < n; ++i)
             {
                 DegFunctions[i] = RadFunctions[i];
             }
@@ -385,7 +389,9 @@ namespace Calcpad.Core
                 Value.ComplexProduct,
                 Value.ComplexMean,
                 Value.Switch,
-                Value.Take
+                Value.Take,
+                Value.Line,
+                Value.Spline            
             };
         }
 

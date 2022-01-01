@@ -29,7 +29,7 @@ namespace Calcpad.Core
         static Solver()
         {
             double t, h = 2.0;
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < n; ++i)
             {
                 h /= 2.0;
                 double eh = Math.Exp(h);
@@ -39,7 +39,7 @@ namespace Calcpad.Core
                 if (i > 0)
                     eh *= eh;
 
-                for (int j = 0; j < m[i]; j++)
+                for (int j = 0; j < m[i]; ++j)
                 {
                     double t1 = 1.0 / t;
                     double u = Math.Exp(t1 - t);
@@ -139,7 +139,7 @@ namespace Calcpad.Core
                 eps1 = Precision * target;
             var ans = x1;
             const int n = 100;
-            for (var i = 1; i <= n; i++)
+            for (int i = 1; i <= n; ++i)
             {
                 var x3 = (x1 + x2) / 2;
                 var y3 = Fd(x3) - target;
@@ -210,7 +210,7 @@ namespace Calcpad.Core
             var bisection = true;
             const double k = 0.25;
             const int n = 100;
-            for (var i = 1; i <= n; i++)
+            for (int i = 1; i <= n; ++i)
             {
                 double x3, y3;
                 if (bisection)
@@ -500,14 +500,14 @@ namespace Calcpad.Core
             var r = new double[n];
             var err = delta / 2;
             Units = null;
-            for (var i = 0; i < n; i++)
+            for (int i = 0; i < n; ++i)
             {
                 var x1 = x - h;
                 var x2 = x1 + h2;
                 var d = 1.0;
                 var r0 = r[0];
                 r[i] = (Fd(x2) - Fd(x1)) / h2;
-                for (var k = i - 1; k >= 0; k--)
+                for (int k = i - 1; k >= 0; k--)
                 {
                     d *= 4.0;
                     var k1 = k + 1;
@@ -545,7 +545,7 @@ namespace Calcpad.Core
             GetBounds(start, end, out var n1, out var n2);
             var number = MakeNumber(0);
             Units = null;
-            for (var i = n1; i <= n2; i++)
+            for (int i = n1; i <= n2; ++i)
             {
                 number = Fc(MakeNumber(i));
                 if (IsInfinity(number))
@@ -562,7 +562,7 @@ namespace Calcpad.Core
             var hasUnits = units is not null;
             n1++;
             Units = null;
-            for (var i = n1; i <= n2; i++)
+            for (int i = n1; i <= n2; ++i)
             {
                 number += Fc(MakeNumber(i));
                 if (hasUnits && !Unit.IsConsistent(units, Units))
@@ -586,7 +586,7 @@ namespace Calcpad.Core
             var hasUnits = units is not null;
             n1++;
             Units = null;
-            for (var i = n1; i <= n2; i++)
+            for (int i = n1; i <= n2; ++i)
             {
                 number *= Fc(MakeNumber(i));
                 if (hasUnits && Units is not null)

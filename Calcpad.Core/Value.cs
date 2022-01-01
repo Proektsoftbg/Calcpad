@@ -4,12 +4,13 @@ namespace Calcpad.Core
 {
     internal readonly struct Value : IEquatable<Value>
     {
+        private const double deltaPlus = 1 + 1e-15, deltaMinus = 1 - 1e-15;
         private static readonly char[] CompositeUnitChars = {'/', '*', '×', '^'};
         internal readonly Complex Number;
         internal readonly Unit Units;
         internal readonly bool IsUnit;
         internal static readonly Value Zero;
-
+        internal static readonly Value One = new(1.0);
         internal Value(in Complex number, Unit units)
         {
             Number = number;
@@ -422,103 +423,103 @@ namespace Calcpad.Core
                 )
             );
 
-        internal static Value Min(Value[] a)
+        internal static Value Min(Value[] v)
         {
-            var result = a[0].Number.Re;
-            var u = a[0].Units;
-            for (int i = 1, n = a.Length; i < n; i++)
+            var result = v[0].Number.Re;
+            var u = v[0].Units;
+            for (int i = 1, n = v.Length; i < n; ++i)
             {
-                var b = a[i].Number.Re * ConvertUnits(u, a[i].Units, ',');
+                var b = v[i].Number.Re * ConvertUnits(u, v[i].Units, ',');
                 if (b < result)
                     result = b;
             }
             return new(result, u);
         }
 
-        internal static Value Max(Value[] a)
+        internal static Value Max(Value[] v)
         {
-            var result = a[0].Number.Re;
-            var u = a[0].Units;
-            for (int i = 1, n = a.Length; i < n; i++)
+            var result = v[0].Number.Re;
+            var u = v[0].Units;
+            for (int i = 1, n = v.Length; i < n; ++i)
             {
-                var b = a[i].Number.Re * ConvertUnits(u, a[i].Units, ',');
+                var b = v[i].Number.Re * ConvertUnits(u, v[i].Units, ',');
                 if (b > result)
                     result = b;
             }
             return new(result, u);
         }
 
-        internal static Value Sum(Value[] a)
+        internal static Value Sum(Value[] v)
         {
-            var result = a[0].Number.Re;
-            var u = a[0].Units;
-            for (int i = 1, n = a.Length; i < n; i++)
-                result += a[i].Number.Re * ConvertUnits(u, a[i].Units, ',');
+            var result = v[0].Number.Re;
+            var u = v[0].Units;
+            for (int i = 1, n = v.Length; i < n; ++i)
+                result += v[i].Number.Re * ConvertUnits(u, v[i].Units, ',');
 
             return new(result, u);
         }
 
-        internal static Value SumSq(Value[] a)
+        internal static Value SumSq(Value[] v)
         {
-            var result = a[0].Number.Re;
-            var u = a[0].Units;
+            var result = v[0].Number.Re;
+            var u = v[0].Units;
             result *= result;
-            for (int i = 1, n = a.Length; i < n; i++)
+            for (int i = 1, n = v.Length; i < n; ++i)
             {
-                var b = a[i].Number.Re * ConvertUnits(u, a[i].Units, ',');
+                var b = v[i].Number.Re * ConvertUnits(u, v[i].Units, ',');
                 result += b * b;
             }
             return new(result, u is null ? null : u * u);
         }
 
-        internal static Value Srss(Value[] a)
+        internal static Value Srss(Value[] v)
         {
-            var result = a[0].Number.Re;
-            var u = a[0].Units;
+            var result = v[0].Number.Re;
+            var u = v[0].Units;
             result *= result;
-            for (int i = 1, n = a.Length; i < n; i++)
+            for (int i = 1, n = v.Length; i < n; ++i)
             {
-                var b = a[i].Number.Re * ConvertUnits(u, a[i].Units, ',');
+                var b = v[i].Number.Re * ConvertUnits(u, v[i].Units, ',');
                 result += b * b;
             }
             return new(Math.Sqrt(result), u);
         }
 
-        internal static Value Average(Value[] a)
+        internal static Value Average(Value[] v)
         {
-            var result = a[0].Number.Re;
-            var u = a[0].Units;
-            for (int i = 1, n = a.Length; i < n; i++)
-                result += a[i].Number.Re * ConvertUnits(u, a[i].Units, ',');
+            var result = v[0].Number.Re;
+            var u = v[0].Units;
+            for (int i = 1, n = v.Length; i < n; ++i)
+                result += v[i].Number.Re * ConvertUnits(u, v[i].Units, ',');
 
-            return new(result / a.Length, u);
+            return new(result / v.Length, u);
         }
 
-        internal static Value Product(Value[] a)
+        internal static Value Product(Value[] v)
         {
-            var result = a[0].Number.Re;
-            var u = a[0].Units;
-            for (int i = 1, n = a.Length; i < n; i++)
+            var result = v[0].Number.Re;
+            var u = v[0].Units;
+            for (int i = 1, n = v.Length; i < n; ++i)
             {
-                u = MultiplyUnits(u, a[i].Units, out var b);
-                result *= a[i].Number.Re * b;
+                u = MultiplyUnits(u, v[i].Units, out var b);
+                result *= v[i].Number.Re * b;
             }
             return new(result, u);
         }
 
-        internal static Value Mean(Value[] a)
+        internal static Value Mean(Value[] v)
         {
-            var result = a[0].Number.Re;
-            var u = a[0].Units;
-            for (int i = 1, n = a.Length; i < n; i++)
+            var result = v[0].Number.Re;
+            var u = v[0].Units;
+            for (int i = 1, n = v.Length; i < n; ++i)
             {
-                u = MultiplyUnits(u, a[i].Units, out var b, a[i].IsUnit);
-                result *= a[i].Number.Re * b;
+                u = MultiplyUnits(u, v[i].Units, out var b, v[i].IsUnit);
+                result *= v[i].Number.Re * b;
             }
             if (u is not null)
-                u = RootUnits(u, a.Length);
+                u = RootUnits(u, v.Length);
 
-            return new(Math.Pow(result, 1.0 / a.Length), u);
+            return new(Math.Pow(result, 1.0 / v.Length), u);
         }
 
         internal static Value Real(in Value value) =>
@@ -844,118 +845,168 @@ namespace Calcpad.Core
                 a.Units
             );
 
-        private static bool AreAllReal(Value[] a)
+        private static bool AreAllReal(Value[] v)
         {
-            for(int i = 0, n = a.Length; i < n; i++)
+            for(int i = 0, n = v.Length; i < n; ++i)
             {
-                if (!a[i].Number.IsReal)
+                if (!v[i].Number.IsReal)
                     return false;
             }
             return true;
         }
 
+        internal static Value ComplexMin(Value[] v) =>
+            AreAllReal(v) ?
+                Min(v) :
+                new(double.NaN, v[0].Units);
 
-        internal static Value ComplexMin(Value[] a) =>
-            AreAllReal(a) ?
-                Min(a) :
-                new(double.NaN, a[0].Units);
+        internal static Value ComplexMax(Value[] v) =>
+            AreAllReal(v) ?
+                Max(v) :
+                new (double.NaN, v[0].Units);
 
-        internal static Value ComplexMax(Value[] a) =>
-            AreAllReal(a) ?
-                Max(a) :
-                new (double.NaN, a[0].Units);
-
-        internal static Value ComplexSum(Value[] a)
+        internal static Value ComplexSum(Value[] v)
         {
-            var result = a[0].Number;
-            var u = a[0].Units;
-            for (int i = 1, n = a.Length; i < n; i++)
-                result += a[i].Number * ConvertUnits(u, a[i].Units, ',');
+            var result = v[0].Number;
+            var u = v[0].Units;
+            for (int i = 1, n = v.Length; i < n; ++i)
+                result += v[i].Number * ConvertUnits(u, v[i].Units, ',');
 
             return new(result, u);
         }
 
-        internal static Value ComplexSumSq(Value[] a)
+        internal static Value ComplexSumSq(Value[] v)
         {
-            var result = a[0].Number;
-            var u = a[0].Units;
+            var result = v[0].Number;
+            var u = v[0].Units;
             result *= result;
-            for (int i = 1, n = a.Length; i < n; i++)
+            for (int i = 1, n = v.Length; i < n; ++i)
             {
-                var b = a[i].Number * ConvertUnits(u, a[i].Units, ',');
+                var b = v[i].Number * ConvertUnits(u, v[i].Units, ',');
                 result += b * b;
             }
             return new(result, u * u);
         }
 
-        internal static Value ComplexSrss(Value[] a)
+        internal static Value ComplexSrss(Value[] v)
         {
-            var result = a[0].Number;
-            var u = a[0].Units;
+            var result = v[0].Number;
+            var u = v[0].Units;
             result *= result;
-            for (int i = 1, n = a.Length; i < n; i++)
+            for (int i = 1, n = v.Length; i < n; ++i)
             {
-                var b = a[i].Number * ConvertUnits(u, a[i].Units, ',');
+                var b = v[i].Number * ConvertUnits(u, v[i].Units, ',');
                 result += b * b;
             }
             return new(Complex.Sqrt(result), u);
         }
 
-        internal static Value ComplexAverage(Value[] a)
+        internal static Value ComplexAverage(Value[] v)
         {
-            var result = a[0].Number;
-            var u = a[0].Units;
-            for (int i = 1, n = a.Length; i < n; i++)
-                result += a[i].Number * ConvertUnits(u, a[i].Units, ',');
+            var result = v[0].Number;
+            var u = v[0].Units;
+            for (int i = 1, n = v.Length; i < n; ++i)
+                result += v[i].Number * ConvertUnits(u, v[i].Units, ',');
 
-            return new(result / a.Length, u);
+            return new(result / v.Length, u);
         }
 
-        internal static Value ComplexProduct(Value[] a)
+        internal static Value ComplexProduct(Value[] v)
         {
-            var result = a[0].Number;
-            var u = a[0].Units;
-            for (int i = 1, n = a.Length; i < n; i++)
+            var result = v[0].Number;
+            var u = v[0].Units;
+            for (int i = 1, n = v.Length; i < n; ++i)
             {
-                u = MultiplyUnits(u, a[i].Units, out var b);
-                result *= a[i].Number * b;
+                u = MultiplyUnits(u, v[i].Units, out var b);
+                result *= v[i].Number * b;
             }
             return new(result, u);
         }
 
-        internal static Value ComplexMean(Value[] a)
+        internal static Value ComplexMean(Value[] v)
         {
-            var result = a[0].Number;
-            var u = a[0].Units;
-            for (int i = 1, n = a.Length; i < n; i++)
+            var result = v[0].Number;
+            var u = v[0].Units;
+            for (int i = 1, n = v.Length; i < n; ++i)
             {
-                u = MultiplyUnits(u, a[i].Units, out var b, a[i].IsUnit);
-                result *= a[i].Number * b;
+                u = MultiplyUnits(u, v[i].Units, out var b, v[i].IsUnit);
+                result *= v[i].Number * b;
             }
-            return new(Complex.Pow(result, 1.0 / a.Length), RootUnits(u, a.Length));
+            return new(Complex.Pow(result, 1.0 / v.Length), RootUnits(u, v.Length));
         }
 
-        internal static Value Switch(Value[] a)
+        internal static Value Switch(Value[] v)
         {
-            for (int i = 0; i < a.Length - 1; i+=2)
+            for (int i = 0; i < v.Length - 1; i+=2)
             {
-                if (!a[i].Number.Equals(Complex.Zero))
-                    return a[i + 1];
+                if (!v[i].Number.Equals(Complex.Zero))
+                    return v[i + 1];
             }
-            if (a.Length % 2 != 0)
-                return a[^1];
+            if (v.Length % 2 != 0)
+                return v[^1];
 
             return new Value(double.NaN);
         }
 
-        internal static Value Take(Value[] a)
+        internal static Value Take(Value[] v)
         {
-            var d = Math.Round(a[0].Number.Re);
-            if (d < 1 || d >= a.Length)
+            var x = Math.Round(v[0].Number.Re);
+            if (!double.IsNormal(x) || x < deltaMinus || x > v.Length * deltaPlus - 1.0)
                 return new Value(double.NaN);
 
-            return a[(int)d];
+            return v[(int)x];
         }
+
+        internal static Value Line(Value[] v)
+        {
+            var x = v[0].Number.Re;
+            if (!double.IsNormal(x) || x < deltaMinus || x > v.Length * deltaPlus - 1.0)
+                return new Value(double.NaN);
+            int i = (int)Math.Floor(x);
+            if (i == x || x >= v.Length - 1)
+                return v[i];
+
+            return v[i] + (v[i + 1] - v[i])*(x - i);
+        }
+
+        internal static Value Spline(Value[] v)
+        {
+            var x = v[0].Number.Re;
+            if (!double.IsNormal(x) || x < deltaMinus || x > v.Length * deltaPlus - 1.0)
+                return new Value(double.NaN);
+            int i = (int)Math.Floor(x);
+
+            if (i == x || x >= v.Length - 1)
+                return v[i];
+
+            var u = v[1].Units;
+            var y0 = v[i].Number.Re * ConvertUnits(u, v[i].Units, ',');
+            var y1 = v[i + 1].Number.Re * ConvertUnits(u, v[i + 1].Units, ',');
+            var d = y1 - y0;
+            var a = d;
+            var b = d;
+            d = Math.Sign(d);
+            if (i > 1)
+            {
+                var y2 = v[i - 1].Number.Re * ConvertUnits(u, v[i - 1].Units, ',');
+                a = (y1 - y2) * (Math.Sign(y0 - y2) == d ? 0.5 : 0.25);
+            }
+            if (i < v.Length - 2)
+            {
+                var y2 = v[i + 2].Number.Re * ConvertUnits(u, v[i + 2].Units, ',');
+                b = (y2 - y0) * (Math.Sign(y2 - y1) == d ? 0.5 : 0.25);
+            }
+            if (i == 1)
+                a += (a - b) / 2;
+
+            if (i == v.Length - 2)
+                b += (b - a) / 2;
+
+            var t = x - i;
+            var y = y0 + ((y1 - y0) * (3 - 2 * t) * t + ((a + b) * t - a) * (t - 1)) * t;
+            return new (y, u);
+       }
+
 
         private static Unit MultiplyUnits(Unit ua, Unit ub, out double d, bool updateText = false)
         {
