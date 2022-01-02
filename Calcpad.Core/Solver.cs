@@ -394,7 +394,7 @@ namespace Calcpad.Core
             if (depth > 2 && Math.Abs(d) < 45.0 * eps || depth > 20)
                 return a + d * c;
 
-            depth++;
+            ++depth;
             eps /= 2;
             return Simpson(x1, x2, y1, y4, y2, a1, eps, depth) +
             Simpson(x2, x3, y2, y5, y3, a1, eps, depth);
@@ -507,7 +507,7 @@ namespace Calcpad.Core
                 var d = 1.0;
                 var r0 = r[0];
                 r[i] = (Fd(x2) - Fd(x1)) / h2;
-                for (int k = i - 1; k >= 0; k--)
+                for (int k = i - 1; k >= 0; --k)
                 {
                     d *= 4.0;
                     var k1 = k + 1;

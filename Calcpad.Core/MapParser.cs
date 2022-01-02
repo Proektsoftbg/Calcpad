@@ -109,7 +109,7 @@ namespace Calcpad.Core
 
         private string GetHtmlText(string[] input)
         {
-            for (int i = 0, n = input.Length; i < n; ++i)
+            for (int i = 0, len = input.Length; i < len; ++i)
             {
                 Parser.Parse(input[i]);
                 input[i] = Parser.ToHtml();

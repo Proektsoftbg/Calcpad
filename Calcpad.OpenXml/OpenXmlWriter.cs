@@ -68,7 +68,7 @@ namespace Calcpad.OpenXml
             var count = 0;
             foreach (var error in errors)
             {
-                count++;
+                ++count;
                 stringBuilder.Append("\n-------------------------------------------");
                 stringBuilder.Append("\nError: " + count);
                 stringBuilder.Append("\nDescription: " + error.Description);

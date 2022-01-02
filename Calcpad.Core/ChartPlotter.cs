@@ -179,13 +179,13 @@ namespace Calcpad.Core
 
         private static void GetPngPoints(Chart[] charts, double x0, double y0, double xs, double ys)
         {
-            for (int i = 0, n = charts.Length; i < n; ++i)
+            for (int i = 0, len = charts.Length; i < len; ++i)
                 charts[i].GetPngPoints(x0, y0, xs, ys);
         }
 
         private static void GetSvgPoints(Chart[] charts, double x0, double y0, double xs, double ys)
         {
-            for (int i = 0, n = charts.Length; i < n; ++i)
+            for (int i = 0, len = charts.Length; i < len; ++i)
                 charts[i].GetSvgPoints(x0, y0, xs, ys);
         }
                                                                                                                                                                   
@@ -247,7 +247,7 @@ namespace Calcpad.Core
             else
                 src = Settings.ImageUri + PngToFile(canvas, Settings.ImagePath);
 
-            for (int j = 0; j < chartPens.Length; ++j)
+            for (int j = 0, len = chartPens.Length; j < len; ++j)
                 chartPens[j].Dispose();
             
             g.Dispose();

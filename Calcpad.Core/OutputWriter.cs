@@ -27,7 +27,7 @@ namespace Calcpad.Core
             byte sub = 0;
             var brackets = new Stack<int>();
 
-            for (int i = 0; i < text.Length; ++i)
+            for (int i = 0, len = text.Length; i < len; ++i)
             {
                 var c = text[i];
                 if (c == '·')
@@ -266,7 +266,7 @@ namespace Calcpad.Core
     {
         internal override string UnitString(Unit units) => units.Text;
         internal override string FormatInput(string s, Unit units, bool isCalculated) =>
-            Unit.IsNullOrEmpty(units) ? s : s + ' ' + units.Text;
+            units is null ? s : s + ' ' + units.Text;
 
         internal override string FormatSubscript(string sa, string sb) => sa + "_" + sb;
         internal override string FormatVariable(string s) => s;
@@ -280,7 +280,7 @@ namespace Calcpad.Core
         internal override string FormatValue(Value v, int decimals)
         {
             var s = FormatComplex(v.Number, decimals);
-            if (!Unit.IsNullOrEmpty(v.Units))
+            if (v.Units is not null)
             {
                 if (!v.Number.IsReal)
                     s = AddBrackets(s);
@@ -347,7 +347,7 @@ namespace Calcpad.Core
             else
                 output = $"<input type=\"text\" size=\"2\" name=\"Var\" value=\"{s}\">&#8202;";
 
-            if (!Unit.IsNullOrEmpty(units))
+            if (units is not null)
                 return $"{output} <i>{units.Html}</i>";
 
             return output;
@@ -424,7 +424,7 @@ namespace Calcpad.Core
         internal override string FormatValue(Value v, int decimals)
         {
             var s = FormatComplex(v.Number, decimals);
-            if (Unit.IsNullOrEmpty(v.Units)) 
+            if (v.Units is null) 
                 return s;
 
             if (!v.Number.IsReal)
@@ -486,10 +486,7 @@ namespace Calcpad.Core
             else
                 output = $"<m:r><m:t>{s}</m:t></m:r>";//<w:rPr><w:bdr w:val=\"single\" w:space=\"0\" w:color=\"000000\"<w:shd w:fill=\"FFFF88\" /></w:rPr>
 
-            if (!Unit.IsNullOrEmpty(units))
-                return output + units.Xml;
-
-            return output;
+            return units is null ? output : output + units.Xml;
         }
         internal override string FormatSubscript(string sa, string sb) =>
             $"<m:sSub><m:e><m:r><m:t>{sa}</m:t></m:r></m:e><m:sub><m:r><m:t>{sb}</m:t></m:r></m:sub></m:sSub>";
@@ -553,7 +550,7 @@ namespace Calcpad.Core
         internal override string FormatValue(Value v, int decimals)
         {
             var s = FormatComplex(v.Number, decimals);
-            if (Unit.IsNullOrEmpty(v.Units)) 
+            if (v.Units is null) 
                 return s;
 
             if (!v.Number.IsReal)

@@ -325,7 +325,7 @@ namespace Calcpad.Wpf
                 if (selectionLength > 0)
                     tp = RichTextBox.Selection.End;
 
-                for (int i = 1; i < parts.Length; ++i)
+                for (int i = 1, len = parts.Length; i < len; ++i)
                 {
                     tp = tp.Paragraph.ContentEnd.InsertParagraphBreak();
                     tp.InsertTextInRun(parts[i]);
@@ -383,7 +383,7 @@ namespace Calcpad.Wpf
             var n = 0;
             foreach (var _c in s)
                 if (_c == c)
-                    n++;
+                    ++n;
             return n;
         }
 
@@ -579,7 +579,7 @@ namespace Calcpad.Wpf
                 if (!string.Equals(menu.ToolTip, fileName))
                     continue;
 
-                for (int j = i; j > 0; j--)
+                for (int j = i; j > 0; --j)
                 {
                     menu = (MenuItem) MenuRecent.Items[j];
                     menu.Header = ((MenuItem) MenuRecent.Items[j - 1]).Header;
@@ -594,7 +594,7 @@ namespace Calcpad.Wpf
             if (n >= 9)
             {
                 MenuRecent.Items.RemoveAt(n - 1);
-                n--;
+                --n;
             }
             var newMenu = new MenuItem()
             {
@@ -821,7 +821,7 @@ namespace Calcpad.Wpf
                 p = (Paragraph)_document.Blocks.FirstBlock;
                 isStart = true;
             }
-            var length = _searchString.Length;
+            var len = _searchString.Length;
             while (p != null)
             {
                 var s = new TextRange(p.ContentStart, p.ContentEnd).Text.ToLowerInvariant();
@@ -829,7 +829,7 @@ namespace Calcpad.Wpf
                 if (i > 0)
                 {
                     RichTextBox.Selection.Select(p.ContentStart, p.ContentStart);
-                    RichTextBox.Selection.Select(p.ContentStart.GetPositionAtOffset(i), p.ContentStart.GetPositionAtOffset(i + length));
+                    RichTextBox.Selection.Select(p.ContentStart.GetPositionAtOffset(i), p.ContentStart.GetPositionAtOffset(i + len));
                     return;
                 }
                 p = (Paragraph)p.NextBlock;
@@ -1429,12 +1429,13 @@ namespace Calcpad.Wpf
 
         private void SetInputFields(string[] s)
         {
-            for (int i = 0; i < s.Length; ++i)
+            for (int i = 0, len = s.Length; i < len; ++i)
             {
-                if (s[i] is null || s[i].Length == 0)
+                ref var sloc = ref s[i];
+                if (sloc is null || sloc.Length == 0)
                     _parser.SetInputField("0");
                 else
-                    _parser.SetInputField(s[i].Replace(',', '.'));
+                    _parser.SetInputField(sloc.Replace(',', '.'));
             }
         }
 

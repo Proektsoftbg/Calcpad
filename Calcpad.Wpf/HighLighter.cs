@@ -180,7 +180,7 @@ namespace Calcpad.Wpf
                 isPlot = st.ToLowerInvariant().StartsWith("$plot");
             AllowUnaryMinus = true;
             Types t = Types.None, pt = Types.None;
-            for (int i = 0, n = s.Length; i < n; ++i)
+            for (int i = 0, len = s.Length; i < len; ++i)
             {
                 var c = s[i];
                 //Check for leading spaces.
@@ -299,13 +299,13 @@ namespace Calcpad.Wpf
                     if (c == '{')
                     {
                         if (t == Types.Command)
-                            isCommand++;
+                            ++isCommand;
 
                         t = isCommand > 0 ? Types.Bracket : Types.Error;
                     }
                     else if (c == '}')
                     {
-                        isCommand--;
+                        --isCommand;
                         t = isCommand >= 0 ? Types.Bracket : Types.Error;
                     }
                     else

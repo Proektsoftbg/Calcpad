@@ -142,7 +142,7 @@ namespace Calcpad.Core
                 }
             }
             input[0] = string.Join(" & ", charts);
-            for (int i = 1; i < input.Length; ++i)
+            for (int i = 1, len = input.Length; i < len; ++i)
             {
                 Parser.Parse(input[i]);
                 input[i] = Parser.ToHtml();
