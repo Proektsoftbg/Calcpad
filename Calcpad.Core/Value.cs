@@ -48,7 +48,7 @@ namespace Calcpad.Core
         }
 
         internal bool IsComposite() =>
-            !Unit.IsNullOrEmpty(Units) && 
+            Units is not null && 
             (   
                 Number.Re > 0.0 && 
                 Number.Re != 1.0 || 
@@ -57,7 +57,7 @@ namespace Calcpad.Core
 
         public static Value Fact(in Value a)
         {
-            if (!Unit.IsNullOrEmpty(a.Units))
+            if (a.Units is not null)
 #if BG
                 throw new MathParser.MathParserException("Аргументът на функцията n! трябва да е бездименсионен.");
 #else
@@ -116,7 +116,7 @@ namespace Calcpad.Core
 
         public static Value operator %(Value a, Value b)
         {
-            if (!Unit.IsNullOrEmpty(b.Units))
+            if (b.Units is not null)
                 throw new MathParser.MathParserException(
 #if BG
                     $"Не мога да изчисля остатъка: \"{Unit.GetText(a.Units)}  %  {Unit.GetText(b.Units)}\". Делителя трябва да е бездименсионен."
@@ -427,7 +427,7 @@ namespace Calcpad.Core
         {
             var result = v[0].Number.Re;
             var u = v[0].Units;
-            for (int i = 1, n = v.Length; i < n; ++i)
+            for (int i = 1, len = v.Length; i < len; ++i)
             {
                 var b = v[i].Number.Re * ConvertUnits(u, v[i].Units, ',');
                 if (b < result)
@@ -440,7 +440,7 @@ namespace Calcpad.Core
         {
             var result = v[0].Number.Re;
             var u = v[0].Units;
-            for (int i = 1, n = v.Length; i < n; ++i)
+            for (int i = 1, len = v.Length; i < len; ++i)
             {
                 var b = v[i].Number.Re * ConvertUnits(u, v[i].Units, ',');
                 if (b > result)
@@ -453,7 +453,7 @@ namespace Calcpad.Core
         {
             var result = v[0].Number.Re;
             var u = v[0].Units;
-            for (int i = 1, n = v.Length; i < n; ++i)
+            for (int i = 1, len = v.Length; i < len; ++i)
                 result += v[i].Number.Re * ConvertUnits(u, v[i].Units, ',');
 
             return new(result, u);
@@ -464,7 +464,7 @@ namespace Calcpad.Core
             var result = v[0].Number.Re;
             var u = v[0].Units;
             result *= result;
-            for (int i = 1, n = v.Length; i < n; ++i)
+            for (int i = 1, len = v.Length; i < len; ++i)
             {
                 var b = v[i].Number.Re * ConvertUnits(u, v[i].Units, ',');
                 result += b * b;
@@ -477,7 +477,7 @@ namespace Calcpad.Core
             var result = v[0].Number.Re;
             var u = v[0].Units;
             result *= result;
-            for (int i = 1, n = v.Length; i < n; ++i)
+            for (int i = 1, len = v.Length; i < len; ++i)
             {
                 var b = v[i].Number.Re * ConvertUnits(u, v[i].Units, ',');
                 result += b * b;
@@ -489,7 +489,7 @@ namespace Calcpad.Core
         {
             var result = v[0].Number.Re;
             var u = v[0].Units;
-            for (int i = 1, n = v.Length; i < n; ++i)
+            for (int i = 1, len = v.Length; i < len; ++i)
                 result += v[i].Number.Re * ConvertUnits(u, v[i].Units, ',');
 
             return new(result / v.Length, u);
@@ -499,7 +499,7 @@ namespace Calcpad.Core
         {
             var result = v[0].Number.Re;
             var u = v[0].Units;
-            for (int i = 1, n = v.Length; i < n; ++i)
+            for (int i = 1, len = v.Length; i < len; ++i)
             {
                 u = MultiplyUnits(u, v[i].Units, out var b);
                 result *= v[i].Number.Re * b;
@@ -511,7 +511,7 @@ namespace Calcpad.Core
         {
             var result = v[0].Number.Re;
             var u = v[0].Units;
-            for (int i = 1, n = v.Length; i < n; ++i)
+            for (int i = 1, len = v.Length; i < len; ++i)
             {
                 u = MultiplyUnits(u, v[i].Units, out var b, v[i].IsUnit);
                 result *= v[i].Number.Re * b;
@@ -561,7 +561,7 @@ namespace Calcpad.Core
 
         public static Value ComplexReminder(Value a, Value b)
         {
-            if (!Unit.IsNullOrEmpty(b.Units))
+            if (b.Units is not null)
                 throw new MathParser.MathParserException(
 #if BG
                     $"Не мога да изчисля остатъка: \"{Unit.GetText(a.Units)}  %  {Unit.GetText(b.Units)}\". Делителя трябва да е бездименсионен."
@@ -847,7 +847,7 @@ namespace Calcpad.Core
 
         private static bool AreAllReal(Value[] v)
         {
-            for(int i = 0, n = v.Length; i < n; ++i)
+            for(int i = 0, len = v.Length; i < len; ++i)
             {
                 if (!v[i].Number.IsReal)
                     return false;
@@ -869,7 +869,7 @@ namespace Calcpad.Core
         {
             var result = v[0].Number;
             var u = v[0].Units;
-            for (int i = 1, n = v.Length; i < n; ++i)
+            for (int i = 1, len = v.Length; i < len; ++i)
                 result += v[i].Number * ConvertUnits(u, v[i].Units, ',');
 
             return new(result, u);
@@ -880,7 +880,7 @@ namespace Calcpad.Core
             var result = v[0].Number;
             var u = v[0].Units;
             result *= result;
-            for (int i = 1, n = v.Length; i < n; ++i)
+            for (int i = 1, len = v.Length; i < len; ++i)
             {
                 var b = v[i].Number * ConvertUnits(u, v[i].Units, ',');
                 result += b * b;
@@ -893,7 +893,7 @@ namespace Calcpad.Core
             var result = v[0].Number;
             var u = v[0].Units;
             result *= result;
-            for (int i = 1, n = v.Length; i < n; ++i)
+            for (int i = 1, len = v.Length; i < len; ++i)
             {
                 var b = v[i].Number * ConvertUnits(u, v[i].Units, ',');
                 result += b * b;
@@ -905,7 +905,7 @@ namespace Calcpad.Core
         {
             var result = v[0].Number;
             var u = v[0].Units;
-            for (int i = 1, n = v.Length; i < n; ++i)
+            for (int i = 1, len = v.Length; i < len; ++i)
                 result += v[i].Number * ConvertUnits(u, v[i].Units, ',');
 
             return new(result / v.Length, u);
@@ -915,7 +915,7 @@ namespace Calcpad.Core
         {
             var result = v[0].Number;
             var u = v[0].Units;
-            for (int i = 1, n = v.Length; i < n; ++i)
+            for (int i = 1, len = v.Length; i < len; ++i)
             {
                 u = MultiplyUnits(u, v[i].Units, out var b);
                 result *= v[i].Number * b;
@@ -927,7 +927,7 @@ namespace Calcpad.Core
         {
             var result = v[0].Number;
             var u = v[0].Units;
-            for (int i = 1, n = v.Length; i < n; ++i)
+            for (int i = 1, len = v.Length; i < len; ++i)
             {
                 u = MultiplyUnits(u, v[i].Units, out var b, v[i].IsUnit);
                 result *= v[i].Number * b;
@@ -1010,19 +1010,19 @@ namespace Calcpad.Core
 
         private static Unit MultiplyUnits(Unit ua, Unit ub, out double d, bool updateText = false)
         {
-            if (Unit.IsNullOrEmpty(ua))
+            if (ua is null)
             {
                 d = 1d;
-                return Unit.IsNullOrEmpty(ub) ? null : ub;
+                return ub is null ? null : ub;
             }
-            if (Unit.IsNullOrEmpty(ub))
+            if (ub is null)
             {
                 d = 1d;
                 return ua;
             }
             d = Unit.GetProductOrDivisionFactor(ua, ub);
             var uc = ua * ub;
-            if (Unit.IsNullOrEmpty(uc))
+            if (uc is null)
                 return null;
 
             if (updateText && !Unit.IsMultiple(ua, ub))
@@ -1036,23 +1036,25 @@ namespace Calcpad.Core
 
         private static Unit DivideUnits(in Value a, in Value b, out double d, bool updateText = false)
         {
-            d = 1d;
             Unit ua = a.Units, ub = b.Units;
-            if (Unit.IsNullOrEmpty(ub))
-                return Unit.IsNullOrEmpty(ua) ? null : ua;
+            if (ub is null)
+            {
+                d = 1d;
+                return ua is null ? null : ua;
+            }
 
-            if (Unit.IsNullOrEmpty(ua))
+            if (ua is null)
+            {
+                d = 1d;
                 return ub.Pow(-1.0);
+            }
 
             d = Unit.GetProductOrDivisionFactor(ua, ub, true);
             var uc = ua / ub;   
-            if (Unit.IsNullOrEmpty(uc))
+            if (uc is null)
                 return null;
 
-            if (updateText && b.IsUnit && 
-                !(Unit.IsNullOrEmpty(ua) ||
-                  Unit.IsNullOrEmpty(ub) ||
-                  Unit.IsMultiple(ua, ub)))
+            if (updateText && b.IsUnit && !Unit.IsMultiple(ua, ub))
             {
                 uc.Scale(d);
                 d = 1;
@@ -1076,7 +1078,7 @@ namespace Calcpad.Core
 
         private static Unit PowUnits(Unit u, in Value power, bool updateText = false)
         {
-            if (!Unit.IsNullOrEmpty(power.Units))
+            if (power.Units is not null)
 #if BG
                 throw new MathParser.MathParserException("Степенният показател трябва да е бездименсионен.");
 #else
@@ -1130,7 +1132,7 @@ namespace Calcpad.Core
 
         private static void CheckFunctionUnits(string func, Unit unit)
         {
-            if (!Unit.IsNullOrEmpty(unit))
+            if (unit is not null)
 #if BG
                 throw new MathParser.MathParserException($"Невалидни мерни единици за функция: \"{func}({Unit.GetText(unit)})\".");
 #else

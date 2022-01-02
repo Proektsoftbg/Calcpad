@@ -76,10 +76,10 @@ namespace Calcpad.Core
                 foreach (var T in input)
                 {
                     if (T.Type == TokenTypes.BracketLeft)
-                        countOfBrackets++;
+                        ++countOfBrackets;
                     else if (T.Type == TokenTypes.BracketRight)
                     {
-                        countOfBrackets--;
+                        --countOfBrackets;
                         if (countOfBrackets < 0)
 #if BG
                             throw new MathParser.MathParserException("Липсва лява скоба '('.");
@@ -160,7 +160,7 @@ namespace Calcpad.Core
             var terminatedExpression = expression + " ";
             var literal = string.Empty;
             //HasSolver = false;
-            for (int i = 0, n = terminatedExpression.Length; i < n; ++i)
+            for (int i = 0, len = terminatedExpression.Length; i < len; ++i)
             {
                 var c = terminatedExpression[i];
                 //Get the type of the token

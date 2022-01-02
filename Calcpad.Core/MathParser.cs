@@ -207,8 +207,7 @@ namespace Calcpad.Core
 
         internal void Compile()
         {
-            var n = _solveBlocks.Count - 1;
-            for (int i = n; i >= 0; i--)
+            for (int i = _solveBlocks.Count - 1; i >= 0; --i)
                 _solveBlocks[i].Compile(this);
         }
 
@@ -328,7 +327,7 @@ namespace Calcpad.Core
 
         private void BindParameters(Parameter[] parameters, Token[] rpn)
         {
-            for (int i = 0, n = rpn.Length; i < n; ++i)
+            for (int i = 0, len = rpn.Length; i < len; ++i)
             {
                 var t = rpn[i];
                 if (t.Type == TokenTypes.Variable)
@@ -366,7 +365,7 @@ namespace Calcpad.Core
             _assignmentIndex = 0;
             int MultOrder =  Calculator.OperatorOrder[Calculator.OperatorIndex['*']];
             expression = s[0] + ' ';
-            for (int i = 0, n = expression.Length; i < n; ++i)
+            for (int i = 0, len = expression.Length; i < len; ++i)
             {
                 var c = expression[i];
                 var tt = GetCharType(c); //Get the type from predefined array
@@ -395,10 +394,10 @@ namespace Calcpad.Core
                             else
                                 _stringBuilder.Append(c);
 
-                            bracketCounter++;
+                            ++bracketCounter;
                             break;
                         case '}':
-                            bracketCounter--;
+                            --bracketCounter;
                             if (bracketCounter == 0)
                             {
                                 t = new Token(string.Empty, TokenTypes.Solver)
@@ -591,9 +590,10 @@ namespace Calcpad.Core
                                     isDivision = c == '/' || c == '÷';
                                     if (c == '=')
                                     {
-                                        if (tokens.Count == 1)
+                                        int count = tokens.Count;
+                                        if (count == 1)
                                             DefinedVariables.Add(tokens.Peek().Content);
-                                        _assignmentIndex = tokens.Count;
+                                        _assignmentIndex = count;
                                     }
                                 }
                                 t = new Token(c, tt);
@@ -954,7 +954,7 @@ namespace Calcpad.Core
                     case TokenTypes.MultiFunction:
                         var mfParamCount = ((FunctionToken)t).ParameterCount;
                         var mfParams = new Value[mfParamCount];
-                        for (int j = mfParamCount - 1; j >= 0; j--)
+                        for (int j = mfParamCount - 1; j >= 0; --j)
                             mfParams[j] = _stackBuffer[_tos--];
 
                         _stackBuffer[++_tos] = _calc.EvaluateMultiFunction(t.Index, mfParams);
@@ -963,7 +963,7 @@ namespace Calcpad.Core
                         var cf = _functions[t.Index];
                         var cfParamCount = cf.ParameterCount;
                         var cfParams = new Value[cfParamCount];
-                        for (int j = cfParamCount - 1; j >= 0; j--)
+                        for (int j = cfParamCount - 1; j >= 0; --j)
                             cfParams[j] = _stackBuffer[_tos--];
 
                         _stackBuffer[++_tos] = EvaluateFunction(cf, cfParams);
@@ -1254,7 +1254,7 @@ namespace Calcpad.Core
                     case TokenTypes.MultiFunction:
                         var mfValueCount = ((FunctionToken)t).ParameterCount;
                         var mfValues = new Expression[mfValueCount];
-                        for (int j = mfValueCount - 1; j >= 0; j--)
+                        for (int j = mfValueCount - 1; j >= 0; --j)
                             mfValues[j] = stackBuffer.Pop();
 
                         stackBuffer.Push(ParseMultiFunction(t.Index, mfValues));
@@ -1269,7 +1269,7 @@ namespace Calcpad.Core
                         var cf = _functions[t.Index];
                         var cfValueCount = cf.ParameterCount;
                         var cfValues = new Expression[cfValueCount];
-                        for (int j = cfValueCount - 1; j >= 0; j--)
+                        for (int j = cfValueCount - 1; j >= 0; --j)
                             cfValues[j] = stackBuffer.Pop();
 
                         stackBuffer.Push(ParseFunction(cf, cfValues));
@@ -1520,7 +1520,7 @@ namespace Calcpad.Core
         {
             var stackBuffer = new Stack<RenderToken>();
             hasOperators = _targetUnits is not null;
-            for (int i = 0, n = rpn.Length; i < n; ++i)
+            for (int i = 0, len = rpn.Length; i < len; ++i)
             {
                 var t = new RenderToken(rpn[i], 0);
                 var tt = t.Type;
@@ -1563,7 +1563,7 @@ namespace Calcpad.Core
                         t.Content = writer.FormatValue(v, _settings.Decimals);
                         t.IsCompositeValue = v.IsComposite() || t.Content.Contains('×');
                         t.Order = Token.DefaultOrder;
-                        if (_settings.IsComplex && v.Number.IsComplex && Unit.IsNullOrEmpty(v.Units))
+                        if (_settings.IsComplex && v.Number.IsComplex && v.Units is null)
                             t.Order = v.Number.Im < 0 ? MinusOrder : PlusOrder;
                     }
                     else
@@ -1835,7 +1835,7 @@ namespace Calcpad.Core
                 if (s[digits - 1] == 'i')
                 {
                     isImaginary = true;
-                    digits--;
+                    --digits;
                 }
                 var decimalPosition = digits;
                 var isLeadingZeros = true;
@@ -1852,7 +1852,7 @@ namespace Calcpad.Core
                         isLeadingZeros = false;
 
                     if (isLeadingZeros)
-                        leadingZeros++;
+                        ++leadingZeros;
                 }
                 maxDigits += leadingZeros;
                 var n = digits;
@@ -1865,7 +1865,7 @@ namespace Calcpad.Core
                     for (int i = decimalPosition + 1; i < n; ++i)
                         k += Mult[(s[i] - '0'), n1 - i];
 
-                    n1--;
+                    --n1;
                     for (int i = leadingZeros; i < decimalPosition; ++i)
                         k += Mult[(s[i] - '0'), n1 - i];
                 }
@@ -2105,15 +2105,15 @@ namespace Calcpad.Core
                 {
                     var c = Script[i];
                     if (c == '{')
-                        bracketCounter++;
+                        ++bracketCounter;
                     else if (c == '}')
-                        bracketCounter--;
+                        --bracketCounter;
 
                     if (bracketCounter == 0 && current < n && c == delimiters[current])
                     {
                         _items[current].Input = _stringBuilder.ToString();
                         _stringBuilder.Clear();
-                        current++;
+                        ++current;
                     }
                     else
                         _stringBuilder.Append(c);
@@ -2536,7 +2536,7 @@ namespace Calcpad.Core
 
             internal void SubscribeCache(Container<CustomFunction> functions)
             {
-                for (int i = 0, n = Rpn.Length; i < n; ++i)
+                for (int i = 0, len = Rpn.Length; i < len; ++i)
                 {
                     var t = Rpn[i];
                     if (t is VariableToken vt)
@@ -2559,7 +2559,7 @@ namespace Calcpad.Core
                 }
                 IsRecursion = false;
                 f ??= this;
-                for (int i = 0, n = Rpn.Length; i < n; ++i)
+                for (int i = 0, len = Rpn.Length; i < len; ++i)
                 {
                     var t = Rpn[i];
                     if (t.Type == TokenTypes.CustomFunction)
@@ -2600,7 +2600,7 @@ namespace Calcpad.Core
                     }
                     return z;
                 }
-                for (int i = 0, n = parameters.Length; i < n; ++i)
+                for (int i = 0, len = parameters.Length; i < len; ++i)
                     _parameters[i].SetValue(parameters[i]);
 
                 return Function();
@@ -2673,7 +2673,7 @@ namespace Calcpad.Core
                 foreach (var t in input)
                 {
                     if (t.Type == TokenTypes.Function2)
-                        countOfDivisors--;
+                        --countOfDivisors;
                     else if (t.Type == TokenTypes.If)
                         countOfDivisors -= 2;
                     else if (t.Type == TokenTypes.MultiFunction)
@@ -2693,10 +2693,10 @@ namespace Calcpad.Core
                             countOfDivisors = countOfDivisors - _functions[t.Index].ParameterCount + 1;
                     }
                     else if (t.Type == TokenTypes.BracketLeft)
-                        countOfBrackets++;
+                        ++countOfBrackets;
                     else if (t.Type == TokenTypes.BracketRight)
                     {
-                        countOfBrackets--;
+                        --countOfBrackets;
                         if (countOfBrackets < 0)
 #if BG
                             throw new MathParserException("Липсва лява скоба '('.");
@@ -2715,10 +2715,10 @@ namespace Calcpad.Core
                         }
                     }
                     else if (t.Type == TokenTypes.Divisor)
-                        countOfDivisors++;
+                        ++countOfDivisors;
                     else if (t.Type == TokenTypes.Operator)
                     {
-                        countOfOperators++;
+                        ++countOfOperators;
                         if (t.Content == "=")
                         {
                             if (firstToken.Type == TokenTypes.CustomFunction)

@@ -41,9 +41,7 @@ namespace Calcpad.Core
             if (_currentField >= _inputFields.Count)
                 _currentField = 0;
 
-            var s = _inputFields[_currentField];
-            _currentField++;
-            return s;
+            return _inputFields[_currentField++];
         }
 
         public void Parse(string expressions, bool calculate = true) =>
@@ -114,10 +112,11 @@ namespace Calcpad.Core
             _parser.GetInputField += GetInputField;
             _parser.SetVariable("Units", new Value(_parser.MakeNumber(UnitsFactor())));
             var currentLine = 0;
+            var len = expressions.Length - 1;
             var s = string.Empty;
             try
             {
-                for (currentLine = 0; currentLine < expressions.Length - 1; currentLine++)
+                for (currentLine = 0; currentLine < len; ++currentLine)
                 {
                     if (_parser.IsCanceled)
                         break;
@@ -402,7 +401,7 @@ namespace Calcpad.Core
                     }
                 }
                 ApplyUnits(stringBuilder, calculate);
-                if (condition.Id > 0 && currentLine == expressions.Length - 1)
+                if (condition.Id > 0 && currentLine == len)
 #if BG
                     stringBuilder.Append($"<p class=\"err\">Грешка: Условният \"#if\" блок не е затворен. Липсва \"#end if\"</p>");
 #else
@@ -446,9 +445,9 @@ namespace Calcpad.Core
             else
                 unitsHtml = "<span class=\"Units\">" + Settings.Units + "</span>";
 
-            long length = sb.Length;
+            long len = sb.Length;
             sb.Replace("%u", unitsHtml);
-            if (calculate || sb.Length == length)
+            if (calculate || sb.Length == len)
                 return;
 
             sb.Insert(0, "<select id=\"Units\" name=\"Units\"><option value=\"m\"> m </option><option value=\"cm\"> cm </option><option value=\"mm\"> mm </option></select>");
@@ -468,7 +467,7 @@ namespace Calcpad.Core
         private void PurgeObsoleteInput(string s)
         {
             var isExpression = true;
-            for (int i = 0, n = s.Length; i < n; ++i)
+            for (int i = 0, len = s.Length; i < len; ++i)
             {
                 var c = s[i];
                 if (c == '\'' || c == '\"')
@@ -483,7 +482,7 @@ namespace Calcpad.Core
             var tokens = new List<Token>();
             var stringBuilder = new StringBuilder();
             var currentSeparator = ' ';
-            for (int i = startIndex, n = s.Length; i < n; ++i)
+            for (int i = startIndex, len = s.Length; i < len; ++i)
             {
                 var c = s[i];
                 if (c == '\'' || c == '\"')
@@ -608,21 +607,21 @@ namespace Calcpad.Core
             }
             private void Add(bool value)
             {
-                Id++;
+                ++Id;
                 _conditions[Id] = new Item(value, Types.If);
                 if (IsSatisfied)
                 {
-                    _count++;
+                    ++_count;
                     IsFound = false;
                 }
             }
 
             private void Remove()
             {
-                Id--;
+                --Id;
                 if (_count > Id)
                 {
-                    _count--;
+                    --_count;
                     IsFound = true;
 
                 }
@@ -766,7 +765,7 @@ namespace Calcpad.Core
                     return false;
 
                 currentLine = _startLine;
-                _iteration--;
+                --_iteration;
                 return true;
             }
 
