@@ -24,7 +24,7 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<PlatformTarget>AnyCPU</PlatformTarget>
-		<!--<DefineConstants>BG</DefineConstants>-->
+    <!--<DefineConstants>BG</DefineConstants>-->
 	</PropertyGroup>
 	
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
