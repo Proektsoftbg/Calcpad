@@ -132,8 +132,8 @@ A variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;average(x; y; z...) - average of multiple values = (x + y + z...)/n;  
 &emsp;&emsp;product(x; y; z...) - product of multiple values = x·y·z...;  
 &emsp;&emsp;mean(x; y; z...) - geometric mean = n-th root(x·y·z...);  
-&emsp;&emsp;if(<cond>; <value-if-true>; <value-if-false>) - conditional evaluation;   
-&emsp;&emsp;switch(<cond1>; <value1>; <cond2>; <value2>; … ; <default>) - selective evaluation;  
+&emsp;&emsp;if(*cond*; *value-if-true*; *value-if-false*) - conditional evaluation;   
+&emsp;&emsp;switch(*cond1*; *value1*; *cond2*; *value2*; … ; *default*) - selective evaluation;  
 &emsp;&emsp;take(n; a; b; c...) - returns the n-th element from the list;  
 &emsp;&emsp;line(x; a; b; c...) - linear interpolation;  
 &emsp;&emsp;spline(x; a; b; c...) - Hermite spline interpolation;  
