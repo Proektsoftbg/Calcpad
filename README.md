@@ -124,9 +124,19 @@ A variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;im(x) - the imaginary part of a complex number;  
 &emsp;&emsp;phase(x) - the phase of a complex number;  
 &emsp;&emsp;random(x) - random number between 0 and x;  
-&emsp;&emsp;min(x; y) - the minimum of two values;  
-&emsp;&emsp;max(x; y) - the maximum of two values;  
-&emsp;&emsp;if(*cond*; *value-if-true*; *value-if-false*) - conditional evaluation;  
+&emsp;&emsp;min(x; y; z...) - minimum of multiple values;  
+&emsp;&emsp;max(x; y; z...) - maximum of multiple values;  
+&emsp;&emsp;sum(x; y; z...) - sum of multiple values = x + y + z...;  
+&emsp;&emsp;sumsq(x; y; z...) - sum of squares = x² + y² + z²...;  
+&emsp;&emsp;srss(x; y; z...) - square root of sum of squares = sqrt(x² + y² + z²...);  
+&emsp;&emsp;average(x; y; z...) - average of multiple values = (x + y + z...)/n;  
+&emsp;&emsp;product(x; y; z...) - product of multiple values = x·y·z...;  
+&emsp;&emsp;mean(x; y; z...) - geometric mean = n-th root(x·y·z...);  
+&emsp;&emsp;if(<cond>; <value-if-true>; <value-if-false>) - conditional evaluation;   
+&emsp;&emsp;switch(<cond1>; <value1>; <cond2>; <value2>; … ; <default>) - selective evaluation;  
+&emsp;&emsp;take(n; a; b; c...) - returns the n-th element from the list;  
+&emsp;&emsp;line(x; a; b; c...) - linear interpolation;  
+&emsp;&emsp;spline(x; a; b; c...) - Hermite spline interpolation;  
 * Comments: "Title" or 'text' in double or single quotes, respectively. HTML, CSS, JS and SVG are allowed.  
 * Graphing and plotting:  
 &emsp;&emsp;$Plot { f(x) @ x = a : b } - simple plot;  
