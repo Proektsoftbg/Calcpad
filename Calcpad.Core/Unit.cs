@@ -130,7 +130,6 @@ namespace Calcpad.Core
             return false;
         }
 
-
         public bool Equals(Unit other)
         {
             if (other is null)
@@ -148,13 +147,10 @@ namespace Calcpad.Core
 
         internal Unit(int n)
         {
-            if (n == 0)
-                return;
-
             _dims = new Dimension[n];
-            _dims[0].Factor = 1000.0;
+            _dims[0].Factor = 1000d;
             for (int i = 1; i < n; ++i)
-                _dims[i].Factor = 1.0;
+                _dims[i].Factor = 1d;
         }
 
         internal Unit(string text) : this(Units[text]) { }
@@ -187,9 +183,9 @@ namespace Calcpad.Core
                 n = 1;
 
             _dims = new Dimension[n];
-            _dims[0].Factor = 1000.0;
-            for (int i = 0; i < n; ++i)
-                _dims[i].Factor = 1.0;
+            _dims[0].Factor = 1000d;
+            for (int i = 1; i < n; ++i)
+                _dims[i].Factor = 1d;
 
             if (n > 0)
             {
@@ -209,6 +205,7 @@ namespace Calcpad.Core
                                 if (n > 5)
                                 {
                                     _dims[5].Power = substance;
+
                                     if (n > 6)
                                         _dims[6].Power = luminosity;
                                 }
@@ -245,14 +242,14 @@ namespace Calcpad.Core
 
         static Unit()
         {
-            var kg = new Unit("kg", 1).Scale("g", 0.001);
-            var m = new Unit("m", 0, 1);
+            var kg = new Unit("kg", 1f).Scale("g", 0.001);
+            var m = new Unit("m", 0f, 1f);
             var mi = m.Scale("mi", 1609.344);
-            var a = m.Pow(2).Scale("a", 100);
+            var a = m.Pow(2).Scale("a", 100d);
             var L = m.Shift(-1).Pow(3);
             L.Text = "L";
             var s = new Unit("s", 0f, 0f, 1f);
-            var h = s.Scale("h", 3600.0);
+            var h = s.Scale("h", 3600d);
             var A = new Unit("A", 0f, 0f, 0f, 1f);
             var N = new Unit("N", 1f, 1f, -2f);
             var Nm = new Unit("Nm", 1f, 2f, -2f);
@@ -273,21 +270,21 @@ namespace Calcpad.Core
             var Sv = new Unit("Sv", 0f, 2f, -2f);
 
             ForceUnits[4] = N.Shift(3);
-            ForceUnits[0] = ForceUnits[4] * m.Pow(-4);
+            ForceUnits[0] = ForceUnits[4] * m.Pow(-4d);
             ForceUnits[0].Text = "kN/m^4";
-            ForceUnits[1] = ForceUnits[4] * m.Pow(-3);
+            ForceUnits[1] = ForceUnits[4] * m.Pow(-3d);
             ForceUnits[1].Text = "kN/m^3";
-            ForceUnits[2] = ForceUnits[4] * m.Pow(-2);
+            ForceUnits[2] = ForceUnits[4] * m.Pow(-2d);
             ForceUnits[2].Text = "kPa";
-            ForceUnits[3] = ForceUnits[4] * m.Pow(-1);
+            ForceUnits[3] = ForceUnits[4] * m.Pow(-1d);
             ForceUnits[3].Text = "kN/m";
             ForceUnits[5] = ForceUnits[4] * m;
             ForceUnits[5].Text = "kN·m";
-            ForceUnits[6] = ForceUnits[4] * m.Pow(2);
+            ForceUnits[6] = ForceUnits[4] * m.Pow(2d);
             ForceUnits[6].Text = "kN·m^2";
-            ForceUnits[7] = ForceUnits[4] * m.Pow(3);
+            ForceUnits[7] = ForceUnits[4] * m.Pow(3d);
             ForceUnits[7].Text = "kN·m^3";
-            ForceUnits[8] = ForceUnits[4] * m.Pow(4);
+            ForceUnits[8] = ForceUnits[4] * m.Pow(4d);
             ForceUnits[8].Text = "kN·m^4";
 
             Units = new Dictionary<string, Unit>()
@@ -296,9 +293,9 @@ namespace Calcpad.Core
                 {"g",  kg},
                 {"hg", kg.Shift(2)},
                 {"kg", kg.Shift(3)},
-                {"t",  kg.Scale("t", 1000000.0)},
-                {"kt", kg.Scale("kt", 1000000000.0)},
-                {"Mt", kg.Scale("Mt", 1000000000000.0)},
+                {"t",  kg.Scale("t", 1000000d)},
+                {"kt", kg.Scale("kt", 1000000000d)},
+                {"Mt", kg.Scale("Mt", 1000000000000d)},
                 {"Gt", kg.Scale("Gt", 1E+15)},
                 {"dg", kg.Shift(-1)},
                 {"cg", kg.Shift(-2)},
@@ -330,8 +327,8 @@ namespace Calcpad.Core
                 {"μm", m.Shift(-6)},
                 {"nm", m.Shift(-9)},
                 {"pm", m.Shift(-12)},
-                {"AU", m.Scale("AU", 149597870700.0)},
-                {"ly", m.Scale("ly", 9460730472580800.0)},
+                {"AU", m.Scale("AU", 149597870700d)},
+                {"ly", m.Scale("ly", 9460730472580800d)},
 
                 {"th", m.Scale("th", 2.54E-05)},
                 {"in", m.Scale("in", 0.0254)},
@@ -350,13 +347,13 @@ namespace Calcpad.Core
                 {"lea", m.Scale("lea", 4828.032)},
 
                 {"a",  a},
-                {"daa",a.Scale("daa", 10.0)},
-                {"ha", a.Scale("ha", 100.0)},
+                {"daa",a.Scale("daa", 10d)},
+                {"ha", a.Scale("ha", 100d)},
                 {"L",  L},
                 {"dL", L.Scale("dL", 0.1)},
                 {"cL", L.Scale("cL", 0.01)},
                 {"mL", L.Scale("mL", 0.001)},
-                {"hL", L.Scale("hL", 100.0)},
+                {"hL", L.Scale("hL", 100d)},
 
                 {"rood",m.Pow(2).Scale("rood", 1011.7141056)},
                 {"ac",  m.Pow(2).Scale("ac", 4046.8564224)},
@@ -380,11 +377,11 @@ namespace Calcpad.Core
                 {"μs", s.Shift(-6)},
                 {"ns", s.Shift(-9)},
                 {"ps", s.Shift(-12)},
-                {"min",s.Scale("min", 60.0)},
+                {"min",s.Scale("min", 60d)},
                 {"h",  h},
                 {"d",  h.Scale("d", 24)},
-                {"kmh", (m.Shift(3) / h).Scale("kmh", 1)},
-                {"mph", (mi / h).Scale("mph", 1)},
+                {"kmh", (m.Shift(3) / h).Scale("kmh", 1d)},
+                {"mph", (mi / h).Scale("mph", 1d)},
                 {"Hz", Hz},
                 {"kHz", Hz.Shift(3)},
                 {"MHz", Hz.Shift(6)},
@@ -394,7 +391,7 @@ namespace Calcpad.Core
                 {"μHz", Hz.Shift(-6)},
                 {"nHz", Hz.Shift(-9)},
                 {"pHz", Hz.Shift(-12)},
-                {"rpm", Hz.Scale("rpm", 1.0 / 60.0)},
+                {"rpm", Hz.Scale("rpm", 1d / 60d)},
 
                 {"A", A},
                 {"kA", A.Shift(3)},
@@ -411,9 +408,9 @@ namespace Calcpad.Core
                 {"°C", new Unit("°C",   0f, 0f, 0f, 0f, 1f)},
                 {"Δ°C", new Unit("Δ°C", 0f, 0f, 0f, 0f, 1f)},
                 {"K", new Unit("K",     0f, 0f, 0f, 0f, 1f)},
-                {"°F", new Unit("°F",   0f, 0f, 0f, 0f, 1f).Scale("°F", 5.0 / 9.0)},
-                {"Δ°F", new Unit("Δ°F", 0f, 0f, 0f, 0f, 1f).Scale("Δ°F", 5.0 / 9.0)},
-                {"°R", new Unit("°R",   0f, 0f, 0f, 0f, 1f).Scale("°R", 5.0 / 9.0)},
+                {"°F", new Unit("°F",   0f, 0f, 0f, 0f, 1f).Scale("°F", 5d / 9d)},
+                {"Δ°F", new Unit("Δ°F", 0f, 0f, 0f, 0f, 1f).Scale("Δ°F", 5d / 9d)},
+                {"°R", new Unit("°R",   0f, 0f, 0f, 0f, 1f).Scale("°R", 5d / 9d)},
 
                 {"mol", new Unit("mol", 0f, 0f, 0f, 0f, 0f, 1f)},
                 {"cd", new Unit("cd",   0f, 0f, 0f, 0f, 0f, 0f, 1f)},
@@ -452,10 +449,10 @@ namespace Calcpad.Core
                 {"μPa", Pa.Shift(-6)},
                 {"nPa", Pa.Shift(-9)},
                 {"pPa", Pa.Shift(-12)},
-                {"bar",  Pa.Scale("bar", 100000.0)},
-                {"mbar", Pa.Scale("mbar", 100.0)},
+                {"bar",  Pa.Scale("bar", 100000d)},
+                {"mbar", Pa.Scale("mbar", 100d)},
                 {"μbar", Pa.Scale("μbar", 0.1)},
-                {"atm",  Pa.Scale("atm", 101325.0)},
+                {"atm",  Pa.Scale("atm", 101325d)},
                 {"mmHg",  Pa.Scale("mmHg", 133.322387415)},
 
                 {"at",   Pa.Scale("at", 98066.5)},
@@ -479,10 +476,10 @@ namespace Calcpad.Core
                 {"μJ", J.Shift(-6)},
                 {"nJ", J.Shift(-9)},
                 {"pJ", J.Shift(-12)},
-                {"Wh", J.Scale("Wh", 3600.0)},
-                {"kWh", J.Scale("kWh", 3600000.0)},
-                {"MWh", J.Scale("MWh", 3600000000.0)},
-                {"GWh", J.Scale("GWh", 3600000000000.0)},
+                {"Wh", J.Scale("Wh", 3600d)},
+                {"kWh", J.Scale("kWh", 3600000d)},
+                {"MWh", J.Scale("MWh", 3600000000d)},
+                {"GWh", J.Scale("GWh", 3600000000000d)},
                 {"TWh", J.Scale("TWh", 3.6E+15)},
 
                 {"erg", J.Scale("erg", 1e-7)},
@@ -653,23 +650,13 @@ namespace Calcpad.Core
                 ref var dim = ref _dims[i];
                 if (dim.Power != 0f)
                 {
-                    dim.Factor *= Math.Pow(factor, 1.0 / dim.Power);
+                    dim.Factor *= Math.Pow(factor, 1d / dim.Power);
                     break;
                 }
             }
         }
 
-        internal Unit Shift(int n)
-        {
-            var s = GetPrefix(n) + _text;
-            var unit = new Unit(this)
-            {
-                _text = s
-            };
-            unit.Scale(GetScale(n));
-            return unit;
-        }
-
+        internal Unit Shift(int n) => Scale(GetPrefix(n) + _text, GetScale(n));
         internal Unit Scale(string s, double factor)
         {
             var unit = new Unit(this)
@@ -724,7 +711,7 @@ namespace Calcpad.Core
                 ref var dim = ref unit._dims[i];
                 if (dim.Power != 0f)
                 {
-                    dim.Factor *= Math.Pow(d, 1.0 / dim.Power);
+                    dim.Factor *= Math.Pow(d, 1d / dim.Power);
                     break;
                 }
             }
@@ -742,25 +729,25 @@ namespace Calcpad.Core
             var n1 = u1._dims.Length;
             var n2 = u2._dims.Length;
             var n = n1 > n2 ? n1 : n2;
-            var size = n;
-            while (size > 0)
+            float p1, p2;
+            while (n > 0)
             {
-                var i = size - 1;
-                var p1 = i < n1 ? u1._dims[i].Power : 0f;
-                var p2 = i < n2 ? -k * u2._dims[i].Power : 0f;
-                if (p1 != p2)
+                var i = n - 1;
+                p1 = i < n1 ? u1._dims[i].Power : 0f;
+                p2 = i < n2 ? k * u2._dims[i].Power : 0f;
+                if (p1 != -p2)
                     break;
 
-                size = i;
+                n = i;
             }
-            if (size == 0)
+            if (n == 0)
                 return null;
 
-            Unit unit = new(size);
-            for (int i = 0; i < size; ++i)
+            Unit unit = new(n);
+            for (int i = 0; i < n; ++i)
             {
-                var p1 = i < n1 ? u1._dims[i].Power : 0f;
-                var p2 = i < n2 ? k * u2._dims[i].Power : 0f;
+                p1 = i < n1 ? u1._dims[i].Power : 0f;
+                p2 = i < n2 ? k * u2._dims[i].Power : 0f;
                 ref var dim = ref unit._dims[i];
                 dim.Factor = p1 == 0f ? u2._dims[i].Factor : u1._dims[i].Factor;
                 dim.Power = p1 + p2;
@@ -773,27 +760,21 @@ namespace Calcpad.Core
             var n1 = u1._dims.Length;
             var n2 = u2._dims.Length;
             var n = n1 > n2 ? n1 : n2;
-            var k = divide ? -1d : 1d;
-            var factor = 1.0;
+            var factor = 1d;
             for (int i = 0; i < n; ++i)
             { 
-                var p1 = i < n1 ? u1._dims[i].Power : 0d;
-                var p2 = i < n2 ? k * u2._dims[i].Power : 0d;
-                if (p1 != 0 && p2 != 0)
-                {
-                    if (k == 1)
-                        factor *= Math.Pow(u2._dims[i].Factor / u1._dims[i].Factor, p2);
-                    else
-                        factor /= Math.Pow(u2._dims[i].Factor / u1._dims[i].Factor, -p2);
-                }
+                var p1 = i < n1 ? u1._dims[i].Power : 0f;
+                var p2 = i < n2 ? (divide ? -u2._dims[i].Power : u2._dims[i].Power) : 0f;
+                if (p1 != 0f && p2 != 0f)
+                    factor *= Math.Pow(u2._dims[i].Factor / u1._dims[i].Factor, p2);
             }
             return factor;
         }
 
 
-        public static Unit operator /(Unit u, double d) => u * (1.0 / d);
+        public static Unit operator /(Unit u, double d) => u * (1d / d);
 
-        public static Unit operator /(double d, Unit u) => d * u.Pow(-1.0);
+        public static Unit operator /(double d, Unit u) => d * u.Pow(-1d);
 
         internal Unit Pow(double x)
         {
@@ -810,36 +791,39 @@ namespace Calcpad.Core
             return unit;
         }
 
-        internal static bool IsConsistent(Unit u1, Unit u2)
-        {
-            if (u1 is null)
-                return u2 is null;
+        internal static bool IsConsistent(Unit u1, Unit u2) =>
+            u1 is null ?
+            u2 is null :
+            u1.IsConsistent(u2);
 
-            if (u2 is null)
+
+        private bool IsConsistent(Unit other)
+        {
+            if (other is null)
                 return false;
 
-            int n = u1._dims.Length;
-            if (u2._dims.Length != n)
+            int n = _dims.Length;
+            if (n != other._dims.Length)
                 return false;
 
             for (int i = 0; i < n; ++i)
-                if (u1._dims[i].Power != u2._dims[i].Power)
+                if (_dims[i].Power != other._dims[i].Power)
                     return false;
 
             return true;
         }
 
-        internal static bool IsMultiple(Unit u1, Unit u2)
+        internal bool IsMultiple(Unit other)
         {
-            int n = u1._dims.Length;
-            if (u2._dims.Length != n)
+            int n = _dims.Length;
+            if (n != other._dims.Length)
                 return false;
 
             double? d1 = null;
             for (int i = 0; i < n; ++i)
             {
-                ref float p1 = ref u1._dims[i].Power;
-                ref float p2 = ref u2._dims[i].Power;
+                ref float p1 = ref _dims[i].Power;
+                ref float p2 = ref other._dims[i].Power;
                 if (p1 != p2)
                 {
                     if (p1 == 0f || p2 == 0f)
@@ -860,7 +844,7 @@ namespace Calcpad.Core
 
         internal double ConvertTo(Unit u)
         {
-            var d = 1.0;
+            var d = 1d;
             for (int i = 0, n = _dims.Length; i < n; ++i)
             {
                 ref var dim = ref _dims[i];
@@ -911,7 +895,7 @@ namespace Calcpad.Core
         {
             return n switch
             {
-                0 => 1.0,
+                0 => 1d,
                 1 => 10.0,
                 2 => 100.0,
                 3 => 1E+3,
@@ -940,14 +924,14 @@ namespace Calcpad.Core
         {
             var d = factor switch
             {
-                1.0  => 0.0,
-                10.0 => 1.0,
+                1d  => 0.0,
+                10d => 1d,
                 1E+2 => 2.0,
                 1E+3 => 3.0,
                 1E+4 => 4.0,
                 1E+5 => 5.0,
                 1E+6 => 6.0,
-                0.1  => -1.0,
+                0.1  => -1d,
                 1E-2 => -2.0,
                 1E-3 => -3.0,
                 1E-4 => -4.0,
@@ -961,16 +945,16 @@ namespace Calcpad.Core
 
         private static string GetDimText(OutputWriter writer, string name, double factor, float power)
         {
-            if (factor != 1.0)
+            if (factor != 1d)
             {
                 switch (name)
                 {
                     case "s":
                         {
-                            if (factor == 60.0 || factor == 3600.0)
+                            if (factor == 60d || factor == 3600d)
                             {
-                                factor = 1.0;
-                                name = factor == 60.0 ? "min" : "h";
+                                factor = 1d;
+                                name = factor == 60d ? "min" : "h";
                             }
 
                             break;
@@ -986,13 +970,13 @@ namespace Calcpad.Core
                             else
                             {
                                 var a2 = factor / 453.59237;
-                                if (a2 < 1.0)
+                                if (a2 < 1d)
                                 {
-                                    var a3 = 1.0 / a2;
+                                    var a3 = 1d / a2;
                                     if (Math.Abs(a3 - Math.Round(a3)) < 1E-12)
                                     {
                                         a3 = Math.Round(a3);
-                                        factor = 1.0;
+                                        factor = 1d;
                                         switch (a3)
                                         {
                                             case 7000.0:
@@ -1014,7 +998,7 @@ namespace Calcpad.Core
                                 else if (Math.Abs(a2 - Math.Round(a2)) < 1E-12)
                                 {
                                     a2 = Math.Round(a2);
-                                    factor = 1.0;
+                                    factor = 1d;
                                     switch (a2)
                                     {
                                         case 14.0:
@@ -1029,7 +1013,7 @@ namespace Calcpad.Core
                                         case 112.0:
                                             name = "cwt_UK";
                                             break;
-                                        case 1000.0:
+                                        case 1000d:
                                             name = "kip";
                                             break;
                                         case 2000.0:
@@ -1051,8 +1035,8 @@ namespace Calcpad.Core
                                             factor /= 1000000.0;
                                             name = "t";
                                             break;
-                                        case >= 1000.0:
-                                            factor /= 1000.0;
+                                        case >= 1000d:
+                                            factor /= 1000d;
                                             name = "kg";
                                             break;
                                     }
@@ -1065,13 +1049,13 @@ namespace Calcpad.Core
                             if (Math.Abs(a - Math.Round(a)) < 1E-12)
                             {
                                 a = Math.Round(a);
-                                factor = 1.0;
+                                factor = 1d;
                                 switch (a)
                                 {
-                                    case 1.0:
+                                    case 1d:
                                         name = "th";
                                         break;
-                                    case 1000.0:
+                                    case 1000d:
                                         name = "in";
                                         break;
                                     case 36000.0:

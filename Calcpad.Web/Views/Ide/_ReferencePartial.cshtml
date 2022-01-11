@@ -102,8 +102,6 @@
         @refFunction("sqrt") - square root;<br />
         @refFunction("cbrt") - cubic root;<br />
         @refFunction2("root") - n-th root;<br />
-        @refFunction2("min") - the minimum of two values;<br />
-        @refFunction2("max") - the maximum of two values;<br />
         @refFunction2("atan2") - the angle whose tangent is the quotient of <var>x</var> and <var>y</var>;<br />
         @refFunction("round") - round to the nearest integer;<br />
         @refFunction("floor") - round to the lower integer;<br />
@@ -113,7 +111,19 @@
         @refFunction("im") - rhe imaginary part of a complex number;<br />
         @refFunction("phase") - rhe phase of a complex number;<br />
         @refFunction("random") - a random number between 0 and <var>x</var>;<br />
-        @refLink("if(", "<b>if</b>(&lt;<em>cond</em>&gt;; &lt;<em>value-if-true</em>&gt;; &lt;<em>value-if-false</em>&gt;)") - conditional evaluation;
+	    @refLink("min(", "<b>min</b>(<var>x</var>; <var>y</var>; <var>z</var>...)") - minimum of multiple values;<br /> 
+	    @refLink("max(", "<b>max</b>(<var>x</var>; <var>y</var>; <var>z</var>...)") - maximum of multiple values;<br />
+	    @refLink("sum(", "<b>sum</b>(<var>x</var>; <var>y</var>; <var>z</var>...)") - sum of multiple values = <var>x</var> + <var>y</var> + <var>z</var>...;<br />
+	    @refLink("sumsq(", "<b>sumsq</b>(<var>x</var>; <var>y</var>; <var>z</var>...)") - sum of squares = <var>x</var>² + <var>y</var>² + <var>z</var>²...;<br />
+	    @refLink("srss(", "<b>srss</b>(<var>x</var>; <var>y</var>; <var>z</var>...)") - square root of sum of squares = <b>sqrt</b>(<var>x</var>² + <var>y</var>² + <var>z</var>²...);<br />
+	    @refLink("average(", "<b>average</b>(<var>x</var>; <var>y</var>; <var>z</var>...)") - average of multiple values = (<var>x</var> + <var>y</var> + <var>z</var>...)/<var>n</var>;<br />
+	    @refLink("product(", "<b>product</b>(<var>x</var>; <var>y</var>; <var>z</var>...)") - product of multiple values = <var>x</var>·<var>y</var>·<var>z</var>...;<br />
+	    @refLink("mean(", "<b>mean</b>(<var>x</var>; <var>y</var>; <var>z</var>...)") - geometric mean = n-th <b>root</b>(<var>x</var>·<var>y</var>·<var>z</var>...);<br />
+	    @refLink("if(", "<b>if</b>(&lt;<em>cond</em>&gt;; &lt;<em>value-if-true</em>&gt;; &lt;<em>value-if-false</em>&gt;)") - conditional evaluation;<br /> 
+	    @refLink("switch(", "<b>switch</b>(&lt;<em>cond1</em>&gt;; &lt;<em>value1</em>&gt;; &lt;<em>cond2</em>&gt;; &lt;<em>value2</em>&gt;;...; &lt;<em>default</em>&gt;)") - selective evaluation;<br />
+	    @refLink("take(", "<b>take</b>(<var>n</var>; <var>a</var>; <var>b</var>; <var>c</var>...)") - returns the n-th element from the list;<br /> 
+	    @refLink("line(", "<b>line</b>(<var>x</var>; <var>a</var>; <var>b</var>; <var>c</var>...)") - linear interpolation;<br /> 
+	    @refLink("spline(", "<b>spline</b>(<var>x</var>; <var>a</var>; <var>b</var>; <var>c</var>...)") - Hermite spline interpolation;
     </p>
 </details>
 <span class="ref-list">Comments: @refLink("\"Title\"", "<b>\"Title\"</b>") or @refLink("'text'", "<b>'text'</b>") in double or single quotes, respectively. <strong>HTML</strong>, <strong>CSS</strong>, <strong>JS</strong> and <strong>SVG</strong> are allowed.</span>

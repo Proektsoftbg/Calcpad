@@ -13,7 +13,7 @@
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
         <OutputPath>..\Calcpad.Wpf\bin\Release\net6.0-windows\</OutputPath>
 		<PlatformTarget>AnyCPU</PlatformTarget>
-		<!--<DefineConstants>BG</DefineConstants>-->
+      <!--<DefineConstants>BG</DefineConstants>-->
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

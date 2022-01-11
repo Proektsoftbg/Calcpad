@@ -1025,7 +1025,7 @@ namespace Calcpad.Core
             if (uc is null)
                 return null;
 
-            if (updateText && !Unit.IsMultiple(ua, ub))
+            if (updateText && !ua.IsMultiple(ub))
             {
                 uc.Scale(d); 
                 d = 1d;
@@ -1054,7 +1054,7 @@ namespace Calcpad.Core
             if (uc is null)
                 return null;
 
-            if (updateText && b.IsUnit && !Unit.IsMultiple(ua, ub))
+            if (updateText && b.IsUnit && !ua.IsMultiple(ub))
             {
                 uc.Scale(d);
                 d = 1;
@@ -1123,7 +1123,7 @@ namespace Calcpad.Core
         {
             if (!Unit.IsConsistent(ua, ub))
 #if BG
-                throw new MathParser.MathParserException($"Несъвместими мерни единици: \"{Unit.GetText(a)} {op} {Unit.GetText(b)}\".");
+                throw new MathParser.MathParserException($"Несъвместими мерни единици: \"{Unit.GetText(ua)} {op} {Unit.GetText(ub)}\".");
 #else
                 throw new MathParser.MathParserException($"Inconsistent units: \"{Unit.GetText(ua)} {op} {Unit.GetText(ub)}\".");
 #endif
