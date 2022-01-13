@@ -11,9 +11,9 @@
         <Authors>Nedelcho Ganchovski</Authors>
         <RootNamespace>Calcpad.Wpf</RootNamespace>
         <Platforms>AnyCPU</Platforms>
-		<Version>5.6</Version>
-		<Authors>Nedelcho Ganchovski</Authors>
-		<Company>Proektsoft EOOD</Company>
+		    <Version>5.6</Version>
+		    <Authors>Nedelcho Ganchovski</Authors>
+		    <Company>Proektsoft EOOD</Company>
         <PackageId>Calcpad</PackageId>
         <Product>Calcpad</Product>
         <AssemblyName>Calcpad</AssemblyName>
@@ -22,15 +22,15 @@
         <AnalysisLevel>latest</AnalysisLevel>
     </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<PlatformTarget>AnyCPU</PlatformTarget>
-    <!--<DefineConstants>BG</DefineConstants>-->
-	</PropertyGroup>
+	  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		    <PlatformTarget>AnyCPU</PlatformTarget>
+        <!--<DefineConstants>BG</DefineConstants>-->
+	  </PropertyGroup>
 	
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
         <PlatformTarget>AnyCPU</PlatformTarget>
-		<!--<DefineConstants>BG</DefineConstants>-->
-		<Optimize>false</Optimize>
+		    <!--<DefineConstants>BG</DefineConstants>-->
+		    <Optimize>false</Optimize>
         <WarningLevel>0</WarningLevel>
     </PropertyGroup>
 	
@@ -84,8 +84,8 @@
         <Resource Include="resources\word.png" />
     </ItemGroup>
 
-	<PropertyGroup>
-		<ServerGarbageCollection>true</ServerGarbageCollection>
-		<ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
-  </PropertyGroup>
+	  <PropertyGroup>
+		    <ServerGarbageCollection>true</ServerGarbageCollection>
+		    <ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
+    </PropertyGroup>
 </Project>
