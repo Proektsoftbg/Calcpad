@@ -160,12 +160,12 @@ namespace Calcpad.Core
                 _ => TokenTypes.Error,
             };
 
-        public void Parse(string expression)
+        public void Parse(string expression, bool AllowAssignment = true)
         {
             Result = Complex.Zero;
             _isCalculated = false;
             _functionDefinitionIndex = -1;
-            var input = GetInput(expression);
+            var input = GetInput(expression, AllowAssignment);
             new Validator(_functions).Check(input, out var isFucntionDefinition);
             OrderOperators(input, isFucntionDefinition || _isSolver || _isPlotting, _assignmentIndex);
             if (isFucntionDefinition)
@@ -347,7 +347,7 @@ namespace Calcpad.Core
             }
         }
 
-        private Queue<Token> GetInput(string expression)
+        private Queue<Token> GetInput(string expression, bool AllowAssignment)
         {
             var tokens = new Queue<Token>(expression.Length);
             var pt = TokenTypes.None;
@@ -590,6 +590,14 @@ namespace Calcpad.Core
                                     isDivision = c == '/' || c == '÷';
                                     if (c == '=')
                                     {
+                                        if(!AllowAssignment || _assignmentIndex > 0)
+                                        {
+#if BG
+                                            throw new MathParserException($"Неправилно използване на оператора за присвояване '='.");
+#else
+                                            throw new MathParserException($"Improper use of the assignment operator '='.");
+#endif
+                                        }
                                         int count = tokens.Count;
                                         if (count == 1)
                                             DefinedVariables.Add(tokens.Peek().Content);
@@ -1179,7 +1187,7 @@ namespace Calcpad.Core
 
         internal Func<Value> CompileRpn(string expression, Parameter[] p)
         {
-            var input = GetInput(expression);
+            var input = GetInput(expression, false);
             OrderOperators(input, true, 0);
             var rpn = GetRpn(input);
             BindParameters(p, rpn);
@@ -1366,7 +1374,7 @@ namespace Calcpad.Core
                         "SetValue",
                         BindingFlags.Instance | BindingFlags.NonPublic,
                         Type.DefaultBinder,
-                        new[] {typeof(Value).MakeByRefType()},
+                        new[] { typeof(Value).MakeByRefType() },
                         null
                         );
                     return Expression.Block(
@@ -2121,6 +2129,7 @@ namespace Calcpad.Core
 
                 _items[current].Input = _stringBuilder.ToString();
                 var targetUnits = parser._targetUnits;
+                var allowAssignment = _type == SolverTypes.Repeat || _type == SolverTypes.Root;
                 for (int i = 0; i <= n; ++i)
                 {
                     if (string.IsNullOrWhiteSpace(_items[i].Input))
@@ -2139,8 +2148,16 @@ namespace Calcpad.Core
                             _items[4].Input = s[1];
                             n = 4;
                         }
+                        else if (s.Length > 2)
+                        {
+#if BG
+                            throw new MathParserException($"Повече от един оператор '=' в '{string.Join('=', s)}'.");
+#else
+                            throw new MathParserException($"More than one operators '=' in '{string.Join('=', s)}'.");
+#endif
+                        }
                     }
-                    parser.Parse(_items[i].Input);
+                    parser.Parse(_items[i].Input, i == 0 && allowAssignment);
                     _items[i].Rpn = parser._rpn;
                     _items[i].Html = parser.ToHtml();
                     _items[i].Xml = parser.ToXml();

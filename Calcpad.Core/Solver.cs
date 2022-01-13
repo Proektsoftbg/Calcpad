@@ -17,7 +17,6 @@ namespace Calcpad.Core
         internal QuadratureMethods QuadratureMethod = QuadratureMethods.AdaptiveLobatto;
         internal Unit Units;
         internal Func<Value> Function;
-        internal string FunctionName;
 
         private readonly bool _isComplex;
         public Variable Variable;
@@ -225,7 +224,7 @@ namespace Calcpad.Core
                 else
                 {
                     x3 = (x1 * y2 - y1 * x2) / (y2 - y1);
-                    if (x3 < x1 || x3 > x2)
+                    if (x3 < x1 - eps || x3 > x2 + eps)
                     {
                         err = 1;
                         Units = u;
