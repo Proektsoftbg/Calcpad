@@ -134,12 +134,12 @@ namespace Calcpad.Core
         }
 
         private static int OperatorOrder(string @operator) => (@operator[0]) switch
-            {
-                '^' => 0,
-                '/' => 1,
-                '*' => 2,
-                _ => -1,
-            };
+        {
+            '^' => 0,
+            '/' => 1,
+            '*' => 2,
+            _ => -1,
+        };
 
         internal static Unit Parse(string expression)
         {
@@ -457,36 +457,36 @@ namespace Calcpad.Core
                         stackBuffer.Push(new Token(FormatLocal(T.Content), TokenTypes.Units));
                         break;
                     default:
-                    {
-                        Token c;
-                        var b = stackBuffer.Pop();
-                        var a = !stackBuffer.Any() ? 
-                            new Token(string.Empty, TokenTypes.None) : 
-                            stackBuffer.Pop();
-
-                        if (a.Order > T.Order)
-                            a.Content = writer.AddBrackets(a.Content);
-
-                        if (T.Content == "^")
                         {
-                            if (IsNegative(a))
+                            Token c;
+                            var b = stackBuffer.Pop();
+                            var a = !stackBuffer.Any() ?
+                                new Token(string.Empty, TokenTypes.None) :
+                                stackBuffer.Pop();
+
+                            if (a.Order > T.Order)
                                 a.Content = writer.AddBrackets(a.Content);
 
-                            if (writer is TextWriter && IsNegative(b) || b.Order != Token.DefaultOrder)
-                                b.Content = writer.AddBrackets(b.Content);
+                            if (T.Content == "^")
+                            {
+                                if (IsNegative(a))
+                                    a.Content = writer.AddBrackets(a.Content);
 
-                            c = new Token(writer.FormatPower(a.Content, b.Content, 0, a.Order), T.Type, T.Order);
-                        }
-                        else
-                        {
-                            if (b.Order > T.Order || b.Order == T.Order && T.Content == "/" || IsNegative(b))
-                                b.Content = writer.AddBrackets(b.Content);
+                                if (writer is TextWriter && IsNegative(b) || b.Order != Token.DefaultOrder)
+                                    b.Content = writer.AddBrackets(b.Content);
 
-                            c = new Token(a.Content + writer.FormatOperator(T.Content[0]) + b.Content, T.Type, T.Order);
+                                c = new Token(writer.FormatPower(a.Content, b.Content, 0, a.Order), T.Type, T.Order);
+                            }
+                            else
+                            {
+                                if (b.Order > T.Order || b.Order == T.Order && T.Content == "/" || IsNegative(b))
+                                    b.Content = writer.AddBrackets(b.Content);
+
+                                c = new Token(a.Content + writer.FormatOperator(T.Content[0]) + b.Content, T.Type, T.Order);
+                            }
+                            stackBuffer.Push(c);
+                            break;
                         }
-                        stackBuffer.Push(c);
-                        break;
-                    }
                 }
             }
             if (stackBuffer.TryPop(out var result))

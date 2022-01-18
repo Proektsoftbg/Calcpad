@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Calcpad.Core
 {
     internal class Unit : IEquatable<Unit>
     {
+        private static readonly char[] CompositeUnitChars = { '/', '*', '×', '^' };
         private struct Dimension
         {
             internal float Power;
             internal double Factor;
 
-            internal bool Equals(Dimension other) => 
+            internal bool Equals(Dimension other) =>
                 Power == other.Power && Factor == other.Factor;
         }
         private string _text = string.Empty;
@@ -19,7 +21,7 @@ namespace Calcpad.Core
         private readonly Dimension[] _dims;
 
         private static bool _isUs;
-        private static readonly string[] Names = { "g",  "m",  "s",  "A",  "°C",  "mol", "cd"};
+        private static readonly string[] Names = { "g", "m", "s", "A", "°C", "mol", "cd" };
         private static readonly Dictionary<string, Unit> Units;
         private static readonly Unit[] ForceUnits = new Unit[9];
         internal static bool IsUs
@@ -59,12 +61,12 @@ namespace Calcpad.Core
             }
         }
 
-        internal bool IsForce => _dims.Length > 2 && 
-                                 _dims[0].Power == 1f && 
-                                 _dims[2].Power == -2f && 
+        internal bool IsForce => _dims.Length > 2 &&
+                                 _dims[0].Power == 1f &&
+                                 _dims[2].Power == -2f &&
                                  Text.Contains('s');
 
-        internal bool IsTemp => _dims.Length == 5 && 
+        internal bool IsTemp => _dims.Length == 5 &&
                                 _dims[4].Power == 1f &&
                                 _dims[0].Power == 0f &&
                                 _dims[1].Power == 0f &&
@@ -155,7 +157,7 @@ namespace Calcpad.Core
 
         internal Unit(string text) : this(Units[text]) { }
         internal Unit(
-            string text, 
+            string text,
             float mass,
             float length = 0f,
             float time = 0f,
@@ -679,7 +681,7 @@ namespace Calcpad.Core
             var isFirst = true;
             for (int i = 0, n = _dims.Length; i < n; ++i)
             {
-                ref var dim = ref _dims[i];   
+                ref var dim = ref _dims[i];
                 if (dim.Power != 0f)
                 {
                     var p = isFirst ? dim.Power : Math.Abs(dim.Power);
@@ -762,7 +764,7 @@ namespace Calcpad.Core
             var n = n1 > n2 ? n1 : n2;
             var factor = 1d;
             for (int i = 0; i < n; ++i)
-            { 
+            {
                 var p1 = i < n1 ? u1._dims[i].Power : 0f;
                 var p2 = i < n2 ? (divide ? -u2._dims[i].Power : u2._dims[i].Power) : 0f;
                 if (p1 != 0f && p2 != 0f)
@@ -924,14 +926,14 @@ namespace Calcpad.Core
         {
             var d = factor switch
             {
-                1d  => 0.0,
+                1d => 0.0,
                 10d => 1d,
                 1E+2 => 2.0,
                 1E+3 => 3.0,
                 1E+4 => 4.0,
                 1E+5 => 5.0,
                 1E+6 => 6.0,
-                0.1  => -1d,
+                0.1 => -1d,
                 1E-2 => -2.0,
                 1E-3 => -3.0,
                 1E-4 => -4.0,
@@ -958,7 +960,7 @@ namespace Calcpad.Core
                             }
 
                             break;
-                        }   
+                        }
                     case "g":
                         {
                             var a1 = factor / 14.59390294;
@@ -1093,6 +1095,124 @@ namespace Calcpad.Core
                 sp = writer.AddBrackets(sp);
 
             return power != 1f ? writer.FormatPower(name, sp, 0, -1) : name;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static bool IsComposite(double d, Unit units) =>
+            units is not null &&
+            (
+                d > 0.0 &&
+                d != 1.0 ||
+                units.Text.IndexOfAny(CompositeUnitChars) >= 0.0
+            );
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static double Convert(Unit ua, Unit ub, char op)
+        {
+            if (!Unit.IsConsistent(ua, ub))
+#if BG
+                throw new MathParser.MathParserException($"Несъвместими мерни единици: \"{Unit.GetText(ua)} {op} {Unit.GetText(ub)}\".");
+#else
+                throw new MathParser.MathParserException($"Inconsistent units: \"{Unit.GetText(ua)} {op} {Unit.GetText(ub)}\".");
+#endif
+            return ua is null ? 1.0 : ub.ConvertTo(ua);
+        }
+
+        internal static Unit Multiply(Unit ua, Unit ub, out double d, bool updateText = false)
+        {
+            if (ua is null)
+            {
+                d = 1d;
+                return ub is null ? null : ub;
+            }
+            if (ub is null)
+            {
+                d = 1d;
+                return ua;
+            }
+            d = Unit.GetProductOrDivisionFactor(ua, ub);
+            var uc = ua * ub;
+            if (uc is null)
+                return null;
+
+            if (updateText && !ua.IsMultiple(ub))
+            {
+                uc.Scale(d);
+                d = 1d;
+                uc.Text = ua.Text + '·' + ub.Text;
+            }
+            return uc;
+        }
+
+        internal static Unit Divide(Unit ua, Unit ub, out double d, bool updateText = false)
+        {
+            if (ub is null)
+            {
+                d = 1d;
+                return ua is null ? null : ua;
+            }
+
+            if (ua is null)
+            {
+                d = 1d;
+                return ub.Pow(-1.0);
+            }
+
+            d = Unit.GetProductOrDivisionFactor(ua, ub, true);
+            var uc = ua / ub;
+            if (uc is null)
+                return null;
+
+            if (updateText && !ua.IsMultiple(ub))
+            {
+                uc.Scale(d);
+                d = 1;
+                uc.Text = ua.Text + '/' + ub.Text;
+            }
+            return uc;
+        }
+
+        internal static Unit Pow(Unit u, Value power, bool updateText = false)
+        {
+            if (power.Units is not null)
+#if BG
+                throw new MathParser.MathParserException("Степенният показател трябва да е бездименсионен.");
+#else
+                throw new MathParser.MathParserException("Power must be unitless.");
+#endif
+            if (u is null)
+                return null;
+
+            if (!power.Number.IsReal)
+#if BG
+                throw new MathParser.MathParserException("Не мога да повдигна мерни единици на комплексна степен.");
+#else
+                throw new MathParser.MathParserException("Units cannon be raised to complex power.");
+#endif
+            var result = u.Pow(power.Number.Re);
+            var s = u.Text;
+            if (updateText && !s.Contains('^'))
+            {
+                var ps = Complex.Format(power.Number, 2, OutputWriter.OutputFormat.Text);
+                result.Text =
+                    s.IndexOfAny(CompositeUnitChars) >= 0.0 ?
+                    $"({s})^{ps}" :
+                    s + '^' + ps;
+            }
+            return result;
+        }
+
+        internal static Unit Root(Unit u, int n, bool updateText = false)
+        {
+            var result = u.Pow(1.0 / n);
+            var s = u.Text;
+            if (updateText && !s.Contains('^'))
+                result.Text =
+                    s.IndexOfAny(CompositeUnitChars) >= 0 ?
+                    $"({s})^1/{n}" :
+                    s + $"^1/{n}";
+
+            return result;
         }
     }
 }

@@ -17,16 +17,6 @@ namespace Calcpad.Core
         internal static readonly Complex Zero = new(0.0);
         internal static readonly Complex One = new(1.0);
         internal static readonly Complex ImaginaryOne = new(0.0, 1.0);
-        private static readonly double[] Factorial;
-
-
-        static Complex()
-        {
-            Factorial = new double[171];
-            Factorial[0] = 1;
-            for (int i = 1; i < 171; ++i)
-                Factorial[i] = Factorial[i - 1] * i;
-        }
 
         public Complex(double real, double imaginary)
         {
@@ -42,10 +32,10 @@ namespace Calcpad.Core
 
         private static byte GetComplexType(double a, double b)
         {
-            if (b == 0)
+            if (b == 0.0)
                 return 1;
 
-            if (a == 0)
+            if (a == 0.0)
                 return 2;
 
             var re = Math.Abs(a);
@@ -60,7 +50,7 @@ namespace Calcpad.Core
             return 3;
         }
 
-        internal bool IsReal =>  GetComplexType(_a, _b) < 2;
+        internal bool IsReal => GetComplexType(_a, _b) < 2;
         internal bool IsImaginary => GetComplexType(_a, _b) == 2;
         internal bool IsComplex => GetComplexType(_a, _b) == 3;
         internal double Re => _a;
@@ -84,7 +74,7 @@ namespace Calcpad.Core
                 left._b * right._a + left._a * right._b
             );
 
-        public static Complex operator /(in Complex left, in Complex right) 
+        public static Complex operator /(in Complex left, in Complex right)
         {
             var a = left._a;
             var b = left._b;
@@ -108,7 +98,7 @@ namespace Calcpad.Core
         public static Complex operator *(double left, in Complex right) => right * left;
 
         public static Complex operator /(in Complex left, double right) =>
-            new (left._a / right, left._b / right);
+            new(left._a / right, left._b / right);
 
         public static Complex operator /(double left, in Complex right)
         {
@@ -126,14 +116,14 @@ namespace Calcpad.Core
             return new(left * e * f, -left * f);
         }
 
-        public static Complex IntDiv(in Complex left, in Complex right)  =>
+        public static Complex IntDiv(in Complex left, in Complex right) =>
             right.IsReal ?
             new Complex(Math.Truncate(left._a / right._a), Math.Truncate(left._b / right._a)) :
             double.NaN;
 
         public static Complex operator %(in Complex left, in Complex right) =>
             right.IsReal ?
-            new Complex(left._a % right._a, left._b % right._a):
+            new Complex(left._a % right._a, left._b % right._a) :
             double.NaN;
 
         public static double operator ==(in Complex left, in Complex right) =>
@@ -186,7 +176,7 @@ namespace Calcpad.Core
             return Math.Abs(l1 - l2) < 4;
         }
 
-        public override bool Equals(object obj) => 
+        public override bool Equals(object obj) =>
             obj is Complex number && Equals(this, number);
 
         public bool Equals(Complex value) => Equals(this, value);
@@ -201,32 +191,7 @@ namespace Calcpad.Core
         public override int GetHashCode() =>
             IsReal ? _a.GetHashCode() : HashCode.Combine(_a, _b);
 
-        public static Complex Fact(in Complex value)
-        {
-            if (!(value.IsReal))
-#if BG
-                throw new MathParser.MathParserException("Аргументът на функцията n! не може да е имагинерно число.");
-#else
-                throw new MathParser.MathParserException("The argument of the n! function cannot be complex.");
-#endif
-            if (value.Re < 0 || value.Re > 170)
-#if BG
-                throw new MathParser.MathParserException("Аргументът e извън допустимите стойности за функцията n!");
-#else
-                throw new MathParser.MathParserException("Argument out of range for function n!");
-#endif
 
-            var i = (int)value.Re;
-
-            if (i != value.Re)
-#if BG
-                throw new MathParser.MathParserException("Аргументът на функцията n! трябва да е цяло положително число.");
-#else
-                throw new MathParser.MathParserException("The argument of the n! function must be a positive integer.");
-#endif
-
-            return Factorial[i];
-        }
         internal static Complex Abs(in Complex value) => Modulus(value);
 
         private static double Modulus(in Complex value)
@@ -263,7 +228,7 @@ namespace Calcpad.Core
         }
 
         internal static Complex RealRandom(in Complex value) =>
-            Rand.NextDouble() * value.Re;
+            Rand.NextDouble() * value._a;
 
         internal static Complex RealSin(double value)
         {
@@ -361,13 +326,13 @@ namespace Calcpad.Core
         internal static Complex Pow(in Complex value, double power)
         {
             if (power == 0)
-                return new Complex(1.0, 0.0);
+                return 1.0;
 
             if (value._b == 0)
             {
-                return value._a == 0 ? 
-                    new Complex(0.0, 0.0) : 
-                    new Complex(Math.Pow(value._a, power), 0.0);
+                return value._a == 0 ?
+                    0.0 :
+                    Math.Pow(value._a, power);
             }
             var r = Modulus(value);
             var theta = power * value.Phase;
@@ -397,12 +362,12 @@ namespace Calcpad.Core
         internal static Complex Log(in Complex value) =>
             new(Math.Log(Modulus(value)), value.Phase);
 
-/*
-        internal static Number Log(Number value, double baseValue) =>
-            Log(value) / Math.Log(baseValue);
-*/
+        /*
+                internal static Number Log(Number value, double baseValue) =>
+                    Log(value) / Math.Log(baseValue);
+        */
 
-        internal static Complex Log10(in Complex value) => 
+        internal static Complex Log10(in Complex value) =>
             new(Math.Log(Modulus(value)) * Log10Inv, value.Phase * Log10Inv);
 
         internal static Complex Log2(in Complex value) =>
@@ -447,51 +412,6 @@ namespace Calcpad.Core
             left.IsReal && right.IsReal ?
                 Math.Atan2(left._a, right._a) :
                 double.NaN;
-
-        internal static Complex MandelbrotSet(in Complex left, in Complex right) =>
-            left.IsReal && right.IsReal ?
-                MandelbrotSet(left._a, right._a) :
-                double.NaN; 
-
-        internal static double MandelbrotSet(double x, double y)
-        {
-            if (x > -1.25 && x < 0.375)
-            {
-                if (x < -0.75)
-                {
-                    if (y > -0.25 && y < 0.25)
-                    {
-                        double x1 = x + 1,
-                            y2 = y * y,
-                            x2 = x1 * x1;
-                        if (x2 + y2 <= 0.0625)
-                            return double.NaN;
-                    }
-                }
-                else if (y > -0.65 && y < 0.65)
-                {
-                    double x1 = x - 0.25,
-                        y2 = y * y,
-                        q = x1 * x1 + y2;
-                    if (q * (q + x1) <= 0.25 * y2)
-                        return double.NaN;
-                }
-            }
-            double re = x, im = y;
-            for (int i = 0; i <= 1000; ++i)
-            {
-                double reSq = re * re, imSq = im * im;
-                if (reSq + imSq > 4)
-                {
-                    var logZn = Math.Log(im * im + re * re) / 2;
-                    var nu = Math.Log(logZn * Log2Inv) * Log2Inv;
-                    return (1.01 - Math.Pow(i + 1 - nu, 0.001)) * 1000;
-                }
-                im = 2 * re * im + y;
-                re = reSq - imSq + x;
-            }
-            return double.NaN;
-        }
 
         internal static string Format(in Complex c, int decimals, OutputWriter.OutputFormat mode)
         {

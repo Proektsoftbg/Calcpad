@@ -110,7 +110,7 @@ namespace Calcpad.Core
             var isVisible = true;
             _parser.IsEnabled = calculate;
             _parser.GetInputField += GetInputField;
-            _parser.SetVariable("Units", new Value(_parser.MakeNumber(UnitsFactor())));
+            _parser.SetVariable("Units", new Value(UnitsFactor()));
             var currentLine = 0;
             var len = expressions.Length - 1;
             var s = string.Empty;
@@ -701,7 +701,7 @@ namespace Calcpad.Core
 #else
                     throw new MathParser.MathParserException($"Condition result is invalid: {d}.");
 #endif
-                var result = Math.Abs(d) > 1e-8;
+                var result = Math.Abs(d) > 1e-12;
                 if (result)
                     IsFound = true;
                 Change(result, Type);
