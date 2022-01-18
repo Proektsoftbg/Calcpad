@@ -85,16 +85,16 @@ namespace Calcpad.Core
                     var factor = endUnits.ConvertTo(yUnits);
                     endY *= factor;
                 }
-                Parameter[] p =
+                Parameter[] parameters =
                 {
                     new(input[1]),
                     new(input[4])
                 };
-                p[0].SetValue(Value.Zero);
-                p[1].SetValue(Value.Zero);
-                _function = Parser.CompileRpn(input[0], p);
-                Parser.Compile();
-                result = GetHtmlImage(p[0], p[1], startX, endX, startY, endY, xUnits, yUnits);
+                parameters[0].SetValue(Value.Zero);
+                parameters[1].SetValue(Value.Zero);
+                _function = Parser.Compile(input[0], parameters);
+                Parser.CompileBlocks();
+                result = GetHtmlImage(parameters[0], parameters[1], startX, endX, startY, endY, xUnits, yUnits);
             }
             else
                 result = GetHtmlText(input);

@@ -4,7 +4,7 @@ namespace Calcpad.Core
 {
     internal class ChartParser : PlotParser
     {
-       
+
         private Func<Value>[] _fx, _fy;
         internal ChartParser(MathParser parser, PlotSettings settings) : base(parser, settings) { }
 
@@ -45,8 +45,8 @@ namespace Calcpad.Core
             {
                 var charts = input[0].Split('&');
                 input[1] = input[1].Trim();
-                Parameter[] p = { new(input[1]) };
-                p[0].SetValue(Value.Zero);
+                Parameter[] parameters = { new(input[1]) };
+                parameters[0].SetValue(Value.Zero);
                 var count = charts.Length;
                 _fx = new Func<Value>[count];
                 _fy = new Func<Value>[count];
@@ -63,13 +63,13 @@ namespace Calcpad.Core
                     {
                         if (xy.Length == 1)
                         {
-                            _fx[i] = Parser.CompileRpn(input[1], p);
-                            _fy[i] = Parser.CompileRpn(xy[0], p);
+                            _fx[i] = Parser.Compile(input[1], parameters);
+                            _fy[i] = Parser.Compile(xy[0], parameters);
                         }
                         else
                         {
-                            _fx[i] = Parser.CompileRpn(xy[0], p);
-                            _fy[i] = Parser.CompileRpn(xy[1], p);
+                            _fx[i] = Parser.Compile(xy[0], parameters);
+                            _fy[i] = Parser.Compile(xy[1], parameters);
                         }
                     }
                 }
@@ -90,8 +90,8 @@ namespace Calcpad.Core
                     var factor = rightUnits.ConvertTo(leftUnits);
                     right *= factor;
                 }
-                Parser.Compile();
-                result = GetHtmlImage(p[0], left, right, leftUnits);
+                Parser.CompileBlocks();
+                result = GetHtmlImage(parameters[0], left, right, leftUnits);
             }
             else
                 result = GetHtmlText(input);

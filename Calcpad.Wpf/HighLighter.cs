@@ -50,25 +50,69 @@ namespace Calcpad.Wpf
              Brushes.Red
         };
 
-        private static readonly HashSet<char> Operators = new() {'!', '^', '/', '÷', '\\', '%', '*', '-', '+', '<', '>', '≤', '≥', '≡', '≠', '='};
+        private static readonly HashSet<char> Operators = new() { '!', '^', '/', '÷', '\\', '%', '*', '-', '+', '<', '>', '≤', '≥', '≡', '≠', '=' };
 
-        private static readonly HashSet<char> Delimiters = new() {';', '|', '&', '@', ':'};
+        private static readonly HashSet<char> Delimiters = new() { ';', '|', '&', '@', ':' };
 
         private static readonly HashSet<string> Functions = new()
-        {"abs", "sin", "cos", "tan", "csc", "sec", "cot",
-            "asin", "acos", "atan", "acsc", "asec", "acot",
-            "sinh", "cosh", "tanh", "csch", "sech", "coth",
-            "asinh", "acosh", "atanh", "acsch", "asech", "acoth",
-            "log", "ln", "log_2", "sqr", "sqrt", "cbrt", "root",
-            "round", "floor", "ceiling", "sign", MathParser.NegateString,
-            "re", "im", "phase",
-            "min", "max", "sum", "sumsq", "srss", "product", "average", "mean",
-            "switch", "take", "line", "spline"
+        {
+            "abs",
+            "sin",
+            "cos",
+            "tan",
+            "csc",
+            "sec",
+            "cot",
+            "asin",
+            "acos",
+            "atan",
+            "acsc",
+            "asec",
+            "acot",
+            "sinh",
+            "cosh",
+            "tanh",
+            "csch",
+            "sech",
+            "coth",
+            "asinh",
+            "acosh",
+            "atanh",
+            "acsch",
+            "asech",
+            "acoth",
+            "log",
+            "ln",
+            "log_2",
+            "sqr",
+            "sqrt",
+            "cbrt",
+            "root",
+            "round",
+            "floor",
+            "ceiling",
+            "sign",
+            MathParser.NegateString,
+            "re",
+            "im",
+            "phase",
+            "min",
+            "max",
+            "sum",
+            "sumsq",
+            "srss",
+            "product",
+            "average",
+            "mean",
+            "switch",
+            "take",
+            "line",
+            "spline"
         };
 
-        private static readonly HashSet<string> Conditions = new() {"#if", "#else", "#else if", "#end if", "#rad", "#deg", "#val", "#equ", "#show", "#hide", "#pre", "#post", "#repeat", "#loop", "#break"};
+        private static readonly HashSet<string> Conditions = new() { "#if", "#else", "#else if", "#end if", "#rad", "#deg", "#val", "#equ", "#show", "#hide", "#pre", "#post", "#repeat", "#loop", "#break" };
 
-        private static readonly HashSet<string> Commands = new() {"$find", "$root", "$sup", "$inf", "$area", "$slope", "$repeat", "$sum", "$product", "$plot", "$map"};
+        private static readonly HashSet<string> Commands = new() { "$find", "$root", "$sup", "$inf", "$area", "$slope", "$repeat", "$sum", "$product", "$plot", "$map" };
 
         private static class TagHelper
         {

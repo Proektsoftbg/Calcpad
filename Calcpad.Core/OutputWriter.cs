@@ -37,18 +37,18 @@ namespace Calcpad.Core
                 {
                     case '/':
                     case '*':
-                    {
-                        literal = FormatLocal(literal);
-                        if (this is XmlWriter)
-                            power = Power2Xml(power);
+                        {
+                            literal = FormatLocal(literal);
+                            if (this is XmlWriter)
+                                power = Power2Xml(power);
 
-                        _stringBuilder.Append(isPower ? FormatPower(literal, power, 0, -1) : literal);
-                        _stringBuilder.Append(FormatOperator(c));
-                        literal = string.Empty;
-                        power = string.Empty;
-                        isPower = false;
-                        break;
-                    }
+                            _stringBuilder.Append(isPower ? FormatPower(literal, power, 0, -1) : literal);
+                            _stringBuilder.Append(FormatOperator(c));
+                            literal = string.Empty;
+                            power = string.Empty;
+                            isPower = false;
+                            break;
+                        }
                     case '^':
                         isPower = true;
                         break;
@@ -62,46 +62,46 @@ namespace Calcpad.Core
                         throw new MathParser.MathParserException("Missing left bracket '('.");
 #endif
                     case ')':
-                    {
-                        var index = brackets.Pop();
-                        if (isPower)
                         {
-                            if (index == 0)
-                                power = this is TextWriter ? $"({power})" : power;
+                            var index = brackets.Pop();
+                            if (isPower)
+                            {
+                                if (index == 0)
+                                    power = this is TextWriter ? $"({power})" : power;
+                                else
+                                {
+                                    var s = power[index..];
+                                    power = power.Remove(index);
+                                    power += $"({s})";
+                                }
+                            }
                             else
                             {
-                                var s = power[index..];
-                                power = power.Remove(index);
-                                power += $"({s})";
+                                var length = _stringBuilder.Length - index;
+                                var s = _stringBuilder.ToString(index, length);
+                                _stringBuilder.Remove(index, length);
+                                _stringBuilder.Append(AddBrackets(s));
                             }
+                            break;
                         }
-                        else
-                        {
-                            var length = _stringBuilder.Length - index;
-                            var s = _stringBuilder.ToString(index, length);
-                            _stringBuilder.Remove(index, length);
-                            _stringBuilder.Append(AddBrackets(s));
-                        }
-                        break;
-                    }   
                     default:
-                    {
-                        if (isPower)
-                            power += c;
-                        else
                         {
-                            if (
-                                sub == 0 && c == '_' ||
-                                sub == 1 && c == 'U' ||
-                                sub == 2 && (c == 'K' || c == 'S')
-                            )
-                                sub++;
+                            if (isPower)
+                                power += c;
                             else
-                                sub = 0;
-                            literal += c;
+                            {
+                                if (
+                                    sub == 0 && c == '_' ||
+                                    sub == 1 && c == 'U' ||
+                                    sub == 2 && (c == 'K' || c == 'S')
+                                )
+                                    sub++;
+                                else
+                                    sub = 0;
+                                literal += c;
+                            }
+                            break;
                         }
-                        break;
-                    }
                 }
             }
             if (brackets.Any())
@@ -110,7 +110,7 @@ namespace Calcpad.Core
 #else
                 throw new MathParser.MathParserException("Missing right bracket ')'.");
 #endif
-            if (literal.Length <= 0) return 
+            if (literal.Length <= 0) return
                 _stringBuilder.ToString();
             literal = FormatLocal(literal);
 
@@ -180,8 +180,8 @@ namespace Calcpad.Core
 
             var sReal = FormatReal(c.Re, decimals);
             var sImaginary = FormatReal(Math.Abs(c.Im), decimals);
-            return c.Im < 0 ? 
-                $"{sReal} – {sImaginary}i" : 
+            return c.Im < 0 ?
+                $"{sReal} – {sImaginary}i" :
                 $"{sReal} + {sImaginary}i";
         }
 
@@ -326,7 +326,7 @@ namespace Calcpad.Core
         internal static string OffsetDivision(string s, int offset)
         {
             var n = s.IndexOf("\"dvc\"", StringComparison.Ordinal) + 4;
-            if (n < 0) 
+            if (n < 0)
                 return s;
 
             return offset switch
@@ -424,7 +424,7 @@ namespace Calcpad.Core
         internal override string FormatValue(Value v, int decimals)
         {
             var s = FormatComplex(v.Number, decimals);
-            if (v.Units is null) 
+            if (v.Units is null)
                 return s;
 
             if (!v.Number.IsReal)
@@ -449,10 +449,10 @@ namespace Calcpad.Core
                 return $"<span class=\"err\">{s}</span>";
             }
             var i = s.LastIndexOf('E');
-            if (i <= 0) 
+            if (i <= 0)
                 return s;
 
-            var i1 = i + 1;            
+            var i1 = i + 1;
             var sign = s[i1++];
             if (sign is '+' or '-' or '0')
             {
@@ -493,24 +493,24 @@ namespace Calcpad.Core
         internal override string FormatVariable(string s)
         {
             var i = s.IndexOf('_');
-            if (i <= 0) 
+            if (i <= 0)
                 return $"<m:r><m:t>{s}</m:t></m:r>"; //<w:rPr><w:color w:val=\"0000FF\" /></w:rPr>
 
             var i1 = i + 1;
-            return i1 < s.Length ? 
-                FormatSubscript(s[..i], s[(i + 1)..]) : 
+            return i1 < s.Length ?
+                FormatSubscript(s[..i], s[(i + 1)..]) :
                 $"<m:r><m:t>{s}</m:t></m:r>";
         }
         internal override string FormatUnits(string s) => $"<m:r><m:t>{s}</m:t></m:r>";
         internal override string FormatFunction(string s)
         {
             var i = s.IndexOf('_');
-            if (i <= 0) return 
+            if (i <= 0) return
                 $"<m:r><m:t>{s}</m:t></m:r>";
 
             var i1 = i + 1;
-            return i1 < s.Length ? 
-                FormatSubscript(s[..i], s[(i + 1)..]) : 
+            return i1 < s.Length ?
+                FormatSubscript(s[..i], s[(i + 1)..]) :
                 $"<m:r><m:t>{s}</m:t></m:r>";
         }
         internal override string FormatRoot(string s, bool formatEquations, int level = 0, string n = "2")
@@ -550,7 +550,7 @@ namespace Calcpad.Core
         internal override string FormatValue(Value v, int decimals)
         {
             var s = FormatComplex(v.Number, decimals);
-            if (v.Units is null) 
+            if (v.Units is null)
                 return s;
 
             if (!v.Number.IsReal)
@@ -565,7 +565,7 @@ namespace Calcpad.Core
             if (level <= 1)
                 return
                     $"<m:d><m:dPr><m:begChr m:val = \"{begChar}\" /><m:endChr m:val = \"{endChar}\" /></m:dPr><m:e>{s}</m:e></m:d>";
-            
+
             begChar = '[';
             endChar = ']';
             return $"<m:d><m:dPr><m:begChr m:val = \"{begChar}\" /><m:endChr m:val = \"{endChar}\" /></m:dPr><m:e>{s}</m:e></m:d>";
@@ -578,7 +578,7 @@ namespace Calcpad.Core
                 return $"<m:r><m:t>{s}</m:t></m:r>";//<w:rPr><w:color w:val=\"FF0000\" /></w:rPr>
 
             var i = s.LastIndexOf('E');
-            if (i <= 0) 
+            if (i <= 0)
                 return $"<m:r><m:t>{s}</m:t></m:r>";
 
             var i1 = i + 1;
@@ -601,8 +601,8 @@ namespace Calcpad.Core
                 return sImaginary;
 
             var sReal = FormatReal(c.Re, decimals);
-            return c.Im < 0 ? 
-                $"{sReal}<m:r><m:t>–</m:t></m:r>{sImaginary}" : 
+            return c.Im < 0 ?
+                $"{sReal}<m:r><m:t>–</m:t></m:r>{sImaginary}" :
                 $"{sReal}<m:r><m:t>+</m:t></m:r>{sImaginary}";
         }
     }

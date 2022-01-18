@@ -536,8 +536,8 @@ namespace Calcpad.Wpf
                 }
                 if (MenuRecent.Items.Count > 0)
                 {
-                    var firstMenu = (MenuItem) MenuRecent.Items[0];
-                    DocumentPath = Path.GetDirectoryName((string) firstMenu.ToolTip);
+                    var firstMenu = (MenuItem)MenuRecent.Items[0];
+                    DocumentPath = Path.GetDirectoryName((string)firstMenu.ToolTip);
                     Directory.SetCurrentDirectory(DocumentPath ?? string.Empty);
                 }
             }
@@ -551,15 +551,15 @@ namespace Calcpad.Wpf
             if (n == 0)
                 return;
 
-            var list = 
-                Properties.Settings.Default.RecentFileList ?? 
+            var list =
+                Properties.Settings.Default.RecentFileList ??
                 new StringCollection();
 
             list.Clear();
             for (int i = 0; i < n; ++i)
             {
                 var menu = (MenuItem)MenuRecent.Items[i];
-                var value = (string) menu.ToolTip;
+                var value = (string)menu.ToolTip;
                 list.Add(value);
             }
 
@@ -581,9 +581,9 @@ namespace Calcpad.Wpf
 
                 for (int j = i; j > 0; --j)
                 {
-                    menu = (MenuItem) MenuRecent.Items[j];
-                    menu.Header = ((MenuItem) MenuRecent.Items[j - 1]).Header;
-                    menu.ToolTip = ((MenuItem) MenuRecent.Items[j - 1]).ToolTip;
+                    menu = (MenuItem)MenuRecent.Items[j];
+                    menu.Header = ((MenuItem)MenuRecent.Items[j - 1]).Header;
+                    menu.ToolTip = ((MenuItem)MenuRecent.Items[j - 1]).ToolTip;
                 }
                 var first = (MenuItem)MenuRecent.Items[0];
                 first.Header = Path.GetFileName(fileName);
@@ -855,11 +855,11 @@ namespace Calcpad.Wpf
                         return;
                     }
                     else if (MessageBox.Show(
-                        "End of text reached. Would you like to search from the beginning?", 
+                        "End of text reached. Would you like to search from the beginning?",
                         "Find",
                         MessageBoxButton.YesNo
                         ) == MessageBoxResult.No)
-                            return;
+                        return;
 #endif
                     isStart = true;
                     p = (Paragraph)_document.Blocks.FirstBlock;
@@ -1666,7 +1666,7 @@ namespace Calcpad.Wpf
             _offset = _document.ContentStart.GetOffsetToPosition(tpe) * OffsetBase;
             if (tpe.Paragraph is not null)
                 _offset += tpe.Paragraph.ContentStart.GetOffsetToPosition(tpe);
-            
+
             if (ReferenceEquals(_currentParagraph, tps.Paragraph) ||
                 ReferenceEquals(_currentParagraph, tpe.Paragraph))
                 return;
@@ -1783,7 +1783,7 @@ namespace Calcpad.Wpf
 
             if (e.Key == Key.Enter)
                 RichTextBox.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Black);
-            
+
             if (e.Key == Key.Back)
             {
                 var tp = RichTextBox.Selection.Start;
@@ -2190,7 +2190,7 @@ namespace Calcpad.Wpf
 
         private void SavePdf(string pdfFileName)
         {
-         
+
             var htmlFileName = Path.ChangeExtension(pdfFileName, "html");
             var html = _wbWarper.GetContents();
             WriteFile(htmlFileName, html);

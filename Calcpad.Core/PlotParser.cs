@@ -11,7 +11,7 @@
             Settings = settings;
         }
 
-        internal abstract string Parse( string script, bool calculate);
+        internal abstract string Parse(string script, bool calculate);
 
         protected static string[] Parts =
         {

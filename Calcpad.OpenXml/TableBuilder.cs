@@ -87,7 +87,7 @@ namespace Calcpad.OpenXml
             tc.TableCellProperties = tcp;
             const uint size = 12u;
             var color = isHead ? "AAAAAA" : "CCCCCC";
-            if (!IsBorderedTable) 
+            if (!IsBorderedTable)
                 return tc;
 
             tcp.TableCellBorders = new TableCellBorders()

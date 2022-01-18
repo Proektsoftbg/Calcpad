@@ -9,7 +9,7 @@ namespace Calcpad.Core
         AdaptiveLobatto,
         TanhSinh
     }
-    
+
     internal class Solver
     {
         private const double Limits = 1E6;
@@ -17,8 +17,6 @@ namespace Calcpad.Core
         internal QuadratureMethods QuadratureMethod = QuadratureMethods.AdaptiveLobatto;
         internal Unit Units;
         internal Func<Value> Function;
-
-        private readonly bool _isComplex;
         public Variable Variable;
         private const int n = 7;
         private static readonly int[] m = { 6, 7, 13, 26, 53, 106, 212 };
@@ -53,26 +51,9 @@ namespace Calcpad.Core
             }
         }
 
-
-        public Solver(bool isComplex)
-        {
-            _isComplex = isComplex;
-        }
-
-        internal Complex MakeNumber(double d)
-        {
-            if (_isComplex)
-            {
-                var c = new Complex(d, 0.0);
-                return c;
-            }
-            var a = new Complex(d);
-            return a;
-        }
-
         private double Fd(double x)
         {
-            Variable.SetNumber(MakeNumber(x));
+            Variable.SetNumber(x);
             var value = Function();
             var result = value.Number;
             if (Units is null)
@@ -103,85 +84,84 @@ namespace Calcpad.Core
             var value = Function();
             var result = value.Number;
             if (Units is null)
-            {
                 Units = value.Units;
-            }
+
             if (double.IsNaN(result.Re) && double.IsNaN(result.Im))
 #if BG      
                 throw new MathParserException($"Не мога да изчисля функцията %F за %V = {x}.");
 #else       
-                throw new MathParser.MathParserException($"Cannot evaluate the function %F for %V = {x}.");
+                throw new MathParserException($"Cannot evaluate the function %F for %V = {x}.");
 #endif
             return result;
         }
 
-/*
-        internal double Ridders(double left, double right, double target, out double err)
-        {
-            err = 0;
-            var u = Variable.Value.Units;
-            double x1 = Math.Min(left, right), y1 = Fd(x1) - target;
-            if (Math.Abs(y1) <= Precision)
-            {
-                Units = u;
-                return x1;
-            }
-            double x2 = Math.Max(left, right), y2 = Fd(x2) - target;
-            if (Math.Abs(y2) <= Precision)
-            {
-                Units = u;
-                return x2;
-            }
-
-            double eps1 = 0, eps = Precision * (x2 - x1);
-            if (Math.Abs(target) > 1)
-                eps1 = Precision * target;
-            var ans = x1;
-            const int n = 100;
-            for (int i = 1; i <= n; ++i)
-            {
-                var x3 = (x1 + x2) / 2;
-                var y3 = Fd(x3) - target;
-                var d = y3 * y3 - y1 * y2;
-                double x4;
-                if (d <= 0)
-                    x4 = x3;
-                else
-                    x4 = x3 + (x3 - x1) * Math.Sign(y1) * y3 / Math.Sqrt(d);
-
-                var y4 = Fd(x4) - target;
-                if (Math.Sign(y1) == Math.Sign(y4))
+        /*
+                internal double Ridders(double left, double right, double target, out double err)
                 {
-                    x1 = x4;
-                    y1 = y4;
-                    if (Math.Sign(y2) == Math.Sign(y3))
+                    err = 0;
+                    var u = Variable.Value.Units;
+                    double x1 = Math.Min(left, right), y1 = Fd(x1) - target;
+                    if (Math.Abs(y1) <= Precision)
                     {
-                        x2 = x3;
-                        y2 = y3;
+                        Units = u;
+                        return x1;
                     }
-                }
-                else
-                {
-                    x2 = x4;
-                    y2 = y4;
-                    if (Math.Sign(y1) == Math.Sign(y3))
+                    double x2 = Math.Max(left, right), y2 = Fd(x2) - target;
+                    if (Math.Abs(y2) <= Precision)
                     {
-                        x1 = x3;
-                        y1 = y3;
+                        Units = u;
+                        return x2;
                     }
-                }
-                err = Math.Abs(y4);
-                if (err < eps1 || Math.Abs(x4 - ans) < eps)
-                {
+
+                    double eps1 = 0, eps = Precision * (x2 - x1);
+                    if (Math.Abs(target) > 1)
+                        eps1 = Precision * target;
+                    var ans = x1;
+                    const int n = 100;
+                    for (int i = 1; i <= n; ++i)
+                    {
+                        var x3 = (x1 + x2) / 2;
+                        var y3 = Fd(x3) - target;
+                        var d = y3 * y3 - y1 * y2;
+                        double x4;
+                        if (d <= 0)
+                            x4 = x3;
+                        else
+                            x4 = x3 + (x3 - x1) * Math.Sign(y1) * y3 / Math.Sqrt(d);
+
+                        var y4 = Fd(x4) - target;
+                        if (Math.Sign(y1) == Math.Sign(y4))
+                        {
+                            x1 = x4;
+                            y1 = y4;
+                            if (Math.Sign(y2) == Math.Sign(y3))
+                            {
+                                x2 = x3;
+                                y2 = y3;
+                            }
+                        }
+                        else
+                        {
+                            x2 = x4;
+                            y2 = y4;
+                            if (Math.Sign(y1) == Math.Sign(y3))
+                            {
+                                x1 = x3;
+                                y1 = y3;
+                            }
+                        }
+                        err = Math.Abs(y4);
+                        if (err < eps1 || Math.Abs(x4 - ans) < eps)
+                        {
+                            Units = u;
+                            return x4;
+                        }
+                        ans = x4;
+                    }
                     Units = u;
-                    return x4;
+                    return ans;
                 }
-                ans = x4;
-            }
-            Units = u;
-            return ans;
-        }
-*/
+        */
 
         internal double ModAB(double left, double right, double target, out double err)
         {
@@ -278,7 +258,7 @@ namespace Calcpad.Core
             return ans;
         }
 
-        internal Complex Root(double left, double right, double target)
+        internal double Root(double left, double right, double target)
         {
             Units = null;
             var x = ModAB(left, right, target, out var err);
@@ -287,23 +267,22 @@ namespace Calcpad.Core
                 eps *= Math.Abs(target);
 
             if (err > eps)
-                x = double.NaN;
+                return double.NaN;
 
-            return MakeNumber(x);
+            return x;
         }
 
-        internal Complex Find(double left, double right)
+        internal double Find(double left, double right)
         {
             Units = null;
-            var x = ModAB(left, right, 0.0, out _);
-            return MakeNumber(x);
+            return ModAB(left, right, 0.0, out _);
         }
 
-        internal Complex Sup(double left, double right) => Extremum(left, right, false);
+        internal double Sup(double left, double right) => Extremum(left, right, false);
 
-        internal Complex Inf(double left, double right) => Extremum(left, right, true);
+        internal double Inf(double left, double right) => Extremum(left, right, true);
 
-        private Complex Extremum(double left, double right, bool isMin)
+        private double Extremum(double left, double right, bool isMin)
         {
             const double k = 0.618033988749897;
             var x1 = left;
@@ -312,7 +291,7 @@ namespace Calcpad.Core
             var x4 = x1 + k * (x2 - x1);
             var eps = Precision * (Math.Abs(x3) + Math.Abs(x4)) / 2;
             var tol2 = Precision * Precision;
-            Units = null; 
+            Units = null;
             while (Math.Abs(x2 - x1) > eps)
             {
                 if (isMin == Fd(x3) < Fd(x4))
@@ -331,10 +310,10 @@ namespace Calcpad.Core
                 if (eps < tol2)
                     eps = tol2;
             }
-            return MakeNumber(Fd((x1 + x2) / 2));
+            return Fd((x1 + x2) / 2);
         }
 
-        internal Complex Area(double left, double right)
+        internal double Area(double left, double right)
         {
             double area;
             Units = null;
@@ -354,18 +333,18 @@ namespace Calcpad.Core
             }
             var u = Variable.Value.Units;
             if (u is null)
-                return MakeNumber(area);
+                return area;
 
             if (Units is null)
             {
                 Units = u;
-                return MakeNumber(area);
+                return area;
             }
             double factor = Unit.GetProductOrDivisionFactor(Units, u);
             Units *= u;
-            return MakeNumber(area * factor);
+            return area * factor;
         }
-        
+
         private double AdaptiveSimpson(double left, double right)
         {
             var h = (right - left) / 2;
@@ -398,7 +377,7 @@ namespace Calcpad.Core
             return Simpson(x1, x2, y1, y4, y2, a1, eps, depth) +
             Simpson(x2, x3, y2, y5, y3, a1, eps, depth);
         }
-        
+
         private double eps = 1e-14;
         private double AdaptiveLobatto(double left, double right)
         {
@@ -407,7 +386,7 @@ namespace Calcpad.Core
             eps = Math.Max(Precision, 1e-14) * Math.Abs(h) / 2;
             return Lobatto(left, right, Fd(left), Fd(right), 1);
         }
-        
+
         private readonly double alpha = Math.Sqrt(2.0 / 3.0);
         private readonly double beta = 1.0 / Math.Sqrt(5.0);
         private double Lobatto(double x1, double x3, double y1, double y3, int depth)
@@ -436,10 +415,10 @@ namespace Calcpad.Core
                 return a1;
 
             depth++;
-            return Lobatto(x1, x4, y1, y4, depth) + 
-                   Lobatto(x4, x5, y4, y5, depth) + 
-                   Lobatto(x5, x2, y5, y2, depth) + 
-                   Lobatto(x2, x6, y2, y6, depth) + 
+            return Lobatto(x1, x4, y1, y4, depth) +
+                   Lobatto(x4, x5, y4, y5, depth) +
+                   Lobatto(x5, x2, y5, y2, depth) +
+                   Lobatto(x2, x6, y2, y6, depth) +
                    Lobatto(x6, x7, y6, y7, depth) +
                    Lobatto(x7, x3, y7, y3, depth);
         }
@@ -487,10 +466,10 @@ namespace Calcpad.Core
             return d * s * Math.Pow(2, 1 - i);
         }
 
-        internal Complex Slope(double x) //Richardson extrapolation on 2 node stencil
+        internal double Slope(double x) //Richardson extrapolation on 2 node stencil
         {
             double delta = Math.Min(Math.Sqrt(Precision), 1e-3);
-            double maxErr =  Math.Max(50 * Precision, 1e-3);
+            double maxErr = Math.Max(50 * Precision, 1e-3);
             const int n = 7;
             var a = Math.Abs(x) < 1 ? 1 : x;
             var eps = Math.Cbrt(Math.BitIncrement(a) - a);
@@ -527,26 +506,26 @@ namespace Calcpad.Core
             var u = Variable.Value.Units;
             double slope = err > maxErr ? double.NaN : r[0];
             if (u is null)
-                return MakeNumber(slope);
+                return slope;
 
             if (Units is null)
             {
                 Units = u;
-                return MakeNumber(slope);
+                return slope;
             }
             double factor = Unit.GetProductOrDivisionFactor(Units, u, true);
             Units /= u;
-            return MakeNumber(slope * factor);
+            return slope * factor;
         }
 
         internal Complex Repeat(double start, double end)
         {
             GetBounds(start, end, out var n1, out var n2);
-            var number = MakeNumber(0);
+            var number = new Complex(0.0);
             Units = null;
             for (int i = n1; i <= n2; ++i)
             {
-                number = Fc(MakeNumber(i));
+                number = Fc(i);
                 if (IsInfinity(number))
                     break;
             }
@@ -556,19 +535,19 @@ namespace Calcpad.Core
         internal Complex Sum(double start, double end)
         {
             GetBounds(start, end, out var n1, out var n2);
-            var number = Fc(MakeNumber(n1));
+            var number = Fc(n1);
             var units = Units;
             var hasUnits = units is not null;
             n1++;
             Units = null;
             for (int i = n1; i <= n2; ++i)
             {
-                number += Fc(MakeNumber(i));
+                number += Fc(i);
                 if (hasUnits && !Unit.IsConsistent(units, Units))
 #if BG
                     throw new MathParserException($"Несъвместими мерни единици в $Sum: \"{Unit.GetText(units)}\" и \"{Unit.GetText(Units)}\".");
 #else
-                    throw new MathParser.MathParserException($"Inconsistent units in $Sum: \"{Unit.GetText(units)}\" and \"{Unit.GetText(Units)}\".");
+                    throw new MathParserException($"Inconsistent units in $Sum: \"{Unit.GetText(units)}\" and \"{Unit.GetText(Units)}\".");
 #endif
                 if (IsInfinity(number))
                     break;
@@ -580,14 +559,14 @@ namespace Calcpad.Core
         internal Complex Product(double start, double end)
         {
             GetBounds(start, end, out var n1, out var n2);
-            var number = Fc(MakeNumber(n1));
+            var number = Fc(n1);
             var units = Units;
             var hasUnits = units is not null;
             n1++;
             Units = null;
             for (int i = n1; i <= n2; ++i)
             {
-                number *= Fc(MakeNumber(i));
+                number *= Fc(i);
                 if (hasUnits && Units is not null)
                     units *= Units;
 
@@ -604,7 +583,7 @@ namespace Calcpad.Core
 #if BG
                 throw new MathParserException($"Ограничението за брой итерации е надвишено: [{-Limits}; {Limits}].");
 #else
-                throw new MathParser.MathParserException($"Iteration limits out of range: [{-Limits}; {Limits}].");
+                throw new MathParserException($"Iteration limits out of range: [{-Limits}; {Limits}].");
 #endif
 
             n1 = (int)Math.Round(start);
