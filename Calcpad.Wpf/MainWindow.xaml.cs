@@ -30,7 +30,7 @@ namespace Calcpad.Wpf
                 Path = AppDomain.CurrentDomain.BaseDirectory;
                 Name = AppDomain.CurrentDomain.FriendlyName + ".exe";
                 FullName = System.IO.Path.Combine(Path, Name);
-                Version = string.Join(".", FileVersionInfo.GetVersionInfo(FullName).ProductVersion.Split('.').Take(2));
+                Version = string.Join(".", FileVersionInfo.GetVersionInfo(FullName).ProductVersion.Split('.').Take(3));
                 Title = "Calcpad " + Version;
             }
             internal static readonly string Path;
