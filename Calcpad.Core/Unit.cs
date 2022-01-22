@@ -757,7 +757,7 @@ namespace Calcpad.Core
             return unit;
         }
 
-        public static double GetProductOrDivisionFactor(Unit u1, Unit u2, bool divide = false)
+        internal static double GetProductOrDivisionFactor(Unit u1, Unit u2, bool divide = false)
         {
             var n1 = u1._dims.Length;
             var n2 = u2._dims.Length;
@@ -787,8 +787,8 @@ namespace Calcpad.Core
             {
                 ref var dim = ref unit._dims[i];
                 ref var _dim = ref _dims[i];
-                dim.Factor = _dims[i].Factor;
-                dim.Power = _dims[i].Power * f;
+                dim.Factor = _dim.Factor;
+                dim.Power = _dim.Power * f;
             }
             return unit;
         }
@@ -1101,9 +1101,9 @@ namespace Calcpad.Core
         internal static bool IsComposite(double d, Unit units) =>
             units is not null &&
             (
-                d > 0.0 &&
-                d != 1.0 ||
-                units.Text.IndexOfAny(CompositeUnitChars) >= 0.0
+                d > 0d &&
+                d != 1d ||
+                units.Text.IndexOfAny(CompositeUnitChars) >= 0d
             );
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1130,7 +1130,7 @@ namespace Calcpad.Core
                 d = 1d;
                 return ua;
             }
-            d = Unit.GetProductOrDivisionFactor(ua, ub);
+            d = GetProductOrDivisionFactor(ua, ub);
             var uc = ua * ub;
             if (uc is null)
                 return null;
@@ -1158,7 +1158,7 @@ namespace Calcpad.Core
                 return ub.Pow(-1.0);
             }
 
-            d = Unit.GetProductOrDivisionFactor(ua, ub, true);
+            d = GetProductOrDivisionFactor(ua, ub, true);
             var uc = ua / ub;
             if (uc is null)
                 return null;
