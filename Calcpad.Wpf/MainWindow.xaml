@@ -88,7 +88,7 @@
         <CommandBinding Executed="Command_Undo" Command="Undo"/>
         <CommandBinding Executed="Command_Redo" Command="Redo"/>
     </Window.CommandBindings>
-    <Grid MinWidth="1000">
+    <Grid MinWidth="1050">
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                 <GradientStop Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" Offset="0"/>
@@ -99,488 +99,472 @@
             <RowDefinition Height="56"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Menu x:Name="MainMenu" VerticalAlignment="Top" Margin="2,2,2,0" Background="{x:Null}" Grid.ColumnSpan="2" Height="18">
-            <MenuItem Header="_File">
-                <MenuItem Command="ApplicationCommands.New" Header="_New"/>
-                <MenuItem Command="ApplicationCommands.Open" Header="_Open"/>
-                <MenuItem x:Name="MenuRecent" Header="_Resent files"/>
-                <MenuItem x:Name="MenuSave" Command="ApplicationCommands.Save" Header="_Save"/>
-                <MenuItem Command="ApplicationCommands.SaveAs" Header="Save _As..."/>
-                <MenuItem Command="ApplicationCommands.Close" Header="_Exit"/>
+        <Menu x:Name="MainMenu" VerticalAlignment="Top" Margin="2,2,1.6,0" Background="{x:Null}">
+            <MenuItem Header="_Файл">
+                <MenuItem Command="ApplicationCommands.New" Header="_Нов"/>
+                <MenuItem Command="ApplicationCommands.Open" Header="_Отвори"/>
+                <MenuItem x:Name="MenuRecent" Header="_Последно отваряни файлове"/>
+                <MenuItem x:Name="MenuSave" Command="ApplicationCommands.Save" Header="_Запис"/>
+                <MenuItem Command="ApplicationCommands.SaveAs" Header="Запис _като..."/>
+                <MenuItem Command="ApplicationCommands.Close" Header="_Изход"/>
             </MenuItem>
-            <MenuItem x:Name="MenuEdit" Header="_Edit">
-                <MenuItem Command="ApplicationCommands.Find" Header="_Find"/>
+            <MenuItem x:Name="MenuEdit" Header="_Редактор">
+                <MenuItem Command="ApplicationCommands.Find" Header="_Търсене"/>
                 <Separator/>
-                <MenuItem Command="ApplicationCommands.Undo" Header="_Undo"/>
-                <MenuItem Command="ApplicationCommands.Redo" Header="_Redo"/>
+                <MenuItem Command="ApplicationCommands.Undo" Header="_Отмени"/>
+                <MenuItem Command="ApplicationCommands.Redo" Header="_Повтори"/>
                 <Separator/>
-                <MenuItem Command="ApplicationCommands.Cut" Header="Cu_t"/>
-                <MenuItem Command="ApplicationCommands.Copy" Header="_Copy"/>
-                <MenuItem Command="ApplicationCommands.Paste" Header="_Paste"/>
+                <MenuItem Command="ApplicationCommands.Cut" Header="_Изрежи"/>
+                <MenuItem Command="ApplicationCommands.Copy" Header="К_опирай"/>
+                <MenuItem Command="ApplicationCommands.Paste" Header="_Постави"/>
                 <Separator/>
-                <MenuItem Command="ApplicationCommands.SelectAll" Header="Select _All"/>
+                <MenuItem Command="ApplicationCommands.SelectAll" Header="Избери _всичко"/>
             </MenuItem>
-            <MenuItem x:Name="MenuInsert" Header="_Insert">
-                <MenuItem Header="Operators">
-                    <MenuItem Click="Button_Click" Tag="!" Icon="  !" Header="Factorial"/>
-                    <MenuItem Click="Button_Click" Tag="^" Icon="  ^" Header="Exponent"/>
-                    <MenuItem Click="Button_Click" Tag="/" Icon="  /" Header="Division"/>
-                    <MenuItem Click="Button_Click" Tag="÷" Icon="  ÷" Header="Division Bar"/>
-                    <MenuItem Click="Button_Click" Tag="\" Icon="  \" Header="Integer Division"/>
-                    <MenuItem Click="Button_Click" Tag="%" Icon="  %" Header="Reminder"/>
-                    <MenuItem Click="Button_Click" Tag="*" Icon="  *" Header="Multiplication"/>
-                    <MenuItem Click="Button_Click" Tag="-" Icon="  -" Header="Subtraction"/>
-                    <MenuItem Click="Button_Click" Tag="+" Icon="  +" Header="Addition"/>
-                    <MenuItem Click="Button_Click" Tag="≡" Icon="  ≡" Header="Equal to"/>
-                    <MenuItem Click="Button_Click" Tag="≠" Icon="  ≠" Header="Not Equal to"/>
-                    <MenuItem Click="Button_Click" Tag="&lt;" Icon="  &lt;" Header="Less Than"/>
-                    <MenuItem Click="Button_Click" Tag="&gt;" Icon="  &gt;" Header="Greater Than"/>
-                    <MenuItem Click="Button_Click" Tag="≤" Icon="  ≤" Header="Less Than or Equal"/>
-                    <MenuItem Click="Button_Click" Tag="≥" Icon="  ≥" Header="Greater Than or Equal"/>
+            <MenuItem x:Name="MenuInsert" Header="_Вмъкни">
+                <MenuItem Header="Оператор">
+                    <MenuItem Click="Button_Click" Tag="!" Icon="  !" Header="Факториел"/>
+                    <MenuItem Click="Button_Click" Tag="^" Icon="  ^" Header="Степенуване"/>
+                    <MenuItem Click="Button_Click" Tag="/" Icon="  /" Header="Делене"/>
+                    <MenuItem Click="Button_Click" Tag="÷" Icon="  ÷" Header="Дробна черта"/>
+                    <MenuItem Click="Button_Click" Tag="\" Icon="  \" Header="Целочислено делене"/>
+                    <MenuItem Click="Button_Click" Tag="%" Icon="  %" Header="Остатък"/>
+                    <MenuItem Click="Button_Click" Tag="*" Icon="  *" Header="Умножение"/>
+                    <MenuItem Click="Button_Click" Tag="-" Icon="  -" Header="Изваждане"/>
+                    <MenuItem Click="Button_Click" Tag="+" Icon="  +" Header="Събиране"/>
+                    <MenuItem Click="Button_Click" Tag="≡" Icon="  ≡" Header="Равно на"/>
+                    <MenuItem Click="Button_Click" Tag="≠" Icon="  ≠" Header="Неравно"/>
+                    <MenuItem Click="Button_Click" Tag="&lt;" Icon="  &lt;" Header="По-малко"/>
+                    <MenuItem Click="Button_Click" Tag="&gt;" Icon="  &gt;" Header="По-голямо"/>
+                    <MenuItem Click="Button_Click" Tag="≤" Icon="  ≤" Header="По-малко или равно"/>
+                    <MenuItem Click="Button_Click" Tag="≥" Icon="  ≥" Header="По-голямо или равно"/>
                     <Separator/>
-                    <MenuItem Click="Button_Click" Tag="=" Icon="  =" Header="Assignment"/>
+                    <MenuItem Click="Button_Click" Tag="=" Icon="  =" Header="Присвояване"/>
                 </MenuItem>
-                <MenuItem Header="Functions">
-                    <MenuItem Header="Trigonometric">
-                        <MenuItem Click="Button_Click" Tag="sin(" Header="sin(x)" ToolTip="Sine"/>
-                        <MenuItem Click="Button_Click" Tag="cos(" Header="cos(x)" ToolTip="Cosine"/>
-                        <MenuItem Click="Button_Click" Tag="tan(" Header="tan(x)" ToolTip="Tangent"/>
+                <MenuItem Header="Функция">
+                    <MenuItem Header="Тригонометрични">
+                        <MenuItem Click="Button_Click" Tag="sin(" Header="sin(x)" ToolTip="Синус"/>
+                        <MenuItem Click="Button_Click" Tag="cos(" Header="cos(x)" ToolTip="Косинус"/>
+                        <MenuItem Click="Button_Click" Tag="tan(" Header="tan(x)" ToolTip="Тангенс"/>
                         <Separator/>
-                        <MenuItem Click="Button_Click" Tag="csc(" Header="csc(x)" ToolTip="Cosecant"/>
-                        <MenuItem Click="Button_Click" Tag="sec(" Header="sec(x)" ToolTip="Secant"/>
-                        <MenuItem Click="Button_Click" Tag="cot(" Header="cot(x)" ToolTip="Cotangent"/>
+                        <MenuItem Click="Button_Click" Tag="csc(" Header="csc(x)" ToolTip="Косеканс"/>
+                        <MenuItem Click="Button_Click" Tag="sec(" Header="sec(x)" ToolTip="Секанс"/>
+                        <MenuItem Click="Button_Click" Tag="cot(" Header="cot(x)" ToolTip="Котангенс"/>
                     </MenuItem>
-                    <MenuItem Header="Hyperbolic">
-                        <MenuItem Click="Button_Click" Tag="sinh(" Header="sinh(x)" ToolTip="Hyperbolic Sine"/>
-                        <MenuItem Click="Button_Click" Tag="cosh(" Header="cosh(x)" ToolTip="Hyperbolic Cosine"/>
-                        <MenuItem Click="Button_Click" Tag="tanh(" Header="tanh(x)" ToolTip="Hyperbolic Tangent"/>
+                    <MenuItem Header="Хиперболични">
+                        <MenuItem Click="Button_Click" Tag="sinh(" Header="sinh(x)" ToolTip="Синус хиперболичен"/>
+                        <MenuItem Click="Button_Click" Tag="cosh(" Header="cosh(x)" ToolTip="Косинус хиперболичен"/>
+                        <MenuItem Click="Button_Click" Tag="tanh(" Header="tanh(x)" ToolTip="Тангенс хиперболичен"/>
                         <Separator/>
-                        <MenuItem Click="Button_Click" Tag="csch(" Header="csch(x)" ToolTip="Hyperbolic Cosecant"/>
-                        <MenuItem Click="Button_Click" Tag="sech(" Header="sech(x)" ToolTip="Hyperbolic Secant"/>
-                        <MenuItem Click="Button_Click" Tag="coth(" Header="coth(x)" ToolTip="Hyperbolic Cotangent"/>
+                        <MenuItem Click="Button_Click" Tag="csch(" Header="csch(x)" ToolTip="Косеканс хиперболичен"/>
+                        <MenuItem Click="Button_Click" Tag="sech(" Header="sech(x)" ToolTip="Секанс хиперболичен"/>
+                        <MenuItem Click="Button_Click" Tag="coth(" Header="coth(x)" ToolTip="Котангенс хиперболичен"/>
                     </MenuItem>
-                    <MenuItem Header="Inverse Trigonometric">
-                        <MenuItem Click="Button_Click" Tag="asin(" Header="asin(x)" ToolTip="Inverse Sine"/>
-                        <MenuItem Click="Button_Click" Tag="acos(" Header="acos(x)" ToolTip="Inverse Cosine"/>
-                        <MenuItem Click="Button_Click" Tag="atan(" Header="atan(x)" ToolTip="Inverse Tangent"/>
-                        <MenuItem Click="Button_Click" Tag="atan2(x; y" Header="atan2(x; y)" ToolTip="The angle whose tangent is x/y"/>
+                    <MenuItem Header="Обратни тригонометрични">
+                        <MenuItem Click="Button_Click" Tag="asin(" Header="asin(x)" ToolTip="Аркуссинус"/>
+                        <MenuItem Click="Button_Click" Tag="acos(" Header="acos(x)" ToolTip="Аркускосинус"/>
+                        <MenuItem Click="Button_Click" Tag="atan(" Header="atan(x)" ToolTip="Аркустангенс"/>
+                        <MenuItem Click="Button_Click" Tag="atan2(x; y" Header="atan2(x; y)" ToolTip="Ъгъл, чиито тангенс е отношението на x/y"/>
                         <Separator/>
-                        <MenuItem Click="Button_Click" Tag="acsc(" Header="acsc(x)" ToolTip="Inverse Cosecant"/>
-                        <MenuItem Click="Button_Click" Tag="asec(" Header="asec(x)" ToolTip="Inverse Secant"/>
-                        <MenuItem Click="Button_Click" Tag="acot(" Header="acot(x)" ToolTip="Inverse Cotangent"/>
+                        <MenuItem Click="Button_Click" Tag="acsc(" Header="acsc(x)" ToolTip="Аркускосеканс"/>
+                        <MenuItem Click="Button_Click" Tag="asec(" Header="asec(x)" ToolTip="Аркуссеканс"/>
+                        <MenuItem Click="Button_Click" Tag="acot(" Header="acot(x)" ToolTip="Аркускотангенс"/>
                     </MenuItem>
-                    <MenuItem Header="Inverse Hyperbolic">
-                        <MenuItem Click="Button_Click" Tag="asinh(" Header="asinh(x)" ToolTip="Inverse Hyperbolic Sine"/>
-                        <MenuItem Click="Button_Click" Tag="acosh(" Header="acosh(x)" ToolTip="Inverse Hyperbolic Cosine"/>
-                        <MenuItem Click="Button_Click" Tag="atanh(" Header="atanh(x)" ToolTip="Inverse Hyperbolic Tangent"/>
+                    <MenuItem Header="Обратни хиперболични">
+                        <MenuItem Click="Button_Click" Tag="asinh(" Header="asinh(x)" ToolTip="Аркуссинус хиперболичен"/>
+                        <MenuItem Click="Button_Click" Tag="acosh(" Header="acosh(x)" ToolTip="Аркускосинус хиперболичен"/>
+                        <MenuItem Click="Button_Click" Tag="atanh(" Header="atanh(x)" ToolTip="Аркустангенс хиперболичен"/>
                         <Separator/>
-                        <MenuItem Click="Button_Click" Tag="acsch(" Header="acsch(x)" ToolTip="Inverse Hyperbolic Cosecant"/>
-                        <MenuItem Click="Button_Click" Tag="asech(" Header="asech(x)" ToolTip="Inverse Hyperbolic Secant"/>
-                        <MenuItem Click="Button_Click" Tag="acoth(" Header="acoth(x)" ToolTip="Inverse Hyperbolic Cotangent"/>
+                        <MenuItem Click="Button_Click" Tag="acsch(" Header="acsch(x)" ToolTip="Аркускосеканс хиперболичен"/>
+                        <MenuItem Click="Button_Click" Tag="asech(" Header="asech(x)" ToolTip="Аркуссеканс хиперболичен"/>
+                        <MenuItem Click="Button_Click" Tag="acoth(" Header="acoth(x)" ToolTip="Аркускотангенс хиперболичен"/>
                     </MenuItem>
-                    <MenuItem Header="Exponential and Logarithmic">
-                        <MenuItem Click="Button_Click" Tag="log("  Header="log(x)"  ToolTip="Decimal Logarithm"/>
-                        <MenuItem Click="Button_Click" Tag="ln("   Header="ln(x)"   ToolTip="Natural Logarithm"/>
-                        <MenuItem Click="Button_Click" Tag="log_2(" Header="log2(x)"   ToolTip="Binary Logarithm"/>
+                    <MenuItem Header="Степенни и логаритмични">
+                        <MenuItem Click="Button_Click" Tag="log("  Header="log(x)"  ToolTip="Десетичен логаритъм"/>
+                        <MenuItem Click="Button_Click" Tag="ln("   Header="ln(x)"   ToolTip="Естествен логаритъм"/>
+                        <MenuItem Click="Button_Click" Tag="log_2(" Header="log2(x)"   ToolTip="Двоичен логаритъм"/>
                         <Separator/>
-                        <MenuItem Click="Button_Click" Tag="sqrt(" Header="sqrt(x)" ToolTip="Square Root"/>
-                        <MenuItem Click="Button_Click" Tag="cbrt(" Header="cbrt(x)" ToolTip="Cubic Root"/>
-                        <MenuItem Click="Button_Click" Tag="root(x; n" Header="root(x; n)" ToolTip="n-th Root"/>
+                        <MenuItem Click="Button_Click" Tag="sqrt(" Header="sqrt(x)" ToolTip="Корен квадратен"/>
+                        <MenuItem Click="Button_Click" Tag="cbrt(" Header="cbrt(x)" ToolTip="Корен кубичен"/>
+                        <MenuItem Click="Button_Click" Tag="root(x; n" Header="root(x; n)" ToolTip="Корен n-ти"/>
                     </MenuItem>
-                    <MenuItem Header="Rounding">
-                        <MenuItem Click="Button_Click" Tag="round("   Header="round(x)"   ToolTip="Round to the nearest integer"/>
-                        <MenuItem Click="Button_Click" Tag="floor("   Header="floor(x)"   ToolTip="Round to the lower integer"/>
-                        <MenuItem Click="Button_Click" Tag="ceiling(" Header="ceiling(x)" ToolTip="Round uto the greater integer"/>
-                        <MenuItem Click="Button_Click" Tag="trunc("   Header="trunc(x)"   ToolTip="Round towards zero"/>
+                    <MenuItem Header="Закръгление">
+                        <MenuItem Click="Button_Click" Tag="round("   Header="round(x)"   ToolTip="Закръгляване към по-близкото цяло число"/>
+                        <MenuItem Click="Button_Click" Tag="floor("   Header="floor(x)"   ToolTip="Закръгляване надолу (към -∞)"/>
+                        <MenuItem Click="Button_Click" Tag="ceiling(" Header="ceiling(x)" ToolTip="Закръгляване нагоре (към +∞)"/>
+                        <MenuItem Click="Button_Click" Tag="trunc("   Header="trunc(x)"   ToolTip="Закръгляване надолу в посока към нулата"/>
                     </MenuItem>
-                    <MenuItem Header="Complex">
-                        <MenuItem Click="Button_Click" Tag="re("    Header="re(x)"    ToolTip="The real part of a complex number"/>
-                        <MenuItem Click="Button_Click" Tag="im("    Header="im(x)"    ToolTip="The imaginary part of a complex number"/>
-                        <MenuItem Click="Button_Click" Tag="phase(" Header="phase(x)" ToolTip="The phase of a complex number"/>
-                        <MenuItem Click="Button_Click" Tag="abs("   Header="abs(x)"   ToolTip="Absolute value/magitute"/>
+                    <MenuItem Header="Комплексни">
+                        <MenuItem Click="Button_Click" Tag="re("    Header="re(x)"    ToolTip="Реална част на комплексно число"/>
+                        <MenuItem Click="Button_Click" Tag="im("    Header="im(x)"    ToolTip="Имагинерна част на комплексно число"/>
+                        <MenuItem Click="Button_Click" Tag="phase(" Header="phase(x)" ToolTip="Фаза на комплексно число"/>
+                        <MenuItem Click="Button_Click" Tag="abs("   Header="abs(x)"   ToolTip="Абсолютна стойност/магнитут на комплексно число"/>
                     </MenuItem>
-                    <MenuItem Header="Other">
-                        <MenuItem Click="Button_Click" Tag="random("  Header="random(x)"             ToolTip="Random number between 0 and x"/>
-                        <MenuItem Click="Button_Click" Tag="min("     Header="min(x; y; z...)"       ToolTip="Minimum of multiple values"/>
-                        <MenuItem Click="Button_Click" Tag="max("     Header="max(x; y; z...)"       ToolTip="Maximum of multiple values"/>
-                        <MenuItem Click="Button_Click" Tag="sum("     Header="sum(x; y; z...)"       ToolTip="Sum of multiple values"/>
-                        <MenuItem Click="Button_Click" Tag="sumsq("   Header="sumsq(x; y; z...)"     ToolTip="Sum of squares"/>
-                        <MenuItem Click="Button_Click" Tag="srss("    Header="srss(x; y; z...)"      ToolTip="Square root of sum of squares"/>
-                        <MenuItem Click="Button_Click" Tag="average(" Header="average(x; y; z...)"   ToolTip="Average of multiple values"/>
-                        <MenuItem Click="Button_Click" Tag="product(" Header="product(x; y; z...)"   ToolTip="Product of multiple values"/>
-                        <MenuItem Click="Button_Click" Tag="mean("    Header="mean(x; y; z...)"      ToolTip="Geometric mean"/>
-                        <MenuItem Click="Button_Click" Tag="if("      Header="if(cond; x; y)"        ToolTip="Conditional evaluation"/>
-                        <MenuItem Click="Button_Click" Tag="switch("  Header="switch(c1; x; c2; y...; z)" ToolTip="Selective evaluation"/>
-                        <MenuItem Click="Button_Click" Tag="take("    Header="take(n; a; b; c...)"   ToolTip="Take the n-th element"/>
-                        <MenuItem Click="Button_Click" Tag="line("    Header="line(x; a; b; c...)"   ToolTip="Linear interpolation"/>
-                        <MenuItem Click="Button_Click" Tag="spline("  Header="spline(x; a; b; c...)" ToolTip="Hermite spline interpolation"/>
+                    <MenuItem Header="Други">
+                        <MenuItem Click="Button_Click" Tag="random("    Header="random(x)"   ToolTip="Случайно число между 0 и x"/>
+                        <MenuItem Click="Button_Click" Tag="min("     Header="min(x; y; z...)"       ToolTip="Минимум на множество стойности"/>
+                        <MenuItem Click="Button_Click" Tag="max("     Header="max(x; y; z...)"       ToolTip="Максимум на множество стойности"/>
+                        <MenuItem Click="Button_Click" Tag="sum("     Header="sum(x; y; z...)"       ToolTip="Сума на множество стойности"/>
+                        <MenuItem Click="Button_Click" Tag="sumsq("   Header="sumsq(x; y; z...)"     ToolTip="Сума от квадратите"/>
+                        <MenuItem Click="Button_Click" Tag="srss("    Header="srss(x; y; z...)"      ToolTip="Корен квадратен от сумата на квадратите"/>
+                        <MenuItem Click="Button_Click" Tag="average(" Header="average(x; y; z...)"   ToolTip="Средно аритметично от множество стойности"/>
+                        <MenuItem Click="Button_Click" Tag="product(" Header="product(x; y; z...)"   ToolTip="Произведение на множество стойности"/>
+                        <MenuItem Click="Button_Click" Tag="mean("    Header="mean(x; y; z...)"      ToolTip="Средно геометрично"/>
+                        <MenuItem Click="Button_Click" Tag="if("      Header="if(cond; x; y)"        ToolTip="Условно изчисление"/>
+                        <MenuItem Click="Button_Click" Tag="switch("  Header="switch(c1; x; c2; y...; z)" ToolTip="Избирателно изчисление"/>
+                        <MenuItem Click="Button_Click" Tag="take("    Header="take(n; a; b; c...)"   ToolTip="Връща n-тия елемент от списъка"/>
+                        <MenuItem Click="Button_Click" Tag="line("    Header="line(x; a; b; c...)"   ToolTip="Линейна интерполация"/>
+                        <MenuItem Click="Button_Click" Tag="spline("  Header="spline(x; a; b; c...)" ToolTip="Spline интерполация на Ермит"/>
                     </MenuItem>
                 </MenuItem>
-                <MenuItem Header="Units">
-                    <MenuItem Header="Metric">
-                        <MenuItem Header="Mass">
-                            <MenuItem Click="Button_Click" Tag="g"   Header="g (gram)"/>
-                            <MenuItem Click="Button_Click" Tag="hg"  Header="hg (hectogram)"/>
-                            <MenuItem Click="Button_Click" Tag="kg"  Header="kg (kilogram)"/>
-                            <MenuItem Click="Button_Click" Tag="t"   Header="t (ton)"/>
-                            <MenuItem Click="Button_Click" Tag="kt"  Header="kt (kiloton)"/>
-                            <MenuItem Click="Button_Click" Tag="Mt"  Header="Mt (megaton)"/>
-                            <MenuItem Click="Button_Click" Tag="Gt"  Header="Gt (gigaton)"/>
-                            <MenuItem Click="Button_Click" Tag="dg"  Header="dg (decigram)"/>
-                            <MenuItem Click="Button_Click" Tag="cg"  Header="cg (centigram)"/>
-                            <MenuItem Click="Button_Click" Tag="mg"  Header="mg (milligram)"/>
-                            <MenuItem Click="Button_Click" Tag="μg"  Header="μg (microgram)"/>
-                            <MenuItem Click="Button_Click" Tag="ng"  Header="ng (nanogram)"/>
-                            <MenuItem Click="Button_Click" Tag="pg"  Header="pg (picogram)"/>
-                            <MenuItem Click="Button_Click" Tag="Da"  Header="Da (Dalton)"/>
-                            <MenuItem Click="Button_Click" Tag="u"  Header="u (Dalton alt.)"/>
+                <MenuItem Header="Мерни единици">
+                    <MenuItem Header="Метрични">
+                        <MenuItem Header="Маса">
+                            <MenuItem Click="Button_Click" Tag="g"   Header="g (грам)"/>
+                            <MenuItem Click="Button_Click" Tag="hg"  Header="hg (хектограм)"/>
+                            <MenuItem Click="Button_Click" Tag="kg"  Header="kg (килограм)"/>
+                            <MenuItem Click="Button_Click" Tag="t"   Header="t (тон)"/>
+                            <MenuItem Click="Button_Click" Tag="kt"  Header="kt (килотон)"/>
+                            <MenuItem Click="Button_Click" Tag="Mt"  Header="Mt (мегатон)"/>
+                            <MenuItem Click="Button_Click" Tag="Gt"  Header="Gt (гигаton)"/>
+                            <MenuItem Click="Button_Click" Tag="dg"  Header="dg (дециграм)"/>
+                            <MenuItem Click="Button_Click" Tag="cg"  Header="cg (сантиграм)"/>
+                            <MenuItem Click="Button_Click" Tag="mg"  Header="mg (милиграм)"/>
+                            <MenuItem Click="Button_Click" Tag="μg"  Header="μg (микрограм)"/>
+                            <MenuItem Click="Button_Click" Tag="ng"  Header="ng (нанограм)"/>
+                            <MenuItem Click="Button_Click" Tag="pg"  Header="pg (пикограм)"/>
                         </MenuItem>
-                        <MenuItem Header="Length">
-                            <MenuItem Click="Button_Click" Tag="m"  Header="m (meter)"/>
-                            <MenuItem Click="Button_Click" Tag="km" Header="km (kilometer)"/>
-                            <MenuItem Click="Button_Click" Tag="dm" Header="dm (decimeter)"/>
-                            <MenuItem Click="Button_Click" Tag="cm" Header="cm (centimeter)"/>
-                            <MenuItem Click="Button_Click" Tag="mm" Header="mm (millimeter)"/>
-                            <MenuItem Click="Button_Click" Tag="μm" Header="μm (micrometer)"/>
-                            <MenuItem Click="Button_Click" Tag="nm" Header="nm (nanometer)"/>
-                            <MenuItem Click="Button_Click" Tag="pm" Header="pm (picometer)"/>
-                            <MenuItem Click="Button_Click" Tag="AU" Header="AU (astronomical unit)"/>
-                            <MenuItem Click="Button_Click" Tag="ly" Header="ly (light year)"/>
+                        <MenuItem Header="Дължина">
+                            <MenuItem Click="Button_Click" Tag="m"  Header="m (метър)"/>
+                            <MenuItem Click="Button_Click" Tag="km" Header="km (километър)"/>
+                            <MenuItem Click="Button_Click" Tag="dm" Header="dm (дециметър)"/>
+                            <MenuItem Click="Button_Click" Tag="cm" Header="cm (сантиметър)"/>
+                            <MenuItem Click="Button_Click" Tag="mm" Header="mm (милиметър)"/>
+                            <MenuItem Click="Button_Click" Tag="μm" Header="μm (микрометър)"/>
+                            <MenuItem Click="Button_Click" Tag="nm" Header="nm (нанометър)"/>
+                            <MenuItem Click="Button_Click" Tag="pm" Header="pm (пикометър)"/>
                         </MenuItem>
-                        <MenuItem Header="Area">
-                            <MenuItem Click="Button_Click" Tag="m^2"  Header="m² (sq. meter)"/>
-                            <MenuItem Click="Button_Click" Tag="km^2" Header="km² (sq. kilometer)"/>
-                            <MenuItem Click="Button_Click" Tag="dm^2" Header="dm² (sq. decimeter)"/>
-                            <MenuItem Click="Button_Click" Tag="cm^2" Header="cm² (sq. centimeter)"/>
-                            <MenuItem Click="Button_Click" Tag="mm^2" Header="mm² (sq. millimeter)"/>
-                            <MenuItem Click="Button_Click" Tag="a"    Header="a (are)"/>
-                            <MenuItem Click="Button_Click" Tag="daa"  Header="daa (decare)"/>
-                            <MenuItem Click="Button_Click" Tag="ha"   Header="ha (hectare)"/>
+                        <MenuItem Header="Площ">
+                            <MenuItem Click="Button_Click" Tag="m^2"  Header="m² (кв. метър)"/>
+                            <MenuItem Click="Button_Click" Tag="km^2" Header="km² (кв. километър)"/>
+                            <MenuItem Click="Button_Click" Tag="dm^2" Header="dm² (кв. дециметър)"/>
+                            <MenuItem Click="Button_Click" Tag="cm^2" Header="cm² (кв. сантиметър)"/>
+                            <MenuItem Click="Button_Click" Tag="mm^2" Header="mm² (кв. милиметър)"/>
+                            <MenuItem Click="Button_Click" Tag="a"    Header="a (ар)"/>
+                            <MenuItem Click="Button_Click" Tag="daa"  Header="daa (декар)"/>
+                            <MenuItem Click="Button_Click" Tag="ha"   Header="ha (хектар)"/>
                         </MenuItem>
-                        <MenuItem Header="Volume">
-                            <MenuItem Click="Button_Click" Tag="m^3"  Header="m³ (cubic meter)"/>
-                            <MenuItem Click="Button_Click" Tag="km^3" Header="km³ (cubic kilometer)"/>
-                            <MenuItem Click="Button_Click" Tag="dm^3" Header="dm³ (cubic decimeter)"/>
-                            <MenuItem Click="Button_Click" Tag="cm^3" Header="cm³ (cubic centimeter)"/>
-                            <MenuItem Click="Button_Click" Tag="mm^3" Header="mm³ (cubic millimeter)"/>
-                            <MenuItem Click="Button_Click" Tag="L"    Header="L (litre)"/>
-                            <MenuItem Click="Button_Click" Tag="mL"   Header="mL (millilitre)"/>
-                            <MenuItem Click="Button_Click" Tag="cL"   Header="cL (centilitre)"/>
-                            <MenuItem Click="Button_Click" Tag="dL"   Header="dL (decilitre)"/>
-                            <MenuItem Click="Button_Click" Tag="hL"   Header="hL (hectolitre)"/>
+                        <MenuItem Header="Обем">
+                            <MenuItem Click="Button_Click" Tag="m^3"  Header="m³ (куб. метър)"/>
+                            <MenuItem Click="Button_Click" Tag="km^3" Header="km³ (куб. километър)"/>
+                            <MenuItem Click="Button_Click" Tag="dm^3" Header="dm³ (куб. дециметър)"/>
+                            <MenuItem Click="Button_Click" Tag="cm^3" Header="cm³ (куб. сантиметър)"/>
+                            <MenuItem Click="Button_Click" Tag="mm^3" Header="mm³ (куб. милиметър)"/>
+                            <MenuItem Click="Button_Click" Tag="L"    Header="L (литър)"/>
+                            <MenuItem Click="Button_Click" Tag="mL"   Header="mL (милилитър)"/>
+                            <MenuItem Click="Button_Click" Tag="cL"   Header="cL (сантилитър)"/>
+                            <MenuItem Click="Button_Click" Tag="dL"   Header="dL (децилитър)"/>
+                            <MenuItem Click="Button_Click" Tag="hL"   Header="hL (хектолитър)"/>
                         </MenuItem>
-                        <MenuItem Header="Time">
-                            <MenuItem Click="Button_Click" Tag="s"   Header="s (second)"/>
-                            <MenuItem Click="Button_Click" Tag="ms"  Header="ms (millisecond)"/>
-                            <MenuItem Click="Button_Click" Tag="μs"  Header="μs (microsecond)"/>
-                            <MenuItem Click="Button_Click" Tag="ns"  Header="ns (nanosecond)"/>
-                            <MenuItem Click="Button_Click" Tag="ps"  Header="ps (picosecond)"/>
-                            <MenuItem Click="Button_Click" Tag="min" Header="min (minute)"/>
-                            <MenuItem Click="Button_Click" Tag="h"   Header="h (hour)"/>
-                            <MenuItem Click="Button_Click" Tag="d"   Header="d (day)"/>
+                        <MenuItem Header="Време">
+                            <MenuItem Click="Button_Click" Tag="s"   Header="s (секунда)"/>
+                            <MenuItem Click="Button_Click" Tag="ms"  Header="ms (милисекунда)"/>
+                            <MenuItem Click="Button_Click" Tag="μs"  Header="μs (микросекунда)"/>
+                            <MenuItem Click="Button_Click" Tag="ns"  Header="ns (наносекунда)"/>
+                            <MenuItem Click="Button_Click" Tag="ps"  Header="ps (пикосекунда)"/>
+                            <MenuItem Click="Button_Click" Tag="min" Header="min (минута)"/>
+                            <MenuItem Click="Button_Click" Tag="h"   Header="h (час)"/>
                         </MenuItem>
-                        <MenuItem Header="Frequency">
-                            <MenuItem Click="Button_Click" Tag="Hz"  Header="Hz (Hertz)"/>
-                            <MenuItem Click="Button_Click" Tag="kHz" Header="kHz (kilohertz)"/>
-                            <MenuItem Click="Button_Click" Tag="MHz" Header="MHz (megahertz)"/>
-                            <MenuItem Click="Button_Click" Tag="GHz" Header="GHz (gigahertz)"/>
-                            <MenuItem Click="Button_Click" Tag="THz" Header="THz (terahertz)"/>
-                            <MenuItem Click="Button_Click" Tag="mHz" Header="kHz (millihertz)"/>
-                            <MenuItem Click="Button_Click" Tag="μHz" Header="MHz (microhertz)"/>
-                            <MenuItem Click="Button_Click" Tag="nHz" Header="GHz (nanohertz)"/>
-                            <MenuItem Click="Button_Click" Tag="pHz" Header="THz (picohertz)"/>
-                            <MenuItem Click="Button_Click" Tag="rpm" Header="rpm (rotations per minute)"/>
+                        <MenuItem Header="Честота">
+                            <MenuItem Click="Button_Click" Tag="Hz"  Header="Hz (Херц)"/>
+                            <MenuItem Click="Button_Click" Tag="kHz" Header="kHz (килохерц)"/>
+                            <MenuItem Click="Button_Click" Tag="MHz" Header="MHz (мегахерц)"/>
+                            <MenuItem Click="Button_Click" Tag="GHz" Header="GHz (гигахерц)"/>
+                            <MenuItem Click="Button_Click" Tag="THz" Header="THz (терахерц)"/>
+                            <MenuItem Click="Button_Click" Tag="rpm" Header="rpm (оборота в минута)"/>
                         </MenuItem>
-                        <MenuItem Header="Velocity">
-                            <MenuItem Click="Button_Click" Tag="m/s" Header="m/s (meters per second)"/>
-                            <MenuItem Click="Button_Click" Tag="kmh" Header="kmh (kilometers per hour)"/>
+                        <MenuItem Header="Скорост">
+                            <MenuItem Click="Button_Click" Tag="m/s" Header="m/s (метра в секунда)"/>
+                            <MenuItem Click="Button_Click" Tag="kmh" Header="kmh (километра в час)"/>
                         </MenuItem>
-                        <MenuItem Header="Temperature">
-                            <MenuItem Click="Button_Click" Tag="°C"  Header="°C (degree Celsius)"/>
-                            <MenuItem Click="Button_Click" Tag="Δ°C" Header="Δ°C (difference in °C)"/>
-                            <MenuItem Click="Button_Click" Tag="K"   Header="K (Kelvin)"/>
+                        <MenuItem Header="Температура">
+                            <MenuItem Click="Button_Click" Tag="°C"  Header="°C (градус Целзий)"/>
+                            <MenuItem Click="Button_Click" Tag="Δ°C" Header="Δ°C (разлика в °C)"/>
+                            <MenuItem Click="Button_Click" Tag="K"   Header="K (Келвин)"/>
                         </MenuItem>
-                        <MenuItem Header="Force">
-                            <MenuItem Click="Button_Click" Tag="N"   Header="N (Newton)"/>
-                            <MenuItem Click="Button_Click" Tag="daN" Header="daN (decanewton)"/>
-                            <MenuItem Click="Button_Click" Tag="hN"  Header="hN (hectonewton)"/>
-                            <MenuItem Click="Button_Click" Tag="kN"  Header="kN (kilonewton)"/>
-                            <MenuItem Click="Button_Click" Tag="MN"  Header="MN (meganewton)"/>
-                            <MenuItem Click="Button_Click" Tag="GN"  Header="GN (giganewton)"/>
-                            <MenuItem Click="Button_Click" Tag="TN"  Header="TN (teranewton)"/>
-                            <MenuItem Click="Button_Click" Tag="kgf" Header="kgf (kilogram-force)"/>
-                            <MenuItem Click="Button_Click" Tag="tf"  Header="tf (tonne-force)"/>
+                        <MenuItem Header="Сила">
+                            <MenuItem Click="Button_Click" Tag="N"   Header="N (Нютон)"/>
+                            <MenuItem Click="Button_Click" Tag="daN" Header="daN (деканютон)"/>
+                            <MenuItem Click="Button_Click" Tag="hN"  Header="hN (хектонютон)"/>
+                            <MenuItem Click="Button_Click" Tag="kN"  Header="kN (килонютон)"/>
+                            <MenuItem Click="Button_Click" Tag="MN"  Header="MN (меганютон)"/>
+                            <MenuItem Click="Button_Click" Tag="GN"  Header="GN (гиганютон)"/>
+                            <MenuItem Click="Button_Click" Tag="TN"  Header="TN (теранютон)"/>
+                            <MenuItem Click="Button_Click" Tag="kgf" Header="kgf (килограм-сила)"/>
+                            <MenuItem Click="Button_Click" Tag="tf"  Header="tf (тон-сила)"/>
                         </MenuItem>
-                        <MenuItem Header="Torque/Moment">
-                            <MenuItem Click="Button_Click" Tag="Nm"    Header="Nm (Newton-meter)"/>
-                            <MenuItem Click="Button_Click" Tag="N*mm"  Header="N·mm (Newton-millimeter)"/>
-                            <MenuItem Click="Button_Click" Tag="N*cm"  Header="N·cm (Newton-centimeter)"/>
-                            <MenuItem Click="Button_Click" Tag="kN*cm" Header="kN·cm (kilonewton-centimeter)"/>
-                            <MenuItem Click="Button_Click" Tag="kNm"   Header="kNm (kilonewton-meter)"/>
+                        <MenuItem Header="Усукване/момент">
+                            <MenuItem Click="Button_Click" Tag="Nm"    Header="Nm (Нютон-метър)"/>
+                            <MenuItem Click="Button_Click" Tag="N*mm"  Header="N·mm (Нютон-милиметър)"/>
+                            <MenuItem Click="Button_Click" Tag="N*cm"  Header="N·cm (Нютон-сантиметър)"/>
+                            <MenuItem Click="Button_Click" Tag="kN*cm" Header="kN·cm (килонютон-сантиметър)"/>
+                            <MenuItem Click="Button_Click" Tag="kNm"   Header="kNm (килонютон-метър)"/>
                         </MenuItem>
-                        <MenuItem Header="Pressure">
-                            <MenuItem Click="Button_Click" Tag="N/mm^2"   Header="N/mm² (Newton per sq. mm)"/>
-                            <MenuItem Click="Button_Click" Tag="N/cm^2"   Header="N/cm² (Newton per sq. cm)"/>
-                            <MenuItem Click="Button_Click" Tag="N/m^2"    Header="N/m² (Newton per sq. meter)"/>
-                            <MenuItem Click="Button_Click" Tag="kN/cm^2"  Header="kN/cm² (kN per sq. cm)"/>
-                            <MenuItem Click="Button_Click" Tag="kN/m^2"   Header="kN/m² (kN per sq. meter)"/>
-                            <MenuItem Click="Button_Click" Tag="kgf/cm^2" Header="kgf/cm² (kg-force per sq. cm)"/>
-                            <MenuItem Click="Button_Click" Tag="tf/m^2"   Header="tf/m² (tonne-force per sq. meter)"/>
-                            <MenuItem Click="Button_Click" Tag="Pa"       Header="Pa (Pascal)"/>
-                            <MenuItem Click="Button_Click" Tag="daPa"     Header="daPa (decapascal)"/>
-                            <MenuItem Click="Button_Click" Tag="hPa"      Header="hPa (hectopascal)"/>
-                            <MenuItem Click="Button_Click" Tag="kPa"      Header="kPa (kilopascal)"/>
-                            <MenuItem Click="Button_Click" Tag="MPa"      Header="MPa (megapascal)"/>
-                            <MenuItem Click="Button_Click" Tag="GPa"      Header="GPa (gigapascal)"/>
-                            <MenuItem Click="Button_Click" Tag="TPa"      Header="TPa (terapascal)"/>
-                            <MenuItem Click="Button_Click" Tag="dPa"      Header="dPa (decipascal)"/>
-                            <MenuItem Click="Button_Click" Tag="cPa"      Header="cPa (centipascal)"/>
-                            <MenuItem Click="Button_Click" Tag="mPa"      Header="mPa (micropascal)"/>
-                            <MenuItem Click="Button_Click" Tag="μPa"      Header="μPa (millipascal)"/>
-                            <MenuItem Click="Button_Click" Tag="nPa"      Header="nPa (nanopascal)"/>
-                            <MenuItem Click="Button_Click" Tag="pPa"      Header="pPa (picopascal)"/>
-                            <MenuItem Click="Button_Click" Tag="bar"      Header="bar (bar)"/>
-                            <MenuItem Click="Button_Click" Tag="mbar"     Header="mbar (millibar)"/>
-                            <MenuItem Click="Button_Click" Tag="μbar"     Header="μbar (microbar)"/>
-                            <MenuItem Click="Button_Click" Tag="atm"      Header="atm (atmosphere)"/>
-                            <MenuItem Click="Button_Click" Tag="at"       Header="at (technical atmosphere)"/>
-                            <MenuItem Click="Button_Click" Tag="Torr"     Header="Torr (Torr)"/>
-                            <MenuItem Click="Button_Click" Tag="mmHg"     Header="mmHg (millimeters of mercury)"/>
+                        <MenuItem Header="Налягане">
+                            <MenuItem Click="Button_Click" Tag="N/mm^2"   Header="N/mm² (Нютон на кв. mm)"/>
+                            <MenuItem Click="Button_Click" Tag="N/cm^2"   Header="N/cm² (Нютон на кв. cm)"/>
+                            <MenuItem Click="Button_Click" Tag="N/m^2"    Header="N/m² (Нютон на кв. метър)"/>
+                            <MenuItem Click="Button_Click" Tag="kN/cm^2"  Header="kN/cm² (kN на кв. cm)"/>
+                            <MenuItem Click="Button_Click" Tag="kN/m^2"   Header="kN/m² (kN на кв. метър)"/>
+                            <MenuItem Click="Button_Click" Tag="kgf/cm^2" Header="kgf/cm² (kg-сила на кв. cm)"/>
+                            <MenuItem Click="Button_Click" Tag="tf/m^2"   Header="tf/m² (тон-сила на кв. метър)"/>
+                            <MenuItem Click="Button_Click" Tag="Pa"       Header="Pa (Паскал)"/>
+                            <MenuItem Click="Button_Click" Tag="daPa"     Header="daPa (декапаскал)"/>
+                            <MenuItem Click="Button_Click" Tag="hPa"      Header="hPa (хектопаскал)"/>
+                            <MenuItem Click="Button_Click" Tag="kPa"      Header="kPa (килопаскал)"/>
+                            <MenuItem Click="Button_Click" Tag="MPa"      Header="MPa (мегапаскал)"/>
+                            <MenuItem Click="Button_Click" Tag="GPa"      Header="GPa (гигапаскал)"/>
+                            <MenuItem Click="Button_Click" Tag="TPa"      Header="TPa (терапаскал)"/>
+                            <MenuItem Click="Button_Click" Tag="bar"      Header="bar (бар)"/>
+                            <MenuItem Click="Button_Click" Tag="mbar"     Header="mbar (милибар)"/>
+                            <MenuItem Click="Button_Click" Tag="μbar"     Header="μbar (микробар)"/>
+                            <MenuItem Click="Button_Click" Tag="atm"      Header="atm (атмосфера)"/>
+                            <MenuItem Click="Button_Click" Tag="at"       Header="at (техн. атмосфера)"/>
+                            <MenuItem Click="Button_Click" Tag="Torr"     Header="Torr (Тор)"/>
                         </MenuItem>
-                        <MenuItem Header="Density/Unit weight">
-                            <MenuItem Click="Button_Click" Tag="g/mm^3"   Header="g/mm³ (gram per cubic mm)"/>
-                            <MenuItem Click="Button_Click" Tag="kg/cm^3"  Header="kg/cm³ (kilogram per cubic cm)"/>
-                            <MenuItem Click="Button_Click" Tag="t/m^3"    Header="t/m³ (tonne per cubic meter)"/>
-                            <MenuItem Click="Button_Click" Tag="kgf/cm^3" Header="kgf/cm³ (kg-force per cubic cm)"/>
-                            <MenuItem Click="Button_Click" Tag="tf/m^3"   Header="tf/m³ (tonne-force per cubic meter)"/>
-                            <MenuItem Click="Button_Click" Tag="N/mm^3"   Header="N/mm³ (Newton per cubic mm)"/>
-                            <MenuItem Click="Button_Click" Tag="N/cm^3"   Header="N/cm³ (Newton per cubic cm)"/>
-                            <MenuItem Click="Button_Click" Tag="kN/cm^3"  Header="kN/cm³ (kilonewton per cubic cm)"/>
-                            <MenuItem Click="Button_Click" Tag="kN/m^3"   Header="kN/m³ (kilonewton per cubic m)"/>
+                        <MenuItem Header="Плътност/Обемно тегло">
+                            <MenuItem Click="Button_Click" Tag="g/mm^3"   Header="g/mm³ (грам на куб. mm)"/>
+                            <MenuItem Click="Button_Click" Tag="kg/cm^3"  Header="kg/cm³ (килограм на куб. cm)"/>
+                            <MenuItem Click="Button_Click" Tag="t/m^3"    Header="t/m³ (тон на куб. метър)"/>
+                            <MenuItem Click="Button_Click" Tag="kgf/cm^3" Header="kgf/cm³ (kg-сила на куб. cm)"/>
+                            <MenuItem Click="Button_Click" Tag="tf/m^3"   Header="tf/m³ (тон-сила на куб. метър)"/>
+                            <MenuItem Click="Button_Click" Tag="N/mm^3"   Header="N/mm³ (Нютон на куб. mm)"/>
+                            <MenuItem Click="Button_Click" Tag="N/cm^3"   Header="N/cm³ (Нютон на куб. cm)"/>
+                            <MenuItem Click="Button_Click" Tag="kN/cm^3"  Header="kN/cm³ (килонютон на куб. cm)"/>
+                            <MenuItem Click="Button_Click" Tag="kN/m^3"   Header="kN/m³ (килонютон на куб. m)"/>
                         </MenuItem>
-                        <MenuItem Header="Energy/Work">
-                            <MenuItem Click="Button_Click" Tag="J"    Header="J (Joule)"/>
-                            <MenuItem Click="Button_Click" Tag="kJ"   Header="kJ (kilojoule)"/>
-                            <MenuItem Click="Button_Click" Tag="MJ"   Header="MJ (megajoule)"/>
-                            <MenuItem Click="Button_Click" Tag="GJ"   Header="GJ (gigajoule)"/>
-                            <MenuItem Click="Button_Click" Tag="TJ"   Header="TJ (terajoule)"/>
-                            <MenuItem Click="Button_Click" Tag="mJ"   Header="mJ (millijoule)"/>
-                            <MenuItem Click="Button_Click" Tag="μJ"   Header="μJ (microjoule)"/>
-                            <MenuItem Click="Button_Click" Tag="nJ"   Header="nJ (nanojoule)"/>
-                            <MenuItem Click="Button_Click" Tag="pJ"   Header="pJ (picojoule)"/>
-                            <MenuItem Click="Button_Click" Tag="eV"   Header="eV (electronvolt)"/>
-                            <MenuItem Click="Button_Click" Tag="keV"  Header="keV (kiloelectronvolt)"/>
-                            <MenuItem Click="Button_Click" Tag="MeV"  Header="MeV (megaelectronvolt)"/>
-                            <MenuItem Click="Button_Click" Tag="GeV"  Header="GeV (gigaelectronvolt)"/>
-                            <MenuItem Click="Button_Click" Tag="TeV"  Header="TeV (teraelectronvolt)"/>
-                            <MenuItem Click="Button_Click" Tag="PeV"  Header="PeV (petaelectronvolt)"/>
-                            <MenuItem Click="Button_Click" Tag="EeV"  Header="EeV (exaelectronvolt)"/>
-                            <MenuItem Click="Button_Click" Tag="erg"  Header="erg (erg)"/>
-                            <MenuItem Click="Button_Click" Tag="cal"  Header="cal (calorie)"/>
-                            <MenuItem Click="Button_Click" Tag="kcal" Header="kcal (kilocalorie)"/>
+                        <MenuItem Header="Енергия/Работа">
+                            <MenuItem Click="Button_Click" Tag="J"    Header="J (Джаул)"/>
+                            <MenuItem Click="Button_Click" Tag="kJ"   Header="kJ (килоджаул)"/>
+                            <MenuItem Click="Button_Click" Tag="MJ"   Header="MJ (мегаджаул)"/>
+                            <MenuItem Click="Button_Click" Tag="GJ"   Header="GJ (гигаджаул)"/>
+                            <MenuItem Click="Button_Click" Tag="TJ"   Header="TJ (тераджаул)"/>
+                            <MenuItem Click="Button_Click" Tag="mJ"   Header="mJ (милиджаул)"/>
+                            <MenuItem Click="Button_Click" Tag="μJ"   Header="μJ (микроджаул)"/>
+                            <MenuItem Click="Button_Click" Tag="nJ"   Header="nJ (наноджаул)"/>
+                            <MenuItem Click="Button_Click" Tag="pJ"   Header="pJ (пикоджаул)"/>
+                            <MenuItem Click="Button_Click" Tag="eV"   Header="eV (електронволт)"/>
+                            <MenuItem Click="Button_Click" Tag="keV"  Header="keV (килоелектронволт)"/>
+                            <MenuItem Click="Button_Click" Tag="MeV"  Header="MeV (мегаелектронволт)"/>
+                            <MenuItem Click="Button_Click" Tag="GeV"  Header="GeV (гигаелектронволт)"/>
+                            <MenuItem Click="Button_Click" Tag="TeV"  Header="TeV (тераелектронволт)"/>
+                            <MenuItem Click="Button_Click" Tag="PeV"  Header="PeV (петаелектронволт)"/>
+                            <MenuItem Click="Button_Click" Tag="EeV"  Header="EeV (екзаелектронволт)"/>
+                            <MenuItem Click="Button_Click" Tag="erg"  Header="erg (ерг)"/>
+                            <MenuItem Click="Button_Click" Tag="cal"  Header="cal (калория)"/>
+                            <MenuItem Click="Button_Click" Tag="kcal" Header="kcal (килокалория)"/>
                         </MenuItem>
-                        <MenuItem Header="Power">
-                            <MenuItem Click="Button_Click" Tag="W"  Header="W (Watt)"/>
-                            <MenuItem Click="Button_Click" Tag="kW" Header="kW (kilowatt)"/>
-                            <MenuItem Click="Button_Click" Tag="MW" Header="MW (megawatt)"/>
-                            <MenuItem Click="Button_Click" Tag="GW" Header="GW (gigawatt)"/>
-                            <MenuItem Click="Button_Click" Tag="TW" Header="TW (terawatt)"/>
-                            <MenuItem Click="Button_Click" Tag="mW" Header="mW (milliwatt)"/>
-                            <MenuItem Click="Button_Click" Tag="μW" Header="μW (microwatt)"/>
-                            <MenuItem Click="Button_Click" Tag="nW" Header="nW (nanowatt)"/>
-                            <MenuItem Click="Button_Click" Tag="pW" Header="pW (picowatt)"/>
+                        <MenuItem Header="Мощност">
+                            <MenuItem Click="Button_Click" Tag="W"  Header="W (Ват)"/>
+                            <MenuItem Click="Button_Click" Tag="kW" Header="kW (киловат)"/>
+                            <MenuItem Click="Button_Click" Tag="MW" Header="MW (мегават)"/>
+                            <MenuItem Click="Button_Click" Tag="GW" Header="GW (гигават)"/>
+                            <MenuItem Click="Button_Click" Tag="TW" Header="TW (терават)"/>
+                            <MenuItem Click="Button_Click" Tag="mW" Header="mW (миливат)"/>
+                            <MenuItem Click="Button_Click" Tag="μW" Header="μW (микроват)"/>
+                            <MenuItem Click="Button_Click" Tag="nW" Header="nW (нановат)"/>
+                            <MenuItem Click="Button_Click" Tag="pW" Header="pW (пиковат)"/>
                         </MenuItem>
-                        <MenuItem Header="Electric">
-                            <MenuItem Header="Current">
-                                <MenuItem Click="Button_Click" Tag="A"  Header="A (Ampere)"/>
-                                <MenuItem Click="Button_Click" Tag="kA" Header="kA (kiloampere)"/>
-                                <MenuItem Click="Button_Click" Tag="MA" Header="MA (megaampere)"/>
-                                <MenuItem Click="Button_Click" Tag="GA" Header="GA (gigaampere)"/>
-                                <MenuItem Click="Button_Click" Tag="TA" Header="TA (teraampere)"/>
-                                <MenuItem Click="Button_Click" Tag="mA" Header="mA (milliampere)"/>
-                                <MenuItem Click="Button_Click" Tag="μA" Header="μA (microampere)"/>
-                                <MenuItem Click="Button_Click" Tag="nA" Header="nA (nanoampere)"/>
-                                <MenuItem Click="Button_Click" Tag="pA" Header="pA (picoampere)"/>
+                        <MenuItem Header="Електрически">
+                            <MenuItem Header="Ток">
+                                <MenuItem Click="Button_Click" Tag="A"  Header="A (Ампер)"/>
+                                <MenuItem Click="Button_Click" Tag="kA" Header="kA (килоампер)"/>
+                                <MenuItem Click="Button_Click" Tag="MA" Header="MA (мегаампер)"/>
+                                <MenuItem Click="Button_Click" Tag="GA" Header="GA (гигаампер)"/>
+                                <MenuItem Click="Button_Click" Tag="TA" Header="TA (тераампер)"/>
+                                <MenuItem Click="Button_Click" Tag="mA" Header="mA (милиампер)"/>
+                                <MenuItem Click="Button_Click" Tag="μA" Header="μA (микроампер)"/>
+                                <MenuItem Click="Button_Click" Tag="nA" Header="nA (наноампер)"/>
+                                <MenuItem Click="Button_Click" Tag="pA" Header="pA (пикоампер)"/>
                             </MenuItem>
-                            <MenuItem Header="Charge">
-                                <MenuItem Click="Button_Click" Tag="C"   Header="C (Coulomb)"/>
-                                <MenuItem Click="Button_Click" Tag="kC"  Header="kC (kilocoulomb)"/>
-                                <MenuItem Click="Button_Click" Tag="MC"  Header="MC (megacoulomb)"/>
-                                <MenuItem Click="Button_Click" Tag="GC"  Header="GC (gigacoulomb)"/>
-                                <MenuItem Click="Button_Click" Tag="TC"  Header="TC (teracoulomb)"/>
-                                <MenuItem Click="Button_Click" Tag="mC"  Header="mC (millicoulomb)"/>
-                                <MenuItem Click="Button_Click" Tag="μC"  Header="μC (microcoulomb)"/>
-                                <MenuItem Click="Button_Click" Tag="nC"  Header="nC (nanocoulomb)"/>
-                                <MenuItem Click="Button_Click" Tag="pC"  Header="pC (picocoulomb)"/>
-                                <MenuItem Click="Button_Click" Tag="Ah"  Header="Ah (Ampere-hour)"/>
-                                <MenuItem Click="Button_Click" Tag="mAh" Header="mAh (milliampere-hour)"/>
+                            <MenuItem Header="Заряд">
+                                <MenuItem Click="Button_Click" Tag="C"   Header="C (Кулон)"/>
+                                <MenuItem Click="Button_Click" Tag="kC"  Header="kC (килокулон)"/>
+                                <MenuItem Click="Button_Click" Tag="MC"  Header="MC (мегакулон)"/>
+                                <MenuItem Click="Button_Click" Tag="GC"  Header="GC (гигакулон)"/>
+                                <MenuItem Click="Button_Click" Tag="TC"  Header="TC (теракулон)"/>
+                                <MenuItem Click="Button_Click" Tag="mC"  Header="mC (миликулон)"/>
+                                <MenuItem Click="Button_Click" Tag="μC"  Header="μC (микрокулон)"/>
+                                <MenuItem Click="Button_Click" Tag="nC"  Header="nC (нанокулон)"/>
+                                <MenuItem Click="Button_Click" Tag="pC"  Header="pC (пикокулон)"/>
+                                <MenuItem Click="Button_Click" Tag="Ah"  Header="Ah (Ампер-час)"/>
+                                <MenuItem Click="Button_Click" Tag="mAh" Header="mAh (милиампер-час)"/>
                             </MenuItem>
-                            <MenuItem Header="Potential" Height= "20">
-                                <MenuItem Click="Button_Click" Tag="V"  Header="V (Volt)"/>
-                                <MenuItem Click="Button_Click" Tag="kV" Header="kV (kilovolt)"/>
-                                <MenuItem Click="Button_Click" Tag="MV" Header="MV (megavolt)"/>
-                                <MenuItem Click="Button_Click" Tag="GV" Header="GV (gigavolt)"/>
-                                <MenuItem Click="Button_Click" Tag="TV" Header="TV (teravolt)"/>
-                                <MenuItem Click="Button_Click" Tag="mV" Header="mV (millivolt)"/>
-                                <MenuItem Click="Button_Click" Tag="μV" Header="μV (microvolt)"/>
-                                <MenuItem Click="Button_Click" Tag="nV" Header="nV (nanovolt)"/>
-                                <MenuItem Click="Button_Click" Tag="pV" Header="pV (picovolt)"/>
+                            <MenuItem Header="Напрежение" Height= "20">
+                                <MenuItem Click="Button_Click" Tag="V"  Header="V (Волт)"/>
+                                <MenuItem Click="Button_Click" Tag="kV" Header="kV (киловолт)"/>
+                                <MenuItem Click="Button_Click" Tag="MV" Header="MV (мегаволт)"/>
+                                <MenuItem Click="Button_Click" Tag="GV" Header="GV (гигаволт)"/>
+                                <MenuItem Click="Button_Click" Tag="TV" Header="TV (тераволт)"/>
+                                <MenuItem Click="Button_Click" Tag="mV" Header="mV (миливолт)"/>
+                                <MenuItem Click="Button_Click" Tag="μV" Header="μV (микроволт)"/>
+                                <MenuItem Click="Button_Click" Tag="nV" Header="nV (нановолт)"/>
+                                <MenuItem Click="Button_Click" Tag="pV" Header="pV (пиковолт)"/>
                             </MenuItem>
-                            <MenuItem Header="Capacitance">
-                                <MenuItem Click="Button_Click" Tag="F"  Header="F (Farad)"/>
-                                <MenuItem Click="Button_Click" Tag="kF" Header="kF (kilofarad)"/>
-                                <MenuItem Click="Button_Click" Tag="MF" Header="MF (megafarad)"/>
-                                <MenuItem Click="Button_Click" Tag="GF" Header="GF (gigafarad)"/>
-                                <MenuItem Click="Button_Click" Tag="TF" Header="TF (terafarad)"/>
-                                <MenuItem Click="Button_Click" Tag="mF" Header="mF (millifarad)"/>
-                                <MenuItem Click="Button_Click" Tag="μF" Header="μF (microfarad)"/>
-                                <MenuItem Click="Button_Click" Tag="nF" Header="nF (nanofarad)"/>
-                                <MenuItem Click="Button_Click" Tag="pF" Header="pF (picofarad)"/>
+                            <MenuItem Header="Капацитет">
+                                <MenuItem Click="Button_Click" Tag="F"  Header="F (Фарад)"/>
+                                <MenuItem Click="Button_Click" Tag="kF" Header="kF (килофарад)"/>
+                                <MenuItem Click="Button_Click" Tag="MF" Header="MF (мегафарад)"/>
+                                <MenuItem Click="Button_Click" Tag="GF" Header="GF (гигафарад)"/>
+                                <MenuItem Click="Button_Click" Tag="TF" Header="TF (терафарад)"/>
+                                <MenuItem Click="Button_Click" Tag="mF" Header="mF (милифарад)"/>
+                                <MenuItem Click="Button_Click" Tag="μF" Header="μF (микрофарад)"/>
+                                <MenuItem Click="Button_Click" Tag="nF" Header="nF (нанофарад)"/>
+                                <MenuItem Click="Button_Click" Tag="pF" Header="pF (пикофарад)"/>
                             </MenuItem>
-                            <MenuItem Header="Resistance">
-                                <MenuItem Click="Button_Click" Tag="Ω"  Header="Ω (Ohm)"/>
-                                <MenuItem Click="Button_Click" Tag="kΩ" Header="kΩ (kiloohm)"/>
-                                <MenuItem Click="Button_Click" Tag="MΩ" Header="MΩ (megaohm)"/>
-                                <MenuItem Click="Button_Click" Tag="GΩ" Header="GΩ (gigaohm)"/>
-                                <MenuItem Click="Button_Click" Tag="TΩ" Header="TΩ (teraohm)"/>
-                                <MenuItem Click="Button_Click" Tag="mΩ" Header="mΩ (milliohm)"/>
-                                <MenuItem Click="Button_Click" Tag="μΩ" Header="μΩ (microohm)"/>
-                                <MenuItem Click="Button_Click" Tag="nΩ" Header="nΩ (nanoohm)"/>
-                                <MenuItem Click="Button_Click" Tag="pΩ" Header="pΩ (picoohm)"/>
+                            <MenuItem Header="Съпротивление">
+                                <MenuItem Click="Button_Click" Tag="Ω"  Header="Ω (Ом)"/>
+                                <MenuItem Click="Button_Click" Tag="kΩ" Header="kΩ (килоом)"/>
+                                <MenuItem Click="Button_Click" Tag="MΩ" Header="MΩ (мегаом)"/>
+                                <MenuItem Click="Button_Click" Tag="GΩ" Header="GΩ (гигаом)"/>
+                                <MenuItem Click="Button_Click" Tag="TΩ" Header="TΩ (тераом)"/>
+                                <MenuItem Click="Button_Click" Tag="mΩ" Header="mΩ (милиом)"/>
+                                <MenuItem Click="Button_Click" Tag="μΩ" Header="μΩ (микроом)"/>
+                                <MenuItem Click="Button_Click" Tag="nΩ" Header="nΩ (наноом)"/>
+                                <MenuItem Click="Button_Click" Tag="pΩ" Header="pΩ (пикоом)"/>
                             </MenuItem>
-                            <MenuItem Header="Conductance">
-                                <MenuItem Click="Button_Click" Tag="S"  Header="S (Siemens)"/>
-                                <MenuItem Click="Button_Click" Tag="kS" Header="kS (kilosiemens)"/>
-                                <MenuItem Click="Button_Click" Tag="MS" Header="MS (megasiemens)"/>
-                                <MenuItem Click="Button_Click" Tag="GS" Header="GS (gigasiemens)"/>
-                                <MenuItem Click="Button_Click" Tag="TS" Header="TS (terasiemens)"/>
-                                <MenuItem Click="Button_Click" Tag="mS" Header="mS (millisiemens)"/>
-                                <MenuItem Click="Button_Click" Tag="μS" Header="μS (microsiemens)"/>
-                                <MenuItem Click="Button_Click" Tag="nS" Header="nS (nanosiemens)"/>
-                                <MenuItem Click="Button_Click" Tag="pS" Header="pS (picosiemens)"/>
+                            <MenuItem Header="Проводимост">
+                                <MenuItem Click="Button_Click" Tag="S"  Header="S (Сименс)"/>
+                                <MenuItem Click="Button_Click" Tag="kS" Header="kS (килосименс)"/>
+                                <MenuItem Click="Button_Click" Tag="MS" Header="MS (мегасименс)"/>
+                                <MenuItem Click="Button_Click" Tag="GS" Header="GS (гигасименс)"/>
+                                <MenuItem Click="Button_Click" Tag="TS" Header="TS (терасименс)"/>
+                                <MenuItem Click="Button_Click" Tag="mS" Header="mS (милисименс)"/>
+                                <MenuItem Click="Button_Click" Tag="μS" Header="μS (микросименс)"/>
+                                <MenuItem Click="Button_Click" Tag="nS" Header="nS (наносименс)"/>
+                                <MenuItem Click="Button_Click" Tag="pS" Header="pS (пикосименс)"/>
                             </MenuItem>
-                            <MenuItem Header="Energy">
-                                <MenuItem Click="Button_Click" Tag="Wh"  Header="Wh (Watt-hour)"/>
-                                <MenuItem Click="Button_Click" Tag="kWh" Header="kWh (kilowatt-hour)"/>
-                                <MenuItem Click="Button_Click" Tag="MWh" Header="MWh (megawatt-hour)"/>
-                                <MenuItem Click="Button_Click" Tag="GWh" Header="GWh (gigawatt-hour)"/>
-                                <MenuItem Click="Button_Click" Tag="TWh" Header="TWh (terawatt-hour)"/>
-                                <MenuItem Click="Button_Click" Tag="mWh" Header="mWh (milliwatt-hour)"/>
-                                <MenuItem Click="Button_Click" Tag="μWh" Header="μWh (microwatt-hour)"/>
-                                <MenuItem Click="Button_Click" Tag="nWh" Header="nWh (nanowatt-hour)"/>
-                                <MenuItem Click="Button_Click" Tag="pWh" Header="pWh (picowatt-hour)"/>
+                            <MenuItem Header="Енергия">
+                                <MenuItem Click="Button_Click" Tag="Wh"  Header="Wh (Ват-час)"/>
+                                <MenuItem Click="Button_Click" Tag="kWh" Header="kWh (киловат-час)"/>
+                                <MenuItem Click="Button_Click" Tag="MWh" Header="MWh (мегават-час)"/>
+                                <MenuItem Click="Button_Click" Tag="GWh" Header="GWh (гигават-час)"/>
+                                <MenuItem Click="Button_Click" Tag="TWh" Header="TWh (терават-час)"/>
+                                <MenuItem Click="Button_Click" Tag="mWh" Header="mWh (миливат-час)"/>
+                                <MenuItem Click="Button_Click" Tag="μWh" Header="μWh (микроват-час)"/>
+                                <MenuItem Click="Button_Click" Tag="nWh" Header="nWh (нановат-час)"/>
+                                <MenuItem Click="Button_Click" Tag="pWh" Header="pWh (пиковат-час)"/>
                             </MenuItem>
-                            <MenuItem Header="Power">
-                                <MenuItem Click="Button_Click" Tag="var"  Header="var (Volt-Ampere)"/>
-                                <MenuItem Click="Button_Click" Tag="kvar" Header="kvar (kilovolt-Ampere)"/>
-                                <MenuItem Click="Button_Click" Tag="kVA"  Header="kVA (kilovolt-Ampere)"/>
-                                <MenuItem Click="Button_Click" Tag="MVA"  Header="MVA (megavolt-Ampere)"/>
-                                <MenuItem Click="Button_Click" Tag="GVA"  Header="GVA (gigavolt-Ampere)"/>
-                                <MenuItem Click="Button_Click" Tag="TVA"  Header="TVA (teravolt-Ampere)"/>
-                                <MenuItem Click="Button_Click" Tag="mVA"  Header="mVA (millivolt-Ampere)"/>
-                                <MenuItem Click="Button_Click" Tag="μVA"  Header="μVA (microvolt-Ampere)"/>
-                                <MenuItem Click="Button_Click" Tag="nVA"  Header="nVA (nanovolt-Ampere)"/>
-                                <MenuItem Click="Button_Click" Tag="pVA"  Header="pVA (picovolt-Ampere)"/>
+                            <MenuItem Header="Мощност">
+                                <MenuItem Click="Button_Click" Tag="var"  Header="var (Волт-ампер)"/>
+                                <MenuItem Click="Button_Click" Tag="kvar" Header="kvar (киловолт-ампер)"/>
+                                <MenuItem Click="Button_Click" Tag="kVA"  Header="kVA (киловолт-ампер)"/>
+                                <MenuItem Click="Button_Click" Tag="MVA"  Header="MVA (мегаволт-ампер)"/>
+                                <MenuItem Click="Button_Click" Tag="GVA"  Header="GVA (гигаволт-ампер)"/>
+                                <MenuItem Click="Button_Click" Tag="TVA"  Header="TVA (тераволт-ампер)"/>
+                                <MenuItem Click="Button_Click" Tag="mVA"  Header="mVA (миливолт-ампер)"/>
+                                <MenuItem Click="Button_Click" Tag="μVA"  Header="μVA (микроволт-ампер)"/>
+                                <MenuItem Click="Button_Click" Tag="nVA"  Header="nVA (нановолт-ампер)"/>
+                                <MenuItem Click="Button_Click" Tag="pVA"  Header="pVA (пиковолт-ампер)"/>
                             </MenuItem>
-                            <MenuItem Header="Electric field">
-                                <MenuItem Click="Button_Click" Tag="V/m" Header="V/m (Volts per meter)"/>
-                                <MenuItem Click="Button_Click" Tag="N/C" Header="N/C (Newtons per Coulomb)"/>
+                            <MenuItem Header="Електрическо поле">
+                                <MenuItem Click="Button_Click" Tag="V/m" Header="V/m (Волта на метър)"/>
+                                <MenuItem Click="Button_Click" Tag="N/C" Header="N/C (Нютона на кулон)"/>
                             </MenuItem>
-                            <MenuItem Click="Button_Click" Tag="Ω*m" ToolTip="Resistivity"   Header="Ω∙m (Ohm-meter)"/>
-                            <MenuItem Click="Button_Click" Tag="S/m" ToolTip="Conductivity"  Header="S/m (Siemens per meter)"/>
-                            <MenuItem Click="Button_Click" Tag="V*m" ToolTip="Electric flux" Header="V∙m (Volt-meter)"/>
+                            <MenuItem Click="Button_Click" Tag="Ω*m" ToolTip="Съпротивление"   Header="Ω∙m (Ом-метър)"/>
+                            <MenuItem Click="Button_Click" Tag="S/m" ToolTip="Проводимост"  Header="S/m (Сименс на метър)"/>
+                            <MenuItem Click="Button_Click" Tag="V*m" ToolTip="Електр. поток" Header="V∙m (Волт-метър)"/>
                         </MenuItem>
-                        <MenuItem Header="Magnetic">
-                            <MenuItem Header="Flux">
-                                <MenuItem Click="Button_Click" Tag="Wb"  Header="Wb (Weber)"/>
-                                <MenuItem Click="Button_Click" Tag="kWb" Header="kWb (kiloweber)"/>
-                                <MenuItem Click="Button_Click" Tag="MWb" Header="MWb (megaweber)"/>
-                                <MenuItem Click="Button_Click" Tag="GWb" Header="GWb (gigaweber)"/>
-                                <MenuItem Click="Button_Click" Tag="TWb" Header="TWb (teraweber)"/>
-                                <MenuItem Click="Button_Click" Tag="mWb" Header="mWb (milliweber)"/>
-                                <MenuItem Click="Button_Click" Tag="μWb" Header="μWb (microweber)"/>
-                                <MenuItem Click="Button_Click" Tag="nWb" Header="nWb (nanoweber)"/>
-                                <MenuItem Click="Button_Click" Tag="pWb" Header="pWb (picoweber)"/>
+                        <MenuItem Header="Магнитни">
+                            <MenuItem Header="Поток">
+                                <MenuItem Click="Button_Click" Tag="Wb"  Header="Wb (Вебер)"/>
+                                <MenuItem Click="Button_Click" Tag="kWb" Header="kWb (киловебер)"/>
+                                <MenuItem Click="Button_Click" Tag="MWb" Header="MWb (мегавебер)"/>
+                                <MenuItem Click="Button_Click" Tag="GWb" Header="GWb (гигавебер)"/>
+                                <MenuItem Click="Button_Click" Tag="TWb" Header="TWb (теравебер)"/>
+                                <MenuItem Click="Button_Click" Tag="mWb" Header="mWb (миливебер)"/>
+                                <MenuItem Click="Button_Click" Tag="μWb" Header="μWb (микровебер)"/>
+                                <MenuItem Click="Button_Click" Tag="nWb" Header="nWb (нановебер)"/>
+                                <MenuItem Click="Button_Click" Tag="pWb" Header="pWb (пиковебер)"/>
                             </MenuItem>
-                            <MenuItem Header="Flux density">
-                                <MenuItem Click="Button_Click" Tag="T"  Header="T (Tesla)"/>
-                                <MenuItem Click="Button_Click" Tag="kT" Header="kT (kilotesla)"/>
-                                <MenuItem Click="Button_Click" Tag="MT" Header="MT (megatesla)"/>
-                                <MenuItem Click="Button_Click" Tag="GT" Header="GT (gigatesla)"/>
-                                <MenuItem Click="Button_Click" Tag="TT" Header="TT (teratesla)"/>
-                                <MenuItem Click="Button_Click" Tag="mT" Header="mT (millitesla)"/>
-                                <MenuItem Click="Button_Click" Tag="μT" Header="μT (microtesla)"/>
-                                <MenuItem Click="Button_Click" Tag="nT" Header="nT (nanotesla)"/>
-                                <MenuItem Click="Button_Click" Tag="pT" Header="pT (picotesla)"/>
+                            <MenuItem Header="Плътност на потока">
+                                <MenuItem Click="Button_Click" Tag="T"  Header="T (Тесла)"/>
+                                <MenuItem Click="Button_Click" Tag="kT" Header="kT (килотесла)"/>
+                                <MenuItem Click="Button_Click" Tag="MT" Header="MT (мегатесла)"/>
+                                <MenuItem Click="Button_Click" Tag="GT" Header="GT (гигатесла)"/>
+                                <MenuItem Click="Button_Click" Tag="TT" Header="TT (тератесла)"/>
+                                <MenuItem Click="Button_Click" Tag="mT" Header="mT (милитесла)"/>
+                                <MenuItem Click="Button_Click" Tag="μT" Header="μT (микротесла)"/>
+                                <MenuItem Click="Button_Click" Tag="nT" Header="nT (нанотесла)"/>
+                                <MenuItem Click="Button_Click" Tag="pT" Header="pT (пикотесла)"/>
                             </MenuItem>
-                            <MenuItem Header="Inductance">
-                                <MenuItem Click="Button_Click" Tag="H"  Header="H (Henry)"/>
-                                <MenuItem Click="Button_Click" Tag="kH" Header="kH (kilohenry)"/>
-                                <MenuItem Click="Button_Click" Tag="MH" Header="MH (megahenry)"/>
-                                <MenuItem Click="Button_Click" Tag="GH" Header="GH (gigahenry)"/>
-                                <MenuItem Click="Button_Click" Tag="TH" Header="TH (terahenry)"/>
-                                <MenuItem Click="Button_Click" Tag="mH" Header="mH (millihenry)"/>
-                                <MenuItem Click="Button_Click" Tag="μH" Header="μH (microhenry)"/>
-                                <MenuItem Click="Button_Click" Tag="nH" Header="nH (nanohenry)"/>
-                                <MenuItem Click="Button_Click" Tag="pH" Header="pH (picohenry)"/>
+                            <MenuItem Header="Индукция">
+                                <MenuItem Click="Button_Click" Tag="H"  Header="H (Хенри)"/>
+                                <MenuItem Click="Button_Click" Tag="kH" Header="kH (килохенри)"/>
+                                <MenuItem Click="Button_Click" Tag="MH" Header="MH (мегахенри)"/>
+                                <MenuItem Click="Button_Click" Tag="GH" Header="GH (гигахенри)"/>
+                                <MenuItem Click="Button_Click" Tag="TH" Header="TH (терахенри)"/>
+                                <MenuItem Click="Button_Click" Tag="mH" Header="mH (милихенри)"/>
+                                <MenuItem Click="Button_Click" Tag="μH" Header="μH (микрохенри)"/>
+                                <MenuItem Click="Button_Click" Tag="nH" Header="nH (нанохенри)"/>
+                                <MenuItem Click="Button_Click" Tag="pH" Header="pH (пикохенри)"/>
                             </MenuItem>
                         </MenuItem>
-                        <MenuItem Header="Light/Radiation">
-                            <MenuItem Click="Button_Click" Tag="cd"       ToolTip="Luminous intensity"      Header="cd (candela)"/>
-                            <MenuItem Click="Button_Click" Tag="lm"       ToolTip="Luminous flux"           Header="lm (lumen)"/>
-                            <MenuItem Click="Button_Click" Tag="lm*s"     ToolTip="Luminous energy"         Header="lm·s (lumen-second)"/>
-                            <MenuItem Click="Button_Click" Tag="lm*s/m^3" ToolTip="Luminous energy density" Header="lm·s/m³ (lumen-second per m³)"/>
-                            <MenuItem Click="Button_Click" Tag="lm/W"     ToolTip="Luminous efficacy"       Header="lm/W (lumen per Watt)"/>
-                            <MenuItem Click="Button_Click" Tag="cd/m^2"   ToolTip="Luminance"               Header="cd/m² (candela per sq. meter)"/>
-                            <MenuItem Click="Button_Click" Tag="lx"       ToolTip="Illuminance"             Header="lx (lux)"/>
-                            <MenuItem Click="Button_Click" Tag="lx*s"     ToolTip="Luminous exposure"       Header="lx·s (lux-second)"/>
-                            <MenuItem Header="Radioactivity">
-                                <MenuItem Click="Button_Click" Tag="Bq"  Header="Bq (Becquerel)"/>
-                                <MenuItem Click="Button_Click" Tag="kBq" Header="kBq (kilobecquerel)"/>
-                                <MenuItem Click="Button_Click" Tag="MBq" Header="MBq (megabecquerel)"/>
-                                <MenuItem Click="Button_Click" Tag="GBq" Header="GBq (gigabecquerel)"/>
-                                <MenuItem Click="Button_Click" Tag="TBq" Header="TBq (terabecquerel)"/>
-                                <MenuItem Click="Button_Click" Tag="mBq" Header="mBq (millibecquerel)"/>
-                                <MenuItem Click="Button_Click" Tag="μBq" Header="μBq (microbecquerel)"/>
-                                <MenuItem Click="Button_Click" Tag="nBq" Header="nBq (nanobecquerel)"/>
-                                <MenuItem Click="Button_Click" Tag="pBq" Header="pBq (picobecquerel)"/>
-                                <MenuItem Click="Button_Click" Tag="Ci"  Header="Ci (Curie)"/>
-                                <MenuItem Click="Button_Click" Tag="Rd"  Header="Rd (Rutherford)"/>
+                        <MenuItem Header="Осветеност/излъчване">
+                            <MenuItem Click="Button_Click" Tag="cd"       ToolTip="Интензитет на светлината"   Header="cd (кандела)"/>
+                            <MenuItem Click="Button_Click" Tag="lm"       ToolTip="Светлинен поток"            Header="lm (лумен)"/>
+                            <MenuItem Click="Button_Click" Tag="lm*s"     ToolTip="Светлинна енергия"          Header="lm·s (лумен-секунда)"/>
+                            <MenuItem Click="Button_Click" Tag="lm*s/m^3" ToolTip="Плътност на светл. енергия" Header="lm·s/m³ (лумен-секунда на m³)"/>
+                            <MenuItem Click="Button_Click" Tag="lm/W"     ToolTip="Светлинна ефективност"      Header="lm/W (лумен на ват)"/>
+                            <MenuItem Click="Button_Click" Tag="cd/m^2"   ToolTip="Яркост"                     Header="cd/m² (кандела на кв. метър)"/>
+                            <MenuItem Click="Button_Click" Tag="lx"       ToolTip="Осветеност"                 Header="lx (лукс)"/>
+                            <MenuItem Click="Button_Click" Tag="lx*s"     ToolTip="Светлинна експозиция"       Header="lx·s (лукс-секунда)"/>
+                            <MenuItem Header="Радиоактивност">
+                                <MenuItem Click="Button_Click" Tag="Bq"  Header="Bq (Бекерел)"/>
+                                <MenuItem Click="Button_Click" Tag="kBq" Header="kBq (килобекерел)"/>
+                                <MenuItem Click="Button_Click" Tag="MBq" Header="MBq (мегабекерел)"/>
+                                <MenuItem Click="Button_Click" Tag="GBq" Header="GBq (гигабекерел)"/>
+                                <MenuItem Click="Button_Click" Tag="TBq" Header="TBq (терабекерел)"/>
+                                <MenuItem Click="Button_Click" Tag="mBq" Header="mBq (милибекерел)"/>
+                                <MenuItem Click="Button_Click" Tag="μBq" Header="μBq(микробекерел)"/>
+                                <MenuItem Click="Button_Click" Tag="nBq" Header="nBq (нанобекерел)"/>
+                                <MenuItem Click="Button_Click" Tag="pBq" Header="pBq (пикобекерел)"/>
+                                <MenuItem Click="Button_Click" Tag="Ci"  Header="Ci (Кюри)"/>
+                                <MenuItem Click="Button_Click" Tag="Rd"  Header="Rd (Ръдърфорд)"/>
                             </MenuItem>
-                            <MenuItem Header="Exposure">
-                                <MenuItem Click="Button_Click" Tag="R"    Header="R (Röntgen)"/>
-                                <MenuItem Click="Button_Click" Tag="C/kg" Header="C/kg (Coulomb per kg)"/>
+                            <MenuItem Header="Експозиция">
+                                <MenuItem Click="Button_Click" Tag="R"    Header="R (Рентген)"/>
+                                <MenuItem Click="Button_Click" Tag="C/kg" Header="C/kg (Кулон на kg)"/>
                             </MenuItem>
-                            <MenuItem Header="Absorbed dose">
-                                <MenuItem Click="Button_Click" Tag="Gy"  Header="Gy (Gray)"/>
-                                <MenuItem Click="Button_Click" Tag="kGy" Header="kGy (kilogray)"/>
-                                <MenuItem Click="Button_Click" Tag="MGy" Header="MGy (megagray)"/>
-                                <MenuItem Click="Button_Click" Tag="GGy" Header="GGy (gigagray)"/>
-                                <MenuItem Click="Button_Click" Tag="TGy" Header="TGy (teragray)"/>
-                                <MenuItem Click="Button_Click" Tag="mGy" Header="mGy (milligray)"/>
-                                <MenuItem Click="Button_Click" Tag="μGy" Header="μGy (microgray)"/>
-                                <MenuItem Click="Button_Click" Tag="nGy" Header="nGy (nanogray)"/>
-                                <MenuItem Click="Button_Click" Tag="pGy" Header="pGy (picogray)"/>
+                            <MenuItem Header="Погълната доза">
+                                <MenuItem Click="Button_Click" Tag="Gy"  Header="Gy (Грей)"/>
+                                <MenuItem Click="Button_Click" Tag="kGy" Header="kGy (килогрей)"/>
+                                <MenuItem Click="Button_Click" Tag="MGy" Header="MGy (мегагрей)"/>
+                                <MenuItem Click="Button_Click" Tag="GGy" Header="GGy (гигагрей)"/>
+                                <MenuItem Click="Button_Click" Tag="TGy" Header="TGy (терагрей)"/>
+                                <MenuItem Click="Button_Click" Tag="mGy" Header="mGy (милигрей)"/>
+                                <MenuItem Click="Button_Click" Tag="μGy" Header="μGy (микрогрей)"/>
+                                <MenuItem Click="Button_Click" Tag="nGy" Header="nGy (наногрей)"/>
+                                <MenuItem Click="Button_Click" Tag="pGy" Header="pGy (пикогрей)"/>
                             </MenuItem>
-                            <MenuItem Header="Equivalent dose">
-                                <MenuItem Click="Button_Click" Tag="Sv"  Header="Sv  (Sievert)"/>
-                                <MenuItem Click="Button_Click" Tag="kSv" Header="kSv (kilosievert)"/>
-                                <MenuItem Click="Button_Click" Tag="MSv" Header="MSv (megasievert)"/>
-                                <MenuItem Click="Button_Click" Tag="GSv" Header="GSv (gigasievert)"/>
-                                <MenuItem Click="Button_Click" Tag="TSv" Header="TSv (terasievert)"/>
-                                <MenuItem Click="Button_Click" Tag="mSv" Header="mSv (millisievert)"/>
-                                <MenuItem Click="Button_Click" Tag="μSv" Header="μSv (microsievert)"/>
-                                <MenuItem Click="Button_Click" Tag="nSv" Header="nSv (nanosievert)"/>
-                                <MenuItem Click="Button_Click" Tag="pSv" Header="pSv (picosievert)"/>
+                            <MenuItem Header="Еквивалентна доза">
+                                <MenuItem Click="Button_Click" Tag="Sv"  Header="Sv  (Сиверт)"/>
+                                <MenuItem Click="Button_Click" Tag="kSv" Header="kSv (килосиверт)"/>
+                                <MenuItem Click="Button_Click" Tag="MSv" Header="MSv (мегасиверт)"/>
+                                <MenuItem Click="Button_Click" Tag="GSv" Header="GSv (гигасиверт)"/>
+                                <MenuItem Click="Button_Click" Tag="TSv" Header="TSv (терасиверт)"/>
+                                <MenuItem Click="Button_Click" Tag="mSv" Header="mSv (милисиверт)"/>
+                                <MenuItem Click="Button_Click" Tag="μSv" Header="μSv (микросиверт)"/>
+                                <MenuItem Click="Button_Click" Tag="nSv" Header="nSv (наносиверт)"/>
+                                <MenuItem Click="Button_Click" Tag="pSv" Header="pSv (пикосиверт)"/>
                             </MenuItem>
                         </MenuItem>
-                        <MenuItem Header="Other">
-                            <MenuItem Click="Button_Click" Tag="mol" Header="mol (amount of substance)"/>
-                            <MenuItem Click="Button_Click" Tag="kat" Header="kat (catalytic activity)"/>
+                        <MenuItem Header="Други">
+                            <MenuItem Click="Button_Click" Tag="mol" Header="mol (количество вещество)"/>
+                            <MenuItem Click="Button_Click" Tag="kat" Header="kat (активност на катализатор)"/>
                         </MenuItem>
                     </MenuItem>
                     <MenuItem Header="Imperial/US">
-                        <MenuItem Header="Mass">
+                        <MenuItem Header="Маса">
                             <MenuItem Click="Button_Click" Tag="gr"   Header="gr (grain)"/>
                             <MenuItem Click="Button_Click" Tag="dr"   Header="dr (drachm)"/>
                             <MenuItem Click="Button_Click" Tag="oz"   Header="oz (ounce)"/>
@@ -594,7 +578,7 @@
                             <MenuItem Click="Button_Click" Tag="ton_US"  Header="ton - US"/>
                             <MenuItem Click="Button_Click" Tag="slug" Header="slug"/>
                         </MenuItem>
-                        <MenuItem Header="Length">
+                        <MenuItem Header="Дължина">
                             <MenuItem Click="Button_Click" Tag="th"    Header="th (thou)"/>
                             <MenuItem Click="Button_Click" Tag="in"    Header="in (inch)"/>
                             <MenuItem Click="Button_Click" Tag="ft"    Header="ft (foot)"/>
@@ -611,7 +595,7 @@
                             <MenuItem Click="Button_Click" Tag="perch" Header="perch"/>
                             <MenuItem Click="Button_Click" Tag="lea"   Header="lea (league)"/>
                         </MenuItem>
-                        <MenuItem Header="Area">
+                        <MenuItem Header="Площ">
                             <MenuItem Click="Button_Click" Tag="th^2"     Header="th² (square thou)"/>
                             <MenuItem Click="Button_Click" Tag="in^2"     Header="in² (square inch)"/>
                             <MenuItem Click="Button_Click" Tag="ft^2"     Header="ft² (square foot)"/>
@@ -623,7 +607,7 @@
                             <MenuItem Click="Button_Click" Tag="rood"     Header="rood (rood)"/>
                             <MenuItem Click="Button_Click" Tag="ac"       Header="ac (acre)"/>
                         </MenuItem>
-                        <MenuItem Header="Volume">
+                        <MenuItem Header="Обем">
                             <MenuItem Click="Button_Click" Tag="th^3"   Header="th³ (cubic thou)"/>
                             <MenuItem Click="Button_Click" Tag="in^3"   Header="in³ (cubic inch)"/>
                             <MenuItem Click="Button_Click" Tag="ft^3"   Header="ft³ (cubic foot)"/>
@@ -644,30 +628,30 @@
                             <MenuItem Click="Button_Click" Tag="bbl_US"    Header="bbl (barrel) - US"/>
                             <MenuItem Click="Button_Click" Tag="bu_US"     Header="bu (bushel) - US"/>
                         </MenuItem>
-                        <MenuItem Header="Velocity">
+                        <MenuItem Header="Скорост">
                             <MenuItem Click="Button_Click" Tag="in/s" Header="in/s (inches per second)"/>
                             <MenuItem Click="Button_Click" Tag="ft/s" Header="ft/s (feet per second)"/>
                             <MenuItem Click="Button_Click" Tag="yd/s" Header="yd/s (yards per second)"/>
                             <MenuItem Click="Button_Click" Tag="mph"  Header="mph (miles per hour)"/>
                         </MenuItem>
-                        <MenuItem Header="Temperature">
+                        <MenuItem Header="Температура">
                             <MenuItem Click="Button_Click" Tag="°F"  Header="°F (degrees Fahrenheit)"/>
                             <MenuItem Click="Button_Click" Tag="Δ°F" Header="Δ°F (difference in °F)"/>
                             <MenuItem Click="Button_Click" Tag="°R"  Header="°R (degrees Rankine)"/>
                         </MenuItem>
-                        <MenuItem Header="Force">
+                        <MenuItem Header="Сила">
                             <MenuItem Click="Button_Click" Tag="ozf"  Header="ozf (ounce-force)"/>
                             <MenuItem Click="Button_Click" Tag="lbf"  Header="lbf (pound-force)"/>
                             <MenuItem Click="Button_Click" Tag="kipf" Header="kipf (kilopound-force)"/>
                             <MenuItem Click="Button_Click" Tag="tonf" Header="tonf (ton-force)"/>
                         </MenuItem>
-                        <MenuItem Header="Torque/Moment">
+                        <MenuItem Header="Усукване/момент">
                             <MenuItem Click="Button_Click" Tag="ozf*in" Header="ozf·in (ounce-force-inch)"/>
                             <MenuItem Click="Button_Click" Tag="ozf*ft" Header="ozf·ft (ounce-force-foot)"/>
                             <MenuItem Click="Button_Click" Tag="lbf*in" Header="lbf·in (pound-force-inch)"/>
                             <MenuItem Click="Button_Click" Tag="lbf*ft" Header="lbf·ft (pound-force-foot)"/>
                         </MenuItem>
-                        <MenuItem Header="Pressure">
+                        <MenuItem Header="Налягане">
                             <MenuItem Click="Button_Click" Tag="osi" Header="osi (ounce-force per sq. inch)"/>
                             <MenuItem Click="Button_Click" Tag="osf" Header="osf (ounce-force per sq. foot)"/>
                             <MenuItem Click="Button_Click" Tag="psi" Header="psi (pound-force per sq. inch)"/>
@@ -676,9 +660,8 @@
                             <MenuItem Click="Button_Click" Tag="ksf" Header="ksf (kilopound-force per sq. foot)"/>
                             <MenuItem Click="Button_Click" Tag="tsi" Header="tsi (ton-force per sq. inch)"/>
                             <MenuItem Click="Button_Click" Tag="tsf" Header="tsf (ton-force per sq. foot)"/>
-                            <MenuItem Click="Button_Click" Tag="inHg" Header="inHg (inches of mercuty)"/>
                         </MenuItem>
-                        <MenuItem Header="Density/Unit weight">
+                        <MenuItem Header="Плътност/обемно тегло">
                             <MenuItem Click="Button_Click" Tag="oz/in^3"   Header="oz/in³ (ounce per cubic inch)"/>
                             <MenuItem Click="Button_Click" Tag="oz/ft^3"   Header="oz/ft³ (ounce per cubic foot)"/>
                             <MenuItem Click="Button_Click" Tag="lb/in^3"   Header="lb/in³ (pound per cubic inch)"/>
@@ -689,7 +672,7 @@
                             <MenuItem Click="Button_Click" Tag="slug/ft^3" Header="slug/ft³ (slug per cubic foot)"/>
                             <MenuItem Click="Button_Click" Tag="ton/yd^3"  Header="ton/yd³ (ton per cubic yard)"/>
                         </MenuItem>
-                        <MenuItem Header="Energy/Work">
+                        <MenuItem Header="Енергия/работа">
                             <MenuItem Click="Button_Click" Tag="in*ozf" Header="in·ozf (inch-ounce-force)"/>
                             <MenuItem Click="Button_Click" Tag="ft*ozf" Header="ft·ozf (foot-ounce-force)"/>
                             <MenuItem Click="Button_Click" Tag="in*lbf" Header="in·lbf (inch-pound-force)"/>
@@ -698,7 +681,7 @@
                             <MenuItem Click="Button_Click" Tag="therm"  Header="therm"/>
                             <MenuItem Click="Button_Click" Tag="quad"   Header="quad"/>
                         </MenuItem>
-                        <MenuItem Header="Power">
+                        <MenuItem Header="Мощност">
                             <MenuItem Click="Button_Click" Tag="ft*lbf/s"   Header="ft·lbf/s (foot-pound-force per second)"/>
                             <MenuItem Click="Button_Click" Tag="ft*lbf/min" Header="ft·lbf/min (foot-pound-force per minute)"/>
                             <MenuItem Click="Button_Click" Tag="ft*lbf/h"   Header="ft·lbf/h (foot-pound-force per hour)"/>
@@ -708,43 +691,43 @@
                         </MenuItem>
                     </MenuItem>
                 </MenuItem>
-                <MenuItem Header="Function Plot">
-                    <MenuItem Click="Button_Click" Tag="$Plot{f(x) @ x = a : b}"        Header="Simple plot"/>
-                    <MenuItem Click="Button_Click" Tag="$Plot{x(t) | y(t) @ t = a : b}" Header="Parametric"/>
-                    <MenuItem Click="Button_Click" Tag="$Plot{f1(x) &amp; f2(x) &amp; ... @ x = a : b}" Header="Multiple"/>
-                    <MenuItem Click="Button_Click" Tag="$Plot{x1(t) | y1(t) &amp; x2(t) | y2(t) &amp; ... @ t = a : b}" Header="Multiple parametric"/>
+                <MenuItem Header="Графика на функция">
+                    <MenuItem Click="Button_Click" Tag="$Plot{f(x) @ x = a : b}"        Header="Единична"/>
+                    <MenuItem Click="Button_Click" Tag="$Plot{x(t) | y(t) @ t = a : b}" Header="Параметрична"/>
+                    <MenuItem Click="Button_Click" Tag="$Plot{f1(x) &amp; f2(x) &amp; ... @ x = a : b}" Header="Паралелни"/>
+                    <MenuItem Click="Button_Click" Tag="$Plot{x1(t) | y1(t) &amp; x2(t) | y2(t) &amp; ... @ t = a : b}" Header="Паралелни параметрични"/>
                     <Separator/>
-                    <MenuItem Click="Button_Click" Tag="$Map{f(x; y) @ x = a : b &amp; y = c : d }"     Header="2D color map of a surface"/>
+                    <MenuItem Click="Button_Click" Tag="$Map{f(x; y) @ x = a : b &amp; y = c : d }"     Header="Изохроми на 2D функция"/>
                 </MenuItem>
-                <MenuItem Header="Numerical method">
-                    <MenuItem Click="Button_Click" Tag="$Root{f(x) = const @ x = a : b }" Header="Root finding for f(x)=const"/>
-                    <MenuItem Click="Button_Click" Tag="$Root{f(x) @ x = a : b }"         Header="Root finding for f(x)=0"/>
-                    <MenuItem Click="Button_Click" Tag="$Find{f(x) @ x = a : b }"         Header="Non-strict root finding"/>
-                    <MenuItem Click="Button_Click" Tag="$Sup{f(x) @ x = a : b }"          Header="Local maximum of a function"/>
-                    <MenuItem Click="Button_Click" Tag="$Inf{f(x) @ x = a : b }"          Header="Local minimum of a function"/>
-                    <MenuItem Click="Button_Click" Tag="$Area{f(x) @ x = a : b }"         Header="Numerical integration"/>
-                    <MenuItem Click="Button_Click" Tag="$Slope{f(x) @ x = a }"            Header="Numerical differentiation"/>
+                <MenuItem Header="Числен метод">
+                    <MenuItem Click="Button_Click" Tag="$Root{f(x) = const @ x = a : b }" Header="Търсене на корен на уравнението f(x)=const"/>
+                    <MenuItem Click="Button_Click" Tag="$Root{f(x) @ x = a : b }"         Header="Търсене на корен на уравнението f(x)=0"/>
+                    <MenuItem Click="Button_Click" Tag="$Find{f(x) @ x = a : b }"         Header="Нестрого търсене на корен"/>
+                    <MenuItem Click="Button_Click" Tag="$Sup{f(x) @ x = a : b }"          Header="Локален максимум на функция"/>
+                    <MenuItem Click="Button_Click" Tag="$Inf{f(x) @ x = a : b }"          Header="Локален минимум на функция"/>
+                    <MenuItem Click="Button_Click" Tag="$Area{f(x) @ x = a : b }"         Header="Числено интегриране"/>
+                    <MenuItem Click="Button_Click" Tag="$Slope{f(x) @ x = a }"            Header="Числено диференциране"/>
                     <Separator/>
-                    <MenuItem Click="Button_Click" Tag="$Sum{f(k) @ k = a : b }"          Header="Iterative sum"/>
-                    <MenuItem Click="Button_Click" Tag="$Product{f(k) @ k = a : b }"      Header="Iterative product"/>
-                    <MenuItem Click="Button_Click" Tag="$Repeat{f(k) @ k = a : b }"       Header="General inline iterative procedure"/>
+                    <MenuItem Click="Button_Click" Tag="$Sum{f(k) @ k = a : b }"          Header="Итеративна сума"/>
+                    <MenuItem Click="Button_Click" Tag="$Product{f(k) @ k = a : b }"      Header="Итеративно произведение"/>
+                    <MenuItem Click="Button_Click" Tag="$Repeat{f(k) @ k = a : b }"       Header="Обща итеративна процедура"/>
                 </MenuItem>
-                <MenuItem Header="Program Flow Control">
-                    <MenuItem Click="Button_Click" Tag="#if 'condition§'Your code here§#end if" Header="Simple: if-end if"/>
-                    <MenuItem Click="Button_Click" Tag="#if 'condition§'Your code here§#else§'Your code here§#end if" Header="Alternative: if-else-end if"/>
-                    <MenuItem Click="Button_Click" Tag="#if 'condition§'Your code here§#else if 'condition§'Your code here§#else§'Some other code§#end if" Header="Complete: if-else if-else-end if"/>
+                <MenuItem Header="Условно разклонение">
+                    <MenuItem Click="Button_Click" Tag="#if 'условие§'тук въведете код§#end if" Header="Единично: if-end if"/>
+                    <MenuItem Click="Button_Click" Tag="#if 'условие§'тук въведете код§#else§'алтернативен код§#end if" Header="Алтернативно: if-else-end if"/>
+                    <MenuItem Click="Button_Click" Tag="#if 'условие1§'тук въведете код§#else if 'условие2§тук въведете код§#else§алтернативен код§#end if" Header="Пълно: if-else if-else-end if"/>
                 </MenuItem>
-                <MenuItem Header="Iteration">
-                    <MenuItem Click="Button_Click" Tag="#repeat 'number of repetitions§'Your code here§#loop" Header="Simple: repeat-loop"/>
-                    <MenuItem Click="Button_Click" Tag="#repeat 'number of repetitions§'Your code here§#if 'condition§#break§#end if§'Some more code§#loop" Header="Conditional: repeat-break-loop"/>
+                <MenuItem Header="Цикъл">
+                    <MenuItem Click="Button_Click" Tag="#repeat 'брой повторения§'тук въведете код§#loop" Header="Стандартен: repeat-loop"/>
+                    <MenuItem Click="Button_Click" Tag="#repeat 'брой повторения§'тук въведете код§#if 'условие§#break§#end if§'още код§#loop" Header="Условен: repeat-break-loop"/>
                 </MenuItem>
                 <MenuItem Header="Html">
-                    <MenuItem Click="Button_Click" Tag="&lt;h3&gt;|&lt;/h3&gt;" Header="Heading 3"/>
-                    <MenuItem Click="Button_Click" Tag="&lt;h4&gt;|&lt;/h4&gt;" Header="Heading 4"/>
-                    <MenuItem Click="Button_Click" Tag="&lt;h5&gt;|&lt;/h5&gt;" Header="Heading 5"/>
-                    <MenuItem Click="Button_Click" Tag="&lt;h6&gt;|&lt;/h6&gt;" Header="Heading 6"/>
-                    <MenuItem Click="Button_Click" Tag="&lt;p&gt;|&lt;/p&gt;"   Header="Paragraph"/>
-                    <MenuItem Click="Button_Click" Tag="|&lt;br /&gt;"          Header="Line break"/>
+                    <MenuItem Click="Button_Click" Tag="&lt;h3&gt;|&lt;/h3&gt;"  Header="Heading 3"/>
+                    <MenuItem Click="Button_Click" Tag="&lt;h4&gt;|&lt;/h4&gt;"  Header="Heading 4"/>
+                    <MenuItem Click="Button_Click" Tag="&lt;h5&gt;|&lt;/h5&gt;"  Header="Heading 5"/>
+                    <MenuItem Click="Button_Click" Tag="&lt;h6&gt;|&lt;/h6&gt;"  Header="Heading 6"/>
+                    <MenuItem Click="Button_Click" Tag="&lt;p&gt;|&lt;/p&gt;"    Header="Paragraph"/>
+                    <MenuItem Click="Button_Click" Tag="|&lt;br /&gt;"           Header="Line break"/>
                     <Separator/>
                     <MenuItem Click="Button_Click" Tag="&lt;strong&gt;|&lt;/strong&gt;" Header="Bold"/>
                     <MenuItem Click="Button_Click" Tag="&lt;em&gt;|&lt;/em&gt;"   Header="Italic"/>
@@ -763,7 +746,7 @@
                     <MenuItem Click="Button_Click" Tag="'&lt;hr /&gt;" Header="Dividing line"/>
                     <MenuItem Click="Button_Click" Tag="§'Select option: &lt;select data-target=&quot;target1&quot;&gt;§'&lt;option value=&quot;11;12&quot;&gt;x1; y1&lt;/option&gt;§'&lt;option value=&quot;21;22&quot;&gt;x2; y2&lt;/option&gt;§'&lt;option value=&quot;31;32&quot;&gt;x3; y3&lt;/option&gt;§'&lt;/select&gt;§'...§'&lt;p id=&quot;target1&quot;&gt; Values:'x = ?','y = ?'&lt;/p&gt;§" Header="Selection"/>
                 </MenuItem>
-                <MenuItem Header="Drawing/SVG">
+                <MenuItem Header="Чертеж/SVG">
                     <MenuItem Click="Button_Click" Tag="#val§#hide§w = 400§h = 400§#show§'&lt;svg viewbox=&quot;'0' '0' 'w' 'h'&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; version=&quot;1.1&quot; style=&quot;font-size:16px; width:'w'px; height:'h'px&quot;&gt;§'&lt;rect x=&quot;'0'&quot; y=&quot;'0'&quot; width=&quot;'w'&quot; height=&quot;'h'&quot; style=&quot;stroke:black; stroke-width:1; fill:WhiteSmoke; fill-opacity:0.2; stroke-opacity:0.1&quot; /&gt;§'&lt;text x=&quot;'w/2'&quot; y=&quot;'h/2'&quot; text-anchor=&quot;middle&quot; fill=&quot;red&quot; style=&quot;font-size:32px;&quot;&gt;Your drawing goes here!&lt;/text&gt;§'&lt;/svg&gt;§#equ" Header="Drawing"/>
                     <MenuItem Click="Button_Click" Tag="#hide§x1 = 30§y1 = 30§x2 = 380§y2 = 200§#show§'&lt;line x1=&quot;'x1'&quot; y1=&quot;'y1'&quot; x2=&quot;'x2'&quot; y2=&quot;'y2'&quot; style=&quot;stroke:black; stroke-width:2; stroke-opacity:0.8&quot; /&gt;" Header="Line"/>
                     <MenuItem Click="Button_Click" Tag="#hide§x = 80§y = 60§w = 300§h = 200§#show§'&lt;rect x=&quot;'x'&quot; y=&quot;'y'&quot; width=&quot;'w'&quot; height=&quot;'h'&quot; style=&quot;stroke:black; stroke-width:2; fill:yellow; fill-opacity:0.2; stroke-opacity:0.8&quot; /&gt;" Header="Rectangle"/>
@@ -773,76 +756,76 @@
                     <MenuItem Click="Button_Click" Tag="#hide§x1 = 150','y1 = 20§x2 = 10','y2 = 140§x3 = 120','y3 = 360§x4 = 280','y4 = 120§#show§'&lt;polygon points=&quot;'x1','y1' 'x2','y2' 'x3','y3' 'x4','y4'&quot; style=&quot;stroke:black; stroke-width:2; fill:cyan; fill-opacity:0.2; stroke-opacity:0.8&quot; /&gt;" Header="Polygon"/>
                     <MenuItem Click="Button_Click" Tag="#hide§x = 50§y = 30§#show§'&lt;text x=&quot;'x'&quot; y=&quot;'y'&quot; text-anchor=&quot;start&quot;&gt;text1&lt;/text&gt;§" Header="Text"/>
                 </MenuItem>
-                <MenuItem Header="Output visibility control">
-                    <MenuItem Click="Button_Click" Tag="#hide" Header="#hide" ToolTip="Hide report contents"/>
-                    <MenuItem Click="Button_Click" Tag="#show" Header="#show" ToolTip="Always show the contents (default)"/>
-                    <MenuItem Click="Button_Click" Tag="#pre"  Header="#pre"  ToolTip="Show the bellow contents only before calculations"/>
-                    <MenuItem Click="Button_Click" Tag="#post" Header="#post" ToolTip="Show the bellow contents only after calculations"/>
+                <MenuItem Header="Контрол на видимостта">
+                    <MenuItem Click="Button_Click" Tag="#hide" Header="#hide" ToolTip="Скрий съдържанието по-долу в документа"/>
+                    <MenuItem Click="Button_Click" Tag="#show" Header="#show" ToolTip="Показвай винаги съдържанието (по подразбиране)"/>
+                    <MenuItem Click="Button_Click" Tag="#pre"  Header="#pre"  ToolTip="Показвай следващото съдържание само при въвеждане"/>
+                    <MenuItem Click="Button_Click" Tag="#post" Header="#post" ToolTip="Показвай следващото съдържание само в резултатите "/>
                     <Separator/>
-                    <MenuItem Click="Button_Click" Tag="#val"  Header="#val"  ToolTip="Show only the calculated values"/>
-                    <MenuItem Click="Button_Click" Tag="#equ"  Header="#equ"  ToolTip="Show the complete equations (default)"/>
+                    <MenuItem Click="Button_Click" Tag="#val"  Header="#val"  ToolTip="Показвай само изчислените стойности"/>
+                    <MenuItem Click="Button_Click" Tag="#equ"  Header="#equ"  ToolTip="Показвай пълните формули (по подразбиране)"/>
                     <Separator/>
-                    <MenuItem Click="Button_Click" Tag="#deg"  Header="#deg"  ToolTip="Set angle measurement in degrees"/>
-                    <MenuItem Click="Button_Click" Tag="#rad"  Header="#rad"  ToolTip="Set angle measurement in radians"/>
+                    <MenuItem Click="Button_Click" Tag="#deg"  Header="#deg"  ToolTip="Ъглите се измерват в градуси"/>
+                    <MenuItem Click="Button_Click" Tag="#rad"  Header="#rad"  ToolTip="Ъглите се измерват в радиани"/>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="Output">
-                <MenuItem x:Name="MenuWebForm" Click="WebFormButton_Click" Header="Input form"/>
-                <MenuItem x:Name="MenuCalculate" Click="CalcButton_Click" Header="Calculate"/>
+            <MenuItem Header="Резултати">
+                <MenuItem x:Name="MenuWebForm" Click="WebFormButton_Click" Header="Форма за въвеждане"/>
+                <MenuItem x:Name="MenuCalculate" Click="CalcButton_Click" Header="Изчисляване"/>
                 <Separator/>
-                <MenuItem Click="SaveOutputButton_Click" Header="Save"/>
-                <MenuItem Command="ApplicationCommands.Print" Header="Print"/>
-                <MenuItem Click="CopyOutputButton_Click" Header="Copy"/>
+                <MenuItem Click="SaveOutputButton_Click" Header="Запис"/>
+                <MenuItem Command="ApplicationCommands.Print" Header="Отпечатване"/>
+                <MenuItem Click="CopyOutputButton_Click" Header="Копиране"/>
                 <Separator/>
-                <MenuItem Click="WordButton_Click" Header="Open with MS Word"/>
-                <MenuItem Click="PdfButton_Click" Header="Save as pdf file"/>
+                <MenuItem Click="WordButton_Click" Header="Изход към MS Word"/>
+                <MenuItem Click="PdfButton_Click" Header="Изход към pdf файл"/>
             </MenuItem>
-            <MenuItem Command="ApplicationCommands.Help" Header="Help"/>
+            <MenuItem Command="ApplicationCommands.Help" Header="Помощ"/>
         </Menu>
         <Button Click="CopyOutputButton_Click" x:Name="CopyOutputButton" Height="28" VerticalAlignment="Top"
             BorderThickness="0" Margin="0,26,67,0" HorizontalAlignment="Right" Width="28"
-            Focusable="false" ToolTip="Copy all output" IsTabStop="false" Background="{x:Null}" Grid.Column="1">
+            Focusable="false" ToolTip="Копирай всички резултати" IsTabStop="false" Background="{x:Null}">
             <Image Source="Resources/copy.png" Width="24" Height="24" VerticalAlignment="Center"
                 HorizontalAlignment="Center"/>
         </Button>
         <Button Click="WordButton_Click" x:Name="WordButton" Height="28" VerticalAlignment="Top"
             BorderThickness="0" Margin="0,26,36,0" HorizontalAlignment="Right" Width="28"
-            Focusable="false" ToolTip="Open with MS Word" IsTabStop="false" Background="{x:Null}" Grid.Column="1">
+            Focusable="false" ToolTip="Отвори резултатите с MS Word" IsTabStop="false" Background="{x:Null}">
             <Image Source="Resources/word.png" Width="24" Height="24" VerticalAlignment="Center"
                 HorizontalAlignment="Center"/>
         </Button>
         <Button Click="PdfButton_Click" x:Name="PdfButton" Height="28" VerticalAlignment="Top"
             BorderThickness="0" Margin="0,26,5,0"
-            Focusable="false" ToolTip="Save output as pdf flie" IsTabStop="false" Background="{x:Null}" HorizontalAlignment="Right" Width="28" Grid.Column="1">
+            Focusable="false" ToolTip="Запис на резултатите като pdf файл" IsTabStop="false" Background="{x:Null}" HorizontalAlignment="Right" Width="28">
             <Image Source="Resources\pdf.png" Width="24" Height="24" VerticalAlignment="Center"
                 HorizontalAlignment="center"/>
         </Button>
         <Button x:Name="PrintButton" Height="28" VerticalAlignment="Top" BorderThickness="0" Margin="0,26,98,0"
-            HorizontalAlignment="Right" Width="28" Focusable="false" ToolTip="Print Preview"
-            IsTabStop="false" Command="ApplicationCommands.Print" Background="{x:Null}" Grid.Column="1">
+            HorizontalAlignment="Right" Width="28" Focusable="false" ToolTip="Преглед за отпечатване"
+            IsTabStop="false" Command="ApplicationCommands.Print" Background="{x:Null}">
             <Image Source="Resources/print.png" Width="24" Height="24" VerticalAlignment="Center"
                 HorizontalAlignment="Center"/>
         </Button>
         <Button Click="SaveOutputButton_Click" x:Name="SaveOutputButton" Height="28" VerticalAlignment="Top"
-            BorderThickness="0" Margin="0,26,129,0" Focusable="false" ToolTip="Save output as Html file"
-            IsTabStop="false" HorizontalAlignment="Right" Width="28" Background="{x:Null}" Grid.Column="1">
+            BorderThickness="0" Margin="0,26,129,0" Focusable="false" ToolTip="Запис на резултатите като Html файл"
+            IsTabStop="false" HorizontalAlignment="Right" Width="28" Background="{x:Null}">
             <Image Source="Resources/save.png" Width="24" Height="24" VerticalAlignment="Center"
                 HorizontalAlignment="Center"/>
         </Button>
         <Button x:Name="SaveButton" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Width="28"
-            BorderThickness="0" Margin="78,26,0,0" Focusable="false" ToolTip="Save"
+            BorderThickness="0" Margin="78,26,0,0" Focusable="false" ToolTip="Запис на входен файл"
             IsTabStop="false" Command="ApplicationCommands.Save" Background="{x:Null}">
             <Image Source="Resources/save.png" Width="24" Height="24" VerticalAlignment="Center"
                 HorizontalAlignment="Center"/>
         </Button>
         <Button x:Name="OpenButton" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Width="28"
-            BorderThickness="0" Margin="36,26,0,0" Focusable="false" ToolTip="Open"
+            BorderThickness="0" Margin="36,26,0,0" Focusable="false" ToolTip="Отвори входен файл"
             IsTabStop="false" Command="ApplicationCommands.Open" Background="{x:Null}">
             <Image Source="Resources/open.png" Width="24" Height="24" VerticalAlignment="Center"
                    HorizontalAlignment="Center"/>
         </Button>
         <Button x:Name="RecentFliesListButton" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Width="10"
-                BorderThickness="0" Margin="65,26,0,0" Focusable="false" ToolTip="Recent files"
+                BorderThickness="0" Margin="65,26,0,0" Focusable="false" ToolTip="Последно използвани файлове"
                 IsTabStop="false" Background="{x:Null}" Click="RecentFliesListButton_Click" IsEnabled="False" ClickMode="Press">
             <Button.ContextMenu>
                 <ContextMenu x:Name="RecentFilesListContextMenu" HorizontalAlignment="Right" HorizontalOffset="-35" VerticalOffset="30"/>
@@ -850,60 +833,60 @@
             <TextBlock FontSize="9" Foreground="#FF404040"><Run Text="▼"/></TextBlock>
         </Button>
         <Button x:Name="NewButton" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Width="28"
-            Margin="5,26,0,0" Focusable="false" ToolTip="New file" IsTabStop="false"
+            Margin="5,26,0,0" Focusable="false" ToolTip="Нов файл" IsTabStop="false"
             Command="ApplicationCommands.New" BorderThickness="0" Background="{x:Null}">
             <Image Source="Resources/new.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="24"
                 Height="24"/>
         </Button>
         <Button x:Name="HelpButton" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Width="28"
-            BorderThickness="0" Margin="305,26,0,0" Focusable="false" ToolTip="Help" IsTabStop="false"
+            BorderThickness="0" Margin="305,26,0,0" Focusable="false" ToolTip="Ръководство за потребителя" IsTabStop="false"
             Command="ApplicationCommands.Help" Background="{x:Null}">
             <Image Source="Resources/help.png" Width="24" Height="24" VerticalAlignment="Center"
                 HorizontalAlignment="Center"/>
         </Button>
         <Button x:Name="CopyButton" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Width="28"
-            BorderThickness="0" Margin="114,26,0,0" Focusable="false" ToolTip="Copy"
+            BorderThickness="0" Margin="114,26,0,0" Focusable="false" ToolTip="Копирай избрания текст"
             IsTabStop="false" Command="ApplicationCommands.Copy" Background="{x:Null}" Padding="5,1,1,1">
             <Image Source="Resources/copy.png" Width="24" Height="24" VerticalAlignment="Center"
                 HorizontalAlignment="Center"/>
         </Button>
         <Button x:Name="PasteButton" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Width="28"
-            BorderThickness="0" Margin="145,26,0,0" Focusable="false" ToolTip="Paste" IsTabStop="false"
+            BorderThickness="0" Margin="145,26,0,0" Focusable="false" ToolTip="Постави копирания текст" IsTabStop="false"
             Command="ApplicationCommands.Paste" Background="{x:Null}">
             <Image Source="Resources/paste.png" Width="24" Height="24" VerticalAlignment="Center"
                 HorizontalAlignment="Center"/>
         </Button>
         <Button x:Name="UndoButton" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Width="28"
-            BorderThickness="0" Margin="176,26,0,0" Focusable="false" ToolTip="Undo" IsTabStop="false"
+            BorderThickness="0" Margin="176,26,0,0" Focusable="false" ToolTip="Отмяна" IsTabStop="false"
             Command="ApplicationCommands.Undo" Background="{x:Null}">
             <Image Source="Resources/undo.png" Width="24" Height="24" VerticalAlignment="Center"
                 HorizontalAlignment="Center"/>
         </Button>
         <Button x:Name="RedoButton" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Width="28"
-            BorderThickness="0" Margin="207,26,0,0" Focusable="false" ToolTip="Redo" IsTabStop="false"
+            BorderThickness="0" Margin="207,26,0,0" Focusable="false" ToolTip="Възстановяване" IsTabStop="false"
             Command="ApplicationCommands.Redo" Background="{x:Null}">
             <Image Source="Resources/redo.png" Width="24" Height="24" VerticalAlignment="Center"
                 HorizontalAlignment="Center"/>
         </Button>
         <Button Click="ImageButton_Click" x:Name="ImageButton" HorizontalAlignment="Left" Height="28"
             VerticalAlignment="Top" Width="28" BorderThickness="0" Margin="243,26,0,0" Focusable="false"
-            ToolTip="Insert Image" IsTabStop="false" Background="{x:Null}">
+            ToolTip="Вмъкни изображение" IsTabStop="false" Background="{x:Null}">
             <Image Source="Resources/image.png" Width="24" Height="24" VerticalAlignment="Top"
                 HorizontalAlignment="Center"/>
         </Button>
         <Button Click="KeyPadButton_Click" x:Name="KeyPadButton" Tag="F" Height="28" Margin="274,26,0,0"
             VerticalAlignment="Top" Background="AliceBlue" Focusable="false" HorizontalAlignment="Left"
-            Width="28" ToolTip="Show/hide numeric keypad" IsTabStop="false" BorderBrush="SteelBlue">
+            Width="28" ToolTip="Покажи/скрий калкулаторна клавиатура" IsTabStop="false" BorderBrush="SteelBlue">
             <Image Source="Resources/calc.png" Width="24" Height="24" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
         </Button>
         <Canvas Margin="0,26,0,2" HorizontalAlignment="Center" Width="60">
             <Button Click="WebFormButton_Click" x:Name="WebFormButton" Tag="F" Height="28" VerticalAlignment="Top"
-                Focusable="false" ToolTip="Compile to input form" IsTabStop="false" Background="{x:Null}" HorizontalAlignment="Left" Width="28" BorderBrush="{x:Null}">
+                Focusable="false" ToolTip="Компилирай до форма за вход на данни" IsTabStop="false" Background="{x:Null}" HorizontalAlignment="Left" Width="28" BorderBrush="{x:Null}">
                 <Image Source="Resources/form.png" Width="24" Height="24" VerticalAlignment="Center"
                     HorizontalAlignment="Center"/>
             </Button>
             <Button Click="CalcButton_Click" x:Name="CalcButton" Tag="F" Height="28" VerticalAlignment="Top"
-                Focusable="false" ToolTip="Run calculation and display output" IsTabStop="false" Background="{x:Null}" HorizontalAlignment="Left" Width="28" Canvas.Left="32" BorderBrush="{x:Null}">
+                Focusable="false" ToolTip="Изчисли и покажи резултатите" IsTabStop="false" Background="{x:Null}" HorizontalAlignment="Left" Width="28" Canvas.Left="32" BorderBrush="{x:Null}">
                 <Image Source="Resources/play.png" Width="24" Height="24" VerticalAlignment="Center"
                     HorizontalAlignment="Center"/>
             </Button>
@@ -918,8 +901,16 @@
                 <RotateTransform Angle="90"/>
             </Separator.RenderTransform>
         </Separator>
-        <TextBlock TextWrapping="Wrap" FontSize="11" Margin="0,12,273,0" Height="16" VerticalAlignment="Top" Foreground="#CC000000" Text="Non-metric units:" TextAlignment="Left" HorizontalAlignment="Right" Width="90"/>
-        <RadioButton Checked="UnitsRadioButton_Checked" x:Name="UK" Content="UK" GroupName="Units" TabIndex="5" IsChecked="True" RenderTransformOrigin="0,0" FontFamily="Calibri" Padding="2,0,0,0" Margin="0,33,317,0" FontWeight="Bold" HorizontalAlignment="Right" Width="35" Height="16" VerticalAlignment="Top" FontSize="13">
+        <TextBlock TextWrapping="Wrap" FontSize="11" Margin="0,13,300,0" Height="16" VerticalAlignment="Top" HorizontalAlignment="Right" Width="92" Foreground="#CC000000" RenderTransformOrigin="0.5,0.5">
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="0.9"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBlock.RenderTransform><Run Text="Неметр. единици:"/></TextBlock>
+        <RadioButton Checked="UnitsRadioButton_Checked" x:Name="UK" Content="UK" GroupName="Units" TabIndex="5" IsChecked="True" RenderTransformOrigin="0,0" FontFamily="Calibri" Padding="2,0,0,0" Margin="0,33,346,5" FontWeight="Bold" HorizontalAlignment="Right" Width="34" FontSize="13">
             <RadioButton.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
@@ -929,7 +920,7 @@
                 </TransformGroup>
             </RadioButton.RenderTransform>
         </RadioButton>
-        <RadioButton Checked="UnitsRadioButton_Checked" x:Name="US" Content="US" GroupName="Units" Height="16" TabIndex="6" RenderTransformOrigin="0,0" FontFamily="Calibri" VerticalAlignment="Top" Padding="2,0,0,0" Margin="0,33,281,0" HorizontalAlignment="Right" Width="35" FontWeight="Bold" FontSize="13">
+        <RadioButton Checked="UnitsRadioButton_Checked" x:Name="US" Content="US" GroupName="Units" Height="18" TabIndex="6" RenderTransformOrigin="0,0" FontFamily="Calibri" VerticalAlignment="Top" Padding="2,0,0,0" Margin="0,33,310,0" FontWeight="Bold" HorizontalAlignment="Right" Width="34" FontSize="13">
             <RadioButton.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
@@ -939,8 +930,8 @@
                 </TransformGroup>
             </RadioButton.RenderTransform>
         </RadioButton>
-        <TextBlock TextWrapping="Wrap" FontFamily="Segoe UI" FontSize="11" Margin="0,12,165,0" Height="16" VerticalAlignment="Top" Foreground="#CC000000" Text="Equation format:" HorizontalAlignment="Right" Width="91"/>
-        <RadioButton Checked="EquationRadioButton_Checked" x:Name="Professional" Content="Pro" GroupName="EquationFormatting" IsChecked="True" FontFamily="Calibri" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" TabIndex="7" Margin="0,33,220,0" HorizontalAlignment="Right" Width="40" FontSize="14" FontWeight="Bold" RenderTransformOrigin="0,0">
+        <TextBlock TextWrapping="Wrap" FontSize="11" Margin="0,13,397,0" TextAlignment="Left" Height="16" VerticalAlignment="Top" Foreground="#CC000000" HorizontalAlignment="Right" Width="80" Text="Мярка за ъгли:" />
+        <RadioButton Checked="AngleRadioButton_Checked" x:Name="Deg" Content="DEG" GroupName="Angle" TabIndex="3" IsChecked="True" FontFamily="Calibri" Padding="2,0,0,0" Margin="0,33,435,0" Height="18" VerticalAlignment="Top" HorizontalAlignment="Right" Width="42" FontWeight="Bold" RenderTransformOrigin="0,0" FontSize="13">
             <RadioButton.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
@@ -950,7 +941,7 @@
                 </TransformGroup>
             </RadioButton.RenderTransform>
         </RadioButton>
-        <RadioButton Checked="EquationRadioButton_Checked" x:Name="Inline" Content="Inline" GroupName="EquationFormatting" FontFamily="Calibri" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" TabIndex="8" Margin="0,33,165,0" HorizontalAlignment="Right" Width="55" RenderTransformOrigin="0,0" FontSize="14" FontWeight="Bold">
+        <RadioButton Checked="AngleRadioButton_Checked" x:Name="Rad" Content="RAD" GroupName="Angle" TabIndex="4" FontFamily="Calibri" Height="18" VerticalAlignment="Top" Padding="2,0,0,0" Margin="0,33,394,0" HorizontalAlignment="Right" Width="42" FontWeight="Bold" RenderTransformOrigin="0,0" FontSize="13">
             <RadioButton.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
@@ -960,8 +951,8 @@
                 </TransformGroup>
             </RadioButton.RenderTransform>
         </RadioButton>
-        <TextBlock Height="16" TextWrapping="Wrap" FontSize="11" VerticalAlignment="Top" Margin="346,13,0,0" Text="Numbers: " RenderTransformOrigin="0.291,0.394" Foreground="#CC000000" HorizontalAlignment="Left" Width="50" TextDecorations="{x:Null}"/>
-        <RadioButton Checked="ModeRadioButton_Checked" x:Name="Real" GroupName="Mode" Content="Real" TabIndex="1" IsChecked="True" Padding="2,0,0,0" Margin="346,33,0,7" FontFamily="Calibri" HorizontalAlignment="Left" Width="48" RenderTransformOrigin="0,0" FontSize="14" FontWeight="Bold">
+        <TextBlock TextWrapping="Wrap" FontFamily="Segoe UI" FontSize="11" Margin="0,13,176,0" Height="16" VerticalAlignment="Top" HorizontalAlignment="Right" Width="115" Foreground="#CC000000" Text="Изглед на формулите:"/>
+        <RadioButton Checked="EquationRadioButton_Checked" x:Name="Professional" Content="Фигурни" GroupName="EquationFormatting" IsChecked="True" FontFamily="Calibri" Height="18" VerticalAlignment="Top" Padding="2,0,0,0" TabIndex="7" Margin="0,33,226,0" HorizontalAlignment="Right" Width="72" RenderTransformOrigin="0,0" FontSize="14" FontWeight="Bold" FontStyle="Normal">
             <RadioButton.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
@@ -971,7 +962,7 @@
                 </TransformGroup>
             </RadioButton.RenderTransform>
         </RadioButton>
-        <RadioButton Checked="ModeRadioButton_Checked" x:Name="Complex" GroupName="Mode" TabIndex="2" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" Margin="391,33,0,0" FontFamily="Calibri" HorizontalAlignment="Left" Width="74" Content="Complex" FontSize="14" FontWeight="Bold" RenderTransformOrigin="0,0" >
+        <RadioButton Checked="EquationRadioButton_Checked" x:Name="Inline" Content="Линейни" GroupName="EquationFormatting" FontFamily="Calibri" Height="18" VerticalAlignment="Top" Padding="2,0,0,0" TabIndex="8" Margin="0,33,159,0" HorizontalAlignment="Right" Width="73" RenderTransformOrigin="0,0" FontSize="14" FontWeight="Bold" FontStyle="Normal">
             <RadioButton.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
@@ -981,17 +972,38 @@
                 </TransformGroup>
             </RadioButton.RenderTransform>
         </RadioButton>
-        <StatusBar Grid.Row="1" Height="35" VerticalAlignment="Bottom" BorderThickness="0,1,0,0" Margin="0,0,0,0" HorizontalContentAlignment="Right" Grid.ColumnSpan="2">
+        <TextBlock Height="16" TextWrapping="Wrap" FontSize="11" VerticalAlignment="Top" Margin="346,13,0,0" Text="Числа:" RenderTransformOrigin="0.291,0.394" HorizontalAlignment="Left" Width="40" Foreground="#CC000000"/>
+        <RadioButton Checked="ModeRadioButton_Checked" x:Name="Real" GroupName="Mode" Content="Реални" TabIndex="1" IsChecked="True" Padding="2,0,0,0" Margin="346,33,0,0" FontFamily="Calibri" Height="16" VerticalAlignment="Top" HorizontalAlignment="Left" Width="65" RenderTransformOrigin="0,0" FontWeight="Bold" FontSize="14">
+            <RadioButton.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform X="0"/>
+                </TransformGroup>
+            </RadioButton.RenderTransform>
+        </RadioButton>
+        <RadioButton Checked="ModeRadioButton_Checked" x:Name="Complex" GroupName="Mode" Content="Комплексни" TabIndex="2" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" Margin="406,33,0,0" FontFamily="Calibri" HorizontalAlignment="Left" Width="96" RenderTransformOrigin="0,0" FontSize="14" FontWeight="Bold">
+            <RadioButton.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform X="0"/>
+                </TransformGroup>
+            </RadioButton.RenderTransform>
+        </RadioButton>
+        <StatusBar Grid.Row="1" BorderThickness="0,1,0,0" HorizontalContentAlignment="Right" Height="35" VerticalAlignment="Bottom" Margin="-0.2,0,0,0">
             <StatusBar.Background>
                 <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
                     <GradientStop Color="White"/>
                     <GradientStop Color="#FFE0E0E0" Offset="1"/>
                 </LinearGradientBrush>
             </StatusBar.Background>
-            <TextBlock Height="18" TextWrapping="Wrap" FontFamily="Segoe UI" FontSize="12" VerticalAlignment="Top" HorizontalAlignment="Left" Text="Round to " Margin="20,0,0,0"/>
+            <TextBlock Height="18" TextWrapping="Wrap" FontFamily="Segoe UI" FontSize="12" VerticalAlignment="Top" HorizontalAlignment="Left" Text="Закръгляване:" Margin="10,0,0,0"/>
             <TextBox TextChanged="DecimalsTextBox_TextChanged" x:Name="DecimalsTextBox" TextWrapping="Wrap" Text="2" TextAlignment="Center"
-                ToolTip="Number of digits after the decimal point" UndoLimit="0" TabIndex="9" Width="30" FontFamily="Segoe UI Semibold" FontSize="13" Height="22" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Normal"/>
-            <StatusBarItem Width="26" Margin="0,-5,0,-5" RenderTransformOrigin="0,0.5">
+                ToolTip="Брой цифри след десетичната точка" UndoLimit="0" TabIndex="9" Width="30" FontFamily="Segoe UI Semibold" FontSize="13" Height="22" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Normal" Margin="0,0,0,3"/>
+            <StatusBarItem Width="26" Margin="0,-8,0,-5" RenderTransformOrigin="0,0.5">
                 <StatusBarItem.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform ScaleX="0.7" ScaleY="0.7"/>
@@ -999,28 +1011,28 @@
                 </StatusBarItem.RenderTransform>
                 <ScrollBar x:Name="DecimalScrollBar" Height="34" Width="20" Maximum="15" SmallChange="1" Value="13" ValueChanged="DecimalScrollBar_ValueChanged" RenderTransformOrigin="0.5,0.5" />
             </StatusBarItem>
-            <TextBlock Height="18" TextWrapping="Wrap" Width="40" FontFamily="Segoe UI" FontSize="12" VerticalAlignment="Center" HorizontalAlignment="Left" Text="digits after the decimal point"/>
-            <CheckBox Click="SubstituteCheckBox_Clicked" x:Name="SubstituteCheckBox" Content="Substitute" Height="16" Width="80"
-                IsChecked="True" ToolTip="Substitute variables in equations" TabIndex="10" FontFamily="Segoe UI" FontSize="12" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="2,0,0,0"/>
-            <TextBlock Height="18" TextWrapping="Wrap" Width="29" FontFamily="Segoe UI" FontSize="12" Text="Plot:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-            <CheckBox Click="AdaptiveCheckBox_Clicked" x:Name="AdaptiveCheckBox" Content="Adaptive" Height="16" VerticalAlignment="Center"
-                ToolTip="Adaptive 1D function plot" TabIndex="11" Background="White" HorizontalAlignment="Center" IsChecked="True" Width="72"/>
-            <CheckBox Click="ShadowsCheckBox_Clicked" x:Name="ShadowsCheckBox" Content="Shadows:" Height="16" VerticalAlignment="Top"
-                ToolTip="Draw surface maps with shadows" TabIndex="12" Background="White" HorizontalAlignment="Right" Margin="5,0,0,0"/>
-            <ComboBox x:Name="LightDirectionComboBox" VerticalAlignment="Top" SelectionChanged="LightDirectionComboBox_SelectionChanged" HorizontalAlignment="Center" Width="100" ToolTip="Shadow direction" TabIndex="13" Height="22">
-                <ComboBoxItem Content="North"/>
-                <ComboBoxItem Content="North-east"/>
-                <ComboBoxItem Content="East"/>
-                <ComboBoxItem Content="South-east"/>
-                <ComboBoxItem Content="South"/>
-                <ComboBoxItem Content="South-west"/>
-                <ComboBoxItem Content="West"/>
-                <ComboBoxItem Content="North-west" IsSelected="True"/>
+            <TextBlock Height="18" TextWrapping="Wrap" Width="40" FontFamily="Segoe UI" FontSize="12" VerticalAlignment="Center" HorizontalAlignment="Left"><Run Text="цифри след дес. точка"/></TextBlock>
+            <CheckBox Click="SubstituteCheckBox_Clicked" x:Name="SubstituteCheckBox" Content="Заместване" Height="16" Width="90"
+                IsChecked="True" ToolTip="Замествай стойнстите на променливите във формулите" TabIndex="10" FontFamily="Segoe UI" FontSize="12" VerticalAlignment="Top" HorizontalAlignment="Center" Padding="2,0,0,0"/>
+            <TextBlock Height="18" TextWrapping="Wrap" Width="55" FontFamily="Segoe UI" FontSize="12" Text="Графики:" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0"/>
+            <CheckBox Click="AdaptiveCheckBox_Clicked" x:Name="AdaptiveCheckBox" Content="Адаптивни" Height="16" VerticalAlignment="Center"
+                ToolTip="Адаптивни 1D графики" TabIndex="11" Background="White" HorizontalAlignment="Center" IsChecked="True" Width="85"/>
+            <CheckBox Click="ShadowsCheckBox_Clicked" x:Name="ShadowsCheckBox" Content="Светлосенки:" Height="16" VerticalAlignment="Top"
+                ToolTip="Чертай 2D графиките със светлосенки" TabIndex="12" Background="White" HorizontalAlignment="Right" Margin="5,0,0,0"/>
+            <ComboBox x:Name="LightDirectionComboBox" VerticalAlignment="Top" SelectionChanged="LightDirectionComboBox_SelectionChanged" HorizontalAlignment="Right" Width="100" ToolTip="Посока на светлината" TabIndex="13" Height="22">
+                <ComboBoxItem Content="Север"/>
+                <ComboBoxItem Content="Североизток"/>
+                <ComboBoxItem Content="Изток"/>
+                <ComboBoxItem Content="Югоизток"/>
+                <ComboBoxItem Content="Юг"/>
+                <ComboBoxItem Content="Югозапад"/>
+                <ComboBoxItem Content="Запад"/>
+                <ComboBoxItem Content="Северозапад" IsSelected="True"/>
             </ComboBox>
-            <TextBlock Height="16" TextWrapping="Wrap" VerticalAlignment="Center" Text="Palette:" HorizontalAlignment="Left" Margin="5,0,0,0"/>
-            <ComboBox x:Name="ColorScaleComboBox" VerticalAlignment="Top" SelectionChanged="ColorScaleComboBox_SelectionChanged" HorizontalAlignment="Right" Width="120" ToolTip="Surface map color scale" TabIndex="14" Height="22">
-                <ComboBoxItem Content="None" HorizontalAlignment="Left" Width="120" Margin="0,0,-2,0"/>
-                <ComboBoxItem Content="Gray" HorizontalAlignment="Left" Width="120" Margin="0,0,-2,0">
+            <TextBlock Height="16" TextWrapping="Wrap" VerticalAlignment="Center" Text="Палитра:" HorizontalAlignment="Left" Margin="5,0,0,0"/>
+            <ComboBox x:Name="ColorScaleComboBox" VerticalAlignment="Top" SelectionChanged="ColorScaleComboBox_SelectionChanged" HorizontalAlignment="Right" Width="120" ToolTip="Цветна палитра за 2D графика" TabIndex="14" Height="22">
+                <ComboBoxItem Content="Безцветна" HorizontalAlignment="Left" Width="120" Margin="0,0,-2,0"/>
+                <ComboBoxItem Content="Черно-бяла" HorizontalAlignment="Left" Width="120" Margin="0,0,-2,0">
                     <ComboBoxItem.Background>
                         <LinearGradientBrush EndPoint="0,0.5" MappingMode="RelativeToBoundingBox" StartPoint="1,0.5">
                             <GradientStop Color="#FFFFFFFF"/>
@@ -1028,7 +1040,7 @@
                         </LinearGradientBrush>
                     </ComboBoxItem.Background>
                 </ComboBoxItem>
-                <ComboBoxItem Content="Rainbow" HorizontalAlignment="Left" Width="120" IsSelected="True">
+                <ComboBoxItem Content="Дъга" HorizontalAlignment="Left" Width="120" IsSelected="True">
                     <ComboBoxItem.Background>
                         <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
                             <GradientStop Color="#FFFF0000" Offset="0"/>
@@ -1039,7 +1051,7 @@
                         </LinearGradientBrush>
                     </ComboBoxItem.Background>
                 </ComboBoxItem>
-                <ComboBoxItem Content="Terrain" HorizontalAlignment="Left" Width="120">
+                <ComboBoxItem Content="Терен" HorizontalAlignment="Left" Width="120">
                     <ComboBoxItem.Background>
                         <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
                             <GradientStop Color="#FFFF7F00" Offset="0"/>
@@ -1049,7 +1061,7 @@
                         </LinearGradientBrush>
                     </ComboBoxItem.Background>
                 </ComboBoxItem>
-                <ComboBoxItem Content="Violet-yellow" HorizontalAlignment="Left" Width="120">
+                <ComboBoxItem Content="Виолетово-жълто" HorizontalAlignment="Left" Width="120">
                     <ComboBoxItem.Background>
                         <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
                             <GradientStop Color="#FFffff00" Offset="0"/>
@@ -1057,7 +1069,7 @@
                         </LinearGradientBrush>
                     </ComboBoxItem.Background>
                 </ComboBoxItem>
-                <ComboBoxItem Content="Green-yellow" HorizontalAlignment="Left" Width="120">
+                <ComboBoxItem Content="Зелено-жълто" HorizontalAlignment="Left" Width="120">
                     <ComboBoxItem.Background>
                         <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
                             <GradientStop Color="#FFffff00" Offset="0"/>
@@ -1065,7 +1077,7 @@
                         </LinearGradientBrush>
                     </ComboBoxItem.Background>
                 </ComboBoxItem>
-                <ComboBoxItem Content="Blues" HorizontalAlignment="Left" Width="120">
+                <ComboBoxItem Content="Синьо" HorizontalAlignment="Left" Width="120">
                     <ComboBoxItem.Background>
                         <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
                             <GradientStop Color="#FF35fdff" Offset="0"/>
@@ -1074,19 +1086,19 @@
                     </ComboBoxItem.Background>
                 </ComboBoxItem>
             </ComboBox>
-            <CheckBox Click="SmoothCheckBox_Clicked" x:Name="SmoothCheckBox" Content="Smooth" Height="16" VerticalAlignment="Top"
-                ToolTip="Smooth shading for surface map" Background="White" HorizontalAlignment="Right" TabIndex="15" Margin="5,0,0,0"/>
+            <CheckBox Click="SmoothCheckBox_Clicked" x:Name="SmoothCheckBox" Content="Преливка" Height="16" VerticalAlignment="Top"
+                ToolTip="Преливай цветовете" Background="White" HorizontalAlignment="Right" TabIndex="15" Margin="5,0,0,0"/>
             <Image x:Name="Logo" Source="Resources/logo.png" Height="20"
                 VerticalAlignment="Top" HorizontalAlignment="Right" Width="2000" Margin="0,0,10,0" Cursor="Hand" MouseUp="Logo_MouseUp"/>
             <Grid/>
         </StatusBar>
-        <Grid x:Name="FramesGrid" Margin="0,1,0,35" Grid.Row="1" Grid.ColumnSpan="2">
+        <Grid x:Name="FramesGrid" Margin="0,1,0,35" Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="5" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <GroupBox x:Name="InputFrame" Header="Code" FontSize="13" FontFamily="Segoe UI Semibold" BorderBrush="#FFE3E3E3" Margin="5,1,5,1" MinWidth="590">
+            <GroupBox x:Name="InputFrame" Header="Код" FontSize="13" FontFamily="Segoe UI Semibold" BorderBrush="#FFE3E3E3" Margin="5,1,5,1" MinWidth="590">
                 <GroupBox.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="White" Offset="0.543"/>
@@ -1114,36 +1126,36 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="481"/>
                         </Grid.ColumnDefinitions>
-                        <Button Click="Button_Click" Content="1" Tag="1" Margin="5,92,0,0" Style="{StaticResource RoundButton}"  FontFamily="Segoe UI Semibold"/>
+                        <Button Click="Button_Click" Content="1" Tag="1" Margin="5,92,0,0" Style="{StaticResource RoundButton}" FontFamily="Segoe UI Semibold"/>
                         <Button Click="Button_Click" Content="2" Tag="2" Margin="36,92,0,0" Style="{StaticResource RoundButton}" FontFamily="Segoe UI Semibold"/>
                         <Button Click="Button_Click" Content="3" Tag="3" Margin="67,92,0,0" Style="{StaticResource RoundButton}" HorizontalAlignment="Left" Width="26" FontFamily="Segoe UI Semibold"/>
-                        <Button Click="Button_Click" Content="4" Tag="4" Margin="5,61,0,0" Style="{StaticResource RoundButton}"  FontFamily="Segoe UI Semibold"/>
+                        <Button Click="Button_Click" Content="4" Tag="4" Margin="5,61,0,0" Style="{StaticResource RoundButton}" FontFamily="Segoe UI Semibold"/>
                         <Button Click="Button_Click" Content="5" Tag="5" Margin="36,61,0,0" Style="{StaticResource RoundButton}" FontFamily="Segoe UI Semibold"/>
                         <Button Click="Button_Click" Content="6" Tag="6" Margin="67,61,0,0" Style="{StaticResource RoundButton}" FontFamily="Segoe UI Semibold"/>
-                        <Button Click="Button_Click" Content="7" Tag="7" Margin="5,31,0,0" Style="{StaticResource RoundButton}"  FontFamily="Segoe UI Semibold"/>
+                        <Button Click="Button_Click" Content="7" Tag="7" Margin="5,31,0,0" Style="{StaticResource RoundButton}" FontFamily="Segoe UI Semibold"/>
                         <Button Click="Button_Click" Content="8" Tag="8" Margin="36,31,0,0" Style="{StaticResource RoundButton}" FontFamily="Segoe UI Semibold"/>
                         <Button Click="Button_Click" Content="9" Tag="9" Margin="67,31,0,0" Style="{StaticResource RoundButton}" FontFamily="Segoe UI Semibold"/>
                         <Button Click="Button_Click" Content="0" Tag="0" Margin="5,123,0,0" Style="{StaticResource RoundButton}" FontFamily="Segoe UI Semibold"/>
                         <Button Click="Button_Click" Content="." Tag="." Margin="36,123,0,0" Style="{StaticResource RoundButton}"
-                            ToolTip="Decimal point" FontFamily="Segoe UI Semibold"/>
+                            ToolTip="Десетична точка" FontFamily="Segoe UI Semibold"/>
                         <Button Click="Button_Click" Content="=" Tag=" = " Margin="67,123,0,0" Style="{StaticResource RoundButton}"
-                            ToolTip="Assignment" FontFamily="Segoe UI Semibold"/>
-                        <Button Click="Button_Click" Content="/" Tag="/" Margin="104,31,0,0" Style="{StaticResource RoundButton}"   ToolTip="Divide"/>
-                        <Button Click="Button_Click" Content="*" Tag="*" Margin="104,61,0,0" Style="{StaticResource RoundButton}"   ToolTip="Multiply"/>
-                        <Button Click="Button_Click" Content="-" Tag=" - " Margin="104,92,0,0" Style="{StaticResource RoundButton}" ToolTip="Subtract"/>
+                            ToolTip="Присвояване" FontFamily="Segoe UI Semibold"/>
+                        <Button Click="Button_Click" Content="/" Tag="/" Margin="104,31,0,0" Style="{StaticResource RoundButton}" ToolTip="Делене"/>
+                        <Button Click="Button_Click" Content="*" Tag="*" Margin="104,61,0,0" Style="{StaticResource RoundButton}" ToolTip="Умножение"/>
+                        <Button Click="Button_Click" Content="-" Tag=" - " Margin="104,92,0,0" Style="{StaticResource RoundButton}" ToolTip="Изваждане"/>
                         <Button Click="Button_Click" Content="+" Tag=" + " Margin="104,123,0,0"
-                            Style="{StaticResource RoundButton}" ToolTip="Add"/>
-                        <Button Click="Button_Click" Tag="≡" Margin="135,31,0,0" Style="{StaticResource RoundButton}" Content="≡" ToolTip="Equal (comparision)"/>
-                        <Button Click="Button_Click" Content="≠" Tag="≠" Margin="135,61,0,0" Style="{StaticResource RoundButton}" ToolTip="Not equal"/>
-                        <Button Click="Button_Click" Content="≤" Tag="≤" Margin="135,92,0,0" Style="{StaticResource RoundButton}" ToolTip="Less or equal"/>
+                            Style="{StaticResource RoundButton}" ToolTip="Събиране"/>
+                        <Button Click="Button_Click" Tag="≡" Margin="135,31,0,0" Style="{StaticResource RoundButton}" Content="≡" ToolTip="Равенство (сравнение)"/>
+                        <Button Click="Button_Click" Content="≠" Tag="≠" Margin="135,61,0,0" Style="{StaticResource RoundButton}" ToolTip="Неравенство"/>
+                        <Button Click="Button_Click" Content="≤" Tag="≤" Margin="135,92,0,0" Style="{StaticResource RoundButton}" ToolTip="По-малко или равно"/>
                         <Button Click="Button_Click" x:Name="SinButton" Content="sin" Tag="sin(" Margin="203,31,0,0"
-                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Sine" Width="36"/>
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="синус" Width="36"/>
                         <Button Click="Button_Click" x:Name="CosButton" Content="cos" Tag="cos(" Margin="203,61,0,0"
-                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Cosine" Width="36"/>
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="косинус" Width="36"/>
                         <Button Click="Button_Click" x:Name="TanButton" Content="tan" Tag="tan(" Margin="203,92,0,0"
-                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Tangent" Width="36"/>
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="тангенс" Width="36"/>
                         <Button Click="Button_Click" x:Name="CotButton" Content="cot" Tag="cot(" Margin="203,123,0,0"
-                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Cotangent" Width="36"/>
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="котангенс" Width="36"/>
                         <Button Click="Button_Click" Content="min" Tag="min(" Margin="285,31,0,0"
                             Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Minimum" Width="36"/>
                         <Button Click="Button_Click" Content="rnd" Tag="round(" Margin="285,61,0,0"
@@ -1162,82 +1174,82 @@
                             Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Phase" Width="36"/>
                         <Button Click="Button_Click" Content="e" Tag="e" Margin="372,31,0,0" Style="{StaticResource RoundButton}" ToolTip="Euler's number"/>
                         <Button Click="Button_Click" Content="π" Tag="π" Margin="372,61,0,0" Style="{StaticResource RoundButton}"
-                            FontStyle="Italic" ToolTip="Constant π (pi)"/>
-                        <Button Click="Button_Click" Content="g" Tag="g" Margin="372,92,0,0" Style="{StaticResource RoundButton}" ToolTip="Gravity acceleration on Earth" FontSize="16"/>
-                        <Button Click="Button_Click" Content="(" Tag="(" Margin="372,123,0,0" Style="{StaticResource RoundButton}" ToolTip="Left bracket"/>
-                        <Button Click="Button_Click" Content=")" Tag=")" Margin="404,123,0,0" Style="{StaticResource RoundButton}" ToolTip="Right bracket"/>
-                        <Button Click="Button_Click" Tag="≥" Margin="135,123,0,0" Style="{StaticResource RoundButton}" Content="≥" ToolTip="Greater or equal"/>
+                            FontStyle="Italic" ToolTip="Константата π (pi)"/>
+                        <Button Click="Button_Click" Content="g" Tag="g" Margin="372,92,0,0" Style="{StaticResource RoundButton}" ToolTip="Земно ускорение" FontSize="16"/>
+                        <Button Click="Button_Click" Content="(" Tag="(" Margin="372,123,0,0" Style="{StaticResource RoundButton}" ToolTip="Лява скоба"/>
+                        <Button Click="Button_Click" Content=")" Tag=")" Margin="404,123,0,0" Style="{StaticResource RoundButton}" ToolTip="Дясна скоба"/>
+                        <Button Click="Button_Click" Tag="≥" Margin="135,123,0,0" Style="{StaticResource RoundButton}" Content="≥" ToolTip="По-голямо или равно"/>
                         <Button Click="Button_Click" MouseDoubleClick="Button_MouseDoubleClick" Content="AC" Tag="AC"
                             Margin="404,31,0,0" Style="{StaticResource RoundButton}" Foreground="Red"
-                            ToolTip="Reset" FontSize="14" FontWeight="Bold" HorizontalAlignment="Left" Width="26" RenderTransformOrigin="0.218,0.487"/>
-                        <Button Click="Button_Click" Content="C" Tag="C" Margin="404,61,0,0" Style="{StaticResource RoundButton}" Foreground="Red" ToolTip="Backspace" FontSize="14" FontWeight="Bold"/>
+                            ToolTip="Изчисти" FontSize="14" FontWeight="Bold" HorizontalAlignment="Left" Width="26" RenderTransformOrigin="0.218,0.487"/>
+                        <Button Click="Button_Click" Content="C" Tag="C" Margin="404,61,0,0" Style="{StaticResource RoundButton}" Foreground="Red" ToolTip="Изтрий назад" FontSize="14" FontWeight="Bold"/>
                         <Button Click="Button_Click" Content=" ⏎ " Tag="Enter" Margin="404,92,0,0"
                             Style="{StaticResource RoundButton}" FontSize="22" Foreground="Red"
-                            ToolTip="New line"/>
-                        <Label Content="── Numbers ──" HorizontalAlignment="Left" Padding="1"
-                            Height="22" VerticalAlignment="Top" Width="88" BorderThickness="0,0,0,1" HorizontalContentAlignment="Center" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" FontSize="13" Margin="5,5,0,0"/>
-                        <Label Content="─ Operators ─" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Padding="1"
-                            Height="22" VerticalAlignment="Top" Width="88" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" FontSize="13" Margin="104,5,0,0"/>
+                            ToolTip="Нов ред"/>
+                        <Label Content="─── Цифри ───" HorizontalAlignment="Left" Padding="1"
+                            Height="22" VerticalAlignment="Top" Width="88" BorderThickness="0,0,0,1" HorizontalContentAlignment="Center" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" FontSize="12" Margin="5,5,0,0"/>
+                        <Label Content="─ Оператори ─" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Padding="1"
+                            Height="22" VerticalAlignment="Top" Width="88" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" FontSize="12" Margin="104,5,0,0"/>
                         <Button Click="Button_Click" Content="√x" Tag="sqr(" Margin="244,31,0,0"
-                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Square root" Width="36"/>
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Квадратен корен" Width="36"/>
                         <Button Click="Button_Click" Content="log" Tag="log(" Margin="244,61,0,0"
-                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Decimal logarithm" Width="36"/>
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Десетичен логаритъм" Width="36"/>
                         <Button Click="Button_Click" Content="ln" Tag="ln(" Margin="244,92,0,0"
-                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="natural logarithm" Width="36"/>
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Натурален логаритъм" Width="36"/>
                         <Button Click="Button_Click" Content="| x |" Tag="abs(" Margin="244,123,0,0"
-                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Absolute value" Width="36"/>
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Абсолютна стойност" Width="36"/>
                         <Button Click="Button_Click" Tag="^" x:Name="PowButton" Margin="166,31,0,0" Style="{StaticResource RoundButton}">
-                            <TextBlock ToolTip="Raise to y"><Run Text="x"/><Run BaselineAlignment="TextTop" FontSize="10" Text=" y"/></TextBlock>
+                            <TextBlock ToolTip="Raise to power"><Run Text="x"/><Run BaselineAlignment="TextTop" FontSize="10" Text=" y"/></TextBlock>
                         </Button>
                         <Button Click="Button_Click" Content="x²" x:Name="SqrButton" Tag="^2" Margin="166,61,0,0"
-                            Style="{StaticResource RoundButton}" ToolTip="Raise to sqare"/>
+                            Style="{StaticResource RoundButton}" ToolTip="Повдигане на квадрат"/>
                         <Button Click="Button_Click" Content="x³" x:Name="CubeButton" Tag="^3" Margin="166,92,0,0"
-                            Style="{StaticResource RoundButton}" ToolTip="Raise to cube" HorizontalAlignment="Left" Width="26"/>
-                        <Button Click="Button_Click" Tag="e^" x:Name="ExpButton" Margin="166,123,0,0" Style="{StaticResource RoundButton}" ToolTip="Natural exponent (e = 2.71...)">
+                            Style="{StaticResource RoundButton}" ToolTip="Повдигане на куб" HorizontalAlignment="Left" Width="26"/>
+                        <Button Click="Button_Click" Tag="e^" x:Name="ExpButton" Margin="166,123,0,0" Style="{StaticResource RoundButton}" ToolTip="Експонента (e = 2.71...)">
                             <TextBlock><Run Text="e"/><Run BaselineAlignment="TextTop" FontSize="10" Text=" x"/></TextBlock>
                         </Button>
                         <Button Click="InvHypButton_Click" x:Name="InvButton" Content="inv" Margin="372,1,0,0"
-                            Style="{StaticResource RoundButton}" FontSize="11" ToolTip="Inverse functions"
+                            Style="{StaticResource RoundButton}" FontSize="11" ToolTip="Обратни функции"
                             Height="26" FontFamily="Segoe UI Semibold"/>
                         <Button Click="InvHypButton_Click" x:Name="HypButton" Content="hyp" Margin="404,1,0,0"
-                            Style="{StaticResource RoundButton}" FontSize="11" ToolTip="Hyperbolic functions"
+                            Style="{StaticResource RoundButton}" FontSize="11" ToolTip="Хиперболични фукции"
                             Height="26" FontFamily="Segoe UI Semibold" HorizontalAlignment="Left" Width="26"/>
                         <Button Click="Button_Click" Content="Plot" Tag="$Plot{f(x) @ x = a : b}" Margin="439,1,-14,0"
-                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Function plot"
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Графика на 1D функция"
                             Width="57" Height="26" VerticalContentAlignment="Center"/>
                         <Button Click="Button_Click" Content="Map" Tag="$Map{f(x;y) @ x = a : b &amp; y = c : d}"
-                            Margin="501,1,-81,0" Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Surface map"
+                            Margin="501,1,-81,0" Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Графика на 2D функция"
                             Width="62" Height="26"/>
                         <Button Click="Button_Click" Content="Root" Tag="$Root{f(x) @ x = a : b}" Margin="439,31,-14,0"
-                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Find a root of equation f(x) = 0"
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Търсене на корен на уравнение f(x) = 0"
                             Width="57" Height="26"/>
                         <Button Click="Button_Click" Content="Area" Tag="$Area{f(x) @ x = a : b}" Margin="439,92,-14,0"
-                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Numerical integration" Width="57"
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Числено интегриране" Width="57"
                             Height="26"/>
                         <Button Click="Button_Click" Content="Slope" Tag="$Slope{f(x) @ x = a}" Margin="501,92,-81,0"
-                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Numerical differentiation"
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Числено диференциране"
                             Width="62" Height="26"/>
                         <Button Click="Button_Click" Content="Sup" Tag="$Sup{f(x) @ x = a : b}" Margin="439,61,-14,0"
-                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Local maximum of a function"
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Локален максимум на функция"
                             Height="26" Width="57"/>
                         <Button Click="Button_Click" Content="Inf" Tag="$Inf{f(x) @ x = a : b}" Margin="501,61,-81,0"
-                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Local minimum of a function"
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Локален минимум на функция"
                             Height="26" Width="62" HorizontalAlignment="Left"/>
                         <Button Click="Button_Click" Content="Repeat" Tag="$Repeat{f(k) @ k = 1 : n}" Margin="501,31,-81,0"
-                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Calculate by iterations"
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Изчисляване чрез итерации"
                             Width="62" Height="26"/>
                         <Button Click="Button_Click" Content="Sum" Tag="$Sum{f(k) @ k = 1 : n}" Margin="439,123,-14,0"
-                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Finite sum" 
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Крайна сума" 
                             Width="57" Height="26"/>
                         <Button Click="Button_Click" Content="Product" Tag="$Product{f(k) @ k = 1 : n}" Margin="501,123,-81,0"
-                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Finite product"
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Крайно произведение"
                             Width="62" Height="26"/>
-                        <Label Content="─────── Functions ───────" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Padding="1"
-                            Height="22" VerticalAlignment="Top" Width="158" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" FontSize="13" RenderTransformOrigin="0.5,0.5" Margin="204,5,0,0"/>
+                        <Label Content="─────── Функции ───────" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Padding="1"
+                            Height="22" VerticalAlignment="Top" Width="158" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" FontSize="12" RenderTransformOrigin="0.5,0.5" Margin="204,5,0,0"/>
                     </Grid>
                     <Canvas x:Name="LineNumbers" HorizontalAlignment="Left" Margin="6,10,0,28" Width="40"/>
                     <Border BorderThickness="0,0,1,0" HorizontalAlignment="Left" Margin="0,10,0,28" Width="50" BorderBrush="#FFE3E3E3"/>
-                    <WrapPanel ToolTip="Greek letters" Margin="0,0,0,5" Height="18" VerticalAlignment="Bottom">
+                    <WrapPanel ToolTip="Гръцки букви" Margin="0,0,0,5" Height="18" VerticalAlignment="Bottom">
                         <TextBlock MouseUp="GreekLetter_MouseUp" Text="°" Style="{StaticResource GreekLetter}"/>
                         <TextBlock MouseUp="GreekLetter_MouseUp" Text="α" Style="{StaticResource GreekLetter}"/>
                         <TextBlock MouseUp="GreekLetter_MouseUp" Text="β" Style="{StaticResource GreekLetter}"/>
@@ -1273,7 +1285,7 @@
                 </Grid>
             </GroupBox>
             <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />
-            <GroupBox x:Name="OutputFrame" Header="Output" Margin="5,1,5,1" Grid.Column="2" FontSize="13"
+            <GroupBox x:Name="OutputFrame" Header="Резултати" Margin="5,1,5,1" Grid.Column="2" FontSize="13"
                 FontWeight="Bold" Background="White" FontFamily="Segoe UI Semibold" VerticalContentAlignment="Stretch">
                 <GroupBox.BorderBrush>
                     <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
@@ -1281,26 +1293,5 @@
                 <WebBrowser x:Name="WebBrowser" Margin="5" LoadCompleted="WebBrowser_LoadCompleted" KeyUp="WebBrowser_KeyUp"/>
             </GroupBox>
         </Grid>
-        <TextBlock TextWrapping="Wrap" FontSize="11" Margin="0,12,412,0" TextAlignment="Left" Height="16" VerticalAlignment="Top" Foreground="#CC000000" Text="Angles:" HorizontalAlignment="Right" Width="42"/>
-        <RadioButton Checked="AngleRadioButton_Checked" x:Name="Deg" Content="DEG" GroupName="Angle" TabIndex="3" IsChecked="True" FontFamily="Calibri" Padding="2,0,0,0" Margin="0,33,413,0" Height="16" VerticalAlignment="Top" HorizontalAlignment="Right" Width="42" FontWeight="Bold" FontSize="13" RenderTransformOrigin="0,0">
-            <RadioButton.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </RadioButton.RenderTransform>
-        </RadioButton>
-        <RadioButton Checked="AngleRadioButton_Checked" x:Name="Rad" Content="RAD" GroupName="Angle" TabIndex="4" FontFamily="Calibri" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" Margin="0,33,370,0" HorizontalAlignment="Right" Width="43" FontWeight="Bold" FontSize="13" RenderTransformOrigin="0,0">
-            <RadioButton.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </RadioButton.RenderTransform>
-        </RadioButton>
     </Grid>
 </Window>
