@@ -288,8 +288,11 @@ namespace Calcpad.Core
             return new(y, u);
         }
 
+        //Calculates the number of iterations for which z = z^2 + c satisfies |z| > 2
+        //Then transforms it to a smooth log scale and returns the result
         protected static double MandelbrotSet(double x, double y)
         {
+            //Checks if the point is inside the set and directly returns NaN
             if (x > -1.25 && x < 0.375)
             {
                 if (x < -0.75)
@@ -312,16 +315,21 @@ namespace Calcpad.Core
                         return double.NaN;
                 }
             }
+            //For all other points performs detailed calculations
             double re = x, im = y;
-            for (int i = 0; i <= 1000; ++i)
+            for (int i = 1; i <= 1000; ++i)
             {
-                double reSq = re * re, imSq = im * im;
-                if (reSq + imSq > 4)
+                double reSq = re * re, 
+                       imSq = im * im,
+                       sumSq = reSq + imSq;
+                //To avoid the sqrt function, the check |z| > 2 is replaced by z^2 > 4
+                if (sumSq > 4)
                 {
-                    var logZn = Math.Log(im * im + re * re) / 2;
+                    var logZn = Math.Log(sumSq) / 2;
                     var nu = Math.Log(logZn * Log2Inv) * Log2Inv;
-                    return (1.01 - Math.Pow(i + 1 - nu, 0.001)) * 1000;
+                    return (1.01 - Math.Pow(i - nu, 0.001)) * 1000;
                 }
+                //Calculates z = z^2 + c
                 im = 2 * re * im + y;
                 re = reSq - imSq + x;
             }
