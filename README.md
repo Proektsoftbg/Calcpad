@@ -59,10 +59,11 @@ Calcpad uses a simple programming language that includes the following elements:
 * Real numbers: digits "0" - "9" and decimal point ".";
 * Complex numbers: re ± imi (e.g. 3 - 2i);
 * Variables:  
-&emsp;&emsp;- Latin letters "a" - "z", "A" - "Z";  
-&emsp;&emsp;- Greek letters "α" - "ω", "Α" - "Ω";  
-&emsp;&emsp;- digits "0" - "9";  
-&emsp;&emsp;- comma ",";  
+&emsp;&emsp;- Latin letters: "a" - "z", "A" - "Z";  
+&emsp;&emsp;- Greek letters: "α" - "ω", "Α" - "Ω";  
+&emsp;&emsp;- digits: "0" - "9";  
+&emsp;&emsp;- comma: ",";  
+	- prime: " ′ ", " ″ ", " ‴ ", " ⁗ ";  
 &emsp;&emsp;- "\_" for subscript;  
 A variable name must start with a letter. Names are case sensitive.  
 * Operators:  

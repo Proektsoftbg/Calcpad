@@ -4,7 +4,7 @@
 		    <LangVersion>latest</LangVersion>
 		    <RootNamespace>Calcpad.Core</RootNamespace>
         <OutputType>Library</OutputType>
-        <Version>5.6.1</Version>
+        <Version>5.6.2</Version>
         <Authors>Nedelcho Ganchovski</Authors>
         <Company>Proektsoft EOOD</Company>
 	  </PropertyGroup>

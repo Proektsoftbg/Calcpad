@@ -385,7 +385,9 @@ namespace Calcpad.Wpf
                         t = Types.Const;
                     else if (IsLetter(c))
                     {
-                        if (isUnits || pt == Types.Const)
+                        if (_stringBuilder.Length == 0 && !(char.IsLetter(c) || c == '°'))
+                            t = Types.Error;
+                        else if (isUnits || pt == Types.Const || c == '°')
                             t = Types.Units;
                         else
                             t = Types.Variable;
@@ -403,14 +405,27 @@ namespace Calcpad.Wpf
                 }
                 else if (isComplex && t == Types.Const && c == 'i')
                 {
-                    _stringBuilder.Append('i');
-                    Append(p, Types.Const);
+                    var j = i + 1;
+                    if (j < len && s[j] == 'n')
+                    {
+                        Append(p, Types.Const);
+                        _stringBuilder.Append(c);
+                        t = Types.Units;
+                    }
+                    else
+                    {
+                        _stringBuilder.Append('i');
+                        Append(p, Types.Const);
+                    }
                 }
                 else if (t == Types.Const && IsLetter(c))
                 {
                     Append(p, Types.Const);
                     _stringBuilder.Append(c);
-                    t = Types.Units;
+                    if (char.IsLetter(c) || c == '°')
+                        t = Types.Units;
+                    else
+                        t = Types.Error;
                 }
                 else
                 {
@@ -473,11 +488,10 @@ namespace Calcpad.Wpf
             p.Inlines.Add(run);
             AllowUnaryMinus = t == Types.Operator || s == "(" || s == "{";
         }
-
         private static bool IsLetter(char c) =>
             c >= 'a' && c <= 'z' || // a - z
             c >= 'A' && c <= 'Z' || // A - Z 
-            c == '_' || c == ',' || c == '°' || // _ , °
+            "_,°′″‴⁗".Contains(c) || // _ , ° ′ ″ ‴ ⁗
             c >= 'α' && c <= 'ω' ||   // alpha - omega
             c >= 'Α' && c <= 'Ω';  // Alpha - Omega
 
