@@ -72,7 +72,7 @@ namespace Calcpad.Core
                 <= '~' => CharTypes[c],
                 >= 'Α' and <= 'Ω' or >= 'α' and <= 'ω' => TokenTypes.Unit,
                 '≡' or '≠' or '≤' or '≥' or '÷' => TokenTypes.Operator,
-                '°' => TokenTypes.Unit,
+                '°' or '′' or '″' or '‴' or '⁗' => TokenTypes.Unit,
                 _ => TokenTypes.Error,
             };
 
@@ -154,18 +154,37 @@ namespace Calcpad.Core
 #else
                             throw new MathParserException($"Invalid symbol '{c}'.");
 #endif
-                        if (tt == TokenTypes.Constant && string.IsNullOrEmpty(unitsLiteral) || tt == TokenTypes.Unit || tt == TokenTypes.Variable)
+                        if (tt == TokenTypes.Constant && 
+                            string.IsNullOrEmpty(unitsLiteral) || 
+                            tt == TokenTypes.Unit || 
+                            tt == TokenTypes.Variable)
                         {
                             if (pt == TokenTypes.Unit || pt == TokenTypes.Variable)
                             {
                                 tokenLiteral += c;
-                                tt = TokenTypes.Variable;
+                                if (tokenLiteral.StartsWith('°'))
+                                    tt = TokenTypes.Unit;
+                                else
+                                    tt = TokenTypes.Variable;
                             }
-                            else if (_parser._settings.IsComplex && pt == TokenTypes.Constant && c == 'i')
+                            else if (_parser._settings.IsComplex && 
+                                c == 'i' && 
+                                pt == TokenTypes.Constant 
+                                && string.IsNullOrEmpty(unitsLiteral))
                             {
-                                t = MakeValueToken(tokenLiteral + 'i', string.Empty);
-                                tokens.Enqueue(t);
-                                tokenLiteral = string.Empty;
+                                var j = i + 1;
+                                //If we have inches in complex mode
+                                if (j < len && expression[j] == 'n')
+                                {
+                                    unitsLiteral += c;
+                                    tt = TokenTypes.Constant;
+                                }
+                                else
+                                {
+                                    t = MakeValueToken(tokenLiteral + 'i', string.Empty);
+                                    tokens.Enqueue(t);
+                                    tokenLiteral = string.Empty;
+                                }
                             }
                             else if (pt == TokenTypes.Constant && tt == TokenTypes.Unit)
                             {
@@ -174,11 +193,11 @@ namespace Calcpad.Core
                             }
                             else
                             {
-                                if (tt == TokenTypes.Variable)
+                                if (tt == TokenTypes.Unit && !(char.IsLetter(c) || c == '°'))
 #if BG
-                                    throw new MathParserException($"Невалиден символ: '{c}'. Имената на променливи, функции и мерни единици трябва да започват с буква или '°'.");
+                                    throw new MathParserException($"Невалиден символ: '{c}'. Имената на променливи, функции и мерни единици трябва да започват с буква или '°' за градуси.");
 #else
-                                    throw new MathParserException($"Invalid character: '{c}'. Variables, functions and units must begin with letter or '°'.");
+                                    throw new MathParserException($"Invalid character: '{c}'. Variables, functions and units must begin with a letter or '°' for degrees.");
 #endif
                                 tokenLiteral += c;
                             }
@@ -259,7 +278,8 @@ namespace Calcpad.Core
                                                 isUnitDivision = true;
                                             }
                                             tokens.Enqueue(new Token("*", TokenTypes.Operator, MultOrder));
-                                            t = MakeValueToken(null, tokenLiteral);
+                                            if (!string.IsNullOrEmpty(tokenLiteral))
+                                                t = MakeValueToken(null, tokenLiteral);
                                         }
                                         else
                                         {

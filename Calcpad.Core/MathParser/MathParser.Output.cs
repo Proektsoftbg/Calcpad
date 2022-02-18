@@ -93,7 +93,7 @@ namespace Calcpad.Core
                                 subst = _stringBuilder.ToString()[_assignmentIndex..];
                         }
                         var res = writer.FormatValue(new Value(_parser.Result, _parser.Units), _parser._settings.Decimals);
-                        if (hasOperators && res != subst || subst.Length == 0)
+                        if (hasOperators && res != subst || string.IsNullOrEmpty(subst))
                         {
                             _stringBuilder.Append(assignment);
                             _stringBuilder.Append(res);

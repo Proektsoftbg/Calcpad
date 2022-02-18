@@ -2257,5 +2257,34 @@ namespace Calcpad.Wpf
 
         private int _offset = 0;
         private void Record() => _undoMan.Record(InputText, _offset, ReadInputFromCode());
+
+        private void UpperCaseButton_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (FrameworkElement element in GreekLettersWarpPanel.Children)
+            {
+                if (element is TextBlock tb)
+                {
+                    char c = tb.Text[0];
+                    const int delta = 'α' - 'Α';
+                    if (c == 'ς')
+                        c = 'Σ';
+                    else if (c >= 'α' && c <= 'ω')
+                        c = (char)(c - delta);
+                    else if (c == 'Σ' && tb.Tag is string s)
+                        c = s[0];
+                    else if (c >= 'Α' && c <= 'Ω')
+                        c = (char)(c + delta);
+                    else if (c == '′')
+                        c = '‴';
+                    else if (c == '″')
+                        c = '⁗';
+                    else if (c == '‴')
+                        c = '′';
+                    else if (c == '⁗')
+                        c = '″';
+                    tb.Text = c.ToString(); 
+                }
+            }
+        }
     }
 }
