@@ -1268,7 +1268,7 @@
                         <TextBlock MouseUp="GreekLetter_MouseUp" Text="ω" Style="{StaticResource GreekLetter}"/>
                         <Button Click="UpperCaseButton_Click" Content="aA" Style="{StaticResource RoundButton}" 
                                 Width="26" FontSize="13"
-                                Height="20" FontFamily="Segoe UI Semibold" ToolTip="Малки/големи букви" VerticalAlignment="Center" Margin="28,0,0,0" FontWeight="Normal"/>
+                                Height="20" FontFamily="Segoe UI Semibold" ToolTip="Change case" VerticalAlignment="Center" Margin="28,0,0,0" FontWeight="Normal"/>
                     </WrapPanel>
                 </Grid>
             </GroupBox>
