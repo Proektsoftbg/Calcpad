@@ -63,7 +63,7 @@ Calcpad uses a simple programming language that includes the following elements:
 &emsp;&emsp;- Greek letters: "α" - "ω", "Α" - "Ω";  
 &emsp;&emsp;- digits: "0" - "9";  
 &emsp;&emsp;- comma: ",";  
-	- prime: " ′ ", " ″ ", " ‴ ", " ⁗ ";  
+&emsp;&emsp;- prime: " ′ ", " ″ ", " ‴ ", " ⁗ ";  
 &emsp;&emsp;- "\_" for subscript;  
 A variable name must start with a letter. Names are case sensitive.  
 * Operators:  
