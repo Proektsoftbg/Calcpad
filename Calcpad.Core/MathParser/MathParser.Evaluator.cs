@@ -29,7 +29,7 @@ namespace Calcpad.Core
                 var rpnLength = rpn.Length;
                 if (rpnLength < 1)
 #if BG
-                throw new MathParserException("Празен израз.");
+                    throw new MathParserException("Празен израз.");
 #else
                     throw new MathParserException("Expression is empty.");
 #endif
@@ -42,7 +42,7 @@ namespace Calcpad.Core
                 {
                     if (_tos < tos)
 #if BG
-                    throw new MathParserException("Стекът е празен. Невалиден израз.");
+                        throw new MathParserException("Стекът е празен. Невалиден израз.");
 #else
                         throw new MathParserException("Stack empty. Invalid expression.");
 #endif
@@ -70,7 +70,7 @@ namespace Calcpad.Core
                             {
                                 if (_tos == tos)
 #if BG
-                                throw new MathParserException("Липсва операнд.");
+                                    throw new MathParserException("Липсва операнд.");
 #else
                                     throw new MathParserException("Missing operand.");
 #endif
@@ -88,7 +88,7 @@ namespace Calcpad.Core
                                 {
                                     if (t.Content != "-")
 #if BG
-                                    throw new MathParserException("Липсва операнд.");
+                                        throw new MathParserException("Липсва операнд.");
 #else
                                         throw new MathParserException("Missing operand.");
 #endif
@@ -145,7 +145,7 @@ namespace Calcpad.Core
                 }
                 if (_tos > tos)
 #if BG
-                throw new MathParserException("Неосвободена памет в стека. Невалиден израз.");
+                    throw new MathParserException("Неосвободена памет в стека. Невалиден израз.");
 #else
                     throw new MathParserException("Stack memory leak. Invalid expression.");
 #endif
@@ -172,7 +172,7 @@ namespace Calcpad.Core
                 }
                 if (!Unit.IsConsistent(vu, u))
 #if BG
-                throw new MathParserException($"Получените мерни единици \"{Unit.GetText(vu)}\" не съответстват на отправните \"{Unit.GetText(u)}\".");
+                    throw new MathParserException($"Получените мерни единици \"{Unit.GetText(vu)}\" не съответстват на отправните \"{Unit.GetText(u)}\".");
 #else
                     throw new MathParserException($"The calculated units \"{Unit.GetText(vu)}\" are inconsistent with the target units \"{Unit.GetText(u)}\".");
 #endif
@@ -259,7 +259,7 @@ namespace Calcpad.Core
 
                 if (t.Type == TokenTypes.Input && t.Content == "?")
 #if BG
-                throw new MathParserException("Недефинирано поле за въвеждане.");
+                    throw new MathParserException("Недефинирано поле за въвеждане.");
 #else
                     throw new MathParserException("Undefined input field.");
 #endif
@@ -286,7 +286,7 @@ namespace Calcpad.Core
                 catch
                 {
 #if BG
-                throw new MathParserException($"Недефинирана променлива или мерни единици: \"{t.Content}\".");
+                    throw new MathParserException($"Недефинирана променлива или мерни единици: \"{t.Content}\".");
 #else
                     throw new MathParserException($"Undefined variable or units: \"{t.Content}\".");
 #endif
@@ -297,7 +297,7 @@ namespace Calcpad.Core
             {
                 if (t.Type != TokenTypes.Function && t.Content != NegateString)
 #if BG
-                throw new MathParserException($"Грешка при изчисляване на \"{t.Content}\" като функция.");
+                    throw new MathParserException($"Грешка при изчисляване на \"{t.Content}\" като функция.");
 #else
                     throw new MathParserException($"Error evaluating \"{t.Content}\" as function.");
 #endif
@@ -312,7 +312,7 @@ namespace Calcpad.Core
 
                 if (t.Type != TokenTypes.Function2)
 #if BG
-                throw new MathParserException($"Грешка при изчисляване на \"{t.Content}\" като функция или оператор.");
+                    throw new MathParserException($"Грешка при изчисляване на \"{t.Content}\" като функция или оператор.");
 #else
                     throw new MathParserException($"Error evaluating \"{t.Content}\" as function or operator.");
 #endif

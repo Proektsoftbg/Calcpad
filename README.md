@@ -4,22 +4,22 @@ Project Website: [https://calcpad.eu](https://calcpad.eu)
 
 Calcpad is free software for mathematical and engineering calculations. It represents a flexible and modern programmable calculator with Html report generator. It is simple and easy to use, but it also includes many advanced features:
 
-* real and complex numbers;</li>
-* units of measurement (SI, Imperial and USCS);</li>
-* custom variables;</li>
-* built-in library with common math functions;</li>
-* custom functions of multiple parameters f(x; y; z; ...);</li>
-* powerful numerical methods for root and extremum finding, numerical integration and differentiation;</li>
-* finite sum, product and iteration procedures;</li>
-* program flow control with conditions and loops;</li>
-* "titles" and 'text' comments in quotes;</li> 
-* support for Html and CSS in comments for rich formatting;</li>
-* function plotting, images, tables, parametric SVG drawings, etc.;</li>
-* automatic generation of Html forms for data input;</li>
-* professional looking Html reports for viewing printing;</li>
-* variable substitution and smart rounding of numbers;</li> 
-* output visibility control and content folding;</li>
-* support for plain text (*.txt, *.cpd) and binary (*.cpdz) file formats.</li>
+* real and complex numbers;
+* units of measurement (SI, Imperial and USCS);
+* custom variables;
+* built-in library with common math functions;
+* custom functions of multiple parameters f(x; y; z; ...);
+* powerful numerical methods for root and extremum finding, numerical integration and differentiation;
+* finite sum, product and iteration procedures;
+* program flow control with conditions and loops;
+* "titles" and 'text' comments in quotes; 
+* support for Html and CSS in comments for rich formatting;
+* function plotting, images, tables, parametric SVG drawings, etc.;
+* automatic generation of Html forms for data input;
+* professional looking Html reports for viewing printing;
+* variable substitution and smart rounding of numbers; 
+* output visibility control and content folding;
+* support for plain text (*.txt, *.cpd) and binary (*.cpdz) file formats.
 
 This software is developed using the C# programming language and the latest computer technologies. It automatically parses the input, substitutes the variables, calculates the expressions and displays the output. All results are sent to a professional looking Html report for viewing and printing. Acknowledgments: The new and beautiful icons are created using [https://icons8.com](https://icons8.com). The pdf export was made possible thanks to the [wkhtmltopdf.org](https://wkhtmltopdf.org/) project.
 
@@ -48,7 +48,7 @@ Any scripts, developed with Calcpad are property of the respective authors. They
 ## How it works
 The software is quick and easy to use. Just follow these simple steps:
 
-1. **Enter** text and formulas into the "**Code**" box on the left.</li>
+1. **Enter** text and formulas into the "**Code**" box on the left.
 2. Click <img alt="Play" height="24" src="https://github.com/Proektsoftbg/Calcpad/blob/main/Help/Images/Play.png"> to calculate. Results will appear in the "**Output**" box on the right as a professionally formatted Html **report**.
 3. Click <img alt="PrintPreview" height="24" src="https://github.com/Proektsoftbg/Calcpad/blob/main/Help/Images/PrintPreview.png"> to **print** or <img alt="Copy" height="24" src="https://github.com/Proektsoftbg/Calcpad/blob/main/Help/Images/Copy.png"> to **copy** the output.
 You can also **export** it to Html <img alt="Html" height="24" src="https://github.com/Proektsoftbg/Calcpad/blob/main/Help/Images/Save.png">, PDF <img alt="PDF" height="24" src="https://github.com/Proektsoftbg/Calcpad/blob/main/Help/Images/Pdf.png"> or MS Word <img alt="Word" height="24" src="https://github.com/Proektsoftbg/Calcpad/blob/main/Help/Images/Word.png"> document.
@@ -63,7 +63,8 @@ Calcpad uses a simple programming language that includes the following elements:
 &emsp;&emsp;- Greek letters: "α" - "ω", "Α" - "Ω";  
 &emsp;&emsp;- digits: "0" - "9";  
 &emsp;&emsp;- comma: ",";  
-&emsp;&emsp;- prime: " ′ ", " ″ ", " ‴ ", " ⁗ ";  
+&emsp;&emsp;- prime symbols: " ′ ", " ″ ", " ‴ ", " ⁗ ";  
+&emsp;&emsp;- special symbols: " ø ", "Ø", " ° ", "∡";
 &emsp;&emsp;- "\_" for subscript;  
 A variable name must start with a letter. Names are case sensitive.  
 * Operators:  
