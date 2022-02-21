@@ -385,7 +385,7 @@ namespace Calcpad.Wpf
                         t = Types.Const;
                     else if (IsLetter(c))
                     {
-                        if (_stringBuilder.Length == 0 && !(char.IsLetter(c) || c == '°'))
+                        if (_stringBuilder.Length == 0 && !(char.IsLetter(c) || c == '°' || c == '∡'))
                             t = Types.Error;
                         else if (isUnits || pt == Types.Const || c == '°')
                             t = Types.Units;
@@ -491,7 +491,7 @@ namespace Calcpad.Wpf
         private static bool IsLetter(char c) =>
             c >= 'a' && c <= 'z' || // a - z
             c >= 'A' && c <= 'Z' || // A - Z 
-            "_,°′″‴⁗".Contains(c) || // _ , ° ′ ″ ‴ ⁗
+            "_,°∡′″‴⁗ϑϕøØ".Contains(c) || // _ , ° ∡ ′ ″ ‴ ⁗ ϑ ϕ ø Ø
             c >= 'α' && c <= 'ω' ||   // alpha - omega
             c >= 'Α' && c <= 'Ω';  // Alpha - Omega
 

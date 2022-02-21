@@ -1239,8 +1239,9 @@
                     <Border BorderThickness="0,0,1,0" HorizontalAlignment="Left" Margin="0,10,0,28" Width="50" BorderBrush="#FFE3E3E3"/>
                     <WrapPanel x:Name="GreekLettersWarpPanel" ToolTip="Greek letters" Margin="0,0,0,5" Height="18" VerticalAlignment="Bottom">
                         <TextBlock MouseUp="GreekLetter_MouseUp" Text="°" Style="{StaticResource GreekLetter}" FontSize="16"/>
-                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="′" Style="{StaticResource GreekLetter}" RenderTransformOrigin="0.529,0.443" FontSize="16"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="′" Style="{StaticResource GreekLetter}" FontSize="16"/>
                         <TextBlock MouseUp="GreekLetter_MouseUp" Text="″" Style="{StaticResource GreekLetter}" FontSize="16"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="ø" Style="{StaticResource GreekLetter}"/>
                         <TextBlock MouseUp="GreekLetter_MouseUp" Text="α" Style="{StaticResource GreekLetter}"/>
                         <TextBlock MouseUp="GreekLetter_MouseUp" Text="β" Style="{StaticResource GreekLetter}"/>
                         <TextBlock MouseUp="GreekLetter_MouseUp" Text="γ" Style="{StaticResource GreekLetter}"/>
@@ -1248,7 +1249,8 @@
                         <TextBlock MouseUp="GreekLetter_MouseUp" Text="ε" Style="{StaticResource GreekLetter}"/>
                         <TextBlock MouseUp="GreekLetter_MouseUp" Text="ζ" Style="{StaticResource GreekLetter}"/>
                         <TextBlock MouseUp="GreekLetter_MouseUp" Text="η" Style="{StaticResource GreekLetter}"/>
-                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="θ" Style="{StaticResource GreekLetter}"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="θ" Style="{StaticResource GreekLetter}" Tag='θ'/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="ϑ" Style="{StaticResource GreekLetter}" Tag='ϑ'/>
                         <TextBlock MouseUp="GreekLetter_MouseUp" Text="ι" Style="{StaticResource GreekLetter}"/>
                         <TextBlock MouseUp="GreekLetter_MouseUp" Text="κ" Style="{StaticResource GreekLetter}"/>
                         <TextBlock MouseUp="GreekLetter_MouseUp" Text="λ" Style="{StaticResource GreekLetter}"/>
@@ -1258,17 +1260,17 @@
                         <TextBlock MouseUp="GreekLetter_MouseUp" Text="ο" Style="{StaticResource GreekLetter}"/>
                         <TextBlock MouseUp="GreekLetter_MouseUp" Text="π" Style="{StaticResource GreekLetter}"/>
                         <TextBlock MouseUp="GreekLetter_MouseUp" Text="ρ" Style="{StaticResource GreekLetter}"/>
-                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="ς" Style="{StaticResource GreekLetter}" Tag="ς"/>
-                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="σ" Style="{StaticResource GreekLetter}" Tag="σ"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="ς" Style="{StaticResource GreekLetter}" Tag='ς'/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="σ" Style="{StaticResource GreekLetter}" Tag='σ'/>
                         <TextBlock MouseUp="GreekLetter_MouseUp" Text="τ" Style="{StaticResource GreekLetter}"/>
                         <TextBlock MouseUp="GreekLetter_MouseUp" Text="υ" Style="{StaticResource GreekLetter}"/>
                         <TextBlock MouseUp="GreekLetter_MouseUp" Text="φ" Style="{StaticResource GreekLetter}"/>
                         <TextBlock MouseUp="GreekLetter_MouseUp" Text="χ" Style="{StaticResource GreekLetter}"/>
                         <TextBlock MouseUp="GreekLetter_MouseUp" Text="ψ" Style="{StaticResource GreekLetter}"/>
                         <TextBlock MouseUp="GreekLetter_MouseUp" Text="ω" Style="{StaticResource GreekLetter}"/>
-                        <Button Click="UpperCaseButton_Click" Content="aA" Style="{StaticResource RoundButton}" 
+                        <Button Click="ChangeCaseButton_Click" Content="aA" Style="{StaticResource RoundButton}" 
                                 Width="26" FontSize="13"
-                                Height="20" FontFamily="Segoe UI Semibold" ToolTip="Change case" VerticalAlignment="Center" Margin="28,0,0,0" FontWeight="Normal"/>
+                                Height="20" FontFamily="Segoe UI Semibold" ToolTip="Change case" VerticalAlignment="Center" FontWeight="Normal"/>
                     </WrapPanel>
                 </Grid>
             </GroupBox>

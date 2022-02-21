@@ -164,11 +164,13 @@ namespace Calcpad.Wpf
                 MenuCalculate.Icon = IsCalculated ? "  ✓" : null;
             }
         }
+        private static readonly char[] GreekLetters = { 'α', 'β', 'χ', 'δ', 'ε', 'φ', 'γ', 'η', 'ι', 'ø', 'κ', 'λ', 'μ', 'ν', 'ο', 'π', 'θ', 'ρ', 'σ', 'τ', 'υ', 'ϑ', 'ω', 'ξ', 'ψ', 'ζ' };
+        private static readonly char[] LatinLetters = { 'a', 'b', 'g', 'd', 'e', 'z', 'h', 'q', 'i', 'k', 'l', 'm', 'n', 'x', 'o', 'p', 'r', 's', 's', 't', 'u', 'f', 'c', 'y', 'w'};
 
         public MainWindow()
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            _parser = new ExpressionParser();
+             _parser = new ExpressionParser();
             InitializeComponent();
             HighLighter.InputClickEventHandler = new MouseButtonEventHandler(Input_Click);
             LineNumbers.ClipToBounds = true;
@@ -393,9 +395,9 @@ namespace Calcpad.Wpf
 
         private void InsertText(string text)
         {
-            RichTextBox.Selection.Text = string.Empty;
-            RichTextBox.Selection.End.InsertTextInRun(text);
-            RichTextBox.Selection.End.GetPositionAtOffset(text.Length);
+            var sel = RichTextBox.Selection;
+            sel.Text = text;
+            sel.Select(sel.End, sel.End);
         }
 
         private void LinkClicked(string data)
@@ -1627,7 +1629,26 @@ namespace Calcpad.Wpf
                     }
                 }
             }
+            else if (e.Key == Key.G && e.KeyboardDevice.Modifiers == ModifierKeys.Control)
+            {
+                var cp = RichTextBox.Selection.End;
+                if (!cp.IsAtLineStartPosition)
+                {
+                    var sel = RichTextBox.Selection;
+                    sel.Select(cp.GetPositionAtOffset(-1), cp);
+                    string s = sel.Text;
+                    if (s.Length == 1)
+                    {
+                        char c = LatinGreekChar(s[0]);
+                        if (c != s[0])
+                            InsertText(c.ToString());
+                        else
+                            sel.Select(cp, cp);
+                    }
+                }
+            }
         }
+
         private bool _forceBackSpace;
         private bool _isPasting;
         private int _pasteOffset;
@@ -2258,22 +2279,30 @@ namespace Calcpad.Wpf
         private int _offset = 0;
         private void Record() => _undoMan.Record(InputText, _offset, ReadInputFromCode());
 
-        private void UpperCaseButton_Click(object sender, RoutedEventArgs e)
+        private void ChangeCaseButton_Click(object sender, RoutedEventArgs e)
         {
             foreach (FrameworkElement element in GreekLettersWarpPanel.Children)
             {
                 if (element is TextBlock tb)
                 {
                     char c = tb.Text[0];
-                    const int delta = 'α' - 'Α';
+                    const int delta = 'Α' - 'α';
                     if (c == 'ς')
                         c = 'Σ';
+                    else if (c == 'ϑ')
+                        c = '∡';
+                    else if (c == '∡')
+                        c = 'ϑ';
+                    else if (c == 'ø')
+                        c = 'Ø';
+                    else if (c == 'Ø')
+                        c = 'ø';
                     else if (c >= 'α' && c <= 'ω')
-                        c = (char)(c - delta);
-                    else if (c == 'Σ' && tb.Tag is string s)
+                        c = (char)(c + delta);
+                    else if ((c == 'Σ') && tb.Tag is string s)
                         c = s[0];
                     else if (c >= 'Α' && c <= 'Ω')
-                        c = (char)(c + delta);
+                        c = (char)(c - delta);
                     else if (c == '′')
                         c = '‴';
                     else if (c == '″')
@@ -2286,5 +2315,19 @@ namespace Calcpad.Wpf
                 }
             }
         }
+
+        private static char LatinGreekChar(char c) => c switch
+        {
+            >= 'a' and <= 'z' => GreekLetters[c - 'a'],
+            'V' => '∡',
+            'F' => 'Ø',
+            >= 'A' and <= 'Z' => (char)(GreekLetters[c - 'A'] + 'Α' - 'α'),
+            >= 'α' and <= 'ω' => LatinLetters[c - 'α'],
+            >= 'Α' and <= 'Ω' => (char)(LatinLetters[c - 'Α'] + 'A' - 'a'),
+            'ϑ' => 'v',
+            'ø' => 'f',
+            'Ø' => 'F',
+            _ => c
+        };
     }
 }
