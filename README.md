@@ -64,7 +64,7 @@ Calcpad uses a simple programming language that includes the following elements:
 &emsp;&emsp;- digits: "0" - "9";  
 &emsp;&emsp;- comma: ",";  
 &emsp;&emsp;- prime symbols: " ′ ", " ″ ", " ‴ ", " ⁗ ";  
-&emsp;&emsp;- special symbols: " ø ", "Ø", " ° ", "∡";
+&emsp;&emsp;- special symbols: " ø ", "Ø", " ° ", "∡";  
 &emsp;&emsp;- "\_" for subscript;  
 A variable name must start with a letter. Names are case sensitive.  
 * Operators:  
