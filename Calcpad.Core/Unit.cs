@@ -23,7 +23,7 @@ namespace Calcpad.Core
         private static bool _isUs;
         private static readonly string[] Names = { "g", "m", "s", "A", "°C", "mol", "cd" };
         private static readonly Dictionary<string, Unit> Units;
-        private static readonly Unit[] ForceUnits = new Unit[9];
+        private static readonly Unit[] ForceUnits = new Unit[9], ForceUnits_US = new Unit[9];
         internal static bool IsUs
         {
             get => _isUs;
@@ -271,23 +271,49 @@ namespace Calcpad.Core
             var Gy = new Unit("Gy", 0f, 2f, -2f);
             var Sv = new Unit("Sv", 0f, 2f, -2f);
 
-            ForceUnits[4] = N.Shift(3);
-            ForceUnits[0] = ForceUnits[4] * m.Pow(-4d);
+            var kN = N.Shift(3);
+            var kNm = Nm.Shift(3);
+            var kPa = Pa.Shift(3);
+            ForceUnits[0] = kN * m.Pow(-4d);
+            ForceUnits[1] = kN * m.Pow(-3d);
+            ForceUnits[2] = kPa;
+            ForceUnits[3] = kN * m.Pow(-1d);
+            ForceUnits[4] = kN;
+            ForceUnits[5] = kNm;
+            ForceUnits[6] = kN * m.Pow(2d);
+            ForceUnits[7] = kN * m.Pow(3d);
+            ForceUnits[8] = kN * m.Pow(4d);
+
             ForceUnits[0].Text = "kN/m^4";
-            ForceUnits[1] = ForceUnits[4] * m.Pow(-3d);
             ForceUnits[1].Text = "kN/m^3";
-            ForceUnits[2] = ForceUnits[4] * m.Pow(-2d);
-            ForceUnits[2].Text = "kPa";
-            ForceUnits[3] = ForceUnits[4] * m.Pow(-1d);
             ForceUnits[3].Text = "kN/m";
-            ForceUnits[5] = ForceUnits[4] * m;
-            ForceUnits[5].Text = "kN·m";
-            ForceUnits[6] = ForceUnits[4] * m.Pow(2d);
             ForceUnits[6].Text = "kN·m^2";
-            ForceUnits[7] = ForceUnits[4] * m.Pow(3d);
             ForceUnits[7].Text = "kN·m^3";
-            ForceUnits[8] = ForceUnits[4] * m.Pow(4d);
             ForceUnits[8].Text = "kN·m^4";
+
+            var kipf = N.Scale("kipf", 4448.2216153);
+            var inch = m.Scale("in", 0.0254);
+            var ft = m.Scale("ft", 0.3048);
+            var ksi = Pa.Scale("ksi", 6894757.29322959);
+
+            ForceUnits_US[0] = kipf * inch.Pow(-4d);
+            ForceUnits_US[1] = kipf * inch.Pow(-3d);
+            ForceUnits_US[2] = kipf * inch.Pow(-2d);
+            ForceUnits_US[3] = kipf * ft.Pow(-1d);
+            ForceUnits_US[4] = kipf;
+            ForceUnits_US[5] = kipf * ft;
+            ForceUnits_US[6] = kipf * ft.Pow(2d);
+            ForceUnits_US[7] = kipf * ft.Pow(3d);
+            ForceUnits_US[8] = kipf * ft.Pow(4d);
+
+            ForceUnits_US[0].Text = "kipf/in^4";
+            ForceUnits_US[1].Text = "kipf/in^3";
+            ForceUnits_US[2].Text = "ksi";
+            ForceUnits_US[3].Text = "kipf/ft";
+            ForceUnits_US[5].Text = "kipf·ft";
+            ForceUnits_US[6].Text = "kipf·ft^2";
+            ForceUnits_US[7].Text = "kipf·ft^3";
+            ForceUnits_US[8].Text = "kipf·ft^4";
 
             Units = new Dictionary<string, Unit>()
             {
@@ -306,7 +332,7 @@ namespace Calcpad.Core
                 {"ng", kg.Shift(-9)},
                 {"pg", kg.Shift(-12)},
                 {"Da", kg.Scale("Da", 1.6605390666050505e-27)},
-                {"u", kg.Scale("u", 1.6605390666050505e-27)},
+                {"u",  kg.Scale("u", 1.6605390666050505e-27)},
 
                 {"gr", kg.Scale("gr", 0.06479891)},
                 {"dr", kg.Scale("dr", 1.7718451953125)},
@@ -319,7 +345,7 @@ namespace Calcpad.Core
                 {"cwt_UK",kg.Scale("cwt_UK", 50802.34544)},
                 {"ton_US",kg.Scale("ton_US", 907184.74)},
                 {"ton_UK",kg.Scale("ton_UK", 1016046.9088)},
-                {"slug", kg.Scale("slug", 14593.90294)},
+                {"slug",  kg.Scale("slug", 14593.90294)},
 
                 {"m",  m},
                 {"km", m.Shift(3)},
@@ -332,21 +358,21 @@ namespace Calcpad.Core
                 {"AU", m.Scale("AU", 149597870700d)},
                 {"ly", m.Scale("ly", 9460730472580800d)},
 
-                {"th", m.Scale("th", 2.54E-05)},
-                {"in", m.Scale("in", 0.0254)},
-                {"ft", m.Scale("ft", 0.3048)},
-                {"yd", m.Scale("yd", 0.9144)},
-                {"ch", m.Scale("ch", 20.1168)},
+                {"th",  m.Scale("th", 2.54E-05)},
+                {"in",  inch},
+                {"ft",  ft},
+                {"yd",  m.Scale("yd", 0.9144)},
+                {"ch",  m.Scale("ch", 20.1168)},
                 {"fur", m.Scale("fur", 201.168)},
-                {"mi", mi},
+                {"mi",  mi},
                 {"ftm", m.Scale("ftm", 1.852)},
                 {"cable", m.Scale("cable", 185.2)},
-                {"nmi", m.Scale("nmi", 1852)},
-                {"li", m.Scale("li", 0.201168)},
-                {"rod", m.Scale("rod", 5.0292)},
-                {"pole", m.Scale("pole", 5.0292)},
+                {"nmi",   m.Scale("nmi", 1852)},
+                {"li",    m.Scale("li", 0.201168)},
+                {"rod",   m.Scale("rod", 5.0292)},
+                {"pole",  m.Scale("pole", 5.0292)},
                 {"perch", m.Scale("perch", 5.0292)},
-                {"lea", m.Scale("lea", 4828.032)},
+                {"lea",   m.Scale("lea", 4828.032)},
 
                 {"a",  a},
                 {"daa",a.Scale("daa", 10d)},
@@ -371,20 +397,20 @@ namespace Calcpad.Core
                 {"gal_UK", L.Scale("gal_UK", 4.54609)},
                 {"bbl_US", L.Scale("bbl_US", 119.240471196)},
                 {"bbl_UK", L.Scale("bbl_UK", 163.65924)},
-                {"bu_US", L.Scale("bu_US", 35.2390704) },
-                {"bu_UK", L.Scale("bu_UK", 36.36872) },
+                {"bu_US",  L.Scale("bu_US", 35.2390704) },
+                {"bu_UK",  L.Scale("bu_UK", 36.36872) },
 
-                {"s",  s},
-                {"ms", s.Shift(-3)},
-                {"μs", s.Shift(-6)},
-                {"ns", s.Shift(-9)},
-                {"ps", s.Shift(-12)},
-                {"min",s.Scale("min", 60d)},
-                {"h",  h},
-                {"d",  h.Scale("d", 24)},
+                {"s",   s},
+                {"ms",  s.Shift(-3)},
+                {"μs",  s.Shift(-6)},
+                {"ns",  s.Shift(-9)},
+                {"ps",  s.Shift(-12)},
+                {"min", s.Scale("min", 60d)},
+                {"h",   h},
+                {"d",   h.Scale("d", 24)},
                 {"kmh", (m.Shift(3) / h).Scale("kmh", 1d)},
                 {"mph", (mi / h).Scale("mph", 1d)},
-                {"Hz", Hz},
+                {"Hz",  Hz},
                 {"kHz", Hz.Shift(3)},
                 {"MHz", Hz.Shift(6)},
                 {"GHz", Hz.Shift(9)},
@@ -395,7 +421,7 @@ namespace Calcpad.Core
                 {"pHz", Hz.Shift(-12)},
                 {"rpm", Hz.Scale("rpm", 1d / 60d)},
 
-                {"A", A},
+                {"A",  A},
                 {"kA", A.Shift(3)},
                 {"MA", A.Shift(6)},
                 {"GA", A.Shift(9)},
@@ -407,33 +433,33 @@ namespace Calcpad.Core
                 {"Ah", A * h},
                 {"mAh", A.Shift(-3) * h},
 
-                {"°C", new Unit("°C",   0f, 0f, 0f, 0f, 1f)},
+                {"°C",  new Unit("°C",   0f, 0f, 0f, 0f, 1f)},
                 {"Δ°C", new Unit("Δ°C", 0f, 0f, 0f, 0f, 1f)},
-                {"K", new Unit("K",     0f, 0f, 0f, 0f, 1f)},
-                {"°F", new Unit("°F",   0f, 0f, 0f, 0f, 1f).Scale("°F", 5d / 9d)},
+                {"K",   new Unit("K",     0f, 0f, 0f, 0f, 1f)},
+                {"°F",  new Unit("°F",   0f, 0f, 0f, 0f, 1f).Scale("°F", 5d / 9d)},
                 {"Δ°F", new Unit("Δ°F", 0f, 0f, 0f, 0f, 1f).Scale("Δ°F", 5d / 9d)},
-                {"°R", new Unit("°R",   0f, 0f, 0f, 0f, 1f).Scale("°R", 5d / 9d)},
+                {"°R",  new Unit("°R",   0f, 0f, 0f, 0f, 1f).Scale("°R", 5d / 9d)},
 
                 {"mol", new Unit("mol", 0f, 0f, 0f, 0f, 0f, 1f)},
-                {"cd", new Unit("cd",   0f, 0f, 0f, 0f, 0f, 0f, 1f)},
+                {"cd",  new Unit("cd",   0f, 0f, 0f, 0f, 0f, 0f, 1f)},
 
-                {"N",  N},
+                {"N",   N},
                 {"daN", N.Shift(1)},
-                {"hN", N.Shift(2)},
-                {"kN", N.Shift(3)},
-                {"MN", N.Shift(6)},
-                {"GN", N.Shift(9)},
-                {"TN", N.Shift(12)},
-                {"Nm", Nm},
-                {"kNm", Nm.Shift(3)},
+                {"hN",  N.Shift(2)},
+                {"kN",  N.Shift(3)},
+                {"MN",  N.Shift(6)},
+                {"GN",  N.Shift(9)},
+                {"TN",  N.Shift(12)},
+                {"Nm",  Nm},
+                {"kNm", kNm},
 
                 {"kgf",  N.Scale("kgf", 9.80665)},
                 {"tf",   N.Scale("tf", 9806.65)},
-                {"dyn", N.Scale("dyn", 1e-5)},
+                {"dyn",  N.Scale("dyn", 1e-5)},
 
                 {"ozf",  N.Scale("ozf", 0.278013851)},
                 {"lbf",  N.Scale("lbf", 4.4482216153)},
-                {"kipf", N.Scale("kipf", 4448.2216153)},
+                {"kipf", kipf},
                 {"tonf_US", N.Scale("tonf_US", 8896.443230521)},
                 {"tonf_UK", N.Scale("tonf_UK", 9964.01641818352)},
                 {"pdl",  N.Scale("pdl", 0.138254954376)},
@@ -441,44 +467,44 @@ namespace Calcpad.Core
                 {"Pa",   Pa},
                 {"daPa", Pa.Shift(1)},
                 {"hPa",  Pa.Shift(2)},
-                {"kPa",  Pa.Shift(3)},
+                {"kPa",  kPa},
                 {"MPa",  Pa.Shift(6)},
                 {"GPa",  Pa.Shift(9)},
                 {"TPa",  Pa.Shift(12)},
-                {"dPa", Pa.Shift(-1)},
-                {"cPa", Pa.Shift(-2)},
-                {"mPa", Pa.Shift(-3)},
-                {"μPa", Pa.Shift(-6)},
-                {"nPa", Pa.Shift(-9)},
-                {"pPa", Pa.Shift(-12)},
+                {"dPa",  Pa.Shift(-1)},
+                {"cPa",  Pa.Shift(-2)},
+                {"mPa",  Pa.Shift(-3)},
+                {"μPa",  Pa.Shift(-6)},
+                {"nPa",  Pa.Shift(-9)},
+                {"pPa",  Pa.Shift(-12)},
                 {"bar",  Pa.Scale("bar", 100000d)},
                 {"mbar", Pa.Scale("mbar", 100d)},
                 {"μbar", Pa.Scale("μbar", 0.1)},
                 {"atm",  Pa.Scale("atm", 101325d)},
-                {"mmHg",  Pa.Scale("mmHg", 133.322387415)},
+                {"mmHg", Pa.Scale("mmHg", 133.322387415)},
 
                 {"at",   Pa.Scale("at", 98066.5)},
                 {"Torr", Pa.Scale("Torr", 133.32236842)},
                 {"osi",  Pa.Scale("osi", 430.922330894662)},
                 {"osf",  Pa.Scale("osf", 2.99251618676848)},
                 {"psi",  Pa.Scale("psi", 6894.75729322959)},
-                {"ksi",  Pa.Scale("ksi", 6894757.29322959)},
+                {"ksi",  ksi},
                 {"tsi",  Pa.Scale("tsi", 15444256.3366971)},
                 {"psf",  Pa.Scale("psf", 47.880258980761)},
                 {"ksf",  Pa.Scale("ksf", 47880.258980761)},
                 {"tsf",  Pa.Scale("tsf", 107251.780115952)},
                 {"inHg", Pa.Scale("inHg", 3386.389)},
 
-                {"J", J},
-                {"kJ", J.Shift(3)},
-                {"MJ", J.Shift(6)},
-                {"GJ", J.Shift(9)},
-                {"TJ", J.Shift(12)},
-                {"mJ", J.Shift(-3)},
-                {"μJ", J.Shift(-6)},
-                {"nJ", J.Shift(-9)},
-                {"pJ", J.Shift(-12)},
-                {"Wh", J.Scale("Wh", 3600d)},
+                {"J",   J},
+                {"kJ",  J.Shift(3)},
+                {"MJ",  J.Shift(6)},
+                {"GJ",  J.Shift(9)},
+                {"TJ",  J.Shift(12)},
+                {"mJ",  J.Shift(-3)},
+                {"μJ",  J.Shift(-6)},
+                {"nJ",  J.Shift(-9)},
+                {"pJ",  J.Shift(-12)},
+                {"Wh",  J.Scale("Wh", 3600d)},
                 {"kWh", J.Scale("kWh", 3600000d)},
                 {"MWh", J.Scale("MWh", 3600000000d)},
                 {"GWh", J.Scale("GWh", 3600000000000d)},
@@ -496,10 +522,10 @@ namespace Calcpad.Core
                 {"therm_US", J.Scale("therm_US", 1054.804e+5)},
                 {"therm_UK", J.Scale("therm_UK", 1055.05585262e+5)},
                 {"quad", J.Scale("quad", 1055.05585262e+15)},
-                {"cal", J.Scale("cal", 4.1868)},
+                {"cal",  J.Scale("cal", 4.1868)},
                 {"kcal", J.Scale("kcal", 4186.8)},
 
-                {"W", W},
+                {"W",  W},
                 {"kW", W.Shift(3)},
                 {"MW", W.Shift(6)},
                 {"GW", W.Shift(9)},
@@ -509,13 +535,13 @@ namespace Calcpad.Core
                 {"nW", W.Shift(-9)},
                 {"pW", W.Shift(-12)},
 
-                {"hp", W.Scale("hp", 745.69987158227022)},
+                {"hp",   W.Scale("hp", 745.69987158227022)},
                 {"hp_M", W.Scale("hp_M", 735.49875)},
-                {"ks", W.Scale("ks", 735.49875)},
+                {"ks",   W.Scale("ks", 735.49875)},
                 {"hp_E", W.Scale("hp_E", 746)},
                 {"hp_S", W.Scale("hp_S", 9812.5)},
 
-                {"C", C},
+                {"C",  C},
                 {"kC", C.Shift(3)},
                 {"MC", C.Shift(6)},
                 {"GC", C.Shift(9)},
@@ -525,7 +551,7 @@ namespace Calcpad.Core
                 {"nC", C.Shift(-9)},
                 {"pC", C.Shift(-12)},
 
-                {"V", V},
+                {"V",  V},
                 {"kV", V.Shift(3)},
                 {"MV", V.Shift(6)},
                 {"GV", V.Shift(9)},
@@ -535,7 +561,7 @@ namespace Calcpad.Core
                 {"nV", V.Shift(-9)},
                 {"pV", V.Shift(-12)},
 
-                {"F", F},
+                {"F",  F},
                 {"kF", F.Shift(3)},
                 {"MF", F.Shift(6)},
                 {"GF", F.Shift(9)},
@@ -545,7 +571,7 @@ namespace Calcpad.Core
                 {"nF", F.Shift(-9)},
                 {"pF", F.Shift(-12)},
 
-                {"Ω", Ohm},
+                {"Ω",  Ohm},
                 {"kΩ", Ohm.Shift(3)},
                 {"MΩ", Ohm.Shift(6)},
                 {"GΩ", Ohm.Shift(9)},
@@ -555,7 +581,7 @@ namespace Calcpad.Core
                 {"nΩ", Ohm.Shift(-9)},
                 {"pΩ", Ohm.Shift(-12)},
 
-                {"S", S},
+                {"S",  S},
                 {"kS", S.Shift(3)},
                 {"MS", S.Shift(6)},
                 {"GS", S.Shift(9)},
@@ -565,7 +591,7 @@ namespace Calcpad.Core
                 {"nS", S.Shift(-9)},
                 {"pS", S.Shift(-12)},
 
-                {"Wb", Wb},
+                {"Wb",  Wb},
                 {"kWb", Wb.Shift(3)},
                 {"MWb", Wb.Shift(6)},
                 {"GWb", Wb.Shift(9)},
@@ -575,7 +601,7 @@ namespace Calcpad.Core
                 {"nWb", Wb.Shift(-9)},
                 {"pWb", Wb.Shift(-12)},
 
-                {"T", T},
+                {"T",  T},
                 {"kT", T.Shift(3)},
                 {"MT", T.Shift(6)},
                 {"GT", T.Shift(9)},
@@ -585,7 +611,7 @@ namespace Calcpad.Core
                 {"nT", T.Shift(-9)},
                 {"pT", T.Shift(-12)},
 
-                {"H", H},
+                {"H",  H},
                 {"kH", H.Shift(3)},
                 {"MH", H.Shift(6)},
                 {"GH", H.Shift(9)},
@@ -595,7 +621,7 @@ namespace Calcpad.Core
                 {"nH", H.Shift(-9)},
                 {"pH", H.Shift(-12)},
 
-                {"Bq", Bq},
+                {"Bq",  Bq},
                 {"kBq", Bq.Shift(3)},
                 {"MBq", Bq.Shift(6)},
                 {"GBq", Bq.Shift(9)},
@@ -607,7 +633,7 @@ namespace Calcpad.Core
                 {"Ci",  Bq.Scale("Ci", 3.7e+10)},
                 {"Rd",  Bq.Scale("Rd", 1e+6)},
 
-                {"Gy", Gy},
+                {"Gy",  Gy},
                 {"kGy", Gy.Shift(3)},
                 {"MGy", Gy.Shift(6)},
                 {"GGy", Gy.Shift(9)},
@@ -617,7 +643,7 @@ namespace Calcpad.Core
                 {"nGy", Gy.Shift(-9)},
                 {"pGy", Gy.Shift(-12)},
 
-                {"Sv", Sv},
+                {"Sv",  Sv},
                 {"kSv", Sv.Shift(3)},
                 {"MSv", Sv.Shift(6)},
                 {"GSv", Sv.Shift(9)},
@@ -627,8 +653,8 @@ namespace Calcpad.Core
                 {"nSv", Sv.Shift(-9)},
                 {"pSv", Sv.Shift(-12)},
 
-                {"lm", new Unit("lm", 0, 0, 0, 0, 0, 0, 1)},
-                {"lx", new Unit("lx", 0, -2, 0, 0, 0, 0, 1)},
+                {"lm",  new Unit("lm", 0, 0, 0, 0, 0, 0, 1)},
+                {"lx",  new Unit("lx", 0, -2, 0, 0, 0, 0, 1)},
                 {"kat", new Unit("kat", 0, 0, -1, 0, 0, 1)}
             };
 
@@ -862,7 +888,15 @@ namespace Calcpad.Core
             if (i < 0 || i > 5)
                 return null;
 
-            return ForceUnits[i];
+            if (Units.ContainsKey(u._text))
+                return u;
+
+            ref var d = ref u._dims[0].Factor;
+
+            if (Math.Round(d) == d)
+                return ForceUnits[i];
+
+            return ForceUnits_US[i];
         }
 
         internal static string GetPrefix(int n)
