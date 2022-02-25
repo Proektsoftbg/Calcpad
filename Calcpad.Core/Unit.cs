@@ -254,9 +254,12 @@ namespace Calcpad.Core
             var h = s.Scale("h", 3600d);
             var A = new Unit("A", 0f, 0f, 0f, 1f);
             var N = new Unit("N", 1f, 1f, -2f);
+            var kN = N.Shift(3);
             var Nm = new Unit("Nm", 1f, 2f, -2f);
+            var kNm = Nm.Shift(3);
             var Hz = new Unit("Hz", 0f, 0f, -1f);
             var Pa = new Unit("Pa", 1f, -1f, -2f);
+            var kPa = Pa.Shift(3);
             var J = new Unit("J", 1f, 2f, -2f);
             var W = new Unit("W", 1f, 2f, -3f);
             var C = new Unit("C", 0f, 0f, 1f, 1f);
@@ -271,9 +274,6 @@ namespace Calcpad.Core
             var Gy = new Unit("Gy", 0f, 2f, -2f);
             var Sv = new Unit("Sv", 0f, 2f, -2f);
 
-            var kN = N.Shift(3);
-            var kNm = Nm.Shift(3);
-            var kPa = Pa.Shift(3);
             ForceUnits[0] = kN * m.Pow(-4d);
             ForceUnits[1] = kN * m.Pow(-3d);
             ForceUnits[2] = kPa;
@@ -291,81 +291,70 @@ namespace Calcpad.Core
             ForceUnits[7].Text = "kN·m^3";
             ForceUnits[8].Text = "kN·m^4";
 
-            var kipf = N.Scale("kipf", 4448.2216153);
-            var inch = m.Scale("in", 0.0254);
-            var ft = m.Scale("ft", 0.3048);
             var ksi = Pa.Scale("ksi", 6894757.29322959);
+            var kipf = N.Scale("kipf", 4448.2216153);
 
-            ForceUnits_US[0] = kipf * inch.Pow(-4d);
-            ForceUnits_US[1] = kipf * inch.Pow(-3d);
-            ForceUnits_US[2] = kipf * inch.Pow(-2d);
-            ForceUnits_US[3] = kipf * ft.Pow(-1d);
+            ForceUnits_US[0] = (kipf * m.Pow(-4d)).Scale("kipf/in^4", 1 / 4.162314256E-7);
+            ForceUnits_US[1] = (kipf * m.Pow(-3d)).Scale("kipf/in^3", 1 / 0.000016387064);
+            ForceUnits_US[2] = ksi;
+            ForceUnits_US[3] = (kipf * m.Pow(-1d)).Scale("kipf/ft", 1 / 0.3048);
             ForceUnits_US[4] = kipf;
-            ForceUnits_US[5] = kipf * ft;
-            ForceUnits_US[6] = kipf * ft.Pow(2d);
-            ForceUnits_US[7] = kipf * ft.Pow(3d);
-            ForceUnits_US[8] = kipf * ft.Pow(4d);
-
-            ForceUnits_US[0].Text = "kipf/in^4";
-            ForceUnits_US[1].Text = "kipf/in^3";
-            ForceUnits_US[2].Text = "ksi";
-            ForceUnits_US[3].Text = "kipf/ft";
-            ForceUnits_US[5].Text = "kipf·ft";
-            ForceUnits_US[6].Text = "kipf·ft^2";
-            ForceUnits_US[7].Text = "kipf·ft^3";
-            ForceUnits_US[8].Text = "kipf·ft^4";
+            ForceUnits_US[5] = (kipf * m).Scale("kipf·ft", 0.3048);
+            ForceUnits_US[6] = (kipf * m.Pow(2d)).Scale("kipf·ft^2", 0.09290304);
+            ForceUnits_US[7] = (kipf * m.Pow(3d)).Scale("kipf·ft^3", 0.028316846592);
+            ForceUnits_US[8] = (kipf * m.Pow(4d)).Scale("kipf·ft^4", 0.0086309748412416);
 
             Units = new Dictionary<string, Unit>()
             {
                 {string.Empty, null},
-                {"g",  kg},
-                {"hg", kg.Shift(2)},
-                {"kg", kg.Shift(3)},
-                {"t",  kg.Scale("t", 1000000d)},
-                {"kt", kg.Scale("kt", 1000000000d)},
-                {"Mt", kg.Scale("Mt", 1000000000000d)},
-                {"Gt", kg.Scale("Gt", 1E+15)},
-                {"dg", kg.Shift(-1)},
-                {"cg", kg.Shift(-2)},
-                {"mg", kg.Shift(-3)},
-                {"μg", kg.Shift(-6)},
-                {"ng", kg.Shift(-9)},
-                {"pg", kg.Shift(-12)},
-                {"Da", kg.Scale("Da", 1.6605390666050505e-27)},
-                {"u",  kg.Scale("u", 1.6605390666050505e-27)},
+                {"g",     kg},
+                {"hg",    kg.Shift(2)},
+                {"kg",    kg.Shift(3)},
+                {"t",     kg.Scale("t", 1000000d)},
+                {"kt",    kg.Scale("kt", 1000000000d)},
+                {"Mt",    kg.Scale("Mt", 1000000000000d)},
+                {"Gt",    kg.Scale("Gt", 1E+15)},
+                {"dg",    kg.Shift(-1)},
+                {"cg",    kg.Shift(-2)},
+                {"mg",    kg.Shift(-3)},
+                {"μg",    kg.Shift(-6)},
+                {"ng",    kg.Shift(-9)},
+                {"pg",    kg.Shift(-12)},
+                {"Da",    kg.Scale("Da", 1.6605390666050505e-27)},
+                {"u",     kg.Scale("u", 1.6605390666050505e-27)},
 
-                {"gr", kg.Scale("gr", 0.06479891)},
-                {"dr", kg.Scale("dr", 1.7718451953125)},
-                {"oz", kg.Scale("oz", 28.349523125)},
-                {"lb", kg.Scale("lb", 453.59237)},
-                {"kip",kg.Scale("kip", 453592.37)},
-                {"st", kg.Scale("st", 6350.29318)},
-                {"qr", kg.Scale("qr", 12700.58636)},
+                {"gr",    kg.Scale("gr", 0.06479891)},
+                {"dr",    kg.Scale("dr", 1.7718451953125)},
+                {"oz",    kg.Scale("oz", 28.349523125)},
+                {"lb",    kg.Scale("lb", 453.59237)},
+                {"kip",   kg.Scale("kip", 453592.37)},
+                {"st",    kg.Scale("st", 6350.29318)},
+                {"qr",    kg.Scale("qr", 12700.58636)},
                 {"cwt_US",kg.Scale("cwt_US", 45359.237 )},
                 {"cwt_UK",kg.Scale("cwt_UK", 50802.34544)},
                 {"ton_US",kg.Scale("ton_US", 907184.74)},
                 {"ton_UK",kg.Scale("ton_UK", 1016046.9088)},
                 {"slug",  kg.Scale("slug", 14593.90294)},
 
-                {"m",  m},
-                {"km", m.Shift(3)},
-                {"dm", m.Shift(-1)},
-                {"cm", m.Shift(-2)},
-                {"mm", m.Shift(-3)},
-                {"μm", m.Shift(-6)},
-                {"nm", m.Shift(-9)},
-                {"pm", m.Shift(-12)},
-                {"AU", m.Scale("AU", 149597870700d)},
-                {"ly", m.Scale("ly", 9460730472580800d)},
+                {"m",     m},
+                {"km",    m.Shift(3)},
+                {"dm",    m.Shift(-1)},
+                {"cm",    m.Shift(-2)},
+                {"mm",    m.Shift(-3)},
+                {"μm",    m.Shift(-6)},
+                {"nm",    m.Shift(-9)},
+                {"pm",    m.Shift(-12)},
+                {"AU",    m.Scale("AU", 149597870700d)},
+                {"ly",    m.Scale("ly", 9460730472580800d)},
 
-                {"th",  m.Scale("th", 2.54E-05)},
-                {"in",  inch},
-                {"ft",  ft},
-                {"yd",  m.Scale("yd", 0.9144)},
-                {"ch",  m.Scale("ch", 20.1168)},
-                {"fur", m.Scale("fur", 201.168)},
-                {"mi",  mi},
-                {"ftm", m.Scale("ftm", 1.852)},
+                {"th",    m.Scale("th", 2.54E-05)},
+                {"in",    m.Scale("in", 0.0254)},
+                {"ft",    m.Scale("ft", 0.3048)},
+                {"yd",    m.Scale("yd", 0.9144)},
+                {"ch",    m.Scale("ch", 20.1168)},
+                {"fur",   m.Scale("fur", 201.168)},
+                {"mi",    mi},
+                {"ftm",   m.Scale("ftm", 1.852)},
                 {"cable", m.Scale("cable", 185.2)},
                 {"nmi",   m.Scale("nmi", 1852)},
                 {"li",    m.Scale("li", 0.201168)},
@@ -430,18 +419,18 @@ namespace Calcpad.Core
                 {"μA", A.Shift(-6)},
                 {"nA", A.Shift(-9)},
                 {"pA", A.Shift(-12)},
-                {"Ah", A * h},
-                {"mAh", A.Shift(-3) * h},
+                {"Ah", (A * h).Scale("Ah", 1.0)},
+                {"mAh", (A.Shift(-3) * h).Scale("mAh", 1.0)},
 
-                {"°C",  new Unit("°C",   0f, 0f, 0f, 0f, 1f)},
+                {"°C",  new Unit("°C",  0f, 0f, 0f, 0f, 1f)},
                 {"Δ°C", new Unit("Δ°C", 0f, 0f, 0f, 0f, 1f)},
-                {"K",   new Unit("K",     0f, 0f, 0f, 0f, 1f)},
-                {"°F",  new Unit("°F",   0f, 0f, 0f, 0f, 1f).Scale("°F", 5d / 9d)},
+                {"K",   new Unit("K",   0f, 0f, 0f, 0f, 1f)},
+                {"°F",  new Unit("°F",  0f, 0f, 0f, 0f, 1f).Scale("°F", 5d / 9d)},
                 {"Δ°F", new Unit("Δ°F", 0f, 0f, 0f, 0f, 1f).Scale("Δ°F", 5d / 9d)},
-                {"°R",  new Unit("°R",   0f, 0f, 0f, 0f, 1f).Scale("°R", 5d / 9d)},
+                {"°R",  new Unit("°R",  0f, 0f, 0f, 0f, 1f).Scale("°R", 5d / 9d)},
 
                 {"mol", new Unit("mol", 0f, 0f, 0f, 0f, 0f, 1f)},
-                {"cd",  new Unit("cd",   0f, 0f, 0f, 0f, 0f, 0f, 1f)},
+                {"cd",  new Unit("cd",  0f, 0f, 0f, 0f, 0f, 0f, 1f)},
 
                 {"N",   N},
                 {"daN", N.Shift(1)},
