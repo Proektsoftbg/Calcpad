@@ -1,6 +1,6 @@
 "Simply Supported Beam with Partially Distributed Load
 '<hr /><div style = "max-width:180mm;">
-'<img style="width:190pt;" alt = "simply-supported-beam-distributed-load-partial.png" class="side" src = "http://proektsoft.pe.hu/calcpad/en/media/mechanics/beams/simply-supported-beam-distributed-load-partial.png">
+'<img style="width:190pt;" alt = "simply-supported-beam-distributed-load-partial.png" class="side" src = "https://calcpad.eu/media/mechanics/beams/simply-supported-beam-distributed-load-partial.png">
 '<p><b>Input data</b></p>
 'Beam length -'l = ?'m
 'Load -'q = ?'kN/m

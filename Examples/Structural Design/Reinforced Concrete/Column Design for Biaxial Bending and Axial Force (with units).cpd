@@ -1,6 +1,6 @@
 "Column Design for Biaxial Bending and Axial Force<hr/><small>According to <strong>Eurocode</strong>: EN 1992-1-1</small>
 '<div style="max-width:180mm">
-'<img class="side" style="width:150pt;" src="http://proektsoft.pe.hu/calcpad/en/media/structures/rc/design/column-design.png" alt="Column_Design.png">
+'<img class="side" style="width:150pt;" src="https://calcpad.eu/media/structures/rc/design/column-design.png" alt="Column_Design.png">
 '<h4>Cross section dimensions</h4>
 'Width -'b = ?mm', Height - 'h = ?mm
 #post
@@ -20,7 +20,7 @@
 'Axial force -'N_Ed = ?kN' (positive for compression)
 'Bending moment -'M_Ed = ?kNm
 '<h4>Material properties</h4>
-'<p style="float:right">[EN 1992-1-1, <a target="_blank" href="http://proektsoft.pe.hu/calcpad/en/reference/concrete-table.html">Table 3.1</a>]</p>
+'<p style="float:right">[EN 1992-1-1, <a target="_blank" href="https://calcpad.eu/reference/concrete-table.html">Table 3.1</a>]</p>
 '<p><b>Concrete</b></p>
 'Characteristic compressive cylinder strength -'f_ck = ?MPa
 'Partial safety factor for concrete -'γ_c = 1.5','α_cc = ?
@@ -130,7 +130,7 @@ M_Ed = max(M_Ed_;N_Ed*e_o)
 '<h4>Design checks</h4>
 'Design axial resistance of section when strain'ε = ε_c2
 N_Rd_max = A_c*f_cd + σ_s(ε)*(A_s1 + A_s2)|kN
-#if '<!--'N_Ed > N_Rd_max'-->
+#if N_Ed > N_Rd_max
 	'Design axial load is greater than the ultimate axial force capacity
 	N_Ed'&gt;'N_Rd_max
 	'<p class="err">The design check is NOT satisfied.</p>
@@ -147,7 +147,7 @@ N_Rd_max = A_c*f_cd + σ_s(ε)*(A_s1 + A_s2)|kN
 	N_Rd(x) = N_c(x) - N_s1(x) - N_s2(x)
 	'Axial force, corresponding to triangular strain distribution
 	N_Rd_h = N_Rd(h)|kN
-	#if '<!--'N_Ed < N_Rd_h'-->
+	#if N_Ed < N_Rd_h
 		'Section is partially in tension -'N_Ed' &lt;'N_Rd_h
 		'Compression zone depth is determined from the equilibrium of the axial forces in the section
 		x = $Root{N_Rd(x) = N_Ed @ x = d_2 : h}
@@ -170,7 +170,7 @@ N_Rd_max = A_c*f_cd + σ_s(ε)*(A_s1 + A_s2)|kN
 		'Section resistance for axial force
 		N_Rd(ε) = N_c(ε) + N_s1(ε) + N_s2(ε)
 		'Strain at bottom edge is determined from the equilibrium of the axial forces in the section
-		ε_c = $Root{N_Rd(ε) - N_Ed @ ε = 0 : ε_c2}
+		ε_c = $Root{N_Rd(ε) = N_Ed @ ε = 0 : ε_c2}
 		'Equivalent bending moment about the lower section edge, due to concrete stress 
 		M_c0 = (h_c^2/6*(2*σ_c((ε_c + ε_c2)/2) + σ_c(ε_c2)) + (h^2 - h_c^2)/2*f_cd)*b|kNm
 		'Lever arm of concrete stress equivalent force about the section centroid
@@ -178,7 +178,7 @@ N_Rd_max = A_c*f_cd + σ_s(ε)*(A_s1 + A_s2)|kN
 		'Bending resistance at <i>N</i><sub>Ed</sub> = <i>N</i><sub>Rd</sub>
 		M_Rd = (N_c(ε_c)*z_c - N_s1(ε_c)*(h/2 - d_1) + N_s2(ε_c)*(h/2 - d_2))|kNm
 	#end if
-	#if '<!--'M_Ed > M_Rd'-->
+	#if M_Ed > M_Rd
 		'Design bending is greater than the bending resistance:
 		M_Ed'>'M_Rd
 		'<p class="err">The design check is NOT satisfied.</p>
@@ -187,15 +187,15 @@ N_Rd_max = A_c*f_cd + σ_s(ε)*(A_s1 + A_s2)|kN
 		M_Ed'≤'M_Rd
 		'The design check is satisfied.
 		#pre
-		'<img class="side" style="width:190pt;" src="http://proektsoft.pe.hu/calcpad/en/media/structures/rc/design/column-biaxial.png" alt="Column_Biaxial.png">
+		'<img class="side" style="width:190pt;" src="https://calcpad.eu/media/structures/rc/design/column-biaxial.png" alt="Column_Biaxial.png">
 		'<h4>Biaxial bending design</h4>
 		'For the other direction:
 		'Design moment -'M_Edy = ?kNm
 		'Bending resistance -'M_Rdy = ?kNm
 		'Effective length -'L_oy = ?*L
 		#post
-		#if '<!--'M_Edy > 0kNm'-->
-			'<img class="side" style="width:190pt;" src="http://proektsoft.pe.hu/calcpad/en/media/structures/rc/design/column-biaxial.png" alt="Column_Biaxial.png">
+		#if M_Edy > 0kNm
+			'<img class="side" style="width:190pt;" src="https://calcpad.eu/media/structures/rc/design/column-biaxial.png" alt="Column_Biaxial.png">
 			'<h4>Biaxial bending design</h4>
 			'For the other direction:
 			'Design moment -'M_Edy
@@ -213,26 +213,26 @@ N_Rd_max = A_c*f_cd + σ_s(ε)*(A_s1 + A_s2)|kN
 			'Eccentricity -'e_y = M_Edz/N_Ed|mm
 			'<p class="ref">[EN 1992-1-1 (5.38)]</p>
 			'<p><b>Check if biaxial bending design is required</b></p>
-				#if '<!--'(λ_y/λ_z ≤ 2)*(λ_z/λ_y ≤ 2)*((e_y/h*b/e_z ≤ 0.2) + (e_z/b*h/e_y ≤ 0.2))'-->
-				λ_y/λ_z'≤ 2 and'λ_z/λ_y'≤ 2 and ('e_y/h*b/e_z'≤ 0.2 or'e_z/b*h/e_y'≤ 0.2)'
+				#if (λ_y/λ_z ≤ 2)*(λ_z/λ_y ≤ 2)*((e_y/h*b/e_z ≤ 0.2) + (e_z/b*h/e_y ≤ 0.2))
+				λ_y/λ_z'≤ 2 and'λ_z/λ_y'≤ 2 and ('e_y/h*(b/e_z)'≤ 0.2 or'e_z/b*(h/e_y)'≤ 0.2)'
 				'The condition is satisfied. Biaxial bending design is NOT required. Separate checks may be performed for each direction
 			#else
-				#if '<!--'λ_y/λ_z > 2'-->
+				#if λ_y/λ_z > 2
 					λ_y/λ_z'&gt; 2
 				#end if
-				#if '<!--'λ_z/λ_y > 2'-->
+				#if λ_z/λ_y > 2
 					λ_z/λ_y'&gt; 2
 				#end if
-				#if '<!--'(e_y/h*b/e_z > 0.2)*(e_z/b*h/e_y > 0.2)'-->
-					e_y/h*b/e_z'&gt; 0.2 and'e_z/b*h/e_y'&gt; 0.2
+				#if (e_y/h*b/e_z > 0.2)*(e_z/b*h/e_y > 0.2)
+					e_y/h*(b/e_z)'&gt; 0.2 and'e_z/b*(h/e_y)'&gt; 0.2
 				#end if
 				'The condition is NOT satisfied. Biaxial bending design is required.
 				'Ultimate axial force resistance-'N_Rd = N_Rd_max'kN
 				N_Ed/N_Rd
 				'Calculation of the exponent factor <i>a</i>
-				#if '<!--'N_Ed/N_Rd ≤ 0.1'-->
+				#if N_Ed/N_Rd ≤ 0.1
 					a = 1
-				#else if '<!--'N_Ed/N_Rd ≤ 0.7'-->
+				#else if N_Ed/N_Rd ≤ 0.7
 					a = 1 + (N_Ed/N_Rd - 0.1)*0.8333
 				#else
 					a = 1.5 + (N_Ed/N_Rd - 0.7)*1.6667
@@ -240,7 +240,7 @@ N_Rd_max = A_c*f_cd + σ_s(ε)*(A_s1 + A_s2)|kN
 				'<p class="ref">[EN 1992-1-1 (5.39)]</p>
 				'<p><b>Biaxial bending check</b></p>
 				k = (M_Edz/M_Rdz)^a + (M_Edy/M_Rdy)^a
-				#if '<!--'k ≤ 1'-->
+				#if k ≤ 1
 					'(<var>M</var><sub>Edz</sub>/<var>M</var><sub>Rdz</sub>)<sup>a</sup> + (<var>M</var><sub>Edy</sub>/<var>M</var><sub>Rdy</sub>)<sup>a</sup> ≤ 1. The design check is satisfied.
 				#else
 					'(<var>M</var><sub>Edz</sub>/<var>M</var><sub>Rdz</sub>)<sup>a</sup> + (<var>M</var><sub>Edy</sub>/<var>M</var><sub>Rdy</sub>)<sup>a</sup> > 1. <span class="err">The design check is NOT satisfied.</span>

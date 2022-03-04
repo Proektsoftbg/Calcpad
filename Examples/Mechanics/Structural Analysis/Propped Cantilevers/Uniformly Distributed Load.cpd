@@ -1,6 +1,6 @@
 "Propped Cantilever with Uniformly Distributed Load
 '<hr /><div style="max-width:180mm;">
-'<img style="width:210pt;" alt="propped-cantilever-beam-distributed-load.png" class="side" src="http://proektsoft.pe.hu/calcpad/en/media/mechanics/beams/propped-cantilever-beam-distributed-load.png">
+'<img style="width:210pt;" alt="propped-cantilever-beam-distributed-load.png" class="side" src="https://calcpad.eu/media/mechanics/beams/propped-cantilever-beam-distributed-load.png">
 '<p><b>Input data</b></p>
 'Beam Length -'l = ?'m
 'Load -'q = ?'kN/m

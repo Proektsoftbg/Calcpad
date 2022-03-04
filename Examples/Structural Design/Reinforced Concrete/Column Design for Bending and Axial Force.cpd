@@ -1,6 +1,6 @@
 "Column Design for Bending and Axial Force<hr/><small>According to <strong>Eurocode</strong>: EN 1992-1-1</small>
 '<div style="max-width:180mm">
-'<img class="side" style="width:150pt;"src="http://proektsoft.pe.hu/calcpad/en/media/structures/rc/design/column-design.png" alt="column-design.png">
+'<img class="side" style="width:150pt;"src="https://calcpad.eu/media/structures/rc/design/column-design.png" alt="column-design.png">
 '<h4>Cross section dimensions</h4>
 'Width -'b = ?'mm, Height -'h = ?'mm
 #post
@@ -29,7 +29,7 @@
 #show
 'Positive axial force is compressive!
 '<h4>Material properties</h4>
-'<p style="float:right">[EN 1992-1-1, <a target="_blank" href="http://proektsoft.pe.hu/calcpad/en/reference/concrete-table.html">Table 3.1</a>]</p>
+'<p style="float:right">[EN 1992-1-1, <a target="_blank" href="https://calcpad.eu/reference/concrete-table.html">Table 3.1</a>]</p>
 '<p><b>Concrete</b></p>
 'Characteristic compressive cylinder strength -'f_ck = ?'MPa
 'Partial safety factor for concrete -'γ_c = 1.5','α_cc = ?
@@ -208,37 +208,37 @@ $Plot{M_Rd(ε)|N_Rd(ε) & M_Rd_ei(ε)|N_Rd(ε) & M_Rd_II(ε)|N_Rd(ε) & M_Rd_ei|
 #val
 '<table class="bordered centered">
 '<tr><th>№</th><th>N<sub>Ed</sub><br/>kN</th><th></th><th>N<sub>B</sub><br/>kN</th><th>M<sub>Ed</sub><br/>kN·m</th><th>M<sub>II</sub><br/>kN·m</th><th> </th><th>M<sub>Rd</sub><br/>kN·m</th></tr>
-#if '<!--'N_Ed_1 > N_B(N_Ed_1)'-->
+#if N_Ed_1 > N_B(N_Ed_1)
 	'<tr class="err"><td>1</td><td>'N_Ed_1'</td><td>&gt;</td><td>'N_B(N_Ed_1)'</td><td></td><td></td><td></td><td></td></tr>
-#else if '<!--'M_Rd_1 > M_II_1'-->
+#else if M_Rd_1 > M_II_1
 	'<tr><td>1</td><td>'N_Ed_1'</td><td>&lt;</td><td>'N_B(N_Ed_1)'</td><td>'M_Ed_1'</td><td>'M_II_1'</td><td>&le;</td><td>'M_Rd_1'</td></tr>
 #else
 	'<tr class="err"><td>1</td><td>'N_Ed_1'</td><td>&lt;</td><td>'N_B(N_Ed_1)'</td><td>'M_Ed_1'</td><td>'M_II_1'</td><td>&gt;</td><td>'M_Rd_1'</td></tr>
 #end if
-#if '<!--'N_Ed_2 > N_B(N_Ed_2)'-->
+#if N_Ed_2 > N_B(N_Ed_2)
 	'<tr class="err"><td>2</td><td>'N_Ed_2'</td><td>&gt;</td><td>'N_B(N_Ed_2)'</td><td></td><td></td><td></td><td></td></tr>
-#else if '<!--'M_Rd_2 > M_II_2'-->
+#else if M_Rd_2 > M_II_2
 	'<tr><td>2</td><td>'N_Ed_2'</td><td>&lt;</td><td>'N_B(N_Ed_2)'</td><td>'M_Ed_2'</td><td>'M_II_2'</td><td>&le;</td><td>'M_Rd_2'</td></tr>
 #else
 	'<tr class="err"><td>2</td><td>'N_Ed_2'</td><td>&lt;</td><td>'N_B(N_Ed_2)'</td><td>'M_Ed_2'</td><td>'M_II_2'</td><td>&gt;</td><td>'M_Rd_2'</td></tr>
 #end if
-#if '<!--'N_Ed_3 > N_B(N_Ed_3)'-->
+#if N_Ed_3 > N_B(N_Ed_3)
 	'<tr class="err"><td>3</td><td>'N_Ed_3'</td><td>&gt;</td><td>'N_B(N_Ed_3)'</td><td></td><td></td><td></td><td></td></tr>
-#else if '<!--'M_Rd_3 > M_II_3'-->
+#else if M_Rd_3 > M_II_3
 	'<tr><td>3</td><td>'N_Ed_3'</td><td>&lt;</td><td>'N_B(N_Ed_3)'</td><td>'M_Ed_3'</td><td>'M_II_3'</td><td>&le;</td><td>'M_Rd_3'</td></tr>
 #else
 	'<tr class="err"><td>3</td><td>'N_Ed_3'</td><td>&lt;</td><td>'N_B(N_Ed_3)'</td><td>'M_Ed_3'</td><td>'M_II_3'</td><td>&gt;</td><td>'M_Rd_3'</td></tr>
 #end if
-#if '<!--'N_Ed_4 > N_B(N_Ed_4)'-->
+#if N_Ed_4 > N_B(N_Ed_4)
 	'<tr class="err"><td>4</td><td>'N_Ed_4'</td><td>&gt;</td><td>'N_B(N_Ed_4)'</td><td></td><td></td><td></td><td></td></tr>
-#else if '<!--'M_Rd_4 > M_II_4'-->
+#else if M_Rd_4 > M_II_4
 	'<tr><td>4</td><td>'N_Ed_4'</td><td>&lt;</td><td>'N_B(N_Ed_4)'</td><td>'M_Ed_4'</td><td>'M_II_4'</td><td>&le;</td><td>'M_Rd_4'</td></tr>
 #else
 	'<tr class="err"><td>4</td><td>'N_Ed_4'</td><td>&lt;</td><td>'N_B(N_Ed_4)'</td><td>'M_Ed_4'</td><td>'M_II_4'</td><td>&gt;</td><td>'M_Rd_4'</td></tr>
 #end if
-#if '<!--'N_Ed_5 > N_B(N_Ed_5)'-->
+#if N_Ed_5 > N_B(N_Ed_5)
 	'<tr class="err"><td>5</td><td>'N_Ed_5'</td><td>&gt;</td><td>'N_B(N_Ed_5)'</td><td></td><td></td><td></td><td></td></tr>
-#else if '<!--'M_Rd_5 > M_II_5'-->
+#else if M_Rd_5 > M_II_5
 	'<tr><td>5</td><td>'N_Ed_5'</td><td>&lt;</td><td>'N_B(N_Ed_5)'</td><td>'M_Ed_5'</td><td>'M_II_5'</td><td>&le;</td><td>'M_Rd_5'</td></tr>
 #else
 	'<tr class="err"><td>5</td><td>'N_Ed_5'</td><td>&lt;</td><td>'N_B(N_Ed_5)'</td><td>'M_Ed_5'</td><td>'M_II_5'</td><td>&gt;</td><td>'M_Rd_5'</td></tr>

@@ -1,6 +1,6 @@
 "Shear Wall Detailing for Ductility Class DCM<hr/><small>According to <strong>Eurocode</strong>: EN 1998-1</small>
 '<div style="max-width:180mm">
-'<img class="side" src="http://proektsoft.pe.hu/calcpad/en/media/structures/rc/detailing/shear-wall-section.png" alt="shear-wall-section.png" style="width:260pt;">
+'<img class="side" src="https://calcpad.eu/media/structures/rc/detailing/shear-wall-section.png" alt="shear-wall-section.png" style="width:260pt;">
 '<p><b>Shear wall dimensions </b></p>
 'Length -'l_w = ?'mm
 'Web thickness -'b_wo = ?'mm
@@ -17,7 +17,7 @@ b_c = ?'mm,'h_c = ?'mm
 #show
 'Maximum seismic axial load -'N_Ed = ?'kN
 '&nbsp
-'<p><b>Concrete</b> &nbsp;&nbsp;[EN 1992-1-1, <a target="_blank" href="http://proektsoft.pe.hu/calcpad/en/reference/concrete-table.html">Table 3.1</a>]</p>
+'<p><b>Concrete</b> &nbsp;&nbsp;[EN 1992-1-1, <a target="_blank" href="https://calcpad.eu/reference/concrete-table.html">Table 3.1</a>]</p>
 'Characteristic compressive cylinder strength
 f_ck = ?'MPa
 'Partial safety factor -'γ_c = 1.5','α_ct = 1','α_cc = ?'
@@ -28,7 +28,7 @@ f_ctm = 0.30*f_ck^(2/3)'MPa
 f_ctk_005 = 0.7*f_ctm'MPa
 'Design compressive cylinder strength
 f_cd = α_cc*f_ck/γ_c'MPa
-'<img class="side" src="http://proektsoft.pe.hu/calcpad/en/media/structures/rc/detailing/shear-wall-view.png" alt="shear-wall-view.png" style="width:110pt;">
+'<img class="side" src="https://calcpad.eu/media/structures/rc/detailing/shear-wall-view.png" alt="shear-wall-view.png" style="width:110pt;">
 'Unconfined concrete ultimate strain
 ε_cu2 = 0.0035
 'Ultimate compression strain -'ε_c2 = 0.002
@@ -44,9 +44,9 @@ f_cd = α_cc*f_ck/γ_c'MPa
 '</select></p>
 #post
 #val
-#if '<!--'C ≡ 0'-->
+#if C ≡ 0
 	'Selected steel class <b>B'f_yk'B</b>
-#else if '<!--'C ≡ 1'-->
+#else if C ≡ 1
 	'Selected steel class <b>B'f_yk'C</b>
 #else
 	'<p class="err">Invalid steel class!</p>
@@ -61,7 +61,7 @@ f_cd = α_cc*f_ck/γ_c'MPa
 #post
 '<p class="ref">[BS EN 1992-1-1, § 9.5.2 (1)/NA.1]</p>
 'Minimum bar diameter -'d_bL_min = 12'mm
-#if '<!--'d_bL < d_bL_min'-->'
+#if d_bL < d_bL_min
 	'<p class="err"> Bar diameter is less than the minimum:'d_bL'mm &lt;'d_bL_min'mm</p>
 #end if
 #show
@@ -69,7 +69,7 @@ f_cd = α_cc*f_ck/γ_c'MPa
 'Bar count along "<i>h</i><sub>0</sub>" -'n_b1 = ?
 #post
 'Bar count along "<i>b</i><sub>0</sub>" -'n_b2 = ceiling(n_b/2 - n_b1 + 2)
-#if '<!--'n_b < 4'-->'
+#if n_b < 4
 	'<p class="err">Bar count is'n_b'&lt; 4</p>
 #end if 
 'Reinforcement area
@@ -78,9 +78,9 @@ A_s = n_b*A_s1'mm²
 'Reinforcement ratio
 ρ_L = A_s/A_f
 '<p class="ref">[§ 5.4.3.4.2 (8)]</p>
-#if '<!--'ρ_L < 0.005'-->  
+#if ρ_L < 0.005
 	'<p class="err">Reinforcement ratio is less than minimum:'ρ_L'&lt; 0.005</p>
-#else if '<!--'ρ_L > 0.04'-->
+#else if ρ_L > 0.04
 	'<p class="err">Reinforcement ratio is greater than maximum:'ρ_L'&gt; 0.04</p>
 #else 
 	'Design check: 0.005 ≤'ρ_L'≤ 0.04. The condition is satisfied!
@@ -92,14 +92,14 @@ A_s = n_b*A_s1'mm²
 #post
 '<p class="ref">[EN 1992-1-1, § 9.6.2 (3)]</p>
 'Maximum bar spacing -'s_v_max = min(3*b_wo;400)'mm
-#if '<!--'s_v > s_v_max'-->
+#if s_v > s_v_max
 	'<p class="err">Bar spacing's_v'mm &gt;'s_v_max'mm</p>
 #end if
 'Single bar area -'A_sv1 = π*d_bv^2/4'mm²
 'Reinforcement ratio -'ρ_v = 2*A_sv1/(s_v*b_wo)
 '<p class="ref">[EN 1992-1-1, § 9.6.2 (1)]</p>
 'Minimum reinforcement ratio -'ρ_v_min = 0.002
-#if '<!--'ρ_v < ρ_v_min'-->
+#if ρ_v < ρ_v_min
 	'<p class="err">Reinforcement ratio is less than minimum -'ρ_v'&lt;'ρ_v_min'.</p>
 #end if
 '<p class="ref">[§ 5.4.3.4.2 (11)]</p>
@@ -111,7 +111,7 @@ A_s = n_b*A_s1'mm²
 #post
 '<p class="ref">[EN 1992-1-1, § 9.6.3 (2)]</p>
 'Maximum bar spacing -'s_h_max = 400'mm
-#if '<!--'s_h > s_h_max'-->
+#if s_h > s_h_max
 	'<p class="err">Bar spacing's_h'mm &gt;'s_h_max'mm</p>
 #end if
 'Single bar area -'A_sh1 = π*d_bh^2/4'mm²
@@ -132,7 +132,7 @@ A_s = n_b*A_s1'mm²
 #post
 '<p class="ref">[EN 1992-1-1, § 9.5.3 (1)]</p>
 'Minimum diameter -'d_bw_min = max(6;0.25*d_bL)'mm
-#if '<!--'d_bw < d_bw_min'--> 
+#if d_bw < d_bw_min
 	'<p class="err">Link diameter is less than minimum:</p>
 	'<p class="err">'d_bw'&lt;'d_bw_min'mm</p>
 #else
@@ -144,7 +144,7 @@ A_s = n_b*A_s1'mm²
 '<p><b>Critical region height</b></p>
 h_cr_ = max(l_w;h_w/6)'mm
 'Adopted value is less than
-#if '<!--'n_s ≤ 6'-->
+#if n_s ≤ 6
 	h_cr_max = min(2*l_w;h_s)'mm, for floor counts 'n_s'≤ 6 
 #else
 	h_cr_max = min(2*l_w;2*h_s)'mm, for floor counts'n_s'> 6 
@@ -153,14 +153,14 @@ h_cr = min(h_cr_;h_cr_max)'mm
 
 '<p class="ref">[§ 5.1.2 (1)]</p>
 '<p><b>Shear wall dimensions check</b></p>
-#if '<!--'l_w/b_wo < 4'--> 
+#if l_w/b_wo < 4
 	'<p class="err">'l_w/b_wo'&lt; 4. The check is NOT satisfied!</p>
 #else
 	l_w/b_wo'&ge; 4. The check is satisfied!
 #end if
 '<p class="ref">[§ 5.4.1.2.3 (1)]</p>
 'Minimum thickness -'b_w_min = max(150;h_s/20)'mm
-#if '<!--'b_wo < b_w_min'--> 
+#if b_wo < b_w_min
 	'<p class="err">'b_wo'mm &lt;'b_w_min'mm. The check is NOT satisfied!</p>
 #else
 	b_wo'mm &ge;'b_w_min'mm. The check is satisfied!
@@ -170,21 +170,21 @@ h_cr = min(h_cr_;h_cr_max)'mm
 l_c = h_c - (d_bw + 2*c)'mm
 'Minimum confined zone length
 l_c_min = max(0.15*l_w;1.5*b_c)'mm
-#if '<!--'l_c < l_c_min'--> 
+#if l_c < l_c_min
 	'<p class="err">'l_c'mm &lt;'l_c_min'mm. The check is NOT satisfied!</p>
 #else
 	l_c'mm &ge;'l_c_min'mm. The check is satisfied!
 #end if
 '<p class="ref">[§ 5.4.3.4.2 (10)]</p>
 'Minimum confined zone thickness
-#if '<!--'l_c ≤ max(2*b_c;0.2*l_w)'--> 
+#if l_c ≤ max(2*b_c;0.2*l_w)
 	'For'l_c'mm &le;'max(2*b_c;0.2*l_w)'mm:
 	b_c_min = max(h_s/15;200)'mm
 #else
 	'For'l_c'mm &gt;'max(2*b_c;0.2*l_w)'mm:
 	b_c_min = max(h_s/10;200)'mm
 #end if
-#if '<!--'b_c < b_c_min'--> 
+#if b_c < b_c_min
 	'<p class="err">'b_c'mm &lt;'b_c_min'mm. The check is NOT satisfied!</p>
 #else
 	b_c'mm &ge;'b_c_min'mm. The check is satisfied!
@@ -193,7 +193,7 @@ l_c_min = max(0.15*l_w;1.5*b_c)'mm
 '<p class="ref">[§ 5.4.3.4.1 (2)]</p>
 '<p><b>Check for normalized axial load</b></p>
 ν_d = N_Ed/(A_c*f_cd)*1000
-#if '<!--'ν_d > 0.4'--> 
+#if ν_d > 0.4
 	'<p class="err">'ν_d'&gt; 0.4. The check is NOT satisfied!</p>
 #else
 	ν_d'≤ 0.4. The check is satisfied!
@@ -201,7 +201,7 @@ l_c_min = max(0.15*l_w;1.5*b_c)'mm
 
 '<p><b>Design anchorage length</b></p>
 η_1 = 1'- when good conditions are provided
-#if '<!--'d_bL ≤ 32'--> 
+#if d_bL ≤ 32
 	η_2 = 1'- for'd_bL'≤ 32 mm
 #else
 	η_2 = (132 - d_bL)/100'- for'd_bL'> 32 mm
@@ -234,9 +234,9 @@ n_h2 = max(floor(d_h_max/d_b2);1)
 'Distance between bars engaged by links
 d_h1 = n_h1*d_b1
 d_h2 = n_h2*d_b2
-#if '<!--'d_h1 > d_h_max'--> 
+#if d_h1 > d_h_max
 	'<p class="err">Distance is greater than maximum:'d_h1'mm >'d_h_max'mm</p>
-#else if '<!--'d_h2 > d_h_max'-->
+#else if d_h2 > d_h_max
 	'<p class="err">Distance is greater than maximum:'d_h2'mm >'d_h_max'mm</p>
 #end if
 'Distance between bars engaged by links
@@ -259,19 +259,19 @@ s = min(b_c;min(20*d_bL;400))'mm
 A_st = s_l*(d_bL/50)*(f_yd/f_ywd)'mm²
 'Provided area of one leg
 A_sw1 = π*d_bw^2/4'mm²
-#if '<!--'A_sw1 < A_st'--> 
+#if A_sw1 < A_st
 	'<p class="err">Insufficient area of one leg in the lap zone:'A_sw1'mm² &lt;'A_st'mm²</p>
 #else
 	'Design check:'A_sw1'mm² ≥'A_st'mm². The condition is satisfied!
 #end if
-#if '<!--'d_bL > 20'-->
+#if d_bL > 20
 	'Check for bar diameters > 20 mm:
 	'Number of legs in the outer 1/3 of lap zone
 	n_w = round(2*l_0/3/s_l)
 	'Total area of legs in the outer 1/3 of lap zone
 	ΣA_sw = A_sw1*n_w
 	'<p class="ref">[EN 1992-1-1 § 8.7.4.1 (3)]</p>
-	#if '<!--'ΣA_sw < A_sw1*n_w'-->
+	#if ΣA_sw < A_sw1*n_w
 		'<p class="err">Insufficient transverse reinforcement area in the lap zone:'ΣA_sw'mm² &lt;'A_s1'mm²</p>
 	#else
 		'Design check:'ΣA_sw'mm² ≥'A_s1'mm²
@@ -288,7 +288,7 @@ A_sw1 = π*d_bw^2/4'mm²
 ω_d = (A_sw1*Σl_i)/(b_0*h_0*s_cr)*f_ywd/f_cd
 '<p class="ref">[§ 5.4.3.2.2 (8)]</p>
 'The minimum value is 0.08.
-#if '<!--'ω_d < 0.08'-->
+#if ω_d < 0.08
 	'<p class="err">Design check:'ω_d'&lt;'0.08'. Mechanical volumetric ratio is less than minimum.</p>
 #else
 	'Design check:'ω_d'&ge;'0.08'. The condition is satisfied!
@@ -310,12 +310,12 @@ A_sw1 = π*d_bw^2/4'mm²
 #post
 '<p><b>Curvature ductility factor</b></p>
 '<p class="ref">[§ 5.2.3.4 (3)]</p>
-#if '<!--'T_1 ≥ T_C'-->
+#if T_1 ≥ T_C
 	μ_Φ = 2*q_0*M_Ed/M_Rd - 1'- for T<sub>1</sub> ≥ T<sub>C</sub>
 #else
 	μ_Φ = 1 + 2*(q_0*M_Ed/M_Rd - 1)*T_C/T_1'- for T<sub>1</sub> &lt; T<sub>C</sub>
 #end if
-#if '<!--'C ≡ 0'-->
+#if C ≡ 0
 	'<!--'μ_Φ = 1.5*μ_Φ'-->
 	'<p class="ref">[§ 5.2.3.4 (4)]</p>
 	'For steel class B, ductility factor is increased by 50% -'μ_Φ
@@ -327,7 +327,7 @@ A_sw1 = π*d_bw^2/4'mm²
 'Design check: <i>αω</i><sub>d</sub> &ge; <i>αω</i><sub>d_min</sub> = 30·<i>μ</i><sub>Φ</sub>·(<i>ν</i><sub>d</sub> + <i>ω</i><sub>v</sub> )·<i>ε</i><sub>sy_d</sub>·<i>b</i><sub>c</sub>/<i>b</i><sub>0</sub> – 0.035
 αω_d = α*ω_d
 αω_d_min = 30*μ_Φ*(ν_d + ω_v)*ε_sy_d*b_c/b_0 - 0.035
-#if '<!--'αω_d < αω_d_min'-->
+#if αω_d < αω_d_min
 	'<p class="err">The required curvature ductility is NOT provided:'αω_d'&lt;'αω_d_min'</p>
 #else
 	'The required curvature ductility is provided:'αω_d'≥'αω_d_min
@@ -338,7 +338,7 @@ A_sw1 = π*d_bw^2/4'mm²
 x_u = (ν_d + ω_v)*l_w*b_c/b_0'mm
 'Confined zone thickness
 l_c_req = x_u*(1 - ε_cu2/ε_cu2_c)'mm
-#if '<!--'l_c < l_c_req'-->
+#if l_c < l_c_req
 	'<p class="err">'l_c'mm &lt;'l_c_req'mm. The condition is NOT satisfied!</p>
 #else
 	'Design check:'l_c'mm &ge;'l_c_req'mm. The condition is satisfied!

@@ -16,6 +16,8 @@ namespace Calcpad.Wpf
         private static readonly StringBuilder _stringBuilder = new(100);
         private static bool AllowUnaryMinus = true;
         private static Queue<string> values = null;
+        private static bool _hasTargetUnitsDelimiter;
+        private static Thickness _thickness = new(0.5);
         private enum Types
         {
             None,
@@ -46,10 +48,12 @@ namespace Calcpad.Wpf
              Brushes.DeepPink,
              Brushes.ForestGreen,
              Brushes.DarkOrchid,
-             Brushes.Red,
-             Brushes.Red
+             Brushes.Crimson,
+             Brushes.Crimson
         };
 
+        private static readonly Brush ErrorBackground = new SolidColorBrush(Color.FromRgb(255, 225, 225));
+        
         private static readonly HashSet<char> Operators = new() { '!', '^', '/', '÷', '\\', '%', '*', '-', '+', '<', '>', '≤', '≥', '≡', '≠', '=' };
 
         private static readonly HashSet<char> Delimiters = new() { ';', '|', '&', '@', ':' };
@@ -183,7 +187,13 @@ namespace Calcpad.Wpf
                 }
                 p.Tag = values;
             }
+            foreach (var inline in p.Inlines)
+            {
+                inline.Background = null;   
+            }
             p.Background = Brushes.FloralWhite;
+            p.BorderBrush = Brushes.NavajoWhite;
+            p.BorderThickness = _thickness;
             var tr = new TextRange(p.ContentStart, p.ContentEnd);
             tr.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Normal);
             tr.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Black);
@@ -200,13 +210,16 @@ namespace Calcpad.Wpf
             if (p is null)
                 return;
 
+            _hasTargetUnitsDelimiter = false;
             if (p.Tag is Queue<string> queue)
                 values = queue;
             else
                 values = null;
 
             p.Tag = false;
-            p.Background = Brushes.Transparent;
+            p.Background = null;
+            p.BorderBrush = null;
+            p.BorderThickness = _thickness;
             var s = new TextRange(p.ContentStart, p.ContentEnd).Text;
             p.Inlines.Clear();
             _stringBuilder.Clear();
@@ -465,7 +478,14 @@ namespace Calcpad.Wpf
                 t = Types.Error;
 
             run.Foreground = Colors[(int)t];
-            if (t == Types.Function || t == Types.Error)
+            if (t == Types.Error)
+            {
+                if (s == "|" && !_hasTargetUnitsDelimiter)
+                    _hasTargetUnitsDelimiter = true;
+                else
+                    run.Background = ErrorBackground;
+            }
+            else if (t == Types.Function)
                 run.FontWeight = FontWeights.Bold;
             else if (t == Types.Input)
             {

@@ -1,7 +1,7 @@
 "Propped Cantilever with Linearly Distributed Load
 '<hr /><div style="max-width:180mm;">
 #pre
-'<img style="width:210pt;" class="side" alt="propped-cantilever-beam-distributed-load-linear-left.png" src="http://proektsoft.pe.hu/calcpad/en/media/mechanics/beams/propped-cantilever-beam-distributed-load-linear-left.png">
+'<img style="width:210pt;" class="side" alt="propped-cantilever-beam-distributed-load-linear-left.png" src="https://calcpad.eu/media/mechanics/beams/propped-cantilever-beam-distributed-load-linear-left.png">
 #show
 '<p><b>Input data</b></p>
 'Beam Length -'l = ?'m
@@ -11,13 +11,13 @@
 #hide
 #if q_1 < q_2
 	#post
-	'<img style="width:210pt;" alt="propped-cantilever-beam-distributed-load-linear-right.png" src="http://proektsoft.pe.hu/calcpad/en/media/mechanics/beams/propped-cantilever-beam-distributed-load-linear-right.png">
+	'<img style="width:210pt;" alt="propped-cantilever-beam-distributed-load-linear-right.png" src="https://calcpad.eu/media/mechanics/beams/propped-cantilever-beam-distributed-load-linear-right.png">
 	#hide
 #else if q_1 > q_2
 	#post
-	'<img style="width:210pt;" alt="propped-cantilever-beam-distributed-load-linear-left.png" src="http://proektsoft.pe.hu/calcpad/en/media/mechanics/beams/propped-cantilever-beam-distributed-load-linear-left.png">
+	'<img style="width:210pt;" alt="propped-cantilever-beam-distributed-load-linear-left.png" src="https://calcpad.eu/media/mechanics/beams/propped-cantilever-beam-distributed-load-linear-left.png">
 #else
-	'<img style="width:210pt;" alt="propped-cantilever-beam-distributed-load.png" src="http://proektsoft.pe.hu/calcpad/en/media/mechanics/beams/propped-cantilever-beam-distributed-load.png">
+	'<img style="width:210pt;" alt="propped-cantilever-beam-distributed-load.png" src="https://calcpad.eu/media/mechanics/beams/propped-cantilever-beam-distributed-load.png">
 #end if
 '</div>
 Δq = q_2 - q_1'kN/m

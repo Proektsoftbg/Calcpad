@@ -1,5 +1,5 @@
 "Geometrical Properties of Regular Hexagon
-'<hr /><div style="max-width:120mm"><img style="height:135pt;" alt="hexagon.png" class="side" src="http://proektsoft.pe.hu/calcpad/en/media/mechanics/sections/hexagon.png"></div>
+'<hr /><div style="max-width:120mm"><img style="height:135pt;" alt="hexagon.png" class="side" src="https://calcpad.eu/media/mechanics/sections/hexagon.png"></div>
 'Dimensions
 a = ?'%u
 h = sqr(3)*a'%u

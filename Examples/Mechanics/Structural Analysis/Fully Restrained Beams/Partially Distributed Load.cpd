@@ -1,6 +1,6 @@
 "Fully Restrained Beam with Partially Distributed Load
 '<div style="max-width:180mm;">
-'<hr /><img style="width:210pt;" alt="fixed-beam-distributed-load-partial.png" class="side" src="http://proektsoft.pe.hu/calcpad/en/media/mechanics/beams/fixed-beam-distributed-load-partial.png">
+'<hr /><img style="width:210pt;" alt="fixed-beam-distributed-load-partial.png" class="side" src="https://calcpad.eu/media/mechanics/beams/fixed-beam-distributed-load-partial.png">
 '<p><b>Input data</b></p>
 'Beam Length -'l = ?'m
 'Load -'q = ?'kN/m

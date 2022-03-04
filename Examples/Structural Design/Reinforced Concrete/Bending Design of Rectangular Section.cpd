@@ -1,6 +1,6 @@
 "Bending Design of RC Rectangular Section<hr/><small>According to <strong>Eurocode</strong>: EN 1992-1-1</small>
 '<div style = "max-width:180mm;">
-'<img style="width:400pt;" src="http://proektsoft.pe.hu/calcpad/en/media/structures/rc/design/beam-bending.png" alt="beam-bending.png">
+'<img style="width:400pt;" src="https://calcpad.eu/media/structures/rc/design/beam-bending.png" alt="beam-bending.png">
 'Design bending moment -'M_Ed = ?'kN·m
 '<h4>Cross section dimensions</h4>
 'Width -'b = ?'mm, Height -'h = ?'mm
@@ -9,7 +9,7 @@
 'Effective cross section depth -'d = h - d_1'cm
 #show
 '<h4>Material properties</h4>
-'<p style="float:right">[EN 1992-1-1, <a target="_blank" href="http://proektsoft.pe.hu/calcpad/en/reference/concrete-table.html">Table 3.1</a>]</p>
+'<p style="float:right">[EN 1992-1-1, <a target="_blank" href="https://calcpad.eu/reference/concrete-table.html">Table 3.1</a>]</p>
 '<p><b>Concrete</b></p>
 'Characteristic compressive cylinder strength -'f_ck = ?'MPa
 'Partial safety factor for concrete -'γ_c = 1.5','α_cc = ?
@@ -38,7 +38,7 @@
 'Limit compression zone depth -'ξ_lim = ?
 '(enter <i>ξ</i><sub>yd</sub> for elastic or 0.45 for plastic analysis)
 #post
-#if '<!--'ξ ≤ ξ_lim'-->
+#if ξ ≤ ξ_lim
 	ξ'≤'ξ_lim'- Compressive reinforcement is NOT required.
 	'Lever arm of internal forces -'z = d - 0.5*λ*x'mm
 	'Area of required tensile reinforcement -'A_s1 = M_Ed*10^6/(z*f_yd)'mm²
@@ -70,15 +70,15 @@
 'Minimum tensile reinforcement ratio 
 ρ_min = max(0.26*f_ctm/f_yk;0.0013)
 'Minimum area of tensile reinforcement -'A_s_min = ρ_min*b*d'mm²
-#if '<!--'A_s1 < A_s_min'-->'
+#if A_s1 < A_s_min
 	'<p class="err">Required reinforcement is lower than minimum:'A_s1'mm² &lt;'A_s_min'mm²</p>'
 #end if
 '<p class="ref">[EN 1992-1-1, § 9.2.1.1]</p>
 'Maximum tensile reinforcement ratio -'ρ_max = 0.04
-#if '<!--'ρ_1 > ρ_max'-->'
+#if ρ_1 > ρ_max
 	'<p class="err">Tensile reinforcement ratio is greater than maximum:'ρ_1'>'ρ_max'</p>'
 #end if
-#if '<!--'ρ_2 > ρ_max'-->'
+#if ρ_2 > ρ_max
 	'<p class="err">Compressive reinforcement ratio is greater than maximum:'ρ_2'>'ρ_max'</p>'
 #end if
 #show

@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace Calcpad.Wpf
 {
-    class ScreenMetrics
+    static class ScreenMetrics
     {
         [DllImport("gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
         private static extern int GetDeviceCaps(IntPtr hDC, int nIndex);
@@ -18,7 +18,9 @@ namespace Calcpad.Wpf
         internal static double GetWindowsScreenScalingFactor()
         {
             var g = Graphics.FromHwnd(IntPtr.Zero);
-            return (g.DpiX + g.DpiY) / 192.0;
+            var factor = (g.DpiX + g.DpiY) / 192.0;
+            g.Dispose();
+            return factor;  
         }
     }
 }

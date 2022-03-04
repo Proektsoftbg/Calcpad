@@ -1,6 +1,6 @@
 "Fully Restrained Beam with Concentrated Moment
 '<div style="max-width:180mm">
-'<hr /><img class="side" style="width:210pt;" alt="fixed-beam-concentrated-moment.png" src="http://proektsoft.pe.hu/calcpad/en/media/mechanics/beams/fixed-beam-concentrated-moment.png">
+'<hr /><img class="side" style="width:210pt;" alt="fixed-beam-concentrated-moment.png" src="https://calcpad.eu/media/mechanics/beams/fixed-beam-concentrated-moment.png">
 '<p><b>Input data</b></p>
 'Beam length -'l = ?'m
 'Load -'M = ?'kN·m

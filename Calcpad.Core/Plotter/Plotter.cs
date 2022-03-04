@@ -33,11 +33,8 @@ namespace Calcpad.Core
         protected static void FixBounds(ref double min, ref double max)
         {
             if (min > max)
-            {
-                var num = max;
-                max = min;
-                min = num;
-            }
+                (min, max) = (max, min);
+
             var d = Math.Max(Math.Abs(min), Math.Abs(max));
             d = d < 1 ? max - min : (max - min) / d;
 

@@ -1,5 +1,5 @@
 "Geometrical Properties of Elliptical Pipe
-'<hr /><div style="max-width:120mm"><img style="height:112pt;" alt="elliptical-pipe.png" class="side" src="http://proektsoft.pe.hu/calcpad/en/media/mechanics/sections/elliptical-pipe.png"></div>
+'<hr /><div style="max-width:120mm"><img style="height:112pt;" alt="elliptical-pipe.png" class="side" src="https://calcpad.eu/media/mechanics/sections/elliptical-pipe.png"></div>
 'Dimensions
 a = ?'%u,'b = ?'%u
 t = ?'%u

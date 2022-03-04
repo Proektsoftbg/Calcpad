@@ -1,5 +1,5 @@
 "Geometrical Properties of Quarter Circle
-'<hr /><div style="max-width:120mm"><img style="height:120pt;" alt="quarter-circle.png" class="side" src="http://proektsoft.pe.hu/calcpad/en/media/mechanics/sections/quarter-circle.png"></div>
+'<hr /><div style="max-width:120mm"><img style="height:120pt;" alt="quarter-circle.png" class="side" src="https://calcpad.eu/media/mechanics/sections/quarter-circle.png"></div>
 'Radius -'r = ?'%u
 'Area
 A = π*r^2/4'%u<sup>2</sup>

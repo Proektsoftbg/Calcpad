@@ -1,6 +1,6 @@
 "Bending Design of RC Tee Section<hr/><small>According to <strong>Eurocode</strong>: EN 1992-1-1</small>
 '<div style="max-width:180mm;">
-'<img style="width:400pt;" src="http://proektsoft.pe.hu/calcpad/en/media/structures/rc/design/tbeam-bending.png" alt="tbeam-bending.png">
+'<img style="width:400pt;" src="https://calcpad.eu/media/structures/rc/design/tbeam-bending.png" alt="tbeam-bending.png">
 'Design bending moment -'M_Ed = ?'kN·m
 '<h4>Cross section dimensions</h4>
 'Web -'b_w = ?'mm,'h_w = ?'mm
@@ -12,7 +12,7 @@
 'Flange first moment of area -'S_f = A_f*(d - h_f/2)'mm<sup>3</sup>
 #show
 '<h4>Material properties</h4>
-'<p style="float:right">[EN 1992-1-1, <a target="_blank" href="http://proektsoft.pe.hu/calcpad/en/reference/concrete-table.html">Table 3.1</a>]</p>
+'<p style="float:right">[EN 1992-1-1, <a target="_blank" href="https://calcpad.eu/reference/concrete-table.html">Table 3.1</a>]</p>
 '<p><b>Concrete</b></p>
 'Characteristic compressive cylinder strength -'f_ck = ?'MPa
 'Partial safety factor for concrete -'γ_c = 1.5','α_cc = ?
@@ -33,7 +33,7 @@
 'Check for the location of the neutral line
 'Bending moment for neutral line at the bottom edge of the flange
 M_f = b_f*h_f*η*f_cd*(d - h_f/2)*10^-6'kN·m
-#if '<!--'M_Ed > M_f'-->
+#if M_Ed > M_f
 	'The neutral line is below the flange - design for T-section
 	'Relative design bending moment -'m_Ed = M_Ed*10^6/(b_w*d^2*η*f_cd)
 	'Compression zone depth -'x = d/λ*(1 - sqr(1 - 2*(m_Ed - S_f/(b_w*d^2))))'mm
@@ -45,7 +45,7 @@ M_f = b_f*h_f*η*f_cd*(d - h_f/2)*10^-6'kN·m
 	'Limit compression zone depth -'ξ_lim = ?
 	'(enter <i>ξ</i><sub>yd</sub> for elastic or 0.45 for plastic analysis)
 	#post
-	#if '<!--'ξ ≤ ξ_lim'-->
+	#if ξ ≤ ξ_lim
 		ξ'≤'ξ_lim'- compressive reinforcement is NOT required.
 		'Lever arm of internal forces -'z = d - 0.5*λ*x'mm
 		'Required tensile reinforcement area -'A_s1 = M_Ed*10^6/(z*f_yd)'mm<sup>2</sup>
@@ -84,7 +84,7 @@ M_f = b_f*h_f*η*f_cd*(d - h_f/2)*10^-6'kN·m
 'Minimum tensile reinforcement ratio
 ρ_min = max(0.26*f_ctm/f_yk; 0.0013)
 'Minimum reinforcement -'A_s_min = ρ_min*b_w*d'mm<sup>2</sup>
-#if '<!--'A_s1 < A_s_min'-->'
+#if A_s1 < A_s_min
 	'<p class="err">The reinforcement is then the minimum:'A_s1'mm<sup>2</sup> &lt;'A_s_min'mm<sup>2</sup></p>'
 #end if
 'Maximum reinforcement ratio -'ρ_max = 0.04

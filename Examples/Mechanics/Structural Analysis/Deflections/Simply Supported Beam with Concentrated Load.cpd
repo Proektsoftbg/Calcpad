@@ -1,6 +1,6 @@
 "Deflection and Rotation of Simply Supported Beam with Concentrated Load
 '<hr/><div style = "max-width: 180mm;">
-'<img style="width:165pt;" class="side" src="http://proektsoft.pe.hu/calcpad/en/media/mechanics/beams/deflection-simply-supported-beam-force.png" alt="deflection-simply-supported-beam-force.png">
+'<img style="width:165pt;" class="side" src="https://calcpad.eu/media/mechanics/beams/deflection-simply-supported-beam-force.png" alt="deflection-simply-supported-beam-force.png">
 'Beam length - 'l = ?'m
 'Load - 'F = ?'kN
 'Second moment of area - 'I = ?'cm<sup>4</sup>

@@ -1,5 +1,5 @@
 "Geometrical Properties of Tee Section
-'<hr /><div style="max-width:120mm"><img style="height:150pt;" alt="tee.png" class="side" src="http://proektsoft.pe.hu/calcpad/en/media/mechanics/sections/tee.png"></div>
+'<hr /><div style="max-width:120mm"><img style="height:150pt;" alt="tee.png" class="side" src="https://calcpad.eu/media/mechanics/sections/tee.png"></div>
 'Dimensions
 h = ?'%u,'t_w = ?'%u
 b_f = ?'%u,'t_f = ?'%u

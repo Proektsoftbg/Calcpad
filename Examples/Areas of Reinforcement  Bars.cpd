@@ -48,6 +48,4 @@
 	#Loop
 #Loop
 '</table>
-'<script>var col=0;var row=0;$("td").hover(function(){$("#r"+row+",#c"+col).css("color","black").css("background-color","#F0F0F0");col=$(this).parent().children().index($(this));row=$(this).parent().parent().children().index($(this).parent());$("#r"+row+",#c"+col).css("color","red").css("background-color","#FFF0A0");;});</script>
-
-7
+'<script>var col=0;var row=0;$("td").hover(function(){$("#r"+row+",#c"+col).css("color","black").css("background-color","#F0F0F0");col=$(this).parent().children().index($(this));row=$(this).parent().parent().children().index($(this).parent());$("#r"+row+",#c"+col).css("color","red").css("background-color","#FFF0A0");;});</script>7

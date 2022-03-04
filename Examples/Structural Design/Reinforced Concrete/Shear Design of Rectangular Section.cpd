@@ -1,6 +1,6 @@
 "Shear Design of RC Rectangular Section<hr/><small>According to <strong>Eurocode</strong>: EN 1992-1-1</small>
 '<div style="max-width:180mm;">
-'<img class="side" style="width:270pt;" src="http://proektsoft.pe.hu/calcpad/en/media/structures/rc/design/beam-shear.png" alt="beam-shear.png">
+'<img class="side" style="width:270pt;" src="https://calcpad.eu/media/structures/rc/design/beam-shear.png" alt="beam-shear.png">
 '<h4>Cross section dimensions</h4>
 'Width -'b = ?'mm, Height'h = ?'mm
 #post
@@ -16,7 +16,7 @@
 '<p><b>Section design loads</b></p>
 'Shear force -'V_Ed = ?'kN&nbsp;&emsp;Axial force -'N_Ed = ?'kN
 '<h4>Material properties</h4>
-'<p class="ref">[EN 1992-1-1, <a target="_blank" href="http://proektsoft.pe.hu/calcpad/en/reference/concrete-table.html">Table 3.1</a>]</p>
+'<p class="ref">[EN 1992-1-1, <a target="_blank" href="https://calcpad.eu/reference/concrete-table.html">Table 3.1</a>]</p>
 '<p><b>Concrete</b></p>
 'Characteristic compressive cylinder strength -'f_ck = ?'MPa
 'Partial safety factor for concrete -'γ_c = 1.5','α_cc = ?
@@ -41,14 +41,14 @@ v_min = 0.035*k^(3/2)*sqr(f_ck)
 k_1 = 0.15
 '<p class="ref">(6.2a)</p>
 'Shear resistance
-V_Rd_c_ = 10^-3*(C_Rd_c*k*(100*ρ_l*f_ck)^(1/3) + k_1*σ_cp)*b*d'kN
+V_Rd_c_ = (C_Rd_c*k*(100*ρ_l*f_ck)^(1/3) + k_1*σ_cp)*b*d*10^-3'kN
 'Minimum shear resistance 
 '<p class="ref">(6.2b)</p>
 V_Rd_c_min = (v_min + k_1*σ_cp)*b*d*10^-3'kN
 V_Rd_c = max(V_Rd_c_min;V_Rd_c_)'kN
 'Design check
 '</div>
-#if '<!--'V_Ed ≤ V_Rd_c'-->	
+#if V_Ed ≤ V_Rd_c
 	V_Ed'kN ≤'V_Rd_c'kN. Shear reinforcement is NOT required by calculation!
 #else
 	V_Ed'kN &gt;'V_Rd_c'kN. Shear reinforcement is required!
@@ -59,19 +59,19 @@ V_Rd_c = max(V_Rd_c_min;V_Rd_c_)'kN
 	ν_1 = 0.6*(1 - f_ck/250)
 	k_σ = σ_cp_/f_cd
 	'Factor α<sub>cw</sub> depends on the value of k<sub>σ</sub>
-	#if '<!--'k_σ < 0.25'-->
+	#if k_σ < 0.25
 		α_cw = 1 + k_σ'for 0 &lt; <i>k</i><sub>σ</sub> &lt; 0.25
-	#else if'<!--'k_σ < 0.5'-->
+	#else if k_σ < 0.5
 		α_cw = 1.25'for 0.25 &lt; <i>k</i><sub>σ</sub> &lt; 0.5
-	#else if'<!--'k_σ < 1'-->
+	#else if k_σ < 1
 		α_cw = 2.5*(1 - k_σ)'for 0.5 &lt; <i>k</i><sub>σ</sub> &lt; 1
 	#else
 		'<p class="err">The value for σ<sub>cp</sub>is NOT admissible</p>
 	#end if
 	'<p class="ref">(6.9)</p>
 	'Maximum shear capacity at θ = 45°
-	V_Rd_max_45 = 10^-3*α_cw*b*z*ν_1*f_cd/2'kN
-	#if '<!--'V_Ed ≤ V_Rd_max_45'-->
+	V_Rd_max_45 = α_cw*b*z*ν_1*f_cd/2*10^-3'kN
+	#if V_Ed ≤ V_Rd_max_45
 		V_Ed'kN ≤'V_Rd_max_45'kN. The check is satisfied!
 		'Angle of concrete struts
 		θ_ = 0.5*asin(V_Ed/V_Rd_max_45)'°
@@ -80,7 +80,7 @@ V_Rd_c = max(V_Rd_c_min;V_Rd_c_)'kN
 		θ = max(21.8;min(θ_;45))'°
 		'<p class="ref">(6.9)</p>
 		'Bearing capacity check at'θ'°
-		V_Rd_max = 10^-3*α_cw*b*z*ν_1*f_cd/(cot(θ) + tan(θ))'kN
+		V_Rd_max = α_cw*b*z*ν_1*f_cd/(cot(θ) + tan(θ))*10^-3'kN
 		'</div>
 		'Design check:'V_Ed'kN ≤'V_Rd_max'kN
 		'<p class="ref">(6.8)</p>
@@ -91,7 +91,7 @@ V_Rd_c = max(V_Rd_c_min;V_Rd_c_)'kN
 		'Required links spacing -'s = 1000*n_w*A_s1/A_sw'mm
 		'<p class="ref">[EN 1992-1-1, §9.2.2]</p>
 		'Maximum spacing -'s_max = min(0.75*d;300)'mm
-		#if '<!--'s > s_max'-->
+		#if s > s_max
 			s'mm &gt;'s_max'mm. Spacing is greater than the maximum. 
 			'The relevant spacing is accepted:'s = s_max'mm
 		#end if
@@ -100,7 +100,7 @@ V_Rd_c = max(V_Rd_c_min;V_Rd_c_)'kN
 		ρ_w = A_sw/(s*b)
 		'<p class="ref">(9.5N)</p>
 		ρ_w_min = 0.08*sqr(f_ck)/f_yk
-		#if '<!--'ρ_w < ρ_w_min'-->
+		#if ρ_w < ρ_w_min
 			ρ_w'&lt;'ρ_w_min'. Reinforcement ratio is lower than the minimum. Minimum reinforcement ratio is accepted.
 		#end if
 		'<p class="ref">(6.18)</p>

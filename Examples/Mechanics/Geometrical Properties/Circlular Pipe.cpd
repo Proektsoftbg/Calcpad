@@ -1,5 +1,5 @@
 "Geometrical Properties of Circular Pipe
-'<hr /><div style="max-width:150mm"><img style="height:135pt;" alt="circular-pipe.png" class="side" src="http://proektsoft.pe.hu/calcpad/en/media/mechanics/sections/circular-pipe.png"></div>
+'<hr /><div style="max-width:150mm"><img style="height:135pt;" alt="circular-pipe.png" class="side" src="https://calcpad.eu/media/mechanics/sections/circular-pipe.png"></div>
 'Dimensions
 d = ?'%u,'t = ?'%u
 d_1 = d - 2*t'%u
