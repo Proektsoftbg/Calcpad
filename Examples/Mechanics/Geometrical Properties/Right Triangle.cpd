@@ -1,5 +1,5 @@
 "Geometrical Properties of Right Triangle
-'<hr /><div style="max-width:120mm"><img style="height:127pt;" alt="right-triangle.png" class="side" src="http://proektsoft.pe.hu/calcpad/en/media/mechanics/sections/right-triangle.png"></div>
+'<hr /><div style="max-width:120mm"><img style="height:127pt;" alt="right-triangle.png" class="side" src="https://calcpad.eu/media/mechanics/sections/right-triangle.png"></div>
 'Side lengths
 a = ?'%u,'b = ?'%u
 'Area

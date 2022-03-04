@@ -1,5 +1,5 @@
 "Geometrical Properties of Zed Section
-'<hr /><div style="max-width:120mm"><img style="height:150pt;" alt="zed.png" class="side" src="http://proektsoft.pe.hu/calcpad/en/media/mechanics/sections/zed.png"></div>
+'<hr /><div style="max-width:120mm"><img style="height:150pt;" alt="zed.png" class="side" src="https://calcpad.eu/media/mechanics/sections/zed.png"></div>
 'Dimensions
 h = ?'%u,'t_w = ?'%u
 b_f = ?'%u,'t_f = ?'%u

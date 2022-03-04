@@ -1,6 +1,6 @@
 "Combined Bending, Shear and Torsion Design of RC Beam<hr/><small>According to <strong>Eurocode</strong>: EN 1992-1-1</small>
 '<div style="width:180mm">
-'<img style="width:400pt;" src="http://proektsoft.pe.hu/calcpad/en/media/structures/rc/design/torsion.png" alt="torsion.png">
+'<img style="width:400pt;" src="https://calcpad.eu/media/structures/rc/design/torsion.png" alt="torsion.png">
 '<h4>Cross section dimensions</h4>
 b_w = ?'mm,'h_w = ?'mm
 b_f = ?'mm,'h_f = ?'mm
@@ -19,7 +19,7 @@ a_l = (2*d - h_w)/(n_ef + 1)'mm
 #post
 #val
 '<p class="ref">[EN 1992-1-1, § 9.2.3 (4)]</p>
-#if '<!--'a_l > 350'mm -->
+#if a_l > 350'mm
 	'Distance between rows of bars is'a_l'mm &gt; 350 mm
 	'The number of middle rows is not sufficient.
 #else
@@ -33,7 +33,7 @@ a_l = (2*d - h_w)/(n_ef + 1)'mm
 'Bending moment -'M_Ed = ?'kN·m
 'Shear force -'V_Ed = ?'kN
 '<h4>Material properties</h4>
-'<p><b>Concrete</b> [EN 1992-1-1, <a target="_blank" href="http://proektsoft.pe.hu/calcpad/en/reference/concrete-table.html">Table 3.1</a>]</p>
+'<p><b>Concrete</b> [EN 1992-1-1, <a target="_blank" href="https://calcpad.eu/reference/concrete-table.html">Table 3.1</a>]</p>
 'Characteristic compressive cylinder strength -'f_ck = ?'MPa,
 'Partial safety factors for concrete -'γ_c = 1.5','α_cc = ?
 #post
@@ -57,7 +57,7 @@ a_l = (2*d - h_w)/(n_ef + 1)'mm
 'Flange first moment of area -'S_f = A_f*(d - h_f/2)'mm³
 'Bending moment for neutral line at bottom edge of flange
 M_f = b_f*h_f*η*f_cd*(d - h_f/2)*10^-6'kN·m
-#if '<!--'M_Ed > M_f'-->
+#if M_Ed > M_f
 	M_Ed'&gt;'M_f'- the neutral line is below the flange - design for T-section
 	'Relative design bending moment -'m_Ed = M_Ed*10^6/(b_w*d^2*η*f_cd)
 	'Compression zone depth -'x = d/λ*(1 - sqr(1 - 2*(m_Ed - S_f/(b_w*d^2))))'mm
@@ -69,7 +69,7 @@ M_f = b_f*h_f*η*f_cd*(d - h_f/2)*10^-6'kN·m
 	'Limit compression zone depth -'ξ_lim = ?
 	'(enter <i>ξ</i><sub>yd</sub> for elastic or 0.45 for plastic analysis)
 	#post
-	#if '<!--'ξ ≤ ξ_lim'-->
+	#if ξ ≤ ξ_lim
 		ξ'≤'ξ_lim'- compressive reinforcement is NOT required.
 		'Lever arm of internal forces -'z = d - 0.5*λ*x'mm
 		'Required tensile reinforcement area -'A_s1 = M_Ed*10^6/(z*f_yd)'mm²
@@ -127,7 +127,7 @@ A_k = (b_w - t_ef)*(h_w - t_ef)'mm²
 u_k = 2*(b_w + h_w - 2*t_ef)'mm
 'Section subjected to pure torsion
 T_Rd,c = 2*A_k*t_ef*f_ctd*10^-6'kN·m
-#if '<!--'T_Ed/T_Rd,c + V_Ed/V_Rd,c ≤ 1'-->
+#if T_Ed/T_Rd,c + V_Ed/V_Rd,c ≤ 1
 	'</div>
 	'<p class="ref">[EN 1992-1-1, § 6.3.2 (5)]</p>
 	T_Ed/T_Rd,c + V_Ed/V_Rd,c'≤'1
@@ -151,7 +151,7 @@ T_Rd,c = 2*A_k*t_ef*f_ctd*10^-6'kN·m
 	T_Rd,max,45 = ν_1*α_cw*f_cd*A_k*t_ef*10^-6'kN·m
 	'<p class="ref">[(6.29) from EN 1992-1-1]</p>
 	'Maximum bearing capacity check
-	#if '<!--'T_Ed/T_Rd,max,45 + V_Ed/V_Rd,max,45 ≤ 1'-->
+	#if T_Ed/T_Rd,max,45 + V_Ed/V_Rd,max,45 ≤ 1
 		T_Ed/T_Rd,max,45 + V_Ed/V_Rd,max,45'≤'1.'The design check is satisfied!
 		'Angle between the concrete struts and the longitudinal reinforcement
 		θ = 0.5*asin(T_Ed/T_Rd,max,45 + V_Ed/V_Rd,max,45)'°

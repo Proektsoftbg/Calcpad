@@ -53,6 +53,14 @@ namespace Calcpad.Wpf
             set => _wb.InvokeScript("eval", $"$('#Units').val('{value}');");
         }
 
+        //internal string Background
+        //{
+        //    set => _wb.InvokeScript("eval", $"document.body.style.backgroundColor='{value}';");
+        //}
+
+        internal void Scroll(int line, int offset) =>
+            _wb.InvokeScript("eval", $"var e = document.getElementById('line{line}'); if(e){{window.scrollTo(0, e.offsetTop - {offset});}}");
+
         internal string ExportOpenXml(string path)
         {
             var html = _wb.InvokeScript("eval", "document.body.outerHTML").ToString();

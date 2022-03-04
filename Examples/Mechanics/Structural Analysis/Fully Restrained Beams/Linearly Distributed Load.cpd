@@ -1,6 +1,6 @@
 "Fully Restrained Beam with Linearly Distributed Load
 '<div style="max-width:180mm;">
-'<hr /><img style="width:210pt;" alt="fixed-beam-distributed-load-linear.png" class="side" src="http://proektsoft.pe.hu/calcpad/en/media/mechanics/beams/fixed-beam-distributed-load-linear.png">
+'<hr /><img style="width:210pt;" alt="fixed-beam-distributed-load-linear.png" class="side" src="https://calcpad.eu/media/mechanics/beams/fixed-beam-distributed-load-linear.png">
 '<p><b>Input data</b></p>
 'Beam Length -'l = ?'m
 'Load -'q_1 = ?'kN/m,'q_2 = ?'kN/m

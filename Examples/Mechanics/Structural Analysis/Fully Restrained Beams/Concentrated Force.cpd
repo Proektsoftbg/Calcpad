@@ -1,6 +1,6 @@
 "Fully Restrained Beam with Concentrated Force
 '<div style="max-width:180mm">
-'<hr /><img style="width:210pt;" alt="fixed-beam-concentrated-force.png" class="side" src="http://proektsoft.pe.hu/calcpad/en/media/mechanics/beams/fixed-beam-concentrated-force.png">
+'<hr /><img style="width:210pt;" alt="fixed-beam-concentrated-force.png" class="side" src="https://calcpad.eu/media/mechanics/beams/fixed-beam-concentrated-force.png">
 '<p><b>Input data</b></p>
 'Beam Length -'l=?'m
 'Load -'F=?'kN

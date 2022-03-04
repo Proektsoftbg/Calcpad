@@ -171,7 +171,7 @@ input, select {
 <li><a href="mailto:proektsoft.bg@gmail.com">proektsoft.bg@gmail.com</a></li>
 </ul>
 <h1><img alt="Calcpad.png" src="Images/Calcpad.png" height="32"> Calcpad</h1>
-<p style="margin-left:42px; margin-top:0;">Version 5.6.2 Readme!</p>
+<p style="margin-left:42px; margin-top:0;">Version 5.6.3 Readme!</p>
 <h2 id="TOC_100">About Calcpad</h2>
 <p>Calcpad is free software for mathematical and engineering calculations. It represents a flexible and modern programmable calculator with Html report generator. It is simple and easy to use, but it also includes many advanced features:</p>
 <ul>
@@ -216,15 +216,15 @@ input, select {
 <p>The software is quick and easy to use. Just follow these simple steps:</p>
 <ol>
 <li><strong>Enter</strong> text and formulas into the "<strong>Code</strong>" box on the left.</li>
-<li>Click <img alt="Play" height="24" src="Images/Play.png"> to calculate. Results will appear in the "<b>Output</b>" box on the right as a professionally formatted Html <b>report</b>.</li>
-<li>Click <img alt="PrintPreview" height="24" src="Images/PrintPreview.png"> to <b>print</b> or <img alt="Copy" height="24" src="Images/Copy.png"> to <b>copy</b> the output.<br />You can also <b>export</b> it to Html <img alt="Html" height="24" src="Images/Save.png">, PDF <img alt="PDF" height="24" src="Images/Pdf.png"> or MS Word <img alt="Word" height="24" src="Images/Word.png"> document.</li>
+<li>Press <b>F5</b> or click <img alt="Play" height="24" src="Images/Play.png"> to calculate. Results will appear in the "<b>Output</b>" box on the right as a professionally formatted Html <b>report</b>.</li>
+<li>Click <img alt="PrintPreview" height="24" src="Images/PrintPreview.png"> to <b>print</b> or <img alt="Copy" height="24" src="Images/Copy.png"> to <b>copy</b> the output.<br />You can also <b>export</b> it to <b>Html</b> <img alt="Html" height="24" src="Images/Save.png">, <b>PDF</b> <img alt="PDF" height="24" src="Images/Pdf.png"> or <b>MS Word</b> <img alt="Word" height="24" src="Images/Word.png"> document.</li>
 </ol>
 <p>The program can be used in two different modes:</p>
 <ul>
 <li><b>Calculator</b> - the source code is available for editing in the left box. After calculations, the results are displayed into the right box. This mode is suitable for short ans simple problems without complex formatting.</li>
 <li><b>Input Form</b> - the source code is not accessible. Instead, an Html input form is displayed. It contains input fields for all parameters, required for the calculations. The remaining content is locked for editing. This mode is more convenient for complex problems with rich formatting, that are frequently used. It makes clear which are the required input parameters and protects the source code from accidental damage.</li>
 </ul>
-<p>In "Input Form" mode, you need to fill the input data and click the <img alt="Play" height="24" src="Images/Play.png"> button. You can create such a from very easy, directly out of the source code. Just put the "<b>?</b>" symbol wherever you need to enter a value. Then save the problem as "*.cpd" file. You can find additional information about forms further in this manual.</p>
+<p>In "<b>Input Form</b>" mode, you need to fill the input data and click the <img alt="Play" height="24" src="Images/Play.png"> button. You can create such a from very easy, directly out of the source code. Just put the "<b>?</b>" symbol wherever you need to enter a value. Then save the problem as "*.cpd" file. You can find additional information about forms further in this manual.</p>
 
 <h2 id="TOC_400">Theoretical basis</h2>
 <p style="font-style: italic;">(you can skip this if you find it boring)</p>
@@ -1220,7 +1220,7 @@ You can use it further to calculate binomial coefficients by the well-known form
 <p>Besides repetitive calculations, you can use loops to generate repetitive report content (like table rows). If you want to hide the iteration details, you can use output control directives (see the previous section). For example, you can enclose the "repeat-loop" block with <span class="cond">#Hide</span> and <span class="cond">#Show</span> statements.</p>
 
 <h2 id="TOC_800">Input Forms</h2>
-<p>If you have long and complicated problem or you want to share your solution with others, it is a good idea to create an input form. It is very easy to do that with Calcpad. Just replace the values that need to be entered with question marks "<b>?</b>", e.g. "<var>a</var> = ?". Please note that after that, you will not be able to calculate the results directly by clicking <img alt="Play" height="24" src="Images/Play.png">. You must compile it first to an input form, using the <img alt="Form" height="24" src="Images/Form.png"> button.</p> 
+<p>If you have long and complicated problem or you want to share your solution with others, it is a good idea to create an input form. It is very easy to do that with Calcpad. Just replace the values that need to be entered with question marks "<b>?</b>", e.g. "<var>a</var> = ?". Please note that after that, you will not be able to calculate the results directly by clicking <img alt="Play" height="24" src="Images/Play.png">. You must compile it first to an input form. For that purpose, click the <img alt="Form" height="24" src="Images/Form.png"> button or press <b>F4</b> from the keyboard.</p> 
 <p>The code will hide and the form will be loaded into the "<b>Input</b>" box at the full width of the main window. All texts and formulas will be rendered in Html format, protected from modification. Input boxes will be generated at every occurrence of the "<b>?</b>" symbol except those in comments. The ready-to-use input form will look as follows:</p>
 <p><img alt="Sample3" width="700" src="Images/Sample3.png"></p>
 <p>Now you have to fill the input boxes and click <img alt="Play" height="24" src="Images/Play.png"> to calculate the results. They are displayed in the "<b>Output</b>" box.</p> 
@@ -1237,7 +1237,8 @@ You can use it further to calculate binomial coefficients by the well-known form
 <p>Then, you can enter a value and calculate the result. This approach is not recommended for complicated problems, because the program logic gets unclear and difficult to understand.</p>
 
 <h2 id="TOC_900">Results</h2>
-<p>When you run the solution with the <img alt="Play" height="24" src="Images/Play.png"> button, the results are displayed in the "<b>Output</b>" box. You cannot edit the output content, but you can select, copy and print it. For that purpose, you can use the toolbar over the "<b>Output</b>" box on the right. You can also use additional commands from the context menu, that is displayed If you right-click inside the "<b>Output</b>" box, you will see a pop-up menu with additional commands. Detailed description is provided further in this manual.</p>
+<p>You can run the solution by pressing <b>F5</b> or clicking the <img alt="Play" height="24" src="Images/Play.png"> button. The results will appear in the "<b>Output</b>" box. You cannot edit the output content, but you can select, copy and print it. For that purpose, you can use the toolbar over the "<b>Output</b>" box on the right. You can also use additional commands from the context menu, that is displayed If you right-click inside the "<b>Output</b>" box, you will see a pop-up menu with additional commands. Detailed description is provided further in this manual.</p>
+<p>Since version 6.5.3, you can use the "☑ <b>AutoRun</b>" mode. While it is checked, the results will refresh each time you change the code and move to another line. Additionally, the output window will scroll to match the position of the current line in the source code. You can do the same by double clicking into the input window.</p>
 
 <h3 id="TOC_901">Substitution</h3>
 <p>Calcpad can substitute the values of variables in all formulas in the output, just before the answer:</p>

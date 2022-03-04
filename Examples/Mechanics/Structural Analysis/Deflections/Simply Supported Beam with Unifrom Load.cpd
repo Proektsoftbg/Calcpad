@@ -1,6 +1,6 @@
 "Deflection and Rotation of Simply Supported Beam with Uniformly Distributed Load
 '<hr/><div style = "max-width: 180mm;">
-'<img style="width:165pt;" class="side" src="http://proektsoft.pe.hu/calcpad/en/media/mechanics/beams/deflection-simply-supported-beam-distributed-load.png" alt="deflection-simply-supported-beam-distributed-load.png">
+'<img style="width:165pt;" class="side" src="https://calcpad.eu/media/mechanics/beams/deflection-simply-supported-beam-distributed-load.png" alt="deflection-simply-supported-beam-distributed-load.png">
 'Beam length - 'l = ?'m
 'Load - 'q = ?'kN/m
 'Second moment of area - 'I = ?'cm<sup>4</sup>

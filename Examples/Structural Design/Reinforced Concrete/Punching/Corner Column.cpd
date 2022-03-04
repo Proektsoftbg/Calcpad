@@ -1,6 +1,6 @@
 "Punching Design of Corner Column<hr/><small>According to <strong>Eurocode</strong>: EN 1992-1-1</small>
 '<div style="max-width:180mm">
-'<img class="side" style="width:225pt;" src="http://proektsoft.pe.hu/calcpad/en/media/structures/rc/design/punching-corner-column.png" alt="punching-corner-column.png">
+'<img class="side" style="width:225pt;" src="https://calcpad.eu/media/structures/rc/design/punching-corner-column.png" alt="punching-corner-column.png">
 '<h4>Input data</h4>
 '<p><b>Column</b></p>
 'Dimensions - 'c_1 = ?'mm, 'c_2 = ?'mm
@@ -24,7 +24,7 @@ A_sx = ?'mm²/m, 'A_sy = ?'mm²/m
 ρ_l = sqr(ρ_lx*ρ_ly)
 #show
 '<p><b>Material properties</b></p>
-'<p><b>Concrete</b> [EN 1992-1-1, <a target="_blank" href="http://proektsoft.pe.hu/calcpad/en/reference/concrete-table.html">Table 3.1</a>]</p>
+'<p><b>Concrete</b> [EN 1992-1-1, <a target="_blank" href="https://calcpad.eu/reference/concrete-table.html">Table 3.1</a>]</p>
 'Characteristic compressive cylinder strength -'f_ck = ?'MPa
 'Partial safety factor for concrete -'γ_c = 1.5','α_cc = ?
 #post
@@ -58,7 +58,7 @@ v_Rd_c = max(v_min;v_Rd_c_)'MPa
 v_Ed = β*V_Ed*10^3/(u_1*d)'MPa
 '</div>
 '<p class="ref">[EN 1992-1-1, §6.4.3 (2,b)]</p>
-#if '<!--'v_Ed ≤ v_Rd_c'-->
+#if v_Ed ≤ v_Rd_c
 	v_Ed'MPa &le; 'v_Rd_c'MPa. Shear reinforcement is NOT required.
 #else
 	v_Ed'MPa &gt;'v_Rd_c'MPa. Shear reinforcement is required.
@@ -75,7 +75,7 @@ v_Ed = β*V_Ed*10^3/(u_1*d)'MPa
 	v_Rd_max = 0.5*ν*f_cd'MPa
 	'</div>
 	'<p class="ref">[EN 1992-1-1, §6.4.3 (2,a)]</p>
-	#if '<!--'v_Ed_max ≤ v_Rd_max'-->
+	#if v_Ed_max ≤ v_Rd_max
 		v_Ed_max' MPa &le; 'v_Rd_max'MPa. Design check is satisfied.
 	#else
 		'<p class="err">'v_Ed_max' MPa &gt; 'v_Rd_max'MPa. Design check is NOT satisfied!</p>
@@ -83,7 +83,7 @@ v_Ed = β*V_Ed*10^3/(u_1*d)'MPa
 	#end if
 	'<p class="ref">[BS EN 1992-1-1, Table NA.1, §6.4.5 (3)]</p>
 	'Limitation of punching stress at basic control perimeter
-	#if '<!--'v_Ed ≤ 2*v_Rd_c'-->
+	#if v_Ed ≤ 2*v_Rd_c
 		v_Ed' MPa &le; '2*v_Rd_c'MPa. Design check is satisfied.
 	#else
 		'<p class="err">'v_Ed' MPa &gt; '2*v_Rd_c'MPa. Design check is NOT satisfied!</p>
@@ -100,7 +100,7 @@ v_Ed = β*V_Ed*10^3/(u_1*d)'MPa
 	A_sw_req = (v_Ed - 0.75*v_Rd_c)*u_1*s_r/(1.5*f_ywd_ef)'mm²
 	'Tangential link spacing - 's_t = floor(u_1*A_sw_1/A_sw_req)'mm
 	'<p class="ref">[EN 1992-1-1, §9.4.3 (1)]</p>
-	#if '<!--'s_t ≤ 1.5*d'-->
+	#if s_t ≤ 1.5*d
 		'Check:'s_t'mm &le; '1.5*d'mm. Check is satisfied.
 	#else
 		'Check:'s_t'mm &gt;'1.5*d'mm. 
@@ -110,7 +110,7 @@ v_Ed = β*V_Ed*10^3/(u_1*d)'MPa
 	'<p class="ref">[EN 1992-1-1, §9.4.3 (2)]</p>
 	'Minimum shear reinforcement
 	A_sw_min = 0.08*sqr(f_ck)/f_yk*s_r*s_t/1.5'mm²
-	#if '<!--'A_sw_1 ≥ A_sw_min'-->
+	#if A_sw_1 ≥ A_sw_min
 		A_sw_1'mm² &ge;'A_sw_min'mm². The calculated reinforcement is greater than the minimum.
 	#else
 		'<p class="err">'A_sw_1'mm² &lt;'A_sw_min'mm². The calculated reinforcement is lower than the minimum!</p>
@@ -121,7 +121,7 @@ v_Ed = β*V_Ed*10^3/(u_1*d)'MPa
 	'<p class="ref">[EN 1992-1-1 (6.52)]</p>
 	'Punching resistance with shear reinforcement
 	v_Rd_cs = 0.75*v_Rd_c + 1.5*d/s_r*A_sw*f_ywd_ef/(u_1*d)
-	#if '<!--'v_Ed ≤ v_Rd_cs'-->
+	#if v_Ed ≤ v_Rd_cs
 		v_Ed'MPa &le;'v_Rd_cs'MPa. Check is satisfied!
 		'<p class="ref">[EN 1992-1-1 (6.54)]</p>
 		'Outer control perimeter at which shear reinforcement is not required
@@ -133,8 +133,8 @@ v_Ed = β*V_Ed*10^3/(u_1*d)'MPa
 	#else
 		'<p class="err">'v_Ed'MPa &gt;'v_Rd_cs'MPa. Check is NOT satisfied. Increase shear reinforcement area.</p>
 	#end if
-	'<img style="width:225pt;" style="display:inline;" src="http://proektsoft.pe.hu/calcpad/en/media/structures/rc/design/punching-corner-column-reinf-plan.png" alt="punching-corner-column-reinf-plan.png">
-	'<img style="width:195pt;" src="http://proektsoft.pe.hu/calcpad/en/media/structures/rc/design/punching-corner-column-reinf-section.png" alt="punching-corner-column-reinf-section.png">
+	'<img style="width:225pt;" style="display:inline;" src="https://calcpad.eu/media/structures/rc/design/punching-corner-column-reinf-plan.png" alt="punching-corner-column-reinf-plan.png">
+	'<img style="width:195pt;" src="https://calcpad.eu/media/structures/rc/design/punching-corner-column-reinf-section.png" alt="punching-corner-column-reinf-section.png">
 #end if
 #show
 '</div>600	300	125	200	20	10	6	1200	600	25	1	500

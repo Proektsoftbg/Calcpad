@@ -1,6 +1,6 @@
 "Simply Supported Beam with Concentrated Forces
 '<hr /><div style = "max-width:180mm;">
-'<img style="width:190pt;" alt = "simply-supported-beam-forces.png" class="side" src = "http://proektsoft.pe.hu/calcpad/en/media/mechanics/beams/simply-supported-beam-forces.png">
+'<img style="width:190pt;" alt = "simply-supported-beam-forces.png" class="side" src = "https://calcpad.eu/media/mechanics/beams/simply-supported-beam-forces.png">
 '<p><b>Input data</b></p>
 'Beam length -'l = ?'m
 'Load -'F = ?'kN

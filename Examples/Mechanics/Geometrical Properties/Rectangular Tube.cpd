@@ -1,5 +1,5 @@
 "Geometrical Properties of Rectangular Tube
-'<hr /><div style="max-width:150mm"><img style="height:150pt;" alt="rectangular-tube.png" class="side" src="http://proektsoft.pe.hu/calcpad/en/media/mechanics/sections/rectangular-tube.png"></div>
+'<hr /><div style="max-width:150mm"><img style="height:150pt;" alt="rectangular-tube.png" class="side" src="https://calcpad.eu/media/mechanics/sections/rectangular-tube.png"></div>
 'Dimensions
 h = ?'%u,'t_w = ?'%u
 b = ?'%u,'t_f = ?'%u

@@ -1,6 +1,6 @@
 "Bending Capacity of RC Tee Section<hr/><small>According to <strong>Eurocode</strong>: EN 1992-1-1</small>
 '<div style="max-width:180mm">
-'<img style="width:400pt;" src="http://proektsoft.pe.hu/calcpad/en/media/structures/rc/design/tbeam-bending.png" alt="tbeam-bending.png">
+'<img style="width:400pt;" src="https://calcpad.eu/media/structures/rc/design/tbeam-bending.png" alt="tbeam-bending.png">
 'Design bending moment -'M_Ed = ?'kN·m
 '<h4>Cross section dimensions</h4>
 'Web -'b_w = ?'mm,'h_w = ?'mm
@@ -22,7 +22,7 @@
 '- top reinforcement -'ρ_2 = (A_s2)/(b_w*d)
 #show
 '<h4>Material properties</h4>
-'<p style="float:right">[EN 1992-1-1, <a target="_blank" href="http://proektsoft.pe.hu/calcpad/en/reference/concrete-table.html">Table 3.1</a>]</p>
+'<p style="float:right">[EN 1992-1-1, <a target="_blank" href="https://calcpad.eu/reference/concrete-table.html">Table 3.1</a>]</p>
 '<p><b>Concrete</b></p>
 'Characteristic compressive cylinder strength -'f_ck = ?'MPa
 'Partial safety factor for concrete -'γ_c = 1.5','α_cc = ?
@@ -56,11 +56,11 @@ $Plot{σ_s(ε/1000) @ ε = -10 : 10}
 '<p class="ref">[EN 1992-1-1, § 9.2.1.1]
 'Minimum tensile reinforcement ratio
 ρ_min = max(0.26*f_ctm/f_yk;0.0013)
-#if '<!--'ρ_1 < ρ_min'-->'
+#if ρ_1 < ρ_min
 	'<p class="err">Tensile reinforcement ratio is lower than minimum:'ρ_1'&lt;'ρ_min'</p>'
 #end if
 'Maximum tensile reinforcement ratio -'ρ_max = 0.04
-#if '<!--'ρ_1 > ρ_max'-->'
+#if ρ_1 > ρ_max
 	'<p class="err">Tensile reinforcement ratio is greater than maximum:'ρ_1'>'ρ_max'</p>'
 #end if
 'Internal section forces as a function of the compressive zone depth <i>x</i>.
@@ -71,28 +71,28 @@ $Plot{σ_s(ε/1000) @ ε = -10 : 10}
 'Factors for integration of concrete stress diagram
 k = f_cd*ε_cu2
 k_1(ε_cu) = $Area{σ_c(ε)/k @ ε = 0 : ε_cu}
-k_2(ε_cu) = $Area{σ_c(ε)*ε/ε_cu2/k @ ε = 0 : ε_cu}
+k_2(ε_cu) = $Area{σ_c(ε)*ε/(ε_cu2*k) @ ε = 0 : ε_cu}
 k_1 = k_1(ε_cu2)
 k_2 = k_2(ε_cu2)
 'Internal section forces:
-'- in concrete -'N_c(x) = -(k_1*x*b_f*(x < h_f) + (k_1*x*b_f - k_1(ε_cf(x))*(x - h_f)*(b_f - b_w))*(x ≥ h_f))*f_cd/1000
-'- in  bottom reinforcement -'N_s1(x) = σ_s(ε_s1(x))*A_s1/1000
-'- in  top reinforcement -'N_s2(x) = σ_s(ε_s2(x))*A_s2/1000
+'- in concrete -'N_c(x) = -(k_1*x*b_f*(x < h_f) + (k_1*x*b_f - k_1(ε_cf(x))*(x - h_f)*(b_f - b_w))*(x ≥ h_f))*f_cd*10^-3
+'- in  bottom reinforcement -'N_s1(x) = σ_s(ε_s1(x))*A_s1*10^-3
+'- in  top reinforcement -'N_s2(x) = σ_s(ε_s2(x))*A_s2*10^-3
 'Section capacity for axial force
 N_Rd(x) = N_c(x) + N_s1(x) + N_s2(x)
 $Plot{N_Rd(x) @ x = 0.1 : h_w}
 'Compression zone depth is determined from the equilibrium of axial forces
 x = $Root{N_Rd(x) @ x = 0.1 : h_w}'mm
 'Compression zone depth at reinforcement yield point
-x_lim = d* ε_cu2/(ε_cu2 + f_yd/E_s/1000)'cm
-#if '<!--'x ≤ x_lim'-->
+x_lim = d* ε_cu2/(ε_cu2 + f_yd/E_s*10^-3)'cm
+#if x ≤ x_lim
 	'Check:'x'≤'x_lim'- compressive reinforcement is not required.
 #else
 	'Check:'x'>'x_lim'- compressive reinforcement is required.
 #end if
 'Distance to the equivalent concrete stress force
 '- from the neutral line
-#if '<!--'x < h_f'-->
+#if x < h_f
 	z_0 = k_2/k_1*x'cm
 #else
 	z_0 = (k_2*x^2*b_f - k_2(ε_cf(x))*(x - h_f)^2*(b_f - b_w))/(k_1*x*b_f - k_1(ε_cf(x))*(x - h_f)*(b_f - b_w))'cm
@@ -101,7 +101,7 @@ x_lim = d* ε_cu2/(ε_cu2 + f_yd/E_s/1000)'cm
 z_c = h_w - x + z_0'mm
 'Bending moment capacity
 M_Rd = (A_s1*σ_s(ε_s1(x))*(z_c - d_1) + A_s2*σ_s(ε_s2(x))*(z_c - h_w + d_2))*10^-6'kN·m
-#if '<!--'M_Ed > M_Rd'-->
+#if M_Ed > M_Rd
 	'Design bending moment is greater than bending capacity
 	M_Ed'>'M_Rd'kN·m
 	'<p class="err">Design checks are NOT satisfied.</p>

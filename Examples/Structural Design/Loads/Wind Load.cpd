@@ -1,6 +1,6 @@
 "Wind Load for Rectangular Building with Duopitch Roof<hr/><small>According to <strong>Eurocode</strong>: EN 1991-1-4</small>
 '<div style="max-width:180mm">
-'<img style="width:225pt;" class="side" src="http://proektsoft.pe.hu/calcpad/en/media/structures/loads/wind-3d.png" alt="wind-3d.png">'
+'<img style="width:225pt;" class="side" src="https://calcpad.eu/media/structures/loads/wind-3d.png" alt="wind-3d.png">'
 '
 '
 '<h4>Dimensions of the building</h4>
@@ -17,10 +17,10 @@
 '&nbsp;&nbsp;&nbsp;&nbsp; - purlins -'c_p = ?'m
 #post
 '(If the above distances are &le; 0, the corresponding loads will not be calculated)
-#if '<!--'c_s > 0'-->
+#if c_s > 0
 	'Reference area for side beams -'A_sa = c_s*a'm²,'A_sb = c_s*b'm²
 #end if
-#if '<!--'c_p > 0'-->
+#if c_p > 0
 	'Reference area for purlins -'A_p = c_p*a'm²
 #end if
 '
@@ -36,7 +36,7 @@
 'Orography factor -'C_0 = 1.0
 #pre
 	'<p id="C" style="display:none;">'C = ?'</p>
-	'<p class="ref">[EN 1991-1-4, <a target="_blank" href="http://proektsoft.pe.hu/calcpad/en/reference/wind-terrain.html">Table 4.1</a>]</p>
+	'<p class="ref">[EN 1991-1-4, <a target="_blank" href="https://calcpad.eu/reference/wind-terrain.html">Table 4.1</a>]</p>
 	'Terrain categories
 	'<p><select data-target="C">
 	'<option value="0"> 0. Sea or coastal area...</option>
@@ -46,20 +46,20 @@
 	'<option value="4"> IV. Area in which at least 15 % of the surface is covered with buildings with h > 15 m</option>
 	'</select></p>
 #post
-'<p class="ref">[EN 1991-1-4, <a target="_blank" href="http://proektsoft.pe.hu/calcpad/en/reference/wind-terrain.html">Table 4.1</a>]</p>
-#if '<!--'C ≡ 0'-->
+'<p class="ref">[EN 1991-1-4, <a target="_blank" href="https://calcpad.eu/reference/wind-terrain.html">Table 4.1</a>]</p>
+#if C ≡ 0
 	'Terrain category - 0:'z_0 = 0.003'm,'z_min = 1.0'm,'z_max = 200'm
 	'Sea or coastal area exposed to the open sea.
-#else if '<!--'C ≡ 1'-->
+#else if C ≡ 1
 	'Terrain category - I:'z_0 = 0.01'm,'z_min = 1.0'm,'z_max = 200'm
 	'Lakes or flat and horizontal area with negligible vegetation and without obstacles.
-#else if '<!--'C ≡ 2'-->
+#else if C ≡ 2
 	'Terrain category - II:'z_0 = 0.05'm,'z_min = 2.0'm,'z_max = 200'm
 	'Area with low vegetation such as grass and isolated obstacles (trees, buildings) with separations of at least 20 obstacle heights.
-#else if '<!--'C ≡ 3'-->
+#else if C ≡ 3
 	'Terrain category - III:'z_0 = 0.3'm,'z_min = 5.0'm,'z_max = 200'm
 	'Area with regular cover of vegetation or buildings or with isolated obstacles with separations of maximum 20 obstacle heights (such as villages, suburban terrain, permanent forest).
-#else if '<!--'C ≡ 4'-->
+#else if C ≡ 4
 	'Terrain category - IV:'z_0 = 1.0'm,'z_min = 10.0'm,'z_max = 200'm
 	'Area in which at least 15 % of the surface is covered with buildings and their average height exceeds 15 m. 
 #else
@@ -69,14 +69,14 @@
 '<p class="ref">[EN 1991-1-4 (4.5)]</p>
 'Terrain factor - 'k_r = 0.19*(z_0/0.05)^0.07
 '<p class="ref">[EN 1991-1-4 (4.4)]</p>
-#if '<!--'z < z_min'-->
+#if z < z_min
 	'Roughness factor -'C_r = k_r*ln(z_min/z_0)
 #else
 	'Roughness factor -'C_r = k_r*ln(z/z_0)
 #end if
 'Turbulence factor -'k_I = 1.0
 '<p class="ref">[EN 1991-1-4 (4.7)]</p>
-#if '<!--'z < z_min'-->
+#if z < z_min
 	'Turbulence intensity -'I_v = k_I/(C_0*ln(z_min/z_0))
 #else
 	'Turbulence intensity -'I_v = k_I/(C_0*ln(z/z_0))
@@ -112,20 +112,20 @@ w_s_F = 0''w_s_G = 0''w_s_H = 0''w_s_I = 0''w_s_J = 0
 e = min(L;2*h_1)'m
 '
 '<p><b>Walls</b></p>
-#if '<!--'e ≤ B'-->
+#if e ≤ B
 	'<!--'case = 1'-->
 	e'm ≤'B'm
-	'<img width="260" src="http://proektsoft.pe.hu/calcpad/en/media/structures/loads/wind-0-wall-1.png" alt="wind-0-wall-1.png">'
+	'<img style="width:200pt;" src="https://calcpad.eu/media/structures/loads/wind-0-wall-1.png" alt="wind-0-wall-1.png">'
 	e/5'm,'4/5*e'm,'B - e'm
-#else if '<!--'e < 5*B'-->
+#else if e < 5*B
 	'<!--'case = 2'-->
 	e'm &lt;'5*B'm
-	'<img width="260" src="http://proektsoft.pe.hu/calcpad/en/media/structures/loads/wind-0-wall-2.png" alt="wind-0-wall-2.png">'
+	'<img style="width:200pt;" src="https://calcpad.eu/media/structures/loads/wind-0-wall-2.png" alt="wind-0-wall-2.png">'
 	e/5'm,'B - e/5'm
 #else
 	'<!--'case = 3'-->
 	e'm &ge;'5*B'm
-	'<img width="260" src="http://proektsoft.pe.hu/calcpad/en/media/structures/loads/wind-0-wall-3.png" alt="wind-0-wall-3.png">'
+	'<img style="width:200pt;" src="https://calcpad.eu/media/structures/loads/wind-0-wall-3.png" alt="wind-0-wall-3.png">'
 	B'm
 #end if
 h_1/B
@@ -133,19 +133,19 @@ h_1/B
 '<p><b>Results</b></p>
 '<p><b>External pressure coefficients</b></p>
 'Zone A -'C_pe_10_A = -1.2','C_pe_1_A = -1.4
-#if '<!--'case < 3'-->
+#if case < 3
 	'Zone B -'C_pe_10_B = -0.8','C_pe_1_B = -1.1
 #end if
-#if '<!--'case < 2'-->
+#if case < 2
 	'Zone C -'C_pe_10_C = -0.5','C_pe_1_C = -0.5
 #end if
-#if '<!--'h_1/B ≤ 0.25'-->
+#if h_1/B ≤ 0.25
 	'Zone D -'C_pe_10_D = 0.7','C_pe_1_D = 1.0
 	'Zone E -'C_pe_10_E = -0.3','C_pe_1_E = -0.3
-#else if '<!--'h_1/B ≤ 1'-->
+#else if h_1/B ≤ 1
 	'Zone D -'C_pe_10_D = 0.7 + 0.1*(h_1/B - 0.25)/0.75','C_pe_1_D = 1.0
 	'Zone E -'C_pe_10_E = -0.3 - 0.2*(h_1/B - 0.25)/0.75','C_pe_1_E = C_pe_10_E
-#else if '<!--'h_1/B ≤ 5'-->
+#else if h_1/B ≤ 5
 	'Zone D -'C_pe_10_D = 0.8','C_pe_1_D = 1.0
 	'Zone E -'C_pe_10_E = -0.5 - 0.2*(h_1/B - 1)/4','C_pe_1_E = C_pe_10_E
 #else
@@ -156,58 +156,58 @@ h_1/B
 'Zone D -'w_D = (C_s*C_d*C_pe_10_D - C_pi)*q_p'kN/m²
 'Zone E -'w_E = (C_pe_10_E - C_pi)*q_p'kN/m²
 'Zone A -'w_A = (C_pe_10_A - C_pi)*q_p'kN/m²
-#if '<!--'case < 3'-->
+#if case < 3
 	'Zone B -'w_B = (C_pe_10_B - C_pi)*q_p'kN/m²
 #end if
-#if '<!--'case < 2'-->
+#if case < 2
 	'Zone C -'w_C = (C_pe_10_C - C_pi)*q_p'kN/m²
 #end if
-#if '<!--'a > 0'-->
+#if a > 0
 	'<p><b>Loads on main columns</b></p>
 	'Windward side -'w_c_D = (C_pe_10_D - C_pi)*q_p*a'kN/m
 	'Leeward side -'w_c_E = (C_pe_10_E - C_pi)*q_p*a'kN/m
 #end if
-#if '<!--'b > 0'-->
+#if b > 0
 	'<p><b>Loads on wind columns</b></p>
 	'Zone A -'w_c_A = (C_pe_10_A - C_pi)*q_p*b'kN/m
-	#if '<!--'case < 3'-->
+	#if case < 3
 		'Zone B -'w_c_B = (C_pe_10_B - C_pi)*q_p*b'kN/m
 	#end if
-	#if '<!--'case < 2'-->
+	#if case < 2
 		'Zone C -'w_c_C = (C_pe_10_C - C_pi)*q_p*b'kN/m
 	#end if
 #end if
-#if '<!--'c_s > 0'-->
+#if c_s > 0
 	'<p><b>Coefficients for side beams</b></p>
-	#if '<!--'A_sb ≤ 1'-->
+	#if A_sb ≤ 1
 		'Zone A -'C_pe_A = C_pe_1_A
-		#if '<!--'case < 3'-->
+		#if case < 3
 			'Zone B -'C_pe_B = C_pe_1_B
 		#end if
-		#if '<!--'case < 2'-->
+		#if case < 2
 			'Zone C -'C_pe_C = C_pe_1_C
 		#end if
-	#else if '<!--'A_sb ≥ 10'-->
+	#else if A_sb ≥ 10
 		'Zone A -'C_pe_A = C_pe_10_A
-		#if '<!--'case < 3'-->
+		#if case < 3
 			'Zone B -'C_pe_B = C_pe_10_B
 		#end if
-		#if '<!--'case < 2'-->
+		#if case < 2
 			'Zone C -'C_pe_C = C_pe_10_C
 		#end if
 	#else
 		'Zone A -'C_pe_A = C_pe_1_A - (C_pe_1_A - C_pe_10_A)*log(A_sb)
-		#if '<!--'case < 3'-->
+		#if case < 3
 			'Zone B -'C_pe_B = C_pe_1_B - (C_pe_1_B - C_pe_10_B)*log(A_sb)
 		#end if
-		#if '<!--'case < 2'-->
+		#if case < 2
 			'Zone C -'C_pe_C = C_pe_1_C - (C_pe_1_C - C_pe_10_C)*log(A_sb)
 		#end if
 	#end if
-	#if '<!--'A_sa ≤ 1'-->
+	#if A_sa ≤ 1
 		'Zone D -'C_pe_D = C_pe_1_D
 		'Zone E -'C_pe_E = C_pe_1_E
-	#else if '<!--'A_sa ≥ 10'-->
+	#else if A_sa ≥ 10
 		'Zone D -'C_pe_D = C_pe_10_D
 		'Zone E -'C_pe_E = C_pe_10_E
 	#else
@@ -216,10 +216,10 @@ h_1/B
 	#end if
 	'<p><b>Loads on side beams</b></p>
 	'Zone A -'w_s_A = (C_pe_A - C_pi)*q_p*c_s'kN/m
-	#if '<!--'case < 3'-->
+	#if case < 3
 		'Zone B -'w_s_B = (C_pe_B - C_pi)*q_p*c_s'kN/m
 	#end if
-	#if '<!--'case < 2'-->
+	#if case < 2
 		'Zone C -'w_s_C = (C_pe_C - C_pi)*q_p*c_s'kN/m
 	#end if
 	'Zone D -'w_s_D = (C_pe_D - C_pi)*q_p*c_s'kN/m
@@ -232,71 +232,65 @@ h_1/B
 '<tr><th rowspan="2">Zone</th><th colspan="3">Pressure coefficients<sup>1)</sup></th><th colspan="3">Loading<sup>4)</sup></th></tr>
 '<tr><th><i>C</i><sub>pe_10</sub><br />(for 10 m²)</th><th><i>C</i><sub>pe_1</sub><br />(for 1 m²)</th><th><i>C</i><sub>pe</sub><br />(side beams)</th><th>Surface loads<sup>2)</sup>,<br />kN/m²</th><th>Columns <sup>3)</sup>,<br />kN/m</th><th>Side beams <sup>3)</sup>,<br />kN/m</th></tr>
 '<tr><td>Zone A</td><td>'C_pe_10_A'</td><td>'C_pe_1_A'</td><td>'C_pe_A'</td><td>'w_A'</td><td>'w_c_A'</td><td>'w_s_A'</td></tr>
-'<!--'
 #if case < 3
-'<-->
 	'<tr><td>Zone B</td><td>'C_pe_10_B'</td><td>'C_pe_1_B'</td><td>'C_pe_B'</td><td>'w_B'</td><td>'w_c_B'</td><td>'w_s_B'</td></tr>
-'<!--'
 #end if
 #if case < 2
-'<-->
 	'<tr><td>Zone C</td><td>'C_pe_10_C'</td><td>'C_pe_1_C'</td><td>'C_pe_C'</td><td>'w_C'</td><td>'w_c_C'</td><td>'w_s_C'</td></tr>
-'<!--'
 #end if
-'<-->
 '<tr><td>Zone D</td><td>'C_pe_10_D'</td><td>'C_pe_1_D'</td><td>'C_pe_D'</td><td>'w_D'</td><td>'w_c_D'</td><td>'w_s_D'</td></tr>
 '<tr><td>Zone E</td><td>'C_pe_10_E'</td><td>'C_pe_1_E'</td><td>'C_pe_E'</td><td>'w_E'</td><td>'w_c_E'</td><td>'w_s_E'</td></tr>
 '</table>
 #equ
 '<br/>
 '<p><b>Roof</b></p>
-'<img width="260" src="http://proektsoft.pe.hu/calcpad/en/media/structures/loads/wind-0-roof.png" alt="wind-0-roof.png">'
+'<img style="width:200pt;" src="https://calcpad.eu/media/structures/loads/wind-0-roof.png" alt="wind-0-roof.png">'
 e'm,'e/4'm,'e/10'm
 '(Four possible combinations for minimum and maximum loads on both slopes are required: { + , + }; { + , – }; { – , + }; { – , – })
 '<div class="fold">
 '<p><b>Minimum values (–)</b></p>
 '<p><b>External pressure coefficients</b></p>
-#if '<!--'α ≡ 0'-->
+#if α ≡ 0
 	'Zone F -'C_pe_10_F = -1.8','C_pe_1_F = -2.5
 	'Zone G -'C_pe_10_G = -1.2','C_pe_1_G = -2.0
 	'Zone H -'C_pe_10_H = -0.7','C_pe_1_H = -1.2
 	'Zone I -'C_pe_10_I = -0.2','C_pe_1_I = -0.2
-#else if '<!--'α ≤ 5'-->
+#else if α ≤ 5
 	k = (5 - α)/5
 	'Zone F -'C_pe_10_F = -1.7 - 0.1*k','C_pe_1_F = -2.5
 	'Zone G -'C_pe_10_G = -1.2','C_pe_1_G = -2.0
 	'Zone H -'C_pe_10_H = -0.6 - 0.1*k','C_pe_1_H = -1.2
 	'Zone I -'C_pe_10_I = -0.6 + 0.4*k','C_pe_1_I = -0.6 + 0.4*k
 	'Zone J -'C_pe_10_J = -0.6','C_pe_1_J = -0.6
-#else if '<!--'α ≤ 15'-->
+#else if α ≤ 15
 	k = (15 - α)/10
 	'Zone F -'C_pe_10_F = -0.9 - 0.8*k','C_pe_1_F = -2.0 - 0.5*k
 	'Zone G -'C_pe_10_G = -0.8 - 0.4*k','C_pe_1_G = -1.5 - 0.5*k
 	'Zone H -'C_pe_10_H = -0.3 - 0.3*k','C_pe_1_H = -0.3 - 0.9*k
 	'Zone I -'C_pe_10_I = -0.4 - 0.2*k','C_pe_1_I = -0.4 - 0.2*k
 	'Zone J -'C_pe_10_J = -1.0 + 0.4*k','C_pe_1_J = -1.5 + 0.9*k
-#else if '<!--'α ≤ 30'-->
+#else if α ≤ 30
 	k = (30 - α)/15
 	'Zone F -'C_pe_10_F = -0.5 - 0.4*k','C_pe_1_F = -1.5 - 0.5*k
 	'Zone G -'C_pe_10_G = -0.5 - 0.3*k','C_pe_1_G = -1.5
 	'Zone H -'C_pe_10_H = -0.2 - 0.1*k','C_pe_1_H = -0.2 - 0.1*k
 	'Zone I -'C_pe_10_I = -0.4','C_pe_1_I = -0.4
 	'Zone J -'C_pe_10_J = -0.5 - 0.5*k','C_pe_1_J = -0.5 - 1.0*k
-#else if '<!--'α ≤ 45'-->
+#else if α ≤ 45
 	k = (45 - α)/15
 	'Zone F -'C_pe_10_F = 0.0 - 0.5*k','C_pe_1_F = 0.0 - 1.5*k
 	'Zone G -'C_pe_10_G = 0.0 - 0.5*k','C_pe_1_G = 0.0 - 1.5*k
 	'Zone H -'C_pe_10_H = 0.0 - 0.2*k','C_pe_1_H = 0.0 - 0.2*k
 	'Zone I -'C_pe_10_I = -0.2 - 0.2*k','C_pe_1_I = -0.2 - 0.2*k
 	'Zone J -'C_pe_10_J = -0.3 - 0.2*k','C_pe_1_J = -0.3 - 0.2*k
-#else if '<!--'α ≤ 60'-->
+#else if α ≤ 60
 	k = (60 - α)/15
 	'Zone F -'C_pe_10_F = 0.7 - 0.7*k','C_pe_1_F = C_pe_10_F
 	'Zone G -'C_pe_10_G = 0.7 - 0.7*k','C_pe_1_G = C_pe_10_G
 	'Zone H -'C_pe_10_H = 0.7 - 0.7*k','C_pe_1_H = C_pe_10_H
 	'Zone I -'C_pe_10_I = -0.2','C_pe_1_I = C_pe_10_I
 	'Zone J -'C_pe_10_J = -0.3','C_pe_1_J = C_pe_10_J
-#else if '<!--'α ≤ 75'-->
+#else if α ≤ 75
 	k = (75 - α)/15
 	'Zone F -'C_pe_10_F = 0.8 - 0.1*k','C_pe_1_F = C_pe_10_F
 	'Zone G -'C_pe_10_G = 0.8 - 0.1*k','C_pe_1_G = C_pe_10_G
@@ -309,35 +303,35 @@ e'm,'e/4'm,'e/10'm
 'Zone G -'w_G = (C_pe_10_G - C_pi)*q_p'kN/m²
 'Zone H -'w_H = (C_pe_10_H - C_pi)*q_p'kN/m²
 'Zone I -'w_I = (C_pe_10_I - C_pi)*q_p'kN/m²
-#if '<!--'α ≠ 0'-->
+#if α ≠ 0
 	'Zone J -'w_J = (C_pe_10_J - C_pi)*q_p'kN/m²
 #end if
-#if '<!--'a > 0'-->
+#if a > 0
 	'<p><b>Loads on main beams</b></p>
 	'Zone F -'w_b_F = (C_pe_10_F - C_pi)*q_p*a'kN/m
 	'Zone G -'w_b_G = (C_pe_10_G - C_pi)*q_p*a'kN/m
 	'Zone H -'w_b_H = (C_pe_10_H - C_pi)*q_p*a'kN/m
 	'Zone I -'w_b_I = (C_pe_10_I - C_pi)*q_p*a'kN/m
-	#if '<!--'α ≠ 0'-->
+	#if α ≠ 0
 		'Zone J -'w_b_J = (C_pe_10_J - C_pi)*q_p*a'kN/m
 	#end if
 #end if
-#if '<!--'c_p > 0'-->
+#if c_p > 0
 	'<p><b>Coefficients for purlins</b></p>
-	#if '<!--'A_p ≤ 1'-->
+	#if A_p ≤ 1
 		'Zone F -'C_pe_F = C_pe_1_F
 		'Zone G -'C_pe_G = C_pe_1_G
 		'Zone H -'C_pe_H = C_pe_1_H
 		'Zone I -'C_pe_I = C_pe_1_I
-		#if '<!--'α ≠ 0'-->
+		#if α ≠ 0
 			'Zone J -'C_pe_J = C_pe_1_J
 		#end if
-	#else if '<!--'A_p ≥ 10'-->
+	#else if A_p ≥ 10
 		'Zone F -'C_pe_F = C_pe_10_F
 		'Zone G -'C_pe_G = C_pe_10_G
 		'Zone H -'C_pe_H = C_pe_10_H
 		'Zone I -'C_pe_I = C_pe_10_I
-		#if '<!--'α ≠ 0'-->
+		#if α ≠ 0
 			'Zone J -'C_pe_J = C_pe_10_J
 		#end if
 	#else
@@ -345,7 +339,7 @@ e'm,'e/4'm,'e/10'm
 		'Zone G -'C_pe_G = C_pe_1_G - (C_pe_1_G - C_pe_10_G)*log(A_p)
 		'Zone H -'C_pe_H = C_pe_1_H - (C_pe_1_H - C_pe_10_H)*log(A_p)
 		'Zone I -'C_pe_I = C_pe_1_I - (C_pe_1_I - C_pe_10_I)*log(A_p)
-		#if '<!--'α ≠ 0'-->
+		#if α ≠ 0
 			'Zone J -'C_pe_J = C_pe_1_J - (C_pe_1_J - C_pe_10_J)*log(A_p)
 		#end if
 	#end if
@@ -355,7 +349,7 @@ e'm,'e/4'm,'e/10'm
 	'Zone G -'w_s_G = (C_pe_G - C_pi)*q_p*c_p'kN/m
 	'Zone H -'w_s_H = (C_pe_H - C_pi)*q_p*c_p'kN/m
 	'Zone I -'w_s_I = (C_pe_I - C_pi)*q_p*c_p'kN/m
-	#if '<!--'α ≠ 0'-->
+	#if α ≠ 0
 		'Zone J -'w_s_J = (C_pe_J - C_pi)*q_p*c_p'kN/m
 	#end if
 #end if
@@ -369,59 +363,55 @@ e'm,'e/4'm,'e/10'm
 '<tr><td>Zone G</td><td>'C_pe_10_G'</td><td>'C_pe_1_G'</td><td>'C_pe_G'</td><td>'w_G'</td><td>'w_b_G'</td><td>'w_s_G'</td></tr>
 '<tr><td>Zone H</td><td>'C_pe_10_H'</td><td>'C_pe_1_H'</td><td>'C_pe_H'</td><td>'w_H'</td><td>'w_b_H'</td><td>'w_s_H'</td></tr>
 '<tr><td>Zone I</td><td>'C_pe_10_I'</td><td>'C_pe_1_I'</td><td>'C_pe_I'</td><td>'w_I'</td><td>'w_b_I'</td><td>'w_s_I'</td></tr>
-'<!--
 #if α ≠ 0
-'<-->
 	'<tr><td>Zone J</td><td>'C_pe_10_J'</td><td>'C_pe_1_J'</td><td>'C_pe_J'</td><td>'w_J'</td><td>'w_b_J'</td><td>'w_s_J'</td></tr>
-'<!--
 #end if
-'<-->
 '</table>
 #equ
 '<br/>
 '<div class="fold">
 '<p><b>Maximum values (+)</b></p>
-#if '<!--'α ≡ 0'-->
+#if α ≡ 0
 	'Zone F -'C_pe_10_F = -1.8','C_pe_1_F = -2.5
 	'Zone G -'C_pe_10_G = -1.2','C_pe_1_G = -2.0
 	'Zone H -'C_pe_10_H = -0.7','C_pe_1_H = -1.2
 	'Zone I -'C_pe_10_I = 0.2','C_pe_1_I = 0.2
-#else if '<!--'α ≤ 5'-->
+#else if α ≤ 5
 	k = (5 - α)/5
 	'Zone F -'C_pe_10_F = 0.0','C_pe_1_F = 0.0
 	'Zone G -'C_pe_10_G = 0.0','C_pe_1_G = 0.0
 	'Zone H -'C_pe_10_H = 0.0','C_pe_1_H = 0.0
 	'Zone I -'C_pe_10_I = -0.6','C_pe_1_I = -0.6
 	'Zone J -'C_pe_10_J = 0.2','C_pe_1_J = 0.2
-#else if '<!--'α ≤ 15'-->
+#else if α ≤ 15
 	k = (15 - α)/10
 	'Zone F -'C_pe_10_F = 0.2 - 0.2*k','C_pe_1_F = C_pe_10_F
 	'Zone G -'C_pe_10_G = 0.2 - 0.2*k','C_pe_1_G = C_pe_10_G
 	'Zone H -'C_pe_10_H = 0.2 - 0.2*k','C_pe_1_H = C_pe_10_H
 	'Zone I -'C_pe_10_I = 0.0 - 0.6*k','C_pe_1_I = C_pe_10_I
 	'Zone J -'C_pe_10_J = 0.0 + 0.2*k','C_pe_1_J = C_pe_10_J
-#else if '<!--'α ≤ 30'-->
+#else if α ≤ 30
 	k = (30 - α)/15
 	'Zone F -'C_pe_10_F = 0.7 - 0.5*k','C_pe_1_F = C_pe_10_F
 	'Zone G -'C_pe_10_G = 0.7 - 0.5*k','C_pe_1_G = C_pe_10_G
 	'Zone H -'C_pe_10_H = 0.4 - 0.2*k','C_pe_1_H = C_pe_10_H
 	'Zone I -'C_pe_10_I = 0.0','C_pe_1_I = C_pe_10_H
 	'Zone J -'C_pe_10_J = 0.0','C_pe_1_J = C_pe_10_J
-#else if '<!--'α ≤ 45'-->
+#else if α ≤ 45
 	k = (45 - α)/15
 	'Zone F -'C_pe_10_F = 0.7','C_pe_1_F = C_pe_10_F
 	'Zone G -'C_pe_10_G = 0.7','C_pe_1_G = C_pe_10_G
 	'Zone H -'C_pe_10_H = 0.6 - 0.2*k','C_pe_1_H = C_pe_10_H
 	'Zone I -'C_pe_10_I = 0.0','C_pe_1_I = C_pe_10_I
 	'Zone J -'C_pe_10_J = 0.0','C_pe_1_J = C_pe_10_J
-#else if '<!--'α ≤ 60'-->
+#else if α ≤ 60
 	k = (60 - α)/15
 	'Zone F -'C_pe_10_F = 0.7 - 0.7*k','C_pe_1_F = C_pe_10_F
 	'Zone G -'C_pe_10_G = 0.7 - 0.7*k','C_pe_1_G = C_pe_10_G
 	'Zone H -'C_pe_10_H = 0.7 - 0.7*k','C_pe_1_H = C_pe_10_H
 	'Zone I -'C_pe_10_I = -0.2 + 0.2*k','C_pe_1_I = C_pe_10_I
 	'Zone J -'C_pe_10_J = -0.3 + 0.3*k','C_pe_1_J = C_pe_10_J
-#else if '<!--'α ≤ 75'-->
+#else if α ≤ 75
 	k = (75 - α)/15
 	'Zone F -'C_pe_10_F = 0.8 - 0.1*k','C_pe_1_F = C_pe_10_F
 	'Zone G -'C_pe_10_G = 0.8 - 0.1*k','C_pe_1_G = C_pe_10_G
@@ -434,35 +424,35 @@ e'm,'e/4'm,'e/10'm
 'Zone G -'w_G = (C_pe_10_G - C_pi)*q_p'kN/m²
 'Zone H -'w_H = (C_pe_10_H - C_pi)*q_p'kN/m²
 'Zone I -'w_I = (C_pe_10_I - C_pi)*q_p'kN/m²
-#if '<!--'α ≠ 0'-->
+#if α ≠ 0
 	'Zone J -'w_J = (C_pe_10_J - C_pi)*q_p'kN/m²
 #end if
-#if '<!--'a > 0'-->
+#if a > 0
 	'<p><b>Loads on main beams</b></p>
 	'Zone F -'w_b_F = (C_pe_10_F - C_pi)*q_p*a'kN/m
 	'Zone G -'w_b_G = (C_pe_10_G - C_pi)*q_p*a'kN/m
 	'Zone H -'w_b_H = (C_pe_10_H - C_pi)*q_p*a'kN/m
 	'Zone I -'w_b_I = (C_pe_10_I - C_pi)*q_p*a'kN/m
-	#if '<!--'α ≠ 0'-->
+	#if α ≠ 0
 		'Zone J -'w_b_J = (C_pe_10_J - C_pi)*q_p*a'kN/m
 	#end if
 #end if
-#if '<!--'c_p > 0'-->
+#if c_p > 0
 	'<p><b>Coefficients for purlins</b></p>
-	#if '<!--'A_p ≤ 1'-->
+	#if A_p ≤ 1
 		'Zone F -'C_pe_F = C_pe_1_F
 		'Zone G -'C_pe_G = C_pe_1_G
 		'Zone H -'C_pe_H = C_pe_1_H
 		'Zone I -'C_pe_I = C_pe_1_I
-		#if '<!--'α ≠ 0'-->
+		#if α ≠ 0
 			'Zone J -'C_pe_J = C_pe_1_J
 		#end if
-	#else if '<!--'A_p ≥ 10'-->
+	#else if A_p ≥ 10
 		'Zone F -'C_pe_F = C_pe_10_F
 		'Zone G -'C_pe_G = C_pe_10_G
 		'Zone H -'C_pe_H = C_pe_10_H
 		'Zone I -'C_pe_I = C_pe_10_I
-		#if '<!--'α ≠ 0'-->
+		#if α ≠ 0
 			'Zone J -'C_pe_J = C_pe_10_J
 		#end if
 	#else
@@ -470,7 +460,7 @@ e'm,'e/4'm,'e/10'm
 		'Zone G -'C_pe_G = C_pe_1_G - (C_pe_1_G - C_pe_10_G)*log(A_p)
 		'Zone H -'C_pe_H = C_pe_1_H - (C_pe_1_H - C_pe_10_H)*log(A_p)
 		'Zone I -'C_pe_I = C_pe_1_I - (C_pe_1_I - C_pe_10_I)*log(A_p)
-		#if '<!--'α ≠ 0'-->
+		#if α ≠ 0
 			'Zone J -'C_pe_J = C_pe_1_J - (C_pe_1_J - C_pe_10_J)*log(A_p)
 		#end if
 	#end if
@@ -479,7 +469,7 @@ e'm,'e/4'm,'e/10'm
 	'Zone G -'w_s_G = (C_pe_G - C_pi)*q_p*c_p'kN/m
 	'Zone H -'w_s_H = (C_pe_H - C_pi)*q_p*c_p'kN/m
 	'Zone I -'w_s_I = (C_pe_I - C_pi)*q_p*c_p'kN/m
-	#if '<!--'α ≠ 0'-->
+	#if α ≠ 0
 		'Zone J -'w_s_J = (C_pe_J - C_pi)*q_p*c_p'kN/m
 	#end if
 #end if
@@ -493,13 +483,9 @@ e'm,'e/4'm,'e/10'm
 '<tr><td>Zone G</td><td>'C_pe_10_G'</td><td>'C_pe_1_G'</td><td>'C_pe_G'</td><td>'w_G'</td><td>'w_b_G'</td><td>'w_s_G'</td></tr>
 '<tr><td>Zone H</td><td>'C_pe_10_H'</td><td>'C_pe_1_H'</td><td>'C_pe_H'</td><td>'w_H'</td><td>'w_b_H'</td><td>'w_s_H'</td></tr>
 '<tr><td>Zone I</td><td>'C_pe_10_I'</td><td>'C_pe_1_I'</td><td>'C_pe_I'</td><td>'w_I'</td><td>'w_b_I'</td><td>'w_s_I'</td></tr>
-'<!--
 #if α ≠ 0
-'<-->
 	'<tr><td>Zone J</td><td>'C_pe_10_J'</td><td>'C_pe_1_J'</td><td>'C_pe_J'</td><td>'w_J'</td><td>'w_b_J'</td><td>'w_s_J'</td></tr>
-'<!--
 #end if
-'<-->
 '</table>
 #equ
 '
@@ -508,20 +494,20 @@ e'm,'e/4'm,'e/10'm
 e = min(B;2*h_1)
 '
 '<p><b>Side walls</b></p>
-#if '<!--'e ≤ L'-->
+#if e ≤ L
 	'<!--'case = 1'-->
 	e'm ≤'L'm
-	'<img width="260" src="http://proektsoft.pe.hu/calcpad/en/media/structures/loads/wind-90-wall-1.png" alt="wind-90-wall-1.png">'
+	'<img style="width:200pt;" src="https://calcpad.eu/media/structures/loads/wind-90-wall-1.png" alt="wind-90-wall-1.png">'
 	e/5'm,'4/5*e'm,'L - e'm
-#else if '<!--'e < 5*L'-->
+#else if e < 5*L
 	'<!--'case = 2'-->
 	e'm &lt;'5*L'm
-	'<img width="260" src="http://proektsoft.pe.hu/calcpad/en/media/structures/loads/wind-90-wall-2.png" alt="wind-90-wall-2.png">'
+	'<img style="width:200pt;" src="https://calcpad.eu/media/structures/loads/wind-90-wall-2.png" alt="wind-90-wall-2.png">'
 	e/5'm,'L - e/5'm
 #else
 	'<!--'case = 3'-->
 	e'm &ge;'5*L'm
-	'<img width="260" src="http://proektsoft.pe.hu/calcpad/en/media/structures/loads/wind-90-wall-3.png" alt="wind-90-wall-3.png">'
+	'<img style="width:200pt;" src="https://calcpad.eu/media/structures/loads/wind-90-wall-3.png" alt="wind-90-wall-3.png">'
 	L'm
 #end if
 h_1/L
@@ -529,19 +515,19 @@ h_1/L
 '<p><b>Results</b></p>
 '<p><b>External pressure coefficients</b></p>
 'Zone A -'C_pe_10_A = -1.2','C_pe_1_A = -1.4
-#if '<!--'case < 3'-->
+#if case < 3
 	'Zone B -'C_pe_10_B = -0.8','C_pe_1_B = -1.1
 #end if
-#if '<!--'case < 2'-->
+#if case < 2
 	'Zone C -'C_pe_10_C = -0.5','C_pe_1_C = -0.5
 #end if
-#if '<!--'h_1/L ≤ 0.25'-->
+#if h_1/L ≤ 0.25
 	'Zone D -'C_pe_10_D = 0.7','C_pe_1_D = 1.0
 	'Zone E -'C_pe_10_E = -0.3','C_pe_1_E = -0.3
-#else if '<!--'h_1/L ≤ 1'-->
+#else if h_1/L ≤ 1
 	'Zone D -'C_pe_10_D = 0.7 + 0.1*(h_1/L - 0.25)/0.75','C_pe_1_D = 1.0
 	'Zone E -'C_pe_10_E = -0.3 - 0.2*(h_1/L - 0.25)/0.75','C_pe_1_E = C_pe_10_E
-#else if '<!--'h_1/L ≤ 5'-->
+#else if h_1/L ≤ 5
 	'Zone D -'C_pe_10_D = 0.8','C_pe_1_D = 1.0
 	'Zone E -'C_pe_10_E = -0.5 - (h_1/L - 1)/4*0.2','C_pe_1_E = C_pe_10_E
 #else
@@ -550,60 +536,60 @@ h_1/L
 #end if
 '<p><b>Surface loads</b></p>
 'Zone A -'w_A = (C_pe_10_A - C_pi)*q_p'kN/m²
-#if '<!--'case < 3'-->
+#if case < 3
 	'Zone B -'w_B = (C_pe_10_B - C_pi)*q_p'kN/m²
 #end if
-#if '<!--'case < 2'-->
+#if case < 2
 	'Zone C -'w_C = (C_pe_10_C - C_pi)*q_p'kN/m²
 #end if
 'Zone D -'w_D = (C_pe_10_D - C_pi)*q_p'kN/m²
 'Zone E -'w_E = (C_pe_10_E - C_pi)*q_p'kN/m²
-#if '<!--'a > 0'-->
+#if a > 0
 	'<p><b>Loads on main columns</b></p>
 	'Zone A -'w_c_A = (C_pe_10_A - C_pi)*q_p*a'kN/m
-	#if '<!--'case < 3'-->
+	#if case < 3
 		'Zone B -'w_c_B = (C_pe_10_B - C_pi)*q_p*a'kN/m
 	#end if
-	#if '<!--'case < 2'-->
+	#if case < 2
 		'Zone C -'w_c_C = (C_pe_10_C - C_pi)*q_p*a'kN/m
 	#end if
 #end if
-#if '<!--'b > 0'-->
+#if b > 0
 	'<p><b>Loads on wind columns</b></p>
 	'Windward side -'w_c_D = (C_pe_10_D - C_pi)*q_p*b'kN/m
 	'Leeward side -'w_c_E = (C_pe_10_E - C_pi)*q_p*b'kN/m
 #end if
-#if '<!--'c_s > 0'-->
+#if c_s > 0
 	'<p><b>Coefficients for side beams</b></p>
-	#if '<!--'A_sa ≤ 1'-->
+	#if A_sa ≤ 1
 		'Zone A -'C_pe_A = C_pe_1_A
-		#if '<!--'case < 3'-->
+		#if case < 3
 			'Zone B -'C_pe_B = C_pe_1_B
 		#end if
-		#if '<!--'case < 2'-->
+		#if case < 2
 			'Zone C -'C_pe_C = C_pe_1_C
 		#end if
-	#else if '<!--'A_sa ≥ 10'-->
+	#else if A_sa ≥ 10
 		'Zone A -'C_pe_A = C_pe_10_A
-		#if '<!--'case < 3'-->
+		#if case < 3
 			'Zone B -'C_pe_B = C_pe_10_B
 		#end if
-		#if '<!--'case < 2'-->
+		#if case < 2
 			'Zone C -'C_pe_C = C_pe_10_C
 		#end if
 	#else
 		'Zone A -'C_pe_A = C_pe_1_A - (C_pe_1_A - C_pe_10_A)*log(A_sa)
-		#if '<!--'case < 3'-->
+		#if case < 3
 			'Zone B -'C_pe_B = C_pe_1_B - (C_pe_1_B - C_pe_10_B)*log(A_sa)
 		#end if
-		#if '<!--'case < 2'-->
+		#if case < 2
 			'Zone C -'C_pe_C = C_pe_1_C - (C_pe_1_C - C_pe_10_C)*log(A_sa)
 		#end if
 	#end if
-	#if '<!--'A_sb ≤ 1'-->
+	#if A_sb ≤ 1
 		'Zone D -'C_pe_D = C_pe_1_D
 		'Zone E -'C_pe_E = C_pe_1_E
-	#else if '<!--'A_sb ≥ 10'-->
+	#else if A_sb ≥ 10
 		'Zone D -'C_pe_D = C_pe_10_D
 		'Zone E -'C_pe_E = C_pe_10_E
 	#else
@@ -612,10 +598,10 @@ h_1/L
 	#end if
 	'<p><b>Loads on side beams</b></p>
 	'Zone A -'w_s_A = (C_pe_A - C_pi)*q_p*c_s'kN/m
-	#if '<!--'case < 3'-->
+	#if case < 3
 		'Zone B -'w_s_B = (C_pe_B - C_pi)*q_p*c_s'kN/m
 	#end if
-	#if '<!--'case < 2'-->
+	#if case < 2
 		'Zone C -'w_s_C = (C_pe_C - C_pi)*q_p*c_s'kN/m
 	#end if
 	'Zone D -'w_s_D = (C_pe_D - C_pi)*q_p*c_s'kN/m
@@ -630,63 +616,58 @@ h_1/L
 '<tr><td>Zone A</td><td>'C_pe_10_A'</td><td>'C_pe_1_A'</td><td>'C_pe_A'</td><td>'w_A'</td><td>'w_c_A'</td><td>'w_s_A'</td></tr>
 '<!--
 #if case < 3
-'<-->
 	'<tr><td>Zone B</td><td>'C_pe_10_B'</td><td>'C_pe_1_B'</td><td>'C_pe_B'</td><td>'w_B'</td><td>'w_c_B'</td><td>'w_s_B'</td></tr>
-'<!--
 #end if
 #if case < 2
-'<-->
 	'<tr><td>Zone C</td><td>'C_pe_10_C'</td><td>'C_pe_1_C'</td><td>'C_pe_C'</td><td>'w_C'</td><td>'w_c_C'</td><td>'w_s_C'</td></tr>
-'<!--
 #end if
-'<-->
 '<tr><td>Zone D</td><td>'C_pe_10_D'</td><td>'C_pe_1_D'</td><td>'C_pe_D'</td><td>'w_D'</td><td>'w_c_D'</td><td>'w_s_D'</td></tr>
 '<tr><td>Zone E</td><td>'C_pe_10_E'</td><td>'C_pe_1_E'</td><td>'C_pe_E'</td><td>'w_E'</td><td>'w_c_E'</td><td>'w_s_E'</td></tr>
 '</table>
 #equ
 '<br/>
 '<p><b>Roof</b></p>
-'<img width="400" src="http://proektsoft.pe.hu/calcpad/en/media/structures/loads/wind-90-roof.png" alt="wind-90-roof.png">'
+'<img style="width:300pt;" src="https://calcpad.eu/media/structures/loads/wind-90-roof.png" alt="wind-90-roof.png">'
 e'm,'e/4'm,'e/10'm
 '<div class="fold">
 '<p><b>Results</b></p>
 '<p><b>External pressure coefficients</b></p>
-#if '<!--'α ≡ 0'-->
+#if α ≡ 0
 	'Zone F -'C_pe_10_F = -1.8','C_pe_1_F = -2.5
 	'Zone G -'C_pe_10_G = -1.2','C_pe_1_G = -2.0
 	'Zone H -'C_pe_10_H = -0.7','C_pe_1_H = -1.2
 	'Zone I -'C_pe_10_I = -0.2','C_pe_1_I = -0.2
-#else if '<!--'α ≤ 5'-->
+#else if α ≤ 5
 	k = (5 - α)/5
 	'Zone F -'C_pe_10_F = -1.6 - 0.2*k','C_pe_1_F = -2.2 - 0.3*k
 	'Zone G -'C_pe_10_G = -1.3 + 0.1*k','C_pe_1_G = -2.0
 	'Zone H -'C_pe_10_H = -0.7','C_pe_1_H = -1.2
 	'Zone I -'C_pe_10_I = -0.6 + 0.4*k','C_pe_1_I = -0.6 + 0.4*k
-#else if '<!--'α ≤ 15'-->
+#else if α ≤ 15
 	k = (15 - α)/10
 	'Zone F -'C_pe_10_F = -1.3 - 0.3*k','C_pe_1_F = -2.0 - 0.2*k
 	'Zone G -'C_pe_10_G = -1.3','C_pe_1_G = -2.0
 	'Zone H -'C_pe_10_H = -0.6 - 0.1*k','C_pe_1_H = -1.2
 	'Zone I -'C_pe_10_I = -0.5 - 0.1*k','C_pe_1_I = -0.5 - 0.1*k
-#else if '<!--'α ≤ 30'-->
+#else if α ≤ 30
 	k = (30 - α)/15
 	'Zone F -'C_pe_10_F = -1.1 - 0.2*k','C_pe_1_F = -1.5 - 0.5*k
 	'Zone G -'C_pe_10_G = -1.4 + 0.1*k','C_pe_1_G = -2.0
 	'Zone H -'C_pe_10_H = -0.8 + 0.2*k','C_pe_1_H = -1.2
 	'Zone I -'C_pe_10_I = -0.5','C_pe_1_I = -0.5
-#else if '<!--'α ≤ 45'-->
+#else if α ≤ 45
 	k = (45 - α)/15
 	'Zone F -'C_pe_10_F = -1.1','C_pe_1_F = -1.5
 	'Zone G -'C_pe_10_G = -1.4','C_pe_1_G = -2.0
 	'Zone H -'C_pe_10_H = -0.9 + 0.1*k','C_pe_1_H = -1.2
 	'Zone I -'C_pe_10_I = -0.5','C_pe_1_I = -0.5
-#else if '<!--'α ≤ 60'-->
+#else if α ≤ 60
 	k = (60 - α)/15
 	'Zone F -'C_pe_10_F = -1.1','C_pe_1_F = -1.5
 	'Zone G -'C_pe_10_G = -1.2 - 0.2*k','C_pe_1_G = -2.0
 	'Zone H -'C_pe_10_H = -0.8 - 0.1*k','C_pe_1_H = -1.0 - 0.2*k
 	'Zone I -'C_pe_10_I = -0.5','C_pe_1_I = -0.5
-#else if '<!--'α ≤ 75'-->
+#else if α ≤ 75
 	k = (75 - α)/15
 	'Zone F -'C_pe_10_F = -1.1','C_pe_1_F = -1.5
 	'Zone G -'C_pe_10_G = -1.2','C_pe_1_G = -2.0
@@ -698,21 +679,21 @@ e'm,'e/4'm,'e/10'm
 	'Zone G -'w_G = (C_pe_10_G - C_pi)*q_p'kN/m²
 	'Zone H -'w_H = (C_pe_10_H - C_pi)*q_p'kN/m²
 	'Zone I -'w_I = (C_pe_10_I - C_pi)*q_p'kN/m²
-#if '<!--'a > 0'-->
+#if a > 0
 	'<p><b>Loads on main beams</b></p>
 	'Zone F -'w_b_F = (C_pe_10_F - C_pi)*q_p*a'kN/m
 	'Zone G -'w_b_G = (C_pe_10_G - C_pi)*q_p*a'kN/m
 	'Zone H -'w_b_H = (C_pe_10_H - C_pi)*q_p*a'kN/m
 	'Zone I -'w_b_I = (C_pe_10_I - C_pi)*q_p*a'kN/m
 #end if
-#if '<!--'c_p > 0'-->
+#if c_p > 0
 	'<p><b>Coefficients for purlins</b></p>
-	#if '<!--'A_p ≤ 1'-->
+	#if A_p ≤ 1
 		'Zone F -'C_pe_F = C_pe_1_F
 		'Zone G -'C_pe_G = C_pe_1_G
 		'Zone H -'C_pe_H = C_pe_1_H
 		'Zone I -'C_pe_I = C_pe_1_I
-	#else if '<!--'A_p ≥ 10'-->
+	#else if A_p ≥ 10
 		'Zone F -'C_pe_F = C_pe_10_F
 		'Zone G -'C_pe_G = C_pe_10_G
 		'Zone H -'C_pe_H = C_pe_10_H
@@ -742,7 +723,7 @@ e'm,'e/4'm,'e/10'm
 '</table>
 #equ
 '<h4>Notes</h4>
-'<p><sup>1)</sup> External pressure coefficients are determined according to <br />EN 1991-1-4, <a target="_blank" href="http://proektsoft.pe.hu/calcpad/en/reference/wind-cpe-walls.html">Table 7.1</a> - for  vertical walls and <a target="_blank" href="http://proektsoft.pe.hu/calcpad/en/reference/wind-cpe-roof-2.html">Tables 7.4 a, b</a> and <a target="_blank" href="http://proektsoft.pe.hu/calcpad/en/reference/wind-cpe-roof-0.html">7.2</a> - for roof.<br/>
+'<p><sup>1)</sup> External pressure coefficients are determined according to <br />EN 1991-1-4, <a target="_blank" href="https://calcpad.eu/reference/wind-cpe-walls.html">Table 7.1</a> - for  vertical walls and <a target="_blank" href="https://calcpad.eu/reference/wind-cpe-roof-2.html">Tables 7.4 a, b</a> and <a target="_blank" href="https://calcpad.eu/reference/wind-cpe-roof-0.html">7.2</a> - for roof.<br/>
 '<sup>2)</sup> Surface loads are calculated with coefficient <i>C</i><sub>pe_10</sub>. These loads should be applied only for global analysis of the structure. For design of separate structural elements, values of <i>C</i><sub>pe</sub> = <i>C</i><sub>pe_1</sub> - (<i>C</i><sub>pe_1</sub> - <i>C</i><sub>pe_10</sub>)&middot;log(<i>A</i>)) is used instead of <i>C</i><sub>pe_10</sub> for the respective reference area<i>A</i>.<br />
 '<sup>3)</sup> Thus, the given loads on beams, columns, purlins and siding should be used only for design of the respective elements. These loads cannot be used for load take-down and calculation of other elements.<br />
 '<sup>4)</sup> Positive values (+) mean pressure towards the given surface and negative values (-) are in the opposite direction. The pressure is always perpendicular to the respective surface.</p>

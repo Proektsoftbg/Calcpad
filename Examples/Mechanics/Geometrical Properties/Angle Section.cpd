@@ -1,5 +1,5 @@
 "Geometrical Properties of Angle Section
-'<hr /><div style="max-width:120mm"><img style="height:150pt;" alt="angle.png" class="side" src="http://proektsoft.pe.hu/calcpad/en/media/mechanics/sections/angle.png"></div>
+'<hr /><div style="max-width:120mm"><img style="height:150pt;" alt="angle.png" class="side" src="https://calcpad.eu/media/mechanics/sections/angle.png"></div>
 'Dimensions
 h = ?'%u,'t_w = ?'%u
 b_f = ?'%u,'t_f = ?'%u

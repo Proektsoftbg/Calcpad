@@ -1,6 +1,6 @@
 "Interaction Diagram for Symmetrically Reinforced RC Section<hr/><small>According to <strong>Eurocode</strong>: EN 1992-1-1</small>
 '<div style="max-width:180mm">
-'<img class="side" style="width:150pt;" src="http://proektsoft.pe.hu/calcpad/en/media/structures/rc/design/column-design.png" alt="column-design.png">
+'<img class="side" style="width:150pt;" src="https://calcpad.eu/media/structures/rc/design/column-design.png" alt="column-design.png">
 '<h4>Cross section dimensions</h4>
 'Width -'b = ?'mm, Height -'h = ?'mm
 #post
@@ -18,7 +18,7 @@
 #show
 '<h4>Material properties</h4>
 '<!--'PlotWidth = 250','PlotHeight = 125'-->
-'<p><b>Concrete</b> [EN 1992-1-1, <a target="_blank" href="http://proektsoft.pe.hu/calcpad/en/reference/concrete-table.html">Table 3.1</a>]</p>
+'<p><b>Concrete</b> [EN 1992-1-1, <a target="_blank" href="https://calcpad.eu/reference/concrete-table.html">Table 3.1</a>]</p>
 'Characteristic compressive cylinder strength -'f_ck = ?'MPa
 'Partial safety factors for concrete -'γ_c = 1.5','α_cc = ?
 #post

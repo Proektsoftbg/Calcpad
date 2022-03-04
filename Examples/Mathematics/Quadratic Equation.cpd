@@ -4,13 +4,13 @@ f(x) = a*x^2 + b*x + c'= 0
 'Coefficients:
 a = ?','b = ?','c = ?
 #post
-#if '<!--'a ≡ 0'-->
+#if a ≡ 0
 	'The coefficient <i>a</i> is equal to zero. The equation is linear.
 	x = -c/b
 #else
 	'Discriminant:
 	D = b^2 - 4*a*c
-	#if '<!--'D ≥ 0'-->
+	#if D ≥ 0
 		'The discriminant is grater or equal to zero. Real roots exist.
 		q = -0.5*(b + sign(b)*sqr(D))
 		x_1 = q/a

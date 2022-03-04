@@ -1,6 +1,6 @@
 "Cantilever with Concentrated Moment at the End
 '<hr /><div style="max-width:180mm;">
-'<img style="width:165pt;" alt="cantilever-beam-concentrated-moment.png" class="side" src="http://proektsoft.pe.hu/calcpad/en/media/mechanics/beams/cantilever-beam-concentrated-moment.png">
+'<img style="width:165pt;" alt="cantilever-beam-concentrated-moment.png" class="side" src="https://calcpad.eu/media/mechanics/beams/cantilever-beam-concentrated-moment.png">
 '<p><b>Input data</b></p>
 'Beam Length -'l = ?'m
 'Load -'M = ?'kN·m
