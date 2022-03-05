@@ -46,6 +46,7 @@ namespace Calcpad.Wpf
         private readonly string _htmlWorksheet;
         private readonly string _htmlParsing;
         private readonly string _htmlHelp;
+        private readonly string _svgTyping;
         private readonly StringBuilder _htmlBuilder = new();
         private bool _mustPromptUnlock;
         private bool _forceHighlight;
@@ -93,6 +94,7 @@ namespace Calcpad.Wpf
         private int _pasteOffset;
         private TextPointer _pasteStart;
         private bool _scrollOutput;
+        private double _scrollY;
         private bool _autoRun;
         private readonly double _screenScaleFactor;
 
@@ -199,6 +201,7 @@ namespace Calcpad.Wpf
 #endif
             //_htmlHelp = s.Replace("readme.html", appUrl + "readme.html");
             _htmlHelp = ReadFile(AppInfo.Path + "help.html").Replace("readme.html", appUrl + "readme.html");
+            _svgTyping = $"<img style=\"height:1em;\" src=\"{appUrl}typing.gif\" alt=\"...\">";
             _htmlHelp = _htmlHelp.Replace("jquery", appUrl + "jquery");
             InvButton.Tag = false;
             HypButton.Tag = false;
@@ -223,6 +226,7 @@ namespace Calcpad.Wpf
             _isTextChangedEnabled = false;
             IsSaved = true;
             RichTextBox.Focus();
+            Keyboard.Focus(RichTextBox);
         }
 
         private void ForceHighlight()
@@ -380,6 +384,7 @@ namespace Calcpad.Wpf
 
             RichTextBox.EndChange();
             RichTextBox.Focus();
+            Keyboard.Focus(RichTextBox);
         }
 
         private static void InsertComment(TextPointer tp, string comment)
@@ -450,6 +455,7 @@ namespace Calcpad.Wpf
                     Rect r = block.ContentEnd.GetCharacterRect(LogicalDirection.Backward);
                     RichTextBox.ScrollToVerticalOffset(r.Y);
                     RichTextBox.Focus();
+                    Keyboard.Focus(RichTextBox);
                 }
             }
         }
@@ -492,6 +498,7 @@ namespace Calcpad.Wpf
                 Record();
             }
             RichTextBox.Focus();
+            Keyboard.Focus(RichTextBox);
         }
         private void CalcButton_Click(object sender, RoutedEventArgs e) => Calculate();
         private void Command_Calculate(object sender, ExecutedRoutedEventArgs e)
@@ -824,6 +831,7 @@ namespace Calcpad.Wpf
             {
                 RichTextBox.Paste();
                 RichTextBox.Focus();
+                Keyboard.Focus(RichTextBox);
             }
         }
 
@@ -1528,21 +1536,33 @@ namespace Calcpad.Wpf
 
         private void DecimalsTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            ClearOutput();
+            ClearOutput(false);
             if (IsInitialized && int.TryParse(DecimalsTextBox.Text, out int n))
                 DecimalScrollBar.Value = 15 - n;
         }
 
-        private void ClearOutput()
+        private void ClearOutput(bool focus = true)
         {
-            if (IsInitialized && IsCalculated)
+            if (IsInitialized)
             {
-                IsCalculated = false;
-                if (IsWebForm)
-                    CalculateAsync(true);
-
-                else
-                    ShowHelp();
+                if (IsCalculated)
+                {
+                    IsCalculated = false;
+                    if (IsWebForm)
+                        CalculateAsync(true);
+                    else if (IsAutoRun)
+                    {
+                        _scrollY = _wbWarper.ScrollY;
+                        Calculate();
+                    }
+                    else
+                        ShowHelp();
+                }
+                if (focus)
+                {
+                    RichTextBox.Focus();
+                    Keyboard.Focus(RichTextBox);
+                }
             }
         }
 
@@ -1616,7 +1636,7 @@ namespace Calcpad.Wpf
         }
 
         private void AngleRadioButton_Checked(object sender, RoutedEventArgs e)
-        {
+        {   
             if (IsInitialized)
             {
                 var deg = sender.Equals(Deg);
@@ -1689,7 +1709,7 @@ namespace Calcpad.Wpf
             _scrollOutput = false;
         }
 
-        private bool IsAutoRun => 
+        private bool IsAutoRun =>
             AutoRunCheckBox.Visibility == Visibility.Visible && 
             AutoRunCheckBox.IsChecked.HasValue && 
             AutoRunCheckBox.IsChecked.Value;
@@ -1739,7 +1759,17 @@ namespace Calcpad.Wpf
             if (_isTextChangedEnabled)
             {
                 if (IsAutoRun)
+                {
                     _autoRun = true;
+                    var p = RichTextBox.Selection.End.Paragraph;
+                    var len = p.ContentStart.GetOffsetToPosition(p.ContentEnd);
+                    if (IsCalculated && len > 2)
+                    {
+                        var lineNumber = Array.IndexOf(_document.Blocks.ToArray(), _currentParagraph) + 1;
+                        _wbWarper.SetContent(lineNumber, _svgTyping);
+                        ScrollOutput();
+                    }
+                }   
 
                 if (_isPasting)
                 {
@@ -1759,8 +1789,8 @@ namespace Calcpad.Wpf
                         IsCalculated = false;
                         ShowHelp();
                     }
-                    else if (IsCalculated)
-                        OutputFrame.BorderBrush = Brushes.LightPink;
+                    //else if (IsCalculated)
+                    //    OutputFrame.BorderBrush = Brushes.Pink;
                 }
                 if (!_isPasting)
                     DispatchAutoIndent();
@@ -1791,18 +1821,29 @@ namespace Calcpad.Wpf
                 AutoRun();
         }
 
-        private void RichTextBox_GotFocus(object sender, RoutedEventArgs e)
+        private void RichTextBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             _isTextChangedEnabled = false;
             HighLighter.Clear(_currentParagraph);
             _isTextChangedEnabled = true;
         }
-
-        private void RichTextBox_LostFocus(object sender, RoutedEventArgs e)
+        
+        private void RichTextBox_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
+            Dispatcher.InvokeAsync(DisableInputWIndowAsync, DispatcherPriority.ApplicationIdle);
+        }
+
+        private async void DisableInputWIndowAsync()
+        {
+            await Task.Delay(100);
+            if (RichTextBox.IsKeyboardFocused)
+                return;
+
             _isTextChangedEnabled = false;
             HighLighter.Parse(_currentParagraph, IsComplex);
             _isTextChangedEnabled = true;
+            if (_autoRun)
+                AutoRun();
         }
 
         private void RichTextBox_Paste(object sender, DataObjectPastingEventArgs e)
@@ -2351,7 +2392,7 @@ namespace Calcpad.Wpf
 
         private void WebBrowser_LoadCompleted(object sender, System.Windows.Navigation.NavigationEventArgs e)
         {
-            OutputFrame.BorderBrush = SystemColors.ControlLightBrush;
+            //OutputFrame.BorderBrush = SystemColors.ActiveBorderBrush;
             if (WebBrowser.Source != null && WebBrowser.Source.Fragment == "#0")
             {
                 var s = _wbWarper.GetLinkData();
@@ -2377,8 +2418,18 @@ namespace Calcpad.Wpf
                 {
                     if (_scrollOutput)
                         ScrollOutput();
+                    else if (_scrollY != 0)
+                    {
+                        _wbWarper.ScrollY = _scrollY;
+                        _scrollY = 0;
+                    }
+                        
                 }
-                    
+                if (!IsCalculated)
+                {
+                    _wbWarper.ClearHighlight();
+                }
+
             }
         }
 
@@ -2459,11 +2510,20 @@ namespace Calcpad.Wpf
 
         private void AutoRunCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            if (IsInitialized && IsAutoRun && !IsCalculated)
+            if (IsInitialized)
             {
-                Calculate();
+                if (IsAutoRun && !IsCalculated)
+                    Calculate();
+
                 RichTextBox.Focus();
+                Keyboard.Focus(RichTextBox);
             }
+        }
+
+        private void AutoRunCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            RichTextBox.Focus();
+            Keyboard.Focus(RichTextBox);
         }
     }
 }

@@ -911,7 +911,7 @@
                 <Image Source="Resources/play.png" Width="24" Height="24" VerticalAlignment="Center"
                     HorizontalAlignment="Center"/>
             </Button>
-            <CheckBox x:Name="AutoRunCheckBox" Content="AutoRun" IsChecked="True" ToolTip="Автоматично преизчисляване при нов ред" TabIndex="3" FontFamily="Segoe UI Semibold" FontSize="11" Padding="2,0,0,0" Width="65" HorizontalAlignment="Left" Height="16" Canvas.Left="108" Canvas.Top="6" VerticalAlignment="Center" Checked="AutoRunCheckBox_Checked"/>
+            <CheckBox x:Name="AutoRunCheckBox" Content="AutoRun" IsChecked="True" ToolTip="Автоматично преизчисляване при нов ред" TabIndex="3" FontFamily="Segoe UI Semibold" FontSize="11" Padding="2,0,0,0" Width="65" HorizontalAlignment="Left" Height="16" Canvas.Left="108" Canvas.Top="6" VerticalAlignment="Center" Checked="AutoRunCheckBox_Checked" Unchecked="AutoRunCheckBox_Unchecked"/>
         </Canvas>
         <Separator HorizontalAlignment="Left" Height="2" Margin="96,39,0,0" VerticalAlignment="Top" Width="28" IsTabStop="False" ScrollViewer.VerticalScrollBarVisibility="Disabled" RenderTransformOrigin="0.5,0.5">
             <Separator.RenderTransform>
@@ -1112,7 +1112,8 @@
                 <ColumnDefinition Width="5" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <GroupBox x:Name="InputFrame" Header="Code" FontSize="13" FontFamily="Segoe UI Semibold" BorderBrush="#FFE3E3E3" Margin="5,1,5,1" MinWidth="575" HorizontalAlignment="Stretch">
+            <GroupBox x:Name="InputFrame" Header="Code" FontSize="13" FontFamily="Segoe UI Semibold"
+                      Margin="5,1,5,1" MinWidth="575" HorizontalAlignment="Stretch" BorderBrush="#FFBBBBBB">
                 <GroupBox.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="White" Offset="0.543"/>
@@ -1125,13 +1126,13 @@
                         <RowDefinition Height="154"/>
                     </Grid.RowDefinitions>
                     <RichTextBox TextChanged="RichTextBox_TextChanged" SelectionChanged="RichTextBox_SelectionChanged"
-                        KeyUp="RichTextBox_KeyUp" GotFocus="RichTextBox_GotFocus" LostFocus="RichTextBox_LostFocus"
+                        KeyUp="RichTextBox_KeyUp"
                         PreviewKeyDown="RichTextBox_PreviewKeyDown" PreviewDrop="RichTextBox_PreviewDrop"
                         PreviewMouseWheel="RichTextBox_PreviewMouseWheel" x:Name="RichTextBox" Margin="55,10,6,28"
                         FontFamily="Consolas" FontSize="14" IsDocumentEnabled="true" AcceptsTab="true"
                         Block.LineHeight="3" BorderThickness="0" TabIndex="0" SelectionOpacity="0.2" AllowDrop="true"
                         UndoLimit="0" IsUndoEnabled="false" VerticalScrollBarVisibility="Auto" AutoWordSelection="false"
-                        TextOptions.TextFormattingMode="Display"  BorderBrush="{x:Null}" SizeChanged="RichTextBox_SizeChanged" MouseDoubleClick="RichTextBox_MouseDoubleClick">
+                        TextOptions.TextFormattingMode="Display"  BorderBrush="{x:Null}" SizeChanged="RichTextBox_SizeChanged" MouseDoubleClick="RichTextBox_MouseDoubleClick" GotKeyboardFocus="RichTextBox_GotKeyboardFocus" LostKeyboardFocus="RichTextBox_LostKeyboardFocus">
                         <FlowDocument>
                             <Paragraph/>
                         </FlowDocument>
@@ -1300,13 +1301,11 @@
                     </WrapPanel>
                 </Grid>
             </GroupBox>
-            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />
+            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" Margin="0,10,0,0" />
             <GroupBox x:Name="OutputFrame" Header="Output" Margin="5,1,5,1" Grid.Column="2" FontSize="13"
-                FontWeight="Bold" Background="White" FontFamily="Segoe UI Semibold" VerticalContentAlignment="Stretch">
-                <GroupBox.BorderBrush>
-                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
-                </GroupBox.BorderBrush>
-                <WebBrowser x:Name="WebBrowser" Margin="5" LoadCompleted="WebBrowser_LoadCompleted" KeyUp="WebBrowser_KeyUp"/>
+                      FontWeight="Bold" Background="White" FontFamily="Segoe UI Semibold" VerticalContentAlignment="Stretch" 
+                      BorderBrush="#FFBBBBBB">
+                <WebBrowser x:Name="WebBrowser" Margin="5" LoadCompleted="WebBrowser_LoadCompleted" KeyUp="WebBrowser_KeyUp" />
             </GroupBox>
         </Grid>
     </Grid>

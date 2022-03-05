@@ -85,6 +85,12 @@ namespace Calcpad.Core
                     var factor = endUnits.ConvertTo(yUnits);
                     endY *= factor;
                 }
+                if (startX.EqualsBinary(endX) || startY.EqualsBinary(endY))
+#if BG
+                    throw new MathParser.MathParserException($"Границите на чертожната площ съвпадат.");
+#else                
+                    throw new MathParser.MathParserException($"The limits of plot area are identical.");
+#endif
                 Parameter[] parameters =
                 {
                     new(input[1]),
