@@ -172,9 +172,9 @@ namespace Calcpad.Core
         {
             if (value < 0 || value > 170)
 #if BG
-                throw new MathParser.MathParserException("Аргументът e извън допустимите стойности за функцията n!");
+                throw new MathParser.MathParserException("Аргументът e извън допустимите стойности за функцията n!.");
 #else
-                throw new MathParser.MathParserException("Argument out of range for function n!");
+                throw new MathParser.MathParserException("Argument out of range for function n!.");
 #endif
 
             var i = (int)value;

@@ -65,7 +65,7 @@ namespace Calcpad.Core
                             {
                                 if (!stackBuffer.Any())
 #if BG
-                                throw new MathParserException("Липсва операнд.");
+                                    throw new MathParserException("Липсва операнд.");
 #else
                                     throw new MathParserException("Missing operand.");
 #endif
@@ -75,7 +75,7 @@ namespace Calcpad.Core
                                 {
                                     if (t.Content != "-")
 #if BG
-                                    throw new MathParserException("Липсва операнд.");
+                                        throw new MathParserException("Липсва операнд.");
 #else
                                         throw new MathParserException("Missing operand.");
 #endif
@@ -104,7 +104,7 @@ namespace Calcpad.Core
                         case TokenTypes.CustomFunction:
                             if (t.Index < 0)
 #if BG
-                            throw new MathParserException($"Невалидна функция: \"{t.Content}\".");
+                                throw new MathParserException($"Невалидна функция: \"{t.Content}\".");
 #else
                                 throw new MathParserException($"Invalid function: \"{t.Content}\".");
 #endif
@@ -121,7 +121,7 @@ namespace Calcpad.Core
                             continue;
                         default:
 #if BG
-                        throw new MathParserException($"Не мога да изчисля \"{t.Content}\" като \"{t.Type.GetType().GetEnumName(t.Type)}\".");
+                            throw new MathParserException($"Не мога да изчисля \"{t.Content}\" като \"{t.Type.GetType().GetEnumName(t.Type)}\".");
 #else
                             throw new MathParserException($"Cannot evaluate \"{t.Content}\" as \"{t.Type.GetType().GetEnumName(t.Type)}\".");
 #endif
@@ -129,7 +129,7 @@ namespace Calcpad.Core
                 }
                 if (!stackBuffer.Any())
 #if BG
-                throw new MathParserException("Неосвободена памет в стека. Невалиден израз.");
+                    throw new MathParserException("Неосвободена памет в стека. Невалиден израз.");
 #else
                     throw new MathParserException("Stack memory leak. Invalid expression.");
 #endif
@@ -151,7 +151,7 @@ namespace Calcpad.Core
 
                 if (t.Type == TokenTypes.Input && t.Content == "?")
 #if BG
-                throw new MathParserException("Недефинирано поле за въвеждане.");
+                    throw new MathParserException("Недефинирано поле за въвеждане.");
 #else
                     throw new MathParserException("Undefined input field.");
 #endif
@@ -174,7 +174,7 @@ namespace Calcpad.Core
                 catch
                 {
 #if BG
-                throw new MathParserException($"Недефинирана променлива или мерни единици: \"{t.Content}\".");
+                    throw new MathParserException($"Недефинирана променлива или мерни единици: \"{t.Content}\".");
 #else
                     throw new MathParserException($"Undefined variable or units: \"{t.Content}\".");
 #endif
@@ -185,7 +185,7 @@ namespace Calcpad.Core
             {
                 if (t.Type != TokenTypes.Function && t.Content != NegateString)
 #if BG
-                throw new MathParserException($"Грешка при изчисляване на \"{t.Content}\" като функция.");
+                    throw new MathParserException($"Грешка при изчисляване на \"{t.Content}\" като функция.");
 #else
                     throw new MathParserException($"Error evaluating \"{t.Content}\" as function.");
 #endif
@@ -236,7 +236,7 @@ namespace Calcpad.Core
 
                 if (t.Type != TokenTypes.Function2)
 #if BG
-                throw new MathParserException($"Грешка при изчисляване на \"{t.Content}\" като функция или оператор.");
+                    throw new MathParserException($"Грешка при изчисляване на \"{t.Content}\" като функция или оператор.");
 #else
                     throw new MathParserException($"Error evaluating \"{t.Content}\" as function or operator.");
 #endif

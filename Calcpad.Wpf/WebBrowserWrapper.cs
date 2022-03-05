@@ -53,6 +53,12 @@ namespace Calcpad.Wpf
             set => _wb.InvokeScript("eval", $"$('#Units').val('{value}');");
         }
 
+        internal double ScrollY
+        {
+            get => double.Parse(_wb.InvokeScript("eval", "window.pageYOffset;").ToString());
+            set => _wb.InvokeScript("eval", $"window.scrollTo(0, {value});");
+        }
+
         //internal string Background
         //{
         //    set => _wb.InvokeScript("eval", $"document.body.style.backgroundColor='{value}';");
@@ -60,6 +66,12 @@ namespace Calcpad.Wpf
 
         internal void Scroll(int line, int offset) =>
             _wb.InvokeScript("eval", $"var e = document.getElementById('line{line}'); if(e){{window.scrollTo(0, e.offsetTop - {offset});}}");
+
+        internal void SetContent(int line, string content) =>
+             _wb.InvokeScript("eval", $"var e = document.getElementById('line{line}'); if(e){{e.innerHTML='{content}';}}");
+			 
+        internal void ClearHighlight() =>
+             _wb.InvokeScript("eval", $"$(\".eq\").hover(function(){{$(this).css(\"background\",\"none\");}});");
 
         internal string ExportOpenXml(string path)
         {

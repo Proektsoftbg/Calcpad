@@ -208,9 +208,9 @@ namespace Calcpad.Core
                                     catch (MathParser.MathParserException ex)
                                     {
 #if BG
-                                        stringBuilder.Append($"<p class=\"err\">Грешка в \"{s}\" на ред {Line(line)}: {ex.Message}.</p>");
+                                        stringBuilder.Append($"<p class=\"err\">Грешка в \"{s}\" на ред {Line(line)}: {ex.Message}</p>");
 #else                                        
-                                        stringBuilder.Append($"<p class=\"err\">Error in \"{s}\" on line {Line(line)}: {ex.Message}.</p>");
+                                        stringBuilder.Append($"<p class=\"err\">Error in \"{s}\" on line {Line(line)}: {ex.Message}</p>");
 #endif                                 
                                     }
                                 }
@@ -284,9 +284,9 @@ namespace Calcpad.Core
                             catch (MathParser.MathParserException ex)
                             {
 #if BG                                
-                                stringBuilder.Append($"<p class=\"err\">Грешка в \"{s}\" на ред {Line(line)}: {ex.Message}.</p>");
+                                stringBuilder.Append($"<p class=\"err\">Грешка в \"{s}\" на ред {Line(line)}: {ex.Message}</p>");
 #else                                
-                                stringBuilder.Append($"<p class=\"err\">Error in \"{s}\" on line {Line(line)}: {ex.Message}.</p>");
+                                stringBuilder.Append($"<p class=\"err\">Error in \"{s}\" on line {Line(line)}: {ex.Message}</p>");
 #endif                            
                             }
                         }
