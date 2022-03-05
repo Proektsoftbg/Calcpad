@@ -46,7 +46,9 @@ namespace Calcpad.Core
             if (span != 0)
                 mid = Math.Round(min / span) * span;
 
-            if (d < span)
+            if (d == 0.0)
+                d = 0.1;
+            else if (d < span)
                 d = span;
 
             min = mid - d;

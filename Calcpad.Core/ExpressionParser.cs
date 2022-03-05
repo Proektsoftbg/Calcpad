@@ -277,7 +277,8 @@ namespace Calcpad.Core
                             try
                             {
                                 _parser.IsPlotting = true;
-                                stringBuilder.Append($"<span{id}>{ plotParser.Parse(s, calculate)}</span>");
+                                s = plotParser.Parse(s, calculate);
+                                stringBuilder.Append(InsertAttribute(s, id));
                                 _parser.IsPlotting = false;
                             }
                             catch (MathParser.MathParserException ex)
@@ -328,7 +329,9 @@ namespace Calcpad.Core
 
                                     if (lineType == TokenTypes.Heading)
                                         stringBuilder.Append($"<h3{id}>");
-                                    else if (lineType != TokenTypes.Html)
+                                    else if (lineType == TokenTypes.Html)
+                                        tokens[0] = new Token(InsertAttribute(tokens[0].Value, id), TokenTypes.Html);
+                                    else
                                         stringBuilder.Append($"<p{id}>");
 
                                     if (kwdLength > 0 && !calculate)
@@ -440,6 +443,20 @@ namespace Calcpad.Core
 
             static string Line(int line) => $"[<a href=\"#0\" data-text=\"{line}\">{line}</a>]";
 
+        }
+
+        private static string InsertAttribute(string s, string attr)
+        {
+            if (s.StartsWith('<') && s.Length > 2)
+            {
+                if (char.IsLetter(s[1]))
+                {
+                    var i = s.IndexOf('>');
+                    if (i > 1)
+                        return s[..i] + attr + s[i..];
+                }
+            }
+            return s;
         }
 
         private void ApplyUnits(StringBuilder sb, bool calculate)
@@ -554,6 +571,7 @@ namespace Calcpad.Core
                 _ => TokenTypes.Error,
             };
         }
+
         private struct Token
         {
             internal string Value { get; }
@@ -564,6 +582,7 @@ namespace Calcpad.Core
                 Type = type;
             }
         }
+
         private enum TokenTypes
         {
             Expression,
@@ -774,10 +793,7 @@ namespace Calcpad.Core
                 return true;
             }
 
-            internal void Disable()
-            {
-                _iteration = 0;
-            }
+            internal void Disable() => _iteration = 0;  
         }
     }
 }
