@@ -134,22 +134,22 @@ namespace Calcpad.Core
 
         public static double operator <(in Complex left, in Complex right) =>
             left.IsReal && right.IsReal ?
-            left._a < right._a && !EqualsBinary(left._a, right._a) ? 1.0 : 0.0 :
+            left._a < right._a && !left._a.EqualsBinary(right._a) ? 1.0 : 0.0 :
             double.NaN;
 
         public static double operator >(in Complex left, in Complex right) =>
             left.IsReal && right.IsReal ?
-            left._a > right._a && !EqualsBinary(left._a, right._a) ? 1.0 : 0.0 :
+            left._a > right._a && !left._a.EqualsBinary(right._a) ? 1.0 : 0.0 :
             double.NaN;
 
         public static double operator <=(in Complex left, in Complex right) =>
             left.IsReal && right.IsReal ?
-            left._a <= right._a || EqualsBinary(left._a, right._a) ? 1.0 : 0.0 :
+            left._a <= right._a || left._a.EqualsBinary(right._a) ? 1.0 : 0.0 :
             double.NaN;
 
         public static double operator >=(in Complex left, in Complex right) =>
             left.IsReal && right.IsReal ?
-            left._a >= right._a || EqualsBinary(left._a, right._a) ? 1.0 : 0.0 :
+            left._a >= right._a || left._a.EqualsBinary(right._a) ? 1.0 : 0.0 :
             double.NaN;
 
         public static implicit operator Complex(short value) => new(value);
@@ -165,24 +165,13 @@ namespace Calcpad.Core
         public static implicit operator System.Numerics.Complex(in Complex value) => new(value._a, value._b);
         public static implicit operator Complex(System.Numerics.Complex value) => new(value.Real, value.Imaginary);
 
-        internal static bool EqualsBinary(double d1, double d2)
-        {
-            var l1 = BitConverter.DoubleToInt64Bits(d1);
-            var l2 = BitConverter.DoubleToInt64Bits(d2);
-
-            if (l1 >> 63 != l2 >> 63)
-                return d1.Equals(d2);
-
-            return Math.Abs(l1 - l2) < 4;
-        }
-
         public override bool Equals(object obj) =>
             obj is Complex number && Equals(this, number);
 
         public bool Equals(Complex value) => Equals(this, value);
 
         private static bool Equals(in Complex left, in Complex right) =>
-            EqualsBinary(left._a, right._a) && EqualsBinary(left._b, right._b);
+            left._a.EqualsBinary(right._a) && left._b.EqualsBinary(right._b);
 
         public override string ToString() => IsReal ?
             new TextWriter().FormatReal(_a, 15) :

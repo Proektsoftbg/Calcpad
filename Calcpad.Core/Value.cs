@@ -130,12 +130,12 @@ namespace Calcpad.Core
 
         public static Value operator ==(Value a, Value b) =>
             new(
-                Complex.EqualsBinary(a.Number.Re, b.Number.Re * Unit.Convert(a.Units, b.Units, '≡')) ? 1.0 : 0.0
+                a.Number.Re.EqualsBinary(b.Number.Re * Unit.Convert(a.Units, b.Units, '≡')) ? 1.0 : 0.0
             );
 
         public static Value operator !=(Value a, Value b) =>
             new(
-                Complex.EqualsBinary(a.Number.Re, b.Number.Re * Unit.Convert(a.Units, b.Units, '≡')) ? 0.0 : 1.0
+                a.Number.Re.EqualsBinary(b.Number.Re * Unit.Convert(a.Units, b.Units, '≠')) ? 0.0 : 1.0
             );
 
         public static Value operator <(Value a, Value b)
@@ -143,34 +143,34 @@ namespace Calcpad.Core
             var c = a.Number.Re;
             var d = b.Number.Re * Unit.Convert(a.Units, b.Units, '<');
             return new(
-                c < d && !Complex.EqualsBinary(c, d) ? 1.0 : 0.0
+                c < d && !c.EqualsBinary(d) ? 1.0 : 0.0
             );
         }
 
         public static Value operator >(Value a, Value b)
         {
             var c = a.Number.Re;
-            var d = b.Number.Re * Unit.Convert(a.Units, b.Units, '<');
+            var d = b.Number.Re * Unit.Convert(a.Units, b.Units, '>');
             return new(
-                c > d && !Complex.EqualsBinary(c, d) ? 1.0 : 0.0
+                c > d && !c.EqualsBinary(d) ? 1.0 : 0.0
             );
         }
 
         public static Value operator <=(Value a, Value b)
         {
             var c = a.Number.Re;
-            var d = b.Number.Re * Unit.Convert(a.Units, b.Units, '<');
+            var d = b.Number.Re * Unit.Convert(a.Units, b.Units, '≤');
             return new(
-                c <= d || Complex.EqualsBinary(c, d) ? 1.0 : 0.0
+                c <= d || c.EqualsBinary(d) ? 1.0 : 0.0
             );
         }
 
         public static Value operator >=(Value a, Value b)
         {
             var c = a.Number.Re;
-            var d = b.Number.Re * Unit.Convert(a.Units, b.Units, '<');
+            var d = b.Number.Re * Unit.Convert(a.Units, b.Units, '≥');
             return new(
-                c >= d || Complex.EqualsBinary(c, d) ? 1.0 : 0.0
+                c >= d || c.EqualsBinary(d) ? 1.0 : 0.0
             );
         }
 
