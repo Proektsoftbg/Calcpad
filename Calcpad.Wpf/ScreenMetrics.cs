@@ -17,9 +17,8 @@ namespace Calcpad.Wpf
 
         internal static double GetWindowsScreenScalingFactor()
         {
-            var g = Graphics.FromHwnd(IntPtr.Zero);
+            using var g = Graphics.FromHwnd(IntPtr.Zero);
             var factor = (g.DpiX + g.DpiY) / 192.0;
-            g.Dispose();
             return factor;  
         }
     }

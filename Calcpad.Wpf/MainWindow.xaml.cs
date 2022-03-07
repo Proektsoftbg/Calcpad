@@ -227,6 +227,7 @@ namespace Calcpad.Wpf
             IsSaved = true;
             RichTextBox.Focus();
             Keyboard.Focus(RichTextBox);
+            _isTextChangedEnabled = true;
         }
 
         private void ForceHighlight()
@@ -1822,10 +1823,8 @@ namespace Calcpad.Wpf
             }
         }
         
-        private void RichTextBox_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
+        private void RichTextBox_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) =>
             Dispatcher.InvokeAsync(DisableInputWindowAsync, DispatcherPriority.ApplicationIdle);
-        }
 
         private async void DisableInputWindowAsync()
         {
@@ -2123,6 +2122,7 @@ namespace Calcpad.Wpf
             _currentParagraph = RichTextBox.Selection.Start.Paragraph;
             if (p is null)
                 p = (Paragraph)_document.Blocks.FirstBlock;
+
             while (p != _currentParagraph)
             {
                 HighLighter.Parse(p, IsComplex);
@@ -2233,10 +2233,8 @@ namespace Calcpad.Wpf
             _lineNumbersDispatcherOperation = Dispatcher.InvokeAsync(DrawLineNumbers, DispatcherPriority.Background);
         }
 
-        private void Window_Unloaded(object sender, RoutedEventArgs e)
-        {
+        private void Window_Unloaded(object sender, RoutedEventArgs e) =>
             Application.Current.Shutdown();
-        }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -2401,10 +2399,8 @@ namespace Calcpad.Wpf
             }
         }
 
-        private void DecimalScrollBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
+        private void DecimalScrollBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) =>
             DecimalsTextBox.Text = (15 - e.NewValue).ToString();
-        }
 
         private int _offset = 0;
         private void Record() => _undoMan.Record(InputText, _offset, ReadInputFromCode());
