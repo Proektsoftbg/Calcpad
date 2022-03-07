@@ -69,7 +69,7 @@ namespace Calcpad.Wpf
 
         internal void SetContent(int line, string content) =>
              _wb.InvokeScript("eval", $"var e = document.getElementById('line{line}'); if(e){{e.innerHTML='{content}';}}");
-			 
+        
         internal void ClearHighlight() =>
              _wb.InvokeScript("eval", $"$(\".eq\").hover(function(){{$(this).css(\"background\",\"none\");}});");
 
@@ -83,7 +83,7 @@ namespace Calcpad.Wpf
         internal void PrintPreview()
         {
             IServiceProvider serviceProvider = null;
-            if (_wb.Document != null)
+            if (_wb.Document is not null)
             {
                 serviceProvider = (IServiceProvider)_wb.Document;
             }

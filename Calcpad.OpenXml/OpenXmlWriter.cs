@@ -47,7 +47,7 @@ namespace Calcpad.OpenXml
             var htmlDocument = new HtmlDocument();
             htmlDocument.LoadHtml(html);
             var mainNode = htmlDocument.DocumentNode.SelectSingleNode("//body");
-            if (mainNode == null)
+            if (mainNode is null)
                 mainNode = htmlDocument.DocumentNode;
 
             var body = (Body)ParseHtmlNode(mainNode, mainPart);
@@ -107,7 +107,7 @@ namespace Calcpad.OpenXml
                 {
                     var childNode = childNodes[i];
                     var childElement = ParseHtmlNode(childNode, mainPart);
-                    if (childElement != null)
+                    if (childElement is not null)
                     {
                         if (parentElement is Run)
                         {
@@ -211,7 +211,7 @@ namespace Calcpad.OpenXml
                 else if (parentElement is TableCell tc)
                 {
                     var r = new Run(childElement);
-                    if (tc.TableCellProperties.Shading != null)
+                    if (tc.TableCellProperties.Shading is not null)
                     {
                         r.RunProperties = new RunProperties(new Bold());
                     }
@@ -219,7 +219,7 @@ namespace Calcpad.OpenXml
                 }
                 else if (parentElement is Body || parentElement is CustomXmlBlock)
                     parentElement.AppendChild(new Paragraph(new Run(childElement.CloneNode(false))));
-                else if (parentElement is Paragraph p && p.ParagraphProperties?.Shading != null)
+                else if (parentElement is Paragraph p && p.ParagraphProperties?.Shading is not null)
                 {
                     parentElement.AppendChild(new Run(childElement.CloneNode(false))
                     {
@@ -240,7 +240,7 @@ namespace Calcpad.OpenXml
             {
                 if (parentElement is Paragraph p)
                 {
-                    if (p.ParagraphProperties?.Shading != null && childElement is Run r)
+                    if (p.ParagraphProperties?.Shading is not null && childElement is Run r)
                     {
                         r.RunProperties ??= new RunProperties();
                         r.RunProperties.Color = new Color()

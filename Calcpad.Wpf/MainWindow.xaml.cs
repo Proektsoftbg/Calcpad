@@ -406,10 +406,14 @@ namespace Calcpad.Wpf
             return n;
         }
 
-        private void AutoRun()
+        private void AutoRun(bool syncScroll = false)
         {
             IsCalculated = true;
-            _scrollOutput = true;
+            if (syncScroll)
+                _scrollOutput = true;
+            else
+                _scrollY = _wbWarper.ScrollY;
+
             CalculateAsync();
         }
 
@@ -451,13 +455,16 @@ namespace Calcpad.Wpf
                 if (line > 0 && line <= _document.Blocks.Count)
                 {
                     var block = _document.Blocks.ElementAt(line - 1);
-                    RichTextBox.CaretPosition = block.ContentEnd;
-                    Rect r = block.ContentEnd.GetCharacterRect(LogicalDirection.Backward);
-                    RichTextBox.ScrollToVerticalOffset(r.Y);
-                    RichTextBox.Focus();
-                    Keyboard.Focus(RichTextBox);
+                    if (! object.ReferenceEquals(block, _currentParagraph))
+                    {
+                        RichTextBox.CaretPosition = block.ContentEnd;
+                        Rect r = block.ContentEnd.GetCharacterRect(LogicalDirection.Backward);
+                        RichTextBox.ScrollToVerticalOffset(r.Y);
+                    }
                 }
             }
+            RichTextBox.Focus();
+            Keyboard.Focus(RichTextBox);
         }
 
         private void LinkClicked(string data)
@@ -476,8 +483,8 @@ namespace Calcpad.Wpf
                 else
                     tp = RichTextBox.Selection.End;
                 InsertText(data);
-                tp.GetPositionAtOffset(lines[0].Length);
-                RichTextBox.Selection.Select(tp, tp);
+                if (tp is not null)
+                    RichTextBox.Selection.Select(tp, tp);
             }
             else
             {
@@ -875,13 +882,13 @@ namespace Calcpad.Wpf
         {
             var isStart = false;
             var p = (Paragraph)RichTextBox.Selection.End.Paragraph.NextBlock;
-            if (p == null)
+            if (p is null)
             {
                 p = (Paragraph)_document.Blocks.FirstBlock;
                 isStart = true;
             }
             var len = _searchString.Length;
-            while (p != null)
+            while (p is not null)
             {
                 var s = new TextRange(p.ContentStart, p.ContentEnd).Text.ToLowerInvariant();
                 var i = s.IndexOf(_searchString, StringComparison.InvariantCulture) + 1;
@@ -1006,7 +1013,7 @@ namespace Calcpad.Wpf
             else
                 DecimalsTextBox.Foreground = Brushes.Red;
 
-            _parser.Settings.Math.Substitute = SubstituteCheckBox.IsChecked != null && (bool)SubstituteCheckBox.IsChecked;
+            _parser.Settings.Math.Substitute = SubstituteCheckBox.IsChecked ?? false;
             if (IsWebForm)
             {
                 if (!toWebForm)
@@ -1247,7 +1254,7 @@ namespace Calcpad.Wpf
            };
             var stringBuilder = new StringBuilder();
             var b = _document.Blocks.FirstBlock;
-            while (b != null)
+            while (b is not null)
             {
                 var n = (int)(((Paragraph)b).TextIndent / AutoIndentStep);
                 if (n > 12)
@@ -1301,7 +1308,7 @@ namespace Calcpad.Wpf
 
         private void WordButton_Click(object sender, RoutedEventArgs e)
         {
-            var isDoc = (bool)Professional.IsChecked && (IsCalculated || IsWebForm);
+            var isDoc = (Professional.IsChecked ?? false) && (IsCalculated || IsWebForm);
             var fileExt = isDoc ? "docx" : "html";
             string fileName;
             if (IsCalculated || IsWebForm)
@@ -1361,14 +1368,14 @@ namespace Calcpad.Wpf
             {
                 FileName = appName
             };
-            if (fileName != null)
+            if (fileName is not null)
                 startInfo.Arguments = fileName.Contains(' ') ? '\"' + fileName + '\"' : fileName;
 
             startInfo.UseShellExecute = true;
             startInfo.WindowStyle = ProcessWindowStyle.Maximized;
             try
             {
-                return Process.Start(startInfo) != null;
+                return Process.Start(startInfo) is not null;
             }
             catch
             {
@@ -1400,7 +1407,7 @@ namespace Calcpad.Wpf
             var values = _undoMan.RestoreValues;
             _document.Blocks.Clear();
             int i = 0, n = 0;
-            if (values != null)
+            if (values is not null)
                 n = values.Length;
 
             using (var sr = new StringReader(_undoMan.RestoreText))
@@ -1433,6 +1440,7 @@ namespace Calcpad.Wpf
             HighLighter.Clear(_currentParagraph);
             if (_currentParagraph is not null)
                 pointer = _currentParagraph.ContentStart.GetPositionAtOffset(lineOffset);
+            
             RichTextBox.Selection.Select(pointer, pointer);
             DispatchLineNumbers();
             RichTextBox.EndChange();
@@ -1484,19 +1492,7 @@ namespace Calcpad.Wpf
 
         private void ReadAndSetInputFields()
         {
-            var cp = RichTextBox.CaretPosition;
-            var p = cp.Paragraph;
-            if (p == null)
-                return;
-            var start = p.ContentStart;
-            var offset = cp.GetOffsetToPosition(start);
-            HighlightCurrentLine();
             var values = ReadInputFromCode();
-            ClearCurrentLine();
-            var caret = start.GetPositionAtOffset(-offset);
-            if (caret != null)
-                RichTextBox.Selection.Select(caret, caret);
-
             if (values.Length > 0)
                 SetInputFields(values);
         }
@@ -1711,8 +1707,7 @@ namespace Calcpad.Wpf
 
         private bool IsAutoRun =>
             AutoRunCheckBox.Visibility == Visibility.Visible && 
-            AutoRunCheckBox.IsChecked.HasValue && 
-            AutoRunCheckBox.IsChecked.Value;
+            (AutoRunCheckBox.IsChecked ?? false);
 
         private void RichTextBox_KeyUp(object sender, KeyEventArgs e)
         {
@@ -1720,10 +1715,10 @@ namespace Calcpad.Wpf
             {
                 _forceBackSpace = false;
                 var p = RichTextBox.CaretPosition.Paragraph;
-                if (p != null)
+                if (p is not null)
                 {
                     var pp = (Paragraph)p.PreviousBlock;
-                    if (pp != null)
+                    if (pp is not null)
                     {
                         _isTextChangedEnabled = false;
                         RichTextBox.CaretPosition = pp.ContentEnd;
@@ -1754,29 +1749,31 @@ namespace Calcpad.Wpf
             }
         }
 
-        private void RichTextBox_TextChanged(object sender, RoutedEventArgs e)
+        private void RichTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (_isTextChangedEnabled)
             {
                 if (IsAutoRun)
                 {
-                    _autoRun = true;
                     var p = RichTextBox.Selection.End.Paragraph;
-                    var len = p.ContentStart.GetOffsetToPosition(p.ContentEnd);
-                    if (IsCalculated && len > 2)
+                    if (p is not null)
                     {
-                        var lineNumber = Array.IndexOf(_document.Blocks.ToArray(), _currentParagraph) + 1;
-                        _wbWarper.SetContent(lineNumber, _svgTyping);
-                        ScrollOutput();
+                        var len = p.ContentStart.GetOffsetToPosition(p.ContentEnd);
+                        if (IsCalculated && len > 2)
+                        {
+                            var lineNumber = Array.IndexOf(_document.Blocks.ToArray(), _currentParagraph) + 1;
+                            _wbWarper.SetContent(lineNumber, _svgTyping);
+                        }
                     }
-                }   
+                    _autoRun = true;
+                }
 
                 if (_isPasting)
                 {
                     HighLightPastedText();
                     SetAutoIndent();
                     var p = RichTextBox.Selection.End.Paragraph;
-                    if (p != null)
+                    if (p is not null)
                         RichTextBox.CaretPosition = p.ContentEnd.GetPositionAtOffset(_pasteOffset);
                     _isPasting = false;
                 }
@@ -1815,34 +1812,28 @@ namespace Calcpad.Wpf
             HighLighter.Parse(_currentParagraph, IsComplex);
             _currentParagraph = tps.Paragraph;
             HighLighter.Clear(_currentParagraph);
+            e.Handled = true;
             RichTextBox.Selection.Select(tps, tpe);
             _isTextChangedEnabled = true;
             if (_autoRun)
-                AutoRun();
-        }
-
-        private void RichTextBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            _isTextChangedEnabled = false;
-            HighLighter.Clear(_currentParagraph);
-            _isTextChangedEnabled = true;
+            {
+                var offset = RichTextBox.CaretPosition.GetOffsetToPosition(_document.ContentEnd);
+                AutoRun(offset <= 2);
+            }
         }
         
         private void RichTextBox_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            Dispatcher.InvokeAsync(DisableInputWIndowAsync, DispatcherPriority.ApplicationIdle);
+            Dispatcher.InvokeAsync(DisableInputWindowAsync, DispatcherPriority.ApplicationIdle);
         }
 
-        private async void DisableInputWIndowAsync()
+        private async void DisableInputWindowAsync()
         {
             await Task.Delay(100);
             if (RichTextBox.IsKeyboardFocused)
                 return;
 
-            _isTextChangedEnabled = false;
-            HighLighter.Parse(_currentParagraph, IsComplex);
-            _isTextChangedEnabled = true;
-            if (_autoRun)
+            if (_autoRun && IsCalculated)
                 AutoRun();
         }
 
@@ -1893,7 +1884,7 @@ namespace Calcpad.Wpf
                 if (ReferenceEquals(block, b))
                     break;
             }
-            while (b != null)
+            while (b is not null)
             {
                 var top = b.ElementStart.GetCharacterRect(LogicalDirection.Forward).Top + 1;
                 if (top >= topMax)
@@ -1936,8 +1927,12 @@ namespace Calcpad.Wpf
 
             if (e.Key == Key.Enter)
                 RichTextBox.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Black);
-
-            if (e.Key == Key.Back)
+            else if (e.Key == Key.Right && Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                AutoRun(true);
+                e.Handled = true;
+            }
+            else if (e.Key == Key.Back)
             {
                 var tp = RichTextBox.Selection.Start;
                 var selLength = tp.GetOffsetToPosition(RichTextBox.Selection.End);
@@ -1959,7 +1954,7 @@ namespace Calcpad.Wpf
             var p = RichTextBox.Selection.End.Paragraph;
             if (p is null)
                 p = (Paragraph)_document.Blocks.FirstBlock;
-            else if (p.PreviousBlock != null)
+            else if (p.PreviousBlock is not null)
                 p = (Paragraph)p.PreviousBlock;
 
             if (p is null)
@@ -1970,7 +1965,7 @@ namespace Calcpad.Wpf
             var indent = 0.0;
             var i = 0;
             var pp = ((Paragraph)p.PreviousBlock);
-            if (pp != null)
+            if (pp is not null)
             {
                 indent = pp.TextIndent;
                 var s = new TextRange(pp.ContentStart, pp.ContentEnd).Text.ToLowerInvariant();
@@ -1980,7 +1975,7 @@ namespace Calcpad.Wpf
 
             _isTextChangedEnabled = false;
             RichTextBox.BeginChange();
-            while (p != null)
+            while (p is not null)
             {
                 if (!UpdateIndent(p, ref indent))
                 {
@@ -2009,7 +2004,7 @@ namespace Calcpad.Wpf
 
             _isTextChangedEnabled = false;
             RichTextBox.BeginChange();
-            while (p != null)
+            while (p is not null)
             {
                 if (!UpdateIndent(p, ref indent))
                     p.TextIndent = indent;
@@ -2054,7 +2049,7 @@ namespace Calcpad.Wpf
             var p = (Paragraph)_document.Blocks.FirstBlock;
             var values = _wbWarper.GetInputVaues();
             int i = 0, n = values.Length;
-            while (p != null)
+            while (p is not null)
             {
                 if (p.Tag is Queue<string> cache)
                     for (int j = 0, count = cache.Count; j < count; ++j)
@@ -2077,7 +2072,7 @@ namespace Calcpad.Wpf
         {
             var p = (Paragraph)_document.Blocks.FirstBlock;
             var values = new List<string>();
-            while (p != null)
+            while (p is not null)
             {
                 if (p.Tag is Queue<string> cache)
                     for (int i = 0, count = cache.Count; i < count; ++i)
@@ -2102,14 +2097,14 @@ namespace Calcpad.Wpf
             _isTextChangedEnabled = false;
             RichTextBox.BeginChange();
             var p = (Paragraph)_document.Blocks.FirstBlock;
-            while (p != null)
+            while (p is not null)
             {
                 if (_forceHighlight)
                 {
                     var t = new TextRange(p.ContentStart, p.ContentEnd);
                     t.Text = t.Text.TrimStart('\t');
                 }
-                if (p.Tag == null)
+                if (p.Tag is null)
                     HighLighter.Parse(p, IsComplex);
 
                 p = (Paragraph)p.NextBlock;
@@ -2136,29 +2131,6 @@ namespace Calcpad.Wpf
             HighLighter.Clear(_currentParagraph);
             RichTextBox.EndChange();
             _isTextChangedEnabled = true;
-        }
-
-        private void HighlightCurrentLine() => ProcessCurrentLine(true);
-        private void ClearCurrentLine() => ProcessCurrentLine(false);
-        private void ProcessCurrentLine(bool Color)
-        {
-            if (_currentParagraph != null)
-            {
-                var _oldITextChangedEnabled = _isTextChangedEnabled;
-                _isTextChangedEnabled = false;
-                if (_oldITextChangedEnabled)
-                    RichTextBox.BeginChange();
-
-                if (Color)
-                    HighLighter.Parse(_currentParagraph, IsComplex);
-                else
-                    HighLighter.Clear(_currentParagraph);
-
-                if (_oldITextChangedEnabled)
-                    RichTextBox.EndChange();
-
-                _isTextChangedEnabled = _oldITextChangedEnabled;
-            }
         }
 
         private void RichTextBox_PreviewDrop(object sender, DragEventArgs e)
@@ -2218,7 +2190,7 @@ namespace Calcpad.Wpf
         private void ColorScaleComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             _parser.Settings.Plot.ColorScale = (PlotSettings.ColorScales)ColorScaleComboBox.SelectedIndex;
-            _parser.Settings.Plot.Shadows = ShadowsCheckBox.IsChecked != null && (bool)ShadowsCheckBox.IsChecked;
+            _parser.Settings.Plot.Shadows = ShadowsCheckBox.IsChecked ?? false;
             ClearOutput();
         }
 
@@ -2231,19 +2203,19 @@ namespace Calcpad.Wpf
 
         private void ShadowsCheckBox_Clicked(object sender, RoutedEventArgs e)
         {
-            _parser.Settings.Plot.Shadows = ShadowsCheckBox.IsChecked != null && (bool)ShadowsCheckBox.IsChecked;
+            _parser.Settings.Plot.Shadows = ShadowsCheckBox.IsChecked ?? false;
             ClearOutput();
         }
 
         private void SmoothCheckBox_Clicked(object sender, RoutedEventArgs e)
         {
-            _parser.Settings.Plot.SmoothScale = SmoothCheckBox.IsChecked != null && (bool)SmoothCheckBox.IsChecked;
+            _parser.Settings.Plot.SmoothScale = SmoothCheckBox.IsChecked ?? false;
             ClearOutput();
         }
 
         private void AdaptiveCheckBox_Clicked(object sender, RoutedEventArgs e)
         {
-            _parser.Settings.Plot.IsAdaptive = AdaptiveCheckBox.IsChecked != null && (bool)AdaptiveCheckBox.IsChecked;
+            _parser.Settings.Plot.IsAdaptive = AdaptiveCheckBox.IsChecked ?? false;
             ClearOutput();
         }
 
@@ -2393,7 +2365,7 @@ namespace Calcpad.Wpf
         private void WebBrowser_LoadCompleted(object sender, System.Windows.Navigation.NavigationEventArgs e)
         {
             //OutputFrame.BorderBrush = SystemColors.ActiveBorderBrush;
-            if (WebBrowser.Source != null && WebBrowser.Source.Fragment == "#0")
+            if (WebBrowser.Source is not null && WebBrowser.Source.Fragment == "#0")
             {
                 var s = _wbWarper.GetLinkData();
                 if (!string.IsNullOrEmpty(s))
@@ -2422,14 +2394,10 @@ namespace Calcpad.Wpf
                     {
                         _wbWarper.ScrollY = _scrollY;
                         _scrollY = 0;
-                    }
-                        
+                    }   
                 }
                 if (!IsCalculated)
-                {
                     _wbWarper.ClearHighlight();
-                }
-
             }
         }
 
@@ -2502,9 +2470,8 @@ namespace Calcpad.Wpf
         {
             if (e.Key == Key.F5)
             {
+                AutoRun(true);
                 e.Handled = true;
-                _scrollOutput = true;
-                CalculateAsync();
             }   
         }
 
