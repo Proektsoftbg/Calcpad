@@ -490,7 +490,7 @@ namespace Calcpad.Wpf
             else if (t == Types.Input)
             {
                 var tt = new ToolTip();
-                if (values != null && values.Count > 0)
+                if (values is not null && values.Count > 0)
                     tt.Content = values.Dequeue();
                 else
                     tt.Content = "0";

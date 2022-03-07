@@ -1132,7 +1132,7 @@
                         FontFamily="Consolas" FontSize="14" IsDocumentEnabled="true" AcceptsTab="true"
                         Block.LineHeight="3" BorderThickness="0" TabIndex="0" SelectionOpacity="0.2" AllowDrop="true"
                         UndoLimit="0" IsUndoEnabled="false" VerticalScrollBarVisibility="Auto" AutoWordSelection="false"
-                        TextOptions.TextFormattingMode="Display"  BorderBrush="{x:Null}" SizeChanged="RichTextBox_SizeChanged" MouseDoubleClick="RichTextBox_MouseDoubleClick" GotKeyboardFocus="RichTextBox_GotKeyboardFocus" LostKeyboardFocus="RichTextBox_LostKeyboardFocus">
+                        TextOptions.TextFormattingMode="Display"  BorderBrush="{x:Null}" SizeChanged="RichTextBox_SizeChanged" MouseDoubleClick="RichTextBox_MouseDoubleClick" LostKeyboardFocus="RichTextBox_LostKeyboardFocus">
                         <FlowDocument>
                             <Paragraph/>
                         </FlowDocument>
