@@ -1305,7 +1305,7 @@
             <GroupBox x:Name="OutputFrame" Header="Output" Margin="5,1,5,1" Grid.Column="2" FontSize="13"
                       FontWeight="Bold" Background="White" FontFamily="Segoe UI Semibold" VerticalContentAlignment="Stretch" 
                       BorderBrush="#FFBBBBBB">
-                <WebBrowser x:Name="WebBrowser" Margin="5" LoadCompleted="WebBrowser_LoadCompleted" KeyUp="WebBrowser_KeyUp" />
+                <WebBrowser x:Name="WebBrowser" Margin="5" LoadCompleted="WebBrowser_LoadCompleted" KeyUp="WebBrowser_KeyUp" PreviewKeyDown="WebBrowser_PreviewKeyDown" />
             </GroupBox>
         </Grid>
     </Grid>
