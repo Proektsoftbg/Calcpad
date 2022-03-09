@@ -64,11 +64,22 @@ namespace Calcpad.Wpf
         //    set => _wb.InvokeScript("eval", $"document.body.style.backgroundColor='{value}';");
         //}
 
-        internal void Scroll(int line, int offset) =>
-            _wb.InvokeScript("eval", $"var e = document.getElementById('line{line}'); if(e){{window.scrollTo(0, e.offsetTop - {offset});}}");
-
-        internal void SetContent(int line, string content) =>
-             _wb.InvokeScript("eval", $"var e = document.getElementById('line{line}'); if(e){{e.innerHTML='{content}';}}");
+        internal void Scroll(int line, int offset)
+        {
+            try
+            {
+                _wb.InvokeScript("eval", $"var e = document.getElementById('line{line}'); if(e){{window.scrollTo(0, e.offsetTop - {offset});}}");
+            }
+            catch { }
+        }
+        internal void SetContent(int line, string content)
+        {
+            try
+            {
+                _wb.InvokeScript("eval", $"var e = document.getElementById('line{line}'); if(e){{e.innerHTML='{content}';}}");
+            }
+            catch { }
+        }
         
         internal void ClearHighlight() =>
              _wb.InvokeScript("eval", $"$(\".eq\").hover(function(){{$(this).css(\"background\",\"none\");}});");

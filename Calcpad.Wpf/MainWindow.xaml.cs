@@ -511,8 +511,12 @@ namespace Calcpad.Wpf
         private void CalcButton_Click(object sender, RoutedEventArgs e) => Calculate();
         private void Command_Calculate(object sender, ExecutedRoutedEventArgs e)
         {
-            _scrollOutput = true;
+            if (IsCalculated)
+                _scrollY = _wbWarper.ScrollY;
+
             Calculate();
+            if (IsCalculated)
+                _wbWarper.ScrollY = _scrollY;
         }
 
         private void Calculate()
