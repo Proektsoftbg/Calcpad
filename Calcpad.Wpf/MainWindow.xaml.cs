@@ -412,9 +412,8 @@ namespace Calcpad.Wpf
             IsCalculated = true;
             if (syncScroll)
                 _scrollOutput = true;
-            else
-                _scrollY = _wbWarper.ScrollY;
-
+            
+            _scrollY = _wbWarper.ScrollY;
             CalculateAsync();
         }
 
@@ -1706,7 +1705,11 @@ namespace Calcpad.Wpf
         {
             var lineNumber = Array.IndexOf(_document.Blocks.ToArray(), _currentParagraph) + 1;
             var offset = (int)(RichTextBox.CaretPosition.GetCharacterRect(LogicalDirection.Forward).Top * _screenScaleFactor);
+            var tempScrollY = _wbWarper.ScrollY;
             _wbWarper.Scroll(lineNumber, offset);
+            if (tempScrollY == _wbWarper.ScrollY)
+                _wbWarper.ScrollY = _scrollY;
+
             _scrollOutput = false;
         }
 
@@ -1929,11 +1932,14 @@ namespace Calcpad.Wpf
         {
 
             if (e.Key == Key.Enter)
-                RichTextBox.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Black);
-            else if (e.Key == Key.Right && Keyboard.Modifiers == ModifierKeys.Control)
             {
-                AutoRun(true);
-                e.Handled = true;
+                if (Keyboard.Modifiers == ModifierKeys.Control)
+                {
+                    AutoRun(true);
+                    e.Handled = true;
+                }
+                else
+                    RichTextBox.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Black);
             }
             else if (e.Key == Key.Back)
             {
@@ -2463,7 +2469,10 @@ namespace Calcpad.Wpf
         private void RichTextBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (IsCalculated)
+            {
+                _scrollY = _wbWarper.ScrollY;
                 ScrollOutput();
+            }
         }
 
         private void WebBrowser_PreviewKeyDown(object sender, KeyEventArgs e)
