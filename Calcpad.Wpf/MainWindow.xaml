@@ -37,7 +37,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Grid x:Name="grid">
-                            <Border x:Name="ButtonBorder" CornerRadius="6" Background="#FFFFFF">
+                            <Border x:Name="ButtonBorder" CornerRadius="6" Background="#FFF" BorderBrush="#DDD" BorderThickness="1">
                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                         </Grid>
@@ -1128,7 +1128,7 @@
                     <RichTextBox TextChanged="RichTextBox_TextChanged" SelectionChanged="RichTextBox_SelectionChanged"
                         KeyUp="RichTextBox_KeyUp"
                         PreviewKeyDown="RichTextBox_PreviewKeyDown" PreviewDrop="RichTextBox_PreviewDrop"
-                        PreviewMouseWheel="RichTextBox_PreviewMouseWheel" x:Name="RichTextBox" Margin="55,10,6,28"
+                        PreviewMouseWheel="RichTextBox_PreviewMouseWheel" x:Name="RichTextBox" Margin="55,10,6,30"
                         FontFamily="Consolas" FontSize="14" IsDocumentEnabled="true" AcceptsTab="true"
                         Block.LineHeight="3" BorderThickness="0" TabIndex="0" SelectionOpacity="0.2" AllowDrop="true"
                         UndoLimit="0" IsUndoEnabled="false" VerticalScrollBarVisibility="Auto" AutoWordSelection="false"
@@ -1137,7 +1137,7 @@
                             <Paragraph/>
                         </FlowDocument>
                     </RichTextBox>
-                    <Grid x:Name="KeyPadGrid" Grid.Row="1">
+                    <Grid x:Name="KeyPadGrid" Grid.Row="1" Margin="1,0,1,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="481"/>
                         </Grid.ColumnDefinitions>
@@ -1186,21 +1186,21 @@
                         <Button Click="Button_Click" Content="im" Tag="im(" Margin="326,92,0,0"
                             Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Imaginary" HorizontalAlignment="Left" Width="36"/>
                         <Button Click="Button_Click" Content="ph" Tag="phase(" Margin="326,123,0,0"
-                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Phase" Width="36"/>
-                        <Button Click="Button_Click" Content="e" Tag="e" Margin="372,31,0,0" Style="{StaticResource RoundButton}" ToolTip="Euler's number"/>
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Phase" Width="36" UseLayoutRounding="False" FontWeight="Normal"/>
+                        <Button Click="Button_Click" Content="e" Tag="e" Margin="372,31,0,0" Style="{StaticResource RoundButton}" ToolTip="Euler's number" FontSize="14"/>
                         <Button Click="Button_Click" Content="π" Tag="π" Margin="372,61,0,0" Style="{StaticResource RoundButton}"
-                            FontStyle="Italic" ToolTip="Constant π (pi)"/>
-                        <Button Click="Button_Click" Content="g" Tag="g" Margin="372,92,0,0" Style="{StaticResource RoundButton}" ToolTip="Gravity acceleration on Earth" FontSize="16"/>
-                        <Button Click="Button_Click" Content="(" Tag="(" Margin="372,123,0,0" Style="{StaticResource RoundButton}" ToolTip="Left bracket"/>
-                        <Button Click="Button_Click" Content=")" Tag=")" Margin="404,123,0,0" Style="{StaticResource RoundButton}" ToolTip="Right bracket"/>
+                            FontStyle="Italic" ToolTip="Constant π (pi)" FontSize="14"/>
+                        <Button Click="Button_Click" Content="g" Tag="g" Margin="372,92,0,0" Style="{StaticResource RoundButton}" ToolTip="Gravity acceleration on Earth" FontSize="14"/>
+                        <Button Click="Button_Click" Content="(" Tag="(" Margin="372,123,0,0" Style="{StaticResource RoundButton}" ToolTip="Left bracket" FontSize="14"/>
+                        <Button Click="Button_Click" Content=")" Tag=")" Margin="404,123,0,0" Style="{StaticResource RoundButton}" ToolTip="Right bracket" FontSize="14"/>
                         <Button Click="Button_Click" Tag="≥" Margin="135,123,0,0" Style="{StaticResource RoundButton}" Content="≥" ToolTip="Greater or equal"/>
                         <Button Click="Button_Click" MouseDoubleClick="Button_MouseDoubleClick" Content="AC" Tag="AC"
                             Margin="404,31,0,0" Style="{StaticResource RoundButton}" Foreground="Red"
                             ToolTip="Reset" FontSize="14" FontWeight="Bold" HorizontalAlignment="Left" Width="26" RenderTransformOrigin="0.218,0.487"/>
                         <Button Click="Button_Click" Content="C" Tag="C" Margin="404,61,0,0" Style="{StaticResource RoundButton}" Foreground="Red" ToolTip="Backspace" FontSize="14" FontWeight="Bold"/>
                         <Button Click="Button_Click" Content=" ⏎ " Tag="Enter" Margin="404,92,0,0"
-                            Style="{StaticResource RoundButton}" FontSize="22" Foreground="Red"
-                            ToolTip="New line"/>
+                            Style="{StaticResource RoundButton}" FontSize="18" Foreground="Red"
+                            ToolTip="New line" FontFamily="Segoe UI Semilight" FontWeight="SemiBold"/>
                         <Label Content="── Numbers ──" HorizontalAlignment="Left" Padding="1"
                             Height="22" VerticalAlignment="Top" Width="88" BorderThickness="0,0,0,1" HorizontalContentAlignment="Center" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" FontSize="13" Margin="5,5,0,0"/>
                         <Label Content="─ Operators ─" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Padding="1"
@@ -1230,41 +1230,41 @@
                             Style="{StaticResource RoundButton}" FontSize="11" ToolTip="Hyperbolic functions"
                             Height="26" FontFamily="Segoe UI Semibold" HorizontalAlignment="Left" Width="26"/>
                         <Button Click="Button_Click" Content="Plot" Tag="$Plot{f(x) @ x = a : b}" Margin="439,1,-14,0"
-                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Function plot"
-                            Width="57" Height="26" VerticalContentAlignment="Center"/>
+                            Style="{StaticResource RoundButton}" FontSize="13" ToolTip="Function plot"
+                            Width="Auto" Height="26" VerticalContentAlignment="Center" FontWeight="Normal" HorizontalAlignment="Stretch"/>
                         <Button Click="Button_Click" Content="Map" Tag="$Map{f(x;y) @ x = a : b &amp; y = c : d}"
-                            Margin="501,1,-81,0" Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Surface map"
-                            Width="62" Height="26"/>
+                            Margin="501,1,-81,0" Style="{StaticResource RoundButton}" FontSize="13" ToolTip="Surface map"
+                            Width="Auto" Height="26" FontWeight="Normal" HorizontalAlignment="Stretch"/>
                         <Button Click="Button_Click" Content="Root" Tag="$Root{f(x) @ x = a : b}" Margin="439,31,-14,0"
-                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Find a root of equation f(x) = 0"
-                            Width="57" Height="26"/>
+                            Style="{StaticResource RoundButton}" FontSize="13" ToolTip="Find a root of equation f(x) = 0"
+                            Width="Auto" Height="26" FontWeight="Normal" HorizontalAlignment="Stretch"/>
                         <Button Click="Button_Click" Content="Area" Tag="$Area{f(x) @ x = a : b}" Margin="439,92,-14,0"
-                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Numerical integration" Width="57"
-                            Height="26"/>
+                            Style="{StaticResource RoundButton}" FontSize="13" ToolTip="Numerical integration" Width="Auto"
+                            Height="26" FontWeight="Normal" HorizontalAlignment="Stretch"/>
                         <Button Click="Button_Click" Content="Slope" Tag="$Slope{f(x) @ x = a}" Margin="501,92,-81,0"
-                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Numerical differentiation"
-                            Width="62" Height="26"/>
+                            Style="{StaticResource RoundButton}" FontSize="13" ToolTip="Numerical differentiation"
+                            Width="Auto" Height="26" FontWeight="Normal" HorizontalAlignment="Stretch"/>
                         <Button Click="Button_Click" Content="Sup" Tag="$Sup{f(x) @ x = a : b}" Margin="439,61,-14,0"
-                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Local maximum of a function"
-                            Height="26" Width="57"/>
-                        <Button Click="Button_Click" Content="Inf" Tag="$Inf{f(x) @ x = a : b}" Margin="501,61,-81,0"
-                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Local minimum of a function"
-                            Height="26" Width="62" HorizontalAlignment="Left"/>
+                            Style="{StaticResource RoundButton}" FontSize="13" ToolTip="Local maximum of a function"
+                            Height="26" Width="Auto" FontWeight="Normal" HorizontalAlignment="Stretch"/>
+                        <Button Click="Button_Click" Content="Inf" Tag="$Inf{f(x) @ x = a : b}" Margin="502,61,-81,0"
+                            Style="{StaticResource RoundButton}" FontSize="13" ToolTip="Local minimum of a function"
+                            Height="26" Width="Auto" HorizontalAlignment="Stretch" FontWeight="Normal"/>
                         <Button Click="Button_Click" Content="Repeat" Tag="$Repeat{f(k) @ k = 1 : n}" Margin="501,31,-81,0"
-                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Calculate by iterations"
-                            Width="62" Height="26"/>
+                            Style="{StaticResource RoundButton}" FontSize="13" ToolTip="Calculate by iterations"
+                            Width="Auto" Height="26" FontWeight="Normal" HorizontalAlignment="Stretch"/>
                         <Button Click="Button_Click" Content="Sum" Tag="$Sum{f(k) @ k = 1 : n}" Margin="439,123,-14,0"
-                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Finite sum" 
-                            Width="57" Height="26"/>
+                            Style="{StaticResource RoundButton}" FontSize="13" ToolTip="Finite sum" 
+                            Width="Auto" Height="26" FontWeight="Normal" HorizontalAlignment="Stretch"/>
                         <Button Click="Button_Click" Content="Product" Tag="$Product{f(k) @ k = 1 : n}" Margin="501,123,-81,0"
-                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Finite product"
-                            Width="62" Height="26"/>
+                            Style="{StaticResource RoundButton}" FontSize="13" ToolTip="Finite product"
+                            Width="Auto" Height="26" FontWeight="Normal" HorizontalAlignment="Stretch"/>
                         <Label Content="─────── Functions ───────" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Padding="1"
                             Height="22" VerticalAlignment="Top" Width="158" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" FontSize="13" RenderTransformOrigin="0.5,0.5" Margin="204,5,0,0"/>
                     </Grid>
                     <Canvas x:Name="LineNumbers" HorizontalAlignment="Left" Margin="6,10,0,28" Width="40"/>
                     <Border BorderThickness="0,0,1,0" HorizontalAlignment="Left" Margin="0,10,0,28" Width="50" BorderBrush="#FFE3E3E3"/>
-                    <WrapPanel x:Name="GreekLettersWarpPanel" ToolTip="Greek letters" Margin="0,0,0,5" Height="18" VerticalAlignment="Bottom">
+                    <WrapPanel x:Name="GreekLettersWarpPanel" ToolTip="Greek letters" Margin="0,0,0,3" Height="22" VerticalAlignment="Bottom">
                         <TextBlock MouseUp="GreekLetter_MouseUp" Text="°" Style="{StaticResource GreekLetter}" FontSize="16" Margin="0,2,2,2"/>
                         <TextBlock MouseUp="GreekLetter_MouseUp" Text="′" Style="{StaticResource GreekLetter}" FontSize="16"/>
                         <TextBlock MouseUp="GreekLetter_MouseUp" Text="″" Style="{StaticResource GreekLetter}" FontSize="16"/>
@@ -1297,7 +1297,7 @@
                         <TextBlock MouseUp="GreekLetter_MouseUp" Text="ω" Style="{StaticResource GreekLetter}"/>
                         <Button Click="ChangeCaseButton_Click" Content="aA" Style="{StaticResource RoundButton}" 
                                 Width="26" FontSize="13"
-                                Height="20" FontFamily="Segoe UI Semibold" ToolTip="Change case" VerticalAlignment="Center" FontWeight="Normal"/>
+                                Height="22" FontFamily="Segoe UI Semibold" ToolTip="Change case" VerticalAlignment="Center" FontWeight="Normal" HorizontalAlignment="Center"/>
                     </WrapPanel>
                 </Grid>
             </GroupBox>

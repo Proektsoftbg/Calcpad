@@ -28,6 +28,7 @@ namespace Calcpad.Core
         private bool _isSolver;
         private Unit _targetUnits;
         private int _functionDefinitionIndex;
+        private KeyValuePair<string, Value> _backupVariable;
         private double Precision
         {
             get

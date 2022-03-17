@@ -370,9 +370,9 @@ namespace Calcpad.Core
                                             else
                                                 errText = token.Value;
 #if BG
-                                            errText = $"<span class=\"err\">Грешка в \"{errText}\" на ред {Line(line)}: {ex.Message}</span>";
+                                            errText = $"<p class=\"err\">Грешка в \"{errText}\" на ред {Line(line)}: {ex.Message}</p>";
 #else      
-                                            errText = $"<span class=\"err\">Error in \"{errText}\" on line {Line(line)}: {ex.Message}</span>";
+                                            errText = $"<p class=\"err\">Error in \"{errText}\" on line {Line(line)}: {ex.Message}</p>";
 #endif
                                             stringBuilder.Append(errText);
                                         }

@@ -45,13 +45,13 @@ namespace Calcpad.Core
                     var cf = _functions[_parser._functionDefinitionIndex];
                     for (int i = 0, count = cf.ParameterCount; i < count; ++i)
                     {
-                        _stringBuilder.Append(writer.FormatVariable(cf.ParameterName(i)));
+                        _stringBuilder.Append(writer.FormatVariable(cf.ParameterName(i), string.Empty));
                         if (i < cf.ParameterCount - 1)
                             _stringBuilder.Append(delimiter);
                     }
                     var s = writer.AddBrackets(_stringBuilder.ToString());
                     _stringBuilder.Clear();
-                    _stringBuilder.Append(writer.FormatVariable(_functions.LastName));
+                    _stringBuilder.Append(writer.FormatVariable(_functions.LastName, string.Empty));
                     _stringBuilder.Append(s);
                     _stringBuilder.Append(assignment);
                     _stringBuilder.Append(RenderRpn(cf.Rpn, false, writer, out _));
@@ -100,6 +100,8 @@ namespace Calcpad.Core
                         }
                     }
                 }
+                if (format == OutputWriter.OutputFormat.Html || format == OutputWriter.OutputFormat.Text)
+                    _parser._backupVariable = new(null, Value.Zero);
                 return _stringBuilder.ToString(); 
             }
 
@@ -110,6 +112,7 @@ namespace Calcpad.Core
 
             private string RenderRpn(Token[] rpn, bool substitute, OutputWriter writer, out bool hasOperators)
             {
+                var textWriter = new TextWriter();
                 var stackBuffer = new Stack<RenderToken>();
                 hasOperators = _parser._targetUnits is not null;
                 for (int i = 0, len = rpn.Length; i < len; ++i)
@@ -149,9 +152,12 @@ namespace Calcpad.Core
                     }
                     else if (tt == TokenTypes.Variable)
                     {
+                        var vt = (VariableToken)rpn[i];
+                        var v = i > 0 && vt.Content == _parser._backupVariable.Key?
+                            _parser._backupVariable.Value:
+                            vt.Variable.Value;
                         if (substitute)
                         {
-                            var v = ((VariableToken)rpn[i]).Variable.Value;
                             t.Content = writer.FormatValue(v, _decimals);
                             t.IsCompositeValue = v.IsComposite() || t.Content.Contains('×');
                             t.Order = Token.DefaultOrder;
@@ -159,7 +165,12 @@ namespace Calcpad.Core
                                 t.Order = v.Number.Im < 0 ? MinusOrder : PlusOrder;
                         }
                         else
-                            t.Content = writer.FormatVariable(t.Content);
+                        {
+                            var s = !_parser._settings.Substitute && _parser._functionDefinitionIndex < 0 && _parser._isCalculated ?
+                                textWriter.FormatValue(v, _decimals):
+                                string.Empty;
+                            t.Content = writer.FormatVariable(t.Content, s);
+                        }
                     }
                     else
                     {
@@ -190,21 +201,21 @@ namespace Calcpad.Core
                             {
                                 var content = t.Content;
                                 if (!stackBuffer.TryPop(out var a))
-                                    a = new RenderToken(string.Empty, t.Content == "-" ? TokenTypes.Constant : TokenTypes.None, 0);
+                                    a = new RenderToken(string.Empty, content == "-" ? TokenTypes.Constant : TokenTypes.None, 0);
 
                                 var level = a.Level + b.Level + 1;
-                                var isInline = writer is HtmlWriter && t.Content != "^" && !(level < 4 && (t.Content == "/" || t.Content == "÷"));
+                                var isInline = writer is HtmlWriter && content != "^" && !(level < 4 && (content == "/" || content == "÷"));
                                 if (b.Offset != 0 && isInline)
                                     sb = HtmlWriter.OffsetDivision(sb, b.Offset);
 
                                 var sa = a.Content;
-                                if (a.Order > t.Order && !(_formatEquations && t.Content == "/"))
+                                if (a.Order > t.Order && !(_formatEquations && content == "/"))
                                     sa = writer.AddBrackets(sa, a.Level);
 
                                 if (a.Offset != 0 && isInline)
                                     sa = HtmlWriter.OffsetDivision(sa, a.Offset);
 
-                                if (t.Content == "^")
+                                if (content == "^")
                                 {
                                     if (a.IsCompositeValue || IsNegative(a))
                                         sa = writer.AddBrackets(sa, a.Level);
@@ -220,13 +231,14 @@ namespace Calcpad.Core
                                 }
                                 else
                                 {
-                                    var formatEquation = writer is not TextWriter && (_formatEquations && t.Content == "/" || t.Content == "÷");
+                                    var formatEquation = writer is not TextWriter && 
+                                        (_formatEquations && content == "/" || content == "÷");
                                     if (
                                             !formatEquation &&
                                             (
                                                 b.Order > t.Order ||
-                                                b.Order == t.Order && (t.Content == "-" || t.Content == "/") ||
-                                                IsNegative(b) && t.Content[0] != '='
+                                                b.Order == t.Order && (content == "-" || content == "/") ||
+                                                IsNegative(b) && content != "="
                                             )
                                         )
                                         sb = writer.AddBrackets(sb, b.Level);
@@ -258,10 +270,10 @@ namespace Calcpad.Core
                                         else
                                             level = Math.Max(a.Level, b.Level);
 
-                                        if (t.Content == "*" && a.ValType == 1 && b.ValType == 2)
+                                        if (content == "*" && a.ValType == 1 && b.ValType == 2)
                                             t.Content = sa + char.ConvertFromUtf32(0x200A) + sb;
                                         else
-                                            t.Content = sa + writer.FormatOperator(t.Content[0]) + sb;
+                                            t.Content = sa + writer.FormatOperator(content[0]) + sb;
                                     }
                                     t.ValType = a.ValType == b.ValType ? a.ValType : (byte)3;
                                     t.Level = level;
@@ -334,7 +346,7 @@ namespace Calcpad.Core
                                 if (a.Level > t.Level)
                                     t.Level = a.Level;
                             }
-                            t.Content = writer.FormatVariable(t.Content) + writer.AddBrackets(s, t.Level);
+                            t.Content = writer.FormatVariable(t.Content, string.Empty) + writer.AddBrackets(s, t.Level);
                             hasOperators = true;
                         }
                         else if (t.Content == "!")
@@ -353,7 +365,9 @@ namespace Calcpad.Core
                         }
                         else
                         {
-                            t.Content = (tt == TokenTypes.Function ? writer.FormatFunction(t.Content) : writer.FormatVariable(t.Content)) + writer.AddBrackets(sb, b.Level);
+                            t.Content = (tt == TokenTypes.Function ? 
+                                writer.FormatFunction(t.Content) : 
+                                writer.FormatVariable(t.Content, string.Empty)) + writer.AddBrackets(sb, b.Level);
                             t.Level = b.Level;
                             hasOperators = true;
                         }
