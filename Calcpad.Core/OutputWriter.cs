@@ -141,7 +141,7 @@ namespace Calcpad.Core
         internal abstract string UnitString(Unit units);
         internal abstract string FormatInput(string s, Unit units, bool isCalculated);
         internal abstract string FormatSubscript(string sa, string sb);
-        internal abstract string FormatVariable(string s);
+        internal abstract string FormatVariable(string name, string value);
         internal abstract string FormatUnits(string s);
         internal abstract string FormatFunction(string s);
         internal abstract string FormatRoot(string s, bool formatEquations, int level = 0, string n = "2");
@@ -269,7 +269,7 @@ namespace Calcpad.Core
             units is null ? s : s + ' ' + units.Text;
 
         internal override string FormatSubscript(string sa, string sb) => sa + "_" + sb;
-        internal override string FormatVariable(string s) => s;
+        internal override string FormatVariable(string name, string value) => name;
         internal override string FormatUnits(string s) => s;
         internal override string FormatFunction(string s) => s;
         internal override string FormatRoot(string s, bool formatEquations, int level = 0, string n = "2") => AddBrackets(s + "; " + n);
@@ -354,17 +354,20 @@ namespace Calcpad.Core
         }
 
         internal override string FormatSubscript(string sa, string sb) => $"{sa}<sub>{sb}</sub>";
-        internal override string FormatVariable(string s)
+        internal override string FormatVariable(string name, string value)
         {
-            var i = s.IndexOf('_');
+            var s = string.IsNullOrEmpty(value) ?
+                string.Empty :
+                $" class=\"value\" data-value=\"{value}\"";
+            var i = name.IndexOf('_');
             if (i > 0)
             {
                 var i1 = i + 1;
-                if (i1 < s.Length)
-                    return FormatSubscript($"<var>{s[..i]}</var>", s[i1..]);
+                if (i1 < name.Length)
+                    return FormatSubscript($"<var{s}>{name[..i]}</var>", name[i1..]);
             }
 
-            return $"<var>{s}</var>";
+            return $"<var{s}>{name}</var>";
         }
 
         internal override string FormatUnits(string s) => $"<i>{s}</i>";
@@ -490,16 +493,16 @@ namespace Calcpad.Core
         }
         internal override string FormatSubscript(string sa, string sb) =>
             $"<m:sSub><m:e><m:r><m:t>{sa}</m:t></m:r></m:e><m:sub><m:r><m:t>{sb}</m:t></m:r></m:sub></m:sSub>";
-        internal override string FormatVariable(string s)
+        internal override string FormatVariable(string name, string value)
         {
-            var i = s.IndexOf('_');
+            var i = name.IndexOf('_');
             if (i <= 0)
-                return $"<m:r><m:t>{s}</m:t></m:r>"; //<w:rPr><w:color w:val=\"0000FF\" /></w:rPr>
+                return $"<m:r><m:t>{name}</m:t></m:r>"; //<w:rPr><w:color w:val=\"0000FF\" /></w:rPr>
 
             var i1 = i + 1;
-            return i1 < s.Length ?
-                FormatSubscript(s[..i], s[(i + 1)..]) :
-                $"<m:r><m:t>{s}</m:t></m:r>";
+            return i1 < name.Length ?
+                FormatSubscript(name[..i], name[(i + 1)..]) :
+                $"<m:r><m:t>{name}</m:t></m:r>";
         }
         internal override string FormatUnits(string s) => $"<m:r><m:t>{s}</m:t></m:r>";
         internal override string FormatFunction(string s)

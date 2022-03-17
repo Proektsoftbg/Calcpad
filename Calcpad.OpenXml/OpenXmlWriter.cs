@@ -155,7 +155,7 @@ namespace Calcpad.OpenXml
                 }
             }
             return parentElement;
-            static bool IsRunParent(OpenXmlElement e) => !(e is M.Paragraph || e is Text || e is Break);
+            static bool IsRunParent(OpenXmlElement e) => !(e is M.Paragraph || e is Text || e is Break || e is Hyperlink);
         }
 
         private static void CopyRunProperties(OpenXmlElement source, OpenXmlElement dest)
