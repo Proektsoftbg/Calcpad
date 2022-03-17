@@ -4,9 +4,7 @@
      <LangVersion>latest</LangVersion>
     <UserSecretsId>aspnet-Calcpad.web-F21D120D-161C-4CA7-988D-7477F0AD8AEB</UserSecretsId>
     <SignAssembly>false</SignAssembly>
-    <StartupObject></StartupObject>
 	 <AllowUntrustedCertificate>true</AllowUntrustedCertificate>
-	 <ApplicationIcon />
 	 <OutputType>Exe</OutputType>
   </PropertyGroup>
 

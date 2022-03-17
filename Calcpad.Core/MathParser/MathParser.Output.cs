@@ -400,14 +400,21 @@ namespace Calcpad.Core
                 var n = t.Content.Length;
                 if (t.Order != Token.DefaultOrder || n == 0)
                     return false;
-
+                var isTag = false;
                 for (int i = 0; i < n; ++i)
                 {
                     var c = t.Content[i];
-                    if (Validator.IsDigit(c) || c == '(')
-                        break;
-                    if (c == '-')
-                        return true;
+                    if (c == '<')
+                        isTag = true;
+                    else if (c == '>')
+                        isTag = false;
+                    else if (!isTag)
+                    {
+                        if (Validator.IsDigit(c) || c == '(')
+                            break;
+                        else if (c == '-')
+                            return true;
+                    }
                 }
                 return false;
             }
