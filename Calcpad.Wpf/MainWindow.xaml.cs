@@ -1067,9 +1067,9 @@ namespace Calcpad.Wpf
             catch (Exception e)
             {
 #if BG
-                WebBrowser.NavigateToString($"<p>Неочаквана грешка: {e.Message}</p>");
+                MessageBox.Show(e.Message, $"Грешка", MessageBoxButton.OK, MessageBoxImage.Error);
 #else
-                WebBrowser.NavigateToString($"<p>Unexpected error: {e.Message}</p>");
+                MessageBox.Show(e.Message, $"Error", MessageBoxButton.OK, MessageBoxImage.Error);
 #endif
             }
             if (IsWebForm)
@@ -1835,8 +1835,11 @@ namespace Calcpad.Wpf
 
         private async void DisableInputWindowAsync()
         {
-            await Task.Delay(100);
+            await Task.Delay(200);
             if (RichTextBox.IsKeyboardFocused)
+                return;
+
+            if (_wbWarper.IsContextMenu)
                 return;
 
             if (_autoRun && IsCalculated)

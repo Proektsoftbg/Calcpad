@@ -59,10 +59,19 @@ namespace Calcpad.Wpf
             set => _wb.InvokeScript("eval", $"window.scrollTo(0, {value});");
         }
 
-        //internal string Background
-        //{
-        //    set => _wb.InvokeScript("eval", $"document.body.style.backgroundColor='{value}';");
-        //}
+        internal bool IsContextMenu
+        {
+            get
+            {
+                bool result = false;
+                try
+                {
+                    result = (bool)_wb.InvokeScript("eval", "if(typeof(contextMenu)!='undefined'){contextMenu;}else{false;}");
+                }
+                catch { }
+                return result;
+            }
+        }
 
         internal void Scroll(int line, int offset)
         {
