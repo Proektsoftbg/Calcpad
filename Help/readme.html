@@ -1360,10 +1360,9 @@ You can use it further to calculate binomial coefficients by the well-known form
 <hr />
 <p>Last edited on 07.03.2022 by eng. Nedelcho Ganchovski.</p>
 </div>
-<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.3.min.js"></script>
+<script src="jquery-3.4.1.min.js"></script>
 <script>
-$(document).ready(function(){
-	
+if(window.jQuery){
 	function Toggle(button)
 	{
 		var list = $("#list" + button.attr("id").substring(6));
@@ -1379,40 +1378,42 @@ $(document).ready(function(){
 		}
 	}
 	
-    $("#Units").change(function(){
-        $(".Units").text($(this).val());
-    });
-	
-    $(".exp").click(function(){
-		Toggle($(this));
-	});
-	
-	$(window).scroll(function() {
-		if ($(".menu").is(":visible")){
-			var scrollTop = $(window).scrollTop();
-			var id;
-			var min = 1e20;
-			$("h2, h3").each(function() {
-				var d =  scrollTop - $(this).offset().top + 50;
-				if (d > 0 && Math.abs(d) < min) {
-					console.log(d);
-					min = d;
-					id = $(this).attr("id");
-				}					
-			});
-			$(".active").removeClass("active");
-			var element = $("a[href$='#" + id + "']")
-			if (!element.is(":visible"))
-			{
-				$(".exp").html("+");
-				$(".menu li ul").css("display", "none");
-				var b = "#button" + id.substring(4, id.length - 2);
-				Toggle($(b));
+	$(document).ready(function(){
+		$("#Units").change(function(){
+			$(".Units").text($(this).val());
+		});
+		
+		$(".exp").click(function(){
+			Toggle($(this));
+		});
+		
+		$(window).scroll(function() {
+			if ($(".menu").is(":visible")){
+				var scrollTop = $(window).scrollTop();
+				var id;
+				var min = 1e20;
+				$("h2, h3").each(function() {
+					var d =  scrollTop - $(this).offset().top + 50;
+					if (d > 0 && Math.abs(d) < min) {
+						console.log(d);
+						min = d;
+						id = $(this).attr("id");
+					}					
+				});
+				$(".active").removeClass("active");
+				var element = $("a[href$='#" + id + "']")
+				if (!element.is(":visible"))
+				{
+					$(".exp").html("+");
+					$(".menu li ul").css("display", "none");
+					var b = "#button" + id.substring(4, id.length - 2);
+					Toggle($(b));
+				}
+				element.addClass("active");
 			}
-			element.addClass("active");
-		}
-	});
-}); 
+		});
+	}); 
+}
 </script>
 </body>
 </html>

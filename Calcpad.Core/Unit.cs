@@ -766,7 +766,12 @@ namespace Calcpad.Core
                 p1 = i < n1 ? u1._dims[i].Power : 0f;
                 p2 = i < n2 ? k * u2._dims[i].Power : 0f;
                 ref var dim = ref unit._dims[i];
-                dim.Factor = p1 == 0f ? u2._dims[i].Factor : u1._dims[i].Factor;
+                dim.Factor = 
+                    p1 != 0f ? 
+                    u1._dims[i].Factor :
+                    p2 != 0f ?
+                    u2._dims[i].Factor : 
+                    1f;
                 dim.Power = p1 + p2;
             }
             return unit;
