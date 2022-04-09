@@ -41,7 +41,7 @@ namespace Calcpad.Core
             if (d >= 1e-14)
                 return;
 
-            var mid = (min + max) / 2;
+            var mid = (min + max) / 2.0;
             var span = Math.Pow(10, Math.Round(Math.Log10(Math.Abs(mid))) - 2);
             if (span != 0)
                 mid = Math.Round(min / span) * span;
@@ -85,7 +85,7 @@ namespace Calcpad.Core
             {
                 Alignment = StringAlignment.Far
             };
-            var xt = Left - tw / 2;
+            var xt = Left - tw / 2f;
             string s;
             while ((yg < max) == (stepY > 0))
             {
@@ -159,7 +159,7 @@ namespace Calcpad.Core
             if (x0 >= Left && x0 <= xn)
             {
                 g.DrawLine(axisPen, (float)x0, Margin, (float)x0, yn);
-                g.DrawString("y", f, b, (float)x0 - tw / 2, Margin - 3 * th);
+                g.DrawString("y", f, b, (float)x0 - tw / 2f, Margin - 3f * th);
             }
             var sy0 = OutputWriter.FormatNumberHelper(bounds.Bottom, 2);
             var sy1 = OutputWriter.FormatNumberHelper(bounds.Top, 2);
@@ -202,7 +202,7 @@ namespace Calcpad.Core
             var stepX = GetGridStep(delta, maxSteps);
             var midLine = stepX * xs > 1.5 * stepY * ys;
             if (midLine)
-                stepX /= 2;
+                stepX /= 2.0;
             tol = delta * 0.01;
             var xg = Math.Round((bounds.Left - tol) / stepX) * stepX;
             max = bounds.Right + tol;
