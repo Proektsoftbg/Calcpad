@@ -65,16 +65,16 @@ namespace Calcpad.Core
             var fh = 8.5f;
             var f = new Font("Arial", fh);
             var sz = g.MeasureString(" -0.12 ", f);
-            var tw = sz.Width / 5;
-            var th = sz.Height / 2 - 2;
-            var th05 = th / 2;
+            var tw = sz.Width / 5f;
+            var th = sz.Height / 2f - 2f;
+            var th05 = th / 2f;
             float xn = Width - Right;
             float yn = Height - Margin;
             var maxSteps = (int)Math.Min(15d * yn / xn, (yn - Margin) / (2.5 * th));
             var delta = bounds.Top - bounds.Bottom;
             var stepY = GetGridStep(delta, maxSteps);
-            if (stepY * ys > 8 * th && delta < 7 * stepY)
-                stepY /= 2;
+            if (stepY * ys > 8f * th && delta < 7 * stepY)
+                stepY /= 2f;
             var tol = delta * 0.02;
             var yg = Math.Round(bounds.Bottom / stepY) * stepY;
             if (yg < bounds.Bottom - tol)
@@ -112,13 +112,13 @@ namespace Calcpad.Core
             var stepX = GetGridStep(delta, maxSteps);
             var midLine = stepX * xs > 1.5 * stepY * ys;
             if (midLine)
-                stepX /= 2;
+                stepX /= 2.0;
             tol = delta * 0.02;
             var xg = Math.Round((bounds.Left - tol) / stepX) * stepX;
             if (xg < bounds.Left - tol)
                 xg += stepX;
             max = bounds.Right + tol;
-            var yt = yn + th05 + 4;
+            var yt = yn + th05 + 4f;
             isScientific = Math.Abs(bounds.Right) + Math.Abs(bounds.Left) >= 20000;
             if (midLine)
             {
@@ -174,9 +174,9 @@ namespace Calcpad.Core
 
         protected void DrawGridSvg(SvgDrawing g, double x0, double y0, double xs, double ys, Box bounds)
         {
-            const double th = 12;
-            const double th05 = th / 2;
-            const double tw = 6;
+            const double th = 12.0;
+            const double th05 = th / 2.0;
+            const double tw = 6.0;
             double xn = Width - Right;
             double yn = Height - Margin;
             var maxSteps = (int)Math.Min(12.0 * yn / xn, (yn - Margin) / (2.5 * th));

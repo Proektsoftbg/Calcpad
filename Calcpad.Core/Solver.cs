@@ -42,7 +42,7 @@ namespace Calcpad.Core
                     double u = Math.Exp(t1 - t);
                     double u1 = 1.0 / (1.0 + u);
                     double d = 2.0 * u * u1;
-                    if (d == 0)
+                    if (d == 0.0)
                         break;
                     r[i][j] = d;
                     w[i][j] = (t1 + t) * d * u1;
@@ -179,8 +179,8 @@ namespace Calcpad.Core
                 Units = u;
                 return x2;
             }
-            var nMax = -(int)(Math.Log2(Precision) / 2) + 1;
-            double eps1 = Precision / 4, eps = Precision * (x2 - x1) / 2;
+            var nMax = -(int)(Math.Log2(Precision) / 2.0) + 1;
+            double eps1 = Precision / 4, eps = Precision * (x2 - x1) / 2.0;
             if (Math.Abs(target) > 1)
                 eps1 *= target;
 
@@ -194,9 +194,9 @@ namespace Calcpad.Core
                 double x3, y3;
                 if (bisection)
                 {
-                    x3 = (x1 + x2) / 2;
+                    x3 = (x1 + x2) / 2.0;
                     y3 = Fd(x3) - target;
-                    var ym = (y1 + y2) / 2;
+                    var ym = (y1 + y2) / 2.0;
                     //Check if function is close to straight line
                     if (Math.Abs(ym - y3) < k * (Math.Abs(y3) + Math.Abs(ym)))
                         bisection = false;
@@ -289,7 +289,7 @@ namespace Calcpad.Core
             var x2 = right;
             var x3 = x2 - k * (x2 - x1);
             var x4 = x1 + k * (x2 - x1);
-            var eps = Precision * (Math.Abs(x3) + Math.Abs(x4)) / 2;
+            var eps = Precision * (Math.Abs(x3) + Math.Abs(x4)) / 2.0;
             var tol2 = Precision * Precision;
             Units = null;
             while (Math.Abs(x2 - x1) > eps)
@@ -310,7 +310,7 @@ namespace Calcpad.Core
                 if (eps < tol2)
                     eps = tol2;
             }
-            return Fd((x1 + x2) / 2);
+            return Fd((x1 + x2) / 2.0);
         }
 
         internal double Area(double left, double right)
@@ -328,7 +328,7 @@ namespace Calcpad.Core
             }
             else
             {
-                var y = Fd(left + right) / 2;
+                var y = Fd((left + right) / 2.0);
                 area = (right - left) * y;
             }
             var u = Variable.Value.Units;
@@ -347,11 +347,11 @@ namespace Calcpad.Core
 
         private double AdaptiveSimpson(double left, double right)
         {
-            var h = (right - left) / 2;
+            var h = (right - left) / 2.0;
             var y1 = Fd(left);
-            var y2 = Fd(left + right) / 2;
+            var y2 = Fd((left + right) / 2.0);
             var y3 = Fd(right);
-            var eps = Math.Max(Precision, 1e-12) * Math.Abs(h) / 2;
+            var eps = Math.Max(Precision, 1e-12) * Math.Abs(h) / 2.0;
             var a0 = h * (y1 + 4 * y2 + y3);
             double area = Simpson(left, right, y1, y2, y3, a0, eps, 1);
             return area * Math.Sign(h) / 3.0;
@@ -360,9 +360,9 @@ namespace Calcpad.Core
         private double Simpson(double x1, double x3, double y1, double y2, double y3, double a0, double eps, int depth)
         {
             const double c = 1.0 / 15.0;
-            var h = (x3 - x1) / 4;
-            var x2 = (x1 + x3) / 2;
-            var y4 = Fd(x1 + h);
+            var h = (x3 - x1) / 4.0;
+            var x2 = (x1 + x3) / 2.0;
+            var y4 = Fd(x2 - h);
             var y5 = Fd(x2 + h);
             var a1 = h * (y1 + 4.0 * y4 + y2);
             var a2 = h * (y2 + 4.0 * y5 + y3);
@@ -383,7 +383,7 @@ namespace Calcpad.Core
         {
             Units = null;
             var h = (right - left) / 2.0;
-            eps = Math.Max(Precision, 1e-14) * Math.Abs(h) / 2;
+            eps = Math.Max(Precision, 1e-14) * Math.Abs(h) / 2.0;
             return Lobatto(left, right, Fd(left), Fd(right), 1);
         }
 
@@ -473,10 +473,10 @@ namespace Calcpad.Core
             const int n = 7;
             var a = Math.Abs(x) < 1 ? 1 : x;
             var eps = Math.Cbrt(Math.BitIncrement(a) - a);
-            var h = Math.Pow(2, n) * eps;
-            var h2 = 2 * h;
+            var h = Math.Pow(2.0, n) * eps;
+            var h2 = 2.0 * h;
             var r = new double[n];
-            var err = delta / 2;
+            var err = delta / 2.0;
             Units = null;
             for (int i = 0; i < n; ++i)
             {
@@ -501,7 +501,7 @@ namespace Calcpad.Core
                         break;
                 }
                 h2 = h;
-                h = h2 / 2;
+                h = h2 / 2.0;
             }
             var u = Variable.Value.Units;
             double slope = err > maxErr ? double.NaN : r[0];
