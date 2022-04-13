@@ -106,6 +106,14 @@ object SyntAnal50: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
+      DisplayName = 'Number'
+      StyleName = 'Number'
+      TokenType = 5
+      Expression = '\b([0-9]*\.?[0-9]*)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
       DisplayName = 'Function'
       StyleName = 'Function'
       TokenType = 4
@@ -117,7 +125,7 @@ object SyntAnal50: TLibSyntAnalyzer
       DisplayName = 'Units'
       StyleName = 'Units'
       TokenType = 2
-      Expression = '(?<=[\?\|0-9.])[A-Za-z°]+'
+      Expression = '(?<=\b([\?\|0-9.]+))[A-Za-z°]+'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -141,15 +149,7 @@ object SyntAnal50: TLibSyntAnalyzer
       DisplayName = 'Variable'
       StyleName = 'Variable'
       TokenType = 2
-      Expression = '\b[a-zA-Zα-ωΑ-Ω°øØ∡]+[a-zA-Zα-ωΑ-Ω°øØ∡0-9_,′″‴⁗]*\b'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Number'
-      StyleName = 'Number'
-      TokenType = 5
-      Expression = '\b([0-9]*\.?[0-9]*)\b'
+      Expression = '\b[a-zA-Z\x{03B1}-\x{03C9}\x{0391}-\x{03A9}\x{00B0}\x{00F8}\x{00D8}\x{2221}]+[a-zA-Z\x{03B1}-\x{03C9}\x{0391}-\x{03A9}\x{00B0}\x{00F8}\x{00D8}\x{2221}0-9_,\x{2032}\x{2033}\x{2034}\x{2057}]*\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -157,7 +157,7 @@ object SyntAnal50: TLibSyntAnalyzer
       DisplayName = 'Operator'
       StyleName = 'Operator'
       TokenType = 10
-      Expression = '[\^/÷\\%*\-+!≡≠<>≤≥=]'
+      Expression = '[\^/÷\\%*\-+!\x{2260}\x{2261}<>\x{2264}\x{2265}=]'
       ColumnFrom = 0
       ColumnTo = 0
     end
