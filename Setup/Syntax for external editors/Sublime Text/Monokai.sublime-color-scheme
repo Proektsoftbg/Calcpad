@@ -1,0 +1,43 @@
+// Documentation at https://www.sublimetext.com/docs/color_schemes.html
+{
+	"variables":
+	{
+		"green": "hsl(80, 100%, 50%)",
+		"yellow6": "hsl(45, 100%, 60%)",
+		"pink": "hsl(325, 100%, 70%)",
+		"blue2": "hsl(200, 50%, 50%)"
+	},
+
+	"globals":
+	{
+	},
+
+	"rules":
+	[
+		{
+            "name": "Calcpad String",
+            "scope": "string.quoted.double.calcpad | string.quoted.single.calcpad",
+            "foreground": "var(green)"
+        },		
+		{
+            "name": "Calcpad Operator",
+            "scope": "keyword.operator.arithmetic.calcpad | keyword.operator.comparison.calcpad | keyword.operator.assignment.calcpad | punctuation.separator.calcpad",
+            "foreground": "var(orange)"
+        },
+        {
+            "name": "Calcpad Keyword",
+            "scope": "keyword.control.calcpad | punctuation.definition.keyword.calcpad",
+            "foreground": "var(pink)"
+        },
+        {
+            "name": "Calcpad Method",
+            "scope": "support.method.calcpad | punctuation.definition.method.calcpad",
+            "foreground": "var(pink)"
+        },         
+        {
+            "name": "Calcpad Function",
+            "scope": "support.function.calcpad",
+            "foreground": "var(blue2)"
+        }       
+	]
+}

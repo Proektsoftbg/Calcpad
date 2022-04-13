@@ -1,0 +1,1 @@
+Copy files to %AppData%\Roaming\Sublime Text\Packages\User\

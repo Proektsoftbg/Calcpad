@@ -1,0 +1,279 @@
+object SyntAnal50: TLibSyntAnalyzer
+  Formats = <
+    item
+      DisplayName = 'Comment'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGreen
+      Font.Height = -13
+      Font.Name = 'Consolas'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Function'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Consolas'
+      Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'Variable'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -13
+      Font.Name = 'Consolas'
+      Font.Style = [fsItalic]
+    end
+    item
+      DisplayName = 'Keyword'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clPurple
+      Font.Height = -13
+      Font.Name = 'Consolas'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Method'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clPurple
+      Font.Height = -13
+      Font.Name = 'Consolas'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Number'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Consolas'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Units'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clTeal
+      Font.Height = -13
+      Font.Name = 'Consolas'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Operator'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clOlive
+      Font.Height = -13
+      Font.Name = 'Consolas'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Separator'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clOlive
+      Font.Height = -13
+      Font.Name = 'Consolas'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Input'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Consolas'
+      Font.Style = [fsBold]
+    end
+  	item
+      DisplayName = 'Brackets'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clMaroon
+      Font.Height = -13
+      Font.Name = 'Consolas'
+      Font.Style = []
+    end>
+  TokenRules = <
+    item
+      DisplayName = 'Title'
+      StyleName = 'Comment'
+      TokenType = 1
+      Expression = '".*?(["\r\n])'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Comment'
+      StyleName = 'Comment'
+      TokenType = 1
+      Expression = '''.*?([''\r\n])'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Function'
+      StyleName = 'Function'
+      TokenType = 4
+      Expression = '\b(abs|sin|cos|tan|csc|sec|cot|sinh|cosh|tanh|csch|sech|coth|asin|acos|atan|acsc|asec|acot|asinh|acosh|atanh|acsch|asech|acoth|ln|log|log_2|sqr|sqrt|cbrt|round|floor|ceiling|trunc|re|im|phase|random|root|atan2|min|max|sum|sumsq|srss|average|product|mean|switch|take|line|spline)\b'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Units'
+      StyleName = 'Units'
+      TokenType = 2
+      Expression = '(?<=[\?\|0-9.])[A-Za-z°]+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+   item
+      DisplayName = 'Keyword'
+      StyleName = 'Keyword'
+      TokenType = 7
+      Expression = '\#([Rr]epeat|[Ll]oop|[Ss]how|[Hh]ide|[Pp]re|[Pp]ost|[Vv]al|[Ee]qu|[Rr]ad|[Dd]eg|[Ii]f|[Ee]lse\s[Ii]f|[Ee]lse|[Ee]nd\s[Ii]f)\b'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Method'
+      StyleName = 'Method'
+      TokenType = 7
+      Expression = '\$([Rr]oot|[Ff]ind|[Ii]nf|[Ss]up|[Aa]rea|[Ii]ntegrate|[Ss]lope|[Ss]um|[Pp]roduct|[Rr]epeat|[Mm]ap|[Pp]lot)\b'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Variable'
+      StyleName = 'Variable'
+      TokenType = 2
+      Expression = '\b[a-zA-Zα-ωΑ-Ω°øØ∡]+[a-zA-Zα-ωΑ-Ω°øØ∡0-9_,′″‴⁗]*\b'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Number'
+      StyleName = 'Number'
+      TokenType = 5
+      Expression = '\b([0-9]*\.?[0-9]*)\b'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Operator'
+      StyleName = 'Operator'
+      TokenType = 10
+      Expression = '[\^/÷\\%*\-+!≡≠<>≤≥=]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Separator'
+      StyleName = 'Separator'
+      TokenType = 10
+      Expression = '[;&@:|]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Input'
+      StyleName = 'Input'
+      TokenType = 10
+      Expression = '?'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Brackets {}'
+      StyleName = 'Brackets'
+      TokenType = 8
+      Expression = '[\{\}]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Brackets ()'
+      StyleName = 'Brackets'
+      TokenType = 9
+      Expression = '[\(\)]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end>
+  BlockRules = <
+    item
+      DisplayName = '#repeat'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '#repeat')
+          TokenTypes = 128
+          IgnoreCase = True
+        end>
+      BlockEnd = '#loop'
+      DisplayInTree = False
+      HighlightPos = cpAny
+      CancelNextRules = True
+      DrawStaple = True
+      CollapseFmt = '%sz0'
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = '#loop'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '#loop')
+          TokenTypes = 128
+          IgnoreCase = True
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = '#if'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '#if')
+          TokenTypes = 128
+          IgnoreCase = True
+        end>
+      BlockEnd = '#if end'
+      DisplayInTree = False
+      HighlightPos = cpAny
+      CancelNextRules = False
+      DrawStaple = True
+      CollapseFmt = '%sz0'
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = '#if end'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '#end if')
+          TokenTypes = 128
+          IgnoreCase = True
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end>
+  CodeTemplates = <>
+  SubAnalyzers = <>
+  SampleText.Strings = ()
+  TokenTypeNames.Strings = (
+    'Comment'
+    'Function'
+    'Variable'
+    'Keyword'
+    'Command'
+    'Number'
+    'Unit'
+    'Operator'
+    'Separator'
+    'Input'
+    'Brackets')
+  Extentions = 'cpd'
+  LexerName = 'Calcpad'
+  Notes.Strings = (
+    'Created by Ned Ganchovski')
+  RestartFromLineStart = True
+  LineComment = ''''
+  Charset = DEFAULT_CHARSET
+end
