@@ -981,12 +981,17 @@ namespace Calcpad.Core
                 {
                     case "s":
                         {
-                            if (factor == 60d || factor == 3600d)
+                            if (factor == 60d || factor == 3600d || factor == 86400d)
                             {
+                                name = factor switch
+                                {
+                                    60d  => "min",
+                                    3600d  => "h",
+                                    86400d  => "d",
+                                    _ => "s"
+                                };
                                 factor = 1d;
-                                name = factor == 60d ? "min" : "h";
                             }
-
                             break;
                         }
                     case "g":
