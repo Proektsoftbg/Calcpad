@@ -91,7 +91,8 @@ namespace Calcpad.Core
                 return new(a.Number, b.Units);
 
             var uc = Unit.Multiply(a.Units, b.Units, out var d, b.IsUnit);
-            return new(a.Number.Re * b.Number.Re * d, uc, a.IsUnit && b.IsUnit);
+            var isUnit = a.IsUnit && b.IsUnit && uc is not null;
+            return new(a.Number.Re * b.Number.Re * d, uc, isUnit);
         }
 
         public static Value operator /(Value a, Value b)
@@ -103,7 +104,8 @@ namespace Calcpad.Core
         public static Value Divide(Value a, Value b)
         {
             var uc = Unit.Divide(a.Units, b.Units, out var d, b.IsUnit);
-            return new(a.Number.Re / b.Number.Re * d, uc, a.IsUnit && b.IsUnit);
+            var isUnit = a.IsUnit && b.IsUnit && uc is not null;
+            return new(a.Number.Re / b.Number.Re * d, uc, isUnit);
         }
 
         public static Value operator *(Value a, double b) =>
@@ -125,7 +127,8 @@ namespace Calcpad.Core
         public static Value IntDiv(Value a, Value b)
         {
             var uc = Unit.Divide(a.Units, b.Units, out var d);
-            return new(Math.Truncate(a.Number.Re * d / b.Number.Re), uc, a.IsUnit && b.IsUnit);
+            bool isUnit = a.IsUnit && b.IsUnit && uc is not null;
+            return new(Math.Truncate(a.Number.Re * d / b.Number.Re), uc, isUnit);
         }
 
         public static Value operator ==(Value a, Value b) =>

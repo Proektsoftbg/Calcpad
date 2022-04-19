@@ -472,8 +472,8 @@ namespace Calcpad.Wpf
 
             var run = new Run(s);
             s = s.ToLowerInvariant();
-            if (t == Types.Variable && Functions.Contains(s) ||
-                t == Types.Condition && !Conditions.Contains(s.TrimEnd()) ||
+
+            if (t == Types.Condition && !Conditions.Contains(s.TrimEnd()) ||
                 t == Types.Command && !Commands.Contains(s))
                 t = Types.Error;
 
