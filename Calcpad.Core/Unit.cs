@@ -61,7 +61,7 @@ namespace Calcpad.Core
             }
         }
 
-        internal bool IsForce => _dims.Length > 2 &&
+        internal bool IsForce => _dims.Length == 3 &&
                                  _dims[0].Power == 1f &&
                                  _dims[2].Power == -2f &&
                                  Text.Contains('s');
@@ -739,32 +739,36 @@ namespace Calcpad.Core
 
         public static Unit operator *(Unit u1, Unit u2) => MultiplyOrDivide(u1, u2);
 
-        public static Unit operator /(Unit u1, Unit u2) => MultiplyOrDivide(u1, u2, -1f);
+        public static Unit operator /(Unit u1, Unit u2) => MultiplyOrDivide(u1, u2, true);
 
-        private static Unit MultiplyOrDivide(Unit u1, Unit u2, float k = 1f)
+        private static Unit MultiplyOrDivide(Unit u1, Unit u2, bool divide = false)
         {
             var n1 = u1._dims.Length;
             var n2 = u2._dims.Length;
             var n = n1 > n2 ? n1 : n2;
             float p1, p2;
-            while (n > 0)
+            if (n1 == n2)
             {
-                var i = n - 1;
-                p1 = i < n1 ? u1._dims[i].Power : 0f;
-                p2 = i < n2 ? k * u2._dims[i].Power : 0f;
-                if (p1 != -p2)
-                    break;
+                while (n > 0)
+                {
+                    var i = n - 1;
+                    p1 = u1._dims[i].Power;
+                    p2 = u2._dims[i].Power;
+                    if (p1 != (divide ? p2 : -p2))
+                        break;
 
-                n = i;
+                    n = i;
+                }
+                if (n == 0)
+                    return null;
             }
-            if (n == 0)
-                return null;
+
 
             Unit unit = new(n);
             for (int i = 0; i < n; ++i)
             {
                 p1 = i < n1 ? u1._dims[i].Power : 0f;
-                p2 = i < n2 ? k * u2._dims[i].Power : 0f;
+                p2 = i < n2 ? u2._dims[i].Power : 0f;
                 ref var dim = ref unit._dims[i];
                 dim.Factor = 
                     p1 != 0f ? 
@@ -772,7 +776,7 @@ namespace Calcpad.Core
                     p2 != 0f ?
                     u2._dims[i].Factor : 
                     1f;
-                dim.Power = p1 + p2;
+                dim.Power = divide ? p1 - p2 : p1 + p2;
             }
             return unit;
         }
@@ -781,13 +785,12 @@ namespace Calcpad.Core
         {
             var n1 = u1._dims.Length;
             var n2 = u2._dims.Length;
-            var n = n1 > n2 ? n1 : n2;
+            var n = n1 < n2 ? n1 : n2;
             var factor = 1d;
             for (int i = 0; i < n; ++i)
             {
-                var p1 = i < n1 ? u1._dims[i].Power : 0f;
-                var p2 = i < n2 ? (divide ? -u2._dims[i].Power : u2._dims[i].Power) : 0f;
-                if (p1 != 0f && p2 != 0f)
+                var p2 = divide ? -u2._dims[i].Power : u2._dims[i].Power;
+                if (u1._dims[i].Power != 0f && p2 != 0f)
                     factor *= Math.Pow(u2._dims[i].Factor / u1._dims[i].Factor, p2);
             }
             return factor;
@@ -800,7 +803,7 @@ namespace Calcpad.Core
 
         internal Unit Pow(double x)
         {
-            float f = (float)x;
+            var f = (float)x;
             int n = _dims.Length;
             Unit unit = new(n);
             for (int i = 0; i < n; ++i)
@@ -844,8 +847,8 @@ namespace Calcpad.Core
             double? d1 = null;
             for (int i = 0; i < n; ++i)
             {
-                ref float p1 = ref _dims[i].Power;
-                ref float p2 = ref other._dims[i].Power;
+                var p1 = _dims[i].Power;
+                var p2 = other._dims[i].Power;
                 if (p1 != p2)
                 {
                     if (p1 == 0f || p2 == 0f)
@@ -885,7 +888,7 @@ namespace Calcpad.Core
             if (Units.ContainsKey(u._text))
                 return u;
 
-            ref var d = ref u._dims[0].Factor;
+            var d = u._dims[0].Factor;
 
             if (Math.Round(d) == d)
                 return ForceUnits[i];
