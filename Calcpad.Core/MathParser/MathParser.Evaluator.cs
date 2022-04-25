@@ -166,8 +166,6 @@ namespace Calcpad.Core
                     if (u is null)
                         return v.Units;
 
-                    //v.Number *= vu.ConvertTo(u);
-                    //v.Units = u;
                     v = new Value(v.Number * vu.ConvertTo(u), u);
                     return v.Units;
                 }
@@ -179,8 +177,6 @@ namespace Calcpad.Core
 #endif
                 var delta = u.IsTemp ? GetTempUnitsDelta(vu.Text, u.Text) : 0;
                 var number = v.Number * vu.ConvertTo(u) + delta;
-                //v.Number = number;
-                //v.Units = u;
                 v = new Value(number, u);
                 return v.Units;
             }
