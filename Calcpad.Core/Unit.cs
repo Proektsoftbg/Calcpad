@@ -222,7 +222,7 @@ namespace Calcpad.Core
         {
             _text = u._text;
             _hashCode = u._hashCode;
-            int n = u._dims.Length;
+            var n = u._dims.Length;
             _dims = new Dimension[n];
             Array.Copy(u._dims, _dims, n);
         }
@@ -770,11 +770,11 @@ namespace Calcpad.Core
                 p1 = i < n1 ? u1._dims[i].Power : 0f;
                 p2 = i < n2 ? u2._dims[i].Power : 0f;
                 ref var dim = ref unit._dims[i];
-                dim.Factor = 
-                    p1 != 0f ? 
+                dim.Factor =
+                    p1 != 0f ?
                     u1._dims[i].Factor :
                     p2 != 0f ?
-                    u2._dims[i].Factor : 
+                    u2._dims[i].Factor :
                     1f;
                 dim.Power = divide ? p1 - p2 : p1 + p2;
             }
@@ -804,7 +804,7 @@ namespace Calcpad.Core
         internal Unit Pow(double x)
         {
             var f = (float)x;
-            int n = _dims.Length;
+            var n = _dims.Length;
             Unit unit = new(n);
             for (int i = 0; i < n; ++i)
             {
@@ -827,7 +827,7 @@ namespace Calcpad.Core
             if (other is null)
                 return false;
 
-            int n = _dims.Length;
+            var n = _dims.Length;
             if (n != other._dims.Length)
                 return false;
 
@@ -840,7 +840,7 @@ namespace Calcpad.Core
 
         internal bool IsMultiple(Unit other)
         {
-            int n = _dims.Length;
+            var n = _dims.Length;
             if (n != other._dims.Length)
                 return false;
 
@@ -988,9 +988,9 @@ namespace Calcpad.Core
                             {
                                 name = factor switch
                                 {
-                                    60d  => "min",
-                                    3600d  => "h",
-                                    86400d  => "d",
+                                    60d => "min",
+                                    3600d => "h",
+                                    86400d => "d",
                                     _ => "s"
                                 };
                                 factor = 1d;
