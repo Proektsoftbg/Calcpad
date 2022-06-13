@@ -326,11 +326,11 @@ namespace Calcpad.Core
                 {
                     var x = (float)(x0 + _points[i].X * xs);
                     if (Math.Abs(x) > GDILimit)
-                        x = GDILimit * Math.Sign(x);
+                        x = (float)Math.CopySign(GDILimit, x);
 
                     var y = (float)(y0 - _points[i].Y * ys);
                     if (Math.Abs(y) > GDILimit)
-                        y = GDILimit * Math.Sign(y);
+                        y = (float)Math.CopySign(GDILimit, y);
 
                     PngPoints[i] = new PointF(x, y);
                 }

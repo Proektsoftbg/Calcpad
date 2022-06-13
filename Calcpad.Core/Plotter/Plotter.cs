@@ -327,7 +327,7 @@ namespace Calcpad.Core
                     step = Steps[i];
                 }
             }
-            return step * (k / 10.0) * Math.Sign(span);
+            return Math.CopySign(step * (k / 10.0), span);
         }
 
         protected readonly struct Node

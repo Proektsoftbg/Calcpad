@@ -12,7 +12,7 @@ namespace Calcpad.Wpf
             {
                 Content = promptText,
                 Height = 30,
-                Margin = new Thickness(20, 15, 20, 100),
+                Margin = new Thickness(20, 10, 25, 100),
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch,
                 VerticalContentAlignment = VerticalAlignment.Bottom
@@ -22,7 +22,7 @@ namespace Calcpad.Wpf
                 Text = retValue,
                 SelectionLength = retValue.Length,
                 Height = 25,
-                Margin = new Thickness(20, 50, 20, 60),
+                Margin = new Thickness(25, 0, 25, 65),
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Bottom,
                 VerticalContentAlignment = VerticalAlignment.Center,
@@ -33,8 +33,8 @@ namespace Calcpad.Wpf
                 Content = "OK",
                 IsDefault = true,
                 Width = 60,
-                Height = 20,
-                Margin = new Thickness(220, 100, 100, 20),
+                Height = 25,
+                Margin = new Thickness(0, 0, 110, 20),
                 HorizontalAlignment = HorizontalAlignment.Right,
                 VerticalAlignment = VerticalAlignment.Bottom
             };
@@ -44,8 +44,8 @@ namespace Calcpad.Wpf
                 Content = "Cancel",
                 IsCancel = true,
                 Width = 60,
-                Height = 20,
-                Margin = new Thickness(320, 100, 20, 20),
+                Height = 25,
+                Margin = new Thickness(320, 100, 25, 20),
                 HorizontalAlignment = HorizontalAlignment.Right,
                 VerticalAlignment = VerticalAlignment.Bottom
             };
@@ -62,7 +62,7 @@ namespace Calcpad.Wpf
             var form = new Window()
             {
                 Title = title,
-                Width = 420,
+                Width = 500,
                 Height = 180,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
