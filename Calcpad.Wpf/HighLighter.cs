@@ -58,7 +58,7 @@ namespace Calcpad.Wpf
 
         private static readonly HashSet<char> Delimiters = new() { ';', '|', '&', '@', ':' };
 
-        private static readonly HashSet<string> Functions = new()
+        internal static readonly HashSet<string> Functions = new()
         {
             "abs",
             "sin",
@@ -108,16 +108,22 @@ namespace Calcpad.Wpf
             "product",
             "average",
             "mean",
+            "if",
             "switch",
             "take",
             "line",
             "spline"
         };
 
-        private static readonly HashSet<string> Conditions = new() { "#if", "#else", "#else if", "#end if", "#rad", "#deg", "#val", "#equ", "#show", "#hide", "#pre", "#post", "#repeat", "#loop", "#break" };
+        internal static readonly HashSet<string> Conditions = new() { "#if", "#else", "#else if", "#end if", "#rad", "#deg", "#val", "#equ", "#show", "#hide", "#pre", "#post", "#repeat", "#loop", "#break" };
 
-        private static readonly HashSet<string> Commands = new() { "$find", "$root", "$sup", "$inf", "$area", "$slope", "$repeat", "$sum", "$product", "$plot", "$map" };
+        internal static readonly HashSet<string> Commands = new() { "$find", "$root", "$sup", "$inf", "$area", "$slope", "$repeat", "$sum", "$product", "$plot", "$map" };
 
+        internal static readonly Dictionary<string, int> DefinedVariables = new();
+
+        internal static readonly HashSet<string> LocalVariables = new();
+
+        internal static readonly Dictionary<string, int> DefinedFunctions = new();
         private static class TagHelper
         {
             internal enum Tags
@@ -167,36 +173,112 @@ namespace Calcpad.Wpf
             }
         }
 
+        internal static void HighlightBrackets(Paragraph p, int position)
+        {
+            var tr = new TextRange(p.ContentStart, p.ContentEnd);
+            var s = tr.Text;
+            var len = s.Length;
+            if (len < 2)
+                return;
+
+            if (position > len)
+                position = len;
+
+            if (position < 1)
+                position = 1;
+
+            var c = s[--position];
+            if (c != '(' && c != ')' && position < len - 1)
+                c = s[++position];
+
+            var otherPosition = position;
+            var bracketCount = c == '(' ? 1 : -1;
+            if (c == '(')
+            {
+                for (int i = position + 1; i < len; ++i)
+                {
+                    UpdateBracketCount(s[i]);
+                    if (bracketCount == 0)
+                    {
+                        otherPosition = i;
+                        break;
+                    }
+                }
+            }
+            else if (c == ')')
+            {
+                for (int i = position - 1; i >= 0; --i)
+                {
+                    UpdateBracketCount(s[i]);
+                    if (bracketCount == 0)
+                    {
+                        otherPosition = i;
+                        break;
+                    }
+                }
+            }
+
+            if (otherPosition != position)
+            {
+                if (otherPosition < position)
+                {
+                    AddBracketHighlight(otherPosition + 1);
+                    AddBracketHighlight(position - len - 1);
+                }
+                else
+                {
+                    AddBracketHighlight(position + 1);
+                    AddBracketHighlight(otherPosition - len - 1);
+                }
+            }
+
+            void UpdateBracketCount(char c)
+            {
+                if (c == '(')
+                    ++bracketCount;
+                else if (c == ')')
+                    --bracketCount;
+            }
+
+            void AddBracketHighlight(int offset)
+            {
+                TextPointer tp = offset >= 0 ?
+                    p.ContentStart.GetPositionAtOffset(offset) :
+                    p.ContentEnd.GetPositionAtOffset(offset);
+                tr = new TextRange(tp, tp.GetPositionAtOffset(1, LogicalDirection.Forward));
+                tr.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Bold);
+                tr.ApplyPropertyValue(TextElement.ForegroundProperty, Colors[(int)Types.Bracket]);
+            }
+        }
+
+        private static void GetValues(Paragraph p)
+        {
+            if (p.Tag is bool b && b)
+            {
+                values = new Queue<string>();
+                foreach (var inline in p.Inlines)
+                    if (inline.ToolTip is ToolTip tt)
+                        values.Enqueue(tt.Content.ToString());
+            }
+            else
+                values = null;
+        }
+
         internal static void Clear(Paragraph p)
         {
             if (p is null)
                 return;
 
-            values = null;
-            if (p.Tag is bool b && b)
-            {
-                foreach (var inline in p.Inlines)
-                {
-                    if (inline.ToolTip is ToolTip tt)
-                    {
-                        if (values is null)
-                            values = new Queue<string>();
-
-                        values.Enqueue(tt.Content.ToString());
-                    }
-                }
+            GetValues(p);
+            if (values is not null)
                 p.Tag = values;
-            }
+
             foreach (var inline in p.Inlines)
-            {
                 inline.Background = null;   
-            }
+
             p.Background = Brushes.FloralWhite;
             p.BorderBrush = Brushes.NavajoWhite;
             p.BorderThickness = _thickness;
-            var tr = new TextRange(p.ContentStart, p.ContentEnd);
-            tr.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Normal);
-            tr.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Black);
         }
 
         private static bool IsContinuedCondition(string text)
@@ -205,16 +287,126 @@ namespace Calcpad.Wpf
             return t == "#else" || t == "#end";
         }
 
-        internal static void Parse(Paragraph p, bool isComplex)
+        private static List<string> GetChunks(string text)
+        {
+            const char noComment = (char)0;
+            var chunks = new List<string>();    
+            var comment = noComment;
+            int j = 0, len = text.Length;
+            for(int i = 0; i < len; ++i)
+            {
+                char c = text[i];   
+                if (c == '"' || c == '\'')
+                {
+                    if (comment == c)
+                    {
+                        comment = noComment;
+                        j = i + 1;
+                    }
+                    else if (comment == noComment)
+                    {
+                        comment = c;
+                        if (i > j)
+                            chunks.Add(text[j..i]);
+                    }
+                }
+            }
+            --len;
+            if (comment == noComment && j < len)
+                chunks.Add(text[j..len]);
+
+            return chunks;  
+        }
+
+        private static void GetLocalVariables(Paragraph p, bool isCommand)
+        {
+            var brackets = false;
+            string name = null, s = null;
+            Brush foreground = Colors[(int)Types.Variable];
+            if (isCommand)
+            {
+                Run run = (Run)p.Inlines.LastInline.PreviousInline;
+                while (run != null)
+                {
+                    s = run.Text.Trim();
+                    if (IsVariable(s))
+                    {
+                        run.Background = null;
+                        run.Foreground = foreground;
+                        name = s;
+                        break;
+                    }
+                    run = (Run)run.PreviousInline;
+                }
+                if (!string.IsNullOrEmpty(name))
+                {
+                    run = (Run)run.PreviousInline;
+                    while (run != null)
+                    {
+                        s = run.Text.Trim();
+                        if (s == "@")
+                            break;
+
+                        run = (Run)run.PreviousInline;
+                    }
+                    if (s == "@")
+                    {
+                        var bracketCount = 1;
+                        run = (Run)run.PreviousInline;
+                        while (run != null)
+                        {
+                            s = run.Text.Trim();
+                            if (s == "{")
+                                --bracketCount;
+                            else if (s == "}")
+                                ++bracketCount;
+
+                            if (bracketCount == 0)
+                                break;
+
+                            if (s == name)
+                            {
+                                run.Background = null;
+                                run.Foreground = foreground;
+                            }
+                            run = (Run)run.PreviousInline;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                foreach (Run run in p.Inlines)
+                {
+                    s = run.Text.Trim();
+                    if (s == "(")
+                        brackets = true;
+                    else if (s == ")")
+                        return;
+                    else if (brackets)
+                    {
+                        if (IsVariable(s))
+                        {
+                            LocalVariables.Add(s);
+                            run.Background = null;
+                            run.Foreground = foreground;
+                        }
+                    }         
+                }
+            }
+        }
+
+        internal static void Parse(Paragraph p, bool isComplex, int line)
         {
             if (p is null)
                 return;
 
+            LocalVariables.Clear();
             _hasTargetUnitsDelimiter = false;
             if (p.Tag is Queue<string> queue)
                 values = queue;
             else
-                values = null;
+                GetValues(p);
 
             p.Tag = false;
             p.Background = null;
@@ -231,10 +423,12 @@ namespace Calcpad.Wpf
             var isPlot = false;
             var isTag = false;
             var isTagComment = false;
-            var isCommand = 0;
+            var commandCount = 0;
+            var bracketCount = 0;
             var st = s.TrimStart();
             if (!string.IsNullOrEmpty(st) && st[0] == '$')
                 isPlot = st.ToLowerInvariant().StartsWith("$plot");
+
             AllowUnaryMinus = true;
             Types t = Types.None, pt = Types.None;
             for (int i = 0, len = s.Length; i < len; ++i)
@@ -251,7 +445,7 @@ namespace Calcpad.Wpf
                 {
                     if (textComment == noComment)
                     {
-                        Append(p, t);
+                        Append(p, t, line);
                         textComment = p.PreviousBlock is null ? '"' : '\'';
                         _stringBuilder.Clear();
                         _stringBuilder.Append(textComment);
@@ -265,7 +459,7 @@ namespace Calcpad.Wpf
                         isUnits = false;
                         textComment = c;
                         tagComment = c == '\'' ? '"' : '\'';
-                        Append(p, t);
+                        Append(p, t, line);
                         if (isTag)
                         {
                             if (TagHelper.Type == TagHelper.Tags.Starting)
@@ -285,7 +479,7 @@ namespace Calcpad.Wpf
                         if (isTag && isTagComment)
                             t = Types.Comment;
                         _stringBuilder.Append(c);
-                        Append(p, t);
+                        Append(p, t, line);
                         t = Types.Comment;
                     }
                     else if (isTag)
@@ -295,7 +489,7 @@ namespace Calcpad.Wpf
                         else
                             _stringBuilder.Append(c);
 
-                        Append(p, t);
+                        Append(p, t, line);
                         isTagComment = !isTagComment;
                     }
                 }
@@ -307,14 +501,14 @@ namespace Calcpad.Wpf
                         _stringBuilder.Append(c);
                         if (isTag)
                             t = Types.Tag;
-                        Append(p, t);
+                        Append(p, t, line);
                         t = Types.Comment;
                         isTag = false;
                     }
                     else if (c == '<')
                     {
                         TagHelper.Initialize();
-                        Append(p, t);
+                        Append(p, t, line);
                         _stringBuilder.Append(c);
                         isTag = true;
                     }
@@ -333,12 +527,12 @@ namespace Calcpad.Wpf
                         _stringBuilder.Append(' ');
                     else
                     {
-                        Append(p, t);
+                        Append(p, t, line);
                         //Spaces are added only if they are leading
                         if (isLeading || t == Types.Condition)
                         {
                             _stringBuilder.Append(c);
-                            Append(p, Types.None);
+                            Append(p, Types.None, line);
                         }
                         t = Types.None;
                     }
@@ -351,41 +545,47 @@ namespace Calcpad.Wpf
                             t = Types.Function;
                         else if (t != Types.Operator && t != Types.Bracket && t != Types.None)
                             t = Types.Error;
+                        ++bracketCount;
                     }
-                    Append(p, t);
+                    else if (c == ')')
+                        --bracketCount;
+
+                    Append(p, t, line);
                     if (c == '{')
                     {
                         if (t == Types.Command)
-                            ++isCommand;
+                            ++commandCount;
 
-                        t = isCommand > 0 ? Types.Bracket : Types.Error;
+                        t = commandCount > 0 ? Types.Bracket : Types.Error;
                     }
                     else if (c == '}')
                     {
-                        --isCommand;
-                        t = isCommand >= 0 ? Types.Bracket : Types.Error;
+                        --commandCount;
+                        t = commandCount >= 0 ? Types.Bracket : Types.Error;
                     }
                     else
                         t = Types.Bracket;
 
                     _stringBuilder.Append(c);
-                    Append(p, t);
+                    Append(p, t, line);
                 }
                 else if (Operators.Contains(c))
                 {
-                    Append(p, t);
+                    Append(p, t, line);
                     _stringBuilder.Append(c);
-                    Append(p, Types.Operator);
+                    Append(p, Types.Operator, line);
                     t = Types.Operator;
+                    if (c == '=')
+                        GetLocalVariables(p, commandCount > 0);
                 }
                 else if (Delimiters.Contains(c))
                 {
-                    Append(p, t);
+                    Append(p, t, line);
                     _stringBuilder.Append(c);
-                    if (isCommand > 0 || c == ';')
-                        Append(p, Types.Operator);
+                    if (commandCount > 0 || c == ';')
+                        Append(p, Types.Operator, line);
                     else
-                        Append(p, Types.Error);
+                        Append(p, Types.Error, line);
                     t = Types.Bracket;
                 }
                 else if (_stringBuilder.Length == 0)
@@ -414,26 +614,26 @@ namespace Calcpad.Wpf
                         _stringBuilder.Append(c);
 
                     if (t == Types.Input)
-                        Append(p, Types.Input);
+                        Append(p, Types.Input, line);
                 }
                 else if (isComplex && t == Types.Const && c == 'i')
                 {
                     var j = i + 1;
                     if (j < len && s[j] == 'n')
                     {
-                        Append(p, Types.Const);
+                        Append(p, Types.Const, line);
                         _stringBuilder.Append(c);
                         t = Types.Units;
                     }
                     else
                     {
                         _stringBuilder.Append('i');
-                        Append(p, Types.Const);
+                        Append(p, Types.Const, line);
                     }
                 }
                 else if (t == Types.Const && IsLetter(c))
                 {
-                    Append(p, Types.Const);
+                    Append(p, Types.Const, line);
                     _stringBuilder.Append(c);
                     if (char.IsLetter(c) || c == '°')
                         t = Types.Units;
@@ -451,10 +651,74 @@ namespace Calcpad.Wpf
                 if (t != Types.None)
                     pt = t;
             }
-            Append(p, t);
+            Append(p, t, line);
+            if (commandCount > 0 || bracketCount > 0)
+            {
+                Run run = new(" ")
+                {
+                    Background = ErrorBackground
+                };
+                p.Inlines.Add(run);
+            }
+        }
+        internal static void GetDefinedVariablesAndFunctions(string code, bool IsComplex) =>
+            GetDefinedVariablesAndFunctions(code.Split('\n'), IsComplex);
+
+        internal static void ClearDefinedVariablesAndFunctions(bool IsComplex)
+        {
+            DefinedVariables.Clear();
+            DefinedFunctions.Clear();
+            DefinedVariables.Add("e", -1);
+            DefinedVariables.Add("pi", -1);
+            DefinedVariables.Add("π", -1);
+            DefinedVariables.Add("g", -1);
+            if (IsComplex)
+            {
+                DefinedVariables.Add("i", -1);
+                DefinedVariables.Add("ei", -1);
+                DefinedVariables.Add("πi", -1);
+            }
         }
 
-        private static void Append(Paragraph p, Types t)
+        internal static void GetDefinedVariablesAndFunctions(IEnumerable<string> lines, bool IsComplex)
+        {
+            ClearDefinedVariablesAndFunctions(IsComplex);
+            var lineNumber = 0;
+            foreach (var line in lines)
+                GetDefinedVariablesAndFunctions(line, ++lineNumber);
+        }
+
+
+        internal static void GetDefinedVariablesAndFunctions(string code, int lineNumber)
+        {
+            var chunks = GetChunks(code);
+            for (int i = 0; i < chunks.Count; ++i)
+            {
+                var chunk = chunks[i];
+                var index = chunk.IndexOf('=');
+                if (index > 0)
+                {
+                    var c = ' ';
+                    int j;
+                    for (j = 0; j < index; ++j)
+                    {
+                        c = chunk[j];
+                        if (!(IsLetter(c) || IsDigit(c)))
+                            break;
+                    }
+                    var s = chunk[0..j];
+                    while (c == ' ')
+                        c = chunk[j + 1];
+
+                    if (c == '(')
+                        DefinedFunctions.TryAdd(s, lineNumber);
+                    else
+                        DefinedVariables.TryAdd(s, lineNumber);
+                }
+            }
+        }
+
+        private static void Append(Paragraph p, Types t, int line)
         {
             if (_stringBuilder.Length == 0)
                 return;
@@ -466,8 +730,30 @@ namespace Calcpad.Wpf
                 s = FormatOperator(s);
             else if (t == Types.Input)
                 s = "? ";
+            else if (t == Types.Function)
+            {
+                if (!DefinedFunctions.TryGetValue(s, out int funcLine))
+                    funcLine = int.MaxValue;
 
-            if (t == Types.Units && !MathParser.IsUnit(s))
+                if (!Functions.Contains(s) && funcLine > line)
+                    t = Types.Error;
+            }
+            else if (t == Types.Variable)
+            {
+                int varLine = line;
+                if (!LocalVariables.Contains(s) && 
+                    !DefinedVariables.TryGetValue(s, out varLine))
+                    varLine = int.MaxValue;
+
+                if (varLine > line)
+                {
+                    if (MathParser.IsUnit(s))
+                        t = Types.Units;
+                    else
+                        t = Types.Error;
+                } 
+            }
+            else if (t == Types.Units && !MathParser.IsUnit(s))
                 t = Types.Error;
 
             var run = new Run(s);
@@ -508,18 +794,37 @@ namespace Calcpad.Wpf
             p.Inlines.Add(run);
             AllowUnaryMinus = t == Types.Operator || s == "(" || s == "{";
         }
-        private static bool IsLetter(char c) =>
+
+        private static bool IsVariable(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return false;
+
+            char c = name[0];
+            if (!IsLetter(c) || "_,′″‴⁗".Contains(c))
+                return false;
+
+            for (int i = 1, len = name.Length ; i < len; ++i)
+            {
+                c = name[i];
+                if (!(IsLetter(c) || IsDigit(c)))
+                    return false;
+            }
+            return true;
+        }
+
+        internal static bool IsLetter(char c) =>
             c >= 'a' && c <= 'z' || // a - z
             c >= 'A' && c <= 'Z' || // A - Z 
             "_,°∡′″‴⁗ϑϕøØ".Contains(c) || // _ , ° ∡ ′ ″ ‴ ⁗ ϑ ϕ ø Ø
             c >= 'α' && c <= 'ω' ||   // alpha - omega
             c >= 'Α' && c <= 'Ω';  // Alpha - Omega
 
-        private static bool IsLatinLetter(char c) =>
+        internal static bool IsLatinLetter(char c) =>
             c >= 'a' && c <= 'z' || // a - z
             c >= 'A' && c <= 'Z'; // A - Z 
 
-        private static bool IsDigit(char c) =>
+        internal static bool IsDigit(char c) =>
             c >= '0' && c <= '9' || c == MathParser.DecimalSymbol;
 
         private static string FormatOperator(string name) =>

@@ -10,7 +10,7 @@
     <Authors>Nedelcho Ganchovski</Authors>
     <RootNamespace>Calcpad.Wpf</RootNamespace>
     <Platforms>AnyCPU</Platforms>
-		<Version>5.6.7</Version>
+		<Version>5.7</Version>
 		<Authors>Nedelcho Ganchovski</Authors>
 		<Company>Proektsoft EOOD</Company>
     <PackageId>Calcpad</PackageId>
@@ -32,6 +32,12 @@
 		<Optimize>false</Optimize>
     <WarningLevel>0</WarningLevel>
   </PropertyGroup>
+	
+  <ItemGroup>
+    <None Remove="find.png" />
+    <None Remove="resources\find.png" />
+    <None Remove="resources\search.png" />
+  </ItemGroup>
 	
   <ItemGroup>
     <COMReference Include="SHDocVw">
@@ -64,9 +70,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="find.png" />
     <Resource Include="resources\calc.png" />
     <Resource Include="resources\Calcpad.ico" />
     <Resource Include="resources\copy.png" />
+    <Resource Include="resources\find.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
     <Resource Include="resources\form.png" />
     <Resource Include="resources\help.png" />
     <Resource Include="resources\image.png" />
@@ -79,6 +89,7 @@
     <Resource Include="resources\print.png" />
     <Resource Include="resources\redo.png" />
     <Resource Include="resources\save.png" />
+    <Resource Include="resources\search.png" />
     <Resource Include="resources\undo.png" />
     <Resource Include="resources\word.png" />
   </ItemGroup>
