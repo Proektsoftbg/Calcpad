@@ -1205,6 +1205,14 @@ namespace Calcpad.Wpf
 
         private void Button_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            ResetText();
+            Task.Run(DispatchLineNumbers);
+            if (IsAutoRun)
+                AutoRun();
+        }
+
+        private void ResetText()
+        {
             _isTextChangedEnabled = false;
             RichTextBox.BeginChange();
             _document.Blocks.Clear();
@@ -1213,9 +1221,6 @@ namespace Calcpad.Wpf
             HighLighter.Clear(_currentParagraph);
             RichTextBox.EndChange();
             _isTextChangedEnabled = true;
-            Task.Run(DispatchLineNumbers);
-            if (IsAutoRun)
-                AutoRun();
         }
 
         private string GetInputText()
@@ -1756,6 +1761,9 @@ namespace Calcpad.Wpf
         {
             if (_isTextChangedEnabled)
             {
+                if (_document.Blocks.Count == 0)
+                    ResetText();
+
                 if (IsAutoRun)
                 {
                     var p = RichTextBox.Selection.End.Paragraph;
@@ -1832,6 +1840,8 @@ namespace Calcpad.Wpf
         {
             var tps = RichTextBox.Selection.Start;
             var tpe = RichTextBox.Selection.End;
+            if (tps.Paragraph is null && tpe.Paragraph is null)
+                return;
             _offset = _document.ContentStart.GetOffsetToPosition(tpe) * OffsetBase;
             var p = tps.Paragraph;
             if (p is null)
