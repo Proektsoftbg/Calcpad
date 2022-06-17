@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -614,7 +615,7 @@ namespace Calcpad.Wpf
 
         private void Command_Save(object sender, ExecutedRoutedEventArgs e)
         {
-            if ((string)SaveButton.Tag == "S" || CurrentFileName.Length == 0)
+            if ((string)SaveButton.Tag == "S" || string.IsNullOrWhiteSpace(CurrentFileName))
                 FileSaveAs();
             else
                 FileSave();
@@ -976,8 +977,12 @@ namespace Calcpad.Wpf
                 result = MessageBox.Show("File not saved. Save?", Title, MessageBoxButton.YesNoCancel);
 #endif
             if (result == MessageBoxResult.Yes)
-                FileSaveAs();
-
+            {
+                if ((string)SaveButton.Tag == "S" || string.IsNullOrWhiteSpace(CurrentFileName))
+                    FileSaveAs();
+                else
+                    FileSave();
+            }
             return result;
         }
 
@@ -1005,7 +1010,7 @@ namespace Calcpad.Wpf
             else
                 ReadAndSetInputFields();
 
-            var text = InputText;
+            var text = SetImageLocalPath(InputText);
             if (toWebForm)
                 _parser.Parse(text, false);
             else
@@ -1059,12 +1064,27 @@ namespace Calcpad.Wpf
 #endif
         }
 
+        private string SetImageLocalPath(string s)
+        {
+            if (string.IsNullOrWhiteSpace(CurrentFileName))
+                return s;
+
+            var path = Path.GetDirectoryName(CurrentFileName);
+            var parent = Directory.GetParent(path).FullName;
+            path = "file:///" + path.Replace('\\', '/');
+            parent = "file:///" + parent.Replace('\\', '/');
+
+            var s1 = Regex.Replace(s, @"src\s*=\s*\""\s*\.\.", @"<img src=""" + parent);
+            var s2 = Regex.Replace(s1, @"src\s*=\s*""\s*\.", @"<img src=""" + path);
+            return s2;
+        }
+
         private string HtmlApplyWorksheet(string s)
         {
             _htmlBuilder.Clear();
             _htmlBuilder.Append(_htmlWorksheet);
             _htmlBuilder.Append(s);
-            _htmlBuilder.Append("</body></html>");
+            _htmlBuilder.Append(" </body></html>");
             return _htmlBuilder.ToString();
         }
 
@@ -1679,9 +1699,9 @@ namespace Calcpad.Wpf
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            if (!IsSaved)
-                if (PromptSave() == MessageBoxResult.Cancel)
-                    e.Cancel = true;
+            var r = PromptSave();
+            if (r== MessageBoxResult.Cancel)
+                e.Cancel = true;
 
             ClearTempFolder();
             WriteRecentFiles();
@@ -1872,10 +1892,12 @@ namespace Calcpad.Wpf
             }
             if (p is not null && tpe.GetOffsetToPosition(tps) == 0)
             {
+                _isTextChangedEnabled = false;
                 var tr = new TextRange(p.ContentStart, p.ContentEnd);
                 tr.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Normal);
                 tr.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Black);
                 HighLighter.HighlightBrackets(p, tpe.GetTextRunLength(LogicalDirection.Backward));
+                _isTextChangedEnabled = true;
             }
         }
         

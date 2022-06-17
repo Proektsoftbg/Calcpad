@@ -11,10 +11,10 @@ namespace Calcpad.Core
 
         private static readonly double[] Factorial;
         internal const char NegChar = '‐'; //hyphen, not minus "-"
-        protected const double Deg2Rad = Math.PI / 180.0;
-        protected const double Rad2deg = 180.0 / Math.PI;
+        public const double Deg2Rad = Math.PI / 180.0;
+        public const double Rad2deg = 180.0 / Math.PI;
 
-        internal abstract bool Degrees { set; }
+        internal abstract bool Degrees { get; set; }
         //                                               ^  ÷  \  %  *  -  +  <  >  ≤  ≥  ≡  ≠  =
         internal static readonly int[] OperatorOrder = { 0, 3, 3, 3, 3, 4, 5, 6, 6, 6, 6, 6, 6, 7 };
         internal static Dictionary<char, int> OperatorIndex { get; } = new()
@@ -135,7 +135,7 @@ namespace Calcpad.Core
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected static void CheckFunctionUnits(string func, Unit unit)
         {
-            if (unit is not null)
+            if (unit is not null && !unit.IsEmpty)
 #if BG
                 throw new MathParser.MathParserException($"Невалидни мерни единици за функция: \"{func}({Unit.GetText(unit)})\".");
 #else
@@ -326,6 +326,13 @@ namespace Calcpad.Core
                 re = reSq - imSq + x;
             }
             return double.NaN;
+        }
+        protected static Value ConvertAngleUnits(Value value)
+        {
+            if (value.Units is null)
+                return value;
+
+            return new Value(value.Number * Deg2Rad, value.Units);
         }
     }
 }

@@ -9,10 +9,16 @@ namespace Calcpad.Core
         private static readonly Func<Value, Value, Value>[] Functions2;
         private static readonly Func<Value[], Value>[] MultiFunctions;
         private Func<Value, Value>[] _functions;
+        private bool _degrees;
 
         internal override bool Degrees
         {
-            set => _functions = value ? DegFunctions : RadFunctions;
+            set
+            {
+                _degrees = value;
+                _functions = value ? DegFunctions : RadFunctions;
+            }
+            get => _degrees;
         }
 
         static ComplexCalculator()
@@ -37,12 +43,12 @@ namespace Calcpad.Core
 
             RadFunctions = new Func<Value, Value>[]
             {
-                Sin,      // 0
-                Cos,      // 1
-                Tan,      // 2
-                Csc,      // 3
-                Sec,      // 4
-                Cot,      // 5
+                (Value z) => Sin(ConvertAngleUnits(z)),      // 0
+                (Value z) => Cos(ConvertAngleUnits(z)),      // 1
+                (Value z) => Tan(ConvertAngleUnits(z)),      // 2
+                (Value z) => Csc(ConvertAngleUnits(z)),      // 3
+                (Value z) => Sec(ConvertAngleUnits(z)),      // 4
+                (Value z) => Cot(ConvertAngleUnits(z)),      // 5
                 Asin,     // 6
                 Acos,     // 7
                 Atan,     // 8
