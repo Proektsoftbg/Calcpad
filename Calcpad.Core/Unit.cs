@@ -73,6 +73,8 @@ namespace Calcpad.Core
                                 _dims[2].Power == 0f &&
                                 _dims[3].Power == 0f;
 
+        internal bool IsEmpty => _dims.Length == 0;
+
         internal string Text
         {
             get
@@ -150,6 +152,9 @@ namespace Calcpad.Core
         internal Unit(int n)
         {
             _dims = new Dimension[n];
+            if (n == 0)
+                return;
+
             _dims[0].Factor = 1000d;
             for (int i = 1; i < n; ++i)
                 _dims[i].Factor = 1d;
@@ -181,36 +186,37 @@ namespace Calcpad.Core
                 n = 3;
             else if (length != 0f)
                 n = 2;
-            else
+            else if (mass != 0f)
                 n = 1;
+            else
+                n = 0;
 
             _dims = new Dimension[n];
+            if (n == 0)
+                return;
             _dims[0].Factor = 1000d;
             for (int i = 1; i < n; ++i)
                 _dims[i].Factor = 1d;
 
-            if (n > 0)
+            _dims[0].Power = mass;
+            if (n > 1)
             {
-                _dims[0].Power = mass;
-                if (n > 1)
+                _dims[1].Power = length;
+                if (n > 2)
                 {
-                    _dims[1].Power = length;
-                    if (n > 2)
+                    _dims[2].Power = time;
+                    if (n > 3)
                     {
-                        _dims[2].Power = time;
-                        if (n > 3)
+                        _dims[3].Power = current;
+                        if (n > 4)
                         {
-                            _dims[3].Power = current;
-                            if (n > 4)
+                            _dims[4].Power = temp;
+                            if (n > 5)
                             {
-                                _dims[4].Power = temp;
-                                if (n > 5)
-                                {
-                                    _dims[5].Power = substance;
+                                _dims[5].Power = substance;
 
-                                    if (n > 6)
-                                        _dims[6].Power = luminosity;
-                                }
+                                if (n > 6)
+                                    _dims[6].Power = luminosity;
                             }
                         }
                     }
@@ -307,6 +313,7 @@ namespace Calcpad.Core
             Units = new Dictionary<string, Unit>()
             {
                 {string.Empty, null},
+                {"°", new Unit("°", 0f)},
                 {"g",     kg},
                 {"hg",    kg.Shift(2)},
                 {"kg",    kg.Shift(3)},

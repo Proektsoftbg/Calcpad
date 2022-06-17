@@ -169,14 +169,22 @@ namespace Calcpad.Core
                     v = new Value(v.Number * vu.ConvertTo(u), u);
                     return v.Units;
                 }
+                if (vu is null && u.IsEmpty)
+                {
+                    v = new Value(v.Number * Calculator.Rad2deg, u);
+                    return v.Units;
+                }
+
                 if (!Unit.IsConsistent(vu, u))
 #if BG
                     throw new MathParserException($"Получените мерни единици \"{Unit.GetText(vu)}\" не съответстват на отправните \"{Unit.GetText(u)}\".");
 #else
                     throw new MathParserException($"The calculated units \"{Unit.GetText(vu)}\" are inconsistent with the target units \"{Unit.GetText(u)}\".");
 #endif
-                var delta = u.IsTemp ? GetTempUnitsDelta(vu.Text, u.Text) : 0;
-                var number = v.Number * vu.ConvertTo(u) + delta;
+                var number = v.Number * vu.ConvertTo(u);
+                if (u.IsTemp)
+                    number += GetTempUnitsDelta(vu.Text, u.Text);
+
                 v = new Value(number, u);
                 return v.Units;
             }
