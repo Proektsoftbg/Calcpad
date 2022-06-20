@@ -281,30 +281,30 @@ input, select {
 <p>"Redo" performs in the opposite way to "Undo". It restores a command that has been undone. Redo must follow immediately the last Undo. If you enter or edit some text meanwhile, you will lose the ability to redo. Click the <img alt="Redo" height="24" src="Images/Redo.png"> button to redo.</p>
 
 <h3 id="TOC_509">Find</h3>
-<p>You can search for a certain text inside the code and replace it with another text if needed. Select the "<b>Edit/Find</b>" menu, click the <img alt="Find" height="24" src="Images/Search.png"> button or press "<b>Ctrl+F</b>". The "<b>Find And Replace</b>" dialog will appear.</p>
+<p>You can search for a certain text inside the code and replace it with another, if needed. Select the "<b>Edit/Find</b>" menu, click the <img alt="Find" height="24" src="Images/Search.png"> button or press "<b>Ctrl+F</b>". The "<b>Find And Replace</b>" dialog will appear.</p>
 <p><img alt="Find Dialog" width="450" src="Images/FindDialog.png"></p>
 <p>Enter a word or phrase to search for and click "<b>Find Next</b>". The programs starts from the current position and finds the first occurrence in the selected direction. If the searched phrase is found, it is highlighted and the search is stopped. To find the next occurrence, click "<b>Find Next</b>" again. You can also press "<b>F3</b>" to continue searching even after you close the dialog.</p>
 <p>If you need to replace the searched text, click the "<b>Replace</b>" tab and fill in the "<b>Replace with</b>" box. Then click the "<b>Replace</b>" button. The program will replace the current occurrence and will automatically move to the next one. If you want to replace all occurrence in the code, click the respective button instead. </p>
 <p>There are several options that affect the search results, as follows:</p>
 <ul>
 <li><b>Direction</b>: "Up", "Down" and "All". Both "All" and "Down" search towards the end of the document. The difference is that "All" jumps to the beginning and starts over, after it reaches the end of the document.</li>
-<li><b>Selection</b>: It works only with the "<b>Replace All</b>" command. You need to make the selection first and then to display the "<b>Find ANd Replace</b>"  dialog. Then, if you check the "<b>Selection</b>" options, all the replacements will be made only inside the selected text.s</li>
-<li><b>Match case</b>: If selected, the search will make difference between capital and small letters. By default,the case is neglected.</li>
+<li><b>Selection</b>: It works only with the "<b>Replace All</b>" command. You need to make the selection first and then to display the "<b>Find And Replace</b>"  dialog. Then, if you check the "<b>Selection</b>" options, all the replacements will be made only inside the selected text.</li>
+<li><b>Match case</b>: If selected, the search will make difference between capital and small letters. By default, the case is neglected.</li>
 <li><b>Whole words</b>: If selected, the program will search only for sequences that represent whole words. </li>
 </ul>
 
 <h2 id="TOC_600">Coding aids</h2>
 <h3 id="TOC_601">Syntax highlighting</h3>
-<p>Syntax highlighting applies different colors to different components of the programming language: functions, variables, operators, etc. It runs automatically in the background, each time you leave the current line. All errors are highlighted in red. The program makes difference between defined and undefined variables and functions. The color palette is predefined and cannot be changed. Currently, Calcpad does not support custom styles and themes.</p>
+<p>Syntax highlighting applies different colors to different components of the programming language: functions, variables, operators, etc. It runs automatically in the background, each time you edit and leave the current line. All errors are highlighted in red. The program makes difference between defined and undefined variables and functions. The color palette is predefined and cannot be changed. Currently, Calcpad does not support custom styles and themes.</p>
 
 <h3 id="TOC_602">Auto-indentation</h3>
 <p>The indentation of the separate lines in the code is maintained automatically by the program. All lines that are inside conditional and loop blocks are indented accordingly. Additionally, you can add spaces at the beginning of each line. Although spacing is also handled automatically, the leading spaces are not affected.</p>
 
 <h3 id="TOC_603">Auto-complete</h3>
-<p>When you start typing, the program displays a drop-down list with suggestions that match what you have just typed. It contains keywords, units of measurement, built in function and all custom variables and functions that are defined above the current line. The list is dynamically filtered ans sorted while you are typing. The current suggestion in the list is highlighted. If that is what you need, just press "<b>Tab</b>" to insert it at the current position. Click on the list to insert some of the other suggestions. Alternatively, you can press "<b>Down Arrow</b>" to browse the available suggestions and "<b>Enter</b>" to insert the desired one. If the list is above the current line, press "<b>Up Arrow</b>" instead.</p>
+<p>When you start typing, the program displays a drop-down list with suggestions that match what you have just typed. It contains keywords, units of measurement, built in function and all custom variables and functions that are defined above the current line. The list is dynamically filtered ans sorted while you are typing. The current suggestion in the list is highlighted. If that is what you need, just press "<b>Tab</b>" to insert it at the current position. Click on the list to insert some of the other suggestions. Alternatively, you can press "<b>Down Arrow</b>" to browse the available suggestions and "<b>Enter</b>" to insert the selected one. If the list is above the current line, press "<b>Up Arrow</b>" instead.</p>
 
 <h3 id="TOC_604">Bracket matching</h3>
-<p>If you position the cursor next or before a bracket, it is highlighted together with the correspond one. If the corresponding one is missing, nothing is highlighted.</p>
+<p>The program can find the matching opening and closing brackets. If you position the cursor next or before one of them, both brackets are highlighted. If theere is no corresponding bracket, nothing is highlighted.</p>
 
 <h3 id="TOC_605">Greek letters</h3>
 <p>You can insert Greek letters by clicking the respective symbol bellow the code editor. Alternatively, type the Latin equivalent from the table below and press "<b>Ctrl+G</b>". If you press it again, you will convert the letter back from Greek to Latin. Since "j"/"J" and "V" remain unused, they are mapped to "ø"/"Ø" and "&measuredangle;", respectively.</p>
