@@ -986,9 +986,6 @@
             <RadioButton.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
                 </TransformGroup>
             </RadioButton.RenderTransform>
         </RadioButton>
@@ -997,9 +994,6 @@
             <RadioButton.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
                 </TransformGroup>
             </RadioButton.RenderTransform>
         </RadioButton>

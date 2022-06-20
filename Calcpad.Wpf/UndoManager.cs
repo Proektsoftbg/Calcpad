@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Documents;
 
 namespace Calcpad.Wpf
 {
@@ -8,10 +9,10 @@ namespace Calcpad.Wpf
         private readonly struct Step
         {
             internal string Text { get; }
-            internal int Pointer { get; }
+            internal TextPointer Pointer { get; }
 
             internal string[] Values { get; }
-            internal Step(string text, int pointer, string[] values)
+            internal Step(string text, TextPointer pointer, string[] values)
             {
                 Text = text;
                 Pointer = pointer;
@@ -22,13 +23,13 @@ namespace Calcpad.Wpf
         private readonly List<Step> _redoStack = new();
 
         internal string RestoreText { get; private set; }
-        internal int RestorePointer { get; private set; }
+        internal TextPointer RestorePointer { get; private set; }
         internal string[] RestoreValues { get; private set; }
 
         internal int UndoLimit;
         internal UndoManager() { UndoLimit = 20; }
         internal void Reset() { _undoStack.Clear(); }
-        internal void Record(string text, int pointer, string[] values)
+        internal void Record(string text, TextPointer pointer, string[] values)
         {
             Add(_undoStack, new Step(text, pointer, values));
             _redoStack.Clear();

@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v6.0": {
-      "Calcpad.Core/5.6.7": {
+      "Calcpad.Core/5.7": {
         "dependencies": {
           "System.Drawing.Common": "6.0.0"
         },
@@ -58,7 +58,7 @@
     }
   },
   "libraries": {
-    "Calcpad.Core/5.6.7": {
+    "Calcpad.Core/5.7": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

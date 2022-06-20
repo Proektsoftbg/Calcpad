@@ -40,7 +40,6 @@ namespace Calcpad.Wpf
             internal static readonly string Version;
             internal static readonly string Title;
         }
-        private const int OffsetBase = 100000;
         private const double AutoIndentStep = 28.0;
         private string _cfn;
         private readonly ExpressionParser _parser;
@@ -94,7 +93,7 @@ namespace Calcpad.Wpf
         private bool _forceBackSpace;
         private bool _isPasting;
         private int _pasteOffset;
-        private TextPointer _pasteStart;
+        private TextPointer _pasteEnd;
         private bool _scrollOutput;
         private double _scrollY;
         private bool _autoRun;
@@ -222,7 +221,7 @@ namespace Calcpad.Wpf
             _currentParagraph = (Paragraph)_document.Blocks.FirstBlock;
             HighLighter.Clear(_currentParagraph);
             _undoMan = new UndoManager();
-            _undoMan.Record(InputText, 0, null);
+            _undoMan.Record(InputText, RichTextBox.Selection.End, null);
             _wbWarper = new WebBrowserWrapper(WebBrowser);
             _parser.Settings.Plot.ImagePath = string.Empty; //tmpDir;
             _parser.Settings.Plot.ImageUri = string.Empty; //tmpDir;
@@ -1410,13 +1409,18 @@ namespace Calcpad.Wpf
 
         private void RestoreUndoData()
         {
+            var pointer = _undoMan.RestorePointer;
+            var lineNumber = CurrentLineNumber;
+            var pointerParagraph = pointer.Paragraph;
+            var offset = pointerParagraph is null ? 0 :
+                new TextRange(pointer, pointerParagraph.ContentEnd).Text.Length;
             _isTextChangedEnabled = false;
             RichTextBox.BeginChange();
-            double indent = 0;
             var values = _undoMan.RestoreValues;
             _document.Blocks.Clear();
             int i = 0, j = 0;
             var n = values is null ? 0 : values.Length;
+            var indent = 0d;
             using (var sr = new StringReader(_undoMan.RestoreText))
             {
                 HighLighter.ClearDefinedVariablesAndFunctions(IsComplex);
@@ -1432,6 +1436,9 @@ namespace Calcpad.Wpf
                     if (!UpdateIndent(p, ref indent))
                         p.TextIndent = indent;
 
+                    if (j == lineNumber)
+                        pointerParagraph = p;
+
                     foreach (var inline in p.Inlines)
                         if (i < n && inline.ToolTip is ToolTip tt)
                             tt.Content = values[i++];
@@ -1439,23 +1446,37 @@ namespace Calcpad.Wpf
                     _document.Blocks.Add(p);
                 }
             }
-            var contentOffset = _undoMan.RestorePointer / OffsetBase;
-            var lineOffset = _undoMan.RestorePointer - contentOffset * OffsetBase;
-            var pointer = _document.ContentStart.GetPositionAtOffset(contentOffset);
-            if (pointer is null)
-                pointer = RichTextBox.CaretPosition;
-
-            _currentParagraph = pointer.Paragraph;
-            HighLighter.Clear(_currentParagraph);
-            if (_currentParagraph is not null)
-                pointer = _currentParagraph.ContentStart.GetPositionAtOffset(lineOffset);
-            
+            _currentParagraph = pointerParagraph;
+            HighLighter.Clear(_currentParagraph);         
+            pointer = FindPositionAtOffset(pointerParagraph, offset);
             RichTextBox.Selection.Select(pointer, pointer);
             RichTextBox.EndChange();
             _isTextChangedEnabled = true;
             Task.Run(DispatchLineNumbers);
             if (IsAutoRun)
                 AutoRun();
+        }
+
+        private static TextPointer FindPositionAtOffset(Paragraph p, int offset)
+        {
+            var tps = p.ContentStart;
+            var tpe = p.ContentEnd;
+            var x1 = 0;
+            var x2 = tps.GetOffsetToPosition(tpe);
+            TextPointer tpm = tps;
+            while (Math.Abs(x2 - x1) > 1)
+            {
+                var xm = (x1 + x2) / 2;
+                tpm = tps.GetPositionAtOffset(xm);
+                var len = new TextRange(tpm, tpe).Text.Length;
+                if (len < offset)
+                    x2 = xm;
+                else if (len > offset)
+                    x1 = xm;
+                else
+                    break;
+            }
+            return tpm;
         }
 
         private void WebFormButton_Click(object sender, RoutedEventArgs e) => WebForm();
@@ -1806,7 +1827,7 @@ namespace Calcpad.Wpf
                     SetAutoIndent();
                     var p = RichTextBox.Selection.End.Paragraph;
                     if (p is not null)
-                        RichTextBox.CaretPosition = p.ContentEnd.GetPositionAtOffset(_pasteOffset);
+                        RichTextBox.CaretPosition = FindPositionAtOffset(p, _pasteOffset);
                     _isPasting = false;
                 }
                 Record();
@@ -1862,13 +1883,10 @@ namespace Calcpad.Wpf
             var tpe = RichTextBox.Selection.End;
             if (tps.Paragraph is null && tpe.Paragraph is null)
                 return;
-            _offset = _document.ContentStart.GetOffsetToPosition(tpe) * OffsetBase;
+
             var p = tps.Paragraph;
             if (p is null)
                 p = tpe.Paragraph;
-
-            if (p is not null)
-                _offset += p.ContentStart.GetOffsetToPosition(tpe);
 
             if (!ReferenceEquals(_currentParagraph, tps.Paragraph) &&
                 !ReferenceEquals(_currentParagraph, tpe.Paragraph))
@@ -1882,7 +1900,7 @@ namespace Calcpad.Wpf
                     FillAutoCompleteWithDefinedVariablesAndFunctions();
                 }
                 e.Handled = true;
-                RichTextBox.Selection.Select(tps, tpe);
+                //RichTextBox.Selection.Select(tps, tpe);
                 _isTextChangedEnabled = true;
                 if (_autoRun)
                 {
@@ -1931,8 +1949,12 @@ namespace Calcpad.Wpf
 
         private void GetPasteOffset()
         {
-            _pasteStart = RichTextBox.Selection.End;
-            _pasteOffset = _pasteStart.Paragraph?.ContentEnd.GetOffsetToPosition(_pasteStart) ?? 0;
+            _pasteEnd = RichTextBox.Selection.End;
+            var p = _pasteEnd.Paragraph;
+            if (p is not null)
+                _pasteOffset = new TextRange(_pasteEnd, p.ContentEnd).Text.Length;
+            else
+                _pasteOffset = 0;
         }
 
         private DispatcherOperation _lineNumbersDispatcherOperation;
@@ -2004,7 +2026,9 @@ namespace Calcpad.Wpf
 
         private void RichTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
+            _isTextChangedEnabled = false;
             RichTextBox.Selection.ApplyPropertyValue(TextElement.BackgroundProperty, null);
+            _isTextChangedEnabled = true;
             if (e.Key == Key.Enter)
             {
                 if (Keyboard.Modifiers == ModifierKeys.Control)
@@ -2287,7 +2311,7 @@ namespace Calcpad.Wpf
         {
             _isTextChangedEnabled = false;
             RichTextBox.BeginChange();
-            var p = _pasteStart.Paragraph;
+            var p = _pasteEnd.Paragraph;
             _currentParagraph = RichTextBox.Selection.Start.Paragraph;
             if (p is null)
                 p = (Paragraph)_document.Blocks.FirstBlock;
@@ -2576,8 +2600,7 @@ namespace Calcpad.Wpf
         private void DecimalScrollBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) =>
             DecimalsTextBox.Text = (15 - e.NewValue).ToString();
 
-        private int _offset = 0;
-        private void Record() => _undoMan.Record(InputText, _offset, ReadInputFromCode());
+        private void Record() => _undoMan.Record(InputText, RichTextBox.Selection.Start, ReadInputFromCode());
 
         private void ChangeCaseButton_Click(object sender, RoutedEventArgs e)
         {
@@ -2723,7 +2746,8 @@ namespace Calcpad.Wpf
                 var tp = RichTextBox.Selection.Start;
                 if (AutoCompleteListBox.Visibility == Visibility.Hidden)
                 {
-                    var text = tp.GetTextInRun(LogicalDirection.Backward);
+                    var p = tp.Paragraph;
+                    var text = p is null ? String.Empty : new TextRange(p.ContentStart, tp).Text;
                     var i = text.Length - 1;
                     var c0 = i < 0 ? '\0' : text[i];   
                     if (!HighLighter.IsLetter(c0))
