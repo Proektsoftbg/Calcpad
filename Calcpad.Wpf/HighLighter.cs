@@ -698,17 +698,20 @@ namespace Calcpad.Wpf
                 var index = chunk.IndexOf('=');
                 if (index > 0)
                 {
-                    var c = ' ';
-                    int j;
-                    for (j = 0; j < index; ++j)
+                    int j, j0 = 0;
+                    var c = chunk[0];
+                    while (c == ' ')
+                        c = chunk[++j0];
+
+                    for (j = j0; j < index; ++j)
                     {
                         c = chunk[j];
                         if (!(IsLetter(c) || IsDigit(c)))
                             break;
                     }
-                    var s = chunk[0..j];
+                    var s = chunk[j0..j];
                     while (c == ' ')
-                        c = chunk[j + 1];
+                        c = chunk[++j];
 
                     if (c == '(')
                         DefinedFunctions.TryAdd(s, lineNumber);

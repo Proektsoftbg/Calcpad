@@ -794,13 +794,62 @@ namespace Calcpad.Wpf
             var result = (bool)dlg.ShowDialog();
             if (!result)
                 return;
-
+            CopyLocalImages(dlg.FileName);
             CurrentFileName = dlg.FileName;
+            
             if (s == ".cpdz" && Path.GetExtension(CurrentFileName) != ".cpdz")
                 CurrentFileName = Path.ChangeExtension(CurrentFileName, ".cpdz");
 
             FileSave();
             AddRecentFile(CurrentFileName);
+        }
+
+        private void CopyLocalImages(string newFileName)
+        {
+            var images = GetLocalImages(InputText);
+            if (images is not null)
+            {
+                var sourcePath = Path.GetDirectoryName(CurrentFileName);
+                var targetPath = Path.GetDirectoryName(newFileName);
+                if (sourcePath != targetPath && Directory.Exists(targetPath))
+                {
+                    var sourceParent = Directory.GetParent(sourcePath).FullName;
+                    var targetParent = Directory.GetParent(targetPath).FullName;
+                    var regexString = @"src\s*=\s*""\s*\.\./";
+                    for (int i = 0; i < 2; ++i)
+                    {
+                        foreach (var image in images)
+                        {
+                            var m = Regex.Match(image, regexString, RegexOptions.IgnoreCase);
+                            if (m.Success)
+                            {
+                                var n = m.Length;
+                                var imageFileName = image[n..^1];
+                                var imageSourceFile = Path.Combine(sourceParent, imageFileName);
+                                if (File.Exists(imageSourceFile))
+                                {
+                                    var imageTargetFile = Path.Combine(targetParent, imageFileName);
+                                    var imageTargetPath = Path.GetDirectoryName(imageTargetFile);
+                                    Directory.CreateDirectory(imageTargetPath);
+                                    try
+                                    {
+                                        File.Copy(imageSourceFile, imageTargetFile, true);
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        MessageBox.Show(e.Message);
+                                        break;
+                                    }
+                                    
+                                }
+                            }
+                        }
+                        regexString = @"src\s*=\s*""\s*\./";
+                        sourceParent = sourcePath;
+                        targetParent = targetPath;  
+                    }
+                }
+            }
         }
 
         private void FileSave()
@@ -1073,9 +1122,23 @@ namespace Calcpad.Wpf
             path = "file:///" + path.Replace('\\', '/');
             parent = "file:///" + parent.Replace('\\', '/');
 
-            var s1 = Regex.Replace(s, @"src\s*=\s*\""\s*\.\.", @"<img src=""" + parent);
-            var s2 = Regex.Replace(s1, @"src\s*=\s*""\s*\.", @"<img src=""" + path);
+            var s1 = Regex.Replace(s, @"src\s*=\s*""\s*\.\.", @"src=""" + parent, RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            var s2 = Regex.Replace(s1, @"src\s*=\s*""\s*\.", @"src=""" + path, RegexOptions.IgnoreCase | RegexOptions.Multiline);
             return s2;
+        }
+
+        private static string[] GetLocalImages(string s)
+        {
+            MatchCollection matches = Regex.Matches(s, @"src\s*=\s*""\s*\.\.?(.+?)""", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            var n = matches.Count;
+            if (n == 0)
+                return null;
+
+            string[] images = new string[n];
+            for (int i = 0;  i < n; ++i)
+                images[i] = matches[i].Value;
+
+            return images;
         }
 
         private string HtmlApplyWorksheet(string s)

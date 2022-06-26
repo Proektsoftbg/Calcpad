@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     x:Class="Calcpad.Wpf.MainWindow"
     Closing="Window_Closing" 
-    Title=" Calcpad 5.7" 
+    Title=" Calcpad 5.7.1" 
     Height="800" 
     Width="1200"
     WindowStartupLocation="CenterScreen"
@@ -705,7 +705,7 @@
                         <MenuItem Header="Power">
                             <MenuItem Click="Button_Click" Tag="ft*lbf/s"   Header="ft·lbf/s (foot-pound-force per second)"/>
                             <MenuItem Click="Button_Click" Tag="ft*lbf/min" Header="ft·lbf/min (foot-pound-force per minute)"/>
-                            <MenuItem Click="Button_Click" Tag="ft*lbf/h"   Header="ft·lbf/h (foot-pound-force per hour)"/>
+                            <MenuItem Click="Button_Click" Tag="ft*lbf/h"   Header="ft·lbf/h	 (foot-pound-force per hour)"/>
                             <MenuItem Click="Button_Click" Tag="hp"         Header="hp (horsepower)"/>
                             <MenuItem Click="Button_Click" Tag="hpE"        Header="hpE (electrical horsepower)"/>
                             <MenuItem Click="Button_Click" Tag="hpS"        Header="hpS (boiler horsepower)"/>
@@ -817,13 +817,14 @@
         </Button>
         <Button Click="PdfButton_Click" x:Name="PdfButton" Height="28" VerticalAlignment="Top"
             BorderThickness="0" Margin="0,26,5,0"
-            Focusable="false" ToolTip="Save output as pdf flie" IsTabStop="false" Background="{x:Null}" HorizontalAlignment="Right" Width="28" Grid.Column="1">
+            Focusable="false" ToolTip="Save output as pdf flie" IsTabStop="false" Background="{x:Null}" 
+			HorizontalAlignment="Right" Width="28" Grid.Column="1">
             <Image Source="Resources\pdf.png" Width="24" Height="24" VerticalAlignment="Center"
                 HorizontalAlignment="center"/>
         </Button>
         <Button x:Name="PrintButton" Height="28" VerticalAlignment="Top" BorderThickness="0" Margin="0,26,98,0"
             HorizontalAlignment="Right" Width="28" Focusable="false" ToolTip="Print Preview"
-            IsTabStop="false" Command="ApplicationCommands.Print" Background="{x:Null}" Grid.Column="1">
+            IsTabStop="false" Command="ApplicationCommands.Print" Background="{x:Null}">
             <Image Source="Resources/print.png" Width="24" Height="24" VerticalAlignment="Center"
                 HorizontalAlignment="Center"/>
         </Button>
@@ -934,9 +935,6 @@
             <RadioButton.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
                 </TransformGroup>
             </RadioButton.RenderTransform>
         </RadioButton>
@@ -944,9 +942,6 @@
             <RadioButton.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
                 </TransformGroup>
             </RadioButton.RenderTransform>
         </RadioButton>
@@ -955,9 +950,6 @@
             <RadioButton.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
                 </TransformGroup>
             </RadioButton.RenderTransform>
         </RadioButton>
@@ -965,9 +957,6 @@
             <RadioButton.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
                 </TransformGroup>
             </RadioButton.RenderTransform>
         </RadioButton>
@@ -976,9 +965,6 @@
             <RadioButton.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
                 </TransformGroup>
             </RadioButton.RenderTransform>
         </RadioButton>
@@ -1001,9 +987,6 @@
             <RadioButton.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
                 </TransformGroup>
             </RadioButton.RenderTransform>
         </RadioButton>
@@ -1119,7 +1102,7 @@
                         <GradientStop Color="White" Offset="0.543"/>
                         <GradientStop Color="#FFF0F0F0" Offset="1"/>
                     </LinearGradientBrush>
-                </GroupBox.Background>
+                </GroupBox.Background>	
                 <Grid x:Name="InputGrid" Margin="0,0,0,1">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -1234,10 +1217,10 @@
                         <Button Click="Button_Click" Content="| x |" Tag="abs(" Margin="244,123,0,0"
                             Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Absolute value" Width="36"/>
                         <Button Click="Button_Click" Tag="^" x:Name="PowButton" Margin="166,31,0,0" Style="{StaticResource RoundButton}">
-                            <TextBlock ToolTip="Raise to y"><Run Text="x"/><Run BaselineAlignment="TextTop" FontSize="10" Text=" y"/></TextBlock>
+                            <TextBlock ToolTip="Raise to power"><Run Text="x"/><Run BaselineAlignment="TextTop" FontSize="10" Text=" y"/></TextBlock>
                         </Button>
                         <Button Click="Button_Click" Content="x²" x:Name="SqrButton" Tag="^2" Margin="166,61,0,0"
-                            Style="{StaticResource RoundButton}" ToolTip="Raise to sqare"/>
+                            Style="{StaticResource RoundButton}" ToolTip="Raise to square"/>
                         <Button Click="Button_Click" Content="x³" x:Name="CubeButton" Tag="^3" Margin="166,92,0,0"
                             Style="{StaticResource RoundButton}" ToolTip="Raise to cube" HorizontalAlignment="Left" Width="26"/>
                         <Button Click="Button_Click" Tag="e^" x:Name="ExpButton" Margin="166,123,0,0" Style="{StaticResource RoundButton}" ToolTip="Natural exponent (e = 2.71...)">

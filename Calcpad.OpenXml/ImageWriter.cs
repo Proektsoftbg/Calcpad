@@ -21,9 +21,19 @@ namespace Calcpad.OpenXml
                 if (!Uri.IsWellFormedUriString(src, UriKind.Absolute))
                     src = url + src;
 
-                imageProcessor = new UrlImageProcessor(src);
+                var slash = '/';
+                if (src.StartsWith("file:///"))
+                {
+                    src = src[8..].Replace('/', '\\');  ; 
+                    imageProcessor = new FileImageProcessor(src);
+                    slash = '\\';
+                }
+                else
+                    imageProcessor = new UrlImageProcessor(src);
+
                 if (string.IsNullOrWhiteSpace(name))
-                    name = src[(src.LastIndexOf('/') + 1)..];
+                    name = src[(src.LastIndexOf(slash) + 1)..];
+
             }
             else
             {

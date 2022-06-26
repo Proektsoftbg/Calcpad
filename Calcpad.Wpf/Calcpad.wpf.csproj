@@ -10,7 +10,7 @@
     <Authors>Nedelcho Ganchovski</Authors>
     <RootNamespace>Calcpad.Wpf</RootNamespace>
     <Platforms>AnyCPU</Platforms>
-		<Version>5.7</Version>
+		<Version>5.7.1</Version>
 		<Authors>Nedelcho Ganchovski</Authors>
 		<Company>Proektsoft EOOD</Company>
     <PackageId>Calcpad</PackageId>
@@ -28,7 +28,7 @@
 	
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
-		<!--<DefineConstants>BG</DefineConstants>-->
+    <!--<DefineConstants>BG</DefineConstants>-->
 		<Optimize>false</Optimize>
     <WarningLevel>0</WarningLevel>
   </PropertyGroup>
@@ -70,7 +70,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="find.png" />
     <Resource Include="resources\calc.png" />
     <Resource Include="resources\Calcpad.ico" />
     <Resource Include="resources\copy.png" />
