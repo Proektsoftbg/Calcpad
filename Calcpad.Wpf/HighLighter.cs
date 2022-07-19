@@ -32,7 +32,9 @@ namespace Calcpad.Wpf
             Comment,
             Tag,
             Input,
-            Error
+            Error,
+            MacrosName,
+            Args
         }
 
         private static readonly Brush[] Colors =
@@ -49,7 +51,9 @@ namespace Calcpad.Wpf
              Brushes.ForestGreen,
              Brushes.DarkOrchid,
              Brushes.Crimson,
-             Brushes.Crimson
+             Brushes.Crimson,
+             Brushes.Blue,
+             Brushes.Blue
         };
 
         private static readonly Brush ErrorBackground = new SolidColorBrush(Color.FromRgb(255, 225, 225));
@@ -115,7 +119,7 @@ namespace Calcpad.Wpf
             "spline"
         };
 
-        internal static readonly HashSet<string> Conditions = new() { "#if", "#else", "#else if", "#end if", "#rad", "#deg", "#val", "#equ", "#show", "#hide", "#pre", "#post", "#repeat", "#loop", "#break" };
+        internal static readonly HashSet<string> Conditions = new() { "#if", "#else", "#else if", "#end if", "#rad", "#deg", "#val", "#equ", "#show", "#hide", "#pre", "#post", "#repeat", "#loop", "#break", "#def", "#end def" };
 
         internal static readonly HashSet<string> Commands = new() { "$find", "$root", "$sup", "$inf", "$area", "$slope", "$repeat", "$sum", "$product", "$plot", "$map" };
 
@@ -423,6 +427,7 @@ namespace Calcpad.Wpf
             var isPlot = false;
             var isTag = false;
             var isTagComment = false;
+            var isArgs = false;
             var commandCount = 0;
             var bracketCount = 0;
             var st = s.TrimStart();
@@ -527,6 +532,11 @@ namespace Calcpad.Wpf
                         _stringBuilder.Append(' ');
                     else
                     {
+                        var nextType = Types.None;
+                        if (_stringBuilder.ToString() == "#def")
+                        {
+                            nextType = Types.MacrosName;
+                        }
                         Append(p, t, line);
                         //Spaces are added only if they are leading
                         if (isLeading || t == Types.Condition)
@@ -534,8 +544,30 @@ namespace Calcpad.Wpf
                             _stringBuilder.Append(c);
                             Append(p, Types.None, line);
                         }
-                        t = Types.None;
+                        t = nextType;
                     }
+                }
+                else if ((c == ',' || c == ')') && isArgs)
+                {
+                    if (t != Types.Args)
+                        t = Types.Error;
+
+                    var sepType = Types.Bracket;
+                    switch (c) {
+                        case ',':
+                            if (_stringBuilder.Length == 0 || _stringBuilder[^1] == ',')
+                                sepType = Types.Error;
+                            break;
+                        case ')':
+                              if (_stringBuilder.Length != 0 && _stringBuilder[^1] == ',')
+                                    sepType = Types.Error;
+                            --bracketCount;
+                            break;
+                    }
+                    Append(p, t, line);
+
+                    _stringBuilder.Append(c);
+                    Append(p, sepType, line);
                 }
                 else if (c == '{' || c == '(' || c == ')' || c == '}')
                 {
@@ -543,13 +575,16 @@ namespace Calcpad.Wpf
                     {
                         if (t == Types.Variable)
                             t = Types.Function;
+                        else if (t == Types.MacrosName)
+                            isArgs = true;
                         else if (t != Types.Operator && t != Types.Bracket && t != Types.None)
                             t = Types.Error;
                         ++bracketCount;
                     }
-                    else if (c == ')')
+                    else if (c == ')') { 
+                        isArgs = false;
                         --bracketCount;
-
+                    }
                     Append(p, t, line);
                     if (c == '{')
                     {
@@ -602,8 +637,11 @@ namespace Calcpad.Wpf
                             t = Types.Error;
                         else if (isUnits || pt == Types.Const || c == '°')
                             t = Types.Units;
+                        else if (isArgs)
+                            t = Types.Args;
                         else
-                            t = Types.Variable;
+                            if (t != Types.MacrosName)
+                                t = Types.Variable;
                     }
                     else if (c == '?')
                         t = Types.Input;
@@ -744,7 +782,7 @@ namespace Calcpad.Wpf
             else if (t == Types.Variable)
             {
                 int varLine = line;
-                if (!LocalVariables.Contains(s) && 
+                if (!LocalVariables.Contains(s) &&
                     !DefinedVariables.TryGetValue(s, out varLine))
                     varLine = int.MaxValue;
 
@@ -754,11 +792,12 @@ namespace Calcpad.Wpf
                         t = Types.Units;
                     else
                         t = Types.Error;
-                } 
+                }
             }
             else if (t == Types.Units && !MathParser.IsUnit(s))
                 t = Types.Error;
-
+            else if (t == Types.MacrosName && !s.EndsWith("$"))
+                t = Types.Error;
             var run = new Run(s);
             s = s.ToLowerInvariant();
 

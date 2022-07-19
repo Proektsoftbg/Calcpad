@@ -7,7 +7,7 @@ namespace Calcpad.Core
 {
     public class ExpressionParser
     {
-        private enum Keywords { None, Hide, Show, Pre, Post, Val, Equ, Deg, Rad, Repeat, Loop, Break, If, ElseIf, Else, EndIf }
+        private enum Keywords { None, Hide, Show, Pre, Post, Val, Equ, Deg, Rad, Repeat, Loop, Break, If, ElseIf, Else, EndIf, Def, EndDef }
         private readonly List<string> _inputFields = new();
         private int _currentField;
         private bool _isVal;
@@ -65,11 +65,15 @@ namespace Calcpad.Core
                 }
                 if (s[2] == 'n' && s[3] == 'd' && s.Length > 6 && s[4] == ' ' && s[5] == 'i' && s[6] == 'f')
                     return Keywords.EndIf;
+                if (s[2] == 'n' && s[3] == 'd' && s.Length > 7 && s[4] == ' ' && s[5] == 'd' && s[6] == 'e' && s[7] == 'f')
+                    return Keywords.EndDef;
                 if (s[2] == 'q' && s[3] == 'u')
                     return Keywords.Equ;
             }
             else if (s[1] == 'v' && s[2] == 'a' && s[3] == 'l')
                 return Keywords.Val;
+            else if (s[1] == 'd' && s[2] == 'e' && s[3] == 'f')
+                return Keywords.Def;
             else if (s[1] == 'h' && s[2] == 'i' && s[3] == 'd' && s.Length > 4 && s[4] == 'e')
                 return Keywords.Hide;
             else if (s[1] == 's' && s[2] == 'h' && s[3] == 'o' && s.Length > 4 && s[4] == 'w')
@@ -114,6 +118,7 @@ namespace Calcpad.Core
             var line = 0;
             var len = expressions.Length - 1;
             var s = string.Empty;
+            var isDef = false;
             try
             {
                 for (var i = 0; i < len; ++i)
@@ -258,12 +263,23 @@ namespace Calcpad.Core
                             else if (isVisible)
                                 stringBuilder.Append($"<p{id} class=\"cond\">#break</p>");
                         }
+                        else if (keyword == Keywords.Def)
+                        {
+                            isKeyWord = true;
+                            isDef = true;
+                        }
+                        else if (keyword == Keywords.EndDef)
+                        {
+                            isKeyWord = true;
+                            isDef = false;
+                        }
                         else
                             isKeyWord = false;
 
                         if (isKeyWord)
                             continue;
                     }
+                    if (isDef) continue;
                     if (lower.StartsWith("$plot") || lower.StartsWith("$map"))
                     {
                         if (isVisible && (condition.IsSatisfied || !calculate))

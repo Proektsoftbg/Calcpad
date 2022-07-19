@@ -2183,7 +2183,7 @@ namespace Calcpad.Wpf
             {
                 indent = pp.TextIndent;
                 var s = new TextRange(pp.ContentStart, pp.ContentEnd).Text.ToLowerInvariant();
-                if (s.Length > 0 && s[0] == '#' && (s.StartsWith("#if") || s.StartsWith("#else") || s.StartsWith("#repeat")))
+                if (s.Length > 0 && s[0] == '#' && (s.StartsWith("#if") || s.StartsWith("#else") || s.StartsWith("#repeat") || s.StartsWith("#def")))
                     indent += AutoIndentStep;
             }
 
@@ -2238,14 +2238,15 @@ namespace Calcpad.Wpf
                     s.StartsWith("#el") ||
                     s.StartsWith("#en") ||
                     s.StartsWith("#re") ||
-                    s.StartsWith("#lo")))
+                    s.StartsWith("#lo") ||
+                    s.StartsWith("#de")))
                     return false;
-                else if (s.StartsWith("#if") || s.StartsWith("#repeat"))
+                else if (s.StartsWith("#if") || s.StartsWith("#repeat") || s.StartsWith("#def"))
                 {
                     p.TextIndent = indent;
                     indent += AutoIndentStep;
                 }
-                else if (indent > 0 && (s.StartsWith("#end if") || s.StartsWith("#loop")))
+                else if (indent > 0 && (s.StartsWith("#end if") || s.StartsWith("#loop") || s.StartsWith("#end def")))
                 {
                     indent -= AutoIndentStep;
                     p.TextIndent = indent;
