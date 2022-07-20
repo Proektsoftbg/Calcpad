@@ -1,6 +1,8 @@
 ﻿using Calcpad.Core;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -17,6 +19,7 @@ namespace Calcpad.Wpf
         private static bool AllowUnaryMinus = true;
         private static Queue<string> values = null;
         private static bool _hasTargetUnitsDelimiter;
+        private static bool _isInMacros = false;
         private static Thickness _thickness = new(0.5);
         private enum Types
         {
@@ -33,8 +36,9 @@ namespace Calcpad.Wpf
             Tag,
             Input,
             Error,
-            MacrosName,
-            Args
+            MacrosDefinition,
+            Args,
+            Macros
         }
 
         private static readonly Brush[] Colors =
@@ -52,6 +56,7 @@ namespace Calcpad.Wpf
              Brushes.DarkOrchid,
              Brushes.Crimson,
              Brushes.Crimson,
+             Brushes.Blue,
              Brushes.Blue,
              Brushes.Blue
         };
@@ -128,6 +133,11 @@ namespace Calcpad.Wpf
         internal static readonly HashSet<string> LocalVariables = new();
 
         internal static readonly Dictionary<string, int> DefinedFunctions = new();
+
+        internal static readonly Dictionary<string, int> DefinedMacros = new();
+
+        internal static readonly HashSet<string> MacrosVariables = new();
+
         private static class TagHelper
         {
             internal enum Tags
@@ -535,7 +545,11 @@ namespace Calcpad.Wpf
                         var nextType = Types.None;
                         if (_stringBuilder.ToString() == "#def")
                         {
-                            nextType = Types.MacrosName;
+                            nextType = Types.MacrosDefinition;
+                        }
+                        else if (_stringBuilder.ToString() == "#end def")
+                        {
+                            _isInMacros = false;
                         }
                         Append(p, t, line);
                         //Spaces are added only if they are leading
@@ -559,8 +573,11 @@ namespace Calcpad.Wpf
                                 sepType = Types.Error;
                             break;
                         case ')':
-                              if (_stringBuilder.Length != 0 && _stringBuilder[^1] == ',')
-                                    sepType = Types.Error;
+                            if (_stringBuilder.Length != 0 && _stringBuilder[^1] == ',')
+                            {
+                                sepType = Types.Error;
+                            }
+                            _isInMacros = true;
                             --bracketCount;
                             break;
                     }
@@ -574,15 +591,14 @@ namespace Calcpad.Wpf
                     if (c == '(')
                     {
                         if (t == Types.Variable)
-                            t = Types.Function;
-                        else if (t == Types.MacrosName)
+                           t = Types.Function;
+                        else if (t == Types.MacrosDefinition)
                             isArgs = true;
-                        else if (t != Types.Operator && t != Types.Bracket && t != Types.None)
+                        else if (t != Types.Operator && t != Types.Bracket && t != Types.Macros && t != Types.None)
                             t = Types.Error;
                         ++bracketCount;
                     }
-                    else if (c == ')') { 
-                        isArgs = false;
+                    else if (c == ')') {
                         --bracketCount;
                     }
                     Append(p, t, line);
@@ -640,7 +656,7 @@ namespace Calcpad.Wpf
                         else if (isArgs)
                             t = Types.Args;
                         else
-                            if (t != Types.MacrosName)
+                            if (t != Types.MacrosDefinition)
                                 t = Types.Variable;
                     }
                     else if (c == '?')
@@ -653,6 +669,11 @@ namespace Calcpad.Wpf
 
                     if (t == Types.Input)
                         Append(p, Types.Input, line);
+                }
+                else if (t == Types.Variable && c == '$')
+                {
+                    t = Types.Macros;
+                    _stringBuilder.Append(c);
                 }
                 else if (isComplex && t == Types.Const && c == 'i')
                 {
@@ -721,9 +742,22 @@ namespace Calcpad.Wpf
         internal static void GetDefinedVariablesAndFunctions(IEnumerable<string> lines, bool IsComplex)
         {
             ClearDefinedVariablesAndFunctions(IsComplex);
+            DefinedMacros.Clear();
             var lineNumber = 0;
-            foreach (var line in lines)
+            var macrosDefinitionPattern = new Regex(MacrosNamePattern);
+            foreach (var item in lines.Select((value, i) => new { i, value }))
+            {
+                var line = item.value;
+                var index = item.i;
+
                 GetDefinedVariablesAndFunctions(line, ++lineNumber);
+                var match = macrosDefinitionPattern.Match(line);
+                if (match.Success)
+                {
+                    var macro = match.Groups[1].Value;
+                    DefinedMacros.TryAdd(macro, index);
+                }
+            }
         }
 
 
@@ -786,7 +820,7 @@ namespace Calcpad.Wpf
                     !DefinedVariables.TryGetValue(s, out varLine))
                     varLine = int.MaxValue;
 
-                if (varLine > line)
+                if (varLine > line && !_isInMacros)
                 {
                     if (MathParser.IsUnit(s))
                         t = Types.Units;
@@ -794,9 +828,20 @@ namespace Calcpad.Wpf
                         t = Types.Error;
                 }
             }
+            else if (t == Types.Macros)
+            {
+                var defLine = line;
+                if (!DefinedMacros.TryGetValue(s, out defLine))
+                    defLine = int.MaxValue;
+
+                if (defLine > line)
+                {
+                    t = Types.Error;
+                }
+            }
             else if (t == Types.Units && !MathParser.IsUnit(s))
                 t = Types.Error;
-            else if (t == Types.MacrosName && !s.EndsWith("$"))
+            else if (t == Types.MacrosDefinition && !s.EndsWith("$"))
                 t = Types.Error;
             var run = new Run(s);
             s = s.ToLowerInvariant();
@@ -877,5 +922,6 @@ namespace Calcpad.Wpf
                 ";" => name + ' ',
                 _ => name,
             };
+        private const string MacrosNamePattern = @"#def ([a-zA-Zα-ωΑ-Ω][a-zA-Zα-ωΑ-Ω,_′″‴⁗øØ°∡]*\$)\([a-zA-Z]*\)";
     }
 }
