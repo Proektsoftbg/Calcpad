@@ -14,7 +14,7 @@ namespace Calcpad.Core
         private bool _isVal;
         private MathParser _parser;
         private static readonly string[] NewLines = { "\r\n", "\r", "\n" };
-        private static readonly Regex MacrosNamePattern = new(@"^([a-zA-Zα-ωΑ-Ω][a-zA-Zα-ωΑ-Ω,_′″‴⁗øØ°∡]*)");
+        private static readonly Regex MacrosNamePattern = new(@"^([a-zA-Zα-ωΑ-Ω][a-zA-Zα-ωΑ-Ω,_′″‴⁗øØ°∡0-9.]*)");
         public Settings Settings { get; set; }
         public string HtmlResult { get; private set; }
         public static bool IsUs
@@ -425,7 +425,7 @@ namespace Calcpad.Core
 
                                 foreach (var token in tokens)
                                 {
-                                    var macros_call_pattern = new Regex(@"^([a-zA-Zα-ωΑ-Ω][a-zA-Zα-ωΑ-Ω,_′″‴⁗øØ°∡]*)\$\(\)");
+                                    var macros_call_pattern = new Regex(@"^([a-zA-Zα-ωΑ-Ω][a-zA-Zα-ωΑ-Ω,_′″‴⁗øØ°∡0-9.]*)\$\(\)");
                                     var match = macros_call_pattern.Match(token.Value);
                                     if (match.Success)
                                     {

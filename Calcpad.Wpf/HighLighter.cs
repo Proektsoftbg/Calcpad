@@ -922,6 +922,6 @@ namespace Calcpad.Wpf
                 ";" => name + ' ',
                 _ => name,
             };
-        private const string MacrosNamePattern = @"#def ([a-zA-Zα-ωΑ-Ω][a-zA-Zα-ωΑ-Ω,_′″‴⁗øØ°∡]*\$)\([a-zA-Z]*\)";
+        private const string MacrosNamePattern = @"#def ([a-zA-Zα-ωΑ-Ω][a-zA-Zα-ωΑ-Ω,_′″‴⁗øØ°∡0-9.]*\$)\([a-zA-Z]*\)";
     }
 }
