@@ -413,7 +413,7 @@ namespace Calcpad.Core
                                 if (tokens.Any())
                                     lineType = tokens[0].Type;
                                 var isOutput = isVisible && (!calculate || kwdLength == 0);
-                                if (isOutput)
+                                if (isOutput && !(isSubCall && (_callStack.Peek().DefLine + 1 == line || _callStack.Peek().EndDefLine - 1 == line)))
                                 {
                                     if (keyword == Keywords.ElseIf || keyword == Keywords.EndIf)
                                         stringBuilder.Append("</div>");
@@ -422,8 +422,6 @@ namespace Calcpad.Core
                                         stringBuilder.Append($"<h3{id}>");
                                     else if (lineType == TokenTypes.Html)
                                         tokens[0] = new Token(InsertAttribute(tokens[0].Value, id), TokenTypes.Html);
-                                    else if (lineType == TokenTypes.Text && isSubCall)
-                                        stringBuilder.Append($"<span{id}>");
                                     else
                                         stringBuilder.Append($"<p{id}>");
 
@@ -508,12 +506,10 @@ namespace Calcpad.Core
                                     else if (isVisible)
                                         stringBuilder.Append(token.Value);
                                 }
-                                if (isOutput)
+                                if (isOutput && !(isSubCall && (_callStack.Peek().DefLine + 1 == line || _callStack.Peek().EndDefLine - 1 == line)))
                                 {
                                     if (lineType == TokenTypes.Heading)
                                         stringBuilder.Append("</h3>");
-                                    else if (lineType == TokenTypes.Text && isSubCall)
-                                        stringBuilder.Append($"<span{id}>");
                                     else if (lineType != TokenTypes.Html)
                                         stringBuilder.Append("</p>");
 
