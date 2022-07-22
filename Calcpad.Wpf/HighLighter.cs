@@ -592,7 +592,7 @@ namespace Calcpad.Wpf
                     {
                         if (t == Types.Variable)
                            t = Types.Function;
-                        else if (t == Types.MacrosDefinition || _stringBuilder[^1] == '$')
+                        else if (t == Types.MacrosDefinition || _stringBuilder.Length > 0 &&_stringBuilder[^1] == '$')
                             isArgs = true;
                         else if (t != Types.Operator && t != Types.Bracket && t != Types.Macros && t != Types.None)
                             t = Types.Error;
