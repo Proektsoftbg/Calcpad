@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -12,7 +13,11 @@ namespace Calcpad.Core
         private readonly List<string> _inputFields = new();
         private int _currentField;
         private bool _isVal;
+        private Stack<Macros> _callStack = new();
+        private Stack<string> _definitionMacrosStack = new();
+        private Dictionary<string, Macros> _definedMacros = new();  // TODO: move to parser
         private MathParser _parser;
+        private const int CallStackSize = 100;
         private static readonly string[] NewLines = { "\r\n", "\r", "\n" };
         private static readonly Regex MacrosNamePattern = new(@"^([a-zA-Zα-ωΑ-Ω][a-zA-Zα-ωΑ-Ω,_′″‴⁗øØ°∡0-9.]*)");
         public Settings Settings { get; set; }
@@ -107,7 +112,7 @@ namespace Calcpad.Core
         }
         public void Cancel() => _parser?.Cancel();
         
-        public void Parse(string[] expressions, bool calculate = true, MathParser parser = null)
+        public void Parse(string[] expressions, bool calculate = true, MathParser parser = null, int start = 0, int? end = null)
         {
             var stringBuilder = new StringBuilder(expressions.Length * 80);
             var condition = new ConditionParser();
@@ -122,28 +127,25 @@ namespace Calcpad.Core
                 isSubCall = true;
             }
             var loops = new Stack<Loop>();
-            var callStack = new Stack<Macros>();
-            var definedMacros = new Dictionary<string, Macros>(); // maybe move to math parser
-            var definitionMacrosStack = new Stack<string>();
             _isVal = false;
             var isVisible = true;
             _parser.IsEnabled = calculate;
             _parser.GetInputField += GetInputField;
             _parser.SetVariable("Units", new Value(UnitsFactor()));
             var line = 0;
-            var len = expressions.Length - 1;
+            end ??= expressions.Length - 1;
             var s = string.Empty;
-            var isDef = false;
             try
             {
-                for (var i = 0; i < len; ++i)
+                for (var i = start; i < end; ++i)
                 {
                     line = i + 1;
-                    var id = loops.Any() && loops.Peek().Iteration != 1 ? "" : $" id=\"line{line}\"";
+                    var id = loops.Any() && loops.Peek().Iteration != 1 ? "" : $" id=\"line{i+1}\"";
                     if (_parser.IsCanceled)
                         break;
 
                     s = expressions[i].Trim();
+                    Debug.WriteLine(s);
                     if (string.IsNullOrEmpty(s))
                     {
                         if (isVisible)
@@ -320,9 +322,8 @@ namespace Calcpad.Core
                                     }
                                     else
                                     {
-                                        definedMacros[macrosName] = new Macros(i);
-                                        definitionMacrosStack.Push(macrosName);
-                                        isDef = true;
+                                        _definedMacros[macrosName] = new Macros(line);
+                                        _definitionMacrosStack.Push(macrosName);
                                     }
                                 }
                             }
@@ -330,16 +331,15 @@ namespace Calcpad.Core
                         }
                         else if (keyword == Keywords.EndDef)
                         {
-                            isDef = false;
-                            if (definitionMacrosStack.Count == 0)
+                            if (_definitionMacrosStack.Count == 0)
                             {
                                 // TODO: BG
                                 stringBuilder.Append($"<p class=\"err\">Error in \"{s}\" on line {Line(line)}: \"#end def\" without a corresponding \"#def\".</p>");
                             }
                             else
-                                {
-                                var macrosName = definitionMacrosStack.Pop();
-                                definedMacros[macrosName].EndDefinitionLine = i;
+                            {
+                                var macrosName = _definitionMacrosStack.Pop();
+                                _definedMacros[macrosName].EndDefLine = line;
                             }
                         }
                         else
@@ -348,7 +348,7 @@ namespace Calcpad.Core
                         if (isKeyWord)
                             continue;
                     }
-                    if (isDef) continue;
+                    if (_definitionMacrosStack.Any()) continue;
                     if (lower.StartsWith("$plot") || lower.StartsWith("$map"))
                     {
                         if (isVisible && (condition.IsSatisfied || !calculate))
@@ -430,7 +430,7 @@ namespace Calcpad.Core
                                     if (match.Success)
                                     {
                                         var name = match.Groups[1].Value;
-                                        if (!definedMacros.ContainsKey(name))
+                                        if (!_definedMacros.ContainsKey(name))
                                         {
 #if BG
                                             stringBuilder.Append($"<p class=\"err\">Грешка в \"{token.Value}\" на ред \"{Line(line)}\": Недефинирано макроси \"{name}$\"</p>");
@@ -438,11 +438,19 @@ namespace Calcpad.Core
                                             stringBuilder.Append($"<p class=\"err\">Error in \"{token.Value}\" on line \"{Line(line)}\": Undefined macros \"{name}$\"</p>");
 #endif
                                             continue;
-
                                         }
-                                        var macros = definedMacros[name];
-                                        var body = expressions[macros.GetBodyRange()].Concat(new []{""}).ToArray();
-                                        Parse(body, calculate, _parser);
+
+                                        if (_callStack.Count > CallStackSize)
+                                        {
+                                            // TODO: BG
+                                            stringBuilder.Append($"<p class=\"err\">Error in \"{token.Value}\" on line \"{Line(line)}\": Stack overflow: more than {CallStackSize} calls!</p>");
+                                            continue;
+                                        }
+                                        var macros = _definedMacros[name];
+                                        // var body = expressions[macros.GetBodyRange()].Concat(new []{""}).ToArray();
+                                        _callStack.Push(macros);
+                                        Parse(expressions, calculate, _parser, macros.DefLine, macros.EndDefLine-1);
+                                        _callStack.Pop();
                                         stringBuilder.Append(HtmlResult);
                                         continue;
                                     }
@@ -512,7 +520,7 @@ namespace Calcpad.Core
                     }
                 }
                 ApplyUnits(stringBuilder, calculate);
-                if (condition.Id > 0 && line == len)
+                if (condition.Id > 0 && line == end)
 #if BG
                     stringBuilder.Append($"<p class=\"err\">Грешка: Условният \"#if\" блок не е затворен. Липсва \"#end if\"</p>");
 #else
@@ -523,7 +531,7 @@ namespace Calcpad.Core
                     stringBuilder.Append($"<p class=\"err\">Грешка: Блокът за цикъл \"#repeat\" не е затворен. Липсва \"#loop\"</p>");
 #else
                     stringBuilder.Append($"<p class=\"err\">Error: \"#repeat\" block not closed. Missing \"#loop\"</p>");
-                if (definitionMacrosStack.Any())
+                if (_definitionMacrosStack.Any())
                     // TODO: BG
                     stringBuilder.Append($"<p class=\"err\">Error: \"#def\" block not closed. Missing \"#end def\"</p>");
 
@@ -909,17 +917,17 @@ namespace Calcpad.Core
 
         private class Macros
         {
-            internal int StartDefinitionLine { get; set; }
-            internal int EndDefinitionLine { get; set; }
+            internal int DefLine { get; set; }
+            internal int EndDefLine { get; set; }
             internal int ReturnLine { get; set; }
             internal string Name { get; }
-            internal Macros(int startDefinitionLine)
+            internal Macros(int defLine)
             {
-                StartDefinitionLine = startDefinitionLine;
+                DefLine = defLine;
             }
             internal Range GetBodyRange()
             {
-                return new Range(new Index(StartDefinitionLine+1), new Index(EndDefinitionLine));
+                return new Range(new Index(DefLine-1+1), new Index(EndDefLine-1));
             }
         }
     }
