@@ -19,9 +19,9 @@ namespace Calcpad.Core
         private MathParser _parser;
         private const int CallStackSize = 100;
         private static readonly string[] NewLines = { "\r\n", "\r", "\n" };
-        private static readonly Regex MacrosNamePattern = new(@"^([∡°a-zA-Zα-ωΑ-Ω][a-zA-Zα-ωΑ-Ω,_′″‴⁗øØ°∡0-9.]*\$)");
-        private static readonly Regex VariableNamePattern = new(@"^([∡°a-zA-Zα-ωΑ-Ω][a-zA-Zα-ωΑ-Ω,_′″‴⁗øØ°∡0-9.]*)");
-        private static readonly Regex MacrosCallPattern = new(@"([∡°a-zA-Zα-ωΑ-Ω][a-zA-Zα-ωΑ-Ω,_′″‴⁗øØ°∡0-9.]*\$)\((.*?)\)");
+        private static readonly Regex MacrosNamePattern = new(@"^([∡°a-zA-Zα-ωΑ-Ω][a-zA-Zα-ωΑ-Ω,_′″‴⁗ϑøØ°∡0-9.]*\$)");
+        private static readonly Regex VariableNamePattern = new(@"^([∡°a-zA-Zα-ωΑ-Ω][a-zA-Zα-ωΑ-Ω,_′″‴⁗ϑøØ°∡0-9.]*)");
+        private static readonly Regex MacrosCallPattern = new(@"([∡°a-zA-Zα-ωΑ-Ω][a-zA-Zα-ωΑ-Ω,_′″‴⁗ϑøØ°∡0-9.]*\$)\((.*?)\)");
         public Settings Settings { get; set; }
         public string HtmlResult { get; private set; }
         public static bool IsUs
@@ -960,8 +960,7 @@ namespace Calcpad.Core
                         if (commentSep == '\0' && "'\"".Contains(value))
                         {
                             commentSep = value;
-                            commentGroup = ReplaceArguments(argumentValues, commentGroup);
-                            newExpression.Append(commentGroup);
+                            newExpression.Append(ReplaceArguments(argumentValues, commentGroup));
                             commentGroup.Clear();
                         }
                         else if (value == commentSep)
@@ -975,8 +974,7 @@ namespace Calcpad.Core
 
                     if (commentSep == '\0')
                     {
-                        commentGroup = ReplaceArguments(argumentValues, commentGroup);
-                        newExpression.Append(commentGroup);
+                        newExpression.Append(ReplaceArguments(argumentValues, commentGroup));
                     }
                     else
                     {
@@ -987,12 +985,12 @@ namespace Calcpad.Core
 
                 return localExpressions;
             }
-            private StringBuilder ReplaceArguments(string[] argumentValues, StringBuilder str) => Enumerable
+            private string ReplaceArguments(string[] argumentValues, StringBuilder str) => Enumerable
                 .Range(0, argumentValues.Length)
                 .OrderByDescending(x => ArgumentNames[x].Length)  // don't overwrite 
-                .Aggregate(str,
+                .Aggregate(str.ToString(),
                     (current, index)
-                        => current.Replace(ArgumentNames[index], argumentValues[index]));
+                        => Regex.Replace(current, @$"(?<start>^|[^$#a-zA-Zα-ωΑ-Ω,_′″‴⁗ϑϕøØ°∡0-9.])({ArgumentNames[index]})(?<end>[^$#a-zA-Zα-ωΑ-Ω,_′″‴⁗ϑϕøØ°∡0-9.]|$)", $"${{start}}{argumentValues[index]}${{end}}"));
         }
     }
 }
