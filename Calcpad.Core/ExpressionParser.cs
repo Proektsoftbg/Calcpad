@@ -19,7 +19,9 @@ namespace Calcpad.Core
         private MathParser _parser;
         private const int CallStackSize = 100;
         private static readonly string[] NewLines = { "\r\n", "\r", "\n" };
-        private static readonly Regex MacrosNamePattern = new(@"^([a-zA-Zα-ωΑ-Ω][a-zA-Zα-ωΑ-Ω,_′″‴⁗øØ°∡0-9.]*)");
+        private static readonly Regex MacrosNamePattern = new(@"^([∡°a-zA-Zα-ωΑ-Ω][a-zA-Zα-ωΑ-Ω,_′″‴⁗øØ°∡0-9.]*\$)");
+        private static readonly Regex VariableNamePattern = new(@"^([∡°a-zA-Zα-ωΑ-Ω][a-zA-Zα-ωΑ-Ω,_′″‴⁗øØ°∡0-9.]*)");
+        private static readonly Regex MacrosCallPattern = new(@"([∡°a-zA-Zα-ωΑ-Ω][a-zA-Zα-ωΑ-Ω,_′″‴⁗øØ°∡0-9.]*\$)\((.*?)\)");
         public Settings Settings { get; set; }
         public string HtmlResult { get; private set; }
         public static bool IsUs
@@ -295,9 +297,9 @@ namespace Calcpad.Core
                             }
                             else
                             {
-                                var macrosName = s[5..endOfName];
+                                var macrosName = s[5..(endOfName+1)];
                                 var closeBracket = s.IndexOf(")");
-                                if (!MacrosNamePattern.Match(macrosName).Success)
+                                if (!MacrosNamePattern.IsMatch(macrosName))
                                 {
                                     // TODO: BG
                                     stringBuilder.Append($"<p class=\"err\">Error in \"{s}\" on line{Line(line)}: Invalid macros name \"{macrosName}\"</p>");
@@ -315,16 +317,20 @@ namespace Calcpad.Core
                                 else
                                 {
                                     var args = s[(endOfName + 1 + 1)..closeBracket];
-                                    if (args != "")
+                                    var argsNames = args.Split(";",
+                                            StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+                                    foreach (var argName in argsNames)
                                     {
-                                        // TODO: BG
-                                        stringBuilder.Append($"<p class=\"err\">Error in \"{s}\" on line{Line(line)}: Args is not implemented</p>");
+                                        if (!VariableNamePattern.IsMatch(argName))
+                                        {
+                                            // TODO: BG
+                                            stringBuilder.Append($"<p class=\"err\">Error in \"{s}\" on line{Line(line)}: invalid argument name: \"{argName}\"</p>");
+                                            break;
+                                        }
                                     }
-                                    else
-                                    {
-                                        _definedMacros[macrosName] = new Macros(line);
-                                        _definitionMacrosStack.Push(macrosName);
-                                    }
+                                    
+                                    _definedMacros[macrosName] = new Macros(line, argsNames.ToArray());
+                                    _definitionMacrosStack.Push(macrosName);
                                 }
                             }
                             
@@ -416,6 +422,8 @@ namespace Calcpad.Core
                                         stringBuilder.Append($"<h3{id}>");
                                     else if (lineType == TokenTypes.Html)
                                         tokens[0] = new Token(InsertAttribute(tokens[0].Value, id), TokenTypes.Html);
+                                    else if (lineType == TokenTypes.Text && isSubCall)
+                                        stringBuilder.Append($"<span{id}>");
                                     else
                                         stringBuilder.Append($"<p{id}>");
 
@@ -425,8 +433,7 @@ namespace Calcpad.Core
 
                                 foreach (var token in tokens)
                                 {
-                                    var macros_call_pattern = new Regex(@"^([a-zA-Zα-ωΑ-Ω][a-zA-Zα-ωΑ-Ω,_′″‴⁗øØ°∡0-9.]*)\$\(\)");
-                                    var match = macros_call_pattern.Match(token.Value);
+                                    var match = MacrosCallPattern.Match(token.Value);
                                     if (match.Success)
                                     {
                                         var name = match.Groups[1].Value;
@@ -447,9 +454,16 @@ namespace Calcpad.Core
                                             continue;
                                         }
                                         var macros = _definedMacros[name];
-                                        // var body = expressions[macros.GetBodyRange()].Concat(new []{""}).ToArray();
+                                        var argsValues = match.Groups[2].Value.Split(";", StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+                                        if (argsValues.Length != macros.ArgumentNames.Length)
+                                        {
+                                            // TODO: BG
+                                            stringBuilder.Append($"<p class=\"err\">Error in \"{token.Value}\" on line \"{Line(line)}\": Expected {macros.ArgumentNames.Length} arguments but got {argsValues.Length}</p>");
+                                            continue;
+                                        }
+                                        var localExpressions = macros.ReplaceArgumentInBody(argsValues, expressions);
                                         _callStack.Push(macros);
-                                        Parse(expressions, calculate, _parser, macros.DefLine, macros.EndDefLine-1);
+                                        Parse(localExpressions, calculate, _parser, macros.DefLine, macros.EndDefLine-1);
                                         _callStack.Pop();
                                         stringBuilder.Append(HtmlResult);
                                         continue;
@@ -498,6 +512,8 @@ namespace Calcpad.Core
                                 {
                                     if (lineType == TokenTypes.Heading)
                                         stringBuilder.Append("</h3>");
+                                    else if (lineType == TokenTypes.Text && isSubCall)
+                                        stringBuilder.Append($"<span{id}>");
                                     else if (lineType != TokenTypes.Html)
                                         stringBuilder.Append("</p>");
 
@@ -555,9 +571,14 @@ namespace Calcpad.Core
             }
             finally
             {
-                HtmlResult = stringBuilder.ToString();
                 if (!isSubCall)
+                {
                     _parser = null;
+                    _callStack.Clear();
+                    _definedMacros.Clear();
+                    _definitionMacrosStack.Clear();
+                }
+                HtmlResult = stringBuilder.ToString();
             }
 
             static string Line(int line) => $"[<a href=\"#0\" data-text=\"{line}\">{line}</a>]";
@@ -917,18 +938,61 @@ namespace Calcpad.Core
 
         private class Macros
         {
-            internal int DefLine { get; set; }
+            internal int DefLine { get; private set; }
             internal int EndDefLine { get; set; }
-            internal int ReturnLine { get; set; }
-            internal string Name { get; }
-            internal Macros(int defLine)
+            internal string[] ArgumentNames { get; private set; }
+            internal Macros(int defLine, string[] argumentNames)
             {
                 DefLine = defLine;
+                ArgumentNames = argumentNames;
             }
-            internal Range GetBodyRange()
+
+            internal string[] ReplaceArgumentInBody(string[] argumentValues, string[] expressions)
             {
-                return new Range(new Index(DefLine-1+1), new Index(EndDefLine-1));
+                var localExpressions = expressions.ToArray();
+                for (var j = DefLine; j < EndDefLine - 1; ++j)
+                {
+                    var commentSep = '\0';
+                    var newExpression = new StringBuilder();
+                    var commentGroup = new StringBuilder();
+                    foreach (var value in expressions[j])
+                    {
+                        if (commentSep == '\0' && "'\"".Contains(value))
+                        {
+                            commentSep = value;
+                            commentGroup = ReplaceArguments(argumentValues, commentGroup);
+                            newExpression.Append(commentGroup);
+                            commentGroup.Clear();
+                        }
+                        else if (value == commentSep)
+                        {
+                            newExpression.Append(commentGroup);
+                            commentGroup.Clear();
+                            commentSep = '\0';
+                        }
+                        commentGroup.Append(value);
+                    }
+
+                    if (commentSep == '\0')
+                    {
+                        commentGroup = ReplaceArguments(argumentValues, commentGroup);
+                        newExpression.Append(commentGroup);
+                    }
+                    else
+                    {
+                        newExpression.Append(commentGroup);
+                    }
+                    localExpressions[j] = newExpression.ToString();
+                }
+
+                return localExpressions;
             }
+            private StringBuilder ReplaceArguments(string[] argumentValues, StringBuilder str) => Enumerable
+                .Range(0, argumentValues.Length)
+                .OrderByDescending(x => ArgumentNames[x].Length)  // don't overwrite 
+                .Aggregate(str,
+                    (current, index)
+                        => current.Replace(ArgumentNames[index], argumentValues[index]));
         }
     }
 }
