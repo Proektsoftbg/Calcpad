@@ -20,8 +20,7 @@
             Divisor,
             Solver,
             Comment,
-            Error,
-            Def
+            Error
         }
 
         private class Token
