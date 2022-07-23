@@ -18,6 +18,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using DocumentFormat.OpenXml.Drawing.Diagrams;
+using Point = System.Windows.Point;
 using TextElement = System.Windows.Documents.TextElement;
 
 namespace Calcpad.Wpf
@@ -1923,16 +1925,30 @@ namespace Calcpad.Wpf
                 items.RemoveAt(i);
 
             var lineNumber = CurrentLineNumber;
+            var macroses = HighLighter.GetMacrosesAtLine(lineNumber).ToList();
             foreach (string s in HighLighter.DefinedVariables.Keys)
-                if (HighLighter.DefinedVariables[s] < lineNumber)
+                if (HighLighter.DefinedVariables[s] < lineNumber || macroses.Any())
                     items.Add(new ListBoxItem()
+                    {
+                        Content = s,
+                        Foreground = Brushes.Blue
+                    });
+            foreach (var s in macroses.SelectMany(macros => HighLighter.MacrosVariables[macros]))
+                items.Add(new ListBoxItem()
                     {
                         Content = s,
                         Foreground = Brushes.Blue
                     });
 
             foreach (string s in HighLighter.DefinedFunctions.Keys)
-                if (HighLighter.DefinedFunctions[s] < lineNumber)
+                if (HighLighter.DefinedFunctions[s] < lineNumber || macroses.Any())
+                    items.Add(new ListBoxItem()
+                    {
+                        Content = s + "()",
+                        FontWeight = FontWeights.Bold
+                    });
+            foreach (string s in HighLighter.DefinedMacros.Keys)
+                if (HighLighter.DefinedMacros[s].Item1 < lineNumber || macroses.Any())
                     items.Add(new ListBoxItem()
                     {
                         Content = s + "()",

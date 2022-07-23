@@ -234,8 +234,7 @@ namespace Calcpad.Core
                             }
                         }
                         else if (_definitionMacrosStack.Any()) continue;
-                        
-                        if (keyword == Keywords.Hide && condition.IsSatisfied)
+                        else if (keyword == Keywords.Hide && condition.IsSatisfied)
                             _isVisible = false;
                         else if (keyword == Keywords.Show && condition.IsSatisfied)
                             _isVisible = true;

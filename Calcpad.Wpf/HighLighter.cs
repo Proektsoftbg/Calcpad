@@ -806,6 +806,11 @@ namespace Calcpad.Wpf
             }
         }
 
+        internal static IEnumerable<string> GetMacrosesAtLine(int lineNumber) =>
+            DefinedMacros
+                .Where(kv => kv.Value.Item1 <= lineNumber && lineNumber <= kv.Value.Item2)
+                .Select(kv => kv.Key);
+
         private static void Append(Paragraph p, Types t, int line)
         {
             if (_stringBuilder.Length == 0)
@@ -814,36 +819,27 @@ namespace Calcpad.Wpf
             var s = _stringBuilder.ToString();
             _stringBuilder.Clear();
 
-            var macroses = DefinedMacros
-                .Where(kv => kv.Value.Item1 <= line && line <= kv.Value.Item2)
-                .Select(kv => kv.Key);
+            var macroses = GetMacrosesAtLine(line).ToList();
             if (t == Types.Operator)
                 s = FormatOperator(s);
             else if (t == Types.Input)
                 s = "? ";
             else if (t == Types.Function)
             {
-                if (!(DefinedFunctions.TryGetValue(s, out int funcLine) ||
-                      macroses.Any(m => MacrosVariables[m].Contains(s))))
-                    funcLine = int.MaxValue;
+                var isDefined = DefinedFunctions.TryGetValue(s, out int funcLine) ||
+                                macroses.Any(m => MacrosVariables[m].Contains(s));
 
-                if (!Functions.Contains(s) && funcLine > line && !_isInMacros)
+                if ((!Functions.Contains(s) || !isDefined) && (funcLine > line && !_isInMacros))
                     t = Types.Error;
             }
             else if (t == Types.Variable)
             {
-                int varLine = line;
-                if (!LocalVariables.Contains(s) &&
-                    !(DefinedVariables.TryGetValue(s, out varLine) || 
-                      macroses.Any(m => MacrosVariables[m].Contains(s))))
-                    varLine = int.MaxValue;
-
-                if (varLine > line)
+                var isDefined = DefinedVariables.TryGetValue(s, out int varLine) ||
+                                 LocalVariables.Contains(s) ||
+                                 macroses.Any(m => MacrosVariables[m].Contains(s));
+                if (!isDefined || !macroses.Any() && varLine > line)
                 {
-                    if (MathParser.IsUnit(s))
-                        t = Types.Units;
-                    else
-                        t = Types.Error;
+                    t = MathParser.IsUnit(s) ? Types.Units : Types.Error;
                 }
             }
             else if (t == Types.Macros)
