@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -15,13 +14,15 @@ namespace Calcpad.Core
         private bool _isVal;
         private Stack<Macros> _callStack = new();
         private Stack<string> _definitionMacrosStack = new();
-        private Dictionary<string, Macros> _definedMacros = new();  // TODO: move to parser
+        private Dictionary<string, Macros> _definedMacros = new();
         private MathParser _parser;
         private const int CallStackSize = 100;
         private static readonly string[] NewLines = { "\r\n", "\r", "\n" };
         private static readonly Regex MacrosNamePattern = new(@"^([∡°a-zA-Zα-ωΑ-Ω][a-zA-Zα-ωΑ-Ω,_′″‴⁗ϑøØ°∡0-9.]*\$)");
         private static readonly Regex VariableNamePattern = new(@"^([∡°a-zA-Zα-ωΑ-Ω][a-zA-Zα-ωΑ-Ω,_′″‴⁗ϑøØ°∡0-9.]*)");
         private static readonly Regex MacrosCallPattern = new(@"([∡°a-zA-Zα-ωΑ-Ω][a-zA-Zα-ωΑ-Ω,_′″‴⁗ϑøØ°∡0-9.]*\$)\((.*?)\)");
+        private TokenTypes _lineType;
+        private bool _isVisible;
         public Settings Settings { get; set; }
         public string HtmlResult { get; private set; }
         public static bool IsUs
@@ -122,6 +123,8 @@ namespace Calcpad.Core
             if (parser is null)
             {
                 _parser = new MathParser(Settings.Math);
+                _isVisible = true;
+                _isVal = false;
             }
             else
             {
@@ -129,8 +132,6 @@ namespace Calcpad.Core
                 isSubCall = true;
             }
             var loops = new Stack<Loop>();
-            _isVal = false;
-            var isVisible = true;
             _parser.IsEnabled = calculate;
             _parser.GetInputField += GetInputField;
             _parser.SetVariable("Units", new Value(UnitsFactor()));
@@ -147,10 +148,9 @@ namespace Calcpad.Core
                         break;
 
                     s = expressions[i].Trim();
-                    Debug.WriteLine(s);
                     if (string.IsNullOrEmpty(s))
                     {
-                        if (isVisible)
+                        if (_isVisible)
                             stringBuilder.AppendLine($"<p{id}>&nbsp;</p>");
 
                         continue;
@@ -161,21 +161,95 @@ namespace Calcpad.Core
                     {
                         var isKeyWord = true;
                         keyword = GetKeyword(lower);
-                        if (keyword == Keywords.Hide)
-                            isVisible = false;
-                        else if (keyword == Keywords.Show)
-                            isVisible = true;
-                        else if (keyword == Keywords.Pre)
-                            isVisible = !calculate;
-                        else if (keyword == Keywords.Post)
-                            isVisible = calculate;
-                        else if (keyword == Keywords.Val)
+                        if (keyword == Keywords.Def)
+                        {
+                            if (condition.IsSatisfied)
+                            {
+                                var endOfName = s.IndexOf("$");
+                                if (endOfName == -1)
+                                {
+                                    // TODO: BG
+                                    stringBuilder.Append($"<p class=\"err\">Error in \"{s}\" on line{Line(line)}: Missing \"$\" in macros name.</p>");
+                                }
+                                else if (endOfName < 6)
+                                {
+                                    // TODO: BG
+                                    stringBuilder.Append($"<p class=\"err\">Error in \"{s}\" on line{Line(line)}: Empty macros name.</p>");
+                                }
+                                else
+                                {
+                                    var macrosName = s[5..(endOfName+1)];
+                                    var closeBracket = s.IndexOf(")");
+                                    if (!MacrosNamePattern.IsMatch(macrosName))
+                                    {
+                                        // TODO: BG
+                                        stringBuilder.Append($"<p class=\"err\">Error in \"{s}\" on line{Line(line)}: Invalid macros name \"{macrosName}\"</p>");
+                                    }
+                                    else if (s[endOfName + 1] != '(')
+                                    {
+                                        // TODO: BG
+                                        stringBuilder.Append($"<p class=\"err\">Error in \"{s}\" on line{Line(line)}: Missing \"(\" in macros definition.</p>");
+                                    }
+                                    else if (closeBracket == -1)
+                                    {
+                                        // TODO: BG
+                                        stringBuilder.Append($"<p class=\"err\">Error in \"{s}\" on line{Line(line)}: Missing \")\" in macros definition.</p>");
+                                    }
+                                    else
+                                    {
+                                        var args = s[(endOfName + 1 + 1)..closeBracket];
+                                        var argsNames = args.Split(";",
+                                                StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+                                        foreach (var argName in argsNames)
+                                        {
+                                            if (!VariableNamePattern.IsMatch(argName))
+                                            {
+                                                // TODO: BG
+                                                stringBuilder.Append($"<p class=\"err\">Error in \"{s}\" on line{Line(line)}: invalid argument name: \"{argName}\"</p>");
+                                                break;
+                                            }
+                                        }
+                                        
+                                        _definedMacros[macrosName] = new Macros(line, argsNames.ToArray());
+                                        _definitionMacrosStack.Push(macrosName);
+                                    }
+                                }
+                            }
+                            
+                        }
+                        else if (keyword == Keywords.EndDef)
+                        {
+                            if (condition.IsSatisfied)
+                            {
+                                if (_definitionMacrosStack.Count == 0)
+                                {
+                                    // TODO: BG
+                                    stringBuilder.Append($"<p class=\"err\">Error in \"{s}\" on line {Line(line)}: \"#end def\" without a corresponding \"#def\".</p>");
+                                }
+                                else
+                                {
+                                    var macrosName = _definitionMacrosStack.Pop();
+                                    _definedMacros[macrosName].EndDefLine = line;
+                                }
+                            }
+                        }
+                        else if (_definitionMacrosStack.Any()) continue;
+                        
+                        if (keyword == Keywords.Hide && condition.IsSatisfied)
+                            _isVisible = false;
+                        else if (keyword == Keywords.Show && condition.IsSatisfied)
+                            _isVisible = true;
+                        else if (keyword == Keywords.Pre && condition.IsSatisfied)
+                            _isVisible = !calculate;
+                        else if (keyword == Keywords.Post && condition.IsSatisfied)
+                            _isVisible = calculate;
+                        else if (keyword == Keywords.Val && condition.IsSatisfied)
                             _isVal = true;
-                        else if (keyword == Keywords.Equ)
+                        else if (keyword == Keywords.Equ && condition.IsSatisfied)
                             _isVal = false;
-                        else if (keyword == Keywords.Deg)
+                        else if (keyword == Keywords.Deg && condition.IsSatisfied)
                             _parser.Degrees = true;
-                        else if (keyword == Keywords.Rad)
+                        else if (keyword == Keywords.Rad && condition.IsSatisfied)
                             _parser.Degrees = false;
                         else if (keyword == Keywords.Repeat)
                         {
@@ -218,7 +292,7 @@ namespace Calcpad.Core
                                     loops.Push(new Loop(i, count, condition.Id));
                                 }
                             }
-                            else if (isVisible)
+                            else if (_isVisible)
                             {
                                 if (string.IsNullOrWhiteSpace(expression))
                                     stringBuilder.Append($"<p{id} class=\"cond\">#repeat</p><div class=\"indent\">");
@@ -262,7 +336,7 @@ namespace Calcpad.Core
                                         loops.Pop();
                                 }
                             }
-                            else if (isVisible)
+                            else if (_isVisible)
                             {
                                 stringBuilder.Append($"</div><p{id} class=\"cond\">#loop</p>");
                             }
@@ -279,74 +353,8 @@ namespace Calcpad.Core
                                         break;
                                 }
                             }
-                            else if (isVisible)
+                            else if (_isVisible)
                                 stringBuilder.Append($"<p{id} class=\"cond\">#break</p>");
-                        }
-                        else if (keyword == Keywords.Def)
-                        {
-                            var endOfName = s.IndexOf("$");
-                            if (endOfName == -1)
-                            {
-                                // TODO: BG
-                                stringBuilder.Append($"<p class=\"err\">Error in \"{s}\" on line{Line(line)}: Missing \"$\" in macros name.</p>");
-                            }
-                            else if (endOfName < 6)
-                            {
-                                // TODO: BG
-                                stringBuilder.Append($"<p class=\"err\">Error in \"{s}\" on line{Line(line)}: Empty macros name.</p>");
-                            }
-                            else
-                            {
-                                var macrosName = s[5..(endOfName+1)];
-                                var closeBracket = s.IndexOf(")");
-                                if (!MacrosNamePattern.IsMatch(macrosName))
-                                {
-                                    // TODO: BG
-                                    stringBuilder.Append($"<p class=\"err\">Error in \"{s}\" on line{Line(line)}: Invalid macros name \"{macrosName}\"</p>");
-                                }
-                                else if (s[endOfName + 1] != '(')
-                                {
-                                    // TODO: BG
-                                    stringBuilder.Append($"<p class=\"err\">Error in \"{s}\" on line{Line(line)}: Missing \"(\" in macros definition.</p>");
-                                }
-                                else if (closeBracket == -1)
-                                {
-                                    // TODO: BG
-                                    stringBuilder.Append($"<p class=\"err\">Error in \"{s}\" on line{Line(line)}: Missing \")\" in macros definition.</p>");
-                                }
-                                else
-                                {
-                                    var args = s[(endOfName + 1 + 1)..closeBracket];
-                                    var argsNames = args.Split(";",
-                                            StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
-                                    foreach (var argName in argsNames)
-                                    {
-                                        if (!VariableNamePattern.IsMatch(argName))
-                                        {
-                                            // TODO: BG
-                                            stringBuilder.Append($"<p class=\"err\">Error in \"{s}\" on line{Line(line)}: invalid argument name: \"{argName}\"</p>");
-                                            break;
-                                        }
-                                    }
-                                    
-                                    _definedMacros[macrosName] = new Macros(line, argsNames.ToArray());
-                                    _definitionMacrosStack.Push(macrosName);
-                                }
-                            }
-                            
-                        }
-                        else if (keyword == Keywords.EndDef)
-                        {
-                            if (_definitionMacrosStack.Count == 0)
-                            {
-                                // TODO: BG
-                                stringBuilder.Append($"<p class=\"err\">Error in \"{s}\" on line {Line(line)}: \"#end def\" without a corresponding \"#def\".</p>");
-                            }
-                            else
-                            {
-                                var macrosName = _definitionMacrosStack.Pop();
-                                _definedMacros[macrosName].EndDefLine = line;
-                            }
                         }
                         else
                             isKeyWord = false;
@@ -357,7 +365,7 @@ namespace Calcpad.Core
                     if (_definitionMacrosStack.Any()) continue;
                     if (lower.StartsWith("$plot") || lower.StartsWith("$map"))
                     {
-                        if (isVisible && (condition.IsSatisfied || !calculate))
+                        if (_isVisible && (condition.IsSatisfied || !calculate))
                         {
                             PlotParser plotParser;
                             if (lower.StartsWith("$p"))
@@ -396,7 +404,7 @@ namespace Calcpad.Core
 #else
                                     throw new MathParser.MathParserException("Condition cannot be empty.");
 #endif
-                                if (isVisible && !calculate)
+                                if (_isVisible && !calculate)
                                 {
                                     if (keyword == Keywords.Else)
                                         stringBuilder.Append($"</div><p{id}>{condition.ToHtml()}</p><div class = \"indent\">");
@@ -409,18 +417,24 @@ namespace Calcpad.Core
                             else
                             {
                                 var tokens = GetInput(s, kwdLength);
-                                var lineType = TokenTypes.Text;
-                                if (tokens.Any())
-                                    lineType = tokens[0].Type;
-                                var isOutput = isVisible && (!calculate || kwdLength == 0);
-                                if (isOutput && !(isSubCall && (_callStack.Peek().DefLine + 1 == line || _callStack.Peek().EndDefLine - 1 == line)))
+                                var isFirstLineOfMacros = isSubCall && _callStack.Peek().DefLine + 1 == line;
+                                var isLastLIneOfMacros = isSubCall && _callStack.Peek().EndDefLine - 1 == line;
+                                if (!isFirstLineOfMacros)
+                                {
+                                    _lineType = TokenTypes.Text;
+                                    if (tokens.Any())
+                                        _lineType = tokens[0].Type;
+                                }
+
+                                var isOutput = _isVisible && (!calculate || kwdLength == 0);
+                                if (isOutput && !isFirstLineOfMacros)
                                 {
                                     if (keyword == Keywords.ElseIf || keyword == Keywords.EndIf)
                                         stringBuilder.Append("</div>");
 
-                                    if (lineType == TokenTypes.Heading)
+                                    if (_lineType == TokenTypes.Heading)
                                         stringBuilder.Append($"<h3{id}>");
-                                    else if (lineType == TokenTypes.Html)
+                                    else if (_lineType == TokenTypes.Html)
                                         tokens[0] = new Token(InsertAttribute(tokens[0].Value, id), TokenTypes.Html);
                                     else
                                         stringBuilder.Append($"<p{id}>");
@@ -431,9 +445,9 @@ namespace Calcpad.Core
 
                                 foreach (var token in tokens)
                                 {
-                                    var match = MacrosCallPattern.Match(token.Value);
-                                    if (match.Success)
+                                    if (token.Type == TokenTypes.MacrosCall)
                                     {
+                                        var match = MacrosCallPattern.Match(token.Value);
                                         var name = match.Groups[1].Value;
                                         if (!_definedMacros.ContainsKey(name))
                                         {
@@ -503,14 +517,14 @@ namespace Calcpad.Core
                                             stringBuilder.Append(errText);
                                         }
                                     }
-                                    else if (isVisible)
+                                    else if (_isVisible)
                                         stringBuilder.Append(token.Value);
                                 }
-                                if (isOutput && !(isSubCall && (_callStack.Peek().DefLine + 1 == line || _callStack.Peek().EndDefLine - 1 == line)))
+                                if (isOutput && !isLastLIneOfMacros)
                                 {
-                                    if (lineType == TokenTypes.Heading)
+                                    if (_lineType == TokenTypes.Heading)
                                         stringBuilder.Append("</h3>");
-                                    else if (lineType != TokenTypes.Html)
+                                    else if (_lineType != TokenTypes.Html)
                                         stringBuilder.Append("</p>");
 
                                     if (keyword == Keywords.If || keyword == Keywords.ElseIf)
@@ -676,6 +690,8 @@ namespace Calcpad.Core
 
             if (tokenType == TokenTypes.Expression)
             {
+                if (MacrosCallPattern.IsMatch(value))
+                    tokenType = TokenTypes.MacrosCall;
                 if (string.IsNullOrWhiteSpace(tokenValue))
                     return;
             }
@@ -725,7 +741,8 @@ namespace Calcpad.Core
             Heading,
             Text,
             Html,
-            Error
+            Error,
+            MacrosCall
         }
 
         private class ConditionParser
@@ -986,7 +1003,8 @@ namespace Calcpad.Core
                 .OrderByDescending(x => ArgumentNames[x].Length)  // don't overwrite 
                 .Aggregate(str.ToString(),
                     (current, index)
-                        => Regex.Replace(current, @$"(?<start>^|[^$#a-zA-Zα-ωΑ-Ω,_′″‴⁗ϑϕøØ°∡0-9.])({ArgumentNames[index]})(?<end>[^$#a-zA-Zα-ωΑ-Ω,_′″‴⁗ϑϕøØ°∡0-9.]|$)", $"${{start}}{argumentValues[index]}${{end}}"));
+                        => Regex.Replace(current, @$"(?<start>^|[^$#a-zA-Zα-ωΑ-Ω,_′″‴⁗ϑϕøØ°∡0-9.])({ArgumentNames[index]})(?<end>[^$#a-zA-Zα-ωΑ-Ω,_′″‴⁗ϑϕøØ°∡0-9.]|$)", $"${{start}}{argumentValues[index].Replace("$", "$$")}${{end}}"));
         }
+
     }
 }
