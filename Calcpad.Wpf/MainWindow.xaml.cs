@@ -1,4 +1,4 @@
-﻿using Calcpad.Core;
+using Calcpad.Core;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -1486,6 +1486,7 @@ namespace Calcpad.Wpf
             int i = 0, j = 0;
             var n = values is null ? 0 : values.Length;
             var indent = 0d;
+            Paragraph prevParagraph = null;
             using (var sr = new StringReader(_undoMan.RestoreText))
             {
                 HighLighter.ClearDefinedVariablesAndFunctions(IsComplex);
@@ -1509,8 +1510,12 @@ namespace Calcpad.Wpf
                             tt.Content = values[i++];
 
                     _document.Blocks.Add(p);
+                    prevParagraph = p;
                 }
             }
+
+            if (j < lineNumber)
+                pointerParagraph = prevParagraph;
             _currentParagraph = pointerParagraph;
             HighLighter.Clear(_currentParagraph);         
             pointer = FindPositionAtOffset(pointerParagraph, offset);
