@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,7 +20,7 @@ namespace Calcpad.Core
         private static readonly string[] NewLines = { "\r\n", "\r", "\n" };
         private static readonly Regex MacrosNamePattern = new(@"^([∡°a-zA-Zα-ωΑ-Ω][a-zA-Zα-ωΑ-Ω,_′″‴⁗ϑøØ°∡0-9.]*\$)");
         private static readonly Regex VariableNamePattern = new(@"^([∡°a-zA-Zα-ωΑ-Ω][a-zA-Zα-ωΑ-Ω,_′″‴⁗ϑøØ°∡0-9.]*)");
-        private static readonly Regex MacrosCallPattern = new(@"([∡°a-zA-Zα-ωΑ-Ω][a-zA-Zα-ωΑ-Ω,_′″‴⁗ϑøØ°∡0-9.]*\$)\((.*?)\)");
+        private static readonly Regex MacrosCallPattern = new(@"([∡°a-zA-Zα-ωΑ-Ω][a-zA-Zα-ωΑ-Ω,_′″‴⁗ϑøØ°∡0-9.]*\$)\((.*)\)");
         private TokenTypes _lineType;
         private bool _isVisible;
         public Settings Settings { get; set; }

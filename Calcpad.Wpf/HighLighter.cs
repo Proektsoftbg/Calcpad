@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Calcpad.Core;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -442,6 +442,7 @@ namespace Calcpad.Wpf
             var isTag = false;
             var isTagComment = false;
             var isArgs = false;
+            var openBracketsInArgs = 0;
             var commandCount = 0;
             var bracketCount = 0;
             var st = s.TrimStart();
@@ -476,6 +477,7 @@ namespace Calcpad.Wpf
                     if (textComment == noComment)
                     {
                         isUnits = false;
+                        isArgs = false;
                         textComment = c;
                         tagComment = c == '\'' ? '"' : '\'';
                         Append(p, t, line);
@@ -561,25 +563,24 @@ namespace Calcpad.Wpf
                         t = nextType;
                     }
                 }
+                else if (c == '(' && isArgs)
+                {
+                    ++openBracketsInArgs;
+                    _stringBuilder.Append(c);
+                }
                 else if ((c == ';' || c == ')') && isArgs)
                 {
                     if (t != Types.Args)
                         t = Types.Error;
 
                     var sepType = Types.Bracket;
-                    switch (c) {
-                        case ';':
-                            if (_stringBuilder.Length == 0 || _stringBuilder[^1] == ';')
-                                sepType = Types.Error;
-                            break;
-                        case ')':
                             if (_stringBuilder.Length != 0 && _stringBuilder[^1] == ';')
-                            {
                                 sepType = Types.Error;
-                            }
+                    if (c == ')' && --openBracketsInArgs == -1)
+                    {
                             _isInMacros = true;
+                        isArgs = false;
                             --bracketCount;
-                            break;
                     }
                     Append(p, t, line);
 
