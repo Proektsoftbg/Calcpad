@@ -574,13 +574,13 @@ namespace Calcpad.Wpf
                         t = Types.Error;
 
                     var sepType = Types.Bracket;
-                            if (_stringBuilder.Length != 0 && _stringBuilder[^1] == ';')
-                                sepType = Types.Error;
+                    if (_stringBuilder.Length != 0 && _stringBuilder[^1] == ';')
+                        sepType = Types.Error;
                     if (c == ')' && --openBracketsInArgs == -1)
                     {
-                            _isInMacros = true;
+                        _isInMacros = true;
                         isArgs = false;
-                            --bracketCount;
+                        --bracketCount;
                     }
                     Append(p, t, line);
 

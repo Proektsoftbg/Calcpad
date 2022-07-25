@@ -418,7 +418,8 @@ namespace Calcpad.Core
                                 var tokens = GetInput(s, kwdLength);
                                 var isFirstLineOfMacros = isSubCall && _callStack.Peek().DefLine + 1 == line;
                                 var isLastLIneOfMacros = isSubCall && _callStack.Peek().EndDefLine - 1 == line;
-                                if (!isFirstLineOfMacros)
+                                var needToOpenTagInSubCall = _lineType == TokenTypes.MacrosCall;
+                                if (!isFirstLineOfMacros || needToOpenTagInSubCall)
                                 {
                                     _lineType = TokenTypes.Text;
                                     if (tokens.Any())
@@ -426,7 +427,7 @@ namespace Calcpad.Core
                                 }
 
                                 var isOutput = _isVisible && (!calculate || kwdLength == 0);
-                                if (isOutput && !isFirstLineOfMacros)
+                                if (isOutput && (!isFirstLineOfMacros || needToOpenTagInSubCall))
                                 {
                                     if (keyword == Keywords.ElseIf || keyword == Keywords.EndIf)
                                         stringBuilder.Append("</div>");
@@ -435,6 +436,7 @@ namespace Calcpad.Core
                                         stringBuilder.Append($"<h3{id}>");
                                     else if (_lineType == TokenTypes.Html)
                                         tokens[0] = new Token(InsertAttribute(tokens[0].Value, id), TokenTypes.Html);
+                                    else if (_lineType == TokenTypes.MacrosCall) {}
                                     else
                                         stringBuilder.Append($"<p{id}>");
 
@@ -453,7 +455,7 @@ namespace Calcpad.Core
 #if BG
                                             stringBuilder.Append($"<p class=\"err\">Грешка в \"{token.Value}\" на ред \"{Line(line)}\": Недефинирано макроси \"{name}$\"</p>");
 #else
-                                            stringBuilder.Append($"<p class=\"err\">Error in \"{token.Value}\" on line \"{Line(line)}\": Undefined macros \"{name}$\"</p>");
+                                            stringBuilder.Append($"<p class=\"err\">Error in \"{token.Value}\" on line \"{Line(line)}\": Undefined macros \"{name}\"</p>");
 #endif
                                             continue;
                                         }
@@ -523,6 +525,7 @@ namespace Calcpad.Core
                                 {
                                     if (_lineType == TokenTypes.Heading)
                                         stringBuilder.Append("</h3>");
+                                    else if (_lineType == TokenTypes.MacrosCall) {}
                                     else if (_lineType != TokenTypes.Html)
                                         stringBuilder.Append("</p>");
 
