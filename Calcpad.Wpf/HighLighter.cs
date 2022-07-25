@@ -581,6 +581,7 @@ namespace Calcpad.Wpf
                         _isInMacros = true;
                         isArgs = false;
                         --bracketCount;
+                        openBracketsInArgs = 0;
                     }
                     Append(p, t, line);
 
