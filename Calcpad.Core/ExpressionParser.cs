@@ -472,7 +472,7 @@ namespace Calcpad.Core
                                             continue;
                                         }
                                         var macros = _definedMacros[name];
-                                        var argsValues = match.Groups[2].Value.Split(";", StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+                                        var argsValues = Macros.ParseArgs(match.Groups[2].Value);
                                         if (argsValues.Length != macros.ArgumentNames.Length)
                                         {
                                             // TODO: BG
@@ -974,7 +974,7 @@ namespace Calcpad.Core
             internal string[] ReplaceArgumentInBody(string[] argumentValues, string[] expressions)
             {
                 var localExpressions = expressions.ToArray();
-                if (BodyRange.GetOffsetAndLength(expressions.Length).Length == 1)
+                if (DefLine == EndDefLine)
                 {
                     var line = expressions[BodyRange.Start.Value].Split('=', 2)[1];
                     localExpressions[BodyRange.Start.Value] = ReplaceArgumentsInLine(argumentValues, line);
@@ -1021,6 +1021,28 @@ namespace Calcpad.Core
                 .Aggregate(str.ToString(),
                     (current, index)
                         => Regex.Replace(current, @$"(?<start>^|[^$#a-zA-Zα-ωΑ-Ω,_′″‴⁗ϑϕøØ°∡0-9.])({ArgumentNames[index]})(?<end>[^$#a-zA-Zα-ωΑ-Ω,_′″‴⁗ϑϕøØ°∡0-9.]|$)", $"${{start}}{argumentValues[index].Replace("$", "$$")}${{end}}"));
+
+            public static string[] ParseArgs(string args)
+            {
+                if (args.Length == 0) return Array.Empty<string>();
+                var semicolonPositions = new List<int>() {-1};
+                var prefSums = new int[args.Length];
+                for (var i = 1; i < args.Length; i++)
+                {
+                    prefSums[i] = args[i] switch
+                    {
+                        '(' => prefSums[i - 1] + 1,
+                        ')' => prefSums[i - 1] - 1,
+                        _ => prefSums[i - 1]
+                    };
+                    if (args[i] == ';' && prefSums[i] == 0) semicolonPositions.Add(i);
+                }
+                semicolonPositions.Add(args.Length);
+                return semicolonPositions
+                    .Bigrams()
+                    .Select(tuple => args[(tuple.Item1+1)..tuple.Item2].Trim())
+                    .ToArray();
+            }
         }
 
     }
