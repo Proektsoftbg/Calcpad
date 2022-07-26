@@ -421,8 +421,8 @@ namespace Calcpad.Core
                             else
                             {
                                 var tokens = GetInput(s, kwdLength);
-                                var isFirstLineOfMacros = isSubCall && _callStack.Peek().DefLine + 1 == line;
-                                var isLastLIneOfMacros = isSubCall && _callStack.Peek().EndDefLine - 1 == line;
+                                var isFirstLineOfMacros = isSubCall && _callStack.Peek().BodyRange.Start.Value == i;
+                                var isLastLIneOfMacros = isSubCall && _callStack.Peek().BodyRange.End.Value - 1 == i;
                                 var needToOpenTagInSubCall = _lineType == TokenTypes.MacrosCall;
                                 if (!isFirstLineOfMacros || needToOpenTagInSubCall)
                                 {
