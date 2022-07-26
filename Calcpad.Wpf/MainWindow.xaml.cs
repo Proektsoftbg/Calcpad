@@ -2204,7 +2204,7 @@ namespace Calcpad.Wpf
             {
                 indent = pp.TextIndent;
                 var s = new TextRange(pp.ContentStart, pp.ContentEnd).Text.ToLowerInvariant();
-                if (s.Length > 0 && s[0] == '#' && (s.StartsWith("#if") || s.StartsWith("#else") || s.StartsWith("#repeat") || s.StartsWith("#def")))
+                if (s.Length > 0 && s[0] == '#' && (s.StartsWith("#if") || s.StartsWith("#else") || s.StartsWith("#repeat") || s.StartsWith("#def") && !s.Contains('=')))
                     indent += AutoIndentStep;
             }
 
@@ -2260,7 +2260,7 @@ namespace Calcpad.Wpf
                     s.StartsWith("#en") ||
                     s.StartsWith("#re") ||
                     s.StartsWith("#lo") ||
-                    s.StartsWith("#de")))
+                    s.StartsWith("#de") && !s.Contains('=')))
                     return false;
                 else if (s.StartsWith("#if") || s.StartsWith("#repeat") || s.StartsWith("#def"))
                 {

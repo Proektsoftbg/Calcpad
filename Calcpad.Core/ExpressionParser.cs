@@ -212,6 +212,11 @@ namespace Calcpad.Core
                                         
                                         _definedMacros[macrosName] = new Macros(line, argsNames.ToArray());
                                         _definitionMacrosStack.Push(macrosName);
+                                        if (s[closeBracket..].Contains('='))
+                                        {
+                                            _definedMacros[macrosName].EndDefLine = line;
+                                            _definitionMacrosStack.Pop();
+                                        }
                                     }
                                 }
                             }
@@ -476,7 +481,7 @@ namespace Calcpad.Core
                                         }
                                         var localExpressions = macros.ReplaceArgumentInBody(argsValues, expressions);
                                         _callStack.Push(macros);
-                                        Parse(localExpressions, calculate, _parser, macros.DefLine, macros.EndDefLine-1);
+                                        Parse(localExpressions, calculate, _parser, macros.BodyRange.Start.Value, macros.BodyRange.End.Value);
                                         _callStack.Pop();
                                         stringBuilder.Append(HtmlResult);
                                         continue;
@@ -956,6 +961,10 @@ namespace Calcpad.Core
             internal int DefLine { get; private set; }
             internal int EndDefLine { get; set; }
             internal string[] ArgumentNames { get; private set; }
+
+            public Range BodyRange => DefLine == EndDefLine
+                ? new Range(new Index(DefLine-1), new Index(DefLine))
+                : new Range(new Index(DefLine), new Index(EndDefLine - 1));
             internal Macros(int defLine, string[] argumentNames)
             {
                 DefLine = defLine;
@@ -965,42 +974,48 @@ namespace Calcpad.Core
             internal string[] ReplaceArgumentInBody(string[] argumentValues, string[] expressions)
             {
                 var localExpressions = expressions.ToArray();
-                for (var j = DefLine; j < EndDefLine - 1; ++j)
+                if (BodyRange.GetOffsetAndLength(expressions.Length).Length == 1)
                 {
-                    var commentSep = '\0';
-                    var newExpression = new StringBuilder();
-                    var commentGroup = new StringBuilder();
-                    foreach (var value in expressions[j])
-                    {
-                        if (commentSep == '\0' && "'\"".Contains(value))
-                        {
-                            commentSep = value;
-                            newExpression.Append(ReplaceArguments(argumentValues, commentGroup));
-                            commentGroup.Clear();
-                        }
-                        else if (value == commentSep)
-                        {
-                            newExpression.Append(commentGroup);
-                            commentGroup.Clear();
-                            commentSep = '\0';
-                        }
-                        commentGroup.Append(value);
-                    }
-
-                    if (commentSep == '\0')
-                    {
-                        newExpression.Append(ReplaceArguments(argumentValues, commentGroup));
-                    }
-                    else
-                    {
-                        newExpression.Append(commentGroup);
-                    }
-                    localExpressions[j] = newExpression.ToString();
+                    var line = expressions[BodyRange.Start.Value].Split('=', 2)[1];
+                    localExpressions[BodyRange.Start.Value] = ReplaceArgumentsInLine(argumentValues, line);
                 }
+                else
+                    for (var j = BodyRange.Start.Value; j < BodyRange.End.Value; ++j)
+                        localExpressions[j] = ReplaceArgumentsInLine(argumentValues, expressions[j]);
 
                 return localExpressions;
             }
-            private string ReplaceArguments(string[] argumentValues, StringBuilder str) => Enumerable
+
+            private string ReplaceArgumentsInLine(string[] argumentValues, string line)
+            {
+                var commentSep = '\0';
+                var newExpression = new StringBuilder();
+                var commentGroup = new StringBuilder();
+                foreach (var value in line)
+                {
+                    if (commentSep == '\0' && "'\"".Contains(value))
+                    {
+                        commentSep = value;
+                        newExpression.Append(ReplaceArgumentsInExpression(argumentValues, commentGroup));
+                        commentGroup.Clear();
+                    }
+                    else if (value == commentSep)
+                    {
+                        newExpression.Append(commentGroup);
+                        commentGroup.Clear();
+                        commentSep = '\0';
+                    }
+                    commentGroup.Append(value);
+                }
+
+                if (commentSep == '\0')
+                    newExpression.Append(ReplaceArgumentsInExpression(argumentValues, commentGroup));
+                else
+                    newExpression.Append(commentGroup);
+                return newExpression.ToString();
+            }
+            
+            private string ReplaceArgumentsInExpression(string[] argumentValues, StringBuilder str) => Enumerable
                 .Range(0, argumentValues.Length)
                 .OrderByDescending(x => ArgumentNames[x].Length)  // don't overwrite 
                 .Aggregate(str.ToString(),
