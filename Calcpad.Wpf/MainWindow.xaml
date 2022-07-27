@@ -737,6 +737,7 @@
                     <MenuItem Click="Button_Click" Tag="#if 'condition§'Your code here§#end if" Header="Simple: if-end if"/>
                     <MenuItem Click="Button_Click" Tag="#if 'condition§'Your code here§#else§'Your code here§#end if" Header="Alternative: if-else-end if"/>
                     <MenuItem Click="Button_Click" Tag="#if 'condition§'Your code here§#else if 'condition§'Your code here§#else§'Some other code§#end if" Header="Complete: if-else if-else-end if"/>
+                    <MenuItem Click="Button_Click" Tag="#def macrosName$(arg1, arg2)§'Your code here§#end def" Header="Simple: def-end def"/>
                 </MenuItem>
                 <MenuItem Header="Iteration">
                     <MenuItem Click="Button_Click" Tag="#repeat 'number of repetitions§'Your code here§#loop" Header="Simple: repeat-loop"/>
@@ -1334,6 +1335,8 @@
                         <ListBoxItem Content="#repeat" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#show" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#val" Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#def" Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#end def" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="$Area{}" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="$Find{}" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="$Inf{}" Foreground="DarkMagenta"/>

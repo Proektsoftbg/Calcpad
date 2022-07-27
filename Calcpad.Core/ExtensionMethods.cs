@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 
 namespace Calcpad.Core
 {
@@ -13,6 +14,19 @@ namespace Calcpad.Core
                 return d1.Equals(d2);
 
             return Math.Abs(l1 - l2) < 4;
+        }
+        
+        public static IEnumerable<Tuple<T, T>> Bigrams<T>(this IEnumerable<T> items)
+        {
+            var firstRun = true;
+            var prev = default(T);
+            foreach (var item in items)
+            {
+                if (!firstRun)
+                    yield return Tuple.Create(prev, item);
+                firstRun = false;
+                prev = item;
+            }
         }
     }
 }

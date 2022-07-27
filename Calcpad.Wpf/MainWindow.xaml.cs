@@ -1,4 +1,4 @@
-﻿using Calcpad.Core;
+using Calcpad.Core;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -18,6 +18,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using DocumentFormat.OpenXml.Drawing.Diagrams;
+using Point = System.Windows.Point;
 using TextElement = System.Windows.Documents.TextElement;
 
 namespace Calcpad.Wpf
@@ -1484,6 +1486,7 @@ namespace Calcpad.Wpf
             int i = 0, j = 0;
             var n = values is null ? 0 : values.Length;
             var indent = 0d;
+            Paragraph prevParagraph = null;
             using (var sr = new StringReader(_undoMan.RestoreText))
             {
                 HighLighter.ClearDefinedVariablesAndFunctions(IsComplex);
@@ -1507,8 +1510,12 @@ namespace Calcpad.Wpf
                             tt.Content = values[i++];
 
                     _document.Blocks.Add(p);
+                    prevParagraph = p;
                 }
             }
+
+            if (j < lineNumber)
+                pointerParagraph = prevParagraph;
             _currentParagraph = pointerParagraph;
             HighLighter.Clear(_currentParagraph);         
             pointer = FindPositionAtOffset(pointerParagraph, offset);
@@ -1923,16 +1930,30 @@ namespace Calcpad.Wpf
                 items.RemoveAt(i);
 
             var lineNumber = CurrentLineNumber;
+            var macroses = HighLighter.GetMacrosesAtLine(lineNumber).ToList();
             foreach (string s in HighLighter.DefinedVariables.Keys)
-                if (HighLighter.DefinedVariables[s] < lineNumber)
+                if (HighLighter.DefinedVariables[s] < lineNumber || macroses.Any())
                     items.Add(new ListBoxItem()
+                    {
+                        Content = s,
+                        Foreground = Brushes.Blue
+                    });
+            foreach (var s in macroses.SelectMany(macros => HighLighter.MacrosVariables[macros]))
+                items.Add(new ListBoxItem()
                     {
                         Content = s,
                         Foreground = Brushes.Blue
                     });
 
             foreach (string s in HighLighter.DefinedFunctions.Keys)
-                if (HighLighter.DefinedFunctions[s] < lineNumber)
+                if (HighLighter.DefinedFunctions[s] < lineNumber || macroses.Any())
+                    items.Add(new ListBoxItem()
+                    {
+                        Content = s + "()",
+                        FontWeight = FontWeights.Bold
+                    });
+            foreach (string s in HighLighter.DefinedMacros.Keys)
+                if (HighLighter.DefinedMacros[s].Item1 < lineNumber || macroses.Any())
                     items.Add(new ListBoxItem()
                     {
                         Content = s + "()",
@@ -2183,7 +2204,7 @@ namespace Calcpad.Wpf
             {
                 indent = pp.TextIndent;
                 var s = new TextRange(pp.ContentStart, pp.ContentEnd).Text.ToLowerInvariant();
-                if (s.Length > 0 && s[0] == '#' && (s.StartsWith("#if") || s.StartsWith("#else") || s.StartsWith("#repeat")))
+                if (s.Length > 0 && s[0] == '#' && (s.StartsWith("#if") || s.StartsWith("#else") || s.StartsWith("#repeat") || s.StartsWith("#def") && !s.Contains('=')))
                     indent += AutoIndentStep;
             }
 
@@ -2238,14 +2259,15 @@ namespace Calcpad.Wpf
                     s.StartsWith("#el") ||
                     s.StartsWith("#en") ||
                     s.StartsWith("#re") ||
-                    s.StartsWith("#lo")))
+                    s.StartsWith("#lo") ||
+                    s.StartsWith("#de") && !s.Contains('=')))
                     return false;
-                else if (s.StartsWith("#if") || s.StartsWith("#repeat"))
+                else if (s.StartsWith("#if") || s.StartsWith("#repeat") || s.StartsWith("#def"))
                 {
                     p.TextIndent = indent;
                     indent += AutoIndentStep;
                 }
-                else if (indent > 0 && (s.StartsWith("#end if") || s.StartsWith("#loop")))
+                else if (indent > 0 && (s.StartsWith("#end if") || s.StartsWith("#loop") || s.StartsWith("#end def")))
                 {
                     indent -= AutoIndentStep;
                     p.TextIndent = indent;

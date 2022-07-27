@@ -1,6 +1,10 @@
-﻿using Calcpad.Core;
+using System;
+using Calcpad.Core;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -17,6 +21,7 @@ namespace Calcpad.Wpf
         private static bool AllowUnaryMinus = true;
         private static Queue<string> values = null;
         private static bool _hasTargetUnitsDelimiter;
+        private static bool _isInMacros = false;
         private static Thickness _thickness = new(0.5);
         private enum Types
         {
@@ -32,7 +37,10 @@ namespace Calcpad.Wpf
             Comment,
             Tag,
             Input,
-            Error
+            Error,
+            MacrosDefinition,
+            Args,
+            Macros
         }
 
         private static readonly Brush[] Colors =
@@ -49,7 +57,10 @@ namespace Calcpad.Wpf
              Brushes.ForestGreen,
              Brushes.DarkOrchid,
              Brushes.Crimson,
-             Brushes.Crimson
+             Brushes.Crimson,
+             Brushes.Blue,
+             Brushes.Blue,
+             Brushes.Blue
         };
 
         private static readonly Brush ErrorBackground = new SolidColorBrush(Color.FromRgb(255, 225, 225));
@@ -115,7 +126,7 @@ namespace Calcpad.Wpf
             "spline"
         };
 
-        internal static readonly HashSet<string> Conditions = new() { "#if", "#else", "#else if", "#end if", "#rad", "#deg", "#val", "#equ", "#show", "#hide", "#pre", "#post", "#repeat", "#loop", "#break" };
+        internal static readonly HashSet<string> Conditions = new() { "#if", "#else", "#else if", "#end if", "#rad", "#deg", "#val", "#equ", "#show", "#hide", "#pre", "#post", "#repeat", "#loop", "#break", "#def", "#end def" };
 
         internal static readonly HashSet<string> Commands = new() { "$find", "$root", "$sup", "$inf", "$area", "$slope", "$repeat", "$sum", "$product", "$plot", "$map" };
 
@@ -124,6 +135,13 @@ namespace Calcpad.Wpf
         internal static readonly HashSet<string> LocalVariables = new();
 
         internal static readonly Dictionary<string, int> DefinedFunctions = new();
+
+        internal static readonly Dictionary<string, (int, int)> DefinedMacros = new();
+
+        internal static readonly Dictionary<string, HashSet<string>> MacrosVariables = new();
+        internal static readonly Regex MacrosDefinitionPattern = new(@"#def ([∡°a-zA-Zα-ωΑ-Ω][a-zA-Zα-ωΑ-Ω,_′″‴⁗øØ°∡0-9.]*\$)\((.*?)\)");
+        internal static readonly Stack<string> MacrosDefinitionStack = new();
+
         private static class TagHelper
         {
             internal enum Tags
@@ -423,6 +441,8 @@ namespace Calcpad.Wpf
             var isPlot = false;
             var isTag = false;
             var isTagComment = false;
+            var isArgs = false;
+            var openBracketsInArgs = 0;
             var commandCount = 0;
             var bracketCount = 0;
             var st = s.TrimStart();
@@ -457,6 +477,7 @@ namespace Calcpad.Wpf
                     if (textComment == noComment)
                     {
                         isUnits = false;
+                        isArgs = false;
                         textComment = c;
                         tagComment = c == '\'' ? '"' : '\'';
                         Append(p, t, line);
@@ -527,6 +548,11 @@ namespace Calcpad.Wpf
                         _stringBuilder.Append(' ');
                     else
                     {
+                        var nextType = Types.None;
+                        if (_stringBuilder.ToString() == "#def")
+                        {
+                            nextType = Types.MacrosDefinition;
+                        }
                         Append(p, t, line);
                         //Spaces are added only if they are leading
                         if (isLeading || t == Types.Condition)
@@ -534,22 +560,49 @@ namespace Calcpad.Wpf
                             _stringBuilder.Append(c);
                             Append(p, Types.None, line);
                         }
-                        t = Types.None;
+                        t = nextType;
                     }
+                }
+                else if (c == '(' && isArgs)
+                {
+                    ++openBracketsInArgs;
+                    _stringBuilder.Append(c);
+                }
+                else if ((c == ';' || c == ')') && isArgs)
+                {
+                    if (t != Types.Args)
+                        t = Types.Error;
+
+                    var sepType = Types.Bracket;
+                    if (_stringBuilder.Length != 0 && _stringBuilder[^1] == ';')
+                        sepType = Types.Error;
+                    if (c == ')' && --openBracketsInArgs == -1)
+                    {
+                        _isInMacros = true;
+                        isArgs = false;
+                        --bracketCount;
+                        openBracketsInArgs = 0;
+                    }
+                    Append(p, t, line);
+
+                    _stringBuilder.Append(c);
+                    Append(p, sepType, line);
                 }
                 else if (c == '{' || c == '(' || c == ')' || c == '}')
                 {
                     if (c == '(')
                     {
                         if (t == Types.Variable)
-                            t = Types.Function;
-                        else if (t != Types.Operator && t != Types.Bracket && t != Types.None)
+                           t = Types.Function;
+                        else if (t == Types.MacrosDefinition || _stringBuilder.Length > 0 &&_stringBuilder[^1] == '$')
+                            isArgs = true;
+                        else if (t != Types.Operator && t != Types.Bracket && t != Types.Macros && t != Types.None)
                             t = Types.Error;
                         ++bracketCount;
                     }
-                    else if (c == ')')
+                    else if (c == ')') {
                         --bracketCount;
-
+                    }
                     Append(p, t, line);
                     if (c == '{')
                     {
@@ -589,8 +642,10 @@ namespace Calcpad.Wpf
                     t = Types.Bracket;
                 }
                 else if (_stringBuilder.Length == 0)
-                {
-                    if (c == '$')
+                {                        
+                    if (isArgs)
+                        t = Types.Args;
+                    else if (c == '$')
                         t = Types.Command;
                     else if (c == '#')
                         t = Types.Condition;
@@ -602,8 +657,10 @@ namespace Calcpad.Wpf
                             t = Types.Error;
                         else if (isUnits || pt == Types.Const || c == '°')
                             t = Types.Units;
+
                         else
-                            t = Types.Variable;
+                            if (t != Types.MacrosDefinition)
+                                t = Types.Variable;
                     }
                     else if (c == '?')
                         t = Types.Input;
@@ -615,6 +672,11 @@ namespace Calcpad.Wpf
 
                     if (t == Types.Input)
                         Append(p, Types.Input, line);
+                }
+                else if (t == Types.Variable && c == '$')
+                {
+                    t = Types.Macros;
+                    _stringBuilder.Append(c);
                 }
                 else if (isComplex && t == Types.Const && c == 'i')
                 {
@@ -668,6 +730,8 @@ namespace Calcpad.Wpf
         {
             DefinedVariables.Clear();
             DefinedFunctions.Clear();
+            DefinedMacros.Clear();
+            DefinedVariables.Clear();
             DefinedVariables.Add("e", -1);
             DefinedVariables.Add("pi", -1);
             DefinedVariables.Add("π", -1);
@@ -683,9 +747,13 @@ namespace Calcpad.Wpf
         internal static void GetDefinedVariablesAndFunctions(IEnumerable<string> lines, bool IsComplex)
         {
             ClearDefinedVariablesAndFunctions(IsComplex);
-            var lineNumber = 0;
-            foreach (var line in lines)
-                GetDefinedVariablesAndFunctions(line, ++lineNumber);
+            foreach (var item in lines.Select((value, i) => new { i, value }))
+            {
+                var line = item.value;
+                var index = item.i;
+
+                GetDefinedVariablesAndFunctions(line, index);
+            }
         }
 
 
@@ -719,7 +787,31 @@ namespace Calcpad.Wpf
                         DefinedVariables.TryAdd(s, lineNumber);
                 }
             }
+            
+            var match = MacrosDefinitionPattern.Match(code);
+            if (match.Success)
+            {
+                var macro = match.Groups[1].Value;
+                var argruments = match.Groups[2].Value
+                    .Split(';', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries).ToHashSet();
+                MacrosVariables[macro] = argruments;
+                DefinedMacros[macro] = (lineNumber, int.MaxValue);
+                MacrosDefinitionStack.Push(macro);
+            }
+            else if (code.Trim().StartsWith("#end def"))
+            {
+                if (MacrosDefinitionStack.Any())
+                {   
+                    var macro = MacrosDefinitionStack.Pop();
+                    DefinedMacros[macro] = (DefinedMacros[macro].Item1, lineNumber);
+                }
+            }
         }
+
+        internal static IEnumerable<string> GetMacrosesAtLine(int lineNumber) =>
+            DefinedMacros
+                .Where(kv => kv.Value.Item1 <= lineNumber && lineNumber <= kv.Value.Item2)
+                .Select(kv => kv.Key);
 
         private static void Append(Paragraph p, Types t, int line)
         {
@@ -729,36 +821,44 @@ namespace Calcpad.Wpf
             var s = _stringBuilder.ToString();
             _stringBuilder.Clear();
 
+            var macroses = GetMacrosesAtLine(line).ToList();
             if (t == Types.Operator)
                 s = FormatOperator(s);
             else if (t == Types.Input)
                 s = "? ";
             else if (t == Types.Function)
             {
-                if (!DefinedFunctions.TryGetValue(s, out int funcLine))
-                    funcLine = int.MaxValue;
+                var isDefined = DefinedFunctions.TryGetValue(s, out int funcLine) ||
+                                macroses.Any(m => MacrosVariables[m].Contains(s));
 
-                if (!Functions.Contains(s) && funcLine > line)
+                if ((!Functions.Contains(s) || !isDefined) && (funcLine > line && !_isInMacros))
                     t = Types.Error;
             }
             else if (t == Types.Variable)
             {
-                int varLine = line;
-                if (!LocalVariables.Contains(s) && 
-                    !DefinedVariables.TryGetValue(s, out varLine))
-                    varLine = int.MaxValue;
-
-                if (varLine > line)
+                var isDefined = DefinedVariables.TryGetValue(s, out int varLine) ||
+                                 LocalVariables.Contains(s) ||
+                                 macroses.Any(m => MacrosVariables[m].Contains(s));
+                if (!isDefined || !macroses.Any() && varLine > line)
                 {
-                    if (MathParser.IsUnit(s))
-                        t = Types.Units;
-                    else
-                        t = Types.Error;
-                } 
+                    t = MathParser.IsUnit(s) ? Types.Units : Types.Error;
+                }
+            }
+            else if (t == Types.Macros)
+            {
+                var pair = (line, int.MaxValue);
+                if (!DefinedMacros.TryGetValue(s, out pair))
+                    pair = (int.MaxValue, int.MaxValue);
+
+                if (pair.Item1 > line)
+                {
+                    t = Types.Error;
+                }
             }
             else if (t == Types.Units && !MathParser.IsUnit(s))
                 t = Types.Error;
-
+            else if (t == Types.MacrosDefinition && !s.EndsWith("$"))
+                t = Types.Error;
             var run = new Run(s);
             s = s.ToLowerInvariant();
 
@@ -766,6 +866,10 @@ namespace Calcpad.Wpf
                 t == Types.Command && !Commands.Contains(s))
                 t = Types.Error;
 
+            if (s.StartsWith("#end def"))
+            {
+                _isInMacros = false;
+            }
             run.Foreground = Colors[(int)t];
             if (t == Types.Error)
             {
