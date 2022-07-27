@@ -1026,16 +1026,16 @@ namespace Calcpad.Core
             {
                 if (args.Length == 0) return Array.Empty<string>();
                 var semicolonPositions = new List<int>() {-1};
-                var prefSums = new int[args.Length];
-                for (var i = 1; i < args.Length; i++)
+                var prefSums = new int[args.Length+1];
+                for (var i = 0; i < args.Length; i++)
                 {
-                    prefSums[i] = args[i] switch
+                    prefSums[i+1] = args[i] switch
                     {
-                        '(' => prefSums[i - 1] + 1,
-                        ')' => prefSums[i - 1] - 1,
-                        _ => prefSums[i - 1]
+                        '(' => prefSums[i] + 1,
+                        ')' => prefSums[i] - 1,
+                        _ => prefSums[i]
                     };
-                    if (args[i] == ';' && prefSums[i] == 0) semicolonPositions.Add(i);
+                    if (args[i] == ';' && prefSums[i+1] == 0) semicolonPositions.Add(i);
                 }
                 semicolonPositions.Add(args.Length);
                 return semicolonPositions
