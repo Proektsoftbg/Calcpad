@@ -310,7 +310,7 @@ namespace Calcpad.Core
             ForceUnits_US[7] = (kipf * m.Pow(3d)).Scale("kipf·ft^3", 0.028316846592);
             ForceUnits_US[8] = (kipf * m.Pow(4d)).Scale("kipf·ft^4", 0.0086309748412416);
 
-            Units = new Dictionary<string, Unit>()
+            Units = new(StringComparer.Ordinal)
             {
                 {string.Empty, null},
                 {"°", new Unit("°", 0f)},

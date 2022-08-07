@@ -34,7 +34,8 @@ namespace Calcpad.Wpf
         internal string SearchString { get; set; }
         internal string ReplaceString { get; set; }
         internal string SelectedText => RichTextBox.Selection.Text;
-        public Directions Direction {
+        public Directions Direction
+        {
             get => _direction;
             set
             {
@@ -52,7 +53,7 @@ namespace Calcpad.Wpf
         internal List<string> SearchList { get; init; } = new();
         internal List<string> ReplaceList { get; init; } = new();
 
-        private Directions _direction;  
+        private Directions _direction;
         private int _col;
 
         internal void InitPosition()
@@ -63,7 +64,7 @@ namespace Calcpad.Wpf
             var p = tp.Paragraph ?? RichTextBox.Document.Blocks.FirstBlock;
             _col = p.ContentStart.GetOffsetToPosition(tp);
             if (_direction == Directions.Up)
-                _col-= 2;
+                _col -= 2;
         }
 
         internal void Find() => FindNext(false);
@@ -89,9 +90,9 @@ namespace Calcpad.Wpf
             var tr = new TextRange(from, to);
             var contentString = tr.Text;
             var lowerCaseContentString = MatchCase ? contentString : contentString.ToLowerInvariant();
-            var len = SearchString.Length; 
+            var len = SearchString.Length;
             var lowerCaseSearchString = MatchCase ? SearchString : SearchString.ToLowerInvariant();
-            int i= 0, j = 0;
+            int i = 0, j = 0;
             BeginReplace(this, null);
             while (j >= 0)
             {
@@ -103,11 +104,11 @@ namespace Calcpad.Wpf
                     if (IsWholeWord(contentString, j, j + len))
                     {
                         sb.Append(ReplaceString);
-                        ++count;                    
+                        ++count;
                     }
                     else
                         sb.Append(SearchString);
-                    i = j + len;           
+                    i = j + len;
                 }
             }
             if (count == 0 && sb.Length == 0)
@@ -151,8 +152,8 @@ namespace Calcpad.Wpf
                 return;
 
             var len = SearchString.Length;
-            var searchString = MatchCase ? 
-                SearchString: 
+            var searchString = MatchCase ?
+                SearchString :
                 SearchString.ToLowerInvariant();
 
             while (p is not null)
@@ -175,7 +176,7 @@ namespace Calcpad.Wpf
                 }
                 if (Direction == Directions.Up)
                 {
-                    _col-= 2;
+                    _col -= 2;
                     if (_col > contentString.Length)
                         _col = contentString.Length;
 
@@ -193,7 +194,7 @@ namespace Calcpad.Wpf
                 bool found = _col >= 0;
                 if (found)
                     found = IsWholeWord(contentString, _col, _col + len);
-               
+
                 if (_col >= 0)
                     _col++;
 

@@ -61,13 +61,18 @@ function tan
 function tanh
 function trunc
 keyword #break
+keyword #def
 keyword #deg
 keyword #else
 keyword #else if
+keyword #end def
 keyword #end if
 keyword #equ
+keyword #global
 keyword #hide
 keyword #if
+keyword #include
+keyword #local
 keyword #loop
 keyword #post
 keyword #pre

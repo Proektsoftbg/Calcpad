@@ -133,7 +133,7 @@ object SyntAnal50: TLibSyntAnalyzer
       DisplayName = 'Keyword'
       StyleName = 'Keyword'
       TokenType = 7
-      Expression = '\#([Rr]epeat|[Ll]oop|[Ss]how|[Hh]ide|[Pp]re|[Pp]ost|[Vv]al|[Ee]qu|[Rr]ad|[Dd]eg|[Ii]f|[Ee]lse\s[Ii]f|[Ee]lse|[Ee]nd\s[Ii]f)\b'
+      Expression = '\#([Rr]epeat|[Ll]oop|[Ss]how|[Hh]ide|[Pp]re|[Pp]ost|[Vv]al|[Ee]qu|[Rr]ad|[Dd]eg|[Ii]f|[Ee]lse\s[Ii]f|[Ee]lse|[Ee]nd\s[Ii]f|[Ii]nclude|[Ll]ocal|[Gg]lobal|[Dd]ef|[Ee]nd\s[Dd]ef)\b'
       ColumnFrom = 0
       ColumnTo = 0
     end

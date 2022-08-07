@@ -9,7 +9,7 @@ namespace Calcpad.Core
         {
             private int _tos;
             private readonly Value[] _stackBuffer = new Value[100];
-            internal readonly HashSet<string> DefinedVariables = new();
+            internal readonly HashSet<string> DefinedVariables = new(StringComparer.Ordinal);
             private readonly MathParser _parser;
             private readonly Container<CustomFunction> _functions;
             private readonly List<SolveBlock> _solveBlocks;
@@ -276,7 +276,7 @@ namespace Calcpad.Core
                 var v = t.Variable;
                 if (v.IsInitialized)
                 {
-                    if (!_parser._isSolver) 
+                    if (!_parser._isSolver)
                         _parser._hasVariables = true;
 
                     return v.Value;

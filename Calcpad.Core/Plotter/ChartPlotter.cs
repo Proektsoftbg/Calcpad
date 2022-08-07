@@ -47,14 +47,14 @@ namespace Calcpad.Core
                 }
                 limits = FixLimits(limits);
                 if (limits.Width == 0 || !double.IsNormal(limits.Width) || ys == limits.Height)
-                {  
+                {
                     if (start.EqualsBinary(end))
                     {
                         var padding = double.IsNormal(limits.Height) ?
                             Math.Max(limits.Height, 0.1) :
                             0.1;
-                        var left = start - padding;    
-                        var right  = end + padding;
+                        var left = start - padding;
+                        var right = end + padding;
                         limits = new Box(left, left, right, right);
                     }
                     else

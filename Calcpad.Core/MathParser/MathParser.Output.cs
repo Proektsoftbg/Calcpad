@@ -79,7 +79,7 @@ namespace Calcpad.Core
                             rpn[2].Content == "=" &&
                             rpn[1].Type == TokenTypes.Solver
                             || rpn.Length == 1 &&
-                            rpn[0].Type == TokenTypes.Solver) 
+                            rpn[0].Type == TokenTypes.Solver)
                         )
                         {
                             string s = RenderRpn(rpn, true, writer, out hasOperators);
@@ -102,10 +102,10 @@ namespace Calcpad.Core
                 }
                 if (format == OutputWriter.OutputFormat.Html || format == OutputWriter.OutputFormat.Text)
                     _parser._backupVariable = new(null, Value.Zero);
-                return _stringBuilder.ToString(); 
+                return _stringBuilder.ToString();
             }
 
-            
+
 
             private static readonly int PlusOrder = Calculator.OperatorOrder[Calculator.OperatorIndex['+']];
             private static readonly int MinusOrder = Calculator.OperatorOrder[Calculator.OperatorIndex['-']];
@@ -153,8 +153,8 @@ namespace Calcpad.Core
                     else if (tt == TokenTypes.Variable)
                     {
                         var vt = (VariableToken)rpn[i];
-                        var v = i > 0 && vt.Content == _parser._backupVariable.Key?
-                            _parser._backupVariable.Value:
+                        var v = i > 0 && vt.Content == _parser._backupVariable.Key ?
+                            _parser._backupVariable.Value :
                             vt.Variable.Value;
                         if (substitute)
                         {
@@ -167,7 +167,7 @@ namespace Calcpad.Core
                         else
                         {
                             var s = !_parser._settings.Substitute && _parser._functionDefinitionIndex < 0 && _parser._isCalculated ?
-                                textWriter.FormatValue(v, _decimals):
+                                textWriter.FormatValue(v, _decimals) :
                                 string.Empty;
                             t.Content = writer.FormatVariable(t.Content, s);
                         }
@@ -231,7 +231,7 @@ namespace Calcpad.Core
                                 }
                                 else
                                 {
-                                    var formatEquation = writer is not TextWriter && 
+                                    var formatEquation = writer is not TextWriter &&
                                         (_formatEquations && content == "/" || content == "÷");
                                     if (
                                             !formatEquation &&
@@ -365,8 +365,8 @@ namespace Calcpad.Core
                         }
                         else
                         {
-                            t.Content = (tt == TokenTypes.Function ? 
-                                writer.FormatFunction(t.Content) : 
+                            t.Content = (tt == TokenTypes.Function ?
+                                writer.FormatFunction(t.Content) :
                                 writer.FormatVariable(t.Content, string.Empty)) + writer.AddBrackets(sb, b.Level);
                             t.Level = b.Level;
                             hasOperators = true;

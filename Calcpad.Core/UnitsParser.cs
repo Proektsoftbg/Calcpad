@@ -503,9 +503,7 @@ namespace Calcpad.Core
             }
         }
 
-        private static bool IsNegative(Token t)
-        {
-            return t.Order == Token.DefaultOrder && t.Content.Length > 0 && t.Content[0] == '-';
-        }
+        private static bool IsNegative(Token t) =>
+            t.Order == Token.DefaultOrder && t.Content.Length > 0 && t.Content[0] == '-';
     }
 }

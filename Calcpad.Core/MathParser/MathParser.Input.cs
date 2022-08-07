@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace Calcpad.Core
     {
         private class Input
         {
-            internal readonly HashSet<string> DefinedVariables = new();
+            internal readonly HashSet<string> DefinedVariables = new(StringComparer.Ordinal);
             private static readonly TokenTypes[] CharTypes = new TokenTypes[127];
             private readonly MathParser _parser;
             private readonly Container<CustomFunction> _functions;
@@ -72,7 +73,7 @@ namespace Calcpad.Core
                 <= '~' => CharTypes[c],
                 >= 'Α' and <= 'Ω' or >= 'α' and <= 'ω' or 'ϕ' or 'ϑ' => TokenTypes.Unit,
                 '≡' or '≠' or '≤' or '≥' or '÷' => TokenTypes.Operator,
-                '°' or '′' or '″' or '‴' or '⁗' or 'ø' or 'Ø'  or '∡' => TokenTypes.Unit,
+                '°' or '′' or '″' or '‴' or '⁗' or 'ø' or 'Ø' or '∡' => TokenTypes.Unit,
                 _ => TokenTypes.Error,
             };
 
@@ -100,6 +101,12 @@ namespace Calcpad.Core
                     var tt = GetCharType(c); //Get the type from predefined array
                     if (tt == TokenTypes.Solver && !isSolver)
                     {
+                        if (tokenLiteral.Length > 0)
+#if BG
+                            throw new MathParserException($"Невалидeн идентификатор на макро '{tokenLiteral}$'.");
+#else
+                            throw new MathParserException($"Invalid macro identifier: '{tokenLiteral}$'.");
+#endif
                         _stringBuilder.Clear();
                         isSolver = true;
                     }
@@ -154,9 +161,9 @@ namespace Calcpad.Core
 #else
                             throw new MathParserException($"Invalid symbol '{c}'.");
 #endif
-                        if (tt == TokenTypes.Constant && 
-                            string.IsNullOrEmpty(unitsLiteral) || 
-                            tt == TokenTypes.Unit || 
+                        if (tt == TokenTypes.Constant &&
+                            string.IsNullOrEmpty(unitsLiteral) ||
+                            tt == TokenTypes.Unit ||
                             tt == TokenTypes.Variable)
                         {
                             if (pt == TokenTypes.Unit || pt == TokenTypes.Variable)
@@ -167,9 +174,9 @@ namespace Calcpad.Core
                                 else
                                     tt = TokenTypes.Variable;
                             }
-                            else if (_parser._settings.IsComplex && 
-                                c == 'i' && 
-                                pt == TokenTypes.Constant 
+                            else if (_parser._settings.IsComplex &&
+                                c == 'i' &&
+                                pt == TokenTypes.Constant
                                 && string.IsNullOrEmpty(unitsLiteral))
                             {
                                 var j = i + 1;
@@ -227,24 +234,23 @@ namespace Calcpad.Core
                                 {
                                     if (tt == TokenTypes.BracketLeft)
                                     {
-                                        var functionLiteral = tokenLiteral.ToLowerInvariant();
-                                        if (Calculator.IsFunction(functionLiteral))
-                                            t = new Token(functionLiteral, TokenTypes.Function)
+                                        if (Calculator.IsFunction(tokenLiteral))
+                                            t = new Token(tokenLiteral, TokenTypes.Function)
                                             {
-                                                Index = Calculator.FunctionIndex[functionLiteral]
+                                                Index = Calculator.FunctionIndex[tokenLiteral]
                                             };
-                                        else if (Calculator.IsFunction2(functionLiteral))
-                                            t = new Token(functionLiteral, TokenTypes.Function2)
+                                        else if (Calculator.IsFunction2(tokenLiteral))
+                                            t = new Token(tokenLiteral, TokenTypes.Function2)
                                             {
-                                                Index = Calculator.Function2Index[functionLiteral]
+                                                Index = Calculator.Function2Index[tokenLiteral]
                                             };
-                                        else if (Calculator.IsMultiFunction(functionLiteral))
-                                            t = new FunctionToken(functionLiteral)
+                                        else if (Calculator.IsMultiFunction(tokenLiteral))
+                                            t = new FunctionToken(tokenLiteral)
                                             {
-                                                Index = Calculator.MultiFunctionIndex[functionLiteral]
+                                                Index = Calculator.MultiFunctionIndex[tokenLiteral]
                                             };
-                                        else if (functionLiteral == "if")
-                                            t = new Token(functionLiteral, TokenTypes.If);
+                                        else if (tokenLiteral.Equals("if", StringComparison.OrdinalIgnoreCase))
+                                            t = new Token(tokenLiteral, TokenTypes.If);
                                         else
                                         {
                                             var index = _functions.IndexOf(tokenLiteral);
@@ -312,9 +318,9 @@ namespace Calcpad.Core
                                     {
                                         Index = Calculator.FunctionIndex[NegateString]
                                     };
-                                else if (c == '!') 
-                                { 
-                                    if(pt == TokenTypes.Constant || pt == TokenTypes.BracketRight || pt == TokenTypes.Variable)
+                                else if (c == '!')
+                                {
+                                    if (pt == TokenTypes.Constant || pt == TokenTypes.BracketRight || pt == TokenTypes.Variable)
                                         t = new Token('!', TokenTypes.Function)
                                         {
                                             Index = Calculator.FunctionIndex["fact"]

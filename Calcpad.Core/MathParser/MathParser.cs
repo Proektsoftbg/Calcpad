@@ -7,14 +7,13 @@ namespace Calcpad.Core
 {
     public partial class MathParser
     {
-        internal delegate string GetInputDelegate();
-        internal GetInputDelegate GetInputField;
+        internal Func<string> GetInputField;
         private readonly StringBuilder _stringBuilder = new();
         private readonly MathSettings _settings;
         private Token[] _rpn;
         private readonly List<SolveBlock> _solveBlocks = new();
         private readonly Container<CustomFunction> _functions = new();
-        private readonly Dictionary<string, Variable> _variables = new();
+        private readonly Dictionary<string, Variable> _variables = new(StringComparer.Ordinal);
         private readonly Input _input;
         private readonly Evaluator _evaluator;
         private readonly Calculator _calc;
@@ -70,15 +69,15 @@ namespace Calcpad.Core
         {
             _settings = settings;
             InitVariables();
-             if (_settings.IsComplex)
+            if (_settings.IsComplex)
                 _calc = new ComplexCalculator();
             else
                 _calc = new RealCalculator();
 
             Degrees = settings.Degrees;
             _solver = new Solver();
-           _input = new Input(this);
-            _evaluator = new Evaluator(this);   
+            _input = new Input(this);
+            _evaluator = new Evaluator(this);
             _compiler = new Compiler(this);
             _output = new Output(this);
         }

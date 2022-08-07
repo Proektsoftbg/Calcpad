@@ -354,7 +354,7 @@ namespace Calcpad.Core
             var eps = Math.Max(Precision, 1e-12) * Math.Abs(h) / 2.0;
             var a0 = h * (y1 + 4 * y2 + y3);
             double area = Simpson(left, right, y1, y2, y3, a0, eps, 1);
-            return  Math.CopySign(area / 3.0, h);
+            return Math.CopySign(area / 3.0, h);
         }
 
         private double Simpson(double x1, double x3, double y1, double y2, double y3, double a0, double eps, int depth)
