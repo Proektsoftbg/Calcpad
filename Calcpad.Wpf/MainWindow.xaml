@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     x:Class="Calcpad.Wpf.MainWindow"
     Closing="Window_Closing" 
-    Title=" Calcpad 5.7.1" 
+    Title=" Calcpad 5.8" 
     Height="800" 
     Width="1200"
     WindowStartupLocation="CenterScreen"
@@ -11,7 +11,7 @@
     HorizontalContentAlignment="Center" 
     KeyUp="Window_KeyUp" 
     Icon="Resources/calcpad.ico" 
-    Unloaded="Window_Unloaded" Loaded="Window_Loaded" WindowStyle="ThreeDBorderWindow">
+    Unloaded="Window_Unloaded" Loaded="Window_Loaded" WindowStyle="ThreeDBorderWindow" Activated="Window_Activated">
     <Window.Resources>
         <Style TargetType="{x:Type Button}">
             <Style.Triggers>
@@ -1085,9 +1085,10 @@
             </ComboBox>
             <CheckBox Click="SmoothCheckBox_Clicked" x:Name="SmoothCheckBox" Content="Smooth" Height="16" VerticalAlignment="Top"
                 ToolTip="Smooth shading for surface map" Background="White" HorizontalAlignment="Right" TabIndex="15" Margin="5,0,0,0"/>
+            <CheckBox x:Name="CodeCheckBox" Content="Show unwarped source code in output" Height="16" VerticalAlignment="Center"
+                ToolTip="Show unwarped source code in the output, when macros or includes are available" Background="White" HorizontalAlignment="Left" TabIndex="16"  Margin="5,0,0,0" FontWeight="Normal" FontFamily="Segoe UI Semibold" Click="CodeCheckBox_Clicked" Visibility="Hidden"/>
             <Image x:Name="Logo" Source="Resources/logo.png" Height="20"
                 VerticalAlignment="Top" HorizontalAlignment="Right" Width="2000" Margin="0,0,10,0" Cursor="Hand" MouseUp="Logo_MouseUp"/>
-            <Grid/>
         </StatusBar>
         <Grid x:Name="FramesGrid" Margin="0,1,0,35" Grid.Row="1" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
@@ -1320,13 +1321,18 @@
                              PreviewMouseLeftButtonUp="AutoCompleteListBox_PreviewMouseLeftButtonUp" 
                              PreviewKeyDown="AutoCompleteListBox_PreviewKeyDown">
                         <ListBoxItem Content="#break" Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#def" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#deg" Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="#else if" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#else" Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#else if" Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#end def" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#end if" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#equ" Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#global" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#hide" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#if" Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#include" Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#local" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#loop" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#post" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#pre" Foreground="DarkMagenta"/>

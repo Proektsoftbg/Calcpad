@@ -19,7 +19,7 @@ namespace Calcpad.Wpf
         {
             using var g = Graphics.FromHwnd(IntPtr.Zero);
             var factor = (g.DpiX + g.DpiY) / 192.0;
-            return factor;  
+            return factor;
         }
     }
 }

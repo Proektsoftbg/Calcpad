@@ -36,7 +36,7 @@ namespace Calcpad.Core
             { '=', 13 }
         };
 
-        internal static readonly Dictionary<string, int> FunctionIndex = new()
+        internal static readonly Dictionary<string, int> FunctionIndex = new(StringComparer.OrdinalIgnoreCase)
         {
             { "sin", 0 },
             { "cos", 1 },
@@ -82,14 +82,14 @@ namespace Calcpad.Core
             { "‐", 41 }
         };
 
-        internal static readonly Dictionary<string, int> Function2Index = new()
+        internal static readonly Dictionary<string, int> Function2Index = new(StringComparer.OrdinalIgnoreCase)
         {
             { "atan2", 0 },
             { "root", 1 },
             { "mandelbrot", 2 }
         };
 
-        internal static readonly Dictionary<string, int> MultiFunctionIndex = new()
+        internal static readonly Dictionary<string, int> MultiFunctionIndex = new(StringComparer.OrdinalIgnoreCase)
         {
             { "min", 0 },
             { "max", 1 },

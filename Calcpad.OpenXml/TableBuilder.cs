@@ -45,9 +45,7 @@ namespace Calcpad.OpenXml
 
         public TableRow AddTableRow()
         {
-            var temp = _prevRowSpan;
-            _prevRowSpan = _currentRowSpan;
-            _currentRowSpan = temp;
+            (_currentRowSpan, _prevRowSpan) = (_prevRowSpan, _currentRowSpan);
             _currentRowSpan.Clear();
             _currentRow = new TableRow();
             return _currentRow;

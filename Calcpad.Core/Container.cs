@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Calcpad.Core
 {
@@ -6,7 +7,7 @@ namespace Calcpad.Core
     {
         internal int Count { get; private set; }
         internal string LastName { get; private set; }
-        private readonly Dictionary<string, int> _index = new();
+        private readonly Dictionary<string, int> _index = new(StringComparer.Ordinal);
         private readonly T[] _values = new T[1000];
 
         internal int Add(string name, T value)

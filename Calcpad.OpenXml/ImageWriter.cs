@@ -14,7 +14,7 @@ namespace Calcpad.OpenXml
         internal static OpenXmlElement AddImage(string src, string url, string name, int width, int height, MainDocumentPart mainPart)
         {
             ImageProcessor imageProcessor;
-            if (src.StartsWith("data:image/"))
+            if (src.StartsWith("data:image/", StringComparison.OrdinalIgnoreCase))
                 imageProcessor = new Base64ImageProcessor(src);
             else if (src.Contains('/'))
             {
@@ -22,9 +22,9 @@ namespace Calcpad.OpenXml
                     src = url + src;
 
                 var slash = '/';
-                if (src.StartsWith("file:///"))
+                if (src.StartsWith("file:///", StringComparison.OrdinalIgnoreCase))
                 {
-                    src = src[8..].Replace('/', '\\');  ; 
+                    src = src[8..].Replace('/', '\\'); ;
                     imageProcessor = new FileImageProcessor(src);
                     slash = '\\';
                 }

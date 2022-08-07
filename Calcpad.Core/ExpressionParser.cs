@@ -7,7 +7,25 @@ namespace Calcpad.Core
 {
     public class ExpressionParser
     {
-        private enum Keywords { None, Hide, Show, Pre, Post, Val, Equ, Deg, Rad, Repeat, Loop, Break, If, ElseIf, Else, EndIf }
+        private enum Keywords
+        {
+            None,
+            Hide,
+            Show,
+            Pre,
+            Post,
+            Val,
+            Equ,
+            Deg,
+            Rad,
+            Repeat,
+            Loop,
+            Break,
+            If,
+            ElseIf,
+            Else,
+            EndIf
+        }
         private readonly List<string> _inputFields = new();
         private int _currentField;
         private bool _isVal;
@@ -20,6 +38,7 @@ namespace Calcpad.Core
             get => Unit.IsUs;
             set => Unit.IsUs = value;
         }
+
         public ExpressionParser()
         {
             Settings = new Settings();
@@ -44,72 +63,98 @@ namespace Calcpad.Core
             return _inputFields[_currentField++];
         }
 
-        public void Parse(string expressions, bool calculate = true) =>
-            Parse(expressions.Split(NewLines, StringSplitOptions.None), calculate);
+        public void Parse(string sourceCode, bool calculate = true) =>
+            Parse(sourceCode.Split(NewLines, StringSplitOptions.None), calculate);
 
         private static Keywords GetKeyword(string s)
         {
-
-            if (s[1] == 'i' && s[2] == 'f')
+            if (s[1] == 'i' &&
+                s[2] == 'f')
                 return Keywords.If;
-            if (s.Length < 4)
+
+            var n = s.Length;
+            if (n < 4)
                 return Keywords.None;
+
             if (s[1] == 'e')
             {
-                if (s[2] == 'l' && s[3] == 's' && s.Length > 4 && s[4] == 'e')
+                if (s[2] == 'l' &&
+                    s[3] == 's' && n > 4 &&
+                    s[4] == 'e')
                 {
-                    if (s.Length > 7 && s[5] == ' ' && s[6] == 'i' && s[7] == 'f')
+                    if (n > 7 && s[5] == ' ' &&
+                        s[6] == 'i' &&
+                        s[7] == 'f')
                         return Keywords.ElseIf;
 
                     return Keywords.Else;
                 }
-                if (s[2] == 'n' && s[3] == 'd' && s.Length > 6 && s[4] == ' ' && s[5] == 'i' && s[6] == 'f')
-                    return Keywords.EndIf;
-                if (s[2] == 'q' && s[3] == 'u')
+                if (s[2] == 'n' &&
+                    s[3] == 'd' && n > 6 &&
+                    s[4] == ' ')
+                {
+                    if (s[5] == 'i' &&
+                        s[6] == 'f')
+                        return Keywords.EndIf;
+                }
+                if (s[2] == 'q' &&
+                    s[3] == 'u')
                     return Keywords.Equ;
             }
-            else if (s[1] == 'v' && s[2] == 'a' && s[3] == 'l')
+            if (s.StartsWith("#val", StringComparison.Ordinal))
                 return Keywords.Val;
-            else if (s[1] == 'h' && s[2] == 'i' && s[3] == 'd' && s.Length > 4 && s[4] == 'e')
+            if (s.StartsWith("#hide", StringComparison.Ordinal))
                 return Keywords.Hide;
-            else if (s[1] == 's' && s[2] == 'h' && s[3] == 'o' && s.Length > 4 && s[4] == 'w')
+            if (s.StartsWith("#show", StringComparison.Ordinal))
                 return Keywords.Show;
-            else if (s[1] == 'p')
+            if (s[1] == 'p')
             {
-                if (s[2] == 'r' && s[3] == 'e')
+                if (s[2] == 'r' &&
+                    s[3] == 'e')
                     return Keywords.Pre;
 
-                if (s[2] == 'o' && s[3] == 's' && s.Length > 4 && s[4] == 't')
+                if (s[2] == 'o' &&
+                    s[3] == 's' && s.Length > 4 &&
+                    s[4] == 't')
                     return Keywords.Post;
             }
-            else if (s[1] == 'd' && s[2] == 'e' && s[3] == 'g')
+            if (s.StartsWith("#deg", StringComparison.Ordinal))
                 return Keywords.Deg;
-            else if (s[1] == 'r')
+            if (s[1] == 'r')
             {
-                if (s[2] == 'a' && s[3] == 'd')
+                if (s[2] == 'a' &&
+                    s[3] == 'd')
                     return Keywords.Rad;
 
-                if (s[2] == 'e' && s[3] == 'p' && s.Length > 6 && s[4] == 'e' && s[5] == 'a' && s[6] == 't')
+                if (s[2] == 'e' &&
+                    s[3] == 'p' && n > 6 &&
+                    s[4] == 'e' &&
+                    s[5] == 'a' &&
+                    s[6] == 't')
                     return Keywords.Repeat;
             }
-            else if (s[1] == 'l' && s[2] == 'o' && s[3] == 'o' && s.Length > 4 && s[4] == 'p')
+            if (s.StartsWith("#loop", StringComparison.Ordinal))
                 return Keywords.Loop;
-            else if (s[1] == 'b' && s[2] == 'r' && s[3] == 'e' && s.Length > 5 && s[4] == 'a' && s[5] == 'k')
+            if (s.StartsWith("#break", StringComparison.Ordinal))
                 return Keywords.Break;
 
             return Keywords.None;
         }
+
         public void Cancel() => _parser?.Cancel();
-        public void Parse(string[] expressions, bool calculate = true)
+
+        private void Parse(string[] expressions, bool calculate = true)
         {
             var stringBuilder = new StringBuilder(expressions.Length * 80);
             var condition = new ConditionParser();
-            _parser = new MathParser(Settings.Math);
-            var loops = new Stack<Loop>();
+            _parser = new MathParser(Settings.Math)
+            {
+                GetInputField = GetInputField
+            };
             _isVal = false;
+            var loops = new Stack<Loop>();
             var isVisible = true;
             _parser.IsEnabled = calculate;
-            _parser.GetInputField += GetInputField;
             _parser.SetVariable("Units", new Value(UnitsFactor()));
             var line = 0;
             var len = expressions.Length - 1;
@@ -131,12 +176,12 @@ namespace Calcpad.Core
 
                         continue;
                     }
-                    var lower = s.ToLowerInvariant();
+                    var lowerCase = s.ToLowerInvariant();
                     var keyword = Keywords.None;
                     if (s[0] == '#')
                     {
                         var isKeyWord = true;
-                        keyword = GetKeyword(lower);
+                        keyword = GetKeyword(lowerCase);
                         if (keyword == Keywords.Hide)
                             isVisible = false;
                         else if (keyword == Keywords.Show)
@@ -172,20 +217,16 @@ namespace Calcpad.Core
                                             _parser.Calculate();
                                             if (_parser.Real > int.MaxValue)
 #if BG
-                                                stringBuilder.Append($"<p class=\"err\">Грешка в \"{s}\" на ред {Line(line)}: Броят на итерациите е по-голям от максималния {int.MaxValue}.</p>");
+                                                AppendError($"Броят на итерациите е по-голям от максималния {int.MaxValue}.</p>");
 #else
-                                                stringBuilder.Append($"<p class=\"err\">Error in \"{s}\" on line{Line(line)}: Number of iterations exceeds the maximum {int.MaxValue}.</p>");
+                                                AppendError($"Number of iterations exceeds the maximum {int.MaxValue}.</p>");
 #endif
                                             else
                                                 count = (int)Math.Round(_parser.Real);
                                         }
                                         catch (MathParser.MathParserException ex)
                                         {
-#if BG
-                                            stringBuilder.Append($"<p class=\"err\">Грешка в \"{s}\" на ред {Line(line)}: {ex.Message}</p>");
-#else
-                                            stringBuilder.Append($"<p class=\"err\">Error in \"{s}\" on line {Line(line)}: {ex.Message}</p>");
-#endif                                        
+                                            AppendError(ex.Message);
                                         }
                                     }
                                     else
@@ -207,11 +248,7 @@ namespace Calcpad.Core
                                     }
                                     catch (MathParser.MathParserException ex)
                                     {
-#if BG
-                                        stringBuilder.Append($"<p class=\"err\">Грешка в \"{s}\" на ред {Line(line)}: {ex.Message}</p>");
-#else                                        
-                                        stringBuilder.Append($"<p class=\"err\">Error in \"{s}\" on line {Line(line)}: {ex.Message}</p>");
-#endif                                 
+                                        AppendError(ex.Message);
                                     }
                                 }
                             }
@@ -224,15 +261,15 @@ namespace Calcpad.Core
                                 {
                                     if (!loops.Any())
 #if BG
-                                        stringBuilder.Append($"<p class=\"err\">Грешка в \"{s}\" на ред {Line(line)}: \"#loop\" без съответен \"#repeat\".</p>");
+                                        AppendError(\"#loop\" без съответен \"#repeat\".");
 #else                                    
-                                        stringBuilder.Append($"<p class=\"err\">Error in \"{s}\" on line {Line(line)}: \"#loop\" without a corresponding \"#repeat\".</p>");
+                                        AppendError("\"#loop\" without a corresponding \"#repeat\".");
 #endif                                    
                                     else if (loops.Peek().Id != condition.Id)
 #if BG
-                                        stringBuilder.Append($"<p class=\"err\">Грешка в \"{s}\" на ред {Line(line)}: Преплитане на \"#if - #end if\" и \"#repeat - #loop\" блокове .</p>");
+                                        AppendError("Преплитане на \"#if - #end if\" и \"#repeat - #loop\" блокове.");
 #else
-                                        stringBuilder.Append($"<p class=\"err\">Error in \"{s}\" on line {Line(line)}: Entangled \"#if - #end if\" and \"#repeat - #loop\" blocks.</p>");
+                                        AppendError("Entangled \"#if - #end if\" and \"#repeat - #loop\" blocks.");
 #endif
                                     else if (condition.IsSatisfied && !loops.Peek().Iterate(ref i))
                                         loops.Pop();
@@ -264,12 +301,13 @@ namespace Calcpad.Core
                         if (isKeyWord)
                             continue;
                     }
-                    if (lower.StartsWith("$plot") || lower.StartsWith("$map"))
+                    if (lowerCase.StartsWith("$plot", StringComparison.Ordinal) || 
+                        lowerCase.StartsWith("$map", StringComparison.Ordinal))
                     {
                         if (isVisible && (condition.IsSatisfied || !calculate))
                         {
                             PlotParser plotParser;
-                            if (lower.StartsWith("$p"))
+                            if (lowerCase.StartsWith("$p", StringComparison.Ordinal))
                                 plotParser = new ChartParser(_parser, Settings.Plot);
                             else
                                 plotParser = new MapParser(_parser, Settings.Plot);
@@ -283,11 +321,7 @@ namespace Calcpad.Core
                             }
                             catch (MathParser.MathParserException ex)
                             {
-#if BG                                
-                                stringBuilder.Append($"<p class=\"err\">Грешка в \"{s}\" на ред {Line(line)}: {ex.Message}</p>");
-#else                                
-                                stringBuilder.Append($"<p class=\"err\">Error in \"{s}\" on line {Line(line)}: {ex.Message}</p>");
-#endif                            
+                                AppendError(ex.Message);
                             }
                         }
                     }
@@ -365,16 +399,16 @@ namespace Calcpad.Core
                                         catch (MathParser.MathParserException ex)
                                         {
                                             string errText;
-                                            if (!calculate && token.Value.Contains('?'))
+                                            if (!calculate && token.Value.Contains('?', StringComparison.Ordinal))
                                                 errText = token.Value.Replace("?", "<input type=\"text\" size=\"2\" name=\"Var\">");
                                             else
                                                 errText = token.Value;
 #if BG
-                                            errText = $"<p class=\"err\">Грешка в \"{errText}\" на ред {Line(line)}: {ex.Message}</p>";
+                                            errText = $"Грешка в \"{errText}\" на ред {LineHtml(line)}: {ex.Message}";
 #else      
-                                            errText = $"<p class=\"err\">Error in \"{errText}\" on line {Line(line)}: {ex.Message}</p>";
+                                            errText = $"Error in \"{errText}\" on line {LineHtml(line)}: {ex.Message}";
 #endif
-                                            stringBuilder.Append(errText);
+                                            stringBuilder.Append(ErrHtml(errText));
                                         }
                                     }
                                     else if (isVisible)
@@ -408,31 +442,27 @@ namespace Calcpad.Core
                 ApplyUnits(stringBuilder, calculate);
                 if (condition.Id > 0 && line == len)
 #if BG
-                    stringBuilder.Append($"<p class=\"err\">Грешка: Условният \"#if\" блок не е затворен. Липсва \"#end if\"</p>");
+                    stringBuilder.Append(ErrHtml($"Грешка: Условният \"#if\" блок не е затворен. Липсва \"#end if\"."));
 #else
-                    stringBuilder.Append($"<p class=\"err\">Error: \"#if\" block not closed. Missing \"#end if\"</p>");
+                    stringBuilder.Append(ErrHtml($"Error: \"#if\" block not closed. Missing \"#end if\"."));
 #endif
                 if (loops.Any())
 #if BG
-                    stringBuilder.Append($"<p class=\"err\">Грешка: Блокът за цикъл \"#repeat\" не е затворен. Липсва \"#loop\"</p>");
+                    stringBuilder.Append(ErrHtml($"Грешка: Блокът за цикъл \"#repeat\" не е затворен. Липсва \"#loop\"."));
 #else
-                    stringBuilder.Append($"<p class=\"err\">Error: \"#repeat\" block not closed. Missing \"#loop\"</p>");
+                    stringBuilder.Append(ErrHtml($"<p class=\"err\">Error: \"#repeat\" block not closed. Missing \"#loop\"."));
 #endif
             }
             catch (MathParser.MathParserException ex)
             {
-#if BG
-                stringBuilder.Append($"<p class=\"err\">Грешка в \"{s}\" на ред {Line(line)}: {ex.Message}</p>");
-#else
-                stringBuilder.Append($"<p class=\"err\">Error in \"{s}\" on line {Line(line)}: {ex.Message}</p>");
-#endif
+                AppendError(ex.Message);
             }
             catch (Exception ex)
             {
 #if BG
-                stringBuilder.Append($"<p class=\"err\">Неочаквана грешка: {ex.Message} Моля проверете коректността на израза.</p>");
+                stringBuilder.Append(ErrHtml($"Неочаквана грешка: {ex.Message} Моля проверете коректността на израза."));
 #else
-                stringBuilder.Append($"<p class=\"err\">Unexpected error: {ex.Message} Please check the expression consistency.</p>");
+                stringBuilder.Append(ErrHtml($"Unexpected error: {ex.Message} Please check the expression consistency."));
 #endif
             }
             finally
@@ -440,14 +470,19 @@ namespace Calcpad.Core
                 HtmlResult = stringBuilder.ToString();
                 _parser = null;
             }
-
-            static string Line(int line) => $"[<a href=\"#0\" data-text=\"{line}\">{line}</a>]";
-
+            string AppendError(string text) =>
+#if BG
+                ErrHtml($"Грешка в \"{s}\" на ред {LineHtml(line)}: {text}</p>");
+#else
+                ErrHtml($"Error in \"{s}\" on line {LineHtml(line)}: {text}</p>");
+#endif
+            static string ErrHtml(string text) => $"<p class=\"err\">{text}</p>";
+            static string LineHtml(int line) => $"[<a href=\"#0\" data-text=\"{line}\">{line}</a>]";
         }
 
         private static string InsertAttribute(string s, string attr)
         {
-            if (s.StartsWith('<') && s.Length > 2)
+            if (s.Length > 2 && s[0] == '<')
             {
                 if (char.IsLetter(s[1]))
                 {
@@ -793,7 +828,7 @@ namespace Calcpad.Core
                 return true;
             }
 
-            internal void Disable() => _iteration = 0;  
+            internal void Disable() => _iteration = 0;
         }
     }
 }

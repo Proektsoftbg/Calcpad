@@ -12,8 +12,9 @@ namespace Calcpad.Core
         private bool _degrees;
         internal override bool Degrees
         {
-            set { 
-                _degrees = value; 
+            set
+            {
+                _degrees = value;
                 _functions = value ? DegFunctions : RadFunctions;
             }
             get => _degrees;

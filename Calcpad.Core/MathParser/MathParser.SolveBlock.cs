@@ -24,7 +24,7 @@ namespace Calcpad.Core
                 Error
             }
 
-            private static readonly Dictionary<string, SolverTypes> Definitions = new()
+            private static readonly Dictionary<string, SolverTypes> Definitions = new(StringComparer.OrdinalIgnoreCase)
             {
                 { "$find", SolverTypes.Find },
                 { "$root", SolverTypes.Root },
@@ -69,7 +69,7 @@ namespace Calcpad.Core
 
             internal static SolverTypes GetSolverType(string keyword)
             {
-                var s = keyword.Trim().ToLowerInvariant();
+                var s = keyword.Trim();
                 if (Definitions.ContainsKey(s))
                     return Definitions[s];
 
@@ -365,7 +365,7 @@ namespace Calcpad.Core
             {
                 _stringBuilder.Clear();
                 if (_type == SolverTypes.Sum || _type == SolverTypes.Product)
-                    _stringBuilder.Append($"<m:nary><m:naryPr><m:chr m:val=\"{ TypeName(_type)}\"/><m:limLoc m:val=\"undOvr\"/><m:subHide m:val=\"1\"/><m:supHide m:val=\"1\" /></m:naryPr><m:sub/><m:sup/><m:e>");
+                    _stringBuilder.Append($"<m:nary><m:naryPr><m:chr m:val=\"{TypeName(_type)}\"/><m:limLoc m:val=\"undOvr\"/><m:subHide m:val=\"1\"/><m:supHide m:val=\"1\" /></m:naryPr><m:sub/><m:sup/><m:e>");
                 else
                     _stringBuilder.Append($"<m:r><m:t>{TypeName(_type)}</m:t></m:r>");//<w:rPr><w:color w:val=\"FF00FF\" /></w:rPr>
 

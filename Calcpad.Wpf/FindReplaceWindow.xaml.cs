@@ -11,7 +11,7 @@ namespace Calcpad.Wpf
     /// </summary>
     public partial class FindReplaceWindow : Window
     {
-        internal FindReplace FindReplace { get; set; }  
+        internal FindReplace FindReplace { get; set; }
         public FindReplaceWindow()
         {
             InitializeComponent();
@@ -104,7 +104,7 @@ namespace Calcpad.Wpf
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            Close();   
+            Close();
         }
 
         private void Window_Activated(object sender, EventArgs e)
@@ -113,8 +113,8 @@ namespace Calcpad.Wpf
             WholeWordsCheckbox.IsChecked = FindReplace.WholeWords;
             DirectionCombo.SelectedIndex = (int)FindReplace.Direction + 1;
             FindReplaceTab.SelectedIndex = (int)FindReplace.Mode;
-            SelectionCheckbox.IsChecked = 
-                FindReplace.Mode == FindReplace.Modes.Replace && 
+            SelectionCheckbox.IsChecked =
+                FindReplace.Mode == FindReplace.Modes.Replace &&
                 FindReplace.Selection &&
                 SelectionCheckbox.IsEnabled;
             SearchList = FindReplace.SearchList;
