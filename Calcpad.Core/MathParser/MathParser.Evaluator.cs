@@ -169,11 +169,6 @@ namespace Calcpad.Core
                     v = new Value(v.Number * vu.ConvertTo(u), u);
                     return v.Units;
                 }
-                if (vu is null && u.IsEmpty)
-                {
-                    v = new Value(v.Number * Calculator.Rad2deg, u);
-                    return v.Units;
-                }
 
                 if (!Unit.IsConsistent(vu, u))
 #if BG

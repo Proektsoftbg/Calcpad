@@ -29,7 +29,7 @@
                 };
             }
         }
-        public bool Degrees { get; set; }
+        public int Degrees { get; set; }
         public bool IsComplex { get; set; }
         public bool Substitute { get; set; }
         public bool FormatEquations { get; set; }
@@ -37,7 +37,7 @@
         public MathSettings()
         {
             Decimals = 2;
-            Degrees = true;
+            Degrees = 0;
             IsComplex = false;
             Substitute = true;
             FormatEquations = true;

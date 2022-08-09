@@ -224,7 +224,7 @@ namespace Calcpad.Core
                                     tokens.Enqueue(t);
                                     if (unitsLiteral.Length != 0)
                                     {
-                                        tokens.Enqueue(new Token("*", TokenTypes.Operator, MultOrder));
+                                        tokens.Enqueue(new Token("*", TokenTypes.Operator, MultOrder - 1));
                                         t = MakeValueToken(null, unitsLiteral);
                                         tokens.Enqueue(t);
                                         unitsLiteral = string.Empty;
@@ -283,7 +283,7 @@ namespace Calcpad.Core
                                                 t.Type = TokenTypes.BracketLeft;
                                                 isUnitDivision = true;
                                             }
-                                            tokens.Enqueue(new Token("*", TokenTypes.Operator, MultOrder));
+                                            tokens.Enqueue(new Token("*", TokenTypes.Operator, MultOrder - 1));
                                             if (!string.IsNullOrEmpty(tokenLiteral))
                                                 t = MakeValueToken(null, tokenLiteral);
                                         }
@@ -495,13 +495,8 @@ namespace Calcpad.Core
                                 pt.Order = 1;
                         }
                         else
-                        {
-                            if (c == '*')
-                                pt.Order = 2;
-
                             isUnit = true;
-                        }
-                    }
+                                            }
                     else if (isUnit && (t.Type != TokenTypes.Constant || pt.Content[0] != '^'))
                     {
                         var c = t.Content[0];

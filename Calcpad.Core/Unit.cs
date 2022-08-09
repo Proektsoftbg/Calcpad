@@ -21,7 +21,7 @@ namespace Calcpad.Core
         private readonly Dimension[] _dims;
 
         private static bool _isUs;
-        private static readonly string[] Names = { "g", "m", "s", "A", "°C", "mol", "cd" };
+        private static readonly string[] Names = { "g", "m", "s", "A", "°C", "mol", "cd", "°" };
         private static readonly Dictionary<string, Unit> Units;
         private static readonly Unit[] ForceUnits = new Unit[9], ForceUnits_US = new Unit[9];
         internal static bool IsUs
@@ -73,7 +73,16 @@ namespace Calcpad.Core
                                 _dims[2].Power == 0f &&
                                 _dims[3].Power == 0f;
 
-        internal bool IsEmpty => _dims.Length == 0;
+        internal bool IsAngle => _dims.Length == 0 ||
+                                 _dims.Length > 6 && 
+                                 _dims[0].Power == 0f && 
+                                 _dims[1].Power == 0f && 
+                                 _dims[2].Power == 0f && 
+                                 _dims[3].Power == 0f && 
+                                 _dims[4].Power == 0f && 
+                                 _dims[5].Power == 0f && 
+                                 _dims[6].Power == 0f &&
+                                 _dims[7].Power == 1f;
 
         internal string Text
         {
@@ -169,12 +178,15 @@ namespace Calcpad.Core
             float current = 0f,
             float temp = 0f,
             float substance = 0f,
-            float luminosity = 0f
+            float luminosity = 0f,
+            float angle = 0f
         )
         {
             _text = text;
             int n;
-            if (luminosity != 0f)
+            if (angle != 0f)
+                n = 8;
+            else if (luminosity != 0f)
                 n = 7;
             else if (substance != 0f)
                 n = 6;
@@ -186,14 +198,10 @@ namespace Calcpad.Core
                 n = 3;
             else if (length != 0f)
                 n = 2;
-            else if (mass != 0f)
-                n = 1;
             else
-                n = 0;
+                n = 1;
 
             _dims = new Dimension[n];
-            if (n == 0)
-                return;
             _dims[0].Factor = 1000d;
             for (int i = 1; i < n; ++i)
                 _dims[i].Factor = 1d;
@@ -214,9 +222,15 @@ namespace Calcpad.Core
                             if (n > 5)
                             {
                                 _dims[5].Power = substance;
+                                {
+                                    if (n > 6)
+                                    {
+                                        _dims[6].Power = luminosity;
 
-                                if (n > 6)
-                                    _dims[6].Power = luminosity;
+                                        if (n > 7)
+                                            _dims[7].Power = angle;
+                                    }
+                                }
                             }
                         }
                     }
@@ -313,7 +327,6 @@ namespace Calcpad.Core
             Units = new(StringComparer.Ordinal)
             {
                 {string.Empty, null},
-                {"°", new Unit("°", 0f)},
                 {"g",     kg},
                 {"hg",    kg.Shift(2)},
                 {"kg",    kg.Shift(3)},
@@ -651,8 +664,19 @@ namespace Calcpad.Core
 
                 {"lm",  new Unit("lm", 0, 0, 0, 0, 0, 0, 1)},
                 {"lx",  new Unit("lx", 0, -2, 0, 0, 0, 0, 1)},
-                {"kat", new Unit("kat", 0, 0, -1, 0, 0, 1)}
+                {"kat", new Unit("kat", 0, 0, -1, 0, 0, 1)},
+
+                {"°",  new Unit("°",       0, 0, 0, 0, 0, 0, 0, 1)},
+                {"′",  new Unit("′",       0, 0, 0, 0, 0, 0, 0, 1)},
+                {"″",  new Unit("″",       0, 0, 0, 0, 0, 0, 0, 1)},
+                {"rad",  new Unit("rad",   0, 0, 0, 0, 0, 0, 0, 1)},
+                {"grad",  new Unit("grad", 0, 0, 0, 0, 0, 0, 0, 1)}
             };
+            Units["°"].Scale(Math.PI / 180.0);
+            Units["′"].Scale(Math.PI / 10800.0);
+            Units["″"].Scale( Math.PI / 648000.0);
+            Units.Add("deg", Units["°"]);
+            Units["grad"].Scale(Math.PI / 200.0);
 
             Units.Add("therm", Units["therm_UK"]);
             Units.Add("cwt", Units["cwt_UK"]);

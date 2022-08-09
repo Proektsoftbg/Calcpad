@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     x:Class="Calcpad.Wpf.MainWindow"
     Closing="Window_Closing" 
-    Title=" Calcpad 5.8" 
+    Title=" Calcpad 5.8.1" 
     Height="800" 
     Width="1200"
     WindowStartupLocation="CenterScreen"
@@ -221,6 +221,14 @@
                     </MenuItem>
                 </MenuItem>
                 <MenuItem Header="Units">
+                    <MenuItem Header="Angles">
+                        <MenuItem Click="Button_Click" Tag="°"    Header="° (degrees)"/>
+                        <MenuItem Click="Button_Click" Tag="′"    Header="′ (minutes)"/>
+                        <MenuItem Click="Button_Click" Tag="″"    Header="″ (seconds)"/>
+                        <MenuItem Click="Button_Click" Tag="deg"  Header="deg (degrees)"/>
+                        <MenuItem Click="Button_Click" Tag="rad"  Header="rad (radians)"/>
+                        <MenuItem Click="Button_Click" Tag="grad" Header="grad (gradians)"/>
+                    </MenuItem>
                     <MenuItem Header="Metric">
                         <MenuItem Header="Mass">
                             <MenuItem Click="Button_Click" Tag="g"   Header="g (gram)"/>
@@ -742,6 +750,13 @@
                     <MenuItem Click="Button_Click" Tag="#repeat 'number of repetitions§'Your code here§#loop" Header="Simple: repeat-loop"/>
                     <MenuItem Click="Button_Click" Tag="#repeat 'number of repetitions§'Your code here§#if 'condition§#break§#end if§'Some more code§#loop" Header="Conditional: repeat-break-loop"/>
                 </MenuItem>
+                <MenuItem Header="String variables and macros">
+                    <MenuItem Click="Button_Click" Tag="#def variable_name$ = content" Header="Inline string variable"/>
+                    <MenuItem Click="Button_Click" Tag="#def variable_name$§'content line 1§'content line 2§'...§#end def" Header="Multiline string variable"/>
+                    <MenuItem Click="Button_Click" Tag="#def macro_name$(param1$; param2$) = content" Header="Inline macro"/>
+                    <MenuItem Click="Button_Click" Tag="#def macro_name$(param1$; param2$)§'content line 1§'content line 2§'...§#end def" Header="Multiline macro"/>
+                    <MenuItem Click="Button_Click" Tag="#include filename" Header="Include external file"/>
+                </MenuItem>
                 <MenuItem Header="Html">
                     <MenuItem Click="Button_Click" Tag="&lt;h3&gt;|&lt;/h3&gt;" Header="Heading 3"/>
                     <MenuItem Click="Button_Click" Tag="&lt;h4&gt;|&lt;/h4&gt;" Header="Heading 4"/>
@@ -788,6 +803,7 @@
                     <Separator/>
                     <MenuItem Click="Button_Click" Tag="#deg"  Header="#deg"  ToolTip="Set angle measurement in degrees"/>
                     <MenuItem Click="Button_Click" Tag="#rad"  Header="#rad"  ToolTip="Set angle measurement in radians"/>
+                    <MenuItem Click="Button_Click" Tag="#gra"  Header="#gra"  ToolTip="Set angle measurement in radians"/>
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="Output">
@@ -930,15 +946,22 @@
                 <RotateTransform Angle="90"/>
             </Separator.RenderTransform>
         </Separator>
-        <TextBlock TextWrapping="Wrap" FontSize="11" Margin="0,12,412,0" TextAlignment="Left" Height="16" VerticalAlignment="Top" Foreground="#CC000000" Text="Angles:" HorizontalAlignment="Right" Width="42"/>
-        <RadioButton Checked="AngleRadioButton_Checked" x:Name="Deg" Content="DEG" GroupName="Angle" TabIndex="3" IsChecked="True" FontFamily="Calibri" Padding="2,0,0,0" Margin="0,33,413,0" Height="16" VerticalAlignment="Top" HorizontalAlignment="Right" Width="42" FontWeight="Bold" FontSize="13" RenderTransformOrigin="0,0">
+        <TextBlock TextWrapping="Wrap" FontSize="11" Margin="0,12,420,0" TextAlignment="Left" Height="16" VerticalAlignment="Top" Foreground="#CC000000" Text="Angles:" HorizontalAlignment="Right" Width="42"/>
+        <RadioButton Checked="AngleRadioButton_Checked" x:Name="Deg" Content="D" GroupName="Angle" TabIndex="3" IsChecked="True" FontFamily="Calibri" Padding="2,0,0,0" Margin="0,33,432,0" Height="16" VerticalAlignment="Top" HorizontalAlignment="Right" Width="30" FontWeight="Bold" FontSize="13" RenderTransformOrigin="0,0" ToolTip="DEG">
             <RadioButton.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
                 </TransformGroup>
             </RadioButton.RenderTransform>
         </RadioButton>
-        <RadioButton Checked="AngleRadioButton_Checked" x:Name="Rad" Content="RAD" GroupName="Angle" TabIndex="4" FontFamily="Calibri" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" Margin="0,33,370,0" HorizontalAlignment="Right" Width="43" FontWeight="Bold" FontSize="13" RenderTransformOrigin="0,0">
+        <RadioButton Checked="AngleRadioButton_Checked" x:Name="Rad" Content="R" GroupName="Angle" TabIndex="4" FontFamily="Calibri" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" Margin="0,33,404,0" HorizontalAlignment="Right" Width="30" FontWeight="Bold" FontSize="13" RenderTransformOrigin="0,0" ToolTip="RAD">
+            <RadioButton.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
+                </TransformGroup>
+            </RadioButton.RenderTransform>
+        </RadioButton>
+        <RadioButton Checked="AngleRadioButton_Checked" x:Name="Gra" Content="G" GroupName="Angle" TabIndex="5" FontFamily="Calibri" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" Margin="0,33,376,0" HorizontalAlignment="Right" Width="30" FontWeight="Bold" FontSize="13" RenderTransformOrigin="0,0" ToolTip="GRA">
             <RadioButton.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
@@ -946,7 +969,7 @@
             </RadioButton.RenderTransform>
         </RadioButton>
         <TextBlock TextWrapping="Wrap" FontSize="11" Margin="0,12,273,0" Height="16" VerticalAlignment="Top" Foreground="#CC000000" Text="Non-metric units:" TextAlignment="Left" HorizontalAlignment="Right" Width="90"/>
-        <RadioButton Checked="UnitsRadioButton_Checked" x:Name="UK" Content="UK" GroupName="Units" TabIndex="5" IsChecked="True" RenderTransformOrigin="0,0" FontFamily="Calibri" Padding="2,0,0,0" Margin="0,33,317,0" FontWeight="Bold" HorizontalAlignment="Right" Width="35" Height="16" VerticalAlignment="Top" FontSize="13">
+        <RadioButton Checked="UnitsRadioButton_Checked" x:Name="UK" Content="UK" GroupName="Units" TabIndex="6" IsChecked="True" RenderTransformOrigin="0,0" FontFamily="Calibri" Padding="2,0,0,0" Margin="0,33,317,0" FontWeight="Bold" HorizontalAlignment="Right" Width="35" Height="16" VerticalAlignment="Top" FontSize="13">
             <RadioButton.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
@@ -961,14 +984,14 @@
             </RadioButton.RenderTransform>
         </RadioButton>
         <TextBlock TextWrapping="Wrap" FontFamily="Segoe UI" FontSize="11" Margin="0,12,165,0" Height="16" VerticalAlignment="Top" Foreground="#CC000000" Text="Equation format:" HorizontalAlignment="Right" Width="91"/>
-        <RadioButton Checked="EquationRadioButton_Checked" x:Name="Professional" Content="Pro" GroupName="EquationFormatting" IsChecked="True" FontFamily="Calibri" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" TabIndex="7" Margin="0,33,220,0" HorizontalAlignment="Right" Width="40" FontSize="14" FontWeight="Bold" RenderTransformOrigin="0,0">
+        <RadioButton Checked="EquationRadioButton_Checked" x:Name="Professional" Content="Pro" GroupName="EquationFormatting" IsChecked="True" FontFamily="Calibri" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" TabIndex="8" Margin="0,33,220,0" HorizontalAlignment="Right" Width="40" FontSize="14" FontWeight="Bold" RenderTransformOrigin="0,0">
             <RadioButton.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
                 </TransformGroup>
             </RadioButton.RenderTransform>
         </RadioButton>
-        <RadioButton Checked="EquationRadioButton_Checked" x:Name="Inline" Content="Inline" GroupName="EquationFormatting" FontFamily="Calibri" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" TabIndex="8" Margin="0,33,165,0" HorizontalAlignment="Right" Width="55" RenderTransformOrigin="0,0" FontSize="14" FontWeight="Bold">
+        <RadioButton Checked="EquationRadioButton_Checked" x:Name="Inline" Content="Inline" GroupName="EquationFormatting" FontFamily="Calibri" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" TabIndex="9" Margin="0,33,165,0" HorizontalAlignment="Right" Width="55" RenderTransformOrigin="0,0" FontSize="14" FontWeight="Bold">
             <RadioButton.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
@@ -999,7 +1022,7 @@
             </StatusBar.Background>
             <TextBlock Height="18" TextWrapping="Wrap" FontFamily="Segoe UI" FontSize="12" VerticalAlignment="Top" HorizontalAlignment="Left" Text="Round to " Margin="20,0,0,0"/>
             <TextBox TextChanged="DecimalsTextBox_TextChanged" x:Name="DecimalsTextBox" TextWrapping="Wrap" Text="2" TextAlignment="Center"
-                ToolTip="Number of digits after the decimal point" UndoLimit="0" TabIndex="9" Width="30" FontFamily="Segoe UI Semibold" FontSize="13" Height="22" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Normal"/>
+                ToolTip="Number of digits after the decimal point" UndoLimit="0" TabIndex="10" Width="30" FontFamily="Segoe UI Semibold" FontSize="13" Height="22" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Normal"/>
             <StatusBarItem Width="26" Margin="0,-5,0,-5" RenderTransformOrigin="0,0.5">
                 <StatusBarItem.RenderTransform>
                     <TransformGroup>
@@ -1010,13 +1033,13 @@
             </StatusBarItem>
             <TextBlock Height="18" TextWrapping="Wrap" Width="40" FontFamily="Segoe UI" FontSize="12" VerticalAlignment="Center" HorizontalAlignment="Left" Text="digits after the decimal point"/>
             <CheckBox Click="SubstituteCheckBox_Clicked" x:Name="SubstituteCheckBox" Content="Substitute" Height="16" Width="80"
-                IsChecked="True" ToolTip="Substitute variables in equations" TabIndex="10" FontFamily="Segoe UI" FontSize="12" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="2,0,0,0"/>
+                IsChecked="True" ToolTip="Substitute variables in equations" TabIndex="1" FontFamily="Segoe UI" FontSize="12" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="2,0,0,0"/>
             <TextBlock Height="18" TextWrapping="Wrap" Width="29" FontFamily="Segoe UI" FontSize="12" Text="Plot:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
             <CheckBox Click="AdaptiveCheckBox_Clicked" x:Name="AdaptiveCheckBox" Content="Adaptive" Height="16" VerticalAlignment="Center"
-                ToolTip="Adaptive 1D function plot" TabIndex="11" Background="White" HorizontalAlignment="Center" IsChecked="True" Width="72"/>
+                ToolTip="Adaptive 1D function plot" TabIndex="12" Background="White" HorizontalAlignment="Center" IsChecked="True" Width="72"/>
             <CheckBox Click="ShadowsCheckBox_Clicked" x:Name="ShadowsCheckBox" Content="Shadows:" Height="16" VerticalAlignment="Top"
-                ToolTip="Draw surface maps with shadows" TabIndex="12" Background="White" HorizontalAlignment="Right" Margin="5,0,0,0"/>
-            <ComboBox x:Name="LightDirectionComboBox" VerticalAlignment="Top" SelectionChanged="LightDirectionComboBox_SelectionChanged" HorizontalAlignment="Center" Width="100" ToolTip="Shadow direction" TabIndex="13" Height="22">
+                ToolTip="Draw surface maps with shadows" TabIndex="13" Background="White" HorizontalAlignment="Right" Margin="5,0,0,0"/>
+            <ComboBox x:Name="LightDirectionComboBox" VerticalAlignment="Top" SelectionChanged="LightDirectionComboBox_SelectionChanged" HorizontalAlignment="Center" Width="100" ToolTip="Shadow direction" TabIndex="14" Height="22">
                 <ComboBoxItem Content="North"/>
                 <ComboBoxItem Content="North-east"/>
                 <ComboBoxItem Content="East"/>
@@ -1027,7 +1050,7 @@
                 <ComboBoxItem Content="North-west" IsSelected="True"/>
             </ComboBox>
             <TextBlock Height="16" TextWrapping="Wrap" VerticalAlignment="Center" Text="Palette:" HorizontalAlignment="Left" Margin="5,0,0,0"/>
-            <ComboBox x:Name="ColorScaleComboBox" VerticalAlignment="Top" SelectionChanged="ColorScaleComboBox_SelectionChanged" HorizontalAlignment="Right" Width="120" ToolTip="Surface map color scale" TabIndex="14" Height="22">
+            <ComboBox x:Name="ColorScaleComboBox" VerticalAlignment="Top" SelectionChanged="ColorScaleComboBox_SelectionChanged" HorizontalAlignment="Right" Width="120" ToolTip="Surface map color scale" TabIndex="15" Height="22">
                 <ComboBoxItem Content="None" HorizontalAlignment="Left" Width="120" Margin="0,0,-2,0"/>
                 <ComboBoxItem Content="Gray" HorizontalAlignment="Left" Width="120" Margin="0,0,-2,0">
                     <ComboBoxItem.Background>
@@ -1084,9 +1107,9 @@
                 </ComboBoxItem>
             </ComboBox>
             <CheckBox Click="SmoothCheckBox_Clicked" x:Name="SmoothCheckBox" Content="Smooth" Height="16" VerticalAlignment="Top"
-                ToolTip="Smooth shading for surface map" Background="White" HorizontalAlignment="Right" TabIndex="15" Margin="5,0,0,0"/>
+                ToolTip="Smooth shading for surface map" Background="White" HorizontalAlignment="Right" TabIndex="16" Margin="5,0,0,0"/>
             <CheckBox x:Name="CodeCheckBox" Content="Show unwarped source code in output" Height="16" VerticalAlignment="Center"
-                ToolTip="Show unwarped source code in the output, when macros or includes are available" Background="White" HorizontalAlignment="Left" TabIndex="16"  Margin="5,0,0,0" FontWeight="Normal" FontFamily="Segoe UI Semibold" Click="CodeCheckBox_Clicked" Visibility="Hidden"/>
+                ToolTip="Show unwarped source code in the output, when macros or includes are available" Background="White" HorizontalAlignment="Left" TabIndex="17"  Margin="5,0,0,0" FontWeight="Normal" FontFamily="Segoe UI Semibold" Click="CodeCheckBox_Clicked" Visibility="Hidden"/>
             <Image x:Name="Logo" Source="Resources/logo.png" Height="20"
                 VerticalAlignment="Top" HorizontalAlignment="Right" Width="2000" Margin="0,0,10,0" Cursor="Hand" MouseUp="Logo_MouseUp"/>
         </StatusBar>
@@ -1103,7 +1126,7 @@
                         <GradientStop Color="White" Offset="0.543"/>
                         <GradientStop Color="#FFF0F0F0" Offset="1"/>
                     </LinearGradientBrush>
-                </GroupBox.Background>	
+                </GroupBox.Background>
                 <Grid x:Name="InputGrid" Margin="0,0,0,1">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -1329,6 +1352,7 @@
                         <ListBoxItem Content="#end if" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#equ" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#global" Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#gra" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#hide" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#if" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#include" Foreground="DarkMagenta"/>
