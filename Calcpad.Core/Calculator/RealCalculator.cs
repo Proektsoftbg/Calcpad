@@ -5,19 +5,12 @@ namespace Calcpad.Core
     internal class RealCalculator : Calculator
     {
         private static readonly Func<Value, Value, Value>[] Operators;
-        private static readonly Func<Value, Value>[] DegFunctions, RadFunctions;
-        private Func<Value, Value>[] _functions;
+        private static readonly Func<Value, Value>[] Functions;
         private static readonly Func<Value, Value, Value>[] Functions2;
         private static readonly Func<Value[], Value>[] MultiFunctions;
-        private bool _degrees;
-        internal override bool Degrees
+        internal override int Degrees
         {
-            set
-            {
-                _degrees = value;
-                _functions = value ? DegFunctions : RadFunctions;
-            }
-            get => _degrees;
+            set => _degrees = value;
         }
 
         static RealCalculator()
@@ -40,14 +33,14 @@ namespace Calcpad.Core
                 (_, b) => b
             };
 
-            RadFunctions = new Func<Value, Value>[]
+            Functions = new Func<Value, Value>[]
             {
-                (Value x) => Sin(ConvertAngleUnits(x)),      // 0
-                (Value x) => Cos(ConvertAngleUnits(x)),      // 1
-                (Value x) => Tan(ConvertAngleUnits(x)),      // 2
-                (Value x) => Csc(ConvertAngleUnits(x)),      // 3
-                (Value x) => Sec(ConvertAngleUnits(x)),      // 4
-                (Value x) => Cot(ConvertAngleUnits(x)),      // 5
+                Sin,      // 0
+                Cos,      // 1
+                Tan,      // 2
+                Csc,      // 3
+                Sec,      // 4
+                Cot,      // 5
                 Asin,     // 6
                 Acos,     // 7
                 Atan,     // 8
@@ -86,27 +79,6 @@ namespace Calcpad.Core
                 (a) => -a //41
             };
 
-            var n = RadFunctions.Length;
-            DegFunctions = new Func<Value, Value>[n];
-            for (int i = 12; i < n; ++i)
-            {
-                DegFunctions[i] = RadFunctions[i];
-            }
-            DegFunctions[FunctionIndex["sin"]] = (Value x) => Sin(x * Deg2Rad);
-            DegFunctions[FunctionIndex["cos"]] = (Value x) => Cos(x * Deg2Rad);
-            DegFunctions[FunctionIndex["tan"]] = (Value x) => Tan(x * Deg2Rad);
-            DegFunctions[FunctionIndex["csc"]] = (Value x) => Csc(x * Deg2Rad);
-            DegFunctions[FunctionIndex["sec"]] = (Value x) => Sec(x * Deg2Rad);
-            DegFunctions[FunctionIndex["cot"]] = (Value x) => Cot(x * Deg2Rad);
-            DegFunctions[FunctionIndex["asin"]] = (Value x) => Asin(x) * Rad2deg;
-            DegFunctions[FunctionIndex["acos"]] = (Value x) => Acos(x) * Rad2deg;
-            DegFunctions[FunctionIndex["atan"]] = (Value x) => Atan(x) * Rad2deg;
-            DegFunctions[FunctionIndex["acsc"]] = (Value x) => Acsc(x) * Rad2deg;
-            DegFunctions[FunctionIndex["asec"]] = (Value x) => Asec(x) * Rad2deg;
-            DegFunctions[FunctionIndex["acot"]] = (Value x) => Acot(x) * Rad2deg;
-            DegFunctions[FunctionIndex["phase"]] = (Value x) => Phase(x) * Rad2deg;
-
-
             Functions2 = new Func<Value, Value, Value>[]
             {
                 Atan2,
@@ -131,13 +103,8 @@ namespace Calcpad.Core
             };
         }
 
-        internal RealCalculator()
-        {
-            _functions = DegFunctions;
-        }
-
         internal override Value EvaluateOperator(int index, Value a, Value b) => Operators[index](a, b);
-        internal override Value EvaluateFunction(int index, Value a) => _functions[index](a);
+        internal override Value EvaluateFunction(int index, Value a) => Functions[index](a);
         internal override Value EvaluateFunction2(int index, Value a, Value b) => Functions2[index](a, b);
         internal override Value EvaluateMultiFunction(int index, Value[] a) => MultiFunctions[index](a);
         internal override Func<Value, Value, Value> GetOperator(int index) => index == PowerIndex ? Pow : Operators[index];
@@ -150,7 +117,7 @@ namespace Calcpad.Core
             if (index == CbrtIndex)
                 return Cbrt;
 
-            return _functions[index];
+            return Functions[index];
         }
 
 
@@ -179,37 +146,37 @@ namespace Calcpad.Core
         private static Value Sin(Value value)
         {
             CheckFunctionUnits("sin", value.Units);
-            return new(Complex.RealSin(value.Number.Re));
+            return new(Complex.RealSin(FromAngleUnits(value)));
         }
 
         private static Value Cos(Value value)
         {
             CheckFunctionUnits("cos", value.Units);
-            return new(Complex.RealCos(value.Number.Re));
+            return new(Complex.RealCos(FromAngleUnits(value)));
         }
 
         private static Value Tan(Value value)
         {
             CheckFunctionUnits("tan", value.Units);
-            return new(Math.Tan(value.Number.Re));
+            return new(Math.Tan(FromAngleUnits(value)));
         }
 
         private static Value Csc(Value value)
         {
             CheckFunctionUnits("csc", value.Units);
-            return new(1 / Math.Sin(value.Number.Re));
+            return new(1 / Math.Sin(FromAngleUnits(value)));
         }
 
         private static Value Sec(Value value)
         {
             CheckFunctionUnits("sec", value.Units);
-            return new(1 / Math.Cos(value.Number.Re));
+            return new(1 / Math.Cos(FromAngleUnits(value)));
         }
 
         private static Value Cot(Value value)
         {
             CheckFunctionUnits("cot", value.Units);
-            return new(1 / Math.Tan(value.Number.Re));
+            return new(1 / Math.Tan(FromAngleUnits(value)));
         }
 
         private static Value Sinh(Value value) /* Hyperbolic sin */
@@ -251,37 +218,37 @@ namespace Calcpad.Core
         private static Value Asin(Value value)
         {
             CheckFunctionUnits("asin", value.Units);
-            return new(Math.Asin(value.Number.Re));
+            return ToAngleUnits(Math.Asin(value.Number.Re));
         }
 
         private static Value Acos(Value value)
         {
             CheckFunctionUnits("acos", value.Units);
-            return new(Math.Acos(value.Number.Re));
+            return ToAngleUnits(Math.Acos(value.Number.Re));
         }
 
         private static Value Atan(Value value)
         {
             CheckFunctionUnits("atan", value.Units);
-            return new(Math.Atan(value.Number.Re));
+            return ToAngleUnits(Math.Atan(value.Number.Re));
         }
 
         private static Value Acsc(Value value)
         {
             CheckFunctionUnits("acsc", value.Units);
-            return new(Math.Asin(1 / value.Number.Re));
+            return ToAngleUnits(Math.Asin(1 / value.Number.Re));
         }
 
         private static Value Asec(Value value)
         {
             CheckFunctionUnits("asec", value.Units);
-            return new(Math.Acos(1 / value.Number.Re));
+            return ToAngleUnits(Math.Acos(1 / value.Number.Re));
         }
 
         private static Value Acot(Value value)
         {
             CheckFunctionUnits("acot", value.Units);
-            return new(Math.Atan(1 / value.Number.Re));
+            return ToAngleUnits(Math.Atan(1 / value.Number.Re));
         }
 
         private static Value Asinh(Value value)
@@ -488,5 +455,16 @@ namespace Calcpad.Core
 
             return new(Math.Pow(result, 1.0 / v.Length), u);
         }
+
+        protected static double FromAngleUnits(Value value)
+        {
+            if (value.Units is null)
+                return value.Number.Re * _toRad[_degrees];
+
+            return value.Number.Re * value.Units.ConvertTo(_angleUnits[1]);
+        }
+
+        protected static Value ToAngleUnits(double value) =>
+            new(value * _fromRad[_degrees], _angleUnits[_degrees]);
     }
 }

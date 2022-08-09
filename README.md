@@ -172,7 +172,7 @@ A variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;*Some other code*  
 &emsp;&emsp;&emsp;&emsp;#end if  
 &emsp;&emsp;Complete:  
-&emsp;&emsp;&emsp;&emsp;#if c*ondition1*  
+&emsp;&emsp;&emsp;&emsp;#if *condition1*  
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;*Your code goes here*  
 &emsp;&emsp;&emsp;&emsp;#else if *condition2*  
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;*Your code goes here*  
@@ -193,6 +193,25 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;#end if  
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;*Some more code*  
 &emsp;&emsp;&emsp;&emsp;#loop  
+* String variables and macros:  
+&emsp;&emsp;Inline string variable:  
+&emsp;&emsp;&emsp;&emsp;#def *variable_name$* = *content*  
+&emsp;&emsp;Multiline string variable:   
+&emsp;&emsp;&emsp;&emsp;#def *variable_name$* 
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;*content line 1*  
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;*content line 2*  
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;... 
+&emsp;&emsp;&emsp;&emsp;#end def 
+&emsp;&emsp;Inline string macro:  
+&emsp;&emsp;&emsp;&emsp;#def *macro_name$*(*param1$*; *param2$*;...) = *content*  
+&emsp;&emsp;Multiline string macro:   
+&emsp;&emsp;&emsp;&emsp;#def *macro_name$*(*param1$*; *param2$*;...) 
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;*content line 1*  
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;*content line 2*  
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;... 
+&emsp;&emsp;&emsp;&emsp;#end def 
+&emsp;&emsp;Include external file:
+&emsp;&emsp;&emsp;&emsp;#include *filename*
 * Output control:  
 &emsp;&emsp;#hide - hide the report contents;  
 &emsp;&emsp;#show - always show the contents (default);  
@@ -201,9 +220,11 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;&emsp;#val - show only the final result, without the equation;  
 &emsp;&emsp;#equ - show complete equations and results (default);  
 &emsp;&emsp;Each of the above commands is effective after the current line until the end of the report or another command that overwrites it.  
-* Units for trigonometric functions: #deg - degrees, #rad - radians;  
+* Switches for trigonometric units: #deg - degrees, #rad - radians, #gra - gradians; 
 * Separator for target units: |;  
-* Metric units (SI and compatible):  
+* Metric units (SI and compatible): 
+&emsp;&emsp;Angles (dimensionless): °, ′, ″, deg, rad, grad;
+&emsp;&emsp;Mass: g, hg, kg, t, kt, Mt, Gt, dg, cg, mg, μg, Da, u;   
 &emsp;&emsp;Mass: g, hg, kg, t, kt, Mt, Gt, dg, cg, mg, μg, Da, u;  
 &emsp;&emsp;Length: m, km, dm, cm, mm, μm, nm, pm, AU, ly;  
 &emsp;&emsp;Time: s, ms, μs, ns, ps, min, h, d;  

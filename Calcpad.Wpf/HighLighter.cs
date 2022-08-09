@@ -132,6 +132,7 @@ namespace Calcpad.Wpf
             "#end if",
             "#rad",
             "#deg",
+            "#gra",
             "#val",
             "#equ",
             "#show",
@@ -701,9 +702,9 @@ namespace Calcpad.Wpf
                 return Types.Macro;
             if (IsLetter(c))
             {
-                if (!(char.IsLetter(c) || c == '°' || c == '∡'))
+                if (!(char.IsLetter(c) || c == '°' || c == '∡' || c == '′' || c == '″'))
                     return Types.Error;
-                if (_state.IsUnits || _state.PreviousType == Types.Const || c == '°')
+                if (_state.IsUnits || _state.PreviousType == Types.Const || c == '°' || c == '′' || c == '″')
                     return Types.Units;
                 else
                     return Types.Variable;
@@ -735,7 +736,7 @@ namespace Calcpad.Wpf
         {
             Append(Types.Const);
             _builder.Append(c);
-            if (char.IsLetter(c) || c == '°')
+            if (char.IsLetter(c) || c == '°' || c == '′' || c == '″')
                 _state.CurrentType = Types.Units;
             else
                 _state.CurrentType = Types.Error;

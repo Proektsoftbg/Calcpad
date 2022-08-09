@@ -18,6 +18,7 @@ namespace Calcpad.Core
             Equ,
             Deg,
             Rad,
+            Gra,
             Repeat,
             Loop,
             Break,
@@ -120,6 +121,8 @@ namespace Calcpad.Core
             }
             if (s.StartsWith("#deg", StringComparison.Ordinal))
                 return Keywords.Deg;
+            if (s.StartsWith("#gra", StringComparison.Ordinal))
+                return Keywords.Gra;
             if (s[1] == 'r')
             {
                 if (s[2] == 'a' &&
@@ -195,9 +198,11 @@ namespace Calcpad.Core
                         else if (keyword == Keywords.Equ)
                             _isVal = false;
                         else if (keyword == Keywords.Deg)
-                            _parser.Degrees = true;
+                            _parser.Degrees = 0;
                         else if (keyword == Keywords.Rad)
-                            _parser.Degrees = false;
+                            _parser.Degrees = 1;
+                        else if (keyword == Keywords.Gra)
+                            _parser.Degrees = 2;
                         else if (keyword == Keywords.Repeat)
                         {
                             var expression = string.Empty;

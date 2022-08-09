@@ -53,7 +53,7 @@ namespace Calcpad.Core
             get => _isPlotting;
 
         }
-        internal bool Degrees { set => _calc.Degrees = value; }
+        internal int Degrees { set => _calc.Degrees = value; }
         internal int PlotWidth => _variables.TryGetValue("PlotWidth", out var v) ? (int)v.Value.Number.Re : 500;
         internal int PlotHeight => _variables.TryGetValue("PlotHeight", out var v) ? (int)v.Value.Number.Re : 300;
         internal int PlotStep => _variables.TryGetValue("PlotStep", out var v) ? (int)v.Value.Number.Re : 0;

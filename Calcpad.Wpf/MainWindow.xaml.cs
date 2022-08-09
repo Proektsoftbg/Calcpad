@@ -834,8 +834,9 @@ namespace Calcpad.Wpf
             if (IsWebForm)
                 SetAutoIndent();
 
-            var text = GetInputText();
-            if (text.Contains('?', StringComparison.Ordinal))
+            var inputText = GetInputText();
+            _macroParser.Parse(inputText, out var outputText);
+            if (CountInputFields(outputText) > 0)
             {
                 if (IsWebForm)
                 {
@@ -846,15 +847,15 @@ namespace Calcpad.Wpf
                         _isSaving = true;
                         return;
                     }
-                    text += GetInputValues();
+                    inputText += GetInputValues();
                 }
                 else
                 {
                     var values = ReadInputFromCode();
-                    text += '\v' + string.Join("\t", values);
+                    inputText += '\v' + string.Join("\t", values);
                 }
             }
-            WriteFile(CurrentFileName, text);
+            WriteFile(CurrentFileName, inputText);
             SaveButton.Tag = null;
             IsSaved = true;
         }
@@ -1087,7 +1088,6 @@ namespace Calcpad.Wpf
                         _parser.Parse(outputText);
                     });
                     await _parseTask;
-                    _autoRun = false;
                     _isParsing = false;
                     if (!IsWebForm)
                     {
@@ -1100,6 +1100,7 @@ namespace Calcpad.Wpf
                 htmlResult = HtmlApplyWorksheet(_parser.HtmlResult);
                 SetOutputFrameHeader(IsWebForm);
             }
+            _autoRun = false;
             try
             {
                 if (!string.IsNullOrEmpty(htmlResult))
@@ -1879,10 +1880,11 @@ namespace Calcpad.Wpf
         {
             if (IsInitialized)
             {
-                var deg = sender.Equals(Deg);
+                var deg = sender.Equals(Deg) ? 0 : sender.Equals(Rad) ? 1 : 2;
                 _parser.Settings.Math.Degrees = deg;
-                Deg.IsChecked = deg;
-                Rad.IsChecked = !deg;
+                Deg.IsChecked = deg == 0;
+                Rad.IsChecked = deg == 1;
+                Gra.IsChecked = deg == 2;
                 ClearOutput();
             }
         }
