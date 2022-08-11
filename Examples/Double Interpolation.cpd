@@ -1,5 +1,5 @@
 "Double interpolation
-'Input padameters
+'Input parameters
 x(j) = spline(j; 2; 4; 8)'- x vaues
 y(i) = spline(i; 3; 9; 27)'- y values
 'Output values
