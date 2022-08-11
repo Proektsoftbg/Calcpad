@@ -121,7 +121,7 @@ namespace Calcpad.Wpf
             "if",
             "switch",
             "take",
-            "_state.Line",
+            "line",
             "spline"
         };
 
@@ -1057,9 +1057,8 @@ namespace Calcpad.Wpf
                     var lines = s.Split(Environment.NewLine);
                     foreach (var line in lines)
                         GetDefinedVariablesFunctionsAndMacros(line, lineNumber);
-
-                    _hasIncludes = true;
                 }
+                _hasIncludes = true;
             }
             else if (IsKeyword(lineContent, "#def"))
                 GetDefinedMacros(lineContent, lineNumber);
