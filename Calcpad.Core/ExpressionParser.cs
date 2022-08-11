@@ -475,11 +475,11 @@ namespace Calcpad.Core
                 HtmlResult = stringBuilder.ToString();
                 _parser = null;
             }
-            string AppendError(string text) =>
+            void AppendError(string text) =>
 #if BG
-                ErrHtml($"Грешка в \"{s}\" на ред {LineHtml(line)}: {text}</p>");
+                stringBuilder.Append(ErrHtml($"Грешка в \"{s}\" на ред {LineHtml(line)}: {text}</p>"));
 #else
-                ErrHtml($"Error in \"{s}\" on line {LineHtml(line)}: {text}</p>");
+                stringBuilder.Append(ErrHtml($"Error in \"{s}\" on line {LineHtml(line)}: {text}</p>"));
 #endif
             static string ErrHtml(string text) => $"<p class=\"err\">{text}</p>";
             static string LineHtml(int line) => $"[<a href=\"#0\" data-text=\"{line}\">{line}</a>]";

@@ -619,7 +619,7 @@ namespace Calcpad.Wpf
                     menu.Click += RecentFileList_Click;
                     MenuRecent.Items.Add(menu);
                 }
-                if (MenuRecent.Items.Count > 0)
+                if (MenuRecent.Items.Count > 0 && (string.IsNullOrEmpty(CurrentFileName) || !File.Exists(CurrentFileName)))
                 {
                     var firstMenu = (MenuItem)MenuRecent.Items[0];
                     DocumentPath = Path.GetDirectoryName((string)firstMenu.ToolTip);
