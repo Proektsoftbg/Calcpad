@@ -1,4 +1,5 @@
 ﻿using Calcpad.Core;
+using DocumentFormat.OpenXml.InkML;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -1341,12 +1342,18 @@ namespace Calcpad.Wpf
                 else
                     s = line;
 
-                var p = new Paragraph();
-                p.Inlines.Add(new Run(s));
-                if (highLight)
-                    _highlighter.Parse(p, IsComplex, i++);
+                if (!highLight)
+                    s = ReplaceCStyleRelationalOperators(s);
 
-                _document.Blocks.Add(p);
+                if (!string.IsNullOrEmpty(s))
+                {
+                    var p = new Paragraph();
+                    p.Inlines.Add(new Run(s));
+                    if (highLight)
+                        _highlighter.Parse(p, IsComplex, i++);
+
+                    _document.Blocks.Add(p);
+                }
             }
             _currentParagraph = RichTextBox.Selection.Start.Paragraph;
             if (highLight)
@@ -1359,6 +1366,44 @@ namespace Calcpad.Wpf
             _isTextChangedEnabled = true;
             _forceHighlight = !highLight;
             return hasForm;
+        }
+
+        private static string ReplaceCStyleRelationalOperators(string s)
+        {
+            var sb = new StringBuilder(s.Length);
+            foreach (char c in s)
+            {
+                if (c == '=')
+                {
+                    var n = sb.Length - 1;
+                    if (n < 0)
+                    {
+                        sb.Append(c);
+                        break;
+                    }
+                    switch(sb[n])
+                    {
+                        case '=':
+                            sb[n] = '≡';
+                            break;
+                        case '!':
+                            sb[n] = '≠';
+                            break;
+                        case '>':
+                            sb[n] = '≥';
+                            break;
+                        case '<':
+                            sb[n] = '≤';
+                            break;
+                        default:
+                            sb.Append(c);
+                            break;
+                    };
+                }
+                else
+                    sb.Append(c);
+            }
+            return sb.ToString();
         }
 
         private void Button_MouseDoubleClick(object sender, MouseButtonEventArgs e)
