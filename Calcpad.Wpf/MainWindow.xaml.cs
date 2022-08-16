@@ -735,15 +735,16 @@ namespace Calcpad.Wpf
             if (File.Exists(fileName))
                 FileOpen(fileName);
         }
-
+        
         private void Command_SaveAs(object sender, ExecutedRoutedEventArgs e) => FileSaveAs();
 
         private void FileSaveAs()
         {
             string s;
-            if (string.IsNullOrWhiteSpace(CurrentFileName))
+            var count = CountInputFields(InputText);
+            if (!string.IsNullOrWhiteSpace(CurrentFileName))
                 s = Path.GetExtension(CurrentFileName);
-            else if (InputText.Contains('?', StringComparison.Ordinal))
+            else if (count > 0)
                 s = ".cpd";
             else
                 s = ".txt";
@@ -2128,8 +2129,7 @@ namespace Calcpad.Wpf
                 return;
 
             var p = tps.Paragraph;
-            if (p is null)
-                p = tpe.Paragraph;
+            p ??= tpe.Paragraph;
 
             if (!ReferenceEquals(_currentParagraph, tps.Paragraph) &&
                 !ReferenceEquals(_currentParagraph, tpe.Paragraph))
@@ -2576,8 +2576,7 @@ namespace Calcpad.Wpf
             RichTextBox.BeginChange();
             var p = _pasteEnd.Paragraph;
             _currentParagraph = RichTextBox.Selection.Start.Paragraph;
-            if (p is null)
-                p = (Paragraph)_document.Blocks.FirstBlock;
+            p ??= (Paragraph)_document.Blocks.FirstBlock;
 
             var lineNumber = GetLineNumber(p);
             while (p != _currentParagraph)
@@ -2765,8 +2764,7 @@ namespace Calcpad.Wpf
                     if (tt is not null)
                         tt.Visibility = Visibility.Hidden;
                     var process = RunExternalApp("NOTEPAD++", fileName);
-                    if (process is null)
-                        process = RunExternalApp("NOTEPAD", fileName);
+                    process ??= RunExternalApp("NOTEPAD", fileName);
                     if (tt is not null)
                         tt.Visibility = Visibility.Visible;
                     if (process is not null)
@@ -2847,7 +2845,9 @@ namespace Calcpad.Wpf
             char commentChar = nullChar;
             foreach (var c in s)
             {
-                if (c == '\'' || c == '"')
+                if (c == '\n')
+                    commentChar = nullChar;
+                else if (c == '\'' || c == '"')
                 {
                     if (commentChar == nullChar)
                         commentChar = c;

@@ -275,18 +275,17 @@ namespace Calcpad.Wpf
             if (p is null)
                 return;
 
+            if (p.Tag is Queue<string> queue)
+                _values = queue;
+            else
+                GetValues(p);
+            
             var text = InitParagraph(p);
             InitState(p, text, line);
             _tagHelper = new();
             LocalVariables.Clear();
             _hasTargetUnitsDelimiter = false;
             _allowUnaryMinus = true;
-
-            if (_state.Paragraph.Tag is Queue<string> queue)
-                _values = queue;
-            else
-                GetValues(_state.Paragraph);
-
             _builder.Clear();
             for (int i = 0, len = text.Length; i < len; ++i)
             {
@@ -748,8 +747,25 @@ namespace Calcpad.Wpf
                 return;
 
             var s = _builder.ToString();
-            string sourceCode = string.Empty;
             _builder.Clear();
+            var count = _state.Paragraph.Inlines.Count;
+            if (s == "=" && count > 0)
+            {
+                Run r = (Run)_state.Paragraph.Inlines.LastInline;
+                var runText = r.Text;
+                if (runText == " = " || runText == "!" || runText == " > " || runText == " < ")
+                {
+                    r.Text = runText switch
+                    {
+                        " = " => " ≡ ",
+                        "!" => " ≠ ",
+                        " > " => " ≥ ",
+                        _ => " ≤ "
+                    };
+                    return;
+                }
+            }
+            string sourceCode = string.Empty;
             if (t == Types.Include)
             {
                 var sourceFlieName = s.Trim();
