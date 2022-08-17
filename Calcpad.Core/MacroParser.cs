@@ -27,18 +27,32 @@ namespace Calcpad.Core
                 else
                 {
                     Parameters = parameters.ToArray();
-                    Order = OrderByLength(Parameters);
+                    Order = Sort(Parameters);
                 }
             }
 
-            private static int[] OrderByLength(string[] parameters)
+            private static int[] Sort(string[] parameters)
             {
                 var n = parameters.Length;
-                var lengths = new SortedList<int, int>();
-                for (int i = 0; i < n; ++i) 
-                    lengths.Add(parameters[i].Length, i);
+                var sorted = new SortedList<string, int>();
+                for (int i = 0; i < n; ++i)
+                {
+                    var s = new string(parameters[i].Reverse().ToArray());
+                    try
+                    {
+                        sorted.Add(s, i);
+                    }
+                    catch (ArgumentException)
+                    {
+#if BG
+                        throw new MathParser.MathParserException($"Дублиране на имената на параметрите на макрос: {s} и {s}.");
+#else
+                        throw new MathParser.MathParserException($"Duplicate macro parameter names: {s} and {s}.");
+#endif
+                    }
+                }
 
-                 return lengths.Values.Reverse().ToArray();
+                 return sorted.Values.Reverse().ToArray();
             }
 
             internal string Run(List<string> arguments)
