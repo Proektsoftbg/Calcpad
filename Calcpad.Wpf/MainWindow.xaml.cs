@@ -1,5 +1,4 @@
 ﻿using Calcpad.Core;
-using DocumentFormat.OpenXml.InkML;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -1181,7 +1180,7 @@ namespace Calcpad.Wpf
                     for (int j = 0; j < steps; ++j)
                         _htmlBuilder.Append("&nbsp;");
 
-                    foreach (Run r in p.Inlines)
+                    foreach (Run r in p.Inlines.Cast<Run>())
                     {
                         var cls = HighLighter.GetTypeFromColor(r.Foreground);
                         if (r.Background is SolidColorBrush brush)
@@ -1321,6 +1320,7 @@ namespace Calcpad.Wpf
             _isTextChangedEnabled = false;
             _document.Blocks.Clear();
             var hasForm = false;
+            string[] inputFields = null;
             HighLighter.GetDefinedVariablesFunctionsAndMacros(lines, IsComplex);
             SetCodeCheckBoxVisibility();
             int i = 1;
@@ -1332,7 +1332,7 @@ namespace Calcpad.Wpf
                     hasForm = true;
                     var n = line.IndexOf('\v', StringComparison.Ordinal);
                     s = line[(n + 1)..];
-                    var inputFields = s.Split('\t');
+                    inputFields = s.Split('\t');
                     _parser.ClearInputFields();
                     SetInputFields(inputFields);
                     s = line[..n];
@@ -1362,7 +1362,7 @@ namespace Calcpad.Wpf
                 Task.Run(() => Dispatcher.InvokeAsync(SetAutoIndent, DispatcherPriority.Send));
             }
             _undoMan.Reset();
-            Record();
+            _undoMan.Record(InputText, RichTextBox.Selection.Start, inputFields);
             _isTextChangedEnabled = true;
             _forceHighlight = !highLight;
             return hasForm;
@@ -1872,7 +1872,10 @@ namespace Calcpad.Wpf
                 var p = new Paragraph();
                 p.Inlines.Add(new Run($"'<img style=\"float:right; height:{size.Height}pt; width:{size.Width}pt;\" src=\"{filePath}\" alt=\"{fileName}\">"));
                 _highlighter.Parse(p, IsComplex, GetLineNumber(p));
-                _document.Blocks.InsertBefore(_document.Blocks.FirstBlock, p);
+                if (_currentParagraph is not null)
+                    _document.Blocks.InsertBefore(_currentParagraph, p);
+                else
+                    _document.Blocks.InsertBefore(_document.Blocks.FirstBlock, p);
             }
         }
 
