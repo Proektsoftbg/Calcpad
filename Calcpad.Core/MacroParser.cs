@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Web;
 
@@ -12,12 +13,32 @@ namespace Calcpad.Core
         private struct Macro
         {
             private readonly string Contents;
-            private readonly List<string> Parameters;
+            private readonly string[] Parameters;
+            private readonly int[] Order;
 
             internal Macro(string contents, List<string> parameters)
             {
                 Contents = contents;
-                Parameters = parameters;
+                if (parameters is null)
+                {
+                    Parameters = null;
+                    Order = null;
+                }
+                else
+                {
+                    Parameters = parameters.ToArray();
+                    Order = OrderByLength(Parameters);
+                }
+            }
+
+            private static int[] OrderByLength(string[] parameters)
+            {
+                var n = parameters.Length;
+                var lengths = new SortedList<int, int>();
+                for (int i = 0; i < n; ++i) 
+                    lengths.Add(parameters[i].Length, i);
+
+                 return lengths.Values.Reverse().ToArray();
             }
 
             internal string Run(List<string> arguments)
@@ -32,14 +53,17 @@ namespace Calcpad.Core
                 if (ParameterCount == 0)
                     return Contents;
 
-                var s = Contents;
+                var sb = new StringBuilder(Contents);
                 for (int i = 0, _count = arguments.Count; i < _count; i++)
-                    s = s.Replace(Parameters[i], arguments[i]);
+                {
+                    var j = Order[i];
+                    sb.Replace(Parameters[j], arguments[j]);
+                }
 
-                return s;
+                return sb.ToString();
             }
             internal bool IsEmpty => Contents is null;
-            internal int ParameterCount => Parameters is null ? 0 : Parameters.Count;
+            internal int ParameterCount => Parameters is null ? 0 : Parameters.Length;
         }
 
         private enum Keywords

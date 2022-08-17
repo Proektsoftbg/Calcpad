@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -933,7 +934,7 @@ namespace Calcpad.Wpf
             }
             else
             {
-                foreach (Run run in _state.Paragraph.Inlines)
+                foreach (Run run in _state.Paragraph.Inlines.Cast<Run>())
                 {
                     s = run.Text.Trim();
                     if (s == "(")
