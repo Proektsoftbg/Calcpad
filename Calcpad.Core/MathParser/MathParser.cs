@@ -173,6 +173,8 @@ namespace Calcpad.Core
             {
                 CompileBlocks();
                 Result = _evaluator.Evaluate(_rpn).Number;
+                if (_variables.TryGetValue("ReturnAngleUnits", out var v))
+                    Calculator.ReturnAngleUnits = v.Value.Number.Re != 0.0;
             }
             _isCalculated = true;
         }

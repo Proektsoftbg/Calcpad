@@ -487,13 +487,24 @@ namespace Calcpad.Core
 
         private static string InsertAttribute(string s, string attr)
         {
-            if (s.Length > 2 && s[0] == '<')
+            if (s.Length > 2 && s[0] == '<' && char.IsLetter(s[1]))
             {
-                if (char.IsLetter(s[1]))
+                var i = s.IndexOf('>');
+                if (i > 1)
                 {
-                    var i = s.IndexOf('>');
-                    if (i > 1)
-                        return s[..i] + attr + s[i..];
+                    var j = i;
+                    while (j > 1)
+                    {
+                        --j;
+                        if (s[j] != ' ')
+                        {
+                            if (s[j] == '/')
+                                i = j;
+
+                            break;
+                        }
+                    };
+                    return s[..i] + attr + s[i..];
                 }
             }
             return s;

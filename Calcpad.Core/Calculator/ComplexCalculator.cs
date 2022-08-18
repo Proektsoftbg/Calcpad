@@ -527,7 +527,7 @@ namespace Calcpad.Core
             return new(Complex.Pow(result, 1.0 / v.Length), Unit.Root(u, v.Length));
         }
 
-        protected static Complex FromAngleUnits(Value value)
+        private static Complex FromAngleUnits(Value value)
         {
             if (value.Units is null)
                 return value.Number * _toRad[_degrees];
@@ -535,7 +535,9 @@ namespace Calcpad.Core
             return value.Number * value.Units.ConvertTo(_angleUnits[1]);
         }
 
-        protected static Value ToAngleUnits(Complex value) =>
-            new (value * _fromRad[_degrees], _angleUnits[_degrees]);
+        private static Value ToAngleUnits(Complex value) =>
+            _returnAngleUnits ? 
+            new(value * _fromRad[_degrees], _angleUnits[_degrees]) :
+            new(value * _fromRad[_degrees], null);
     }
 }

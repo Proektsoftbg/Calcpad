@@ -1638,8 +1638,11 @@ namespace Calcpad.Wpf
             }
             _currentParagraph = pointerParagraph;
             _highlighter.Clear(_currentParagraph);
-            pointer = FindPositionAtOffset(pointerParagraph, offset);
-            RichTextBox.Selection.Select(pointer, pointer);
+            if (offset > 0)
+            {
+                pointer = FindPositionAtOffset(pointerParagraph, offset);
+                RichTextBox.Selection.Select(pointer, pointer);
+            }
             RichTextBox.EndChange();
             _isTextChangedEnabled = true;
             Task.Run(DispatchLineNumbers);

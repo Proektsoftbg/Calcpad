@@ -33,11 +33,11 @@ namespace Calcpad.Core
 #else
                     throw new MathParserException("Expression is empty.");
 #endif
-
                 var i0 = 0;
                 if (rpn[0].Type == TokenTypes.Variable && rpn[rpnLength - 1].Content == "=")
                     i0 = 1;
 
+                _parser._backupVariable = new(null, Value.Zero);
                 for (int i = i0; i < rpnLength; ++i)
                 {
                     if (_tos < tos)
@@ -230,9 +230,7 @@ namespace Calcpad.Core
                 if (cf.IsRecursion)
                     return new Value(double.NaN);
 
-                if (cf.Function is null)
-                    cf.Function = _parser.CompileRpn(cf.Rpn);
-
+                cf.Function ??= _parser.CompileRpn(cf.Rpn);
                 if (_parser.IsCanceled)
 #if BG
                     throw new MathParserException("Прекъсване от потребителя.");
