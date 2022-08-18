@@ -99,9 +99,7 @@ namespace Calcpad.Core
                             _stringBuilder.Append(res);
                         }
                     }
-                }
-                if (format == OutputWriter.OutputFormat.Html || format == OutputWriter.OutputFormat.Text)
-                    _parser._backupVariable = new(null, Value.Zero);
+                }          
                 return _stringBuilder.ToString();
             }
 

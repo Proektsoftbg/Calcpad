@@ -56,10 +56,7 @@ namespace Calcpad.Core
             Variable.SetNumber(x);
             var value = Function();
             var result = value.Number;
-            if (Units is null)
-            {
-                Units = value.Units;
-            }
+            Units ??= value.Units;
 
             if (!result.IsReal)
 #if BG
@@ -83,8 +80,7 @@ namespace Calcpad.Core
             Variable.SetNumber(x);
             var value = Function();
             var result = value.Number;
-            if (Units is null)
-                Units = value.Units;
+            Units ??= value.Units;
 
             if (double.IsNaN(result.Re) && double.IsNaN(result.Im))
 #if BG      

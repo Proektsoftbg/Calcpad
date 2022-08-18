@@ -456,7 +456,7 @@ namespace Calcpad.Core
             return new(Math.Pow(result, 1.0 / v.Length), u);
         }
 
-        protected static double FromAngleUnits(Value value)
+        private static double FromAngleUnits(Value value)
         {
             if (value.Units is null)
                 return value.Number.Re * _toRad[_degrees];
@@ -464,7 +464,9 @@ namespace Calcpad.Core
             return value.Number.Re * value.Units.ConvertTo(_angleUnits[1]);
         }
 
-        protected static Value ToAngleUnits(double value) =>
-            new(value * _fromRad[_degrees], _angleUnits[_degrees]);
+        private static Value ToAngleUnits(double value) =>
+            _returnAngleUnits ?
+            new(value * _fromRad[_degrees], _angleUnits[_degrees]) :
+            new(value * _fromRad[_degrees], null);
     }
 }

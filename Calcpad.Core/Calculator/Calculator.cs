@@ -12,6 +12,7 @@ namespace Calcpad.Core
         private static readonly double[] Factorial;
         internal const char NegChar = '‐'; //hyphen, not minus "-"
         protected static int _degrees = 0;
+        protected static bool _returnAngleUnits = false;
         protected static readonly double[] _toRad =
         {
             Math.PI / 180.0,
@@ -32,6 +33,8 @@ namespace Calcpad.Core
         };
 
         internal abstract int Degrees { set; }
+        internal static bool ReturnAngleUnits { set => _returnAngleUnits = value; }
+
         //                                               ^  ÷  \  %  *  -  +  <  >  ≤  ≥  ≡  ≠  =
         internal static readonly int[] OperatorOrder = { 0, 3, 3, 3, 3, 4, 5, 6, 6, 6, 6, 6, 6, 7 };
         internal static Dictionary<char, int> OperatorIndex { get; } = new()
