@@ -36,7 +36,7 @@ function floor
 function line
 function ln
 function log
-function log2
+function log_2
 function max
 function mean
 function min
@@ -69,17 +69,20 @@ keyword #end def
 keyword #end if
 keyword #equ
 keyword #global
+keyword #gra
 keyword #hide
 keyword #if
 keyword #include
 keyword #local
 keyword #loop
+keyword #noc
 keyword #post
 keyword #pre
 keyword #rad
 keyword #repeat
 keyword #show
 keyword #val
+unit °
 unit A
 unit AU
 unit Ah
@@ -196,6 +199,7 @@ unit dPa
 unit daN
 unit daPa
 unit daa
+unit deg
 unit dg
 unit dm
 unit dr
@@ -216,6 +220,7 @@ unit gi
 unit gi_UK
 unit gi_US
 unit gr
+unit grad
 unit h
 unit hL
 unit hN
@@ -353,7 +358,9 @@ unit qt
 unit qt_UK
 unit qt_US
 unit quad
+unit rad
 unit re
+unit rev
 unit rod
 unit rood
 unit rpm
@@ -402,3 +409,6 @@ unit μs
 unit μΩ
 variable PlotHeight
 variable PlotWidth
+variable PlotStep
+variable Precision
+variable ReturnAngleUnits 

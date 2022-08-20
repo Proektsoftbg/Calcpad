@@ -179,7 +179,7 @@ input, select {
 <li><a href="mailto:proektsoft.bg@gmail.com">proektsoft.bg@gmail.com</a></li>
 </ul>
 <h1><img alt="Calcpad.png" src="Images/Calcpad.png" height="32"> Calcpad</h1>
-<p style="margin-left:42px; margin-top:0;">Version 5.7 Readme!</p>
+<p style="margin-left:42px; margin-top:0;">Version 5.8 Readme!</p>
 <h2 id="TOC_100">About Calcpad</h2>
 <p>Calcpad is free software for mathematical and engineering calculations. It represents a flexible and modern programmable calculator with Html report generator. It is simple and easy to use, but it also includes many advanced features:</p>
 <ul>
@@ -487,7 +487,12 @@ If you redefine an existing variable with a new value, it will replace the old o
 <li><code><b>line</b>(<var>x</var>; <var>a</var>; <var>b</var>; <var>c</var>…)</code> - performs linear interpolation among the specified values for parameter <var>x</var>;</li>
 <li><code><b>spline</b>(<var>x</var>; <var>a</var>; <var>b</var>; <var>c</var>…)</code> - performs Hermite spline interpolation;</li>
 </ul>
-<p>Arguments must be enclosed in round brackets. They can be constants, variables or any valid expression. Multiple arguments must be separated by semicolons ";". When arguments are out of range, the function returns "<span class="err">Undefined</span>". Exceptions from this rule are "<b>cot</b>(0)" and "<b>coth</b>(0)", which return "<span class="err">+∞</span>". Arguments of trigonometric functions can be in <b>degrees</b> or <b>radians</b>. This option is selected trough the radio buttons above the output window. Alternatively, it can be specified inside the code. You have to insert a separate line containing: <span class="cond">#deg</span> for <b>degrees</b> or <span class="cond">#rad</span> for <b>radians</b>. It will affect all expressions after the current line to the end or until the alternative directive is found. The settings specified in the source code are of higher priority than those by the radio buttons.</p>
+<p>Arguments must be enclosed in round brackets. They can be constants, variables or any valid expression. Multiple arguments must be separated by semicolons ";". When arguments are out of range, the function returns "<span class="err">Undefined</span>". Exceptions from this rule are "<b>cot</b>(0)" and "<b>coth</b>(0)", which return "<span class="err">+∞</span>".</p>
+<p>Arguments of trigonometric functions can be in <b>degrees</b>, <b>radians</b> or <b>grades</b>. The units for angles can be specified in three different ways:</p>
+<p>1. By the radio buttons above the output window (<small>🔘</small><b>D</b>, <small>🔘</small><b>R</b>, <small>🔘</small><b>G</b>).</p>
+<p>2. By compiler switchces inside the code. You have to insert a separate line containing: <span class="cond">#deg</span> for degrees, <span class="cond">#rad</span> for radians or <span class="cond">#gra</span> for grades. This will affect all expressions after the current line to the end or until the alternative directive is found.</p>
+<p>3. By attaching native units to the value itself: <i>deg</i>, <i>°</i>, <i>′</i>, <i>″</i>, <i>rad</i>, <i>grad</i>, <i>rev</i> (see the “Units” section, further in this manual).</p>
+<p>Native units are of highest priority, followed by compiler switches in source code. Both override radio buttons settings, which are of lowest priority.</p> 
 <p>All functions are also defined in the complex domain, except <b>min</b>(<var>x</var>; <var>y</var>) and <b>max</b>(<var>x</var>; <var>y</var>). Rounding functions affect both real and imaginary part. There are also several functions for complex numbers only:</p>
 <ul style="list-style-type:none;">
 <li><b>re</b>(a + b<var>i</var>) - returns the real part only, <b>re</b>(a + b<var>i</var>) = a;</li>
@@ -528,7 +533,7 @@ If you redefine an existing variable with a new value, it will replace the old o
 <code><span class="cond">$Plot</span>{<b>y</b><sub>1</sub>(<var>x</var>) &amp; <b>y</b><sub>2</sub>(<var>x</var>) &amp;  … &#64; <var>x</var> = <var>a</var> : <var>b</var>}</code> - multiple: plots several functions on a single graph;<br />
 <code><span class="cond">$Plot</span>{<b>x</b><sub>1</sub>(<var>t</var>)|<b>y</b><sub>1</sub>(<var>t</var>) &amp; <b>x</b><sub>2</sub>(<var>t</var>)|<b>y</b><sub>2</sub>(<var>t</var>) &amp; … &#64; <var>t</var> = <var>a</var> : <var>b</var>}</code> - multiple parametric;<br />
 <code><span class="cond">$Map</span>{<b>f</b>(<var>x</var>; <var>y</var>) &#64; <var>x</var> = <var>a</var> : <var>b</var> &amp; <var>y</var> = <var>c</var> : <var>d</var>}</code> - draws a 2D color map of a 3D surface, defined by <b>f</b>(<var>x</var>; <var>y</var>).</p>
-<p>The <span class="cond">$Plot</span>{…} function must be the first thing in a line. You can have only spaces and tabs beofre, not even comments. Otherwise, the program will return an error. Any text after the closing bracket "}" will be ignored. Plotting supports only real numbers. You can use it in complex mode, only if <var>x</var> and <var>y</var> are real and the function returns real result along the plotting interval.</p>
+<p>The <span class="cond">$Plot</span>{…} function must be the first thing in a line. You can have only spaces and tabs before, not even comments. Otherwise, the program will return an error. Any text after the closing bracket "}" will be ignored. Plotting supports only real numbers. You can use it in complex mode, only if <var>x</var> and <var>y</var> are real and the function returns real result along the plotting interval.</p>
 <p>You can specify the size of the plot area by defining two variables: <var>PlotWidth</var> and <var>PlotHeight</var> in pixels. The default values are <var>PlotWidth</var> = 400 and <var>PlotHeight</var> = 250.</p>
 <p>The <span class="cond">$Map</span>{…} function can work with different color palettes. Select the preferred one from the "<b>Palette</b>" combo box on the bottom of the program window. If you select the "<b>Smooth</b>" checkbox, the scale will be displayed as a smooth gradient. Otherwise, the program will draw color strips. You can also add 3D effects to the graph by selecting the "<b>Shadows</b>" checkbox. You can also specify light direction by the respective combo.</p>
 <p>Examples of different plotting methods are provided bellow:</p>
@@ -680,6 +685,16 @@ You can use it further to calculate binomial coefficients by the well-known form
 	</tbody>
 </table>
 <p>Calcpad includes a large collection of predefined units as follows:</p>
+<p>Dimensionless:</p>
+<ul><li>Angles: 
+<i title="degrees">deg</i>,
+<i title="degrees">°</i>, 
+<i title="minutes">′</i>, 
+<i title="seconds">″</i>, 
+<i title="radians">rad</i>, 
+<i title="grades" >grad</i>, 
+<i title="revolutions">rev</i>;
+</li></ul>
 <p>Metric units (SI and compatible):</p>
 <ul><li>Mass: 
 <i title="gram"     >g</i>, 
@@ -1043,6 +1058,7 @@ You can use it further to calculate binomial coefficients by the well-known form
 <i title="horsepower (electrical)">hpE</i>, 
 <i title="horsepower (boiler)">hpS</i>
 </ul>
+<p>Angle units are accepted in trigonometric functions and they override all other settings. Inverse trigonometric functions return unitless values by default. If you want them to return the result in the current units, you have to define a variable: <var>ReturnAngleUnits</var> = 1.</p>
 <h2 id="TOC_800">Reporting</h2>
 <p>All calculations are automatically collected into professionally formatted calculation report. You can print it or open it with MS Word for editing. Besides math expressions, you can add headings, comments, tables and images.</p>
 
@@ -1226,7 +1242,8 @@ You can use it further to calculate binomial coefficients by the well-known form
 <p>You can also modify the display of the equations as follows:</p>
 <ul style="list-style-type:none;">
 <li><span class="cond">#Val</span> - shows only the final result as a single value;</li>
-<li><span class="cond">#Equ</span> - shows both the equation and the calculated result.</li>
+<li><span class="cond">#Equ</span> - shows both the equation and the calculated result (default);</li>
+<li><span class="cond">#Noc</span> - shows only the equation, without results (no calculations).</li>
 </ul>
 <p>Each of the above keywords overrides the other. You can use <span class="cond">#Val</span> to create a table with values, but without the formulas, like in Excel.</p>
 
@@ -1389,7 +1406,7 @@ You can use it further to calculate binomial coefficients by the well-known form
 <h3 id="TOC_1004">Save As…</h3>
 <p>If you need to save the current file with a different name, select the "<b>File/Save As…</b>" menu command. A file selection dialog will be displayed. Select file path and name and click "<b>Save</b>"</p>
 <hr />
-<p>Last edited on 12.06.2022 by eng. Nedelcho Ganchovski.</p>
+<p>Last edited on 19.08.2022 by eng. Nedelcho Ganchovski.</p>
 </div>
 <script src="jquery-3.4.1.min.js"></script>
 <script>

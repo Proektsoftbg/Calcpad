@@ -670,13 +670,15 @@ namespace Calcpad.Core
                 {"′",  new Unit("′",       0, 0, 0, 0, 0, 0, 0, 1)},
                 {"″",  new Unit("″",       0, 0, 0, 0, 0, 0, 0, 1)},
                 {"rad",  new Unit("rad",   0, 0, 0, 0, 0, 0, 0, 1)},
-                {"grad",  new Unit("grad", 0, 0, 0, 0, 0, 0, 0, 1)}
+                {"grad",  new Unit("grad", 0, 0, 0, 0, 0, 0, 0, 1)},
+                {"rev",  new Unit("rev", 0, 0, 0, 0, 0, 0, 0, 1)}
             };
             Units["°"].Scale(Math.PI / 180.0);
             Units["′"].Scale(Math.PI / 10800.0);
             Units["″"].Scale( Math.PI / 648000.0);
             Units.Add("deg", Units["°"]);
             Units["grad"].Scale(Math.PI / 200.0);
+            Units["rev"].Scale(Math.PI * 2.0);
 
             Units.Add("therm", Units["therm_UK"]);
             Units.Add("cwt", Units["cwt_UK"]);
