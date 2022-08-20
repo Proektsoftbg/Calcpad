@@ -1,4 +1,4 @@
 {
 	"shell_cmd": "$file",
-	"selector": "source.mylang"
+	"selector": "source.calcpad"
 }

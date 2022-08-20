@@ -12,7 +12,10 @@ Keyword=Id2
 Method=Id2
 Number=Number
 Units=String
+Macro=String2
 Operator=Symbol
 Separator=Symbol
 Input=SymbolBad
 Brackets=Symbol2
+[ref]
+0=HTML

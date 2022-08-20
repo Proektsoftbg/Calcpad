@@ -5,7 +5,8 @@
 		"green": "hsl(80, 100%, 50%)",
         "green2": "hsl(160, 100%, 50%)",
 		"yellow6": "hsl(50, 100%, 60%)",
-        "magenta": "hsl(300, 60%, 45%)",
+        "magenta": "hsl(320, 100%, 65%)",
+		"magenta2": "hsl(300, 60%, 40%)",
 		"pink": "hsl(320, 100%, 70%)",
 		"blue2": "hsl(200, 50%, 50%)"
 	},
@@ -50,6 +51,11 @@
             "name": "Calcpad Brackets",
             "scope": "punctuation.section.brackets.calcpad",
             "foreground": "var(pink)"
-        }        
+        },
+        {
+            "name": "Calcpad String",
+            "scope": "meta.string.calcpad",
+            "foreground": "var(magenta2)"
+        }  		
 	]
 }

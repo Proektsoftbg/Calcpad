@@ -82,7 +82,6 @@ keyword #rad
 keyword #repeat
 keyword #show
 keyword #val
-unit °
 unit A
 unit AU
 unit Ah

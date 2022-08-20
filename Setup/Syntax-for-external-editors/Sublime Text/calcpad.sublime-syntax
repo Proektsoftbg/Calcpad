@@ -19,15 +19,17 @@ contexts:
       scope: punctuation.separator.calcpad
     - match: '[\{()\}]'
       scope: punctuation.section.brackets.calcpad
+    - match: '[a-zA-Z]+[a-zA-Z0-9_]*\$'
+      scope: meta.string.calcpad
     - match: '\b(abs|sin|cos|tan|csc|sec|cot|sinh|cosh|tanh|csch|sech|coth|asin|acos|atan|acsc|asec|acot|asinh|acosh|atanh|acsch|asech|acoth|ln|log|log_2|sqr|sqrt|cbrt|round|floor|ceiling|trunc|re|im|phase|random|root|atan2|min|max|sum|sumsq|srss|average|product|mean|switch|take|line|spline)\b'
       scope: support.function.calcpad
     - match: '#'
       scope: punctuation.definition.keyword.calcpad
       pop: true
       set:
-      - match: '\b([Rr]epeat|[Ll]oop|[Ss]how|[Hh]ide|[Pp]re|[Pp]ost|[Vv]al|[Ee]qu|[Nn]oc|[Rr]ad|[Dd]eg|[Gg]ra|[Ii]f|[Ee]lse|[Ee]lse [Ii]f|[Ee]nd [Ii]f|[Ii]nclide|[Ll]ocal|[Gg]lobal|[Dd]ef|[Ee]nd [Dd]ef)\b'
+      - match: '\b([Rr]epeat|[Ll]oop|[Ss]how|[Hh]ide|[Pp]re|[Pp]ost|[Vv]al|[Ee]qu|[Nn]oc|[Rr]ad|[Dd]eg|[Gg]ra|[Ii]f|[Ee]lse|[Ee]lse [Ii]f|[Ee]nd [Ii]f|[Ii]nclude|[Ll]ocal|[Gg]lobal|[Dd]ef|[Ee]nd [Dd]ef)\b'
         scope: keyword.control.calcpad
-      - match: '[\r\n\s]'
+      - match: '[^a-zA-Z]'
         pop: true
     - match: '\$'
       scope: punctuation.definition.method.calcpad
@@ -37,7 +39,7 @@ contexts:
       - match: '\{'
         scope: punctuation.section.brackets.calcpad
         pop: true
-      - match: '[\r\n\s]'
+      - match: '[^a-zA-Z]'
         pop: true
     - match: '\b[a-zA-Zα-ωΑ-Ω°øØ∡]+[a-zA-Zα-ωΑ-Ω°øØ∡0-9_,′″‴⁗]*\b'
       scope: variable.function.calcpad variable.other.calcpad

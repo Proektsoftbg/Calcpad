@@ -1,4 +1,4 @@
-object SyntAnal50: TLibSyntAnalyzer
+object SyntAnal6: TLibSyntAnalyzer
   Formats = <
     item
       DisplayName = 'Comment'
@@ -27,15 +27,7 @@ object SyntAnal50: TLibSyntAnalyzer
     item
       DisplayName = 'Keyword'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clPurple
-      Font.Height = -13
-      Font.Name = 'Consolas'
-      Font.Style = []
-    end
-    item
-      DisplayName = 'Method'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clPurple
+      Font.Color = clFuchsia
       Font.Height = -13
       Font.Name = 'Consolas'
       Font.Style = []
@@ -80,10 +72,18 @@ object SyntAnal50: TLibSyntAnalyzer
       Font.Name = 'Consolas'
       Font.Style = [fsBold]
     end
-  	item
+    item
       DisplayName = 'Brackets'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clMaroon
+      Font.Height = -13
+      Font.Name = 'Consolas'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Macro'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clPurple
       Font.Height = -13
       Font.Name = 'Consolas'
       Font.Style = []
@@ -92,7 +92,6 @@ object SyntAnal50: TLibSyntAnalyzer
     item
       DisplayName = 'Title'
       StyleName = 'Comment'
-      TokenType = 1
       Expression = '".*?(["\r\n])'
       ColumnFrom = 0
       ColumnTo = 0
@@ -100,8 +99,100 @@ object SyntAnal50: TLibSyntAnalyzer
     item
       DisplayName = 'Comment'
       StyleName = 'Comment'
+      Expression = #39'.*?(['#39'\r\n])'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Operator'
+      StyleName = 'Operator'
+      TokenType = 7
+      Expression = '[\^/'#1043#183'\\%*\-+!\x{2260}\x{2261}<>\x{2264}\x{2265}=]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Separator'
+      StyleName = 'Separator'
+      TokenType = 8
+      Expression = '[;&@:|]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Brackets {}'
+      StyleName = 'Brackets'
+      TokenType = 10
+      Expression = '[\{\}]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Brackets ()'
+      StyleName = 'Brackets'
+      TokenType = 10
+      Expression = '[\(\)]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Input'
+      StyleName = 'Input'
+      TokenType = 9
+      Expression = '?'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Macro'
+      StyleName = 'Macro'
+      TokenType = 11
+      Expression = '[a-zA-Z]+[a-zA-Z0-9_]*\$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Keyword'
+      StyleName = 'Keyword'
+      TokenType = 3
+      Expression = 
+        '\#([Rr]epeat|[Ll]oop|[Ss]how|[Hh]ide|[Pp]re|[Pp]ost|[Vv]al|[Ee]q' +
+        'u|[Rr]ad|[Dd]eg|[Ii]f|[Ee]lse\s[Ii]f|[Ee]lse|[Ee]nd\s[Ii]f|[Ii]n' +
+        'clude|[Ll]ocal|[Gg]lobal|[Dd]ef|[Ee]nd\s[Dd]ef)\b'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Method'
+      StyleName = 'Keyword'
+      TokenType = 3
+      Expression = 
+        '\$([Rr]oot|[Ff]ind|[Ii]nf|[Ss]up|[Aa]rea|[Ii]ntegrate|[Ss]lope|[' +
+        'Ss]um|[Pp]roduct|[Rr]epeat|[Mm]ap|[Pp]lot)\b'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Function'
+      StyleName = 'Function'
       TokenType = 1
-      Expression = '''.*?([''\r\n])'
+      Expression = 
+        '\b(abs|sin|cos|tan|csc|sec|cot|sinh|cosh|tanh|csch|sech|coth|asi' +
+        'n|acos|atan|acsc|asec|acot|asinh|acosh|atanh|acsch|asech|acoth|l' +
+        'n|log|log_2|sqr|sqrt|cbrt|round|floor|ceiling|trunc|re|im|phase|' +
+        'random|root|atan2|min|max|sum|sumsq|srss|average|product|mean|sw' +
+        'itch|take|line|spline)\b'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Variable'
+      StyleName = 'Variable'
+      TokenType = 2
+      Expression = 
+        '\b[a-zA-Z\x{03B1}-\x{03C9}\x{0391}-\x{03A9}\x{00B0}\x{00F8}\x{00' +
+        'D8}\x{2221}]+[a-zA-Z\x{03B1}-\x{03C9}\x{0391}-\x{03A9}\x{00B0}\x' +
+        '{00F8}\x{00D8}\x{2221}0-9_,\x{2032}\x{2033}\x{2034}\x{2057}]*\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -114,82 +205,10 @@ object SyntAnal50: TLibSyntAnalyzer
       ColumnTo = 0
     end
     item
-      DisplayName = 'Function'
-      StyleName = 'Function'
-      TokenType = 4
-      Expression = '\b(abs|sin|cos|tan|csc|sec|cot|sinh|cosh|tanh|csch|sech|coth|asin|acos|atan|acsc|asec|acot|asinh|acosh|atanh|acsch|asech|acoth|ln|log|log_2|sqr|sqrt|cbrt|round|floor|ceiling|trunc|re|im|phase|random|root|atan2|min|max|sum|sumsq|srss|average|product|mean|switch|take|line|spline)\b'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
       DisplayName = 'Units'
       StyleName = 'Units'
-      TokenType = 2
-      Expression = '(?<=\b([\?\|0-9.]+))[A-Za-z°]+'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-   item
-      DisplayName = 'Keyword'
-      StyleName = 'Keyword'
-      TokenType = 7
-      Expression = '\#([Rr]epeat|[Ll]oop|[Ss]how|[Hh]ide|[Pp]re|[Pp]ost|[Vv]al|[Ee]qu|[Rr]ad|[Dd]eg|[Ii]f|[Ee]lse\s[Ii]f|[Ee]lse|[Ee]nd\s[Ii]f|[Ii]nclude|[Ll]ocal|[Gg]lobal|[Dd]ef|[Ee]nd\s[Dd]ef)\b'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Method'
-      StyleName = 'Method'
-      TokenType = 7
-      Expression = '\$([Rr]oot|[Ff]ind|[Ii]nf|[Ss]up|[Aa]rea|[Ii]ntegrate|[Ss]lope|[Ss]um|[Pp]roduct|[Rr]epeat|[Mm]ap|[Pp]lot)\b'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Variable'
-      StyleName = 'Variable'
-      TokenType = 2
-      Expression = '\b[a-zA-Z\x{03B1}-\x{03C9}\x{0391}-\x{03A9}\x{00B0}\x{00F8}\x{00D8}\x{2221}]+[a-zA-Z\x{03B1}-\x{03C9}\x{0391}-\x{03A9}\x{00B0}\x{00F8}\x{00D8}\x{2221}0-9_,\x{2032}\x{2033}\x{2034}\x{2057}]*\b'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Operator'
-      StyleName = 'Operator'
-      TokenType = 10
-      Expression = '[\^/÷\\%*\-+!\x{2260}\x{2261}<>\x{2264}\x{2265}=]'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Separator'
-      StyleName = 'Separator'
-      TokenType = 10
-      Expression = '[;&@:|]'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Input'
-      StyleName = 'Input'
-      TokenType = 10
-      Expression = '?'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Brackets {}'
-      StyleName = 'Brackets'
-      TokenType = 8
-      Expression = '[\{\}]'
-      ColumnFrom = 0
-      ColumnTo = 0
-    end
-    item
-      DisplayName = 'Brackets ()'
-      StyleName = 'Brackets'
-      TokenType = 9
-      Expression = '[\(\)]'
+      TokenType = 6
+      Expression = '(?<=\b([\?\|0-9.]+))[A-Za-z'#1042#176#8242#8243']+'
       ColumnFrom = 0
       ColumnTo = 0
     end>
@@ -236,7 +255,6 @@ object SyntAnal50: TLibSyntAnalyzer
       BlockEnd = '#if end'
       DisplayInTree = False
       HighlightPos = cpAny
-      CancelNextRules = False
       DrawStaple = True
       CollapseFmt = '%sz0'
       IgnoreAsParent = False
@@ -255,8 +273,12 @@ object SyntAnal50: TLibSyntAnalyzer
       IgnoreAsParent = False
     end>
   CodeTemplates = <>
-  SubAnalyzers = <>
-  SampleText.Strings = ()
+  SubAnalyzers = <
+    item
+      DisplayName = 'Sub lexer rule 1'
+      StyleName = 'Comment'
+      SyntAnalyzer = SyntAnal9
+    end>
   TokenTypeNames.Strings = (
     'Comment'
     'Function'
@@ -268,12 +290,13 @@ object SyntAnal50: TLibSyntAnalyzer
     'Operator'
     'Separator'
     'Input'
-    'Brackets')
+    'Brackets'
+    'Macro')
   Extentions = 'cpd'
   LexerName = 'Calcpad'
   Notes.Strings = (
     'Created by Ned Ganchovski')
   RestartFromLineStart = True
-  LineComment = ''''
+  LineComment = #39
   Charset = DEFAULT_CHARSET
 end
