@@ -16,6 +16,7 @@ namespace Calcpad.Core
             Post,
             Val,
             Equ,
+            Noc,
             Deg,
             Rad,
             Gra,
@@ -29,7 +30,7 @@ namespace Calcpad.Core
         }
         private readonly List<string> _inputFields = new();
         private int _currentField;
-        private bool _isVal;
+        private int _isVal;
         private MathParser _parser;
         private static readonly string[] NewLines = { "\r\n", "\r", "\n" };
         public Settings Settings { get; set; }
@@ -104,6 +105,8 @@ namespace Calcpad.Core
             }
             if (s.StartsWith("#val", StringComparison.Ordinal))
                 return Keywords.Val;
+            if (s.StartsWith("#noc", StringComparison.Ordinal))
+                return Keywords.Noc;
             if (s.StartsWith("#hide", StringComparison.Ordinal))
                 return Keywords.Hide;
             if (s.StartsWith("#show", StringComparison.Ordinal))
@@ -154,7 +157,7 @@ namespace Calcpad.Core
             {
                 GetInputField = GetInputField
             };
-            _isVal = false;
+            _isVal = 0;
             var loops = new Stack<Loop>();
             var isVisible = true;
             _parser.IsEnabled = calculate;
@@ -194,9 +197,11 @@ namespace Calcpad.Core
                         else if (keyword == Keywords.Post)
                             isVisible = calculate;
                         else if (keyword == Keywords.Val)
-                            _isVal = true;
+                            _isVal = 1;
                         else if (keyword == Keywords.Equ)
-                            _isVal = false;
+                            _isVal = 0;
+                        else if (keyword == Keywords.Noc)
+                            _isVal = -1;
                         else if (keyword == Keywords.Deg)
                             _parser.Degrees = 0;
                         else if (keyword == Keywords.Rad)
@@ -384,12 +389,12 @@ namespace Calcpad.Core
                                         try
                                         {
                                             _parser.Parse(token.Value);
-                                            if (calculate)
+                                            if (calculate && _isVal > -1)
                                                 _parser.Calculate();
 
                                             if (isOutput)
                                             {
-                                                if (_isVal & calculate)
+                                                if (_isVal == 1 & calculate)
                                                     stringBuilder.Append(Complex.Format(_parser.Result, Settings.Math.Decimals, OutputWriter.OutputFormat.Html));
                                                 else
                                                 {
@@ -594,7 +599,7 @@ namespace Calcpad.Core
                 if (string.IsNullOrWhiteSpace(tokenValue))
                     return;
             }
-            else if (!_isVal)
+            else if (_isVal < 1)
             {
                 if (!tokens.Any())
                     tokenValue += ' ';

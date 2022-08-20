@@ -136,6 +136,7 @@ namespace Calcpad.Wpf
             "#gra",
             "#val",
             "#equ",
+            "#noc",
             "#show",
             "#hide",
             "#pre",

@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     x:Class="Calcpad.Wpf.MainWindow"
     Closing="Window_Closing" 
-    Title=" Calcpad 5.8.2" 
+    Title=" Calcpad 5.8.3" 
     Height="800" 
     Width="1200"
     WindowStartupLocation="CenterScreen"
@@ -228,6 +228,7 @@
                         <MenuItem Click="Button_Click" Tag="deg"  Header="deg (degrees)"/>
                         <MenuItem Click="Button_Click" Tag="rad"  Header="rad (radians)"/>
                         <MenuItem Click="Button_Click" Tag="grad" Header="grad (gradians)"/>
+                        <MenuItem Click="Button_Click" Tag="rev"  Header="rev (revolutions)"/>
                     </MenuItem>
                     <MenuItem Header="Metric">
                         <MenuItem Header="Mass">
@@ -800,6 +801,7 @@
                     <Separator/>
                     <MenuItem Click="Button_Click" Tag="#val"  Header="#val"  ToolTip="Show only the calculated values"/>
                     <MenuItem Click="Button_Click" Tag="#equ"  Header="#equ"  ToolTip="Show the complete equations (default)"/>
+                    <MenuItem Click="Button_Click" Tag="#noc"  Header="#noc"  ToolTip="Show the equations, but without calculating them"/>
                     <Separator/>
                     <MenuItem Click="Button_Click" Tag="#deg"  Header="#deg"  ToolTip="Set angle measurement in degrees"/>
                     <MenuItem Click="Button_Click" Tag="#rad"  Header="#rad"  ToolTip="Set angle measurement in radians"/>
@@ -1343,6 +1345,7 @@
                              BorderBrush="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  
                              PreviewMouseLeftButtonUp="AutoCompleteListBox_PreviewMouseLeftButtonUp" 
                              PreviewKeyDown="AutoCompleteListBox_PreviewKeyDown">
+                        <ListBoxItem Content="°" Foreground="DarkCyan"/>
                         <ListBoxItem Content="#break" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#def" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#deg" Foreground="DarkMagenta"/>
@@ -1358,6 +1361,7 @@
                         <ListBoxItem Content="#include" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#local" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#loop" Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#noc" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#post" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#pre" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#rad" Foreground="DarkMagenta"/>
@@ -1432,6 +1436,7 @@
                         <ListBoxItem Content="daa" Foreground="DarkCyan"/>
                         <ListBoxItem Content="daN" Foreground="DarkCyan"/>
                         <ListBoxItem Content="daPa" Foreground="DarkCyan"/>
+                        <ListBoxItem Content="deg" Foreground="DarkCyan"/>
                         <ListBoxItem Content="dg" Foreground="DarkCyan"/>
                         <ListBoxItem Content="dL" Foreground="DarkCyan"/>
                         <ListBoxItem Content="dm" Foreground="DarkCyan"/>
@@ -1475,6 +1480,7 @@
                         <ListBoxItem Content="GN" Foreground="DarkCyan"/>
                         <ListBoxItem Content="GPa" Foreground="DarkCyan"/>
                         <ListBoxItem Content="gr" Foreground="DarkCyan"/>
+                        <ListBoxItem Content="grad" Foreground="DarkCyan"/>
                         <ListBoxItem Content="GS" Foreground="DarkCyan"/>
                         <ListBoxItem Content="GSv" Foreground="DarkCyan"/>
                         <ListBoxItem Content="GT" Foreground="DarkCyan"/>
@@ -1692,6 +1698,10 @@
                         <ListBoxItem Content="phase()"/>
                         <ListBoxItem Content="pHz" Foreground="DarkCyan"/>
                         <ListBoxItem Content="pJ" Foreground="DarkCyan"/>
+                        <ListBoxItem Content="PlotHeight" Foreground="Blue"/>
+                        <ListBoxItem Content="PlotStep" Foreground="Blue"/>
+                        <ListBoxItem Content="PlotWidth" Foreground="Blue"/>
+                        <ListBoxItem Content="Precision" Foreground="Blue"/>
                         <ListBoxItem Content="pm" Foreground="DarkCyan"/>
                         <ListBoxItem Content="pole" Foreground="DarkCyan"/>
                         <ListBoxItem Content="pole^2" Foreground="DarkCyan"/>
@@ -1716,9 +1726,12 @@
                         <ListBoxItem Content="qt_US" Foreground="DarkCyan"/>
                         <ListBoxItem Content="quad" Foreground="DarkCyan"/>
                         <ListBoxItem Content="R" Foreground="DarkCyan"/>
+                        <ListBoxItem Content="rad" Foreground="DarkCyan"/>
                         <ListBoxItem Content="random()"/>
                         <ListBoxItem Content="Rd" Foreground="DarkCyan"/>
                         <ListBoxItem Content="re()"/>
+                        <ListBoxItem Content="ReturnAngleUnits" Foreground="Blue"/>
+                        <ListBoxItem Content="rev" Foreground="DarkCyan"/>
                         <ListBoxItem Content="rod" Foreground="DarkCyan"/>
                         <ListBoxItem Content="rod^2" Foreground="DarkCyan"/>
                         <ListBoxItem Content="rood" Foreground="DarkCyan"/>

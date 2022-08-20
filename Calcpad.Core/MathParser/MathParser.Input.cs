@@ -269,7 +269,10 @@ namespace Calcpad.Core
                                     }
                                     else
                                     {
-                                        if (t is not null && (t.Type == TokenTypes.Input || t.Type == TokenTypes.Constant))
+                                        if (t is not null && (
+                                            t.Type == TokenTypes.Input || 
+                                            t.Type == TokenTypes.Constant
+                                            ))
                                         {
                                             if (isDivision)
                                             {
@@ -340,8 +343,13 @@ namespace Calcpad.Core
                                     };
                                 else
                                 {
-                                    if (isUnitDivision && (tt == TokenTypes.Operator &&
-                                        c != '^' && c != NegateChar || c == ')'))
+                                    if (isUnitDivision && 
+                                        (
+                                            tt == TokenTypes.Operator &&
+                                            c != '^' && 
+                                            c != NegateChar 
+                                            || c == ')'
+                                            || c == ';'))
                                     {
                                         isUnitDivision = false;
                                         tokens.Enqueue(new Token(')', TokenTypes.BracketRight));
@@ -366,6 +374,11 @@ namespace Calcpad.Core
                                             _parser._assignmentIndex = count;
                                         }
                                     }
+                                    else if (tt == TokenTypes.Divisor ||
+                                             tt == TokenTypes.BracketLeft ||
+                                             tt == TokenTypes.BracketRight)
+                                            isDivision = false;
+
                                     t = new Token(c, tt);
                                 }
                                 tokens.Enqueue(t);
