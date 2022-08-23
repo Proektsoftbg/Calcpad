@@ -27,7 +27,7 @@ contexts:
       scope: punctuation.definition.keyword.calcpad
       pop: true
       set:
-      - match: '\b([Rr]epeat|[Ll]oop|[Ss]how|[Hh]ide|[Pp]re|[Pp]ost|[Vv]al|[Ee]qu|[Nn]oc|[Rr]ad|[Dd]eg|[Gg]ra|[Ii]f|[Ee]lse|[Ee]lse [Ii]f|[Ee]nd [Ii]f|[Ii]nclude|[Ll]ocal|[Gg]lobal|[Dd]ef|[Ee]nd [Dd]ef)\b'
+      - match: '\b([Bb]reak|[Rr]epeat|[Ll]oop|[Ss]how|[Hh]ide|[Pp]re|[Pp]ost|[Vv]al|[Ee]qu|[Nn]oc|[Rr]ad|[Dd]eg|[Gg]ra|[Ii]f|[Ee]lse|[Ee]lse [Ii]f|[Ee]nd [Ii]f|[Ii]nclude|[Ll]ocal|[Gg]lobal|[Dd]ef|[Ee]nd [Dd]ef)\b'
         scope: keyword.control.calcpad
       - match: '[^a-zA-Z]'
         pop: true
