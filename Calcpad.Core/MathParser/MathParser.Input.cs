@@ -492,9 +492,9 @@ namespace Calcpad.Core
                             catch
                             {
 #if BG
-                                throw new MathParserException($"Недефинирана променлива или мерни единици: \"{t.Content}\".");
+                                //throw new MathParserException($"Недефинирана променлива или мерни единици: \"{t.Content}\".");
 #else
-                                throw new MathParserException($"Undefined variable or units: \"{t.Content}\".");
+                                //throw new MathParserException($"Undefined variable or units: \"{t.Content}\".");
 #endif
                             }
                         }
