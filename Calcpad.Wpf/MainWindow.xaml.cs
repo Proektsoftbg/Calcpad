@@ -1166,7 +1166,7 @@ namespace Calcpad.Wpf
                 _htmlBuilder.Append($"<p class=\"line-text\" id=\"line{lineNumber}\"><span class=\"line-num\">{lineNumber}</span>");
                 if (line.StartsWith(ErrorString, StringComparison.Ordinal))
                 {
-                    _htmlBuilder.Append($"<span class=\"error\">{line}</span>");
+                    _htmlBuilder.Append($"<span class=\"error\">{line[1..]}</span>");
                 }
                 else
                 {

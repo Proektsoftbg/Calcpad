@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection.Metadata;
@@ -118,7 +119,7 @@ namespace Calcpad.Core
             var hasErrors = false;
             string lineContent = "code";
             Macros.Clear();
-            List<string> macroParameters = new();
+            List<string> macroParameters = null;
             try
             {
                 for (var i = 0; i < sourceLines.Count; ++i)
@@ -174,9 +175,9 @@ namespace Calcpad.Core
                             if (macroDefCount == 0)
                             {
                                 macroBuilder.Clear();
-                                int j = 3, n = lineContent.Length;
+                                int j = 4, len = lineContent.Length;
                                 char c = EatSpace(lineContent, ref j);
-                                while (j < n)
+                                while (j < len)
                                 {
                                     c = lineContent[j];
                                     if (c == '$')
@@ -193,15 +194,14 @@ namespace Calcpad.Core
                                         SymbolError(c);
                                         break;
                                     }
-
                                     ++j;
                                 }
                                 c = EatSpace(lineContent, ref j);
-                                macroParameters = new();
                                 if (c == '(')
                                 {
+                                    macroParameters = new();
                                     c = EatSpace(lineContent, ref j);
-                                    while (j < n)
+                                    while (j < len)
                                     {
                                         if (c == ' ')
                                             c = EatSpace(lineContent, ref j);
@@ -226,6 +226,9 @@ namespace Calcpad.Core
                                     }
                                     c = EatSpace(lineContent, ref j);
                                 }
+                                else
+                                    macroParameters = null;
+
                                 if (c == '=')
                                 {
                                     c = EatSpace(lineContent, ref j);
@@ -240,12 +243,27 @@ namespace Calcpad.Core
                                     macroBuilder.Clear();
                                 }
                                 else
+                                {
+                                    if (string.IsNullOrWhiteSpace(macroName))
+                                    {
+                                        macroName = macroBuilder.ToString();
+
+#if BG
+                                        AppendError($"Невалидно име на макрос: \"{macroName}\".");
+#else
+                                        AppendError($"Invalid macro name: \"{macroName}\".");
+#endif
+                                        macroName = string.Empty;
+                                        macroBuilder.Clear();
+
+                                    }
                                     ++macroDefCount;
+                                }
                             }
                             else
                             {
 #if BG
-                                    AppendError("Невалидно в дефиниция на макрос.");
+                                AppendError("Невалидно в дефиниция на макрос.");
 #else
                                 AppendError("Invalid inside macro definition.");
 #endif
@@ -255,14 +273,16 @@ namespace Calcpad.Core
                         }
                         else if (keyword == Keywords.EndDef)
                         {
-                            if (macroDefCount == 1)
+                            if (macroDefCount < 1)
                             {
-                                if (string.IsNullOrWhiteSpace(macroName))
 #if BG
-                                    AppendError("Намерен е \"#end def\" без съответен \"#def\".");
+                                AppendError("\"Няма съответен \"#def\".");
 #else
-                                    AppendError("\"#end def\" without matching \"#def\".");
-#endif                          
+                                AppendError("\"There is no matching \"#def\".");
+#endif
+                            }
+                            else
+                            { 
                                 var j = macroBuilder.Length - 2;
                                 //if (j > 0) 
                                 //    macroBuilder.Remove(j, 2);
@@ -270,9 +290,9 @@ namespace Calcpad.Core
                                 string macroContent = macroBuilder.ToString();
                                 if (!Macros.TryAdd(macroName, new Macro(macroContent, macroParameters)))
 #if BG
-                                    AppendError("Повтарящо се име на макрос.");
+                                    AppendError($"Повтарящо се име на макрос: \"{macroName}\".");
 #else
-                                    AppendError("Duplicate macro name.");
+                                    AppendError($"Duplicate macro name: \"{macroName}\".");
 #endif
                                 macroName = string.Empty;
                                 macroBuilder.Clear();
@@ -303,6 +323,15 @@ namespace Calcpad.Core
                     }
                     else
                         stringBuilder.AppendLine(sourceLines[i]);
+                }
+                if (macroDefCount > 0)
+                {
+#if BG
+                    stringBuilder.Append($"#Грешка: Незатворена дефиниция на макрос. Липсва \"#end def\".");
+#else
+                    stringBuilder.Append($"#Error: Macro definition block not closed. Missing \"#end def\".");
+#endif
+                    hasErrors = true;
                 }
             }
             catch (Exception ex)
@@ -380,9 +409,9 @@ namespace Calcpad.Core
 
                     if (macro.IsEmpty)
 #if BG
-                        throw new ArgumentException($Невалидно име на макрос: {macroName}.");
+                        throw new ArgumentException($"Недефиниран макрос: {macroName}.");
 #else
-                        throw new ArgumentException($"Invalid macro name: {macroName}.");
+                        throw new ArgumentException($"Macro not defined: {macroName}.");
 #endif
                     else if (j > 0)
                         stringBuilder.Append(macroName[..j]);

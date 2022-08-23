@@ -230,6 +230,7 @@ namespace Calcpad.Wpf
             internal Paragraph Paragraph;
             internal int Line;
             internal string Text;
+            internal string Message;
             internal char TextComment;
             internal char TagComment;
             internal bool IsLeading;
@@ -334,8 +335,11 @@ namespace Calcpad.Wpf
                     ParseUnits(c);
                 else
                 {
-                    if (IsError(c, _state.CurrentType))
+                    if (IsParseError(c, _state.CurrentType))
+                    {
+                        _state.Message = $"Invalid character: {c}.";
                         _state.CurrentType = Types.Error;
+                    }
 
                     _builder.Append(c);
                 }
@@ -364,6 +368,7 @@ namespace Calcpad.Wpf
                 Paragraph = p,
                 Line = line,
                 Text = text,
+                Message = null,
                 TextComment = NullChar,
                 TagComment = NullChar,
                 IsLeading = true,
@@ -446,7 +451,7 @@ namespace Calcpad.Wpf
             }
         }
 
-        private bool IsError(char c, Types t) =>
+        private bool IsParseError(char c, Types t) =>
                 t == Types.Const && !IsDigit(c) ||
                 t == Types.Macro && !IsMacroLetter(c, _builder.Length) ||
                 t == Types.Variable && !IsLetter(c) && !IsDigit(c);
@@ -555,7 +560,10 @@ namespace Calcpad.Wpf
             else if (IsValidMacroName())
                 _state.CurrentType = Types.Macro;
             else
+            {
+                _state.Message = "Invalid macro name.";
                 _state.CurrentType = Types.Error;
+            }
             _builder.Append('$');
             Append(_state.CurrentType);
             if (_state.IsMacro)
@@ -750,6 +758,31 @@ namespace Calcpad.Wpf
 
             var s = _builder.ToString();
             _builder.Clear();
+            if (AppendRelOperatorShortcut(s))
+                return;
+
+            if (t == Types.Include)
+                t = AppendInclude(s);
+            else if (t == Types.Operator)
+                s = FormatOperator(s);
+            else if (t == Types.Input)
+            {
+                s = "? ";
+                if (_values is not null && _values.Count > 0)
+                    _state.Message = _values.Dequeue();
+                else
+                    _state.Message = "0";
+            }
+            else if(t != Types.Error)
+                t = CheckError(t, s);
+
+            AppendRun(t, s);
+            _allowUnaryMinus = t == Types.Operator || s == "(" || s == "{";
+        }
+
+
+        private bool AppendRelOperatorShortcut(string s)
+        {
             var count = _state.Paragraph.Inlines.Count;
             if (s == "=" && count > 0)
             {
@@ -764,36 +797,51 @@ namespace Calcpad.Wpf
                         " > " => " ≥ ",
                         _ => " ≤ "
                     };
-                    return;
+                    return true;
                 }
             }
-            string sourceCode = string.Empty;
-            if (t == Types.Include)
+            return false;
+        }
+
+        private Types AppendInclude(string s)
+        {
+            var sourceFlieName = s.Trim();
+            if (File.Exists(sourceFlieName))
             {
-                var sourceFlieName = s.Trim();
-                if (File.Exists(sourceFlieName))
-                {
-                    var values = new Queue<string>();
-                    sourceCode = Include(sourceFlieName, values);
-                    _state.Paragraph.Tag = values;
-                    var lines = sourceCode.Split(Environment.NewLine);
-                    for (int i = 0, len = lines.Length; i < len; ++i)
-                        GetDefinedVariablesFunctionsAndMacros(lines[i], _state.Line);
-                }
-                else
-                    t = Types.Error;
+                var values = new Queue<string>();
+                var sourceCode = Include(sourceFlieName, values);
+                _state.Paragraph.Tag = values;
+                var lines = sourceCode.Split(Environment.NewLine);
+                for (int i = 0, len = lines.Length; i < len; ++i)
+                    GetDefinedVariablesFunctionsAndMacros(lines[i], _state.Line);
+
+                _state.Message = GetPartialSource(sourceCode);
+                return Types.Include;
             }
-            else if (t == Types.Operator)
-                s = FormatOperator(s);
-            else if (t == Types.Input)
-                s = "? ";
-            else if (t == Types.Function)
+#if BG
+            _state.Message = "Файлът не е намерен.";
+#else 
+            _state.Message = "File not found.";
+#endif           
+            return Types.Error;
+        }
+
+        private Types CheckError(Types t, string s)
+        {
+            if (t == Types.Function)
             {
                 if (!DefinedFunctions.TryGetValue(s, out int funcLine))
                     funcLine = int.MaxValue;
 
                 if (!Functions.Contains(s) && funcLine > _state.Line)
-                    t = Types.Error;
+                {
+#if BG
+                    _state.Message = "Недекларирана функция.";
+#else
+                    _state.Message = "Undeclared function.";
+#endif 
+                    return Types.Error;
+                }
             }
             else if (t == Types.Variable)
             {
@@ -805,54 +853,99 @@ namespace Calcpad.Wpf
                 if (varLine > _state.Line)
                 {
                     if (MathParser.IsUnit(s))
-                        t = Types.Units;
-                    else
-                        t = Types.Error;
+                        return Types.Units;
+#if BG
+                    _state.Message = "Недекларирана променлива.";
+#else
+                    _state.Message = "Undeclared variable.";
+#endif
+                    return Types.Error;
+                }
+            }
+            else if (t == Types.Units)
+            {
+                if (!MathParser.IsUnit(s))
+                {
+#if BG
+                    _state.Message = "Недефинирани мерни единици.";
+#else
+                    _state.Message = "Undefined units.";
+#endif                    
+                    return Types.Error;
                 }
             }
             else if (t == Types.Macro)
             {
                 if (!IsDefinedMacroOrParameter(s, _state.Line))
-                    t = Types.Error;
+                {
+#if BG
+                    _state.Message = "Недефиниран макрос или параметър.";
+#else
+                    _state.Message = "Undefined macro or parameter.";
+#endif
+                    return Types.Error;
+                }
             }
+            else if (t == Types.Condition)
+            {
+                if (!Conditions.Contains(s.TrimEnd()))
+                {
+#if BG
+                    _state.Message = "Невалидна директива за компилатор.";
+#else
+                    _state.Message = "Invalid compiler directive.";
+#endif
+                    return Types.Error;
+                }
+            }
+            else if (t == Types.Command)
+            {
+                if (!Commands.Contains(s))
+                {
+#if BG
+                    _state.Message = "Невалиден метод.";
+#else
+                    _state.Message = "Invalid method.";
+#endif                    
+                    return Types.Error;
+                }
+            }
+            else 
+                _state.Message = null;
+
+            return t;
+        }
+
+
+        private void AppendRun(Types t, string s)
+        {
             var run = new Run(s);
             s = s.ToLowerInvariant();
-
-            if (t == Types.Condition && !Conditions.Contains(s.TrimEnd()) ||
-                t == Types.Command && !Commands.Contains(s))
-                t = Types.Error;
-
             run.Foreground = Colors[(int)t];
-            if (t == Types.Error)
-            {
-                if (s == "|" && !_hasTargetUnitsDelimiter)
-                    _hasTargetUnitsDelimiter = true;
-                else
-                    run.Background = ErrorBackground;
-            }
-            else if (t == Types.Function)
+            
+            if (t == Types.Function)
                 run.FontWeight = FontWeights.Bold;
-            else if (t == Types.Input || t == Types.Include)
+            else if (t == Types.Input || t == Types.Include || t == Types.Macro || t == Types.Error)
             {
-                var tt = new ToolTip();
-                if (t == Types.Include)
-                    tt.Content = GetPartialSource(sourceCode);
-                else if (_values is not null && _values.Count > 0)
-                    tt.Content = _values.Dequeue();
-                else
-                    tt.Content = "0";
-
-                if (!string.IsNullOrWhiteSpace(tt.Content.ToString()))
+                if (t == Types.Error)
                 {
-                    tt.Placement = PlacementMode.MousePoint;
-                    tt.HorizontalOffset = 8;
-                    tt.VerticalOffset = -32;
-                    tt.HorizontalAlignment = HorizontalAlignment.Left;
-                    run.ToolTip = tt;
+                    if (s == "|" && !_hasTargetUnitsDelimiter)
+                        _hasTargetUnitsDelimiter = true;
+                    else
+                        run.Background = ErrorBackground;
+                }
+                if (!string.IsNullOrWhiteSpace(_state.Message))
+                {
+                    run.ToolTip = AppendToolTip();
+                    _state.Message = null;
+                }
+
+                if (run.ToolTip is not null && t == Types.Input || t == Types.Include)
+                {
                     run.Cursor = Cursors.Hand;
                     if (t == Types.Include)
                         run.AddHandler(UIElement.MouseLeftButtonDownEvent, IncludeClickEventHandler);
-                    else
+                    else if (t == Types.Input)
                     {
                         run.FontWeight = FontWeights.Bold;
                         run.AddHandler(UIElement.MouseLeftButtonDownEvent, InputClickEventHandler);
@@ -861,8 +954,17 @@ namespace Calcpad.Wpf
                 }
             }
             _state.Paragraph.Inlines.Add(run);
-            _allowUnaryMinus = t == Types.Operator || s == "(" || s == "{";
         }
+
+        private ToolTip AppendToolTip() => new()
+        {
+            Content = _state.Message,
+            Placement = PlacementMode.MousePoint,
+            HorizontalOffset = 8,
+            VerticalOffset = -32,
+            HorizontalAlignment = HorizontalAlignment.Left
+        };
+
 
         private void GetValues(Paragraph p)
         {
@@ -876,6 +978,7 @@ namespace Calcpad.Wpf
             else
                 _values = null;
         }
+
 
         private void GetLocalVariables(bool isCommand)
         {
