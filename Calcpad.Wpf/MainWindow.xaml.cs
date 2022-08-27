@@ -1323,10 +1323,11 @@ namespace Calcpad.Wpf
             string[] inputFields = null;
             HighLighter.GetDefinedVariablesFunctionsAndMacros(lines, IsComplex);
             SetCodeCheckBoxVisibility();
-            int i = 1;
+            var i = 1;
             foreach (var line in lines)
             {
                 string s;
+                var skip = false;
                 if (line.Contains('\v', StringComparison.Ordinal))
                 {
                     hasForm = true;
@@ -1336,6 +1337,7 @@ namespace Calcpad.Wpf
                     _parser.ClearInputFields();
                     SetInputFields(inputFields);
                     s = line[..n];
+                    skip = string.IsNullOrEmpty(s);
                 }
                 else if (highLight)
                     s = line.TrimStart('\t');
@@ -1345,7 +1347,7 @@ namespace Calcpad.Wpf
                 if (!highLight)
                     s = ReplaceCStyleRelationalOperators(s);
 
-                if (!string.IsNullOrEmpty(s))
+                if (!skip)
                 {
                     var p = new Paragraph();
                     p.Inlines.Add(new Run(s));
