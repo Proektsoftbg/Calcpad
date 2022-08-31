@@ -822,13 +822,22 @@ namespace Calcpad.Core
             var factor = 1d;
             for (int i = 0; i < n; ++i)
             {
-                var p2 = divide ? -u2._dims[i].Power : u2._dims[i].Power;
-                if (u1._dims[i].Power != 0f && p2 != 0f)
-                    factor *= Math.Pow(u2._dims[i].Factor / u1._dims[i].Factor, p2);
+                var p2 = u2._dims[i].Power;
+                if (u1._dims[i].Power != 0f && p2 != 0f && u1._dims[i].Factor != u2._dims[i].Factor)
+                {
+                    var d = divide ?
+                        u1._dims[i].Factor / u2._dims[i].Factor :
+                        u2._dims[i].Factor / u1._dims[i].Factor;
+                    if (p2 == 1f)
+                        factor *= d;
+                    else if (p2 == 2f)
+                        factor *= d * d;
+                    else
+                        factor *= Math.Pow(d, p2);
+                }
             }
             return factor;
         }
-
 
         public static Unit operator /(Unit u, double d) => u * (1d / d);
 
@@ -902,14 +911,22 @@ namespace Calcpad.Core
 
         internal double ConvertTo(Unit u)
         {
-            var d = 1d;
+            var factor = 1d;
             for (int i = 0, n = _dims.Length; i < n; ++i)
             {
                 ref var dim = ref _dims[i];
-                if (dim.Power != 0f)
-                    d *= Math.Pow(dim.Factor / u._dims[i].Factor, dim.Power);
+                if (dim.Power != 0f && dim.Factor != u._dims[i].Factor)
+                {
+                    var d = dim.Factor / u._dims[i].Factor;
+                    if (dim.Power == 1f)
+                        factor *= d;
+                    else if (dim.Power == 2f)
+                        factor *= d * d;
+                    else
+                        factor *= Math.Pow(d, dim.Power);
+                }
             }
-            return d;
+            return factor;
         }
 
         internal static Unit GetForceUnit(Unit u)
