@@ -193,7 +193,7 @@ namespace Calcpad.Core
             return Result.Re;
         }
 
-        internal void CheckReal(in Value value)
+        private void CheckReal(in Value value)
         {
             if (_settings.IsComplex && !value.Number.IsReal)
 #if BG

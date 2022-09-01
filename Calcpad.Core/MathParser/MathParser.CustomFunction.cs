@@ -52,10 +52,10 @@ namespace Calcpad.Core
                 switch (ParameterCount)
                 {
                     case 1:
-                        _cache = new Dictionary<Value, Value>();
+                        _cache = new();
                         break;
                     case 2:
-                        _cache2 = new Dictionary<Tuple, Value>();
+                        _cache2 = new();
                         break;
                 }
             }
@@ -127,7 +127,8 @@ namespace Calcpad.Core
 
             internal Value Calculate(Value[] parameters)
             {
-                if (parameters.Length == 1)
+                int len = parameters.Length;
+                if (len == 1)
                 {
                     ref var v = ref parameters[0];
                     if (!_cache.TryGetValue(v, out var z))
@@ -138,7 +139,7 @@ namespace Calcpad.Core
                     }
                     return z;
                 }
-                if (parameters.Length == 2)
+                if (len == 2)
                 {
                     Tuple args = new(parameters[0], parameters[1]);
                     if (!_cache2.TryGetValue(args, out var z))
@@ -150,7 +151,7 @@ namespace Calcpad.Core
                     }
                     return z;
                 }
-                for (int i = 0, len = parameters.Length; i < len; ++i)
+                for (int i = 0; i < len; ++i)
                     _parameters[i].SetValue(parameters[i]);
 
                 return Function();

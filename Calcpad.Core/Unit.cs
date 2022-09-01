@@ -1252,7 +1252,7 @@ namespace Calcpad.Core
             if (updateText && !ua.IsMultiple(ub))
             {
                 uc.Scale(d);
-                d = 1;
+                d = 1d;
                 uc.Text = ua.Text + '/' + ub.Text;
             }
             return uc;
