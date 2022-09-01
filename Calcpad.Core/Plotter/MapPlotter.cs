@@ -178,7 +178,7 @@ namespace Calcpad.Core
                 {
                     varY.SetNumber(y);
                     var value = function();
-                    Parser.CheckReal(value);
+                    //Parser.CheckReal(value);
                     var z = value.Number.Re;
                     n[i, j] = new Node(x, y * d, z);
                     y += sy;

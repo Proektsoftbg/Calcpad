@@ -180,9 +180,9 @@ namespace Calcpad.Core
         {
             _var.SetNumber(t);
             var vx = fx();
-            Parser.CheckReal(vx);
+            //Parser.CheckReal(vx);
             var vy = fy();
-            Parser.CheckReal(vy);
+            //Parser.CheckReal(vy);
             return new Node(vx.Number.Re, vy.Number.Re, t);
         }
 
