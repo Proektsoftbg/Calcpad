@@ -112,6 +112,8 @@ namespace Calcpad.Core
             {
                 var textWriter = new TextWriter();
                 var stackBuffer = new Stack<RenderToken>();
+                var div = writer.FormatOperator(';');
+                var hairSpace = char.ConvertFromUtf32(0x200A)[0];
                 hasOperators = _parser._targetUnits is not null;
                 for (int i = 0, len = rpn.Length; i < len; ++i)
                 {
@@ -120,7 +122,16 @@ namespace Calcpad.Core
                     if (tt == TokenTypes.Solver)
                     {
                         t.Content = RenderSolver(t.Index, substitute, writer);
-                        t.Type = TokenTypes.Constant;
+                        if (_solveBlocks[t.Index].IsFigure && !substitute)
+                        {
+                            t.Type = TokenTypes.Solver;
+                            t.Order = MinusOrder;
+                            t.Level = 1;
+                        }
+                        else
+                        {
+                            t.Type = TokenTypes.Constant;
+                        }
                     }
                     else if (tt == TokenTypes.Input)
                     {
@@ -172,7 +183,6 @@ namespace Calcpad.Core
                     }
                     else
                     {
-                        var div = writer.FormatOperator(';');
                         var b = stackBuffer.Pop();
                         var sb = b.Content;
                         if (t.Content == NegateString)
@@ -195,7 +205,15 @@ namespace Calcpad.Core
                         }
                         else if (tt == TokenTypes.Operator)
                         {
-                            if (!(substitute && t.Content == "="))
+                            if (substitute && t.Content == "=")
+                            {
+                                if (b.Offset != 0 && writer is HtmlWriter)
+                                    sb = HtmlWriter.OffsetDivision(sb, b.Offset);
+
+                                t.Content = sb;
+                                t.Level = b.Level;
+                            }
+                            else
                             {
                                 var content = t.Content;
                                 if (!stackBuffer.TryPop(out var a))
@@ -269,7 +287,7 @@ namespace Calcpad.Core
                                             level = Math.Max(a.Level, b.Level);
 
                                         if (content == "*" && a.ValType == 1 && b.ValType == 2)
-                                            t.Content = sa + char.ConvertFromUtf32(0x200A) + sb;
+                                            t.Content = sa + hairSpace + sb;
                                         else
                                             t.Content = sa + writer.FormatOperator(content[0]) + sb;
                                     }
@@ -283,14 +301,6 @@ namespace Calcpad.Core
                                             hasOperators = true;
                                     }
                                 }
-                            }
-                            else
-                            {
-                                if (b.Offset != 0 && writer is HtmlWriter)
-                                    sb = HtmlWriter.OffsetDivision(sb, b.Offset);
-
-                                t.Content = sb;
-                                t.Level = b.Level;
                             }
                         }
                         else if (tt == TokenTypes.Function2)

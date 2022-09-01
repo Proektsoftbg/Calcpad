@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 
 namespace Calcpad.Core
@@ -40,7 +41,7 @@ namespace Calcpad.Core
                         {
                             literal = FormatLocal(literal);
                             if (this is XmlWriter)
-                                power = Power2Xml(power);
+                                power = XmlWriter.Run(power);
 
                             _stringBuilder.Append(isPower ? FormatPower(literal, power, 0, -1) : literal);
                             _stringBuilder.Append(FormatOperator(c));
@@ -117,14 +118,12 @@ namespace Calcpad.Core
             if (isPower)
             {
                 if (this is XmlWriter)
-                    power = Power2Xml(power);
+                    power = XmlWriter.Run(power);
                 _stringBuilder.Append(FormatPower(literal, power, 0, -1));
             }
             else
                 _stringBuilder.Append(literal);
             return _stringBuilder.ToString();
-
-            static string Power2Xml(string s) => $"<m:r><m:t>{s}</m:t></m:r>";
 
             string FormatLocal(string s)
             {
@@ -148,6 +147,7 @@ namespace Calcpad.Core
         internal abstract string FormatOperator(char c);
         internal abstract string FormatPower(string sa, string sb, int level, int order);
         internal abstract string FormatDivision(string sa, string sb, int level);
+        internal abstract string FormatNary(string symbol, string sub, string sup, string expr); //Integral, sum, product
         internal abstract string FormatValue(Value v, int decimals);
         internal abstract string AddBrackets(string s, int level = 0);
         internal abstract string FormatReal(double d, int decimals);
@@ -299,6 +299,9 @@ namespace Calcpad.Core
 
             return FormatComplexHelper(c, decimals);
         }
+
+        internal override string FormatNary(string symbol, string sub, string sup, string expr) =>
+            $"{symbol}{{{expr}; {sub}...{sup} }}";
     }
 
     internal class HtmlWriter : OutputWriter
@@ -424,6 +427,9 @@ namespace Calcpad.Core
             return sa + " ÷ " + sb;
         }
 
+        internal override string FormatNary(string symbol, string sub, string sup, string expr) =>
+            $"<span class=\"dvr\"><small>{sup}</small><span class=\"nary\">{symbol}</span><small>{sub}</small></span>{expr}";
+
         internal override string FormatValue(Value v, int decimals)
         {
             var s = FormatComplex(v.Number, decimals);
@@ -483,59 +489,55 @@ namespace Calcpad.Core
         {
             string output;
             if (s == "?")
-                output = "<m:r><m:t>?</m:t></m:r>";//<w:rPr><w:color w:val=\"FF0000\" /><w:shd w:fill=\"FFFF88\" /></w:rPr>
+                output = Run(s);//<w:rPr><w:color w:val=\"FF0000\" /><w:shd w:fill=\"FFFF88\" /></w:rPr>
             else if (isCalculated)
-                output = $"<m:r><m:t>{s}</m:t></m:r>";//<w:rPr><w:u /><w:shd w:fill=\"FFFF88\" /></w:rPr>
+                output = Run(s);//<w:rPr><w:u /><w:shd w:fill=\"FFFF88\" /></w:rPr>
             else
-                output = $"<m:r><m:t>{s}</m:t></m:r>";//<w:rPr><w:bdr w:val=\"single\" w:space=\"0\" w:color=\"000000\"<w:shd w:fill=\"FFFF88\" /></w:rPr>
+                output = Run(s);//<w:rPr><w:bdr w:val=\"single\" w:space=\"0\" w:color=\"000000\"<w:shd w:fill=\"FFFF88\" /></w:rPr>
 
             return units is null ? output : output + units.Xml;
         }
         internal override string FormatSubscript(string sa, string sb) =>
-            $"<m:sSub><m:e><m:r><m:t>{sa}</m:t></m:r></m:e><m:sub><m:r><m:t>{sb}</m:t></m:r></m:sub></m:sSub>";
+            $"<m:sSub><m:e>{Run(sa)}</m:e><m:sub>{Run(sb)}</m:sub></m:sSub>";
         internal override string FormatVariable(string name, string value)
         {
             var i = name.IndexOf('_');
             if (i <= 0)
-                return $"<m:r><m:t>{name}</m:t></m:r>"; //<w:rPr><w:color w:val=\"0000FF\" /></w:rPr>
+                return Run(name); //<w:rPr><w:color w:val=\"0000FF\" /></w:rPr>
 
             var i1 = i + 1;
             return i1 < name.Length ?
                 FormatSubscript(name[..i], name[(i + 1)..]) :
-                $"<m:r><m:t>{name}</m:t></m:r>";
+                Run(name);
         }
-        internal override string FormatUnits(string s) => $"<m:r><m:t>{s}</m:t></m:r>";
+        internal override string FormatUnits(string s) => Run(s);
         internal override string FormatFunction(string s)
         {
             var i = s.IndexOf('_');
             if (i <= 0) return
-                $"<m:r><m:t>{s}</m:t></m:r>";
+                Run(s);
 
             var i1 = i + 1;
             return i1 < s.Length ?
                 FormatSubscript(s[..i], s[(i + 1)..]) :
-                $"<m:r><m:t>{s}</m:t></m:r>";
+                Run(s);
         }
-        internal override string FormatRoot(string s, bool formatEquations, int level = 0, string n = "2")
+        internal override string FormatRoot(string s, bool formatEquations, int level = 0, string n = "2") => n switch
         {
-            return n switch
-            {
-                "2" => $"<m:rad><m:radPr><m:degHide m:val=\"1\"/></m:radPr><m:deg/><m:e>{s}</m:e></m:rad>",
-                "3" => $"<m:rad><m:deg><m:r><m:t>{n}</m:t></m:r></m:deg><m:e>{s}</m:e></m:rad>",
-                _ => $"<m:rad><m:deg>{n}</m:deg><m:e>{s}</m:e></m:rad>"
-            };
-        }
+            "2" => $"<m:rad><m:radPr><m:degHide m:val=\"1\"/></m:radPr><m:deg/><m:e>{s}</m:e></m:rad>",
+            _ => $"<m:rad><m:deg>{n}</m:deg><m:e>{s}</m:e></m:rad>"
+        };
 
 
         internal override string FormatOperator(char c) => c switch
         {
-            '<' => "<m:r><m:t>&lt;</m:t></m:r>",
-            '>' => "<m:r><m:t>&gt;</m:t></m:r>",
-            '≤' => "<m:r><m:t>&le;</m:t></m:r>",
-            '≥' => "<m:r><m:t>&ge;</m:t></m:r>",
-            '*' => "<m:r><m:t>·</m:t></m:r>",
-            Calculator.NegChar => "<m:r><m:t>-</m:t></m:r>",
-            _ => $"<m:r><m:t>{c}</m:t></m:r>"
+            '<' => Run("&lt;"),
+            '>' => Run("&gt;"),
+            '≤' => Run("&le;"),
+            '≥' => Run("&ge;"),
+            '*' => Run("·"),
+            Calculator.NegChar => Run("-"),
+            _ => Run(c.ToString())
         };
 
         internal override string FormatPower(string sa, string sb, int level, int order)
@@ -550,6 +552,14 @@ namespace Calcpad.Core
         internal override string FormatDivision(string sa, string sb, int level) =>
             $"<m:f><m:num>{sa}</m:num><m:den>{sb}</m:den></m:f>";
 
+        internal override string FormatNary(string symbol, string sub, string sup, string expr)
+        {
+            var sProp = $"<m:naryPr><m:chr m:val=\"{symbol}\"/><m:limLoc m:val=\"undOvr\"/></m:naryPr>";
+            var sSubSup = $"<m:sub>{sub}</m:sub><m:sup>{sup}</m:sup>";
+            var sExpr = $"<m:e>{expr}</m:e>";
+            return $"<m:nary>{sProp}{sSubSup}{sExpr}</m:nary>";
+        }
+
         internal override string FormatValue(Value v, int decimals)
         {
             var s = FormatComplex(v.Number, decimals);
@@ -562,51 +572,46 @@ namespace Calcpad.Core
             return s + v.Units.Xml;
         }
 
-        internal override string AddBrackets(string s, int level = 0)
-        {
-            char begChar = '(', endChar = ')';
-            if (level <= 1)
-                return
-                    $"<m:d><m:dPr><m:begChr m:val = \"{begChar}\" /><m:endChr m:val = \"{endChar}\" /></m:dPr><m:e>{s}</m:e></m:d>";
-
-            begChar = '[';
-            endChar = ']';
-            return $"<m:d><m:dPr><m:begChr m:val = \"{begChar}\" /><m:endChr m:val = \"{endChar}\" /></m:dPr><m:e>{s}</m:e></m:d>";
-        }
+        internal override string AddBrackets(string s, int level = 0) =>
+            level > 1 ? Brackets('[', ']', s) : Brackets('(', ')', s);
 
         internal override string FormatReal(double d, int decimals)
         {
             var s = FormatNumberHelper(d, decimals);
             if (double.IsNaN(d) || double.IsInfinity(d))
-                return $"<m:r><m:t>{s}</m:t></m:r>";//<w:rPr><w:color w:val=\"FF0000\" /></w:rPr>
+                return Run(s);//<w:rPr><w:color w:val=\"FF0000\" /></w:rPr>
 
             var i = s.LastIndexOf('E');
             if (i <= 0)
-                return $"<m:r><m:t>{s}</m:t></m:r>";
+                return Run(s);
 
             var i1 = i + 1;
             if (s[i1] == '+')
                 i1++;
 
-            return $"<m:r><m:t>{s[..i]}×</m:t></m:r><m:sSup><m:e><m:r><m:t>10</m:t></m:r></m:e><m:sup><m:r><m:t>{s[i1..]}</m:t></m:r></m:sup></m:sSup>";
+            return $"{Run(s[..i] + "×")}<m:sSup><m:e>{Run("10")}</m:e><m:sup><m:r><m:t>{s[i1..]}</m:t></m:r></m:sup></m:sSup>";
         }
 
         internal override string FormatComplex(Complex c, int decimals)
         {
             if (double.IsNaN(c.Re) && double.IsNaN(c.Im))
-                return "<m:r><m:t>Undefined</m:t></m:r>";//<w:rPr><w:color w:val=\"FF0000\" /></w:rPr>
+                return Run("Undefined");//<w:rPr><w:color w:val=\"FF0000\" /></w:rPr>
 
             if (c.IsReal)
                 return FormatReal(c.Re, decimals);
 
-            var sImaginary = FormatReal(Math.Abs(c.Im), decimals) + "<m:r><m:t>i</m:t></m:r>";
+            var sImaginary = FormatReal(Math.Abs(c.Im), decimals) + Run("i");
             if (c.IsImaginary)
                 return sImaginary;
 
             var sReal = FormatReal(c.Re, decimals);
             return c.Im < 0 ?
-                $"{sReal}<m:r><m:t>–</m:t></m:r>{sImaginary}" :
-                $"{sReal}<m:r><m:t>+</m:t></m:r>{sImaginary}";
+                sReal + Run("–") + sImaginary:
+                sReal + Run("+") + sImaginary;
         }
+
+        internal static string Run(string s) => $"<m:r><m:t>{s}</m:t></m:r>";
+        internal static string Brackets(char opening, char closing, string s) =>
+            $"<m:d><m:dPr><m:begChr m:val=\"{opening}\"/><m:endChr m:val=\"{closing}\"/></m:dPr><m:e>{s}</m:e></m:d>";
     }
 }

@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     x:Class="Calcpad.Wpf.MainWindow"
     Closing="Window_Closing" 
-    Title=" Calcpad 5.8.3" 
+    Title=" Calcpad 5.8.4" 
     Height="800" 
     Width="1200"
     WindowStartupLocation="CenterScreen"
@@ -735,7 +735,8 @@
                     <MenuItem Click="Button_Click" Tag="$Find{f(x) @ x = a : b }"         Header="Non-strict root finding"/>
                     <MenuItem Click="Button_Click" Tag="$Sup{f(x) @ x = a : b }"          Header="Local maximum of a function"/>
                     <MenuItem Click="Button_Click" Tag="$Inf{f(x) @ x = a : b }"          Header="Local minimum of a function"/>
-                    <MenuItem Click="Button_Click" Tag="$Area{f(x) @ x = a : b }"         Header="Numerical integration"/>
+                    <MenuItem Click="Button_Click" Tag="$Area{f(x) @ x = a : b }"         Header="Gauss-Lobatto integration"/>
+                    <MenuItem Click="Button_Click" Tag="$Integral{f(x) @ x = a : b }"    Header="Tanh-Sinh integration"/>
                     <MenuItem Click="Button_Click" Tag="$Slope{f(x) @ x = a }"            Header="Numerical differentiation"/>
                     <Separator/>
                     <MenuItem Click="Button_Click" Tag="$Sum{f(k) @ k = a : b }"          Header="Iterative sum"/>
@@ -1371,6 +1372,7 @@
                         <ListBoxItem Content="$Area{}" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="$Find{}" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="$Inf{}" Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="$Integrte{}" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="$Map{}" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="$Plot{}" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="$Product{}" Foreground="DarkMagenta"/>

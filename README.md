@@ -154,7 +154,8 @@ A variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;$Find { f(x) @ x = a : b } similar to above, but x is not required to be a precise solution;  
 &emsp;&emsp;$Sup { f(x) @ x = a : b } - local maximum of a function;  
 &emsp;&emsp;$Inf { f(x) @ x = a : b } - local minimum of a function;  
-&emsp;&emsp;$Area { f(x) @ x = a : b } - numerical integration;  
+&emsp;&emsp;$Area { f(x) @ x = a : b } - adaptive Gauss-Lobatto numerical integration;  
+&emsp;&emsp;$Integral { f(x) @ x = a : b } - Tanh-Sinh numerical integration; 
 &emsp;&emsp;$Slope { f(x) @ x = a } - numerical differentiation;  
 &emsp;&emsp;$Sum { f(k) @ k = a : b } - iterative sum;  
 &emsp;&emsp;$Product { f(k) @ k = a : b } - iterative product;  

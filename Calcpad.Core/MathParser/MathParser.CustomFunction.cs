@@ -127,7 +127,7 @@ namespace Calcpad.Core
 
             internal Value Calculate(Value[] parameters)
             {
-                int len = parameters.Length;
+                var len = parameters.Length;
                 if (len == 1)
                 {
                     ref var v = ref parameters[0];

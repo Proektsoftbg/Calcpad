@@ -118,13 +118,13 @@ namespace Calcpad.Core
                             case '{':
                                 if (bracketCounter == 0)
                                 {
+                                    st = SolveBlock.GetSolverType(_stringBuilder.ToString());
                                     if (st == SolveBlock.SolverTypes.Error)
 #if BG
                                         throw new MathParserException($"Невалидна дефиниция на команда за числени методи \"{_stringBuilder}\".");
 #else
                                         throw new MathParserException($"Invalid solver command definition \"{_stringBuilder}\".");
 #endif
-                                    st = SolveBlock.GetSolverType(_stringBuilder.ToString());
                                     _stringBuilder.Clear();
                                 }
                                 else
