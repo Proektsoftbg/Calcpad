@@ -581,7 +581,7 @@ Result: 2D waves<br />
 <h4>Root finding</h4>
 <p style="margin-left: 2em;"><code><span class="cond">$Root</span>{<b>f</b>(<var>x</var>) = const &#64; <var>x</var> = <var>a</var> : <var>b</var>}</code></p>
 <p style="margin-left: 2em;"><code><span class="cond">$Root</span>{<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var> : <var>b</var>}</code></p>
-<p>It finds a single root for an equation of type "<b>f</b>(<var>x</var>) = const" within the interval [<var>a</var>, <var>b</var>]. If "const" is zero, you can omit "= const". The program uses hybrid bracketing method, which is a combination of Bisecton and Anderson-Bjork's method. It subsequently encloses the root in a sufficiently small interval.</p>
+<p>It finds a single root for an equation of type "<b>f</b>(<var>x</var>) = const" within the interval [<var>a</var>, <var>b</var>]. If "const" is zero, you can omit "= const". The program uses hybrid bracketing method, which is a combination of Bisecton and Anderson-Bjork's method. It subsequently narrows the interval that encloses the root, unti it gets smaller than the specified precision.</p>
 <p style="text-align:center;"><img style="height:130pt;" src="Images/Root.png" alt="Root.png"></p>
 <p>If no roots exist inside the initial interval, the program returns an error. If there are several roots, it will find only one of them. In such case, it is better to plot the function first. Then, you can see the approximate location of roots and divide the interval into several parts - one for each root. Finally, you can call the function several times to find all the roots. In some cases, it is possible to develop an automated procedure for interval splitting.</p>
 <p>You can find only roots where the function crosses the line "<var>y</var> = const" ("<b>f</b>(<var>x</var>) - const" changes sign). When it is entirely positive or negative and only "touches" the line from one side, you cannot find the root with any bracketing method.</p>
@@ -596,8 +596,15 @@ Result: 2D waves<br />
 
 <h4>Numerical integration</h4>
 <p style="margin-left: 2em;"><code><span class="cond">$Area</span>{<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var> : <var>b</var>}</code></p>
-<p>It calculates the value of the definite integral of a function <b>f</b>(<var>x</var>) within the specified interval [<var>a</var>, <var>b</var>]. Adaptive Lobbato method with Kronrod extension is applied for that purpose.</p>
+<p>It calculates the value of the definite integral of a function <b>f</b>(<var>x</var>) within the specified interval [<var>a</var>, <var>b</var>]. Adaptive Gauss-Lobbato quadrature with Kronrod extension is applied for that purpose (<a target="_blank" href = "https://www.researchgate.net/publication/226706221_Adaptive_Quadrature-Revisited">Gander & Gautschi</a>, 2000).</p>
 
+<p style="margin-left: 2em;"><code><span class="cond">$Integral</span>{<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var> : <var>b</var>}</code></p>
+<p>This command is similar to the above, but it uses the Tanh-Sinh quadrature (<a target="_blank" href="https://ems.press/content/serial-article-files/2719">Takashi & Mori</a>, 1974) which has been additionally improved by <a target="_blank" href="https://www.ingentaconnect.com/content/tandf/jew/2016/00000030/00000003/art00001;jsessionid=55mdimh9e060a.x-ic-live-03">Michashki & Mosig</a> (2016) and <a  target="_blank" href="https://www.genivia.com/files/qthsh.pdf">Van Engelen</a> (2022). Further improvements has been made in Calcpad, by precomputing and caching the abscissas and weights. This algorithm significantly outperforms <code class="cond">$Area</code> for <b>continuous</b> and <b>smooth</b> functions. However, if the function does not satisfy these requirements, you <b>should not</b> use the <code class="cond">$Integral</code> method. Then, you have two options:</p>
+<ol>
+<li>Divide the interval [<var>a</var>, <var>b</var>] into smaller parts, by using the points of discontinuities and apply the method separately for each part;</li>
+<li>If you are not sure where the discontinuities are, use the <code class="cond">$Area</code> method.</li>
+</ol>
+<p>Additionally, the <code class="cond">$Integral</code> method is formated with the integral symbol "∫" in the output.</p>
 <h4>Numerical differentiation</h4>
 <p style="margin-left: 2em;"><code><span class="cond">$Slope</span>{<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var>}</code></p>
 <p>It finds the value of the first derivative of a function <b>f</b>(<var>x</var>) at <var>x</var> = <var>a</var>. The derivative represents the slope of the tangent to the function at the respective point. The Richardson extrapolation method is used on a two point stencil.</p>

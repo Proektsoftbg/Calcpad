@@ -158,6 +158,7 @@ namespace Calcpad.Wpf
             "$sup",
             "$inf",
             "$area",
+            "$integral",
             "$slope",
             "$repeat",
             "$sum",

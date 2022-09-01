@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
 
@@ -828,16 +829,20 @@ namespace Calcpad.Core
                     var d = divide ?
                         u1._dims[i].Factor / u2._dims[i].Factor :
                         u2._dims[i].Factor / u1._dims[i].Factor;
-                    if (p2 == 1f)
-                        factor *= d;
-                    else if (p2 == 2f)
-                        factor *= d * d;
-                    else
-                        factor *= Math.Pow(d, p2);
+
+                    factor *= MyPow(d, p2);
                 }
             }
             return factor;
         }
+
+        private static double MyPow(double x, float y) => y switch
+        {
+            1f => x,
+            2f => x * x,
+            3f => x * x * x,
+            _ => Math.Pow(x, y)
+        };
 
         public static Unit operator /(Unit u, double d) => u * (1d / d);
 
@@ -916,15 +921,8 @@ namespace Calcpad.Core
             {
                 ref var dim = ref _dims[i];
                 if (dim.Power != 0f && dim.Factor != u._dims[i].Factor)
-                {
-                    var d = dim.Factor / u._dims[i].Factor;
-                    if (dim.Power == 1f)
-                        factor *= d;
-                    else if (dim.Power == 2f)
-                        factor *= d * d;
-                    else
-                        factor *= Math.Pow(d, dim.Power);
-                }
+                    factor *= MyPow(dim.Factor / u._dims[i].Factor, dim.Power);
+
             }
             return factor;
         }
@@ -939,7 +937,6 @@ namespace Calcpad.Core
                 return u;
 
             var d = u._dims[0].Factor;
-
             if (Math.Round(d) == d)
                 return ForceUnits[i];
 

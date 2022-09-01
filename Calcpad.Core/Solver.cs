@@ -5,7 +5,6 @@ namespace Calcpad.Core
 {
     internal enum QuadratureMethods
     {
-        AdaptiveSimpson,
         AdaptiveLobatto,
         TanhSinh
     }
@@ -24,6 +23,11 @@ namespace Calcpad.Core
         private static readonly double[][] w = new double[n][];
 
         static Solver()
+        {
+            GetTanhSinhAbscissasAndWeights();
+        }
+
+        private static void GetTanhSinhAbscissasAndWeights()
         {
             double t, h = 2.0;
             for (int i = 0; i < n; ++i)
@@ -90,74 +94,6 @@ namespace Calcpad.Core
 #endif
             return result;
         }
-
-        /*
-                internal double Ridders(double left, double right, double target, out double err)
-                {
-                    err = 0;
-                    var u = Variable.Value.Units;
-                    double x1 = Math.Min(left, right), y1 = Fd(x1) - target;
-                    if (Math.Abs(y1) <= Precision)
-                    {
-                        Units = u;
-                        return x1;
-                    }
-                    double x2 = Math.Max(left, right), y2 = Fd(x2) - target;
-                    if (Math.Abs(y2) <= Precision)
-                    {
-                        Units = u;
-                        return x2;
-                    }
-
-                    double eps1 = 0, eps = Precision * (x2 - x1);
-                    if (Math.Abs(target) > 1)
-                        eps1 = Precision * target;
-                    var ans = x1;
-                    const int n = 100;
-                    for (int i = 1; i <= n; ++i)
-                    {
-                        var x3 = (x1 + x2) / 2;
-                        var y3 = Fd(x3) - target;
-                        var d = y3 * y3 - y1 * y2;
-                        double x4;
-                        if (d <= 0)
-                            x4 = x3;
-                        else
-                            x4 = x3 + (x3 - x1) * Math.Sign(y1) * y3 / Math.Sqrt(d);
-
-                        var y4 = Fd(x4) - target;
-                        if (Math.Sign(y1) == Math.Sign(y4))
-                        {
-                            x1 = x4;
-                            y1 = y4;
-                            if (Math.Sign(y2) == Math.Sign(y3))
-                            {
-                                x2 = x3;
-                                y2 = y3;
-                            }
-                        }
-                        else
-                        {
-                            x2 = x4;
-                            y2 = y4;
-                            if (Math.Sign(y1) == Math.Sign(y3))
-                            {
-                                x1 = x3;
-                                y1 = y3;
-                            }
-                        }
-                        err = Math.Abs(y4);
-                        if (err < eps1 || Math.Abs(x4 - ans) < eps)
-                        {
-                            Units = u;
-                            return x4;
-                        }
-                        ans = x4;
-                    }
-                    Units = u;
-                    return ans;
-                }
-        */
 
         internal double ModAB(double left, double right, double target, out double err)
         {
@@ -315,9 +251,7 @@ namespace Calcpad.Core
             Units = null;
             if (Math.Abs(right - left) > 1e-14 * (Math.Abs(left) + Math.Abs(right)))
             {
-                if (QuadratureMethod == QuadratureMethods.AdaptiveSimpson)
-                    area = AdaptiveSimpson(left, right);
-                else if (QuadratureMethod == QuadratureMethods.AdaptiveLobatto)
+                if (QuadratureMethod == QuadratureMethods.AdaptiveLobatto)
                     area = AdaptiveLobatto(left, right);
                 else
                     area = TanhSinh(left, right);
@@ -339,39 +273,6 @@ namespace Calcpad.Core
             double factor = Unit.GetProductOrDivisionFactor(Units, u);
             Units *= u;
             return area * factor;
-        }
-
-        private double AdaptiveSimpson(double left, double right)
-        {
-            var h = (right - left) / 2.0;
-            var y1 = Fd(left);
-            var y2 = Fd((left + right) / 2.0);
-            var y3 = Fd(right);
-            var eps = Math.Max(Precision, 1e-12) * Math.Abs(h) / 2.0;
-            var a0 = h * (y1 + 4 * y2 + y3);
-            double area = Simpson(left, right, y1, y2, y3, a0, eps, 1);
-            return Math.CopySign(area / 3.0, h);
-        }
-
-        private double Simpson(double x1, double x3, double y1, double y2, double y3, double a0, double eps, int depth)
-        {
-            const double c = 1.0 / 15.0;
-            var h = (x3 - x1) / 4.0;
-            var x2 = (x1 + x3) / 2.0;
-            var y4 = Fd(x2 - h);
-            var y5 = Fd(x2 + h);
-            var a1 = h * (y1 + 4.0 * y4 + y2);
-            var a2 = h * (y2 + 4.0 * y5 + y3);
-            var a = a1 + a2;
-            var d = a - a0;
-
-            if (depth > 2 && Math.Abs(d) < 45.0 * eps || depth > 20)
-                return a + d * c;
-
-            ++depth;
-            eps /= 2;
-            return Simpson(x1, x2, y1, y4, y2, a1, eps, depth) +
-            Simpson(x2, x3, y2, y5, y3, a1, eps, depth);
         }
 
         private double eps = 1e-14;
@@ -426,7 +327,7 @@ namespace Calcpad.Core
             double s = Fd(c);
             double v, err;
             int i = 0;
-            eps = Math.Max(Precision, 1e-12);
+            eps = Math.Max(Precision * 0.1, 1e-15);
             double tol = 10.0 * eps;
             do
             {
@@ -455,14 +356,18 @@ namespace Calcpad.Core
                 s += p;
                 ++i;
             } while (Math.Abs(v - s) > tol * Math.Abs(s) && i < n);
-            err = Math.Abs(v - s) / (Math.Abs(s) + eps);
+            if (Math.Abs(s) < Precision)
+                err = Math.Abs(v - s);
+            else
+                err = Math.Abs(v - s) / (Math.Abs(s) + eps);
+
             if (err > Math.Sqrt(eps))
                 return double.NaN;
 
             return d * s * Math.Pow(2, 1 - i);
         }
 
-        internal double Slope(double x) //Richardson extrapolation on 2 node stencil
+        internal double Slope(double x) //Richardson extrapolation on a 2 node stencil
         {
             double delta = Math.Min(Math.Sqrt(Precision), 1e-3);
             double maxErr = Math.Max(50 * Precision, 1e-3);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Calcpad.Core
@@ -17,6 +18,7 @@ namespace Calcpad.Core
                 Sup,
                 Inf,
                 Area,
+                Integral,
                 Slope,
                 Repeat,
                 Sum,
@@ -31,6 +33,7 @@ namespace Calcpad.Core
                 { "$sup", SolverTypes.Sup },
                 { "$inf", SolverTypes.Inf },
                 { "$area", SolverTypes.Area },
+                { "$integral", SolverTypes.Integral },
                 { "$slope", SolverTypes.Slope },
                 { "$repeat", SolverTypes.Repeat },
                 { "$sum", SolverTypes.Sum },
@@ -45,6 +48,7 @@ namespace Calcpad.Core
                 "$Sup",
                 "$Inf",
                 "$Area",
+                "∫",
                 "$Slope",
                 "$Repeat",
                 "∑",
@@ -58,6 +62,7 @@ namespace Calcpad.Core
             private string Script { get; }
             private Func<Value> _function;
             internal Value Result { get; private set; }
+            internal bool IsFigure { get; private set; }
 
             internal SolveBlock(string script, SolverTypes type, MathParser parser)
             {
@@ -147,6 +152,21 @@ namespace Calcpad.Core
                     _items[i].Rpn = _parser._rpn;
                     _items[i].Html = _parser.ToHtml();
                     _items[i].Xml = _parser.ToXml();
+                }
+                IsFigure = _type == SolverTypes.Sum ||
+                           _type == SolverTypes.Product ||
+                           _type == SolverTypes.Integral;
+                if (IsFigure)
+                {
+                    var order = Calculator.OperatorOrder[Calculator.OperatorIndex['*']];
+                    var rpn = _items[0].Rpn;
+                    var t = rpn[^1];
+                    if (t.Order > order)
+                    {
+                        _items[0].Html = new HtmlWriter().AddBrackets(_items[0].Html, 1);
+                        _items[1].Xml = new XmlWriter().AddBrackets(_items[0].Xml, 1);
+                        IsFigure = false;
+                    }
                 }
                 if (_type == SolverTypes.Inf || _type == SolverTypes.Sup)
                 {
@@ -263,6 +283,11 @@ namespace Calcpad.Core
                             result = solver.Inf(x1, x2);
                             break;
                         case SolverTypes.Area:
+                            solver.QuadratureMethod = QuadratureMethods.AdaptiveLobatto;
+                            result = solver.Area(x1, x2);
+                            break;
+                        case SolverTypes.Integral:
+                            solver.QuadratureMethod = QuadratureMethods.TanhSinh;
                             result = solver.Area(x1, x2);
                             break;
                         case SolverTypes.Repeat:
@@ -316,12 +341,24 @@ namespace Calcpad.Core
 
             internal string ToHtml()
             {
-                _stringBuilder.Clear();
-                if (_type == SolverTypes.Sum || _type == SolverTypes.Product)
-                    _stringBuilder.Append("<span class=\"cond b1\">" + TypeName(_type) + "</span><span class=\"b1\">{</span> ");
-                else
-                    _stringBuilder.Append("<span class=\"cond\">" + TypeName(_type) + "</span>{");
+                if (_type ==  SolverTypes.Integral)
+                    return new HtmlWriter().FormatNary(
+                        $"<em>{TypeName(_type)}</em>", 
+                        _items[2].Html, 
+                        _items[3].Html,
+                        _items[0].Html + " d" + _items[1].Html
+                        );
 
+                if (_type == SolverTypes.Sum || _type == SolverTypes.Product)
+                    return new HtmlWriter().FormatNary(
+                        TypeName(_type), 
+                        _items[1].Html + "=&hairsp;" + _items[2].Html, 
+                        _items[3].Html, 
+                        _items[0].Html
+                        );
+
+                _stringBuilder.Clear();
+                _stringBuilder.Append("<span class=\"cond\">" + TypeName(_type) + "</span>{");
                 _stringBuilder.Append(_items[0].Html);
                 if (_type == SolverTypes.Root)
                 {
@@ -330,24 +367,17 @@ namespace Calcpad.Core
                     else
                         _stringBuilder.Append(" = 0");
                 }
-
                 _stringBuilder.Append("; ");
                 _stringBuilder.Append(_items[1].Html);
-                if (_type == SolverTypes.Repeat || _type == SolverTypes.Sum || _type == SolverTypes.Product)
+                if (_type == SolverTypes.Repeat || _type == SolverTypes.Slope)
                 {
                     _stringBuilder.Append(" = ");
                     _stringBuilder.Append(_items[2].Html);
-                    _stringBuilder.Append("...");
-                    _stringBuilder.Append(_items[3].Html);
                     if (_type == SolverTypes.Repeat)
-                        _stringBuilder.Append('}');
-                    else
-                        _stringBuilder.Append(" <span class=\"b1\">}</span>");
-                }
-                else if (_type == SolverTypes.Slope)
-                {
-                    _stringBuilder.Append(" = ");
-                    _stringBuilder.Append(_items[2].Html);
+                    {
+                        _stringBuilder.Append("...");
+                        _stringBuilder.Append(_items[3].Html);
+                    }
                     _stringBuilder.Append('}');
                 }
                 else
@@ -363,54 +393,65 @@ namespace Calcpad.Core
 
             internal string ToXml()
             {
-                _stringBuilder.Clear();
+                if (_type == SolverTypes.Integral)
+                    return new XmlWriter().FormatNary(
+                        TypeName(_type),
+                        _items[2].Xml,
+                        _items[3].Xml,
+                        _items[0].Xml + XmlWriter.Run(" d") + _items[1].Xml
+                        );
+
                 if (_type == SolverTypes.Sum || _type == SolverTypes.Product)
-                    _stringBuilder.Append($"<m:nary><m:naryPr><m:chr m:val=\"{TypeName(_type)}\"/><m:limLoc m:val=\"undOvr\"/><m:subHide m:val=\"1\"/><m:supHide m:val=\"1\" /></m:naryPr><m:sub/><m:sup/><m:e>");
-                else
-                    _stringBuilder.Append($"<m:r><m:t>{TypeName(_type)}</m:t></m:r>");//<w:rPr><w:color w:val=\"FF00FF\" /></w:rPr>
+                    return new XmlWriter().FormatNary(
+                        TypeName(_type),
+                        _items[1].Xml + XmlWriter.Run("=") + _items[2].Xml,
+                        _items[3].Xml,
+                        _items[0].Xml
+                        );
 
-                _stringBuilder.Append("<m:d><m:dPr><m:begChr m:val = \"{\" /><m:endChr m:val = \"}\" /></m:dPr><m:e>");
-
+                _stringBuilder.Clear();
                 _stringBuilder.Append(_items[0].Xml);
                 if (_type == SolverTypes.Root)
                 {
                     if (_items[4].Xml is not null)
-                        _stringBuilder.Append($"<m:r><m:t>=</m:t></m:r>{_items[4].Xml}");
+                        _stringBuilder.Append(XmlWriter.Run("=") + _items[4].Xml);
                     else
-                        _stringBuilder.Append("<m:r><m:t>=0</m:t></m:r>");
+                        _stringBuilder.Append(XmlWriter.Run("=0"));
                 }
-
-                _stringBuilder.Append("<m:r><m:t>;</m:t></m:r>");
+                _stringBuilder.Append(XmlWriter.Run(";"));
                 _stringBuilder.Append(_items[1].Xml);
-                if (_type == SolverTypes.Repeat || _type == SolverTypes.Sum || _type == SolverTypes.Product)
+                if (_type == SolverTypes.Repeat || _type == SolverTypes.Slope)
                 {
-                    _stringBuilder.Append("<m:r><m:t>=</m:t></m:r>");
+                    _stringBuilder.Append(XmlWriter.Run("="));
                     _stringBuilder.Append(_items[2].Xml);
-                    _stringBuilder.Append("<m:r><m:t>...</m:t></m:r>");
-                    _stringBuilder.Append(_items[3].Xml);
-                }
-                else if (_type == SolverTypes.Slope)
-                {
-                    _stringBuilder.Append("<m:r><m:t>=</m:t></m:r>");
-                    _stringBuilder.Append(_items[2].Xml);
+                    if (_type == SolverTypes.Repeat)
+                    {
+                        _stringBuilder.Append(XmlWriter.Run("..."));
+                        _stringBuilder.Append(_items[3].Xml);
+                    }
                 }
                 else
                 {
-                    _stringBuilder.Append("<m:r><m:t>∈</m:t></m:r><m:d><m:dPr><m:begChr m:val = \"[\" /><m:endChr m:val = \"]\" /></m:dPr><m:e>");
-                    _stringBuilder.Append(_items[2].Xml);
-                    _stringBuilder.Append("<m:r><m:t>;</m:t></m:r>");
-                    _stringBuilder.Append(_items[3].Xml);
-                    _stringBuilder.Append("</m:e></m:d>");
+                    _stringBuilder.Append(XmlWriter.Run("∈"));
+                    _stringBuilder.Append(XmlWriter.Brackets('[', ']', _items[2].Xml + XmlWriter.Run(";") + _items[3].Xml));
                 }
-                _stringBuilder.Append("</m:e></m:d>");
-                if (_type == SolverTypes.Sum || _type == SolverTypes.Product)
-                    _stringBuilder.Append("</m:e></m:nary>");
-
-                return _stringBuilder.ToString();
+                string s = _stringBuilder.ToString();   
+                return XmlWriter.Run(TypeName(_type)) + XmlWriter.Brackets('{', '}', s);
             }
 
             public override string ToString()
             {
+                if (_type == SolverTypes.Sum || 
+                    _type == SolverTypes.Product ||
+                    _type == SolverTypes.Integral ||
+                    _type == SolverTypes.Repeat)
+                    return new TextWriter().FormatNary(
+                        TypeName(_type), 
+                        _items[1].Html + " = " + _items[2].Html,
+                        _items[3].Html,
+                        _items[0].Html
+                        );
+
                 _stringBuilder.Clear();
                 _stringBuilder.Append(TypeName(_type));
                 _stringBuilder.Append('{');
@@ -424,15 +465,7 @@ namespace Calcpad.Core
                 }
                 _stringBuilder.Append("; ");
                 _stringBuilder.Append(_items[1].Input);
-                if (_type == SolverTypes.Repeat || _type == SolverTypes.Sum || _type == SolverTypes.Product)
-                {
-                    _stringBuilder.Append(" = ");
-                    _stringBuilder.Append(_items[2].Input);
-                    _stringBuilder.Append("...");
-                    _stringBuilder.Append(_items[3].Input);
-                    _stringBuilder.Append('}');
-                }
-                else if (_type == SolverTypes.Slope)
+                if (_type == SolverTypes.Slope)
                 {
                     _stringBuilder.Append(" = ");
                     _stringBuilder.Append(_items[2].Input);
