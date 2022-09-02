@@ -17,8 +17,8 @@ namespace Calcpad.Core
         internal Unit Units;
         internal Func<Value> Function;
         public Variable Variable;
-        private const int n = 7;
-        private static readonly int[] m = { 6, 7, 13, 26, 53, 106, 212 };
+        private const int n = 11;
+        private static readonly int[] m = { 6, 7, 13, 26, 53, 106, 212, 423, 846, 1693, 3385 };
         private static readonly double[][] r = new double[n][];
         private static readonly double[][] w = new double[n][];
 
@@ -29,12 +29,13 @@ namespace Calcpad.Core
 
         private static void GetTanhSinhAbscissasAndWeights()
         {
-            double t, h = 2.0;
+            double t;
+            var h = 2d;
             for (int i = 0; i < n; ++i)
             {
-                h /= 2.0;
-                double eh = Math.Exp(h);
-                t = Math.Exp(h);
+                h /= 2d;
+                var eh = Math.Exp(h);
+                t = eh;
                 r[i] = new double[m[i]];
                 w[i] = new double[m[i]];
                 if (i > 0)
@@ -42,14 +43,10 @@ namespace Calcpad.Core
 
                 for (int j = 0; j < m[i]; ++j)
                 {
-                    double t1 = 1.0 / t;
-                    double u = Math.Exp(t1 - t);
-                    double u1 = 1.0 / (1.0 + u);
-                    double d = 2.0 * u * u1;
-                    if (d == 0.0)
-                        break;
+                    var u = Math.Exp(1d/t - t);
+                    var d = 2d * u / (1d + u);
                     r[i][j] = d;
-                    w[i][j] = (t1 + t) * d * u1;
+                    w[i][j] = (1d/t + t) * d / (1d + u);
                     t *= eh;
                 }
             }
@@ -279,8 +276,8 @@ namespace Calcpad.Core
         private double AdaptiveLobatto(double left, double right)
         {
             Units = null;
-            var h = (right - left) / 2.0;
-            eps = Math.Max(Precision, 1e-14) * Math.Abs(h) / 2.0;
+            var h = right - left;
+            eps = Math.Max(Precision, 1e-14) * Math.Abs(h);
             return Lobatto(left, right, Fd(left), Fd(right), 1);
         }
 
@@ -307,7 +304,7 @@ namespace Calcpad.Core
 
             var a1 = h * k1 * (77.0 * (y1 + y3) + 432.0 * (y4 + y7) + 625.0 * (y5 + y6) + 672.0 * y2);
             var a2 = h * k2 * (y1 + y3 + 5.0 * (y5 + y6));
-
+            
             if (depth > 1 && Math.Abs(a1 - a2) < eps || depth > 15)
                 return a1;
 
@@ -322,29 +319,29 @@ namespace Calcpad.Core
 
         private double TanhSinh(double left, double right)
         {
-            double c = (left + right) / 2.0;
-            double d = (right - left) / 2.0;
-            double s = Fd(c);
-            double v, err;
-            int i = 0;
-            eps = Math.Max(Precision * 0.1, 1e-15);
-            double tol = 10.0 * eps;
+            var c = (left + right) / 2d;
+            var d = (right - left) / 2d;
+            var s = Fd(c);
+            double err;
+            var i = 0;
+            eps = Math.Clamp(Precision * 0.1, 1e-15, 1e-8);
+            var tol = 10.0 * Precision;
             do
             {
-                double q, p = 0.0, fp = 0.0, fm = 0.0;
+                double q, p = 0d, fp = 0d, fm = 0d;
                 int j = 0;
                 do
                 {
-                    double x = r[i][j] * d;
+                    var x = r[i][j] * d;
                     if (left + x > left)
                     {
-                        double y = Fd(left + x);
+                        var y = Fd(left + x);
                         if (double.IsFinite(y))
                             fp = y;
                     }
                     if (right - x < right)
                     {
-                        double y = Fd(right - x);
+                        var y = Fd(right - x);
                         if (double.IsFinite(y))
                             fm = y;
                     }
@@ -352,19 +349,18 @@ namespace Calcpad.Core
                     p += q;
                     ++j;
                 } while (Math.Abs(q) > eps * Math.Abs(p) && j < m[i]);
-                v = 2.0 * s;
+                err = 2d * s;
                 s += p;
+                err = Math.Abs(err - s);
                 ++i;
-            } while (Math.Abs(v - s) > tol * Math.Abs(s) && i < n);
-            if (Math.Abs(s) < Precision)
-                err = Math.Abs(v - s);
-            else
-                err = Math.Abs(v - s) / (Math.Abs(s) + eps);
+            } while (err > tol * Math.Abs(s) && i < n);
+            if (Math.Abs(s) > 1d)
+                err /= Math.Abs(s);
 
-            if (err > Math.Sqrt(eps))
+            if (err > tol)
                 return double.NaN;
 
-            return d * s * Math.Pow(2, 1 - i);
+            return d * s * Math.Pow(2d, 1d - i);
         }
 
         internal double Slope(double x) //Richardson extrapolation on a 2 node stencil
