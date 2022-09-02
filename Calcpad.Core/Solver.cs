@@ -357,7 +357,7 @@ namespace Calcpad.Core
             if (Math.Abs(s) > 1d)
                 err /= Math.Abs(s);
 
-            if (err > tol)
+            if (err > 10d * tol)
                 return double.NaN;
 
             return d * s * Math.Pow(2d, 1d - i);
