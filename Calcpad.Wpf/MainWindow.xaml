@@ -1372,7 +1372,7 @@
                         <ListBoxItem Content="$Area{}" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="$Find{}" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="$Inf{}" Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="$Integrte{}" Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="$Integral{}" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="$Map{}" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="$Plot{}" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="$Product{}" Foreground="DarkMagenta"/>

@@ -1372,10 +1372,22 @@ namespace Calcpad.Wpf
 
         private static string ReplaceCStyleRelationalOperators(string s)
         {
+            const char nullChar = (char)0;
+            var commentChar = nullChar;
             var sb = new StringBuilder(s.Length);
-            foreach (char c in s)
+            foreach (var c in s)
             {
-                if (c == '=')
+                if (c == '\n')
+                    commentChar = nullChar;
+                else if (c == '\'' || c == '"')
+                {
+                    if (commentChar == nullChar)
+                        commentChar = c;
+                    else if (commentChar == c)
+                        commentChar = nullChar;
+                }
+
+                if (c == '=' &&  commentChar == nullChar)
                 {
                     var n = sb.Length - 1;
                     if (n < 0)
@@ -2893,9 +2905,9 @@ namespace Calcpad.Wpf
 
         private static int CountInputFields(string s)
         {
-            int count = 0;
+            var count = 0;
             const char nullChar = (char)0;
-            char commentChar = nullChar;
+            var commentChar = nullChar;
             foreach (var c in s)
             {
                 if (c == '\n')
