@@ -26,6 +26,7 @@
         "$Area",
         "$Find",
         "$Inf",
+		"$Integral",
         "$Map",
         "$Plot",
         "$Product",

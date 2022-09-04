@@ -1,6 +1,7 @@
 command $Area
 command $Find
 command $Inf
+command $Integral
 command $Map
 command $Plot
 command $Product

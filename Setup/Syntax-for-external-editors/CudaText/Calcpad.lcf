@@ -167,7 +167,7 @@ object SyntAnal6: TLibSyntAnalyzer
       StyleName = 'Keyword'
       TokenType = 3
       Expression = 
-        '\$([Rr]oot|[Ff]ind|[Ii]nf|[Ss]up|[Aa]rea|[Ii]ntegrate|[Ss]lope|[' +
+        '\$([Rr]oot|[Ff]ind|[Ii]nf|[Ss]up|[Aa]rea|[Ii]ntegral|[Ss]lope|[' +
         'Ss]um|[Pp]roduct|[Rr]epeat|[Mm]ap|[Pp]lot)\b'
       ColumnFrom = 0
       ColumnTo = 0
