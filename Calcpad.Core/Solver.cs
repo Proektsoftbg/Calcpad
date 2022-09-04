@@ -276,8 +276,7 @@ namespace Calcpad.Core
         private double AdaptiveLobatto(double left, double right)
         {
             Units = null;
-            var h = right - left;
-            eps = Math.Max(Precision, 1e-14) * Math.Abs(h);
+            eps = Math.Max(Precision, 1e-14) / 2d; //Integration must be slightly more precise than differentiation, when used together
             return Lobatto(left, right, Fd(left), Fd(right), 1);
         }
 
@@ -305,7 +304,12 @@ namespace Calcpad.Core
             var a1 = h * k1 * (77.0 * (y1 + y3) + 432.0 * (y4 + y7) + 625.0 * (y5 + y6) + 672.0 * y2);
             var a2 = h * k2 * (y1 + y3 + 5.0 * (y5 + y6));
             
-            if (depth > 1 && Math.Abs(a1 - a2) < eps || depth > 15)
+            if (depth == 1)
+            {
+                if (double.IsFinite(a1) && a1 > 1)
+                    eps *= a1;
+            }
+            else if(Math.Abs(a1 - a2) < eps || depth > 15)
                 return a1;
 
             depth++;
