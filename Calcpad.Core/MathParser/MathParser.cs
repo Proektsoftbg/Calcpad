@@ -276,7 +276,8 @@ namespace Calcpad.Core
                             cf.BeforeChange();
                         cf.Function = null;
                         _functionDefinitionIndex = _functions.Add(name, cf);
-                        if (cf.CheckReqursion(null, _functions))
+                        cf.IsRecursion = cf.CheckReqursion(null, _functions);
+                        if (cf.IsRecursion)
 #if BG
                             throw new MathParserException($"Открита е циклична референция за функция \"{name}\".");
 #else

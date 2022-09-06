@@ -38,7 +38,7 @@ namespace Calcpad.Core
             private Parameter[] _parameters;
             internal Unit Units;
             internal int ParameterCount { get; private set; }
-            internal bool IsRecursion { get; private set; }
+            internal bool IsRecursion;
 
             internal Func<Value> Function;
 
@@ -103,11 +103,8 @@ namespace Calcpad.Core
             internal bool CheckReqursion(CustomFunction f, Container<CustomFunction> functions)
             {
                 if (ReferenceEquals(f, this))
-                {
-                    IsRecursion = true;
                     return true;
-                }
-                IsRecursion = false;
+
                 f ??= this;
                 for (int i = 0, len = Rpn.Length; i < len; ++i)
                 {
@@ -116,13 +113,10 @@ namespace Calcpad.Core
                     {
                         var cf = functions[functions.IndexOf(t.Content)];
                         if (cf.CheckReqursion(f, functions))
-                        {
-                            IsRecursion = true;
-                            break;
-                        }
+                            return true;
                     }
                 }
-                return IsRecursion;
+                return false;
             }
 
             internal Value Calculate(Value[] parameters)
@@ -133,7 +127,7 @@ namespace Calcpad.Core
                     ref var v = ref parameters[0];
                     if (!_cache.TryGetValue(v, out var z))
                     {
-                        _parameters[0].SetValue(parameters[0]);
+                        _parameters[0].SetValue(v);
                         z = Function();
                         _cache.Add(v, z);
                     }

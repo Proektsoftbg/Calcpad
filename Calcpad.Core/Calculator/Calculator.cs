@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 
 namespace Calcpad.Core
@@ -37,7 +38,8 @@ namespace Calcpad.Core
 
         //                                               ^  ÷  \  %  *  -  +  <  >  ≤  ≥  ≡  ≠  =
         internal static readonly int[] OperatorOrder = { 0, 3, 3, 3, 3, 4, 5, 6, 6, 6, 6, 6, 6, 7 };
-        internal static Dictionary<char, int> OperatorIndex { get; } = new()
+
+        internal static readonly Dictionary<char, int> OperatorIndex = new()
         {
             { '^', 0 },
             { '/', 1 },

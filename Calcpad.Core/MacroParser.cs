@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Reflection.Metadata;
 using System.Text;
 using System.Web;
 
@@ -233,12 +231,8 @@ namespace Calcpad.Core
                                 {
                                     c = EatSpace(lineContent, ref j);
                                     var contents = lineContent[j..];
-                                    if (!Macros.TryAdd(macroName, new Macro(contents, macroParameters)))
-#if BG
-                                        AppendError("Повтарящо се име на макрос.");
-#else
-                                        AppendError("Duplicate macro name.");
-#endif
+                                    CheckForInputFieldsInMacro(contents);
+                                    AddMacro(macroName, new Macro(contents, macroParameters));
                                     macroName = string.Empty;
                                     macroBuilder.Clear();
                                 }
@@ -255,7 +249,6 @@ namespace Calcpad.Core
 #endif
                                         macroName = string.Empty;
                                         macroBuilder.Clear();
-
                                     }
                                     ++macroDefCount;
                                 }
@@ -288,12 +281,8 @@ namespace Calcpad.Core
                                 //    macroBuilder.Remove(j, 2);
 
                                 string macroContent = macroBuilder.ToString();
-                                if (!Macros.TryAdd(macroName, new Macro(macroContent, macroParameters)))
-#if BG
-                                    AppendError($"Повтарящо се име на макрос: \"{macroName}\".");
-#else
-                                    AppendError($"Duplicate macro name: \"{macroName}\".");
-#endif
+                                CheckForInputFieldsInMacro(macroContent);
+                                AddMacro(macroName, new Macro(macroContent, macroParameters));
                                 macroName = string.Empty;
                                 macroBuilder.Clear();
                             }
@@ -362,6 +351,29 @@ namespace Calcpad.Core
 #endif
                 hasErrors = true;
             }
+
+            void CheckForInputFieldsInMacro(string s)
+            {
+                if (CountInputFields(s) > 0)
+
+#if BG
+                    AppendError($"Полета за вход \"?\" все още не се поддържат в макроси.");
+#else
+                    AppendError($"Input fields \"?\" in macros are not supported yet.");
+#endif
+            }
+
+            void AddMacro(string name, Macro macro)
+                {
+                    if (!Macros.TryAdd(name, macro))
+#if BG
+                        AppendError($"Повтарящо се име на макрос: \"{name}\".");
+#else
+                        AppendError($"Duplicate macro name: \"{name}\".");
+#endif
+            }
+
+
             static string LineHtml(int line) => $"[<a href=\"#0\" data-text=\"{line}\">{line}</a>]";
         }
 
@@ -478,6 +490,28 @@ namespace Calcpad.Core
                     return s[index];
             }
             return '\0';
+        }
+
+        public static int CountInputFields(string s)
+        {
+            var count = 0;
+            const char nullChar = (char)0;
+            var commentChar = nullChar;
+            foreach (var c in s)
+            {
+                if (c == '\n')
+                    commentChar = nullChar;
+                else if (c == '\'' || c == '"')
+                {
+                    if (commentChar == nullChar)
+                        commentChar = c;
+                    else if (commentChar == c)
+                        commentChar = nullChar;
+                }
+                else if (c == '?' && commentChar == nullChar)
+                    ++count;
+            }
+            return count;
         }
     }
 }

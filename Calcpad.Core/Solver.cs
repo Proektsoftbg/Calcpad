@@ -11,16 +11,16 @@ namespace Calcpad.Core
 
     internal class Solver
     {
-        private const double Limits = 1E6;
+        private const double Limits = 1E8;
         internal double Precision = 1E-14;
         internal QuadratureMethods QuadratureMethod = QuadratureMethods.AdaptiveLobatto;
         internal Unit Units;
         internal Func<Value> Function;
         public Variable Variable;
-        private const int n = 11;
+        private const int TanhSinhDepth = 11;
         private static readonly int[] m = { 6, 7, 13, 26, 53, 106, 212, 423, 846, 1693, 3385 };
-        private static readonly double[][] r = new double[n][];
-        private static readonly double[][] w = new double[n][];
+        private static readonly double[][] r = new double[TanhSinhDepth][];
+        private static readonly double[][] w = new double[TanhSinhDepth][];
 
         static Solver()
         {
@@ -31,7 +31,7 @@ namespace Calcpad.Core
         {
             double t;
             var h = 2d;
-            for (int i = 0; i < n; ++i)
+            for (int i = 0; i < TanhSinhDepth; ++i)
             {
                 h /= 2d;
                 var eh = Math.Exp(h);
@@ -357,7 +357,7 @@ namespace Calcpad.Core
                 s += p;
                 err = Math.Abs(err - s);
                 ++i;
-            } while (err > tol * Math.Abs(s) && i < n);
+            } while (err > tol * Math.Abs(s) && i < TanhSinhDepth);
             if (Math.Abs(s) > 1d)
                 err /= Math.Abs(s);
 

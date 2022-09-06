@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -66,6 +67,19 @@ namespace Calcpad.Wpf
             if (_direction == Directions.Up)
                 _col -= 2;
         }
+        private readonly SolidColorBrush _highlightBrush = new(System.Windows.Media.Color.FromArgb(40, 0, 155, 255));
+        internal void HighlghtSelection()
+        {
+            BeginSearch(this, null);
+            RichTextBox.Selection.ApplyPropertyValue(TextElement.BackgroundProperty, _highlightBrush);
+            EndSearch(this, null);
+        }
+        internal void ClearSelection()
+        {
+            BeginSearch(this, null);
+            RichTextBox.Selection.ApplyPropertyValue(TextElement.BackgroundProperty, null);
+            EndSearch(this, null);
+        }
 
         internal void Find() => FindNext(false);
         internal void Replace() => FindNext(true);
@@ -96,7 +110,7 @@ namespace Calcpad.Wpf
             BeginReplace(this, null);
             while (j >= 0)
             {
-                j = lowerCaseContentString.IndexOf(lowerCaseSearchString, i, StringComparison.InvariantCulture);
+                j = lowerCaseContentString.IndexOf(lowerCaseSearchString, i, StringComparison.Ordinal);
                 if (j >= 0)
                 {
                     if (j > i)
@@ -126,6 +140,7 @@ namespace Calcpad.Wpf
 
             tr.Text = sb.ToString();
             EndReplace(this, null);
+            RichTextBox.Selection.Select(from, from);
 #if BG
             MessageBox.Show($"Заменени са {count} срещания.", "Търсене/Замяна");
 #else
@@ -200,18 +215,17 @@ namespace Calcpad.Wpf
 
                 if (found)
                 {
-                    BeginSearch(this, null);
                     RichTextBox.Selection.Select(p.ContentStart, p.ContentEnd);
+                    BeginSearch(this, null);
                     RichTextBox.Selection.ClearAllProperties();
                     RichTextBox.Selection.Select(p.ContentStart.GetPositionAtOffset(_col), p.ContentStart.GetPositionAtOffset(_col + len));
-                    RichTextBox.Selection.ApplyPropertyValue(TextElement.BackgroundProperty, Brushes.LightBlue);
                     double y = RichTextBox.Selection.Start.GetCharacterRect(LogicalDirection.Forward).Bottom;
                     if (y < 0 || y > RichTextBox.ActualHeight)
                     {
                         DoEvents();
                         RichTextBox.ScrollToVerticalOffset(y + Math.CopySign(20, y));
                     }
-                    EndSearch(this, null);
+                    HighlghtSelection();
                     if (Direction == Directions.Up)
                         _col--;
                     return;

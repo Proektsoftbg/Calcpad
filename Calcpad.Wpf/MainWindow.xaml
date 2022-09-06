@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     x:Class="Calcpad.Wpf.MainWindow"
     Closing="Window_Closing" 
-    Title=" Calcpad 5.8.4" 
+    Title=" Calcpad 5.8.5" 
     Height="800" 
     Width="1200"
     WindowStartupLocation="CenterScreen"
@@ -1142,7 +1142,7 @@
                                  Block.LineHeight="3" 
                                  BorderThickness="0" 
                                  TabIndex="0" 
-                                 SelectionOpacity="0.2" 
+                                 SelectionOpacity="0.15" 
                                  AllowDrop="true"
                                  UndoLimit="0" 
                                  IsUndoEnabled="false" 
@@ -1160,7 +1160,7 @@
                                  PreviewMouseWheel="RichTextBox_PreviewMouseWheel" 
                                  SizeChanged="RichTextBox_SizeChanged" 
                                  MouseDoubleClick="RichTextBox_MouseDoubleClick" 
-                                 LostKeyboardFocus="RichTextBox_LostKeyboardFocus">
+                                 LostKeyboardFocus="RichTextBox_LostKeyboardFocus" SelectionBrush="#FF009BFF">
                         <FlowDocument>
                             <Paragraph>
                                 <Run></Run>

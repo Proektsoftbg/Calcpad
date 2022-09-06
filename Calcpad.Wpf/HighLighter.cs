@@ -18,7 +18,6 @@ namespace Calcpad.Wpf
         internal static Func<string, Queue<string>, string> Include;
         internal static MouseButtonEventHandler InputClickEventHandler;
         internal static MouseButtonEventHandler IncludeClickEventHandler;
-
         private const char NullChar = (char)0;
         private bool _allowUnaryMinus = true;
         private Queue<string> _values = null;
