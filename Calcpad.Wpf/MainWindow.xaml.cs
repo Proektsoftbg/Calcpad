@@ -1,4 +1,5 @@
 ﻿using Calcpad.Core;
+using DocumentFormat.OpenXml.Office2019.Drawing.Model3D;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -741,7 +742,7 @@ namespace Calcpad.Wpf
         private void FileSaveAs()
         {
             string s;
-            var count = CountInputFields(InputText);
+            var count = MacroParser.CountInputFields(InputText);
             if (!string.IsNullOrWhiteSpace(CurrentFileName))
                 s = Path.GetExtension(CurrentFileName);
             else if (count > 0)
@@ -837,7 +838,7 @@ namespace Calcpad.Wpf
 
             var inputText = GetInputText();
             _macroParser.Parse(inputText, out var outputText);
-            if (CountInputFields(outputText) > 0)
+            if (MacroParser.CountInputFields(outputText) > 0)
             {
                 if (IsWebForm)
                 {
@@ -931,11 +932,8 @@ namespace Calcpad.Wpf
             };
             bool isSelection = s is not null && s.Length > 5;
             _findReplaceWindow.SelectionCheckbox.IsEnabled = isSelection;
-            if (isSelection)
-                RichTextBox.IsInactiveSelectionHighlightEnabled = true;
-
+            _isTextChangedEnabled = false;
             _findReplaceWindow.Show();
-            RichTextBox.IsInactiveSelectionHighlightEnabled = false;
         }
 
         private void Command_FindNext(object sender, ExecutedRoutedEventArgs e)
@@ -2883,7 +2881,7 @@ namespace Calcpad.Wpf
                     isLocal = false;
                 else
                 {
-                    var valueCount = valueIndex + CountInputFields(line);
+                    var valueCount = valueIndex + MacroParser.CountInputFields(line);
                     if (!isLocal)
                     {
                         if (getValues is not null && values is not null)
@@ -2901,28 +2899,6 @@ namespace Calcpad.Wpf
                 }
             }
             return string.Join(Environment.NewLine, getLines);
-        }
-
-        private static int CountInputFields(string s)
-        {
-            var count = 0;
-            const char nullChar = (char)0;
-            var commentChar = nullChar;
-            foreach (var c in s)
-            {
-                if (c == '\n')
-                    commentChar = nullChar;
-                else if (c == '\'' || c == '"')
-                {
-                    if (commentChar == nullChar)
-                        commentChar = c;
-                    else if (commentChar == c)
-                        commentChar = nullChar;
-                }
-                else if (c == '?' && commentChar == nullChar)
-                    ++count;
-            }
-            return count;
         }
 
         private void Logo_MouseUp(object sender, MouseButtonEventArgs e)
@@ -3140,15 +3116,12 @@ namespace Calcpad.Wpf
 
         private void FindReplace_BeginSearch(object sender, EventArgs e)
         {
+            _autoRun = false;
             _isTextChangedEnabled = false;
-            RichTextBox.BeginChange();
-            RichTextBox.Focus();
         }
 
         private void FindReplace_EndSearch(object sender, EventArgs e)
         {
-            RichTextBox.Selection.ApplyPropertyValue(TextElement.BackgroundProperty, Brushes.LightBlue);
-            RichTextBox.EndChange();
             _isTextChangedEnabled = true;
         }
 

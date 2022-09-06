@@ -122,6 +122,7 @@ namespace Calcpad.Wpf
             SearchCombo.Text = FindReplace.SearchString;
             ReplaceCombo.Text = FindReplace.ReplaceString;
             FindReplace.InitPosition();
+            FindReplace.HighlghtSelection();
         }
 
         private void Window_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
@@ -133,6 +134,7 @@ namespace Calcpad.Wpf
         private void Window_Deactivated(object sender, EventArgs e)
         {
             SetFindReplaceOptions();
+            FindReplace.ClearSelection();
         }
 
         private void SelectionCheckbox_Checked(object sender, RoutedEventArgs e)
