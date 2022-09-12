@@ -916,16 +916,23 @@ namespace Calcpad.Wpf
             return t;
         }
 
-
+        private readonly Brush TitleBkg = new SolidColorBrush(Color.FromRgb(225, 255, 220));
         private void AppendRun(Types t, string s)
         {
             var run = new Run(s);
             s = s.ToLowerInvariant();
             run.Foreground = Colors[(int)t];
-            
-            if (t == Types.Function)
+            bool isTitle = t == Types.Comment && s[0] == '"';
+            if (t == Types.Function || isTitle)
+            {
                 run.FontWeight = FontWeights.Bold;
-            else if (t == Types.Input || t == Types.Include || t == Types.Macro || t == Types.Error)
+                if (isTitle)
+                    run.Background = TitleBkg;    
+            }
+            else if (t == Types.Input || 
+                     t == Types.Include || 
+                     t == Types.Macro || 
+                     t == Types.Error)
             {
                 if (t == Types.Error)
                 {

@@ -1,5 +1,4 @@
 ﻿using Calcpad.Core;
-using DocumentFormat.OpenXml.Office2019.Drawing.Model3D;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -51,6 +50,7 @@ namespace Calcpad.Wpf
         private readonly string _htmlParsing;
         private readonly string _htmlHelp;
         private readonly string _htmlSource;
+        //private readonly string _htmlTempFileName;
         private string _htmlUnwarpedCode;
         private readonly string _svgTyping;
         private readonly StringBuilder _htmlBuilder = new();
@@ -159,6 +159,7 @@ namespace Calcpad.Wpf
             _htmlSource = ReadFile(AppInfo.Path + "source.html");
             _svgTyping = $"<img style=\"height:1em;\" src=\"{appUrl}typing.gif\" alt=\"...\">";
             _htmlHelp = _htmlHelp.Replace("jquery", appUrl + "jquery");
+            //_htmlTempFileName = Path.GetTempFileName() + ".html";
             InvButton.Tag = false;
             HypButton.Tag = false;
             RichTextBox.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(RichTextBox_Scroll));
@@ -482,6 +483,7 @@ namespace Calcpad.Wpf
                 }
                 else
                     tp = RichTextBox.Selection.End;
+
                 InsertText(data);
                 if (tp is not null)
                     RichTextBox.Selection.Select(tp, tp);
@@ -866,24 +868,7 @@ namespace Calcpad.Wpf
         {
             var fileName = AppInfo.Path + "readme.html";
             if (File.Exists(fileName))
-            {
-                var proc = new Process();
-                var psi = new ProcessStartInfo
-                {
-                    UseShellExecute = true,
-                    FileName = fileName
-                };
-                proc.StartInfo = psi;
-
-                try
-                {
-                    proc.Start();
-                }
-                catch (Exception Ex)
-                {
-                    MessageBox.Show(Ex.Message);
-                }
-            }
+                Execute(fileName);
             else
                 ShowHelp();
         }
@@ -1064,6 +1049,7 @@ namespace Calcpad.Wpf
             }
             else
             {
+                outputText = ReplaceHrefs(outputText);
                 WebBrowser.Tag = false;
                 if (toWebForm)
                     _parser.Parse(outputText, false);
@@ -1103,7 +1089,15 @@ namespace Calcpad.Wpf
             try
             {
                 if (!string.IsNullOrEmpty(htmlResult))
+                {
+                    //if (IsWebForm || toWebForm)
+                    //{
+                    //    WriteFile(_htmlTempFileName, htmlResult);
+                    //    WebBrowser.Navigate(_htmlTempFileName);
+                    //}
+                    //else
                     WebBrowser.NavigateToString(htmlResult);
+                }
             }
             catch (Exception e)
             {
@@ -1120,6 +1114,20 @@ namespace Calcpad.Wpf
                 OutputFrame.Header = toWebForm ? "Input" : "Output";
 #endif
         }
+
+        private static string ReplaceHrefs(in string text)
+        {
+            var s = Regex.Replace(text,
+                @"\bhref\b\s*=\s*""(?!#)",
+                @"href=""#0"" data-text=""",
+                RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            s = Regex.Replace(s,
+                @"\btarget\b\s*=\s*""\s*_?\w+\s*""",
+                "",
+                RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            return s;
+        }
+
 
         private string SetImageLocalPath(string s)
         {
@@ -2976,9 +2984,10 @@ namespace Calcpad.Wpf
             if (WebBrowser.Source is not null && WebBrowser.Source.Fragment == "#0")
             {
                 var s = _wbWarper.GetLinkData();
-                if (!string.IsNullOrEmpty(s))
                 {
-                    if (IsCalculated)
+                    if (Uri.IsWellFormedUriString(s, UriKind.Absolute))
+                        Execute("msedge.exe", s);
+                    else if (IsCalculated)
                         LineClicked(s);
                     else if (!IsWebForm)
                         LinkClicked(s);
@@ -3011,6 +3020,27 @@ namespace Calcpad.Wpf
             {
                 ScrollOutputToLine(_scrollOutputToLine, 1);
                 _scrollOutputToLine = 0;
+            }
+        }
+
+        private static bool Execute(string fileName, string args = "")
+        {
+            var proc = new Process();
+            var psi = new ProcessStartInfo
+            {
+                UseShellExecute = true,
+                FileName = fileName,
+                Arguments = args
+            };
+            proc.StartInfo = psi;
+            try
+            {
+                return proc.Start();
+            }
+            catch (Exception Ex)
+            {
+                MessageBox.Show(Ex.Message);
+                return false;
             }
         }
 
