@@ -24,6 +24,7 @@ namespace Calcpad.Core
         private static bool _isUs;
         private static readonly string[] Names = { "g", "m", "s", "A", "°C", "mol", "cd", "°" };
         private static readonly Dictionary<string, Unit> Units;
+        private static readonly HashSet<Unit> ElectricalUnits = new();
         private static readonly Unit[] ForceUnits = new Unit[9], ForceUnits_US = new Unit[9];
         internal static bool IsUs
         {
@@ -66,6 +67,12 @@ namespace Calcpad.Core
                                  _dims[0].Power == 1f &&
                                  _dims[2].Power == -2f &&
                                  Text.Contains('s');
+        internal bool IsElectrical => _dims.Length == 4 &&
+                                      _dims[3].Power != 0 ||
+                                      _dims.Length == 3 &&  
+                                      _dims[2].Power == -3 && //1,  2, -3
+                                      _dims[1].Power == 2 && 
+                                      _dims[0].Power == 1;
 
         internal bool IsTemp => _dims.Length == 5 &&
                                 _dims[4].Power == 1f &&
@@ -288,9 +295,9 @@ namespace Calcpad.Core
             var F = new Unit("F", -1f, -2f, 4f, 2f);
             var Ohm = new Unit("Ω", 1f, 2f, -3f, -2f);
             var S = new Unit("S", -1f, -2f, 3f, 2f);
-            var Wb = new Unit(new Unit("Wb", 1f, 2f, -2f, -1f));
-            var T = new Unit(new Unit("T", 1f, 0f, -2f, -1f));
-            var H = new Unit(new Unit("H", 1f, 2f, -2f, -2f));
+            var Wb = new Unit("Wb", 1f, 2f, -2f, -1f);
+            var T = new Unit("T", 1f, 0f, -2f, -1f);
+            var H = new Unit("H", 1f, 2f, -2f, -2f);
             var Bq = new Unit("Bq", 0f, 0f, -1f);
             var Gy = new Unit("Gy", 0f, 2f, -2f);
             var Sv = new Unit("Sv", 0f, 2f, -2f);
@@ -324,6 +331,16 @@ namespace Calcpad.Core
             ForceUnits_US[6] = (kipf * m.Pow(2d)).Scale("kipf·ft^2", 0.09290304);
             ForceUnits_US[7] = (kipf * m.Pow(3d)).Scale("kipf·ft^3", 0.028316846592);
             ForceUnits_US[8] = (kipf * m.Pow(4d)).Scale("kipf·ft^4", 0.0086309748412416);
+
+            ElectricalUnits.Add(S);// -1, -2,  3,  2
+            ElectricalUnits.Add(F);// -1, -2,  4,  2
+            ElectricalUnits.Add(C);//  0,  0,  1,  1
+            ElectricalUnits.Add(T);//  1,  0, -2, -1
+            ElectricalUnits.Add(Ohm);//1,  2, -3, -2
+            ElectricalUnits.Add(V);//  1,  2, -3, -1
+            ElectricalUnits.Add(W);//  1,  2, -3
+            ElectricalUnits.Add(H);//  1,  2, -2, -2
+            ElectricalUnits.Add(Wb);// 1,  2, -2, -1
 
             Units = new(StringComparer.Ordinal)
             {
@@ -545,6 +562,26 @@ namespace Calcpad.Core
                 {"nW", W.Shift(-9)},
                 {"pW", W.Shift(-12)},
 
+                {"VA",  W.Scale("VA", 1)},
+                {"kVA", W.Scale("kVA", 1e3)},
+                {"MVA", W.Scale("MVA", 1e6)},
+                {"GVA", W.Scale("GVA", 1e9)},
+                {"TVA", W.Scale("TVA", 1e12)},
+                {"mVA", W.Scale("mVA", 1e-3)},
+                {"μVA", W.Scale("μVA", 1e-6)},
+                {"nVA", W.Scale("nVA", 1e-9)},
+                {"pVA", W.Scale("pVA", 1e-12)},
+
+                {"VAR",  W.Scale("VAR", 1)},
+                {"kVAR", W.Scale("kVAR", 1e3)},
+                {"MVAR", W.Scale("MVAR", 1e6)},
+                {"GVAR", W.Scale("GVAR", 1e9)},
+                {"TVAR", W.Scale("TVAR", 1e12)},
+                {"mVAR", W.Scale("mVAR", 1e-3)},
+                {"μVAR", W.Scale("μVAR", 1e-6)},
+                {"nVAR", W.Scale("nVAR", 1e-9)},
+                {"pVAR", W.Scale("pVAR", 1e-12)},
+
                 {"hp",   W.Scale("hp", 745.69987158227022)},
                 {"hp_M", W.Scale("hp_M", 735.49875)},
                 {"ks",   W.Scale("ks", 735.49875)},
@@ -600,6 +637,16 @@ namespace Calcpad.Core
                 {"μS", S.Shift(-6)},
                 {"nS", S.Shift(-9)},
                 {"pS", S.Shift(-12)},
+
+                {"℧",  S.Scale("℧",1)},
+                {"k℧", S.Scale("k℧",1e3)},
+                {"M℧", S.Scale("M℧",1e6)},
+                {"G℧", S.Scale("G℧",1e9)},
+                {"T℧", S.Scale("T℧",1e12)},
+                {"m℧", S.Scale("m℧",1e-3)},
+                {"μ℧", S.Scale("μ℧",1e-6)},
+                {"n℧", S.Scale("n℧",1e-9)},
+                {"p℧", S.Scale("p℧",1e-12)},
 
                 {"Wb",  Wb},
                 {"kWb", Wb.Shift(3)},
@@ -931,9 +978,9 @@ namespace Calcpad.Core
         {
             var i = (int)u._dims[1].Power + 3;
             if (i < 0 || i > 5)
-                return null;
+                return u;
 
-            if (Units.ContainsKey(u._text))
+            if (Units.ContainsKey(u.Text))
                 return u;
 
             var d = u._dims[0].Factor;
@@ -941,6 +988,17 @@ namespace Calcpad.Core
                 return ForceUnits[i];
 
             return ForceUnits_US[i];
+        }
+
+        internal static Unit GetElectricalUnit(Unit u)
+        {
+            if (Units.ContainsKey(u.Text))
+                return u;
+
+            if (ElectricalUnits.TryGetValue(u, out var eu))
+                return eu;
+
+            return u;
         }
 
         internal static string GetPrefix(int n)

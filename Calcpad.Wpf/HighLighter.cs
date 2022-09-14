@@ -711,7 +711,7 @@ namespace Calcpad.Wpf
                 return Types.Macro;
             if (IsLetter(c))
             {
-                if (!(char.IsLetter(c) || c == '°' || c == '∡' || c == '′' || c == '″'))
+                if (!(char.IsLetter(c) || c == '°' || c == '∡' || c == '′' || c == '″' || c == '℧'))
                     return Types.Error;
                 if (_state.IsUnits || _state.PreviousType == Types.Const || c == '°' || c == '′' || c == '″')
                     return Types.Units;
@@ -1431,7 +1431,7 @@ namespace Calcpad.Wpf
         internal static bool IsLetter(char c) =>
             c >= 'a' && c <= 'z' || // a - z
             c >= 'A' && c <= 'Z' || // A - Z 
-            "_,°∡′″‴⁗ϑϕøØ".Contains(c, StringComparison.Ordinal) || // _ , ° ∡ ′ ″ ‴ ⁗ ϑ ϕ ø Ø
+            "_,°∡′″‴⁗ϑϕøØ℧".Contains(c, StringComparison.Ordinal) || // _ , ° ∡ ℧′ ″ ‴ ⁗ ϑ ϕ ø Ø
             c >= 'α' && c <= 'ω' ||   // alpha - omega
             c >= 'Α' && c <= 'Ω';  // Alpha - Omega
 

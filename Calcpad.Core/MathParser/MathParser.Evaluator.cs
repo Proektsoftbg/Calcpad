@@ -159,15 +159,28 @@ namespace Calcpad.Core
                 var vu = v.Units;
                 if (u is null)
                 {
-                    if (vu is null || !vu.IsForce)
-                        return v.Units;
+                    if (vu is null)
+                        return vu;
 
-                    u = Unit.GetForceUnit(vu);
-                    if (u is null)
-                        return v.Units;
+                    if (vu.IsForce)
+                    {
+                        u = Unit.GetForceUnit(vu);
+                        if (ReferenceEquals(u, vu))
+                            return vu;
 
-                    v = new Value(v.Number * vu.ConvertTo(u), u);
-                    return v.Units;
+                        v = new Value(v.Number * vu.ConvertTo(u), u);
+                        return v.Units;
+                    }
+                    else if (vu.IsElectrical)
+                    {
+                        u = Unit.GetElectricalUnit(vu);
+                        if (ReferenceEquals(u, vu))
+                            return vu;
+
+                        v = new Value(v.Number * vu.ConvertTo(u), u);
+                        return v.Units;
+                    }
+                    return vu;
                 }
 
                 if (!Unit.IsConsistent(vu, u))

@@ -71,7 +71,7 @@ namespace Calcpad.Core
             private static TokenTypes GetCharType(char c) => c switch
             {
                 <= '~' => CharTypes[c],
-                >= 'Α' and <= 'Ω' or >= 'α' and <= 'ω' or 'ϕ' or 'ϑ' => TokenTypes.Unit,
+                >= 'Α' and <= 'Ω' or >= 'α' and <= 'ω' or 'ϕ' or 'ϑ' or '℧' => TokenTypes.Unit,
                 '≡' or '≠' or '≤' or '≥' or '÷' => TokenTypes.Operator,
                 '°' or '′' or '″' or '‴' or '⁗' or 'ø' or 'Ø' or '∡' => TokenTypes.Unit,
                 _ => TokenTypes.Error,
@@ -200,7 +200,7 @@ namespace Calcpad.Core
                             }
                             else
                             {
-                                if (tt == TokenTypes.Unit && !(char.IsLetter(c) || c == '°' || c == '∡'))
+                                if (tt == TokenTypes.Unit && !(char.IsLetter(c) || c == '°' || c == '∡' || c == '℧'))
 #if BG
                                     throw new MathParserException($"Невалиден символ: '{c}'. Имената на променливи, функции и мерни единици трябва да започват с буква или '°' за градуси.");
 #else
