@@ -119,7 +119,7 @@ namespace Calcpad.Core
             }
             internal static bool IsLetter(char c)
             {
-                return c == '_' || c == ',' || c == '°' ||// _ ,
+                return c == '_' || c == ',' || c == '°' || c == '℧' ||// _ ,
                         c >= 'A' && c <= 'Z' || // A - Z 
                         c >= 'a' && c <= 'z' || // a - z
                         c >= 'Α' && c <= 'Ω' || // Alpha - Omega
