@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     x:Class="Calcpad.Wpf.MainWindow"
     Closing="Window_Closing" 
-    Title=" Calcpad 5.8.5" 
+    Title=" Calcpad 5.8.6" 
     Height="800" 
     Width="1200"
     WindowStartupLocation="CenterScreen"
@@ -321,6 +321,7 @@
                             <MenuItem Click="Button_Click" Tag="MN"  Header="MN (meganewton)"/>
                             <MenuItem Click="Button_Click" Tag="GN"  Header="GN (giganewton)"/>
                             <MenuItem Click="Button_Click" Tag="TN"  Header="TN (teranewton)"/>
+                            <MenuItem Click="Button_Click" Tag="gf"  Header="gf (gram-force)"/>
                             <MenuItem Click="Button_Click" Tag="kgf" Header="kgf (kilogram-force)"/>
                             <MenuItem Click="Button_Click" Tag="tf"  Header="tf (tonne-force)"/>
                         </MenuItem>
@@ -471,6 +472,15 @@
                                 <MenuItem Click="Button_Click" Tag="μS" Header="μS (microsiemens)"/>
                                 <MenuItem Click="Button_Click" Tag="nS" Header="nS (nanosiemens)"/>
                                 <MenuItem Click="Button_Click" Tag="pS" Header="pS (picosiemens)"/>
+                                <MenuItem Click="Button_Click" Tag="℧"  Header="℧ (mho)"/>
+                                <MenuItem Click="Button_Click" Tag="k℧" Header="k℧ (kilomho)"/>
+                                <MenuItem Click="Button_Click" Tag="M℧" Header="M℧ (megamho)"/>
+                                <MenuItem Click="Button_Click" Tag="G℧" Header="G℧ (gigamho)"/>
+                                <MenuItem Click="Button_Click" Tag="T℧" Header="T℧ (teramho)"/>
+                                <MenuItem Click="Button_Click" Tag="m℧" Header="m℧ (millimho)"/>
+                                <MenuItem Click="Button_Click" Tag="μ℧" Header="μ℧ (micromho)"/>
+                                <MenuItem Click="Button_Click" Tag="n℧" Header="n℧ (nanomho)"/>
+                                <MenuItem Click="Button_Click" Tag="p℧" Header="p℧ (picomho)"/>
                             </MenuItem>
                             <MenuItem Header="Energy">
                                 <MenuItem Click="Button_Click" Tag="Wh"  Header="Wh (Watt-hour)"/>
@@ -484,9 +494,8 @@
                                 <MenuItem Click="Button_Click" Tag="pWh" Header="pWh (picowatt-hour)"/>
                             </MenuItem>
                             <MenuItem Header="Power">
-                                <MenuItem Click="Button_Click" Tag="var"  Header="var (Volt-Ampere)"/>
-                                <MenuItem Click="Button_Click" Tag="kvar" Header="kvar (kilovolt-Ampere)"/>
-                                <MenuItem Click="Button_Click" Tag="kVA"  Header="kVA (kilovolt-Ampere)"/>
+                                <MenuItem Click="Button_Click" Tag="VA"  Header="VA (Volt-Ampere)"/>
+                                <MenuItem Click="Button_Click" Tag="kVA" Header="kVA (kilovolt-Ampere)"/>
                                 <MenuItem Click="Button_Click" Tag="MVA"  Header="MVA (megavolt-Ampere)"/>
                                 <MenuItem Click="Button_Click" Tag="GVA"  Header="GVA (gigavolt-Ampere)"/>
                                 <MenuItem Click="Button_Click" Tag="TVA"  Header="TVA (teravolt-Ampere)"/>
@@ -494,6 +503,15 @@
                                 <MenuItem Click="Button_Click" Tag="μVA"  Header="μVA (microvolt-Ampere)"/>
                                 <MenuItem Click="Button_Click" Tag="nVA"  Header="nVA (nanovolt-Ampere)"/>
                                 <MenuItem Click="Button_Click" Tag="pVA"  Header="pVA (picovolt-Ampere)"/>
+                                <MenuItem Click="Button_Click" Tag="VAR"  Header="VAR (Volt-Ampere)"/>
+                                <MenuItem Click="Button_Click" Tag="kVAR" Header="kVAR (kilovolt-Ampere-reactive)"/>
+                                <MenuItem Click="Button_Click" Tag="MVAR"  Header="MVAR (megavolt-Ampere-reactive)"/>
+                                <MenuItem Click="Button_Click" Tag="GVAR"  Header="GVAR (gigavolt-Ampere-reactive)"/>
+                                <MenuItem Click="Button_Click" Tag="TVAR"  Header="TVAR (teravolt-Ampere-reactive)"/>
+                                <MenuItem Click="Button_Click" Tag="mVAR"  Header="mVAR (millivolt-Ampere-reactive)"/>
+                                <MenuItem Click="Button_Click" Tag="μVAR"  Header="μVAR (microvolt-Ampere-reactive)"/>
+                                <MenuItem Click="Button_Click" Tag="nVAR"  Header="nVAR (nanovolt-Ampere-reactive)"/>
+                                <MenuItem Click="Button_Click" Tag="pVAR"  Header="pVAR (picovolt-Ampere-reactive)"/>
                             </MenuItem>
                             <MenuItem Header="Electric field">
                                 <MenuItem Click="Button_Click" Tag="V/m" Header="V/m (Volts per meter)"/>
@@ -1016,33 +1034,106 @@
                 </TransformGroup>
             </RadioButton.RenderTransform>
         </RadioButton>
-        <StatusBar Grid.Row="1" Height="35" VerticalAlignment="Bottom" BorderThickness="0,1,0,0" Margin="0,0,0,0" HorizontalContentAlignment="Right" Grid.ColumnSpan="2">
+        <StatusBar Grid.Row="1" Height="35" VerticalAlignment="Bottom" BorderThickness="0,1,0,0" Margin="0,0,0,0" 
+                   HorizontalContentAlignment="Right" Grid.ColumnSpan="2">
             <StatusBar.Background>
                 <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
                     <GradientStop Color="White"/>
                     <GradientStop Color="#FFE0E0E0" Offset="1"/>
                 </LinearGradientBrush>
             </StatusBar.Background>
-            <TextBlock Height="18" TextWrapping="Wrap" FontFamily="Segoe UI" FontSize="12" VerticalAlignment="Top" HorizontalAlignment="Left" Text="Round to " Margin="20,0,0,0"/>
-            <TextBox TextChanged="DecimalsTextBox_TextChanged" x:Name="DecimalsTextBox" TextWrapping="Wrap" Text="2" TextAlignment="Center"
-                ToolTip="Number of digits after the decimal point" UndoLimit="0" TabIndex="10" Width="30" FontFamily="Segoe UI Semibold" FontSize="13" Height="22" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Normal"/>
+            <TextBlock Text="Round to " 
+                       Height="18" 
+                       TextWrapping="Wrap" 
+                       FontFamily="Segoe UI" 
+                       FontSize="12" 
+                       VerticalAlignment="Top" 
+                       HorizontalAlignment="Left" 
+                       Margin="10,0,0,0"/>
+            <TextBox x:Name="DecimalsTextBox" 
+                     Text="2" 
+                     ToolTip="Number of digits after the decimal point" 
+                     TextAlignment="Center"
+                     UndoLimit="0" 
+                     Height="22" 
+                     Width="30" 
+                     FontFamily="Segoe UI Semibold" 
+                     FontWeight="Normal"
+                     FontSize="13" 
+                     VerticalAlignment="Center" 
+                     HorizontalAlignment="Center" 
+                     TabIndex="10"
+                     TextChanged="DecimalsTextBox_TextChanged" />
             <StatusBarItem Width="26" Margin="0,-5,0,-5" RenderTransformOrigin="0,0.5">
                 <StatusBarItem.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform ScaleX="0.7" ScaleY="0.7"/>
                     </TransformGroup>
                 </StatusBarItem.RenderTransform>
-                <ScrollBar x:Name="DecimalScrollBar" Height="34" Width="20" Maximum="15" SmallChange="1" Value="13" ValueChanged="DecimalScrollBar_ValueChanged" RenderTransformOrigin="0.5,0.5" />
+                <ScrollBar x:Name="DecimalScrollBar" 
+                           Height="34" 
+                           Width="20" 
+                           Maximum="15" 
+                           SmallChange="1" 
+                           Value="13" 
+                           RenderTransformOrigin="0.5,0.5" 
+                           HorizontalAlignment="Left"
+                           ValueChanged="DecimalScrollBar_ValueChanged" />
             </StatusBarItem>
-            <TextBlock Height="18" TextWrapping="Wrap" Width="40" FontFamily="Segoe UI" FontSize="12" VerticalAlignment="Center" HorizontalAlignment="Left" Text="digits after the decimal point"/>
-            <CheckBox Click="SubstituteCheckBox_Clicked" x:Name="SubstituteCheckBox" Content="Substitute" Height="16" Width="80"
-                IsChecked="True" ToolTip="Substitute variables in equations" TabIndex="1" FontFamily="Segoe UI" FontSize="12" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="2,0,0,0"/>
-            <TextBlock Height="18" TextWrapping="Wrap" Width="29" FontFamily="Segoe UI" FontSize="12" Text="Plot:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-            <CheckBox Click="AdaptiveCheckBox_Clicked" x:Name="AdaptiveCheckBox" Content="Adaptive" Height="16" VerticalAlignment="Center"
-                ToolTip="Adaptive 1D function plot" TabIndex="12" Background="White" HorizontalAlignment="Center" IsChecked="True" Width="72"/>
-            <CheckBox Click="ShadowsCheckBox_Clicked" x:Name="ShadowsCheckBox" Content="Shadows:" Height="16" VerticalAlignment="Top"
-                ToolTip="Draw surface maps with shadows" TabIndex="13" Background="White" HorizontalAlignment="Right" Margin="5,0,0,0"/>
-            <ComboBox x:Name="LightDirectionComboBox" VerticalAlignment="Top" SelectionChanged="LightDirectionComboBox_SelectionChanged" HorizontalAlignment="Center" Width="100" ToolTip="Shadow direction" TabIndex="14" Height="22">
+            <TextBlock Text="digits"  
+                       Height="18" 
+                       Width="35" 
+                       FontFamily="Segoe UI" 
+                       FontSize="12" 
+                       VerticalAlignment="Center" 
+                       Margin="-5,0,0,0"/>
+            <CheckBox x:Name="SubstituteCheckBox" 
+                      Content="Substitute" 
+                      ToolTip="Substitute variables in equations" 
+                      Height="16" 
+                      Width="80"
+                      IsChecked="True" 
+                      FontFamily="Segoe UI" 
+                      FontSize="12" 
+                      VerticalAlignment="Center" 
+                      HorizontalAlignment="Center" 
+                      Padding="2,0,0,0"
+                      TabIndex="1" 
+                      Click="SubstituteCheckBox_Clicked" />
+            <TextBlock Text="Plot:" 
+                       Height="18" 
+                       Width="29" 
+                       FontFamily="Segoe UI" 
+                       FontSize="12" 
+                       VerticalAlignment="Center" 
+                       HorizontalAlignment="Left"/>
+            <CheckBox x:Name="AdaptiveCheckBox" 
+                      Content="Adaptive" 
+                      ToolTip="Adaptive 1D function plot" 
+                      IsChecked="True" 
+                      Height="16" 
+                      Width="72"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Center" 
+                      TabIndex="12" 
+                      Click="AdaptiveCheckBox_Clicked"/>
+            <CheckBox x:Name="ShadowsCheckBox" 
+                      Content="Shadows:" 
+                      ToolTip="Draw surface maps with shadows" 
+                      Height="16" 
+                      VerticalAlignment="Top"
+                      HorizontalAlignment="Right" 
+                      Margin="5,0,0,0"
+                      TabIndex="13" 
+                      Click="ShadowsCheckBox_Clicked" />
+            <ComboBox x:Name="LightDirectionComboBox" 
+                      ToolTip="Shadow direction" 
+                      Height="22"
+                      Width="90" 
+                      VerticalAlignment="Top" 
+                      HorizontalAlignment="Center" 
+                      TabIndex="14" 
+                      SelectionChanged="LightDirectionComboBox_SelectionChanged">
                 <ComboBoxItem Content="North"/>
                 <ComboBoxItem Content="North-east"/>
                 <ComboBoxItem Content="East"/>
@@ -1052,10 +1143,21 @@
                 <ComboBoxItem Content="West"/>
                 <ComboBoxItem Content="North-west" IsSelected="True"/>
             </ComboBox>
-            <TextBlock Height="16" TextWrapping="Wrap" VerticalAlignment="Center" Text="Palette:" HorizontalAlignment="Left" Margin="5,0,0,0"/>
-            <ComboBox x:Name="ColorScaleComboBox" VerticalAlignment="Top" SelectionChanged="ColorScaleComboBox_SelectionChanged" HorizontalAlignment="Right" Width="120" ToolTip="Surface map color scale" TabIndex="15" Height="22">
-                <ComboBoxItem Content="None" HorizontalAlignment="Left" Width="120" Margin="0,0,-2,0"/>
-                <ComboBoxItem Content="Gray" HorizontalAlignment="Left" Width="120" Margin="0,0,-2,0">
+            <TextBlock Text="Palette:" 
+                       Height="18" 
+                       VerticalAlignment="Center" 
+                       HorizontalAlignment="Left" 
+                       Margin="5,0,0,0"/>
+            <ComboBox x:Name="ColorScaleComboBox" 
+                      ToolTip="Surface map color scale" 
+                      Height="22"
+                      Width="100" 
+                      VerticalAlignment="Top" 
+                      HorizontalAlignment="Right" 
+                      TabIndex="15" 
+                      SelectionChanged="ColorScaleComboBox_SelectionChanged">
+                <ComboBoxItem Content="None" HorizontalAlignment="Left" Width="100" Margin="0,0,-2,0"/>
+                <ComboBoxItem Content="Gray" HorizontalAlignment="Left" Width="100" Margin="0,0,-2,0">
                     <ComboBoxItem.Background>
                         <LinearGradientBrush EndPoint="0,0.5" MappingMode="RelativeToBoundingBox" StartPoint="1,0.5">
                             <GradientStop Color="#FFFFFFFF"/>
@@ -1063,7 +1165,7 @@
                         </LinearGradientBrush>
                     </ComboBoxItem.Background>
                 </ComboBoxItem>
-                <ComboBoxItem Content="Rainbow" HorizontalAlignment="Left" Width="120" IsSelected="True">
+                <ComboBoxItem Content="Rainbow" HorizontalAlignment="Left" Width="100" IsSelected="True">
                     <ComboBoxItem.Background>
                         <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
                             <GradientStop Color="#FFFF0000" Offset="0"/>
@@ -1074,7 +1176,7 @@
                         </LinearGradientBrush>
                     </ComboBoxItem.Background>
                 </ComboBoxItem>
-                <ComboBoxItem Content="Terrain" HorizontalAlignment="Left" Width="120">
+                <ComboBoxItem Content="Terrain" HorizontalAlignment="Left" Width="100">
                     <ComboBoxItem.Background>
                         <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
                             <GradientStop Color="#FFFF7F00" Offset="0"/>
@@ -1084,7 +1186,7 @@
                         </LinearGradientBrush>
                     </ComboBoxItem.Background>
                 </ComboBoxItem>
-                <ComboBoxItem Content="Violet-yellow" HorizontalAlignment="Left" Width="120">
+                <ComboBoxItem Content="Violet-yellow" HorizontalAlignment="Left" Width="100">
                     <ComboBoxItem.Background>
                         <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
                             <GradientStop Color="#FFffff00" Offset="0"/>
@@ -1092,7 +1194,7 @@
                         </LinearGradientBrush>
                     </ComboBoxItem.Background>
                 </ComboBoxItem>
-                <ComboBoxItem Content="Green-yellow" HorizontalAlignment="Left" Width="120">
+                <ComboBoxItem Content="Green-yellow" HorizontalAlignment="Left" Width="100">
                     <ComboBoxItem.Background>
                         <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
                             <GradientStop Color="#FFffff00" Offset="0"/>
@@ -1100,7 +1202,7 @@
                         </LinearGradientBrush>
                     </ComboBoxItem.Background>
                 </ComboBoxItem>
-                <ComboBoxItem Content="Blues" HorizontalAlignment="Left" Width="120">
+                <ComboBoxItem Content="Blues" HorizontalAlignment="Left" Width="100">
                     <ComboBoxItem.Background>
                         <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
                             <GradientStop Color="#FF35fdff" Offset="0"/>
@@ -1108,13 +1210,57 @@
                         </LinearGradientBrush>
                     </ComboBoxItem.Background>
                 </ComboBoxItem>
-            </ComboBox>
-            <CheckBox Click="SmoothCheckBox_Clicked" x:Name="SmoothCheckBox" Content="Smooth" Height="16" VerticalAlignment="Top"
-                ToolTip="Smooth shading for surface map" Background="White" HorizontalAlignment="Right" TabIndex="16" Margin="5,0,0,0"/>
-            <CheckBox x:Name="CodeCheckBox" Content="Show unwarped source code in output" Height="16" VerticalAlignment="Center"
-                ToolTip="Show unwarped source code in the output, when macros or includes are available" Background="White" HorizontalAlignment="Left" TabIndex="17"  Margin="5,0,0,0" FontWeight="Normal" FontFamily="Segoe UI Semibold" Click="CodeCheckBox_Clicked" Visibility="Hidden"/>
-            <Image x:Name="Logo" Source="Resources/logo.png" Height="20"
-                VerticalAlignment="Top" HorizontalAlignment="Right" Width="2000" Margin="0,0,10,0" Cursor="Hand" MouseUp="Logo_MouseUp"/>
+    `       </ComboBox>
+            <CheckBox x:Name="SmoothCheckBox" 
+                    Content="Smooth" 
+                    ToolTip="Smooth shading for surface map" 
+                    Height="16" 
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Right" 
+                    Margin="5,0,0,0"
+                    TabIndex="16" 
+                    Click="SmoothCheckBox_Clicked" 
+                    />
+            <TextBlock Height="18" 
+                       TextWrapping="Wrap" 
+                       VerticalAlignment="Top" 
+                       Text="External browser:" 
+                       HorizontalAlignment="Left" 
+                       Margin="5,0,0,0"/>
+            <ComboBox x:Name="ExternalBrowserComboBox" 
+                      VerticalAlignment="Top" 
+                      HorizontalAlignment="Right" 
+                      Width="70" 
+                      ToolTip="Browser to open links" 
+                      TabIndex="17" Height="22">
+                <ComboBoxItem Content="Chrome" HorizontalAlignment="Left" IsSelected="True"/>
+                <ComboBoxItem Content="MSEdge" HorizontalAlignment="Left"/>
+                <ComboBoxItem Content="Firefox" HorizontalAlignment="Left"/>
+                <ComboBoxItem Content="Safari" HorizontalAlignment="Left"/>
+                <ComboBoxItem Content="Opera" HorizontalAlignment="Left"/>
+                <ComboBoxItem Content="IExplore" HorizontalAlignment="Left"/>
+            </ComboBox>            
+            <CheckBox x:Name="CodeCheckBox" 
+                      Content="Unwrapped code" 
+                      Height="16" 
+                      VerticalAlignment="Center"
+                      ToolTip="Show unwrapped source code in the output, when macros or includes are available" 
+                      Background="White" 
+                      HorizontalAlignment="Left" 
+                      TabIndex="17" 
+                      Margin="5,0,0,0" 
+                      FontFamily="Segoe UI Semibold" 
+                      Click="CodeCheckBox_Clicked" 
+                      Visibility="Hidden"/>
+            <Image x:Name="Logo" 
+                   Source="Resources/logo.png" 
+                   Height="20"
+                   Width="2000" 
+                   VerticalAlignment="Top" 
+                   HorizontalAlignment="Right" 
+                   Margin="0,0,10,0" 
+                   Cursor="Hand" 
+                   MouseUp="Logo_MouseUp"/>
         </StatusBar>
         <Grid x:Name="FramesGrid" Margin="0,1,0,35" Grid.Row="1" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>

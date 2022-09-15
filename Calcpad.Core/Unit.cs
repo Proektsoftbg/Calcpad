@@ -24,8 +24,8 @@ namespace Calcpad.Core
         private static bool _isUs;
         private static readonly string[] Names = { "g", "m", "s", "A", "°C", "mol", "cd", "°" };
         private static readonly Dictionary<string, Unit> Units;
-        private static readonly HashSet<Unit> ElectricalUnits = new();
         private static readonly Unit[] ForceUnits = new Unit[9], ForceUnits_US = new Unit[9];
+        private static readonly HashSet<Unit> ElectricalUnits = new();
         internal static bool IsUs
         {
             get => _isUs;
@@ -67,11 +67,12 @@ namespace Calcpad.Core
                                  _dims[0].Power == 1f &&
                                  _dims[2].Power == -2f &&
                                  Text.Contains('s');
+
         internal bool IsElectrical => _dims.Length == 4 &&
                                       _dims[3].Power != 0 ||
-                                      _dims.Length == 3 &&  
+                                      _dims.Length == 3 &&
                                       _dims[2].Power == -3 && //1,  2, -3
-                                      _dims[1].Power == 2 && 
+                                      _dims[1].Power == 2 &&
                                       _dims[0].Power == 1;
 
         internal bool IsTemp => _dims.Length == 5 &&
@@ -480,6 +481,7 @@ namespace Calcpad.Core
                 {"Nm",  Nm},
                 {"kNm", kNm},
 
+                {"gf",   N.Scale("gf", 0.00980665)},
                 {"kgf",  N.Scale("kgf", 9.80665)},
                 {"tf",   N.Scale("tf", 9806.65)},
                 {"dyn",  N.Scale("dyn", 1e-5)},
@@ -977,14 +979,11 @@ namespace Calcpad.Core
         internal static Unit GetForceUnit(Unit u)
         {
             var i = (int)u._dims[1].Power + 3;
-            if (i < 0 || i > 5)
-                return u;
-
-            if (Units.ContainsKey(u.Text))
+            if (i < 0 || i > 5 || Units.ContainsKey(u.Text))
                 return u;
 
             var d = u._dims[0].Factor;
-            if (Math.Round(d) == d)
+            if (Math.Truncate(d) == d)
                 return ForceUnits[i];
 
             return ForceUnits_US[i];
@@ -1000,6 +999,7 @@ namespace Calcpad.Core
 
             return u;
         }
+
 
         internal static string GetPrefix(int n)
         {

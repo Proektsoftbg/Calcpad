@@ -202,9 +202,9 @@ namespace Calcpad.Core
                             {
                                 if (tt == TokenTypes.Unit && !(char.IsLetter(c) || c == '°' || c == '∡' || c == '℧'))
 #if BG
-                                    throw new MathParserException($"Невалиден символ: '{c}'. Имената на променливи, функции и мерни единици трябва да започват с буква или '°' за градуси.");
+                                    throw new MathParserException($"Невалиден символ: '{c}'. Имената на променливи, функции и мерни единици трябва да започват с буква, ∡ или '°' за градуси.");
 #else
-                                    throw new MathParserException($"Invalid character: '{c}'. Variables, functions and units must begin with a letter or '°' for degrees.");
+                                    throw new MathParserException($"Invalid character: '{c}'. Variables, functions and units must begin with a letter, ∡ or '°' for degrees.");
 #endif
                                 tokenLiteral += c;
                             }

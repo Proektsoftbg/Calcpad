@@ -11,12 +11,14 @@ Calcpad is free software for mathematical and engineering calculations. It repre
 * custom functions of multiple parameters f(x; y; z; ...);  
 * powerful numerical methods for root and extremum finding, numerical integration and differentiation;  
 * finite sum, product and iteration procedures;  
+* modules, macros and string variables;  
 * program flow control with conditions and loops;  
 * "titles" and 'text' comments in quotes;  
 * support for Html and CSS in comments for rich formatting;  
 * function plotting, images, tables, parametric SVG drawings, etc.;  
 * automatic generation of Html forms for data input;  
 * professional looking Html reports for viewing printing;  
+* export to Word documents (\*.docx) and PDF;  
 * variable substitution and smart rounding of numbers;  
 * output visibility control and content folding;  
 * support for plain text (\*.txt, \*.cpd) and binary (\*.cpdz) file formatWs.  
@@ -29,7 +31,7 @@ This software is developed using the C# programming language and the latest comp
 This software is suitable for engineers and other professionals that need to perform repetitive calculations and present them in official documentation such as calculation notes. They can automate this task efficiently by creating powerful and reliable Calcpad worksheets. It can also help teachers to prepare calculation examples, papers, manuals, books etc. Students can use it to solve various problems, prepare homeworks, phd theses etc.  
   
 ## Installation  
-The installation is performed by the automated setup program [calcpad-setup-en-x64.exe](https://github.com/Proektsoftbg/Calcpad/blob/main/Setup/calcpad-setup-en-x64.exe). Follow the instruction of the setup wizard. The software requires a 64 bit computer with Windows 10 and [Microsoft .NET 6.0](https://download.visualstudio.microsoft.com/download/pr/b4a17a47-2fe8-498d-b817-30ad2e23f413/00020402af25ba40990c6cc3db5cb270/windowsdesktop-runtime-6.0.8-win-x64.exe).  
+The installation is performed by the automated setup program [calcpad-setup-en-x64.exe](https://github.com/Proektsoftbg/Calcpad/blob/main/Setup/calcpad-setup-en-x64.exe). Follow the instruction of the setup wizard. The software requires a 64 bit computer with Windows 10 and [Microsoft .NET 6.0](https://download.visualstudio.microsoft.com/download/pr/fe8415d4-8a35-4af9-80a5-51306a96282d/05f9b2a1b4884238e69468e49b3a5453/windowsdesktop-runtime-6.0.9-win-x64.exe).  
 You can also use Calcpad directly in the browser from our website: [https://calcpad.eu/Ide](https://calcpad.eu/Ide)  
   
 ## Licensing and terms of use  
@@ -126,19 +128,19 @@ A variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;im(x)    - the imaginary part of a complex number;  
 &emsp;&emsp;phase(x) - the phase of a complex number;  
 &emsp;&emsp;random(x) - random number between 0 and x;  
-&emsp;&emsp;min(x; y; z...) - minimum of multiple values;  
-&emsp;&emsp;max(x; y; z...) - maximum of multiple values;  
-&emsp;&emsp;sum(x; y; z...) - sum of multiple values = x + y + z...;  
-&emsp;&emsp;sumsq(x; y; z...) - sum of squares = x² + y² + z²...;  
-&emsp;&emsp;srss(x; y; z...) - square root of sum of squares = sqrt(x² + y² + z²...);  
-&emsp;&emsp;average(x; y; z...) - average of multiple values = (x + y + z...)/n;  
-&emsp;&emsp;product(x; y; z...) - product of multiple values = x·y·z...;  
-&emsp;&emsp;mean(x; y; z...) - geometric mean = n-th root(x·y·z...);  
+&emsp;&emsp;min(x; y; z...) - minimum of multiple values;  
+&emsp;&emsp;max(x; y; z...) - maximum of multiple values;  
+&emsp;&emsp;sum(x; y; z...) - sum of multiple values = x + y + z...;  
+&emsp;&emsp;sumsq(x; y; z...) - sum of squares = x² + y² + z²...;  
+&emsp;&emsp;srss(x; y; z...) - square root of sum of squares = sqrt(x² + y² + z²...);  
+&emsp;&emsp;average(x; y; z...) - average of multiple values = (x + y + z...)/n;  
+&emsp;&emsp;product(x; y; z...) - product of multiple values = x·y·z...;  
+&emsp;&emsp;mean(x; y; z...) - geometric mean = n-th root(x·y·z...);  
 &emsp;&emsp;if(*cond*; *value-if-true*; *value-if-false*) - conditional evaluation;  
-&emsp;&emsp;switch(*cond1*; *value1*; *cond2*; *value2*; … ; *default*) - selective evaluation;  
-&emsp;&emsp;take(n; a; b; c...) - returns the n-th element from the list;  
-&emsp;&emsp;line(x; a; b; c...) - linear interpolation;  
-&emsp;&emsp;spline(x; a; b; c...) - Hermite spline interpolation;  
+&emsp;&emsp;switch(*cond1*; *value1*; *cond2*; *value2*; … ; *default*) - selective evaluation;  
+&emsp;&emsp;take(n; a; b; c...) - returns the n-th element from the list;  
+&emsp;&emsp;line(x; a; b; c...) - linear interpolation;  
+&emsp;&emsp;spline(x; a; b; c...) - Hermite spline interpolation;  
 * Comments: "Title" or 'text' in double or single quotes, respectively. HTML, CSS, JS and SVG are allowed.  
 * Graphing and plotting:  
 &emsp;&emsp;$Plot { f(x) @ x = a : b } - simple plot;  
@@ -237,18 +239,20 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;&emsp;Luminous intensity: cd;  
 &emsp;&emsp;Area: a, daa, ha;  
 &emsp;&emsp;Volume: L, mL, cL, dL, hL;  
-&emsp;&emsp;Force: dyn N, daN, hN, kN, MN, GN, TN, kgf, tf;  
+&emsp;&emsp;Force: dyn N, daN, hN, kN, MN, GN, TN, gf, kgf, tf;  
 &emsp;&emsp;Moment: Nm, kNm;  
 &emsp;&emsp;Pressure: Pa, daPa, hPa, kPa, MPa, GPa, TPa, dPa, cPa, mPa, μPa, nPa, pPa,  
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;bar, mbar, μbar, atm, at, Torr, mmHg;  
 &emsp;&emsp;Energy work: J, kJ, MJ, GJ, TJ, mJ, μJ, nJ, pJ, Wh, kWh, MWh, GWh, TWh,  
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;cal, kcal, erg, eV, keV, MeV, GeV, TeV, PeV, EeV;  
 &emsp;&emsp;Power: W, kW, MW, GW, TW, mW, μW, nW, pW, hpM, ks;  
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;VA, kVA, MVA, GVA, TVA, mVA, μVA, nVA, pVA,  
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;VAR, kVAR, MVAR, GVAR, TVAR, mVAR, μVAR, nVAR, pVAR, hpM, ks;
 &emsp;&emsp;Electric charge: C, kC, MC, GC, TC, mC, μC, nC, pC, Ah, mAh;  
 &emsp;&emsp;Potential: V, kV, MV, GV, TV, mV, μV, nV, pV;  
 &emsp;&emsp;Capacitance: F, kF, MF, GF, TF, mF, μF, nF, pF;  
 &emsp;&emsp;Resistance: Ω, kΩ, MΩ, GΩ, TΩ, mΩ, μΩ, nΩ, pΩ;  
-&emsp;&emsp;Conductance: S, kS, MS, GS, TS, mS, μS, nS, pS;  
+&emsp;&emsp;Conductance: S, kS, MS, GS, TS, mS, μS, nS, pS, ℧, k℧, M℧, G℧, T℧, m℧, μ℧, n℧, p℧;  
 &emsp;&emsp;Magnetic flux: Wb , kWb, MWb, GWb, TWb, mWb, μWb, nWb, pWb;  
 &emsp;&emsp;Magnetic flux density: T, kT, MT, GT, TT, mT, μT, nT, pT;  
 &emsp;&emsp;Inductance: H, kH, MH, GH, TH, mH, μH, nH, pH;  
@@ -270,4 +274,4 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;&emsp;Force: ozf, lbf, kipf, tonf, pdl;  
 &emsp;&emsp;Pressure: osi, osf psi, psf, ksi, ksf, tsi, tsf, inHg;  
 &emsp;&emsp;Energy/work: BTU, therm, therm_UK, therm_US, quad;  
-&emsp;&emsp;Power: hp, hpE, hpS.  
+&emsp;&emsp;Power: hp, hpE, hpS.

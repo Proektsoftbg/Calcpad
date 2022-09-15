@@ -60,6 +60,7 @@ code .ovr {padding-top: 2pt; font-family="Consolas" font-size: 10pt;}
 .dvc.down {position: relative; top:0.5em;}
 .dvc.up {position: relative; bottom:0.6em;}
 .cond{color: magenta;}
+.macro  {color: darkMagenta;}
 .err {color: red;}
 .toc {color: #888888; text-decoration:none;}
 .toc:hover {text-decoration: underline; color: black;}
@@ -73,12 +74,12 @@ input, select {
 }
 .exp {
 	display: inline-block;
-	height: 14pt;
+	height: 12pt;
 	line-height: 80%;
 	font-size: 12pt;
 	font-weight: bold;
 	border: solid 1px #cccccc; 
-	padding: 0 2pt 0 2pt; 
+	padding: 0 1.5pt 0 1.5pt; 
 	margin-right: 4pt; 		
 	border-radius: 4pt;
 }
@@ -123,6 +124,8 @@ input, select {
 		<li><a class="toc" href="#TOC_606">Working with Notepad++</a></li>
 	</ul>
 </li>
+<li><a class="toc" href="#TOC_607">Modules (inclusions)</a></li>
+<li><a class="toc" href="#TOC_608">Macros and string variables</a></li>
 <li><span class="exp" id="button7">+</span><a class="toc" href="#TOC_700">Expressions</a><br />
 	<ul id="list7">
 		<li><a class="toc" href="#TOC_701">Constants</a></li>
@@ -190,12 +193,14 @@ input, select {
 <li>custom functions of multiple parameters f(x; y; z; …);</li>
 <li>powerful numerical methods for root and extremum finding, numerical integration and differentiation;</li>
 <li>finite sum, product and iteration procedures;</li>
+<li>modules, macros and string variables;</li>
 <li>program flow control with conditions and loops;</li>
 <li>"titles" and 'text' comments in quotes;</li> 
 <li>support for Html and CSS in comments for rich formatting;</li>
 <li>function plotting, images, tables, parametric SVG drawings, etc.;</li>
 <li>automatic generation of Html forms for data input;</li>
 <li>professional looking Html reports for viewing printing;</li>
+<li>export to Word documents (*.docx) and PDF;</li>
 <li>variable substitution and smart rounding of numbers;</li> 
 <li>output visibility control and content folding;</li>
 <li>support for plain text (*.txt, *.cpd) and binary (*.cpdz) file formats.</li>
@@ -207,7 +212,7 @@ input, select {
 <p>This software is suitable for engineers and other professionals that need to perform repetitive calculations and present them in official documentation such as calculation notes. They can automate this task efficiently by creating powerful and reliable Calcpad worksheets. It can also help teachers to prepare calculation examples, papers, manuals, books etc. Students can use it to solve various problems, prepare homeworks, phd theses etc.</p>
 
 <h2 id="TOC_300">Installation</h2>
-<p>Installation is performed by the automated setup program <a target="_blank" href="https://calcpad.eu/download/calcpad-setup-en-x64.zip">calcpad-setup-en-x64.exe</a>. Follow the instruction of the setup wizard. The software requires a 64 bit computer with Windows 10 and <a  target="_blank" href="https://download.visualstudio.microsoft.com/download/pr/a865ccae-2219-4184-bcd6-0178dc580589/ba452d37e8396b7a49a9adc0e1a07e87/windowsdesktop-runtime-6.0.0-win-x64.exe
+<p>Installation is performed by the automated setup program <a target="_blank" href="https://calcpad.eu/download/calcpad-setup-en-x64.zip">calcpad-setup-en-x64.exe</a>. Follow the instruction of the setup wizard. The software requires a 64 bit computer with Windows 10 and <a  target="_blank" href="https://download.visualstudio.microsoft.com/download/pr/fe8415d4-8a35-4af9-80a5-51306a96282d/05f9b2a1b4884238e69468e49b3a5453/windowsdesktop-runtime-6.0.9-win-x64.exe
 " target="_blank">Microsoft .NET 6.0</a>.</p>
 
 <h2 id="TOC_310">Licensing and terms of use</h2>
@@ -216,7 +221,9 @@ input, select {
 <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
 <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
 <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p><hr />
-<p>The source code is available on our SourceForge repository:</p>
+<p>The source code is available on GitHub:</p>
+<p><a title="GitHub repository" href="https://github.com/Proektsoftbg/Calcpad">https://github.com/Proektsoftbg/Calcpad</a></p>
+<p>or in our SourceForge repository:</p>
 <p><a title="SourceForge repository" href="https://sourceforge.net/p/calyx/code/ci/master/tree/">https://sourceforge.net/p/calyx/code/ci/master/tree/</a></p>
 <p>Any scripts, developed with Calcpad are property of the respective authors. They can be used without additional limitations except those appointed by the authors themselves.</p>
 
@@ -339,7 +346,38 @@ input, select {
 </table>
 <h3 id="TOC_606">Using Notepad++</h3>
 <p><b>Notepad++</b> is a popular text/code editor. It is free and open source and can be downloaded from the official website <a href="https://notepad-plus-plus.org" target="_blank">https://notepad-plus-plus.org</a>. It supports many programming or scripting languages. Its text editing capabilities are much more powerful than Calcpad. It is also very useful for writing Html code. <b>Calcpad</b> syntax can be also used with Notepad++. It is predefined as an XML file that can be inserted in Notepad++. You can do this by selecting the "<b>Language</b>" menu, then click "<b>Define your language</b>" and then, "<b>Import…</b>". Find the <b>Calcpad</b> folder inside your <b>Program Files</b> directory or wherever Calcpad is installed and select the file named <a href="https://calcpad.eu/download/Notepadpp.zip" target="_blank">Calcpad-syntax-for-Notepad++.xml</a>.</p>
-
+<h2 id="TOC_607">Modules (inclusions)</h2>
+<p>Calcpad allows you to include contents from external files in your worksheet. If you have pieces of code that is repeated in different worksheets, you can organize it in modules and reuse it multiple times. Also, if you have a longer worksheet, you can split it into modules that will be easier to maintain. Then, you can include them into the main file by using the following statement:</p>
+<p><span class="cond">#include</span> <em class="macro">filename</em></p>
+<p>The "<em class="macro">filename</em>" must contain the full path to a local file. If the file is the same folder as the current one, you can specify only the filename.</p>
+<p>By default, Calcpad will include the whole contents of the external module. However, you can prevent including some parts, by making them local. To start a "local" section in a module, add a new line, containing the <span class="cond">#local</span> keyword. To end a "local" section (or start a "global" one), add a new line with the <span class="cond">#global</span> keyword. Calcpad supports multiple levels of inclusions. That means that the included file can reference other files and so on.</p>
+<h2 id="TOC_608">Macros and string variables</h2>
+<p>Macros and string variables are convenient ways to organize your code inside a single file and prevent repetitions. They can be inline or multiline. Unlike string variables, macros can have parameters. You can define them, by using the following statements:</p>
+<p>Inline string variable:<br />
+	&nbsp;&nbsp;&nbsp;&nbsp;<span class="cond">#def</span> 
+	<em class="macro">variable_name$</em> <span class="o">=</span> <em>content</em>
+</p>
+<p>Multiline string variable:<br />
+	&nbsp;&nbsp;&nbsp;&nbsp;<span class="cond">#def</span> <em class="macro">variable_name$</em><br />
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>content line 1</em><br />
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>content line 2</em><br />
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>...</em><br />
+	&nbsp;&nbsp;&nbsp;&nbsp;<span class="cond">#end def</span>
+</p>
+<p>Inline string macro:<br />
+	&nbsp;&nbsp;&nbsp;&nbsp;<span class="cond">#def</span> 
+	<em class="macro">macro_name$</em><span class="b">(</span><em class="macro">param1$</em><span class="o">;</span> <em class="macro">param2$</em><span class="o">;</span>...<span class="b">)</span> <span class="o">=</span> <em>content</em>
+</p>
+<p>Multiline string macro:<br />
+	&nbsp;&nbsp;&nbsp;&nbsp;<span class="cond">#def</span> <em class="macro">macro_name$</em><span class="b">(</span><em class="macro">param1$</em><span class="o">;</span> <em class="macro">param2$</em><span class="o">;</span>...<span class="b">)</span><br />
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>content line 1</em><br />
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>content line 2</em><br />
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>...</em><br />
+	&nbsp;&nbsp;&nbsp;&nbsp;<span class="cond">#end def</span>
+</p>
+<p>Names of macros, string variables and macro parameters can contain small and capital latin letters, underscore "_" and must finish with "$". The contents can be virtually any string. It is not necessary to be a valid Calcpad expression and it is not processed by the parser. However, other macro/string variable definitions are not allowed inside, but you can use any of them that are previously defined outside. Also, input fields "?" are not supported in macros yet. You can use <span class="cond">#include</span> inside macros, but only if the included file does not contain other macros.</p>
+<p>After a string variable is defined, you can use it anywhere in the code, by writing its name (with the ending "$"). The same is for macros, but you also need to specify values for parameters. Macros and string variables are preprocessed and rewritten before the actual parsing is performed. As a result, intermediate (unwrapped) code is generated. You can review this code by checking the "<b>Unwrapped code</b>" checkbox bellow the "<b>Output</b>" window.</p> 
+<p>If any errors occur during macro preprocessing, the unwrapped code is displayed, together  with the errors. Line numbers in error descriptions refer to your initial code. If preprocessing is completed successfully, the unwrapped code is parsed and calculated as normal. If errors are detected at this stage, they are displayed in the output. Line numbers in error descriptions refer to the unwrapped code. You can go to the respective line, by clicking on the link.</p>
 <h2 id="TOC_700">Expressions</h2>
 <p>The main purpose of Calcpad is to perform calculations. That is why, everything inside the input window is assumed to be mathematical expressions, unless it is enclosed in quotes. Then it is treated as comments. By default, each expression has to be in a separate line, e.g.:</p>
 <ul style="list-style: none;">
@@ -584,7 +622,7 @@ Result: 2D waves<br />
 <p>It finds a single root for an equation of type "<b>f</b>(<var>x</var>) = const" within the interval [<var>a</var>, <var>b</var>]. If "const" is zero, you can omit "= const". The program uses hybrid bracketing method, which is a combination of Bisecton and Anderson-Bjork's method. It subsequently narrows the interval that encloses the root, unti it gets smaller than the specified precision.</p>
 <p style="text-align:center;"><img style="height:130pt;" src="Images/Root.png" alt="Root.png"></p>
 <p>If no roots exist inside the initial interval, the program returns an error. If there are several roots, it will find only one of them. In such case, it is better to plot the function first. Then, you can see the approximate location of roots and divide the interval into several parts - one for each root. Finally, you can call the function several times to find all the roots. In some cases, it is possible to develop an automated procedure for interval splitting.</p>
-<p>You can find only roots where the function crosses the line "<var>y</var> = const" ("<b>f</b>(<var>x</var>) - const" changes sign). When it is entirely positive or negative and only "touches" the line from one side, you cannot find the root with any bracketing method.</p>
+<p>You can find only roots where the function crosses the line, defined by "<var>y</var> = const" (or "<b>f</b>(<var>x</var>) - const" changes sign). When it is entirely positive or negative and only "touches" the line from one side, you cannot find the root with any bracketing method.</p>
 
 <h4>Minimum</h4>
 <p style="margin-left: 2em;"><code><span class="cond">$Inf</span>{<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var> : <var>b</var>}</code></p>
@@ -604,7 +642,7 @@ Result: 2D waves<br />
 <li>Divide the interval [<var>a</var>, <var>b</var>] into smaller parts, by using the points of discontinuities and apply the method separately for each part;</li>
 <li>If you are not sure where the discontinuities are, use the <code class="cond">$Area</code> method.</li>
 </ol>
-<p>Additionally, the <code class="cond">$Integral</code> method is formated with the integral symbol "∫" in the output.</p>
+<p>Additionally, the <code class="cond">$Integral</code> method is formatted with the integral symbol "∫" in the output.</p>
 <h4>Numerical differentiation</h4>
 <p style="margin-left: 2em;"><code><span class="cond">$Slope</span>{<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var>}</code></p>
 <p>It finds the value of the first derivative of a function <b>f</b>(<var>x</var>) at <var>x</var> = <var>a</var>. The derivative represents the slope of the tangent to the function at the respective point. The Richardson extrapolation method is used on a two point stencil.</p>
@@ -792,6 +830,7 @@ You can use it further to calculate binomial coefficients by the well-known form
 <i title="meganewthon" >MN</i>, 
 <i title="giganewthon" >GN</i>, 
 <i title="teranewthon" >TN</i>, 
+<i title="gram-force"  >gf</i>, 
 <i title="kilogram-force">kgf</i>, 
 <i title="tonne-force" >tf</i>;
 </li><li>Moment: 
@@ -811,6 +850,7 @@ You can use it further to calculate binomial coefficients by the well-known form
 <i title="millipascal" >μPa</i>, 
 <i title="nanopascal"  >nPa</i>, 
 <i title="picopascal"  >pPa</i>, 
+<br />&emsp;&emsp;&emsp;&emsp;
 <i title="bar"         >bar</i>, 
 <i title="millibar"    >mbar</i>, 
 <i title="microbar"    >μbar</i>, 
@@ -836,6 +876,7 @@ You can use it further to calculate binomial coefficients by the well-known form
 <i title="calorie"      >cal</i>, 
 <i title="kilocalorie"  >kcal</i>, 
 <i title="erg"          >erg</i>, 
+<br />&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;
 <i title="electronvolt"     >eV</i>, 
 <i title="kiloelectronvolt" >keV</i>, 
 <i title="megaelectronvolt" >MeV</i>, 
@@ -853,6 +894,26 @@ You can use it further to calculate binomial coefficients by the well-known form
 <i title="microwatt">μW</i>, 
 <i title="nanowatt" >nW</i>, 
 <i title="picowatt" >pW</i>, 
+<br />&emsp;&emsp;&emsp;
+<i title="Volt-Ampere"     >VA</i>, 
+<i title="kilovolt-Ampere" >kVA</i>, 
+<i title="megavolt-Ampere" >MVA</i>, 
+<i title="gigavolt-Ampere" >GVA</i>, 
+<i title="teravolt-Ampere" >TVA</i>, 
+<i title="millivolt-Ampere">mVA</i>, 
+<i title="microvolt-Ampere">μVA</i>, 
+<i title="nanovolt-Ampere" >nVA</i>, 
+<i title="picovolt-Ampere" >pVA</i>,
+<br />&emsp;&emsp;&emsp;
+<i title="Volt-Ampere (reactive)"     >VAR</i>, 
+<i title="kilovolt-Ampere (reactive)" >kVAR</i>, 
+<i title="megavolt-Ampere (reactive)" >MVAR</i>, 
+<i title="gigavolt-Ampere (reactive)" >GVAR</i>, 
+<i title="teravolt-Ampere (reactive)" >TVAR</i>, 
+<i title="millivolt-Ampere (reactive)">mVAR</i>, 
+<i title="microvolt-Ampere (reactive)">μVAR</i>, 
+<i title="nanovolt-Ampere (reactive)" >nVAR</i>, 
+<i title="picovolt-Ampere (reactive)" >pVAR</i>, 
 <i title="horsepower (metric)">hpM</i>, 
 <i title="horsepower (metric)">ks</i>;
 </li><li>Electric charge: 
@@ -906,7 +967,16 @@ You can use it further to calculate binomial coefficients by the well-known form
 <i title="millisiemens">mS</i>, 
 <i title="microsiemens">μS</i>, 
 <i title="nanosiemens" >nS</i>, 
-<i title="picosiemens" >pS</i>;
+<i title="picosiemens" >pS</i>,
+<i title="mho"     >℧</i>, 
+<i title="kilomho" >k℧</i>, 
+<i title="megamho" >M℧</i>, 
+<i title="gigamho" >G℧</i>, 
+<i title="teramho" >T℧</i>, 
+<i title="millimho">m℧</i>, 
+<i title="micromho">μ℧</i>, 
+<i title="nanomho" >n℧</i>, 
+<i title="picomho" >p℧</i>;
 </li><li>Magnetic flux: 
 <i title="Weber"     >Wb </i>, 
 <i title="kiloweber" >kWb</i>, 
@@ -986,11 +1056,11 @@ You can use it further to calculate binomial coefficients by the well-known form
 <i title="stone"        >st</i>, 
 <i title="quarter"      >qr</i>, 
 <i title="hundredweight">cwt</i>,
-<i title="hundredweight (UK)">cwt</i><sub>UK</sub>, 
-<i title="hundredweight (US)">cwt</i><sub>US</sub>,  
+<i title="hundredweight (UK)">cwt</i><sub>_UK</sub>, 
+<i title="hundredweight (US)">cwt</i><sub>_US</sub>,  
 <i title="ton"          >ton</i>, 
-<i title="ton (UK)"     >ton</i><sub>UK</sub>, 
-<i title="ton (US)"     >ton</i><sub>US</sub>, 
+<i title="ton (UK)"     >ton</i><sub>_UK</sub>, 
+<i title="ton (US)"     >ton</i><sub>_US</sub>, 
 <i title="slug"         >slug</i>;
 </li><li>Length:                    
 <i title="thou"         >th</i>, 
@@ -1025,22 +1095,22 @@ You can use it further to calculate binomial coefficients by the well-known form
 <i title="gallon"      >gal</i>, 
 <i title="barrel"      >bbl</i>, 
 (dry) <i title="bushel">bu</i>;
-<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<i title="fluid ounce (UK)" >fl_oz</i><sub>UK</sub>, 
-<i title="gill (UK)"        >gi</i><sub>UK</sub>, 
-<i title="pint (UK)"        >pt</i><sub>UK</sub>, 
-<i title="quart (UK)"       >qt</i><sub>UK</sub>, 
-<i title="gallon (UK)"      >gal</i><sub>UK</sub>, 
-<i title="barrel (UK)"      >bbl</i><sub>UK</sub>, 
-(dry) <i title="bushel (UK)">bu</i><sub>UK</sub>;
-<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<i title="fluid ounce (US)" >fl_oz</i><sub>US</sub>, 
-<i title="gill (US)"        >gi</i><sub>US</sub>, 
-<i title="pint (US)"        >pt</i><sub>US</sub>, 
-<i title="quart (US)"       >qt</i><sub>US</sub>, 
-<i title="gallon (US)"      >gal</i><sub>US</sub>, 
-<i title="barrel (US)"      >bbl</i><sub>US</sub>, 
-(dry) <i title="bushel (US)">bu</i><sub>US</sub>;
+<br />&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;
+<i title="fluid ounce (UK)" >fl_oz</i><sub>_UK</sub>, 
+<i title="gill (UK)"        >gi</i><sub>_UK</sub>, 
+<i title="pint (UK)"        >pt</i><sub>_UK</sub>, 
+<i title="quart (UK)"       >qt</i><sub>_UK</sub>, 
+<i title="gallon (UK)"      >gal</i><sub>_UK</sub>, 
+<i title="barrel (UK)"      >bbl</i><sub>_UK</sub>, 
+(dry) <i title="bushel (UK)">bu</i><sub>_UK</sub>;
+<br />&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;
+<i title="fluid ounce (US)" >fl_oz</i><sub>_US</sub>, 
+<i title="gill (US)"        >gi</i><sub>_US</sub>, 
+<i title="pint (US)"        >pt</i><sub>_US</sub>, 
+<i title="quart (US)"       >qt</i><sub>_US</sub>, 
+<i title="gallon (US)"      >gal</i><sub>_US</sub>, 
+<i title="barrel (US)"      >bbl</i><sub>_US</sub>, 
+(dry) <i title="bushel (US)">bu</i><sub>_US</sub>;
 </li><li>Force: 
 <i title="ounce-force"    >ozf</i>, 
 <i title="pound-force"    >lbf</i>, 
@@ -1060,8 +1130,8 @@ You can use it further to calculate binomial coefficients by the well-known form
 </li><li>Energy/work: 
 <i title="British Thermal Unit">BTU</i>, 
 <i title="therm">therm</i>, 
-<i title="therm">therm</i><sub>UK</sub>, 
-<i title="therm">therm</i><sub>US</sub>, 
+<i title="therm">therm</i><sub>_UK</sub>, 
+<i title="therm">therm</i><sub>_US</sub>, 
 <i title="quad">quad</i>;
 </li><li>Power:
 <i title="horsepower">hp</i>, 
@@ -1416,7 +1486,7 @@ You can use it further to calculate binomial coefficients by the well-known form
 <h3 id="TOC_1004">Save As…</h3>
 <p>If you need to save the current file with a different name, select the "<b>File/Save As…</b>" menu command. A file selection dialog will be displayed. Select file path and name and click "<b>Save</b>"</p>
 <hr />
-<p>Last edited on 19.08.2022 by eng. Nedelcho Ganchovski.</p>
+<p>Last edited on 15.09.2022 by eng. Nedelcho Ganchovski.</p>
 </div>
 <script src="jquery-3.4.1.min.js"></script>
 <script>

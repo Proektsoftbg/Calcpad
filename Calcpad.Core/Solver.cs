@@ -276,7 +276,7 @@ namespace Calcpad.Core
         private double AdaptiveLobatto(double left, double right)
         {
             Units = null;
-            eps = Math.Max(Precision, 1e-14) / 2d; //Integration must be slightly more precise than differentiation, when used together
+            eps = Math.Clamp(Precision, 1e-14, 1e-4) / 2d; //Integration must be slightly more precise than differentiation, when used together
             return Lobatto(left, right, Fd(left), Fd(right), 1);
         }
 

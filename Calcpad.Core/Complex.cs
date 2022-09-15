@@ -236,7 +236,8 @@ namespace Calcpad.Core
             var a = value._a;
             var b = value._b;
             CheckTrigScope(a, "sin");
-            return new(Math.Sin(a) * Math.Cosh(b), Math.Cos(a) * Math.Sinh(b));
+            var c = Math.SinCos(a);
+            return new(c.Sin * Math.Cosh(b), c.Cos * Math.Sinh(b));
         }
 
         internal static Complex Cos(in Complex value)
@@ -244,7 +245,8 @@ namespace Calcpad.Core
             var a = value._a;
             var b = value._b;
             CheckTrigScope(a, "cos");
-            return new(Math.Cos(a) * Math.Cosh(b), -Math.Sin(a) * Math.Sinh(b));
+            var c = Math.SinCos(a);
+            return new(c.Cos * Math.Cosh(b), -c.Sin * Math.Sinh(b));
         }
 
         internal static Complex Tan(in Complex value)
@@ -266,7 +268,8 @@ namespace Calcpad.Core
             var a = value._a;
             var b = value._b;
             CheckTrigScope(b, "sinh");
-            return new(Math.Sinh(a) * Math.Cos(b), Math.Cosh(a) * Math.Sin(b));
+            var c = Math.SinCos(b);
+            return new(Math.Sinh(a) * c.Cos, Math.Cosh(a) * c.Sin);
         }
 
         internal static Complex Cosh(in Complex value) /* Hyperbolic cos */
@@ -274,7 +277,8 @@ namespace Calcpad.Core
             var a = value._a;
             var b = value._b;
             CheckTrigScope(b, "cosh");
-            return new(Math.Cosh(a) * Math.Cos(b), Math.Sinh(a) * Math.Sin(b));
+            var c = Math.SinCos(b);
+            return new(Math.Cosh(a) * c.Cos, Math.Sinh(a) * c.Sin);
         }
 
         internal static Complex Tanh(in Complex value)
