@@ -76,8 +76,11 @@ namespace Calcpad.Wpf
                     Title = AppInfo.Title;
                 else
                 {
-                    DocumentPath = Path.GetDirectoryName(value);
-                    Directory.SetCurrentDirectory(DocumentPath ?? string.Empty);
+                    var path = Path.GetDirectoryName(value);
+                    if (string.IsNullOrWhiteSpace(path))
+                        _cfn = Path.Combine(DocumentPath, value);
+                    else
+                        SetCurrentDirectory(path);
                     Title = AppInfo.Title + " - " + Path.GetFileName(value);
                 }
             }
@@ -142,10 +145,7 @@ namespace Calcpad.Wpf
             HighLighter.IncludeClickEventHandler = new MouseButtonEventHandler(Include_Click);
             HighLighter.Include = Include;
             LineNumbers.ClipToBounds = true;
-            DocumentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Calcpad";
-            if (!Directory.Exists(DocumentPath))
-                Directory.CreateDirectory(DocumentPath);
-            Directory.SetCurrentDirectory(DocumentPath ?? string.Empty);
+            SetCurrentDirectory();
             var appUrl = "file:///" + AppInfo.Path.Replace("\\", "/");
             _htmlWorksheet = ReadFile(AppInfo.Path + "template.html").Replace("jquery", appUrl + "jquery");
             _htmlParsing = ReadFile(AppInfo.Path + "parsing.html");
@@ -195,6 +195,20 @@ namespace Calcpad.Wpf
             _findReplace.BeginReplace += FindReplace_BeginReplace;
             _findReplace.EndReplace += FindReplace_EndReplace;
             _isTextChangedEnabled = true;
+        }
+
+        private void SetCurrentDirectory(string path = null)
+        {
+            if (string.IsNullOrWhiteSpace(path) || !Directory.Exists(path))
+            {
+                DocumentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Calcpad";
+                if (!Directory.Exists(DocumentPath))
+                    Directory.CreateDirectory(DocumentPath);
+            }
+            else
+                DocumentPath = path;
+
+            Directory.SetCurrentDirectory(DocumentPath);
         }
 
         private void ForceHighlight()
@@ -625,8 +639,8 @@ namespace Calcpad.Wpf
                 if (MenuRecent.Items.Count > 0 && (string.IsNullOrEmpty(CurrentFileName) || !File.Exists(CurrentFileName)))
                 {
                     var firstMenu = (MenuItem)MenuRecent.Items[0];
-                    DocumentPath = Path.GetDirectoryName((string)firstMenu.ToolTip);
-                    Directory.SetCurrentDirectory(DocumentPath ?? string.Empty);
+                    var path = Path.GetDirectoryName((string)firstMenu.ToolTip);
+                    SetCurrentDirectory(path);
                 }
             }
             MenuRecent.IsEnabled = j > 0;
@@ -921,11 +935,7 @@ namespace Calcpad.Wpf
             _findReplaceWindow.Show();
         }
 
-        private void Command_FindNext(object sender, ExecutedRoutedEventArgs e)
-        {
-            _findReplace.Find();
-        }
-
+        private void Command_FindNext(object sender, ExecutedRoutedEventArgs e) => _findReplace.Find();
 
         private void FileOpen(string fileName)
         {
@@ -937,7 +947,10 @@ namespace Calcpad.Wpf
             var hasForm = GetInputTextFromFile(ext == ".txt");
             if (ext == ".cpdz")
             {
-                RunWebForm();
+                if (IsWebForm)
+                    CalculateAsync(true);
+                else
+                    RunWebForm();
                 WebFormButton.Visibility = Visibility.Hidden;
                 MenuWebForm.Visibility = Visibility.Collapsed;
                 SaveButton.Tag = "S";
@@ -1049,7 +1062,7 @@ namespace Calcpad.Wpf
             }
             else
             {
-                outputText = ReplaceHrefs(outputText);
+                outputText = FixHref(outputText);
                 WebBrowser.Tag = false;
                 if (toWebForm)
                     _parser.Parse(outputText, false);
@@ -1089,15 +1102,7 @@ namespace Calcpad.Wpf
             try
             {
                 if (!string.IsNullOrEmpty(htmlResult))
-                {
-                    //if (IsWebForm || toWebForm)
-                    //{
-                    //    WriteFile(_htmlTempFileName, htmlResult);
-                    //    WebBrowser.Navigate(_htmlTempFileName);
-                    //}
-                    //else
                     WebBrowser.NavigateToString(htmlResult);
-                }
             }
             catch (Exception e)
             {
@@ -1115,7 +1120,7 @@ namespace Calcpad.Wpf
 #endif
         }
 
-        private static string ReplaceHrefs(in string text)
+        private static string FixHref(in string text)
         {
             var s = Regex.Replace(text,
                 @"\bhref\b\s*=\s*""(?!#)",
@@ -1702,6 +1707,9 @@ namespace Calcpad.Wpf
 
         private void RunWebForm()
         {
+            if (IsWebForm && WebFormButton.Visibility != Visibility.Visible)
+                return;
+
             if (_mustPromptUnlock && IsWebForm)
             {
 #if BG
@@ -1998,6 +2006,7 @@ namespace Calcpad.Wpf
                         if (ex == ".cpdz")
                             WebFormButton.Visibility = Visibility.Hidden;
                         _isFileOpen = false;
+                        AddRecentFile(CurrentFileName);
                         return;
                     }
                 }
@@ -2986,11 +2995,33 @@ namespace Calcpad.Wpf
                 var s = _wbWarper.GetLinkData();
                 {
                     if (Uri.IsWellFormedUriString(s, UriKind.Absolute))
-                        Execute("msedge.exe", s);
-                    else if (IsCalculated)
-                        LineClicked(s);
-                    else if (!IsWebForm)
-                        LinkClicked(s);
+                        Execute(ExternalBrowserComboBox.Text.ToLower() + ".exe", s);
+                    else
+                    {
+                        var fileName = s.Replace('/', '\\');
+                        if (File.Exists(fileName))
+                        {
+                            var ext = Path.GetExtension(fileName).ToLowerInvariant();
+                            if (ext == ".cpd" || ext == ".cpdz" || ext == ".txt")
+                            {
+                                var r = PromptSave();
+                                if (r != MessageBoxResult.Cancel)
+                                    FileOpen(fileName);
+                            }
+                            else if (ext == ".htm" || 
+                                     ext == ".html" || 
+                                     ext == ".png" ||
+                                     ext == ".jpg" ||
+                                     ext == ".jpeg" ||
+                                     ext == ".gif" ||
+                                     ext == ".bmp")
+                                Execute(ExternalBrowserComboBox.Text.ToLower() + ".exe", s);
+                        }
+                        else if (IsCalculated)
+                            LineClicked(s);
+                        else if (!IsWebForm)
+                            LinkClicked(s);
+                    }
                 }
             }
             else if (_isSaving)
@@ -3113,7 +3144,7 @@ namespace Calcpad.Wpf
         {
             if (e.Key == Key.F5)
             {
-                AutoRun(true);
+                Calculate();
                 e.Handled = true;
             }
         }

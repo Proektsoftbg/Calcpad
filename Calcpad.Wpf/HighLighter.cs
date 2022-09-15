@@ -282,7 +282,7 @@ namespace Calcpad.Wpf
                 _values = queue;
             else
                 GetValues(p);
-            
+
             var text = InitParagraph(p);
             InitState(p, text, line);
             _tagHelper = new();
@@ -711,9 +711,10 @@ namespace Calcpad.Wpf
                 return Types.Macro;
             if (IsLetter(c))
             {
-                if (!(char.IsLetter(c) || c == '°' || c == '∡' || c == '′' || c == '″' || c == '℧'))
+                bool isUnitStart = IsUnitStart(c);
+                if (!(char.IsLetter(c) || isUnitStart ||  c == '∡' || c == '℧'))
                     return Types.Error;
-                if (_state.IsUnits || _state.PreviousType == Types.Const || c == '°' || c == '′' || c == '″')
+                if (_state.IsUnits || _state.PreviousType == Types.Const || isUnitStart)
                     return Types.Units;
                 else
                     return Types.Variable;
@@ -745,7 +746,7 @@ namespace Calcpad.Wpf
         {
             Append(Types.Const);
             _builder.Append(c);
-            if (char.IsLetter(c) || c == '°' || c == '′' || c == '″')
+            if (char.IsLetter(c) || IsUnitStart(c))
                 _state.CurrentType = Types.Units;
             else
                 _state.CurrentType = Types.Error;
@@ -773,7 +774,7 @@ namespace Calcpad.Wpf
                 else
                     _state.Message = "0";
             }
-            else if(t != Types.Error)
+            else if (t != Types.Error)
                 t = CheckError(t, s);
 
             AppendRun(t, s);
@@ -910,13 +911,13 @@ namespace Calcpad.Wpf
                     return Types.Error;
                 }
             }
-            else 
+            else
                 _state.Message = null;
 
             return t;
         }
 
-        private readonly Brush TitleBkg = new SolidColorBrush(Color.FromRgb(225, 255, 220));
+        private readonly Brush TitleBkg = new SolidColorBrush(Color.FromRgb(245, 255, 240));
         private void AppendRun(Types t, string s)
         {
             var run = new Run(s);
@@ -927,11 +928,11 @@ namespace Calcpad.Wpf
             {
                 run.FontWeight = FontWeights.Bold;
                 if (isTitle)
-                    run.Background = TitleBkg;    
+                    run.Background = TitleBkg;
             }
-            else if (t == Types.Input || 
-                     t == Types.Include || 
-                     t == Types.Macro || 
+            else if (t == Types.Input ||
+                     t == Types.Include ||
+                     t == Types.Macro ||
                      t == Types.Error)
             {
                 if (t == Types.Error)
@@ -985,7 +986,6 @@ namespace Calcpad.Wpf
             else
                 _values = null;
         }
-
 
         private void GetLocalVariables(bool isCommand)
         {
@@ -1196,7 +1196,7 @@ namespace Calcpad.Wpf
                 GetDefinedVariablesAndFunctions(lineContent, lineNumber);
         }
 
-        internal static bool IsKeyword(string s, string keyword) => 
+        internal static bool IsKeyword(string s, string keyword) =>
             s.TrimStart().StartsWith(keyword, StringComparison.OrdinalIgnoreCase);
 
         internal static string GetFile(string s)
@@ -1431,9 +1431,9 @@ namespace Calcpad.Wpf
         internal static bool IsLetter(char c) =>
             c >= 'a' && c <= 'z' || // a - z
             c >= 'A' && c <= 'Z' || // A - Z 
-            "_,°∡′″‴⁗ϑϕøØ℧".Contains(c, StringComparison.Ordinal) || // _ , ° ∡ ℧′ ″ ‴ ⁗ ϑ ϕ ø Ø
             c >= 'α' && c <= 'ω' ||   // alpha - omega
-            c >= 'Α' && c <= 'Ω';  // Alpha - Omega
+            c >= 'Α' && c <= 'Ω' ||  // Alpha - Omega
+            "_,°′″‴⁗ϑϕøØ℧∡".Contains(c, StringComparison.Ordinal); // _ , ° ′ ″ ‴ ⁗ ϑ ϕ ø Ø ℧ ∡
 
         internal static bool IsLatinLetter(char c) =>
             c >= 'a' && c <= 'z' || // a - z
@@ -1441,6 +1441,9 @@ namespace Calcpad.Wpf
 
         internal static bool IsDigit(char c) =>
             c >= '0' && c <= '9' || c == MathParser.DecimalSymbol;
+
+        internal static bool IsUnitStart(char c) =>
+            c == '°' || c == '′' || c == '″';
 
         private string FormatOperator(string name) =>
             name switch
