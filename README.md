@@ -157,7 +157,7 @@ A variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;$Sup { f(x) @ x = a : b } - local maximum of a function;  
 &emsp;&emsp;$Inf { f(x) @ x = a : b } - local minimum of a function;  
 &emsp;&emsp;$Area { f(x) @ x = a : b } - adaptive Gauss-Lobatto numerical integration;  
-&emsp;&emsp;$Integral { f(x) @ x = a : b } - Tanh-Sinh numerical integration; 
+&emsp;&emsp;$Integral { f(x) @ x = a : b } - Tanh-Sinh numerical integration;  
 &emsp;&emsp;$Slope { f(x) @ x = a } - numerical differentiation;  
 &emsp;&emsp;$Sum { f(k) @ k = a : b } - iterative sum;  
 &emsp;&emsp;$Product { f(k) @ k = a : b } - iterative product;  
@@ -196,7 +196,11 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;#end if  
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;*Some more code*  
 &emsp;&emsp;&emsp;&emsp;#loop  
-* String variables and macros:  
+* Modules and macros/string variables:  
+&emsp;&emsp;Modules:  
+&emsp;&emsp;&emsp;&emsp;#include *filename* - include external file/module;  
+&emsp;&emsp;&emsp;&emsp;#local - start local section (not to be included);  
+&emsp;&emsp;&emsp;&emsp;#global - start global section (to be included);  
 &emsp;&emsp;Inline string variable:  
 &emsp;&emsp;&emsp;&emsp;#def *variable_name$* = *content*  
 &emsp;&emsp;Multiline string variable:  
@@ -213,8 +217,6 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;*content line 2*  
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;...  
 &emsp;&emsp;&emsp;&emsp;#end def  
-&emsp;&emsp;Include external file:  
-&emsp;&emsp;&emsp;&emsp;#include *filename*  
 * Output control:  
 &emsp;&emsp;#hide - hide the report contents;  
 &emsp;&emsp;#show - always show the contents (default);  
@@ -242,12 +244,12 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;&emsp;Force: dyn N, daN, hN, kN, MN, GN, TN, gf, kgf, tf;  
 &emsp;&emsp;Moment: Nm, kNm;  
 &emsp;&emsp;Pressure: Pa, daPa, hPa, kPa, MPa, GPa, TPa, dPa, cPa, mPa, μPa, nPa, pPa,  
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;bar, mbar, μbar, atm, at, Torr, mmHg;  
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; bar, mbar, μbar, atm, at, Torr, mmHg;  
 &emsp;&emsp;Energy work: J, kJ, MJ, GJ, TJ, mJ, μJ, nJ, pJ, Wh, kWh, MWh, GWh, TWh,  
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;cal, kcal, erg, eV, keV, MeV, GeV, TeV, PeV, EeV;  
 &emsp;&emsp;Power: W, kW, MW, GW, TW, mW, μW, nW, pW, hpM, ks;  
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;VA, kVA, MVA, GVA, TVA, mVA, μVA, nVA, pVA,  
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;VAR, kVAR, MVAR, GVAR, TVAR, mVAR, μVAR, nVAR, pVAR, hpM, ks;
+&emsp;&emsp;&emsp;&emsp;&emsp; VA, kVA, MVA, GVA, TVA, mVA, μVA, nVA, pVA,  
+&emsp;&emsp;&emsp;&emsp;&emsp; VAR, kVAR, MVAR, GVAR, TVAR, mVAR, μVAR, nVAR, pVAR, hpM, ks;  
 &emsp;&emsp;Electric charge: C, kC, MC, GC, TC, mC, μC, nC, pC, Ah, mAh;  
 &emsp;&emsp;Potential: V, kV, MV, GV, TV, mV, μV, nV, pV;  
 &emsp;&emsp;Capacitance: F, kF, MF, GF, TF, mF, μF, nF, pF;  
