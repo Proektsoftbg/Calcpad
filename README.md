@@ -74,7 +74,7 @@ A variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;"^" - exponent;  
 &emsp;&emsp;"/" - division;  
 &emsp;&emsp;"÷" - force division bar;  
-&emsp;&emsp;"\" - division;  
+&emsp;&emsp;"\\" - integer division;  
 &emsp;&emsp;"%" - reminder;  
 &emsp;&emsp;"\*" - multiplication;  
 &emsp;&emsp;"-" - minus;  
