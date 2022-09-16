@@ -1228,17 +1228,18 @@
                        HorizontalAlignment="Left" 
                        Margin="5,0,0,0"/>
             <ComboBox x:Name="ExternalBrowserComboBox" 
+                      ToolTip="Browser to open links" 
+                      Height="22"
+                      Width="70" 
                       VerticalAlignment="Top" 
                       HorizontalAlignment="Right" 
-                      Width="70" 
-                      ToolTip="Browser to open links" 
-                      TabIndex="17" Height="22">
-                <ComboBoxItem Content="Chrome" HorizontalAlignment="Left" IsSelected="True"/>
-                <ComboBoxItem Content="MSEdge" HorizontalAlignment="Left"/>
-                <ComboBoxItem Content="Firefox" HorizontalAlignment="Left"/>
-                <ComboBoxItem Content="Safari" HorizontalAlignment="Left"/>
-                <ComboBoxItem Content="Opera" HorizontalAlignment="Left"/>
-                <ComboBoxItem Content="IExplore" HorizontalAlignment="Left"/>
+                      TabIndex="17" >
+                <ComboBoxItem Width="70" Content="Chrome" HorizontalAlignment="Left" IsSelected="True"/>
+                <ComboBoxItem Width="70" Content="MSEdge" HorizontalAlignment="Left"/>
+                <ComboBoxItem Width="70" Content="Firefox" HorizontalAlignment="Left"/>
+                <ComboBoxItem Width="70" Content="Safari" HorizontalAlignment="Left"/>
+                <ComboBoxItem Width="70" Content="Opera" HorizontalAlignment="Left"/>
+                <ComboBoxItem Width="70" Content="IExplore" HorizontalAlignment="Left"/>
             </ComboBox>            
             <CheckBox x:Name="CodeCheckBox" 
                       Content="Unwrapped code" 
