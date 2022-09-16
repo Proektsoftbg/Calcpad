@@ -345,6 +345,7 @@ namespace Calcpad.Wpf
                 tp.InsertTextInRun(parts[0]);
                 p = tp.Paragraph;
                 var lineNumber = GetLineNumber(p);
+                HighLighter.GetDefinedVariablesFunctionsAndMacros(parts[0], lineNumber);
                 _highlighter.Parse(p, IsComplex, lineNumber);
                 if (selectionLength > 0)
                     tp = RichTextBox.Selection.End;
@@ -355,6 +356,7 @@ namespace Calcpad.Wpf
                     tp = p.ContentEnd.InsertParagraphBreak();
                     tp.InsertTextInRun(parts[i]);
                     lineNumber = GetLineNumber(p);
+                    HighLighter.GetDefinedVariablesFunctionsAndMacros(parts[i], lineNumber);
                     _highlighter.Parse(p, IsComplex, lineNumber);
                 }
                 tp = tp.Paragraph.ContentEnd;
