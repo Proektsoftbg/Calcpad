@@ -262,7 +262,6 @@ namespace Calcpad.Core
 #endif
                                 ++macroDefCount;
                             }
-
                         }
                         else if (keyword == Keywords.EndDef)
                         {
@@ -338,7 +337,7 @@ namespace Calcpad.Core
 #if BG
                 AppendError($"Невалиден символ \"{c}\" в име на макрос.");
 #else
-                AppendError($"Invalid symbol \"{c}\" in macro name.</p>");
+                AppendError($"Invalid symbol \"{c}\" in macro name.");
 #endif
             }
 

@@ -141,6 +141,9 @@ namespace Calcpad.Wpf
             _parser = new();
             _highlighter = new();
             InitializeComponent();
+            ToolTipService.InitialShowDelayProperty.OverrideMetadata(
+                typeof(DependencyObject), 
+                new FrameworkPropertyMetadata(500));
             HighLighter.InputClickEventHandler = new MouseButtonEventHandler(Input_Click);
             HighLighter.IncludeClickEventHandler = new MouseButtonEventHandler(Include_Click);
             HighLighter.Include = Include;
@@ -678,14 +681,15 @@ namespace Calcpad.Wpf
             for (int i = 0; i < n; ++i)
             {
                 var menu = (MenuItem)MenuRecent.Items[i];
-                if (!string.Equals(menu.ToolTip, fileName))
+                if (!fileName.Equals((string)menu.ToolTip, StringComparison.Ordinal))
                     continue;
 
                 for (int j = i; j > 0; --j)
                 {
                     menu = (MenuItem)MenuRecent.Items[j];
-                    menu.Header = ((MenuItem)MenuRecent.Items[j - 1]).Header;
-                    menu.ToolTip = ((MenuItem)MenuRecent.Items[j - 1]).ToolTip;
+                    var previousMenu = (MenuItem)MenuRecent.Items[j - 1];
+                    menu.Header = previousMenu.Header;
+                    menu.ToolTip = previousMenu.ToolTip;
                 }
                 var first = (MenuItem)MenuRecent.Items[0];
                 first.Header = Path.GetFileName(fileName);
@@ -1654,8 +1658,8 @@ namespace Calcpad.Wpf
                     if (j == lineNumber)
                         pointerParagraph = p;
 
-                    foreach (var inline in p.Inlines)
-                        if (i < n && inline.ToolTip is ToolTip tt)
+                    foreach (Run inline in p.Inlines.Cast<Run>())
+                        if (i < n && inline.Text[0] =='?' && inline.ToolTip is ToolTip tt)
                             tt.Content = values[i++];
 
                     _document.Blocks.Add(p);
@@ -2302,7 +2306,7 @@ namespace Calcpad.Wpf
             var sz = _document.FontSize - 1;
             var topMax = -sz;
             var tp = RichTextBox.GetPositionFromPoint(new Point(sz, sz), true);
-            var b = tp.Paragraph as Block;
+            var b = (Block)tp.Paragraph;
             var i = 0;
             foreach (var block in _document.Blocks)
             {
@@ -2552,8 +2556,8 @@ namespace Calcpad.Wpf
                             cache.Enqueue(values[i++]);
                     }
                 else
-                    foreach (var inline in p.Inlines)
-                        if (i < n && inline.ToolTip is ToolTip tt)
+                    foreach (Run inline in p.Inlines.Cast<Run>())
+                        if (i < n && inline.Text[0] == '?' && inline.ToolTip is ToolTip tt)
                             tt.Content = values[i++];
 
                 p = (Paragraph)p.NextBlock;
@@ -2575,8 +2579,8 @@ namespace Calcpad.Wpf
                     }
 
                 else if (p.Tag is bool b && b)
-                    foreach (var inline in p.Inlines)
-                        if (inline.ToolTip is ToolTip tt)
+                    foreach (Run inline in p.Inlines.Cast<Run>())
+                        if (inline.Text[0] == '?' && inline.ToolTip is ToolTip tt)
                             values.Add(tt.Content?.ToString());
 
                 p = (Paragraph)p.NextBlock;
@@ -2800,7 +2804,7 @@ namespace Calcpad.Wpf
                 var r = (Run)sender;
                 var tt = (ToolTip)r.ToolTip;
                 r = (Run)r.PreviousInline;
-                var prompt = ((Run)(r?.PreviousInline))?.Text + r?.Text;
+                var prompt = ((Run)r?.PreviousInline)?.Text + r?.Text;
                 var content = string.Empty;
                 if (tt.Content is string s)
                     content = s;

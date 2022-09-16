@@ -26,7 +26,9 @@ namespace Calcpad.Core
             If,
             ElseIf,
             Else,
-            EndIf
+            EndIf,
+            Local,
+            Global
         }
         private readonly List<string> _inputFields = new();
         private int _currentField;
@@ -70,79 +72,116 @@ namespace Calcpad.Core
 
         private static Keywords GetKeyword(string s)
         {
-            if (s[1] == 'i' &&
-                s[2] == 'f')
-                return Keywords.If;
-
+            if (s[1] == 'i')
+            {
+                if (s[2] == 'f')
+                    return Keywords.If;
+                else
+                    return Keywords.None;
+            }
             var n = s.Length;
             if (n < 4)
                 return Keywords.None;
-
-            if (s[1] == 'e')
+            var c1 = s[1];
+            var c2 = s[2];
+            var c3 = s[3];
+            if (c1 == 'e')
             {
-                if (s[2] == 'l' &&
-                    s[3] == 's' && n > 4 &&
-                    s[4] == 'e')
+                if (c2 == 'l')
                 {
-                    if (n > 7 && s[5] == ' ' &&
-                        s[6] == 'i' &&
-                        s[7] == 'f')
-                        return Keywords.ElseIf;
+                    if (c3   == 's' && n > 4 &&
+                        s[4] == 'e')
+                    {
+                        if (n > 7 && 
+                            s[5] == ' ' && 
+                            s[6] == 'i' &&
+                            s[7] == 'f')
+                            return Keywords.ElseIf;
 
-                    return Keywords.Else;
+                        return Keywords.Else;
+                    }
                 }
-                if (s[2] == 'n' &&
-                    s[3] == 'd' && n > 6 &&
-                    s[4] == ' ')
+                else if (c2 == 'n')
                 {
-                    if (s[5] == 'i' &&
+                    if (c3   == 'd' && n > 6 &&
+                        s[4] == ' ' && 
+                        s[5] == 'i' &&
                         s[6] == 'f')
                         return Keywords.EndIf;
                 }
-                if (s[2] == 'q' &&
-                    s[3] == 'u')
+                else if (c2 == 'q' &&
+                         c3 == 'u')
                     return Keywords.Equ;
             }
-            if (s.StartsWith("#val", StringComparison.Ordinal))
-                return Keywords.Val;
-            if (s.StartsWith("#noc", StringComparison.Ordinal))
-                return Keywords.Noc;
-            if (s.StartsWith("#hide", StringComparison.Ordinal))
-                return Keywords.Hide;
-            if (s.StartsWith("#show", StringComparison.Ordinal))
-                return Keywords.Show;
-            if (s[1] == 'p')
+            else if (c1 == 'p')
             {
-                if (s[2] == 'r' &&
-                    s[3] == 'e')
-                    return Keywords.Pre;
-
-                if (s[2] == 'o' &&
-                    s[3] == 's' && s.Length > 4 &&
-                    s[4] == 't')
-                    return Keywords.Post;
+                if (c2 == 'r')
+                {
+                    if(c3 == 'e')
+                        return Keywords.Pre;
+                }
+                else if (c2   == 'o' && 
+                         c3   == 's' && n > 4 &&
+                         s[4] == 't')
+                        return Keywords.Post;
             }
-            if (s.StartsWith("#deg", StringComparison.Ordinal))
-                return Keywords.Deg;
-            if (s.StartsWith("#gra", StringComparison.Ordinal))
-                return Keywords.Gra;
-            if (s[1] == 'r')
+            else if (c1 == 'g')
             {
-                if (s[2] == 'a' &&
-                    s[3] == 'd')
-                    return Keywords.Rad;
-
-                if (s[2] == 'e' &&
-                    s[3] == 'p' && n > 6 &&
-                    s[4] == 'e' &&
-                    s[5] == 'a' &&
-                    s[6] == 't')
-                    return Keywords.Repeat;
+                if (c2 == 'r')
+                {
+                    if (c3 == 'a')
+                        return Keywords.Gra;
+                }
+                else if (c2   == 'l' &&
+                         c3   == 'o' && n > 6 &&
+                         s[4] == 'b' &&
+                         s[5] == 'a' &&
+                         s[6] == 'l')
+                         return Keywords.Global;
             }
-            if (s.StartsWith("#loop", StringComparison.Ordinal))
-                return Keywords.Loop;
-            if (s.StartsWith("#break", StringComparison.Ordinal))
-                return Keywords.Break;
+            else if (c1 == 'r')
+            {
+                if (c2 == 'a')
+                {
+                    if (c3 == 'd')
+                        return Keywords.Rad;
+                }
+                else if (c2   == 'e' &&
+                         c3   == 'p' && n > 6 &&
+                         s[4] == 'e' &&
+                         s[5] == 'a' &&
+                         s[6] == 't')
+                         return Keywords.Repeat;
+            }
+            else if (c1 == 'l' &&
+                     c2 == 'o')
+            {
+                if (c3 == 'o')
+                {
+                    if (n > 4 &&
+                        s[4] == 'p')
+                        return Keywords.Loop;
+                }
+                else if (c3   == 'c' && n > 5 &&
+                         s[4] == 'a' &&
+                         s[5] == 'l')
+                    return Keywords.Local;
+            }
+            else
+            {
+                if (s.StartsWith("#val", StringComparison.Ordinal))
+                    return Keywords.Val;
+                if (s.StartsWith("#noc", StringComparison.Ordinal))
+                    return Keywords.Noc;
+                if (s.StartsWith("#hide", StringComparison.Ordinal))
+                    return Keywords.Hide;
+                if (s.StartsWith("#show", StringComparison.Ordinal))
+                    return Keywords.Show;
+                if (s.StartsWith("#deg", StringComparison.Ordinal))
+                    return Keywords.Deg;
+                if (s.StartsWith("#break", StringComparison.Ordinal))
+                    return Keywords.Break;
+            }
 
             return Keywords.None;
         }
@@ -305,7 +344,7 @@ namespace Calcpad.Core
                             else if (isVisible)
                                 stringBuilder.Append($"<p{id} class=\"cond\">#break</p>");
                         }
-                        else
+                        else if (keyword != Keywords.Global && keyword != Keywords.Local)
                             isKeyWord = false;
 
                         if (isKeyWord)
