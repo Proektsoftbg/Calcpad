@@ -1757,9 +1757,9 @@ namespace Calcpad.Wpf
                 FramesGrid.ColumnDefinitions[0].Width = new GridLength(0);
                 FramesGrid.ColumnDefinitions[1].Width = new GridLength(0);
 #if BG
-                WebFormButton.ToolTip = "Отвори програмния код за редактиране";
+                WebFormButton.ToolTip = "Отвори програмния код за редактиране (F4)";
 #else
-                WebFormButton.ToolTip = "Open source code for editing";
+                WebFormButton.ToolTip = "Open source code for editing (F4)";
 #endif
                 MenuWebForm.Icon = "  ✓";
                 AutoRunCheckBox.Visibility = Visibility.Hidden;
@@ -1778,9 +1778,9 @@ namespace Calcpad.Wpf
                 FramesGrid.ColumnDefinitions[1].Width = new GridLength(5);
                 FramesGrid.ColumnDefinitions[2].Width = new GridLength(1, GridUnitType.Star);
 #if BG
-                WebFormButton.ToolTip = "Компилирай до форма за вход на данни";
+                WebFormButton.ToolTip = "Компилирай до форма за вход на данни (F4)";
 #else
-                WebFormButton.ToolTip = "Compile to input form";
+                WebFormButton.ToolTip = "Compile to input form (F4)";
 #endif
                 MenuWebForm.Icon = null;
                 WebBrowser.Cursor = cursor;
