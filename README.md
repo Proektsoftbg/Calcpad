@@ -198,7 +198,7 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;&emsp;&emsp;&emsp;#loop  
 * Modules and macros/string variables:  
 &emsp;&emsp;Modules:  
-&emsp;&emsp;&emsp;&emsp;#include *filename* - include external file/module;  
+&emsp;&emsp;&emsp;&emsp;#include *filename* - include external file (module);  
 &emsp;&emsp;&emsp;&emsp;#local - start local section (not to be included);  
 &emsp;&emsp;&emsp;&emsp;#global - start global section (to be included);  
 &emsp;&emsp;Inline string variable:  
