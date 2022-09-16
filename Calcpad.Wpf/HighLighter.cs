@@ -18,6 +18,7 @@ namespace Calcpad.Wpf
         internal static Func<string, Queue<string>, string> Include;
         internal static MouseButtonEventHandler InputClickEventHandler;
         internal static MouseButtonEventHandler IncludeClickEventHandler;
+
         private const char NullChar = (char)0;
         private bool _allowUnaryMinus = true;
         private Queue<string> _values = null;
@@ -33,7 +34,7 @@ namespace Calcpad.Wpf
             Operator,
             Variable,
             Function,
-            Condition,
+            Keyword,
             Command,
             Bracket,
             Comment,
@@ -63,7 +64,10 @@ namespace Calcpad.Wpf
              Brushes.Crimson
         };
 
-        private static readonly Brush ErrorBackground = new SolidColorBrush(Color.FromRgb(255, 225, 225));
+        private static readonly Thickness ToolTipPadding = new(3, 1, 3, 2);
+        private static readonly SolidColorBrush ToolTipBackground = new(Color.FromArgb(240, 65, 65, 65));
+        private static readonly SolidColorBrush TitleBackground = new(Color.FromRgb(245, 255, 240));
+        private static readonly SolidColorBrush ErrorBackground = new (Color.FromRgb(255, 225, 225));
         private static readonly HashSet<char> Operators = new() { '!', '^', '/', '÷', '\\', '%', '*', '-', '+', '<', '>', '≤', '≥', '≡', '≠', '=' };
         private static readonly HashSet<char> Delimiters = new() { ';', '|', '&', '@', ':' };
         private static readonly HashSet<char> Brackets = new() { '(', ')', '{', '}' };
@@ -125,7 +129,7 @@ namespace Calcpad.Wpf
             "spline"
         };
 
-        private static readonly HashSet<string> Conditions = new(StringComparer.OrdinalIgnoreCase) {
+        private static readonly HashSet<string> Keywords = new(StringComparer.OrdinalIgnoreCase) {
             "#if",
             "#else",
             "#else if",
@@ -239,6 +243,7 @@ namespace Calcpad.Wpf
             internal bool IsTag;
             internal bool IsTagComment;
             internal bool IsMacro;
+            internal bool IsSingleLineKeyword;
             internal bool HasMacro;
             internal int MacroArgs;
             internal int CommandCount;
@@ -337,12 +342,29 @@ namespace Calcpad.Wpf
                 {
                     if (IsParseError(c, _state.CurrentType))
                     {
+#if BG
+                        _state.Message = $"Невалиден символ: {c}.";
+#else
                         _state.Message = $"Invalid character: {c}.";
+#endif
                         _state.CurrentType = Types.Error;
                     }
 
                     _builder.Append(c);
                 }
+
+                if (_state.IsSingleLineKeyword)
+                {
+                    _builder.Append(text[i..]);
+#if BG
+                        _state.Message = $"Очаква се край на ред.";
+#else
+                        _state.Message = $"End of line expected.";
+#endif
+                    Append(Types.Error);
+                    return;
+                }
+
                 _state.RetainType();
 
                 if (c != ' ' && c != '\t')
@@ -377,6 +399,7 @@ namespace Calcpad.Wpf
                 IsTag = false,
                 IsTagComment = false,
                 IsMacro = false,
+                IsSingleLineKeyword = false,
                 HasMacro = false,
                 MacroArgs = 0,
                 CommandCount = 0,
@@ -599,7 +622,7 @@ namespace Calcpad.Wpf
                     _builder[3] == 'c';
                 Append(_state.CurrentType);
                 //Spaces are added only if they are leading
-                if (_state.IsLeading || _state.CurrentType == Types.Condition)
+                if (_state.IsLeading || _state.CurrentType == Types.Keyword)
                 {
                     _builder.Append(c);
                     Append(Types.None);
@@ -704,7 +727,7 @@ namespace Calcpad.Wpf
             if (c == '$')
                 return Types.Command;
             if (c == '#')
-                return _state.IsLeading ? Types.Condition : Types.Error;
+                return _state.IsLeading ? Types.Keyword : Types.Error;
             if (IsDigit(c))
                 return Types.Const;
             if (_state.IsMacro && IsMacroLetter(c, 0))
@@ -759,6 +782,7 @@ namespace Calcpad.Wpf
 
             var s = _builder.ToString();
             _builder.Clear();
+
             if (AppendRelOperatorShortcut(s))
                 return;
 
@@ -821,9 +845,9 @@ namespace Calcpad.Wpf
             }
 #if BG
             _state.Message = "Файлът не е намерен.";
-#else 
+#else
             _state.Message = "File not found.";
-#endif           
+#endif
             return Types.Error;
         }
 
@@ -840,7 +864,7 @@ namespace Calcpad.Wpf
                     _state.Message = "Недекларирана функция.";
 #else
                     _state.Message = "Undeclared function.";
-#endif 
+#endif
                     return Types.Error;
                 }
             }
@@ -871,7 +895,7 @@ namespace Calcpad.Wpf
                     _state.Message = "Недефинирани мерни единици.";
 #else
                     _state.Message = "Undefined units.";
-#endif                    
+#endif
                     return Types.Error;
                 }
             }
@@ -887,9 +911,10 @@ namespace Calcpad.Wpf
                     return Types.Error;
                 }
             }
-            else if (t == Types.Condition)
+            else if (t == Types.Keyword)
             {
-                if (!Conditions.Contains(s.TrimEnd()))
+                var st = s.TrimEnd();
+                if (!Keywords.Contains(st))
                 {
 #if BG
                     _state.Message = "Невалидна директива за компилатор.";
@@ -898,6 +923,12 @@ namespace Calcpad.Wpf
 #endif
                     return Types.Error;
                 }
+                if (!(st.Equals("#if", StringComparison.OrdinalIgnoreCase) || 
+                      st.Equals("#else if", StringComparison.OrdinalIgnoreCase) || 
+                      st.Equals("#repeat", StringComparison.OrdinalIgnoreCase) || 
+                      st.Equals("#def", StringComparison.OrdinalIgnoreCase) || 
+                      st.Equals("#include", StringComparison.OrdinalIgnoreCase)))
+                    _state.IsSingleLineKeyword = true;
             }
             else if (t == Types.Command)
             {
@@ -907,7 +938,7 @@ namespace Calcpad.Wpf
                     _state.Message = "Невалиден метод.";
 #else
                     _state.Message = "Invalid method.";
-#endif                    
+#endif
                     return Types.Error;
                 }
             }
@@ -917,7 +948,6 @@ namespace Calcpad.Wpf
             return t;
         }
 
-        private readonly Brush TitleBkg = new SolidColorBrush(Color.FromRgb(245, 255, 240));
         private void AppendRun(Types t, string s)
         {
             var run = new Run(s);
@@ -928,7 +958,7 @@ namespace Calcpad.Wpf
             {
                 run.FontWeight = FontWeights.Bold;
                 if (isTitle)
-                    run.Background = TitleBkg;
+                    run.Background = TitleBackground;
             }
             else if (t == Types.Input ||
                      t == Types.Include ||
@@ -944,7 +974,7 @@ namespace Calcpad.Wpf
                 }
                 if (!string.IsNullOrWhiteSpace(_state.Message))
                 {
-                    run.ToolTip = AppendToolTip();
+                    run.ToolTip = AppendToolTip(_state.Message);
                     _state.Message = null;
                 }
 
@@ -964,15 +994,20 @@ namespace Calcpad.Wpf
             _state.Paragraph.Inlines.Add(run);
         }
 
-        private ToolTip AppendToolTip() => new()
+         private static ToolTip AppendToolTip(string message) => new()
         {
-            Content = _state.Message,
+            Background = ToolTipBackground,
+            BorderBrush = Brushes.Black,
+            Foreground = Brushes.LemonChiffon,
+            FontSize = 12,  
+            Padding = ToolTipPadding,
+            Content = message,
             Placement = PlacementMode.MousePoint,
             HorizontalOffset = 8,
             VerticalOffset = -32,
             HorizontalAlignment = HorizontalAlignment.Left
         };
-
+        
 
         private void GetValues(Paragraph p)
         {
@@ -1346,9 +1381,11 @@ namespace Calcpad.Wpf
                         return;
                     }
                     else if (c != ' ' && c != ';')
-                        return;
+                        break;
                 }
             }
+            if (DefinedMacros.Count == 0)
+                DefinedMacros.Add("Invalid$", -1);
         }
 
         private static void CompleteDefinedMacroParameters(int lineNumber)

@@ -42,7 +42,7 @@ namespace Calcpad.Wpf
             if (e.Source is not TabControl tabControl)
                 return;
 
-            TabItem tabItem = tabControl.SelectedItem as TabItem;
+            TabItem tabItem = (TabItem)tabControl.SelectedItem;
             if (ReferenceEquals(tabItem, tabControl.Items[0]))
                 SearchCombo.Focus();
             else if (ReferenceEquals(tabItem, tabControl.Items[1]))

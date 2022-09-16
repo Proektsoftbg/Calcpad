@@ -951,11 +951,11 @@
                     HorizontalAlignment="Center"/>
             </Button>
             <Button Click="CalcButton_Click" x:Name="CalcButton" Tag="F" Height="28" VerticalAlignment="Center"
-                Focusable="false" ToolTip="Run calculation and display output (F5)" IsTabStop="false" Background="{x:Null}" HorizontalAlignment="Left" Width="28" Canvas.Left="74" BorderBrush="{x:Null}">
+                Focusable="false" ToolTip="Run calculations and display output (F5)" IsTabStop="false" Background="{x:Null}" HorizontalAlignment="Left" Width="28" Canvas.Left="74" BorderBrush="{x:Null}">
                 <Image Source="Resources/play.png" Width="24" Height="24" VerticalAlignment="Center"
                     HorizontalAlignment="Center"/>
             </Button>
-            <CheckBox x:Name="AutoRunCheckBox" Content="AutoRun" IsChecked="True" ToolTip="Автоматично преизчисляване при нов ред" TabIndex="3" FontFamily="Segoe UI Semibold" FontSize="11" Padding="2,0,0,0" Width="65" HorizontalAlignment="Left" Height="16" Canvas.Left="108" Canvas.Top="6" VerticalAlignment="Center" Checked="AutoRunCheckBox_Checked" Unchecked="AutoRunCheckBox_Unchecked"/>
+            <CheckBox x:Name="AutoRunCheckBox" Content="AutoRun" IsChecked="True" ToolTip="Refresh results after each edit" TabIndex="3" FontFamily="Segoe UI Semibold" FontSize="11" Padding="2,0,0,0" Width="65" HorizontalAlignment="Left" Height="16" Canvas.Left="108" Canvas.Top="6" VerticalAlignment="Center" Checked="AutoRunCheckBox_Checked" Unchecked="AutoRunCheckBox_Unchecked"/>
         </Canvas>
         <Separator HorizontalAlignment="Left" Height="2" Margin="96,39,0,0" VerticalAlignment="Top" Width="28" IsTabStop="False" ScrollViewer.VerticalScrollBarVisibility="Disabled" RenderTransformOrigin="0.5,0.5">
             <Separator.RenderTransform>
@@ -1307,7 +1307,8 @@
                                  PreviewMouseWheel="RichTextBox_PreviewMouseWheel" 
                                  SizeChanged="RichTextBox_SizeChanged" 
                                  MouseDoubleClick="RichTextBox_MouseDoubleClick" 
-                                 LostKeyboardFocus="RichTextBox_LostKeyboardFocus" SelectionBrush="#FF009BFF">
+                                 LostKeyboardFocus="RichTextBox_LostKeyboardFocus" 
+                                 SelectionBrush="#FF009BFF">
                         <FlowDocument>
                             <Paragraph>
                                 <Run></Run>
