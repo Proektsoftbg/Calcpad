@@ -65,7 +65,7 @@ namespace Calcpad.Wpf
         };
 
         private static readonly Thickness ToolTipPadding = new(3, 1, 3, 2);
-        private static readonly SolidColorBrush ToolTipBackground = new(Color.FromArgb(230, 60, 60, 60));
+        private static readonly SolidColorBrush ToolTipBackground = new(Color.FromArgb(225, 60, 60, 60));
         private static readonly SolidColorBrush TitleBackground = new(Color.FromRgb(245, 255, 240));
         private static readonly SolidColorBrush ErrorBackground = new (Color.FromRgb(255, 225, 225));
         private static readonly HashSet<char> Operators = new() { '!', '^', '/', '÷', '\\', '%', '*', '-', '+', '<', '>', '≤', '≥', '≡', '≠', '=' };
