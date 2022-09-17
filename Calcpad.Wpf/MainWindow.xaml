@@ -1210,7 +1210,7 @@
                         </LinearGradientBrush>
                     </ComboBoxItem.Background>
                 </ComboBoxItem>
-    `       </ComboBox>
+            </ComboBox>
             <CheckBox x:Name="SmoothCheckBox" 
                     Content="Smooth" 
                     ToolTip="Smooth shading for surface map" 
