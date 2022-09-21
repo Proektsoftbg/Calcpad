@@ -1,9 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Net;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using Calcpad.web.Data.Models;
+﻿using Calcpad.web.Data.Models;
 using Calcpad.web.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -12,6 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using System.ComponentModel.DataAnnotations;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 
 namespace Calcpad.web.Areas.Identity.Pages.Account
 {
@@ -90,10 +89,10 @@ namespace Calcpad.web.Areas.Identity.Pages.Account
             }
             else if (ModelState.IsValid)
             {
-                var user = new ApplicationUser 
-                { 
-                    UserName = Input.Email, 
-                    Email = Input.Email, 
+                var user = new ApplicationUser
+                {
+                    UserName = Input.Email,
+                    Email = Input.Email,
                     FirstName = Input.FirstName,
                     LastName = Input.LastName,
                     PhoneNumber = Input.Phone

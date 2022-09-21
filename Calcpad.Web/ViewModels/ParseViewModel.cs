@@ -1,10 +1,10 @@
-﻿using System;
-using Microsoft.AspNetCore.Html;
-using System.ComponentModel.DataAnnotations;
-using System.Collections.Generic;
-using Calcpad.web.Helpers;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Calcpad.web.Helpers;
 using Calcpad.web.Validation;
+using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Calcpad.web.ViewModels
 {
@@ -20,7 +20,8 @@ namespace Calcpad.web.ViewModels
         [NoScript]
         public string Code { get; set; }
         public ParserSettings Settings { get; set; }
-        public HtmlString Output { get; set; }    }
+        public HtmlString Output { get; set; }
+    }
 
     public class ParserSettings
     {
@@ -37,10 +38,10 @@ namespace Calcpad.web.ViewModels
     }
 
     public class MathSettings
-    {   
+    {
         [Range(0, 16)]
         public int Decimals { get; set; }
-        public bool Degrees { get; set; }
+        public int Degrees { get; set; }
         public bool IsComplex { get; set; }
         public bool Substitute { get; set; }
 
@@ -50,7 +51,7 @@ namespace Calcpad.web.ViewModels
         public MathSettings()
         {
             Decimals = 2;
-            Degrees = true;
+            Degrees = 0;
             IsComplex = false;
             Substitute = true;
             FormatEquations = true;

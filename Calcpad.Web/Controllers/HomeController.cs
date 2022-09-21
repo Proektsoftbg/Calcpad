@@ -1,8 +1,7 @@
-﻿using System.Diagnostics;
+﻿using Calcpad.web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Calcpad.web.ViewModels;
-using Microsoft.AspNetCore.Identity.UI.Services;
+using System.Diagnostics;
 
 namespace Calcpad.web.Controllers
 {

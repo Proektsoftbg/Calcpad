@@ -3,9 +3,7 @@ using Calcpad.web.Data.Models;
 using Calcpad.web.Data.Services;
 using Calcpad.web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Calcpad.web.ViewComponents
@@ -24,7 +22,7 @@ namespace Calcpad.web.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync(int topicId, int articleId)
         {
             List<Topic> topics = await _topicService.GetAllAsync();
-            TopicsViewModel model = new TopicsViewModel()
+            TopicsViewModel model = new()
             {
                 TopicId = topicId,
                 ArticleId = articleId,

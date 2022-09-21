@@ -13,26 +13,25 @@ namespace Calcpad.web.Hubs
             _calc = calc;
         }
 
-        public async Task Parse(string code, bool deg, bool complex)
+        public async Task Parse(string code, int deg, bool complex)
         {
             string equation = await _calc.ParseAsync(code, GetSettings(deg, complex));
             await Clients.Caller.SendAsync("ShowEquation", equation);
         }
 
 
-        public async Task Calculate(string code, bool deg, bool complex)
+        public async Task Calculate(string code, int deg, bool complex)
         {
             string result = await _calc.CalculateAsync(code, GetSettings(deg, complex));
             await Clients.Caller.SendAsync("ShowResult", result);
-
         }
 
-        private Core.MathSettings GetSettings(bool deg, bool complex) =>
-            new Core.MathSettings
+        private Core.MathSettings GetSettings(int deg, bool complex) =>
+            new()
             {
                 IsComplex = complex,
                 Degrees = deg,
                 Decimals = 8
             };
-}
+    }
 }

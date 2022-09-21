@@ -14,10 +14,14 @@ namespace Calcpad.Core
             char[] delimiters = { '{', '@', '=', ':', '}' };
             var input = new string[4];
             var index = 0;
+            var bracketCount = 0;
             for (int i = 0, len = script.Length; i < len; ++i)
             {
                 var c = script[i];
-                if (c == delimiters[index])
+                if (c == '{')
+                    ++bracketCount;
+
+                if (c == delimiters[index] && bracketCount == 1)
                 {
                     index++;
                     if (index > n)
@@ -25,6 +29,9 @@ namespace Calcpad.Core
                 }
                 else if (index > 0)
                     input[index - 1] += c.ToString();
+
+                if (c == '}')
+                    --bracketCount;  
             }
             if (index <= 4)
 #if BG

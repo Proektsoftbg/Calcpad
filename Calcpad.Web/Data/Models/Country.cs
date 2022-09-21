@@ -6,7 +6,7 @@ namespace Calcpad.web.Data.Models
     {
         public int Id { get; set; }
 
-        [Required, StringLength(2, MinimumLength = 2) ]
+        [Required, StringLength(2, MinimumLength = 2)]
         public string Code { get; set; }
 
         [Required, StringLength(35, MinimumLength = 3)]

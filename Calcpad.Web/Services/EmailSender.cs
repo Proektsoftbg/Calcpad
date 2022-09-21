@@ -28,7 +28,7 @@ namespace Calcpad.web.Services
             var htmlContent = message;
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
             var result = await client.SendEmailAsync(msg);
-            _logger.LogInformation($"Email sent to: {email}, with subject: {subject}. Status code returned: {result.StatusCode}." );
+            _logger.LogInformation($"Email sent to: {email}, with subject: {subject}. Status code returned: {result.StatusCode}.");
         }
 
         private string HtmlToPlainText(string html)

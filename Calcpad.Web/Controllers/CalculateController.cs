@@ -1,8 +1,6 @@
 ﻿using Calcpad.web.Services;
 using Calcpad.web.ViewModels;
-using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -33,7 +31,7 @@ namespace Calcpad.web.Controllers
             }
             else if (!string.IsNullOrWhiteSpace(model.Input))
             {
-                Core.Settings settings = new Core.Settings();
+                Core.Settings settings = new();
                 settings.Math.IsComplex = model.IsComplex;
                 settings.Math.Degrees = model.Degrees;
                 output = await _parser.CalculateAsync(model.Input, settings);

@@ -1,5 +1,4 @@
-﻿using Calcpad.web.Data.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Calcpad.web.ViewModels

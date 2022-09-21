@@ -187,7 +187,6 @@ namespace Calcpad.Wpf
             _autoCompleteCount = AutoCompleteListBox.Items.Count;
             _parser.Settings.Plot.ScreenScaleFactor = _screenScaleFactor;
             _cfn = string.Empty;
-            TryOpenOnStartup();
             _isTextChangedEnabled = false;
             IsSaved = true;
             RichTextBox.Focus();
@@ -1133,7 +1132,7 @@ namespace Calcpad.Wpf
                 @"href=""#0"" data-text=""",
                 RegexOptions.IgnoreCase | RegexOptions.Multiline);
             s = Regex.Replace(s,
-                @"\btarget\b\s*=\s*""\s*_?\w+\s*""",
+                @"\s+\btarget\b\s*=\s*""\s*_\w+\s*""",
                 "",
                 RegexOptions.IgnoreCase | RegexOptions.Multiline);
             return s;
@@ -2791,6 +2790,7 @@ namespace Calcpad.Wpf
             if (Height > h)
                 Height = h;
             ReadRecentFiles();
+            TryOpenOnStartup();
         }
 
         private void WebBrowser_KeyUp(object sender, KeyEventArgs e)

@@ -46,7 +46,7 @@ namespace Calcpad.web.Controllers
         {
             ViewData["q"] = q;
             IEnumerable<Worksheet> resutls = await _worksheetService.SearchAsync(q);
-            IEnumerable<WorksheetListModel> model =  _mapper.Map<IEnumerable<WorksheetListModel>>(resutls);
+            IEnumerable<WorksheetListModel> model = _mapper.Map<IEnumerable<WorksheetListModel>>(resutls);
             return View(model);
         }
     }

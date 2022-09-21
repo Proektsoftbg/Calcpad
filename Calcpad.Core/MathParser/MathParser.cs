@@ -319,6 +319,7 @@ namespace Calcpad.Core
         internal Func<Value> Compile(string expression, Parameter[] parameters)
         {
             var input = _input.GetInput(expression, false);
+            new Validator(_functions).Check(input, out _);
             _input.OrderOperators(input, true, 0);
             var rpn = _input.GetRpn(input);
             BindParameters(parameters, rpn);

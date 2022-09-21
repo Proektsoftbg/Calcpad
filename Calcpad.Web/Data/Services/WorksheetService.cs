@@ -31,7 +31,7 @@ namespace Calcpad.web.Data.Services
 
         public async Task<Worksheet> GetByIdAsync(int id)
         {
-            return await 
+            return await
                 _context.Worksheets
                 .Include(x => x.Category)
                 .AsNoTracking()
@@ -46,7 +46,7 @@ namespace Calcpad.web.Data.Services
             {
                 int end = code.IndexOf('\v');
                 if (end > 0)
-                    code = code.Substring(0, end);
+                    code = code[..end];
             }
             return code;
         }
@@ -79,7 +79,7 @@ namespace Calcpad.web.Data.Services
             Category parent = await _context.Categories.FindAsync(id);
             while (parent != null)
             {
-                parent.Count+= increment;
+                parent.Count += increment;
                 parent = await _context.Categories.FindAsync(parent.ParentId);
             }
         }
@@ -89,7 +89,7 @@ namespace Calcpad.web.Data.Services
             IQueryable<Worksheet> result;
 
             if (string.IsNullOrWhiteSpace(seachTerm))
-                result  = _context.Worksheets
+                result = _context.Worksheets
                     .Include(x => x.Category)
                     .ThenInclude(c => c.Parent);
             else
@@ -100,7 +100,7 @@ namespace Calcpad.web.Data.Services
                     .Include(x => x.Category)
                     .ThenInclude(c => c.Parent);
 
-            foreach(Worksheet worksheet in result)
+            foreach (Worksheet worksheet in result)
             {
                 Category parent = worksheet.Category.Parent;
                 while (parent != null)

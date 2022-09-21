@@ -20,7 +20,7 @@ namespace Calcpad.web.Validation
 
         private string HasScript(string text)
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             bool isTag = false, isComment = false, isAttribute = false, isImage = false; ;
             char quote = ' ';
             foreach (char c in text + ' ')
@@ -31,7 +31,7 @@ namespace Calcpad.web.Validation
                         isComment = false;
                     else if (isTag)
                     {
-                        if (c == ':' && sb.Length >  5)
+                        if (c == ':' && sb.Length > 5)
                         {
                             string s = sb.ToString(sb.Length - 6, 6).ToLowerInvariant();
                             if (s == "script")
@@ -52,7 +52,7 @@ namespace Calcpad.web.Validation
                                 }
                                 else
                                 {
-                                    if( tags.Contains(s))
+                                    if (tags.Contains(s))
                                         return s;
                                     isImage = s == "img";
                                     isAttribute = true;
@@ -78,10 +78,10 @@ namespace Calcpad.web.Validation
             }
             return sb.ToString();
 
-            bool CheckAttribute(string s) => isImage && s == "src" ? false : attributes.Contains(s);
+            bool CheckAttribute(string s) => (!isImage || s != "src") && attributes.Contains(s);
         }
 
-        private static readonly HashSet<string> tags = new HashSet<string>()
+        private static readonly HashSet<string> tags = new()
         {
             "applet",
             "base",
@@ -102,7 +102,7 @@ namespace Calcpad.web.Validation
             "title"
         };
 
-        private static readonly HashSet<string> attributes = new HashSet<string>()
+        private static readonly HashSet<string> attributes = new()
         {
             "action",
             "async",

@@ -1,6 +1,5 @@
 ﻿using Calcpad.Core;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Calcpad.web.Services
@@ -9,7 +8,7 @@ namespace Calcpad.web.Services
     {
         public Task<string> CalculateAsync(string code, MathSettings settings);
         public Task<string> ParseAsync(string code, MathSettings settings);
-     }
+    }
 
     public class CalculatorService : ICalculatorService
     {
@@ -30,17 +29,17 @@ namespace Calcpad.web.Services
 
             try
             {
-                MathParser _parser = new MathParser(settings);
+                MathParser _parser = new(settings);
                 string equation = code.Replace(',', '.');
                 _parser.Parse(equation);
                 _parser.Calculate();
-                return calculate ? 
+                return calculate ?
                     _parser.ResultAsString.Replace('·', '*').Trim() :
                     $"<p class=\"eq\">{_parser.ToHtml()}</p>";
             }
             catch (Exception e)
             {
-                return calculate ? 
+                return calculate ?
                     "Undefined" :
                     $"<p class=\"err\">{e.Message}</p>";
             }

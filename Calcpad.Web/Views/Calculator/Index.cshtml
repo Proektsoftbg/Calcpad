@@ -19,7 +19,6 @@
 @{
     string TypeName = Enum.GetName(typeof(CalculateViewModel.CalculatorMode), Model.Mode);
     ViewData["Title"] = TypeName + " Calculator";
-    int w = Model.Mode == CalculateViewModel.CalculatorMode.Basic ? 6 : 9;
 }
 <form action="/" method="post">
     @Html.AntiForgeryToken()
@@ -28,27 +27,29 @@
 <h1>Calculator: <small>@TypeName</small></h1>
 <hr />
 <div class="row">
-    <div class="col-sm-@w" style="min-width: 27em;">
-        <p class="p-1">
+    <div style="min-width: 20em;">
+        <div class="p-1">
             @if (Model.Mode == CalculateViewModel.CalculatorMode.Basic)
             {
-                <strong class="mr-3">Basic</strong>
-                <a asp-route-id="2" class="mr-3">Scientific</a>
-                <a asp-route-id="3">Graphical</a>
+                <strong class="ml-4 mr-2">Basic</strong>
+                <a asp-route-id="2" class="mr-2">Scientific</a>
+                <a asp-route-id="3" class="mr-2">Graphical</a>
             }
             else if (Model.Mode == CalculateViewModel.CalculatorMode.Scientific)
             {
-                <a asp-route-id="1" class="mr-3">Basic</a>
-                <strong class="mr-3">Scientific</strong>
-                <a asp-route-id="3">Graphical</a>
+                <a asp-route-id="1" class="ml-4 mr-2">Basic</a>
+                <strong class="mr-2">Scientific</strong>
+                <a asp-route-id="3" class="mr-2">Graphical</a>
             }
             else
             {
-                <a asp-route-id="1" class="mr-3">Basic</a>
-                <a asp-route-id="2" class="mr-3">Scientific</a>
-                <strong>Graphical</strong>
+                <a asp-route-id="1" class="ml-4 mr-2">Basic</a>
+                <a asp-route-id="2" class="mr-2">Scientific</a>
+                <strong class="mr-2">Graphical</strong>
             }
-        </p>
+            <span class="mr-2">|</span>
+            <partial name="~/Views/Calculator/_UnitsPartial.cshtml" />
+        </div>
         <div class="frame">
             @if (Model.Mode != CalculateViewModel.CalculatorMode.Graphical)
             {
@@ -62,7 +63,7 @@
                     <input type="text"
                            asp-for="Input"
                            class="form-control text-right"
-                           placeholder="0.">
+                           placeholder="0">
                     <div class="input-group-btn">
                         <button type="button" class="btn btn-lg btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="History">
                             <span class="sr-only">History</span>
@@ -75,14 +76,14 @@
             }
             else
             {
-                <div class=" btn-group mb-4 flex-wrap" data-toggle="buttons">
-                    <button class="btn btn-secondary solve" title="plot"> Plot </button>
-                    <button class="btn btn-secondary solve" title="root"> Root </button>
-                    <button class="btn btn-secondary solve" title="find"> Find </button>
-                    <button class="btn btn-secondary solve" title="inf"> Minimum </button>
-                    <button class="btn btn-secondary solve" title="sup"> Maximum </button>
-                    <button class="btn btn-secondary solve" title="area"> Integral </button>
-                    <button class="btn btn-secondary solve" title="slope"> Derivative </button>
+                <div class="btn-group mb-4 flex-wrap">
+                    <button type="button" class="solve btn btn-secondary active" title="plot"> Plot </button>
+                    <button type="button" class="solve btn btn-secondary" title="root"> Root </button>
+                    <button type="button" class="solve btn btn-secondary" title="find"> Find </button>
+                    <button type="button" class="solve btn btn-secondary" title="inf"> Minimum </button>
+                    <button type="button" class="solve btn btn-secondary" title="sup"> Maximum </button>
+                    <button type="button" class="solve btn btn-secondary" title="area"> Integral </button>
+                    <button type="button" class="solve btn btn-secondary" title="slope"> Derivative </button>
                 </div>
                 <div class="equation rounded d-flex justify-content-center align-items-center">
                     <div asp-validation-summary="All" class="text-danger"></div>
@@ -90,7 +91,7 @@
                         <p>&nbsp;</p>
                     </div>
                 </div>
-                <div class="input-group row my-2 h5">
+                <div class="input-group row my-2 h6">
                     <label asp-for="Input" class="col-form-label mx-2" id="fx">f(x) = </label>
                     <input asp-for="Input"
                            class="form-control text-right"
@@ -107,29 +108,33 @@
             <partial name="~/Views/Shared/_KeypadPartial.cshtml" model="@((int)Model.Mode)" />
             <hr />
             <div class="form-row">
-                <div class="form-check form-check-inline ml-4 mr-2">
+                <div class="form-check form-check-inline ml-2 mr-1">
                     <input class="form-check-input" type="radio" asp-for="IsComplex" id="real" value="false" checked>
-                    <label class="form-check-label" for="real"> real</label>
+                    <label class="form-check-label" for="real">real</label>
                 </div>
-                <div class="form-check form-check-inline mx-2">
+                <div class="form-check form-check-inline mx-1">
                     <input class="form-check-input" type="radio" asp-for="IsComplex" id="complex" value="true">
-                    <label class="form-check-label" for="complex"> complex</label>
+                    <label class="form-check-label" for="complex">complex</label>
                 </div>
-                <div class="form-check form-check-inline ml-4 mr-2">
-                    <input class="form-check-input" type="radio" asp-for="Degrees" id="deg" value="true" checked>
-                    <label class="form-check-label" for="deg"> deg</label>
+                <div class="form-check form-check-inline ml-4 mr-1" title="Degrees">
+                    <input class="form-check-input" type="radio" asp-for="Degrees" id="deg" value="0" checked>
+                    <label class="form-check-label" for="deg">D</label>
                 </div>
-                <div class="form-check form-check-inline mx-2">
-                    <input class="form-check-input" type="radio" asp-for="Degrees" id="rad" value="false">
-                    <label class="form-check-label" for="rad"> rad</label>
+                <div class="form-check form-check-inline mx-1" title="Radians">
+                    <input class="form-check-input" type="radio" asp-for="Degrees" id="rad" value="1">
+                    <label class="form-check-label" for="rad">R</label>
+                </div>
+                <div class="form-check form-check-inline mx-1" title="Grades">
+                    <input class="form-check-input" type="radio" asp-for="Degrees" id="gra" value="2">
+                    <label class="form-check-label" for="gra">G</label>
                 </div>
                 @if (Model.Mode != CalculateViewModel.CalculatorMode.Basic)
                 {
-                    <div class="form-check from-check-inline ml-4 mr-2">
+                    <div class="form-check from-check-inline ml-4 mr-1">
                         <input class="form-check-input" type="checkbox" name="inv" id="inv" value="true">
                         <label class="form-check-label" for="inv"> inv</label>
                     </div>
-                    <div class="form-check from-check-inline mx-2">
+                    <div class="form-check from-check-inline mx-1">
                         <input class="form-check-input" type="checkbox" name="hyp" id="hyp" value="true">
                         <label class="form-check-label" for="hyp"> hyp</label>
                     </div>
@@ -137,9 +142,6 @@
             </div>
         </div>
         <p>To <strong>convert</strong> units, add vertical bar "<span class="ref-link" title="|"> | </span>" followed by the target units: <code>4<i>cm</i>|<i>in</i></code>.</p>
-    </div>
-    <div class="col-sm-@(12 - w)">
-        <partial name="~/Views/Calculator/_UnitsPartial.cshtml" />
     </div>
 </div>
 @section Scripts{
