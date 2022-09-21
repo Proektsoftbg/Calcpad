@@ -47,7 +47,7 @@ namespace Calcpad.Core
                 "$Root",
                 "$Sup",
                 "$Inf",
-                "$Area",
+                "∫",
                 "∫",
                 "$Slope",
                 "$Repeat",
@@ -155,7 +155,8 @@ namespace Calcpad.Core
                 }
                 IsFigure = _type == SolverTypes.Sum ||
                            _type == SolverTypes.Product ||
-                           _type == SolverTypes.Integral;
+                           _type == SolverTypes.Integral ||
+                           _type == SolverTypes.Area;
                 if (IsFigure)
                 {
                     var order = Calculator.OperatorOrder[Calculator.OperatorIndex['*']];
@@ -341,7 +342,7 @@ namespace Calcpad.Core
 
             internal string ToHtml()
             {
-                if (_type ==  SolverTypes.Integral)
+                if (_type ==  SolverTypes.Integral || _type == SolverTypes.Area)
                     return new HtmlWriter().FormatNary(
                         $"<em>{TypeName(_type)}</em>", 
                         _items[2].Html, 
@@ -393,7 +394,7 @@ namespace Calcpad.Core
 
             internal string ToXml()
             {
-                if (_type == SolverTypes.Integral)
+                if (_type == SolverTypes.Integral || _type == SolverTypes.Area)
                     return new XmlWriter().FormatNary(
                         TypeName(_type),
                         _items[2].Xml,
@@ -444,6 +445,7 @@ namespace Calcpad.Core
                 if (_type == SolverTypes.Sum || 
                     _type == SolverTypes.Product ||
                     _type == SolverTypes.Integral ||
+                    _type == SolverTypes.Area ||
                     _type == SolverTypes.Repeat)
                     return new TextWriter().FormatNary(
                         TypeName(_type), 

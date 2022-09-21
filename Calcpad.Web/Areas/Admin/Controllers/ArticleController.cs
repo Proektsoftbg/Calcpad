@@ -1,11 +1,11 @@
-﻿using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Calcpad.web.Areas.Admin.Models;
 using Calcpad.web.Data.Models;
 using Calcpad.web.Data.Services;
 using Calcpad.web.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Calcpad.web.Areas.Admin.Controllers
 {
@@ -34,7 +34,7 @@ namespace Calcpad.web.Areas.Admin.Controllers
             if (topic == null)
                 return NotFound();
 
-            ArticleViewModel model = new ArticleViewModel()
+            ArticleViewModel model = new()
             {
                 Topic = _mapper.Map<TopicViewModel>(topic),
                 TopicId = topic.Id

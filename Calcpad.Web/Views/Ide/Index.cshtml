@@ -16,12 +16,12 @@
     <form asp-controller="Ide" asp-action="Preview" method="post">
         <input type="file" id="File" accept=".txt,.clx,.cpd" />
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 p-2">
                 <div class="bg-light p-1">
                     <div class="Calcpad-toolbar float-right btn-group">
                         <span class="btn btn-light px-2" id="New" title="New"><img src="~/images/new.png" /></span>
                         <span class="btn btn-light px-2" id="Open" title="Open"><img src="~/images/open.png" /></span>
-                        <button class="btn btn-light px-2" type="submit" asp-action="Save" title="Save"><img src="~/images/save.png" /></button>
+                            <button type="submit" class="btn btn-light px-2" asp-action="Save" title="Save"><img src="~/images/save.png" /></button>
                         <span class="btn btn-light px-2" id="Undo" title="Undo"><img src="~/images/undo.png" /></span>
                         <span class="btn btn-light px-2" id="Redo" title="Redo"><img src="~/images/redo.png" /></span>
                         <span class="btn btn-light px-2" title="Settings" data-toggle="modal" data-target="#settingsDialog"><img src="~/images/settings.png" /></span>
@@ -33,7 +33,7 @@
                 </div>
                 <textarea asp-for="Code" rows="24"></textarea>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 p-2">
                 <div class="bg-light p-1 pl-3">
                     <span class="Calcpad-toolbar btn-group float-right">
                         <button type="submit" asp-action="Download" class="btn btn-light px-2" id="Word" title="Open with MS Word"><img src="~/images/word.png" /></button>
@@ -78,7 +78,7 @@
             <p>The Calcpad language also supports complex numbers, custom functions, plotting, numerical methods, sums, products, conditional statements, iteration blocks, etc. Check our quick reference or the complete user manual.</p>
         </div>
         <div class="col-sm-5">
-            <button id="Copy-Sample" class="btn btn-light float-right">Copy</button>
+            <button type="button" id="Copy-Sample" class="btn btn-light float-right">Copy</button>
             <h4>Example:</h4>
             <p>
                 <pre id="Sample">"Quadratic equation example:

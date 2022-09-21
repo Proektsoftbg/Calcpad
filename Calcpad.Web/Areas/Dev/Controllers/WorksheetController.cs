@@ -1,7 +1,4 @@
-﻿using System.IO;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Calcpad.web.Areas.Dev.Models;
 using Calcpad.web.Data.Models;
 using Calcpad.web.Data.Services;
@@ -11,6 +8,9 @@ using Calcpad.web.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.IO;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Calcpad.web.Areas.Dev.Controllers
 {
@@ -41,7 +41,7 @@ namespace Calcpad.web.Areas.Dev.Controllers
             if (category == null)
                 return NotFound();
 
-            WorksheetInputModel model = new WorksheetInputModel()
+            WorksheetInputModel model = new()
             {
                 Category = _mapper.Map<CategoryViewModel>(category),
                 CategoryId = category.Id

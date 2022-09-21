@@ -1,24 +1,22 @@
 ﻿@using Microsoft.AspNetCore.Html;
 @{
     IHtmlContent refUnit(string code, string name, string description) =>
-        Html.Raw($"<li class=\"dropdown-item ref-link\" title=\"{code}\"><i>{name}</i> ({description})</li>");
+        Html.Raw($"<li class=\"dropdown-item ref-link p-sm\" title=\"{code}\"><i>{name}</i> <span class=\"smaller\">({description})</span></li>");
 
     IHtmlContent refToggle(string title) =>
-        Html.Raw($"<a href=\"#\" class=\"dropdown-item ref-toggle\">{title} <i class=\"icofont-caret-right\"></i></a>");
-
+        Html.Raw($"<a href=\"#\" class=\"dropdown-item ref-toggle p-sm smaller\">{title} <i class=\"icofont-caret-right\"></i></a>");
 }
-<h2 class="h5 font-weight-bold mb-4">Units of measurement</h2>
-<div class="dropdown btn-group">
-    <button class="btn btn-light dropdown-toggle" type="button" data-toggle="dropdown">
+<div class="dropdown btn-group" role="group" aria-label="Units">
+    <button type="button" class="btn btn-light btn-sm dropdown-toggle mr-1" data-toggle="dropdown">
         Metric
     </button>
-    <ul class="dropdown-menu">
+    <ul class="dropdown-menu py-0">
         <li class="dropdown-submenu dropright">
             @refToggle("Common")
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu py-0">
                 <li class="dropdown-submenu dropright">
                      @refToggle("Mass")
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu py-0">
                         @refUnit("g", "g", "gram")
                         @refUnit("hg", "hg", "hectogram")
                         @refUnit("kg", "kg", "kilogram")
@@ -36,7 +34,7 @@
                 </li>
                 <li class="dropdown-submenu dropright">
                      @refToggle("Length")
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu py-0">
                         @refUnit("m", "m", "meter")
                         @refUnit("km", "km", "kilometer")
                         @refUnit("dm", "dm", "decimeter")
@@ -49,7 +47,7 @@
                 </li>
                 <li class="dropdown-submenu dropright">
                      @refToggle("Area")
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu py-0">
                         @refUnit("m^2", "m²", "sq. meter")
                         @refUnit("km^2", "km²", "sq. kilometer")
                         @refUnit("dm^2", "dm²", "sq. decimeter")
@@ -62,7 +60,7 @@
                 </li>
                 <li class="dropdown-submenu dropright">
                      @refToggle("Volume")
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu py-0">
                         @refUnit("m^3", "m³", "cubic meter")
                         @refUnit("km^3", "km³", "cubic kilometer")
                         @refUnit("dm^3", "dm³", "cubic decimeter")
@@ -77,7 +75,7 @@
                 </li>
                 <li class="dropdown-submenu dropright">
                      @refToggle("Time")
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu py-0">
                         @refUnit("s", "s", "second")
                         @refUnit("ms", "ms", "millisecond")
                         @refUnit("μs", "μs", "microsecond")
@@ -89,14 +87,14 @@
                 </li>
                 <li class="dropdown-submenu dropright">
                      @refToggle("Velocity")
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu py-0">
                         @refUnit("m/s", "m/s", "meters per second")
                         @refUnit("kmh", "kmh", "kilometers per hour")
                     </ul>
                 </li>
                 <li class="dropdown-submenu dropright">
                      @refToggle("Temperature")
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu py-0">
                         @refUnit("°C", "°C", "degrees Celsius")
                         @refUnit("Δ°C", "Δ°C", "difference in °C")
                         @refUnit("K", "K", "Kelvin")
@@ -106,10 +104,10 @@
         </li>
         <li class="dropdown-submenu dropright">
              @refToggle("Mechanical")
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu py-0">
                 <li class="dropdown-submenu dropright">
                      @refToggle("Frequency")
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu py-0">
                         @refUnit("Hz", "Hz", "Hertz")
                         @refUnit("kHz", "kHz", "kilohertz")
                         @refUnit("MHz", "MHz", "megahertz")
@@ -120,7 +118,7 @@
                 </li>
                 <li class="dropdown-submenu dropright">
                      @refToggle("Force")
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu py-0">
                         @refUnit("N", "N", "Newton")
                         @refUnit("daN", "daN", "decanewton")
                         @refUnit("hN", "hN", "hectonewton")
@@ -128,13 +126,14 @@
                         @refUnit("MN", "MN", "meganewton")
                         @refUnit("GN", "GN", "giganewton")
                         @refUnit("TN", "TN", "teranewton")
+                        @refUnit("gf", "gf", "gram-force")
                         @refUnit("kgf", "kgf", "kilogram-force")
                         @refUnit("tf", "tf", "tonne-force")
                     </ul>
                 </li>
                 <li class="dropdown-submenu dropright">
                      @refToggle("Torque/Moment")
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu py-0">
                         @refUnit("Nm", "Nm", "Newton-meter")
                         @refUnit("N*mm", "N·mm", "Newton-millimeter")
                         @refUnit("N*cm", "N·cm", "Newton-centimeter")
@@ -144,7 +143,7 @@
                 </li>
                 <li class="dropdown-submenu dropright">
                      @refToggle("Pressure")
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu py-0">
                         @refUnit("N/mm^2", "N/mm²", "Newton per sq. mm")
                         @refUnit("N/cm^2", "N/cm²", "Newton per sq. cm")
                         @refUnit("N/m^2", "N/m²", "Newton per sq. meter")
@@ -169,7 +168,7 @@
                 </li>
                 <li class="dropdown-submenu dropright">
                      @refToggle("Density/Unit weight")
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu py-0">
                         @refUnit("g/mm^3", "g/mm³", "gram per cubic mm")
                         @refUnit("kg/cm^3", "kg/cm³", "kilogram per cubic cm")
                         @refUnit("t/m^3", "t/m³", "tonne per cubic meter")
@@ -183,7 +182,7 @@
                 </li>
                 <li class="dropdown-submenu dropright">
                      @refToggle("Energy/Work")
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu py-0">
                         @refUnit("J", "J", "Joule")
                         @refUnit("kJ", "kJ", "kilojoule")
                         @refUnit("MJ", "MJ", "megajoule")
@@ -200,7 +199,7 @@
                 </li>
                 <li class="dropdown-submenu dropright">
                      @refToggle("Power")
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu py-0">
                         @refUnit("W", "W", "Watt")
                         @refUnit("kW", "kW", "kilowatt")
                         @refUnit("MW", "MW", "megawatt")
@@ -216,10 +215,10 @@
         </li>
         <li class="dropdown-submenu dropright">
              @refToggle("Electric")
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu py-0">
                 <li class="dropdown-submenu dropright">
                     @refToggle("Current")
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu py-0">
                         @refUnit("A", "A", "Ampere")
                         @refUnit("kA", "kA", "kiloampere")
                         @refUnit("MA", "MA", "megaampere")
@@ -233,7 +232,7 @@
                 </li>
                 <li class="dropdown-submenu dropright">
                     @refToggle("Charge")
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu py-0">
                         @refUnit("C", "C", "Coulomb")
                         @refUnit("kC", "kC", "kilocoulomb")
                         @refUnit("MC", "MC", "megacoulomb")
@@ -249,7 +248,7 @@
                 </li>
                 <li class="dropdown-submenu dropright">
                     @refToggle("Potential")
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu py-0">
                         @refUnit("V", "V", "Volt")
                         @refUnit("kV", "kV", "kilovolt")
                         @refUnit("MV", "MV", "megavolt")
@@ -263,7 +262,7 @@
                 </li>
                 <li class="dropdown-submenu dropright">
                     @refToggle("Capacitance")
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu py-0">
                         @refUnit("F", "F", "Farad")
                         @refUnit("kF", "kF", "kilofarad")
                         @refUnit("MF", "MF", "megafarad")
@@ -277,7 +276,7 @@
                 </li>
                 <li class="dropdown-submenu dropright">
                     @refToggle("Resistance")
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu py-0">
                         @refUnit("Ω", "Ω", "Ohm")
                         @refUnit("kΩ", "kΩ", "kiloohm")
                         @refUnit("MΩ", "MΩ", "megaohm")
@@ -291,7 +290,7 @@
                 </li>
                 <li class="dropdown-submenu dropright">
                     @refToggle("Conductance")
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu py-0">
                         @refUnit("S", "S", "Siemens")
                         @refUnit("kS", "kS", "kilosiemens")
                         @refUnit("MS", "MS", "megasiemens")
@@ -305,7 +304,7 @@
                 </li>
                 <li class="dropdown-submenu dropright">
                     @refToggle("Energy")
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu py-0">
                         @refUnit("Wh", "Wh", "Watt-hour")
                         @refUnit("kWh", "kWh", "kilowatt-hour")
                         @refUnit("MWh", "MWh", "megawatt-hour")
@@ -326,9 +325,8 @@
                 </li>
                 <li class="dropdown-submenu dropright">
                     @refToggle("Power")
-                    <ul class="dropdown-menu">
-                        @refUnit("var", "var", "Volt-ampere")
-                        @refUnit("kvar", "kvar", "kilovolt-ampere")
+                    <ul class="dropdown-menu py-0">
+                        @refUnit("VA", "VA", "Volt-Ampere")
                         @refUnit("kVA", "kVA", "kilovolt-ampere")
                         @refUnit("MVA", "MVA", "megavolt-ampere")
                         @refUnit("GVA", "GVA", "gigavolt-ampere")
@@ -337,18 +335,27 @@
                         @refUnit("μVA", "μVA", "microvolt-ampere")
                         @refUnit("nVA", "nVA", "nanovolt-ampere")
                         @refUnit("pVA", "pVA", "picovolt-ampere")
+                        @refUnit("VAR", "VAR", "Volt-Ampere (reactive)")
+                        @refUnit("kVA", "kVAR", "kilovolt-ampere (reactive)")
+                        @refUnit("MVA", "MVAR", "megavolt-ampere (reactive)")
+                        @refUnit("GVA", "GVAR", "gigavolt-ampere (reactive)")
+                        @refUnit("TVA", "TVAR", "teravolt-ampere (reactive)")
+                        @refUnit("mVA", "mVAR", "millivolt-ampere (reactive)")
+                        @refUnit("μVA", "μVAR", "microvolt-ampere (reactive)")
+                        @refUnit("nVA", "nVAR", "nanovolt-ampere (reactive)")
+                        @refUnit("pVA", "pVAR", "picovolt-ampere (reactive)")
                     </ul>
                 </li>
                 <li class="dropdown-submenu dropright">
                     @refToggle("Electric field")
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu py-0">
                         @refUnit("V/m", "V/m", "Volts per meter")
                         @refUnit("N/C", "N/C", "Newtons per Coulomb")
                     </ul>
                 </li>
                 <li class="dropdown-submenu dropright">
                     @refToggle("Other")
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu py-0">
                         @refUnit("Ω*m", "Ω∙m", "Resistivity - Ohm-meter")
                         @refUnit("S/m", "S/m", "Conductivity - Siemens per meter")
                         @refUnit("V*m", "V∙m", "Electric flux - Volt-meter")
@@ -358,10 +365,10 @@
         </li>
         <li class="dropdown-submenu dropright">
              @refToggle("Magnetic")
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu py-0">
                 <li class="dropdown-submenu dropright">
                      @refToggle("Flux")
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu py-0">
                         @refUnit("Wb", "Wb", "Weber")
                         @refUnit("kWb", "kWb", "kiloweber")
                         @refUnit("MWb", "MWb", "megaweber")
@@ -375,7 +382,7 @@
                 </li>
                 <li class="dropdown-submenu dropright">
                      @refToggle("Flux density")
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu py-0">
                         @refUnit("T", "T", "Tesla")
                         @refUnit("kT", "kT", "kilotesla")
                         @refUnit("MT", "MT", "megatesla")
@@ -389,7 +396,7 @@
                 </li>
                 <li class="dropdown-submenu dropright">
                      @refToggle("Inductance")
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu py-0">
                         @refUnit("H", "H", "Henri")
                         @refUnit("kH", "kH", "kilohenri")
                         @refUnit("MH", "MH", "megahenri")
@@ -405,10 +412,10 @@
         </li>
         <li class="dropdown-submenu dropright">
              @refToggle("Light/Radiation")
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu py-0">
                 <li class="dropdown-submenu dropright">
                      @refToggle("Radioactivity")
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu py-0">
                         @refUnit("Bq", "Bq", "Becquerel")
                         @refUnit("kBq", "kBq", "kilobecquerel")
                         @refUnit("MBq", "MBq", "megabecquerel")
@@ -424,14 +431,14 @@
                 </li>
                 <li class="dropdown-submenu dropright">
                      @refToggle("Exposure")
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu py-0">
                         @refUnit("R", "R", "Röntgen")
                         @refUnit("C/kg", "C/kg", "Coulomb per kg")
                     </ul>
                 </li>
                 <li class="dropdown-submenu dropright">
                      @refToggle("Absorbed dose")
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu py-0">
                         @refUnit("Gy", "Gy", "Gray")
                         @refUnit("kGy", "kGy", "kilogray")
                         @refUnit("MGy", "MGy", "megagray")
@@ -445,7 +452,7 @@
                 </li>
                 <li class="dropdown-submenu dropright">
                      @refToggle("Equivalent dose")
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu py-0">
                         @refUnit("Sv", "Sv ", "Sievert")
                         @refUnit("kSv", "kSv", "kilosievert")
                         @refUnit("MSv", "MSv", "megasievert")
@@ -459,7 +466,7 @@
                 </li>
                 <li class="dropdown-submenu dropright">
                      @refToggle("Other")
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu py-0">
                         @refUnit("cd", "cd", "Luminous intensity - candela")
                         @refUnit("lm", "lm", "Luminous flux - lumen")
                         @refUnit("lm*s", "lm·s", "Luminous energy - lumen-second")
@@ -474,7 +481,7 @@
         </li>
         <li class="dropdown-submenu dropright">
              @refToggle("Other")
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu py-0">
                 @refUnit("mol", "mol", "amount of substance")
                 @refUnit("kat", "kat", "catalytic activity")
             </ul>
@@ -482,13 +489,13 @@
      </ul>
 </div>
 <div class="dropdown btn-group">
-    <button class="btn btn-light dropdown-toggle" type="button" data-toggle="dropdown">
-        Imperial/US
+    <button type="button" class="btn btn-light btn-sm dropdown-toggle" data-toggle="dropdown">
+        UK/US
     </button>
-    <ul class="dropdown-menu dropdown-menu-right">
+    <ul class="dropdown-menu dropdown-menu-right py-0">
         <li class="dropdown-submenu dropright">
              @refToggle("Mass")
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu py-0">
                 @refUnit("gr", "gr", "grain")
                 @refUnit("dr", "dr", "drachm")
                 @refUnit("oz", "oz", "ounce")
@@ -505,7 +512,7 @@
         </li>
         <li class="dropdown-submenu dropright">
              @refToggle("Length")
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu py-0">
                 @refUnit("th", "th", "thou")
                 @refUnit("in", "in", "inch")
                 @refUnit("ft", "ft", "foot")
@@ -525,7 +532,7 @@
         </li>
         <li class="dropdown-submenu dropright">
              @refToggle("Area")
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu py-0">
                 @refUnit("th^2", "th²", "square thou")
                 @refUnit("in^2", "in²", "square inch")
                 @refUnit("ft^2", "ft²", "square foot")
@@ -540,7 +547,7 @@
         </li>
         <li class="dropdown-submenu dropright">
              @refToggle("Volume")
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu py-0">
                 @refUnit("th^3", "th³", "cubic thou")
                 @refUnit("in^3", "in³", "cubic inch")
                 @refUnit("ft^3", "ft³", "cubic foot")
@@ -564,7 +571,7 @@
         </li>
         <li class="dropdown-submenu dropright">
              @refToggle("Velocity")
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu py-0">
                 @refUnit("in/s", "in/s", "inches per second")
                 @refUnit("ft/s", "ft/s", "feet per second")
                 @refUnit("yd/s", "yd/s", "yards per second")
@@ -573,7 +580,7 @@
         </li>
         <li class="dropdown-submenu dropright">
              @refToggle("Temperature")
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu py-0">
                 @refUnit("°F", "°F", "degrees Fahrenheit")
                 @refUnit("Δ°F", "Δ°F", "difference in °F")
                 @refUnit("°R", "°R", "degrees Rankine")
@@ -581,7 +588,7 @@
         </li>
         <li class="dropdown-submenu dropright">
              @refToggle("Force")
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu py-0">
                 @refUnit("ozf", "ozf", "ounce-force")
                 @refUnit("lbf", "lbf", "pound-force")
                 @refUnit("kipf", "kipf", "kilopound-force")
@@ -590,7 +597,7 @@
         </li>
         <li class="dropdown-submenu dropright">
              @refToggle("Torque/Moment")
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu py-0">
                 @refUnit("ozf*in", "ozf·in", "ounce-force-inch")
                 @refUnit("ozf*ft", "ozf·ft", "ounce-force-foot")
                 @refUnit("lbf*in", "lbf·in", "pound-force-inch")
@@ -599,7 +606,7 @@
         </li>
         <li class="dropdown-submenu dropright">
              @refToggle("Pressure")
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu py-0">
                 @refUnit("osi", "osi", "ounce-force per sq. inch")
                 @refUnit("osf", "osf", "ounce-force per sq. foot")
                 @refUnit("psi", "psi", "pound-force per sq. inch")
@@ -612,7 +619,7 @@
         </li>
         <li class="dropdown-submenu dropright">
              @refToggle("Density/Unit weight")
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu py-0">
                 @refUnit("oz/in^3", "oz/in³", "ounce per cubic inch")
                 @refUnit("oz/ft^3", "oz/ft³", "ounce per cubic foot")
                 @refUnit("lb/in^3", "lb/in³", "pound per cubic inch")
@@ -626,7 +633,7 @@
         </li>
         <li class="dropdown-submenu dropright">
              @refToggle("Energy/Work")
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu py-0">
                 @refUnit("in*ozf", "in·ozf", "inch-ounce-force")
                 @refUnit("ft*ozf", "ft·ozf", "foot-ounce-force")
                 @refUnit("in*lbf", "in·lbf", "inch-pound-force")
@@ -638,7 +645,7 @@
         </li>
         <li class="dropdown-submenu dropright">
              @refToggle("Power")
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu py-0">
                 @refUnit("ft*lbf/s", "ft·lbf/s", "foot-pound-force per second")
                 @refUnit("ft*lbf/min", "ft·lbf/min", "foot-pound-force per minute")
                 @refUnit("ft*lbf/h", "ft·lbf/h", "foot-pound-force per hour")

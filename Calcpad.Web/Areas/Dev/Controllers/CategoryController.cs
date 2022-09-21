@@ -3,7 +3,6 @@ using Calcpad.web.Areas.Dev.Models;
 using Calcpad.web.Data.Models;
 using Calcpad.web.Data.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,7 +32,7 @@ namespace Calcpad.web.Areas.Dev.Controllers
             if (parent == null)
                 return NotFound();
 
-            CategoryInputModel model = new CategoryInputModel()
+            CategoryInputModel model = new()
             {
                 Parent = _mapper.Map<CategoryInputModel>(parent),
                 ParentId = parent.Id
@@ -77,7 +76,7 @@ namespace Calcpad.web.Areas.Dev.Controllers
         public async Task<IActionResult> Add(CategoryInputModel model)
         {
             model.Id = 0;
-            
+
             if (!ModelState.IsValid)
                 return View(nameof(Rename), model);
 

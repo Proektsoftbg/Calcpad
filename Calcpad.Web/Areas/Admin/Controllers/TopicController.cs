@@ -25,7 +25,7 @@ namespace Calcpad.web.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Add()
         {
-            TopicInputModel model = new TopicInputModel()
+            TopicInputModel model = new()
             {
                 Id = 0,
                 Name = string.Empty,
@@ -64,7 +64,7 @@ namespace Calcpad.web.Areas.Admin.Controllers
         public async Task<IActionResult> Add(TopicInputModel model)
         {
             model.Id = 0;
-            
+
             if (!ModelState.IsValid)
                 return View(nameof(Rename), model);
 
@@ -81,14 +81,14 @@ namespace Calcpad.web.Areas.Admin.Controllers
 
             Topic topic = _mapper.Map<Topic>(model);
             await _topicService.RenameAsync(topic.Id, topic.Name);
-            return RedirectToAction(string.Empty, "help", new { Area = "", Controller = "Index"});
+            return RedirectToAction(string.Empty, "help", new { Area = "", Controller = "Index" });
         }
 
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
             await _topicService.DeleteAsync(id);
-            return RedirectToAction(string.Empty, "help", new { Area = "", Controller = "Index"});
+            return RedirectToAction(string.Empty, "help", new { Area = "", Controller = "Index" });
         }
     }
 }

@@ -3,7 +3,7 @@
     public class WorksheetViewModel : WorksheetBaseModel
     {
         public WorksheetViewModel() { }
-        public WorksheetViewModel(WorksheetCalculateModel model) : base(model) 
+        public WorksheetViewModel(WorksheetCalculateModel model) : base(model)
         {
             Settings = model.Settings;
         }

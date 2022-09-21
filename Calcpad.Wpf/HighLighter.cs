@@ -65,7 +65,7 @@ namespace Calcpad.Wpf
         };
 
         private static readonly Thickness ToolTipPadding = new(3, 1, 3, 2);
-        private static readonly SolidColorBrush ToolTipBackground = new(Color.FromArgb(225, 60, 60, 60));
+        private static readonly SolidColorBrush ToolTipBackground = new(Color.FromArgb(196, 0, 0, 0));
         private static readonly SolidColorBrush TitleBackground = new(Color.FromRgb(245, 255, 240));
         private static readonly SolidColorBrush ErrorBackground = new (Color.FromRgb(255, 225, 225));
         private static readonly HashSet<char> Operators = new() { '!', '^', '/', '÷', '\\', '%', '*', '-', '+', '<', '>', '≤', '≥', '≡', '≠', '=' };
@@ -998,14 +998,13 @@ namespace Calcpad.Wpf
         {
             Background = ToolTipBackground,
             BorderBrush = Brushes.Black,
-            Foreground = Brushes.LemonChiffon,
+            Foreground = Brushes.White,
             FontSize = 12,  
             Padding = ToolTipPadding,
             Content = message,
             Placement = PlacementMode.MousePoint,
-            HorizontalOffset = 8,
-            VerticalOffset = -32,
-            HorizontalAlignment = HorizontalAlignment.Left
+            HorizontalOffset = -8,
+            VerticalOffset = -36
         };
         
 

@@ -1,10 +1,6 @@
-﻿using Calcpad.web.Services;
-using Calcpad.web.ViewModels;
+﻿using Calcpad.web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
 
 namespace Calcpad.web.Controllers
 {
@@ -18,7 +14,7 @@ namespace Calcpad.web.Controllers
             else
                 mode = (CalculateViewModel.CalculatorMode)id.Value;
 
-            CalculateViewModel model = new CalculateViewModel()
+            CalculateViewModel model = new()
             {
                 Input = string.Empty,
                 Mode = mode

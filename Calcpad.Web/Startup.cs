@@ -1,21 +1,21 @@
-using System;
+using Calcpad.web.Data;
+using Calcpad.web.Data.Models;
+using Calcpad.web.Data.Seed;
+using Calcpad.web.Data.Services;
+using Calcpad.web.Hubs;
+using Calcpad.web.Mapping;
+using Calcpad.web.Services;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Calcpad.web.Mapping;
-using Calcpad.web.Data;
-using Calcpad.web.Data.Services;
-using Calcpad.web.Services;
-using Calcpad.web.Data.Models;
-using Calcpad.web.Hubs;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc;
-using Calcpad.web.Data.Seed;
+using System;
 
 namespace Calcpad.web
 {
@@ -94,7 +94,7 @@ namespace Calcpad.web
 
             app.UseAuthentication();
             app.UseAuthorization();
- 
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

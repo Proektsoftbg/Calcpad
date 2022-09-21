@@ -6,7 +6,7 @@ namespace Calcpad.web.Helpers
     {
         public static string SplitWords(string text, char delimiter = ' ')
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             bool IsFirst = true;
             foreach (char c in text)
             {
@@ -26,7 +26,7 @@ namespace Calcpad.web.Helpers
             if (string.IsNullOrEmpty(text))
                 return "document";
 
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             bool isTag = false, isComment = false, isSpace = false;
             char quote = ' ';
             foreach (char c in text)
@@ -71,7 +71,7 @@ namespace Calcpad.web.Helpers
 
         public static string SeoFriendly(string text)
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             foreach (char c in text)
             {
                 if (c == ' ' || c == '-' || c == '_')

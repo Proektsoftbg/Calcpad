@@ -1,5 +1,3 @@
-using System;
-
 namespace Calcpad.web.ViewModels
 {
     public class ErrorViewModel

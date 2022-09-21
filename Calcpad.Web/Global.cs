@@ -1,7 +1,7 @@
 ﻿namespace Calcpad.web.Global
 {
     public static class Constants
-    { 
+    {
         public static class RoleNames
         {
             public const string Administrator = "Admin";
