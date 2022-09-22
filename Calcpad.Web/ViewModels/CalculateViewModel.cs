@@ -12,7 +12,7 @@
         {
             Basic = 1,
             Scientific = 2,
-            Graphical = 3
+            Graphing = 3
         }
     }
 
