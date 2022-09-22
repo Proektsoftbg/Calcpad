@@ -33,25 +33,25 @@
             {
                 <strong class="ml-4 mr-2">Basic</strong>
                 <a asp-route-id="2" class="mr-2">Scientific</a>
-                <a asp-route-id="3" class="mr-2">Graphical</a>
+                <a asp-route-id="3" class="mr-2">Graphing</a>
             }
             else if (Model.Mode == CalculateViewModel.CalculatorMode.Scientific)
             {
                 <a asp-route-id="1" class="ml-4 mr-2">Basic</a>
                 <strong class="mr-2">Scientific</strong>
-                <a asp-route-id="3" class="mr-2">Graphical</a>
+                <a asp-route-id="3" class="mr-2">Graphing</a>
             }
             else
             {
                 <a asp-route-id="1" class="ml-4 mr-2">Basic</a>
                 <a asp-route-id="2" class="mr-2">Scientific</a>
-                <strong class="mr-2">Graphical</strong>
+                <strong class="mr-2">Graphing</strong>
             }
             <span class="mr-2">|</span>
             <partial name="~/Views/Calculator/_UnitsPartial.cshtml" />
         </div>
         <div class="frame">
-            @if (Model.Mode != CalculateViewModel.CalculatorMode.Graphical)
+            @if (Model.Mode != CalculateViewModel.CalculatorMode.Graphing)
             {
                 <div class="equation rounded d-flex justify-content-center align-items-center">
                     <div asp-validation-summary="All" class="text-danger"></div>
