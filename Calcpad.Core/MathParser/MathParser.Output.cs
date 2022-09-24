@@ -170,8 +170,8 @@ namespace Calcpad.Core
                             t.Content = writer.FormatValue(v, _decimals);
                             t.IsCompositeValue = v.IsComposite() || t.Content.Contains('×');
                             t.Order = Token.DefaultOrder;
-                            if (_parser._settings.IsComplex && v.Number.IsComplex && v.Units is null)
-                                t.Order = v.Number.Im < 0 ? MinusOrder : PlusOrder;
+                            if (_parser._settings.IsComplex && v.IsComplex && v.Units is null)
+                                t.Order = v.Im < 0 ? MinusOrder : PlusOrder;
                         }
                         else
                         {

@@ -56,40 +56,37 @@ namespace Calcpad.Core
         {
             Variable.SetNumber(x);
             var value = Function();
-            var result = value.Number;
             Units ??= value.Units;
 
-            if (!result.IsReal)
+            if (!value.IsReal)
 #if BG
                 throw new MathParserException($"Не мога да изчисля функцията %F за %V = {x}.");
 #else
                 throw new MathParserException($"Cannot evaluate the function %F for %V = {x}.");
 #endif
 
-            var d = result.Re;
-            if (double.IsNaN(d) || double.IsInfinity(d))
+            if (double.IsNaN(value.Re) || double.IsInfinity(value.Re))
 #if BG
                 throw new MathParserException($"Функцията %F не е дефинирана за %V = {x}.");
 #else
                 throw new MathParserException($"The function %F is not defined for %V = {x}.");
 #endif
-            return d;
+            return value.Re;
         }
 
         private Complex Fc(Complex x)
         {
             Variable.SetNumber(x);
             var value = Function();
-            var result = value.Number;
             Units ??= value.Units;
 
-            if (double.IsNaN(result.Re) && double.IsNaN(result.Im))
+            if (double.IsNaN(value.Re) && double.IsNaN(value.Im))
 #if BG      
                 throw new MathParserException($"Не мога да изчисля функцията %F за %V = {x}.");
 #else       
                 throw new MathParserException($"Cannot evaluate the function %F for %V = {x}.");
 #endif
-            return result;
+            return value.Complex;
         }
 
         internal double ModAB(double left, double right, double target, out double err)
@@ -419,7 +416,66 @@ namespace Calcpad.Core
             return slope * factor;
         }
 
-        internal Complex Repeat(double start, double end)
+        internal double Repeat(double start, double end)
+        {
+            GetBounds(start, end, out var n1, out var n2);
+            var number = 0.0;
+            Units = null;
+            for (int i = n1; i <= n2; ++i)
+            {
+                number = Fd(i);
+                if (double.IsInfinity(number))
+                    break;
+            }
+            return number;
+        }
+
+        internal double Sum(double start, double end)
+        {
+            GetBounds(start, end, out var n1, out var n2);
+            var number = Fd(n1);
+            var units = Units;
+            var hasUnits = units is not null;
+            n1++;
+            Units = null;
+            for (int i = n1; i <= n2; ++i)
+            {
+                number += Fd(i);
+                if (hasUnits && !Unit.IsConsistent(units, Units))
+#if BG
+                    throw new MathParserException($"Несъвместими мерни единици в $Sum: \"{Unit.GetText(units)}\" и \"{Unit.GetText(Units)}\".");
+#else
+                    throw new MathParserException($"Inconsistent units in $Sum: \"{Unit.GetText(units)}\" and \"{Unit.GetText(Units)}\".");
+#endif
+                if (double.IsInfinity(number))
+                    break;
+            }
+            Units = units;
+            return number;
+        }
+
+        internal double Product(double start, double end)
+        {
+            GetBounds(start, end, out var n1, out var n2);
+            var number = Fd(n1);
+            var units = Units;
+            var hasUnits = units is not null;
+            n1++;
+            Units = null;
+            for (int i = n1; i <= n2; ++i)
+            {
+                number *= Fd(i);
+                if (hasUnits && Units is not null)
+                    units *= Units;
+
+                if (double.IsInfinity(number))
+                    break;
+            }
+            Units = units;
+            return number;
+        }
+
+        internal Complex ComplexRepeat(double start, double end)
         {
             GetBounds(start, end, out var n1, out var n2);
             var number = new Complex(0.0);
@@ -433,7 +489,7 @@ namespace Calcpad.Core
             return number;
         }
 
-        internal Complex Sum(double start, double end)
+        internal Complex ComplexSum(double start, double end)
         {
             GetBounds(start, end, out var n1, out var n2);
             var number = Fc(n1);
@@ -457,7 +513,7 @@ namespace Calcpad.Core
             return number;
         }
 
-        internal Complex Product(double start, double end)
+        internal Complex ComplexProduct(double start, double end)
         {
             GetBounds(start, end, out var n1, out var n2);
             var number = Fc(n1);

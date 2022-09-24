@@ -94,7 +94,7 @@ namespace Calcpad.Core
                                         throw new MathParserException("Missing operand.");
 #endif
 
-                                    c = new Value(-b.Number, b.Units);
+                                    c = new Value(-b.Re, -b.Im, b.Units);
                                 }
                                 else
                                 {
@@ -163,24 +163,20 @@ namespace Calcpad.Core
                         return vu;
 
                     if (vu.IsForce)
-                    {
                         u = Unit.GetForceUnit(vu);
-                        if (ReferenceEquals(u, vu))
-                            return vu;
-
-                        v = new Value(v.Number * vu.ConvertTo(u), u);
-                        return v.Units;
-                    }
                     else if (vu.IsElectrical)
-                    {
                         u = Unit.GetElectricalUnit(vu);
-                        if (ReferenceEquals(u, vu))
-                            return vu;
+                    else
+                        return vu;
 
-                        v = new Value(v.Number * vu.ConvertTo(u), u);
-                        return v.Units;
-                    }
-                    return vu;
+                    if (ReferenceEquals(u, vu))
+                        return vu;
+
+                    double c = vu.ConvertTo(u);
+                    v = v.IsReal ?
+                        new Value(v.Re * c, u) :
+                        new Value(v.Complex * c, u);
+                    return v.Units;
                 }
 
                 if (!Unit.IsConsistent(vu, u))
@@ -189,11 +185,17 @@ namespace Calcpad.Core
 #else
                     throw new MathParserException($"The calculated units \"{Unit.GetText(vu)}\" are inconsistent with the target units \"{Unit.GetText(u)}\".");
 #endif
-                var number = v.Number * vu.ConvertTo(u);
+                var d = vu.ConvertTo(u);
                 if (u.IsTemp)
-                    number += GetTempUnitsDelta(vu.Text, u.Text);
-
-                v = new Value(number, u);
+                {
+                    var number = v.Complex * d + GetTempUnitsDelta(vu.Text, u.Text);
+                    v = new Value(number, u);
+                }
+                else
+                    v = v.IsReal ?
+                        new Value(v.Re * d, u) :
+                        new Value(v.Complex * d, u);
+                
                 return v.Units;
             }
 
@@ -333,7 +335,7 @@ namespace Calcpad.Core
 
             private static Value EvaluateIf(in Value condition, in Value valueIfTrue, in Value valueIfFalse)
             {
-                if (Math.Abs(condition.Number.Re) < 1e-12)
+                if (Math.Abs(condition.Re) < 1e-12)
                     return valueIfFalse;
 
                 return valueIfTrue;

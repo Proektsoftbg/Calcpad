@@ -4,53 +4,62 @@ namespace Calcpad.Core
 {
     internal readonly struct Value : IEquatable<Value>
     {
-        internal readonly Complex Number;
+        internal readonly double Re;
+        internal readonly double Im;
         internal readonly Unit Units;
         internal readonly bool IsUnit;
         internal static readonly Value Zero;
         internal static readonly Value One = new(1.0);
 
-        internal Value(in Complex number, Unit units)
+        internal Value(double re, double im, Unit units)
         {
-            Number = number;
+            Re = re;
+            Im = im; 
             Units = units;
             IsUnit = false;
         }
 
+        internal Value(Complex number, Unit units) : this(number.Re, number.Im, units) { }
+
         internal Value(double number)
         {
-            Number = number;
+            Re = number;
             Units = null;
             IsUnit = false;
         }
 
         internal Value(double number, Unit units)
         {
-            Number = number;
+            Re = number;
             Units = units;
             IsUnit = false;
         }
 
         internal Value(in Complex number)
         {
-            Number = number;
+            Re = number.Re;
+            Im = number.Im;
             Units = null;
             IsUnit = false;
         }
 
         internal Value(Unit units)
         {
-            Number = Complex.One;
             Units = units;
             IsUnit = true;
         }
 
-        internal Value(in Complex number, Unit units, bool isUnit) : this(number, units)
+        internal Value(double re, double im, Unit units, bool isUnit) : this(re, im, units)
         {
             IsUnit = isUnit;
         }
 
-        public override int GetHashCode() => HashCode.Combine(Number, Units);
+        internal Value(in Complex number, Unit units, bool isUnit) : this(number.Re, number.Im, units)
+        {
+            IsUnit = isUnit;
+        }
+
+        public override int GetHashCode() => HashCode.Combine(Re, Im, Units);
 
         public override bool Equals(object obj)
         {
@@ -60,56 +69,58 @@ namespace Calcpad.Core
             return false;
         }
 
-        internal bool IsComposite() => Unit.IsComposite(Number.Re, Units);
+        internal Complex Complex => new (Re, Im);
 
-        public static Value operator -(Value a) => new(-a.Number.Re, a.Units, a.IsUnit);
+        internal bool IsComposite() => Unit.IsComposite(Re, Units);
+
+        public static Value operator -(Value a) => new(-a.Re, a.Units, a.IsUnit);
 
         public static Value operator +(Value a, Value b) =>
             new(
-                a.Number.Re + b.Number.Re * Unit.Convert(a.Units, b.Units, '+'),
+                a.Re + b.Re * Unit.Convert(a.Units, b.Units, '+'),
                 a.Units
             );
 
         public static Value operator -(Value a, Value b) =>
             new(
-                a.Number.Re - b.Number.Re * Unit.Convert(a.Units, b.Units, '-'),
+                a.Re - b.Re * Unit.Convert(a.Units, b.Units, '-'),
                 a.Units
             );
 
         public static Value operator *(Value a, Value b)
         {
             if (a.Units is null && b.IsUnit)
-                return new(a.Number, b.Units);
+                return new(a.Re, b.Units);
 
             var uc = Unit.Multiply(a.Units, b.Units, out var d);
-            return new(a.Number.Re * b.Number.Re * d, uc);
+            return new(a.Re * b.Re * d, uc);
         }
 
         public static Value Multiply(Value a, Value b)
         {
             if (a.Units is null && b.IsUnit)
-                return new(a.Number, b.Units);
+                return new(a.Re, b.Units);
 
             var uc = Unit.Multiply(a.Units, b.Units, out var d, b.IsUnit);
             var isUnit = a.IsUnit && b.IsUnit && uc is not null;
-            return new(a.Number.Re * b.Number.Re * d, uc, isUnit);
+            return new(a.Re * b.Re * d, uc, isUnit);
         }
 
         public static Value operator /(Value a, Value b)
         {
             var uc = Unit.Divide(a.Units, b.Units, out var d);
-            return new(a.Number.Re / b.Number.Re * d, uc);
+            return new(a.Re / b.Re * d, uc);
         }
 
         public static Value Divide(Value a, Value b)
         {
             var uc = Unit.Divide(a.Units, b.Units, out var d, b.IsUnit);
             var isUnit = a.IsUnit && b.IsUnit && uc is not null;
-            return new(a.Number.Re / b.Number.Re * d, uc, isUnit);
+            return new(a.Re / b.Re * d, uc, isUnit);
         }
 
         public static Value operator *(Value a, double b) =>
-            new(a.Number * b, a.Units);
+            new(a.Re * b, a.Units);
 
         public static Value operator %(Value a, Value b)
         {
@@ -121,30 +132,30 @@ namespace Calcpad.Core
                     $"Cannot evaluate reminder: \"{Unit.GetText(a.Units)}  %  {Unit.GetText(b.Units)}\". The denominator must be unitless."
 #endif
             );
-            return new(a.Number.Re % b.Number.Re, a.Units);
+            return new(a.Re % b.Re, a.Units);
         }
 
         public static Value IntDiv(Value a, Value b)
         {
             var uc = Unit.Divide(a.Units, b.Units, out var d);
             bool isUnit = a.IsUnit && b.IsUnit && uc is not null;
-            return new(Math.Truncate(a.Number.Re * d / b.Number.Re), uc, isUnit);
+            return new(Math.Truncate(a.Re * d / b.Re), uc, isUnit);
         }
 
         public static Value operator ==(Value a, Value b) =>
             new(
-                a.Number.Re.EqualsBinary(b.Number.Re * Unit.Convert(a.Units, b.Units, '≡')) ? 1.0 : 0.0
+                a.Re.EqualsBinary(b.Re * Unit.Convert(a.Units, b.Units, '≡')) ? 1.0 : 0.0
             );
 
         public static Value operator !=(Value a, Value b) =>
             new(
-                a.Number.Re.EqualsBinary(b.Number.Re * Unit.Convert(a.Units, b.Units, '≠')) ? 0.0 : 1.0
+                a.Re.EqualsBinary(b.Re * Unit.Convert(a.Units, b.Units, '≠')) ? 0.0 : 1.0
             );
 
         public static Value operator <(Value a, Value b)
         {
-            var c = a.Number.Re;
-            var d = b.Number.Re * Unit.Convert(a.Units, b.Units, '<');
+            var c = a.Re;
+            var d = b.Re * Unit.Convert(a.Units, b.Units, '<');
             return new(
                 c < d && !c.EqualsBinary(d) ? 1.0 : 0.0
             );
@@ -152,8 +163,8 @@ namespace Calcpad.Core
 
         public static Value operator >(Value a, Value b)
         {
-            var c = a.Number.Re;
-            var d = b.Number.Re * Unit.Convert(a.Units, b.Units, '>');
+            var c = a.Re;
+            var d = b.Re * Unit.Convert(a.Units, b.Units, '>');
             return new(
                 c > d && !c.EqualsBinary(d) ? 1.0 : 0.0
             );
@@ -161,8 +172,8 @@ namespace Calcpad.Core
 
         public static Value operator <=(Value a, Value b)
         {
-            var c = a.Number.Re;
-            var d = b.Number.Re * Unit.Convert(a.Units, b.Units, '≤');
+            var c = a.Re;
+            var d = b.Re * Unit.Convert(a.Units, b.Units, '≤');
             return new(
                 c <= d || c.EqualsBinary(d) ? 1.0 : 0.0
             );
@@ -170,8 +181,8 @@ namespace Calcpad.Core
 
         public static Value operator >=(Value a, Value b)
         {
-            var c = a.Number.Re;
-            var d = b.Number.Re * Unit.Convert(a.Units, b.Units, '≥');
+            var c = a.Re;
+            var d = b.Re * Unit.Convert(a.Units, b.Units, '≥');
             return new(
                 c >= d || c.EqualsBinary(d) ? 1.0 : 0.0
             );
@@ -180,12 +191,19 @@ namespace Calcpad.Core
         public bool Equals(Value other)
         {
             if (Units is null)
-                return other.Units is null && Number.Equals(other.Number);
+                return other.Units is null && 
+                    Re.Equals(other.Re) && 
+                    Im.Equals(other.Im); ;
 
             if (other.Units is null)
                 return false;
 
-            return Number.Equals(other.Number) && Units.Equals(other.Units);
+            return Re.Equals(other.Re) &&
+                Im.Equals(other.Im) &&
+                Units.Equals(other.Units);
         }
+
+        internal bool IsReal => Complex.Type(Re, Im) == Complex.Types.Real;
+        internal bool IsComplex => Complex.Type(Re, Im) == Complex.Types.Complex;
     }
 }
