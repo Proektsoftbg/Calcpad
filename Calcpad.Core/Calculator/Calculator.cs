@@ -174,14 +174,14 @@ namespace Calcpad.Core
 #else
                 throw new MathParser.MathParserException("Root index must be unitless.");
 #endif
-            if (!root.Number.IsReal)
+            if (!root.IsReal)
 #if BG
                 throw new MathParser.MathParserException("Коренният показател не може да е комплексно число.");
 #else
                 throw new MathParser.MathParserException("Root index cannot be complex number.");
 #endif
-            var n = (int)root.Number.Re;
-            if (n < 2 || n != root.Number.Re)
+            var n = (int)root.Re;
+            if (n < 2 || n != root.Re)
 #if BG
                 throw new MathParser.MathParserException("Коренният показател трябва да е цяло число > 1.");
 #else
@@ -214,11 +214,11 @@ namespace Calcpad.Core
 
         protected static Value Min(Value[] v)
         {
-            var result = v[0].Number.Re;
+            var result = v[0].Re;
             var u = v[0].Units;
             for (int i = 1, len = v.Length; i < len; ++i)
             {
-                var b = v[i].Number.Re * Unit.Convert(u, v[i].Units, ',');
+                var b = v[i].Re * Unit.Convert(u, v[i].Units, ',');
                 if (b < result)
                     result = b;
             }
@@ -227,11 +227,11 @@ namespace Calcpad.Core
 
         protected static Value Max(Value[] v)
         {
-            var result = v[0].Number.Re;
+            var result = v[0].Re;
             var u = v[0].Units;
             for (int i = 1, len = v.Length; i < len; ++i)
             {
-                var b = v[i].Number.Re * Unit.Convert(u, v[i].Units, ',');
+                var b = v[i].Re * Unit.Convert(u, v[i].Units, ',');
                 if (b > result)
                     result = b;
             }
@@ -242,7 +242,7 @@ namespace Calcpad.Core
         {
             for (int i = 0; i < v.Length - 1; i += 2)
             {
-                if (Math.Abs(v[i].Number.Re) >= 1e-12)
+                if (Math.Abs(v[i].Re) >= 1e-12)
                     return v[i + 1];
             }
             if (v.Length % 2 != 0)
@@ -253,7 +253,7 @@ namespace Calcpad.Core
 
         protected static Value Take(Value[] v)
         {
-            var x = Math.Round(v[0].Number.Re);
+            var x = Math.Round(v[0].Re);
             if (!double.IsNormal(x) || x < deltaMinus || x > v.Length * deltaPlus - 1.0)
                 return new(double.NaN);
 
@@ -262,7 +262,7 @@ namespace Calcpad.Core
 
         protected static Value Line(Value[] v)
         {
-            var x = v[0].Number.Re;
+            var x = v[0].Re;
             if (!double.IsNormal(x) || x < deltaMinus || x > v.Length * deltaPlus - 1.0)
                 return new(double.NaN);
             int i = (int)Math.Floor(x);
@@ -274,7 +274,7 @@ namespace Calcpad.Core
 
         protected static Value Spline(Value[] v)
         {
-            var x = v[0].Number.Re;
+            var x = v[0].Re;
             if (!double.IsNormal(x) || x < deltaMinus || x > v.Length * deltaPlus - 1.0)
                 return new(double.NaN);
             int i = (int)Math.Floor(x);
@@ -283,20 +283,20 @@ namespace Calcpad.Core
                 return v[i];
 
             var u = v[1].Units;
-            var y0 = v[i].Number.Re * Unit.Convert(u, v[i].Units, ',');
-            var y1 = v[i + 1].Number.Re * Unit.Convert(u, v[i + 1].Units, ',');
+            var y0 = v[i].Re * Unit.Convert(u, v[i].Units, ',');
+            var y1 = v[i + 1].Re * Unit.Convert(u, v[i + 1].Units, ',');
             var d = y1 - y0;
             var a = d;
             var b = d;
             d = Math.Sign(d);
             if (i > 1)
             {
-                var y2 = v[i - 1].Number.Re * Unit.Convert(u, v[i - 1].Units, ',');
+                var y2 = v[i - 1].Re * Unit.Convert(u, v[i - 1].Units, ',');
                 a = (y1 - y2) * (Math.Sign(y0 - y2) == d ? 0.5 : 0.25);
             }
             if (i < v.Length - 2)
             {
-                var y2 = v[i + 2].Number.Re * Unit.Convert(u, v[i + 2].Units, ',');
+                var y2 = v[i + 2].Re * Unit.Convert(u, v[i + 2].Units, ',');
                 b = (y2 - y0) * (Math.Sign(y2 - y1) == d ? 0.5 : 0.25);
             }
             if (i == 1)

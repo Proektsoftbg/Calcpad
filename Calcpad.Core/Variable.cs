@@ -20,7 +20,7 @@ namespace Calcpad.Core
         internal void SetNumber(in double number) => Value = new Value(number, Value.Units);
         internal void SetUnits(Unit units)
         {
-            Value = new Value(Value.Number, units);
+            Value = new Value(Value.Re, Value.Im, units);
             _isIntialised = true;
         }
 

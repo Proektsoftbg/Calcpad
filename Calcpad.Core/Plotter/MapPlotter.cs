@@ -179,7 +179,7 @@ namespace Calcpad.Core
                     varY.SetNumber(y);
                     var value = function();
                     //Parser.CheckReal(value);
-                    var z = value.Number.Re;
+                    var z = value.Re;
                     n[i, j] = new Node(x, y * d, z);
                     y += sy;
                 }

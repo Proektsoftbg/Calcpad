@@ -292,13 +292,19 @@ namespace Calcpad.Core
                             result = solver.Area(x1, x2);
                             break;
                         case SolverTypes.Repeat:
-                            result = solver.Repeat(x1, x2);
+                            result = _parser._settings.IsComplex ? 
+                                solver.ComplexRepeat(x1, x2) :
+                                solver.Repeat(x1, x2);
                             break;
                         case SolverTypes.Sum:
-                            result = solver.Sum(x1, x2);
+                            result = _parser._settings.IsComplex ? 
+                                solver.ComplexSum(x1, x2) :
+                                solver.Sum(x1, x2);
                             break;
                         case SolverTypes.Product:
-                            result = solver.Product(x1, x2);
+                            result = _parser._settings.IsComplex ? 
+                                solver.ComplexProduct(x1, x2) :
+                                solver.Product(x1, x2);
                             break;
                         case SolverTypes.Slope:
                             result = solver.Slope(x1);

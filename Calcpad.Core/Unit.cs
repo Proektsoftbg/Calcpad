@@ -1324,17 +1324,17 @@ namespace Calcpad.Core
             if (u is null)
                 return null;
 
-            if (!power.Number.IsReal)
+            if (!power.IsReal)
 #if BG
                 throw new MathParser.MathParserException("Не мога да повдигна мерни единици на комплексна степен.");
 #else
                 throw new MathParser.MathParserException("Units cannon be raised to complex power.");
 #endif
-            var result = u.Pow(power.Number.Re);
+            var result = u.Pow(power.Re);
             var s = u.Text;
             if (updateText && !s.Contains('^'))
             {
-                var ps = Complex.Format(power.Number, 2, OutputWriter.OutputFormat.Text);
+                var ps = OutputWriter.FormatNumberHelper(power.Re, 2);
                 result.Text =
                     s.IndexOfAny(CompositeUnitChars) >= 0.0 ?
                     $"({s})^{ps}" :

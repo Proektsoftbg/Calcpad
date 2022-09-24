@@ -35,7 +35,7 @@ namespace Calcpad.Core
                 if (!_variables.TryGetValue("Precision", out var v))
                     return 1e-14;
 
-                var precision = v.Value.Number.Re;
+                var precision = v.Value.Re;
                 return precision switch
                 {
                     < 1e-16 => 1e-16,
@@ -54,9 +54,9 @@ namespace Calcpad.Core
 
         }
         internal int Degrees { set => _calc.Degrees = value; }
-        internal int PlotWidth => _variables.TryGetValue("PlotWidth", out var v) ? (int)v.Value.Number.Re : 500;
-        internal int PlotHeight => _variables.TryGetValue("PlotHeight", out var v) ? (int)v.Value.Number.Re : 300;
-        internal int PlotStep => _variables.TryGetValue("PlotStep", out var v) ? (int)v.Value.Number.Re : 0;
+        internal int PlotWidth => _variables.TryGetValue("PlotWidth", out var v) ? (int)v.Value.Re : 500;
+        internal int PlotHeight => _variables.TryGetValue("PlotHeight", out var v) ? (int)v.Value.Re : 300;
+        internal int PlotStep => _variables.TryGetValue("PlotStep", out var v) ? (int)v.Value.Re : 0;
 
         public const char DecimalSymbol = '.'; //CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator[0];
         internal Complex Result { get; private set; }
@@ -172,9 +172,9 @@ namespace Calcpad.Core
             if (_functionDefinitionIndex < 0)
             {
                 CompileBlocks();
-                Result = _evaluator.Evaluate(_rpn).Number;
+                Result = _evaluator.Evaluate(_rpn).Complex;
                 if (_variables.TryGetValue("ReturnAngleUnits", out var v))
-                    Calculator.ReturnAngleUnits = v.Value.Number.Re != 0.0;
+                    Calculator.ReturnAngleUnits = v.Value.Re != 0.0;
             }
             _isCalculated = true;
         }
@@ -189,17 +189,17 @@ namespace Calcpad.Core
 #endif
             Value value = _evaluator.Evaluate(_rpn);
             CheckReal(value);
-            Result = value.Number;
-            return Result.Re;
+            Result = value.Re;
+            return value.Re;
         }
 
         private void CheckReal(in Value value)
         {
-            if (_settings.IsComplex && !value.Number.IsReal)
+            if (_settings.IsComplex && !value.IsReal)
 #if BG
                 throw new MathParserException($"Резултатът не е реално число: \"{Complex.Format(value.Number, _settings.Decimals, OutputWriter.OutputFormat.Text)}\".");
 #else
-                throw new MathParserException($"The result is not a real number: \"{Complex.Format(value.Number, _settings.Decimals, OutputWriter.OutputFormat.Text)}\".");
+                throw new MathParserException($"The result is not a real number: \"{Complex.Format(value.Complex, _settings.Decimals, OutputWriter.OutputFormat.Text)}\".");
 #endif
         }
 

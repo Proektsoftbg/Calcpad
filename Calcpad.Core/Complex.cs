@@ -30,29 +30,38 @@ namespace Calcpad.Core
             _b = 0.0;
         }
 
-        private static byte GetComplexType(double a, double b)
+        internal enum Types
+        {
+            Real = 1,
+            Imaginary = 2,
+            Complex = 3
+        }
+
+        private static Types GetType(double a, double b)
         {
             if (b == 0.0)
-                return 1;
+                return Types.Real;
 
             if (a == 0.0)
-                return 2;
+                return Types.Imaginary;
 
             var re = Math.Abs(a);
             var im = Math.Abs(b);
             var d = (re + im) * Eps;
             if (im < d)
-                return 1;
+                return Types.Real;
 
             if (re < d)
-                return 2;
+                return Types.Imaginary;
 
-            return 3;
+            return Types.Complex;
         }
 
-        internal bool IsReal => GetComplexType(_a, _b) < 2;
-        internal bool IsImaginary => GetComplexType(_a, _b) == 2;
-        internal bool IsComplex => GetComplexType(_a, _b) == 3;
+        internal static Types Type(double re, double im) => GetType(re, im);
+
+        internal bool IsReal => GetType(_a, _b) == Types.Real;
+        internal bool IsImaginary => GetType(_a, _b) == Types.Imaginary;
+        internal bool IsComplex => GetType(_a, _b) == Types.Complex;
         internal double Re => _a;
         internal double Im => _b;
         internal Complex Real => new(_a, 0);
@@ -175,7 +184,7 @@ namespace Calcpad.Core
 
         public override string ToString() => IsReal ?
             new TextWriter().FormatReal(_a, 15) :
-            new TextWriter().FormatComplex(this, 15);
+            new TextWriter().FormatComplex(_a, _b, 15);
 
         public override int GetHashCode() =>
             IsReal ? _a.GetHashCode() : HashCode.Combine(_a, _b);
@@ -410,9 +419,9 @@ namespace Calcpad.Core
         {
             return mode switch
             {
-                OutputWriter.OutputFormat.Text => new TextWriter().FormatComplex(c, decimals),
-                OutputWriter.OutputFormat.Html => new HtmlWriter().FormatComplex(c, decimals),
-                OutputWriter.OutputFormat.Xml => new XmlWriter().FormatComplex(c, decimals),
+                OutputWriter.OutputFormat.Text => new TextWriter().FormatComplex(c._a, c._b, decimals),
+                OutputWriter.OutputFormat.Html => new HtmlWriter().FormatComplex(c._a, c._b, decimals),
+                OutputWriter.OutputFormat.Xml => new XmlWriter().FormatComplex(c._a, c._b, decimals),
                 _ => "undefined format"
             };
         }

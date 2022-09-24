@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Reflection.Emit;
 using System.Text;
 
 namespace Calcpad.Core
@@ -151,7 +150,7 @@ namespace Calcpad.Core
         internal abstract string FormatValue(Value v, int decimals);
         internal abstract string AddBrackets(string s, int level = 0);
         internal abstract string FormatReal(double d, int decimals);
-        internal abstract string FormatComplex(Complex c, int decimals);
+        internal abstract string FormatComplex(double re, double im, int decimals);
 
         protected static string FormatOperatorHelper(char c) => c switch
         {
@@ -170,17 +169,18 @@ namespace Calcpad.Core
             _ => c.ToString()
         };
 
-        protected string FormatComplexHelper(Complex c, int decimals)
+        protected string FormatComplexHelper(double re, double im, int decimals)
         {
-            if (c.IsReal)
-                return FormatReal(c.Re, decimals);
+            var t = Complex.Type(re, im);
+            if (t == Complex.Types.Real)
+                return FormatReal(re, decimals);
 
-            if (c.IsImaginary)
-                return FormatReal(c.Im, decimals) + 'i';
+            if (t == Complex.Types.Imaginary)
+                return FormatReal(im, decimals) + 'i';
 
-            var sReal = FormatReal(c.Re, decimals);
-            var sImaginary = FormatReal(Math.Abs(c.Im), decimals);
-            return c.Im < 0 ?
+            var sReal = FormatReal(re, decimals);
+            var sImaginary = FormatReal(Math.Abs(im), decimals);
+            return im < 0 ?
                 $"{sReal} – {sImaginary}i" :
                 $"{sReal} + {sImaginary}i";
         }
@@ -279,10 +279,10 @@ namespace Calcpad.Core
 
         internal override string FormatValue(Value v, int decimals)
         {
-            var s = FormatComplex(v.Number, decimals);
+            var s = FormatComplex(v.Re, v.Im, decimals);
             if (v.Units is not null)
             {
-                if (!v.Number.IsReal)
+                if (!v.IsReal)
                     s = AddBrackets(s);
 
                 return s + ' ' + v.Units.Text;
@@ -292,12 +292,12 @@ namespace Calcpad.Core
 
         internal override string AddBrackets(string s, int level = 0) => $"({s})";
         internal override string FormatReal(double d, int decimals) => FormatNumberHelper(d, decimals);
-        internal override string FormatComplex(Complex c, int decimals)
+        internal override string FormatComplex(double re, double im, int decimals)
         {
-            if (double.IsNaN(c.Re) && double.IsNaN(c.Im))
+            if (double.IsNaN(re) && double.IsNaN(im))
                 return " Undefined ";
 
-            return FormatComplexHelper(c, decimals);
+            return FormatComplexHelper(re, im, decimals);
         }
 
         internal override string FormatNary(string symbol, string sub, string sup, string expr) =>
@@ -432,11 +432,11 @@ namespace Calcpad.Core
 
         internal override string FormatValue(Value v, int decimals)
         {
-            var s = FormatComplex(v.Number, decimals);
+            var s = FormatComplex(v.Re, v.Im, decimals);
             if (v.Units is null)
                 return s;
 
-            if (!v.Number.IsReal)
+            if (!v.IsReal)
                 s = AddBrackets(s);
 
             return s + "&#8202;" + v.Units.Html;
@@ -473,12 +473,12 @@ namespace Calcpad.Core
                 $"{s[..i]}×10<sup>{s[i1..]}</sup>";
         }
 
-        internal override string FormatComplex(Complex c, int decimals)
+        internal override string FormatComplex(double re, double im, int decimals)
         {
-            if (double.IsNaN(c.Re) && double.IsNaN(c.Im))
+            if (double.IsNaN(re) && double.IsNaN(im))
                 return "<span class=\"err\"> Undefined </span>";
 
-            return FormatComplexHelper(c, decimals);
+            return FormatComplexHelper(re, im, decimals);
         }
     }
 
@@ -562,11 +562,11 @@ namespace Calcpad.Core
 
         internal override string FormatValue(Value v, int decimals)
         {
-            var s = FormatComplex(v.Number, decimals);
+            var s = FormatComplex(v.Re, v.Im, decimals);
             if (v.Units is null)
                 return s;
 
-            if (!v.Number.IsReal)
+            if (!v.IsReal)
                 s = AddBrackets(s);
 
             return s + v.Units.Xml;
@@ -592,20 +592,21 @@ namespace Calcpad.Core
             return $"{Run(s[..i] + "×")}<m:sSup><m:e>{Run("10")}</m:e><m:sup><m:r><m:t>{s[i1..]}</m:t></m:r></m:sup></m:sSup>";
         }
 
-        internal override string FormatComplex(Complex c, int decimals)
+        internal override string FormatComplex(double re, double im, int decimals)
         {
-            if (double.IsNaN(c.Re) && double.IsNaN(c.Im))
+            if (double.IsNaN(re) && double.IsNaN(im))
                 return Run("Undefined");//<w:rPr><w:color w:val=\"FF0000\" /></w:rPr>
+            
+            var t = Complex.Type(re, im);
+            if (t == Complex.Types.Real)
+                return FormatReal(re, decimals);
 
-            if (c.IsReal)
-                return FormatReal(c.Re, decimals);
-
-            var sImaginary = FormatReal(Math.Abs(c.Im), decimals) + Run("i");
-            if (c.IsImaginary)
+            var sImaginary = FormatReal(Math.Abs(im), decimals) + Run("i");
+            if (t == Complex.Types.Imaginary)
                 return sImaginary;
 
-            var sReal = FormatReal(c.Re, decimals);
-            return c.Im < 0 ?
+            var sReal = FormatReal(re, decimals);
+            return im < 0 ?
                 sReal + Run("–") + sImaginary:
                 sReal + Run("+") + sImaginary;
         }

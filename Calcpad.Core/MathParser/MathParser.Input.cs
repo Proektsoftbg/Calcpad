@@ -435,7 +435,7 @@ namespace Calcpad.Core
                 }
 
                 if (!hasUnits)
-                    return new ValueToken(new Value(number, null))
+                    return new ValueToken(new Value(number))
                     {
                         Content = value,
                         Type = tt

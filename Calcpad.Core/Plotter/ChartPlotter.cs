@@ -183,7 +183,7 @@ namespace Calcpad.Core
             //Parser.CheckReal(vx);
             var vy = fy();
             //Parser.CheckReal(vy);
-            return new Node(vx.Number.Re, vy.Number.Re, t);
+            return new Node(vx.Re, vy.Re, t);
         }
 
         private static void GetPngPoints(Chart[] charts, double x0, double y0, double xs, double ys)
