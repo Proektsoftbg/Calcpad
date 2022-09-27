@@ -443,7 +443,7 @@ namespace Calcpad.Core
 
                 try
                 {
-                    var unit = new Unit(units);
+                    var unit = Unit.Get(units);
                     value += "<i>" + units + "</i>";
                     var v = isUnit ? new Value(unit) : new Value(number, unit);
                     return new ValueToken(v)
@@ -485,7 +485,7 @@ namespace Calcpad.Core
                             try
                             {
                                 Variable v = ((VariableToken)t).Variable;
-                                var u = new Unit(t.Content);
+                                var u = Unit.Get(t.Content);
                                 t.Type = TokenTypes.Unit;
                                 v.SetValue(u);
                             }

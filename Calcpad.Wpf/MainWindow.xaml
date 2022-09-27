@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     x:Class="Calcpad.Wpf.MainWindow"
     Closing="Window_Closing" 
-    Title=" Calcpad 5.8.6" 
+    Title=" Calcpad 5.8.7" 
     Height="800" 
     Width="1200"
     WindowStartupLocation="CenterScreen"
@@ -770,7 +770,7 @@
                     <MenuItem Click="Button_Click" Tag="#repeat 'number of repetitions§'Your code here§#loop" Header="Simple: repeat-loop"/>
                     <MenuItem Click="Button_Click" Tag="#repeat 'number of repetitions§'Your code here§#if 'condition§#break§#end if§'Some more code§#loop" Header="Conditional: repeat-break-loop"/>
                 </MenuItem>
-                <MenuItem Header="String variables and macros">
+                <MenuItem Header="String variable or macro">
                     <MenuItem Click="Button_Click" Tag="#def variable_name$ = content" Header="Inline string variable"/>
                     <MenuItem Click="Button_Click" Tag="#def variable_name$§'content line 1§'content line 2§'...§#end def" Header="Multiline string variable"/>
                     <MenuItem Click="Button_Click" Tag="#def macro_name$(param1$; param2$) = content" Header="Inline macro"/>
@@ -955,7 +955,7 @@
                 <Image Source="Resources/play.png" Width="24" Height="24" VerticalAlignment="Center"
                     HorizontalAlignment="Center"/>
             </Button>
-            <CheckBox x:Name="AutoRunCheckBox" Content="AutoRun" IsChecked="True" ToolTip="Refresh results after each edit" TabIndex="3" FontFamily="Segoe UI Semibold" FontSize="11" Padding="2,0,0,0" Width="65" HorizontalAlignment="Left" Height="16" Canvas.Left="108" Canvas.Top="6" VerticalAlignment="Center" Checked="AutoRunCheckBox_Checked" Unchecked="AutoRunCheckBox_Unchecked"/>
+            <CheckBox x:Name="AutoRunCheckBox" Content=" AutoRun" IsChecked="True" ToolTip="Refresh results after each edit" TabIndex="3" FontFamily="Arial Nova Cond" Padding="2,0,0,0" Width="65" HorizontalAlignment="Left" Height="16" Canvas.Left="108" Canvas.Top="6" VerticalAlignment="Center" Checked="AutoRunCheckBox_Checked" Unchecked="AutoRunCheckBox_Unchecked" FontStretch="Condensed" FontWeight="Bold" Foreground="#FF505050" FontSize="12.5"/>
         </Canvas>
         <Separator HorizontalAlignment="Left" Height="2" Margin="96,39,0,0" VerticalAlignment="Top" Width="28" IsTabStop="False" ScrollViewer.VerticalScrollBarVisibility="Disabled" RenderTransformOrigin="0.5,0.5">
             <Separator.RenderTransform>
@@ -967,71 +967,53 @@
                 <RotateTransform Angle="90"/>
             </Separator.RenderTransform>
         </Separator>
-        <TextBlock TextWrapping="Wrap" FontSize="11" Margin="0,12,420,0" TextAlignment="Left" Height="16" VerticalAlignment="Top" Foreground="#CC000000" Text="Angles:" HorizontalAlignment="Right" Width="42"/>
-        <RadioButton Checked="AngleRadioButton_Checked" x:Name="Deg" Content="D" GroupName="Angle" TabIndex="3" IsChecked="True" FontFamily="Calibri" Padding="2,0,0,0" Margin="0,33,432,0" Height="16" VerticalAlignment="Top" HorizontalAlignment="Right" Width="30" FontWeight="Bold" FontSize="13" RenderTransformOrigin="0,0" ToolTip="DEG">
+        <TextBlock TextWrapping="Wrap" FontSize="11.5" Margin="0,12,420,0" TextAlignment="Left" Height="16" VerticalAlignment="Top" Text="Angles:" HorizontalAlignment="Right" Width="42" Foreground="#DD000000"/>
+        <RadioButton Checked="AngleRadioButton_Checked" x:Name="Deg" Content="D" GroupName="Angle" TabIndex="3" IsChecked="True" FontFamily="Arial Nova Cond" Padding="2,0,0,0" Margin="0,33,432,0" Height="16" VerticalAlignment="Top" HorizontalAlignment="Right" Width="30" FontWeight="Bold" FontSize="14" RenderTransformOrigin="0,0" ToolTip="DEG" FontStretch="Condensed" Foreground="#FF505050">
             <RadioButton.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
-                </TransformGroup>
+                <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
             </RadioButton.RenderTransform>
         </RadioButton>
-        <RadioButton Checked="AngleRadioButton_Checked" x:Name="Rad" Content="R" GroupName="Angle" TabIndex="4" FontFamily="Calibri" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" Margin="0,33,404,0" HorizontalAlignment="Right" Width="30" FontWeight="Bold" FontSize="13" RenderTransformOrigin="0,0" ToolTip="RAD">
+        <RadioButton Checked="AngleRadioButton_Checked" x:Name="Rad" Content="R" GroupName="Angle" TabIndex="4" FontFamily="Arial Nova Cond" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" Margin="0,33,404,0" HorizontalAlignment="Right" Width="30" FontWeight="Bold" FontSize="14" RenderTransformOrigin="0,0" ToolTip="RAD" FontStretch="Condensed" Foreground="#FF505050">
             <RadioButton.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
-                </TransformGroup>
+                <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
             </RadioButton.RenderTransform>
         </RadioButton>
-        <RadioButton Checked="AngleRadioButton_Checked" x:Name="Gra" Content="G" GroupName="Angle" TabIndex="5" FontFamily="Calibri" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" Margin="0,33,376,0" HorizontalAlignment="Right" Width="30" FontWeight="Bold" FontSize="13" RenderTransformOrigin="0,0" ToolTip="GRA">
+        <RadioButton Checked="AngleRadioButton_Checked" x:Name="Gra" Content="G" GroupName="Angle" TabIndex="5" FontFamily="Arial Nova Cond" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" Margin="0,33,376,0" HorizontalAlignment="Right" Width="30" FontWeight="Bold" FontSize="14" RenderTransformOrigin="0,0" ToolTip="GRA" FontStretch="Condensed" Foreground="#FF505050">
             <RadioButton.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
-                </TransformGroup>
+                <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
             </RadioButton.RenderTransform>
         </RadioButton>
-        <TextBlock TextWrapping="Wrap" FontSize="11" Margin="0,12,273,0" Height="16" VerticalAlignment="Top" Foreground="#CC000000" Text="Non-metric units:" TextAlignment="Left" HorizontalAlignment="Right" Width="90"/>
-        <RadioButton Checked="UnitsRadioButton_Checked" x:Name="UK" Content="UK" GroupName="Units" TabIndex="6" IsChecked="True" RenderTransformOrigin="0,0" FontFamily="Calibri" Padding="2,0,0,0" Margin="0,33,317,0" FontWeight="Bold" HorizontalAlignment="Right" Width="35" Height="16" VerticalAlignment="Top" FontSize="13">
+        <TextBlock TextWrapping="Wrap" FontSize="11.5" Margin="0,12,273,0" Height="16" VerticalAlignment="Top" Text="Non-metric units:" TextAlignment="Left" HorizontalAlignment="Right" Width="90" Foreground="#DD000000"/>
+        <RadioButton Checked="UnitsRadioButton_Checked" x:Name="UK" Content="UK" GroupName="Units" TabIndex="6" IsChecked="True" RenderTransformOrigin="0,0" FontFamily="Arial Nova Cond" Padding="2,0,0,0" Margin="0,33,317,0" FontWeight="Bold" HorizontalAlignment="Right" Width="35" Height="16" VerticalAlignment="Top" FontSize="14" FontStretch="Condensed" Foreground="#FF505050">
             <RadioButton.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
-                </TransformGroup>
+                <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
             </RadioButton.RenderTransform>
         </RadioButton>
-        <RadioButton Checked="UnitsRadioButton_Checked" x:Name="US" Content="US" GroupName="Units" Height="16" TabIndex="6" RenderTransformOrigin="0,0" FontFamily="Calibri" VerticalAlignment="Top" Padding="2,0,0,0" Margin="0,33,281,0" HorizontalAlignment="Right" Width="35" FontWeight="Bold" FontSize="13">
+        <RadioButton Checked="UnitsRadioButton_Checked" x:Name="US" Content="US" GroupName="Units" Height="16" TabIndex="6" RenderTransformOrigin="0,0" FontFamily="Arial Nova Cond" VerticalAlignment="Top" Padding="2,0,0,0" Margin="0,33,281,0" HorizontalAlignment="Right" Width="35" FontWeight="Bold" FontSize="14" FontStretch="Condensed" Foreground="#FF505050">
             <RadioButton.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
-                </TransformGroup>
+                <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
             </RadioButton.RenderTransform>
         </RadioButton>
-        <TextBlock TextWrapping="Wrap" FontFamily="Segoe UI" FontSize="11" Margin="0,12,165,0" Height="16" VerticalAlignment="Top" Foreground="#CC000000" Text="Equation format:" HorizontalAlignment="Right" Width="91"/>
-        <RadioButton Checked="EquationRadioButton_Checked" x:Name="Professional" Content="Pro" GroupName="EquationFormatting" IsChecked="True" FontFamily="Calibri" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" TabIndex="8" Margin="0,33,220,0" HorizontalAlignment="Right" Width="40" FontSize="14" FontWeight="Bold" RenderTransformOrigin="0,0">
+        <TextBlock TextWrapping="Wrap" FontFamily="Segoe UI" FontSize="11.5" Margin="0,12,165,0" Height="16" VerticalAlignment="Top" Text="Equation format:" HorizontalAlignment="Right" Width="91" Foreground="#DD000000"/>
+        <RadioButton Checked="EquationRadioButton_Checked" x:Name="Professional" Content="Pro" GroupName="EquationFormatting" IsChecked="True" FontFamily="Arial Nova Cond" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" TabIndex="8" Margin="0,33,220,0" HorizontalAlignment="Right" Width="40" FontSize="14" FontWeight="Bold" RenderTransformOrigin="0,0" FontStretch="Condensed" Foreground="#FF505050">
             <RadioButton.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
-                </TransformGroup>
+                <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
             </RadioButton.RenderTransform>
         </RadioButton>
-        <RadioButton Checked="EquationRadioButton_Checked" x:Name="Inline" Content="Inline" GroupName="EquationFormatting" FontFamily="Calibri" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" TabIndex="9" Margin="0,33,165,0" HorizontalAlignment="Right" Width="55" RenderTransformOrigin="0,0" FontSize="14" FontWeight="Bold">
+        <RadioButton Checked="EquationRadioButton_Checked" x:Name="Inline" Content="Inline" GroupName="EquationFormatting" FontFamily="Arial Nova Cond" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" TabIndex="9" Margin="0,33,165,0" HorizontalAlignment="Right" Width="55" RenderTransformOrigin="0,0" FontSize="14" FontWeight="Bold" FontStretch="Condensed" Foreground="#FF505050">
             <RadioButton.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
-                </TransformGroup>
+                <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
             </RadioButton.RenderTransform>
         </RadioButton>
-        <TextBlock Height="16" TextWrapping="Wrap" FontSize="11" VerticalAlignment="Top" Margin="374,13,0,0" Text="Numbers: " RenderTransformOrigin="0.291,0.394" Foreground="#CC000000" HorizontalAlignment="Left" Width="50" TextDecorations="{x:Null}"/>
-        <RadioButton Checked="ModeRadioButton_Checked" x:Name="Real" GroupName="Mode" Content="Real" TabIndex="1" IsChecked="True" Padding="2,0,0,0" Margin="374,33,0,7" FontFamily="Calibri" HorizontalAlignment="Left" Width="48" RenderTransformOrigin="0,0" FontSize="14" FontWeight="Bold">
+        <TextBlock Height="16" TextWrapping="Wrap" FontSize="11.5" VerticalAlignment="Top" Margin="374,13,0,0" Text="Numbers: " RenderTransformOrigin="0.291,0.394" HorizontalAlignment="Left" Width="50" TextDecorations="{x:Null}" Foreground="#DD000000"/>
+        <RadioButton Checked="ModeRadioButton_Checked" x:Name="Real" GroupName="Mode" Content="Real" TabIndex="1" IsChecked="True" Padding="2,0,0,0" Margin="374,33,0,7" FontFamily="Arial Nova Cond" HorizontalAlignment="Left" Width="48" RenderTransformOrigin="0,0" FontSize="14" FontWeight="Bold" FontStretch="Condensed" Foreground="#FF505050">
             <RadioButton.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
-                </TransformGroup>
+                <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
             </RadioButton.RenderTransform>
         </RadioButton>
-        <RadioButton Checked="ModeRadioButton_Checked" x:Name="Complex" GroupName="Mode" TabIndex="2" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" Margin="419,33,0,0" FontFamily="Calibri" HorizontalAlignment="Left" Width="74" Content="Complex" FontSize="14" FontWeight="Bold" RenderTransformOrigin="0,0" >
+        <RadioButton Checked="ModeRadioButton_Checked" x:Name="Complex" GroupName="Mode" TabIndex="2" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" Margin="419,33,0,0" FontFamily="Arial Nova Cond" HorizontalAlignment="Left" Width="74" Content="Complex" FontSize="14" FontWeight="Bold" RenderTransformOrigin="0,0" FontStretch="Condensed" Foreground="#FF505050" >
             <RadioButton.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
-                </TransformGroup>
+                <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
             </RadioButton.RenderTransform>
         </RadioButton>
         <StatusBar Grid.Row="1" Height="35" VerticalAlignment="Bottom" BorderThickness="0,1,0,0" Margin="0,0,0,0" 
@@ -1066,9 +1048,7 @@
                      TextChanged="DecimalsTextBox_TextChanged" />
             <StatusBarItem Width="26" Margin="0,-5,0,-5" RenderTransformOrigin="0,0.5">
                 <StatusBarItem.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform ScaleX="0.7" ScaleY="0.7"/>
-                    </TransformGroup>
+                    <ScaleTransform ScaleX="0.7" ScaleY="0.7"/>
                 </StatusBarItem.RenderTransform>
                 <ScrollBar x:Name="DecimalScrollBar" 
                            Height="34" 
@@ -1091,9 +1071,8 @@
                       Content="Substitute" 
                       ToolTip="Substitute variables in equations" 
                       Height="16" 
-                      Width="80"
+                      Width="76"
                       IsChecked="True" 
-                      FontFamily="Segoe UI" 
                       FontSize="12" 
                       VerticalAlignment="Center" 
                       HorizontalAlignment="Center" 
@@ -1102,7 +1081,7 @@
                       Click="SubstituteCheckBox_Clicked" />
             <TextBlock Text="Plot:" 
                        Height="18" 
-                       Width="29" 
+                       Width="27" 
                        FontFamily="Segoe UI" 
                        FontSize="12" 
                        VerticalAlignment="Center" 
@@ -1133,7 +1112,7 @@
                       VerticalAlignment="Top" 
                       HorizontalAlignment="Center" 
                       TabIndex="14" 
-                      SelectionChanged="LightDirectionComboBox_SelectionChanged">
+                      SelectionChanged="LightDirectionComboBox_SelectionChanged" FontFamily="Segoe UI Semibold">
                 <ComboBoxItem Content="North"/>
                 <ComboBoxItem Content="North-east"/>
                 <ComboBoxItem Content="East"/>
@@ -1155,7 +1134,7 @@
                       VerticalAlignment="Top" 
                       HorizontalAlignment="Right" 
                       TabIndex="15" 
-                      SelectionChanged="ColorScaleComboBox_SelectionChanged">
+                      SelectionChanged="ColorScaleComboBox_SelectionChanged" FontFamily="Segoe UI Semibold">
                 <ComboBoxItem Content="None" HorizontalAlignment="Left" Width="100" Margin="0,0,-2,0"/>
                 <ComboBoxItem Content="Gray" HorizontalAlignment="Left" Width="100" Margin="0,0,-2,0">
                     <ComboBoxItem.Background>
@@ -1233,14 +1212,14 @@
                       Width="70" 
                       VerticalAlignment="Top" 
                       HorizontalAlignment="Right" 
-                      TabIndex="17" >
+                      TabIndex="17" FontFamily="Segoe UI Semibold" >
                 <ComboBoxItem Width="70" Content="Chrome" HorizontalAlignment="Left" IsSelected="True"/>
                 <ComboBoxItem Width="70" Content="MSEdge" HorizontalAlignment="Left"/>
                 <ComboBoxItem Width="70" Content="Firefox" HorizontalAlignment="Left"/>
                 <ComboBoxItem Width="70" Content="Safari" HorizontalAlignment="Left"/>
                 <ComboBoxItem Width="70" Content="Opera" HorizontalAlignment="Left"/>
                 <ComboBoxItem Width="70" Content="IExplore" HorizontalAlignment="Left"/>
-            </ComboBox>            
+            </ComboBox>
             <CheckBox x:Name="CodeCheckBox" 
                       Content="Unwrapped code" 
                       Height="16" 
@@ -1620,6 +1599,7 @@
                         <ListBoxItem Content="GBq" Foreground="DarkCyan"/>
                         <ListBoxItem Content="GC" Foreground="DarkCyan"/>
                         <ListBoxItem Content="GeV" Foreground="DarkCyan"/>
+                        <ListBoxItem Content="gf" Foreground="DarkCyan"/>
                         <ListBoxItem Content="GF" Foreground="DarkCyan"/>
                         <ListBoxItem Content="GGy" Foreground="DarkCyan"/>
                         <ListBoxItem Content="GH" Foreground="DarkCyan"/>
@@ -1637,11 +1617,13 @@
                         <ListBoxItem Content="Gt" Foreground="DarkCyan"/>
                         <ListBoxItem Content="GV" Foreground="DarkCyan"/>
                         <ListBoxItem Content="GVA" Foreground="DarkCyan"/>
+                        <ListBoxItem Content="GVAR" Foreground="DarkCyan"/>
                         <ListBoxItem Content="GW" Foreground="DarkCyan"/>
                         <ListBoxItem Content="GWb" Foreground="DarkCyan"/>
                         <ListBoxItem Content="GWh" Foreground="DarkCyan"/>
                         <ListBoxItem Content="Gy" Foreground="DarkCyan"/>
                         <ListBoxItem Content="GΩ" Foreground="DarkCyan"/>
+                        <ListBoxItem Content="G℧" Foreground="DarkCyan"/>
                         <ListBoxItem Content="H" Foreground="DarkCyan"/>
                         <ListBoxItem Content="h" Foreground="DarkCyan"/>
                         <ListBoxItem Content="ha" Foreground="DarkCyan"/>
@@ -1703,11 +1685,12 @@
                         <ListBoxItem Content="kT" Foreground="DarkCyan"/>
                         <ListBoxItem Content="kV" Foreground="DarkCyan"/>
                         <ListBoxItem Content="kVA" Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kvar" Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kVAR" Foreground="DarkCyan"/>
                         <ListBoxItem Content="kW" Foreground="DarkCyan"/>
                         <ListBoxItem Content="kWb" Foreground="DarkCyan"/>
                         <ListBoxItem Content="kWh" Foreground="DarkCyan"/>
                         <ListBoxItem Content="kΩ" Foreground="DarkCyan"/>
+                        <ListBoxItem Content="k℧" Foreground="DarkCyan"/>
                         <ListBoxItem Content="L" Foreground="DarkCyan"/>
                         <ListBoxItem Content="lb" Foreground="DarkCyan"/>
                         <ListBoxItem Content="lb/bu" Foreground="DarkCyan"/>
@@ -1782,6 +1765,8 @@
                         <ListBoxItem Content="MV" Foreground="DarkCyan"/>
                         <ListBoxItem Content="mVA" Foreground="DarkCyan"/>
                         <ListBoxItem Content="MVA" Foreground="DarkCyan"/>
+                        <ListBoxItem Content="mVAR" Foreground="DarkCyan"/>
+                        <ListBoxItem Content="MVAR" Foreground="DarkCyan"/>
                         <ListBoxItem Content="mW" Foreground="DarkCyan"/>
                         <ListBoxItem Content="MW" Foreground="DarkCyan"/>
                         <ListBoxItem Content="mWb" Foreground="DarkCyan"/>
@@ -1792,6 +1777,8 @@
                         <ListBoxItem Content="m^3" Foreground="DarkCyan"/>
                         <ListBoxItem Content="MΩ" Foreground="DarkCyan"/>
                         <ListBoxItem Content="mΩ" Foreground="DarkCyan"/>
+                        <ListBoxItem Content="M℧" Foreground="DarkCyan"/>
+                        <ListBoxItem Content="m℧" Foreground="DarkCyan"/>
                         <ListBoxItem Content="N" Foreground="DarkCyan"/>
                         <ListBoxItem Content="N*cm" Foreground="DarkCyan"/>
                         <ListBoxItem Content="N*mm" Foreground="DarkCyan"/>
@@ -1822,10 +1809,12 @@
                         <ListBoxItem Content="nT" Foreground="DarkCyan"/>
                         <ListBoxItem Content="nV" Foreground="DarkCyan"/>
                         <ListBoxItem Content="nVA" Foreground="DarkCyan"/>
+                        <ListBoxItem Content="nVAR" Foreground="DarkCyan"/>
                         <ListBoxItem Content="nW" Foreground="DarkCyan"/>
                         <ListBoxItem Content="nWb" Foreground="DarkCyan"/>
                         <ListBoxItem Content="nWh" Foreground="DarkCyan"/>
                         <ListBoxItem Content="nΩ" Foreground="DarkCyan"/>
+                        <ListBoxItem Content="n℧" Foreground="DarkCyan"/>
                         <ListBoxItem Content="osf" Foreground="DarkCyan"/>
                         <ListBoxItem Content="osi" Foreground="DarkCyan"/>
                         <ListBoxItem Content="oz" Foreground="DarkCyan"/>
@@ -1867,10 +1856,12 @@
                         <ListBoxItem Content="pt_US" Foreground="DarkCyan"/>
                         <ListBoxItem Content="pV" Foreground="DarkCyan"/>
                         <ListBoxItem Content="pVA" Foreground="DarkCyan"/>
+                        <ListBoxItem Content="pVAR" Foreground="DarkCyan"/>
                         <ListBoxItem Content="pW" Foreground="DarkCyan"/>
                         <ListBoxItem Content="pWb" Foreground="DarkCyan"/>
                         <ListBoxItem Content="pWh" Foreground="DarkCyan"/>
                         <ListBoxItem Content="pΩ" Foreground="DarkCyan"/>
+                        <ListBoxItem Content="p℧" Foreground="DarkCyan"/>
                         <ListBoxItem Content="qr" Foreground="DarkCyan"/>
                         <ListBoxItem Content="qt_UK" Foreground="DarkCyan"/>
                         <ListBoxItem Content="qt_US" Foreground="DarkCyan"/>
@@ -1942,15 +1933,18 @@
                         <ListBoxItem Content="TT" Foreground="DarkCyan"/>
                         <ListBoxItem Content="TV" Foreground="DarkCyan"/>
                         <ListBoxItem Content="TVA" Foreground="DarkCyan"/>
+                        <ListBoxItem Content="TVAR" Foreground="DarkCyan"/>
                         <ListBoxItem Content="TW" Foreground="DarkCyan"/>
                         <ListBoxItem Content="TWb" Foreground="DarkCyan"/>
                         <ListBoxItem Content="TWh" Foreground="DarkCyan"/>
                         <ListBoxItem Content="TΩ" Foreground="DarkCyan"/>
+                        <ListBoxItem Content="T℧" Foreground="DarkCyan"/>
                         <ListBoxItem Content="u" Foreground="DarkCyan"/>
                         <ListBoxItem Content="V" Foreground="DarkCyan"/>
                         <ListBoxItem Content="V*m" Foreground="DarkCyan"/>
                         <ListBoxItem Content="V/m" Foreground="DarkCyan"/>
-                        <ListBoxItem Content="var" Foreground="DarkCyan"/>
+                        <ListBoxItem Content="VA" Foreground="DarkCyan"/>
+                        <ListBoxItem Content="VAR" Foreground="DarkCyan"/>
                         <ListBoxItem Content="W" Foreground="DarkCyan"/>
                         <ListBoxItem Content="Wb" Foreground="DarkCyan"/>
                         <ListBoxItem Content="Wh" Foreground="DarkCyan"/>
@@ -1981,10 +1975,12 @@
                         <ListBoxItem Content="μT" Foreground="DarkCyan"/>
                         <ListBoxItem Content="μV" Foreground="DarkCyan"/>
                         <ListBoxItem Content="μVA" Foreground="DarkCyan"/>
+                        <ListBoxItem Content="μVAR" Foreground="DarkCyan"/>
                         <ListBoxItem Content="μW" Foreground="DarkCyan"/>
                         <ListBoxItem Content="μWb" Foreground="DarkCyan"/>
                         <ListBoxItem Content="μWh" Foreground="DarkCyan"/>
                         <ListBoxItem Content="μΩ" Foreground="DarkCyan"/>
+                        <ListBoxItem Content="μ℧" Foreground="DarkCyan"/>
                         <ListBoxItem Content="Ω" Foreground="DarkCyan"/>
                         <ListBoxItem Content="Ω*m" Foreground="DarkCyan"/>
                     </ListBox>

@@ -3,6 +3,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
     <LangVersion>latest</LangVersion>
+    <AnalysisLevel>latest</AnalysisLevel>
     <UseWPF>true</UseWPF>
     <StartupObject>Calcpad.App</StartupObject>
     <ApplicationIcon>calcpad.ico</ApplicationIcon>
@@ -10,7 +11,7 @@
     <Authors>Nedelcho Ganchovski</Authors>
     <RootNamespace>Calcpad.Wpf</RootNamespace>
     <Platforms>AnyCPU</Platforms>
-		<Version>5.8.6</Version>
+		<Version>5.8.7</Version>
 		<Authors>Nedelcho Ganchovski</Authors>
 		<Company>Proektsoft EOOD</Company>
     <PackageId>Calcpad</PackageId>
@@ -18,7 +19,6 @@
     <AssemblyName>Calcpad</AssemblyName>
     <NoWin32Manifest>true</NoWin32Manifest>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <AnalysisLevel>latest</AnalysisLevel>
   </PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

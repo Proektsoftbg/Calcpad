@@ -435,5 +435,14 @@
 		<KeyWord name="μΩ" />
 		<KeyWord name="nΩ" />
 		<KeyWord name="pΩ" />
+		<KeyWord name="℧" />
+		<KeyWord name="k℧" />
+		<KeyWord name="M℧" />
+		<KeyWord name="G℧" />
+		<KeyWord name="T℧" />
+		<KeyWord name="m℧" />
+		<KeyWord name="μ℧" />
+		<KeyWord name="n℧" />
+		<KeyWord name="p℧" />
 	</AutoComplete>
 </NotepadPlus>

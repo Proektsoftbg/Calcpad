@@ -17,7 +17,7 @@ namespace Calcpad.Core
         internal Variable(in Complex number) : this(new Value(number)) { }
         internal Variable() { }
         internal void SetNumber(in Complex number) => Value = new Value(number, Value.Units);
-        internal void SetNumber(in double number) => Value = new Value(number, Value.Units);
+        internal void SetNumber(double number) => Value = new Value(number, Value.Units);
         internal void SetUnits(Unit units)
         {
             Value = new Value(Value.Re, Value.Im, units);
@@ -39,7 +39,7 @@ namespace Calcpad.Core
             _isIntialised = true;
         }
 
-        internal void SetValue(in double number, Unit units)
+        internal void SetValue(double number, Unit units)
         {
             Value = new Value(number, units);
             _isIntialised = true;
@@ -49,7 +49,7 @@ namespace Calcpad.Core
     internal class Parameter : Variable
     {
         internal string Name;
-        internal Parameter(string name)
+        internal Parameter(in string name)
         {
             Name = string.Intern(name);
             _isIntialised = true;

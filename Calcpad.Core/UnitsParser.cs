@@ -205,7 +205,7 @@ namespace Calcpad.Core
                         {
                             try
                             {
-                                tokens.Enqueue(new UnitToken(new Unit(literal)));
+                                tokens.Enqueue(new UnitToken(Unit.Get(literal)));
                             }
                             catch
                             {
