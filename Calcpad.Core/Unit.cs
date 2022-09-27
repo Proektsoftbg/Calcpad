@@ -147,7 +147,7 @@ namespace Calcpad.Core
         public override bool Equals(object obj)
         {
             if (obj is Unit u)
-                return Equals(u);
+                return ReferenceEquals(this, u) || Equals(u);
 
             return false;
         }
@@ -156,6 +156,7 @@ namespace Calcpad.Core
         {
             if (other is null)
                 return false;
+
             int n = _dims.Length;
             if (n != other._dims.Length)
                 return false;
@@ -178,7 +179,8 @@ namespace Calcpad.Core
                 _dims[i].Factor = 1d;
         }
 
-        internal Unit(string text) : this(Units[text]) { }
+        internal static Unit Get(string text) => Units[text];
+
         internal Unit(
             string text,
             float mass,
@@ -913,9 +915,7 @@ namespace Calcpad.Core
         }
 
         internal static bool IsConsistent(Unit u1, Unit u2) =>
-            u1 is null ?
-            u2 is null :
-            u1.IsConsistent(u2);
+            ReferenceEquals(u1, u2) || u1.IsConsistent(u2);
 
 
         private bool IsConsistent(Unit other)
@@ -936,6 +936,9 @@ namespace Calcpad.Core
 
         internal bool IsMultiple(Unit other)
         {
+            if (ReferenceEquals(this, other))
+                return true;
+
             var n = _dims.Length;
             if (n != other._dims.Length)
                 return false;
@@ -1247,9 +1250,11 @@ namespace Calcpad.Core
                 units.Text.IndexOfAny(CompositeUnitChars) >= 0d
             );
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static double Convert(Unit ua, Unit ub, char op)
         {
+            if (ReferenceEquals(ua, ub))
+                return 1.0;
+
             if (!Unit.IsConsistent(ua, ub))
 #if BG
                 throw new MathParser.MathParserException($"Несъвместими мерни единици: \"{Unit.GetText(ua)} {op} {Unit.GetText(ub)}\".");

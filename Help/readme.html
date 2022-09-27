@@ -59,8 +59,8 @@ code .ovr {padding-top: 2pt; font-family="Consolas" font-size: 10pt;}
 .dvl {display: block; border-bottom: solid 1px black;}
 .dvc.down {position: relative; top:0.5em;}
 .dvc.up {position: relative; bottom:0.6em;}
-.cond{color: magenta;}
-.macro  {color: darkMagenta;}
+.cond {color: magenta;}
+.macro {color: darkMagenta;}
 .err {color: red;}
 .toc {color: #888888; text-decoration:none;}
 .toc:hover {text-decoration: underline; color: black;}
@@ -344,13 +344,16 @@ input, select {
 <tr><td>omega		</td><td>ω</td><td>w</td></td><td>Ω</td><td>W</td></tr>
 <tr><td>phi-diam	</td><td>ø</td><td>j</td></td><td>Ø</td><td>J</td></tr>
 </table>
+
 <h3 id="TOC_606">Using Notepad++</h3>
 <p><b>Notepad++</b> is a popular text/code editor. It is free and open source and can be downloaded from the official website <a href="https://notepad-plus-plus.org" target="_blank">https://notepad-plus-plus.org</a>. It supports many programming or scripting languages. Its text editing capabilities are much more powerful than Calcpad. It is also very useful for writing Html code. <b>Calcpad</b> syntax can be also used with Notepad++. It is predefined as an XML file that can be inserted in Notepad++. You can do this by selecting the "<b>Language</b>" menu, then click "<b>Define your language</b>" and then, "<b>Import…</b>". Find the <b>Calcpad</b> folder inside your <b>Program Files</b> directory or wherever Calcpad is installed and select the file named <a href="https://calcpad.eu/download/Notepadpp.zip" target="_blank">Calcpad-syntax-for-Notepad++.xml</a>.</p>
+
 <h2 id="TOC_607">Modules (inclusions)</h2>
 <p>Calcpad allows you to include contents from external files in your worksheet. If you have pieces of code that is repeated in different worksheets, you can organize it in modules and reuse it multiple times. Also, if you have a longer worksheet, you can split it into modules that will be easier to maintain. Then, you can include them into the main file by using the following statement:</p>
 <p><span class="cond">#include</span> <em class="macro">filename</em></p>
 <p>The "<em class="macro">filename</em>" must contain the full path to a local file. If the file is the same folder as the current one, you can specify only the filename.</p>
-<p>By default, Calcpad will include the whole contents of the external module. However, you can prevent including some parts, by making them local. To start a "local" section in a module, add a new line, containing the <span class="cond">#local</span> keyword. To end a "local" section (or start a "global" one), add a new line with the <span class="cond">#global</span> keyword. Calcpad supports multiple levels of inclusions. That means that the included file can reference other files and so on.</p>
+<p>By default, Calcpad will include the whole contents of the external module. However, you can prevent some parts from inclusion, by making them local. To start a "local" section in a module, add a new line, containing the <span class="cond">#local</span> keyword. To end a "local" section (or start a "global" one), add a new line with the <span class="cond">#global</span> keyword. Calcpad supports multiple levels of inclusions. That means that the included file, in its turn, can reference other files and so on.</p>
+
 <h2 id="TOC_608">Macros and string variables</h2>
 <p>Macros and string variables are convenient ways to organize your code inside a single file and prevent repetitions. They can be inline or multiline. Unlike string variables, macros can have parameters. You can define them, by using the following statements:</p>
 <p>Inline string variable:<br />
@@ -375,9 +378,10 @@ input, select {
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>...</em><br />
 	&nbsp;&nbsp;&nbsp;&nbsp;<span class="cond">#end def</span>
 </p>
-<p>Names of macros, string variables and macro parameters can contain small and capital latin letters, underscore "_" and must finish with "$". The contents can be virtually any string. It is not necessary to be a valid Calcpad expression and it is not processed by the parser. However, other macro/string variable definitions are not allowed inside, but you can use any of them that are previously defined outside. Also, input fields "?" are not supported in macros yet. You can use <span class="cond">#include</span> inside macros, but only if the included file does not contain other macros.</p>
-<p>After a string variable is defined, you can use it anywhere in the code, by writing its name (with the ending "$"). The same is for macros, but you also need to specify values for parameters. Macros and string variables are preprocessed and rewritten before the actual parsing is performed. As a result, intermediate (unwrapped) code is generated. You can review this code by checking the "<b>Unwrapped code</b>" checkbox bellow the "<b>Output</b>" window.</p> 
-<p>If any errors occur during macro preprocessing, the unwrapped code is displayed, together  with the errors. Line numbers in error descriptions refer to your initial code. If preprocessing is completed successfully, the unwrapped code is parsed and calculated as normal. If errors are detected at this stage, they are displayed in the output. Line numbers in error descriptions refer to the unwrapped code. You can go to the respective line, by clicking on the link.</p>
+<p>Names of string variables, macros, and their parameters can contain small and capital latin letters and underscore "_". They must b with the "$" symbol. The contents can be virtually any string. It is not necessary to be a valid Calcpad expression, since it is not processed by the parser at this stage. However, other macro/string variable definitions are not allowed inside. You can insert only references to previously defined ones. Also, input fields "?" are not supported in macros yet. This feature will be developed in the next versions. You can use <span class="cond">#include</span> inside macros, but only if the included file does not contain other macros.</p>
+<p>After a string variable is defined, you can use it anywhere in the code, by writing its name (with the ending "$"). The same is for macros, but you also need to specify values for parameters. Macros and string variables are preprocessed and rewritten before the actual parsing is performed. As a result, intermediate (unwrapped) code is generated. You can review it by checking the "<b>Unwrapped code</b>" checkbox bellow the "<b>Output</b>" window.</p> 
+<p>If any errors occur during macro preprocessing, the unwrapped code is displayed, together with the errors. Line numbers in error descriptions refer to your initial code. If preprocessing is completed successfully, the unwrapped code is parsed and calculated as normal. If errors are detected at this stage, they are displayed in the output. Line numbers in error descriptions refer to the unwrapped code. You can go to the respective line, by clicking the link on the line number.</p>
+
 <h2 id="TOC_700">Expressions</h2>
 <p>The main purpose of Calcpad is to perform calculations. That is why, everything inside the input window is assumed to be mathematical expressions, unless it is enclosed in quotes. Then it is treated as comments. By default, each expression has to be in a separate line, e.g.:</p>
 <ul style="list-style: none;">
@@ -621,10 +625,10 @@ Result: 2D waves<br />
 <h4>Root finding</h4>
 <p style="margin-left: 2em;"><code><span class="cond">$Root</span>{<b>f</b>(<var>x</var>) = const &#64; <var>x</var> = <var>a</var> : <var>b</var>}</code></p>
 <p style="margin-left: 2em;"><code><span class="cond">$Root</span>{<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var> : <var>b</var>}</code></p>
-<p>It finds a single root for an equation of type "<b>f</b>(<var>x</var>) = const" within the interval [<var>a</var>, <var>b</var>]. If "const" is zero, you can omit "= const". The program uses hybrid bracketing method, which is a combination of Bisecton and Anderson-Bjork's method. It subsequently narrows the interval that encloses the root, unti it gets smaller than the specified precision.</p>
+<p>It finds a single root for an equation of type "<b>f</b>(<var>x</var>) = const" within the interval [<var>a</var>, <var>b</var>]. If "const" is zero, you can omit "= const". The program uses hybrid bracketing method, which is a combination of Bisecton and Anderson-Bjork's method. It subsequently narrows the interval around the root, until it gets smaller than the specified precision. It is required that the function "<b>f</b>(<var>x</var>) - const" has opposite signs at the ends of the interval. According to the Boltzano's theorem, if the function is continuous within the interval, at least one root exist. The bracketing algorithm will find an approximation after a finite number of iterations.</p>
 <p style="text-align:center;"><img style="height:130pt;" src="Images/Root.png" alt="Root.png"></p>
+<p>With this method, you can find only roots where the function crosses the line at "<var>y</var> = const". When "<b>f</b>(<var>x</var>) - const" is entirely positive or negative and only "touches" the line from one side, you cannot find the root by any bracketing method.</p>
 <p>If no roots exist inside the initial interval, the program returns an error. If there are several roots, it will find only one of them. In such case, it is better to plot the function first. Then, you can see the approximate location of roots and divide the interval into several parts - one for each root. Finally, you can call the function several times to find all the roots. In some cases, it is possible to develop an automated procedure for interval splitting.</p>
-<p>You can find only roots where the function crosses the line, defined by "<var>y</var> = const" (or "<b>f</b>(<var>x</var>) - const" changes sign). When it is entirely positive or negative and only "touches" the line from one side, you cannot find the root with any bracketing method.</p>
 
 <h4>Minimum</h4>
 <p style="margin-left: 2em;"><code><span class="cond">$Inf</span>{<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var> : <var>b</var>}</code></p>
@@ -637,20 +641,18 @@ Result: 2D waves<br />
 <h4>Numerical integration</h4>
 <p style="margin-left: 2em;"><code><span class="cond">$Area</span>{<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var> : <var>b</var>}</code></p>
 <p>It calculates the value of the definite integral of a function <b>f</b>(<var>x</var>) within the specified interval [<var>a</var>, <var>b</var>]. Adaptive Gauss-Lobbato quadrature with Kronrod extension is applied for that purpose (<a target="_blank" href = "https://www.researchgate.net/publication/226706221_Adaptive_Quadrature-Revisited">Gander & Gautschi</a>, 2000).</p>
-
 <p style="margin-left: 2em;"><code><span class="cond">$Integral</span>{<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var> : <var>b</var>}</code></p>
-<p>This command is similar to the above, but it uses the Tanh-Sinh quadrature (<a target="_blank" href="https://ems.press/content/serial-article-files/2719">Takashi & Mori</a>, 1974) which has been additionally improved by <a target="_blank" href="https://www.ingentaconnect.com/content/tandf/jew/2016/00000030/00000003/art00001;jsessionid=55mdimh9e060a.x-ic-live-03">Michashki & Mosig</a> (2016) and <a  target="_blank" href="https://www.genivia.com/files/qthsh.pdf">Van Engelen</a> (2022). Further improvements has been made in Calcpad, by precomputing and caching the abscissas and weights. This algorithm significantly outperforms <code class="cond">$Area</code> for <b>continuous</b> and <b>smooth</b> functions. However, if the function does not satisfy these requirements, you <b>should not</b> use the <code class="cond">$Integral</code> method. Then, you have two options:</p>
+<p>This command is similar to the above, but it uses the Tanh-Sinh quadrature (<a target="_blank" href="https://ems.press/content/serial-article-files/2719">Takahashi & Mori</a>, 1974) which has been additionally improved by <a target="_blank" href="https://www.ingentaconnect.com/content/tandf/jew/2016/00000030/00000003/art00001;jsessionid=55mdimh9e060a.x-ic-live-03">Michashki & Mosig</a> (2016) and <a  target="_blank" href="https://www.genivia.com/files/qthsh.pdf">Van Engelen</a> (2022). Further improvements has been made in Calcpad, by precomputing and caching the abscissas and weights. This algorithm significantly outperforms <code class="cond">$Area</code> for <b>continuous</b> and <b>smooth</b> functions. However, if the function does not satisfy these requirements, you <b>should not</b> use the <code class="cond">$Integral</code> method. Then, you have two options:</p>
 <ol>
-<li>Divide the interval [<var>a</var>, <var>b</var>] into smaller parts, by using the points of discontinuities and apply the method separately for each part;</li>
-<li>If you are not sure where the discontinuities are, use the <code class="cond">$Area</code> method.</li>
+<li>Divide the interval [<var>a</var>, <var>b</var>] into smaller parts, by using the points of discontinuities, apply the method  for each part separately, and sum the results;</li>
+<li>If you are not sure where the discontinuities are, use the <code class="cond">$Area</code> method instead.</li>
 </ol>
-<p>Additionally, the <code class="cond">$Integral</code> method is formatted with the integral symbol "∫" in the output.</p>
+
 <h4>Numerical differentiation</h4>
 <p style="margin-left: 2em;"><code><span class="cond">$Slope</span>{<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var>}</code></p>
 <p>It finds the value of the first derivative of a function <b>f</b>(<var>x</var>) at <var>x</var> = <var>a</var>. The derivative represents the slope of the tangent to the function at the respective point. The Richardson extrapolation method is used on a two point stencil.</p>
 
-<h4>General recommendations</h4>
-<p>For all of the above commands, <b>f</b>(<var>x</var>) must be continuous and smooth, except for root finding. The latest requires the function to be continuous only and to have opposite signs at the ends of the interval. According to the Boltzano's theorem, at least one root must exist in this case.</p>
+<h4>General considerations</h4>
 <p>Unlike the plotting command, you can include numerical methods in expressions. They return values which can be used for further calculations. For example, you can store the result into a variable:</p>
 <p style="margin-left: 2em;"><code><var>y</var><sub>min</sub> = <span class="cond">$Inf</span>{<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var> : <var>b</var>}</code></p>
 <p>Similarly to standard functions, "<var>x</var>" is local for all numerical methods and its global value is not modified after the method is called.</p> 
@@ -737,10 +739,10 @@ You can use it further to calculate binomial coefficients by the well-known form
 <p>Calcpad includes a large collection of predefined units as follows:</p>
 <p>Dimensionless:</p>
 <ul><li>Angles: 
-<i title="degrees">deg</i>,
 <i title="degrees">°</i>, 
 <i title="minutes">′</i>, 
 <i title="seconds">″</i>, 
+<i title="degrees">deg</i>,
 <i title="radians">rad</i>, 
 <i title="grades" >grad</i>, 
 <i title="revolutions">rev</i>;
@@ -1488,7 +1490,7 @@ You can use it further to calculate binomial coefficients by the well-known form
 <h3 id="TOC_1004">Save As…</h3>
 <p>If you need to save the current file with a different name, select the "<b>File/Save As…</b>" menu command. A file selection dialog will be displayed. Select file path and name and click "<b>Save</b>"</p>
 <hr />
-<p>Last edited on 15.09.2022 by eng. Nedelcho Ganchovski.</p>
+<p>Last edited on 25.09.2022 by eng. Nedelcho Ganchovski.</p>
 </div>
 <script src="jquery-3.4.1.min.js"></script>
 <script>

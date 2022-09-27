@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v6.0": {
-      "Calcpad.OpenXml/5.8.6": {
+      "Calcpad.OpenXml/5.8.7": {
         "dependencies": {
           "DocumentFormat.OpenXml": "2.14.0",
           "HtmlAgilityPack": "1.11.38",
@@ -87,7 +87,7 @@
     }
   },
   "libraries": {
-    "Calcpad.OpenXml/5.8.6": {
+    "Calcpad.OpenXml/5.8.7": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

@@ -28,9 +28,9 @@ namespace Calcpad.Core
         };
         protected static Unit[] _angleUnits =
         {
-            new("deg"),
-            new("rad"),
-            new("grad")
+            Unit.Get("deg"),
+            Unit.Get("rad"),
+            Unit.Get("grad")
         };
 
         internal abstract int Degrees { set; }

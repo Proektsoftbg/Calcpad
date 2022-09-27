@@ -291,7 +291,7 @@ namespace Calcpad.Core
                 }
                 try
                 {
-                    var u = new Unit(t.Content);
+                    var u = Unit.Get(t.Content);
                     t.Type = TokenTypes.Unit;
                     v.SetValue(u);
                     return v.Value;

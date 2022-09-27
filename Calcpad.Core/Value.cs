@@ -24,6 +24,7 @@ namespace Calcpad.Core
         internal Value(double number)
         {
             Re = number;
+            Im = 0.0;
             Units = null;
             IsUnit = false;
         }
@@ -31,6 +32,7 @@ namespace Calcpad.Core
         internal Value(double number, Unit units)
         {
             Re = number;
+            Im = 0.0;
             Units = units;
             IsUnit = false;
         }
@@ -45,6 +47,8 @@ namespace Calcpad.Core
 
         internal Value(Unit units)
         {
+            Re = 1.0;
+            Im = 0.0;
             Units = units;
             IsUnit = true;
         }
@@ -200,7 +204,7 @@ namespace Calcpad.Core
 
             return Re.Equals(other.Re) &&
                 Im.Equals(other.Im) &&
-                Units.Equals(other.Units);
+                (ReferenceEquals(Units, other.Units) || Units.Equals(other.Units));
         }
 
         internal bool IsReal => Complex.Type(Re, Im) == Complex.Types.Real;

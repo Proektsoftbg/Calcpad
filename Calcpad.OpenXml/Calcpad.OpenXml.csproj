@@ -2,9 +2,10 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <LangVersion>latest</LangVersion>
+    <AnalysisLevel>latest</AnalysisLevel>
     <RootNamespace>Calcpad.OpenXml</RootNamespace>
     <OutputType>Library</OutputType>
-    <Version>5.8.6</Version>
+    <Version>5.8.7</Version>
     <Authors>Nedelcho Ganchovski</Authors>
     <Company>Proektsoft EOOD</Company>
   </PropertyGroup>
