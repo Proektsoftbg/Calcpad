@@ -25,7 +25,7 @@
             <Setter Property="Height" Value="26"/>
             <Setter Property="FontWeight" Value="Normal"/>
             <Setter Property="FontSize" Value="16"/>
-            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontFamily" Value="Microsoft Sans Serif"/>
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
@@ -944,18 +944,18 @@
             <Image Source="Resources/help.png" Width="24" Height="24" VerticalAlignment="Center"
                 HorizontalAlignment="Center"/>
         </Button>
-        <Canvas Margin="0,26,0,2" HorizontalAlignment="Center" Width="175">
+        <Canvas Margin="0,26,0,2" HorizontalAlignment="Center" Width="190">
             <Button Click="WebFormButton_Click" x:Name="WebFormButton" Tag="F" Height="28" VerticalAlignment="Center"
-                Focusable="false" ToolTip="Compile to input form (F4)" IsTabStop="false" Background="{x:Null}" HorizontalAlignment="Left" Width="28" BorderBrush="{x:Null}" Canvas.Left="42">
+                Focusable="false" ToolTip="Compile to input form (F4)" IsTabStop="false" Background="{x:Null}" HorizontalAlignment="Left" Width="28" BorderBrush="{x:Null}" Canvas.Left="49">
                 <Image Source="Resources/form.png" Width="24" Height="24" VerticalAlignment="Center"
                     HorizontalAlignment="Center"/>
             </Button>
             <Button Click="CalcButton_Click" x:Name="CalcButton" Tag="F" Height="28" VerticalAlignment="Center"
-                Focusable="false" ToolTip="Run calculations and display output (F5)" IsTabStop="false" Background="{x:Null}" HorizontalAlignment="Left" Width="28" Canvas.Left="74" BorderBrush="{x:Null}">
+                Focusable="false" ToolTip="Run calculations and display output (F5)" IsTabStop="false" Background="{x:Null}" HorizontalAlignment="Left" Width="28" Canvas.Left="81" BorderBrush="{x:Null}">
                 <Image Source="Resources/play.png" Width="24" Height="24" VerticalAlignment="Center"
                     HorizontalAlignment="Center"/>
             </Button>
-            <CheckBox x:Name="AutoRunCheckBox" Content=" AutoRun" IsChecked="True" ToolTip="Refresh results after each edit" TabIndex="3" FontFamily="Arial Nova Cond" Padding="2,0,0,0" Width="65" HorizontalAlignment="Left" Height="16" Canvas.Left="108" Canvas.Top="6" VerticalAlignment="Center" Checked="AutoRunCheckBox_Checked" Unchecked="AutoRunCheckBox_Unchecked" FontStretch="Condensed" FontWeight="Bold" Foreground="#FF505050" FontSize="12.5"/>
+            <CheckBox x:Name="AutoRunCheckBox" Content=" AutoRun" IsChecked="True" ToolTip="Refresh results after each edit" TabIndex="3" FontFamily="Microsoft Sans Serif" Padding="2,0,0,0" Width="75" HorizontalAlignment="Left" Height="16" Canvas.Left="115" Canvas.Top="6" VerticalAlignment="Center" Checked="AutoRunCheckBox_Checked" Unchecked="AutoRunCheckBox_Unchecked" FontSize="12.5"/>
         </Canvas>
         <Separator HorizontalAlignment="Left" Height="2" Margin="96,39,0,0" VerticalAlignment="Top" Width="28" IsTabStop="False" ScrollViewer.VerticalScrollBarVisibility="Disabled" RenderTransformOrigin="0.5,0.5">
             <Separator.RenderTransform>
@@ -967,51 +967,51 @@
                 <RotateTransform Angle="90"/>
             </Separator.RenderTransform>
         </Separator>
-        <TextBlock TextWrapping="Wrap" FontSize="11.5" Margin="0,12,420,0" TextAlignment="Left" Height="16" VerticalAlignment="Top" Text="Angles:" HorizontalAlignment="Right" Width="42" Foreground="#DD000000"/>
-        <RadioButton Checked="AngleRadioButton_Checked" x:Name="Deg" Content="D" GroupName="Angle" TabIndex="3" IsChecked="True" FontFamily="Arial Nova Cond" Padding="2,0,0,0" Margin="0,33,432,0" Height="16" VerticalAlignment="Top" HorizontalAlignment="Right" Width="30" FontWeight="Bold" FontSize="14" RenderTransformOrigin="0,0" ToolTip="DEG" FontStretch="Condensed" Foreground="#FF505050">
+        <TextBlock TextWrapping="Wrap" FontSize="11.5" Margin="0,12,426,0" TextAlignment="Left" Height="16" VerticalAlignment="Top" Text="Angles:" HorizontalAlignment="Right" Width="42" Foreground="#CF000000"/>
+        <RadioButton Checked="AngleRadioButton_Checked" x:Name="Deg" Content="D" GroupName="Angle" TabIndex="3" IsChecked="True" FontFamily="Microsoft Sans Serif" Padding="2,0,0,0" Margin="0,33,440,0" Height="16" VerticalAlignment="Top" HorizontalAlignment="Right" Width="30" FontSize="14" RenderTransformOrigin="0,0" ToolTip="DEG" FontWeight="Bold">
             <RadioButton.RenderTransform>
                 <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
             </RadioButton.RenderTransform>
         </RadioButton>
-        <RadioButton Checked="AngleRadioButton_Checked" x:Name="Rad" Content="R" GroupName="Angle" TabIndex="4" FontFamily="Arial Nova Cond" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" Margin="0,33,404,0" HorizontalAlignment="Right" Width="30" FontWeight="Bold" FontSize="14" RenderTransformOrigin="0,0" ToolTip="RAD" FontStretch="Condensed" Foreground="#FF505050">
+        <RadioButton Checked="AngleRadioButton_Checked" x:Name="Rad" Content="R" GroupName="Angle" TabIndex="4" FontFamily="Microsoft Sans Serif" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" Margin="0,33,410,0" HorizontalAlignment="Right" Width="30" FontSize="14" RenderTransformOrigin="0,0" ToolTip="RAD" FontWeight="Bold">
             <RadioButton.RenderTransform>
                 <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
             </RadioButton.RenderTransform>
         </RadioButton>
-        <RadioButton Checked="AngleRadioButton_Checked" x:Name="Gra" Content="G" GroupName="Angle" TabIndex="5" FontFamily="Arial Nova Cond" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" Margin="0,33,376,0" HorizontalAlignment="Right" Width="30" FontWeight="Bold" FontSize="14" RenderTransformOrigin="0,0" ToolTip="GRA" FontStretch="Condensed" Foreground="#FF505050">
+        <RadioButton Checked="AngleRadioButton_Checked" x:Name="Gra" Content="G" GroupName="Angle" TabIndex="5" FontFamily="Microsoft Sans Serif" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" Margin="0,33,380,0" HorizontalAlignment="Right" Width="30" FontSize="14" RenderTransformOrigin="0,0" ToolTip="GRA" FontWeight="Bold">
             <RadioButton.RenderTransform>
                 <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
             </RadioButton.RenderTransform>
         </RadioButton>
-        <TextBlock TextWrapping="Wrap" FontSize="11.5" Margin="0,12,273,0" Height="16" VerticalAlignment="Top" Text="Non-metric units:" TextAlignment="Left" HorizontalAlignment="Right" Width="90" Foreground="#DD000000"/>
-        <RadioButton Checked="UnitsRadioButton_Checked" x:Name="UK" Content="UK" GroupName="Units" TabIndex="6" IsChecked="True" RenderTransformOrigin="0,0" FontFamily="Arial Nova Cond" Padding="2,0,0,0" Margin="0,33,317,0" FontWeight="Bold" HorizontalAlignment="Right" Width="35" Height="16" VerticalAlignment="Top" FontSize="14" FontStretch="Condensed" Foreground="#FF505050">
+        <TextBlock TextWrapping="Wrap" FontSize="11.5" Margin="0,12,273,0" Height="16" VerticalAlignment="Top" Text="Non-metric units:" TextAlignment="Left" HorizontalAlignment="Right" Width="90" Foreground="#CF000000"/>
+        <RadioButton Checked="UnitsRadioButton_Checked" x:Name="UK" Content="UK" GroupName="Units" TabIndex="6" IsChecked="True" RenderTransformOrigin="0,0" FontFamily="Microsoft Sans Serif" Padding="2,0,0,0" Margin="0,33,317,0" HorizontalAlignment="Right" Width="40" Height="16" VerticalAlignment="Top" FontSize="14" FontWeight="Bold">
             <RadioButton.RenderTransform>
                 <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
             </RadioButton.RenderTransform>
         </RadioButton>
-        <RadioButton Checked="UnitsRadioButton_Checked" x:Name="US" Content="US" GroupName="Units" Height="16" TabIndex="6" RenderTransformOrigin="0,0" FontFamily="Arial Nova Cond" VerticalAlignment="Top" Padding="2,0,0,0" Margin="0,33,281,0" HorizontalAlignment="Right" Width="35" FontWeight="Bold" FontSize="14" FontStretch="Condensed" Foreground="#FF505050">
+        <RadioButton Checked="UnitsRadioButton_Checked" x:Name="US" Content="US" GroupName="Units" Height="16" TabIndex="6" RenderTransformOrigin="0,0" FontFamily="Microsoft Sans Serif" VerticalAlignment="Top" Padding="2,0,0,0" Margin="0,33,277,0" HorizontalAlignment="Right" Width="40" FontSize="14" FontWeight="Bold">
             <RadioButton.RenderTransform>
                 <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
             </RadioButton.RenderTransform>
         </RadioButton>
-        <TextBlock TextWrapping="Wrap" FontFamily="Segoe UI" FontSize="11.5" Margin="0,12,165,0" Height="16" VerticalAlignment="Top" Text="Equation format:" HorizontalAlignment="Right" Width="91" Foreground="#DD000000"/>
-        <RadioButton Checked="EquationRadioButton_Checked" x:Name="Professional" Content="Pro" GroupName="EquationFormatting" IsChecked="True" FontFamily="Arial Nova Cond" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" TabIndex="8" Margin="0,33,220,0" HorizontalAlignment="Right" Width="40" FontSize="14" FontWeight="Bold" RenderTransformOrigin="0,0" FontStretch="Condensed" Foreground="#FF505050">
+        <TextBlock TextWrapping="Wrap" FontFamily="Segoe UI" FontSize="11.5" Margin="0,12,165,0" Height="16" VerticalAlignment="Top" Text="Equation format:" HorizontalAlignment="Right" Width="91" Foreground="#CF000000"/>
+        <RadioButton Checked="EquationRadioButton_Checked" x:Name="Professional" Content="Pro" GroupName="EquationFormatting" IsChecked="True" FontFamily="Microsoft Sans Serif" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" TabIndex="8" Margin="0,33,220,0" HorizontalAlignment="Right" Width="40" FontSize="14" RenderTransformOrigin="0,0">
             <RadioButton.RenderTransform>
                 <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
             </RadioButton.RenderTransform>
         </RadioButton>
-        <RadioButton Checked="EquationRadioButton_Checked" x:Name="Inline" Content="Inline" GroupName="EquationFormatting" FontFamily="Arial Nova Cond" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" TabIndex="9" Margin="0,33,165,0" HorizontalAlignment="Right" Width="55" RenderTransformOrigin="0,0" FontSize="14" FontWeight="Bold" FontStretch="Condensed" Foreground="#FF505050">
+        <RadioButton Checked="EquationRadioButton_Checked" x:Name="Inline" Content="Inline" GroupName="EquationFormatting" FontFamily="Microsoft Sans Serif" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" TabIndex="9" Margin="0,33,165,0" HorizontalAlignment="Right" Width="55" RenderTransformOrigin="0,0" FontSize="14">
             <RadioButton.RenderTransform>
                 <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
             </RadioButton.RenderTransform>
         </RadioButton>
-        <TextBlock Height="16" TextWrapping="Wrap" FontSize="11.5" VerticalAlignment="Top" Margin="374,13,0,0" Text="Numbers: " RenderTransformOrigin="0.291,0.394" HorizontalAlignment="Left" Width="50" TextDecorations="{x:Null}" Foreground="#DD000000"/>
-        <RadioButton Checked="ModeRadioButton_Checked" x:Name="Real" GroupName="Mode" Content="Real" TabIndex="1" IsChecked="True" Padding="2,0,0,0" Margin="374,33,0,7" FontFamily="Arial Nova Cond" HorizontalAlignment="Left" Width="48" RenderTransformOrigin="0,0" FontSize="14" FontWeight="Bold" FontStretch="Condensed" Foreground="#FF505050">
+        <TextBlock Height="16" TextWrapping="Wrap" FontSize="11.5" VerticalAlignment="Top" Margin="374,13,0,0" Text="Numbers: " RenderTransformOrigin="0.291,0.394" HorizontalAlignment="Left" Width="50" TextDecorations="{x:Null}" Foreground="#CF000000"/>
+        <RadioButton Checked="ModeRadioButton_Checked" x:Name="Real" GroupName="Mode" Content="Real" TabIndex="1" IsChecked="True" Padding="2,0,0,0" Margin="374,33,0,7" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Left" Width="48" RenderTransformOrigin="0,0" FontSize="14">
             <RadioButton.RenderTransform>
                 <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
             </RadioButton.RenderTransform>
         </RadioButton>
-        <RadioButton Checked="ModeRadioButton_Checked" x:Name="Complex" GroupName="Mode" TabIndex="2" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" Margin="419,33,0,0" FontFamily="Arial Nova Cond" HorizontalAlignment="Left" Width="74" Content="Complex" FontSize="14" FontWeight="Bold" RenderTransformOrigin="0,0" FontStretch="Condensed" Foreground="#FF505050" >
+        <RadioButton Checked="ModeRadioButton_Checked" x:Name="Complex" GroupName="Mode" TabIndex="2" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" Margin="424,33,0,0" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Left" Width="74" Content="Complex" FontSize="14" RenderTransformOrigin="0,0" >
             <RadioButton.RenderTransform>
                 <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
             </RadioButton.RenderTransform>
@@ -1209,7 +1209,7 @@
             <ComboBox x:Name="ExternalBrowserComboBox" 
                       ToolTip="Browser to open links" 
                       Height="22"
-                      Width="70" 
+                      Width="75" 
                       VerticalAlignment="Top" 
                       HorizontalAlignment="Right" 
                       TabIndex="17" FontFamily="Segoe UI Semibold" >
@@ -1229,7 +1229,7 @@
                       HorizontalAlignment="Left" 
                       TabIndex="17" 
                       Margin="5,0,0,0" 
-                      FontFamily="Segoe UI Semibold" 
+                      FontFamily="Segoe UI" 
                       Click="CodeCheckBox_Clicked" 
                       Visibility="Hidden"/>
             <Image x:Name="Logo" 
@@ -1309,9 +1309,9 @@
                         <Button Click="Button_Click" Content="9" Tag="9" Margin="67,31,0,0" Style="{StaticResource RoundButton}" FontFamily="Segoe UI Semibold"/>
                         <Button Click="Button_Click" Content="0" Tag="0" Margin="5,123,0,0" Style="{StaticResource RoundButton}" FontFamily="Segoe UI Semibold"/>
                         <Button Click="Button_Click" Content="." Tag="." Margin="36,123,0,0" Style="{StaticResource RoundButton}"
-                            ToolTip="Decimal point" FontFamily="Segoe UI Semibold"/>
+                            ToolTip="Decimal point" FontFamily="Microsoft Sans Serif"/>
                         <Button Click="Button_Click" Content="=" Tag=" = " Margin="67,123,0,0" Style="{StaticResource RoundButton}"
-                            ToolTip="Assignment" FontFamily="Segoe UI Semibold"/>
+                            ToolTip="Assignment" FontFamily="Microsoft Sans Serif"/>
                         <Button Click="Button_Click" Content="/" Tag="/" Margin="104,31,0,0" Style="{StaticResource RoundButton}"   ToolTip="Divide"/>
                         <Button Click="Button_Click" Content="*" Tag="*" Margin="104,61,0,0" Style="{StaticResource RoundButton}"   ToolTip="Multiply"/>
                         <Button Click="Button_Click" Content="-" Tag=" - " Margin="104,92,0,0" Style="{StaticResource RoundButton}" ToolTip="Subtract"/>
@@ -1346,18 +1346,18 @@
                             Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Phase" Width="36" UseLayoutRounding="False" FontWeight="Normal"/>
                         <Button Click="Button_Click" Content="e" Tag="e" Margin="372,31,0,0" Style="{StaticResource RoundButton}" ToolTip="Euler's number" FontSize="14"/>
                         <Button Click="Button_Click" Content="π" Tag="π" Margin="372,61,0,0" Style="{StaticResource RoundButton}"
-                            FontStyle="Italic" ToolTip="Constant π (pi)" FontSize="14"/>
+                            FontStyle="Italic" ToolTip="Constant π (pi)" FontSize="16" FontFamily="Times New Roman"/>
                         <Button Click="Button_Click" Content="g" Tag="g" Margin="372,92,0,0" Style="{StaticResource RoundButton}" ToolTip="Gravity acceleration on Earth" FontSize="14"/>
                         <Button Click="Button_Click" Content="(" Tag="(" Margin="372,123,0,0" Style="{StaticResource RoundButton}" ToolTip="Left bracket" FontSize="14"/>
                         <Button Click="Button_Click" Content=")" Tag=")" Margin="404,123,0,0" Style="{StaticResource RoundButton}" ToolTip="Right bracket" FontSize="14"/>
                         <Button Click="Button_Click" Tag="≥" Margin="135,123,0,0" Style="{StaticResource RoundButton}" Content="≥" ToolTip="Greater or equal"/>
                         <Button Click="Button_Click" MouseDoubleClick="Button_MouseDoubleClick" Content="AC" Tag="AC"
                             Margin="404,31,0,0" Style="{StaticResource RoundButton}" Foreground="Red"
-                            ToolTip="Reset" FontSize="14" FontWeight="Bold" HorizontalAlignment="Left" Width="26" RenderTransformOrigin="0.218,0.487"/>
-                        <Button Click="Button_Click" Content="C" Tag="C" Margin="404,61,0,0" Style="{StaticResource RoundButton}" Foreground="Red" ToolTip="Backspace" FontSize="14" FontWeight="Bold"/>
+                            ToolTip="Reset" FontSize="13" FontWeight="Bold" HorizontalAlignment="Left" Width="26" RenderTransformOrigin="0.218,0.487"/>
+                        <Button Click="Button_Click" Content="C" Tag="C" Margin="404,61,0,0" Style="{StaticResource RoundButton}" Foreground="Red" ToolTip="Backspace" FontSize="13" FontWeight="Bold"/>
                         <Button Click="Button_Click" Content=" ⏎ " Tag="Enter" Margin="404,92,0,0"
-                            Style="{StaticResource RoundButton}" FontSize="18" Foreground="Red"
-                            ToolTip="New line" FontFamily="Segoe UI Semilight" FontWeight="SemiBold"/>
+                            Style="{StaticResource RoundButton}" FontSize="16" Foreground="Red"
+                            ToolTip="New line" FontFamily="Microsoft Sans Serif" FontWeight="Bold"/>
                         <Label Content="── Numbers ──" HorizontalAlignment="Left" Padding="1"
                             Height="22" VerticalAlignment="Top" Width="88" BorderThickness="0,0,0,1" HorizontalContentAlignment="Center" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" FontSize="13" Margin="5,5,0,0"/>
                         <Label Content="─ Operators ─" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Padding="1"
@@ -1368,17 +1368,19 @@
                             Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Decimal logarithm" Width="36"/>
                         <Button Click="Button_Click" Content="ln" Tag="ln(" Margin="244,92,0,0"
                             Style="{StaticResource RoundButton}" FontSize="14" ToolTip="natural logarithm" Width="36"/>
-                        <Button Click="Button_Click" Content="| x |" Tag="abs(" Margin="244,123,0,0"
+                        <Button Click="Button_Click" Content="|&#8202;x&#8202;|" Tag="abs(" Margin="244,123,0,0"
                             Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Absolute value" Width="36"/>
                         <Button Click="Button_Click" Tag="^" x:Name="PowButton" Margin="166,31,0,0" Style="{StaticResource RoundButton}">
-                            <TextBlock ToolTip="Raise to power"><Run Text="x"/><Run BaselineAlignment="TextTop" FontSize="10" Text=" y"/></TextBlock>
+                            <TextBlock ToolTip="Raise to power"><Run Text="&#8202;x"/><Run BaselineAlignment="TextTop" FontSize="10" Text="&#8202;y"/></TextBlock>
                         </Button>
-                        <Button Click="Button_Click" Content="x²" x:Name="SqrButton" Tag="^2" Margin="166,61,0,0"
-                            Style="{StaticResource RoundButton}" ToolTip="Raise to square"/>
-                        <Button Click="Button_Click" Content="x³" x:Name="CubeButton" Tag="^3" Margin="166,92,0,0"
-                            Style="{StaticResource RoundButton}" ToolTip="Raise to cube" HorizontalAlignment="Left" Width="26"/>
+                        <Button Click="Button_Click" x:Name="SqrButton" Tag="^2" Margin="166,61,0,0" Style="{StaticResource RoundButton}" ToolTip="Raise to square">
+                            <TextBlock ToolTip="Raise to power"><Run Text="&#8202;x"/><Run BaselineAlignment="TextTop" FontSize="10" Text="&#8202;2"/></TextBlock>
+                        </Button>
+                        <Button Click="Button_Click" x:Name="CubeButton" Tag="^3" Margin="166,92,0,0" Style="{StaticResource RoundButton}" ToolTip="Raise to cube" HorizontalAlignment="Left" Width="26">
+                            <TextBlock ToolTip="Raise to power"><Run Text="&#8202;x"/><Run BaselineAlignment="TextTop" FontSize="10" Text="&#8202;3"/></TextBlock>
+                        </Button>
                         <Button Click="Button_Click" Tag="e^" x:Name="ExpButton" Margin="166,123,0,0" Style="{StaticResource RoundButton}" ToolTip="Natural exponent (e = 2.71...)">
-                            <TextBlock><Run Text="e"/><Run BaselineAlignment="TextTop" FontSize="10" Text=" x"/></TextBlock>
+                            <TextBlock><Run Text="&#8202;e"/><Run BaselineAlignment="TextTop" FontSize="10" Text="&#8202;x"/></TextBlock>
                         </Button>
                         <Button Click="InvHypButton_Click" x:Name="InvButton" Content="inv" Margin="372,1,0,0"
                             Style="{StaticResource RoundButton}" FontSize="11" ToolTip="Inverse functions"
