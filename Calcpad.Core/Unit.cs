@@ -914,9 +914,8 @@ namespace Calcpad.Core
             return unit;
         }
 
-        internal static bool IsConsistent(Unit u1, Unit u2) =>
-            ReferenceEquals(u1, u2) || u1.IsConsistent(u2);
-
+        internal static bool IsConsistent(Unit u1, Unit u2) => 
+            (ReferenceEquals(u1, u2)) || u1 is not null && u1.IsConsistent(u2);
 
         private bool IsConsistent(Unit other)
         {
@@ -1255,7 +1254,7 @@ namespace Calcpad.Core
             if (ReferenceEquals(ua, ub))
                 return 1.0;
 
-            if (!Unit.IsConsistent(ua, ub))
+            if (!IsConsistent(ua, ub))
 #if BG
                 throw new MathParser.MathParserException($"Несъвместими мерни единици: \"{Unit.GetText(ua)} {op} {Unit.GetText(ub)}\".");
 #else
