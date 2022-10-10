@@ -336,7 +336,7 @@ namespace Calcpad.Core
                                 if (condition.IsSatisfied)
                                 {
                                     if (loops.Any())
-                                        loops.Peek().Disable();
+                                        loops.Peek().Break();
                                     else
                                         break;
                                 }
@@ -377,7 +377,7 @@ namespace Calcpad.Core
                     else
                     {
                         condition.SetCondition(keyword - Keywords.If);
-                        if (condition.IsSatisfied || !calculate)
+                        if (condition.IsSatisfied && !(loops.Any() && loops.Peek().IsBroken) || !calculate)
                         {
                             var kwdLength = condition.KeyWordLength;
                             if (kwdLength == s.Length)
@@ -888,7 +888,9 @@ namespace Calcpad.Core
                 return true;
             }
 
-            internal void Disable() => _iteration = 0;
+            internal void Break() => _iteration = 0;
+
+            internal bool IsBroken => _iteration == 0;  
         }
     }
 }
