@@ -5,7 +5,7 @@
     <AnalysisLevel>latest</AnalysisLevel>
     <RootNamespace>Calcpad.OpenXml</RootNamespace>
     <OutputType>Library</OutputType>
-    <Version>5.8.7</Version>
+    <Version>5.8.8</Version>
     <Authors>Nedelcho Ganchovski</Authors>
     <Company>Proektsoft EOOD</Company>
   </PropertyGroup>
