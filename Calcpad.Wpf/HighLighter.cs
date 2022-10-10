@@ -102,6 +102,7 @@ namespace Calcpad.Wpf
             "log",
             "ln",
             "log_2",
+            "exp",
             "sqr",
             "sqrt",
             "cbrt",
@@ -109,6 +110,7 @@ namespace Calcpad.Wpf
             "round",
             "floor",
             "ceiling",
+            "trunc",
             "sign",
             MathParser.NegateString,
             "re",
@@ -126,7 +128,8 @@ namespace Calcpad.Wpf
             "switch",
             "take",
             "line",
-            "spline"
+            "spline",
+            "random"
         };
 
         private static readonly HashSet<string> Keywords = new(StringComparer.OrdinalIgnoreCase) {

@@ -480,7 +480,8 @@ If you redefine an existing variable with a new value, it will replace the old o
 <h4>Library (built-in) functions</h4>
 <p>Calcpad includes a library with common math functions, ready to use:</p>
 <ul style="list-style-type:none;">
-<li><code><b>abs</b>(<var>x</var>)</code> - absolute value (modulus) |<var>x</var>|;</li>
+<li><code><b>sign</b>(<var>x</var>)</code> - sign of a number = -1, if <var>x</var> < 0; 1, if <var>x</var> > 0, 0 if <var>x</var> = 0; ;</li>
+<li><code><b>abs</b>(<var>x</var>)</code> - absolute value (modulus) | <var>x</var> |;</li>
 <li><code><b>sin</b>(<var>x</var>)</code> - sine;</li>
 <li><code><b>cos</b>(<var>x</var>)</code> - cosine;</li>
 <li><code><b>tan</b>(<var>x</var>)</code> - tangent = <code><b>sin</b>(<var>x</var>)/<b>cos</b>(<var>x</var>)</code>, for each <var>x</var> ≠ kπ, k=1, 2, 3…;</li>
@@ -508,7 +509,8 @@ If you redefine an existing variable with a new value, it will replace the old o
 <li><code><b>acoth</b>(<var>x</var>)</code> - inverted hyperbolic cotangent = <code>1/2&middot;<b>ln</b>[(<var>x</var> + 1)/(<var>x</var> - 1)]</code>, for |<var>x</var>| &gt; 1;</li>
 <li><code><b>log</b>(<var>x</var>)</code> - decimal logarithm (with base 10), for each <var>x</var> &gt; 0;</li>
 <li><code><b>ln</b>(<var>x</var>)</code> - natural logarithm (with base <var>e</var> ≈ 2.7183), for each <var>x</var> &gt; 0;</li>
-<li><code><b>log</b><sub>2</sub>(<var>x</var>)</code>  - binary logarithm (with base 2), for each <var>x</var> &gt; 0;</li>
+<li><code><b>log_2</b>(<var>x</var>)</code>  - binary logarithm (with base 2), for each <var>x</var> &gt; 0;</li>
+<li><code><b>exp</b>(<var>x</var>)</code> - exponential function = <var>e</var>&hairsp;ˣ;</li>
 <li><code><b>sqr</b>(<var>x</var>)</code>  or <code><b>sqrt</b>(<var>x</var>)</code>  - square root (<span class="root">√</span><span class="ovr"><var>x</var></span> ), defined for each <var>x</var> &ge; 0;</li> 
 <li><code><b>cbrt</b>(<var>x</var>)</code> - cubic root ( <sup><sup>3</sup></sup><span class="root">√</span><span class="ovr"><var>x</var></span> );</li>
 <li><code><b>root</b>(<var>x</var>; <var>n</var>)</code> - n-th root ( <sup><sup>n</sup></sup><span class="root">√</span><span class="ovr"><var>x</var></span> );</li> 

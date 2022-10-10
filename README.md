@@ -88,6 +88,7 @@ A variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;"=" - assignment;  
 * Custom functions of type f (x; y; z; ... );  
 * Built-in functions:  
+&emsp;&emsp;sign(x) - sign of a number; 
 &emsp;&emsp;abs(x)  - absolute value/magnitude;  
 &emsp;&emsp;sin(x)  - sine;  
 &emsp;&emsp;cos(x)  - cosine;  
@@ -116,7 +117,8 @@ A variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;acoth(x) - inverse hyperbolic cotangent;  
 &emsp;&emsp;log(x)   - decimal logarithm;  
 &emsp;&emsp;ln(x)    - natural logarithm;  
-&emsp;&emsp;log2(x)  - binary logarithm;  
+&emsp;&emsp;log_2(x) - binary logarithm;  
+&emsp;&emsp;exp(x)   - natural exponent;  
 &emsp;&emsp;sqr(x) / sqrt(x) - square root;  
 &emsp;&emsp;cbrt (x) - cubic root;  
 &emsp;&emsp;root(x; n) - n-th root;  
