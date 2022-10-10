@@ -284,7 +284,7 @@ namespace Calcpad.Core
                 var v = t.Variable;
                 if (v.IsInitialized)
                 {
-                    if (!_parser._isSolver)
+                    if (_parser._isSolver == 0)
                         _parser._hasVariables = true;
 
                     return v.Value;

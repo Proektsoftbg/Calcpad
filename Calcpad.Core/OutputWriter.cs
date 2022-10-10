@@ -149,6 +149,7 @@ namespace Calcpad.Core
         internal abstract string FormatNary(string symbol, string sub, string sup, string expr); //Integral, sum, product
         internal abstract string FormatValue(Value v, int decimals);
         internal abstract string AddBrackets(string s, int level = 0);
+        internal abstract string FormatAbs(string s, int level = 0);
         internal abstract string FormatReal(double d, int decimals);
         internal abstract string FormatComplex(double re, double im, int decimals);
 
@@ -291,6 +292,8 @@ namespace Calcpad.Core
         }
 
         internal override string AddBrackets(string s, int level = 0) => $"({s})";
+
+        internal override string FormatAbs(string s, int level = 0) => $"|{s}|";
         internal override string FormatReal(double d, int decimals) => FormatNumberHelper(d, decimals);
         internal override string FormatComplex(double re, double im, int decimals)
         {
@@ -450,6 +453,13 @@ namespace Calcpad.Core
                 _ => $"<span class=\"b{level}\">[</span>{s}<span class=\"b{level}\">]</span>"
             };
 
+        internal override string FormatAbs(string s, int level = 0) =>
+            level switch
+            {
+                0 => $"<b class=\"b0\">|</b>&hairsp;{s}&hairsp;<b class=\"b0\">|</b>",
+                _ => $"<span class=\"b{level}\">|</span>{s}<span class=\"b{level}\">|</span>"
+            };
+
         internal override string FormatReal(double d, int decimals)
         {
             var s = FormatNumberHelper(d, decimals);
@@ -574,6 +584,8 @@ namespace Calcpad.Core
 
         internal override string AddBrackets(string s, int level = 0) =>
             level > 1 ? Brackets('[', ']', s) : Brackets('(', ')', s);
+
+        internal override string FormatAbs(string s, int level = 0) => Brackets('|', '|', s);
 
         internal override string FormatReal(double d, int decimals)
         {

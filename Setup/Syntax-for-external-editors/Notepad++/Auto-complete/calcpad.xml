@@ -281,6 +281,7 @@
 		<KeyWord name="csc" />
 		<KeyWord name="csch" />
 		<KeyWord name="dyn" />
+		<KeyWord name="exp" />
 		<KeyWord name="fl_oz" />
 		<KeyWord name="gi" />
 		<KeyWord name="pt" />
@@ -392,6 +393,7 @@
 		<KeyWord name="d" />
 		<KeyWord name="sec" />
 		<KeyWord name="sech" />
+		<KeyWord name="sign" />
 		<KeyWord name="sin" />
 		<KeyWord name="sinh" />
 		<KeyWord name="spline" />

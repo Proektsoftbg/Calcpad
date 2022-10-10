@@ -210,7 +210,7 @@ namespace Calcpad.Core
                 var parserUnits = _parser.Units;
                 var targetUnits = _parser._targetUnits;
                 var isPlotting = _parser.IsPlotting;
-                _parser._isSolver = true;
+                ++_parser._isSolver;
                 var t = (VariableToken)_items[1].Rpn[0];
                 var x = t.Variable;
                 _parser._rpn = _items[2].Rpn;
@@ -330,7 +330,7 @@ namespace Calcpad.Core
                 _parser.IsPlotting = isPlotting;
                 _parser.Units = parserUnits;
                 _parser._targetUnits = targetUnits;
-                _parser._isSolver = false;
+                --_parser._isSolver;
 
                 if (double.IsNaN(result.Re) && !isPlotting)
 #if BG

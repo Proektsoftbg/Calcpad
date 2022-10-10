@@ -2699,33 +2699,58 @@ namespace Calcpad.Wpf
             var b = (Button)sender;
             b.Tag = !(bool)b.Tag;
             if ((bool)b.Tag)
-                b.FontWeight = FontWeights.Bold;
+            {
+                //b.FontWeight = FontWeights.Bold;
+                b.Foreground = Brushes.Blue;
+            }
             else
-                b.FontWeight = FontWeights.Normal;
+            {
+                //b.FontWeight = FontWeights.Normal;
+                b.Foreground = Brushes.Black;
+            }
 
+            bool inv = (bool)InvButton.Tag, hyp = (bool)HypButton.Tag;
             string pref = string.Empty, post = string.Empty;
-            if ((bool)InvButton.Tag)
+            if (inv)
                 pref = "a";
 
-            if ((bool)HypButton.Tag)
+            if (hyp)
                 post = "h";
 
-            double fs = 14;
-            if ((bool)InvButton.Tag && (bool)HypButton.Tag)
-                fs = 12;
+            double fs;
+            FontFamily ff;
+            if (inv && hyp)
+            {
+                ff = new FontFamily("Arial Narrow");
+                fs = 14.5;
+            }
+            else
+            {
+                ff = new FontFamily("Microsoft Sans Serif");
+                fs = 13;
+            }
+            SetTrigButton(SinButton, pref + "sin" + post, fs, ff);
+            SetTrigButton(CosButton, pref + "cos" + post, fs, ff);
+            SetTrigButton(TanButton, pref + "tan" + post, fs, ff);
+            SetTrigButton(CscButton, pref + "csc" + post, fs, ff);
+            SetTrigButton(SecButton, pref + "sec" + post, fs, ff);
+            SetTrigButton(CotButton, pref + "cot" + post, fs, ff);
+            PowButton.Visibility =  inv ? Visibility.Hidden : Visibility.Visible;
+            SqrButton.Visibility =  inv ? Visibility.Hidden : Visibility.Visible;
+            CubeButton.Visibility = inv ? Visibility.Hidden : Visibility.Visible;
+            ExpButton.Visibility =  inv ? Visibility.Hidden : Visibility.Visible;
+            RootButton.Visibility = inv ? Visibility.Visible : Visibility.Hidden;
+            SqrtButton.Visibility = inv ? Visibility.Visible : Visibility.Hidden;
+            CbrtButton.Visibility = inv ? Visibility.Visible : Visibility.Hidden;
+            LnButton.Visibility =   inv ? Visibility.Visible : Visibility.Hidden;
+        }
 
-            SinButton.Content = pref + "sin" + post;
-            SinButton.Tag = (string)SinButton.Content + '(';
-            SinButton.FontSize = fs;
-            CosButton.Content = pref + "cos" + post;
-            CosButton.Tag = (string)CosButton.Content + '(';
-            CosButton.FontSize = fs;
-            TanButton.Content = pref + "tan" + post;
-            TanButton.Tag = (string)TanButton.Content + '(';
-            TanButton.FontSize = fs;
-            CotButton.Content = pref + "cot" + post;
-            CotButton.Tag = (string)CotButton.Content + '(';
-            CotButton.FontSize = fs;
+        private static void SetTrigButton(Button btn, string s, double fontSize, FontFamily fontFamily)
+        {
+            btn.Content = s;
+            btn.Tag = s + '(';
+            btn.FontSize = fontSize;
+            btn.FontFamily = fontFamily;
         }
 
         private void ColorScaleComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

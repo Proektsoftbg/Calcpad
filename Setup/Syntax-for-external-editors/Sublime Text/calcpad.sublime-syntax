@@ -21,7 +21,7 @@ contexts:
       scope: punctuation.section.brackets.calcpad
     - match: '[a-zA-Z]+[a-zA-Z0-9_]*\$'
       scope: meta.string.calcpad
-    - match: '\b(abs|sin|cos|tan|csc|sec|cot|sinh|cosh|tanh|csch|sech|coth|asin|acos|atan|acsc|asec|acot|asinh|acosh|atanh|acsch|asech|acoth|ln|log|log_2|sqr|sqrt|cbrt|round|floor|ceiling|trunc|re|im|phase|random|root|atan2|min|max|sum|sumsq|srss|average|product|mean|switch|take|line|spline)\b'
+    - match: '\b(sign|abs|sin|cos|tan|csc|sec|cot|sinh|cosh|tanh|csch|sech|coth|asin|acos|atan|acsc|asec|acot|asinh|acosh|atanh|acsch|asech|acoth|ln|log|log_2|exp|sqr|sqrt|cbrt|round|floor|ceiling|trunc|re|im|phase|random|root|atan2|min|max|sum|sumsq|srss|average|product|mean|switch|take|line|spline)\b'
       scope: support.function.calcpad
     - match: '#'
       scope: punctuation.definition.keyword.calcpad

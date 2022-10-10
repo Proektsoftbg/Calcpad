@@ -63,21 +63,22 @@ namespace Calcpad.Core
                 Log10,    //24
                 Log,      //25
                 Log2,     //26
-                Abs,      //27
-                Sign,     //28
-                Sqrt,     //29
+                Exp,      //27
+                Abs,      //28
+                Sign,     //29
                 Sqrt,     //30
-                Cbrt,     //31
-                Round,    //32
-                Floor,    //33
-                Ceiling,  //34
-                Truncate, //35
-                Real,     //36
-                Imaginary,//37
-                Phase,    //38
-                Random,   //39
-                Fact,     //40
-                Negate    //41
+                Sqrt,     //31
+                Cbrt,     //32
+                Round,    //33
+                Floor,    //34
+                Ceiling,  //35
+                Truncate, //36
+                Real,     //37
+                Imaginary,//38
+                Phase,    //39
+                Random,   //40
+                Fact,     //41
+                Negate    //42
             };
 
             Functions2 = new Func<Value, Value, Value>[]
@@ -384,6 +385,12 @@ namespace Calcpad.Core
         {
             CheckFunctionUnits("log_2", value.Units);
             return new(Complex.Log2(value.Complex));
+        }
+
+        private static Value Exp(Value value)
+        {
+            CheckFunctionUnits("exp", value.Units);
+            return new(Complex.Exp(value.Complex));
         }
 
         private static Value Sqrt(Value value)

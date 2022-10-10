@@ -371,6 +371,12 @@ namespace Calcpad.Core
                             t.Level = b.Level;
                             hasOperators = true;
                         }
+                        else if (t.Content == "abs" )
+                        {
+                            t.Content = writer.FormatAbs(sb, b.Level);
+                            t.Level = b.Level;
+                            hasOperators = true;
+                        }
                         else
                         {
                             t.Content = (tt == TokenTypes.Function ?

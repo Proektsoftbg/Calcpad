@@ -24,7 +24,7 @@ namespace Calcpad.Core
         private int _assignmentIndex;
         private bool _isCalculated;
         private bool _isPlotting;
-        private bool _isSolver;
+        private int _isSolver;
         private Unit _targetUnits;
         private int _functionDefinitionIndex;
         private KeyValuePair<string, Value> _backupVariable;
@@ -133,7 +133,7 @@ namespace Calcpad.Core
             _functionDefinitionIndex = -1;
             var input = _input.GetInput(expression, AllowAssignment);
             new Validator(_functions).Check(input, out var isFucntionDefinition);
-            _input.OrderOperators(input, isFucntionDefinition || _isSolver || _isPlotting, _assignmentIndex);
+            _input.OrderOperators(input, isFucntionDefinition || _isSolver > 0 || _isPlotting, _assignmentIndex);
             if (isFucntionDefinition)
                 AddFunction(input);
             else
@@ -197,7 +197,7 @@ namespace Calcpad.Core
         {
             if (_settings.IsComplex && !value.IsReal)
 #if BG
-                throw new MathParserException($"Резултатът не е реално число: \"{Complex.Format(value.Number, _settings.Decimals, OutputWriter.OutputFormat.Text)}\".");
+                throw new MathParserException($"Резултатът не е реално число: \"{Complex.Format(value.Complex, _settings.Decimals, OutputWriter.OutputFormat.Text)}\".");
 #else
                 throw new MathParserException($"The result is not a real number: \"{Complex.Format(value.Complex, _settings.Decimals, OutputWriter.OutputFormat.Text)}\".");
 #endif

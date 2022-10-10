@@ -310,7 +310,7 @@ namespace Calcpad.Core
                                 {
                                     if (!loops.Any())
 #if BG
-                                        AppendError(\"#loop\" без съответен \"#repeat\".");
+                                        AppendError("\"#loop\" без съответен \"#repeat\".");
 #else                                    
                                         AppendError("\"#loop\" without a corresponding \"#repeat\".");
 #endif                                    

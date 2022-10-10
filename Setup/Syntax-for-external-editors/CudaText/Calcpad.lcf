@@ -177,9 +177,9 @@ object SyntAnal6: TLibSyntAnalyzer
       StyleName = 'Function'
       TokenType = 1
       Expression = 
-        '\b(abs|sin|cos|tan|csc|sec|cot|sinh|cosh|tanh|csch|sech|coth|asi' +
+        '\b(sign|abs|sin|cos|tan|csc|sec|cot|sinh|cosh|tanh|csch|sech|coth|asi' +
         'n|acos|atan|acsc|asec|acot|asinh|acosh|atanh|acsch|asech|acoth|l' +
-        'n|log|log_2|sqr|sqrt|cbrt|round|floor|ceiling|trunc|re|im|phase|' +
+        'n|log|log_2|exp|sqr|sqrt|cbrt|round|floor|ceiling|trunc|re|im|phase|' +
         'random|root|atan2|min|max|sum|sumsq|srss|average|product|mean|sw' +
         'itch|take|line|spline)\b'
       ColumnFrom = 0
