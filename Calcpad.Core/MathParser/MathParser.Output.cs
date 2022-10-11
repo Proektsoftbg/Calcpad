@@ -424,7 +424,7 @@ namespace Calcpad.Core
                         isTag = false;
                     else if (!isTag)
                     {
-                        if (Validator.IsDigit(c) || c == '(')
+                        if (Validator.IsDigit(c) || c == '(' || c == '|')
                             break;
                         else if (c == '-')
                             return true;
