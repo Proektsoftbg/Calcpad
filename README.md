@@ -88,7 +88,7 @@ A variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;"=" - assignment;  
 * Custom functions of type f (x; y; z; ... );  
 * Built-in functions:  
-&emsp;&emsp;sign(x) - sign of a number; 
+&emsp;&emsp;sign(x) - sign of a number;  
 &emsp;&emsp;abs(x)  - absolute value/magnitude;  
 &emsp;&emsp;sin(x)  - sine;  
 &emsp;&emsp;cos(x)  - cosine;  
