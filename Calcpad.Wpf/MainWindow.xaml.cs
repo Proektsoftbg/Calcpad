@@ -1740,6 +1740,7 @@ namespace Calcpad.Wpf
             }
             else
             {
+                RichTextBox.Focus();
                 if (IsAutoRun)
                 {
                     CalculateAsync(false);
@@ -2560,7 +2561,10 @@ namespace Calcpad.Wpf
                     }
                 else
                     foreach (Run inline in p.Inlines.Cast<Run>())
-                        if (i < n && inline.Text[0] == '?' && inline.ToolTip is ToolTip tt)
+                        if (i < n && 
+                            inline.Text.Any() && 
+                            inline.Text[0] == '?' && 
+                            inline.ToolTip is ToolTip tt)
                             tt.Content = values[i++];
 
                 p = (Paragraph)p.NextBlock;
