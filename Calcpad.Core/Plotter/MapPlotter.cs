@@ -233,6 +233,8 @@ namespace Calcpad.Core
 
         private void GetRgb(out double red, out double green, out double blue, double value)
         {
+            const double d1 = 3d / 5d;
+            const double d2 = 5d / 3d;
             switch (Settings.ColorScale)
             {
                 case PlotSettings.ColorScales.Gray:
@@ -245,27 +247,27 @@ namespace Calcpad.Core
                     switch (n)
                     {
                         case 0:
-                            red = 0;
-                            green = value;
-                            blue = 1;
+                            red = 0d;
+                            green = Math.Pow(value, d1);
+                            blue = 1d;
                             break;
                         case 1:
-                            red = 0;
-                            green = 1;
-                            blue = 1 - value;
+                            red = 0d;
+                            green = 1d;
+                            blue = 1d - Math.Pow(value, d2);
                             break;
                         case 2:
-                            red = value;
-                            green = 1;
-                            blue = 0;
+                            red = Math.Pow(value, d1);
+                            green = 1d;
+                            blue = 0d;
                             break;
                         case 3:
-                            red = 1;
-                            green = 1 - value;
-                            blue = 0;
+                            red = 1d;
+                            green = 1d - Math.Pow(value, d2);
+                            blue = 0d;
                             break;
                         default:
-                            red = 1 - 0.5 * value;
+                            red = 1d - 0.5 * value;
                             green = blue = 0;
                             break;
                     }
