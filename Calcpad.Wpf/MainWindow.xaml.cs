@@ -62,6 +62,7 @@ namespace Calcpad.Wpf
         private Paragraph _currentParagraph;
         private readonly UndoManager _undoMan;
         private readonly WebBrowserWrapper _wbWarper;
+        private readonly double _inputHeight;
         private Task _parseTask;
         private string DocumentPath { get; set; }
         private bool _isParsing = false;
@@ -141,6 +142,7 @@ namespace Calcpad.Wpf
             _parser = new();
             _highlighter = new();
             InitializeComponent();
+            _inputHeight = InputGrid.RowDefinitions[1].Height.Value;
             ToolTipService.InitialShowDelayProperty.OverrideMetadata(
                 typeof(DependencyObject), 
                 new FrameworkPropertyMetadata(500));
@@ -1933,7 +1935,7 @@ namespace Calcpad.Wpf
             if (KeyPadGrid.Visibility == Visibility.Hidden)
             {
                 KeyPadGrid.Visibility = Visibility.Visible;
-                InputGrid.RowDefinitions[1].Height = new GridLength(154);
+                InputGrid.RowDefinitions[1].Height = new GridLength(_inputHeight);
             }
             else
             {
@@ -2604,9 +2606,7 @@ namespace Calcpad.Wpf
                     var t = new TextRange(p.ContentStart, p.ContentEnd);
                     t.Text = t.Text.TrimStart('\t');
                 }
-                if (p.Tag is null)
-                    _highlighter.Parse(p, IsComplex, i);
-
+                _highlighter.Parse(p, IsComplex, i);
                 p = (Paragraph)p.NextBlock;
                 ++i;
             }
