@@ -387,9 +387,9 @@ namespace Calcpad.Core
                                 {
                                     if (!loops.Any())
 #if BG
-                                    AppendError("\"##continue\" без съответен \"#repeat\".");
+                                    AppendError("\"#continue\" без съответен \"#repeat\".");
 #else
-                                        AppendError("\"##continue\" without a corresponding \"#repeat\".");
+                                        AppendError("\"#continue\" without a corresponding \"#repeat\".");
 #endif
                                     else
                                     {
