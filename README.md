@@ -190,11 +190,11 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;&emsp;&emsp;&emsp;#repeat *number of repetitions*  
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;*Your code goes here*  
 &emsp;&emsp;&emsp;&emsp;#loop  
-&emsp;&emsp;With conditional break:  
+&emsp;&emsp;With conditional break/coutinue:  
 &emsp;&emsp;&emsp;&emsp;#repeat *number of repetitions*  
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;*Your code goes here*  
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;#if *condition*  
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;#break  
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;#break or #continue 
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;#end if  
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;*Some more code*  
 &emsp;&emsp;&emsp;&emsp;#loop  
@@ -226,7 +226,8 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;&emsp;#post - show the next contents only after calculations;  
 &emsp;&emsp;#val  - show only the final result, without the equation;  
 &emsp;&emsp;#equ  - show complete equations and results (default);  
-&emsp;&emsp;#noc  - show only equations without results (no calculations);;  
+&emsp;&emsp;#noc  - show only equations without results (no calculations);
+&emsp;&emsp;#round n - rounds to n digits after the decimal point.
 &emsp;&emsp;Each of the above commands is effective after the current line until the end of the report or another command that overwrites it.  
 * Switches for trigonometric units: #deg - degrees, #rad - radians, #gra - gradians;  
 * Separator for target units: |;  

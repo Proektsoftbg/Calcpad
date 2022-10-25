@@ -206,7 +206,7 @@ input, select {
 <li>support for plain text (*.txt, *.cpd) and binary (*.cpdz) file formats.</li>
 </ul>
 <p>This software is developed using the C# programming language and latest computer technologies. It automatically parses the input, substitutes the variables, calculates the expressions and displays the output. All results are sent to a professional looking Html report for viewing and printing. Acknowledgments: The new and beautiful icons are created using <a target="_blank" href="https://icons8.com">icons8.com</a>. The pdf export was made possible thanks to the <a target="_blank" href="https://wkhtmltopdf.org/">wkhtmltopdf.org</a> project.</p>
-<p><img alt="Calcpad" src="Images/Sample.png" width="700"></p>
+<p style="text-align:center;"><img alt="Calcpad" src="Images/Sample.png" width="650"></p>
 
 <h2 id="TOC_200">Fields of application</h2>
 <p>This software is suitable for engineers and other professionals that need to perform repetitive calculations and present them in official documentation such as calculation notes. They can automate this task efficiently by creating powerful and reliable Calcpad worksheets. It can also help teachers to prepare calculation examples, papers, manuals, books etc. Students can use it to solve various problems, prepare homeworks, phd theses etc.</p>
@@ -480,7 +480,7 @@ If you redefine an existing variable with a new value, it will replace the old o
 <h4>Library (built-in) functions</h4>
 <p>Calcpad includes a library with common math functions, ready to use:</p>
 <ul style="list-style-type:none;">
-<li><code><b>sign</b>(<var>x</var>)</code> - sign of a number = -1, if <var>x</var> < 0; 1, if <var>x</var> > 0, 0 if <var>x</var> = 0; ;</li>
+<li><code><b>sign</b>(<var>x</var>)</code> - sign of a number = -1, if <var>x</var> < 0; 1, if <var>x</var> > 0, 0 if <var>x</var> = 0;</li>
 <li><code><b>abs</b>(<var>x</var>)</code> - absolute value (modulus) | <var>x</var> |;</li>
 <li><code><b>sin</b>(<var>x</var>)</code> - sine;</li>
 <li><code><b>cos</b>(<var>x</var>)</code> - cosine;</li>
@@ -1345,12 +1345,13 @@ You can use it further to calculate binomial coefficients by the well-known form
 <li><code class="cond">#Repeat</code></li>
 <li style="margin-left: 2em;">Code to be executed repeatedly</li>
 <li style="margin-left: 2em;"><code class="cond">#If</code> condition</li>
-<li style="margin-left: 4em;"><code class="cond">#Break</code></li>
+<li style="margin-left: 4em;"><code class="cond">#Break</code> or <code class="cond">#Continue</code></li>
 <li style="margin-left: 2em;"><code class="cond">#End if</code></li>
 <li style="margin-left: 2em;">You can have more code here</li>
 <li><code class="cond">#Loop</code></li>
 </ul>
 <p>You can omit the number of repetitions <var>n</var> only if you are sure that the condition will be satisfied and the loop will brake sooner or later. Anyway, to avoid infinite loop, the number of iterations is limited to 100 000 if nothing else is specified.</p>
+<p>If you replace <code class="cond">#Break</code> with <code class="cond">#Continue</code> in the above block, it will return to the beginning of the loop each time the condition is satisfied. In this way, it will skip the remaining content down to the loop end.</p>
 <p>Besides repetitive calculations, you can use loops to generate repetitive report content (like table rows). If you want to hide the iteration details, you can use output control directives (see the previous section). For example, you can enclose the "repeat-loop" block with <span class="cond">#Hide</span> and <span class="cond">#Show</span> statements.</p>
 
 <h2 id="TOC_810">Input Forms</h2>
@@ -1384,7 +1385,7 @@ You can use it further to calculate binomial coefficients by the well-known form
 
 
 <h3 id="TOC_902">Rounding</h3>
-<p>Rounding is specified by the number of digits <var>k</var> after the decimal point. It is entered into the "<b>Rounding</b>" input box at the bottom of the program window. The value of <var>k</var> can be between "0" and "15". If you enter "0", all results will be rounded to integers. If the value is less than "0" or greater than "15", the respective limit will be taken.</p>
+<p>Rounding is specified by the number of digits <var>k</var> after the decimal point. It is entered into the "<b>Rounding</b>" input box at the bottom of the program window. The value of <var>k</var> can be between "0" and "15". If you enter "0", all results will be rounded to integers. If the value is less than "0" or greater than "15", the respective limit will be taken. Alternatively, you can specify the rounding inside the code. Just add a new line containing "<span class="cond">#Round</span> <var>k</var>". In this way, you can have different rounding styles for different parts of your output.</p>
 <p>However, rounding can come across some potential problems. If the result is less than 10<sup>-<var>k</var></sup> and you round it to <var>k</var> digits after the decimal point, the result will contain only zeros. That is why, Calcpad incorporates some advanced rules: If the output contains less than <var>k</var> significant digits after rounding, it is expanded up to <var>k</var> significant digits. Even then, if the number is too small, it will be difficult to count the zeros after the decimal point. So, in such cases, the output is converted to floating point format with <var>k</var> digits. When the total number of digits becomes greater than 2<var>k</var>, the factional part is being truncated. In this way, the output becomes easier to read, still providing at least 2<var>k</var> significant digits. You can see several examples bellow, obtained for (<var>k</var> = 3).</p>
 <ul style="list-style-type:none;">
 <li>0.000001∙<var>π</var> = 3.14E-06</li>

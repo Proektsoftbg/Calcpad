@@ -23,12 +23,14 @@ namespace Calcpad.Core
             Repeat,
             Loop,
             Break,
+            Continue,
             If,
             ElseIf,
             Else,
             EndIf,
             Local,
-            Global
+            Global,
+            Round
         }
         private readonly List<string> _inputFields = new();
         private int _currentField;
@@ -146,6 +148,13 @@ namespace Calcpad.Core
                     if (c3 == 'd')
                         return Keywords.Rad;
                 }
+                else if (c2 == 'o')
+                {
+                    if (c3 == 'u' && n > 5 &&
+                         s[4] == 'n' &&
+                         s[5] == 'd')
+                        return Keywords.Round;
+                }
                 else if (c2   == 'e' &&
                          c3   == 'p' && n > 6 &&
                          s[4] == 'e' &&
@@ -162,7 +171,7 @@ namespace Calcpad.Core
                         s[4] == 'p')
                         return Keywords.Loop;
                 }
-                else if (c3   == 'c' && n > 5 &&
+                else if (c3 == 'c' && n > 5 &&
                          s[4] == 'a' &&
                          s[5] == 'l')
                     return Keywords.Local;
@@ -181,6 +190,8 @@ namespace Calcpad.Core
                     return Keywords.Deg;
                 if (s.StartsWith("#break", StringComparison.Ordinal))
                     return Keywords.Break;
+                if (s.StartsWith("#continue", StringComparison.Ordinal))
+                    return Keywords.Continue;
             }
 
             return Keywords.None;
@@ -190,6 +201,7 @@ namespace Calcpad.Core
 
         private void Parse(string[] expressions, bool calculate = true)
         {
+            const int RemoveCondition = Keywords.EndIf - Keywords.If;
             var stringBuilder = new StringBuilder(expressions.Length * 80);
             var condition = new ConditionParser();
             _parser = new MathParser(Settings.Math)
@@ -247,6 +259,29 @@ namespace Calcpad.Core
                             _parser.Degrees = 1;
                         else if (keyword == Keywords.Gra)
                             _parser.Degrees = 2;
+                        else if (keyword == Keywords.Round)
+                        {
+                            var expression = string.Empty;
+                            if (s.Length > 6)
+                            {
+                                expression = s[6..].Trim();
+                                if (int.TryParse(expression, out int n))
+                                    Settings.Math.Decimals = n;
+                                else
+                                {
+                                    try
+                                    {
+                                        _parser.Parse(expression);
+                                        _parser.Calculate();
+                                        Settings.Math.Decimals = (int)Math.Round(_parser.Real);
+                                    }
+                                    catch (MathParser.MathParserException ex)
+                                    {
+                                        AppendError(ex.Message);
+                                    }
+                                }
+                            }
+                        }
                         else if (keyword == Keywords.Repeat)
                         {
                             var expression = string.Empty;
@@ -320,7 +355,7 @@ namespace Calcpad.Core
 #else
                                         AppendError("Entangled \"#if - #end if\" and \"#repeat - #loop\" blocks.");
 #endif
-                                    else if (condition.IsSatisfied && !loops.Peek().Iterate(ref i))
+                                    else if (!loops.Peek().Iterate(ref i))
                                         loops.Pop();
                                 }
                             }
@@ -343,6 +378,31 @@ namespace Calcpad.Core
                             }
                             else if (isVisible)
                                 stringBuilder.Append($"<p{id} class=\"cond\">#break</p>");
+                        }
+                        else if (keyword == Keywords.Continue)
+                        {
+                            if (calculate)
+                            {
+                                if (condition.IsSatisfied)
+                                {
+                                    if (!loops.Any())
+#if BG
+                                    AppendError("\"##continue\" без съответен \"#repeat\".");
+#else
+                                        AppendError("\"##continue\" without a corresponding \"#repeat\".");
+#endif
+                                    else
+                                    {
+                                        var loop = loops.Peek();
+                                        while (condition.Id > loop.Id)
+                                            condition.SetCondition(RemoveCondition);
+                                        loop.Iterate(ref i);
+                                    }
+                                        
+                                }
+                            }
+                            else if (isVisible)
+                                stringBuilder.Append($"<p{id} class=\"cond\">#continue</p>");
                         }
                         else if (keyword != Keywords.Global && keyword != Keywords.Local)
                             isKeyWord = false;

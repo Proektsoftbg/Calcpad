@@ -3182,6 +3182,11 @@ namespace Calcpad.Wpf
                 Calculate();
                 e.Handled = true;
             }
+            else if (e.Key == Key.O && Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
+            {
+                Command_Open(this, null);
+                e.Handled = true;
+            }
         }
 
         private void AutoRunCheckBox_Checked(object sender, RoutedEventArgs e)
