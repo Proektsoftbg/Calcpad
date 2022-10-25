@@ -4,7 +4,7 @@
     xmlns:av="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="av"
     x:Class="Calcpad.Wpf.MainWindow"
     Closing="Window_Closing" 
-    Title=" Calcpad 5.8.8" 
+    Title=" Calcpad 5.8.9" 
     Height="800" 
     Width="1200"
     WindowStartupLocation="CenterScreen"
@@ -773,6 +773,7 @@
                 <MenuItem Header="Iteration">
                     <MenuItem Click="Button_Click" Tag="#repeat 'number of repetitions§'Your code here§#loop" Header="Simple: repeat-loop"/>
                     <MenuItem Click="Button_Click" Tag="#repeat 'number of repetitions§'Your code here§#if 'condition§#break§#end if§'Some more code§#loop" Header="Conditional: repeat-break-loop"/>
+                    <MenuItem Click="Button_Click" Tag="#repeat 'number of repetitions§'Your code here§#if 'condition§#continue§#end if§'Some more code§#loop" Header="Conditional: repeat-continue-loop"/>
                 </MenuItem>
                 <MenuItem Header="String variable or macro">
                     <MenuItem Click="Button_Click" Tag="#def variable_name$ = content" Header="Inline string variable"/>
@@ -825,6 +826,8 @@
                     <MenuItem Click="Button_Click" Tag="#val"  Header="#val"  ToolTip="Show only the calculated values"/>
                     <MenuItem Click="Button_Click" Tag="#equ"  Header="#equ"  ToolTip="Show the complete equations (default)"/>
                     <MenuItem Click="Button_Click" Tag="#noc"  Header="#noc"  ToolTip="Show the equations, but without calculating them"/>
+                    <Separator/>
+                    <MenuItem Click="Button_Click" Tag="#round"  Header="#round"  ToolTip="Round to the specified digits after the decimal point"/>
                     <Separator/>
                     <MenuItem Click="Button_Click" Tag="#deg"  Header="#deg"  ToolTip="Set angle measurement in degrees"/>
                     <MenuItem Click="Button_Click" Tag="#rad"  Header="#rad"  ToolTip="Set angle measurement in radians"/>
@@ -1486,6 +1489,7 @@
                              PreviewKeyDown="AutoCompleteListBox_PreviewKeyDown">
                         <ListBoxItem Content="°" Foreground="DarkCyan"/>
                         <ListBoxItem Content="#break" Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#continue" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#def" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#deg" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#else" Foreground="DarkMagenta"/>
@@ -1505,6 +1509,7 @@
                         <ListBoxItem Content="#pre" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#rad" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#repeat" Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#round" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#show" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#val" Foreground="DarkMagenta"/>
                         <ListBoxItem Content="$Area{}" Foreground="DarkMagenta"/>

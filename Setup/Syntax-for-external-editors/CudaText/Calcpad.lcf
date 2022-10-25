@@ -156,8 +156,8 @@ object SyntAnal6: TLibSyntAnalyzer
       StyleName = 'Keyword'
       TokenType = 3
       Expression = 
-        '\#([Rr]epeat|[Ll]oop|[Ss]how|[Hh]ide|[Pp]re|[Pp]ost|[Vv]al|[Ee]q' +
-        'u|[Rr]ad|[Dd]eg|[Ii]f|[Ee]lse\s[Ii]f|[Ee]lse|[Ee]nd\s[Ii]f|[Ii]n' +
+        '\#([Rr]epeat|[Ll]oop|[Bb]reak|[Cc]ontinue|[Ss]how|[Hh]ide|[Pp]re|[Pp]ost|[Vv]al|[Ee]q' +
+        'u|[Rr]ound|[Rr]ad|[Dd]eg|[Ii]f|[Ee]lse\s[Ii]f|[Ee]lse|[Ee]nd\s[Ii]f|[Ii]n' +
         'clude|[Ll]ocal|[Gg]lobal|[Dd]ef|[Ee]nd\s[Dd]ef)\b'
       ColumnFrom = 0
       ColumnTo = 0

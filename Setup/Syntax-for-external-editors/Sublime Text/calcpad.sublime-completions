@@ -2,6 +2,7 @@
     "scope": "source.calcpad",
     "completions": [
         "#break",
+        "#continue",
         "#def",
         "#deg",
         "#else",
@@ -21,6 +22,7 @@
         "#pre",
         "#rad",
         "#repeat",
+        "#round",
         "#show",
         "#val",
         "$Area",

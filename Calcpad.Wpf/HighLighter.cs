@@ -150,11 +150,13 @@ namespace Calcpad.Wpf
             "#repeat",
             "#loop",
             "#break",
+            "#continue",
             "#include",
             "#local",
             "#global",
             "#def",
-            "#end def"
+            "#end def",
+            "#round"
         };
 
         private static readonly HashSet<string> Commands = new(StringComparer.OrdinalIgnoreCase)
@@ -811,8 +813,7 @@ namespace Calcpad.Wpf
 
         private bool AppendRelOperatorShortcut(string s)
         {
-            var count = _state.Paragraph.Inlines.Count;
-            if (s == "=" && count > 0)
+            if (s == "=" && _state.Paragraph.Inlines.Count > 0)
             {
                 Run r = (Run)_state.Paragraph.Inlines.LastInline;
                 var runText = r.Text;
@@ -930,7 +931,8 @@ namespace Calcpad.Wpf
                       st.Equals("#else if", StringComparison.OrdinalIgnoreCase) || 
                       st.Equals("#repeat", StringComparison.OrdinalIgnoreCase) || 
                       st.Equals("#def", StringComparison.OrdinalIgnoreCase) || 
-                      st.Equals("#include", StringComparison.OrdinalIgnoreCase)))
+                      st.Equals("#include", StringComparison.OrdinalIgnoreCase) ||
+                      st.Equals("#round", StringComparison.OrdinalIgnoreCase)))
                     _state.IsSingleLineKeyword = true;
             }
             else if (t == Types.Command)

@@ -206,7 +206,7 @@ namespace Calcpad.Wpf
                     _col = contentString.IndexOf(searchString, _col, StringComparison.InvariantCulture);
                 }
 
-                bool found = _col >= 0;
+                var found = _col >= 0;
                 if (found)
                     found = IsWholeWord(contentString, _col, _col + len);
 
@@ -219,11 +219,13 @@ namespace Calcpad.Wpf
                     BeginSearch(this, null);
                     RichTextBox.Selection.ClearAllProperties();
                     RichTextBox.Selection.Select(p.ContentStart.GetPositionAtOffset(_col), p.ContentStart.GetPositionAtOffset(_col + len));
-                    double y = RichTextBox.Selection.Start.GetCharacterRect(LogicalDirection.Forward).Bottom;
-                    if (y < 0 || y > RichTextBox.ActualHeight)
+                    var y = RichTextBox.Selection.Start.GetCharacterRect(LogicalDirection.Forward).Bottom;
+                    var h = RichTextBox.ActualHeight;
+                    if (y < 0 || y > h)
                     {
+                        y -= RichTextBox.Document.ContentStart.GetCharacterRect(LogicalDirection.Forward).Bottom;
                         DoEvents();
-                        RichTextBox.ScrollToVerticalOffset(y + Math.CopySign(20, y));
+                        RichTextBox.ScrollToVerticalOffset(y - h / 4d);
                     }
                     HighlghtSelection();
                     if (Direction == Directions.Up)
@@ -255,7 +257,7 @@ namespace Calcpad.Wpf
                             if (_direction == Directions.Up)
                                 MessageBox.Show("Start of text reached. There are no other occurrences.", "Find And Replace");
                             else
-                                MessageBox.Show("End of text reached. There are no other occurrences. Search text not found.", "Find And Replace");
+                                MessageBox.Show("End of text reached. There are no other occurrences.", "Find And Replace");
 
                             return;
                         }

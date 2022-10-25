@@ -3,6 +3,7 @@
 	<AutoComplete language="Calcpad">
 		<Environment ignoreCase="no" startFunc="(" stopFunc=")" paramSeparator=";" terminal="" additionalWordChar="$#μ°"/>
 		<KeyWord name="#break" />
+		<KeyWord name="#continue" />
 		<KeyWord name="#def" />
 		<KeyWord name="#deg" />
 		<KeyWord name="#else" />
@@ -22,6 +23,7 @@
 		<KeyWord name="#pre" />
 		<KeyWord name="#rad" />
 		<KeyWord name="#repeat" />
+		<KeyWord name="#round" />
 		<KeyWord name="#show" />
 		<KeyWord name="#val" />
 		<KeyWord name="$Area" />
