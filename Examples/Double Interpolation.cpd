@@ -4,7 +4,7 @@ x(j) = spline(j; 2; 4; 8)'- x vaues
 y(i) = spline(i; 3; 9; 27)'- y values
 'Output values
 R_1(j) = spline(j; 11; 12; 13)' - first row
-R_2(j) = spline(j; 21; 22; 23)' - second row
+R_2(j) = spline(j; 21; 122; 23)' - second row
 R_3(j) = spline(j; 31; 32; 39)' - third row
 T(i; j) = spline(i; R_1(j); R_2(j); R_3(j))' - complete table
 'Calculation of interpolation factors
@@ -17,6 +17,12 @@ f(2; 3)
 f(5; 5)
 f(4; 9)
 f(8; 27)
+#hide 
+PlotWidth = 300','PlotHeight = 100
+#show
+'<div style="float:right;">
+$Plot{f(x; 9) & x(1)|f(x(1); 9) & x(2)|f(x(2); 9) & x(3)|f(x(3); 9) @ x = 2 : 8}
+'</div>
 'Table
 #val
 '<!--'i = 0''j = 0'-->
@@ -35,7 +41,9 @@ f(8; 27)
 #loop
 '</table>
 #equ
+#hide
 PlotHeight = 300
 PlotWidth = PlotHeight
+#show
 'Plot
 $Map{f(x; y) @ x = 2 : 8 & y = 3 : 27}
