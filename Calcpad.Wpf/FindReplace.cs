@@ -15,7 +15,6 @@ namespace Calcpad.Wpf
     {
         internal event EventHandler BeginSearch;
         internal event EventHandler EndSearch;
-        internal event EventHandler BeginReplace;
         internal event EventHandler EndReplace;
 
         internal enum Directions
@@ -107,7 +106,6 @@ namespace Calcpad.Wpf
             var len = SearchString.Length;
             var lowerCaseSearchString = MatchCase ? SearchString : SearchString.ToLowerInvariant();
             int i = 0, j = 0;
-            BeginReplace(this, null);
             while (j >= 0)
             {
                 j = lowerCaseContentString.IndexOf(lowerCaseSearchString, i, StringComparison.Ordinal);

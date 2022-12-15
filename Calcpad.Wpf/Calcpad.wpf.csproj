@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net7.0-windows</TargetFramework>
     <LangVersion>latest</LangVersion>
     <AnalysisLevel>latest</AnalysisLevel>
     <UseWPF>true</UseWPF>
@@ -11,7 +11,7 @@
     <Authors>Nedelcho Ganchovski</Authors>
     <RootNamespace>Calcpad.Wpf</RootNamespace>
     <Platforms>AnyCPU</Platforms>
-		<Version>5.8.9</Version>
+		<Version>5.9.0</Version>
 		<Authors>Nedelcho Ganchovski</Authors>
 		<Company>Proektsoft EOOD</Company>
     <PackageId>Calcpad</PackageId>
@@ -34,6 +34,10 @@
   </PropertyGroup>
 	
   <ItemGroup>
+    <Compile Remove="KeyboardHook.cs" />
+  </ItemGroup>
+	
+  <ItemGroup>
     <None Remove="find.png" />
     <None Remove="resources\find.png" />
     <None Remove="resources\search.png" />
@@ -53,9 +57,10 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="DocumentFormat.OpenXml" Version="2.14.0" />
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.38" />
-    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+    <PackageReference Include="DocumentFormat.OpenXml" Version="2.18.0" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.46" />
+    <PackageReference Include="ICSharpCode.Decompiler" Version="7.2.1.6856" />
+    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
   </ItemGroup>
   
   <ItemGroup>

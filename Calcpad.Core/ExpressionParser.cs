@@ -7,7 +7,7 @@ namespace Calcpad.Core
 {
     public class ExpressionParser
     {
-        private enum Keywords
+        private enum Keyword
         {
             None,
             Hide,
@@ -32,11 +32,17 @@ namespace Calcpad.Core
             Global,
             Round
         }
-        private readonly List<string> _inputFields = new();
-        private int _currentField;
+
+        private enum KeywordResult
+        {
+            None,
+            Continue,
+            Break
+        }
+
         private int _isVal;
         private MathParser _parser;
-        private static readonly string[] NewLines = { "\r\n", "\r", "\n" };
+        //private static readonly string[] NewLines = { "\r\n", "\r", "\n" };
         public Settings Settings { get; set; }
         public string HtmlResult { get; private set; }
         public static bool IsUs
@@ -50,40 +56,21 @@ namespace Calcpad.Core
             Settings = new Settings();
         }
 
-        public void ClearInputFields()
-        {
-            _inputFields.Clear();
-            _currentField = 0;
-        }
-
-        public void SetInputField(string value) => _inputFields.Add(value);
-
-        public string GetInputField()
-        {
-            if (!_inputFields.Any())
-                return "?";
-
-            if (_currentField >= _inputFields.Count)
-                _currentField = 0;
-
-            return _inputFields[_currentField++];
-        }
-
         public void Parse(string sourceCode, bool calculate = true) =>
-            Parse(sourceCode.Split(NewLines, StringSplitOptions.None), calculate);
+            Parse(sourceCode.AsSpan(), calculate);
 
-        private static Keywords GetKeyword(string s)
+        private static Keyword GetKeyword(ReadOnlySpan<char> s)
         {
             if (s[1] == 'i')
             {
                 if (s[2] == 'f')
-                    return Keywords.If;
+                    return Keyword.If;
                 else
-                    return Keywords.None;
+                    return Keyword.None;
             }
             var n = s.Length;
             if (n < 4)
-                return Keywords.None;
+                return Keyword.None;
             var c1 = s[1];
             var c2 = s[2];
             var c3 = s[3];
@@ -98,9 +85,9 @@ namespace Calcpad.Core
                             s[5] == ' ' && 
                             s[6] == 'i' &&
                             s[7] == 'f')
-                            return Keywords.ElseIf;
+                            return Keyword.ElseIf;
 
-                        return Keywords.Else;
+                        return Keyword.Else;
                     }
                 }
                 else if (c2 == 'n')
@@ -109,58 +96,58 @@ namespace Calcpad.Core
                         s[4] == ' ' && 
                         s[5] == 'i' &&
                         s[6] == 'f')
-                        return Keywords.EndIf;
+                        return Keyword.EndIf;
                 }
                 else if (c2 == 'q' &&
                          c3 == 'u')
-                    return Keywords.Equ;
+                    return Keyword.Equ;
             }
             else if (c1 == 'p')
             {
                 if (c2 == 'r')
                 {
                     if(c3 == 'e')
-                        return Keywords.Pre;
+                        return Keyword.Pre;
                 }
                 else if (c2   == 'o' && 
                          c3   == 's' && n > 4 &&
                          s[4] == 't')
-                        return Keywords.Post;
+                        return Keyword.Post;
             }
             else if (c1 == 'g')
             {
                 if (c2 == 'r')
                 {
                     if (c3 == 'a')
-                        return Keywords.Gra;
+                        return Keyword.Gra;
                 }
                 else if (c2   == 'l' &&
                          c3   == 'o' && n > 6 &&
                          s[4] == 'b' &&
                          s[5] == 'a' &&
                          s[6] == 'l')
-                         return Keywords.Global;
+                         return Keyword.Global;
             }
             else if (c1 == 'r')
             {
                 if (c2 == 'a')
                 {
                     if (c3 == 'd')
-                        return Keywords.Rad;
+                        return Keyword.Rad;
                 }
                 else if (c2 == 'o')
                 {
                     if (c3 == 'u' && n > 5 &&
                          s[4] == 'n' &&
                          s[5] == 'd')
-                        return Keywords.Round;
+                        return Keyword.Round;
                 }
                 else if (c2   == 'e' &&
                          c3   == 'p' && n > 6 &&
                          s[4] == 'e' &&
                          s[5] == 'a' &&
                          s[6] == 't')
-                         return Keywords.Repeat;
+                         return Keyword.Repeat;
             }
             else if (c1 == 'l' &&
                      c2 == 'o')
@@ -169,387 +156,92 @@ namespace Calcpad.Core
                 {
                     if (n > 4 &&
                         s[4] == 'p')
-                        return Keywords.Loop;
+                        return Keyword.Loop;
                 }
                 else if (c3 == 'c' && n > 5 &&
                          s[4] == 'a' &&
                          s[5] == 'l')
-                    return Keywords.Local;
+                    return Keyword.Local;
             }
             else
             {
                 if (s.StartsWith("#val", StringComparison.Ordinal))
-                    return Keywords.Val;
+                    return Keyword.Val;
                 if (s.StartsWith("#noc", StringComparison.Ordinal))
-                    return Keywords.Noc;
+                    return Keyword.Noc;
                 if (s.StartsWith("#hide", StringComparison.Ordinal))
-                    return Keywords.Hide;
+                    return Keyword.Hide;
                 if (s.StartsWith("#show", StringComparison.Ordinal))
-                    return Keywords.Show;
+                    return Keyword.Show;
                 if (s.StartsWith("#deg", StringComparison.Ordinal))
-                    return Keywords.Deg;
+                    return Keyword.Deg;
                 if (s.StartsWith("#break", StringComparison.Ordinal))
-                    return Keywords.Break;
+                    return Keyword.Break;
                 if (s.StartsWith("#continue", StringComparison.Ordinal))
-                    return Keywords.Continue;
+                    return Keyword.Continue;
             }
 
-            return Keywords.None;
+            return Keyword.None;
         }
 
         public void Cancel() => _parser?.Cancel();
 
-        private void Parse(string[] expressions, bool calculate = true)
+        private void Parse(ReadOnlySpan<char> code, bool calculate = true)
         {
-            const int RemoveCondition = Keywords.EndIf - Keywords.If;
-            var stringBuilder = new StringBuilder(expressions.Length * 80);
-            var condition = new ConditionParser();
+            var stringBuilder = new StringBuilder();
+            var conditions = new ConditionParser();
+            var loops = new Stack<Loop>();
+
+            var lines = new List<int>{0};
+            var len = code.Length;
+            for (int i = 0; i < len; ++i)
+                if (code[i] == '\n')
+                    lines.Add(i + 1);
+
+            var lineCount = lines.Count;
+            lines.Add(len);
+            var line = -1;   
             _parser = new MathParser(Settings.Math)
             {
-                GetInputField = GetInputField
+                IsEnabled = calculate
             };
-            _isVal = 0;
-            var loops = new Stack<Loop>();
-            var isVisible = true;
-            _parser.IsEnabled = calculate;
             _parser.SetVariable("Units", new Value(UnitsFactor()));
-            var line = 0;
-            var len = expressions.Length - 1;
-            var s = string.Empty;
+            _isVal = 0;
+            var isVisible = true;
+            var s = ReadOnlySpan<char>.Empty;
             try
             {
-                for (var i = 0; i < len; ++i)
+                while (++line < lineCount)
                 {
-                    line = i + 1;
-                    var id = loops.Any() && loops.Peek().Iteration != 1 ? "" : $" id=\"line{line}\"";
+                    var expr = code[lines[line]..lines[line + 1]];
+                    var htmlId = loops.Any() && loops.Peek().Iteration != 1 ? 
+                        string.Empty : 
+                        $" id=\"line{line + 1}\"";
                     if (_parser.IsCanceled)
                         break;
 
-                    s = expressions[i].Trim();
-                    if (string.IsNullOrEmpty(s))
+                    s = expr.Trim();
+                    if (s.IsEmpty)
                     {
                         if (isVisible)
-                            stringBuilder.AppendLine($"<p{id}>&nbsp;</p>");
+                            stringBuilder.AppendLine($"<p{htmlId}>&nbsp;</p>");
 
                         continue;
                     }
-                    var lowerCase = s.ToLowerInvariant();
-                    var keyword = Keywords.None;
-                    if (s[0] == '#')
+                    var result = ParseKeyword(s, htmlId, out Keyword keyword);
+                    if (result == KeywordResult.Continue)
+                        continue;
+                    else if (result == KeywordResult.Break)
+                        break;
+
+                    if (!ParsePlot(s, htmlId))
                     {
-                        var isKeyWord = true;
-                        keyword = GetKeyword(lowerCase);
-                        if (keyword == Keywords.Hide)
-                            isVisible = false;
-                        else if (keyword == Keywords.Show)
-                            isVisible = true;
-                        else if (keyword == Keywords.Pre)
-                            isVisible = !calculate;
-                        else if (keyword == Keywords.Post)
-                            isVisible = calculate;
-                        else if (keyword == Keywords.Val)
-                            _isVal = 1;
-                        else if (keyword == Keywords.Equ)
-                            _isVal = 0;
-                        else if (keyword == Keywords.Noc)
-                            _isVal = -1;
-                        else if (keyword == Keywords.Deg)
-                            _parser.Degrees = 0;
-                        else if (keyword == Keywords.Rad)
-                            _parser.Degrees = 1;
-                        else if (keyword == Keywords.Gra)
-                            _parser.Degrees = 2;
-                        else if (keyword == Keywords.Round)
-                        {
-                            var expression = string.Empty;
-                            if (s.Length > 6)
-                            {
-                                expression = s[6..].Trim();
-                                if (int.TryParse(expression, out int n))
-                                    Settings.Math.Decimals = n;
-                                else
-                                {
-                                    try
-                                    {
-                                        _parser.Parse(expression);
-                                        _parser.Calculate();
-                                        Settings.Math.Decimals = (int)Math.Round(_parser.Real);
-                                    }
-                                    catch (MathParser.MathParserException ex)
-                                    {
-                                        AppendError(ex.Message);
-                                    }
-                                }
-                            }
-                        }
-                        else if (keyword == Keywords.Repeat)
-                        {
-                            var expression = string.Empty;
-                            if (s.Length > 7)
-                                expression = s[7..].Trim();
-
-                            if (calculate)
-                            {
-                                if (condition.IsSatisfied)
-                                {
-                                    var count = 0;
-                                    if (!string.IsNullOrWhiteSpace(expression))
-                                    {
-                                        try
-                                        {
-                                            _parser.Parse(expression);
-                                            _parser.Calculate();
-                                            if (_parser.Real > int.MaxValue)
-#if BG
-                                                AppendError($"Броят на итерациите е по-голям от максималния {int.MaxValue}.</p>");
-#else
-                                                AppendError($"Number of iterations exceeds the maximum {int.MaxValue}.</p>");
-#endif
-                                            else
-                                                count = (int)Math.Round(_parser.Real);
-                                        }
-                                        catch (MathParser.MathParserException ex)
-                                        {
-                                            AppendError(ex.Message);
-                                        }
-                                    }
-                                    else
-                                        count = -1;
-
-                                    loops.Push(new Loop(i, count, condition.Id));
-                                }
-                            }
-                            else if (isVisible)
-                            {
-                                if (string.IsNullOrWhiteSpace(expression))
-                                    stringBuilder.Append($"<p{id} class=\"cond\">#repeat</p><div class=\"indent\">");
-                                else
-                                {
-                                    try
-                                    {
-                                        _parser.Parse(expression);
-                                        stringBuilder.Append($"<p{id}><span class=\"cond\">#repeat</span> {_parser.ToHtml()}</p><div class=\"indent\">");
-                                    }
-                                    catch (MathParser.MathParserException ex)
-                                    {
-                                        AppendError(ex.Message);
-                                    }
-                                }
-                            }
-                        }
-                        else if (keyword == Keywords.Loop)
-                        {
-                            if (calculate)
-                            {
-                                if (condition.IsSatisfied)
-                                {
-                                    if (!loops.Any())
-#if BG
-                                        AppendError("\"#loop\" без съответен \"#repeat\".");
-#else                                    
-                                        AppendError("\"#loop\" without a corresponding \"#repeat\".");
-#endif                                    
-                                    else if (loops.Peek().Id != condition.Id)
-#if BG
-                                        AppendError("Преплитане на \"#if - #end if\" и \"#repeat - #loop\" блокове.");
-#else
-                                        AppendError("Entangled \"#if - #end if\" and \"#repeat - #loop\" blocks.");
-#endif
-                                    else if (!loops.Peek().Iterate(ref i))
-                                        loops.Pop();
-                                }
-                            }
-                            else if (isVisible)
-                            {
-                                stringBuilder.Append($"</div><p{id} class=\"cond\">#loop</p>");
-                            }
-                        }
-                        else if (keyword == Keywords.Break)
-                        {
-                            if (calculate)
-                            {
-                                if (condition.IsSatisfied)
-                                {
-                                    if (loops.Any())
-                                        loops.Peek().Break();
-                                    else
-                                        break;
-                                }
-                            }
-                            else if (isVisible)
-                                stringBuilder.Append($"<p{id} class=\"cond\">#break</p>");
-                        }
-                        else if (keyword == Keywords.Continue)
-                        {
-                            if (calculate)
-                            {
-                                if (condition.IsSatisfied)
-                                {
-                                    if (!loops.Any())
-#if BG
-                                    AppendError("\"#continue\" без съответен \"#repeat\".");
-#else
-                                        AppendError("\"#continue\" without a corresponding \"#repeat\".");
-#endif
-                                    else
-                                    {
-                                        var loop = loops.Peek();
-                                        while (condition.Id > loop.Id)
-                                            condition.SetCondition(RemoveCondition);
-                                        loop.Iterate(ref i);
-                                    }
-                                        
-                                }
-                            }
-                            else if (isVisible)
-                                stringBuilder.Append($"<p{id} class=\"cond\">#continue</p>");
-                        }
-                        else if (keyword != Keywords.Global && keyword != Keywords.Local)
-                            isKeyWord = false;
-
-                        if (isKeyWord)
-                            continue;
+                        if (ParseCondition(s, keyword, htmlId))
+                            ParseExpression(s, keyword, htmlId);
                     }
-                    if (lowerCase.StartsWith("$plot", StringComparison.Ordinal) || 
-                        lowerCase.StartsWith("$map", StringComparison.Ordinal))
-                    {
-                        if (isVisible && (condition.IsSatisfied || !calculate))
-                        {
-                            PlotParser plotParser;
-                            if (lowerCase.StartsWith("$p", StringComparison.Ordinal))
-                                plotParser = new ChartParser(_parser, Settings.Plot);
-                            else
-                                plotParser = new MapParser(_parser, Settings.Plot);
-
-                            try
-                            {
-                                _parser.IsPlotting = true;
-                                s = plotParser.Parse(s, calculate);
-                                stringBuilder.Append(InsertAttribute(s, id));
-                                _parser.IsPlotting = false;
-                            }
-                            catch (MathParser.MathParserException ex)
-                            {
-                                AppendError(ex.Message);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        condition.SetCondition(keyword - Keywords.If);
-                        if (condition.IsSatisfied && !(loops.Any() && loops.Peek().IsBroken) || !calculate)
-                        {
-                            var kwdLength = condition.KeyWordLength;
-                            if (kwdLength == s.Length)
-                            {
-                                if (condition.IsUnchecked)
-#if BG
-                                    throw new MathParser.MathParserException("Условието не може да бъде празно.");
-#else
-                                    throw new MathParser.MathParserException("Condition cannot be empty.");
-#endif
-                                if (isVisible && !calculate)
-                                {
-                                    if (keyword == Keywords.Else)
-                                        stringBuilder.Append($"</div><p{id}>{condition.ToHtml()}</p><div class = \"indent\">");
-                                    else
-                                        stringBuilder.Append($"</div><p{id}>{condition.ToHtml()}</p>");
-                                }
-                            }
-                            else if (kwdLength > 0 && condition.IsFound && condition.IsUnchecked && calculate)
-                                condition.Check(0.0);
-                            else
-                            {
-                                var tokens = GetInput(s, kwdLength);
-                                var lineType = TokenTypes.Text;
-                                if (tokens.Any())
-                                    lineType = tokens[0].Type;
-                                var isOutput = isVisible && (!calculate || kwdLength == 0);
-                                if (isOutput)
-                                {
-                                    if (keyword == Keywords.ElseIf || keyword == Keywords.EndIf)
-                                        stringBuilder.Append("</div>");
-
-                                    if (lineType == TokenTypes.Heading)
-                                        stringBuilder.Append($"<h3{id}>");
-                                    else if (lineType == TokenTypes.Html)
-                                        tokens[0] = new Token(InsertAttribute(tokens[0].Value, id), TokenTypes.Html);
-                                    else
-                                        stringBuilder.Append($"<p{id}>");
-
-                                    if (kwdLength > 0 && !calculate)
-                                        stringBuilder.Append(condition.ToHtml());
-                                }
-
-                                foreach (var token in tokens)
-                                {
-                                    if (token.Type == TokenTypes.Expression)
-                                    {
-                                        try
-                                        {
-                                            _parser.Parse(token.Value);
-                                            if (calculate && _isVal > -1)
-                                                _parser.Calculate();
-
-                                            if (isOutput)
-                                            {
-                                                if (_isVal == 1 & calculate)
-                                                    stringBuilder.Append(Complex.Format(_parser.Result, Settings.Math.Decimals, OutputWriter.OutputFormat.Html));
-                                                else
-                                                {
-                                                    if (Settings.Math.FormatEquations)
-                                                        stringBuilder.Append($"<span class=\"eq\" data-xml=\'{_parser.ToXml()}\'>{_parser.ToHtml()}</span>");
-                                                    else
-                                                        stringBuilder.Append($"<span class=\"eq\">{_parser.ToHtml()}</span>");
-
-                                                }
-                                            }
-                                        }
-                                        catch (MathParser.MathParserException ex)
-                                        {
-                                            string errText;
-                                            if (!calculate && token.Value.Contains('?', StringComparison.Ordinal))
-                                                errText = token.Value.Replace("?", "<input type=\"text\" size=\"2\" name=\"Var\">");
-                                            else
-                                                errText = token.Value;
-#if BG
-                                            errText = $"Грешка в \"{errText}\" на ред {LineHtml(line)}: {ex.Message}";
-#else      
-                                            errText = $"Error in \"{errText}\" on line {LineHtml(line)}: {ex.Message}";
-#endif
-                                            stringBuilder.Append(ErrHtml(errText));
-                                        }
-                                    }
-                                    else if (isVisible)
-                                        stringBuilder.Append(token.Value);
-                                }
-                                if (isOutput)
-                                {
-                                    if (lineType == TokenTypes.Heading)
-                                        stringBuilder.Append("</h3>");
-                                    else if (lineType != TokenTypes.Html)
-                                        stringBuilder.Append("</p>");
-
-                                    if (keyword == Keywords.If || keyword == Keywords.ElseIf)
-                                        stringBuilder.Append("<div class = \"indent\">");
-
-                                    stringBuilder.AppendLine();
-                                }
-                                if (condition.IsUnchecked)
-                                {
-                                    if (calculate)
-                                        condition.Check(_parser.Result);
-                                    else
-                                        condition.Check();
-                                }
-                            }
-                        }
-                        else if (calculate)
-                            PurgeObsoleteInput(s);
-                    }
-                }
+                }                    
                 ApplyUnits(stringBuilder, calculate);
-                if (condition.Id > 0 && line == len)
+                if (conditions.Id > 0 && line == lineCount)
 #if BG
                     stringBuilder.Append(ErrHtml($"Грешка: Условният \"#if\" блок не е затворен. Липсва \"#end if\"."));
 #else
@@ -564,7 +256,7 @@ namespace Calcpad.Core
             }
             catch (MathParser.MathParserException ex)
             {
-                AppendError(ex.Message);
+                AppendError(s.ToString(), ex.Message);
             }
             catch (Exception ex)
             {
@@ -579,17 +271,384 @@ namespace Calcpad.Core
                 HtmlResult = stringBuilder.ToString();
                 _parser = null;
             }
-            void AppendError(string text) =>
+
+            void AppendError(string lineContent, string text) =>
 #if BG
-                stringBuilder.Append(ErrHtml($"Грешка в \"{s}\" на ред {LineHtml(line)}: {text}</p>"));
+                stringBuilder.Append(ErrHtml($"Грешка в \"{lineContent}\" на ред {LineHtml(line)}: {text}</p>"));
 #else
-                stringBuilder.Append(ErrHtml($"Error in \"{s}\" on line {LineHtml(line)}: {text}</p>"));
+                stringBuilder.Append(ErrHtml($"Error in \"{lineContent}\" on line {LineHtml(line)}: {text}</p>"));
 #endif
             static string ErrHtml(string text) => $"<p class=\"err\">{text}</p>";
-            static string LineHtml(int line) => $"[<a href=\"#0\" data-text=\"{line}\">{line}</a>]";
+            static string LineHtml(int line) => $"[<a href=\"#0\" data-text=\"{line + 1}\">{line + 1}</a>]";
+
+            KeywordResult ParseKeyword(ReadOnlySpan<char> s, string htmlId, out Keyword keyword)
+            {
+                keyword = Keyword.None;
+                if (s[0] == '#')
+                {
+                    keyword = GetKeyword(s);
+                    if (keyword == Keyword.Hide)
+                        isVisible = false;
+                    else if (keyword == Keyword.Show)
+                        isVisible = true;
+                    else if (keyword == Keyword.Pre)
+                        isVisible = !calculate;
+                    else if (keyword == Keyword.Post)
+                        isVisible = calculate;
+                    else if (keyword == Keyword.Val)
+                        _isVal = 1;
+                    else if (keyword == Keyword.Equ)
+                        _isVal = 0;
+                    else if (keyword == Keyword.Noc)
+                        _isVal = -1;
+                    else if (keyword == Keyword.Deg)
+                        _parser.Degrees = 0;
+                    else if (keyword == Keyword.Rad)
+                        _parser.Degrees = 1;
+                    else if (keyword == Keyword.Gra)
+                        _parser.Degrees = 2;
+                    else if (keyword == Keyword.Round)
+                        ParseKeywordRound(s);
+                    else if (keyword == Keyword.Repeat)
+                        ParseKeywordRepeat(s, htmlId);
+                    else if (keyword == Keyword.Loop)
+                        ParseKeywordLoop(s, htmlId);
+                    else if (keyword == Keyword.Break)
+                    {   
+                        if (ParseKeywordBreak(s, htmlId))
+                            return KeywordResult.Break;
+                    }
+                    else if (keyword == Keyword.Continue)
+                        ParseKeywordContinue(s, htmlId);
+                    else if (keyword != Keyword.Global && keyword != Keyword.Local)
+                        return KeywordResult.None;
+
+                    return KeywordResult.Continue;
+                }
+                return KeywordResult.None;
+            }
+
+            void ParseKeywordRound(ReadOnlySpan<char> s)
+            {
+                if (s.Length > 6)
+                {
+                    var expr = s[6..].Trim();
+                    if (int.TryParse(expr, out int n))
+                        Settings.Math.Decimals = n;
+                    else
+                    {
+                        try
+                        {
+                            _parser.Parse(expr);
+                            _parser.Calculate();
+                            Settings.Math.Decimals = (int)Math.Round(_parser.Real);
+                        }
+                        catch (MathParser.MathParserException ex)
+                        {
+                            AppendError(s.ToString(), ex.Message);
+                        }
+                    }
+                }
+            }
+
+            void ParseKeywordRepeat(ReadOnlySpan<char> s, string htmlId)
+            {
+                ReadOnlySpan<char> expression = s.Length > 7 ?
+                    s[7..].Trim() :
+                    Span<char>.Empty;
+
+                if (calculate)
+                {
+                    if (conditions.IsSatisfied)
+                    {
+                        var count = 0;
+                        if (!expression.IsWhiteSpace())
+                        {
+                            try
+                            {
+                                _parser.Parse(expression);
+                                _parser.Calculate();
+                                if (_parser.Real > int.MaxValue)
+#if BG
+                                    AppendError($"Броят на итерациите е по-голям от максималния {int.MaxValue}.</p>");
+#else
+                                    AppendError(s.ToString(), $"Number of iterations exceeds the maximum {int.MaxValue}.</p>");
+#endif
+                                else
+                                    count = (int)Math.Round(_parser.Real);
+                            }
+                            catch (MathParser.MathParserException ex)
+                            {
+                                AppendError(s.ToString(), ex.Message);
+                            }
+                        }
+                        else
+                            count = -1;
+
+                        loops.Push(new Loop(line, count, conditions.Id));
+                    }
+                }
+                else if (isVisible)
+                {
+                    if (expression.IsWhiteSpace())
+                        stringBuilder.Append($"<p{htmlId} class=\"cond\">#repeat</p><div class=\"indent\">");
+                    else
+                    {
+                        try
+                        {
+                            _parser.Parse(expression);
+                            stringBuilder.Append($"<p{htmlId}><span class=\"cond\">#repeat</span> {_parser.ToHtml()}</p><div class=\"indent\">");
+                        }
+                        catch (MathParser.MathParserException ex)
+                        {
+                            AppendError(s.ToString(), ex.Message);
+                        }
+                    }
+                }
+            }
+
+            void ParseKeywordLoop(ReadOnlySpan<char> s, string htmlId)
+            {
+                if (calculate)
+                {
+                    if (conditions.IsSatisfied)
+                    {
+                        if (!loops.Any())
+#if BG
+                            AppendError("\"#loop\" без съответен \"#repeat\".");
+#else
+                            AppendError(s.ToString(), "\"#loop\" without a corresponding \"#repeat\".");
+#endif
+                        else if (loops.Peek().Id != conditions.Id)
+#if BG
+                            AppendError("Преплитане на \"#if - #end if\" и \"#repeat - #loop\" блокове.");
+#else
+                            AppendError(s.ToString(), "Entangled \"#if - #end if\" and \"#repeat - #loop\" blocks.");
+#endif
+                        else if (!loops.Peek().Iterate(ref line))
+                            loops.Pop();
+                    }
+                }
+                else if (isVisible)
+                    stringBuilder.Append($"</div><p{htmlId} class=\"cond\">#loop</p>");
+            }
+
+            bool ParseKeywordBreak(ReadOnlySpan<char> s, string htmlId)
+            {
+                if (calculate)
+                {
+                    if (conditions.IsSatisfied)
+                    {
+                        if (loops.Any())
+                            loops.Peek().Break();
+                        else
+                            return true;
+                    }
+                }
+                else if (isVisible)
+                    stringBuilder.Append($"<p{htmlId} class=\"cond\">#break</p>");
+
+                return false;
+            }
+
+            void ParseKeywordContinue(ReadOnlySpan<char> s, string htmlId)
+            {
+                const int RemoveCondition = Keyword.EndIf - Keyword.If;
+                if (calculate)
+                {
+                    if (conditions.IsSatisfied)
+                    {
+                        if (!loops.Any())
+#if BG
+                            AppendError("\"#continue\" без съответен \"#repeat\".");
+#else
+                            AppendError(s.ToString(), "\"#continue\" without a corresponding \"#repeat\".");
+#endif
+                        else
+                        {
+                            var loop = loops.Peek();
+                            while (conditions.Id > loop.Id)
+                                conditions.SetCondition(RemoveCondition);
+                            loop.Iterate(ref line);
+                        }
+
+                    }
+                }
+                else if (isVisible)
+                    stringBuilder.Append($"<p{htmlId} class=\"cond\">#continue</p>");
+            }
+
+            bool ParsePlot(ReadOnlySpan<char> s, string htmlId)
+            {
+
+                if (s.StartsWith("$plot", StringComparison.OrdinalIgnoreCase) ||
+                    s.StartsWith("$map", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (isVisible && (conditions.IsSatisfied || !calculate))
+                    {
+                        PlotParser plotParser;
+                        if (s.StartsWith("$p", StringComparison.OrdinalIgnoreCase))
+                            plotParser = new ChartParser(_parser, Settings.Plot);
+                        else
+                            plotParser = new MapParser(_parser, Settings.Plot);
+
+                        try
+                        {
+                            _parser.IsPlotting = true;
+                            var s1 = plotParser.Parse(s, calculate);
+                            stringBuilder.Append(InsertAttribute(s1, htmlId));
+                            _parser.IsPlotting = false;
+                        }
+                        catch (MathParser.MathParserException ex)
+                        {
+                            AppendError(s.ToString(), ex.Message);
+                        }
+                    }
+                    return true;
+                }
+                return false;
+            }
+
+            bool ParseCondition(ReadOnlySpan<char> s, Keyword keyword, string htmlId)
+            {
+                conditions.SetCondition(keyword - Keyword.If);
+                if (conditions.IsSatisfied && !(loops.Any() && loops.Peek().IsBroken) || !calculate)
+                {
+                    if (conditions.KeywordLength == s.Length)
+                    {
+                        if (conditions.IsUnchecked)
+#if BG
+                            throw new MathParser.MathParserException("Условието не може да бъде празно.");
+#else
+                            throw new MathParser.MathParserException("Condition cannot be empty.");
+#endif
+                        if (isVisible && !calculate)
+                        {
+                            if (keyword == Keyword.Else)
+                                stringBuilder.Append($"</div><p{htmlId}>{conditions.ToHtml()}</p><div class = \"indent\">");
+                            else
+                                stringBuilder.Append($"</div><p{htmlId}>{conditions.ToHtml()}</p>");
+                        }
+                    }
+                    else if (conditions.KeywordLength > 0 &&
+                             conditions.IsFound &&
+                             conditions.IsUnchecked &&
+                             calculate)
+                        conditions.Check(0.0);
+                    else
+                        return true;
+                }
+                return false;
+            }
+
+            void ParseExpression(ReadOnlySpan<char> s, Keyword keyword, string htmlId)
+            {
+                var kwdLength = conditions.KeywordLength;
+                var tokens = GetInput(s[kwdLength..]);
+                var lineType = tokens.Any() ?
+                    tokens[0].Type :
+                    TokenTypes.Text;
+                var isOutput = isVisible && (!calculate || kwdLength == 0);
+                bool isIndent = keyword == Keyword.ElseIf || keyword == Keyword.EndIf;
+                AppendHtmlLineStart(isOutput, lineType, isIndent, htmlId);
+                if (isOutput)
+                {
+                    if (lineType == TokenTypes.Html)
+                        tokens[0] = new Token(InsertAttribute(tokens[0].Value, htmlId), TokenTypes.Html);
+
+                    if (kwdLength > 0 && !calculate)
+                        stringBuilder.Append(conditions.ToHtml());
+                }
+                ParseTokens(tokens, isOutput);
+                AppendHtmlLineEnd(isOutput, lineType, isIndent);
+                if (conditions.IsUnchecked)
+                {
+                    if (calculate)
+                        conditions.Check(_parser.Result);
+                    else
+                        conditions.Check();
+                }
+            }
+
+            void AppendHtmlLineStart(bool isOutput, TokenTypes lineType, bool isIndent, string htmlId)
+            {
+                if (isOutput)
+                {
+                    if (isIndent)
+                        stringBuilder.Append("</div>");
+
+                    if (lineType == TokenTypes.Heading)
+                        stringBuilder.Append($"<h3{htmlId}>");
+                    else if (lineType != TokenTypes.Html)
+                        stringBuilder.Append($"<p{htmlId}>");
+                }
+            }
+
+
+            void ParseTokens(List<Token> tokens, bool isOutput)
+            {
+                foreach (var token in tokens)
+                {
+                    if (token.Type == TokenTypes.Expression)
+                    {
+                        try
+                        {
+                            _parser.Parse(token.Value);
+                            if (calculate && _isVal > -1)
+                                _parser.Calculate();
+
+                            if (isOutput)
+                            {
+                                if (_isVal == 1 & calculate)
+                                    stringBuilder.Append(Complex.Format(_parser.Result, Settings.Math.Decimals, OutputWriter.OutputFormat.Html));
+                                else
+                                {
+                                    if (Settings.Math.FormatEquations)
+                                        stringBuilder.Append($"<span class=\"eq\" data-xml=\'{_parser.ToXml()}\'>{_parser.ToHtml()}</span>");
+                                    else
+                                        stringBuilder.Append($"<span class=\"eq\">{_parser.ToHtml()}</span>");
+
+                                }
+                            }
+                        }
+                        catch (MathParser.MathParserException ex)
+                        {
+                            string errText;
+                            if (!calculate && token.Value.Contains('?', StringComparison.Ordinal))
+                                errText = token.Value.Replace("?", "<input type=\"text\" size=\"2\" name=\"Var\">");
+                            else
+                                errText = token.Value;
+#if BG
+                                            errText = $"Грешка в \"{errText}\" на ред {LineHtml(line)}: {ex.Message}";
+#else
+                            errText = $"Error in \"{errText}\" on line {LineHtml(line)}: {ex.Message}";
+#endif
+                            stringBuilder.Append(ErrHtml(errText));
+                        }
+                    }
+                    else if (isVisible)
+                        stringBuilder.Append(token.Value);
+                }
+            }
+
+            void AppendHtmlLineEnd(bool isOutput, TokenTypes lineType, bool indent)
+            {
+                if (isOutput)
+                {
+                    if (lineType == TokenTypes.Heading)
+                        stringBuilder.Append("</h3>");
+                    else if (lineType != TokenTypes.Html)
+                        stringBuilder.Append("</p>");
+
+                    if (indent)
+                        stringBuilder.Append("<div class = \"indent\">");
+
+                    stringBuilder.AppendLine();
+                }
+            }
         }
 
-        private static string InsertAttribute(string s, string attr)
+        private static string InsertAttribute(ReadOnlySpan<char> s, string attr)
         {
             if (s.Length > 2 && s[0] == '<' && char.IsLetter(s[1]))
             {
@@ -608,19 +667,17 @@ namespace Calcpad.Core
                             break;
                         }
                     };
-                    return s[..i] + attr + s[i..];
+                    return s[..i].ToString() + attr + s[i..].ToString();
                 }
             }
-            return s;
+            return s.ToString();
         }
 
         private void ApplyUnits(StringBuilder sb, bool calculate)
         {
-            string unitsHtml;
-            if (calculate)
-                unitsHtml = Settings.Units;
-            else
-                unitsHtml = "<span class=\"Units\">" + Settings.Units + "</span>";
+            string unitsHtml = calculate ?
+                Settings.Units :
+                "<span class=\"Units\">" + Settings.Units + "</span>";
 
             long len = sb.Length;
             sb.Replace("%u", unitsHtml);
@@ -641,27 +698,13 @@ namespace Calcpad.Core
             };
         }
 
-        private void PurgeObsoleteInput(string s)
-        {
-            var isExpression = true;
-            for (int i = 0, len = s.Length; i < len; ++i)
-            {
-                var c = s[i];
-                if (c == '\'' || c == '\"')
-                    isExpression = !isExpression;
-                else if (c == '?' && isExpression)
-                    GetInputField();
-            }
-        }
-
-        private List<Token> GetInput(string s, int startIndex)
+        private List<Token> GetInput(ReadOnlySpan<char> s)
         {
             var tokens = new List<Token>();
             var stringBuilder = new StringBuilder();
             var currentSeparator = ' ';
-            for (int i = startIndex, len = s.Length; i < len; ++i)
+            foreach (char c in s)
             {
-                var c = s[i];
                 if (c == '\'' || c == '\"')
                 {
                     if (currentSeparator == ' ' || currentSeparator == c)
@@ -688,14 +731,14 @@ namespace Calcpad.Core
             return tokens;
         }
 
-        private void AddToken(List<Token> tokens, string value, char separator)
+        private void AddToken(List<Token> tokens, ReadOnlySpan<char> value, char separator)
         {
-            var tokenValue = value;
+            var tokenValue = value.ToString();
             var tokenType = GetTokenType(separator);
 
             if (tokenType == TokenTypes.Expression)
             {
-                if (string.IsNullOrWhiteSpace(tokenValue))
+                if (value.IsWhiteSpace())
                     return;
             }
             else if (_isVal < 1)
@@ -777,7 +820,7 @@ namespace Calcpad.Core
             internal bool IsUnchecked { get; private set; }
             internal bool IsSatisfied => _conditions[_count].Value;
             internal bool IsFound { get; private set; }
-            internal int KeyWordLength => _keywordLength;
+            internal int KeywordLength => _keywordLength;
 
             internal ConditionParser()
             {

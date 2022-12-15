@@ -7,7 +7,6 @@ namespace Calcpad.Core
 {
     public partial class MathParser
     {
-        internal Func<string> GetInputField;
         private readonly StringBuilder _stringBuilder = new();
         private readonly MathSettings _settings;
         private Token[] _rpn;
@@ -126,7 +125,7 @@ namespace Calcpad.Core
             }
         }
 
-        public void Parse(string expression, bool AllowAssignment = true)
+        public void Parse(ReadOnlySpan<char> expression, bool AllowAssignment = true)
         {
             Result = Complex.Zero;
             _isCalculated = false;

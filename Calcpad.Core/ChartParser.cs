@@ -8,7 +8,7 @@ namespace Calcpad.Core
         private Func<Value>[] _fx, _fy;
         internal ChartParser(MathParser parser, PlotSettings settings) : base(parser, settings) { }
 
-        internal override string Parse(string script, bool calculate)
+        internal override string Parse(ReadOnlySpan<char> script, bool calculate)
         {
             const int n = 4;
             char[] delimiters = { '{', '@', '=', ':', '}' };

@@ -1,4 +1,6 @@
-﻿namespace Calcpad.Core
+﻿using System;
+
+namespace Calcpad.Core
 {
     internal abstract class PlotParser
     {
@@ -11,7 +13,7 @@
             Settings = settings;
         }
 
-        internal abstract string Parse(string script, bool calculate);
+        internal abstract string Parse(ReadOnlySpan<char> script, bool calculate);
 
         protected static string[] Parts =
         {

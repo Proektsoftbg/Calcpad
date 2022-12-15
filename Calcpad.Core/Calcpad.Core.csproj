@@ -1,29 +1,33 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <AnalysisLevel>latest</AnalysisLevel>
     <RootNamespace>Calcpad.Core</RootNamespace>
     <OutputType>Library</OutputType>
-    <Version>5.8.9</Version>
+    <Version>5.9.0</Version>
     <Authors>Nedelcho Ganchovski</Authors>
     <Company>Proektsoft EOOD</Company>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>..\Calcpad.Wpf\bin\Release\net6.0-windows\</OutputPath>
+    <OutputPath>..\Calcpad.Wpf\bin\Release\net7.0-windows\</OutputPath>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <!--<DefineConstants>BG</DefineConstants>-->
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>..\Calcpad.Wpf\bin\Debug\net6.0-windows\</OutputPath>
+    <OutputPath>..\Calcpad.Wpf\bin\Debug\net7.0-windows\</OutputPath>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <!--<DefineConstants>BG</DefineConstants>-->
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+    <Compile Remove="StringExtension.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
   </ItemGroup>
 
   <PropertyGroup>

@@ -155,7 +155,7 @@ namespace Calcpad.Core
                         else
                             y2 *= m;
                     }
-                    if (!bisection)
+                    else if (!bisection)
                         side = 1;
 
                     x1 = x3;
@@ -171,7 +171,7 @@ namespace Calcpad.Core
                         else
                             y1 *= m;
                     }
-                    if (!bisection)
+                    else if (!bisection)
                         side = -1;
 
                     x2 = x3;
