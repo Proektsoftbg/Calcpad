@@ -237,7 +237,6 @@ namespace Calcpad.Core
                                     if (n > 6)
                                     {
                                         _dims[6].Power = luminosity;
-
                                         if (n > 7)
                                             _dims[7].Power = angle;
                                     }
@@ -945,8 +944,8 @@ namespace Calcpad.Core
             double? d1 = null;
             for (int i = 0; i < n; ++i)
             {
-                var p1 = _dims[i].Power;
-                var p2 = other._dims[i].Power;
+                ref var p1 = ref _dims[i].Power;
+                ref var p2 = ref other._dims[i].Power;
                 if (p1 != p2)
                 {
                     if (p1 == 0f || p2 == 0f)

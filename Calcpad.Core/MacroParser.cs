@@ -9,7 +9,7 @@ namespace Calcpad.Core
 {
     public class MacroParser
     {
-        private struct Macro
+        private readonly struct Macro
         {
             private readonly string Contents;
             private readonly string[] Parameters;
@@ -72,7 +72,6 @@ namespace Calcpad.Core
                     var j = Order[i];
                     sb.Replace(Parameters[j], arguments[j]);
                 }
-
                 return sb.ToString();
             }
             internal bool IsEmpty => Contents is null;
@@ -87,11 +86,11 @@ namespace Calcpad.Core
             Include,
         }
         private static readonly char[] Comments = { '\'', '"' };
-        private static readonly string[] NewLines = { "\r\n", "\r", "\n" };
+        //private static readonly string[] NewLines = { "\r\n", "\r", "\n" };
         private static readonly Dictionary<string, Macro> Macros = new(StringComparer.Ordinal);
         public Func<string, Queue<string>, string> Include;
 
-        private static Keywords GetKeyword(string s)
+        private static Keywords GetKeyword(ReadOnlySpan<char> s)
         {
             if (s.Length < 4)
                 return Keywords.None;
@@ -105,38 +104,37 @@ namespace Calcpad.Core
             return Keywords.None;
         }
 
-        public bool Parse(string sourceCode, out string outCode)
+        public bool Parse(string sourceCode, out string outCode, StringBuilder stringBuilder)
         {
-            var sourceLines = sourceCode.Split(NewLines, StringSplitOptions.None).ToList();
-            var stringBuilder = new StringBuilder(sourceCode.Length);
+            var sourceLines = sourceCode.AsSpan().EnumerateLines();
+            if (stringBuilder is null)
+                stringBuilder = new StringBuilder(sourceCode.Length);
             var macroName = string.Empty;
             var macroBuilder = new StringBuilder(50);
             var lineNumber = 0;
             var includeCount = 0;
             var macroDefCount = 0;
             var hasErrors = false;
-            string lineContent = "code";
+            ReadOnlySpan<char> lineContent = "code";
             Macros.Clear();
             List<string> macroParameters = null;
             try
             {
-                for (var i = 0; i < sourceLines.Count; ++i)
+                foreach (ReadOnlySpan<char> sourceLine in sourceLines)
                 {
                     if (includeCount == 0)
                         ++lineNumber;
                     else
                         --includeCount;
 
-                    lineContent = sourceLines[i].Trim();
+                    lineContent = sourceLine.Trim();
                     var keyword = Keywords.None;
-                    if (string.IsNullOrEmpty(lineContent))
+                    if (lineContent.IsEmpty)
                     {
-                        if (i < sourceLines.Count - 1)
-                            stringBuilder.AppendLine(sourceLines[i]);
-
+                        stringBuilder.AppendLine(sourceLine.ToString());
                         continue;
                     }
-                    else if (lineContent[0] == '#')
+                    if (lineContent[0] == '#')
                     {
                         var isKeyWord = true;
                         keyword = GetKeyword(lineContent);
@@ -147,25 +145,24 @@ namespace Calcpad.Core
 #if BG
                                 AppendError($"Липсва изходен файл за вмъкване.");
 #else
-                                AppendError($"Missing source file for include.");
+                                AppendError(lineContent.ToString(), $"Missing source file for include.");
 #endif                      
                             n = lineContent.IndexOfAny(Comments);
                             if (n < 9)
                                 n = lineContent.Length;
 
-                            string insertFileName = lineContent[8..n].Trim();
+                            var insertFileName = lineContent[8..n].Trim().ToString();
                             if (!File.Exists(insertFileName))
 #if BG
                                 AppendError("Файлът не е намерен.");
 #else
-                                AppendError("File not found.");
+                                AppendError(lineContent.ToString(), "File not found.");
 #endif  
-                            else
+                             
                             {
                                 var includeCode = Include(insertFileName, null);
-                                var includeLines = includeCode.Split(NewLines, StringSplitOptions.None);
-                                includeCount += includeLines.Length - 1;
-                                sourceLines.InsertRange(i + 1, includeLines);
+                                Parse(includeCode, out string outIncludeCode, stringBuilder);
+                                stringBuilder.Append(outIncludeCode);
                             }
                         }
                         else if (keyword == Keywords.Def)
@@ -189,7 +186,7 @@ namespace Calcpad.Core
                                         macroBuilder.Append(c);
                                     else
                                     {
-                                        SymbolError(c);
+                                        SymbolError(lineContent, c);
                                         break;
                                     }
                                     ++j;
@@ -217,7 +214,7 @@ namespace Calcpad.Core
                                             if (IsMacroLetter(c, macroBuilder.Length) || c == '$')
                                                 macroBuilder.Append(c);
                                             else if (c != '\n')
-                                                SymbolError(c);
+                                                SymbolError(lineContent.ToString(), c);
 
                                             c = lineContent[++j];
                                         }
@@ -230,9 +227,7 @@ namespace Calcpad.Core
                                 if (c == '=')
                                 {
                                     c = EatSpace(lineContent, ref j);
-                                    var contents = lineContent[j..];
-                                    CheckForInputFieldsInMacro(contents);
-                                    AddMacro(macroName, new Macro(contents, macroParameters));
+                                    AddMacro(lineContent.ToString(), macroName, new Macro(lineContent[j..].ToString(), macroParameters));
                                     macroName = string.Empty;
                                     macroBuilder.Clear();
                                 }
@@ -245,7 +240,7 @@ namespace Calcpad.Core
 #if BG
                                         AppendError($"Невалидно име на макрос: \"{macroName}\".");
 #else
-                                        AppendError($"Invalid macro name: \"{macroName}\".");
+                                        AppendError(lineContent.ToString(), $"Invalid macro name: \"{macroName}\".");
 #endif
                                         macroName = string.Empty;
                                         macroBuilder.Clear();
@@ -258,7 +253,7 @@ namespace Calcpad.Core
 #if BG
                                 AppendError("Невалидно в дефиниция на макрос.");
 #else
-                                AppendError("Invalid inside macro definition.");
+                                AppendError(lineContent.ToString(), "Invalid inside macro definition.");
 #endif
                                 ++macroDefCount;
                             }
@@ -270,7 +265,7 @@ namespace Calcpad.Core
 #if BG
                                 AppendError("\"Няма съответен \"#def\".");
 #else
-                                AppendError("\"There is no matching \"#def\".");
+                                AppendError(lineContent.ToString(), "\"There is no matching \"#def\".");
 #endif
                             }
                             else
@@ -280,8 +275,7 @@ namespace Calcpad.Core
                                 //    macroBuilder.Remove(j, 2);
 
                                 string macroContent = macroBuilder.ToString();
-                                CheckForInputFieldsInMacro(macroContent);
-                                AddMacro(macroName, new Macro(macroContent, macroParameters));
+                                AddMacro(lineContent.ToString(), macroName, new Macro(macroContent, macroParameters));
                                 macroName = string.Empty;
                                 macroBuilder.Clear();
                             }
@@ -294,23 +288,23 @@ namespace Calcpad.Core
                             continue;
                     }
                     if (macroDefCount == 1)
-                        macroBuilder.AppendLine(sourceLines[i]);
+                        macroBuilder.AppendLine(sourceLine.ToString());
                     else if (Macros.Any())
                     {
                         try
                         {
-                            var insertCode = ApplyMacros(sourceLines[i]);
-                            var insertLines = insertCode.Split(NewLines, StringSplitOptions.None);
+                            var insertCode = ApplyMacros(sourceLine);
+                            var insertLines = insertCode.Split(Environment.NewLine, StringSplitOptions.None);
                             foreach (var line in insertLines)
                                 stringBuilder.AppendLine(line);
                         }
                         catch (Exception ex)
                         {
-                            AppendError(ex.Message);
+                            AppendError(lineContent.ToString(), ex.Message);
                         }
                     }
                     else
-                        stringBuilder.AppendLine(sourceLines[i]);
+                        stringBuilder.AppendLine(sourceLine.ToString());
                 }
                 if (macroDefCount > 0)
                 {
@@ -324,7 +318,7 @@ namespace Calcpad.Core
             }
             catch (Exception ex)
             {
-                AppendError(ex.Message);
+                AppendError(lineContent.ToString(), ex.Message);
             }
             finally
             {
@@ -332,16 +326,16 @@ namespace Calcpad.Core
             }
             return hasErrors;
 
-            void SymbolError(char c)
+            void SymbolError(ReadOnlySpan<char> lineContent, char c)
             {
 #if BG
                 AppendError($"Невалиден символ \"{c}\" в име на макрос.");
 #else
-                AppendError($"Invalid symbol \"{c}\" in macro name.");
+                AppendError(lineContent.ToString()  , $"Invalid symbol \"{c}\" in macro name.");
 #endif
             }
 
-            void AppendError(string errorMessage)
+            void AppendError(string lineContent, string errorMessage)
             {
 #if BG
                 stringBuilder.AppendLine($"#Грешка в \"{HttpUtility.HtmlEncode(lineContent)}\" на ред {LineHtml(lineNumber)}: {errorMessage}");
@@ -351,32 +345,20 @@ namespace Calcpad.Core
                 hasErrors = true;
             }
 
-            void CheckForInputFieldsInMacro(string s)
+            void AddMacro(string lineContent, string name, Macro macro)
             {
-                if (CountInputFields(s) > 0)
-
+                if (!Macros.TryAdd(name, macro))
 #if BG
-                    AppendError($"Полета за вход \"?\" все още не се поддържат в макроси.");
+                    AppendError($"Повтарящо се име на макрос: \"{name}\".");
 #else
-                    AppendError($"Input fields \"?\" in macros are not supported yet.");
+                    AppendError(lineContent, $"Duplicate macro name: \"{name}\".");
 #endif
             }
-
-            void AddMacro(string name, Macro macro)
-                {
-                    if (!Macros.TryAdd(name, macro))
-#if BG
-                        AppendError($"Повтарящо се име на макрос: \"{name}\".");
-#else
-                        AppendError($"Duplicate macro name: \"{name}\".");
-#endif
-            }
-
 
             static string LineHtml(int line) => $"[<a href=\"#0\" data-text=\"{line}\">{line}</a>]";
         }
 
-        private static string ApplyMacros(string lineContent)
+        private static string ApplyMacros(ReadOnlySpan<char> lineContent)
         {
             var stringBuilder = new StringBuilder(50);
             var macroBuilder = new StringBuilder(10);
@@ -479,7 +461,7 @@ namespace Calcpad.Core
             c == '_' ||
             char.IsDigit(c) && position > 0;
 
-        private static char EatSpace(in string s, ref int index)
+        private static char EatSpace(ReadOnlySpan<char> s, ref int index)
         {
             var len = s.Length - 1;
             while (index < len)
@@ -491,7 +473,13 @@ namespace Calcpad.Core
             return '\0';
         }
 
-        public static int CountInputFields(string s)
+        public static int CountInputFields(ReadOnlySpan<char> s) =>
+            CountOrHasInputFields(s, false);
+
+        public static bool HasInputFields(ReadOnlySpan<char> s) =>
+            CountOrHasInputFields(s, true) > 0;
+
+        private static int CountOrHasInputFields(ReadOnlySpan<char> s, bool any)
         {
             var count = 0;
             const char nullChar = (char)0;
@@ -508,7 +496,12 @@ namespace Calcpad.Core
                         commentChar = nullChar;
                 }
                 else if (c == '?' && commentChar == nullChar)
+                {
+                    if (any)
+                        return 1;
+
                     ++count;
+                }
             }
             return count;
         }

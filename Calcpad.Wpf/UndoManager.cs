@@ -10,28 +10,22 @@ namespace Calcpad.Wpf
         {
             internal string Text { get; }
             internal TextPointer Pointer { get; }
-
-            internal string[] Values { get; }
-            internal Step(string text, TextPointer pointer, string[] values)
+            internal Step(string text, TextPointer pointer)
             {
                 Text = text;
                 Pointer = pointer;
-                Values = values;
             }
         }
         private readonly List<Step> _undoStack = new();
         private readonly List<Step> _redoStack = new();
-
         internal string RestoreText { get; private set; }
         internal TextPointer RestorePointer { get; private set; }
-        internal string[] RestoreValues { get; private set; }
-
         internal int UndoLimit;
         internal UndoManager() { UndoLimit = 20; }
         internal void Reset() { _undoStack.Clear(); }
-        internal void Record(string text, TextPointer pointer, string[] values)
+        internal void Record(string text, TextPointer pointer)
         {
-            Add(_undoStack, new Step(text, pointer, values));
+            Add(_undoStack, new Step(text, pointer));
             _redoStack.Clear();
         }
 
@@ -45,7 +39,6 @@ namespace Calcpad.Wpf
                 _undoStack.RemoveAt(_undoStack.Count - 1);
                 last = _undoStack.Last();
                 RestoreText = last.Text;
-                RestoreValues = last.Values;
                 return true;
             }
             return false;
@@ -58,7 +51,6 @@ namespace Calcpad.Wpf
                 var last = _redoStack.Last();
                 RestoreText = last.Text;
                 RestorePointer = last.Pointer;
-                RestoreValues = last.Values;
                 Add(_undoStack, last);
                 _redoStack.RemoveAt(_redoStack.Count - 1);
                 return true;

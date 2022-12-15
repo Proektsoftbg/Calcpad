@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,12 +17,10 @@ namespace Calcpad.Wpf
     internal class HighLighter
     {
         internal static Func<string, Queue<string>, string> Include;
-        internal static MouseButtonEventHandler InputClickEventHandler;
         internal static MouseButtonEventHandler IncludeClickEventHandler;
 
         private const char NullChar = (char)0;
         private bool _allowUnaryMinus = true;
-        private Queue<string> _values = null;
         private bool _hasTargetUnitsDelimiter;
         private static bool _hasIncludes;
         private static readonly Thickness _thickness = new(0.5);
@@ -181,7 +180,7 @@ namespace Calcpad.Wpf
         internal static readonly Dictionary<string, int> DefinedMacros = new(StringComparer.Ordinal);
         internal static readonly Dictionary<string, List<int>> DefinedMacroParameters = new(StringComparer.Ordinal);
         internal static readonly char[] Comments = { '\'', '"' };
-        internal static readonly string[] NewLines = { "\r\n", "\r", "\n" };
+        //internal static readonly string[] NewLines = { "\r\n", "\r", "\n" };
         internal static bool HasMacros => _hasIncludes || DefinedMacros.Count > 0;
         private class TagHelper
         {
@@ -242,6 +241,7 @@ namespace Calcpad.Wpf
             internal string Message;
             internal char TextComment;
             internal char TagComment;
+            internal char InputChar { get; private set; }
             internal bool IsLeading;
             internal bool IsUnits;
             internal bool IsPlot;
@@ -261,6 +261,31 @@ namespace Calcpad.Wpf
                 if (CurrentType != Types.None)
                     PreviousType = CurrentType;
             }
+
+            internal void GetInputState(char c)
+            {
+                if (c == '?')
+                    InputChar = '?';
+                else if (c == '{')
+                {
+                    if (InputChar == '?')
+                        InputChar = '{';
+                    else
+                        InputChar = '\0';
+                }
+                else if (c == '}')
+                {
+                    if (InputChar == '{')
+                        InputChar = '}';
+                    else
+                        InputChar = '\0';
+                }
+                else if (c != ' ')
+                {
+                    if (InputChar != '{')
+                        InputChar = '\0';
+                }
+            }
         }
 
         private ParserState _state;
@@ -271,10 +296,6 @@ namespace Calcpad.Wpf
             if (p is null)
                 return;
 
-            GetValues(p);
-            if (_values is not null)
-                p.Tag = _values;
-
             foreach (var inline in p.Inlines)
                 inline.Background = null;
 
@@ -283,17 +304,15 @@ namespace Calcpad.Wpf
             p.BorderThickness = _thickness;
         }
 
-        internal void Parse(Paragraph p, bool isComplex, int line)
+        internal void Parse(Paragraph p, bool isComplex, int line, string text = null)
         {
             if (p is null)
                 return;
 
-            if (p.Tag is Queue<string> queue)
-                _values = queue;
-            else
-                GetValues(p);
-
-            var text = InitParagraph(p);
+            InitParagraph(p);
+            if (text is null)
+                text = new TextRange(p.ContentStart, p.ContentEnd).Text;
+            p.Inlines.Clear();
             InitState(p, text, line);
             _tagHelper = new();
             LocalVariables.Clear();
@@ -303,6 +322,7 @@ namespace Calcpad.Wpf
             for (int i = 0, len = text.Length; i < len; ++i)
             {
                 var c = text[i];
+                _state.GetInputState(c);
                 if (!(_state.IsPlot || _state.CurrentType == Types.Comment) && c == '|')
                     _state.IsUnits = true;
 
@@ -378,16 +398,14 @@ namespace Calcpad.Wpf
             Append(_state.CurrentType);
         }
 
-        private static string InitParagraph(Paragraph p)
+        private static void InitParagraph(Paragraph p)
         {
             p.Tag = false;
             p.Background = null;
             p.BorderBrush = null;
             p.BorderThickness = _thickness;
-            var text = new TextRange(p.ContentStart, p.ContentEnd).Text;
-            p.Inlines.Clear();
-            return text;
         }
+
         private void InitState(Paragraph p, string text, int line)
         {
             _state = new()
@@ -395,22 +413,8 @@ namespace Calcpad.Wpf
                 Paragraph = p,
                 Line = line,
                 Text = text,
-                Message = null,
-                TextComment = NullChar,
-                TagComment = NullChar,
                 IsLeading = true,
-                IsUnits = false,
-                IsPlot = IsPlot(text),
-                IsTag = false,
-                IsTagComment = false,
-                IsMacro = false,
-                IsSingleLineKeyword = false,
-                HasMacro = false,
-                MacroArgs = 0,
-                CommandCount = 0,
-                BracketCount = 0,
-                CurrentType = Types.None,
-                PreviousType = Types.None,
+                IsPlot = IsPlot(text)
             };
         }
 
@@ -662,12 +666,15 @@ namespace Calcpad.Wpf
                     _state.MacroArgs = 0;
             }
             Append(_state.CurrentType);
-            if (c == '{')
+            if (_state.InputChar == c)
+                _state.CurrentType = Types.Bracket;
+            else if (c == '{')
             {
                 if (_state.CurrentType == Types.Command)
                     ++_state.CommandCount;
 
-                _state.CurrentType = _state.CommandCount > 0 ? Types.Bracket : Types.Error;
+                _state.CurrentType = _state.CommandCount > 0 ?
+                    Types.Bracket : Types.Error;
             }
             else if (c == '}')
             {
@@ -785,9 +792,14 @@ namespace Calcpad.Wpf
             if (_builder.Length == 0)
                 return;
 
+            if (t == Types.Input)
+            {
+                AppendRun(t, "? ");
+                _builder.Clear();
+                return;
+            }
             var s = _builder.ToString();
             _builder.Clear();
-
             if (AppendRelOperatorShortcut(s))
                 return;
 
@@ -795,14 +807,6 @@ namespace Calcpad.Wpf
                 t = AppendInclude(s);
             else if (t == Types.Operator)
                 s = FormatOperator(s);
-            else if (t == Types.Input)
-            {
-                s = "? ";
-                if (_values is not null && _values.Count > 0)
-                    _state.Message = _values.Dequeue();
-                else
-                    _state.Message = "0";
-            }
             else if (t != Types.Error)
                 t = CheckError(t, s);
 
@@ -956,7 +960,6 @@ namespace Calcpad.Wpf
         private void AppendRun(Types t, string s)
         {
             var run = new Run(s);
-            s = s.ToLowerInvariant();
             run.Foreground = Colors[(int)t];
             bool isTitle = t == Types.Comment && s[0] == '"';
             if (t == Types.Function || isTitle)
@@ -983,17 +986,10 @@ namespace Calcpad.Wpf
                     _state.Message = null;
                 }
 
-                if (run.ToolTip is not null && t == Types.Input || t == Types.Include)
+                if (run.ToolTip is not null && t == Types.Include)
                 {
                     run.Cursor = Cursors.Hand;
-                    if (t == Types.Include)
-                        run.AddHandler(UIElement.MouseLeftButtonDownEvent, IncludeClickEventHandler);
-                    else if (t == Types.Input)
-                    {
-                        run.FontWeight = FontWeights.Bold;
-                        run.AddHandler(UIElement.MouseLeftButtonDownEvent, InputClickEventHandler);
-                        _state.Paragraph.Tag = true;
-                    }
+                    run.AddHandler(UIElement.MouseLeftButtonDownEvent, IncludeClickEventHandler);
                 }
             }
             _state.Paragraph.Inlines.Add(run);
@@ -1011,20 +1007,6 @@ namespace Calcpad.Wpf
             HorizontalOffset = -8,
             VerticalOffset = -36
         };
-        
-
-        private void GetValues(Paragraph p)
-        {
-            if (p.Tag is bool b && b)
-            {
-                _values = new Queue<string>();
-                foreach (var inline in p.Inlines)
-                    if (inline.ToolTip is ToolTip tt)
-                        _values.Enqueue(tt.Content.ToString());
-            }
-            else
-                _values = null;
-        }
 
         private void GetLocalVariables(bool isCommand)
         {

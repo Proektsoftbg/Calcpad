@@ -7,7 +7,7 @@ namespace Calcpad.Core
         private Func<Value> _function;
         internal MapParser(MathParser parser, PlotSettings settings) : base(parser, settings) { }
 
-        internal override string Parse(string script, bool calculate)
+        internal override string Parse(ReadOnlySpan<char> script, bool calculate)
         {
             const int n = 7;
             char[] delimiters = { '{', '@', '=', ':', '&', '=', ':', '}' };
