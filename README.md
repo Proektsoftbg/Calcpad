@@ -194,7 +194,7 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;&emsp;&emsp;&emsp;#repeat *number of repetitions*  
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;*Your code goes here*  
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;#if *condition*  
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;#break or #continue 
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;#break or #continue  
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;#end if  
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;*Some more code*  
 &emsp;&emsp;&emsp;&emsp;#loop  
