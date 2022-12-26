@@ -89,32 +89,29 @@ namespace Calcpad.Core
                 var isUnitDivision = false;
                 var isInput = false;
                 var bracketCounter = 0;
-                var separatorIndex = expression.IndexOf('|');
-                string s;
-                if (separatorIndex > 0)
+                var n = expression.IndexOf('|');
+                if (n >= 0)
                 {
-                    s = expression[0..separatorIndex].ToString() + ' ';
-                    ++separatorIndex;
-                    if (separatorIndex < expression.Length)
+                    if (expression.Length - n > 0)
                     {
-                        var unit = s[separatorIndex..].ToString();
+                        var unit = expression[(n + 1)..].ToString();
                         _parser._targetUnits = UnitsParser.Parse(unit);
                     }
-
                 }
                 else
                 {
-                    s = expression.ToString() + ' ';
+                    n = expression.Length;
                     _parser._targetUnits = null;
                 }
+
                 _parser._hasVariables = false;
                 _parser._assignmentIndex = 0;
                 Token t = null;
                 int MultOrder = Calculator.OperatorOrder[Calculator.OperatorIndex['*']];
-                for (int i = 0, len = s.Length; i < len; ++i)
+                for (int i = 0; i <= n; ++i)
                 {
-                    var c = s[i];
-                    var tt = GetCharType(c); //Get the type from predefined array
+                    var c = (i == n) ? ' ' : expression[i];
+                    var tt = GetCharType(c); //Get the type from a predefined array
                     if (InputSolver(c, tt))
                         continue;
 
@@ -147,7 +144,7 @@ namespace Calcpad.Core
                         {
                             var j = i + 1;
                             //If we have inches in complex mode
-                            if (j < len && s[j] == 'n')
+                            if (j < n && expression[j] == 'n')
                             {
                                 unitsLiteral += c;
                                 tt = TokenTypes.Constant;
@@ -303,6 +300,7 @@ namespace Calcpad.Core
                             else if (tt == TokenTypes.Input)
                                 t = new ValueToken(Value.Zero)
                                 {
+                                    Index = _parser.Line,
                                     Type = TokenTypes.Input,
                                     Content = c.ToString()
                                 };

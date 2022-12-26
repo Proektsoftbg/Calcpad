@@ -136,7 +136,7 @@ namespace Calcpad.Core
                     else if (tt == TokenTypes.Input)
                     {
                         var units = ((ValueToken)rpn[i]).Value.Units;
-                        t.Content = writer.FormatInput(t.Content, units, _parser._isCalculated);
+                        t.Content = writer.FormatInput(t.Content, units,_parser.Line, _parser._isCalculated);
                     }
                     else if (tt == TokenTypes.Constant || tt == TokenTypes.Unit)
                     {

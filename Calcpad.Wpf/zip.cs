@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Text;
 
 namespace Calcpad.Wpf
 {
@@ -17,20 +19,14 @@ namespace Calcpad.Wpf
             ms.CopyTo(ds);
         }
 
-        internal static List<string> Decompress(Stream fs)
+        internal static SpanLineEnumerator Decompress(Stream fs)
         {
-            var lines = new List<string>();
             using var ms = new MemoryStream();
             using (var ds = new DeflateStream(fs, CompressionMode.Decompress))
                 ds.CopyTo(ms);
             ms.Position = 0;
             using var sr = new StreamReader(ms);
-            while (!sr.EndOfStream)
-            {
-                var s = sr.ReadLine().TrimStart('\t');
-                lines.Add(s);
-            }
-            return lines;
+            return sr.ReadToEnd().AsSpan().EnumerateLines();
         }
     }
 }

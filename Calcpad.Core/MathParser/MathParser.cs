@@ -43,6 +43,7 @@ namespace Calcpad.Core
                 };
             }
         }
+        internal int Line;
         internal Unit Units { get; private set; }
         internal bool IsCanceled { get; private set; }
         internal bool IsEnabled { get; set; } = true;
