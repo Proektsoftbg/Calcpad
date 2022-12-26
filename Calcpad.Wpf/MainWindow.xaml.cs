@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Media;
@@ -124,6 +125,7 @@ namespace Calcpad.Wpf
         private bool IsUnwarpedCode => WebBrowser.Tag is bool isCode && isCode;
         private string InputText => new TextRange(_document.ContentStart, _document.ContentEnd).Text;
         private int InputTextLength => _document.ContentEnd.GetOffsetToPosition(_document.ContentStart);
+        private SpanLineEnumerator InputTextLines => InputText.AsSpan().EnumerateLines();
         private bool IsCalculated
         {
             get => CalcButton.Tag.ToString() == "T";
@@ -178,7 +180,7 @@ namespace Calcpad.Wpf
                 Directory.CreateDirectory(tmpDir);
             _document = RichTextBox.Document;
             _currentParagraph = (Paragraph)_document.Blocks.FirstBlock;
-            _highlighter.Clear(_currentParagraph);
+            HighLighter.Clear(_currentParagraph);
             _undoMan = new UndoManager();
             _undoMan.Record(InputText, RichTextBox.Selection.End);
             _wbWarper = new WebBrowserWrapper(WebBrowser);
@@ -355,7 +357,7 @@ namespace Calcpad.Wpf
                 tp.InsertTextInRun(parts[0]);
                 p = tp.Paragraph;
                 var lineNumber = GetLineNumber(p);
-                HighLighter.GetDefinedVariablesFunctionsAndMacros(parts[0], lineNumber);
+                HighLighter.GetDefinedItems(parts[0], lineNumber);
                 _highlighter.Parse(p, IsComplex, lineNumber);
                 if (selectionLength > 0)
                     tp = RichTextBox.Selection.End;
@@ -366,7 +368,7 @@ namespace Calcpad.Wpf
                     tp = p.ContentEnd.InsertParagraphBreak();
                     tp.InsertTextInRun(parts[i]);
                     lineNumber = GetLineNumber(p);
-                    HighLighter.GetDefinedVariablesFunctionsAndMacros(parts[i], lineNumber);
+                    HighLighter.GetDefinedItems(parts[i], lineNumber);
                     _highlighter.Parse(p, IsComplex, lineNumber);
                 }
                 tp = tp.Paragraph.ContentEnd;
@@ -455,7 +457,7 @@ namespace Calcpad.Wpf
                 _document.Blocks.Remove(RichTextBox.Selection.Start.Paragraph);
                 _currentParagraph = RichTextBox.Selection.Start.Paragraph;
             }
-            _highlighter.Clear(_currentParagraph);
+            HighLighter.Clear(_currentParagraph);
             RichTextBox.EndChange();
             _isTextChangedEnabled = true;
             if (IsAutoRun)
@@ -868,7 +870,7 @@ namespace Calcpad.Wpf
                 SetAutoIndent();
 
             var inputText = GetInputText();
-            _macroParser.Parse(inputText, out var outputText, null);
+            _macroParser.Parse(inputText, out var outputText, null, 0);
             if (MacroParser.HasInputFields(outputText))
             {
                 if (IsWebForm)
@@ -1042,7 +1044,7 @@ namespace Calcpad.Wpf
             var hasErrors = false;
             if (HighLighter.HasMacros)
             {
-                hasErrors = _macroParser.Parse(inputText, out outputText, null);
+                hasErrors = _macroParser.Parse(inputText, out outputText, null, 0);
                 _htmlUnwarpedCode = CodeToHtml(outputText, hasErrors);
             }
             else
@@ -1163,7 +1165,7 @@ namespace Calcpad.Wpf
             var highLighter = new HighLighter();
             _htmlBuilder.Clear();
             _htmlBuilder.Append(_htmlSource);
-            var lines = code.Split(Environment.NewLine);
+            var lines = code.AsSpan().EnumerateLines();
             if (hasErrors)
 #if BG
                 _htmlBuilder.AppendLine("<p class=\"input\">Имаше грешки при обработване на препратки и макроси.</p><br />");
@@ -1172,21 +1174,23 @@ namespace Calcpad.Wpf
 #endif
 
             _htmlBuilder.AppendLine("<div class=\"code\">");
-            HighLighter.GetDefinedVariablesFunctionsAndMacros(lines, IsComplex);
+            HighLighter.GetDefinedItems(lines, IsComplex);
             var indent = 0.0;
-            for (int i = 0, len = lines.Length; i < len; ++i)
+            var lineNumber = 0;
+            foreach (var line in lines)
             {
-                var lineNumber = i + 1;
-                ref string line = ref lines[i];
+                ++lineNumber;
+                var i = line.IndexOf('\v');
+                var lineText = i < 0 ? line : line[..i];
                 _htmlBuilder.Append($"<p class=\"line-text\" id=\"line{lineNumber}\"><span class=\"line-num\">{lineNumber}</span>");
                 if (line.StartsWith(ErrorString, StringComparison.Ordinal))
                 {
-                    _htmlBuilder.Append($"<span class=\"error\">{line[1..]}</span>");
+                    _htmlBuilder.Append($"<span class=\"error\">{lineText[1..]}</span>");
                 }
                 else
                 {
                     var p = new Paragraph();
-                    p.Inlines.Add(new Run(line));
+                    p.Inlines.Add(new Run(lineText.ToString()));
                     highLighter.Parse(p, IsComplex, lineNumber);
                     if (!UpdateIndent(p, ref indent))
                         p.TextIndent = indent;
@@ -1214,7 +1218,8 @@ namespace Calcpad.Wpf
                 _htmlBuilder.Append($"</p>");
             }
             _htmlBuilder.Append("</div></body></html>");
-            HighLighter.GetDefinedVariablesFunctionsAndMacros(InputText, IsComplex);
+            HighLighter.GetDefinedItems(InputTextLines, IsComplex);
+            _htmlBuilder.RemoveLastLineIfEmpty();
             return _htmlBuilder.ToString();
         }
 
@@ -1276,9 +1281,9 @@ namespace Calcpad.Wpf
             return s;
         }
 
-        private static List<string> ReadLines(string fileName)
+        private static SpanLineEnumerator ReadLines(string fileName)
         {
-            var lines = new List<string>();
+            var lines = new SpanLineEnumerator();
             try
             {
                 if (Path.GetExtension(fileName).ToLowerInvariant() == ".cpdz")
@@ -1292,12 +1297,7 @@ namespace Calcpad.Wpf
                 }
                 else
                 {
-                    using var sr = new StreamReader(fileName);
-                    while (!sr.EndOfStream)
-                    {
-                        var s = sr.ReadLine().TrimStart('\t');
-                        lines.Add(s);
-                    }
+                    return File.ReadAllText(fileName).AsSpan().EnumerateLines();
                 }
             }
             catch (Exception ex)
@@ -1335,23 +1335,26 @@ namespace Calcpad.Wpf
             _isTextChangedEnabled = false;
             _document.Blocks.Clear();
             var hasForm = false;
-            string[] values = null;
-            HighLighter.GetDefinedVariablesFunctionsAndMacros(lines, IsComplex);
+            HighLighter.GetDefinedItems(lines, IsComplex);
             SetCodeCheckBoxVisibility();
             var i = 1;
             foreach (var line in lines)
             {
-                string s;
-                var skip = false;
-                if (line.Contains('\v', StringComparison.Ordinal))
+                ReadOnlySpan<char> s;
+                if (line.Contains('\v'))
                 {
                     hasForm = true;
-                    var n = line.IndexOf('\v', StringComparison.Ordinal);
-                    s = line[(n + 1)..];
-                    values = s.Split('\t');
-                    SetInputFields(values);
-                    s = line[..n];
-                    skip = string.IsNullOrEmpty(s);
+                    var n = line.IndexOf('\v');
+                    if (n == 0)
+                    {
+                        SetInputFieldsFromFile(line.EnumerateSplits('\t'));
+                        break;
+                    }
+                    else
+                    {
+                        SetInputFieldsFromFile(line[(n + 1)..].EnumerateSplits('\t'));
+                        s = line[..n];
+                    }
                 }
                 else if (highLight)
                     s = line.TrimStart('\t');
@@ -1361,20 +1364,17 @@ namespace Calcpad.Wpf
                 if (!highLight)
                     s = ReplaceCStyleRelationalOperators(s);
 
-                if (!skip)
-                {
-                    var p = new Paragraph();
-                    p.Inlines.Add(new Run(s));
-                    if (highLight)
-                        _highlighter.Parse(p, IsComplex, i++);
+                var p = new Paragraph();
+                p.Inlines.Add(new Run(s.ToString()));
+                if (highLight)
+                    _highlighter.Parse(p, IsComplex, i++);
 
-                    _document.Blocks.Add(p);
-                }
+                _document.Blocks.Add(p);
             }
             _currentParagraph = RichTextBox.Selection.Start.Paragraph;
             if (highLight)
             {
-                _highlighter.Clear(_currentParagraph);
+                HighLighter.Clear(_currentParagraph);
                 Task.Run(() => Dispatcher.InvokeAsync(SetAutoIndent, DispatcherPriority.Send));
             }
             _undoMan.Reset();
@@ -1386,52 +1386,52 @@ namespace Calcpad.Wpf
             return hasForm;
         }
 
-        private static string ReplaceCStyleRelationalOperators(string s)
+        private static string ReplaceCStyleRelationalOperators(ReadOnlySpan<char> s)
         {
-            const char nullChar = (char)0;
-            var commentChar = nullChar;
-            var sb = new StringBuilder(s.Length);
-            foreach (var c in s)
-            {
-                if (c == '\n')
-                    commentChar = nullChar;
-                else if (c == '\'' || c == '"')
-                {
-                    if (commentChar == nullChar)
-                        commentChar = c;
-                    else if (commentChar == c)
-                        commentChar = nullChar;
-                }
+            if (s.IsEmpty)
+                return string.Empty;
 
-                if (c == '=' &&  commentChar == nullChar)
+            var sb = new StringBuilder(s.Length);
+            var commentEnumerator = s.EnumerateComments();
+            foreach (var item in commentEnumerator)
+            {
+                if (!item.IsEmpty && item[0] != '"' && item[0] != '\'')
                 {
-                    var n = sb.Length - 1;
-                    if (n < 0)
+                    foreach (var c in item)
                     {
-                        sb.Append(c);
-                        break;
-                    }
-                    switch(sb[n])
-                    {
-                        case '=':
-                            sb[n] = '≡';
-                            break;
-                        case '!':
-                            sb[n] = '≠';
-                            break;
-                        case '>':
-                            sb[n] = '≥';
-                            break;
-                        case '<':
-                            sb[n] = '≤';
-                            break;
-                        default:
+                        if (c == '=')
+                        {
+                            var n = sb.Length - 1;
+                            if (n < 0)
+                            {
+                                sb.Append(c);
+                                break;
+                            }
+                            switch (sb[n])
+                            {
+                                case '=':
+                                    sb[n] = '≡';
+                                    break;
+                                case '!':
+                                    sb[n] = '≠';
+                                    break;
+                                case '>':
+                                    sb[n] = '≥';
+                                    break;
+                                case '<':
+                                    sb[n] = '≤';
+                                    break;
+                                default:
+                                    sb.Append(c);
+                                    break;
+                            };
+                        }
+                        else
                             sb.Append(c);
-                            break;
-                    };
+                    }
                 }
                 else
-                    sb.Append(c);
+                    sb.Append(item);
             }
             return sb.ToString();
         }
@@ -1451,7 +1451,7 @@ namespace Calcpad.Wpf
             _document.Blocks.Clear();
             _currentParagraph = new Paragraph();
             _document.Blocks.Add(_currentParagraph);
-            _highlighter.Clear(_currentParagraph);
+            HighLighter.Clear(_currentParagraph);
             RichTextBox.EndChange();
             _isTextChangedEnabled = true;
         }
@@ -1474,7 +1474,7 @@ namespace Calcpad.Wpf
                 "\t\t\t\t\t\t\t\t\t\t\t",
                 "\t\t\t\t\t\t\t\t\t\t\t\t"
            };
-            var stringBuilder = new StringBuilder();
+            var sb = new StringBuilder();
             var b = _document.Blocks.FirstBlock;
             while (b is not null)
             {
@@ -1482,23 +1482,11 @@ namespace Calcpad.Wpf
                 if (n > 12)
                     n = 12;
                 var line = new TextRange(b.ContentStart, b.ContentEnd).Text;
-                stringBuilder.AppendLine(tabs[n] + line);
+                sb.AppendLine(tabs[n] + line);
                 b = b.NextBlock;
             }
-            return stringBuilder.ToString();
-        }
-
-        private string GetInputValues()
-        {
-            var s = _wbWarper.GetInputVaues();
-            return '\v' + string.Join("\t", s);
-        }
-
-        private string GetInputTextAndValues()
-        {
-            var text = GetInputText();
-            var values = GetInputValues();
-            return text + values;
+            sb.RemoveLastLineIfEmpty();
+            return sb.ToString();
         }
 
         private void HtmlFileSave()
@@ -1640,7 +1628,7 @@ namespace Calcpad.Wpf
             var indent = 0d;
             using (var sr = new StringReader(_undoMan.RestoreText))
             {
-                HighLighter.ClearDefinedVariablesFunctionsAndMacros(IsComplex);
+                HighLighter.ClearDefinedIdentifiers(IsComplex);
                 while (true)
                 {
                     var line = sr.ReadLine();
@@ -1648,7 +1636,7 @@ namespace Calcpad.Wpf
                         break;
                     var p = new Paragraph();
                     p.Inlines.Add(new Run(line));
-                    HighLighter.GetDefinedVariablesFunctionsAndMacros(line, j);
+                    HighLighter.GetDefinedItems(line, j);
                     SetCodeCheckBoxVisibility();
                     _highlighter.Parse(p, IsComplex, j++);
                     if (!UpdateIndent(p, ref indent))
@@ -1661,7 +1649,7 @@ namespace Calcpad.Wpf
                 }
             }
             _currentParagraph = pointerParagraph;
-            _highlighter.Clear(_currentParagraph);
+            HighLighter.Clear(_currentParagraph);
             if (offset > 0)
             {
                 pointer = FindPositionAtOffset(pointerParagraph, offset);
@@ -1763,8 +1751,6 @@ namespace Calcpad.Wpf
                 WebBrowser.Cursor = Cursors.Wait;
                 ForceHighlight();
                 Task.Run(DispatchLineNumbers);
-                if (!IsUnwarpedCode)
-                    SaveInputToCode(_wbWarper.GetInputVaues());
                 InputFrame.Visibility = Visibility.Visible;
                 FramesGrid.ColumnDefinitions[0].Width = new GridLength(1, GridUnitType.Star);
                 FramesGrid.ColumnDefinitions[1].Width = new GridLength(5);
@@ -1801,9 +1787,7 @@ namespace Calcpad.Wpf
             else
                 _parser.Settings.Units = "m";
 
-            var values = _wbWarper.GetInputVaues();
-            if (values.Length > 0)
-                SetInputFields(values);
+            SetInputFields(_wbWarper.GetInputFields());
         }
 
         private void SetUnits()
@@ -2098,7 +2082,7 @@ namespace Calcpad.Wpf
 
                 if (_isPasting)
                 {
-                    HighLighter.GetDefinedVariablesFunctionsAndMacros(InputText, IsComplex);
+                    HighLighter.GetDefinedItems(InputTextLines, IsComplex);
                     SetCodeCheckBoxVisibility();
                     HighLightPastedText();
                     SetAutoIndent();
@@ -2119,20 +2103,21 @@ namespace Calcpad.Wpf
                 }
                 if (!_isPasting)
                 {
-                    string text = InputText;
+                    var text = InputText;
                     await Task.Run(() =>
                     {
-                        HighLighter.GetDefinedVariablesFunctionsAndMacros(text, IsComplex);
+                        HighLighter.GetDefinedItems(text.AsSpan().EnumerateLines(), IsComplex);
                         Dispatcher.Invoke(SetCodeCheckBoxVisibility, DispatcherPriority.Send);
+                        DispatchAutoIndent();
                     });
-                    await Task.Run(DispatchAutoIndent);
                 }
                 await Task.Run(DispatchLineNumbers);
                 _lastModifiedParagraph = _currentParagraph;
             }
         }
 
-        private void FillAutoCompleteWithDefinedVariablesAndFunctions()
+
+        private void FillAutoCompleteWithDefined()
         {
             AutoCompleteListBox.Items.Filter = null;
             AutoCompleteListBox.Items.SortDescriptions.Clear();
@@ -2199,8 +2184,8 @@ namespace Calcpad.Wpf
                 if (p is not null)
                 {
                     _currentParagraph = p;
-                    _highlighter.Clear(_currentParagraph);
-                    FillAutoCompleteWithDefinedVariablesAndFunctions();
+                    HighLighter.Clear(_currentParagraph);
+                    FillAutoCompleteWithDefined();
                 }
                 e.Handled = true;
                 //RichTextBox.Selection.Select(tps, tpe);
@@ -2519,36 +2504,11 @@ namespace Calcpad.Wpf
             return false;
         }
 
-        private void SaveInputToCode(string[] values)
-        {
-            var p = (Paragraph)_document.Blocks.FirstBlock;
-            int i = 0, n = values.Length;
-            while (p is not null)
-            {
-                if (p.Tag is Queue<string> cache)
-                    for (int j = 0, count = cache.Count; j < count; ++j)
-                    {
-                        cache.Dequeue();
-                        if (i < n)
-                            cache.Enqueue(values[i++]);
-                    }
-                else
-                    foreach (Run inline in p.Inlines.Cast<Run>())
-                        if (i < n && 
-                            inline.Text.Any() && 
-                            inline.Text[0] == '?' && 
-                            inline.ToolTip is ToolTip tt)
-                            tt.Content = values[i++];
-
-                p = (Paragraph)p.NextBlock;
-            }
-        }
-
         private void HighLightAll()
         {
             _isTextChangedEnabled = false;
             RichTextBox.BeginChange();
-            HighLighter.GetDefinedVariablesFunctionsAndMacros(InputText, IsComplex);
+            HighLighter.GetDefinedItems(InputTextLines, IsComplex);
             SetCodeCheckBoxVisibility();
             var p = (Paragraph)_document.Blocks.FirstBlock;
             var i = 1;
@@ -2562,7 +2522,7 @@ namespace Calcpad.Wpf
                 ++i;
             }
             _currentParagraph = RichTextBox.Selection.Start.Paragraph;
-            _highlighter.Clear(_currentParagraph);
+            HighLighter.Clear(_currentParagraph);
             RichTextBox.EndChange();
             _isTextChangedEnabled = true;
         }
@@ -2624,7 +2584,7 @@ namespace Calcpad.Wpf
                 _highlighter.Parse(p, IsComplex, lineNumber++);
                 p = (Paragraph)p.NextBlock;
             }
-            _highlighter.Clear(_currentParagraph);
+            HighLighter.Clear(_currentParagraph);
             RichTextBox.EndChange();
             _isTextChangedEnabled = true;
         }
@@ -2825,78 +2785,164 @@ namespace Calcpad.Wpf
             }
         }
 
-        private static string Include(string fileName, Queue<string> getValues)
+        private static string Include(string fileName, Queue<string> fields)
         {
             var isLocal = false;
-            var s = ReadFile(fileName);
-            var parts = s.Split('\v');
-            var lines = parts[0].Split(Environment.NewLine);
-            var hasForm = parts.Length >= 2;
-            var values = hasForm ? parts[1].Split('\t').ToList() : null;
+            var s = ReadFile(fileName).AsSpan();
+            var j = s.IndexOf('\v');
+            var hasForm = j > 0;
+            var lines = (hasForm ? s[..j] : s).EnumerateLines();
             var getLines = new List<string>();
-            int valueIndex = 0;
-            var lineCount = lines.Length;
-            if (hasForm && lineCount > 0 && string.IsNullOrWhiteSpace(lines[^1]))
-                --lineCount;
-
-            for (int i = 0; i < lineCount; ++i)
+            var sf = hasForm ? s[(j + 1)..] : default;
+            Queue<string> getFields = GetFields(sf, fields);
+            foreach (var line in lines)
             {
-                string line = lines[i];
                 if (HighLighter.IsKeyword(line, "#local"))
                     isLocal = true;
                 else if (HighLighter.IsKeyword(line, "#global"))
                     isLocal = false;
                 else
                 {
-                    var valueCount = valueIndex + MacroParser.CountInputFields(line);
                     if (!isLocal)
                     {
-                        if (getValues is not null && values is not null)
-                            while (valueIndex < valueCount)
-                                getValues.Enqueue(values[valueIndex++]);
-
                         if (HighLighter.IsKeyword(line, "#include"))
                         {
                             var includeFileName = HighLighter.GetFile(line);
-                            getLines.Add(Include(includeFileName, getValues));
+                            if (fields is null)
+                                getLines.Add(Include(includeFileName, null));
+                            else
+                                getLines.Add(Include(includeFileName, new()));
                         }
                         else
-                            getLines.Add(line);
+                            getLines.Add(line.ToString());
+
                     }
                 }
             }
-            int j = 0;
-            var sb = new StringBuilder();
-            for (int i = 0, len = getLines.Count; i < len; ++i)
+            if (hasForm && string.IsNullOrWhiteSpace(getLines[^1]))
+                getLines.RemoveAt(getLines.Count - 1);
+
+            var len = getLines.Count;
+            if (len > 0)
             {
-                if (getValues is not null)
+                var sb = new StringBuilder();
+                for (int i = 0; i < len; ++i)
                 {
-                    if (SetLineInputFields(sb, getLines[i], getValues.ToArray(), ref j))
+                    if (getFields is not null && getFields.Any())
                     {
-                        getLines[i] = sb.ToString();
-                        sb.Clear();
+                        if (MacroParser.SetLineInputFields(getLines[i].TrimEnd(), sb, getFields, false))
+                        {
+                            getLines[i] = sb.ToString();
+                            sb.Clear();
+                        }
                     }
                 }
             }
             return string.Join(Environment.NewLine, getLines);
         }
 
-        private void SetInputFields(string[] values) 
-        { 
+        private static Queue<string> GetFields(ReadOnlySpan<char> s, Queue<string> fields)
+        {
+            if (fields is null)
+                return null;
+           
+            if (fields.Any())
+            {
+                if (!s.IsEmpty)
+                {
+                    var getFields = MacroParser.GetFields(s, '\t');
+                    if (fields.Count < getFields.Count)
+                    {
+                        var n = fields.Count;
+                        for (int i = 0; i < fields.Count; ++i)
+                            getFields.Dequeue();
+
+                        while (getFields.Any())
+                            fields.Enqueue(getFields.Dequeue());
+                    }
+                }
+                return fields;
+            }
+            else if (!s.IsEmpty)
+                return MacroParser.GetFields(s, '\t');
+            else
+                return null;
+        }
+
+        private void SetInputFields(string[] fields) 
+        {
+            if (fields is null || !fields.Any())
+                return;
+
             var p = _document.Blocks.FirstOrDefault();
             var i = 0;
             var line = 0;
+            var fline = 0;
             var sb = new StringBuilder();
+            var values = new Queue<string>();
             _isTextChangedEnabled = false;
             RichTextBox.BeginChange();
-            while (p is not null)
+            while (p is not null && i < fields.Length)
+            {
+                ++line;
+                values.Clear();
+                while (i < fields.Length)
+                {
+                    ref var s = ref fields[i];
+                    if (s.Length > 0)
+                    {
+                        var j = s.IndexOf(':', StringComparison.Ordinal);
+                        if (j < 0 || !int.TryParse(s[..j], out fline))
+                            fline = 0;
+
+                        if (fline > line)
+                            break;
+
+                        values.Enqueue(s[(j + 1)..].ToString());
+                        i++;
+                    }
+                }
+                if (values.Any())
+                {
+                    var r = new TextRange(p.ContentStart, p.ContentEnd);
+                    if (MacroParser.SetLineInputFields(r.Text.TrimEnd(), sb, values, true))
+                    {
+                        _highlighter.Parse(p as Paragraph, IsComplex, line, sb.ToString());
+                        sb.Clear();
+                    }
+                }
+                if (fline > line)
+                {
+                    line = fline - 1;
+                    p = _document.Blocks.ElementAt(line);
+                }
+                else
+                    p = p.NextBlock;
+            }
+            RichTextBox.EndChange();
+            _isTextChangedEnabled = true;
+        }
+
+        private void SetInputFieldsFromFile(SplitEnumerator fields)
+        {
+            if (fields.IsEmpty)
+                return;
+
+            var line = 0;
+            var p = _document.Blocks.FirstOrDefault();
+            var sb = new StringBuilder(100);
+            var values = new Queue<string>();
+            foreach (var s in fields)
+                values.Enqueue(s.ToString());
+
+            _isTextChangedEnabled = false;
+            RichTextBox.BeginChange();
+            while (p is not null && values.Any())
             {
                 var r = new TextRange(p.ContentStart, p.ContentEnd);
-                var s = r.Text;
-                ++line;
-                if (SetLineInputFields(sb, s, values, ref i))
+                if (MacroParser.SetLineInputFields(r.Text.TrimEnd(), sb, values, false))
                 {
-                    _highlighter.Parse(p as Paragraph, IsComplex, line, sb.ToString());
+                    _highlighter.Parse(p as Paragraph, IsComplex, ++line, sb.ToString());
                     sb.Clear();
                 }
                 p = p.NextBlock;
@@ -2905,57 +2951,6 @@ namespace Calcpad.Wpf
             _isTextChangedEnabled = true;
         }
 
-        private static bool SetLineInputFields(StringBuilder sb, string s, string[] values, ref int index)
-        {
-            const char nullChar = '\0';
-            var commentChar = nullChar;
-            var inputChar = nullChar;
-            var j0 = 0;
-            for (int j = 0, len = s.Length; j < len; ++j ) 
-            {
-                var c = s[j];
-                if (commentChar == nullChar)
-                {
-                    if (c == '?' && inputChar == nullChar)
-                        inputChar = c;
-                    else if (c == '{' && inputChar == '?')
-                    {
-                        inputChar = c;
-                        sb.Append(s[j0..(j + 1)]);
-                    }
-                    else if (c == '}' && inputChar == '{')
-                    {
-                        inputChar = nullChar;
-                        sb.Append(values[index++]);
-                        j0 = j;
-                    }
-                    else if (inputChar == '{')
-                        continue;
-                    else if (c != ' ')
-                    {
-                        if (inputChar == '?')
-                        {
-                            inputChar = nullChar;
-                            sb.Append($"{s[j0..j]}{{{values[index++]}}}");
-                            j0 = j;
-                        }
-                        if (c == '"' || c == '\'')
-                            commentChar = c;
-                    }
-                }
-                else if (c == commentChar)
-                    commentChar = nullChar;
-            }
-            if (inputChar == '?')
-            {
-                sb.Append($"{s[j0..s.Length]}{{{values[index++]}}}");
-                return true;
-            }
-            if (j0 > 0)
-                sb.Append(s[j0..s.Length]);
-
-            return sb.Length > 0;
-        }
 
         private void Logo_MouseUp(object sender, MouseButtonEventArgs e)
         {
@@ -3065,8 +3060,7 @@ namespace Calcpad.Wpf
             }
             else if (_isSaving)
             {
-                var text = GetInputTextAndValues();
-                WriteFile(CurrentFileName, text);
+                WriteFile(CurrentFileName, GetInputText());
                 _isSaving = false;
                 IsSaved = true;
             }
@@ -3230,7 +3224,6 @@ namespace Calcpad.Wpf
             _isTextChangedEnabled = true;
         }
 
-        private string[] _inputValues = null;
 
         private void FindReplace_EndReplace(object sender, EventArgs e)
         {
@@ -3238,7 +3231,6 @@ namespace Calcpad.Wpf
                 delegate
                 {
                     HighLightAll();
-                    SaveInputToCode(_inputValues);
                 },
                 DispatcherPriority.Send));
             Task.Run(() => Dispatcher.InvokeAsync(SetAutoIndent, DispatcherPriority.Normal));

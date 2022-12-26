@@ -7,7 +7,7 @@ namespace Calcpad.Core
     internal class SvgDrawing
     {
         private const int Decimals = 2;
-        private readonly StringBuilder _stringBld;
+        private readonly StringBuilder _sb;
         private readonly string _svgTag;
         internal double Width { get; }
         internal double Height { get; }
@@ -16,58 +16,58 @@ namespace Calcpad.Core
             Width = width;
             Height = height;
             _svgTag = "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" viewbox=\" 0 0 " + width + " " + height + "\">";
-            _stringBld = new StringBuilder();
-            _stringBld.AppendLine();
+            _sb = new StringBuilder();
+            _sb.AppendLine();
         }
 
         private void AddClass(string svgClass)
         {
             if (svgClass.Length > 0)
-                _stringBld.Append("\" class=\"" + svgClass);
+                _sb.Append("\" class=\"" + svgClass);
 
-            _stringBld.Append("\" />");
-            _stringBld.AppendLine();
+            _sb.Append("\" />");
+            _sb.AppendLine();
         }
 
         internal void DrawLine(double x1, double y1, double x2, double y2, string svgClass = "")
         {
-            _stringBld.Append("<line x1=\"" + Math.Round(x1, Decimals));
-            _stringBld.Append("\" y1=\"" + Math.Round(y1, Decimals));
-            _stringBld.Append("\" x2=\"" + Math.Round(x2, Decimals));
-            _stringBld.Append("\" y2=\"" + Math.Round(y2, Decimals));
+            _sb.Append("<line x1=\"" + Math.Round(x1, Decimals));
+            _sb.Append("\" y1=\"" + Math.Round(y1, Decimals));
+            _sb.Append("\" x2=\"" + Math.Round(x2, Decimals));
+            _sb.Append("\" y2=\"" + Math.Round(y2, Decimals));
             AddClass(svgClass);
         }
 
         internal void DrawRectangle(double x, double y, double w, double h, string svgClass = "")
         {
-            _stringBld.Append("<rect x=\"" + Math.Round(x, Decimals));
-            _stringBld.Append("\" y=\"" + Math.Round(y, Decimals));
-            _stringBld.Append("\" width=\"" + Math.Round(w, Decimals));
-            _stringBld.Append("\" height=\"" + Math.Round(h, Decimals));
+            _sb.Append("<rect x=\"" + Math.Round(x, Decimals));
+            _sb.Append("\" y=\"" + Math.Round(y, Decimals));
+            _sb.Append("\" width=\"" + Math.Round(w, Decimals));
+            _sb.Append("\" height=\"" + Math.Round(h, Decimals));
             AddClass(svgClass);
         }
 
         internal void FillRectangle(double x, double y, double w, double h, string color = "White")
         {
-            _stringBld.Append("<rect x=\"" + Math.Round(x, Decimals));
-            _stringBld.Append("\" y=\"" + Math.Round(y, Decimals));
-            _stringBld.Append("\" width=\"" + Math.Round(w, Decimals));
-            _stringBld.Append("\" height=\"" + Math.Round(h, Decimals));
-            _stringBld.Append("\" fill=\"" + color + "\" stroke=\"none\" />");
-            _stringBld.AppendLine();
+            _sb.Append("<rect x=\"" + Math.Round(x, Decimals));
+            _sb.Append("\" y=\"" + Math.Round(y, Decimals));
+            _sb.Append("\" width=\"" + Math.Round(w, Decimals));
+            _sb.Append("\" height=\"" + Math.Round(h, Decimals));
+            _sb.Append("\" fill=\"" + color + "\" stroke=\"none\" />");
+            _sb.AppendLine();
         }
 
         internal void DrawCircle(double x, double y, double r, string svgClass = "")
         {
-            _stringBld.Append("<circle cx=\"" + Math.Round(x, Decimals));
-            _stringBld.Append("\" cy=\"" + Math.Round(y, Decimals));
-            _stringBld.Append("\" r=\"" + Math.Round(r, Decimals));
+            _sb.Append("<circle cx=\"" + Math.Round(x, Decimals));
+            _sb.Append("\" cy=\"" + Math.Round(y, Decimals));
+            _sb.Append("\" r=\"" + Math.Round(r, Decimals));
             AddClass(svgClass);
         }
 
         internal void DrawPolyline(SvgPoint[] points, string svgClass = "")
         {
-            _stringBld.Append("<polyline");
+            _sb.Append("<polyline");
             DrawPoints(points);
             AddClass(svgClass);
         }
@@ -80,45 +80,45 @@ namespace Calcpad.Core
             var dy1 = points[1].Y - y1;
             var n = 0;
             var nPoints = points.Length;
-            _stringBld.Append(" points=\"" + points[0]);
+            _sb.Append(" points=\"" + points[0]);
             for (int i = 1; i < nPoints; ++i)
             {
                 var dy2 = (points[i].Y - y1) / (i - n);
                 if (Math.Abs(dy2 - dy1) > dyLim)
                 {
                     n = i - 1;
-                    _stringBld.Append(" " + points[n]);
+                    _sb.Append(" " + points[n]);
                     y1 = points[i].Y;
                     dy1 = dy2;
                     n = i;
                 }
             }
-            _stringBld.Append(" " + points[nPoints - 1]);
+            _sb.Append(" " + points[nPoints - 1]);
         }
 
         internal void DrawText(string text, double x, double y, string svgClass = "")
         {
-            _stringBld.Append("<text x=\"" + Math.Round(x, Decimals));
-            _stringBld.Append("\" y=\"" + Math.Round(y, Decimals));
+            _sb.Append("<text x=\"" + Math.Round(x, Decimals));
+            _sb.Append("\" y=\"" + Math.Round(y, Decimals));
             if (svgClass.Length > 0)
-                _stringBld.Append("\" class=\"" + svgClass);
-            _stringBld.Append("\">" + text + " </text>");
-            _stringBld.AppendLine();
+                _sb.Append("\" class=\"" + svgClass);
+            _sb.Append("\">" + text + " </text>");
+            _sb.AppendLine();
         }
 
         internal void DrawImage(double x, double y, double w, double h, string src)
         {
-            _stringBld.Append("<image x=\"" + Math.Round(x, Decimals));
-            _stringBld.Append("\" y=\"" + Math.Round(y, Decimals));
-            _stringBld.Append("\" width=\"" + Math.Round(w, Decimals));
-            _stringBld.Append("\" height=\"" + Math.Round(h, Decimals));
-            _stringBld.Append("\" xlink:href=\"" + src + "\" />");
-            _stringBld.AppendLine();
+            _sb.Append("<image x=\"" + Math.Round(x, Decimals));
+            _sb.Append("\" y=\"" + Math.Round(y, Decimals));
+            _sb.Append("\" width=\"" + Math.Round(w, Decimals));
+            _sb.Append("\" height=\"" + Math.Round(h, Decimals));
+            _sb.Append("\" xlink:href=\"" + src + "\" />");
+            _sb.AppendLine();
         }
 
         public override string ToString()
         {
-            return _svgTag + _stringBld + "</svg>\n";
+            return _svgTag + _sb + "</svg>\n";
         }
 
         internal void Save(string fileName)
@@ -144,7 +144,7 @@ namespace Calcpad.Core
             sr.WriteLine("text.middle    {text-anchor: middle;}");
             sr.WriteLine("text.end       {text-anchor: end;}");
             sr.WriteLine("</style>");
-            sr.Write(_stringBld.ToString());
+            sr.Write(_sb.ToString());
             sr.WriteLine("</svg>");
         }
     }

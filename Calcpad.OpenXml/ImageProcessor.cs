@@ -18,8 +18,8 @@ namespace Calcpad.OpenXml
         }
         protected static string GetImageDataType(string data)
         {
-            var start = data.IndexOf('/') + 1;
-            var end = data.IndexOf(';');
+            var start = data.IndexOf('/', StringComparison.Ordinal) + 1;
+            var end = data.IndexOf(';', StringComparison.Ordinal);
             if (start <= 0 || end <= 0)
 #if BG
                 throw new Exception($"Невалидни данни на изображение.");
@@ -31,7 +31,7 @@ namespace Calcpad.OpenXml
 
         protected static byte[] GetImageData(string data)
         {
-            var start = data.IndexOf(',') + 1;
+            var start = data.IndexOf(',', StringComparison.Ordinal) + 1;
             if (start <= 0)
 #if BG
                 throw new Exception($"Невалидни данни на изображение.");

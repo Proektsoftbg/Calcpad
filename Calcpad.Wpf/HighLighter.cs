@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,7 +19,7 @@ namespace Calcpad.Wpf
         internal static Func<string, Queue<string>, string> Include;
         internal static MouseButtonEventHandler IncludeClickEventHandler;
 
-        private const char NullChar = (char)0;
+        private const char NullChar = '\0';
         private bool _allowUnaryMinus = true;
         private bool _hasTargetUnitsDelimiter;
         private static bool _hasIncludes;
@@ -66,7 +66,7 @@ namespace Calcpad.Wpf
         private static readonly Thickness ToolTipPadding = new(3, 1, 3, 2);
         private static readonly SolidColorBrush ToolTipBackground = new(Color.FromArgb(196, 0, 0, 0));
         private static readonly SolidColorBrush TitleBackground = new(Color.FromRgb(245, 255, 240));
-        private static readonly SolidColorBrush ErrorBackground = new (Color.FromRgb(255, 225, 225));
+        private static readonly SolidColorBrush ErrorBackground = new(Color.FromRgb(255, 225, 225));
         private static readonly HashSet<char> Operators = new() { '!', '^', '/', '÷', '\\', '%', '*', '-', '+', '<', '>', '≤', '≥', '≡', '≠', '=' };
         private static readonly HashSet<char> Delimiters = new() { ';', '|', '&', '@', ':' };
         private static readonly HashSet<char> Brackets = new() { '(', ')', '{', '}' };
@@ -174,13 +174,12 @@ namespace Calcpad.Wpf
             "$map"
         };
 
-        internal readonly HashSet<string> LocalVariables = new(StringComparer.Ordinal);
+        internal static readonly HashSet<string> LocalVariables = new(StringComparer.Ordinal);
         internal static readonly Dictionary<string, int> DefinedVariables = new(StringComparer.Ordinal);
         internal static readonly Dictionary<string, int> DefinedFunctions = new(StringComparer.Ordinal);
         internal static readonly Dictionary<string, int> DefinedMacros = new(StringComparer.Ordinal);
         internal static readonly Dictionary<string, List<int>> DefinedMacroParameters = new(StringComparer.Ordinal);
         internal static readonly char[] Comments = { '\'', '"' };
-        //internal static readonly string[] NewLines = { "\r\n", "\r", "\n" };
         internal static bool HasMacros => _hasIncludes || DefinedMacros.Count > 0;
         private class TagHelper
         {
@@ -264,11 +263,11 @@ namespace Calcpad.Wpf
 
             internal void GetInputState(char c)
             {
-                if (c == '?')
-                    InputChar = '?';
+                if (c == '?' || c == '#' && !IsLeading)
+                    InputChar = c;
                 else if (c == '{')
                 {
-                    if (InputChar == '?')
+                    if (InputChar == '?' || InputChar == '#')
                         InputChar = '{';
                     else
                         InputChar = '\0';
@@ -291,7 +290,7 @@ namespace Calcpad.Wpf
         private ParserState _state;
         private readonly StringBuilder _builder = new(100);
 
-        internal void Clear(Paragraph p)
+        internal static void Clear(Paragraph p)
         {
             if (p is null)
                 return;
@@ -337,7 +336,7 @@ namespace Calcpad.Wpf
                     _builder.Append(c);
                 else if (c == '$' && _builder.Length > 0)
                     ParseMacro();
-                else if (c == ' ' || c == '\t')
+                else if (IsWhiteSpace(c))
                     ParseSpace(c);
                 else if (Brackets.Contains(c))
                     ParseBrackets(c);
@@ -384,7 +383,7 @@ namespace Calcpad.Wpf
 #if BG
                         _state.Message = $"Очаква се край на ред.";
 #else
-                        _state.Message = $"End of line expected.";
+                    _state.Message = $"End of line expected.";
 #endif
                     Append(Types.Error);
                     return;
@@ -392,7 +391,7 @@ namespace Calcpad.Wpf
 
                 _state.RetainType();
 
-                if (c != ' ' && c != '\t')
+                if (IsWhiteSpace(c))
                     _state.IsLeading = false;
             }
             Append(_state.CurrentType);
@@ -461,11 +460,12 @@ namespace Calcpad.Wpf
                     else
                         _state.CurrentType = Types.Comment;
                 }
-                else if (_state.TextComment == c)
+                else if (c == _state.TextComment)
                 {
                     _state.TextComment = NullChar;
                     if (_state.IsTag && _state.IsTagComment)
                         _state.CurrentType = Types.Comment;
+                   
                     _builder.Append(c);
                     Append(_state.CurrentType);
                     _state.CurrentType = Types.Comment;
@@ -739,7 +739,11 @@ namespace Calcpad.Wpf
             if (c == '$')
                 return Types.Command;
             if (c == '#')
-                return _state.IsLeading ? Types.Keyword : Types.Error;
+                return _state.IsLeading ? 
+                    Types.Keyword :
+                    _state.InputChar == '#' ?
+                        Types.Bracket :
+                        Types.Error;
             if (IsDigit(c))
                 return Types.Const;
             if (_state.IsMacro && IsMacroLetter(c, 0))
@@ -747,7 +751,7 @@ namespace Calcpad.Wpf
             if (IsLetter(c))
             {
                 bool isUnitStart = IsUnitStart(c);
-                if (!(char.IsLetter(c) || isUnitStart ||  c == '∡' || c == '℧'))
+                if (!(char.IsLetter(c) || isUnitStart || c == '∡' || c == '℧'))
                     return Types.Error;
                 if (_state.IsUnits || _state.PreviousType == Types.Const || isUnitStart)
                     return Types.Units;
@@ -799,6 +803,12 @@ namespace Calcpad.Wpf
                 return;
             }
             var s = _builder.ToString();
+            if (t == Types.Bracket && _builder[0] == '#')
+            {
+                AppendRun(t, $" {s}");
+                _builder.Clear();
+                return;
+            }
             _builder.Clear();
             if (AppendRelOperatorShortcut(s))
                 return;
@@ -844,9 +854,9 @@ namespace Calcpad.Wpf
                 var values = new Queue<string>();
                 var sourceCode = Include(sourceFlieName, values);
                 _state.Paragraph.Tag = values;
-                var lines = sourceCode.Split(Environment.NewLine);
-                for (int i = 0, len = lines.Length; i < len; ++i)
-                    GetDefinedVariablesFunctionsAndMacros(lines[i], _state.Line);
+                var lines = sourceCode.AsSpan().EnumerateLines();
+                foreach (var line in lines)
+                    GetDefinedItems(line, _state.Line);
 
                 _state.Message = GetPartialSource(sourceCode);
                 return Types.Include;
@@ -931,10 +941,10 @@ namespace Calcpad.Wpf
 #endif
                     return Types.Error;
                 }
-                if (!(st.Equals("#if", StringComparison.OrdinalIgnoreCase) || 
-                      st.Equals("#else if", StringComparison.OrdinalIgnoreCase) || 
-                      st.Equals("#repeat", StringComparison.OrdinalIgnoreCase) || 
-                      st.Equals("#def", StringComparison.OrdinalIgnoreCase) || 
+                if (!(st.Equals("#if", StringComparison.OrdinalIgnoreCase) ||
+                      st.Equals("#else if", StringComparison.OrdinalIgnoreCase) ||
+                      st.Equals("#repeat", StringComparison.OrdinalIgnoreCase) ||
+                      st.Equals("#def", StringComparison.OrdinalIgnoreCase) ||
                       st.Equals("#include", StringComparison.OrdinalIgnoreCase) ||
                       st.Equals("#round", StringComparison.OrdinalIgnoreCase)))
                     _state.IsSingleLineKeyword = true;
@@ -995,12 +1005,12 @@ namespace Calcpad.Wpf
             _state.Paragraph.Inlines.Add(run);
         }
 
-         private static ToolTip AppendToolTip(string message) => new()
+        private static ToolTip AppendToolTip(string message) => new()
         {
             Background = ToolTipBackground,
             BorderBrush = Brushes.Black,
             Foreground = Brushes.White,
-            FontSize = 12,  
+            FontSize = 12,
             Padding = ToolTipPadding,
             Content = message,
             Placement = PlacementMode.MousePoint,
@@ -1164,10 +1174,10 @@ namespace Calcpad.Wpf
             }
         }
 
-        internal static void GetDefinedVariablesFunctionsAndMacros(string code, bool IsComplex) =>
-            GetDefinedVariablesFunctionsAndMacros(code.Split(Environment.NewLine), IsComplex);
+        //private static void GetDefinedVariablesFunctionsAndMacros(string code, bool IsComplex) =>
+        //    GetDefinedVariablesFunctionsAndMacros(code.AsSpan().EnumerateLines(), IsComplex);
 
-        internal static void ClearDefinedVariablesFunctionsAndMacros(bool IsComplex)
+        internal static void ClearDefinedIdentifiers(bool IsComplex)
         {
             DefinedVariables.Clear();
             DefinedFunctions.Clear();
@@ -1186,16 +1196,15 @@ namespace Calcpad.Wpf
             _hasIncludes = false;
         }
 
-
-        internal static void GetDefinedVariablesFunctionsAndMacros(IEnumerable<string> lines, bool IsComplex)
+        internal static void GetDefinedItems(SpanLineEnumerator lines, bool IsComplex)
         {
-            ClearDefinedVariablesFunctionsAndMacros(IsComplex);
+            ClearDefinedIdentifiers(IsComplex);
             var lineNumber = 0;
-            foreach (var lineContent in lines)
-                GetDefinedVariablesFunctionsAndMacros(lineContent, ++lineNumber);
+            foreach (var line in lines)
+                GetDefinedItems(line, ++lineNumber);
         }
 
-        internal static void GetDefinedVariablesFunctionsAndMacros(string lineContent, int lineNumber)
+        internal static void GetDefinedItems(ReadOnlySpan<char> lineContent, int lineNumber)
         {
             if (IsKeyword(lineContent, "#include"))
             {
@@ -1203,9 +1212,9 @@ namespace Calcpad.Wpf
                 if (File.Exists(s))
                 {
                     s = Include(s, null);
-                    var lines = s.Split(Environment.NewLine);
+                    var lines = s.AsSpan().EnumerateLines();
                     foreach (var line in lines)
-                        GetDefinedVariablesFunctionsAndMacros(line, lineNumber);
+                        GetDefinedItems(line, lineNumber);
                 }
                 _hasIncludes = true;
             }
@@ -1217,10 +1226,11 @@ namespace Calcpad.Wpf
                 GetDefinedVariablesAndFunctions(lineContent, lineNumber);
         }
 
-        internal static bool IsKeyword(string s, string keyword) =>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static bool IsKeyword(ReadOnlySpan<char> s, ReadOnlySpan<char> keyword) =>
             s.TrimStart().StartsWith(keyword, StringComparison.OrdinalIgnoreCase);
 
-        internal static string GetFile(string s)
+        internal static string GetFile(ReadOnlySpan<char> s)
         {
             int n = s.Length;
             if (n < 9)
@@ -1230,98 +1240,58 @@ namespace Calcpad.Wpf
             if (n < 9)
                 n = s.Length;
 
-            return s[8..n].Trim();
+            return s[8..n].Trim().ToString();
         }
 
-        private static void GetDefinedVariablesAndFunctions(string lineContent, int lineNumber)
+        private static void GetDefinedVariablesAndFunctions(ReadOnlySpan<char> lineContent, int lineNumber)
         {
-            var chunks = GetChunks(lineContent);
-            for (int i = 0, count = chunks.Count; i < count; ++i)
+            var commentEnumerator = lineContent.EnumerateComments();
+            foreach (var item in commentEnumerator)
             {
-                var chunk = chunks[i];
-                var isDone = false;
-                var isFunction = false;
-                var _builder = new StringBuilder(50);
-                for (int j = 0, len = chunk.Length; j < len; ++j)
+                if (!item.IsEmpty && item[0] != '"' && item[0] != '\'')
                 {
-                    var c = chunk[j];
-                    if (c == ' ' && _builder.Length == 0)
-                        continue;
-                    else if (IsLetter(c) || IsDigit(c))
+                    var isDone = false;
+                    var isFunction = false;
+                    var _builder = new StringBuilder(50);
+                    for (int j = 0, len = item.Length; j < len; ++j)
                     {
-                        if (isDone)
+                        var c = item[j];
+                        if (IsWhiteSpace(c) && _builder.Length == 0)
+                            continue;
+                        else if (IsLetter(c) || IsDigit(c))
                         {
-                            if (isFunction)
-                                continue;
+                            if (isDone)
+                            {
+                                if (isFunction)
+                                    continue;
 
+                                break;
+                            }
+                            _builder.Append(c);
+                        }
+                        else if (c == '=')
+                        {
+                            if (_builder.Length > 0)
+                            {
+                                if (isFunction)
+                                    DefinedFunctions.TryAdd(_builder.ToString(), lineNumber);
+                                else
+                                    DefinedVariables.TryAdd(_builder.ToString(), lineNumber);
+                            }
                             break;
                         }
-                        _builder.Append(c);
-                    }
-                    else if (c == '=')
-                    {
-                        if (_builder.Length > 0)
-                        {
-                            var s = _builder.ToString();
-                            if (isFunction)
-                                DefinedFunctions.TryAdd(s, lineNumber);
-                            else
-                                DefinedVariables.TryAdd(s, lineNumber);
-                        }
-                        break;
-                    }
-                    else
-                    {
-                        isDone = true;
-                        if (c == '(')
-                            isFunction = true;
-                    }
-                }
-            }
-        }
-
-        private static List<string> GetChunks(string text)
-        {
-            const char noComment = (char)0;
-            var chunks = new List<string>();
-            var comment = noComment;
-            int j = 0, len = text.Length;
-            for (int i = 0; i < len; ++i)
-            {
-                char c = text[i];
-                if (c == '"' || c == '\'')
-                {
-                    if (comment == c)
-                    {
-                        comment = noComment;
-                        j = i + 1;
-                    }
-                    else if (comment == noComment)
-                    {
-                        comment = c;
-                        if (i > j)
-                            chunks.Add(text[j..i]);
-                    }
-                }
-                else if (c == '\n')
-                {
-                    if (i > j)
-                    {
-                        if (text[i - 1] == '\r')
-                            chunks.Add(text[j..(i - 1)]);
                         else
-                            chunks.Add(text[j..i]);
+                        {
+                            isDone = true;
+                            if (c == '(')
+                                isFunction = true;
+                        }
                     }
-                    j = i + 1;
                 }
             }
-            if (comment == noComment && j < len)
-                chunks.Add(text[j..len]);
-
-            return chunks;
         }
 
-        private static void GetDefinedMacros(string lineContent, int lineNumber)
+        private static void GetDefinedMacros(ReadOnlySpan<char> lineContent, int lineNumber)
         {
             var isFunction = false;
             var isComplete = false;
@@ -1329,7 +1299,7 @@ namespace Calcpad.Wpf
             for (int i = 4, len = lineContent.Length; i < len; ++i)
             {
                 var c = lineContent[i];
-                if (c == ' ' && macroBuilder.Length == 0)
+                if (IsWhiteSpace(c) && macroBuilder.Length == 0)
                     continue;
                 else if (IsMacroLetter(c, macroBuilder.Length))
                     macroBuilder.Append(c);
@@ -1387,7 +1357,6 @@ namespace Calcpad.Wpf
             }
         }
 
-
         private static bool IsDefinedMacroOrParameter(string s, int line)
         {
             if (DefinedMacros.TryGetValue(s, out var macroLine))
@@ -1435,7 +1404,6 @@ namespace Calcpad.Wpf
             return true;
         }
 
-
         private static bool IsPlot(string text)
         {
             var s = text.TrimStart();
@@ -1445,12 +1413,14 @@ namespace Calcpad.Wpf
             return false;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool IsMacroLetter(char c, int position) =>
             c >= 'a' && c <= 'z' ||
             c >= 'A' && c <= 'Z' ||
             c == '_' ||
             char.IsDigit(c) && position > 0;
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static bool IsLetter(char c) =>
             c >= 'a' && c <= 'z' || // a - z
             c >= 'A' && c <= 'Z' || // A - Z 
@@ -1458,16 +1428,23 @@ namespace Calcpad.Wpf
             c >= 'Α' && c <= 'Ω' ||  // Alpha - Omega
             "_,°′″‴⁗ϑϕøØ℧∡".Contains(c, StringComparison.Ordinal); // _ , ° ′ ″ ‴ ⁗ ϑ ϕ ø Ø ℧ ∡
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static bool IsLatinLetter(char c) =>
             c >= 'a' && c <= 'z' || // a - z
             c >= 'A' && c <= 'Z'; // A - Z 
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static bool IsDigit(char c) =>
             c >= '0' && c <= '9' || c == MathParser.DecimalSymbol;
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static bool IsUnitStart(char c) =>
             c == '°' || c == '′' || c == '″';
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static bool IsWhiteSpace(char c) =>
+            c == ' ' || c == '\t';        
+        
         private string FormatOperator(string name) =>
             name switch
             {

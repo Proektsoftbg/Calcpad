@@ -77,7 +77,7 @@ namespace Calcpad.Wpf
         {
             try
             {
-                _wb.InvokeScript("eval", $"var e = document.getElementById('line{line}'); if(e){{window.scrollTo(0, e.offsetTop - {offset});}}");
+                _wb.InvokeScript("eval", $"var e = document.getElementById('line-{line}'); if(e){{window.scrollTo(0, e.offsetTop - {offset});}}");
             }
             catch { }
         }
@@ -85,7 +85,7 @@ namespace Calcpad.Wpf
         {
             try
             {
-                _wb.InvokeScript("eval", $"var e = document.getElementById('line{line}'); if(e){{e.innerHTML='{content}';}}");
+                _wb.InvokeScript("eval", $"var e = document.getElementById('line-{line}'); if(e){{e.innerHTML='{content}';}}");
             }
             catch { }
         }
@@ -176,9 +176,9 @@ EndFragment:0000000004";
 
         private static string ClearHtml(string html) => Regex.Unescape(html.Trim('"'));
 
-        internal string[] GetInputVaues()
+        internal string[] GetInputFields()
         {
-            const string script = "$(\"input[type='text'][name='Var']\").map(function(){return $(this).val();}).get().join('│');";
+            const string script = "$(\"input[type='text'][name='Var']\").map(function(){return this.className.split('-')[1] + ':' + $(this).val();}).get().join('│');";
             var s = _wb.InvokeScript("eval", script).ToString();
             return s.Trim('"').Split('│');
         }

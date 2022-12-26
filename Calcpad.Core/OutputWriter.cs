@@ -137,7 +137,7 @@ namespace Calcpad.Core
         }
 
         internal abstract string UnitString(Unit units);
-        internal abstract string FormatInput(string s, Unit units, bool isCalculated);
+        internal abstract string FormatInput(string s, Unit units, int line, bool isCalculated);
         internal abstract string FormatSubscript(string sa, string sb);
         internal abstract string FormatVariable(string name, string value);
         internal abstract string FormatUnits(string s);
@@ -266,7 +266,7 @@ namespace Calcpad.Core
     internal class TextWriter : OutputWriter
     {
         internal override string UnitString(Unit units) => units.Text;
-        internal override string FormatInput(string s, Unit units, bool isCalculated) =>
+        internal override string FormatInput(string s, Unit units,int line, bool isCalculated) =>
             units is null ? s : s + ' ' + units.Text;
 
         internal override string FormatSubscript(string sa, string sb) => sa + "_" + sb;
@@ -343,15 +343,15 @@ namespace Calcpad.Core
             };
         }
 
-        internal override string FormatInput(string s, Unit units, bool isCalculated)
+        internal override string FormatInput(string s, Unit units, int line, bool isCalculated)
         {
             string output;
             if (s == "?")
-                output = "<input type=\"text\" size=\"2\" name=\"Var\">&#8202;";
+                output = $"<input type=\"text\" size=\"2\" name=\"Var\" class=\"input-{line}\">&#8202;";
             else if (isCalculated)
-                output = $"<u>{s}</u>";
+                output = $"<u class=\"input-{line}\">{s}</u>";
             else
-                output = $"<input type=\"text\" size=\"2\" name=\"Var\" value=\"{s}\">&#8202;";
+                output = $"<input type=\"text\" size=\"2\" name=\"Var\" class=\"input-{line}\" value=\"{s}\">&#8202;";
 
             if (units is not null)
                 return $"{output} <i>{units.Html}</i>";
@@ -495,7 +495,7 @@ namespace Calcpad.Core
     internal class XmlWriter : OutputWriter
     {
         internal override string UnitString(Unit units) => units.Xml;
-        internal override string FormatInput(string s, Unit units, bool isCalculated)
+        internal override string FormatInput(string s, Unit units, int line, bool isCalculated)
         {
             string output;
             if (s == "?")

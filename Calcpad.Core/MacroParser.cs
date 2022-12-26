@@ -85,8 +85,6 @@ namespace Calcpad.Core
             EndDef,
             Include,
         }
-        private static readonly char[] Comments = { '\'', '"' };
-        //private static readonly string[] NewLines = { "\r\n", "\r", "\n" };
         private static readonly Dictionary<string, Macro> Macros = new(StringComparer.Ordinal);
         public Func<string, Queue<string>, string> Include;
 
@@ -104,34 +102,33 @@ namespace Calcpad.Core
             return Keywords.None;
         }
 
-        public bool Parse(string sourceCode, out string outCode, StringBuilder stringBuilder)
+        public bool Parse(string sourceCode, out string outCode, StringBuilder sb, int includeLine)
         {
             var sourceLines = sourceCode.AsSpan().EnumerateLines();
-            if (stringBuilder is null)
-                stringBuilder = new StringBuilder(sourceCode.Length);
+            if (sb is null)
+            {
+                sb = new StringBuilder(sourceCode.Length);
+                Macros.Clear();
+            }
             var macroName = string.Empty;
             var macroBuilder = new StringBuilder(50);
-            var lineNumber = 0;
-            var includeCount = 0;
+            var lineNumber = includeLine;
             var macroDefCount = 0;
             var hasErrors = false;
             ReadOnlySpan<char> lineContent = "code";
-            Macros.Clear();
             List<string> macroParameters = null;
             try
             {
                 foreach (ReadOnlySpan<char> sourceLine in sourceLines)
                 {
-                    if (includeCount == 0)
+                    if (includeLine == 0)
                         ++lineNumber;
-                    else
-                        --includeCount;
 
                     lineContent = sourceLine.Trim();
                     var keyword = Keywords.None;
                     if (lineContent.IsEmpty)
                     {
-                        stringBuilder.AppendLine(sourceLine.ToString());
+                        AppendLine(sourceLine.ToString());
                         continue;
                     }
                     if (lineContent[0] == '#')
@@ -147,7 +144,11 @@ namespace Calcpad.Core
 #else
                                 AppendError(lineContent.ToString(), $"Missing source file for include.");
 #endif                      
-                            n = lineContent.IndexOfAny(Comments);
+                            n = lineContent.IndexOfAny('\'', '"');
+                            var nf1 = lineContent.LastIndexOf('{');
+                            if (n < 9 || nf1 > 0 && nf1 < n)
+                                n = nf1;
+
                             if (n < 9)
                                 n = lineContent.Length;
 
@@ -158,12 +159,21 @@ namespace Calcpad.Core
 #else
                                 AppendError(lineContent.ToString(), "File not found.");
 #endif  
-                             
+                            Queue<string> fields = new();
+                            if (nf1 > 0)
                             {
-                                var includeCode = Include(insertFileName, null);
-                                Parse(includeCode, out string outIncludeCode, stringBuilder);
-                                stringBuilder.Append(outIncludeCode);
+                                var nf2 = lineContent.LastIndexOf('}');
+                                if (nf2 < 0)
+                                    AppendError(lineContent.ToString(), "Brackets not closed.");
+                                else
+                                {
+                                    SplitEnumerator split = lineContent[(nf1 + 1)..nf2].EnumerateSplits(';');
+                                    foreach (var item in split)
+                                        fields.Enqueue(item.ToString());
+                                }
                             }
+
+                            Parse(Include(insertFileName, fields), out _, sb, lineNumber);
                         }
                         else if (keyword == Keywords.Def)
                         {
@@ -171,7 +181,7 @@ namespace Calcpad.Core
                             {
                                 macroBuilder.Clear();
                                 int j = 4, len = lineContent.Length;
-                                char c = EatSpace(lineContent, ref j);
+                                var c = EatSpace(lineContent, ref j);
                                 while (j < len)
                                 {
                                     c = lineContent[j];
@@ -271,10 +281,7 @@ namespace Calcpad.Core
                             else
                             { 
                                 var j = macroBuilder.Length - 2;
-                                //if (j > 0) 
-                                //    macroBuilder.Remove(j, 2);
-
-                                string macroContent = macroBuilder.ToString();
+                                var macroContent = macroBuilder.ToString();
                                 AddMacro(lineContent.ToString(), macroName, new Macro(macroContent, macroParameters));
                                 macroName = string.Empty;
                                 macroBuilder.Clear();
@@ -296,7 +303,7 @@ namespace Calcpad.Core
                             var insertCode = ApplyMacros(sourceLine);
                             var insertLines = insertCode.Split(Environment.NewLine, StringSplitOptions.None);
                             foreach (var line in insertLines)
-                                stringBuilder.AppendLine(line);
+                                AppendLine(line);
                         }
                         catch (Exception ex)
                         {
@@ -304,14 +311,14 @@ namespace Calcpad.Core
                         }
                     }
                     else
-                        stringBuilder.AppendLine(sourceLine.ToString());
+                        AppendLine(sourceLine.ToString());
                 }
                 if (macroDefCount > 0)
                 {
 #if BG
                     stringBuilder.Append($"#Грешка: Незатворена дефиниция на макрос. Липсва \"#end def\".");
 #else
-                    stringBuilder.Append($"#Error: Macro definition block not closed. Missing \"#end def\".");
+                    sb.Append($"#Error: Macro definition block not closed. Missing \"#end def\".");
 #endif
                     hasErrors = true;
                 }
@@ -322,9 +329,11 @@ namespace Calcpad.Core
             }
             finally
             {
-                outCode = stringBuilder.ToString();
+                outCode = sb.ToString();
             }
             return hasErrors;
+
+            void AppendLine(string line) => sb.AppendLine(line.ToString() + '\v' + lineNumber.ToString());
 
             void SymbolError(ReadOnlySpan<char> lineContent, char c)
             {
@@ -340,7 +349,7 @@ namespace Calcpad.Core
 #if BG
                 stringBuilder.AppendLine($"#Грешка в \"{HttpUtility.HtmlEncode(lineContent)}\" на ред {LineHtml(lineNumber)}: {errorMessage}");
 #else
-                stringBuilder.AppendLine($"#Error in \"{HttpUtility.HtmlEncode(lineContent)}\" on line {LineHtml(lineNumber)}: {errorMessage}");
+                sb.AppendLine($"#Error in \"{HttpUtility.HtmlEncode(lineContent)}\" on line {LineHtml(lineNumber)}: {errorMessage}");
 #endif
                 hasErrors = true;
             }
@@ -354,8 +363,17 @@ namespace Calcpad.Core
                     AppendError(lineContent, $"Duplicate macro name: \"{name}\".");
 #endif
             }
-
             static string LineHtml(int line) => $"[<a href=\"#0\" data-text=\"{line}\">{line}</a>]";
+        }
+
+        public static Queue<string> GetFields(ReadOnlySpan<char> s, char delimiter)
+        {
+            var fields = new Queue<string>();
+            var split = s.EnumerateSplits(delimiter);
+            foreach(var item in split)
+                fields.Enqueue(item.Trim().ToString());
+
+            return fields;
         }
 
         private static string ApplyMacros(ReadOnlySpan<char> lineContent)
@@ -366,6 +384,18 @@ namespace Calcpad.Core
             var bracketCount = 0;
             var emptyMacro = new Macro(null, null);
             var macro = emptyMacro;
+            var index = lineContent.IndexOf("#{");
+            Queue<string> fields = null;
+            if (index >= 0)
+            {
+                var s = lineContent[(index + 2)..];
+                lineContent = lineContent[..index];
+                var n =s.IndexOf ('}');
+                if (n < 0) 
+                    n = s.Length;
+                fields = GetFields(s[..n], ';');
+            }
+
             for (int i = 0, len = lineContent.Length; i < len; ++i)
             {
                 var c = lineContent[i];
@@ -418,7 +448,9 @@ namespace Calcpad.Core
                     if (!macro.IsEmpty)
                     {
                         var s = ApplyMacros(macro.Run(macroArguments));
-                        stringBuilder.Append(s);
+                        if (!SetLineInputFields(s, stringBuilder, fields, false))
+                            stringBuilder.Append(s);
+                            
                         macro = emptyMacro;
                     }
                     if (IsMacroLetter(c, macroBuilder.Length))
@@ -479,31 +511,162 @@ namespace Calcpad.Core
         public static bool HasInputFields(ReadOnlySpan<char> s) =>
             CountOrHasInputFields(s, true) > 0;
 
-        private static int CountOrHasInputFields(ReadOnlySpan<char> s, bool any)
+        private static int CountOrHasInputFields(ReadOnlySpan<char> s, bool hasAny)
         {
-            var count = 0;
-            const char nullChar = (char)0;
-            var commentChar = nullChar;
-            foreach (var c in s)
-            {
-                if (c == '\n')
-                    commentChar = nullChar;
-                else if (c == '\'' || c == '"')
-                {
-                    if (commentChar == nullChar)
-                        commentChar = c;
-                    else if (commentChar == c)
-                        commentChar = nullChar;
-                }
-                else if (c == '?' && commentChar == nullChar)
-                {
-                    if (any)
-                        return 1;
+            if (s.IsEmpty)
+                return 0;
 
-                    ++count;
+            var count = 0;
+            var commentEnumerator = s.EnumerateComments();
+            foreach (var item in commentEnumerator)
+            {
+                if (!item.IsEmpty && item[0] != '"' && item[0] != '\'')
+                {
+                    foreach(var c in item)
+                    {
+                        if (c == '?')
+                        {
+                            if (hasAny)
+                                return 1;
+
+                            ++count;
+                        }
+                    }
                 }
             }
             return count;
+        }
+
+        public static bool SetLineInputFields(string inStr, StringBuilder outStrBldr, Queue<string> fields, bool forceLine)
+        {
+            if (string.IsNullOrEmpty(inStr) || fields is null || !fields.Any())
+                return false;
+
+            var commentEnumerator = inStr.AsSpan().EnumerateComments();
+            var inputChar = '\0';
+            foreach (var item in commentEnumerator)
+            {
+                if (!item.IsEmpty)
+                {
+                    if (item[0] =='"' || item[0] == '\'')
+                        outStrBldr.Append(item);
+                    else
+                    {
+                        var j0 = 0;
+                        var len = item.Length;
+                        for (int j = 0; j < len; ++j)
+                        {
+                            var c = item[j];
+                            if (c == '?')
+                                inputChar = c;
+                            else if (c == '{' && inputChar == '?')
+                            {
+                                inputChar = c;
+                                outStrBldr.Append(item[j0..(j + 1)]);
+                            }
+                            else if (c == '}' && inputChar == '{')
+                            {
+                                inputChar = '\0';
+                                if (!fields.TryDequeue(out string val))
+                                    return false;
+
+                                outStrBldr.Append(val);
+                                j0 = j;
+                            }
+                            else if (inputChar == '{')
+                                continue;
+                            else if (c != ' ')
+                            {
+                                if (AddField(item[j0..j]))
+                                    j0 = j;
+                            }
+                        }
+                        if (!AddField($"{item[j0..]} "))
+                            outStrBldr.Append($"{item[j0..]}");
+                    }
+                }
+            }
+            if (forceLine && fields.Any())
+            {
+                RemoveLineFields(outStrBldr);
+                AddLineFields(outStrBldr, fields);
+            }
+            return outStrBldr.Length > 0;
+
+            bool AddField(ReadOnlySpan<char> s)
+            {
+                if (inputChar == '?')
+                {
+                    inputChar = '\0';
+                    if (!fields.TryDequeue(out string val))
+                        return false;
+
+                    outStrBldr.Append($"{s}{{{val}}}");
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        private static void RemoveLineFields(StringBuilder sb)
+        {
+            var len = sb.Length;
+            var i = len;
+            while (--i > 0)
+                if (sb[i] == '{')
+                    break;
+
+            if (i > 1 && sb[i - 1] == '#')
+            {
+                while (--i > 0)
+                    if (sb[i] != ' ')
+                        break;
+            }
+            else
+                i = -1;
+
+            if (i > -1)
+            {
+                len -= i - 1;
+                if (len > 0)
+                    sb.Remove(i - 1, len);
+            }
+        }
+
+        private static void AddLineFields(StringBuilder sb, Queue<string> fields)
+        {
+            if (HasUnclosedComment(sb))  
+                sb.Append("' #{");
+            else
+                sb.Append(" #{");
+
+            while (fields.TryDequeue(out string val))
+            {
+                sb.Append(val);
+                sb.Append(';');
+            }
+            sb[^1] = '}';
+        }
+        
+        private static bool HasUnclosedComment(StringBuilder sb)
+        {
+            var commentChar = '\0';
+            var commentCount = 0;
+            for (int i = 0, len = sb.Length; i < len; ++i)
+            {
+                var c = sb[i];
+                if (commentChar == '\0')
+                {
+                    if (c == '\'' || c == '"')
+                    {
+                        commentChar = c;
+                        ++commentCount;
+                    }
+                }
+                else if (c == commentChar)
+                    ++commentCount;
+            }
+            return commentCount % 2 == 1;
         }
     }
 }
