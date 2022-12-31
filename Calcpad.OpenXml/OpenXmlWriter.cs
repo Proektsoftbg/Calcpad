@@ -47,8 +47,7 @@ namespace Calcpad.OpenXml
             var htmlDocument = new HtmlDocument();
             htmlDocument.LoadHtml(html);
             var mainNode = htmlDocument.DocumentNode.SelectSingleNode("//body");
-            if (mainNode is null)
-                mainNode = htmlDocument.DocumentNode;
+            mainNode ??= htmlDocument.DocumentNode;
 
             var body = (Body)ParseHtmlNode(mainNode, mainPart);
             AddSectionProperties(body);
@@ -64,7 +63,7 @@ namespace Calcpad.OpenXml
             //Validate document
             var validator = new OpenXmlValidator();
             var errors = validator.Validate(doc);
-            var stringBuilder = new StringBuilder();
+            var stringBuilder = new StringBuilder(1000);
             var count = 0;
             foreach (var error in errors)
             {

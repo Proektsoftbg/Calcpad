@@ -99,7 +99,7 @@ namespace Calcpad.Core
                             _stringBuilder.Append(res);
                         }
                     }
-                }          
+                }
                 return _stringBuilder.ToString();
             }
 
@@ -136,7 +136,7 @@ namespace Calcpad.Core
                     else if (tt == TokenTypes.Input)
                     {
                         var units = ((ValueToken)rpn[i]).Value.Units;
-                        t.Content = writer.FormatInput(t.Content, units,_parser.Line, _parser._isCalculated);
+                        t.Content = writer.FormatInput(t.Content, units, _parser.Line, _parser._isCalculated);
                     }
                     else if (tt == TokenTypes.Constant || tt == TokenTypes.Unit)
                     {
@@ -371,7 +371,7 @@ namespace Calcpad.Core
                             t.Level = b.Level;
                             hasOperators = true;
                         }
-                        else if (t.Content == "abs" )
+                        else if (t.Content == "abs")
                         {
                             t.Content = writer.FormatAbs(sb, b.Level);
                             t.Level = b.Level;

@@ -32,7 +32,7 @@ namespace Calcpad.Core
             return true;
         }
         public ReadOnlySpan<char> Current { get; private set; }
-        public bool IsEmpty => _span.IsEmpty;   
+        public bool IsEmpty => _span.IsEmpty;
     }
 
     public ref struct CommentEnumerator
@@ -49,7 +49,7 @@ namespace Calcpad.Core
 
         public bool MoveNext()
         {
-            if (_span.Length == 0)
+            if (_span.IsEmpty)
                 return false;
 
             int i;

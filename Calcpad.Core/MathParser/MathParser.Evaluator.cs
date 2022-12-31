@@ -195,7 +195,7 @@ namespace Calcpad.Core
                     v = v.IsReal ?
                         new Value(v.Re * d, u) :
                         new Value(v.Complex * d, u);
-                
+
                 return v.Units;
             }
 

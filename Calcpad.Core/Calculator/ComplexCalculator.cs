@@ -543,7 +543,7 @@ namespace Calcpad.Core
         }
 
         private static Value ToAngleUnits(Complex value) =>
-            _returnAngleUnits ? 
+            _returnAngleUnits ?
             new(value * _fromRad[_degrees], _angleUnits[_degrees]) :
             new(value * _fromRad[_degrees], null);
     }

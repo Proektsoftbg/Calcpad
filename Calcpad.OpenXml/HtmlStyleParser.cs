@@ -36,11 +36,11 @@ namespace Calcpad.OpenXml
             Seek(text, ":", ref i);
             var n = i;
             var s = Seek(text, ";", ref i, true);
-            if (s.Length == 0)
+            if (string.IsNullOrEmpty(s))
             {
                 i = n;
                 s = Seek(text, "\"", ref i, true);
-                if (s.Length == 0)
+                if (string.IsNullOrEmpty(s))
                 {
                     i = n;
                     s = Seek(text, "\'", ref i, true);

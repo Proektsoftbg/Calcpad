@@ -138,7 +138,7 @@ namespace Calcpad.Core
                 AddFunction(input);
             else
             {
-                _rpn = _input.GetRpn(input);
+                _rpn = Input.GetRpn(input);
                 PurgeCache();
             }
         }
@@ -256,7 +256,7 @@ namespace Calcpad.Core
                     }
                     if (input.Any() && input.Dequeue().Content == "=")
                     {
-                        var rpn = _input.GetRpn(input);
+                        var rpn = Input.GetRpn(input);
                         var i = _functions.IndexOf(name);
                         CustomFunction cf;
                         if (i >= 0)
@@ -321,7 +321,7 @@ namespace Calcpad.Core
             var input = _input.GetInput(expression, false);
             new Validator(_functions).Check(input, out _);
             _input.OrderOperators(input, true, 0);
-            var rpn = _input.GetRpn(input);
+            var rpn = Input.GetRpn(input);
             BindParameters(parameters, rpn);
             return _compiler.Compile(rpn);
         }

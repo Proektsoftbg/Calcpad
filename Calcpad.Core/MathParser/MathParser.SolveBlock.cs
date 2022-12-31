@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace Calcpad.Core
@@ -72,9 +71,9 @@ namespace Calcpad.Core
                 Parse();
             }
 
-            internal static SolverTypes GetSolverType(string keyword)
+            internal static SolverTypes GetSolverType(ReadOnlySpan<char> keyword)
             {
-                var s = keyword.Trim();
+                var s = keyword.Trim().ToString();
                 if (Definitions.ContainsKey(s))
                     return Definitions[s];
 
@@ -292,17 +291,17 @@ namespace Calcpad.Core
                             result = solver.Area(x1, x2);
                             break;
                         case SolverTypes.Repeat:
-                            result = _parser._settings.IsComplex ? 
+                            result = _parser._settings.IsComplex ?
                                 solver.ComplexRepeat(x1, x2) :
                                 solver.Repeat(x1, x2);
                             break;
                         case SolverTypes.Sum:
-                            result = _parser._settings.IsComplex ? 
+                            result = _parser._settings.IsComplex ?
                                 solver.ComplexSum(x1, x2) :
                                 solver.Sum(x1, x2);
                             break;
                         case SolverTypes.Product:
-                            result = _parser._settings.IsComplex ? 
+                            result = _parser._settings.IsComplex ?
                                 solver.ComplexProduct(x1, x2) :
                                 solver.Product(x1, x2);
                             break;
@@ -348,19 +347,19 @@ namespace Calcpad.Core
 
             internal string ToHtml()
             {
-                if (_type ==  SolverTypes.Integral || _type == SolverTypes.Area)
+                if (_type == SolverTypes.Integral || _type == SolverTypes.Area)
                     return new HtmlWriter().FormatNary(
-                        $"<em>{TypeName(_type)}</em>", 
-                        _items[2].Html, 
+                        $"<em>{TypeName(_type)}</em>",
+                        _items[2].Html,
                         _items[3].Html,
                         _items[0].Html + " d" + _items[1].Html
                         );
 
                 if (_type == SolverTypes.Sum || _type == SolverTypes.Product)
                     return new HtmlWriter().FormatNary(
-                        TypeName(_type), 
-                        _items[1].Html + "=&hairsp;" + _items[2].Html, 
-                        _items[3].Html, 
+                        TypeName(_type),
+                        _items[1].Html + "=&hairsp;" + _items[2].Html,
+                        _items[3].Html,
                         _items[0].Html
                         );
 
@@ -442,19 +441,19 @@ namespace Calcpad.Core
                     _stringBuilder.Append(XmlWriter.Run("∈"));
                     _stringBuilder.Append(XmlWriter.Brackets('[', ']', _items[2].Xml + XmlWriter.Run(";") + _items[3].Xml));
                 }
-                string s = _stringBuilder.ToString();   
+                string s = _stringBuilder.ToString();
                 return XmlWriter.Run(TypeName(_type)) + XmlWriter.Brackets('{', '}', s);
             }
 
             public override string ToString()
             {
-                if (_type == SolverTypes.Sum || 
+                if (_type == SolverTypes.Sum ||
                     _type == SolverTypes.Product ||
                     _type == SolverTypes.Integral ||
                     _type == SolverTypes.Area ||
                     _type == SolverTypes.Repeat)
                     return new TextWriter().FormatNary(
-                        TypeName(_type), 
+                        TypeName(_type),
                         _items[1].Html + " = " + _items[2].Html,
                         _items[3].Html,
                         _items[0].Html

@@ -31,7 +31,7 @@ namespace Calcpad.Core
                     input[index - 1] += c.ToString();
 
                 if (c == '}')
-                    --bracketCount;  
+                    --bracketCount;
             }
             if (index <= 4)
 #if BG
