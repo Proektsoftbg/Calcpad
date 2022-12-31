@@ -1022,6 +1022,7 @@ namespace Calcpad.Wpf
 
         private async void CalculateAsync(bool toWebForm = false)
         {
+            var t = DateTime.Now.Ticks;
             if (_isParsing)
                 return;
 
@@ -1124,6 +1125,7 @@ namespace Calcpad.Wpf
 #else
                 OutputFrame.Header = toWebForm ? "Input" : "Output";
 #endif
+            MessageBox.Show(((DateTime.Now.Ticks - t) / 10000.0).ToString());
         }
 
         private static string FixHref(in string text)

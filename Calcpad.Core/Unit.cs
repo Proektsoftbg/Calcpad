@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
 
@@ -66,7 +65,7 @@ namespace Calcpad.Core
         internal bool IsForce => _dims.Length == 3 &&
                                  _dims[0].Power == 1f &&
                                  _dims[2].Power == -2f &&
-                                 Text.Contains('s');
+                                 (string.IsNullOrEmpty(_text) || _text.Contains('s'));
 
         internal bool IsElectrical => _dims.Length == 4 &&
                                       _dims[3].Power != 0 ||
@@ -83,13 +82,13 @@ namespace Calcpad.Core
                                 _dims[3].Power == 0f;
 
         internal bool IsAngle => _dims.Length == 0 ||
-                                 _dims.Length > 6 && 
-                                 _dims[0].Power == 0f && 
-                                 _dims[1].Power == 0f && 
-                                 _dims[2].Power == 0f && 
-                                 _dims[3].Power == 0f && 
-                                 _dims[4].Power == 0f && 
-                                 _dims[5].Power == 0f && 
+                                 _dims.Length > 6 &&
+                                 _dims[0].Power == 0f &&
+                                 _dims[1].Power == 0f &&
+                                 _dims[2].Power == 0f &&
+                                 _dims[3].Power == 0f &&
+                                 _dims[4].Power == 0f &&
+                                 _dims[5].Power == 0f &&
                                  _dims[6].Power == 0f &&
                                  _dims[7].Power == 1f;
 
@@ -279,7 +278,7 @@ namespace Calcpad.Core
             var mi = m.Scale("mi", 1609.344);
             var a = m.Pow(2).Scale("a", 100d);
             var L = m.Shift(-1).Pow(3);
-            L.Text = "L";
+            L._text = "L";
             var s = new Unit("s", 0f, 0f, 1f);
             var h = s.Scale("h", 3600d);
             var A = new Unit("A", 0f, 0f, 0f, 1f);
@@ -314,12 +313,12 @@ namespace Calcpad.Core
             ForceUnits[7] = kN * m.Pow(3d);
             ForceUnits[8] = kN * m.Pow(4d);
 
-            ForceUnits[0].Text = "kN/m^4";
-            ForceUnits[1].Text = "kN/m^3";
-            ForceUnits[3].Text = "kN/m";
-            ForceUnits[6].Text = "kN·m^2";
-            ForceUnits[7].Text = "kN·m^3";
-            ForceUnits[8].Text = "kN·m^4";
+            ForceUnits[0]._text = "kN/m^4";
+            ForceUnits[1]._text = "kN/m^3";
+            ForceUnits[3]._text = "kN/m";
+            ForceUnits[6]._text = "kN·m^2";
+            ForceUnits[7]._text = "kN·m^3";
+            ForceUnits[8]._text = "kN·m^4";
 
             var ksi = Pa.Scale("ksi", 6894757.29322959);
             var kipf = N.Scale("kipf", 4448.2216153);
@@ -726,7 +725,7 @@ namespace Calcpad.Core
             };
             Units["°"].Scale(Math.PI / 180.0);
             Units["′"].Scale(Math.PI / 10800.0);
-            Units["″"].Scale( Math.PI / 648000.0);
+            Units["″"].Scale(Math.PI / 648000.0);
             Units.Add("deg", Units["°"]);
             Units["grad"].Scale(Math.PI / 200.0);
             Units["rev"].Scale(Math.PI * 2.0);
@@ -776,7 +775,7 @@ namespace Calcpad.Core
                 OutputWriter.OutputFormat.Xml => new XmlWriter(),
                 _ => new TextWriter()
             };
-            var stringBuilder = new StringBuilder();
+            var stringBuilder = new StringBuilder(50);
             var isFirst = true;
             for (int i = 0, n = _dims.Length; i < n; ++i)
             {
@@ -913,7 +912,7 @@ namespace Calcpad.Core
             return unit;
         }
 
-        internal static bool IsConsistent(Unit u1, Unit u2) => 
+        internal static bool IsConsistent(Unit u1, Unit u2) =>
             (ReferenceEquals(u1, u2)) || u1 is not null && u1.IsConsistent(u2);
 
         private bool IsConsistent(Unit other)
@@ -980,7 +979,7 @@ namespace Calcpad.Core
         internal static Unit GetForceUnit(Unit u)
         {
             var i = (int)u._dims[1].Power + 3;
-            if (i < 0 || i > 5 || Units.ContainsKey(u.Text))
+            if (i < 0 || i > 5 || !string.IsNullOrEmpty(u._text) && Units.ContainsKey(u._text))
                 return u;
 
             var d = u._dims[0].Factor;
@@ -992,7 +991,7 @@ namespace Calcpad.Core
 
         internal static Unit GetElectricalUnit(Unit u)
         {
-            if (Units.ContainsKey(u.Text))
+            if (!string.IsNullOrEmpty(u._text) && Units.ContainsKey(u._text)) 
                 return u;
 
             if (ElectricalUnits.TryGetValue(u, out var eu))
@@ -1283,7 +1282,7 @@ namespace Calcpad.Core
             {
                 uc.Scale(d);
                 d = 1d;
-                uc.Text = ua.Text + '·' + ub.Text;
+                uc._text = ua.Text + '·' + ub.Text;
             }
             return uc;
         }
@@ -1311,7 +1310,7 @@ namespace Calcpad.Core
             {
                 uc.Scale(d);
                 d = 1d;
-                uc.Text = ua.Text + '/' + ub.Text;
+                uc._text = ua.Text + '/' + ub.Text;
             }
             return uc;
         }
@@ -1334,14 +1333,17 @@ namespace Calcpad.Core
                 throw new MathParser.MathParserException("Units cannon be raised to complex power.");
 #endif
             var result = u.Pow(power.Re);
-            var s = u.Text;
-            if (updateText && !s.Contains('^'))
+            if (updateText)
             {
-                var ps = OutputWriter.FormatNumberHelper(power.Re, 2);
-                result.Text =
-                    s.IndexOfAny(CompositeUnitChars) >= 0.0 ?
-                    $"({s})^{ps}" :
-                    s + '^' + ps;
+                var s = u.Text;
+                if (!s.Contains('^'))
+                {
+                    var ps = OutputWriter.FormatNumberHelper(power.Re, 2);
+                    result._text =
+                        s.IndexOfAny(CompositeUnitChars) >= 0.0 ?
+                        $"({s})^{ps}" :
+                        s + '^' + ps;
+                }
             }
             return result;
         }
@@ -1349,13 +1351,16 @@ namespace Calcpad.Core
         internal static Unit Root(Unit u, int n, bool updateText = false)
         {
             var result = u.Pow(1.0 / n);
-            var s = u.Text;
-            if (updateText && !s.Contains('^'))
-                result.Text =
+
+            if (updateText)
+            {
+                var s = u.Text;
+                if (!s.Contains('^'))
+                result._text =
                     s.IndexOfAny(CompositeUnitChars) >= 0 ?
                     $"({s})^1/{n}" :
                     s + $"^1/{n}";
-
+            }
             return result;
         }
     }

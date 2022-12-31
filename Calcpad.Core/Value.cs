@@ -14,7 +14,7 @@ namespace Calcpad.Core
         internal Value(double re, double im, Unit units)
         {
             Re = re;
-            Im = im; 
+            Im = im;
             Units = units;
             IsUnit = false;
         }
@@ -73,7 +73,7 @@ namespace Calcpad.Core
             return false;
         }
 
-        internal Complex Complex => new (Re, Im);
+        internal Complex Complex => new(Re, Im);
 
         internal bool IsComposite() => Unit.IsComposite(Re, Units);
 
@@ -195,8 +195,8 @@ namespace Calcpad.Core
         public bool Equals(Value other)
         {
             if (Units is null)
-                return other.Units is null && 
-                    Re.Equals(other.Re) && 
+                return other.Units is null &&
+                    Re.Equals(other.Re) &&
                     Im.Equals(other.Im); ;
 
             if (other.Units is null)

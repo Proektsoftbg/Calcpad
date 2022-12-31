@@ -16,7 +16,7 @@ namespace Calcpad.Core
             Width = width;
             Height = height;
             _svgTag = "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" viewbox=\" 0 0 " + width + " " + height + "\">";
-            _sb = new StringBuilder();
+            _sb = new StringBuilder(1000);
             _sb.AppendLine();
         }
 

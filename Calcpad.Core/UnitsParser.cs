@@ -199,7 +199,7 @@ namespace Calcpad.Core
                 }
                 else
                 {
-                    if (literal.Length != 0)
+                    if (!string.IsNullOrEmpty(literal))
                     {
                         if (pt == TokenTypes.Units)
                         {

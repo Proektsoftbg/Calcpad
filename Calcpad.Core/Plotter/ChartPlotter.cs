@@ -283,7 +283,7 @@ namespace Calcpad.Core
                         penNo = 1;
                 }
             }
-            if (Settings.ImagePath.Length != 0)
+            if (!string.IsNullOrEmpty(Settings.ImagePath))
                 return HtmlImg(Settings.ImageUri + SvgToFile(svgDrawing, Settings.ImagePath));
 
             double d = 0.75 / ScreenScaleFactor;

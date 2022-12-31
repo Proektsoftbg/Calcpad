@@ -51,7 +51,7 @@ namespace Calcpad.Core
                     }
                 }
 
-                 return sorted.Values.Reverse().ToArray();
+                return sorted.Values.Reverse().ToArray();
             }
 
             internal string Run(List<string> arguments)
@@ -111,7 +111,7 @@ namespace Calcpad.Core
                 Macros.Clear();
             }
             var macroName = string.Empty;
-            var macroBuilder = new StringBuilder(50);
+            var macroBuilder = new StringBuilder(200);
             var lineNumber = includeLine;
             var macroDefCount = 0;
             var hasErrors = false;
@@ -169,7 +169,7 @@ namespace Calcpad.Core
                                 {
                                     SplitEnumerator split = lineContent[(nf1 + 1)..nf2].EnumerateSplits(';');
                                     foreach (var item in split)
-                                        fields.Enqueue(item.ToString());
+                                        fields.Enqueue(item.Trim().ToString());
                                 }
                             }
 
@@ -279,7 +279,7 @@ namespace Calcpad.Core
 #endif
                             }
                             else
-                            { 
+                            {
                                 var j = macroBuilder.Length - 2;
                                 var macroContent = macroBuilder.ToString();
                                 AddMacro(lineContent.ToString(), macroName, new Macro(macroContent, macroParameters));
@@ -333,14 +333,14 @@ namespace Calcpad.Core
             }
             return hasErrors;
 
-            void AppendLine(string line) => sb.AppendLine(line.ToString() + '\v' + lineNumber.ToString());
+            void AppendLine(string line) => sb.AppendLine(line + '\v' + lineNumber.ToString());
 
             void SymbolError(ReadOnlySpan<char> lineContent, char c)
             {
 #if BG
                 AppendError($"Невалиден символ \"{c}\" в име на макрос.");
 #else
-                AppendError(lineContent.ToString()  , $"Invalid symbol \"{c}\" in macro name.");
+                AppendError(lineContent.ToString(), $"Invalid symbol \"{c}\" in macro name.");
 #endif
             }
 
@@ -370,7 +370,7 @@ namespace Calcpad.Core
         {
             var fields = new Queue<string>();
             var split = s.EnumerateSplits(delimiter);
-            foreach(var item in split)
+            foreach (var item in split)
                 fields.Enqueue(item.Trim().ToString());
 
             return fields;
@@ -378,8 +378,8 @@ namespace Calcpad.Core
 
         private static string ApplyMacros(ReadOnlySpan<char> lineContent)
         {
-            var stringBuilder = new StringBuilder(50);
-            var macroBuilder = new StringBuilder(10);
+            var stringBuilder = new StringBuilder(200);
+            var macroBuilder = new StringBuilder(50);
             var macroArguments = new List<string>();
             var bracketCount = 0;
             var emptyMacro = new Macro(null, null);
@@ -390,8 +390,8 @@ namespace Calcpad.Core
             {
                 var s = lineContent[(index + 2)..];
                 lineContent = lineContent[..index];
-                var n =s.IndexOf ('}');
-                if (n < 0) 
+                var n = s.IndexOf('}');
+                if (n < 0)
                     n = s.Length;
                 fields = GetFields(s[..n], ';');
             }
@@ -448,9 +448,11 @@ namespace Calcpad.Core
                     if (!macro.IsEmpty)
                     {
                         var s = ApplyMacros(macro.Run(macroArguments));
-                        if (!SetLineInputFields(s, stringBuilder, fields, false))
+                        var sbLength = stringBuilder.Length;
+                        SetLineInputFields(s, stringBuilder, fields, false);
+                        if (stringBuilder.Length == sbLength)
                             stringBuilder.Append(s);
-                            
+
                         macro = emptyMacro;
                     }
                     if (IsMacroLetter(c, macroBuilder.Length))
@@ -522,7 +524,7 @@ namespace Calcpad.Core
             {
                 if (!item.IsEmpty && item[0] != '"' && item[0] != '\'')
                 {
-                    foreach(var c in item)
+                    foreach (var c in item)
                     {
                         if (c == '?')
                         {
@@ -537,19 +539,20 @@ namespace Calcpad.Core
             return count;
         }
 
-        public static bool SetLineInputFields(string inStr, StringBuilder outStrBldr, Queue<string> fields, bool forceLine)
+        public static bool SetLineInputFields(string s, StringBuilder sb, Queue<string> fields, bool forceLine)
         {
-            if (string.IsNullOrEmpty(inStr) || fields is null || !fields.Any())
+            if (string.IsNullOrEmpty(s) || fields is null || !fields.Any())
                 return false;
 
-            var commentEnumerator = inStr.AsSpan().EnumerateComments();
+            var commentEnumerator = s.AsSpan().EnumerateComments();
             var inputChar = '\0';
+            var count = fields.Count;
             foreach (var item in commentEnumerator)
             {
                 if (!item.IsEmpty)
                 {
-                    if (item[0] =='"' || item[0] == '\'')
-                        outStrBldr.Append(item);
+                    if (item[0] == '"' || item[0] == '\'')
+                        sb.Append(item);
                     else
                     {
                         var j0 = 0;
@@ -562,7 +565,7 @@ namespace Calcpad.Core
                             else if (c == '{' && inputChar == '?')
                             {
                                 inputChar = c;
-                                outStrBldr.Append(item[j0..(j + 1)]);
+                                sb.Append(item[j0..(j + 1)]);
                             }
                             else if (c == '}' && inputChar == '{')
                             {
@@ -570,7 +573,7 @@ namespace Calcpad.Core
                                 if (!fields.TryDequeue(out string val))
                                     return false;
 
-                                outStrBldr.Append(val);
+                                sb.Append(val);
                                 j0 = j;
                             }
                             else if (inputChar == '{')
@@ -582,16 +585,16 @@ namespace Calcpad.Core
                             }
                         }
                         if (!AddField($"{item[j0..]} "))
-                            outStrBldr.Append($"{item[j0..]}");
+                            sb.Append($"{item[j0..]}");
                     }
                 }
             }
             if (forceLine && fields.Any())
             {
-                RemoveLineFields(outStrBldr);
-                AddLineFields(outStrBldr, fields);
+                RemoveLineFields(sb);
+                AddLineFields(sb, fields);
             }
-            return outStrBldr.Length > 0;
+            return fields.Count < count;
 
             bool AddField(ReadOnlySpan<char> s)
             {
@@ -601,7 +604,7 @@ namespace Calcpad.Core
                     if (!fields.TryDequeue(out string val))
                         return false;
 
-                    outStrBldr.Append($"{s}{{{val}}}");
+                    sb.Append($"{s}{{{val}}}");
                     return true;
                 }
                 return false;
@@ -635,7 +638,7 @@ namespace Calcpad.Core
 
         private static void AddLineFields(StringBuilder sb, Queue<string> fields)
         {
-            if (HasUnclosedComment(sb))  
+            if (HasUnclosedComment(sb))
                 sb.Append("' #{");
             else
                 sb.Append(" #{");
@@ -647,7 +650,7 @@ namespace Calcpad.Core
             }
             sb[^1] = '}';
         }
-        
+
         private static bool HasUnclosedComment(StringBuilder sb)
         {
             var commentChar = '\0';

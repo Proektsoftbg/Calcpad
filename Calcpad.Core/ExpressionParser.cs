@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -56,7 +55,7 @@ namespace Calcpad.Core
             Settings = new Settings();
         }
 
-        private static string[] KeywordStrings;
+        private static readonly string[] KeywordStrings;
         static ExpressionParser()
         {
             KeywordStrings = Enum.GetNames(typeof(Keyword));
@@ -73,7 +72,7 @@ namespace Calcpad.Core
         private static Keyword GetKeyword(ReadOnlySpan<char> s)
         {
             for (int i = 1, len = KeywordStrings.Length; i < len; ++i)
-                if (s.StartsWith(KeywordStrings[i],StringComparison.OrdinalIgnoreCase))
+                if (s.StartsWith(KeywordStrings[i], StringComparison.OrdinalIgnoreCase))
                     return (Keyword)i;
 
             return Keyword.None;
@@ -83,11 +82,11 @@ namespace Calcpad.Core
 
         private void Parse(ReadOnlySpan<char> code, bool calculate = true)
         {
-            var sb = new StringBuilder();
+            var sb = new StringBuilder(10000);
             var conditions = new ConditionParser();
             var loops = new Stack<Loop>();
 
-            var lines = new List<int>{0};
+            var lines = new List<int> { 0 };
             var len = code.Length;
             for (int i = 0; i < len; ++i)
                 if (code[i] == '\n')
@@ -95,7 +94,7 @@ namespace Calcpad.Core
 
             var lineCount = lines.Count;
             lines.Add(len);
-            var line = -1;   
+            var line = -1;
             _parser = new MathParser(Settings.Math)
             {
                 IsEnabled = calculate
@@ -118,8 +117,8 @@ namespace Calcpad.Core
                     else
                         _parser.Line = line + 1;
 
-                    var htmlId = loops.Any() && loops.Peek().Iteration != 1 ? 
-                        string.Empty : 
+                    var htmlId = loops.Any() && loops.Peek().Iteration != 1 ?
+                        string.Empty :
                         $" id=\"line-{line + 1}\"";
                     if (_parser.IsCanceled)
                         break;
@@ -143,17 +142,17 @@ namespace Calcpad.Core
                         if (ParseCondition(s, keyword, htmlId))
                             ParseExpression(s, keyword, htmlId);
                     }
-                }                    
+                }
                 ApplyUnits(sb, calculate);
                 if (conditions.Id > 0 && line == lineCount)
 #if BG
-                    stringBuilder.Append(ErrHtml($"Грешка: Условният \"#if\" блок не е затворен. Липсва \"#end if\"."));
+                    sb.Append(ErrHtml($"Грешка: Условният \"#if\" блок не е затворен. Липсва \"#end if\"."));
 #else
                     sb.Append(ErrHtml($"Error: \"#if\" block not closed. Missing \"#end if\"."));
 #endif
                 if (loops.Any())
 #if BG
-                    stringBuilder.Append(ErrHtml($"Грешка: Блокът за цикъл \"#repeat\" не е затворен. Липсва \"#loop\"."));
+                    sb.Append(ErrHtml($"Грешка: Блокът за цикъл \"#repeat\" не е затворен. Липсва \"#loop\"."));
 #else
                     sb.Append(ErrHtml($"<p class=\"err\">Error: \"#repeat\" block not closed. Missing \"#loop\"."));
 #endif
@@ -165,7 +164,7 @@ namespace Calcpad.Core
             catch (Exception ex)
             {
 #if BG
-                stringBuilder.Append(ErrHtml($"Неочаквана грешка: {ex.Message} Моля проверете коректността на израза."));
+                sb.Append(ErrHtml($"Неочаквана грешка: {ex.Message} Моля проверете коректността на израза."));
 #else
                 sb.Append(ErrHtml($"Unexpected error: {ex.Message} Please check the expression consistency."));
 #endif
@@ -178,7 +177,7 @@ namespace Calcpad.Core
 
             void AppendError(string lineContent, string text) =>
 #if BG
-                stringBuilder.Append(ErrHtml($"Грешка в \"{lineContent}\" на ред {LineHtml(line)}: {text}</p>"));
+                sb.Append(ErrHtml($"Грешка в \"{lineContent}\" на ред {LineHtml(line)}: {text}</p>"));
 #else
                 sb.Append(ErrHtml($"Error in \"{lineContent}\" on line {LineHtml(line)}: {text}</p>"));
 #endif
@@ -218,7 +217,7 @@ namespace Calcpad.Core
                     else if (keyword == Keyword.Loop)
                         ParseKeywordLoop(s, htmlId);
                     else if (keyword == Keyword.Break)
-                    {   
+                    {
                         if (ParseKeywordBreak(s, htmlId))
                             return KeywordResult.Break;
                     }
@@ -604,32 +603,32 @@ namespace Calcpad.Core
         private List<Token> GetInput(ReadOnlySpan<char> s)
         {
             var tokens = new List<Token>();
-            var stringBuilder = new StringBuilder();
+            var ts = new TextSpan(s);
             var currentSeparator = ' ';
-            foreach (char c in s)
+            for (int i = 0, len = s.Length; i < len; ++i)
             {
+                var c = s[i];
                 if (c == '\'' || c == '\"')
                 {
                     if (currentSeparator == ' ' || currentSeparator == c)
                     {
-                        if (stringBuilder.Length != 0)
-                        {
-                            AddToken(tokens, stringBuilder.ToString(), currentSeparator);
-                            stringBuilder.Clear();
-                        }
+                        if (!ts.IsEmpty)
+                            AddToken(tokens, ts.Cut(), currentSeparator);
+
+                        ts.Start(i + 1);
                         if (currentSeparator == c)
                             currentSeparator = ' ';
                         else
                             currentSeparator = c;
                     }
                     else if (currentSeparator != ' ')
-                        stringBuilder.Append(c);
+                        ts.Expand();
                 }
                 else
-                    stringBuilder.Append(c);
+                    ts.Expand();
             }
-            if (stringBuilder.Length != 0)
-                AddToken(tokens, stringBuilder.ToString(), currentSeparator);
+            if (!ts.IsEmpty)
+                AddToken(tokens, ts.Cut(), currentSeparator);
 
             return tokens;
         }
@@ -896,7 +895,7 @@ namespace Calcpad.Core
 
             internal void Break() => _iteration = 0;
 
-            internal bool IsBroken => _iteration == 0;  
+            internal bool IsBroken => _iteration == 0;
         }
     }
 }

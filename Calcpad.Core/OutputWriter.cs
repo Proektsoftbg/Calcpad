@@ -186,6 +186,8 @@ namespace Calcpad.Core
                 $"{sReal} + {sImaginary}i";
         }
 
+        private const string Sharps = "################";
+
         internal static string FormatNumberHelper(double d, int decimals)
         {
             if (double.IsNaN(d))
@@ -197,21 +199,21 @@ namespace Calcpad.Core
             if (double.IsInfinity(d))
                 return "∞";
 
-            var format = "{0:#." + new string('#', decimals) + "E+0}";
-            if (Math.Abs(d) > 1e15)
-                return string.Format(CultureInfo.InvariantCulture, format, d);
-
-            var i = decimals - GetDigits(Math.Abs(d));
-            if (i <= 16)
+            if (Math.Abs(d) < 1e16)
             {
-                if (i < 0)
-                    i = 0;
-                else if (i == 16)
-                    i = 15;
+                var i = decimals - GetDigits(Math.Abs(d));
+                if (i <= 16)
+                {
+                    if (i < 0)
+                        i = 0;
+                    else if (i == 16)
+                        i = 15;
 
-                var s = Math.Round(d, i).ToString(CultureInfo.InvariantCulture);
-                return s == "-0" ? "0" : s;
+                    var s = Math.Round(d, i).ToString(CultureInfo.InvariantCulture);
+                    return s == "-0" ? "0" : s;
+                }
             }
+            var format = "{0:#." + Sharps[..decimals] + "E+0}";
             return string.Format(CultureInfo.InvariantCulture, format, d);
         }
 
@@ -266,7 +268,7 @@ namespace Calcpad.Core
     internal class TextWriter : OutputWriter
     {
         internal override string UnitString(Unit units) => units.Text;
-        internal override string FormatInput(string s, Unit units,int line, bool isCalculated) =>
+        internal override string FormatInput(string s, Unit units, int line, bool isCalculated) =>
             units is null ? s : s + ' ' + units.Text;
 
         internal override string FormatSubscript(string sa, string sb) => sa + "_" + sb;
@@ -608,7 +610,7 @@ namespace Calcpad.Core
         {
             if (double.IsNaN(re) && double.IsNaN(im))
                 return Run("Undefined");//<w:rPr><w:color w:val=\"FF0000\" /></w:rPr>
-            
+
             var t = Complex.Type(re, im);
             if (t == Complex.Types.Real)
                 return FormatReal(re, decimals);
@@ -619,7 +621,7 @@ namespace Calcpad.Core
 
             var sReal = FormatReal(re, decimals);
             return im < 0 ?
-                sReal + Run("–") + sImaginary:
+                sReal + Run("–") + sImaginary :
                 sReal + Run("+") + sImaginary;
         }
 
