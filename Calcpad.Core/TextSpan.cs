@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace Calcpad.Core
 {
@@ -12,10 +13,17 @@ namespace Calcpad.Core
         public bool IsEmpty => _end == _start;
         public int Length => _end - _start;
 
-        public void Start(int index)
+        public void Reset(int index)
         {
             _start = index;
             _end = index;
+        }
+
+        public void Restart(ReadOnlySpan<char> contents)
+        {
+            _contents = contents;
+            _start = 0;
+            _end = 0;
         }
 
         public void Expand() => ++_end;

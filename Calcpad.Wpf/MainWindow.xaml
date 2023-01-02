@@ -1268,7 +1268,7 @@
                         <RowDefinition/>
                         <RowDefinition Height="152"/>
                     </Grid.RowDefinitions>
-                    <RichTextBox x:Name="RichTextBox" Margin="55,10,6,26"
+                    <RichTextBox x:Name="RichTextBox" Margin="55,5,5,24"
                                  FontFamily="Consolas" FontSize="14" 
                                  IsDocumentEnabled="true" 
                                  AcceptsTab="true"
@@ -1433,8 +1433,8 @@
                         <Button Click="Button_Click" x:Name="SecButton" Content="sec" Tag="sec(" Margin="247,61,0,0"
                             Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Secant" Width="42"/>
                     </Grid>
-                    <Canvas x:Name="LineNumbers" HorizontalAlignment="Left" Margin="6,10,0,28" Width="40"/>
-                    <Border BorderThickness="0,0,1,0" HorizontalAlignment="Left" Margin="0,10,0,26" Width="50" BorderBrush="#FFE3E3E3"/>
+                    <Canvas x:Name="LineNumbers" HorizontalAlignment="Left" Margin="6,5,0,26" Width="40"/>
+                    <Border BorderThickness="0,0,1,0" HorizontalAlignment="Left" Margin="0,5,0,24" Width="50" BorderBrush="#FFE3E3E3"/>
                     <WrapPanel x:Name="GreekLettersWarpPanel" ToolTip="Greek letters" Margin="0,0,0,1" Height="20" VerticalAlignment="Bottom">
                         <TextBlock MouseUp="GreekLetter_MouseUp" Text="°" Style="{StaticResource GreekLetter}" FontSize="16" Margin="0,2,2,2"/>
                         <TextBlock MouseUp="GreekLetter_MouseUp" Text="′" Style="{StaticResource GreekLetter}" FontSize="16"/>
@@ -2006,7 +2006,7 @@
             <GroupBox x:Name="OutputFrame" Header="Output" Margin="5,1,5,1" Grid.Column="2" FontSize="13"
                       FontWeight="Bold" Background="White" FontFamily="Segoe UI Semibold" VerticalContentAlignment="Stretch" 
                       BorderBrush="#FFBBBBBB">
-                <WebBrowser x:Name="WebBrowser" Margin="5" LoadCompleted="WebBrowser_LoadCompleted" KeyUp="WebBrowser_KeyUp" PreviewKeyDown="WebBrowser_PreviewKeyDown" />
+                <WebBrowser x:Name="WebBrowser" Margin="5,5,5,5" LoadCompleted="WebBrowser_LoadCompleted" KeyUp="WebBrowser_KeyUp" PreviewKeyDown="WebBrowser_PreviewKeyDown" />
             </GroupBox>
         </Grid>
     </Grid>

@@ -144,7 +144,7 @@ namespace Calcpad.Wpf
 
         private static string GetHtmlData(string html)
         {
-            var sb = new StringBuilder();
+            var sb = new StringBuilder(500);
             const string header =
 @"Version:1.0
 StartHTML:0000000001

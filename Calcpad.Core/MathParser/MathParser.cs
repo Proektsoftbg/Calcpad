@@ -132,21 +132,24 @@ namespace Calcpad.Core
             _isCalculated = false;
             _functionDefinitionIndex = -1;
             var input = _input.GetInput(expression, AllowAssignment);
-            new Validator(_functions).Check(input, out var isFucntionDefinition);
+            new SyntaxAnalyser(_functions).Check(input, out var isFucntionDefinition);
             _input.OrderOperators(input, isFucntionDefinition || _isSolver > 0 || _isPlotting, _assignmentIndex);
             if (isFucntionDefinition)
                 AddFunction(input);
             else
-            {
                 _rpn = Input.GetRpn(input);
-                PurgeCache();
-            }
         }
 
         private void PurgeCache()
         {
             for (int i = 0, count = _functions.Count; i < count; ++i)
                 _functions[i].PurgeCache();
+        }
+
+        internal void ClearCache()
+        {
+            for (int i = 0, count = _functions.Count; i < count; ++i)
+                _functions[i].ClearCache();
         }
 
         internal void CompileBlocks()
@@ -172,9 +175,10 @@ namespace Calcpad.Core
             if (_functionDefinitionIndex < 0)
             {
                 CompileBlocks();
-                Result = _evaluator.Evaluate(_rpn).Complex;
                 if (_variables.TryGetValue("ReturnAngleUnits", out var v))
                     Calculator.ReturnAngleUnits = v.Value.Re != 0.0;
+                Result = _evaluator.Evaluate(_rpn).Complex;
+                PurgeCache();
             }
             _isCalculated = true;
         }
@@ -319,7 +323,7 @@ namespace Calcpad.Core
         internal Func<Value> Compile(string expression, Parameter[] parameters)
         {
             var input = _input.GetInput(expression, false);
-            new Validator(_functions).Check(input, out _);
+            new SyntaxAnalyser(_functions).Check(input, out _);
             _input.OrderOperators(input, true, 0);
             var rpn = Input.GetRpn(input);
             BindParameters(parameters, rpn);

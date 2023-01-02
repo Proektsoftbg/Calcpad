@@ -99,7 +99,7 @@ namespace Calcpad.Wpf
                 from = RichTextBox.Document.ContentStart;
                 to = RichTextBox.Document.ContentEnd;
             }
-            var sb = new StringBuilder();
+            var sb = new StringBuilder(10000);
             var tr = new TextRange(from, to);
             var contentString = tr.Text;
             var lowerCaseContentString = MatchCase ? contentString : contentString.ToLowerInvariant();

@@ -92,8 +92,7 @@ namespace Calcpad.Core
                 if (code[i] == '\n')
                     lines.Add(i + 1);
 
-            var lineCount = lines.Count;
-            lines.Add(len);
+            var lineCount = lines.Count - 1;
             var line = -1;
             _parser = new MathParser(Settings.Math)
             {
@@ -172,6 +171,7 @@ namespace Calcpad.Core
             finally
             {
                 HtmlResult = sb.ToString();
+                _parser.ClearCache();
                 _parser = null;
             }
 
@@ -615,7 +615,7 @@ namespace Calcpad.Core
                         if (!ts.IsEmpty)
                             AddToken(tokens, ts.Cut(), currentSeparator);
 
-                        ts.Start(i + 1);
+                        ts.Reset(i + 1);
                         if (currentSeparator == c)
                             currentSeparator = ' ';
                         else
