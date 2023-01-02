@@ -5,7 +5,7 @@ namespace Calcpad.Core
 {
     public partial class MathParser
     {
-        private class Validator
+        private class SyntaxAnalyser
         {
             private struct MultiFunctionStackItem
             {
@@ -51,7 +51,7 @@ namespace Calcpad.Core
 
             private readonly Container<CustomFunction> _functions;
 
-            internal Validator(Container<CustomFunction> functions)
+            internal SyntaxAnalyser(Container<CustomFunction> functions)
             {
                 _functions = functions;
             }
@@ -201,13 +201,6 @@ namespace Calcpad.Core
                     throw new MathParserException("Invalid number of function arguments.");
 #endif
             }
-
-            internal static bool IsLetter(char c) => c >= 'a' && c <= 'z' ||
-                       c >= 'A' && c <= 'Z' ||
-                       c >= 'α' && c <= 'ω' ||
-                       c >= 'Α' && c <= 'Ω';
-
-            internal static bool IsDigit(char c) => c >= '0' && c <= '9';
         }
     }
 }

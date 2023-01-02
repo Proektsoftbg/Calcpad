@@ -104,14 +104,14 @@ namespace Calcpad.Core
 
         public bool Parse(string sourceCode, out string outCode, StringBuilder sb, int includeLine)
         {
-            var sourceLines = sourceCode.AsSpan().EnumerateLines();
+            var sourceLines = sourceCode.EnumerateLines();
             if (sb is null)
             {
                 sb = new StringBuilder(sourceCode.Length);
                 Macros.Clear();
             }
+            var macroBuilder = new StringBuilder(1000);
             var macroName = string.Empty;
-            var macroBuilder = new StringBuilder(200);
             var lineNumber = includeLine;
             var macroDefCount = 0;
             var hasErrors = false;
@@ -125,193 +125,36 @@ namespace Calcpad.Core
                         ++lineNumber;
 
                     lineContent = sourceLine.Trim();
-                    var keyword = Keywords.None;
                     if (lineContent.IsEmpty)
                     {
                         AppendLine(sourceLine.ToString());
                         continue;
                     }
-                    if (lineContent[0] == '#')
-                    {
-                        var isKeyWord = true;
-                        keyword = GetKeyword(lineContent);
-                        if (keyword == Keywords.Include)
-                        {
-                            int n = lineContent.Length;
-                            if (n < 9)
-#if BG
-                                AppendError($"Липсва изходен файл за вмъкване.");
-#else
-                                AppendError(lineContent.ToString(), $"Missing source file for include.");
-#endif                      
-                            n = lineContent.IndexOfAny('\'', '"');
-                            var nf1 = lineContent.LastIndexOf('{');
-                            if (n < 9 || nf1 > 0 && nf1 < n)
-                                n = nf1;
+                    if (lineContent[0] == '#' && ParseKeyword(lineContent))
+                        continue;
 
-                            if (n < 9)
-                                n = lineContent.Length;
-
-                            var insertFileName = lineContent[8..n].Trim().ToString();
-                            if (!File.Exists(insertFileName))
-#if BG
-                                AppendError("Файлът не е намерен.");
-#else
-                                AppendError(lineContent.ToString(), "File not found.");
-#endif  
-                            Queue<string> fields = new();
-                            if (nf1 > 0)
-                            {
-                                var nf2 = lineContent.LastIndexOf('}');
-                                if (nf2 < 0)
-                                    AppendError(lineContent.ToString(), "Brackets not closed.");
-                                else
-                                {
-                                    SplitEnumerator split = lineContent[(nf1 + 1)..nf2].EnumerateSplits(';');
-                                    foreach (var item in split)
-                                        fields.Enqueue(item.Trim().ToString());
-                                }
-                            }
-
-                            Parse(Include(insertFileName, fields), out _, sb, lineNumber);
-                        }
-                        else if (keyword == Keywords.Def)
-                        {
-                            if (macroDefCount == 0)
-                            {
-                                macroBuilder.Clear();
-                                int j = 4, len = lineContent.Length;
-                                var c = EatSpace(lineContent, ref j);
-                                while (j < len)
-                                {
-                                    c = lineContent[j];
-                                    if (c == '$')
-                                    {
-                                        macroBuilder.Append(c);
-                                        macroName = macroBuilder.ToString();
-                                        macroBuilder.Clear();
-                                        break;
-                                    }
-                                    if (IsMacroLetter(c, macroBuilder.Length))
-                                        macroBuilder.Append(c);
-                                    else
-                                    {
-                                        SymbolError(lineContent, c);
-                                        break;
-                                    }
-                                    ++j;
-                                }
-                                c = EatSpace(lineContent, ref j);
-                                if (c == '(')
-                                {
-                                    macroParameters = new();
-                                    c = EatSpace(lineContent, ref j);
-                                    while (j < len)
-                                    {
-                                        if (c == ' ')
-                                            c = EatSpace(lineContent, ref j);
-                                        if (c == ';' || c == ')')
-                                        {
-                                            macroParameters.Add(macroBuilder.ToString());
-                                            macroBuilder.Clear();
-                                            if (c == ')')
-                                                break;
-
-                                            c = EatSpace(lineContent, ref j);
-                                        }
-                                        else
-                                        {
-                                            if (IsMacroLetter(c, macroBuilder.Length) || c == '$')
-                                                macroBuilder.Append(c);
-                                            else if (c != '\n')
-                                                SymbolError(lineContent.ToString(), c);
-
-                                            c = lineContent[++j];
-                                        }
-                                    }
-                                    c = EatSpace(lineContent, ref j);
-                                }
-                                else
-                                    macroParameters = null;
-
-                                if (c == '=')
-                                {
-                                    c = EatSpace(lineContent, ref j);
-                                    AddMacro(lineContent.ToString(), macroName, new Macro(lineContent[j..].ToString(), macroParameters));
-                                    macroName = string.Empty;
-                                    macroBuilder.Clear();
-                                }
-                                else
-                                {
-                                    if (string.IsNullOrWhiteSpace(macroName))
-                                    {
-                                        macroName = macroBuilder.ToString();
-
-#if BG
-                                        AppendError($"Невалидно име на макрос: \"{macroName}\".");
-#else
-                                        AppendError(lineContent.ToString(), $"Invalid macro name: \"{macroName}\".");
-#endif
-                                        macroName = string.Empty;
-                                        macroBuilder.Clear();
-                                    }
-                                    ++macroDefCount;
-                                }
-                            }
-                            else
-                            {
-#if BG
-                                AppendError("Невалидно в дефиниция на макрос.");
-#else
-                                AppendError(lineContent.ToString(), "Invalid inside macro definition.");
-#endif
-                                ++macroDefCount;
-                            }
-                        }
-                        else if (keyword == Keywords.EndDef)
-                        {
-                            if (macroDefCount < 1)
-                            {
-#if BG
-                                AppendError("\"Няма съответен \"#def\".");
-#else
-                                AppendError(lineContent.ToString(), "\"There is no matching \"#def\".");
-#endif
-                            }
-                            else
-                            {
-                                var j = macroBuilder.Length - 2;
-                                var macroContent = macroBuilder.ToString();
-                                AddMacro(lineContent.ToString(), macroName, new Macro(macroContent, macroParameters));
-                                macroName = string.Empty;
-                                macroBuilder.Clear();
-                            }
-                            --macroDefCount;
-                        }
-                        else
-                            isKeyWord = false;
-
-                        if (isKeyWord)
-                            continue;
-                    }
                     if (macroDefCount == 1)
+                    {
                         macroBuilder.AppendLine(sourceLine.ToString());
-                    else if (Macros.Any())
+                        continue;
+                    }
+
+                    if (Macros.Any())
                     {
                         try
                         {
                             var insertCode = ApplyMacros(sourceLine);
-                            var insertLines = insertCode.Split(Environment.NewLine, StringSplitOptions.None);
+                            var insertLines = insertCode.EnumerateLines();
                             foreach (var line in insertLines)
-                                AppendLine(line);
+                                AppendLine(line.ToString());
                         }
                         catch (Exception ex)
                         {
                             AppendError(lineContent.ToString(), ex.Message);
                         }
+                        continue;
                     }
-                    else
-                        AppendLine(sourceLine.ToString());
+                    AppendLine(sourceLine.ToString());
                 }
                 if (macroDefCount > 0)
                 {
@@ -333,12 +176,186 @@ namespace Calcpad.Core
             }
             return hasErrors;
 
+            bool ParseKeyword(ReadOnlySpan<char> lineContent)
+            {
+                var keyword = GetKeyword(lineContent);
+                switch (keyword)
+                {
+                    case Keywords.Include:
+                        ParseInclude(lineContent);
+                        return true;
+                    case Keywords.Def:
+                        ParseDef(lineContent);
+                        return true;
+                    case Keywords.EndDef:
+                        ParseEndDef(lineContent);
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+
+            void ParseInclude(ReadOnlySpan<char> lineContent)
+            {
+                int n = lineContent.Length;
+                if (n < 9)
+#if BG
+                    AppendError(lineContent.ToString(), $"Липсва изходен файл за вмъкване.");
+#else
+                    AppendError(lineContent.ToString(), $"Missing source file for include.");
+#endif
+                n = lineContent.IndexOfAny('\'', '"');
+                var nf1 = lineContent.LastIndexOf('{');
+                if (n < 9 || nf1 > 0 && nf1 < n)
+                    n = nf1;
+
+                if (n < 9)
+                    n = lineContent.Length;
+
+                var insertFileName = lineContent[8..n].Trim().ToString();
+                if (!File.Exists(insertFileName))
+#if BG
+                    AppendError(lineContent.ToString(), "Файлът не е намерен.");
+#else
+                    AppendError(lineContent.ToString(), "File not found.");
+#endif
+                Queue<string> fields = new();
+                if (nf1 > 0)
+                {
+                    var nf2 = lineContent.LastIndexOf('}');
+                    if (nf2 < 0)
+                        AppendError(lineContent.ToString(), "Brackets not closed.");
+                    else
+                    {
+                        SplitEnumerator split = lineContent[(nf1 + 1)..nf2].EnumerateSplits(';');
+                        foreach (var item in split)
+                            fields.Enqueue(item.Trim().ToString());
+                    }
+                }
+                Parse(Include(insertFileName, fields), out _, sb, lineNumber);
+            }
+
+            void ParseDef(ReadOnlySpan<char> lineContent)
+            {
+                var textSpan = new TextSpan(lineContent);
+                if (macroDefCount == 0)
+                {
+                    int i = 4, len = lineContent.Length;
+                    var c = EatSpace(lineContent, ref i);
+                    textSpan.Reset(i);
+                    while (i < len)
+                    {
+                        c = lineContent[i];
+                        if (c == '$')
+                        {
+                            textSpan.Expand();
+                            macroName = textSpan.ToString();
+                            break;
+                        }
+                        if (Validator.IsMacroLetter(c, textSpan.Length))
+                            textSpan.Expand();
+                        else
+                        {
+                            SymbolError(lineContent, c);
+                            break;
+                        }
+                        ++i;
+                    }
+                    c = EatSpace(lineContent, ref i);
+                    if (c == '(')
+                    {
+                        macroParameters = new();
+                        c = EatSpace(lineContent, ref i);
+                        textSpan.Reset(i);
+                        while (i < len)
+                        {
+                            if (c == ' ')
+                                c = EatSpace(lineContent, ref i);
+                            if (c == ';' || c == ')')
+                            {
+                                macroParameters.Add(textSpan.ToString());
+                                if (c == ')')
+                                    break;
+
+                                c = EatSpace(lineContent, ref i);
+                                textSpan.Reset(i);
+                            }
+                            else
+                            {
+                                if (Validator.IsMacroLetter(c, textSpan.Length) || c == '$')
+                                    textSpan.Expand();
+                                else if (c != '\n')
+                                    SymbolError(lineContent.ToString(), c);
+
+                                c = lineContent[++i];
+                            }
+                        }
+                        c = EatSpace(lineContent, ref i);
+                    }
+                    else
+                        macroParameters = null;
+
+                    if (c == '=')
+                    {
+                        c = EatSpace(lineContent, ref i);
+                        AddMacro(lineContent.ToString(), macroName, new Macro(lineContent[i..].ToString(), macroParameters));
+                        macroName = string.Empty;
+                    }
+                    else
+                    {
+                        if (string.IsNullOrWhiteSpace(macroName))
+                        {
+                            macroName = textSpan.ToString();
+
+#if BG
+                            AppendError($"Невалидно име на макрос: \"{macroName}\".");
+#else
+                            AppendError(lineContent.ToString(), $"Invalid macro name: \"{macroName}\".");
+#endif
+                            macroName = string.Empty;
+                            textSpan.Reset(i);
+                        }
+                        ++macroDefCount;
+                    }
+                }
+                else
+                {
+#if BG
+                    AppendError(lineContent.ToString(), "Невалидно в дефиниция на макрос.");
+#else
+                    AppendError(lineContent.ToString(), "Invalid inside macro definition.");
+#endif
+                    ++macroDefCount;
+                }
+            }
+
+            void ParseEndDef(ReadOnlySpan<char> lineContent)
+            {
+                if (macroDefCount < 1)
+                {
+#if BG
+                    AppendError(lineContent.ToString(), "\"Няма съответен \"#def\".");
+#else
+                    AppendError(lineContent.ToString(), "\"There is no matching \"#def\".");
+#endif
+                }
+                else
+                {
+                    macroBuilder.RemoveLastLineIfEmpty();
+                    var macroContent = macroBuilder.ToString();
+                    AddMacro(lineContent.ToString(), macroName, new Macro(macroContent, macroParameters));
+                    macroName = string.Empty;
+                    macroBuilder.Clear();
+                }
+                --macroDefCount;
+            }
+
             void AppendLine(string line) => sb.AppendLine(line + '\v' + lineNumber.ToString());
 
             void SymbolError(ReadOnlySpan<char> lineContent, char c)
             {
 #if BG
-                AppendError($"Невалиден символ \"{c}\" в име на макрос.");
+                AppendError(lineContent.ToString(), $"Невалиден символ \"{c}\" в име на макрос.");
 #else
                 AppendError(lineContent.ToString(), $"Invalid symbol \"{c}\" in macro name.");
 #endif
@@ -347,7 +364,7 @@ namespace Calcpad.Core
             void AppendError(string lineContent, string errorMessage)
             {
 #if BG
-                stringBuilder.AppendLine($"#Грешка в \"{HttpUtility.HtmlEncode(lineContent)}\" на ред {LineHtml(lineNumber)}: {errorMessage}");
+                sb.AppendLine($"#Грешка в \"{HttpUtility.HtmlEncode(lineContent)}\" на ред {LineHtml(lineNumber)}: {errorMessage}");
 #else
                 sb.AppendLine($"#Error in \"{HttpUtility.HtmlEncode(lineContent)}\" on line {LineHtml(lineNumber)}: {errorMessage}");
 #endif
@@ -358,7 +375,7 @@ namespace Calcpad.Core
             {
                 if (!Macros.TryAdd(name, macro))
 #if BG
-                    AppendError($"Повтарящо се име на макрос: \"{name}\".");
+                    AppendError(lineContent, $"Повтарящо се име на макрос: \"{name}\".");
 #else
                     AppendError(lineContent, $"Duplicate macro name: \"{name}\".");
 #endif
@@ -378,13 +395,16 @@ namespace Calcpad.Core
 
         private static string ApplyMacros(ReadOnlySpan<char> lineContent)
         {
+            var index = lineContent.IndexOf("$");
+            if (index < 0)
+                return lineContent.ToString();
+
+            index = lineContent.IndexOf("#{");
             var stringBuilder = new StringBuilder(200);
-            var macroBuilder = new StringBuilder(50);
             var macroArguments = new List<string>();
             var bracketCount = 0;
             var emptyMacro = new Macro(null, null);
             var macro = emptyMacro;
-            var index = lineContent.IndexOf("#{");
             Queue<string> fields = null;
             if (index >= 0)
             {
@@ -395,22 +415,26 @@ namespace Calcpad.Core
                     n = s.Length;
                 fields = GetFields(s[..n], ';');
             }
-
+            var textSpan = new TextSpan(lineContent);
             for (int i = 0, len = lineContent.Length; i < len; ++i)
             {
                 var c = lineContent[i];
                 if (macroArguments.Count < macro.ParameterCount)
                 {
                     if (c == '(')
+                    {
+                        if (bracketCount == 0)
+                            textSpan.Reset(i + 1);
                         ++bracketCount;
+                    }
                     else if (c == ')')
                         --bracketCount;
 
                     if (c == ';' && bracketCount == 1 || c == ')' && bracketCount == 0)
                     {
-                        var s = ApplyMacros(macroBuilder.ToString());
+                        var s = ApplyMacros(textSpan.Cut());
                         macroArguments.Add(s);
-                        macroBuilder.Clear();
+                        textSpan.Reset(i + 1);
                         if ((macroArguments.Count == macro.ParameterCount) != (c == ')'))
 #if BG
                             throw new ArgumentException("Невалиден брой аргументи.");
@@ -419,12 +443,12 @@ namespace Calcpad.Core
 #endif
                     }
                     else if (bracketCount > 1 || c != '(')
-                        macroBuilder.Append(c);
+                        textSpan.Expand();
                 }
-                else if (c == '$' && macroBuilder.Length > 0)
+                else if (c == '$' && !textSpan.IsEmpty)
                 {
-                    macroBuilder.Append('$');
-                    var macroName = macroBuilder.ToString();
+                    textSpan.Expand();
+                    var macroName = textSpan.ToString();
                     int j, mlen = macroName.Length - 1;
                     for (j = 0; j < mlen; ++j)
                         if (Macros.TryGetValue(macroName[j..], out macro))
@@ -441,7 +465,7 @@ namespace Calcpad.Core
 
                     bracketCount = 0;
                     macroArguments.Clear();
-                    macroBuilder.Clear();
+                    textSpan.Reset(i);
                 }
                 else
                 {
@@ -453,16 +477,22 @@ namespace Calcpad.Core
                         if (stringBuilder.Length == sbLength)
                             stringBuilder.Append(s);
 
+                        textSpan.Reset(i);
                         macro = emptyMacro;
                     }
-                    if (IsMacroLetter(c, macroBuilder.Length))
-                        macroBuilder.Append(c);
+                    if (Validator.IsMacroLetter(c, textSpan.Length))
+                    {
+                        if (textSpan.IsEmpty)
+                            textSpan.Reset(i);
+
+                        textSpan.Expand();
+                    }
                     else
                     {
-                        if (macroBuilder.Length > 0)
+                        if (!textSpan.IsEmpty)
                         {
-                            stringBuilder.Append(macroBuilder);
-                            macroBuilder.Clear();
+                            stringBuilder.Append(textSpan.Cut());
+                            textSpan.Reset(i);
                         }
                         stringBuilder.Append(c);
                     }
@@ -470,30 +500,17 @@ namespace Calcpad.Core
             }
             if (macro.IsEmpty)
             {
-                if (macroBuilder.Length > 0)
-                    stringBuilder.Append(macroBuilder);
+                if (!textSpan.IsEmpty)
+                    stringBuilder.Append(textSpan.Cut());
             }
             else if (macroArguments.Count == macro.ParameterCount)
             {
                 var s = ApplyMacros(macro.Run(macroArguments));
                 stringBuilder.Append(s);
             }
-            var l = stringBuilder.Length - 1;
-            if (l > 1 && stringBuilder[l] == '\n')
-            {
-                if (stringBuilder[l - 1] == '\r')
-                    stringBuilder.Remove(l - 1, 2);
-                else
-                    stringBuilder.Remove(l, 1);
-            }
             return stringBuilder.ToString();
         }
 
-        private static bool IsMacroLetter(char c, int position) =>
-            c >= 'a' && c <= 'z' ||
-            c >= 'A' && c <= 'Z' ||
-            c == '_' ||
-            char.IsDigit(c) && position > 0;
 
         private static char EatSpace(ReadOnlySpan<char> s, ref int index)
         {
@@ -544,9 +561,9 @@ namespace Calcpad.Core
             if (string.IsNullOrEmpty(s) || fields is null || !fields.Any())
                 return false;
 
-            var commentEnumerator = s.AsSpan().EnumerateComments();
             var inputChar = '\0';
             var count = fields.Count;
+            var commentEnumerator = s.AsSpan().EnumerateComments();
             foreach (var item in commentEnumerator)
             {
                 if (!item.IsEmpty)

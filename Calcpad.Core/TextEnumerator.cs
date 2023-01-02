@@ -5,7 +5,7 @@ namespace Calcpad.Core
     public ref struct SplitEnumerator
     {
         private ReadOnlySpan<char> _span;
-        private char _delimiter;
+        private readonly char _delimiter;
 
         public SplitEnumerator(ReadOnlySpan<char> span, char delimiter)
         {

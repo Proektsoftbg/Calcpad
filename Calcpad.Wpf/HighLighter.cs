@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,13 +15,115 @@ namespace Calcpad.Wpf
 {
     internal class HighLighter
     {
-        internal static Func<string, Queue<string>, string> Include;
-        internal static MouseButtonEventHandler IncludeClickEventHandler;
+        internal UserDefined Defined = new();
+        private class TagHelper
+        {
+            internal enum Tags
+            {
+                None,
+                Starting,
+                Closing,
+                SelfClosing
+            }
 
-        private const char NullChar = '\0';
+            internal Tags Type { get; private set; } = Tags.None;
+
+            internal void Initialize()
+            {
+                Type = Tags.None;
+            }
+            internal bool CheckTag(char c, StringBuilder _builder, ref Types t)
+            {
+                if (t == Types.Comment)
+                {
+                    if (Type == Tags.None)
+                    {
+                        if (c == ' ')
+                        {
+                            if (_builder.Length == 1)
+                                return false;
+                            else
+                                Type = Tags.Starting;
+                        }
+                        else if (c == '/')
+                        {
+                            if (_builder.Length == 1)
+                                Type = Tags.Closing;
+                            else
+                                Type = Tags.SelfClosing;
+                        }
+                        else if (!(Validator.IsLatinLetter(c) || char.IsDigit(c) && _builder.Length == 2 && _builder[1] == 'h'))
+                            return false;
+                    }
+                    else
+                        t = Types.Tag;
+                }
+                else if (Type == Tags.SelfClosing || Type == Tags.Closing && !Validator.IsLatinLetter(c))
+                    return false;
+
+                return true;
+            }
+        }
+
+        private struct ParserState
+        {
+            internal Paragraph Paragraph;
+            internal int Line;
+            internal string Text;
+            internal string Message;
+            internal char TextComment;
+            internal char TagComment;
+            internal char InputChar { get; private set; }
+            internal bool IsLeading;
+            internal bool IsUnits;
+            internal bool IsPlot;
+            internal bool IsTag;
+            internal bool IsTagComment;
+            internal bool IsMacro;
+            internal bool IsSingleLineKeyword;
+            internal bool HasMacro;
+            internal int MacroArgs;
+            internal int CommandCount;
+            internal int BracketCount;
+            internal Types CurrentType;
+            internal Types PreviousType;
+
+            internal void RetainType()
+            {
+                if (CurrentType != Types.None)
+                    PreviousType = CurrentType;
+            }
+
+            internal void GetInputState(char c)
+            {
+                if (c == '?' || c == '#' && !IsLeading)
+                    InputChar = c;
+                else if (c == '{')
+                {
+                    if (InputChar == '?' || InputChar == '#')
+                        InputChar = '{';
+                    else
+                        InputChar = '\0';
+                }
+                else if (c == '}')
+                {
+                    if (InputChar == '{')
+                        InputChar = '}';
+                    else
+                        InputChar = '\0';
+                }
+                else if (c != ' ')
+                {
+                    if (InputChar != '{')
+                        InputChar = '\0';
+                }
+            }
+        }
+
+        internal static MouseButtonEventHandler IncludeClickEventHandler;
+        internal static readonly HashSet<string> LocalVariables = new(StringComparer.Ordinal);
         private bool _allowUnaryMinus = true;
         private bool _hasTargetUnitsDelimiter;
-        private static bool _hasIncludes;
         private static readonly Thickness _thickness = new(0.5);
 
         private enum Types
@@ -174,119 +275,10 @@ namespace Calcpad.Wpf
             "$map"
         };
 
-        internal static readonly HashSet<string> LocalVariables = new(StringComparer.Ordinal);
-        internal static readonly Dictionary<string, int> DefinedVariables = new(StringComparer.Ordinal);
-        internal static readonly Dictionary<string, int> DefinedFunctions = new(StringComparer.Ordinal);
-        internal static readonly Dictionary<string, int> DefinedMacros = new(StringComparer.Ordinal);
-        internal static readonly Dictionary<string, List<int>> DefinedMacroParameters = new(StringComparer.Ordinal);
+
         internal static readonly char[] Comments = { '\'', '"' };
-        internal static bool HasMacros => _hasIncludes || DefinedMacros.Count > 0;
-        private class TagHelper
-        {
-            internal enum Tags
-            {
-                None,
-                Starting,
-                Closing,
-                SelfClosing
-            }
-
-            internal Tags Type { get; private set; } = Tags.None;
-
-            internal void Initialize()
-            {
-                Type = Tags.None;
-            }
-            internal bool CheckTag(char c, StringBuilder _builder, ref Types t)
-            {
-                if (t == Types.Comment)
-                {
-                    if (Type == Tags.None)
-                    {
-                        if (c == ' ')
-                        {
-                            if (_builder.Length == 1)
-                                return false;
-                            else
-                                Type = Tags.Starting;
-                        }
-                        else if (c == '/')
-                        {
-                            if (_builder.Length == 1)
-                                Type = Tags.Closing;
-                            else
-                                Type = Tags.SelfClosing;
-                        }
-                        else if (!(IsLatinLetter(c) || char.IsDigit(c) && _builder.Length == 2 && _builder[1] == 'h'))
-                            return false;
-                    }
-                    else
-                        t = Types.Tag;
-                }
-                else if (Type == Tags.SelfClosing || Type == Tags.Closing && !IsLatinLetter(c))
-                    return false;
-
-                return true;
-            }
-        }
 
         private TagHelper _tagHelper;
-
-        private struct ParserState
-        {
-            internal Paragraph Paragraph;
-            internal int Line;
-            internal string Text;
-            internal string Message;
-            internal char TextComment;
-            internal char TagComment;
-            internal char InputChar { get; private set; }
-            internal bool IsLeading;
-            internal bool IsUnits;
-            internal bool IsPlot;
-            internal bool IsTag;
-            internal bool IsTagComment;
-            internal bool IsMacro;
-            internal bool IsSingleLineKeyword;
-            internal bool HasMacro;
-            internal int MacroArgs;
-            internal int CommandCount;
-            internal int BracketCount;
-            internal Types CurrentType;
-            internal Types PreviousType;
-
-            internal void RetainType()
-            {
-                if (CurrentType != Types.None)
-                    PreviousType = CurrentType;
-            }
-
-            internal void GetInputState(char c)
-            {
-                if (c == '?' || c == '#' && !IsLeading)
-                    InputChar = c;
-                else if (c == '{')
-                {
-                    if (InputChar == '?' || InputChar == '#')
-                        InputChar = '{';
-                    else
-                        InputChar = '\0';
-                }
-                else if (c == '}')
-                {
-                    if (InputChar == '{')
-                        InputChar = '}';
-                    else
-                        InputChar = '\0';
-                }
-                else if (c != ' ')
-                {
-                    if (InputChar != '{')
-                        InputChar = '\0';
-                }
-            }
-        }
-
         private ParserState _state;
         private readonly StringBuilder _builder = new(100);
 
@@ -303,14 +295,86 @@ namespace Calcpad.Wpf
             p.BorderThickness = _thickness;
         }
 
+        internal void CheckHighlight(Paragraph p, int line)
+        {
+            if (p is null)
+                return;
+
+            LocalVariables.Clear();
+            var isCommand = false;
+            var commandCount = 0;
+            foreach (Run r in p.Inlines.Cast<Run>())
+            {
+                var s = r.Text;
+                var t1 = GetTypeFromColor(r.Foreground);
+                var t2 = t1;
+                if (t1 == Types.Keyword && s[0] == '$')
+                    isCommand = true;
+                else if (string.Equals(s, "{", StringComparison.Ordinal))
+                {
+                    if (isCommand)
+                        ++commandCount;
+                }
+                else if (string.Equals(s, "}", StringComparison.Ordinal))
+                {
+                    if (isCommand)
+                        --commandCount;
+
+                    if (commandCount == 0)
+                        isCommand = false;
+                }
+                else if (string.Equals(s, " = ", StringComparison.Ordinal))
+                    GetLocalVariables(r, commandCount > 0);
+
+                var isFunction = r.NextInline is not null && ((Run)r.NextInline).Text == "(";
+                bool IsDefined() => isFunction ?
+                    Defined.IsFunction(s, line) || Functions.Contains(s) :
+                    LocalVariables.Contains(s) || Defined.IsVariable(s, line);
+                switch (t1)
+                {
+                    case Types.Error:
+                        if (s[^1] == '$')
+                        {
+                            if (Defined.IsMacroOrParameter(s, line))
+                                t2 = Types.Macro;
+                        }
+                        else if (IsDefined())
+                            t2 = Types.Variable;
+
+                        break;
+                    case Types.Variable:
+                        if (!IsDefined())
+                        {
+                            if (MathParser.IsUnit(s))
+                                t2 = Types.Units;
+                            else
+                                t2 = Types.Error;
+                        }
+                        break;
+                    case Types.Units:
+                        if (LocalVariables.Contains(s) || Defined.IsVariable(s, line))
+                            t2 = Types.Variable;
+                        break;
+                    case Types.Macro:
+                        if (!Defined.IsMacroOrParameter(s, line))
+                            t2 = Types.Error;
+                        break;
+                }
+                if (t1 != t2)
+                {
+                    r.Foreground = Colors[(int)t2];
+                    r.Background = t2 == Types.Error ? ErrorBackground : null;
+                }
+            }
+        }
+
         internal void Parse(Paragraph p, bool isComplex, int line, string text = null)
         {
             if (p is null)
                 return;
 
             InitParagraph(p);
-            if (text is null)
-                text = new TextRange(p.ContentStart, p.ContentEnd).Text;
+            text ??= new TextRange(p.ContentStart, p.ContentEnd).Text;
             p.Inlines.Clear();
             InitState(p, text, line);
             _tagHelper = new();
@@ -330,13 +394,13 @@ namespace Calcpad.Wpf
 
                 if (_state.MacroArgs > 0)
                     ParseMacroArgs(c);
-                else if (_state.TextComment != NullChar)
+                else if (_state.TextComment != '\0')
                     ParseTagInComment(c);
                 else if (_state.CurrentType == Types.Include)
                     _builder.Append(c);
                 else if (c == '$' && _builder.Length > 0)
                     ParseMacro();
-                else if (IsWhiteSpace(c))
+                else if (Validator.IsWhiteSpace(c))
                     ParseSpace(c);
                 else if (Brackets.Contains(c))
                     ParseBrackets(c);
@@ -360,7 +424,7 @@ namespace Calcpad.Wpf
                 }
                 else if (isComplex && _state.CurrentType == Types.Const && c == 'i')
                     ParseImaginary(c, i, len);
-                else if (_state.CurrentType == Types.Const && IsLetter(c))
+                else if (_state.CurrentType == Types.Const && Validator.IsLetter(c))
                     ParseUnits(c);
                 else
                 {
@@ -391,7 +455,7 @@ namespace Calcpad.Wpf
 
                 _state.RetainType();
 
-                if (IsWhiteSpace(c))
+                if (!Validator.IsWhiteSpace(c))
                     _state.IsLeading = false;
             }
             Append(_state.CurrentType);
@@ -399,7 +463,6 @@ namespace Calcpad.Wpf
 
         private static void InitParagraph(Paragraph p)
         {
-            p.Tag = false;
             p.Background = null;
             p.BorderBrush = null;
             p.BorderThickness = _thickness;
@@ -413,24 +476,27 @@ namespace Calcpad.Wpf
                 Line = line,
                 Text = text,
                 IsLeading = true,
-                IsPlot = IsPlot(text)
+                IsPlot = Validator.IsPlot(text)
             };
         }
 
-        internal static string GetTypeFromColor(Brush color)
+        internal static string GetCSSClassFromColor(Brush color) =>
+            GetTypeFromColor(color).ToString().ToLowerInvariant();
+
+        private static Types GetTypeFromColor(Brush color)
         {
             for (int i = 0, len = Colors.Length; i < len; ++i)
                 if (Colors[i] == color)
-                    return typeof(Types).GetEnumName(i).ToLowerInvariant();
+                    return (Types)i;
 
-            return null;
+            return Types.None;
         }
 
         private void ParseComment(char c)
         {
             if (c >= 'А' && c <= 'я' && _state.CurrentType != Types.Include)
             {
-                if (_state.TextComment == NullChar)
+                if (_state.TextComment == '\0')
                 {
                     Append(_state.CurrentType);
                     _state.TextComment = _state.Paragraph.PreviousBlock is null ? '"' : '\'';
@@ -441,7 +507,7 @@ namespace Calcpad.Wpf
             }
             else if (c == '\'' || c == '"')
             {
-                if (_state.TextComment == NullChar)
+                if (_state.TextComment == '\0')
                 {
                     _state.IsUnits = false;
                     _state.TextComment = c;
@@ -462,10 +528,10 @@ namespace Calcpad.Wpf
                 }
                 else if (c == _state.TextComment)
                 {
-                    _state.TextComment = NullChar;
+                    _state.TextComment = '\0';
                     if (_state.IsTag && _state.IsTagComment)
                         _state.CurrentType = Types.Comment;
-                   
+
                     _builder.Append(c);
                     Append(_state.CurrentType);
                     _state.CurrentType = Types.Comment;
@@ -484,22 +550,22 @@ namespace Calcpad.Wpf
         }
 
         private bool IsParseError(char c, Types t) =>
-                t == Types.Const && !IsDigit(c) ||
-                t == Types.Macro && !IsMacroLetter(c, _builder.Length) ||
-                t == Types.Variable && !IsLetter(c) && !IsDigit(c);
+                t == Types.Const && !Validator.IsDigit(c) ||
+                t == Types.Macro && !Validator.IsMacroLetter(c, _builder.Length) ||
+                t == Types.Variable && !Validator.IsLetter(c) && !Validator.IsDigit(c);
 
         private void ParseMacroInComment(Types t)
         {
             var len = _builder.Length;
             int i;
             for (i = len - 2; i >= 0; --i)
-                if (!IsMacroLetter(_builder[i], i))
+                if (!Validator.IsMacroLetter(_builder[i], i))
                     break;
 
             var s = _builder.ToString();
             for (int j = i + 1; j < len - 1; ++j)
             {
-                if (IsDefinedMacroOrParameter(s[j..], _state.Line))
+                if (Defined.IsMacroOrParameter(s[j..], _state.Line))
                 {
                     _builder.Remove(j, len - j);
                     Append(t);
@@ -574,7 +640,7 @@ namespace Calcpad.Wpf
                 if (!(_state.IsTagComment && c == _state.TagComment))
                 {
                     _builder.Append(c);
-                    if (c == '$' && DefinedMacros.Count > 0)
+                    if (c == '$' && Defined.Macros.Count > 0)
                         ParseMacroInComment(Types.Comment);
                 }
             }
@@ -608,7 +674,7 @@ namespace Calcpad.Wpf
         private bool IsValidMacroName()
         {
             for (int i = 0, len = _builder.Length; i < len; ++i)
-                if (!IsMacroLetter(_builder[i], i))
+                if (!Validator.IsMacroLetter(_builder[i], i))
                     return false;
 
             return true;
@@ -631,7 +697,9 @@ namespace Calcpad.Wpf
                     _builder[3] == 'c';
                 Append(_state.CurrentType);
                 //Spaces are added only if they are leading
-                if (_state.IsLeading || _state.CurrentType == Types.Keyword)
+                if (_state.IsLeading ||
+                    _state.CurrentType == Types.Keyword ||
+                    _state.CurrentType == Types.Error)
                 {
                     _builder.Append(c);
                     Append(Types.None);
@@ -695,7 +763,7 @@ namespace Calcpad.Wpf
             Append(Types.Operator);
             _state.CurrentType = Types.Operator;
             if (c == '=')
-                GetLocalVariables(_state.CommandCount > 0);
+                GetLocalVariables((Run)_state.Paragraph.Inlines.LastInline, _state.CommandCount > 0);
         }
 
         private bool ParseMacroContent(char c, int i, int len)
@@ -739,18 +807,18 @@ namespace Calcpad.Wpf
             if (c == '$')
                 return Types.Command;
             if (c == '#')
-                return _state.IsLeading ? 
+                return _state.IsLeading ?
                     Types.Keyword :
                     _state.InputChar == '#' ?
                         Types.Bracket :
                         Types.Error;
-            if (IsDigit(c))
+            if (Validator.IsDigit(c))
                 return Types.Const;
-            if (_state.IsMacro && IsMacroLetter(c, 0))
+            if (_state.IsMacro && Validator.IsMacroLetter(c, 0))
                 return Types.Macro;
-            if (IsLetter(c))
+            if (Validator.IsLetter(c))
             {
-                bool isUnitStart = IsUnitStart(c);
+                bool isUnitStart = Validator.IsUnitStart(c);
                 if (!(char.IsLetter(c) || isUnitStart || c == '∡' || c == '℧'))
                     return Types.Error;
                 if (_state.IsUnits || _state.PreviousType == Types.Const || isUnitStart)
@@ -785,7 +853,7 @@ namespace Calcpad.Wpf
         {
             Append(Types.Const);
             _builder.Append(c);
-            if (char.IsLetter(c) || IsUnitStart(c))
+            if (char.IsLetter(c) || Validator.IsUnitStart(c))
                 _state.CurrentType = Types.Units;
             else
                 _state.CurrentType = Types.Error;
@@ -818,12 +886,15 @@ namespace Calcpad.Wpf
             else if (t == Types.Operator)
                 s = FormatOperator(s);
             else if (t != Types.Error)
+            {
                 t = CheckError(t, s);
+                if (t == Types.Error)
+                    _state.CurrentType = Types.Error;
+            }
 
             AppendRun(t, s);
             _allowUnaryMinus = t == Types.Operator || s == "(" || s == "{";
         }
-
 
         private bool AppendRelOperatorShortcut(string s)
         {
@@ -851,13 +922,7 @@ namespace Calcpad.Wpf
             var sourceFlieName = s.Trim();
             if (File.Exists(sourceFlieName))
             {
-                var values = new Queue<string>();
-                var sourceCode = Include(sourceFlieName, values);
-                _state.Paragraph.Tag = values;
-                var lines = sourceCode.AsSpan().EnumerateLines();
-                foreach (var line in lines)
-                    GetDefinedItems(line, _state.Line);
-
+                var sourceCode = UserDefined.Include(sourceFlieName, null);
                 _state.Message = GetPartialSource(sourceCode);
                 return Types.Include;
             }
@@ -873,10 +938,7 @@ namespace Calcpad.Wpf
         {
             if (t == Types.Function)
             {
-                if (!DefinedFunctions.TryGetValue(s, out int funcLine))
-                    funcLine = int.MaxValue;
-
-                if (!Functions.Contains(s) && funcLine > _state.Line)
+                if (!Functions.Contains(s) && !Defined.IsFunction(s, _state.Line))
                 {
 #if BG
                     _state.Message = "Недекларирана функция.";
@@ -888,12 +950,7 @@ namespace Calcpad.Wpf
             }
             else if (t == Types.Variable)
             {
-                var varLine = _state.Line;
-                if (!LocalVariables.Contains(s) &&
-                    !DefinedVariables.TryGetValue(s, out varLine))
-                    varLine = int.MaxValue;
-
-                if (varLine > _state.Line)
+                if (!LocalVariables.Contains(s) && !Defined.IsVariable(s, _state.Line))
                 {
                     if (MathParser.IsUnit(s))
                         return Types.Units;
@@ -919,7 +976,7 @@ namespace Calcpad.Wpf
             }
             else if (t == Types.Macro)
             {
-                if (!IsDefinedMacroOrParameter(s, _state.Line))
+                if (!Defined.IsMacroOrParameter(s, _state.Line))
                 {
 #if BG
                     _state.Message = "Недефиниран макрос или параметър.";
@@ -969,8 +1026,10 @@ namespace Calcpad.Wpf
 
         private void AppendRun(Types t, string s)
         {
-            var run = new Run(s);
-            run.Foreground = Colors[(int)t];
+            var run = new Run(s)
+            {
+                Foreground = Colors[(int)t]
+            };
             bool isTitle = t == Types.Comment && s[0] == '"';
             if (t == Types.Function || isTitle)
             {
@@ -1018,81 +1077,89 @@ namespace Calcpad.Wpf
             VerticalOffset = -36
         };
 
-        private void GetLocalVariables(bool isCommand)
+        private static void GetLocalVariables(Inline currentInline, bool isCommand)
         {
-            var brackets = false;
-            string name = null, s = null;
-            Brush foreground = Colors[(int)Types.Variable];
+            var inline = currentInline.PreviousInline;
             if (isCommand)
+                GetLocalCommandVariables(inline);
+            else
+                GetLocalFunctionVariables(inline);
+        }
+
+        private static void GetLocalCommandVariables(Inline inline)
+        {
+            string name = null, s = null;
+            var foreground = Colors[(int)Types.Variable];
+            while (inline != null)
             {
-                Run run = (Run)_state.Paragraph.Inlines.LastInline.PreviousInline;
-                while (run != null)
+                s = ((Run)inline).Text.Trim();
+                if (Validator.IsVariable(s))
                 {
-                    s = run.Text.Trim();
-                    if (IsVariable(s))
-                    {
-                        run.Background = null;
-                        run.Foreground = foreground;
-                        name = s;
-                        break;
-                    }
-                    run = (Run)run.PreviousInline;
+                    inline.Background = null;
+                    inline.Foreground = foreground;
+                    name = s;
+                    break;
                 }
-                if (!string.IsNullOrEmpty(name))
+                inline = (Run)inline.PreviousInline;
+            }
+            if (!string.IsNullOrEmpty(name))
+            {
+                inline = (Run)inline.PreviousInline;
+                while (inline != null)
                 {
-                    run = (Run)run.PreviousInline;
-                    while (run != null)
+                    s = ((Run)inline).Text.Trim();
+                    if (s == "@")
+                        break;
+
+                    inline = (Run)inline.PreviousInline;
+                }
+                if (s == "@")
+                {
+                    var bracketCount = 1;
+                    inline = (Run)inline.PreviousInline;
+                    while (inline != null)
                     {
-                        s = run.Text.Trim();
-                        if (s == "@")
+                        s = ((Run)inline).Text.Trim();
+                        if (s == "{")
+                            --bracketCount;
+                        else if (s == "}")
+                            ++bracketCount;
+
+                        if (bracketCount == 0)
                             break;
 
-                        run = (Run)run.PreviousInline;
-                    }
-                    if (s == "@")
-                    {
-                        var bracketCount = 1;
-                        run = (Run)run.PreviousInline;
-                        while (run != null)
+                        if (s == name)
                         {
-                            s = run.Text.Trim();
-                            if (s == "{")
-                                --bracketCount;
-                            else if (s == "}")
-                                ++bracketCount;
-
-                            if (bracketCount == 0)
-                                break;
-
-                            if (s == name)
-                            {
-                                run.Background = null;
-                                run.Foreground = foreground;
-                            }
-                            run = (Run)run.PreviousInline;
+                            inline.Background = null;
+                            inline.Foreground = foreground;
                         }
+                        inline = inline.PreviousInline;
                     }
                 }
             }
-            else
+        }
+
+        private static void GetLocalFunctionVariables(Inline inline)
+        {
+            var brackets = false;
+            var foreground = Colors[(int)Types.Variable];
+            while (inline != null)
             {
-                foreach (Run run in _state.Paragraph.Inlines.Cast<Run>())
+                var s = ((Run)inline).Text.Trim();
+                if (string.Equals(s, ")", StringComparison.Ordinal))
+                    brackets = true;
+                else if (string.Equals(s, "(", StringComparison.Ordinal))
+                    return;
+                else if (brackets)
                 {
-                    s = run.Text.Trim();
-                    if (s == "(")
-                        brackets = true;
-                    else if (s == ")")
-                        return;
-                    else if (brackets)
+                    if (Validator.IsVariable(s))
                     {
-                        if (IsVariable(s))
-                        {
-                            LocalVariables.Add(s);
-                            run.Background = null;
-                            run.Foreground = foreground;
-                        }
+                        LocalVariables.Add(s);
+                        inline.Background = null;
+                        inline.Foreground = foreground;
                     }
                 }
+                inline = inline.PreviousInline;
             }
         }
 
@@ -1174,204 +1241,6 @@ namespace Calcpad.Wpf
             }
         }
 
-        //private static void GetDefinedVariablesFunctionsAndMacros(string code, bool IsComplex) =>
-        //    GetDefinedVariablesFunctionsAndMacros(code.AsSpan().EnumerateLines(), IsComplex);
-
-        internal static void ClearDefinedIdentifiers(bool IsComplex)
-        {
-            DefinedVariables.Clear();
-            DefinedFunctions.Clear();
-            DefinedMacros.Clear();
-            DefinedMacroParameters.Clear();
-            DefinedVariables.Add("e", -1);
-            DefinedVariables.Add("pi", -1);
-            DefinedVariables.Add("π", -1);
-            DefinedVariables.Add("g", -1);
-            if (IsComplex)
-            {
-                DefinedVariables.Add("i", -1);
-                DefinedVariables.Add("ei", -1);
-                DefinedVariables.Add("πi", -1);
-            }
-            _hasIncludes = false;
-        }
-
-        internal static void GetDefinedItems(SpanLineEnumerator lines, bool IsComplex)
-        {
-            ClearDefinedIdentifiers(IsComplex);
-            var lineNumber = 0;
-            foreach (var line in lines)
-                GetDefinedItems(line, ++lineNumber);
-        }
-
-        internal static void GetDefinedItems(ReadOnlySpan<char> lineContent, int lineNumber)
-        {
-            if (IsKeyword(lineContent, "#include"))
-            {
-                var s = GetFile(lineContent);
-                if (File.Exists(s))
-                {
-                    s = Include(s, null);
-                    var lines = s.AsSpan().EnumerateLines();
-                    foreach (var line in lines)
-                        GetDefinedItems(line, lineNumber);
-                }
-                _hasIncludes = true;
-            }
-            else if (IsKeyword(lineContent, "#def"))
-                GetDefinedMacros(lineContent, lineNumber);
-            else if (IsKeyword(lineContent, "#end def"))
-                CompleteDefinedMacroParameters(lineNumber);
-            else
-                GetDefinedVariablesAndFunctions(lineContent, lineNumber);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static bool IsKeyword(ReadOnlySpan<char> s, ReadOnlySpan<char> keyword) =>
-            s.TrimStart().StartsWith(keyword, StringComparison.OrdinalIgnoreCase);
-
-        internal static string GetFile(ReadOnlySpan<char> s)
-        {
-            int n = s.Length;
-            if (n < 9)
-                return null;
-
-            n = s.IndexOfAny(Comments);
-            if (n < 9)
-                n = s.Length;
-
-            return s[8..n].Trim().ToString();
-        }
-
-        private static void GetDefinedVariablesAndFunctions(ReadOnlySpan<char> lineContent, int lineNumber)
-        {
-            var commentEnumerator = lineContent.EnumerateComments();
-            foreach (var item in commentEnumerator)
-            {
-                if (!item.IsEmpty && item[0] != '"' && item[0] != '\'')
-                {
-                    var isDone = false;
-                    var isFunction = false;
-                    var _builder = new StringBuilder(50);
-                    for (int j = 0, len = item.Length; j < len; ++j)
-                    {
-                        var c = item[j];
-                        if (IsWhiteSpace(c) && _builder.Length == 0)
-                            continue;
-                        else if (IsLetter(c) || IsDigit(c))
-                        {
-                            if (isDone)
-                            {
-                                if (isFunction)
-                                    continue;
-
-                                break;
-                            }
-                            _builder.Append(c);
-                        }
-                        else if (c == '=')
-                        {
-                            if (_builder.Length > 0)
-                            {
-                                if (isFunction)
-                                    DefinedFunctions.TryAdd(_builder.ToString(), lineNumber);
-                                else
-                                    DefinedVariables.TryAdd(_builder.ToString(), lineNumber);
-                            }
-                            break;
-                        }
-                        else
-                        {
-                            isDone = true;
-                            if (c == '(')
-                                isFunction = true;
-                        }
-                    }
-                }
-            }
-        }
-
-        private static void GetDefinedMacros(ReadOnlySpan<char> lineContent, int lineNumber)
-        {
-            var isFunction = false;
-            var isComplete = false;
-            var macroBuilder = new StringBuilder(20);
-            for (int i = 4, len = lineContent.Length; i < len; ++i)
-            {
-                var c = lineContent[i];
-                if (IsWhiteSpace(c) && macroBuilder.Length == 0)
-                    continue;
-                else if (IsMacroLetter(c, macroBuilder.Length))
-                    macroBuilder.Append(c);
-                else if (c == '$')
-                {
-                    if (macroBuilder.Length > 0)
-                    {
-                        macroBuilder.Append('$');
-                        var s = macroBuilder.ToString();
-                        if (isFunction)
-                        {
-                            if (!DefinedMacroParameters.TryAdd(s, new() { lineNumber, -1 }))
-                            {
-                                var bounds = DefinedMacroParameters[s];
-                                bounds.Add(lineNumber);
-                                bounds.Add(-1);
-                            }
-                        }
-                        else
-                            DefinedMacros.TryAdd(s, lineNumber);
-                    }
-                }
-                else
-                {
-                    if (c == '(' || c == ';')
-                        macroBuilder.Clear();
-
-                    if (c == '(')
-                        isFunction = true;
-                    else if (isFunction && c == ')')
-                        isComplete = true;
-                    else if (isComplete && c == '=')
-                    {
-                        CompleteDefinedMacroParameters(lineNumber);
-                        return;
-                    }
-                    else if (c != ' ' && c != ';')
-                        break;
-                }
-            }
-            if (DefinedMacros.Count == 0)
-                DefinedMacros.Add("Invalid$", -1);
-        }
-
-        private static void CompleteDefinedMacroParameters(int lineNumber)
-        {
-            foreach (var kvp in DefinedMacroParameters)
-            {
-                var bounds = kvp.Value;
-                for (int i = 1, count = bounds.Count; i < count; i += 2)
-                {
-                    if (bounds[i] == -1)
-                        bounds[i] = lineNumber;
-                }
-            }
-        }
-
-        private static bool IsDefinedMacroOrParameter(string s, int line)
-        {
-            if (DefinedMacros.TryGetValue(s, out var macroLine))
-            {
-                if (macroLine <= line)
-                    return true;
-            }
-            else if (DefinedMacroParameters.TryGetValue(s, out var bounds))
-                for (int i = 1, count = bounds.Count; i < count; i += 2)
-                    if (line >= bounds[i - 1] && line <= bounds[i])
-                        return true;
-
-            return false;
-        }
-
         internal static string GetPartialSource(string s)
         {
             if (s.Length > 200)
@@ -1386,65 +1255,6 @@ namespace Calcpad.Wpf
             return s;
         }
 
-        private static bool IsVariable(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-                return false;
-
-            char c = name[0];
-            if (!IsLetter(c) || "_,′″‴⁗".Contains(c))
-                return false;
-
-            for (int i = 1, len = name.Length; i < len; ++i)
-            {
-                c = name[i];
-                if (!(IsLetter(c) || IsDigit(c)))
-                    return false;
-            }
-            return true;
-        }
-
-        private static bool IsPlot(string text)
-        {
-            var s = text.TrimStart();
-            if (!string.IsNullOrEmpty(s) && s[0] == '$')
-                return s.StartsWith("$plot", StringComparison.OrdinalIgnoreCase);
-
-            return false;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool IsMacroLetter(char c, int position) =>
-            c >= 'a' && c <= 'z' ||
-            c >= 'A' && c <= 'Z' ||
-            c == '_' ||
-            char.IsDigit(c) && position > 0;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static bool IsLetter(char c) =>
-            c >= 'a' && c <= 'z' || // a - z
-            c >= 'A' && c <= 'Z' || // A - Z 
-            c >= 'α' && c <= 'ω' ||   // alpha - omega
-            c >= 'Α' && c <= 'Ω' ||  // Alpha - Omega
-            "_,°′″‴⁗ϑϕøØ℧∡".Contains(c, StringComparison.Ordinal); // _ , ° ′ ″ ‴ ⁗ ϑ ϕ ø Ø ℧ ∡
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static bool IsLatinLetter(char c) =>
-            c >= 'a' && c <= 'z' || // a - z
-            c >= 'A' && c <= 'Z'; // A - Z 
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static bool IsDigit(char c) =>
-            c >= '0' && c <= '9' || c == MathParser.DecimalSymbol;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static bool IsUnitStart(char c) =>
-            c == '°' || c == '′' || c == '″';
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static bool IsWhiteSpace(char c) =>
-            c == ' ' || c == '\t';        
-        
         private string FormatOperator(string name) =>
             name switch
             {

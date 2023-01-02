@@ -24,9 +24,25 @@ namespace Calcpad.Core
 
         public static void RemoveLastLineIfEmpty(this StringBuilder sb)
         {
-            var len = sb.Length;
-            if (len > 2 && sb[len - 1] == '\n')
-                sb.Remove(len - 2, 2);
+            var len = sb.Length - 1;
+            if (len > 1 && sb[len] == '\n')
+            {
+                if (sb[len - 1] == '\r')
+                    sb.Remove(len - 1, 2);
+                else
+                    sb.Remove(len, 1);
+            }
+        }
+
+        public static SpanLineEnumerator EnumerateLines(this string s)
+        {
+            if (string.IsNullOrEmpty(s))
+                return new SpanLineEnumerator();
+            
+            if (s.Length > 1 && s[^2] == '\r')
+                return s.AsSpan()[..^2].EnumerateLines();
+
+            return s.AsSpan().EnumerateLines();
         }
     }
 }

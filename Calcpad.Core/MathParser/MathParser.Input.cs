@@ -151,13 +151,13 @@ namespace Calcpad.Core
                             {
                                 t = MakeValueToken(tokenLiteral.ToString() + 'i', string.Empty);
                                 tokens.Enqueue(t);
-                                tokenLiteral.Start(i);
+                                tokenLiteral.Reset(i);
                             }
                         }
                         else if (pt == TokenTypes.Constant && tt == TokenTypes.Unit)
                         {
                             if (unitsLiteral.IsEmpty)
-                                unitsLiteral.Start(i);
+                                unitsLiteral.Reset(i);
 
                             unitsLiteral.Expand();
                             tt = TokenTypes.Constant;
@@ -171,7 +171,7 @@ namespace Calcpad.Core
                                 throw new MathParserException($"Invalid character: '{c}'. Variables, functions and units must begin with a letter, ∡ or '°' for degrees.");
 #endif
                             if (tt != pt)
-                                tokenLiteral.Start(i);
+                                tokenLiteral.Reset(i);
 
                             tokenLiteral.Expand();
                         }
@@ -189,13 +189,13 @@ namespace Calcpad.Core
                                 }
                                 t = MakeValueToken(tokenLiteral.ToString(), string.Empty);
                                 tokens.Enqueue(t);
-                                tokenLiteral.Start(i);
+                                tokenLiteral.Reset(i);
                                 if (!unitsLiteral.IsEmpty)
                                 {
                                     tokens.Enqueue(new Token("*", TokenTypes.Operator, MultOrder - 1));
                                     t = MakeValueToken(null, unitsLiteral.ToString());
                                     tokens.Enqueue(t);
-                                    unitsLiteral.Start(i);
+                                    unitsLiteral.Reset(i);
                                 }
                             }
                             else
@@ -270,7 +270,7 @@ namespace Calcpad.Core
 
                                 }
                                 tokens.Enqueue(t);
-                                tokenLiteral.Start(i);
+                                tokenLiteral.Reset(i);
                             }
                         }
                         if (tt == TokenTypes.Comment)
@@ -385,7 +385,7 @@ namespace Calcpad.Core
 #else
                             throw new MathParserException($"Invalid macro identifier: '{tokenLiteral.ToString()}$'.");
 #endif
-                        ts.Start(i);
+                        ts.Reset(i);
                         isSolver = true;
                     }
                     if (isSolver)
@@ -403,7 +403,7 @@ namespace Calcpad.Core
 #else
                                         throw new MathParserException($"Invalid solver command definition \"{s}\".");
 #endif
-                                    ts.Start(i + 1);
+                                    ts.Reset(i + 1);
                                 }
                                 else
                                     ts.Expand();
@@ -439,7 +439,7 @@ namespace Calcpad.Core
                 {
                     if (c == '{' && pt == TokenTypes.Input)
                     {
-                        tokenLiteral.Start(i + 1);
+                        tokenLiteral.Reset(i + 1);
                         isInput = true;
                         tt = TokenTypes.Constant;
                         return true;
@@ -451,7 +451,7 @@ namespace Calcpad.Core
                         {
                             t.Content = tokenLiteral.ToString();
                             ((ValueToken)t).Value = new Value(double.Parse(t.Content, CultureInfo.InvariantCulture));
-                            tokenLiteral.Start(i);
+                            tokenLiteral.Reset(i);
                             isInput = false;
                             tt = TokenTypes.Input;
                         }

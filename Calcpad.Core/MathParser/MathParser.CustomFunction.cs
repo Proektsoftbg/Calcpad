@@ -29,7 +29,7 @@ namespace Calcpad.Core
                 public bool Equals(Tuple other) => _x.Equals(other._x) && _y.Equals(other._y);
             }
 
-            private const int MaxCacheSize = 100;
+            private const int MaxCacheSize = 1000;
             internal delegate void ChangeEvent();
             internal event ChangeEvent OnChange;
             internal Token[] Rpn;
@@ -64,7 +64,7 @@ namespace Calcpad.Core
 
             internal string ParameterName(int index) => _parameters[index].Name;
 
-            private void ClearCache()
+            internal void ClearCache()
             {
                 _cache?.Clear();
                 _cache2?.Clear();
@@ -124,6 +124,8 @@ namespace Calcpad.Core
                 var len = parameters.Length;
                 if (len == 1)
                 {
+                    if (_cache?.Count >= MaxCacheSize)
+                        _cache.Clear();
                     ref var v = ref parameters[0];
                     if (!_cache.TryGetValue(v, out var z))
                     {
@@ -135,6 +137,8 @@ namespace Calcpad.Core
                 }
                 if (len == 2)
                 {
+                    if (_cache2?.Count >= MaxCacheSize)
+                        _cache2.Clear();
                     Tuple args = new(parameters[0], parameters[1]);
                     if (!_cache2.TryGetValue(args, out var z))
                     {
