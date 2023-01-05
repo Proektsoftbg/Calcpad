@@ -228,7 +228,10 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;&emsp;#equ  - show complete equations and results (default);  
 &emsp;&emsp;#noc  - show only equations without results (no calculations);  
 &emsp;&emsp;#round n - rounds to n digits after the decimal point.  
-&emsp;&emsp;Each of the above commands is effective after the current line until the end of the report or another command that overwrites it.  
+&emsp;&emsp;Each of the above commands is effective after the current line until the end of the report or another command that overwrites it.
+* Breakpoints for step-by-step execution:  
+&emsp;&emsp;#pause - calculates to the current line and waits until resumed manually;  
+&emsp;&emsp;#input - renders an input form to the current line and waits for user input.  
 * Switches for trigonometric units: #deg - degrees, #rad - radians, #gra - gradians;  
 * Separator for target units: |;  
 * Angle units (dimensionless): °, ′, ″, deg, rad, grad, rev;  

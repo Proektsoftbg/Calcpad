@@ -1,6 +1,7 @@
 ﻿using Calcpad.Core;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -93,6 +94,11 @@ namespace Calcpad.Wpf
                 if (CurrentType != Types.None)
                     PreviousType = CurrentType;
             }
+
+            internal Types PreviousTypeIfCurrentIsNone =>
+                CurrentType == Types.None ?
+                PreviousType :
+                CurrentType;
 
             internal void GetInputState(char c)
             {
@@ -256,7 +262,9 @@ namespace Calcpad.Wpf
             "#global",
             "#def",
             "#end def",
-            "#round"
+            "#round",
+            "#pause",
+            "#input"
         };
 
         private static readonly HashSet<string> Commands = new(StringComparer.OrdinalIgnoreCase)
@@ -437,7 +445,17 @@ namespace Calcpad.Wpf
 #endif
                         _state.CurrentType = Types.Error;
                     }
-
+                    if (_state.CurrentType == Types.None && _builder.Length > 0)
+                    {
+                        _state.CurrentType = _state.PreviousType;
+                        Append(_state.CurrentType);
+                        if (_state.CurrentType == Types.Error)
+                        {
+                            _builder.Append(' ');
+                            Append(Types.Error);
+                        }
+                        _state.CurrentType = InitType(c, _state.CurrentType);
+                    }
                     _builder.Append(c);
                 }
 
@@ -458,7 +476,7 @@ namespace Calcpad.Wpf
                 if (!Validator.IsWhiteSpace(c))
                     _state.IsLeading = false;
             }
-            Append(_state.CurrentType);
+            Append(_state.PreviousTypeIfCurrentIsNone);
         }
 
         private static void InitParagraph(Paragraph p)
@@ -691,18 +709,22 @@ namespace Calcpad.Wpf
                      _builder[2] == 'e' &&
                      _builder[3] == 'f')
                     _state.IsMacro = true;
-                var isInclude = _builder.Length == 8 &&
-                    _builder[1] == 'i' &&
-                    _builder[2] == 'n' &&
-                    _builder[3] == 'c';
-                Append(_state.CurrentType);
+                var isInclude = false;
                 //Spaces are added only if they are leading
                 if (_state.IsLeading ||
                     _state.CurrentType == Types.Keyword ||
                     _state.CurrentType == Types.Error)
                 {
+                    isInclude = _builder.Length == 8 &&
+                        _builder[1] == 'i' &&
+                        _builder[2] == 'n' &&
+                        _builder[3] == 'c';
+                    Append(_state.CurrentType);
                     _builder.Append(c);
-                    Append(Types.None);
+                    var t = _state.CurrentType == Types.Error ?
+                        Types.Error :
+                        Types.None;
+                    Append(t);
                 }
                 if (isInclude)
                     _state.CurrentType = Types.Include;
@@ -717,14 +739,18 @@ namespace Calcpad.Wpf
 
         private void ParseBrackets(char c)
         {
+            var t = _state.PreviousTypeIfCurrentIsNone; 
             if (c == '(')
             {
                 ++_state.BracketCount;
-                if (_state.CurrentType == Types.Variable)
+                if (t == Types.Variable)
                     _state.CurrentType = Types.Function;
-                else if (_state.CurrentType == Types.Macro && _state.MacroArgs == 0)
+                else if (t == Types.Macro && _state.MacroArgs == 0)
+                {
+                    _state.CurrentType = Types.Macro;
                     _state.MacroArgs = _state.BracketCount;
-                else if (_state.CurrentType != Types.Operator && _state.CurrentType != Types.Bracket && _state.CurrentType != Types.None)
+                }
+                else if (t != Types.Operator && t != Types.Bracket && t != Types.None)
                     _state.CurrentType = Types.Error;
             }
             else if (c == ')')
@@ -758,7 +784,7 @@ namespace Calcpad.Wpf
 
         private void ParseOperator(char c)
         {
-            Append(_state.CurrentType);
+            Append(_state.PreviousTypeIfCurrentIsNone);
             _builder.Append(c);
             Append(Types.Operator);
             _state.CurrentType = Types.Operator;
@@ -793,7 +819,7 @@ namespace Calcpad.Wpf
 
         private void ParseDelimiter(char c)
         {
-            Append(_state.CurrentType);
+            Append(_state.PreviousTypeIfCurrentIsNone);
             _builder.Append(c);
             if (_state.CommandCount > 0 || c == ';')
                 Append(Types.Operator);
@@ -884,15 +910,23 @@ namespace Calcpad.Wpf
             if (t == Types.Include)
                 t = AppendInclude(s);
             else if (t == Types.Operator)
+            {
                 s = FormatOperator(s);
+                if (s[0] == ' ')
+                {
+                    Run r = (Run)_state.Paragraph.Inlines.LastInline;
+                    if (r is not null && r.Text == " ")
+                        _state.Paragraph.Inlines.Remove(r);
+                }
+            }    
             else if (t != Types.Error)
             {
-                t = CheckError(t, s);
+                t = CheckError(t, ref s);
                 if (t == Types.Error)
                     _state.CurrentType = Types.Error;
             }
-
-            AppendRun(t, s);
+            if (s is not null)
+                AppendRun(t, s);
             _allowUnaryMinus = t == Types.Operator || s == "(" || s == "{";
         }
 
@@ -901,18 +935,13 @@ namespace Calcpad.Wpf
             if (s == "=" && _state.Paragraph.Inlines.Count > 0)
             {
                 Run r = (Run)_state.Paragraph.Inlines.LastInline;
-                var runText = r.Text;
-                if (runText == " = " || runText == "!" || runText == " > " || runText == " < ")
+                switch (r.Text)
                 {
-                    r.Text = runText switch
-                    {
-                        " = " => " ≡ ",
-                        "!" => " ≠ ",
-                        " > " => " ≥ ",
-                        _ => " ≤ "
-                    };
-                    return true;
-                }
+                    case " = ": r.Text = " ≡ "; return true;
+                    case "!":   r.Text = " ≠ "; return true;
+                    case " > ": r.Text = " ≥ "; return true;
+                    case " < ": r.Text = " ≤ "; return true;
+                };
             }
             return false;
         }
@@ -934,7 +963,7 @@ namespace Calcpad.Wpf
             return Types.Error;
         }
 
-        private Types CheckError(Types t, string s)
+        private Types CheckError(Types t, ref string s)
         {
             if (t == Types.Function)
             {
@@ -950,6 +979,22 @@ namespace Calcpad.Wpf
             }
             else if (t == Types.Variable)
             {
+                var r = (Run)_state.Paragraph.Inlines.LastInline;
+                var pt = r is null ? Types.None : GetTypeFromColor(r.Foreground);
+                if (pt == Types.Variable || pt == Types.Units)
+                {
+#if BG
+                    _state.Message = "Невалиден синтаксис.";
+#else
+                    _state.Message = "Invalid syntax.";
+#endif
+                    r.Text += ' ' + s;
+                    r.Foreground = Colors[(int)Types.Error];
+                    r.Background = ErrorBackground;
+                    r.ToolTip = _state.Message;
+                    s = null;
+                    return Types.Error;
+                }
                 if (!LocalVariables.Contains(s) && !Defined.IsVariable(s, _state.Line))
                 {
                     if (MathParser.IsUnit(s))

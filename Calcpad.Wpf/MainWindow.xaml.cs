@@ -548,13 +548,18 @@ namespace Calcpad.Wpf
 
         private void Calculate()
         {
-            IsCalculated = !IsCalculated;
-            if (IsWebForm)
-                CalculateAsync(!IsCalculated);
-            else if (IsCalculated)
-                CalculateAsync();
+            if (_parser.IsPaused)
+                AutoRun();
             else
-                ShowHelp();
+            {
+                IsCalculated = !IsCalculated;
+                if (IsWebForm)
+                    CalculateAsync(!IsCalculated);
+                else if (IsCalculated)
+                    CalculateAsync();
+                else
+                    ShowHelp();
+            }
         }
 
         private void Command_New(object senter, ExecutedRoutedEventArgs e)
@@ -568,8 +573,7 @@ namespace Calcpad.Wpf
 
             CurrentFileName = string.Empty;
             _document.Blocks.Clear();
-            //var p = new Paragraph();
-            //_document.Blocks.Add(p);
+            _highlighter.Defined.Clear(IsComplex);
             RichTextBox.CaretPosition = _document.ContentStart;
             if (IsWebForm)
             {
@@ -1098,6 +1102,7 @@ namespace Calcpad.Wpf
                     }
                     CalcButton.IsEnabled = true;
                     MenuCalculate.IsEnabled = true;
+                    IsCalculated = !_parser.IsPaused;
                 }
                 htmlResult = HtmlApplyWorksheet(_parser.HtmlResult);
                 SetOutputFrameHeader(IsWebForm);
@@ -1322,11 +1327,12 @@ namespace Calcpad.Wpf
         {
             var lines = ReadLines(CurrentFileName);
             _isTextChangedEnabled = false;
+            RichTextBox.BeginChange();
             _document.Blocks.Clear();
-            var hasForm = false;
             _highlighter.Defined.Get(lines, IsComplex);
             SetCodeCheckBoxVisibility();
             var i = 1;
+            var hasForm = false;
             foreach (var line in lines)
             {
                 ReadOnlySpan<char> s;
@@ -1373,10 +1379,12 @@ namespace Calcpad.Wpf
             }
             _undoMan.Reset();
             Record();
+            RichTextBox.EndChange();
             _isTextChangedEnabled = true;
             _forceHighlight = !highLight;
             if (!hasForm)
                 hasForm = MacroParser.HasInputFields(InputText);
+
             return hasForm;
         }
 
@@ -2594,7 +2602,7 @@ namespace Calcpad.Wpf
 
         private void RichTextBox_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
+            if (IsControlDown)
             {
                 e.Handled = true;
                 var d = RichTextBox.FontSize + Math.CopySign(2, e.Delta);
@@ -2605,6 +2613,9 @@ namespace Calcpad.Wpf
                 }
             }
         }
+
+        private bool IsControlDown => (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
+        private bool IsAltDown => (Keyboard.Modifiers & ModifierKeys.Alt) == ModifierKeys.Alt;
 
         private void InvHypButton_Click(object sender, RoutedEventArgs e)
         {
@@ -2699,12 +2710,37 @@ namespace Calcpad.Wpf
 
         private void Window_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Escape && _isParsing)
+            if (e.Key == Key.Escape)
             {
-                _autoRun = false;
-                _parser.Cancel();
+                if (_isParsing)
+                {
+                    _autoRun = false;
+                    Cancel();
+                }
+                else if (_parser.IsPaused)
+                    Cancel();
+            }
+            else if (e.Key == Key.Pause ||  e.Key == Key.P && IsControlDown && IsAltDown)
+            {
+                if (_isParsing)
+                    Pause();
             }
         }
+
+        private void Cancel()
+        {
+            bool isPaused = _parser.IsPaused;
+            _parser.Cancel();
+            if (isPaused)
+            {
+                if (IsWebForm)
+                    CalculateAsync(true);
+                else
+                    ShowHelp();
+            }
+        }
+
+        private void Pause() => _parser.Pause();
 
         bool _sizeChanged = false;
         private void RichTextBox_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -3055,6 +3091,10 @@ namespace Calcpad.Wpf
                                      ext == ".bmp")
                                 Execute(ExternalBrowserComboBox.Text.ToLower() + ".exe", s);
                         }
+                        else if (s == "continue")
+                            AutoRun();
+                        else if (s == "cancel")
+                            Cancel();
                         else if (IsCalculated)
                             LineClicked(s);
                         else if (!IsWebForm)
@@ -3068,10 +3108,10 @@ namespace Calcpad.Wpf
                 _isSaving = false;
                 IsSaved = true;
             }
-            else if (IsWebForm || IsCalculated)
+            else if (IsWebForm || IsCalculated || _parser.IsPaused)
             {
                 SetUnits();
-                if (!IsWebForm)
+                if (IsCalculated || _parser.IsPaused)
                 {
                     if (_scrollOutput)
                         ScrollOutput();
@@ -3184,7 +3224,7 @@ namespace Calcpad.Wpf
                 Calculate();
                 e.Handled = true;
             }
-            else if (e.Key == Key.O && Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
+            else if (e.Key == Key.O && Keyboard.Modifiers == ModifierKeys.Control)
             {
                 Command_Open(this, null);
                 e.Handled = true;

@@ -74,8 +74,8 @@ namespace Calcpad.Core
             internal static SolverTypes GetSolverType(ReadOnlySpan<char> keyword)
             {
                 var s = keyword.Trim().ToString();
-                if (Definitions.ContainsKey(s))
-                    return Definitions[s];
+                if (Definitions.TryGetValue(s, out SolverTypes value))
+                    return value;
 
                 return SolverTypes.Error;
             }

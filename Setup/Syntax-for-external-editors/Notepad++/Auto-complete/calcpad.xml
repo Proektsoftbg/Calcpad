@@ -15,10 +15,12 @@
 		<KeyWord name="#gra" />
 		<KeyWord name="#hide" />
 		<KeyWord name="#include" />
+		<KeyWord name="#input" />
 		<KeyWord name="#if" />
 		<KeyWord name="#local" />
 		<KeyWord name="#loop" />
 		<KeyWord name="#noc" />
+		<KeyWord name="#pause" />
 		<KeyWord name="#post" />
 		<KeyWord name="#pre" />
 		<KeyWord name="#rad" />

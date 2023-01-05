@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web;
 
 namespace Calcpad.Core
 {
@@ -30,7 +31,9 @@ namespace Calcpad.Core
             Continue,
             Local,
             Global,
-            Round
+            Round,
+            Pause,
+            Input
         }
 
         private enum KeywordResult
@@ -39,9 +42,15 @@ namespace Calcpad.Core
             Continue,
             Break
         }
-
         private int _isVal;
+        private bool _isPausedByUser;
+        private int _startLine;
+        private int _pauseCharCount;
+        private Keyword _previousKeyword = Keyword.None;
         private MathParser _parser;
+        private ConditionParser _condition;
+        private readonly StringBuilder _sb = new(10000);
+        private readonly Stack<Loop> _loops = new();
         public Settings Settings { get; set; }
         public string HtmlResult { get; private set; }
         public static bool IsUs
@@ -49,6 +58,7 @@ namespace Calcpad.Core
             get => Unit.IsUs;
             set => Unit.IsUs = value;
         }
+        public bool IsPaused => _startLine > 0;
 
         public ExpressionParser()
         {
@@ -79,13 +89,30 @@ namespace Calcpad.Core
         }
 
         public void Cancel() => _parser?.Cancel();
+        public void Pause() => _isPausedByUser = true;
 
         private void Parse(ReadOnlySpan<char> code, bool calculate = true)
         {
-            var sb = new StringBuilder(10000);
-            var conditions = new ConditionParser();
-            var loops = new Stack<Loop>();
+            if (!calculate)
+                _startLine = 0;
 
+            if (_startLine == 0)
+            {
+                _parser = new MathParser(Settings.Math);
+                _sb.Clear();
+                _condition = new();
+                _loops.Clear();
+                _isVal = 0;
+                _parser.SetVariable("Units", new Value(UnitsFactor()));
+                _previousKeyword = Keyword.None;
+            }
+            else
+            {
+                var n = _sb.Length - _pauseCharCount;
+                if (n > 0)
+                    _sb.Remove(_pauseCharCount, n);
+            }
+            _parser.IsEnabled = calculate;
             var lines = new List<int> { 0 };
             var len = code.Length;
             for (int i = 0; i < len; ++i)
@@ -93,13 +120,7 @@ namespace Calcpad.Core
                     lines.Add(i + 1);
 
             var lineCount = lines.Count - 1;
-            var line = -1;
-            _parser = new MathParser(Settings.Math)
-            {
-                IsEnabled = calculate
-            };
-            _parser.SetVariable("Units", new Value(UnitsFactor()));
-            _isVal = 0;
+            var line = _startLine - 1;
             var isVisible = true;
             var s = ReadOnlySpan<char>.Empty;
             try
@@ -116,7 +137,7 @@ namespace Calcpad.Core
                     else
                         _parser.Line = line + 1;
 
-                    var htmlId = loops.Any() && loops.Peek().Iteration != 1 ?
+                    var htmlId = _loops.Any() && _loops.Peek().Iteration != 1 ?
                         string.Empty :
                         $" id=\"line-{line + 1}\"";
                     if (_parser.IsCanceled)
@@ -126,7 +147,7 @@ namespace Calcpad.Core
                     if (s.IsEmpty)
                     {
                         if (isVisible)
-                            sb.AppendLine($"<p{htmlId}>&nbsp;</p>");
+                            _sb.AppendLine($"<p{htmlId}>&nbsp;</p>");
 
                         continue;
                     }
@@ -142,19 +163,22 @@ namespace Calcpad.Core
                             ParseExpression(s, keyword, htmlId);
                     }
                 }
-                ApplyUnits(sb, calculate);
-                if (conditions.Id > 0 && line == lineCount)
+                ApplyUnits(_sb, calculate);
+                if (line == lineCount)
+                {
+                    if (_condition.Id > 0)
 #if BG
-                    sb.Append(ErrHtml($"Грешка: Условният \"#if\" блок не е затворен. Липсва \"#end if\"."));
+                    _sb.Append(ErrHtml($"Грешка: Условният \"#if\" блок не е затворен. Липсва \"#end if\"."));
 #else
-                    sb.Append(ErrHtml($"Error: \"#if\" block not closed. Missing \"#end if\"."));
+                        _sb.Append(ErrHtml($"Error: \"#if\" block not closed. Missing \"#end if\"."));
 #endif
-                if (loops.Any())
+                    if (_loops.Any())
 #if BG
-                    sb.Append(ErrHtml($"Грешка: Блокът за цикъл \"#repeat\" не е затворен. Липсва \"#loop\"."));
+                    _sb.Append(ErrHtml($"Грешка: Блокът за цикъл \"#repeat\" не е затворен. Липсва \"#loop\"."));
 #else
-                    sb.Append(ErrHtml($"<p class=\"err\">Error: \"#repeat\" block not closed. Missing \"#loop\"."));
+                        _sb.Append(ErrHtml($"<p class=\"err\">Error: \"#repeat\" block not closed. Missing \"#loop\"."));
 #endif
+                }
             }
             catch (MathParser.MathParserException ex)
             {
@@ -163,23 +187,33 @@ namespace Calcpad.Core
             catch (Exception ex)
             {
 #if BG
-                sb.Append(ErrHtml($"Неочаквана грешка: {ex.Message} Моля проверете коректността на израза."));
+                _sb.Append(ErrHtml($"Неочаквана грешка: {ex.Message} Моля проверете коректността на израза."));
 #else
-                sb.Append(ErrHtml($"Unexpected error: {ex.Message} Please check the expression consistency."));
+                _sb.Append(ErrHtml($"Unexpected error: {ex.Message} Please check the expression consistency."));
 #endif
             }
             finally
             {
-                HtmlResult = sb.ToString();
-                _parser.ClearCache();
-                _parser = null;
+                if (line == lineCount && calculate)
+                    _startLine = 0;
+
+                if (_startLine > 0)
+                    _sb.Append($"<p><span class=\"err\">Paused!</span> Press <b>F5</b> to <a href=\"#0\" data-text=\"continue\">continue</a> or <b>Esc</b> to <a href=\"#0\" data-text=\"cancel\">cancel</a>.</p>");
+
+                HtmlResult = _sb.ToString();
+
+                if (_startLine == 0)
+                {
+                    _parser.ClearCache();
+                    _parser = null;
+                }
             }
 
             void AppendError(string lineContent, string text) =>
 #if BG
-                sb.Append(ErrHtml($"Грешка в \"{lineContent}\" на ред {LineHtml(line)}: {text}</p>"));
+                _sb.Append(ErrHtml($"Грешка в \"{lineContent}\" на ред {LineHtml(line)}: {text}</p>"));
 #else
-                sb.Append(ErrHtml($"Error in \"{lineContent}\" on line {LineHtml(line)}: {text}</p>"));
+                _sb.Append(ErrHtml($"Error in \"{lineContent}\" on line {LineHtml(line)}: {text}</p>"));
 #endif
             static string ErrHtml(string text) => $"<p class=\"err\">{text}</p>";
             static string LineHtml(int line) => $"[<a href=\"#0\" data-text=\"{line + 1}\">{line + 1}</a>]";
@@ -187,9 +221,9 @@ namespace Calcpad.Core
             KeywordResult ParseKeyword(ReadOnlySpan<char> s, string htmlId, out Keyword keyword)
             {
                 keyword = Keyword.None;
-                if (s[0] == '#')
+                if (s[0] == '#' || _isPausedByUser)
                 {
-                    keyword = GetKeyword(s);
+                    keyword = _isPausedByUser ? Keyword.Pause : GetKeyword(s);
                     if (keyword == Keyword.Hide)
                         isVisible = false;
                     else if (keyword == Keyword.Show)
@@ -198,6 +232,38 @@ namespace Calcpad.Core
                         isVisible = !calculate;
                     else if (keyword == Keyword.Post)
                         isVisible = calculate;
+                    else if (keyword == Keyword.Input)
+                    {
+                        _previousKeyword = Keyword.Input;
+                        if (calculate)
+                        {
+                            _startLine = line + 1;
+                            _pauseCharCount = _sb.Length;
+                            calculate = false;
+                            return KeywordResult.Continue;
+                        }
+                        return KeywordResult.Break;
+                    }
+                    else if (keyword == Keyword.Pause)
+                    {
+                        if (calculate || _startLine > 0)
+                        {
+                            if (calculate)
+                            {
+                                if (_isPausedByUser)
+                                    _startLine = line;
+                                else
+                                    _startLine = line + 1;
+                            }
+                            
+                            if (_previousKeyword != Keyword.Input)                         
+                                _pauseCharCount = _sb.Length;
+                            
+                            _previousKeyword = Keyword.Pause;
+                            _isPausedByUser = false;
+                            return KeywordResult.Break;
+                        }
+                    }
                     else if (keyword == Keyword.Val)
                         _isVal = 1;
                     else if (keyword == Keyword.Equ)
@@ -262,7 +328,7 @@ namespace Calcpad.Core
 
                 if (calculate)
                 {
-                    if (conditions.IsSatisfied)
+                    if (_condition.IsSatisfied)
                     {
                         var count = 0;
                         if (!expression.IsWhiteSpace())
@@ -288,19 +354,19 @@ namespace Calcpad.Core
                         else
                             count = -1;
 
-                        loops.Push(new Loop(line, count, conditions.Id));
+                        _loops.Push(new Loop(line, count, _condition.Id));
                     }
                 }
                 else if (isVisible)
                 {
                     if (expression.IsWhiteSpace())
-                        sb.Append($"<p{htmlId} class=\"cond\">#repeat</p><div class=\"indent\">");
+                        _sb.Append($"<p{htmlId} class=\"cond\">#repeat</p><div class=\"indent\">");
                     else
                     {
                         try
                         {
                             _parser.Parse(expression);
-                            sb.Append($"<p{htmlId}><span class=\"cond\">#repeat</span> {_parser.ToHtml()}</p><div class=\"indent\">");
+                            _sb.Append($"<p{htmlId}><span class=\"cond\">#repeat</span> {_parser.ToHtml()}</p><div class=\"indent\">");
                         }
                         catch (MathParser.MathParserException ex)
                         {
@@ -314,42 +380,42 @@ namespace Calcpad.Core
             {
                 if (calculate)
                 {
-                    if (conditions.IsSatisfied)
+                    if (_condition.IsSatisfied)
                     {
-                        if (!loops.Any())
+                        if (!_loops.Any())
 #if BG
                             AppendError("\"#loop\" без съответен \"#repeat\".");
 #else
                             AppendError(s.ToString(), "\"#loop\" without a corresponding \"#repeat\".");
 #endif
-                        else if (loops.Peek().Id != conditions.Id)
+                        else if (_loops.Peek().Id != _condition.Id)
 #if BG
                             AppendError("Преплитане на \"#if - #end if\" и \"#repeat - #loop\" блокове.");
 #else
                             AppendError(s.ToString(), "Entangled \"#if - #end if\" and \"#repeat - #loop\" blocks.");
 #endif
-                        else if (!loops.Peek().Iterate(ref line))
-                            loops.Pop();
+                        else if (!_loops.Peek().Iterate(ref line))
+                            _loops.Pop();
                     }
                 }
                 else if (isVisible)
-                    sb.Append($"</div><p{htmlId} class=\"cond\">#loop</p>");
+                    _sb.Append($"</div><p{htmlId} class=\"cond\">#loop</p>");
             }
 
             bool ParseKeywordBreak(ReadOnlySpan<char> s, string htmlId)
             {
                 if (calculate)
                 {
-                    if (conditions.IsSatisfied)
+                    if (_condition.IsSatisfied)
                     {
-                        if (loops.Any())
-                            loops.Peek().Break();
+                        if (_loops.Any())
+                            _loops.Peek().Break();
                         else
                             return true;
                     }
                 }
                 else if (isVisible)
-                    sb.Append($"<p{htmlId} class=\"cond\">#break</p>");
+                    _sb.Append($"<p{htmlId} class=\"cond\">#break</p>");
 
                 return false;
             }
@@ -359,9 +425,9 @@ namespace Calcpad.Core
                 const int RemoveCondition = Keyword.EndIf - Keyword.If;
                 if (calculate)
                 {
-                    if (conditions.IsSatisfied)
+                    if (_condition.IsSatisfied)
                     {
-                        if (!loops.Any())
+                        if (!_loops.Any())
 #if BG
                             AppendError("\"#continue\" без съответен \"#repeat\".");
 #else
@@ -369,16 +435,16 @@ namespace Calcpad.Core
 #endif
                         else
                         {
-                            var loop = loops.Peek();
-                            while (conditions.Id > loop.Id)
-                                conditions.SetCondition(RemoveCondition);
+                            var loop = _loops.Peek();
+                            while (_condition.Id > loop.Id)
+                                _condition.SetCondition(RemoveCondition);
                             loop.Iterate(ref line);
                         }
 
                     }
                 }
                 else if (isVisible)
-                    sb.Append($"<p{htmlId} class=\"cond\">#continue</p>");
+                    _sb.Append($"<p{htmlId} class=\"cond\">#continue</p>");
             }
 
             bool ParsePlot(ReadOnlySpan<char> s, string htmlId)
@@ -387,7 +453,7 @@ namespace Calcpad.Core
                 if (s.StartsWith("$plot", StringComparison.OrdinalIgnoreCase) ||
                     s.StartsWith("$map", StringComparison.OrdinalIgnoreCase))
                 {
-                    if (isVisible && (conditions.IsSatisfied || !calculate))
+                    if (isVisible && (_condition.IsSatisfied || !calculate))
                     {
                         PlotParser plotParser;
                         if (s.StartsWith("$p", StringComparison.OrdinalIgnoreCase))
@@ -399,7 +465,7 @@ namespace Calcpad.Core
                         {
                             _parser.IsPlotting = true;
                             var s1 = plotParser.Parse(s, calculate);
-                            sb.Append(InsertAttribute(s1, htmlId));
+                            _sb.Append(InsertAttribute(s1, htmlId));
                             _parser.IsPlotting = false;
                         }
                         catch (MathParser.MathParserException ex)
@@ -414,12 +480,12 @@ namespace Calcpad.Core
 
             bool ParseCondition(ReadOnlySpan<char> s, Keyword keyword, string htmlId)
             {
-                conditions.SetCondition(keyword - Keyword.If);
-                if (conditions.IsSatisfied && !(loops.Any() && loops.Peek().IsBroken) || !calculate)
+                _condition.SetCondition(keyword - Keyword.If);
+                if (_condition.IsSatisfied && !(_loops.Any() && _loops.Peek().IsBroken) || !calculate)
                 {
-                    if (conditions.KeywordLength == s.Length)
+                    if (_condition.KeywordLength == s.Length)
                     {
-                        if (conditions.IsUnchecked)
+                        if (_condition.IsUnchecked)
 #if BG
                             throw new MathParser.MathParserException("Условието не може да бъде празно.");
 #else
@@ -428,16 +494,16 @@ namespace Calcpad.Core
                         if (isVisible && !calculate)
                         {
                             if (keyword == Keyword.Else)
-                                sb.Append($"</div><p{htmlId}>{conditions.ToHtml()}</p><div class = \"indent\">");
+                                _sb.Append($"</div><p{htmlId}>{_condition.ToHtml()}</p><div class = \"indent\">");
                             else
-                                sb.Append($"</div><p{htmlId}>{conditions.ToHtml()}</p>");
+                                _sb.Append($"</div><p{htmlId}>{_condition.ToHtml()}</p>");
                         }
                     }
-                    else if (conditions.KeywordLength > 0 &&
-                             conditions.IsFound &&
-                             conditions.IsUnchecked &&
+                    else if (_condition.KeywordLength > 0 &&
+                             _condition.IsFound &&
+                             _condition.IsUnchecked &&
                              calculate)
-                        conditions.Check(0.0);
+                        _condition.Check(0.0);
                     else
                         return true;
                 }
@@ -446,7 +512,7 @@ namespace Calcpad.Core
 
             void ParseExpression(ReadOnlySpan<char> s, Keyword keyword, string htmlId)
             {
-                var kwdLength = conditions.KeywordLength;
+                var kwdLength = _condition.KeywordLength;
                 var tokens = GetInput(s[kwdLength..]);
                 var lineType = tokens.Any() ?
                     tokens[0].Type :
@@ -460,16 +526,16 @@ namespace Calcpad.Core
                         tokens[0] = new Token(InsertAttribute(tokens[0].Value, htmlId), TokenTypes.Html);
 
                     if (kwdLength > 0 && !calculate)
-                        sb.Append(conditions.ToHtml());
+                        _sb.Append(_condition.ToHtml());
                 }
                 ParseTokens(tokens, isOutput);
                 AppendHtmlLineEnd(isOutput, lineType, isIndent);
-                if (conditions.IsUnchecked)
+                if (_condition.IsUnchecked)
                 {
                     if (calculate)
-                        conditions.Check(_parser.Result);
+                        _condition.Check(_parser.Result);
                     else
-                        conditions.Check();
+                        _condition.Check();
                 }
             }
 
@@ -478,12 +544,12 @@ namespace Calcpad.Core
                 if (isOutput)
                 {
                     if (isIndent)
-                        sb.Append("</div>");
+                        _sb.Append("</div>");
 
                     if (lineType == TokenTypes.Heading)
-                        sb.Append($"<h3{htmlId}>");
+                        _sb.Append($"<h3{htmlId}>");
                     else if (lineType != TokenTypes.Html)
-                        sb.Append($"<p{htmlId}>");
+                        _sb.Append($"<p{htmlId}>");
                 }
             }
 
@@ -502,13 +568,13 @@ namespace Calcpad.Core
                             if (isOutput)
                             {
                                 if (_isVal == 1 & calculate)
-                                    sb.Append(Complex.Format(_parser.Result, Settings.Math.Decimals, OutputWriter.OutputFormat.Html));
+                                    _sb.Append(Complex.Format(_parser.Result, Settings.Math.Decimals, OutputWriter.OutputFormat.Html));
                                 else
                                 {
                                     if (Settings.Math.FormatEquations)
-                                        sb.Append($"<span class=\"eq\" data-xml=\'{_parser.ToXml()}\'>{_parser.ToHtml()}</span>");
+                                        _sb.Append($"<span class=\"eq\" data-xml=\'{_parser.ToXml()}\'>{_parser.ToHtml()}</span>");
                                     else
-                                        sb.Append($"<span class=\"eq\">{_parser.ToHtml()}</span>");
+                                        _sb.Append($"<span class=\"eq\">{_parser.ToHtml()}</span>");
 
                                 }
                             }
@@ -519,17 +585,17 @@ namespace Calcpad.Core
                             if (!calculate && token.Value.Contains('?', StringComparison.Ordinal))
                                 errText = token.Value.Replace("?", "<input type=\"text\" size=\"2\" name=\"Var\">");
                             else
-                                errText = token.Value;
+                                errText = HttpUtility.HtmlEncode(token.Value);
 #if BG
-                                            errText = $"Грешка в \"{errText}\" на ред {LineHtml(line)}: {ex.Message}";
+                            errText = $"Грешка в \"{errText}\" на ред {LineHtml(line)}: {ex.Message}";
 #else
                             errText = $"Error in \"{errText}\" on line {LineHtml(line)}: {ex.Message}";
 #endif
-                            sb.Append(ErrHtml(errText));
+                            _sb.Append(ErrHtml(errText));
                         }
                     }
                     else if (isVisible)
-                        sb.Append(token.Value);
+                        _sb.Append(token.Value);
                 }
             }
 
@@ -538,14 +604,14 @@ namespace Calcpad.Core
                 if (isOutput)
                 {
                     if (lineType == TokenTypes.Heading)
-                        sb.Append("</h3>");
+                        _sb.Append("</h3>");
                     else if (lineType != TokenTypes.Html)
-                        sb.Append("</p>");
+                        _sb.Append("</p>");
 
                     if (indent)
-                        sb.Append("<div class = \"indent\">");
+                        _sb.Append("<div class = \"indent\">");
 
-                    sb.AppendLine();
+                    _sb.AppendLine();
                 }
             }
         }

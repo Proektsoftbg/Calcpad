@@ -84,8 +84,8 @@ namespace Calcpad.Core
 
         internal void SetVariable(string name, Value value)
         {
-            if (_variables.ContainsKey(name))
-                _variables[name].SetValue(value);
+            if (_variables.TryGetValue(name, out Variable v))
+                v.SetValue(value);
             else
             {
                 _variables.Add(name, new Variable(value));

@@ -158,7 +158,7 @@ object SyntAnal6: TLibSyntAnalyzer
       Expression = 
         '\#([Rr]epeat|[Ll]oop|[Bb]reak|[Cc]ontinue|[Ss]how|[Hh]ide|[Pp]re|[Pp]ost|[Vv]al|[Ee]q' +
         'u|[Rr]ound|[Rr]ad|[Dd]eg|[Ii]f|[Ee]lse\s[Ii]f|[Ee]lse|[Ee]nd\s[Ii]f|[Ii]n' +
-        'clude|[Ll]ocal|[Gg]lobal|[Dd]ef|[Ee]nd\s[Dd]ef)\b'
+        'clude|[Ll]ocal|[Gg]lobal|[Dd]ef|[Ee]nd\s[Dd]ef|[Pp]ause|[Ii]nput)\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
