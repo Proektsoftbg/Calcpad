@@ -752,18 +752,18 @@
                     <MenuItem Click="Button_Click" Tag="$Map{f(x; y) @ x = a : b &amp; y = c : d }"     Header="2D color map of a surface"/>
                 </MenuItem>
                 <MenuItem Header="Numerical method">
-                    <MenuItem Click="Button_Click" Tag="$Root{f(x) = const @ x = a : b }" Header="Root finding for f(x)=const"/>
-                    <MenuItem Click="Button_Click" Tag="$Root{f(x) @ x = a : b }"         Header="Root finding for f(x)=0"/>
-                    <MenuItem Click="Button_Click" Tag="$Find{f(x) @ x = a : b }"         Header="Non-strict root finding"/>
-                    <MenuItem Click="Button_Click" Tag="$Sup{f(x) @ x = a : b }"          Header="Local maximum of a function"/>
-                    <MenuItem Click="Button_Click" Tag="$Inf{f(x) @ x = a : b }"          Header="Local minimum of a function"/>
-                    <MenuItem Click="Button_Click" Tag="$Area{f(x) @ x = a : b }"         Header="Gauss-Lobatto integration"/>
-                    <MenuItem Click="Button_Click" Tag="$Integral{f(x) @ x = a : b }"    Header="Tanh-Sinh integration"/>
-                    <MenuItem Click="Button_Click" Tag="$Slope{f(x) @ x = a }"            Header="Numerical differentiation"/>
+                    <MenuItem Click="Button_Click" Tag="$Root{f(x) = const @ x = a : b}" Header="Root finding for f(x)=const"/>
+                    <MenuItem Click="Button_Click" Tag="$Root{f(x) @ x = a : b}"         Header="Root finding for f(x)=0"/>
+                    <MenuItem Click="Button_Click" Tag="$Find{f(x) @ x = a : b}"         Header="Non-strict root finding"/>
+                    <MenuItem Click="Button_Click" Tag="$Sup{f(x) @ x = a : b}"          Header="Local maximum of a function"/>
+                    <MenuItem Click="Button_Click" Tag="$Inf{f(x) @ x = a : b}"          Header="Local minimum of a function"/>
+                    <MenuItem Click="Button_Click" Tag="$Area{f(x) @ x = a : b}"         Header="Adaptive Gauss-Lobatto integration"/>
+                    <MenuItem Click="Button_Click" Tag="$Integral{f(x) @ x = a : b}"     Header="Tanh-Sinh integration"/>
+                    <MenuItem Click="Button_Click" Tag="$Slope{f(x) @ x = a}"            Header="Numerical differentiation"/>
                     <Separator/>
-                    <MenuItem Click="Button_Click" Tag="$Sum{f(k) @ k = a : b }"          Header="Iterative sum"/>
-                    <MenuItem Click="Button_Click" Tag="$Product{f(k) @ k = a : b }"      Header="Iterative product"/>
-                    <MenuItem Click="Button_Click" Tag="$Repeat{f(k) @ k = a : b }"       Header="General inline iterative procedure"/>
+                    <MenuItem Click="Button_Click" Tag="$Sum{f(k) @ k = a : b}"          Header="Iterative sum"/>
+                    <MenuItem Click="Button_Click" Tag="$Product{f(k) @ k = a : b}"      Header="Iterative product"/>
+                    <MenuItem Click="Button_Click" Tag="$Repeat{f(k) @ k = a : b}"       Header="General inline iterative procedure"/>
                 </MenuItem>
                 <MenuItem Header="Program Flow Control">
                     <MenuItem Click="Button_Click" Tag="#if 'condition§'Your code here§#end if" Header="Simple: if-end if"/>
@@ -780,7 +780,7 @@
                     <MenuItem Click="Button_Click" Tag="#def variable_name$§'content line 1§'content line 2§'...§#end def" Header="Multiline string variable"/>
                     <MenuItem Click="Button_Click" Tag="#def macro_name$(param1$; param2$) = content" Header="Inline macro"/>
                     <MenuItem Click="Button_Click" Tag="#def macro_name$(param1$; param2$)§'content line 1§'content line 2§'...§#end def" Header="Multiline macro"/>
-                    <MenuItem Click="Button_Click" Tag="#include filename" Header="Include external file"/>
+                    <MenuItem Click="Button_Click" Tag="#include filename.cpd" Header="Include external file"/>
                 </MenuItem>
                 <MenuItem Header="Html">
                     <MenuItem Click="Button_Click" Tag="&lt;h3&gt;|&lt;/h3&gt;" Header="Heading 3"/>
@@ -826,8 +826,8 @@
                     <MenuItem Click="Button_Click" Tag="#show" Header="#show" ToolTip="Always show the contents (default)"/>
                     <MenuItem Click="Button_Click" Tag="#pre"  Header="#pre"  ToolTip="Show the bellow contents only before calculations"/>
                     <MenuItem Click="Button_Click" Tag="#post" Header="#post" ToolTip="Show the bellow contents only after calculations"/>
-                    <MenuItem Click="Button_Click" Tag="#pause" Header="#pause" ToolTip="Pause the calculations"/>
-                    <MenuItem Click="Button_Click" Tag="#input" Header="#input" ToolTip="Switch to input mode to enter data interactively"/>
+                    <MenuItem Click="Button_Click" Tag="#pause" Header="#pause" ToolTip="Pause the calculations and wait"/>
+                    <MenuItem Click="Button_Click" Tag="#input" Header="#input" ToolTip="Pause the exeqution and display an input form"/>
                     <Separator/>
                     <MenuItem Click="Button_Click" Tag="#val"  Header="#val"  ToolTip="Show only the calculated values"/>
                     <MenuItem Click="Button_Click" Tag="#equ"  Header="#equ"  ToolTip="Show the complete equations (default)"/>
@@ -981,17 +981,17 @@
             </Separator.RenderTransform>
         </Separator>
         <TextBlock TextWrapping="Wrap" FontSize="11.5" Margin="0,12,426,0" TextAlignment="Left" Height="16" VerticalAlignment="Top" Text="Angles:" HorizontalAlignment="Right" Width="42" Foreground="#CF000000"/>
-        <RadioButton Checked="AngleRadioButton_Checked" x:Name="Deg" Content="D" GroupName="Angle" TabIndex="3" IsChecked="True" FontFamily="Microsoft Sans Serif" Padding="2,0,0,0" Margin="0,33,440,0" Height="16" VerticalAlignment="Top" HorizontalAlignment="Right" Width="30" FontSize="14" RenderTransformOrigin="0,0" ToolTip="DEG" FontWeight="Bold">
+        <RadioButton Checked="AngleRadioButton_Checked" x:Name="Deg" Content="D" GroupName="Angle" TabIndex="3" IsChecked="True" FontFamily="Microsoft Sans Serif" Padding="2,0,0,0" Margin="0,33,440,0" Height="16" VerticalAlignment="Top" HorizontalAlignment="Right" Width="30" FontSize="14" RenderTransformOrigin="0,0" ToolTip="Degrees" FontWeight="Bold">
             <RadioButton.RenderTransform>
                 <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
             </RadioButton.RenderTransform>
         </RadioButton>
-        <RadioButton Checked="AngleRadioButton_Checked" x:Name="Rad" Content="R" GroupName="Angle" TabIndex="4" FontFamily="Microsoft Sans Serif" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" Margin="0,33,410,0" HorizontalAlignment="Right" Width="30" FontSize="14" RenderTransformOrigin="0,0" ToolTip="RAD" FontWeight="Bold">
+        <RadioButton Checked="AngleRadioButton_Checked" x:Name="Rad" Content="R" GroupName="Angle" TabIndex="4" FontFamily="Microsoft Sans Serif" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" Margin="0,33,410,0" HorizontalAlignment="Right" Width="30" FontSize="14" RenderTransformOrigin="0,0" ToolTip="Radians" FontWeight="Bold">
             <RadioButton.RenderTransform>
                 <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
             </RadioButton.RenderTransform>
         </RadioButton>
-        <RadioButton Checked="AngleRadioButton_Checked" x:Name="Gra" Content="G" GroupName="Angle" TabIndex="5" FontFamily="Microsoft Sans Serif" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" Margin="0,33,380,0" HorizontalAlignment="Right" Width="30" FontSize="14" RenderTransformOrigin="0,0" ToolTip="GRA" FontWeight="Bold">
+        <RadioButton Checked="AngleRadioButton_Checked" x:Name="Gra" Content="G" GroupName="Angle" TabIndex="5" FontFamily="Microsoft Sans Serif" Height="16" VerticalAlignment="Top" Padding="2,0,0,0" Margin="0,33,380,0" HorizontalAlignment="Right" Width="30" FontSize="14" RenderTransformOrigin="0,0" ToolTip="Grades" FontWeight="Bold">
             <RadioButton.RenderTransform>
                 <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
             </RadioButton.RenderTransform>
@@ -1225,7 +1225,7 @@
                       Width="75" 
                       VerticalAlignment="Top" 
                       HorizontalAlignment="Right" 
-                      TabIndex="17" FontFamily="Segoe UI Semibold" >
+                      TabIndex="17" FontFamily="Segoe UI Semibold">
                 <ComboBoxItem Width="70" Content="Chrome" HorizontalAlignment="Left" IsSelected="True"/>
                 <ComboBoxItem Width="70" Content="MSEdge" HorizontalAlignment="Left"/>
                 <ComboBoxItem Width="70" Content="Firefox" HorizontalAlignment="Left"/>
@@ -1415,8 +1415,8 @@
                             Style="{StaticResource RoundButton}" FontSize="13" ToolTip="Find a root of equation f(x) = 0"
                             Width="56" FontWeight="Normal"/>
                         <Button Click="Button_Click" Content="Area" Tag="$Area{f(x) @ x = a : b}" Margin="449,91,0,0"
-                            Style="{StaticResource RoundButton}" FontSize="13" ToolTip="Numerical integration" Width="56" FontWeight="Normal"/>
-                        <Button Click="Button_Click" Content="Slope" Tag="$Slope{f(x) @ x = a}" Margin="507,91,0,0"
+                            Style="{StaticResource RoundButton}" FontSize="13" ToolTip="Numerical integration (Adaptive Gauss-Lobatto)" Width="56" FontWeight="Normal"/>
+                         <Button Click="Button_Click" Content="Slope" Tag="$Slope{f(x) @ x = a}" Margin="507,91,0,0"
                             Style="{StaticResource RoundButton}" FontSize="13" ToolTip="Numerical differentiation"
                             Width="56" FontWeight="Normal"/>
                         <Button Click="Button_Click" Content="Sup" Tag="$Sup{f(x) @ x = a : b}" Margin="449,61,0,0"
