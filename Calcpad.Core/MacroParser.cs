@@ -213,7 +213,8 @@ namespace Calcpad.Core
                     n = lineContent.Length;
 
                 var insertFileName = lineContent[8..n].Trim().ToString();
-                if (!File.Exists(insertFileName))
+                var fileExist = File.Exists(insertFileName);
+                if (!fileExist)
 #if BG
                     AppendError(lineContent.ToString(), "Файлът не е намерен.");
 #else
@@ -232,7 +233,8 @@ namespace Calcpad.Core
                             fields.Enqueue(item.Trim().ToString());
                     }
                 }
-                Parse(Include(insertFileName, fields), out _, sb, lineNumber);
+                if (fileExist)
+                    Parse(Include(insertFileName, fields), out _, sb, lineNumber);
             }
 
             void ParseDef(ReadOnlySpan<char> lineContent)
@@ -554,7 +556,7 @@ namespace Calcpad.Core
                 }
             }
             return count;
-        }
+        }   
 
         public static bool SetLineInputFields(string s, StringBuilder sb, Queue<string> fields, bool forceLine)
         {

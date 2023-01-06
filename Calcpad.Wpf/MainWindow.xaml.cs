@@ -2614,8 +2614,8 @@ namespace Calcpad.Wpf
             }
         }
 
-        private bool IsControlDown => (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
-        private bool IsAltDown => (Keyboard.Modifiers & ModifierKeys.Alt) == ModifierKeys.Alt;
+        private static bool IsControlDown => (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
+        private static bool IsAltDown => (Keyboard.Modifiers & ModifierKeys.Alt) == ModifierKeys.Alt;
 
         private void InvHypButton_Click(object sender, RoutedEventArgs e)
         {
