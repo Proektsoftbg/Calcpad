@@ -62,8 +62,14 @@ code .ovr {padding-top: 2pt; font-family="Consolas" font-size: 10pt;}
 .cond {color: magenta;}
 .macro {color: darkMagenta;}
 .err {color: red;}
-.toc {color: #888888; text-decoration:none;}
+.toc {color: #888888; text-decoration:none; font-size:10.5pt;}
 .toc:hover {text-decoration: underline; color: black;}
+.fold {height: 2.4em; overflow: hidden;}
+.unfold {height: auto; overflow: auto;}
+.fold > :first-child, .unfold > :first-child {cursor: pointer;}
+.fold > :first-child:hover, .unfold > :first-child:hover {color: #0066bb; text-decoration: underline;}
+.fold > :first-child::after {content: " ... ▼"; font-size: 80%;}
+.unfold > :first-child::after {content: " ▲"; font-size: 80%;}
 #Units{float:right; margin-top:12px;}
 input, select {
 	background-color:LightYellow; 
@@ -74,7 +80,7 @@ input, select {
 }
 .exp {
 	display: inline-block;
-	height: 12pt;
+	height: 13pt;
 	line-height: 80%;
 	font-size: 12pt;
 	font-weight: bold;
@@ -94,7 +100,7 @@ input, select {
 </head>
 <body>
 <ul class="menu">
-<li style="font-size:14pt; font-weight:bold; border-bottom: solid 1px; margin-bottom:18px;">Table Of Contents</li>
+<li style="font-size:13pt; font-weight:bold; border-bottom: solid 1px gray; padding-bottom:3px; margin-bottom:6px;">Table Of Contents</li>
 <li><a class="toc" href="#TOC_101">About Calcpad</a></li>
 <li><a class="toc" href="#TOC_102">Fields of application</a></li>
 <li><a class="toc" href="#TOC_103">Installation</a></li>
@@ -217,8 +223,7 @@ input, select {
 <p>This software is suitable for engineers and other professionals that need to perform repetitive calculations and present them in official documentation such as calculation notes. They can automate this task efficiently by creating powerful and reliable Calcpad worksheets. It can also help teachers to prepare calculation examples, papers, manuals, books etc. Students can use it to solve various problems, prepare homeworks, phd theses etc.</p>
 
 <h2 id="TOC_103">Installation</h2>
-<p>Installation is performed by the automated setup program <a target="_blank" href="https://calcpad.eu/download/calcpad-setup-en-x64.zip">calcpad-setup-en-x64.exe</a>. Follow the instruction of the setup wizard. The software requires a 64 bit computer with Windows 10 and <a  target="_blank" href="https://download.visualstudio.microsoft.com/download/pr/fe8415d4-8a35-4af9-80a5-51306a96282d/05f9b2a1b4884238e69468e49b3a5453/windowsdesktop-runtime-6.0.9-win-x64.exe
-" target="_blank">Microsoft .NET 6.0</a>.</p>
+<p>Installation is performed by the automated setup program <a target="_blank" href="https://calcpad.eu/download/calcpad-setup-en-x64.zip">calcpad-setup-en-x64.exe</a>. Follow the instruction of the setup wizard. The software requires a 64 bit computer with Windows 10 and <a  target="_blank" href="https://dotnet.microsoft.com/en-us/download/dotnet/7.0" target="_blank">Microsoft .NET 7.0</a>.</p>
 
 <h2 id="TOC_104">Licensing and terms of use</h2>
 <p>This software is free for both commercial and non-commercial use. It is distributed under the MIT license:</p>
@@ -507,7 +512,7 @@ If you redefine an existing variable with a new value, it will replace the old o
 <p>Arguments must be enclosed in round brackets. They can be constants, variables or any valid expression. Multiple arguments must be separated by semicolons ";". When arguments are out of range, the function returns "<span class="err">Undefined</span>". Exceptions from this rule are "<b>cot</b>(0)" and "<b>coth</b>(0)", which return "<span class="err">+∞</span>".</p>
 <p>Arguments of trigonometric functions can be in <b>degrees</b>, <b>radians</b> or <b>grades</b>. The units for angles can be specified in three different ways:</p>
 <p>1. By the radio buttons above the output window (<small>🔘</small><b>D</b>, <small>🔘</small><b>R</b>, <small>🔘</small><b>G</b>).</p>
-<p>2. By compiler switchces inside the code. You have to insert a separate line containing: <span class="cond">#deg</span> for degrees, <span class="cond">#rad</span> for radians or <span class="cond">#gra</span> for grades. This will affect all expressions after the current line to the end or until an alternative directive is found.</p>
+<p>2. By compiler switches inside the code. You have to insert a separate line containing: <span class="cond">#deg</span> for degrees, <span class="cond">#rad</span> for radians or <span class="cond">#gra</span> for grades. This will affect all expressions after the current line to the end or until an alternative directive is found.</p>
 <p>3. By attaching native units to the value itself: <i>deg</i>, <i>°</i>, <i>′</i>, <i>″</i>, <i>rad</i>, <i>grad</i>, <i>rev</i> (see the “Units” section, further in this manual).</p>
 <p>Native units are of highest priority, followed by compiler switches in source code. Both override radio buttons settings, which are of lowest priority.</p> 
 <p>All functions are also defined in the complex domain, except <b>min</b>(<var>x</var>; <var>y</var>) and <b>max</b>(<var>x</var>; <var>y</var>). Rounding functions affect both real and imaginary part. There are also several functions for complex numbers only:</p>
@@ -1115,7 +1120,8 @@ You can use it further to calculate binomial coefficients by the well-known form
 <i title="horsepower (electrical)">hpE</i>, 
 <i title="horsepower (boiler)">hpS</i>
 </ul>
-<p>Angle units are accepted in trigonometric functions and they override all other settings. Inverse trigonometric functions return unitless values by default. If you want them to return the result in the current units, you have to define a variable: <var>ReturnAngleUnits</var> = 1.</p>
+<p>Angle units are accepted by trigonometric functions and they override all other settings. Inverse trigonometric functions return unitless values by default. If you want them to return the result in the current units, you have to define a variable: <var>ReturnAngleUnits</var> = 1.</p>
+
 <h2 id="TOC_500">Reporting</h2>
 <p>All calculations are automatically collected into professionally formatted calculation report. You can print it or open it with MS Word for editing. Besides math expressions, you can add headings, comments, tables and images.</p>
 
@@ -1248,15 +1254,23 @@ You can use it further to calculate binomial coefficients by the well-known form
 <p><a href="http://www.w3schools.com/html/">http://www.w3schools.com/html/</a></p>
 <p><a href="http://www.w3schools.com/CSS/">http://www.w3schools.com/CSS/</a></p>
 <p>You can also use some of the many free WYSIWYG Html editors available on the Internet.</p>
+
 <h4>Content folding</h4>
 <p>If you have some long and detailed calculations, you can fold them optionally in the output. They will be hidden by default, except for the first line, which can be used for the section heading. All you need to do is to enclose the folding section into a  Html "<b>div</b>" element with class "<b>fold</b>", as follows:</p>
 <p>&emsp;&emsp;<code>'&lt;div class="fold"&gt;</code><br/>
+&emsp;&emsp;<code>'&lt;b&gt;Heading&lt;/b&gt; (click to unfold)</code><br/>
 &emsp;&emsp;<code>'Content to be folded</code><br/>
 &emsp;&emsp;<code>'&lt;/div&gt;</code></p>
+<p>The result will look as follows:</p>
+<div class="fold">
+	<p style="margin-left: 2em;"><b>Heading</b> (click to unfold)</p>
+	<p style="margin-left: 2em;">Content to be folded</p>
+</div>
+
 <h3 id="TOC_505">Images</h3>
 <p>Before inserting an image into Calcpad document, you need to have it already as a file. You can create it by some image editing software and save it to a *.png, *.gif or *.jpg file. You can use some freeware programs like Paint, Gimp, InkScape, DraftSight or others. Then you can insert it using Html. All you need to do is to put the following text at the required place, inside a comment:</p>
 <p style="margin-left: 2em;"><code>'&lt;img style="float:right" src="c:/Users/Me/Pictures/Picture1.png" alt="Picture1.png"&gt;</code></p>
-<p>Of course, instead of "<b>c:/Users/Me/Pictures/Picture1.png</b>" you must specify the actual path to your image. The file can be local, network or on the Internet. Always use forward slashes "<b>/</b>, even if the file is local. If the image is located in the same folder as the current worksheet, you can specify a relative path as follows: "<b>./Picture1.png</b>". The text <b>style="float:right;"</b> aligns the image to the right allowing the text to float at left. Otherwise, the image will become part of the text flow and will make it split. Alternatively, you can use <b>class="side"</b> for the same purpose.at:right"</b> text.</p>
+<p>Of course, instead of "<b>c:/Users/Me/Pictures/Picture1.png</b>" you must specify the actual path to your image. The file can be local, network or on the Internet. Always use forward slashes "<b>/</b>", even if the file is local. If the image is located in the same folder as the current worksheet, you can specify a relative path as follows: "<b>./Picture1.png</b>". The text <b>style="float:right;"</b> aligns the image to the right allowing the text to float at left. Otherwise, the image will become part of the text flow and will make it split. Alternatively to <b>style="float:right"</b>, you can use <b>class="side"</b> for the same purpose.</p>
 <p>You can also insert an image using the <img alt="Image" height="24" src="Images/Image.png"> button from the toolbar. You will be prompted to select a file. When you click "<b>Open</b>", the required record will be inserted at the beginning of the code. When you run the calculations, the picture will appear in the output window.</p>
 
 <h2 id="TOC_600">Programming</h2>
@@ -1277,8 +1291,9 @@ You can use it further to calculate binomial coefficients by the well-known form
 <p style="margin-left: 2em;">2 + ?</p>
 <p style="margin-left: 2em;">2 + <input type="text" size="2"></p>
 <p>Then, you can enter a value and calculate the result. This approach is not recommended for complicated problems, because the program logic gets unclear and difficult to understand.</p>
+
 <h4>Advanced UI with Html and CSS</h4>
-<p>Besides simple input boxes, you can use some advanced UI elements like "<b>select</b>" (combo box), "<b>radio</b>" buttons and "<b>checkboxes</b>" in your worksheets. Since all the output from Calcpad is rendered as an Html document, you can use Html and CSS for that purpose. However, Calcpad accepts input only from text boxes. That is why, it is important to map every other UI element to some text box. This is performed by enclosing the text box into an outer html element (paragraph or div) with a certain id. The same id must be assigned as a name or data-target attribute of the source UI element. Then, the content of the source element's value attribute will be automatically filled in the target text box. You can use the following sample code:</p>
+<p>Besides simple input boxes, you can use some advanced UI elements like "<b>select</b>" (combo box), "<b>radio</b>" buttons and "<b>checkboxes</b>" in your worksheets. Since all the output from Calcpad is rendered as an Html document, you can use Html and CSS for that purpose. However, Calcpad accepts input only from text boxes. That is why, it is required to map every other UI element to some text box. This is performed by enclosing the text box into an outer html element (paragraph or div) with a certain <b>id</b>. The same id must be assigned as a <b>name</b> or <b>data-target</b> attribute of the source UI element. Then, the content of the source element's value attribute will be automatically filled in the target text box. You can use the following sample code:</p>
 <p><b>Selection box:</b></p>
 <p>Code:</p>
 <pre>
@@ -1327,12 +1342,13 @@ You can use it further to calculate binomial coefficients by the well-known form
 <p>&emsp;&emsp;<input name="target3" type="checkbox" id="chk1" value="3"/> 
 <label for="chk1">Checkbox 1</label><br/>&emsp;&emsp;... </p>
 <p id="target3">&emsp;&emsp;<span class="eq"><var>chk</var> = <input type="text" size="2" name="Var" value="3">&#8202;</span> </p> 
-<p>Copy the above code, add as may options as you like and write your own labels and values. You can also change names and ids, but make sure that all source names matches exactly the target ids and no duplicate ids exist.</p>
+<p>As you can see from the first example, one "value" attribute can contain multiple values, separated by semicolons ";". In this case, you have to provide the respective number of text boxes in the target paragraph. You can copy the above code, add as many options as you like and write your own labels and values. You can also change names and ids, but make sure that all source names match exactly the target ids and no duplicate ids exist.</p>
+
 <h3 id="TOC_602">Output control</h3>
 <p>You can easily specify which parts of the code should be visible or hidden in the output. Unlike conditional execution, the hidden code is always calculated. It is just not displayed. The following keywords can be used for that purpose:</p>
 <ul style="list-style-type:none;">
 <li><span class="cond">#Hide</span> - hides the contents after the current line;</li>
-<li><span class="cond">#Pre</span> - shows the contents in "input" mode only (see ""<a href="#TOC_800">Input forms</a>" bellow);</li>
+<li><span class="cond">#Pre</span> - shows the contents in "input" mode only (see ""<a href="#TOC_601">Input forms</a>" bellow);</li>
 <li><span class="cond">#Post</span> - shows the contents in "output" mode and hides it in "input" mode;</li>
 <li><span class="cond">#Show</span> - always shows the contents (revoke all other keywords);</li>
 </ul>
@@ -1394,20 +1410,20 @@ You can use it further to calculate binomial coefficients by the well-known form
 <li style="margin-left: 2em;">You can have more code here</li>
 <li><code class="cond">#Loop</code></li>
 </ul>
-<p>You can omit the number of repetitions <var>n</var> only if you are sure that the condition will be satisfied and the loop will brake sooner or later. Anyway, to avoid infinite loop, the number of iterations is limited to 100 000 if nothing else is specified.</p>
+<p>You can use <code class="cond">#Continue</code> instead of <code class="cond">#Break</code>. The program will skip the remaining lines, return to the top of the conditional block and continue with the next iteration. You can omit the number of repetitions <var>n</var> only if you are sure that the condition will be satisfied and the loop will brake sooner or later. Anyway, to avoid infinite loop, the number of iterations is limited to 100 000 if nothing else is specified.</p>
 <p>Besides repetitive calculations, you can use loops to generate repetitive report content (like table rows). If you want to hide the iteration details, you can use output control directives (see the previous section). For example, you can enclose the "repeat-loop" block with <span class="cond">#Hide</span> and <span class="cond">#Show</span> statements.</p>
 
 <h3 id="TOC_605">Interactive (step-by-step) execution</h3>
-<p>You can make a Calcpad worksheet to execute interactively (step by step) by specifying "breakpoints" at certain lines. This will allow the user to review the intermediate results and enter some additional input data if needed. There are two special keywords that you can use for that purpose:</p>
+<p>You can make a Calcpad worksheet to execute interactively (step-by-step) by defining "breakpoints" at certain lines. It will allow the user to review the intermediate results and enter some additional input data if needed. There are two special keywords, you can use for that purpose:</p>
 <ul style="list-style-type:none;">
-<li><code class="cond">#Pause</code> - calculates to the current line, displays the results and waits for the user to resume;</li>
+<li><code class="cond">#Pause</code> - calculates down to the current line, displays the results and waits for the user to resume;</li>
 <li><code class="cond">#Input</code> - renders an input form to the current line and waits the user to enter data and resume.</li>
 </ul>
 <p>When the execution is paused, the program renders a message at the bottom of the report:</p>
 <p>&emsp;&emsp;<span class="err">Paused!</span> Press <b>F5</b> to <a href="#0" data-text="continue">continue</a> or <b>Esc</b> to <a href="#0" data-text="cancel">cancel</a>.</p>
-<p>You can resume the execution by either pressing <b>F5</b> or clicking the link or <img alt="Play" height="24" src="Images/Play.png"> button again. You can have several breakpoints in a single worksheet. In case of <code class="cond">#Input</code>, the previous section is calculated before the next input form is displayed. In this way, the calculations are chained as shown on the following example:</p>
+<p>You can resume the execution by pressing <b>F5</b>, clicking the link or the <img alt="Play" height="24" src="Images/Play.png"> button again. You can have several breakpoints in a single worksheet. WHen you use the <code class="cond">#Input</code> keyword, the previous section is calculated before the current input form is displayed. In this way, the stages of calculation overlap as shown in the following example:</p>
 <p><img alt="Interactive" height="360" src="Images/Interactive.png"></p>
-<p>Additionally, the user can press the "<b>Pause/Break</b>" from the keyboard or "<b>Ctrl + Alt + P</b>" any time. The execution will pause at the current line as if <code class="cond">#Pause</code> is detected.</p>
+<p>Additionally, the user can press "<b>Pause/Break</b>" or "<b>Ctrl + Alt + P</b>" any time from the keyboard to pause the execution. The execution will pause at the current line as if <code class="cond">#Pause</code> is detected.</p>
 
 <h3 id="TOC_606">Modules (include)</h3>
 <p>Calcpad allows you to include contents from external files in your worksheet. If you have pieces of code that is repeated in different worksheets, you can organize it in modules and reuse it multiple times. Also, if you have a longer worksheet, you can split it into modules that will be easier to maintain. Then, you can include them into the main file by using the following statement:</p>
@@ -1468,7 +1484,7 @@ You can use it further to calculate binomial coefficients by the well-known form
 <li>1000000∙<var>π</var> = 3141593</li>
 </ul>
 <p>Rounding affects only the way in which numbers are displayed in the output. Internally, all numbers are stored with the maximum possible precision. That is why, if you print the output and try to repeat the calculations with the numbers from the report, you probably will get some little differences. This is because you use the rounded values instead of the actual ones.</p>
-<p>You can override the global rounding inside a worksheet by using the <code class="cond">#Round</code> <var>n</var>, where <var>n</var> is the number of digits after the decimal point (from "0" to "15").</p>
+<p>You can override the global rounding inside a worksheet by using the <code class="cond">#Round</code> <var>n</var> keyword, where <var>n</var> is the number of digits after the decimal point (from "0" to "15").</p>
 
 <h3 id="TOC_703">Formatting</h3>
 <p>Calcpad does not simply calculate formulas. It also builds a professional looking report out of your source code. It uses Html to format the output. It is widely recognized and allows you to publish your calculations in the web. You can select between two different styles for equation formatting: "<b>professional</b>" and "<b>inline</b>". The professional style uses division bar, large and small brackets, radical, etc. Numerator and denominator are displayed one above the other. The inline style uses slash for displaying division and all symbols are arranged into a single line. The following formatting rules are applied:</p>
@@ -1566,7 +1582,7 @@ You can use it further to calculate binomial coefficients by the well-known form
 <h3 id="TOC_804">Save As…</h3>
 <p>If you need to save the current file with a different name, select the "<b>File/Save As…</b>" menu command. A file selection dialog will be displayed. Select file path and name and click "<b>Save</b>"</p>
 <hr />
-<p>Last edited on 05.01.2023 by eng. Nedelcho Ganchovski.</p>
+<p>Last edited on 07.01.2023 by eng. Nedelcho Ganchovski.</p>
 </div>
 <script src="jquery-3.4.1.min.js"></script>
 <script>
