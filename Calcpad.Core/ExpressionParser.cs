@@ -233,37 +233,9 @@ namespace Calcpad.Core
                     else if (keyword == Keyword.Post)
                         isVisible = calculate;
                     else if (keyword == Keyword.Input)
-                    {
-                        _previousKeyword = Keyword.Input;
-                        if (calculate)
-                        {
-                            _startLine = line + 1;
-                            _pauseCharCount = _sb.Length;
-                            calculate = false;
-                            return KeywordResult.Continue;
-                        }
-                        return KeywordResult.Break;
-                    }
+                        return ParseKeywordInput();
                     else if (keyword == Keyword.Pause)
-                    {
-                        if (calculate || _startLine > 0)
-                        {
-                            if (calculate)
-                            {
-                                if (_isPausedByUser)
-                                    _startLine = line;
-                                else
-                                    _startLine = line + 1;
-                            }
-                            
-                            if (_previousKeyword != Keyword.Input)                         
-                                _pauseCharCount = _sb.Length;
-                            
-                            _previousKeyword = Keyword.Pause;
-                            _isPausedByUser = false;
-                            return KeywordResult.Break;
-                        }
-                    }
+                        return ParseKeywordPause();
                     else if (keyword == Keyword.Val)
                         _isVal = 1;
                     else if (keyword == Keyword.Equ)
@@ -293,6 +265,45 @@ namespace Calcpad.Core
                         return KeywordResult.None;
 
                     return KeywordResult.Continue;
+                }
+                return KeywordResult.None;
+            }
+
+            KeywordResult ParseKeywordInput()
+            {
+                if (_condition.IsSatisfied)
+                {
+                    _previousKeyword = Keyword.Input;
+                    if (calculate)
+                    {
+                        _startLine = line + 1;
+                        _pauseCharCount = _sb.Length;
+                        calculate = false;
+                        return KeywordResult.Continue;
+                    }
+                    return KeywordResult.Break;
+                }
+                return KeywordResult.None;
+            }
+
+            KeywordResult ParseKeywordPause()
+            {
+                if (_condition.IsSatisfied && (calculate || _startLine > 0))
+                {
+                    if (calculate)
+                    {
+                        if (_isPausedByUser)
+                            _startLine = line;
+                        else
+                            _startLine = line + 1;
+                    }
+
+                    if (_previousKeyword != Keyword.Input)
+                        _pauseCharCount = _sb.Length;
+
+                    _previousKeyword = Keyword.Pause;
+                    _isPausedByUser = false;
+                    return KeywordResult.Break;
                 }
                 return KeywordResult.None;
             }
