@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace Calcpad.Core
 {
@@ -119,19 +120,19 @@ namespace Calcpad.Core
                 return false;
             }
 
-            internal Value Calculate(Value[] parameters)
+            internal Value Calculate(Value[] arguments)
             {
-                var len = parameters.Length;
+                var len = arguments.Length;
                 if (len == 1)
                 {
                     if (_cache?.Count >= MaxCacheSize)
                         _cache.Clear();
-                    ref var v = ref parameters[0];
-                    if (!_cache.TryGetValue(v, out var z))
+                    ref var v = ref arguments[0];
+                    ref var z = ref CollectionsMarshal.GetValueRefOrAddDefault(_cache, v, out bool result);
+                    if (!result)
                     {
                         _parameters[0].SetValue(v);
                         z = Function();
-                        _cache.Add(v, z);
                     }
                     return z;
                 }
@@ -139,18 +140,18 @@ namespace Calcpad.Core
                 {
                     if (_cache2?.Count >= MaxCacheSize)
                         _cache2.Clear();
-                    Tuple args = new(parameters[0], parameters[1]);
-                    if (!_cache2.TryGetValue(args, out var z))
+                    Tuple args = new(arguments[0], arguments[1]);
+                    ref var z = ref CollectionsMarshal.GetValueRefOrAddDefault(_cache2, args, out bool result);
+                    if (!result)
                     {
-                        _parameters[0].SetValue(parameters[0]);
-                        _parameters[1].SetValue(parameters[1]);
+                        _parameters[0].SetValue(arguments[0]);
+                        _parameters[1].SetValue(arguments[1]);
                         z = Function();
-                        _cache2.Add(args, z);
                     }
                     return z;
                 }
                 for (int i = 0; i < len; ++i)
-                    _parameters[i].SetValue(parameters[i]);
+                    _parameters[i].SetValue(arguments[i]);
 
                 return Function();
             }
