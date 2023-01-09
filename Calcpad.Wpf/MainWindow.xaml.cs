@@ -1652,9 +1652,10 @@ namespace Calcpad.Wpf
                     _document.Blocks.Add(p);
                 }
             }
+            pointerParagraph ??= (Paragraph)_document.Blocks.FirstBlock;
             _currentParagraph = pointerParagraph;
             HighLighter.Clear(_currentParagraph);
-            if (offset >= 0)
+            if (offset >= 0 && pointerParagraph is not null)
             {
                 pointer = FindPositionAtOffset(pointerParagraph, offset);
                 RichTextBox.Selection.Select(pointer, pointer);
