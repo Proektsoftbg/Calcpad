@@ -159,7 +159,7 @@ namespace Calcpad.Core
                 if (macroDefCount > 0)
                 {
 #if BG
-                    stringBuilder.Append($"#Грешка: Незатворена дефиниция на макрос. Липсва \"#end def\".");
+                    sb.Append($"#Грешка: Незатворена дефиниция на макрос. Липсва \"#end def\".");
 #else
                     sb.Append($"#Error: Macro definition block not closed. Missing \"#end def\".");
 #endif
@@ -205,7 +205,7 @@ namespace Calcpad.Core
                     AppendError(lineContent.ToString(), $"Missing source file for include.");
 #endif
                 n = lineContent.IndexOfAny('\'', '"');
-                var nf1 = lineContent.LastIndexOf('{');
+                var nf1 = lineContent.LastIndexOf('#');
                 if (n < 9 || nf1 > 0 && nf1 < n)
                     n = nf1;
 
@@ -310,7 +310,7 @@ namespace Calcpad.Core
                             macroName = textSpan.ToString();
 
 #if BG
-                            AppendError($"Невалидно име на макрос: \"{macroName}\".");
+                            AppendError(lineContent.ToString(), $"Невалидно име на макрос: \"{macroName}\".");
 #else
                             AppendError(lineContent.ToString(), $"Invalid macro name: \"{macroName}\".");
 #endif
