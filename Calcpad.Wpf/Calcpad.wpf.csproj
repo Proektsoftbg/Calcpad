@@ -11,7 +11,7 @@
     <Authors>Nedelcho Ganchovski</Authors>
     <RootNamespace>Calcpad.Wpf</RootNamespace>
     <Platforms>AnyCPU</Platforms>
-		<Version>5.9.1</Version>
+		<Version>5.9.2</Version>
 		<Authors>Nedelcho Ganchovski</Authors>
 		<Company>Proektsoft EOOD</Company>
     <PackageId>Calcpad</PackageId>
@@ -32,17 +32,7 @@
 		<Optimize>false</Optimize>
     <WarningLevel>0</WarningLevel>
   </PropertyGroup>
-	
-  <ItemGroup>
-    <Compile Remove="KeyboardHook.cs" />
-  </ItemGroup>
-	
-  <ItemGroup>
-    <None Remove="find.png" />
-    <None Remove="resources\find.png" />
-    <None Remove="resources\search.png" />
-  </ItemGroup>
-	
+
   <ItemGroup>
     <COMReference Include="SHDocVw">
       <WrapperTool>tlbimp</WrapperTool>
@@ -62,23 +52,15 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\Calcpad.core\Calcpad.Core.csproj">
-      <Private></Private>
-      <CopyLocalSatelliteAssemblies></CopyLocalSatelliteAssemblies>
-    </ProjectReference>
-    <ProjectReference Include="..\Calcpad.OpenXml\Calcpad.OpenXml.csproj">
-      <Private></Private>
-      <CopyLocalSatelliteAssemblies></CopyLocalSatelliteAssemblies>
-    </ProjectReference>
+    <ProjectReference Include="..\Calcpad.core\Calcpad.Core.csproj" />
+    <ProjectReference Include="..\Calcpad.OpenXml\Calcpad.OpenXml.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="resources\calc.png" />
     <Resource Include="resources\Calcpad.ico" />
     <Resource Include="resources\copy.png" />
-    <Resource Include="resources\find.png">
-      <CopyToOutputDirectory></CopyToOutputDirectory>
-    </Resource>
+    <Resource Include="resources\find.png" />
     <Resource Include="resources\form.png" />
     <Resource Include="resources\help.png" />
     <Resource Include="resources\image.png" />

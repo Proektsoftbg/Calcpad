@@ -405,7 +405,15 @@ namespace Calcpad.Wpf
                 else if (_state.TextComment != '\0')
                     ParseTagInComment(c);
                 else if (_state.CurrentType == Types.Include)
+                {
+                    if (c == '#')
+                    {
+                        Append(Types.Include);
+                        _state.CurrentType = Types.Bracket;
+                    }
+
                     _builder.Append(c);
+                }
                 else if (c == '$' && _builder.Length > 0)
                     ParseMacro();
                 else if (Validator.IsWhiteSpace(c))
@@ -463,7 +471,7 @@ namespace Calcpad.Wpf
                 {
                     _builder.Append(text[++i..]);
 #if BG
-                        _state.Message = $"Очаква се край на ред.";
+                    _state.Message = $"Очаква се край на ред.";
 #else
                     _state.Message = $"End of line expected.";
 #endif
@@ -908,7 +916,10 @@ namespace Calcpad.Wpf
                 return;
 
             if (t == Types.Include)
+            {
+                s = s.Trim();
                 t = AppendInclude(s);
+            }
             else if (t == Types.Operator)
             {
                 s = FormatOperator(s);
@@ -948,10 +959,9 @@ namespace Calcpad.Wpf
 
         private Types AppendInclude(string s)
         {
-            var sourceFlieName = s.Trim();
-            if (File.Exists(sourceFlieName))
+            if (File.Exists(s))
             {
-                var sourceCode = UserDefined.Include(sourceFlieName, null);
+                var sourceCode = UserDefined.Include(s, null);
                 _state.Message = GetPartialSource(sourceCode);
                 return Types.Include;
             }

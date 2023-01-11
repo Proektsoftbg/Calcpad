@@ -89,11 +89,15 @@ namespace Calcpad.Wpf
 
         internal static string GetFileName(ReadOnlySpan<char> s)
         {
-            int n = s.Length;
+            var n = s.Length;
             if (n < 9)
                 return null;
 
             n = s.IndexOfAny('\'', '"');
+            var n1 = s.LastIndexOf('#');
+            if (n < 9 || n1 > 0 && n1 < n)
+                n = n1;
+
             if (n < 9)
                 n = s.Length;
 
