@@ -166,7 +166,7 @@ namespace Calcpad.Core
         }
 
 
-        protected static int GetRoot(Value root)
+        protected static int GetRoot(in Value root)
         {
             if (root.Units is not null)
 #if BG

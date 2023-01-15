@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using static Calcpad.Core.MathParser;
 
 namespace Calcpad.Core
@@ -438,20 +439,43 @@ namespace Calcpad.Core
             var hasUnits = units is not null;
             n1++;
             Units = null;
+            var n3 = (int)((n2 - n1) / 5.0);
+            if (n3 > 200)
+            {
+                n3 = n1 + 5 * n3;
+                for (int i = n1; i <= n3; i += 5)
+                {
+                    number += Fd(i) + Fd(i + 1) + Fd(i + 2) + Fd(i + 3) + Fd(i + 4);
+                    if (hasUnits)
+                        CheckUnits(units);
+
+                    if (double.IsInfinity(number))
+                        break;
+                }
+                n1 = n3 + 1;
+            }
             for (int i = n1; i <= n2; ++i)
             {
                 number += Fd(i);
-                if (hasUnits && !Unit.IsConsistent(units, Units))
-#if BG
-                    throw new MathParserException($"Несъвместими мерни единици в $Sum: \"{Unit.GetText(units)}\" и \"{Unit.GetText(Units)}\".");
-#else
-                    throw new MathParserException($"Inconsistent units in $Sum: \"{Unit.GetText(units)}\" and \"{Unit.GetText(Units)}\".");
-#endif
+                if (hasUnits)
+                    CheckUnits(units);
+
                 if (double.IsInfinity(number))
                     break;
             }
             Units = units;
             return number;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void CheckUnits(Unit units)
+        {
+            if(!Unit.IsConsistent(units, Units))
+#if BG
+                    throw new MathParserException($"Несъвместими мерни единици в $Sum: \"{Unit.GetText(units)}\" и \"{Unit.GetText(Units)}\".");
+#else
+                    throw new MathParserException($"Inconsistent units in $Sum: \"{Unit.GetText(units)}\" and \"{Unit.GetText(Units)}\".");
+#endif
         }
 
         internal double Product(double start, double end)

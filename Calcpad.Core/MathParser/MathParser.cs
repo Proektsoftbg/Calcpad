@@ -306,12 +306,12 @@ namespace Calcpad.Core
                 if (t.Type == TokenTypes.Variable)
                     foreach (var p in parameters)
                     {
-                        if (p is null)
-                            break;
+                        //if (p is null)
+                        //    break;
 
                         if (t.Content == p.Name)
                         {
-                            ((VariableToken)t).Variable = p;
+                            ((VariableToken)t).Variable = p.Variable;
                             break;
                         }
                     }

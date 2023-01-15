@@ -147,7 +147,7 @@ namespace Calcpad.Core
         internal abstract string FormatPower(string sa, string sb, int level, int order);
         internal abstract string FormatDivision(string sa, string sb, int level);
         internal abstract string FormatNary(string symbol, string sub, string sup, string expr); //Integral, sum, product
-        internal abstract string FormatValue(Value v, int decimals);
+        internal abstract string FormatValue(in Value v, int decimals);
         internal abstract string AddBrackets(string s, int level = 0);
         internal abstract string FormatAbs(string s, int level = 0);
         internal abstract string FormatReal(double d, int decimals);
@@ -280,7 +280,7 @@ namespace Calcpad.Core
         internal override string FormatPower(string sa, string sb, int level, int order) => sa + '^' + sb;
         internal override string FormatDivision(string sa, string sb, int level) => sa + '/' + sb;
 
-        internal override string FormatValue(Value v, int decimals)
+        internal override string FormatValue(in Value v, int decimals)
         {
             var s = FormatComplex(v.Re, v.Im, decimals);
             if (v.Units is not null)
@@ -435,7 +435,7 @@ namespace Calcpad.Core
         internal override string FormatNary(string symbol, string sub, string sup, string expr) =>
             $"<span class=\"dvr\"><small>{sup}</small><span class=\"nary\">{symbol}</span><small>{sub}</small></span>{expr}";
 
-        internal override string FormatValue(Value v, int decimals)
+        internal override string FormatValue(in Value v, int decimals)
         {
             var s = FormatComplex(v.Re, v.Im, decimals);
             if (v.Units is null)
@@ -572,7 +572,7 @@ namespace Calcpad.Core
             return $"<m:nary>{sProp}{sSubSup}{sExpr}</m:nary>";
         }
 
-        internal override string FormatValue(Value v, int decimals)
+        internal override string FormatValue(in Value v, int decimals)
         {
             var s = FormatComplex(v.Re, v.Im, decimals);
             if (v.Units is null)

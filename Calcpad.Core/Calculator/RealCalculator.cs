@@ -463,7 +463,7 @@ namespace Calcpad.Core
             return new(Math.Pow(result, 1.0 / v.Length), u);
         }
 
-        private static double FromAngleUnits(Value value)
+        private static double FromAngleUnits(in Value value)
         {
             if (value.Units is null)
                 return value.Re * _toRad[_degrees];

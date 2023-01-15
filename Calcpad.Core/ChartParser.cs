@@ -53,7 +53,6 @@ namespace Calcpad.Core
                 var charts = input[0].Split('&');
                 input[1] = input[1].Trim();
                 Parameter[] parameters = { new(input[1]) };
-                parameters[0].SetValue(Value.Zero);
                 var count = charts.Length;
                 _fx = new Func<Value>[count];
                 _fy = new Func<Value>[count];
@@ -98,7 +97,7 @@ namespace Calcpad.Core
                     right *= factor;
                 }
                 Parser.CompileBlocks();
-                result = GetHtmlImage(parameters[0], left, right, leftUnits);
+                result = GetHtmlImage(parameters[0].Variable, left, right, leftUnits);
             }
             else
                 result = GetHtmlText(input);

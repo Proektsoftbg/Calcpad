@@ -8,14 +8,14 @@ namespace Calcpad.Core
         internal event Action OnChange;
         public Value Value;
         internal bool IsInitialized => _isIntialised;
-        protected bool _isIntialised;
+        private bool _isIntialised;
         internal Variable(in Value value)
         {
             Value = value;
             _isIntialised = true;
         }
         internal Variable(in Complex number) : this(new Value(number)) { }
-        internal Variable() { }
+        public Variable() { }
         internal void SetNumber(in Complex number) => Value = new Value(number, Value.Units);
         internal void SetNumber(double number) => Value = new Value(number, Value.Units);
         internal void SetUnits(Unit units)
@@ -42,16 +42,6 @@ namespace Calcpad.Core
         internal void SetValue(double number, Unit units)
         {
             Value = new Value(number, units);
-            _isIntialised = true;
-        }
-    }
-
-    internal class Parameter : Variable
-    {
-        internal string Name;
-        internal Parameter(in string name)
-        {
-            Name = string.Intern(name);
             _isIntialised = true;
         }
     }
