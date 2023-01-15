@@ -8,17 +8,10 @@ namespace Calcpad.Core
     internal class Unit : IEquatable<Unit>
     {
         private static readonly char[] CompositeUnitChars = { '/', '*', '×', '^' };
-        private struct Dimension
-        {
-            internal float Power;
-            internal double Factor;
-
-            internal bool Equals(Dimension other) =>
-                Power == other.Power && Factor == other.Factor;
-        }
-        private string _text = string.Empty;
+        private string _text;
         private int _hashCode;
-        private readonly Dimension[] _dims;
+        private readonly float[] _powers;
+        private readonly double[] _factors;
 
         private static bool _isUs;
         private static readonly string[] Names = { "g", "m", "s", "A", "°C", "mol", "cd", "°" };
@@ -62,35 +55,35 @@ namespace Calcpad.Core
             }
         }
 
-        internal bool IsForce => _dims.Length == 3 &&
-                                 _dims[0].Power == 1f &&
-                                 _dims[2].Power == -2f &&
+        internal bool IsForce => _powers.Length == 3 &&
+                                 _powers[0] == 1f &&
+                                 _powers[2] == -2f &&
                                  (string.IsNullOrEmpty(_text) || _text.Contains('s'));
 
-        internal bool IsElectrical => _dims.Length == 4 &&
-                                      _dims[3].Power != 0 ||
-                                      _dims.Length == 3 &&
-                                      _dims[2].Power == -3 && //1,  2, -3
-                                      _dims[1].Power == 2 &&
-                                      _dims[0].Power == 1;
+        internal bool IsElectrical => _powers.Length == 4 &&
+                                      _powers[3] != 0 ||
+                                      _powers.Length == 3 &&
+                                      _powers[2] == -3 && //1,  2, -3
+                                      _powers[1] == 2 &&
+                                      _powers[0] == 1;
 
-        internal bool IsTemp => _dims.Length == 5 &&
-                                _dims[4].Power == 1f &&
-                                _dims[0].Power == 0f &&
-                                _dims[1].Power == 0f &&
-                                _dims[2].Power == 0f &&
-                                _dims[3].Power == 0f;
+        internal bool IsTemp => _powers.Length == 5 &&
+                                _powers[4] == 1f &&
+                                _powers[0] == 0f &&
+                                _powers[1] == 0f &&
+                                _powers[2] == 0f &&
+                                _powers[3] == 0f;
 
-        internal bool IsAngle => _dims.Length == 0 ||
-                                 _dims.Length > 6 &&
-                                 _dims[0].Power == 0f &&
-                                 _dims[1].Power == 0f &&
-                                 _dims[2].Power == 0f &&
-                                 _dims[3].Power == 0f &&
-                                 _dims[4].Power == 0f &&
-                                 _dims[5].Power == 0f &&
-                                 _dims[6].Power == 0f &&
-                                 _dims[7].Power == 1f;
+        internal bool IsAngle => _powers.Length == 0 ||
+                                 _powers.Length > 6 &&
+                                 _powers[0] == 0f &&
+                                 _powers[1] == 0f &&
+                                 _powers[2] == 0f &&
+                                 _powers[3] == 0f &&
+                                 _powers[4] == 0f &&
+                                 _powers[5] == 0f &&
+                                 _powers[6] == 0f &&
+                                 _powers[7] == 1f;
 
         internal string Text
         {
@@ -133,10 +126,10 @@ namespace Calcpad.Core
             if (_hashCode == 0)
             {
                 var hash = new HashCode();
-                for (int i = 0, n = _dims.Length; i < n; ++i)
+                for (int i = 0, n = _powers.Length; i < n; ++i)
                 {
-                    hash.Add(_dims[i].Power);
-                    hash.Add(_dims[i].Factor);
+                    hash.Add(_powers[i]);
+                    hash.Add(_factors[i]);
                 }
                 _hashCode = hash.ToHashCode();
             }
@@ -156,12 +149,13 @@ namespace Calcpad.Core
             if (other is null)
                 return false;
 
-            int n = _dims.Length;
-            if (n != other._dims.Length)
+            int n = _powers.Length;
+            if (n != other._powers.Length)
                 return false;
 
             for (int i = 0; i < n; ++i)
-                if (!_dims[i].Equals(other._dims[i]))
+                if (_powers[i] != other._powers[i] || 
+                    _factors[i] != other._factors[i])
                     return false;
 
             return true;
@@ -169,13 +163,8 @@ namespace Calcpad.Core
 
         internal Unit(int n)
         {
-            _dims = new Dimension[n];
-            if (n == 0)
-                return;
-
-            _dims[0].Factor = 1000d;
-            for (int i = 1; i < n; ++i)
-                _dims[i].Factor = 1d;
+            _powers = new float[n];
+            _factors = new double[n];
         }
 
         internal static Unit Get(string text) => Units[text];
@@ -211,33 +200,33 @@ namespace Calcpad.Core
             else
                 n = 1;
 
-            _dims = new Dimension[n];
-            _dims[0].Factor = 1000d;
-            for (int i = 1; i < n; ++i)
-                _dims[i].Factor = 1d;
+            _factors = new double[n];
+            _factors[0] = 1000d;
+            Array.Fill(_factors, 1d, 1, n - 1);
 
-            _dims[0].Power = mass;
+            _powers = new float[n];
+            _powers[0] = mass;
             if (n > 1)
             {
-                _dims[1].Power = length;
+                _powers[1] = length;
                 if (n > 2)
                 {
-                    _dims[2].Power = time;
+                    _powers[2] = time;
                     if (n > 3)
                     {
-                        _dims[3].Power = current;
+                        _powers[3] = current;
                         if (n > 4)
                         {
-                            _dims[4].Power = temp;
+                            _powers[4] = temp;
                             if (n > 5)
                             {
-                                _dims[5].Power = substance;
+                                _powers[5] = substance;
                                 {
                                     if (n > 6)
                                     {
-                                        _dims[6].Power = luminosity;
+                                        _powers[6] = luminosity;
                                         if (n > 7)
-                                            _dims[7].Power = angle;
+                                            _powers[7] = angle;
                                     }
                                 }
                             }
@@ -251,9 +240,11 @@ namespace Calcpad.Core
         {
             _text = u._text;
             _hashCode = u._hashCode;
-            var n = u._dims.Length;
-            _dims = new Dimension[n];
-            Array.Copy(u._dims, _dims, n);
+            var n = u._powers.Length;
+            _powers = new float[n];
+            Array.Copy(u._powers, _powers, n);
+            _factors = new double[n];
+            Array.Copy(u._factors, _factors, n);
         }
 
         private static string TemperatureToDelta(string s)
@@ -745,13 +736,13 @@ namespace Calcpad.Core
 
         internal void Scale(double factor)
         {
-            for (int i = 0, n = _dims.Length; i < n; ++i)
+            for (int i = 0, n = _powers.Length; i < n; ++i)
             {
-                ref var dim = ref _dims[i];
-                if (dim.Power != 0f)
+                ref var pow = ref _powers[i];   
+                if (pow != 0f)
                 {
-                    dim.Factor *= Math.Pow(factor, 1d / dim.Power);
-                    break;
+                    _factors[i] *= Math.Pow(factor, 1d / pow);
+                    return;
                 }
             }
         }
@@ -777,13 +768,13 @@ namespace Calcpad.Core
             };
             var stringBuilder = new StringBuilder(50);
             var isFirst = true;
-            for (int i = 0, n = _dims.Length; i < n; ++i)
+            for (int i = 0, n = _powers.Length; i < n; ++i)
             {
-                ref var dim = ref _dims[i];
-                if (dim.Power != 0f)
+                ref var pow = ref _powers[i];
+                if (pow != 0f)
                 {
-                    var p = isFirst ? dim.Power : Math.Abs(dim.Power);
-                    var s = GetDimText(writer, Names[i], dim.Factor, p);
+                    var p = isFirst ? pow : Math.Abs(pow);
+                    var s = GetDimText(writer, Names[i], _factors[i], p);
                     if (i == 4 && stringBuilder.Length > 0)
                         s = TemperatureToDelta(s);
 
@@ -791,7 +782,7 @@ namespace Calcpad.Core
                         isFirst = false;
                     else
                     {
-                        var oper = dim.Power > 0f ? '·' : '/';
+                        var oper = pow > 0f ? '·' : '/';
                         if (format == OutputWriter.OutputFormat.Xml)
                             stringBuilder.Append($"<m:r><m:t>{oper}</m:t></m:r>");
                         else
@@ -806,15 +797,7 @@ namespace Calcpad.Core
         public static Unit operator *(Unit u, double d)
         {
             var unit = new Unit(u);
-            for (int i = 0, n = unit._dims.Length; i < n; ++i)
-            {
-                ref var dim = ref unit._dims[i];
-                if (dim.Power != 0f)
-                {
-                    dim.Factor *= Math.Pow(d, 1d / dim.Power);
-                    break;
-                }
-            }
+            unit.Scale(d);
             return unit;
         }
 
@@ -826,17 +809,16 @@ namespace Calcpad.Core
 
         private static Unit MultiplyOrDivide(Unit u1, Unit u2, bool divide = false)
         {
-            var n1 = u1._dims.Length;
-            var n2 = u2._dims.Length;
+            var n1 = u1._powers.Length;
+            var n2 = u2._powers.Length;
             var n = n1 > n2 ? n1 : n2;
-            float p1, p2;
             if (n1 == n2)
             {
                 while (n > 0)
                 {
                     var i = n - 1;
-                    p1 = u1._dims[i].Power;
-                    p2 = u2._dims[i].Power;
+                    ref var p1 = ref u1._powers[i];
+                    ref var p2 = ref u2._powers[i];
                     if (p1 != (divide ? p2 : -p2))
                         break;
 
@@ -845,39 +827,56 @@ namespace Calcpad.Core
                 if (n == 0)
                     return null;
             }
-
-
             Unit unit = new(n);
-            for (int i = 0; i < n; ++i)
+            if (n1 > n) n1 = n;
+            if (n2 > n) n2 = n;
+            for (int i = 0; i < n1; ++i)
             {
-                p1 = i < n1 ? u1._dims[i].Power : 0f;
-                p2 = i < n2 ? u2._dims[i].Power : 0f;
-                ref var dim = ref unit._dims[i];
-                dim.Factor =
-                    p1 != 0f ?
-                    u1._dims[i].Factor :
-                    p2 != 0f ?
-                    u2._dims[i].Factor :
-                    1f;
-                dim.Power = divide ? p1 - p2 : p1 + p2;
+                ref var p1 = ref u1._powers[i];
+                if (i < n2)
+                {
+                    ref var p2 = ref u2._powers[i];
+                    if (p1 != 0f)
+                    {
+                        unit._factors[i] = u1._factors[i];
+                        unit._powers[i] = divide ? p1 - p2 : p1 + p2;
+                    }
+                    else if (p2 != 0)
+                    {
+                        unit._factors[i] = u2._factors[i];
+                        unit._powers[i] = divide ? -p2 : p2;
+                    }
+                    else
+                        unit._factors[i] = 1f;
+                }
+                else
+                {
+                    unit._factors[i] = p1 != 0f ? u1._factors[i] : 1f;
+                    unit._powers[i] =p1;
+                }
+            }
+            for (int i = n1; i < n2; ++i)
+            {
+                unit._factors[i] = u2._factors[i];
+                unit._powers[i] = divide ? -u2._powers[i] : u2._powers[i];
             }
             return unit;
         }
 
         internal static double GetProductOrDivisionFactor(Unit u1, Unit u2, bool divide = false)
         {
-            var n1 = u1._dims.Length;
-            var n2 = u2._dims.Length;
+            var n1 = u1._powers.Length;
+            var n2 = u2._powers.Length;
             var n = n1 < n2 ? n1 : n2;
             var factor = 1d;
             for (int i = 0; i < n; ++i)
             {
-                var p2 = u2._dims[i].Power;
-                if (u1._dims[i].Power != 0f && p2 != 0f && u1._dims[i].Factor != u2._dims[i].Factor)
+                ref var p2 = ref u2._powers[i];
+                if (u1._powers[i] != 0f && p2 != 0f && u1._factors[i] != u2._factors[i])
                 {
                     var d = divide ?
-                        u1._dims[i].Factor / u2._dims[i].Factor :
-                        u2._dims[i].Factor / u1._dims[i].Factor;
+                        u1._factors[i] / u2._factors[i]:
+                        u2._factors[i] / u1._factors[i];
 
                     factor *= MyPow(d, p2);
                 }
@@ -887,6 +886,10 @@ namespace Calcpad.Core
 
         private static double MyPow(double x, float y) => y switch
         {
+            -3f => 1f / (x * x * x),
+            -2f => 1f / (x * x),
+            -1f => 1f / x,
+            0f => 1f,
             1f => x,
             2f => x * x,
             3f => x * x * x,
@@ -900,14 +903,12 @@ namespace Calcpad.Core
         internal Unit Pow(double x)
         {
             var f = (float)x;
-            var n = _dims.Length;
+            var n = _powers.Length;
             Unit unit = new(n);
             for (int i = 0; i < n; ++i)
             {
-                ref var dim = ref unit._dims[i];
-                ref var _dim = ref _dims[i];
-                dim.Factor = _dim.Factor;
-                dim.Power = _dim.Power * f;
+                unit._powers[i] = _powers[i] * f;
+                unit._factors[i] = _factors[i];
             }
             return unit;
         }
@@ -920,12 +921,12 @@ namespace Calcpad.Core
             if (other is null)
                 return false;
 
-            var n = _dims.Length;
-            if (n != other._dims.Length)
+            var n = _powers.Length;
+            if (n != other._powers.Length)
                 return false;
 
             for (int i = 0; i < n; ++i)
-                if (_dims[i].Power != other._dims[i].Power)
+                if (_powers[i] != other._powers[i])
                     return false;
 
             return true;
@@ -936,15 +937,15 @@ namespace Calcpad.Core
             if (ReferenceEquals(this, other))
                 return true;
 
-            var n = _dims.Length;
-            if (n != other._dims.Length)
+            var n = _powers.Length;
+            if (n != other._powers.Length)
                 return false;
 
             double? d1 = null;
             for (int i = 0; i < n; ++i)
             {
-                ref var p1 = ref _dims[i].Power;
-                ref var p2 = ref other._dims[i].Power;
+                ref var p1 = ref _powers[i];
+                ref var p2 = ref other._powers[i];
                 if (p1 != p2)
                 {
                     if (p1 == 0f || p2 == 0f)
@@ -966,23 +967,21 @@ namespace Calcpad.Core
         internal double ConvertTo(Unit u)
         {
             var factor = 1d;
-            for (int i = 0, n = _dims.Length; i < n; ++i)
+            for (int i = 0, n = _powers.Length; i < n; ++i)
             {
-                ref var dim = ref _dims[i];
-                if (dim.Power != 0f && dim.Factor != u._dims[i].Factor)
-                    factor *= MyPow(dim.Factor / u._dims[i].Factor, dim.Power);
-
+                if (_powers[i] != 0f && _factors[i] != u._factors[i])
+                    factor *= MyPow(_factors[i] / u._factors[i], _powers[i]);
             }
             return factor;
         }
 
         internal static Unit GetForceUnit(Unit u)
         {
-            var i = (int)u._dims[1].Power + 3;
+            var i = (int)u._powers[1] + 3;
             if (i < 0 || i > 5 || !string.IsNullOrEmpty(u._text) && Units.ContainsKey(u._text))
                 return u;
 
-            var d = u._dims[0].Factor;
+            var d = u._factors[0];
             if (Math.Truncate(d) == d)
                 return ForceUnits[i];
 
@@ -1005,6 +1004,16 @@ namespace Calcpad.Core
         {
             return n switch
             {
+                -24 => "y",
+                -21 => "z",
+                -18 => "a",
+                -15 => "f",
+                -12 => "p",
+                -9 => "n",
+                -6 => "μ",
+                -3 => "m",
+                -2 => "c",
+                -1 => "d",
                 1 => "da",
                 2 => "h",
                 3 => "k",
@@ -1015,16 +1024,6 @@ namespace Calcpad.Core
                 18 => "E",
                 21 => "Z",
                 24 => "Y",
-                -1 => "d",
-                -2 => "c",
-                -3 => "m",
-                -6 => "μ",
-                -9 => "n",
-                -12 => "p",
-                -15 => "f",
-                -18 => "a",
-                -21 => "z",
-                -24 => "y",
                 _ => string.Empty,
             };
         }
@@ -1033,7 +1032,17 @@ namespace Calcpad.Core
         {
             return n switch
             {
-                0 => 1d,
+                -24 => 1E-24,
+                -21 => 1E-21,
+                -18 => 1E-18,
+                -15 => 1E-15,
+                -12 => 1E-12,
+                -9 => 1E-09,
+                -6 => 1E-06,
+                -3 => 0.001,
+                -2 => 0.01,
+                -1 => 0.1,
+                0 => 1.0,
                 1 => 10.0,
                 2 => 100.0,
                 3 => 1E+3,
@@ -1044,39 +1053,32 @@ namespace Calcpad.Core
                 18 => 1E+18,
                 21 => 1E+21,
                 24 => 1E+24,
-                -1 => 0.1,
-                -2 => 0.01,
-                -3 => 0.001,
-                -6 => 1E-06,
-                -9 => 1E-09,
-                -12 => 1E-12,
-                -15 => 1E-15,
-                -18 => 1E-18,
-                -21 => 1E-21,
-                -24 => 1E-24,
-                _ => Math.Pow(10, n),
+                _ => Math.Pow(10, n)
             };
         }
 
-        private static int GetPower(double factor)
-        {
-            var d = factor switch
+        private static int GetPower(double factor) =>
+            factor switch
             {
-                1d => 0.0,
-                10d => 1d,
-                1E+2 => 2.0,
-                1E+3 => 3.0,
-                1E+4 => 4.0,
-                1E+5 => 5.0,
-                1E+6 => 6.0,
-                0.1 => -1d,
-                1E-2 => -2.0,
-                1E-3 => -3.0,
-                1E-4 => -4.0,
-                1E-5 => -5.0,
-                1E-6 => -6.0,
-                _ => Math.Log10(factor),
+                1E-6 => -6,
+                1E-5 => -5,
+                1E-4 => -4,
+                1E-3 => -3,
+                1E-2 => -2,
+                0.1 => -1,
+                1d => 0,
+                10d => 1,
+                1E+2 => 2,
+                1E+3 => 3,
+                1E+4 => 4,
+                1E+5 => 5,
+                1E+6 => 6,
+                _ => GetIntPower(factor)
             };
+
+        private static int GetIntPower(double factor) 
+        {
+            var d = Math.Log10(factor);
             var n = (int)d;
             return Math.Abs(n - d) < 1E-12 ? n : 0;
         }
@@ -1256,7 +1258,7 @@ namespace Calcpad.Core
 #if BG
                 throw new MathParser.MathParserException($"Несъвместими мерни единици: \"{Unit.GetText(ua)} {op} {Unit.GetText(ub)}\".");
 #else
-                throw new MathParser.MathParserException($"Inconsistent units: \"{Unit.GetText(ua)} {op} {Unit.GetText(ub)}\".");
+                throw new MathParser.MathParserException($"Inconsistent units: \"{GetText(ua)} {op} {GetText(ub)}\".");
 #endif
             return ua is null ? 1.0 : ub.ConvertTo(ua);
         }

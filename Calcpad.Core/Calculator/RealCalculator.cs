@@ -313,7 +313,7 @@ namespace Calcpad.Core
         }
 
         private static Value Pow(Value value, Value power) =>
-            new(
+            new (
                 Math.Pow(value.Re, power.Re),
                 Unit.Pow(value.Units, power)
             );
