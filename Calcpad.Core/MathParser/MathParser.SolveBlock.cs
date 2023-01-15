@@ -183,8 +183,7 @@ namespace Calcpad.Core
 
                 var vt = (VariableToken)_items[1].Rpn[0];
                 Parameter[] parameters = { new(vt.Content) };
-                parameters[0].SetValue(Value.Zero);
-                vt.Variable = parameters[0];
+                vt.Variable = parameters[0].Variable;
                 parser.BindParameters(parameters, _items[0].Rpn);
                 _function = parser.CompileRpn(_items[0].Rpn);
             }

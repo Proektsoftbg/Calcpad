@@ -19,7 +19,7 @@ namespace Calcpad.Core
             IsUnit = false;
         }
 
-        internal Value(Complex number, Unit units) : this(number.Re, number.Im, units) { }
+        internal Value(in Complex number, Unit units) : this(number.Re, number.Im, units) { }
 
         internal Value(double number)
         {
@@ -91,7 +91,7 @@ namespace Calcpad.Core
                 a.Units
             );
 
-        public static Value operator *(Value a, Value b)
+        public static Value operator *(in Value a, in Value b)
         {
             if (a.Units is null && b.IsUnit)
                 return new(a.Re * b.Re, b.Units);

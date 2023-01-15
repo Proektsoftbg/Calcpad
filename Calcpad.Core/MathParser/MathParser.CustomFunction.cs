@@ -131,7 +131,7 @@ namespace Calcpad.Core
                     ref var z = ref CollectionsMarshal.GetValueRefOrAddDefault(_cache, v, out bool result);
                     if (!result)
                     {
-                        _parameters[0].SetValue(v);
+                        _parameters[0].Variable.SetValue(v);
                         z = Function();
                     }
                     return z;
@@ -144,14 +144,14 @@ namespace Calcpad.Core
                     ref var z = ref CollectionsMarshal.GetValueRefOrAddDefault(_cache2, args, out bool result);
                     if (!result)
                     {
-                        _parameters[0].SetValue(arguments[0]);
-                        _parameters[1].SetValue(arguments[1]);
+                        _parameters[0].Variable.SetValue(arguments[0]);
+                        _parameters[1].Variable.SetValue(arguments[1]);
                         z = Function();
                     }
                     return z;
                 }
                 for (int i = 0; i < len; ++i)
-                    _parameters[i].SetValue(arguments[i]);
+                    _parameters[i].Variable.SetValue(arguments[i]);
 
                 return Function();
             }
