@@ -79,8 +79,10 @@ namespace Calcpad.Core
 #else
                                         throw new MathParserException("Missing operand.");
 #endif
-
-                                    c = Expression.Negate(b);
+                                    if (b.NodeType == ExpressionType.Constant)
+                                        c = Expression.Constant(-EvaluateConstantExpression(b));
+                                    else 
+                                        c = Expression.Negate(b);
                                 }
                                 else
                                     c = ParseToken(t, a, b);
@@ -189,11 +191,18 @@ namespace Calcpad.Core
 #else
                     throw new MathParserException($"Error evaluating \"{t.Content}\" as function.");
 #endif
+                if (a.NodeType == ExpressionType.Constant)
+                    return Expression.Constant(_calc.GetFunction(t.Index)(EvaluateConstantExpression(a)));
+
                 return Expression.Invoke(Expression.Constant(_calc.GetFunction(t.Index)), a);
             }
 
             private Expression ParseToken(Token t, Expression a, Expression b)
             {
+                if (a.NodeType == ExpressionType.Constant &&
+                    b.NodeType == ExpressionType.Constant)
+                    return EvaluateConstantExpressionToken(t, a, b);
+
                 if (t.Type == TokenTypes.Operator)
                 {
                     if (t.Content == "=")
@@ -244,6 +253,35 @@ namespace Calcpad.Core
                 return Expression.Invoke(Expression.Constant(_calc.GetFunction2(t.Index)), a, b);
             }
 
+            private Value EvaluateConstantExpression(Expression a)
+            {
+                var lambdaExpression = Expression.Lambda<Func<Value>>(a);
+                var lambda = lambdaExpression.Compile();
+                return lambda.Invoke();
+            }
+
+            private Expression EvaluateConstantExpressionToken(Token t, Expression a, Expression b)
+            {
+                var va = EvaluateConstantExpression(a);
+                var vb = EvaluateConstantExpression(b);
+                Value vc;
+                if (t.Type == TokenTypes.Operator)
+                {
+                    vc =_calc.GetOperator(t.Index)(va, vb);
+                }
+                else if (t.Type == TokenTypes.Function2)
+                {
+                    vc = _calc.GetFunction2(t.Index)(va, vb);
+                }
+                else
+#if BG
+                    throw new MathParserException($"Грешка при изчисляване на \"{t.Content}\" като функция или оператор.");
+#else
+                    throw new MathParserException($"Error evaluating \"{t.Content}\" as function or operator.");
+#endif
+                return Expression.Constant(vc);
+            }
+
             private static Expression ParseIf(Expression condition, Expression valueIfTrue, Expression valueIfFalse)
             {
                 var method = typeof(Evaluator).GetMethod("EvaluateIf", BindingFlags.Static | BindingFlags.NonPublic);
@@ -260,20 +298,50 @@ namespace Calcpad.Core
 
             private Expression ParseFunction(CustomFunction cf, Expression[] parameters)
             {
+                if (AreConstantParameters(parameters))
+                    return Expression.Constant(
+                        _parser._evaluator.EvaluateFunction(
+                            cf, EvaluateConstantParameters(parameters)
+                            )
+                        );
+
                 Expression instance = Expression.Constant(_parser._evaluator);
                 var method = typeof(Evaluator).GetMethod("EvaluateFunction", BindingFlags.NonPublic | BindingFlags.Instance);
                 Expression args = Expression.NewArrayInit(typeof(Value), parameters);
-
                 return Expression.Call(instance, method, Expression.Constant(cf), args);
             }
 
             private Expression ParseMultiFunction(int Index, Expression[] parameters)
             {
+                if (AreConstantParameters(parameters))
+                    return Expression.Constant(
+                        _calc.GetMultiFunction(Index)(
+                            EvaluateConstantParameters(parameters)
+                            )
+                        );
+
                 var method = Expression.Constant(_calc.GetMultiFunction(Index));
                 Expression args = Expression.NewArrayInit(typeof(Value), parameters);
                 return Expression.Invoke(method, args);
             }
 
+            private bool AreConstantParameters(Expression[] parameters)
+            {
+                for (int i = 0, len = parameters.Length; i < len; ++i) 
+                    if (parameters[i].NodeType != ExpressionType.Constant) 
+                        return false;    
+                return true;
+            }
+
+            private Value[] EvaluateConstantParameters(Expression[] parameters)
+            {
+                var len = parameters.Length;
+                var values = new Value[len];    
+                for (int i = 0; i < len; ++i)
+                    values[i]= EvaluateConstantExpression(parameters[i]);   
+
+                return values;  
+            }
         }
     }
 }

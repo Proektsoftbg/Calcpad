@@ -240,7 +240,7 @@ namespace Calcpad.Core
                 return solveBlock.Result;
             }
 
-            private Value EvaluateFunction(CustomFunction cf, Value[] parameters)
+            internal Value EvaluateFunction(CustomFunction cf, Value[] parameters)
             {
                 if (cf.IsRecursion)
                     return new Value(double.NaN);
