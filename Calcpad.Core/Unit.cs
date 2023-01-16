@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 
@@ -804,6 +805,10 @@ namespace Calcpad.Core
 
         private static Unit MultiplyOrDivide(Unit u1, Unit u2, bool divide = false)
         {
+            if (ReferenceEquals(u1, u2) || 
+                ReferenceEquals(u1._powers, u2._powers))
+                    return divide ?  null : u1.Pow(2);
+
             var n1 = u1._powers.Length;
             var n2 = u2._powers.Length;
             var n = n1 > n2 ? n1 : n2;
@@ -858,6 +863,9 @@ namespace Calcpad.Core
 
         internal static double GetProductOrDivisionFactor(Unit u1, Unit u2, bool divide = false)
         {
+            if (ReferenceEquals(u1, u2))
+                return 1d;
+
             var n1 = u1._powers.Length;
             var n2 = u2._powers.Length;
             var n = n1 < n2 ? n1 : n2;
@@ -906,35 +914,26 @@ namespace Calcpad.Core
         }
 
         internal static bool IsConsistent(Unit u1, Unit u2) =>
-            (ReferenceEquals(u1, u2)) || u1 is not null && u1.IsConsistent(u2);
+            ReferenceEquals(u1, u2) || 
+            u1 is not null && 
+            u2 is not null && 
+            u1.IsConsistent(u2);
 
         private bool IsConsistent(Unit other)
         {
-            if (other is null)
-                return false;
+            if (ReferenceEquals(_powers, other._powers)) 
+                return true;
 
-            var n = _powers.Length;
-            var otherPowers = other._powers;
-            if (n != otherPowers.Length)
-                return false;
-
-            for (int i = 0; i < n; ++i)
-                if (_powers[i] != otherPowers[i])
-                    return false;
-
-            return true;
+            return _powers.AsSpan().SequenceEqual(other._powers.AsSpan());
         }
 
         internal bool IsMultiple(Unit other)
         {
-            if (ReferenceEquals(this, other))
-                return true;
-
             var n = _powers.Length;
             if (n != other._powers.Length)
                 return false;
 
-            double? d1 = null;
+            double d1 = 0d;
             for (int i = 0; i < n; ++i)
             {
                 ref var p1 = ref _powers[i];
@@ -944,12 +943,12 @@ namespace Calcpad.Core
                     if (p1 == 0f || p2 == 0f)
                         return false;
 
-                    if (!d1.HasValue)
+                    if (d1 == 0)
                         d1 = p2 - p1;
                     else
                     {
                         var d2 = p2 - p1;
-                        if (d1.Value != d2)
+                        if (d1 != d2)
                             return false;
                     }
                 }

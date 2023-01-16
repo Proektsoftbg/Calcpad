@@ -24,31 +24,23 @@ namespace Calcpad.Core
         internal Value(double number)
         {
             Re = number;
-            Im = 0.0;
-            Units = null;
-            IsUnit = false;
         }
 
         internal Value(double number, Unit units)
         {
             Re = number;
-            Im = 0.0;
             Units = units;
-            IsUnit = false;
         }
 
         internal Value(in Complex number)
         {
             Re = number.Re;
             Im = number.Im;
-            Units = null;
-            IsUnit = false;
         }
 
         internal Value(Unit units)
         {
             Re = 1.0;
-            Im = 0.0;
             Units = units;
             IsUnit = true;
         }
