@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Calcpad.Core
 {
-    internal class Unit : IEquatable<Unit>
+    internal partial class Unit : IEquatable<Unit>
     {
         private static readonly char[] CompositeUnitChars = { '/', '*', '×', '^' };
         private string _text;
@@ -149,12 +149,13 @@ namespace Calcpad.Core
             if (other is null)
                 return false;
 
-            int n = _powers.Length;
-            if (n != other._powers.Length)
+            var n = _powers.Length;
+            var otherPowers = other._powers;
+            if (n != otherPowers.Length)
                 return false;
 
             for (int i = 0; i < n; ++i)
-                if (_powers[i] != other._powers[i] || 
+                if (_powers[i] != otherPowers[i] ||
                     _factors[i] != other._factors[i])
                     return false;
 
@@ -241,8 +242,7 @@ namespace Calcpad.Core
             _text = u._text;
             _hashCode = u._hashCode;
             var n = u._powers.Length;
-            _powers = new float[n];
-            Array.Copy(u._powers, _powers, n);
+            _powers = u._powers;
             _factors = new double[n];
             Array.Copy(u._factors, _factors, n);
         }
@@ -738,10 +738,9 @@ namespace Calcpad.Core
         {
             for (int i = 0, n = _powers.Length; i < n; ++i)
             {
-                ref var pow = ref _powers[i];   
-                if (pow != 0f)
+                if (_powers[i] != 0f)
                 {
-                    _factors[i] *= Math.Pow(factor, 1d / pow);
+                    _factors[i] *= Math.Pow(factor, 1d / _powers[i]);
                     return;
                 }
             }
@@ -750,10 +749,7 @@ namespace Calcpad.Core
         internal Unit Shift(int n) => Scale(GetPrefix(n) + _text, GetScale(n));
         internal Unit Scale(string s, double factor)
         {
-            var unit = new Unit(this)
-            {
-                _text = s
-            };
+            var unit = new Unit(this) { _text = s };
             unit.Scale(factor);
             return unit;
         }
@@ -770,11 +766,10 @@ namespace Calcpad.Core
             var isFirst = true;
             for (int i = 0, n = _powers.Length; i < n; ++i)
             {
-                ref var pow = ref _powers[i];
-                if (pow != 0f)
+                if (_powers[i] != 0f)
                 {
-                    var p = isFirst ? pow : Math.Abs(pow);
-                    var s = GetDimText(writer, Names[i], _factors[i], p);
+                    var absPow = isFirst ? _powers[i] : Math.Abs(_powers[i]);
+                    var s = GetDimText(writer, Names[i], _factors[i], absPow);
                     if (i == 4 && stringBuilder.Length > 0)
                         s = TemperatureToDelta(s);
 
@@ -782,7 +777,7 @@ namespace Calcpad.Core
                         isFirst = false;
                     else
                     {
-                        var oper = pow > 0f ? '·' : '/';
+                        var oper = _powers[i] > 0f ? '·' : '/';
                         if (format == OutputWriter.OutputFormat.Xml)
                             stringBuilder.Append($"<m:r><m:t>{oper}</m:t></m:r>");
                         else
@@ -817,9 +812,7 @@ namespace Calcpad.Core
                 while (n > 0)
                 {
                     var i = n - 1;
-                    ref var p1 = ref u1._powers[i];
-                    ref var p2 = ref u2._powers[i];
-                    if (p1 != (divide ? p2 : -p2))
+                    if (u1._powers[i] != (divide ? u2._powers[i] : -u2._powers[i]))
                         break;
 
                     n = i;
@@ -852,7 +845,7 @@ namespace Calcpad.Core
                 else
                 {
                     unit._factors[i] = p1 != 0f ? u1._factors[i] : 1f;
-                    unit._powers[i] =p1;
+                    unit._powers[i] = p1;
                 }
             }
             for (int i = n1; i < n2; ++i)
@@ -871,14 +864,14 @@ namespace Calcpad.Core
             var factor = 1d;
             for (int i = 0; i < n; ++i)
             {
-                ref var p2 = ref u2._powers[i];
-                if (u1._powers[i] != 0f && p2 != 0f && u1._factors[i] != u2._factors[i])
+                if (u1._powers[i] != 0f && u1._factors[i] != u2._factors[i])
                 {
-                    var d = divide ?
-                        u1._factors[i] / u2._factors[i]:
-                        u2._factors[i] / u1._factors[i];
-
-                    factor *= MyPow(d, p2);
+                    ref var p2 = ref u2._powers[i];
+                    if (p2 != 0f)
+                    {
+                        var d = divide ? u1._factors[i] / u2._factors[i] : u2._factors[i] / u1._factors[i];
+                        factor *= MyPow(d, p2);
+                    }
                 }
             }
             return factor;
@@ -905,11 +898,10 @@ namespace Calcpad.Core
             var f = (float)x;
             var n = _powers.Length;
             Unit unit = new(n);
+            Array.Copy(_factors, unit._factors, n);
             for (int i = 0; i < n; ++i)
-            {
                 unit._powers[i] = _powers[i] * f;
-                unit._factors[i] = _factors[i];
-            }
+
             return unit;
         }
 
@@ -922,11 +914,12 @@ namespace Calcpad.Core
                 return false;
 
             var n = _powers.Length;
-            if (n != other._powers.Length)
+            var otherPowers = other._powers;
+            if (n != otherPowers.Length)
                 return false;
 
             for (int i = 0; i < n; ++i)
-                if (_powers[i] != other._powers[i])
+                if (_powers[i] != otherPowers[i])
                     return false;
 
             return true;
@@ -990,7 +983,7 @@ namespace Calcpad.Core
 
         internal static Unit GetElectricalUnit(Unit u)
         {
-            if (!string.IsNullOrEmpty(u._text) && Units.ContainsKey(u._text)) 
+            if (!string.IsNullOrEmpty(u._text) && Units.ContainsKey(u._text))
                 return u;
 
             if (ElectricalUnits.TryGetValue(u, out var eu))
@@ -1076,7 +1069,7 @@ namespace Calcpad.Core
                 _ => GetIntPower(factor)
             };
 
-        private static int GetIntPower(double factor) 
+        private static int GetIntPower(double factor)
         {
             var d = Math.Log10(factor);
             var n = (int)d;
@@ -1358,10 +1351,10 @@ namespace Calcpad.Core
             {
                 var s = u.Text;
                 if (!s.Contains('^'))
-                result._text =
-                    s.IndexOfAny(CompositeUnitChars) >= 0 ?
-                    $"({s})^1/{n}" :
-                    s + $"^1/{n}";
+                    result._text =
+                        s.IndexOfAny(CompositeUnitChars) >= 0 ?
+                        $"({s})^1/{n}" :
+                        s + $"^1/{n}";
             }
             return result;
         }

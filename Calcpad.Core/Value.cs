@@ -91,7 +91,7 @@ namespace Calcpad.Core
                 a.Units
             );
 
-        public static Value operator *(in Value a, in Value b)
+        public static Value operator *(Value a, Value b)
         {
             if (a.Units is null && b.IsUnit)
                 return new(a.Re * b.Re, b.Units);
