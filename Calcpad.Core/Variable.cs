@@ -23,26 +23,18 @@ namespace Calcpad.Core
             Value = new Value(Value.Re, Value.Im, units);
             _isIntialised = true;
         }
-
         internal void SetValue(Unit units) => Value = new Value(units);
-
-        internal void SetValue(in Value value)
-        {
-            Value = value;
-            _isIntialised = true;
-            OnChange?.Invoke();
-        }
-
-        internal void SetValue(in Complex number, Unit units)
-        {
-            Value = new Value(number, units);
-            _isIntialised = true;
-        }
-
+        internal void SetValue(in Value value)  => Value = value;
         internal void SetValue(double number, Unit units)
         {
             Value = new Value(number, units);
             _isIntialised = true;
+        }
+        internal void Assign(in Value value)
+        {
+            Value = value;
+            _isIntialised = true;
+            OnChange?.Invoke();
         }
     }
 }

@@ -85,7 +85,7 @@ namespace Calcpad.Core
         internal void SetVariable(string name, Value value)
         {
             if (_variables.TryGetValue(name, out Variable v))
-                v.SetValue(value);
+                v.Assign(value);
             else
             {
                 _variables.Add(name, new Variable(value));
@@ -306,12 +306,10 @@ namespace Calcpad.Core
                 if (t.Type == TokenTypes.Variable)
                     foreach (var p in parameters)
                     {
-                        //if (p is null)
-                        //    break;
-
                         if (t.Content == p.Name)
                         {
                             ((VariableToken)t).Variable = p.Variable;
+                            t.Index = 1;
                             break;
                         }
                     }
