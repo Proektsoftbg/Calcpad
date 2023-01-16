@@ -81,7 +81,7 @@ namespace Calcpad.Core
                                     var ta = (VariableToken)rpn[0];
                                     _parser.Units = ApplyUnits(ref b, _parser._targetUnits);
                                     _parser._backupVariable = new(ta.Content, ta.Variable.Value);
-                                    ta.Variable.SetValue(b);
+                                    ta.Variable.Assign(b);
                                     return b;
                                 }
 

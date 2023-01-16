@@ -23,11 +23,14 @@ namespace Calcpad.Core
                 public override bool Equals(object obj)
                 {
                     if (obj is Tuple t)
-                        return _x.Equals(t._x) && _y.Equals(t._y);
+                        return Equals(t);
 
                     return false;
                 }
-                public bool Equals(Tuple other) => _x.Equals(other._x) && _y.Equals(other._y);
+
+                public bool Equals(Tuple other) => 
+                    _x.Equals(other._x) && 
+                    _y.Equals(other._y);
             }
 
             private const int MaxCacheSize = 1000;
@@ -40,24 +43,26 @@ namespace Calcpad.Core
             internal Unit Units;
             internal int ParameterCount { get; private set; }
             internal bool IsRecursion;
-
             internal Func<Value> Function;
 
             internal void AddParameters(List<string> parameters)
             {
                 ParameterCount = parameters.Count;
                 _parameters = new Parameter[ParameterCount];
-                for (int i = 0; i < ParameterCount; ++i)
-                    _parameters[i] = new Parameter(parameters[i]);
-
+                _parameters[0] = new(parameters[0]);
                 switch (ParameterCount)
                 {
                     case 1:
                         _cache = new();
-                        break;
+                        return;
                     case 2:
+                        _parameters[1] = new(parameters[1]);
                         _cache2 = new();
-                        break;
+                        return;
+                    default:
+                        for (int i = 1; i < ParameterCount; ++i)
+                            _parameters[i] = new(parameters[i]);
+                        return;
                 }
             }
 
@@ -67,6 +72,7 @@ namespace Calcpad.Core
 
             internal void ClearCache()
             {
+                Function = null;
                 _cache?.Clear();
                 _cache2?.Clear();
             }
@@ -129,11 +135,11 @@ namespace Calcpad.Core
                         _cache.Clear();
                     ref var v = ref arguments[0];
                     ref var z = ref CollectionsMarshal.GetValueRefOrAddDefault(_cache, v, out bool result);
-                    if (!result)
-                    {
-                        _parameters[0].Variable.SetValue(v);
-                        z = Function();
-                    }
+                    if (result)
+                        return z;
+
+                    _parameters[0].Variable.SetValue(v);
+                    z = Function();
                     return z;
                 }
                 if (len == 2)
@@ -141,13 +147,13 @@ namespace Calcpad.Core
                     if (_cache2?.Count >= MaxCacheSize)
                         _cache2.Clear();
                     Tuple args = new(arguments[0], arguments[1]);
-                    ref var z = ref CollectionsMarshal.GetValueRefOrAddDefault(_cache2, args, out bool result);
-                    if (!result)
-                    {
-                        _parameters[0].Variable.SetValue(arguments[0]);
-                        _parameters[1].Variable.SetValue(arguments[1]);
-                        z = Function();
-                    }
+                    ref var z = ref CollectionsMarshal.GetValueRefOrAddDefault( _cache2, args, out bool result);
+                    if (result)
+                        return z;
+
+                    _parameters[0].Variable.SetValue(arguments[0]);
+                    _parameters[1].Variable.SetValue(arguments[1]);
+                    z = Function();
                     return z;
                 }
                 for (int i = 0; i < len; ++i)

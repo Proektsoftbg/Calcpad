@@ -1260,7 +1260,7 @@ namespace Calcpad.Core
             if (ua is null)
             {
                 d = 1d;
-                return ub is null ? null : ub;
+                return ub;
             }
             if (ub is null)
             {
@@ -1286,7 +1286,7 @@ namespace Calcpad.Core
             if (ub is null)
             {
                 d = 1d;
-                return ua is null ? null : ua;
+                return ua;
             }
 
             if (ua is null)

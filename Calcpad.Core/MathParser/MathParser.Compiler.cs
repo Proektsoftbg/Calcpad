@@ -164,7 +164,12 @@ namespace Calcpad.Core
             {
                 var v = t.Variable;
                 if (v.IsInitialized)
+                {
+                    if (t.Index < 0)
+                        return Expression.Constant(v.Value);
+
                     return Expression.Field(Expression.Constant(v), "Value");
+                }
 
                 try
                 {
@@ -253,7 +258,7 @@ namespace Calcpad.Core
                 return Expression.Invoke(Expression.Constant(_calc.GetFunction2(t.Index)), a, b);
             }
 
-            private Value EvaluateConstantExpression(Expression a)
+            private static Value EvaluateConstantExpression(Expression a)
             {
                 var lambdaExpression = Expression.Lambda<Func<Value>>(a);
                 var lambda = lambdaExpression.Compile();
@@ -325,7 +330,7 @@ namespace Calcpad.Core
                 return Expression.Invoke(method, args);
             }
 
-            private bool AreConstantParameters(Expression[] parameters)
+            private static bool AreConstantParameters(Expression[] parameters)
             {
                 for (int i = 0, len = parameters.Length; i < len; ++i) 
                     if (parameters[i].NodeType != ExpressionType.Constant) 
@@ -333,7 +338,7 @@ namespace Calcpad.Core
                 return true;
             }
 
-            private Value[] EvaluateConstantParameters(Expression[] parameters)
+            private static Value[] EvaluateConstantParameters(Expression[] parameters)
             {
                 var len = parameters.Length;
                 var values = new Value[len];    

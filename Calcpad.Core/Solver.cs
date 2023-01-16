@@ -274,12 +274,13 @@ namespace Calcpad.Core
         private double AdaptiveLobatto(double left, double right)
         {
             Units = null;
-            eps = Math.Clamp(Precision, 1e-14, 1e-4) / 2d; //Integration must be slightly more precise than differentiation, when used together
+            eps = Math.Clamp(Precision, 1e-14, 1e-4) / 2d; 
+            //Integration must be slightly more precise than differentiation, if used together
             return Lobatto(left, right, Fd(left), Fd(right), 1);
         }
 
         private readonly double alpha = Math.Sqrt(2.0 / 3.0);
-        private readonly double beta = 1.0 / Math.Sqrt(5.0);
+        private readonly double beta = Math.Sqrt(1.0 / 5.0);
         private double Lobatto(double x1, double x3, double y1, double y3, int depth)
         {
             const double k1 = 1.0 / 1470.0;
