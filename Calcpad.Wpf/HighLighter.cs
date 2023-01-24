@@ -314,7 +314,10 @@ namespace Calcpad.Wpf
             foreach (Run r in p.Inlines.Cast<Run>())
             {
                 var s = r.Text;
-                var t1 = GetTypeFromColor(r.Foreground);
+                var t1 = r.Foreground == Colors[(int)Types.Function] &&
+                         r.FontWeight == FontWeights.Bold ?
+                         Types.Function :
+                         GetTypeFromColor(r.Foreground);
                 var t2 = t1;
                 if (t1 == Types.Keyword && s[0] == '$')
                     isCommand = true;
@@ -347,17 +350,21 @@ namespace Calcpad.Wpf
                                 t2 = Types.Macro;
                         }
                         else if (IsDefined())
-                            t2 = Types.Variable;
+                            t2 = isFunction ? Types.Function : Types.Variable;
 
                         break;
                     case Types.Variable:
-                        if (!IsDefined())
+                        if (!(LocalVariables.Contains(s) || Defined.IsVariable(s, line)))
                         {
                             if (MathParser.IsUnit(s))
                                 t2 = Types.Units;
                             else
                                 t2 = Types.Error;
                         }
+                        break;
+                    case Types.Function:
+                        if (!(Defined.IsFunction(s, line) || Functions.Contains(s)))
+                            t2 = Types.Error;
                         break;
                     case Types.Units:
                         if (LocalVariables.Contains(s) || Defined.IsVariable(s, line))
@@ -938,7 +945,8 @@ namespace Calcpad.Wpf
             }
             if (s is not null)
                 AppendRun(t, s);
-            _allowUnaryMinus = t == Types.Operator || s == "(" || s == "{";
+
+            _allowUnaryMinus = t == Types.Comment || t == Types.Operator || s == "(" || s == "{";
         }
 
         private bool AppendRelOperatorShortcut(string s)

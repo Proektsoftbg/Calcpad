@@ -107,7 +107,7 @@ namespace Calcpad.Core
                 }
             }
 
-            internal bool CheckReqursion(CustomFunction f, Container<CustomFunction> functions)
+            internal bool CheckRecursion(CustomFunction f, Container<CustomFunction> functions)
             {
                 if (ReferenceEquals(f, this))
                     return true;
@@ -119,44 +119,54 @@ namespace Calcpad.Core
                     if (t.Type == TokenTypes.CustomFunction)
                     {
                         var cf = functions[functions.IndexOf(t.Content)];
-                        if (cf.CheckReqursion(f, functions))
+                        if (cf.CheckRecursion(f, functions))
                             return true;
                     }
                 }
                 return false;
             }
 
+            internal Value Calculate(in Value x)
+            {
+                if (_cache?.Count >= MaxCacheSize)
+                    _cache.Clear();
+
+                ref var y = ref CollectionsMarshal.GetValueRefOrAddDefault(_cache, x, out bool result);
+                if (result)
+                    return y;
+
+                _parameters[0].Variable.SetValue(x);
+                y = Function();
+                return y;
+            }
+
+            internal Value Calculate(in  Value x, in Value y)
+            {
+                if (_cache2?.Count >= MaxCacheSize)
+                    _cache2.Clear();
+
+                Tuple arguments = new(x, y);
+                ref var z = ref CollectionsMarshal.GetValueRefOrAddDefault(_cache2, arguments, out bool result);
+                if (result)
+                    return z;
+
+                _parameters[0].Variable.SetValue(x);
+                _parameters[1].Variable.SetValue(y);
+                z = Function();
+                return z;
+            }
+
+            internal Value Calculate(in Value x, in Value y, in Value z)
+            {
+                _parameters[0].Variable.SetValue(x);
+                _parameters[1].Variable.SetValue(y);
+                _parameters[2].Variable.SetValue(z);
+                return Function();
+            }
+
             internal Value Calculate(Value[] arguments)
             {
-                var len = arguments.Length;
-                if (len == 1)
-                {
-                    if (_cache?.Count >= MaxCacheSize)
-                        _cache.Clear();
-                    ref var v = ref arguments[0];
-                    ref var z = ref CollectionsMarshal.GetValueRefOrAddDefault(_cache, v, out bool result);
-                    if (result)
-                        return z;
-
-                    _parameters[0].Variable.SetValue(v);
-                    z = Function();
-                    return z;
-                }
-                if (len == 2)
-                {
-                    if (_cache2?.Count >= MaxCacheSize)
-                        _cache2.Clear();
-                    Tuple args = new(arguments[0], arguments[1]);
-                    ref var z = ref CollectionsMarshal.GetValueRefOrAddDefault( _cache2, args, out bool result);
-                    if (result)
-                        return z;
-
-                    _parameters[0].Variable.SetValue(arguments[0]);
-                    _parameters[1].Variable.SetValue(arguments[1]);
-                    z = Function();
-                    return z;
-                }
-                for (int i = 0; i < len; ++i)
+                for (int i = 0, len = arguments.Length; i < len; ++i)
                     _parameters[i].Variable.SetValue(arguments[i]);
 
                 return Function();

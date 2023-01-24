@@ -121,11 +121,37 @@ namespace Calcpad.Core
                         case TokenTypes.CustomFunction:
                             var cf = _functions[t.Index];
                             var cfParamCount = cf.ParameterCount;
-                            var cfParams = new Value[cfParamCount];
-                            for (int j = cfParamCount - 1; j >= 0; --j)
-                                cfParams[j] = _stackBuffer[_tos--];
+                            if (cf.IsRecursion)
+                            {
+                                tos -= cfParamCount;
+                                _stackBuffer[++_tos] = Value.NaN;
+                            }
+                            else if (cf.ParameterCount == 1)
+                            {
+                                var x = _stackBuffer[_tos--];
+                                _stackBuffer[++_tos] = EvaluateFunction(cf, x);
+                            }
+                            else if (cf.ParameterCount == 2)
+                            {
+                                var y = _stackBuffer[_tos--];
+                                var x = _stackBuffer[_tos--];
+                                _stackBuffer[++_tos] = EvaluateFunction(cf, x, y);
+                            }
+                            else if (cf.ParameterCount == 3)
+                            {
+                                var z = _stackBuffer[_tos--];
+                                var y = _stackBuffer[_tos--];
+                                var x = _stackBuffer[_tos--];
+                                _stackBuffer[++_tos] = EvaluateFunction(cf, x, y, z);
+                            }
+                            else
+                            {
+                                var cfParams = new Value[cfParamCount];
+                                for (int j = cfParamCount - 1; j >= 0; --j)
+                                    cfParams[j] = _stackBuffer[_tos--];
 
-                            _stackBuffer[++_tos] = EvaluateFunction(cf, cfParams);
+                                _stackBuffer[++_tos] = EvaluateFunction(cf, cfParams);
+                            }
                             continue;
                         case TokenTypes.Solver:
                             _stackBuffer[++_tos] = EvaluateSolver(t);
@@ -240,19 +266,34 @@ namespace Calcpad.Core
                 return solveBlock.Result;
             }
 
-            internal Value EvaluateFunction(CustomFunction cf, Value[] parameters)
+            internal Value EvaluateFunction(CustomFunction cf, in Value x)
             {
-                if (cf.IsRecursion)
-                    return new Value(double.NaN);
-
                 cf.Function ??= _parser.CompileRpn(cf.Rpn);
-                if (_parser.IsCanceled)
-#if BG
-                    throw new MathParserException("Прекъсване от потребителя.");
-#else
-                    throw new MathParserException("Interrupted by user.");
-#endif
-                var result = cf.Calculate(parameters);
+                var result = cf.Calculate(x);
+                _parser.Units = ApplyUnits(ref result, cf.Units);
+                return result;
+            }
+
+            internal Value EvaluateFunction(CustomFunction cf, in Value x, in Value y)
+            {
+                cf.Function ??= _parser.CompileRpn(cf.Rpn);
+                var result = cf.Calculate(x, y);
+                _parser.Units = ApplyUnits(ref result, cf.Units);
+                return result;
+            }
+
+            internal Value EvaluateFunction(CustomFunction cf, in Value x, in Value y, in Value z)
+            {
+                cf.Function ??= _parser.CompileRpn(cf.Rpn);
+                var result = cf.Calculate(x, y, z);
+                _parser.Units = ApplyUnits(ref result, cf.Units);
+                return result;
+            }
+
+            internal Value EvaluateFunction(CustomFunction cf, Value[] arguments)
+            {
+                cf.Function ??= _parser.CompileRpn(cf.Rpn);
+                var result = cf.Calculate(arguments);
                 _parser.Units = ApplyUnits(ref result, cf.Units);
                 return result;
             }

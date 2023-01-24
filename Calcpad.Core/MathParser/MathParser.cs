@@ -158,20 +158,25 @@ namespace Calcpad.Core
                 _solveBlocks[i].Compile(this);
         }
 
-        public void Calculate()
+        internal void BreakIfCanceled()
         {
-            if (!IsEnabled)
-#if BG
-                throw new MathParserException("Изчислителното ядро не е активно.");
-#else            
-                throw new MathParserException("Calculations are not active.");
-#endif
             if (IsCanceled)
 #if BG
                 throw new MathParserException("Прекъсване от потребителя.");
 #else
                 throw new MathParserException("Interupted by user.");
 #endif
+        }
+
+        public void Calculate()
+        {
+            if (!IsEnabled)
+#if BG
+                throw new MathParserException("Изчислителното ядро не е активно.");
+#else
+                throw new MathParserException("Calculations are not active.");
+#endif
+            BreakIfCanceled();
             if (_functionDefinitionIndex < 0)
             {
                 CompileBlocks();
@@ -185,12 +190,7 @@ namespace Calcpad.Core
 
         public double CalculateReal()
         {
-            if (IsCanceled)
-#if BG
-                throw new MathParserException("Прекъсване от потребителя.");
-#else
-                throw new MathParserException("Interupted by user.");
-#endif
+            BreakIfCanceled();
             Value value = _evaluator.Evaluate(_rpn);
             CheckReal(value);
             Result = value.Re;
@@ -280,7 +280,7 @@ namespace Calcpad.Core
                             cf.BeforeChange();
                         cf.Function = null;
                         _functionDefinitionIndex = _functions.Add(name, cf);
-                        cf.IsRecursion = cf.CheckReqursion(null, _functions);
+                        cf.IsRecursion = cf.CheckRecursion(null, _functions);
                         if (cf.IsRecursion)
 #if BG
                             throw new MathParserException($"Открита е циклична референция за функция \"{name}\".");

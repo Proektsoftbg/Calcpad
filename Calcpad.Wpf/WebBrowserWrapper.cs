@@ -59,6 +59,9 @@ namespace Calcpad.Wpf
             set => _wb.InvokeScript("eval", $"window.scrollTo(0, {value});");
         }
 
+        internal double GetVerticalPosition(int line) =>
+             (double)_wb.InvokeScript("eval", $"getVerticalPosition({line});");
+
         internal bool IsContextMenu
         {
             get
@@ -73,7 +76,7 @@ namespace Calcpad.Wpf
             }
         }
 
-        internal void Scroll(int line, int offset)
+        internal void Scroll(int line, double offset)
         {
             try
             {

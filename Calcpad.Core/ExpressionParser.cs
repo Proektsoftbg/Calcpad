@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security;
 using System.Text;
 using System.Web;
-
 namespace Calcpad.Core
 {
     public class ExpressionParser
@@ -350,7 +350,7 @@ namespace Calcpad.Core
                                 _parser.Calculate();
                                 if (_parser.Real > int.MaxValue)
 #if BG
-                                    AppendError($"Броят на итерациите е по-голям от максималния {int.MaxValue}.</p>");
+                                    AppendError(s.ToString(), $"Броят на итерациите е по-голям от максималния {int.MaxValue}.</p>");
 #else
                                     AppendError(s.ToString(), $"Number of iterations exceeds the maximum {int.MaxValue}.</p>");
 #endif
@@ -395,13 +395,13 @@ namespace Calcpad.Core
                     {
                         if (!_loops.Any())
 #if BG
-                            AppendError("\"#loop\" без съответен \"#repeat\".");
+                            AppendError(s.ToString(), "\"#loop\" без съответен \"#repeat\".");
 #else
                             AppendError(s.ToString(), "\"#loop\" without a corresponding \"#repeat\".");
 #endif
                         else if (_loops.Peek().Id != _condition.Id)
 #if BG
-                            AppendError("Преплитане на \"#if - #end if\" и \"#repeat - #loop\" блокове.");
+                            AppendError(s.ToString(), "Преплитане на \"#if - #end if\" и \"#repeat - #loop\" блокове.");
 #else
                             AppendError(s.ToString(), "Entangled \"#if - #end if\" and \"#repeat - #loop\" blocks.");
 #endif
@@ -440,7 +440,7 @@ namespace Calcpad.Core
                     {
                         if (!_loops.Any())
 #if BG
-                            AppendError("\"#continue\" без съответен \"#repeat\".");
+                            AppendError(s.ToString(), "\"#continue\" без съответен \"#repeat\".");
 #else
                             AppendError(s.ToString(), "\"#continue\" without a corresponding \"#repeat\".");
 #endif
