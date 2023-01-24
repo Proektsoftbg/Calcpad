@@ -970,11 +970,10 @@ namespace Calcpad.Core
         internal static Unit GetForceUnit(Unit u)
         {
             var i = (int)u._powers[1] + 3;
-            if (i < 0 || i > 5 || !string.IsNullOrEmpty(u._text) && Units.ContainsKey(u._text))
+            if (i < 0 || i > 5)
                 return u;
 
-            var d = u._factors[0];
-            if (Math.Truncate(d) == d)
+            if (u._factors[0] % 1 == 0)
                 return ForceUnits[i];
 
             return ForceUnits_US[i];
@@ -982,9 +981,6 @@ namespace Calcpad.Core
 
         internal static Unit GetElectricalUnit(Unit u)
         {
-            if (!string.IsNullOrEmpty(u._text) && Units.ContainsKey(u._text))
-                return u;
-
             if (ElectricalUnits.TryGetValue(u, out var eu))
                 return eu;
 

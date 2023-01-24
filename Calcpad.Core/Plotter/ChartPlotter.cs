@@ -178,11 +178,10 @@ namespace Calcpad.Core
 
         Node CalculatePoint(Func<Value> fx, Func<Value> fy, double t)
         {
+            Parser.BreakIfCanceled();
             _var.SetNumber(t);
             var vx = fx();
-            //Parser.CheckReal(vx);
             var vy = fy();
-            //Parser.CheckReal(vy);
             return new Node(vx.Re, vy.Re, t);
         }
 

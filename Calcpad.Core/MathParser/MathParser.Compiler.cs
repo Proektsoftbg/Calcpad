@@ -10,6 +10,83 @@ namespace Calcpad.Core
     {
         private class Compiler
         {
+            private static readonly MethodInfo SetValueMethod = 
+                typeof(Variable).GetMethod(
+                "SetValue",
+                BindingFlags.Instance | BindingFlags.NonPublic,
+                Type.DefaultBinder,
+                new[] { typeof(Value).MakeByRefType() },
+                null
+            );
+
+            private static readonly MethodInfo EvaluateIfMethod = 
+                typeof(Evaluator).GetMethod(
+                "EvaluateIf", 
+                BindingFlags.Static | BindingFlags.NonPublic
+            );
+
+            private static readonly MethodInfo CalculateMethod = 
+                typeof(SolveBlock).GetMethod(
+                "Calculate", 
+                BindingFlags.Instance | BindingFlags.NonPublic
+            );
+
+            private static readonly MethodInfo EvaluateFunctionMethod1 = 
+                typeof(Evaluator).GetMethod(
+                "EvaluateFunction",
+                BindingFlags.Instance | BindingFlags.NonPublic,
+                Type.DefaultBinder,
+                new[] 
+                {
+                    typeof(CustomFunction), 
+                    typeof(Value).MakeByRefType() 
+                },
+                null
+            );
+
+            private static readonly MethodInfo EvaluateFunctionMethod2 = 
+                typeof(Evaluator).GetMethod(
+                "EvaluateFunction",
+                BindingFlags.Instance | BindingFlags.NonPublic,
+                Type.DefaultBinder,
+                new[] 
+                {
+                    typeof(CustomFunction), 
+                    typeof(Value).MakeByRefType(), 
+                    typeof(Value).MakeByRefType()
+                },
+                null
+            );
+
+            private static readonly MethodInfo EvaluateFunctionMethod3 =
+                typeof(Evaluator).GetMethod(
+                "EvaluateFunction",
+                BindingFlags.Instance | BindingFlags.NonPublic,
+                Type.DefaultBinder,
+                new[]
+                {
+                    typeof(CustomFunction), 
+                    typeof(Value).MakeByRefType(),
+                    typeof(Value).MakeByRefType(),
+                    typeof(Value).MakeByRefType()
+                },
+                null
+            );
+
+            private static readonly MethodInfo EvaluateFunctionMethod = 
+                typeof(Evaluator).GetMethod(
+                "EvaluateFunction",
+                BindingFlags.Instance | BindingFlags.NonPublic,
+                Type.DefaultBinder,
+                new[] 
+                {
+                    typeof(CustomFunction), 
+                    typeof(Value[])
+                },
+                null
+            );
+
+
             private readonly MathParser _parser;
             private readonly Container<CustomFunction> _functions;
             private readonly List<SolveBlock> _solveBlocks;
@@ -215,17 +292,10 @@ namespace Calcpad.Core
                         Expression e = ((MemberExpression)a).Expression;
                         ConstantExpression c = (ConstantExpression)e;
                         Variable v = (Variable)c.Value;
-                        Type type = typeof(Variable);
-                        MethodInfo method = type.GetMethod(
-                            "SetValue",
-                            BindingFlags.Instance | BindingFlags.NonPublic,
-                            Type.DefaultBinder,
-                            new[] { typeof(Value).MakeByRefType() },
-                            null
-                            );
+                        ConstantExpression cev = Expression.Constant(v);
                         return Expression.Block(
-                            Expression.Call(Expression.Constant(v), method, b),
-                            Expression.Field(Expression.Constant(v), "Value")
+                            Expression.Call(cev, SetValueMethod, b),
+                            Expression.Field(cev, "Value")
                             );
                     }
 
@@ -271,13 +341,9 @@ namespace Calcpad.Core
                 var vb = EvaluateConstantExpression(b);
                 Value vc;
                 if (t.Type == TokenTypes.Operator)
-                {
                     vc =_calc.GetOperator(t.Index)(va, vb);
-                }
                 else if (t.Type == TokenTypes.Function2)
-                {
                     vc = _calc.GetFunction2(t.Index)(va, vb);
-                }
                 else
 #if BG
                     throw new MathParserException($"Грешка при изчисляване на \"{t.Content}\" като функция или оператор.");
@@ -289,52 +355,87 @@ namespace Calcpad.Core
 
             private static Expression ParseIf(Expression condition, Expression valueIfTrue, Expression valueIfFalse)
             {
-                var method = typeof(Evaluator).GetMethod("EvaluateIf", BindingFlags.Static | BindingFlags.NonPublic);
-                return Expression.Call(method, condition, valueIfTrue, valueIfFalse);
+                return Expression.Call(EvaluateIfMethod, condition, valueIfTrue, valueIfFalse);
             }
 
             private Expression ParseSolver(Token t)
             {
                 var solveBlock = _solveBlocks[t.Index];
                 Expression instance = Expression.Constant(solveBlock);
-                var method = typeof(SolveBlock).GetMethod("Calculate", BindingFlags.Instance | BindingFlags.NonPublic);
-                return Expression.Call(instance, method);
+                return Expression.Call(instance, CalculateMethod);
             }
 
-            private Expression ParseFunction(CustomFunction cf, Expression[] parameters)
+            private Expression ParseFunction(CustomFunction cf, Expression[] arguments)
             {
-                if (AreConstantParameters(parameters))
+                if (cf.IsRecursion)
+                    return Expression.Constant(Value.NaN);
+
+                if (AreConstantParameters(arguments))
                     return Expression.Constant(
                         _parser._evaluator.EvaluateFunction(
-                            cf, EvaluateConstantParameters(parameters)
+                            cf, EvaluateConstantParameters(arguments)
                             )
                         );
 
                 Expression instance = Expression.Constant(_parser._evaluator);
-                var method = typeof(Evaluator).GetMethod("EvaluateFunction", BindingFlags.NonPublic | BindingFlags.Instance);
-                Expression args = Expression.NewArrayInit(typeof(Value), parameters);
-                return Expression.Call(instance, method, Expression.Constant(cf), args);
+                Expression function = Expression.Constant(cf); 
+                var n = arguments.Length;
+                if (n == 1)
+                    return Expression.Call(
+                        instance,
+                        EvaluateFunctionMethod1,
+                        function,
+                        arguments[0]
+                    );
+
+                if (n == 2)
+                    return Expression.Call(
+                        instance,
+                        EvaluateFunctionMethod2,
+                        function,
+                        arguments[0],
+                        arguments[1]
+                    );
+
+                if (n == 3)
+                    return Expression.Call(
+                        instance,
+                        EvaluateFunctionMethod3,
+                        function,
+                        arguments[0],
+                        arguments[1],
+                        arguments[2]
+                    );
+
+                Expression argsExpression = Expression.NewArrayInit(typeof(Value), arguments);
+                return Expression.Call(
+                    instance, 
+                    EvaluateFunctionMethod,
+                    function,
+                    argsExpression
+                );
             }
 
-            private Expression ParseMultiFunction(int Index, Expression[] parameters)
+            private Expression ParseMultiFunction(int Index, Expression[] arguments)
             {
-                if (AreConstantParameters(parameters))
+                if (AreConstantParameters(arguments))
                     return Expression.Constant(
                         _calc.GetMultiFunction(Index)(
-                            EvaluateConstantParameters(parameters)
+                            EvaluateConstantParameters(arguments)
                             )
                         );
 
                 var method = Expression.Constant(_calc.GetMultiFunction(Index));
-                Expression args = Expression.NewArrayInit(typeof(Value), parameters);
-                return Expression.Invoke(method, args);
+                Expression argsExpression = Expression.NewArrayInit(typeof(Value), arguments);
+                return Expression.Invoke(method, argsExpression);
             }
 
             private static bool AreConstantParameters(Expression[] parameters)
             {
                 for (int i = 0, len = parameters.Length; i < len; ++i) 
                     if (parameters[i].NodeType != ExpressionType.Constant) 
-                        return false;    
+                        return false;  
+                
                 return true;
             }
 

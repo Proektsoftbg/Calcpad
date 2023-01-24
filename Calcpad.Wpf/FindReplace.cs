@@ -126,7 +126,7 @@ namespace Calcpad.Wpf
             if (count == 0 && sb.Length == 0)
             {
 #if BG
-                MessageBox.Show("Търсеният текст не е намерен.", "Търсене/Замяна");
+                MessageBox.Show("Търсеният текст не е намерен.", "Търсене и заместване");
 #else
                 MessageBox.Show("Search text not found.", "Find And Replace");
 #endif
@@ -140,7 +140,7 @@ namespace Calcpad.Wpf
             EndReplace(this, null);
             RichTextBox.Selection.Select(from, from);
 #if BG
-            MessageBox.Show($"Заменени са {count} срещания.", "Търсене/Замяна");
+            MessageBox.Show($"Заменени са {count} срещания.", "Търсене и заместване");
 #else
             MessageBox.Show($"{count} matches were replaced.", "Find And Replace");
 #endif
@@ -243,9 +243,9 @@ namespace Calcpad.Wpf
                         if (isStart)
                         {   
                             if (_direction == Directions.Up)
-                                MessageBox.Show("Достигнато е началото на текста. Няма повече съвпадения.", "Търсене/Замяна");
+                                MessageBox.Show("Достигнато е началото на текста. Няма повече съвпадения.", "Търсене и заместване");
                             else
-                                MessageBox.Show("Достигнат е краят на текста. Няма повече съвпадения.", "Търсене/Замяна");
+                                MessageBox.Show("Достигнат е краят на текста. Няма повече съвпадения.", "Търсене и заместване");
 
                             return;
                         }
@@ -276,14 +276,14 @@ namespace Calcpad.Wpf
             if (string.IsNullOrEmpty(SearchString))
             {
 #if BG
-                MessageBox.Show($"Търсеният текст е празен.", "Търсене/Замяна");
+                MessageBox.Show($"Търсеният текст е празен.", "Търсене и заместване");
 #else
                 MessageBox.Show($"The search string is empty.", "Find And Replace");
 #endif
                 return false;
             }
-            if (string.IsNullOrEmpty(SearchString) || replace && ReplaceString is null)
-                return false;
+            if (replace && ReplaceString is null)
+                ReplaceString = string.Empty;
 
             if (SearchString != SearchList.LastOrDefault())
                 SearchList.Add(SearchString);

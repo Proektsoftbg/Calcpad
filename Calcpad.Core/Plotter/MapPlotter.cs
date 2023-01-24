@@ -172,13 +172,13 @@ namespace Calcpad.Core
             varY.SetUnits(yUnits);
             for (int i = 0; i <= _nx; ++i)
             {
+                Parser.BreakIfCanceled();
                 varX.SetNumber(x);
                 var y = startY;
                 for (int j = 0; j <= _ny; ++j)
                 {
                     varY.SetNumber(y);
                     var value = function();
-                    //Parser.CheckReal(value);
                     var z = value.Re;
                     n[i, j] = new Node(x, y * d, z);
                     y += sy;

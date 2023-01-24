@@ -10,6 +10,8 @@ namespace Calcpad.Core
         internal readonly bool IsUnit;
         internal static readonly Value Zero;
         internal static readonly Value One = new(1.0);
+		internal static readonly Value NaN = new(double.NaN);
+
 
         internal Value(double re, double im, Unit units)
         {
@@ -23,24 +25,32 @@ namespace Calcpad.Core
 
         internal Value(double number)
         {
-            Re = number;
+            Re = number;            
+            Im = 0.0;
+            Units = null;
+            IsUnit = false;
         }
 
         internal Value(double number, Unit units)
         {
             Re = number;
             Units = units;
+            Im = 0.0;
+            IsUnit = false;
         }
 
         internal Value(in Complex number)
         {
             Re = number.Re;
             Im = number.Im;
+            Units = null;
+            IsUnit = false;
         }
 
         internal Value(Unit units)
         {
             Re = 1.0;
+            Im = 0.0;
             Units = units;
             IsUnit = true;
         }

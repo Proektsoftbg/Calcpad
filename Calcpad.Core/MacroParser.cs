@@ -85,6 +85,7 @@ namespace Calcpad.Core
             EndDef,
             Include,
         }
+        private readonly List<int> LineNumbers = new();
         private static readonly Dictionary<string, Macro> Macros = new(StringComparer.Ordinal);
         public Func<string, Queue<string>, string> Include;
 
@@ -102,13 +103,16 @@ namespace Calcpad.Core
             return Keywords.None;
         }
 
+        private int _parsedLineNumber;
         public bool Parse(string sourceCode, out string outCode, StringBuilder sb, int includeLine)
         {
             var sourceLines = sourceCode.EnumerateLines();
-            if (sb is null)
+            if (includeLine == 0)
             {
                 sb = new StringBuilder(sourceCode.Length);
                 Macros.Clear();
+                LineNumbers.Clear();
+                _parsedLineNumber = 0;
             }
             var macroBuilder = new StringBuilder(1000);
             var macroName = string.Empty;
@@ -122,7 +126,10 @@ namespace Calcpad.Core
                 foreach (ReadOnlySpan<char> sourceLine in sourceLines)
                 {
                     if (includeLine == 0)
+                    {
+                        LineNumbers.Add(_parsedLineNumber);
                         ++lineNumber;
+                    }
 
                     lineContent = sourceLine.Trim();
                     if (lineContent.IsEmpty)
@@ -156,6 +163,9 @@ namespace Calcpad.Core
                     }
                     AppendLine(sourceLine.ToString());
                 }
+                if (includeLine == 0)
+                    LineNumbers.Add(_parsedLineNumber);
+
                 if (macroDefCount > 0)
                 {
 #if BG
@@ -352,7 +362,11 @@ namespace Calcpad.Core
                 --macroDefCount;
             }
 
-            void AppendLine(string line) => sb.AppendLine(line + '\v' + lineNumber.ToString());
+            void AppendLine(string line)
+            {
+                sb.AppendLine(line + '\v' + lineNumber.ToString());
+                ++_parsedLineNumber;
+            }
 
             void SymbolError(ReadOnlySpan<char> lineContent, char c)
             {
@@ -689,6 +703,14 @@ namespace Calcpad.Core
                     ++commentCount;
             }
             return commentCount % 2 == 1;
+        }
+
+        public int GetUnwarpedLineNumber(int sourceLineNumber)
+        {
+            if (sourceLineNumber < 1 || sourceLineNumber >= LineNumbers.Count)
+                return sourceLineNumber;
+
+            return LineNumbers[sourceLineNumber];        
         }
     }
 }
