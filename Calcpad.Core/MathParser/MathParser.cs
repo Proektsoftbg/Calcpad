@@ -75,7 +75,10 @@ namespace Calcpad.Core
                 _calc = new RealCalculator();
 
             Degrees = settings.Degrees;
-            _solver = new Solver();
+            _solver = new Solver
+            {
+                IsComplex = _settings.IsComplex
+            };
             _input = new Input(this);
             _evaluator = new Evaluator(this);
             _compiler = new Compiler(this);
@@ -197,7 +200,7 @@ namespace Calcpad.Core
             return value.Re;
         }
 
-        private void CheckReal(in Value value)
+        internal void CheckReal(in Value value)
         {
             if (_settings.IsComplex && !value.IsReal)
 #if BG

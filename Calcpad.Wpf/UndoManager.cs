@@ -1,7 +1,5 @@
-﻿using DocumentFormat.OpenXml.Drawing;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Documents;
 
 namespace Calcpad.Wpf
 {
@@ -16,7 +14,7 @@ namespace Calcpad.Wpf
             {
                 Text = text;
                 Line = line;
-                Offset = offset;    
+                Offset = offset;
             }
         }
         private readonly List<Step> _undoStack = new();
@@ -40,7 +38,7 @@ namespace Calcpad.Wpf
                 var last = _undoStack.Last();
                 Add(_redoStack, last);
                 RestoreLine = last.Line;
-                RestoreOffset = last.Offset;    
+                RestoreOffset = last.Offset;
                 _undoStack.RemoveAt(_undoStack.Count - 1);
                 last = _undoStack.Last();
                 RestoreText = last.Text;
@@ -56,7 +54,7 @@ namespace Calcpad.Wpf
                 var last = _redoStack.Last();
                 RestoreText = last.Text;
                 RestoreLine = last.Line;
-                RestoreOffset = last.Offset; 
+                RestoreOffset = last.Offset;
                 Add(_undoStack, last);
                 _redoStack.RemoveAt(_redoStack.Count - 1);
                 return true;

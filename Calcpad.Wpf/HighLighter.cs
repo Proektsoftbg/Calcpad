@@ -1,7 +1,6 @@
 ﻿using Calcpad.Core;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -754,7 +753,7 @@ namespace Calcpad.Wpf
 
         private void ParseBrackets(char c)
         {
-            var t = _state.PreviousTypeIfCurrentIsNone; 
+            var t = _state.PreviousTypeIfCurrentIsNone;
             if (c == '(')
             {
                 ++_state.BracketCount;
@@ -936,7 +935,7 @@ namespace Calcpad.Wpf
                     if (r is not null && r.Text == " ")
                         _state.Paragraph.Inlines.Remove(r);
                 }
-            }    
+            }
             else if (t != Types.Error)
             {
                 t = CheckError(t, ref s);
@@ -957,7 +956,7 @@ namespace Calcpad.Wpf
                 switch (r.Text)
                 {
                     case " = ": r.Text = " ≡ "; return true;
-                    case "!":   r.Text = " ≠ "; return true;
+                    case "!": r.Text = " ≠ "; return true;
                     case " > ": r.Text = " ≥ "; return true;
                     case " < ": r.Text = " ≤ "; return true;
                 };

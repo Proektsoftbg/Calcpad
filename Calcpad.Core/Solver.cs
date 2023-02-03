@@ -13,6 +13,7 @@ namespace Calcpad.Core
     internal class Solver
     {
         private const double Limits = 1E8;
+        internal bool IsComplex = false;
         internal double Precision = 1E-14;
         internal QuadratureMethods QuadratureMethod = QuadratureMethods.AdaptiveLobatto;
         internal Unit Units;
@@ -59,7 +60,7 @@ namespace Calcpad.Core
             var value = Function();
             Units ??= value.Units;
 
-            if (!value.IsReal)
+            if (IsComplex && !value.IsReal)
 #if BG
                 throw new MathParserException($"Не мога да изчисля функцията %F за %V = {x}.");
 #else
@@ -274,7 +275,7 @@ namespace Calcpad.Core
         private double AdaptiveLobatto(double left, double right)
         {
             Units = null;
-            eps = Math.Clamp(Precision, 1e-14, 1e-4) / 2d; 
+            eps = Math.Clamp(Precision, 1e-14, 1e-4) / 2d;
             //Integration must be slightly more precise than differentiation, if used together
             return Lobatto(left, right, Fd(left), Fd(right), 1);
         }
@@ -456,7 +457,7 @@ namespace Calcpad.Core
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void CheckUnits(Unit units)
         {
-            if(!Unit.IsConsistent(units, Units))
+            if (!Unit.IsConsistent(units, Units))
 #if BG
                 throw new MathParserException($"Несъвместими мерни единици в $Sum: \"{Unit.GetText(units)}\" и \"{Unit.GetText(Units)}\".");
 #else

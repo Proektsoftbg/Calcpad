@@ -1,5 +1,4 @@
-﻿using Calcpad.Core;
-using System;
+﻿using System;
 using System.Runtime.CompilerServices;
 
 namespace Calcpad.Core

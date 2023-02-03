@@ -1621,7 +1621,7 @@ namespace Calcpad.Wpf
             _isTextChangedEnabled = false;
             RichTextBox.BeginChange();
             _document.Blocks.Clear();
-            int j = 1;  
+            int j = 1;
             var indent = 0d;
             foreach (var line in lines)
             {
@@ -1989,7 +1989,7 @@ namespace Calcpad.Wpf
                 ScrollOutputToLine(_macroParser.GetUnwarpedLineNumber(_currentLineNumber), offset);
             else
                 ScrollOutputToLine(_currentLineNumber, offset);
-            
+
             _scrollOutput = false;
         }
 
@@ -2731,7 +2731,7 @@ namespace Calcpad.Wpf
                 else if (_parser.IsPaused)
                     Cancel();
             }
-            else if (e.Key == Key.Pause ||  e.Key == Key.P && IsControlDown && IsAltDown)
+            else if (e.Key == Key.Pause || e.Key == Key.P && IsControlDown && IsAltDown)
             {
                 if (_isParsing)
                     Pause();
@@ -3171,10 +3171,10 @@ namespace Calcpad.Wpf
         private void DecimalScrollBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) =>
             DecimalsTextBox.Text = (15 - e.NewValue).ToString();
 
-        private void Record() => 
+        private void Record() =>
             _undoMan.Record(
-                InputText, 
-                _currentLineNumber, 
+                InputText,
+                _currentLineNumber,
                 _currentOffset
             );
 

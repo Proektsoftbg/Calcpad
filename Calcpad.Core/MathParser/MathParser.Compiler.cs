@@ -10,7 +10,7 @@ namespace Calcpad.Core
     {
         private class Compiler
         {
-            private static readonly MethodInfo SetValueMethod = 
+            private static readonly MethodInfo SetValueMethod =
                 typeof(Variable).GetMethod(
                 "SetValue",
                 BindingFlags.Instance | BindingFlags.NonPublic,
@@ -19,40 +19,40 @@ namespace Calcpad.Core
                 null
             );
 
-            private static readonly MethodInfo EvaluateIfMethod = 
+            private static readonly MethodInfo EvaluateIfMethod =
                 typeof(Evaluator).GetMethod(
-                "EvaluateIf", 
+                "EvaluateIf",
                 BindingFlags.Static | BindingFlags.NonPublic
             );
 
-            private static readonly MethodInfo CalculateMethod = 
+            private static readonly MethodInfo CalculateMethod =
                 typeof(SolveBlock).GetMethod(
-                "Calculate", 
+                "Calculate",
                 BindingFlags.Instance | BindingFlags.NonPublic
             );
 
-            private static readonly MethodInfo EvaluateFunctionMethod1 = 
+            private static readonly MethodInfo EvaluateFunctionMethod1 =
                 typeof(Evaluator).GetMethod(
                 "EvaluateFunction",
                 BindingFlags.Instance | BindingFlags.NonPublic,
                 Type.DefaultBinder,
-                new[] 
+                new[]
                 {
-                    typeof(CustomFunction), 
-                    typeof(Value).MakeByRefType() 
+                    typeof(CustomFunction),
+                    typeof(Value).MakeByRefType()
                 },
                 null
             );
 
-            private static readonly MethodInfo EvaluateFunctionMethod2 = 
+            private static readonly MethodInfo EvaluateFunctionMethod2 =
                 typeof(Evaluator).GetMethod(
                 "EvaluateFunction",
                 BindingFlags.Instance | BindingFlags.NonPublic,
                 Type.DefaultBinder,
-                new[] 
+                new[]
                 {
-                    typeof(CustomFunction), 
-                    typeof(Value).MakeByRefType(), 
+                    typeof(CustomFunction),
+                    typeof(Value).MakeByRefType(),
                     typeof(Value).MakeByRefType()
                 },
                 null
@@ -65,7 +65,7 @@ namespace Calcpad.Core
                 Type.DefaultBinder,
                 new[]
                 {
-                    typeof(CustomFunction), 
+                    typeof(CustomFunction),
                     typeof(Value).MakeByRefType(),
                     typeof(Value).MakeByRefType(),
                     typeof(Value).MakeByRefType()
@@ -73,14 +73,14 @@ namespace Calcpad.Core
                 null
             );
 
-            private static readonly MethodInfo EvaluateFunctionMethod = 
+            private static readonly MethodInfo EvaluateFunctionMethod =
                 typeof(Evaluator).GetMethod(
                 "EvaluateFunction",
                 BindingFlags.Instance | BindingFlags.NonPublic,
                 Type.DefaultBinder,
-                new[] 
+                new[]
                 {
-                    typeof(CustomFunction), 
+                    typeof(CustomFunction),
                     typeof(Value[])
                 },
                 null
@@ -158,7 +158,7 @@ namespace Calcpad.Core
 #endif
                                     if (b.NodeType == ExpressionType.Constant)
                                         c = Expression.Constant(-EvaluateConstantExpression(b));
-                                    else 
+                                    else
                                         c = Expression.Negate(b);
                                 }
                                 else
@@ -341,7 +341,7 @@ namespace Calcpad.Core
                 var vb = EvaluateConstantExpression(b);
                 Value vc;
                 if (t.Type == TokenTypes.Operator)
-                    vc =_calc.GetOperator(t.Index)(va, vb);
+                    vc = _calc.GetOperator(t.Index)(va, vb);
                 else if (t.Type == TokenTypes.Function2)
                     vc = _calc.GetFunction2(t.Index)(va, vb);
                 else
@@ -378,7 +378,7 @@ namespace Calcpad.Core
                         );
 
                 Expression instance = Expression.Constant(_parser._evaluator);
-                Expression function = Expression.Constant(cf); 
+                Expression function = Expression.Constant(cf);
                 var n = arguments.Length;
                 if (n == 1)
                     return Expression.Call(
@@ -409,7 +409,7 @@ namespace Calcpad.Core
 
                 Expression argsExpression = Expression.NewArrayInit(typeof(Value), arguments);
                 return Expression.Call(
-                    instance, 
+                    instance,
                     EvaluateFunctionMethod,
                     function,
                     argsExpression
@@ -432,21 +432,21 @@ namespace Calcpad.Core
 
             private static bool AreConstantParameters(Expression[] parameters)
             {
-                for (int i = 0, len = parameters.Length; i < len; ++i) 
-                    if (parameters[i].NodeType != ExpressionType.Constant) 
-                        return false;  
-                
+                for (int i = 0, len = parameters.Length; i < len; ++i)
+                    if (parameters[i].NodeType != ExpressionType.Constant)
+                        return false;
+
                 return true;
             }
 
             private static Value[] EvaluateConstantParameters(Expression[] parameters)
             {
                 var len = parameters.Length;
-                var values = new Value[len];    
+                var values = new Value[len];
                 for (int i = 0; i < len; ++i)
-                    values[i]= EvaluateConstantExpression(parameters[i]);   
+                    values[i] = EvaluateConstantExpression(parameters[i]);
 
-                return values;  
+                return values;
             }
         }
     }

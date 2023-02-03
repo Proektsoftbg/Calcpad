@@ -547,7 +547,8 @@ namespace Calcpad.Core
                         else
                         {
                             t.Index = Calculator.OperatorIndex[t.Content[0]];
-                            t.Order = Calculator.OperatorOrder[t.Index];
+                            if (t.Order < 0)
+                                t.Order = Calculator.OperatorOrder[t.Index];
                         }
                     }
                     if (!isDefinition && i > assignmentIndex && t.Type == TokenTypes.Variable)
