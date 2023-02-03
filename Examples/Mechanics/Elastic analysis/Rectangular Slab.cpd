@@ -16,6 +16,7 @@ q_0 = 16*q/π^2
 k(n) = 2*n + 1
 k_2(n) = 4*n*(n + 1) + 1
 A(m; n) = k_2(m) + α_2*k_2(n)' => 'A_1(m; n) = 1/A(m; n)^2
+B(m; n) = k_2(m) + ν*α_2*k_2(n)' => 'B_1(m; n) = B(m; n)/A(m; n)^2
 C(m; n) = ν*k_2(m) + α_2*k_2(n)' => 'C_1(m; n) = C(m; n)/A(m; n)^2
 S_a(m; x) = sin(k(m)*π/a*x)/k(m)', 'S_b(n; y) = sin(k(n)*π/b*y)/k(n)
 #hide
