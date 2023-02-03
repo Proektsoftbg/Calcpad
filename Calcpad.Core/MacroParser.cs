@@ -570,7 +570,7 @@ namespace Calcpad.Core
                 }
             }
             return count;
-        }   
+        }
 
         public static bool SetLineInputFields(string s, StringBuilder sb, Queue<string> fields, bool forceLine)
         {
@@ -710,7 +710,7 @@ namespace Calcpad.Core
             if (sourceLineNumber < 1 || sourceLineNumber >= LineNumbers.Count)
                 return sourceLineNumber;
 
-            return LineNumbers[sourceLineNumber];        
+            return LineNumbers[sourceLineNumber];
         }
     }
 }

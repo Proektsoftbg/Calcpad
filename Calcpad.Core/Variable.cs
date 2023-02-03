@@ -24,7 +24,7 @@ namespace Calcpad.Core
             _isIntialised = true;
         }
         internal void SetValue(Unit units) => Value = new Value(units);
-        internal void SetValue(in Value value)  => Value = value;
+        internal void SetValue(in Value value) => Value = value;
         internal void SetValue(double number, Unit units)
         {
             Value = new Value(number, units);

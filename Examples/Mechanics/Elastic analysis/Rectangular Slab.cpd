@@ -5,34 +5,37 @@
 'Distributed load -'q = ?*(kN/m^2)
 'Elastic modulus -'E = ?MPa
 'Poisson`s ratio -'ν = ?
-'Number of itarations -'N = ?
+'Number of iterations -'N = ?
 'Cylindrical siffness -'D = E*t^3/(12*(1 - ν^2))
 #rad
 #post
 α = a/b
+α_2 = α^2
+q_0 = 16*q/π^2
+'Auxiliary functions
 k(n) = 2*n + 1
-q(m; n) = 16*q/π^2/(k(m)*k(n))
-A(m; n) = k(m)^2 + (α*k(n))^2
-B(m; n) = k(m)^2 + ν*(α*k(n))^2
-C(m; n) = ν*k(m)^2 + (α*k(n))^2
+k_2(n) = 4*n*(n + 1) + 1
+A(m; n) = k_2(m) + α_2*k_2(n)' => 'A_1(m; n) = 1/A(m; n)^2
+C(m; n) = ν*k_2(m) + α_2*k_2(n)' => 'C_1(m; n) = C(m; n)/A(m; n)^2
+S_a(m; x) = sin(k(m)*π/a*x)/k(m)', 'S_b(n; y) = sin(k(n)*π/b*y)/k(n)
 #hide
 PlotWidth = 50*a
 PlotHeight = 50*b
 PlotStep = 10
 #post
 'Deflections
-w(x; y) = (a/π)^4/D*$Sum{$Sum{q(m; n)/A(m; n)^2*sin(k(m)*π*x/a)*sin(k(n)*π*y/b) @ n = 0 : N} @ m = 0 : N}|mm
+w(x; y) = q_0*(a/π)^4/D*$Sum{S_a(m; x)*$Sum{A_1(m; n)*S_b(n; y) @ n = 0 : N} @ m = 0 : N}|mm
 $Map{-w(x; y) @ x = 0m : a & y = 0m : b}
 'Maximum value -'w(a/2; b/2)
 'Bending moments
-M_x(x; y) = (a/π)^2*$Sum{$Sum{q(m; n)/A(m; n)^2*B(m; n)*sin(k(m)*π*x/a)*sin(k(n)*π*y/b) @ n = 0 : N} @ m = 0 : N}
+M_x(x; y) = q_0*(a/π)^2*$Sum{S_a(m; x)*$Sum{B_1(m; n)*S_b(n; y) @ n = 0 : N} @ m = 0 : N}
 $Map{M_x(x; y) @ x = 0m : a & y = 0m : b}
 'Maximum value -'M_x(a/2; b/2)
-M_y(x; y) = (a/π)^2*$Sum{$Sum{q(m; n)/A(m; n)^2*C(m; n)*sin(k(m)*π*x/a)*sin(k(n)*π*y/b) @ n = 0 : N} @ m = 0 : N}
+M_y(x; y) = q_0*(a/π)^2*$Sum{S_a(m; x)*$Sum{C_1(m; n)*S_b(n; y) @ n = 0 : N} @ m = 0 : N}
 $Map{M_y(x; y) @ x = 0m : a & y = 0m : b}
 'Maximum value -'M_y(a/2; b/2)
 k_1(n) = 2*n
-M_xy(x; y) = -((a/π)^2)*(1 - ν)*$Sum{$Sum{q(m; n)*k(m)*α*k(n)/A(m; n)^2*cos(k(m)*π*x/a)*cos(k(n)*π*y/b) @ n = 0 : N} @ m = 0 : N}
+M_xy(x; y) = -q_0*((a/π)^2)*(1 - ν)*α*$Sum{cos(k(m)*π*x/a)*$Sum{A_1(m; n)*cos(k(n)*π*y/b) @ n = 0 : N} @ m = 0 : N}
 $Map{M_xy(x; y) @ x = 0m : a & y = 0m : b}
 'Maximum value -'M_xy(0m; 0m)|kN
 6	4	0.1	10	35000	0.15	5

@@ -805,9 +805,9 @@ namespace Calcpad.Core
 
         private static Unit MultiplyOrDivide(Unit u1, Unit u2, bool divide = false)
         {
-            if (ReferenceEquals(u1, u2) || 
+            if (ReferenceEquals(u1, u2) ||
                 ReferenceEquals(u1._powers, u2._powers))
-                    return divide ?  null : u1.Pow(2);
+                return divide ? null : u1.Pow(2);
 
             var n1 = u1._powers.Length;
             var n2 = u2._powers.Length;
@@ -914,14 +914,14 @@ namespace Calcpad.Core
         }
 
         internal static bool IsConsistent(Unit u1, Unit u2) =>
-            ReferenceEquals(u1, u2) || 
-            u1 is not null && 
-            u2 is not null && 
+            ReferenceEquals(u1, u2) ||
+            u1 is not null &&
+            u2 is not null &&
             u1.IsConsistent(u2);
 
         private bool IsConsistent(Unit other)
         {
-            if (ReferenceEquals(_powers, other._powers)) 
+            if (ReferenceEquals(_powers, other._powers))
                 return true;
 
             return _powers.AsSpan().SequenceEqual(other._powers.AsSpan());

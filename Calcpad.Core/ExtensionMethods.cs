@@ -38,7 +38,7 @@ namespace Calcpad.Core
         {
             if (string.IsNullOrEmpty(s))
                 return new SpanLineEnumerator();
-            
+
             if (s.Length > 1 && s[^2] == '\r')
                 return s.AsSpan()[..^2].EnumerateLines();
 

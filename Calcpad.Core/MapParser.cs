@@ -105,7 +105,7 @@ namespace Calcpad.Core
                 };
                 _function = Parser.Compile(input[0], parameters);
                 Parser.CompileBlocks();
-                result = GetHtmlImage(parameters[0].Variable , parameters[1].Variable, startX, endX, startY, endY, xUnits, yUnits);
+                result = GetHtmlImage(parameters[0].Variable, parameters[1].Variable, startX, endX, startY, endY, xUnits, yUnits);
             }
             else
                 result = GetHtmlText(input);

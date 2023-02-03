@@ -28,8 +28,8 @@ namespace Calcpad.Core
                     return false;
                 }
 
-                public bool Equals(Tuple other) => 
-                    _x.Equals(other._x) && 
+                public bool Equals(Tuple other) =>
+                    _x.Equals(other._x) &&
                     _y.Equals(other._y);
             }
 
@@ -140,7 +140,7 @@ namespace Calcpad.Core
                 return y;
             }
 
-            internal Value Calculate(in  Value x, in Value y)
+            internal Value Calculate(in Value x, in Value y)
             {
                 if (_cache2?.Count >= MaxCacheSize)
                     _cache2.Clear();
