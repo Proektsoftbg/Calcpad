@@ -18,7 +18,6 @@ namespace Calcpad.Core
             Re = re;
             Im = im;
             Units = units;
-            IsUnit = false;
         }
 
         internal Value(in Complex number, Unit units) : this(number.Re, number.Im, units) { }
@@ -26,25 +25,18 @@ namespace Calcpad.Core
         internal Value(double number)
         {
             Re = number;
-            Im = 0.0;
-            Units = null;
-            IsUnit = false;
         }
 
         internal Value(double number, Unit units)
         {
             Re = number;
             Units = units;
-            Im = 0.0;
-            IsUnit = false;
         }
 
         internal Value(in Complex number)
         {
             Re = number.Re;
             Im = number.Im;
-            Units = null;
-            IsUnit = false;
         }
 
         internal Value(Unit units)

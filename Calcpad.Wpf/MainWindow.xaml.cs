@@ -1155,8 +1155,8 @@ namespace Calcpad.Wpf
 
         private static string FixHref(in string text)
         {
-            var s = Regex.Replace(text, "\\bhref\\b\\s*=\\s*\"(?!#)", @"href=""#0"" data-text=""");
-            s = Regex.Replace(s, "\\s+\\btarget\\b\\s*=\\s*\"\\s*_\\w+\\s*\"", "");
+            var s = MyRegex1().Replace(text, @"href=""#0"" data-text=""");
+            s = MyRegex2().Replace(s, "");
             return s;
         }
 
@@ -1171,8 +1171,8 @@ namespace Calcpad.Wpf
             path = "file:///" + path.Replace('\\', '/');
             parent = "file:///" + parent.Replace('\\', '/');
 
-            var s1 = Regex.Replace(s, "src\\s*=\\s*\"\\s*\\.\\.", @"src=""" + parent);
-            var s2 = Regex.Replace(s1, "src\\s*=\\s*\"\\s*\\.", @"src=""" + path);
+            var s1 = MyRegex3().Replace(s, @"src=""" + parent);
+            var s2 = MyRegex4().Replace(s1, @"src=""" + path);
             return s2;
         }
 
@@ -1243,7 +1243,7 @@ namespace Calcpad.Wpf
 
         private static string[] GetLocalImages(string s)
         {
-            MatchCollection matches = Regex.Matches(s, "src\\s*=\\s*\"\\s*\\.\\.?(.+?)\"");
+            MatchCollection matches = MyRegex5().Matches(s);
             var n = matches.Count;
             if (n == 0)
                 return null;
@@ -3535,5 +3535,20 @@ namespace Calcpad.Wpf
 
         private void SetCodeCheckBoxVisibility() =>
             CodeCheckBox.Visibility = _highlighter.Defined.HasMacros ? Visibility.Visible : Visibility.Hidden;
+        
+        [GeneratedRegex("\\bhref\\b\\s*=\\s*\"(?!#)")]
+        private static partial Regex MyRegex1();
+
+        [GeneratedRegex("\\s+\\btarget\\b\\s*=\\s*\"\\s*_\\w+\\s*\"")]
+        private static partial Regex MyRegex2();
+
+        [GeneratedRegex("src\\s*=\\s*\"\\s*\\.\\.")]
+        private static partial Regex MyRegex3();
+        
+        [GeneratedRegex("src\\s*=\\s*\"\\s*\\.")]
+        private static partial Regex MyRegex4();
+
+        [GeneratedRegex("src\\s*=\\s*\"\\s*\\.\\.?(.+?)\"")]
+        private static partial Regex MyRegex5();
     }
 }
