@@ -193,12 +193,14 @@ namespace Calcpad.Core
                 else
                     _a = parser.CompileRpn(_items[2].Rpn);
 
-                if (_items[3].Rpn.Length == 1 &&
-                    _items[3].Rpn[0].Type == TokenTypes.Constant)
-                    _vb = ((ValueToken)_items[3].Rpn[0]).Value;
-                else
-                    _b = parser.CompileRpn(_items[3].Rpn);
-
+                if (_items[3].Rpn is not null)
+                {
+                    if (_items[3].Rpn.Length == 1 &&
+                        _items[3].Rpn[0].Type == TokenTypes.Constant)
+                        _vb = ((ValueToken)_items[3].Rpn[0]).Value;
+                    else
+                        _b = parser.CompileRpn(_items[3].Rpn);
+                }
                 if (_items[4].Rpn is not null)
                     _y = parser.CompileRpn(_items[4].Rpn);
             }
