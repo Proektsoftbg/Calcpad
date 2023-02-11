@@ -108,7 +108,7 @@
             <MenuItem Header="_File">
                 <MenuItem Command="ApplicationCommands.New" Header="_New"/>
                 <MenuItem Command="ApplicationCommands.Open" Header="_Open"/>
-                <MenuItem x:Name="MenuRecent" Header="_Resent files"/>
+                <MenuItem x:Name="MenuRecent" Header="_Recent files"/>
                 <MenuItem x:Name="MenuSave" Command="ApplicationCommands.Save" Header="_Save"/>
                 <MenuItem Command="ApplicationCommands.SaveAs" Header="Save _As..."/>
                 <MenuItem Command="ApplicationCommands.Close" Header="_Exit"/>
