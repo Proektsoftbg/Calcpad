@@ -218,6 +218,54 @@ namespace Calcpad.Wpf
             _isTextChangedEnabled = true;
         }
 
+        public void SaveState()
+        {
+            Properties.Settings.Default.Contents = InputText;
+            Properties.Settings.Default.FileName = CurrentFileName;
+            Properties.Settings.Default.Save();
+        }
+
+        private bool RestoreState()
+        {
+            var contents = Properties.Settings.Default.Contents;
+            var fileName = Properties.Settings.Default.FileName;
+            Properties.Settings.Default.Contents = null;
+            Properties.Settings.Default.FileName = null;
+            Properties.Settings.Default.Save();
+            if (!(string.IsNullOrEmpty(contents) && string.IsNullOrEmpty(fileName)))
+            {
+                var result = MessageBox.Show(
+@"Calcpad recovered from unexpected shutdown. 
+Would you like to restore your unsaved content?", 
+                    Title, 
+                    MessageBoxButton.YesNo, 
+                    MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes) 
+                {
+                    var tempFile = string.Empty;
+                    try
+                    {
+                        tempFile = Path.GetTempFileName();
+                        File.WriteAllText(tempFile, contents);
+                        FileOpen(tempFile);
+                        CurrentFileName = fileName;
+                    }
+                    catch (Exception ex)
+                    {
+                        ShowErrorMessage(
+@$"Recovery failed with error:
+""{ex.Message}"".
+You can find your unsaved content in
+""{tempFile}""
+or paste it from the Clipboard.");
+                        IsSaved = true;
+                        Command_New(this, null);
+                    }
+                }
+            }
+            return false;
+        }
+
         private void SetCurrentDirectory(string path = null)
         {
             if (string.IsNullOrWhiteSpace(path) || !Directory.Exists(path))
@@ -1350,6 +1398,11 @@ namespace Calcpad.Wpf
         private bool GetInputTextFromFile()
         {
             var lines = ReadLines(CurrentFileName);
+            return GetInputTextFromLines(lines);
+        }
+
+        private bool GetInputTextFromLines(SpanLineEnumerator lines)
+        {
             _isTextChangedEnabled = false;
             RichTextBox.BeginChange();
             _document.Blocks.Clear();
@@ -1767,9 +1820,9 @@ namespace Calcpad.Wpf
                 catch
                 {
 #if BG
-                    MessageBox.Show("Грешка при връщане на мерни единици.", Title, MessageBoxButton.OK, MessageBoxImage.Error);
+                    ShowErrorMessage("Грешка при връщане на мерни единици.");
 #else
-                    MessageBox.Show("Error getting units.", Title, MessageBoxButton.OK, MessageBoxImage.Error);
+                    ShowErrorMessage("Error getting units.");
 #endif
                 }
             }
@@ -1778,6 +1831,9 @@ namespace Calcpad.Wpf
 
             SetInputFields(_wbWarper.GetInputFields());
         }
+
+        private void ShowErrorMessage(string message)=>
+            MessageBox.Show(message, Title, MessageBoxButton.OK, MessageBoxImage.Error);
 
         private void SetUnits()
         {
@@ -1790,9 +1846,9 @@ namespace Calcpad.Wpf
                 catch
                 {
 #if BG
-                    MessageBox.Show("Грешка при задаване на мерни единици.", Title, MessageBoxButton.OK, MessageBoxImage.Error);
+                    ShowErrorMessage("Грешка при задаване на мерни единици.");
 #else
-                    MessageBox.Show("Error setting units.", Title, MessageBoxButton.OK, MessageBoxImage.Error);
+                    ShowErrorMessage("Error setting units.");
 #endif
                 }
             }
@@ -2128,7 +2184,6 @@ namespace Calcpad.Wpf
                 _lastModifiedParagraph = _currentParagraph;
             }
         }
-
 
         private void FillAutoCompleteWithDefined()
         {
@@ -3147,7 +3202,7 @@ namespace Calcpad.Wpf
             }
         }
 
-        private static bool Execute(string fileName, string args = "")
+        private bool Execute(string fileName, string args = "")
         {
             var proc = new Process();
             var psi = new ProcessStartInfo
@@ -3161,9 +3216,9 @@ namespace Calcpad.Wpf
             {
                 return proc.Start();
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
-                MessageBox.Show(Ex.Message);
+                ShowErrorMessage(ex.Message);
                 return false;
             }
         }
