@@ -91,7 +91,6 @@ namespace Calcpad.Wpf
                 }
             }
         }
-
         //State variables
         private readonly string _svgTyping;
         private bool _isSaving;
@@ -118,10 +117,10 @@ namespace Calcpad.Wpf
 
         //Private properites
         private bool IsComplex => _parser.Settings.Math.IsComplex;
-        private bool IsSaved
+        internal bool IsSaved
         {
             get => _isSaved;
-            set
+            private set
             {
                 SaveButton.IsEnabled = !value;
                 MenuSave.IsEnabled = !value;
@@ -218,52 +217,63 @@ namespace Calcpad.Wpf
             _isTextChangedEnabled = true;
         }
 
-        public void SaveState()
+        public bool SaveStateAndRestart()
         {
-            Properties.Settings.Default.Contents = InputText;
+            var tempFile = Path.GetTempFileName();
+            File.WriteAllText(tempFile, InputText);
+            Properties.Settings.Default.TempFile = tempFile;
             Properties.Settings.Default.FileName = CurrentFileName;
             Properties.Settings.Default.Save();
+            _isSaved = true;
+            Execute(AppInfo.FullName);
+            return true;
         }
 
-        private bool RestoreState()
+        private void TryRestoreState()
         {
-            var contents = Properties.Settings.Default.Contents;
-            var fileName = Properties.Settings.Default.FileName;
-            Properties.Settings.Default.Contents = null;
-            Properties.Settings.Default.FileName = null;
-            Properties.Settings.Default.Save();
-            if (!(string.IsNullOrEmpty(contents) && string.IsNullOrEmpty(fileName)))
+            var tempFile = Properties.Settings.Default.TempFile;
+            if (!string.IsNullOrEmpty(tempFile))
             {
+                var fileName = Properties.Settings.Default.FileName;
+                Properties.Settings.Default.TempFile = null;
+                Properties.Settings.Default.FileName = null;
+                Properties.Settings.Default.Save();
+#if BG
+                var message = "Calcpad се рестартира след неочаквано прекъсване.\nЖелаете ли да се възстановят незаписаните данни?";
+#else
+                var message = "Calcpad recovered from unexpected shutdown.\nWould you like to restore your unsaved data?";
+#endif
                 var result = MessageBox.Show(
-@"Calcpad recovered from unexpected shutdown. 
-Would you like to restore your unsaved content?", 
-                    Title, 
-                    MessageBoxButton.YesNo, 
+                    message,
+                    "Calcpad",
+                    MessageBoxButton.YesNo,
                     MessageBoxImage.Question);
-                if (result == MessageBoxResult.Yes) 
+                if (result == MessageBoxResult.Yes)
                 {
-                    var tempFile = string.Empty;
                     try
                     {
-                        tempFile = Path.GetTempFileName();
-                        File.WriteAllText(tempFile, contents);
                         FileOpen(tempFile);
                         CurrentFileName = fileName;
                     }
                     catch (Exception ex)
                     {
+#if BG
+@$"Възстановяването беше неуспешно поради грешка:
+""{ex.Message}"".
+Може да намерите незаписаното съдържание в
+""{tempFile}"".");
+#else
                         ShowErrorMessage(
 @$"Recovery failed with error:
 ""{ex.Message}"".
-You can find your unsaved content in
-""{tempFile}""
-or paste it from the Clipboard.");
+You can find your unsaved data in
+""{tempFile}"".");
+#endif
                         IsSaved = true;
                         Command_New(this, null);
                     }
                 }
             }
-            return false;
         }
 
         private void SetCurrentDirectory(string path = null)
@@ -362,7 +372,7 @@ or paste it from the Clipboard.");
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, "Error");
+                ShowErrorMessage(e.Message);
             }
         }
 
@@ -384,7 +394,7 @@ or paste it from the Clipboard.");
 #else
                         "Stop! Inline Html elements must not cross text lines."
 #endif
-                        , Title, MessageBoxButton.OK, MessageBoxImage.Stop);
+                        , "Calcpad", MessageBoxButton.OK, MessageBoxImage.Stop);
                     return;
                 }
                 else
@@ -919,7 +929,7 @@ or paste it from the Clipboard.");
                                     }
                                     catch (Exception e)
                                     {
-                                        MessageBox.Show(e.Message, "Error");
+                                        ShowErrorMessage(e.Message);
                                         break;
                                     }
 
@@ -1023,8 +1033,9 @@ or paste it from the Clipboard.");
             if (_isParsing)
                 _parser.Cancel();
 
-            CurrentFileName = fileName;
             var ext = Path.GetExtension(fileName);
+            CurrentFileName = fileName;
+
             var hasForm = GetInputTextFromFile();
             if (ext == ".cpdz")
             {
@@ -1066,8 +1077,11 @@ or paste it from the Clipboard.");
                 }
             }
             _mustPromptUnlock = IsWebForm;
-            IsSaved = true;
-            AddRecentFile(CurrentFileName);
+            if (ext != ".tmp")
+            {
+                IsSaved = true;
+                AddRecentFile(CurrentFileName);
+            }
         }
 
         private MessageBoxResult PromptSave()
@@ -1075,9 +1089,9 @@ or paste it from the Clipboard.");
             var result = MessageBoxResult.No;
             if (!IsSaved)
 #if BG
-                result = MessageBox.Show("Файлът не е записан. Запис?", Title, MessageBoxButton.YesNoCancel);
+                result = MessageBox.Show("Файлът не е записан. Запис?", "Calcpad", MessageBoxButton.YesNoCancel);
 #else
-                result = MessageBox.Show("File not saved. Save?", Title, MessageBoxButton.YesNoCancel);
+                result = MessageBox.Show("File not saved. Save?", "Calcpad", MessageBoxButton.YesNoCancel);
 #endif
             if (result == MessageBoxResult.Yes)
             {
@@ -1185,11 +1199,7 @@ or paste it from the Clipboard.");
             }
             catch (Exception e)
             {
-#if BG
-                MessageBox.Show(e.Message, $"Грешка", MessageBoxButton.OK, MessageBoxImage.Error);
-#else
-                MessageBox.Show(e.Message, $"Error", MessageBoxButton.OK, MessageBoxImage.Error);
-#endif
+                ShowErrorMessage(e.Message);
             }
             if (IsWebForm)
 #if BG
@@ -1341,7 +1351,7 @@ or paste it from the Clipboard.");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ShowErrorMessage(ex.Message);
                 s = string.Empty;
             }
             return s;
@@ -1368,7 +1378,7 @@ or paste it from the Clipboard.");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error");
+                ShowErrorMessage(ex.Message);
             }
             return lines;
         }
@@ -1391,18 +1401,13 @@ or paste it from the Clipboard.");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error");
+                ShowErrorMessage(ex.Message);
             }
         }
 
         private bool GetInputTextFromFile()
         {
             var lines = ReadLines(CurrentFileName);
-            return GetInputTextFromLines(lines);
-        }
-
-        private bool GetInputTextFromLines(SpanLineEnumerator lines)
-        {
             _isTextChangedEnabled = false;
             RichTextBox.BeginChange();
             _document.Blocks.Clear();
@@ -1597,7 +1602,7 @@ or paste it from the Clipboard.");
 #else
                             const string message = "Error exporting docx file. Display validation log?";
 #endif
-                            if (MessageBox.Show(message, Title, MessageBoxButton.YesNo, MessageBoxImage.Error) == MessageBoxResult.Yes)
+                            if (MessageBox.Show(message, "Calcpad", MessageBoxButton.YesNo, MessageBoxImage.Error) == MessageBoxResult.Yes)
                             {
                                 var logFile = fileName + "_validation.log";
                                 WriteFile(logFile, logString);
@@ -1618,7 +1623,7 @@ or paste it from the Clipboard.");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Title, MessageBoxButton.OK, MessageBoxImage.Error);
+                ShowErrorMessage(ex.Message);
             }
         }
 
@@ -1746,7 +1751,7 @@ or paste it from the Clipboard.");
 #else
                 const string message = "Are you sure you want to unlock the source code for editing?";
 #endif
-                if (MessageBox.Show(message, Title, MessageBoxButton.YesNo) == MessageBoxResult.No)
+                if (MessageBox.Show(message, "Calcpad", MessageBoxButton.YesNo) == MessageBoxResult.No)
                     return;
 
                 _mustPromptUnlock = false;
@@ -1831,9 +1836,6 @@ or paste it from the Clipboard.");
 
             SetInputFields(_wbWarper.GetInputFields());
         }
-
-        private void ShowErrorMessage(string message)=>
-            MessageBox.Show(message, Title, MessageBoxButton.OK, MessageBoxImage.Error);
 
         private void SetUnits()
         {
@@ -2184,6 +2186,7 @@ or paste it from the Clipboard.");
                 _lastModifiedParagraph = _currentParagraph;
             }
         }
+
 
         private void FillAutoCompleteWithDefined()
         {
@@ -3202,7 +3205,7 @@ or paste it from the Clipboard.");
             }
         }
 
-        private bool Execute(string fileName, string args = "")
+        private static bool Execute(string fileName, string args = "")
         {
             var proc = new Process();
             var psi = new ProcessStartInfo
@@ -3216,9 +3219,9 @@ or paste it from the Clipboard.");
             {
                 return proc.Start();
             }
-            catch (Exception ex)
+            catch (Exception Ex)
             {
-                ShowErrorMessage(ex.Message);
+                ShowErrorMessage(Ex.Message);
                 return false;
             }
         }
@@ -3590,7 +3593,12 @@ or paste it from the Clipboard.");
 
         private void SetCodeCheckBoxVisibility() =>
             CodeCheckBox.Visibility = _highlighter.Defined.HasMacros ? Visibility.Visible : Visibility.Hidden;
-        
+
+
+        private static void ShowErrorMessage(string message) =>
+            MessageBox.Show(message, "Calcpad", MessageBoxButton.OK, MessageBoxImage.Error);
+
+
         [GeneratedRegex("\\bhref\\b\\s*=\\s*\"(?!#)")]
         private static partial Regex MyRegex1();
 
@@ -3599,11 +3607,16 @@ or paste it from the Clipboard.");
 
         [GeneratedRegex("src\\s*=\\s*\"\\s*\\.\\.")]
         private static partial Regex MyRegex3();
-        
+
         [GeneratedRegex("src\\s*=\\s*\"\\s*\\.")]
         private static partial Regex MyRegex4();
 
         [GeneratedRegex("src\\s*=\\s*\"\\s*\\.\\.?(.+?)\"")]
         private static partial Regex MyRegex5();
+
+        private void Window_ContentRendered(object sender, EventArgs e)
+        {
+            TryRestoreState();
+        }
     }
 }
