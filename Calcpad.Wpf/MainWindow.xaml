@@ -4,7 +4,7 @@
     xmlns:av="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="av"
     x:Class="Calcpad.Wpf.MainWindow"
     Closing="Window_Closing" 
-    Title=" Calcpad 5.9.4" 
+    Title=" Calcpad 5.9.5" 
     Height="800" 
     Width="1200"
     WindowStartupLocation="CenterScreen"
@@ -12,7 +12,7 @@
     HorizontalContentAlignment="Center" 
     KeyUp="Window_KeyUp" 
     Icon="Resources/calcpad.ico" 
-    Unloaded="Window_Unloaded" Loaded="Window_Loaded" WindowStyle="ThreeDBorderWindow" Activated="Window_Activated">
+    Unloaded="Window_Unloaded" Loaded="Window_Loaded" WindowStyle="ThreeDBorderWindow" Activated="Window_Activated" ContentRendered="Window_ContentRendered">
     <Window.Resources>
         <Style TargetType="{x:Type Button}">
             <Style.Triggers>

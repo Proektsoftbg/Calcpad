@@ -5,13 +5,13 @@
     <LangVersion>latest</LangVersion>
     <AnalysisLevel>latest</AnalysisLevel>
     <UseWPF>true</UseWPF>
-    <StartupObject>Calcpad.App</StartupObject>
+    <StartupObject>Calcpad.Wpf.App</StartupObject>
     <ApplicationIcon>calcpad.ico</ApplicationIcon>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Authors>Nedelcho Ganchovski</Authors>
     <RootNamespace>Calcpad.Wpf</RootNamespace>
     <Platforms>AnyCPU</Platforms>
-		<Version>5.9.4</Version>
+		<Version>5.9.5</Version>
 		<Authors>Nedelcho Ganchovski</Authors>
 		<Company>Proektsoft EOOD</Company>
     <PackageId>Calcpad</PackageId>
