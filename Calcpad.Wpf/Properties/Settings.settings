@@ -8,7 +8,7 @@
     <Setting Name="FileName" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="Contents" Type="System.String" Scope="User">
+    <Setting Name="TempFile" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

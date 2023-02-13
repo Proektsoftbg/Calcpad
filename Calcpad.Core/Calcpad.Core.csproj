@@ -5,7 +5,7 @@
     <AnalysisLevel>latest</AnalysisLevel>
     <RootNamespace>Calcpad.Core</RootNamespace>
     <OutputType>Library</OutputType>
-    <Version>5.9.4</Version>
+    <Version>5.9.5</Version>
     <Authors>Nedelcho Ganchovski</Authors>
     <Company>Proektsoft EOOD</Company>
   </PropertyGroup>

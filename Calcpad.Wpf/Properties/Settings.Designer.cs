@@ -49,12 +49,12 @@ namespace Calcpad.Wpf.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string Contents {
+        public string TempFile {
             get {
-                return ((string)(this["Contents"]));
+                return ((string)(this["TempFile"]));
             }
             set {
-                this["Contents"] = value;
+                this["TempFile"] = value;
             }
         }
     }

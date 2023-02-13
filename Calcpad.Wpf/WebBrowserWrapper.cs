@@ -21,7 +21,6 @@ namespace Calcpad.Wpf
         }
         private static readonly Guid SID_SWebBrowserApp = new("0002DF05-0000-0000-C000-000000000046");
 
-
         internal WebBrowserWrapper(WebBrowser wb)
         {
             _wb = wb;
@@ -93,8 +92,14 @@ namespace Calcpad.Wpf
             catch { }
         }
 
-        internal void ClearHighlight() =>
-             _wb.InvokeScript("eval", $"$(\".eq\").hover(function(){{$(this).css(\"background\",\"none\");}});");
+        internal void ClearHighlight()
+        {
+            try
+            {
+                _wb.InvokeScript("eval", $"$(\".eq\").hover(function(){{$(this).css(\"background\",\"none\");}});");
+            }
+            catch { }
+        }
 
         internal string ExportOpenXml(string path)
         {
@@ -141,8 +146,13 @@ namespace Calcpad.Wpf
     } 
     return text;
 }).get().join();";
-            var text = _wb.InvokeScript("eval", script);
-            return text.ToString();
+            try
+            {
+                var text = _wb.InvokeScript("eval", script);
+                return text.ToString();
+            }
+            catch { }
+            return string.Empty;
         }
 
         private static string GetHtmlData(string html)
@@ -182,8 +192,20 @@ EndFragment:0000000004";
         internal string[] GetInputFields()
         {
             const string script = "$(\"input[type='text'][name='Var']\").map(function(){return this.className.split('-')[1] + ':' + $(this).val();}).get().join('│');";
-            var s = _wb.InvokeScript("eval", script).ToString();
-            return s.Trim('"').Split('│');
+            try
+            {
+                var s = _wb.InvokeScript("eval", script).ToString();
+                return s.Trim('"').Split('│');
+            }
+            catch
+            {
+#if BG
+                MessageBox.Show("Грешка при чете на стойностите на входните данни.", "Calcpad", MessageBoxButton.OK, MessageBoxImage.Error); 
+#else
+                MessageBox.Show("Error getting input fields values.", "Calcpad", MessageBoxButton.OK, MessageBoxImage.Error);
+#endif
+            }
+            return null;
         }
     }
 }
