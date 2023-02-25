@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 using static Calcpad.Core.MathParser;
 
 namespace Calcpad.Core
@@ -436,33 +437,31 @@ namespace Calcpad.Core
         internal double Sum(double start, double end)
         {
             GetBounds(start, end, out var n1, out var n2);
-            var s1 = Fd(n1);
-            var s2 = 0d;
+            var sum = Fd(n1);
             var units = Units;
             var hasUnits = units is not null;
-            var dn = (n2 - n1) / 100;
             n1++;
-            var n = dn < 100000 ? n2: n1 + dn;
             Units = null;
+            // Variable to store the error for the Kahan summation algorithm
+            var c = 0d;
             for (int i = n1; i <= n2; ++i)
             {
                 var d = Fd(i);
-                //Improves precision for large sums
-                if (i > n)
-                {
-                    n += dn;
-                    s2 += s1;
-                    s1 = 0d;
-                }
-                s1 += d;
+                //Kahan summation algorithm
+                var y = d - c;
+                var t = sum + y;
+                c = (t - sum) - y;
+                sum = t;
+                //End 
+
                 if (hasUnits)
                     CheckUnits(units);
 
-                if (double.IsInfinity(s1 + s2))
+                if (double.IsInfinity(sum))
                     break;
             }
             Units = units;
-            return s1 + s2;
+            return sum;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
