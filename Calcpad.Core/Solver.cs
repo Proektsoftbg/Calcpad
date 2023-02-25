@@ -436,22 +436,33 @@ namespace Calcpad.Core
         internal double Sum(double start, double end)
         {
             GetBounds(start, end, out var n1, out var n2);
-            var number = Fd(n1);
+            var s1 = Fd(n1);
+            var s2 = 0d;
             var units = Units;
             var hasUnits = units is not null;
+            var dn = (n2 - n1) / 100;
             n1++;
+            var n = dn < 100000 ? n2: n1 + dn;
             Units = null;
             for (int i = n1; i <= n2; ++i)
             {
-                number += Fd(i);
+                var d = Fd(i);
+                //Improves precision for large sums
+                if (i > n)
+                {
+                    n += dn;
+                    s2 += s1;
+                    s1 = 0d;
+                }
+                s1 += d;
                 if (hasUnits)
                     CheckUnits(units);
 
-                if (double.IsInfinity(number))
+                if (double.IsInfinity(s1 + s2))
                     break;
             }
             Units = units;
-            return number;
+            return s1 + s2;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
