@@ -99,7 +99,7 @@
 
                     if (v.IsUnit)
                         ValType = 2;
-                    else if (v.Units is null)
+                    else if (v.Units is null && t.Type != TokenTypes.Variable)
                         ValType = 1;
                     else
                         ValType = 3;
