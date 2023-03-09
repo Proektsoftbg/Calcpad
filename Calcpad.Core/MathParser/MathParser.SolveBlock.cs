@@ -351,23 +351,27 @@ namespace Calcpad.Core
                 return Result;
             }
 
-            internal string ToHtml()
+            internal string ToHtml(bool formatEquations)
             {
-                if (_type == SolverTypes.Integral || _type == SolverTypes.Area)
-                    return new HtmlWriter().FormatNary(
-                        $"<em>{TypeName(_type)}</em>",
-                        _items[2].Html,
-                        _items[3].Html,
-                        _items[0].Html + " d" + _items[1].Html
-                        );
+                if (formatEquations)
+                {
+                    if (_type == SolverTypes.Integral || _type == SolverTypes.Area)
+                        return new HtmlWriter().FormatNary(
+                            $"<em>{TypeName(_type)}</em>",
+                            _items[2].Html,
+                            _items[3].Html,
+                            _items[0].Html + " d" + _items[1].Html
+                            );
 
-                if (_type == SolverTypes.Sum || _type == SolverTypes.Product)
-                    return new HtmlWriter().FormatNary(
-                        TypeName(_type),
-                        _items[1].Html + "=&hairsp;" + _items[2].Html,
-                        _items[3].Html,
-                        _items[0].Html
-                        );
+                    if (_type == SolverTypes.Sum || _type == SolverTypes.Product)
+                        return new HtmlWriter().FormatNary(
+                            TypeName(_type),
+                            _items[1].Html + "=&hairsp;" + _items[2].Html,
+                            _items[3].Html,
+                            _items[0].Html
+                            );
+
+                }
 
                 var sb = new StringBuilder();
                 sb.Append("<span class=\"cond\">" + TypeName(_type) + "</span>{");
@@ -459,10 +463,10 @@ namespace Calcpad.Core
                     _type == SolverTypes.Area ||
                     _type == SolverTypes.Repeat)
                     return new TextWriter().FormatNary(
-                        TypeName(_type),
-                        _items[1].Html + " = " + _items[2].Html,
-                        _items[3].Html,
-                        _items[0].Html
+                        "$" + _type.ToString(),
+                        _items[1].Input + " = " + _items[2].Input,
+                        _items[3].Input,
+                        _items[0].Input
                         );
 
                 var sb = new StringBuilder();

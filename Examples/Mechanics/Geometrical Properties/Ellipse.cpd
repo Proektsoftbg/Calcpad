@@ -5,9 +5,9 @@ a=?'%u,'b=?'%u
 'Area
 A = π*a*b'%u<sup>2</sup>
 'Centroid
-y_c = b'%u,'z_c = a'%u
+y_c = a'%u,'z_c = b'%u
 'Perimeter (approx.)
-P  =π*(3*(a+b)-sqr((3*a+b)*(a+3*b)))'%u
+P = π*(3*(a+b)-sqr((3*a+b)*(a+3*b)))'%u
 'Second moments of area
 I_y = π*a*b^3/4'%u<sup>4</sup>
 I_z = π*b*a^3/4'%u<sup>4</sup>

@@ -70,7 +70,7 @@ namespace Calcpad.Core
                 <= '~' => CharTypes[c],
                 >= 'Α' and <= 'Ω' or >= 'α' and <= 'ω' or 'ϕ' or 'ϑ' or '℧' => TokenTypes.Unit,
                 '≡' or '≠' or '≤' or '≥' or '÷' => TokenTypes.Operator,
-                '°' or '′' or '″' or '‴' or '⁗' or 'ø' or 'Ø' or '∡' => TokenTypes.Unit,
+                '‰' or '°' or '′' or '″' or '‴' or '⁗' or 'ø' or 'Ø' or '∡' => TokenTypes.Unit,
                 _ => TokenTypes.Error,
             };
 
@@ -110,6 +110,9 @@ namespace Calcpad.Core
                 {
                     var c = (i == n) ? ' ' : expression[i];
                     var tt = GetCharType(c); //Get the type from a predefined array
+                    if (c == '%' && i > 0 && expression[i - 1] == '.')
+                        tt = TokenTypes.Unit;
+
                     if (!isInput && InputSolver(c, tt, ref textSpan, tokenLiteral, i))
                         continue;
 
@@ -187,15 +190,25 @@ namespace Calcpad.Core
                                     isUnitDivision = true;
                                     tokens.Enqueue(new Token('(', TokenTypes.BracketLeft));
                                 }
-                                t = MakeValueToken(tokenLiteral.ToString(), string.Empty);
-                                tokens.Enqueue(t);
-                                tokenLiteral.Reset(i);
-                                if (!unitsLiteral.IsEmpty)
+                                if (tokenLiteral.Equals(".") && !unitsLiteral.IsEmpty)
                                 {
-                                    tokens.Enqueue(new Token("*", TokenTypes.Operator, MultOrder - 1));
                                     t = MakeValueToken(null, unitsLiteral.ToString());
                                     tokens.Enqueue(t);
+                                    tokenLiteral.Reset(i);
                                     unitsLiteral.Reset(i);
+                                }
+                                else
+                                {
+                                    t = MakeValueToken(tokenLiteral.ToString(), string.Empty);
+                                    tokens.Enqueue(t);
+                                    tokenLiteral.Reset(i);
+                                    if (!unitsLiteral.IsEmpty)
+                                    {
+                                        tokens.Enqueue(new Token("*", TokenTypes.Operator, MultOrder - 1));
+                                        t = MakeValueToken(null, unitsLiteral.ToString());
+                                        tokens.Enqueue(t);
+                                        unitsLiteral.Reset(i);
+                                    }
                                 }
                             }
                             else
@@ -574,7 +587,7 @@ namespace Calcpad.Core
                     }
                     if (t.Type == TokenTypes.Unit)
                     {
-                        var c = pt.Content[0];
+                        var c =  pt?.Content[0];
                         if (isUnit)
                         {
                             if (c == '*' || c == '/' || c == '÷')

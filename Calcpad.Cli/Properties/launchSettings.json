@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Calcpad.Cli": {
+      "commandName": "Project",
+      "commandLineArgs": "\r\n"
+    }
+  }
+}

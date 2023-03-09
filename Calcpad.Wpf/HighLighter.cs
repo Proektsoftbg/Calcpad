@@ -798,9 +798,11 @@ namespace Calcpad.Wpf
 
         private void ParseOperator(char c)
         {
+            var len = _builder.Length;
+            var isPercent = c == '%' && len > 0 && _builder[len - 1] == '.' || _state.IsUnits;
             Append(_state.PreviousTypeIfCurrentIsNone);
             _builder.Append(c);
-            Append(Types.Operator);
+            Append(isPercent ? Types.Units : Types.Operator);
             _state.CurrentType = Types.Operator;
             if (c == '=')
                 GetLocalVariables((Run)_state.Paragraph.Inlines.LastInline, _state.CommandCount > 0);

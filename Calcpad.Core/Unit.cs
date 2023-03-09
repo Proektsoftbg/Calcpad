@@ -338,6 +338,8 @@ namespace Calcpad.Core
             Units = new(StringComparer.Ordinal)
             {
                 {string.Empty, null},
+                {"%",     new(0) {_text = "%" } },
+                {"‰",     new(0) {_text = "‰" } },
                 {"g",     kg},
                 {"hg",    kg.Shift(2)},
                 {"kg",    kg.Shift(3)},

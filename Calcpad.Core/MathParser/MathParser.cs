@@ -84,6 +84,13 @@ namespace Calcpad.Core
             _compiler = new Compiler(this);
             _output = new Output(this);
         }
+        
+        public void SaveAnswer()
+        {
+            var v = new Value(Result, Units);
+            SetVariable("ans", v);
+            SetVariable("ANS", v);
+        }
 
         internal void SetVariable(string name, Value value)
         {
