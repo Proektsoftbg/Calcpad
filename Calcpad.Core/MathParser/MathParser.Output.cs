@@ -103,8 +103,6 @@ namespace Calcpad.Core
                 return _stringBuilder.ToString();
             }
 
-
-
             private static readonly int PlusOrder = Calculator.OperatorOrder[Calculator.OperatorIndex['+']];
             private static readonly int MinusOrder = Calculator.OperatorOrder[Calculator.OperatorIndex['-']];
 
@@ -120,302 +118,39 @@ namespace Calcpad.Core
                     var t = new RenderToken(rpn[i], 0);
                     var tt = t.Type;
                     if (tt == TokenTypes.Solver)
-                    {
-                        t.Content = RenderSolver(t.Index, substitute, _formatEquations, writer);
-                        if (_solveBlocks[t.Index].IsFigure && !substitute)
-                        {
-                            t.Type = TokenTypes.Solver;
-                            t.Order = MinusOrder;
-                            t.Level = 1;
-                        }
-                        else
-                            t.Type = TokenTypes.Constant;
-                    }
+                        RenderSolverToken(t, writer);
                     else if (tt == TokenTypes.Input)
-                    {
-                        var units = ((ValueToken)rpn[i]).Value.Units;
-                        t.Content = writer.FormatInput(t.Content, units, _parser.Line, _parser._isCalculated);
-                    }
+                        RenderInputToken(t, i);
                     else if (tt == TokenTypes.Constant || tt == TokenTypes.Unit)
-                    {
-                        var v = Value.Zero;
-                        var hasValue = true;
-                        if (rpn[i] is ValueToken valToken)
-                            v = valToken.Value;
-                        else if (rpn[i] is VariableToken varToken)
-                            v = varToken.Variable.Value;
-                        else
-                            hasValue = false;
-
-                        if (hasValue)
-                        {
-                            if (tt == TokenTypes.Unit)
-                                t.Content = writer.UnitString(v.Units);
-                            else
-                                t.Content = writer.FormatValue(v, _decimals);
-
-                            t.IsCompositeValue = v.IsComposite();
-                        }
-                    }
+                        RenderConstantToken(t, i);
                     else if (tt == TokenTypes.Variable)
-                    {
-                        var vt = (VariableToken)rpn[i];
-                        var v = i > 0 && vt.Content == _parser._backupVariable.Key ?
-                            _parser._backupVariable.Value :
-                            vt.Variable.Value;
-                        if (substitute)
-                        {
-                            t.Content = writer.FormatValue(v, _decimals);
-                            t.IsCompositeValue = v.IsComposite() || t.Content.Contains('×');
-                            t.Order = Token.DefaultOrder;
-                            if (_parser._settings.IsComplex && v.IsComplex && v.Units is null)
-                                t.Order = v.Im < 0 ? MinusOrder : PlusOrder;
-                        }
-                        else
-                        {
-                            var s = !_parser._settings.Substitute && _parser._functionDefinitionIndex < 0 && _parser._isCalculated ?
-                                textWriter.FormatValue(v, _decimals) :
-                                string.Empty;
-                            t.Content = writer.FormatVariable(t.Content, s);
-                        }
-                    }
+                        RenderVariableToken(t, i);
                     else
                     {
                         var b = stackBuffer.Pop();
-                        var sb = b.Content;
                         if (t.Content == NegateString)
-                        {
-                            bool isNegative = IsNegative(b);
-                            if (isNegative || b.Order > Token.DefaultOrder)
-                            {
-                                sb = writer.AddBrackets(sb, b.Level);
-                                hasOperators = true;
-                            }
-
-                            t.Content = writer.FormatOperator(NegateChar) + sb;
-                            t.Level = b.Level;
-                            if (b.Type == TokenTypes.Constant)
-                            {
-                                t.Type = b.Type;
-                                t.Order = b.Order;
-                                t.ValType = b.ValType;
-                            }
-                        }
+                            RenderNegationToken(t, b, ref hasOperators);
                         else if (tt == TokenTypes.Operator)
-                        {
-                            if (substitute && t.Content == "=")
-                            {
-                                if (b.Offset != 0 && writer is HtmlWriter)
-                                    sb = HtmlWriter.OffsetDivision(sb, b.Offset);
-
-                                t.Content = sb;
-                                t.Level = b.Level;
-                            }
-                            else
-                            {
-                                var content = t.Content;
-                                if (!stackBuffer.TryPop(out var a))
-                                    a = new RenderToken(string.Empty, content == "-" ? TokenTypes.Constant : TokenTypes.None, 0);
-
-                                var level = a.Level + b.Level + 1;
-                                var isInline = writer is HtmlWriter && content != "^" && !(level < 4 && (content == "/" || content == "÷"));
-                                if (b.Offset != 0 && isInline)
-                                    sb = HtmlWriter.OffsetDivision(sb, b.Offset);
-
-                                var sa = a.Content;
-                                if (a.Order > t.Order && !(_formatEquations && content == "/"))
-                                    sa = writer.AddBrackets(sa, a.Level);
-
-                                if (a.Offset != 0 && isInline)
-                                    sa = HtmlWriter.OffsetDivision(sa, a.Offset);
-
-                                if (content == "^")
-                                {
-                                    if (a.IsCompositeValue || IsNegative(a))
-                                        sa = writer.AddBrackets(sa, a.Level);
-
-                                    if (writer is TextWriter && (IsNegative(b) || b.Order != Token.DefaultOrder))
-                                        sb = writer.AddBrackets(sb, b.Level);
-
-                                    t.Content = writer.FormatPower(sa, sb, a.Level, a.Order);
-                                    t.Level = a.Level;
-                                    t.ValType = a.ValType;
-                                    if (a.ValType != 2)
-                                        hasOperators = true;
-                                }
-                                else
-                                {
-                                    var formatEquation = writer is not TextWriter &&
-                                        (_formatEquations && content == "/" || content == "÷");
-                                    if (
-                                            !formatEquation &&
-                                            (
-                                                b.Order > t.Order ||
-                                                b.Order == t.Order && (content == "-" || content == "/") ||
-                                                IsNegative(b) && content != "="
-                                            )
-                                        )
-                                        sb = writer.AddBrackets(sb, b.Level);
-
-                                    if (formatEquation)
-                                    {
-                                        level = a.Level + b.Level + 1;
-                                        if (level >= 4)
-                                        {
-                                            if (a.Order > t.Order)
-                                                sa = writer.AddBrackets(sa, a.Level);
-
-                                            if (b.Order > t.Order)
-                                                sb = writer.AddBrackets(sb, b.Level);
-                                        }
-                                        t.Content = writer.FormatDivision(sa, sb, level);
-                                        if (level < 4)
-                                        {
-                                            if (level == 2)
-                                                t.Offset = a.Level - b.Level;
-                                        }
-                                        else
-                                            level = Math.Max(a.Level, b.Level);
-                                    }
-                                    else
-                                    {
-                                        if (writer is TextWriter)
-                                            level = 0;
-                                        else
-                                            level = Math.Max(a.Level, b.Level);
-
-                                        if (content == "*" && a.ValType == 1 && b.ValType == 2)
-                                        {
-                                            if (writer is TextWriter)
-                                                t.Content = sa + sb;
-                                            else
-                                                t.Content = sa + hairSpace + sb;
-                                        }
-                                        else
-                                            t.Content = sa + writer.FormatOperator(content[0]) + sb;
-                                    }
-                                    t.ValType = a.ValType == b.ValType ? a.ValType : (byte)3;
-                                    t.Level = level;
-                                    if (content == "=")
-                                        _assignmentIndex = t.Content.Length - sb.Length;
-                                    else
-                                    {
-                                        if (t.Order != 1 && !(a.ValType == 1 && b.ValType == 2))
-                                            hasOperators = true;
-                                    }
-                                }
-                            }
-                        }
-                        else if (tt == TokenTypes.Function2)
-                        {
-                            var a = stackBuffer.Pop();
-                            if (t.Content == "root")
-                            {
-                                t.Content = writer.FormatRoot(a.Content, _formatEquations, a.Level, sb);
-                                t.Level = b.Level;
-                            }
-                            else
-                            {
-                                t.Level = Math.Max(a.Level, b.Level);
-                                t.Content = writer.FormatFunction(t.Content) + writer.AddBrackets(a.Content + div + sb, t.Level);
-                            }
-                            hasOperators = true;
-                        }
-                        else if (tt == TokenTypes.If)
-                        {
-                            var a = stackBuffer.Pop();
-                            var c = stackBuffer.Pop();
-                            if (_formatEquations)
-                            {
-                                t.Level = Math.Max(a.Level, c.Level);
-                                if (t.Level == 0)
-                                    t.Level = b.Level + 1;
-                                else
-                                    t.Level += b.Level == 0 ? 1 : b.Level;
-
-                                t.Content = writer.FormatIf(c.Content, a.Content, sb, t.Level);
-                            }
-                            else
-                            {
-                                t.Level = Math.Max(a.Level, Math.Max(b.Level, c.Level));
-                                t.Content = writer.FormatFunction(t.Content) + writer.AddBrackets(c.Content + div + a.Content + div + sb, t.Level);
-                            }
-                            
-                            hasOperators = true;
-                        }
-                        else if (tt == TokenTypes.MultiFunction)
-                        {
-                            var mfParamCount = t.ParameterCount - 1;
-                            t.Level = b.Level;
-                            if (string.Equals(t.Content, "switch", StringComparison.OrdinalIgnoreCase) && _formatEquations)
-                            {
-                                var args = new string[mfParamCount + 1];
-                                for (int j = mfParamCount - 1; j >= 0; --j)
-                                {
-                                    var a = stackBuffer.Pop();
-                                    args[j] = a.Content;
-                                    if (a.Level > t.Level)
-                                        t.Level = a.Level;
-                                }
-                                args[mfParamCount] = sb;
-                                t.Content = writer.FormatSwitch(args, t.Level);
-                            }
-                            else
-                            {
-                                var s = sb;
-                                for (int j = 0; j < mfParamCount; ++j)
-                                {
-                                    var a = stackBuffer.Pop();
-                                    s = a.Content + div + s;
-                                    if (a.Level > t.Level)
-                                        t.Level = a.Level;
-                                }
-                                t.Content = writer.FormatFunction(t.Content) + writer.AddBrackets(s, t.Level);
-                            }
-                            hasOperators = true;
-                        }
-                        else if (tt == TokenTypes.CustomFunction)
-                        {
-                            var cf = _functions[t.Index];
-                            var cfParamCount = cf.ParameterCount - 1;
-                            var s = sb;
-                            t.Level = b.Level;
-                            for (int j = 0; j < cfParamCount; ++j)
-                            {
-                                var a = stackBuffer.Pop();
-                                s = a.Content + div + s;
-                                if (a.Level > t.Level)
-                                    t.Level = a.Level;
-                            }
-                            t.Content = writer.FormatVariable(t.Content, string.Empty) + writer.AddBrackets(s, t.Level);
-                            hasOperators = true;
-                        }
-                        else if (t.Content == "!")
-                        {
-                            if (IsNegative(b) || b.Order > Token.DefaultOrder)
-                                sb = writer.AddBrackets(sb, b.Level);
-                            t.Content = sb + writer.FormatOperator('!');
-                            t.Level = b.Level;
-                            hasOperators = true;
-                        }
-                        else if (t.Content == "sqr" || t.Content == "sqrt" || t.Content == "cbrt")
-                        {
-                            t.Content = writer.FormatRoot(sb, _formatEquations, b.Level, t.Content == "cbrt" ? "3" : "2");
-                            t.Level = b.Level;
-                            hasOperators = true;
-                        }
-                        else if (t.Content == "abs")
-                        {
-                            t.Content = writer.FormatAbs(sb, b.Level);
-                            t.Level = b.Level;
-                            hasOperators = true;
-                        }
+                            RenderOperatorToken(t, b, ref hasOperators);
                         else
                         {
-                            t.Content = (tt == TokenTypes.Function ?
-                                writer.FormatFunction(t.Content) :
-                                writer.FormatVariable(t.Content, string.Empty)) + writer.AddBrackets(sb, b.Level);
-                            t.Level = b.Level;
+                            if (tt == TokenTypes.Function2)
+                                RenderFunction2Token(t, b); 
+                            else if (tt == TokenTypes.If)
+                                RenderIfToken(t, b);    
+                            else if (tt == TokenTypes.MultiFunction)
+                                RenderMultiFunctionToken(t, b); 
+                            else if (tt == TokenTypes.CustomFunction)
+                                RenderCustomFunctionToken(t, b);    
+                            else if (t.Content == "!")
+                                RenderFactorialToken(t, b);
+                            else if (t.Content == "sqr" || t.Content == "sqrt" || t.Content == "cbrt")
+                                RenderRootToken(t, b);
+                            else if (t.Content == "abs")
+                                RenderAbsToken(t, b);
+                            else
+                                RenderFunctionToken(t, b);
+
                             hasOperators = true;
                         }
                     }
@@ -426,6 +161,317 @@ namespace Calcpad.Core
                     return result.Content;
 
                 return string.Empty;
+
+                void RenderSolverToken(RenderToken t, OutputWriter writer)
+                {
+                    t.Content = RenderSolver(t.Index, substitute, _formatEquations, writer);
+                    if (_solveBlocks[t.Index].IsFigure && !substitute)
+                    {
+                        t.Type = TokenTypes.Solver;
+                        t.Order = MinusOrder;
+                        t.Level = 1;
+                    }
+                    else
+                        t.Type = TokenTypes.Constant;
+                }
+
+                void RenderInputToken(RenderToken t, int i)
+                {
+                    var units = ((ValueToken)rpn[i]).Value.Units;
+                    t.Content = writer.FormatInput(t.Content, units, _parser.Line, _parser._isCalculated);
+                }
+
+                void RenderConstantToken(RenderToken t, int i)
+                {
+                    var v = Value.Zero;
+                    var hasValue = true;
+                    if (rpn[i] is ValueToken valToken)
+                        v = valToken.Value;
+                    else if (rpn[i] is VariableToken varToken)
+                        v = varToken.Variable.Value;
+                    else
+                        hasValue = false;
+
+                    if (hasValue)
+                    {
+                        if (t.Type == TokenTypes.Unit)
+                            t.Content = writer.UnitString(v.Units);
+                        else
+                            t.Content = writer.FormatValue(v, _decimals);
+
+                        t.IsCompositeValue = v.IsComposite();
+                    }
+                }
+
+                void RenderVariableToken(RenderToken t, int i)
+                {
+                    var vt = (VariableToken)rpn[i];
+                    var v = i > 0 && vt.Content == _parser._backupVariable.Key ?
+                        _parser._backupVariable.Value :
+                        vt.Variable.Value;
+                    if (substitute)
+                    {
+                        t.Content = writer.FormatValue(v, _decimals);
+                        t.IsCompositeValue = v.IsComposite() || t.Content.Contains('×');
+                        t.Order = Token.DefaultOrder;
+                        if (_parser._settings.IsComplex && v.IsComplex && v.Units is null)
+                            t.Order = v.Im < 0 ? MinusOrder : PlusOrder;
+                    }
+                    else
+                    {
+                        var s = !_parser._settings.Substitute && _parser._functionDefinitionIndex < 0 && _parser._isCalculated ?
+                            textWriter.FormatValue(v, _decimals) :
+                            string.Empty;
+                        t.Content = writer.FormatVariable(t.Content, s);
+                    }
+                }
+
+                void RenderNegationToken(RenderToken t, RenderToken b, ref bool hasOperators)
+                {
+                    var sb = b.Content;
+                    bool isNegative = IsNegative(b);
+                    if (isNegative || b.Order > Token.DefaultOrder)
+                    {
+                        sb = writer.AddBrackets(sb, b.Level);
+                        hasOperators = true;
+                    }
+
+                    t.Content = writer.FormatOperator(NegateChar) + sb;
+                    t.Level = b.Level;
+                    if (b.Type == TokenTypes.Constant)
+                    {
+                        t.Type = b.Type;
+                        t.Order = b.Order;
+                        t.ValType = b.ValType;
+                    }
+                }
+
+                void RenderOperatorToken(RenderToken t, RenderToken b, ref bool hasOperators)
+                {
+                    var sb = b.Content;
+                    if (substitute && t.Content == "=")
+                    {
+                        if (b.Offset != 0 && writer is HtmlWriter)
+                            sb = HtmlWriter.OffsetDivision(sb, b.Offset);
+
+                        t.Content = sb;
+                        t.Level = b.Level;
+                    }
+                    else
+                    {
+                        var content = t.Content;
+                        if (!stackBuffer.TryPop(out var a))
+                            a = new RenderToken(string.Empty, content == "-" ? TokenTypes.Constant : TokenTypes.None, 0);
+
+                        var level = a.Level + b.Level + 1;
+                        var isInline = writer is HtmlWriter && content != "^" && !(level < 4 && (content == "/" || content == "÷"));
+                        if (b.Offset != 0 && isInline)
+                            sb = HtmlWriter.OffsetDivision(sb, b.Offset);
+
+                        var sa = a.Content;
+                        if (a.Order > t.Order && !(_formatEquations && content == "/"))
+                            sa = writer.AddBrackets(sa, a.Level);
+
+                        if (a.Offset != 0 && isInline)
+                            sa = HtmlWriter.OffsetDivision(sa, a.Offset);
+
+                        if (content == "^")
+                        {
+                            if (a.IsCompositeValue || IsNegative(a))
+                                sa = writer.AddBrackets(sa, a.Level);
+
+                            if (writer is TextWriter && (IsNegative(b) || b.Order != Token.DefaultOrder))
+                                sb = writer.AddBrackets(sb, b.Level);
+
+                            t.Content = writer.FormatPower(sa, sb, a.Level, a.Order);
+                            t.Level = a.Level;
+                            t.ValType = a.ValType;
+                            if (a.ValType != 2)
+                                hasOperators = true;
+                        }
+                        else
+                        {
+                            var formatEquation = writer is not TextWriter &&
+                                (_formatEquations && content == "/" || content == "÷");
+                            if (
+                                    !formatEquation &&
+                                    (
+                                        b.Order > t.Order ||
+                                        b.Order == t.Order && (content == "-" || content == "/") ||
+                                        IsNegative(b) && content != "="
+                                    )
+                                )
+                                sb = writer.AddBrackets(sb, b.Level);
+
+                            if (formatEquation)
+                            {
+                                level = a.Level + b.Level + 1;
+                                if (level >= 4)
+                                {
+                                    if (a.Order > t.Order)
+                                        sa = writer.AddBrackets(sa, a.Level);
+
+                                    if (b.Order > t.Order)
+                                        sb = writer.AddBrackets(sb, b.Level);
+                                }
+                                t.Content = writer.FormatDivision(sa, sb, level);
+                                if (level < 4)
+                                {
+                                    if (level == 2)
+                                        t.Offset = a.Level - b.Level;
+                                }
+                                else
+                                    level = Math.Max(a.Level, b.Level);
+                            }
+                            else
+                            {
+                                if (writer is TextWriter)
+                                    level = 0;
+                                else
+                                    level = Math.Max(a.Level, b.Level);
+
+                                if (content == "*" && a.ValType == 1 && b.ValType == 2)
+                                {
+                                    if (writer is TextWriter)
+                                        t.Content = sa + sb;
+                                    else
+                                        t.Content = sa + hairSpace + sb;
+                                }
+                                else
+                                    t.Content = sa + writer.FormatOperator(content[0]) + sb;
+                            }
+                            t.ValType = a.ValType == b.ValType ? a.ValType : (byte)3;
+                            t.Level = level;
+                            if (content == "=")
+                                _assignmentIndex = t.Content.Length - sb.Length;
+                            else
+                            {
+                                if (t.Order != 1 && !(a.ValType == 1 && b.ValType == 2))
+                                    hasOperators = true;
+                            }
+                        }
+                    }
+                }
+
+                void RenderFunction2Token(RenderToken t, RenderToken b)
+                {
+                    var sb = b.Content;
+                    var a = stackBuffer.Pop();
+                    if (t.Content == "root")
+                    {
+                        t.Content = writer.FormatRoot(a.Content, _formatEquations, a.Level, sb);
+                        t.Level = b.Level;
+                    }
+                    else
+                    {
+                        t.Level = Math.Max(a.Level, b.Level);
+                        t.Content = writer.FormatFunction(t.Content) + writer.AddBrackets(a.Content + div + sb, t.Level);
+                    }
+                }
+
+                void RenderIfToken(RenderToken t, RenderToken b)
+                {
+                    var sb = b.Content;
+                    var a = stackBuffer.Pop();
+                    var c = stackBuffer.Pop();
+                    if (_formatEquations)
+                    {
+                        t.Level = Math.Max(a.Level, c.Level);
+                        if (t.Level == 0)
+                            t.Level = b.Level + 1;
+                        else
+                            t.Level += b.Level == 0 ? 1 : b.Level;
+
+                        t.Content = writer.FormatIf(c.Content, a.Content, sb, t.Level);
+                    }
+                    else
+                    {
+                        t.Level = Math.Max(a.Level, Math.Max(b.Level, c.Level));
+                        t.Content = writer.FormatFunction(t.Content) + writer.AddBrackets(c.Content + div + a.Content + div + sb, t.Level);
+                    }
+                }
+
+                void RenderMultiFunctionToken(RenderToken t, RenderToken b)
+                {
+                    var sb = b.Content;
+                    var mfParamCount = t.ParameterCount - 1;
+                    t.Level = b.Level;
+                    if (string.Equals(t.Content, "switch", StringComparison.OrdinalIgnoreCase) && _formatEquations)
+                    {
+                        var args = new string[mfParamCount + 1];
+                        for (int j = mfParamCount - 1; j >= 0; --j)
+                        {
+                            var a = stackBuffer.Pop();
+                            args[j] = a.Content;
+                            if (a.Level > t.Level)
+                                t.Level = a.Level;
+                        }
+                        args[mfParamCount] = sb;
+                        t.Content = writer.FormatSwitch(args, t.Level);
+                    }
+                    else
+                    {
+                        var s = sb;
+                        for (int j = 0; j < mfParamCount; ++j)
+                        {
+                            var a = stackBuffer.Pop();
+                            s = a.Content + div + s;
+                            if (a.Level > t.Level)
+                                t.Level = a.Level;
+                        }
+                        t.Content = writer.FormatFunction(t.Content) + writer.AddBrackets(s, t.Level);
+                    }
+                }
+
+                void RenderCustomFunctionToken(RenderToken t, RenderToken b)
+                {
+                    var sb = b.Content;
+                    var cf = _functions[t.Index];
+                    var cfParamCount = cf.ParameterCount - 1;
+                    var s = sb;
+                    t.Level = b.Level;
+                    for (int j = 0; j < cfParamCount; ++j)
+                    {
+                        var a = stackBuffer.Pop();
+                        s = a.Content + div + s;
+                        if (a.Level > t.Level)
+                            t.Level = a.Level;
+                    }
+                    t.Content = writer.FormatVariable(t.Content, string.Empty) + writer.AddBrackets(s, t.Level);
+                }
+
+                void RenderFactorialToken(RenderToken t, RenderToken b)
+                {
+                    var sb = b.Content;
+                    if (IsNegative(b) || b.Order > Token.DefaultOrder)
+                        sb = writer.AddBrackets(sb, b.Level);
+                    t.Content = sb + writer.FormatOperator('!');
+                    t.Level = b.Level;
+                }
+
+                void RenderRootToken(RenderToken t, RenderToken b)
+                {
+                    var sb = b.Content;
+                    t.Content = writer.FormatRoot(sb, _formatEquations, b.Level, t.Content == "cbrt" ? "3" : "2");
+                    t.Level = b.Level;
+                }
+
+                void RenderAbsToken(RenderToken t, RenderToken b)
+                {
+                    var sb = b.Content;
+                    t.Content = writer.FormatAbs(sb, b.Level);
+                    t.Level = b.Level;
+   
+                }
+
+                void RenderFunctionToken(RenderToken t, RenderToken b)
+                {
+                    var sb = b.Content;
+                    t.Content = (t.Type == TokenTypes.Function ?
+                        writer.FormatFunction(t.Content) :
+                        writer.FormatVariable(t.Content, string.Empty)) + writer.AddBrackets(sb, b.Level);
+                    t.Level = b.Level;
+                }
             }
 
             private string RenderSolver(int index, bool substitute, bool formatEquations, OutputWriter writer)
