@@ -155,7 +155,7 @@ A variable name must start with a letter. Names are case sensitive.
 * Iterative and numerical methods:  
 &emsp;&emsp;$Root { f(x) = const @ x = a : b } - root finding for f(x) = const;  
 &emsp;&emsp;$Root { f(x) @ x = a : b } - root finding for f(x) = 0;  
-&emsp;&emsp;$Find { f(x) @ x = a : b } similar to above, but x is not required to be a precise solution;  
+&emsp;&emsp;$Find { f(x) @ x = a : b } - similar to above, but x is not required to be a precise solution;  
 &emsp;&emsp;$Sup { f(x) @ x = a : b } - local maximum of a function;  
 &emsp;&emsp;$Inf { f(x) @ x = a : b } - local minimum of a function;  
 &emsp;&emsp;$Area { f(x) @ x = a : b } - adaptive Gauss-Lobatto numerical integration;  
@@ -234,7 +234,8 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;&emsp;#input - renders an input form to the current line and waits for user input.  
 * Switches for trigonometric units: #deg - degrees, #rad - radians, #gra - gradians;  
 * Separator for target units: |;  
-* Angle units (dimensionless): °, ′, ″, deg, rad, grad, rev;  
+* Dimensionless: %, ‰;
+* Angle units: °, ′, ″, deg, rad, grad, rev;  
 * Metric units (SI and compatible):  
 &emsp;&emsp;Mass: g, hg, kg, t, kt, Mt, Gt, dg, cg, mg, μg, Da, u;  
 &emsp;&emsp;Length: m, km, dm, cm, mm, μm, nm, pm, AU, ly;  

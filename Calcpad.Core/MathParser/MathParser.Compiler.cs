@@ -220,7 +220,7 @@ namespace Calcpad.Core
                 if (t.Type == TokenTypes.Unit)
                 {
                     if (t is ValueToken vt)
-                        return Expression.Constant(vt.Value);
+                        return Expression.Constant(Evaluator.EvaluatePercent(vt.Value));
 
                     return Expression.Constant(((VariableToken)t).Variable.Value);
                 }
@@ -243,7 +243,7 @@ namespace Calcpad.Core
                 if (v.IsInitialized)
                 {
                     if (t.Index < 0)
-                        return Expression.Constant(v.Value);
+                        return Expression.Constant(Evaluator.EvaluatePercent(v.Value));
 
                     return Expression.Field(Expression.Constant(v), "Value");
                 }

@@ -121,7 +121,7 @@ namespace Calcpad.Core
                     var tt = t.Type;
                     if (tt == TokenTypes.Solver)
                     {
-                        t.Content = RenderSolver(t.Index, substitute, writer);
+                        t.Content = RenderSolver(t.Index, substitute, _formatEquations, writer);
                         if (_solveBlocks[t.Index].IsFigure && !substitute)
                         {
                             t.Type = TokenTypes.Solver;
@@ -129,9 +129,7 @@ namespace Calcpad.Core
                             t.Level = 1;
                         }
                         else
-                        {
                             t.Type = TokenTypes.Constant;
-                        }
                     }
                     else if (tt == TokenTypes.Input)
                     {
@@ -287,7 +285,12 @@ namespace Calcpad.Core
                                             level = Math.Max(a.Level, b.Level);
 
                                         if (content == "*" && a.ValType == 1 && b.ValType == 2)
-                                            t.Content = sa + hairSpace + sb;
+                                        {
+                                            if (writer is TextWriter)
+                                                t.Content = sa + sb;
+                                            else
+                                                t.Content = sa + hairSpace + sb;
+                                        }
                                         else
                                             t.Content = sa + writer.FormatOperator(content[0]) + sb;
                                     }
@@ -322,23 +325,53 @@ namespace Calcpad.Core
                         {
                             var a = stackBuffer.Pop();
                             var c = stackBuffer.Pop();
-                            t.Level = Math.Max(Math.Max(a.Level, b.Level), c.Level);
-                            t.Content = writer.FormatFunction(t.Content) + writer.AddBrackets(c.Content + div + a.Content + div + sb, t.Level);
+                            if (_formatEquations)
+                            {
+                                t.Level = Math.Max(a.Level, c.Level);
+                                if (t.Level == 0)
+                                    t.Level = b.Level + 1;
+                                else
+                                    t.Level += b.Level == 0 ? 1 : b.Level;
+
+                                t.Content = writer.FormatIf(c.Content, a.Content, sb, t.Level);
+                            }
+                            else
+                            {
+                                t.Level = Math.Max(a.Level, Math.Max(b.Level, c.Level));
+                                t.Content = writer.FormatFunction(t.Content) + writer.AddBrackets(c.Content + div + a.Content + div + sb, t.Level);
+                            }
+                            
                             hasOperators = true;
                         }
                         else if (tt == TokenTypes.MultiFunction)
                         {
                             var mfParamCount = t.ParameterCount - 1;
-                            var s = sb;
                             t.Level = b.Level;
-                            for (int j = 0; j < mfParamCount; ++j)
+                            if (string.Equals(t.Content, "switch", StringComparison.OrdinalIgnoreCase) && _formatEquations)
                             {
-                                var a = stackBuffer.Pop();
-                                s = a.Content + div + s;
-                                if (a.Level > t.Level)
-                                    t.Level = a.Level;
+                                var args = new string[mfParamCount + 1];
+                                for (int j = mfParamCount - 1; j >= 0; --j)
+                                {
+                                    var a = stackBuffer.Pop();
+                                    args[j] = a.Content;
+                                    if (a.Level > t.Level)
+                                        t.Level = a.Level;
+                                }
+                                args[mfParamCount] = sb;
+                                t.Content = writer.FormatSwitch(args, t.Level);
                             }
-                            t.Content = writer.FormatFunction(t.Content) + writer.AddBrackets(s, t.Level);
+                            else
+                            {
+                                var s = sb;
+                                for (int j = 0; j < mfParamCount; ++j)
+                                {
+                                    var a = stackBuffer.Pop();
+                                    s = a.Content + div + s;
+                                    if (a.Level > t.Level)
+                                        t.Level = a.Level;
+                                }
+                                t.Content = writer.FormatFunction(t.Content) + writer.AddBrackets(s, t.Level);
+                            }
                             hasOperators = true;
                         }
                         else if (tt == TokenTypes.CustomFunction)
@@ -395,13 +428,13 @@ namespace Calcpad.Core
                 return string.Empty;
             }
 
-            private string RenderSolver(int index, bool substitute, OutputWriter writer)
+            private string RenderSolver(int index, bool substitute, bool formatEquations, OutputWriter writer)
             {
                 if (substitute)
                     return writer.FormatValue(_solveBlocks[index].Result, _decimals);
 
                 if (writer is HtmlWriter)
-                    return _solveBlocks[index].ToHtml();
+                    return _solveBlocks[index].ToHtml(formatEquations);
 
                 if (writer is XmlWriter)
                     return _solveBlocks[index].ToXml();

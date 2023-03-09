@@ -1,5 +1,6 @@
 "Geometrical Properties of Elliptical Pipe
 '<hr /><div style="max-width:120mm"><img style="height:112pt;" alt="elliptical-pipe.png" class="side" src="https://calcpad.eu/media/mechanics/sections/elliptical-pipe.png"></div>
+'(ellipse with elliptical hole)
 'Dimensions
 a = ?'%u,'b = ?'%u
 t = ?'%u
@@ -8,7 +9,7 @@ b_1 = b - t'%u
 'Area
 A = π*(a*b - a_1*b_1)'%u<sup>2</sup>
 'Centroid
-y_c = b'%u,'z_c = a'%u
+y_c = a'%u,'z_c = b'%u
 'Perimeter (approx.)
 P = π*(3*(a + b) - sqr((3*a + b)*(a + 3*b)))'%u
 'Second moments of area

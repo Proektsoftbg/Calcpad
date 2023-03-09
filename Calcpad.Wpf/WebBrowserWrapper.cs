@@ -26,6 +26,26 @@ namespace Calcpad.Wpf
             _wb = wb;
         }
 
+        private bool IsReport
+        {
+            get
+            {
+                try
+                {
+                    if (_wb.IsInitialized)
+                    {
+                        var title = _wb.InvokeScript("document.title") as string;
+                        return string.Equals(title, "Calcpad");
+                    }
+                    return false;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
         internal string GetLinkData()
         {
             var tagName = _wb.InvokeScript("eval", "document.activeElement.tagName").ToString();
@@ -48,18 +68,48 @@ namespace Calcpad.Wpf
 
                 return "m";
             }
-
             set => _wb.InvokeScript("eval", $"$('#Units').val('{value}');");
         }
 
         internal double ScrollY
         {
-            get => double.Parse(_wb.InvokeScript("eval", "window.pageYOffset;").ToString());
-            set => _wb.InvokeScript("eval", $"window.scrollTo(0, {value});");
+            get
+            {
+                try
+                {
+                    return double.Parse(_wb.InvokeScript("eval", "window.pageYOffset;").ToString());
+                }
+                catch
+                {
+                    return 0d;
+                }
+
+            }
+            set
+            {
+                try
+                {
+                    _wb.InvokeScript("eval", $"window.scrollTo(0, {value});");
+                }
+                catch { }
+            }
         }
 
-        internal double GetVerticalPosition(int line) =>
-             (double)_wb.InvokeScript("eval", $"getVerticalPosition({line});");
+        internal double GetVerticalPosition(int line)
+        {
+            try
+            {
+                if (!IsReport)
+                    return 0d;
+
+                return (double)_wb.InvokeScript("eval", $"getVerticalPosition({line});");
+            }
+            catch
+            {
+                return 0d;
+            }
+        }
+             
 
         internal bool IsContextMenu
         {
@@ -79,7 +129,8 @@ namespace Calcpad.Wpf
         {
             try
             {
-                _wb.InvokeScript("eval", $"var e = document.getElementById('line-{line}'); if(e){{window.scrollTo(0, e.offsetTop - {offset});}}");
+                if (IsReport)
+                    _wb.InvokeScript("eval", $"var e = document.getElementById('line-{line}'); if(e){{window.scrollTo(0, e.offsetTop - {offset});}}");
             }
             catch { }
         }
@@ -87,6 +138,7 @@ namespace Calcpad.Wpf
         {
             try
             {
+                if (IsReport)
                 _wb.InvokeScript("eval", $"var e = document.getElementById('line-{line}'); if(e){{e.innerHTML='{content}';}}");
             }
             catch { }

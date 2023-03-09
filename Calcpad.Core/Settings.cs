@@ -1,5 +1,8 @@
-﻿namespace Calcpad.Core
+﻿using System;
+
+namespace Calcpad.Core
 {
+    [Serializable()]
     public class Settings
     {
         public MathSettings Math { get; set; }
@@ -13,6 +16,7 @@
         }
     }
 
+    [Serializable()]
     public class MathSettings
     {
         private int _decimals;
@@ -44,6 +48,7 @@
         }
     }
 
+    [Serializable()]
     public class PlotSettings
     {
         private bool _shadows;

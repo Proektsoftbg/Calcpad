@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
+using SD = System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -27,6 +28,14 @@ namespace Calcpad.Wpf
         //Static resources
         private static readonly char[] GreekLetters = { 'α', 'β', 'χ', 'δ', 'ε', 'φ', 'γ', 'η', 'ι', 'ø', 'κ', 'λ', 'μ', 'ν', 'ο', 'π', 'θ', 'ρ', 'σ', 'τ', 'υ', 'ϑ', 'ω', 'ξ', 'ψ', 'ζ' };
         private static readonly char[] LatinLetters = { 'a', 'b', 'g', 'd', 'e', 'z', 'h', 'q', 'i', 'k', 'l', 'm', 'n', 'x', 'o', 'p', 'r', 's', 's', 't', 'u', 'f', 'c', 'y', 'w' };
+        private static readonly Regex MyRegex1 = new("\\bhref\\b\\s*=\\s*\"(?!#)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex MyRegex2 = new("\\s+\\btarget\\b\\s*=\\s*\"\\s*_\\w+\\s*\"", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex MyRegex3 = new("src\\s*=\\s*\"\\s*\\.\\.", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex MyRegex4 = new("src\\s*=\\s*\"\\s*\\.", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex MyRegex5 = new("src\\s*=\\s*\"\\s*\\.\\.?(.+?)\"", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+
+
         internal readonly struct AppInfo
         {
             static AppInfo()
@@ -905,8 +914,12 @@ You can find your unsaved data in
                 var targetPath = Path.GetDirectoryName(newFileName);
                 if (sourcePath != targetPath && Directory.Exists(targetPath))
                 {
-                    var sourceParent = Directory.GetParent(sourcePath).FullName;
-                    var targetParent = Directory.GetParent(targetPath).FullName;
+                    var sourceParent = Directory.GetDirectoryRoot(sourcePath);    
+                    var targetParent = Directory.GetDirectoryRoot(targetPath);
+                    if (!string.Equals(sourceParent, sourcePath, StringComparison.OrdinalIgnoreCase))
+                        sourceParent = Directory.GetParent(sourcePath).FullName;
+                    if (!string.Equals(targetParent, targetPath, StringComparison.OrdinalIgnoreCase))
+                        targetParent = Directory.GetParent(targetPath).FullName;
                     var regexString = @"src\s*=\s*""\s*\.\./";
                     for (int i = 0; i < 2; ++i)
                     {
@@ -937,6 +950,10 @@ You can find your unsaved data in
                             }
                         }
                         regexString = @"src\s*=\s*""\s*\./";
+                        if (string.Equals(sourceParent, sourcePath, StringComparison.OrdinalIgnoreCase)
+                        && string.Equals(targetParent, targetPath, StringComparison.OrdinalIgnoreCase))
+                            return;
+
                         sourceParent = sourcePath;
                         targetParent = targetPath;
                     }
@@ -1213,8 +1230,8 @@ You can find your unsaved data in
 
         private static string FixHref(in string text)
         {
-            var s = MyRegex1().Replace(text, @"href=""#0"" data-text=""");
-            s = MyRegex2().Replace(s, "");
+            var s = MyRegex1.Replace(text, @"href=""#0"" data-text=""");
+            s = MyRegex2.Replace(s, "");
             return s;
         }
 
@@ -1225,12 +1242,16 @@ You can find your unsaved data in
                 return s;
 
             var path = Path.GetDirectoryName(CurrentFileName);
-            var parent = Directory.GetParent(path).FullName;
+            var s1 = s;
+            var parent = Directory.GetDirectoryRoot(path);
+            if (!string.Equals(parent, path, StringComparison.OrdinalIgnoreCase))
+            {
+                parent = Directory.GetParent(path).FullName;
+                parent = "file:///" + parent.Replace('\\', '/');
+                s1 = MyRegex3.Replace(s, @"src=""" + parent);
+            }
             path = "file:///" + path.Replace('\\', '/');
-            parent = "file:///" + parent.Replace('\\', '/');
-
-            var s1 = MyRegex3().Replace(s, @"src=""" + parent);
-            var s2 = MyRegex4().Replace(s1, @"src=""" + path);
+            var s2 = MyRegex4.Replace(s1, @"src=""" + path);
             return s2;
         }
 
@@ -1301,7 +1322,7 @@ You can find your unsaved data in
 
         private static string[] GetLocalImages(string s)
         {
-            MatchCollection matches = MyRegex5().Matches(s);
+            MatchCollection matches = MyRegex5.Matches(s);
             var n = matches.Count;
             if (n == 0)
                 return null;
@@ -1902,19 +1923,27 @@ You can find your unsaved data in
             };
             var result = (bool)dlg.ShowDialog();
             if (result)
-            {
-                var filePath = dlg.FileName;
-                var fileName = Path.GetFileName(filePath);
-                var size = GetImageSize(filePath);
-                filePath = filePath.Replace('\\', '/');
-                var p = new Paragraph();
-                p.Inlines.Add(new Run($"'<img style=\"float:right; height:{size.Height}pt; width:{size.Width}pt;\" src=\"{filePath}\" alt=\"{fileName}\">"));
-                _highlighter.Parse(p, IsComplex, GetLineNumber(p));
-                if (_currentParagraph is not null)
-                    _document.Blocks.InsertBefore(_currentParagraph, p);
-                else
-                    _document.Blocks.InsertBefore(_document.Blocks.FirstBlock, p);
-            }
+                InsertImage(dlg.FileName);
+        }
+
+        private void InsertImage(string filePath)
+        {
+            var fileName = Path.GetFileName(filePath);
+            var size = GetImageSize(filePath);
+            var fileDir = Path.GetDirectoryName(filePath);
+            string src;
+            if (!string.IsNullOrEmpty(CurrentFileName) &&
+                string.Equals(Path.GetDirectoryName(CurrentFileName), fileDir, StringComparison.OrdinalIgnoreCase))
+                src = "./" + fileName;
+            else
+                src = filePath.Replace('\\', '/');
+            var p = new Paragraph();
+            p.Inlines.Add(new Run($"'<img style=\"height:{size.Height}pt; width:{size.Width}pt;\" src=\"{src}\" alt=\"{fileName}\">"));
+            _highlighter.Parse(p, IsComplex, GetLineNumber(p));
+            if (_currentParagraph is not null)
+                _document.Blocks.InsertBefore(_currentParagraph, p);
+            else
+                _document.Blocks.InsertBefore(_document.Blocks.FirstBlock, p);
         }
 
         private static Size GetImageSize(string fileName)
@@ -2301,15 +2330,66 @@ You can find your unsaved data in
         private void RichTextBox_Paste(object sender, DataObjectPastingEventArgs e)
         {
             var formats = e.DataObject.GetFormats();
-            if (formats.Contains("UnicodeText") &&
-                !formats.Any(x => x.Contains("Bitmap", StringComparison.Ordinal)))
+            var hasImage = formats.Any(x => x.Contains("Bitmap", StringComparison.Ordinal));
+            if (formats.Contains("UnicodeText") && !hasImage)
             {
                 e.FormatToApply = "UnicodeText";
                 _isPasting = true;
                 GetPasteOffset();
             }
-            else
+            else 
+            {
                 e.CancelCommand();
+                if (hasImage && Clipboard.ContainsImage())
+                {
+                    string name = null;
+                    if (formats.Contains("FileName"))
+                    {
+                        string[] fn = (string[])e.DataObject.GetData("FileName");
+                        name = fn[0];
+                        name = Path.GetFileNameWithoutExtension(name) + ".png";
+                    }
+                    Dispatcher.InvokeAsync(() => PasteImage(name),DispatcherPriority.ApplicationIdle);
+                }
+            }  
+        }
+
+        private void PasteImage(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                Random rand = new();
+                name = $"image_{rand.NextInt64()}";
+                InputBox.Show("Calcpad", "Image name:", ref name);
+                name += ".png";
+            }
+            string path;
+            if (!string.IsNullOrEmpty(CurrentFileName))
+            {
+                path = Path.GetDirectoryName(CurrentFileName) + "\\Images\\";
+            }
+            else
+                path = Path.GetTempPath() + "Calcpad\\Images\\";
+
+            if (!Directory.Exists(path)) 
+                Directory.CreateDirectory(path);
+
+            path = Path.Combine(path, name); 
+            try
+            {
+                BitmapSource src = BitmapPaster.PasteImageFromClipboard();
+                SD.Bitmap bitmap = new(src.PixelWidth, src.PixelHeight, SD.Imaging.PixelFormat.Format32bppPArgb);
+                SD.Imaging.BitmapData data = bitmap.LockBits(new SD.Rectangle(SD.Point.Empty, bitmap.Size), SD.Imaging.ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+                src.CopyPixels(Int32Rect.Empty, data.Scan0, data.Height * data.Stride, data.Stride);
+                bitmap.UnlockBits(data);
+                SD.Image image = (SD.Image)bitmap;
+                image.Save(path, System.Drawing.Imaging.ImageFormat.Png);
+                InsertImage(path);
+            }
+            catch (Exception ex)
+            {
+                ShowErrorMessage(ex.Message);
+            }
         }
 
         private void GetPasteOffset()
@@ -2834,7 +2914,6 @@ You can find your unsaved data in
             if (Height > h)
                 Height = h;
             ReadRecentFiles();
-            TryOpenOnStartup();
         }
 
         private void WebBrowser_KeyUp(object sender, KeyEventArgs e)
@@ -3106,10 +3185,8 @@ You can find your unsaved data in
             startInfo.WindowStyle = ProcessWindowStyle.Hidden;
             var process = Process.Start(startInfo);
             process.WaitForExit();
-            //var html = _wbWarper.GetContents();
-            //var pdfPrinter = new ChromiumPdfPrinter();
-            //await pdfPrinter.PrintToPdfAsync(html, pdfFileName);
-            process = new Process
+            //Execute pdf
+            process = new Process()
             {
                 StartInfo = new ProcessStartInfo(pdfFileName)
                 {
@@ -3282,8 +3359,15 @@ You can find your unsaved data in
             >= 'α' and <= 'ω' => LatinLetters[c - 'α'],
             >= 'Α' and <= 'Ω' => (char)(LatinLetters[c - 'Α'] + 'A' - 'a'),
             'ϑ' => 'v',
-            'ø' => 'f',
-            'Ø' => 'F',
+            'ø' => 'j',
+            'Ø' => 'J',
+            '∡' => 'V',
+            '@' => '°',
+            '\'' => '′',
+            '"' => '″',
+            '°' => '@',
+            '′' => '\'',
+            '″' => '"',
             _ => c
         };
 
@@ -3598,25 +3682,15 @@ You can find your unsaved data in
         private static void ShowErrorMessage(string message) =>
             MessageBox.Show(message, "Calcpad", MessageBoxButton.OK, MessageBoxImage.Error);
 
-
-        [GeneratedRegex("\\bhref\\b\\s*=\\s*\"(?!#)")]
-        private static partial Regex MyRegex1();
-
-        [GeneratedRegex("\\s+\\btarget\\b\\s*=\\s*\"\\s*_\\w+\\s*\"")]
-        private static partial Regex MyRegex2();
-
-        [GeneratedRegex("src\\s*=\\s*\"\\s*\\.\\.")]
-        private static partial Regex MyRegex3();
-
-        [GeneratedRegex("src\\s*=\\s*\"\\s*\\.")]
-        private static partial Regex MyRegex4();
-
-        [GeneratedRegex("src\\s*=\\s*\"\\s*\\.\\.?(.+?)\"")]
-        private static partial Regex MyRegex5();
-
         private void Window_ContentRendered(object sender, EventArgs e)
         {
+            TryOpenOnStartup();
             TryRestoreState();
+        }
+
+        private void MenuCli_Click(object sender, RoutedEventArgs e)
+        {
+            Execute(AppInfo.Path + "Cli.exe");
         }
     }
 }

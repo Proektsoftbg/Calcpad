@@ -620,7 +620,7 @@ Result: 2D waves<br />
 <p style="margin-left: 2em;"><code><span class="cond">$Area</span>{<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var> : <var>b</var>}</code></p>
 <p>It calculates the value of the definite integral of a function <b>f</b>(<var>x</var>) within the specified interval [<var>a</var>, <var>b</var>]. Adaptive Gauss-Lobbato quadrature with Kronrod extension is applied for that purpose (<a target="_blank" href = "https://www.researchgate.net/publication/226706221_Adaptive_Quadrature-Revisited">Gander & Gautschi</a>, 2000).</p>
 <p style="margin-left: 2em;"><code><span class="cond">$Integral</span>{<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var> : <var>b</var>}</code></p>
-<p>This command is similar to the above, but it uses the Tanh-Sinh quadrature (<a target="_blank" href="https://ems.press/content/serial-article-files/2719">Takahashi & Mori</a>, 1974) which has been additionally improved by <a target="_blank" href="https://www.ingentaconnect.com/content/tandf/jew/2016/00000030/00000003/art00001;jsessionid=55mdimh9e060a.x-ic-live-03">Michashki & Mosig</a> (2016) and <a  target="_blank" href="https://www.genivia.com/files/qthsh.pdf">Van Engelen</a> (2022). Further improvements has been made in Calcpad, by precomputing and caching the abscissas and weights. This algorithm significantly outperforms <code class="cond">$Area</code> for <b>continuous</b> and <b>smooth</b> functions. However, if the function does not satisfy these requirements, you <b>should not</b> use the <code class="cond">$Integral</code> method. Then, you have two options:</p>
+<p>This command is similar to the above, but it uses the Tanh-Sinh quadrature (<a target="_blank" href="https://ems.press/content/serial-article-files/2719">Takahasi & Mori</a>, 1974) which has been additionally improved by <a target="_blank" href="https://www.ingentaconnect.com/content/tandf/jew/2016/00000030/00000003/art00001;jsessionid=55mdimh9e060a.x-ic-live-03">Michashki & Mosig</a> (2016) and <a  target="_blank" href="https://www.genivia.com/files/qthsh.pdf">Van Engelen</a> (2022). Further improvements has been made in Calcpad, by precomputing and caching the abscissas and weights. This algorithm significantly outperforms <code class="cond">$Area</code> for <b>continuous</b> and <b>smooth</b> functions. However, if the function does not satisfy these requirements, you <b>should not</b> use the <code class="cond">$Integral</code> method. Then, you have two options:</p>
 <ol>
 <li>Divide the interval [<var>a</var>, <var>b</var>] into smaller parts, by using the points of discontinuities, apply the method  for each part separately, and sum the results;</li>
 <li>If you are not sure where the discontinuities are, use the <code class="cond">$Area</code> method instead.</li>
@@ -716,7 +716,9 @@ You can use it further to calculate binomial coefficients by the well-known form
 </table>
 <p>Calcpad includes a large collection of predefined units as follows:</p>
 <p>Dimensionless:</p>
-<ul><li>Angles: 
+<ul><li>Percent: <i title="percent">%</i>;</li>
+<li>Permille: <i title="permille">‰</i>;</li>
+<li>Angles: 
 <i title="degrees">°</i>, 
 <i title="minutes">′</i>, 
 <i title="seconds">″</i>, 
@@ -1121,6 +1123,7 @@ You can use it further to calculate binomial coefficients by the well-known form
 <i title="horsepower (boiler)">hpS</i>
 </ul>
 <p>Angle units are accepted by trigonometric functions and they override all other settings. Inverse trigonometric functions return unitless values by default. If you want them to return the result in the current units, you have to define a variable: <var>ReturnAngleUnits</var> = 1.</p>
+<p>Literals that are written immediately after numbers are recognized as units by the parser, e.g. "2<i>m</i>". Standalone literals can be either units or variables, e.g. "<i>N</i>*<i>m</i>". The rules for parsing are as follows: If a literal has not been defined as a variable, it is parsed as a unit. Otherwise, it is parsed as a variable, even if a unit with the same name exists. If you put a dot before the literal, it will be parsed as a unit, even if a variable with the same name exists, e.g. ".<i>N</i>*.<i>m</i>". In this way, you can also distinguish between the "<i>%</i>" unit and the reminder operator that uses the same symbol. The unit must start with a dot ".<i>%</i>".</p>
 
 <h2 id="TOC_500">Reporting</h2>
 <p>All calculations are automatically collected into professionally formatted calculation report. You can print it or open it with MS Word for editing. Besides math expressions, you can add headings, comments, tables and images.</p>
@@ -1584,7 +1587,7 @@ You can use it further to calculate binomial coefficients by the well-known form
 <hr />
 <p>Last edited on 07.01.2023 by eng. Nedelcho Ganchovski.</p>
 </div>
-<script src="jquery-3.4.1.min.js"></script>
+<script src="jquery-3.6.3.min.js"></script>
 <script>
 if(window.jQuery){
 

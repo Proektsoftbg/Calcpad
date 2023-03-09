@@ -39,6 +39,6 @@ namespace Calcpad.Core
 
         public bool StartsWith(char c) => _contents[_start] == c;
 
-        public bool Equals(string s) => _contents[_start.._end] == s;
+        public bool Equals(string s) => _contents[_start.._end].SequenceEqual(s.AsSpan());
     }
 }

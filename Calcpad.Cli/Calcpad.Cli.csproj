@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <RootNamespace>Calcpad.Cli</RootNamespace>
+    <Version>5.9.7</Version>
+    <Authors>Nedelcho Ganchovski</Authors>
+    <Company>Proektsoft EOOD</Company>
+    <PackageId>Cli</PackageId>
+    <Product>Cli</Product>
+    <AssemblyName>Cli</AssemblyName>
+    <StartupObject>Calcpad.Cli.Program</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Calcpad.Core\Calcpad.Core.csproj" />
+    <ProjectReference Include="..\Calcpad.OpenXml\Calcpad.OpenXml.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="HELP.TXT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="LICENSE.TXT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="template.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="wkhtmltopdf.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

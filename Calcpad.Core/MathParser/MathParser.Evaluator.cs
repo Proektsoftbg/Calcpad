@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.WebSockets;
 
 namespace Calcpad.Core
 {
@@ -202,14 +203,20 @@ namespace Calcpad.Core
                     v = v.IsReal ?
                         new Value(v.Re * c, u) :
                         new Value(v.Complex * c, u);
+
                     return v.Units;
                 }
-
+                var cu = u.Text[0];
+                if ((cu == '%' || cu == '‰') && vu is null)
+                { 
+                    v = new Value(v.Complex * (cu == '%' ? 100d : 1000d), u);
+                    return u;
+                }
                 if (!Unit.IsConsistent(vu, u))
 #if BG
-                    throw new MathParserException($"Получените мерни единици \"{Unit.GetText(vu)}\" не съответстват на отправните \"{Unit.GetText(u)}\".");
+                throw new MathParserException($"Получените мерни единици \"{Unit.GetText(vu)}\" не съответстват на отправните \"{Unit.GetText(u)}\".");
 #else
-                    throw new MathParserException($"The calculated units \"{Unit.GetText(vu)}\" are inconsistent with the target units \"{Unit.GetText(u)}\".");
+                throw new MathParserException($"The calculated units \"{Unit.GetText(vu)}\" are inconsistent with the target units \"{Unit.GetText(u)}\".");
 #endif
                 var d = vu.ConvertTo(u);
                 if (u.IsTemp)
@@ -303,12 +310,11 @@ namespace Calcpad.Core
                 if (t.Type == TokenTypes.Unit)
                 {
                     if (t is ValueToken vt)
-                        return vt.Value;
-
+                        return EvaluatePercent(vt.Value);
+ 
                     return ((VariableToken)t).Variable.Value;
                 }
-
-                else if (t.Type == TokenTypes.Variable)
+                if (t.Type == TokenTypes.Variable)
                     return EvaluateVariableToken((VariableToken)t);
 
                 if (t.Type == TokenTypes.Input && t.Content == "?")
@@ -328,7 +334,7 @@ namespace Calcpad.Core
                     if (_parser._isSolver == 0)
                         _parser._hasVariables = true;
 
-                    return v.Value;
+                    return EvaluatePercent(v.Value);
                 }
                 try
                 {
@@ -345,6 +351,19 @@ namespace Calcpad.Core
                     throw new MathParserException($"Undefined variable or units: \"{t.Content}\".");
 #endif
                 }
+            }
+
+            internal static Value EvaluatePercent(Value v)
+            {
+                var u = v.Units;
+                var c = u?.Text[0];
+                if (c == '%')
+                    return new Value(v.Complex * 0.01, null);
+
+                if (c == '‰')
+                    return new Value(v.Complex * 0.001, null);
+
+                return v;
             }
 
             private Value EvaluateToken(Token t, Value a)

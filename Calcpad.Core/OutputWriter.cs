@@ -142,6 +142,8 @@ namespace Calcpad.Core
         internal abstract string FormatVariable(string name, string value);
         internal abstract string FormatUnits(string s);
         internal abstract string FormatFunction(string s);
+        internal abstract string FormatSwitch(string[] sa, int level = 0);
+        internal abstract string FormatIf(string sc, string sa, string sb, int level = 0);
         internal abstract string FormatRoot(string s, bool formatEquations, int level = 0, string n = "2");
         internal abstract string FormatOperator(char c);
         internal abstract string FormatPower(string sa, string sb, int level, int order);
@@ -275,7 +277,16 @@ namespace Calcpad.Core
         internal override string FormatVariable(string name, string value) => name;
         internal override string FormatUnits(string s) => s;
         internal override string FormatFunction(string s) => s;
-        internal override string FormatRoot(string s, bool formatEquations, int level = 0, string n = "2") => AddBrackets(s + "; " + n);
+        internal override string FormatRoot(string s, bool formatEquations, int level = 0, string n = "2") =>
+            n switch
+            {
+
+                "2" => $"√({s})",
+                "3" => $"³√({s})",
+                "4" => $"⁴√({s})",
+                _ => $"root({s}; {n})"  
+            };
+
         internal override string FormatOperator(char c) => FormatOperatorHelper(c);
         internal override string FormatPower(string sa, string sb, int level, int order) => sa + '^' + sb;
         internal override string FormatDivision(string sa, string sb, int level) => sa + '/' + sb;
@@ -288,7 +299,7 @@ namespace Calcpad.Core
                 if (!v.IsReal)
                     s = AddBrackets(s);
 
-                return s + ' ' + v.Units.Text;
+                return s + v.Units.Text;
             }
             return s;
         }
@@ -306,7 +317,20 @@ namespace Calcpad.Core
         }
 
         internal override string FormatNary(string symbol, string sub, string sup, string expr) =>
-            $"{symbol}{{{expr}; {sub}...{sup} }}";
+            $"{symbol}{{{expr}; {sub}...{sup}}}";
+
+        internal override string FormatSwitch(string[] sa, int level = 0)
+        {
+            string s = "switch(" + sa[0];
+            for (int i = 1, len = sa.Length; i < len; ++i)
+                s += "; " + sa[i]; 
+
+            return s +")";
+        }
+
+        internal override string FormatIf(string sc, string sa, string sb, int level = 0) =>
+            $"if({sc}; {sa}; {sb})";
+
     }
 
     internal class HtmlWriter : OutputWriter
@@ -318,16 +342,13 @@ namespace Calcpad.Core
                 "&emsp;&ensp;&nbsp;"
             };
 
-        private static string RootPad(int level, string n)
-        {
-            return level switch
+        private static string RootPad(int level, string n) => level switch
             {
                 0 => $"<sup>{n}</sup>&nbsp;",
                 1 => $"&nbsp;<small>{n}</small>&ensp;",
                 2 => $"&ensp;<small>{n}</small>&ensp;&nbsp;",
                 _ => $"&ensp;<font size=\"+1\"><sub>{n}</sub></font>&emsp;"
             };
-        }
 
         internal override string UnitString(Unit units) => units.Html;
 
@@ -395,15 +416,15 @@ namespace Calcpad.Core
         {
             if (n != "2")
             {
-                if (formatEquations)
+                if (formatEquations && level > 0)
                     return $"{RootPad(level, n)}<span class=\"o{level}\"><span class=\"r{level}\"></span>{s}</span>";
 
-                return $"{RootPad(0, n)}<span class=\"o{level}\"><span class=\"r\">√</span>{s}</span>";
+                return $"{RootPad(0, n)}<span class=\"o0\"><span class=\"r\">√</span>{s}</span>";
             }
-            if (formatEquations)
+            if (formatEquations && level > 0)
                 return $"{SqrPad[level]}<span class=\"o{level}\"><span class=\"r{level}\"></span>{s}</span>";
 
-            return $"{SqrPad[0]}<span class=\"o{level}\"><span class=\"r\">√</span>{s}</span>";
+            return $"{SqrPad[0]}<span class=\"o0\"><span class=\"r\">√</span>{s}</span>";
         }
 
         internal override string FormatOperator(char c) => c switch
@@ -451,9 +472,12 @@ namespace Calcpad.Core
             level switch
             {
                 0 => $"({s})",
-                < 2 => $"<span class=\"b{level}\">(</span>{s}<span class=\"b{level}\">)</span>",
-                _ => $"<span class=\"b{level}\">[</span>{s}<span class=\"b{level}\">]</span>"
+                < 2 => FormatBrackets('(', level) + s + FormatBrackets(')', level),
+                _ => FormatBrackets('[', level) + s + FormatBrackets(']', level)
             };
+
+        private static string FormatBrackets(char symbol, int level) =>
+            $"<span class=\"b{level}\">{symbol}</span>";
 
         internal override string FormatAbs(string s, int level = 0) =>
             level switch
@@ -491,6 +515,30 @@ namespace Calcpad.Core
                 return "<span class=\"err\"> Undefined </span>";
 
             return FormatComplexHelper(re, im, decimals);
+        }
+
+        internal override string FormatSwitch(string[] sa, int level = 0)
+        {
+            var s = $"if {sa[0]}: {sa[1]}";
+            var len = sa.Length;
+            for (int i = 2; i < len; i+= 2) 
+            {
+                if (len - i == 1)
+                    s += $"<br />else: {sa[i]}";
+                else
+                    s += $"<br />if {sa[i]}: {sa[i + 1]}";
+            }
+            level += len / 2 + len % 2 - 1;
+            if (level > 8)
+                level = 8;
+
+            return $"{FormatBrackets('{', level)}<span class=\"dvs\">{s}</span>";
+        }
+
+        internal override string FormatIf(string sc, string sa, string sb, int level = 0)
+        {
+            var s = $"if {sc}: {sa}<br />else: {sb}";
+            return $"{FormatBrackets('{', level)}<span class=\"dvs\">{s}</span>";
         }
     }
 
@@ -537,6 +585,7 @@ namespace Calcpad.Core
         internal override string FormatRoot(string s, bool formatEquations, int level = 0, string n = "2") => n switch
         {
             "2" => $"<m:rad><m:radPr><m:degHide m:val=\"1\"/></m:radPr><m:deg/><m:e>{s}</m:e></m:rad>",
+            "3" => $"<m:rad><m:deg>{Run(n)}</m:deg><m:e>{s}</m:e></m:rad>",
             _ => $"<m:rad><m:deg>{n}</m:deg><m:e>{s}</m:e></m:rad>"
         };
 
@@ -628,5 +677,32 @@ namespace Calcpad.Core
         internal static string Run(string s) => $"<m:r><m:t>{s}</m:t></m:r>";
         internal static string Brackets(char opening, char closing, string s) =>
             $"<m:d><m:dPr><m:begChr m:val=\"{opening}\"/><m:endChr m:val=\"{closing}\"/></m:dPr><m:e>{s}</m:e></m:d>";
+
+        internal override string FormatSwitch(string[] sa, int level = 0)
+        {
+            var s = FormatIfRow(sa[0], sa[1]);
+            var len = sa.Length;
+            for (int i = 2; i < len; i += 2)
+            {
+                if (len - i == 1)
+                    s += FormatElseRow(sa[i]);
+                else
+                    s += FormatIfRow(sa[i], sa[i + 1]);
+            }
+            return $"<m:d><m:dPr><m:begChr m:val=\"{{\"/><m:endChr m:val=\" \"/></m:dPr><m:e><m:m>{mPr}{s}</m:m></m:e></m:d>";
+        }
+
+        internal override string FormatIf(string sc, string sa, string sb, int level = 0)
+        {
+            var s = FormatIfRow(sc, sa) + FormatElseRow(sb);
+            return $"<m:d><m:dPr><m:begChr m:val=\"{{\"/><m:endChr m:val=\" \"/></m:dPr><m:e><m:m>{mPr}{s}</m:m></m:e></m:d>";
+        }
+
+        private const string mPr = "<m:mPr><m:mcs><m:mc><m:mcPr><m:count m:val=\"2\"/><m:mcJc m:val=\"left\"/></m:mcPr></m:mc></m:mcs></m:mPr>";
+
+        private static string FormatIfRow(string sa, string sb) =>
+            $"<m:mr><m:e>{Run(" if ")}{sa}{Run(":")}</m:e><m:e>{sb}</m:e></m:mr>";
+        private static string FormatElseRow(string sa) =>
+            $"<m:mr><m:e>{Run(" else:")}</m:e><m:e>{sa}</m:e></m:mr>";
     }
 }
