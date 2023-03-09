@@ -539,7 +539,7 @@ namespace Calcpad.Core
                         _sb.Append(_condition.ToHtml());
                 }
                 ParseTokens(tokens, isOutput);
-                AppendHtmlLineEnd(isOutput, lineType, isIndent);
+                AppendHtmlLineEnd(isOutput, lineType, keyword == Keyword.If);
                 if (_condition.IsUnchecked)
                 {
                     if (calculate)
