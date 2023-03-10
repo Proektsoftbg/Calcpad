@@ -252,6 +252,7 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;&emsp;Moment: Nm, kNm;  
 &emsp;&emsp;Pressure: Pa, daPa, hPa, kPa, MPa, GPa, TPa, dPa, cPa, mPa, μPa, nPa, pPa,  
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp; bar, mbar, μbar, atm, at, Torr, mmHg;  
+&emsp;&emsp;Viscosity: P, cP, St, cSt;
 &emsp;&emsp;Energy work: J, kJ, MJ, GJ, TJ, mJ, μJ, nJ, pJ, Wh, kWh, MWh, GWh, TWh,  
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;cal, kcal, erg, eV, keV, MeV, GeV, TeV, PeV, EeV;  
 &emsp;&emsp;Power: W, kW, MW, GW, TW, mW, μW, nW, pW, hpM, ks;  
@@ -274,7 +275,7 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 * Non-metric units (Imperial/US):  
 &emsp;&emsp;Mass: gr, dr, oz, lb, kip , st, qr, cwt, cwt_UK, cwt_US, ton, ton_UK, ton_US, slug;  
 &emsp;&emsp;Length: th, in, ft, yd, ch, fur, mi, ftm, cable, nmi, li, rod, pole, perch, lea;  
-&emsp;&emsp;Speed: mph;  
+&emsp;&emsp;Speed: mph, knot;  
 &emsp;&emsp;Temperature: °F, Δ°F, °R;  
 &emsp;&emsp;Area: rood, ac;  
 &emsp;&emsp;Volume (fluid): fl_oz, gi, pt, qt, gal, bbl, (dry) bu;  

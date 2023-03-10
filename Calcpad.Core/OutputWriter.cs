@@ -476,6 +476,9 @@ namespace Calcpad.Core
                 _ => FormatBrackets('[', level) + s + FormatBrackets(']', level)
             };
 
+        private static string FormatLeftCurl(int level) =>
+            $"<span class=\"c{level}\">{{</span>";
+
         private static string FormatBrackets(char symbol, int level) =>
             $"<span class=\"b{level}\">{symbol}</span>";
 
@@ -528,17 +531,16 @@ namespace Calcpad.Core
                 else
                     s += $"<br />if {sa[i]}: {sa[i + 1]}";
             }
-            level += len / 2 + len % 2 - 1;
             if (level > 8)
                 level = 8;
 
-            return $"{FormatBrackets('{', level)}<span class=\"dvs\">{s}</span>";
+            return $"{FormatLeftCurl(level)}<span class=\"dvs\">{s}</span>";
         }
 
         internal override string FormatIf(string sc, string sa, string sb, int level = 0)
         {
             var s = $"if {sc}: {sa}<br />else: {sb}";
-            return $"{FormatBrackets('{', level)}<span class=\"dvs\">{s}</span>";
+            return $"{FormatLeftCurl(level)}<span class=\"dvs\">{s}</span>";
         }
     }
 

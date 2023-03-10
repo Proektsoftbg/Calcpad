@@ -395,22 +395,26 @@ namespace Calcpad.Core
                 {
                     var sb = b.Content;
                     var mfParamCount = t.ParameterCount - 1;
-                    t.Level = b.Level;
+
                     if (string.Equals(t.Content, "switch", StringComparison.OrdinalIgnoreCase) && _formatEquations)
                     {
                         var args = new string[mfParamCount + 1];
+                        args[mfParamCount] = sb;
                         for (int j = mfParamCount - 1; j >= 0; --j)
                         {
                             var a = stackBuffer.Pop();
                             args[j] = a.Content;
-                            if (a.Level > t.Level)
-                                t.Level = a.Level;
+                            if ((mfParamCount - j) % 2 == 1 || j == 0)
+                                t.Level += Math.Max(a.Level, b.Level) + 1;
+
+                            b = a;
                         }
-                        args[mfParamCount] = sb;
+                        t.Level -= 1;
                         t.Content = writer.FormatSwitch(args, t.Level);
                     }
                     else
                     {
+                        t.Level = b.Level;
                         var s = sb;
                         for (int j = 0; j < mfParamCount; ++j)
                         {

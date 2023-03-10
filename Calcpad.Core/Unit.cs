@@ -268,6 +268,7 @@ namespace Calcpad.Core
             var kg = new Unit("kg", 1f).Scale("g", 0.001);
             var m = new Unit("m", 0f, 1f);
             var mi = m.Scale("mi", 1609.344);
+            var nmi = m.Scale("mi", 1852);
             var a = m.Pow(2).Scale("a", 100d);
             var L = m.Shift(-1).Pow(3);
             L._text = "L";
@@ -389,7 +390,7 @@ namespace Calcpad.Core
                 {"mi",    mi},
                 {"ftm",   m.Scale("ftm", 1.852)},
                 {"cable", m.Scale("cable", 185.2)},
-                {"nmi",   m.Scale("nmi", 1852)},
+                {"nmi",   nmi},
                 {"li",    m.Scale("li", 0.201168)},
                 {"rod",   m.Scale("rod", 5.0292)},
                 {"pole",  m.Scale("pole", 5.0292)},
@@ -432,6 +433,7 @@ namespace Calcpad.Core
                 {"d",   h.Scale("d", 24)},
                 {"kmh", (m.Shift(3) / h).Scale("kmh", 1d)},
                 {"mph", (mi / h).Scale("mph", 1d)},
+                {"knot", (nmi / h).Scale("knot", 1d)},
                 {"Hz",  Hz},
                 {"kHz", Hz.Shift(3)},
                 {"MHz", Hz.Shift(6)},
@@ -517,6 +519,11 @@ namespace Calcpad.Core
                 {"ksf",  Pa.Scale("ksf", 47880.258980761)},
                 {"tsf",  Pa.Scale("tsf", 107251.780115952)},
                 {"inHg", Pa.Scale("inHg", 3386.389)},
+
+                {"P", (Pa*s).Scale("P", 0.1)},
+                {"cP", (Pa*s).Scale("cP", 0.001)},
+                {"St", (m*m/s).Scale("St", 0.0001)},
+                {"cSt", (m*m/s).Scale("cSt", 0.000001)},
 
                 {"J",   J},
                 {"kJ",  J.Shift(3)},
