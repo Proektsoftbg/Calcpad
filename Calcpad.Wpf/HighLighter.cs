@@ -799,7 +799,7 @@ namespace Calcpad.Wpf
         private void ParseOperator(char c)
         {
             var len = _builder.Length;
-            var isPercent = c == '%' && len > 0 && _builder[len - 1] == '.' || _state.IsUnits;
+            var isPercent = c == '%' && (len > 0 && _builder[len - 1] == '.' || _state.IsUnits);
             Append(_state.PreviousTypeIfCurrentIsNone);
             _builder.Append(c);
             Append(isPercent ? Types.Units : Types.Operator);

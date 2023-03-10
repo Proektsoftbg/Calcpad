@@ -4,7 +4,7 @@
     xmlns:av="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="av"
     x:Class="Calcpad.Wpf.MainWindow"
     Closing="Window_Closing" 
-    Title=" Calcpad 5.9.7" 
+    Title=" Calcpad 5.9.8" 
     Height="800" 
     Width="1200"
     WindowStartupLocation="CenterScreen"
@@ -381,6 +381,14 @@
                             <MenuItem Click="Button_Click" Tag="kN/cm^3"  Header="kN/cm³ (kilonewton per cubic cm)"/>
                             <MenuItem Click="Button_Click" Tag="kN/m^3"   Header="kN/m³ (kilonewton per cubic m)"/>
                         </MenuItem>
+                        <MenuItem Header="Viscosity">
+                            <MenuItem Click="Button_Click" Tag="Pa*s"     Header="Pa∙s (Pascal-second)"/>
+                            <MenuItem Click="Button_Click" Tag="P"        Header="P (Poise)"/>
+                            <MenuItem Click="Button_Click" Tag="cP"       Header="cP (centipoise)"/>
+                            <MenuItem Click="Button_Click" Tag="m^2/s"    Header="m²/s (square meters per second)"/>
+                            <MenuItem Click="Button_Click" Tag="St"       Header="St (Stokes)"/>
+                            <MenuItem Click="Button_Click" Tag="cSt"      Header="cSt (centistokes)"/>
+                        </MenuItem>
                         <MenuItem Header="Energy/Work">
                             <MenuItem Click="Button_Click" Tag="J"    Header="J (Joule)"/>
                             <MenuItem Click="Button_Click" Tag="kJ"   Header="kJ (kilojoule)"/>
@@ -689,6 +697,7 @@
                             <MenuItem Click="Button_Click" Tag="ft/s" Header="ft/s (feet per second)"/>
                             <MenuItem Click="Button_Click" Tag="yd/s" Header="yd/s (yards per second)"/>
                             <MenuItem Click="Button_Click" Tag="mph"  Header="mph (miles per hour)"/>
+                            <MenuItem Click="Button_Click" Tag="knot" Header="knot (nautical miles per hour)"/>
                         </MenuItem>
                         <MenuItem Header="Temperature">
                             <MenuItem Click="Button_Click" Tag="°F"  Header="°F (degrees Fahrenheit)"/>

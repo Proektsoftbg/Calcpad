@@ -276,7 +276,7 @@ namespace Calcpad.Cli
             Console.Clear();
             var n = Math.Min(Console.WindowWidth, Console.BufferWidth);
             Console.WriteLine(new string('—', n));
-            Console.WriteLine(" Welcome to Calcpad command line interpreter v.5.9.7!");
+            Console.WriteLine(" Welcome to Calcpad command line interpreter v.5.9.8!");
             Console.WriteLine(" Copyright: © 2023 by Proektsoft EOOD");
             Console.WriteLine(" Commands: NEW OPEN SAVE LIST EXIT RESET CLS DEL DEG RAD GRA SETTINGS LICENSE HELP");
             Console.WriteLine(new string('—', n));

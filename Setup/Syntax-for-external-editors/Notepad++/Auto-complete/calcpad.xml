@@ -183,6 +183,10 @@
 		<KeyWord name="at" />
 		<KeyWord name="Torr" />
 		<KeyWord name="mmHg" />
+		<KeyWord name="P" />
+		<KeyWord name="cP" />
+		<KeyWord name="St" />
+		<KeyWord name="cSt" />
 		<KeyWord name="S" />
 		<KeyWord name="kS" />
 		<KeyWord name="MS" />
@@ -365,6 +369,7 @@
 		<KeyWord name="min" />
 		<KeyWord name="mol" />
 		<KeyWord name="mph" />
+		<KeyWord name="knot" />
 		<KeyWord name="osi" />
 		<KeyWord name="osf" />
 		<KeyWord name="ozf" />

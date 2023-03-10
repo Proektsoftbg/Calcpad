@@ -74,6 +74,7 @@
         Moment: Nm kNm
         Pressure: Pa daPa hPa kPa MPa GPa TPa dPa cPa mPa μPa nPa pPa
                   bar mbar μbar atm at Torr mmHg
+		Viscosity: P cP St cSt
         Energy work: J kJ MJ GJ TJ mJ μJ nJ pJ Wh kWh MWh GWh TWh
                      cal kcal erg eV keV MeV GeV TeV PeV EeV
         Power: W kW MW GW TW mW μW nW pW hpM ks
