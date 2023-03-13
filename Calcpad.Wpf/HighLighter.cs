@@ -1238,11 +1238,11 @@ namespace Calcpad.Wpf
             if (position > len)
                 position = len;
 
-            if (position < 1)
-                position = 1;
+            if (position > 0)
+                --position;
 
-            var c = s[--position];
-            if (c != '(' && c != ')' && position < len - 1)
+            var c = s[position];
+            if (c != '(' && c != ')' && position > 0 && position < len - 1)
                 c = s[++position];
 
             var otherPosition = position;

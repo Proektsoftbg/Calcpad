@@ -34,7 +34,7 @@ namespace Calcpad.Wpf
                 {
                     if (_wb.IsInitialized)
                     {
-                        var title = _wb.InvokeScript("document.title") as string;
+                        var title = _wb.InvokeScript("eval", "document.title") as string;
                         return string.Equals(title, "Calcpad");
                     }
                     return false;
