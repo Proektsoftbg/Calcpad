@@ -1718,7 +1718,7 @@ You can find your unsaved data in
             else if (currentLine > _document.Blocks.Count)
                 currentLine = _document.Blocks.Count;
             _currentParagraph = (Paragraph)_document.Blocks.ElementAt(currentLine - 1);
-            var pointer = FindPositionAtOffset(_currentParagraph, offset);
+            var pointer = HighLighter.FindPositionAtOffset(_currentParagraph, offset);
             RichTextBox.Selection.Select(pointer, pointer);
             HighLighter.Clear(_currentParagraph);
             RichTextBox.EndChange();
@@ -1726,30 +1726,6 @@ You can find your unsaved data in
             Task.Run(DispatchLineNumbers);
             if (IsAutoRun)
                 AutoRun();
-        }
-
-        private static TextPointer FindPositionAtOffset(Paragraph p, int offset)
-        {
-            var tpe = p.ContentEnd;
-            if (offset == 0)
-                return tpe;
-            var tps = p.ContentStart;
-            var x1 = 0;
-            var x2 = tps.GetOffsetToPosition(tpe);
-            TextPointer tpm = tps;
-            while (Math.Abs(x2 - x1) > 1)
-            {
-                var xm = (x1 + x2) / 2;
-                tpm = tps.GetPositionAtOffset(xm);
-                var len = new TextRange(tpm, tpe).Text.Length;
-                if (len < offset)
-                    x2 = xm;
-                else if (len > offset)
-                    x1 = xm;
-                else
-                    break;
-            }
-            return tpm;
         }
 
         private void WebFormButton_Click(object sender, RoutedEventArgs e) => RunWebForm();
@@ -2189,7 +2165,7 @@ You can find your unsaved data in
                     SetAutoIndent();
                     var p = RichTextBox.Selection.End.Paragraph;
                     if (p is not null)
-                        RichTextBox.CaretPosition = FindPositionAtOffset(p, _pasteOffset);
+                        RichTextBox.CaretPosition = HighLighter.FindPositionAtOffset(p, _pasteOffset);
                     _isPasting = false;
                 }
                 Record();
@@ -2306,7 +2282,9 @@ You can find your unsaved data in
                 var tr = new TextRange(p.ContentStart, p.ContentEnd);
                 tr.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Normal);
                 tr.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Black);
-                HighLighter.HighlightBrackets(p, tpe.GetTextRunLength(LogicalDirection.Backward));
+                tr = new TextRange(p.ContentStart, tpe);
+                var len = tr.Text.Length;
+                HighLighter.HighlightBrackets(p, len);
                 RichTextBox.EndChange();
                 _isTextChangedEnabled = true;
             }

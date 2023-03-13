@@ -82,6 +82,7 @@ namespace Calcpad.Wpf
             internal bool IsMacro;
             internal bool IsSingleLineKeyword;
             internal bool HasMacro;
+            internal bool Redefine;
             internal int MacroArgs;
             internal int CommandCount;
             internal int BracketCount;
@@ -491,6 +492,12 @@ namespace Calcpad.Wpf
                     _state.IsLeading = false;
             }
             Append(_state.PreviousTypeIfCurrentIsNone);
+            if (_state.Redefine)
+            {
+                text = new TextRange(p.ContentStart, p.ContentEnd).Text;
+                Defined.Get(text.AsSpan(), line);
+                Parse(p, isComplex, line, text);
+            }
         }
 
         private static void InitParagraph(Paragraph p)
@@ -535,6 +542,7 @@ namespace Calcpad.Wpf
                     _builder.Clear();
                     _builder.Append(_state.TextComment);
                     _state.CurrentType = Types.Comment;
+                    _state.Redefine = true;
                 }
             }
             else if (c == '\'' || c == '"')
@@ -1276,13 +1284,13 @@ namespace Calcpad.Wpf
             {
                 if (otherPosition < position)
                 {
-                    AddBracketHighlight(otherPosition + 1);
-                    AddBracketHighlight(position - len - 1);
+                    AddBracketHighlight(len - position);
+                    AddBracketHighlight(len - otherPosition);
                 }
                 else
                 {
-                    AddBracketHighlight(position + 1);
-                    AddBracketHighlight(otherPosition - len - 1);
+                    AddBracketHighlight(len - otherPosition);
+                    AddBracketHighlight(len - position);
                 }
             }
 
@@ -1296,13 +1304,35 @@ namespace Calcpad.Wpf
 
             void AddBracketHighlight(int offset)
             {
-                TextPointer tp = offset >= 0 ?
-                    p.ContentStart.GetPositionAtOffset(offset) :
-                    p.ContentEnd.GetPositionAtOffset(offset);
+                TextPointer tp = FindPositionAtOffset(p, offset);
                 tr = new TextRange(tp, tp.GetPositionAtOffset(1, LogicalDirection.Forward));
                 tr.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Bold);
                 tr.ApplyPropertyValue(TextElement.ForegroundProperty, Colors[(int)Types.Bracket]);
             }
+        }
+
+        internal static TextPointer FindPositionAtOffset(Paragraph p, int offset)
+        {
+            var tpe = p.ContentEnd;
+            if (offset == 0)
+                return tpe;
+            var tps = p.ContentStart;
+            var x1 = 0;
+            var x2 = tps.GetOffsetToPosition(tpe);
+            TextPointer tpm = tps;
+            while (Math.Abs(x2 - x1) > 1)
+            {
+                var xm = (x1 + x2) / 2;
+                tpm = tps.GetPositionAtOffset(xm);
+                var len = new TextRange(tpm, tpe).Text.Length;
+                if (len < offset)
+                    x2 = xm;
+                else if (len > offset)
+                    x1 = xm;
+                else
+                    break;
+            }
+            return tpm;
         }
 
         internal static string GetPartialSource(string s)
