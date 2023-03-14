@@ -255,7 +255,7 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;&emsp;Viscosity: P, cP, St, cSt;  
 &emsp;&emsp;Energy work: J, kJ, MJ, GJ, TJ, mJ, μJ, nJ, pJ, Wh, kWh, MWh, GWh, TWh,  
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;cal, kcal, erg, eV, keV, MeV, GeV, TeV, PeV, EeV;  
-&emsp;&emsp;Power: W, kW, MW, GW, TW, mW, μW, nW, pW, hpM, ks;  
+&emsp;&emsp;Power: W, kW, MW, GW, TW, mW, μW, nW, pW, hpM, ks,  
 &emsp;&emsp;&emsp;&emsp;&emsp; VA, kVA, MVA, GVA, TVA, mVA, μVA, nVA, pVA,  
 &emsp;&emsp;&emsp;&emsp;&emsp; VAR, kVAR, MVAR, GVAR, TVAR, mVAR, μVAR, nVAR, pVAR, hpM, ks;  
 &emsp;&emsp;Electric charge: C, kC, MC, GC, TC, mC, μC, nC, pC, Ah, mAh;  
