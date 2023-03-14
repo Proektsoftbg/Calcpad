@@ -257,7 +257,7 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;cal, kcal, erg, eV, keV, MeV, GeV, TeV, PeV, EeV;  
 &emsp;&emsp;Power: W, kW, MW, GW, TW, mW, μW, nW, pW, hpM, ks,  
 &emsp;&emsp;&emsp;&emsp;&emsp; VA, kVA, MVA, GVA, TVA, mVA, μVA, nVA, pVA,  
-&emsp;&emsp;&emsp;&emsp;&emsp; VAR, kVAR, MVAR, GVAR, TVAR, mVAR, μVAR, nVAR, pVAR, hpM, ks;  
+&emsp;&emsp;&emsp;&emsp;&emsp; VAR, kVAR, MVAR, GVAR, TVAR, mVAR, μVAR, nVAR, pVAR;  
 &emsp;&emsp;Electric charge: C, kC, MC, GC, TC, mC, μC, nC, pC, Ah, mAh;  
 &emsp;&emsp;Potential: V, kV, MV, GV, TV, mV, μV, nV, pV;  
 &emsp;&emsp;Capacitance: F, kF, MF, GF, TF, mF, μF, nF, pF;  
