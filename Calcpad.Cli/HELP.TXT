@@ -63,7 +63,7 @@
         Length: m km dm cm mm μm nm pm AU ly
         Time: s ms μs ns ps min h d
         Frequency: Hz kHz MHz GHz THz mHz μHz nHz pHz rpm
-        Velocity: kmh
+        Speed: kmh
         Electric current: A kA MA GA TA mA μA nA pA
         Temperature: °C Δ°C K
         Amount of substance: mol
@@ -98,7 +98,7 @@
     Non-metric (Imperial/US):
         Mass: gr dr oz lb kip  st qr cwt cwt_UK cwt_US ton ton_UK ton_US slug
         Length: th in ft yd ch fur mi ftm cable nmi li rod pole perch lea
-        Speed: mph
+        Velocity: mph knot
         Temperature: °F Δ°F °R
         Area: rood ac
         Volume (fluid): fl_oz gi pt qt gal bbl (dry) bu

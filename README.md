@@ -241,7 +241,7 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;&emsp;Length: m, km, dm, cm, mm, μm, nm, pm, AU, ly;  
 &emsp;&emsp;Time: s, ms, μs, ns, ps, min, h, d;  
 &emsp;&emsp;Frequency: Hz, kHz, MHz, GHz, THz, mHz, μHz, nHz, pHz, rpm;  
-&emsp;&emsp;Velocity: kmh;  
+&emsp;&emsp;Speed: kmh;  
 &emsp;&emsp;Electric current: A, kA, MA, GA, TA, mA, μA, nA, pA;  
 &emsp;&emsp;Temperature: °C, Δ°C, K;  
 &emsp;&emsp;Amount of substance: mol;  
