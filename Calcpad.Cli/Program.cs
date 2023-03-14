@@ -283,7 +283,7 @@ namespace Calcpad.Cli
             if (Title.Length > 0)
                 Console.WriteLine(" " + Title + ":\n");
             else
-                Console.WriteLine(" Enter math expressions or commands (type HELP for further instructions):\n");
+                Console.WriteLine(" Enter math expressions or commands (or type HELP for further instructions):\n");
         }
 
         static bool Calculate(MathParser mp, string Prompt, ref Line L)
