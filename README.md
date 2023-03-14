@@ -144,7 +144,7 @@ A variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;line(x; a; b; c...) - linear interpolation;  
 &emsp;&emsp;spline(x; a; b; c...) - Hermite spline interpolation;  
 * Comments: "Title" or 'text' in double or single quotes, respectively. HTML, CSS, JS and SVG are allowed.  
-* Graphing and plotting:  
+* Graphing and plotting:
 &emsp;&emsp;$Plot { f(x) @ x = a : b } - simple plot;  
 &emsp;&emsp;$Plot { x(t) | y(t) @ t = a : b } - parametric;  
 &emsp;&emsp;$Plot { f1(x) & f2(x) & ... @ x = a : b } - multiple;  
@@ -233,7 +233,7 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;&emsp;#pause - calculates to the current line and waits until resumed manually;  
 &emsp;&emsp;#input - renders an input form to the current line and waits for user input.  
 * Switches for trigonometric units: #deg - degrees, #rad - radians, #gra - gradians;  
-* Separator for target units: |;  
+* Separator for target units: |, for example:  `3ft + 12in|cm` will show 121.92 cm;
 * Dimensionless: %, ‰;
 * Angle units: °, ′, ″, deg, rad, grad, rev;  
 * Metric units (SI and compatible):  
