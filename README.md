@@ -144,7 +144,7 @@ A variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;line(x; a; b; c...) - linear interpolation;  
 &emsp;&emsp;spline(x; a; b; c...) - Hermite spline interpolation;  
 * Comments: "Title" or 'text' in double or single quotes, respectively. HTML, CSS, JS and SVG are allowed.  
-* Graphing and plotting:
+* Graphing and plotting:  
 &emsp;&emsp;$Plot { f(x) @ x = a : b } - simple plot;  
 &emsp;&emsp;$Plot { x(t) | y(t) @ t = a : b } - parametric;  
 &emsp;&emsp;$Plot { f1(x) & f2(x) & ... @ x = a : b } - multiple;  
