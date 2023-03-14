@@ -1187,6 +1187,12 @@ namespace Calcpad.Core
                         }
                     case "m":
                         {
+                            if (factor == 1852d)
+                            {
+                                name = "nmi";
+                                factor = 1d;
+                                break;
+                            }
                             var a = factor / 2.54E-05;
                             if (Math.Abs(a - Math.Round(a)) < 1E-12)
                             {
