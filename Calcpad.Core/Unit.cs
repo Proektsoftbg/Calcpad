@@ -268,7 +268,7 @@ namespace Calcpad.Core
             var kg = new Unit("kg", 1f).Scale("g", 0.001);
             var m = new Unit("m", 0f, 1f);
             var mi = m.Scale("mi", 1609.344);
-            var nmi = m.Scale("mi", 1852);
+            var nmi = m.Scale("nmi", 1852);
             var a = m.Pow(2).Scale("a", 100d);
             var L = m.Shift(-1).Pow(3);
             L._text = "L";
