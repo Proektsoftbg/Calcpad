@@ -227,7 +227,7 @@
                 </MenuItem>
                 <MenuItem Header="Units">
                     <MenuItem Header="Dimensionless">
-                        <MenuItem Click="Button_Click" Tag="%"    Header="% (percent)"/>
+                        <MenuItem Click="Button_Click" Tag=".%"   Header="% (percent)"/>
                         <MenuItem Click="Button_Click" Tag="‰"    Header="‰ (permille)"/>
                     </MenuItem>
                     <MenuItem Header="Angles">
