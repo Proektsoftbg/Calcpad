@@ -20,6 +20,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using System.Configuration;
 
 namespace Calcpad.Wpf
 {
@@ -208,12 +209,8 @@ namespace Calcpad.Wpf
             {
                 Include = Include
             };
-            _parser.Settings.Plot.ImagePath = string.Empty; //tmpDir;
-            _parser.Settings.Plot.ImageUri = string.Empty; //tmpDir;
-            _parser.Settings.Plot.VectorGraphics = false;
             _screenScaleFactor = ScreenMetrics.GetWindowsScreenScalingFactor();
             _autoCompleteCount = AutoCompleteListBox.Items.Count;
-            _parser.Settings.Plot.ScreenScaleFactor = _screenScaleFactor;
             _cfn = string.Empty;
             _isTextChangedEnabled = false;
             IsSaved = true;
@@ -720,6 +717,56 @@ You can find your unsaved data in
                 FileSave();
         }
 
+        private void ReadSettings()
+        {
+            ReadRecentFiles();
+            var settings = Properties.Settings.Default;
+            Real.IsChecked = settings.Numbers == 'R';
+            Complex.IsChecked = settings.Numbers == 'C';
+            AutoRunCheckBox.IsChecked = settings.AutoRun;
+            Deg.IsChecked = settings.Angles == 'D';
+            Rad.IsChecked = settings.Angles == 'R';
+            Gra.IsChecked = settings.Angles == 'G';
+            UK.IsChecked = settings.Units == 'K';
+            US.IsChecked = settings.Units == 'S';
+            Professional.IsChecked = settings.Equations == 'P';
+            Inline.IsChecked = settings.Equations == 'I';
+            DecimalsTextBox.Text = settings.Decimals.ToString();
+            SubstituteCheckBox.IsChecked = settings.Substitute;
+            AdaptiveCheckBox.IsChecked = settings.Adaptive; 
+            ShadowsCheckBox.IsChecked = settings.Shadows;
+            LightDirectionComboBox.SelectedIndex = settings.Direction;
+            ColorScaleComboBox.SelectedIndex = settings.Palette;
+            SmoothCheckBox.IsChecked = settings.Smooth;
+            ExternalBrowserComboBox.SelectedIndex = settings.Browser;
+            if (settings.WindowLeft > 0) Left = settings.WindowLeft;
+            if (settings.WindowTop > 0) Top = settings.WindowTop;
+            if (settings.WindowWidth > 0) Width = settings.WindowWidth;
+            if (settings.WindowHeight > 0) Height = settings.WindowHeight;
+            this.WindowState = (WindowState)settings.WindowState;
+
+            ExpressionParser.IsUs = US.IsChecked ?? false;
+            var math = _parser.Settings.Math;
+            math.FormatEquations = Professional.IsChecked ?? false;
+            math.IsComplex = Complex.IsChecked ?? false;
+            math.Degrees = Deg.IsChecked ?? false ? 0 :
+                                            Rad.IsChecked ?? false ? 1 :
+                                            2;
+            math.Substitute = SubstituteCheckBox.IsChecked ?? false;
+
+            var plot = _parser.Settings.Plot;   
+            plot.ImagePath = string.Empty; //tmpDir;
+            plot.ImageUri = string.Empty; //tmpDir;
+            plot.VectorGraphics = false;
+            plot.ScreenScaleFactor = _screenScaleFactor;
+            plot.IsAdaptive = AdaptiveCheckBox.IsChecked ?? false;
+            plot.Shadows = ShadowsCheckBox.IsChecked ?? false;
+            plot.SmoothScale = SmoothCheckBox.IsChecked ?? false;
+            plot.ColorScale = (PlotSettings.ColorScales)ColorScaleComboBox.SelectedIndex;
+            plot.LightDirection = (PlotSettings.LightDirections)LightDirectionComboBox.SelectedIndex;
+        }
+
+
         private void ReadRecentFiles()
         {
             MenuRecent.Items.Clear();
@@ -753,6 +800,34 @@ You can find your unsaved data in
             CloneRecentFilesList();
         }
 
+        private void WriteSettings()
+        {
+            WriteRecentFiles();
+            var settings = Properties.Settings.Default;
+            settings.Numbers = Real.IsChecked ?? false ? 'R' : 'C';
+            settings.AutoRun = AutoRunCheckBox.IsChecked ?? false;
+            settings.Angles = Deg.IsChecked ?? false ? 'D' : 
+                              Rad.IsChecked ?? false ? 'R' :  'G';
+            settings.Units = UK.IsChecked ?? false ? 'K' : 'S';
+            settings.Equations = Professional.IsChecked ?? false ? 'P' : 'I';
+            settings.Decimals = byte.TryParse(DecimalsTextBox.Text, out byte b) ? b : (byte)2;
+            settings.Substitute = SubstituteCheckBox.IsChecked ?? false;
+            settings.Adaptive = AdaptiveCheckBox.IsChecked ?? false;
+            settings.Shadows = ShadowsCheckBox.IsChecked ?? false;
+            settings.Direction = (byte)LightDirectionComboBox.SelectedIndex;
+            settings.Direction = (byte)LightDirectionComboBox.SelectedIndex;
+            settings.Palette = (byte)ColorScaleComboBox.SelectedIndex;
+            settings.Smooth = SmoothCheckBox.IsChecked ?? false;
+            settings.Browser = (byte)ExternalBrowserComboBox.SelectedIndex;
+            settings.WindowLeft = Left;
+            settings.WindowTop = Top;
+            settings.WindowWidth = Width;
+            settings.WindowHeight = Height;
+            settings.WindowState = (byte)this.WindowState;
+            settings.Save();
+        }
+
+
         private void WriteRecentFiles()
         {
             var n = MenuRecent.Items.Count;
@@ -772,7 +847,6 @@ You can find your unsaved data in
             }
 
             Properties.Settings.Default.RecentFileList = list;
-            Properties.Settings.Default.Save();
         }
 
         private void AddRecentFile(string fileName)
@@ -1960,40 +2034,42 @@ You can find your unsaved data in
         {
             if (IsInitialized)
             {
-                var pro = sender.Equals(Professional);
+                var pro = ReferenceEquals(sender, Professional);
                 _parser.Settings.Math.FormatEquations = pro;
                 Professional.IsChecked = pro;
                 Inline.IsChecked = !pro;
-                ClearOutput();
             }
+            ClearOutput();
         }
 
         private void AngleRadioButton_Checked(object sender, RoutedEventArgs e)
         {
             if (IsInitialized)
             {
-                var deg = sender.Equals(Deg) ? 0 : sender.Equals(Rad) ? 1 : 2;
+                var deg = ReferenceEquals(sender, Deg) ? 0 : 
+                          ReferenceEquals(sender, Rad) ? 1 : 
+                          2;
                 _parser.Settings.Math.Degrees = deg;
                 Deg.IsChecked = deg == 0;
                 Rad.IsChecked = deg == 1;
                 Gra.IsChecked = deg == 2;
-                ClearOutput();
             }
+            ClearOutput();
         }
 
         private void ModeRadioButton_Checked(object sender, RoutedEventArgs e)
         {
             if (IsInitialized)
             {
-                var complex = sender.Equals(Complex);
+                var complex = ReferenceEquals(sender, Complex);
                 _parser.Settings.Math.IsComplex = complex;
                 Complex.IsChecked = complex;
                 Real.IsChecked = !complex;
                 _highlighter.Defined.Get(InputText.AsSpan().EnumerateLines(), IsComplex);
-                ClearOutput();
                 if (!IsWebForm)
                     Task.Run(() => Dispatcher.InvokeAsync(HighLightAll, DispatcherPriority.Send));
             }
+            ClearOutput();
         }
 
         private void SaveOutputButton_Click(object sender, RoutedEventArgs e) => HtmlFileSave();
@@ -2042,7 +2118,7 @@ You can find your unsaved data in
                 e.Cancel = true;
 
             ClearTempFolder();
-            WriteRecentFiles();
+            WriteSettings();
         }
 
         private void ScrollOutput()
@@ -2885,13 +2961,13 @@ You can find your unsaved data in
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            ReadSettings();
             if (Top < 0)
                 Top = 0;
-            var h = SystemParameters.PrimaryScreenHeight;
 
+            var h = SystemParameters.PrimaryScreenHeight;
             if (Height > h)
                 Height = h;
-            ReadRecentFiles();
         }
 
         private void WebBrowser_KeyUp(object sender, KeyEventArgs e)
@@ -3177,11 +3253,8 @@ You can find your unsaved data in
 
         private void UnitsRadioButton_Checked(object sender, RoutedEventArgs e)
         {
-            if (IsInitialized)
-            {
-                ExpressionParser.IsUs = sender.Equals(US);
-                ClearOutput();
-            }
+            ExpressionParser.IsUs = ReferenceEquals(sender, US);
+            ClearOutput();
         }
 
         private void WebBrowser_LoadCompleted(object sender, System.Windows.Navigation.NavigationEventArgs e)

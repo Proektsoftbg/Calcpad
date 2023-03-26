@@ -24,7 +24,7 @@ namespace Calcpad.Core
                 _calc = parser._calc;
             }
 
-            internal Value Evaluate(Token[] rpn)
+            internal Value Evaluate(Token[] rpn, bool isVisible = false)
             {
                 var tos = _tos;
                 var rpnLength = rpn.Length;
@@ -82,6 +82,9 @@ namespace Calcpad.Core
                                     var ta = (VariableToken)rpn[0];
                                     _parser.Units = ApplyUnits(ref b, _parser._targetUnits);
                                     _parser._backupVariable = new(ta.Content, ta.Variable.Value);
+                                    if (isVisible && b.Units is not null)
+                                        b *= b.Units.Normalize();
+
                                     ta.Variable.Assign(b);
                                     return b;
                                 }
@@ -189,9 +192,10 @@ namespace Calcpad.Core
                     if (vu is null)
                         return vu;
 
-                    if (vu.IsForce)
+                    var field = vu.GetField();
+                    if (field == Unit.Field.Mechanical)
                         u = Unit.GetForceUnit(vu);
-                    else if (vu.IsElectrical)
+                    else if (field == Unit.Field.Electrical)
                         u = Unit.GetElectricalUnit(vu);
                     else
                         return vu;

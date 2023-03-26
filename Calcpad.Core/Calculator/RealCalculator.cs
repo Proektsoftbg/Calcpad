@@ -84,6 +84,9 @@ namespace Calcpad.Core
             {
                 Atan2,
                 UnitRoot,
+                Mod,
+                Gcd,
+                Lcm,
                 MandelbrotSet
             };
 
@@ -379,14 +382,6 @@ namespace Calcpad.Core
         private static Value Atan2(Value a, Value b) =>
             new(
                 Math.Atan2(b.Re * Unit.Convert(a.Units, b.Units, ','), a.Re)
-            );
-
-        private static Value MandelbrotSet(Value a, Value b) =>
-            new(
-                MandelbrotSet(
-                    a.Re, b.Re * Unit.Convert(a.Units, b.Units, ',')
-                ),
-                a.Units
             );
 
         private static Value Sum(Value[] v)

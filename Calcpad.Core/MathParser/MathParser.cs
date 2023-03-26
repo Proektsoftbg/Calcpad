@@ -127,7 +127,6 @@ namespace Calcpad.Core
             _variables.Add("e", new Variable(new Value(Math.E, null)));
             _variables.Add("pi", new Variable(pi));
             _variables.Add("π", new Variable(pi));
-            _variables.Add("g", new Variable(new Value(9.80665, null)));
             if (_settings.IsComplex)
             {
                 _variables.Add("i", new Variable(Complex.ImaginaryOne));
@@ -178,7 +177,7 @@ namespace Calcpad.Core
 #endif
         }
 
-        public void Calculate()
+        public void Calculate(bool isVisible = true)
         {
             if (!IsEnabled)
 #if BG
@@ -192,7 +191,10 @@ namespace Calcpad.Core
                 CompileBlocks();
                 if (_variables.TryGetValue("ReturnAngleUnits", out var v))
                     Calculator.ReturnAngleUnits = v.Value.Re != 0.0;
-                Result = _evaluator.Evaluate(_rpn).Complex;
+                Result = _evaluator.Evaluate(_rpn, true).Complex;
+                if (isVisible && Units is not null)
+                    Result *= Units.Normalize();
+
                 PurgeCache();
             }
             _isCalculated = true;

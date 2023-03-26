@@ -4,7 +4,7 @@
     xmlns:av="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="av"
     x:Class="Calcpad.Wpf.MainWindow"
     Closing="Window_Closing" 
-    Title=" Calcpad 5.9.8" 
+    Title=" Calcpad 5.9.9" 
     Height="800" 
     Width="1200"
     WindowStartupLocation="CenterScreen"
@@ -127,6 +127,39 @@
                 <MenuItem Command="ApplicationCommands.SelectAll" Header="Select _All"/>
             </MenuItem>
             <MenuItem x:Name="MenuInsert" Header="_Insert">
+                <MenuItem Header="Constants">
+                    <MenuItem Click="Button_Click" Tag="π" Icon="  π" Header="Pi number"/>
+                    <MenuItem Click="Button_Click" Tag="e" Icon="  e" Header="Euler number"/>
+                    <MenuItem Click="Button_Click" Tag="φ = 1.618033988749894" Icon="  φ" Header="Golden ratio"/>
+                    <MenuItem Click="Button_Click" Tag="γ = 0.5772156649015328" Icon="  γ" Header="Euler constant"/>
+                    <Separator/>
+                    <MenuItem Click="Button_Click" Tag="g = 9.80665m/s^2" Icon="  g" Header="Gravitational acceleration on Earth"/>
+                    <MenuItem Click="Button_Click" Tag="G = 6.67430*10^-11*(m^3/(kg*s^2))" Icon="  G" Header="Gravitational constant"/>
+                    <MenuItem Click="Button_Click" Tag="M_E = 5.9722*10^24*kg" Icon="ME" Header="Earth mass"/>
+                    <MenuItem Click="Button_Click" Tag="M_S = 1.98847*10^30*kg" Icon="MS" Header="Solar mass"/>
+                    <MenuItem Click="Button_Click" Tag="c = 299792458m/s" Icon="  c" Header="Speed of light in vacuum"/>
+                    <Separator/>
+                    <MenuItem Click="Button_Click" Tag="h = 6.62607015*10^-34*J/Hz" Icon="  h" Header="Planck constant"/>
+                    <MenuItem Click="Button_Click" Tag="μ_0 = 1.25663706212*10^-6*N/A^2" Icon=" μ0" Header="Vacuum magnetic permeability"/>
+                    <MenuItem Click="Button_Click" Tag="ε_0 = 8.8541878128*10^-12*F/m" Icon=" ε0" Header="Vacuum electric permittivity"/>
+                    <MenuItem Click="Button_Click" Tag="k_e = 8.9875517923*10^9*N*m^2/C^2" Icon=" ke" Header="Coulomb constant"/>
+                    <MenuItem Click="Button_Click" Tag="e = 1.602176634*10^-19*C" Icon="  e" Header="Elementary charge"/>
+                    <MenuItem Click="Button_Click" Tag="m_e = 9.1093837015*10^-31*kg" Icon="me" Header="Electron mass"/>
+                    <MenuItem Click="Button_Click" Tag="m_p = 1.67262192369*10^-27*kg" Icon="mp" Header="Proton mass"/>
+                    <MenuItem Click="Button_Click" Tag="m_n = 1.67492749804*10^-27*kg" Icon="mn" Header="Neutron mass"/>
+                    <Separator/>
+                    <MenuItem Click="Button_Click" Tag="N_A = 6.02214076*10^23*mol^-1" Icon="NA" Header="Avogadro constant"/>
+                    <MenuItem Click="Button_Click" Tag="σ = 5.670374419*10^-8*W*m^-2*K^-4" Icon="  σ" Header="Stefan–Boltzmann constant"/>
+                    <MenuItem Click="Button_Click" Tag="k_B = 1.380649*10^-23*J/K" Icon=" kB" Header="Boltzmann constant"/>
+                    <MenuItem Click="Button_Click" Tag="R = 8.31446261815324*(J/(mol*K))" Icon="  R" Header="Molar gas constant "/>
+                    <MenuItem Click="Button_Click" Tag="F = 96485.33212331C/mol" Icon="  F" Header="Faraday constant"/>
+                    <Separator/>
+                    <MenuItem Click="Button_Click" Tag="γ_c = 25kN/m^3"   Icon=" γc" Header="Unit weight of concrete"/>
+                    <MenuItem Click="Button_Click" Tag="γ_s = 78.5kN/m^3" Icon=" γs" Header="Unit weight of steel"/>
+                    <MenuItem Click="Button_Click" Tag="γ_a = 27kN/m^3"   Icon=" γa" Header="Unit weight of aluminium"/>
+                    <MenuItem Click="Button_Click" Tag="γ_g = 25kN/m^3"   Icon=" γg" Header="Unit weight of glass"/>
+                    <MenuItem Click="Button_Click" Tag="γ_w = 10kN/m^3"   Icon="γw" Header="Unit weight of water"/>
+                </MenuItem>
                 <MenuItem Header="Operators">
                     <MenuItem Click="Button_Click" Tag="!" Icon="  !" Header="Factorial"/>
                     <MenuItem Click="Button_Click" Tag="^" Icon="  ^" Header="Exponent"/>
@@ -208,6 +241,9 @@
                         <MenuItem Click="Button_Click" Tag="abs("   Header="abs(x)"   ToolTip="Absolute value/magitute"/>
                     </MenuItem>
                     <MenuItem Header="Other">
+                        <MenuItem Click="Button_Click" Tag="mod("     Header="mod(x)"                ToolTip="The reminder of an integer division"/>
+                        <MenuItem Click="Button_Click" Tag="gcd("     Header="gcd(x; y)"             ToolTip="The greatest common divisor of two integers"/>
+                        <MenuItem Click="Button_Click" Tag="lcm("     Header="lcm(x; y)"             ToolTip="The least common multiple of two integers"/>
                         <MenuItem Click="Button_Click" Tag="sign("    Header="sign(x)"               ToolTip="Sign of a number"/>
                         <MenuItem Click="Button_Click" Tag="random("  Header="random(x)"             ToolTip="Random number between 0 and x"/>
                         <MenuItem Click="Button_Click" Tag="min("     Header="min(x; y; z...)"       ToolTip="Minimum of multiple values"/>
@@ -1637,6 +1673,7 @@
                         <ListBoxItem Content="gal_US" Foreground="DarkCyan"/>
                         <ListBoxItem Content="GBq" Foreground="DarkCyan"/>
                         <ListBoxItem Content="GC" Foreground="DarkCyan"/>
+                        <ListBoxItem Content="gcd()"/>
                         <ListBoxItem Content="GeV" Foreground="DarkCyan"/>
                         <ListBoxItem Content="gf" Foreground="DarkCyan"/>
                         <ListBoxItem Content="GF" Foreground="DarkCyan"/>
@@ -1740,6 +1777,7 @@
                         <ListBoxItem Content="lbf" Foreground="DarkCyan"/>
                         <ListBoxItem Content="lbf*ft" Foreground="DarkCyan"/>
                         <ListBoxItem Content="lbf*in" Foreground="DarkCyan"/>
+                        <ListBoxItem Content="lcm()"/>
                         <ListBoxItem Content="lea" Foreground="DarkCyan"/>
                         <ListBoxItem Content="li" Foreground="DarkCyan"/>
                         <ListBoxItem Content="line()"/>
@@ -1788,6 +1826,7 @@
                         <ListBoxItem Content="mm^2" Foreground="DarkCyan"/>
                         <ListBoxItem Content="mm^3" Foreground="DarkCyan"/>
                         <ListBoxItem Content="MN" Foreground="DarkCyan"/>
+                        <ListBoxItem Content="mod()"/>
                         <ListBoxItem Content="mol" Foreground="DarkCyan"/>
                         <ListBoxItem Content="mPa" Foreground="DarkCyan"/>
                         <ListBoxItem Content="MPa" Foreground="DarkCyan"/>

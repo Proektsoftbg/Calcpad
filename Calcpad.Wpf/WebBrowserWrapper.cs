@@ -48,13 +48,17 @@ namespace Calcpad.Wpf
 
         internal string GetLinkData()
         {
-            var tagName = _wb.InvokeScript("eval", "document.activeElement.tagName").ToString();
-            if (tagName == "A")
+            try
             {
-                var linkData = _wb.InvokeScript("eval", "document.activeElement.getAttribute('data-text')").ToString();
-                if (linkData != "undefined")
-                    return linkData;
+                var tagName = _wb.InvokeScript("eval", "document.activeElement.tagName").ToString();
+                if (tagName == "A")
+                {
+                    var linkData = _wb.InvokeScript("eval", "document.activeElement.getAttribute('data-text')").ToString();
+                    if (linkData != "undefined")
+                        return linkData;
+                }
             }
+            catch { }
             return null;
         }
 

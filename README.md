@@ -90,6 +90,9 @@ A variable name must start with a letter. Names are case sensitive.
 * Built-in functions:  
 &emsp;&emsp;sign(x) - sign of a number;  
 &emsp;&emsp;abs(x)  - absolute value/magnitude;  
+&emsp;&emsp;mod(x; y) - the reminder of an integer division;  
+&emsp;&emsp;gcd(x; y) - the greatest common divisor of two integers;  
+&emsp;&emsp;lcm(x; y) - the least common multiple of two integers;  
 &emsp;&emsp;sin(x)  - sine;  
 &emsp;&emsp;cos(x)  - cosine;  
 &emsp;&emsp;tan(x)  - tangent;  
@@ -233,8 +236,8 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;&emsp;#pause - calculates to the current line and waits until resumed manually;  
 &emsp;&emsp;#input - renders an input form to the current line and waits for user input.  
 * Switches for trigonometric units: #deg - degrees, #rad - radians, #gra - gradians;  
-* Separator for target units: |, for example:  `3ft + 12in|cm` will show 121.92 cm;
-* Dimensionless: .%, ‰;
+* Separator for target units: |, for example:  `3ft + 12in|cm` will show 121.92 cm;;  
+* Dimensionless: %, ‰;
 * Angle units: °, ′, ″, deg, rad, grad, rev;  
 * Metric units (SI and compatible):  
 &emsp;&emsp;Mass: g, hg, kg, t, kt, Mt, Gt, dg, cg, mg, μg, Da, u;  
@@ -255,9 +258,9 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;&emsp;Viscosity: P, cP, St, cSt;  
 &emsp;&emsp;Energy work: J, kJ, MJ, GJ, TJ, mJ, μJ, nJ, pJ, Wh, kWh, MWh, GWh, TWh,  
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;cal, kcal, erg, eV, keV, MeV, GeV, TeV, PeV, EeV;  
-&emsp;&emsp;Power: W, kW, MW, GW, TW, mW, μW, nW, pW, hpM, ks,  
+&emsp;&emsp;Power: W, kW, MW, GW, TW, mW, μW, nW, pW, hpM, ks;  
 &emsp;&emsp;&emsp;&emsp;&emsp; VA, kVA, MVA, GVA, TVA, mVA, μVA, nVA, pVA,  
-&emsp;&emsp;&emsp;&emsp;&emsp; VAR, kVAR, MVAR, GVAR, TVAR, mVAR, μVAR, nVAR, pVAR;  
+&emsp;&emsp;&emsp;&emsp;&emsp; VAR, kVAR, MVAR, GVAR, TVAR, mVAR, μVAR, nVAR, pVAR, hpM, ks;  
 &emsp;&emsp;Electric charge: C, kC, MC, GC, TC, mC, μC, nC, pC, Ah, mAh;  
 &emsp;&emsp;Potential: V, kV, MV, GV, TV, mV, μV, nV, pV;  
 &emsp;&emsp;Capacitance: F, kF, MF, GF, TF, mF, μF, nF, pF;  
