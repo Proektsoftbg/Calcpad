@@ -37,18 +37,11 @@ namespace Calcpad.Core
                 {
                     case '/':
                     case '*':
-                        {
-                            literal = FormatLocal(literal);
-                            if (this is XmlWriter)
-                                power = XmlWriter.Run(power);
-
-                            _stringBuilder.Append(isPower ? FormatPower(literal, power, 0, -1) : literal);
-                            _stringBuilder.Append(FormatOperator(c));
-                            literal = string.Empty;
-                            power = string.Empty;
-                            isPower = false;
-                            break;
-                        }
+                    {
+                        AppendPower();
+                        _stringBuilder.Append(FormatOperator(c));
+                        break;
+                    }
                     case '^':
                         isPower = true;
                         break;
@@ -62,46 +55,47 @@ namespace Calcpad.Core
                         throw new MathParser.MathParserException("Missing left bracket '('.");
 #endif
                     case ')':
+                    {
+                        var index = brackets.Pop();
+                        if (isPower && index < power.Length)
                         {
-                            var index = brackets.Pop();
-                            if (isPower)
-                            {
-                                if (index == 0)
-                                    power = this is TextWriter ? $"({power})" : power;
-                                else
-                                {
-                                    var s = power[index..];
-                                    power = power.Remove(index);
-                                    power += $"({s})";
-                                }
-                            }
+                            if (index == 0)
+                                power = this is TextWriter ? $"({power})" : power;
                             else
                             {
-                                var length = _stringBuilder.Length - index;
-                                var s = _stringBuilder.ToString(index, length);
-                                _stringBuilder.Remove(index, length);
-                                _stringBuilder.Append(AddBrackets(s));
+                                var s = power[index..];
+                                power = power.Remove(index);
+                                power += $"({s})";
                             }
-                            break;
                         }
+                        else
+                        {
+                            AppendPower();
+                            var length = _stringBuilder.Length - index;
+                            var s = _stringBuilder.ToString(index, length);
+                            _stringBuilder.Remove(index, length);
+                            _stringBuilder.Append(AddBrackets(s));
+                        }
+                        break;
+                    }
                     default:
+                    {
+                        if (isPower)
+                            power += c;
+                        else
                         {
-                            if (isPower)
-                                power += c;
+                            if (
+                                sub == 0 && c == '_' ||
+                                sub == 1 && c == 'U' ||
+                                sub == 2 && (c == 'K' || c == 'S')
+                            )
+                                sub++;
                             else
-                            {
-                                if (
-                                    sub == 0 && c == '_' ||
-                                    sub == 1 && c == 'U' ||
-                                    sub == 2 && (c == 'K' || c == 'S')
-                                )
-                                    sub++;
-                                else
-                                    sub = 0;
-                                literal += c;
-                            }
-                            break;
+                                sub = 0;
+                            literal += c;
                         }
+                        break;
+                    }
                 }
             }
             if (brackets.Any())
@@ -110,18 +104,9 @@ namespace Calcpad.Core
 #else
                 throw new MathParser.MathParserException("Missing right bracket ')'.");
 #endif
-            if (literal.Length <= 0) return
-                _stringBuilder.ToString();
-            literal = FormatLocal(literal);
+            if (literal.Length > 0)
+                AppendPower();
 
-            if (isPower)
-            {
-                if (this is XmlWriter)
-                    power = XmlWriter.Run(power);
-                _stringBuilder.Append(FormatPower(literal, power, 0, -1));
-            }
-            else
-                _stringBuilder.Append(literal);
             return _stringBuilder.ToString();
 
             string FormatLocal(string s)
@@ -133,6 +118,24 @@ namespace Calcpad.Core
                 }
                 else
                     return FormatUnits(s);
+            }
+
+            void AppendPower()
+            {
+                literal = FormatLocal(literal);
+                if (isPower)
+                {
+                    if (this is XmlWriter)
+                        power = XmlWriter.Run(power);
+
+                    _stringBuilder.Append(FormatPower(literal, power, 0, -1));
+                }
+                else
+                    _stringBuilder.Append(literal);
+
+                literal = string.Empty;
+                power = string.Empty;
+                isPower = false;
             }
         }
 
@@ -157,7 +160,7 @@ namespace Calcpad.Core
 
         protected static string FormatOperatorHelper(char c) => c switch
         {
-            Calculator.NegChar => " -",
+            Calculator.NegChar => "-",
             '-' => " – ",
             '<' => " < ",
             '>' => " > ",

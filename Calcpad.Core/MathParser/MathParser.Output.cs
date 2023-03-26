@@ -376,12 +376,7 @@ namespace Calcpad.Core
                     var c = stackBuffer.Pop();
                     if (_formatEquations)
                     {
-                        t.Level = Math.Max(a.Level, c.Level);
-                        if (t.Level == 0)
-                            t.Level = b.Level + 1;
-                        else
-                            t.Level += b.Level == 0 ? 1 : b.Level;
-
+                        t.Level = Math.Max(a.Level, c.Level) +  b.Level + 1;
                         t.Content = writer.FormatIf(c.Content, a.Content, sb, t.Level);
                     }
                     else

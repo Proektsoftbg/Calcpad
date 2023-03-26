@@ -181,6 +181,9 @@ namespace Calcpad.Wpf
         private static readonly HashSet<string> Functions = new(StringComparer.OrdinalIgnoreCase)
         {
             "abs",
+            "mod",
+            "gcd",
+            "lcm",
             "sin",
             "cos",
             "tan",
@@ -190,6 +193,7 @@ namespace Calcpad.Wpf
             "asin",
             "acos",
             "atan",
+            "atan2",
             "acsc",
             "asec",
             "acot",

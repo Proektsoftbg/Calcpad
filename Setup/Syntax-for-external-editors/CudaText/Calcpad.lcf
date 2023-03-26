@@ -181,7 +181,7 @@ object SyntAnal6: TLibSyntAnalyzer
         'n|acos|atan|acsc|asec|acot|asinh|acosh|atanh|acsch|asech|acoth|l' +
         'n|log|log_2|exp|sqr|sqrt|cbrt|round|floor|ceiling|trunc|re|im|phase|' +
         'random|root|atan2|min|max|sum|sumsq|srss|average|product|mean|sw' +
-        'itch|take|line|spline)\b'
+        'itch|take|line|spline|mod|gcd|lcm)\b'
       ColumnFrom = 0
       ColumnTo = 0
     end

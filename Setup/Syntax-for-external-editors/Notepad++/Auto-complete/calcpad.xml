@@ -292,6 +292,7 @@
 		<KeyWord name="exp" />
 		<KeyWord name="fl_oz" />
 		<KeyWord name="gi" />
+		<KeyWord name="gcd" />
 		<KeyWord name="pt" />
 		<KeyWord name="qt" />
 		<KeyWord name="gal" />
@@ -348,6 +349,7 @@
 		<KeyWord name="im" />
 		<KeyWord name="kat" />
 		<KeyWord name="kmh" />
+		<KeyWord name="lcm" />
 		<KeyWord name="line" />
 		<KeyWord name="lm" />
 		<KeyWord name="ln" />
@@ -367,6 +369,7 @@
 		<KeyWord name="max" />
 		<KeyWord name="mean" />
 		<KeyWord name="min" />
+		<KeyWord name="mod" />
 		<KeyWord name="mol" />
 		<KeyWord name="mph" />
 		<KeyWord name="knot" />

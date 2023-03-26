@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Calcpad.Core
 {
@@ -108,7 +109,10 @@ namespace Calcpad.Core
         {
             { "atan2", 0 },
             { "root", 1 },
-            { "mandelbrot", 2 }
+            { "mod", 2 },
+            { "gcd", 3 },
+            { "lcm", 4 },
+            { "mandelbrot", 5 }
         };
 
         internal static readonly Dictionary<string, int> MultiFunctionIndex = new(StringComparer.OrdinalIgnoreCase)
@@ -310,7 +314,17 @@ namespace Calcpad.Core
             return new(y, u);
         }
 
-        protected static double MandelbrotSet(double x, double y)
+        protected static Value Mod(Value a, Value b) => a % b;
+
+        protected static Value MandelbrotSet(Value a, Value b) =>
+            new(
+                MandelbrotSet(
+                    a.Re, b.Re * Unit.Convert(a.Units, b.Units, ',')
+                ),
+                a.Units
+            );
+
+        private static double MandelbrotSet(double x, double y)
         {
             if (x > -1.25 && x < 0.375)
             {
@@ -348,6 +362,59 @@ namespace Calcpad.Core
                 re = reSq - imSq + x;
             }
             return double.NaN;
+        }
+
+
+        protected static Value Gcd(Value a, Value b) => 
+            new(
+                Gcd(AsLong(a.Re), AsLong(b.Re * Unit.Convert(a.Units, b.Units, ',')))
+            );
+
+        protected static Value Lcm(Value a, Value b)
+        {
+            var la = AsLong(a.Re);
+            var lb = AsLong(b.Re * Unit.Convert(a.Units, b.Units, ','));
+            return new(
+                Math.Abs(la * lb) / Gcd(la, lb)
+            );
+        }
+
+        private static long AsLong(double d)
+        {
+            var c = Math.Abs(d);
+            if (c > long.MaxValue || c != Math.Truncate(c))
+#if BG
+                throw new MathParser.MathParserException("Двете числа трябва да са цели.");
+#else
+                throw new MathParser.MathParserException("Both values must be integer.");
+#endif 
+            return (long)c;
+        }
+
+        private static long Gcd(long a, long b)
+        {
+            if (a == 0) return b;
+            if (b == 0) return a;
+            int k;
+            for (k = 0; ((a | b) & 1) == 0; ++k)
+            {
+                a >>= 1;
+                b >>= 1;
+            }
+            while ((a & 1) == 0)
+                a >>= 1;
+
+            do
+            {
+                while ((b & 1) == 0)
+                    b >>= 1;
+
+                if (a > b)
+                    (b, a) = (a, b);
+
+                b -= a;
+            } while (b != 0);
+            return a << k;
         }
     }
 }

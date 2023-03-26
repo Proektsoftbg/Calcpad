@@ -85,6 +85,9 @@ namespace Calcpad.Core
             {
                 Atan2,
                 Root,
+                Mod,
+                Gcd,
+                Lcm,
                 MandelbrotSet
             };
 
@@ -424,7 +427,6 @@ namespace Calcpad.Core
             var unit = Unit.Root(value.Units, n, value.IsUnit);
             return new(result, unit);
         }
-
         private static Value Round(Value value) => new(Complex.Round(value.Complex), value.Units);
         private static Value Floor(Value value) => new(Complex.Floor(value.Complex), value.Units);
         private static Value Ceiling(Value value) => new(Complex.Ceiling(value.Complex), value.Units);
@@ -446,13 +448,6 @@ namespace Calcpad.Core
             return true;
         }
 
-        private static Value MandelbrotSet(Value a, Value b) =>
-            new(
-                MandelbrotSet(
-                    a.Re, b.Re * Unit.Convert(a.Units, b.Units, ',')
-                ),
-                a.Units
-            );
 
         private static new Value Min(Value[] v) =>
             AreAllReal(v) ?
@@ -533,6 +528,12 @@ namespace Calcpad.Core
             }
             return new(Complex.Pow(result, 1.0 / v.Length), Unit.Root(u, v.Length));
         }
+
+        private static new Value Gcd(Value a, Value b) =>
+            a.IsReal && b.IsReal ? Calculator.Gcd(a, b) : new(double.NaN, a.Units);
+
+        private static new Value Lcm(Value a, Value b) =>
+            a.IsReal && b.IsReal ? Calculator.Lcm(a, b) : new(double.NaN, a.Units);
 
         private static Complex FromAngleUnits(in Value value)
         {

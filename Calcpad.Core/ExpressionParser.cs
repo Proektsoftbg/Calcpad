@@ -573,7 +573,7 @@ namespace Calcpad.Core
                         {
                             _parser.Parse(token.Value);
                             if (calculate && _isVal > -1)
-                                _parser.Calculate();
+                                _parser.Calculate(isOutput);
 
                             if (isOutput)
                             {

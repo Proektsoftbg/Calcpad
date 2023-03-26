@@ -635,6 +635,9 @@ namespace Calcpad.Core
                                     stackBuffer.Pop();
                                     output.Enqueue(next);
                                 }
+                            if (t.Order == 1 && t.Index == 4)
+                                t.Order = Calculator.OperatorOrder[4];
+
                             stackBuffer.Push(t);
                             break;
                         case TokenTypes.Function:
