@@ -513,25 +513,31 @@ namespace Calcpad.Core
         internal Complex ComplexSum(double start, double end)
         {
             GetBounds(start, end, out var n1, out var n2);
-            var number = Fc(n1);
+            var sum = Fc(n1);
             var units = Units;
             var hasUnits = units is not null;
             n1++;
             Units = null;
+            // Variable to store the error for the Kahan summation algorithm
+            var c = Complex.Zero;
             for (int i = n1; i <= n2; ++i)
             {
-                number += Fc(i);
-                if (hasUnits && !Unit.IsConsistent(units, Units))
-#if BG
-                    throw new MathParserException($"Несъвместими мерни единици в $Sum: \"{Unit.GetText(units)}\" и \"{Unit.GetText(Units)}\".");
-#else
-                    throw new MathParserException($"Inconsistent units in $Sum: \"{Unit.GetText(units)}\" and \"{Unit.GetText(Units)}\".");
-#endif
-                if (IsInfinity(number))
+                var d = Fc(i);
+                //Kahan summation algorithm
+                var y = d - c;
+                var t = sum + y;
+                c = (t - sum) - y;
+                sum = t;
+                //End 
+
+                if (hasUnits)
+                    CheckUnits(units);
+
+                if (IsInfinity(sum))
                     break;
             }
             Units = units;
-            return number;
+            return sum;
         }
 
         internal Complex ComplexProduct(double start, double end)
