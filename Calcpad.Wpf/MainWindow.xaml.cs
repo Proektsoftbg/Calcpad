@@ -1528,12 +1528,13 @@ You can find your unsaved data in
                     }
                 }
                 else
+                {
                     s = ReplaceCStyleRelationalOperators(line.TrimStart('\t'));
-
+                    if (!hasForm)
+                        hasForm = MacroParser.HasInputFields(s);
+                }
                 _document.Blocks.Add(new Paragraph(new Run(s.ToString())));
             }
-            if (!hasForm)
-                hasForm = MacroParser.HasInputFields(InputText);
 
             var b = _document.Blocks.LastBlock;
             if (b.ContentStart.GetOffsetToPosition(b.ContentEnd) == 0)

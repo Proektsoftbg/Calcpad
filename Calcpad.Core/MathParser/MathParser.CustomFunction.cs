@@ -34,8 +34,7 @@ namespace Calcpad.Core
             }
 
             private const int MaxCacheSize = 1000;
-            internal delegate void ChangeEvent();
-            internal event ChangeEvent OnChange;
+            internal event Action OnChange;
             internal Token[] Rpn;
             private Dictionary<Value, Value> _cache;
             private Dictionary<Tuple, Value> _cache2;
@@ -85,24 +84,26 @@ namespace Calcpad.Core
                     _cache2.Clear();
             }
 
-            internal void BeforeChange()
+            internal void Change()
             {
                 ClearCache();
                 OnChange?.Invoke();
             }
 
-            internal void SubscribeCache(Container<CustomFunction> functions)
+            internal void SubscribeCache(MathParser parser)
             {
                 for (int i = 0, len = Rpn.Length; i < len; ++i)
                 {
                     var t = Rpn[i];
                     if (t is VariableToken vt)
-                        vt.Variable.OnChange += ClearCache;
+                        vt.Variable.OnChange += Change;
+                    else if (t.Type == TokenTypes.Solver)
+                        parser._solveBlocks[t.Index].OnChange += Change;
                     else if (t.Type == TokenTypes.CustomFunction)
                     {
-                        var index = functions.IndexOf(t.Content);
+                        var index = parser._functions.IndexOf(t.Content);
                         if (index >= 0)
-                            functions[index].OnChange += ClearCache;
+                            parser._functions[index].OnChange += Change;
                     }
                 }
             }
