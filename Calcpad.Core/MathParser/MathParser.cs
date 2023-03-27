@@ -37,7 +37,7 @@ namespace Calcpad.Core
                 var precision = v.Value.Re;
                 return precision switch
                 {
-                    < 1e-16 => 1e-16,
+                    < 1e-15 => 1e-15,
                     > 1e-2 => 1e-2,
                     _ => precision
                 };
@@ -161,11 +161,11 @@ namespace Calcpad.Core
                 _functions[i].ClearCache();
         }
 
-        internal void CompileBlocks()
-        {
-            for (int i = _solveBlocks.Count - 1; i >= 0; --i)
-                _solveBlocks[i].Compile(this);
-        }
+        //internal void CompileBlocks()
+        //{
+        //    for (int i = _solveBlocks.Count - 1; i >= 0; --i)
+        //        _solveBlocks[i].Compile(this);
+        //}
 
         internal void BreakIfCanceled()
         {
@@ -188,7 +188,7 @@ namespace Calcpad.Core
             BreakIfCanceled();
             if (_functionDefinitionIndex < 0)
             {
-                CompileBlocks();
+                //CompileBlocks();
                 if (_variables.TryGetValue("ReturnAngleUnits", out var v))
                     Calculator.ReturnAngleUnits = v.Value.Re != 0.0;
                 Result = _evaluator.Evaluate(_rpn, true).Complex;
@@ -284,13 +284,12 @@ namespace Calcpad.Core
                         cf.Rpn = rpn;
                         if (IsEnabled)
                         {
-                            cf.SubscribeCache(_functions);
+                            cf.SubscribeCache(this);
                             BindParameters(cf.Parameters, cf.Rpn);
                         }
                         cf.Units = _targetUnits;
                         if (i >= 0)
-                            cf.BeforeChange();
-                        cf.Function = null;
+                            cf.Change();
                         _functionDefinitionIndex = _functions.Add(name, cf);
                         cf.IsRecursion = cf.CheckRecursion(null, _functions);
                         if (cf.IsRecursion)

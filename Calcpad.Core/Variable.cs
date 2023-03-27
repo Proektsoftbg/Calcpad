@@ -4,9 +4,8 @@ namespace Calcpad.Core
 {
     internal class Variable
     {
-        internal delegate void ChangeEvent();
-        internal event Action OnChange;
         public Value Value;
+        internal event Action OnChange;
         internal bool IsInitialized => _isIntialised;
         private bool _isIntialised;
         internal Variable(in Value value)
@@ -30,6 +29,7 @@ namespace Calcpad.Core
             Value = new Value(number, units);
             _isIntialised = true;
         }
+
         internal void Assign(in Value value)
         {
             Value = value;

@@ -147,6 +147,7 @@ namespace Calcpad.Core
                             //If we have inches in complex mode
                             if (j < n && expression[j] == 'n')
                             {
+                                unitsLiteral.Reset(i);
                                 unitsLiteral.Expand();
                                 tt = TokenTypes.Constant;
                             }

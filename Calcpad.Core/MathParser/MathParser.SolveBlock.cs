@@ -60,6 +60,7 @@ namespace Calcpad.Core
             private SolverItem[] _items;
             private Func<Value> _a, _b, _f, _y;
             private string Script { get; }
+            internal event Action OnChange;
             internal Value Result { get; private set; }
             internal bool IsFigure { get; private set; }
 
@@ -151,6 +152,7 @@ namespace Calcpad.Core
                     _items[i].Rpn = _parser._rpn;
                     _items[i].Html = _parser.ToHtml();
                     _items[i].Xml = _parser.ToXml();
+                    SubscribeCompile(_items[i].Rpn);
                 }
                 IsFigure = _type == SolverTypes.Sum ||
                            _type == SolverTypes.Product ||
@@ -178,20 +180,32 @@ namespace Calcpad.Core
                 vt.Variable = parameters[0].Variable;
                 _var = vt.Variable;
                 _parser.BindParameters(parameters, _items[0].Rpn);
+                if (_type == SolverTypes.Repeat)
+                    FixRepeat(_items[0].Rpn);
+
                 _parser._targetUnits = targetUnits;
             }
 
-            internal void Compile(MathParser parser)
+            private static void FixRepeat(Token[] rpn)
             {
-                if (_f is not null)
-                    return;
+                ref var rpn0 = ref rpn[0];
+                if (rpn[^1].Content == "=" && rpn0.Index == -1)
+                {
+                    rpn0.Index = 1;
+                    for (int i = 0, len = rpn.Length; i < len; ++i)
+                        if (rpn[i].Type == TokenTypes.Variable && rpn[i].Content == rpn0.Content)
+                            rpn[i].Index = 1;
+                }
+            }
 
-                _f = parser.CompileRpn(_items[0].Rpn);
+            private void Compile()
+            {
+                _f = _parser.CompileRpn(_items[0].Rpn);
                 if (_items[2].Rpn.Length == 1 &&
                     _items[2].Rpn[0].Type == TokenTypes.Constant)
                     _va = ((ValueToken)_items[2].Rpn[0]).Value;
                 else
-                    _a = parser.CompileRpn(_items[2].Rpn);
+                    _a = _parser.CompileRpn(_items[2].Rpn);
 
                 if (_items[3].Rpn is not null)
                 {
@@ -199,10 +213,10 @@ namespace Calcpad.Core
                         _items[3].Rpn[0].Type == TokenTypes.Constant)
                         _vb = ((ValueToken)_items[3].Rpn[0]).Value;
                     else
-                        _b = parser.CompileRpn(_items[3].Rpn);
+                        _b = _parser.CompileRpn(_items[3].Rpn);
                 }
                 if (_items[4].Rpn is not null)
-                    _y = parser.CompileRpn(_items[4].Rpn);
+                    _y = _parser.CompileRpn(_items[4].Rpn);
             }
 
             internal void BindParameters(Parameter[] parameters, MathParser parser)
@@ -219,8 +233,33 @@ namespace Calcpad.Core
                 }
             }
 
+            internal void SubscribeCompile(Token[] rpn)
+            {
+                for (int i = 0, len = rpn.Length; i < len; ++i)
+                {
+                    var t = rpn[i];
+                    if (t is VariableToken vt)
+                        vt.Variable.OnChange += Clear;
+                    else if (t.Type == TokenTypes.CustomFunction)
+                    {
+                        var index = _parser._functions.IndexOf(t.Content);
+                        if (index >= 0)
+                            _parser._functions[index].OnChange += Clear;
+                    }
+                }
+            }
+
+            private void Clear()
+            {
+                _f = null;
+                OnChange?.Invoke();
+            }
+
             internal Value Calculate()
             {
+                if (_f is null)
+                    Compile();
+
                 ++_parser._isSolver;
                 var x1 = _a is null ? _va : _a();
                 _parser.CheckReal(x1);
