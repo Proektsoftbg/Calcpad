@@ -533,6 +533,7 @@ You can find your unsaved data in
                 _document.Blocks.Remove(RichTextBox.Selection.Start.Paragraph);
                 _currentParagraph = RichTextBox.Selection.Start.Paragraph;
             }
+            _currentLineNumber = GetLineNumber(_currentParagraph);
             HighLighter.Clear(_currentParagraph);
             RichTextBox.EndChange();
             _isTextChangedEnabled = true;
@@ -1541,6 +1542,7 @@ You can find your unsaved data in
                 _document.Blocks.Remove(b);
 
             _currentParagraph = RichTextBox.Selection.Start.Paragraph;
+            _currentLineNumber = GetLineNumber(_currentParagraph);
             _undoMan.Reset();
             Record();
             RichTextBox.EndChange();
@@ -1613,6 +1615,7 @@ You can find your unsaved data in
             RichTextBox.BeginChange();
             _document.Blocks.Clear();
             _currentParagraph = new Paragraph();
+            _currentLineNumber = 1;
             _document.Blocks.Add(_currentParagraph);
             HighLighter.Clear(_currentParagraph);
             RichTextBox.EndChange();
@@ -1793,6 +1796,7 @@ You can find your unsaved data in
             else if (currentLine > _document.Blocks.Count)
                 currentLine = _document.Blocks.Count;
             _currentParagraph = (Paragraph)_document.Blocks.ElementAt(currentLine - 1);
+            _currentLineNumber = currentLine;
             var pointer = HighLighter.FindPositionAtOffset(_currentParagraph, offset);
             RichTextBox.Selection.Select(pointer, pointer);
             HighLighter.Clear(_currentParagraph);
@@ -2337,6 +2341,7 @@ You can find your unsaved data in
                 if (p is not null)
                 {
                     _currentParagraph = p;
+                    _currentLineNumber = GetLineNumber(_currentParagraph);
                     HighLighter.Clear(_currentParagraph);
                     FillAutoCompleteWithDefined();
                 }
@@ -2350,7 +2355,6 @@ You can find your unsaved data in
                 }
                 DispatchHighLightFromCurrent();
             }
-            _currentLineNumber = GetLineNumber(_currentParagraph);
             _currentOffset = new TextRange(tps, tps.Paragraph.ContentEnd).Text.Length;
             if (p is not null && tpe.GetOffsetToPosition(tps) == 0)
             {
@@ -2730,6 +2734,7 @@ You can find your unsaved data in
                 ++i;
             }
             _currentParagraph = RichTextBox.Selection.Start.Paragraph;
+            _currentLineNumber = GetLineNumber(_currentParagraph);
             HighLighter.Clear(_currentParagraph);
             RichTextBox.EndChange();
             _isTextChangedEnabled = true;
@@ -2793,6 +2798,7 @@ You can find your unsaved data in
                 _highlighter.Parse(p, IsComplex, lineNumber++);
                 p = (Paragraph)p.NextBlock;
             }
+            _currentLineNumber = GetLineNumber(_currentParagraph);
             HighLighter.Clear(_currentParagraph);
             RichTextBox.EndChange();
             _isTextChangedEnabled = true;
