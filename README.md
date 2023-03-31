@@ -18,7 +18,7 @@ Calcpad is free software for mathematical and engineering calculations. It repre
 * function plotting, images, tables, parametric SVG drawings, etc.;  
 * automatic generation of Html forms for data input;  
 * professional looking Html reports for viewing and printing;  
-* export to Word documents (\*.docx) and PDF;  
+* export to Word (\*.docx) and PDF documents;  
 * variable substitution and smart rounding of numbers;  
 * output visibility control and content folding;  
 * support for plain text (\*.txt, \*.cpd) and binary (\*.cpdz) file formats.  
