@@ -614,7 +614,6 @@ h_1/L
 '<tr><th rowspan="2">Zone</th><th colspan="3">Pressure coefficients <sup>1)</sup></th><th colspan="3">Loading <sup>4)</sup></th></tr>
 '<tr><th><i>C</i><sub>pe_10</sub><br />(for 10 m²)</th><th><i>C</i><sub>pe_1</sub><br />(for 1 m²)</th><th><i>C</i><sub>pe</sub><br />(side beams)</th><th>Surface loads<sup>2)</sup>,<br />kN/m²</th><th>Columns <sup>3)</sup>,<br />kN/m</th><th>Side beams <sup>3)</sup>,<br />kN/m</th></tr>
 '<tr><td>Zone A</td><td>'C_pe_10_A'</td><td>'C_pe_1_A'</td><td>'C_pe_A'</td><td>'w_A'</td><td>'w_c_A'</td><td>'w_s_A'</td></tr>
-'<!--
 #if case < 3
 	'<tr><td>Zone B</td><td>'C_pe_10_B'</td><td>'C_pe_1_B'</td><td>'C_pe_B'</td><td>'w_B'</td><td>'w_c_B'</td><td>'w_s_B'</td></tr>
 #end if
