@@ -3,8 +3,8 @@
 '(also <strong>Clothoid</strong> or <strong>Euler Spiral</strong>)
 #rad
 'The equations is defined by the Fresnel integrals:
-x(t) = $Area{cos(s^2) @ s = 0 : t}
-y(t) = $Area{sin(s^2) @ s = 0 : t}
+x(t) = $Integral{cos(s^2) @ s = 0 : t}
+y(t) = $Integral{sin(s^2) @ s = 0 : t}
 #hide
 PlotWidth = 440
 PlotHeight = 400
