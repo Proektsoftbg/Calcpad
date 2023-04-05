@@ -31,6 +31,9 @@ namespace Calcpad.Core
                 GreaterThanOrEqual,
                 Equal,
                 NotEqual,
+                (a, b) => a & b,
+                (a, b) => a | b,
+                (a, b) => a ^ b,
                 (_, b) => b
             };
 
@@ -78,7 +81,8 @@ namespace Calcpad.Core
                 Phase,    //39
                 Random,   //40
                 Fact,     //41
-                Negate    //42
+                Negate,   //42
+                Not       //43
             };
 
             Functions2 = new Func<Value, Value, Value>[]
@@ -104,7 +108,10 @@ namespace Calcpad.Core
                 Switch,
                 Take,
                 Line,
-                Spline
+                Spline,
+                And,
+                Or,
+                Xor
             };
         }
 

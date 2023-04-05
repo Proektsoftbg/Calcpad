@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -43,6 +44,7 @@ namespace Calcpad.Core
                     foreach (var p in points)
                         charts[i].AddPoint(p.X, p.Y, p.Z);
 
+                    charts[i].Fill = fx[i] is null;
                     limits.Expand(charts[i].Bounds);
                 }
                 limits = FixLimits(limits);
@@ -180,7 +182,7 @@ namespace Calcpad.Core
         {
             Parser.BreakIfCanceled();
             _var.SetNumber(t);
-            var vx = fx();
+            var vx = fx is null ? _var.Value : fx();
             var vy = fy();
             return new Node(vx.Re, vy.Re, t);
         }
@@ -217,6 +219,19 @@ namespace Calcpad.Core
                 new(Color.Maroon, penWidth),
                 new(Color.YellowGreen, penWidth)
             };
+            SolidBrush[] chartBrushes =
+{
+                new(Color.FromArgb(12, chartPens[0].Color)),
+                new(Color.FromArgb(11, chartPens[1].Color)),
+                new(Color.FromArgb(10, chartPens[2].Color)),
+                new(Color.FromArgb(9, chartPens[3].Color)),
+                new(Color.FromArgb(8, chartPens[4].Color)),
+                new(Color.FromArgb(7, chartPens[5].Color)),
+                new(Color.FromArgb(6, chartPens[6].Color)),
+                new(Color.FromArgb(6, chartPens[7].Color)),
+                new(Color.FromArgb(6, chartPens[8].Color)),
+                new(Color.FromArgb(6, chartPens[9].Color))
+            };
             foreach (Pen pen in chartPens)
             {
                 pen.LineJoin = LineJoin.Round;
@@ -239,10 +254,12 @@ namespace Calcpad.Core
                 }
                 else
                 {
-                    //g.DrawCurve(chartPens[penNo], c.PngPoints, 0.25f);
                     g.DrawLines(chartPens[penNo], c.PngPoints);
-                    //foreach (var p in c.PngPoints)
-                    //  g.FillEllipse(chartPens[penNo].Brush, p.X - 6, p.Y - 6, 12, 12);
+                    if (c.Fill)
+                    {
+                        var yf = y0 - Math.Clamp(0, bounds.Bottom * ys, bounds.Top * ys);
+                        FillChart(g, chartBrushes[penNo], (float)yf, c.PngPoints);
+                    }
                 }
 
                 penNo++;
@@ -256,11 +273,25 @@ namespace Calcpad.Core
                 src = Settings.ImageUri + PngToFile(canvas, Settings.ImagePath);
 
             for (int j = 0, len = chartPens.Length; j < len; ++j)
+            {
                 chartPens[j].Dispose();
+                chartBrushes[j].Dispose();
+            }
 
             g.Dispose();
             canvas.Dispose();
             return HtmlImg(src);
+        }
+
+        private static void FillChart(Graphics g, Brush brush, float y0, PointF[] points)
+        {
+            var len = points.Length;
+            var fillPoints = new PointF[points.Length + 2];
+            fillPoints[0] = new(points[0].X, y0);
+            fillPoints[^1] = new(points[^1].X, y0);
+            for (int i = 0; i < len; ++i)
+                fillPoints[i + 1] = points[i];
+            g.FillPolygon(brush, fillPoints);
         }
 
         private string DrawSvg(Chart[] charts, double x0, double y0, double xs, double ys, Box bounds)
@@ -297,6 +328,7 @@ namespace Calcpad.Core
             internal SvgPoint[] SvgPoints;
             internal int PointCount;
             internal Box Bounds;
+            internal bool Fill;
             internal Chart(int size)
             {
                 _points = new Node[size];

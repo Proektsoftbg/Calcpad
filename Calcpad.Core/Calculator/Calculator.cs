@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Calcpad.Core
 {
@@ -36,8 +35,8 @@ namespace Calcpad.Core
         internal abstract int Degrees { set; }
         internal static bool ReturnAngleUnits { set => _returnAngleUnits = value; }
 
-        //                                               ^  ÷  \  %  *  -  +  <  >  ≤  ≥  ≡  ≠  =
-        internal static readonly int[] OperatorOrder = { 0, 3, 3, 3, 3, 4, 5, 6, 6, 6, 6, 6, 6, 7 };
+        //                                               ^  ÷  \  ⦼  *  -  +  <  >  ≤  ≥  ≡  ≠  ∧ ∨  ⊕  =
+        internal static readonly int[] OperatorOrder = { 0, 3, 3, 3, 3, 4, 5, 6, 6, 6, 6, 6, 6, 7, 8, 8, 9 };
 
         internal static readonly Dictionary<char, int> OperatorIndex = new()
         {
@@ -45,7 +44,7 @@ namespace Calcpad.Core
             { '/', 1 },
             { '÷', 1 },
             { '\\', 2 },
-            { '%', 3 },
+            { '⦼', 3 },
             { '*', 4 },
             { '-', 5 },
             { '+', 6 },
@@ -55,7 +54,10 @@ namespace Calcpad.Core
             { '≥', 10 },
             { '≡', 11 },
             { '≠', 12 },
-            { '=', 13 }
+            { '∧', 13 },
+            { '∨', 14 },
+            { '⊕', 15 },
+            { '=', 16 }
         };
 
         internal static readonly Dictionary<string, int> FunctionIndex = new(StringComparer.OrdinalIgnoreCase)
@@ -102,7 +104,8 @@ namespace Calcpad.Core
             { "phase", 39 },
             { "random", 40 },
             { "fact", 41 },
-            { "‐", 42 }
+            { "‐", 42 },
+            { "not", 43}
         };
 
         internal static readonly Dictionary<string, int> Function2Index = new(StringComparer.OrdinalIgnoreCase)
@@ -128,7 +131,10 @@ namespace Calcpad.Core
             { "switch", 8 },
             { "take", 9 },
             { "line", 10 },
-            { "spline", 11 }
+            { "spline", 11 },
+            { "and", 12 },
+            { "or", 13 },
+            { "xor", 14 },
         };
 
         internal static bool IsOperator(char name) => OperatorIndex.ContainsKey(name);
@@ -244,9 +250,9 @@ namespace Calcpad.Core
 
         protected static Value Switch(Value[] v)
         {
-            for (int i = 0; i < v.Length - 1; i += 2)
+            for (int i = 0, len = v.Length - 1; i < len; i += 2)
             {
-                if (Math.Abs(v[i].Re) >= 1e-12)
+                if (Math.Abs(v[i].Re) >= Value.LogicalZero)
                     return v[i + 1];
             }
             if (v.Length % 2 != 0)
@@ -313,6 +319,35 @@ namespace Calcpad.Core
             var y = y0 + ((y1 - y0) * (3 - 2 * t) * t + ((a + b) * t - a) * (t - 1)) * t;
             return new(y, u);
         }
+
+        protected static Value And(Value[] v)
+        {
+            for (int i = 0, len = v.Length; i < len; ++i)
+                if (Math.Abs(v[i].Re) < Value.LogicalZero)
+                    return Value.Zero;
+
+            return Value.One;
+        }
+
+        protected static Value Or(Value[] v)
+        {
+            for (int i = 0, len = v.Length; i < len; ++i)
+                if (Math.Abs(v[i].Re) >= Value.LogicalZero)
+                    return Value.One;
+
+            return Value.Zero;
+        }
+
+        protected static Value Xor(Value[] v)
+        {
+            var b = Math.Abs(v[0].Re) >= Value.LogicalZero;
+            for (int i = 1, len = v.Length; i < len; ++i)
+                b = b != Math.Abs(v[i].Re) >= Value.LogicalZero;
+
+            return b ? Value.One : Value.Zero;
+        }
+
+        protected static Value Not(Value v) => Math.Abs(v.Re) < Value.LogicalZero ? Value.One : Value.Zero;
 
         protected static Value Mod(Value a, Value b) => a % b;
 

@@ -40,6 +40,7 @@ body {font-size: 11pt; font-family: "Segoe UI";}
 th    {background-color:#F0F0F0; border: solid 1px #AAAAAA; padding:6px;}
 td    {border: solid 1px #cccccc; padding:6px;}
 .nb td {border: none;}
+.tr td {text-align:right;}
 p     {line-height: 150%;}
 ul    {padding-left: 24px;}
 li ul {padding-left: 12px;}
@@ -193,7 +194,7 @@ input, select {
 <li><a href="mailto:proektsoft.bg@gmail.com">proektsoft.bg@gmail.com</a></li>
 </ul>
 <h1><img alt="Calcpad.png" src="Images/Calcpad.png" height="32"> Calcpad</h1>
-<p style="margin-left:42px; margin-top:0;">Version 5.9 Readme!</p>
+<p style="margin-left:42px; margin-top:0;">Version 6.0 Readme!</p>
 <h2 id="TOC_101">About Calcpad</h2>
 <p>Calcpad is free software for mathematical and engineering calculations. It represents a flexible and modern programmable calculator with Html report generator. It is simple and easy to use, but it also includes many advanced features:</p>
 <ul>
@@ -211,12 +212,12 @@ input, select {
 <li>function plotting, images, tables, parametric SVG drawings, etc.;</li>
 <li>automatic generation of Html forms for data input;</li>
 <li>professional looking Html reports for viewing printing;</li>
-<li>export to Word documents (*.docx) and PDF;</li>
+<li>export to Word (*.docx) and PDF documents;</li>
 <li>variable substitution and smart rounding of numbers;</li> 
 <li>output visibility control and content folding;</li>
 <li>support for plain text (*.txt, *.cpd) and binary (*.cpdz) file formats.</li>
 </ul>
-<p>This software is developed using the C# programming language and latest computer technologies. It automatically parses the input, substitutes the variables, calculates the expressions and displays the output. All results are sent to a professional looking Html report for viewing and printing. Acknowledgments: The new and beautiful icons are created using <a target="_blank" href="https://icons8.com">icons8.com</a>. The pdf export was made possible thanks to the <a target="_blank" href="https://wkhtmltopdf.org/">wkhtmltopdf.org</a> project.</p>
+<p>This software is developed using the C# programming language and latest computer technologies. It automatically parses the input, substitutes the variables, calculates the expressions and displays the output. All results are sent to a professional looking Html report for viewing and printing.</p>
 <p style="text-align:center;"><img alt="Calcpad" src="Images/Sample.png" width="650"></p>
 
 <h2 id="TOC_102">Fields of application</h2>
@@ -236,6 +237,11 @@ input, select {
 <p>or in our SourceForge repository:</p>
 <p><a title="SourceForge repository" href="https://sourceforge.net/p/calyx/code/ci/master/tree/">https://sourceforge.net/p/calyx/code/ci/master/tree/</a></p>
 <p>Any scripts, developed with Calcpad are property of the respective authors. They can be used without additional limitations except those appointed by the authors themselves.</p>
+<h3>Acknowledgments</h3>
+<p>This project uses some additional third party components, software and design. They are re-distributed free of charge, under the license conditions, provided by the respective authors.</p>
+<p>1. The new and beautiful icons are created using <a target="_blank" href="https://icons8.com">icons8.com</a>. </p>
+<p>2. The pdf export was made possible thanks to the <a target="_blank" href="https://wkhtmltopdf.org/">wkhtmltopdf.org</a> project. </p>
+<p>3. Some symbols are displayed, using the Jost* font family by <a href="https://indestructibletype.com/">indestructible type*</a>, under the <a href="https://scripts.sil.org/cms/scripts/page.php?item_id=OFL_web">SIL open font license</a>. Square brackets are slightly modified to suit the application needs.
 
 <h2 id="TOC_105">How it works</h2>
 <p>The software is quick and easy to use. Just follow these simple steps:</p>
@@ -392,39 +398,84 @@ If you redefine an existing variable with a new value, it will replace the old o
 <h3 id="TOC_403">Operators</h3>
 <p>The following operators are supported by the Calcpad language:</p>
 <ul>
-<li>Arithmetic:
-<ul style="list-style-type:none;">
-<li>"<b>!</b>" - factorial;</li>
-<li>"<b>^</b>" - exponentiation;</li>
-<li>"<b>/</b>" - floating point division;</li>
-<li>"<b>\</b>" - integer division; </li>
-<li>"<b>÷</b>" - division bar; </li>
-<li>"<b>%</b>" - division remainder; </li>
-<li>"<b>*</b>" - multiplication;</li>
-<li>"<b>-</b>" - subtraction; </li>
-<li>"<b>+</b>" - addition; </li>
-</ul>
-</li>
-<li>Relational (comparison):
-<ul style="list-style-type:none;">
-<li>"<b>≡</b>" - equal to;</li>
-<li>"<b>≠</b>" - unequal to;</li>
-<li>"<b>&lt;</b>" - less then;</li>
-<li>"<b>&gt;</b>" - greater than;</li>
-<li>"<b>&le;</b>" - less or equal;</li>
-<li>"<b>&ge;</b>" - greater or equal;</li>
-</ul>
-</li>
-<li>"<b>=</b>" - assignment.</li>
+	<li>Arithmetic:
+		<ul style="list-style-type:none;">
+			<li>"<b>!</b>" - factorial;</li>
+			<li>"<b>^</b>" - exponentiation;</li>
+			<li>"<b>/</b>" - floating point division;</li>
+			<li>"<b>\</b>" - integer division; </li>
+			<li>"<b>÷</b>" - division bar; </li>
+			<li>"<b style="font-size:80%;">⦼</b>" - modulo (%%, reminder);</li>
+			<li>"<b>*</b>" - multiplication;</li>
+			<li>"<b>-</b>" - subtraction; </li>
+			<li>"<b>+</b>" - addition; </li>
+		</ul>
+	</li>
+	<li>Relational (comparison):
+		<ul style="list-style-type:none;">
+			<li>"<b>≡</b>" - equal to (==);</li>
+			<li>"<b>≠</b>" - unequal to (!=);</li>
+			<li>"<b>&lt;</b>" - less then;</li>
+			<li>"<b>&gt;</b>" - greater than;</li>
+			<li>"<b>&le;</b>" - less or equal (&lt;=);</li>
+			<li>"<b>&ge;</b>" - greater or equal (&gt;=);</li>
+		</ul>
+	</li>
+	<li>Logical:
+		<ul style="list-style-type:none;">
+			<li>"<b>∧</b>" - logical "and";</li>
+			<li>"<b>∨</b>" - logical "or";</li>
+			<li>"<b style="font-size:80%;">⊕</b>" - logical “xor”;</li>
+		</ul>
+	</li>
+	<li>"<b>=</b>" - assignment.</li>
 </ul>
 <h4>Operator shortcuts</h4>
-<p>Instead of "≡", "≠", "&le;"- and "&ge;", you can use the respective C-style equivalent operators, as follows: "==", "!=", "&lt;=" and "&gt;=". They will be automatically replaced by the corresponding Calcpad operators.</p>
+<p>Instead of "≡", "≠", "&le;"- and "&ge;", you can use the respective C-style equivalent operators, as follows: "==", "!=", "&lt;=" and "&gt;=". They will be automatically replaced by the corresponding Calcpad operators. The shortcut “%%” will be converted to the modulo operator “⦼”. This is necessary because “%” is reserved for the percent units. Since this symbol is not very common, it is rendered as “mod” in the output, e.g. “7 mod 5 = 2”, instead of “7 ⦼ 5 = 2”.</p>
 <h4>Operator precedence and associativity</h4>
 <p>The above operators are listed in the order of their precedence. This is the order they will be evaluated in an expression. When you have different types of operators in a single expression, exponentiation will be evaluated first, then division and multiplication, subtraction and addition and comparison will be the last. All relational operators are of equal precedence. If you need to change the order of evaluation, you can use brackets. For example, "5 + 2∙3" makes "11". If the addition have to be first, write "(5 + 2)∙3". You will get "7∙3 = 21". Operators with equal precedence are evaluated from left to right. This is called operator associativity. For example, "3 - 2 + 1" makes "(3 - 2) + 1 = 2" and not "3 - (2 + 1) = 0". Another good example is "2∙3 / 2∙3", which makes "9" and not "1".</p>
 <p>All operators in Calcpad are left-associative (calculations are performed from left to right). The only exception is exponentiation, which is right-associative. It is performed from right to left, which means that <var>x</var>^<var>a</var>^<var>b</var> will be evaluated as <var>x</var><sup>a<sup>b</sup></sup>. However, many hand  calculators and spreadsheet software like Excel use left associativity for exponentiation. In this case <var>x</var>^<var>a</var>^<var>b</var> will be evaluated as <var>x</var><sup>a&middot;b</sup>. If you need to have <var>x</var><sup>a<sup>b</sup></sup>, you will have to add brackets: <var>x</var>^(<var>a</var>^<var>b</var>).</p>
 
-<h4>Relational and boolean expressions</h4>
-<p>Relational operators can return only two values: "<b>1</b>" for "<b>true</b>" and "<b>0</b>" for "<b>false</b>". You can use them in expressions along with arithmetic operators. For example, you can get the greater of two numbers <var>a</var> and <var>b</var> by the expression: "<var>a</var>*(<var>a</var> &ge; <var>b</var>) + <var>b</var>*(<var>a</var> &lt; <var>b</var>)". But you need to be careful. If you use "<b>&le;</b>" instead of "<b>&lt;</b>", for the case of <var>a</var> equal to <var>b</var>, you will get <var>a</var> + <var>b</var>, which may be not exactly what you want. For that special purpose, it is better to use the built-in function <b>max</b>(<var>a</var>; <var>b</var>) or conditional execution (look further in this manual). You can also simulate boolean algebra with arithmetic expressions. In this case, you can use "<b>*</b>" instead of logical "<b>AND</b>" and "<b>+</b>" for logical "<b>OR</b>". For example, "(2 &lt; 3) + (2 &lt; 1) = 1 + 0 = 1" (true) and (2 &lt; 3)∙(2 &lt; 1) = 1∙0 = 0 (false). Again, you must be careful. This is not true boolean algebra and some expressions may evaluate to other results than 0 and 1. It depends on you to properly compose the expression and interpret the results. Also, make sure to put brackets when and where they are required. Arithmetic operators are of higher precedence than relational.</p> 
+<h4>Relational expressions</h4>
+<p>Relational operators can return only two values: "<b>1</b>" for "<b>true</b>" and "<b>0</b>" for "<b>false</b>". You can use them in expressions along with arithmetic operators. For example, you can get the greater of two numbers <var>a</var> and <var>b</var> by the expression: "<var>a</var>*(<var>a</var> &ge; <var>b</var>) + <var>b</var>*(<var>a</var> &lt; <var>b</var>)". But you need to be careful. If you use "<b>&le;</b>" instead of "<b>&lt;</b>", for the case of <var>a</var> equal to <var>b</var>, you will get <var>a</var> + <var>b</var>, which may be not exactly what you want. For that special purpose, it is better to use the built-in function <b>max</b>(<var>a</var>; <var>b</var>), logical operators or conditional execution (look further in this manual). Arithmetic operators are of higher precedence than relational, and both are evaluated before logical ones.</p> 
+
+
+<h4>Logical expressions</h4>
+<p>Calcpad operates only with numerical data, and does not have special types for boolean data. Similar to relational ones, logical operators also uses "<b>1</b>" for "<b>true</b>" and "<b>0</b>" for "<b>false</b>". Any input value, different than 0 is also assumed to be "<b>true</b>". You can build logical expressions by using logical operators and/or logical functions (see further in this manual). They work as follows:</p> 
+<ul style="list-style-type:none;">
+<li>"∧" (and) returns 1 if both operands are 1 and 0 otherwise;</li>
+<li>"∨" (or) returns 1 if any of the operands is 1 and 0 if both are 0;</li>
+<li>"⊕" (xor) returns 1 if just one of the operands is 1 and 0 otherwise.</li>
+</ul>
+<p>The results from both operators are presented in the following tables:</p>
+<table width="100%"><tr><td style="border:none;">
+<p><b>And</b></p>
+<table width="60%" class="tr">
+<tr><th>x</th><th>y</th><th>x∧y</th></tr>
+<tr><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>0</td><td>1</td><td>0</td></tr>
+<tr><td>1</td><td>0</td><td>0</td></tr>
+<tr><td>1</td><td>1</td><td>1</td></tr>
+</table>
+</td><td style="border:none;">
+<p><b>Or</b></p>
+<table width="60%" class="tr">
+<tr><th>x</th><th>y</th><th>x∨y</th></tr>
+<tr><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>0</td><td>1</td><td>1</td></tr>
+<tr><td>1</td><td>0</td><td>1</td></tr>
+<tr><td>1</td><td>1</td><td>1</td></tr>
+</table>
+</td><td style="border:none;">
+<p><b>Xor</b></p>
+<table width="60%" class="tr">
+<tr><th>x</th><th>y</th><th>x<span style="font-size:80%">⊕</span>y</th></tr>
+<tr><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>0</td><td>1</td><td>1</td></tr>
+<tr><td>1</td><td>0</td><td>1</td></tr>
+<tr><td>1</td><td>1</td><td>0</td></tr>
+</table>
+</td></tr></table>
 
 <h4>Complex arithmetic</h4>
 <p>All operators support complex numbers except for factorial "<b>!</b>", integer division "<b>\</b>", reminder "<b>%</b>" and comparison: "<b>&lt;</b>", "<b>&le;</b>", "<b>&gt;</b>", "<b>&ge;</b>". The evaluation of a complex expression is a little bit more difficult than real. The rules for the basic complex operations are given bellow:</p>
@@ -455,21 +506,22 @@ If you redefine an existing variable with a new value, it will replace the old o
 <h3 id="TOC_405">Functions</h3>
 <h4>Library (built-in) functions</h4>
 <p>Calcpad includes a library with common math functions, ready to use:</p>
-<ul style="list-style-type:none;">
-<li><code><b>sign</b>(<var>x</var>)</code> - sign of a number = -1, if <var>x</var> < 0; 1, if <var>x</var> > 0, 0 if <var>x</var> = 0;</li>
-<li><code><b>abs</b>(<var>x</var>)</code> - absolute value (modulus) | <var>x</var> |;</li>
+<ul>
+<li>Trigonometric:<ul style="list-style-type:none;">
 <li><code><b>sin</b>(<var>x</var>)</code> - sine;</li>
 <li><code><b>cos</b>(<var>x</var>)</code> - cosine;</li>
 <li><code><b>tan</b>(<var>x</var>)</code> - tangent = <code><b>sin</b>(<var>x</var>)/<b>cos</b>(<var>x</var>)</code>, for each <var>x</var> ≠ kπ, k=1, 2, 3…;</li>
 <li><code><b>csc</b>(<var>x</var>)</code> - cosecant = <code>1/<b>sin</b>(<var>x</var>)</code>, for each <var>x</var> ≠ kπ, k=1, 2, 3…;</li>
 <li><code><b>sec</b>(<var>x</var>)</code> - secant = <code>1/<b>cos</b>(<var>x</var>)</code>, for each <var>x</var> ≠ π/2 + kπ, k=1, 2, 3…;</li>
 <li><code><b>cot</b>(<var>x</var>)</code> - cotangent = <code><b>cos</b>(<var>x</var>)/<b>sin</b>(<var>x</var>)</code>, for each <var>x</var> ≠ π/2 + kπ, k=1, 2, 3…;</li>
+</ul></li><li>Hyperbolic:<ul style="list-style-type:none;">
 <li><code><b>sinh</b>(<var>x</var>)</code> - hyperbolic sine = <code>(e<sup><var>x</var></sup> - e<sup>-<var>x</var></sup>)/2</code>;</li>
 <li><code><b>cosh</b>(<var>x</var>)</code> - hyperbolic cosine = <code>(e<sup><var>x</var></sup> + e<sup>-<var>x</var></sup>)/2</code>;</li>
-<li><code><b>tanh</b> (<var>x</var>)</code> - hyperbolic tangent = <code>(e<sup><var>x</var></sup> - e<sup>-<var>x</var></sup>)/(e<sup><var>x</var></sup> + e<sup>-<var>x</var></sup>)</code>;</li>
+<li><code><b>tanh</b>(<var>x</var>)</code> - hyperbolic tangent = <code>(e<sup><var>x</var></sup> - e<sup>-<var>x</var></sup>)/(e<sup><var>x</var></sup> + e<sup>-<var>x</var></sup>)</code>;</li>
 <li><code><b>csch</b>(<var>x</var>)</code> - hyperbolic cosecant = <code>1/<b>sinh</b>(<var>x</var>)</code>;</li>
 <li><code><b>sech</b>(<var>x</var>)</code> - hyperbolic secant = <code>1/<b>cosh</b>(<var>x</var>)</code>;</li>
 <li><code><b>coth</b>(<var>x</var>)</code> - hyperbolic cotangent = <code>(e<sup><var>x</var></sup> + e<sup>-<var>x</var></sup>)/(e<sup><var>x</var></sup> - e<sup>-<var>x</var></sup>), for <var>x</var> ≠ 0</code>;</li>
+</ul></li><li>Inverse trigonometric:<ul style="list-style-type:none;">
 <li><code><b>asin</b>(<var>x</var>)</code> - inverted sine, defined for -1 &le; <var>x</var> &le; 1;</li>
 <li><code><b>acos</b>(<var>x</var>)</code> - inverted cosine, defined for -1 &le; <var>x</var> &le; 1;</li>
 <li><code><b>atan</b>(<var>x</var>)</code> - inverted tangent;</li>
@@ -477,12 +529,14 @@ If you redefine an existing variable with a new value, it will replace the old o
 <li><code><b>acsc</b>(<var>x</var>)</code> - inverted cosecant = <code><b>asin</b>(1/<var>x</var>)</code>;</li>
 <li><code><b>asec</b>(<var>x</var>)</code> - inverted secant = <code><b>acos</b>(1/<var>x</var>)</code>;</li>
 <li><code><b>acot</b>(<var>x</var>)</code> - inverted cotangent;</li>
+</ul></li><li>Inverse hyperbolic:<ul style="list-style-type:none;">
 <li><code><b>asinh</b> (<var>x</var>)</code> - inverted hyperbolic sine = <code><b>ln</b>(<var>x</var> + <span class="root">√</span><span class="ovr"><var>x</var><sup>2</sup> + 1</span>)</code>, defined for -∞ &le; <var>x</var> &le; +∞;</li>
 <li><code><b>acosh</b>(<var>x</var>)</code> - inverted hyperbolic cosine = <code><b>ln</b>(<var>x</var> + <span class="root">√</span><span class="ovr"><var>x</var> + 1</span>&middot;<span class="root">√</span><span class="ovr"><var>x</var> - 1</span>)</code>, defined for <var>x</var> &ge; 1;</li>
 <li><code><b>atanh</b>(<var>x</var>)</code> - inverted hyperbolic tangent = <code>1/2&middot;<b>ln</b>[(1 + <var>x</var>)/(1 - <var>x</var>)]</code>, for -1 &lt; <var>x</var> &lt; 1;</li>
 <li><code><b>acsch</b>(<var>x</var>)</code> - inverted hyperbolic cosecant = <code><b>atanh</b>(1/<var>x</var>)</code>;</li>
 <li><code><b>asech</b>(<var>x</var>)</code> - inverted hyperbolic secant = <code><b>acosh</b>(1/<var>x</var>)</code>;</li>
 <li><code><b>acoth</b>(<var>x</var>)</code> - inverted hyperbolic cotangent = <code>1/2&middot;<b>ln</b>[(<var>x</var> + 1)/(<var>x</var> - 1)]</code>, for |<var>x</var>| &gt; 1;</li>
+</ul></li><li>Logarithmic, exponential and roots:<ul style="list-style-type:none;">
 <li><code><b>log</b>(<var>x</var>)</code> - decimal logarithm (with base 10), for each <var>x</var> &gt; 0;</li>
 <li><code><b>ln</b>(<var>x</var>)</code> - natural logarithm (with base <var>e</var> ≈ 2.7183), for each <var>x</var> &gt; 0;</li>
 <li><code><b>log_2</b>(<var>x</var>)</code>  - binary logarithm (with base 2), for each <var>x</var> &gt; 0;</li>
@@ -490,11 +544,22 @@ If you redefine an existing variable with a new value, it will replace the old o
 <li><code><b>sqr</b>(<var>x</var>)</code>  or <code><b>sqrt</b>(<var>x</var>)</code>  - square root (<span class="root">√</span><span class="ovr"><var>x</var></span> ), defined for each <var>x</var> &ge; 0;</li> 
 <li><code><b>cbrt</b>(<var>x</var>)</code> - cubic root ( <sup><sup>3</sup></sup><span class="root">√</span><span class="ovr"><var>x</var></span> );</li>
 <li><code><b>root</b>(<var>x</var>; <var>n</var>)</code> - n-th root ( <sup><sup>n</sup></sup><span class="root">√</span><span class="ovr"><var>x</var></span> );</li> 
+</ul></li><li>Rounding:<ul style="list-style-type:none;">
 <li><code><b>round</b>(<var>x</var>)</code> - rounds to the nearest integer;</li> 
 <li><code><b>floor</b>(<var>x</var>)</code> - rounds to the smaller integer;</li> 
 <li><code><b>ceiling</b>(<var>x</var>)</code> - rounds to the greater integer;</li> 
-<li><code><b>trunc</b>(<var>x</var>)</code> - rounds to the nearest integer towards zero;</li> 
-<li><code><b>random</b>(<var>x</var>)</code> - a random number between 0 and <var>x</var>;</li> 
+<li><code><b>trunc</b>(<var>x</var>)</code> - rounds to the nearest integer towards zero;</li>
+</ul></li><li>Integer:<ul style="list-style-type:none;">
+<li><code><b>mod</b>(<var>x</var>; <var>y</var>)</code> - the reminder of an integer division;</li>
+<li><code><b>gcd</b>(<var>x</var>; <var>y</var>)</code> - the greatest common divisor of two integers;</li>
+<li><code><b>lcm</b>(<var>x</var>; <var>y</var>)</code> - the least common multiple of two integers;</li>
+</ul></li><li>Complex:<ul style="list-style-type:none;">
+<li><code><b>abs</b>(<var>x</var>)</code> - absolute value (modulus) of a real number | <var>x</var> |;</li>
+<li><code><b>abs</b>(a + b<var>i</var>)</code> - complex modulus = <b>sqrt</b>(a<sup>2</sup> + b<sup>2</sup>);</li>
+<li><code><b>re</b>(a + b<var>i</var>)</code> - returns the real part only, <b>re</b>(a + b<var>i</var>) = a;</li>
+<li><code><b>im</b>(a + b<var>i</var>)</code> - returns the imaginary part as a real number, <b>im</b>(a + b<var>i</var>) = b;</li>
+<li><code><b>phase</b>(a + b<var>i</var>)</code> - complex number phase (argument) = <b>atan2</b>(a; b).</li>
+</ul></li><li>Aggregate and interpolation:<ul style="list-style-type:none;">
 <li><code><b>min</b>(<var>x</var>; <var>y</var>; <var>z</var>…)</code> - the smallest of multiple values;</li>
 <li><code><b>max</b>(<var>x</var>; <var>y</var>; <var>z</var>…)</code> - the greatest of  of multiple values;</li>
 <li><code><b>sum</b>(<var>x</var>; <var>y</var>; <var>z</var>…)</code> - sum of multiple values<code> = <var>x</var> + <var>y</var> + <var>z</var>…</code>;</li>
@@ -503,25 +568,64 @@ If you redefine an existing variable with a new value, it will replace the old o
 <li><code><b>average</b>(<var>x</var>; <var>y</var>; <var>z</var>…)</code> - average of multiple values<code> = (<var>x</var> + <var>y</var> + <var>z</var>…)/n</code>;</li>
 <li><code><b>product</b>(<var>x</var>; <var>y</var>; <var>z</var>…)</code> - product of multiple values<code> = <var>x</var>·<var>y</var>·<var>z</var>…;</code></li>
 <li><code><b>mean</b>(<var>x</var>; <var>y</var>; <var>z</var>…)</code> - geometric mean<code> = n-th <b>root</b>(<var>x</var>·<var>y</var>·<var>z</var>…)</code>;</li>
-<li><code><b>if</b>(&lt;<em>cond</em>&gt;; &lt;<em>value-if-true</em>&gt;; &lt;<em>value-if-false</em>&gt;)</code> - if the condition <var>cond</var> is satisfied, the function returns the first value, otherwise it returns the second value. The condition is satisfied when it evaluates to any non-zero number;</li>
-<li><code><b>switch</b>(&lt;<em>cond1</em>&gt;; &lt;<em>value1</em>&gt;; &lt;<em>cond2</em>&gt;; &lt;<em>value2</em>&gt;;…; &lt;<em>default-value</em>&gt;)</code> - returns the value for which the respective condition is satisfied. Conditions are checked from left to right. If none is satisfied, it returns the default value in the end;</li>
 <li><code><b>take</b>(<var>n</var>; <var>a</var>; <var>b</var>; <var>c</var>…)</code> - returns the n-th element from the list;</li>
 <li><code><b>line</b>(<var>x</var>; <var>a</var>; <var>b</var>; <var>c</var>…)</code> - performs linear interpolation among the specified values for parameter <var>x</var>;</li>
 <li><code><b>spline</b>(<var>x</var>; <var>a</var>; <var>b</var>; <var>c</var>…)</code> - performs Hermite spline interpolation;</li>
-</ul>
+</ul></li><li>Conditional and logical:<ul style="list-style-type:none;">
+<li><code><b>if</b>(&lt;<em>cond</em>&gt;; &lt;<em>value-if-true</em>&gt;; &lt;<em>value-if-false</em>&gt;)</code> - if the condition <var>cond</var> is satisfied, the function returns the first value, otherwise it returns the second value. The condition is satisfied when it evaluates to any non-zero number;</li>
+<li><code><b>switch</b>(&lt;<em>cond1</em>&gt;; &lt;<em>value1</em>&gt;; &lt;<em>cond2</em>&gt;; &lt;<em>value2</em>&gt;;…; &lt;<em>default-value</em>&gt;)</code> - returns the value for which the respective condition is satisfied. Conditions are checked from left to right. If none is satisfied, it returns the default value in the end;</li>
+<li><code><b>not</b>(<var>x</var>)</code> - logical "not";</li>
+<li><code><b>and</b>(<var>a</var>; <var>b</var>; <var>c</var>…)</code> - logical "and";</li>
+<li><code><b>or</b>(<var>a</var>; <var>b</var>; <var>c</var>…)</code> - logical "or";</li>
+<li><code><b>xor</b>(<var>a</var>; <var>b</var>; <var>c</var>…)</code> - logical "xor";</li>
+</ul></li><li>Other:<ul style="list-style-type:none;">
+<li><code><b>sign</b>(<var>x</var>)</code> - sign of a number = -1, if <var>x</var> < 0; 1, if <var>x</var> > 0, 0 if <var>x</var> = 0;</li>
+<li><code><b>random</b>(<var>x</var>)</code> - a random number between 0 and <var>x</var>.</li> 
+</ul></li></ul>
 <p>Arguments must be enclosed in round brackets. They can be constants, variables or any valid expression. Multiple arguments must be separated by semicolons ";". When arguments are out of range, the function returns "<span class="err">Undefined</span>". Exceptions from this rule are "<b>cot</b>(0)" and "<b>coth</b>(0)", which return "<span class="err">+∞</span>".</p>
 <p>Arguments of trigonometric functions can be in <b>degrees</b>, <b>radians</b> or <b>grades</b>. The units for angles can be specified in three different ways:</p>
 <p>1. By the radio buttons above the output window (<small>🔘</small><b>D</b>, <small>🔘</small><b>R</b>, <small>🔘</small><b>G</b>).</p>
 <p>2. By compiler switches inside the code. You have to insert a separate line containing: <span class="cond">#deg</span> for degrees, <span class="cond">#rad</span> for radians or <span class="cond">#gra</span> for grades. This will affect all expressions after the current line to the end or until an alternative directive is found.</p>
 <p>3. By attaching native units to the value itself: <i>deg</i>, <i>°</i>, <i>′</i>, <i>″</i>, <i>rad</i>, <i>grad</i>, <i>rev</i> (see the “Units” section, further in this manual).</p>
 <p>Native units are of highest priority, followed by compiler switches in source code. Both override radio buttons settings, which are of lowest priority.</p> 
-<p>All functions are also defined in the complex domain, except <b>min</b>(<var>x</var>; <var>y</var>) and <b>max</b>(<var>x</var>; <var>y</var>). Rounding functions affect both real and imaginary part. There are also several functions for complex numbers only:</p>
-<ul style="list-style-type:none;">
-<li><b>re</b>(a + b<var>i</var>) - returns the real part only, <b>re</b>(a + b<var>i</var>) = a;</li>
-<li><b>im</b>(a + b<var>i</var>) - returns the imaginary part as a real number, <b>im</b>(a + b<var>i</var>) = b;</li>
-<li><b>abs</b>(a + b<var>i</var>) - complex number modulus = <b>sqrt</b>(a<sup>2</sup> + b<sup>2</sup>);</li>
-<li><b>phase</b>(<var>x</var>) - complex number phase (argument) = <b>atan2</b>(a; b).</li>
-</ul>
+<p>All functions are also defined in the complex domain, except for <b>mod</b>(<var>x</var>; <var>y</var>), <b>gcd</b>(<var>x</var>; <var>y</var>), <b>lcm</b>(<var>x</var>; <var>y</var>), <b>min</b>(<var>x</var>; <var>y</var>) and <b>max</b>(<var>x</var>; <var>y</var>). Rounding functions affect both real and imaginary part.</p>
+<p>Logical functions accept numerical values and return “<b>0</b>” for “<b>false</b>” and “<b>1</b>” for “<b>true</b>”. The results for two arguments (one for “<b>not</b>”) are presented in the following tables:</p>
+<table width="100%"><tr><td style="border:none; vertical-align:top;">
+<table width="90%" class="tr">
+<tr><th>x</th><th style="width:60%">not(x)</th></tr>
+<tr><td>0</td><td>1</td></tr>
+<tr><td>1</td><td>0</td></tr>
+</table>
+</td><td style="border:none;">
+<table width="90%" class="tr">
+<tr><th>x</th><th>y</th><th style="width:50%">and(x; y)</th></tr>
+<tr><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>0</td><td>1</td><td>0</td></tr>
+<tr><td>1</td><td>0</td><td>0</td></tr>
+<tr><td>1</td><td>1</td><td>1</td></tr>
+</table>
+</td><td style="border:none;">
+<table width="90%" class="tr">
+<tr><th>x</th><th>y</th><th style="width:50%">or(x; y)</th></tr>
+<tr><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>0</td><td>1</td><td>1</td></tr>
+<tr><td>1</td><td>0</td><td>1</td></tr>
+<tr><td>1</td><td>1</td><td>1</td></tr>
+</table>
+</td><td style="border:none;">
+<table width="90%" class="tr">
+<tr><th>x</th><th>y</th><th style="width:50%">xor(x; y)</th></tr>
+<tr><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>0</td><td>1</td><td>1</td></tr>
+<tr><td>1</td><td>0</td><td>1</td></tr>
+<tr><td>1</td><td>1</td><td>0</td></tr>
+</table>
+</td></tr></table>
+
+<p>Any numerical value, different from 0, is treated as 1 (true). Multiple arguments are evaluated in couples, from left to right, starting from the first two. Then, the obtained result and the next value are evaluated in turn.</p>
+
+
+
 
 <h4>Custom (user defined) functions</h4>
 <p>You can define your own functions, and use them further in the calculations. Custom functions can have unlimited number of parameters. They are specified after the function name, enclosed in brackets "(" … ")" and separated by semicolons ";". Each function is defined, using the following format: "<b>f</b> ( <var>x</var>; <var>y</var>; <var>z</var>; … ) = <b>expression</b>", where "<b>f</b>" is the function name and "<b>x</b>", "<b>y</b>" and "<b>z</b>" are function parameters. On the right side you can have any valid expression including constants, operators, variables and even other functions, e.g.:</p>
@@ -883,6 +987,8 @@ You can use it further to calculate binomial coefficients by the well-known form
 <i title="microwatt">μW</i>, 
 <i title="nanowatt" >nW</i>, 
 <i title="picowatt" >pW</i>, 
+<i title="horsepower (metric)">hpM</i>, 
+<i title="horsepower (metric)">ks</i>,
 <br />&emsp;&emsp;&emsp;
 <i title="Volt-Ampere"     >VA</i>, 
 <i title="kilovolt-Ampere" >kVA</i>, 
@@ -902,9 +1008,7 @@ You can use it further to calculate binomial coefficients by the well-known form
 <i title="millivolt-Ampere (reactive)">mVAR</i>, 
 <i title="microvolt-Ampere (reactive)">μVAR</i>, 
 <i title="nanovolt-Ampere (reactive)" >nVAR</i>, 
-<i title="picovolt-Ampere (reactive)" >pVAR</i>, 
-<i title="horsepower (metric)">hpM</i>, 
-<i title="horsepower (metric)">ks</i>;
+<i title="picovolt-Ampere (reactive)" >pVAR</i>;
 </li><li>Electric charge: 
 <i href="#0" title="Coulomb"     >C</i>, 
 <i href="#0" title="kilocoulomb" >kC</i>, 
@@ -1129,7 +1233,7 @@ You can use it further to calculate binomial coefficients by the well-known form
 <i title="horsepower (boiler)">hpS</i>
 </ul>
 <p>Angle units are accepted by trigonometric functions and they override all other settings. Inverse trigonometric functions return unitless values by default. If you want them to return the result in the current units, you have to define a variable: <var>ReturnAngleUnits</var> = 1.</p>
-<p>Literals that are written immediately after numbers are recognized as units by the parser, e.g. "2<i>m</i>". Standalone literals can be either units or variables, e.g. "<i>N</i>*<i>m</i>". The rules for parsing are as follows: If a literal has not been defined as a variable, it is parsed as a unit. Otherwise, it is parsed as a variable, even if a unit with the same name exists. If you put a dot before the literal, it will be parsed as a unit, even if a variable with the same name exists, e.g. ".<i>N</i>*.<i>m</i>". In this way, you can also distinguish between the "<i>%</i>" unit and the reminder operator that uses the same symbol. The unit must start with a dot ".<i>%</i>".</p>
+<p>Literals that are written immediately after numbers are recognized as units by the parser, e.g. "2<i>m</i>". Standalone literals can be either units or variables, e.g. "<i>N</i>*<i>m</i>". The rules for parsing are as follows: If a literal has not been defined as a variable, it is parsed as a unit. Otherwise, it is parsed as a variable, even if a unit with the same name exists. If you put a dot before the literal, you will force ir to be parsed as a unit, even if a variable with the same name exists, e.g. ".<i>N</i>*.<i>m</i>".</p>
 
 <h2 id="TOC_500">Reporting</h2>
 <p>All calculations are automatically collected into professionally formatted calculation report. You can print it or open it with MS Word for editing. Besides math expressions, you can add headings, comments, tables and images.</p>
@@ -1591,7 +1695,7 @@ You can use it further to calculate binomial coefficients by the well-known form
 <h3 id="TOC_804">Save As…</h3>
 <p>If you need to save the current file with a different name, select the "<b>File/Save As…</b>" menu command. A file selection dialog will be displayed. Select file path and name and click "<b>Save</b>"</p>
 <hr />
-<p>Last edited on 07.01.2023 by eng. Nedelcho Ganchovski.</p>
+<p>Last edited on 04.04.2023 by eng. Nedelcho Ganchovski.</p>
 </div>
 <script src="jquery-3.6.3.min.js"></script>
 <script>

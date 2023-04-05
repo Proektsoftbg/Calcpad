@@ -18,7 +18,7 @@ Calcpad is free software for mathematical and engineering calculations. It repre
 * function plotting, images, tables, parametric SVG drawings, etc.;  
 * automatic generation of Html forms for data input;  
 * professional looking Html reports for viewing and printing;  
-* export to Word (\*.docx) and PDF documents;  
+* export to Word documents (\*.docx) and PDF;  
 * variable substitution and smart rounding of numbers;  
 * output visibility control and content folding;  
 * support for plain text (\*.txt, \*.cpd) and binary (\*.cpdz) file formats.  
@@ -75,7 +75,7 @@ A variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;"/" - division;  
 &emsp;&emsp;"÷" - force division bar;  
 &emsp;&emsp;"\\" - integer division;  
-&emsp;&emsp;"%" - reminder (obsolete - use the mod function instead);  
+&emsp;&emsp;"⦼" - modulo (reminder);  
 &emsp;&emsp;"\*" - multiplication;  
 &emsp;&emsp;"-" - minus;  
 &emsp;&emsp;"+" - plus;  
@@ -85,67 +85,81 @@ A variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;">" - greater than;  
 &emsp;&emsp;"≤" - less or equal;  
 &emsp;&emsp;"≥" - greater or equal;  
+&emsp;&emsp;"∧" - logical "and";   
+&emsp;&emsp;"∨" - logical "or";   
+&emsp;&emsp;"⊕" - logical "xor";   
 &emsp;&emsp;"=" - assignment;  
 * Custom functions of type f (x; y; z; ... );  
 * Built-in functions:  
-&emsp;&emsp;sign(x) - sign of a number;  
-&emsp;&emsp;abs(x)  - absolute value/magnitude;  
-&emsp;&emsp;mod(x; y) - the reminder of an integer division;  
-&emsp;&emsp;gcd(x; y) - the greatest common divisor of two integers;  
-&emsp;&emsp;lcm(x; y) - the least common multiple of two integers;  
-&emsp;&emsp;sin(x)  - sine;  
-&emsp;&emsp;cos(x)  - cosine;  
-&emsp;&emsp;tan(x)  - tangent;  
-&emsp;&emsp;csc(x)  - cosecant;  
-&emsp;&emsp;sec(x)  - secant;  
-&emsp;&emsp;cot(x)  - cotangent;  
-&emsp;&emsp;sinh(x) - hyperbolic sine;  
-&emsp;&emsp;cosh(x) - hyperbolic cosine;  
-&emsp;&emsp;tanh(x) - hyperbolic tangent;  
-&emsp;&emsp;csch(x) - hyperbolic cosecant;  
-&emsp;&emsp;sech(x) - hyperbolic secant;  
-&emsp;&emsp;coth(x) - hyperbolic cotangent;  
-&emsp;&emsp;asin(x) - inverse sine;  
-&emsp;&emsp;acos(x) - inverse cosine;  
-&emsp;&emsp;atan(x) - inverse tangent;  
-&emsp;&emsp;atan2(x; y) - the angle whose tangent is the quotient of y and x;  
-&emsp;&emsp;acsc(x) - inverse cosecant;  
-&emsp;&emsp;asec(x) - inverse secant;  
-&emsp;&emsp;acot(x) - inverse cotangent;  
-&emsp;&emsp;asinh(x) - inverse hyperbolic sine;  
-&emsp;&emsp;acosh(x) - inverse hyperbolic cosine;  
-&emsp;&emsp;atanh(x) - inverse hyperbolic tangent;  
-&emsp;&emsp;acsch(x) - inverse hyperbolic cosecant;  
-&emsp;&emsp;asech(x) - inverse hyperbolic secant;  
-&emsp;&emsp;acoth(x) - inverse hyperbolic cotangent;  
-&emsp;&emsp;log(x)   - decimal logarithm;  
-&emsp;&emsp;ln(x)    - natural logarithm;  
-&emsp;&emsp;log_2(x) - binary logarithm;  
-&emsp;&emsp;exp(x)   - natural exponent;  
-&emsp;&emsp;sqr(x) / sqrt(x) - square root;  
-&emsp;&emsp;cbrt (x) - cubic root;  
-&emsp;&emsp;root(x; n) - n-th root;  
-&emsp;&emsp;round(x) - round to the nearest integer;  
-&emsp;&emsp;floor(x) - round to the lower integer;  
-&emsp;&emsp;ceiling(x) - round to the greater integer;  
-&emsp;&emsp;trunc(x) - round to the nearest integer towards zero;  
-&emsp;&emsp;re(x)    - the real part of a complex number;  
-&emsp;&emsp;im(x)    - the imaginary part of a complex number;  
-&emsp;&emsp;phase(x) - the phase of a complex number;  
-&emsp;&emsp;random(x) - random number between 0 and x;  
-&emsp;&emsp;min(x; y; z...) - minimum of multiple values;  
-&emsp;&emsp;max(x; y; z...) - maximum of multiple values;  
-&emsp;&emsp;sum(x; y; z...) - sum of multiple values = x + y + z...;  
-&emsp;&emsp;sumsq(x; y; z...) - sum of squares = x² + y² + z²...;  
-&emsp;&emsp;srss(x; y; z...) - square root of sum of squares = sqrt(x² + y² + z²...);  
-&emsp;&emsp;average(x; y; z...) - average of multiple values = (x + y + z...)/n;  
-&emsp;&emsp;product(x; y; z...) - product of multiple values = x·y·z...;  
-&emsp;&emsp;mean(x; y; z...) - geometric mean = n-th root(x·y·z...);  
-&emsp;&emsp;if(*cond*; *value-if-true*; *value-if-false*) - conditional evaluation;  
-&emsp;&emsp;switch(*cond1*; *value1*; *cond2*; *value2*; … ; *default*) - selective evaluation;  
-&emsp;&emsp;take(n; a; b; c...) - returns the n-th element from the list;  
-&emsp;&emsp;line(x; a; b; c...) - linear interpolation;  
-&emsp;&emsp;spline(x; a; b; c...) - Hermite spline interpolation;  
+&emsp;&emsp;Trigonometric:  
+&emsp;&emsp;&emsp;&emsp;sin(x)  - sine;  
+&emsp;&emsp;&emsp;&emsp;cos(x)  - cosine;  
+&emsp;&emsp;&emsp;&emsp;tan(x)  - tangent;  
+&emsp;&emsp;&emsp;&emsp;csc(x)  - cosecant;  
+&emsp;&emsp;&emsp;&emsp;sec(x)  - secant;  
+&emsp;&emsp;&emsp;&emsp;cot(x)  - cotangent;  
+&emsp;&emsp;Hyperbolic:  
+&emsp;&emsp;&emsp;&emsp;sinh(x) - hyperbolic sine;  
+&emsp;&emsp;&emsp;&emsp;cosh(x) - hyperbolic cosine;  
+&emsp;&emsp;&emsp;&emsp;tanh(x) - hyperbolic tangent;  
+&emsp;&emsp;&emsp;&emsp;csch(x) - hyperbolic cosecant;  
+&emsp;&emsp;&emsp;&emsp;sech(x) - hyperbolic secant;  
+&emsp;&emsp;&emsp;&emsp;coth(x) - hyperbolic cotangent;  
+emsp;&emsp;Inverse trigonometric:  
+&emsp;&emsp;&emsp;&emsp;asin(x) - inverse sine;  
+&emsp;&emsp;&emsp;&emsp;acos(x) - inverse cosine;  
+&emsp;&emsp;&emsp;&emsp;atan(x) - inverse tangent;  
+&emsp;&emsp;&emsp;&emsp;atan2(x; y) - the angle whose tangent is the quotient of y and x;  
+&emsp;&emsp;&emsp;&emsp;acsc(x) - inverse cosecant;  
+&emsp;&emsp;&emsp;&emsp;asec(x) - inverse secant;  
+&emsp;&emsp;&emsp;&emsp;acot(x) - inverse cotangent;  
+&emsp;&emsp;Inverse hyperbolic:  
+&emsp;&emsp;&emsp;&emsp;asinh(x) - inverse hyperbolic sine;  
+&emsp;&emsp;&emsp;&emsp;acosh(x) - inverse hyperbolic cosine;  
+&emsp;&emsp;&emsp;&emsp;atanh(x) - inverse hyperbolic tangent;  
+&emsp;&emsp;&emsp;&emsp;acsch(x) - inverse hyperbolic cosecant;  
+&emsp;&emsp;&emsp;&emsp;asech(x) - inverse hyperbolic secant;  
+&emsp;&emsp;&emsp;&emsp;acoth(x) - inverse hyperbolic cotangent;  
+&emsp;&emsp;Logarithmic, exponential and roots:  
+&emsp;&emsp;&emsp;&emsp;log(x)   - decimal logarithm;  
+&emsp;&emsp;&emsp;&emsp;ln(x)    - natural logarithm;  
+&emsp;&emsp;&emsp;&emsp;log_2(x) - binary logarithm;  
+&emsp;&emsp;&emsp;&emsp;exp(x)   - natural exponent;  
+&emsp;&emsp;&emsp;&emsp;sqr(x) / sqrt(x) - square root;  
+&emsp;&emsp;&emsp;&emsp;cbrt (x) - cubic root;  
+&emsp;&emsp;&emsp;&emsp;root(x; n) - n-th root;  
+&emsp;&emsp;Rounding:  
+&emsp;&emsp;&emsp;&emsp;round(x) - round to the nearest integer;  
+&emsp;&emsp;&emsp;&emsp;floor(x) - round to the lower integer;  
+&emsp;&emsp;&emsp;&emsp;ceiling(x) - round to the greater integer;  
+&emsp;&emsp;&emsp;&emsp;trunc(x) - round to the nearest integer towards zero;  
+&emsp;&emsp;Integer:  
+&emsp;&emsp;&emsp;&emsp;mod(x; y) - the reminder of an integer division;  
+&emsp;&emsp;&emsp;&emsp;gcd(x; y) - the greatest common divisor of two integers;  
+&emsp;&emsp;&emsp;&emsp;lcm(x; y) - the least common multiple of two integers;  
+&emsp;&emsp;Complex:  
+&emsp;&emsp;&emsp;&emsp;abs(x)  - absolute value/magnitude;  
+&emsp;&emsp;&emsp;&emsp;re(x)    - the real part of a complex number;  
+&emsp;&emsp;&emsp;&emsp;im(x)    - the imaginary part of a complex number;  
+&emsp;&emsp;&emsp;&emsp;phase(x) - the phase of a complex number;  
+&emsp;&emsp;Aggregate and interpolation:  
+&emsp;&emsp;&emsp;&emsp;min(x; y; z...) - minimum of multiple values;  
+&emsp;&emsp;&emsp;&emsp;max(x; y; z...) - maximum of multiple values;  
+&emsp;&emsp;&emsp;&emsp;sum(x; y; z...) - sum of multiple values = x + y + z...;  
+&emsp;&emsp;&emsp;&emsp;sumsq(x; y; z...) - sum of squares = x² + y² + z²...;  
+&emsp;&emsp;&emsp;&emsp;srss(x; y; z...) - square root of sum of squares = sqrt(x² + y² + z²...);  
+&emsp;&emsp;&emsp;&emsp;average(x; y; z...) - average of multiple values = (x + y + z...)/n;  
+&emsp;&emsp;&emsp;&emsp;product(x; y; z...) - product of multiple values = x·y·z...;  
+&emsp;&emsp;&emsp;&emsp;mean(x; y; z...) - geometric mean = n-th root(x·y·z...);  
+&emsp;&emsp;&emsp;&emsp;take(n; a; b; c...) - returns the n-th element from the list;  
+&emsp;&emsp;&emsp;&emsp;line(x; a; b; c...) - linear interpolation;  
+&emsp;&emsp;&emsp;&emsp;spline(x; a; b; c...) - Hermite spline interpolation;  
+&emsp;&emsp;Conditional and logical:  
+&emsp;&emsp;&emsp;&emsp;if(*cond*; *value-if-true*; *value-if-false*) - conditional evaluation;  
+&emsp;&emsp;&emsp;&emsp;switch(*cond1*; *value1*; *cond2*; *value2*; … ; *default*) - selective evaluation;  
+&emsp;&emsp;Other:  
+&emsp;&emsp;&emsp;&emsp;sign(x) - the sign of a number;  
+&emsp;&emsp;&emsp;&emsp;random(x) - random number between 0 and x;  
 * Comments: "Title" or 'text' in double or single quotes, respectively. HTML, CSS, JS and SVG are allowed.  
 * Graphing and plotting:  
 &emsp;&emsp;$Plot { f(x) @ x = a : b } - simple plot;  

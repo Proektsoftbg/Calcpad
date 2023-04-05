@@ -36,7 +36,7 @@ y(θ) = r(θ)*sin(θ)
 '<option value="5;7">5/7</option>
 '<option value="6;7">6/7</option>
 '</select></p>
-'<p style="display:none;" id="ab">'a = ?','b = ?'</span></p>
+'<p style="display:none;" id="ab">'a = ? {4}','b = ? {1}'</span></p>
 
 'Tip: Click "<b>Calculate</b>" to see the respective plot.
 #hide
@@ -48,4 +48,3 @@ k = b*(1 + abs(a⦼2 - b⦼2))
 #val
 'Coefficients <i>a</i>/<i>b</i> ='a'/'b
 $Plot{x(θ)|y(θ) @ θ = 0 : k*π}
-4	1

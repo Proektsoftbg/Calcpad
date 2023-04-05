@@ -17,26 +17,27 @@
 	HELP - show this help file.
 
 ———————————————————————————————————————————————————————————————————————————
- Operators: ! ^ / ÷ \ % * - + ≡ ≠ < > ≤ ≥ = ? (input field)
+ Operators: ! ^ / ÷ \ % * - + ≡ ≠ < > ≤ ≥ ∧ ∨ ⊕ = ? (input field)
 ———————————————————————————————————————————————————————————————————————————
  Custom functions: f(x; y; z;...) = expression
 ———————————————————————————————————————————————————————————————————————————
  Functions:
 ———————————————————————————————————————————————————————————————————————————
-    sign(x)    mod(x; y)  gcd(x; y)   lcm(x; y)   atan2(x; y)
-	abs(x)     re(x)      im(x)       phase(x)    random(x)
-    sin(x)     cos(x)     tan(x)      csc(x)      sec(x)        cot(x)
-    asin(x)    acos(x)    atan(x)     acsc(x)     asec(x)       acot(x)
-    sinh(x)    cosh(x)    tanh(x)     csch(x)     sech(x)       coth(x)
-    asinh(x)   acosh(x)   atanh(x)    acsch(x)    asech(x)      acoth(x)
+    sin(x)     cos(x)     tan(x)      csc(x)      sec(x)         cot(x)
+    asin(x)    acos(x)    atan(x)     acsc(x)     asec(x)        acot(x)
+    sinh(x)    cosh(x)    tanh(x)     csch(x)     sech(x)        coth(x)
+    asinh(x)   acosh(x)   atanh(x)    acsch(x)    asech(x)       acoth(x)
     log(x)     ln(x)      log_2(x)    exp(x)   
-	sqr(x)     sqrt(x)    cbrt(x)     root(x; n)
-    round(x)   floor(x)   ceiling(x)  trunc(x)   
-	min(x; y; z…)         max(x; y; z…)
+    sqr(x)     sqrt(x)    cbrt(x)     root(x; n)
+    round(x)   floor(x)   ceiling(x)  trunc(x)
+    sign(x)    mod(x; y)  gcd(x; y)   lcm(x; y)   atan2(x; y)
+    abs(x)     re(x)      im(x)       phase(x)    random(x)
+    and(x; y; z…)         or(x; y; z…)            xor(x; y; z…)  not(x)        
+    min(x; y; z…)         max(x; y; z…)
     sum(x; y; z…)         average(x; y; z…)       sumsq(x; y; z…)
-    product(x; y; z…)     mean(x; y; z…)          srss(x; y; z…) 
-    if(cond; val-if-true; val-if-false)           
-    switch(cond1; val1; cond2; val2; …; default)  
+    product(x; y; z…)     mean(x; y; z…)          srss(x; y; z…)
+    if(cond; val-if-true; val-if-false)
+    switch(cond1; val1; cond2; val2; …; default)
     take(n; a; b; c…)     line(x; a; b; c…)       spline(x; a; b; c…)
 	
 ———————————————————————————————————————————————————————————————————————————

@@ -4,6 +4,7 @@ namespace Calcpad.Core
 {
     internal readonly struct Value : IEquatable<Value>
     {
+        internal const double LogicalZero = 1e-12;
         internal readonly double Re;
         internal readonly double Im;
         internal readonly Unit Units;
@@ -11,7 +12,6 @@ namespace Calcpad.Core
         internal static readonly Value Zero;
         internal static readonly Value One = new(1d);
         internal static readonly Value NaN = new(double.NaN);
-
 
         internal Value(double re, double im, Unit units)
         {
@@ -184,6 +184,16 @@ namespace Calcpad.Core
                 c >= d || c.EqualsBinary(d) ? 1.0 : 0.0
             );
         }
+
+        public static Value operator &(Value a, Value b) =>
+            Math.Abs(a.Re) < LogicalZero || Math.Abs(b.Re) < LogicalZero ? Zero : One;
+
+        public static Value operator |(Value a, Value b) => 
+            Math.Abs(a.Re) >= LogicalZero || Math.Abs(b.Re) >= LogicalZero ? One : Zero;
+
+        public static Value operator ^(Value a, Value b) =>
+            (Math.Abs(a.Re) >= LogicalZero) != (Math.Abs(b.Re) >= LogicalZero) ? One : Zero;
+
 
         public bool Equals(Value other)
         {
