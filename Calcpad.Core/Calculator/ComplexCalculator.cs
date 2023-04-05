@@ -486,7 +486,7 @@ namespace Calcpad.Core
                 var b = v[i].Complex * Unit.Convert(u, v[i].Units, ',');
                 result += b * b;
             }
-            return new(result, u * u);
+            return new(result, u is null ? null : u * u);
         }
 
         private static Value Srss(Value[] v)
