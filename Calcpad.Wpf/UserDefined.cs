@@ -34,7 +34,6 @@ namespace Calcpad.Wpf
             Variables.Add("e", -1);
             Variables.Add("pi", -1);
             Variables.Add("π", -1);
-            Variables.Add("g", -1);
             if (IsComplex)
             {
                 Variables.Add("i", -1);

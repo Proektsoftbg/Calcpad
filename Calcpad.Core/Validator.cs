@@ -11,7 +11,7 @@ namespace Calcpad.Core
                 return false;
 
             char c = name[0];
-            if (!IsLetter(c) || "_,′″‴⁗‰".Contains(c))
+            if (!IsLetter(c) || "_,′″‴⁗%‰".Contains(c, StringComparison.Ordinal))
                 return false;
 
             for (int i = 1, len = name.Length; i < len; ++i)
@@ -47,14 +47,14 @@ namespace Calcpad.Core
         public static bool IsLetter(char c) =>
             c >= 'a' && c <= 'z' || // a - z
             c >= 'A' && c <= 'Z' || // A - Z 
-            c >= 'α' && c <= 'ω' ||   // alpha - omega
-            c >= 'Α' && c <= 'Ω' ||  // Alpha - Omega
-            "_,°′″‴⁗ϑϕøØ℧∡‰".Contains(c, StringComparison.Ordinal); // _ , ° ′ ″ ‴ ⁗ ϑ ϕ ø Ø ℧ ∡ ‰
+            c >= 'α' && c <= 'ω' || // alpha - omega
+            c >= 'Α' && c <= 'Ω' || // Alpha - Omega
+            "_,°′″‴⁗ϑϕøØ℧∡%‰".Contains(c, StringComparison.Ordinal); // _ , ° ′ ″ ‴ ⁗ ϑ ϕ ø Ø ℧ ∡ % ‰
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsLatinLetter(char c) =>
             c >= 'a' && c <= 'z' || // a - z
-            c >= 'A' && c <= 'Z'; // A - Z 
+            c >= 'A' && c <= 'Z';   // A - Z 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsDigit(char c) =>
@@ -62,7 +62,7 @@ namespace Calcpad.Core
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsUnitStart(char c) =>
-            c == '°' || c == '′' || c == '″' || c == '‰';
+            c == '°' || c == '′' || c == '″' || c == '%' || c == '‰';
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsWhiteSpace(char c) =>

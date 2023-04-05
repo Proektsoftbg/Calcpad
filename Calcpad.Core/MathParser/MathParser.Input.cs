@@ -69,8 +69,8 @@ namespace Calcpad.Core
             {
                 <= '~' => CharTypes[c],
                 >= 'Α' and <= 'Ω' or >= 'α' and <= 'ω' or 'ϕ' or 'ϑ' or '℧' => TokenTypes.Unit,
-                '≡' or '≠' or '≤' or '≥' or '÷' => TokenTypes.Operator,
-                '‰' or '°' or '′' or '″' or '‴' or '⁗' or 'ø' or 'Ø' or '∡' => TokenTypes.Unit,
+                '⦼' or '≡' or '≠' or '≤' or '≥' or '÷' or '∧' or '∨' or '⊕' => TokenTypes.Operator,
+                '%' or '‰' or '°' or '′' or '″' or '‴' or '⁗' or 'ø' or 'Ø' or '∡' => TokenTypes.Unit,
                 _ => TokenTypes.Error,
             };
 

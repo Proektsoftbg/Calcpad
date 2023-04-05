@@ -30,6 +30,9 @@ namespace Calcpad.Core
                 (a, b) => a >= b,
                 (a, b) => a == b,
                 (a, b) => a != b,
+                (a, b) => a & b,
+                (a, b) => a | b,
+                (a, b) => a ^ b,
                 (_, b) => b
             };
 
@@ -77,7 +80,8 @@ namespace Calcpad.Core
                 Phase,    //39
                 Random,   //40
                 Fact,     //41
-                (a) => -a //42
+                (a) => -a, //42
+                Not        //43
             };
 
             Functions2 = new Func<Value, Value, Value>[]
@@ -103,7 +107,10 @@ namespace Calcpad.Core
                 Switch,
                 Take,
                 Line,
-                Spline
+                Spline,
+                And,
+                Or,
+                Xor
             };
         }
 

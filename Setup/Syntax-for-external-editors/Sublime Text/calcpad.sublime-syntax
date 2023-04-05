@@ -9,10 +9,12 @@ file_extensions:
 
 contexts:
   main:
-    - match: '[\^/÷\\%*-+!]'
+    - match: '[\^/÷\\%*\-+]'
       scope: keyword.operator.arithmetic.calcpad
     - match: '[≡≠<>≤≥]'
       scope: keyword.operator.comparison.calcpad
+    - match: '[∧∨⊕]'
+      scope: keyword.operator.logical.calcpad
     - match: '='
       scope: keyword.operator.assignment.calcpad
     - match: '[;&@:|]'
@@ -21,7 +23,7 @@ contexts:
       scope: punctuation.section.brackets.calcpad
     - match: '[a-zA-Z]+[a-zA-Z0-9_]*\$'
       scope: meta.string.calcpad
-    - match: '\b(sign|abs|mod|gcd|lcm|sin|cos|tan|csc|sec|cot|sinh|cosh|tanh|csch|sech|coth|asin|acos|atan|acsc|asec|acot|asinh|acosh|atanh|acsch|asech|acoth|ln|log|log_2|exp|sqr|sqrt|cbrt|round|floor|ceiling|trunc|re|im|phase|random|root|atan2|min|max|sum|sumsq|srss|average|product|mean|switch|take|line|spline)\b'
+    - match: '\b(sign|abs|mod|gcd|lcm|sin|cos|tan|csc|sec|cot|sinh|cosh|tanh|csch|sech|coth|asin|acos|atan|acsc|asec|acot|asinh|acosh|atanh|acsch|asech|acoth|ln|log|log_2|exp|sqr|sqrt|cbrt|round|floor|ceiling|trunc|re|im|phase|random|root|atan2|min|max|sum|sumsq|srss|average|product|mean|switch|take|line|spline|not|and|or|xor)\b'
       scope: support.function.calcpad
     - match: '#'
       scope: punctuation.definition.keyword.calcpad

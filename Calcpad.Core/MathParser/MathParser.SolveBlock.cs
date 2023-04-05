@@ -167,7 +167,6 @@ namespace Calcpad.Core
                     {
                         _items[0].Html = new HtmlWriter().AddBrackets(_items[0].Html, 1);
                         _items[0].Xml = new XmlWriter().AddBrackets(_items[0].Xml, 1);
-                        IsFigure = false;
                     }
                 }
                 if (_type == SolverTypes.Inf || _type == SolverTypes.Sup)

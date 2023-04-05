@@ -2,40 +2,40 @@
 '<div style="width:180mm">
 '<img style="width:400pt;" src="https://calcpad.eu/media/structures/rc/design/torsion.png" alt="torsion.png">
 '<h4>Cross section dimensions</h4>
-b_w = ?'mm,'h_w = ?'mm
-b_f = ?'mm,'h_f = ?'mm
-'Shear link legs count -'n_w = ?
-'Bottom bars diameter:'Φ_b = ?'mm
-'Top and middle bars diameter:'Φ_t = ?'mm
-'Links diameter (closed and anchored):'Φ_s = ?'mm
-'Concrete cover -'c_nom = ?'mm
+b_w = ? {250}'mm,'h_w = ? {500}'mm
+b_f = ? {1200}'mm,'h_f = ? {120}'mm
+'Shear link legs count -'n_w = ? {2}
+'Bottom bars diameter:'Φ_b = ? {20}'mm
+'Top and middle bars diameter:'Φ_t = ? {12}'mm
+'Links diameter (closed and anchored):'Φ_s = ? {8}'mm
+'Concrete cover -'c_nom = ? {25}'mm
 #post
 'Effective cross section depth
 d = h_w - c_nom - Φ_s - Φ_b/2'mm
 #show
-'Number of middle rows of bars -'n_ef = ?
+'Number of middle rows of bars -'n_ef = ? {2}
 #hide
 a_l = (2*d - h_w)/(n_ef + 1)'mm
 #post
 #val
 '<p class="ref">[EN 1992-1-1, § 9.2.3 (4)]</p>
 #if a_l > 350'mm
-	'Distance between rows of bars is'a_l'mm &gt; 350 mm
+	'Distance between rows of bars is 'a_l'mm &gt; 350 mm
 	'The number of middle rows is not sufficient.
 #else
-	'Distance between rows of bars is'a_l'mm &le; 350 mm
+	'Distance between rows of bars is 'a_l'mm &le; 350 mm
 	'The number of middle rows of bars is sufficient.
 #end if
 #equ
 #show
 '<h4>Section design loads</h4>
-'Torsional moment -'T_Ed = ?'kN·m
-'Bending moment -'M_Ed = ?'kN·m
-'Shear force -'V_Ed = ?'kN
+'Torsional moment -'T_Ed = ? {20}'kN·m
+'Bending moment -'M_Ed = ? {200}'kN·m
+'Shear force -'V_Ed = ? {120}'kN
 '<h4>Material properties</h4>
 '<p><b>Concrete</b> [EN 1992-1-1, <a target="_blank" href="https://calcpad.eu/reference/concrete-table.html">Table 3.1</a>]</p>
-'Characteristic compressive cylinder strength -'f_ck = ?'MPa,
-'Partial safety factors for concrete -'γ_c = 1.5','α_cc = ?
+'Characteristic compressive cylinder strength -'f_ck = ? {20}'MPa,
+'Partial safety factors for concrete -'γ_c = 1.5','α_cc = ? {0.85}
 #post
 'Design compressive cylinder strength -'f_cd = α_cc*f_ck/γ_c'MPa
 'Mean value of axial tensile strength -'f_ctm = 0.30*f_ck^(2/3)'MPa
@@ -43,7 +43,7 @@ a_l = (2*d - h_w)/(n_ef + 1)'mm
 'Design axial tensile strength -'f_ctd = f_ctk,005/γ_c'MPa
 #show
 '<p><b>Steel</b></p>
-'Characteristic yield strength -'f_yk = ?'MPa
+'Characteristic yield strength -'f_yk = ? {500}'MPa
 #post
 'Partial safety factor for steel -'γ_s = 1.15
 'Design yield strength -'f_yd = f_yk/γ_s'MPa
@@ -66,7 +66,7 @@ M_f = b_f*h_f*η*f_cd*(d - h_f/2)*10^-6'kN·m
 	'Relative depth of compression zone corresponding to design yield strain
 	ξ_yd = ε_cu3/(ε_cu3 + ε_yd)
 	#show
-	'Limit compression zone depth -'ξ_lim = ?
+	'Limit compression zone depth -'ξ_lim = ? {0.62}
 	'(enter <i>ξ</i><sub>yd</sub> for elastic or 0.45 for plastic analysis)
 	#post
 	#if ξ ≤ ξ_lim
@@ -87,7 +87,7 @@ M_f = b_f*h_f*η*f_cd*(d - h_f/2)*10^-6'kN·m
 		'Strain is compressive reinforcement
 		ε_s2 = (x - d_2)/x*ε_cu3
 		'Compressive reinforcement stress
-		σ_s2 = min(ε_s2*E_s;f_yd)'MPa
+		σ_s2 = min(ε_s2*E_s; f_yd)'MPa
 		'Required compressive reinforcement area
 		A_s2 = (A_s1*f_yd - (b_w*λ*x + A_f)*η*f_cd)/σ_s2'mm²
 		'Reinforcement ratios
@@ -118,9 +118,9 @@ C_Rd_c = 0.18/γ_c
 ν_min = 0.035*k^(3/2)*sqr(f_ck)
 V_Rd,c_ = C_Rd_c*k*(100*ρ_L*f_ck)^(1/3)*b_w*d*10^-3'kN
 V_Rd,c,min = ν_min*b_w*d*10^-3'kN
-V_Rd,c = max(V_Rd,c,min;V_Rd,c_)'kN
+V_Rd,c = max(V_Rd,c,min; V_Rd,c_)'kN
 'Effective wall thickness
-t_ef = max(b_w*h_w/(2*(b_w + h_w));2*c_nom)'mm
+t_ef = max(b_w*h_w/(2*(b_w + h_w)); 2*c_nom)'mm
 'Total area of the cross section within the outer perimeter
 A_k = (b_w - t_ef)*(h_w - t_ef)'mm²
 'Outer perimeter of the cross section 
@@ -156,7 +156,7 @@ T_Rd,c = 2*A_k*t_ef*f_ctd*10^-6'kN·m
 		'Angle between the concrete struts and the longitudinal reinforcement
 		θ = 0.5*asin(T_Ed/T_Rd,max,45 + V_Ed/V_Rd,max,45)'°
 		'The angle is limited within 21,8° ≤ θ ≤ 45°
-		θ = max(21.8;min(θ;45))'°
+		θ = max(21.8; min(θ; 45))'°
 		'<p class="ref">[(6.9) and (6.30) from EN 1992-1-1]</p>
 		'Bearing capacity check at'θ'°
 		V_Rd,max = α_cw*b_w*z*ν_1*f_cd*cot(θ)/(1 + cot(θ)^2)*10^-3'kN
@@ -177,12 +177,12 @@ T_Rd,c = 2*A_k*t_ef*f_ctd*10^-6'kN·m
 		s_w = n_w*A_sw,1/A_sw'mm
 		'Maximum shear link spacing
 		'<p class="ref">[EN 1992-1-1, §9.2.2]</p>
-		s_w,max,V = min(0.75*d;300)'mm
+		s_w,max,V = min(0.75*d; 300)'mm
 		'<p class="ref">[EN 1992-1-1, § 9.2.3]</p>
-		s_w,max,T = min(u_k/8;b_w)'mm
+		s_w,max,T = min(u_k/8; b_w)'mm
 		#hide
-		s_w,max = min(s_w,max,V;s_w,max,T)
-		s_w = floor(min(s_w;s_w,max)/10)*10
+		s_w,max = min(s_w,max,V; s_w,max,T)
+		s_w = floor(min(s_w; s_w,max)/10)*10
 		#post
 		'</div>
 		#val
@@ -199,13 +199,13 @@ T_Rd,c = 2*A_k*t_ef*f_ctd*10^-6'kN·m
 A_s,T = T_Ed*10^6*u_k*cot(θ)/(2*A_k*f_yd)'mm²
 #hide
 A_s,m = A_s,T/(n_ef + 2)
-A_s,b = max(A_s1 + A_s,m;A_s,min)
-A_s,t = max(A_s2 + A_s,m;A_s,min)
+A_s,b = max(A_s1 + A_s,m; A_s,min)
+A_s,t = max(A_s2 + A_s,m; A_s,min)
 A_s1,b = π*Φ_b^2/4
 A_s1,t = π*Φ_t^2/4
-n_b = max(ceiling(A_s,b/A_s1,b);2)
-n_t = max(ceiling(A_s,t/A_s1,t);2)
-n_m = max(ceiling(A_s,m/A_s1,t);2)
+n_b = max(ceiling(A_s,b/A_s1,b); 2)
+n_t = max(ceiling(A_s,t/A_s1,t); 2)
+n_m = max(ceiling(A_s,m/A_s1,t); 2)
 #post
 #val
 '<p><b>Total longitudinal reinforcement for bending and torsion</b></p>
@@ -213,4 +213,4 @@ n_m = max(ceiling(A_s,m/A_s1,t);2)
 'Top reinforcement: A<sub>s,t</sub> ='A_s,t'mm² ('n_t'Ø'Φ_t' bars)
 'Middle reinforcement: A<sub>s,m</sub> ='A_s,m*n_ef'mm² ('n_m'Ø'Φ_t' bars in 'n_ef' rows @ spacing 'a_l' mm)
 #show
-'</div>250	500	1200	120	2	20	12	8	25	2	20	200	120	20	0.85	500	0.62
+'</div>
