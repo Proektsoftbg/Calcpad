@@ -261,7 +261,7 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;&emsp;#pause - calculates to the current line and waits until resumed manually;  
 &emsp;&emsp;#input - renders an input form to the current line and waits for user input.  
 * Switches for trigonometric units: #deg - degrees, #rad - radians, #gra - gradians;  
-* Separator for target units: |, for example:  `3ft + 12in|cm` will show 121.92 cm;;  
+* Separator for target units: |, for example:  `3ft + 12in|cm` will show 121.92 cm;  
 * Dimensionless: %, ‰;
 * Angle units: °, ′, ″, deg, rad, grad, rev;  
 * Metric units (SI and compatible):  
