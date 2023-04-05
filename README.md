@@ -195,9 +195,9 @@ A variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;Precision - relative precision for numerical methods \[10-2; 10-16\] (default is 10-12)  
 * Program flow control:  
 &emsp;&emsp;Simple:  
-&emsp;&emsp;&emsp;&emsp;**#if** *condition*  
+&emsp;&emsp;&emsp;&emsp;#if *condition*  
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;*Your code goes here*  
-&emsp;&emsp;&emsp;&emsp;**#end if**  
+&emsp;&emsp;&emsp;&emsp;#end if  
 &emsp;&emsp;Alternative:  
 &emsp;&emsp;&emsp;&emsp;#if *condition*  
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;*Your code goes here*  
