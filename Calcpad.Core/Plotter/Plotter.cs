@@ -59,7 +59,7 @@ namespace Calcpad.Core
         {
             g.TextRenderingHint = TextRenderingHint.AntiAlias;
             var penWidth = (float)ScreenScaleFactor;
-            var gridPen = new Pen(Color.FromArgb(48, 0, 0, 0), penWidth);
+            var gridPen = new Pen(Color.FromArgb(32, 0, 0, 0), penWidth);
             var axisPen = new Pen(Color.Black, penWidth);
             var b = Brushes.Black;
             var fh = 8.5f;

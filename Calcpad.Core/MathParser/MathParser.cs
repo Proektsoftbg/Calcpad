@@ -53,7 +53,7 @@ namespace Calcpad.Core
             get => _isPlotting;
 
         }
-        internal int Degrees { set => _calc.Degrees = value; }
+        public int Degrees { set => _calc.Degrees = value; }
         internal int PlotWidth => _variables.TryGetValue("PlotWidth", out var v) ? (int)v.Value.Re : 500;
         internal int PlotHeight => _variables.TryGetValue("PlotHeight", out var v) ? (int)v.Value.Re : 300;
         internal int PlotStep => _variables.TryGetValue("PlotStep", out var v) ? (int)v.Value.Re : 0;
@@ -282,6 +282,14 @@ namespace Calcpad.Core
 
                         cf.AddParameters(parameters);
                         cf.Rpn = rpn;
+
+                        cf.IsRecursion = cf.CheckRecursion(null, _functions);
+                        if (cf.IsRecursion)
+#if BG
+                            throw new MathParserException($"Открита е циклична референция за функция \"{name}\".");
+#else
+                            throw new MathParserException($"Circular reference detected for function \"{name}\".");
+#endif
                         if (IsEnabled)
                         {
                             cf.SubscribeCache(this);
@@ -291,13 +299,6 @@ namespace Calcpad.Core
                         if (i >= 0)
                             cf.Change();
                         _functionDefinitionIndex = _functions.Add(name, cf);
-                        cf.IsRecursion = cf.CheckRecursion(null, _functions);
-                        if (cf.IsRecursion)
-#if BG
-                            throw new MathParserException($"Открита е циклична референция за функция \"{name}\".");
-#else
-                            throw new MathParserException($"Circular reference detected for function \"{name}\".");
-#endif
                         return;
                     }
                 }

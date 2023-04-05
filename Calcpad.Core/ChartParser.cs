@@ -68,10 +68,7 @@ namespace Calcpad.Core
                     else if (xy.Length > 0)
                     {
                         if (xy.Length == 1)
-                        {
-                            _fx[i] = Parser.Compile(input[1], parameters);
                             _fy[i] = Parser.Compile(xy[0], parameters);
-                        }
                         else
                         {
                             _fx[i] = Parser.Compile(xy[0], parameters);

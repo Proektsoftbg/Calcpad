@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 using System.Text;
 
 namespace Calcpad.Core
@@ -145,7 +146,7 @@ namespace Calcpad.Core
                             else if (t.Content == "!")
                                 RenderFactorialToken(t, b);
                             else if (t.Content == "sqr" || t.Content == "sqrt" || t.Content == "cbrt")
-                                RenderRootToken(t, b);
+                                RenderRootToken(t, b, t.Content == "cbrt" ? "3" : "2");
                             else if (t.Content == "abs")
                                 RenderAbsToken(t, b);
                             else
@@ -232,7 +233,7 @@ namespace Calcpad.Core
                     bool isNegative = IsNegative(b);
                     if (isNegative || b.Order > Token.DefaultOrder)
                     {
-                        sb = writer.AddBrackets(sb, b.Level);
+                        sb = AddBrackets(sb, b.Level, b.MinOffset, b.MaxOffset);
                         hasOperators = true;
                     }
 
@@ -251,86 +252,77 @@ namespace Calcpad.Core
                     var sb = b.Content;
                     if (substitute && t.Content == "=")
                     {
-                        if (b.Offset != 0 && writer is HtmlWriter)
-                            sb = HtmlWriter.OffsetDivision(sb, b.Offset);
-
                         t.Content = sb;
                         t.Level = b.Level;
                     }
                     else
                     {
                         var content = t.Content;
+                        var formatEquation = writer is not TextWriter &&
+                            (_formatEquations && content == "/" || content == "÷");
+
                         if (!stackBuffer.TryPop(out var a))
                             a = new RenderToken(string.Empty, content == "-" ? TokenTypes.Constant : TokenTypes.None, 0);
 
-                        var level = a.Level + b.Level + 1;
-                        var isInline = writer is HtmlWriter && content != "^" && !(level < 4 && (content == "/" || content == "÷"));
-                        if (b.Offset != 0 && isInline)
-                            sb = HtmlWriter.OffsetDivision(sb, b.Offset);
-
                         var sa = a.Content;
-                        if (a.Order > t.Order && !(_formatEquations && content == "/"))
-                            sa = writer.AddBrackets(sa, a.Level);
-
-                        if (a.Offset != 0 && isInline)
-                            sa = HtmlWriter.OffsetDivision(sa, a.Offset);
+                        if (a.Order > t.Order && !formatEquation)
+                            sa = AddBrackets(sa, a.Level, a.MinOffset, a.MaxOffset);
 
                         if (content == "^")
                         {
                             if (a.IsCompositeValue || IsNegative(a))
-                                sa = writer.AddBrackets(sa, a.Level);
+                                sa = AddBrackets(sa, a.Level, a.MinOffset, a.MaxOffset);
 
                             if (writer is TextWriter && (IsNegative(b) || b.Order != Token.DefaultOrder))
-                                sb = writer.AddBrackets(sb, b.Level);
+                                sb = AddBrackets(sb, b.Level, b.MinOffset, b.MaxOffset);
 
                             t.Content = writer.FormatPower(sa, sb, a.Level, a.Order);
                             t.Level = a.Level;
                             t.ValType = a.ValType;
-                            if (a.ValType != 2)
+                            if (a.ValType != ValueTypes.Unit)
                                 hasOperators = true;
                         }
                         else
                         {
-                            var formatEquation = writer is not TextWriter &&
-                                (_formatEquations && content == "/" || content == "÷");
-                            if (
-                                    !formatEquation &&
-                                    (
+                            if (!formatEquation && (
                                         b.Order > t.Order ||
                                         b.Order == t.Order && (content == "-" || content == "/") ||
                                         IsNegative(b) && content != "="
                                     )
                                 )
-                                sb = writer.AddBrackets(sb, b.Level);
+                                sb = AddBrackets(sb, b.Level, b.MinOffset, b.MaxOffset);
 
+                            var level = 0;
                             if (formatEquation)
                             {
-                                level = a.Level + b.Level + 1;
+                                level = (a.Level + b.Level + 1);
                                 if (level >= 4)
                                 {
                                     if (a.Order > t.Order)
-                                        sa = writer.AddBrackets(sa, a.Level);
+                                        sa = AddBrackets(sa, a.Level, a.MinOffset, a.MaxOffset);
 
                                     if (b.Order > t.Order)
-                                        sb = writer.AddBrackets(sb, b.Level);
+                                        sb = AddBrackets(sb, b.Level, b.MinOffset, b.MaxOffset);
                                 }
                                 t.Content = writer.FormatDivision(sa, sb, level);
                                 if (level < 4)
                                 {
-                                    if (level == 2)
+                                    if (level == 2 && writer is HtmlWriter)
+                                    {
                                         t.Offset = a.Level - b.Level;
+                                        if (t.Offset != 0)
+                                            t.Content = HtmlWriter.OffsetDivision(t.Content, t.Offset);
+                                    }
                                 }
                                 else
                                     level = Math.Max(a.Level, b.Level);
                             }
                             else
                             {
-                                if (writer is TextWriter)
-                                    level = 0;
-                                else
+                                if (writer is not TextWriter)
                                     level = Math.Max(a.Level, b.Level);
 
-                                if (content == "*" && a.ValType == 1 && b.ValType == 2)
+                                if (content == "*" && a.ValType == ValueTypes.Number && b.ValType == ValueTypes.Unit)
                                 {
                                     if (writer is TextWriter)
                                         t.Content = sa + sb;
@@ -339,14 +331,17 @@ namespace Calcpad.Core
                                 }
                                 else
                                     t.Content = sa + writer.FormatOperator(content[0]) + sb;
+
                             }
-                            t.ValType = a.ValType == b.ValType ? a.ValType : (byte)3;
+                            t.ValType = a.ValType == b.ValType ? a.ValType : ValueTypes.NumberWithUnit;
                             t.Level = level;
+                            t.MinOffset = Math.Min(Math.Min(a.MinOffset, b.MinOffset), t.Offset);
+                            t.MaxOffset = Math.Max(Math.Max(a.MaxOffset, b.MaxOffset), t.Offset);
                             if (content == "=")
                                 _assignmentIndex = t.Content.Length - sb.Length;
                             else
                             {
-                                if (t.Order != 1 && !(a.ValType == 1 && b.ValType == 2))
+                                if (t.Order != 1 && !(a.ValType == ValueTypes.Number && b.ValType == ValueTypes.Unit))
                                     hasOperators = true;
                             }
                         }
@@ -358,14 +353,13 @@ namespace Calcpad.Core
                     var sb = b.Content;
                     var a = stackBuffer.Pop();
                     if (t.Content == "root")
-                    {
-                        t.Content = writer.FormatRoot(a.Content, _formatEquations, a.Level, sb);
-                        t.Level = b.Level;
-                    }
+                        RenderRootToken(t, a, sb);
                     else
                     {
                         t.Level = Math.Max(a.Level, b.Level);
-                        t.Content = writer.FormatFunction(t.Content) + writer.AddBrackets(a.Content + div + sb, t.Level);
+                        t.MinOffset = Math.Min(a.MinOffset, b.MinOffset);
+                        t.MaxOffset = Math.Max(a.MaxOffset, b.MaxOffset);
+                        t.Content = writer.FormatFunction(t.Content) + AddBrackets(a.Content + div + sb, t.Level, t.MinOffset, t.MaxOffset);
                     }
                 }
 
@@ -376,13 +370,13 @@ namespace Calcpad.Core
                     var c = stackBuffer.Pop();
                     if (_formatEquations)
                     {
-                        t.Level = Math.Max(a.Level, c.Level) +  b.Level + 1;
+                        t.Level = (Math.Max(a.Level, c.Level) +  b.Level + 1);
                         t.Content = writer.FormatIf(c.Content, a.Content, sb, t.Level);
                     }
                     else
                     {
                         t.Level = Math.Max(a.Level, Math.Max(b.Level, c.Level));
-                        t.Content = writer.FormatFunction(t.Content) + writer.AddBrackets(c.Content + div + a.Content + div + sb, t.Level);
+                        t.Content = writer.FormatFunction(t.Content) + AddBrackets(c.Content + div + a.Content + div + sb, t.Level, t.MinOffset, t.MaxOffset);
                     }
                 }
 
@@ -400,7 +394,7 @@ namespace Calcpad.Core
                             var a = stackBuffer.Pop();
                             args[j] = a.Content;
                             if ((mfParamCount - j) % 2 == 1 || j == 0)
-                                t.Level += Math.Max(a.Level, b.Level) + 1;
+                                t.Level += (Math.Max(a.Level, b.Level) + 1);
 
                             b = a;
                         }
@@ -409,16 +403,20 @@ namespace Calcpad.Core
                     }
                     else
                     {
-                        t.Level = b.Level;
                         var s = sb;
+                        t.Level = b.Level;
+                        t.MinOffset = b.MinOffset;
+                        t.MaxOffset = b.MaxOffset;
                         for (int j = 0; j < mfParamCount; ++j)
                         {
                             var a = stackBuffer.Pop();
                             s = a.Content + div + s;
                             if (a.Level > t.Level)
                                 t.Level = a.Level;
+                            t.MinOffset = Math.Min(a.MinOffset, t.MinOffset);
+                            t.MaxOffset = Math.Max(a.MaxOffset, t.MaxOffset);
                         }
-                        t.Content = writer.FormatFunction(t.Content) + writer.AddBrackets(s, t.Level);
+                        t.Content = writer.FormatFunction(t.Content) + AddBrackets(s, t.Level, t.MinOffset, t.MaxOffset);
                     }
                 }
 
@@ -429,29 +427,35 @@ namespace Calcpad.Core
                     var cfParamCount = cf.ParameterCount - 1;
                     var s = sb;
                     t.Level = b.Level;
+                    t.MinOffset = b.MinOffset;
+                    t.MaxOffset = b.MaxOffset;
                     for (int j = 0; j < cfParamCount; ++j)
                     {
                         var a = stackBuffer.Pop();
                         s = a.Content + div + s;
                         if (a.Level > t.Level)
                             t.Level = a.Level;
+                        t.MinOffset = Math.Min(a.MinOffset, t.MinOffset);
+                        t.MaxOffset = Math.Max(a.MaxOffset, t.MaxOffset);
                     }
-                    t.Content = writer.FormatVariable(t.Content, string.Empty) + writer.AddBrackets(s, t.Level);
+                    t.Content = writer.FormatVariable(t.Content, string.Empty) + AddBrackets(s, t.Level, t.MinOffset, t.MaxOffset);
                 }
 
                 void RenderFactorialToken(RenderToken t, RenderToken b)
                 {
                     var sb = b.Content;
                     if (IsNegative(b) || b.Order > Token.DefaultOrder)
-                        sb = writer.AddBrackets(sb, b.Level);
+                        sb = AddBrackets(sb, b.Level, b.MinOffset, b.MaxOffset);
                     t.Content = sb + writer.FormatOperator('!');
                     t.Level = b.Level;
                 }
 
-                void RenderRootToken(RenderToken t, RenderToken b)
+                void RenderRootToken(RenderToken t, RenderToken b, string s)
                 {
-                    var sb = b.Content;
-                    t.Content = writer.FormatRoot(sb, _formatEquations, b.Level, t.Content == "cbrt" ? "3" : "2");
+                    var offset = b.MaxOffset + b.MinOffset;
+                    b.Level += (b.MaxOffset - b.MinOffset) / 2;
+                    var sb = offset == 0 ? b.Content : FixOffset(b.Content, offset);
+                    t.Content = writer.FormatRoot(sb, _formatEquations, b.Level, s);
                     t.Level = b.Level;
                 }
 
@@ -468,9 +472,24 @@ namespace Calcpad.Core
                     var sb = b.Content;
                     t.Content = (t.Type == TokenTypes.Function ?
                         writer.FormatFunction(t.Content) :
-                        writer.FormatVariable(t.Content, string.Empty)) + writer.AddBrackets(sb, b.Level);
+                        writer.FormatVariable(t.Content, string.Empty)) + AddBrackets(sb, b.Level, b.MinOffset, b.MaxOffset);
                     t.Level = b.Level;
                 }
+
+                string AddBrackets(string s, int level, int minOffset, int maxOffset)
+                {
+                    var offset = minOffset + maxOffset;
+                    level += (maxOffset - minOffset) / 2;
+                    if (offset == 0)
+                        return writer.AddBrackets(s, level);
+
+                    return writer.AddBrackets(FixOffset(s, offset), level);
+                }
+
+                string FixOffset(string s, int offset) => offset < 0 ?
+                    $"<span class=\"dvc up\">{s}</span>" : offset > 0 ?
+                    $"<span class=\"dvc down\">{s}</span>" :
+                    s;
             }
 
             private string RenderSolver(int index, bool substitute, bool formatEquations, OutputWriter writer)

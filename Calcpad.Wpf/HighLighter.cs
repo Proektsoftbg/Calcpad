@@ -174,7 +174,7 @@ namespace Calcpad.Wpf
         private static readonly SolidColorBrush ToolTipBackground = new(Color.FromArgb(196, 0, 0, 0));
         private static readonly SolidColorBrush TitleBackground = new(Color.FromRgb(245, 255, 240));
         private static readonly SolidColorBrush ErrorBackground = new(Color.FromRgb(255, 225, 225));
-        private static readonly HashSet<char> Operators = new() { '!', '^', '/', '÷', '\\', '%', '*', '-', '+', '<', '>', '≤', '≥', '≡', '≠', '=' };
+        private static readonly HashSet<char> Operators = new() { '!', '^', '/', '÷', '\\', '⦼', '*', '-', '+', '<', '>', '≤', '≥', '≡', '≠', '=', '∧', '∨', '⊕' };
         private static readonly HashSet<char> Delimiters = new() { ';', '|', '&', '@', ':' };
         private static readonly HashSet<char> Brackets = new() { '(', ')', '{', '}' };
 
@@ -239,7 +239,11 @@ namespace Calcpad.Wpf
             "take",
             "line",
             "spline",
-            "random"
+            "random",
+            "not",
+            "and",
+            "or",
+            "xor"
         };
 
         private static readonly HashSet<string> Keywords = new(StringComparer.OrdinalIgnoreCase) {
@@ -287,9 +291,7 @@ namespace Calcpad.Wpf
             "$map"
         };
 
-
         internal static readonly char[] Comments = { '\'', '"' };
-
         private TagHelper _tagHelper;
         private ParserState _state;
         private readonly StringBuilder _builder = new(100);
@@ -422,11 +424,12 @@ namespace Calcpad.Wpf
                         Append(Types.Include);
                         _state.CurrentType = Types.Bracket;
                     }
-
                     _builder.Append(c);
                 }
                 else if (c == '$' && _builder.Length > 0)
                     ParseMacro();
+                else if (c == '%' && _builder.Length > 0 && _builder[^1] == '%')
+                    AppendReminderShortcut();
                 else if (Validator.IsWhiteSpace(c))
                     ParseSpace(c);
                 else if (Brackets.Contains(c))
@@ -978,6 +981,21 @@ namespace Calcpad.Wpf
             return false;
         }
 
+        private void AppendReminderShortcut()
+        {
+            if (_builder.Length > 1)
+            {
+                _builder.Remove(_builder.Length - 1, 1);
+                Append(_state.CurrentType);
+                _builder.Append('⦼');
+            }
+            else
+                _builder[0] = '⦼';
+
+            _state.CurrentType = Types.Operator;
+            Append(_state.CurrentType);
+        }
+
         private Types AppendInclude(string s)
         {
             if (File.Exists(s))
@@ -1357,7 +1375,7 @@ namespace Calcpad.Wpf
             name switch
             {
                 "-" => _allowUnaryMinus ? "-" : " - ",
-                "+" or "=" or "≡" or "≠" or "<" or ">" or "≤" or "≥" or "&" or "@" or ":" => ' ' + name + ' ',
+                "+" or "=" or "≡" or "≠" or "<" or ">" or "≤" or "≥" or "&" or "@" or ":" or "∧" or "∨" or "⊕" => ' ' + name + ' ',
                 ";" => name + ' ',
                 _ => name,
             };

@@ -4,17 +4,17 @@
 '
 '
 '<h4>Dimensions of the building</h4>
-'Width -'B = ?'m
-'Length -'L = ?'m
-'Height at roof ridge -'h_1 = ?'m
-'Height at roof eaves -'h_2 = ?'m
+'Width -'B = ? {12}'m
+'Length -'L = ? {30}'m
+'Height at roof ridge -'h_1 = ? {9}'m
+'Height at roof eaves -'h_2 = ? {8}'m
 'Pitch angle
 α = atan((h_1 - h_2)*2/B)'°
 'Spacing between:
-'&nbsp;&nbsp;&nbsp;&nbsp; - frames -'a = ?'m
-'&nbsp;&nbsp;&nbsp;&nbsp; - wind columns -'b = ?'m
-'&nbsp;&nbsp;&nbsp;&nbsp; - side beams -'c_s = ?'m
-'&nbsp;&nbsp;&nbsp;&nbsp; - purlins -'c_p = ?'m
+'&nbsp;&nbsp;&nbsp;&nbsp; - frames -'a = ? {6}'m
+'&nbsp;&nbsp;&nbsp;&nbsp; - wind columns -'b = ? {4}'m
+'&nbsp;&nbsp;&nbsp;&nbsp; - side beams -'c_s = ? {2}'m
+'&nbsp;&nbsp;&nbsp;&nbsp; - purlins -'c_p = ? {1}'m
 #post
 '(If the above distances are &le; 0, the corresponding loads will not be calculated)
 #if c_s > 0
@@ -27,7 +27,7 @@
 '
 #show
 '<h4>Basic velocity pressure</h4>
-'Fundamental value of the basic wind velocity -'v_b_0 = ?'kN/m²
+'Fundamental value of the basic wind velocity -'v_b_0 = ? {26}'kN/m²
 #post
 'Directional factor -'C_dir = 1.0
 'Seasonal factor -'C_season = 1.0
@@ -35,16 +35,16 @@
 'Basic wind velocity -'v_b = C_dir*C_season*v_b_0'm/s
 'Orography factor -'C_0 = 1.0
 #pre
-	'<p id="C" style="display:none;">'C = ?'</p>
-	'<p class="ref">[EN 1991-1-4, <a target="_blank" href="https://calcpad.eu/reference/wind-terrain.html">Table 4.1</a>]</p>
-	'Terrain categories
-	'<p><select data-target="C">
-	'<option value="0"> 0. Sea or coastal area...</option>
-	'<option value="1"> I. Lakes or flat and horizontal area...</option>
-	'<option value="2"> II. Area with low vegetation...</option>
-	'<option value="3"> III. Area with regular cover of vegetation or buildings...</option>
-	'<option value="4"> IV. Area in which at least 15 % of the surface is covered with buildings with h > 15 m</option>
-	'</select></p>
+'<p id="C" style="display:none;">'C = ? {4}'</p>
+'<p class="ref">[EN 1991-1-4, <a target="_blank" href="https://calcpad.eu/reference/wind-terrain.html">Table 4.1</a>]</p>
+'Terrain categories
+'<p><select data-target="C">
+'<option value="0"> 0. Sea or coastal area...</option>
+'<option value="1"> I. Lakes or flat and horizontal area...</option>
+'<option value="2"> II. Area with low vegetation...</option>
+'<option value="3"> III. Area with regular cover of vegetation or buildings...</option>
+'<option value="4"> IV. Area in which at least 15 % of the surface is covered with buildings with h > 15 m</option>
+'</select></p>
 #post
 '<p class="ref">[EN 1991-1-4, <a target="_blank" href="https://calcpad.eu/reference/wind-terrain.html">Table 4.1</a>]</p>
 #if C ≡ 0
@@ -94,7 +94,7 @@ q_p = C_e*q_b'kN/m²
 'Size factor - 'C_s = 1', Dynamic factor - 'C_d = 1
 'Structural factor - 'C_s*C_d
 #show
-'Internal pressure coefficient -'C_pi = ?
+'Internal pressure coefficient -'C_pi = ? {-0.3}
 '<p class="ref">[EN 1991-1-4 Fig.7.13, Note 2]</p>
 '(should be taken the relevant value of -0.3 and +0.2)
 #post
@@ -109,7 +109,7 @@ w_s_F = 0''w_s_G = 0''w_s_H = 0''w_s_I = 0''w_s_J = 0
 '
 '
 '<h4>Wind in transverse direction</h4>
-e = min(L;2*h_1)'m
+e = min(L; 2*h_1)'m
 '
 '<p><b>Walls</b></p>
 #if e ≤ B
@@ -491,7 +491,7 @@ e'm,'e/4'm,'e/10'm
 '
 '
 '<h4>Wind in longitudinal direction</h4>
-e = min(B;2*h_1)
+e = min(B; 2*h_1)
 '
 '<p><b>Side walls</b></p>
 #if e ≤ L
@@ -614,7 +614,6 @@ h_1/L
 '<tr><th rowspan="2">Zone</th><th colspan="3">Pressure coefficients <sup>1)</sup></th><th colspan="3">Loading <sup>4)</sup></th></tr>
 '<tr><th><i>C</i><sub>pe_10</sub><br />(for 10 m²)</th><th><i>C</i><sub>pe_1</sub><br />(for 1 m²)</th><th><i>C</i><sub>pe</sub><br />(side beams)</th><th>Surface loads<sup>2)</sup>,<br />kN/m²</th><th>Columns <sup>3)</sup>,<br />kN/m</th><th>Side beams <sup>3)</sup>,<br />kN/m</th></tr>
 '<tr><td>Zone A</td><td>'C_pe_10_A'</td><td>'C_pe_1_A'</td><td>'C_pe_A'</td><td>'w_A'</td><td>'w_c_A'</td><td>'w_s_A'</td></tr>
-'<!--
 #if case < 3
 	'<tr><td>Zone B</td><td>'C_pe_10_B'</td><td>'C_pe_1_B'</td><td>'C_pe_B'</td><td>'w_B'</td><td>'w_c_B'</td><td>'w_s_B'</td></tr>
 #end if
@@ -674,11 +673,11 @@ e'm,'e/4'm,'e/10'm
 	'Zone H -'C_pe_10_H = -0.8','C_pe_1_H = -1.0
 	'Zone I -'C_pe_10_I = -0.5','C_pe_1_I = -0.5
 #end if
-	'<p><b>Surface loads</b></p>
-	'Zone F -'w_F = (C_pe_10_F - C_pi)*q_p'kN/m²
-	'Zone G -'w_G = (C_pe_10_G - C_pi)*q_p'kN/m²
-	'Zone H -'w_H = (C_pe_10_H - C_pi)*q_p'kN/m²
-	'Zone I -'w_I = (C_pe_10_I - C_pi)*q_p'kN/m²
+'<p><b>Surface loads</b></p>
+'Zone F -'w_F = (C_pe_10_F - C_pi)*q_p'kN/m²
+'Zone G -'w_G = (C_pe_10_G - C_pi)*q_p'kN/m²
+'Zone H -'w_H = (C_pe_10_H - C_pi)*q_p'kN/m²
+'Zone I -'w_I = (C_pe_10_I - C_pi)*q_p'kN/m²
 #if a > 0
 	'<p><b>Loads on main beams</b></p>
 	'Zone F -'w_b_F = (C_pe_10_F - C_pi)*q_p*a'kN/m
@@ -728,4 +727,4 @@ e'm,'e/4'm,'e/10'm
 '<sup>3)</sup> Thus, the given loads on beams, columns, purlins and siding should be used only for design of the respective elements. These loads cannot be used for load take-down and calculation of other elements.<br />
 '<sup>4)</sup> Positive values (+) mean pressure towards the given surface and negative values (-) are in the opposite direction. The pressure is always perpendicular to the respective surface.</p>
 #show
-'</div>12	30	9	8	6	4	2	1	26	4	-0.3
+'</div>

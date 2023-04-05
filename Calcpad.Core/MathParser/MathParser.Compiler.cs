@@ -314,6 +314,9 @@ namespace Calcpad.Core
                         '≥' => Expression.GreaterThanOrEqual(a, b),
                         '≡' => Expression.Equal(a, b),
                         '≠' => Expression.NotEqual(a, b),
+                        '∧' => Expression.And(a, b),
+                        '∨' => Expression.Or(a, b),
+                        '⊕' => Expression.ExclusiveOr(a, b),
                         _ => Expression.Invoke(Expression.Constant(_calc.GetOperator(t.Index)), a, b),
                     };
                 }

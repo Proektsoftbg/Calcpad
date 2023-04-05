@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
-using SD = System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -20,7 +19,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using System.Configuration;
+using SD = System.Drawing;
 
 namespace Calcpad.Wpf
 {
@@ -201,6 +200,7 @@ namespace Calcpad.Wpf
                 Directory.CreateDirectory(tmpDir);
             _document = RichTextBox.Document;
             _currentParagraph = (Paragraph)_document.Blocks.FirstBlock;
+            _currentLineNumber = 1;
             HighLighter.Clear(_currentParagraph);
             _undoMan = new UndoManager();
             Record();
@@ -1590,6 +1590,14 @@ You can find your unsaved data in
                                     _stringBuilder.Append(c);
                                     break;
                             };
+                        }
+                        else if (c == '%')
+                        {
+                            var n = _stringBuilder.Length - 1;
+                            if (n >= 0 && _stringBuilder[n] == '%')
+                                _stringBuilder[n] = '⦼';
+                            else
+                                _stringBuilder.Append(c);
                         }
                         else
                             _stringBuilder.Append(c);
