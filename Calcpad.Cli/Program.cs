@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Xml.Serialization;
 
 namespace Calcpad.Cli
@@ -33,7 +34,7 @@ namespace Calcpad.Cli
             Console.WindowWidth = 85;
             List<Line> Lines = new();
             var Title = TryOpenOnStartup(Lines);
-            Header(Title);
+            Header(Title, settings.Math.Degrees);
             if (Title.Length > 0)
                 Render(mp, Lines, true);
 
@@ -46,7 +47,7 @@ namespace Calcpad.Cli
                 var s = Console.ReadLine();
                 if (s.Length == 0)
                 {
-                    Header(Title);
+                    Header(Title, settings.Math.Degrees);
                     Render(mp, Lines, true);
                 }
                 else
@@ -58,21 +59,22 @@ namespace Calcpad.Cli
                             Title = string.Empty;
                             mp = new(settings.Math);
                             Lines.Clear();
-                            Header(Title);
+                            Header(Title, settings.Math.Degrees);
                             break;
                         case "OPEN":
+                            Console.SetCursorPosition(0, Console.CursorTop - 1);
                             var t = Open(Title, LineNo, Lines);
-                            if (t is not null)
+                            if (!string.IsNullOrEmpty(t))
                             {
                                 Title = t;
                                 mp = new(settings.Math);
-                                Header(Title);
+                                Header(Title, settings.Math.Degrees);
                                 Render(mp, Lines, true);
                             }
                             break;
                         case "SAVE":
                             Title = Save(Title, LineNo, Lines);
-                            Header(Title);
+                            Header(Title, settings.Math.Degrees);
                             Render(mp, Lines, false);
                             break;
                         case "EXIT":
@@ -80,7 +82,7 @@ namespace Calcpad.Cli
                         case "CLS":
                         case "DEL":
                         case "RESET":
-                            Header(Title);
+                            Header(Title, settings.Math.Degrees);
                             if (sCaps == "DEL" && Lines.Count > 0)
                                 Lines.RemoveAt(Lines.Count - 1);
 
@@ -95,6 +97,9 @@ namespace Calcpad.Cli
                         case "RAD":
                         case "GRA":
                             settings.Math.Degrees = sCaps == "DEG" ? 0: sCaps == "RAD" ? 1 : 2;
+                            mp.Degrees = settings.Math.Degrees;
+                            Header(Title, settings.Math.Degrees);
+                            Render(mp, Lines, true);
                             break;
                         case "SETTINGS":
                         case "OPTIONS":
@@ -102,7 +107,7 @@ namespace Calcpad.Cli
                             {
                                 settings = GetSettings();
                                 mp = new(settings.Math);
-                                Header(Title);
+                                Header(Title, settings.Math.Degrees);
                                 Render(mp, Lines, true);
                             }
                             break;
@@ -271,14 +276,40 @@ namespace Calcpad.Cli
             return string.Empty;
         }
 
-        static void Header(string Title)
+        static void Header(string Title, int drg)
         {
             Console.Clear();
             var n = Math.Min(Console.WindowWidth, Console.BufferWidth);
+            var ver = Assembly.GetExecutingAssembly().GetName().Version;
             Console.WriteLine(new string('—', n));
-            Console.WriteLine(" Welcome to Calcpad command line interpreter v.5.9.9!");
+            Console.WriteLine($" Welcome to Calcpad command line interpreter v.{ver.Major}.{ver.Minor}.{ver.Revision}!");
             Console.WriteLine(" Copyright: © 2023 by Proektsoft EOOD");
-            Console.WriteLine(" Commands: NEW OPEN SAVE LIST EXIT RESET CLS DEL DEG RAD GRA SETTINGS LICENSE HELP");
+            Console.Write("\r\n Commands: NEW OPEN SAVE LIST EXIT RESET CLS DEL ");
+            switch (drg)
+            {
+                case 0:
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write("DEG ");
+                    Console.ResetColor();
+                    Console.Write("RAD ");
+                    Console.Write("GRA ");
+                    break;
+                case 1:
+                    Console.Write("DEG ");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write("RAD ");
+                    Console.ResetColor();
+                    Console.Write("GRA ");
+                    break;
+                default:
+                    Console.Write("DEG ");
+                    Console.Write("RAD ");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write("GRA ");
+                    Console.ResetColor();
+                    break;
+            }
+            Console.Write("SETTINGS LICENSE HELP\r\n");
             Console.WriteLine(new string('—', n));
             if (Title.Length > 0)
                 Console.WriteLine(" " + Title + ":\n");
@@ -303,8 +334,9 @@ namespace Calcpad.Cli
                                 .Replace(" ", "")
                                 .Replace("==", "≡")
                                 .Replace("!=", "≠")
-                                .Replace(">=", "≤")
-                                .Replace("<=", "≥");
+                                .Replace("<=", "≤")
+                                .Replace(">=", "≥")
+                                .Replace("%%", "⦼");
                             mp.Parse(s);
                             mp.Calculate();
                             L.Output += mp.ToString().Trim() + ' ';
@@ -364,7 +396,7 @@ namespace Calcpad.Cli
             var FilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\cpc";
             if (!Directory.Exists(FilePath))
             {
-                WriteError("There are no saved problems.", false);
+                WriteError(Prompt + "OPEN There are no saved problems.\r\n", false);
                 return Title;
             }
             Console.SetCursorPosition(0, Console.CursorTop - 1);

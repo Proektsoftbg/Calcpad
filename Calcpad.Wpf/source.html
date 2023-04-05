@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Calcpad</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<script>
+	function delayedLoad(path) { setTimeout(function() {document.write(path);}, 500);}
+	function getVerticalPosition(line) {return document.querySelector("[data-text='" + line + "']").getBoundingClientRect().top;}
+</script>
+<style>
+body {font-size:12pt; font-family:Calibri, sans-serif; }
+h1, h2, h3, h4, h5, h6 {font-family:Arial, Helvetica, sans-serif;}
+p, li {margin:0; padding:0; line-height:14pt;} 
+.line-num  {color:darkcyan; display: inline-block; width: 25pt; height:15pt; border-right: solid 1px #ccc; margin-right: 6pt; padding-right: 6pt; text-align: right; font-size:10pt;}
+.line-text {padding-left: 42pt; text-indent: -42pt;}
+a          {text-decoration: none;}
+a:hover    {text-decoration: underline; background-color: #e9f6ff;}
+.code      {font-size:10.5pt; font-family:Consolas;}
+.const     {color:black;}
+.units     {color:darkcyan;}
+.operator  {color:goldenrod;}
+.variable  {color:blue;}
+.function  {color:black; font-weight:bold;}
+.keyword   {color:magenta;}
+.command   {color:magenta;}
+.bracket   {color:deeppink;}
+.comment   {color:forestgreen;}
+.tag       {color:darkorchid;}
+.input     {color:crimson;}
+.include,  {color:indigo;}
+.macro,    {color:darkmagenta;}
+.error     {color:crimson; background-color:#ffe2e0;}
+</style>
+</head>
+<body>

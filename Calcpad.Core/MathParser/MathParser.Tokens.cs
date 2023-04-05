@@ -2,6 +2,14 @@
 {
     public partial class MathParser
     {
+        private enum ValueTypes
+        {
+            None,
+            Number,
+            Unit,
+            NumberWithUnit
+        }
+
         private enum TokenTypes
         {
             None,
@@ -71,9 +79,11 @@
         private class RenderToken : Token
         {
 
-            internal byte ValType;  //0 - none, 1 - number, 2 - unit, 3 - number + unit
+            internal ValueTypes ValType;  //0 - none, 1 - number, 2 - unit, 3 - number + unit
             internal int Level;
-            internal int Offset; //-1 - down, 0 - none, 1 - up
+            internal int Offset;          //-1 - down, 0 - none, 1 - up
+            internal int MinOffset = 0;
+            internal int MaxOffset = 0; 
             internal int ParameterCount;
             internal bool IsCompositeValue;
 
@@ -98,11 +108,11 @@
                         v = vr.Variable.Value;
 
                     if (v.IsUnit)
-                        ValType = 2;
+                        ValType = ValueTypes.Unit;
                     else if (v.Units is null && t.Type != TokenTypes.Variable)
-                        ValType = 1;
+                        ValType = ValueTypes.Number;
                     else
-                        ValType = 3;
+                        ValType = ValueTypes.NumberWithUnit;
                 }
             }
         }

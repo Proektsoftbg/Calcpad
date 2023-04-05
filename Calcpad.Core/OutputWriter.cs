@@ -170,6 +170,10 @@ namespace Calcpad.Core
             '≠' => " ≠ ",
             '≤' => " ≤ ",
             '≥' => " ≥ ",
+            '⦼' => " mod ",
+            '∧' => " and ",
+            '∨' => " or ",
+            '⊕' => " xor ",
             '*' => "·",
             ';' => "; ",
             _ => c.ToString()
@@ -339,18 +343,18 @@ namespace Calcpad.Core
     internal class HtmlWriter : OutputWriter
     {
         private static readonly string[] SqrPad = {
-                "&ensp;",
-                "&emsp;",
-                "&emsp;&ensp;",
-                "&emsp;&ensp;&nbsp;"
+                "&ensp;&hairsp;",
+                "&ensp;&ensp;",
+                "&emsp;&thinsp;",
+                "&emsp;&ensp;"
             };
-
+            
         private static string RootPad(int level, string n) => level switch
             {
-                0 => $"<sup>{n}</sup>&nbsp;",
-                1 => $"&nbsp;<small>{n}</small>&ensp;",
-                2 => $"&ensp;<small>{n}</small>&ensp;&nbsp;",
-                _ => $"&ensp;<font size=\"+1\"><sub>{n}</sub></font>&emsp;"
+                0 => $"&hairsp;<sup class=\"nth\">{n}</sup>&hairsp;",
+                1 => $"&nbsp;<small class=\"nth\">{n}</small>&nbsp;&hairsp;",
+                2 => $"&hairsp;&nbsp;<small class=\"nth\">{n}</small>&nbsp;&thinsp;",
+                _ => $"&ensp;<small class=\"nth\">{n}</small>&ensp;"
             };
 
         internal override string UnitString(Unit units) => units.Html;
@@ -419,15 +423,15 @@ namespace Calcpad.Core
         {
             if (n != "2")
             {
-                if (formatEquations && level > 0)
+                if (level > 0)
                     return $"{RootPad(level, n)}<span class=\"o{level}\"><span class=\"r{level}\"></span>{s}</span>";
 
-                return $"{RootPad(0, n)}<span class=\"o0\"><span class=\"r\">√</span>{s}</span>";
+                return $"{RootPad(0, n)}<span class=\"o0\"><span class=\"r\">√</span>&hairsp;{s}</span>";
             }
-            if (formatEquations && level > 0)
+            if (level > 0)
                 return $"{SqrPad[level]}<span class=\"o{level}\"><span class=\"r{level}\"></span>{s}</span>";
 
-            return $"{SqrPad[0]}<span class=\"o0\"><span class=\"r\">√</span>{s}</span>";
+            return $"{SqrPad[0]}<span class=\"o0\"><span class=\"r\">√</span>&hairsp;{s}</span>";
         }
 
         internal override string FormatOperator(char c) => c switch
@@ -602,6 +606,10 @@ namespace Calcpad.Core
             '≤' => Run("&le;"),
             '≥' => Run("&ge;"),
             '*' => Run("·"),
+            '⦼' => Run(" mod "),
+            '∧' => Run(" and "),
+            '∨' => Run(" or "),
+            '⊕' => Run(" xor "),
             Calculator.NegChar => Run("-"),
             _ => Run(c.ToString())
         };

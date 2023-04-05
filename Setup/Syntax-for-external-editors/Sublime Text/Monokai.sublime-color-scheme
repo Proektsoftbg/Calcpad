@@ -24,7 +24,7 @@
         },		
 		{
             "name": "Calcpad Operator",
-            "scope": "keyword.operator.arithmetic.calcpad | keyword.operator.comparison.calcpad | keyword.operator.assignment.calcpad | punctuation.separator.calcpad",
+            "scope": "keyword.operator.arithmetic.calcpad | keyword.operator.comparison.calcpad |  keyword.operator.logical.calcpad |keyword.operator.assignment.calcpad | punctuation.separator.calcpad",
             "foreground": "var(yellow6)"
         },
         {

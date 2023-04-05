@@ -127,7 +127,7 @@ namespace Calcpad.Core
             sr.WriteLine("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
             sr.WriteLine(_svgTag);
             sr.WriteLine("<style type=\"text/css\">");
-            sr.WriteLine(".PlotGrid      {fill: none; stroke-width:1; stroke: Black; stroke-opacity: 0.2;}");
+            sr.WriteLine(".PlotGrid      {fill: none; stroke-width:1; stroke: Black; stroke-opacity: 0.15;}");
             sr.WriteLine(".PlotAxis      {fill: none; stroke-width:1; stroke: Black;}");
             sr.WriteLine(".PlotFunction1 {fill: none; stroke-width:2; stroke: Red;}");
             sr.WriteLine(".PlotFunction2 {fill: none; stroke-width:2; stroke: Green;}");

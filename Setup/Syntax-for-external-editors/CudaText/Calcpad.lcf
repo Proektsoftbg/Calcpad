@@ -107,7 +107,7 @@ object SyntAnal6: TLibSyntAnalyzer
       DisplayName = 'Operator'
       StyleName = 'Operator'
       TokenType = 7
-      Expression = '[\^/'#1043#183'\\%*\-+!\x{2260}\x{2261}<>\x{2264}\x{2265}=]'
+      Expression = '[\+\-\*/\\'#247'%\^'#8801#8800'<>'#8804#8805#8743#8744#8853'=!]'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -115,7 +115,7 @@ object SyntAnal6: TLibSyntAnalyzer
       DisplayName = 'Separator'
       StyleName = 'Separator'
       TokenType = 8
-      Expression = '[;&@:|]'
+      Expression = '[;&@:\|]'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -156,9 +156,10 @@ object SyntAnal6: TLibSyntAnalyzer
       StyleName = 'Keyword'
       TokenType = 3
       Expression = 
-        '\#([Rr]epeat|[Ll]oop|[Bb]reak|[Cc]ontinue|[Ss]how|[Hh]ide|[Pp]re|[Pp]ost|[Vv]al|[Ee]q' +
-        'u|[Rr]ound|[Rr]ad|[Dd]eg|[Ii]f|[Ee]lse\s[Ii]f|[Ee]lse|[Ee]nd\s[Ii]f|[Ii]n' +
-        'clude|[Ll]ocal|[Gg]lobal|[Dd]ef|[Ee]nd\s[Dd]ef|[Pp]ause|[Ii]nput)\b'
+        '\#([Rr]epeat|[Ll]oop|[Bb]reak|[Cc]ontinue|[Ss]how|[Hh]ide|[Pp]re' +
+        '|[Pp]ost|[Vv]al|[Ee]qu|[Rr]ound|[Rr]ad|[Dd]eg|[Ii]f|[Ee]lse\s[Ii' +
+        ']f|[Ee]lse|[Ee]nd\s[Ii]f|[Ii]nclude|[Ll]ocal|[Gg]lobal|[Dd]ef|[E' +
+        'e]nd\s[Dd]ef|[Pp]ause|[Ii]nput)\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -167,8 +168,8 @@ object SyntAnal6: TLibSyntAnalyzer
       StyleName = 'Keyword'
       TokenType = 3
       Expression = 
-        '\$([Rr]oot|[Ff]ind|[Ii]nf|[Ss]up|[Aa]rea|[Ii]ntegral|[Ss]lope|[' +
-        'Ss]um|[Pp]roduct|[Rr]epeat|[Mm]ap|[Pp]lot)\b'
+        '\$([Rr]oot|[Ff]ind|[Ii]nf|[Ss]up|[Aa]rea|[Ii]ntegral|[Ss]lope|[S' +
+        's]um|[Pp]roduct|[Rr]epeat|[Mm]ap|[Pp]lot)\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -177,11 +178,11 @@ object SyntAnal6: TLibSyntAnalyzer
       StyleName = 'Function'
       TokenType = 1
       Expression = 
-        '\b(sign|abs|sin|cos|tan|csc|sec|cot|sinh|cosh|tanh|csch|sech|coth|asi' +
-        'n|acos|atan|acsc|asec|acot|asinh|acosh|atanh|acsch|asech|acoth|l' +
-        'n|log|log_2|exp|sqr|sqrt|cbrt|round|floor|ceiling|trunc|re|im|phase|' +
-        'random|root|atan2|min|max|sum|sumsq|srss|average|product|mean|sw' +
-        'itch|take|line|spline|mod|gcd|lcm)\b'
+        '\b(sign|abs|sin|cos|tan|csc|sec|cot|sinh|cosh|tanh|csch|sech|cot' +
+        'h|asin|acos|atan|acsc|asec|acot|asinh|acosh|atanh|acsch|asech|ac' +
+        'oth|ln|log|log_2|exp|sqr|sqrt|cbrt|round|floor|ceiling|trunc|re|' +
+        'im|phase|random|root|atan2|min|max|sum|sumsq|srss|average|produc' +
+        't|mean|switch|take|line|spline|mod|gcd|lcm|not|and|or|xor)\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -219,13 +220,10 @@ object SyntAnal6: TLibSyntAnalyzer
         item
           TagList.Strings = (
             '#repeat')
-          TokenTypes = 128
           IgnoreCase = True
         end>
       BlockEnd = '#loop'
-      DisplayInTree = False
       HighlightPos = cpAny
-      CancelNextRules = True
       DrawStaple = True
       CollapseFmt = '%sz0'
       IgnoreAsParent = False
@@ -237,7 +235,6 @@ object SyntAnal6: TLibSyntAnalyzer
         item
           TagList.Strings = (
             '#loop')
-          TokenTypes = 128
           IgnoreCase = True
         end>
       HighlightPos = cpAny
@@ -249,25 +246,46 @@ object SyntAnal6: TLibSyntAnalyzer
         item
           TagList.Strings = (
             '#if')
-          TokenTypes = 128
           IgnoreCase = True
         end>
-      BlockEnd = '#if end'
-      DisplayInTree = False
+      BlockEnd = '#end if'
       HighlightPos = cpAny
       DrawStaple = True
       CollapseFmt = '%sz0'
       IgnoreAsParent = False
     end
     item
-      DisplayName = '#if end'
+      DisplayName = '#end if'
       BlockType = btRangeEnd
       ConditionList = <
         item
           TagList.Strings = (
             '#end if')
-          TokenTypes = 128
           IgnoreCase = True
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = '#def'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '#def')
+        end>
+      BlockEnd = '#end def'
+      HighlightPos = cpAny
+      DrawStaple = True
+      CollapseFmt = '%sz0'
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = '#end def'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '#end def')
         end>
       HighlightPos = cpAny
       IgnoreAsParent = False
