@@ -192,7 +192,7 @@ A variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;$Sum { f(k) @ k = a : b } - iterative sum;  
 &emsp;&emsp;$Product { f(k) @ k = a : b } - iterative product;  
 &emsp;&emsp;$Repeat { f(k) @ k = a : b } - general inline iterative procedure;  
-&emsp;&emsp;Precision - relative precision for numerical methods \[10-2; 10-16\] (default is 10-12)  
+&emsp;&emsp;Precision - relative precision for numerical methods \[10<sup>-2</sup>; 10<sup>-16</sup>\] (default is 10<sup>-12</sup>)   
 * Program flow control:  
 &emsp;&emsp;Simple:  
 &emsp;&emsp;&emsp;&emsp;#if *condition*  
