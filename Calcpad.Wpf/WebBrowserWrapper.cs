@@ -159,7 +159,16 @@ namespace Calcpad.Wpf
 
         internal string ExportOpenXml(string path)
         {
-            var html = _wb.InvokeScript("eval", "document.body.outerHTML").ToString();
+            string html = null;
+            try
+            {
+                html = _wb.InvokeScript("eval", "getHtmlWithInput()").ToString();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+            }
+            html ??= _wb.InvokeScript("eval", "document.body.outerHTML").ToString();
             html = GetHtmlData(html);
             return new OpenXmlWriter().Convert(html, path);
         }

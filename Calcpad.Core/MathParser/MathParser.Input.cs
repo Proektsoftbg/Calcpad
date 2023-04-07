@@ -121,7 +121,7 @@ namespace Calcpad.Core
 
                     if (tt == TokenTypes.Error)
 #if BG
-                            throw new MathParserException($"Невалиден символ '{c}'.");
+                        throw new MathParserException($"Невалиден символ '{c}'.");
 #else
                         throw new MathParserException($"Invalid symbol '{c}'.");
 #endif
