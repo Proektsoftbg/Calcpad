@@ -163,17 +163,17 @@ namespace Calcpad.Core
                     }
                 }
                 ApplyUnits(_sb, calculate);
-                if (line == lineCount)
+                if (line == lineCount && (calculate || !IsPaused))
                 {
                     if (_condition.Id > 0)
 #if BG
-                    _sb.Append(ErrHtml($"Грешка: Условният \"#if\" блок не е затворен. Липсва \"#end if\"."));
+                        _sb.Append(ErrHtml($"Грешка: Условният \"#if\" блок не е затворен. Липсва \"#end if\"."));
 #else
                         _sb.Append(ErrHtml($"Error: \"#if\" block not closed. Missing \"#end if\"."));
 #endif
                     if (_loops.Any())
 #if BG
-                    _sb.Append(ErrHtml($"Грешка: Блокът за цикъл \"#repeat\" не е затворен. Липсва \"#loop\"."));
+                        _sb.Append(ErrHtml($"Грешка: Блокът за цикъл \"#repeat\" не е затворен. Липсва \"#loop\"."));
 #else
                         _sb.Append(ErrHtml($"<p class=\"err\">Error: \"#repeat\" block not closed. Missing \"#loop\"."));
 #endif
@@ -234,7 +234,7 @@ namespace Calcpad.Core
                     else if (keyword == Keyword.Input)
                         return ParseKeywordInput();
                     else if (keyword == Keyword.Pause)
-                        return ParseKeywordPause();
+                        return ParseKeywordPause(htmlId);
                     else if (keyword == Keyword.Val)
                         _isVal = 1;
                     else if (keyword == Keyword.Equ)
@@ -282,10 +282,10 @@ namespace Calcpad.Core
                     }
                     return KeywordResult.Break;
                 }
-                return KeywordResult.None;
+                return calculate ? KeywordResult.Continue : KeywordResult.Break;
             }
 
-            KeywordResult ParseKeywordPause()
+            KeywordResult ParseKeywordPause(string htmlId)
             {
                 if (_condition.IsSatisfied && (calculate || _startLine > 0))
                 {
@@ -304,7 +304,10 @@ namespace Calcpad.Core
                     _isPausedByUser = false;
                     return KeywordResult.Break;
                 }
-                return KeywordResult.None;
+                if (isVisible && !calculate)
+                    _sb.Append($"<p{htmlId} class=\"cond\">#pause</p>");
+
+                return KeywordResult.Continue;
             }
 
             void ParseKeywordRound(ReadOnlySpan<char> s)
@@ -490,6 +493,12 @@ namespace Calcpad.Core
 
             bool ParseCondition(ReadOnlySpan<char> s, Keyword keyword, string htmlId)
             {
+                if (IsPaused && !calculate)
+                {
+                    _condition.SetCondition(-1);
+                    return keyword == Keyword.None;
+                }
+
                 _condition.SetCondition(keyword - Keyword.If);
                 if (_condition.IsSatisfied && !(_loops.Any() && _loops.Peek().IsBroken) || !calculate)
                 {

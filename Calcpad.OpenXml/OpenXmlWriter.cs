@@ -6,7 +6,9 @@ using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using M = DocumentFormat.OpenXml.Math;
 
@@ -154,7 +156,7 @@ namespace Calcpad.OpenXml
                 }
             }
             return parentElement;
-            static bool IsRunParent(OpenXmlElement e) => !(e is M.Paragraph || e is Text || e is Break || e is Hyperlink);
+            static bool IsRunParent(OpenXmlElement e) => !(e is M.Paragraph || e is Text || e is Break || e is Hyperlink || e is Run);
         }
 
         private static void CopyRunProperties(OpenXmlElement source, OpenXmlElement dest)
@@ -296,6 +298,9 @@ namespace Calcpad.OpenXml
             if (domNode.NodeType == HtmlNodeType.Text)
                 return AddText(domNode);
 
+            if (IsHidden(domNode))
+                return null;
+
             switch (domNode.Name.ToLowerInvariant())
             {
                 case "#document":
@@ -357,9 +362,38 @@ namespace Calcpad.OpenXml
                     }
                 case "span":
                     return AddSpan(domNode);
+                case "input":
+                    var type = domNode.GetAttributeValue("type", "text");
+                    if (type=="radio")
+                    {
+                        var chk = domNode.GetAttributeValue("checked", null);
+                        return new Run(new Text(chk is null ? " ◯ " : " ⦿ ")); 
+                    }
+                    else if (type == "checkbox")
+                    {
+                        var chk = domNode.GetAttributeValue("checked", null);
+                        return new Run(new Text(chk is null ? " ☐ " : " ☑ "));
+                    }
+                    return new Run(new Text(domNode.GetAttributeValue("value", "0")));
+                case "select":
+                case "label":
+                    return new Run();
+                case "option":
+                    var sel = domNode.GetAttributeValue("selected", null);
+                    return sel is null ? null : new Run();
                 default:
                     return AddRun(domNode);
             }
+        }
+
+        private static readonly Regex IsHiddenRegex = new("display:\\s*none|visibility:\\s*hidden", RegexOptions.Compiled);
+        private static bool IsHidden(HtmlNode node)
+        {
+            var style = node.GetAttributeValue("style", null);
+            if (style is null) 
+                return false;
+
+            return IsHiddenRegex.Matches(style).Any();
         }
 
         private static double GetImgSize(HtmlNode node, string direction)
