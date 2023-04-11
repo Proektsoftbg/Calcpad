@@ -125,10 +125,22 @@ namespace Calcpad.OpenXml
         {
             get
             {
-                using var webClient = new HttpClient();
-                using var stream = webClient.GetStreamAsync(src).Result;
-                var img = Image.FromStream(stream);
-                return new Tuple<int, int>(img.Width, img.Height);
+                if (Path.Exists(src))
+                {
+                    using var img = Image.FromFile(src);
+                    return new Tuple<int, int>(img.Width, img.Height);
+                }
+                else
+                {
+                    using var webClient = new HttpClient();
+                    using var stream = webClient.GetStreamAsync(src).Result;
+                    using var img = Image.FromStream(stream);
+                    return new Tuple<int, int>(img.Width, img.Height);
+                }
+                
+                
+                
+                
             }
         }
     }
