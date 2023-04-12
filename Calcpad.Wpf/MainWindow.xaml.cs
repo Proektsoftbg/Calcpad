@@ -649,7 +649,7 @@ You can find your unsaved data in
                     ShowHelp();
             }
         }
-
+        
         private void Command_New(object senter, ExecutedRoutedEventArgs e)
         {
             var r = PromptSave();
@@ -666,8 +666,8 @@ You can find your unsaved data in
             if (IsWebForm)
             {
                 _mustPromptUnlock = false;
-                SetButton(WebFormButton, false);
-                RunWebForm();
+                IsWebForm = false;
+                RichTextBox.Focus();
                 WebFormButton.Visibility = Visibility.Visible;
                 MenuWebForm.Visibility = Visibility.Visible;
             }

@@ -125,22 +125,10 @@ namespace Calcpad.OpenXml
         {
             get
             {
-                if (Path.Exists(src))
-                {
-                    using var img = Image.FromFile(src);
-                    return new Tuple<int, int>(img.Width, img.Height);
-                }
-                else
-                {
-                    using var webClient = new HttpClient();
-                    using var stream = webClient.GetStreamAsync(src).Result;
-                    using var img = Image.FromStream(stream);
-                    return new Tuple<int, int>(img.Width, img.Height);
-                }
-                
-                
-                
-                
+                using var webClient = new HttpClient();
+                using var stream = webClient.GetStreamAsync(src).Result;
+                using var img = Image.FromStream(stream);
+                return new Tuple<int, int>(img.Width, img.Height);
             }
         }
     }
@@ -175,7 +163,7 @@ namespace Calcpad.OpenXml
         {
             get
             {
-                var img = Image.FromFile(src);
+                using var img = Image.FromFile(src);
                 return new Tuple<int, int>(img.Width, img.Height);
             }
         }

@@ -186,7 +186,7 @@ namespace Calcpad.OpenXml
 
         private void AppendChild(OpenXmlElement parentElement, OpenXmlElement childElement)
         {
-            if (parentElement is Table && !(childElement is TableRow || childElement is CustomXmlBlock b && b.Element == "tbody") ||
+            if (parentElement is Table && !(childElement is TableRow || childElement is CustomXmlBlock b && (b.Element == "tbody" || b.Element == "thead")) ||
                 parentElement is TableRow && childElement is not TableCell)
                 return;
 
