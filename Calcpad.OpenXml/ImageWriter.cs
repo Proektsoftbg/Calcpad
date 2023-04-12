@@ -28,6 +28,8 @@ namespace Calcpad.OpenXml
                     imageProcessor = new FileImageProcessor(src);
                     slash = '\\';
                 }
+                else if (System.IO.Path.Exists(src))
+                    imageProcessor = new FileImageProcessor(src);
                 else
                     imageProcessor = new UrlImageProcessor(src);
 

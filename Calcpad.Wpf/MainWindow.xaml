@@ -4,7 +4,7 @@
     xmlns:av="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="av"
     x:Class="Calcpad.Wpf.MainWindow"
     Closing="Window_Closing" 
-    Title=" Calcpad 6.0.1" 
+    Title=" Calcpad 6.0.2" 
     Height="800" 
     Width="1200"
     WindowStartupLocation="CenterScreen"
