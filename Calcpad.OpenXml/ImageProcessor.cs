@@ -16,6 +16,7 @@ namespace Calcpad.OpenXml
         {
             src = imageSrc;
         }
+
         protected static string GetImageDataType(string data)
         {
             var start = data.IndexOf('/', StringComparison.Ordinal) + 1;
@@ -69,19 +70,19 @@ namespace Calcpad.OpenXml
     internal class Base64ImageProcessor : ImageProcessor
     {
         readonly byte[] imageData;
+
         public Base64ImageProcessor(string imageSrc) : base(imageSrc)
         {
             imageData = GetImageData(imageSrc);
         }
+
         public override ImagePart GetImagePart(MainDocumentPart mainPart)
         {
             var ext = GetImageDataType(src);
             var imageType = GetImagePartType(ext);
             var imagePart = mainPart.AddImagePart(imageType);
-            using (var stream = new MemoryStream(imageData))
-            {
-                imagePart.FeedData(stream);
-            }
+            using var stream = new MemoryStream(imageData);
+            imagePart.FeedData(stream);
             return imagePart;
         }
 
@@ -94,17 +95,16 @@ namespace Calcpad.OpenXml
                 return new Tuple<int, int>(img.Width, img.Height);
             }
         }
-
     }
 
     internal class UrlImageProcessor : ImageProcessor
     {
         public UrlImageProcessor(string imageSrc) : base(imageSrc) { }
+
         public override ImagePart GetImagePart(MainDocumentPart mainPart)
         {
             var ext = src[(src.LastIndexOf('.') + 1)..];
             var imageType = GetImagePartType(ext);
-
             var imagePart = mainPart.AddImagePart(imageType);
             var uri = new Uri(src);
             if (uri.IsFile)
@@ -113,11 +113,11 @@ namespace Calcpad.OpenXml
                 imagePart.FeedData(stream);
             }
             else
-                using (var webClient = new HttpClient())
-                {
-                    using var stream = webClient.GetStreamAsync(src).Result;
-                    imagePart.FeedData(stream);
-                }
+            {
+                using var webClient = new HttpClient();
+                using var stream = webClient.GetStreamAsync(src).Result;
+                imagePart.FeedData(stream);
+            }
             return imagePart;
         }
 
@@ -125,10 +125,19 @@ namespace Calcpad.OpenXml
         {
             get
             {
-                using var webClient = new HttpClient();
-                using var stream = webClient.GetStreamAsync(src).Result;
-                using var img = Image.FromStream(stream);
-                return new Tuple<int, int>(img.Width, img.Height);
+                var uri = new Uri(src);
+                if (uri.IsFile)
+                {
+                    using var img = Image.FromFile(src);
+                    return new Tuple<int, int>(img.Width, img.Height);
+                }
+                else
+                {
+                    using var webClient = new HttpClient();
+                    using var stream = webClient.GetStreamAsync(src).Result;
+                    using var img = Image.FromStream(stream);
+                    return new Tuple<int, int>(img.Width, img.Height);
+                }
             }
         }
     }
@@ -152,10 +161,8 @@ namespace Calcpad.OpenXml
             var ext = fileInfo.Extension[1..];
             var imageType = GetImagePartType(ext);
             var imagePart = mainPart.AddImagePart(imageType);
-            using (var stream = new FileStream(src, FileMode.Open))
-            {
-                imagePart.FeedData(stream);
-            }
+            using var stream = new FileStream(src, FileMode.Open, FileAccess.Read);
+            imagePart.FeedData(stream);
             return imagePart;
         }
 
