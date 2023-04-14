@@ -1096,7 +1096,11 @@ You can find your unsaved data in
                 RestoreUndoData();
         }
 
-        private void Command_Print(object sender, ExecutedRoutedEventArgs e) => _wbWarper.PrintPreview();
+        private void Command_Print(object sender, ExecutedRoutedEventArgs e)
+        { 
+            if (!_isParsing)
+                _wbWarper.PrintPreview(); 
+        }
 
         private void Command_Find(object sender, ExecutedRoutedEventArgs e)
         {
@@ -1255,8 +1259,7 @@ You can find your unsaved data in
                     _isParsing = true;
                     WebFormButton.IsEnabled = false;
                     MenuWebForm.IsEnabled = false;
-                    CalcButton.IsEnabled = false;
-                    MenuCalculate.IsEnabled = false;
+                    FreezeOutputButtons(true);
                     try
                     {
                         WebBrowser.InvokeScript($"delayedLoad", _htmlParsing);
@@ -1276,8 +1279,7 @@ You can find your unsaved data in
                         MenuWebForm.IsEnabled = true;
                         WebFormButton.IsEnabled = true;
                     }
-                    CalcButton.IsEnabled = true;
-                    MenuCalculate.IsEnabled = true;
+                    FreezeOutputButtons(false);
                     IsCalculated = !_parser.IsPaused;
                 }
                 htmlResult = HtmlApplyWorksheet(_parser.HtmlResult);
@@ -1301,6 +1303,18 @@ You can find your unsaved data in
 #endif
             if (_highlighter.Defined.HasMacros && string.IsNullOrEmpty(_htmlUnwarpedCode))
                 _htmlUnwarpedCode = CodeToHtml(outputText, hasErrors);
+        }
+
+        private void FreezeOutputButtons(bool freeze)
+        {
+            var isEnabled = !freeze;
+            MenuOutput.IsEnabled = isEnabled;
+            CalcButton.IsEnabled = isEnabled;
+            PdfButton.IsEnabled = isEnabled;
+            WordButton.IsEnabled = isEnabled;
+            CopyOutputButton.IsEnabled = isEnabled;
+            SaveOutputButton.IsEnabled = isEnabled;
+            PrintButton.IsEnabled = isEnabled;
         }
 
         private static string FixHref(in string text)
@@ -1676,10 +1690,15 @@ You can find your unsaved data in
             }
         }
 
-        private void CopyOutputButton_Click(object sender, RoutedEventArgs e) => _wbWarper.ClipboardCopy();
+        private void CopyOutputButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!_isParsing)
+                _wbWarper.ClipboardCopy();
+        }
 
         private void WordButton_Click(object sender, RoutedEventArgs e)
         {
+            if (_isParsing) return;
             var isDoc = (Professional.IsChecked ?? false) && (IsCalculated || IsWebForm);
             var fileExt = isDoc ? "docx" : "html";
             string fileName;
@@ -2085,7 +2104,11 @@ You can find your unsaved data in
             ClearOutput();
         }
 
-        private void SaveOutputButton_Click(object sender, RoutedEventArgs e) => HtmlFileSave();
+        private void SaveOutputButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!_isParsing) 
+                HtmlFileSave();
+        }
 
         private void TryOpenOnStartup()
         {
@@ -3220,6 +3243,7 @@ You can find your unsaved data in
 
         private void PdfButton_Click(object sender, RoutedEventArgs e)
         {
+            if (_isParsing ) return;    
             var dlg = new SaveFileDialog
             {
                 DefaultExt = ".pdf",

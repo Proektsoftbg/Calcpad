@@ -905,13 +905,13 @@
                     <MenuItem Click="Button_Click" Tag="#gra"  Header="#gra"  ToolTip="Set angle measurement in grades"/>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="Output">
+            <MenuItem x:Name="MenuOutput" Header="Output">
                 <MenuItem x:Name="MenuWebForm" Command="{StaticResource WebFormCommand}" Header="Input Form" InputGestureText="F4"/>
                 <MenuItem x:Name="MenuCalculate" Command="{StaticResource CalculateCommand}" Header="Calculate" InputGestureText="F5"/>
                 <Separator/>
                 <MenuItem Click="SaveOutputButton_Click" Header="Save"/>
-                <MenuItem Command="ApplicationCommands.Print" Header="Print"/>
                 <MenuItem Click="CopyOutputButton_Click" Header="Copy"/>
+                <MenuItem Command="ApplicationCommands.Print" Header="Print"/>
                 <Separator/>
                 <MenuItem Click="WordButton_Click" Header="Open With MS Word"/>
                 <MenuItem Click="PdfButton_Click" Header="Save as PDF File"/>
