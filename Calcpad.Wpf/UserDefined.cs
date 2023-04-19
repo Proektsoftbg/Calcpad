@@ -10,6 +10,7 @@ namespace Calcpad.Wpf
     {
         internal static Func<string, Queue<string>, string> Include;
         internal readonly Dictionary<string, int> Variables = new(StringComparer.Ordinal);
+        internal readonly Dictionary<string, int> Units = new(StringComparer.Ordinal);
         internal readonly Dictionary<string, int> Functions = new(StringComparer.Ordinal);
         internal readonly Dictionary<string, int> Macros = new(StringComparer.Ordinal);
         internal readonly Dictionary<string, List<int>> MacroParameters = new(StringComparer.Ordinal);
@@ -21,10 +22,10 @@ namespace Calcpad.Wpf
         private bool _hasIncludes;
         private string _macroName;
 
-
         internal void Clear(bool IsComplex)
         {
             Variables.Clear();
+            Units.Clear();
             Functions.Clear();
             Macros.Clear();
             MacroParameters.Clear();
@@ -81,7 +82,7 @@ namespace Calcpad.Wpf
                 }
             }
             else if (_macroName is null)
-                GetVariablesAndFunctions(lineContent, lineNumber);
+                GetVariablesUnitsAndFunctions(lineContent, lineNumber);
             else
                 _macroBuilder.AppendLine(lineContent.ToString());
         }
@@ -103,7 +104,7 @@ namespace Calcpad.Wpf
             return s[8..n].Trim().ToString();
         }
 
-        private void GetVariablesAndFunctions(ReadOnlySpan<char> lineContent, int lineNumber)
+        private void GetVariablesUnitsAndFunctions(ReadOnlySpan<char> lineContent, int lineNumber)
         {
             var commentEnumerator = lineContent.EnumerateComments();
             foreach (var item in commentEnumerator)
@@ -119,7 +120,7 @@ namespace Calcpad.Wpf
                         var c = item[j];
                         if (Validator.IsWhiteSpace(c) && ts.IsEmpty)
                             continue;
-                        else if (Validator.IsLetter(c) || Validator.IsDigit(c))
+                        else if (Validator.IsVarChar(c))
                         {
                             if (isDone)
                             {
@@ -137,10 +138,13 @@ namespace Calcpad.Wpf
                         {
                             if (!ts.IsEmpty)
                             {
+                                var s = ts.Cut();
                                 if (isFunction)
-                                    Functions.TryAdd(ts.Cut().ToString(), lineNumber);
-                                else
-                                    Variables.TryAdd(ts.Cut().ToString(), lineNumber);
+                                    Functions.TryAdd(s.ToString(), lineNumber);
+                                else if (ts.StartsWith('.'))
+                                    Units.TryAdd(s[1..].ToString(), lineNumber);
+                                else if (!Validator.IsUnitStart(s[0]))
+                                    Variables.TryAdd(s.ToString(), lineNumber);
                             }
                             break;
                         }
@@ -155,7 +159,7 @@ namespace Calcpad.Wpf
                                 {
                                     var s1 = s[i..];
                                     if (MacroContents.TryGetValue(s1.ToString(), out var contents))
-                                        GetVariablesAndFunctions(contents, lineNumber);
+                                        GetVariablesUnitsAndFunctions(contents, lineNumber);
                                 }
                             }
                         }
@@ -194,7 +198,7 @@ namespace Calcpad.Wpf
                             var c = item[j];
                             if (Validator.IsWhiteSpace(c) && ts.IsEmpty)
                                 continue;
-                            else if (Validator.IsLetter(c) || Validator.IsDigit(c))
+                            else if (Validator.IsVarChar(c))
                             {
                                 if (isDone)
                                 {
@@ -333,6 +337,9 @@ namespace Calcpad.Wpf
         internal bool IsVariable(string s, int line) =>
             IsDefined(s, line, Variables, MacroVariables);
 
+        internal bool IsUnit(string s, int line) =>
+            IsDefined(s, line, Units, null);
+
 
         private static bool IsDefined(string s, int line, Dictionary<string, int> items, Dictionary<string, List<int>> macroItems)
         {
@@ -341,7 +348,7 @@ namespace Calcpad.Wpf
                 if (index <= line)
                     return true;
             }
-            if (macroItems.TryGetValue(s, out var bounds))
+            if (macroItems is not null && macroItems.TryGetValue(s, out var bounds))
                 for (int i = 1, count = bounds.Count; i < count; i += 2)
                     if (line >= bounds[i - 1] && line <= bounds[i])
                         return true;

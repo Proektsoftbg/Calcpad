@@ -309,6 +309,10 @@ namespace Calcpad.Wpf
             p.BorderThickness = _thickness;
         }
 
+        private bool IsFunction(string s, int line) => Defined.IsFunction(s, line) || Functions.Contains(s);
+        private bool IsVariable(string s, int line) => LocalVariables.Contains(s) || Defined.IsVariable(s, line);
+        private bool IsUnit(string s, int line) => Defined.IsUnit(s, line) || MathParser.IsUnit(s);
+
         internal void CheckHighlight(Paragraph p, int line)
         {
             if (p is null)
@@ -344,9 +348,7 @@ namespace Calcpad.Wpf
                     GetLocalVariables(r, commandCount > 0);
 
                 var isFunction = r.NextInline is not null && ((Run)r.NextInline).Text == "(";
-                bool IsDefined() => isFunction ?
-                    Defined.IsFunction(s, line) || Functions.Contains(s) :
-                    LocalVariables.Contains(s) || Defined.IsVariable(s, line);
+                bool IsDefined() => isFunction ? IsFunction(s, line) : IsVariable(s, line);
                 switch (t1)
                 {
                     case Types.Error:
@@ -357,24 +359,28 @@ namespace Calcpad.Wpf
                         }
                         else if (IsDefined())
                             t2 = isFunction ? Types.Function : Types.Variable;
+                        else if (IsUnit(s, line))
+                            t2 = Types.Units;
 
                         break;
                     case Types.Variable:
-                        if (!(LocalVariables.Contains(s) || Defined.IsVariable(s, line)))
+                        if (!IsVariable(s, line))
                         {
-                            if (MathParser.IsUnit(s))
+                            if (IsUnit(s, line))
                                 t2 = Types.Units;
                             else
                                 t2 = Types.Error;
                         }
                         break;
                     case Types.Function:
-                        if (!(Defined.IsFunction(s, line) || Functions.Contains(s)))
+                        if (!IsFunction(s, line))
                             t2 = Types.Error;
                         break;
                     case Types.Units:
-                        if (LocalVariables.Contains(s) || Defined.IsVariable(s, line))
+                        if (IsVariable(s, line))
                             t2 = Types.Variable;
+                        else if (!IsUnit(s, line))
+                            t2 = Types.Error;
                         break;
                     case Types.Macro:
                         if (!Defined.IsMacroOrParameter(s, line))
@@ -599,7 +605,7 @@ namespace Calcpad.Wpf
         private bool IsParseError(char c, Types t) =>
                 t == Types.Const && !Validator.IsDigit(c) ||
                 t == Types.Macro && !Validator.IsMacroLetter(c, _builder.Length) ||
-                t == Types.Variable && !Validator.IsLetter(c) && !Validator.IsDigit(c);
+                t == Types.Variable && !Validator.IsVarChar(c);
 
         private void ParseMacroInComment(Types t)
         {
@@ -1016,7 +1022,7 @@ namespace Calcpad.Wpf
         {
             if (t == Types.Function)
             {
-                if (!Functions.Contains(s) && !Defined.IsFunction(s, _state.Line))
+                if (!IsFunction(s, _state.Line))
                 {
 #if BG
                     _state.Message = "Недекларирана функция.";
@@ -1044,9 +1050,9 @@ namespace Calcpad.Wpf
                     s = null;
                     return Types.Error;
                 }
-                if (!LocalVariables.Contains(s) && !Defined.IsVariable(s, _state.Line))
+                if (!IsVariable(s, _state.Line))
                 {
-                    if (MathParser.IsUnit(s))
+                    if (IsUnit(s, _state.Line))
                         return Types.Units;
 #if BG
                     _state.Message = "Недекларирана променлива.";
@@ -1058,7 +1064,7 @@ namespace Calcpad.Wpf
             }
             else if (t == Types.Units)
             {
-                if (!MathParser.IsUnit(s))
+                if (!IsUnit(s, _state.Line))
                 {
 #if BG
                     _state.Message = "Недефинирани мерни единици.";

@@ -94,6 +94,7 @@ input, select {
 	cursor: pointer;
 	box-shadow: #cccccc 0 0 4px;
 }
+sub {font-family: Arial Nova; font-size:70%; padding-left:0.5pt; padding-right:0.5pt;}
 @media screen and (max-width: 960px){
     .menu{display:none};
 }
@@ -393,7 +394,7 @@ input, select {
 <h3 id="TOC_402">Variables</h3>
 <p>A variable is defined by its name and value using expressions like "<var>a</var> = 4". The "<b>=</b>" symbol is the assignment operator. On the left side, only a single variable name is allowed. On the right side, you can have any valid mathematical expression, e.g. "<var>b</var> = <var>a</var> + 4". A variable "lives" from the place of its definition to the end of the program. That is why you cannot use a variable before it is defined. This will raise an error. 
 If you redefine an existing variable with a new value, it will replace the old one and the new value will be used further on.</p>
-<p>Variable names can include small or capital Latin letters "<var>a</var>" - "<var>z</var>", "<var>A</var>" - "<var>Z</var>", Greek letters "<var>&alpha;</var>" - "<var>&omega;</var>", "<var>&Alpha;</var>" - "<var>&Omega;</var>" and digits. Names are case sensitive. For example "<var>a</var>" and "<var>A</var>" are different variables. A name must start with a letter. You can also use "," (comma), "<b>_</b>" (underscore) and other symbols: " <b>′</b> ", " <b>″</b> ", " <b>‴</b> ", " <b>⁗</b> ", " <b>ø</b> ", "<b>Ø</b>", " <b>°</b> ", "<b>∡</b>". The first occurrence of an underscore in a name starts a subscript. For example, "a_1_1" will be formatted as "<var>a</var><sub>1_1</sub>". Variables can store either real or complex numbers (in "Complex" mode).</p>
+<p>Variable names can include small or capital Latin letters "<var>a</var>" - "<var>z</var>", "<var>A</var>" - "<var>Z</var>", Greek letters "<var>&alpha;</var>" - "<var>&omega;</var>", "<var>&Alpha;</var>" - "<var>&Omega;</var>" and digits. Names are case sensitive. For example "<var>a</var>" and "<var>A</var>" are different variables. A name must start with a letter or &measuredangle;. You can also use "," (comma), "<b>‾</b>" (overline), "<b>_</b>" (underscore), superscripts: <b>⁰</b> - <b>⁹</b>, <b>ⁿ</b>, <b>⁺</b>, <b>⁻</b> and other symbols: " <b>′</b> ", " <b>″</b> ", " <b>‴</b> ", " <b>⁗</b> ", " <b>ø</b> ", "<b>Ø</b>", " <b>°</b> ", "<b>∡</b>". The first occurrence of an underscore in a name starts a subscript. For example, "a_1_1" will be formatted as "<var>a</var><sub>1_1</sub>". Variables can store either real or complex numbers (in "Complex" mode).</p>
 
 <h3 id="TOC_403">Operators</h3>
 <p>The following operators are supported by the Calcpad language:</p>
@@ -781,6 +782,7 @@ You can use it further to calculate binomial coefficients by the well-known form
 <li>luminous intensity - candela (<i>cd</i>)</li>
 </ul>
 <p>All other units are derivative. They are obtained by the respective laws of physics. For example, force = mass&middot;acceleration, so Newton is obtained by <i>N</i> = <i>kg</i>&middot;<i>m</i>/<i>s</i><sup>2</sup>. Multiples of units are also supported by adding the respective prefixes to units names. For example, <i>kN</i> = 10<sup>3</sup><i>N</i>, <i>MN</i> = 10<sup>6</sup><i>N</i> and so on.</p>
+<p>Additionally, there are some "dimensionless" units like percents, permilles and angles (degrees, radians, etc.) that do not include any physical dimensions. However, angles use a special (eight) non-physical dimension, in order not to cancel and convert to precents, when mixed (which would be wierd).</p>
 <p>You can attach units to numbers by typing the unit name after the value, e.g. 15<i>kg</i>. Then, you can use them in expressions, just like any other values. Unit cancellation and conversion is performed automatically during calculations. For example, the following expression will be evaluated as:</p>
 <p style="margin-left: 2em;"><code>1.23<i>m</i> + 35<i>cm</i> + 12<i>mm</i> = 1.59<i>m</i></code>(and not: 1.23 + 35 + 12 = 48.23)</p>
 <p>The result is usually obtained into the first unit in the expression. If you want to use particular units, write a vertical bar "|" followed by the target units at the end:</p>
@@ -846,8 +848,8 @@ You can use it further to calculate binomial coefficients by the well-known form
 <i title="microgram">μg</i>, 
 <i title="nanogram" >ng</i>, 
 <i title="picogram" >pg</i>,
-<i title="Dalton"   >Da</i>,
-<i title="Dalton (alt.)">u</i>;
+<i title="Dalton"   >Da</i> (or 
+<i title="Dalton(alt)">u</i>);
 </li><li>Length: 
 <i title="meter"      >m</i>, 
 <i title="kilometer"  >km</i>, 
@@ -867,7 +869,9 @@ You can use it further to calculate binomial coefficients by the well-known form
 <i title="picosecond" >ps</i>, 
 <i title="minute"     >min</i>, 
 <i title="hour"       >h</i>,
-<i title="day"        >d</i>;
+<i title="day"        >d</i>, 
+<i title="week"       >w</i>, 
+<i title="year"       >y</i>;
 </li><li>Frequency:
 <i title="Hertz"      >Hz</i>, 
 <i title="kilohertz"  >kHz</i>, 
@@ -910,7 +914,6 @@ You can use it further to calculate binomial coefficients by the well-known form
 <i title="decilitre" >dL</i>, 
 <i title="hectolitre">hL</i>;
 </li><li>Force:
-<i title="dyne"        >dyn</i>
 <i title="Newthon"     >N</i>, 
 <i title="decanewthon" >daN</i>, 
 <i title="hectonewthon">hN</i>, 
@@ -920,7 +923,8 @@ You can use it further to calculate binomial coefficients by the well-known form
 <i title="teranewthon" >TN</i>, 
 <i title="gram-force"  >gf</i>, 
 <i title="kilogram-force">kgf</i>, 
-<i title="tonne-force" >tf</i>;
+<i title="tonne-force" >tf</i>, 
+<i title="dyne">dyn</i>;
 </li><li>Moment: 
 <i title="Newton-meter">Nm</i>, 
 <i title="kilonewton-meter">kNm</i>;
@@ -1141,99 +1145,117 @@ You can use it further to calculate binomial coefficients by the well-known form
 </li></ul>
 <p>Non-metric units (Imperial/US):</p>
 <ul><li>Mass:
-<i title="grain"        >gr</i>, 
-<i title="drachm"       >dr</i>, 
-<i title="ounce"        >oz</i>, 
-<i title="pound"        >lb</i>, 
-<i title="kilopound"    >kip</i>, 
-<i title="stone"        >st</i>, 
-<i title="quarter"      >qr</i>, 
-<i title="hundredweight">cwt</i>,
-<i title="hundredweight (UK)">cwt</i><sub>_UK</sub>, 
-<i title="hundredweight (US)">cwt</i><sub>_US</sub>,  
-<i title="ton"          >ton</i>, 
-<i title="ton (UK)"     >ton</i><sub>_UK</sub>, 
-<i title="ton (US)"     >ton</i><sub>_US</sub>, 
-<i title="slug"         >slug</i>;
-</li><li>Length:                    
-<i title="thou"         >th</i>, 
-<i title="inch"         >in</i>, 
-<i title="foot"         >ft</i>, 
-<i title="yard"         >yd</i>, 
-<i title="chain"        >ch</i>, 
-<i title="furlong"      >fur</i>, 
-<i title="mile"         >mi</i>, 
-<i title="fathom"       >ftm</i>, 
-<i title="cable"        >cable</i>, 
-<i title="nautical mile">nmi</i>, 
-<i title="link"         >li</i>, 
-<i title="rod"          >rod</i>, 
-<i title="pole"         >pole</i>, 
-<i title="perch"        >perch</i>, 
-<i title="league"       >lea</i>;
-</li><li>Speed: 
-<i title="miles per hour">mph</i>,
-<i title="knots"         >knot</i>;
-</li><li>Temperature: 
-<i title="degrees Fahrenheit">°F</i>, 
-<i title="difference in °F">Δ°F</i>, 
-<i title="degrees Rankine">°R</i>;
-</li><li>Area: 
-<i title="rood">rood</i>, 
-<i title="acre">ac</i>;
+<i title="grain"                 >gr</i>, 
+<i title="drachm"                >dr</i>, 
+<i title="ounce"                 >oz</i>, 
+<i title="pound"                 >lb</i> (or 
+<i title="pound-mass"            >lbm</i>, 
+<i title="pound-mass (alt)"      >lb</i><sub>_m</sub>),  
+<i title="kilopound-mass"        >kipm</i> (or 
+<i title="kilopound-mass (alt)"  >kip</i><sub>_m</sub>), 
+<i title="stone"                 >st</i>, 
+<i title="quarter"               >qr</i>, <br />&emsp;&emsp;&ensp;
+<i title="hundredweight"         >cwt</i> (or 
+<i title="hundredweight (UK)"    >cwt</i><sub>_UK</sub>, 
+<i title="hundredweight (US)"    >cwt</i><sub>_US</sub>),  
+<i title="ton"                   >ton</i> (or  
+<i title="ton (UK)"              >ton</i><sub>_UK</sub>, 
+<i title="ton (US)"              >ton</i><sub>_US</sub>), 
+<i title="slug"                  >slug</i>;
+</li><li>Length:                         
+<i title="thou"                  >th</i>, 
+<i title="inch"                  >in</i>, 
+<i title="foot"                  >ft</i>, 
+<i title="yard"                  >yd</i>, 
+<i title="chain"                 >ch</i>, 
+<i title="furlong"               >fur</i>, 
+<i title="mile"                  >mi</i>, 
+<i title="fathom"                >ftm</i>, 
+<i title="cable"                 >cable</i>, 
+<i title="nautical mile"         >nmi</i>, 
+<i title="link"                  >li</i>, 
+<i title="rod"                   >rod</i>, 
+<i title="pole"                  >pole</i>, 
+<i title="perch"                 >perch</i>, 
+<i title="league"                >lea</i>;
+</li><li>Speed:                  
+<i title="miles per hour"        >mph</i>,
+<i title="knots"                 >knot</i>;
+</li><li>Temperature:            
+<i title="degrees Fahrenheit"    >°F</i>, 
+<i title="difference in °F"      >Δ°F</i>, 
+<i title="degrees Rankine"       >°R</i>;
+</li><li>Area:                   
+<i title="rood"                  >rood</i>, 
+<i title="acre"                  >ac</i>;
 </li><li>Volume (fluid): 
-<i title="fluid ounce" >fl_oz</i>, 
-<i title="gill"        >gi</i>, 
-<i title="pint"        >pt</i>, 
-<i title="quart"       >qt</i>, 
-<i title="gallon"      >gal</i>, 
-<i title="barrel"      >bbl</i>, 
-(dry) <i title="bushel">bu</i>;
+<i title="fluid ounce"           >fl_oz</i>, 
+<i title="gill"                  >gi</i>, 
+<i title="pint"                  >pt</i>, 
+<i title="quart"                 >qt</i>, 
+<i title="gallon"                >gal</i>, 
+<i title="barrel"                >bbl</i>, 
+(dry) <i title="bushel"          >bu</i>, or:
 <br />&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;
-<i title="fluid ounce (UK)" >fl_oz</i><sub>_UK</sub>, 
-<i title="gill (UK)"        >gi</i><sub>_UK</sub>, 
-<i title="pint (UK)"        >pt</i><sub>_UK</sub>, 
-<i title="quart (UK)"       >qt</i><sub>_UK</sub>, 
-<i title="gallon (UK)"      >gal</i><sub>_UK</sub>, 
-<i title="barrel (UK)"      >bbl</i><sub>_UK</sub>, 
-(dry) <i title="bushel (UK)">bu</i><sub>_UK</sub>;
+<i title="fluid ounce (UK)"      >fl_oz</i><sub>_UK</sub>, 
+<i title="gill (UK)"             >gi</i><sub>_UK</sub>, 
+<i title="pint (UK)"             >pt</i><sub>_UK</sub>, 
+<i title="quart (UK)"            >qt</i><sub>_UK</sub>, 
+<i title="gallon (UK)"           >gal</i><sub>_UK</sub>, 
+<i title="barrel (UK)"           >bbl</i><sub>_UK</sub>, 
+(dry) <i title="bushel (UK)"     >bu</i><sub>_UK</sub>;
 <br />&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;
-<i title="fluid ounce (US)" >fl_oz</i><sub>_US</sub>, 
-<i title="gill (US)"        >gi</i><sub>_US</sub>, 
-<i title="pint (US)"        >pt</i><sub>_US</sub>, 
-<i title="quart (US)"       >qt</i><sub>_US</sub>, 
-<i title="gallon (US)"      >gal</i><sub>_US</sub>, 
-<i title="barrel (US)"      >bbl</i><sub>_US</sub>, 
-(dry) <i title="bushel (US)">bu</i><sub>_US</sub>;
+<i title="fluid ounce (US)"      >fl_oz</i><sub>_US</sub>, 
+<i title="gill (US)"             >gi</i><sub>_US</sub>, 
+<i title="pint (US)"             >pt</i><sub>_US</sub>, 
+<i title="quart (US)"            >qt</i><sub>_US</sub>, 
+<i title="gallon (US)"           >gal</i><sub>_US</sub>, 
+<i title="barrel (US)"           >bbl</i><sub>_US</sub>, 
+(dry) <i title="bushel (US)"     >bu</i><sub>_US</sub>;
 </li><li>Force: 
-<i title="ounce-force"    >ozf</i>, 
-<i title="pound-force"    >lbf</i>, 
-<i title="kilopound-force">kipf</i>, 
-<i title="ton-force"      >tonf</i>, 
-<i title="poundal"        >pdl</i>;
+<i title="ounce-force"           >ozf</i> (or  
+<i title="ounce-force (alt)"     >oz</i><sub>_f</sub>), 
+<i title="pound-force"           >lbf</i> (or 
+<i title="pound-force (alt)"     >lb</i><sub>_f</sub>), 
+<i title="kilopound"             >kip</i> (or 
+<i title="kilopound-force"       >kipf</i>, 
+<i title="kilopound-force (alt)" >kip</i><sub>_f</sub>), 
+<i title="ton-force"             >tonf</i> (or  
+<i title="ton-force"             >ton</i><sub>_f</sub>);
+<i title="poundal"               >pdl</i>, 
 </li><li>Pressure: 
-<i title="ounce-force per sq. inch"    >osi</i>, 
-<i title="ounce-force per sq. foot"    >osf</i>
-<i title="pound-force per sq. inch"    >psi</i>, 
-<i title="pound-force per sq. foot"    >psf</i>, 
-<i title="kilopound-force per sq. inch">ksi</i>, 
-<i title="kilopound-force per sq. foot">ksf</i>, 
-<i title="ton-force per sq. inch"      >tsi</i>, 
-<i title="ton-force per sq. foot"      >tsf</i>,
+<i title="ounce-force per sq. inch"        >osi</i>, 
+<i title="ounce-force per sq. foot"        >osf</i>
+<i title="pound-force per sq. inch"        >psi</i>, 
+<i title="pound-force per sq. foot"        >psf</i>, 
+<i title="kilopound-force per sq. inch"    >ksi</i>, 
+<i title="kilopound-force per sq. foot"    >ksf</i>, 
+<i title="ton-force per sq. inch"          >tsi</i>, 
+<i title="ton-force per sq. foot"          >tsf</i>,
 <i title="inches of mercury (conventional)">inHg</i>;
 </li><li>Energy/work: 
-<i title="British Thermal Unit">BTU</i>, 
-<i title="therm">therm</i>, 
-<i title="therm">therm</i><sub>_UK</sub>, 
-<i title="therm">therm</i><sub>_US</sub>, 
-<i title="quad">quad</i>;
+<i title="British Thermal Unit"    >BTU</i>, 
+<i title="therm"                   >therm</i> (or  
+<i title="therm (UK)"              >therm</i><sub>_UK</sub>, 
+<i title="therm (US)"              >therm</i><sub>_US</sub>), 
+<i title="quad"                    >quad</i>;
 </li><li>Power:
-<i title="horsepower">hp</i>, 
-<i title="horsepower (electrical)">hpE</i>, 
-<i title="horsepower (boiler)">hpS</i>
+<i title="horsepower"              >hp</i>, 
+<i title="horsepower (electrical)" >hpE</i>, 
+<i title="horsepower (boiler)"     >hpS</i>.
 </ul>
 <p>Angle units are accepted by trigonometric functions and they override all other settings. Inverse trigonometric functions return unitless values by default. If you want them to return the result in the current units, you have to define a variable: <var>ReturnAngleUnits</var> = 1.</p>
 <p>Literals that are written immediately after numbers are recognized as units by the parser, e.g. "2<i>m</i>". Standalone literals can be either units or variables, e.g. "<i>N</i>*<i>m</i>". The rules for parsing are as follows: If a literal has not been defined as a variable, it is parsed as a unit. Otherwise, it is parsed as a variable, even if a unit with the same name exists. If you put a dot before the literal, you will force ir to be parsed as a unit, even if a variable with the same name exists, e.g. ".<i>N</i>*.<i>m</i>".</p>
+
+<h3>Custom units</h3>
+<p>You can define your own "custom" units and use them like any others in your code. Defining a unit is similar to defining a variable, but the name must be prefixed with a dot ".":</p>
+<p>&emsp;&emsp;<code>.<i>Name</i> = expression</code></p>
+<p>The name can include som currency symbols like: €, £, ₤, ¥, ¢, ₽, ₹, ₩, ₪. If you need to create a unit, that derive from others, you can write an expression with numbers and units on the right side. You can also define dimensionless units, like currency (USD, EUR, €, ₤) or information (bit, byte, KiB, etc), by specifying "= 1" for the first unit and setting the others as multiples. For example:
+<p><code>&emsp;&emsp;.<i>bit</i> = 1<br />
+&emsp;&emsp;.<i>byte</i> = 8*<i>bit</i><br />
+&emsp;&emsp;.<i>KiB</i> = 1024*<i>byte</i><br />
+&emsp;&emsp;...</code></p>
+<p>Custom dimensionless units exist in a special (ningth) non-physical dimension. That is how they do not cancel or convert to other dimensionless units, like percents or angles, when mixed. However, if you have two types of dimensionless units in a single file, they will exist in the same dimension, so you will have to avoid mixing them.</p>
 
 <h2 id="TOC_500">Reporting</h2>
 <p>All calculations are automatically collected into professionally formatted calculation report. You can print it or open it with MS Word for editing. Besides math expressions, you can add headings, comments, tables and images.</p>
@@ -1559,10 +1581,10 @@ You can use it further to calculate binomial coefficients by the well-known form
 </p>
 <p>Inline string macro:<br />
 	&emsp;<span class="cond">#def</span> 
-	<em class="macro">macro_name$</em><span class="b">(</span><em class="macro">param1$</em><span class="o">;</span> <em class="macro">param2$</em><span class="o">;</span>...<span class="b">)</span> <span class="o">=</span> <em>content</em>
+	<em class="macro">macro_name$</em>(<em class="macro">param1$</em><span class="o">;</span> <em class="macro">param2$</em><span class="o">;</span>...) <span class="o">=</span> <em>content</em>
 </p>
 <p>Multiline string macro:<br />
-	&emsp;&emsp;<span class="cond">#def</span> <em class="macro">macro_name$</em><span class="b">(</span><em class="macro">param1$</em><span class="o">;</span> <em class="macro">param2$</em><span class="o">;</span>...<span class="b">)</span><br />
+	&emsp;&emsp;<span class="cond">#def</span> <em class="macro">macro_name$</em>(<em class="macro">param1$</em><span class="o">;</span> <em class="macro">param2$</em><span class="o">;</span>...)<br />
 	&emsp;&emsp;&emsp;&emsp;<em>content line 1</em><br />
 	&emsp;&emsp;&emsp;&emsp;<em>content line 2</em><br />
 	&emsp;&emsp;&emsp;&emsp;<em>...</em><br />

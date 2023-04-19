@@ -15,6 +15,7 @@ namespace Calcpad.Core
             private readonly Container<CustomFunction> _functions;
             private readonly List<SolveBlock> _solveBlocks;
             private readonly Calculator _calc;
+            private readonly Dictionary<string, Unit> _units;
 
             internal Evaluator(MathParser parser)
             {
@@ -22,6 +23,7 @@ namespace Calcpad.Core
                 _functions = parser._functions;
                 _solveBlocks = parser._solveBlocks;
                 _calc = parser._calc;
+                _units = parser._units; 
             }
 
             internal Value Evaluate(Token[] rpn, bool isVisible = false)
@@ -79,13 +81,25 @@ namespace Calcpad.Core
                                 var b = _stackBuffer[_tos--];
                                 if (t.Content == "=")
                                 {
-                                    var ta = (VariableToken)rpn[0];
                                     _parser.Units = ApplyUnits(ref b, _parser._targetUnits);
-                                    _parser._backupVariable = new(ta.Content, ta.Variable.Value);
                                     if (isVisible && b.Units is not null)
                                         b *= b.Units.Normalize();
-
-                                    ta.Variable.Assign(b);
+                                    if (rpn[0].Type == TokenTypes.Variable && rpn[0] is VariableToken ta)
+                                    {
+                                        _parser._backupVariable = new(ta.Content, ta.Variable.Value);
+                                        ta.Variable.Assign(b);
+                                    }
+                                    else if (rpn[0].Type == TokenTypes.Unit && rpn[0] is ValueToken tc)
+                                    {
+                                        if (tc.Value.Units is not null)
+#if BG
+                                            throw new MathParserException("Не мога да презапиша съществуващи единици: " + tc.Value.Units.Text);
+#else
+                                            throw new MathParserException("Cannot rewirite existing units: " + tc.Value.Units.Text);
+#endif
+                                        _parser.SetUnit(tc.Content, b);
+                                        tc.Value = new(_parser.GetUnit(tc.Content));
+                                    }
                                     return b;
                                 }
 
@@ -342,7 +356,9 @@ namespace Calcpad.Core
                 }
                 try
                 {
-                    var u = Unit.Get(t.Content);
+                    if (!_units.TryGetValue(t.Content, out var u))
+                        u = Unit.Get(t.Content);
+
                     t.Type = TokenTypes.Unit;
                     v.SetValue(u);
                     return v.Value;

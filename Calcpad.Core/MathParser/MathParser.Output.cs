@@ -196,7 +196,15 @@ namespace Calcpad.Core
                     if (hasValue)
                     {
                         if (t.Type == TokenTypes.Unit)
+                        {
+                            if (v.Units is null)
+#if BG
+                                throw new MathParser.MathParserException($"Невалидни мерни единици: \"{t.Content}\".");
+#else
+                                throw new MathParser.MathParserException($"Invalid units: \"{t.Content}\".");
+#endif
                             t.Content = writer.UnitString(v.Units);
+                        }
                         else
                             t.Content = writer.FormatValue(v, _decimals);
 

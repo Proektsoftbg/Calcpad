@@ -86,7 +86,7 @@ namespace Calcpad.Core
                         {
                             if (
                                 sub == 0 && c == '_' ||
-                                sub == 1 && c == 'U' ||
+                                sub == 1 && (c == 'U' || c == 'm' || c == 'f') ||
                                 sub == 2 && (c == 'K' || c == 'S')
                             )
                                 sub++;
@@ -111,13 +111,13 @@ namespace Calcpad.Core
 
             string FormatLocal(string s)
             {
-                if (sub == 3)
+                var n = sub;
+                if (n == 2 || n == 3)
                 {
                     sub = 0;
-                    return FormatSubscript(FormatUnits(s[..^3]), " " + s[^2..]);
-                }
-                else
-                    return FormatUnits(s);
+                    return FormatSubscript(FormatUnits(s[..^n]), " " + s[^(n - 1)..]);
+                }           
+                return FormatUnits(s);
             }
 
             void AppendPower()

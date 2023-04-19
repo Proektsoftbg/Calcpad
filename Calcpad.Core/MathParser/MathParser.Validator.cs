@@ -124,7 +124,7 @@ namespace Calcpad.Core
                                 countOfDivisors = 0;
                                 isFunctionDefinition = true;
                             }
-                            else if (pt.Type != TokenTypes.Variable)
+                            else if (pt.Type != TokenTypes.Variable && pt.Type != TokenTypes.Unit)
                             {
 #if BG
                                 throw new MathParserException("Преди оператора за присвояване '=' трябва да има функция или променлива.");

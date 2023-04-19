@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
+
 namespace Calcpad.Core
 {
     public class ExpressionParser
@@ -590,11 +591,14 @@ namespace Calcpad.Core
                                     _sb.Append(Complex.Format(_parser.Result, Settings.Math.Decimals, OutputWriter.OutputFormat.Html));
                                 else
                                 {
+                                    var html = _parser.ToHtml();
                                     if (Settings.Math.FormatEquations)
-                                        _sb.Append($"<span class=\"eq\" data-xml=\'{_parser.ToXml()}\'>{_parser.ToHtml()}</span>");
+                                    {
+                                        var xml = _parser.ToXml();
+                                        _sb.Append($"<span class=\"eq\" data-xml=\'{xml}\'>{html}</span>");
+                                    }
                                     else
-                                        _sb.Append($"<span class=\"eq\">{_parser.ToHtml()}</span>");
-
+                                        _sb.Append($"<span class=\"eq\">{html}</span>");
                                 }
                             }
                         }
@@ -610,7 +614,7 @@ namespace Calcpad.Core
 #else
                             errText = $"Error in \"{errText}\" on line {LineHtml(line)}: {ex.Message}";
 #endif
-                            _sb.Append(ErrHtml(errText));
+                            _sb.Append($"<span class=\"err\">{errText}</span>");
                         }
                     }
                     else if (isVisible)

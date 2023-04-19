@@ -4,7 +4,7 @@
     xmlns:av="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="av"
     x:Class="Calcpad.Wpf.MainWindow"
     Closing="Window_Closing" 
-    Title=" Calcpad 6.0.3" 
+    Title=" Calcpad 6.0.4" 
     Height="800" 
     Width="1200"
     WindowStartupLocation="CenterScreen"
@@ -351,6 +351,8 @@
                             <MenuItem Click="Button_Click" Tag="min" Header="min (minute)"/>
                             <MenuItem Click="Button_Click" Tag="h"   Header="h (hour)"/>
                             <MenuItem Click="Button_Click" Tag="d"   Header="d (day)"/>
+                            <MenuItem Click="Button_Click" Tag="w"   Header="w (week)"/>
+                            <MenuItem Click="Button_Click" Tag="y"   Header="y (year)"/>
                         </MenuItem>
                         <MenuItem Header="Frequency">
                             <MenuItem Click="Button_Click" Tag="Hz"  Header="Hz (Hertz)"/>
@@ -384,6 +386,7 @@
                             <MenuItem Click="Button_Click" Tag="gf"  Header="gf (gram-force)"/>
                             <MenuItem Click="Button_Click" Tag="kgf" Header="kgf (kilogram-force)"/>
                             <MenuItem Click="Button_Click" Tag="tf"  Header="tf (tonne-force)"/>
+                            <MenuItem Click="Button_Click" Tag="dyn" Header="dyn (dyne)"/>
                         </MenuItem>
                         <MenuItem Header="Torque/Moment">
                             <MenuItem Click="Button_Click" Tag="Nm"    Header="Nm (Newton-meter)"/>
@@ -423,8 +426,10 @@
                         </MenuItem>
                         <MenuItem Header="Density/Unit weight">
                             <MenuItem Click="Button_Click" Tag="g/mm^3"   Header="g/mm³ (gram per cubic mm)"/>
+                            <MenuItem Click="Button_Click" Tag="g/cm^3"   Header="g/cm³ (gram per cubic cm)"/>
                             <MenuItem Click="Button_Click" Tag="kg/cm^3"  Header="kg/cm³ (kilogram per cubic cm)"/>
                             <MenuItem Click="Button_Click" Tag="t/m^3"    Header="t/m³ (tonne per cubic meter)"/>
+                            <Separator/>
                             <MenuItem Click="Button_Click" Tag="kgf/cm^3" Header="kgf/cm³ (kg-force per cubic cm)"/>
                             <MenuItem Click="Button_Click" Tag="tf/m^3"   Header="tf/m³ (tonne-force per cubic meter)"/>
                             <MenuItem Click="Button_Click" Tag="N/mm^3"   Header="N/mm³ (Newton per cubic mm)"/>
@@ -450,6 +455,7 @@
                             <MenuItem Click="Button_Click" Tag="μJ"   Header="μJ (microjoule)"/>
                             <MenuItem Click="Button_Click" Tag="nJ"   Header="nJ (nanojoule)"/>
                             <MenuItem Click="Button_Click" Tag="pJ"   Header="pJ (picojoule)"/>
+                            <Separator/>
                             <MenuItem Click="Button_Click" Tag="eV"   Header="eV (electronvolt)"/>
                             <MenuItem Click="Button_Click" Tag="keV"  Header="keV (kiloelectronvolt)"/>
                             <MenuItem Click="Button_Click" Tag="MeV"  Header="MeV (megaelectronvolt)"/>
@@ -562,8 +568,8 @@
                                 <MenuItem Click="Button_Click" Tag="pWh" Header="pWh (picowatt-hour)"/>
                             </MenuItem>
                             <MenuItem Header="Power">
-                                <MenuItem Click="Button_Click" Tag="VA"  Header="VA (Volt-Ampere)"/>
-                                <MenuItem Click="Button_Click" Tag="kVA" Header="kVA (kilovolt-Ampere)"/>
+                                <MenuItem Click="Button_Click" Tag="VA"   Header="VA (Volt-Ampere)"/>
+                                <MenuItem Click="Button_Click" Tag="kVA"  Header="kVA (kilovolt-Ampere)"/>
                                 <MenuItem Click="Button_Click" Tag="MVA"  Header="MVA (megavolt-Ampere)"/>
                                 <MenuItem Click="Button_Click" Tag="GVA"  Header="GVA (gigavolt-Ampere)"/>
                                 <MenuItem Click="Button_Click" Tag="TVA"  Header="TVA (teravolt-Ampere)"/>
@@ -573,13 +579,13 @@
                                 <MenuItem Click="Button_Click" Tag="pVA"  Header="pVA (picovolt-Ampere)"/>
                                 <MenuItem Click="Button_Click" Tag="VAR"  Header="VAR (Volt-Ampere)"/>
                                 <MenuItem Click="Button_Click" Tag="kVAR" Header="kVAR (kilovolt-Ampere-reactive)"/>
-                                <MenuItem Click="Button_Click" Tag="MVAR"  Header="MVAR (megavolt-Ampere-reactive)"/>
-                                <MenuItem Click="Button_Click" Tag="GVAR"  Header="GVAR (gigavolt-Ampere-reactive)"/>
-                                <MenuItem Click="Button_Click" Tag="TVAR"  Header="TVAR (teravolt-Ampere-reactive)"/>
-                                <MenuItem Click="Button_Click" Tag="mVAR"  Header="mVAR (millivolt-Ampere-reactive)"/>
-                                <MenuItem Click="Button_Click" Tag="μVAR"  Header="μVAR (microvolt-Ampere-reactive)"/>
-                                <MenuItem Click="Button_Click" Tag="nVAR"  Header="nVAR (nanovolt-Ampere-reactive)"/>
-                                <MenuItem Click="Button_Click" Tag="pVAR"  Header="pVAR (picovolt-Ampere-reactive)"/>
+                                <MenuItem Click="Button_Click" Tag="MVAR" Header="MVAR (megavolt-Ampere-reactive)"/>
+                                <MenuItem Click="Button_Click" Tag="GVAR" Header="GVAR (gigavolt-Ampere-reactive)"/>
+                                <MenuItem Click="Button_Click" Tag="TVAR" Header="TVAR (teravolt-Ampere-reactive)"/>
+                                <MenuItem Click="Button_Click" Tag="mVAR" Header="mVAR (millivolt-Ampere-reactive)"/>
+                                <MenuItem Click="Button_Click" Tag="μVAR" Header="μVAR (microvolt-Ampere-reactive)"/>
+                                <MenuItem Click="Button_Click" Tag="nVAR" Header="nVAR (nanovolt-Ampere-reactive)"/>
+                                <MenuItem Click="Button_Click" Tag="pVAR" Header="pVAR (picovolt-Ampere-reactive)"/>
                             </MenuItem>
                             <MenuItem Header="Electric Field">
                                 <MenuItem Click="Button_Click" Tag="V/m" Header="V/m (Volts per meter)"/>
@@ -680,18 +686,22 @@
                     </MenuItem>
                     <MenuItem Header="Imperial/US">
                         <MenuItem Header="Mass">
-                            <MenuItem Click="Button_Click" Tag="gr"   Header="gr (grain)"/>
-                            <MenuItem Click="Button_Click" Tag="dr"   Header="dr (drachm)"/>
-                            <MenuItem Click="Button_Click" Tag="oz"   Header="oz (ounce)"/>
-                            <MenuItem Click="Button_Click" Tag="lb"   Header="lb (pound)"/>
-                            <MenuItem Click="Button_Click" Tag="kip"  Header="kip (kilopound)"/>
-                            <MenuItem Click="Button_Click" Tag="st"   Header="st (stone)"/>
-                            <MenuItem Click="Button_Click" Tag="qr"   Header="qr (quarter)"/>
+                            <MenuItem Click="Button_Click" Tag="gr"      Header="gr (grain)"/>
+                            <MenuItem Click="Button_Click" Tag="dr"      Header="dr (drachm)"/>
+                            <MenuItem Click="Button_Click" Tag="oz"      Header="oz (ounce)"/>
+                            <MenuItem Click="Button_Click" Tag="lb"      Header="lb (pound)"/>
+                            <MenuItem Click="Button_Click" Tag="lbm"     Header="lbm (pound)"/>
+                            <MenuItem Click="Button_Click" Tag="lb_m"    Header="lb_m (pound)"/>
+                            <MenuItem Click="Button_Click" Tag="klb"     Header="klb (kilopound)"/>
+                            <MenuItem Click="Button_Click" Tag="kipm"    Header="kipm (kilopound-mass)"/>
+                            <MenuItem Click="Button_Click" Tag="kip_m"   Header="kipm (kilopound-mass)"/>
+                            <MenuItem Click="Button_Click" Tag="st"      Header="st (stone)"/>
+                            <MenuItem Click="Button_Click" Tag="qr"      Header="qr (quarter)"/>
                             <MenuItem Click="Button_Click" Tag="cwt_UK"  Header="cwt (hundredweight) - UK"/>
                             <MenuItem Click="Button_Click" Tag="cwt_US"  Header="cwt (hundredweight) - US"/>
                             <MenuItem Click="Button_Click" Tag="ton_UK"  Header="ton - UK"/>
                             <MenuItem Click="Button_Click" Tag="ton_US"  Header="ton - US"/>
-                            <MenuItem Click="Button_Click" Tag="slug" Header="slug"/>
+                            <MenuItem Click="Button_Click" Tag="slug"    Header="slug"/>
                         </MenuItem>
                         <MenuItem Header="Length">
                             <MenuItem Click="Button_Click" Tag="th"    Header="th (thou)"/>
@@ -723,11 +733,11 @@
                             <MenuItem Click="Button_Click" Tag="ac"       Header="ac (acre)"/>
                         </MenuItem>
                         <MenuItem Header="Volume">
-                            <MenuItem Click="Button_Click" Tag="th^3"   Header="th³ (cubic thou)"/>
-                            <MenuItem Click="Button_Click" Tag="in^3"   Header="in³ (cubic inch)"/>
-                            <MenuItem Click="Button_Click" Tag="ft^3"   Header="ft³ (cubic foot)"/>
-                            <MenuItem Click="Button_Click" Tag="yd^3"   Header="yd³ (cubic yard)"/>
-                            <MenuItem Click="Button_Click" Tag="mi^3"   Header="mi³ (cubic mile)"/>
+                            <MenuItem Click="Button_Click" Tag="th^3"      Header="th³ (cubic thou)"/>
+                            <MenuItem Click="Button_Click" Tag="in^3"      Header="in³ (cubic inch)"/>
+                            <MenuItem Click="Button_Click" Tag="ft^3"      Header="ft³ (cubic foot)"/>
+                            <MenuItem Click="Button_Click" Tag="yd^3"      Header="yd³ (cubic yard)"/>
+                            <MenuItem Click="Button_Click" Tag="mi^3"      Header="mi³ (cubic mile)"/>
                             <MenuItem Click="Button_Click" Tag="fl_oz_UK"  Header="fl_oz (fluid ounce) - UK"/>
                             <MenuItem Click="Button_Click" Tag="gi_UK"     Header="gi (gill) - UK"/>
                             <MenuItem Click="Button_Click" Tag="pt_UK"     Header="pt (pint) - UK"/>
@@ -744,38 +754,46 @@
                             <MenuItem Click="Button_Click" Tag="bu_US"     Header="bu (bushel) - US"/>
                         </MenuItem>
                         <MenuItem Header="Velocity">
-                            <MenuItem Click="Button_Click" Tag="in/s" Header="in/s (inches per second)"/>
-                            <MenuItem Click="Button_Click" Tag="ft/s" Header="ft/s (feet per second)"/>
-                            <MenuItem Click="Button_Click" Tag="yd/s" Header="yd/s (yards per second)"/>
-                            <MenuItem Click="Button_Click" Tag="mph"  Header="mph (miles per hour)"/>
-                            <MenuItem Click="Button_Click" Tag="knot" Header="knot (nautical miles per hour)"/>
-                        </MenuItem>
-                        <MenuItem Header="Temperature">
-                            <MenuItem Click="Button_Click" Tag="°F"  Header="°F (degrees Fahrenheit)"/>
-                            <MenuItem Click="Button_Click" Tag="Δ°F" Header="Δ°F (difference in °F)"/>
-                            <MenuItem Click="Button_Click" Tag="°R"  Header="°R (degrees Rankine)"/>
+                            <MenuItem Click="Button_Click" Tag="in/s"  Header="in/s (inches per second)"/>
+                            <MenuItem Click="Button_Click" Tag="ft/s"  Header="ft/s (feet per second)"/>
+                            <MenuItem Click="Button_Click" Tag="yd/s"  Header="yd/s (yards per second)"/>
+                            <MenuItem Click="Button_Click" Tag="mph"   Header="mph (miles per hour)"/>
+                            <MenuItem Click="Button_Click" Tag="knot"  Header="knot (nautical miles per hour)"/>
+                        </MenuItem>                                    
+                        <MenuItem Header="Temperature">                
+                            <MenuItem Click="Button_Click" Tag="°F"    Header="°F (degrees Fahrenheit)"/>
+                            <MenuItem Click="Button_Click" Tag="Δ°F"   Header="Δ°F (difference in °F)"/>
+                            <MenuItem Click="Button_Click" Tag="°R"    Header="°R (degrees Rankine)"/>
                         </MenuItem>
                         <MenuItem Header="Force">
-                            <MenuItem Click="Button_Click" Tag="ozf"  Header="ozf (ounce-force)"/>
-                            <MenuItem Click="Button_Click" Tag="lbf"  Header="lbf (pound-force)"/>
-                            <MenuItem Click="Button_Click" Tag="kipf" Header="kipf (kilopound-force)"/>
-                            <MenuItem Click="Button_Click" Tag="tonf" Header="tonf (ton-force)"/>
+                            <MenuItem Click="Button_Click" Tag="ozf"   Header="ozf (ounce-force)"/>
+                            <MenuItem Click="Button_Click" Tag="lbf"   Header="lbf (pound-force)"/>
+                            <MenuItem Click="Button_Click" Tag="kip"   Header="kip (kilopound-force)"/>
+                            <MenuItem Click="Button_Click" Tag="kipf"  Header="kipf (kilopound-force)"/>
+                            <MenuItem Click="Button_Click" Tag="tonf"  Header="tonf (ton-force)"/>
+                            <Separator/>
+                            <MenuItem Click="Button_Click" Tag="oz_f"  Header="oz_f (ounce-force)"/>
+                            <MenuItem Click="Button_Click" Tag="lb_f"  Header="lb_f (pound-force)"/>
+                            <MenuItem Click="Button_Click" Tag="kip_f" Header="kip_f (kilopound-force)"/>
+                            <MenuItem Click="Button_Click" Tag="ton_f" Header="ton_f (ton-force)"/>
                         </MenuItem>
                         <MenuItem Header="Torque/Moment">
-                            <MenuItem Click="Button_Click" Tag="ozf*in" Header="ozf·in (ounce-force-inch)"/>
-                            <MenuItem Click="Button_Click" Tag="ozf*ft" Header="ozf·ft (ounce-force-foot)"/>
-                            <MenuItem Click="Button_Click" Tag="lbf*in" Header="lbf·in (pound-force-inch)"/>
-                            <MenuItem Click="Button_Click" Tag="lbf*ft" Header="lbf·ft (pound-force-foot)"/>
+                            <MenuItem Click="Button_Click" Tag="oz_f*in" Header="ozf·in (ounce-force-inch)"/>
+                            <MenuItem Click="Button_Click" Tag="oz_f*ft" Header="ozf·ft (ounce-force-foot)"/>
+                            <MenuItem Click="Button_Click" Tag="lb_f*in" Header="lbf·in (pound-force-inch)"/>
+                            <MenuItem Click="Button_Click" Tag="lb_f*ft" Header="lbf·ft (pound-force-foot)"/>
+                            <MenuItem Click="Button_Click" Tag="kip*in" Header="kip·in (kilopound-force-inch)"/>
+                            <MenuItem Click="Button_Click" Tag="kip*ft" Header="kip·ft (kilopound-force-foot)"/>
                         </MenuItem>
                         <MenuItem Header="Pressure">
-                            <MenuItem Click="Button_Click" Tag="osi" Header="osi (ounce-force per sq. inch)"/>
-                            <MenuItem Click="Button_Click" Tag="osf" Header="osf (ounce-force per sq. foot)"/>
-                            <MenuItem Click="Button_Click" Tag="psi" Header="psi (pound-force per sq. inch)"/>
-                            <MenuItem Click="Button_Click" Tag="psf" Header="psf (pound-force per sq. foot)"/>
-                            <MenuItem Click="Button_Click" Tag="ksi" Header="ksi (kilopound-force per sq. inch)"/>
-                            <MenuItem Click="Button_Click" Tag="ksf" Header="ksf (kilopound-force per sq. foot)"/>
-                            <MenuItem Click="Button_Click" Tag="tsi" Header="tsi (ton-force per sq. inch)"/>
-                            <MenuItem Click="Button_Click" Tag="tsf" Header="tsf (ton-force per sq. foot)"/>
+                            <MenuItem Click="Button_Click" Tag="osi"  Header="osi (ounce-force per sq. inch)"/>
+                            <MenuItem Click="Button_Click" Tag="osf"  Header="osf (ounce-force per sq. foot)"/>
+                            <MenuItem Click="Button_Click" Tag="psi"  Header="psi (pound-force per sq. inch)"/>
+                            <MenuItem Click="Button_Click" Tag="psf"  Header="psf (pound-force per sq. foot)"/>
+                            <MenuItem Click="Button_Click" Tag="ksi"  Header="ksi (kilopound-force per sq. inch)"/>
+                            <MenuItem Click="Button_Click" Tag="ksf"  Header="ksf (kilopound-force per sq. foot)"/>
+                            <MenuItem Click="Button_Click" Tag="tsi"  Header="tsi (ton-force per sq. inch)"/>
+                            <MenuItem Click="Button_Click" Tag="tsf"  Header="tsf (ton-force per sq. foot)"/>
                             <MenuItem Click="Button_Click" Tag="inHg" Header="inHg (inches of mercuty)"/>
                         </MenuItem>
                         <MenuItem Header="Density/Unit Weight">
@@ -783,28 +801,39 @@
                             <MenuItem Click="Button_Click" Tag="oz/ft^3"   Header="oz/ft³ (ounce per cubic foot)"/>
                             <MenuItem Click="Button_Click" Tag="lb/in^3"   Header="lb/in³ (pound per cubic inch)"/>
                             <MenuItem Click="Button_Click" Tag="lb/ft^3"   Header="lb/ft³ (pound per cubic foot)"/>
-                            <MenuItem Click="Button_Click" Tag="lb/yd^3"   Header="lb/yd³ (pound per cubic yard)"/>
+                            <MenuItem Click="Button_Click" Tag="klb/in^3"  Header="lb/in³ (kilopound per cubic inch)"/>
+                            <MenuItem Click="Button_Click" Tag="klb/ft^3"  Header="lb/ft³ (kilopound per cubic foot)"/>
                             <MenuItem Click="Button_Click" Tag="lb/gal"    Header="lb/gal³ (pound per gallon)"/>
                             <MenuItem Click="Button_Click" Tag="lb/bu"     Header="lb/bu (pound per bushel)"/>
                             <MenuItem Click="Button_Click" Tag="slug/ft^3" Header="slug/ft³ (slug per cubic foot)"/>
+                            <MenuItem Click="Button_Click" Tag="ton/ft^3"  Header="ton/ft³ (ton per cubic foot)"/>
                             <MenuItem Click="Button_Click" Tag="ton/yd^3"  Header="ton/yd³ (ton per cubic yard)"/>
+                            <Separator/>
+                            <MenuItem Click="Button_Click" Tag="oz_f/in^3"  Header="ozf/in³ (ounce-force per cubic inch)"/>
+                            <MenuItem Click="Button_Click" Tag="oz_f/ft^3"  Header="ozf/ft³ (ounce-force per cubic foot)"/>
+                            <MenuItem Click="Button_Click" Tag="lb_f/in^3"  Header="lbf/in³ (pound-force per cubic inch)"/>
+                            <MenuItem Click="Button_Click" Tag="lb_f/ft^3"  Header="lbf/ft³ (pound-force per cubic foot)"/>
+                            <MenuItem Click="Button_Click" Tag="kip/in^3"   Header="kip/in³ (kilopound-force per cubic inch)"/>
+                            <MenuItem Click="Button_Click" Tag="kip/ft^3"   Header="kip/ft³ (kilopound-force per cubic foot)"/>
+                            <MenuItem Click="Button_Click" Tag="ton_f/in^3" Header="kip/in³ (kilopound-force per cubic inch)"/>
+                            <MenuItem Click="Button_Click" Tag="ton_f/ft^3" Header="kip/ft³ (kilopound-force per cubic foot)"/>
                         </MenuItem>
                         <MenuItem Header="Energy/Work">
-                            <MenuItem Click="Button_Click" Tag="in*ozf" Header="in·ozf (inch-ounce-force)"/>
-                            <MenuItem Click="Button_Click" Tag="ft*ozf" Header="ft·ozf (foot-ounce-force)"/>
-                            <MenuItem Click="Button_Click" Tag="in*lbf" Header="in·lbf (inch-pound-force)"/>
-                            <MenuItem Click="Button_Click" Tag="ft*lbf" Header="ft·lbf (foot-pound-force)"/>
-                            <MenuItem Click="Button_Click" Tag="BTU"    Header="BTU (British Thermal Unit)"/>
-                            <MenuItem Click="Button_Click" Tag="therm"  Header="therm"/>
-                            <MenuItem Click="Button_Click" Tag="quad"   Header="quad"/>
+                            <MenuItem Click="Button_Click" Tag="in*oz_f"    Header="in·ozf (inch-ounce-force)"/>
+                            <MenuItem Click="Button_Click" Tag="ft*oz_f"    Header="ft·ozf (foot-ounce-force)"/>
+                            <MenuItem Click="Button_Click" Tag="in*lb_f"    Header="in·lbf (inch-pound-force)"/>
+                            <MenuItem Click="Button_Click" Tag="ft*lb_f"    Header="ft·lbf (foot-pound-force)"/>
+                            <MenuItem Click="Button_Click" Tag="BTU"        Header="BTU (British Thermal Unit)"/>
+                            <MenuItem Click="Button_Click" Tag="therm"      Header="therm"/>
+                            <MenuItem Click="Button_Click" Tag="quad"       Header="quad"/>
                         </MenuItem>
                         <MenuItem Header="Power">
-                            <MenuItem Click="Button_Click" Tag="ft*lbf/s"   Header="ft·lbf/s (foot-pound-force per second)"/>
-                            <MenuItem Click="Button_Click" Tag="ft*lbf/min" Header="ft·lbf/min (foot-pound-force per minute)"/>
-                            <MenuItem Click="Button_Click" Tag="ft*lbf/h"   Header="ft·lbf/h  (foot-pound-force per hour)"/>
-                            <MenuItem Click="Button_Click" Tag="hp"         Header="hp (horsepower)"/>
-                            <MenuItem Click="Button_Click" Tag="hpE"        Header="hpE (electrical horsepower)"/>
-                            <MenuItem Click="Button_Click" Tag="hpS"        Header="hpS (boiler horsepower)"/>
+                            <MenuItem Click="Button_Click" Tag="ft*lb_f/s"   Header="ft·lbf/s (foot-pound-force per second)"/>
+                            <MenuItem Click="Button_Click" Tag="ft*lb_f/min" Header="ft·lbf/min (foot-pound-force per minute)"/>
+                            <MenuItem Click="Button_Click" Tag="ft*lb_f/h"   Header="ft·lbf/h  (foot-pound-force per hour)"/>
+                            <MenuItem Click="Button_Click" Tag="hp"          Header="hp (horsepower)"/>
+                            <MenuItem Click="Button_Click" Tag="hpE"         Header="hpE (electrical horsepower)"/>
+                            <MenuItem Click="Button_Click" Tag="hpS"         Header="hpS (boiler horsepower)"/>
                         </MenuItem>
                     </MenuItem>
                 </MenuItem>
@@ -1575,42 +1604,44 @@
                         <ListBoxItem Content="$Sup{}"      Foreground="DarkMagenta"/>
                         <ListBoxItem Content="A"           Foreground="DarkCyan"/>
                         <ListBoxItem Content="a"           Foreground="DarkCyan"/>
-                        <ListBoxItem Content="abs()"/>
+                        <ListBoxItem Content="abs()"       FontWeight="Bold"/>
                         <ListBoxItem Content="ac"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="acos()"/>
-                        <ListBoxItem Content="acosh()"/>
-                        <ListBoxItem Content="acot()"/>
-                        <ListBoxItem Content="acoth()"/>
-                        <ListBoxItem Content="acsc()"/>
-                        <ListBoxItem Content="acsch()"/>
-                        <ListBoxItem Content="and()"/>
+                        <ListBoxItem Content="acos()"      FontWeight="Bold"/>
+                        <ListBoxItem Content="acosh()"     FontWeight="Bold"/>
+                        <ListBoxItem Content="acot()"      FontWeight="Bold"/>
+                        <ListBoxItem Content="acoth()"     FontWeight="Bold"/>
+                        <ListBoxItem Content="acsc()"      FontWeight="Bold"/>
+                        <ListBoxItem Content="acsch()"     FontWeight="Bold"/>
+                        <ListBoxItem Content="and()"       FontWeight="Bold"/>
                         <ListBoxItem Content="Ah"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="asec("/>
-                        <ListBoxItem Content="asech("/>
-                        <ListBoxItem Content="asin("/>
-                        <ListBoxItem Content="asinh("/>
+                        <ListBoxItem Content="asec()"      FontWeight="Bold"/>
+                        <ListBoxItem Content="asech()"     FontWeight="Bold"/>
+                        <ListBoxItem Content="asin()"      FontWeight="Bold"/>
+                        <ListBoxItem Content="asinh()"     FontWeight="Bold"/>
                         <ListBoxItem Content="at"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="atan()"/>
-                        <ListBoxItem Content="atan2()"/>
-                        <ListBoxItem Content="atanh()"/>
+                        <ListBoxItem Content="atan()"      FontWeight="Bold"/>
+                        <ListBoxItem Content="atan2()"     FontWeight="Bold"/>
+                        <ListBoxItem Content="atanh()"     FontWeight="Bold"/>
                         <ListBoxItem Content="atm"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="AU"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="average()"/>
+                        <ListBoxItem Content="average()"   FontWeight="Bold"/>
                         <ListBoxItem Content="bar"         Foreground="DarkCyan"/>
+                        <ListBoxItem Content="bbl"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="bbl_UK"      Foreground="DarkCyan"/>
                         <ListBoxItem Content="bbl_US"      Foreground="DarkCyan"/>
                         <ListBoxItem Content="Bq"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="BTU"         Foreground="DarkCyan"/>
+                        <ListBoxItem Content="bu"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="bu_UK"       Foreground="DarkCyan"/>
                         <ListBoxItem Content="bu_US"       Foreground="DarkCyan"/>
                         <ListBoxItem Content="C"           Foreground="DarkCyan"/>
                         <ListBoxItem Content="C/kg"        Foreground="DarkCyan"/>
                         <ListBoxItem Content="cable"       Foreground="DarkCyan"/>
                         <ListBoxItem Content="cal"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="cbrt()"/>
+                        <ListBoxItem Content="cbrt()"      FontWeight="Bold"/>
                         <ListBoxItem Content="cd"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="cd/m^2"      Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ceiling()"/>
+                        <ListBoxItem Content="ceiling()"   FontWeight="Bold"/>
                         <ListBoxItem Content="cg"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="ch"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="Ci"          Foreground="DarkCyan"/>
@@ -1618,13 +1649,14 @@
                         <ListBoxItem Content="cm"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="cm^2"        Foreground="DarkCyan"/>
                         <ListBoxItem Content="cm^3"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="cos()"/>
-                        <ListBoxItem Content="cosh()"/>
-                        <ListBoxItem Content="cot()"/>
-                        <ListBoxItem Content="coth()"/>
+                        <ListBoxItem Content="cos()"       FontWeight="Bold"/>
+                        <ListBoxItem Content="cosh()"      FontWeight="Bold"/>
+                        <ListBoxItem Content="cot()"       FontWeight="Bold"/>
+                        <ListBoxItem Content="coth()"      FontWeight="Bold"/>
                         <ListBoxItem Content="cPa"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="csc()"/>
-                        <ListBoxItem Content="csch()"/>
+                        <ListBoxItem Content="csc()"       FontWeight="Bold"/>
+                        <ListBoxItem Content="csch()"      FontWeight="Bold"/>
+                        <ListBoxItem Content="cwt"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="cwt_UK"      Foreground="DarkCyan"/>
                         <ListBoxItem Content="cwt_US"      Foreground="DarkCyan"/>
                         <ListBoxItem Content="d"           Foreground="DarkCyan"/>
@@ -1644,34 +1676,38 @@
                         <ListBoxItem Content="erg"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="eV"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="F"           Foreground="DarkCyan"/>
-                        <ListBoxItem Content="floor()"/>
+                        <ListBoxItem Content="floor()"     FontWeight="Bold"/>
+                        <ListBoxItem Content="fl_oz"       Foreground="DarkCyan"/>
                         <ListBoxItem Content="fl_oz_UK"    Foreground="DarkCyan"/>
                         <ListBoxItem Content="fl_oz_US"    Foreground="DarkCyan"/>
                         <ListBoxItem Content="ft"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ft*lbf"      Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ft*lbf/h"    Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ft*lbf/min"  Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ft*lbf/s"    Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ft*ozf"      Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ft*lb_f"     Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ft*lb_f/h"   Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ft*lb_f/min" Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ft*lb_f/s"   Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ft*oz_f"     Foreground="DarkCyan"/>
                         <ListBoxItem Content="ft/s"        Foreground="DarkCyan"/>
                         <ListBoxItem Content="ftm"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="ft^2"        Foreground="DarkCyan"/>
                         <ListBoxItem Content="ft^3"        Foreground="DarkCyan"/>
                         <ListBoxItem Content="fur"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="g"           Foreground="DarkCyan"/>
+                        <ListBoxItem Content="g/cm^3"      Foreground="DarkCyan"/>
                         <ListBoxItem Content="g/mm^3"      Foreground="DarkCyan"/>
                         <ListBoxItem Content="GA"          Foreground="DarkCyan"/>
+                        <ListBoxItem Content="gal"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="gal_UK"      Foreground="DarkCyan"/>
                         <ListBoxItem Content="gal_US"      Foreground="DarkCyan"/>
                         <ListBoxItem Content="GBq"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="GC"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="gcd()"/>
+                        <ListBoxItem Content="gcd()"       FontWeight="Bold"/>
                         <ListBoxItem Content="GeV"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="gf"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="GF"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="GGy"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="GH"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="GHz"         Foreground="DarkCyan"/>
+                        <ListBoxItem Content="gi"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="gi_UK"       Foreground="DarkCyan"/>
                         <ListBoxItem Content="gi_US"       Foreground="DarkCyan"/>
                         <ListBoxItem Content="GJ"          Foreground="DarkCyan"/>
@@ -1703,11 +1739,11 @@
                         <ListBoxItem Content="hpE"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="hpS"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="Hz"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="if()"/>
-                        <ListBoxItem Content="im()"/>
+                        <ListBoxItem Content="if()"        FontWeight="Bold"/>
+                        <ListBoxItem Content="im()"        FontWeight="Bold"/>
                         <ListBoxItem Content="in"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="in*lbf"      Foreground="DarkCyan"/>
-                        <ListBoxItem Content="in*ozf"      Foreground="DarkCyan"/>
+                        <ListBoxItem Content="in*lb_f"     Foreground="DarkCyan"/>
+                        <ListBoxItem Content="in*oz_f"     Foreground="DarkCyan"/>
                         <ListBoxItem Content="in/s"        Foreground="DarkCyan"/>
                         <ListBoxItem Content="in^2"        Foreground="DarkCyan"/>
                         <ListBoxItem Content="in^3"        Foreground="DarkCyan"/>
@@ -1729,8 +1765,18 @@
                         <ListBoxItem Content="kH"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="kHz"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="kip"         Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kip/ft"      Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kip/ft^3"    Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kip/in^3"    Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kip*ft"      Foreground="DarkCyan"/>
                         <ListBoxItem Content="kipf"        Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kipm"        Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kip_f"       Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kip_m"       Foreground="DarkCyan"/>
                         <ListBoxItem Content="kJ"          Foreground="DarkCyan"/>
+                        <ListBoxItem Content="klb"         Foreground="DarkCyan"/>
+                        <ListBoxItem Content="klb/ft^3"    Foreground="DarkCyan"/>
+                        <ListBoxItem Content="klb/in^3"    Foreground="DarkCyan"/>
                         <ListBoxItem Content="km"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="kmh"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="km^2"        Foreground="DarkCyan"/>
@@ -1767,19 +1813,24 @@
                         <ListBoxItem Content="lb/in^3"     Foreground="DarkCyan"/>
                         <ListBoxItem Content="lb/yd^3"     Foreground="DarkCyan"/>
                         <ListBoxItem Content="lbf"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="lbf*ft"      Foreground="DarkCyan"/>
-                        <ListBoxItem Content="lbf*in"      Foreground="DarkCyan"/>
-                        <ListBoxItem Content="lcm()"/>
+                        <ListBoxItem Content="lbm"         Foreground="DarkCyan"/>
+                        <ListBoxItem Content="lb_f"        Foreground="DarkCyan"/>
+                        <ListBoxItem Content="lb_f/ft^3"   Foreground="DarkCyan"/>
+                        <ListBoxItem Content="lb_f/in^3"   Foreground="DarkCyan"/>
+                        <ListBoxItem Content="lb_f*ft"     Foreground="DarkCyan"/>
+                        <ListBoxItem Content="lb_f*in"     Foreground="DarkCyan"/>
+                        <ListBoxItem Content="lb_m"        Foreground="DarkCyan"/>
+                        <ListBoxItem Content="lcm()"       FontWeight="Bold"/>
                         <ListBoxItem Content="lea"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="li"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="line()"/>
+                        <ListBoxItem Content="line()"      FontWeight="Bold"/>
                         <ListBoxItem Content="lm"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="lm*s"        Foreground="DarkCyan"/>
                         <ListBoxItem Content="lm*s/m^3"    Foreground="DarkCyan"/>
                         <ListBoxItem Content="lm/W"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ln()"/>
-                        <ListBoxItem Content="log()"/>
-                        <ListBoxItem Content="log_2()"/>
+                        <ListBoxItem Content="ln()"        FontWeight="Bold"/>
+                        <ListBoxItem Content="log()"       FontWeight="Bold"/>
+                        <ListBoxItem Content="log_2()"     FontWeight="Bold"/>
                         <ListBoxItem Content="lx"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="lx*s"        Foreground="DarkCyan"/>
                         <ListBoxItem Content="ly"          Foreground="DarkCyan"/>
@@ -1788,13 +1839,13 @@
                         <ListBoxItem Content="mA"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="MA"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="mAh"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="max()"/>
+                        <ListBoxItem Content="max()"       FontWeight="Bold"/>
                         <ListBoxItem Content="mbar"        Foreground="DarkCyan"/>
                         <ListBoxItem Content="mBq"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="MBq"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="MC"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="mC"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="mean()"/>
+                        <ListBoxItem Content="mean()"      FontWeight="Bold"/>
                         <ListBoxItem Content="MeV"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="mF"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="MF"          Foreground="DarkCyan"/>
@@ -1807,7 +1858,7 @@
                         <ListBoxItem Content="MHz"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="mi"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="min"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="min()"/>
+                        <ListBoxItem Content="min()"       FontWeight="Bold"/>
                         <ListBoxItem Content="mi^2"        Foreground="DarkCyan"/>
                         <ListBoxItem Content="mi^3"        Foreground="DarkCyan"/>
                         <ListBoxItem Content="mJ"          Foreground="DarkCyan"/>
@@ -1818,7 +1869,7 @@
                         <ListBoxItem Content="mm^2"        Foreground="DarkCyan"/>
                         <ListBoxItem Content="mm^3"        Foreground="DarkCyan"/>
                         <ListBoxItem Content="MN"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="mod()"/>
+                        <ListBoxItem Content="mod()"       FontWeight="Bold"/>
                         <ListBoxItem Content="mol"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="mPa"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="MPa"         Foreground="DarkCyan"/>
@@ -1872,7 +1923,7 @@
                         <ListBoxItem Content="Nm"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="nm"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="nmi"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="not()"/>
+                        <ListBoxItem Content="not()"       FontWeight="Bold"/>
                         <ListBoxItem Content="nPa"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="ns"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="nS"          Foreground="DarkCyan"/>
@@ -1886,15 +1937,18 @@
                         <ListBoxItem Content="nWh"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="nΩ"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="n℧"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="or()"/>
+                        <ListBoxItem Content="or()"        FontWeight="Bold"/>
                         <ListBoxItem Content="osf"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="osi"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="oz"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="oz/ft^3"     Foreground="DarkCyan"/>
                         <ListBoxItem Content="oz/in^3"     Foreground="DarkCyan"/>
                         <ListBoxItem Content="ozf"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ozf*ft"      Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ozf*in"      Foreground="DarkCyan"/>
+                        <ListBoxItem Content="oz_f"        Foreground="DarkCyan"/>
+                        <ListBoxItem Content="oz_f*ft"     Foreground="DarkCyan"/>
+                        <ListBoxItem Content="oz_f*in"     Foreground="DarkCyan"/>
+                        <ListBoxItem Content="oz_f/ft^3"   Foreground="DarkCyan"/>
+                        <ListBoxItem Content="oz_f/in^3"   Foreground="DarkCyan"/>
                         <ListBoxItem Content="pA"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="Pa"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="pBq"         Foreground="DarkCyan"/>
@@ -1906,7 +1960,7 @@
                         <ListBoxItem Content="pg"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="pGy"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="pH"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="phase()"/>
+                        <ListBoxItem Content="phase()"     FontWeight="Bold"/>
                         <ListBoxItem Content="pHz"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="pJ"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="PlotHeight"  Foreground="Blue"/>
@@ -1917,13 +1971,14 @@
                         <ListBoxItem Content="pole"        Foreground="DarkCyan"/>
                         <ListBoxItem Content="pole^2"      Foreground="DarkCyan"/>
                         <ListBoxItem Content="pPa"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="product()"/>
+                        <ListBoxItem Content="product()"   FontWeight="Bold"/>
                         <ListBoxItem Content="ps"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="pS"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="psf"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="psi"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="pSv"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="pT"          Foreground="DarkCyan"/>
+                        <ListBoxItem Content="pt"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="pt_UK"       Foreground="DarkCyan"/>
                         <ListBoxItem Content="pt_US"       Foreground="DarkCyan"/>
                         <ListBoxItem Content="pV"          Foreground="DarkCyan"/>
@@ -1935,46 +1990,47 @@
                         <ListBoxItem Content="pΩ"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="p℧"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="qr"          Foreground="DarkCyan"/>
+                        <ListBoxItem Content="qt"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="qt_UK"       Foreground="DarkCyan"/>
                         <ListBoxItem Content="qt_US"       Foreground="DarkCyan"/>
                         <ListBoxItem Content="quad"        Foreground="DarkCyan"/>
                         <ListBoxItem Content="R"           Foreground="DarkCyan"/>
                         <ListBoxItem Content="rad"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="random()"/>
+                        <ListBoxItem Content="random()"    FontWeight="Bold"/>
                         <ListBoxItem Content="Rd"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="re()"/>
+                        <ListBoxItem Content="re()"        FontWeight="Bold"/>
                         <ListBoxItem Content="ReturnAngleUnits" Foreground="Blue"/>
                         <ListBoxItem Content="rev"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="rod"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="rod^2"       Foreground="DarkCyan"/>
                         <ListBoxItem Content="rood"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="root()"/>
-                        <ListBoxItem Content="round()"/>
+                        <ListBoxItem Content="root()"      FontWeight="Bold"/>
+                        <ListBoxItem Content="round()"     FontWeight="Bold"/>
                         <ListBoxItem Content="rpm"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="S"           Foreground="DarkCyan"/>
                         <ListBoxItem Content="s"           Foreground="DarkCyan"/>
                         <ListBoxItem Content="S/m"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="sec()"/>
-                        <ListBoxItem Content="sech()"/>
-                        <ListBoxItem Content="sin()"/>
-                        <ListBoxItem Content="sinh()"/>
+                        <ListBoxItem Content="sec()"       FontWeight="Bold"/>
+                        <ListBoxItem Content="sech()"      FontWeight="Bold"/>
+                        <ListBoxItem Content="sin()"       FontWeight="Bold"/>
+                        <ListBoxItem Content="sinh()"      FontWeight="Bold"/>
                         <ListBoxItem Content="slug"        Foreground="DarkCyan"/>
                         <ListBoxItem Content="slug/ft^3"   Foreground="DarkCyan"/>
-                        <ListBoxItem Content="spline()"/>
-                        <ListBoxItem Content="sqrt()"/>
-                        <ListBoxItem Content="srss()"/>
+                        <ListBoxItem Content="spline()"    FontWeight="Bold"/>
+                        <ListBoxItem Content="sqrt()"      FontWeight="Bold"/>
+                        <ListBoxItem Content="srss()"      FontWeight="Bold"/>
                         <ListBoxItem Content="st"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="sum()"/>
-                        <ListBoxItem Content="sumsq()"/>
+                        <ListBoxItem Content="sum()"       FontWeight="Bold"/>
+                        <ListBoxItem Content="sumsq()"     FontWeight="Bold"/>
                         <ListBoxItem Content="Sv"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="switch()"/>
+                        <ListBoxItem Content="switch()"    FontWeight="Bold"/>
                         <ListBoxItem Content="T"           Foreground="DarkCyan"/>
                         <ListBoxItem Content="t"           Foreground="DarkCyan"/>
                         <ListBoxItem Content="t/m^3"       Foreground="DarkCyan"/>
                         <ListBoxItem Content="TA"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="take()"/>
-                        <ListBoxItem Content="tan()"/>
-                        <ListBoxItem Content="tanh()"/>
+                        <ListBoxItem Content="take()"      FontWeight="Bold"/>
+                        <ListBoxItem Content="tan()"       FontWeight="Bold"/>
+                        <ListBoxItem Content="tanh()"      FontWeight="Bold"/>
                         <ListBoxItem Content="TBq"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="TC"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="TeV"         Foreground="DarkCyan"/>
@@ -1991,13 +2047,18 @@
                         <ListBoxItem Content="th^3"        Foreground="DarkCyan"/>
                         <ListBoxItem Content="TJ"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="TN"          Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ton"         Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ton/ft^3"    Foreground="DarkCyan"/>
                         <ListBoxItem Content="ton/yd^3"    Foreground="DarkCyan"/>
                         <ListBoxItem Content="tonf"        Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ton_f"       Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ton_f/ft^3"  Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ton_f/in^3"  Foreground="DarkCyan"/>
                         <ListBoxItem Content="ton_UK"      Foreground="DarkCyan"/>
                         <ListBoxItem Content="ton_US"      Foreground="DarkCyan"/>
                         <ListBoxItem Content="Torr"        Foreground="DarkCyan"/>
                         <ListBoxItem Content="TPa"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="trunc()"/>
+                        <ListBoxItem Content="trunc()"     FontWeight="Bold"/>
                         <ListBoxItem Content="TS"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="tsf"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="tsi"         Foreground="DarkCyan"/>
@@ -2017,10 +2078,12 @@
                         <ListBoxItem Content="V/m"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="VA"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="VAR"         Foreground="DarkCyan"/>
+                        <ListBoxItem Content="w"           Foreground="DarkCyan"/>
                         <ListBoxItem Content="W"           Foreground="DarkCyan"/>
                         <ListBoxItem Content="Wb"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="Wh"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="xor()"/>
+                        <ListBoxItem Content="xor()"       FontWeight="Bold"/>
+                        <ListBoxItem Content="y"           Foreground="DarkCyan"/>
                         <ListBoxItem Content="yd"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="yd/s"        Foreground="DarkCyan"/>
                         <ListBoxItem Content="yd^2"        Foreground="DarkCyan"/>
