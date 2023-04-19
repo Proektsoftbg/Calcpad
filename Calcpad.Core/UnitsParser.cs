@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Calcpad.Core
 {
@@ -52,7 +53,7 @@ namespace Calcpad.Core
             }
         }
 
-        private static class Validator
+        private static class UnitValidator
         {
             private static readonly bool[,] CorrectOrder =
             {
@@ -117,20 +118,6 @@ namespace Calcpad.Core
                     throw new MathParser.MathParserException("Missing left bracket '('.");
 #endif
             }
-            internal static bool IsLetter(char c)
-            {
-                return c >= 'A' && c <= 'Z' || // A - Z 
-                       c >= 'a' && c <= 'z' || // a - z
-                       c >= 'Α' && c <= 'Ω' || // Alpha - Omega
-                       c >= 'α' && c <= 'ω' ||   // alpha - omega
-                       "_°′″‴⁗℧%‰".Contains(c, StringComparison.Ordinal); // _ ° ′ ″ ‴ ⁗ ℧ % ‰
-            }
-
-            internal static bool IsDigit(char c)
-            {
-                int i = c;
-                return i >= 48 && i <= 57; // 0-9 
-            }
         }
 
         private static int OperatorOrder(string @operator) => (@operator[0]) switch
@@ -141,15 +128,15 @@ namespace Calcpad.Core
             _ => -1,
         };
 
-        internal static Unit Parse(string expression)
+        internal static Unit Parse(string expression, Dictionary<string, Unit> units)
         {
-            var input = GetInput(expression);
-            Validator.Check(input);
+            var input = GetInput(expression, units);
+            UnitValidator.Check(input);
             var rpn = GetRpn(input);
             return Evaluate(rpn);
         }
 
-        private static Queue<Token> GetInput(string expression)
+        private static Queue<Token> GetInput(string expression, Dictionary<string, Unit> units)
         {
             // Tokenize input string
             // It is converted to a queue of recognizable tokens
@@ -205,7 +192,13 @@ namespace Calcpad.Core
                         {
                             try
                             {
-                                tokens.Enqueue(new UnitToken(Unit.Get(literal)));
+                                if (!units.TryGetValue(literal, out Unit u))
+                                    u = Unit.Get(literal);
+
+                                if (u is null)
+                                    throw new NullReferenceException();
+
+                                tokens.Enqueue(new UnitToken(u));
                             }
                             catch
                             {

@@ -6,7 +6,7 @@
     <LangVersion>latest</LangVersion>
     <AnalysisLevel>latest</AnalysisLevel>
     <RootNamespace>Calcpad.Cli</RootNamespace>
-    <Version>6.0.3</Version>
+    <Version>6.0.4</Version>
     <Authors>Nedelcho Ganchovski</Authors>
     <Company>Proektsoft EOOD</Company>
     <PackageId>Cli</PackageId>

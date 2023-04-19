@@ -213,9 +213,9 @@ namespace Calcpad.Cli
             else if (Directory.Exists(outFile))
                 outFile += Path.GetFileNameWithoutExtension(fileName) + ".html";
             else if (string.Equals(outFile, "html") ||
-                        string.Equals(outFile, "htm") ||
-                        string.Equals(outFile, "docx") ||
-                        string.Equals(outFile, "pdf"))
+                     string.Equals(outFile, "htm") ||
+                     string.Equals(outFile, "docx") ||
+                     string.Equals(outFile, "pdf"))
                 outFile = Path.ChangeExtension(fileName, "." + outFile);
 
             var ext = Path.GetExtension(outFile);
@@ -282,7 +282,7 @@ namespace Calcpad.Cli
             var n = Math.Min(Console.WindowWidth, Console.BufferWidth);
             var ver = Assembly.GetExecutingAssembly().GetName().Version;
             Console.WriteLine(new string('—', n));
-            Console.WriteLine($" Welcome to Calcpad command line interpreter v.{ver.Major}.{ver.Minor}.{ver.Revision}!");
+            Console.WriteLine($" Welcome to Calcpad command line interpreter v.{ver.Major}.{ver.Minor}.{ver.Build}!");
             Console.WriteLine(" Copyright: © 2023 by Proektsoft EOOD");
             Console.Write("\r\n Commands: NEW OPEN SAVE LIST EXIT RESET CLS DEL ");
             switch (drg)
@@ -359,6 +359,9 @@ namespace Calcpad.Cli
 
         static void Render(MathParser mp, List<Line> Lines, bool Reset)
         {
+            if (Reset)
+                mp.ClearCustomUnits();
+
             for (int i = 0; i < Lines.Count; i++)
             {
                 var LineNo = (i + 1).ToString().PadLeft(3) + Prompt;

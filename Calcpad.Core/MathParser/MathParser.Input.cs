@@ -15,8 +15,9 @@ namespace Calcpad.Core
             private readonly Container<CustomFunction> _functions;
             private readonly List<SolveBlock> _solveBlocks;
             private readonly Dictionary<string, Variable> _variables;
-
-            static Input()
+            private readonly Dictionary<string, Unit> _units;
+            private static readonly char[] _unitChars = Validator.UnitCharArray();
+        static Input()
             {
                 // This array is needed to quickly check the token type of a character during parsing
                 // Letters a-z are initially assumed to be variables unless the whole literal matches a function 
@@ -24,7 +25,7 @@ namespace Calcpad.Core
                 for (int i = 0; i < 127; ++i)
                 {
                     var c = (char)i;
-                    if (Validator.IsDigit(c)) // 0-9
+                    if (Validator.IsDigit(c)) // 0-9 .
                         CharTypes[i] = TokenTypes.Constant;
                     else if (Validator.IsLetter(c))
                         CharTypes[i] = TokenTypes.Unit;
@@ -43,7 +44,7 @@ namespace Calcpad.Core
                 CharTypes['('] = TokenTypes.BracketLeft;
                 CharTypes[')'] = TokenTypes.BracketRight;
                 CharTypes['_'] = TokenTypes.Unit;
-                CharTypes[','] = TokenTypes.Variable;
+                CharTypes[','] = TokenTypes.Unit;
                 CharTypes['\''] = TokenTypes.Comment;
                 CharTypes['\"'] = TokenTypes.Comment;
                 CharTypes['!'] = TokenTypes.Function;
@@ -55,6 +56,7 @@ namespace Calcpad.Core
                 _functions = parser._functions;
                 _solveBlocks = parser._solveBlocks;
                 _variables = parser._variables;
+                _units = parser._units;
                 DefineVariables();
             }
 
@@ -68,10 +70,14 @@ namespace Calcpad.Core
             private static TokenTypes GetCharType(char c) => c switch
             {
                 <= '~' => CharTypes[c],
-                >= 'Α' and <= 'Ω' or >= 'α' and <= 'ω' or 'ϕ' or 'ϑ' or '℧' => TokenTypes.Unit,
-                '⦼' or '≡' or '≠' or '≤' or '≥' or '÷' or '∧' or '∨' or '⊕' => TokenTypes.Operator,
-                '%' or '‰' or '°' or '′' or '″' or '‴' or '⁗' or 'ø' or 'Ø' or '∡' => TokenTypes.Unit,
-                _ => TokenTypes.Error,
+                '≡' or '≠' or 
+                '≤' or '≥' or 
+                '÷' or '⦼' or 
+                '∧' or '∨' or '⊕' => TokenTypes.Operator,
+                >= 'Α' and <= 'Ω' or
+                >= 'α' and <= 'ω' => TokenTypes.Unit,
+                _ => Validator.IsVarAdditionalChar(c) ? TokenTypes.Unit :
+                TokenTypes.Error,
             };
 
             internal Queue<Token> GetInput(ReadOnlySpan<char> expression, bool AllowAssignment)
@@ -93,7 +99,7 @@ namespace Calcpad.Core
                     if (expression.Length - n > 0)
                     {
                         var unit = expression[(n + 1)..].ToString();
-                        _parser._targetUnits = UnitsParser.Parse(unit);
+                        _parser._targetUnits = UnitsParser.Parse(unit, _units);
                     }
                 }
                 else
@@ -110,9 +116,6 @@ namespace Calcpad.Core
                 {
                     var c = (i == n) ? ' ' : expression[i];
                     var tt = GetCharType(c); //Get the type from a predefined array
-                    if (c == '%' && i > 0 && expression[i - 1] == '.')
-                        tt = TokenTypes.Unit;
-
                     if (!isInput && InputSolver(c, tt, ref textSpan, tokenLiteral, i))
                         continue;
 
@@ -133,7 +136,7 @@ namespace Calcpad.Core
                         if (pt == TokenTypes.Unit || pt == TokenTypes.Variable)
                         {
                             tokenLiteral.Expand();
-                            if (tokenLiteral.StartsWith('°'))
+                            if (tokenLiteral.StartsWithAny(_unitChars))
                                 tt = TokenTypes.Unit;
                             else
                                 tt = TokenTypes.Variable;
@@ -168,11 +171,11 @@ namespace Calcpad.Core
                         }
                         else
                         {
-                            if (tt == TokenTypes.Unit && !(char.IsLetter(c) || c == '°' || c == '∡' || c == '℧'))
+                            if (tt == TokenTypes.Unit && !Validator.IsVarStartingChar(c))
 #if BG
-                                throw new MathParserException($"Невалиден символ: '{c}'. Имената на променливи, функции и мерни единици трябва да започват с буква, ∡ или '°' за градуси.");
+                                throw new MathParserException($"Невалиден символ: '{c}'. Имената на променливи, функции и мерни единици трябва да започват с буква или ∡, освен единиците: ° ′ ″ % ‰.");
 #else
-                                throw new MathParserException($"Invalid character: '{c}'. Variables, functions and units must begin with a letter, ∡ or '°' for degrees.");
+                                throw new MathParserException($"Invalid character: '{c}'. Variables, functions and units must begin with a letter or ∡, except for the following units: ° ′ ″ % ‰.");
 #endif
                             if (tt != pt)
                                 tokenLiteral.Reset(i);
@@ -193,7 +196,8 @@ namespace Calcpad.Core
                                 }
                                 if (tokenLiteral.Equals(".") && !unitsLiteral.IsEmpty)
                                 {
-                                    t = MakeValueToken(null, unitsLiteral.ToString());
+                                    var s = unitsLiteral.ToString();
+                                    t = MakeUnitToken(s, Unit.Exists(s) || tokens.Count > 0);
                                     tokens.Enqueue(t);
                                     tokenLiteral.Reset(i);
                                     unitsLiteral.Reset(i);
@@ -205,8 +209,9 @@ namespace Calcpad.Core
                                     tokenLiteral.Reset(i);
                                     if (!unitsLiteral.IsEmpty)
                                     {
+                                        var s = unitsLiteral.ToString();
                                         tokens.Enqueue(new Token("*", TokenTypes.Operator, MultOrder - 1));
-                                        t = MakeValueToken(null, unitsLiteral.ToString());
+                                        t = MakeUnitToken(s, true);
                                         tokens.Enqueue(t);
                                         unitsLiteral.Reset(i);
                                     }
@@ -216,39 +221,7 @@ namespace Calcpad.Core
                             {
                                 var s = tokenLiteral.ToString();
                                 if (tt == TokenTypes.BracketLeft)
-                                {
-                                    if (Calculator.IsFunction(s))
-                                        t = new Token(s, TokenTypes.Function)
-                                        {
-                                            Index = Calculator.FunctionIndex[s]
-                                        };
-                                    else if (Calculator.IsFunction2(s))
-                                        t = new Token(s, TokenTypes.Function2)
-                                        {
-                                            Index = Calculator.Function2Index[s]
-                                        };
-                                    else if (Calculator.IsMultiFunction(s))
-                                        t = new FunctionToken(s)
-                                        {
-                                            Index = Calculator.MultiFunctionIndex[s]
-                                        };
-                                    else if (s.Equals("if", StringComparison.Ordinal))
-                                        t = new Token(s, TokenTypes.If);
-                                    else
-                                    {
-                                        var index = _functions.IndexOf(s);
-                                        if (index < 0 && tokens.Any())
-#if BG
-                                            throw new MathParserException($"Невалидна функция: \"{s}\".");
-#else
-                                            throw new MathParserException($"Invalid function: \"{s}\".");
-#endif
-                                        t = new Token(s, TokenTypes.CustomFunction)
-                                        {
-                                            Index = index
-                                        };
-                                    }
-                                }
+                                    t = MakeFunctionToken(s, tokens.Any());
                                 else
                                 {
                                     if (t is not null && (
@@ -272,16 +245,10 @@ namespace Calcpad.Core
                                         if (!tokenLiteral.IsEmpty)
                                             t = MakeValueToken(null, s);
                                     }
+                                    else if (_unitChars.Contains(s[0]))
+                                        t = MakeUnitToken(s, true);
                                     else
-                                    {
-                                        if (!_variables.TryGetValue(s, out var v))
-                                        {
-                                            v = new Variable();
-                                            _variables.Add(s, v);
-                                        }
-                                        t = new VariableToken(s, v);
-                                    }
-
+                                        t = MakeVariableToken(s);
                                 }
                                 tokens.Enqueue(t);
                                 tokenLiteral.Reset(i);
@@ -367,7 +334,6 @@ namespace Calcpad.Core
                             tokens.Enqueue(t);
                         }
                     }
-
                     if (pt != TokenTypes.Input || tt != TokenTypes.None)
                         pt = tt;
                 }
@@ -493,6 +459,75 @@ namespace Calcpad.Core
                 }
             }
 
+            private Token MakeFunctionToken(string s, bool anyTokens)
+            {
+                if (Calculator.IsFunction(s))
+                    return new Token(s, TokenTypes.Function)
+                    {
+                        Index = Calculator.FunctionIndex[s]
+                    };
+
+                if (Calculator.IsFunction2(s))
+                    return new Token(s, TokenTypes.Function2)
+                    {
+                        Index = Calculator.Function2Index[s]
+                    };
+
+                if (Calculator.IsMultiFunction(s))
+                    return new FunctionToken(s)
+                    {
+                        Index = Calculator.MultiFunctionIndex[s]
+                    };
+
+                if (s.Equals("if", StringComparison.Ordinal))
+                    return new Token(s, TokenTypes.If);
+
+                var index = _functions.IndexOf(s);
+                if (index < 0 && anyTokens)
+#if BG
+                    throw new MathParserException($"Невалидна функция: \"{s}\".");
+#else
+                    throw new MathParserException($"Invalid function: \"{s}\".");
+#endif
+                return new Token(s, TokenTypes.CustomFunction)
+                {
+                    Index = index
+                };
+            }
+
+            private VariableToken MakeVariableToken(string s)
+            {
+                if (!_variables.TryGetValue(s, out var v))
+                {
+                    v = new Variable();
+                    _variables.Add(s, v);
+                }
+                return new VariableToken(s, v);
+            }
+
+            private ValueToken MakeUnitToken(string s, bool force)
+            {
+                if (_units.TryGetValue(s, out var u) && u is not null)
+                {
+                    return new ValueToken(new(u))
+                    {
+                        Content = s,
+                        Type = TokenTypes.Unit
+                    };
+                }
+                else if (force)
+                    return MakeValueToken(null, s);
+                else
+                {
+                    _units.Add(s, null);
+                    return new ValueToken(new(u))
+                    {
+                        Content = s,
+                        Type = TokenTypes.Unit
+                    };
+                }
+            }
+
             private static ValueToken MakeValueToken(string value, string units)
             {
                 Complex number;
@@ -519,7 +554,6 @@ namespace Calcpad.Core
 #endif
                     }
                 }
-
                 if (!hasUnits)
                     return new ValueToken(new Value(number))
                     {
@@ -547,6 +581,7 @@ namespace Calcpad.Core
 #endif
                 }
             }
+
             internal void OrderOperators(Queue<Token> input, bool isDefinition, int assignmentIndex)
             {
                 var isUnit = false;

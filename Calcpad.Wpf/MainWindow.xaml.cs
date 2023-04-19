@@ -34,8 +34,6 @@ namespace Calcpad.Wpf
         private static readonly Regex MyRegex4 = new("src\\s*=\\s*\"\\s*\\.", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex MyRegex5 = new("src\\s*=\\s*\"\\s*\\.\\.?(.+?)\"", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-
-
         internal readonly struct AppInfo
         {
             static AppInfo()
@@ -1111,11 +1109,12 @@ You can find your unsaved data in
             if (!(string.IsNullOrEmpty(s) || s.Contains(Environment.NewLine, StringComparison.Ordinal)))
                 _findReplace.SearchString = s;
 
-            _findReplaceWindow = new()
-            {
-                Owner = this,
-                FindReplace = _findReplace
-            };
+            if (_findReplaceWindow is null || !_findReplaceWindow.IsVisible)
+                _findReplaceWindow = new()
+                {
+                    Owner = this,
+                    FindReplace = _findReplace
+                };
             bool isSelection = s is not null && s.Length > 5;
             _findReplaceWindow.SelectionCheckbox.IsEnabled = isSelection;
             _isTextChangedEnabled = false;
@@ -2305,7 +2304,7 @@ You can find your unsaved data in
         }
 
 
-        private void FillAutoCompleteWithDefined()
+        private void FillAutoComplete()
         {
             AutoCompleteListBox.Items.Filter = null;
             AutoCompleteListBox.Items.SortDescriptions.Clear();
@@ -2315,31 +2314,12 @@ You can find your unsaved data in
 
             try
             {
-                foreach (var s in _highlighter.Defined.Variables.Keys)
-                    if (_highlighter.Defined.Variables[s] < _currentLineNumber)
-                        items.Add(new ListBoxItem()
-                        {
-                            Content = s,
-                            Foreground = Brushes.Blue
-                        });
-
-                foreach (var s in _highlighter.Defined.Functions.Keys)
-                    if (_highlighter.Defined.Functions[s] < _currentLineNumber)
-                        items.Add(new ListBoxItem()
-                        {
-                            Content = s + "()",
-                            FontWeight = FontWeights.Bold
-                        });
-
-                foreach (var s in _highlighter.Defined.Macros.Keys)
-                    if (_highlighter.Defined.Macros[s] < _currentLineNumber)
-                        items.Add(new ListBoxItem()
-                        {
-                            Content = s,
-                            Foreground = Brushes.DarkMagenta
-                        });
-
-                foreach (var k in _highlighter.Defined.MacroParameters)
+                var defs = _highlighter.Defined;
+                FillDefined(defs.Variables, Brushes.Blue);
+                FillDefined(defs.Functions, Brushes.Black, "()");
+                FillDefined(defs.Units, Brushes.DarkCyan);
+                FillDefined(defs.Macros, Brushes.DarkMagenta);
+                foreach (var k in defs.MacroParameters)
                 {
                     var bounds = k.Value;
                     if (bounds[0] < _currentLineNumber && _currentLineNumber < bounds[1])
@@ -2351,7 +2331,29 @@ You can find your unsaved data in
                 }
             }
             catch { }
+
+            void FillDefined(Dictionary<string, int> defs, Brush foreground, string suffix = null)
+            {
+                var keys = defs.Keys;
+                foreach (var s in keys)
+                {
+                    if (defs[s] < _currentLineNumber)
+                    {
+                        var item = new ListBoxItem()
+                        {
+                            Content = suffix is null ? s : s + suffix
+                        };
+                        if (foreground == Brushes.Black)
+                            item.FontWeight = FontWeights.Bold;
+                        else
+                            item.Foreground = foreground;
+
+                        items.Add(item);
+                    }
+                }
+            }
         }
+
 
         private void RichTextBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
@@ -2374,7 +2376,7 @@ You can find your unsaved data in
                     _currentParagraph = p;
                     _currentLineNumber = GetLineNumber(_currentParagraph);
                     HighLighter.Clear(_currentParagraph);
-                    FillAutoCompleteWithDefined();
+                    FillAutoComplete();
                 }
                 e.Handled = true;
                 RichTextBox.EndChange();

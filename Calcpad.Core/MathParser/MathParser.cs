@@ -13,6 +13,7 @@ namespace Calcpad.Core
         private readonly List<SolveBlock> _solveBlocks = new();
         private readonly Container<CustomFunction> _functions = new();
         private readonly Dictionary<string, Variable> _variables = new(StringComparer.Ordinal);
+        private readonly Dictionary<string, Unit> _units = new(StringComparer.Ordinal);
         private readonly Input _input;
         private readonly Evaluator _evaluator;
         private readonly Calculator _calc;
@@ -92,6 +93,8 @@ namespace Calcpad.Core
             SetVariable("ANS", v);
         }
 
+        public void ClearCustomUnits() => _units.Clear();
+
         internal void SetVariable(string name, Value value)
         {
             if (_variables.TryGetValue(name, out Variable v))
@@ -115,6 +118,39 @@ namespace Calcpad.Core
                 throw new MathParserException($"Променливата '{name}' не съществува.");
 #else
                 throw new MathParserException($"Variable '{name}' does not exist.");
+#endif
+            }
+        }
+
+        internal void SetUnit(string name, Value value)
+        {
+            var d = value.Re;
+            if (Math.Abs(d) == 0)
+                d = 1d;
+
+            var u = d * (value.Units ?? Unit.Get(string.Empty));
+            u.Text = name;
+            if (_units.ContainsKey(name))
+                _units[name] = u;
+            else
+            {
+                _units.Add(name, u);
+                _input.DefinedVariables.Add(name);
+            }
+        }
+
+        internal Unit GetUnit(string name)
+        {
+            try
+            {
+                return _units[name];
+            }
+            catch
+            {
+#if BG
+                throw new MathParserException($"Не съществува мерна единица '{name}'.");
+#else
+                throw new MathParserException($"Unit '{name}' does not exist.");
 #endif
             }
         }

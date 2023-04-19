@@ -1,23 +1,39 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices; 
 
 namespace Calcpad.Core
 {
     public static class Validator
     {
+        private const string CurrencyChars = "€£₤¥¢₽₹₩₪"; //For custom currency units
+        private const string UnitSymbolChars = "°′″%‰";
+        private const string VarSymbolChars = ",_‾‴⁗";
+        private const string VarNonLetterChars = "℧∡";
+        private const string VarLetterChars = "ϑϕøØ";
+        private const string SuperscriptChars = "⁰¹²³⁴⁵⁶⁷⁸⁹ⁿ⁺⁻";
+        private const string UnitChars = UnitSymbolChars + CurrencyChars;
+        private const string VarStartingChars = UnitChars + VarNonLetterChars;
+        private const string VarChars =
+            VarStartingChars + 
+            VarSymbolChars +
+            SuperscriptChars +
+            VarLetterChars;
+
+        internal static char[] UnitCharArray() => UnitChars.ToCharArray();
+
         public static bool IsVariable(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
                 return false;
 
-            char c = name[0];
-            if (!IsLetter(c) || "_,′″‴⁗%‰".Contains(c, StringComparison.Ordinal))
+            var c = name[0];
+            if (!IsVarStartingChar(c))
                 return false;
 
             for (int i = 1, len = name.Length; i < len; ++i)
             {
                 c = name[i];
-                if (!(IsLetter(c) || IsDigit(c)))
+                if (!(IsVarChar(c)))
                     return false;
             }
             return true;
@@ -49,7 +65,7 @@ namespace Calcpad.Core
             c >= 'A' && c <= 'Z' || // A - Z 
             c >= 'α' && c <= 'ω' || // alpha - omega
             c >= 'Α' && c <= 'Ω' || // Alpha - Omega
-            "_,°′″‴⁗ϑϕøØ℧∡%‰".Contains(c, StringComparison.Ordinal); // _ , ° ′ ″ ‴ ⁗ ϑ ϕ ø Ø ℧ ∡ % ‰
+            VarChars.Contains(c, StringComparison.Ordinal);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsLatinLetter(char c) =>
@@ -61,11 +77,21 @@ namespace Calcpad.Core
             c >= '0' && c <= '9' || c == MathParser.DecimalSymbol;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool IsUnitStart(char c) =>
-            c == '°' || c == '′' || c == '″' || c == '%' || c == '‰';
+        public static bool IsUnitStart(char c) => UnitChars.Contains(c);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool IsWhiteSpace(char c) =>
-            c == ' ' || c == '\t';
+        public static bool IsWhiteSpace(char c) => c == ' ' || c == '\t';
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static bool IsVarAdditionalChar(char c) =>
+            VarChars.Contains(c, StringComparison.Ordinal);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static bool IsVarStartingChar(char c) =>
+            char.IsLetter(c) || 
+            VarStartingChars.Contains(c, StringComparison.Ordinal);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsVarChar(char c) => IsLetter(c) || IsDigit(c);
     }
 }

@@ -22,44 +22,39 @@ namespace Calcpad.Core
         private readonly double[] _factors;
 
         private static bool _isUs;
-        private static readonly string[] Names = { "g", "m", "s", "A", "°C", "mol", "cd", "°" };
+        private static readonly string[] Names = { "g", "m", "s", "A", "°C", "mol", "cd", "°", "" };
         private static readonly Dictionary<string, Unit> Units;
         private static readonly Unit[] ForceUnits = new Unit[9], ForceUnits_US = new Unit[9];
         private static readonly HashSet<Unit> ElectricalUnits = new();
+
+        private static readonly string[] UnitNames =
+        {
+            "therm",
+            "cwt",
+            "ton",
+            "fl_oz",
+            "gi",
+            "pt",
+            "qt",
+            "gal",
+            "bbl",
+            "bu",
+            "tonf" 
+        };
+
         internal static bool IsUs
         {
             get => _isUs;
             set
             {
                 _isUs = value;
-                if (value)
+                var suffix = value ? "_US" : "_UK";
+                for ( var i = 0; i < UnitNames.Length; ++i)
                 {
-                    Units["therm"] = Units["therm_US"];
-                    Units["cwt"] = Units["cwt_US"];
-                    Units["ton"] = Units["ton_US"];
-                    Units["fl_oz"] = Units["fl_oz_US"];
-                    Units["gi"] = Units["gi_US"];
-                    Units["pt"] = Units["pt_US"];
-                    Units["qt"] = Units["qt_US"];
-                    Units["gal"] = Units["gal_US"];
-                    Units["bbl"] = Units["bbl_US"];
-                    Units["bu"] = Units["bu_US"];
-                    Units["tonf"] = Units["tonf_US"];
+                    ref var s = ref UnitNames[i];
+                    Units[s] = new(Units[s + suffix], s);
                 }
-                else
-                {
-                    Units["therm"] = Units["therm_UK"];
-                    Units["cwt"] = Units["cwt_UK"];
-                    Units["ton"] = Units["ton_UK"];
-                    Units["fl_oz"] = Units["fl_oz_UK"];
-                    Units["gi"] = Units["gi_UK"];
-                    Units["pt"] = Units["pt_UK"];
-                    Units["qt"] = Units["qt_UK"];
-                    Units["gal"] = Units["gal_UK"];
-                    Units["bbl"] = Units["bbl_UK"];
-                    Units["bu"] = Units["bu_UK"];
-                    Units["tonf"] = Units["tonf_UK"];
-                }
+                Units["ton_f"] = new(Units["tonf"], "ton_f");
             }
         }
 
@@ -266,6 +261,14 @@ namespace Calcpad.Core
             Array.Copy(u._factors, _factors, n);
         }
 
+        internal Unit(Unit u, string alias)
+        {
+            _text = alias;
+            _hashCode = u._hashCode;
+            _powers = u._powers;
+            _factors =u._factors;
+        }
+
         private static string TemperatureToDelta(string s)
         {
             return s[0] switch
@@ -283,7 +286,7 @@ namespace Calcpad.Core
 
         static Unit()
         {
-            var kg = new Unit("kg", 1f).Scale("g", 0.001);
+            var g = new Unit("kg", 1f).Scale("g", 0.001);
             var m = new Unit("m", 0f, 1f);
             var mi = m.Scale("mi", 1609.344);
             var nmi = m.Scale("nmi", 1852d);
@@ -314,6 +317,12 @@ namespace Calcpad.Core
             var Gy = new Unit("Gy", 0f, 2f, -2f);
             var Sv = new Unit("Sv", 0f, 2f, -2f);
 
+            var lbm = g.Scale("lb", 453.59237);
+            var kipm = g.Scale("kipm", 453592.37);
+            var lbf = N.Scale("lbf", 4.4482216153);
+            var kipf = N.Scale("kip", 4448.2216153);
+            var ksi = Pa.Scale("ksi", 6894757.29322959);
+
             ForceUnits[0] = kN * m.Pow(-4d);
             ForceUnits[1] = kN * m.Pow(-3d);
             ForceUnits[2] = kPa;
@@ -331,18 +340,15 @@ namespace Calcpad.Core
             ForceUnits[7]._text = "kN·m^3";
             ForceUnits[8]._text = "kN·m^4";
 
-            var ksi = Pa.Scale("ksi", 6894757.29322959);
-            var kipf = N.Scale("kipf", 4448.2216153);
-
-            ForceUnits_US[0] = (kipf * m.Pow(-4d)).Scale("kipf/in^4", 1 / 4.162314256E-7);
-            ForceUnits_US[1] = (kipf * m.Pow(-3d)).Scale("kipf/in^3", 1 / 0.000016387064);
+            ForceUnits_US[0] = (kipf * m.Pow(-4d)).Scale("kip/in^4", 1 / 4.162314256E-7);
+            ForceUnits_US[1] = (kipf * m.Pow(-3d)).Scale("kip/in^3", 1 / 0.000016387064);
             ForceUnits_US[2] = ksi;
-            ForceUnits_US[3] = (kipf * m.Pow(-1d)).Scale("kipf/ft", 1 / 0.3048);
+            ForceUnits_US[3] = (kipf * m.Pow(-1d)).Scale("kip/ft", 1 / 0.3048);
             ForceUnits_US[4] = kipf;
-            ForceUnits_US[5] = (kipf * m).Scale("kipf·ft", 0.3048);
-            ForceUnits_US[6] = (kipf * m.Pow(2d)).Scale("kipf·ft^2", 0.09290304);
-            ForceUnits_US[7] = (kipf * m.Pow(3d)).Scale("kipf·ft^3", 0.028316846592);
-            ForceUnits_US[8] = (kipf * m.Pow(4d)).Scale("kipf·ft^4", 0.0086309748412416);
+            ForceUnits_US[5] = (kipf * m).Scale("kip·ft", 0.3048);
+            ForceUnits_US[6] = (kipf * m.Pow(2d)).Scale("kip·ft^2", 0.09290304);
+            ForceUnits_US[7] = (kipf * m.Pow(3d)).Scale("kip·ft^3", 0.028316846592);
+            ForceUnits_US[8] = (kipf * m.Pow(4d)).Scale("kip·ft^4", 0.0086309748412416);
 
             ElectricalUnits.Add(S);// -1, -2,  3,  2
             ElectricalUnits.Add(F);// -1, -2,  4,  2
@@ -356,37 +362,42 @@ namespace Calcpad.Core
 
             Units = new(StringComparer.Ordinal)
             {
-                {string.Empty, null},
+                {string.Empty, new(9)},
                 {"%",     new(0) {_text = "%" } },
                 {"‰",     new(0) {_text = "‰" } },
-                {"g",     kg},
-                {"hg",    kg.Shift(2)},
-                {"kg",    kg.Shift(3)},
-                {"t",     kg.Scale("t", 1000000d)},
-                {"kt",    kg.Scale("kt", 1000000000d)},
-                {"Mt",    kg.Scale("Mt", 1000000000000d)},
-                {"Gt",    kg.Scale("Gt", 1E+15)},
-                {"dg",    kg.Shift(-1)},
-                {"cg",    kg.Shift(-2)},
-                {"mg",    kg.Shift(-3)},
-                {"μg",    kg.Shift(-6)},
-                {"ng",    kg.Shift(-9)},
-                {"pg",    kg.Shift(-12)},
-                {"Da",    kg.Scale("Da", 1.6605390666050505e-27)},
-                {"u",     kg.Scale("u", 1.6605390666050505e-27)},
+                {"g",     g},
+                {"dag",   g.Shift(1)},
+                {"hg",    g.Shift(2)},
+                {"kg",    g.Shift(3)},
+                {"t",     g.Scale("t", 1000000d)},
+                {"kt",    g.Scale("kt", 1000000000d)},
+                {"Mt",    g.Scale("Mt", 1000000000000d)},
+                {"Gt",    g.Scale("Gt", 1E+15)},
+                {"dg",    g.Shift(-1)},
+                {"cg",    g.Shift(-2)},
+                {"mg",    g.Shift(-3)},
+                {"μg",    g.Shift(-6)},
+                {"ng",    g.Shift(-9)},
+                {"pg",    g.Shift(-12)},
+                {"Da",    g.Scale("Da", 1.6605390666050505e-27)},
+                {"u",     g.Scale("u", 1.6605390666050505e-27)},
 
-                {"gr",    kg.Scale("gr", 0.06479891)},
-                {"dr",    kg.Scale("dr", 1.7718451953125)},
-                {"oz",    kg.Scale("oz", 28.349523125)},
-                {"lb",    kg.Scale("lb", 453.59237)},
-                {"kip",   kg.Scale("kip", 453592.37)},
-                {"st",    kg.Scale("st", 6350.29318)},
-                {"qr",    kg.Scale("qr", 12700.58636)},
-                {"cwt_US",kg.Scale("cwt_US", 45359.237 )},
-                {"cwt_UK",kg.Scale("cwt_UK", 50802.34544)},
-                {"ton_US",kg.Scale("ton_US", 907184.74)},
-                {"ton_UK",kg.Scale("ton_UK", 1016046.9088)},
-                {"slug",  kg.Scale("slug", 14593.90294)},
+                {"gr",    g.Scale("gr", 0.06479891)},
+                {"dr",    g.Scale("dr", 1.7718451953125)},
+                {"oz",    g.Scale("oz", 28.349523125)},
+                {"lb",    lbm},
+                {"lbm",   new(lbm, "lbm")},
+                {"lb_m",  new(lbm, "lb_m")},
+                {"kipm",  kipm},
+                {"kip_m", new(kipm, "kip_m")},
+                {"klb",   new(kipm, "klb")},
+                {"st",    g.Scale("st", 6350.29318)},
+                {"qr",    g.Scale("qr", 12700.58636)},
+                {"cwt_US",g.Scale("cwt_US", 45359.237 )},
+                {"cwt_UK",g.Scale("cwt_UK", 50802.34544)},
+                {"ton_US",g.Scale("ton_US", 907184.74)},
+                {"ton_UK",g.Scale("ton_UK", 1016046.9088)},
+                {"slug",  g.Scale("slug", 14593.90294)},
 
                 {"m",     m},
                 {"km",    m.Shift(3)},
@@ -424,66 +435,68 @@ namespace Calcpad.Core
                 {"mL", L.Scale("mL", 0.001)},
                 {"hL", L.Scale("hL", 100d)},
 
-                {"rood",m.Pow(2).Scale("rood", 1011.7141056)},
-                {"ac",  m.Pow(2).Scale("ac", 4046.8564224)},
+                {"rood",     m.Pow(2).Scale("rood", 1011.7141056)},
+                {"ac",       m.Pow(2).Scale("ac", 4046.8564224)},
                 {"fl_oz_US", L.Scale("fl_oz_US",  0.0295735295625 )},
                 {"fl_oz_UK", L.Scale("fl_oz_UK", 0.0284130625)},
-                {"gi_US",  L.Scale("gi_US", 0.11829411825)},
-                {"gi_UK",  L.Scale("gi_UK",  0.1420653125)},
-                {"pt_US",  L.Scale("pt_US", 0.473176473)},
-                {"pt_UK",  L.Scale("pt_UK", 0.56826125)},
-                {"qt_US",  L.Scale("qt_US", 0.946352946)},
-                {"qt_UK",  L.Scale("qt_UK", 1.1365225)},
-                {"gal_US", L.Scale("gal_US", 3.785411784)},
-                {"gal_UK", L.Scale("gal_UK", 4.54609)},
-                {"bbl_US", L.Scale("bbl_US", 119.240471196)},
-                {"bbl_UK", L.Scale("bbl_UK", 163.65924)},
-                {"bu_US",  L.Scale("bu_US", 35.2390704) },
-                {"bu_UK",  L.Scale("bu_UK", 36.36872) },
+                {"gi_US",    L.Scale("gi_US", 0.11829411825)},
+                {"gi_UK",    L.Scale("gi_UK",  0.1420653125)},
+                {"pt_US",    L.Scale("pt_US", 0.473176473)},
+                {"pt_UK",    L.Scale("pt_UK", 0.56826125)},
+                {"qt_US",    L.Scale("qt_US", 0.946352946)},
+                {"qt_UK",    L.Scale("qt_UK", 1.1365225)},
+                {"gal_US",   L.Scale("gal_US", 3.785411784)},
+                {"gal_UK",   L.Scale("gal_UK", 4.54609)},
+                {"bbl_US",   L.Scale("bbl_US", 119.240471196)},
+                {"bbl_UK",   L.Scale("bbl_UK", 163.65924)},
+                {"bu_US",    L.Scale("bu_US", 35.2390704) },
+                {"bu_UK",    L.Scale("bu_UK", 36.36872) },
 
-                {"s",   s},
-                {"ms",  s.Shift(-3)},
-                {"μs",  s.Shift(-6)},
-                {"ns",  s.Shift(-9)},
-                {"ps",  s.Shift(-12)},
-                {"min", s.Scale("min", 60d)},
-                {"h",   h},
-                {"d",   h.Scale("d", 24)},
-                {"kmh", (m.Shift(3) / h).Scale("kmh", 1d)},
-                {"mph", (mi / h).Scale("mph", 1d)},
-                {"knot", (nmi / h).Scale("knot", 1d)},
-                {"Hz",  Hz},
-                {"kHz", Hz.Shift(3)},
-                {"MHz", Hz.Shift(6)},
-                {"GHz", Hz.Shift(9)},
-                {"THz", Hz.Shift(12)},
-                {"mHz", Hz.Shift(-3)},
-                {"μHz", Hz.Shift(-6)},
-                {"nHz", Hz.Shift(-9)},
-                {"pHz", Hz.Shift(-12)},
-                {"rpm", Hz.Scale("rpm", 1d / 60d)},
+                {"s",    s},
+                {"ms",   s.Shift(-3)},
+                {"μs",   s.Shift(-6)},
+                {"ns",   s.Shift(-9)},
+                {"ps",   s.Shift(-12)},
+                {"min",  s.Scale("min", 60d)},
+                {"h",    h},
+                {"d",    h.Scale("d", 24)},
+                {"w",    h.Scale("w", 7 * 24)},
+                {"y",    h.Scale("y", 365 * 24)},
+                {"kmh",  new(m.Shift(3) / h, "kmh")},
+                {"mph",  new(mi / h, "mph")},
+                {"knot", new(nmi / h, "knot")},
+                {"Hz",   Hz},
+                {"kHz",  Hz.Shift(3)},
+                {"MHz",  Hz.Shift(6)},
+                {"GHz",  Hz.Shift(9)},
+                {"THz",  Hz.Shift(12)},
+                {"mHz",  Hz.Shift(-3)},
+                {"μHz",  Hz.Shift(-6)},
+                {"nHz",  Hz.Shift(-9)},
+                {"pHz",  Hz.Shift(-12)},
+                {"rpm",  Hz.Scale("rpm", 1d / 60d)},
 
-                {"A",  A},
-                {"kA", A.Shift(3)},
-                {"MA", A.Shift(6)},
-                {"GA", A.Shift(9)},
-                {"TA", A.Shift(12)},
-                {"mA", A.Shift(-3)},
-                {"μA", A.Shift(-6)},
-                {"nA", A.Shift(-9)},
-                {"pA", A.Shift(-12)},
-                {"Ah", (A * h).Scale("Ah", 1.0)},
-                {"mAh", (A.Shift(-3) * h).Scale("mAh", 1.0)},
+                {"A",   A},
+                {"kA",  A.Shift(3)},
+                {"MA",  A.Shift(6)},
+                {"GA",  A.Shift(9)},
+                {"TA",  A.Shift(12)},
+                {"mA",  A.Shift(-3)},
+                {"μA",  A.Shift(-6)},
+                {"nA",  A.Shift(-9)},
+                {"pA",  A.Shift(-12)},
+                {"Ah",  new(A * h, "Ah")},
+                {"mAh", new(A.Shift(-3) * h, "mAh")},
 
-                {"°C",  new Unit("°C",  0f, 0f, 0f, 0f, 1f)},
-                {"Δ°C", new Unit("Δ°C", 0f, 0f, 0f, 0f, 1f)},
-                {"K",   new Unit("K",   0f, 0f, 0f, 0f, 1f)},
+                {"°C",  new("°C",  0f, 0f, 0f, 0f, 1f)},
+                {"Δ°C", new("Δ°C", 0f, 0f, 0f, 0f, 1f)},
+                {"K",   new("K",   0f, 0f, 0f, 0f, 1f)},
                 {"°F",  new Unit("°F",  0f, 0f, 0f, 0f, 1f).Scale("°F", 5d / 9d)},
                 {"Δ°F", new Unit("Δ°F", 0f, 0f, 0f, 0f, 1f).Scale("Δ°F", 5d / 9d)},
                 {"°R",  new Unit("°R",  0f, 0f, 0f, 0f, 1f).Scale("°R", 5d / 9d)},
 
-                {"mol", new Unit("mol", 0f, 0f, 0f, 0f, 0f, 1f)},
-                {"cd",  new Unit("cd",  0f, 0f, 0f, 0f, 0f, 0f, 1f)},
+                {"mol", new("mol", 0f, 0f, 0f, 0f, 0f, 1f)},
+                {"cd",  new("cd",  0f, 0f, 0f, 0f, 0f, 0f, 1f)},
 
                 {"N",   N},
                 {"daN", N.Shift(1)},
@@ -501,11 +514,16 @@ namespace Calcpad.Core
                 {"dyn",  N.Scale("dyn", 1e-5)},
 
                 {"ozf",  N.Scale("ozf", 0.278013851)},
-                {"lbf",  N.Scale("lbf", 4.4482216153)},
-                {"kipf", kipf},
+                {"lbf",  lbf},
+                {"kip",  kipf},
+                {"kipf", new(kipf, "kipf")},
                 {"tonf_US", N.Scale("tonf_US", 8896.443230521)},
                 {"tonf_UK", N.Scale("tonf_UK", 9964.01641818352)},
                 {"pdl",  N.Scale("pdl", 0.138254954376)},
+
+                {"oz_f",  N.Scale("oz_f", 0.278013851)},
+                {"lb_f",  new(lbf, "lb_f")},
+                {"kip_f", new(kipf, "kip_f")},
 
                 {"Pa",   Pa},
                 {"daPa", Pa.Shift(1)},
@@ -731,17 +749,20 @@ namespace Calcpad.Core
                 {"nSv", Sv.Shift(-9)},
                 {"pSv", Sv.Shift(-12)},
 
-                {"lm",  new Unit("lm", 0, 0, 0, 0, 0, 0, 1)},
-                {"lx",  new Unit("lx", 0, -2, 0, 0, 0, 0, 1)},
-                {"kat", new Unit("kat", 0, 0, -1, 0, 0, 1)},
+                {"lm",  new("lm", 0, 0, 0, 0, 0, 0, 1)},
+                {"lx",  new("lx", 0, -2, 0, 0, 0, 0, 1)},
+                {"kat", new("kat", 0, 0, -1, 0, 0, 1)},
 
-                {"°",  new Unit("°",       0, 0, 0, 0, 0, 0, 0, 1)},
-                {"′",  new Unit("′",       0, 0, 0, 0, 0, 0, 0, 1)},
-                {"″",  new Unit("″",       0, 0, 0, 0, 0, 0, 0, 1)},
-                {"rad",  new Unit("rad",   0, 0, 0, 0, 0, 0, 0, 1)},
-                {"grad",  new Unit("grad", 0, 0, 0, 0, 0, 0, 0, 1)},
-                {"rev",  new Unit("rev", 0, 0, 0, 0, 0, 0, 0, 1)}
+                {"°",  new("°",       0, 0, 0, 0, 0, 0, 0, 1)},
+                {"′",  new("′",       0, 0, 0, 0, 0, 0, 0, 1)},
+                {"″",  new("″",       0, 0, 0, 0, 0, 0, 0, 1)},
+                {"rad",  new("rad",   0, 0, 0, 0, 0, 0, 0, 1)},
+                {"grad",  new("grad", 0, 0, 0, 0, 0, 0, 0, 1)},
+                {"rev",  new("rev", 0, 0, 0, 0, 0, 0, 0, 1)}
             };
+            var u = Units[string.Empty];
+            u._powers[8] = 1f;
+            u._factors[8] = 1d;
             Units["°"].Scale(Math.PI / 180.0);
             Units["′"].Scale(Math.PI / 10800.0);
             Units["″"].Scale(Math.PI / 648000.0);
@@ -749,17 +770,11 @@ namespace Calcpad.Core
             Units["grad"].Scale(Math.PI / 200.0);
             Units["rev"].Scale(Math.PI * 2.0);
 
-            Units.Add("therm", Units["therm_UK"]);
-            Units.Add("cwt", Units["cwt_UK"]);
-            Units.Add("ton", Units["ton_UK"]);
-            Units.Add("fl_oz", Units["fl_oz_UK"]);
-            Units.Add("gi", Units["gi_UK"]);
-            Units.Add("pt", Units["pt_UK"]);
-            Units.Add("qt", Units["qt_UK"]);
-            Units.Add("gal", Units["gal_UK"]);
-            Units.Add("bbl", Units["bbl_UK"]);
-            Units.Add("bu", Units["bu_UK"]);
-            Units.Add("tonf", Units["tonf_UK"]);
+            for (var i = 0; i < UnitNames.Length; ++i)
+            {
+                ref var name = ref UnitNames[i];
+                Units.Add(name, new(Units[name + "_UK"], name));
+            }
         }
 
         internal void Scale(double factor)
@@ -778,7 +793,9 @@ namespace Calcpad.Core
         internal Unit Scale(string s, double factor)
         {
             var unit = new Unit(this) { _text = s };
-            unit.Scale(factor);
+            if (factor != 1d)
+                unit.Scale(factor);
+
             return unit;
         }
 
@@ -1014,7 +1031,6 @@ namespace Calcpad.Core
             return u;
         }
 
-
         internal static string GetPrefix(int n)
         {
             return n switch
@@ -1156,7 +1172,7 @@ namespace Calcpad.Core
                         else if (Math.Abs(a2 - Math.Round(a2)) < 1e-12)
                         {
                             a2 = Math.Round(a2);
-                            if (a2 ==  14d ||
+                            if (a2 == 14d ||
                                 a2 == 28d ||
                                 a2 == 100d ||
                                 a2 == 112d ||
@@ -1287,7 +1303,7 @@ namespace Calcpad.Core
                                         name = "cwt_UK";
                                         break;
                                     case 1000d:
-                                        name = "kip";
+                                        name = "kip_m";
                                         break;
                                     case 2000d:
                                         name = "ton_US";
@@ -1430,7 +1446,6 @@ namespace Calcpad.Core
                 d = 1d;
                 return ua;
             }
-
             if (ua is null)
             {
                 d = 1d;
@@ -1485,7 +1500,7 @@ namespace Calcpad.Core
                     result._text =
                         s.IndexOfAny(CompositeUnitChars) >= 0.0 ?
                         $"({s})^{ps}" :
-                        s + '^' + ps;
+                        $"{s}^{ps}";
                 }
             }
             return result;
@@ -1495,14 +1510,14 @@ namespace Calcpad.Core
         {
             var result = u.Pow(1.0 / n);
 
-            if (updateText)
+            if (updateText && Math.Abs(n) > 1)
             {
                 var s = u.Text;
                 if (!s.Contains('^'))
                     result._text =
                         s.IndexOfAny(CompositeUnitChars) >= 0 ?
-                        $"({s})^1/{n}" :
-                        s + $"^1/{n}";
+                        $"({s})^1⁄{n}" :
+                        $"{s}^1⁄{n}";
             }
             return result;
         }

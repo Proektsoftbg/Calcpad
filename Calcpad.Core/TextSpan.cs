@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Calcpad.Core
 {
@@ -38,6 +39,8 @@ namespace Calcpad.Core
         public override string ToString() => _contents[_start.._end].ToString();
 
         public bool StartsWith(char c) => _contents[_start] == c;
+
+        public bool StartsWithAny(char[] chars) => chars.Contains(_contents[_start]);
 
         public bool Equals(string s) => _contents[_start.._end].SequenceEqual(s.AsSpan());
     }
