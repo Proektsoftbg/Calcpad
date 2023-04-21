@@ -15,13 +15,14 @@ namespace Calcpad.Core
             Other
         }
 
-        private static readonly char[] CompositeUnitChars = { Calculator.NegChar, '/', '·', '^' };
         private string _text;
         private int _hashCode;
+        private char _tempChar = 'C';
         private readonly float[] _powers;
         private readonly double[] _factors;
 
         private static bool _isUs;
+        private static readonly char[] CompositeUnitChars = { Calculator.NegChar, '/', '·', '^' };
         private static readonly string[] Names = { "g", "m", "s", "A", "°C", "mol", "cd", "°", "" };
         private static readonly Dictionary<string, Unit> Units;
         private static readonly Unit[] ForceUnits = new Unit[9], ForceUnits_US = new Unit[9];
@@ -85,6 +86,8 @@ namespace Calcpad.Core
             }
             return Field.Other;
         }
+
+        private bool HasTemp => _powers.Length == 5 && _powers[4] != 0;
 
         internal bool IsTemp => _powers.Length == 5 &&
                                 _powers[4] == 1f &&
@@ -254,6 +257,7 @@ namespace Calcpad.Core
         internal Unit(Unit u)
         {
             _text = u._text;
+            _tempChar = u._tempChar;
             _hashCode = u._hashCode;
             var n = u._powers.Length;
             _powers = u._powers;
@@ -264,6 +268,7 @@ namespace Calcpad.Core
         internal Unit(Unit u, string alias)
         {
             _text = alias;
+            _tempChar = u._tempChar;
             _hashCode = u._hashCode;
             _powers = u._powers;
             _factors =u._factors;
@@ -769,7 +774,10 @@ namespace Calcpad.Core
             Units.Add("deg", Units["°"]);
             Units["grad"].Scale(Math.PI / 200.0);
             Units["rev"].Scale(Math.PI * 2.0);
-
+            Units["K"]._tempChar = 'K';
+            Units["°F"]._tempChar = 'F';
+            Units["Δ°F"]._tempChar = 'F';
+            Units["°R"]._tempChar = 'R';
             for (var i = 0; i < UnitNames.Length; ++i)
             {
                 ref var name = ref UnitNames[i];
@@ -799,6 +807,17 @@ namespace Calcpad.Core
             return unit;
         }
 
+        private string UnitName(int i) =>
+            i == 4 ?
+                _tempChar switch
+                {
+                    'K' => "K",
+                    'F' => "°F",
+                    'R' => "°R",
+                    _ => Names[i]
+                } : 
+                Names[i];
+
         private string GetText(OutputWriter.OutputFormat format)
         {
             OutputWriter writer = format switch
@@ -814,7 +833,7 @@ namespace Calcpad.Core
                 if (_powers[i] != 0f)
                 {
                     var absPow = isFirst ? _powers[i] : Math.Abs(_powers[i]);
-                    var s = GetDimText(writer, Names[i], _factors[i], absPow);
+                    var s = GetDimText(writer, UnitName(i), _factors[i], absPow);
                     if (i == 4 && stringBuilder.Length > 0)
                         s = TemperatureToDelta(s);
 
@@ -870,6 +889,11 @@ namespace Calcpad.Core
                     return null;
             }
             Unit unit = new(n);
+            if (u1.HasTemp)
+                unit._tempChar = u1._tempChar;
+            else if (u2.HasTemp)
+                unit._tempChar = u2._tempChar;
+
             if (n1 > n) n1 = n;
             if (n2 > n) n2 = n;
             for (int i = 0; i < n1; ++i)
@@ -950,6 +974,7 @@ namespace Calcpad.Core
             var f = (float)x;
             var n = _powers.Length;
             Unit unit = new(n);
+            unit._tempChar = _tempChar;
             Array.Copy(_factors, unit._factors, n);
             for (int i = 0; i < n; ++i)
                 unit._powers[i] = _powers[i] * f;
@@ -1123,7 +1148,7 @@ namespace Calcpad.Core
             var factor = 1d;
             for (int i = 0; i < n; ++i)
             {
-                var d = NormDim(_factors[i], Names[i]);
+                var d = NormDim(_factors[i], UnitName(i));
                 if (d != 1d)
                     _factors[i] /= d;
 
