@@ -65,16 +65,17 @@ You can also **export** it to **Html** <img alt="Html" height="24" src="https://
 ## The language  
   
 Calcpad uses a simple programming language that includes the following elements:  
-* Real numbers: digits "0" - "9" and decimal point ".";  
+* Real numbers: digits 0 - 9 and decimal point ".";  
 * Complex numbers: re ± imi (e.g. 3 - 2i);  
 * Variables:  
-&emsp;&emsp;- Latin letters: "a" - "z", "A" - "Z";  
-&emsp;&emsp;- Greek letters: "α" - "ω", "Α" - "Ω";  
-&emsp;&emsp;- digits: "0" - "9";  
-&emsp;&emsp;- comma: ",";  
-&emsp;&emsp;- prime symbols: " ′ ", " ″ ", " ‴ ", " ⁗ ";  
-&emsp;&emsp;- special symbols: " ø ", "Ø", " ° ", "∡";  
-&emsp;&emsp;- "\_" for subscript;  
+&emsp;&emsp;- Latin letters: a - z, A - Z;  
+&emsp;&emsp;- Greek letters: α - ω, Α - Ω;  
+&emsp;&emsp;- digits: 0 - 9;  
+&emsp;&emsp;- comma: " , ";  
+&emsp;&emsp;- prime symbols: ′ , ″ , ‴ , ⁗ ;  
+&emsp;&emsp;- superscripts: ⁰ , ¹ , ² , ³ , ⁴ , ⁵ , ⁶ , ⁷ , ⁸ , ⁹ , ⁿ , ⁺ , ⁻ ;  
+&emsp;&emsp;- special symbols: ‾ , ø , Ø , ° , ∡ ;  
+&emsp;&emsp;- " _ " for subscript;  
 A variable name must start with a letter. Names are case sensitive.  
 * Operators:  
 &emsp;&emsp;"**!**" - factorial;  
@@ -301,15 +302,18 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;&emsp;Equivalent dose: Sv, kSv, MSv, GSv, TSv, mSv, μSv, nSv, pSv;  
 &emsp;&emsp;Catalytic activity: kat;  
 * Non-metric units (Imperial/US):  
-&emsp;&emsp;Mass: gr, dr, oz, lb, kip , st, qr, cwt, cwt_UK, cwt_US, ton, ton_UK, ton_US, slug;  
+&emsp;&emsp;Mass: gr, dr, oz, lb (or lbm, lb_m), klb, kipm (or kip_m), st, qr,  
+&emsp;&emsp;&emsp;&emsp;cwt, (or cwt_UK, cwt_US), ton, (or ton_UK, ton_US), slug;  
 &emsp;&emsp;Length: th, in, ft, yd, ch, fur, mi, ftm, cable, nmi, li, rod, pole, perch, lea;  
 &emsp;&emsp;Speed: mph, knot;  
 &emsp;&emsp;Temperature: °F, Δ°F, °R;  
 &emsp;&emsp;Area: rood, ac;  
-&emsp;&emsp;Volume (fluid): fl_oz, gi, pt, qt, gal, bbl, (dry) bu;  
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;fl_oz_UK, gi_UK, pt_UK, qt_UK, gal_UK, bbl_UK, (dry) bu_UK;  
+&emsp;&emsp;Volume (fluid): fl_oz, gi, pt, qt, gal, bbl, (dry) bu, or:  
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;fl_oz_UK, gi_UK, pt_UK, qt_UK, gal_UK, bbl_UK, (dry) bu_UK,  
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;fl_oz_US, gi_US, pt_US, qt_US, gal_US, bbl_US, (dry) bu_US;  
-&emsp;&emsp;Force: ozf, lbf, kipf, tonf, pdl;  
+&emsp;&emsp;Force: ozf (or oz_f), lbf (or lb_f), kip (or kipf, kip_f), tonf (or ton_f), pdl;  
 &emsp;&emsp;Pressure: osi, osf psi, psf, ksi, ksf, tsi, tsf, inHg;  
-&emsp;&emsp;Energy/work: BTU, therm, therm_UK, therm_US, quad;  
-&emsp;&emsp;Power: hp, hpE, hpS.
+&emsp;&emsp;Energy/work: BTU, therm, (or therm_UK, therm_US), quad;  
+&emsp;&emsp;Power: hp, hpE, hpS;  
+* Custom units - .Name = expression.  
+Names can include currency symbols: €, £, ₤, ¥, ¢, ₽, ₹, ₩, ₪.
