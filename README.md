@@ -303,7 +303,7 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;&emsp;Catalytic activity: kat;  
 * Non-metric units (Imperial/US):  
 &emsp;&emsp;Mass: gr, dr, oz, lb (or lbm, lb_m), klb, kipm (or kip_m), st, qr,  
-&emsp;&emsp;&emsp;&emsp;cwt, (or cwt_UK, cwt_US), ton, (or ton_UK, ton_US), slug;  
+&emsp;&emsp;&emsp;&emsp;&emsp;cwt, (or cwt_UK, cwt_US), ton, (or ton_UK, ton_US), slug;  
 &emsp;&emsp;Length: th, in, ft, yd, ch, fur, mi, ftm, cable, nmi, li, rod, pole, perch, lea;  
 &emsp;&emsp;Speed: mph, knot;  
 &emsp;&emsp;Temperature: °F, Δ°F, °R;  
