@@ -973,8 +973,10 @@ namespace Calcpad.Core
         {
             var f = (float)x;
             var n = _powers.Length;
-            Unit unit = new(n);
-            unit._tempChar = _tempChar;
+            Unit unit = new(n)
+            {
+                _tempChar = _tempChar
+            };
             Array.Copy(_factors, unit._factors, n);
             for (int i = 0; i < n; ++i)
                 unit._powers[i] = _powers[i] * f;
