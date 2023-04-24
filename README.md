@@ -6,7 +6,7 @@ Calcpad is free software for mathematical and engineering calculations. It repre
   
 * real and complex numbers;  
 * units of measurement (SI, Imperial and USCS);  
-* custom variables;  
+* custom variables and units;  
 * built-in library with common math functions;  
 * custom functions of multiple parameters f(x; y; z; ...);  
 * powerful numerical methods for root and extremum finding, numerical integration and differentiation;  
