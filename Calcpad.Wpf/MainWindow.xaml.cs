@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -1425,7 +1426,8 @@ You can find your unsaved data in
         private string HtmlApplyWorksheet(string s)
         {
             _stringBuilder.Clear();
-            _stringBuilder.Append(_htmlWorksheet);
+            var ssf = Math.Round(Math.Sqrt(_screenScaleFactor), 2).ToString(CultureInfo.InvariantCulture);
+            _stringBuilder.Append(_htmlWorksheet.Replace("var(--ssf)", ssf));
             _stringBuilder.Append(s);
             _stringBuilder.Append(" </body></html>");
             return _stringBuilder.ToString();
@@ -3304,45 +3306,43 @@ You can find your unsaved data in
             if (WebBrowser.Source is not null && WebBrowser.Source.Fragment == "#0")
             {
                 var s = _wbWarper.GetLinkData();
+                if (Uri.IsWellFormedUriString(s, UriKind.Absolute))
+                    Execute(ExternalBrowserComboBox.Text.ToLower() + ".exe", s);
+                else
                 {
-                    if (Uri.IsWellFormedUriString(s, UriKind.Absolute))
-                        Execute(ExternalBrowserComboBox.Text.ToLower() + ".exe", s);
-                    else
+                    var fileName = s.Replace('/', '\\');
+                    var path = Path.GetFullPath(fileName);
+                    if (File.Exists(path))
                     {
-                        var fileName = s.Replace('/', '\\');
-                        var path = Path.GetFullPath(fileName);
-                        if (File.Exists(path))
+                        fileName = path;
+                        var ext = Path.GetExtension(fileName).ToLowerInvariant();
+                        if (ext == ".cpd" || ext == ".cpdz" || ext == ".txt")
                         {
-                            fileName = path;
-                            var ext = Path.GetExtension(fileName).ToLowerInvariant();
-                            if (ext == ".cpd" || ext == ".cpdz" || ext == ".txt")
-                            {
-                                var r = PromptSave();
-                                if (r != MessageBoxResult.Cancel)
-                                    FileOpen(fileName);
-                            }
-                            else if (ext == ".htm" ||
-                                     ext == ".html" ||
-                                     ext == ".png" ||
-                                     ext == ".jpg" ||
-                                     ext == ".jpeg" ||
-                                     ext == ".gif" ||
-                                     ext == ".bmp")
-                                Execute(ExternalBrowserComboBox.Text.ToLower() + ".exe", s);
+                            var r = PromptSave();
+                            if (r != MessageBoxResult.Cancel)
+                                FileOpen(fileName);
                         }
-                        else if (s == "continue")
-                            AutoRun();
-                        else if (s == "cancel")
-                            Cancel();
-                        else if (IsCalculated)
-                        {
-                            LineClicked(s);
-                            if (_scrollOutputToLine > 0)
-                                return;
-                        }
-                        else if (!IsWebForm)
-                            LinkClicked(s);
+                        else if (ext == ".htm" ||
+                                    ext == ".html" ||
+                                    ext == ".png" ||
+                                    ext == ".jpg" ||
+                                    ext == ".jpeg" ||
+                                    ext == ".gif" ||
+                                    ext == ".bmp")
+                            Execute(ExternalBrowserComboBox.Text.ToLower() + ".exe", s);
                     }
+                    else if (s == "continue")
+                        AutoRun();
+                    else if (s == "cancel")
+                        Cancel();
+                    else if (IsCalculated || _parser.IsPaused)
+                    {
+                        LineClicked(s);
+                        if (_scrollOutputToLine > 0)
+                            return;
+                    }
+                    else if (!IsWebForm)
+                        LinkClicked(s);
                 }
             }
             else if (_isSaving)
@@ -3364,8 +3364,6 @@ You can find your unsaved data in
                         _scrollY = 0;
                     }
                 }
-                if (!IsCalculated)
-                    _wbWarper.ClearHighlight();
             }
             if (_scrollOutputToLine > 0)
             {

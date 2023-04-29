@@ -148,15 +148,6 @@ namespace Calcpad.Wpf
             catch { }
         }
 
-        internal void ClearHighlight()
-        {
-            try
-            {
-                _wb.InvokeScript("eval", $"$(\".eq\").hover(function(){{$(this).css(\"background\",\"none\");}});");
-            }
-            catch { }
-        }
-
         internal string ExportOpenXml(string path)
         {
             string html = null;

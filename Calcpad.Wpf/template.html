@@ -26,14 +26,15 @@ input[type="text"], select {
 		box-shadow: 0.06em 0.06em 0.5em #ddd;
 }
 
-input[type="checkbox"], 
-input[type="radio"]{
-	zoom: 1.5;
-	-moz-transform: scale(1.5); 
-	-webkit-transform: scale(1.5); 
-	transform: scale(1.5); 
-	transform-origin: bottom;
-	margin-right: 2pt;
+input[type="checkbox"],
+input[type="radio"] {
+    --ssf: 1.5;
+    zoom: var(--ssf);
+    -moz-transform: scale(var(--ssf));
+    -webkit-transform: scale(var(--ssf));
+    transform: scale(var(--ssf));
+    transform-origin: bottom;
+    margin-right: 2pt;
 }
 
 input[type="checkbox"].post:disabled:not(:checked), 

@@ -254,6 +254,7 @@ namespace Calcpad.Core
                                 tokenLiteral.Reset(i);
                             }
                         }
+
                         if (tt == TokenTypes.Comment)
                             break;
 
