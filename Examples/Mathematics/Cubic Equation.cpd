@@ -3,6 +3,8 @@
 f(x) = x^3 + a*x^2 + b*x + c'= 0
 'Coefficients:
 a = ?','b = ?','c = ?
+#hide
+PlotWidth=360''PlotHeight=240
 #post
 #rad
 'Solution:
@@ -20,7 +22,7 @@ R = (2*a^3 - 9*a*b + 27*c)/54
 	x_min = min(x_1; x_3) - d
 	x_max = max(x_1; x_3) + d
 	#post
-	$Plot{x|f(x) & x_1|0 & x_2|0 & x_3|0 @ x = x_min : x_max}
+	$Plot{f(x) & x_1|0 & x_2|0 & x_3|0 @ x = x_min : x_max}
 #else
 	'Check:'R^2 '&ge;' Q^3'
 	'There is one real root.
