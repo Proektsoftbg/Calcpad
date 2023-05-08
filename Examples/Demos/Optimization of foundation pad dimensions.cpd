@@ -1,17 +1,17 @@
 "Optimization of foundation pad dimensions
 "Single load case problem
 'Loads:
-'Compression -'N = 1000'kN
-'Bending along x-axis -'M_x = 200'kNm
-'Bending along y-axis -'M_y = 400'kNm
+'&emsp;Compression -'N = 1000'kN
+'&emsp;Bending along x-axis -'M_x = 200'kNm
+'&emsp;Bending along y-axis -'M_y = 400'kNm
 'Permissible base stress -'R_0 = 200'kPa
-'Calculation of the mean foundation size using the fixed point method
-'Number of itarations -'n = 10
-'Initial vaule -'a = N/R_0'm
-'Iterations -'$Repeat{a = cbrt((N*a + abs(M_x) + abs(M_y))/R_0) @ k = 1 : n}
-'The target function to be minimized will be the the base area:
+'The mean foundation size is determined, using the fixed point method:
+'Number of iterations -'n = 10
+'Initial value -'a = N/R_0'm
+'Solution -'$Repeat{a = cbrt((N*a + abs(M_x) + abs(M_y))/R_0) @ k = 1 : n}
+'The target function (to be minimized) is the base area:
 '<var>A</var> = <var>a</var>·<var>b</var> = min
-'The target parameter will be the ratio of dimensions, noted as k = a/b, within the limits:
+'The target parameter is the ratio of the dimensions - <var>k</var> = <var>a</var>/<var>b</var>, within the limits:
 k_min = 0.2'and'k_max = 5
 'Limits for dimensions:
 a_min = k_min*a/4'm
@@ -21,7 +21,7 @@ a_max = k_max*a*4'm
 #else
 	k_max = 1'- for |<var>M</var><sub>x</sub>| &gt; |<var>M</var><sub>y</sub>| 
 #end if
-'Theoretical value of the target parameter
+'Theoretical value of the target parameter:
 #if M_x ≡ 0
 	k = k_min
 #else
@@ -29,23 +29,23 @@ a_max = k_max*a*4'm
 #end if
 'Load eccentricities:
 e_x = M_x/N', 'e_y = M_y/N
-'The solution must satsfy the following constraints:
-'1.The max stress must not exceed the permissible one:
+'The solution must satisfy the following constraints (resistance criteria):
+'1.The maximal stress must not exceed the permissible value:
 p_max(a; b) = N/(a*b)*(1 + 6*(abs(e_x)/a + abs(e_y)/b))
-'2. The min stress must be not less than zero (no uplift):
+'2. The minimal stress must be not less than zero (no uplift):
 p_min(a; b) = N/(a*b)*(1 - 6*(abs(e_x)/a + abs(e_y)/b))
-'Required dimension that satisfy the constraints as a function of the target parameter <var>k</var>:
+'Dimension that satisfies the constraints as a function of the target parameter <var>k</var>:
 a_p,max(k) = $Find{p_max(a; a*k) - R_0 @ a = a_min : a_max}
 a_p,min(k) = $Find{p_min(a; a*k) @ a = a_min : a_max}
 a(k) = max(a_p,min(k); a_p,max(k))
-'Area as function of the target parameter <var>k</var>:
+'Foundation base area as a function of the target parameter <var>k</var>:
 A(k) = a(k)^2*k
-'For calculation of the min area and the respective target parameter, we will use the embeded $Inf function:
+'The minimum value of the area and the respective target parameter are calculated by the embedded $Inf function:
 A_inf = $Inf{A(k) @ k = k_min : k_max}
 k = k_inf'- equal to the theoretical value
 'The optimal dimensions of the foundation pad are:
 a = a(k)'m, 'b = a*k'm
-'The calculated min and max base stresses are:
+'The calculated minimal and maximal base stresses are:
 p_min(a; b)'kPa
 p_max(a; b)'kPa
 #hide
@@ -54,10 +54,10 @@ PlotWidth = 400','PlotHeight = 300
 'Plot for target function and solution:
 $Plot{A(k) & k_inf|(k - k_min)*A_inf/(k_max - k_min) & k_inf|A_inf @ k = k_min : k_max}
 "Multiple load cases problem
-'Loads for case <var>i</var>:
-'Compression -'N(i) = take(i; 500; 1200; 1500; 3000)'kN
-'Bending along x-axis -'M_x(i) = take(i; 100; -500; 200; 100)'kNm
-'Bending along y-axis -'M_y(i) = take(i; 200; -200; 800; 250)'kNm
+'Loads:
+'&emsp;Compression -'N(i) = take(i; 500; 1200; 1500; 3000)'kN
+'&emsp;Bending along x-axis -'M_x(i) = take(i; 100; -500; 200; 100)'kNm
+'&emsp;Bending along y-axis -'M_y(i) = take(i; 200; -200; 800; 250)'kNm
 'Permissible base stress -'R_0 = 200'kPa
 #hide
 a = 0
@@ -73,26 +73,26 @@ n = 10
 #loop
 #show
 'Mean foundation size -'a'm (calculated as maximum from all load cases)
-'Limits for target parameter:
+'Limits for the target parameter:
 k_min = 0.2','k_max = 4
 'Limits for dimensions:
 a_min = k_min*a/4'm
 a_max = k_max*a*4'm
 'Load eccentricities:
 e_x(i) = M_x(i)/N(i)', 'e_y(i) = M_y(i)/N(i)
-'The solution must satsfy the following constraints:
+'The solution must satisfy the following constraints (resistance criteria):
 '1.The max stress must not exceed the permissible one for each load case <var>i</var>:
 p_max,i(a; b; i) = N(i)/(a*b)*(1 + 6*(abs(e_x(i))/a + abs(e_y(i))/b))
-'2.The min stress must be not less than zero(no uplift) for each load case <var>i</var>:
+'2.The min stress must be not less than zero (no uplift) for each load case <var>i</var>:
 p_min,i(a; b; i) = N(i)/(a*b)*(1 - 6*(abs(e_x(i))/a + abs(e_y(i))/b))
-'Required dimension that satisfy the constraints as a function of the target parameter <var>k</var> and the load case <var>i</var>:
+'Dimension that satisfies the constraints as a function of the target parameter <var>k</var> and the load case <var>i</var>:
 a_p,max,i(k; i) = $Find{p_max,i(a; a*k; i) - R_0 @ a = a_min : a_max}
 a_p,min,i(k; i) = $Find{p_min,i(a; a*k; i) @ a = a_min : a_max}
 a_i(k; i) = max(a_p,min,i(k; i); a_p,max,i(k; i))
-'Area as function of the target parameter <var>k</var>:
+'Foundation pad area as a function of the target parameter <var>k</var>:
 A_i(k; i) = a_i(k; i)^2*k
 A_max(k) = max(A_i(k; 1); A_i(k; 2); A_i(k; 3); A_i(k; 4))
-'For calculation of the min area and the respective target parameter, we will use the embeded $Inf function:
+'The minimum value of the area and the respective target parameter are calculated by the embedded $Inf function:
 A_inf = $Inf{A_max(k) @ k = k_min : k_max}
 k = k_inf
 'The optimal dimensions of the foundation pad are: 
