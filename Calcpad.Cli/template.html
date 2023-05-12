@@ -26,14 +26,15 @@ input[type="text"], select {
 		box-shadow: 0.06em 0.06em 0.5em #ddd;
 }
 
-input[type="checkbox"], 
-input[type="radio"]{
-	zoom: 1.3;
-	-moz-transform: scale(1.3); 
-	-webkit-transform: scale(1.3); 
-	transform: scale(1.3); 
-	transform-origin: bottom;
-	margin-right: 2pt;
+input[type="checkbox"],
+input[type="radio"] {
+    --ssf: 1.5;
+    zoom: var(--ssf);
+    -moz-transform: scale(var(--ssf));
+    -webkit-transform: scale(var(--ssf));
+    transform: scale(var(--ssf));
+    transform-origin: bottom;
+    margin-right: 2pt;
 }
 
 input[type="checkbox"].post:disabled:not(:checked), 
@@ -66,7 +67,6 @@ small {font-weight: normal;}
 .b1, .b2, .b3,
 .c1, .c2, .c3, .c4, 
 .c5, .c6, .c7, .c8   {display: inline-block;}
-.b0 {font-size: 120%;}
 .r0, .r1, .r2, .r3 {
 	margin-top: -1.5pt; 
 	margin-right: 1.5pt; 
@@ -80,9 +80,9 @@ small {font-weight: normal;}
 	line-height: 130%; 
 	vertical-align: middle; 
 	margin-top: 0.75pt; 
-	padding-top: 0.75pt;  
+	padding-top: 1.25pt;  
 	padding-left: 1pt; 
-	padding-right: 2pt;
+	padding-right: 1pt;
 }
 .r {
 	font-size: 130%; 
@@ -97,6 +97,8 @@ small {font-weight: normal;}
 .eq sub {font-family: Calibri, 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;}
 .eq sup {display: inline-block; margin-left: 1pt; margin-top: -2pt;}
 .eq small {font-size:80%;}
+small.nth { font-size: 70%; }
+.nth { position: relative; bottom: 1pt; }
 sup.raised {vertical-align: top;}
 sup .r0, sup .r1, sup .r2, sup .r3 {
 	zoom: 0.7; 
@@ -111,18 +113,20 @@ sup .r1 {margin-left: -11pt;}
 sup .r2 {margin-left: -13pt;}
 sup .r3 {margin-left: -16pt;}
 .b1, .b2, .b3, .c1, .c2, .c3, .c4, .c5, .c6, .c7, .c8 {vertical-align: middle; font-weight: 100; font-stretch: ultra-condensed;}
-.b2, .b3, .c2, .c3, .c4, .c5, .c6, .c7, .c8 {font-family: "Jost* Hairline";}
-.b1 {font-size: 240%; margin-top: -3pt; font-family: "Jost* Thin";}
-.b2 {font-size: 400%; margin-top: -6pt; margin-left: -0.5pt; margin-right: -0.5pt;}
-.b3 {font-size: 500%; margin-top: -9pt; margin-left: -1pt; margin-right: -1pt;}
-.c1 {font-size: 220%; margin-top: -2pt; font-family: "Jost* Thin";}
-.c2 {font-size: 330%; margin-top: -4pt; margin-left: -0.5pt; margin-right: -0.5pt;}
-.c3 {font-size: 440%; margin-top: -6pt; margin-left: -1pt; margin-right: -1pt;}
-.c4 {font-size: 550%; margin-top: -8pt; margin-left: -2pt; margin-right: -2pt; transform: scaleX(0.9);}
-.c5 {font-size: 660%; margin-top: -10pt; margin-left: -4pt; margin-right: -4pt; transform: scaleX(0.8);}
-.c6 {font-size: 770%; margin-top: -12pt; margin-left: -5pt; margin-right: -5pt; transform: scaleX(0.7);}
-.c7 {font-size: 880%; margin-top: -14pt; margin-left: -6pt; margin-right: -6pt; transform: scaleX(0.6);}
-.c8 {font-size: 990%; margin-top: -16pt; margin-left: -7pt; margin-right: -7pt; transform: scaleX(0.5);}
+.b2, .b3, .c2, .c3, .c4, .c5, .c6, .c7, .c8 { font-family: "Jost* Hairline"; }
+.b0, .b1, .c1 { font-family: "Jost* Thin"; }
+.b0 {font-size: 120%;}
+.b1 {font-size: 240%; margin-top: -3pt;}
+.b2 {font-size: 370%; margin-top: -5pt; margin-left: -3pt; margin-right: -3pt;}
+.b3 {font-size: 520%; margin-top: -8pt; margin-left: -5pt; margin-right: -5pt;}
+.c1 {font-size: 240%; margin-top: -4pt;}
+.c2 {font-size: 360%; margin-top: -6pt; margin-left: -2.5pt; margin-right: -0.5pt;}
+.c3 {font-size: 480%; margin-top: -8pt; margin-left: -3pt; margin-right: -1pt;}
+.c4 {font-size: 600%; margin-top: -10pt; margin-left: -4pt; margin-right: -2pt; transform: scaleX(0.9);}
+.c5 {font-size: 710%; margin-top: -11.5pt; margin-left: -6pt; margin-right: -4pt; transform: scaleX(0.8);}
+.c6 {font-size: 820%; margin-top: -13pt; margin-left: -7pt; margin-right: -5pt; transform: scaleX(0.7);}
+.c7 {font-size: 930%; margin-top: -14.5pt; margin-left: -8pt; margin-right: -6pt; transform: scaleX(0.6);}
+.c8 {font-size: 1040%; margin-top: -16pt; margin-left: -9pt; margin-right: -7pt; transform: scaleX(0.5);}
 .dvc, .dvr, .dvs {display: inline-block; vertical-align: middle; white-space: nowrap;}
 .dvc {text-align: center; line-height: 110%;}
 .dvr {text-align: center; line-height: 105%;}
@@ -199,109 +203,142 @@ sup .r3 {margin-left: -16pt;}
 </head>
 <body>
 <script>
-var contextMenu = false;
-function delayedLoad(path) {setTimeout(function() {document.write(path);}, 1000);}
-function getVerticalPosition(line) {return document.querySelector("[data-text='" + line + "']").getBoundingClientRect().top;}
+	var contextMenu = false;
+	function delayedLoad(path) {setTimeout(function() {document.write(path);}, 1000);}
+	function getVerticalPosition(line) {return document.querySelector("[data-text='" + line + "']").getBoundingClientRect().top;}
 
-function getTargetId(element) {
-	var id = $(element).attr("name");
-	if (id != null && id.length > 0)
-		return id;
+	if (window.jQuery) {
 
-	return $(element).data("target");
-}
+		function getHtmlWithInput() {
+			$("input[type=text]").each(function () {
+				$(this).attr("value", $(this).val());
+            });
+            $("input[type=hidden]").each(function () {
+                $(this).attr("value", $(this).val());
+            });
+            $("textarea").each(function () {
+                $(this).html($(this).val());
+            });
+            $("input[type=radio]").each(function () {
+                if (this.checked)
+                    $(this).attr("checked", "checked");
+                else
+                    $(this).removeAttr("checked");
+            });
+            $("input[type=checkbox]").each(function () {
+                if (this.checked)
+                    $(this).attr("checked", "checked");
+                else
+                    $(this).removeAttr("checked");
+            });
+            $("select option").each(function () {
+				if (this.selected) {
+					$(this).attr("selected", "true");
+				}
+                else
+                    $(this).removeAttr("selected");
+            });
+			return document.body.outerHTML;
+		}
 
-function getValue(id, source) {
-	var value = "";
-	var target = $("#" + id + " input");
-	var domObj = target.get(0);
-	if (domObj == null || domObj.Length == 0) {
-		target = $("#" + id + " .eq u");
-		target.each(function() {
-			value += $(this).text() + ";";
-		});
-		$(source).prop('disabled', true);
-	}
-	else {
-		target.each(function() {
-			value += $(this).val() + ";";
-		});
-	}
-	if (value.length > 1) {
-		value = value.slice(0, -1);
-	}
-	return value;
-}
-if(window.jQuery){
-	$(document).ready(function(){
+        function getTargetId(element) {
+            var id = $(element).attr("name");
+            if (id != null && id.length > 0)
+                return id;
+
+            return $(element).data("target");
+        }
+
+        function getValue(id, source) {
+            var value = "";
+            var target = $("#" + id + " input");
+            var domObj = target.get(0);
+            if (domObj == null || domObj.Length == 0) {
+                target = $("#" + id + " .eq u");
+                target.each(function () {
+                    value += $(this).text() + ";";
+                });
+                $(source).prop('disabled', true);
+            }
+            else {
+                target.each(function () {
+                    value += $(this).val() + ";";
+                });
+            }
+            if (value.length > 1) {
+                value = value.slice(0, -1);
+            }
+            return value;
+        }
+
+		$(document).ready(function(){
 	
-		$("#Units").change(function() {$(".Units").text($(this).val());});
+			$("#Units").change(function() {$(".Units").text($(this).val());});
 		
-		$(".fold > :first-child").click(function() {
-			if ($(this).parent().hasClass("fold")) {
-				$(this).parent().removeClass("fold").addClass("unfold");
-			} 
-			else {
-				$(this).parent().removeClass("unfold").addClass("fold");
-			}
-		});
+			$(".fold > :first-child").click(function() {
+				if ($(this).parent().hasClass("fold")) {
+					$(this).parent().removeClass("fold").addClass("unfold");
+				} 
+				else {
+					$(this).parent().removeClass("unfold").addClass("fold");
+				}
+			});
 		
-		$("select").each(function(index) {
-			if ($(this).prop("id") != "Units")
-			{
+			$("select").each(function(index) {
+				if ($(this).prop("id") != "Units")
+				{
+					var id = getTargetId(this);
+					if (id != null && id.length > 0){
+						var value = getValue(id, this);
+						$(this).val(value);
+					}
+				}
+
+			});
+		
+			$("select").change(function(){
 				var id = getTargetId(this);
 				if (id != null && id.length > 0){
-					var value = getValue(id, this);
-					$(this).val(value);
-				}
-			}
-
-		});
-		
-		$("select").change(function(){
-			var id = getTargetId(this);
-			if (id != null && id.length > 0){
-				var target = $("#" + id + " input");
-				if (target != null){
-					var values = $(this).val().split(";");
-					target.each(function(index) {
-						$(this).val(values[index]);
-					});
-				}
-			}
-		});
-		
-		$("input:radio, input:checkbox").each(function(index) {
-			var id = getTargetId(this);
-			if (id != null && id.length > 0){
-				var value = getValue(id, this);
-				$(this).prop("checked", $(this).val() == value);
-			}
-		});
-		
-		$("input:radio, input:checkbox").change(function(){
-			var id = getTargetId(this);
-			if (id != null && id.length > 0){
-				var target = $("#" + id + " input");
-				if (target != null){
-					if ($(this).prop("checked")){
+					var target = $("#" + id + " input");
+					if (target != null){
 						var values = $(this).val().split(";");
 						target.each(function(index) {
 							$(this).val(values[index]);
 						});
-					} 
-					else if($(this).prop("type") == "checkbox"){
-						target.each(function() {
-							$(this).val("0");
-						});
 					}
 				}
-			}
-		});
+			});
 		
-		$(".money").each(function(){$(this).text(Number(($(this).text())).toFixed(2));});	
-		document.oncontextmenu = function(){contextMenu = true;};
-		document.onmousedown = function(){contextMenu = false;};
-	});
-}
+			$("input:radio, input:checkbox").each(function(index) {
+				var id = getTargetId(this);
+				if (id != null && id.length > 0){
+					var value = getValue(id, this);
+					$(this).prop("checked", $(this).val() == value);
+				}
+			});
+		
+			$("input:radio, input:checkbox").change(function(){
+				var id = getTargetId(this);
+				if (id != null && id.length > 0){
+					var target = $("#" + id + " input");
+					if (target != null){
+						if ($(this).prop("checked")){
+							var values = $(this).val().split(";");
+							target.each(function(index) {
+								$(this).val(values[index]);
+							});
+						} 
+						else if($(this).prop("type") == "checkbox"){
+							target.each(function() {
+								$(this).val("0");
+							});
+						}
+					}
+				}
+			});
+			$(".money").each(function(){$(this).text(Number(($(this).text())).toFixed(2));});	
+		});
+	}
+    document.oncontextmenu = function () { contextMenu = true; };
+    document.onmousedown = function () { contextMenu = false; };
 </script>

@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Drawing;
-using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
+using SkiaSharp;
 
 namespace Calcpad.Core
 {
@@ -16,7 +16,7 @@ namespace Calcpad.Core
         {
             internal Node[,] Points;
             internal Node[,] Vertices;
-            private readonly PointF[,] _pngPoints;
+            private readonly SKPoint[,] _pngPoints;
             private readonly SvgPoint[,] _svgPoints;
             private readonly int _nx;
             private readonly int _ny;
@@ -28,7 +28,7 @@ namespace Calcpad.Core
                 Vertices = new Node[points.GetLength(0), points.GetLength(1)];
                 _nx = points.GetLength(0);
                 _ny = points.GetLength(1);
-                _pngPoints = new PointF[_nx, _ny];
+                _pngPoints = new SKPoint[_nx, _ny];
                 _svgPoints = new SvgPoint[_nx, _ny];
                 Min = double.MaxValue;
                 Max = double.MinValue;
@@ -92,7 +92,7 @@ namespace Calcpad.Core
             {
                 for (int i = 0; i < _nx; ++i)
                     for (int j = 0; j < _ny; ++j)
-                        _pngPoints[i, j] = new PointF((float)(x0 + Points[i, j].X * xs), (float)(y0 - Points[i, j].Y * ys));
+                        _pngPoints[i, j] = new SKPoint((float)(x0 + Points[i, j].X * xs), (float)(y0 - Points[i, j].Y * ys));
             }
 
             internal void GetSvgPoints(double x0, double y0, double xs, double ys)
@@ -190,7 +190,7 @@ namespace Calcpad.Core
 
         private void GetColor(out byte red, out byte green, out byte blue, double value, double lightness)
         {
-            var k = Settings.Shadows ? 85.0 + 170.0 * lightness : 255.0;
+            var k = Settings.Shadows ? 55d + 200d * lightness : 255d;
             if (Settings.SmoothScale)
             {
                 GetRgb(out var dR, out var dG, out var dB, value);
@@ -238,10 +238,10 @@ namespace Calcpad.Core
             switch (Settings.ColorScale)
             {
                 case PlotSettings.ColorScales.Gray:
-                    red = green = blue = 85 + 170.0 * value;
+                    red = green = blue = 55d + 200d * value;
                     break;
                 case PlotSettings.ColorScales.Rainbow:
-                    value *= 4;
+                    value *= 4d;
                     var n = (int)Math.Floor(value);
                     value -= n;
                     switch (n)
@@ -268,35 +268,35 @@ namespace Calcpad.Core
                             break;
                         default:
                             red = 1d - 0.5 * value;
-                            green = blue = 0;
+                            green = blue = 0d;
                             break;
                     }
                     break;
                 case PlotSettings.ColorScales.Terrain:
-                    value *= 3;
+                    value *= 3d;
                     n = (int)Math.Floor(value);
                     value -= n;
                     switch (n)
                     {
                         case 0:
-                            red = 0;
-                            green = 0.5 * (1 + value);
-                            blue = 0.5 * (1 - value);
+                            red = 0d;
+                            green = 0.5 * (1d + value);
+                            blue = 0.5 * (1d - value);
                             break;
                         case 1:
                             red = value;
-                            green = 1;
-                            blue = 0;
+                            green = 1d;
+                            blue = 0d;
                             break;
                         case 2:
-                            red = 1;
-                            green = 1 - 0.5 * value;
+                            red = 1d;
+                            green = 1d - 0.5 * value;
                             blue = 0;
                             break;
                         default:
-                            red = 1;
+                            red = 1d;
                             green = 0.5 * (1 - value);
-                            blue = 0;
+                            blue = 0d;
                             break;
                     }
                     break;
@@ -316,12 +316,12 @@ namespace Calcpad.Core
                     blue = 0.8 + 0.2 * value;
                     break;
                 default:
-                    red = green = blue = 1;
+                    red = green = blue = 1d;
                     break;
             }
         }
 
-        private void DrawColorScalePng(Graphics g, Map m)
+        private void DrawColorScalePng(SKCanvas canvas, Map m)
         {
             var x0 = Width - Right + Margin / 2;
             var y0 = Height - Margin;
@@ -334,26 +334,33 @@ namespace Calcpad.Core
             for (int i = 0; i < n; ++i)
             {
                 GetColor(out var red, out var green, out var blue, (i + 0.5) / n, 1.0);
-                Brush b = new SolidBrush(Color.FromArgb(255, red, green, blue));
-                g.FillRectangle(b, x0, y0 - i * dh - dh, w, dh);
+                var b = new SKPaint()
+                {
+                    Style = SKPaintStyle.Fill,
+                    Color = new SKColor(red, green, blue),
+                };
+                canvas.DrawRect(x0, y0 - i * dh - dh, w, dh, b);
                 b.Dispose();
             }
-            g.DrawRectangle(Pens.Black, x0, Margin, w, h);
-            var gridPen = new Pen(Color.FromArgb(48, 0, 0, 0));
-            var f = new Font("Arial", 8);
-            var sz = g.MeasureString("0", f);
-            var th = sz.Height / 2;
+            var axisPen = CreateAxisPen();
+            var textPen = CreateTextPen();
+            canvas.DrawRect(x0, Margin, w, h, axisPen);
+            var gridPen = CreateGridPen();
+            var sz = new SKRect();
+            textPen.MeasureText("0", ref sz);
+            var th = sz.Height / 2f;
             var dy = (m.Max - m.Min) / NColors;
             dh = (float)h / NColors;
             for (int i = 0; i <= NColors; ++i)
             {
                 var y = y0 - i * dh;
-                g.DrawLine(gridPen, x0, y, x0 + w, y);
+                canvas.DrawLine(x0, y, x0 + w, y, gridPen);
                 var s = OutputWriter.FormatNumberHelper(m.Min + i * dy, 2);
-                g.DrawString(s, f, Brushes.Black, x0 + w + 5, y - th);
+                canvas.DrawText(s, x0 + w + 8f, y + th, textPen);
             }
             gridPen.Dispose();
-            f.Dispose();
+            axisPen.Dispose();
+            textPen.Dispose();
         }
 
         private void DrawColorScaleSvg(SvgDrawing g, Map m)
@@ -463,7 +470,7 @@ namespace Calcpad.Core
             return d;
         }
 
-        private void SetBitmapBits(Bitmap canvas, double[,,] values)
+        private void SetBitmapBits(SKBitmap bitmap, double[,,] values)
         {
             Node light = new(), spec = new();
             double length, ks = 0.5;
@@ -485,18 +492,16 @@ namespace Calcpad.Core
                     case PlotSettings.LightDirections.SouthWest: light = new(-sqr3, -sqr3, sqr3); break;
                     case PlotSettings.LightDirections.NorthWest: light = new(-sqr3, sqr3, sqr3); break;
                 }
-                var z = light.Z + 1;
+                var z = light.Z + 1d;
                 length = Math.Sqrt(light.X * light.X + light.Y * light.Y + z * z);
                 spec = new(light.X / length, light.Y / length, z / length);
             }
-            var w = canvas.Width;
-            var h = canvas.Height;
+            var w = bitmap.Width;
+            var h = bitmap.Height;
             var nx = values.GetLength(0) - 1;
             var ny = values.GetLength(1) - 1;
             var mt = (h - ny + 1) / 2;
             var ml = (int)(mt * (double)Left / Margin);
-            var r = new Rectangle(0, 0, w, h);
-            var bmpData = canvas.LockBits(r, ImageLockMode.ReadOnly, canvas.PixelFormat);
             var n = 4 * w * h;
             var b = new byte[n];
             for (int i = 0; i < ny; ++i)
@@ -513,44 +518,46 @@ namespace Calcpad.Core
                         {
                             var x = values[j, n1, 1];
                             var y = values[j, n1, 2];
-                            length = Math.Sqrt(x * x + y * y + 1);
+                            length = Math.Sqrt(x * x + y * y + 1d);
                             p = (x * light.X + y * light.Y + light.Z) / length;
                             if (Settings.ColorScale > PlotSettings.ColorScales.Gray)
                             {
                                 length = (x * spec.X + y * spec.Y + spec.Z) / length;
                                 if (Math.Abs(length) > 0.98)
-                                    s = Math.Pow(length, 200) * ks;
+                                    s = Math.Pow(length, 200d) * ks;
                             }
                         }
                         GetColor(out var red, out var green, out var blue, values[j, n1, 0], p);
                         var jStr = 4 * (iStr + j);
-                        b[jStr + 3] = (byte)(255 * (1 - s));
-                        b[jStr + 2] = red;
-                        b[jStr + 1] = green;
-                        b[jStr] = blue;
+                        b[jStr + 3] = 255;
+                        b[jStr + 2] = (byte)(red + (255 - red) * s);
+                        b[jStr + 1] = (byte)(green + (255 - green) * s);
+                        b[jStr] = (byte)(blue + (255 - blue) * s);
                     }
                 }
             }
-            System.Runtime.InteropServices.Marshal.Copy(b, 0, bmpData.Scan0, n);
-            canvas.UnlockBits(bmpData);
+            GCHandle pinnedArray = GCHandle.Alloc(b, GCHandleType.Pinned);
+            IntPtr pointer = pinnedArray.AddrOfPinnedObject();
+            bitmap.SetPixels(pointer);
+            pinnedArray.Free();
         }
 
         private string DrawPng(Map m, int x0, int y0, double xs, double ys, Box bounds)
         {
             var values = Interpolate(m);
-            var canvas = new Bitmap(Width, Height);
-            SetBitmapBits(canvas, values);
-            var g = Graphics.FromImage(canvas);
-            DrawGridPng(g, x0, y0, xs, ys, bounds);
-            DrawColorScalePng(g, m);
+            var bitmap = new SKBitmap(Width, Height);
+            SetBitmapBits(bitmap, values);
+            var canvas = new SKCanvas(bitmap);
+            DrawGridPng(canvas, x0, y0, xs, ys, bounds);
+            DrawColorScalePng(canvas, m);
             string src;
             if (string.IsNullOrEmpty(Settings.ImagePath))
-                src = ImageToBase64(canvas);
+                src = ImageToBase64(bitmap);
             else
-                src = Settings.ImageUri + PngToFile(canvas, Settings.ImagePath);
+                src = Settings.ImageUri + PngToFile(bitmap, Settings.ImagePath);
 
-            g.Dispose();
             canvas.Dispose();
+            bitmap.Dispose();
             return HtmlImg(src);
         }
 
@@ -561,10 +568,10 @@ namespace Calcpad.Core
             var w = values.GetLength(0) - 1;
             var h = values.GetLength(1) - 1;
             string src;
-            using (var canvas = new Bitmap(w, h))
+            using (var bitmap = new SKBitmap(w, h))
             {
-                SetBitmapBits(canvas, values);
-                src = ImageToBase64(canvas);
+                SetBitmapBits(bitmap, values);
+                src = ImageToBase64(bitmap);
             }
             g.DrawImage(Left, Margin, w, h, src);
             DrawGridSvg(g, x0, y0, xs, ys, bounds);

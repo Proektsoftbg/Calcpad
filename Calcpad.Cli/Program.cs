@@ -28,10 +28,10 @@ namespace Calcpad.Cli
             Settings settings = GetSettings();
             if (TryConvertOnStartup(settings))
                 return;
-
+            
             MathParser mp = new(settings.Math);
             Console.OutputEncoding = System.Text.Encoding.UTF8;
-            Console.WindowWidth = 85;
+            //Console.WindowWidth = 85;
             List<Line> Lines = new();
             var Title = TryOpenOnStartup(Lines);
             Header(Title, settings.Math.Degrees);

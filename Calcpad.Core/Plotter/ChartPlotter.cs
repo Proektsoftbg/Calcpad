@@ -1,8 +1,6 @@
-﻿using Microsoft.VisualBasic;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Drawing2D;
+using SkiaSharp;
 using System.Linq;
 
 namespace Calcpad.Core
@@ -201,64 +199,67 @@ namespace Calcpad.Core
 
         private string DrawPng(Chart[] charts, double x0, double y0, double xs, double ys, Box bounds)
         {
-            var canvas = new Bitmap(Width, Height);
-            var g = Graphics.FromImage(canvas);
+            var bitmap = new SKBitmap(Width, Height);
+            var canvas = new SKCanvas(bitmap);
             var penWidth = 2f * (float)ScreenScaleFactor;
             var dotRadius = 2f * penWidth;
-            var dotSize = new SizeF(2f * dotRadius, 2f * dotRadius);
-            Pen[] chartPens =
+            SKPaint[] chartPens =
             {
-                new(Color.Red, penWidth),
-                new(Color.Green, penWidth),
-                new(Color.Blue, penWidth),
-                new(Color.Goldenrod, penWidth),
-                new(Color.Magenta, penWidth),
-                new(Color.DarkCyan, penWidth),
-                new(Color.Purple, penWidth),
-                new(Color.DarkOrange, penWidth),
-                new(Color.Maroon, penWidth),
-                new(Color.YellowGreen, penWidth)
+                new() {Color = SKColors.Red, StrokeWidth = penWidth },
+                new() {Color = SKColors.Green, StrokeWidth = penWidth },
+                new() {Color = SKColors.Blue, StrokeWidth = penWidth },
+                new() {Color = SKColors.Goldenrod, StrokeWidth = penWidth },
+                new() {Color = SKColors.Magenta, StrokeWidth = penWidth },
+                new() {Color = SKColors.DarkCyan, StrokeWidth = penWidth },
+                new() {Color = SKColors.Purple, StrokeWidth = penWidth },
+                new() {Color = SKColors.DarkOrange, StrokeWidth = penWidth },
+                new() {Color = SKColors.Maroon,  StrokeWidth = penWidth },
+                new() {Color = SKColors.YellowGreen, StrokeWidth = penWidth },
             };
-            SolidBrush[] chartBrushes =
+            SKPaint[] chartBrushes =
 {
-                new(Color.FromArgb(12, chartPens[0].Color)),
-                new(Color.FromArgb(11, chartPens[1].Color)),
-                new(Color.FromArgb(10, chartPens[2].Color)),
-                new(Color.FromArgb(9, chartPens[3].Color)),
-                new(Color.FromArgb(8, chartPens[4].Color)),
-                new(Color.FromArgb(7, chartPens[5].Color)),
-                new(Color.FromArgb(6, chartPens[6].Color)),
-                new(Color.FromArgb(6, chartPens[7].Color)),
-                new(Color.FromArgb(6, chartPens[8].Color)),
-                new(Color.FromArgb(6, chartPens[9].Color))
+                new() {Color = chartPens[0].Color.WithAlpha(12)},
+                new() {Color = chartPens[1].Color.WithAlpha(11)},
+                new() {Color = chartPens[2].Color.WithAlpha(10)},
+                new() {Color = chartPens[3].Color.WithAlpha(9)},
+                new() {Color = chartPens[4].Color.WithAlpha(8)},
+                new() {Color = chartPens[5].Color.WithAlpha(7)},
+                new() {Color = chartPens[6].Color.WithAlpha(6)},
+                new() {Color = chartPens[7].Color.WithAlpha(6)},
+                new() {Color = chartPens[8].Color.WithAlpha(6)},
+                new() {Color = chartPens[9].Color.WithAlpha(6)}
             };
-            foreach (Pen pen in chartPens)
+            foreach (var pen in chartPens)
             {
-                pen.LineJoin = LineJoin.Round;
-                pen.StartCap = LineCap.Round;
-                pen.EndCap = LineCap.Round;
+                pen.Style = SKPaintStyle.Stroke;
+                pen.StrokeJoin= SKStrokeJoin.Round;
+                pen.StrokeCap = SKStrokeCap.Round;
+                pen.IsAntialias = true; 
             }
-            DrawGridPng(g, x0, y0, xs, ys, bounds);
-            g.SmoothingMode = SmoothingMode.AntiAlias;
+            DrawGridPng(canvas, x0, y0, xs, ys, bounds);
             var penNo = 0;
             foreach (var c in charts)
             {
                 if (c.PointCount <= 0)
                     continue;
 
+                ref var pen = ref chartPens[penNo];
                 if (c.Bounds.Width == 0 && c.Bounds.Height == 0)
                 {
-                    var p = new PointF(c.PngPoints[0].X - dotRadius, c.PngPoints[0].Y - dotRadius);
-                    var rect = new RectangleF(p, dotSize);
-                    g.FillEllipse(chartPens[penNo].Brush, rect);
+                    
+                    pen.Style = SKPaintStyle.StrokeAndFill;
+                    canvas.DrawCircle(c.PngPoints[0], dotRadius, pen);
+                    pen.Style = SKPaintStyle.Stroke;
                 }
                 else
                 {
-                    g.DrawLines(chartPens[penNo], c.PngPoints);
+                    for (int i = 1, len = c.PngPoints.Length; i < len; ++i)
+                        canvas.DrawLine(c.PngPoints[i - 1], c.PngPoints[i], pen);
+                      
                     if (c.Fill)
                     {
                         var yf = y0 - Math.Clamp(0, bounds.Bottom * ys, bounds.Top * ys);
-                        FillChart(g, chartBrushes[penNo], (float)yf, c.PngPoints);
+                        FillChart(canvas, chartBrushes[penNo], (float)yf, c.PngPoints);
                     }
                 }
 
@@ -268,9 +269,9 @@ namespace Calcpad.Core
             }
             string src;
             if (string.IsNullOrEmpty(Settings.ImagePath))
-                src = ImageToBase64(canvas);
+                src = ImageToBase64(bitmap);
             else
-                src = Settings.ImageUri + PngToFile(canvas, Settings.ImagePath);
+                src = Settings.ImageUri + PngToFile(bitmap, Settings.ImagePath);
 
             for (int j = 0, len = chartPens.Length; j < len; ++j)
             {
@@ -278,20 +279,23 @@ namespace Calcpad.Core
                 chartBrushes[j].Dispose();
             }
 
-            g.Dispose();
             canvas.Dispose();
+            bitmap.Dispose();
             return HtmlImg(src);
         }
 
-        private static void FillChart(Graphics g, Brush brush, float y0, PointF[] points)
+        private static void FillChart(SKCanvas canvas, SKPaint brush, float y0, SKPoint[] points)
         {
             var len = points.Length;
-            var fillPoints = new PointF[points.Length + 2];
+            var fillPoints = new SKPoint[points.Length + 2];
             fillPoints[0] = new(points[0].X, y0);
             fillPoints[^1] = new(points[^1].X, y0);
             for (int i = 0; i < len; ++i)
                 fillPoints[i + 1] = points[i];
-            g.FillPolygon(brush, fillPoints);
+
+            var path = new SKPath();
+            path.AddPoly(fillPoints);
+            canvas.DrawPath(path, brush);
         }
 
         private string DrawSvg(Chart[] charts, double x0, double y0, double xs, double ys, Box bounds)
@@ -324,7 +328,7 @@ namespace Calcpad.Core
         private struct Chart
         {
             private readonly Node[] _points;
-            internal PointF[] PngPoints;
+            internal SKPoint[] PngPoints;
             internal SvgPoint[] SvgPoints;
             internal int PointCount;
             internal Box Bounds;
@@ -332,7 +336,7 @@ namespace Calcpad.Core
             internal Chart(int size)
             {
                 _points = new Node[size];
-                PngPoints = Array.Empty<PointF>();
+                PngPoints = Array.Empty<SKPoint>();
                 SvgPoints = Array.Empty<SvgPoint>();
                 PointCount = 0;
                 Bounds = new Box();
@@ -352,7 +356,7 @@ namespace Calcpad.Core
 
             internal void GetPngPoints(double x0, double y0, double xs, double ys)
             {
-                PngPoints = new PointF[PointCount];
+                PngPoints = new SKPoint[PointCount];
                 for (int i = 0; i < PointCount; ++i)
                 {
                     var x = (float)(x0 + _points[i].X * xs);
@@ -363,7 +367,7 @@ namespace Calcpad.Core
                     if (Math.Abs(y) > GDILimit)
                         y = (float)Math.CopySign(GDILimit, y);
 
-                    PngPoints[i] = new PointF(x, y);
+                    PngPoints[i] = new SKPoint(x, y);
                 }
             }
 
