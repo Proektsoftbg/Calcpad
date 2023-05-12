@@ -23,7 +23,7 @@ namespace Calcpad.Core
             Settings = settings;
             Parser = parser;
             ScreenScaleFactor = (float)settings.ScreenScaleFactor;
-            Margin = (int)(40 * ScreenScaleFactor);
+            Margin = (int)(30 * ScreenScaleFactor);
             Left = Margin;
             Right = Margin;
         }
@@ -55,9 +55,9 @@ namespace Calcpad.Core
 
         protected void DrawGridPng(SKCanvas canvas, double x0, double y0, double xs, double ys, Box bounds)
         {
-            var gridPen = CreateGridPen();
-            var axisPen = CreateAxisPen();
-            var textPen = CreateTextPen();
+            using var gridPen = CreateGridPen();
+            using var axisPen = CreateAxisPen();
+            using var textPen = CreateTextPen();
             var sz = new SKRect();
             textPen.MeasureText(" -0.12 ", ref sz);
             var tw = sz.Width / 5f;
@@ -75,7 +75,8 @@ namespace Calcpad.Core
                 yg += stepY;
             var max = bounds.Top + tol;
             var isScientific = Math.Abs(bounds.Top) + Math.Abs(bounds.Bottom) >= 20000;
-            var xt = Left - tw / 2f - 4f;
+            var a = 4f * ScreenScaleFactor;
+            var xt = Left - tw / 2f - a / 2f;
             string s;
             textPen.TextAlign = SKTextAlign.Right;
             while ((yg < max) == (stepY > 0))
@@ -109,7 +110,7 @@ namespace Calcpad.Core
             if (xg < bounds.Left - tol)
                 xg += stepX;
             max = bounds.Right + tol;
-            var yt = yn + 2f * th + 8f;
+            var yt = yn + 2f * th + a;
             isScientific = Math.Abs(bounds.Right) + Math.Abs(bounds.Left) >= 20000;
             if (midLine)
             {
@@ -156,12 +157,11 @@ namespace Calcpad.Core
             var sy0 = OutputWriter.FormatNumberHelper(bounds.Bottom, 2);
             var sy1 = OutputWriter.FormatNumberHelper(bounds.Top, 2);
             textPen.TextAlign = SKTextAlign.Left;
-            canvas.DrawText($"[{sx0}; {sy0}]", 5f, Height - 2f * th, textPen);
+            textPen.Color = SKColors.Gray;
+            a /= 2f;
+            canvas.DrawText($"[{sx0}; {sy0}]", 5f, Height - 1f * th - a, textPen);
             textPen.TextAlign = SKTextAlign.Right;
-            canvas.DrawText($"[{sx1}; {sy1}]", Width - 5f, 3f * th, textPen);
-            gridPen.Dispose();
-            axisPen.Dispose();
-            textPen.Dispose();
+            canvas.DrawText($"[{sx1}; {sy1}]", Width - 5f, 2f * th + a, textPen);
         }
 
         protected SKPaint CreateGridPen() => new()
@@ -184,8 +184,8 @@ namespace Calcpad.Core
         {
             Style = SKPaintStyle.StrokeAndFill,
             Color = SKColors.Black,
-            StrokeWidth = 0.2f,
-            Typeface = SKTypeface.FromFamilyName("Arial"),
+            StrokeWidth = 0.5f,
+            Typeface = SKTypeface.FromFamilyName("Arial Nova"),
             TextSize = 11f * ScreenScaleFactor,
             TextAlign = SKTextAlign.Left,
             IsAntialias = true,

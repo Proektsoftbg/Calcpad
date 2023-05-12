@@ -604,6 +604,7 @@ namespace Calcpad.Core
                         }
                         catch (MathParser.MathParserException ex)
                         {
+                            _parser.ResetStack();
                             string errText;
                             if (!calculate && token.Value.Contains('?', StringComparison.Ordinal))
                                 errText = token.Value.Replace("?", "<input type=\"text\" size=\"2\" name=\"Var\">");
