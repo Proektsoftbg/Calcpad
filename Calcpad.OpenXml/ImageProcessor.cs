@@ -1,8 +1,8 @@
-﻿using DocumentFormat.OpenXml.Packaging;
-using System;
-using System.Drawing;
+﻿using System;
 using System.IO;
 using System.Net.Http;
+using DocumentFormat.OpenXml.Packaging;
+using SkiaSharp;
 
 namespace Calcpad.OpenXml
 {
@@ -91,7 +91,7 @@ namespace Calcpad.OpenXml
             get
             {
                 using var stream = new MemoryStream(imageData);
-                var img = Image.FromStream(stream);
+                using var img = SKBitmap.Decode(stream);
                 return new Tuple<int, int>(img.Width, img.Height);
             }
         }
@@ -128,14 +128,14 @@ namespace Calcpad.OpenXml
                 var uri = new Uri(src);
                 if (uri.IsFile)
                 {
-                    using var img = Image.FromFile(src);
+                    using var img = SKBitmap.Decode(src);
                     return new Tuple<int, int>(img.Width, img.Height);
                 }
                 else
                 {
                     using var webClient = new HttpClient();
                     using var stream = webClient.GetStreamAsync(src).Result;
-                    using var img = Image.FromStream(stream);
+                    using var img = SKBitmap.Decode(stream);
                     return new Tuple<int, int>(img.Width, img.Height);
                 }
             }
@@ -170,7 +170,7 @@ namespace Calcpad.OpenXml
         {
             get
             {
-                using var img = Image.FromFile(src);
+                using var img = SKBitmap.Decode(src);
                 return new Tuple<int, int>(img.Width, img.Height);
             }
         }

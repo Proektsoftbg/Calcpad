@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Drawing.Text;
 using System.Globalization;
 using System.IO;
+using SkiaSharp;
 
 namespace Calcpad.Core
 {
@@ -11,7 +9,7 @@ namespace Calcpad.Core
 
     {
         private static readonly double[] Steps = { 1.0, 2.0, 2.5, 5.0 };
-        protected readonly double ScreenScaleFactor;
+        protected readonly float ScreenScaleFactor;
         protected int Width = 500;
         protected int Height = 350;
         protected readonly int Margin = 30;
@@ -24,7 +22,7 @@ namespace Calcpad.Core
         {
             Settings = settings;
             Parser = parser;
-            ScreenScaleFactor = settings.ScreenScaleFactor;
+            ScreenScaleFactor = (float)settings.ScreenScaleFactor;
             Margin = (int)(40 * ScreenScaleFactor);
             Left = Margin;
             Right = Margin;
@@ -55,19 +53,15 @@ namespace Calcpad.Core
             max = mid + d;
         }
 
-        protected void DrawGridPng(Graphics g, double x0, double y0, double xs, double ys, Box bounds)
+        protected void DrawGridPng(SKCanvas canvas, double x0, double y0, double xs, double ys, Box bounds)
         {
-            g.TextRenderingHint = TextRenderingHint.AntiAlias;
-            var penWidth = (float)ScreenScaleFactor;
-            var gridPen = new Pen(Color.FromArgb(32, 0, 0, 0), penWidth);
-            var axisPen = new Pen(Color.Black, penWidth);
-            var b = Brushes.Black;
-            var fh = 8.5f;
-            var f = new Font("Arial", fh);
-            var sz = g.MeasureString(" -0.12 ", f);
+            var gridPen = CreateGridPen();
+            var axisPen = CreateAxisPen();
+            var textPen = CreateTextPen();
+            var sz = new SKRect();
+            textPen.MeasureText(" -0.12 ", ref sz);
             var tw = sz.Width / 5f;
-            var th = sz.Height / 2f - 2f;
-            var th05 = th / 2f;
+            var th = sz.Height / 2f;
             float xn = Width - Right;
             float yn = Height - Margin;
             var maxSteps = (int)Math.Min(15d * yn / xn, (yn - Margin) / (2.5 * th));
@@ -81,12 +75,9 @@ namespace Calcpad.Core
                 yg += stepY;
             var max = bounds.Top + tol;
             var isScientific = Math.Abs(bounds.Top) + Math.Abs(bounds.Bottom) >= 20000;
-            var sf = new StringFormat
-            {
-                Alignment = StringAlignment.Far
-            };
-            var xt = Left - tw / 2f;
+            var xt = Left - tw / 2f - 4f;
             string s;
+            textPen.TextAlign = SKTextAlign.Right;
             while ((yg < max) == (stepY > 0))
             {
                 var y = (float)(y0 - yg * ys);
@@ -94,14 +85,14 @@ namespace Calcpad.Core
                     break;
 
                 if (yg >= bounds.Bottom && yg <= bounds.Top)
-                    g.DrawLine(gridPen, Left, y, xn, y);
+                    canvas.DrawLine(Left, y, xn, y, gridPen);
                 if (Math.Abs(yg) < stepY * 1e-8)
                     s = "0";
                 else if (isScientific)
                     s = yg.ToString("0.##E+0", CultureInfo.InvariantCulture);
                 else
                     s = OutputWriter.FormatNumberHelper(yg, 2);
-                g.DrawString(s, f, b, xt, y - th, sf);
+                canvas.DrawText(s, xt, y + th, textPen);
                 yg += stepY;
             }
             var sx0 = OutputWriter.FormatNumberHelper(bounds.Left, 2);
@@ -118,7 +109,7 @@ namespace Calcpad.Core
             if (xg < bounds.Left - tol)
                 xg += stepX;
             max = bounds.Right + tol;
-            var yt = yn + th05 + 4f;
+            var yt = yn + 2f * th + 8f;
             isScientific = Math.Abs(bounds.Right) + Math.Abs(bounds.Left) >= 20000;
             if (midLine)
             {
@@ -126,7 +117,7 @@ namespace Calcpad.Core
                 if (tw * n < stepX * xs)
                     midLine = false;
             }
-            sf.Alignment = StringAlignment.Center;
+            textPen.TextAlign = SKTextAlign.Center;
             var even = true;
             while ((xg < max) == (stepX > 0))
             {
@@ -135,7 +126,7 @@ namespace Calcpad.Core
                     break;
 
                 if (xg >= bounds.Left && xg <= bounds.Right)
-                    g.DrawLine(gridPen, x, Margin, x, yn);
+                    canvas.DrawLine(x, Margin, x, yn, gridPen);
                 if (even)
                 {
                     if (Math.Abs(xg) < stepX * 1e-8)
@@ -144,33 +135,62 @@ namespace Calcpad.Core
                         s = xg.ToString("0.##E+0", CultureInfo.InvariantCulture);
                     else
                         s = OutputWriter.FormatNumberHelper(xg, 2);
-                    g.DrawString(s, f, b, x, yt, sf);
+                    canvas.DrawText(s, x, yt, textPen);
                 }
                 if (midLine)
                     even = !even;
                 xg += stepX;
             }
-            g.DrawRectangle(axisPen, Left, Margin, xn - Left, yn - Margin);
+            textPen.TextAlign = SKTextAlign.Left;
+            canvas.DrawRect(Left, Margin, xn - Left, yn - Margin, axisPen);
             if (y0 >= Margin && y0 <= yn)
             {
-                g.DrawLine(axisPen, Left, (float)y0, xn, (float)y0);
-                g.DrawString("x", f, b, xn + tw, (float)y0 - th);
+                canvas.DrawLine(Left, (float)y0, xn, (float)y0, axisPen);
+                canvas.DrawText("x", xn + tw, (float)y0, textPen);
             }
             if (x0 >= Left && x0 <= xn)
             {
-                g.DrawLine(axisPen, (float)x0, Margin, (float)x0, yn);
-                g.DrawString("y", f, b, (float)x0 - tw / 2f, Margin - 3f * th);
+                canvas.DrawLine((float)x0, Margin, (float)x0, yn, axisPen);
+                canvas.DrawText("y", (float)x0 - tw / 2f, Margin - 2f * th, textPen);
             }
             var sy0 = OutputWriter.FormatNumberHelper(bounds.Bottom, 2);
             var sy1 = OutputWriter.FormatNumberHelper(bounds.Top, 2);
-            sf.Alignment = StringAlignment.Near;
-            g.DrawString($"[{sx0}; {sy0}]", f, b, 5, Height - 3f * th, sf);
-            sf.Alignment = StringAlignment.Far;
-            g.DrawString($"[{sx1}; {sy1}]", f, b, Width - 5, th, sf);
-            axisPen.Dispose();
+            textPen.TextAlign = SKTextAlign.Left;
+            canvas.DrawText($"[{sx0}; {sy0}]", 5f, Height - 2f * th, textPen);
+            textPen.TextAlign = SKTextAlign.Right;
+            canvas.DrawText($"[{sx1}; {sy1}]", Width - 5f, 3f * th, textPen);
             gridPen.Dispose();
-            f.Dispose();
+            axisPen.Dispose();
+            textPen.Dispose();
         }
+
+        protected SKPaint CreateGridPen() => new()
+        {
+            Style = SKPaintStyle.Stroke,
+            Color = SKColors.Black.WithAlpha(32),
+            StrokeWidth = ScreenScaleFactor,
+            IsAntialias = true
+        };
+
+        protected SKPaint CreateAxisPen() => new()
+        {
+            Style = SKPaintStyle.Stroke,
+            Color = SKColors.Black,
+            StrokeWidth = ScreenScaleFactor,
+            IsAntialias = true
+        };
+
+        protected SKPaint CreateTextPen() => new()
+        {
+            Style = SKPaintStyle.StrokeAndFill,
+            Color = SKColors.Black,
+            StrokeWidth = 0.2f,
+            Typeface = SKTypeface.FromFamilyName("Arial"),
+            TextSize = 11f * ScreenScaleFactor,
+            TextAlign = SKTextAlign.Left,
+            IsAntialias = true,
+            IsAutohinted = true 
+        };
 
         protected void DrawGridSvg(SvgDrawing g, double x0, double y0, double xs, double ys, Box bounds)
         {
@@ -244,14 +264,18 @@ namespace Calcpad.Core
             return $"<img class=\"plot\" src=\"{src}\" alt=\"Plot\" style=\"width:{w}pt;\">";
         }
 
-        protected static string PngToFile(Bitmap canvas, string imagePath)
+        protected static string PngToFile(SKBitmap bitmap, string imagePath)
         {
             var fileName = Path.GetRandomFileName();
             fileName = Path.ChangeExtension(fileName, "png");
             var fullPath = imagePath + fileName;
             try
             {
-                canvas.Save(fullPath, ImageFormat.Png);
+                using (var fs = new FileStream(fullPath, FileMode.Create, FileAccess.Write, FileShare.None))
+                {
+                    using var data = SKImage.FromBitmap(bitmap).Encode(SKEncodedImageFormat.Png, 100);
+                    data.SaveTo(fs);
+                }   
                 return fileName;
             }
             catch
@@ -264,14 +288,14 @@ namespace Calcpad.Core
             }
         }
 
-        protected static string SvgToFile(SvgDrawing canvas, string imagePath)
+        protected static string SvgToFile(SvgDrawing drawing, string imagePath)
         {
             var fileName = Path.GetRandomFileName();
             fileName = Path.ChangeExtension(fileName, "svg");
             var fullPath = imagePath + fileName;
             try
             {
-                canvas.Save(fullPath);
+                drawing.Save(fullPath);
                 return fileName;
             }
             catch
@@ -284,12 +308,12 @@ namespace Calcpad.Core
             }
         }
 
-        protected static string ImageToBase64(Bitmap canvas)
+        protected static string ImageToBase64(SKBitmap bitmap)
         {
             try
             {
                 using var ms = new MemoryStream();
-                canvas.Save(ms, ImageFormat.Png);
+                bitmap.Encode(ms, SKEncodedImageFormat.Png, 100);
                 var imageBytes = ms.ToArray();
                 var b64Str = Convert.ToBase64String(imageBytes);
                 return "data:image/png;base64," + b64Str;
