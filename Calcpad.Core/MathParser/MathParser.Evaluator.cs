@@ -26,6 +26,8 @@ namespace Calcpad.Core
                 _units = parser._units; 
             }
 
+            internal void Reset() => _tos = 0;
+
             internal Value Evaluate(Token[] rpn, bool isVisible = false)
             {
                 var tos = _tos;

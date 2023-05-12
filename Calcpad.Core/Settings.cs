@@ -53,7 +53,7 @@ namespace Calcpad.Core
     {
         private bool _shadows;
         public bool IsAdaptive { get; set; }
-        public double ScreenScaleFactor { get; set; } = 1.0;
+        public double ScreenScaleFactor { get; set; } = 2.0;
         public string ImagePath { get; set; }
         public string ImageUri { get; set; }
         public bool VectorGraphics { get; set; }

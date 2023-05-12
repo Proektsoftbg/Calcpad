@@ -245,6 +245,8 @@ namespace Calcpad.Core
             return value.Re;
         }
 
+        internal void ResetStack() => _evaluator.Reset();
+
         internal void CheckReal(in Value value)
         {
             if (_settings.IsComplex && !value.IsReal)
