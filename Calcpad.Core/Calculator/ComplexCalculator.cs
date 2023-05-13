@@ -333,7 +333,7 @@ namespace Calcpad.Core
         private static Value Acot(Value value)
         {
             CheckFunctionUnits("acot", value.Units);
-            return ToAngleUnits(Complex.Atan(1 / value.Complex));
+            return ToAngleUnits(Complex.Acot(value.Complex));
         }
 
         private static Value Asinh(Value value)

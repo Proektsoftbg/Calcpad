@@ -227,6 +227,9 @@ namespace Calcpad.Core
                 //CompileBlocks();
                 if (_variables.TryGetValue("ReturnAngleUnits", out var v))
                     Calculator.ReturnAngleUnits = v.Value.Re != 0.0;
+                else
+                    Calculator.ReturnAngleUnits = false;
+
                 Result = _evaluator.Evaluate(_rpn, true).Complex;
                 if (isVisible && Units is not null)
                     Result *= Units.Normalize();
