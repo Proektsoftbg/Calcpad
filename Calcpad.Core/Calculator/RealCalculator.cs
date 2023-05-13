@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 
 namespace Calcpad.Core
 {
@@ -322,54 +323,65 @@ namespace Calcpad.Core
             return new(Math.Exp(value.Re));
         }
 
-        private static Value Pow(Value value, Value power) =>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static Value Pow(Value value, Value power, bool isUnit) =>
             new(
                 Math.Pow(value.Re, power.Re),
-                Unit.Pow(value.Units, power)
+                Unit.Pow(value.Units, power, isUnit),
+                isUnit
             );
+
+        private static Value Pow(Value value, Value power) =>
+            Pow(value, power, false);
 
         private static Value UnitPow(Value value, Value power) =>
-            new(
-                Math.Pow(value.Re, power.Re),
-                Unit.Pow(value.Units, power, value.IsUnit),
-                value.IsUnit
-            );
+            Pow(value, power, value.IsUnit);
 
-        private static Value Sqrt(Value value) => value.Units is null ?
-                new(Math.Sqrt(value.Re)) :
-                new(Math.Sqrt(value.Re), Unit.Root(value.Units, 2));
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static Value Sqrt(Value value, bool isUnit)
+        {
+            var result = Math.Sqrt(value.Re);
+            return value.Units is null ?
+                new(result) :
+                new(result, Unit.Root(value.Units, 2, isUnit), isUnit);
+        }
 
-        private static Value UnitSqrt(Value value) => value.Units is null ?
-                new(Math.Sqrt(value.Re)) :
-                new(Math.Sqrt(value.Re), Unit.Root(value.Units, 2, value.IsUnit), value.IsUnit);
+        private static Value Sqrt(Value value) => 
+            Sqrt(value, false);
+
+        private static Value UnitSqrt(Value value) =>
+            Sqrt(value, value.IsUnit);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static Value Cbrt(Value value, bool isUnit)
+        {
+            var result = Math.Cbrt(value.Re);
+            return value.Units is null ?
+                new(result) :
+                new(result, Unit.Root(value.Units, 3, isUnit), isUnit);
+        }
 
         private static Value Cbrt(Value value) =>
-            value.Units is null ?
-                new(Math.Cbrt(value.Re)) :
-                new(Math.Cbrt(value.Re), Unit.Root(value.Units, 3));
+            Cbrt(value, false);
 
         private static Value UnitCbrt(Value value) =>
-            value.Units is null ?
-                new(Math.Cbrt(value.Re)) :
-                new(Math.Cbrt(value.Re), Unit.Root(value.Units, 3, value.IsUnit), value.IsUnit);
+            Cbrt(value, value.IsUnit);
 
-        private static Value Root(Value value, Value root)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static Value Root(Value value, Value root, bool isUnit)
         {
             var n = GetRoot(root);
             var result = Math.Pow(value.Re, 1.0 / n);
             return value.Units is null ?
                 new(result) :
-                new(result, Unit.Root(value.Units, n));
+                new(result, Unit.Root(value.Units, n, isUnit), isUnit);
         }
 
-        private static Value UnitRoot(Value value, Value root)
-        {
-            var n = GetRoot(root);
-            var result = Math.Pow(value.Re, 1.0 / n);
-            return value.Units is null ?
-                new(result) :
-                new(result, Unit.Root(value.Units, n, value.IsUnit), value.IsUnit);
-        }
+        private static Value Root(Value value, Value root) =>
+            Root(value, root, false);
+
+        private static Value UnitRoot(Value value, Value root) =>
+            Root(value, root, value.IsUnit);    
 
         private static Value Round(Value value) =>
             new(Math.Round(value.Re), value.Units);

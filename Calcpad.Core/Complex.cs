@@ -261,6 +261,9 @@ namespace Calcpad.Core
         internal static Complex Tan(in Complex value)
         {
             var ta = Math.Tan(value._a);
+            if (value._b == 0d)
+                return ta;
+
             var thb = Math.Tanh(value._b);
             return new Complex(ta, thb) / new Complex(1.0, -ta * thb);
         }
@@ -268,6 +271,9 @@ namespace Calcpad.Core
         internal static Complex Cot(in Complex value)
         {
             var ta = Math.Tan(value._a);
+            if (value._b == 0d)
+                return 1d / ta;
+
             var thb = Math.Tanh(value._b);
             return new Complex(1.0, -ta * thb) / new Complex(ta, thb);
         }
@@ -294,14 +300,18 @@ namespace Calcpad.Core
         {
             var tha = Math.Tanh(value._a);
             var tb = Math.Tan(value._b);
-            return new Complex(tha, tb) / new Complex(1.0, tha * tb);
+            return tb == 0 ? 
+                tha :
+                new Complex(tha, tb) / new Complex(1.0, tha * tb);
         }
 
         internal static Complex Coth(in Complex value)
         {
             var tha = Math.Tanh(value._a);
             var tb = Math.Tan(value._b);
-            return new Complex(1.0, tha * tb) / new Complex(tha, tb);
+            return tb == 0 ?
+                1d / tha :
+                new Complex(1.0, tha * tb) / new Complex(tha, tb);
         }
 
         internal static Complex Asin(in Complex value) =>
@@ -312,6 +322,9 @@ namespace Calcpad.Core
 
         internal static Complex Atan(in Complex value) =>
             ImaginaryOne / 2.0 * Log((ImaginaryOne + value) / (ImaginaryOne - value));
+
+        internal static Complex Acot(in Complex value) =>
+            ImaginaryOne / 2.0 * Log((value - ImaginaryOne) / (value + ImaginaryOne));
 
         internal static Complex Asinh(in Complex value) =>
             Log(value + Sqrt(value * value + One));
