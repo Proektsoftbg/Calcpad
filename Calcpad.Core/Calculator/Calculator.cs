@@ -263,7 +263,7 @@ namespace Calcpad.Core
 
         protected static Value Take(Value[] v)
         {
-            var x = Math.Round(v[0].Re);
+            var x = Math.Round(v[0].Re, MidpointRounding.AwayFromZero);
             if (!double.IsNormal(x) || x < deltaMinus || x > v.Length * deltaPlus - 1.0)
                 return new(double.NaN);
 

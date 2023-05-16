@@ -243,7 +243,7 @@ namespace Calcpad.Core
                                         }
                                         tokens.Enqueue(new Token("*", TokenTypes.Operator, MultOrder - 1));
                                         if (!tokenLiteral.IsEmpty)
-                                            t = MakeValueToken(null, s);
+                                            t = MakeUnitToken(s, true);
                                     }
                                     else if (_unitChars.Contains(s[0]))
                                         t = MakeUnitToken(s, true);

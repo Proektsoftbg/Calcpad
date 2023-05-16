@@ -384,7 +384,7 @@ namespace Calcpad.Core
             Root(value, root, value.IsUnit);    
 
         private static Value Round(Value value) =>
-            new(Math.Round(value.Re), value.Units);
+            new(Math.Round(value.Re, MidpointRounding.AwayFromZero), value.Units);
 
         private static Value Floor(Value value) =>
             new(Math.Floor(value.Re), value.Units);
@@ -468,13 +468,15 @@ namespace Calcpad.Core
             for (int i = 1, len = v.Length; i < len; ++i)
             {
                 ref var value = ref v[i];
-                u = Unit.Multiply(u, v[i].Units, out var b, v[i].IsUnit);
-                result *= v[i].Re * b;
+                u = Unit.Multiply(u, value.Units, out var b);
+                result *= value.Re * b;
             }
-            if (u is not null)
-                u = Unit.Root(u, v.Length);
+            result = Math.Pow(result, 1.0 / v.Length);
+            if (u is null)
+                return new(result);
 
-            return new(Math.Pow(result, 1.0 / v.Length), u);
+            u = Unit.Root(u, v.Length);
+            return new(result, u);
         }
 
         private static double FromAngleUnits(in Value value)

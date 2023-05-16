@@ -530,10 +530,16 @@ namespace Calcpad.Core
             var u = v[0].Units;
             for (int i = 1, len = v.Length; i < len; ++i)
             {
-                u = Unit.Multiply(u, v[i].Units, out var b, v[i].IsUnit);
-                result *= v[i].Complex * b;
+                ref var value = ref v[i];
+                u = Unit.Multiply(u, value.Units, out var b);
+                result *= value.Complex * b;
             }
-            return new(Complex.Pow(result, 1.0 / v.Length), Unit.Root(u, v.Length));
+            result = Complex.Pow(result, 1.0 / v.Length); 
+            if (u is null)
+                return new(result); 
+
+            u = Unit.Root(u, v.Length);
+            return new(result, u);
         }
 
         private static new Value Gcd(Value a, Value b) =>

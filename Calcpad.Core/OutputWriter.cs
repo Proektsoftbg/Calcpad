@@ -529,8 +529,14 @@ namespace Calcpad.Core
 
         internal override string FormatSwitch(string[] sa, int level = 0)
         {
-            var s = $"if {sa[0]}: {sa[1]}";
             var len = sa.Length;
+            if (len == 1)
+                return $"<b>switch</b>{AddBrackets(sa[0], level)}";
+
+            if (len == 2)
+                return $"<b>switch</b>{AddBrackets($"{sa[0]}; {sa[1]}", level)}";
+
+            var s = $"if {sa[0]}: {sa[1]}";
             for (int i = 2; i < len; i+= 2) 
             {
                 if (len - i == 1)
@@ -693,8 +699,14 @@ namespace Calcpad.Core
 
         internal override string FormatSwitch(string[] sa, int level = 0)
         {
-            var s = FormatIfRow(sa[0], sa[1]);
             var len = sa.Length;
+            if (len == 1)
+                return Run("switch") + AddBrackets(sa[0], level);
+
+            if (len == 2)
+                return Run("switch") + AddBrackets(sa[0] + Run("; ") + sa[1], level);
+
+            var s = FormatIfRow(sa[0], sa[1]);
             for (int i = 2; i < len; i += 2)
             {
                 if (len - i == 1)
