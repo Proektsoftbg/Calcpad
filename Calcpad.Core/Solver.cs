@@ -570,8 +570,8 @@ namespace Calcpad.Core
                 throw new MathParserException($"Iteration limits out of range: [{-Limits}; {Limits}].");
 #endif
 
-            n1 = (int)Math.Round(start);
-            n2 = (int)Math.Round(end);
+            n1 = (int)Math.Round(start, MidpointRounding.AwayFromZero);
+            n2 = (int)Math.Round(end, MidpointRounding.AwayFromZero);
         }
 
         private static bool IsInfinity(Complex c) => double.IsInfinity(c.Re) || double.IsInfinity(c.Im);

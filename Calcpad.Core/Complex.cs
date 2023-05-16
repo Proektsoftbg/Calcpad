@@ -409,7 +409,10 @@ namespace Calcpad.Core
         }
 
         internal static Complex Round(in Complex value) =>
-            new(Math.Round(value._a), Math.Round(value._b));
+            new(
+                Math.Round(value._a, MidpointRounding.AwayFromZero), 
+                Math.Round(value._b, MidpointRounding.AwayFromZero)
+                );
 
         internal static Complex Floor(in Complex value) =>
             new(Math.Floor(value._a), Math.Floor(value._b));

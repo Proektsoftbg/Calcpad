@@ -198,12 +198,17 @@ namespace Calcpad.Core
                         if (t.Type == TokenTypes.Unit)
                         {
                             if (v.Units is null)
+                            {
+                                if (_parser._isCalculated)
 #if BG
-                                throw new MathParser.MathParserException($"Невалидни мерни единици: \"{t.Content}\".");
+                                    throw new MathParser.MathParserException($"Невалидни мерни единици: \"{t.Content}\".");
 #else
-                                throw new MathParser.MathParserException($"Invalid units: \"{t.Content}\".");
+                                    throw new MathParser.MathParserException($"Invalid units: \"{t.Content}\".");
 #endif
-                            t.Content = writer.UnitString(v.Units);
+
+                            }
+                            else
+                                t.Content = writer.UnitString(v.Units);
                         }
                         else
                             t.Content = writer.FormatValue(v, _decimals);
@@ -406,7 +411,11 @@ namespace Calcpad.Core
 
                             b = a;
                         }
-                        t.Level -= 1;
+                        if (mfParamCount == 0)
+                            t.Level = b.Level;
+                        else
+                            t.Level -= 1;
+
                         t.Content = writer.FormatSwitch(args, t.Level);
                     }
                     else

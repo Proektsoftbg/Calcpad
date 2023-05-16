@@ -324,7 +324,7 @@ namespace Calcpad.Core
                         {
                             _parser.Parse(expr);
                             _parser.Calculate();
-                            Settings.Math.Decimals = (int)Math.Round(_parser.Real);
+                            Settings.Math.Decimals = (int)Math.Round(_parser.Real, MidpointRounding.AwayFromZero);
                         }
                         catch (MathParser.MathParserException ex)
                         {
@@ -358,7 +358,7 @@ namespace Calcpad.Core
                                     AppendError(s.ToString(), $"Number of iterations exceeds the maximum {int.MaxValue}.</p>");
 #endif
                                 else
-                                    count = (int)Math.Round(_parser.Real);
+                                    count = (int)Math.Round(_parser.Real, MidpointRounding.AwayFromZero);
                             }
                             catch (MathParser.MathParserException ex)
                             {
