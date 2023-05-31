@@ -12,6 +12,9 @@ namespace Calcpad.Core
         internal static readonly Value Zero;
         internal static readonly Value One = new(1d);
         internal static readonly Value NaN = new(double.NaN);
+        internal static readonly Value PositiveInfinity = new(double.PositiveInfinity); 
+        internal static readonly Value NegativeInfinity = new(double.NegativeInfinity);
+        internal static readonly Value ComplexInfinity = new(double.PositiveInfinity, double.PositiveInfinity, null);
 
         internal Value(double re, double im, Unit units)
         {
@@ -136,7 +139,10 @@ namespace Calcpad.Core
         {
             var uc = Unit.Divide(a.Units, b.Units, out var d);
             bool isUnit = a.IsUnit && b.IsUnit && uc is not null;
-            return new(Math.Truncate(a.Re * d / b.Re), uc, isUnit);
+            var c = b.Re == 0d ? 
+                double.NaN :
+                Math.Truncate(a.Re / b.Re * d);    
+            return new(c, uc, isUnit);
         }
 
         public static Value operator ==(Value a, Value b) =>

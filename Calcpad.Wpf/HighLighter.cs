@@ -243,7 +243,8 @@ namespace Calcpad.Wpf
             "not",
             "and",
             "or",
-            "xor"
+            "xor",
+            "fact"
         };
 
         private static readonly HashSet<string> Keywords = new(StringComparer.OrdinalIgnoreCase) {

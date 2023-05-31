@@ -5,7 +5,7 @@ namespace Calcpad.Core
     internal class ComplexCalculator : Calculator
     {
         private static readonly Func<Value, Value, Value>[] Operators;
-        private static readonly Func<Value, Value>[] Functions;
+        private readonly Func<Value, Value>[] Functions;
         private static readonly Func<Value, Value, Value>[] Functions2;
         private static readonly Func<Value[], Value>[] MultiFunctions;
 
@@ -14,31 +14,10 @@ namespace Calcpad.Core
             set => _degrees = value;
         }
 
-        static ComplexCalculator()
+        public ComplexCalculator()
         {
-            Operators = new Func<Value, Value, Value>[]
-            {
-                Pow,
-                Divide,
-                IntDiv,
-                Reminder,
-                Multiply,
-                Subtract,
-                Add,
-                LessThan,
-                GreaterThan,
-                LessThanOrEqual,
-                GreaterThanOrEqual,
-                Equal,
-                NotEqual,
-                (a, b) => a & b,
-                (a, b) => a | b,
-                (a, b) => a ^ b,
-                (_, b) => b
-            };
-
             Functions = new Func<Value, Value>[]
-            {
+{
                 Sin,      // 0
                 Cos,      // 1
                 Tan,      // 2
@@ -83,6 +62,30 @@ namespace Calcpad.Core
                 Fact,     //41
                 Negate,   //42
                 Not       //43
+            };
+        }
+
+        static ComplexCalculator()
+        {
+            Operators = new Func<Value, Value, Value>[]
+            {
+                Pow,
+                Divide,
+                IntDiv,
+                Reminder,
+                Multiply,
+                Subtract,
+                Add,
+                LessThan,
+                GreaterThan,
+                LessThanOrEqual,
+                GreaterThanOrEqual,
+                Equal,
+                NotEqual,
+                (a, b) => a & b,
+                (a, b) => a | b,
+                (a, b) => a ^ b,
+                (_, b) => b
             };
 
             Functions2 = new Func<Value, Value, Value>[]
@@ -228,37 +231,37 @@ namespace Calcpad.Core
         private static Value Sign(Value value) =>
             new(Complex.Sign(value.Complex));
 
-        private static Value Sin(Value value)
+        private Value Sin(Value value)
         {
             CheckFunctionUnits("sin", value.Units);
             return new(Complex.Sin(FromAngleUnits(value)));
         }
 
-        private static Value Cos(Value value)
+        private Value Cos(Value value)
         {
             CheckFunctionUnits("cos", value.Units);
             return new(Complex.Cos(FromAngleUnits(value)));
         }
 
-        private static Value Tan(Value value)
+        private Value Tan(Value value)
         {
             CheckFunctionUnits("tan", value.Units);
             return new(Complex.Tan(FromAngleUnits(value)));
         }
 
-        private static Value Csc(Value value)
+        private Value Csc(Value value)
         {
             CheckFunctionUnits("csc", value.Units);
             return new(1.0 / Complex.Sin(FromAngleUnits(value)));
         }
 
-        private static Value Sec(Value value)
+        private Value Sec(Value value)
         {
             CheckFunctionUnits("sec", value.Units);
             return new(1.0 / Complex.Cos(FromAngleUnits(value)));
         }
 
-        private static Value Cot(Value value)
+        private Value Cot(Value value)
         {
             CheckFunctionUnits("cot", value.Units);
             return new(Complex.Cot(FromAngleUnits(value)));
@@ -285,13 +288,13 @@ namespace Calcpad.Core
         private static Value Csch(Value value)
         {
             CheckFunctionUnits("csch", value.Units);
-            return new(1 / Complex.Sinh(value.Complex));
+            return new(1d / Complex.Sinh(value.Complex));
         }
 
         private static Value Sech(Value value)
         {
             CheckFunctionUnits("sech", value.Units);
-            return new(1 / Complex.Cosh(value.Complex));
+            return new(1d / Complex.Cosh(value.Complex));
         }
 
         private static Value Coth(Value value)
@@ -300,37 +303,41 @@ namespace Calcpad.Core
             return new(Complex.Coth(value.Complex));
         }
 
-        private static Value Asin(Value value)
+        private Value Asin(Value value)
         {
             CheckFunctionUnits("asin", value.Units);
             return ToAngleUnits(Complex.Asin(value.Complex));
         }
 
-        private static Value Acos(Value value)
+        private Value Acos(Value value)
         {
             CheckFunctionUnits("acos", value.Units);
             return ToAngleUnits(Complex.Acos(value.Complex));
         }
 
-        private static Value Atan(Value value)
+        private Value Atan(Value value)
         {
             CheckFunctionUnits("atan", value.Units);
             return ToAngleUnits(Complex.Atan(value.Complex));
         }
 
-        private static Value Acsc(Value value)
+        private Value Acsc(Value value)
         {
             CheckFunctionUnits("acsc", value.Units);
-            return ToAngleUnits(Complex.Asin(1 / value.Complex));
+            return value.Equals(Value.Zero) ?
+                Value.ComplexInfinity :
+                ToAngleUnits(Complex.Asin(1d / value.Complex));
         }
 
-        private static Value Asec(Value value)
+        private Value Asec(Value value)
         {
             CheckFunctionUnits("asec", value.Units);
-            return ToAngleUnits(Complex.Acos(1 / value.Complex));
+            return value.Equals(Value.Zero) ?
+                Value.ComplexInfinity :
+                ToAngleUnits(Complex.Acos(1d / value.Complex));
         }
 
-        private static Value Acot(Value value)
+        private Value Acot(Value value)
         {
             CheckFunctionUnits("acot", value.Units);
             return ToAngleUnits(Complex.Acot(value.Complex));
@@ -357,13 +364,17 @@ namespace Calcpad.Core
         private static Value Acsch(Value value)
         {
             CheckFunctionUnits("acsch", value.Units);
-            return new(Complex.Asinh(1 / value.Complex));
+            return value.Equals(Value.Zero) ?
+                Value.ComplexInfinity :
+                new(Complex.Asinh(1d / value.Complex));
         }
 
         private static Value Asech(Value value)
         {
             CheckFunctionUnits("asech", value.Units);
-            return new(Complex.Acosh(1 / value.Complex));
+            return value.Equals(Value.Zero) ?
+                Value.ComplexInfinity :
+                new(Complex.Acosh(1d / value.Complex));
         }
 
         private static Value Acoth(Value value)
@@ -548,7 +559,7 @@ namespace Calcpad.Core
         private static new Value Lcm(Value a, Value b) =>
             a.IsReal && b.IsReal ? Calculator.Lcm(a, b) : new(double.NaN, a.Units);
 
-        private static Complex FromAngleUnits(in Value value)
+        private Complex FromAngleUnits(in Value value)
         {
             if (value.Units is null)
                 return value.Complex * _toRad[_degrees];
@@ -556,7 +567,7 @@ namespace Calcpad.Core
             return value.Complex * value.Units.ConvertTo(_angleUnits[1]);
         }
 
-        private static Value ToAngleUnits(Complex value) =>
+        private Value ToAngleUnits(Complex value) =>
             _returnAngleUnits ?
             new(value * _fromRad[_degrees], _angleUnits[_degrees]) :
             new(value * _fromRad[_degrees], null);

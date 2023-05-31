@@ -11,8 +11,8 @@ namespace Calcpad.Core
 
         private static readonly double[] Factorial;
         internal const char NegChar = '‐'; //hyphen, not minus "-"
-        protected static int _degrees = 0;
-        protected static bool _returnAngleUnits = false;
+        protected int _degrees = 0;
+        protected bool _returnAngleUnits = false;
         protected static readonly double[] _toRad =
         {
             Math.PI / 180.0,
@@ -33,7 +33,7 @@ namespace Calcpad.Core
         };
 
         internal abstract int Degrees { set; }
-        internal static bool ReturnAngleUnits { set => _returnAngleUnits = value; }
+        internal bool ReturnAngleUnits { set => _returnAngleUnits = value; }
 
         //                                               ^  ÷  \  ⦼  *  -  +  <  >  ≤  ≥  ≡  ≠  ∧ ∨  ⊕  =
         internal static readonly int[] OperatorOrder = { 0, 3, 3, 3, 3, 4, 5, 6, 6, 6, 6, 6, 6, 7, 8, 8, 9 };
@@ -200,7 +200,7 @@ namespace Calcpad.Core
             return n;
         }
 
-        protected static Complex Fact(double value)
+        protected static double Fact(double value)
         {
             if (value < 0 || value > 170)
 #if BG
@@ -258,14 +258,14 @@ namespace Calcpad.Core
             if (v.Length % 2 != 0)
                 return v[^1];
 
-            return new(double.NaN);
+            return Value.NaN;
         }
 
         protected static Value Take(Value[] v)
         {
             var x = Math.Round(v[0].Re, MidpointRounding.AwayFromZero);
             if (!double.IsNormal(x) || x < deltaMinus || x > v.Length * deltaPlus - 1.0)
-                return new(double.NaN);
+                return Value.NaN;
 
             return v[(int)x];
         }
@@ -274,8 +274,9 @@ namespace Calcpad.Core
         {
             var x = v[0].Re;
             if (!double.IsNormal(x) || x < deltaMinus || x > v.Length * deltaPlus - 1.0)
-                return new(double.NaN);
-            int i = (int)Math.Floor(x);
+                return Value.NaN;
+
+            var i = (int)Math.Floor(x);
             if (i == x || x >= v.Length - 1)
                 return v[i];
 
@@ -286,9 +287,9 @@ namespace Calcpad.Core
         {
             var x = v[0].Re;
             if (!double.IsNormal(x) || x < deltaMinus || x > v.Length * deltaPlus - 1.0)
-                return new(double.NaN);
-            int i = (int)Math.Floor(x);
+                return Value.NaN;
 
+            var i = (int)Math.Floor(x);
             if (i == x || x >= v.Length - 1)
                 return v[i];
 

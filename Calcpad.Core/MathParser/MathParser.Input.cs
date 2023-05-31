@@ -156,7 +156,7 @@ namespace Calcpad.Core
                             }
                             else
                             {
-                                t = MakeValueToken(tokenLiteral.ToString() + 'i', string.Empty);
+                                t = MakeImaginaryValueToken(tokenLiteral.ToString());
                                 tokens.Enqueue(t);
                                 tokenLiteral.Reset(i);
                             }
@@ -204,7 +204,7 @@ namespace Calcpad.Core
                                 }
                                 else
                                 {
-                                    t = MakeValueToken(tokenLiteral.ToString(), string.Empty);
+                                    t = MakeRealValueToken(tokenLiteral.ToString());
                                     tokens.Enqueue(t);
                                     tokenLiteral.Reset(i);
                                     if (!unitsLiteral.IsEmpty)
@@ -221,7 +221,7 @@ namespace Calcpad.Core
                             {
                                 var s = tokenLiteral.ToString();
                                 if (tt == TokenTypes.BracketLeft)
-                                    t = MakeFunctionToken(s, tokens.Any());
+                                    t = MakeFunctionToken(s, tokens.Count != 0);
                                 else
                                 {
                                     if (t is not null && (
@@ -517,7 +517,7 @@ namespace Calcpad.Core
                     };
                 }
                 else if (force)
-                    return MakeValueToken(null, s);
+                    return MakeUnitValueToken(s);
                 else
                 {
                     _units.Add(s, null);
@@ -529,48 +529,16 @@ namespace Calcpad.Core
                 }
             }
 
-            private static ValueToken MakeValueToken(string value, string units)
+            private static ValueToken MakeUnitValueToken(string units)
             {
-                Complex number;
-                var tt = TokenTypes.Constant;
-                var hasUnits = !string.IsNullOrWhiteSpace(units);
-                var isUnit = hasUnits && string.IsNullOrWhiteSpace(value);
-                if (isUnit)
-                {
-                    number = Complex.One;
-                    tt = TokenTypes.Unit;
-                }
-                else
-                {
-                    try
-                    {
-                        number = NumberParser.Parse(value);
-                    }
-                    catch
-                    {
-#if BG
-                        throw new MathParserException($"Грешка при опит за разпознаване на \"{value}\" като число.");
-#else
-                        throw new MathParserException($"Error parsing \"{value}\" as number.");
-#endif
-                    }
-                }
-                if (!hasUnits)
-                    return new ValueToken(new Value(number))
-                    {
-                        Content = value,
-                        Type = tt
-                    };
-
                 try
                 {
                     var unit = Unit.Get(units);
-                    value += "<i>" + units + "</i>";
-                    var v = isUnit ? new Value(unit) : new Value(number, unit);
+                    var v =  new Value(unit);
                     return new ValueToken(v)
                     {
-                        Content = value,
-                        Type = tt
+                        Content = "<i>" + units + "</i>",
+                        Type = TokenTypes.Unit
                     };
                 }
                 catch
@@ -582,6 +550,27 @@ namespace Calcpad.Core
 #endif
                 }
             }
+
+            private static ValueToken MakeRealValueToken(string value)
+            {
+                var number = NumberParser.Parse(value);
+                return new ValueToken(new Value(number))
+                {
+                    Content = value,
+                    Type = TokenTypes.Constant
+                };
+            }
+
+            private static ValueToken MakeImaginaryValueToken(string value)
+            {
+                var number = NumberParser.Parse(value);
+                return new ValueToken(new Value(0d, number, null))
+                {
+                    Content = value,
+                    Type = TokenTypes.Constant
+                };
+            }
+
 
             internal void OrderOperators(Queue<Token> input, bool isDefinition, int assignmentIndex)
             {
@@ -660,7 +649,7 @@ namespace Calcpad.Core
                             break;
                         case TokenTypes.Operator:
                             if (t.Content != NegateString)
-                                while (stackBuffer.Any())
+                                while (stackBuffer.Count != 0)
                                 {
                                     var next = stackBuffer.Peek();
                                     if (next.Type == TokenTypes.Operator &&
@@ -680,7 +669,7 @@ namespace Calcpad.Core
                         case TokenTypes.Function:
                             if (t.Content == "!")
                             {
-                                while (stackBuffer.Any())
+                                while (stackBuffer.Count != 0)
                                 {
                                     var next = stackBuffer.Peek();
                                     if (next.Type == TokenTypes.Operator || next.Type == TokenTypes.BracketLeft)
@@ -704,7 +693,7 @@ namespace Calcpad.Core
                             break;
                         case TokenTypes.BracketRight:
                         case TokenTypes.Divisor:
-                            while (stackBuffer.Any())
+                            while (stackBuffer.Count != 0)
                             {
                                 if (stackBuffer.Peek().Type == TokenTypes.BracketLeft)
                                 {
@@ -718,7 +707,7 @@ namespace Calcpad.Core
                             break;
                     }
 
-                while (stackBuffer.Any())
+                while (stackBuffer.Count != 0)
                     output.Enqueue(stackBuffer.Pop());
 
                 return output.ToArray();

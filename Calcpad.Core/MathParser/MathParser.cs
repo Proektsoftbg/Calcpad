@@ -62,6 +62,9 @@ namespace Calcpad.Core
         public const char DecimalSymbol = '.'; //CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator[0];
         internal Complex Result { get; private set; }
         public double Real => Result.Re;
+        public double Imaginary => Result.Im;   
+        public System.Numerics.Complex Complex => Result;
+
         public static readonly char NegateChar = Calculator.NegChar;
         public static readonly string NegateString = Calculator.NegChar.ToString();
         public static bool IsUnit(string name) => Unit.Exists(name);
@@ -95,6 +98,8 @@ namespace Calcpad.Core
 
         public void ClearCustomUnits() => _units.Clear();
 
+        public void SetVariable(string name , double value) => SetVariable(name, new Value(value, null));   
+        
         internal void SetVariable(string name, Value value)
         {
             if (_variables.TryGetValue(name, out Variable v))
@@ -165,15 +170,15 @@ namespace Calcpad.Core
             _variables.Add("π", new Variable(pi));
             if (_settings.IsComplex)
             {
-                _variables.Add("i", new Variable(Complex.ImaginaryOne));
-                _variables.Add("ei", new Variable(Math.E * Complex.ImaginaryOne));
-                _variables.Add("πi", new Variable(Math.PI * Complex.ImaginaryOne));
+                _variables.Add("i", new Variable(Core.Complex.ImaginaryOne));
+                _variables.Add("ei", new Variable(Math.E * Core.Complex.ImaginaryOne));
+                _variables.Add("πi", new Variable(Math.PI * Core.Complex.ImaginaryOne));
             }
         }
 
         public void Parse(ReadOnlySpan<char> expression, bool AllowAssignment = true)
         {
-            Result = Complex.Zero;
+            Result = Core.Complex.Zero;
             _isCalculated = false;
             _functionDefinitionIndex = -1;
             var input = _input.GetInput(expression, AllowAssignment);
@@ -226,9 +231,9 @@ namespace Calcpad.Core
             {
                 //CompileBlocks();
                 if (_variables.TryGetValue("ReturnAngleUnits", out var v))
-                    Calculator.ReturnAngleUnits = v.Value.Re != 0.0;
+                    _calc.ReturnAngleUnits = v.Value.Re != 0.0;
                 else
-                    Calculator.ReturnAngleUnits = false;
+                    _calc.ReturnAngleUnits = false;
 
                 Result = _evaluator.Evaluate(_rpn, true).Complex;
                 if (isVisible && Units is not null)
@@ -256,7 +261,7 @@ namespace Calcpad.Core
 #if BG
                 throw new MathParserException($"Резултатът не е реално число: \"{Complex.Format(value.Complex, _settings.Decimals, OutputWriter.OutputFormat.Text)}\".");
 #else
-                throw new MathParserException($"The result is not a real number: \"{Complex.Format(value.Complex, _settings.Decimals, OutputWriter.OutputFormat.Text)}\".");
+                throw new MathParserException($"The result is not a real number: \"{Core.Complex.Format(value.Complex, _settings.Decimals, OutputWriter.OutputFormat.Text)}\".");
 #endif
         }
 
@@ -271,7 +276,7 @@ namespace Calcpad.Core
                 if (t.Type == TokenTypes.BracketLeft)
                 {
                     var pt = t;
-                    while (input.Any())
+                    while (input.Count != 0)
                     {
                         t = input.Dequeue();
                         if (t.Type == TokenTypes.BracketRight)
@@ -311,7 +316,7 @@ namespace Calcpad.Core
                         }
                         pt = t;
                     }
-                    if (input.Any() && input.Dequeue().Content == "=")
+                    if (input.Count != 0 && input.Dequeue().Content == "=")
                     {
                         var rpn = Input.GetRpn(input);
                         var i = _functions.IndexOf(name);
@@ -382,13 +387,13 @@ namespace Calcpad.Core
         }
 
         private Func<Value> CompileRpn(Token[] rpn) => _compiler.Compile(rpn);
-        public string ResultAsString => Complex.Format(Result, _settings.Decimals, OutputWriter.OutputFormat.Text) + Units?.Text;
+        public string ResultAsString => Core.Complex.Format(Result, _settings.Decimals, OutputWriter.OutputFormat.Text) + Units?.Text;
         public override string ToString() => _output.Render(OutputWriter.OutputFormat.Text);
         public string ToHtml() => _output.Render(OutputWriter.OutputFormat.Html);
         public string ToXml() => _output.Render(OutputWriter.OutputFormat.Xml);
 
         [Serializable]
-        internal class MathParserException : Exception
+        public class MathParserException : Exception
         {
             internal MathParserException(string message) : base(message) { }
         }

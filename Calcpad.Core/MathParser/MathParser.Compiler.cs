@@ -140,7 +140,7 @@ namespace Calcpad.Core
                             }
                             else
                             {
-                                if (!stackBuffer.Any())
+                                if (stackBuffer.Count == 0)
 #if BG
                                     throw new MathParserException("Липсва операнд.");
 #else
@@ -206,7 +206,7 @@ namespace Calcpad.Core
 #endif
                     }
                 }
-                if (!stackBuffer.Any())
+                if (stackBuffer.Count == 0)
 #if BG
                     throw new MathParserException("Неосвободена памет в стека. Невалиден израз.");
 #else
@@ -338,7 +338,7 @@ namespace Calcpad.Core
                 return lambda.Invoke();
             }
 
-            private Expression EvaluateConstantExpressionToken(Token t, Expression a, Expression b)
+            private ConstantExpression EvaluateConstantExpressionToken(Token t, Expression a, Expression b)
             {
                 var va = EvaluateConstantExpression(a);
                 var vb = EvaluateConstantExpression(b);
@@ -356,12 +356,12 @@ namespace Calcpad.Core
                 return Expression.Constant(vc);
             }
 
-            private static Expression ParseIf(Expression condition, Expression valueIfTrue, Expression valueIfFalse)
+            private static MethodCallExpression ParseIf(Expression condition, Expression valueIfTrue, Expression valueIfFalse)
             {
                 return Expression.Call(EvaluateIfMethod, condition, valueIfTrue, valueIfFalse);
             }
 
-            private Expression ParseSolver(Token t)
+            private MethodCallExpression ParseSolver(Token t)
             {
                 var solveBlock = _solveBlocks[t.Index];
                 Expression instance = Expression.Constant(solveBlock);

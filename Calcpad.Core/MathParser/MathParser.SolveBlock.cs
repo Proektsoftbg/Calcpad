@@ -172,7 +172,7 @@ namespace Calcpad.Core
                 if (_type == SolverTypes.Inf || _type == SolverTypes.Sup)
                 {
                     var s = _items[1].Input + (_type == SolverTypes.Sup ? "_sup" : "_inf");
-                    _parser.SetVariable(s, new Value(double.NaN));
+                    _parser.SetVariable(s, Value.NaN);
                 }
                 var vt = (VariableToken)_items[1].Rpn[0];
                 Parameter[] parameters = { new(vt.Content) };
@@ -366,7 +366,7 @@ namespace Calcpad.Core
                         var s = e.Message.Replace("%F", _items[0].Input).Replace("%V", _items[1].Input);
                         throw new MathParserException(s);
                     }
-                    throw e;
+                    throw;
                 }
                 if (_type == SolverTypes.Sup || _type == SolverTypes.Inf)
                 {

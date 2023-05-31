@@ -329,10 +329,11 @@ namespace Calcpad.Core
             {
                 if (t.Type == TokenTypes.Unit)
                 {
-                    if (t is ValueToken vt)
-                        return EvaluatePercent(vt.Value);
- 
-                    return ((VariableToken)t).Variable.Value;
+                    var vv = t is ValueToken vt ? 
+                        vt.Value :
+                        ((VariableToken)t).Variable.Value;
+
+                    return EvaluatePercent(vv);
                 }
                 if (t.Type == TokenTypes.Variable)
                     return EvaluateVariableToken((VariableToken)t);
@@ -353,8 +354,11 @@ namespace Calcpad.Core
                 {
                     if (_parser._isSolver == 0)
                         _parser._hasVariables = true;
+                    var vv = v.Value;
+                    if (vv.Units is null)
+                        return vv;
 
-                    return EvaluatePercent(v.Value);
+                    return EvaluatePercent(vv);
                 }
                 try
                 {

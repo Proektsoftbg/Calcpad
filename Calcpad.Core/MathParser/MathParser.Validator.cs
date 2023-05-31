@@ -59,7 +59,7 @@ namespace Calcpad.Core
             internal void Check(Queue<Token> input, out bool isFunctionDefinition)
             {
                 isFunctionDefinition = false;
-                if (!input.Any())
+                if (input.Count == 0)
                     return;
 
                 var countOfBrackets = 0;
