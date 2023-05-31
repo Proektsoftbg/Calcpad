@@ -12,7 +12,7 @@ namespace Calcpad.Core
             _span = span;
             Current = default;
         }
-        public CommentEnumerator GetEnumerator() => this;
+        public readonly CommentEnumerator GetEnumerator() => this;
 
         public bool MoveNext()
         {
@@ -60,6 +60,6 @@ namespace Calcpad.Core
             return true;
         }
         public ReadOnlySpan<char> Current { get; private set; }
-        public bool IsEmpty => _span.IsEmpty;
+        public readonly bool IsEmpty => _span.IsEmpty;
     }
 }

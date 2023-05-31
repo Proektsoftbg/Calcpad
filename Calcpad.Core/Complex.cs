@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Calcpad.Core
 {
     internal readonly struct Complex : IEquatable<Complex>
     {
-        private static readonly double Log2Inv = 1 / Math.Log(2);
-        private static readonly double Log10Inv = 1 / Math.Log(10);
+        private static readonly double Log2Inv = 1 / Math.Log(2d);
+        private static readonly double Log10Inv = 1 / Math.Log(10d);
         private const double TrigMin = -1e8;
         private const double TrigMax = 1e8;
         private const double Eps = 1e-12;
@@ -14,9 +15,9 @@ namespace Calcpad.Core
         private readonly double _a;
         private readonly double _b;
 
-        internal static readonly Complex Zero = new(0.0);
-        internal static readonly Complex One = new(1.0);
-        internal static readonly Complex ImaginaryOne = new(0.0, 1.0);
+        internal static readonly Complex Zero = new(0d);
+        internal static readonly Complex One = new(1d);
+        internal static readonly Complex ImaginaryOne = new(0d, 1d);
 
         public Complex(double real, double imaginary)
         {
@@ -27,7 +28,7 @@ namespace Calcpad.Core
         public Complex(double real)
         {
             _a = real;
-            _b = 0.0;
+            _b = 0d;
         }
 
         internal enum Types
@@ -39,10 +40,10 @@ namespace Calcpad.Core
 
         private static Types GetType(double a, double b)
         {
-            if (b == 0.0)
+            if (b == 0)
                 return Types.Real;
 
-            if (a == 0.0)
+            if (a == 0)
                 return Types.Imaginary;
 
             var re = Math.Abs(a);
@@ -64,9 +65,31 @@ namespace Calcpad.Core
         internal bool IsComplex => GetType(_a, _b) == Types.Complex;
         internal double Re => _a;
         internal double Im => _b;
-        internal Complex Real => new(_a, 0);
-        internal Complex Imaginary => new(0, _b);
-        internal double Phase => Math.Atan2(_b, _a);
+        internal Complex Real => new(_a);
+        internal Complex Imaginary => new(0d, _b);
+        internal double Phase
+        {
+            get
+            {
+                if (_b == 0.0)
+                    return _a >= 0d ? 0d : Math.PI;
+
+                return Math.Atan2(_b, _a);
+            }
+
+        }
+
+        internal double NormalPhase
+        {
+            get
+            {
+                var phi = Math.Atan2(_b, _a);  
+                if (phi < 0d)
+                    return phi + 2d * Math.PI; 
+
+                return phi;
+            }
+        }
 
         public static Complex operator -(in Complex value) =>
             new(-value._a, -value._b);
@@ -89,15 +112,26 @@ namespace Calcpad.Core
             var b = left._b;
             var c = right._a;
             var d = right._b;
+            if (d == 0)
+            {
+                if (c == 0 && (a != 0 || b != 0))
+                    return new(double.PositiveInfinity, double.PositiveInfinity);
+
+                return new(a / c, b / c);   
+            }
+            else if ((double.IsInfinity(c) || double.IsInfinity(d)) && 
+                    !(double.IsInfinity(a) || double.IsInfinity(b)))
+                return 0d;            
+            
             double e, f;
             if (Math.Abs(d) < Math.Abs(c))
             {
                 e = d / c;
-                f = 1.0 / (c + d * e);
+                f = 1d / (c + d * e);
                 return new((a + b * e) * f, (b - a * e) * f);
             }
             e = c / d;
-            f = 1.0 / (d + c * e);
+            f = 1d / (d + c * e);
             return new((b + a * e) * f, (-a + b * e) * f);
         }
 
@@ -113,52 +147,63 @@ namespace Calcpad.Core
         {
             var a = right._a;
             var b = right._b;
+            if (b == 0)
+            {
+                if (a == 0 && (left != 0))
+                    return new(double.PositiveInfinity);
+
+                return new(left / a);
+            }
+            else if ((double.IsInfinity(a) || double.IsInfinity(b)) &&
+                    !double.IsInfinity(left))
+                return 0d;
+
             double e, f;
             if (Math.Abs(b) < Math.Abs(a))
             {
                 e = b / a;
-                f = 1.0 / (a + b * e);
+                f = 1d / (a + b * e);
                 return new(left * f, -left * e * f);
             }
             e = a / b;
-            f = 1.0 / (b + a * e);
+            f = 1d / (b + a * e);
             return new(left * e * f, -left * f);
         }
 
         public static Complex IntDiv(in Complex left, in Complex right) =>
-            right.IsReal ?
-            new Complex(Math.Truncate(left._a / right._a), Math.Truncate(left._b / right._a)) :
-            double.NaN;
+            right.IsReal && right._a != 0 ?
+            new(Math.Truncate(left._a / right._a), Math.Truncate(left._b / right._a)) :
+            new(double.NaN); 
 
         public static Complex operator %(in Complex left, in Complex right) =>
             right.IsReal ?
-            new Complex(left._a % right._a, left._b % right._a) :
-            double.NaN;
+            new(left._a % right._a, left._b % right._a) :
+            new(double.NaN);
 
         public static double operator ==(in Complex left, in Complex right) =>
-            Equals(left, right) ? 1.0 : 0.0;
+            Equals(left, right) ? 1d : 0d;
 
         public static double operator !=(in Complex left, in Complex right) =>
-            Equals(left, right) ? 0.0 : 1.0;
+            Equals(left, right) ? 0d : 1d;
 
         public static double operator <(in Complex left, in Complex right) =>
             left.IsReal && right.IsReal ?
-            left._a < right._a && !left._a.EqualsBinary(right._a) ? 1.0 : 0.0 :
+            left._a < right._a && !left._a.EqualsBinary(right._a) ? 1d : 0d :
             double.NaN;
 
         public static double operator >(in Complex left, in Complex right) =>
             left.IsReal && right.IsReal ?
-            left._a > right._a && !left._a.EqualsBinary(right._a) ? 1.0 : 0.0 :
+            left._a > right._a && !left._a.EqualsBinary(right._a) ? 1d : 0d :
             double.NaN;
 
         public static double operator <=(in Complex left, in Complex right) =>
             left.IsReal && right.IsReal ?
-            left._a <= right._a || left._a.EqualsBinary(right._a) ? 1.0 : 0.0 :
+            left._a <= right._a || left._a.EqualsBinary(right._a) ? 1d : 0d :
             double.NaN;
 
         public static double operator >=(in Complex left, in Complex right) =>
             left.IsReal && right.IsReal ?
-            left._a >= right._a || left._a.EqualsBinary(right._a) ? 1.0 : 0.0 :
+            left._a >= right._a || left._a.EqualsBinary(right._a) ? 1d : 0d :
             double.NaN;
 
         public static implicit operator Complex(short value) => new(value);
@@ -265,7 +310,7 @@ namespace Calcpad.Core
                 return ta;
 
             var thb = Math.Tanh(value._b);
-            return new Complex(ta, thb) / new Complex(1.0, -ta * thb);
+            return new Complex(ta, thb) / new Complex(1d, -ta * thb);
         }
 
         internal static Complex Cot(in Complex value)
@@ -302,7 +347,7 @@ namespace Calcpad.Core
             var tb = Math.Tan(value._b);
             return tb == 0 ? 
                 tha :
-                new Complex(tha, tb) / new Complex(1.0, tha * tb);
+                new Complex(tha, tb) / new Complex(1d, tha * tb);
         }
 
         internal static Complex Coth(in Complex value)
@@ -311,20 +356,24 @@ namespace Calcpad.Core
             var tb = Math.Tan(value._b);
             return tb == 0 ?
                 1d / tha :
-                new Complex(1.0, tha * tb) / new Complex(tha, tb);
+                new Complex(1d, tha * tb) / new Complex(tha, tb);
         }
 
         internal static Complex Asin(in Complex value) =>
             -ImaginaryOne * Log(ImaginaryOne * value + Sqrt(One - value * value));
 
         internal static Complex Acos(in Complex value) =>
-            -ImaginaryOne * Log(value + ImaginaryOne * Sqrt(One - (value * value)));
+            -ImaginaryOne * Log(value + ImaginaryOne * Sqrt(One - value * value));
 
         internal static Complex Atan(in Complex value) =>
-            ImaginaryOne / 2.0 * Log((ImaginaryOne + value) / (ImaginaryOne - value));
+            value.Equals(ImaginaryOne) ? new(0d, double.PositiveInfinity) :
+            value.Equals(-ImaginaryOne) ? new(0d, double.NegativeInfinity) :
+            -ImaginaryOne / 2d * Log((ImaginaryOne - value) / (ImaginaryOne + value));
 
         internal static Complex Acot(in Complex value) =>
-            ImaginaryOne / 2.0 * Log((value - ImaginaryOne) / (value + ImaginaryOne));
+            value.Equals(ImaginaryOne) ? new(0d, double.NegativeInfinity) :
+            value.Equals(-ImaginaryOne) ? new(0d, double.PositiveInfinity) :
+            -ImaginaryOne / 2d * Log((value + ImaginaryOne) / (value - ImaginaryOne));
 
         internal static Complex Asinh(in Complex value) =>
             Log(value + Sqrt(value * value + One));
@@ -333,24 +382,24 @@ namespace Calcpad.Core
             Log(value + Sqrt(value - One) * Sqrt(value + One));
 
         internal static Complex Atanh(in Complex value) =>
-            Log((One + value) / (One - value)) / 2.0;
+            Log((One + value) / (One - value)) / 2d;
 
         internal static Complex Acoth(in Complex value) =>
-            Log((value + One) / (value - One)) / 2.0;
+            Log((value + One) / (value - One)) / 2d;
 
         internal static Complex Pow(in Complex value, double power)
         {
             if (power == 0)
-                return 1.0;
+                return 1d;
 
-            if (value._b == 0)
+            if (value._b == 0 && (value._a > 0 || double.IsInteger(power)))
             {
                 return value._a == 0 ?
-                    0.0 :
+                    0d :
                     Math.Pow(value._a, power);
             }
             var r = Modulus(value);
-            var theta = power * value.Phase;
+            var theta = power * value.NormalPhase;
             var t = Math.Pow(r, power);
             return new(t * Math.Cos(theta), t * Math.Sin(theta));
         }
@@ -365,10 +414,10 @@ namespace Calcpad.Core
             var a = value._a;
             var b = value._b;
             if (a == 0 && b == 0)
-                return new(0.0, 0.0);
+                return new(0d);
 
             var r = Modulus(value);
-            var phi = value.Phase;
+            var phi = value.NormalPhase;
             var theta = c * phi + d * Math.Log(r);
             var t = Math.Pow(r, c) * Math.Exp(-d * phi);
             return new(t * Math.Cos(theta), t * Math.Sin(theta));
@@ -376,11 +425,6 @@ namespace Calcpad.Core
 
         internal static Complex Log(in Complex value) =>
             new(Math.Log(Modulus(value)), value.Phase);
-
-        /*
-                internal static Number Log(Number value, double baseValue) =>
-                    Log(value) / Math.Log(baseValue);
-        */
 
         internal static Complex Log10(in Complex value) =>
             new(Math.Log(Modulus(value)) * Log10Inv, value.Phase * Log10Inv);
@@ -397,14 +441,14 @@ namespace Calcpad.Core
         internal static Complex Sqrt(in Complex value)
         {
             var r = Math.Sqrt(Modulus(value));
-            var theta = value.Phase / 2.0;
+            var theta = value.NormalPhase / 2d;
             return new(r * Math.Cos(theta), r * Math.Sin(theta));
         }
 
         internal static Complex Cbrt(in Complex value)
         {
             var r = Math.Cbrt(Modulus(value));
-            var theta = value.Phase / 3.0;
+            var theta = value.NormalPhase / 3d;
             return new(r * Math.Cos(theta), r * Math.Sin(theta));
         }
 

@@ -6,7 +6,7 @@ namespace Calcpad.Core
     internal class RealCalculator : Calculator
     {
         private static readonly Func<Value, Value, Value>[] Operators;
-        private static readonly Func<Value, Value>[] Functions;
+        private readonly Func<Value, Value>[] Functions;
         private static readonly Func<Value, Value, Value>[] Functions2;
         private static readonly Func<Value[], Value>[] MultiFunctions;
         internal override int Degrees
@@ -14,31 +14,10 @@ namespace Calcpad.Core
             set => _degrees = value;
         }
 
-        static RealCalculator()
+        public RealCalculator()
         {
-            Operators = new Func<Value, Value, Value>[]
-            {
-                UnitPow,
-                Value.Divide,
-                Value.IntDiv,
-                (a, b) => a % b,
-                Value.Multiply,
-                (a, b) => a - b,
-                (a, b) => a + b,
-                (a, b) => a < b,
-                (a, b) => a > b,
-                (a, b) => a <= b,
-                (a, b) => a >= b,
-                (a, b) => a == b,
-                (a, b) => a != b,
-                (a, b) => a & b,
-                (a, b) => a | b,
-                (a, b) => a ^ b,
-                (_, b) => b
-            };
-
             Functions = new Func<Value, Value>[]
-            {
+{
                 Sin,      // 0
                 Cos,      // 1
                 Tan,      // 2
@@ -83,6 +62,30 @@ namespace Calcpad.Core
                 Fact,     //41
                 (a) => -a, //42
                 Not        //43
+            };
+        }
+
+        static RealCalculator()
+        {
+            Operators = new Func<Value, Value, Value>[]
+            {
+                UnitPow,
+                Value.Divide,
+                Value.IntDiv,
+                (a, b) => a % b,
+                Value.Multiply,
+                (a, b) => a - b,
+                (a, b) => a + b,
+                (a, b) => a < b,
+                (a, b) => a > b,
+                (a, b) => a <= b,
+                (a, b) => a >= b,
+                (a, b) => a == b,
+                (a, b) => a != b,
+                (a, b) => a & b,
+                (a, b) => a | b,
+                (a, b) => a ^ b,
+                (_, b) => b
             };
 
             Functions2 = new Func<Value, Value, Value>[]
@@ -155,37 +158,37 @@ namespace Calcpad.Core
 
         private static Value Sign(Value value) => new(Math.Sign(value.Re));
 
-        private static Value Sin(Value value)
+        private Value Sin(Value value)
         {
             CheckFunctionUnits("sin", value.Units);
             return new(Complex.RealSin(FromAngleUnits(value)));
         }
 
-        private static Value Cos(Value value)
+        private Value Cos(Value value)
         {
             CheckFunctionUnits("cos", value.Units);
             return new(Complex.RealCos(FromAngleUnits(value)));
         }
 
-        private static Value Tan(Value value)
+        private Value Tan(Value value)
         {
             CheckFunctionUnits("tan", value.Units);
             return new(Math.Tan(FromAngleUnits(value)));
         }
 
-        private static Value Csc(Value value)
+        private Value Csc(Value value)
         {
             CheckFunctionUnits("csc", value.Units);
             return new(1 / Math.Sin(FromAngleUnits(value)));
         }
 
-        private static Value Sec(Value value)
+        private Value Sec(Value value)
         {
             CheckFunctionUnits("sec", value.Units);
             return new(1 / Math.Cos(FromAngleUnits(value)));
         }
 
-        private static Value Cot(Value value)
+        private Value Cot(Value value)
         {
             CheckFunctionUnits("cot", value.Units);
             return new(1 / Math.Tan(FromAngleUnits(value)));
@@ -227,40 +230,44 @@ namespace Calcpad.Core
             return new(1 / Math.Tanh(value.Re));
         }
 
-        private static Value Asin(Value value)
+        private Value Asin(Value value)
         {
             CheckFunctionUnits("asin", value.Units);
             return ToAngleUnits(Math.Asin(value.Re));
         }
 
-        private static Value Acos(Value value)
+        private Value Acos(Value value)
         {
             CheckFunctionUnits("acos", value.Units);
             return ToAngleUnits(Math.Acos(value.Re));
         }
 
-        private static Value Atan(Value value)
+        private Value Atan(Value value)
         {
             CheckFunctionUnits("atan", value.Units);
             return ToAngleUnits(Math.Atan(value.Re));
         }
 
-        private static Value Acsc(Value value)
+        private Value Acsc(Value value)
         {
             CheckFunctionUnits("acsc", value.Units);
-            return ToAngleUnits(Math.Asin(1 / value.Re));
+            return value.Re == 0d ?
+                Value.PositiveInfinity :
+                ToAngleUnits(Math.Asin(1d / value.Re));
         }
 
-        private static Value Asec(Value value)
+        private Value Asec(Value value)
         {
             CheckFunctionUnits("asec", value.Units);
-            return ToAngleUnits(Math.Acos(1 / value.Re));
+            return value.Re == 0d ?
+                Value.PositiveInfinity : 
+                ToAngleUnits(Math.Acos(1d / value.Re));
         }
 
-        private static Value Acot(Value value)
+        private Value Acot(Value value)
         {
             CheckFunctionUnits("acot", value.Units);
-            return ToAngleUnits(Math.Atan(1 / value.Re));
+            return ToAngleUnits(Math.Atan(1d / value.Re));
         }
 
         private static Value Asinh(Value value)
@@ -284,13 +291,13 @@ namespace Calcpad.Core
         private static Value Acsch(Value value)
         {
             CheckFunctionUnits("acsch", value.Units);
-            return new(Math.Asinh(1 / value.Re));
+            return new(Math.Asinh(1d / value.Re));
         }
 
         private static Value Asech(Value value)
         {
             CheckFunctionUnits("asech", value.Units);
-            return new(Math.Acosh(1 / value.Re));
+            return new(Math.Acosh(1d / value.Re));
         }
 
         private static Value Acoth(Value value)
@@ -371,7 +378,10 @@ namespace Calcpad.Core
         private static Value Root(Value value, Value root, bool isUnit)
         {
             var n = GetRoot(root);
-            var result = Math.Pow(value.Re, 1.0 / n);
+            var result = int.IsOddInteger(n) && value.Re < 0 ?
+                -Math.Pow(-value.Re, 1d / n) :
+                Math.Pow(value.Re, 1d / n);
+
             return value.Units is null ?
                 new(result) :
                 new(result, Unit.Root(value.Units, n, isUnit), isUnit);
@@ -479,7 +489,7 @@ namespace Calcpad.Core
             return new(result, u);
         }
 
-        private static double FromAngleUnits(in Value value)
+        private double FromAngleUnits(in Value value)
         {
             if (value.Units is null)
                 return value.Re * _toRad[_degrees];
@@ -487,7 +497,7 @@ namespace Calcpad.Core
             return value.Re * value.Units.ConvertTo(_angleUnits[1]);
         }
 
-        private static Value ToAngleUnits(double value) =>
+        private Value ToAngleUnits(double value) =>
             _returnAngleUnits ?
             new(value * _fromRad[_degrees], _angleUnits[_degrees]) :
             new(value * _fromRad[_degrees], null);

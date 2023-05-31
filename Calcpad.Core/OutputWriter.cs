@@ -48,7 +48,7 @@ namespace Calcpad.Core
                     case '(':
                         brackets.Push(isPower ? power.Length : _stringBuilder.Length);
                         break;
-                    case ')' when !brackets.Any():
+                    case ')' when brackets.Count == 0:
 #if BG
                         throw new MathParser.MathParserException("Липсва лява скоба '('.");
 #else
@@ -98,7 +98,7 @@ namespace Calcpad.Core
                     }
                 }
             }
-            if (brackets.Any())
+            if (brackets.Count != 0)
 #if BG
                 throw new MathParser.MathParserException("Липсва дясна скоба ')'.");
 #else
@@ -188,11 +188,11 @@ namespace Calcpad.Core
             if (t == Complex.Types.Imaginary)
                 return FormatReal(im, decimals) + 'i';
 
-            var sReal = FormatReal(re, decimals);
-            var sImaginary = FormatReal(Math.Abs(im), decimals);
+            var sRe = FormatReal(re, decimals);
+            var sIm = FormatReal(Math.Abs(im), decimals);
             return im < 0 ?
-                $"{sReal} – {sImaginary}i" :
-                $"{sReal} + {sImaginary}i";
+                $"{sRe} – {sIm}i" :
+                $"{sRe} + {sIm}i";
         }
 
         private const string Sharps = "################";
@@ -319,6 +319,9 @@ namespace Calcpad.Core
         {
             if (double.IsNaN(re) && double.IsNaN(im))
                 return " Undefined ";
+
+            if (double.IsInfinity(re) && double.IsInfinity(im))
+                return "∞";
 
             return FormatComplexHelper(re, im, decimals);
         }
@@ -524,6 +527,9 @@ namespace Calcpad.Core
             if (double.IsNaN(re) && double.IsNaN(im))
                 return "<span class=\"err\"> Undefined </span>";
 
+            if (double.IsInfinity(re) && double.IsInfinity(im))
+                return "<span class=\"err\"> ∞ </span>";            
+            
             return FormatComplexHelper(re, im, decimals);
         }
 
@@ -678,6 +684,9 @@ namespace Calcpad.Core
         {
             if (double.IsNaN(re) && double.IsNaN(im))
                 return Run("Undefined");//<w:rPr><w:color w:val=\"FF0000\" /></w:rPr>
+
+            if (double.IsInfinity(re) && double.IsInfinity(im))
+                return Run("∞");
 
             var t = Complex.Type(re, im);
             if (t == Complex.Types.Real)

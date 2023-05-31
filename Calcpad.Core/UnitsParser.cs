@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace Calcpad.Core
 {
@@ -253,7 +252,7 @@ namespace Calcpad.Core
                         break;
                     case TokenTypes.Operator:
                         var tOrder = OperatorOrder(T.Content);
-                        while (stackBuffer.Any())
+                        while (stackBuffer.Count != 0)
                         {
                             nextT = stackBuffer.Peek();
                             nextT.Order = OperatorOrder(nextT.Content);
@@ -270,7 +269,7 @@ namespace Calcpad.Core
                         stackBuffer.Push(T);
                         break;
                     case TokenTypes.BracketRight:
-                        while (stackBuffer.Any())
+                        while (stackBuffer.Count != 0)
                         {
                             nextT = stackBuffer.Peek();
 
@@ -284,7 +283,7 @@ namespace Calcpad.Core
                         break;
                 }
             }
-            while (stackBuffer.Any())
+            while (stackBuffer.Count != 0)
                 output.Enqueue(stackBuffer.Pop());
 
             return output;
@@ -305,7 +304,7 @@ namespace Calcpad.Core
                         stackBuffer.Push(T);
                         break;
                     case TokenTypes.Operator:
-                        if (!stackBuffer.Any())
+                        if (stackBuffer.Count == 0)
 #if BG
                             throw new MathParser.MathParserException("Липсва операнд.");
 #else
@@ -313,7 +312,7 @@ namespace Calcpad.Core
 #endif
 
                         var b = stackBuffer.Pop();
-                        if (!stackBuffer.Any())
+                        if (stackBuffer.Count == 0)
 #if BG
                             throw new MathParser.MathParserException("Липсва операнд.");
 #else
@@ -332,7 +331,7 @@ namespace Calcpad.Core
 #endif
                 }
             }
-            if (!stackBuffer.Any())
+            if (stackBuffer.Count == 0)
                 return null;
 
             var t = stackBuffer.Pop();
@@ -364,7 +363,7 @@ namespace Calcpad.Core
             return EvaluateOperator(T, (ValueToken)a, (ValueToken)b);
         }
 
-        private static Token EvaluateOperator(Token T, UnitToken a, UnitToken b)
+        private static UnitToken EvaluateOperator(Token T, UnitToken a, UnitToken b)
         {
             char c = T.Content[0];
             double d = c == '^' ? 1.0 : Unit.GetProductOrDivisionFactor(a.Value, b.Value);
@@ -382,7 +381,7 @@ namespace Calcpad.Core
             };
         }
 
-        private static Token EvaluateOperator(Token T, UnitToken a, ValueToken b)
+        private static UnitToken EvaluateOperator(Token T, UnitToken a, ValueToken b)
         {
             return T.Content switch
             {
@@ -397,7 +396,7 @@ namespace Calcpad.Core
             };
         }
 
-        private static Token EvaluateOperator(Token T, ValueToken a, UnitToken b)
+        private static UnitToken EvaluateOperator(Token T, ValueToken a, UnitToken b)
         {
             return T.Content switch
             {
@@ -413,7 +412,7 @@ namespace Calcpad.Core
             };
         }
 
-        private static Token EvaluateOperator(Token T, ValueToken a, ValueToken b)
+        private static ValueToken EvaluateOperator(Token T, ValueToken a, ValueToken b)
         {
             return T.Content switch
             {
@@ -453,7 +452,7 @@ namespace Calcpad.Core
                         {
                             Token c;
                             var b = stackBuffer.Pop();
-                            var a = !stackBuffer.Any() ?
+                            var a = stackBuffer.Count == 0 ?
                                 new Token(string.Empty, TokenTypes.None) :
                                 stackBuffer.Pop();
 

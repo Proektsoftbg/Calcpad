@@ -352,7 +352,7 @@ namespace Calcpad.Core
                 ++PointCount;
             }
 
-            internal IEnumerable<Node> GetPoints() => _points.Take(PointCount);
+            internal readonly IEnumerable<Node> GetPoints() => _points.Take(PointCount);
 
             internal void GetPngPoints(double x0, double y0, double xs, double ys)
             {
