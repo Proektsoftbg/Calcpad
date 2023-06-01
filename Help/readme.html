@@ -434,7 +434,7 @@ If you redefine an existing variable with a new value, it will replace the old o
 <h4>Operator shortcuts</h4>
 <p>Instead of "≡", "≠", "&le;"- and "&ge;", you can use the respective C-style equivalent operators, as follows: "==", "!=", "&lt;=" and "&gt;=". They will be automatically replaced by the corresponding Calcpad operators. The shortcut “%%” will be converted to the modulo operator “⦼”. This is necessary because “%” is reserved for the percent units. Since this symbol is not very common, it is rendered as “mod” in the output, e.g. “7 mod 5 = 2”, instead of “7 ⦼ 5 = 2”.</p>
 <h4>Operator precedence and associativity</h4>
-<p>The above operators are listed in the order of their precedence. This is the order they will be evaluated in an expression. When you have different types of operators in a single expression, exponentiation will be evaluated first, then division and multiplication, subtraction and addition and comparison will be the last. All relational operators are of equal precedence. If you need to change the order of evaluation, you can use brackets. For example, "5 + 2∙3" makes "11". If the addition have to be first, write "(5 + 2)∙3". You will get "7∙3 = 21". Operators with equal precedence are evaluated from left to right. This is called operator associativity. For example, "3 - 2 + 1" makes "(3 - 2) + 1 = 2" and not "3 - (2 + 1) = 0". Another good example is "2∙3 / 2∙3", which makes "9" and not "1".</p>
+<p>The above operators are listed in the order of their precedence. This is the order they will be evaluated in an expression. When you have different types of operators in a single expression, exponentiation will be evaluated first, then division and multiplication, subtraction and addition and comparison will be the last. When we have a unary minus and exponentiaton, the exponentiaton is evaluated first. For example: "-2^2 = -(2^2) = -4" All relational operators are of equal precedence. If you need to change the order of evaluation, you can use brackets. For example, "5 + 2∙3" makes "11". If the addition have to be first, write "(5 + 2)∙3". You will get "7∙3 = 21". Operators with equal precedence are evaluated from left to right. This is called operator associativity. For example, "3 - 2 + 1" makes "(3 - 2) + 1 = 2" and not "3 - (2 + 1) = 0". Another good example is "2∙3 / 2∙3", which makes "9" and not "1".</p>
 <p>All operators in Calcpad are left-associative (calculations are performed from left to right). The only exception is exponentiation, which is right-associative. It is performed from right to left, which means that <var>x</var>^<var>a</var>^<var>b</var> will be evaluated as <var>x</var><sup>a<sup>b</sup></sup>. However, many hand  calculators and spreadsheet software like Excel use left associativity for exponentiation. In this case <var>x</var>^<var>a</var>^<var>b</var> will be evaluated as <var>x</var><sup>a&middot;b</sup>. If you need to have <var>x</var><sup>a<sup>b</sup></sup>, you will have to add brackets: <var>x</var>^(<var>a</var>^<var>b</var>).</p>
 
 <h4>Relational expressions</h4>
@@ -547,9 +547,9 @@ If you redefine an existing variable with a new value, it will replace the old o
 <li><code><b>root</b>(<var>x</var>; <var>n</var>)</code> - n-th root ( <sup><sup>n</sup></sup><span class="root">√</span><span class="ovr"><var>x</var></span> );</li> 
 </ul></li><li>Rounding:<ul style="list-style-type:none;">
 <li><code><b>round</b>(<var>x</var>)</code> - rounds to the nearest integer;</li> 
-<li><code><b>floor</b>(<var>x</var>)</code> - rounds to the smaller integer;</li> 
-<li><code><b>ceiling</b>(<var>x</var>)</code> - rounds to the greater integer;</li> 
-<li><code><b>trunc</b>(<var>x</var>)</code> - rounds to the nearest integer towards zero;</li>
+<li><code><b>floor</b>(<var>x</var>)</code> - rounds to the smaller integer (towards -∞);</li> 
+<li><code><b>ceiling</b>(<var>x</var>)</code> - rounds to the greater integer (towards +∞);</li> 
+<li><code><b>trunc</b>(<var>x</var>)</code> - rounds to the smaller integer (towards zero);</li>
 </ul></li><li>Integer:<ul style="list-style-type:none;">
 <li><code><b>mod</b>(<var>x</var>; <var>y</var>)</code> - the reminder of an integer division;</li>
 <li><code><b>gcd</b>(<var>x</var>; <var>y</var>)</code> - the greatest common divisor of two integers;</li>
@@ -589,7 +589,7 @@ If you redefine an existing variable with a new value, it will replace the old o
 <p>2. By compiler switches inside the code. You have to insert a separate line containing: <span class="cond">#deg</span> for degrees, <span class="cond">#rad</span> for radians or <span class="cond">#gra</span> for grades. This will affect all expressions after the current line to the end or until an alternative directive is found.</p>
 <p>3. By attaching native units to the value itself: <i>deg</i>, <i>°</i>, <i>′</i>, <i>″</i>, <i>rad</i>, <i>grad</i>, <i>rev</i> (see the “Units” section, further in this manual).</p>
 <p>Native units are of highest priority, followed by compiler switches in source code. Both override radio buttons settings, which are of lowest priority.</p> 
-<p>All functions are also defined in the complex domain, except for <b>mod</b>(<var>x</var>; <var>y</var>), <b>gcd</b>(<var>x</var>; <var>y</var>), <b>lcm</b>(<var>x</var>; <var>y</var>), <b>min</b>(<var>x</var>; <var>y</var>) and <b>max</b>(<var>x</var>; <var>y</var>). Rounding functions affect both real and imaginary part.</p>
+<p>All functions are also defined in the complex domain, except for <b>mod</b>(<var>x</var>; <var>y</var>), <b>gcd</b>(<var>x</var>; <var>y</var>), <b>lcm</b>(<var>x</var>; <var>y</var>), <b>min</b>(<var>x</var>; <var>y</var>) and <b>max</b>(<var>x</var>; <var>y</var>).</p>
 <p>Logical functions accept numerical values and return “<b>0</b>” for “<b>false</b>” and “<b>1</b>” for “<b>true</b>”. The results for two arguments (one for “<b>not</b>”) are presented in the following tables:</p>
 <table width="100%"><tr><td style="border:none; vertical-align:top;">
 <table width="90%" class="tr">
@@ -622,11 +622,28 @@ If you redefine an existing variable with a new value, it will replace the old o
 <tr><td>1</td><td>1</td><td>0</td></tr>
 </table>
 </td></tr></table>
-
 <p>Any numerical value, different from 0, is treated as 1 (true). Multiple arguments are evaluated in couples, from left to right, starting from the first two. Then, the obtained result and the next value are evaluated in turn.</p>
-
-
-
+<p>Rounding of midpoint values with <b>round</b>() evaluates to the neares integer away from zero. The <b>floor</b>() function rounds to the smaller value (towards -∞). The <b>ceiling</b>() function rounds in the opposite direction to the larger value (towards +∞). Unlike <b>floor</b>(), <b>trunc</b>() rounds towards zero, which is equivalent to simply truncating the fractional part. Some examples for rounding negative and positive numbers are provided in the table bellow:</p> 
+<table width="70%"><tr><td style="border:none;">
+<p><b>Positive</b></p>
+<table width="90%" class="tr">
+<tr><th>Function</th><th style="width:30%">x</th><th>Result</th></tr>
+<tr><th>round(x)</th><td>4.5</td><td>5</td></tr>
+<tr><th>floor(x)</th><td>4.8</td><td>4</td></tr>
+<tr><th>ceiling(x)</th><td>4.2</td><td>5</td></tr>
+<tr><th>trunc(x)</th><td>4.8</td><td>4</td></tr>
+</table>
+</td><td style="border:none;">
+<p><b>Negative</b></p>
+<table width="90%" class="tr">
+<tr><th>Function</th><th style="width:30%">x</th><th>Result</th></tr>
+<tr><th>round(x)</th><td>-4.5</td><td>-5</td></tr>
+<tr><th>floor(x)</th><td>-4.8</td><td>-5</td></tr>
+<tr><th>ceiling(x)</th><td>-4.2</td><td>-4</td></tr>
+<tr><th>trunc(x)</th><td>-4.8</td><td>-4</td></tr>
+</table>
+</td></tr></table>
+<p>Rounding of complex numbers affects both real and imaginary parts. </p>
 
 <h4>Custom (user defined) functions</h4>
 <p>You can define your own functions, and use them further in the calculations. Custom functions can have unlimited number of parameters. They are specified after the function name, enclosed in brackets "(" … ")" and separated by semicolons ";". Each function is defined, using the following format: "<b>f</b> ( <var>x</var>; <var>y</var>; <var>z</var>; … ) = <b>expression</b>", where "<b>f</b>" is the function name and "<b>x</b>", "<b>y</b>" and "<b>z</b>" are function parameters. On the right side you can have any valid expression including constants, operators, variables and even other functions, e.g.:</p>

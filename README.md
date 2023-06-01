@@ -138,9 +138,9 @@ A variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;&emsp;&emsp;**root**(x; n) - n-th root;  
 &emsp;&emsp;Rounding:  
 &emsp;&emsp;&emsp;&emsp;**round**(x) - round to the nearest integer;  
-&emsp;&emsp;&emsp;&emsp;**floor**(x) - round to the lower integer;  
-&emsp;&emsp;&emsp;&emsp;**ceiling**(x) - round to the greater integer;  
-&emsp;&emsp;&emsp;&emsp;**trunc**(x) - round to the nearest integer towards zero;  
+&emsp;&emsp;&emsp;&emsp;**floor**(x) - round to the smaller integer (towards -∞); 
+&emsp;&emsp;&emsp;&emsp;**ceiling**(x) - round to the greater integer (towards +∞);
+&emsp;&emsp;&emsp;&emsp;**trunc**(x) - round to the smaller integer (towards zero);
 &emsp;&emsp;Integer:  
 &emsp;&emsp;&emsp;&emsp;**mod**(x; y) - the reminder of an integer division;  
 &emsp;&emsp;&emsp;&emsp;**gcd**(x; y) - the greatest common divisor of two integers;  
