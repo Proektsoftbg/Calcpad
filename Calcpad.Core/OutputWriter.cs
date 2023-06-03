@@ -181,7 +181,7 @@ namespace Calcpad.Core
 
         protected string FormatComplexHelper(double re, double im, int decimals)
         {
-            var t = Complex.Type(re, im);
+            var t = Complex.GetType(re, im);
             if (t == Complex.Types.Real)
                 return FormatReal(re, decimals);
 
@@ -688,7 +688,7 @@ namespace Calcpad.Core
             if (double.IsInfinity(re) && double.IsInfinity(im))
                 return Run("∞");
 
-            var t = Complex.Type(re, im);
+            var t = Complex.GetType(re, im);
             if (t == Complex.Types.Real)
                 return FormatReal(re, decimals);
 

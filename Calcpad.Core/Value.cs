@@ -216,7 +216,7 @@ namespace Calcpad.Core
                 (ReferenceEquals(Units, other.Units) || Units.Equals(other.Units));
         }
 
-        internal bool IsReal => Complex.Type(Re, Im) == Complex.Types.Real;
-        internal bool IsComplex => Complex.Type(Re, Im) == Complex.Types.Complex;
+        internal bool IsReal => Complex.GetType(Re, Im) == Complex.Types.Real;
+        internal bool IsComplex => Complex.GetType(Re, Im) == Complex.Types.Complex;
     }
 }

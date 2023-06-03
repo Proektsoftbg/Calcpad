@@ -37,7 +37,7 @@ namespace Calcpad.Core
             Complex = 3
         }
 
-        private static Types GetType(double a, double b)
+        internal static Types GetType(double a, double b)
         {
             if (b == 0)
                 return Types.Real;
@@ -57,8 +57,7 @@ namespace Calcpad.Core
             return Types.Complex;
         }
 
-        internal static Types Type(double re, double im) => GetType(re, im);
-
+        internal Types Type() => GetType(_a, _b);
         internal bool IsReal => GetType(_a, _b) == Types.Real;
         internal bool IsImaginary => GetType(_a, _b) == Types.Imaginary;
         internal bool IsComplex => GetType(_a, _b) == Types.Complex;
@@ -75,7 +74,6 @@ namespace Calcpad.Core
 
                 return Math.Atan2(_b, _a);
             }
-
         }
 
         internal double NormalPhase
@@ -223,8 +221,18 @@ namespace Calcpad.Core
 
         public bool Equals(Complex value) => Equals(this, value);
 
-        private static bool Equals(in Complex left, in Complex right) =>
-            left._a.EqualsBinary(right._a) && left._b.EqualsBinary(right._b);
+        private static bool Equals(in Complex left, in Complex right)
+        {
+            var leftType = left.Type(); 
+            var rightType = right.Type();    
+            if (leftType == Types.Real && rightType == Types.Real)
+                return left._a.EqualsBinary(right._a);
+
+            if (leftType == Types.Imaginary && rightType == Types.Imaginary)
+                return left._b.EqualsBinary(right._b);   
+
+            return left._a.EqualsBinary(right._a) && left._b.EqualsBinary(right._b);
+        }
 
         public override string ToString() => IsReal ?
             new TextWriter().FormatReal(_a, 15) :
