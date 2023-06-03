@@ -161,7 +161,7 @@ namespace Calcpad.Core
         protected static string FormatOperatorHelper(char c) => c switch
         {
             Calculator.NegChar => "-",
-            '-' => " – ",
+            '-' => " − ",
             '<' => " < ",
             '>' => " > ",
             '+' => " + ",

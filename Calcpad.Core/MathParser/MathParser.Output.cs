@@ -245,10 +245,13 @@ namespace Calcpad.Core
                     bool isNegative = IsNegative(b);
                     if (isNegative || b.Order > Token.DefaultOrder)
                     {
-                        sb = AddBrackets(sb, b.Level, b.MinOffset, b.MaxOffset);
+                        if (b.Index == 1 && b.Level > 0)
+                            sb = " " + sb;
+                        else
+                            sb = AddBrackets(sb, b.Level, b.MinOffset, b.MaxOffset);
+
                         hasOperators = true;
                     }
-
                     t.Content = writer.FormatOperator(NegateChar) + sb;
                     t.Level = b.Level;
                     if (b.Type == TokenTypes.Constant)
@@ -524,20 +527,29 @@ namespace Calcpad.Core
 
             private static bool IsNegative(Token t)
             {
-                var n = t.Content.Length;
+                ref var s = ref t.Content;
+                var n = s.Length;
                 if (t.Order != Token.DefaultOrder || n == 0)
                     return false;
                 var isTag = false;
                 for (int i = 0; i < n; ++i)
                 {
-                    var c = t.Content[i];
+                    var c = s[i];
                     if (c == '<')
                         isTag = true;
                     else if (c == '>')
                         isTag = false;
-                    else if (!isTag)
+                    else if (isTag)
                     {
-                        if (Validator.IsDigit(c) || c == '(' || c == '|')
+                        if (c == 'r')
+                        {
+                            if (i > 8 && s[(i - 7)..i] == "class=\"")
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        if (Validator.IsDigit(c) || c == '(' || c == '|' || c == '√')
                             break;
                         else if (c == '-')
                             return true;
