@@ -16,7 +16,7 @@
 'Steel yield strength:'f_y
 
 'Additional options:
-'<p><input name="Rolled" type="checkbox" id="roll" value="1;2 
+'<p><input name="Rolled" type="checkbox" id="roll" value="1">
 '<label for="roll">Hot rolled</label></p>
 '<p id="Rolled" style="display:none;">'Rolled = ? {1}'</p>
 '<p><input name="Zn" type="checkbox" id="zink" value="1" > 
