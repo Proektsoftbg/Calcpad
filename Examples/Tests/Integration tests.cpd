@@ -1,0 +1,2954 @@
+#rad
+Γ(x) = $Integral{ln(1/t)^(x - 1) @ t = 0 : 1}
+erf(x) = 2/sqrt(π)*$Integral{exp(-t^2) @ t = 0 : x}
+"Integrals
+I_1 = $Integral{1/sqrt(x) @ x = 0 : 1}
+I_2 = $Integral{sqrt(4 - x^2) @ x = 0 : 2}
+I_3 = $Integral{ln(x) @ x = 0 : 1}
+I_4 = $Integral{x*ln(x) @ x = 0 : 1}
+I_5 = $Integral{ln(x)/sqrt(x) @ x = 0 : 1}
+I_6 = $Integral{4/(1 + x^2) @ x = 0 : 1}
+I_7 = $Integral{sin(x)^4*cos(x)^2 @ x = 0 : π/2}
+I_8 = $Integral{cos(x) @ x = 0 : π}
+I_9 = $Integral{cos(ln(x)) @ x = 0 : 1}
+I_10 = $Integral{sqrt(4*x - x^2) @ x = 0 : 2}
+I_11 = $Integral{5*x^2 @ x = 0 : 10}
+I_12 = $Integral{x^0.125 @ x = 0 : 1}
+I_13 = $Integral{1/x @ x = 1 : 10}
+I_14 = $Integral{ln(x)/(1 - x) @ x = 0.5 : 1}
+I_15 = $Integral{exp(-1/cos(x)) @ x = 0 : π/3}
+I_16 = $Integral{(x*(x + 88)*(x - 88)*(x + 47)*(x - 47)*(x + 117)*(x - 117))^2 @ x = 0 : 128}
+I_17 = $Integral{1/(2*ln(1/x) + 100) @ x = 0 : 1}
+I_18 = $Integral{2*x^2/((x + 1)*(x - 1)) - x/ln(x) @ x = 0 : 1}
+I_19 = $Integral{x*ln(1 + x) @ x = 0 : 1}
+I_20 = $Integral{x^2*atan(x) @ x = 0 : 1}
+I_21 = $Integral{exp(x)*cos(x) @ x = 0 : π/2}
+I_22 = $Integral{atan(sqrt(x^2 + 2))/((1 + x^2)*sqrt(x^2 + 2)) @ x = 0 : 1}
+I_23 = $Integral{ln(x)*sqrt(x) @ x = 0 : 1}
+I_24 = $Integral{sqrt(1 - x^2) @ x = 0 : 1}
+I_25 = $Integral{ln(x)^2 @ x = 0 : 1}
+I_26 = $Integral{ln(cos(x)) @ x = 0 : π/2}
+I_27 = $Integral{sqrt(tan(x)) @ x = 0 : π/3}
+I_28 = $Integral{ln(x^2) @ x = 0 : 1}
+I_29 = $Integral{x*sin(x)/(1 + cos(x)^2) @ x = 0 : π}
+I_30 = $Integral{1/((x - 2)*((1 - x)^0.25*(1 + x)^0.75)) @ x = 0 : 1}
+I_31 = $Integral{x^2*ln(x)/((x^2 - 1)*(x^4 + 1)) @ x = 0 : 1}
+I_32 = $Integral{1/(1 - 2*x + 2*x^2) @ x = 0 : 1}
+I_33 = $Integral{(1 - x)^4*x^4/(1 + x^2) @ x = 0 : 1}
+I_34 = $Integral{x^4*(1 - x)^4 @ x = 0 : 1}
+I_35 = $Integral{atan(sqrt(x^2 + 1))/(x^2 + 1)^(3/2) @ x = 0 : 1}
+I_36 = $Integral{1/(1 + x^2 + x^4 + x^6) @ x = -1 : 1}
+I_37 = $Integral{(π/4 - x*tan(x))*tan(x) @ x = 0 : π/4}
+I_38 = $Integral{x^2/sin(x)^2 @ x = 0 : π/2}
+I_39 = $Integral{ln(cos(x))^2 @ x = 0 : π/2}
+I_40 = $Integral{ln(x)^2/(x^2 + x + 1) @ x = 0 : 1}
+I_41 = $Integral{exp(-(x^2))*ln(x)^2 @ x = 1 : 10}
+I_42 = $Integral{(1 + x)^2*sin(2*π/(1 + x)) @ x = 0 : 1}
+I_43 = $Integral{x*(1 - x)^0.1 @ x = 0 : 1}
+I_44 = $Integral{ln(sin(x)^3)*cos(x) @ x = 0 : 1}
+I_45 = $Integral{1/(1 + exp(x)) @ x = 0 : 1}
+I_46 = $Integral{exp(x) @ x = 0 : 1}
+I_47 = $Integral{1/(1 + x) @ x = 0 : 1}
+I_48 = $Integral{0.92*cosh(x) - cos(x) @ x = -1 : 1}
+I_49 = $Integral{1/(1 + x^4) @ x = 0 : 1}
+I_50 = $Integral{1/(x^4 + x^2 + 0.9) @ x = -1 : 1}
+I_51 = $Integral{1/(x^2 + 1.005) @ x = -1 : 1}
+I_52 = $Integral{3*x^2 @ x = 0 : 1}
+I_53 = $Integral{sqrt(50)*exp(-50*π*x^2) @ x = 0 : 1}
+I_54 = $Integral{50/((1 + 2500*x^2)*π) @ x = 0 : 10}
+I_55 = $Integral{x*sqrt(x) @ x = 0 : 1}
+I_56 = $Integral{x^0.5 @ x = 0 : 1}
+I_57 = $Integral{cos(cos(x) + 3*sin(x) + 2*cos(2*x) + 3*sin(2*x) + 3*cos(3*x)) @ x = 0 : π}
+I_58 = $Integral{exp(-x/5)*(2 + sin(2*x)) @ x = 0 : 10}
+I_59 = $Integral{x^(-1/3)*(1 - x)^5 @ x = 0 : 1}
+I_60 = $Integral{sin(π*x) @ x = 0 : 1}
+I_61 = $Integral{x^0.25 @ x = 0 : 1}
+I_62 = $Integral{x*sin(20*x)*cos(50*x) @ x = 0 : 2*π}
+I_63 = $Integral{ln(1/x)*x^4 @ x = 0 : 1}
+I_64 = $Integral{cos(8*sin(x) - x) @ x = 0 : π}
+I_65 = $Integral{x*cos(x)*sin(30*x) @ x = 0 : 2*π}
+I_66 = $Integral{1/(sqrt(1 - 0.81*sin(x)^2)) @ x = 0 : π/2}
+I_67 = $Integral{ln(x)*ln(1 - x) @ x = 0 : 1}
+I_68 = $Integral{sin(2*x)^2 @ x = 0 : π}
+I_69 = $Integral{x^(5/6)*(4 - x)^(1/6)/((5 - x)*(6 - x)*(7 - x)) @ x = 0 : 4}
+I_70 = $Integral{1/(1 + tan(x)^3) @ x = 0 : π/2}
+I_71 = $Integral{atan(sqrt(x^2 + 1))/(sqrt(x^2 + 1)*(x^2 + 1)) @ x = 0 : 1}
+I_72 = $Integral{ln(1 - 4*cos(x) + 4) @ x = 0 : π}
+I_73 = $Integral{1/(1 + cos(x)^x) @ x = -π/2 : π/2}
+I_74 = $Integral{1/sqrt(x)*ln(1/x) @ x = 0 : 1}
+I_75 = $Integral{1/x^(1/4)*ln(1/x) @ x = 0 : 1}
+I_76 = $Integral{sin(x)/x @ x = 0 : 1}
+I_77 = $Integral{sin(x)^2*cos(x)^4 @ x = 0 : π}
+I_78 = $Integral{log(1 + tan(x)) @ x = 0 : π/4}
+I_79 = $Integral{sin(sin(x)) @ x = 0 : 1}
+I_80 = $Integral{x*cos(x^2 + 1) @ x = 0 : 2}
+I_81 = $Integral{x^2*(x^2 - 2)*sin(x) @ x = 0 : π/2}
+I_82 = $Integral{ln(x)/(1 + x) @ x = 0 : 1}
+I_83 = $Integral{sqrt(1 - 0.5*sin(x)^2) @ x = 0 : π/2}
+I_84 = $Integral{ln(x)^3 @ x = 0 : 1}
+I_85 = $Integral{ln((1 + x)/(1 - x))/(4*ln(2)) @ x = -1 : 0.5}
+I_86 = $Integral{(23/25*cosh(x) - cos(x)) @ x = -1 : 1}
+I_87 = $Integral{2/(2 + sin(10*π*x)) @ x = 0 : 1}
+I_88 = $Integral{sin(100*π*x)/(π*x) @ x = 0 : 1}
+I_89 = $Integral{1/(1 + cos(x)) @ x = 0 : π/2}
+I_90 = $Integral{1/(1.005 + x^2) @ x = -1 : 1}
+I_91 = $Integral{4*π^2*x*sin(20*π*x)*cos(2*π*x) @ x = 0 : 1}
+I_92 = $Integral{1/(1 + (230*x - 30)^2) @ x = 0 : 1}
+I_93 = $Integral{50*(sin(50*π*x)/(50*π*x))^2 @ x = 0 : 1}
+I_94 = $Integral{cos(cos(x) + 3*sin(x) + 2*cos(2*x) + 3*cos(3*x)) @ x = 0 : π}
+I_95 = $Integral{x^63 @ x = 0 : 1}
+I_96 = $Integral{1/(x + 0.5) @ x = 0 : 1}
+I_97 = $Integral{sqrt(12.25 - (5*x - 3)^2) @ x = 0 : 1}
+I_98 = $Integral{10/(1 + (10*x - 4)^2) @ x = 0 : 1}
+I_99 = $Integral{x^(-3/4)*(1 - x)^(-0.25)/(3 - 2*x) @ x = 0 : 1}
+I_100 = $Integral{1/(5 + 4*cos(x)) @ x = 0 : π}
+I_101 = $Integral{ln(x)*sqrt(x/(1 - x)) @ x = 0 : 1}
+I_102 = $Integral{1/(1 + 25*x^2) @ x = 0 : 1}
+I_103 = $Integral{cos(x)^3 @ x = 0 : π/2}
+I_104 = $Integral{1/(1 + sin(x)) @ x = 0 : π/4}
+I_105 = $Integral{1/(1 - x^4/2) @ x = 0 : 1}
+I_106 = $Integral{1/(1 + 100*x^2) @ x = 0 : 1}
+I_107 = $Integral{ln(x)/x @ x = 1 : 2}
+I_108 = $Integral{1/(exp(x) - 1) @ x = 1 : 2}
+I_109 = $Integral{1/(1 + x^2) @ x = -4 : 4}
+I_110 = $Integral{1/(1 + sin(x)^2) @ x = 0 : π/2}
+I_111 = $Integral{ln(sin(π*x)) @ x = 0 : 1}
+I_112 = $Integral{1/(x + 0.01)^5 @ x = 0 : 1}
+I_113 = $Integral{1/sqrt(x + 0.0001) @ x = 0 : 1}
+I_114 = $Integral{1/(x + 0.0001) @ x = 0 : 1}
+I_115 = $Integral{1/((230*x - 30)^2 + 1) @ x = 0 : 1}
+I_116 = $Integral{1/(x + 0.01) @ x = 0 : 1}
+I_117 = $Integral{x*sin(30*x)*cos(x) @ x = 0 : 2*π}
+I_118 = $Integral{exp(-x)*sin(10*x) @ x = 0 : 2*π}
+I_119 = $Integral{x*(1 - x)^2/(1 + x)^3 @ x = 0 : 1}
+I_120 = $Integral{x^12*(1 - x)^12/(16*(1 + x^2)) @ x = 0 : 1}
+I_121 = $Integral{x^12*(1 - x)^12/16 @ x = 0 : 1}
+I_122 = $Integral{atan(sqrt(x^2 + 2))/(sqrt(x^2 + 2)*(x^2 + 1)) @ x = 0 : 1}
+I_123 = $Integral{1/(1 + x^2 + x^4) @ x = 0 : 1}
+I_124 = $Integral{(x + 0.1)^5 @ x = 0 : 1}
+I_125 = $Integral{1/(x^2 + 0.0001) @ x = 0 : 1}
+I_126 = $Integral{sqrt(x*(1 - x)) @ x = 0 : 1}
+I_127 = $Integral{1/(9 + x^6) @ x = 0 : 1}
+I_128 = $Integral{(x + 0.01)^5 @ x = 0 : 1}
+I_129 = $Integral{1/(1 - 0.99*x^4) @ x = 0 : 1}
+I_130 = $Integral{x*exp(-3*x^2) @ x = 0 : 1}
+I_131 = $Integral{x^2*ln(exp(1)/x) @ x = 0 : 1}
+I_132 = $Integral{(4*sqrt(2) - 8*x^3 - 4*sqrt(2)*x^4 - 8*x^5)/(1 - x^8) @ x = 0 : 1/sqrt(2)}
+I_133 = $Integral{2*(1 - x^2)/(tan(0.5)^2 + x^2) @ x = -1 : 1}
+I_134 = $Integral{1/sqrt(1 - 0.5*sin(x)^2) @ x = 0 : π/2}
+I_135 = $Integral{2*(1 - x^2)/(cos(4*atanh(x)) + cosh(2)) @ x = -1 : 1}
+I_136 = $Integral{sin(x) @ x = 0 : π}
+I_137 = $Integral{sin(x)*cos(x) @ x = 0 : 1}
+I_138 = $Integral{sqrt(2*x + 7) @ x = 1 : 9}
+I_139 = $Integral{x^3*exp(-x) @ x = 0 : 5}
+I_140 = $Integral{sin(10*x)*exp(-x) @ x = 0 : 10}
+I_141 = $Integral{1/(1 + x^64) @ x = 0 : 1}
+I_142 = $Integral{sqrt(x)/(x - 1) - 1/ln(x) @ x = 0 : 1}
+I_143 = $Integral{exp(x^2*(1 - x)^2) @ x = 0 : 1}
+I_144 = $Integral{ln(x)*sin(10*x) @ x = 0 : 2*π}
+I_145 = $Integral{cos(8*sin(x) - x)/π @ x = 0 : π}
+I_146 = $Integral{x*sin(10*x)*cos(x) @ x = 0 : 2*π}
+I_147 = $Integral{23*cosh(x)/25 - cos(x) @ x = -1 : 1}
+I_148 = $Integral{x^3*sin(10*π*x)/sqrt(1 - x^2) @ x = 0 : 1}
+I_149 = $Integral{cos(x)*ln(x) @ x = 0 : 1}
+I_150 = $Integral{ln(1 + x)*sin(10*x) @ x = 0 : 2*π}
+I_151 = $Integral{x^x @ x = 0 : 1}
+I_152 = $Integral{x^-x @ x = 0 : 1}
+I_153 = $Integral{(4 + cos(x))*ln(3 + cos(x)) @ x = 0 : π}
+I_154 = $Integral{x^3 - 3*x^2 @ x = -2 : 4}
+I_155 = $Integral{2*sqrt(1 - x^2) @ x = -1 : 1}
+I_156 = $Integral{x^3*sin(5*π*x) @ x = 0 : 1}
+I_157 = $Integral{1/x*sin(1/x) @ x = 0.05 : 1/3}
+I_158 = $Integral{ln(x)/(1 + ln(x))^2 @ x = 1 : e}
+I_159 = $Integral{atan(x)/(x*(x^2 + 1)) @ x = 0 : 1}
+I_160 = $Integral{cos(3*x)^2/(5 - 4*cos(2*x)) @ x = 0 : 2*π}
+I_161 = $Integral{x*tan(x) @ x = 0 : π/4}
+I_162 = $Integral{x^4*(1 - x)^4/(1 + x^2) @ x = 0 : 1}
+I_163 = $Integral{(x^2 - x)^2/(x^3 - 3*x + 1)^2 @ x = -100 : -10}
+I_164 = $Integral{cos(sin(x) - x) @ x = 0 : π}
+I_165 = $Integral{1/(4*ln(2))*ln((1 + x)/(1 - x)) @ x = -1 : 0.5}
+I_166 = $Integral{(1 + x)^2*exp(-x)/(1 + x^2)^2 @ x = 0 : 1}
+I_167 = $Integral{ln(1 - x)/x @ x = 0 : 1}
+I_168 = $Integral{x/(1 - x) @ x = 0 : 0.5}
+I_169 = $Integral{1/(1 + tan(x)^sqrt(2)) @ x = 0 : π/2}
+I_170 = $Integral{sqrt(1 - x^4) @ x = -1 : 1}
+I_171 = $Integral{1/((x - 0.3)^2 + 0.01) + 1/((x - 0.9)^2 + 0.04) - 6 @ x = 0 : 1}
+1412 + 111
+I_172 = $Integral{(exp(2*x)) @ x = 0 : 0.5}
+I_173 = $Integral{x^0.1 @ x = 0 : 1}
+I_174 = $Integral{x^4*ln(x + sqrt(x^2 + 1)) @ x = 0 : 2}
+I_175 = $Integral{x^3*exp(x) @ x = -2 : 2}
+I_176 = $Integral{100/x^2*sin(10/x) @ x = 1 : 3}
+I_177 = $Integral{x^15*exp(x - 1) @ x = 0 : 5}
+I_178 = $Integral{1/(x - 2) @ x = -1 : 1}
+I_179 = $Integral{sin(exp(x))/sqrt(x) @ x = 0 : 1}
+I_180 = $Integral{(x^2 + 2*x + 4)/(x^4 - 7*x^2 + 2*x + 17) @ x = 0 : 4}
+I_181 = $Integral{tan(x)^(1/π) @ x = 0 : π/3}
+I_182 = $Integral{-ln(cos(π/2*tanh(π/2*sinh(x))))*(π/2)*(cosh(x)/cosh(π/2*sinh(x))^2) @ x = -4 : 4}
+I_183 = $Integral{1/(16*(x - π/4)^2 + 1/16) @ x = 0 : 1}
+I_184 = $Integral{cos(64*sin(x)) @ x = 0 : π}
+I_185 = $Integral{exp(20*(x - 1))*sin(256*x) @ x = 0 : 1}
+I_186 = $Integral{1/(4*ln(2))*ln((1 + x)/(1 - x)) @ x = 0 : 1}
+I_187 = $Integral{2/π*sqrt(1 - x^2) @ x = -1 : 1}
+I_188 = $Integral{2/(π*(1 + x^2)) @ x = -1 : 1}
+I_189 = $Integral{x^2/(1 + 4*x + 3*x^2 - 4*x^3 - 2*x^4 + 2*x^5 + x^6) @ x = -10 : 10}
+I_190 = $Integral{2/(1 + x^2) + 1/(1 + (x - 10)^2) @ x = -10 : 20}
+I_191 = $Integral{tan(π*x/2)*sin(4*π*x) @ x = 0 : 1}
+I_192 = $Integral{cos(sin(x)) @ x = 0 : π}
+I_193 = $Integral{x*π*sin(30*x)/sqrt(4*π^2 - x^2) @ x = 0 : 2*π}
+I_194 = $Integral{x^2*ln(x)*ln(x + 1)/(x + 1) @ x = 0 : 1}
+I_195 = $Integral{(sin(x)/x)^2 @ x = 0 : 10}
+I_196 = $Integral{3*x^4*ln(x) @ x = 0 : 10}
+I_197 = $Integral{(π - x)^2*ln(2*sin(x/2)^2) @ x = 0 : π}
+I_198 = $Integral{x^2/sin(x)^2 @ x = 0 : π/4}
+I_199 = $Integral{(16*x - 16)/(x^4 - 2*x^3 + 4*x - 4) @ x = 0 : 1}
+I_200 = $Integral{x^4*(1 - x^4)/(1 + x^2) @ x = 0 : 1}
+I_201 = $Integral{(exp(-x) - exp(-10*x)) @ x = 0 : 1}
+I_202 = $Integral{exp(x/(1 + x^2)) @ x = -1 : 1}
+I_203 = $Integral{exp(sin(x)) @ x = 0 : 2*π}
+I_204 = $Integral{2*(exp(-9*x^2) + exp(-1024*(x - 0.25)^2))/sqrt(π) @ x = 0 : 1}
+I_205 = $Integral{50/(π*(2500*x^2 + 1)) @ x = 0 : 10}
+I_206 = $Integral{1/sqrt(abs(x)) @ x = 0 : 1}
+I_207 = $Integral{2*(exp(-9*x^2) + exp(-1024*(x - 0.25)^2))/sqrt(π) @ x = 0 : 1}
+I_208 = $Integral{1/sqrt(1 - x^2*sin(x)^2) @ x = 0 : 1}
+I_209 = $Integral{ln(1 + x)/x @ x = 0 : 1}
+I_210 = $Integral{x^4*ln(x + sqrt(x^2 + 1)) @ x = 0 : 2}
+I_211 = $Integral{cos(x)*(x^2 + x + 1) @ x = 0 : π/2}
+I_212 = $Integral{6*x - x^4 - 1 @ x = 0 : 2}
+I_213 = $Integral{exp(x) + x - 2 @ x = -2 : 2}
+I_214 = $Integral{exp(x) - 4*x - 4 + 4*ln(4) @ x = -3 : 3}
+I_215 = $Integral{exp(x) - 5*x + 3 @ x = 1 : 2}
+I_216 = $Integral{exp(x) - 20*x + 90 @ x = -5 : 5}
+I_217 = $Integral{x^3 - x - 1 @ x = -2 : 2}
+I_218 = $Integral{x^3 - 3*x^2 + 4 @ x = -3 : 3}
+I_219 = $Integral{x^9 - x^8 + x^7 - x^6 + x^5 - x^4 - x^3 + 2*x^2 - x + 0.5 @ x = -2 : 2}
+I_220 = $Integral{2*x^4 - 9*exp(x) - 22.5 @ x = -5 : 5}
+I_221 = $Integral{sqrt(x) - ln(x) - 0.7 @ x = 1 : 10}
+I_222 = $Integral{7*sin(x) - exp(-x)*cos(x) - 0.7 @ x = -10 : 10}
+I_223 = $Integral{exp(x) - 20 @ x = -5 : 5}
+I_224 = $Integral{1/(x*(1 + ln(x)^2)) @ x = 1 : e}
+I_225 = $Integral{sqrt(1 + sqrt(x)) @ x = 0 : 4}
+I_226 = $Integral{1/sqrt(sin(x)) @ x = 0 : 1}
+I_227 = $Integral{cos(100*sin(x)) @ x = 0 : π}
+I_228 = $Integral{1/(x^6 + 0.9) @ x = -1 : 1}
+I_229 = $Integral{(sin(50*π*x))^2 @ x = 0 : 1}
+I_230 = $Integral{x/(exp(x) + 1) @ x = 0 : 1}
+I_231 = $Integral{exp(cos(x)) @ x = 0 : 2*π}
+I_232 = $Integral{1/(x^(1/2) + x^(1/3)) @ x = 0 : 1}
+I_233 = $Integral{exp(-x)*sin(50*x) @ x = 0 : π}
+I_234 = $Integral{cos(x) + 5*cos(1.6*x) - 2*cos(2*x) + 5*cos(4.5*x) + 7*cos(9*x) @ x = 2 : 7}
+I_235 = $Integral{exp(x)*cos(x) @ x = 0 : π}
+I_236 = $Integral{sqrt(-ln(x)) @ x = 0 : 1}
+I_237 = $Integral{exp(-20*x) @ x = -1 : 1}
+I_238 = $Integral{2*x^2/((x - 1)*(x + 1)) - x/ln(x) @ x = 0 : 1}
+I_239 = $Integral{x^2*ln(1/x) @ x = 0 : 1}
+I_240 = $Integral{23/50*(exp(x) + exp(-x)) - cos(x) @ x = -1 : 1}
+I_241 = $Integral{cos(32*sin(x)) @ x = 0 : π}
+I_242 = $Integral{(x - 1/3)^2 @ x = 0 : 1}
+I_243 = $Integral{(x - π/4)^2 @ x = 0 : 1}
+I_244 = $Integral{exp(20*(x - 1))*sin(2^5*x) @ x = 0 : 1}
+I_245 = $Integral{(1 - (sin(π/12))^2)/(1 - (sin(π/12))*cos(x)) @ x = 0 : 2*π}
+I_246 = $Integral{sqrt(x)*ln(x) @ x = 0 : 1}
+I_247 = $Integral{x^0.2 @ x = 0 : 1}
+I_248 = $Integral{sqrt(x)*(1 - x)^0.3 @ x = 0 : 1}
+I_249 = $Integral{x^(5/2) @ x = 0 : 1}
+I_250 = $Integral{(x^2 + x + 1)*cos(x) @ x = 0 : π/2}
+I_251 = $Integral{1/(1 - 0.998*x^2) @ x = 0 : 1}
+I_252 = $Integral{ln(2*sin(x/2)) @ x = 0 : π/2}
+I_253 = $Integral{exp(x)/(exp(x) - 0.99) @ x = 0 : 1}
+I_254 = $Integral{(3 + (x - 1)*exp(x))/(3 - exp(x))^2 @ x = 0 : 1}
+I_255 = $Integral{exp(x)/(3 - exp(x))^2 @ x = 0 : 1}
+I_256 = $Integral{1 + tan(x)^2 @ x = 1 : 1.5}
+I_257 = $Integral{(1 - x^(1/4))^4 @ x = 0 : 1}
+I_258 = $Integral{5/(1 - exp(-5))*exp(-5*x) @ x = 0 : 1}
+I_259 = $Integral{100*exp(-100*x) @ x = 0 : 1}
+I_260 = $Integral{1/(1 - 0.98*x^2) @ x = 0 : 1}
+I_261 = $Integral{x*(x - 2)*ln(x/2) @ x = 0 : 2}
+I_262 = $Integral{(x - 15)^3*ln(x/2) @ x = 0 : 2}
+I_263 = $Integral{(x^(1/2) - x^(-1/2))/(1 + x) @ x = 0 : 1}
+I_264 = $Integral{(x^2 + x)/(1 + x^5) @ x = 0 : 1}
+I_265 = $Integral{(1 - sqrt(x))^2 @ x = 0 : 1}
+I_266 = $Integral{(x^(1/2) - x^(-1/2))*x/(1 - x^2) @ x = 0 : 1}
+I_267 = $Integral{(x^3 + x^(7/2) - 2*x^7)/(1 - x) @ x = 0 : 1}
+I_268 = $Integral{sin(x)/sqrt(1 - 4*cos(x) + 4) @ x = 0 : π}
+I_269 = $Integral{tan(x)/(cos(x)^3 + 1/cos(x)^3) @ x = 0 : π/2}
+I_270 = $Integral{sin(4*sin(x))*sin(2*x) @ x = 0 : π/2}
+I_271 = $Integral{1/(1 - x)*ln(x) @ x = 0 : 1}
+I_272 = $Integral{ln((1 - x)/x)/(1 + x^2) @ x = 0 : 1}
+I_273 = $Integral{x*exp(-16*x^2) @ x = 0 : 3}
+I_274 = $Integral{x*exp(x)/(1 + x)^2 @ x = 0 : 1}
+I_275 = $Integral{x/(exp(x) + 2*exp(-x) - 2) @ x = 0 : ln(2)}
+I_276 = $Integral{sin(3*x)*cos(2*x)/sin(x) @ x = 0 : π}
+I_277 = $Integral{sin(3*x)/sin(x) @ x = 0 : π}
+I_278 = $Integral{sin(5*x)/sin(x) @ x = 0 : π/2}
+I_279 = $Integral{cos(3*x)/(1 + cos(x)/2) @ x = 0 : π}
+I_280 = $Integral{sin(3*x)*sin(x)/(1 - 4*cos(x) + 4) @ x = 0 : π}
+I_281 = $Integral{(cos(3*x) - 0.5*cos(4*x))/(1 - cos(x) + 0.25) @ x = 0 : π}
+I_282 = $Integral{1/(1 - x^2/2) @ x = 0 : 1}
+I_283 = $Integral{cos(x)^2*sin(4*x)/tan(x) @ x = 0 : π/2}
+I_284 = $Integral{cos(x)^3*sin(4*x)/sin(x) @ x = 0 : π/2}
+I_285 = $Integral{1/(1 + 10*x^2) @ x = 0 : 1}
+I_286 = $Integral{sin(x)^3/(4 + 3*cos(x)) @ x = 0 : π}
+I_287 = $Integral{sqrt(tan(x))/((sin(x) + cos(x))*sin(x)) @ x = 0 : π/3}
+I_288 = $Integral{1/(1 - 6*cos(x) + 9) @ x = -π : π}
+I_289 = $Integral{x/(sin(x) + 3*cos(x))^2 @ x = 0 : π/2}
+I_290 = $Integral{x/(9*cos(x)^2 + 16*sin(x)^2) @ x = 0 : π}
+I_291 = $Integral{1/(1 + 5*x^2) @ x = 0 : 1}
+I_292 = $Integral{x^3*cos(x)/sin(x)^3 @ x = 0 : π/2}
+I_293 = $Integral{x*sin(10*π*x) @ x = 0 : 1}
+I_294 = $Integral{exp(3*cos(x))*sin(x) @ x = 0 : π}
+I_295 = $Integral{exp(4*cos(x))*sin(4*sin(x))/sin(x) @ x = 0 : π}
+I_296 = $Integral{x*exp(-4*tan(x)^2)*(4 - cos(x)^2)/cos(x)^4*tan(x) @ x = 0 : π/2}
+I_297 = $Integral{1/(1 + x^2 + x^4) @ x = -1 : 1}
+I_298 = $Integral{ln(sin(x)) @ x = 0 : π/2}
+I_299 = $Integral{4*x^3 @ x = 0 : 1}
+I_300 = $Integral{ln(4 + 2*cos(x)) @ x = 0 : π}
+I_301 = $Integral{ln(1 - 8*cos(x) + 16) @ x = 0 : 3*π}
+I_302 = $Integral{ln((1 + sin(1)*cos(x)^2)/(1 - sin(1)*cos(x)^2)) @ x = 0 : π/2}
+I_303 = $Integral{ln(2*tan(x)) @ x = 0 : π/2}
+I_304 = $Integral{ln(9 + 16*tan(x)^2) @ x = 0 : π/2}
+I_305 = $Integral{x^2 + 3*x^3 @ x = 0 : 1}
+I_306 = $Integral{(1 - x)*ln(x)/(1 + x) @ x = 0 : 1}
+I_307 = $Integral{x*ln(x)/(1 + x^2)^2 @ x = 0 : 1}
+I_308 = $Integral{1/(1 - x) + x*ln(x)/(1 - x)^2 @ x = 0 : 1}
+I_309 = $Integral{x*ln(x)/sqrt(1 - x^4) @ x = 0 : 1}
+I_310 = $Integral{x*ln(x)/((1 - x^3)^2)^(1/3) @ x = 0 : 1}
+I_311 = $Integral{ln(x)^2/(x^2 - x + 1) @ x = 0 : 1}
+I_312 = $Integral{(1 - x)/((1 + x)*ln(x)) @ x = 0 : 1}
+I_313 = $Integral{1/ln(x) + 1/(1 - x) @ x = 0 : 1}
+I_314 = $Integral{1/((π^2 + ln(x)^2)*(1 + x^2)) @ x = 0 : 1}
+I_315 = $Integral{(x*ln(x) + 1 - x)/(x*ln(x)^2)*ln(1 + x) @ x = 0 : 1}
+I_316 = $Integral{x*exp(x)*ln(1 - x) @ x = 0 : 1}
+I_317 = $Integral{sin(x)^3*ln(sin(x))/sqrt(1 + sin(x)^2) @ x = 0 : π/2}
+I_318 = $Integral{x/(1 + sin(x)) @ x = 0 : π/2}
+I_319 = $Integral{ln(1 + tan(x)) @ x = 0 : π/4}
+I_320 = $Integral{ln(1/tan(x) - 1) @ x = 0 : π/4}
+I_321 = $Integral{ln(x)/(1 + x^2) @ x = 0 : 1}
+I_322 = $Integral{ln(x)/sqrt(1 - x^2) @ x = 0 : 1}
+I_323 = $Integral{sqrt(1 - x^2)*ln(x) @ x = 0 : 1}
+I_324 = $Integral{ln(x)^2*(1 + x^2)/(1 + x^4) @ x = 0 : 1}
+I_325 = $Integral{ln(x)^3/(1 + x) @ x = 0 : 1}
+I_326 = $Integral{ln(x)^4/(1 + x^2) @ x = 0 : 1}
+I_327 = $Integral{(1 - x)*x^2/((1 + x)*(1 + x^2)*ln(x)) @ x = 0 : 1}
+I_328 = $Integral{(x^3 - x^2)/ln(x) @ x = 0 : 1}
+I_329 = $Integral{(x^4 - x^3)*x^4/ln(x) @ x = 0 : 1}
+I_330 = $Integral{ln((1 + x)/2)/(1 - x) @ x = 0 : 1}
+I_331 = $Integral{ln(1 + x)/(3*x + 3)^2 @ x = 0 : 1}
+I_332 = $Integral{ln(1 + x)*(1 + x^2)/(1 + x)^4 @ x = 0 : 1}
+I_333 = $Integral{ln((1 + x)/(1 - x))/(1 + x^2) @ x = 0 : 1}
+I_334 = $Integral{ln(ln(1/x))/(1 + x) @ x = 0 : 1}
+I_335 = $Integral{(1 - x)*exp(-x)*ln(x) @ x = 0 : 1}
+I_336 = $Integral{ln(sin(x))*sin(x)^2 @ x = 0 : π/2}
+I_337 = $Integral{sin(x)*ln(cot(x/2)) @ x = 0 : π/2}
+I_338 = $Integral{ln(sin(x))*tan(x) @ x = 0 : π/2}
+I_339 = $Integral{exp(x)*sin(2*x) @ x = 1 : 11}
+I_340 = $Integral{x^4*sin(π*x)^2 @ x = -1 : 1}
+I_341 = $Integral{sec(x)^3 @ x = 0 : π/4}
+I_342 = $Integral{-ln(1 - x)/(1 - x)*ln(x)^2 @ x = 0 : 1}
+I_343 = $Integral{(4*x^3 - 1)/(2*x^2 + 1) @ x = -1 : 1}
+I_344 = $Integral{2/(2*x^2 - 1) @ x = 0 : 0.5}
+I_345 = $Integral{atan((x + 1)/3) - atan((x - 1)/3) @ x = 0 : 1}
+I_346 = $Integral{cos(20*x^2) @ x = -1 : 1}
+I_347 = $Integral{x/(sin(x)*cos(x)) @ x = 0 : π/4}
+I_348 = $Integral{ln(cot(x)) @ x = 0 : π/4}
+I_349 = $Integral{ln(ln(1/x)) @ x = 0 : 1}
+I_350 = $Integral{exp(x)*cos(10*x) @ x = 0 : 1}
+I_351 = $Integral{atan(x)/x @ x = 0 : 1}
+I_352 = $Integral{sin(3*x)*cos(5*x)/x @ x = 0 : 5}
+I_353 = $Integral{1/(4 + 3*cos(x)) @ x = 0 : π/2}
+I_354 = $Integral{1/(4 + 3*sin(x))^2 @ x = 0 : 2*π}
+I_355 = $Integral{sin(5*x)^3 @ x = 0 : 1}
+I_356 = $Integral{x/(1 + sin(3*x)) @ x = 0 : 1}
+I_357 = $Integral{cos(3*x)/(1 + cos(3*x)) @ x = 0 : 1}
+I_358 = $Integral{tan(3*x)/(tan(3*x) - 1) @ x = -0.1 : 0.1}
+I_359 = $Integral{sec(x)^2 @ x = 0 : 1}
+I_360 = $Integral{1/(sec(x) + 1) @ x = 0 : 1}
+I_361 = $Integral{sin(3*x)*cos(3*x) @ x = 0 : 1}
+I_362 = $Integral{sec(x)*tan(x) @ x = 0 : 1}
+I_363 = $Integral{x^2*cos(3*π*x/2)^2 @ x = -1 : 1}
+I_364 = $Integral{x/(x^2 + 9)*ln(x^2 + 9) @ x = 0 : 1}
+I_365 = $Integral{1/x/ln(x) @ x = 5 : 10}
+I_366 = $Integral{1/exp(x)*(1/x - ln(x)) @ x = 10 : 20}
+I_367 = $Integral{1/5*(1/100*(322 + 3*x*(98 + x*(37 + x))) - 24*x/(1 + x^2)) @ x = -2 : 2}
+I_368 = $Integral{x^2*sin(3*x)^2 @ x = -1 : 1}
+I_369 = $Integral{x*sin(3*x) @ x = -1 : 1}
+I_370 = $Integral{1/(1 + cos(3*x)) @ x = -1 : 1}
+I_371 = $Integral{cos(3*x)/(1 + cos(3*x)) @ x = -1 : 1}
+I_372 = $Integral{tan(x)^2 @ x = -1 : 1}
+I_373 = $Integral{(ln(1/x))^5 @ x = 0 : 1}
+I_374 = $Integral{x^8*(1 - x)^4 @ x = 0 : 1}
+I_375 = $Integral{Acosh(4*x) @ x = 5 : 10}
+I_376 = $Integral{(4*x + 3)/(6*x^2 + 3*x + 8) @ x = 1 : 10}
+I_377 = $Integral{cos(π*x^2/2) @ x = 0 : 1}
+I_378 = $Integral{sin(π*x^2/2) @ x = 0 : 1}
+I_379 = $Integral{1/(3 + 4*exp(5*x)) @ x = 0 : 1}
+I_380 = $Integral{x^4*exp(3*x) @ x = 0 : 1}
+I_381 = $Integral{x*exp(3*x)/(1 + 3*x)^2 @ x = 0 : 1}
+I_382 = $Integral{sinh(x)^5 @ x = 0 : 1}
+I_383 = $Integral{cosh(x)^5 @ x = 0 : 1}
+I_384 = $Integral{sinh(x)^4*cosh(x)^2 @ x = 0 : 1}
+I_385 = $Integral{sinh(x)^3*cosh(x)^3 @ x = 0 : 1}
+I_386 = $Integral{sinh(x)*cosh(x)^4 @ x = 0 : 1}
+I_387 = $Integral{1/sinh(x) @ x = 1 : 5}
+I_388 = $Integral{1/cosh(x) @ x = 1 : 5}
+I_389 = $Integral{sinh(x)/cosh(x) @ x = 0 : 1}
+I_390 = $Integral{sinh(x)^3/cosh(x)^2 @ x = 0 : 1}
+I_391 = $Integral{cosh(x)/sinh(x) @ x = 1 : 5}
+I_392 = $Integral{cosh(x)^2/sinh(x) @ x = 1 : 5}
+I_393 = $Integral{1/(sinh(x)*cosh(x)) @ x = 1 : 5}
+I_394 = $Integral{sinh(2*x)/cosh(x)^2 @ x = 0 : 1}
+I_395 = $Integral{sinh(x)/(cosh(x) + sinh(x)) @ x = 0 : 1}
+I_396 = $Integral{1/(cosh(x) - sinh(x)) @ x = 0 : 1}
+I_397 = $Integral{1/(1 - cosh(x)^2) @ x = 1 : 5}
+I_398 = $Integral{x*sinh(x) @ x = 0 : 1}
+I_399 = $Integral{x*cosh(x) @ x = 0 : 1}
+I_400 = $Integral{x/cosh(x)^2 @ x = 1 : 5}
+I_401 = $Integral{x/(1 + cosh(x)) @ x = 1 : 5}
+I_402 = $Integral{sin(x)^2*cos(x)^2 @ x = 0 : 1}
+I_403 = $Integral{sin(x)*cos(x)^4 @ x = 0 : 1}
+I_404 = $Integral{sin(x)^4*cos(x)^4 @ x = 0 : 1}
+I_405 = $Integral{sin(x)^3/cos(x)^2 @ x = 0 : 1}
+I_406 = $Integral{sin(x)/cos(x)^4 @ x = 0 : 1}
+I_407 = $Integral{cos(x)/sin(x)^3 @ x = 1 : 2}
+I_408 = $Integral{1/(sin(x)^4*cos(x)^4) @ x = 1 : 1.1}
+I_409 = $Integral{cos(2*x)/cos(x)^2 @ x = 0 : 1}
+I_410 = $Integral{sin(3*x)/sin(x)^3 @ x = 1 : 2}
+I_411 = $Integral{cos(3*x)/cos(x)^3 @ x = 0 : 1}
+I_412 = $Integral{cos(ln(x)) @ x = 1 : 2}
+I_413 = $Integral{cos(x)/(1 - 0.01*sin(x)^2)^(3/2) @ x = 0 : 1}
+I_414 = $Integral{cosh(x)*cos(x) @ x = 0 : 1}
+I_415 = $Integral{x^2*exp(-x*ln(3)) @ x = 0 : 3}
+I_416 = $Integral{x*exp(-x*ln(3)) @ x = 0 : 3}
+I_417 = $Integral{((sin(2*π*x) + cos(π*x))/(π*(2*x + 1)))*2*(-1) @ x = 0 : 2}
+I_418 = $Integral{(sin(π*(x - 0.5)) - sin(2*π*(x - 0.5)))/(π*(x - 0.5)) @ x = 0 : 2}
+I_419 = $Integral{1 + exp(-x)*sin(8*x^(2/3)) @ x = 0 : 2}
+I_420 = $Integral{3*exp(-x)*sin(x^2) + 1 @ x = 0 : 3}
+I_421 = $Integral{exp(-2*x)*(14*x - 11*x^2) @ x = 0 : 2}
+I_422 = $Integral{x^10*exp(4*x^3 - 3*x^4) @ x = 0 : 2}
+I_423 = $Integral{2 + cos(2*sqrt(x)) @ x = 0 : 2}
+I_424 = $Integral{sin(π*x)/(π*x) @ x = 0 : 2}
+I_425 = $Integral{x^4*ln(x + sqrt(x^2 + 1)) @ x = 0 : 1}
+I_426 = $Integral{x*exp(x) @ x = 0 : 1}
+I_427 = $Integral{atan(x) @ x = 0 : 1}
+I_428 = $Integral{exp(x)*cos(x) @ x = 0 : 1}
+I_429 = $Integral{π/2*cosh(x)*sin(exp(π/2*sinh(x))) @ x = -1 : 1}
+I_430 = $Integral{4*x^3*sqrt(x^4 + 7) @ x = 0 : 1}
+I_431 = $Integral{x*cos(x) @ x = 0 : 1}
+I_432 = $Integral{cos(x)^2 @ x = 0 : 1}
+I_433 = $Integral{tan(x)^2*sec(x)^4 @ x = 0 : 1}
+I_434 = $Integral{(3*x + 6)/(x^2 + 5*x + 4) @ x = 0 : 1}
+I_435 = $Integral{x/(x^2 + 4) @ x = 0 : 1}
+I_436 = $Integral{1/(x^2 + 4) @ x = 0 : 1}
+I_437 = $Integral{x/(x^2 + 4)^2 @ x = 0 : 1}
+I_438 = $Integral{tan(x) @ x = 0 : 1}
+I_439 = $Integral{sec(x) @ x = 0 : 1}
+I_440 = $Integral{exp(-(x^2)) @ x = 0 : 1}
+I_441 = $Integral{(2*x + 3/x)^2 @ x = 1 : 2}
+I_442 = $Integral{x^(0.1)*(1.2 - x)*(1 - exp(20*(x - 1))) @ x = 0 : 1}
+I_443 = $Integral{1/(9 + x^2) @ x = -1 : 1}
+I_444 = $Integral{sin(1 - 30*x^2) @ x = 0 : 1}
+I_445 = $Integral{(2 + cos(1 + x^(3/2))*exp(0.5*x)/sqrt(1 + sin(x)/2))*exp(0.5*x) @ x = 0 : 2}
+I_446 = $Integral{1/(1 + (x + 3)^2) @ x = -1 : 1}
+I_447 = $Integral{exp(-x)/(1 + x^2) @ x = -1 : 1}
+I_448 = $Integral{ln(1 + x)*ln(1 - x) @ x = -1 : 1}
+I_449 = $Integral{-x^3/10 + 23*x - 3.5 @ x = -8 : 23}
+I_450 = $Integral{x^25*(1 - x)^2 @ x = 0 : 1}
+I_451 = $Integral{x^10 - 10*x^8 + 33*x^6 - 40*x^4 + 16*x^2 @ x = 0 : 2}
+I_452 = $Integral{exp(-x)*sin(x)/x @ x = 0 : 1}
+I_453 = $Integral{(x^2*ln(x))/((x^2 - 1)*(x^4 + 1)) @ x = 0 : 1}
+I_454 = $Integral{asin(sqrt(2)/2*sin(x))*sin(x)/sqrt(4 - 2*sin(x)^2) @ x = 0 : π/2}
+I_455 = $Integral{tanh(π/2*sinh(x)) @ x = 0 : 1}
+I_456 = $Integral{x^3 + x^2 + 5*x + 3 @ x = -3 : 3}
+I_457 = $Integral{sin(x)^3/(sin(x)^3 + cos(x)^3) @ x = 0 : 1}
+I_458 = $Integral{exp(-x)*sin(x) @ x = -1 : 1}
+I_459 = $Integral{ln(x + sqrt(1 + x^2)) @ x = 0 : 1}
+I_460 = $Integral{1/sqrt(exp(2*x) + 1) @ x = 0 : 1}
+I_461 = $Integral{sec(x)^8*tan(x) @ x = 0 : 1}
+I_462 = $Integral{exp(-x)/(1 + x^4) @ x = -1 : 1}
+I_463 = $Integral{8*exp(-8*x) @ x = 0 : 1}
+I_464 = $Integral{1 + cos(1.95*π*x) @ x = 0 : 1}
+I_465 = $Integral{exp(-x)/sqrt(x) @ x = 0 : 1}
+I_466 = $Integral{exp(-x)*cos(x) @ x = -1 : 1}
+I_467 = $Integral{exp(-x)*x^2 @ x = -1 : 1}
+I_468 = $Integral{100*exp(-200*x^2) @ x = -1 : 1}
+I_469 = $Integral{(14*x - 11*x^2)*exp(-2*x) @ x = 0 : 2}
+I_470 = $Integral{2000*ln(140000/(140000 - 2100*x)) - 9.8*x @ x = 8 : 30}
+I_471 = $Integral{1/(x^2 + 10^-6) @ x = -0.01 : 0.01}
+I_472 = $Integral{1 + exp(-25*x)/2 @ x = 0 : 1}
+I_473 = $Integral{exp(3*x)*sin(2*x) @ x = 0 : π/4}
+I_474 = $Integral{x*exp(x)/(x + 1)^2 @ x = 0 : 1}
+I_475 = $Integral{5/(exp(π) - 2)*exp(2*x)*cos(x) @ x = 0 : π/2}
+I_476 = $Integral{-(x^3 + 23*x - 3.5) @ x = -10 : 10}
+I_477 = $Integral{10*exp(-100*x^2) @ x = -1 : 1}
+I_478 = $Integral{x^3 @ x = 0 : 1}
+I_479 = $Integral{x^6 @ x = 0 : 1}
+I_480 = $Integral{x^10 @ x = 0 : 1}
+I_481 = $Integral{sqrt(x^7) @ x = 0 : 1}
+I_482 = $Integral{1/(1 + (sin(x))^2) @ x = 0 : π/2}
+I_483 = $Integral{(x - 1)*(x - 2)*(x - 3)*(x - 4)*(x - 5)/120 @ x = 0 : 5}
+I_484 = $Integral{1/(x + 1/100)^5 @ x = 0 : 1}
+I_485 = $Integral{50/(π*(1 + 2500*x^2)) @ x = 0 : 10}
+I_486 = $Integral{(sin(100*π*x)/(π*x)) @ x = 0.1 : 1}
+I_487 = $Integral{x*cos(x)*sin(3*x) @ x = 0 : 2*π}
+I_488 = $Integral{ln(x)*ln(1 - x) @ x = 0 : 1}
+I_489 = $Integral{x*sin(30*x)/sqrt(1 - x^2/(4*π^2)) @ x = 0 : 2*π}
+I_490 = $Integral{5*x^4 @ x = 0 : 1}
+I_491 = $Integral{x^0.95*exp(x) @ x = 0 : 1}
+I_492 = $Integral{ln(x)^2*1/(1 + x^2) @ x = 0 : 1}
+I_493 = $Integral{sqrt(x)*exp(-x)/(1 + x) @ x = 0 : 1}
+I_494 = $Integral{ln(abs(3 + x)) @ x = 0 : 1}
+I_495 = $Integral{x^3*(1 - x)^5 @ x = 0 : 1}
+I_496 = $Integral{x*exp(-3*x) @ x = 0 : 4}
+I_497 = $Integral{x*exp(x)/(1 + x)^2 @ x = 0 : 1}
+I_498 = $Integral{exp(-4*x)/sqrt(x) @ x = 0 : 5}
+I_499 = $Integral{x/(exp(x) + 2*exp(-x) - 2) @ x = 0 : ln(2)}
+I_500 = $Integral{exp(-5/x)/x^2 @ x = 0 : 1}
+I_501 = $Integral{exp(-(tan(x)^2)) @ x = 0 : π/2}
+I_502 = $Integral{sin(7*x)/sin(x) @ x = 0 : π/2}
+I_503 = $Integral{sin(8*x)*cos(5*x)/sin(x) @ x = 0 : π/2}
+I_504 = $Integral{sin(5*x)/sin(x) @ x = 0 : π}
+I_505 = $Integral{cos(7*x)/cos(x) @ x = 0 : π}
+I_506 = $Integral{cos(2*x)/(1 - 6*cos(x) + 9) @ x = 0 : π}
+I_507 = $Integral{sin(4*x)*sin(x)/(1 - 10*cos(x) + 25) @ x = 0 : π}
+I_508 = $Integral{sin(x)^6/cos(x)^8 @ x = 0 : π/4}
+I_509 = $Integral{sin(10*x)*cos(x)^9/sin(x) @ x = 0 : π/2}
+I_510 = $Integral{sqrt(sin(x)) @ x = 0 : π/2}
+I_511 = $Integral{1/sqrt(sin(x)) @ x = 0 : π/2}
+I_512 = $Integral{cos(x)^5*cos(5*x)/(16*sin(x)^2 + 9*cos(x)^2) @ x = 0 : π/2}
+I_513 = $Integral{sin(x)^2/(5 + 4*cos(x)) @ x = 0 : π}
+I_514 = $Integral{sin(x)^(0.5)/((cos(x) - sin(x))^(-0.5)*cos(x)^3) @ x = 0 : π/4}
+I_515 = $Integral{sin(x)/sqrt(1 + 25*sin(x)^2) @ x = 0 : π/2}
+I_516 = $Integral{sin(x)/sqrt(1 - 8*cos(x) + 16) @ x = 0 : π}
+I_517 = $Integral{sqrt((cos(2*x) - cos(2))/(cos(2*x) + 1)) @ x = 0 : 1}
+I_518 = $Integral{1/((tan(x)^3 + cot(x)^3)*sin(2*x)) @ x = 0 : π/4}
+I_519 = $Integral{tan(x)/(cos(x)^4 + sec(x)^4) @ x = 0 : π/2}
+I_520 = $Integral{sin(4*sin(x))*sin(2*x) @ x = 0 : π/2}
+I_521 = $Integral{sin(4*cos(x))*sin(2*x) @ x = 0 : π/2}
+I_522 = $Integral{x*tan(x) @ x = 0 : π/4}
+I_523 = $Integral{x*cot(x) @ x = 0 : π/4}
+I_524 = $Integral{x/sin(x) @ x = 0 : π/2}
+I_525 = $Integral{x*cot(x) @ x = 0 : π/2}
+I_526 = $Integral{(π/2 - x)*tan(x) @ x = 0 : π/2}
+I_527 = $Integral{x^2/cos(x)^2 @ x = 0 : π/4}
+I_528 = $Integral{x*tan(x)^3 @ x = 0 : π/4}
+I_529 = $Integral{x^2*tan(x)/cos(x)^2 @ x = 0 : π/4}
+I_530 = $Integral{x^2*tan(x)^2/cos(x)^2 @ x = 0 : π/4}
+I_531 = $Integral{ln(x)/(1 + ln(x))^2 @ x = 1 : e}
+I_532 = $Integral{ln(x)*ln(1 - x) @ x = 0 : 1}
+I_533 = $Integral{(ln(tan(x)))^4 @ x = 0 : π/4}
+I_534 = $Integral{ln(tan(x)) @ x = 0 : π/4}
+I_535 = $Integral{ln(1 + tan(x)) @ x = 0 : π/4}
+I_536 = $Integral{ln(sqrt(tan(x)) + sqrt(cot(x))) @ x = 0 : π/4}
+I_537 = $Integral{-ln(cos(π/2*x)) @ x = -1 : 1}
+I_538 = $Integral{sin(x)/sqrt(1 + 9*sin(x)^2) @ x = 0 : π/2}
+I_539 = $Integral{sin(x)/sqrt(1 - 6*cos(x) + 9) @ x = 0 : π}
+I_540 = $Integral{sqrt((cos(2*x) - cos(2))/(cos(2*x) + 1)) @ x = 0 : 1}
+I_541 = $Integral{sqrt(tan(x)) + sqrt(cot(x)) @ x = 0 : π/4}
+I_542 = $Integral{(sqrt(tan(x)) - sqrt(cot(x)))*tan(x) @ x = 0 : π/4}
+I_543 = $Integral{1/(tan(x)^3 + cot(x)^3)/sin(2*x) @ x = 0 : π/4}
+I_544 = $Integral{sin(5*cos(x))*sin(2*x) @ x = 0 : π/2}
+I_545 = $Integral{1/sqrt(1 - 2*x*cos(3) + x^2) @ x = 0 : 1}
+I_546 = $Integral{(cos(x) - sin(x))/(cos(x) + sin(x))*x @ x = 0 : π/4}
+I_547 = $Integral{(π/4 - x*tan(x))*tan(x) @ x = 0 : π/4}
+I_548 = $Integral{(π/4 - x)*tan(x)/cos(2*x) @ x = 0 : π/4}
+I_549 = $Integral{(π/4 - x*tan(x))/cos(2*x) @ x = 0 : π/4}
+I_550 = $Integral{x/sin(x)/(cos(x) + sin(x)) @ x = 0 : π/4}
+I_551 = $Integral{sin(x)*x/((sin(x) + cos(x))*cos(x)^2) @ x = 0 : π/4}
+I_552 = $Integral{1/x - cot(x) @ x = 0 : π/2}
+I_553 = $Integral{(4*x^2*cos(x) + (π - x)*x)/sin(x) @ x = 0 : π/2}
+I_554 = $Integral{x*cos(x)/(1 + sin(x)) @ x = 0 : π}
+I_555 = $Integral{x/((sin(x) + cos(x))*sin(x)) @ x = 0 : π/2}
+I_556 = $Integral{x*sin(2*x)/(9*cos(x)^2 + 16*sin(x)^2) @ x = 0 : π/2}
+I_557 = $Integral{x*sin(2*x)/((1 + 3*sin(x)^2)*(1 + 4*sin(x)^2)) @ x = 0 : π/2}
+I_558 = $Integral{x^2*tan(x)/cos(x)^2 @ x = 0 : π/4}
+I_559 = $Integral{x^3*cos(x)/sin(x)^3 @ x = 0 : π/2}
+I_560 = $Integral{exp(3*cos(x))*sin(3*sin(x))*cot(x/2) @ x = 0 : π}
+I_561 = $Integral{ln(cos(x) - sin(x)) @ x = 0 : π/4}
+I_562 = $Integral{ln(cos(x) + sin(x)) @ x = 0 : π/4}
+I_563 = $Integral{(ln(tan(x)))^2 @ x = 0 : π/4}
+I_564 = $Integral{(ln(tan(x)))^4 @ x = 0 : π/4}
+I_565 = $Integral{ln(cos(x))^2 @ x = 0 : π/2}
+I_566 = $Integral{ln(cos(x) + sin(x)) @ x = 0 : π/2}
+I_567 = $Integral{x*sin(30*x)/sqrt(1 - (x/(2*π))^2) @ x = 0 : 2*π}
+I_568 = $Integral{cos(sqrt(377)*x) @ x = -1 : 1}
+I_569 = $Integral{x^2*exp(-(x^2))*tan(x)*acos(x) @ x = -1 : 1}
+I_570 = $Integral{exp(-3*x)*cos(16*sqrt(3)*π*x) @ x = -1 : 1}
+I_571 = $Integral{exp(cos(sqrt(47*π)*x)) @ x = -1 : 1}
+I_572 = $Integral{cosh(tanh(sinh(x))) @ x = -1 : 1}
+I_573 = $Integral{23/25*cosh(x) - cos(x) @ x = -1 : 1}
+I_574 = $Integral{exp(-2*x)*cos(16*sqrt(2)*x) @ x = -1 : 1}
+I_575 = $Integral{x*atan(x^3) @ x = -1 : 1}
+I_576 = $Integral{exp(x)*atan(x^3) @ x = -1 : 1}
+I_577 = $Integral{x*sin(30*x)/sqrt(1 - x^2/(4*π^2)) @ x = -1 : 1}
+I_578 = $Integral{x*sin(50*x)*cos(75*x) @ x = -1 : 1}
+I_579 = $Integral{1/(x^4 + x^2 + exp(1)) @ x = -1 : 1}
+I_580 = $Integral{tan(x)/(1 + exp(x)*sin(π*x)) @ x = -1 : 1}
+I_581 = $Integral{exp(-3*x)*cos(5*π*x) @ x = 0 : 8}
+I_582 = $Integral{exp(x)*sin(3*x)*tanh(5*cos(30*x)) @ x = -1 : 1}
+I_583 = $Integral{x^(-2/3) @ x = 0 : 1}
+I_584 = $Integral{x^5*ln(1/x) @ x = 0 : 1}
+I_585 = $Integral{x^(-x*(-3/10)*(-ln(x))^(-7/10)) @ x = 0 : 1}
+I_586 = $Integral{x^2/(100*x^(2*x) + 1) @ x = 0 : 1}
+I_587 = $Integral{x*(-ln(x))/(100*x^(2*x) + 1) @ x = 0 : 1}
+I_588 = $Integral{sin(x*(-ln(x))/(100*x^(-2*x) + 1)) @ x = 0 : 1}
+I_589 = $Integral{sin(100*x*(-ln(x)))/(100*x^(-2*x) + 1) @ x = 0 : 1}
+I_590 = $Integral{sin(70*x^2)/(100*x^x + 1) @ x = 0 : 1}
+I_591 = $Integral{sin(70*sin(x*(-ln(x))))/(100*x^x + 1) @ x = 0 : 1}
+I_592 = $Integral{sin((sqrt(x)*(-ln(x)))^(1/10))/(x^(1/10)*(-ln(x))^(1/5)) @ x = 0 : 1}
+I_593 = $Integral{sin(30*x^(1/20)*(-ln(x))^(1/10)/(100*x^(1/10)*(-ln(x))^(1/5) + 1)) @ x = 0 : 1}
+I_594 = $Integral{x^2*exp(x) @ x = 0 : 1}
+I_595 = $Integral{(-ln(x))^5*x^4 @ x = 0 : 1}
+I_596 = $Integral{sin(x)^6*cos(x)^6 @ x = 0 : π/2}
+I_597 = $Integral{ln(sin(x))^2 @ x = 0 : π/2}
+I_598 = $Integral{sqrt(-ln(x)) @ x = 0 : 1}
+I_599 = $Integral{cos(x*exp(x)) @ x = 0 : 4}
+I_600 = $Integral{(1 - sqrt(x))^9 @ x = 0 : 1}
+I_601 = $Integral{sqrt(x)*(1 - x)^0.3 @ x = 0 : 1}
+I_602 = $Integral{3*x^2/(x^6 + 1) @ x = 0 : 1}
+I_603 = $Integral{cos(4*x)/sqrt(x) @ x = 0 : 1}
+I_604 = $Integral{(cos(x) - cos(2*x))/x @ x = 0 : 1}
+I_605 = $Integral{asin(sqrt(2)/2*sin(x))*sin(x)/sqrt(4 - 2*sin(x)^2) @ x = 0 : π/2}
+I_606 = $Integral{π*cosh(x)*sin(exp(π/2*sinh(x)))/2 @ x = -2 : 2}
+I_607 = $Integral{ln(x)^6*atan(abs(x*sqrt(3)/(x - 2)))/(x + 1) @ x = 0 : 1}
+I_608 = $Integral{x^2 + exp(x)*sin(x) @ x = 0 : 4}
+I_609 = $Integral{3*x^2*sin(100*x)^3*exp(1/3*x) @ x = 0 : 1}
+I_610 = $Integral{exp(cos(x)) @ x = 0 : 2*π}
+I_611 = $Integral{sqrt(1 - 0.36*sin(x)^2) @ x = 0 : 2*π}
+I_612 = $Integral{6*x^5 @ x = 0 : 1}
+I_613 = $Integral{exp(-(tan(x/2)^2)) @ x = -π : π}
+I_614 = $Integral{(1 + x)/(x^2 + 2*x + 5)^(1/3) @ x = 1 : 2}
+I_615 = $Integral{1/sqrt(x)*ln(exp(1)/x) @ x = 0 : 1}
+I_616 = $Integral{x^3*ln(1/x)^4 @ x = 0 : 1}
+I_617 = $Integral{1/(sqrt(x) + x^(1/3)) @ x = 0 : 1}
+I_618 = $Integral{exp(x)/sqrt(x + 0.01) @ x = 0 : 1}
+I_619 = $Integral{1/((1 + x)*sqrt(x)) @ x = 0 : 1}
+I_620 = $Integral{exp(-3*x^2)*ln(1 + x + x^2) @ x = -1 : 1}
+I_621 = $Integral{x^2*ln(x)/sqrt(1 - x^2) @ x = 0 : 1}
+I_622 = $Integral{sqrt(4095*cos(x)^2 + 1) @ x = 0 : π}
+I_623 = $Integral{x^6 - 105/4*x^4 + 315/2*x^2 - 315/4 @ x = -5 : 5}
+I_624 = $Integral{x^8 - 104/3*x^6 + 658*x^4 - 2940*x^2 + 1785 @ x = -3 : 3}
+I_625 = $Integral{(x^2 + x + 1)*cos(x) @ x = 0 : π/2}
+I_626 = $Integral{x^(2/3)/(x^2 + (1 - x)^2)^(4/3) @ x = 0 : 1}
+I_627 = $Integral{ln(x)/exp(x^2) @ x = 1 : 5}
+I_628 = $Integral{atan(x)/x^(3/2) @ x = 0 : 0.64}
+I_629 = $Integral{atan(x)/sqrt(x) @ x = 0 : 0.64}
+I_630 = $Integral{1/(x*exp((-ln(x))^2)) @ x = 0 : 1}
+I_631 = $Area{x*abs(x) @ x = -1 : 2}
+I_632 = $Integral{x/(5 + x)*exp(-2*x/30) @ x = 0 : 30}
+I_633 = $Integral{exp(x)/x^3 @ x = 0.1 : 1}
+I_634 = $Integral{12*x*exp(-2*x) @ x = -1.5 : 1.5}
+I_635 = $Integral{sin(2*sin(2*sin(2*sin(x)))) @ x = 0 : 10}
+I_636 = $Integral{-2/sqrt(π)*ln(cos(π*tanh(x)/2)/cosh(x)^2) @ x = -6 : 6}
+I_637 = $Integral{sqrt(1 + 1/x) @ x = 0 : 1}
+I_638 = $Integral{x*sin(x)/(1 + cos(x)^2) @ x = 0 : π}
+I_639 = $Integral{x^2*ln(x)/((x^2 - 1)*(x^4 + 1)) @ x = 0 : 1}
+I_640 = $Integral{sin((x - 4)*55)/(x - 4.99) @ x = 5 : 6}
+I_641 = $Integral{exp(-0.01*x)*(0.01*cos(0.3*x) + 0.3*sin(0.3*x)) @ x = 0 : 100}
+I_642 = $Integral{(0.2*(1 + x)*cos(0.2*x) - sin(0.2*x))/(1 + x)^2 @ x = 0 : 100}
+I_643 = $Integral{80*sin(sqrt(1 + 80*x))/(2*sqrt(1 + 80*x)) @ x = 0 : 10}
+I_644 = $Integral{exp(-sqrt(1 + x))*(0.5*cos(0.5*x) - sin(0.5*x)/(2*sqrt(1 + x))) @ x = 0 : 1}
+I_645 = $Integral{exp(-2/(1 + x) - 2/(1 - x)) @ x = -1 : 1}
+I_646 = $Integral{1/(1 + x^2)^(5/4) @ x = -1 : 1}
+I_647 = $Integral{3*x^4*(x^6 + (1 - x^3)^2)^(-4/3) @ x = 0 : 2}
+I_648 = $Integral{sin(21*π*x) + sin(31*π*x)/2 @ x = 0 : 0.1}
+I_649 = $Integral{(cos(x) - 1)/x @ x = 0 : 1}
+I_650 = $Integral{csch(x) @ x = 1 : 2}
+I_651 = $Integral{sech(x) @ x = 1 : 2}
+I_652 = $Integral{coth(x) @ x = 1 : 2}
+I_653 = $Integral{csc(x)*cot(x) @ x = 1 : 2}
+I_654 = $Integral{tanh(x) @ x = 1 : 2}
+I_655 = $Integral{(ln(1/x))^5 @ x = 0 : 1}
+I_656 = $Integral{x^(-x) @ x = 0 : 1}
+I_657 = $Integral{x^x @ x = 0 : 1}
+I_658 = $Integral{ln(x^4)/x @ x = 1 : 2}
+I_659 = $Integral{(x + 3)*(x - 1)^2 @ x = -4 : 2}
+I_660 = $Integral{ln(1/x)/x^0.25 @ x = 0 : 1}
+I_661 = $Integral{1/(16*(x - π/4)^2 + 1/16) @ x = 0 : 1}
+I_662 = $Integral{cos(64*sin(x)) @ x = 0 : π}
+I_663 = $Integral{exp(20*(x - 1))*sin(256*x) @ x = 0 : 1}
+I_664 = $Integral{x*sin(2*exp(2*sin(2*exp(2*x)))) @ x = -1 : 1}
+I_665 = $Integral{abs(sin(x)/(2/π*((x^x - (π/2))))) @ x = 0 : 1}
+I_666 = $Integral{exp(2*x)*sin(3*x) @ x = 1 : 3}
+I_667 = $Integral{2*x*cos(2*x) - (x - 2)^2 @ x = 0 : 5}
+I_668 = $Integral{ln(x)*ln(1 - x) @ x = 0 : 1}
+I_669 = $Integral{1/(1 + 25*x*x) @ x = -1 : 1}
+I_670 = $Integral{1/(1 + 0.04*x*x) @ x = -1 : 1}
+I_671 = $Integral{ln(x)*cos(10*π*x) @ x = 0 : 1}
+I_672 = $Integral{cos(10*x)*Γ(x + 2)*erf(sqrt(1 + x)) @ x = -1 : 1}
+I_673 = $Integral{7*x^6 @ x = 0 : 1}
+I_674 = $Integral{1/(1 + 1000*x^2) @ x = -1 : 1}
+I_675 = $Integral{(1 - x)^-0.3*(1 + x)^0.2 @ x = -1 : 1}
+I_676 = $Integral{ln(1/x)*asin(x) @ x = 0 : 1}
+I_677 = $Integral{1/((x - sqrt(3))^2 + 0.0001) @ x = 1 : 2}
+I_678 = $Integral{sin(ln(x)) @ x = exp(-π) : exp(π)}
+I_679 = $Integral{x^2*ln(x)/sqrt(1 - x^2) @ x = 0 : 1}
+I_680 = $Integral{asinh(x*(1 + x/2)/(1 + x)) @ x = 0 : 1}
+I_681 = $Integral{1/(x + 10^-4) @ x = 0 : 1}
+I_682 = $Integral{ln(1/x)*asin(x) @ x = 0 : 1}
+I_683 = $Integral{8*x^7 @ x = 0 : 1}
+I_684 = $Integral{(sin(1/x) + 1 + x*cos(1/x))/x @ x = 0.0127323954473516 : 0.3183098861837910}
+I_685 = $Integral{cos(x)^20*cos(20*x) @ x = 0 : π}
+I_686 = $Integral{exp(10*cos(x))*cos(10*sin(x)) @ x = 0 : π}
+I_687 = $Integral{exp(-x)/sqrt(x) @ x = 0 : 16}
+I_688 = $Integral{ln(1 - x^2)/x/(1 + x) @ x = 0 : 1}
+I_689 = $Integral{exp(-((1/x - 1)^2)/2)/x^2 @ x = 0 : 1}
+I_690 = $Integral{ln(1/x)*x^(-0.25) @ x = 0 : 1}
+I_691 = $Integral{2*exp(-(x^2)) @ x = 0 : 1}
+I_692 = $Integral{ln(1 + x^2)/x @ x = 0 : 1}
+I_693 = $Integral{9*x^8 @ x = 0 : 1}
+I_694 = $Integral{cos(20*sqrt(x)) @ x = 0 : 1}
+I_695 = $Integral{exp(-(x^2))/sin(x)^0.7 @ x = 0.0000100000000000 : 1}
+I_696 = $Integral{ln(1 + x + exp(x))/(x^0.2 + 2) @ x = 0 : 1}
+I_697 = $Integral{asin(sqrt(2)/2*sin(x))*sin(x)/sqrt(4 - 2*sin(x)^2) @ x = 0 : π/2}
+I_698 = $Integral{x^2*atan(x) @ x = 0 : 1}
+I_699 = $Integral{exp(x)*cos(x) @ x = 0 : π/2}
+I_700 = $Integral{atan(sqrt(2 + x^2))/((1 + x^2)*sqrt(2 + x^2)) @ x = 0 : 1}
+I_701 = $Integral{sqrt(x)*ln(x) @ x = 0 : 1}
+I_702 = $Integral{sqrt(1 - x^2) @ x = 0 : 1}
+I_703 = $Integral{ln(x)^2 @ x = 0 : 1}
+I_704 = $Integral{ln(cos(x)) @ x = 0 : π/2}
+I_705 = $Integral{ln(x + 1)/(x^2 + 1) @ x = -1 : 10}
+I_706 = $Integral{sqrt(x*(4 - x)) @ x = 0 : 2}
+I_707 = $Integral{sqrt((1 - x^2)*(2 - x)) @ x = -1 : 1}
+I_708 = $Integral{x^(-1/4)*ln(1/x) @ x = 0 : 1}
+I_709 = $Integral{0.5*x^(-0.5)*exp(-(x^(0.5))) @ x = 0 : 3}
+I_710 = $Integral{1.5*x^(0.5)*exp(-(x^(1.5))) @ x = 0 : 3}
+I_711 = $Integral{2/π*sqrt(1 - x^2) @ x = -1 : 0.5}
+I_712 = $Integral{2/(π*(1 + x^2)) @ x = -1 : 1}
+I_713 = $Integral{2/(π*(1 + x^2)) @ x = 0 : 1}
+I_714 = $Integral{1/(x - 2) @ x = -1 : 1}
+I_715 = $Integral{1/(4*ln(2))*ln((1 + x)/(1 - x)) @ x = 0 : 1}
+I_716 = $Integral{ln(1/x)/x^0.25 @ x = 0 : 1}
+I_717 = $Integral{exp(-1000*(x - 0.5)^2) @ x = 0 : 1}
+I_718 = $Integral{ln(exp(x) + x + 1)/(x^0.2 + 2) @ x = 0 : 1}
+I_719 = $Integral{x/(1 + x^6*sin(x)^2) @ x = 0 : 4}
+I_720 = $Integral{x^-0.12345 @ x = 0 : 1}
+I_721 = $Integral{cos(x)*x^-0.12345 @ x = 0 : 1}
+I_722 = $Integral{exp(-1/x - 1/(1 - x)) @ x = 0 : 1}
+I_723 = $Integral{2*(1 - x^2)/(cos(4*atanh(x)) + cosh(2)) @ x = -1 : 1}
+I_724 = $Integral{x/(1 + x^6*(sinh(x))^2) @ x = 0 : 2}
+I_725 = $Integral{10*x^9 @ x = 0 : 1}
+I_726 = $Integral{x^2/(x^2 + ln(2*cos(x))^2) @ x = 0 : π/2}
+I_727 = $Integral{(abs(tan(asin((x^2 + 7744)/(500*x)) - 22*π/180)/x*(90/π)))^2 @ x = 60.325 : 146.05}
+I_728 = $Integral{cos(20*sqrt(x)) + exp(-1000*(x - 0.5)^2) @ x = 0 : 1}
+I_729 = $Integral{x/(x^2 + 1)*cos(10*x^2) @ x = 0 : π}
+I_730 = $Integral{sin(x)/x*ln(10*(1 - x)) @ x = -1 : 0}
+I_731 = $Integral{1/(1 + 16*x^2) @ x = -1 : 1}
+
+C = 0.915965594177219'Catalan constant
+γ = 0.577215664901532'Euler-Mascheroni constant
+"Expected results
+R_1 = 2
+R_2 = π
+R_3 = -1
+R_4 = -0.25
+R_5 = -4
+R_6 = π
+R_7 = 0.098174770424681
+R_8 = 0
+R_9 = 0.5
+R_10 = π
+R_11 = 10000/6
+R_12 = 8/9
+R_13 = ln(10)
+R_14 = -0.582240526465013
+R_15 = 0.307694394903451
+R_16 = 1.31026895522267*10^28/2
+R_17 = 0.00980755496505743
+R_18 = 2 - 0.577215664901532860606512 - ln(4)
+R_19 = 0.25
+R_20 = (π - 2 + 2*ln(2))/12
+R_21 = (exp(π/2) - 1)/2
+R_22 = 5*π^2/96
+R_23 = -4/9
+R_24 = π/4
+R_25 = 2
+R_26 = -π*ln(2)/2
+R_27 = 0.787779048098542
+R_28 = -2
+R_29 = π^2/4
+R_30 = -0.691183688767296
+R_31 = (π^2)*(2 - sqrt(2))/32
+R_32 = π/2
+R_33 = 22/7 - π
+R_34 = 1/630
+R_35 = (0.25 - sqrt(2)/2)*π + 3/2*sqrt(2)*atan(sqrt(2))
+R_36 = π/4 + ln(1 + sqrt(2))/sqrt(2)
+R_37 = ln(2)/2 + π^2/32 - π/4 + (π*ln(2))/8
+R_38 = π*ln(2)
+R_39 = π^3/24 + π*ln(2)^2/2
+R_40 = 8*π^3/(81*sqrt(3))
+R_41 = 0.014465125622944
+R_42 = -1.2577347112238913
+R_43 = 0.432900432900432
+R_44 = -2.96013608748744
+R_45 = ln(2*exp(1)/(1 + exp(1)))
+R_46 = exp(1) - 1
+R_47 = ln(2)
+R_48 = 1.84*sinh(1) - 2*sin(1)
+R_49 = 0.866972987339911
+R_50 = 1.58223296372967
+R_51 = 2/sqrt(1.005)*atan(1/sqrt(1.005))
+R_52 = 1
+R_53 = 0.5
+R_54 = atan(500)/π
+R_55 = 0.4
+R_56 = 2/3
+R_57 = 0.838676342694429
+R_58 = 9.108239607323
+R_59 = 2187/5236
+R_60 = 2/π
+R_61 = 0.8
+R_62 = 2*π/105
+R_63 = 0.04
+R_64 = π*0.2346363468539146
+R_65 = -60*π/899
+R_66 = 2.28054913842277
+R_67 = 2 - π^2/6
+R_68 = π/2
+R_69 = (4*3^(5/6) - 5^(5/6) - 3^(1/6)*7^(5/6))*π
+R_70 = π/4
+R_71 = π/4 - π/2*sqrt(2) + 3/2*sqrt(2)*atan(sqrt(2))
+R_72 = 2*π*ln(2)
+R_73 = π/2
+R_74 = 4
+R_75 = 16/9
+R_76 = 0.946083070367183
+R_77 = 0.196349540849362
+R_78 = π*log(2)/8
+R_79 = 0.430606103120691
+R_80 = (sin(5) - sin(1))/2
+R_81 = π^3/2 - 14*π + 28
+R_82 = -(π^2/12)
+R_83 = 1.35064388104768
+R_84 = -6
+R_85 = ((1 + 0.5)*ln(1 + 0.5) + (1 - 0.5)*ln(1 - 0.5))/(4*ln(2)) - 0.5
+R_86 = 46/25*sinh(1) - 2*sin(1)
+R_87 = 2/sqrt(3)
+R_88 = 0.498986808693045
+R_89 = 1
+R_90 = 1.56439644406904
+R_91 = -20*π/99
+R_92 = 1/230*(atan(30°) + atan(200°))
+R_93 = 0.498986808693045
+R_94 = 0.291018782860052
+R_95 = 1/64
+R_96 = ln(3)
+R_97 = (sqrt(132) + sqrt(117) + 49/2*(asin(6/7) + asin(4/7)))/20
+R_98 = π - atan(10/23)
+R_99 = π*sqrt(2)/3^0.75
+R_100 = π/3
+R_101 = -0.606789763508705
+R_102 = 0.2*atan(5)
+R_103 = 2/3
+R_104 = 2 - sqrt(2)
+R_105 = 1.14366725406941
+R_106 = 0.147112767430373
+R_107 = 0.240226506959101
+R_108 = 0.313261687518223
+R_109 = 2*atan(4)
+R_110 = π*sqrt(2)/4
+R_111 = -ln(2)
+R_112 = (10^8 - 1.01^-4)/4
+R_113 = 2*sqrt(1.0001) - 1/50
+R_114 = ln(10001)
+R_115 = (atan(200) + atan(30))/230
+R_116 = ln(101)
+R_117 = -60*π/899
+R_118 = (1 - exp(-2*π))/10.1
+R_119 = 5*(0.7 - ln(2))
+R_120 = 431302721/137287920 - π
+R_121 = 1/1081662400
+R_122 = 5*π^2/96
+R_123 = ln(9)/8 + π/sqrt(48)
+R_124 = 0.29526
+R_125 = 156.079666010823
+R_126 = 0.392699081698724
+R_127 = 0.109445561283758
+R_128 = 0.1769200251
+R_129 = 2.06715614378431
+R_130 = 0.158368821938689
+R_131 = 4/9
+R_132 = π
+R_133 = 4*(π - 1 - sin(1))/sin(1)
+R_134 = 1.85407467730137
+R_135 = 0.711943822970598
+R_136 = 2
+R_137 = sin(1)^2/2
+R_138 = 98/3
+R_139 = 4.40984450821582
+R_140 = 0.099006252443586
+R_141 = 0.989366989363264
+R_142 = 2 - γ - ln(4)
+R_143 = 1.03414105175077
+R_144 = -0.471793074421961
+R_145 = 0.234636346853914
+R_146 = -0.634665182543392
+R_147 = 0.479428226688801
+R_148 = -0.150916639560889
+R_149 = -0.946083070367183
+R_150 = -0.197626807718717
+R_151 = 0.783430510712134
+R_152 = 1.29128599706266
+R_153 = π*(3 - sqrt(8) + 4*ln((3 + sqrt(8))/2))
+R_154 = -12
+R_155 = π
+R_156 = 1/5/π - 6/(5*π)^3
+R_157 = -0.300410826956028
+R_158 = exp(1)/2 - 1
+R_159 = π*ln(2)/8 + 0.915965594177219/2
+R_160 = 3*π/8
+R_161 = 0.185784535800659
+R_162 = 22/7 - π
+R_163 = 0.102670322596977
+R_164 = 1.38245968738416
+R_165 = 1/(4*ln(2))*(1.5*ln(1.5) + 0.5*ln(0.5)) - 0.5
+R_166 = 1 - exp(-1)/2
+R_167 = -(π^2/6)
+R_168 = ln(2) - 1/2
+R_169 = π/4
+R_170 = sqrt(π)*0.906402477055477/0.919062526848883
+R_171 = 29.8583253954987
+R_172 = 0.859140914229523
+R_173 = 0.909090909090909
+R_174 = 8.15336411981117
+R_175 = 19.9208529608526
+R_176 = -1.42602475634627
+R_177 = 401146603636.406
+R_178 = -ln(3)
+R_179 = 1.77247907969602
+R_180 = π - atan(1/4) - atan(5/12)
+R_181 = 0.853348093947785
+R_182 = 1.38629436111989
+R_183 = 2.77878441962796
+R_184 = 0.290880102173725
+R_185 = -0.0001485944796789243
+R_186 = 0.5
+R_187 = 1
+R_188 = 1
+R_189 = 3.1409012528191415
+R_190 = 8.97589681613007
+R_191 = -1
+R_192 = 2.40393943063441
+R_193 = -1.27162980944678
+R_194 = -0.0302622016388888
+R_195 = 1.51864580413411
+R_196 = 126155.105579643
+R_197 = -22.2694636315228
+R_198 = 0.843511841685034
+R_199 = π
+R_200 = 0.0571428571428571
+R_201 = 0.9 + 0.1*exp(-10) - exp(-1)
+R_202 = 2.14507053941711
+R_203 = 7.95492652101284
+R_204 = 0.395825969834334
+R_205 = 0.499363381076457
+R_206 = 2
+R_207 = 0.395825969834333
+R_208 = 1.12280199804117
+R_209 = π^2/12
+R_210 = 8.15336411981117
+R_211 = π/2 + π^2/4 - 2
+R_212 = 3.6
+R_213 = -0.746279184305962
+R_214 = 29.3068145216972
+R_215 = 0.170774270471605
+R_216 = 1048.40642115558
+R_217 = -4
+R_218 = -30
+R_219 = -150.482539682541
+R_220 = 939.342209599802
+R_221 = 8.93334711820677*10^-2
+R_222 = 15218.3213559304
+R_223 = -51.5935788444225
+R_224 = 0.785398163397448
+R_225 = 6.07589591755374
+R_226 = 2.03480531920757
+R_227 = 0.0627874004914927
+R_228 = 1.9922524079504
+R_229 = 0.5
+R_230 = 0.170557349502438
+R_231 = 7.95492652101284
+R_232 = 5 - 6*ln(2)
+R_233 = 0.0191280704065619
+R_234 = -4.52756962516067
+R_235 = -0.5*(exp(π) + 1)
+R_236 = sqrt(π)/2
+R_237 = 24258259.7704895
+R_238 = 2 - 0.577215664901532860606512 - ln(4)
+R_239 = 1/9
+R_240 = 0.479428226688801
+R_241 = π*0.138079009746555
+R_242 = ((2/3)^3 + (1/3)^3)/3
+R_243 = ((1 - π/4)^3 + (π/4)^3)/3
+R_244 = (20*sin(2^5) - 2^5*cos(2^5) + 2^5*exp(-20))/(400 + 4^5)
+R_245 = 6.06909095956477
+R_246 = -4/9
+R_247 = 5/6
+R_248 = 0.474421154996059
+R_249 = 2/7
+R_250 = -2 + π/2 + π^2/4
+R_251 = 1/2/sqrt(0.998)*ln((1 + sqrt(0.998))/(1 - sqrt(0.998)))
+R_252 = -0.915965594177219
+R_253 = (ln(-0.99 + exp(1))) - (ln(-0.99 + exp(0)))
+R_254 = (-1/(exp(1) - 3)) - (0/(exp(0) - 3))
+R_255 = (1/(3 - exp(1))) - (1/(3 - exp(0)))
+R_256 = tan(1.5) - tan(1)
+R_257 = 0.0142857142857142
+R_258 = 1
+R_259 = 1
+R_260 = 1/(2*sqrt(0.98))*ln((1 + sqrt(0.98))/(1 - sqrt(0.98)))
+R_261 = 10/9
+R_262 = 6114
+R_263 = 2 - π/sin(π/2)
+R_264 = π/(5*sin(3*π/5))
+R_265 = 1/6
+R_266 = π/(2*tan(π/4)) - 2
+R_267 = 2*ln(2)
+R_268 = 1
+R_269 = π/12
+R_270 = (sin(4) - 4*cos(4))/8
+R_271 = -π^2/6
+R_272 = π/8*ln(2)
+R_273 = (1 - exp(-16*9))/2/16
+R_274 = exp(1)/2 - 1
+R_275 = π/8*ln(2)
+R_276 = π
+R_277 = π
+R_278 = π/2
+R_279 = π/sqrt(0.75)*((sqrt(0.75) - 1)/0.5)^3
+R_280 = π/32
+R_281 = π*0.5^3
+R_282 = 1/2/sqrt(0.5)*ln((1 + sqrt(0.5))/(1 - sqrt(0.5)))
+R_283 = π/2
+R_284 = π/2
+R_285 = atan(sqrt(10))/sqrt(10)
+R_286 = 8/9 + 1/3*(1 - 16/9)*ln(7)
+R_287 = 1.84206008052091
+R_288 = 2*π/8
+R_289 = 3*π/2/10 - ln(3)/10
+R_290 = π^2/24
+R_291 = atan(sqrt(5))/sqrt(5)
+R_292 = -π^3/16 + 3*π/2*ln(2)
+R_293 = -0.031830988618379
+R_294 = 2/3*sinh(3)
+R_295 = π*sinh(4)
+R_296 = sqrt(π/4)/4
+R_297 = ln(9)/4 + π/sqrt(12)
+R_298 = -π/2*ln(2)
+R_299 = 1
+R_300 = π*ln((4 + sqrt(12))/2)
+R_301 = 3*π*ln(16)
+R_302 = π*ln(1/tan((π - 1)/4))
+R_303 = π/2*ln(2)
+R_304 = π*ln(7)
+R_305 = 13/12
+R_306 = 1 - π^2/6
+R_307 = -ln(2)/4
+R_308 = π^2/6 - 1
+R_309 = -π/8*ln(2)
+R_310 = π/3/sqrt(3)*(π/3/sqrt(3) - ln(3))
+R_311 = 10*π^3/(81*sqrt(3))
+R_312 = ln(2/π)
+R_313 = 0.577215664901532
+R_314 = (4 - π)/(4*π)
+R_315 = ln(4/π)
+R_316 = 1 - exp(1)
+R_317 = (ln(2) - 1)/4
+R_318 = ln(2)
+R_319 = π/8*ln(2)
+R_320 = π/8*ln(2)
+R_321 = -0.915965594177219
+R_322 = -π/2*ln(2)
+R_323 = -π/8 - π/4*ln(2)
+R_324 = 3*sqrt(2)/64*π^3
+R_325 = -7/120*π^4
+R_326 = 5*π^5/64
+R_327 = ln(2*sqrt(2)/π)
+R_328 = ln(4/3)
+R_329 = ln(9/8)
+R_330 = ln(2)^2/2 - π^2/12
+R_331 = (1 - ln(2))/2/9
+R_332 = -ln(2)/3 + 23/72
+R_333 = 0.915965594177219
+R_334 = -(ln(2)^2/2)
+R_335 = (1 - exp(1))/exp(1)
+R_336 = π/8*(1 - ln(4))
+R_337 = ln(2)
+R_338 = -(π^2/24)
+R_339 = 23841.7787552279
+R_340 = 0.114077789739689
+R_341 = (sqrt(2)/3 - ln(2)/6 + ln(2 + sqrt(2))/3)*3/2
+R_342 = 0.270580808427785*2
+R_343 = -1.35102171771207
+R_344 = sqrt(2)*ln(sqrt(2) - 1)
+R_345 = 1/2*(4*atan(2/3) - 3*ln(1 + 4/9))
+R_346 = 0.325307509018174
+R_347 = C
+R_348 = C
+R_349 = -γ
+R_350 = -0.178899602876758
+R_351 = C
+R_352 = -0.0356812374320447
+R_353 = acos(3/4)/sqrt(7)
+R_354 = 8*π/7^(3/2)
+R_355 = 0.0781225402995357
+R_356 = 0.303855179090761
+R_357 = -3.70047331572391
+R_358 = -0.00660375263462742
+R_359 = tan(1)
+R_360 = 1 - tan(1/2)
+R_361 = -1/6*(cos(3)^2 - cos(0)^2)
+R_362 = sec(1) - sec(0)
+R_363 = 8*(9*π^2 - 6)/24/9/π^2
+R_364 = 1/4*ln(1^2 + 9)^2 - 1/4*ln(0^2 + 9)^2
+R_365 = ln(abs(ln(10))) - ln(abs(ln(5)))
+R_366 = ln(20)/exp(20) - ln(10)/exp(10)
+R_367 = 94/25
+R_368 = 0.323972608791477
+R_369 = 0.691354999524712
+R_370 = 9.40094663144781
+R_371 = -7.40094663144781
+R_372 = 1.1148154493098
+R_373 = 5!
+R_374 = Γ(9)*Γ(5)/Γ(14)
+R_375 = 20.3743057208876
+R_376 = 1.39297177426005
+R_377 = 0.779893400376822
+R_378 = 0.438259147390354
+R_379 = 0.0369716702374149
+R_380 = 2.62890007598845
+R_381 = 0.446820470088546
+R_382 = 0.310001628759191
+R_383 = 2.7055695165216
+R_384 = 0.630014711225807
+R_385 = 0.915916015118245
+R_386 = 1.54973831064786
+R_387 = 0.758460734966698
+R_388 = 0.691551153486392
+R_389 = 0.433780830483027
+R_390 = 0.191134908479129
+R_391 = 4.14536805690849
+R_392 = 73.4253286249393
+R_393 = 0.272250669052244
+R_394 = 0.867561660966054
+R_395 = 0.283833820809153
+R_396 = 1.71828182845905
+R_397 = -0.312944481517312
+R_398 = 0.367879441171442
+R_399 = 0.632120558828558
+R_400 = 0.364834477500966
+R_401 = 1.08404701155535
+R_402 = 0.148650077978373
+R_403 = 0.19079096548572
+R_404 = 0.0303161896573113
+R_405 = 0.391118023549065
+R_406 = 1.7800013582586
+R_407 = 0.101416245187177
+R_408 = 2.93472201258883
+R_409 = 0.442592275345098
+R_410 = -0.700749489116151
+R_411 = -0.672223173964706
+R_412 = 0.908200177677607
+R_413 = 0.844466015672369
+R_414 = 0.966710748100357
+R_415 = 2/ln(3)^3 - 1/27*(9/ln(3) + 6/ln(3)^2 + 2/ln(3)^3)
+R_416 = 1/ln(3)^2 - 1/27*(3/ln(3) + 1/ln(3)^2)
+R_417 = -0.12829194277483
+R_418 = -0.174295011871843
+R_419 = 2.01627971961814
+R_420 = 3.83086839626689
+R_421 = 1.08426040971939
+R_422 = 7.25839517061428
+R_423 = 3.4599976721708
+R_424 = 0.45141166679014
+R_425 = 0.150948118249086
+R_426 = 1
+R_427 = π/4 - ln(sqrt(2))
+R_428 = exp(1)/2*(sin(1) + cos(1)) - 0.5
+R_429 = 1.26071077916572
+R_430 = (8^(3/2) - 7^(3/2))*2/3
+R_431 = sin(1) + cos(1) - 1
+R_432 = 1/2 + sin(2)/4
+R_433 = tan(1)^3/3 + tan(1)^5/5
+R_434 = (ln(2) + 2*ln(5)) - (ln(1) + 2*ln(4))
+R_435 = ln(5)/2 - ln(4)/2
+R_436 = atan(1/2)/2
+R_437 = -1/2/(5) + 1/8
+R_438 = (ln(abs(sec(1)))) - (ln(abs(sec(0))))
+R_439 = (ln(abs(sec(1) + tan(1)))) - (ln(abs(sec(0) + tan(0))))
+R_440 = 0.746824132812427
+R_441 = 25.8333333333333
+R_442 = 0.60229807097927
+R_443 = 2/3*atan(1/3)
+R_444 = 0.0218162096596284
+R_445 = 3.70915603970188
+R_446 = atan(4) - atan(2)
+R_447 = 1.79552128309389
+R_448 = -1.10155082809983
+R_449 = -1654.625
+R_450 = (378 + 13*(-56 + 27))/9828
+R_451 = 7.38816738816738
+R_452 = 0.606073628358089
+R_453 = π^2*(2 - sqrt(2))/32
+R_454 = sqrt(2)*π*ln(2)/8
+R_455 = 0.603714320414843
+R_456 = 36
+R_457 = 0.243997012275815
+R_458 = -0.663493666631241
+R_459 = 0.467160024646448
+R_460 = 0.521323942410439
+R_461 = 17.0863701630304
+R_462 = 1.98903150673658
+R_463 = 0.999664537372097
+R_464 = 0.974464288839908
+R_465 = 1.49364826562485
+R_466 = 1.93342149620071
+R_467 = 0.878884622601833
+R_468 = 12.533141373155
+R_469 = 1.08426040971939
+R_470 = 11061.3355350809
+R_471 = 2942.25534860747
+R_472 = 1.02
+R_473 = 2.58862863250717
+R_474 = exp(1)/2 - 1
+R_475 = 1
+R_476 = 70
+R_477 = 1.77245385090551
+R_478 = 0.25
+R_479 = 0.142857142857143
+R_480 = 1/11
+R_481 = 2/9
+R_482 = π/(2*sqrt(2))
+R_483 = -47.5/144
+R_484 = (0.01^(-4) - 1.01^(-4))/4
+R_485 = atan(500)/π
+R_486 = 0.00909863753916684
+R_487 = -6*π/8
+R_488 = 2 - π^2/6
+R_489 = -2.54325961889354
+R_490 = 1
+R_491 = 1.02045736523676
+R_491 = 1.020457359171387
+R_492 = 1.93789229251869
+R_493 = 0.256004339009494
+R_493 = 0.256004339008567
+R_494 = 4*ln(4) - 3*ln(3) - 1
+R_495 = 720/FACT(9)
+R_496 = 1/9 - 1/9*exp(-12)*13
+R_497 = exp(1)/2 - 1
+R_498 = 1/2*sqrt(π)*erf(2*sqrt(5))
+R_499 = π/8*ln(2)
+R_500 = 1/5*exp(-5)
+R_501 = π*exp(1)/2*(1 - erf(1))
+R_502 = π/2
+R_503 = π/2
+R_504 = π
+R_505 = -π
+R_506 = π/72
+R_507 = π/6250
+R_508 = 0.142857142857143
+R_509 = π/2
+R_510 = sqrt(2/π)*(Γ(3/4))^2
+R_511 = 2.62205755429212
+R_512 = π/6*4^4/7^5
+R_513 = 5*π/16*(1 - sqrt(1 - 16/25))
+R_514 = 0.25/2*π*csc(π/2)
+R_515 = atan(5)/5
+R_516 = 0.5
+R_517 = π/2*(1 - cos(1))
+R_518 = π/24
+R_519 = π/16
+R_520 = 2/16*(sin(4) - 4*cos(4))
+R_521 = 2/16*(sin(4) - 4*cos(4))
+R_522 = C/2 - π/8*ln(2)
+R_523 = C/2 + π/8*ln(2)
+R_524 = 2*C
+R_525 = π/2*ln(2)
+R_526 = π/2*ln(2)
+R_527 = π^2/16 + π/4*ln(2) - C
+R_528 = π/4 - 0.5 + π/8*ln(2) - C/2
+R_529 = ln(2)/2 - π/4 + π^2/16
+R_530 = 1/3*(1 + C + π^2/16 - π/4*(2 + ln(2)))
+R_531 = exp(1)/2 - 1
+R_532 = 2 - π^2/6
+R_533 = 5*π^5/64
+R_534 = -C
+R_535 = π/8*ln(2)
+R_536 = π/8*ln(2) + C/2
+R_537 = 1.38629436111989
+R_538 = atan(3)/3
+R_539 = 2/3
+R_540 = π/2*(1 - cos(1))
+R_541 = π/2*sec(π/4)
+R_542 = 2 - π/2*csc(π/4)
+R_543 = π/24
+R_544 = 2/25*(sin(5) - 5*cos(5))
+R_545 = ln(1 + csc(3/2))
+R_546 = π/4*ln(2) - C/2
+R_547 = 1/2*ln(2) + π^2/32 - π/4 + π/8*ln(2)
+R_548 = -π/8*ln(2) + C/2
+R_549 = π/8*ln(2) + C/2
+R_550 = -π/8*ln(2) + C
+R_551 = -π/8*ln(2) + π/4 - ln(2)/2
+R_552 = ln(π/2)
+R_553 = π^2*ln(2)
+R_554 = π*ln(2) - 4*C
+R_555 = π/4*ln(2) + C
+R_556 = π/(9 - 16)*ln(7/8)
+R_557 = π/(3 - 4)*ln((1 + sqrt(5))/(1 + sqrt(4))*sqrt(4)/sqrt(5))
+R_558 = ln(2)/2 - π/4 + π^2/16
+R_559 = -π^3/16 + 3/2*π*ln(2)
+R_560 = π*(exp(3) - 1)
+R_561 = -π/8*ln(2) - C/2
+R_562 = -π/8*ln(2) + C/2
+R_563 = π^3/16
+R_564 = 5/64*π^5
+R_565 = π/2*(ln(2)^2 + π^2/12)
+R_566 = -π/4*ln(2) + C
+R_567 = -2.54325961889353
+R_568 = 0.055318603004214
+R_569 = -0.321556002594905
+R_570 = -0.176358246030565
+R_571 = 2.43808148220355
+R_572 = 2.27800622131559
+R_573 = 0.479428226688802
+R_574 = -0.21867312389256
+R_575 = 0.355120831053971
+R_576 = 0.398130064822845
+R_577 = -0.012696821645673
+R_578 = 0.033518732588154
+R_579 = 0.631299652055891
+R_580 = -0.719818067507943
+R_581 = 0.0117306589082458
+R_582 = -0.0177905930768788
+R_583 = 3
+R_584 = 1/36
+R_585 = 0.897286844094311
+R_586 = 0.00489912103742572
+R_587 = 0.00448871788603617
+R_588 = 0.00139190589978131
+R_589 = -0.000604120738023787
+R_590 = 0.000885299549568385
+R_591 = -0.00162624066757643
+R_592 = 0.974956208520595
+R_593 = 0.325192766706954
+R_594 = exp(1) - 2
+R_595 = 5!/(5^6)
+R_596 = 5*π/2048
+R_597 = π^3/24 + π*ln(2)^2/2
+R_598 = sqrt(π)/2
+R_599 = 0.319708546245952
+R_600 = 1/55
+R_601 = 0.47442115499606
+R_602 = atan(1)
+R_603 = 0.461461462433216
+R_604 = 0.607570274686048
+R_605 = π*sqrt(2)*ln(2)/8
+R_606 = 1.5704400638497
+R_607 = 4.74284165485086
+R_608 = 19.0171914812528
+R_609 = -0.0274939659971493
+R_610 = 7.95492652101284
+R_611 = 5.67233357779489
+R_612 = 1
+R_613 = 2.68658684329347
+R_614 = 1.14658111025915
+R_615 = 6
+R_616 = Γ(5)/4^5
+R_617 = 0.841116916640328
+R_618 = 2.72450421279611
+R_619 = π/2
+R_620 = 0.0826444568243798
+R_621 = π/8*ln(exp(1)/4)
+R_622 = 128.078837281237
+R_623 = 1846.42857142857
+R_624 = 4459.88571428571
+R_625 = -2 + π/2 + π^2/4
+R_626 = sqrt(π)*Γ(5/6)/2/Γ(4/3)
+R_627 = 0.0358827495918286
+R_628 = 1.56129864747291
+R_629 = 0.323946328121005
+R_630 = 0.886226925452759
+R_631 = 7/3
+R_632 = 7.40284240042953
+R_633 = 59.8250839808641
+R_634 = -121.11066635954
+R_635 = 2.37367179971318
+R_636 = 131.37601758862
+R_637 = 2.29558714939263
+R_638 = 2.46740110027233
+R_639 = π^2*(2 - sqrt(2))/32
+R_640 = -0.583124927619709
+R_641 = 0.94325406281547
+R_642 = 0.0090390618883923
+R_643 = 1.5399211874513
+R_644 = 0.116556371349818
+R_645 = 0.0140597168132193
+R_646 = 1.48860615952098
+R_647 = 1.79777236317548
+R_648 = 0.01075864992592
+R_649 = 0.337403922900968 - 0.577215664901532
+R_650 = 0.499595363993473
+R_651 = 0.435990852806356
+R_652 = 1.12692801104297
+R_653 = 0.0886449354835047
+R_654 = 0.891221916874837
+R_655 = Γ(6)
+R_656 = 1.29128599706266
+R_657 = 0.783430510712134
+R_658 = (ln(16))^2/8
+R_659 = 12
+R_660 = 16/9
+R_661 = -atan(4*(π - 4)) + atan(4*(π))
+R_662 = 0.290880102173725
+R_663 = (5*sin(256) - 64*cos(256) + exp(-20)*64)/16484
+R_664 = 0.336732834781727
+R_665 = 0.953989447883287
+R_666 = 108.555281212127
+R_667 = -15.3063079856517
+R_668 = 0.355065933151773
+R_669 = 0.549360306778006
+R_670 = 1.9739555984988
+R_671 = -0.0489888171153878
+R_672 = -0.115420768826884
+R_673 = 1
+R_674 = 0.0973465489249131
+R_675 = 2.3124553797045381
+R_676 = π/2 + ln(2) - 2
+R_677 = (atan((2 - sqrt(3))*100) - atan((1 - sqrt(3))*100))*100
+R_678 = sinh(π)
+R_679 = π/8*ln(exp(1)/4)
+R_680 = 2*(ln(2) - 1) + 1
+R_681 = ln(1 + 10^4)
+R_682 = π/2 + ln(2) - 2
+R_683 = 1
+R_684 = -1/π - 1/(25*π)*cos(25*π) + ln(25)
+R_685 = π/2^20
+R_686 = π
+R_687 = erf(4)*sqrt(π)
+R_688 = -(ln(2)^2)
+R_689 = sqrt(π/2)
+R_690 = 1.77777777777777
+R_691 = 1.49364826562485
+R_692 = 0.411233516712057
+R_693 = 1
+R_694 = (cos(20) + 20*sin(20) - 1)/200
+R_695 = 2.91955920668242
+R_696 = 0.398825195241461
+R_697 = sqrt(2)*π*ln(2)/8
+R_698 = (π - 2 + 2*ln(2))/12
+R_699 = (exp(π/2) - 1)/2
+R_700 = 5*π^2/96
+R_701 = -4/9
+R_702 = π/4
+R_703 = 2
+R_704 = -π*ln(2)/2
+R_705 = 0.482392639244251
+R_706 = π
+R_707 = 2.20334573182474
+R_708 = 16/9
+R_709 = 0.823078793682236
+R_710 = 0.994462169285617
+R_711 = 1/π*(asin(0.5) + 0.5*sqrt(0.75)) + 0.5
+R_712 = 2*atan(1)/π + 0.5
+R_713 = 2*atan(1)/π
+R_714 = -ln(3)
+R_715 = 0.5
+R_716 = 1.77777777777777
+R_717 = sqrt(π/10)*erf(5*sqrt(10))/10
+R_718 = 0.398825195241461
+R_719 = 0.963568862681576
+R_720 = 1/(1 - 0.12345)
+R_721 = 0.975361986889053
+R_722 = 0.00702985840660965
+R_723 = 0.711943822970598
+R_724 = 0.503134546469862
+R_725 = 1
+R_726 = 0.8877596564038687
+R_727 = 0.00229047241361083
+R_728 = 0.144384847545809
+R_729 = 0.000315600493623455
+R_730 = 2.53499844271662
+R_731 = 0.662908831834016
+#hide
+"Estimated Errors
+D_1 = (I_1 - R_1)/R_1
+D_2 = (I_2 - R_2)/R_2
+D_3 = (I_3 - R_3)/R_3
+D_4 = (I_4 - R_4)/R_4
+D_5 = (I_5 - R_5)/R_5
+D_6 = (I_6 - R_6)/R_6
+D_7 = (I_7 - R_7)/R_7
+D_8 = I_8*1
+D_9 = (I_9 - R_9)/R_9
+D_10 = (I_10 - R_10)/R_10
+D_11 = (I_11 - R_11)/R_11
+D_12 = (I_12 - R_12)/R_12
+D_13 = (I_13 - R_13)/R_13
+D_14 = (I_14 - R_14)/R_14
+D_15 = (I_15 - R_15)/R_15
+D_16 = (I_16 - R_16)/R_16
+D_17 = (I_17 - R_17)/R_17
+D_18 = (I_18 - R_18)/R_18
+D_19 = (I_19 - R_19)/R_19
+D_20 = (I_20 - R_20)/R_20
+D_21 = (I_21 - R_21)/R_21
+D_22 = (I_22 - R_22)/R_22
+D_23 = (I_23 - R_23)/R_23
+D_24 = (I_24 - R_24)/R_24
+D_25 = (I_25 - R_25)/R_25
+D_26 = (I_26 - R_26)/R_26
+D_27 = (I_27 - R_27)/R_27
+D_28 = (I_28 - R_28)/R_28
+D_29 = (I_29 - R_29)/R_29
+D_30 = (I_30 - R_30)/R_30
+D_31 = (I_31 - R_31)/R_31
+D_32 = (I_32 - R_32)/R_32
+D_33 = (I_33 - R_33)/R_33
+D_34 = (I_34 - R_34)/R_34
+D_35 = (I_35 - R_35)/R_35
+D_36 = (I_36 - R_36)/R_36
+D_37 = (I_37 - R_37)/R_37
+D_38 = (I_38 - R_38)/R_38
+D_39 = (I_39 - R_39)/R_39
+D_40 = (I_40 - R_40)/R_40
+D_41 = (I_41 - R_41)/R_41
+D_42 = (I_42 - R_42)/R_42
+D_43 = (I_43 - R_43)/R_43
+D_44 = (I_44 - R_44)/R_44
+D_45 = (I_45 - R_45)/R_45
+D_46 = (I_46 - R_46)/R_46
+D_47 = (I_47 - R_47)/R_47
+D_48 = (I_48 - R_48)/R_48
+D_49 = (I_49 - R_49)/R_49
+D_50 = (I_50 - R_50)/R_50
+D_51 = (I_51 - R_51)/R_51
+D_52 = (I_52 - R_52)/R_52
+D_53 = (I_53 - R_53)/R_53
+D_54 = (I_54 - R_54)/R_54
+D_55 = (I_55 - R_55)/R_55
+D_56 = (I_56 - R_56)/R_56
+D_57 = (I_57 - R_57)/R_57
+D_58 = (I_58 - R_58)/R_58
+D_59 = (I_59 - R_59)/R_59
+D_60 = (I_60 - R_60)/R_60
+D_61 = (I_61 - R_61)/R_61
+D_62 = (I_62 - R_62)/R_62
+D_63 = (I_63 - R_63)/R_63
+D_64 = (I_64 - R_64)/R_64
+D_65 = (I_65 - R_65)/R_65
+D_66 = (I_66 - R_66)/R_66
+D_67 = (I_67 - R_67)/R_67
+D_68 = (I_68 - R_68)/R_68
+D_69 = (I_69 - R_69)/R_69
+D_70 = (I_70 - R_70)/R_70
+D_71 = (I_71 - R_71)/R_71
+D_72 = (I_72 - R_72)/R_72
+D_73 = (I_73 - R_73)/R_73
+D_74 = (I_74 - R_74)/R_74
+D_75 = (I_75 - R_75)/R_75
+D_76 = (I_76 - R_76)/R_76
+D_77 = (I_77 - R_77)/R_77
+D_78 = (I_78 - R_78)/R_78
+D_79 = (I_79 - R_79)/R_79
+D_80 = (I_80 - R_80)/R_80
+D_81 = (I_81 - R_81)/R_81
+D_82 = (I_82 - R_82)/R_82
+D_83 = (I_83 - R_83)/R_83
+D_84 = (I_84 - R_84)/R_84
+D_85 = (I_85 - R_85)/R_85
+D_86 = (I_86 - R_86)/R_86
+D_87 = (I_87 - R_87)/R_87
+D_88 = (I_88 - R_88)/R_88
+D_89 = (I_89 - R_89)/R_89
+D_90 = (I_90 - R_90)/R_90
+D_91 = (I_91 - R_91)/R_91
+D_92 = (I_92 - R_92)/R_92
+D_93 = (I_93 - R_93)/R_93
+D_94 = (I_94 - R_94)/R_94
+D_95 = (I_95 - R_95)/R_95
+D_96 = (I_96 - R_96)/R_96
+D_97 = (I_97 - R_97)/R_97
+D_98 = (I_98 - R_98)/R_98
+D_99 = (I_99 - R_99)/R_99
+D_100 = (I_100 - R_100)/R_100
+D_101 = (I_101 - R_101)/R_101
+D_102 = (I_102 - R_102)/R_102
+D_103 = (I_103 - R_103)/R_103
+D_104 = (I_104 - R_104)/R_104
+D_105 = (I_105 - R_105)/R_105
+D_106 = (I_106 - R_106)/R_106
+D_107 = (I_107 - R_107)/R_107
+D_108 = (I_108 - R_108)/R_108
+D_109 = (I_109 - R_109)/R_109
+D_110 = (I_110 - R_110)/R_110
+D_111 = (I_111 - R_111)/R_111
+D_112 = (I_112 - R_112)/R_112
+D_113 = (I_113 - R_113)/R_113
+D_114 = (I_114 - R_114)/R_114
+D_115 = (I_115 - R_115)/R_115
+D_116 = (I_116 - R_116)/R_116
+D_117 = (I_117 - R_117)/R_117
+D_118 = (I_118 - R_118)/R_118
+D_119 = (I_119 - R_119)/R_119
+D_120 = (I_120 - R_120)/R_120
+D_121 = (I_121 - R_121)/R_121
+D_122 = (I_122 - R_122)/R_122
+D_123 = (I_123 - R_123)/R_123
+D_124 = (I_124 - R_124)/R_124
+D_125 = (I_125 - R_125)/R_125
+D_126 = (I_126 - R_126)/R_126
+D_127 = (I_127 - R_127)/R_127
+D_128 = (I_128 - R_128)/R_128
+D_129 = (I_129 - R_129)/R_129
+D_130 = (I_130 - R_130)/R_130
+D_131 = (I_131 - R_131)/R_131
+D_132 = (I_132 - R_132)/R_132
+D_133 = (I_133 - R_133)/R_133
+D_134 = (I_134 - R_134)/R_134
+D_135 = (I_135 - R_135)/R_135
+D_136 = (I_136 - R_136)/R_136
+D_137 = (I_137 - R_137)/R_137
+D_138 = (I_138 - R_138)/R_138
+D_139 = (I_139 - R_139)/R_139
+D_140 = (I_140 - R_140)/R_140
+D_141 = (I_141 - R_141)/R_141
+D_142 = (I_142 - R_142)/R_142
+D_143 = (I_143 - R_143)/R_143
+D_144 = (I_144 - R_144)/R_144
+D_145 = (I_145 - R_145)/R_145
+D_146 = (I_146 - R_146)/R_146
+D_147 = (I_147 - R_147)/R_147
+D_148 = (I_148 - R_148)/R_148
+D_149 = (I_149 - R_149)/R_149
+D_150 = (I_150 - R_150)/R_150
+D_151 = (I_151 - R_151)/R_151
+D_152 = (I_152 - R_152)/R_152
+D_153 = (I_153 - R_153)/R_153
+D_154 = (I_154 - R_154)/R_154
+D_155 = (I_155 - R_155)/R_155
+D_156 = (I_156 - R_156)/R_156
+D_157 = (I_157 - R_157)/R_157
+D_158 = (I_158 - R_158)/R_158
+D_159 = (I_159 - R_159)/R_159
+D_160 = (I_160 - R_160)/R_160
+D_161 = (I_161 - R_161)/R_161
+D_162 = (I_162 - R_162)/R_162
+D_163 = (I_163 - R_163)/R_163
+D_164 = (I_164 - R_164)/R_164
+D_165 = (I_165 - R_165)/R_165
+D_166 = (I_166 - R_166)/R_166
+D_167 = (I_167 - R_167)/R_167
+D_168 = (I_168 - R_168)/R_168
+D_169 = (I_169 - R_169)/R_169
+D_170 = (I_170 - R_170)/R_170
+D_171 = (I_171 - R_171)/R_171
+D_172 = (I_172 - R_172)/R_172
+D_173 = (I_173 - R_173)/R_173
+D_174 = (I_174 - R_174)/R_174
+D_175 = (I_175 - R_175)/R_175
+D_176 = (I_176 - R_176)/R_176
+D_177 = (I_177 - R_177)/R_177
+D_178 = (I_178 - R_178)/R_178
+D_179 = (I_179 - R_179)/R_179
+D_180 = (I_180 - R_180)/R_180
+D_181 = (I_181 - R_181)/R_181
+D_182 = (I_182 - R_182)/R_182
+D_183 = (I_183 - R_183)/R_183
+D_184 = (I_184 - R_184)/R_184
+D_185 = (I_185 - R_185)/R_185
+D_186 = (I_186 - R_186)/R_186
+D_187 = (I_187 - R_187)/R_187
+D_188 = (I_188 - R_188)/R_188
+D_189 = (I_189 - R_189)/R_189
+D_190 = (I_190 - R_190)/R_190
+D_191 = (I_191 - R_191)/R_191
+D_192 = (I_192 - R_192)/R_192
+D_193 = (I_193 - R_193)/R_193
+D_194 = (I_194 - R_194)/R_194
+D_195 = (I_195 - R_195)/R_195
+D_196 = (I_196 - R_196)/R_196
+D_197 = (I_197 - R_197)/R_197
+D_198 = (I_198 - R_198)/R_198
+D_199 = (I_199 - R_199)/R_199
+D_200 = (I_200 - R_200)/R_200
+D_201 = (I_201 - R_201)/R_201
+D_202 = (I_202 - R_202)/R_202
+D_203 = (I_203 - R_203)/R_203
+D_204 = (I_204 - R_204)/R_204
+D_205 = (I_205 - R_205)/R_205
+D_206 = (I_206 - R_206)/R_206
+D_207 = (I_207 - R_207)/R_207
+D_208 = (I_208 - R_208)/R_208
+D_209 = (I_209 - R_209)/R_209
+D_210 = (I_210 - R_210)/R_210
+D_211 = (I_211 - R_211)/R_211
+D_212 = (I_212 - R_212)/R_212
+D_213 = (I_213 - R_213)/R_213
+D_214 = (I_214 - R_214)/R_214
+D_215 = (I_215 - R_215)/R_215
+D_216 = (I_216 - R_216)/R_216
+D_217 = (I_217 - R_217)/R_217
+D_218 = (I_218 - R_218)/R_218
+D_219 = (I_219 - R_219)/R_219
+D_220 = (I_220 - R_220)/R_220
+D_221 = (I_221 - R_221)/R_221
+D_222 = (I_222 - R_222)/R_222
+D_223 = (I_223 - R_223)/R_223
+D_224 = (I_224 - R_224)/R_224
+D_225 = (I_225 - R_225)/R_225
+D_226 = (I_226 - R_226)/R_226
+D_227 = (I_227 - R_227)/R_227
+D_228 = (I_228 - R_228)/R_228
+D_229 = (I_229 - R_229)/R_229
+D_230 = (I_230 - R_230)/R_230
+D_231 = (I_231 - R_231)/R_231
+D_232 = (I_232 - R_232)/R_232
+D_233 = (I_233 - R_233)/R_233
+D_234 = (I_234 - R_234)/R_234
+D_235 = (I_235 - R_235)/R_235
+D_236 = (I_236 - R_236)/R_236
+D_237 = (I_237 - R_237)/R_237
+D_238 = (I_238 - R_238)/R_238
+D_239 = (I_239 - R_239)/R_239
+D_240 = (I_240 - R_240)/R_240
+D_241 = (I_241 - R_241)/R_241
+D_242 = (I_242 - R_242)/R_242
+D_243 = (I_243 - R_243)/R_243
+D_244 = (I_244 - R_244)/R_244
+D_245 = (I_245 - R_245)/R_245
+D_246 = (I_246 - R_246)/R_246
+D_247 = (I_247 - R_247)/R_247
+D_248 = (I_248 - R_248)/R_248
+D_249 = (I_249 - R_249)/R_249
+D_250 = (I_250 - R_250)/R_250
+D_251 = (I_251 - R_251)/R_251
+D_252 = (I_252 - R_252)/R_252
+D_253 = (I_253 - R_253)/R_253
+D_254 = (I_254 - R_254)/R_254
+D_255 = (I_255 - R_255)/R_255
+D_256 = (I_256 - R_256)/R_256
+D_257 = (I_257 - R_257)/R_257
+D_258 = (I_258 - R_258)/R_258
+D_259 = (I_259 - R_259)/R_259
+D_260 = (I_260 - R_260)/R_260
+D_261 = (I_261 - R_261)/R_261
+D_262 = (I_262 - R_262)/R_262
+D_263 = (I_263 - R_263)/R_263
+D_264 = (I_264 - R_264)/R_264
+D_265 = (I_265 - R_265)/R_265
+D_266 = (I_266 - R_266)/R_266
+D_267 = (I_267 - R_267)/R_267
+D_268 = (I_268 - R_268)/R_268
+D_269 = (I_269 - R_269)/R_269
+D_270 = (I_270 - R_270)/R_270
+D_271 = (I_271 - R_271)/R_271
+D_272 = (I_272 - R_272)/R_272
+D_273 = (I_273 - R_273)/R_273
+D_274 = (I_274 - R_274)/R_274
+D_275 = (I_275 - R_275)/R_275
+D_276 = (I_276 - R_276)/R_276
+D_277 = (I_277 - R_277)/R_277
+D_278 = (I_278 - R_278)/R_278
+D_279 = (I_279 - R_279)/R_279
+D_280 = (I_280 - R_280)/R_280
+D_281 = (I_281 - R_281)/R_281
+D_282 = (I_282 - R_282)/R_282
+D_283 = (I_283 - R_283)/R_283
+D_284 = (I_284 - R_284)/R_284
+D_285 = (I_285 - R_285)/R_285
+D_286 = (I_286 - R_286)/R_286
+D_287 = (I_287 - R_287)/R_287
+D_288 = (I_288 - R_288)/R_288
+D_289 = (I_289 - R_289)/R_289
+D_290 = (I_290 - R_290)/R_290
+D_291 = (I_291 - R_291)/R_291
+D_292 = (I_292 - R_292)/R_292
+D_293 = (I_293 - R_293)/R_293
+D_294 = (I_294 - R_294)/R_294
+D_295 = (I_295 - R_295)/R_295
+D_296 = (I_296 - R_296)/R_296
+D_297 = (I_297 - R_297)/R_297
+D_298 = (I_298 - R_298)/R_298
+D_299 = (I_299 - R_299)/R_299
+D_300 = (I_300 - R_300)/R_300
+D_301 = (I_301 - R_301)/R_301
+D_302 = (I_302 - R_302)/R_302
+D_303 = (I_303 - R_303)/R_303
+D_304 = (I_304 - R_304)/R_304
+D_305 = (I_305 - R_305)/R_305
+D_306 = (I_306 - R_306)/R_306
+D_307 = (I_307 - R_307)/R_307
+D_308 = (I_308 - R_308)/R_308
+D_309 = (I_309 - R_309)/R_309
+D_310 = (I_310 - R_310)/R_310
+D_311 = (I_311 - R_311)/R_311
+D_312 = (I_312 - R_312)/R_312
+D_313 = (I_313 - R_313)/R_313
+D_314 = (I_314 - R_314)/R_314
+D_315 = (I_315 - R_315)/R_315
+D_316 = (I_316 - R_316)/R_316
+D_317 = (I_317 - R_317)/R_317
+D_318 = (I_318 - R_318)/R_318
+D_319 = (I_319 - R_319)/R_319
+D_320 = (I_320 - R_320)/R_320
+D_321 = (I_321 - R_321)/R_321
+D_322 = (I_322 - R_322)/R_322
+D_323 = (I_323 - R_323)/R_323
+D_324 = (I_324 - R_324)/R_324
+D_325 = (I_325 - R_325)/R_325
+D_326 = (I_326 - R_326)/R_326
+D_327 = (I_327 - R_327)/R_327
+D_328 = (I_328 - R_328)/R_328
+D_329 = (I_329 - R_329)/R_329
+D_330 = (I_330 - R_330)/R_330
+D_331 = (I_331 - R_331)/R_331
+D_332 = (I_332 - R_332)/R_332
+D_333 = (I_333 - R_333)/R_333
+D_334 = (I_334 - R_334)/R_334
+D_335 = (I_335 - R_335)/R_335
+D_336 = (I_336 - R_336)/R_336
+D_337 = (I_337 - R_337)/R_337
+D_338 = (I_338 - R_338)/R_338
+D_339 = (I_339 - R_339)/R_339
+D_340 = (I_340 - R_340)/R_340
+D_341 = (I_341 - R_341)/R_341
+D_342 = (I_342 - R_342)/R_342
+D_343 = (I_343 - R_343)/R_343
+D_344 = (I_344 - R_344)/R_344
+D_345 = (I_345 - R_345)/R_345
+D_346 = (I_346 - R_346)/R_346
+D_347 = (I_347 - R_347)/R_347
+D_348 = (I_348 - R_348)/R_348
+D_349 = (I_349 - R_349)/R_349
+D_350 = (I_350 - R_350)/R_350
+D_351 = (I_351 - R_351)/R_351
+D_352 = (I_352 - R_352)/R_352
+D_353 = (I_353 - R_353)/R_353
+D_354 = (I_354 - R_354)/R_354
+D_355 = (I_355 - R_355)/R_355
+D_356 = (I_356 - R_356)/R_356
+D_357 = (I_357 - R_357)/R_357
+D_358 = (I_358 - R_358)/R_358
+D_359 = (I_359 - R_359)/R_359
+D_360 = (I_360 - R_360)/R_360
+D_361 = (I_361 - R_361)/R_361
+D_362 = (I_362 - R_362)/R_362
+D_363 = (I_363 - R_363)/R_363
+D_364 = (I_364 - R_364)/R_364
+D_365 = (I_365 - R_365)/R_365
+D_366 = (I_366 - R_366)/R_366
+D_367 = (I_367 - R_367)/R_367
+D_368 = (I_368 - R_368)/R_368
+D_369 = (I_369 - R_369)/R_369
+D_370 = (I_370 - R_370)/R_370
+D_371 = (I_371 - R_371)/R_371
+D_372 = (I_372 - R_372)/R_372
+D_373 = (I_373 - R_373)/R_373
+D_374 = (I_374 - R_374)/R_374
+D_375 = (I_375 - R_375)/R_375
+D_376 = (I_376 - R_376)/R_376
+D_377 = (I_377 - R_377)/R_377
+D_378 = (I_378 - R_378)/R_378
+D_379 = (I_379 - R_379)/R_379
+D_380 = (I_380 - R_380)/R_380
+D_381 = (I_381 - R_381)/R_381
+D_382 = (I_382 - R_382)/R_382
+D_383 = (I_383 - R_383)/R_383
+D_384 = (I_384 - R_384)/R_384
+D_385 = (I_385 - R_385)/R_385
+D_386 = (I_386 - R_386)/R_386
+D_387 = (I_387 - R_387)/R_387
+D_388 = (I_388 - R_388)/R_388
+D_389 = (I_389 - R_389)/R_389
+D_390 = (I_390 - R_390)/R_390
+D_391 = (I_391 - R_391)/R_391
+D_392 = (I_392 - R_392)/R_392
+D_393 = (I_393 - R_393)/R_393
+D_394 = (I_394 - R_394)/R_394
+D_395 = (I_395 - R_395)/R_395
+D_396 = (I_396 - R_396)/R_396
+D_397 = (I_397 - R_397)/R_397
+D_398 = (I_398 - R_398)/R_398
+D_399 = (I_399 - R_399)/R_399
+D_400 = (I_400 - R_400)/R_400
+D_401 = (I_401 - R_401)/R_401
+D_402 = (I_402 - R_402)/R_402
+D_403 = (I_403 - R_403)/R_403
+D_404 = (I_404 - R_404)/R_404
+D_405 = (I_405 - R_405)/R_405
+D_406 = (I_406 - R_406)/R_406
+D_407 = (I_407 - R_407)/R_407
+D_408 = (I_408 - R_408)/R_408
+D_409 = (I_409 - R_409)/R_409
+D_410 = (I_410 - R_410)/R_410
+D_411 = (I_411 - R_411)/R_411
+D_412 = (I_412 - R_412)/R_412
+D_413 = (I_413 - R_413)/R_413
+D_414 = (I_414 - R_414)/R_414
+D_415 = (I_415 - R_415)/R_415
+D_416 = (I_416 - R_416)/R_416
+D_417 = (I_417 - R_417)/R_417
+D_418 = (I_418 - R_418)/R_418
+D_419 = (I_419 - R_419)/R_419
+D_420 = (I_420 - R_420)/R_420
+D_421 = (I_421 - R_421)/R_421
+D_422 = (I_422 - R_422)/R_422
+D_423 = (I_423 - R_423)/R_423
+D_424 = (I_424 - R_424)/R_424
+D_425 = (I_425 - R_425)/R_425
+D_426 = (I_426 - R_426)/R_426
+D_427 = (I_427 - R_427)/R_427
+D_428 = (I_428 - R_428)/R_428
+D_429 = (I_429 - R_429)/R_429
+D_430 = (I_430 - R_430)/R_430
+D_431 = (I_431 - R_431)/R_431
+D_432 = (I_432 - R_432)/R_432
+D_433 = (I_433 - R_433)/R_433
+D_434 = (I_434 - R_434)/R_434
+D_435 = (I_435 - R_435)/R_435
+D_436 = (I_436 - R_436)/R_436
+D_437 = (I_437 - R_437)/R_437
+D_438 = (I_438 - R_438)/R_438
+D_439 = (I_439 - R_439)/R_439
+D_440 = (I_440 - R_440)/R_440
+D_441 = (I_441 - R_441)/R_441
+D_442 = (I_442 - R_442)/R_442
+D_443 = (I_443 - R_443)/R_443
+D_444 = (I_444 - R_444)/R_444
+D_445 = (I_445 - R_445)/R_445
+D_446 = (I_446 - R_446)/R_446
+D_447 = (I_447 - R_447)/R_447
+D_448 = (I_448 - R_448)/R_448
+D_449 = (I_449 - R_449)/R_449
+D_450 = (I_450 - R_450)/R_450
+D_451 = (I_451 - R_451)/R_451
+D_452 = (I_452 - R_452)/R_452
+D_453 = (I_453 - R_453)/R_453
+D_454 = (I_454 - R_454)/R_454
+D_455 = (I_455 - R_455)/R_455
+D_456 = (I_456 - R_456)/R_456
+D_457 = (I_457 - R_457)/R_457
+D_458 = (I_458 - R_458)/R_458
+D_459 = (I_459 - R_459)/R_459
+D_460 = (I_460 - R_460)/R_460
+D_461 = (I_461 - R_461)/R_461
+D_462 = (I_462 - R_462)/R_462
+D_463 = (I_463 - R_463)/R_463
+D_464 = (I_464 - R_464)/R_464
+D_465 = (I_465 - R_465)/R_465
+D_466 = (I_466 - R_466)/R_466
+D_467 = (I_467 - R_467)/R_467
+D_468 = (I_468 - R_468)/R_468
+D_469 = (I_469 - R_469)/R_469
+D_470 = (I_470 - R_470)/R_470
+D_471 = (I_471 - R_471)/R_471
+D_472 = (I_472 - R_472)/R_472
+D_473 = (I_473 - R_473)/R_473
+D_474 = (I_474 - R_474)/R_474
+D_475 = (I_475 - R_475)/R_475
+D_476 = (I_476 - R_476)/R_476
+D_477 = (I_477 - R_477)/R_477
+D_478 = (I_478 - R_478)/R_478
+D_479 = (I_479 - R_479)/R_479
+D_480 = (I_480 - R_480)/R_480
+D_481 = (I_481 - R_481)/R_481
+D_482 = (I_482 - R_482)/R_482
+D_483 = (I_483 - R_483)/R_483
+D_484 = (I_484 - R_484)/R_484
+D_485 = (I_485 - R_485)/R_485
+D_486 = (I_486 - R_486)/R_486
+D_487 = (I_487 - R_487)/R_487
+D_488 = (I_488 - R_488)/R_488
+D_489 = (I_489 - R_489)/R_489
+D_490 = (I_490 - R_490)/R_490
+D_491 = (I_491 - R_491)/R_491
+D_492 = (I_492 - R_492)/R_492
+D_493 = (I_493 - R_493)/R_493
+D_494 = (I_494 - R_494)/R_494
+D_495 = (I_495 - R_495)/R_495
+D_496 = (I_496 - R_496)/R_496
+D_497 = (I_497 - R_497)/R_497
+D_498 = (I_498 - R_498)/R_498
+D_499 = (I_499 - R_499)/R_499
+D_500 = (I_500 - R_500)/R_500
+D_501 = (I_501 - R_501)/R_501
+D_502 = (I_502 - R_502)/R_502
+D_503 = (I_503 - R_503)/R_503
+D_504 = (I_504 - R_504)/R_504
+D_505 = (I_505 - R_505)/R_505
+D_506 = (I_506 - R_506)/R_506
+D_507 = (I_507 - R_507)/R_507
+D_508 = (I_508 - R_508)/R_508
+D_509 = (I_509 - R_509)/R_509
+D_510 = (I_510 - R_510)/R_510
+D_511 = (I_511 - R_511)/R_511
+D_512 = (I_512 - R_512)/R_512
+D_513 = (I_513 - R_513)/R_513
+D_514 = (I_514 - R_514)/R_514
+D_515 = (I_515 - R_515)/R_515
+D_516 = (I_516 - R_516)/R_516
+D_517 = (I_517 - R_517)/R_517
+D_518 = (I_518 - R_518)/R_518
+D_519 = (I_519 - R_519)/R_519
+D_520 = (I_520 - R_520)/R_520
+D_521 = (I_521 - R_521)/R_521
+D_522 = (I_522 - R_522)/R_522
+D_523 = (I_523 - R_523)/R_523
+D_524 = (I_524 - R_524)/R_524
+D_525 = (I_525 - R_525)/R_525
+D_526 = (I_526 - R_526)/R_526
+D_527 = (I_527 - R_527)/R_527
+D_528 = (I_528 - R_528)/R_528
+D_529 = (I_529 - R_529)/R_529
+D_530 = (I_530 - R_530)/R_530
+D_531 = (I_531 - R_531)/R_531
+D_532 = (I_532 - R_532)/R_532
+D_533 = (I_533 - R_533)/R_533
+D_534 = (I_534 - R_534)/R_534
+D_535 = (I_535 - R_535)/R_535
+D_536 = (I_536 - R_536)/R_536
+D_537 = (I_537 - R_537)/R_537
+D_538 = (I_538 - R_538)/R_538
+D_539 = (I_539 - R_539)/R_539
+D_540 = (I_540 - R_540)/R_540
+D_541 = (I_541 - R_541)/R_541
+D_542 = (I_542 - R_542)/R_542
+D_543 = (I_543 - R_543)/R_543
+D_544 = (I_544 - R_544)/R_544
+D_545 = (I_545 - R_545)/R_545
+D_546 = (I_546 - R_546)/R_546
+D_547 = (I_547 - R_547)/R_547
+D_548 = (I_548 - R_548)/R_548
+D_549 = (I_549 - R_549)/R_549
+D_550 = (I_550 - R_550)/R_550
+D_551 = (I_551 - R_551)/R_551
+D_552 = (I_552 - R_552)/R_552
+D_553 = (I_553 - R_553)/R_553
+D_554 = (I_554 - R_554)/R_554
+D_555 = (I_555 - R_555)/R_555
+D_556 = (I_556 - R_556)/R_556
+D_557 = (I_557 - R_557)/R_557
+D_558 = (I_558 - R_558)/R_558
+D_559 = (I_559 - R_559)/R_559
+D_560 = (I_560 - R_560)/R_560
+D_561 = (I_561 - R_561)/R_561
+D_562 = (I_562 - R_562)/R_562
+D_563 = (I_563 - R_563)/R_563
+D_564 = (I_564 - R_564)/R_564
+D_565 = (I_565 - R_565)/R_565
+D_566 = (I_566 - R_566)/R_566
+D_567 = (I_567 - R_567)/R_567
+D_568 = (I_568 - R_568)/R_568
+D_569 = (I_569 - R_569)/R_569
+D_570 = (I_570 - R_570)/R_570
+D_571 = (I_571 - R_571)/R_571
+D_572 = (I_572 - R_572)/R_572
+D_573 = (I_573 - R_573)/R_573
+D_574 = (I_574 - R_574)/R_574
+D_575 = (I_575 - R_575)/R_575
+D_576 = (I_576 - R_576)/R_576
+D_577 = (I_577 - R_577)/R_577
+D_578 = (I_578 - R_578)/R_578
+D_579 = (I_579 - R_579)/R_579
+D_580 = (I_580 - R_580)/R_580
+D_581 = (I_581 - R_581)/R_581
+D_582 = (I_582 - R_582)/R_582
+D_583 = (I_583 - R_583)/R_583
+D_584 = (I_584 - R_584)/R_584
+D_585 = (I_585 - R_585)/R_585
+D_586 = (I_586 - R_586)/R_586
+D_587 = (I_587 - R_587)/R_587
+D_588 = (I_588 - R_588)/R_588
+D_589 = (I_589 - R_589)/R_589
+D_590 = (I_590 - R_590)/R_590
+D_591 = (I_591 - R_591)/R_591
+D_592 = (I_592 - R_592)/R_592
+D_593 = (I_593 - R_593)/R_593
+D_594 = (I_594 - R_594)/R_594
+D_595 = (I_595 - R_595)/R_595
+D_596 = (I_596 - R_596)/R_596
+D_597 = (I_597 - R_597)/R_597
+D_598 = (I_598 - R_598)/R_598
+D_599 = (I_599 - R_599)/R_599
+D_600 = (I_600 - R_600)/R_600
+D_601 = (I_601 - R_601)/R_601
+D_602 = (I_602 - R_602)/R_602
+D_603 = (I_603 - R_603)/R_603
+D_604 = (I_604 - R_604)/R_604
+D_605 = (I_605 - R_605)/R_605
+D_606 = (I_606 - R_606)/R_606
+D_607 = (I_607 - R_607)/R_607
+D_608 = (I_608 - R_608)/R_608
+D_609 = (I_609 - R_609)/R_609
+D_610 = (I_610 - R_610)/R_610
+D_611 = (I_611 - R_611)/R_611
+D_612 = (I_612 - R_612)/R_612
+D_613 = (I_613 - R_613)/R_613
+D_614 = (I_614 - R_614)/R_614
+D_615 = (I_615 - R_615)/R_615
+D_616 = (I_616 - R_616)/R_616
+D_617 = (I_617 - R_617)/R_617
+D_618 = (I_618 - R_618)/R_618
+D_619 = (I_619 - R_619)/R_619
+D_620 = (I_620 - R_620)/R_620
+D_621 = (I_621 - R_621)/R_621
+D_622 = (I_622 - R_622)/R_622
+D_623 = (I_623 - R_623)/R_623
+D_624 = (I_624 - R_624)/R_624
+D_625 = (I_625 - R_625)/R_625
+D_626 = (I_626 - R_626)/R_626
+D_627 = (I_627 - R_627)/R_627
+D_628 = (I_628 - R_628)/R_628
+D_629 = (I_629 - R_629)/R_629
+D_630 = (I_630 - R_630)/R_630
+D_631 = (I_631 - R_631)/R_631
+D_632 = (I_632 - R_632)/R_632
+D_633 = (I_633 - R_633)/R_633
+D_634 = (I_634 - R_634)/R_634
+D_635 = (I_635 - R_635)/R_635
+D_636 = (I_636 - R_636)/R_636
+D_637 = (I_637 - R_637)/R_637
+D_638 = (I_638 - R_638)/R_638
+D_639 = (I_639 - R_639)/R_639
+D_640 = (I_640 - R_640)/R_640
+D_641 = (I_641 - R_641)/R_641
+D_642 = (I_642 - R_642)/R_642
+D_643 = (I_643 - R_643)/R_643
+D_644 = (I_644 - R_644)/R_644
+D_645 = (I_645 - R_645)/R_645
+D_646 = (I_646 - R_646)/R_646
+D_647 = (I_647 - R_647)/R_647
+D_648 = (I_648 - R_648)/R_648
+D_649 = (I_649 - R_649)/R_649
+D_650 = (I_650 - R_650)/R_650
+D_651 = (I_651 - R_651)/R_651
+D_652 = (I_652 - R_652)/R_652
+D_653 = (I_653 - R_653)/R_653
+D_654 = (I_654 - R_654)/R_654
+D_655 = (I_655 - R_655)/R_655
+D_656 = (I_656 - R_656)/R_656
+D_657 = (I_657 - R_657)/R_657
+D_658 = (I_658 - R_658)/R_658
+D_659 = (I_659 - R_659)/R_659
+D_660 = (I_660 - R_660)/R_660
+D_661 = (I_661 - R_661)/R_661
+D_662 = (I_662 - R_662)/R_662
+D_663 = (I_663 - R_663)/R_663
+D_664 = (I_664 - R_664)/R_664
+D_665 = (I_665 - R_665)/R_665
+D_666 = (I_666 - R_666)/R_666
+D_667 = (I_667 - R_667)/R_667
+D_668 = (I_668 - R_668)/R_668
+D_669 = (I_669 - R_669)/R_669
+D_670 = (I_670 - R_670)/R_670
+D_671 = (I_671 - R_671)/R_671
+D_672 = (I_672 - R_672)/R_672
+D_673 = (I_673 - R_673)/R_673
+D_674 = (I_674 - R_674)/R_674
+D_675 = (I_675 - R_675)/R_675
+D_676 = (I_676 - R_676)/R_676
+D_677 = (I_677 - R_677)/R_677
+D_678 = (I_678 - R_678)/R_678
+D_679 = (I_679 - R_679)/R_679
+D_680 = (I_680 - R_680)/R_680
+D_681 = (I_681 - R_681)/R_681
+D_682 = (I_682 - R_682)/R_682
+D_683 = (I_683 - R_683)/R_683
+D_684 = (I_684 - R_684)/R_684
+D_685 = (I_685 - R_685)/R_685
+D_686 = (I_686 - R_686)/R_686
+D_687 = (I_687 - R_687)/R_687
+D_688 = (I_688 - R_688)/R_688
+D_689 = (I_689 - R_689)/R_689
+D_690 = (I_690 - R_690)/R_690
+D_691 = (I_691 - R_691)/R_691
+D_692 = (I_692 - R_692)/R_692
+D_693 = (I_693 - R_693)/R_693
+D_694 = (I_694 - R_694)/R_694
+D_695 = (I_695 - R_695)/R_695
+D_696 = (I_696 - R_696)/R_696
+D_697 = (I_697 - R_697)/R_697
+D_698 = (I_698 - R_698)/R_698
+D_699 = (I_699 - R_699)/R_699
+D_700 = (I_700 - R_700)/R_700
+D_701 = (I_701 - R_701)/R_701
+D_702 = (I_702 - R_702)/R_702
+D_703 = (I_703 - R_703)/R_703
+D_704 = (I_704 - R_704)/R_704
+D_705 = (I_705 - R_705)/R_705
+D_706 = (I_706 - R_706)/R_706
+D_707 = (I_707 - R_707)/R_707
+D_708 = (I_708 - R_708)/R_708
+D_709 = (I_709 - R_709)/R_709
+D_710 = (I_710 - R_710)/R_710
+D_711 = (I_711 - R_711)/R_711
+D_712 = (I_712 - R_712)/R_712
+D_713 = (I_713 - R_713)/R_713
+D_714 = (I_714 - R_714)/R_714
+D_715 = (I_715 - R_715)/R_715
+D_716 = (I_716 - R_716)/R_716
+D_717 = (I_717 - R_717)/R_717
+D_718 = (I_718 - R_718)/R_718
+D_719 = (I_719 - R_719)/R_719
+D_720 = (I_720 - R_720)/R_720
+D_721 = (I_721 - R_721)/R_721
+D_722 = (I_722 - R_722)/R_722
+D_723 = (I_723 - R_723)/R_723
+D_724 = (I_724 - R_724)/R_724
+D_725 = (I_725 - R_725)/R_725
+D_726 = (I_726 - R_726)/R_726
+D_727 = (I_727 - R_727)/R_727
+D_728 = (I_728 - R_728)/R_728
+D_729 = (I_729 - R_729)/R_729
+D_730 = (I_730 - R_730)/R_730
+D_731 = (I_731 - R_731)/R_731
+#show
+"Checks
+tol = 10^-14
+#def td$(d$) = <td>'d$'</td>
+#def tr$(n$; c$) = '<tr class="c$" style="text-align:right;">td$(n$)td$(I_n$)td$(R_n$)td$(D_n$)</tr>
+#def check$(n$)
+	#if abs(D_n$) ≤ tol
+		tr$(n$; ok)
+	#else
+		tr$(n$; err)
+	#end if
+#end def
+#val
+'<table class="bordered" width="500">
+'<tr><th>n</th><th>Calcpad</th><th>Expected</th><th>Error</th></tr>
+check$(1)
+check$(2)
+check$(3)
+check$(4)
+check$(5)
+check$(6)
+check$(7)
+check$(8)
+check$(9)
+check$(10)
+check$(11)
+check$(12)
+check$(13)
+check$(14)
+check$(15)
+check$(16)
+check$(17)
+check$(18)
+check$(19)
+check$(20)
+check$(21)
+check$(22)
+check$(23)
+check$(24)
+check$(25)
+check$(26)
+check$(27)
+check$(28)
+check$(29)
+check$(30)
+check$(31)
+check$(32)
+check$(33)
+check$(34)
+check$(35)
+check$(36)
+check$(37)
+check$(38)
+check$(39)
+check$(40)
+check$(41)
+check$(42)
+check$(43)
+check$(44)
+check$(45)
+check$(46)
+check$(47)
+check$(48)
+check$(49)
+check$(50)
+check$(51)
+check$(52)
+check$(53)
+check$(54)
+check$(55)
+check$(56)
+check$(57)
+check$(58)
+check$(59)
+check$(60)
+check$(61)
+check$(62)
+check$(63)
+check$(64)
+check$(65)
+check$(66)
+check$(67)
+check$(68)
+check$(69)
+check$(70)
+check$(71)
+check$(72)
+check$(73)
+check$(74)
+check$(75)
+check$(76)
+check$(77)
+check$(78)
+check$(79)
+check$(80)
+check$(81)
+check$(82)
+check$(83)
+check$(84)
+check$(85)
+check$(86)
+check$(87)
+check$(88)
+check$(89)
+check$(90)
+check$(91)
+check$(92)
+check$(93)
+check$(94)
+check$(95)
+check$(96)
+check$(97)
+check$(98)
+check$(99)
+check$(100)
+check$(101)
+check$(102)
+check$(103)
+check$(104)
+check$(105)
+check$(106)
+check$(107)
+check$(108)
+check$(109)
+check$(110)
+check$(111)
+check$(112)
+check$(113)
+check$(114)
+check$(115)
+check$(116)
+check$(117)
+check$(118)
+check$(119)
+check$(120)
+check$(121)
+check$(122)
+check$(123)
+check$(124)
+check$(125)
+check$(126)
+check$(127)
+check$(128)
+check$(129)
+check$(130)
+check$(131)
+check$(132)
+check$(133)
+check$(134)
+check$(135)
+check$(136)
+check$(137)
+check$(138)
+check$(139)
+check$(140)
+check$(141)
+check$(142)
+check$(143)
+check$(144)
+check$(145)
+check$(146)
+check$(147)
+check$(148)
+check$(149)
+check$(150)
+check$(151)
+check$(152)
+check$(153)
+check$(154)
+check$(155)
+check$(156)
+check$(157)
+check$(158)
+check$(159)
+check$(160)
+check$(161)
+check$(162)
+check$(163)
+check$(164)
+check$(165)
+check$(166)
+check$(167)
+check$(168)
+check$(169)
+check$(170)
+check$(171)
+check$(172)
+check$(173)
+check$(174)
+check$(175)
+check$(176)
+check$(177)
+check$(178)
+check$(179)
+check$(180)
+check$(181)
+check$(182)
+check$(183)
+check$(184)
+check$(185)
+check$(186)
+check$(187)
+check$(188)
+check$(189)
+check$(190)
+check$(191)
+check$(192)
+check$(193)
+check$(194)
+check$(195)
+check$(196)
+check$(197)
+check$(198)
+check$(199)
+check$(200)
+check$(201)
+check$(202)
+check$(203)
+check$(204)
+check$(205)
+check$(206)
+check$(207)
+check$(208)
+check$(209)
+check$(210)
+check$(211)
+check$(212)
+check$(213)
+check$(214)
+check$(215)
+check$(216)
+check$(217)
+check$(218)
+check$(219)
+check$(220)
+check$(221)
+check$(222)
+check$(223)
+check$(224)
+check$(225)
+check$(226)
+check$(227)
+check$(228)
+check$(229)
+check$(230)
+check$(231)
+check$(232)
+check$(233)
+check$(234)
+check$(235)
+check$(236)
+check$(237)
+check$(238)
+check$(239)
+check$(240)
+check$(241)
+check$(242)
+check$(243)
+check$(244)
+check$(245)
+check$(246)
+check$(247)
+check$(248)
+check$(249)
+check$(250)
+check$(251)
+check$(252)
+check$(253)
+check$(254)
+check$(255)
+check$(256)
+check$(257)
+check$(258)
+check$(259)
+check$(260)
+check$(261)
+check$(262)
+check$(263)
+check$(264)
+check$(265)
+check$(266)
+check$(267)
+check$(268)
+check$(269)
+check$(270)
+check$(271)
+check$(272)
+check$(273)
+check$(274)
+check$(275)
+check$(276)
+check$(277)
+check$(278)
+check$(279)
+check$(280)
+check$(281)
+check$(282)
+check$(283)
+check$(284)
+check$(285)
+check$(286)
+check$(287)
+check$(288)
+check$(289)
+check$(290)
+check$(291)
+check$(292)
+check$(293)
+check$(294)
+check$(295)
+check$(296)
+check$(297)
+check$(298)
+check$(299)
+check$(300)
+check$(301)
+check$(302)
+check$(303)
+check$(304)
+check$(305)
+check$(306)
+check$(307)
+check$(308)
+check$(309)
+check$(310)
+check$(311)
+check$(312)
+check$(313)
+check$(314)
+check$(315)
+check$(316)
+check$(317)
+check$(318)
+check$(319)
+check$(320)
+check$(321)
+check$(322)
+check$(323)
+check$(324)
+check$(325)
+check$(326)
+check$(327)
+check$(328)
+check$(329)
+check$(330)
+check$(331)
+check$(332)
+check$(333)
+check$(334)
+check$(335)
+check$(336)
+check$(337)
+check$(338)
+check$(339)
+check$(340)
+check$(341)
+check$(342)
+check$(343)
+check$(344)
+check$(345)
+check$(346)
+check$(347)
+check$(348)
+check$(349)
+check$(350)
+check$(351)
+check$(352)
+check$(353)
+check$(354)
+check$(355)
+check$(356)
+check$(357)
+check$(358)
+check$(359)
+check$(360)
+check$(361)
+check$(362)
+check$(363)
+check$(364)
+check$(365)
+check$(366)
+check$(367)
+check$(368)
+check$(369)
+check$(370)
+check$(371)
+check$(372)
+check$(373)
+check$(374)
+check$(375)
+check$(376)
+check$(377)
+check$(378)
+check$(379)
+check$(380)
+check$(381)
+check$(382)
+check$(383)
+check$(384)
+check$(385)
+check$(386)
+check$(387)
+check$(388)
+check$(389)
+check$(390)
+check$(391)
+check$(392)
+check$(393)
+check$(394)
+check$(395)
+check$(396)
+check$(397)
+check$(398)
+check$(399)
+check$(400)
+check$(401)
+check$(402)
+check$(403)
+check$(404)
+check$(405)
+check$(406)
+check$(407)
+check$(408)
+check$(409)
+check$(410)
+check$(411)
+check$(412)
+check$(413)
+check$(414)
+check$(415)
+check$(416)
+check$(417)
+check$(418)
+check$(419)
+check$(420)
+check$(421)
+check$(422)
+check$(423)
+check$(424)
+check$(425)
+check$(426)
+check$(427)
+check$(428)
+check$(429)
+check$(430)
+check$(431)
+check$(432)
+check$(433)
+check$(434)
+check$(435)
+check$(436)
+check$(437)
+check$(438)
+check$(439)
+check$(440)
+check$(441)
+check$(442)
+check$(443)
+check$(444)
+check$(445)
+check$(446)
+check$(447)
+check$(448)
+check$(449)
+check$(450)
+check$(451)
+check$(452)
+check$(453)
+check$(454)
+check$(455)
+check$(456)
+check$(457)
+check$(458)
+check$(459)
+check$(460)
+check$(461)
+check$(462)
+check$(463)
+check$(464)
+check$(465)
+check$(466)
+check$(467)
+check$(468)
+check$(469)
+check$(470)
+check$(471)
+check$(472)
+check$(473)
+check$(474)
+check$(475)
+check$(476)
+check$(477)
+check$(478)
+check$(479)
+check$(480)
+check$(481)
+check$(482)
+check$(483)
+check$(484)
+check$(485)
+check$(486)
+check$(487)
+check$(488)
+check$(489)
+check$(490)
+check$(491)
+check$(492)
+check$(493)
+check$(494)
+check$(495)
+check$(496)
+check$(497)
+check$(498)
+check$(499)
+check$(500)
+check$(501)
+check$(502)
+check$(503)
+check$(504)
+check$(505)
+check$(506)
+check$(507)
+check$(508)
+check$(509)
+check$(510)
+check$(511)
+check$(512)
+check$(513)
+check$(514)
+check$(515)
+check$(516)
+check$(517)
+check$(518)
+check$(519)
+check$(520)
+check$(521)
+check$(522)
+check$(523)
+check$(524)
+check$(525)
+check$(526)
+check$(527)
+check$(528)
+check$(529)
+check$(530)
+check$(531)
+check$(532)
+check$(533)
+check$(534)
+check$(535)
+check$(536)
+check$(537)
+check$(538)
+check$(539)
+check$(540)
+check$(541)
+check$(542)
+check$(543)
+check$(544)
+check$(545)
+check$(546)
+check$(547)
+check$(548)
+check$(549)
+check$(550)
+check$(551)
+check$(552)
+check$(553)
+check$(554)
+check$(555)
+check$(556)
+check$(557)
+check$(558)
+check$(559)
+check$(560)
+check$(561)
+check$(562)
+check$(563)
+check$(564)
+check$(565)
+check$(566)
+check$(567)
+check$(568)
+check$(569)
+check$(570)
+check$(571)
+check$(572)
+check$(573)
+check$(574)
+check$(575)
+check$(576)
+check$(577)
+check$(578)
+check$(579)
+check$(580)
+check$(581)
+check$(582)
+check$(583)
+check$(584)
+check$(585)
+check$(586)
+check$(587)
+check$(588)
+check$(589)
+check$(590)
+check$(591)
+check$(592)
+check$(593)
+check$(594)
+check$(595)
+check$(596)
+check$(597)
+check$(598)
+check$(599)
+check$(600)
+check$(601)
+check$(602)
+check$(603)
+check$(604)
+check$(605)
+check$(606)
+check$(607)
+check$(608)
+check$(609)
+check$(610)
+check$(611)
+check$(612)
+check$(613)
+check$(614)
+check$(615)
+check$(616)
+check$(617)
+check$(618)
+check$(619)
+check$(620)
+check$(621)
+check$(622)
+check$(623)
+check$(624)
+check$(625)
+check$(626)
+check$(627)
+check$(628)
+check$(629)
+check$(630)
+check$(631)
+check$(632)
+check$(633)
+check$(634)
+check$(635)
+check$(636)
+check$(637)
+check$(638)
+check$(639)
+check$(640)
+check$(641)
+check$(642)
+check$(643)
+check$(644)
+check$(645)
+check$(646)
+check$(647)
+check$(648)
+check$(649)
+check$(650)
+check$(651)
+check$(652)
+check$(653)
+check$(654)
+check$(655)
+check$(656)
+check$(657)
+check$(658)
+check$(659)
+check$(660)
+check$(661)
+check$(662)
+check$(663)
+check$(664)
+check$(665)
+check$(666)
+check$(667)
+check$(668)
+check$(669)
+check$(670)
+check$(671)
+check$(672)
+check$(673)
+check$(674)
+check$(675)
+check$(676)
+check$(677)
+check$(678)
+check$(679)
+check$(680)
+check$(681)
+check$(682)
+check$(683)
+check$(684)
+check$(685)
+check$(686)
+check$(687)
+check$(688)
+check$(689)
+check$(690)
+check$(691)
+check$(692)
+check$(693)
+check$(694)
+check$(695)
+check$(696)
+check$(697)
+check$(698)
+check$(699)
+check$(700)
+check$(701)
+check$(702)
+check$(703)
+check$(704)
+check$(705)
+check$(706)
+check$(707)
+check$(708)
+check$(709)
+check$(710)
+check$(711)
+check$(712)
+check$(713)
+check$(714)
+check$(715)
+check$(716)
+check$(717)
+check$(718)
+check$(719)
+check$(720)
+check$(721)
+check$(722)
+check$(723)
+check$(724)
+check$(725)
+check$(726)
+check$(727)
+check$(728)
+check$(729)
+check$(730)
+check$(731)
+'</table>
+#equ
