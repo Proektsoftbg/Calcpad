@@ -138,9 +138,9 @@ A variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;&emsp;&emsp;**root**(x; n) - n-th root;  
 &emsp;&emsp;Rounding:  
 &emsp;&emsp;&emsp;&emsp;**round**(x) - round to the nearest integer;  
-&emsp;&emsp;&emsp;&emsp;**floor**(x) - round to the smaller integer (towards -∞); 
-&emsp;&emsp;&emsp;&emsp;**ceiling**(x) - round to the greater integer (towards +∞);
-&emsp;&emsp;&emsp;&emsp;**trunc**(x) - round to the smaller integer (towards zero);
+&emsp;&emsp;&emsp;&emsp;**floor**(x) - round to the smaller integer (towards -∞);  
+&emsp;&emsp;&emsp;&emsp;**ceiling**(x) - round to the greater integer (towards +∞);  
+&emsp;&emsp;&emsp;&emsp;**trunc**(x) - round to the smaller integer (towards zero);  
 &emsp;&emsp;Integer:  
 &emsp;&emsp;&emsp;&emsp;**mod**(x; y) - the reminder of an integer division;  
 &emsp;&emsp;&emsp;&emsp;**gcd**(x; y) - the greatest common divisor of two integers;  
@@ -304,15 +304,16 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 * Non-metric units (Imperial/US):  
 &emsp;&emsp;Mass: gr, dr, oz, lb (or lbm, lb_m), klb, kipm (or kip_m), st, qr,  
 &emsp;&emsp;&emsp;&emsp;&ensp; cwt, (or cwt_UK, cwt_US), ton, (or ton_UK, ton_US), slug;  
-&emsp;&emsp;Length: th, in, ft, yd, ch, fur, mi, ftm, ftm_UK, ftm_US, 
+&emsp;&emsp;Length: th, in, ft, yd, ch, fur, mi, ftm, ftm_UK, ftm_US,  
 &emsp;&emsp;&emsp;&emsp;&emsp; cable, cable_UK, cable_US, nmi, li, rod, pole, perch, lea;  
 &emsp;&emsp;Speed: mph, knot;  
 &emsp;&emsp;Temperature: °F, Δ°F, °R;  
 &emsp;&emsp;Area: rood, ac;  
-&emsp;&emsp;Volume (fluid): fl_oz, gi, pt, qt, gal, bbl, (dry) pk, (dry) bu,  
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;fl_oz_UK, gi_UK, pt_UK, qt_UK, gal_UK, bbl_UK, (dry) pk_UK, (dry) bu_UK,  
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;fl_oz_US, gi_US, pt_US, qt_US, gal_US, bbl_US, (dry) pk_US, (dry) bu_US,  
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(US) pt_dry, (US) qt_dry, (US) gal_dry, (US) bbl_dry;  
+&emsp;&emsp;Volume, fluid: fl_oz, gi, pt, qt, gal, bbl,  
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;fl_oz_UK, gi_UK, pt_UK, qt_UK, gal_UK, bbl_UK,  
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;fl_oz_US, gi_US, pt_US, qt_US, gal_US, bbl_US,  
+&emsp;&emsp;Volume, dry: (US) pt_dry, (US) qt_dry, (US) gal_dry, (US) bbl_dry,  
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; pk (or pk_UK, pk_US), bu (or bu_UK, bu_US);  
 &emsp;&emsp;Force: ozf (or oz_f), lbf (or lb_f), kip (or kipf, kip_f), tonf (or ton_f), pdl;  
 &emsp;&emsp;Pressure: osi, osf psi, psf, ksi, ksf, tsi, tsf, inHg;  
 &emsp;&emsp;Energy/work: BTU, therm, (or therm_UK, therm_US), quad;  
