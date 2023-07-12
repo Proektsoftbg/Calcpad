@@ -305,7 +305,7 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;&emsp;Mass: gr, dr, oz, lb (or lbm, lb_m), klb, kipm (or kip_m), st, qr,  
 &emsp;&emsp;&emsp;&emsp;&ensp; cwt (or cwt_UK, cwt_US), ton (or ton_UK, ton_US), slug;  
 &emsp;&emsp;Length: th, in, ft, yd, ch, fur, mi, ftm (or ftm_UK, ftm_US),  
-&emsp;&emsp;&emsp;&emsp;&emsp; cable (or cable_UK, cable_US), nmi, li, rod, pole, perch, lea;  
+&emsp;&emsp;&emsp;&emsp;&emsp;&ensp; cable (or cable_UK, cable_US), nmi, li, rod, pole, perch, lea;  
 &emsp;&emsp;Speed: mph, knot;  
 &emsp;&emsp;Temperature: °F, Δ°F, °R;  
 &emsp;&emsp;Area: rood, ac;  
@@ -313,7 +313,7 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;fl_oz_UK, gi_UK, pt_UK, qt_UK, gal_UK, bbl_UK,  
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;fl_oz_US, gi_US, pt_US, qt_US, gal_US, bbl_US,  
 &emsp;&emsp;Volume, dry: (US) pt_dry, (US) qt_dry, (US) gal_dry, (US) bbl_dry,  
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; pk (or pk_UK, pk_US), bu (or bu_UK, bu_US);  
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;pk (or pk_UK, pk_US), bu (or bu_UK, bu_US);  
 &emsp;&emsp;Force: ozf (or oz_f), lbf (or lb_f), kip (or kipf, kip_f), tonf (or ton_f), pdl;  
 &emsp;&emsp;Pressure: osi, osf psi, psf, ksi, ksf, tsi, tsf, inHg;  
 &emsp;&emsp;Energy/work: BTU, therm, (or therm_UK, therm_US), quad;  
