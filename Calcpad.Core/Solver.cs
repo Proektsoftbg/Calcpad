@@ -62,18 +62,11 @@ namespace Calcpad.Core
             Units ??= value.Units;
 
             if (IsComplex && !value.IsReal)
-#if BG
-                throw new MathParserException($"Не мога да изчисля функцията %F за %V = {x}.");
-#else
-                throw new MathParserException($"Cannot evaluate the function %F for %V = {x}.");
-#endif
+                Throw.CannotEvaluateFunction(x.ToString());
 
             if (double.IsNaN(value.Re) || double.IsInfinity(value.Re))
-#if BG
-                throw new MathParserException($"Функцията %F не е дефинирана за %V = {x}.");
-#else
-                throw new MathParserException($"The function %F is not defined for %V = {x}.");
-#endif
+                Throw.FunctionNotDefined(x.ToString());
+
             return value.Re;
         }
 
@@ -84,11 +77,8 @@ namespace Calcpad.Core
             Units ??= value.Units;
 
             if (double.IsNaN(value.Re) && double.IsNaN(value.Im))
-#if BG      
-                throw new MathParserException($"Не мога да изчисля функцията %F за %V = {x}.");
-#else       
-                throw new MathParserException($"Cannot evaluate the function %F for %V = {x}.");
-#endif
+                Throw.CannotEvaluateFunction(x.ToString());
+
             return value.Complex;
         }
 
@@ -213,17 +203,31 @@ namespace Calcpad.Core
 
         private double Extremum(double left, double right, bool isMin)
         {
-            const double k = 0.618033988749897;
-            var x1 = left;
-            var x2 = right;
+            const double k = 0.6180339887498948;
+            double x1, x2;
+            if (left < right)
+            {
+                x1 = left;
+                x2 = right;
+            }
+            else
+            {
+                x1 = right;
+                x2 = left;
+            }
             var x3 = x2 - k * (x2 - x1);
             var x4 = x1 + k * (x2 - x1);
             var eps = Precision * (Math.Abs(x3) + Math.Abs(x4)) / 2.0;
             var tol2 = Precision * Precision;
             Units = null;
-            while (Math.Abs(x2 - x1) > eps)
+            while (x2 - x1 > eps)
             {
-                if (isMin == Fd(x3) < Fd(x4))
+                var y3 = Fd(x3);    
+                var y4 = Fd(x4);
+                if (y3 == y4)
+                    break;  
+
+                if (isMin == y3 < y4)
                 {
                     x2 = x4;
                     x4 = x3;
@@ -244,19 +248,24 @@ namespace Calcpad.Core
 
         internal double Area(double left, double right)
         {
-            double area;
+            double area, k = 1d;
+            if (left > right)
+            {
+                (left, right) = (right, left);
+                k = -1d;
+            }
             Units = null;
-            if (Math.Abs(right - left) > 1e-14 * (Math.Abs(left) + Math.Abs(right)))
+            if (right - left > 1e-14 * (Math.Abs(left) + Math.Abs(right)))
             {
                 if (QuadratureMethod == QuadratureMethods.AdaptiveLobatto)
-                    area = AdaptiveLobatto(left, right);
+                    area = AdaptiveLobatto(left, right) * k;
                 else
-                    area = TanhSinh(left, right);
+                    area = TanhSinh(left, right) * k;
             }
             else
             {
                 var y = Fd((left + right) / 2.0);
-                area = (right - left) * y;
+                area = (right - left) * y * k;
             }
             var u = Variable.Value.Units;
             if (u is null)
@@ -468,11 +477,7 @@ namespace Calcpad.Core
         private void CheckUnits(Unit units)
         {
             if (!Unit.IsConsistent(units, Units))
-#if BG
-                throw new MathParserException($"Несъвместими мерни единици в $Sum: \"{Unit.GetText(units)}\" и \"{Unit.GetText(Units)}\".");
-#else
-                throw new MathParserException($"Inconsistent units in $Sum: \"{Unit.GetText(units)}\" and \"{Unit.GetText(Units)}\".");
-#endif
+                Throw.InconsistentUnits(Unit.GetText(units), Unit.GetText(Units));
         }
 
         internal double Product(double start, double end)
@@ -564,11 +569,7 @@ namespace Calcpad.Core
         private static void GetBounds(double start, double end, out int n1, out int n2)
         {
             if (Math.Abs(start) > Limits || Math.Abs(end) > Limits)
-#if BG
-                throw new MathParserException($"Ограничението за брой итерации е надвишено: [{-Limits}; {Limits}].");
-#else
-                throw new MathParserException($"Iteration limits out of range: [{-Limits}; {Limits}].");
-#endif
+                Throw.IterationLimits((-Limits).ToString(), Limits.ToString());
 
             n1 = (int)Math.Round(start, MidpointRounding.AwayFromZero);
             n2 = (int)Math.Round(end, MidpointRounding.AwayFromZero);

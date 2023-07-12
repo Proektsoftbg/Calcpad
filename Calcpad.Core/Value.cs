@@ -125,13 +125,8 @@ namespace Calcpad.Core
         public static Value operator %(Value a, Value b)
         {
             if (b.Units is not null)
-                throw new MathParser.MathParserException(
-#if BG
-                    $"Не мога да изчисля остатъка: \"{Unit.GetText(a.Units)}  %  {Unit.GetText(b.Units)}\". Делителя трябва да е бездименсионен."
-#else
-                    $"Cannot evaluate reminder: \"{Unit.GetText(a.Units)}  %  {Unit.GetText(b.Units)}\". The denominator must be unitless."
-#endif
-            );
+                Throw.CannotEvaluateReminder(Unit.GetText(a.Units), Unit.GetText(b.Units));
+
             return new(a.Re % b.Re, a.Units);
         }
 

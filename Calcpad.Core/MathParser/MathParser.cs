@@ -54,6 +54,7 @@ namespace Calcpad.Core
             get => _isPlotting;
 
         }
+        internal bool ShowWarnings { get; set; } = true;  
         public int Degrees { set => _calc.Degrees = value; }
         internal int PlotWidth => _variables.TryGetValue("PlotWidth", out var v) ? (int)v.Value.Re : 500;
         internal int PlotHeight => _variables.TryGetValue("PlotHeight", out var v) ? (int)v.Value.Re : 300;
@@ -119,11 +120,8 @@ namespace Calcpad.Core
             }
             catch
             {
-#if BG
-                throw new MathParserException($"Променливата '{name}' не съществува.");
-#else
-                throw new MathParserException($"Variable '{name}' does not exist.");
-#endif
+                Throw.VariableNotExist(name);
+                return default;
             }
         }
 
@@ -152,11 +150,8 @@ namespace Calcpad.Core
             }
             catch
             {
-#if BG
-                throw new MathParserException($"Не съществува мерна единица '{name}'.");
-#else
-                throw new MathParserException($"Unit '{name}' does not exist.");
-#endif
+                Throw.UnitNotExist(name);
+                return default;
             }
         }
 
@@ -202,30 +197,17 @@ namespace Calcpad.Core
                 _functions[i].ClearCache();
         }
 
-        //internal void CompileBlocks()
-        //{
-        //    for (int i = _solveBlocks.Count - 1; i >= 0; --i)
-        //        _solveBlocks[i].Compile(this);
-        //}
-
         internal void BreakIfCanceled()
         {
             if (IsCanceled)
-#if BG
-                throw new MathParserException("Прекъсване от потребителя.");
-#else
-                throw new MathParserException("Interupted by user.");
-#endif
+                Throw.InteruptedByUser();
         }
 
         public void Calculate(bool isVisible = true)
         {
             if (!IsEnabled)
-#if BG
-                throw new MathParserException("Изчислителното ядро не е активно.");
-#else
-                throw new MathParserException("Calculations are not active.");
-#endif
+                Throw.CalculationsNotActive();
+
             BreakIfCanceled();
             if (_functionDefinitionIndex < 0)
             {
@@ -258,11 +240,7 @@ namespace Calcpad.Core
         internal void CheckReal(in Value value)
         {
             if (_settings.IsComplex && !value.IsReal)
-#if BG
-                throw new MathParserException($"Резултатът не е реално число: \"{Complex.Format(value.Complex, _settings.Decimals, OutputWriter.OutputFormat.Text)}\".");
-#else
-                throw new MathParserException($"The result is not a real number: \"{Core.Complex.Format(value.Complex, _settings.Decimals, OutputWriter.OutputFormat.Text)}\".");
-#endif
+                Throw.ResultNotReal(Core.Complex.Format(value.Complex, _settings.Decimals, OutputWriter.OutputFormat.Text));
         }
 
         private void AddFunction(Queue<Token> input)
@@ -282,11 +260,7 @@ namespace Calcpad.Core
                         if (t.Type == TokenTypes.BracketRight)
                         {
                             if (pt.Type != TokenTypes.Variable)
-#if BG
-                                throw new MathParserException("Липсва параметър в дефиниция на функция.");
-#else
-                                throw new MathParserException("Missing parameter in function definition.");
-#endif
+                                Throw.MissingFunctionParameter();
 
                             break;
                         }
@@ -294,25 +268,12 @@ namespace Calcpad.Core
                         if (t.Type == TokenTypes.Variable)
                             parameters.Add(t.Content);
                         else if (t.Type != TokenTypes.Divisor)
-#if BG
-                            throw new MathParserException($"Невалиден обект в дефиниция на функция: \"{t.Content}\".");
-#else
-                            throw new MathParserException($"Invalid token in function definition: \"{t.Content}\".");
-#endif
+                            Throw.IvalidFunctionToken(t.Content);
+
                         if (pt.Type == t.Type || pt.Type == TokenTypes.BracketLeft && t.Type == TokenTypes.Divisor)
                         {
                             if (t.Type == TokenTypes.Divisor)
-#if BG
-                                throw new MathParserException("Липсва параметър в дефиниция на функция.");
-#else
-                                throw new MathParserException("Missing parameter in function definition.");
-#endif
-
-#if BG
-                            throw new MathParserException("Липсва разделител в дефиниция на функция.");
-#else
-                            throw new MathParserException("Missing delimiter in function definition.");
-#endif
+                                Throw.MissingFunctionParameter();
                         }
                         pt = t;
                     }
@@ -331,11 +292,8 @@ namespace Calcpad.Core
 
                         cf.IsRecursion = cf.CheckRecursion(null, _functions);
                         if (cf.IsRecursion)
-#if BG
-                            throw new MathParserException($"Открита е циклична референция за функция \"{name}\".");
-#else
-                            throw new MathParserException($"Circular reference detected for function \"{name}\".");
-#endif
+                            Throw.CircularReference(name);
+
                         if (IsEnabled)
                         {
                             cf.SubscribeCache(this);
@@ -349,11 +307,7 @@ namespace Calcpad.Core
                     }
                 }
             }
-#if BG
-            throw new MathParserException("Невалидна дефиниция на функция. Трябва да съответства на шаблона: \"f(x; y; z...) =\".");
-#else
-            throw new MathParserException("Invalid function definition. It have to match the pattern: \"f(x; y; z...) =\".");
-#endif
+            Throw.InvalidFunctionDefinition();
         }
 
         private void BindParameters(Parameter[] parameters, Token[] rpn)

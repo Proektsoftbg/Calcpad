@@ -43,26 +43,18 @@ namespace Calcpad.Core
                     }
                     catch (ArgumentException)
                     {
-#if BG
-                        throw new MathParser.MathParserException($"Дублиране на имената на параметрите на макрос: {s} и {s}.");
-#else
-                        throw new MathParser.MathParserException($"Duplicate macro parameter names: {s} and {s}.");
-#endif
+                        Throw.DuplicateMacroParameters(s);
+                        return null;
                     }
                 }
-
                 return sorted.Values.Reverse().ToArray();
             }
 
             internal string Run(List<string> arguments)
             {
                 if (arguments.Count != ParameterCount)
+                    Throw.InvalidNumberOfArguments();
 
-#if BG
-                    throw new MathParser.MathParserException("Невалиден брой аргументи.");
-#else
-                    throw new MathParser.MathParserException("Invalid number of arguments.");
-#endif
                 if (ParameterCount == 0)
                     return Contents;
 
@@ -146,7 +138,7 @@ namespace Calcpad.Core
                         continue;
                     }
 
-                    if (Macros.Any())
+                    if (Macros.Count != 0)
                     {
                         try
                         {
@@ -452,11 +444,7 @@ namespace Calcpad.Core
                         macroArguments.Add(s);
                         textSpan.Reset(i + 1);
                         if ((macroArguments.Count == macro.ParameterCount) != (c == ')'))
-#if BG
-                            throw new ArgumentException("Невалиден брой аргументи.");
-#else
-                            throw new ArgumentException("Invalid number of arguments.");
-#endif
+                            Throw.InvalidNumberOfArguments();
                     }
                     else if (bracketCount > 1 || c != '(')
                         textSpan.Expand();
@@ -471,11 +459,7 @@ namespace Calcpad.Core
                             break;
 
                     if (macro.IsEmpty)
-#if BG
-                        throw new ArgumentException($"Недефиниран макрос: {macroName}.");
-#else
-                        throw new ArgumentException($"Macro not defined: {macroName}.");
-#endif
+                        Throw.UndefinedMacro(macroName);
                     else if (j > 0)
                         stringBuilder.Append(macroName[..j]);
 
@@ -574,7 +558,7 @@ namespace Calcpad.Core
 
         public static bool SetLineInputFields(string s, StringBuilder sb, Queue<string> fields, bool forceLine)
         {
-            if (string.IsNullOrEmpty(s) || fields is null || !fields.Any())
+            if (string.IsNullOrEmpty(s) || fields is null || fields.Count == 0)
                 return false;
 
             var inputChar = '\0';
@@ -622,7 +606,7 @@ namespace Calcpad.Core
                     }
                 }
             }
-            if (forceLine && fields.Any())
+            if (forceLine && fields.Count != 0)
             {
                 RemoveLineFields(sb);
                 AddLineFields(sb, fields);

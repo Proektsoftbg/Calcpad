@@ -123,11 +123,8 @@ namespace Calcpad.Core
                         continue;
 
                     if (tt == TokenTypes.Error)
-#if BG
-                        throw new MathParserException($"Невалиден символ '{c}'.");
-#else
-                        throw new MathParserException($"Invalid symbol '{c}'.");
-#endif
+                        Throw.InvalidSymbol(c);
+
                     if (tt == TokenTypes.Constant &&
                         unitsLiteral.IsEmpty ||
                         tt == TokenTypes.Unit ||
@@ -172,11 +169,8 @@ namespace Calcpad.Core
                         else
                         {
                             if (tt == TokenTypes.Unit && !Validator.IsVarStartingChar(c))
-#if BG
-                                throw new MathParserException($"Невалиден символ: '{c}'. Имената на променливи, функции и мерни единици трябва да започват с буква или ∡, освен единиците: ° ′ ″ % ‰.");
-#else
-                                throw new MathParserException($"Invalid character: '{c}'. Variables, functions and units must begin with a letter or ∡, except for the following units: ° ′ ″ % ‰.");
-#endif
+                                Throw.InvalidCharacter(c);
+
                             if (tt != pt)
                                 tokenLiteral.Reset(i);
 
@@ -279,11 +273,8 @@ namespace Calcpad.Core
                                         Index = Calculator.FunctionIndex["fact"]
                                     };
                                 else
-#if BG
-                                    throw new MathParserException($"Липсва операнд 'n!'.");
-#else
-                                    throw new MathParserException($"Missing operand 'n!'.");
-#endif
+                                    Throw.MissingOperand();
+
                             }
                             else if (tt == TokenTypes.Input)
                                 t = new ValueToken(Value.Zero)
@@ -311,13 +302,8 @@ namespace Calcpad.Core
                                     if (c == '=')
                                     {
                                         if (!AllowAssignment || _parser._assignmentIndex > 0)
-                                        {
-#if BG
-                                            throw new MathParserException($"Неправилно използване на оператора за присвояване '='.");
-#else
-                                            throw new MathParserException($"Improper use of the assignment operator '='.");
-#endif
-                                        }
+                                            Throw.ImproperAssignment();
+
                                         int count = tokens.Count;
                                         if (count == 1)
                                             DefinedVariables.Add(tokens.Peek().Content);
@@ -346,26 +332,18 @@ namespace Calcpad.Core
                     return tokens;
 
                 if (st == SolveBlock.SolverTypes.None)
-#if BG
-                    throw new MathParserException("Липсва лява фигурна скоба '{' в команда за числени методи.");
+                    Throw.MissingLeftSolverBracket();
 
-                throw new MathParserException("Липсва дясна фигурна скоба '}' в команда за числени методи.");
-#else
-                    throw new MathParserException("Missing left bracket '{' in solver command.");
-
-                throw new MathParserException("Missing right bracket '}' in solver command.");
-#endif
+                Throw.MissingRightSolverBracket();
+                return null;
 
                 bool InputSolver(char c, TokenTypes tt, ref TextSpan ts, TextSpan tokenLiteral, int i)
                 {
                     if (tt == TokenTypes.Solver && !isSolver)
                     {
                         if (!tokenLiteral.IsEmpty)
-#if BG
-                            throw new MathParserException($"Невалидeн идентификатор на макро '{tokenLiteral.ToString()}$'.");
-#else
-                            throw new MathParserException($"Invalid macro identifier: '{tokenLiteral.ToString()}$'.");
-#endif
+                            Throw.InvalidMacro(tokenLiteral.ToString());
+
                         ts.Reset(i);
                         isSolver = true;
                     }
@@ -379,11 +357,8 @@ namespace Calcpad.Core
                                     var s = ts.Cut();
                                     st = SolveBlock.GetSolverType(s);
                                     if (st == SolveBlock.SolverTypes.Error)
-#if BG
-                                        throw new MathParserException($"Невалидна дефиниция на команда за числени методи \"{s}\".");
-#else
-                                        throw new MathParserException($"Invalid solver command definition \"{s}\".");
-#endif
+                                        Throw.InvalidSolver(s.ToString());
+
                                     ts.Reset(i + 1);
                                 }
                                 else
@@ -449,11 +424,8 @@ namespace Calcpad.Core
                                 pt = TokenTypes.Unit;
                         }
                         else if (c != ' ' || !tokenLiteral.IsEmpty)
-#if BG
-                            throw new MathParserException($"Невалиден символ '{c}'.");
-#else
-                            throw new MathParserException($"Invalid symbol '{c}'.");
-#endif
+                            Throw.InvalidSymbol(c);
+
                         return true;
                     }
                     return false;
@@ -485,11 +457,8 @@ namespace Calcpad.Core
 
                 var index = _functions.IndexOf(s);
                 if (index < 0 && anyTokens)
-#if BG
-                    throw new MathParserException($"Невалидна функция: \"{s}\".");
-#else
-                    throw new MathParserException($"Invalid function: \"{s}\".");
-#endif
+                    Throw.InvalidFunction(s);   
+
                 return new Token(s, TokenTypes.CustomFunction)
                 {
                     Index = index
@@ -543,11 +512,8 @@ namespace Calcpad.Core
                 }
                 catch
                 {
-#if BG
-                    throw new MathParserException($"Грешка при опит за разпознаване на \"{units}\" като мерни единици.");
-#else
-                    throw new MathParserException($"Error parsing \"{units}\" as units.");
-#endif
+                    Throw.ErrorParsingUnits(units);
+                    return null;
                 }
             }
 
@@ -601,21 +567,14 @@ namespace Calcpad.Core
                                 t.Type = TokenTypes.Unit;
                                 v.SetValue(u);
                             }
-                            catch
-                            {
-#if BG
-                                //throw new MathParserException($"Недефинирана променлива или мерни единици: \"{t.Content}\".");
-#else
-                                //throw new MathParserException($"Undefined variable or units: \"{t.Content}\".");
-#endif
-                            }
+                            catch{ }
                         }
                     }
                     if (t.Type == TokenTypes.Unit)
                     {
-                        var c =  pt?.Content[0];
                         if (isUnit)
                         {
+                            var c =  pt?.Content[0];
                             if (c == '*' || c == '/' || c == '÷')
                                 pt.Order = 1;
                         }
@@ -661,8 +620,6 @@ namespace Calcpad.Core
                                     stackBuffer.Pop();
                                     output.Enqueue(next);
                                 }
-                            if (t.Order == 1 && t.Index == 4)
-                                t.Order = Calculator.OperatorOrder[4];
 
                             stackBuffer.Push(t);
                             break;

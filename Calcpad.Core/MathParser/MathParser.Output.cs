@@ -55,7 +55,7 @@ namespace Calcpad.Core
                     _stringBuilder.Append(s);
                     _stringBuilder.Append(assignment);
                     _stringBuilder.Append(RenderRpn(cf.Rpn, false, writer, out _));
-                    if (_parser._functionDefinitionIndex < _functions.Count - 1)
+                    if (_parser.ShowWarnings && _parser._functionDefinitionIndex < _functions.Count - 1)
                     {
 #if BG
                         const string warning = " Внимание! Функцията е предефинирана.";
@@ -82,10 +82,9 @@ namespace Calcpad.Core
                             rpn[0].Type == TokenTypes.Solver)
                         )
                         {
-                            string s = RenderRpn(rpn, true, writer, out hasOperators);
                             if (_parser._settings.Substitute && _parser._hasVariables)
                             {
-                                subst = s;
+                                subst = RenderRpn(rpn, true, writer, out hasOperators);
                                 _stringBuilder.Append(assignment);
                                 _stringBuilder.Append(subst);
                             }
@@ -199,12 +198,7 @@ namespace Calcpad.Core
                             if (v.Units is null)
                             {
                                 if (_parser._isCalculated)
-#if BG
-                                    throw new MathParser.MathParserException($"Невалидни мерни единици: \"{t.Content}\".");
-#else
-                                    throw new MathParser.MathParserException($"Invalid units: \"{t.Content}\".");
-#endif
-
+                                    Throw.InvalidUnits(t.Content);
                             }
                             else
                                 t.Content = writer.UnitString(v.Units);
@@ -300,11 +294,9 @@ namespace Calcpad.Core
                         else
                         {
                             if (!formatEquation && (
-                                        b.Order > t.Order ||
-                                        b.Order == t.Order && (content == "-" || content == "/") ||
-                                        IsNegative(b) && content != "="
-                                    )
-                                )
+                                b.Order > t.Order ||
+                                b.Order == t.Order && (content == "-" || content == "/") ||
+                                IsNegative(b) && content != "="))
                                 sb = AddBrackets(sb, b.Level, b.MinOffset, b.MaxOffset);
 
                             var level = 0;

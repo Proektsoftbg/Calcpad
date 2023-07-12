@@ -139,11 +139,7 @@ namespace Calcpad.Core
         public static Value Fact(Value a)
         {
             if (a.Units is not null)
-#if BG
-                throw new MathParser.MathParserException("Аргументът на функцията n! трябва да е бездименсионен.");
-#else
-                throw new MathParser.MathParserException("The argument of the n! function must be unitless.");
-#endif
+                Throw.FactorialArgumentUnitless();
 
             return new(Fact(a.Re));
         }

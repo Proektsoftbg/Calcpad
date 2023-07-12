@@ -658,6 +658,7 @@ You can find your unsaved data in
             if (_isParsing)
                 _parser.Cancel();
 
+            _parser.ShowWarnings = true;
             CurrentFileName = string.Empty;
             _document.Blocks.Clear();
             _highlighter.Defined.Clear(IsComplex);
@@ -975,6 +976,7 @@ You can find your unsaved data in
             if (s == ".cpdz" && Path.GetExtension(CurrentFileName) != ".cpdz")
                 CurrentFileName = Path.ChangeExtension(CurrentFileName, ".cpdz");
 
+            _parser.ShowWarnings = s != ".cpdz";
             FileSave();
             AddRecentFile(CurrentFileName);
         }
@@ -1133,6 +1135,7 @@ You can find your unsaved data in
             CurrentFileName = fileName;
 
             var hasForm = GetInputTextFromFile();
+            _parser.ShowWarnings = ext != ".cpdz";
             if (ext == ".cpdz")
             {
                 if (IsWebForm)
@@ -2123,6 +2126,7 @@ You can find your unsaved data in
                     var ex = Path.GetExtension(s);
                     if (ex == ".cpd" || ex == ".cpdz")
                     {
+                        _parser.ShowWarnings = ex != ".cpdz";
                         CurrentFileName = s;
                         var hasForm = GetInputTextFromFile() || ex == ".cpdz";
                         SetButton(WebFormButton, false);

@@ -33,11 +33,8 @@ namespace Calcpad.Core
                 var tos = _tos;
                 var rpnLength = rpn.Length;
                 if (rpnLength < 1)
-#if BG
-                    throw new MathParserException("Празен израз.");
-#else
-                    throw new MathParserException("Expression is empty.");
-#endif
+                    Throw.ExpressionEmpty();
+
                 var i0 = 0;
                 if (rpn[0].Type == TokenTypes.Variable && rpn[rpnLength - 1].Content == "=")
                     i0 = 1;
@@ -46,11 +43,8 @@ namespace Calcpad.Core
                 for (int i = i0; i < rpnLength; ++i)
                 {
                     if (_tos < tos)
-#if BG
-                        throw new MathParserException("Стекът е празен. Невалиден израз.");
-#else
-                        throw new MathParserException("Stack empty. Invalid expression.");
-#endif
+                        Throw.StackEmpty();
+
                     var t = rpn[i];
                     switch (t.Type)
                     {
@@ -74,11 +68,7 @@ namespace Calcpad.Core
                             else
                             {
                                 if (_tos == tos)
-#if BG
-                                    throw new MathParserException("Липсва операнд.");
-#else
-                                    throw new MathParserException("Missing operand.");
-#endif
+                                    Throw.MissingOperand();
 
                                 var b = _stackBuffer[_tos--];
                                 if (t.Content == "=")
@@ -94,11 +84,8 @@ namespace Calcpad.Core
                                     else if (rpn[0].Type == TokenTypes.Unit && rpn[0] is ValueToken tc)
                                     {
                                         if (tc.Value.Units is not null)
-#if BG
-                                            throw new MathParserException("Не мога да презапиша съществуващи единици: " + tc.Value.Units.Text);
-#else
-                                            throw new MathParserException("Cannot rewirite existing units: " + tc.Value.Units.Text);
-#endif
+                                            Throw.CannotRewiriteUnits(tc.Value.Units.Text); 
+
                                         _parser.SetUnit(tc.Content, b);
                                         tc.Value = new(_parser.GetUnit(tc.Content));
                                     }
@@ -108,11 +95,7 @@ namespace Calcpad.Core
                                 if (_tos == tos)
                                 {
                                     if (t.Content != "-")
-#if BG
-                                        throw new MathParserException("Липсва операнд.");
-#else
-                                        throw new MathParserException("Missing operand.");
-#endif
+                                        Throw.MissingOperand();
 
                                     c = new Value(-b.Re, -b.Im, b.Units);
                                 }
@@ -177,11 +160,8 @@ namespace Calcpad.Core
                             _stackBuffer[++_tos] = EvaluateSolver(t);
                             continue;
                         default:
-#if BG
-                            throw new MathParserException($"Не мога да изчисля \"{t.Content}\" като \"{t.Type.GetType().GetEnumName(t.Type)}\".");
-#else
-                            throw new MathParserException($"Cannot evaluate \"{t.Content}\" as \"{t.Type.GetType().GetEnumName(t.Type)}\".");
-#endif
+                            Throw.CannotEvaluateAsType(t.Content, t.Type.GetType().GetEnumName(t.Type));
+                            break;
                     }
                 }
                 if (_tos > tos)
@@ -191,11 +171,8 @@ namespace Calcpad.Core
                     return v;
                 }
                 if (_tos > tos)
-#if BG
-                    throw new MathParserException("Неосвободена памет в стека. Невалиден израз.");
-#else
-                    throw new MathParserException("Stack memory leak. Invalid expression.");
-#endif
+                    Throw.StackLeak();  
+
                 _parser.Units = null;
                 return new Value(0.0);
             }
@@ -233,11 +210,8 @@ namespace Calcpad.Core
                     return u;
                 }
                 if (!Unit.IsConsistent(vu, u))
-#if BG
-                throw new MathParserException($"Получените мерни единици \"{Unit.GetText(vu)}\" не съответстват на отправните \"{Unit.GetText(u)}\".");
-#else
-                throw new MathParserException($"The calculated units \"{Unit.GetText(vu)}\" are inconsistent with the target units \"{Unit.GetText(u)}\".");
-#endif
+                    Throw.InconsistentTargetUnits(Unit.GetText(vu), Unit.GetText(u));   
+
                 var d = vu.ConvertTo(u);
                 if (u.IsTemp)
                 {
@@ -259,24 +233,24 @@ namespace Calcpad.Core
                     {
                         "K" => 273.15,
                         "°F" => 32.0,
-                        "R" => 491.67,
+                        "°R" => 491.67,
                         _ => 0
                     },
                     "K" => tgt switch
                     {
                         "°C" => -273.15,
                         "°F" => -459.67,
-                        "R" => 0,
+                        "°R" => 0,
                         _ => 0
                     },
                     "°F" => tgt switch
                     {
-                        "°C" => -17.0,
-                        "K" => 255.372222222222,
-                        "R" => 459.67,
+                        "°C" => -17.7777777777777778,
+                        "K" => 255.3722222222222222,
+                        "°R" => 459.67,
                         _ => 0
                     },
-                    "R" => tgt switch
+                    "°R" => tgt switch
                     {
                         "°C" => -273.15,
                         "°F" => -459.67,
@@ -339,11 +313,8 @@ namespace Calcpad.Core
                     return EvaluateVariableToken((VariableToken)t);
 
                 if (t.Type == TokenTypes.Input && t.Content == "?")
-#if BG
-                    throw new MathParserException("Недефинирано поле за въвеждане.");
-#else
-                    throw new MathParserException("Undefined input field.");
-#endif
+                    Throw.UndefinedInputField();
+
                 return ((ValueToken)t).Value;
             }
 
@@ -371,11 +342,8 @@ namespace Calcpad.Core
                 }
                 catch
                 {
-#if BG
-                    throw new MathParserException($"Недефинирана променлива или мерни единици: \"{t.Content}\".");
-#else
-                    throw new MathParserException($"Undefined variable or units: \"{t.Content}\".");
-#endif
+                    Throw.UndefinedVariableOrUnits(t.Content);
+                    return default;    
                 }
             }
 
@@ -395,11 +363,7 @@ namespace Calcpad.Core
             private Value EvaluateToken(Token t, Value a)
             {
                 if (t.Type != TokenTypes.Function && t.Content != NegateString)
-#if BG
-                    throw new MathParserException($"Грешка при изчисляване на \"{t.Content}\" като функция.");
-#else
-                    throw new MathParserException($"Error evaluating \"{t.Content}\" as function.");
-#endif
+                    Throw.ErrorEvaluatingAsFunction(t.Content);
 
                 return _calc.EvaluateFunction(t.Index, a);
             }
@@ -410,11 +374,7 @@ namespace Calcpad.Core
                     return _calc.EvaluateOperator(t.Index, a, b);
 
                 if (t.Type != TokenTypes.Function2)
-#if BG
-                    throw new MathParserException($"Грешка при изчисляване на \"{t.Content}\" като функция или оператор.");
-#else
-                    throw new MathParserException($"Error evaluating \"{t.Content}\" as function or operator.");
-#endif
+                    Throw.ErrorEvaluatingAsFunctionOrOperator(t.Content);
 
                 return _calc.EvaluateFunction2(t.Index, a, b);
             }

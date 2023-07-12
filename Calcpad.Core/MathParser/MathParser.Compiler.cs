@@ -103,11 +103,8 @@ namespace Calcpad.Core
             internal Func<Value> Compile(Token[] rpn)
             {
                 if (rpn.Length < 1)
-#if BG
-                    throw new MathParserException("Изразът е празен.");
-#else
-                    throw new MathParserException("Expression is empty.");
-#endif
+                    Throw.ExpressionEmpty();
+
                 var expression = Parse(rpn);
                 var lambda = Expression.Lambda<Func<Value>>(expression);
                 return lambda.Compile();
@@ -141,21 +138,14 @@ namespace Calcpad.Core
                             else
                             {
                                 if (stackBuffer.Count == 0)
-#if BG
-                                    throw new MathParserException("Липсва операнд.");
-#else
-                                    throw new MathParserException("Missing operand.");
-#endif
+                                    Throw.MissingOperand();
 
                                 var b = stackBuffer.Pop();
                                 if (!stackBuffer.TryPop(out var a))
                                 {
                                     if (t.Content != "-")
-#if BG
-                                        throw new MathParserException("Липсва операнд.");
-#else
-                                        throw new MathParserException("Missing operand.");
-#endif
+                                        Throw.MissingOperand();
+
                                     if (b.NodeType == ExpressionType.Constant)
                                         c = Expression.Constant(-EvaluateConstantExpression(b));
                                     else
@@ -182,11 +172,8 @@ namespace Calcpad.Core
                             continue;
                         case TokenTypes.CustomFunction:
                             if (t.Index < 0)
-#if BG
-                                throw new MathParserException($"Невалидна функция: \"{t.Content}\".");
-#else
-                                throw new MathParserException($"Invalid function: \"{t.Content}\".");
-#endif
+                                Throw.InvalidFunction(t.Content);
+
                             var cf = _functions[t.Index];
                             var cfValueCount = cf.ParameterCount;
                             var cfValues = new Expression[cfValueCount];
@@ -199,19 +186,13 @@ namespace Calcpad.Core
                             stackBuffer.Push(ParseSolver(t));
                             continue;
                         default:
-#if BG
-                            throw new MathParserException($"Не мога да изчисля \"{t.Content}\" като \"{t.Type.GetType().GetEnumName(t.Type)}\".");
-#else
-                            throw new MathParserException($"Cannot evaluate \"{t.Content}\" as \"{t.Type.GetType().GetEnumName(t.Type)}\".");
-#endif
+                            Throw.CannotEvaluateAsType(t.Content, t.Type.GetType().GetEnumName(t.Type));
+                            break;
                     }
                 }
                 if (stackBuffer.Count == 0)
-#if BG
-                    throw new MathParserException("Неосвободена памет в стека. Невалиден израз.");
-#else
-                    throw new MathParserException("Stack memory leak. Invalid expression.");
-#endif
+                    Throw.StackLeak();
+
                 return stackBuffer.Pop();
             }
 
@@ -229,11 +210,8 @@ namespace Calcpad.Core
                     return ParseVariableToken((VariableToken)t);
 
                 if (t.Type == TokenTypes.Input && t.Content == "?")
-#if BG
-                    throw new MathParserException("Недефинирано поле за въвеждане.");
-#else
-                    throw new MathParserException("Undefined input field.");
-#endif
+                    Throw.UndefinedInputField();
+
                 return Expression.Constant(((ValueToken)t).Value);
             }
 
@@ -257,22 +235,16 @@ namespace Calcpad.Core
                 }
                 catch
                 {
-#if BG
-                    throw new MathParserException($"Недефинирана променлива или мерни единици: \"{t.Content}\".");
-#else
-                    throw new MathParserException($"Undefined variable or units: \"{t.Content}\".");
-#endif
+                    Throw.UndefinedVariableOrUnits(t.Content);
+                    return null;    
                 }
             }
 
             private Expression ParseToken(Token t, Expression a)
             {
                 if (t.Type != TokenTypes.Function && t.Content != NegateString)
-#if BG
-                    throw new MathParserException($"Грешка при изчисляване на \"{t.Content}\" като функция.");
-#else
-                    throw new MathParserException($"Error evaluating \"{t.Content}\" as function.");
-#endif
+                    Throw.ErrorEvaluatingAsFunction(t.Content);   
+
                 if (a.NodeType == ExpressionType.Constant)
                     return Expression.Constant(_calc.GetFunction(t.Index)(EvaluateConstantExpression(a)));
 
@@ -322,11 +294,7 @@ namespace Calcpad.Core
                 }
 
                 if (t.Type != TokenTypes.Function2)
-#if BG
-                    throw new MathParserException($"Грешка при изчисляване на \"{t.Content}\" като функция или оператор.");
-#else
-                    throw new MathParserException($"Error evaluating \"{t.Content}\" as function or operator.");
-#endif
+                    Throw.ErrorEvaluatingAsFunctionOrOperator(t.Content);
 
                 return Expression.Invoke(Expression.Constant(_calc.GetFunction2(t.Index)), a, b);
             }
@@ -348,11 +316,10 @@ namespace Calcpad.Core
                 else if (t.Type == TokenTypes.Function2)
                     vc = _calc.GetFunction2(t.Index)(va, vb);
                 else
-#if BG
-                    throw new MathParserException($"Грешка при изчисляване на \"{t.Content}\" като функция или оператор.");
-#else
-                    throw new MathParserException($"Error evaluating \"{t.Content}\" as function or operator.");
-#endif
+                {
+                    Throw.ErrorEvaluatingAsFunctionOrOperator(t.Content); 
+                    return null;    
+                }
                 return Expression.Constant(vc);
             }
 

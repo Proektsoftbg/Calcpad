@@ -124,11 +124,8 @@ namespace Calcpad.Core
                 for (int i = 0; i <= n; ++i)
                 {
                     if (string.IsNullOrWhiteSpace(_items[i].Input))
-#if BG
-                        throw new MathParserException($"Липсва разделител \"{delimiters[i]}\" в команда за числени методи {{{Script}}}.");
-#else
-                        throw new MathParserException($"Missing delimiter \"{delimiters[i]}\" in solver command {{{Script}}}.");
-#endif
+                        Throw.MissingDelimiter(delimiters[i], Script);
+
                     _items[i].Input = _items[i].Input.Trim();
                     if (i == 0 && _type == SolverTypes.Root)
                     {
@@ -140,13 +137,7 @@ namespace Calcpad.Core
                             n = 4;
                         }
                         else if (s.Length > 2)
-                        {
-#if BG
-                            throw new MathParserException($"Повече от един оператор '=' в '{string.Join('=', s)}'.");
-#else
-                            throw new MathParserException($"More than one operators '=' in '{string.Join('=', s)}'.");
-#endif
-                        }
+                            Throw.MultipleAssignments(string.Join('=', s));
                     }
                     _parser.Parse(_items[i].Input, i == 0 && allowAssignment);
                     _items[i].Rpn = _parser._rpn;
@@ -271,11 +262,8 @@ namespace Calcpad.Core
                     _parser.CheckReal(x2);
                     var ux2 = x2.Units;
                     if (!Unit.IsConsistent(ux1, ux2))
-#if BG
-                        throw new MathParserException($"Несъвместими мерни единици за {_items[0].Input} = \"{Unit.GetText(ux1)}' : \"{Unit.GetText(ux2)}'.");
-#else
-                        throw new MathParserException($"Inconsistent units for {_items[0].Input} = \"{Unit.GetText(ux1)}' : \"{Unit.GetText(ux2)}'.");
-#endif
+                        Throw.InconsistentUnits2(_items[0].Input, Unit.GetText(ux1), Unit.GetText(ux2)); 
+
                     if (ux2 is not null)
                         x2 *= ux2.ConvertTo(ux1);
                 }
@@ -290,19 +278,13 @@ namespace Calcpad.Core
                     var y2 = _y();
                     _parser.CheckReal(y2);
                     if (Math.Abs(y2.Re - y1.Re) > 1e-14)
-#if BG
-                        throw new MathParserException($"Изразът от дясната страна трябва да е константа: \"{_items[4].Input}\".");
-#else
-                        throw new MathParserException($"The expression on the right side must be constant: \"{_items[4].Input}\".");
-#endif
+                        Throw.ConstantExpression(_items[4].Input);
+
                     y = y1.Re;
                     var uy2 = y2.Units;
                     if (!Unit.IsConsistent(uy1, uy2))
-#if BG
-                        throw new MathParserException($"Несъвместими мерни единици за \"{ _items[0].Input} = {_items[4].Input}\".");
-#else
-                        throw new MathParserException($"Inconsistent units for \"{_items[0].Input} = {_items[4].Input}\".");
-#endif
+                        Throw.InconsistentUnits1(_items[0].Input, _items[4].Input);
+
                     if (uy2 is not null)
                         y *= uy2.ConvertTo(uy1);
                 }
@@ -376,11 +358,7 @@ namespace Calcpad.Core
                 --_parser._isSolver;
 
                 if (double.IsNaN(result.Re) && !_parser.IsPlotting)
-#if BG
-                    throw new MathParserException($"Няма решение за: {ToString()}.");
-#else
-                    throw new MathParserException($"No solution for: {ToString()}.");
-#endif
+                    Throw.NoSolution(ToString());
 
                 Result = new Value(result, solver.Units);
                 solver.Variable = variable;

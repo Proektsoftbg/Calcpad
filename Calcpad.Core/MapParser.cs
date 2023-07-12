@@ -46,11 +46,8 @@ namespace Calcpad.Core
                     var part = i;
                     if (part > 3)
                         part -= 3;
-#if BG
-                    throw new MathParser.MathParserException($"Липсва {Parts[part]} в команда за 2D графика.");
-#else                     
-                    throw new MathParser.MathParserException($"Missing {Parts[part]} in surface map command.");
-#endif
+
+                    Throw.MissingMapItem(Parts[part]);
                 }
             }
 
@@ -65,11 +62,8 @@ namespace Calcpad.Core
                 var endX = Parser.CalculateReal();
                 var endUnits = Parser.Units;
                 if (!Unit.IsConsistent(xUnits, endUnits))
-#if BG                   
-                    throw new MathParser.MathParserException($"Несъвместими мерни единици: '{Unit.GetText(xUnits)}' и '{Unit.GetText(endUnits)}'.");
-#else                
-                    throw new MathParser.MathParserException($"Inconsistent units: '{Unit.GetText(xUnits)}' and '{Unit.GetText(endUnits)}'.");
-#endif
+                    Throw.InconsistentUnits(Unit.GetText(xUnits), Unit.GetText(endUnits));
+
                 if (endUnits is not null)
                 {
                     var factor = endUnits.ConvertTo(xUnits);
@@ -82,29 +76,22 @@ namespace Calcpad.Core
                 var endY = Parser.CalculateReal();
                 endUnits = Parser.Units;
                 if (!Unit.IsConsistent(yUnits, endUnits))
-#if BG
-                    throw new MathParser.MathParserException($"Несъвместими мерни единици: '{Unit.GetText(yUnits)}' и '{Unit.GetText(endUnits)}'.");
-#else                
-                    throw new MathParser.MathParserException($"Inconsistent units: '{Unit.GetText(yUnits)}' and '{Unit.GetText(endUnits)}'.");
-#endif
+                    Throw.InconsistentUnits(Unit.GetText(yUnits), Unit.GetText(endUnits));
+
                 if (endUnits is not null)
                 {
                     var factor = endUnits.ConvertTo(yUnits);
                     endY *= factor;
                 }
                 if (startX.EqualsBinary(endX) || startY.EqualsBinary(endY))
-#if BG
-                    throw new MathParser.MathParserException($"Границите на чертожната площ съвпадат.");
-#else                
-                    throw new MathParser.MathParserException($"The limits of plot area are identical.");
-#endif
+                    Throw.PlotLimitsIdentical();
+
                 Parameter[] parameters =
                 {
                     new(input[1]),
                     new(input[4])
                 };
                 _function = Parser.Compile(input[0], parameters);
-                //Parser.CompileBlocks();
                 result = GetHtmlImage(parameters[0].Variable, parameters[1].Variable, startX, endX, startY, endY, xUnits, yUnits);
             }
             else

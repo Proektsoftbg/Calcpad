@@ -16,8 +16,8 @@ namespace Calcpad.Core
             _end = 0;
         }
 
-        public bool IsEmpty => _end == _start;
-        public int Length => _end - _start;
+        public readonly bool IsEmpty => _end == _start;
+        public readonly int Length => _end - _start;
 
         public void Reset(int index)
         {
@@ -34,14 +34,14 @@ namespace Calcpad.Core
 
         public void Expand() => ++_end;
 
-        public ReadOnlySpan<char> Cut() => _contents[_start.._end];
+        public readonly ReadOnlySpan<char> Cut() => _contents[_start.._end];
 
-        public override string ToString() => _contents[_start.._end].ToString();
+        public override readonly string ToString() => _contents[_start.._end].ToString();
 
-        public bool StartsWith(char c) => _contents[_start] == c;
+        public readonly bool StartsWith(char c) => _contents[_start] == c;
 
-        public bool StartsWithAny(char[] chars) => chars.Contains(_contents[_start]);
+        public readonly bool StartsWithAny(char[] chars) => chars.Contains(_contents[_start]);
 
-        public bool Equals(string s) => _contents[_start.._end].SequenceEqual(s.AsSpan());
+        public readonly bool Equals(string s) => _contents[_start.._end].SequenceEqual(s.AsSpan());
     }
 }
