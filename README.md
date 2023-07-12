@@ -303,13 +303,13 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;&emsp;Catalytic activity: kat;  
 * Non-metric units (Imperial/US):  
 &emsp;&emsp;Mass: gr, dr, oz, lb (or lbm, lb_m), klb, kipm (or kip_m), st, qr,  
-&emsp;&emsp;&emsp;&emsp;&ensp; cwt, (or cwt_UK, cwt_US), ton, (or ton_UK, ton_US), slug;  
-&emsp;&emsp;Length: th, in, ft, yd, ch, fur, mi, ftm, ftm_UK, ftm_US,  
-&emsp;&emsp;&emsp;&emsp;&emsp; cable, cable_UK, cable_US, nmi, li, rod, pole, perch, lea;  
+&emsp;&emsp;&emsp;&emsp;&ensp; cwt (or cwt_UK, cwt_US), ton (or ton_UK, ton_US), slug;  
+&emsp;&emsp;Length: th, in, ft, yd, ch, fur, mi, ftm (or ftm_UK, ftm_US),  
+&emsp;&emsp;&emsp;&emsp;&emsp; cable (or cable_UK, cable_US), nmi, li, rod, pole, perch, lea;  
 &emsp;&emsp;Speed: mph, knot;  
 &emsp;&emsp;Temperature: °F, Δ°F, °R;  
 &emsp;&emsp;Area: rood, ac;  
-&emsp;&emsp;Volume, fluid: fl_oz, gi, pt, qt, gal, bbl,  
+&emsp;&emsp;Volume, fluid: fl_oz, gi, pt, qt, gal, bbl, or:  
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;fl_oz_UK, gi_UK, pt_UK, qt_UK, gal_UK, bbl_UK,  
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;fl_oz_US, gi_US, pt_US, qt_US, gal_US, bbl_US,  
 &emsp;&emsp;Volume, dry: (US) pt_dry, (US) qt_dry, (US) gal_dry, (US) bbl_dry,  
