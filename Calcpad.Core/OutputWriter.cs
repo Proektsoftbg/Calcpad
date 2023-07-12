@@ -238,7 +238,7 @@ namespace Calcpad.Core
                     if (i <= 16)
                     {
                         var s = d.ToString("G17", CultureInfo.InvariantCulture);
-                        var dec = decimal.Parse(s);
+                        var dec = decimal.Parse(s, CultureInfo.InvariantCulture);
                         dec = Math.Round(dec, i);  
                         s = dec.ToString("G29", CultureInfo.InvariantCulture);
                         return s == "-0" ? "0" : s;

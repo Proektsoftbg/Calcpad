@@ -3251,7 +3251,21 @@ You can find your unsaved data in
 
         private void PdfButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_isParsing ) return;    
+            if (_isParsing ) 
+                return;    
+
+            if (IsCalculated || IsWebForm)
+            {
+                var fileName = PromtSavePdf();
+                if (fileName is not null)
+                    SavePdf(fileName);            
+            }
+            else
+                StartPdf(AppInfo.Path + "help.pdf");
+        }
+
+        private string PromtSavePdf()
+        {
             var dlg = new SaveFileDialog
             {
                 DefaultExt = ".pdf",
@@ -3261,10 +3275,8 @@ You can find your unsaved data in
                 OverwritePrompt = true
             };
             var result = (bool)dlg.ShowDialog();
-            if (result)
-                SavePdf(dlg.FileName);
+            return result ? dlg.FileName : null;
         }
-
 
         private void SavePdf(string pdfFileName)
         {
@@ -3286,8 +3298,13 @@ You can find your unsaved data in
             startInfo.WindowStyle = ProcessWindowStyle.Hidden;
             var process = Process.Start(startInfo);
             process.WaitForExit();
-            //Execute pdf
-            process = new Process()
+            StartPdf(pdfFileName);
+            File.Delete(htmlFileName);
+        }
+
+        private static void StartPdf(string pdfFileName)
+        {
+            var process = new Process()
             {
                 StartInfo = new ProcessStartInfo(pdfFileName)
                 {
@@ -3295,7 +3312,6 @@ You can find your unsaved data in
                 }
             };
             process.Start();
-            File.Delete(htmlFileName);
         }
 
         private void UnitsRadioButton_Checked(object sender, RoutedEventArgs e)

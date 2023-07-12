@@ -17,7 +17,7 @@
                     new TestCalc(new() { IsComplex = true}).Run("1i!");
                 }
             );
-            Assert.Contains("The argument of the n! function cannot be complex.", e.Message);
+            Assert.Contains("The argument of n! cannot be complex.", e.Message);
         }
 
         [Fact]

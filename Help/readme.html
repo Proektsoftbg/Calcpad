@@ -837,6 +837,8 @@ You can use it further to calculate binomial coefficients by the well-known form
 		</tr>		
 	</tbody>
 </table>
+
+<h4>Predefined units</h4>
 <p>Calcpad includes a large collection of predefined units as follows:</p>
 <p>Dimensionless:</p>
 <ul><li>Percent: <i title="percent">%</i>;</li>
@@ -926,10 +928,14 @@ You can use it further to calculate binomial coefficients by the well-known form
 <i title="hectare">ha</i>;
 </li><li>Volume: 
 <i title="litre"     >L</i>, 
-<i title="millilitre">mL</i>, 
-<i title="centilitre">cL</i>, 
+<i title="decalitre" >daL</i>,
+<i title="hectolitre">hL</i>,
 <i title="decilitre" >dL</i>, 
-<i title="hectolitre">hL</i>;
+<i title="centilitre">cL</i>, 
+<i title="millilitre">mL</i>, 
+<i title="microlitre">μL</i>, 
+<i title="nanolitre" >nL</i>, 
+<i title="picolitre" >pL</i>; 
 </li><li>Force:
 <i title="Newthon"     >N</i>, 
 <i title="decanewthon" >daN</i>, 
@@ -1187,8 +1193,13 @@ You can use it further to calculate binomial coefficients by the well-known form
 <i title="chain"                 >ch</i>, 
 <i title="furlong"               >fur</i>, 
 <i title="mile"                  >mi</i>, 
-<i title="fathom"                >ftm</i>, 
-<i title="cable"                 >cable</i>, 
+<i title="fathom"                >ftm</i> (or 
+<i title="fathom (UK)"           >ftm</i><sub>_UK</sub>, 
+<i title="fathom (US)"           >ftm</i><sub>_US</sub>), 
+<br />&emsp;&emsp;&ensp;&ensp;
+<i title="cable"                 >cable</i> (or  
+<i title="cable (UK)"            >cable</i><sub>_UK</sub>, 
+<i title="cable (US)"            >cable</i><sub>_US</sub>), 
 <i title="nautical mile"         >nmi</i>, 
 <i title="link"                  >li</i>, 
 <i title="rod"                   >rod</i>, 
@@ -1205,30 +1216,39 @@ You can use it further to calculate binomial coefficients by the well-known form
 </li><li>Area:                   
 <i title="rood"                  >rood</i>, 
 <i title="acre"                  >ac</i>;
-</li><li>Volume (fluid): 
+</li><li>Volume, fluid: 
 <i title="fluid ounce"           >fl_oz</i>, 
 <i title="gill"                  >gi</i>, 
 <i title="pint"                  >pt</i>, 
 <i title="quart"                 >qt</i>, 
 <i title="gallon"                >gal</i>, 
-<i title="barrel"                >bbl</i>, 
-(dry) <i title="bushel"          >bu</i>, or:
+<i title="barrel"                >bbl</i>, or: 
 <br />&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;
 <i title="fluid ounce (UK)"      >fl_oz</i><sub>_UK</sub>, 
 <i title="gill (UK)"             >gi</i><sub>_UK</sub>, 
-<i title="pint (UK)"             >pt</i><sub>_UK</sub>, 
-<i title="quart (UK)"            >qt</i><sub>_UK</sub>, 
-<i title="gallon (UK)"           >gal</i><sub>_UK</sub>, 
-<i title="barrel (UK)"           >bbl</i><sub>_UK</sub>, 
-(dry) <i title="bushel (UK)"     >bu</i><sub>_UK</sub>,
+<i title="pint (fluid, UK)"      >pt</i><sub>_UK</sub>, 
+<i title="quart (fluid, UK)"     >qt</i><sub>_UK</sub>, 
+<i title="gallon (fluid, UK)"    >gal</i><sub>_UK</sub>, 
+<i title="barrel (fluid, UK)"    >bbl</i><sub>_UK</sub>, 
 <br />&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;
 <i title="fluid ounce (US)"      >fl_oz</i><sub>_US</sub>, 
 <i title="gill (US)"             >gi</i><sub>_US</sub>, 
-<i title="pint (US)"             >pt</i><sub>_US</sub>, 
-<i title="quart (US)"            >qt</i><sub>_US</sub>, 
-<i title="gallon (US)"           >gal</i><sub>_US</sub>, 
-<i title="barrel (US)"           >bbl</i><sub>_US</sub>, 
-(dry) <i title="bushel (US)"     >bu</i><sub>_US</sub>;
+<i title="pint (fluid, US)"      >pt</i><sub>_US</sub>, 
+<i title="quart (fluid, US)"     >qt</i><sub>_US</sub>, 
+<i title="gallon (fluid, US)"    >gal</i><sub>_US</sub>, 
+<i title="barrel (fluid, US)"    >bbl</i><sub>_US</sub>; 
+</li><li>Volume, dry: 
+(US) <i title="pint (dry, US)"         >pt</i><sub>_dry</sub>, 
+(US) <i title="quart (dry, US)"        >qt</i><sub>_dry</sub>, 
+(US) <i title="gallon (dry, US)"       >gal</i><sub>_dry</sub>, 
+(US) <i title="barrel (dry, US)"       >bbl</i><sub>_dry</sub>,
+<br />&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;
+<i title="peck"                  >pk</i> (or  
+<i title="peck (UK)"             >pk</i><sub>_UK</sub>,
+<i title="peck (US)"             >pk</i><sub>_US</sub>),
+<i title="bushel"                >bu</i> (or  
+<i title="bushel (UK)"           >bu</i><sub>_UK</sub>,
+<i title="bushel (US)"           >bu</i><sub>_US</sub>);
 </li><li>Force: 
 <i title="ounce-force"           >ozf</i> (or  
 <i title="ounce-force (alt)"     >oz</i><sub>_f</sub>), 
@@ -1264,7 +1284,7 @@ You can use it further to calculate binomial coefficients by the well-known form
 <p>Angle units are accepted by trigonometric functions and they override all other settings. Inverse trigonometric functions return unitless values by default. If you want them to return the result in the current units, you have to define a variable: <var>ReturnAngleUnits</var> = 1.</p>
 <p>Literals that are written immediately after numbers are recognized as units by the parser, e.g. "2<i>m</i>". Standalone literals can be either units or variables, e.g. "<i>N</i>*<i>m</i>". The rules for parsing are as follows: If a literal has not been defined as a variable, it is parsed as a unit. Otherwise, it is parsed as a variable, even if a unit with the same name exists. If you put a dot before the literal, you will force ir to be parsed as a unit, even if a variable with the same name exists, e.g. ".<i>N</i>*.<i>m</i>".</p>
 
-<h3>Custom units</h3>
+<h4>Custom units</h4>
 <p>You can define your own "custom" units and use them like any others in your code. Defining a unit is similar to defining a variable, but the name must be prefixed with a dot ".":</p>
 <p>&emsp;&emsp;<code>.<i>Name</i> = expression</code></p>
 <p>The name can include som currency symbols like: €, £, ₤, ¥, ¢, ₽, ₹, ₩, ₪. If you need to create a unit, that derive from others, you can write an expression with numbers and units on the right side. You can also define dimensionless units, like currency (USD, EUR, €, ₤) or information (bit, byte, KiB, etc), by specifying "= 1" for the first unit and setting the others as multiples. For example:
@@ -1734,7 +1754,7 @@ You can use it further to calculate binomial coefficients by the well-known form
 <h3 id="TOC_804">Save As…</h3>
 <p>If you need to save the current file with a different name, select the "<b>File/Save As…</b>" menu command. A file selection dialog will be displayed. Select file path and name and click "<b>Save</b>"</p>
 <hr />
-<p>Last edited on 24.04.2023 by eng. Nedelcho Ganchovski.</p>
+<p>Last edited on 12.07.2023 by eng. Nedelcho Ganchovski.</p>
 </div>
 <script src="jquery-3.6.3.min.js"></script>
 <script>

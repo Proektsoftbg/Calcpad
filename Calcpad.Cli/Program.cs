@@ -279,7 +279,7 @@ namespace Calcpad.Cli
         static void Header(string Title, int drg)
         {
             Console.Clear();
-            var n = Math.Min(Console.WindowWidth, Console.BufferWidth);
+            var n = Math.Min(Math.Min(Console.WindowWidth, Console.BufferWidth), 80);
             var ver = Assembly.GetExecutingAssembly().GetName().Version;
             Console.WriteLine(new string('—', n));
             Console.WriteLine($" Welcome to Calcpad command line interpreter v.{ver.Major}.{ver.Minor}.{ver.Build}!");

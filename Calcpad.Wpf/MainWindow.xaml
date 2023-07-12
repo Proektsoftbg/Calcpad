@@ -4,7 +4,7 @@
     xmlns:av="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="av"
     x:Class="Calcpad.Wpf.MainWindow"
     Closing="Window_Closing" 
-    Title=" Calcpad 6.0.7" 
+    Title=" Calcpad 6.0.8" 
     Height="800" 
     Width="1200"
     WindowStartupLocation="CenterScreen"
@@ -337,10 +337,14 @@
                             <MenuItem Click="Button_Click" Tag="cm^3" Header="cm³ (cubic centimeter)"/>
                             <MenuItem Click="Button_Click" Tag="mm^3" Header="mm³ (cubic millimeter)"/>
                             <MenuItem Click="Button_Click" Tag="L"    Header="L (litre)"/>
-                            <MenuItem Click="Button_Click" Tag="mL"   Header="mL (millilitre)"/>
-                            <MenuItem Click="Button_Click" Tag="cL"   Header="cL (centilitre)"/>
-                            <MenuItem Click="Button_Click" Tag="dL"   Header="dL (decilitre)"/>
+                            <MenuItem Click="Button_Click" Tag="daL"  Header="hL (decalitre)"/>
                             <MenuItem Click="Button_Click" Tag="hL"   Header="hL (hectolitre)"/>
+                            <MenuItem Click="Button_Click" Tag="dL"   Header="dL (decilitre)"/>
+                            <MenuItem Click="Button_Click" Tag="cL"   Header="cL (centilitre)"/>
+                            <MenuItem Click="Button_Click" Tag="mL"   Header="mL (millilitre)"/>
+                            <MenuItem Click="Button_Click" Tag="μL"   Header="μL (microlitre)"/>
+                            <MenuItem Click="Button_Click" Tag="nL"   Header="nL (nanolitre)"/>
+                            <MenuItem Click="Button_Click" Tag="pL"   Header="pL (picolitre)"/>
                         </MenuItem>
                         <MenuItem Header="Time">
                             <MenuItem Click="Button_Click" Tag="s"   Header="s (second)"/>
@@ -366,7 +370,7 @@
                             <MenuItem Click="Button_Click" Tag="pHz" Header="THz (picohertz)"/>
                             <MenuItem Click="Button_Click" Tag="rpm" Header="rpm (rotations per minute)"/>
                         </MenuItem>
-                        <MenuItem Header="Velocity">
+                        <MenuItem Header="Speed">
                             <MenuItem Click="Button_Click" Tag="m/s" Header="m/s (meters per second)"/>
                             <MenuItem Click="Button_Click" Tag="kmh" Header="kmh (kilometers per hour)"/>
                         </MenuItem>
@@ -691,10 +695,10 @@
                             <MenuItem Click="Button_Click" Tag="oz"      Header="oz (ounce)"/>
                             <MenuItem Click="Button_Click" Tag="lb"      Header="lb (pound)"/>
                             <MenuItem Click="Button_Click" Tag="lbm"     Header="lbm (pound)"/>
-                            <MenuItem Click="Button_Click" Tag="lb_m"    Header="lb_m (pound)"/>
+                            <MenuItem Click="Button_Click" Tag="lb_m"    Header="lb-m (pound)"/>
                             <MenuItem Click="Button_Click" Tag="klb"     Header="klb (kilopound)"/>
                             <MenuItem Click="Button_Click" Tag="kipm"    Header="kipm (kilopound-mass)"/>
-                            <MenuItem Click="Button_Click" Tag="kip_m"   Header="kipm (kilopound-mass)"/>
+                            <MenuItem Click="Button_Click" Tag="kip_m"   Header="kip-m (kilopound-mass)"/>
                             <MenuItem Click="Button_Click" Tag="st"      Header="st (stone)"/>
                             <MenuItem Click="Button_Click" Tag="qr"      Header="qr (quarter)"/>
                             <MenuItem Click="Button_Click" Tag="cwt_UK"  Header="cwt (hundredweight) - UK"/>
@@ -704,21 +708,25 @@
                             <MenuItem Click="Button_Click" Tag="slug"    Header="slug"/>
                         </MenuItem>
                         <MenuItem Header="Length">
-                            <MenuItem Click="Button_Click" Tag="th"    Header="th (thou)"/>
-                            <MenuItem Click="Button_Click" Tag="in"    Header="in (inch)"/>
-                            <MenuItem Click="Button_Click" Tag="ft"    Header="ft (foot)"/>
-                            <MenuItem Click="Button_Click" Tag="yd"    Header="yd (yard)"/>
-                            <MenuItem Click="Button_Click" Tag="ch"    Header="ch (chain)"/>
-                            <MenuItem Click="Button_Click" Tag="fur"   Header="fur (furlong)"/>
-                            <MenuItem Click="Button_Click" Tag="mi"    Header="mi (mile)"/>
-                            <MenuItem Click="Button_Click" Tag="ftm"   Header="ftm (fathom)"/>
-                            <MenuItem Click="Button_Click" Tag="cable" Header="cable"/>
-                            <MenuItem Click="Button_Click" Tag="nmi"   Header="nmi (nautical mile)"/>
-                            <MenuItem Click="Button_Click" Tag="li"    Header="li (link)"/>
-                            <MenuItem Click="Button_Click" Tag="rod"   Header="rod"/>
-                            <MenuItem Click="Button_Click" Tag="pole"  Header="pole"/>
-                            <MenuItem Click="Button_Click" Tag="perch" Header="perch"/>
-                            <MenuItem Click="Button_Click" Tag="lea"   Header="lea (league)"/>
+                            <MenuItem Click="Button_Click" Tag="th"       Header="th (thou)"/>
+                            <MenuItem Click="Button_Click" Tag="in"       Header="in (inch)"/>
+                            <MenuItem Click="Button_Click" Tag="ft"       Header="ft (foot)"/>
+                            <MenuItem Click="Button_Click" Tag="yd"       Header="yd (yard)"/>
+                            <MenuItem Click="Button_Click" Tag="ch"       Header="ch (chain)"/>
+                            <MenuItem Click="Button_Click" Tag="fur"      Header="fur (furlong)"/>
+                            <MenuItem Click="Button_Click" Tag="mi"       Header="mi (mile)"/>
+                            <MenuItem Click="Button_Click" Tag="ftm"      Header="ftm (fathom)"/>
+                            <MenuItem Click="Button_Click" Tag="ftm_UK"   Header="ftm (fathom) - UK"/>
+                            <MenuItem Click="Button_Click" Tag="ftm_US"   Header="ftm (fathom) - US"/>
+                            <MenuItem Click="Button_Click" Tag="cable"    Header="cable"/>
+                            <MenuItem Click="Button_Click" Tag="cable_UK" Header="cable - UK"/>
+                            <MenuItem Click="Button_Click" Tag="cable_US" Header="cable - US"/>
+                            <MenuItem Click="Button_Click" Tag="nmi"      Header="nmi (nautical mile)"/>
+                            <MenuItem Click="Button_Click" Tag="li"       Header="li (link)"/>
+                            <MenuItem Click="Button_Click" Tag="rod"      Header="rod"/>
+                            <MenuItem Click="Button_Click" Tag="pole"     Header="pole"/>
+                            <MenuItem Click="Button_Click" Tag="perch"    Header="perch"/>
+                            <MenuItem Click="Button_Click" Tag="lea"      Header="lea (league)"/>
                         </MenuItem>
                         <MenuItem Header="Area">
                             <MenuItem Click="Button_Click" Tag="th^2"     Header="th² (square thou)"/>
@@ -738,22 +746,29 @@
                             <MenuItem Click="Button_Click" Tag="ft^3"      Header="ft³ (cubic foot)"/>
                             <MenuItem Click="Button_Click" Tag="yd^3"      Header="yd³ (cubic yard)"/>
                             <MenuItem Click="Button_Click" Tag="mi^3"      Header="mi³ (cubic mile)"/>
-                            <MenuItem Click="Button_Click" Tag="fl_oz_UK"  Header="fl_oz (fluid ounce) - UK"/>
+                            <MenuItem Click="Button_Click" Tag="fl_oz_UK"  Header="fl-oz (fluid ounce) - UK"/>
                             <MenuItem Click="Button_Click" Tag="gi_UK"     Header="gi (gill) - UK"/>
                             <MenuItem Click="Button_Click" Tag="pt_UK"     Header="pt (pint) - UK"/>
                             <MenuItem Click="Button_Click" Tag="qt_UK"     Header="qt (quart) - UK"/>
                             <MenuItem Click="Button_Click" Tag="gal_UK"    Header="gal (gallon) - UK"/>
                             <MenuItem Click="Button_Click" Tag="bbl_UK"    Header="bbl (barrel) - UK"/>
+                            <MenuItem Click="Button_Click" Tag="pk_UK"     Header="pk (peck) - UK"/>
                             <MenuItem Click="Button_Click" Tag="bu_UK"     Header="bu (bushel) - UK"/>
-                            <MenuItem Click="Button_Click" Tag="fl_oz_US"  Header="fl_oz (fluid ounce) - US"/>
+                            <MenuItem Click="Button_Click" Tag="fl_oz_US"  Header="fl-oz (fluid ounce) - US"/>
                             <MenuItem Click="Button_Click" Tag="gi_US"     Header="gi (gill) - US"/>
                             <MenuItem Click="Button_Click" Tag="pt_US"     Header="pt (pint) - US"/>
                             <MenuItem Click="Button_Click" Tag="qt_US"     Header="qt (quart) - US"/>
                             <MenuItem Click="Button_Click" Tag="gal_US"    Header="gal (gallon) - US"/>
                             <MenuItem Click="Button_Click" Tag="bbl_US"    Header="bbl (barrel) - US"/>
+                            <MenuItem Click="Button_Click" Tag="pk_US"     Header="pk (peck) - US"/>
                             <MenuItem Click="Button_Click" Tag="bu_US"     Header="bu (bushel) - US"/>
+                            <MenuItem Click="Button_Click" Tag="pt_dry"    Header="pt (pint) - dry, US"/>
+                            <MenuItem Click="Button_Click" Tag="qt_dry"    Header="qt (quart) - dry, US"/>
+                            <MenuItem Click="Button_Click" Tag="gal_dry"   Header="gal (gallon) - dry, US"/>
+                            <MenuItem Click="Button_Click" Tag="bbl_dry"   Header="bbl (barrel) - dry, US"/>
+
                         </MenuItem>
-                        <MenuItem Header="Velocity">
+                        <MenuItem Header="Speed">
                             <MenuItem Click="Button_Click" Tag="in/s"  Header="in/s (inches per second)"/>
                             <MenuItem Click="Button_Click" Tag="ft/s"  Header="ft/s (feet per second)"/>
                             <MenuItem Click="Button_Click" Tag="yd/s"  Header="yd/s (yards per second)"/>
@@ -772,18 +787,20 @@
                             <MenuItem Click="Button_Click" Tag="kipf"  Header="kipf (kilopound-force)"/>
                             <MenuItem Click="Button_Click" Tag="tonf"  Header="tonf (ton-force)"/>
                             <Separator/>
-                            <MenuItem Click="Button_Click" Tag="oz_f"  Header="oz_f (ounce-force)"/>
-                            <MenuItem Click="Button_Click" Tag="lb_f"  Header="lb_f (pound-force)"/>
-                            <MenuItem Click="Button_Click" Tag="kip_f" Header="kip_f (kilopound-force)"/>
-                            <MenuItem Click="Button_Click" Tag="ton_f" Header="ton_f (ton-force)"/>
+                            <MenuItem Click="Button_Click" Tag="oz_f"  Header="oz-f (ounce-force)"/>
+                            <MenuItem Click="Button_Click" Tag="lb_f"  Header="lb-f (pound-force)"/>
+                            <MenuItem Click="Button_Click" Tag="kip_f" Header="kip-f (kilopound-force)"/>
+                            <MenuItem Click="Button_Click" Tag="ton_f" Header="ton-f (ton-force)"/>
                         </MenuItem>
                         <MenuItem Header="Torque/Moment">
-                            <MenuItem Click="Button_Click" Tag="oz_f*in" Header="ozf·in (ounce-force-inch)"/>
-                            <MenuItem Click="Button_Click" Tag="oz_f*ft" Header="ozf·ft (ounce-force-foot)"/>
-                            <MenuItem Click="Button_Click" Tag="lb_f*in" Header="lbf·in (pound-force-inch)"/>
-                            <MenuItem Click="Button_Click" Tag="lb_f*ft" Header="lbf·ft (pound-force-foot)"/>
+                            <MenuItem Click="Button_Click" Tag="oz_f*in" Header="oz-f·in (ounce-force-inch)"/>
+                            <MenuItem Click="Button_Click" Tag="oz_f*ft" Header="oz-f·ft (ounce-force-foot)"/>
+                            <MenuItem Click="Button_Click" Tag="lb_f*in" Header="lb-f·in (pound-force-inch)"/>
+                            <MenuItem Click="Button_Click" Tag="lb_f*ft" Header="lb-f·ft (pound-force-foot)"/>
                             <MenuItem Click="Button_Click" Tag="kip*in" Header="kip·in (kilopound-force-inch)"/>
                             <MenuItem Click="Button_Click" Tag="kip*ft" Header="kip·ft (kilopound-force-foot)"/>
+                            <MenuItem Click="Button_Click" Tag="ton_f*in" Header="ton-f·in (ton-force-inch)"/>
+                            <MenuItem Click="Button_Click" Tag="ton_f*ft" Header="ton-f·ft (ton-force-foot)"/>
                         </MenuItem>
                         <MenuItem Header="Pressure">
                             <MenuItem Click="Button_Click" Tag="osi"  Header="osi (ounce-force per sq. inch)"/>
@@ -801,36 +818,36 @@
                             <MenuItem Click="Button_Click" Tag="oz/ft^3"   Header="oz/ft³ (ounce per cubic foot)"/>
                             <MenuItem Click="Button_Click" Tag="lb/in^3"   Header="lb/in³ (pound per cubic inch)"/>
                             <MenuItem Click="Button_Click" Tag="lb/ft^3"   Header="lb/ft³ (pound per cubic foot)"/>
-                            <MenuItem Click="Button_Click" Tag="klb/in^3"  Header="lb/in³ (kilopound per cubic inch)"/>
-                            <MenuItem Click="Button_Click" Tag="klb/ft^3"  Header="lb/ft³ (kilopound per cubic foot)"/>
+                            <MenuItem Click="Button_Click" Tag="klb/in^3"  Header="klb/in³ (kilopound per cubic inch)"/>
+                            <MenuItem Click="Button_Click" Tag="klb/ft^3"  Header="klb/ft³ (kilopound per cubic foot)"/>
                             <MenuItem Click="Button_Click" Tag="lb/gal"    Header="lb/gal³ (pound per gallon)"/>
                             <MenuItem Click="Button_Click" Tag="lb/bu"     Header="lb/bu (pound per bushel)"/>
                             <MenuItem Click="Button_Click" Tag="slug/ft^3" Header="slug/ft³ (slug per cubic foot)"/>
                             <MenuItem Click="Button_Click" Tag="ton/ft^3"  Header="ton/ft³ (ton per cubic foot)"/>
                             <MenuItem Click="Button_Click" Tag="ton/yd^3"  Header="ton/yd³ (ton per cubic yard)"/>
                             <Separator/>
-                            <MenuItem Click="Button_Click" Tag="oz_f/in^3"  Header="ozf/in³ (ounce-force per cubic inch)"/>
-                            <MenuItem Click="Button_Click" Tag="oz_f/ft^3"  Header="ozf/ft³ (ounce-force per cubic foot)"/>
-                            <MenuItem Click="Button_Click" Tag="lb_f/in^3"  Header="lbf/in³ (pound-force per cubic inch)"/>
-                            <MenuItem Click="Button_Click" Tag="lb_f/ft^3"  Header="lbf/ft³ (pound-force per cubic foot)"/>
+                            <MenuItem Click="Button_Click" Tag="oz_f/in^3"  Header="oz-f/in³ (ounce-force per cubic inch)"/>
+                            <MenuItem Click="Button_Click" Tag="oz_f/ft^3"  Header="oz-f/ft³ (ounce-force per cubic foot)"/>
+                            <MenuItem Click="Button_Click" Tag="lb_f/in^3"  Header="lb-f/in³ (pound-force per cubic inch)"/>
+                            <MenuItem Click="Button_Click" Tag="lb_f/ft^3"  Header="lb-f/ft³ (pound-force per cubic foot)"/>
                             <MenuItem Click="Button_Click" Tag="kip/in^3"   Header="kip/in³ (kilopound-force per cubic inch)"/>
                             <MenuItem Click="Button_Click" Tag="kip/ft^3"   Header="kip/ft³ (kilopound-force per cubic foot)"/>
-                            <MenuItem Click="Button_Click" Tag="ton_f/in^3" Header="kip/in³ (kilopound-force per cubic inch)"/>
-                            <MenuItem Click="Button_Click" Tag="ton_f/ft^3" Header="kip/ft³ (kilopound-force per cubic foot)"/>
+                            <MenuItem Click="Button_Click" Tag="ton_f/in^3" Header="ton-f/in³ (ton-force per cubic inch)"/>
+                            <MenuItem Click="Button_Click" Tag="ton_f/ft^3" Header="ton-f/ft³ (ton-force per cubic foot)"/>
                         </MenuItem>
                         <MenuItem Header="Energy/Work">
-                            <MenuItem Click="Button_Click" Tag="in*oz_f"    Header="in·ozf (inch-ounce-force)"/>
-                            <MenuItem Click="Button_Click" Tag="ft*oz_f"    Header="ft·ozf (foot-ounce-force)"/>
-                            <MenuItem Click="Button_Click" Tag="in*lb_f"    Header="in·lbf (inch-pound-force)"/>
-                            <MenuItem Click="Button_Click" Tag="ft*lb_f"    Header="ft·lbf (foot-pound-force)"/>
+                            <MenuItem Click="Button_Click" Tag="in*oz_f"    Header="in·oz-f (inch-ounce-force)"/>
+                            <MenuItem Click="Button_Click" Tag="ft*oz_f"    Header="ft·oz-f (foot-ounce-force)"/>
+                            <MenuItem Click="Button_Click" Tag="in*lb_f"    Header="in·lb-f (inch-pound-force)"/>
+                            <MenuItem Click="Button_Click" Tag="ft*lb_f"    Header="ft·lb-f (foot-pound-force)"/>
                             <MenuItem Click="Button_Click" Tag="BTU"        Header="BTU (British Thermal Unit)"/>
                             <MenuItem Click="Button_Click" Tag="therm"      Header="therm"/>
                             <MenuItem Click="Button_Click" Tag="quad"       Header="quad"/>
                         </MenuItem>
                         <MenuItem Header="Power">
-                            <MenuItem Click="Button_Click" Tag="ft*lb_f/s"   Header="ft·lbf/s (foot-pound-force per second)"/>
-                            <MenuItem Click="Button_Click" Tag="ft*lb_f/min" Header="ft·lbf/min (foot-pound-force per minute)"/>
-                            <MenuItem Click="Button_Click" Tag="ft*lb_f/h"   Header="ft·lbf/h  (foot-pound-force per hour)"/>
+                            <MenuItem Click="Button_Click" Tag="ft*lb_f/s"   Header="ft·lb-f/s (foot-pound-force per second)"/>
+                            <MenuItem Click="Button_Click" Tag="ft*lb_f/min" Header="ft·lb-f/min (foot-pound-force per minute)"/>
+                            <MenuItem Click="Button_Click" Tag="ft*lb_f/h"   Header="ft·lb-f/h  (foot-pound-force per hour)"/>
                             <MenuItem Click="Button_Click" Tag="hp"          Header="hp (horsepower)"/>
                             <MenuItem Click="Button_Click" Tag="hpE"         Header="hpE (electrical horsepower)"/>
                             <MenuItem Click="Button_Click" Tag="hpS"         Header="hpS (boiler horsepower)"/>
@@ -1627,6 +1644,7 @@
                         <ListBoxItem Content="average()"   FontWeight="Bold"/>
                         <ListBoxItem Content="bar"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="bbl"         Foreground="DarkCyan"/>
+                        <ListBoxItem Content="bbl_dry"     Foreground="DarkCyan"/>
                         <ListBoxItem Content="bbl_UK"      Foreground="DarkCyan"/>
                         <ListBoxItem Content="bbl_US"      Foreground="DarkCyan"/>
                         <ListBoxItem Content="Bq"          Foreground="DarkCyan"/>
@@ -1637,6 +1655,8 @@
                         <ListBoxItem Content="C"           Foreground="DarkCyan"/>
                         <ListBoxItem Content="C/kg"        Foreground="DarkCyan"/>
                         <ListBoxItem Content="cable"       Foreground="DarkCyan"/>
+                        <ListBoxItem Content="cable_UK"    Foreground="DarkCyan"/>
+                        <ListBoxItem Content="cable_UK"    Foreground="DarkCyan"/>
                         <ListBoxItem Content="cal"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="cbrt()"      FontWeight="Bold"/>
                         <ListBoxItem Content="cd"          Foreground="DarkCyan"/>
@@ -1662,6 +1682,7 @@
                         <ListBoxItem Content="d"           Foreground="DarkCyan"/>
                         <ListBoxItem Content="Da"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="daa"         Foreground="DarkCyan"/>
+                        <ListBoxItem Content="daL"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="daN"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="daPa"        Foreground="DarkCyan"/>
                         <ListBoxItem Content="deg"         Foreground="DarkCyan"/>
@@ -1688,6 +1709,8 @@
                         <ListBoxItem Content="ft*oz_f"     Foreground="DarkCyan"/>
                         <ListBoxItem Content="ft/s"        Foreground="DarkCyan"/>
                         <ListBoxItem Content="ftm"         Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ftm_UK"      Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ftm_US"      Foreground="DarkCyan"/>
                         <ListBoxItem Content="ft^2"        Foreground="DarkCyan"/>
                         <ListBoxItem Content="ft^3"        Foreground="DarkCyan"/>
                         <ListBoxItem Content="fur"         Foreground="DarkCyan"/>
@@ -1696,6 +1719,7 @@
                         <ListBoxItem Content="g/mm^3"      Foreground="DarkCyan"/>
                         <ListBoxItem Content="GA"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="gal"         Foreground="DarkCyan"/>
+                        <ListBoxItem Content="gal_dry"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="gal_UK"      Foreground="DarkCyan"/>
                         <ListBoxItem Content="gal_US"      Foreground="DarkCyan"/>
                         <ListBoxItem Content="GBq"         Foreground="DarkCyan"/>
@@ -1920,6 +1944,7 @@
                         <ListBoxItem Content="nH"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="nHz"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="nJ"          Foreground="DarkCyan"/>
+                        <ListBoxItem Content="nL"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="Nm"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="nm"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="nmi"         Foreground="DarkCyan"/>
@@ -1963,6 +1988,10 @@
                         <ListBoxItem Content="phase()"     FontWeight="Bold"/>
                         <ListBoxItem Content="pHz"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="pJ"          Foreground="DarkCyan"/>
+                        <ListBoxItem Content="pk"          Foreground="DarkCyan"/>
+                        <ListBoxItem Content="pk_UK"       Foreground="DarkCyan"/>
+                        <ListBoxItem Content="pk_US"       Foreground="DarkCyan"/>
+                        <ListBoxItem Content="pL"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="PlotHeight"  Foreground="Blue"/>
                         <ListBoxItem Content="PlotStep"    Foreground="Blue"/>
                         <ListBoxItem Content="PlotWidth"   Foreground="Blue"/>
@@ -1979,6 +2008,7 @@
                         <ListBoxItem Content="pSv"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="pT"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="pt"          Foreground="DarkCyan"/>
+                        <ListBoxItem Content="pt_dry"      Foreground="DarkCyan"/>
                         <ListBoxItem Content="pt_UK"       Foreground="DarkCyan"/>
                         <ListBoxItem Content="pt_US"       Foreground="DarkCyan"/>
                         <ListBoxItem Content="pV"          Foreground="DarkCyan"/>
@@ -1991,6 +2021,7 @@
                         <ListBoxItem Content="p℧"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="qr"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="qt"          Foreground="DarkCyan"/>
+                        <ListBoxItem Content="qt_dry"      Foreground="DarkCyan"/>
                         <ListBoxItem Content="qt_UK"       Foreground="DarkCyan"/>
                         <ListBoxItem Content="qt_US"       Foreground="DarkCyan"/>
                         <ListBoxItem Content="quad"        Foreground="DarkCyan"/>
@@ -2103,6 +2134,7 @@
                         <ListBoxItem Content="μH"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="μHz"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="μJ"          Foreground="DarkCyan"/>
+                        <ListBoxItem Content="μL"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="μm"          Foreground="DarkCyan"/>
                         <ListBoxItem Content="μPa"         Foreground="DarkCyan"/>
                         <ListBoxItem Content="μS"          Foreground="DarkCyan"/>

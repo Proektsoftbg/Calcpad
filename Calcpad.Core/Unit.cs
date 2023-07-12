@@ -39,6 +39,7 @@ namespace Calcpad.Core
             "qt",
             "gal",
             "bbl",
+            "pk",
             "bu",
             "tonf" 
         };
@@ -446,6 +447,7 @@ namespace Calcpad.Core
                 {"μL", L.Shift(-6)},
                 {"nL", L.Shift(-9)},
                 {"pL", L.Shift(-12)},
+                {"daL", L.Scale("daL", 10d)},
                 {"hL", L.Scale("hL", 100d)},
 
                 {"rood",     m.Pow(2).Scale("rood", 1011.7141056)},
