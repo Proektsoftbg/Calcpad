@@ -31,7 +31,7 @@
                     new TestCalc(new()).Run("180!"); 
                 }
             );
-            Assert.Contains("Argument out of range for function n!", e.Message);   
+            Assert.Contains("Argument out of range for n!", e.Message);   
         }
 
         [Fact]
@@ -44,7 +44,7 @@
                     new TestCalc(new()).Run("(-10)!"); 
                 }
             );
-            Assert.Contains("Argument out of range for function n!", e.Message);
+            Assert.Contains("Argument out of range for n!", e.Message);
         }
 
         [Fact]

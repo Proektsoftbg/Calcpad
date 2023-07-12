@@ -65,6 +65,7 @@
 		<KeyWord name="average" />
 		<KeyWord name="bar" />
 		<KeyWord name="bbl" />
+		<KeyWord name="bbl_dry" />
 		<KeyWord name="bbl_UK" />
 		<KeyWord name="bbl_US" />
 		<KeyWord name="Bq" />
@@ -74,6 +75,8 @@
 		<KeyWord name="bu_US" />
 		<KeyWord name="C" />
 		<KeyWord name="cable" />
+		<KeyWord name="cable_UK" />
+		<KeyWord name="cable_US" />
 		<KeyWord name="cal" />
 		<KeyWord name="cbrt" />
 		<KeyWord name="cd" />
@@ -98,6 +101,7 @@
 		<KeyWord name="d" />
 		<KeyWord name="Da" />
 		<KeyWord name="daa" />
+		<KeyWord name="daL" />
 		<KeyWord name="daN" />
 		<KeyWord name="daPa" />
 		<KeyWord name="deg" />
@@ -118,10 +122,13 @@
 		<KeyWord name="fl_oz_US" />
 		<KeyWord name="ft" />
 		<KeyWord name="ftm" />
+		<KeyWord name="ftm_UK" />
+		<KeyWord name="ftm_US" />
 		<KeyWord name="fur" />
 		<KeyWord name="g" />
 		<KeyWord name="GA" />
 		<KeyWord name="gal" />
+		<KeyWord name="gal_dry" />
 		<KeyWord name="gal_UK" />
 		<KeyWord name="gal_US" />
 		<KeyWord name="GBq" />
@@ -295,6 +302,7 @@
 		<KeyWord name="nH" />
 		<KeyWord name="nHz" />
 		<KeyWord name="nJ" />
+		<KeyWord name="nL" />
 		<KeyWord name="Nm" />
 		<KeyWord name="nm" />
 		<KeyWord name="nmi" />
@@ -332,6 +340,10 @@
 		<KeyWord name="phase" />
 		<KeyWord name="pHz" />
 		<KeyWord name="pJ" />
+		<KeyWord name="pk" />
+		<KeyWord name="pk_UK" />
+		<KeyWord name="pk_US" />
+		<KeyWord name="pL" />
 		<KeyWord name="PlotHeight" />
 		<KeyWord name="PlotStep" />
 		<KeyWord name="PlotWidth" />
@@ -347,6 +359,7 @@
 		<KeyWord name="pSv" />
 		<KeyWord name="pT" />
 		<KeyWord name="pt" />
+		<KeyWord name="pt_dry" />
 		<KeyWord name="pt_UK" />
 		<KeyWord name="pt_US" />
 		<KeyWord name="pV" />
@@ -358,6 +371,7 @@
 		<KeyWord name="p℧" />
 		<KeyWord name="qr" />
 		<KeyWord name="qt" />
+		<KeyWord name="qt_dry" />
 		<KeyWord name="qt_UK" />
 		<KeyWord name="qt_US" />
 		<KeyWord name="quad" />
@@ -457,6 +471,7 @@
 		<KeyWord name="μH" />
 		<KeyWord name="μHz" />
 		<KeyWord name="μJ" />
+		<KeyWord name="μL" />
 		<KeyWord name="μm" />
 		<KeyWord name="μPa" />
 		<KeyWord name="μS" />

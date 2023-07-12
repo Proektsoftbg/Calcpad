@@ -1,4 +1,6 @@
-﻿namespace Calcpad.Tests
+﻿using System.Globalization;
+
+namespace Calcpad.Tests
 {
     public class ComplexFunctionTests
     {
@@ -720,7 +722,7 @@
                    calc.Run("fact(5i)");
                }
             );
-            Assert.Contains("The argument of the n! function cannot be complex.", e.Message);
+            Assert.Contains("The argument of n! cannot be complex.", e.Message);
         }
         #endregion
 
@@ -763,7 +765,7 @@
         public void Phase()
         {
             var calc = new TestCalc(new() { IsComplex = true });
-            var re = calc.Run($"phase({sqrt3}/2 + i/2)");
+            var re = calc.Run($"phase({sqrt3.ToString(CultureInfo.InvariantCulture)}/2 + i/2)");
             var im = calc.Imaginary;
             Assert.Equal(Math.PI / 6d, re, tol);
             Assert.Equal(0d, im, tol);
