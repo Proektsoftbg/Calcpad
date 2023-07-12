@@ -168,55 +168,34 @@ namespace Calcpad.Core
         protected static void CheckFunctionUnits(string func, Unit unit)
         {
             if (unit is not null && !unit.IsAngle)
-#if BG
-                throw new MathParser.MathParserException($"Невалидни мерни единици за функция: \"{func}({Unit.GetText(unit)})\".");
-#else
-                throw new MathParser.MathParserException($"Invalid units for function: \"{func}({Unit.GetText(unit)})\".");
-#endif
+                Throw.InvalidUnitsFunction(func, Unit.GetText(unit));
         }
 
 
         protected static int GetRoot(in Value root)
         {
             if (root.Units is not null)
-#if BG
-                throw new MathParser.MathParserException("Коренният показател трябва да е бездименсионен.");
-#else
-                throw new MathParser.MathParserException("Root index must be unitless.");
-#endif
+                Throw.RootUnitless();
+
             if (!root.IsReal)
-#if BG
-                throw new MathParser.MathParserException("Коренният показател не може да е комплексно число.");
-#else
-                throw new MathParser.MathParserException("Root index cannot be complex number.");
-#endif
+                Throw.RootComplex();
+
             var n = (int)root.Re;
             if (n < 2 || n != root.Re)
-#if BG
-                throw new MathParser.MathParserException("Коренният показател трябва да е цяло число > 1.");
-#else
-                throw new MathParser.MathParserException("Root index must be integer > 1.");
-#endif
+                Throw.RootInteger();
+
             return n;
         }
 
         protected static double Fact(double value)
         {
             if (value < 0 || value > 170)
-#if BG
-                throw new MathParser.MathParserException("Аргументът e извън допустимите стойности за функцията n!.");
-#else
-                throw new MathParser.MathParserException("Argument out of range for function n!.");
-#endif
+                Throw.FactorialArgumentOutOfRange();
 
             var i = (int)value;
 
             if (i != value)
-#if BG
-                throw new MathParser.MathParserException("Аргументът на функцията n! трябва да е цяло положително число.");
-#else
-                throw new MathParser.MathParserException("The argument of the n! function must be a positive integer.");
-#endif
+                Throw.FactorialArgumentPositiveInteger();
 
             return Factorial[i];
         }
@@ -419,11 +398,7 @@ namespace Calcpad.Core
         {
             var c = Math.Abs(d);
             if (c > long.MaxValue || c != Math.Truncate(c))
-#if BG
-                throw new MathParser.MathParserException("Двете числа трябва да са цели.");
-#else
-                throw new MathParser.MathParserException("Both values must be integer.");
-#endif 
+                Throw.BothValuesInteger();
             return (long)c;
         }
 

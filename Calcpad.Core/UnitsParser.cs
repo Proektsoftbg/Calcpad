@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 
 namespace Calcpad.Core
 {
@@ -81,41 +80,23 @@ namespace Calcpad.Core
                     {
                         --countOfBrackets;
                         if (countOfBrackets < 0)
-#if BG
-                            throw new MathParser.MathParserException("Липсва лява скоба '('.");
-#else
-                            throw new MathParser.MathParserException("Missing left bracket '('.");
-#endif
+                            Throw.MissingLeftBracket();
                     }
 
                     if (!CorrectOrder[(int)pT.Type, (int)T.Type])
-#if BG
-                        throw new MathParser.MathParserException($"Невалиден синтаксис: \"{pT.Content} {T.Content}\".");
-#else
-                        throw new MathParser.MathParserException($"Invalid syntax: \"{pT.Content} {T.Content}\".");
-#endif
+                        Throw.InvalidSyntax($"{pT.Content} {T.Content}");
 
                     pT = T;
                 }
 
                 if (pT.Type == TokenTypes.Operator || pT.Type == TokenTypes.BracketLeft)
-#if BG
-                    throw new MathParser.MathParserException("Непълен израз.");
-#else
-                    throw new MathParser.MathParserException("Incomplete expression.");
-#endif
+                    Throw.IncompleteExpression();
+
                 if (countOfBrackets > 0)
-#if BG
-                    throw new MathParser.MathParserException("Липсва дясна скоба ')'.");
-#else
-                    throw new MathParser.MathParserException("Missing right bracket ')'.");
-#endif
+                    Throw.MissingRightBracket();
+
                 if (countOfBrackets < 0)
-#if BG
-                    throw new MathParser.MathParserException("Липсва лява скоба '('.");
-#else
-                    throw new MathParser.MathParserException("Missing left bracket '('.");
-#endif
+                    Throw.MissingLeftBracket();
             }
         }
 
@@ -160,28 +141,21 @@ namespace Calcpad.Core
                 else if (c == '(')
                     tt = TokenTypes.BracketLeft;
                 else if (c == ')')
-                    tt = TokenTypes.BracketLeft;
+                    tt = TokenTypes.BracketRight;
                 else if (c == ' ')
                     tt = TokenTypes.None;
                 else
                     tt = TokenTypes.Error;
 
                 if (tt == TokenTypes.Error)
-#if BG
-                    throw new MathParser.MathParserException($"Невалиден символ '{c}'.");
-#else
-                    throw new MathParser.MathParserException($"Invalid symbol '{c}'.");
-#endif
+                    Throw.InvalidSymbol(c);
+
                 //Collect characters in a string for text, constant, variable or function
                 if (tt == TokenTypes.Constant || tt == TokenTypes.Units)
                 {
                     literal += c;
                     if (literal.Length > 1 && (pt != tt || c == '-'))
-#if BG
-                        throw new MathParser.MathParserException($"Невалиден символ '{c}'.");
-#else
-                        throw new MathParser.MathParserException($"Invalid symbol '{c}'.");
-#endif
+                        Throw.InvalidSymbol(c);
                 }
                 else
                 {
@@ -201,11 +175,7 @@ namespace Calcpad.Core
                             }
                             catch
                             {
-#if BG
-                                throw new MathParser.MathParserException($"Невалидни мерни единици: \"{literal}\".");
-#else
-                                throw new MathParser.MathParserException($"Invalid units: \"{literal}\".");
-#endif
+                                Throw.InvalidUnits(literal); 
                             }
                         }
                         else
@@ -216,11 +186,7 @@ namespace Calcpad.Core
                             }
                             catch
                             {
-#if BG
-                                throw new MathParser.MathParserException($"Не мога да изчисля \"{literal}\" като число.");
-#else
-                                throw new MathParser.MathParserException($"Cannot evaluate \"{literal}\" as number.");
-#endif
+                                Throw.InvalidNumber(literal);
                             }
                         }
                         literal = string.Empty;
@@ -305,30 +271,19 @@ namespace Calcpad.Core
                         break;
                     case TokenTypes.Operator:
                         if (stackBuffer.Count == 0)
-#if BG
-                            throw new MathParser.MathParserException("Липсва операнд.");
-#else
-                            throw new MathParser.MathParserException("Missing operand.");
-#endif
+                            Throw.MissingOperand();
 
                         var b = stackBuffer.Pop();
                         if (stackBuffer.Count == 0)
-#if BG
-                            throw new MathParser.MathParserException("Липсва операнд.");
-#else
-                            throw new MathParser.MathParserException("Missing operand.");
-#endif
+                            Throw.MissingOperand();
 
                         var a = stackBuffer.Pop();
                         var c = EvaluateOperator(T, a, b);
                         stackBuffer.Push(c);
                         break;
                     default:
-#if BG
-                        throw new MathParser.MathParserException($"Не мога да изчисля \"{T.Content}\" като \"{T.Type.GetType().GetEnumName(T.Type)}\".");
-#else
-                        throw new MathParser.MathParserException($"Cannot evaluate \"{T.Content}\" as \"{T.Type.GetType().GetEnumName(T.Type)}\".");
-#endif
+                        Throw.InvalidLiteral(T.Content, T.Type.GetType().GetEnumName(T.Type));
+                        break;
                 }
             }
             if (stackBuffer.Count == 0)
@@ -338,14 +293,11 @@ namespace Calcpad.Core
             if (t.Type == TokenTypes.Units)
             {
                 var u = ((UnitToken)t).Value;
-                u.Text = RenderExpression(rpn, OutputWriter.OutputFormat.Text);
+                u.Text = RenderExpression(rpn);
                 return u;
             }
-#if BG
-            throw new MathParser.MathParserException("Изразът не се изчислява до мерни единици.");
-#else
-            throw new MathParser.MathParserException("This expression does not evaluate to units.");
-#endif
+            Throw.ResultIsNotUnits();
+            return null;
         }
 
         private static Token EvaluateOperator(Token T, Token a, Token b)
@@ -363,136 +315,100 @@ namespace Calcpad.Core
             return EvaluateOperator(T, (ValueToken)a, (ValueToken)b);
         }
 
-        private static UnitToken EvaluateOperator(Token T, UnitToken a, UnitToken b)
+        private static Token EvaluateOperator(Token T, UnitToken a, UnitToken b)
         {
             char c = T.Content[0];
             double d = c == '^' ? 1.0 : Unit.GetProductOrDivisionFactor(a.Value, b.Value);
-            return c switch
+            var u = c switch
             {
-                '*' => new UnitToken(a.Value * b.Value * d),
-                '/' => new UnitToken(a.Value / b.Value / d),
-#if BG
-                '^' => throw new MathParser.MathParserException("Степенният показател трябва да е бездименсионен."),
-                _ => throw new MathParser.MathParserException($"Невалиден оператор: \"{T.Content}\".")
-#else
-                '^' => throw new MathParser.MathParserException("Power must be unitless."),
-                _ => throw new MathParser.MathParserException($"Invalid operator: \"{T.Content}\".")
-#endif
+                '*' => a.Value * b.Value,
+                '/' => a.Value / b.Value,
+                '^' => Throw.PowerNotUnitless<Unit>(),
+                _ => Throw.InvalidOperator<Unit>(c)
             };
+            if (c == '/')
+                d = 1 / d;
+
+            return u is null ? new ValueToken(d) : new UnitToken(u * d);
         }
 
         private static UnitToken EvaluateOperator(Token T, UnitToken a, ValueToken b)
         {
-            return T.Content switch
+            char c = T.Content[0];  
+            return c switch
             {
-                "*" => new UnitToken(a.Value * b.Value),
-                "/" => new UnitToken(a.Value / b.Value),
-                "^" => new UnitToken(a.Value.Pow(b.Value)),
-#if BG
-                _ => throw new MathParser.MathParserException($"Невалиден оператор: \"{T.Content}\".")
-#else
-                _ => throw new MathParser.MathParserException($"Invalid operator: \"{T.Content}\".")
-#endif
+                '*' => new UnitToken(a.Value * b.Value),
+                '/' =>new UnitToken(a.Value / b.Value),
+                '^' => new UnitToken(a.Value.Pow(b.Value)),
+                _ => Throw.InvalidOperator<UnitToken>(c)
             };
         }
 
         private static UnitToken EvaluateOperator(Token T, ValueToken a, UnitToken b)
         {
-            return T.Content switch
+            char c = T.Content[0];
+            return c switch
             {
-                "*" => new UnitToken(a.Value * b.Value),
-                "/" => new UnitToken(a.Value / b.Value),
-#if BG
-                "^" => throw new MathParser.MathParserException("Степенният показател трябва да е бездименсионен."),
-                 _ => throw new MathParser.MathParserException($"Невалиден оператор: \"{T.Content}\".")
-#else
-                "^" => throw new MathParser.MathParserException("Power must be unitless."),
-                _ => throw new MathParser.MathParserException($"Invalid operator: \"{T.Content}\".")
-#endif
+                '*' => new UnitToken(a.Value * b.Value),
+                '/' => new UnitToken(a.Value / b.Value),
+                '^' => Throw.PowerNotUnitless<UnitToken>(),
+                _ => Throw.InvalidOperator<UnitToken>(c)
             };
         }
 
         private static ValueToken EvaluateOperator(Token T, ValueToken a, ValueToken b)
         {
-            return T.Content switch
+            char c = T.Content[0];  
+            return c switch
             {
-                "*" => new ValueToken(a.Value * b.Value),
-                "/" => new ValueToken(a.Value / b.Value),
-                "^" => new ValueToken(Math.Pow(a.Value, b.Value)),
-#if BG
-                _ => throw new MathParser.MathParserException($"Невалиден оператор: \"{T.Content}\".")
-#else
-                _ => throw new MathParser.MathParserException($"Invalid operator: \"{T.Content}\".")
-#endif
+                '*' => new ValueToken(a.Value * b.Value),
+                '/' => new ValueToken(a.Value / b.Value),
+                '^' => new ValueToken(Math.Pow(a.Value, b.Value)),
+                _ => Throw.InvalidOperator<ValueToken>(c)
             };
         }
 
-        private static string RenderExpression(Queue<Token> rpn, OutputWriter.OutputFormat format)
+        private static string RenderExpression(Queue<Token> rpn)
         {
-
-            OutputWriter writer = format switch
-            {
-                OutputWriter.OutputFormat.Html => new HtmlWriter(),
-                OutputWriter.OutputFormat.Xml => new XmlWriter(),
-                _ => new TextWriter()
-            };
             //Renders the expression from the reverse polish notation as text
             var stackBuffer = new Stack<Token>();
             foreach (var T in rpn)
             {
-                switch (T.Type)
+                if (T.Type == TokenTypes.Constant || T.Type == TokenTypes.Units)
+                    stackBuffer.Push(T);
+                else
                 {
-                    case TokenTypes.Constant:
-                        stackBuffer.Push(new Token(writer.FormatReal(((ValueToken)T).Value, 2), TokenTypes.Constant));
-                        break;
-                    case TokenTypes.Units:
-                        stackBuffer.Push(new Token(FormatLocal(T.Content), TokenTypes.Units));
-                        break;
-                    default:
-                        {
-                            Token c;
-                            var b = stackBuffer.Pop();
-                            var a = stackBuffer.Count == 0 ?
-                                new Token(string.Empty, TokenTypes.None) :
-                                stackBuffer.Pop();
+                    var b = stackBuffer.Pop();
+                    var a = stackBuffer.Count == 0 ?
+                        new Token(string.Empty, TokenTypes.None) :
+                        stackBuffer.Pop();
 
-                            if (a.Order > T.Order)
-                                a.Content = writer.AddBrackets(a.Content);
+                    if (a.Order > T.Order)
+                        a.Content = AddBrackets(a.Content);
+                    
+                    var tc = T.Content[0];
+                    if (tc == '^')
+                    {
+                        if (IsNegative(a))
+                            a.Content = AddBrackets(a.Content);
 
-                            if (T.Content == "^")
-                            {
-                                if (IsNegative(a))
-                                    a.Content = writer.AddBrackets(a.Content);
-
-                                if (writer is TextWriter && IsNegative(b) || b.Order != Token.DefaultOrder)
-                                    b.Content = writer.AddBrackets(b.Content);
-
-                                c = new Token(writer.FormatPower(a.Content, b.Content, 0, a.Order), T.Type, T.Order);
-                            }
-                            else
-                            {
-                                if (b.Order > T.Order || b.Order == T.Order && T.Content == "/" || IsNegative(b))
-                                    b.Content = writer.AddBrackets(b.Content);
-
-                                c = new Token(a.Content + writer.FormatOperator(T.Content[0]) + b.Content, T.Type, T.Order);
-                            }
-                            stackBuffer.Push(c);
-                            break;
-                        }
+                        if (IsNegative(b) || b.Order != Token.DefaultOrder)
+                            b.Content = AddBrackets(b.Content);
+                    }
+                    else if (b.Order > T.Order || 
+                             b.Order == T.Order && tc == '/' || 
+                             IsNegative(b))
+                        b.Content = AddBrackets(b.Content);
+                            
+                    var c = new Token(a.Content + tc + b.Content, T.Type, T.Order);
+                    stackBuffer.Push(c);
                 }
+                static string AddBrackets(string s) => $"({s})";
             }
             if (stackBuffer.TryPop(out var result))
                 return result.Content;
 
             return string.Empty;
-
-            string FormatLocal(string s)
-            {
-                if (s.Length > 3 && s[^3] == '_' && s[^2] == 'U' && (s[^1] == 'K' || s[^1] == 'S'))
-                    return writer.FormatSubscript(writer.FormatUnits(s[..^3]), " " + s[^2..]);
-                else
-                    return writer.FormatUnits(s);
-            }
         }
 
         private static bool IsNegative(Token t) =>

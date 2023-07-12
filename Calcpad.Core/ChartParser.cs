@@ -83,11 +83,8 @@ namespace Calcpad.Core
                 var right = Parser.CalculateReal();
                 var rightUnits = Parser.Units;
                 if (!Unit.IsConsistent(leftUnits, rightUnits))
-#if BG
-                    throw new MathParser.MathParserException($"Несъвместими мерни единици: \"{Unit.GetText(leftUnits)}\" и \"{Unit.GetText(rightUnits)}\".");
-#else
-                    throw new MathParser.MathParserException($"Inconsistent units: \"{Unit.GetText(leftUnits)}\" and \"{Unit.GetText(rightUnits)}\".");
-#endif
+                    Throw.InconsistentUnits(Unit.GetText(leftUnits), Unit.GetText(rightUnits));
+
                 if (leftUnits is not null)
                 {
                     var factor = rightUnits.ConvertTo(leftUnits);

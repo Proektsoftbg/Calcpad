@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 
 namespace Calcpad.Core
@@ -48,14 +47,11 @@ namespace Calcpad.Core
                     case '(':
                         brackets.Push(isPower ? power.Length : _stringBuilder.Length);
                         break;
-                    case ')' when brackets.Count == 0:
-#if BG
-                        throw new MathParser.MathParserException("Липсва лява скоба '('.");
-#else
-                        throw new MathParser.MathParserException("Missing left bracket '('.");
-#endif
                     case ')':
                     {
+                        if(brackets.Count == 0)
+                            Throw.MissingLeftBracket();
+
                         var index = brackets.Pop();
                         if (isPower && index < power.Length)
                         {
@@ -74,7 +70,7 @@ namespace Calcpad.Core
                             var length = _stringBuilder.Length - index;
                             var s = _stringBuilder.ToString(index, length);
                             _stringBuilder.Remove(index, length);
-                            _stringBuilder.Append(AddBrackets(s));
+                            literal = AddBrackets(s);
                         }
                         break;
                     }
@@ -84,14 +80,33 @@ namespace Calcpad.Core
                             power += c;
                         else
                         {
-                            if (
-                                sub == 0 && c == '_' ||
-                                sub == 1 && (c == 'U' || c == 'm' || c == 'f') ||
-                                sub == 2 && (c == 'K' || c == 'S')
-                            )
+                            var cl = string.IsNullOrEmpty(literal) ?
+                                '\0' :
+                                literal[^1];
+                            var isSub = sub switch
+                            {
+                                0 => c == '_',
+                                1 => c == 'U' || 
+                                     c == 'd' || 
+                                     c == 'm' || 
+                                     c == 'f',
+                                2 => cl switch
+                                    {
+                                        'U' => c == 'K' || 
+                                               c == 'S',
+                                        'd' => c == 'r',
+                                         _  => false
+                                    },
+                                3 => cl == 'r' && c == 'y',
+                                _ => false
+                            };
+                            if (isSub)
                                 sub++;
+                            else if (c == '_')
+                                sub = 1;
                             else
                                 sub = 0;
+
                             literal += c;
                         }
                         break;
@@ -99,11 +114,8 @@ namespace Calcpad.Core
                 }
             }
             if (brackets.Count != 0)
-#if BG
-                throw new MathParser.MathParserException("Липсва дясна скоба ')'.");
-#else
-                throw new MathParser.MathParserException("Missing right bracket ')'.");
-#endif
+                Throw.MissingRightBracket();
+
             if (literal.Length > 0)
                 AppendPower();
 
@@ -112,11 +124,14 @@ namespace Calcpad.Core
             string FormatLocal(string s)
             {
                 var n = sub;
-                if (n == 2 || n == 3)
+                if (n >= 2 && n <= 4)
                 {
                     sub = 0;
-                    return FormatSubscript(FormatUnits(s[..^n]), " " + s[^(n - 1)..]);
-                }           
+                    return FormatSubscript(FormatUnits(s[..^n]), " " + s[^(n - 1)..]);
+                }
+                if (s.Contains('/') || s.Contains('·'))
+                    return s;
+
                 return FormatUnits(s);
             }
 
@@ -207,69 +222,71 @@ namespace Calcpad.Core
                 return "-∞";
             if (double.IsInfinity(d))
                 return "∞";
-
             if (Math.Abs(d) < 1e16)
             {
-                var i = decimals - GetDigits(Math.Abs(d));
-                if (i <= 16)
+                var a = Math.Abs(d);
+                var i = GetDigits(a);
+                if (i >= -4)
                 {
+                    i = decimals - i;
                     if (i < 0)
-                        i = 0;
-                    else if (i == 16)
-                        i = 15;
+                        i = 0;  
 
-                    var s = Math.Round(d, i).ToString(CultureInfo.InvariantCulture);
-                    return s == "-0" ? "0" : s;
+                    if (decimals == 0 && a < 1d)
+                        ++i;
+
+                    if (i <= 16)
+                    {
+                        var s = d.ToString("G17", CultureInfo.InvariantCulture);
+                        var dec = decimal.Parse(s);
+                        dec = Math.Round(dec, i);  
+                        s = dec.ToString("G29", CultureInfo.InvariantCulture);
+                        return s == "-0" ? "0" : s;
+                    }
                 }
             }
-            var format = "{0:#." + Sharps[..decimals] + "E+0}";
-            return string.Format(CultureInfo.InvariantCulture, format, d);
+            var format = $"#.{Sharps[..decimals]}E+0";
+            return d.ToString(format, CultureInfo.InvariantCulture);
         }
 
         private static int GetDigits(double d)
         {
-            return d switch
-            {
-                0 => 0,
-                <= 1.0 => d switch
-                {
-                    <= 1e-8 => d switch
-                    {
-                        <= 1e-12 when d <= 1e-14 => -15,
-                        <= 1e-12 when d <= 1e-13 => -14,
-                        <= 1e-12 => -13,
-                        <= 1e-11 => -12,
-                        <= 1e-10 => -11,
-                        <= 1e-9 => -10,
-                        _ => -9
-                    },
-                    <= 1e-4 when d <= 1e-7 => -8,
-                    <= 1e-4 when d <= 1e-6 => -7,
-                    <= 1e-4 when d <= 1e-5 => -6,
-                    <= 1e-4 => -5,
-                    <= 1e-3 => -4,
-                    <= 1e-2 => -3,
-                    <= 1e-1 => -2,
-                    _ => -1
-                },
-                <= 1e8 => d switch
+            if (d >= 1)
+                return d switch
                 {
                     <= 1e4 => 0,
                     <= 1e5 => 1,
                     <= 1e6 => 2,
                     <= 1e7 => 3,
-                    _ => 4
-                },
-                <= 1e11 => d switch
-                {
+                    <= 1e8 => 4,
                     <= 1e9 => 5,
                     <= 1e10 => 6,
-                    _ => 7
-                },
-                <= 1e12 => 8,
-                <= 1e13 => 9,
-                <= 1e14 => 10,
-                _ => d <= 1e15 ? 11 : 0
+                    <= 1e11 => 7,
+                    <= 1e12 => 8,
+                    <= 1e13 => 9,
+                    <= 1e14 => 10,
+                    <= 1e15 => 11,
+                    _ => 0
+                };
+
+            return d switch
+            {
+                0 => 0,
+                < 1e-14 => -14,
+                < 1e-13 => -13,
+                < 1e-12 => -12,
+                < 1e-11 => -11,
+                < 1e-10 => -10,
+                < 1e-9 => -9,
+                < 1e-8 => -8,
+                < 1e-7 => -7,
+                < 1e-6 => -6,
+                < 1e-5 => -5,
+                < 1e-4 => -4,
+                < 1e-3 => -3,
+                < 1e-2 => -2,
+                < 1e-1 => -1,
+                _ => 0
             };
         }
     }

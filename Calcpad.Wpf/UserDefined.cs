@@ -49,7 +49,8 @@ namespace Calcpad.Wpf
             Clear(IsComplex);
             var lineNumber = 0;
             foreach (var line in lines)
-                Get(line, ++lineNumber);
+                if (!line.IsEmpty) 
+                    Get(line, ++lineNumber);
         }
 
         internal void Get(ReadOnlySpan<char> lineContent, int lineNumber)
@@ -170,6 +171,10 @@ namespace Calcpad.Wpf
                                 isFunction = true;
                         }
                     }
+                    if (item.Contains("$sup", StringComparison.OrdinalIgnoreCase))
+                        Variables.TryAdd("x_sup", lineNumber);
+                    else if (item.Contains("$inf", StringComparison.OrdinalIgnoreCase))
+                        Variables.TryAdd("x_inf", lineNumber);
                 }
             }
         }

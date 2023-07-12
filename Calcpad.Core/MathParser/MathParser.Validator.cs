@@ -81,11 +81,7 @@ namespace Calcpad.Core
                         if (t.Index < 0)
                         {
                             if (isFunctionDefinition && t.Content == firstToken.Content)
-#if BG
-                                throw new MathParserException($"Не e разрешена рекурсия в дефиницията на функция:\"{t.Content}\".");
-#else
-                                throw new MathParserException($"Recursion is not allowed in function definition:\"{t.Content}\".");
-#endif
+                                Throw.RecursionNotAllowed(t.Content);
                         }
                         else
                             countOfDivisors = countOfDivisors - _functions[t.Index].ParameterCount + 1;
@@ -96,11 +92,8 @@ namespace Calcpad.Core
                     {
                         --countOfBrackets;
                         if (countOfBrackets < 0)
-#if BG
-                            throw new MathParserException("Липсва лява скоба '('.");
-#else
-                            throw new MathParserException("Missing left bracket '('.");
-#endif
+                            Throw.MissingLeftBracket();
+
                         if (multiFunctionStack.TryPeek(out var mfsItem))
                         {
                             if (countOfBrackets == mfsItem.CountOfBrackets)
@@ -125,21 +118,9 @@ namespace Calcpad.Core
                                 isFunctionDefinition = true;
                             }
                             else if (pt.Type != TokenTypes.Variable && pt.Type != TokenTypes.Unit)
-                            {
-#if BG
-                                throw new MathParserException("Преди оператора за присвояване '=' трябва да има функция или променлива.");
-#else
-                                throw new MathParserException("The assignment '=' must be preceded by custom function or variable.");
-#endif
-                            }
+                                Throw.AssignmentPreceded();
                             else if (countOfOperators != 1)
-                            {
-#if BG
-                                throw new MathParserException("Преди оператора за присвояване '=' не може да има други оператори.");
-#else
-                                throw new MathParserException("Assignment '=' must be the first operator in the expression.");
-#endif
-                            }
+                                Throw.AssignmentNotFirst();
                         }
                     }
                     bool correctOrder;
@@ -155,11 +136,8 @@ namespace Calcpad.Core
                         correctOrder = CorrectOrder[OrderIndex[(int)pt.Type], OrderIndex[(int)t.Type]];
 
                     if (!correctOrder)
-#if BG
-                        throw new MathParserException($"Невалиден синтаксис: \"{pt.Content} {t.Content}\".");
-#else
-                        throw new MathParserException($"Invalid syntax: \"{pt.Content} {t.Content}\".");
-#endif
+                        Throw.InvalidSyntax(pt.Content, t.Content); 
+
                     pt = t;
                 }
 
@@ -170,36 +148,19 @@ namespace Calcpad.Core
                     pt.Type == TokenTypes.If ||
                     pt.Type == TokenTypes.CustomFunction ||
                     pt.Type == TokenTypes.BracketLeft)
-#if BG
-                    throw new MathParserException("Непълен израз.");
-#else
-                    throw new MathParserException("Incomplete expression.");
-#endif
+                    Throw.IncompleteExpression();
+
                 if (firstToken.Type == TokenTypes.CustomFunction && firstToken.Index < 0 && !isFunctionDefinition)
-#if BG
-                    throw new MathParserException($"Невалидна функция: \"{firstToken.Content}\".");
-#else
-                    throw new MathParserException($"Invalid function: \"{firstToken.Content}\".");
-#endif
+                    Throw.InvalidFunction(firstToken.Content);
+
                 if (countOfBrackets > 0)
-#if BG
-                    throw new MathParserException("Липсва дясна скоба ')'.");
-#else
-                    throw new MathParserException("Missing right bracket ')'.");
-#endif
+                    Throw.MissingRightBracket();
 
                 if (countOfDivisors > 0)
-#if BG
-                    throw new MathParserException("Неочакван символ за разделител ';'.");
-#else
-                    throw new MathParserException("Unexpected delimiter ';'.");
-#endif
+                    Throw.UnexpectedDelimiter();
+
                 if (countOfDivisors < 0)
-#if BG
-                    throw new MathParserException("Невалиден брой аргументи на функция.");
-#else
-                    throw new MathParserException("Invalid number of function arguments.");
-#endif
+                    Throw.InvalidNumberOfArguments();
             }
         }
     }

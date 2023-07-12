@@ -130,17 +130,11 @@ namespace Calcpad.Core
         private static Value Fact(Value value)
         {
             if (!(value.IsReal))
-#if BG
-                throw new MathParser.MathParserException("Аргументът на функцията n! не може да е комплексно число.");
-#else
-                throw new MathParser.MathParserException("The argument of the n! function cannot be complex.");
-#endif
+                Throw.FactorialArgumentComplex();
+
             if (value.Units is not null)
-#if BG
-                throw new MathParser.MathParserException("Аргументът на функцията n! трябва да е бездименсионен.");
-#else
-                throw new MathParser.MathParserException("The argument of the n! function must be unitless.");
-#endif
+                Throw.FactorialArgumentUnitless();
+
             return new(Fact(value.Re));
         }
 
@@ -178,13 +172,8 @@ namespace Calcpad.Core
         private static Value Reminder(Value a, Value b)
         {
             if (b.Units is not null)
-                throw new MathParser.MathParserException(
-#if BG
-                    $"Не мога да изчисля остатъка: \"{Unit.GetText(a.Units)}  %  {Unit.GetText(b.Units)}\". Делителя трябва да е бездименсионен."
-#else
-                    $"Cannot evaluate reminder: \"{Unit.GetText(a.Units)}  %  {Unit.GetText(b.Units)}\". Denominator must be unitless."
-#endif
-                );
+                Throw.ReminderUnits(Unit.GetText(a.Units), Unit.GetText(b.Units));
+
             return new(a.Complex % b.Complex, a.Units);
         }
 

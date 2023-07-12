@@ -271,7 +271,7 @@ namespace Calcpad.Core
             _tempChar = u._tempChar;
             _hashCode = u._hashCode;
             _powers = u._powers;
-            _factors =u._factors;
+            _factors = u._factors;
         }
 
         private static string TemperatureToDelta(string s)
@@ -300,6 +300,7 @@ namespace Calcpad.Core
             L._text = "L";
             var s = new Unit("s", 0f, 0f, 1f);
             var h = s.Scale("h", 3600d);
+            var deg = new Unit("°C", 0f, 0f, 0f, 0f, 1f);
             var A = new Unit("A", 0f, 0f, 0f, 1f);
             var N = new Unit("N", 1f, 1f, -2f);
             var kN = N.Shift(3);
@@ -384,8 +385,8 @@ namespace Calcpad.Core
                 {"μg",    g.Shift(-6)},
                 {"ng",    g.Shift(-9)},
                 {"pg",    g.Shift(-12)},
-                {"Da",    g.Scale("Da", 1.6605390666050505e-27)},
-                {"u",     g.Scale("u", 1.6605390666050505e-27)},
+                {"Da",    g.Scale("Da", 1.6605390666050505e-24)},
+                {"u",     g.Scale("u", 1.6605390666050505e-24)},
 
                 {"gr",    g.Scale("gr", 0.06479891)},
                 {"dr",    g.Scale("dr", 1.7718451953125)},
@@ -422,8 +423,12 @@ namespace Calcpad.Core
                 {"ch",    m.Scale("ch", 20.1168)},
                 {"fur",   m.Scale("fur", 201.168)},
                 {"mi",    mi},
-                {"ftm",   m.Scale("ftm", 1.852)},
-                {"cable", m.Scale("cable", 185.2)},
+                {"ftm",   m.Scale("ftm", 1.8288)},
+                {"ftm_UK",   m.Scale("ftm_UK", 1.852)},
+                {"ftm_US",   m.Scale("ftm_US", 1.8288)},
+                {"cable",    m.Scale("cable", 182.88)},
+                {"cable_UK", m.Scale("cable_UK", 185.2)},
+                {"cable_US", m.Scale("cable_US", 219.456)},
                 {"nmi",   nmi},
                 {"li",    m.Scale("li", 0.201168)},
                 {"rod",   m.Scale("rod", 5.0292)},
@@ -435,27 +440,41 @@ namespace Calcpad.Core
                 {"daa",a.Scale("daa", 10d)},
                 {"ha", a.Scale("ha", 100d)},
                 {"L",  L},
-                {"dL", L.Scale("dL", 0.1)},
-                {"cL", L.Scale("cL", 0.01)},
-                {"mL", L.Scale("mL", 0.001)},
+                {"dL", L.Shift(-1)},
+                {"cL", L.Shift(-2)},
+                {"mL", L.Shift(-3)},
+                {"μL", L.Shift(-6)},
+                {"nL", L.Shift(-9)},
+                {"pL", L.Shift(-12)},
                 {"hL", L.Scale("hL", 100d)},
 
                 {"rood",     m.Pow(2).Scale("rood", 1011.7141056)},
                 {"ac",       m.Pow(2).Scale("ac", 4046.8564224)},
-                {"fl_oz_US", L.Scale("fl_oz_US",  0.0295735295625 )},
+
+                {"fl_dr_UK", L.Scale("fl_dr_UK", 3.5516328125e-3)},
                 {"fl_oz_UK", L.Scale("fl_oz_UK", 0.0284130625)},
-                {"gi_US",    L.Scale("gi_US", 0.11829411825)},
                 {"gi_UK",    L.Scale("gi_UK",  0.1420653125)},
-                {"pt_US",    L.Scale("pt_US", 0.473176473)},
                 {"pt_UK",    L.Scale("pt_UK", 0.56826125)},
-                {"qt_US",    L.Scale("qt_US", 0.946352946)},
                 {"qt_UK",    L.Scale("qt_UK", 1.1365225)},
-                {"gal_US",   L.Scale("gal_US", 3.785411784)},
                 {"gal_UK",   L.Scale("gal_UK", 4.54609)},
-                {"bbl_US",   L.Scale("bbl_US", 119.240471196)},
                 {"bbl_UK",   L.Scale("bbl_UK", 163.65924)},
-                {"bu_US",    L.Scale("bu_US", 35.2390704) },
-                {"bu_UK",    L.Scale("bu_UK", 36.36872) },
+                {"pk_UK",    L.Scale("pk_UK", 9.09218)},
+                {"bu_UK",    L.Scale("bu_UK", 36.36872)},
+
+                {"fl_dr_US", L.Scale("fl_dr_US", 3.6966911953125e-3)},
+                {"fl_oz_US", L.Scale("fl_oz_US", 0.0295735295625)},
+                {"gi_US",    L.Scale("gi_US", 0.11829411825)},
+                {"pt_US",    L.Scale("pt_US", 0.473176473)},
+                {"qt_US",    L.Scale("qt_US", 0.946352946)},
+                {"gal_US",   L.Scale("gal_US", 3.785411784)},
+                {"bbl_US",   L.Scale("bbl_US", 119.240471196)},
+
+                {"pt_dry",   L.Scale("pt_dry",0.5506104713575)},
+                {"qt_dry",   L.Scale("qt_dry", 1.101220942715)},
+                {"gal_dry",  L.Scale("gal_dry", 4.40488377086)},
+                {"bbl_dry",  L.Scale("bbl_dry", 115.628198985075)},
+                {"pk_US",    L.Scale("pk_US", 8.80976754172)},
+                {"bu_US",    L.Scale("bu_US", 35.23907016688)},
 
                 {"s",    s},
                 {"ms",   s.Shift(-3)},
@@ -493,12 +512,12 @@ namespace Calcpad.Core
                 {"Ah",  new(A * h, "Ah")},
                 {"mAh", new(A.Shift(-3) * h, "mAh")},
 
-                {"°C",  new("°C",  0f, 0f, 0f, 0f, 1f)},
-                {"Δ°C", new("Δ°C", 0f, 0f, 0f, 0f, 1f)},
-                {"K",   new("K",   0f, 0f, 0f, 0f, 1f)},
-                {"°F",  new Unit("°F",  0f, 0f, 0f, 0f, 1f).Scale("°F", 5d / 9d)},
-                {"Δ°F", new Unit("Δ°F", 0f, 0f, 0f, 0f, 1f).Scale("Δ°F", 5d / 9d)},
-                {"°R",  new Unit("°R",  0f, 0f, 0f, 0f, 1f).Scale("°R", 5d / 9d)},
+                {"°C",  deg.Scale("°C", 1d)},
+                {"Δ°C", deg.Scale("Δ°C",1d)},
+                {"K",   deg.Scale("K",  1d)},
+                {"°F",  deg.Scale("°F", 5d / 9d)},
+                {"Δ°F", deg.Scale("Δ°F", 5d / 9d)},
+                {"°R",  deg.Scale("°R", 5d / 9d)},
 
                 {"mol", new("mol", 0f, 0f, 0f, 0f, 0f, 1f)},
                 {"cd",  new("cd",  0f, 0f, 0f, 0f, 0f, 0f, 1f)},
@@ -1432,11 +1451,8 @@ namespace Calcpad.Core
                 return 1.0;
 
             if (!IsConsistent(ua, ub))
-#if BG
-                throw new MathParser.MathParserException($"Несъвместими мерни единици: \"{Unit.GetText(ua)} {op} {Unit.GetText(ub)}\".");
-#else
-                throw new MathParser.MathParserException($"Inconsistent units: \"{GetText(ua)} {op} {GetText(ub)}\".");
-#endif
+                Throw.InconsistentUnitsOp(GetText(ua), op, GetText(ub));
+
             return ua is null ? 1.0 : ub.ConvertTo(ua);
         }
 
@@ -1499,20 +1515,14 @@ namespace Calcpad.Core
         internal static Unit Pow(Unit u, Value power, bool updateText = false)
         {
             if (power.Units is not null)
-#if BG
-                throw new MathParser.MathParserException("Степенният показател трябва да е бездименсионен.");
-#else
-                throw new MathParser.MathParserException("Power must be unitless.");
-#endif
+                Throw.PowerNotUnitless();
+
             if (u is null)
                 return null;
 
             if (!power.IsReal)
-#if BG
-                throw new MathParser.MathParserException("Не мога да повдигна мерни единици на комплексна степен.");
-#else
-                throw new MathParser.MathParserException("Units cannon be raised to complex power.");
-#endif
+                Throw.UnitsToComplexPower();
+
             var d = power.Re;
             var result = u.Pow(d);
             if (updateText)

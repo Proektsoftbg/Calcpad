@@ -91,11 +91,8 @@ namespace Calcpad.Core
                 }
                 catch
                 {
-#if BG
-                    throw new MathParserException($"Грешка при опит за разпознаване на \"{value}\" като число.");
-#else
-                    throw new MathParserException($"Error parsing \"{s}\" as number.");
-#endif
+                    Throw.ErrorParsingNumber(s);
+                    return 0;
                 }
             }
         }

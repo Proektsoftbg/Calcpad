@@ -270,11 +270,7 @@ namespace Calcpad.Core
         private static void CheckTrigScope(double angle, string func)
         {
             if (angle < TrigMin || angle > TrigMax)
-#if BG
-                throw new MathParser.MathParserException($"Аргументът е извън допустимия интервал за {func}(x).");
-#else
-                throw new MathParser.MathParserException($"Argument out of range for {func}(x).");
-#endif
+                Throw.ArgumentOutOfRange(func);
         }
 
         internal static Complex RealRandom(in Complex value) =>
@@ -399,12 +395,27 @@ namespace Calcpad.Core
             if (power == 0)
                 return 1d;
 
-            if (value._b == 0 && (value._a > 0 || double.IsInteger(power)))
+            var isInteger = double.IsInteger(power);    
+            if (value._b == 0 && (value._a > 0 || isInteger))
             {
                 return value._a == 0 ?
                     0d :
                     Math.Pow(value._a, power);
             }
+            if (power == 2)
+                return value * value;
+
+            if (isInteger && power > 0 && power < 6)
+            {
+                var result = value;
+                for (var i = 1; i < power; ++i)
+                    result *= value;
+
+                if (power < 0)
+                    return 1d / result;   
+
+                return result;
+            }   
             var r = Modulus(value);
             var theta = power * value.NormalPhase;
             var t = Math.Pow(r, power);
@@ -413,7 +424,7 @@ namespace Calcpad.Core
 
         internal static Complex Pow(in Complex value, in Complex power)
         {
-            var c = power._a;
+            var c = power._a;       
             var d = power._b;
             if (d == 0)
                 return Pow(value, c);

@@ -59,7 +59,7 @@ namespace Calcpad.Core
             set => Unit.IsUs = value;
         }
         public bool IsPaused => _startLine > 0;
-
+        public bool ShowWarnings { get; set; } = true;
         public ExpressionParser()
         {
             Settings = new Settings();
@@ -98,7 +98,10 @@ namespace Calcpad.Core
 
             if (_startLine == 0)
             {
-                _parser = new MathParser(Settings.Math);
+                _parser = new MathParser(Settings.Math)
+                {
+                    ShowWarnings = ShowWarnings
+                };
                 _sb.Clear();
                 _condition = new();
                 _loops.Clear();
@@ -137,7 +140,7 @@ namespace Calcpad.Core
                     else
                         _parser.Line = line + 1;
 
-                    var htmlId = _loops.Any() && _loops.Peek().Iteration != 1 ?
+                    var htmlId = _loops.Count != 0 && _loops.Peek().Iteration != 1 ?
                         string.Empty :
                         $" id=\"line-{line + 1}\"";
                     if (_parser.IsCanceled)
@@ -172,7 +175,7 @@ namespace Calcpad.Core
 #else
                         _sb.Append(ErrHtml($"Error: \"#if\" block not closed. Missing \"#end if\"."));
 #endif
-                    if (_loops.Any())
+                    if (_loops.Count != 0)
 #if BG
                         _sb.Append(ErrHtml($"Грешка: Блокът за цикъл \"#repeat\" не е затворен. Липсва \"#loop\"."));
 #else
@@ -396,7 +399,7 @@ namespace Calcpad.Core
                 {
                     if (_condition.IsSatisfied)
                     {
-                        if (!_loops.Any())
+                        if (_loops.Count == 0)
 #if BG
                             AppendError(s.ToString(), "\"#loop\" без съответен \"#repeat\".");
 #else
@@ -422,7 +425,7 @@ namespace Calcpad.Core
                 {
                     if (_condition.IsSatisfied)
                     {
-                        if (_loops.Any())
+                        if (_loops.Count != 0)
                             _loops.Peek().Break();
                         else
                             return true;
@@ -441,7 +444,7 @@ namespace Calcpad.Core
                 {
                     if (_condition.IsSatisfied)
                     {
-                        if (!_loops.Any())
+                        if (_loops.Count == 0)
 #if BG
                             AppendError(s.ToString(), "\"#continue\" без съответен \"#repeat\".");
 #else
@@ -501,16 +504,13 @@ namespace Calcpad.Core
                 }
 
                 _condition.SetCondition(keyword - Keyword.If);
-                if (_condition.IsSatisfied && !(_loops.Any() && _loops.Peek().IsBroken) || !calculate)
+                if (_condition.IsSatisfied && (_loops.Count == 0 || !_loops.Peek().IsBroken) || !calculate)
                 {
                     if (_condition.KeywordLength == s.Length)
                     {
                         if (_condition.IsUnchecked)
-#if BG
-                            throw new MathParser.MathParserException("Условието не може да бъде празно.");
-#else
-                            throw new MathParser.MathParserException("Condition cannot be empty.");
-#endif
+                            Throw.ConditionEmpty();
+
                         if (isVisible && !calculate)
                         {
                             if (keyword == Keyword.Else)
@@ -534,7 +534,7 @@ namespace Calcpad.Core
             {
                 var kwdLength = _condition.KeywordLength;
                 var tokens = GetInput(s[kwdLength..]);
-                var lineType = tokens.Any() ?
+                var lineType = tokens.Count != 0 ?
                     tokens[0].Type :
                     TokenTypes.Text;
                 var isOutput = isVisible && (!calculate || kwdLength == 0);
@@ -735,7 +735,7 @@ namespace Calcpad.Core
             }
             else if (_isVal < 1)
             {
-                if (!tokens.Any())
+                if (tokens.Count == 0)
                     tokenValue += ' ';
                 else
                     tokenValue = ' ' + tokenValue + ' ';
@@ -863,25 +863,15 @@ namespace Calcpad.Core
                 _keyword = GetKeyword(type);
                 IsUnchecked = type == Types.If || type == Types.ElseIf;
                 if (type > Types.If && _count == 0)
-#if BG
-                    throw new MathParser.MathParserException("Условният блок не е инициализиран с \"#if\".");
-#else                    
-                    throw new MathParser.MathParserException("Condition block not initialized with \"#if\".");
-#endif
+                    Throw.ConditionNotInitialized();
+
                 if (Type == Types.Else)
                 {
                     if (type == Types.Else)
-#if BG
-                        throw new MathParser.MathParserException("Може да има само едно \"#else\" в условен блок.");
-#else                         
-                        throw new MathParser.MathParserException("Duplicate \"#else\" in condition block.");
-#endif
+                        Throw.DuplicateElse();
+
                     if (type == Types.ElseIf)
-#if BG
-                        throw new MathParser.MathParserException("Не може да има \"#else if\" след \"#else\" в условен блок.");
-#else                             
-                        throw new MathParser.MathParserException("\"#else if\" is not allowed after \"#else\" in condition block.");
-#endif
+                        Throw.ElseIfAfterElse();
                 }
                 switch (type)
                 {
@@ -903,18 +893,12 @@ namespace Calcpad.Core
             internal void Check(Complex value)
             {
                 if (!value.IsReal)
-#if BG                    
-                    throw new MathParser.MathParserException("Условието не може да бъде комплексно число.");
-#else                    
-                    throw new MathParser.MathParserException("Condition cannot evaluate to a complex number.");
-#endif
+                    Throw.ConditionComplex();
+
                 var d = value.Re;
                 if (double.IsNaN(d) || double.IsInfinity(d))
-#if BG
-                    throw new MathParser.MathParserException($"Невалиден резултат от проверка на условие: {d}.");
-#else
-                    throw new MathParser.MathParserException($"Condition result is invalid: {d}.");
-#endif
+                    Throw.ConditionResultInvalid(d.ToString());
+
                 var result = Math.Abs(d) > 1e-12;
                 if (result)
                     IsFound = true;

@@ -280,11 +280,8 @@ namespace Calcpad.Core
             }
             catch
             {
-#if BG
-                throw new MathParser.MathParserException($"Грешка при запис на png файл като \"{fullPath}\".");
-#else
-                throw new MathParser.MathParserException($"Error writing a png file to \"{fullPath}\".");
-#endif
+                Throw.ErrorWritingPngFile(fullPath);
+                return null;
             }
         }
 
@@ -300,11 +297,8 @@ namespace Calcpad.Core
             }
             catch
             {
-#if BG
-                throw new MathParser.MathParserException($"Грешка при запис на svg файл като  \"{fullPath}\".");
-#else
-                throw new MathParser.MathParserException($"Error writing a svg file to \"{fullPath}\".");
-#endif
+                Throw.ErrorWritingSvgFile(fullPath);
+                return null;
             }
         }
 
@@ -320,11 +314,8 @@ namespace Calcpad.Core
             }
             catch
             {
-#if BG
-                throw new MathParser.MathParserException("Грешка при конвертиране на png към Base64.");
-#else
-                throw new MathParser.MathParserException("Error converting png to Base64.");
-#endif
+                Throw.ErrorConvertingPngToBase64();
+                return null;
             }
         }
 
