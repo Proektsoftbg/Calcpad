@@ -596,7 +596,7 @@ namespace Calcpad.Core
             return units is null ? output : output + units.Xml;
         }
         internal override string FormatSubscript(string sa, string sb) =>
-            $"<m:sSub><m:e>{Run(sa)}</m:e><m:sub>{Run(sb)}</m:sub></m:sSub>";
+            $"<m:sSub><m:e>{sa}</m:e><m:sub>{Run(sb)}</m:sub></m:sSub>";
         internal override string FormatVariable(string name, string value)
         {
             var i = name.IndexOf('_');
@@ -605,7 +605,7 @@ namespace Calcpad.Core
 
             var i1 = i + 1;
             return i1 < name.Length ?
-                FormatSubscript(name[..i], name[(i + 1)..]) :
+                FormatSubscript(Run(name[..i]), name[(i + 1)..]) :
                 Run(name);
         }
         internal override string FormatUnits(string s) => Run(s);
@@ -617,7 +617,7 @@ namespace Calcpad.Core
 
             var i1 = i + 1;
             return i1 < s.Length ?
-                FormatSubscript(s[..i], s[(i + 1)..]) :
+                FormatSubscript(Run(s[..i]), s[(i + 1)..]) :
                 Run(s);
         }
         internal override string FormatRoot(string s, bool formatEquations, int level = 0, string n = "2") => n switch
