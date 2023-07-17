@@ -741,32 +741,38 @@
                             <MenuItem Click="Button_Click" Tag="ac"       Header="ac (acre)"/>
                         </MenuItem>
                         <MenuItem Header="Volume">
-                            <MenuItem Click="Button_Click" Tag="th^3"      Header="th³ (cubic thou)"/>
-                            <MenuItem Click="Button_Click" Tag="in^3"      Header="in³ (cubic inch)"/>
-                            <MenuItem Click="Button_Click" Tag="ft^3"      Header="ft³ (cubic foot)"/>
-                            <MenuItem Click="Button_Click" Tag="yd^3"      Header="yd³ (cubic yard)"/>
-                            <MenuItem Click="Button_Click" Tag="mi^3"      Header="mi³ (cubic mile)"/>
-                            <MenuItem Click="Button_Click" Tag="fl_oz_UK"  Header="fl-oz (fluid ounce) - UK"/>
-                            <MenuItem Click="Button_Click" Tag="gi_UK"     Header="gi (gill) - UK"/>
-                            <MenuItem Click="Button_Click" Tag="pt_UK"     Header="pt (pint) - UK"/>
-                            <MenuItem Click="Button_Click" Tag="qt_UK"     Header="qt (quart) - UK"/>
-                            <MenuItem Click="Button_Click" Tag="gal_UK"    Header="gal (gallon) - UK"/>
-                            <MenuItem Click="Button_Click" Tag="bbl_UK"    Header="bbl (barrel) - UK"/>
-                            <MenuItem Click="Button_Click" Tag="pk_UK"     Header="pk (peck) - UK"/>
-                            <MenuItem Click="Button_Click" Tag="bu_UK"     Header="bu (bushel) - UK"/>
-                            <MenuItem Click="Button_Click" Tag="fl_oz_US"  Header="fl-oz (fluid ounce) - US"/>
-                            <MenuItem Click="Button_Click" Tag="gi_US"     Header="gi (gill) - US"/>
-                            <MenuItem Click="Button_Click" Tag="pt_US"     Header="pt (pint) - US"/>
-                            <MenuItem Click="Button_Click" Tag="qt_US"     Header="qt (quart) - US"/>
-                            <MenuItem Click="Button_Click" Tag="gal_US"    Header="gal (gallon) - US"/>
-                            <MenuItem Click="Button_Click" Tag="bbl_US"    Header="bbl (barrel) - US"/>
-                            <MenuItem Click="Button_Click" Tag="pk_US"     Header="pk (peck) - US"/>
-                            <MenuItem Click="Button_Click" Tag="bu_US"     Header="bu (bushel) - US"/>
-                            <MenuItem Click="Button_Click" Tag="pt_dry"    Header="pt (pint) - dry, US"/>
-                            <MenuItem Click="Button_Click" Tag="qt_dry"    Header="qt (quart) - dry, US"/>
-                            <MenuItem Click="Button_Click" Tag="gal_dry"   Header="gal (gallon) - dry, US"/>
-                            <MenuItem Click="Button_Click" Tag="bbl_dry"   Header="bbl (barrel) - dry, US"/>
-
+                            <MenuItem Header="Common">
+                                <MenuItem Click="Button_Click" Tag="th^3"      Header="th³ (cubic thou)"/>
+                                <MenuItem Click="Button_Click" Tag="in^3"      Header="in³ (cubic inch)"/>
+                                <MenuItem Click="Button_Click" Tag="ft^3"      Header="ft³ (cubic foot)"/>
+                                <MenuItem Click="Button_Click" Tag="yd^3"      Header="yd³ (cubic yard)"/>
+                                <MenuItem Click="Button_Click" Tag="mi^3"      Header="mi³ (cubic mile)"/>
+                            </MenuItem>
+                            <MenuItem Header="Fluid">
+                                <MenuItem Click="Button_Click" Tag="fl_oz_UK"  Header="fl-oz (fluid ounce) - UK"/>
+                                <MenuItem Click="Button_Click" Tag="gi_UK"     Header="gi (gill) - UK"/>
+                                <MenuItem Click="Button_Click" Tag="pt_UK"     Header="pt (pint) - UK"/>
+                                <MenuItem Click="Button_Click" Tag="qt_UK"     Header="qt (quart) - UK"/>
+                                <MenuItem Click="Button_Click" Tag="gal_UK"    Header="gal (gallon) - UK"/>
+                                <MenuItem Click="Button_Click" Tag="bbl_UK"    Header="bbl (barrel) - UK"/>
+                                <Separator/>
+                                <MenuItem Click="Button_Click" Tag="fl_oz_US"  Header="fl-oz (fluid ounce) - US"/>
+                                <MenuItem Click="Button_Click" Tag="gi_US"     Header="gi (gill) - US"/>
+                                <MenuItem Click="Button_Click" Tag="pt_US"     Header="pt (pint) - US"/>
+                                <MenuItem Click="Button_Click" Tag="qt_US"     Header="qt (quart) - US"/>
+                                <MenuItem Click="Button_Click" Tag="gal_US"    Header="gal (gallon) - US"/>
+                                <MenuItem Click="Button_Click" Tag="bbl_US"    Header="bbl (barrel) - US"/>
+                            </MenuItem>
+                            <MenuItem Header="Dry">
+                                <MenuItem Click="Button_Click" Tag="pt_dry"    Header="pt (pint) - dry, US"/>
+                                <MenuItem Click="Button_Click" Tag="qt_dry"    Header="qt (quart) - dry, US"/>
+                                <MenuItem Click="Button_Click" Tag="gal_dry"   Header="gal (gallon) - dry, US"/>
+                                <MenuItem Click="Button_Click" Tag="bbl_dry"   Header="bbl (barrel) - dry, US"/>
+                                <MenuItem Click="Button_Click" Tag="pk_UK"     Header="pk (peck) - UK"/>
+                                <MenuItem Click="Button_Click" Tag="pk_US"     Header="pk (peck) - US"/>
+                                <MenuItem Click="Button_Click" Tag="bu_UK"     Header="bu (bushel) - UK"/>
+                                <MenuItem Click="Button_Click" Tag="bu_US"     Header="bu (bushel) - US"/>
+                            </MenuItem>
                         </MenuItem>
                         <MenuItem Header="Speed">
                             <MenuItem Click="Button_Click" Tag="in/s"  Header="in/s (inches per second)"/>
@@ -841,7 +847,8 @@
                             <MenuItem Click="Button_Click" Tag="in*lb_f"    Header="in·lb-f (inch-pound-force)"/>
                             <MenuItem Click="Button_Click" Tag="ft*lb_f"    Header="ft·lb-f (foot-pound-force)"/>
                             <MenuItem Click="Button_Click" Tag="BTU"        Header="BTU (British Thermal Unit)"/>
-                            <MenuItem Click="Button_Click" Tag="therm"      Header="therm"/>
+                            <MenuItem Click="Button_Click" Tag="therm_UK"   Header="therm - UK"/>
+                            <MenuItem Click="Button_Click" Tag="therm_US"   Header="therm - US"/>
                             <MenuItem Click="Button_Click" Tag="quad"       Header="quad"/>
                         </MenuItem>
                         <MenuItem Header="Power">
