@@ -237,11 +237,17 @@ namespace Calcpad.Core
 
                     if (i <= 16)
                     {
+                        if (Math.Abs(d) < 1d && decimals > 0 && i < 16)
+                            ++i;
+
                         var s = d.ToString("G17", CultureInfo.InvariantCulture);
-                        var dec = decimal.Parse(s, CultureInfo.InvariantCulture);
-                        dec = Math.Round(dec, i);  
-                        s = dec.ToString("G29", CultureInfo.InvariantCulture);
-                        return s == "-0" ? "0" : s;
+                        if (!s.Contains('E'))
+                        {
+                            var dec = decimal.Parse(s, CultureInfo.InvariantCulture);
+                            dec = Math.Round(dec, i);
+                            s = dec.ToString("G29", CultureInfo.InvariantCulture);
+                            return s == "-0" ? "0" : s;
+                        }
                     }
                 }
             }

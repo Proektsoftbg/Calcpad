@@ -1648,11 +1648,11 @@ You can use it further to calculate binomial coefficients by the well-known form
 <p>Rounding is specified by the number of digits <var>n</var> after the decimal point. It is entered into the "<b>Rounding</b>" input box at the bottom of the program window. The value of <var>n</var> can be between "0" and "15". If you enter "0", all results will be rounded to integers. If the value is less than "0" or greater than "15", the respective limit will be taken.</p>
 <p>However, rounding can come across some potential problems. If the result is less than 10<sup>-<var>n</var></sup> and you round it to <var>n</var> digits after the decimal point, the result will contain only zeros. That is why, Calcpad incorporates some advanced rules: If the output contains less than <var>n</var> significant digits after rounding, it is expanded up to <var>n</var> significant digits. Even then, if the number is too small, it will be difficult to count the zeros after the decimal point. So, in such cases, the output is converted to floating point format with <var>n</var> digits. When the total number of digits becomes greater than 2<var>n</var>, the factional part is being truncated. In this way, the output becomes easier to read, still providing at least 2<var>n</var> significant digits. You can see several examples bellow, obtained for (<var>n</var> = 3).</p>
 <ul style="list-style-type:none;">
-<li>0.000001∙<var>π</var> = 3.14E-06</li>
-<li>0.001∙<var>π</var> = 0.00314</li>
-<li>0.1∙<var>π</var> = 0.314</li>
+<li>0.000001∙<var>π</var> = 3.142E-06</li>
+<li>0.001∙<var>π</var> = 0.003142</li>
+<li>0.1∙<var>π</var> = 0.3142</li>
 <li>1∙<var>π</var> = 3.142</li>
-<li>1000∙<var>π</var> = 3141.59</li>
+<li>1000∙<var>π</var> = 3141.593</li>
 <li>1000000∙<var>π</var> = 3141593</li>
 </ul>
 <p>Rounding affects only the way in which numbers are displayed in the output. Internally, all numbers are stored with the maximum possible precision. That is why, if you print the output and try to repeat the calculations with the numbers from the report, you probably will get some little differences. This is because you use the rounded values instead of the actual ones.</p>
