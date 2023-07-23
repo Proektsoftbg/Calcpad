@@ -23,7 +23,7 @@ Calcpad is free software for mathematical and engineering calculations. It repre
 * output visibility control and content folding;  
 * support for plain text (\*.txt, \*.cpd) and binary (\*.cpdz) file formats.  
   
-This software is developed using the C# programming language and the latest computer technologies. It automatically parses the input, substitutes the variables, calculates the expressions and displays the output. All results are sent to a professional looking Html report for viewing and printing. Acknowledgments: The new and beautiful icons are created using [https://icons8.com](https://icons8.com). The pdf export was made possible thanks to the [wkhtmltopdf.org](https://wkhtmltopdf.org/) project.  
+This software is developed using the C# programming language and the latest computer technologies. It automatically parses the input, substitutes the variables, calculates the expressions and displays the output. All results are sent to a professional looking Html report for viewing and printing.
   
 ![Sample](https://github.com/Proektsoftbg/Calcpad/blob/main/Help/Images/Sample.png?raw=true)  
   

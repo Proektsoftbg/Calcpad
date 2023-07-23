@@ -314,7 +314,7 @@ namespace Calcpad.OpenXml
                 case "tbody":
                     return new CustomXmlBlock() { Element = domNode.Name };
                 case "small":
-                    return new Run(new RunProperties(new FontSize() { Val = $"22" }));
+                    return new Run(new RunProperties(new FontSize() { Val = "22" }));
                 case "img":
                     try
                     {
@@ -463,16 +463,24 @@ namespace Calcpad.OpenXml
             {
                 return new Run(new Break(), new Text(new string('─', 55)), new Break())
                 {
-                    RunProperties = new RunProperties(new Color() { Val = HrColor })
+                    RunProperties = new(new Color() { Val = HrColor })
                 };
             }
-            return new Paragraph()
+            Run r = new(new Text("."))
             {
-                ParagraphProperties = new ParagraphProperties()
+                RunProperties = new()
                 {
-                    ParagraphBorders = new ParagraphBorders()
+                    FontSize = new() { Val = "2" }
+                },
+                
+            };
+            return new Paragraph(r)
+            {
+                ParagraphProperties = new()
+                {
+                    ParagraphBorders = new()
                     {
-                        BottomBorder = new BottomBorder()
+                        BottomBorder = new()
                         {
                             Size = 2,
                             Val = BorderValues.Single,

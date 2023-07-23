@@ -20,7 +20,7 @@ namespace Calcpad.Core
         internal static void InvalidLiteral(in string s, in string literal) =>
             ThrowNew($"Не мога да изчисля \"{s}\" като {literal}.");
         internal static void InvalidNumber(in string s) =>
-            ThrowInvalidLiteral(s, "число");
+            InvalidLiteral(s, "число");
         internal static void MissingOperand() =>
             ThrowNew("Липсва операнд.");
         internal static void InvalidOperator(char c) =>
@@ -39,22 +39,22 @@ namespace Calcpad.Core
             ThrowNew($"Границите са извън допустимите: [{l1}; {l2}].");
         internal static void InvalidUnitsFunction(in string func, in string unit) =>
             ThrowNew($"Невалидни мерни единици за функция: \"{func}({unit})\".");
-        internal static void RootUnitless(in string u1, in string u2) =>
+        internal static void RootUnitless() =>
 	        ThrowNew("Коренният показател трябва да е бездименсионен.");
-        internal static void RootComplex(in string u1, in string u2) =>
+        internal static void RootComplex() =>
 	        ThrowNew("Коренният показател не може да е комплексно число.");
-        internal static void RootInteger(in string u1, in string u2) =>
+        internal static void RootInteger() =>
 	        ThrowNew("Коренният показател трябва да е цяло число > 1.");
-        internal static void FactorialArgumentOutOfRange(in string u1, in string u2) =>
+        internal static void FactorialArgumentOutOfRange() =>
 	        ThrowNew("Аргументът e извън допустимите стойности n!.");
-        internal static void FactorialArgumentUnitless(in string u1, in string u2) =>
+        internal static void FactorialArgumentUnitless() =>
 	        ThrowNew("Аргументът на n! трябва да е бездименсионен.");
         internal static void FactorialArgumentPositiveInteger() =>
             ThrowNew("Аргументът на n! трябва да е цяло положително число.");
         internal static void FactorialArgumentComplex() =>
             ThrowNew("Аргументът на n! не може да е комплексно число.");
         internal static void ReminderUnits(in string u1, in string u2) =>
-	        ThrowNew($"Не мога да изчисля остатъка: \"{u1}  %  {u2}\". Делителя трябва да е бездименсионен.")
+            ThrowNew($"Не мога да изчисля остатъка: \"{u1}  %  {u2}\". Делителя трябва да е бездименсионен.");
         internal static void BothValuesInteger() =>
             ThrowNew("Двете стойности трябва да са цели числа.");
         internal static void VariableNotExist(in string name) =>
@@ -103,7 +103,7 @@ namespace Calcpad.Core
             ThrowNew($"Грешка при опит за разпознаване на \"{s}\" като мерни единици.");
         internal static void ErrorParsingNumber(in string s) =>
             ThrowNew($"Грешка при опит за разпознаване на \"{s}\" като число.");
-        internal static void MissingDelimiter(in string delimiter, in string script) =>
+        internal static void MissingDelimiter(char delimiter, in string script) =>
             ThrowNew($"Липсва разделител \"{delimiter}\" в команда за числени методи {{{script}}}.");
         internal static void MultipleAssignments(in string s) =>
             ThrowNew($"Повече от един оператор '=' в '{s}'.");
@@ -169,7 +169,7 @@ namespace Calcpad.Core
             ThrowNew($"Грешка при запис на svg файл като \"{path}\".");
         internal static void ErrorConvertingPngToBase64() =>
             ThrowNew("Грешка при конвертиране на png към Base64.");
-        internal static void InconsistentUnitsOp(in string ua, in string op, in string ub) =>
+        internal static void InconsistentUnitsOp(in string ua, char op, in string ub) =>
             ThrowNew($"Несъвместими мерни единици: \"{ua} {op} {ub}\".");
         internal static void UnitsToComplexPower() =>
             ThrowNew("Не мога да повдигна мерни единици на комплексна степен.");
