@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Calcpad.OpenXml
 {
@@ -12,12 +13,14 @@ namespace Calcpad.OpenXml
             MM,
             CM,
             IN,
+            EM,
+            REM,
             ERROR = -1
         };
 
         private static readonly double[,] ScaleFactors = new double[6, 6]
         {
-            //PX,  PT,   PC,    MM,     CM,     IN
+            //PX,    PT,    PC,    MM,     CM,     IN,    EM
             {1.0, 72.0/96.0, 1.0/16.0, 127.0/480.0, 127.0/4800.0, 1.0/96.0},   //PX
             {96.0/72.0, 1.0, 1.0/12.0, 127.0/360.0, 127.0/3600.0, 1.0/72.0},   //PT
             {16.0, 12.0, 1.0, 127.0/30.0, 127.0/300.0, 1.0/6},                 //PC
@@ -62,7 +65,7 @@ namespace Calcpad.OpenXml
             CssUnits outCssUnits = GetCssUnits(outUnits);
             if (inCssUnits == CssUnits.ERROR || outCssUnits == CssUnits.ERROR)
                 return 0;
-            var d = double.Parse(value);
+            var d = double.Parse(value, CultureInfo.InvariantCulture);
             var k = ScaleFactors[(int)inCssUnits, (int)outCssUnits];
             return d * k;
         }
@@ -97,7 +100,12 @@ namespace Calcpad.OpenXml
             {
                 object o = Enum.Parse(typeof(CssUnits), units, true);
                 if (o is CssUnits cssUnits)
-                    return cssUnits;
+                {
+                    if (cssUnits == CssUnits.EM || cssUnits == CssUnits.REM)
+                        return CssUnits.PC;
+                    return cssUnits;                
+                }
+
 
                 return CssUnits.ERROR;
             }

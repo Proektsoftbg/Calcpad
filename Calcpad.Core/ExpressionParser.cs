@@ -205,7 +205,7 @@ namespace Calcpad.Core
 
                 HtmlResult = _sb.ToString();
 
-                if (_startLine == 0)
+                if (calculate && _startLine == 0)
                 {
                     _parser.ClearCache();
                     _parser = null;

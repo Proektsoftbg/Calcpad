@@ -143,7 +143,6 @@ namespace Calcpad.Core
                     _items[i].Rpn = _parser._rpn;
                     _items[i].Html = _parser.ToHtml();
                     _items[i].Xml = _parser.ToXml();
-                    SubscribeCompile(_items[i].Rpn);
                 }
                 IsFigure = _type == SolverTypes.Sum ||
                            _type == SolverTypes.Product ||
@@ -170,6 +169,11 @@ namespace Calcpad.Core
                 vt.Variable = parameters[0].Variable;
                 _var = vt.Variable;
                 _parser.BindParameters(parameters, _items[0].Rpn);
+                SubscribeCompile(_items[0].Rpn);
+                SubscribeCompile(_items[2].Rpn);
+                if(n == 3)
+                    SubscribeCompile(_items[3].Rpn);
+
                 if (_type == SolverTypes.Repeat)
                     FixRepeat(_items[0].Rpn);
 

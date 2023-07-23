@@ -5,7 +5,7 @@
     <AnalysisLevel>latest</AnalysisLevel>
     <RootNamespace>Calcpad.OpenXml</RootNamespace>
     <OutputType>Library</OutputType>
-    <Version>6.0.8</Version>
+    <Version>6.0.9</Version>
     <Authors>Nedelcho Ganchovski</Authors>
     <Company>Proektsoft EOOD</Company>
   </PropertyGroup>
@@ -23,8 +23,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DocumentFormat.OpenXml" Version="2.18.0" />
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.46" />
+    <PackageReference Include="DocumentFormat.OpenXml" Version="2.20.0" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.50" />
     <PackageReference Include="SkiaSharp" Version="2.88.3" />
     <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.3" />
   </ItemGroup>

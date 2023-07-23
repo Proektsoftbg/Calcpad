@@ -296,8 +296,8 @@ namespace Calcpad.Core
 
                         if (IsEnabled)
                         {
-                            cf.SubscribeCache(this);
                             BindParameters(cf.Parameters, cf.Rpn);
+                            cf.SubscribeCache(this);
                         }
                         cf.Units = _targetUnits;
                         if (i >= 0)
