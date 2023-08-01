@@ -136,7 +136,7 @@ namespace Calcpad.Core
                 if (result)
                     return y;
 
-                _parameters[0].Variable.SetValue(x);
+                _parameters[0].SetValue(x);
                 y = Function();
                 return y;
             }
@@ -151,24 +151,24 @@ namespace Calcpad.Core
                 if (result)
                     return z;
 
-                _parameters[0].Variable.SetValue(x);
-                _parameters[1].Variable.SetValue(y);
+                _parameters[0].SetValue(x);
+                _parameters[1].SetValue(y);
                 z = Function();
                 return z;
             }
 
             internal Value Calculate(in Value x, in Value y, in Value z)
             {
-                _parameters[0].Variable.SetValue(x);
-                _parameters[1].Variable.SetValue(y);
-                _parameters[2].Variable.SetValue(z);
+                _parameters[0].SetValue(x);
+                _parameters[1].SetValue(y);
+                _parameters[2].SetValue(z);
                 return Function();
             }
 
             internal Value Calculate(Value[] arguments)
             {
                 for (int i = 0, len = arguments.Length; i < len; ++i)
-                    _parameters[i].Variable.SetValue(arguments[i]);
+                    _parameters[i].SetValue(arguments[i]);
 
                 return Function();
             }
