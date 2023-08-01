@@ -271,7 +271,7 @@ namespace Calcpad.Core
                     if (ux2 is not null)
                         x2 *= ux2.ConvertTo(ux1);
                 }
-                _var.SetValue(x1);
+                _var.Value = x1;
                 if (_type == SolverTypes.Root && _y is not null)
                 {
                     var y1 = _f();

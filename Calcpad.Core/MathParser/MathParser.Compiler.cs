@@ -10,15 +10,6 @@ namespace Calcpad.Core
     {
         private class Compiler
         {
-            private static readonly MethodInfo SetValueMethod =
-                typeof(Variable).GetMethod(
-                "SetValue",
-                BindingFlags.Instance | BindingFlags.NonPublic,
-                Type.DefaultBinder,
-                new[] { typeof(Value).MakeByRefType() },
-                null
-            );
-
             private static readonly MethodInfo EvaluateIfMethod =
                 typeof(Evaluator).GetMethod(
                 "EvaluateIf",
@@ -86,7 +77,7 @@ namespace Calcpad.Core
                 null
             );
 
-
+            private readonly Expression _evaluatorInstance;
             private readonly MathParser _parser;
             private readonly Container<CustomFunction> _functions;
             private readonly List<SolveBlock> _solveBlocks;
@@ -95,6 +86,7 @@ namespace Calcpad.Core
             internal Compiler(MathParser parser)
             {
                 _parser = parser;
+                _evaluatorInstance = Expression.Constant(_parser._evaluator);
                 _functions = parser._functions;
                 _solveBlocks = parser._solveBlocks;
                 _calc = parser._calc;
@@ -260,16 +252,7 @@ namespace Calcpad.Core
                 if (t.Type == TokenTypes.Operator)
                 {
                     if (t.Content == "=")
-                    {
-                        Expression e = ((MemberExpression)a).Expression;
-                        ConstantExpression c = (ConstantExpression)e;
-                        Variable v = (Variable)c.Value;
-                        ConstantExpression cev = Expression.Constant(v);
-                        return Expression.Block(
-                            Expression.Call(cev, SetValueMethod, b),
-                            Expression.Field(cev, "Value")
-                            );
-                    }
+                        return Expression.Assign(a, b);
 
                     if (_parser._settings.IsComplex)
                         return Expression.Invoke(Expression.Constant(_calc.GetOperator(t.Index)), a, b);
@@ -299,12 +282,8 @@ namespace Calcpad.Core
                 return Expression.Invoke(Expression.Constant(_calc.GetFunction2(t.Index)), a, b);
             }
 
-            private static Value EvaluateConstantExpression(Expression a)
-            {
-                var lambdaExpression = Expression.Lambda<Func<Value>>(a);
-                var lambda = lambdaExpression.Compile();
-                return lambda.Invoke();
-            }
+            private static Value EvaluateConstantExpression(Expression a) =>
+            (Value)((ConstantExpression)a).Value;
 
             private ConstantExpression EvaluateConstantExpressionToken(Token t, Expression a, Expression b)
             {
@@ -347,12 +326,12 @@ namespace Calcpad.Core
                             )
                         );
 
-                Expression instance = Expression.Constant(_parser._evaluator);
+                
                 Expression function = Expression.Constant(cf);
                 var n = arguments.Length;
-                if (n == 1)
+                if (n == 1) 
                     return Expression.Call(
-                        instance,
+                        _evaluatorInstance,
                         EvaluateFunctionMethod1,
                         function,
                         arguments[0]
@@ -360,7 +339,7 @@ namespace Calcpad.Core
 
                 if (n == 2)
                     return Expression.Call(
-                        instance,
+                        _evaluatorInstance,
                         EvaluateFunctionMethod2,
                         function,
                         arguments[0],
@@ -369,17 +348,17 @@ namespace Calcpad.Core
 
                 if (n == 3)
                     return Expression.Call(
-                        instance,
+                        _evaluatorInstance,
                         EvaluateFunctionMethod3,
                         function,
                         arguments[0],
                         arguments[1],
                         arguments[2]
                     );
-
+                
                 Expression argsExpression = Expression.NewArrayInit(typeof(Value), arguments);
                 return Expression.Call(
-                    instance,
+                    _evaluatorInstance,
                     EvaluateFunctionMethod,
                     function,
                     argsExpression
