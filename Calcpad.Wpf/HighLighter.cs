@@ -332,12 +332,12 @@ namespace Calcpad.Wpf
                 var t2 = t1;
                 if (t1 == Types.Keyword && s[0] == '$')
                     isCommand = true;
-                else if (string.Equals(s, "{", StringComparison.Ordinal))
+                else if (string.Equals(s, "{"))
                 {
                     if (isCommand)
                         ++commandCount;
                 }
-                else if (string.Equals(s, "}", StringComparison.Ordinal))
+                else if (string.Equals(s, "}"))
                 {
                     if (isCommand)
                         --commandCount;
@@ -345,7 +345,7 @@ namespace Calcpad.Wpf
                     if (commandCount == 0)
                         isCommand = false;
                 }
-                else if (string.Equals(s, " = ", StringComparison.Ordinal))
+                else if (string.Equals(s, " = "))
                     GetLocalVariables(r, commandCount > 0);
 
                 var isFunction = r.NextInline is not null && ((Run)r.NextInline).Text == "(";
@@ -1247,9 +1247,9 @@ namespace Calcpad.Wpf
             while (inline != null)
             {
                 var s = ((Run)inline).Text.Trim();
-                if (string.Equals(s, ")", StringComparison.Ordinal))
+                if (string.Equals(s, ")"))
                     brackets = true;
-                else if (string.Equals(s, "(", StringComparison.Ordinal))
+                else if (string.Equals(s, "("))
                     return;
                 else if (brackets)
                 {

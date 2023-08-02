@@ -183,7 +183,7 @@ namespace Calcpad.Core
                 if (u is null)
                 {
                     if (vu is null)
-                        return vu;
+                        return null;
 
                     var field = vu.GetField();
                     if (field == Unit.Field.Mechanical)
@@ -196,7 +196,7 @@ namespace Calcpad.Core
                     if (ReferenceEquals(u, vu))
                         return vu;
 
-                    double c = vu.ConvertTo(u);
+                    var c = vu.ConvertTo(u);
                     v = v.IsReal ?
                         new Value(v.Re * c, u) :
                         new Value(v.Complex * c, u);

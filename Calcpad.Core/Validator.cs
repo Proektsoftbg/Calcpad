@@ -65,7 +65,7 @@ namespace Calcpad.Core
             c >= 'A' && c <= 'Z' || // A - Z 
             c >= 'α' && c <= 'ω' || // alpha - omega
             c >= 'Α' && c <= 'Ω' || // Alpha - Omega
-            VarChars.Contains(c, StringComparison.Ordinal);
+            VarChars.Contains(c);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsLatinLetter(char c) =>
@@ -84,12 +84,12 @@ namespace Calcpad.Core
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static bool IsVarAdditionalChar(char c) =>
-            VarChars.Contains(c, StringComparison.Ordinal);
+            VarChars.Contains(c);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static bool IsVarStartingChar(char c) =>
             char.IsLetter(c) || 
-            VarStartingChars.Contains(c, StringComparison.Ordinal);
+            VarStartingChars.Contains(c);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsVarChar(char c) => IsLetter(c) || IsDigit(c);

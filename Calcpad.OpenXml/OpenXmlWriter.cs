@@ -19,7 +19,6 @@ namespace Calcpad.OpenXml
         private readonly Queue<OpenXmlElement> _buffer = new();
         private readonly TableBuilder _tableBuilder = new();
         private string _url = string.Empty;
-
         public string Convert(string html, Stream stream, string url = "")
         {
             using var doc = WordprocessingDocument.Create(stream, WordprocessingDocumentType.Document);
@@ -98,8 +97,8 @@ namespace Calcpad.OpenXml
             var parentElement = Node2Element(domNode, mainPart);
             if (!(parentElement is null || parentElement is M.Paragraph))
             {
-                if (parentElement is TableCell)
-                    parentElement.AppendChild(AddCellParagraph());
+                //if (parentElement is TableCell)
+                //    parentElement.AppendChild(AddCellParagraph());
 
                 var childNodes = domNode.ChildNodes;
                 var n = childNodes.Count;
@@ -190,8 +189,13 @@ namespace Calcpad.OpenXml
                 parentElement is TableRow && childElement is not TableCell)
                 return;
 
-            var cellPara = parentElement is TableCell ?
-                parentElement.GetFirstChild<Paragraph>() ?? parentElement.AppendChild(new Paragraph()) : null;
+            var cellPara = parentElement is TableCell && childElement is not Table ?
+                parentElement.GetFirstChild<Paragraph>() ?? parentElement.AppendChild(
+                    _tableBuilder.IsBorderedTable ? 
+                    AddCellParagraph(JustificationValues.Center) :
+                    new Paragraph()
+                ) : 
+                null;
 
             if (childElement is Break)
             {
@@ -231,7 +235,7 @@ namespace Calcpad.OpenXml
             }
             else if (parentElement is TableCell)
             {
-                if (childElement is Paragraph)
+                if (childElement is Paragraph || childElement is Table)
                     parentElement.AppendChild(childElement);
                 else
                     cellPara.AppendChild(childElement);
@@ -262,7 +266,7 @@ namespace Calcpad.OpenXml
 
         private void AppendGrandChildren(OpenXmlElement parentElement, OpenXmlElement childElement)
         {
-            var hasGrandChildren = !(childElement is CustomXmlElement e && e.Element == "FOLD");
+            var hasGrandChildren = !(childElement is CustomXmlElement e &&  e.Element == "FOLD");
             do
             {
                 var grandChild = childElement.FirstChild;
@@ -318,11 +322,18 @@ namespace Calcpad.OpenXml
                 case "img":
                     try
                     {
-                        var w = (int)(GetImgSize(domNode, "width"));
-                        var h = (int)(GetImgSize(domNode, "height"));
+                        var w = (int)GetImgSize(domNode, "width");
+                        var h = (int)GetImgSize(domNode, "height");
                         var src = domNode.GetAttributeValue("src", string.Empty);
                         var alt = domNode.GetAttributeValue("alt", string.Empty);
-                        return new Paragraph(ImageWriter.AddImage(src, _url, alt, w, h, mainPart));
+                        var align = domNode.GetAttributeValue("style", null);
+                        if (align is not null)
+                            align = CssParser.GetCSSParameter(align, "float");
+                        
+                        if (domNode.HasClass("side"))
+                            align = "right";
+
+                        return ImageWriter.AddImage(src, _url, alt, w, h, mainPart, align);
                     }
                     catch (Exception e)
                     {
@@ -402,11 +413,11 @@ namespace Calcpad.OpenXml
             if (size != 0)
                 return size;
 
-            string s = node.GetAttributeValue("style", "");
-            if (string.IsNullOrWhiteSpace(s))
+            string s = node.GetAttributeValue("style", null);
+            if (s is null)
                 return 0;
 
-            return HtmlStyleParser.GetParameter(s, direction);
+            return CssParser.GetSizeCSSParameter(s, direction);
         }
 
         private static OpenXmlElement AddDiv(HtmlNode domNode)
@@ -637,7 +648,7 @@ namespace Calcpad.OpenXml
             return hlink;
         }
 
-        private static Paragraph AddCellParagraph()
+        private static Paragraph AddCellParagraph(JustificationValues justification)
         {
             return new()
             {
@@ -651,7 +662,7 @@ namespace Calcpad.OpenXml
                     },
                     Justification = new Justification()
                     {
-                        Val = JustificationValues.Center
+                        Val = justification
                     }
                 }
             };
@@ -785,7 +796,7 @@ namespace Calcpad.OpenXml
 
         private static string CssToOpeXmlColor(string color)
         {
-            if (color.StartsWith("#", StringComparison.Ordinal))
+            if (color.StartsWith('#'))
                 return color[1..];
             
             if (color.StartsWith("rgb", StringComparison.Ordinal))

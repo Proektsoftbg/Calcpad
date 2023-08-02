@@ -283,7 +283,7 @@ namespace Calcpad.Core
             }
 
             private static Value EvaluateConstantExpression(Expression a) =>
-            (Value)((ConstantExpression)a).Value;
+                (Value)((ConstantExpression)a).Value;
 
             private ConstantExpression EvaluateConstantExpressionToken(Token t, Expression a, Expression b)
             {
@@ -326,10 +326,9 @@ namespace Calcpad.Core
                             )
                         );
 
-                
                 Expression function = Expression.Constant(cf);
                 var n = arguments.Length;
-                if (n == 1) 
+                if (n == 1)
                     return Expression.Call(
                         _evaluatorInstance,
                         EvaluateFunctionMethod1,
@@ -355,7 +354,7 @@ namespace Calcpad.Core
                         arguments[1],
                         arguments[2]
                     );
-                
+
                 Expression argsExpression = Expression.NewArrayInit(typeof(Value), arguments);
                 return Expression.Call(
                     _evaluatorInstance,

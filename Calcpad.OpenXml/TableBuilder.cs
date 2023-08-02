@@ -38,7 +38,7 @@ namespace Calcpad.OpenXml
             _prevRowSpan.Clear();
             _currentRow = null;
             var table = new Table();
-            table.AppendChild(new TableProperties(new TableStyle() { Val = "clx" }));
+            table.AppendChild(new TableProperties(new TableStyle() { Val = IsBorderedTable ? "bcpd" : "cpd" }));
             table.AppendChild(new TableGrid());
             return table;
         }
@@ -83,7 +83,7 @@ namespace Calcpad.OpenXml
             var tc = new TableCell();
             var tcp = new TableCellProperties();
             tc.TableCellProperties = tcp;
-            const uint size = 12u;
+            const uint size = 8u;
             var color = isHead ? "AAAAAA" : "CCCCCC";
             if (!IsBorderedTable)
                 return tc;
