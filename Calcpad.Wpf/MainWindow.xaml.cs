@@ -386,7 +386,7 @@ You can find your unsaved data in
             var element = (FrameworkElement)sender;
             var tag = element.Tag.ToString();
             RichTextBox.BeginChange();
-            if (tag.Contains('|', StringComparison.Ordinal))
+            if (tag.Contains('|'))
             {
                 var parts = tag.Split('|');
                 if (RichTextBox.Selection.Start.GetOffsetToPosition(RichTextBox.Selection.End) == 0)
@@ -411,7 +411,7 @@ You can find your unsaved data in
                 }
                 RichTextBox.Selection.Select(RichTextBox.Selection.End, RichTextBox.Selection.End);
             }
-            else if (tag.Contains('§', StringComparison.Ordinal))
+            else if (tag.Contains('§'))
             {
                 var parts = tag.Split('§');
                 TextPointer tp;
@@ -859,7 +859,7 @@ You can find your unsaved data in
             for (int i = 0; i < n; ++i)
             {
                 var menu = (MenuItem)MenuRecent.Items[i];
-                if (!fileName.Equals((string)menu.ToolTip, StringComparison.Ordinal))
+                if (!fileName.Equals((string)menu.ToolTip))
                     continue;
 
                 for (int j = i; j > 0; --j)
@@ -1109,7 +1109,7 @@ You can find your unsaved data in
                 return;
 
             string s = RichTextBox.Selection.Text;
-            if (!(string.IsNullOrEmpty(s) || s.Contains(Environment.NewLine, StringComparison.Ordinal)))
+            if (!(string.IsNullOrEmpty(s) || s.Contains(Environment.NewLine)))
                 _findReplace.SearchString = s;
 
             if (_findReplaceWindow is null || !_findReplaceWindow.IsVisible)
@@ -1375,7 +1375,7 @@ You can find your unsaved data in
                 var lineText = i < 0 ? line : line[..i];
                 var sourceLine = i < 0 ? lineNumber.ToString() : line[(i + 1)..];
                 _stringBuilder.Append($"<p class=\"line-text\" id=\"line-{lineNumber}\"><a class=\"line-num\" href=\"#0\" data-text=\"{sourceLine}\">{lineNumber}</a>");
-                if (line.StartsWith(ErrorString, StringComparison.Ordinal))
+                if (line.StartsWith(ErrorString))
                 {
                     _stringBuilder.Append($"<span class=\"error\">{lineText[1..]}</span>");
                 }
@@ -1429,7 +1429,7 @@ You can find your unsaved data in
         private string HtmlApplyWorksheet(string s)
         {
             _stringBuilder.Clear();
-            var ssf = Math.Round(Math.Sqrt(_screenScaleFactor), 2).ToString(CultureInfo.InvariantCulture);
+            var ssf = Math.Round(0.9 * Math.Sqrt(_screenScaleFactor), 2).ToString(CultureInfo.InvariantCulture);
             _stringBuilder.Append(_htmlWorksheet.Replace("var(--ssf)", ssf));
             _stringBuilder.Append(s);
             _stringBuilder.Append(" </body></html>");
@@ -1765,7 +1765,7 @@ You can find your unsaved data in
             };
             if (fileName is not null)
                 startInfo.Arguments =
-                    fileName.Contains(' ', StringComparison.Ordinal) ?
+                    fileName.Contains(' ') ?
                     '\"' + fileName + '\"' :
                     fileName;
 
@@ -2428,7 +2428,7 @@ You can find your unsaved data in
         private void RichTextBox_Paste(object sender, DataObjectPastingEventArgs e)
         {
             var formats = e.DataObject.GetFormats();
-            var hasImage = formats.Any(x => x.Contains("Bitmap", StringComparison.Ordinal));
+            var hasImage = formats.Any(x => x.Contains("Bitmap"));
             if (formats.Contains("UnicodeText") && !hasImage)
             {
                 e.FormatToApply = "UnicodeText";
@@ -2669,7 +2669,7 @@ You can find your unsaved data in
                     s.StartsWith("#else", StringComparison.Ordinal) ||
                     s.StartsWith("#repeat", StringComparison.Ordinal) ||
                     s.StartsWith("#def", StringComparison.Ordinal) &&
-                    !s.Contains('=', StringComparison.Ordinal)
+                    !s.Contains('=')
                     ))
                     indent += AutoIndentStep;
             }
@@ -2727,13 +2727,13 @@ You can find your unsaved data in
                     s.StartsWith("#re", StringComparison.Ordinal) ||
                     s.StartsWith("#lo", StringComparison.Ordinal) ||
                     s.StartsWith("#def", StringComparison.Ordinal) &&
-                    !s.Contains('=', StringComparison.Ordinal)
+                    !s.Contains('=')
                     ))
                     return false;
                 else if (s.StartsWith("#if", StringComparison.Ordinal) ||
                          s.StartsWith("#repeat", StringComparison.Ordinal) ||
                          s.StartsWith("#def", StringComparison.Ordinal) &&
-                         !s.Contains('=', StringComparison.Ordinal)
+                         !s.Contains('=')
                          )
                 {
                     p.TextIndent = indent;
@@ -3289,7 +3289,7 @@ You can find your unsaved data in
                 FileName = AppInfo.Path + "wkhtmltopdf.exe"
             };
             const string s = " --enable-local-file-access --disable-smart-shrinking --page-size A4  --margin-bottom 15 --margin-left 15 --margin-right 10 --margin-top 15 ";
-            if (htmlFileName.Contains(' ', StringComparison.Ordinal))
+            if (htmlFileName.Contains(' '))
                 startInfo.Arguments = s + '\"' + htmlFileName + "\" \"" + pdfFileName + '\"';
             else
                 startInfo.Arguments = s + htmlFileName + " " + pdfFileName;

@@ -452,7 +452,7 @@ namespace Calcpad.Core
                         Index = Calculator.MultiFunctionIndex[s]
                     };
 
-                if (s.Equals("if", StringComparison.Ordinal))
+                if (s.Equals("if"))
                     return new Token(s, TokenTypes.If);
 
                 var index = _functions.IndexOf(s);

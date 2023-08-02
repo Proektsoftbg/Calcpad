@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Packaging;
+﻿using DocumentFormat.OpenXml.Drawing;
+using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace Calcpad.OpenXml
@@ -69,7 +70,43 @@ namespace Calcpad.OpenXml
             styleDefinitionsPart.Styles.AppendChild(new Style()
             {
                 Type = StyleValues.Table,
-                StyleId = "clx",
+                StyleId = "bcpd",
+                StyleName = new StyleName() { Val = "Calcpad Bordered" },
+                StyleTableCellProperties = new StyleTableCellProperties()
+                {
+                    TableCellMargin = new TableCellMargin()
+                    {
+                        LeftMargin = new LeftMargin()
+                        {
+                            Type = TableWidthUnitValues.Dxa,
+                            Width = "68"
+                        },
+                        RightMargin = new RightMargin()
+                        {
+                            Type = TableWidthUnitValues.Dxa,
+                            Width = "68"
+                        },
+                        TopMargin = new TopMargin()
+                        {
+                            Type = TableWidthUnitValues.Dxa,
+                            Width = "34"
+                        },
+                        BottomMargin = new BottomMargin()
+                        {
+                            Type = TableWidthUnitValues.Dxa,
+                            Width = "34"
+                        }
+                    },
+                    TableCellVerticalAlignment = new TableCellVerticalAlignment()
+                    {
+                        Val = TableVerticalAlignmentValues.Center
+                    }
+                }
+            });
+            styleDefinitionsPart.Styles.AppendChild(new Style()
+            {
+                Type = StyleValues.Table,
+                StyleId = "cpd",
                 StyleName = new StyleName() { Val = "Calcpad" },
                 StyleTableCellProperties = new StyleTableCellProperties()
                 {
@@ -78,30 +115,29 @@ namespace Calcpad.OpenXml
                         LeftMargin = new LeftMargin()
                         {
                             Type = TableWidthUnitValues.Dxa,
-                            Width = "120"
+                            Width = "0"
                         },
                         RightMargin = new RightMargin()
                         {
                             Type = TableWidthUnitValues.Dxa,
-                            Width = "120"
+                            Width = "0"
                         },
                         TopMargin = new TopMargin()
                         {
                             Type = TableWidthUnitValues.Dxa,
-                            Width = "60"
+                            Width = "0"
                         },
                         BottomMargin = new BottomMargin()
                         {
                             Type = TableWidthUnitValues.Dxa,
-                            Width = "60"
+                            Width = "0"
                         }
                     },
                     TableCellVerticalAlignment = new TableCellVerticalAlignment()
                     {
-                        Val = TableVerticalAlignmentValues.Center
+                        Val = TableVerticalAlignmentValues.Top
                     }
                 }
-
             });
         }
     }

@@ -606,7 +606,7 @@ namespace Calcpad.Core
                         {
                             _parser.ResetStack();
                             string errText;
-                            if (!calculate && token.Value.Contains('?', StringComparison.Ordinal))
+                            if (!calculate && token.Value.Contains('?'))
                                 errText = token.Value.Replace("?", "<input type=\"text\" size=\"2\" name=\"Var\">");
                             else
                                 errText = HttpUtility.HtmlEncode(token.Value);

@@ -19,8 +19,8 @@ namespace Calcpad.OpenXml
 
         protected static string GetImageDataType(string data)
         {
-            var start = data.IndexOf('/', StringComparison.Ordinal) + 1;
-            var end = data.IndexOf(';', StringComparison.Ordinal);
+            var start = data.IndexOf('/') + 1;
+            var end = data.IndexOf(';');
             if (start <= 0 || end <= 0)
 #if BG
                 throw new Exception($"Невалидни данни на изображение.");
@@ -32,7 +32,7 @@ namespace Calcpad.OpenXml
 
         protected static byte[] GetImageData(string data)
         {
-            var start = data.IndexOf(',', StringComparison.Ordinal) + 1;
+            var start = data.IndexOf(',') + 1;
             if (start <= 0)
 #if BG
                 throw new Exception($"Невалидни данни на изображение.");
@@ -125,17 +125,30 @@ namespace Calcpad.OpenXml
         {
             get
             {
+                var isBitmap = string.Equals(Path.GetExtension(src), ".bmp", StringComparison.OrdinalIgnoreCase);    
                 var uri = new Uri(src);
                 if (uri.IsFile)
                 {
-                    using var img = SKBitmap.Decode(src);
+                    if (isBitmap )
+                    {
+                        using var bmp = SKBitmap.Decode(src);
+                        return new Tuple<int, int>(bmp.Width, bmp.Height);
+                    }
+                    using var data = SKData.Create(src);
+                    using var img = SKImage.FromEncodedData(data);
                     return new Tuple<int, int>(img.Width, img.Height);
                 }
                 else
                 {
                     using var webClient = new HttpClient();
                     using var stream = webClient.GetStreamAsync(src).Result;
-                    using var img = SKBitmap.Decode(stream);
+                    if (isBitmap)
+                    {
+                        using var bmp = SKBitmap.Decode(stream);
+                        return new Tuple<int, int>(bmp.Width, bmp.Height);
+                    }
+                    using var data = SKData.Create(stream);
+                    using var img = SKImage.FromEncodedData(data);
                     return new Tuple<int, int>(img.Width, img.Height);
                 }
             }
@@ -170,7 +183,13 @@ namespace Calcpad.OpenXml
         {
             get
             {
-                using var img = SKBitmap.Decode(src);
+                if (string.Equals(Path.GetExtension(src), ".bmp",StringComparison.OrdinalIgnoreCase))
+                {
+                    using var bmp = SKBitmap.Decode(src);
+                    return new Tuple<int, int>(bmp.Width, bmp.Height);
+                }
+                using var data = SKData.Create(src);
+                using var img = SKImage.FromEncodedData(data);
                 return new Tuple<int, int>(img.Width, img.Height);
             }
         }
