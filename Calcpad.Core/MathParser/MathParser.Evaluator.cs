@@ -215,8 +215,16 @@ namespace Calcpad.Core
                 var d = vu.ConvertTo(u);
                 if (u.IsTemp)
                 {
-                    var number = v.Complex * d + GetTempUnitsDelta(vu.Text, u.Text);
-                    v = new Value(number, u);
+                    if (v.IsReal)
+                    {
+                        var re = v.Re * d + GetTempUnitsDelta(vu.Text, u.Text);
+                        v = new Value(re, u);
+                    }
+                    else
+                    {
+                        var c = v.Complex * d + GetTempUnitsDelta(vu.Text, u.Text);
+                        v = new Value(c, u);
+                    }
                 }
                 else
                     v = v.IsReal ?
