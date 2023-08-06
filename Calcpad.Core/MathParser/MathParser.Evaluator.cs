@@ -219,6 +219,7 @@ namespace Calcpad.Core
                     {
                         var re = v.Re * d + GetTempUnitsDelta(vu.Text, u.Text);
                         v = new Value(re, u);
+
                     }
                     else
                     {

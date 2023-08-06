@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Web;
 
 namespace Calcpad.Wpf
 {
@@ -42,6 +44,8 @@ namespace Calcpad.Wpf
                 Variables.Add("πi", -1);
             }
             _hasIncludes = false;
+            _macroName = null;
+            _macroBuilder.Clear();
         }
 
         internal void Get(SpanLineEnumerator lines, bool IsComplex)
@@ -159,8 +163,15 @@ namespace Calcpad.Wpf
                                 if (Validator.IsMacroLetter(s[i], i))
                                 {
                                     var s1 = s[i..];
-                                    if (MacroContents.TryGetValue(s1.ToString(), out var contents))
-                                        GetVariablesUnitsAndFunctions(contents, lineNumber);
+                                    ref var contents = ref CollectionsMarshal.GetValueRefOrNullRef(MacroContents, s1.ToString());
+                                    if (!System.Runtime.CompilerServices.Unsafe.IsNullRef<string>(ref contents))
+                                    {
+                                        if (!string.IsNullOrEmpty(contents))
+                                        {
+                                            GetVariablesUnitsAndFunctions(contents, lineNumber);
+                                            contents = null;
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -227,21 +238,6 @@ namespace Calcpad.Wpf
                                         TryAdd(MacroVariables, ts.Cut().ToString(), i, lineNumber);
                                 }
                                 break;
-                            }
-                            else if (c == '$' && (!ts.IsEmpty))
-                            {
-                                ts.Expand();
-                                var s = ts.Cut();
-                                ts.Reset(j);
-                                for (int k = 0, blen = s.Length; k < blen; ++k)
-                                {
-                                    if (Validator.IsMacroLetter(s[k], k))
-                                    {
-                                        var s1 = s[k..];
-                                        if (MacroContents.TryGetValue(s1.ToString(), out var contents))
-                                            GetMacroVariablesAndFunctions(contents, lineNumber);
-                                    }
-                                }
                             }
                             else
                             {

@@ -644,9 +644,10 @@ namespace Calcpad.Wpf
                     ++_state.BracketCount;
                 else
                 {
-                    --_state.BracketCount;
                     if (_state.BracketCount <= _state.MacroArgs)
                         _state.MacroArgs = 0;
+
+                    --_state.BracketCount;
                 }
                 Append(_state.CurrentType);
                 _builder.Append(c);
@@ -791,9 +792,10 @@ namespace Calcpad.Wpf
             }
             else if (c == ')')
             {
-                --_state.BracketCount;
                 if (_state.BracketCount == _state.MacroArgs)
                     _state.MacroArgs = 0;
+
+                --_state.BracketCount;
             }
             Append(_state.CurrentType);
             if (_state.InputChar == c)
