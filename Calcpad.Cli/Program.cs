@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Xml.Serialization;
 
 namespace Calcpad.Cli
@@ -12,15 +13,54 @@ namespace Calcpad.Cli
     class Program
     {
         const string Prompt = " |> ";
+        private static readonly int _width = Math.Min(Math.Min(Console.WindowWidth, Console.BufferWidth), 80);
+
         internal static readonly string AppPath = AppContext.BaseDirectory;
         struct Line
         {
+            private static readonly char[] GreekLetters = { 'α', 'β', 'χ', 'δ', 'ε', 'φ', 'γ', 'η', 'ι', 'ø', 'κ', 'λ', 'μ', 'ν', 'ο', 'π', 'θ', 'ρ', 'σ', 'τ', 'υ', 'ϑ', 'ω', 'ξ', 'ψ', 'ζ' };
+            private readonly StringBuilder _sb = new(80);
             public string Input, Output;
             public Line(string Input)
             {
-                this.Input = Input;
+                this.Input = LatinToGreek(Input);
                 Output = string.Empty;
             }
+
+            private string LatinToGreek(string input)
+            { 
+                var i = input.IndexOf('`');
+                if (i == -1)
+                    return input;
+
+                _sb.Clear();
+                var n = 0;
+                while (i >= 0) 
+                {
+                    if (i > 0)
+                        _sb.Append(input[n..i]);
+
+                    n = i + 1;                    
+                    _sb.Append(LatinToGreekChar(input[n]));
+                    i = input.IndexOf('`', n);
+                    ++n;
+                }
+                if (n < input.Length)
+                    _sb.Append(input[n..]);
+
+                return _sb.ToString();
+            }
+            private static char LatinToGreekChar(char c) => c switch
+            {
+                >= 'a' and <= 'z' => GreekLetters[c - 'a'],
+                'V' => '∡',
+                'J' => 'Ø',
+                >= 'A' and <= 'Z' => (char) (GreekLetters[c - 'A'] + 'Α' - 'α'),
+                '@' => '°',
+                '\'' => '′',
+                '"' => '″',
+                _ => c
+            };
         }
 
         static void Main()
@@ -30,7 +70,8 @@ namespace Calcpad.Cli
                 return;
             
             MathParser mp = new(settings.Math);
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            Console.OutputEncoding = Encoding.Unicode;
+            Console.InputEncoding = Encoding.Unicode;  
             //Console.WindowWidth = 85;
             List<Line> Lines = new();
             var Title = TryOpenOnStartup(Lines);
@@ -279,9 +320,8 @@ namespace Calcpad.Cli
         static void Header(string Title, int drg)
         {
             Console.Clear();
-            var n = Math.Min(Math.Min(Console.WindowWidth, Console.BufferWidth), 80);
             var ver = Assembly.GetExecutingAssembly().GetName().Version;
-            Console.WriteLine(new string('—', n));
+            Console.WriteLine(new string('—', _width));
             Console.WriteLine($" Welcome to Calcpad command line interpreter v.{ver.Major}.{ver.Minor}.{ver.Build}!");
             Console.WriteLine(" Copyright: © 2023 by Proektsoft EOOD");
             Console.Write("\r\n Commands: NEW OPEN SAVE LIST EXIT RESET CLS DEL ");
@@ -310,7 +350,7 @@ namespace Calcpad.Cli
                     break;
             }
             Console.Write("SETTINGS LICENSE HELP\r\n");
-            Console.WriteLine(new string('—', n));
+            Console.WriteLine(new string('—', _width));
             if (Title.Length > 0)
                 Console.WriteLine(" " + Title + ":\n");
             else
@@ -345,7 +385,7 @@ namespace Calcpad.Cli
                     else
                         L.Output += Tokens[i].Trim() + ' ';
                 }
-                var Output = Prompt + L.Output.PadRight(Buffer.Length + 1);
+                var Output = Prompt + L.Output.PadRight(_width + 1);
                 Console.WriteLine(Output);
                 mp.SaveAnswer();
                 return true;
