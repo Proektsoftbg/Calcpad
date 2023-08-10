@@ -118,7 +118,21 @@
         Pressure:      osi osf psi psf ksi ksf tsi tsf inHg
         Energy/work:   BTU therm (therm_UK, therm_US) quad
         Power:         hp hpE hpS
-		
+
+————————————————————————————————————————————————————————————————————————————————
+ Special symbol conversion table:
+————————————————————————————————————————————————————————————————————————————————
+(add apostrophe ` before the respective latin letter)
+
+Fr: `a `b `c `d `e `f `g `h `i `j `k `l `m `n `o `p `q `r `s `t `u `v `w `x `y `z 
+To:  α  β  χ  δ  ε  φ  γ  η  ι  ø  κ  λ  μ  ν  ο  π  θ  ρ  σ  τ  υ  ϑ  ω  ξ  ψ  ζ
+
+Fr: `A `B `C `D `E `F `G `H `I `J `K `L `M `N `O `P `Q `R `S `T `U `V `W `X `Y `Z 
+To:  Α  Β  Χ  Δ  Ε  Φ  Γ  Η  Ι  Ø  Κ  Λ  Μ  Ν  Ο  Π  Θ  Ρ  Σ  Τ  Υ  ∡  Ω  Ξ  Ψ  Ζ
+
+Fr: `@ `' (single quote) `" (double quote)
+To:  °  ′ (single prime)  ″ (double prime/second)
+
 ————————————————————————————————————————————————————————————————————————————————
  Command line options (support the same language features as Calcpad.exe):
 ———————————————————————————————————————————————————————————————————————————————— 
