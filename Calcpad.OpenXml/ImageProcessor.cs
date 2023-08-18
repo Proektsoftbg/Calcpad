@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net.Http;
 using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
 using SkiaSharp;
 
 namespace Calcpad.OpenXml
@@ -58,6 +59,7 @@ namespace Calcpad.OpenXml
                 "emf" => ImagePartType.Emf,
                 "ico" => ImagePartType.Icon,
                 "pcx" => ImagePartType.Pcx,
+                "svg" => ImagePartType.Svg, 
 #if BG
                 _ => throw new Exception($"Неподдържан тип изображение: \"{ext}\".")
 #else
@@ -92,7 +94,7 @@ namespace Calcpad.OpenXml
             {
                 using var stream = new MemoryStream(imageData);
                 using var img = SKBitmap.Decode(stream);
-                return new Tuple<int, int>(img.Width, img.Height);
+                return new(img.Width, img.Height);
             }
         }
     }
@@ -132,11 +134,11 @@ namespace Calcpad.OpenXml
                     if (isBitmap )
                     {
                         using var bmp = SKBitmap.Decode(src);
-                        return new Tuple<int, int>(bmp.Width, bmp.Height);
+                        return new(bmp.Width, bmp.Height);
                     }
                     using var data = SKData.Create(src);
                     using var img = SKImage.FromEncodedData(data);
-                    return new Tuple<int, int>(img.Width, img.Height);
+                    return new(img.Width, img.Height);
                 }
                 else
                 {
@@ -145,11 +147,11 @@ namespace Calcpad.OpenXml
                     if (isBitmap)
                     {
                         using var bmp = SKBitmap.Decode(stream);
-                        return new Tuple<int, int>(bmp.Width, bmp.Height);
+                        return new(bmp.Width, bmp.Height);
                     }
                     using var data = SKData.Create(stream);
                     using var img = SKImage.FromEncodedData(data);
-                    return new Tuple<int, int>(img.Width, img.Height);
+                    return new(img.Width, img.Height);
                 }
             }
         }
@@ -186,12 +188,28 @@ namespace Calcpad.OpenXml
                 if (string.Equals(Path.GetExtension(src), ".bmp",StringComparison.OrdinalIgnoreCase))
                 {
                     using var bmp = SKBitmap.Decode(src);
-                    return new Tuple<int, int>(bmp.Width, bmp.Height);
+                    return new(bmp.Width, bmp.Height);
                 }
                 using var data = SKData.Create(src);
                 using var img = SKImage.FromEncodedData(data);
-                return new Tuple<int, int>(img.Width, img.Height);
+                return new(img.Width, img.Height);
             }
         }
+    }
+
+    internal class SvgImageProcessor : ImageProcessor
+    {
+        public SvgImageProcessor(string imageSrc) : base(imageSrc) { }
+
+        public override ImagePart GetImagePart(MainDocumentPart mainPart)
+        {
+            var imagePart = mainPart.AddImagePart(ImagePartType.Svg);
+            var bytes = System.Text.Encoding.UTF8.GetBytes(src);    
+            using var stream = new MemoryStream(bytes); 
+            imagePart.FeedData(stream);
+            return imagePart;
+        }
+
+        public override Tuple<int, int> ImageSize => default;
     }
 }

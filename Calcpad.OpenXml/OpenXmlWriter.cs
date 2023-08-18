@@ -5,6 +5,7 @@ using DocumentFormat.OpenXml.Wordprocessing;
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -305,7 +306,8 @@ namespace Calcpad.OpenXml
             if (IsHidden(domNode))
                 return null;
 
-            switch (domNode.Name.ToLowerInvariant())
+            var nodeName = domNode.Name.ToLowerInvariant(); 
+            switch (nodeName)
             {
                 case "#document":
                 case "body":
@@ -320,12 +322,11 @@ namespace Calcpad.OpenXml
                 case "small":
                     return new Run(new RunProperties(new FontSize() { Val = "22" }));
                 case "img":
+                case "svg": 
                     try
                     {
                         var w = (int)GetImgSize(domNode, "width");
                         var h = (int)GetImgSize(domNode, "height");
-                        var src = domNode.GetAttributeValue("src", string.Empty);
-                        var alt = domNode.GetAttributeValue("alt", string.Empty);
                         var align = domNode.GetAttributeValue("style", null);
                         if (align is not null)
                             align = CssParser.GetCSSParameter(align, "float");
@@ -333,11 +334,18 @@ namespace Calcpad.OpenXml
                         if (domNode.HasClass("side"))
                             align = "right";
 
+                        var src = domNode.GetAttributeValue("src", string.Empty);
+                        var alt = domNode.GetAttributeValue("alt", string.Empty);
+                        if (nodeName == "svg")
+                        {
+                            CloneSvgUses(domNode);
+                            src = domNode.OuterHtml.Replace("viewbox", "viewBox");
+                        }
                         return ImageWriter.AddImage(src, _url, alt, w, h, mainPart, align);
                     }
                     catch (Exception e)
                     {
-                        return new Paragraph(new Run(new Text($"Error adding image: {domNode.OuterHtml}! " + e.Message)));
+                        return new Paragraph(new Run(new Text($"Error adding image: " + e.Message)));
                     }
                 case "hr":
                     return AddHr(domNode);
@@ -404,7 +412,7 @@ namespace Calcpad.OpenXml
             if (style is null) 
                 return false;
 
-            return IsHiddenRegex.Matches(style).Any();
+            return IsHiddenRegex.Matches(style).Count != 0;
         }
 
         private static double GetImgSize(HtmlNode node, string direction)
@@ -420,7 +428,7 @@ namespace Calcpad.OpenXml
             return CssParser.GetSizeCSSParameter(s, direction);
         }
 
-        private static OpenXmlElement AddDiv(HtmlNode domNode)
+        private static CustomXmlBlock AddDiv(HtmlNode domNode)
         {
             if (domNode.HasClass("fold"))
                 return new CustomXmlBlock() { Element = "fold" };
@@ -503,7 +511,7 @@ namespace Calcpad.OpenXml
         }
 
         private readonly OnOffValue on = OnOffValue.FromBoolean(true);
-        private OpenXmlElement AddRun(HtmlNode domNode)
+        private Run AddRun(HtmlNode domNode)
         {
             var r = new Run();
             var rp = new RunProperties();
@@ -593,7 +601,7 @@ namespace Calcpad.OpenXml
             return r;
         }
 
-        private static OpenXmlElement AddText(HtmlNode domNode)
+        private static Text AddText(HtmlNode domNode)
         {
             var s = HttpUtility.HtmlDecode(domNode.InnerText);
             var hasNewLine = s.Contains('\n');
@@ -668,7 +676,7 @@ namespace Calcpad.OpenXml
             };
         }
 
-        private static OpenXmlElement AddParagraph(HtmlNode domNode)
+        private static Paragraph AddParagraph(HtmlNode domNode)
         {
             var styleName = domNode.Name.ToLowerInvariant();
             var p = new Paragraph();
@@ -773,9 +781,9 @@ namespace Calcpad.OpenXml
                             {
                                 var name = prop[..index].Trim().ToString();
                                 if (string.Equals(name, "color", StringComparison.OrdinalIgnoreCase))
-                                    foreground = CssToOpeXmlColor(prop[(index + 1)..].Trim().ToString());
+                                    foreground = CssToOpenXmlColor(prop[(index + 1)..].Trim().ToString());
                                 else if (string.Equals(name, "background-color", StringComparison.OrdinalIgnoreCase))
-                                    background = CssToOpeXmlColor(prop[(index + 1)..].Trim().ToString());
+                                    background = CssToOpenXmlColor(prop[(index + 1)..].Trim().ToString());
                                 else if (string.Equals(name, "background", StringComparison.OrdinalIgnoreCase))
                                 {
                                     var s = prop[(index + 1)..].Trim();
@@ -785,7 +793,7 @@ namespace Calcpad.OpenXml
                                     if (spaceIndex > 0)
                                         s = s[..spaceIndex];
 
-                                    background = CssToOpeXmlColor(s.ToString());
+                                    background = CssToOpenXmlColor(s.ToString());
                                 }
                             }
                         }
@@ -794,7 +802,7 @@ namespace Calcpad.OpenXml
             }
         }
 
-        private static string CssToOpeXmlColor(string color)
+        private static string CssToOpenXmlColor(string color)
         {
             if (color.StartsWith('#'))
                 return color[1..];
@@ -803,6 +811,31 @@ namespace Calcpad.OpenXml
                 return CssColor.RgbToHex(color);
 
             return CssColor.NameToHex(color);
+        }
+
+        private static void CloneSvgUses(HtmlNode domNode)
+        {
+            var childNodes = domNode.ChildNodes;
+            var n = childNodes.Count;
+            for (int i = 0; i < n; ++i)
+            {
+
+                var childNode = childNodes[i];
+                if (childNode.Name.Equals("use", StringComparison.OrdinalIgnoreCase))
+                {
+                    var href = childNode.GetAttributeValue("href", string.Empty);  
+                    if (!string.IsNullOrEmpty(href))
+                    {
+                        var id = href[1..];
+                        var sourceNode = domNode.OwnerDocument.GetElementbyId(id);
+                        if (!sourceNode.XPath.StartsWith(domNode.XPath))
+                        {
+                            childNode.Remove();
+                            childNodes.Insert(i, sourceNode.CloneNode(true));
+                        }
+                    }   
+                }
+            }
         }
     }
 }

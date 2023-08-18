@@ -1,8 +1,10 @@
 ﻿using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Drawing.Charts;
+using DocumentFormat.OpenXml.Office2019.Drawing.SVG;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using System;
+using System.IO;
 using D = DocumentFormat.OpenXml.Drawing;
 using DW = DocumentFormat.OpenXml.Drawing.Wordprocessing;
 using P = DocumentFormat.OpenXml.Drawing.Pictures;
@@ -15,7 +17,9 @@ namespace Calcpad.OpenXml
         internal static OpenXmlElement AddImage(string src, string url, string name, int width, int height, MainDocumentPart mainPart, string align)
         {
             ImageProcessor imageProcessor;
-            if (src.StartsWith("data:image/", StringComparison.OrdinalIgnoreCase))
+            if (src.StartsWith("<svg", StringComparison.OrdinalIgnoreCase))
+                imageProcessor = new SvgImageProcessor(src);
+            else if (src.StartsWith("data:image/", StringComparison.OrdinalIgnoreCase))
                 imageProcessor = new Base64ImageProcessor(src);
             else if (src.Contains('/'))
             {
@@ -62,7 +66,7 @@ namespace Calcpad.OpenXml
             return AddImageReference(name, width, height, mainPart.GetIdOfPart(imagePart), align);
         }
 
-        private static OpenXmlElement AddImageReference(string name, int width, int height, string imageId, string align)
+        private static Paragraph AddImageReference(string name, int width, int height, string imageId, string align)
         {
             const long px2emu = 9525;
             long w = width * px2emu, h = height * px2emu;
@@ -101,7 +105,7 @@ namespace Calcpad.OpenXml
             );
         }
 
-        private static OpenXmlElement AddFloatingImage(string name, long w, long h, string imageId, string align)
+        private static Paragraph AddFloatingImage(string name, long w, long h, string imageId, string align)
         {
             return new Paragraph(
                 new ParagraphProperties(
@@ -169,7 +173,7 @@ namespace Calcpad.OpenXml
 
         private static D.Graphic AddPicture(string name, long w, long h, string imageId)
         {
-            return new D.Graphic(
+            var g = new D.Graphic(
                 new D.GraphicData(
                     new P.Picture(
                         new P.NonVisualPictureProperties(
@@ -205,6 +209,17 @@ namespace Calcpad.OpenXml
                 )
                 { Uri = "http://schemas.openxmlformats.org/drawingml/2006/picture" }
             );
+            if (Path.GetExtension(name).Equals(".svg" ,StringComparison.OrdinalIgnoreCase))
+            {
+                var pic = g.GraphicData.ChildElements.First<P.Picture>();  
+                var blip = pic.BlipFill.Blip;  
+                var list = blip.ChildElements.First<D.BlipExtensionList>();
+                list.AddChild(new D.BlipExtension(new SVGBlip { Embed = imageId })
+                {
+                    Uri = "{96DAC541-7B7A-43D3-8B79-37D633B846F1}"
+                }); 
+            }
+            return g;
         }
     }
 }
