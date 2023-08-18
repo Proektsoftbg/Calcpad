@@ -210,6 +210,6 @@ namespace Calcpad.OpenXml
             return imagePart;
         }
 
-        public override Tuple<int, int> ImageSize => default;
+        public override Tuple<int, int> ImageSize => new(0, 0);
     }
 }
