@@ -5,9 +5,7 @@ using DocumentFormat.OpenXml.Wordprocessing;
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -819,22 +817,26 @@ namespace Calcpad.OpenXml
             var n = childNodes.Count;
             for (int i = 0; i < n; ++i)
             {
-
                 var childNode = childNodes[i];
                 if (childNode.Name.Equals("use", StringComparison.OrdinalIgnoreCase))
                 {
-                    var href = childNode.GetAttributeValue("href", string.Empty);  
+                    var href = childNode.GetAttributeValue("href", string.Empty);
+                    if (string.IsNullOrEmpty(href))
+                        childNode.GetAttributeValue("xlink:href", string.Empty);
+
                     if (!string.IsNullOrEmpty(href))
                     {
                         var id = href[1..];
                         var sourceNode = domNode.OwnerDocument.GetElementbyId(id);
                         if (!sourceNode.XPath.StartsWith(domNode.XPath))
                         {
-                            childNode.Remove();
                             childNodes.Insert(i, sourceNode.CloneNode(true));
+                            domNode.RemoveChild(childNode, true);
                         }
                     }   
                 }
+                else
+                    CloneSvgUses(childNode);    
             }
         }
     }
