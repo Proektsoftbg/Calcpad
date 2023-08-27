@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Threading;
 
 namespace Calcpad.Wpf
@@ -129,6 +130,13 @@ namespace Calcpad.Wpf
         {
             if (e.Key == System.Windows.Input.Key.F3)
                 FindButton_Click(null, null);
+            else if (e.KeyboardDevice.Modifiers == ModifierKeys.Control)
+            {
+                if (e.Key == System.Windows.Input.Key.F)
+                    FindReplaceTab.SelectedIndex = 0;
+                else if (e.Key == System.Windows.Input.Key.H)
+                    FindReplaceTab.SelectedIndex = 1;
+            }
         }
 
         private void Window_Deactivated(object sender, EventArgs e)

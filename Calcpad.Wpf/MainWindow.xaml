@@ -4,7 +4,7 @@
     xmlns:av="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="av"
     x:Class="Calcpad.Wpf.MainWindow"
     Closing="Window_Closing" 
-    Title=" Calcpad 6.1.2" 
+    Title=" Calcpad 6.1.3" 
     Height="800" 
     Width="1200"
     WindowStartupLocation="CenterScreen"
@@ -900,29 +900,79 @@
                     <MenuItem Click="Button_Click" Tag="#def macro_name$(param1$; param2$)§'content line 1§'content line 2§'...§#end def" Header="Multiline Macro"/>
                     <MenuItem Click="Button_Click" Tag="#include filename.cpd" Header="Include External File"/>
                 </MenuItem>
-                <MenuItem Header="Html">
-                    <MenuItem Click="Button_Click" Tag="&lt;h3&gt;|&lt;/h3&gt;" Header="Heading 3"/>
-                    <MenuItem Click="Button_Click" Tag="&lt;h4&gt;|&lt;/h4&gt;" Header="Heading 4"/>
-                    <MenuItem Click="Button_Click" Tag="&lt;h5&gt;|&lt;/h5&gt;" Header="Heading 5"/>
-                    <MenuItem Click="Button_Click" Tag="&lt;h6&gt;|&lt;/h6&gt;" Header="Heading 6"/>
-                    <MenuItem Click="Button_Click" Tag="&lt;p&gt;|&lt;/p&gt;"   Header="Paragraph"/>
-                    <MenuItem Click="Button_Click" Tag="|&lt;br /&gt;"          Header="Line Break"/>
+                 <MenuItem Header="Html">
+                    <MenuItem Click="Button_Click" Tag="&lt;h3&gt;|&lt;/h3&gt;" Icon="H3" FontWeight="SemiBold">
+                        <MenuItem.Header>
+                            <TextBlock Text="Heading 3"  FontSize="16" />
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem Click="Button_Click" Tag="&lt;h4&gt;|&lt;/h4&gt;" Icon="H4" FontWeight="SemiBold">
+                        <MenuItem.Header>
+                            <TextBlock Text="Heading 4" FontSize="15" />
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem Click="Button_Click" Tag="&lt;h5&gt;|&lt;/h5&gt;" Icon="H5" FontWeight="SemiBold">
+                        <MenuItem.Header>
+                            <TextBlock Text="Heading 5"  FontSize="14" />
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem Click="Button_Click" Tag="&lt;h6&gt;|&lt;/h6&gt;" Icon="H6" FontWeight="SemiBold">
+                        <MenuItem.Header>
+                            <TextBlock Text="Heading 6"  FontSize="13" />
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem Click="Button_Click" Tag="&lt;p&gt;|&lt;/p&gt;"   Header="Heading" Icon="  ¶"/>
+                    <MenuItem Click="Button_Click" Tag="|&lt;br /&gt;"          Header="Line Break" Icon=" ⏎"/>
                     <Separator/>
-                    <MenuItem Click="Button_Click" Tag="&lt;strong&gt;|&lt;/strong&gt;" Header="Bold"/>
-                    <MenuItem Click="Button_Click" Tag="&lt;em&gt;|&lt;/em&gt;"   Header="Italic"/>
-                    <MenuItem Click="Button_Click" Tag="&lt;ins&gt;|&lt;/ins&gt;" Header="Underline"/>
-                    <MenuItem Click="Button_Click" Tag="&lt;del&gt;|&lt;/del&gt;" Header="Striketrough"/>
-                    <MenuItem Click="Button_Click" Tag="&lt;sub&gt;|&lt;/sub&gt;" Header="Subscript"/>
-                    <MenuItem Click="Button_Click" Tag="&lt;sup&gt;|&lt;/sup&gt;" Header="Superscript"/>
-                    <MenuItem Click="Button_Click" Tag="&lt;span class=&quot;err&quot;&gt;|&lt;/span&gt;" Header="Red Color"/>
-                    <MenuItem Click="Button_Click" Tag="&lt;span&gt;|&lt;/span&gt;" Header="Span"/>
+                    <MenuItem x:Name="BoldMenu" Click="Button_Click" Tag="&lt;strong&gt;|&lt;/strong&gt;" 
+                              Header="Bold" Icon="  B" FontWeight="Bold" InputGestureText="Ctrl+B"/>
+                    <MenuItem x:Name="ItalicMenu" Click="Button_Click" Tag="&lt;em&gt;|&lt;/em&gt;" 
+                              Header="Italic" Icon="  I" FontStyle="Italic" FontFamily="Georgia"  InputGestureText="Ctrl+I"/>
+                    <MenuItem x:Name="UnderlineMenu" Click="Button_Click" Tag="&lt;ins&gt;|&lt;/ins&gt;"  InputGestureText="Ctrl+U">
+                        <MenuItem.Header>
+                            <TextBlock Text="Underline" TextDecorations="Underline" />
+                        </MenuItem.Header>
+                        <MenuItem.Icon>
+                            <TextBlock Text="U" TextDecorations="Underline"  HorizontalAlignment="Center"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Click="Button_Click" Tag="&lt;del&gt;|&lt;/del&gt;">
+                        <MenuItem.Header>
+                            <TextBlock Text="Striketrough" TextDecorations="Strikethrough"/>
+                        </MenuItem.Header>
+                        <MenuItem.Icon>
+                            <TextBlock Text="S" TextDecorations="Strikethrough" HorizontalAlignment="Center"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="SubscriptMenu" Click="Button_Click" Tag="&lt;sub&gt;|&lt;/sub&gt;" 
+                              Header="Subscript" Icon=" X₂" InputGestureText="Ctrl+&quot;+&quot;"/>
+                    <MenuItem x:Name="SuperscriptMenu" Click="Button_Click" Tag="&lt;sup&gt;|&lt;/sup&gt;" 
+                              Header="Superscript" Icon=" X²" InputGestureText="Ctrl+Shift+&quot;+&quot;"/>
+                    <MenuItem Click="Button_Click" Tag="&lt;span class=&quot;err&quot;&gt;|&lt;/span&gt;" 
+                              Header="Red Color" Foreground="Red" Icon="  R"/>
                     <Separator/>
-                    <MenuItem Click="Button_Click" Tag="'&lt;div&gt;§'&lt;/div&gt;" Header="Div"/>
-                    <MenuItem Click="Button_Click" Tag="'&lt;div class=&quot;fold&quot;&gt;§'&lt;h4&gt;Folded heading&lt;/h4&gt;§'&lt;/div&gt;" Header="Folded Div"/>
+                    <MenuItem Click="Button_Click" Tag="&lt;span&gt;|&lt;/span&gt;" Header="Span" Icon=" ‹/›"/>
+                    <MenuItem Click="Button_Click" Tag="'&lt;div&gt;§'&lt;/div&gt;" Header="Div" Icon=" ‹/›"/>
+                    <MenuItem Click="Button_Click" Tag="'&lt;div class=&quot;fold&quot;&gt;§'&lt;h4&gt;Heading&lt;/h4&gt;§'Folded content§'&lt;/div&gt;" 
+                              Header="Folded Div" Icon=" ▼"/>
                     <Separator/>
-                    <MenuItem Click="Button_Click" Tag="'&lt;img src=&quot;&quot; alt=&quot;&quot; style=&quot;float:right;&quot; /&gt;" Header="Image"/>
-                    <MenuItem Click="Button_Click" Tag="§'&lt;table class=&quot;bordered&quot;&gt;§'&lt;thead&gt;§'&lt;tr&gt;&lt;th&gt;col 1&lt;/th&gt;&lt;th&gt;col 2&lt;/th&gt;&lt;/tr&gt;§'&lt;/thead&gt;§'&lt;tbody&gt;§'&lt;tr&gt;&lt;td&gt;'11'&lt;/td&gt;&lt;td&gt;'12'&lt;/td&gt;&lt;/tr&gt;§'&lt;tr&gt;&lt;td&gt;'21'&lt;/td&gt;&lt;td&gt;'22'&lt;/td&gt;&lt;/tr&gt;§'&lt;/tbody&gt;§'&lt;/table&gt;§" Header="Table"/>
-                    <MenuItem Click="Button_Click" Tag="'&lt;hr /&gt;" Header="Dividing Line"/>
+                    <MenuItem x:Name="BulletsMenu" Click="Button_Click" Tag="'&lt;ul&gt;§'&lt;li&gt;Item 1&lt;/li&gt;§'&lt;li&gt;Item 2&lt;/li&gt;§'&lt;li&gt;Item 3&lt;/li&gt;§'&lt;/ul&gt;" 
+                              Header="Bulleted List" Icon=" •••" InputGestureText="Ctrl+Shift+L"/>
+                    <MenuItem x:Name="NumberingMenu" Click="Button_Click" Tag="'&lt;ol&gt;§'&lt;li&gt;Item 1&lt;/li&gt;§'&lt;li&gt;Item 2&lt;/li&gt;§'&lt;li&gt;Item 3&lt;/li&gt;§'&lt;/ol&gt;" 
+                              Header="Numbered List" InputGestureText="Ctrl+Shift+N">
+                        <MenuItem.Icon>
+                            <TextBlock Text=" 123" FontSize="10" FontWeight="SemiBold"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Click="Button_Click" Tag="'&lt;img src=&quot;&quot; alt=&quot;&quot; style=&quot;float:right;&quot; /&gt;"
+                              Header="Image" Icon=" 🖼️"/>
+                    <MenuItem Click="Button_Click" Tag="§'&lt;table class=&quot;bordered&quot;&gt;§'&lt;thead&gt;§'&lt;tr&gt;&lt;th&gt;col 1&lt;/th&gt;&lt;th&gt;col 2&lt;/th&gt;&lt;/tr&gt;§'&lt;/thead&gt;§'&lt;tbody&gt;§'&lt;tr&gt;&lt;td&gt;'11'&lt;/td&gt;&lt;td&gt;'12'&lt;/td&gt;&lt;/tr&gt;§'&lt;tr&gt;&lt;td&gt;'21'&lt;/td&gt;&lt;td&gt;'22'&lt;/td&gt;&lt;/tr&gt;§'&lt;/tbody&gt;§'&lt;/table&gt;§"
+                              Header="Table">
+                        <MenuItem.Icon>
+                            <TextBlock Text=" ▦" FontSize="18"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Click="Button_Click" Tag="'&lt;hr /&gt;" Header="Dividing Line" Icon=" —"/>
                 </MenuItem>
                 <MenuItem Header="Html UI">
                     <MenuItem Click="Button_Click" Tag="§'Select an option: &lt;select name=&quot;target1&quot;&gt;§'&lt;option value=&quot;11;12&quot;&gt;x1; y1&lt;/option&gt;§'&lt;option value=&quot;21;22&quot;&gt;x2; y2&lt;/option&gt;§'&lt;option value=&quot;31;32&quot;&gt;x3; y3&lt;/option&gt;§'&lt;/select&gt;§'...§'&lt;p id=&quot;target1&quot;&gt; Values:'x = ? {21}','y = ? {22}'&lt;/p&gt;§" Header="Selection"/>
@@ -940,16 +990,16 @@
                     <MenuItem Click="Button_Click" Tag="#hide§x = 50§y = 30§#show§'&lt;text x=&quot;'x'&quot; y=&quot;'y'&quot; text-anchor=&quot;start&quot;&gt;text1&lt;/text&gt;§" Header="Text"/>
                 </MenuItem>
                 <MenuItem Header="Output Visibility Control">
-                    <MenuItem Click="Button_Click" Tag="#hide" Header="#hide" ToolTip="Hide report contents"/>
-                    <MenuItem Click="Button_Click" Tag="#show" Header="#show" ToolTip="Always show the contents (default)"/>
-                    <MenuItem Click="Button_Click" Tag="#pre"  Header="#pre"  ToolTip="Show the bellow contents only before calculations"/>
-                    <MenuItem Click="Button_Click" Tag="#post" Header="#post" ToolTip="Show the bellow contents only after calculations"/>
+                    <MenuItem Click="Button_Click" Tag="#hide" Header="#hide"   ToolTip="Hide the content after the current line"/>
+                    <MenuItem Click="Button_Click" Tag="#show" Header="#show"   ToolTip="Always show the content (default)"/>
+                    <MenuItem Click="Button_Click" Tag="#pre"  Header="#pre"    ToolTip="Show the content bellow only before calculations"/>
+                    <MenuItem Click="Button_Click" Tag="#post" Header="#post"   ToolTip="Show the content bellow only after calculations"/>
                     <MenuItem Click="Button_Click" Tag="#pause" Header="#pause" ToolTip="Pause the calculations and wait"/>
-                    <MenuItem Click="Button_Click" Tag="#input" Header="#input" ToolTip="Pause the exeqution and display an input form"/>
+                    <MenuItem Click="Button_Click" Tag="#input" Header="#input" ToolTip="Pause the execution and display an input form"/>
                     <Separator/>
                     <MenuItem Click="Button_Click" Tag="#val"  Header="#val"  ToolTip="Show only the calculated values"/>
                     <MenuItem Click="Button_Click" Tag="#equ"  Header="#equ"  ToolTip="Show the complete equations (default)"/>
-                    <MenuItem Click="Button_Click" Tag="#noc"  Header="#noc"  ToolTip="Show the equations, but without calculating them"/>
+                    <MenuItem Click="Button_Click" Tag="#noc"  Header="#noc"  ToolTip="Show the equations, but without calculating"/>
                     <Separator/>
                     <MenuItem Click="Button_Click" Tag="#round"  Header="#round"  ToolTip="Round to the specified digits after the decimal point"/>
                     <Separator/>
@@ -985,7 +1035,7 @@
         </Button>
         <Button Click="PdfButton_Click" x:Name="PdfButton" Height="28" VerticalAlignment="Top"
             BorderThickness="0" Margin="0,26,5,0"
-            Focusable="false" ToolTip="Save output as pdf flie" IsTabStop="false" Background="{x:Null}" 
+            Focusable="false" ToolTip="Save output as PDF flie" IsTabStop="false" Background="{x:Null}" 
 			HorizontalAlignment="Right" Width="28" Grid.Column="1">
             <Image Source="Resources\pdf.png" Width="24" Height="24" VerticalAlignment="Center"
                 HorizontalAlignment="center"/>
@@ -1237,7 +1287,7 @@
                       TabIndex="13" 
                       Click="ShadowsCheckBox_Clicked" />
             <ComboBox x:Name="LightDirectionComboBox" 
-                      ToolTip="Shadow direction" 
+                      ToolTip="Light direction" 
                       Height="22"
                       Width="90" 
                       VerticalAlignment="Top" 
@@ -1338,7 +1388,7 @@
                        HorizontalAlignment="Left" 
                        Margin="5,0,0,0"/>
             <ComboBox x:Name="ExternalBrowserComboBox" 
-                      ToolTip="Browser to open links" 
+                      ToolTip="External browser for opening links in reports" 
                       Height="22"
                       Width="75" 
                       VerticalAlignment="Top" 

@@ -79,13 +79,13 @@
         Pressure:            Pa daPa hPa kPa MPa GPa TPa dPa cPa mPa μPa nPa pPa
                              bar mbar μbar atm at Torr mmHg
         Viscosity:           P cP St cSt
-        Energy work:         J kJ MJ GJ TJ mJ μJ nJ pJ cal kcal erg
-                             Wh  kWh  MWh  GWh  TWh       
-                             eV  keV  MeV  GeV  TeV  PeV  EeV 
-        Power:               W   kW   MW   GW   TW   mW   μW   nW   pW   hpM ks
+        Energy work:         J   kJ   MJ   GJ   TJ   mJ   μJ   nJ   pJ
+                             Wh  kWh  MWh  GWh  TWh  mWh  μWh  nWh  pWh
+                             eV  keV  MeV  GeV  TeV  PeV  EeV  cal  kcal erg 
+        Power:               W   kW   MW   GW   TW   mW   μW   nW   pW   hpM  ks
                              VA  kVA  MVA  GVA  TVA  mVA  μVA  nVA  pVA
                              VAR kVAR MVAR GVAR TVAR mVAR μVAR nVAR pVAR
-        Electric charge:     C   kC   MC   GC   TC   mC   μC   nC   pC   Ah mAh
+        Electric charge:     C   kC   MC   GC   TC   mC   μC   nC   pC   Ah   mAh
         Potential:           V   kV   MV   GV   TV   mV   μV   nV   pV
         Capacitance:         F   kF   MF   GF   TF   mF   μF   nF   pF
         Resistance:          Ω   kΩ   MΩ   GΩ   TΩ   mΩ   μΩ   nΩ   pΩ
@@ -136,13 +136,12 @@ To:  °  ′ (single prime)  ″ (double prime/second)
 ————————————————————————————————————————————————————————————————————————————————
  Command line options (support the same language features as Calcpad.exe):
 ———————————————————————————————————————————————————————————————————————————————— 
-    cli input.cpd output.html - calculates the input.cpd and exports 
+    cli input.cpd output.html - calculates input.cpd and exports 
     cli input.cpd output.docx   the results to the respective format
     cli input.cpd output.pdf    (html, docx or pdf);
 		
-    cli input.cpd html - calculates and exports to input.html;
-    cli input.cpd docx - calculates and exports to input.docx;	
-    cli input.cpd pdf  - calculates and exports to input.pdf;
+    cli input.cpd html - calculates input.cpd and exports to input.html;
+    cli input.cpd docx - calculates input.cpd and exports to input.docx;	
+    cli input.cpd pdf  - calculates input.cpd and exports to input.pdf;
 	
-    cli input.cpd      - calculates and exports to input.html.
-	
+    cli input.cpd      - calculates input.cpd and exports to input.html.

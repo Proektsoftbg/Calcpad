@@ -104,7 +104,7 @@ namespace Calcpad.Cli
                             break;
                         case "OPEN":
                             Console.SetCursorPosition(0, Console.CursorTop - 1);
-                            var t = Open(Title, LineNo, Lines);
+                            var t = Open(LineNo, Lines);
                             if (!string.IsNullOrEmpty(t))
                             {
                                 Title = t;
@@ -385,7 +385,7 @@ namespace Calcpad.Cli
                     else
                         L.Output += Tokens[i].Trim() + ' ';
                 }
-                var Output = Prompt + L.Output.PadRight(_width + 1);
+                var Output = Prompt + L.Output.PadRight(_width - 8);
                 Console.WriteLine(Output);
                 mp.SaveAnswer();
                 return true;
@@ -434,18 +434,17 @@ namespace Calcpad.Cli
             return Input;
         }
 
-        static string Open(string Title, string Prompt, List<Line> Lines)
+        static string Open(string Prompt, List<Line> Lines)
         {
             var FilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\cpc";
             if (!Directory.Exists(FilePath))
             {
                 WriteError(Prompt + "OPEN There are no saved problems.\r\n", false);
-                return Title;
+                return null;
             }
-            Console.SetCursorPosition(0, Console.CursorTop - 1);
             Console.Write(Prompt + "OPEN Problem title: ");
-            var NewTitle = Console.ReadLine();
-            var FileName = FilePath + "\\" + NewTitle + ".cpc";
+            var Title = Console.ReadLine();
+            var FileName = FilePath + "\\" + Title + ".cpc";
             if (File.Exists(FileName))
             {
                 Lines.Clear();
@@ -453,12 +452,12 @@ namespace Calcpad.Cli
                 while (!sr.EndOfStream)
                     Lines.Add(new Line(sr.ReadLine()));
 
-                return NewTitle;
+                return Title;
             }
             else
             {
-                WriteError($"{Prompt}Problem \"{Title}\" does not exits.", true);
-                return Title;
+                WriteError($"{Prompt}Problem \"{Title}\" does not exist.", true);
+                return null;
             }
         }
 
