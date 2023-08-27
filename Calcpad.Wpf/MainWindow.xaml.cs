@@ -262,18 +262,20 @@ namespace Calcpad.Wpf
                     }
                     catch (Exception ex)
                     {
+                        ShowErrorMessage(
 #if BG
 @$"Възстановяването беше неуспешно поради грешка:
 ""{ex.Message}"".
 Може да намерите незаписаното съдържание в
-""{tempFile}"".");
+""{tempFile}""."
 #else
-                        ShowErrorMessage(
+
 @$"Recovery failed with error:
 ""{ex.Message}"".
 You can find your unsaved data in
-""{tempFile}"".");
+""{tempFile}""."
 #endif
+                        );
                         IsSaved = true;
                         Command_New(this, null);
                     }
@@ -416,13 +418,13 @@ You can find your unsaved data in
                 var parts = tag.Split('§');
                 TextPointer tp;
                 var p = RichTextBox.Selection.Start.Paragraph;
-                var selectionLength = RichTextBox.Selection.Start.GetOffsetToPosition(RichTextBox.Selection.End);
+                var selectionLength = RichTextBox.Selection.Text.Length;
                 if (selectionLength > 0)
                     tp = p.ContentStart;
                 else
                     tp = p.ContentEnd;
 
-                var pararaphLength = p.ContentStart.GetOffsetToPosition(p.ContentEnd);
+                var pararaphLength = new TextRange(p.ContentStart, p.ContentEnd).Text.Length;
                 if (pararaphLength > 0)
                 {
                     tp = tp.InsertParagraphBreak();
@@ -1103,8 +1105,14 @@ You can find your unsaved data in
                 _wbWarper.PrintPreview(); 
         }
 
-        private void Command_Find(object sender, ExecutedRoutedEventArgs e)
-        {
+        private void Command_Find(object sender, ExecutedRoutedEventArgs e) =>
+            CommandFindReplace(FindReplace.Modes.Find); 
+
+        private void Command_Replace(object sender, ExecutedRoutedEventArgs e) =>
+            CommandFindReplace(FindReplace.Modes.Replace);
+
+        private void CommandFindReplace(FindReplace.Modes mode)
+        { 
             if (IsWebForm)
                 return;
 
@@ -1121,10 +1129,12 @@ You can find your unsaved data in
             bool isSelection = s is not null && s.Length > 5;
             _findReplaceWindow.SelectionCheckbox.IsEnabled = isSelection;
             _isTextChangedEnabled = false;
+            _findReplace.Mode = mode;    
             _findReplaceWindow.Show();
         }
 
-        private void Command_FindNext(object sender, ExecutedRoutedEventArgs e) => _findReplace.Find();
+        private void Command_FindNext(object sender, ExecutedRoutedEventArgs e) => 
+            _findReplace.Find();
 
         private void FileOpen(string fileName)
         {
@@ -2572,9 +2582,50 @@ You can find your unsaved data in
             _isTextChangedEnabled = false;
             RichTextBox.Selection.ApplyPropertyValue(TextElement.BackgroundProperty, null);
             _isTextChangedEnabled = true;
-            if (e.Key == Key.Enter)
+            var modifiers = e.KeyboardDevice.Modifiers; 
+            var isCtrl = modifiers == ModifierKeys.Control;  
+            var isCtrlShift = modifiers == (ModifierKeys.Control | ModifierKeys.Shift); 
+            if (e.Key == Key.B && isCtrl)
             {
-                if (Keyboard.Modifiers == ModifierKeys.Control)
+                Button_Click(BoldMenu, e);
+                e.Handled = true;
+            }
+            else if (e.Key == Key.I && isCtrl)
+            {
+                Button_Click(ItalicMenu, e);
+                e.Handled = true;
+            }
+            else if (e.Key == Key.U && isCtrl)
+            {
+                Button_Click(UnderlineMenu, e);
+                e.Handled = true;
+            }
+            else if (e.Key == Key.L && isCtrlShift)
+            {
+                Button_Click(BulletsMenu, e);
+                e.Handled = true;
+            }
+            else if (e.Key == Key.N && isCtrlShift)
+            {
+                Button_Click(NumberingMenu, e);
+                e.Handled = true;
+            }
+            else if (e.Key == Key.OemPlus)
+            {
+                if (isCtrl)
+                {
+                    Button_Click(SubscriptMenu, e);
+                    e.Handled = true;
+                }
+                else if (isCtrlShift)
+                {
+                    Button_Click(SuperscriptMenu, e);
+                    e.Handled = true;
+                }
+            }
+            else if (e.Key == Key.Enter)
+            {
+                if (isCtrl)
                 {
                     AutoRun(true);
                     e.Handled = true;
