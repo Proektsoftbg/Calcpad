@@ -93,9 +93,9 @@ A variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;"**>**" - greater than;  
 &emsp;&emsp;"**≤**" - less or equal;  
 &emsp;&emsp;"**≥**" - greater or equal;  
-&emsp;&emsp;"**∧**" - logical "and";   
-&emsp;&emsp;"**∨**" - logical "or";   
-&emsp;&emsp;"**⊕**" - logical "xor";   
+&emsp;&emsp;"**∧**" - logical "AND";   
+&emsp;&emsp;"**∨**" - logical "OR";   
+&emsp;&emsp;"**⊕**" - logical "XOR";   
 &emsp;&emsp;"**=**" - assignment;  
 * Custom functions of type f (x; y; z; ... );  
 * Built-in functions:  
@@ -165,10 +165,10 @@ A variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;Conditional and logical:  
 &emsp;&emsp;&emsp;&emsp;**if**(*cond*; *value-if-true*; *value-if-false*) - conditional evaluation;  
 &emsp;&emsp;&emsp;&emsp;**switch**(*cond1*; *value1*; *cond2*; *value2*; … ; *default*) - selective evaluation;  
-&emsp;&emsp;&emsp;&emsp;**not**(x) - logical "not";  
-&emsp;&emsp;&emsp;&emsp;**and**(x; y; z...) - logical "and";  
-&emsp;&emsp;&emsp;&emsp;**or**(x; y; z...) - logical "or";  
-&emsp;&emsp;&emsp;&emsp;**xor**(x; y; z...) - logical "xor";  
+&emsp;&emsp;&emsp;&emsp;**not**(x) - logical "NOT";  
+&emsp;&emsp;&emsp;&emsp;**and**(x; y; z...) - logical "AND";  
+&emsp;&emsp;&emsp;&emsp;**or**(x; y; z...) - logical "OR";  
+&emsp;&emsp;&emsp;&emsp;**xor**(x; y; z...) - logical "XOR";  
 &emsp;&emsp;Other:  
 &emsp;&emsp;&emsp;&emsp;**sign**(x) - the sign of a number;  
 &emsp;&emsp;&emsp;&emsp;**random**(x) - random number between 0 and x;  
@@ -282,8 +282,9 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;&emsp;Pressure: Pa, daPa, hPa, kPa, MPa, GPa, TPa, dPa, cPa, mPa, μPa, nPa, pPa,  
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp; bar, mbar, μbar, atm, at, Torr, mmHg;  
 &emsp;&emsp;Viscosity: P, cP, St, cSt;  
-&emsp;&emsp;Energy work: J, kJ, MJ, GJ, TJ, mJ, μJ, nJ, pJ, Wh, kWh, MWh, GWh, TWh,  
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;cal, kcal, erg, eV, keV, MeV, GeV, TeV, PeV, EeV;  
+&emsp;&emsp;Energy work: J, kJ, MJ, GJ, TJ, mJ, μJ, nJ, pJ,  
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Wh, kWh, MWh, GWh, TWh, mWh, μWh, nWh, pWh  
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;eV, keV, MeV, GeV, TeV, PeV, EeV, cal, kcal, erg;  
 &emsp;&emsp;Power: W, kW, MW, GW, TW, mW, μW, nW, pW, hpM, ks;  
 &emsp;&emsp;&emsp;&emsp;&emsp; VA, kVA, MVA, GVA, TVA, mVA, μVA, nVA, pVA,  
 &emsp;&emsp;&emsp;&emsp;&emsp; VAR, kVAR, MVAR, GVAR, TVAR, mVAR, μVAR, nVAR, pVAR, hpM, ks;  
