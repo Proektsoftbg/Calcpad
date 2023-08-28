@@ -72,13 +72,48 @@ code .ovr {padding-top: 2pt; font-family="Consolas" font-size: 10pt;}
 .fold > :first-child::after {content: " ... ▼"; font-size: 80%;}
 .unfold > :first-child::after {content: " ▲"; font-size: 80%;}
 #Units{float:right; margin-top:12px;}
-input, select {
-	background-color:LightYellow; 
-	border: 1px solid #cccccc; 
-	border-radius: 3px; 
-	text-align:right;
-	min-height: 1.5em;
+input[type="text"], select {
+	font-size: 11pt;
+	padding: 0.15em 0.3em; 	
+	border: 0.5pt solid #CCC; 
+	border-radius: 0.35em;
+	text-align: right;
+	box-shadow: 0.06em 0.06em 0.5em #ddd;
+	background-color: LightYellow;
 }
+
+input[type="checkbox"],
+input[type="radio"] {
+	--ssf: 1.1;
+	zoom: var(--ssf);
+	-moz-transform: scale(var(--ssf));
+	-webkit-transform: scale(var(--ssf));
+	transform: scale(var(--ssf));
+	transform-origin: top;
+	position: relative;
+	bottom: -1pt;
+	margin-right: 1pt;
+}
+
+input[type="checkbox"].post:disabled:not(:checked), 
+input[type="checkbox"].post:disabled:not(:checked) + label, 
+input[type="radio"].post:disabled:not(:checked),
+input[type="radio"].post:disabled:not(:checked) + label {
+	display: none;
+}
+
+select.post:disabled {
+	font-size: 12pt;
+	border: none; 
+	box-shadow: none;
+	color: red;
+	background: none;
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+}
+select.post:disabled::-ms-expand {display: none;}
+input[type="text"]:focus {box-shadow: 0.1em 0.1em 1em #ccc; color: black;}
 .exp {
 	display: inline-block;
 	height: 13pt;
@@ -624,8 +659,8 @@ If you redefine an existing variable with a new value, it will replace the old o
 <tr><td>1</td><td>1</td><td>0</td></tr>
 </table>
 </td></tr></table>
-<p>Any numerical value, different from 0, is treated as 1 (true). Multiple arguments are evaluated sequentially from left to right, accordin to the above tables. We start with the first and the second. Then, the obtained result and the next value are evaluated in turn, and so on.</p>
-<p>Rounding of midpoint values with <b>round</b>() evaluates to the neares integer away from zero. The <b>floor</b>() function rounds to the smaller value (towards -∞). The <b>ceiling</b>() function rounds in the opposite direction to the larger value (towards +∞). Unlike <b>floor</b>(), <b>trunc</b>() rounds towards zero, which is equivalent to simply truncating the fractional part. Some examples for rounding negative and positive numbers are provided in the table bellow:</p> 
+<p>Any numerical value, different from 0, is treated as 1 (true). Multiple arguments are evaluated sequentially from left to right, according to the above tables. We start with the first and the second. Then, the obtained result and the next value are evaluated in turn, and so on.</p>
+<p>Rounding of midpoint values with <b>round</b>() evaluates to the nearest integer away from zero. The <b>floor</b>() function rounds to the smaller value (towards -∞). The <b>ceiling</b>() function rounds in the opposite direction to the larger value (towards +∞). Unlike <b>floor</b>(), <b>trunc</b>() rounds towards zero, which is equivalent to simply truncating the fractional part. Some examples for rounding of negative and positive numbers are provided in the table bellow:</p> 
 <table width="70%"><tr><td style="border:none;">
 <p><b>Positive</b></p>
 <table width="90%" class="tr">
@@ -727,7 +762,7 @@ Result: 2D waves<br />
 <h4>Root finding</h4>
 <p style="margin-left: 2em;"><code><span class="cond">$Root</span>{<b>f</b>(<var>x</var>) = const &#64; <var>x</var> = <var>a</var> : <var>b</var>}</code></p>
 <p style="margin-left: 2em;"><code><span class="cond">$Root</span>{<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var> : <var>b</var>}</code></p>
-<p>It finds a single root for an equation of type "<b>f</b>(<var>x</var>) = const" within the interval [<var>a</var>, <var>b</var>]. If "const" is zero, you can omit "= const". The program uses a <a href="https://iopscience.iop.org/article/10.1088/1757-899X/1276/1/012010">hybrid bracketing method</a>, which is a combination of Bisecton and Anderson-Bjork's method. It subsequently narrows the interval around the root, until it gets smaller than the specified precision. It is required that the function "<b>f</b>(<var>x</var>) - const" has opposite signs at the ends of the interval. According to the Boltzano's theorem, if the function is continuous within the interval, at least one root exist. The bracketing algorithm will find an approximation after a finite number of iterations.</p>
+<p>It finds a single root for an equation of type "<b>f</b>(<var>x</var>) = const" within the interval [<var>a</var>, <var>b</var>]. If "const" is zero, you can omit "= const". The program uses a <a href="https://iopscience.iop.org/article/10.1088/1757-899X/1276/1/012010">hybrid bracketing method</a>, which is a combination of Bisection and Anderson-Bjork's method. It subsequently narrows the interval around the root, until it gets smaller than the specified precision. It is required that the function "<b>f</b>(<var>x</var>) - const" has opposite signs at the ends of the interval. According to the Boltzano's theorem, if the function is continuous within the interval, at least one root exist. The bracketing algorithm will find an approximation after a finite number of iterations.</p>
 <p style="text-align:center;"><img style="height:130pt;" src="Images/Root.png" alt="Root.png"></p>
 <p>With this method, you can find only roots where the function crosses the line at "<var>y</var> = const". When "<b>f</b>(<var>x</var>) - const" is entirely positive or negative and only "touches" the line from one side, you cannot find the root by any bracketing method.</p>
 <p>If no roots exist inside the initial interval, the program returns an error. If there are several roots, it will find only one of them. In such case, it is better to plot the function first. Then, you can see the approximate location of roots and divide the interval into several parts - one for each root. Finally, you can call the function several times to find all the roots. In some cases, it is possible to develop an automated procedure for interval splitting.</p>

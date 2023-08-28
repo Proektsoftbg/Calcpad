@@ -921,7 +921,7 @@
                             <TextBlock Text="Heading 6"  FontSize="13" />
                         </MenuItem.Header>
                     </MenuItem>
-                    <MenuItem Click="Button_Click" Tag="&lt;p&gt;|&lt;/p&gt;"   Header="Heading" Icon="  ¶"/>
+                    <MenuItem Click="Button_Click" Tag="&lt;p&gt;|&lt;/p&gt;"   Header="Paragraph" Icon="  ¶"/>
                     <MenuItem Click="Button_Click" Tag="|&lt;br /&gt;"          Header="Line Break" Icon=" ⏎"/>
                     <Separator/>
                     <MenuItem x:Name="BoldMenu" Click="Button_Click" Tag="&lt;strong&gt;|&lt;/strong&gt;" 

@@ -288,6 +288,7 @@
 		<KeyWord name="MWb" />
 		<KeyWord name="mWb" />
 		<KeyWord name="MWh" />
+		<KeyWord name="mWh" />
 		<KeyWord name="mΩ" />
 		<KeyWord name="MΩ" />
 		<KeyWord name="M℧" />
@@ -317,6 +318,7 @@
 		<KeyWord name="nVAR" />
 		<KeyWord name="nW" />
 		<KeyWord name="nWb" />
+		<KeyWord name="nWh" />
 		<KeyWord name="nΩ" />
 		<KeyWord name="n℧" />
 		<KeyWord name="or" />
@@ -367,6 +369,7 @@
 		<KeyWord name="pVAR" />
 		<KeyWord name="pW" />
 		<KeyWord name="pWb" />
+		<KeyWord name="pWh" />
 		<KeyWord name="pΩ" />
 		<KeyWord name="p℧" />
 		<KeyWord name="qr" />
@@ -483,6 +486,7 @@
 		<KeyWord name="μVAR" />
 		<KeyWord name="μW" />
 		<KeyWord name="μWb" />
+		<KeyWord name="μWh" />
 		<KeyWord name="μΩ" />
 		<KeyWord name="μ℧" />
 		<KeyWord name="Ω" />
