@@ -87,6 +87,7 @@
         <CommandBinding Executed="Command_Help" Command="Help"/>
         <CommandBinding Executed="Command_Print" Command="Print"/>
         <CommandBinding Executed="Command_Find" Command="Find"/>
+        <CommandBinding Executed="Command_Replace" Command="Replace"/>
         <CommandBinding Executed="Command_FindNext" Command="Search"/>
         <CommandBinding Executed="Command_Copy" Command="Copy"/>
         <CommandBinding Executed="Command_Paste" Command="Paste"/>
@@ -116,6 +117,7 @@
             </MenuItem>
             <MenuItem x:Name="MenuEdit" Header="_Edit">
                 <MenuItem Command="ApplicationCommands.Find" Header="_Find"/>
+                <MenuItem Command="ApplicationCommands.Replace" Header="_Replace"/>
                 <Separator/>
                 <MenuItem Command="ApplicationCommands.Undo" Header="_Undo"/>
                 <MenuItem Command="ApplicationCommands.Redo" Header="_Redo"/>
