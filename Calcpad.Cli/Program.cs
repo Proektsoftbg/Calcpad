@@ -182,7 +182,7 @@ namespace Calcpad.Cli
                     file = File.OpenRead(path);
                     settings = (Settings)writer.Deserialize(file);
                 }
-                else
+                else if(Path.Exists(AppPath))
                 {
                     file = File.Create(path);
                     writer.Serialize(file, settings);

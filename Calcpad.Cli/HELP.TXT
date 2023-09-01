@@ -50,7 +50,7 @@
     $Inf{f(x) @ x = a : b}
     $Area{f(x) @ x = a : b}
     $Integral{f(x) @ x = a : b}
-    $Slope{f(x) @ x = a }
+    $Slope{f(x) @ x = a}
     $Sum{f(k) @ k = a : b}
     $Product{f(k) @ k = a : b}
     $Repeat{f(k) @ k = a : b}
