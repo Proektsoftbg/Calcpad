@@ -105,7 +105,8 @@ namespace Calcpad.Core
             { "random", 40 },
             { "fact", 41 },
             { "‐", 42 },
-            { "not", 43}
+            { "not", 43},
+            { "timer", 44 }
         };
 
         internal static readonly Dictionary<string, int> Function2Index = new(StringComparer.OrdinalIgnoreCase)
@@ -427,5 +428,7 @@ namespace Calcpad.Core
             } while (b != 0);
             return a << k;
         }
+        private static readonly long  _ticks = DateTime.Now.Ticks;
+        protected static Value Timer(Value _) => new((DateTime.Now.Ticks - _ticks) / 10000000.0, Unit.Get("s"));
     }
 }

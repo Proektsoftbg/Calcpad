@@ -61,7 +61,8 @@ namespace Calcpad.Core
                 Random,   //40
                 Fact,     //41
                 Negate,   //42
-                Not       //43
+                Not,      //43
+                Timer,    //44  
             };
         }
 
