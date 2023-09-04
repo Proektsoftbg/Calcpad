@@ -62,7 +62,7 @@ namespace Calcpad.Core
                 Fact,     //41
                 (a) => -a, //42
                 Not,      //43
-                Timer,    //44
+                Timer     //44
             };
         }
 
