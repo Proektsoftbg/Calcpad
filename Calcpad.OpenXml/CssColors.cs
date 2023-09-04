@@ -12,12 +12,12 @@ namespace Calcpad.OpenXml
         internal static string RgbToHex(string rgbString)
         {
             SplitEnumerator colors = new(rgbString.AsSpan(4, rgbString.Length - 5), ',');
-            byte[] bytes = new byte[3];
+            Span<byte> bytes = stackalloc byte[3];
             int i = 0;
             foreach (var color in colors)
                 bytes[i++] = byte.Parse(color.Trim());
 
-            return System.Convert.ToHexString(bytes);
+            return Convert.ToHexString(bytes);
         }
 
         internal static string NameToHex(string name) => name.ToLowerInvariant() switch
