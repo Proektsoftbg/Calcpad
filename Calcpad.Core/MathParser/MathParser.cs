@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Calcpad.Core
@@ -224,6 +224,19 @@ namespace Calcpad.Core
                 PurgeCache();
             }
             _isCalculated = true;
+        }
+
+        public void DefineCustomUnits()
+        {
+            if (_rpn.Length > 2 &&
+                _rpn[0].Type == TokenTypes.Unit &&
+                _rpn[^1].Content == "=")
+            {
+                var s = _rpn[0].Content;
+                ref var u = ref CollectionsMarshal.GetValueRefOrAddDefault(_units, s, out bool _);
+                u = Unit.Get(string.Empty);
+                u.Text = s;
+            }
         }
 
         public double CalculateReal()
