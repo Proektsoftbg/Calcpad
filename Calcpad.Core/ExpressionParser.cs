@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Web;
 
@@ -584,6 +583,8 @@ namespace Calcpad.Core
                             _parser.Parse(token.Value);
                             if (calculate && _isVal > -1)
                                 _parser.Calculate(isOutput);
+                            else
+                                _parser.DefineCustomUnits();
 
                             if (isOutput)
                             {

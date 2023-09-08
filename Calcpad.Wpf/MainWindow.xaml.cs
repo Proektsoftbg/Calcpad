@@ -939,7 +939,7 @@ You can find your unsaved data in
 
         private void Command_SaveAs(object sender, ExecutedRoutedEventArgs e) => FileSaveAs();
 
-        private void FileSaveAs()
+        private bool FileSaveAs()
         {
             string s;
             if (!string.IsNullOrWhiteSpace(CurrentFileName))
@@ -971,7 +971,7 @@ You can find your unsaved data in
 
             var result = (bool)dlg.ShowDialog();
             if (!result)
-                return;
+                return false;
             CopyLocalImages(dlg.FileName);
             CurrentFileName = dlg.FileName;
 
@@ -981,6 +981,7 @@ You can find your unsaved data in
             _parser.ShowWarnings = s != ".cpdz";
             FileSave();
             AddRecentFile(CurrentFileName);
+            return true;
         }
 
         private void CopyLocalImages(string newFileName)
@@ -1205,7 +1206,11 @@ You can find your unsaved data in
             if (result == MessageBoxResult.Yes)
             {
                 if (string.IsNullOrWhiteSpace(CurrentFileName))
-                    FileSaveAs();
+                {
+                    var success = FileSaveAs();
+                    if (!success)
+                        return MessageBoxResult.Cancel;
+                }
                 else
                     FileSave();
             }
