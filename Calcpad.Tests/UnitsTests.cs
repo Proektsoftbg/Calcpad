@@ -2047,7 +2047,7 @@
 
         [Fact]
         [Trait("Category", "Arithmetics")]
-        public static void atan_deg()
+        public static void Atan_deg()
         {
             var calc = new TestCalc(new() { Degrees = 0});
             calc.Run("ReturnAngleUnits = 1");
@@ -2060,7 +2060,7 @@
         #region Custom Units
         [Fact]
         [Trait("Category", "Custom Units")]
-        public static void ktf()
+        public static void Ktf()
         {
             var calc = new TestCalc(new());
             calc.Run(".ktf = 1000tf");
