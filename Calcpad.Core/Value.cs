@@ -201,14 +201,14 @@ namespace Calcpad.Core
             if (Units is null)
                 return other.Units is null &&
                     Re.Equals(other.Re) &&
-                    Im.Equals(other.Im); ;
+                    Im.Equals(other.Im);
 
             if (other.Units is null)
                 return false;
 
             return Re.Equals(other.Re) &&
                 Im.Equals(other.Im) &&
-                (ReferenceEquals(Units, other.Units) || Units.Equals(other.Units));
+                Units.Equals(other.Units);
         }
 
         internal bool IsReal => Complex.GetType(Re, Im) == Complex.Types.Real;
