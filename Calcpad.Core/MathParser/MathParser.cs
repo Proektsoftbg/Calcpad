@@ -354,7 +354,20 @@ namespace Calcpad.Core
         }
 
         private Func<Value> CompileRpn(Token[] rpn) => _compiler.Compile(rpn);
-        public string ResultAsString => Core.Complex.Format(Result, _settings.Decimals, OutputWriter.OutputFormat.Text) + Units?.Text;
+        public string ResultAsString
+        {
+            get
+            {
+                var s = Core.Complex.Format(Result, _settings.Decimals, OutputWriter.OutputFormat.Text);
+                if (Units is null)
+                    return s;
+
+                if (Result.IsComplex)
+                    return $"({s}){Units.Text}";
+
+                return s + Units.Text;
+            }
+        }
         public override string ToString() => _output.Render(OutputWriter.OutputFormat.Text);
         public string ToHtml() => _output.Render(OutputWriter.OutputFormat.Html);
         public string ToXml() => _output.Render(OutputWriter.OutputFormat.Xml);

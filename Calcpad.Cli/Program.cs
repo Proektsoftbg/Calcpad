@@ -174,7 +174,8 @@ namespace Calcpad.Cli
             settings.Math.Decimals = 6;
             XmlSerializer writer = new(settings.GetType());
             var path = AppPath + "Settings.xml";
-            FileStream file = null; ;
+
+            FileStream file = null;
             try
             {
                 if (Path.Exists(path))
@@ -520,7 +521,8 @@ namespace Calcpad.Cli
             {
                 UseShellExecute = true,
                 FileName = fileName,
-                Arguments = args
+                Arguments = args,
+                Verb = "runas"
             };
             proc.StartInfo = psi;
             try

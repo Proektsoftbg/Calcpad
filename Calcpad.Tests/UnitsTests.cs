@@ -2055,6 +2055,17 @@
             var result = calc.ToString();
             Assert.Equal("45°", result);
         }
+
+        [Fact]
+        [Trait("Category", "Arithmetics")]
+        public static void Complex_Assignment()
+        {
+            var calc = new TestCalc(new() { IsComplex = true });
+            calc.Run("z = (2 + 3i)*Ω");
+            calc.Run("z");
+            var result = calc.ToString();
+            Assert.Equal("(2 + 3i)Ω", result);
+        }
         #endregion
 
         #region Custom Units
