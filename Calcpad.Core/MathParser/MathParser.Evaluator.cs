@@ -74,7 +74,16 @@ namespace Calcpad.Core
                                 {
                                     _parser.Units = ApplyUnits(ref b, _parser._targetUnits);
                                     if (isVisible && b.Units is not null)
-                                        b *= b.Units.Normalize();
+                                    {
+                                        var d = b.Units.Normalize();
+                                        if (d != 1)
+                                        {
+                                            if (_parser._settings.IsComplex)
+                                                b = new(b.Complex * d, b.Units);
+                                            else
+                                                b *= d;
+                                        }
+                                    }
                                     if (rpn[0].Type == TokenTypes.Variable && rpn[0] is VariableToken ta)
                                     {
                                         _parser._backupVariable = new(ta.Content, ta.Variable.Value);
