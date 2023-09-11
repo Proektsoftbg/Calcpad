@@ -1419,6 +1419,38 @@ namespace Calcpad.Core
                         }
                         break;
                     }
+                    case "°":
+                    {
+                        var a = Math.PI / factor;
+                        if (Math.Abs(a - Math.Round(a)) < 1e-12)
+                        {
+                            var b = Math.Round(a);
+                            factor = 1d;
+                            switch (b)
+                            {
+                                case 2d:
+                                    name = "rev";
+                                    break;
+                                case 180d:
+                                    name = "°";
+                                    break;
+                                case 200d:
+                                    name = "grad";
+                                    break;
+                                case 10800d:
+                                    name = "′";
+                                    break;
+                                case 648000d:
+                                    name = "″";
+                                    break;
+                                default:
+                                    name = "rad";
+                                    factor = a * Math.PI;
+                                    break;
+                            }
+                        }
+                        break;
+                    }
                 }
                 var n = GetPower(factor);
                 name = writer.FormatUnits(GetPrefix(n) + name);
