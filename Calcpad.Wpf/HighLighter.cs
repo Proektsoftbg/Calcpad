@@ -1250,13 +1250,18 @@ namespace Calcpad.Wpf
             while (inline != null)
             {
                 var s = ((Run)inline).Text.Trim();
-                if (string.Equals(s, ")"))
-                    brackets = true;
-                else if (string.Equals(s, "("))
+                if (string.Equals(s, "("))
                     return;
-                else if (brackets)
+
+                if (!string.IsNullOrEmpty(s))
                 {
-                    if (Validator.IsVariable(s))
+                    var c = s[^1];
+                    if (c == '\'' || c == '"')
+                        return;
+
+                    if (string.Equals(s, ")"))
+                        brackets = true;
+                    else if (brackets && Validator.IsVariable(s))
                     {
                         LocalVariables.Add(s);
                         inline.Background = null;

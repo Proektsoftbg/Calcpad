@@ -8,7 +8,9 @@ namespace Calcpad.Wpf
     {
         void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
+            DispatcherUnhandledException -= App_DispatcherUnhandledException;
             var ex = e.Exception;
+            e.Handled = true;
             MainWindow main = (MainWindow)Current.MainWindow;
             if (main.IsSaved)
             {
@@ -29,7 +31,6 @@ namespace Calcpad.Wpf
             var message1 = GetMessage(ex) +
             "\r\n\r\nCalcpad will save your work and will try to recover automatically.";
 #endif
-            e.Handled = true;
             try
             {
                 MessageBox.Show(message1, "Calcpad", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -41,10 +42,10 @@ namespace Calcpad.Wpf
             {
 #if BG
                 var message2 = GetMessage(ex2) +
-                "\r\n\r\nВъзстановяването е неуспешно. Ако проблемът продължи, моля пишете на proektsoft.bg@gmail.com.";
+                "\r\n\r\nВъзстановяването беше неуспешно. Ако проблемът продължи, моля пишете на proektsoft.bg@gmail.com.";
 #else
                 var message2 = GetMessage(ex2) +
-                "\r\n\r\nUnable to recover. If the problem persists, please contact us on proektsoft.bg@gmail.com.";
+                "\r\n\r\nCalcpad was unable to recover. If the problem persists, please contact us on proektsoft.bg@gmail.com.";
 #endif
                 MessageBox.Show(message2, "Calcpad", MessageBoxButton.OK, MessageBoxImage.Error);
             }
