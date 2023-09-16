@@ -100,11 +100,7 @@ namespace Calcpad.Core
                     else if (t.Type == TokenTypes.Solver)
                         parser._solveBlocks[t.Index].OnChange += Change;
                     else if (t.Type == TokenTypes.CustomFunction)
-                    {
-                        var index = parser._functions.IndexOf(t.Content);
-                        if (index >= 0)
-                            parser._functions[index].OnChange += Change;
-                    }
+                        parser._functions[t.Index].OnChange += Change;
                 }
             }
 
@@ -119,7 +115,7 @@ namespace Calcpad.Core
                     var t = Rpn[i];
                     if (t.Type == TokenTypes.CustomFunction)
                     {
-                        var cf = functions[functions.IndexOf(t.Content)];
+                        var cf = functions[t.Index];
                         if (cf.CheckRecursion(f, functions))
                             return true;
                     }

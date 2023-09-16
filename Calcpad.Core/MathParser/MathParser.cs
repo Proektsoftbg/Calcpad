@@ -228,7 +228,7 @@ namespace Calcpad.Core
 
         public void DefineCustomUnits()
         {
-            if (_rpn.Length > 2 &&
+            if (_rpn?.Length > 2 &&
                 _rpn[0].Type == TokenTypes.Unit &&
                 _rpn[^1].Content == "=")
             {
@@ -293,10 +293,10 @@ namespace Calcpad.Core
                     if (input.Count != 0 && input.Dequeue().Content == "=")
                     {
                         var rpn = Input.GetRpn(input);
-                        var i = _functions.IndexOf(name);
+                        var index = _functions.IndexOf(name);
                         CustomFunction cf;
-                        if (i >= 0)
-                            cf = _functions[i];
+                        if (index >= 0)
+                            cf = _functions[index];
                         else
                             cf = new CustomFunction();
 
@@ -313,7 +313,7 @@ namespace Calcpad.Core
                             cf.SubscribeCache(this);
                         }
                         cf.Units = _targetUnits;
-                        if (i >= 0)
+                        if (index >= 0)
                             cf.Change();
                         _functionDefinitionIndex = _functions.Add(name, cf);
                         return;
