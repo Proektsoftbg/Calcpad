@@ -70,8 +70,8 @@ namespace Calcpad.Cli
                 return;
             
             MathParser mp = new(settings.Math);
-            Console.OutputEncoding = Encoding.Unicode;
-            Console.InputEncoding = Encoding.Unicode;  
+            Console.OutputEncoding = Encoding.UTF8;
+            Console.InputEncoding = Encoding.UTF8;  
             //Console.WindowWidth = 85;
             List<Line> Lines = new();
             var Title = TryOpenOnStartup(Lines);
@@ -223,7 +223,7 @@ namespace Calcpad.Cli
 
         static void RenderFile(string fileName)
         {
-            var path = AppPath + fileName + ".txt";
+            var path = AppPath + fileName + ".TXT";
             try
             {
                 Console.Write(File.ReadAllText(path));
@@ -437,7 +437,7 @@ namespace Calcpad.Cli
 
         static string Open(string Prompt, List<Line> Lines)
         {
-            var FilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\cpc";
+            var FilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/cpc";
             if (!Directory.Exists(FilePath))
             {
                 WriteError(Prompt + "OPEN There are no saved problems.\r\n", false);
@@ -445,7 +445,7 @@ namespace Calcpad.Cli
             }
             Console.Write(Prompt + "OPEN Problem title: ");
             var Title = Console.ReadLine();
-            var FileName = FilePath + "\\" + Title + ".cpc";
+            var FileName = FilePath + "/" + Title + ".cpc";
             if (File.Exists(FileName))
             {
                 Lines.Clear();
@@ -464,7 +464,7 @@ namespace Calcpad.Cli
 
         static string Save(string Title, string Prompt, List<Line> Lines)
         {
-            var FilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\cpc";
+            var FilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/cpc";
             if (!Directory.Exists(FilePath))
                 Directory.CreateDirectory(FilePath);
 
@@ -481,7 +481,7 @@ namespace Calcpad.Cli
 
             if (NewTitle.Length > 0)
             {
-                var FileName = FilePath + "\\" + NewTitle + ".cpc";
+                var FileName = FilePath + "/" + NewTitle + ".cpc";
                 using StreamWriter sw = new(FileName);
                 foreach (Line L in Lines)
                     sw.WriteLine(L.Input);
@@ -491,7 +491,7 @@ namespace Calcpad.Cli
 
         static void List(string Prompt)
         {
-            string FilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\cpc";
+            string FilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/cpc";
             if (!Directory.Exists(FilePath))
             {
                 WriteError(Prompt + "There are no saved problems.", true);
