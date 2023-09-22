@@ -12,6 +12,7 @@ namespace Calcpad.Cli
 {
     class Program
     {
+        private static char dirSeparator = Path.DirectorySeparatorChar;
         const string Prompt = " |> ";
         private static readonly int _width = Math.Min(Math.Min(Console.WindowWidth, Console.BufferWidth), 80);
 
@@ -70,8 +71,18 @@ namespace Calcpad.Cli
                 return;
             
             MathParser mp = new(settings.Math);
-            Console.OutputEncoding = Encoding.UTF8;
-            Console.InputEncoding = Encoding.UTF8;  
+            
+            if (OperatingSystem.IsWindows())
+            {
+                Console.OutputEncoding = Encoding.Unicode;
+                Console.InputEncoding = Encoding.Unicode;  
+            }
+            else
+            {
+                Console.OutputEncoding = Encoding.UTF8;
+                Console.InputEncoding = Encoding.UTF8;  
+            }
+            
             //Console.WindowWidth = 85;
             List<Line> Lines = new();
             var Title = TryOpenOnStartup(Lines);
@@ -242,7 +253,13 @@ namespace Calcpad.Cli
             if (n == 0)
                 return false;
 
-            var fileName = string.Join(" ", args, 1, n - 1).ToLower();
+            var fileName = string.Join(" ", args, 1, n - 1); //.ToLower(); cannot be used in linux due to case sensitive file system
+            
+            if (OperatingSystem.IsWindows())
+            {
+                fileName = fileName.ToLower();
+            }
+            
             var i = fileName.IndexOf(".cpd");
             if (i < 0)
                 return false;
@@ -301,7 +318,13 @@ namespace Calcpad.Cli
             var n = args.Length;
             if (n > 1)
             {
-                var fileName = string.Join(" ", args, 1, n - 1).ToLower();
+                var fileName = string.Join(" ", args, 1, n - 1); //.ToLower(); cannot be used in linux due to case sensitive file system
+            
+                if (OperatingSystem.IsWindows())
+                {
+                    fileName = fileName.ToLower();
+                }
+                
                 if (File.Exists(fileName))
                 {
                     if (Path.GetExtension(fileName) == ".cpc")
@@ -437,7 +460,7 @@ namespace Calcpad.Cli
 
         static string Open(string Prompt, List<Line> Lines)
         {
-            var FilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/cpc";
+            var FilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"{dirSeparator}cpc";
             if (!Directory.Exists(FilePath))
             {
                 WriteError(Prompt + "OPEN There are no saved problems.\r\n", false);
@@ -445,7 +468,7 @@ namespace Calcpad.Cli
             }
             Console.Write(Prompt + "OPEN Problem title: ");
             var Title = Console.ReadLine();
-            var FileName = FilePath + "/" + Title + ".cpc";
+            var FileName = FilePath + dirSeparator + Title + ".cpc";
             if (File.Exists(FileName))
             {
                 Lines.Clear();
@@ -464,7 +487,7 @@ namespace Calcpad.Cli
 
         static string Save(string Title, string Prompt, List<Line> Lines)
         {
-            var FilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/cpc";
+            var FilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"{dirSeparator}cpc";
             if (!Directory.Exists(FilePath))
                 Directory.CreateDirectory(FilePath);
 
@@ -481,7 +504,7 @@ namespace Calcpad.Cli
 
             if (NewTitle.Length > 0)
             {
-                var FileName = FilePath + "/" + NewTitle + ".cpc";
+                var FileName = FilePath + dirSeparator + NewTitle + ".cpc";
                 using StreamWriter sw = new(FileName);
                 foreach (Line L in Lines)
                     sw.WriteLine(L.Input);
@@ -491,7 +514,7 @@ namespace Calcpad.Cli
 
         static void List(string Prompt)
         {
-            string FilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/cpc";
+            string FilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"{dirSeparator}cpc";
             if (!Directory.Exists(FilePath))
             {
                 WriteError(Prompt + "There are no saved problems.", true);
