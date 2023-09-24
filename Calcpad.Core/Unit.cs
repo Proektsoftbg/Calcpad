@@ -89,7 +89,7 @@ namespace Calcpad.Core
             return Field.Other;
         }
 
-        private bool HasTemp => Length == 5 && _powers[4] != 0;
+        private bool HasTemp => Length == 5 && _powers[4] != 0f;
 
         internal bool IsTemp => Length == 5 &&
                                 _powers[4] == 1f &&
@@ -164,7 +164,6 @@ namespace Calcpad.Core
 
         public bool Equals(Unit other) =>
             ReferenceEquals(this, other) ||
-            Length == other.Length &&
             IsConsistent(other) &&
             _factors.AsSpan().SequenceEqual(other._factors);
 
@@ -958,14 +957,14 @@ namespace Calcpad.Core
             var factor = 1d;
             for (int i = 0; i < n; ++i)
             {
-                if (u1._powers[i] != 0f && u1._factors[i] != u2._factors[i])
+                if (u1._powers[i] != 0f && 
+                    u2._powers[i] != 0f && 
+                    u1._factors[i] != u2._factors[i])
                 {
-                    ref var p2 = ref u2._powers[i];
-                    if (p2 != 0f)
-                    {
-                        var d = divide ? u1._factors[i] / u2._factors[i] : u2._factors[i] / u1._factors[i];
-                        factor *= MyPow(d, p2);
-                    }
+                    if (divide)
+                        factor *= MyPow(u1._factors[i] / u2._factors[i], u2._powers[i]);
+                    else
+                        factor *= MyPow(u2._factors[i] / u1._factors[i], u2._powers[i]);
                 }
             }
             return factor;
@@ -973,9 +972,9 @@ namespace Calcpad.Core
 
         private static double MyPow(double x, float y) => y switch
         {
-            -3f => 1f / (x * x * x),
-            -2f => 1f / (x * x),
-            -1f => 1f / x,
+            -3f => 1d / (x * x * x),
+            -2f => 1d / (x * x),
+            -1f => 1d / x,
             0f => 1f,
             1f => x,
             2f => x * x,
