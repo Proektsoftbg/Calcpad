@@ -174,6 +174,8 @@ namespace Calcpad.Wpf
         private static readonly SolidColorBrush ToolTipBackground = new(Color.FromArgb(196, 0, 0, 0));
         private static readonly SolidColorBrush TitleBackground = new(Color.FromRgb(245, 255, 240));
         private static readonly SolidColorBrush ErrorBackground = new(Color.FromRgb(255, 225, 225));
+        private static readonly SolidColorBrush BackgroundBrush = new(Color.FromArgb(160, 240, 248, 255));
+
         private static readonly HashSet<char> Operators = new() { '!', '^', '/', '÷', '\\', '⦼', '*', '-', '+', '<', '>', '≤', '≥', '≡', '≠', '=', '∧', '∨', '⊕' };
         private static readonly HashSet<char> Delimiters = new() { ';', '|', '&', '@', ':' };
         private static readonly HashSet<char> Brackets = new() { '(', ')', '{', '}' };
@@ -306,8 +308,8 @@ namespace Calcpad.Wpf
             foreach (var inline in p.Inlines)
                 inline.Background = null;
 
-            p.Background = Brushes.FloralWhite;
-            p.BorderBrush = Brushes.NavajoWhite;
+            p.Background = BackgroundBrush;
+            p.BorderBrush = Brushes.LightBlue;
             p.BorderThickness = _thickness;
         }
 
@@ -599,6 +601,11 @@ namespace Calcpad.Wpf
                         _builder.Append(c);
 
                     Append(_state.CurrentType);
+                    if (_state.IsTagComment && c == _state.TagComment)
+                    {
+                        _builder.Append(c);
+                        Append(Types.Tag);
+                    }
                     _state.IsTagComment = !_state.IsTagComment;
                 }
             }
@@ -693,7 +700,7 @@ namespace Calcpad.Wpf
                 if (_state.IsTag)
                     _state.IsTag = _tagHelper.CheckTag(c, _builder, ref _state.CurrentType);
 
-                if (!(_state.IsTagComment && c == _state.TagComment))
+                if (!(_state.IsTag && c == _state.TagComment))
                 {
                     _builder.Append(c);
                     if (c == '$' && Defined.Macros.Count > 0)
@@ -1259,9 +1266,9 @@ namespace Calcpad.Wpf
                     if (c == '\'' || c == '"')
                         return;
 
-                    if (string.Equals(s, ")"))
-                        brackets = true;
-                    else if (brackets && Validator.IsVariable(s))
+                if (string.Equals(s, ")"))
+                    brackets = true;
+                else if (brackets && Validator.IsVariable(s))
                     {
                         LocalVariables.Add(s);
                         inline.Background = null;
