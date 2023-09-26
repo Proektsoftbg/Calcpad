@@ -633,6 +633,7 @@ namespace Calcpad.Wpf
                     Append(t);
                     _builder.Append(s[j..]);
                     Append(Types.Macro);
+                    _state.CurrentType = Types.Macro;
                     break;
                 }
             }
@@ -661,6 +662,8 @@ namespace Calcpad.Wpf
                 _builder.Append(c);
                 _state.CurrentType = Types.Bracket;
                 Append(_state.CurrentType);
+                if (_state.TextComment != '\0' && c == ')' && _state.BracketCount == 0)
+                    _state.CurrentType = Types.Comment;  
             }
             else if (c == ';')
             {
@@ -669,11 +672,9 @@ namespace Calcpad.Wpf
                 _state.CurrentType = Types.Operator;
                 Append(_state.CurrentType);
             }
-            else
-            {
-                if (_state.PreviousType != Types.Operator || c != ' ')
-                    _builder.Append(c);
-            }
+            else if (!(_state.HasMacro && c == ' '))
+                _builder.Append(c); 
+
             _state.PreviousType = _state.CurrentType;
         }
 
@@ -702,7 +703,15 @@ namespace Calcpad.Wpf
 
                 if (!(_state.IsTag && c == _state.TagComment))
                 {
-                    _builder.Append(c);
+                    if (_state.CurrentType == Types.Macro && (c == '(' || c == ')'))
+                    {   
+                        ParseBrackets(c);
+                        if (c == ')')
+                            _state.CurrentType = Types.Comment;
+                    }
+                    else
+                        _builder.Append(c);
+
                     if (c == '$' && Defined.Macros.Count > 0)
                         ParseMacroInComment(Types.Comment);
                 }
@@ -1398,7 +1407,7 @@ namespace Calcpad.Wpf
             {
                 "-" => _allowUnaryMinus ? "-" : " - ",
                 "+" or "=" or "≡" or "≠" or "<" or ">" or "≤" or "≥" or "&" or "@" or ":" or "∧" or "∨" or "⊕" => ' ' + name + ' ',
-                ";" => name + ' ',
+                ";" => !_state.HasMacro && _state.MacroArgs > 0 ? ";" : "; ",
                 _ => name,
             };
     }
