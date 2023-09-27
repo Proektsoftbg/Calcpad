@@ -119,21 +119,26 @@ namespace Calcpad.Wpf
                     var ts = new TextSpan(item);
                     var isDone = false;
                     var isFunction = false;
+                    var isSubscript = false;
                     ts.Reset(0);
                     for (int j = 0, len = item.Length; j < len; ++j)
                     {
                         var c = item[j];
                         if (Validator.IsWhiteSpace(c) && ts.IsEmpty)
                             continue;
-                        else if (Validator.IsVarChar(c))
+                        else if (Validator.IsVarChar(c) || isSubscript && char.IsLetter(c))
                         {
                             if (isDone)
                             {
+                                isSubscript = false;
                                 if (isFunction)
                                     continue;
 
                                 break;
                             }
+                            if (!isFunction && c == '_')
+                                isSubscript = true; 
+
                             if (ts.IsEmpty)
                                 ts.Reset(j);
 
