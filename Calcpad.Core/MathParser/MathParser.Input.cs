@@ -17,7 +17,7 @@ namespace Calcpad.Core
             private readonly Dictionary<string, Variable> _variables;
             private readonly Dictionary<string, Unit> _units;
             private static readonly char[] _unitChars = Validator.UnitCharArray();
-        static Input()
+            static Input()
             {
                 // This array is needed to quickly check the token type of a character during parsing
                 // Letters a-z are initially assumed to be variables unless the whole literal matches a function 
@@ -89,6 +89,7 @@ namespace Calcpad.Core
                 var isDivision = false;
                 var isUnitDivision = false;
                 var isInput = false;
+                var isSubscript = false;    
                 var bracketCounter = 0;
                 var n = expression.IndexOf('|');
                 var tokenLiteral = new TextSpan(expression);
@@ -116,6 +117,16 @@ namespace Calcpad.Core
                 {
                     var c = (i == n) ? ' ' : expression[i];
                     var tt = GetCharType(c); //Get the type from a predefined array
+                    if (pt == TokenTypes.Unit || pt == TokenTypes.Variable)
+                    {
+                        if (c == '_')
+                            isSubscript = true;
+                        else if (tt == TokenTypes.Error && isSubscript && char.IsLetter(c))
+                            tt = pt;
+                    }
+                    else
+                        isSubscript = false;
+
                     if (!isInput && InputSolver(c, tt, ref textSpan, tokenLiteral, i))
                         continue;
 

@@ -180,13 +180,11 @@ namespace Calcpad.Wpf
             _htmlWorksheet = ReadFile(AppInfo.Path + "template.html").Replace("jquery", appUrl + "jquery");
             _htmlParsing = ReadFile(AppInfo.Path + "parsing.html");
 #if BG
-            var s = GetHelp("https://proektsoft.bg/calcpad/help.html");
+            _htmlHelp = GetHelp("https://calcpad.bg/download/help.html");
 #else
-            var s = GetHelp("https://proektsoft.bg/calcpad/help.en.html");
+            _htmlHelp = GetHelp("https://calcpad.en/download/help.html");
 #endif
-            //_htmlHelp = s.Replace("readme.html", appUrl + "readme.html");
-            _htmlHelp = ReadFile(AppInfo.Path + "help.html").Replace("readme.html", appUrl + "readme.html");
-            _htmlSource = ReadFile(AppInfo.Path + "source.html");
+            _htmlSource = ReadFile(AppInfo.Path + "source.html").Replace("jquery", appUrl + "jquery");
             _svgTyping = $"<img style=\"height:1em;\" src=\"{appUrl}typing.gif\" alt=\"...\">";
             _htmlHelp = _htmlHelp.Replace("jquery", appUrl + "jquery");
             //_htmlTempFileName = Path.GetTempFileName() + ".html";
@@ -1268,6 +1266,7 @@ You can find your unsaved data in
             }
             else
             {
+                _parser.Debug = !IsWebForm;
                 outputText = FixHref(outputText);
                 WebBrowser.Tag = false;
                 if (toWebForm)
@@ -1370,15 +1369,10 @@ You can find your unsaved data in
         private string CodeToHtml(string code, bool hasErrors)
         {
             var highlighter = new HighLighter();
+            var errors = new Queue<int>();
             _stringBuilder.Clear();
             _stringBuilder.Append(_htmlSource);
             var lines = code.EnumerateLines();
-            if (hasErrors)
-#if BG
-                _stringBuilder.AppendLine("<p class=\"input\">Имаше грешки при обработване на препратки и макроси.</p><br />");
-#else
-                _stringBuilder.AppendLine("<p class=\"input\">There were errors processing includes and macros.</p><br />");
-#endif
             _stringBuilder.AppendLine("<div class=\"code\">");
             highlighter.Defined.Get(lines, IsComplex);
             var indent = 0.0;
@@ -1389,9 +1383,10 @@ You can find your unsaved data in
                 var i = line.IndexOf('\v');
                 var lineText = i < 0 ? line : line[..i];
                 var sourceLine = i < 0 ? lineNumber.ToString() : line[(i + 1)..];
-                _stringBuilder.Append($"<p class=\"line-text\" id=\"line-{lineNumber}\"><a class=\"line-num\" href=\"#0\" data-text=\"{sourceLine}\">{lineNumber}</a>");
+                _stringBuilder.Append($"<p class=\"line-text\" id=\"line-{lineNumber}\"><a class=\"line-num\" href=\"#0\" data-text=\"{sourceLine}\" title=\"Source line {sourceLine}\">{lineNumber}</a>");
                 if (line.StartsWith(ErrorString))
                 {
+                    errors.Enqueue(lineNumber);
                     _stringBuilder.Append($"<span class=\"error\">{lineText[1..]}</span>");
                 }
                 else
@@ -1423,7 +1418,27 @@ You can find your unsaved data in
                 }
                 _stringBuilder.Append($"</p>");
             }
-            _stringBuilder.Append("</div></body></html>");
+            _stringBuilder.Append("</div>");
+            if (errors.Count != 0 && lineNumber > 30)
+            {
+#if BG
+                _stringBuilder.AppendLine($"<div class=\"errorHeader\">Общо <b>{errors.Count}</b> грешки в модули и макроси:");
+#else
+                _stringBuilder.AppendLine($"<div class=\"errorHeader\">Found <b>{errors.Count}</b> errors in modules and macros:");
+#endif
+                var count = 0;
+                while (errors.Count != 0 && ++count < 20)
+                {
+                    var line = errors.Dequeue();
+                    _stringBuilder.Append($" <span class=\"roundBox\" data-line=\"{line}\">{line}</span>");
+                }
+                if (errors.Count > 0)
+                    _stringBuilder.Append(" ...");
+
+                _stringBuilder.Append("</div>");
+                _stringBuilder.AppendLine("<style>body {padding-top:1.1em;}</style>");
+            }
+            _stringBuilder.Append("</body></html>");
             return _stringBuilder.ToString();
         }
 

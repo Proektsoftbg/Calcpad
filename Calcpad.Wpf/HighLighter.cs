@@ -74,6 +74,7 @@ namespace Calcpad.Wpf
             internal char TextComment;
             internal char TagComment;
             internal char InputChar { get; private set; }
+            internal bool IsSubscript;
             internal bool IsLeading;
             internal bool IsUnits;
             internal bool IsPlot;
@@ -507,6 +508,14 @@ namespace Calcpad.Wpf
 
                 if (!Validator.IsWhiteSpace(c))
                     _state.IsLeading = false;
+
+                if (_state.CurrentType == Types.Units || _state.CurrentType == Types.Variable)
+                {
+                    if (c == '_')
+                        _state.IsSubscript = true;
+                }
+                else
+                    _state.IsSubscript = false;
             }
             Append(_state.PreviousTypeIfCurrentIsNone);
             if (_state.Redefine)
@@ -552,7 +561,7 @@ namespace Calcpad.Wpf
         {
             if (c >= 'А' && c <= 'я' && _state.CurrentType != Types.Include)
             {
-                if (_state.TextComment == '\0')
+                if (_state.TextComment == '\0' && !_state.IsSubscript)
                 {
                     Append(_state.CurrentType);
                     _state.TextComment = _state.Paragraph.PreviousBlock is null ? '"' : '\'';
@@ -586,12 +595,9 @@ namespace Calcpad.Wpf
                 else if (c == _state.TextComment)
                 {
                     _state.TextComment = '\0';
-                    if (_state.IsTag && _state.IsTagComment)
-                        _state.CurrentType = Types.Comment;
-
+                    _state.CurrentType = Types.Comment;
                     _builder.Append(c);
                     Append(_state.CurrentType);
-                    _state.CurrentType = Types.Comment;
                 }
                 else if (_state.IsTag)
                 {
@@ -614,7 +620,7 @@ namespace Calcpad.Wpf
         private bool IsParseError(char c, Types t) =>
                 t == Types.Const && !Validator.IsDigit(c) ||
                 t == Types.Macro && !Validator.IsMacroLetter(c, _builder.Length) ||
-                t == Types.Variable && !Validator.IsVarChar(c);
+                t == Types.Variable && !(Validator.IsVarChar(c) || _state.IsSubscript &&  char.IsLetter(c));
 
         private void ParseMacroInComment(Types t)
         {
