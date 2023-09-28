@@ -273,16 +273,16 @@ namespace Calcpad.Core
                 Throw.ArgumentOutOfRange(func);
         }
 
-        internal static Complex RealRandom(in Complex value) =>
+        internal static double RealRandom(in Complex value) =>
             Rand.NextDouble() * value._a;
 
-        internal static Complex RealSin(double value)
+        internal static double RealSin(double value)
         {
             CheckTrigScope(value, "sin");
             return Math.Sin(value);
         }
 
-        internal static Complex RealCos(double value)
+        internal static double RealCos(double value)
         {
             CheckTrigScope(value, "cos");
             return Math.Cos(value);

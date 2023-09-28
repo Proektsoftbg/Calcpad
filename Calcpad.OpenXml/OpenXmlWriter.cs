@@ -406,6 +406,9 @@ namespace Calcpad.OpenXml
         private static readonly Regex IsHiddenRegex = new("display:\\s*none|visibility:\\s*hidden", RegexOptions.Compiled);
         private static bool IsHidden(HtmlNode node)
         {
+            if (node.HasClass("lineLink") || node.HasClass("errorHeader"))
+                return true;
+
             var style = node.GetAttributeValue("style", null);
             if (style is null) 
                 return false;

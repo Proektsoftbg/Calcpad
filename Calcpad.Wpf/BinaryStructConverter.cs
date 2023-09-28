@@ -31,7 +31,7 @@ namespace Calcpad.Wpf
                 int size = Marshal.SizeOf(typeof(T));
                 ptr = Marshal.AllocHGlobal(size);
                 Marshal.StructureToPtr(obj, ptr, true);
-                byte[] bytes = new byte[size];
+                var bytes = new byte[size];
                 Marshal.Copy(ptr, bytes, 0, size);
                 return bytes;
             }
