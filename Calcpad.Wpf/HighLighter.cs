@@ -74,6 +74,7 @@ namespace Calcpad.Wpf
             internal char TextComment;
             internal char TagComment;
             internal char InputChar { get; private set; }
+            internal bool IsSubscript;
             internal bool IsLeading;
             internal bool IsUnits;
             internal bool IsPlot;
@@ -174,6 +175,8 @@ namespace Calcpad.Wpf
         private static readonly SolidColorBrush ToolTipBackground = new(Color.FromArgb(196, 0, 0, 0));
         private static readonly SolidColorBrush TitleBackground = new(Color.FromRgb(245, 255, 240));
         private static readonly SolidColorBrush ErrorBackground = new(Color.FromRgb(255, 225, 225));
+        private static readonly SolidColorBrush BackgroundBrush = new(Color.FromArgb(160, 240, 248, 255));
+
         private static readonly HashSet<char> Operators = new() { '!', '^', '/', '÷', '\\', '⦼', '*', '-', '+', '<', '>', '≤', '≥', '≡', '≠', '=', '∧', '∨', '⊕' };
         private static readonly HashSet<char> Delimiters = new() { ';', '|', '&', '@', ':' };
         private static readonly HashSet<char> Brackets = new() { '(', ')', '{', '}' };
@@ -306,8 +309,8 @@ namespace Calcpad.Wpf
             foreach (var inline in p.Inlines)
                 inline.Background = null;
 
-            p.Background = Brushes.FloralWhite;
-            p.BorderBrush = Brushes.NavajoWhite;
+            p.Background = BackgroundBrush;
+            p.BorderBrush = Brushes.LightBlue;
             p.BorderThickness = _thickness;
         }
 
@@ -505,6 +508,14 @@ namespace Calcpad.Wpf
 
                 if (!Validator.IsWhiteSpace(c))
                     _state.IsLeading = false;
+
+                if (_state.CurrentType == Types.Units || _state.CurrentType == Types.Variable)
+                {
+                    if (c == '_')
+                        _state.IsSubscript = true;
+                }
+                else
+                    _state.IsSubscript = false;
             }
             Append(_state.PreviousTypeIfCurrentIsNone);
             if (_state.Redefine)
@@ -550,7 +561,7 @@ namespace Calcpad.Wpf
         {
             if (c >= 'А' && c <= 'я' && _state.CurrentType != Types.Include)
             {
-                if (_state.TextComment == '\0')
+                if (_state.TextComment == '\0' && !_state.IsSubscript)
                 {
                     Append(_state.CurrentType);
                     _state.TextComment = _state.Paragraph.PreviousBlock is null ? '"' : '\'';
@@ -584,12 +595,9 @@ namespace Calcpad.Wpf
                 else if (c == _state.TextComment)
                 {
                     _state.TextComment = '\0';
-                    if (_state.IsTag && _state.IsTagComment)
-                        _state.CurrentType = Types.Comment;
-
+                    _state.CurrentType = Types.Comment;
                     _builder.Append(c);
                     Append(_state.CurrentType);
-                    _state.CurrentType = Types.Comment;
                 }
                 else if (_state.IsTag)
                 {
@@ -599,6 +607,11 @@ namespace Calcpad.Wpf
                         _builder.Append(c);
 
                     Append(_state.CurrentType);
+                    if (_state.IsTagComment && c == _state.TagComment)
+                    {
+                        _builder.Append(c);
+                        Append(Types.Tag);
+                    }
                     _state.IsTagComment = !_state.IsTagComment;
                 }
             }
@@ -607,7 +620,7 @@ namespace Calcpad.Wpf
         private bool IsParseError(char c, Types t) =>
                 t == Types.Const && !Validator.IsDigit(c) ||
                 t == Types.Macro && !Validator.IsMacroLetter(c, _builder.Length) ||
-                t == Types.Variable && !Validator.IsVarChar(c);
+                t == Types.Variable && !(Validator.IsVarChar(c) || _state.IsSubscript &&  char.IsLetter(c));
 
         private void ParseMacroInComment(Types t)
         {
@@ -626,6 +639,7 @@ namespace Calcpad.Wpf
                     Append(t);
                     _builder.Append(s[j..]);
                     Append(Types.Macro);
+                    _state.CurrentType = Types.Macro;
                     break;
                 }
             }
@@ -654,6 +668,8 @@ namespace Calcpad.Wpf
                 _builder.Append(c);
                 _state.CurrentType = Types.Bracket;
                 Append(_state.CurrentType);
+                if (_state.TextComment != '\0' && c == ')' && _state.BracketCount == 0)
+                    _state.CurrentType = Types.Comment;  
             }
             else if (c == ';')
             {
@@ -662,11 +678,9 @@ namespace Calcpad.Wpf
                 _state.CurrentType = Types.Operator;
                 Append(_state.CurrentType);
             }
-            else
-            {
-                if (_state.PreviousType != Types.Operator || c != ' ')
-                    _builder.Append(c);
-            }
+            else if (!(_state.HasMacro && c == ' '))
+                _builder.Append(c); 
+
             _state.PreviousType = _state.CurrentType;
         }
 
@@ -693,9 +707,17 @@ namespace Calcpad.Wpf
                 if (_state.IsTag)
                     _state.IsTag = _tagHelper.CheckTag(c, _builder, ref _state.CurrentType);
 
-                if (!(_state.IsTagComment && c == _state.TagComment))
+                if (!(_state.IsTag && c == _state.TagComment))
                 {
-                    _builder.Append(c);
+                    if (_state.CurrentType == Types.Macro && (c == '(' || c == ')'))
+                    {   
+                        ParseBrackets(c);
+                        if (c == ')')
+                            _state.CurrentType = Types.Comment;
+                    }
+                    else
+                        _builder.Append(c);
+
                     if (c == '$' && Defined.Macros.Count > 0)
                         ParseMacroInComment(Types.Comment);
                 }
@@ -1250,13 +1272,18 @@ namespace Calcpad.Wpf
             while (inline != null)
             {
                 var s = ((Run)inline).Text.Trim();
+                if (string.Equals(s, "("))
+                    return;
+
+                if (!string.IsNullOrEmpty(s))
+                {
+                    var c = s[^1];
+                    if (c == '\'' || c == '"')
+                        return;
+
                 if (string.Equals(s, ")"))
                     brackets = true;
-                else if (string.Equals(s, "("))
-                    return;
-                else if (brackets)
-                {
-                    if (Validator.IsVariable(s))
+                else if (brackets && Validator.IsVariable(s))
                     {
                         LocalVariables.Add(s);
                         inline.Background = null;
@@ -1386,7 +1413,7 @@ namespace Calcpad.Wpf
             {
                 "-" => _allowUnaryMinus ? "-" : " - ",
                 "+" or "=" or "≡" or "≠" or "<" or ">" or "≤" or "≥" or "&" or "@" or ":" or "∧" or "∨" or "⊕" => ' ' + name + ' ',
-                ";" => name + ' ',
+                ";" => !_state.HasMacro && _state.MacroArgs > 0 ? ";" : "; ",
                 _ => name,
             };
     }

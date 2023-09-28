@@ -35,7 +35,7 @@
             <Keywords name="Delimiters">00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23</Keywords>
         </KeywordLists>
         <Styles>
-            <WordsStyle name="DEFAULT" fgColor="6EDCFF" bgColor="000000" fontStyle="0" nesting="0" />
+            <WordsStyle name="DEFAULT" fgColor="37D7FF" bgColor="000000" fontStyle="0" nesting="0" />
             <WordsStyle name="COMMENTS" fgColor="80FF80" bgColor="151515" fontStyle="0" nesting="0" />
             <WordsStyle name="LINE COMMENTS" fgColor="A2EF10" bgColor="000000" fontStyle="0" nesting="0" />
             <WordsStyle name="NUMBERS" fgColor="FFFFFF" bgColor="000000" fontStyle="0" nesting="0" />
@@ -43,7 +43,7 @@
             <WordsStyle name="KEYWORDS2" fgColor="FFFFFF" bgColor="151515" fontStyle="1" nesting="0" />
             <WordsStyle name="KEYWORDS3" fgColor="FF0000" bgColor="000000" fontStyle="1" nesting="0" />
             <WordsStyle name="KEYWORDS4" fgColor="6EDCFF" bgColor="FFFFFF" fontStyle="2" nesting="0" />
-            <WordsStyle name="KEYWORDS5" fgColor="5EFFCB" bgColor="FFFFFF" fontStyle="2" fontSize="8" nesting="0" />
+            <WordsStyle name="KEYWORDS5" fgColor="37F5E1" bgColor="FFFFFF" fontStyle="0" nesting="0" />
             <WordsStyle name="KEYWORDS6" fgColor="FF0000" bgColor="FFFFFF" fontStyle="1" nesting="0" />
             <WordsStyle name="KEYWORDS7" fgColor="000000" bgColor="FFFFFF" fontStyle="0" nesting="0" />
             <WordsStyle name="KEYWORDS8" fgColor="000000" bgColor="FFFFFF" fontStyle="0" nesting="0" />

@@ -235,11 +235,7 @@ namespace Calcpad.Core
                     if (t is VariableToken vt)
                         vt.Variable.OnChange += Clear;
                     else if (t.Type == TokenTypes.CustomFunction)
-                    {
-                        var index = _parser._functions.IndexOf(t.Content);
-                        if (index >= 0)
-                            _parser._functions[index].OnChange += Clear;
-                    }
+                        _parser._functions[t.Index].OnChange += Clear;
                 }
             }
 
