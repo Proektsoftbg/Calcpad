@@ -8,6 +8,7 @@ namespace Calcpad.Cli
 {
     internal class Converter
     {
+        private static char dirSeparator = Path.DirectorySeparatorChar;
         private readonly StringBuilder _sb = new();
         private readonly string _htmlWorksheet;
 
@@ -35,9 +36,26 @@ namespace Calcpad.Cli
         {
             var htmlFile = Path.ChangeExtension(path, ".html");
             File.WriteAllText(htmlFile, HtmlApplyWorksheet(html));
+            
+            string wkhtmltopdfPath;
+
+            if (OperatingSystem.IsWindows())
+            {
+                wkhtmltopdfPath = Program.AppPath + "wkhtmltopdf.exe";
+            }
+            else
+            {
+                wkhtmltopdfPath = "/usr/bin/wkhtmltopdf";
+                
+                if (!File.Exists("/usr/bin/wkhtmltopdf"))
+                {
+                    throw new DirectoryNotFoundException("wkhtmltopdf not found.");
+                }
+            }
+            
             var startInfo = new ProcessStartInfo
             {
-                FileName = Program.AppPath + "wkhtmltopdf.exe"
+                FileName = wkhtmltopdfPath
             };
             const string s = " --enable-local-file-access --disable-smart-shrinking --page-size A4  --margin-bottom 15 --margin-left 15 --margin-right 10 --margin-top 15 ";
             if (htmlFile.Contains(' ', StringComparison.Ordinal))
@@ -49,6 +67,7 @@ namespace Calcpad.Cli
             startInfo.WindowStyle = ProcessWindowStyle.Hidden;
             var process = Process.Start(startInfo);
             process.WaitForExit();
+            
             File.Delete(htmlFile);
             if (File.Exists(path))
                 Run(path);
