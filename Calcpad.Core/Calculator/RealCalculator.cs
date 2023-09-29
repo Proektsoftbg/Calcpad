@@ -6,7 +6,7 @@ namespace Calcpad.Core
     internal class RealCalculator : Calculator
     {
         private static readonly Func<Value, Value, Value>[] Operators;
-        private readonly Func<Value, Value>[] Functions;
+        private readonly Func<Value, Value>[] _functions;
         private static readonly Func<Value, Value, Value>[] Functions2;
         private static readonly Func<Value[], Value>[] MultiFunctions;
         internal override int Degrees
@@ -16,7 +16,7 @@ namespace Calcpad.Core
 
         public RealCalculator()
         {
-            Functions = new Func<Value, Value>[]
+            _functions = new[]
 {
                 Sin,      // 0
                 Cos,      // 1
@@ -68,7 +68,7 @@ namespace Calcpad.Core
 
         static RealCalculator()
         {
-            Operators = new Func<Value, Value, Value>[]
+            Operators = new[]
             {
                 UnitPow,
                 Value.Divide,
@@ -89,7 +89,7 @@ namespace Calcpad.Core
                 (_, b) => b
             };
 
-            Functions2 = new Func<Value, Value, Value>[]
+            Functions2 = new[]
             {
                 Atan2,
                 UnitRoot,
@@ -99,7 +99,7 @@ namespace Calcpad.Core
                 MandelbrotSet
             };
 
-            MultiFunctions = new Func<Value[], Value>[]
+            MultiFunctions = new[]
             {
                 Min,
                 Max,
@@ -120,7 +120,7 @@ namespace Calcpad.Core
         }
 
         internal override Value EvaluateOperator(int index, Value a, Value b) => Operators[index](a, b);
-        internal override Value EvaluateFunction(int index, Value a) => Functions[index](a);
+        internal override Value EvaluateFunction(int index, Value a) => _functions[index](a);
         internal override Value EvaluateFunction2(int index, Value a, Value b) => Functions2[index](a, b);
         internal override Value EvaluateMultiFunction(int index, Value[] a) => MultiFunctions[index](a);
         internal override Func<Value, Value, Value> GetOperator(int index) => index == PowerIndex ? Pow : Operators[index];
@@ -133,14 +133,14 @@ namespace Calcpad.Core
             if (index == CbrtIndex)
                 return Cbrt;
 
-            return Functions[index];
+            return _functions[index];
         }
 
 
         public static Value Fact(Value a)
         {
             if (a.Units is not null)
-                Throw.FactorialArgumentUnitless();
+                Throw.FactorialArgumentUnitlessException();
 
             return new(Fact(a.Re));
         }
@@ -489,14 +489,14 @@ namespace Calcpad.Core
         private double FromAngleUnits(in Value value)
         {
             if (value.Units is null)
-                return value.Re * _toRad[_degrees];
+                return value.Re * ToRad[_degrees];
 
-            return value.Re * value.Units.ConvertTo(_angleUnits[1]);
+            return value.Re * value.Units.ConvertTo(AngleUnits[1]);
         }
 
         private Value ToAngleUnits(double value) =>
             _returnAngleUnits ?
-            new(value * _fromRad[_degrees], _angleUnits[_degrees]) :
-            new(value * _fromRad[_degrees], null);
+            new(value * FromRad[_degrees], AngleUnits[_degrees]) :
+            new(value * FromRad[_degrees], null);
     }
 }

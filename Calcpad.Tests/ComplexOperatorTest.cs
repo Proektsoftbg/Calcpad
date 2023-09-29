@@ -2,9 +2,9 @@
 {
     public class ComplexOperatorTests
     {
-        private const double tol = 1e-14;
-        private readonly double sqrt2 = Math.Sqrt(2);
-        private readonly double sqrt3 = Math.Sqrt(3);
+        private const double Tol = 1e-14;
+        private readonly double _sqrt2 = Math.Sqrt(2);
+        private readonly double _sqrt3 = Math.Sqrt(3);
 
         #region Power
         [Fact]
@@ -27,8 +27,8 @@
             var calc = new TestCalc(new() { IsComplex = true });
             var re = calc.Run("1i^2");
             var im = calc.Imaginary;
-            Assert.Equal(-1d, re, tol);
-            Assert.Equal(0d, im, tol);
+            Assert.Equal(-1d, re, Tol);
+            Assert.Equal(0d, im, Tol);
         }
 
         [Fact]
@@ -38,8 +38,8 @@
             var calc = new TestCalc(new() { IsComplex = true });
             var re = calc.Run("1i^1i");
             var im = calc.Imaginary;
-            Assert.Equal(Math.Exp(-Math.PI / 2d), re, tol);
-            Assert.Equal(0d, im, tol);
+            Assert.Equal(Math.Exp(-Math.PI / 2d), re, Tol);
+            Assert.Equal(0d, im, Tol);
         }
 
         [Fact]
@@ -49,8 +49,8 @@
             var calc = new TestCalc(new() { IsComplex = true });
             var re = calc.Run("1i^-1");
             var im = calc.Imaginary;
-            Assert.Equal(0d, re, tol);
-            Assert.Equal(-1d, im, tol);
+            Assert.Equal(0d, re, Tol);
+            Assert.Equal(-1d, im, Tol);
         }
 
         [Fact]
@@ -60,8 +60,8 @@
             var calc = new TestCalc(new() { IsComplex = true });
             var re = calc.Run("1i^0");
             var im = calc.Imaginary;
-            Assert.Equal(1d, re, tol);
-            Assert.Equal(0d, im, tol);
+            Assert.Equal(1d, re, Tol);
+            Assert.Equal(0d, im, Tol);
         }
 
         [Fact]
@@ -71,8 +71,8 @@
             var calc = new TestCalc(new() { IsComplex = true });
             var re = calc.Run("e^(2*πi)");
             var im = calc.Imaginary;
-            Assert.Equal(1d, re, tol);
-            Assert.Equal(0d, im, tol);
+            Assert.Equal(1d, re, Tol);
+            Assert.Equal(0d, im, Tol);
         }
 
         [Fact]
@@ -82,8 +82,8 @@
             var calc = new TestCalc(new() { IsComplex = true });
             var re = calc.Run("-e^(πi + 1)");
             var im = calc.Imaginary;
-            Assert.Equal(Math.E, re, tol);
-            Assert.Equal(0d, im, tol);
+            Assert.Equal(Math.E, re, Tol);
+            Assert.Equal(0d, im, Tol);
         }
 
         [Fact]
@@ -93,8 +93,8 @@
             var calc = new TestCalc(new() { IsComplex = true });
             var re = calc.Run("(-1)^(1/2)");
             var im = calc.Imaginary;
-            Assert.Equal(0d, re, tol);
-            Assert.Equal(1d, im, tol);
+            Assert.Equal(0d, re, Tol);
+            Assert.Equal(1d, im, Tol);
         }
 
         [Fact]
@@ -104,8 +104,8 @@
             var calc = new TestCalc(new() { IsComplex = true });
             var re = calc.Run("(-8)^(1/3)");
             var im = calc.Imaginary;
-            Assert.Equal(1d, re, tol);
-            Assert.Equal(sqrt3, im, tol);
+            Assert.Equal(1d, re, Tol);
+            Assert.Equal(_sqrt3, im, Tol);
         }
 
         [Fact]
@@ -115,8 +115,8 @@
             var calc = new TestCalc(new() { IsComplex = true });
             var re = calc.Run("(-16)^(1/4)");
             var im = calc.Imaginary;
-            Assert.Equal(sqrt2, re, tol);
-            Assert.Equal(sqrt2, im, tol);
+            Assert.Equal(_sqrt2, re, Tol);
+            Assert.Equal(_sqrt2, im, Tol);
         }
 
         [Fact]
@@ -127,8 +127,8 @@
             var re = calc.Run("(-32)^(1/5)");
             var im = calc.Imaginary;
             var sqrt5 = Math.Sqrt(5d);
-            Assert.Equal((1d + sqrt5) / 2d, re, tol);
-            Assert.Equal(Math.Sqrt((5d - sqrt5) / 2d), im, tol);
+            Assert.Equal((1d + sqrt5) / 2d, re, Tol);
+            Assert.Equal(Math.Sqrt((5d - sqrt5) / 2d), im, Tol);
         }
 
         [Fact]
@@ -138,8 +138,8 @@
             var calc = new TestCalc(new() { IsComplex = true });
             var re = calc.Run("(2 + 3i)^2");
             var im = calc.Imaginary;
-            Assert.Equal(-5d, re, tol);
-            Assert.Equal(12d, im, tol);
+            Assert.Equal(-5d, re, Tol);
+            Assert.Equal(12d, im, Tol);
         }
 
         [Fact]
@@ -149,8 +149,8 @@
             var calc = new TestCalc(new() { IsComplex = true });
             var re = calc.Run("(1 + 1i)^-2");
             var im = calc.Imaginary;
-            Assert.Equal(0d, re, tol);
-            Assert.Equal(-1d/2d, im, tol);
+            Assert.Equal(0d, re, Tol);
+            Assert.Equal(-1d/2d, im, Tol);
         }
 
         [Fact]
@@ -160,8 +160,8 @@
             var calc = new TestCalc(new() { IsComplex = true });
             var re = calc.Run("(1 + 1i)^3");
             var im = calc.Imaginary;
-            Assert.Equal(-2d, re, tol);
-            Assert.Equal(2d, im, tol);
+            Assert.Equal(-2d, re, Tol);
+            Assert.Equal(2d, im, Tol);
         }
 
         [Fact]
@@ -171,8 +171,8 @@
             var calc = new TestCalc(new() { IsComplex = true });
             var re = calc.Run("(3 - 2i)^3");
             var im = calc.Imaginary;
-            Assert.Equal(-9d, re, tol);
-            Assert.Equal(-46d, im, tol);
+            Assert.Equal(-9d, re, Tol);
+            Assert.Equal(-46d, im, Tol);
         }
         #endregion
 
@@ -184,8 +184,8 @@
             var calc = new TestCalc(new() { IsComplex = true });
             var re = calc.Run("1i/0");
             var im = calc.Imaginary;    
-            Assert.Equal(double.PositiveInfinity, re, tol);
-            Assert.Equal(double.PositiveInfinity, im, tol);
+            Assert.Equal(double.PositiveInfinity, re, Tol);
+            Assert.Equal(double.PositiveInfinity, im, Tol);
         }
 
         [Fact]
@@ -195,8 +195,8 @@
             var calc = new TestCalc(new() { IsComplex = true });
             var re = calc.Run("(3 + 4i)/(1 - 2i)");
             var im = calc.Imaginary;
-            Assert.Equal(-1d, re, tol);
-            Assert.Equal(2d, im, tol);
+            Assert.Equal(-1d, re, Tol);
+            Assert.Equal(2d, im, Tol);
         }
         #endregion
 
@@ -208,8 +208,8 @@
             var calc = new TestCalc(new() { IsComplex = true });
             var re = calc.Run("1i*1i");
             var im = calc.Imaginary;    
-            Assert.Equal(-1d, re, tol);
-            Assert.Equal(0d, im, tol);
+            Assert.Equal(-1d, re, Tol);
+            Assert.Equal(0d, im, Tol);
 
         }
 
@@ -220,8 +220,8 @@
             var calc = new TestCalc(new() { IsComplex = true });
             var re = calc.Run("(3 + 4i)*(3 - 4i)");
             var im = calc.Imaginary;
-            Assert.Equal(25d, re, tol);
-            Assert.Equal(0d, im, tol);
+            Assert.Equal(25d, re, Tol);
+            Assert.Equal(0d, im, Tol);
         }
         #endregion
 
@@ -233,8 +233,8 @@
             var calc = new TestCalc(new() { IsComplex = true });
             var re = calc.Run("(3 + 4i) + (2 - 3i)");
             var im = calc.Imaginary;    
-            Assert.Equal(5d, re, tol);
-            Assert.Equal(1d, im, tol);
+            Assert.Equal(5d, re, Tol);
+            Assert.Equal(1d, im, Tol);
         }
 
         [Fact]
@@ -244,8 +244,8 @@
             var calc = new TestCalc(new() { IsComplex = true });
             var re = calc.Run("(3 + 4i) - (2 + 3i)");
             var im = calc.Imaginary;
-            Assert.Equal(1d, re, tol);
-            Assert.Equal(1d, im, tol);
+            Assert.Equal(1d, re, Tol);
+            Assert.Equal(1d, im, Tol);
 
         }
         #endregion

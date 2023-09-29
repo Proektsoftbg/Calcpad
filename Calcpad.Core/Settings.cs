@@ -5,15 +5,9 @@ namespace Calcpad.Core
     [Serializable()]
     public class Settings
     {
-        public MathSettings Math { get; set; }
-        public PlotSettings Plot { get; set; }
-        public string Units { get; set; }
-        public Settings()
-        {
-            Math = new MathSettings();
-            Plot = new PlotSettings();
-            Units = "m";
-        }
+        public MathSettings Math { get; set; } = new();
+        public PlotSettings Plot { get; set; } = new();
+        public string Units { get; set; } = "m";
     }
 
     [Serializable()]

@@ -85,9 +85,9 @@ namespace Calcpad.OpenXml
             stringBuilder.Append("\nContent XML:\n");
             //stringBuilder.Append(doc.MainDocumentPart.Document.OuterXml);
 #if BG
-            return $"Грешки при валидиране на документ" + stringBuilder.ToString();
+            return "Грешки при валидиране на документ" + stringBuilder;
 #else
-            return $"Validation errors in document" + stringBuilder.ToString();
+            return "Validation errors in document" + stringBuilder;
 #endif
         }
 
@@ -343,7 +343,7 @@ namespace Calcpad.OpenXml
                     }
                     catch (Exception e)
                     {
-                        return new Paragraph(new Run(new Text($"Error adding image: " + e.Message)));
+                        return new Paragraph(new Run(new Text("Error adding image: " + e.Message)));
                     }
                 case "hr":
                     return AddHr(domNode);
@@ -477,13 +477,13 @@ namespace Calcpad.OpenXml
 
         private static OpenXmlElement AddHr(HtmlNode domNode)
         {
-            const string HrColor = "888888";
+            const string hrColor = "888888";
             var name = domNode.ParentNode.Name;
             if (name == "p" || name[0] == 'h' && name.Length == 2)
             {
                 return new Run(new Break(), new Text(new string('─', 55)), new Break())
                 {
-                    RunProperties = new(new Color() { Val = HrColor })
+                    RunProperties = new(new Color() { Val = hrColor })
                 };
             }
             Run r = new(new Text("."))
@@ -504,14 +504,14 @@ namespace Calcpad.OpenXml
                         {
                             Size = 2,
                             Val = BorderValues.Single,
-                            Color = HrColor
+                            Color = hrColor
                         }
                     }
                 }
             };
         }
 
-        private readonly OnOffValue on = OnOffValue.FromBoolean(true);
+        private readonly OnOffValue _on = OnOffValue.FromBoolean(true);
         private Run AddRun(HtmlNode domNode)
         {
             var r = new Run();
@@ -524,14 +524,14 @@ namespace Calcpad.OpenXml
                 case "i":
                     rp.Italic = new Italic()
                     {
-                        Val = on
+                        Val = _on
                     };
                     break;
                 case "b":
                 case "strong":
                     rp.Bold = new Bold()
                     {
-                        Val = on
+                        Val = _on
                     };
                     break;
                 case "u":
@@ -546,7 +546,7 @@ namespace Calcpad.OpenXml
                 case "strike":
                     rp.Strike = new Strike()
                     {
-                        Val = on
+                        Val = _on
                     };
                     break;
                 case "sup":

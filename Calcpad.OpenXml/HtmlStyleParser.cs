@@ -18,7 +18,7 @@ namespace Calcpad.OpenXml
             ERROR = -1
         };
 
-        private static readonly double[,] ScaleFactors = new double[6, 6]
+        private static readonly double[,] ScaleFactors =
         {
             //PX,    PT,    PC,    MM,     CM,     IN,    EM
             {1.0, 72.0/96.0, 1.0/16.0, 127.0/480.0, 127.0/4800.0, 1.0/96.0},   //PX

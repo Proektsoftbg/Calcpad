@@ -2,7 +2,6 @@
 using System.IO;
 using System.Net.Http;
 using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Wordprocessing;
 using SkiaSharp;
 
 namespace Calcpad.OpenXml
@@ -24,9 +23,9 @@ namespace Calcpad.OpenXml
             var end = data.IndexOf(';');
             if (start <= 0 || end <= 0)
 #if BG
-                throw new Exception($"Невалидни данни на изображение.");
+                throw new Exception("Невалидни данни на изображение.");
 #else
-                throw new Exception($"Invalid image data.");
+                throw new Exception("Invalid image data.");
 #endif
             return data[start..end];
         }
@@ -36,9 +35,9 @@ namespace Calcpad.OpenXml
             var start = data.IndexOf(',') + 1;
             if (start <= 0)
 #if BG
-                throw new Exception($"Невалидни данни на изображение.");
+                throw new Exception("Невалидни данни на изображение.");
 #else
-                throw new Exception($"Invalid image data.");
+                throw new Exception("Invalid image data.");
 #endif
             var base64 = data[start..];
             return Convert.FromBase64String(base64);
@@ -71,11 +70,11 @@ namespace Calcpad.OpenXml
 
     internal class Base64ImageProcessor : ImageProcessor
     {
-        readonly byte[] imageData;
+        private readonly byte[] _imageData;
 
         public Base64ImageProcessor(string imageSrc) : base(imageSrc)
         {
-            imageData = GetImageData(imageSrc);
+            _imageData = GetImageData(imageSrc);
         }
 
         public override ImagePart GetImagePart(MainDocumentPart mainPart)
@@ -83,7 +82,7 @@ namespace Calcpad.OpenXml
             var ext = GetImageDataType(src);
             var imageType = GetImagePartType(ext);
             var imagePart = mainPart.AddImagePart(imageType);
-            using var stream = new MemoryStream(imageData);
+            using var stream = new MemoryStream(_imageData);
             imagePart.FeedData(stream);
             return imagePart;
         }
@@ -92,7 +91,7 @@ namespace Calcpad.OpenXml
         {
             get
             {
-                using var stream = new MemoryStream(imageData);
+                using var stream = new MemoryStream(_imageData);
                 using var img = SKBitmap.Decode(stream);
                 return new(img.Width, img.Height);
             }
@@ -159,12 +158,12 @@ namespace Calcpad.OpenXml
 
     internal class FileImageProcessor : ImageProcessor
     {
-        private readonly FileInfo fileInfo;
+        private readonly FileInfo _fileInfo;
 
         public FileImageProcessor(string imageSrc) : base(imageSrc)
         {
-            fileInfo = new FileInfo(imageSrc);
-            if (!fileInfo.Exists)
+            _fileInfo = new FileInfo(imageSrc);
+            if (!_fileInfo.Exists)
 #if BG
                 throw new Exception($"Невалиден файл с изображение: {imageSrc}.");
 #else
@@ -173,7 +172,7 @@ namespace Calcpad.OpenXml
         }
         public override ImagePart GetImagePart(MainDocumentPart mainPart)
         {
-            var ext = fileInfo.Extension[1..];
+            var ext = _fileInfo.Extension[1..];
             var imageType = GetImagePartType(ext);
             var imagePart = mainPart.AddImagePart(imageType);
             using var stream = new FileStream(src, FileMode.Open, FileAccess.Read);

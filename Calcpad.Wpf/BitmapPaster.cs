@@ -37,38 +37,35 @@ namespace Calcpad.Wpf
 
         internal static BitmapSource PasteImageFromClipboard()
         {
-            if (Clipboard.GetData("DeviceIndependentBitmap") is MemoryStream ms)
+            if (Clipboard.GetData("DeviceIndependentBitmap") is not MemoryStream ms) return null;
+            var dibBuffer = new byte[ms.Length];
+            var read = ms.Read(dibBuffer, 0, dibBuffer.Length);
+
+            BITMAPINFOHEADER infoHeader =
+                BinaryStructConverter.FromByteArray<BITMAPINFOHEADER>(dibBuffer);
+
+            var fileHeaderSize = Marshal.SizeOf(typeof(BITMAPFILEHEADER));
+            var infoHeaderSize = infoHeader.biSize;
+            var fileSize = fileHeaderSize + infoHeader.biSize + infoHeader.biSizeImage;
+
+            BITMAPFILEHEADER fileHeader = new()
             {
-                byte[] dibBuffer = new byte[ms.Length];
-                ms.Read(dibBuffer, 0, dibBuffer.Length);
+                bfType = BITMAPFILEHEADER.BM,
+                bfSize = fileSize,
+                bfReserved1 = 0,
+                bfReserved2 = 0,
+                bfOffBits = fileHeaderSize + infoHeaderSize + infoHeader.biClrUsed * 4
+            };
 
-                BITMAPINFOHEADER infoHeader =
-                    BinaryStructConverter.FromByteArray<BITMAPINFOHEADER>(dibBuffer);
+            byte[] fileHeaderBytes =
+                BinaryStructConverter.ToByteArray(fileHeader);
 
-                int fileHeaderSize = Marshal.SizeOf(typeof(BITMAPFILEHEADER));
-                int infoHeaderSize = infoHeader.biSize;
-                int fileSize = fileHeaderSize + infoHeader.biSize + infoHeader.biSizeImage;
+            MemoryStream msBitmap = new();
+            msBitmap.Write(fileHeaderBytes, 0, fileHeaderSize);
+            msBitmap.Write(dibBuffer, 0, dibBuffer.Length);
+            msBitmap.Seek(0, SeekOrigin.Begin);
 
-                BITMAPFILEHEADER fileHeader = new()
-                {
-                    bfType = BITMAPFILEHEADER.BM,
-                    bfSize = fileSize,
-                    bfReserved1 = 0,
-                    bfReserved2 = 0,
-                    bfOffBits = fileHeaderSize + infoHeaderSize + infoHeader.biClrUsed * 4
-                };
-
-                byte[] fileHeaderBytes =
-                    BinaryStructConverter.ToByteArray<BITMAPFILEHEADER>(fileHeader);
-
-                MemoryStream msBitmap = new();
-                msBitmap.Write(fileHeaderBytes, 0, fileHeaderSize);
-                msBitmap.Write(dibBuffer, 0, dibBuffer.Length);
-                msBitmap.Seek(0, SeekOrigin.Begin);
-
-                return BitmapFrame.Create(msBitmap);
-            }
-            return null;
+            return BitmapFrame.Create(msBitmap);
         }
     }
 }

@@ -8,14 +8,14 @@ namespace Calcpad.Core
     {
         public MapPlotter(MathParser parser, PlotSettings settings) : base(parser, settings) { }
 
-        private int _nx, _ny, size;
+        private int _nx, _ny, _size;
         private const int NColors = 12;
         private static readonly Node[] Colors = new Node[NColors];
 
         private struct Map
         {
-            internal Node[,] Points;
-            internal Node[,] Vertices;
+            internal readonly Node[,] Points;
+            internal readonly Node[,] Vertices;
             private readonly SKPoint[,] _pngPoints;
             private readonly SvgPoint[,] _svgPoints;
             private readonly int _nx;
@@ -107,22 +107,22 @@ namespace Calcpad.Core
         {
             var w = (int)(Parser.PlotWidth * ScreenScaleFactor);
             var h = (int)(Parser.PlotHeight * ScreenScaleFactor);
-            size = (int)(Parser.PlotStep * ScreenScaleFactor);
+            _size = (int)(Parser.PlotStep * ScreenScaleFactor);
             var d = (int)Math.Sqrt(w * w + h * h);
-            if (size == 0)
+            if (_size == 0)
             {
                 if (d >= 800)
-                    size = 8;
+                    _size = 8;
                 else if (d >= 400)
-                    size = 4;
+                    _size = 4;
                 else
-                    size = 2;
+                    _size = 2;
             }
 
-            _nx = w / size;
-            _ny = h / size;
-            w = _nx * size;
-            h = _ny * size;
+            _nx = w / _size;
+            _ny = h / _size;
+            w = _nx * _size;
+            h = _ny * _size;
 
             Left = (int)(1.5 * Margin);
             Right = (int)(2.5 * Margin);
@@ -330,7 +330,7 @@ namespace Calcpad.Core
             var n = NColors;
             if (Settings.SmoothScale)
             {
-                n = h / size + 1;
+                n = h / _size + 1;
                 if (n < 100)
                     n = 100;
             }
@@ -339,11 +339,9 @@ namespace Calcpad.Core
             for (int i = 0; i < n; ++i)
             {
                 GetColor(out var red, out var green, out var blue, (i + 0.5) / n, 1.0);
-                using var b = new SKPaint()
-                {
-                    Style = SKPaintStyle.Fill,
-                    Color = new SKColor(red, green, blue),
-                };
+                using var b = new SKPaint();
+                b.Style = SKPaintStyle.Fill;
+                b.Color = new SKColor(red, green, blue);
                 canvas.DrawRect(x0, y0 - i * dh - dh, w, dh, b);
                 b.Dispose();
             }
@@ -377,7 +375,7 @@ namespace Calcpad.Core
             var h = Height - 2 * Margin;
             var n = NColors;
             if (Settings.SmoothScale)
-                n = h / size + 1;
+                n = h / _size + 1;
             var dh = (double)h / n;
             const double th = 11, th05 = th / 2;
             for (int i = 0; i < n; ++i)
@@ -405,23 +403,23 @@ namespace Calcpad.Core
                 delta = 1.0;
             else
                 delta = 1.0 / delta;
-            var factor = 1.0 / size;
-            int nxs = _nx * size, nys = _ny * size;
+            var factor = 1.0 / _size;
+            int nxs = _nx * _size, nys = _ny * _size;
             var d = new double[nxs + 1, nys + 1, 3];
             int i0 = 0, i1 = 0;
-            for (int i = 0; i <= nxs; i += size)
+            for (int i = 0; i <= nxs; i += _size)
             {
                 int j0 = 0, j1 = 0;
-                for (int j = 0; j <= nys; j += size)
+                for (int j = 0; j <= nys; j += _size)
                 {
                     d[i, j, 0] = (m.Points[i1, j1].Z - m.Min) * delta;
                     d[i, j, 1] = m.Vertices[i1, j1].X;
                     d[i, j, 2] = m.Vertices[i1, j1].Y;
-                    if (j > 0 && size > 1)
+                    if (j > 0 && _size > 1)
                     {
                         var d0 = d[i, j0, 0];
                         var d1 = (d[i, j, 0] - d0) * factor;
-                        for (int k = 1; k < size; k++)
+                        for (int k = 1; k < _size; k++)
                         {
                             d0 += d1;
                             d[i, j0 + k, 0] = d0;
@@ -432,7 +430,7 @@ namespace Calcpad.Core
                             {
                                 d0 = d[i, j0, p];
                                 d1 = (d[i, j, p] - d0) * factor;
-                                for (int k = 1; k < size; k++)
+                                for (int k = 1; k < _size; k++)
                                 {
                                     d0 += d1;
                                     d[i, j0 + k, p] = d0;
@@ -443,13 +441,13 @@ namespace Calcpad.Core
                     j0 = j;
                     j1++;
                 }
-                if (i > 0 && size > 1)
+                if (i > 0 && _size > 1)
                 {
                     for (int j = 0; j < nys; ++j)
                     {
                         var d0 = d[i0, j, 0];
                         var d1 = (d0 - d[i, j, 0]) * factor;
-                        for (int k = 1; k < size; k++)
+                        for (int k = 1; k < _size; k++)
                         {
                             d0 -= d1;
                             d[i0 + k, j, 0] = d0;
@@ -461,7 +459,7 @@ namespace Calcpad.Core
                             {
                                 d0 = d[i0, j, p];
                                 d1 = (d0 - d[i, j, p]) * factor;
-                                for (int k = 1; k < size; k++)
+                                for (int k = 1; k < _size; k++)
                                 {
                                     d0 -= d1;
                                     d[i0 + k, j, p] = d0;

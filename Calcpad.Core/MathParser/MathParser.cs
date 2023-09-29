@@ -120,7 +120,7 @@ namespace Calcpad.Core
             }
             catch
             {
-                Throw.VariableNotExist(name);
+                Throw.VariableNotExistException(name);
                 return default;
             }
         }
@@ -150,7 +150,7 @@ namespace Calcpad.Core
             }
             catch
             {
-                Throw.UnitNotExist(name);
+                Throw.UnitNotExistException(name);
                 return default;
             }
         }
@@ -171,12 +171,12 @@ namespace Calcpad.Core
             }
         }
 
-        public void Parse(ReadOnlySpan<char> expression, bool AllowAssignment = true)
+        public void Parse(ReadOnlySpan<char> expression, bool allowAssignment = true)
         {
             Result = Core.Complex.Zero;
             _isCalculated = false;
             _functionDefinitionIndex = -1;
-            var input = _input.GetInput(expression, AllowAssignment);
+            var input = _input.GetInput(expression, allowAssignment);
             new SyntaxAnalyser(_functions).Check(input, out var isFucntionDefinition);
             _input.OrderOperators(input, isFucntionDefinition || _isSolver > 0 || _isPlotting, _assignmentIndex);
             if (isFucntionDefinition)
@@ -200,13 +200,13 @@ namespace Calcpad.Core
         internal void BreakIfCanceled()
         {
             if (IsCanceled)
-                Throw.InteruptedByUser();
+                Throw.InteruptedByUserException();
         }
 
         public void Calculate(bool isVisible = true)
         {
             if (!IsEnabled)
-                Throw.CalculationsNotActive();
+                Throw.CalculationsNotActiveException();
 
             BreakIfCanceled();
             if (_functionDefinitionIndex < 0)
@@ -253,7 +253,7 @@ namespace Calcpad.Core
         internal void CheckReal(in Value value)
         {
             if (_settings.IsComplex && !value.IsReal)
-                Throw.ResultNotReal(Core.Complex.Format(value.Complex, _settings.Decimals, OutputWriter.OutputFormat.Text));
+                Throw.ResultNotRealException(Core.Complex.Format(value.Complex, _settings.Decimals, OutputWriter.OutputFormat.Text));
         }
 
         private void AddFunction(Queue<Token> input)
@@ -273,7 +273,7 @@ namespace Calcpad.Core
                         if (t.Type == TokenTypes.BracketRight)
                         {
                             if (pt.Type != TokenTypes.Variable)
-                                Throw.MissingFunctionParameter();
+                                Throw.MissingFunctionParameterException();
 
                             break;
                         }
@@ -281,12 +281,12 @@ namespace Calcpad.Core
                         if (t.Type == TokenTypes.Variable)
                             parameters.Add(t.Content);
                         else if (t.Type != TokenTypes.Divisor)
-                            Throw.IvalidFunctionToken(t.Content);
+                            Throw.IvalidFunctionTokenException(t.Content);
 
                         if (pt.Type == t.Type || pt.Type == TokenTypes.BracketLeft && t.Type == TokenTypes.Divisor)
                         {
                             if (t.Type == TokenTypes.Divisor)
-                                Throw.MissingFunctionParameter();
+                                Throw.MissingFunctionParameterException();
                         }
                         pt = t;
                     }
@@ -294,18 +294,13 @@ namespace Calcpad.Core
                     {
                         var rpn = Input.GetRpn(input);
                         var index = _functions.IndexOf(name);
-                        CustomFunction cf;
-                        if (index >= 0)
-                            cf = _functions[index];
-                        else
-                            cf = new CustomFunction();
+                        var cf = index >= 0 ? _functions[index] : new CustomFunction();
 
                         cf.AddParameters(parameters);
                         cf.Rpn = rpn;
-
                         cf.IsRecursion = cf.CheckRecursion(null, _functions);
                         if (cf.IsRecursion)
-                            Throw.CircularReference(name);
+                            Throw.CircularReferenceException(name);
 
                         if (IsEnabled)
                         {
@@ -320,7 +315,7 @@ namespace Calcpad.Core
                     }
                 }
             }
-            Throw.InvalidFunctionDefinition();
+            Throw.InvalidFunctionDefinitionException();
         }
 
         private void BindParameters(Parameter[] parameters, Token[] rpn)

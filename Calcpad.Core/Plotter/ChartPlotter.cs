@@ -24,7 +24,6 @@ namespace Calcpad.Core
             _var = var;
             GetImageSize();
             var charts = new Chart[fx.Length];
-            IEnumerable<Node> points;
             Box limits = new();
             var n = Settings.IsAdaptive ? 2 : 1;
             double x0 = 0.0, y0 = 0.0, xs = 0.0, ys = 0.0;
@@ -33,6 +32,7 @@ namespace Calcpad.Core
                 limits = new();
                 for (int i = 0, len = fx.Length; i < len; ++i)
                 {
+                    IEnumerable<Node> points;
                     if (k == 0)
                         points = Calculate(fx[i], fy[i], start, end, u);
                     else
@@ -95,10 +95,9 @@ namespace Calcpad.Core
             return new Box(left, bottom, right, top);
         }
 
-        private Node[] Calculate(Func<Value> fx, Func<Value> fy, double start, double end, Unit u)
+        private IEnumerable<Node> Calculate(Func<Value> fx, Func<Value> fy, double start, double end, Unit u)
         {
             var n = Settings.IsAdaptive ? 31 : 512;
-            if (n < 2) n = 2;
             var s = (end - start) / n;
             var points = new Node[n + 1];
             var t = start;
@@ -180,7 +179,7 @@ namespace Calcpad.Core
         {
             Parser.BreakIfCanceled();
             _var.SetNumber(t);
-            var vx = fx is null ? _var.Value : fx();
+            var vx = fx?.Invoke() ?? _var.Value;
             var vy = fy();
             return new Node(vx.Re, vy.Re, t);
         }
@@ -201,7 +200,7 @@ namespace Calcpad.Core
         {
             var bitmap = new SKBitmap(Width, Height);
             var canvas = new SKCanvas(bitmap);
-            var penWidth = 2f * (float)ScreenScaleFactor;
+            var penWidth = 2f * ScreenScaleFactor;
             var dotRadius = 2f * penWidth;
             SKPaint[] chartPens =
             {
@@ -331,7 +330,7 @@ namespace Calcpad.Core
             internal SKPoint[] PngPoints;
             internal SvgPoint[] SvgPoints;
             internal int PointCount;
-            internal Box Bounds;
+            internal readonly Box Bounds;
             internal bool Fill;
             internal Chart(int size)
             {

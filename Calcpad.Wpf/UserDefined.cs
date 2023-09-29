@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Web;
 
 namespace Calcpad.Wpf
 {
@@ -18,26 +17,26 @@ namespace Calcpad.Wpf
         internal readonly Dictionary<string, List<int>> MacroParameters = new(StringComparer.Ordinal);
         internal readonly Dictionary<string, List<int>> MacroVariables = new(StringComparer.Ordinal);
         internal readonly Dictionary<string, List<int>> MacroFunctions = new(StringComparer.Ordinal);
-        private readonly Dictionary<string, string> MacroContents = new(StringComparer.Ordinal);
+        private readonly Dictionary<string, string> _macroContents = new(StringComparer.Ordinal);
         internal bool HasMacros => _hasIncludes || Macros.Count > 0;
         private readonly StringBuilder _macroBuilder = new();
         private bool _hasIncludes;
         private string _macroName;
 
-        internal void Clear(bool IsComplex)
+        internal void Clear(bool isComplex)
         {
             Variables.Clear();
             Units.Clear();
             Functions.Clear();
             Macros.Clear();
             MacroParameters.Clear();
-            MacroContents.Clear();
+            _macroContents.Clear();
             MacroVariables.Clear();
             MacroFunctions.Clear();
             Variables.Add("e", -1);
             Variables.Add("pi", -1);
             Variables.Add("π", -1);
-            if (IsComplex)
+            if (isComplex)
             {
                 Variables.Add("i", -1);
                 Variables.Add("ei", -1);
@@ -48,9 +47,9 @@ namespace Calcpad.Wpf
             _macroBuilder.Clear();
         }
 
-        internal void Get(SpanLineEnumerator lines, bool IsComplex)
+        internal void Get(SpanLineEnumerator lines, bool isComplex)
         {
-            Clear(IsComplex);
+            Clear(isComplex);
             var lineNumber = 0;
             foreach (var line in lines)
                 if (!line.IsEmpty) 
@@ -80,7 +79,7 @@ namespace Calcpad.Wpf
                 if (!string.IsNullOrEmpty(_macroName) && _macroName.Length > 0)
                 {
                     CompleteMacroParameters(lineNumber);
-                    MacroContents.TryAdd(_macroName, _macroBuilder.ToString());
+                    _macroContents.TryAdd(_macroName, _macroBuilder.ToString());
                     GetMacroVariablesAndFunctions(_macroBuilder.ToString().AsSpan(), lineNumber);
                     _macroName = null;
                     _macroBuilder.Clear();
@@ -136,7 +135,7 @@ namespace Calcpad.Wpf
 
                                 break;
                             }
-                            if (!isFunction && c == '_')
+                            if (c == '_')
                                 isSubscript = true; 
 
                             if (ts.IsEmpty)
@@ -168,8 +167,8 @@ namespace Calcpad.Wpf
                                 if (Validator.IsMacroLetter(s[i], i))
                                 {
                                     var s1 = s[i..];
-                                    ref var contents = ref CollectionsMarshal.GetValueRefOrNullRef(MacroContents, s1.ToString());
-                                    if (!System.Runtime.CompilerServices.Unsafe.IsNullRef<string>(ref contents))
+                                    ref var contents = ref CollectionsMarshal.GetValueRefOrNullRef(_macroContents, s1.ToString());
+                                    if (!System.Runtime.CompilerServices.Unsafe.IsNullRef(ref contents))
                                     {
                                         if (!string.IsNullOrEmpty(contents))
                                         {
@@ -237,10 +236,8 @@ namespace Calcpad.Wpf
                             {
                                 if (!ts.IsEmpty)
                                 {
-                                    if (isFunction)
-                                        TryAdd(MacroFunctions, ts.Cut().ToString(), i, lineNumber);
-                                    else
-                                        TryAdd(MacroVariables, ts.Cut().ToString(), i, lineNumber);
+                                    TryAdd(isFunction ? MacroFunctions : MacroVariables, 
+                                        ts.Cut().ToString(), i, lineNumber);
                                 }
                                 break;
                             }
@@ -297,7 +294,7 @@ namespace Calcpad.Wpf
                     isComplete = true;
                 else if (c == '=')
                 {
-                    MacroContents.TryAdd(_macroName, lineContent[(i + 1)..].ToString());
+                    _macroContents.TryAdd(_macroName, lineContent[(i + 1)..].ToString());
                     _macroName = null;
                     if (isComplete)
                         CompleteMacroParameters(lineNumber);

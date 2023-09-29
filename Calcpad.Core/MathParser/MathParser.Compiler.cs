@@ -94,7 +94,7 @@ namespace Calcpad.Core
             internal Func<Value> Compile(Token[] rpn)
             {
                 if (rpn.Length < 1)
-                    Throw.ExpressionEmpty();
+                    Throw.ExpressionEmptyException();
 
                 var expression = Parse(rpn);
                 var lambda = Expression.Lambda<Func<Value>>(expression);
@@ -129,13 +129,13 @@ namespace Calcpad.Core
                             else
                             {
                                 if (stackBuffer.Count == 0)
-                                    Throw.MissingOperand();
+                                    Throw.MissingOperandException();
 
                                 var b = stackBuffer.Pop();
                                 if (!stackBuffer.TryPop(out var a))
                                 {
                                     if (t.Content != "-")
-                                        Throw.MissingOperand();
+                                        Throw.MissingOperandException();
 
                                     if (b.NodeType == ExpressionType.Constant)
                                         c = Expression.Constant(-EvaluateConstantExpression(b));
@@ -163,7 +163,7 @@ namespace Calcpad.Core
                             continue;
                         case TokenTypes.CustomFunction:
                             if (t.Index < 0)
-                                Throw.InvalidFunction(t.Content);
+                                Throw.InvalidFunctionException(t.Content);
 
                             var cf = _functions[t.Index];
                             var cfValueCount = cf.ParameterCount;
@@ -177,12 +177,12 @@ namespace Calcpad.Core
                             stackBuffer.Push(ParseSolver(t));
                             continue;
                         default:
-                            Throw.CannotEvaluateAsType(t.Content, t.Type.GetType().GetEnumName(t.Type));
+                            Throw.CannotEvaluateAsTypeException(t.Content, t.Type.GetType().GetEnumName(t.Type));
                             break;
                     }
                 }
                 if (stackBuffer.Count == 0)
-                    Throw.StackLeak();
+                    Throw.StackLeakException();
 
                 return stackBuffer.Pop();
             }
@@ -201,7 +201,7 @@ namespace Calcpad.Core
                     return ParseVariableToken((VariableToken)t);
 
                 if (t.Type == TokenTypes.Input && t.Content == "?")
-                    Throw.UndefinedInputField();
+                    Throw.UndefinedInputFieldException();
 
                 return Expression.Constant(((ValueToken)t).Value);
             }
@@ -226,7 +226,7 @@ namespace Calcpad.Core
                 }
                 catch
                 {
-                    Throw.UndefinedVariableOrUnits(t.Content);
+                    Throw.UndefinedVariableOrUnitsException(t.Content);
                     return null;    
                 }
             }
@@ -234,7 +234,7 @@ namespace Calcpad.Core
             private Expression ParseToken(Token t, Expression a)
             {
                 if (t.Type != TokenTypes.Function && t.Content != NegateString)
-                    Throw.ErrorEvaluatingAsFunction(t.Content);   
+                    Throw.ErrorEvaluatingAsFunctionException(t.Content);   
 
                 if (a.NodeType == ExpressionType.Constant)
                     return Expression.Constant(_calc.GetFunction(t.Index)(EvaluateConstantExpression(a)));
@@ -276,7 +276,7 @@ namespace Calcpad.Core
                 }
 
                 if (t.Type != TokenTypes.Function2)
-                    Throw.ErrorEvaluatingAsFunctionOrOperator(t.Content);
+                    Throw.ErrorEvaluatingAsFunctionOrOperatorException(t.Content);
 
                 return Expression.Invoke(Expression.Constant(_calc.GetFunction2(t.Index)), a, b);
             }
@@ -295,7 +295,7 @@ namespace Calcpad.Core
                     vc = _calc.GetFunction2(t.Index)(va, vb);
                 else
                 {
-                    Throw.ErrorEvaluatingAsFunctionOrOperator(t.Content); 
+                    Throw.ErrorEvaluatingAsFunctionOrOperatorException(t.Content); 
                     return null;    
                 }
                 return Expression.Constant(vc);
@@ -363,16 +363,16 @@ namespace Calcpad.Core
                 );
             }
 
-            private Expression ParseMultiFunction(int Index, Expression[] arguments)
+            private Expression ParseMultiFunction(int index, Expression[] arguments)
             {
                 if (AreConstantParameters(arguments))
                     return Expression.Constant(
-                        _calc.GetMultiFunction(Index)(
+                        _calc.GetMultiFunction(index)(
                             EvaluateConstantParameters(arguments)
                             )
                         );
 
-                var method = Expression.Constant(_calc.GetMultiFunction(Index));
+                var method = Expression.Constant(_calc.GetMultiFunction(index));
                 Expression argsExpression = Expression.NewArrayInit(typeof(Value), arguments);
                 return Expression.Invoke(method, argsExpression);
             }
