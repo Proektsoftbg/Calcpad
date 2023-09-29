@@ -32,6 +32,6 @@ namespace Calcpad.OpenXml
             return true;
         }
         public ReadOnlySpan<char> Current { get; private set; }
-        public readonly bool IsEmpty => _span.IsEmpty;
+        //public readonly bool IsEmpty => _span.IsEmpty;
     }
 }

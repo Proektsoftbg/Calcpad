@@ -9,7 +9,7 @@ namespace Calcpad.Core
         internal readonly double Im;
         internal readonly Unit Units;
         internal readonly bool IsUnit;
-        internal static readonly Value Zero;
+        internal static readonly Value Zero = new(0d);
         internal static readonly Value One = new(1d);
         internal static readonly Value NaN = new(double.NaN);
         internal static readonly Value PositiveInfinity = new(double.PositiveInfinity); 
@@ -125,7 +125,7 @@ namespace Calcpad.Core
         public static Value operator %(Value a, Value b)
         {
             if (b.Units is not null)
-                Throw.CannotEvaluateReminder(Unit.GetText(a.Units), Unit.GetText(b.Units));
+                Throw.CannotEvaluateReminderException(Unit.GetText(a.Units), Unit.GetText(b.Units));
 
             return new(a.Re % b.Re, a.Units);
         }

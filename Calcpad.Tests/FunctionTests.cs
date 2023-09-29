@@ -2,10 +2,10 @@
 {
     public class FunctionTests
     {
-        private const double tol = 1e-14;
-        private readonly double sqrt2 = Math.Sqrt(2);
-        private readonly double sqrt3 = Math.Sqrt(3);
-        private readonly double e = Math.E; 
+        private const double Tol = 1e-14;
+        private readonly double _sqrt2 = Math.Sqrt(2);
+        private readonly double _sqrt3 = Math.Sqrt(3);
+        private const double E = Math.E;
 
         #region Trig
         [Fact]
@@ -18,7 +18,7 @@
                     Degrees = 1
                 }
             ).Run("sin(pi/2)");
-            Assert.Equal(1d, result, tol);
+            Assert.Equal(1d, result, Tol);
         }
 
         [Fact]
@@ -31,7 +31,7 @@
                     Degrees = 1
                 }
             ).Run("cos(-3*pi/4)");
-            Assert.Equal(-sqrt2 / 2d, result, tol);
+            Assert.Equal(-_sqrt2 / 2d, result, Tol);
         }
 
         [Fact]
@@ -44,7 +44,7 @@
                     Degrees = 1
                 }
             ).Run("Tan(pi/4)");
-            Assert.Equal(1d, result, tol);
+            Assert.Equal(1d, result, Tol);
         }
 
         [Fact]
@@ -57,7 +57,7 @@
                     Degrees = 1
                 }
             ).Run("Tan(pi/2)");
-            Assert.Equal(16331239353195370d, result, tol);
+            Assert.Equal(16331239353195370d, result, Tol);
         }
 
         [Fact]
@@ -70,7 +70,7 @@
                     Degrees = 1
                 }
             ).Run("Csc(π/3)");
-            Assert.Equal(2d / sqrt3, result, tol);
+            Assert.Equal(2d / _sqrt3, result, Tol);
         }
 
         [Fact]
@@ -83,7 +83,7 @@
                     Degrees = 1
                 }
             ).Run("SEC(-30°)");
-            Assert.Equal(2d / sqrt3, result, tol);
+            Assert.Equal(2d / _sqrt3, result, Tol);
         }
 
         [Fact]
@@ -91,7 +91,7 @@
         public void Cot_90_deg()
         {
             var result = new TestCalc(new()).Run("Cot(90)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -99,7 +99,7 @@
         public void Cot_30_deg()
         {
             var result = new TestCalc(new()).Run("Cot(30)");
-            Assert.Equal(sqrt3, result, tol);
+            Assert.Equal(_sqrt3, result, Tol);
         }
 
         [Fact]
@@ -107,7 +107,7 @@
         public void Csc_0()
         {
             var result = new TestCalc(new()).Run("csc(0)");
-            Assert.Equal(double.PositiveInfinity, result, tol);
+            Assert.Equal(double.PositiveInfinity, result, Tol);
         }
 
         [Fact]
@@ -115,7 +115,7 @@
         public void Sec_0()
         {
             var result = new TestCalc(new()).Run("sec(0)");
-            Assert.Equal(1d, result, tol);
+            Assert.Equal(1d, result, Tol);
         }
 
         [Fact]
@@ -123,7 +123,7 @@
         public void Cot_Minus_0()
         {
             var result = new TestCalc(new()).Run("Cot(-0)");
-            Assert.Equal(double.NegativeInfinity, result, tol);
+            Assert.Equal(double.NegativeInfinity, result, Tol);
         }
         #endregion
 
@@ -133,8 +133,8 @@
         public void Sinh_1()
         {
             var result = new TestCalc(new()).Run("sinh(1)");
-            var expected = (e * e - 1d) / (2d * e);
-            Assert.Equal(expected, result, tol);
+            var expected = (E * E - 1d) / (2d * E);
+            Assert.Equal(expected, result, Tol);
         }
 
         [Fact]
@@ -142,8 +142,8 @@
         public void Cosh_1()
         {
             var result = new TestCalc(new()).Run("cosh(1)");
-            var expected = (e * e + 1d) / (2d * e);
-            Assert.Equal(expected, result, tol);
+            var expected = (E * E + 1d) / (2d * E);
+            Assert.Equal(expected, result, Tol);
         }
 
         [Fact]
@@ -151,8 +151,8 @@
         public void Tanh_1()
         {
             var result = new TestCalc(new()).Run("Tanh(1)");
-            var expected = (e * e - 1d) / (e * e + 1d);
-            Assert.Equal(expected, result, tol);
+            var expected = (E * E - 1d) / (E * E + 1d);
+            Assert.Equal(expected, result, Tol);
         }
 
         [Fact]
@@ -160,8 +160,8 @@
         public void Csch_1()
         {
             var result = new TestCalc(new()).Run("Csch(1)");
-            var expected = 2d * e / (e * e - 1d);
-            Assert.Equal(expected, result, tol);
+            var expected = 2d * E / (E * E - 1d);
+            Assert.Equal(expected, result, Tol);
         }
 
         [Fact]
@@ -169,8 +169,8 @@
         public void Sech_1()
         {
             var result = new TestCalc(new()).Run("sech(1)");
-            var expected = 2d * e / (e * e + 1d);
-            Assert.Equal(expected, result, tol);
+            var expected = 2d * E / (E * E + 1d);
+            Assert.Equal(expected, result, Tol);
         }
 
         [Fact]
@@ -178,8 +178,8 @@
         public void Coth_1()
         {
             var result = new TestCalc(new()).Run("Coth(1)");
-            var expected = (e * e + 1d) / (e * e - 1d);
-            Assert.Equal(expected, result, tol);
+            var expected = (E * E + 1d) / (E * E - 1d);
+            Assert.Equal(expected, result, Tol);
         }
 
         [Fact]
@@ -187,7 +187,7 @@
         public void Sinh_0()
         {
             var result = new TestCalc(new()).Run("sinh(0)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -195,7 +195,7 @@
         public void Cosh_0()
         {
             var result = new TestCalc(new()).Run("cosh(0)");
-            Assert.Equal(1d, result, tol);
+            Assert.Equal(1d, result, Tol);
         }
 
         [Fact]
@@ -203,7 +203,7 @@
         public void Tanh_0()
         {
             var result = new TestCalc(new()).Run("Tanh(0)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -211,7 +211,7 @@
         public void Csch_0()
         {
             var result = new TestCalc(new()).Run("Csc(0)");
-            Assert.Equal(double.PositiveInfinity, result, tol);
+            Assert.Equal(double.PositiveInfinity, result, Tol);
         }
 
         [Fact]
@@ -219,7 +219,7 @@
         public void Sech_0()
         {
             var result = new TestCalc(new()).Run("sech(0)");
-            Assert.Equal(1d, result, tol);
+            Assert.Equal(1d, result, Tol);
         }
 
         [Fact]
@@ -227,7 +227,7 @@
         public void Coth_0()
         {
             var result = new TestCalc(new()).Run("Coth(0)");
-            Assert.Equal(double.PositiveInfinity, result, tol);
+            Assert.Equal(double.PositiveInfinity, result, Tol);
         }
         #endregion
 
@@ -238,7 +238,7 @@
         {
             var calc = new TestCalc(new());
             calc.Run(
-                new string[]
+                new[]
                 {
                     "ReturnAngleUnits = 1",
                     "asin(sqrt(3)/2)"
@@ -252,7 +252,7 @@
         public void Acos()
         {
             var result = new TestCalc(new()).Run("acos(-1/2)");
-            Assert.Equal(120d, result, 10 * tol);
+            Assert.Equal(120d, result, 10 * Tol);
         }
 
         [Fact]
@@ -260,7 +260,7 @@
         public void Atan()
         {
             var result = new TestCalc(new()).Run("atan(1)");
-            Assert.Equal(45d, result, tol);
+            Assert.Equal(45d, result, Tol);
         }
 
         [Fact]
@@ -268,7 +268,7 @@
         public void Acsc()
         {
             var result = new TestCalc(new()).Run("acsc(2)");
-            Assert.Equal(30d, result, tol);
+            Assert.Equal(30d, result, Tol);
         }
 
         [Fact]
@@ -276,7 +276,7 @@
         public void Acec()
         {
             var result = new TestCalc(new()).Run("asec(sqrt(2))");
-            Assert.Equal(45d, result, tol);
+            Assert.Equal(45d, result, Tol);
         }
 
         [Fact]
@@ -284,7 +284,7 @@
         public void Acot()
         {
             var result = new TestCalc(new(){ IsComplex = true }).Run("acot(0)");
-            Assert.Equal(90d, result, tol);
+            Assert.Equal(90d, result, Tol);
         }
         #endregion
 
@@ -294,8 +294,8 @@
         public void Asinh_1()
         {
             var result = new TestCalc(new()).Run("asinh(1)");
-            var expected = Math.Log(1 + sqrt2);  
-            Assert.Equal(expected, result, tol);
+            var expected = Math.Log(1 + _sqrt2);  
+            Assert.Equal(expected, result, Tol);
         }
 
         [Fact]
@@ -303,7 +303,7 @@
         public void Acosh_1()
         {
             var result = new TestCalc(new()).Run("acosh(1)");   
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -311,8 +311,8 @@
         public void Acosh_2()
         {
             var result = new TestCalc(new()).Run("acosh(2)");   
-            var expected = Math.Log(2d + sqrt3);  
-            Assert.Equal(expected, result, tol);    
+            var expected = Math.Log(2d + _sqrt3);  
+            Assert.Equal(expected, result, Tol);    
         }
 
         [Fact]
@@ -320,7 +320,7 @@
         public void Atanh_1()
         {
             var result = new TestCalc(new()).Run("atanh(1)"); 
-            Assert.Equal(double.PositiveInfinity, result, tol);
+            Assert.Equal(double.PositiveInfinity, result, Tol);
         }
 
         [Fact]
@@ -329,7 +329,7 @@
         {
             var result = new TestCalc(new()).Run("atanh(0.5)");
             var expected = Math.Log(3d) / 2d;
-            Assert.Equal(expected, result, tol);
+            Assert.Equal(expected, result, Tol);
         }
 
         [Fact]
@@ -337,8 +337,8 @@
         public void Acsch_1()
         {
             var result = new TestCalc(new()).Run("acsch(1)"); 
-            var expected = Math.Log(1d + sqrt2);  
-            Assert.Equal(expected, result, tol);  
+            var expected = Math.Log(1d + _sqrt2);  
+            Assert.Equal(expected, result, Tol);  
         }
 
         [Fact]
@@ -346,7 +346,7 @@
         public void Asech_1()
         {
             var result = new TestCalc(new()).Run("asech(1)");   
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -354,8 +354,8 @@
         public void Asech_05()
         {
             var result = new TestCalc(new()).Run("asech(0.5)");
-            var expected = Math.Log(2d + sqrt3);  
-            Assert.Equal(expected, result, tol);
+            var expected = Math.Log(2d + _sqrt3);  
+            Assert.Equal(expected, result, Tol);
         }
 
         [Fact]
@@ -363,7 +363,7 @@
         public void Acoth_1()
         {
             var result = new TestCalc(new()).Run("acoth(1)");   
-            Assert.Equal(double.PositiveInfinity, result, tol);
+            Assert.Equal(double.PositiveInfinity, result, Tol);
         }
 
         [Fact]
@@ -372,7 +372,7 @@
         {
             var result = new TestCalc(new()).Run("acoth(2)");   
             var expected = Math.Log(3d) / 2d;
-            Assert.Equal(expected, result, tol);    
+            Assert.Equal(expected, result, Tol);    
         }
 
 
@@ -381,7 +381,7 @@
         public void Asinh_0()
         {
             var result = new TestCalc(new()).Run("asinh(0)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -389,7 +389,7 @@
         public void Acosh_0()
         {
             var result = new TestCalc(new()).Run("acosh(0)");
-            Assert.Equal(double.NaN, result, tol);
+            Assert.Equal(double.NaN, result, Tol);
         }
 
         [Fact]
@@ -397,7 +397,7 @@
         public void Atanh_0()
         {
             var result = new TestCalc(new()).Run("atanh(0)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -405,7 +405,7 @@
         public void Acsch_0()
         {
             var result = new TestCalc(new()).Run("acsch(0)");
-            Assert.Equal(double.PositiveInfinity, result, tol);
+            Assert.Equal(double.PositiveInfinity, result, Tol);
         }
 
         [Fact]
@@ -413,7 +413,7 @@
         public void Asech_0()
         {
             var result = new TestCalc(new()).Run("asech(0)");
-            Assert.Equal(double.PositiveInfinity, result, tol);
+            Assert.Equal(double.PositiveInfinity, result, Tol);
         }
 
         [Fact]
@@ -421,7 +421,7 @@
         public void Acoth_0()
         {
             var result = new TestCalc(new()).Run("acoth(0)");
-            Assert.Equal(double.NaN, result, tol);
+            Assert.Equal(double.NaN, result, Tol);
         }
         #endregion
 
@@ -431,7 +431,7 @@
         public void Log_1000()
         {
             var result = new TestCalc(new()).Run("log(1000)");
-            Assert.Equal(3d, result, tol);
+            Assert.Equal(3d, result, Tol);
         }
 
         [Fact]
@@ -439,7 +439,7 @@
         public void Ln_e_Pow_3()
         {
             var result = new TestCalc(new()).Run("ln(e^3)");
-            Assert.Equal(3d, result, tol);
+            Assert.Equal(3d, result, Tol);
         }
 
         [Fact]
@@ -447,7 +447,7 @@
         public void Ln_Minus_One()
         {
             var result = new TestCalc(new()).Run("ln(-1)");
-            Assert.Equal(double.NaN, result, tol);
+            Assert.Equal(double.NaN, result, Tol);
         }
 
         [Fact]
@@ -455,7 +455,7 @@
         public void Log2_1048576()
         {
             var result = new TestCalc(new()).Run("log_2(1048576)");
-            Assert.Equal(20d, result, tol);
+            Assert.Equal(20d, result, Tol);
         }
 
         [Fact]
@@ -463,7 +463,7 @@
         public void Sqrt_25()
         {
             var result = new TestCalc(new()).Run("sqrt(25)");
-            Assert.Equal(5d, result, tol);
+            Assert.Equal(5d, result, Tol);
         }
 
         [Fact]
@@ -471,7 +471,7 @@
         public void Sqrt_Minus_4()
         {
             var result = new TestCalc(new()).Run("sqrt(-4)");
-            Assert.Equal(double.NaN, result, tol);
+            Assert.Equal(double.NaN, result, Tol);
         }
 
         [Fact]
@@ -479,7 +479,7 @@
         public void Cbrt_64()
         {
             var result = new TestCalc(new()).Run("cbrt(64)");
-            Assert.Equal(4d, result, tol);
+            Assert.Equal(4d, result, Tol);
         }
 
         [Fact]
@@ -487,7 +487,7 @@
         public void Cbrt_Minus_8()
         {
             var result = new TestCalc(new()).Run("cbrt(-8)");
-            Assert.Equal(-2d, result, tol);
+            Assert.Equal(-2d, result, Tol);
         }
 
         [Fact]
@@ -495,7 +495,7 @@
         public void Root_81_4()
         {
             var result = new TestCalc(new()).Run("root(81; 4)");
-            Assert.Equal(3d, result, tol);
+            Assert.Equal(3d, result, Tol);
         }
 
         [Fact]
@@ -503,7 +503,7 @@
         public void Root_Minus_16_4()
         {
             var result = new TestCalc(new()).Run("root(-16; 4)");
-            Assert.Equal(double.NaN, result, tol);
+            Assert.Equal(double.NaN, result, Tol);
         }
 
         [Fact]
@@ -511,7 +511,7 @@
         public void Root_Minus_32_5()
         {
             var result = new TestCalc(new()).Run("root(-32; 5)");
-            Assert.Equal(-2d, result, tol);
+            Assert.Equal(-2d, result, Tol);
         }
         #endregion
 
@@ -521,7 +521,7 @@
         public void Round_Pos()
         {
             var result = new TestCalc(new()).Run("round(4.5)");
-            Assert.Equal(5d, result, tol);
+            Assert.Equal(5d, result, Tol);
         }
 
         [Fact]
@@ -529,7 +529,7 @@
         public void Round_Neg()
         {
             var result = new TestCalc(new()).Run("round(-4.5)");
-            Assert.Equal(-5d, result, tol);
+            Assert.Equal(-5d, result, Tol);
         }
 
         [Fact]
@@ -537,7 +537,7 @@
         public void Floor_Pos()
         {
             var result = new TestCalc(new()).Run("floor(4.8)");
-            Assert.Equal(4d, result, tol);
+            Assert.Equal(4d, result, Tol);
         }
 
         [Fact]
@@ -545,7 +545,7 @@
         public void Floor_Neg()
         {
             var result = new TestCalc(new()).Run("floor(-4.8)");
-            Assert.Equal(-5d, result, tol);
+            Assert.Equal(-5d, result, Tol);
         }
 
         [Fact]
@@ -553,7 +553,7 @@
         public void Ceiling_Pos()
         {
             var result = new TestCalc(new()).Run("ceiling(4.2)");
-            Assert.Equal(5d, result, tol);
+            Assert.Equal(5d, result, Tol);
         }
 
         [Fact]
@@ -561,7 +561,7 @@
         public void Ceiling_Neg()
         {
             var result = new TestCalc(new()).Run("ceiling(-4.2)");
-            Assert.Equal(-4d, result, tol);
+            Assert.Equal(-4d, result, Tol);
         }
 
         [Fact]
@@ -569,7 +569,7 @@
         public void TruncPos()
         {
             var result = new TestCalc(new()).Run("trunc(4.8)");
-            Assert.Equal(4d, result, tol);
+            Assert.Equal(4d, result, Tol);
         }
 
         [Fact]
@@ -577,7 +577,7 @@
         public void TruncNeg()
         {
             var result = new TestCalc(new()).Run("trunc(-4.8)");
-            Assert.Equal(-4d, result, tol);
+            Assert.Equal(-4d, result, Tol);
         }
         #endregion
 
@@ -587,7 +587,7 @@
         public void Mod()
         {
             var result = new TestCalc(new()).Run("mod(7; 5)");
-            Assert.Equal(2d, result, tol);
+            Assert.Equal(2d, result, Tol);
         }
 
         [Fact]
@@ -595,7 +595,7 @@
         public void Gcd()
         {
             var result = new TestCalc(new()).Run("gcd(18; 24)");
-            Assert.Equal(6d, result, tol);
+            Assert.Equal(6d, result, Tol);
         }
 
         [Fact]
@@ -603,7 +603,7 @@
         public void Lcm()
         {
             var result = new TestCalc(new()).Run("lcm(6; 4)");
-            Assert.Equal(12d, result, tol);
+            Assert.Equal(12d, result, Tol);
         }
 
         [Fact]
@@ -611,7 +611,7 @@
         public void Fact()
         {
             var result = new TestCalc(new()).Run("fact(5)");
-            Assert.Equal(120d, result, tol);
+            Assert.Equal(120d, result, Tol);
         }
         #endregion
 
@@ -629,7 +629,7 @@
         public void Re()
         {
             var result = new TestCalc(new()).Run("re(1)");
-            Assert.Equal(1d, result, tol);
+            Assert.Equal(1d, result, Tol);
         }
 
         [Fact]
@@ -644,7 +644,7 @@
         [Trait("Category", "Complex")]
         public void Phase_1()
         {
-            var result = new TestCalc(new()).Run($"phase(1)");
+            var result = new TestCalc(new()).Run("phase(1)");
             Assert.Equal(0d, result);
         }
 
@@ -652,8 +652,8 @@
         [Trait("Category", "Complex")]
         public void Phase_Minus_1()
         {
-            var result = new TestCalc(new()).Run($"phase(-1)");
-            Assert.Equal(Math.PI, result, tol);
+            var result = new TestCalc(new()).Run("phase(-1)");
+            Assert.Equal(Math.PI, result, Tol);
         }
         #endregion
 
@@ -679,7 +679,7 @@
         public void Sum()
         {
             var result = new TestCalc(new()).Run("sum(1; 2; 3; 4)");
-            Assert.Equal(10d, result, tol);
+            Assert.Equal(10d, result, Tol);
         }
 
         [Fact]
@@ -687,7 +687,7 @@
         public void SumSq()
         {
             var result = new TestCalc(new()).Run("sumsq(3; 4)");
-            Assert.Equal(25d, result, tol);
+            Assert.Equal(25d, result, Tol);
         }
 
         [Fact]
@@ -695,7 +695,7 @@
         public void Srss()
         {
             var result = new TestCalc(new()).Run("srss(3; 4)");
-            Assert.Equal(5d, result, tol);
+            Assert.Equal(5d, result, Tol);
         }
 
         [Fact]
@@ -703,7 +703,7 @@
         public void Average()
         {
             var result = new TestCalc(new()).Run("average(2; 4; 6; 8)");
-            Assert.Equal(5d, result, tol);
+            Assert.Equal(5d, result, Tol);
         }
 
         [Fact]
@@ -711,7 +711,7 @@
         public void Product()
         {
             var result = new TestCalc(new()).Run("product(1; 2; 3; 4; 5)");
-            Assert.Equal(120d, result, tol);
+            Assert.Equal(120d, result, Tol);
         }
 
         [Fact]
@@ -719,7 +719,7 @@
         public void Mean()
         {
             var result = new TestCalc(new()).Run("mean(2; 4; 8; 16; 32)");
-            Assert.Equal(8d, result, tol);
+            Assert.Equal(8d, result, Tol);
         }
         #endregion
 
@@ -729,7 +729,7 @@
         public void Take()
         {
             var result = new TestCalc(new()).Run("take(2.5; 1; 2; 3)");
-            Assert.Equal(3d, result, tol);
+            Assert.Equal(3d, result, Tol);
         }
 
         [Fact]
@@ -737,7 +737,7 @@
         public void Line()
         {
             var result = new TestCalc(new()).Run("line(1.5; 1; 2; 3)");
-            Assert.Equal(1.5, result, tol);
+            Assert.Equal(1.5, result, Tol);
         }
 
         [Fact]
@@ -745,7 +745,7 @@
         public void Spline()
         {
             var result = new TestCalc(new()).Run("spline(1.5; 2; 4; 8)");
-            Assert.Equal(2.8125, result, tol);
+            Assert.Equal(2.8125, result, Tol);
         }
         #endregion
 
@@ -903,7 +903,7 @@
         public void Sign_Neg()
         {
             var result = new TestCalc(new()).Run("sign(-10)");
-            Assert.Equal(-1d, result, tol);
+            Assert.Equal(-1d, result, Tol);
         }
 
         [Fact]
@@ -911,7 +911,7 @@
         public void Sign_Zero()
         {
             var result = new TestCalc(new()).Run("sign(0)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -919,7 +919,7 @@
         public void Sign_Pos()
         {
             var result = new TestCalc(new()).Run("sign(10)");
-            Assert.Equal(1d, result, tol);
+            Assert.Equal(1d, result, Tol);
         }
 
         [Fact]

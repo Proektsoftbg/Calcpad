@@ -65,8 +65,8 @@ namespace Calcpad.Wpf
             if (_direction == Directions.Up)
                 _col -= 2;
         }
-        private readonly SolidColorBrush _highlightBrush = new(System.Windows.Media.Color.FromArgb(40, 0, 155, 255));
-        internal void HighlghtSelection()
+        private readonly SolidColorBrush _highlightBrush = new(Color.FromArgb(40, 0, 155, 255));
+        internal void HighlightSelection()
         {
             BeginSearch(this, null);
             RichTextBox.Selection.ApplyPropertyValue(TextElement.BackgroundProperty, _highlightBrush);
@@ -224,7 +224,7 @@ namespace Calcpad.Wpf
                         DoEvents();
                         RichTextBox.ScrollToVerticalOffset(y - h / 4d);
                     }
-                    HighlghtSelection();
+                    HighlightSelection();
                     if (Direction == Directions.Up)
                         _col--;
                     return;
@@ -238,34 +238,28 @@ namespace Calcpad.Wpf
 
                     if (p is null)
                     {
-#if BG
                         if (isStart)
-                        {   
-                            if (_direction == Directions.Up)
-                                MessageBox.Show("Достигнато е началото на текста. Няма повече съвпадения.", "Търсене и заместване");
-                            else
-                                MessageBox.Show("Достигнат е краят на текста. Няма повече съвпадения.", "Търсене и заместване");
-
-                            return;
-                        }
+                        {                        
+#if BG                            
+                            MessageBox.Show(_direction == Directions.Up ? 
+                                "Достигнато е началото на текста.Няма повече съвпадения." :
+                                "Достигнат е краят на текста. Няма повече съвпадения.",
+                                "Търсене и заместване");
 #else
-                        if (isStart)
-                        {
-                            if (_direction == Directions.Up)
-                                MessageBox.Show("Start of text reached. There are no other occurrences.", "Find And Replace");
-                            else
-                                MessageBox.Show("End of text reached. There are no other occurrences.", "Find And Replace");
 
+                            MessageBox.Show(_direction == Directions.Up ?
+                                "Start of text reached. There are no other occurrences." :
+                                "End of text reached. There are no other occurrences.", 
+                                "Find And Replace");
+#endif
                             return;
                         }
-#endif
                         isStart = true;
                         p = (Paragraph)RichTextBox.Document.Blocks.FirstBlock;
                     }
-                    if (Direction == Directions.Up)
-                        _col = p.ContentStart.GetOffsetToPosition(p.ContentEnd);
-                    else
-                        _col = 0;
+                    _col = Direction == Directions.Up ? 
+                        p.ContentStart.GetOffsetToPosition(p.ContentEnd) : 
+                        0;
                 }
             }
         }
@@ -275,9 +269,9 @@ namespace Calcpad.Wpf
             if (string.IsNullOrEmpty(SearchString))
             {
 #if BG
-                MessageBox.Show($"Търсеният текст е празен.", "Търсене и заместване");
+                MessageBox.Show("Търсеният текст е празен.", "Търсене и заместване");
 #else
-                MessageBox.Show($"The search string is empty.", "Find And Replace");
+                MessageBox.Show("The search string is empty.", "Find And Replace");
 #endif
                 return false;
             }

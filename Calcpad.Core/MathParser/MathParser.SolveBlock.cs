@@ -124,7 +124,7 @@ namespace Calcpad.Core
                 for (int i = 0; i <= n; ++i)
                 {
                     if (string.IsNullOrWhiteSpace(_items[i].Input))
-                        Throw.MissingDelimiter(delimiters[i], Script);
+                        Throw.MissingDelimiterException(delimiters[i], Script);
 
                     _items[i].Input = _items[i].Input.Trim();
                     if (i == 0 && _type == SolverTypes.Root)
@@ -137,7 +137,7 @@ namespace Calcpad.Core
                             n = 4;
                         }
                         else if (s.Length > 2)
-                            Throw.MultipleAssignments(string.Join('=', s));
+                            Throw.MultipleAssignmentsException(string.Join('=', s));
                     }
                     _parser.Parse(_items[i].Input, i == 0 && allowAssignment);
                     _items[i].Rpn = _parser._rpn;
@@ -227,7 +227,7 @@ namespace Calcpad.Core
                 }
             }
 
-            internal void SubscribeCompile(Token[] rpn)
+            private void SubscribeCompile(Token[] rpn)
             {
                 for (int i = 0, len = rpn.Length; i < len; ++i)
                 {
@@ -251,18 +251,18 @@ namespace Calcpad.Core
                     Compile();
 
                 ++_parser._isSolver;
-                var x1 = _a is null ? _va : _a();
+                var x1 = _a?.Invoke() ?? _va;
                 _parser.CheckReal(x1);
                 var x2 = Value.Zero;
                 var y = 0.0;
                 var ux1 = x1.Units;
                 if (_type != SolverTypes.Slope)
                 {
-                    x2 = _b is null ? _vb : _b();
+                    x2 = _b?.Invoke() ?? _vb;
                     _parser.CheckReal(x2);
                     var ux2 = x2.Units;
                     if (!Unit.IsConsistent(ux1, ux2))
-                        Throw.InconsistentUnits2(_items[0].Input, Unit.GetText(ux1), Unit.GetText(ux2)); 
+                        Throw.InconsistentUnits2Exception(_items[0].Input, Unit.GetText(ux1), Unit.GetText(ux2)); 
 
                     if (ux2 is not null)
                         x2 *= ux2.ConvertTo(ux1);
@@ -278,12 +278,12 @@ namespace Calcpad.Core
                     var y2 = _y();
                     _parser.CheckReal(y2);
                     if (Math.Abs(y2.Re - y1.Re) > 1e-14)
-                        Throw.ConstantExpression(_items[4].Input);
+                        Throw.NotConstantExpressionException(_items[4].Input);
 
                     y = y1.Re;
                     var uy2 = y2.Units;
                     if (!Unit.IsConsistent(uy1, uy2))
-                        Throw.InconsistentUnits1(_items[0].Input, _items[4].Input);
+                        Throw.InconsistentUnits1Exception(_items[0].Input, _items[4].Input);
 
                     if (uy2 is not null)
                         y *= uy2.ConvertTo(uy1);

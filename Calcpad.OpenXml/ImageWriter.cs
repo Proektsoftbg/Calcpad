@@ -1,5 +1,4 @@
 ﻿using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.Drawing.Charts;
 using DocumentFormat.OpenXml.Office2019.Drawing.SVG;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
@@ -13,7 +12,7 @@ namespace Calcpad.OpenXml
 {
     internal static class ImageWriter
     {
-        private static readonly Random _random = new();
+        private static readonly Random Random = new();
         internal static OpenXmlElement AddImage(string src, string url, string name, int width, int height, MainDocumentPart mainPart, string align)
         {
             ImageProcessor imageProcessor;
@@ -29,11 +28,11 @@ namespace Calcpad.OpenXml
                 var slash = '/';
                 if (src.StartsWith("file:///", StringComparison.OrdinalIgnoreCase))
                 {
-                    src = src[8..].Replace('/', '\\'); ;
+                    src = src[8..].Replace('/', '\\');
                     imageProcessor = new FileImageProcessor(src);
                     slash = '\\';
                 }
-                else if (System.IO.Path.Exists(src))
+                else if (Path.Exists(src))
                     imageProcessor = new FileImageProcessor(src);
                 else
                     imageProcessor = new UrlImageProcessor(src);
@@ -87,7 +86,7 @@ namespace Calcpad.OpenXml
                             },
                             new DW.DocProperties()
                             {
-                                Id = (UInt32Value)(uint)_random.Next(0, int.MaxValue),
+                                Id = (UInt32Value)(uint)Random.Next(0, int.MaxValue),
                                 Name = name
                             },
                             new DW.NonVisualGraphicFrameDrawingProperties(
@@ -146,7 +145,7 @@ namespace Calcpad.OpenXml
                             new DW.WrapSquare() {WrapText = DW.WrapTextValues.Largest },
                             new DW.DocProperties()
                             {
-                                Id = (UInt32Value)(uint)_random.Next(0, int.MaxValue),
+                                Id = (UInt32Value)(uint)Random.Next(0, int.MaxValue),
                                 Name = name
                             },                    
                             new DW.NonVisualGraphicFrameDrawingProperties(

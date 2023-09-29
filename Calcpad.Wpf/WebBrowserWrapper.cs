@@ -143,7 +143,7 @@ namespace Calcpad.Wpf
             try
             {
                 if (IsReport)
-                _wb.InvokeScript("eval", $"var e = document.getElementById('line-{line}'); if(e){{e.innerHTML='{content}';}}");
+                    _wb.InvokeScript("eval", $"var e = document.getElementById('line-{line}'); if(e){{e.innerHTML='{content}';}}");
             }
             catch { }
         }

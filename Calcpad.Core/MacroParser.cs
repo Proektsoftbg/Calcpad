@@ -11,22 +11,22 @@ namespace Calcpad.Core
     {
         private readonly struct Macro
         {
-            private readonly string Contents;
-            private readonly string[] Parameters;
-            private readonly int[] Order;
+            private readonly string _contents;
+            private readonly string[] _parameters;
+            private readonly int[] _order;
 
             internal Macro(string contents, List<string> parameters)
             {
-                Contents = contents;
+                _contents = contents;
                 if (parameters is null)
                 {
-                    Parameters = null;
-                    Order = null;
+                    _parameters = null;
+                    _order = null;
                 }
                 else
                 {
-                    Parameters = parameters.ToArray();
-                    Order = Sort(Parameters);
+                    _parameters = parameters.ToArray();
+                    _order = Sort(_parameters);
                 }
             }
 
@@ -43,7 +43,7 @@ namespace Calcpad.Core
                     }
                     catch (ArgumentException)
                     {
-                        Throw.DuplicateMacroParameters(s);
+                        Throw.DuplicateMacroParametersException(s);
                         return null;
                     }
                 }
@@ -53,21 +53,21 @@ namespace Calcpad.Core
             internal string Run(List<string> arguments)
             {
                 if (arguments.Count != ParameterCount)
-                    Throw.InvalidNumberOfArguments();
+                    Throw.InvalidNumberOfArgumentsException();
 
                 if (ParameterCount == 0)
-                    return Contents;
+                    return _contents;
 
-                var sb = new StringBuilder(Contents);
-                for (int i = 0, _count = arguments.Count; i < _count; i++)
+                var sb = new StringBuilder(_contents);
+                for (int i = 0, count = arguments.Count; i < count; i++)
                 {
-                    var j = Order[i];
-                    sb.Replace(Parameters[j], arguments[j]);
+                    var j = _order[i];
+                    sb.Replace(_parameters[j], arguments[j]);
                 }
                 return sb.ToString();
             }
-            internal bool IsEmpty => Contents is null;
-            internal int ParameterCount => Parameters is null ? 0 : Parameters.Length;
+            internal bool IsEmpty => _contents is null;
+            internal int ParameterCount => _parameters?.Length ?? 0;
         }
 
         private enum Keywords
@@ -77,7 +77,7 @@ namespace Calcpad.Core
             EndDef,
             Include,
         }
-        private readonly List<int> LineNumbers = new();
+        private readonly List<int> _lineNumbers = new();
         private static readonly Dictionary<string, Macro> Macros = new(StringComparer.Ordinal);
         public Func<string, Queue<string>, string> Include;
 
@@ -103,7 +103,7 @@ namespace Calcpad.Core
             {
                 sb = new StringBuilder(sourceCode.Length);
                 Macros.Clear();
-                LineNumbers.Clear();
+                _lineNumbers.Clear();
                 _parsedLineNumber = 0;
             }
             var macroBuilder = new StringBuilder(1000);
@@ -119,7 +119,7 @@ namespace Calcpad.Core
                 {
                     if (includeLine == 0)
                     {
-                        LineNumbers.Add(_parsedLineNumber);
+                        _lineNumbers.Add(_parsedLineNumber);
                         ++lineNumber;
                     }
 
@@ -156,14 +156,14 @@ namespace Calcpad.Core
                     AppendLine(sourceLine.ToString());
                 }
                 if (includeLine == 0)
-                    LineNumbers.Add(_parsedLineNumber);
+                    _lineNumbers.Add(_parsedLineNumber);
 
                 if (macroDefCount > 0)
                 {
 #if BG
-                    sb.Append($"#Грешка: Незатворена дефиниция на макрос. Липсва \"#end def\".");
+                    sb.Append("#Грешка: Незатворена дефиниция на макрос. Липсва \"#end def\".");
 #else
-                    sb.Append($"#Error: Macro definition block not closed. Missing \"#end def\".");
+                    sb.Append("#Error: Macro definition block not closed. Missing \"#end def\".");
 #endif
                     hasErrors = true;
                 }
@@ -202,9 +202,9 @@ namespace Calcpad.Core
                 int n = lineContent.Length;
                 if (n < 9)
 #if BG
-                    AppendError(lineContent.ToString(), $"Липсва изходен файл за вмъкване.");
+                    AppendError(lineContent.ToString(), "Липсва изходен файл за вмъкване.");
 #else
-                    AppendError(lineContent.ToString(), $"Missing source file for include.");
+                    AppendError(lineContent.ToString(), "Missing source file for include.");
 #endif
                 n = lineContent.IndexOfAny('\'', '"');
                 var nf1 = lineContent.LastIndexOf('#');
@@ -444,7 +444,7 @@ namespace Calcpad.Core
                         macroArguments.Add(s);
                         textSpan.Reset(i + 1);
                         if ((macroArguments.Count == macro.ParameterCount) != (c == ')'))
-                            Throw.InvalidNumberOfArguments();
+                            Throw.InvalidNumberOfArgumentsException();
                     }
                     else if (bracketCount > 1 || c != '(')
                         textSpan.Expand();
@@ -459,7 +459,7 @@ namespace Calcpad.Core
                             break;
 
                     if (macro.IsEmpty)
-                        Throw.UndefinedMacro(macroName);
+                        Throw.UndefinedMacroExceptionException(macroName);
                     else if (j > 0)
                         stringBuilder.Append(macroName[..j]);
 
@@ -615,16 +615,13 @@ namespace Calcpad.Core
 
             bool AddField(ReadOnlySpan<char> s)
             {
-                if (inputChar == '?')
-                {
-                    inputChar = '\0';
-                    if (!fields.TryDequeue(out string val))
-                        return false;
+                if (inputChar != '?') return false;
+                inputChar = '\0';
+                if (!fields.TryDequeue(out var val))
+                    return false;
 
-                    sb.Append($"{s}{{{val}}}");
-                    return true;
-                }
-                return false;
+                sb.Append($"{s}{{{val}}}");
+                return true;
             }
         }
 
@@ -655,10 +652,7 @@ namespace Calcpad.Core
 
         private static void AddLineFields(StringBuilder sb, Queue<string> fields)
         {
-            if (HasUnclosedComment(sb))
-                sb.Append("' #{");
-            else
-                sb.Append(" #{");
+            sb.Append(HasUnclosedComment(sb) ? "' #{" : " #{");
 
             while (fields.TryDequeue(out string val))
             {
@@ -691,10 +685,10 @@ namespace Calcpad.Core
 
         public int GetUnwarpedLineNumber(int sourceLineNumber)
         {
-            if (sourceLineNumber < 1 || sourceLineNumber >= LineNumbers.Count)
+            if (sourceLineNumber < 1 || sourceLineNumber >= _lineNumbers.Count)
                 return sourceLineNumber;
 
-            return LineNumbers[sourceLineNumber];
+            return _lineNumbers[sourceLineNumber];
         }
     }
 }

@@ -50,7 +50,7 @@ namespace Calcpad.Core
         private ConditionParser _condition;
         private readonly StringBuilder _sb = new(10000);
         private readonly Stack<Loop> _loops = new();
-        public Settings Settings { get; set; }
+        public Settings Settings { get; set; } = new();
         public string HtmlResult { get; private set; }
         public static bool IsUs
         {
@@ -60,10 +60,6 @@ namespace Calcpad.Core
         public bool IsPaused => _startLine > 0;
         public bool Debug { get; set; }
         public bool ShowWarnings { get; set; } = true;
-        public ExpressionParser()
-        {
-            Settings = new Settings();
-        }
 
         private static readonly string[] KeywordStrings;
         static ExpressionParser()
@@ -124,14 +120,14 @@ namespace Calcpad.Core
                     lines.Add(i + 1);
 
             var lineCount = lines.Count - 1;
-            var line = _startLine - 1;
+            var currentLine = _startLine - 1;
             var isVisible = true;
             var s = ReadOnlySpan<char>.Empty;
             try
             {
-                while (++line < lineCount)
+                while (++currentLine < lineCount)
                 {
-                    var expr = code[lines[line]..lines[line + 1]];
+                    var expr = code[lines[currentLine]..lines[currentLine + 1]];
                     var eolIndex = expr.IndexOf('\v');
                     if (eolIndex > -1)
                     {
@@ -139,11 +135,11 @@ namespace Calcpad.Core
                         expr = expr[..eolIndex];
                     }
                     else
-                        _parser.Line = line + 1;
+                        _parser.Line = currentLine + 1;
 
                     var htmlId = string.Empty;
                     if (Debug && (_loops.Count == 0 || _loops.Peek().Iteration == 1))
-                        htmlId = $" id=\"line-{line + 1}\" class=\"line\"";
+                        htmlId = $" id=\"line-{currentLine + 1}\" class=\"line\"";
                         
                     if (_parser.IsCanceled)
                         break;
@@ -169,48 +165,48 @@ namespace Calcpad.Core
                     }
                 }
                 ApplyUnits(_sb, calculate);
-                if (line == lineCount && (calculate || !IsPaused))
+                if (currentLine == lineCount && (calculate || !IsPaused))
                 {
                     if (_condition.Id > 0)
 #if BG
-                        _sb.Append(ErrHtml($"Грешка: Условният \"#if\" блок не е затворен. Липсва \"#end if\".", line));
+                        _sb.Append(ErrHtml("Грешка: Условният \"#if\" блок не е затворен. Липсва \"#end if\".", line));
 #else
-                        _sb.Append(ErrHtml($"Error: \"#if\" block not closed. Missing \"#end if\".", line));
+                        _sb.Append(ErrHtml("Error: \"#if\" block not closed. Missing \"#end if\".", currentLine));
 #endif
                     if (_loops.Count != 0)
 #if BG
-                        _sb.Append(ErrHtml($"Грешка: Блокът за цикъл \"#repeat\" не е затворен. Липсва \"#loop\".", line));
+                        _sb.Append(ErrHtml("Грешка: Блокът за цикъл \"#repeat\" не е затворен. Липсва \"#loop\".", line));
 #else
-                        _sb.Append(ErrHtml($"Error: \"#repeat\" block not closed. Missing \"#loop\".", line));
+                        _sb.Append(ErrHtml("Error: \"#repeat\" block not closed. Missing \"#loop\".", currentLine));
 #endif
                     if (Debug && (_condition.Id > 0 || _loops.Count != 0))
-                        errors.Enqueue(line);
+                        errors.Enqueue(currentLine);
                 }
             }
             catch (MathParser.MathParserException ex)
             {
-                AppendError(s.ToString(), ex.Message, line);
+                AppendError(s.ToString(), ex.Message, currentLine);
             }
             catch (Exception ex)
             {
 #if BG
                 _sb.Append(ErrHtml($"Неочаквана грешка: {ex.Message} Моля проверете коректността на израза.", line));
 #else
-                _sb.Append(ErrHtml($"Unexpected error: {ex.Message} Please check the expression consistency.", line));
+                _sb.Append(ErrHtml($"Unexpected error: {ex.Message} Please check the expression consistency.", currentLine));
 #endif
                 if (Debug)
-                    errors.Enqueue(line);
+                    errors.Enqueue(currentLine);
             }
             finally
             {
-                if (line == lineCount && calculate)
+                if (currentLine == lineCount && calculate)
                     _startLine = 0;
 
                 if (_startLine > 0)
 #if BG
-                    _sb.Append($"<p><span class=\"err\">Пауза!</span> натиснете <b>F5</b> за да <a href=\"#0\" data-text=\"continue\">продължите</a> или <b>Esc</b> за да <a href=\"#0\" data-text=\"cancel\">прекъснете</a>.</p>");
+                    _sb.Append("<p><span class=\"err\">Пауза!</span> натиснете <b>F5</b> за да <a href=\"#0\" data-text=\"continue\">продължите</a> или <b>Esc</b> за да <a href=\"#0\" data-text=\"cancel\">прекъснете</a>.</p>");
 #else
-                    _sb.Append($"<p><span class=\"err\">Paused!</span> Press <b>F5</b> to <a href=\"#0\" data-text=\"continue\">continue</a> or <b>Esc</b> to <a href=\"#0\" data-text=\"cancel\">cancel</a>.</p>");
+                    _sb.Append("<p><span class=\"err\">Paused!</span> Press <b>F5</b> to <a href=\"#0\" data-text=\"continue\">continue</a> or <b>Esc</b> to <a href=\"#0\" data-text=\"cancel\">cancel</a>.</p>");
 #endif
 
                 if (Debug && lineCount > 30 && errors.Count != 0)
@@ -308,7 +304,7 @@ namespace Calcpad.Core
                         ParseKeywordLoop(s, htmlId);
                     else if (keyword == Keyword.Break)
                     {
-                        if (ParseKeywordBreak(s, htmlId))
+                        if (ParseKeywordBreak(htmlId))
                             return KeywordResult.Break;
                     }
                     else if (keyword == Keyword.Continue)
@@ -328,7 +324,7 @@ namespace Calcpad.Core
                     _previousKeyword = Keyword.Input;
                     if (calculate)
                     {
-                        _startLine = line + 1;
+                        _startLine = currentLine + 1;
                         _pauseCharCount = _sb.Length;
                         calculate = false;
                         return KeywordResult.Continue;
@@ -345,9 +341,9 @@ namespace Calcpad.Core
                     if (calculate)
                     {
                         if (_isPausedByUser)
-                            _startLine = line;
+                            _startLine = currentLine;
                         else
-                            _startLine = line + 1;
+                            _startLine = currentLine + 1;
                     }
 
                     if (_previousKeyword != Keyword.Input)
@@ -380,7 +376,7 @@ namespace Calcpad.Core
                         }
                         catch (MathParser.MathParserException ex)
                         {
-                            AppendError(s.ToString(), ex.Message, line);
+                            AppendError(s.ToString(), ex.Message, currentLine);
                         }
                     }
                 }
@@ -407,20 +403,20 @@ namespace Calcpad.Core
 #if BG
                                     AppendError(s.ToString(), $"Броят на итерациите е по-голям от максималния {int.MaxValue}.</p>", line));
 #else
-                                    AppendError(s.ToString(), $"Number of iterations exceeds the maximum {int.MaxValue}.</p>", line);
+                                    AppendError(s.ToString(), $"Number of iterations exceeds the maximum {int.MaxValue}.</p>", currentLine);
 #endif
                                 else
                                     count = (int)Math.Round(_parser.Real, MidpointRounding.AwayFromZero);
                             }
                             catch (MathParser.MathParserException ex)
                             {
-                                AppendError(s.ToString(), ex.Message, line);
+                                AppendError(s.ToString(), ex.Message, currentLine);
                             }
                         }
                         else
                             count = -1;
 
-                        _loops.Push(new Loop(line, count, _condition.Id));
+                        _loops.Push(new Loop(currentLine, count, _condition.Id));
                     }
                 }
                 else if (isVisible)
@@ -436,7 +432,7 @@ namespace Calcpad.Core
                         }
                         catch (MathParser.MathParserException ex)
                         {
-                            AppendError(s.ToString(), ex.Message, line);
+                            AppendError(s.ToString(), ex.Message, currentLine);
                         }
                     }
                 }
@@ -452,15 +448,15 @@ namespace Calcpad.Core
 #if BG
                             AppendError(s.ToString(), "\"#loop\" без съответен \"#repeat\".", line);
 #else
-                            AppendError(s.ToString(), "\"#loop\" without a corresponding \"#repeat\".", line);
+                            AppendError(s.ToString(), "\"#loop\" without a corresponding \"#repeat\".", currentLine);
 #endif
                         else if (_loops.Peek().Id != _condition.Id)
 #if BG
                             AppendError(s.ToString(), "Преплитане на \"#if - #end if\" и \"#repeat - #loop\" блокове.", line);
 #else
-                            AppendError(s.ToString(), "Entangled \"#if - #end if\" and \"#repeat - #loop\" blocks.", line);
+                            AppendError(s.ToString(), "Entangled \"#if - #end if\" and \"#repeat - #loop\" blocks.", currentLine);
 #endif
-                        else if (!_loops.Peek().Iterate(ref line))
+                        else if (!_loops.Peek().Iterate(ref currentLine))
                             _loops.Pop();
                     }
                 }
@@ -468,7 +464,7 @@ namespace Calcpad.Core
                     _sb.Append($"</div><p{htmlId} class=\"cond\">#loop</p>");
             }
 
-            bool ParseKeywordBreak(ReadOnlySpan<char> s, string htmlId)
+            bool ParseKeywordBreak(string htmlId)
             {
                 if (calculate)
                 {
@@ -488,7 +484,7 @@ namespace Calcpad.Core
 
             void ParseKeywordContinue(ReadOnlySpan<char> s, string htmlId)
             {
-                const int RemoveCondition = Keyword.EndIf - Keyword.If;
+                const int removeCondition = Keyword.EndIf - Keyword.If;
                 if (calculate)
                 {
                     if (_condition.IsSatisfied)
@@ -497,14 +493,14 @@ namespace Calcpad.Core
 #if BG
                             AppendError(s.ToString(), "\"#continue\" без съответен \"#repeat\".", line);
 #else
-                            AppendError(s.ToString(), "\"#continue\" without a corresponding \"#repeat\".", line);
+                            AppendError(s.ToString(), "\"#continue\" without a corresponding \"#repeat\".", currentLine);
 #endif
                         else
                         {
                             var loop = _loops.Peek();
                             while (_condition.Id > loop.Id)
-                                _condition.SetCondition(RemoveCondition);
-                            loop.Iterate(ref line);
+                                _condition.SetCondition(removeCondition);
+                            loop.Iterate(ref currentLine);
                         }
 
                     }
@@ -536,7 +532,7 @@ namespace Calcpad.Core
                         }
                         catch (MathParser.MathParserException ex)
                         {
-                            AppendError(s.ToString(), ex.Message, line);
+                            AppendError(s.ToString(), ex.Message, currentLine);
                         }
                     }
                     return true;
@@ -558,7 +554,7 @@ namespace Calcpad.Core
                     if (_condition.KeywordLength == s.Length)
                     {
                         if (_condition.IsUnchecked)
-                            Throw.ConditionEmpty();
+                            Throw.ConditionEmptyException();
 
                         if (isVisible && !calculate)
                         {
@@ -664,11 +660,11 @@ namespace Calcpad.Core
 #if BG
                             errText = $"Грешка в \"{errText}\" на ред {LineHtml(line)}: {ex.Message}";
 #else
-                            errText = $"Error in \"{errText}\" on line {LineHtml(line)}: {ex.Message}";
+                            errText = $"Error in \"{errText}\" on line {LineHtml(currentLine)}: {ex.Message}";
 #endif  
-                            _sb.Append($"<span class=\"err\"{Id(line)}>{errText}</span>");
+                            _sb.Append($"<span class=\"err\"{Id(currentLine)}>{errText}</span>");
                             if (Debug)
-                                errors.Enqueue(line);
+                                errors.Enqueue(currentLine);
                         }
                     }
                     else if (isVisible)
@@ -711,7 +707,7 @@ namespace Calcpad.Core
 
                             break;
                         }
-                    };
+                    }
                     return s[..i].ToString() + attr + s[i..].ToString();
                 }
             }
@@ -759,10 +755,7 @@ namespace Calcpad.Core
                             AddToken(tokens, ts.Cut(), currentSeparator);
 
                         ts.Reset(i + 1);
-                        if (currentSeparator == c)
-                            currentSeparator = ' ';
-                        else
-                            currentSeparator = c;
+                        currentSeparator = currentSeparator == c ? ' ' : c;
                     }
                     else if (currentSeparator != ' ')
                         ts.Expand();
@@ -916,15 +909,15 @@ namespace Calcpad.Core
                 _keyword = GetKeyword(type);
                 IsUnchecked = type == Types.If || type == Types.ElseIf;
                 if (type > Types.If && _count == 0)
-                    Throw.ConditionNotInitialized();
+                    Throw.ConditionNotInitializedException();
 
                 if (Type == Types.Else)
                 {
                     if (type == Types.Else)
-                        Throw.DuplicateElse();
+                        Throw.DuplicateElseException();
 
                     if (type == Types.ElseIf)
-                        Throw.ElseIfAfterElse();
+                        Throw.ElseIfAfterElseException();
                 }
                 switch (type)
                 {
@@ -946,11 +939,11 @@ namespace Calcpad.Core
             internal void Check(Complex value)
             {
                 if (!value.IsReal)
-                    Throw.ConditionComplex();
+                    Throw.ConditionComplexException();
 
                 var d = value.Re;
                 if (double.IsNaN(d) || double.IsInfinity(d))
-                    Throw.ConditionResultInvalid(d.ToString());
+                    Throw.ConditionResultInvalidException(d.ToString());
 
                 var result = Math.Abs(d) > 1e-12;
                 if (result)

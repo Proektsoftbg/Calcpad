@@ -125,10 +125,10 @@ namespace Calcpad.Core
 
             internal Value Calculate(in Value x)
             {
-                if (_cache?.Count >= MaxCacheSize)
+                if (_cache.Count >= MaxCacheSize)
                     _cache.Clear();
 
-                ref var y = ref CollectionsMarshal.GetValueRefOrAddDefault(_cache, x, out bool result);
+                ref var y = ref CollectionsMarshal.GetValueRefOrAddDefault(_cache, x, out var result);
                 if (result)
                     return y;
 
@@ -139,11 +139,11 @@ namespace Calcpad.Core
 
             internal Value Calculate(in Value x, in Value y)
             {
-                if (_cache2?.Count >= MaxCacheSize)
+                if (_cache2.Count >= MaxCacheSize)
                     _cache2.Clear();
 
                 Tuple arguments = new(x, y);
-                ref var z = ref CollectionsMarshal.GetValueRefOrAddDefault(_cache2, arguments, out bool result);
+                ref var z = ref CollectionsMarshal.GetValueRefOrAddDefault(_cache2, arguments, out var result);
                 if (result)
                     return z;
 

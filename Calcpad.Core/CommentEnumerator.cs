@@ -5,7 +5,7 @@ namespace Calcpad.Core
     public ref struct CommentEnumerator
     {
         private ReadOnlySpan<char> _span;
-        private char commentChar = '\0';
+        private char _commentChar = '\0';
 
         public CommentEnumerator(ReadOnlySpan<char> span)
         {
@@ -20,22 +20,19 @@ namespace Calcpad.Core
                 return false;
 
             int i;
-            var isComment = commentChar != '\0';
+            var isComment = _commentChar != '\0';
             if (isComment)
             {
-                i = _span[1..].IndexOf(commentChar) + 2;
+                i = _span[1..].IndexOf(_commentChar) + 2;
                 if (i == 1)
                     i = -1;
 
-                commentChar = '\0';
+                _commentChar = '\0';
             }
             else
             {
                 i = _span.IndexOfAny('\'', '"');
-                if (i > -1)
-                    commentChar = _span[i];
-                else
-                    commentChar = '\0';
+                _commentChar = i > -1 ? _span[i] : '\0';
             }
             var j = _span.IndexOf('\n');
             if (j > -1 && j < i)
@@ -60,6 +57,6 @@ namespace Calcpad.Core
             return true;
         }
         public ReadOnlySpan<char> Current { get; private set; }
-        public readonly bool IsEmpty => _span.IsEmpty;
+        //public readonly bool IsEmpty => _span.IsEmpty;
     }
 }

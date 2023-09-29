@@ -47,7 +47,7 @@ namespace Calcpad.Core
                     if (part > 3)
                         part -= 3;
 
-                    Throw.MissingMapItem(Parts[part]);
+                    Throw.MissingMapItemException(Parts[part]);
                 }
             }
 
@@ -62,7 +62,7 @@ namespace Calcpad.Core
                 var endX = Parser.CalculateReal();
                 var endUnits = Parser.Units;
                 if (!Unit.IsConsistent(xUnits, endUnits))
-                    Throw.InconsistentUnits(Unit.GetText(xUnits), Unit.GetText(endUnits));
+                    Throw.InconsistentUnitsException(Unit.GetText(xUnits), Unit.GetText(endUnits));
 
                 if (endUnits is not null)
                 {
@@ -76,7 +76,7 @@ namespace Calcpad.Core
                 var endY = Parser.CalculateReal();
                 endUnits = Parser.Units;
                 if (!Unit.IsConsistent(yUnits, endUnits))
-                    Throw.InconsistentUnits(Unit.GetText(yUnits), Unit.GetText(endUnits));
+                    Throw.InconsistentUnitsException(Unit.GetText(yUnits), Unit.GetText(endUnits));
 
                 if (endUnits is not null)
                 {
@@ -84,7 +84,7 @@ namespace Calcpad.Core
                     endY *= factor;
                 }
                 if (startX.EqualsBinary(endX) || startY.EqualsBinary(endY))
-                    Throw.PlotLimitsIdentical();
+                    Throw.PlotLimitsIdenticalException();
 
                 Parameter[] parameters =
                 {
