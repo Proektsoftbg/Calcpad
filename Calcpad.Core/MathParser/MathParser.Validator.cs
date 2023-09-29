@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace Calcpad.Core
 {
@@ -7,11 +6,11 @@ namespace Calcpad.Core
     {
         private class SyntaxAnalyser
         {
-            private struct MultiFunctionStackItem
+            private readonly struct MultiFunctionStackItem
             {
-                internal Token Token;
-                internal int CountOfBrackets;
-                internal int CountOfDivisors;
+                internal readonly Token Token;
+                internal readonly int CountOfBrackets;
+                internal readonly int CountOfDivisors;
                 internal MultiFunctionStackItem(Token token, int countOfBrackets, int countOfDivisors)
                 {
                     Token = token;
@@ -81,7 +80,7 @@ namespace Calcpad.Core
                         if (t.Index < 0)
                         {
                             if (isFunctionDefinition && t.Content == firstToken.Content)
-                                Throw.RecursionNotAllowed(t.Content);
+                                Throw.RecursionNotAllowedException(t.Content);
                         }
                         else
                             countOfDivisors = countOfDivisors - _functions[t.Index].ParameterCount + 1;
@@ -92,7 +91,7 @@ namespace Calcpad.Core
                     {
                         --countOfBrackets;
                         if (countOfBrackets < 0)
-                            Throw.MissingLeftBracket();
+                            Throw.MissingLeftBracketException();
 
                         if (multiFunctionStack.TryPeek(out var mfsItem))
                         {
@@ -118,9 +117,9 @@ namespace Calcpad.Core
                                 isFunctionDefinition = true;
                             }
                             else if (pt.Type != TokenTypes.Variable && pt.Type != TokenTypes.Unit)
-                                Throw.AssignmentPreceded();
+                                Throw.AssignmentPrecededException();
                             else if (countOfOperators != 1)
-                                Throw.AssignmentNotFirst();
+                                Throw.AssignmentNotFirstException();
                         }
                     }
                     bool correctOrder;
@@ -136,7 +135,7 @@ namespace Calcpad.Core
                         correctOrder = CorrectOrder[OrderIndex[(int)pt.Type], OrderIndex[(int)t.Type]];
 
                     if (!correctOrder)
-                        Throw.InvalidSyntax(pt.Content, t.Content); 
+                        Throw.InvalidSyntaxException(pt.Content, t.Content); 
 
                     pt = t;
                 }
@@ -148,19 +147,19 @@ namespace Calcpad.Core
                     pt.Type == TokenTypes.If ||
                     pt.Type == TokenTypes.CustomFunction ||
                     pt.Type == TokenTypes.BracketLeft)
-                    Throw.IncompleteExpression();
+                    Throw.IncompleteExpressionException();
 
                 if (firstToken.Type == TokenTypes.CustomFunction && firstToken.Index < 0 && !isFunctionDefinition)
-                    Throw.InvalidFunction(firstToken.Content);
+                    Throw.InvalidFunctionException(firstToken.Content);
 
                 if (countOfBrackets > 0)
-                    Throw.MissingRightBracket();
+                    Throw.MissingRightBracketException();
 
                 if (countOfDivisors > 0)
-                    Throw.UnexpectedDelimiter();
+                    Throw.UnexpectedDelimiterException();
 
                 if (countOfDivisors < 0)
-                    Throw.InvalidNumberOfArguments();
+                    Throw.InvalidNumberOfArgumentsException();
             }
         }
     }

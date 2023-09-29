@@ -2,7 +2,7 @@
 {
     public class OperatorTests
     {
-        private const double tol = 1e-15;
+        private const double Tol = 1e-15;
 
         #region Real
         [Fact]
@@ -60,7 +60,7 @@
         public void Power_3__Minus_2()
         {
             var result = new TestCalc(new()).Run("3^-2");
-            Assert.Equal(1d / 9d, result, tol);
+            Assert.Equal(1d / 9d, result, Tol);
         }
 
         [Fact]
@@ -163,7 +163,7 @@
         public void Divide_7_5()
         {
             var result = new TestCalc(new()).Run("7/5");
-            Assert.Equal(1.4d, result, tol);
+            Assert.Equal(1.4d, result, Tol);
         }
 
         [Fact]
@@ -171,7 +171,7 @@
         public void Divide_2_3()
         {
             var result = new TestCalc(new()).Run("2÷3");
-            Assert.Equal(2d / 3d, result, tol);
+            Assert.Equal(2d / 3d, result, Tol);
         }
 
         [Fact]
@@ -341,7 +341,7 @@
         public void Subtract_Minus_2_Thirds_1_Ningth()
         {
             var result = new TestCalc(new()).Run("2/3 - 1/9");
-            Assert.Equal(2d / 3d - 1d / 9d, result, tol);
+            Assert.Equal(2d / 3d - 1d / 9d, result, Tol);
         }
 
         [Fact]

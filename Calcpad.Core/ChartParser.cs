@@ -83,7 +83,7 @@ namespace Calcpad.Core
                 var right = Parser.CalculateReal();
                 var rightUnits = Parser.Units;
                 if (!Unit.IsConsistent(leftUnits, rightUnits))
-                    Throw.InconsistentUnits(Unit.GetText(leftUnits), Unit.GetText(rightUnits));
+                    Throw.InconsistentUnitsException(Unit.GetText(leftUnits), Unit.GetText(rightUnits));
 
                 if (leftUnits is not null)
                 {

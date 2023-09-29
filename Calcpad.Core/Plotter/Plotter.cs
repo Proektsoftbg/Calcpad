@@ -12,9 +12,9 @@ namespace Calcpad.Core
         protected readonly float ScreenScaleFactor;
         protected int Width = 500;
         protected int Height = 350;
-        protected readonly int Margin = 30;
-        protected int Left = 30;
-        protected int Right = 30;
+        protected readonly int Margin;
+        protected int Left;
+        protected int Right;
         protected PlotSettings Settings;
         protected MathParser Parser;
 
@@ -271,16 +271,14 @@ namespace Calcpad.Core
             var fullPath = imagePath + fileName;
             try
             {
-                using (var fs = new FileStream(fullPath, FileMode.Create, FileAccess.Write, FileShare.None))
-                {
-                    using var data = SKImage.FromBitmap(bitmap).Encode(SKEncodedImageFormat.Png, 100);
-                    data.SaveTo(fs);
-                }   
+                using var fs = new FileStream(fullPath, FileMode.Create, FileAccess.Write, FileShare.None);
+                using var data = SKImage.FromBitmap(bitmap).Encode(SKEncodedImageFormat.Png, 100);
+                data.SaveTo(fs);
                 return fileName;
             }
             catch
             {
-                Throw.ErrorWritingPngFile(fullPath);
+                Throw.ErrorWritingPngFileException(fullPath);
                 return null;
             }
         }
@@ -297,7 +295,7 @@ namespace Calcpad.Core
             }
             catch
             {
-                Throw.ErrorWritingSvgFile(fullPath);
+                Throw.ErrorWritingSvgFileException(fullPath);
                 return null;
             }
         }
@@ -314,7 +312,7 @@ namespace Calcpad.Core
             }
             catch
             {
-                Throw.ErrorConvertingPngToBase64();
+                Throw.ErrorConvertingPngToBase64Exception();
                 return null;
             }
         }

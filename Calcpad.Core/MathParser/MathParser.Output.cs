@@ -156,10 +156,7 @@ namespace Calcpad.Core
                     stackBuffer.Push(t);
                 }
 
-                if (stackBuffer.TryPop(out var result))
-                    return result.Content;
-
-                return string.Empty;
+                return stackBuffer.TryPop(out var result) ? result.Content : string.Empty;
 
                 void RenderSolverToken(RenderToken t, OutputWriter writer)
                 {
@@ -198,7 +195,7 @@ namespace Calcpad.Core
                             if (v.Units is null)
                             {
                                 if (_parser._isCalculated)
-                                    Throw.InvalidUnits(t.Content);
+                                    Throw.InvalidUnitsException(t.Content);
                             }
                             else
                                 t.Content = writer.UnitString(v.Units);

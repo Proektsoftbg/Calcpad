@@ -1,7 +1,6 @@
 ﻿using System;
+using System.Globalization;
 using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
-using static Calcpad.Core.MathParser;
 
 namespace Calcpad.Core
 {
@@ -32,13 +31,12 @@ namespace Calcpad.Core
 
         private static void GetTanhSinhAbscissasAndWeights()
         {
-            double t;
             var h = 2d;
             for (int i = 0; i < TanhSinhDepth; ++i)
             {
                 h /= 2d;
                 var eh = Math.Exp(h);
-                t = eh;
+                var t = eh;
                 r[i] = new double[m[i]];
                 w[i] = new double[m[i]];
                 if (i > 0)
@@ -62,10 +60,10 @@ namespace Calcpad.Core
             Units ??= value.Units;
 
             if (IsComplex && !value.IsReal)
-                Throw.CannotEvaluateFunction(x.ToString());
+                Throw.CannotEvaluateFunctionException(x.ToString(CultureInfo.InvariantCulture));
 
             if (double.IsNaN(value.Re) || double.IsInfinity(value.Re))
-                Throw.FunctionNotDefined(x.ToString());
+                Throw.FunctionNotDefinedException(x.ToString(CultureInfo.InvariantCulture));
 
             return value.Re;
         }
@@ -77,7 +75,7 @@ namespace Calcpad.Core
             Units ??= value.Units;
 
             if (double.IsNaN(value.Re) && double.IsNaN(value.Im))
-                Throw.CannotEvaluateFunction(x.ToString());
+                Throw.CannotEvaluateFunctionException(x.ToString());
 
             return value.Complex;
         }
@@ -281,25 +279,25 @@ namespace Calcpad.Core
             return area * factor;
         }
 
-        private double eps = 1e-14;
+        private double _eps = 1e-14;
         private double AdaptiveLobatto(double left, double right)
         {
             Units = null;
-            eps = Math.Clamp(Precision, 1e-14, 1e-4) / 2d;
+            _eps = Math.Clamp(Precision, 1e-14, 1e-4) / 2d;
             //Integration must be slightly more precise than differentiation, if used together
             return Lobatto(left, right, Fd(left), Fd(right), 1);
         }
 
-        private readonly double alpha = Math.Sqrt(2.0 / 3.0);
-        private readonly double beta = Math.Sqrt(1.0 / 5.0);
+        private readonly double _alpha = Math.Sqrt(2.0 / 3.0);
+        private readonly double _beta = Math.Sqrt(1.0 / 5.0);
         private double Lobatto(double x1, double x3, double y1, double y3, int depth)
         {
             const double k1 = 1.0 / 1470.0;
             const double k2 = 1.0 / 6.0;
             var h = (x3 - x1) / 2.0;
             var x2 = (x1 + x3) / 2.0;
-            var ah = alpha * h;
-            var bh = beta * h;
+            var ah = _alpha * h;
+            var bh = _beta * h;
             var x4 = x2 - ah;
             var x5 = x2 - bh;
             var x6 = x2 + bh;
@@ -317,9 +315,9 @@ namespace Calcpad.Core
             if (depth == 1)
             {
                 if (double.IsFinite(a1) && a1 > 1)
-                    eps *= a1;
+                    _eps *= a1;
             }
-            else if (Math.Abs(a1 - a2) < eps || depth > 15)
+            else if (Math.Abs(a1 - a2) < _eps || depth > 15)
                 return a1;
 
             depth++;
@@ -338,7 +336,7 @@ namespace Calcpad.Core
             var s = Fd(c);
             double err;
             var i = 0;
-            eps = Math.Clamp(Precision * 0.1, 1e-15, 1e-8);
+            _eps = Math.Clamp(Precision * 0.1, 1e-15, 1e-8);
             var tol = 10.0 * Precision;
             do
             {
@@ -362,7 +360,7 @@ namespace Calcpad.Core
                     q = w[i][j] * (fp + fm);
                     p += q;
                     ++j;
-                } while (Math.Abs(q) > eps * Math.Abs(p) && j < m[i]);
+                } while (Math.Abs(q) > _eps * Math.Abs(p) && j < m[i]);
                 err = 2d * s;
                 s += p;
                 err = Math.Abs(err - s);
@@ -477,7 +475,7 @@ namespace Calcpad.Core
         private void CheckUnits(Unit units)
         {
             if (!Unit.IsConsistent(units, Units))
-                Throw.InconsistentUnits(Unit.GetText(units), Unit.GetText(Units));
+                Throw.InconsistentUnitsException(Unit.GetText(units), Unit.GetText(Units));
         }
 
         internal double Product(double start, double end)
@@ -569,7 +567,7 @@ namespace Calcpad.Core
         private static void GetBounds(double start, double end, out int n1, out int n2)
         {
             if (Math.Abs(start) > Limits || Math.Abs(end) > Limits)
-                Throw.IterationLimits((-Limits).ToString(), Limits.ToString());
+                Throw.IterationLimitsException((-Limits).ToString(CultureInfo.InvariantCulture), Limits.ToString(CultureInfo.InvariantCulture));
 
             n1 = (int)Math.Round(start, MidpointRounding.AwayFromZero);
             n2 = (int)Math.Round(end, MidpointRounding.AwayFromZero);

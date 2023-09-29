@@ -36,7 +36,7 @@ namespace Calcpad.Core
 
         public readonly ReadOnlySpan<char> Cut() => _contents[_start.._end];
 
-        public override readonly string ToString() => _contents[_start.._end].ToString();
+        public readonly override string ToString() => _contents[_start.._end].ToString();
 
         public readonly bool StartsWith(char c) => _contents[_start] == c;
 

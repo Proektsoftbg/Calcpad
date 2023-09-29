@@ -91,7 +91,7 @@ namespace Calcpad.Core
                 }
                 catch
                 {
-                    Throw.ErrorParsingNumber(s);
+                    Throw.ErrorParsingNumberException(s);
                     return 0;
                 }
             }

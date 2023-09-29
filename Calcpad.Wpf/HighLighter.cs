@@ -47,10 +47,7 @@ namespace Calcpad.Wpf
                         }
                         else if (c == '/')
                         {
-                            if (_builder.Length == 1)
-                                Type = Tags.Closing;
-                            else
-                                Type = Tags.SelfClosing;
+                            Type = _builder.Length == 1 ? Tags.Closing : Tags.SelfClosing;
                         }
                         else if (!(Validator.IsLatinLetter(c) || char.IsDigit(c) && _builder.Length == 2 && _builder[1] == 'h'))
                             return false;
@@ -114,10 +111,7 @@ namespace Calcpad.Wpf
                 }
                 else if (c == '}')
                 {
-                    if (InputChar == '{')
-                        InputChar = '}';
-                    else
-                        InputChar = '\0';
+                    InputChar = InputChar == '{' ? '}' : '\0';
                 }
                 else if (c != ' ')
                 {
@@ -371,10 +365,7 @@ namespace Calcpad.Wpf
                     case Types.Variable:
                         if (!IsVariable(s, line))
                         {
-                            if (IsUnit(s, line))
-                                t2 = Types.Units;
-                            else
-                                t2 = Types.Error;
+                            t2 = IsUnit(s, line) ? Types.Units : Types.Error;
                         }
                         break;
                     case Types.Function:
@@ -496,9 +487,9 @@ namespace Calcpad.Wpf
                 {
                     _builder.Append(text[++i..]);
 #if BG
-                    _state.Message = $"Очаква се край на ред.";
+                    _state.Message = "Очаква се край на ред.";
 #else
-                    _state.Message = $"End of line expected.";
+                    _state.Message = "End of line expected.";
 #endif
                     Append(Types.Error);
                     return;
@@ -786,10 +777,7 @@ namespace Calcpad.Wpf
                         Types.None;
                     Append(t);
                 }
-                if (isInclude)
-                    _state.CurrentType = Types.Include;
-                else
-                    _state.CurrentType = Types.None;
+                _state.CurrentType = isInclude ? Types.Include : Types.None;
             }
 
             static bool IsContinuedCondition(string text) =>
@@ -1008,7 +996,7 @@ namespace Calcpad.Wpf
                     case "!": r.Text = " ≠ "; return true;
                     case " > ": r.Text = " ≥ "; return true;
                     case " < ": r.Text = " ≤ "; return true;
-                };
+                }
             }
             return false;
         }
@@ -1281,9 +1269,9 @@ namespace Calcpad.Wpf
                     if (c == '\'' || c == '"')
                         return;
 
-                if (string.Equals(s, ")"))
-                    brackets = true;
-                else if (brackets && Validator.IsVariable(s))
+                    if (string.Equals(s, ")"))
+                        brackets = true;
+                    else if (brackets && Validator.IsVariable(s))
                     {
                         LocalVariables.Add(s);
                         inline.Background = null;
@@ -1339,26 +1327,30 @@ namespace Calcpad.Wpf
                 }
             }
 
-            if (otherPosition != position)
+            if (otherPosition == position) return;
+            if (otherPosition < position)
             {
-                if (otherPosition < position)
-                {
-                    AddBracketHighlight(len - position);
-                    AddBracketHighlight(len - otherPosition);
-                }
-                else
-                {
-                    AddBracketHighlight(len - otherPosition);
-                    AddBracketHighlight(len - position);
-                }
+                AddBracketHighlight(len - position);
+                AddBracketHighlight(len - otherPosition);
             }
+            else
+            {
+                AddBracketHighlight(len - otherPosition);
+                AddBracketHighlight(len - position);
+            }
+            return;
 
             void UpdateBracketCount(char c)
             {
-                if (c == '(')
-                    ++bracketCount;
-                else if (c == ')')
-                    --bracketCount;
+                switch (c)
+                {
+                    case '(':
+                        ++bracketCount;
+                        break;
+                    case ')':
+                        --bracketCount;
+                        break;
+                }
             }
 
             void AddBracketHighlight(int offset)

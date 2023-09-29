@@ -82,9 +82,9 @@
             internal ValueTypes ValType;  //0 - none, 1 - number, 2 - unit, 3 - number + unit
             internal int Level;
             internal int Offset;          //-1 - down, 0 - none, 1 - up
-            internal int MinOffset = 0;
-            internal int MaxOffset = 0; 
-            internal int ParameterCount;
+            internal int MinOffset;
+            internal int MaxOffset; 
+            internal readonly int ParameterCount;
             internal bool IsCompositeValue;
 
             internal RenderToken(string content, TokenTypes type, int level) : base(content, type)

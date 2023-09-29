@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace Calcpad.Wpf
 {
-    static class ScreenMetrics
+    internal static class ScreenMetrics
     {
         [DllImport("gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
         private static extern int GetDeviceCaps(IntPtr hDC, int nIndex);

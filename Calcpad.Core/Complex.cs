@@ -270,7 +270,7 @@ namespace Calcpad.Core
         private static void CheckTrigScope(double angle, string func)
         {
             if (angle < TrigMin || angle > TrigMax)
-                Throw.ArgumentOutOfRange(func);
+                Throw.ArgumentOutOfRangeException(func);
         }
 
         internal static double RealRandom(in Complex value) =>
