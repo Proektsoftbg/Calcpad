@@ -14,7 +14,7 @@ namespace Calcpad.Cli
     {
         private static readonly char _dirSeparator = Path.DirectorySeparatorChar;
         const string Prompt = " |> ";
-        private static readonly int _width = Math.Min(Math.Min(Console.WindowWidth, Console.BufferWidth), 80);
+        private static int _width;
 
         internal static readonly string AppPath = AppContext.BaseDirectory;
         struct Line
@@ -66,6 +66,14 @@ namespace Calcpad.Cli
 
         static void Main()
         {
+            try
+            {
+                _width = Math.Min(Math.Min(Console.WindowWidth, Console.BufferWidth), 85);
+            }
+            catch 
+            { 
+                _width = 85; 
+            }
             Settings settings = GetSettings();
             if (TryConvertOnStartup(settings))
                 return;
