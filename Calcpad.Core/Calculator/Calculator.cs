@@ -6,26 +6,29 @@ namespace Calcpad.Core
 {
     internal abstract class Calculator
     {
-        private const double deltaPlus = 1 + 1e-15, deltaMinus = 1 - 1e-15;
+        private const double DeltaPlus = 1 + 1e-15, DeltaMinus = 1 - 1e-15;
         private static readonly double Log2Inv = 1 / Math.Log(2);
 
         private static readonly double[] Factorial;
         internal const char NegChar = '‐'; //hyphen, not minus "-"
-        protected int _degrees = 0;
-        protected bool _returnAngleUnits = false;
-        protected static readonly double[] _toRad =
+        protected int _degrees;
+        protected bool _returnAngleUnits;
+
+        protected static readonly double[] FromRad =
+        {
+            180.0 / Math.PI,
+            1.0,
+            200.0 / Math.PI
+        };
+
+        protected static readonly double[] ToRad =
         {
             Math.PI / 180.0,
             1.0,
             Math.PI / 200.0
         };
-        protected static readonly double[] _fromRad =
-{
-            180.0 / Math.PI,
-            1.0,
-            200.0 / Math.PI
-        };
-        protected static Unit[] _angleUnits =
+
+        protected static Unit[] AngleUnits =
         {
             Unit.Get("deg"),
             Unit.Get("rad"),
@@ -169,21 +172,21 @@ namespace Calcpad.Core
         protected static void CheckFunctionUnits(string func, Unit unit)
         {
             if (unit is not null && !unit.IsAngle)
-                Throw.InvalidUnitsFunction(func, Unit.GetText(unit));
+                Throw.InvalidUnitsFunctionException(func, Unit.GetText(unit));
         }
 
 
         protected static int GetRoot(in Value root)
         {
             if (root.Units is not null)
-                Throw.RootUnitless();
+                Throw.RootUnitlessException();
 
             if (!root.IsReal)
-                Throw.RootComplex();
+                Throw.RootComplexException();
 
             var n = (int)root.Re;
             if (n < 2 || n != root.Re)
-                Throw.RootInteger();
+                Throw.RootIntegerException();
 
             return n;
         }
@@ -191,12 +194,12 @@ namespace Calcpad.Core
         protected static double Fact(double value)
         {
             if (value < 0 || value > 170)
-                Throw.FactorialArgumentOutOfRange();
+                Throw.FactorialArgumentOutOfRangeException();
 
             var i = (int)value;
 
             if (i != value)
-                Throw.FactorialArgumentPositiveInteger();
+                Throw.FactorialArgumentPositiveIntegerException();
 
             return Factorial[i];
         }
@@ -244,7 +247,7 @@ namespace Calcpad.Core
         protected static Value Take(Value[] v)
         {
             var x = Math.Round(v[0].Re, MidpointRounding.AwayFromZero);
-            if (!double.IsNormal(x) || x < deltaMinus || x > v.Length * deltaPlus - 1.0)
+            if (!double.IsNormal(x) || x < DeltaMinus || x > v.Length * DeltaPlus - 1.0)
                 return Value.NaN;
 
             return v[(int)x];
@@ -253,7 +256,7 @@ namespace Calcpad.Core
         protected static Value Line(Value[] v)
         {
             var x = v[0].Re;
-            if (!double.IsNormal(x) || x < deltaMinus || x > v.Length * deltaPlus - 1.0)
+            if (!double.IsNormal(x) || x < DeltaMinus || x > v.Length * DeltaPlus - 1.0)
                 return Value.NaN;
 
             var i = (int)Math.Floor(x);
@@ -266,7 +269,7 @@ namespace Calcpad.Core
         protected static Value Spline(Value[] v)
         {
             var x = v[0].Re;
-            if (!double.IsNormal(x) || x < deltaMinus || x > v.Length * deltaPlus - 1.0)
+            if (!double.IsNormal(x) || x < DeltaMinus || x > v.Length * DeltaPlus - 1.0)
                 return Value.NaN;
 
             var i = (int)Math.Floor(x);
@@ -399,7 +402,7 @@ namespace Calcpad.Core
         {
             var c = Math.Abs(d);
             if (c > long.MaxValue || c != Math.Truncate(c))
-                Throw.BothValuesInteger();
+                Throw.BothValuesIntegerException();
             return (long)c;
         }
 
@@ -428,7 +431,7 @@ namespace Calcpad.Core
             } while (b != 0);
             return a << k;
         }
-        private static readonly long  _ticks = DateTime.Now.Ticks;
-        protected static Value Timer(Value _) => new((DateTime.Now.Ticks - _ticks) / 10000000.0, Unit.Get("s"));
+        private static readonly long  Ticks = DateTime.Now.Ticks;
+        protected static Value Timer(Value _) => new((DateTime.Now.Ticks - Ticks) / 10000000.0, Unit.Get("s"));
     }
 }

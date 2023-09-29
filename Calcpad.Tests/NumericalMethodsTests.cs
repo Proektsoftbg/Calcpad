@@ -2,7 +2,7 @@
 {
     public class NumericalMethodsTests
     {
-        private const double tol = 1e-12;
+        private const double Tol = 1e-12;
         #region Optimization
         [Fact]
         [Trait("Category", "Optimization")]
@@ -11,7 +11,7 @@
             var calc = new TestCalc(new());
             calc.Run("f(x) = x^2 - 2*x - 1");
             var result = calc.Run("$Inf{f(x) @ x = -1 : 2}");
-            Assert.Equal(-2d, result, tol);
+            Assert.Equal(-2d, result, Tol);
             result = calc.Run("x_inf");
             Assert.Equal(1d, result, 1e-7);
         }
@@ -23,9 +23,9 @@
             var calc = new TestCalc(new());
             calc.Run("f(x) = x^2 - 2*x - 1");
             var result = calc.Run("$Sup{f(x) @ x = -1 : 2}");
-            Assert.Equal(2d, result, tol);
+            Assert.Equal(2d, result, Tol);
             result = calc.Run("x_sup");
-            Assert.Equal(-1d, result, tol);
+            Assert.Equal(-1d, result, Tol);
         }
 
         [Fact]
@@ -35,9 +35,9 @@
             var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run("f(x) = cos(x - 1)");
             var result = calc.Run("$Inf{f(x) @ x = -1 : 2}");
-            Assert.Equal(Math.Cos(-2d), result, tol);
+            Assert.Equal(Math.Cos(-2d), result, Tol);
             result = calc.Run("x_inf");
-            Assert.Equal(-1d, result, tol);
+            Assert.Equal(-1d, result, Tol);
         }
 
         [Fact]
@@ -47,7 +47,7 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run("f(x) = cos(x - 1)");
             var result = calc.Run("$Sup{f(x) @ x = -1 : 2}");
-            Assert.Equal(1d, result, tol);
+            Assert.Equal(1d, result, Tol);
             result = calc.Run("x_sup");
             Assert.Equal(1d, result, 1e-7);
         }
@@ -61,7 +61,7 @@
             var result = new TestCalc(new())
                 .Run("$Slope{e^x @ x = 101}");
             var expected = Math.Exp(101d);
-            Assert.True(Math.Abs(expected - result) / Math.Abs(expected) < 1e-10); ;
+            Assert.True(Math.Abs(expected - result) / Math.Abs(expected) < 1e-10);
         }
 
         [Fact]
@@ -71,7 +71,7 @@
             var result = new TestCalc(new() { Degrees = 1})
                 .Run("sin(1009*π)");
             var expected = Math.Sin(1009d * Math.PI);   
-            Assert.Equal(expected, result, tol);
+            Assert.Equal(expected, result, Tol);
         }
 
         [Fact]
@@ -92,7 +92,7 @@
         {
             var result = new TestCalc(new())
                 .Run("$Find{if(x < 1; -1; 1) @ x = -2 : 2}");
-            Assert.Equal(1d, result, tol);
+            Assert.Equal(1d, result, Tol);
         }
 
         [Fact]
@@ -101,7 +101,7 @@
         {
             var result = new TestCalc(new())
                 .Run("$Find{1/(x - 1) @ x = -1 : 2}");
-            Assert.Equal(1d, result, tol);
+            Assert.Equal(1d, result, Tol);
         }
         #endregion
 
@@ -112,7 +112,7 @@
         {
             var result = new TestCalc(new())
                 .Run("$Sum{1/16^k*(4/(8*k + 1) - 2/(8*k + 4) - 1/(8*k + 5) - 1/(8*k + 6)) @ k = 0 : 11}");
-            Assert.Equal(Math.PI, result, tol);
+            Assert.Equal(Math.PI, result, Tol);
         }
 
         [Fact]
@@ -121,7 +121,7 @@
         {
             var result = new TestCalc(new())
                 .Run("$Sum{1/k! @ k = 0 : 20}");
-            Assert.Equal(Math.E, result, tol);
+            Assert.Equal(Math.E, result, Tol);
         }
 
         [Fact]
@@ -130,7 +130,7 @@
         {
             var result = new TestCalc(new())
                 .Run("$Sum{1/(2^k) @ k = 0 : 55}");
-            Assert.Equal(2d, result, tol);
+            Assert.Equal(2d, result, Tol);
         }
         #endregion
 
@@ -142,7 +142,7 @@
             var calc = new TestCalc(new());
             calc.Run("F(n) = $Product{k @ k = 1 : n}");
             var result =calc.Run("F(5)");
-            Assert.Equal(120d, result, tol);
+            Assert.Equal(120d, result, Tol);
         }
 
         [Fact]
@@ -152,7 +152,7 @@
             var calc = new TestCalc(new());
             calc.Run("C(n; k) = $Product{(i + n - k)/i @ i = 1 : k}");
             var result = calc.Run("C(7; 5)");
-            Assert.Equal(21d, result, tol);
+            Assert.Equal(21d, result, Tol);
         }
         #endregion
 
@@ -166,7 +166,7 @@
             var result = calc
                 .Run("$Repeat{x = 0.5*(x + 5/x) @ k = 1 : 6}");
             var expected = Math.Sqrt(5d);   
-            Assert.Equal(expected, result, tol);
+            Assert.Equal(expected, result, Tol);
         }
 
         [Fact]
@@ -178,7 +178,7 @@
             var result = calc
                 .Run("$Repeat{x = 1/(1 + x) @ k = 1 : 40}");
             var expected = 2d / (1d + Math.Sqrt(5d));   
-            Assert.Equal(expected, result, tol);
+            Assert.Equal(expected, result, Tol);
         }
         #endregion
     }

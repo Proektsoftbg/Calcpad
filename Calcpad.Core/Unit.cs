@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Calcpad.Core
 {
-    internal partial class Unit : IEquatable<Unit>
+    internal class Unit : IEquatable<Unit>
     {
         internal enum Field
         {
@@ -1482,7 +1481,7 @@ namespace Calcpad.Core
                 return 1d;
 
             if (ua is null || ub is null || !ua.IsConsistent(ub))
-                Throw.InconsistentUnitsOp(GetText(ua), op, GetText(ub));
+                Throw.InconsistentUnitsOperationException(GetText(ua), op, GetText(ub));
 
             return ub.ConvertTo(ua);
         }
@@ -1546,13 +1545,13 @@ namespace Calcpad.Core
         internal static Unit Pow(Unit u, Value power, bool updateText = false)
         {
             if (power.Units is not null)
-                Throw.PowerNotUnitless();
+                Throw.PowerNotUnitlessException();
 
             if (u is null)
                 return null;
 
             if (!power.IsReal)
-                Throw.UnitsToComplexPower();
+                Throw.UnitsToComplexPowerException();
 
             var d = power.Re;
             var result = u.Pow(d);

@@ -32,7 +32,7 @@ namespace Calcpad.Core
                 var tos = _tos;
                 var rpnLength = rpn.Length;
                 if (rpnLength < 1)
-                    Throw.ExpressionEmpty();
+                    Throw.ExpressionEmptyException();
 
                 var i0 = 0;
                 if (rpn[0].Type == TokenTypes.Variable && rpn[rpnLength - 1].Content == "=")
@@ -42,7 +42,7 @@ namespace Calcpad.Core
                 for (int i = i0; i < rpnLength; ++i)
                 {
                     if (_tos < tos)
-                        Throw.StackEmpty();
+                        Throw.StackEmptyException();
 
                     var t = rpn[i];
                     switch (t.Type)
@@ -67,7 +67,7 @@ namespace Calcpad.Core
                             else
                             {
                                 if (_tos == tos)
-                                    Throw.MissingOperand();
+                                    Throw.MissingOperandException();
 
                                 var b = _stackBuffer[_tos--];
                                 if (t.Content == "=")
@@ -92,7 +92,7 @@ namespace Calcpad.Core
                                     else if (rpn[0].Type == TokenTypes.Unit && rpn[0] is ValueToken tc)
                                     {
                                         if (tc.Value.Units is not null)
-                                            Throw.CannotRewiriteUnits(tc.Value.Units.Text); 
+                                            Throw.CannotRewiriteUnitsException(tc.Value.Units.Text); 
 
                                         _parser.SetUnit(tc.Content, b);
                                         tc.Value = new(_parser.GetUnit(tc.Content));
@@ -103,7 +103,7 @@ namespace Calcpad.Core
                                 if (_tos == tos)
                                 {
                                     if (t.Content != "-")
-                                        Throw.MissingOperand();
+                                        Throw.MissingOperandException();
 
                                     c = new Value(-b.Re, -b.Im, b.Units);
                                 }
@@ -168,7 +168,7 @@ namespace Calcpad.Core
                             _stackBuffer[++_tos] = EvaluateSolver(t);
                             continue;
                         default:
-                            Throw.CannotEvaluateAsType(t.Content, t.Type.GetType().GetEnumName(t.Type));
+                            Throw.CannotEvaluateAsTypeException(t.Content, t.Type.GetType().GetEnumName(t.Type));
                             break;
                     }
                 }
@@ -179,7 +179,7 @@ namespace Calcpad.Core
                     return v;
                 }
                 if (_tos > tos)
-                    Throw.StackLeak();  
+                    Throw.StackLeakException();  
 
                 _parser.Units = null;
                 return new Value(0.0);
@@ -218,7 +218,7 @@ namespace Calcpad.Core
                     return u;
                 }
                 if (!Unit.IsConsistent(vu, u))
-                    Throw.InconsistentTargetUnits(Unit.GetText(vu), Unit.GetText(u));   
+                    Throw.InconsistentTargetUnitsException(Unit.GetText(vu), Unit.GetText(u));   
 
                 var d = vu.ConvertTo(u);
                 if (u.IsTemp)
@@ -284,7 +284,7 @@ namespace Calcpad.Core
                 return solveBlock.Result;
             }
 
-            internal Value EvaluateFunction(CustomFunction cf, in Value x)
+            private Value EvaluateFunction(CustomFunction cf, in Value x)
             {
                 cf.Function ??= _parser.CompileRpn(cf.Rpn);
                 var result = cf.Calculate(x);
@@ -292,7 +292,7 @@ namespace Calcpad.Core
                 return result;
             }
 
-            internal Value EvaluateFunction(CustomFunction cf, in Value x, in Value y)
+            private Value EvaluateFunction(CustomFunction cf, in Value x, in Value y)
             {
                 cf.Function ??= _parser.CompileRpn(cf.Rpn);
                 var result = cf.Calculate(x, y);
@@ -300,7 +300,7 @@ namespace Calcpad.Core
                 return result;
             }
 
-            internal Value EvaluateFunction(CustomFunction cf, in Value x, in Value y, in Value z)
+            private Value EvaluateFunction(CustomFunction cf, in Value x, in Value y, in Value z)
             {
                 cf.Function ??= _parser.CompileRpn(cf.Rpn);
                 var result = cf.Calculate(x, y, z);
@@ -330,7 +330,7 @@ namespace Calcpad.Core
                     return EvaluateVariableToken((VariableToken)t);
 
                 if (t.Type == TokenTypes.Input && t.Content == "?")
-                    Throw.UndefinedInputField();
+                    Throw.UndefinedInputFieldException();
 
                 return ((ValueToken)t).Value;
             }
@@ -359,7 +359,7 @@ namespace Calcpad.Core
                 }
                 catch
                 {
-                    Throw.UndefinedVariableOrUnits(t.Content);
+                    Throw.UndefinedVariableOrUnitsException(t.Content);
                     return default;    
                 }
             }
@@ -380,7 +380,7 @@ namespace Calcpad.Core
             private Value EvaluateToken(Token t, Value a)
             {
                 if (t.Type != TokenTypes.Function && t.Content != NegateString)
-                    Throw.ErrorEvaluatingAsFunction(t.Content);
+                    Throw.ErrorEvaluatingAsFunctionException(t.Content);
 
                 return _calc.EvaluateFunction(t.Index, a);
             }
@@ -391,7 +391,7 @@ namespace Calcpad.Core
                     return _calc.EvaluateOperator(t.Index, a, b);
 
                 if (t.Type != TokenTypes.Function2)
-                    Throw.ErrorEvaluatingAsFunctionOrOperator(t.Content);
+                    Throw.ErrorEvaluatingAsFunctionOrOperatorException(t.Content);
 
                 return _calc.EvaluateFunction2(t.Index, a, b);
             }

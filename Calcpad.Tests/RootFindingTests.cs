@@ -2,8 +2,8 @@
 {
     public class RootFindingTests
     {
-        private const double tol = 1e-14;
-        private const string p = "p(x) = x + 1.11111";
+        private const double Tol = 1e-14;
+        private const string P = "p(x) = x + 1.11111";
         private readonly string[] _functions =
         {
             //Sérgio Galdino
@@ -221,9 +221,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[0]);
             var result = calc.Run(_commands[0]);
-            Assert.Equal(_roots[0], result, tol);
+            Assert.Equal(_roots[0], result, Tol);
             result = calc.Run("f_01(x_01)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -232,9 +232,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[1]);
             var result = calc.Run(_commands[1]);
-            Assert.Equal(_roots[1], result, tol);
+            Assert.Equal(_roots[1], result, Tol);
             result = calc.Run("f_02(x_02)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -243,9 +243,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[2]);
             var result = calc.Run(_commands[2]);
-            Assert.Equal(_roots[2], result, tol);
+            Assert.Equal(_roots[2], result, Tol);
             result = calc.Run("f_03(x_03)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -254,9 +254,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[3]);
             var result = calc.Run(_commands[3]);
-            Assert.Equal(_roots[3], result, tol);
+            Assert.Equal(_roots[3], result, Tol);
             result = calc.Run("f_04(x_04)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -265,9 +265,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[4]);
             var result = calc.Run(_commands[4]);
-            Assert.Equal(_roots[4], result, tol);
+            Assert.Equal(_roots[4], result, Tol);
             result = calc.Run("f_05(x_05)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -276,9 +276,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[5]);
             var result = calc.Run(_commands[5]);
-            Assert.Equal(_roots[5], result, tol);
+            Assert.Equal(_roots[5], result, Tol);
             result = calc.Run("f_06(x_06)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -287,9 +287,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[6]);
             var result = calc.Run(_commands[6]);
-            Assert.Equal(_roots[6], result, tol);
+            Assert.Equal(_roots[6], result, Tol);
             result = calc.Run("f_07(x_07)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -298,9 +298,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[7]);
             var result = calc.Run(_commands[7]);
-            Assert.Equal(_roots[7], result, tol);
+            Assert.Equal(_roots[7], result, Tol);
             result = calc.Run("f_08(x_08)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -309,9 +309,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[8]);
             var result = calc.Run(_commands[8]);
-            Assert.Equal(_roots[8], result, tol);
+            Assert.Equal(_roots[8], result, Tol);
             result = calc.Run("f_09(x_09)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -320,9 +320,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[9]);
             var result = calc.Run(_commands[9]);
-            Assert.Equal(_roots[9], result, tol);
+            Assert.Equal(_roots[9], result, Tol);
             result = calc.Run("f_10(x_10)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -331,9 +331,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[10]);
             var result = calc.Run(_commands[10]);
-            Assert.Equal(_roots[10], result, tol);
+            Assert.Equal(_roots[10], result, Tol);
             result = calc.Run("f_11(x_11)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -342,9 +342,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[11]);
             var result = calc.Run(_commands[11]);
-            Assert.Equal(_roots[11], result, tol);
+            Assert.Equal(_roots[11], result, Tol);
             result = calc.Run("f_12(x_12)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -353,9 +353,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[12]);
             var result = calc.Run(_commands[12]);
-            Assert.Equal(_roots[12], result, tol);
+            Assert.Equal(_roots[12], result, Tol);
             result = calc.Run("f_13(x_13)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -364,9 +364,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[13]);
             var result = calc.Run(_commands[13]);
-            Assert.Equal(_roots[13], result, tol);
+            Assert.Equal(_roots[13], result, Tol);
             result = calc.Run("f_14(x_14)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -375,9 +375,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[14]);
             var result = calc.Run(_commands[14]);
-            Assert.Equal(_roots[14], result, tol);
+            Assert.Equal(_roots[14], result, Tol);
             result = calc.Run("f_15(x_15)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -386,9 +386,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[15]);
             var result = calc.Run(_commands[15]);
-            Assert.Equal(_roots[15], result, tol);
+            Assert.Equal(_roots[15], result, Tol);
             result = calc.Run("f_16(x_16)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -397,9 +397,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[16]);
             var result = calc.Run(_commands[16]);
-            Assert.Equal(_roots[16], result, tol);
+            Assert.Equal(_roots[16], result, Tol);
             result = calc.Run("f_17(x_17)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -408,9 +408,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[17]);
             var result = calc.Run(_commands[17]);
-            Assert.Equal(_roots[17], result, tol);
+            Assert.Equal(_roots[17], result, Tol);
             result = calc.Run("f_18(x_18)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -419,9 +419,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[18]);
             var result = calc.Run(_commands[18]);
-            Assert.Equal(_roots[18], result, tol);
+            Assert.Equal(_roots[18], result, Tol);
             result = calc.Run("f_19(x_19)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -430,9 +430,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[19]);
             var result = calc.Run(_commands[19]);
-            Assert.Equal(_roots[19], result, tol);
+            Assert.Equal(_roots[19], result, Tol);
             result = calc.Run("f_20(x_20)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -441,9 +441,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[20]);
             var result = calc.Run(_commands[20]);
-            Assert.Equal(_roots[20], result, tol);
+            Assert.Equal(_roots[20], result, Tol);
             result = calc.Run("f_21(x_21)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -452,9 +452,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[21]);
             var result = calc.Run(_commands[21]);
-            Assert.Equal(_roots[21], result, tol);
+            Assert.Equal(_roots[21], result, Tol);
             result = calc.Run("f_22(x_22)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -463,9 +463,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[22]);
             var result = calc.Run(_commands[22]);
-            Assert.Equal(_roots[22], result, tol);
+            Assert.Equal(_roots[22], result, Tol);
             result = calc.Run("f_23(x_23)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -474,9 +474,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[23]);
             var result = calc.Run(_commands[23]);
-            Assert.Equal(_roots[23], result, tol);
+            Assert.Equal(_roots[23], result, Tol);
             result = calc.Run("f_24(x_24)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -485,9 +485,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[24]);
             var result = calc.Run(_commands[24]);
-            Assert.Equal(_roots[24], result, tol);
+            Assert.Equal(_roots[24], result, Tol);
             result = calc.Run("f_25(x_25)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -496,21 +496,21 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[25]);
             var result = calc.Run(_commands[25]);
-            Assert.Equal(_roots[25], result, tol);
+            Assert.Equal(_roots[25], result, Tol);
             result = calc.Run("f_26(x_26)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
         public void Root_F_27()
         {
             var calc = new TestCalc(new() { Degrees = 1});
-            calc.Run(p);
+            calc.Run(P);
             calc.Run(_functions[26]);
             var result = calc.Run(_commands[26]);
-            Assert.Equal(_roots[26], result, tol);
+            Assert.Equal(_roots[26], result, Tol);
             result = calc.Run("f_27(x_27)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -519,9 +519,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[27]);
             var result = calc.Run(_commands[27]);
-            Assert.Equal(_roots[27], result, tol);
+            Assert.Equal(_roots[27], result, Tol);
             result = calc.Run("f_28(x_28)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -530,9 +530,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[28]);
             var result = calc.Run(_commands[28]);
-            Assert.Equal(_roots[28], result, tol);
+            Assert.Equal(_roots[28], result, Tol);
             result = calc.Run("f_29(x_29)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -541,9 +541,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[29]);
             var result = calc.Run(_commands[29]);
-            Assert.Equal(_roots[29], result, tol);
+            Assert.Equal(_roots[29], result, Tol);
             result = calc.Run("f_30(x_30)");
-            Assert.Equal(0d, result, tol*100d);
+            Assert.Equal(0d, result, Tol*100d);
         }
 
         [Fact]
@@ -552,9 +552,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[30]);
             var result = calc.Run(_commands[30]);
-            Assert.Equal(_roots[30], result, tol);
+            Assert.Equal(_roots[30], result, Tol);
             result = calc.Run("f_31(x_31)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -563,9 +563,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[31]);
             var result = calc.Run(_commands[31]);
-            Assert.Equal(_roots[31], result, tol);
+            Assert.Equal(_roots[31], result, Tol);
             result = calc.Run("f_32(x_32)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -574,9 +574,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[32]);
             var result = calc.Run(_commands[32]);
-            Assert.Equal(_roots[32], result, tol);
+            Assert.Equal(_roots[32], result, Tol);
             result = calc.Run("f_33(x_33)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -585,9 +585,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[33]);
             var result = calc.Run(_commands[33]);
-            Assert.Equal(_roots[33], result, tol);
+            Assert.Equal(_roots[33], result, Tol);
             result = calc.Run("f_34(x_34)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -596,9 +596,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[34]);
             var result = calc.Run(_commands[34]);
-            Assert.Equal(_roots[34], result, tol);
+            Assert.Equal(_roots[34], result, Tol);
             result = calc.Run("f_35(x_35)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -607,7 +607,7 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[35]);
             var result = calc.Run(_commands[35]); 
-            Assert.Equal(_roots[35], result, tol);
+            Assert.Equal(_roots[35], result, Tol);
             //Find
         }
 
@@ -617,9 +617,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[36]);
             var result = calc.Run(_commands[36]);
-            Assert.Equal(_roots[36], result, tol);
+            Assert.Equal(_roots[36], result, Tol);
             result = calc.Run("f_37(x_37)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -628,7 +628,7 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[37]);
             var result = calc.Run(_commands[37]);
-            Assert.Equal(_roots[37], result, tol);
+            Assert.Equal(_roots[37], result, Tol);
             //Find
         }
 
@@ -638,7 +638,7 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[38]);
             var result = calc.Run(_commands[38]);
-            Assert.Equal(_roots[38], result, tol);
+            Assert.Equal(_roots[38], result, Tol);
             //Find
         }
 
@@ -648,7 +648,7 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[39]);
             var result = calc.Run(_commands[39]);
-            Assert.Equal(_roots[39], result, tol);
+            Assert.Equal(_roots[39], result, Tol);
             //Find
         }
 
@@ -658,9 +658,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[40]);
             var result = calc.Run(_commands[40]);
-            Assert.Equal(_roots[40], result, tol);
+            Assert.Equal(_roots[40], result, Tol);
             result = calc.Run("f_41(x_41)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -669,9 +669,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[41]);
             var result = calc.Run(_commands[41]);
-            Assert.Equal(_roots[41], result, tol);
+            Assert.Equal(_roots[41], result, Tol);
             result = calc.Run("f_42(x_42)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -680,9 +680,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[42]);
             var result = calc.Run(_commands[42]);
-            Assert.Equal(_roots[42], result, tol);
+            Assert.Equal(_roots[42], result, Tol);
             result = calc.Run("f_43(x_43)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -691,9 +691,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[43]);
             var result = calc.Run(_commands[43]);
-            Assert.Equal(_roots[43], result, tol);
+            Assert.Equal(_roots[43], result, Tol);
             result = calc.Run("f_44(x_44)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -702,9 +702,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[44]);
             var result = calc.Run(_commands[44]);
-            Assert.Equal(_roots[44], result, tol);
+            Assert.Equal(_roots[44], result, Tol);
             result = calc.Run("f_45(x_45)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -713,9 +713,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[45]);
             var result = calc.Run(_commands[45]);
-            Assert.Equal(_roots[45], result, tol);
+            Assert.Equal(_roots[45], result, Tol);
             result = calc.Run("f_46(x_46)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -724,9 +724,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[46]);
             var result = calc.Run(_commands[46]);
-            Assert.Equal(_roots[46], result, tol);
+            Assert.Equal(_roots[46], result, Tol);
             result = calc.Run("f_47(x_47)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -735,9 +735,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[47]);
             var result = calc.Run(_commands[47]);
-            Assert.Equal(_roots[47], result, tol);
+            Assert.Equal(_roots[47], result, Tol);
             result = calc.Run("f_48(x_48)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -746,9 +746,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[48]);
             var result = calc.Run(_commands[48]);
-            Assert.Equal(_roots[48], result, tol);
+            Assert.Equal(_roots[48], result, Tol);
             result = calc.Run("f_49(x_49)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -757,9 +757,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[49]);
             var result = calc.Run(_commands[49]);
-            Assert.Equal(_roots[49], result, tol);
+            Assert.Equal(_roots[49], result, Tol);
             result = calc.Run("f_50(x_50)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -768,9 +768,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[50]);
             var result = calc.Run(_commands[50]);
-            Assert.Equal(_roots[50], result, tol);
+            Assert.Equal(_roots[50], result, Tol);
             result = calc.Run("f_51(x_51)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -779,9 +779,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[51]);
             var result = calc.Run(_commands[51]);
-            Assert.Equal(_roots[51], result, tol);
+            Assert.Equal(_roots[51], result, Tol);
             result = calc.Run("f_52(x_52)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -790,9 +790,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[52]);
             var result = calc.Run(_commands[52]);
-            Assert.Equal(_roots[52], result, tol);
+            Assert.Equal(_roots[52], result, Tol);
             result = calc.Run("f_53(x_53)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -801,9 +801,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[53]);
             var result = calc.Run(_commands[53]);
-            Assert.Equal(_roots[53], result, tol);
+            Assert.Equal(_roots[53], result, Tol);
             result = calc.Run("f_54(x_54)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -812,9 +812,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[54]);
             var result = calc.Run(_commands[54]);
-            Assert.Equal(_roots[54], result, tol);
+            Assert.Equal(_roots[54], result, Tol);
             result = calc.Run("f_55(x_55)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -823,9 +823,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[55]);
             var result = calc.Run(_commands[55]);
-            Assert.Equal(_roots[55], result, tol);
+            Assert.Equal(_roots[55], result, Tol);
             result = calc.Run("f_56(x_56)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -834,9 +834,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[56]);
             var result = calc.Run(_commands[56]);
-            Assert.Equal(_roots[56], result, tol);
+            Assert.Equal(_roots[56], result, Tol);
             result = calc.Run("f_57(x_57)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -845,9 +845,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[57]);
             var result = calc.Run(_commands[57]);
-            Assert.Equal(_roots[57], result, tol);
+            Assert.Equal(_roots[57], result, Tol);
             result = calc.Run("f_58(x_58)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -856,9 +856,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[58]);
             var result = calc.Run(_commands[58]);
-            Assert.Equal(_roots[58], result, tol);
+            Assert.Equal(_roots[58], result, Tol);
             result = calc.Run("f_59(x_59)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -867,9 +867,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[59]);
             var result = calc.Run(_commands[59]);
-            Assert.Equal(_roots[59], result, tol);
+            Assert.Equal(_roots[59], result, Tol);
             result = calc.Run("f_60(x_60)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -878,9 +878,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[60]);
             var result = calc.Run(_commands[60]);
-            Assert.Equal(_roots[60], result, tol);
+            Assert.Equal(_roots[60], result, Tol);
             result = calc.Run("f_61(x_61)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }
 
         [Fact]
@@ -889,9 +889,9 @@
             var calc = new TestCalc(new() { Degrees = 1});
             calc.Run(_functions[61]);
             var result = calc.Run(_commands[61]);
-            Assert.Equal(_roots[61], result, tol);
+            Assert.Equal(_roots[61], result, Tol);
             result = calc.Run("f_62(x_62)");
-            Assert.Equal(0d, result, tol);
+            Assert.Equal(0d, result, Tol);
         }   
 
         #endregion

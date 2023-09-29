@@ -55,7 +55,7 @@ namespace Calcpad.Wpf
 
         //Find and Replace
         private readonly FindReplace _findReplace = new();
-        private FindReplaceWindow _findReplaceWindow = null;
+        private FindReplaceWindow _findReplaceWindow;
 
         //Parsers
         private readonly ExpressionParser _parser;
@@ -105,7 +105,7 @@ namespace Calcpad.Wpf
         private bool _isSaved;
         private bool _isTextChangedEnabled;
         private Task _parseTask;
-        private bool _isParsing = false;
+        private bool _isParsing;
         private readonly double _inputHeight;
         private bool _mustPromptUnlock;
         private bool _forceHighlight;
@@ -172,19 +172,19 @@ namespace Calcpad.Wpf
             ToolTipService.InitialShowDelayProperty.OverrideMetadata(
                 typeof(DependencyObject),
                 new FrameworkPropertyMetadata(500));
-            HighLighter.IncludeClickEventHandler = new MouseButtonEventHandler(Include_Click);
+            HighLighter.IncludeClickEventHandler = Include_Click;
             UserDefined.Include = Include;
             LineNumbers.ClipToBounds = true;
             SetCurrentDirectory();
             var appUrl = "file:///" + AppInfo.Path.Replace("\\", "/");
-            _htmlWorksheet = ReadFile(AppInfo.Path + "template.html").Replace("jquery", appUrl + "jquery");
-            _htmlParsing = ReadFile(AppInfo.Path + "parsing.html");
+            _htmlWorksheet = ReadTextFromFile(AppInfo.Path + "template.html").Replace("jquery", appUrl + "jquery");
+            _htmlParsing = ReadTextFromFile(AppInfo.Path + "parsing.html");
 #if BG
             _htmlHelp = GetHelp("https://calcpad.bg/download/help.html");
 #else
             _htmlHelp = GetHelp("https://calcpad.en/download/help.html");
 #endif
-            _htmlSource = ReadFile(AppInfo.Path + "source.html").Replace("jquery", appUrl + "jquery");
+            _htmlSource = ReadTextFromFile(AppInfo.Path + "source.html").Replace("jquery", appUrl + "jquery");
             _svgTyping = $"<img style=\"height:1em;\" src=\"{appUrl}typing.gif\" alt=\"...\">";
             _htmlHelp = _htmlHelp.Replace("jquery", appUrl + "jquery");
             //_htmlTempFileName = Path.GetTempFileName() + ".html";
@@ -339,17 +339,10 @@ You can find your unsaved data in
         private void SetOutputFrameHeader(bool isWebForm)
         {
 #if BG
-			if (isWebForm)
-				OutputFrame.Header = "Входни данни";
-			else
-				OutputFrame.Header = "Резултати";
+            OutputFrame.Header = isWebForm ? "Входни данни" : "Резултати";
 #else
-            if (isWebForm)
-                OutputFrame.Header = "Input";
-            else
-                OutputFrame.Header = "Output";
+            OutputFrame.Header = isWebForm ? "Input" : "Output";
 #endif
-
         }
         private void RichTextBox_Scroll(object sender, ScrollChangedEventArgs e)
         {
@@ -414,14 +407,9 @@ You can find your unsaved data in
             else if (tag.Contains('§'))
             {
                 var parts = tag.Split('§');
-                TextPointer tp;
                 var p = RichTextBox.Selection.Start.Paragraph;
                 var selectionLength = RichTextBox.Selection.Text.Length;
-                if (selectionLength > 0)
-                    tp = p.ContentStart;
-                else
-                    tp = p.ContentEnd;
-
+                TextPointer tp = selectionLength > 0 ? p.ContentStart : p.ContentEnd;
                 var pararaphLength = new TextRange(p.ContentStart, p.ContentEnd).Text.Length;
                 if (pararaphLength > 0)
                 {
@@ -451,36 +439,36 @@ You can find your unsaved data in
                 SetAutoIndent();
             }
             else switch (tag)
-                {
-                    case "AC": RemoveLine(); break;
-                    case "C": RemoveChar(); break;
-                    case "Enter": InsertLine(); break;
-                    default:
-                        if (tag[0] == '#' ||
-                            tag[0] == '$' && (
-                                tag.StartsWith("$plot", StringComparison.OrdinalIgnoreCase) ||
-                                tag.StartsWith("$map", StringComparison.OrdinalIgnoreCase)
-                            ))
+            {
+                case "AC": RemoveLine(); break;
+                case "C": RemoveChar(); break;
+                case "Enter": InsertLine(); break;
+                default:
+                    if (tag[0] == '#' ||
+                        tag[0] == '$' && (
+                            tag.StartsWith("$plot", StringComparison.OrdinalIgnoreCase) ||
+                            tag.StartsWith("$map", StringComparison.OrdinalIgnoreCase)
+                        ))
+                    {
+                        var p = RichTextBox.Selection.End.Paragraph;
+                        if (new TextRange(p.ContentStart, p.ContentEnd).Text.Length > 0)
                         {
-                            var p = RichTextBox.Selection.End.Paragraph;
-                            if (new TextRange(p.ContentStart, p.ContentEnd).Text.Length > 0)
-                            {
-                                var tp = p.ContentEnd.InsertParagraphBreak();
-                                tp.InsertTextInRun(tag);
-                                p = tp.Paragraph;
-                                var lineNumber = GetLineNumber(p);
-                                _highlighter.Parse(p, IsComplex, lineNumber);
-                                SetAutoIndent();
-                                tp = p.ContentEnd;
-                                RichTextBox.Selection.Select(tp, tp);
-                            }
-                            else
-                                InsertText(tag);
+                            var tp = p.ContentEnd.InsertParagraphBreak();
+                            tp.InsertTextInRun(tag);
+                            p = tp.Paragraph;
+                            var lineNumber = GetLineNumber(p);
+                            _highlighter.Parse(p, IsComplex, lineNumber);
+                            SetAutoIndent();
+                            tp = p.ContentEnd;
+                            RichTextBox.Selection.Select(tp, tp);
                         }
                         else
                             InsertText(tag);
-                        break;
-                }
+                    }
+                    else
+                        InsertText(tag);
+                    break;
+            }
             if (tag == "Enter")
                 CalculateAsync();
 
@@ -502,8 +490,8 @@ You can find your unsaved data in
         private static int CountCharInString(string s, char c)
         {
             var n = 0;
-            foreach (var _c in s)
-                if (_c == c)
+            foreach (var ch in s)
+                if (ch == c)
                     ++n;
             return n;
         }
@@ -550,11 +538,11 @@ You can find your unsaved data in
             sel.Select(sel.End, sel.End);
         }
 
-        private int _scrollOutputToLine = 0;
-        private double _scrollOffset = 0d;
+        private int _scrollOutputToLine;
+        private double _scrollOffset;
         private void LineClicked(string data)
         {
-            if (int.TryParse(data, out int line) && line > 0)
+            if (int.TryParse(data, out var line) && line > 0)
             {
                 if (_highlighter.Defined.HasMacros && !IsUnwarpedCode)
                 {
@@ -567,7 +555,7 @@ You can find your unsaved data in
                 else if (line <= _document.Blocks.Count)
                 {
                     var block = _document.Blocks.ElementAt(line - 1);
-                    if (!object.ReferenceEquals(block, _currentParagraph))
+                    if (!ReferenceEquals(block, _currentParagraph))
                     {
                         var y = block.ContentEnd.GetCharacterRect(LogicalDirection.Forward).Y -
                             _document.ContentStart.GetCharacterRect(LogicalDirection.Forward).Y -
@@ -907,7 +895,6 @@ You can find your unsaved data in
             RecentFilesListContextMenu.Items.Clear();
             foreach (MenuItem menu in MenuRecent.Items)
             {
-                var value = (string)menu.ToolTip;
                 var contextMenuItem = new MenuItem()
                 {
                     Header = menu.Header,
@@ -1235,13 +1222,12 @@ You can find your unsaved data in
                 GetAndSetInputFields();
 
             var inputText = SetImageLocalPath(InputText);
-            var outputText = string.Empty;
-            var hasErrors = false;
+            string outputText;
             if (_highlighter.Defined.HasMacros)
             {
-                hasErrors = _macroParser.Parse(inputText, out outputText, null, 0);
+                var hasErrors = _macroParser.Parse(inputText, out outputText, null, 0);
                 _htmlUnwarpedCode = hasErrors || DisplayUnwarpedCode ?
-                    CodeToHtml(outputText, hasErrors) :
+                    CodeToHtml(outputText) :
                     string.Empty;
             }
             else
@@ -1250,7 +1236,7 @@ You can find your unsaved data in
                 _htmlUnwarpedCode = string.Empty;
             }
 
-            var htmlResult = string.Empty;
+            string htmlResult;
             if (!string.IsNullOrEmpty(_htmlUnwarpedCode) && !(IsWebForm || toWebForm))
             {
                 WebBrowser.Tag = true;
@@ -1279,7 +1265,7 @@ You can find your unsaved data in
                     FreezeOutputButtons(true);
                     try
                     {
-                        WebBrowser.InvokeScript($"delayedLoad", _htmlParsing);
+                        WebBrowser.InvokeScript("delayedLoad", _htmlParsing);
                     }
                     catch
                     {
@@ -1319,7 +1305,7 @@ You can find your unsaved data in
                 OutputFrame.Header = toWebForm ? "Input" : "Output";
 #endif
             if (_highlighter.Defined.HasMacros && string.IsNullOrEmpty(_htmlUnwarpedCode))
-                _htmlUnwarpedCode = CodeToHtml(outputText, hasErrors);
+                _htmlUnwarpedCode = CodeToHtml(outputText);
         }
 
         private void FreezeOutputButtons(bool freeze)
@@ -1366,7 +1352,7 @@ You can find your unsaved data in
 #else
         private const string ErrorString = "#Error";
 #endif
-        private string CodeToHtml(string code, bool hasErrors)
+        private string CodeToHtml(string code)
         {
             var highlighter = new HighLighter();
             var errors = new Queue<int>();
@@ -1416,7 +1402,7 @@ You can find your unsaved data in
                             _stringBuilder.Append($"<span class=\"{cls}\">{htmlEncodedText}</span>");
                     }
                 }
-                _stringBuilder.Append($"</p>");
+                _stringBuilder.Append("</p>");
             }
             _stringBuilder.Append("</div>");
             if (errors.Count != 0 && lineNumber > 30)
@@ -1481,11 +1467,11 @@ You can find your unsaved data in
             }
             catch
             {
-                return ReadFile(AppInfo.Path + "help.html");
+                return ReadTextFromFile(AppInfo.Path + "help.html");
             }
         }
 
-        private static string ReadFile(string fileName)
+        private static string ReadTextFromFile(string fileName)
         {
             string s;
             try
@@ -1637,7 +1623,7 @@ You can find your unsaved data in
                                 default:
                                     _stringBuilder.Append(c);
                                     break;
-                            };
+                            }
                         }
                         else if (c == '%')
                         {
@@ -1678,7 +1664,7 @@ You can find your unsaved data in
             _isTextChangedEnabled = true;
         }
 
-        const string tabs = "\t\t\t\t\t\t\t\t\t\t\t\t";
+        const string Tabs = "\t\t\t\t\t\t\t\t\t\t\t\t";
         private string GetInputText()
         {
             _stringBuilder.Clear();
@@ -1692,7 +1678,7 @@ You can find your unsaved data in
                 if (n == 0)
                     _stringBuilder.AppendLine(line);
                 else
-                    _stringBuilder.AppendLine(tabs[..n] + line);
+                    _stringBuilder.AppendLine(Tabs[..n] + line);
                 b = b.NextBlock;
             }
             _stringBuilder.RemoveLastLineIfEmpty();
@@ -2056,10 +2042,7 @@ You can find your unsaved data in
             var p = new Paragraph();
             p.Inlines.Add(new Run($"'<img style=\"height:{size.Height}pt; width:{size.Width}pt;\" src=\"{src}\" alt=\"{fileName}\">"));
             _highlighter.Parse(p, IsComplex, GetLineNumber(p));
-            if (_currentParagraph is not null)
-                _document.Blocks.InsertBefore(_currentParagraph, p);
-            else
-                _document.Blocks.InsertBefore(_document.Blocks.FirstBlock, p);
+            _document.Blocks.InsertBefore(_currentParagraph ?? _document.Blocks.FirstBlock, p);
         }
 
         private static Size GetImageSize(string fileName)
@@ -2195,10 +2178,10 @@ You can find your unsaved data in
         private void ScrollOutput()
         {
             var offset = RichTextBox.CaretPosition.GetCharacterRect(LogicalDirection.Forward).Top * _screenScaleFactor;
-            if (_highlighter.Defined.HasMacros)
-                ScrollOutputToLine(_macroParser.GetUnwarpedLineNumber(_currentLineNumber), offset);
-            else
-                ScrollOutputToLine(_currentLineNumber, offset);
+            ScrollOutputToLine(
+                _highlighter.Defined.HasMacros
+                    ? _macroParser.GetUnwarpedLineNumber(_currentLineNumber)
+                    : _currentLineNumber, offset);
 
             _scrollOutput = false;
         }
@@ -2329,10 +2312,7 @@ You can find your unsaved data in
                 {
                     _highlighter.Defined.Get(InputTextLines, IsComplex);
                     SetCodeCheckBoxVisibility();
-                    await Task.Run(() =>
-                    {
-                        DispatchAutoIndent();
-                    });
+                    await Task.Run(DispatchAutoIndent);
                 }
                 await Task.Run(DispatchLineNumbers);
                 _lastModifiedParagraph = _currentParagraph;
@@ -2510,7 +2490,7 @@ You can find your unsaved data in
                 SD.Imaging.BitmapData data = bitmap.LockBits(new SD.Rectangle(SD.Point.Empty, bitmap.Size), SD.Imaging.ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
                 src.CopyPixels(Int32Rect.Empty, data.Scan0, data.Height * data.Stride, data.Stride);
                 bitmap.UnlockBits(data);
-                SD.Image image = (SD.Image)bitmap;
+                SD.Image image = bitmap;
                 image.Save(path, System.Drawing.Imaging.ImageFormat.Png);
                 InsertImage(path);
             }
@@ -2524,10 +2504,7 @@ You can find your unsaved data in
         {
             _pasteEnd = RichTextBox.Selection.End;
             var p = _pasteEnd.Paragraph;
-            if (p is not null)
-                _pasteOffset = new TextRange(_pasteEnd, p.ContentEnd).Text.Length;
-            else
-                _pasteOffset = 0;
+            _pasteOffset = p is not null ? new TextRange(_pasteEnd, p.ContentEnd).Text.Length : 0;
         }
 
         private DispatcherOperation _lineNumbersDispatcherOperation;
@@ -2877,7 +2854,7 @@ You can find your unsaved data in
             var maxNumber = lineNumber + 35;
             while (p is not null)
             {
-                if (!object.ReferenceEquals(p, _currentParagraph))
+                if (!ReferenceEquals(p, _currentParagraph))
                     _highlighter.CheckHighlight(p, lineNumber);
                 p = (Paragraph)p.NextBlock;
                 lineNumber++;
@@ -3062,7 +3039,7 @@ You can find your unsaved data in
 
         private void Pause() => _parser.Pause();
 
-        bool _sizeChanged = false;
+        bool _sizeChanged;
         private void RichTextBox_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             _sizeChanged = true;
@@ -3149,7 +3126,7 @@ You can find your unsaved data in
         private string Include(string fileName, Queue<string> fields)
         {
             var isLocal = false;
-            var s = ReadFile(fileName);
+            var s = ReadTextFromFile(fileName);
             var j = s.IndexOf('\v');
             var hasForm = j > 0;
             var lines = (hasForm ? s[..j] : s).EnumerateLines();
@@ -3169,10 +3146,9 @@ You can find your unsaved data in
                         if (Validator.IsKeyword(line, "#include"))
                         {
                             var includeFileName = UserDefined.GetFileName(line);
-                            if (fields is null)
-                                getLines.Add(Include(includeFileName, null));
-                            else
-                                getLines.Add(Include(includeFileName, new()));
+                            getLines.Add(fields is null
+                                ? Include(includeFileName, null)
+                                : Include(includeFileName, new()));
                         }
                         else
                             getLines.Add(line.ToString());
@@ -3290,7 +3266,6 @@ You can find your unsaved data in
             if (fields.IsEmpty)
                 return;
 
-            var line = 0;
             var p = _document.Blocks.FirstOrDefault();
             _stringBuilder.Clear();
             var values = new Queue<string>();
@@ -3300,7 +3275,6 @@ You can find your unsaved data in
             while (p is not null && values.Any())
             {
                 var r = new TextRange(p.ContentStart, p.ContentEnd);
-                ++line;
                 if (MacroParser.SetLineInputFields(r.Text.TrimEnd(), _stringBuilder, values, false))
                     r.Text = _stringBuilder.ToString();
 
@@ -3477,15 +3451,15 @@ You can find your unsaved data in
             {
                 return proc.Start();
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
-                ShowErrorMessage(Ex.Message);
+                ShowErrorMessage(ex.Message);
                 return false;
             }
         }
 
         private void DecimalScrollBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) =>
-            DecimalsTextBox.Text = (15 - e.NewValue).ToString();
+            DecimalsTextBox.Text = (15 - e.NewValue).ToString(CultureInfo.InvariantCulture);
 
         private void Record() =>
             _undoMan.Record(
@@ -3616,10 +3590,7 @@ You can find your unsaved data in
         private void FindReplace_EndReplace(object sender, EventArgs e)
         {
             Task.Run(() => Dispatcher.InvokeAsync(
-                delegate
-                {
-                    HighLightAll();
-                },
+                HighLightAll,
                 DispatcherPriority.Send));
             Task.Run(() => Dispatcher.InvokeAsync(SetAutoIndent, DispatcherPriority.Normal));
         }

@@ -2,7 +2,7 @@
 {
     public class UnitsTests
     {
-        private const double tol = 1e-14;
+        private const double Tol = 1e-14;
 
         #region Dimensionless
         [Fact]
@@ -2121,7 +2121,7 @@
         private static void Test(string expression, double expected)
         {
             var result = new TestCalc(new()).Run(expression);
-            Assert.True(Math.Abs(expected - result) < tol*Math.Abs(expected));
+            Assert.True(Math.Abs(expected - result) < Tol*Math.Abs(expected));
         }
 
         private static void Test(string expression, string expected)

@@ -80,23 +80,23 @@ namespace Calcpad.Core
                     {
                         --countOfBrackets;
                         if (countOfBrackets < 0)
-                            Throw.MissingLeftBracket();
+                            Throw.MissingLeftBracketException();
                     }
 
                     if (!CorrectOrder[(int)pT.Type, (int)T.Type])
-                        Throw.InvalidSyntax($"{pT.Content} {T.Content}");
+                        Throw.InvalidSyntaxException($"{pT.Content} {T.Content}");
 
                     pT = T;
                 }
 
                 if (pT.Type == TokenTypes.Operator || pT.Type == TokenTypes.BracketLeft)
-                    Throw.IncompleteExpression();
+                    Throw.IncompleteExpressionException();
 
                 if (countOfBrackets > 0)
-                    Throw.MissingRightBracket();
+                    Throw.MissingRightBracketException();
 
                 if (countOfBrackets < 0)
-                    Throw.MissingLeftBracket();
+                    Throw.MissingLeftBracketException();
             }
         }
 
@@ -148,14 +148,14 @@ namespace Calcpad.Core
                     tt = TokenTypes.Error;
 
                 if (tt == TokenTypes.Error)
-                    Throw.InvalidSymbol(c);
+                    Throw.InvalidSymbolException(c);
 
                 //Collect characters in a string for text, constant, variable or function
                 if (tt == TokenTypes.Constant || tt == TokenTypes.Units)
                 {
                     literal += c;
                     if (literal.Length > 1 && (pt != tt || c == '-'))
-                        Throw.InvalidSymbol(c);
+                        Throw.InvalidSymbolException(c);
                 }
                 else
                 {
@@ -175,7 +175,7 @@ namespace Calcpad.Core
                             }
                             catch
                             {
-                                Throw.InvalidUnits(literal); 
+                                Throw.InvalidUnitsException(literal); 
                             }
                         }
                         else
@@ -186,7 +186,7 @@ namespace Calcpad.Core
                             }
                             catch
                             {
-                                Throw.InvalidNumber(literal);
+                                Throw.InvalidNumberException(literal);
                             }
                         }
                         literal = string.Empty;
@@ -271,18 +271,18 @@ namespace Calcpad.Core
                         break;
                     case TokenTypes.Operator:
                         if (stackBuffer.Count == 0)
-                            Throw.MissingOperand();
+                            Throw.MissingOperandException();
 
                         var b = stackBuffer.Pop();
                         if (stackBuffer.Count == 0)
-                            Throw.MissingOperand();
+                            Throw.MissingOperandException();
 
                         var a = stackBuffer.Pop();
                         var c = EvaluateOperator(T, a, b);
                         stackBuffer.Push(c);
                         break;
                     default:
-                        Throw.InvalidLiteral(T.Content, T.Type.GetType().GetEnumName(T.Type));
+                        Throw.InvalidLiteralException(T.Content, T.Type.GetType().GetEnumName(T.Type));
                         break;
                 }
             }
@@ -296,7 +296,7 @@ namespace Calcpad.Core
                 u.Text = RenderExpression(rpn);
                 return u;
             }
-            Throw.ResultIsNotUnits();
+            Throw.ResultIsNotUnitsException();
             return null;
         }
 

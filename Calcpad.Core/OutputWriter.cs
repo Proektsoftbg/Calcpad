@@ -50,7 +50,7 @@ namespace Calcpad.Core
                     case ')':
                     {
                         if(brackets.Count == 0)
-                            Throw.MissingLeftBracket();
+                            Throw.MissingLeftBracketException();
 
                         var index = brackets.Pop();
                         if (isPower && index < power.Length)
@@ -114,7 +114,7 @@ namespace Calcpad.Core
                 }
             }
             if (brackets.Count != 0)
-                Throw.MissingRightBracket();
+                Throw.MissingRightBracketException();
 
             if (literal.Length > 0)
                 AppendPower();

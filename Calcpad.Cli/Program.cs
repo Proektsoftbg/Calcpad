@@ -12,7 +12,7 @@ namespace Calcpad.Cli
 {
     class Program
     {
-        private static char dirSeparator = Path.DirectorySeparatorChar;
+        private static readonly char _dirSeparator = Path.DirectorySeparatorChar;
         const string Prompt = " |> ";
         private static readonly int _width = Math.Min(Math.Min(Console.WindowWidth, Console.BufferWidth), 80);
 
@@ -253,19 +253,23 @@ namespace Calcpad.Cli
             if (n == 0)
                 return false;
 
-            var fileName = string.Join(" ", args, 1, n - 1); //.ToLower(); cannot be used in linux due to case sensitive file system
-            
+            var fileName = string.Join(" ", args, 1, n - 1).Trim();
             if (OperatingSystem.IsWindows())
             {
                 fileName = fileName.ToLower();
             }
-            
             var i = fileName.IndexOf(".cpd");
             if (i < 0)
                 return false;
             i += 4;
             var outFile = fileName[i..].Trim();
+            var isSilent = outFile.EndsWith(" -s");
+            if (isSilent)
+                outFile = outFile[..^3]; 
+
             fileName = fileName[..i].Trim();
+            if (!File.Exists(fileName))
+                return false;
 
             if (string.IsNullOrWhiteSpace(outFile))
                 outFile = Path.ChangeExtension(fileName, ".html");
@@ -278,21 +282,41 @@ namespace Calcpad.Cli
                 outFile = Path.ChangeExtension(fileName, "." + outFile);
 
             var ext = Path.GetExtension(outFile);
-            var code = File.ReadAllText(fileName);
-            ExpressionParser parser = new()
+            try
             {
-                Settings = settings
-            };
-            try 
-            { 
-                parser.Parse(code, true);
-                Converter converter = new();
+                var path = Path.GetDirectoryName(fileName);
+                if (!string.IsNullOrWhiteSpace(path))
+                    Directory.SetCurrentDirectory(path);
+
+                var code = CalcpadReader.Read(fileName);
+                var macroParser = new MacroParser
+                {
+                    Include = CalcpadReader.Include
+                };
+                var hasMacroErrors = macroParser.Parse(code, out var unwrappedCode, null, 0);
+                string htmlResult;
+                Converter converter = new(isSilent);
+                if (hasMacroErrors)
+                {
+                    htmlResult = CalcpadReader.CodeToHtml(unwrappedCode);
+                    converter.ToHtml(htmlResult, outFile);
+                    return true;
+                }   
+                else
+                {
+                    ExpressionParser parser = new()
+                    {
+                        Settings = settings
+                    };
+                    parser.Parse(unwrappedCode, true);
+                    htmlResult = parser.HtmlResult; 
+                }
                 if (ext == ".html" || ext == ".htm")
-                    converter.ToHtml(parser.HtmlResult, outFile);
+                    converter.ToHtml(htmlResult, outFile);
                 else if (ext == ".docx")
-                    converter.ToOpenXml(parser.HtmlResult, outFile);
+                    converter.ToOpenXml(htmlResult, outFile);
                 else if (ext == ".pdf")
-                    converter.ToPdf(parser.HtmlResult, outFile);
+                    converter.ToPdf(htmlResult, outFile);
                 else
                     return false;
                 return true;
@@ -460,7 +484,7 @@ namespace Calcpad.Cli
 
         static string Open(string Prompt, List<Line> Lines)
         {
-            var FilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"{dirSeparator}cpc";
+            var FilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"{_dirSeparator}cpc";
             if (!Directory.Exists(FilePath))
             {
                 WriteError(Prompt + "OPEN There are no saved problems.\r\n", false);
@@ -468,7 +492,7 @@ namespace Calcpad.Cli
             }
             Console.Write(Prompt + "OPEN Problem title: ");
             var Title = Console.ReadLine();
-            var FileName = FilePath + dirSeparator + Title + ".cpc";
+            var FileName = FilePath + _dirSeparator + Title + ".cpc";
             if (File.Exists(FileName))
             {
                 Lines.Clear();
@@ -487,7 +511,7 @@ namespace Calcpad.Cli
 
         static string Save(string Title, string Prompt, List<Line> Lines)
         {
-            var FilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"{dirSeparator}cpc";
+            var FilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"{_dirSeparator}cpc";
             if (!Directory.Exists(FilePath))
                 Directory.CreateDirectory(FilePath);
 
@@ -504,7 +528,7 @@ namespace Calcpad.Cli
 
             if (NewTitle.Length > 0)
             {
-                var FileName = FilePath + dirSeparator + NewTitle + ".cpc";
+                var FileName = FilePath + _dirSeparator + NewTitle + ".cpc";
                 using StreamWriter sw = new(FileName);
                 foreach (Line L in Lines)
                     sw.WriteLine(L.Input);
@@ -514,7 +538,7 @@ namespace Calcpad.Cli
 
         static void List(string Prompt)
         {
-            string FilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"{dirSeparator}cpc";
+            string FilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"{_dirSeparator}cpc";
             if (!Directory.Exists(FilePath))
             {
                 WriteError(Prompt + "There are no saved problems.", true);

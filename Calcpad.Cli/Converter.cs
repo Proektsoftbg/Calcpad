@@ -8,20 +8,21 @@ namespace Calcpad.Cli
 {
     internal class Converter
     {
-        private static char dirSeparator = Path.DirectorySeparatorChar;
         private readonly StringBuilder _sb = new();
         private readonly string _htmlWorksheet;
+        private readonly bool _isSilent;
 
-        internal Converter()
+        internal Converter(bool isSilent)
         {
             var appUrl = "file:///" + Program.AppPath.Replace("\\", "/");
             _htmlWorksheet = File.ReadAllText(Program.AppPath + "template.html").Replace("jquery", appUrl + "jquery");
+            _isSilent = isSilent;   
         }
 
         internal void ToHtml(string html, string path)
         {
             File.WriteAllText(path, HtmlApplyWorksheet(html));
-            if (File.Exists(path))
+            if (!_isSilent && File.Exists(path))
                 Run(path);
         }
 
@@ -29,7 +30,7 @@ namespace Calcpad.Cli
         {
             html = GetHtmlData(HtmlApplyWorksheet(html));
             new OpenXmlWriter().Convert(html, path);
-            if (File.Exists(path))
+            if (!_isSilent && File.Exists(path))
                 Run(path);
         }
         internal void ToPdf(string html, string path)
@@ -69,7 +70,7 @@ namespace Calcpad.Cli
             process.WaitForExit();
             
             File.Delete(htmlFile);
-            if (File.Exists(path))
+            if (!_isSilent && File.Exists(path))
                 Run(path);
         }
 

@@ -55,11 +55,11 @@ namespace Calcpad.Wpf
         private void Window_ContentRendered(object sender, EventArgs e)
         {
             Dispatcher.InvokeAsync(
-                new Action(() =>
+                () =>
                 {
                     FindGrid.Focus();
                     SearchCombo.Focus();
-                }),
+                },
                 DispatcherPriority.ApplicationIdle
             );
         }
@@ -123,18 +123,18 @@ namespace Calcpad.Wpf
             SearchCombo.Text = FindReplace.SearchString;
             ReplaceCombo.Text = FindReplace.ReplaceString;
             FindReplace.InitPosition();
-            FindReplace.HighlghtSelection();
+            FindReplace.HighlightSelection();
         }
 
-        private void Window_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        private void Window_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.Key == System.Windows.Input.Key.F3)
+            if (e.Key == Key.F3)
                 FindButton_Click(null, null);
             else if (e.KeyboardDevice.Modifiers == ModifierKeys.Control)
             {
-                if (e.Key == System.Windows.Input.Key.F)
+                if (e.Key == Key.F)
                     FindReplaceTab.SelectedIndex = 0;
-                else if (e.Key == System.Windows.Input.Key.H)
+                else if (e.Key == Key.H)
                     FindReplaceTab.SelectedIndex = 1;
             }
         }
@@ -147,7 +147,7 @@ namespace Calcpad.Wpf
 
         private void SelectionCheckbox_Checked(object sender, RoutedEventArgs e)
         {
-            SetButtons(false || FindReplaceTab.SelectedIndex == 0);
+            SetButtons(FindReplaceTab.SelectedIndex == 0);
         }
 
         private void SelectionCheckbox_Unchecked(object sender, RoutedEventArgs e)
