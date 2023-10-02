@@ -1473,18 +1473,28 @@ You can find your unsaved data in
 
         private static string ReadTextFromFile(string fileName)
         {
-            string s;
             try
             {
-                using var sr = new StreamReader(fileName);
-                s = sr.ReadToEnd();
+                if (string.Equals(Path.GetExtension(fileName), ".cpdz", StringComparison.OrdinalIgnoreCase))
+                {
+                    var f = new FileInfo(fileName)
+                    {
+                        IsReadOnly = false
+                    };
+                    using var fs = f.OpenRead();
+                    return Zip.DecompressToString(fs);
+                }
+                else
+                {
+                    using var sr = new StreamReader(fileName);
+                    return sr.ReadToEnd();
+                }
             }
             catch (Exception ex)
             {
                 ShowErrorMessage(ex.Message);
-                s = string.Empty;
+                return string.Empty;
             }
-            return s;
         }
 
         private static SpanLineEnumerator ReadLines(string fileName)
@@ -1492,13 +1502,13 @@ You can find your unsaved data in
             var lines = new SpanLineEnumerator();
             try
             {
-                if (Path.GetExtension(fileName).ToLowerInvariant() == ".cpdz")
+                if (string.Equals(Path.GetExtension(fileName), ".cpdz", StringComparison.OrdinalIgnoreCase))
                 {
                     var f = new FileInfo(fileName)
                     {
                         IsReadOnly = false
                     };
-                    using var fs = f.OpenRead();
+                    using var fs = f.OpenRead();    
                     lines = Zip.Decompress(fs);
                 }
                 else
