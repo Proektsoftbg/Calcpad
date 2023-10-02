@@ -18,14 +18,17 @@ namespace Calcpad.Wpf
             ms.CopyTo(ds);
         }
 
-        internal static SpanLineEnumerator Decompress(Stream fs)
+        internal static SpanLineEnumerator Decompress(Stream fs) =>
+            DecompressToString(fs).AsSpan().EnumerateLines();
+
+        internal static string DecompressToString(Stream fs)
         {
             using var ms = new MemoryStream();
             using (var ds = new DeflateStream(fs, CompressionMode.Decompress))
                 ds.CopyTo(ms);
             ms.Position = 0;
             using var sr = new StreamReader(ms);
-            return sr.ReadToEnd().AsSpan().EnumerateLines();
+            return sr.ReadToEnd();
         }
     }
 }
