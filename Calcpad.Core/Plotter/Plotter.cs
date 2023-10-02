@@ -46,7 +46,8 @@ namespace Calcpad.Core
 
             if (d == 0.0)
                 d = 0.1;
-            else if (d < span)
+
+            if (d < span)
                 d = span;
 
             min = mid - d;

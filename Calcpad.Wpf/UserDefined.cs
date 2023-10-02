@@ -52,8 +52,11 @@ namespace Calcpad.Wpf
             Clear(isComplex);
             var lineNumber = 0;
             foreach (var line in lines)
+            {
+                ++lineNumber;
                 if (!line.IsEmpty) 
-                    Get(line, ++lineNumber);
+                    Get(line, lineNumber);
+            }
         }
 
         internal void Get(ReadOnlySpan<char> lineContent, int lineNumber)
@@ -312,8 +315,13 @@ namespace Calcpad.Wpf
         {
             if (dict.TryGetValue(key, out var bounds))
             {
-                bounds.Add(start);
-                bounds.Add(end);
+                if (start <= bounds[^1] + 1)
+                    bounds[^1] = end;
+                else
+                {
+                    bounds.Add(start);
+                    bounds.Add(end);
+                }
             }
             else
                 dict.Add(key, new() { start, end });
