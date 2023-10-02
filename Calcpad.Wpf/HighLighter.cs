@@ -700,10 +700,14 @@ namespace Calcpad.Wpf
 
                 if (!(_state.IsTag && c == _state.TagComment))
                 {
-                    if (_state.CurrentType == Types.Macro && (c == '(' || c == ')'))
+                    if (_state.CurrentType == Types.Macro)
                     {   
-                        ParseBrackets(c);
-                        if (c == ')')
+                        if (c == '(' || c == ')')
+                            ParseBrackets(c);
+                        else
+                            _builder.Append(c);
+
+                        if (c != '(')
                             _state.CurrentType = Types.Comment;
                     }
                     else
