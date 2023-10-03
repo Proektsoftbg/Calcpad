@@ -20,7 +20,7 @@ namespace Calcpad.Core
         internal static void InvalidLiteralException(in string s, in string literal) =>
             New($"Не мога да изчисля \"{s}\" като {literal}.");
         internal static void InvalidNumberException(in string s) =>
-            InvalidLiteral(s, "число");
+            InvalidLiteralException(s, "число");
         internal static void MissingOperandException() =>
             New("Липсва операнд.");
         internal static void InvalidOperatorException(char c) =>
@@ -107,7 +107,7 @@ namespace Calcpad.Core
             New($"Липсва разделител \"{delimiter}\" в команда за числени методи {{{script}}}.");
         internal static void MultipleAssignmentsException(in string s) =>
             New($"Повече от един оператор '=' в '{s}'.");
-        internal static void ConstantExpressionException(in string s) =>
+        internal static void NotConstantExpressionException(in string s) =>
             New($"Изразът от дясната страна трябва да е константа: \"{s}\".");
         internal static void InconsistentUnits1Exception(in string variable, in string units) =>
             New($"Несъвместими мерни единици за \"{variable} = {units}\".");
@@ -284,7 +284,7 @@ namespace Calcpad.Core
             New($"Inconsistent units for \"{variable} = {units}\".");
         internal static void InconsistentUnits2Exception(in string variable, in string u1, in string u2) =>
             New($"Inconsistent units for \"{variable} = {u1} : {u2}\".");
-        internal static void NoSolution(in string s) =>
+        internal static void NoSolutionException(in string s) =>
             New($"No solution for: {s}.");
         internal static void RecursionNotAllowedException(in string s) =>
             New($"Recursion is not allowed in function definition: \"{s}\".");
@@ -326,7 +326,7 @@ namespace Calcpad.Core
             New($"Condition result is invalid: {s}.");
         internal static void DuplicateMacroParametersException(in string s) =>
             New($"Duplicate macro parameter names: {s} and {s}.");
-        internal static void UndefinedMacroExceptionException(in string s) =>
+        internal static void UndefinedMacroException(in string s) =>
             throw new ArgumentException($"Macro not defined: {s}.");
         internal static void MissingMapItemException(in string s) =>
             New($"Missing {s} in surface map command.");
