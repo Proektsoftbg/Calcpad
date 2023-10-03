@@ -358,7 +358,7 @@ namespace Calcpad.Core
                 --_parser._isSolver;
 
                 if (double.IsNaN(result.Re) && !_parser.IsPlotting)
-                    Throw.NoSolution(ToString());
+                    Throw.NoSolutionException(ToString());
 
                 Result = new Value(result, solver.Units);
                 solver.Variable = variable;
