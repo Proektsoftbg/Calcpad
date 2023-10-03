@@ -169,13 +169,13 @@ namespace Calcpad.Core
                 {
                     if (_condition.Id > 0)
 #if BG
-                        _sb.Append(ErrHtml("Грешка: Условният \"#if\" блок не е затворен. Липсва \"#end if\".", line));
+                        _sb.Append(ErrHtml("Грешка: Условният \"#if\" блок не е затворен. Липсва \"#end if\".", currentLine));
 #else
                         _sb.Append(ErrHtml("Error: \"#if\" block not closed. Missing \"#end if\".", currentLine));
 #endif
                     if (_loops.Count != 0)
 #if BG
-                        _sb.Append(ErrHtml("Грешка: Блокът за цикъл \"#repeat\" не е затворен. Липсва \"#loop\".", line));
+                        _sb.Append(ErrHtml("Грешка: Блокът за цикъл \"#repeat\" не е затворен. Липсва \"#loop\".", currentLine));
 #else
                         _sb.Append(ErrHtml("Error: \"#repeat\" block not closed. Missing \"#loop\".", currentLine));
 #endif
@@ -190,7 +190,7 @@ namespace Calcpad.Core
             catch (Exception ex)
             {
 #if BG
-                _sb.Append(ErrHtml($"Неочаквана грешка: {ex.Message} Моля проверете коректността на израза.", line));
+                _sb.Append(ErrHtml($"Неочаквана грешка: {ex.Message} Моля проверете коректността на израза.", currentLine));
 #else
                 _sb.Append(ErrHtml($"Unexpected error: {ex.Message} Please check the expression consistency.", currentLine));
 #endif
@@ -401,7 +401,7 @@ namespace Calcpad.Core
                                 _parser.Calculate();
                                 if (_parser.Real > int.MaxValue)
 #if BG
-                                    AppendError(s.ToString(), $"Броят на итерациите е по-голям от максималния {int.MaxValue}.</p>", line));
+                                    AppendError(s.ToString(), $"Броят на итерациите е по-голям от максималния {int.MaxValue}.</p>", currentLine);
 #else
                                     AppendError(s.ToString(), $"Number of iterations exceeds the maximum {int.MaxValue}.</p>", currentLine);
 #endif
@@ -446,13 +446,13 @@ namespace Calcpad.Core
                     {
                         if (_loops.Count == 0)
 #if BG
-                            AppendError(s.ToString(), "\"#loop\" без съответен \"#repeat\".", line);
+                            AppendError(s.ToString(), "\"#loop\" без съответен \"#repeat\".", currentLine);
 #else
                             AppendError(s.ToString(), "\"#loop\" without a corresponding \"#repeat\".", currentLine);
 #endif
                         else if (_loops.Peek().Id != _condition.Id)
 #if BG
-                            AppendError(s.ToString(), "Преплитане на \"#if - #end if\" и \"#repeat - #loop\" блокове.", line);
+                            AppendError(s.ToString(), "Преплитане на \"#if - #end if\" и \"#repeat - #loop\" блокове.", currentLine);
 #else
                             AppendError(s.ToString(), "Entangled \"#if - #end if\" and \"#repeat - #loop\" blocks.", currentLine);
 #endif
@@ -491,7 +491,7 @@ namespace Calcpad.Core
                     {
                         if (_loops.Count == 0)
 #if BG
-                            AppendError(s.ToString(), "\"#continue\" без съответен \"#repeat\".", line);
+                            AppendError(s.ToString(), "\"#continue\" без съответен \"#repeat\".", currentLine);
 #else
                             AppendError(s.ToString(), "\"#continue\" without a corresponding \"#repeat\".", currentLine);
 #endif
@@ -658,7 +658,7 @@ namespace Calcpad.Core
                             else
                                 errText = HttpUtility.HtmlEncode(token.Value);
 #if BG
-                            errText = $"Грешка в \"{errText}\" на ред {LineHtml(line)}: {ex.Message}";
+                            errText = $"Грешка в \"{errText}\" на ред {LineHtml(currentLine)}: {ex.Message}";
 #else
                             errText = $"Error in \"{errText}\" on line {LineHtml(currentLine)}: {ex.Message}";
 #endif  

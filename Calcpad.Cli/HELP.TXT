@@ -141,10 +141,11 @@ To:  °  ′ (single prime)  ″ (double prime/second)
     cli input.cpd output.pdf    (html, docx or pdf);
 		
     cli input.cpd html - calculates input.cpd and exports to input.html;
-    cli input.cpd docx - calculates input.cpd and exports to input.docx;
+    cli input.cpd docx - calculates input.cpd and exports to input.docx;	
     cli input.cpd pdf  - calculates input.cpd and exports to input.pdf;
 	
     cli input.cpd      - calculates input.cpd and exports to input.html.
+	
 	Additional arguments:
 		-s   		   - silent mode (do not open the output file), e.g.:
 		cli input.cpd output.html -s

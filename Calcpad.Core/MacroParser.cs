@@ -459,7 +459,7 @@ namespace Calcpad.Core
                             break;
 
                     if (macro.IsEmpty)
-                        Throw.UndefinedMacroExceptionException(macroName);
+                        Throw.UndefinedMacroException(macroName);
                     else if (j > 0)
                         stringBuilder.Append(macroName[..j]);
 
