@@ -255,9 +255,9 @@ namespace Calcpad.Core
             void AppendError(string lineContent, string text, int line)
             {
 #if BG
-                _sb.Append(ErrHtml($"Грешка в \"{lineContent}\" на ред {LineHtml(line)}: {text}</p>", line));
+                _sb.Append(ErrHtml($"Грешка в \"{lineContent}\" на ред {LineHtml(line)}: {text}", line));
 #else
-                _sb.Append(ErrHtml($"Error in \"{lineContent}\" on line {LineHtml(line)}: {text}</p>", line));
+                _sb.Append(ErrHtml($"Error in \"{lineContent}\" on line {LineHtml(line)}: {text}", line));
 #endif
                 if (Debug)
                     errors.Enqueue(line);
