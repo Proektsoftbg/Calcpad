@@ -442,7 +442,7 @@ namespace Calcpad.OpenXml
             if (domNode.HasClass("eq"))
             {
                 var s = domNode.GetAttributeValue("data-xml", string.Empty);
-                var oMath = new M.OfficeMath
+                var oMath = new M.OfficeMath()
                 {
                     InnerXml = s.Replace("<<", "&lt;<")
                                 .Replace(">>", ">&gt;")

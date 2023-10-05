@@ -13,7 +13,6 @@ namespace Calcpad.Core
             Html,
             Xml
         }
-
         private readonly StringBuilder _stringBuilder = new(200);
         protected static int PowerOrder = Calculator.OperatorOrder[Calculator.OperatorIndex['^']];
 
@@ -403,11 +402,11 @@ namespace Calcpad.Core
         {
             string output;
             if (s == "?")
-                output = $"<input type=\"text\" size=\"2\" name=\"Var\" class=\"input-{line}\">&#8202;";
+                output = $"<input type=\"text\" size=\"2\" name=\"Var\" class=\"input-{line}\">&#8201;";
             else if (isCalculated)
-                output = $"<u class=\"input-{line}\">{s}</u>";
+                output = $"<u class=\"input-{line}\">{s}</u>&#8201;";
             else
-                output = $"<input type=\"text\" size=\"2\" name=\"Var\" class=\"input-{line}\" value=\"{s}\">&#8202;";
+                output = $"<input type=\"text\" size=\"2\" name=\"Var\" class=\"input-{line}\" value=\"{s}\">&#8201;";
 
             if (units is not null)
                 return $"{output} <i>{units.Html}</i>";
@@ -498,7 +497,7 @@ namespace Calcpad.Core
             if (!v.IsReal)
                 s = AddBrackets(s);
 
-            return s + "&#8202;" + v.Units.Html;
+            return s + "&#8201;" + v.Units.Html;
         }
 
         internal override string AddBrackets(string s, int level = 0) =>
@@ -588,6 +587,8 @@ namespace Calcpad.Core
 
     internal class XmlWriter : OutputWriter
     {
+        private const string wXmlns = "xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"";
+
         internal override string UnitString(Unit units) => units.Xml;
         internal override string FormatInput(string s, Unit units, int line, bool isCalculated)
         {
@@ -603,18 +604,21 @@ namespace Calcpad.Core
         }
         internal override string FormatSubscript(string sa, string sb) =>
             $"<m:sSub><m:e>{sa}</m:e><m:sub>{Run(sb)}</m:sub></m:sSub>";
+
         internal override string FormatVariable(string name, string value)
         {
+            const string format = $"<w:rPr {wXmlns}><w:color w:val=\"0000FF\" /></w:rPr>";
             var i = name.IndexOf('_');
             if (i <= 0)
-                return Run(name); //<w:rPr><w:color w:val=\"0000FF\" /></w:rPr>
+                return Run(name, format);
 
             var i1 = i + 1;
             return i1 < name.Length ?
-                FormatSubscript(Run(name[..i]), name[(i + 1)..]) :
+                FormatSubscript(Run(name[..i], format), name[(i + 1)..]) :
                 Run(name);
         }
-        internal override string FormatUnits(string s) => Run(s);
+        internal override string FormatUnits(string s) =>
+            Run(' ' + s, $"<m:rPr><m:nor/></m:rPr><w:rPr {wXmlns}><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\" /><w:sz w:val=\"22\" /></w:rPr>");
         internal override string FormatFunction(string s)
         {
             var i = s.IndexOf('_');
@@ -725,7 +729,8 @@ namespace Calcpad.Core
                 sReal + Run("+") + sImaginary;
         }
 
-        internal static string Run(string s) => $"<m:r><m:t>{s}</m:t></m:r>";
+        internal static string Run(string content) => $"<m:r><m:t>{content}</m:t></m:r>";
+        internal static string Run(string content, string format) => $"<m:r>{format}<m:t>{content}</m:t></m:r>";
         internal static string Brackets(char opening, char closing, string s) =>
             $"<m:d><m:dPr><m:begChr m:val=\"{opening}\"/><m:endChr m:val=\"{closing}\"/></m:dPr><m:e>{s}</m:e></m:d>";
 
