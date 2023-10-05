@@ -917,6 +917,10 @@ You can find your unsaved data in
         private void RecentFileList_Click(object sender, RoutedEventArgs e)
         {
             RecentFilesListContextMenu.IsOpen = false;
+            var r = PromptSave();
+            if (r == MessageBoxResult.Cancel)
+                return;
+
             var fileName = (string)((MenuItem)sender).ToolTip;
             if (File.Exists(fileName))
                 FileOpen(fileName);
@@ -1042,7 +1046,8 @@ You can find your unsaved data in
                         _isSaving = true;
                         return;
                     }
-                    GetAndSetInputFields();
+                    if (!GetAndSetInputFields())
+                        return;
                 }
             }
             WriteFile(CurrentFileName, GetInputText());
@@ -1219,8 +1224,10 @@ You can find your unsaved data in
 
             _parser.Settings.Math.Substitute = SubstituteCheckBox.IsChecked ?? false;
             if (IsWebForm && !toWebForm)
-                GetAndSetInputFields();
-
+            {
+                if (!GetAndSetInputFields())
+                    return;
+            }
             var inputText = SetImageLocalPath(InputText);
             string outputText;
             if (_highlighter.Defined.HasMacros)
@@ -1895,7 +1902,7 @@ You can find your unsaved data in
                 CalculateAsync(true);
             else
             {
-                GetAndSetInputFields();
+                //GetAndSetInputFields();
                 RichTextBox.Focus();
                 if (IsAutoRun)
                 {
@@ -1947,7 +1954,7 @@ You can find your unsaved data in
             }
         }
 
-        private void GetAndSetInputFields()
+        private bool GetAndSetInputFields()
         {
             if (InputText.Contains("%u", StringComparison.OrdinalIgnoreCase))
             {
@@ -1967,7 +1974,20 @@ You can find your unsaved data in
             else
                 _parser.Settings.Units = "m";
 
-            SetInputFields(_wbWarper.GetInputFields());
+            if (!SetInputFields(_wbWarper.GetInputFields()))
+            {
+                {
+#if BG
+                    ShowErrorMessage("Грешка! Невалидно число. Моля, направете корекции и опитайте отново.");
+#else   
+                    ShowErrorMessage("Error! Invalid number. Please correct and then try again.");
+#endif
+                    IsCalculated = false;
+                    WebBrowser.Focus();
+                    return false;
+                }
+            }
+            return true;
         }
 
         private void SetUnits()
@@ -3214,10 +3234,34 @@ You can find your unsaved data in
                 return null;
         }
 
-        private void SetInputFields(string[] fields)
+        private bool ValidateInputFields(string[] fields)
+        {
+            for (int i = 0, len = fields.Length; i < len; ++i)
+            {
+                var s = fields[i].AsSpan();
+                if (s.Length > 0)
+                {
+                    var j = s.IndexOf(':');
+                    if (j > 0)
+                        s = s[(j + 1)..];
+                }
+                if (s[0] == '+' || !double.TryParse(s, NumberStyles.AllowLeadingSign | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out var _))
+                {
+                    _wbWarper.ReportInputFieldError(i);
+                    return false;
+                }
+            }
+            return true;    
+        }
+
+
+        private bool SetInputFields(string[] fields)
         {
             if (fields is null || !fields.Any())
-                return;
+                return true;
+
+            if (!ValidateInputFields(fields))
+                return false;
 
             var p = _document.Blocks.FirstOrDefault();
             var i = 0;
@@ -3243,7 +3287,7 @@ You can find your unsaved data in
                         if (fline > line)
                             break;
 
-                        values.Enqueue(s[(j + 1)..].ToString());
+                        values.Enqueue(s[(j + 1)..].ToString().Trim());
                     }
                     ++i;
                 }
@@ -3269,6 +3313,7 @@ You can find your unsaved data in
             }
             RichTextBox.EndChange();
             _isTextChangedEnabled = true;
+            return true;
         }
 
         private void SetInputFieldsFromFile(SplitEnumerator fields)
@@ -3293,7 +3338,6 @@ You can find your unsaved data in
             }
         }
 
-
         private void Logo_MouseUp(object sender, MouseButtonEventArgs e)
         {
             var info = new ProcessStartInfo
@@ -3302,7 +3346,7 @@ You can find your unsaved data in
                 UseShellExecute = true
             };
             Process.Start(info);
-        }
+         }
 
         private void PdfButton_Click(object sender, RoutedEventArgs e)
         {
@@ -3335,7 +3379,6 @@ You can find your unsaved data in
 
         private void SavePdf(string pdfFileName)
         {
-
             var htmlFileName = Path.ChangeExtension(pdfFileName, "html");
             var html = _wbWarper.GetContents();
             WriteFile(htmlFileName, html);
@@ -3447,7 +3490,7 @@ You can find your unsaved data in
             }
         }
 
-        private static bool Execute(string fileName, string args = "")
+        internal static bool Execute(string fileName, string args = "")
         {
             var proc = new Process();
             var psi = new ProcessStartInfo

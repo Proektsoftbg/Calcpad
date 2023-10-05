@@ -40,18 +40,20 @@
         }
 
         .eq, input {
-            font-family: "Times New Roman", serif;
+            font-family: "Times New Roman", Times, serif;
         }
 
             .eq var {
                 color: #06c;
-                padding-right: 1.5pt;
-                padding-left: 1.5pt;
+                padding-right: 1pt;
+                padding-left: 1pt;
+				font-size: 12.5pt;
             }
 
             .eq i {
-                color: DarkCyan;
-                font-size: 11pt;
+                color: #086;
+				font-style: normal;
+				font-size: 11.5pt;
             }
 
             .eq u, input, select {
@@ -603,7 +605,8 @@
         var contextMenu = false;
         function delayedLoad(path) { setTimeout(function () { document.write(path); }, 1000); }
         function getVerticalPosition(line) { return document.querySelector("[data-text='" + line + "']").getBoundingClientRect().top; }
-
+		function isNumeric(s) {return s.match(/^-?\d+(?:\.\d+)?$/); }
+		
         if (window.jQuery) {
             function getHtmlWithInput() {
                 $("input[type=text]").each(function () {
@@ -748,12 +751,24 @@
 
                 $(".roundBox").click(function () {
                     var line = $(this).data("line");
-                    var e = document.getElementById('line-' + line);
+                    var e = document.getElementById("line-" + line);
                     if (e) {
                         window.scrollTo(0, e.offsetTop - $(this).outerHeight() - 20);
                     }
                 });
                 $(".money").each(function () { $(this).text(Number(($(this).text())).toFixed(2)); });
+				
+				$("input").change(function(){
+					var e = $(this);
+					var s = e.val();
+					if (isNumeric(s)) {
+					    e.css("color", "black");
+					    e.removeAttr("title")
+					} else {
+					    e.css("color", "red");
+                        e.attr("title", "Invalid number")
+					}
+				});
             });
         }
         document.oncontextmenu = function () { contextMenu = true; };

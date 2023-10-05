@@ -237,13 +237,7 @@ EndFragment:0000000004";
             return sb.ToString();
         }
 
-        internal string GetContents()
-        {
-            var html = _wb.InvokeScript("eval", "document.documentElement.outerHTML").ToString();
-            return ClearHtml(html);
-        }
-
-        private static string ClearHtml(string html) => Regex.Unescape(html.Trim('"'));
+        internal string GetContents() => _wb.InvokeScript("eval", "document.documentElement.outerHTML").ToString();
 
         internal string[] GetInputFields()
         {
@@ -262,6 +256,15 @@ EndFragment:0000000004";
 #endif
             }
             return null;
+        }
+
+        internal void ReportInputFieldError(int index)
+        {
+            try
+            {
+                _wb.InvokeScript("eval", $"$('input:eq({index})').css('color', 'red').attr('title', 'Invalid  value').focus();");
+            }
+            catch { }
         }
     }
 }
