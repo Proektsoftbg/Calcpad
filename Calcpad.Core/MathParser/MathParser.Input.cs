@@ -416,7 +416,9 @@ namespace Calcpad.Core
                         if (!tokenLiteral.IsEmpty)
                         {
                             t.Content = tokenLiteral.ToString();
-                            ((ValueToken)t).Value = new Value(double.Parse(t.Content, CultureInfo.InvariantCulture));
+                            if (_parser.IsEnabled)
+                                ((ValueToken)t).Value = new Value(double.Parse(t.Content, CultureInfo.InvariantCulture));
+                            
                             tokenLiteral.Reset(i);
                             isInput = false;
                             tt = TokenTypes.Input;
@@ -425,7 +427,9 @@ namespace Calcpad.Core
                     }
                     if (isInput)
                     {
-                        if (c == '-' && pt == TokenTypes.Input ||
+                        if (!_parser.IsEnabled)
+                            tokenLiteral.Expand();
+                        else if (c == '-' && pt == TokenTypes.Input ||
                             (tt == TokenTypes.Constant || c == 'i' && _parser._settings.IsComplex) &&
                             (pt == TokenTypes.Input || pt == TokenTypes.Constant))
                         {
