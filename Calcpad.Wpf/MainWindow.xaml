@@ -166,7 +166,7 @@
                     <MenuItem Click="Button_Click" Tag="!" Icon="  !" Header="Factorial"/>
                     <MenuItem Click="Button_Click" Tag="^" Icon="  ^" Header="Exponentiation"/>
                     <MenuItem Click="Button_Click" Tag="/" Icon="  /" Header="Division"/>
-                    <MenuItem Click="Button_Click" Tag="÷" Icon="  ÷" Header="Division Bar"/>
+                    <MenuItem Click="Button_Click" Tag="÷" Icon="  ÷" Header="Divi	sion Bar"/>
                     <MenuItem Click="Button_Click" Tag="\" Icon="  \" Header="Integer Division"/>
                     <MenuItem Click="Button_Click" Tag="⦼" Icon=" ⦼" Header="Modulo (reminder)"/>
                     <MenuItem Click="Button_Click" Tag="*" Icon="  *" Header="Multiplication"/>
@@ -182,7 +182,7 @@
                     <Separator/>
                     <MenuItem Click="Button_Click" Tag="∧" Icon="  ∧" Header="Logical &quot;And&quot;"/>
                     <MenuItem Click="Button_Click" Tag="∨" Icon="  ∨" Header="Logical &quot;Or&quot;"/>
-                    <MenuItem Click="Button_Click" Tag="⊕"  Icon="  ⊕" Header="Logical &quot;Xor&quot;"/>
+                    <MenuItem Click="Button_Click" Tag="⊕" Icon="  ⊕" Header="Logical &quot;Xor&quot;"/>
                     <Separator/>
                     <MenuItem Click="Button_Click" Tag="=" Icon="  =" Header="Assignment"/>
                 </MenuItem>
@@ -225,11 +225,11 @@
                         <MenuItem Click="Button_Click" Tag="acoth(" Header="acoth(x)" ToolTip="Inverse Hyperbolic Cotangent"/>
                     </MenuItem>
                     <MenuItem Header="Logarithmic, Exponential and Roots">
-                        <MenuItem Click="Button_Click" Tag="log("  Header="log(x)"  ToolTip="Decimal Logarithm"/>
-                        <MenuItem Click="Button_Click" Tag="ln("   Header="ln(x)"   ToolTip="Natural Logarithm"/>
-                        <MenuItem Click="Button_Click" Tag="log_2(" Header="log2(x)"   ToolTip="Binary Logarithm"/>
+                        <MenuItem Click="Button_Click" Tag="log("   Header="log(x)"   ToolTip="Decimal Logarithm"/>
+                        <MenuItem Click="Button_Click" Tag="ln("    Header="ln(x)"    ToolTip="Natural Logarithm"/>
+                        <MenuItem Click="Button_Click" Tag="log_2(" Header="log2(x)"  ToolTip="Binary Logarithm"/>
                         <Separator/>
-                        <MenuItem Click="Button_Click" Tag="exp(" Header="exp(x)"   ToolTip="Natural Exponont"/>
+                        <MenuItem Click="Button_Click" Tag="exp(" Header="exp(x)" ToolTip="Natural Exponont"/>
                         <Separator/>
                         <MenuItem Click="Button_Click" Tag="sqrt(" Header="sqrt(x)" ToolTip="Square Root"/>
                         <MenuItem Click="Button_Click" Tag="cbrt(" Header="cbrt(x)" ToolTip="Cubic Root"/>
@@ -242,15 +242,15 @@
                         <MenuItem Click="Button_Click" Tag="trunc("   Header="trunc(x)"   ToolTip="Round towards zero"/>
                     </MenuItem>
                     <MenuItem Header="Integer">
-                        <MenuItem Click="Button_Click" Tag="mod("     Header="mod(x)"                ToolTip="The modulo (reminder) of an integer division"/>
-                        <MenuItem Click="Button_Click" Tag="gcd("     Header="gcd(x; y)"             ToolTip="The greatest common divisor of two integers"/>
-                        <MenuItem Click="Button_Click" Tag="lcm("     Header="lcm(x; y)"             ToolTip="The least common multiple of two integers"/>
+                        <MenuItem Click="Button_Click" Tag="mod("     Header="mod(x)"     ToolTip="The modulo (reminder) of an integer division"/>
+                        <MenuItem Click="Button_Click" Tag="gcd("     Header="gcd(x; y)"  ToolTip="The greatest common divisor of two integers"/>
+                        <MenuItem Click="Button_Click" Tag="lcm("     Header="lcm(x; y)"  ToolTip="The least common multiple of two integers"/>
                     </MenuItem>
                     <MenuItem Header="Complex">
-                        <MenuItem Click="Button_Click" Tag="re("    Header="re(x)"    ToolTip="The real part of a complex number"/>
-                        <MenuItem Click="Button_Click" Tag="im("    Header="im(x)"    ToolTip="The imaginary part of a complex number"/>
-                        <MenuItem Click="Button_Click" Tag="phase(" Header="phase(x)" ToolTip="The phase of a complex number"/>
-                        <MenuItem Click="Button_Click" Tag="abs("   Header="abs(x)"   ToolTip="Absolute value/magitute"/>
+                        <MenuItem Click="Button_Click" Tag="re("      Header="re(x)"      ToolTip="The real part of a complex number"/>
+                        <MenuItem Click="Button_Click" Tag="im("      Header="im(x)"      ToolTip="The imaginary part of a complex number"/>
+                        <MenuItem Click="Button_Click" Tag="phase("   Header="phase(x)"   ToolTip="The phase of a complex number"/>
+                        <MenuItem Click="Button_Click" Tag="abs("     Header="abs(x)"     ToolTip="Absolute value/magitute"/>
                     </MenuItem>
                     <MenuItem Header="Aggregate and Interpolation">
                         <MenuItem Click="Button_Click" Tag="min("     Header="min(x; y; z...)"       ToolTip="Minimum of multiple values"/>
@@ -266,12 +266,12 @@
                         <MenuItem Click="Button_Click" Tag="spline("  Header="spline(x; a; b; c...)" ToolTip="Hermite spline interpolation"/>
                     </MenuItem>
                     <MenuItem Header="Conditional and Logical">
-                        <MenuItem Click="Button_Click" Tag="if("      Header="if(cond; x; y)"      ToolTip="Conditional evaluation"/>
+                        <MenuItem Click="Button_Click" Tag="if("      Header="if(cond; x; y)"        ToolTip="Conditional evaluation"/>
                         <MenuItem Click="Button_Click" Tag="switch("  Header="switch(c1; x; c2; y...; z)" ToolTip="Selective evaluation"/>
-                        <MenuItem Click="Button_Click" Tag="not("     Header="not(x)"              ToolTip="Logical not"/>
-                        <MenuItem Click="Button_Click" Tag="and("     Header="and(x; a; b; c...)"  ToolTip="Logical and"/>
-                        <MenuItem Click="Button_Click" Tag="or("      Header="or(x; a; b; c...)"   ToolTip="Logical or"/>
-                        <MenuItem Click="Button_Click" Tag="xor("     Header="xor(x; a; b; c...)"  ToolTip="Logical xor"/>
+                        <MenuItem Click="Button_Click" Tag="not("     Header="not(x)"                ToolTip="Logical not"/>
+                        <MenuItem Click="Button_Click" Tag="and("     Header="and(x; a; b; c...)"    ToolTip="Logical and"/>
+                        <MenuItem Click="Button_Click" Tag="or("      Header="or(x; a; b; c...)"     ToolTip="Logical or"/>
+                        <MenuItem Click="Button_Click" Tag="xor("     Header="xor(x; a; b; c...)"    ToolTip="Logical xor"/>
                     </MenuItem>
                     <MenuItem Header="Other">
                         <MenuItem Click="Button_Click" Tag="sign("    Header="sign(x)"               ToolTip="Sign of a number"/>
@@ -294,20 +294,20 @@
                     </MenuItem>
                     <MenuItem Header="Metric">
                         <MenuItem Header="Mass">
-                            <MenuItem Click="Button_Click" Tag="g"   Header="g (gram)"/>
-                            <MenuItem Click="Button_Click" Tag="hg"  Header="hg (hectogram)"/>
-                            <MenuItem Click="Button_Click" Tag="kg"  Header="kg (kilogram)"/>
-                            <MenuItem Click="Button_Click" Tag="t"   Header="t (ton)"/>
-                            <MenuItem Click="Button_Click" Tag="kt"  Header="kt (kiloton)"/>
-                            <MenuItem Click="Button_Click" Tag="Mt"  Header="Mt (megaton)"/>
-                            <MenuItem Click="Button_Click" Tag="Gt"  Header="Gt (gigaton)"/>
-                            <MenuItem Click="Button_Click" Tag="dg"  Header="dg (decigram)"/>
-                            <MenuItem Click="Button_Click" Tag="cg"  Header="cg (centigram)"/>
-                            <MenuItem Click="Button_Click" Tag="mg"  Header="mg (milligram)"/>
-                            <MenuItem Click="Button_Click" Tag="μg"  Header="μg (microgram)"/>
-                            <MenuItem Click="Button_Click" Tag="ng"  Header="ng (nanogram)"/>
-                            <MenuItem Click="Button_Click" Tag="pg"  Header="pg (picogram)"/>
-                            <MenuItem Click="Button_Click" Tag="Da"  Header="Da (Dalton)"/>
+                            <MenuItem Click="Button_Click" Tag="g"  Header="g (gram)"/>
+                            <MenuItem Click="Button_Click" Tag="hg" Header="hg (hectogram)"/>
+                            <MenuItem Click="Button_Click" Tag="kg" Header="kg (kilogram)"/>
+                            <MenuItem Click="Button_Click" Tag="t"  Header="t (ton)"/>
+                            <MenuItem Click="Button_Click" Tag="kt" Header="kt (kiloton)"/>
+                            <MenuItem Click="Button_Click" Tag="Mt" Header="Mt (megaton)"/>
+                            <MenuItem Click="Button_Click" Tag="Gt" Header="Gt (gigaton)"/>
+                            <MenuItem Click="Button_Click" Tag="dg" Header="dg (decigram)"/>
+                            <MenuItem Click="Button_Click" Tag="cg" Header="cg (centigram)"/>
+                            <MenuItem Click="Button_Click" Tag="mg" Header="mg (milligram)"/>
+                            <MenuItem Click="Button_Click" Tag="μg" Header="μg (microgram)"/>
+                            <MenuItem Click="Button_Click" Tag="ng" Header="ng (nanogram)"/>
+                            <MenuItem Click="Button_Click" Tag="pg" Header="pg (picogram)"/>
+                            <MenuItem Click="Button_Click" Tag="Da" Header="Da (Dalton)"/>
                             <MenuItem Click="Button_Click" Tag="u"  Header="u (Dalton alt.)"/>
                         </MenuItem>
                         <MenuItem Header="Length">
@@ -349,16 +349,16 @@
                             <MenuItem Click="Button_Click" Tag="pL"   Header="pL (picolitre)"/>
                         </MenuItem>
                         <MenuItem Header="Time">
-                            <MenuItem Click="Button_Click" Tag="s"   Header="s (second)"/>
-                            <MenuItem Click="Button_Click" Tag="ms"  Header="ms (millisecond)"/>
-                            <MenuItem Click="Button_Click" Tag="μs"  Header="μs (microsecond)"/>
-                            <MenuItem Click="Button_Click" Tag="ns"  Header="ns (nanosecond)"/>
-                            <MenuItem Click="Button_Click" Tag="ps"  Header="ps (picosecond)"/>
-                            <MenuItem Click="Button_Click" Tag="min" Header="min (minute)"/>
-                            <MenuItem Click="Button_Click" Tag="h"   Header="h (hour)"/>
-                            <MenuItem Click="Button_Click" Tag="d"   Header="d (day)"/>
-                            <MenuItem Click="Button_Click" Tag="w"   Header="w (week)"/>
-                            <MenuItem Click="Button_Click" Tag="y"   Header="y (year)"/>
+                            <MenuItem Click="Button_Click" Tag="s"    Header="s (second)"/>
+                            <MenuItem Click="Button_Click" Tag="ms"   Header="ms (millisecond)"/>
+                            <MenuItem Click="Button_Click" Tag="μs"   Header="μs (microsecond)"/>
+                            <MenuItem Click="Button_Click" Tag="ns"   Header="ns (nanosecond)"/>
+                            <MenuItem Click="Button_Click" Tag="ps"   Header="ps (picosecond)"/>
+                            <MenuItem Click="Button_Click" Tag="min"  Header="min (minute)"/>
+                            <MenuItem Click="Button_Click" Tag="h"    Header="h (hour)"/>
+                            <MenuItem Click="Button_Click" Tag="d"    Header="d (day)"/>
+                            <MenuItem Click="Button_Click" Tag="w"    Header="w (week)"/>
+                            <MenuItem Click="Button_Click" Tag="y"    Header="y (year)"/>
                         </MenuItem>
                         <MenuItem Header="Frequency">
                             <MenuItem Click="Button_Click" Tag="Hz"  Header="Hz (Hertz)"/>
@@ -509,7 +509,7 @@
                                 <MenuItem Click="Button_Click" Tag="Ah"  Header="Ah (Ampere-hour)"/>
                                 <MenuItem Click="Button_Click" Tag="mAh" Header="mAh (milliampere-hour)"/>
                             </MenuItem>
-                            <MenuItem Header="Potential" Height= "20">
+                            <MenuItem Header="Potential" Height="20">
                                 <MenuItem Click="Button_Click" Tag="V"  Header="V (Volt)"/>
                                 <MenuItem Click="Button_Click" Tag="kV" Header="kV (kilovolt)"/>
                                 <MenuItem Click="Button_Click" Tag="MV" Header="MV (megavolt)"/>
@@ -597,9 +597,9 @@
                                 <MenuItem Click="Button_Click" Tag="V/m" Header="V/m (Volts per meter)"/>
                                 <MenuItem Click="Button_Click" Tag="N/C" Header="N/C (Newtons per Coulomb)"/>
                             </MenuItem>
-                            <MenuItem Click="Button_Click" Tag="Ω*m" ToolTip="Resistivity"   Header="Ω∙m (Ohm-meter)"/>
-                            <MenuItem Click="Button_Click" Tag="S/m" ToolTip="Conductivity"  Header="S/m (Siemens per meter)"/>
-                            <MenuItem Click="Button_Click" Tag="V*m" ToolTip="Electric flux" Header="V∙m (Volt-meter)"/>
+                            <MenuItem Click="Button_Click" Tag="Ω*m" ToolTip="Resistivity"        Header="Ω∙m (Ohm-meter)"/>
+                            <MenuItem Click="Button_Click" Tag="S/m" ToolTip="Conductivity"       Header="S/m (Siemens per meter)"/>
+                            <MenuItem Click="Button_Click" Tag="V*m" ToolTip="Electric flux"      Header="V∙m (Volt-meter)"/>
                         </MenuItem>
                         <MenuItem Header="Magnetic">
                             <MenuItem Header="Flux">
@@ -637,26 +637,26 @@
                             </MenuItem>
                         </MenuItem>
                         <MenuItem Header="Light/Radiation">
-                            <MenuItem Click="Button_Click" Tag="cd"       ToolTip="Luminous intensity"      Header="cd (candela)"/>
-                            <MenuItem Click="Button_Click" Tag="lm"       ToolTip="Luminous flux"           Header="lm (lumen)"/>
-                            <MenuItem Click="Button_Click" Tag="lm*s"     ToolTip="Luminous energy"         Header="lm·s (lumen-second)"/>
-                            <MenuItem Click="Button_Click" Tag="lm*s/m^3" ToolTip="Luminous energy density" Header="lm·s/m³ (lumen-second per m³)"/>
-                            <MenuItem Click="Button_Click" Tag="lm/W"     ToolTip="Luminous efficacy"       Header="lm/W (lumen per Watt)"/>
-                            <MenuItem Click="Button_Click" Tag="cd/m^2"   ToolTip="Luminance"               Header="cd/m² (candela per sq. meter)"/>
-                            <MenuItem Click="Button_Click" Tag="lx"       ToolTip="Illuminance"             Header="lx (lux)"/>
-                            <MenuItem Click="Button_Click" Tag="lx*s"     ToolTip="Luminous exposure"       Header="lx·s (lux-second)"/>
+                            <MenuItem Click="Button_Click" Tag="cd"       ToolTip="Luminous intensity"       Header="cd (candela)"/>
+                            <MenuItem Click="Button_Click" Tag="lm"       ToolTip="Luminous flux"            Header="lm (lumen)"/>
+                            <MenuItem Click="Button_Click" Tag="lm*s"     ToolTip="Luminous energy"          Header="lm·s (lumen-second)"/>
+                            <MenuItem Click="Button_Click" Tag="lm*s/m^3" ToolTip="Luminous energy density"  Header="lm·s/m³ (lumen-second per m³)"/>
+                            <MenuItem Click="Button_Click" Tag="lm/W"     ToolTip="Luminous efficacy"        Header="lm/W (lumen per Watt)"/>
+                            <MenuItem Click="Button_Click" Tag="cd/m^2"   ToolTip="Luminance"                Header="cd/m² (candela per sq. meter)"/>
+                            <MenuItem Click="Button_Click" Tag="lx"       ToolTip="Illuminance"              Header="lx (lux)"/>
+                            <MenuItem Click="Button_Click" Tag="lx*s"     ToolTip="Luminous exposure"        Header="lx·s (lux-second)"/>
                             <MenuItem Header="Radioactivity">
-                                <MenuItem Click="Button_Click" Tag="Bq"  Header="Bq (Becquerel)"/>
-                                <MenuItem Click="Button_Click" Tag="kBq" Header="kBq (kilobecquerel)"/>
-                                <MenuItem Click="Button_Click" Tag="MBq" Header="MBq (megabecquerel)"/>
-                                <MenuItem Click="Button_Click" Tag="GBq" Header="GBq (gigabecquerel)"/>
-                                <MenuItem Click="Button_Click" Tag="TBq" Header="TBq (terabecquerel)"/>
-                                <MenuItem Click="Button_Click" Tag="mBq" Header="mBq (millibecquerel)"/>
-                                <MenuItem Click="Button_Click" Tag="μBq" Header="μBq (microbecquerel)"/>
-                                <MenuItem Click="Button_Click" Tag="nBq" Header="nBq (nanobecquerel)"/>
-                                <MenuItem Click="Button_Click" Tag="pBq" Header="pBq (picobecquerel)"/>
-                                <MenuItem Click="Button_Click" Tag="Ci"  Header="Ci (Curie)"/>
-                                <MenuItem Click="Button_Click" Tag="Rd"  Header="Rd (Rutherford)"/>
+                                <MenuItem Click="Button_Click" Tag="Bq"   Header="Bq (Becquerel)"/>
+                                <MenuItem Click="Button_Click" Tag="kBq"  Header="kBq (kilobecquerel)"/>
+                                <MenuItem Click="Button_Click" Tag="MBq"  Header="MBq (megabecquerel)"/>
+                                <MenuItem Click="Button_Click" Tag="GBq"  Header="GBq (gigabecquerel)"/>
+                                <MenuItem Click="Button_Click" Tag="TBq"  Header="TBq (terabecquerel)"/>
+                                <MenuItem Click="Button_Click" Tag="mBq"  Header="mBq (millibecquerel)"/>
+                                <MenuItem Click="Button_Click" Tag="μBq"  Header="μBq (microbecquerel)"/>
+                                <MenuItem Click="Button_Click" Tag="nBq"  Header="nBq (nanobecquerel)"/>
+                                <MenuItem Click="Button_Click" Tag="pBq"  Header="pBq (picobecquerel)"/>
+                                <MenuItem Click="Button_Click" Tag="Ci"   Header="Ci (Curie)"/>
+                                <MenuItem Click="Button_Click" Tag="Rd"   Header="Rd (Rutherford)"/>
                             </MenuItem>
                             <MenuItem Header="Exposure">
                                 <MenuItem Click="Button_Click" Tag="R"    Header="R (Röntgen)"/>
@@ -692,22 +692,22 @@
                     </MenuItem>
                     <MenuItem Header="Imperial/US">
                         <MenuItem Header="Mass">
-                            <MenuItem Click="Button_Click" Tag="gr"      Header="gr (grain)"/>
-                            <MenuItem Click="Button_Click" Tag="dr"      Header="dr (drachm)"/>
-                            <MenuItem Click="Button_Click" Tag="oz"      Header="oz (ounce)"/>
-                            <MenuItem Click="Button_Click" Tag="lb"      Header="lb (pound)"/>
-                            <MenuItem Click="Button_Click" Tag="lbm"     Header="lbm (pound)"/>
-                            <MenuItem Click="Button_Click" Tag="lb_m"    Header="lb-m (pound)"/>
-                            <MenuItem Click="Button_Click" Tag="klb"     Header="klb (kilopound)"/>
-                            <MenuItem Click="Button_Click" Tag="kipm"    Header="kipm (kilopound-mass)"/>
-                            <MenuItem Click="Button_Click" Tag="kip_m"   Header="kip-m (kilopound-mass)"/>
-                            <MenuItem Click="Button_Click" Tag="st"      Header="st (stone)"/>
-                            <MenuItem Click="Button_Click" Tag="qr"      Header="qr (quarter)"/>
-                            <MenuItem Click="Button_Click" Tag="cwt_UK"  Header="cwt (hundredweight) - UK"/>
-                            <MenuItem Click="Button_Click" Tag="cwt_US"  Header="cwt (hundredweight) - US"/>
-                            <MenuItem Click="Button_Click" Tag="ton_UK"  Header="ton - UK"/>
-                            <MenuItem Click="Button_Click" Tag="ton_US"  Header="ton - US"/>
-                            <MenuItem Click="Button_Click" Tag="slug"    Header="slug"/>
+                            <MenuItem Click="Button_Click" Tag="gr"       Header="gr (grain)"/>
+                            <MenuItem Click="Button_Click" Tag="dr"       Header="dr (drachm)"/>
+                            <MenuItem Click="Button_Click" Tag="oz"       Header="oz (ounce)"/>
+                            <MenuItem Click="Button_Click" Tag="lb"       Header="lb (pound)"/>
+                            <MenuItem Click="Button_Click" Tag="lbm"      Header="lbm (pound)"/>
+                            <MenuItem Click="Button_Click" Tag="lb_m"     Header="lb-m (pound)"/>
+                            <MenuItem Click="Button_Click" Tag="klb"      Header="klb (kilopound)"/>
+                            <MenuItem Click="Button_Click" Tag="kipm"     Header="kipm (kilopound-mass)"/>
+                            <MenuItem Click="Button_Click" Tag="kip_m"    Header="kip-m (kilopound-mass)"/>
+                            <MenuItem Click="Button_Click" Tag="st"       Header="st (stone)"/>
+                            <MenuItem Click="Button_Click" Tag="qr"       Header="qr (quarter)"/>
+                            <MenuItem Click="Button_Click" Tag="cwt_UK"   Header="cwt (hundredweight) - UK"/>
+                            <MenuItem Click="Button_Click" Tag="cwt_US"   Header="cwt (hundredweight) - US"/>
+                            <MenuItem Click="Button_Click" Tag="ton_UK"   Header="ton - UK"/>
+                            <MenuItem Click="Button_Click" Tag="ton_US"   Header="ton - US"/>
+                            <MenuItem Click="Button_Click" Tag="slug"     Header="slug"/>
                         </MenuItem>
                         <MenuItem Header="Length">
                             <MenuItem Click="Button_Click" Tag="th"       Header="th (thou)"/>
@@ -801,12 +801,12 @@
                             <MenuItem Click="Button_Click" Tag="ton_f" Header="ton-f (ton-force)"/>
                         </MenuItem>
                         <MenuItem Header="Torque/Moment">
-                            <MenuItem Click="Button_Click" Tag="oz_f*in" Header="oz-f·in (ounce-force-inch)"/>
-                            <MenuItem Click="Button_Click" Tag="oz_f*ft" Header="oz-f·ft (ounce-force-foot)"/>
-                            <MenuItem Click="Button_Click" Tag="lb_f*in" Header="lb-f·in (pound-force-inch)"/>
-                            <MenuItem Click="Button_Click" Tag="lb_f*ft" Header="lb-f·ft (pound-force-foot)"/>
-                            <MenuItem Click="Button_Click" Tag="kip*in" Header="kip·in (kilopound-force-inch)"/>
-                            <MenuItem Click="Button_Click" Tag="kip*ft" Header="kip·ft (kilopound-force-foot)"/>
+                            <MenuItem Click="Button_Click" Tag="oz_f*in"  Header="oz-f·in (ounce-force-inch)"/>
+                            <MenuItem Click="Button_Click" Tag="oz_f*ft"  Header="oz-f·ft (ounce-force-foot)"/>
+                            <MenuItem Click="Button_Click" Tag="lb_f*in"  Header="lb-f·in (pound-force-inch)"/>
+                            <MenuItem Click="Button_Click" Tag="lb_f*ft"  Header="lb-f·ft (pound-force-foot)"/>
+                            <MenuItem Click="Button_Click" Tag="kip*in"   Header="kip·in (kilopound-force-inch)"/>
+                            <MenuItem Click="Button_Click" Tag="kip*ft"   Header="kip·ft (kilopound-force-foot)"/>
                             <MenuItem Click="Button_Click" Tag="ton_f*in" Header="ton-f·in (ton-force-inch)"/>
                             <MenuItem Click="Button_Click" Tag="ton_f*ft" Header="ton-f·ft (ton-force-foot)"/>
                         </MenuItem>
@@ -902,7 +902,7 @@
                     <MenuItem Click="Button_Click" Tag="#def macro_name$(param1$; param2$)§'content line 1§'content line 2§'...§#end def" Header="Multiline Macro"/>
                     <MenuItem Click="Button_Click" Tag="#include filename.cpd" Header="Include External File"/>
                 </MenuItem>
-                 <MenuItem Header="Html">
+                <MenuItem Header="Html">
                     <MenuItem Click="Button_Click" Tag="&lt;h3&gt;|&lt;/h3&gt;" Icon="H3" FontWeight="SemiBold">
                         <MenuItem.Header>
                             <TextBlock Text="Heading 3"  FontSize="16" />
@@ -923,19 +923,19 @@
                             <TextBlock Text="Heading 6"  FontSize="13" />
                         </MenuItem.Header>
                     </MenuItem>
-                    <MenuItem Click="Button_Click" Tag="&lt;p&gt;|&lt;/p&gt;"   Header="Paragraph" Icon="  ¶"/>
+                    <MenuItem Click="Button_Click" Tag="&lt;p&gt;|&lt;/p&gt;"   Header="Paragraph"  Icon="  ¶"/>
                     <MenuItem Click="Button_Click" Tag="|&lt;br /&gt;"          Header="Line Break" Icon=" ⏎"/>
                     <Separator/>
                     <MenuItem x:Name="BoldMenu" Click="Button_Click" Tag="&lt;strong&gt;|&lt;/strong&gt;" 
                               Header="Bold" Icon="  B" FontWeight="Bold" InputGestureText="Ctrl+B"/>
                     <MenuItem x:Name="ItalicMenu" Click="Button_Click" Tag="&lt;em&gt;|&lt;/em&gt;" 
-                              Header="Italic" Icon="  I" FontStyle="Italic" FontFamily="Georgia"  InputGestureText="Ctrl+I"/>
-                    <MenuItem x:Name="UnderlineMenu" Click="Button_Click" Tag="&lt;ins&gt;|&lt;/ins&gt;"  InputGestureText="Ctrl+U">
+                              Header="Italic" Icon="  I" FontStyle="Italic" FontFamily="Georgia" InputGestureText="Ctrl+I"/>
+                    <MenuItem x:Name="UnderlineMenu" Click="Button_Click" Tag="&lt;ins&gt;|&lt;/ins&gt;" InputGestureText="Ctrl+U">
                         <MenuItem.Header>
                             <TextBlock Text="Underline" TextDecorations="Underline" />
                         </MenuItem.Header>
                         <MenuItem.Icon>
-                            <TextBlock Text="U" TextDecorations="Underline"  HorizontalAlignment="Center"/>
+                            <TextBlock Text="U" TextDecorations="Underline" HorizontalAlignment="Center"/>
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Click="Button_Click" Tag="&lt;del&gt;|&lt;/del&gt;">

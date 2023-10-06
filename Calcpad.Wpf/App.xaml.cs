@@ -40,7 +40,7 @@ namespace Calcpad.Wpf
                 {
                     main.SaveStateAndRestart();
                 }
-                catch (Exception ex2)
+                catch
                 {
 #if BG
                     message += "\r\n\r\nИма незаписани данни. Възстановяването беше неуспешно. Ако проблемът продължи, моля пишете на proektsoft.bg@gmail.com.";
@@ -52,7 +52,7 @@ namespace Calcpad.Wpf
 #if BG            
             message += $"\r\n\r\nИнформация за грешката:\r\n\r\n\"{ex.ToString()}\"";
 #else
-            message += $"\r\n\r\nException details:\r\n\r\n\"{ex.ToString()}\"";
+            message += $"\r\n\r\nException details:\r\n\r\n\"{ex}\"";
 #endif
             File.WriteAllText(logFileName, message);
             Process.Start(new ProcessStartInfo
