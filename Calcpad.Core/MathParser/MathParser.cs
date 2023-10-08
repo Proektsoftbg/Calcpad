@@ -99,7 +99,7 @@ namespace Calcpad.Core
 
         public void ClearCustomUnits() => _units.Clear();
 
-        public void SetVariable(string name , double value) => SetVariable(name, new Value(value, null));   
+        public void SetVariable(string name , double value) => SetVariable(name, new Value(value));   
         
         internal void SetVariable(string name, Value value)
         {
@@ -159,8 +159,8 @@ namespace Calcpad.Core
 
         private void InitVariables()
         {
-            var pi = new Value(Math.PI, null);
-            _variables.Add("e", new Variable(new Value(Math.E, null)));
+            var pi = new Value(Math.PI);
+            _variables.Add("e", new Variable(new Value(Math.E)));
             _variables.Add("pi", new Variable(pi));
             _variables.Add("π", new Variable(pi));
             if (_settings.IsComplex)
