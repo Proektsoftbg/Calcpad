@@ -504,7 +504,7 @@ namespace Calcpad.Core
                 else
                 {
                     _units.Add(s, null);
-                    return new ValueToken(new(null))
+                    return new ValueToken(new())
                     {
                         Content = s,
                         Type = TokenTypes.Unit

@@ -369,10 +369,10 @@ namespace Calcpad.Core
                 var u = v.Units;
                 var c = u?.Text[0];
                 if (c == '%')
-                    return new Value(v.Complex * 0.01, null);
+                    return new Value(v.Complex * 0.01);
 
                 if (c == '‰')
-                    return new Value(v.Complex * 0.001, null);
+                    return new Value(v.Complex * 0.001);
 
                 return v;
             }
