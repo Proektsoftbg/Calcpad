@@ -26,7 +26,7 @@ namespace Calcpad.Core
         private static readonly string[] Names = { "g", "m", "s", "A", "°C", "mol", "cd", "°", "" };
         private static readonly Dictionary<string, Unit> Units;
         private static readonly Unit[] ForceUnits = new Unit[9], ForceUnits_US = new Unit[9];
-        private static readonly HashSet<Unit> ElectricalUnits = new();
+        private static readonly HashSet<Unit> ElectricalUnits = new(9);
 
         private static readonly string[] UnitNames =
         {
@@ -888,16 +888,11 @@ namespace Calcpad.Core
             var n = n1 > n2 ? n1 : n2;
             if (n1 == n2)
             {
-                while (n > 0)
-                {
-                    var i = n - 1;
-                    if (u1._powers[i] != (divide ? u2._powers[i] : -u2._powers[i]))
-                        break;
-
-                    n = i;
-                }
-                if (n == 0)
-                    return null;
+                if (divide)
+                    do { if (--n < 0) return null; } while (u1._powers[n] ==  u2._powers[n]);
+                else
+                    do { if (--n < 0) return null; } while (u1._powers[n] == -u2._powers[n]);
+                ++n;
             }
             Unit unit = new(n);
             if (u1.HasTemp)
@@ -909,22 +904,17 @@ namespace Calcpad.Core
             if (n2 > n) n2 = n;
             for (int i = 0; i < n1; ++i)
             {
-                ref var p1 = ref u1._powers[i];
+                var p1 = u1._powers[i];
                 if (i < n2)
                 {
-                    ref var p2 = ref u2._powers[i];
-                    if (p1 != 0f)
-                    {
-                        unit._factors[i] = u1._factors[i];
-                        unit._powers[i] = divide ? p1 - p2 : p1 + p2;
-                    }
-                    else if (p2 != 0)
-                    {
-                        unit._factors[i] = u2._factors[i];
-                        unit._powers[i] = divide ? -p2 : p2;
-                    }
-                    else
-                        unit._factors[i] = 1f;
+                    var p2 = u2._powers[i];
+                    unit._powers[i] = divide ? p1 - p2 : p1 + p2;
+                    unit._factors[i] =
+                        p1 != 0f ?
+                            u1._factors[i] :
+                            p2 != 0 ?
+                                u2._factors[i] :
+                                1f;
                 }
                 else
                 {
@@ -954,16 +944,22 @@ namespace Calcpad.Core
             var n2 = u2.Length;
             var n = n1 < n2 ? n1 : n2;
             var factor = 1d;
-            for (int i = 0; i < n; ++i)
+            if (divide)
             {
-                if (u1._powers[i] != 0f && 
-                    u2._powers[i] != 0f && 
-                    u1._factors[i] != u2._factors[i])
+                for (int i = 0; i < n; ++i)
                 {
-                    if (divide)
+                    if (u1._powers[i] != 0f && u2._powers[i] != 0f && u1._factors[i] != u2._factors[i])
                         factor *= MyPow(u1._factors[i] / u2._factors[i], u2._powers[i]);
-                    else
+                }
+            }
+            else
+            {
+                for (int i = 0; i < n; ++i)
+                {
+                    if (u1._powers[i] != 0f && u2._powers[i] != 0f && u1._factors[i] != u2._factors[i])
+                    {
                         factor *= MyPow(u2._factors[i] / u1._factors[i], u2._powers[i]);
+                    }
                 }
             }
             return factor;
@@ -1472,7 +1468,7 @@ namespace Calcpad.Core
             (
                 d > 0d &&
                 d != 1d ||
-                units._text.AsSpan().IndexOfAny(CompositeUnitChars) >= 0d
+                units._text.AsSpan().IndexOfAny(CompositeUnitChars) >= 0
             );
 
         internal static double Convert(Unit ua, Unit ub, char op)
