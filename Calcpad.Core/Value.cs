@@ -89,7 +89,7 @@ namespace Calcpad.Core
 
         public static Value operator *(Value a, Value b)
         {
-            if (a.Units is null && b.IsUnit)
+            if (a.Units is null)
                 return new(a.Re * b.Re, b.Units);
 
             var uc = Unit.Multiply(a.Units, b.Units, out var d);
@@ -98,7 +98,7 @@ namespace Calcpad.Core
 
         public static Value Multiply(Value a, Value b)
         {
-            if (a.Units is null && b.IsUnit)
+            if (a.Units is null)
                 return new(a.Re * b.Re, b.Units);
 
             var uc = Unit.Multiply(a.Units, b.Units, out var d, b.IsUnit);

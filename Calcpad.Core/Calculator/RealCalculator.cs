@@ -497,6 +497,6 @@ namespace Calcpad.Core
         private Value ToAngleUnits(double value) =>
             _returnAngleUnits ?
             new(value * FromRad[_degrees], AngleUnits[_degrees]) :
-            new(value * FromRad[_degrees], null);
+            new(value * FromRad[_degrees]);
     }
 }
