@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -17,10 +16,22 @@ namespace Calcpad.Wpf
         private void AppDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             AppDomain.CurrentDomain.UnhandledException -= AppDomain_UnhandledException;
-            var ex = (Exception)e.ExceptionObject;
+            ReportUnhandledExceptionAndClose((Exception)e.ExceptionObject);
+        }
+
+        private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            DispatcherUnhandledException -= Application_DispatcherUnhandledException;
+            e.Handled = true;
+            ReportUnhandledExceptionAndClose(e.Exception);
+        }
+
+        private static void ReportUnhandledExceptionAndClose(Exception e) 
+        {
+
             MainWindow main = (MainWindow)Current.MainWindow;
             var logFileName = Path.GetTempFileName();
-            var message = GetMessage(ex);
+            var message = GetMessage(e);
             if (main.IsSaved)
             {
 #if BG
@@ -50,9 +61,9 @@ namespace Calcpad.Wpf
                 }
             }
 #if BG            
-            message += $"\r\n\r\nИнформация за грешката:\r\n\r\n\"{ex.ToString()}\"";
+            message += $"\r\n\r\nИнформация за грешката:\r\n\r\n\"{e.ToString()}\"";
 #else
-            message += $"\r\n\r\nException details:\r\n\r\n\"{ex}\"";
+            message += $"\r\n\r\nException details:\r\n\r\n\"{e}\"";
 #endif
             File.WriteAllText(logFileName, message);
             Process.Start(new ProcessStartInfo
@@ -60,19 +71,20 @@ namespace Calcpad.Wpf
                 FileName = logFileName,
                 UseShellExecute = true
             });
+            Environment.Exit(System.Runtime.InteropServices.Marshal.GetHRForException((Exception)e));
         }
 #if BG
-        private static string GetMessage(Exception ex) => 
-@$"В Calcpad възникна неочаквана грешка: ""{ex.Message}""
+        private static string GetMessage(Exception e) => 
+@$"В Calcpad възникна неочаквана грешка: ""{e.Message}""
 
-Източник: ""{ex.Source}""
+Източник: ""{e.Source}""
 
 ";
 #else
-        private static string GetMessage(Exception ex) =>
-@$"Unexpected error occured in Calcpad: ""{ex.Message}""
+        private static string GetMessage(Exception e) =>
+@$"Unexpected error occured in Calcpad: ""{e.Message}""
 
-Source: ""{ex.Source}""";
+Source: ""{e.Source}""";
 
 #endif
     }
