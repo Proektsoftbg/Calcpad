@@ -3257,7 +3257,9 @@ You can find your unsaved data in
 
         private bool SetInputFields(string[] fields)
         {
-            if (fields is null || !fields.Any())
+            if (fields is null ||
+                fields.Length == 0 ||
+                fields.Length == 1 && string.IsNullOrEmpty(fields[0]))
                 return true;
 
             if (!ValidateInputFields(fields))
