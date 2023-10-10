@@ -107,6 +107,8 @@ namespace Calcpad.Core
                                  _powers[5] == 0f &&
                                  _powers[6] == 0f;
 
+        internal bool IsDimensionless => _powers.Length == 0;
+
         internal string Text
         {
             get

@@ -364,20 +364,21 @@ namespace Calcpad.Core
                 }
             }
 
-            internal static Value EvaluatePercent(Value v)
-            {
-                var u = v.Units;
-                var c = u?.Text[0];
-                if (c == '%')
-                    return new Value(v.Complex * 0.01);
+            internal static Value EvaluatePercent(in Value v)
+            {    
+                if (v.Units is not null && v.Units.IsDimensionless)
+                {
+                    var c = v.Units.Text[0];
+                    if (c == '%')
+                        return new Value(v.Complex * 0.01);
 
-                if (c == '‰')
-                    return new Value(v.Complex * 0.001);
-
+                    if (c == '‰')
+                        return new Value(v.Complex * 0.001);
+                } 
                 return v;
             }
 
-            private Value EvaluateToken(Token t, Value a)
+            private Value EvaluateToken(Token t, in Value a)
             {
                 if (t.Type != TokenTypes.Function && t.Content != NegateString)
                     Throw.ErrorEvaluatingAsFunctionException(t.Content);
@@ -385,7 +386,7 @@ namespace Calcpad.Core
                 return _calc.EvaluateFunction(t.Index, a);
             }
 
-            private Value EvaluateToken(Token t, Value a, Value b)
+            private Value EvaluateToken(Token t, in Value a, in Value b)
             {
                 if (t.Type == TokenTypes.Operator)
                     return _calc.EvaluateOperator(t.Index, a, b);
