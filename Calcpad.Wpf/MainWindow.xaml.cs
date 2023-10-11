@@ -1278,11 +1278,8 @@ You can find your unsaved data in
                     {
                         WebBrowser.NavigateToString(_htmlParsing);
                     }
-                    _parseTask = Task.Run(() =>
-                    {
-                        _parser.Parse(outputText);
-                    });
-                    await _parseTask;
+                    void parse() => _parser.Parse(outputText);
+                    await Task.Run(parse);
                     _isParsing = false;
                     if (!IsWebForm)
                     {
