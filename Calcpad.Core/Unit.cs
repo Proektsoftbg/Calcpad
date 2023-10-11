@@ -146,8 +146,9 @@ namespace Calcpad.Core
             if (_hashCode == 0)
             {
                 var hash = new HashCode();
-                hash.Add(Length);
-                for (int i = 0, n = Length; i < n; ++i)
+                var  n = Length;    
+                hash.Add(n);
+                for (int i = 0; i < n; ++i)
                 {
                     if (_powers[i] != 0f)
                     {
@@ -949,20 +950,14 @@ namespace Calcpad.Core
             if (divide)
             {
                 for (int i = 0; i < n; ++i)
-                {
                     if (u1._powers[i] != 0f && u2._powers[i] != 0f && u1._factors[i] != u2._factors[i])
                         factor *= MyPow(u1._factors[i] / u2._factors[i], u2._powers[i]);
-                }
             }
             else
             {
                 for (int i = 0; i < n; ++i)
-                {
                     if (u1._powers[i] != 0f && u2._powers[i] != 0f && u1._factors[i] != u2._factors[i])
-                    {
                         factor *= MyPow(u2._factors[i] / u1._factors[i], u2._powers[i]);
-                    }
-                }
             }
             return factor;
         }
