@@ -10,7 +10,7 @@
     <Company>Proektsoft EOOD</Company>
     <PackageId>Cli</PackageId>
     <Product>Cli</Product>
-    <AssemblyName>Cli</AssemblyName>
+    <AssemblyName>Calcpad</AssemblyName>
     <StartupObject>Calcpad.Cli.Program</StartupObject>
   </PropertyGroup>
 
@@ -32,6 +32,14 @@
     <None Update="wkhtmltopdf.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Content Include="start.sh" CopyToPublishDirectory="PreserveNewest" LinuxFileMode="755">
+      <LinuxPath>/usr/local/bin/calcpad</LinuxPath>
+    </Content>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <DebDependency Include="wkhtmltopdf" />
+    <RpmDependency Include="wkhtmltopdf" />
   </ItemGroup>
 
   <PropertyGroup>
