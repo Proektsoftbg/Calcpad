@@ -163,12 +163,25 @@ namespace Calcpad.Cli
                             break;
                         case "SETTINGS":
                         case "OPTIONS":
-                            if (Execute("NOTEPAD", AppPath + "Settings.xml"))
+                            if (OperatingSystem.IsWindows())
                             {
-                                settings = GetSettings();
-                                mp = new(settings.Math);
-                                Header(Title, settings.Math.Degrees);
-                                Render(mp, Lines, true);
+                                if (Execute("NOTEPAD", AppPath + "Settings.xml"))
+                                {
+                                    settings = GetSettings();
+                                    mp = new(settings.Math);
+                                    Header(Title, settings.Math.Degrees);
+                                    Render(mp, Lines, true);
+                                }
+                            }
+                            else
+                            {
+                                if (Execute("nano", AppPath + "Settings.xml"))
+                                {
+                                    settings = GetSettings();
+                                    mp = new(settings.Math);
+                                    Header(Title, settings.Math.Degrees);
+                                    Render(mp, Lines, true);
+                                }
                             }
                             break;
                         case "LICENSE":
@@ -192,7 +205,13 @@ namespace Calcpad.Cli
             Settings settings = new(); 
             settings.Math.Decimals = 6;
             XmlSerializer writer = new(settings.GetType());
-            var path = AppPath + "Settings.xml";
+            var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"{_dirSeparator}.config{_dirSeparator}calcpad{_dirSeparator}Settings.xml";
+            
+            if (OperatingSystem.IsWindows())
+            {
+                path = AppPath + "Settings.xml";
+            }
+            
 
             FileStream file = null;
             try
