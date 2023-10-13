@@ -35,6 +35,8 @@
     <Content Include="start.sh" CopyToPublishDirectory="PreserveNewest" LinuxFileMode="755">
       <LinuxPath>/usr/local/bin/calcpad</LinuxPath>
     </Content>
+    <Content Include="Examples\*\**" CopyToPublishDirectory="PreserveNewest"/>
+    <Content Include="Settings.xml" CopyToPublishDirectory="PreserveNewest"/>
   </ItemGroup>
   
   <ItemGroup>
@@ -45,5 +47,11 @@
   <PropertyGroup>
     <ServerGarbageCollection>true</ServerGarbageCollection>
     <ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <PostInstallScript>
+      <![CDATA[cp -a /usr/share/Calcpad/Examples /home/$SUDO_USER/calcpad && mkdir -p /home/$SUDO_USER/.config/calcpad/ && cp /usr/share/Calcpad/Settings.xml /home/$SUDO_USER/.config/calcpad/Settings.xml]]>
+    </PostInstallScript>
   </PropertyGroup>
 </Project>
