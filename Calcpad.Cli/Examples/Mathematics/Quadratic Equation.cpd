@@ -1,0 +1,35 @@
+"Quadratic Equation
+'<hr/>
+f(x) = a*x^2 + b*x + c'= 0
+'Coefficients:
+a = ?','b = ?','c = ?
+#hide
+PlotWidth=360''PlotHeight=240
+#post
+#if a ≡ 0
+	'The coefficient <i>a</i> is equal to zero. The equation is linear.
+	x = -c/b
+#else
+	'Discriminant:
+	D = b^2 - 4*a*c
+	#if D ≥ 0
+		'The discriminant is grater or equal to zero. Real roots exist.
+		q = -0.5*(b + sign(b)*sqr(D))
+		x_1 = q/a
+		x_2 = c/q
+		#hide
+		d = abs(x_2 - x_1)/4
+		x_min = min(x_1; x_2) - d
+		x_max = max(x_1; x_2) + d
+		#post
+		$Plot{f(x) & x_1|0 & x_2|0 @ x = x_min : x_max}
+	#else
+		'The discriminant is less than zero. There are no real roots.
+		#hide
+		d = -b/(2*a)
+		x_min = d + abs(a)
+		x_max = d - abs(a)
+		#post
+		$Plot{f(x) @ x = x_min : x_max}
+	#end if
+#end if 2	3	-5

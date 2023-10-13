@@ -1,0 +1,39 @@
+"Simply Supported Beam with Partially Distributed Load
+'<hr /><div style = "max-width:180mm;">
+'<img style="width:190pt;" alt = "simply-supported-beam-distributed-load-partial.png" class="side" src = "https://calcpad.eu/media/mechanics/beams/simply-supported-beam-distributed-load-partial.png">
+'<p><b>Input data</b></p>
+'Beam length -'l = ?'m
+'Load -'q = ?'kN/m
+'Distances -'a = ?'m,'b = ?'m
+#post
+c = l - (a + b)'m
+#if '<!--'c < 0'-->
+	'<p class="err">Invalid load length</p>
+#else
+	'<p><b>Internal forces</b></p>
+	'Distance -'x_max = a + b*(b/2 + c)/l'm
+	'Bending
+	M_max = q*(x_max^2 - a^2)/2'kN·m
+	'Shear
+	V_A = q*b*(b/2 + c)/l'kN
+	V_B = -q*b*(b/2 + a)/l'kN
+	'<p><b>Diagrams</b></p>
+	#hide
+	PlotWidth = 600
+	PlotHeight = 150
+	#show
+	'Calculate internal forces at'x_1 = ?'m
+	#pre
+
+	#post
+	'Bending
+	M(x) = V_A*x - q*(x - a)^2/2*(x > a) + q*(x - a - b)^2/2*(x > a + b)
+	$Plot{-M(x) @ x = 0 : l}
+	M(x_1)'kN·m
+	'Shear
+	V(x) = V_A - q*(x - a)*(x > a) + q*(x - a - b)*(x > a + b)
+	$Plot{V(x) @ x = 0 : l}
+	V(x_1)'kN
+#end if
+#show
+'</div>5	10	1	2	1.5

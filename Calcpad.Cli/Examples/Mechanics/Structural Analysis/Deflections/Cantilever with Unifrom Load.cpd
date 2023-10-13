@@ -1,0 +1,23 @@
+"Deflection and Rotation of Cantilever with Uniformly Distributed Load
+'<hr /><div style = "max-width: 180mm;">
+'<img style="width:165pt;" class="side" src="https://calcpad.eu/media/mechanics/beams/deflection-cantilever-distributed-load.png" alt="deflection-cantilever-distributed-load.png">
+'Beam length - 'l = ?'m
+'Load - 'q = ?'kN/m
+'Second moment of area - 'I = ?'cm<sup>4</sup>
+'Modulus of elasticity - 'E = ?'GPa
+'Functions of rotation and deflection along the beam
+EI = E*I*0.01
+φ(x) = q/(2*EI)*(x^3/3 - l*x^2 + l^2*x)
+d(x) = q/(2*EI)*(x^4/12 - l*x^3/3 + l^2*x^2/2)
+#hide
+PlotWidth = 600
+PlotHeight = 150
+#show
+$Plot{-d(x)*10^3 @ x = 0 : l}
+'Maximum deflection
+d_max = d(l)*10^3'mm
+'Maximum rotation
+φ_max = φ(l)*10^3'rad·10³
+'Calculate deflection at'x = ?'m
+d(x)*10^3'mm
+'</div>3	30	160000	30	2

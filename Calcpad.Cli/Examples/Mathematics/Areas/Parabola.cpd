@@ -1,0 +1,12 @@
+"Area and Arc Length of Parabolic Segment
+'<hr /><div style="max-width:120mm;"><img style="height:60pt;" class="side" alt="parabola.png" src="https://calcpad.eu/media/math/area/parabola.png"></div>
+'Dimensions
+'Length -'a = ?
+'Height -'b = ?
+'Area
+A = 2/3*a*b
+'Arc length
+'Assume'h = 4*b/a
+'and'q = sqr(1 + h^2)
+S = 0.5*a*(q + ln(h + q)/h)
+'4	2

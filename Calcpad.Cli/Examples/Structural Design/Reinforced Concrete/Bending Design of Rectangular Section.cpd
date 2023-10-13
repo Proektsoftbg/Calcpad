@@ -1,0 +1,85 @@
+"Bending Design of RC Rectangular Section<hr/><small>According to <strong>Eurocode</strong>: EN 1992-1-1</small>
+'<div style = "max-width:180mm;">
+'<img style="width:400pt;" src="https://calcpad.eu/media/structures/rc/design/beam-bending.png" alt="beam-bending.png">
+'Design bending moment -'M_Ed = ?'kN·m
+'<h4>Cross section dimensions</h4>
+'Width -'b = ?'mm, Height -'h = ?'mm
+'Concrete cover to the center of reinforcement -'d_1 = ?'mm
+#post
+'Effective cross section depth -'d = h - d_1'cm
+#show
+'<h4>Material properties</h4>
+'<p style="float:right">[EN 1992-1-1, <a target="_blank" href="https://calcpad.eu/reference/concrete-table.html">Table 3.1</a>]</p>
+'<p><b>Concrete</b></p>
+'Characteristic compressive cylinder strength -'f_ck = ?'MPa
+'Partial safety factor for concrete -'γ_c = 1.5','α_cc = ?
+#post
+'Design compressive cylinder strength -'f_cd = α_cc*f_ck/γ_c'MPa
+'Factor for effective compression zone depth -'λ = 0.8
+'Effective compressive strength factor -'η = 1.0
+'Ultimate compressive strain -'ε_cu3 = 0.0035
+'Mean value of axial tensile strength -'f_ctm = 0.30*f_ck^(2/3)'MPa
+#show
+'<p><b>Steel</b></p>
+'Characteristic yield strength -'f_yk = ?'MPa 
+#post
+'Partial safety factor for steel -'γ_s = 1.15
+'Design yield strength -'f_yd = f_yk/γ_s'MPa
+'Modulus of elasticity -'E_s = 200000'MPa
+'<h4>Bending design</h4>
+'Relative design bending moment -'m_Ed = M_Ed*10^6/(b*d^2*η*f_cd)
+'Compression zone depth -'x = d/λ*(1 - sqr(1 - 2*m_Ed))'mm
+'Relative compression zone depth -'ξ = x/d'
+'Design reinforcement yield strain
+ε_yd = f_yd/E_s
+'Relative depth of compression zone at yielding of bottom reinforcement 
+ξ_yd = ε_cu3/(ε_cu3 + ε_yd)
+#show
+'Limit compression zone depth -'ξ_lim = ?
+'(enter <i>ξ</i><sub>yd</sub> for elastic or 0.45 for plastic analysis)
+#post
+#if ξ ≤ ξ_lim
+	ξ'≤'ξ_lim'- Compressive reinforcement is NOT required.
+	'Lever arm of internal forces -'z = d - 0.5*λ*x'mm
+	'Area of required tensile reinforcement -'A_s1 = M_Ed*10^6/(z*f_yd)'mm²
+	'Reinforcement ratio
+	ρ_1 = A_s1/(b*d)
+	ρ_2 = 0
+#else
+	ξ'&gt;'ξ_lim'- Compressive reinforcement is required.
+	'Relative depth is assumed to be'ξ = ξ_lim'and compressive reinforcement is designed
+	'Compression zone depth -'x = ξ*d'mm
+	'Distance from the center of compressive reinforcement to the concrete surface
+	d_2 = h - d'mm
+	'Distance between tensile and compressive reinforcement -'z_s = d - d_2'mm
+	'Resultant compression force in concrete
+	N_c = b*λ*x*η*f_cd*10^-3'kN
+	'Required tensile reinforcement area:
+	A_s1 = (M_Ed*10^6 + N_c*10^3*(λ*x/2 - d_2))/(f_yd*z_s)'mm²
+	'Compressive reinforcement strain
+	ε_s2 = (x - d_2)/x*ε_cu3
+	'Compressive reinforcement stress
+	σ_s2 = min(ε_s2*E_s;f_yd)'MPa
+	'Required compressive reinforcement area:
+	A_s2 = (M_Ed*10^6 - N_c*10^3*(d - λ*x/2))/(σ_s2*z_s)'mm²
+	'Reinforcement ratio:
+	'- tensile reinforcement -'ρ_1 = A_s1/(b*d)
+	'- compressive reinforcement -'ρ_2 = A_s2/(b*d)
+#end if
+'<p class="ref">[EN 1992-1-1, § 9.2.1.1]</p>
+'Minimum tensile reinforcement ratio 
+ρ_min = max(0.26*f_ctm/f_yk;0.0013)
+'Minimum area of tensile reinforcement -'A_s_min = ρ_min*b*d'mm²
+#if A_s1 < A_s_min
+	'<p class="err">Required reinforcement is lower than minimum:'A_s1'mm² &lt;'A_s_min'mm²</p>'
+#end if
+'<p class="ref">[EN 1992-1-1, § 9.2.1.1]</p>
+'Maximum tensile reinforcement ratio -'ρ_max = 0.04
+#if ρ_1 > ρ_max
+	'<p class="err">Tensile reinforcement ratio is greater than maximum:'ρ_1'>'ρ_max'</p>'
+#end if
+#if ρ_2 > ρ_max
+	'<p class="err">Compressive reinforcement ratio is greater than maximum:'ρ_2'>'ρ_max'</p>'
+#end if
+#show
+'</div>340	300	500	50	20	0.85	500	0.62

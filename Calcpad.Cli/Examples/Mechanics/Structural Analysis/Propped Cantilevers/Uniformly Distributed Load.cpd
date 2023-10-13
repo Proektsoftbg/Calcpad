@@ -1,0 +1,35 @@
+"Propped Cantilever with Uniformly Distributed Load
+'<hr /><div style="max-width:180mm;">
+'<img style="width:210pt;" alt="propped-cantilever-beam-distributed-load.png" class="side" src="https://calcpad.eu/media/mechanics/beams/propped-cantilever-beam-distributed-load.png">
+'<p><b>Input data</b></p>
+'Beam Length -'l = ?'m
+'Load -'q = ?'kN/m
+#post
+'<p><b>Internal forces</b></p>
+'Bending
+M_A = q*l^2/8'kN·m
+x_max = 5*l/8'm
+M_max = 9*q*l^2/128'kN·m
+'Shear
+V_A = 5*q*l/8'kN
+V_B = 3*q*l/8'kN
+'<p><b>Diagrams</b></p>
+#hide
+PlotWidth = 600
+PlotHeight = 150
+#show
+'Calculate internal forces at'x_1 = ?'m
+#pre
+
+
+#post
+'Bending
+M(x) = -M_A + V_A*x - q*x^2/2
+$Plot{-M(x) @ x = 0 : l}
+M(x_1)'kN·m
+'Shear
+V(x) = V_A - q*x
+$Plot{V(x) @ x = 0 : l}
+V(x_1)'kN
+#show
+'</div>10	5	1

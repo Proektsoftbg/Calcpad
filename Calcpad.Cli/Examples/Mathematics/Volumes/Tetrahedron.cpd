@@ -1,0 +1,9 @@
+"Volume and Surface Area of Tetrahedron
+'<hr /><div style = "max-width:110mm"><img style="height:60pt;" class="side" alt="tetrahedron.png" src = "https://calcpad.eu/media/math/volume/tetrahedron.png"></div>
+'Side length
+a = ?
+'Volume
+V = sqr(2)*a^3/12
+'Surface area
+S = sqr(3)*a^2 
+'1

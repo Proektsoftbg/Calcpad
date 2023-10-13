@@ -1,0 +1,382 @@
+"SLS Design of RC Beam with Rectangular Section<hr/><small>According to <strong>Eurocode</strong>: EN 1992-1-1</small>
+'<div style="max-width:180mm">
+'<h4>Static scheme</h4>
+'<p id="type" class="flip_base" style="display:none">'type = ?'</p>
+#pre
+'<p><select data-target="type" class="flip_trigger"> 
+'<option value="1">Cantilever with concentrated load</option>
+'<option value="2">Cantilever with uniformly distributed load</option>
+'<option value="3">Simply supported beam with concentrated load</option>
+'<option value="0">Simply supported beam with uniformly distributed load</option>
+'</select></p>
+#hide
+#if type ≡ 1
+	#show
+	'<img class="side flip flip_1" src="https://calcpad.eu/media/structures/rc/design/deflection-cantilever-force.png" alt="deflection-cantilever-force.png" style="width:150pt;">
+	#post
+	'Cantilever with concentrated load
+	#hide
+#else if type ≡ 2
+	#show
+	'<img class="side flip flip_2" src="https://calcpad.eu/media/structures/rc/design/deflection-cantilever-uniform.png" alt="deflection-cantilever-uniform.png" style="width:150pt;">
+	#post
+	'Cantilever with uniformly distributed load
+	#hide
+#else if type ≡ 3
+	#show
+	'<img class="side flip flip_3" src="https://calcpad.eu/media/structures/rc/design/deflection-beam-force.png" alt="deflection-beam-force.png" style="width:150pt;">
+	#post
+	'Simply supported beam with concentrated load
+	#hide
+#else if type ≡ 0
+	#show
+	'<img class="side flip flip_0" src="https://calcpad.eu/media/structures/rc/design/deflection-beam-uniform.png" alt="deflection-beam-uniform.png" style="width:150pt;">
+	#post
+	'Simply supported beam with uniformly distributed load
+	#hide
+#end if
+#show
+'Beam length -'L = ?'m
+'Exposure class:
+'<p id="w_max" style="display:none">'w_max = ?'</p>
+#pre
+'<p><select data-target="w_max"> 
+'<option value="0.4">X0 or XC1</option>
+'<option value="0.3">XC2, XC3, XC4, XD1, XD2, XS2 or XS3</option>
+'</select></p>
+#post
+#if w_max ≡ 0.4
+	'X0 or XC1
+#else
+	'XC2, XC3, XC4, XD1, XD2, XS2 or XS3
+#end if
+#show
+''
+'<h4>Bending moments</h4>
+'Characteristic combination (<i>g</i> + <i>q</i>) -'M_k = ?'kNm
+'Quasi-permanent combination (<i>g</i> + <i>ψ</i><sub>2</sub><i>q</i>) -'M_qp = ?'kNm
+'
+'<img class="side" src="https://calcpad.eu/media/structures/rc/design/beam-section.png" alt="beam-section.png" style="width:120pt;">
+'<h4>Cross section dimensions</h4>
+'Width -'b = ?'mm, Height -'h = ?'mm
+'Concrete cover -'c = ?'mm (to bars surface)
+'<p><b>Tension reinforcement</b></p>
+'Bar count -'n_1 = ?'with diameter -'Φ_1 = ?'mm
+#post
+'Reinforcement area -'A_s1 = n_1*π*Φ_1^2/4'mm²
+#show
+'Concrete cover to the center of reinforcement -'d_1 = ?'mm
+#post
+'Effective cross section depth -'d = h - d_1'mm
+#show
+'Spacing between bar centers -'s = ?'mm
+'<p><b>Compression reinforcement</b></p>
+'Bar count -'n_2 = ?'with diameter -'Φ_2 = ?'mm
+#post
+'Reinforcement area -'A_s2 = n_2*π*Φ_2^2/4'mm²
+#show
+'Concrete cover to the center of reinforcement -'d_2 = ?'mm
+'
+'<h4>Material properties</h4>
+'<p><b>Concrete</b> [EN 1992-1-1, <a target="_blank" href="https://calcpad.eu/reference/concrete-table.html">Table 3.1</a>]</p>
+'Characteristic compressive cylinder strength -'f_ck = ?'MPa
+#post
+'Mean value of cylinder compressive strength -'f_cm = f_ck + 8'MPa
+'Mean value of axial tensile strength -'f_ctm = 0.30*f_ck^(2/3)'MPa
+'Secant modulus of elasticity -'E_cm = 22*(f_cm/10)^0.3'GPa
+#show
+'<p><b>Steel</b></p>
+'Characteristic yield strength -'f_yk = ?'MPa
+#post
+'Modulus of elasticity -'E_s = 200'GPa
+'Ratio of steel to conrete moduli of elasticity -'α = E_s/E_cm
+'
+'<div class="fold">
+#show
+'<h4>Concrete creep and shrinkage</h4>
+'<p class = "ref">[EN 1992-1-1 B.1(1)]</p>
+'<p><b>Creep</b></p>
+'Relative humidity of the environment -'RH = ?'%
+#post
+'Perimeter of cross section in contact with the atmosphere
+u = 2*(b + h)'mm
+'Cross section area -'A_c = b*h'mm²
+'Notional size of the cross section
+'<p class = "ref">(Formula B.6)</p>
+h_0 = 2*A_c/u'mm
+'Relative humidity factor
+#if f_cm ≤ 35
+	'<p class = "ref">(Formula B.3a)</p>
+	φ_RH = (1 + (1 - RH/100)/(0.1*h_0^0.333))
+#else
+	'<p class = "ref">(Formula B.8c)</p>
+	α_1 = (35/f_cm)^0.7','α_2 = (35/f_cm)^0.2
+	'<p class = "ref">(Formula B.3b)</p>
+	φ_RH = (1 + (1 - RH/100)/(0.1*h_0^0.333)*α_1)*α_2
+#end if
+'Concrete strength factor
+'<p class = "ref">(Formula B.4)</p>
+β_f_cm = 16.8/sqr(f_cm)
+'Concrete age at the moment of loading -'t_0 = 28'дни
+'Concrete age factor
+'<p class = "ref">(Formula B.5)</p>
+β_t0 = 1/(0.1 + t_0^0.20)
+'Notional creep coefficient
+'<p class = "ref">(Formula B.2)</p>
+φ_8_t0 = φ_RH*β_f_cm*β_t0
+'Effective concrete modulus of elasticity
+'<p class = "ref">[EN 1992-1-1 §7.4.3(5)]</p>
+E_c_eff = E_cm/(1 + φ_8_t0)'GPa
+'Effective ratio of modules of elasticity
+'<p class = "ref">[EN 1992-1-1 §7.4.3(6)]</p>
+α_e = E_s/E_c_eff
+'<p class = "ref">[EN 1992-1-1 B.2(1)]</p>
+'<p><b>Shrinkage</b></p>
+'Coefficient depending on the notional size
+#if h_0 ≤ 100
+	k_h = 1.00
+#else if h_0 ≤ 200
+	k_h = 1.00 - 0.0015*(h_0 - 100)
+#else if h_0 ≤ 300
+	k_h = 0.85 - 0.001*(h_0 - 200)
+#else if h_0 ≤ 500
+	k_h = 0.75 - 0.00025*(h_0 - 300)
+#else
+	k_h = 0.70
+#end if
+α_ds1 = 4'- for cement Class N
+α_ds2 = 0.12'- for cement Class N
+'<p class = "ref">(Formula B.12)</p>
+β_RH = 1.55*(1 - (RH/100)^3)
+'Basic drying shrinkage strain
+'<p class = "ref">(Formula B.11)</p>
+ε_cd0 = 0.85*(220 + 110*α_ds1)*e^(-α_ds2*f_cm/10)*10^-6*β_RH
+'<p class = "ref">[EN 1992-1-1 §3.1.4(6)]</p>
+'Drying shrinkage strain in time
+'<p class = "ref">(Formula 3.9)</p>
+ε_cd = k_h*ε_cd0
+'Autogenous shrinkage strain
+'<p class = "ref">(Formula 3.11)</p>
+ε_ca = 2.5*(f_ck - 10)*10^(-6)
+'Total shrinkage strain
+'<p class = "ref">(Formula 3.8)</p>
+ε_cs = ε_cd + ε_ca
+'</div>
+'
+'<div class="fold">
+'<h4>Cross section properties</h4>
+'Total reinforcement area -'A_s = A_s1 + A_s2'mm²
+'Concrete area -'A_c = b*h'mm²
+'Effective section area
+A_red = A_c + α_e*A_s'mm² 
+'Section modulus about the bottom edge
+S_c = b*h^2/2'mm<sup>3</sup>
+'Effective section modulus about the bottom edge
+S_red = S_c + α_e*(A_s1*d_1 + A_s2*(h - d_2))'mm<sup>3</sup>
+'Effective depth of cross section center
+z_c = S_red/A_red'mm
+'Second moment of area of the concrete section
+I_c = b*h^3/12 + A_c*(z_c - S_c/A_c)^2'mm<sup>4</sup>
+'Second moment of area for uncracked section
+I_red = I_c + α_e*(A_s1*(z_c - d_1)^2 + A_s2*(h - z_c - d_2)^2)'mm<sup>4</sup>
+'Depth of neutral axis for cracked section
+x = (sqr(A_s^2 + 2*b*(d*A_s1 + d_2*A_s2)/α_e) - A_s)*α_e/b'mm
+'Second moment of area for cracked section
+I_red_II = b*x^3/3 + α_e*(A_s1*(d - x)^2 + A_s2*(x - d_2)^2)'mm<sup>4</sup>
+'</div>
+'
+'<div class="fold">
+'<h4>Control of concrete stress</h4>
+'<p><b>Characteristic combination</b></p>
+'Stress at the bottom edge of the section
+σ_ct = M_k*10^6/I_red*z_c'MPa
+'Check for crack opening
+#if σ_ct ≤ f_ctm
+	σ_ct'MPa &lе;'f_ctm'MPa - section is uncracked
+	'Concrete stress (uncracked section)
+	σ_c = M_k*10^6/I_red*(h - z_c)'MPa
+	'Reinforcement stress (uncracked section)
+	σ_s1 = α_e*M_k*10^6/I_red*(z_c - d_1)'MPa
+	σ_s2 = -α_e*M_k*10^6/I_red*(h - z_c - d_2)'MPa
+#else
+	σ_ct'MPa &gt;'f_ctm'MPa - section is cracked
+	'Concrete stress (cracked section)
+	σ_c = M_k*10^6/I_red_II*x'MPa
+	'Reinforcement stress (cracked section)
+	σ_s1 = α_e*M_k*10^6/I_red_II*(d - x)'MPa
+	σ_s2 = -α_e*M_k*10^6/I_red_II*(x - d_2)'MPa
+#end if
+'<p><b>Stress limitation</b></p>
+'<p class = "ref">[EN 1992-1-1 §7.2(2)]</p>
+'Concrete stress,'k_1 = 0.60
+#if σ_c > k_1*f_ck
+	σ_c'MPa &gt;'k_1*f_ck'MPa - <span class="err">The condition is NOT satisfied!</span>
+#else
+	σ_c'MPa &le;'k_1*f_ck'MPa - The condition is satisfied!
+#end if
+'<p class = "ref">[EN 1992-1-1 §7.2(5)]</p>
+'Reinforcement stress,'k_3 = 0.80
+#if σ_s1 > k_3*f_yk
+	σ_s1'MPa &gt;'k_3*f_yk'MPa - <span class="err">The condition is NOT satisfied!</span>
+#else
+	σ_s1'MPa &le;'k_3*f_yk'MPa - The condition is satisfied!
+#end if
+'<p><b>Quasi-permanent combination</b></p>
+#if σ_ct ≤ f_ctm
+	'Concrete stress for uncracked section
+	σ_c = M_qp*10^6/I_red*(h - z_c)'MPa
+#else
+	'Concrete stress for cracked section
+	σ_c = M_qp*10^6/I_red_II*x'MPa
+#end if
+'<p class = "ref">[EN 1992-1-1 §7.2(3)]</p>
+'Stress limitation,'k_2 = 0.45
+#if σ_c > k_2*f_ck
+	σ_c'MPa &gt;'k_2*f_ck'MPa - <span class="err">The condition is NOT satisfied!</span>
+	'<p class = "ref">[EN 1992-1-1 §3.1.4(4)]</p>
+	'Non-linear creep must be considered!
+	k_σ = σ_c/f_ck
+	'Non-linear notional creep coefficient
+	φ_k_8_t0 = φ_8_t0*e^(1.5*(k_σ - 0.45))
+	'Effective concrete modulus of elasticity
+	E_c_eff = E_cm/(1 + φ_k_8_t0)'MPa
+#else
+	σ_c'MPa &le;'k_2*f_ck'MPa - The condition is satisfied!
+	'Non-linear creep is NOT calculated!
+#end if
+'</div>
+'
+'<div class="fold">
+'<h4>Control of cracks</h4>
+'<p class = "ref">[EN 1992-1-1 §7.3.2(2)]</p>
+'<p><b>Minimum reinforcement area</b></p>
+'Allowable reinforcement stress -'σ_s = f_yk'MPa
+'Approximate value of axial tensile strength -'f_ct_eff = f_ctm'MPa
+'Area of tensile zone before opening of first crack
+A_ct = b*z_c'mm²
+#if h ≤ 300
+	k = 1'- for h ≤ 300 mm
+#else if h ≥ 800
+	k = 0.65'- for h ≥ 800 mm
+#else
+	k = 1 - 0.35*(h - 300)/500'- for 300 mm &lt; h &lt; 800 mm
+#end if
+k_c = 0.4
+#if h ≤ 1000
+	h_1 = h'- for h ≤ 1000 mm
+#else
+	h_1 = 1000'- for h &gt; 1000 mm
+#end if
+'Minimum reinforcement
+A_s_min = k_c*k*f_ct_eff*A_ct/σ_s'mm²
+#if A_s1 < A_s_min
+	A_s1'mm² &lt;'A_s_min'mm² - <span class="err">The condition is NOT satisfied!</span>
+#else
+	A_s1'mm² &ge;'A_s_min'mm² - The condition is satisfied!
+#end if
+'<p><b>Calculation of crack widths</b></p>
+'<p class = "ref">[EN 1992-1-1 §7.3.2(3)]</p>
+'Depth of the effective area
+h_c_eff = min(2.5*(h - d);min(h - x/3;h/2))'mm
+'Concrete effective area within tensile zone
+A_c_eff = b*h_c_eff'mm²
+ρ_p_eff = A_s1/A_c_eff
+'<p class = "ref">[EN 1992-1-1 §7.3.4(3)]</p>
+#if s > 5*(c + Φ_1/2)
+	'For's'mm &gt;'5*(c + Φ_1/2)'mm:
+	'Maximum final crack spacing -'s_r_max = 1.3*(h - x)'mm
+#else
+	'For's'mm &le;'5*(c + Φ_1/2)'mm:
+	k_1 = 0.8'- for high bond bars
+	k_2 = 0.5'- for bending
+	k_3 = 3.4','k_4 = 0.425
+	'Maximum final crack spacing
+	s_r_max = k_3*c + k_1*k_2*k_4*Φ_1/ρ_p_eff'mm
+#end if
+'The check is performed for quasi-permanent combination 
+'Reinforcement stress
+σ_s = α_e*M_qp*10^6/I_red_II*(d - x)'MPa
+'Long-term load factor -'k_t = 0.4
+'<p class = "ref">[EN 1992-1-1 §7.3.4(2)]</p>
+'Difference between mean values of concrete and reinforcement strains
+'<p><i>ε</i><sub>sm</sub> - <i>ε</i><sub>cm</sub> ='Δε = max((σ_s - k_t*f_ct_eff/ρ_p_eff*(1 + α*ρ_p_eff));0.6*σ_s)/(E_s*10^3)'</p>
+'<p class = "ref">[EN 1992-1-1 §7.3.4(1)]</p>
+'Crack widths
+w_k = s_r_max*Δε'mm
+'<p class = "ref">[EN 1992-1-1 §7.3.1(5)]</p>
+'Limiting crack width value
+'<p class = "ref">[EN 1992-1-1, Table NA.4]</p>
+#if w_max ≡ 0.4
+	w_max'mm - for exposure classes X0, XC1
+#else
+	w_max'mm - for exposure classes XC2, XC3, XC4, XD1, XD2, XS2, XS3
+#end if
+'Crack width limitation
+'</div>
+#if w_k > w_max
+	w_k'mm &gt;'w_max'mm - <span class="err">The condition is NOT satisfied!</span>
+#else
+	w_k'mm &le;'w_max'mm - The condition is satisfied!
+#end if
+'
+'<div class="fold">
+'<h4>Control of deflections</h4> 
+'Crack opening moment
+#if σ_ct ≤ f_ctm
+	'Distribution coefficient
+	'<p class = "ref">[EN 1992-1-1 §7.4.3(3)]</p>
+	ζ = 0'- for uncracked section
+#else
+	M_cr = f_ctm*I_red/z_c*10^-6'kNm
+	'Coefficient for duration of loads
+	β = 0.5'- for long-term loads
+	'<p class = "ref">[EN 1992-1-1 §7.4.3(3)]</p>
+	'Distribution coefficient
+	ζ = 1 - β*(M_cr/M_qp)^2'- for cracked section
+#end if
+'<p><b>Calculation of curvature</b></p>
+'First moment of reinforcement area about centroid of uncracked section
+S = A_s1*(z_c - d_1) - A_s2*(h - z_c - d_2)'mm<sup>3</sup>
+'Curvature due to shrinkage of uncracked section
+'<p class = "ref">[EN 1992-1-1 §7.4.3(6)]</p>
+θ_cs_I = ε_cs*α_e*S/I_red
+'Curvature of uncracked section
+θ_I = M_qp/(E_c_eff*I_red)*10^3 + θ_cs_I
+'First moment of reinforcement area about centroid of cracked section
+S = A_s1*(d - x) - A_s2*(x - d_2)'mm<sup>3</sup>
+'Curvature due to shrinkage of cracked section
+'<p class = "ref">[EN 1992-1-1 §7.4.3(6)]</p>
+θ_cs_II = ε_cs*α_e*S/I_red_II
+'Curvature of cracked section
+θ_II = M_qp/(E_c_eff*I_red_II)*10^3 + θ_cs_II
+'Total curvature
+'<p class = "ref">[EN 1992-1-1 §7.4.3(3)]</p>
+θ = ζ*θ_II + (1 - ζ)*θ_I
+'Factor considering the static scheme
+#if type ≡ 1
+	k = 1/3'- for cantilever with concentrated load
+#else if type ≡ 2
+	k = 1/4'- for cantilever with uniformly distributed load
+#else if type ≡ 3
+	k = 1/12'- for simply supported beam with concentrated load
+#else if type ≡ 0
+	k = 5/48'- for simply supported beam with uniformly distributed load
+#end if
+'Deflection due to quasi-permanent combination -'δ = k*θ*L^2*10^6'mm
+'<p class = "ref">[EN 1992-1-1 §7.4.1(4)]</p>
+#if (type ≡ 1) + (type ≡ 2)
+	'Maximum deflection -'δ_max = L*10^3/125'mm
+#else
+	'Maximum deflection -'δ_max = L*10^3/250'mm
+#end if
+'Deflection check:
+'</div>
+#if δ > δ_max
+	δ'mm &gt;'δ_max'mm - <span class="err">The condition is NOT satisfied!</span>
+#else
+	δ'mm &le;'δ_max'mm - The condition is satisfied!
+#end if
+#show
+'</div>
+#pre
+'<script>if(window.jQuery){$(".flip_trigger").change(function(){$(".flip").hide();$(".flip_"+$(this).val()).show();});$(".flip").hide();$(".flip_"+$(".flip_base input").val()).show();}</script>0	7	0.4	200	150	300	650	30	4	20	45	74	2	14	45	20	500	50

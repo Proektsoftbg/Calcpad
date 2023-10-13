@@ -1,0 +1,35 @@
+"Interpolation of functions
+'<h4>Exponential function</h4>
+f(x) = e^x
+'Values
+f_1 = f(0)
+f_2 = f(1)
+f_3 = f(2)
+f_4 = f(3)
+f_5 = f(4)
+f_6 = f(5)
+f_7 = f(6)
+n(x) = x + 1' - variable transformation
+'Discrete -'f_c(x) = take(n(x); f_1; f_2; f_3; f_4; f_5; f_6; f_7)
+'Linear -'f_l(x) = line(n(x); f_1; f_2; f_3; f_4; f_5; f_6; f_7)
+'Spline -'f_s(x) = spline(n(x); f_1; f_2; f_3; f_4; f_5; f_6; f_7)
+'Plot'
+$Plot{f(x) & f_c(x) & f_l(x) & f_s(x) @ x = 0 : 5}
+'<h4>Trigonometric function</h4>
+#deg
+f(x) = sin(x)
+'Values
+f_1 = f(0)
+f_2 = f(30)
+f_3 = f(60)
+f_4 = f(90)
+f_5 = f(120)
+f_6 = f(150)
+f_7 = f(180)
+n(x) = x/30 + 1' - variable transformation
+'Discrete -'f_c(x) = take(n(x); f_1; f_2; f_3; f_4; f_5; f_6; f_7)
+'Linear -'f_l(x) = line(n(x); f_1; f_2; f_3; f_4; f_5; f_6; f_7)
+'Spline -'f_s(x) = spline(n(x); f_1; f_2; f_3; f_4; f_5; f_6; f_7)
+'Plot'
+$Plot{f(x) & f_c(x) & f_l(x) & f_s(x) @ x = 0 : 180}
+f_s(180)

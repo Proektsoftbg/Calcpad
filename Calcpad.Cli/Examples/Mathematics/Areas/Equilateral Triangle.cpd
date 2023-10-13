@@ -1,0 +1,12 @@
+"Area and Perimeter of Equilateral Triangle
+'<hr /><div style="max-width:110mm;"><img style="height:60pt;" class="side" alt="equilateral-triangle.png" src="https://calcpad.eu/media/math/area/equilateral-triangle.png"></div>
+'Side length
+a = ?
+'Area
+A = a^2*sqr(3)/4
+'Perimeter
+P = 3*a
+P = 3*a
+P = 3*a
+P = 3*a
+'1

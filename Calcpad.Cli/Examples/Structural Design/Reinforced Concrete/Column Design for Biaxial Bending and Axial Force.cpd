@@ -1,0 +1,251 @@
+"Column Design for Biaxial Bending and Axial Force<hr/><small>According to <strong>Eurocode</strong>: EN 1992-1-1</small>
+'<div style="max-width:180mm">
+'<img class="side" style="width:150pt;" src="https://calcpad.eu/media/structures/rc/design/column-design.png" alt="column-design.png">
+'<h4>Cross section dimensions</h4>
+'Width -'b = ?'mm, Height -'h = ?'mm
+#post
+'Cross section area -'A_c = b*h'mm²
+#show
+'<p><b>Reinforcement</b></p>
+'Left -'A_s1 = ?'mm², Right -'A_s2 = ?'mm²
+#post
+'Reinforcement ratio -'ρ = (A_s1 + A_s2)/A_c
+#show
+'<p><b>Concrete cover to the center of reinforcement</b></p>
+'Left -'d_1 = ?'mm, Right -'d_2 = ?'mm
+#post
+'Effective cross section depth -'d = h - d_1'mm
+#show
+'<p><b>Section design loads</b></p>
+'Axial force -'N_Ed = ?'kN (positive for compression)
+'Bending moment -'M_Ed = ?'kN·m
+'<h4>Material properties</h4>
+'<p style="float:right">[EN 1992-1-1, <a target="_blank" href="https://calcpad.eu/reference/concrete-table.html">Table 3.1</a>]</p>
+'<p><b>Concrete</b></p>
+'Characteristic compressive cylinder strength -'f_ck = ?'MPa
+'Partial safety factor for concrete -'γ_c = 1.5','α_cc = ?
+#post
+'Design compressive cylinder strength -'f_cd = α_cc*f_ck/γ_c'MPa
+'Mean value of cylinder compressive strength -'f_cm = f_ck + 8'MPa
+'Secant modulus of elasticity -'E_cm = 22*(f_cm/10)^0.3'GPa
+'Ultimate compressive strain -'ε_cu2 = 0.0035
+'Strain  at the end of parabolic part of the diagram -'ε_c2 = 0.002
+#show
+'<p><b>Steel</b></p>
+'Characteristic yield strength -'f_yk = ?'MPa
+#post
+'Partial safety factor for steel -'γ_s = 1.15
+'Design yield strength -'f_yd = f_yk/γ_s'MPa
+'Modulus of elasticity -'E_s = 200'GPa
+'<p><b>Strain-stress diagrams</b>, MPa:</p>
+'<!--'PlotWidth = 250','PlotHeight = 125'-->
+'<table><tr><td>
+#hide
+n = 2
+σ_c(ε) = f_cd*((1 - (1 - ε/ε_c2)^n)*(ε < ε_c2) + (ε ≥ ε_c2))
+#post
+$Plot{σ_c(ε/1000) @ ε = 0 : ε_cu2*10^3}
+'</td><td>
+#hide
+σ_s(ε) = max(-f_yd; min(ε*E_s*10^3;f_yd))
+#post
+$Plot{σ_s(ε/1000) @ ε = -10 : 10}
+'</td></tr></table>
+#show
+'<h4>Imperfections and second order effects</h4>
+'Ratio of quasi-permanent bending moment: M<sub>0Eqp</sub>/M<sub>0Ed</sub> ='K_G = ?
+#post
+'M<sub>0Eqp</sub> is the first order bending moment in quasi-permanent load combination (SLS)
+'M<sub>0Ed</sub> is the first order bending moment in design load combination (ULS)
+#show
+'Long term creep factor - φ(∞,t<sub>0</sub>) ='φ = ?
+'Column height -'L = ?'mm
+'Effective column height -'L_o = ?*L'mm
+#post
+'<div class="fold">
+#show
+'<p><b>Geometric imperfections and accidental eccentricity</b></p>
+'Number of vertical members contributing to the total effect -'m = ?
+#post
+'Reduction factor for height:
+α_h_ = 2/sqr(L*10^-3)
+'This value is limited within the interval: 2/3 ≤ α<sub>n</sub> ≤ 1
+α_h = max(2/3;min(α_h_;1))
+'Reduction factor for number of members
+α_m = sqr(0.5*(1 + 1/m))
+'Basic inclination value -'θ_o = 1/200
+'<p class="ref">[EN 1992-1-1 (5.1)]</p>
+'Inclination -'θ_i = θ_o*α_h*α_m
+'<p class="ref">[EN 1992-1-1 (5.2)]</p>
+'Eccentricity -'e_i_ = θ_i*L_o/2'mm
+'<p class="ref">[EN 1992-1-1, § 6.1(4)]</p>
+'Minimum eccentricity -'e_o_ = h/30'mm or 20 mm 
+e_o = max(e_o_;20)'mm
+e_i = max(e_i_;e_o)'mm
+'</div>
+M_0Ed = M_Ed + N_Ed*e_i*10^-3'kN.m
+'<div class="fold">
+'<p><b>Second order effects based on the nominal stiffness method</b></p>
+'Moment of inertia of the concrete cross section
+I_c = (b*h^3)/12'mm<sup>4</sup>
+'Radius of gyration
+i = sqr(I_c/A_c)'mm
+'Slenderness ratio
+λ = L_o/i
+'Relative axial force
+n = N_Ed/(A_c*f_cd*10^-3)
+'<p class="ref">[EN 1992-1-1 (5.23)]</p>
+'Factor depending on the concrete strength class
+k_1 = sqr(f_ck/20)
+'<p class="ref">[EN 1992-1-1 (5.24)]</p>
+'Factor depending on axial force and slenderness
+k_2_ = n*λ/170
+'Maximum value - k<sub>2</sub> &lt; 0.20
+k_2 = min(k_2_;0.20)
+'Effective creep ratio
+'φ<sub>ef</sub> = φ(∞,t0)·M<sub>0Eqp</sub>/M<sub>0Ed</sub>
+φ_ef = φ*K_G
+'<p class="ref">[EN 1992-1-1 (5.22)]</p>
+K_c = k_1*k_2/(1 + φ_ef)'– factor for effects of cracking, creep etc.
+K_s = 1'– factor for contribution of reinforcement
+'Second moment of area of the reinforcement, about the centroid
+I_s = A_s1*(h/2 - d_1)^2 + A_s2*(h/2 - d_2)^2'mm<sup>4</sup>
+'<p class="ref">[BS EN 1992-1-1 (5.20), NA.1]</p>
+γ_cE = 1.2
+'<p class="ref">[EN 1992-1-1 (5.20)]</p>
+'Design value of the modulus of elasticity of concrete
+E_cd = E_cm/γ_cE'GPa
+'<p class="ref">[EN 1992-1-1 (5.21)]</p>
+'Nominal stiffness 
+EI = (K_c*E_cd*I_c + K_s*E_s*I_s)'kN·mm²
+'<p class="ref">[EN 1992-1-1 (5.17)]</p>
+'Buckling load
+N_B = π^2*EI/(L_o)^2'kN
+'</div>
+'<p class="ref">[EN 1992-1-1 (5.30)]</p>
+'Total design moment (including second order moment)
+M_Ed = M_0Ed/(1 - N_Ed/N_B)'kN·m
+'<h4>Design checks</h4>
+'Design axial resistance of section when strain'ε = ε_c2
+N_Rd_max = A_c*f_cd*10^-3 + σ_s(ε)*(A_s1 + A_s2)*10^-3'kN
+#if N_Ed > N_Rd_max
+	'Design axial load is greater than the ultimate axial force capacity
+	N_Ed'>'N_Rd_max'kN
+	'<p class="err">The design check is NOT satisfied.</p>
+#else
+	'Internal forces in the section are expressed as functions of the compression zone depth<i>x</i>.
+	'Reinforcement strain:
+	'- bottom reinforcement -'ε_s1(x) = ε_cu2*(d - x)/x
+	'- top reinforcement -'ε_s2(x) = ε_cu2*(d_2 - x)/x
+	'Internal forces:
+	'- concrete -'N_c(x) = 17/21*x*b*f_cd*10^-3
+	'- bottom reinforcement -'N_s1(x) = σ_s(ε_s1(x))*A_s1*10^-3
+	'- top reinforcement -'N_s2(x) = σ_s(ε_s2(x))*A_s2*10^-3
+	'Section resistance for axial force
+	N_Rd(x) = N_c(x) - N_s1(x) - N_s2(x)
+	'Axial force, corresponding to triangular strain distribution
+	N_Rd_h = N_Rd(h)'kN
+	#if N_Ed < N_Rd_h
+		'Section is partially in tension -'N_Ed'kN &lt;'N_Rd_h'kN
+		'Compression zone depth is determined from the equilibrium of the axial forces in the section
+		x = $Root{N_Rd(x) - N_Ed @ x = d_2 : h}'mm
+		'Lever arm of concrete stress to the cross section centroid
+		z_c = h/2 - 99/238*x'mm
+		'Bending resistance at <i>N</i><sub>Ed</sub> = <i>N</i><sub>Rd</sub>
+		M_Rd = (N_c(x)*z_c + N_s1(x)*(h/2 - d_1) - N_s2(x)*(h/2 - d_2))*10^-3'kN·m
+	#else
+		'Section is entirely in compression -'N_Ed'≥'N_Rd_h'kN
+		'Distance from the point with constant strain to the bottom edge of the section 
+		h_c = h*ε_c2/ε_cu2
+		'Internal forces are expressed as functions of the strain <i>ε</i> at the bottom edge.
+		'Reinforcement strain:
+		'- bottom reinforcement -'ε_s1(ε) = ε + (ε_c2 - ε)*d_1/h_c
+		'- top reinforcement -'ε_s2(ε) = ε + (ε_c2 - ε)*(h - d_2)/h_c
+		'Internal forces:
+		'- concrete -'N_c(ε) = (h_c/6*(σ_c(ε) + 4*σ_c((ε + ε_c2)/2) + σ_c(ε_c2)) + (h - h_c)*f_cd)*b*10^-3
+		'- bottom reinforcement -'N_s1(ε) = σ_s(ε_s1(ε))*A_s1*10^-3
+		'- top reinforcement -'N_s2(ε) = σ_s(ε_s2(ε))*A_s2*10^-3
+		'Section resistance for axial force
+		N_Rd(ε) = N_c(ε) + N_s1(ε) + N_s2(ε)
+		'Strain at bottom edge is determined from the equilibrium of the axial forces in the section
+		ε_c = $Root{N_Rd(ε) - N_Ed @ ε = 0 : ε_c2}
+		'Equivalent bending moment about the lower section edge, due to concrete stress 
+		M_c0 = (h_c^2/6*(2*σ_c((ε_c + ε_c2)/2) + σ_c(ε_c2)) + (h^2 - h_c^2)/2*f_cd)*b*10^-3'kNm
+		'Lever arm of concrete stress equivalent force about the section centroid
+		z_c = M_c0/N_c(ε_c) - h/2'mm
+		'Bending resistance at <i>N</i><sub>Ed</sub> = <i>N</i><sub>Rd</sub>
+		M_Rd = (N_c(ε_c)*z_c - N_s1(ε_c)*(h/2 - d_1) + N_s2(ε_c)*(h/2 - d_2))*10^-3'kN·m
+	#end if
+	#if M_Ed > M_Rd
+		'Design bending is greater than the bending resistance:
+		M_Ed'>'M_Rd'kN·m
+		'<p class="err">The design check is NOT satisfied.</p>
+	#else
+		'Bending moment is less than moment resistance:
+		M_Ed'≤'M_Rd'kN·m
+		'The design check is satisfied.
+		#pre
+		'<img class="side" style="width:190pt;" src="https://calcpad.eu/media/structures/rc/design/column-biaxial.png" alt="column-biaxial.png">
+		'<h4>Biaxial bending design</h4>
+		'For the other direction:
+		'Design moment -'M_Edy = ?'kN·m
+		'Bending resistance -'M_Rdy = ?'kN·m
+		'Effective length -'L_oy = ?*L'mm
+		#post
+		#if M_Edy > 0
+			'<img class="side" style="width:190pt;" src="https://calcpad.eu/media/structures/rc/design/column-biaxial.png" alt="column-biaxial.png">
+			'<h4>Biaxial bending design</h4>
+			'For the other direction:
+			'Design moment -'M_Edy'kN.m
+			'Bending resistance -'M_Rdy'kN.m
+			'Effective length -'L_oy'mm
+			'Radius of inertia -'i_y = b/sqr(12)'mm
+			'Slenderness ratio -'λ_y = L_oy/i_y
+			'Eccentricity -'e_z = M_Edy/N_Ed*10^3'mm
+			'For the current direction:
+			'Design moment -'M_Edz = M_Ed'kN·m
+			'Bending resistance -'M_Rdz = M_Rd'kN·m
+			'Effective length -'L_oz = L_o'mm
+			'Radius of inertia -'i_z = h/sqr(12)'mm
+			'Slenderness ratio -'λ_z = L_oz/i_z
+			'Eccentricity -'e_y = M_Edz/N_Ed*10^3'mm
+			'<p class="ref">[EN 1992-1-1 (5.38)]</p>
+			'<p><b>Check if biaxial bending design is required</b></p>
+			#if (λ_y/λ_z ≤ 2)*(λ_z/λ_y ≤ 2)*((e_y/h*(b/e_z) ≤ 0.2) + (e_z/b*(h/e_y) ≤ 0.2))
+				λ_y/λ_z'≤ 2 and'λ_z/λ_y'≤ 2 and ('e_y/h*(b/e_z)'≤ 0.2 or'e_z/b*(h/e_y)'≤ 0.2)'
+				'The condition is satisfied. Biaxial bending design is NOT required. Separate checks may be performed for each direction
+			#else
+				#if λ_y/λ_z > 2
+					λ_y/λ_z'&gt; 2
+				#end if
+				#if λ_z/λ_y > 2
+					λ_z/λ_y'&gt; 2
+				#end if
+				#if (e_y/h*b/e_z > 0.2)*(e_z/b*(h/e_y) > 0.2)
+					e_y/h*(b/e_z)'&gt; 0.2 and'e_z/b*(h/e_y)'&gt; 0.2
+				#end if
+				'The condition is NOT satisfied. Biaxial bending design is required.
+				'Ultimate axial force resistance-'N_Rd = N_Rd_max'kN
+				N_Ed/N_Rd
+				'Calculation of the exponent factor <i>a</i>
+				#if N_Ed/N_Rd ≤ 0.1
+					a = 1
+				#else if N_Ed/N_Rd ≤ 0.7
+					a = 1 + (N_Ed/N_Rd - 0.1)*0.8333
+				#else
+					a = 1.5 + (N_Ed/N_Rd - 0.7)*1.6667
+				#end if
+				'<p class="ref">[EN 1992-1-1 (5.39)]</p>
+				'<p><b>Biaxial bending check</b></p>
+				k = (M_Edz/M_Rdz)^a + (M_Edy/M_Rdy)^a
+				#if k ≤ 1
+					'(<i>M</i><sub>Edz</sub>/<i>M</i><sub>Rdz</sub>)<sup>a</sup> + (<i>M</i><sub>Edy</sub>/<i>M</i><sub>Rdy</sub>)<sup>a</sup> ≤ 1. The design check is satisfied.
+				#else
+					'(<i>M</i><sub>Edz</sub>/<i>M</i><sub>Rdz</sub>)<sup>a</sup> + (<i>M</i><sub>Edy</sub>/<i>M</i><sub>Rdy</sub>)<sup>a</sup> > 1. <span class="err">The design check is NOT satisfied.</span>
+				#end if
+			#end if
+		#end if
+	#end if
+#end if
+#show
+'</div>300	700	800	800	50	50	1200	200	20	0.85	500	0.75	2.5	4000	1	1	50	100	1

@@ -1,0 +1,23 @@
+"Area and Arc Length of Circular Segment
+'<hr /><div style="max-width:120mm;"><img style="height:60pt;" class="side" alt="segment-chord.png" src="https://calcpad.eu/media/math/area/segment-chord.png"></div>
+'Dimensions
+'Chord -'a = ?
+'Height -'b = ?
+'<!--
+#if a ≥ 2*b
+	'<-->
+	'Radius
+	r = b/2 + a^2/(8*b)
+	'Angle
+	α = 2*asin(a/(2*r))'&deg;
+	'Area
+	A = 0.5*(π*α/180 - sin(α))*r^2
+	'Arc length
+	S = π*r*α/180
+	'<!--
+#else
+	'<-->
+	'Chord <i>a</i> must be greater or equal to 2&middot;<i>b</i>
+	'<!--
+#end if
+'<-->2	1

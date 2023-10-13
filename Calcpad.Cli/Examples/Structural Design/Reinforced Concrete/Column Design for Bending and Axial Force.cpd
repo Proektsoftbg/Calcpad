@@ -1,0 +1,254 @@
+"Column Design for Bending and Axial Force<hr/><small>According to <strong>Eurocode</strong>: EN 1992-1-1</small>
+'<div style="max-width:180mm">
+'<img class="side" style="width:150pt;"src="https://calcpad.eu/media/structures/rc/design/column-design.png" alt="column-design.png">
+'<h4>Cross section dimensions</h4>
+'Width -'b = ?'mm, Height -'h = ?'mm
+#post
+'Cross section area -'A_c = b*h'mm²
+#show
+'<p><b>Reinforcement area</b></p>
+'Left -'A_s1 = ?'mm², Right -'A_s2 = A_s1'mm²
+#post
+'Reinforcement ratio -'ρ = (A_s1 + A_s2)/A_c
+#show
+'<p><b>Concrete cover to the center of reinforcement</b></p>
+'Left -'d_1 = ?'mm, Right -'d_2 = d_1'mm
+#post
+'Effective cross section depth -'d = h - d_1'mm
+#show
+'<h4>Section design loads</h4>
+'<table>
+'<tr><td>№ 1 - </td><td>'M_Ed_1 = ?'kN·m, </td><td>'N_Ed_1 = ?'kN</td></tr>
+'<tr><td>№ 2 - </td><td>'M_Ed_2 = ?'kN·m, </td><td>'N_Ed_2 = ?'kN</td></tr>
+'<tr><td>№ 3 - </td><td>'M_Ed_3 = ?'kN·m, </td><td>'N_Ed_3 = ?'kN</td></tr>
+'<tr><td>№ 4 - </td><td>'M_Ed_4 = ?'kN·m, </td><td>'N_Ed_4 = ?'kN</td></tr>
+'<tr><td>№ 5 - </td><td>'M_Ed_5 = ?'kN·m, </td><td>'N_Ed_5 = ?'kN</td></tr>
+'</table>
+#pre
+'All input values for M<sub>Ed</sub> and N<sub>Ed</sub> must be positive!
+#show
+'Positive axial force is compressive!
+'<h4>Material properties</h4>
+'<p style="float:right">[EN 1992-1-1, <a target="_blank" href="https://calcpad.eu/reference/concrete-table.html">Table 3.1</a>]</p>
+'<p><b>Concrete</b></p>
+'Characteristic compressive cylinder strength -'f_ck = ?'MPa
+'Partial safety factor for concrete -'γ_c = 1.5','α_cc = ?
+#post
+'Mean value of cylinder compressive strength -'f_cm = f_ck + 8'MPa
+'Design compressive cylinder strength -'f_cd = α_cc*f_ck/γ_c'MPa
+'Ultimate compressive strain -'ε_cu2 = 0.0035'('ε_c2 = 0.002','n = 2')'
+'Secant modulus of elasticity -'E_cm = 22*(f_cm/10)^0.3'GPa
+#show
+'<p><b>Steel</b></p>
+'Characteristic yield strength -'f_yk = ?'MPa
+#post
+'Partial safety factor for steel -'γ_s = 1.15
+'Design yield strength -'f_yd = f_yk/γ_s'MPa
+'Modulus of elasticity -'E_s = 200'GPa
+'<p><b>Strain-stress diagrams</b>, MPa:</p>
+'<!--'PlotWidth = 250','PlotHeight = 125'-->
+'<table><tr><td>
+#hide
+σ_c(ε) = f_cd*((1 - (1 - ε/ε_c2)^n)*(ε < ε_c2) + (ε ≥ ε_c2))
+#post
+$Plot{σ_c(ε/1000) @ ε = 0 : ε_cu2*1000}
+'</td><td>
+#hide
+σ_s(ε) = max(-f_yd; min(ε*E_s*1000;f_yd))
+#post
+$Plot{σ_s(ε/1000) @ ε = -10 : 10}
+'</td></tr></table>
+#show
+'<h4>Imperfections and second order effects</h4>
+'Ratio of quasi-permanent bending moment: M<sub>0Eqp</sub>/M<sub>0Ed</sub> ='K_G = ?
+#post
+'M<sub>0Eqp</sub> is the first order bending moment in quasi-permanent load combination (SLS)
+'M<sub>0Ed</sub> is the first order bending moment in design load combination (ULS)
+#show
+'Long term creep factor - φ(∞,t<sub>0</sub>) ='φ = ?
+'Column height -'L = ?'mm
+'Effective column  height -'L_o = ?*L'mm
+'Number of vertical elements -'m = ?
+#hide
+α_n_ = 2/sqr(L/1000)
+α_n = max(2/3;min(α_n_;1))
+α_m = sqr(0.5*(1 + 1/m))
+θ_o = 1/200
+θ_i = θ_o*α_n*α_m
+e_i_ = θ_i*L_o/2
+e_o = max(h/30;20)
+e_i = max(e_i_;e_o)
+I_c = (b*h^3)/12
+i = sqr(I_c/A_c)
+λ = L_o/i
+k_1 = sqr(f_ck/20)
+φ_ef = φ*K_G
+K_s = 1
+γ_cE = 1.3
+E_cd = E_cm/γ_cE
+I_s = A_s1*(h/2 - d_1)^2 + A_s2*(h/2 - d_2)^2
+n(N) = N/(A_c*f_cd/1000)
+k_2_(N) = n(N)*λ/170
+k_2(N) = min(k_2_(N);0.2)
+K_c(N) = k_1*k_2(N)/(1 + φ_ef)
+EI(N) = (K_c(N)*E_cd*I_c + K_s*E_s*I_s)
+N_B(N) = π^2*EI(N)/(L_o)^2
+#if L > 0
+	M_II_1 = (M_Ed_1 + N_Ed_1*e_i/1000)/(1 - N_Ed_1/N_B(N_Ed_1))
+	M_II_2 = (M_Ed_2 + N_Ed_2*e_i/1000)/(1 - N_Ed_2/N_B(N_Ed_2))
+	M_II_3 = (M_Ed_3 + N_Ed_3*e_i/1000)/(1 - N_Ed_3/N_B(N_Ed_3))
+	M_II_4 = (M_Ed_4 + N_Ed_4*e_i/1000)/(1 - N_Ed_4/N_B(N_Ed_4))
+	M_II_5 = (M_Ed_5 + N_Ed_5*e_i/1000)/(1 - N_Ed_5/N_B(N_Ed_5))
+#else
+	M_II_1 = M_Ed_1
+	M_II_2 = M_Ed_2
+	M_II_3 = M_Ed_3
+	M_II_4 = M_Ed_4
+	M_II_5 = M_Ed_5
+#end if
+
+A_s_min = 0.002*A_c
+#if A_s1 < A_s_min
+	A_s1 = A_s_min
+#end if
+#if A_s2 < A_s_min
+	A_s2 = A_s_min
+#end if
+
+ε_s1,a(x) = ε_cu2*(d - x)/x
+ε_s2,a(x) = ε_cu2*(d_2 - x)/x
+N_c,a(x) = 17/21*x*b*f_cd/1000
+N_s1,a(x) = σ_s(ε_s1,a(x))*A_s1/1000
+N_s2,a(x) = σ_s(ε_s2,a(x))*A_s2/1000
+N_Rd,a(x) = N_c,a(x) - N_s1,a(x) - N_s2,a(x)
+z_c,a(x) = h/2 - 99/238*x
+M_Rd,a(x) = (N_c,a(x)*z_c,a(x) + N_s1,a(x)*(h/2 - d_1) - N_s2,a(x)*(h/2 - d_2))/1000
+
+x(ε) = h*ε_cu2/(ε_cu2 + ε)
+h_c = h*ε_c2/ε_cu2
+ε_s1,b(ε) = ε + (ε_c2 - ε)*d_1/h_c
+ε_s2,b(ε) = ε + (ε_c2 - ε)*(h - d_2)/h_c
+N_c,b(ε) = (h_c/6*(σ_c(ε) + 4*σ_c((ε + ε_c2)/2) + σ_c(ε_c2)) + (h - h_c)*f_cd)*b/1000
+N_s1,b(ε) = σ_s(ε_s1,b(ε))*A_s1/1000
+N_s2,b(ε) = σ_s(ε_s2,b(ε))*A_s2/1000
+N_Rd,b(ε) = N_c,b(ε) + N_s1,b(ε) + N_s2,b(ε)
+M_c0(ε) = (h_c^2/6*(2*σ_c((ε + ε_c2)/2) + σ_c(ε_c2)) + (h^2 - h_c^2)/2*f_cd)*b/1000
+z_c,b(ε) = M_c0(ε)/N_c,b(ε) - h/2
+M_Rd,b(ε) = (N_c,b(ε)*z_c,b(ε) - N_s1,b(ε)*(h/2 - d_1) + N_s2,b(ε)*(h/2 - d_2))/1000
+
+N_Rd(ε) = N_Rd,a(x(ε))*(ε ≥ 0) + N_Rd,b(abs(ε))*(ε < 0)
+M_Rd(ε) = M_Rd,a(x(ε))*(ε ≥ 0) + M_Rd,b(abs(ε))*(ε < 0)
+
+ε_max = $Root{N_Rd(ε) - 1 @ ε = 0 : 2}
+#if ε_max > 0.1
+	ε_max = 0.1
+#end if
+N_Rd_max = A_c*f_cd/1000 + σ_s(ε_max)*(A_s1 + A_s2)/1000
+#if N_Ed_1 > N_Rd_max
+	M_Rd_1 = 0
+#else
+	ε_1 = $Root{N_Rd(ε) - N_Ed_1 @ ε = -ε_c2 : 2}
+	M_Rd_1 = M_Rd(ε_1)
+#end if
+#if N_Ed_2 > N_Rd_max
+	M_Rd_2 = 0
+#else
+	ε_2 = $Root{N_Rd(ε) - N_Ed_2 @ ε = -ε_c2 : 2}
+	M_Rd_2 = M_Rd(ε_2)
+#end if
+#if N_Ed_3 > N_Rd_max
+	M_Rd_3 = 0
+#else
+	ε_3 = $Root{N_Rd(ε) - N_Ed_3 @ ε = -ε_c2 : 2}
+	M_Rd_3 = M_Rd(ε_3)
+#end if
+#if N_Ed_4 > N_Rd_max
+	M_Rd_4 = 0
+#else
+	ε_4 = $Root{N_Rd(ε) - N_Ed_4 @ ε = -ε_c2 : 2}
+	M_Rd_4 = M_Rd(ε_4)
+#end if
+#if N_Ed_5 > N_Rd_max
+	M_Rd_5 = 0
+#else
+	ε_5 = $Root{N_Rd(ε) - N_Ed_5 @ ε = -ε_c2 : 2}
+	M_Rd_5 = M_Rd(ε_5)
+#end if
+
+M_Rd_ei(ε) = N_Rd(ε)*e_i/1000
+M_Rd_II(ε) = M_Rd_ei(ε)/(1 - N_Rd(ε)/N_B(N_Rd(ε)))/(N_Rd(ε) < 0.95*N_B(N_Rd(ε)))
+ε_ei = $Root{M_Rd_ei(ε) - M_Rd(ε) @ ε = -ε_c2 : ε_max}
+M_Rd_ei = M_Rd(ε_ei)
+N_Rd_ei = N_Rd(ε_ei)
+#if N_Rd_max < N_B(N_Rd_max)
+	ε_NB = ε_ei
+#else
+	ε_NB = $Root{N_Rd(ε) - 0.95*N_B(N_Rd(ε)) @ ε = -ε_c2 : ε_max}
+#end if
+ε_II = ε_NB
+ε_II = $Root{M_Rd_ei(ε)/(1 - N_Rd(ε)/N_B(N_Rd(ε))) - M_Rd(ε) @ ε = ε_NB : ε_max}
+M_Rd_II = M_Rd(ε_II)
+N_Rd_II = N_Rd(ε_II)
+PlotWidth = 600
+PlotHeight = 600
+#post
+'<h4>Interaction diagram</h4>
+'<p><i>N</i><sub>Rd</sub></p>
+$Plot{M_Rd(ε)|N_Rd(ε) & M_Rd_ei(ε)|N_Rd(ε) & M_Rd_II(ε)|N_Rd(ε) & M_Rd_ei|N_Rd_ei & M_Rd_II|N_Rd_II & M_II_1|N_Ed_1 & M_II_2|N_Ed_2 & M_II_3|N_Ed_3 & M_II_4|N_Ed_4 & M_II_5|N_Ed_5 @ ε = ε_max : -ε_c2}
+'<i>M</i><sub>Rd</sub>
+'<p><b>Legend:</b></p>
+'<p><b style="color:Red">————</b> Interaction diagram</p>
+'<p><b style="color:Green">————</b> Line of geometric imperfections</p>
+'<p><b style="color:Blue">————</b> Buckling curve</p>
+'<p><b style="color:Goldenrod">●</b> Design resistance including geometric imperfections and accidental eccentricity - <i>N</i><sub>Rd_ei</sub></p>
+'<p><b style="color:Magenta">●</b> Design buckling resistance - <i>N</i><sub>Rd_II</sub></p>
+'<p><b style="color:DarkCyan">●</b> Design load № 1, <b style="color:Purple">●</b> Design load № 2, <b style="color:DarkOrange">●</b> Design load № 3,</p>
+'<p><b style="color:Maroon">●</b> Design load № 4, <b style="color:YellowGreen">●</b> Design load № 5</p>
+'<h4>Design checks</h4>
+#val
+'<table class="bordered centered">
+'<tr><th>№</th><th>N<sub>Ed</sub><br/>kN</th><th></th><th>N<sub>B</sub><br/>kN</th><th>M<sub>Ed</sub><br/>kN·m</th><th>M<sub>II</sub><br/>kN·m</th><th> </th><th>M<sub>Rd</sub><br/>kN·m</th></tr>
+#if N_Ed_1 > N_B(N_Ed_1)
+	'<tr class="err"><td>1</td><td>'N_Ed_1'</td><td>&gt;</td><td>'N_B(N_Ed_1)'</td><td></td><td></td><td></td><td></td></tr>
+#else if M_Rd_1 > M_II_1
+	'<tr><td>1</td><td>'N_Ed_1'</td><td>&lt;</td><td>'N_B(N_Ed_1)'</td><td>'M_Ed_1'</td><td>'M_II_1'</td><td>&le;</td><td>'M_Rd_1'</td></tr>
+#else
+	'<tr class="err"><td>1</td><td>'N_Ed_1'</td><td>&lt;</td><td>'N_B(N_Ed_1)'</td><td>'M_Ed_1'</td><td>'M_II_1'</td><td>&gt;</td><td>'M_Rd_1'</td></tr>
+#end if
+#if N_Ed_2 > N_B(N_Ed_2)
+	'<tr class="err"><td>2</td><td>'N_Ed_2'</td><td>&gt;</td><td>'N_B(N_Ed_2)'</td><td></td><td></td><td></td><td></td></tr>
+#else if M_Rd_2 > M_II_2
+	'<tr><td>2</td><td>'N_Ed_2'</td><td>&lt;</td><td>'N_B(N_Ed_2)'</td><td>'M_Ed_2'</td><td>'M_II_2'</td><td>&le;</td><td>'M_Rd_2'</td></tr>
+#else
+	'<tr class="err"><td>2</td><td>'N_Ed_2'</td><td>&lt;</td><td>'N_B(N_Ed_2)'</td><td>'M_Ed_2'</td><td>'M_II_2'</td><td>&gt;</td><td>'M_Rd_2'</td></tr>
+#end if
+#if N_Ed_3 > N_B(N_Ed_3)
+	'<tr class="err"><td>3</td><td>'N_Ed_3'</td><td>&gt;</td><td>'N_B(N_Ed_3)'</td><td></td><td></td><td></td><td></td></tr>
+#else if M_Rd_3 > M_II_3
+	'<tr><td>3</td><td>'N_Ed_3'</td><td>&lt;</td><td>'N_B(N_Ed_3)'</td><td>'M_Ed_3'</td><td>'M_II_3'</td><td>&le;</td><td>'M_Rd_3'</td></tr>
+#else
+	'<tr class="err"><td>3</td><td>'N_Ed_3'</td><td>&lt;</td><td>'N_B(N_Ed_3)'</td><td>'M_Ed_3'</td><td>'M_II_3'</td><td>&gt;</td><td>'M_Rd_3'</td></tr>
+#end if
+#if N_Ed_4 > N_B(N_Ed_4)
+	'<tr class="err"><td>4</td><td>'N_Ed_4'</td><td>&gt;</td><td>'N_B(N_Ed_4)'</td><td></td><td></td><td></td><td></td></tr>
+#else if M_Rd_4 > M_II_4
+	'<tr><td>4</td><td>'N_Ed_4'</td><td>&lt;</td><td>'N_B(N_Ed_4)'</td><td>'M_Ed_4'</td><td>'M_II_4'</td><td>&le;</td><td>'M_Rd_4'</td></tr>
+#else
+	'<tr class="err"><td>4</td><td>'N_Ed_4'</td><td>&lt;</td><td>'N_B(N_Ed_4)'</td><td>'M_Ed_4'</td><td>'M_II_4'</td><td>&gt;</td><td>'M_Rd_4'</td></tr>
+#end if
+#if N_Ed_5 > N_B(N_Ed_5)
+	'<tr class="err"><td>5</td><td>'N_Ed_5'</td><td>&gt;</td><td>'N_B(N_Ed_5)'</td><td></td><td></td><td></td><td></td></tr>
+#else if M_Rd_5 > M_II_5
+	'<tr><td>5</td><td>'N_Ed_5'</td><td>&lt;</td><td>'N_B(N_Ed_5)'</td><td>'M_Ed_5'</td><td>'M_II_5'</td><td>&le;</td><td>'M_Rd_5'</td></tr>
+#else
+	'<tr class="err"><td>5</td><td>'N_Ed_5'</td><td>&lt;</td><td>'N_B(N_Ed_5)'</td><td>'M_Ed_5'</td><td>'M_II_5'</td><td>&gt;</td><td>'M_Rd_5'</td></tr>
+#end if
+'</table>
+#equ
+'<p><b>Ultimate capacity for axial force:</b></p>
+'- cross section only -'N_Rd_max'kN
+'- column with geometric imperfections -'N_Rd_ei'kN
+'- column with imperfections and II order effects -'N_Rd_II'kN
+'Buckling factor -'φ = N_Rd_II/N_Rd_max
+#show
+'</div>300	700	800	50	100	500	100	1000	100	1500	100	2000	100	2500	20	0.85	500	0.75	2.5	4000	2	1

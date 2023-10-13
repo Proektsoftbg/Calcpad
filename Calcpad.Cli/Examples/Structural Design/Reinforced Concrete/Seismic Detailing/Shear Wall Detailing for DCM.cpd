@@ -1,0 +1,354 @@
+"Shear Wall Detailing for Ductility Class DCM<hr/><small>According to <strong>Eurocode</strong>: EN 1998-1</small>
+'<div style="max-width:180mm">
+'<img class="side" src="https://calcpad.eu/media/structures/rc/detailing/shear-wall-section.png" alt="shear-wall-section.png" style="width:260pt;">
+'<p><b>Shear wall dimensions</b></p>
+'Length -'l_w = ? {4000}'mm
+'Web thickness -'b_wo = ? {300}'mm
+'Total height -'h_w = ? {19000}'mm
+'Clear storey height -'h_s = ? {3820}'mm
+'Number of storeys -'n_s = ? {6}
+'Confined zone dimensions
+b_c = ? {300}'mm,'h_c = ? {875}'mm
+#post
+'Cross section area
+'Area of confined boundary element
+A_f = b_c*h_c'mm²
+'Web area
+A_w = (l_w - 2*h_c)*b_wo'mm²
+'Total area
+A_c = A_w + 2*A_f'mm²
+#show
+'Maximum seismic axial load -'N_Ed = ? {2254}'kN
+
+'<p><b>Concrete</b> &nbsp;&nbsp;[EN 1992-1-1, <a target="_blank" href="https://calcpad.eu/reference/concrete-table.html">Table 3.1</a>]</p>
+'Characteristic compressive cylinder strength
+f_ck = ? {25}'MPa
+'Partial safety factor -'γ_c = 1.5','α_ct = 1','α_cc = ? {1}'
+#post
+'<img class="side" src="https://calcpad.eu/media/structures/rc/detailing/shear-wall-view.png" alt="shear-wall-view.png" style="width:100pt;">
+'Mean value of axial tensile strength
+f_ctm = 0.30*f_ck^(2/3)'MPa 
+'Characteristic axial tensile strength
+f_ctk,005 = 0.7*f_ctm'MPa
+'Design compressive cylinder strength
+f_cd = α_cc*f_ck/γ_c'MPa
+'Unconfined concrete ultimate strain
+ε_cu2 = 0.0035
+'Ultimate compressive strain -'ε_c2 = 0.002
+#show
+
+'<p><b>Longitudinal reinforcement</b></p>
+'<p id="C" style="display:none;">'C = ? {0}'</p>
+'Characteristic yield strength -'f_yk = ? {500}'MPa
+#pre
+'<p>Steel class - <select data-target="C"> 
+'<option value="0"> Class B </option>
+'<option value="1"> Class C </option>
+'</select></p>
+#post
+#val
+#if C ≡ 0
+	'Selected steel class <b>B'f_yk'B</b>
+#else if C ≡ 1
+	'Selected steel class <b>B'f_yk'C</b>
+#else
+	'<p class="err">Invalid steel class!</p>
+#end if
+#equ
+'Partial safety factor -'γ_s = 1.15
+'Design yield strength -'f_yd = f_yk/γ_s'MPa
+'Modulus of elasticity -'E_s = 200000'MPa
+#show
+'<p><b>Reinforcement for each confined boundary element</b></p>
+'Bar diameter -'d_bL = ? {25}'mm
+#post
+'<p class="ref">[BS EN 1992-1-1, § 9.5.2 (1)/NA.1]</p>
+'Minimum bar diameter -'d_bL,min = 12'mm
+#if d_bL < d_bL,min
+	'<p class="err">The bar diameter is less than the minimum:'d_bL'mm &lt;'d_bL,min'mm. ❌</p>
+#end if
+#show
+'Bar count -'n_b = ? {13}
+'Bar count along "<var>h</var><sub>0</sub>" -'n_b1 = ? {6}
+#post
+'Bar count along "<var>b</var><sub>0</sub>" -'n_b2 = ceiling(n_b/2 - n_b1 + 2)
+#if n_b < 4
+	'<p class="err">The bar count is'n_b'&lt; 4</p>
+#end if 
+'Reinforcement area
+A_s1 = π*d_bL^2/4'mm²
+A_s = n_b*A_s1'mm²
+'Reinforcement ratio
+ρ_L = A_s/A_f
+'<p class="ref">[§ 5.4.3.4.2 (8)]</p>
+#if ρ_L < 0.005
+	'<p class="err">The reinforcement ratio is less than the minimum:'ρ_L'&lt; 0.005. ❌</p>
+#else if ρ_L > 0.04
+	'<p class="err">The reinforcement ratio is greater than the maximum:'ρ_L'&gt; 0.04. ❌</p>
+#else 
+	'Design check: 0.005 ≤'ρ_L'≤ 0.04. The check is satisfied! ✓
+#end if
+#show
+'<p><b>Vertical web reinforcement</b></p>
+'Bar diameter -'d_bv = ? {10}'mm
+'Bar spacing -'s_v = ? {250}'mm
+#post
+'<p class="ref">[EN 1992-1-1, § 9.6.2 (3)]</p>
+'Maximum bar spacing
+s_v,max = min(3*b_wo; 400)'mm
+#if s_v > s_v,max
+	'<p class="err">Bar spacing's_v'mm &gt;'s_v,max'mm. ❌</p>
+#end if
+'Single bar area -'A_sv1 = π*d_bv^2/4'mm²
+'Reinforcement ratio -'ρ_v = 2*A_sv1/(s_v*b_wo)
+'<p class="ref">[EN 1992-1-1, § 9.6.2 (1)]</p>
+'Minimum reinforcement ratio -'ρ_v,min = 0.002
+#if ρ_v < ρ_v,min
+	'<p class="err">The reinforcement ratio is less than the minimum -'ρ_v'&lt;'ρ_v,min'. ❌</p>
+#end if
+'<p class="ref">[§ 5.4.3.4.2 (11)]</p>
+'Minimum reinforcement ratio for zones with compressive strain > 0.002
+ρ_v,min = 0.005
+#show
+'<p><b>Horizontal web reinforcement</b></p>
+'Bar diameter -'d_bh = ? {12}'mm
+'Bar spacing -'s_h = ? {150}'mm
+#post
+'<p class="ref">[EN 1992-1-1, § 9.6.3 (2)]</p>
+'Maximum bar spacing -'s_h,max = 400'mm
+#if s_h > s_h,max
+	'<p class="err">Bar spacing's_h'mm &gt;'s_h,max'mm. ❌</p>
+#end if
+'Single bar area -'A_sh1 = π*d_bh^2/4'mm²
+'Reinforcement ratio -'ρ_h = 2*A_sh1/(s_h*b_wo)
+'<p class="ref">[EN 1992-1-1, § 9.6.3 (1)]</p>
+'Minimum reinforcement ratio
+ρ_h,min = max(0.25*ρ_v; 0.001)
+#if ρ_h < ρ_h,min
+	'<p class="err">The reinforcement ratio is less than the minimum -'ρ_h'&lt;'ρ_h,min'. ❌</p>
+#end if
+#show
+
+'<p><b>Transverse reinforcement in confined boundary elements</b></p>
+'Characteristic yield strength -'f_ywk = ? {500}'MPa
+'Design yield strength -'f_ywd = f_ywk/γ_s'MPa
+'Concrete cover to hoops -'c = ? {42}'mm
+'Hoop diameter -'d_bw = ? {8}'mm
+#post
+'<p class="ref">[EN 1992-1-1, § 9.5.3 (1)]</p>
+'Minimum diameter
+d_bw,min = max(6; 0.25*d_bL)'mm
+#if d_bw < d_bw,min
+	'<p class="err">The hoop diameter is less than the minimum:</p>
+	'<p class="err">'d_bw'&lt;'d_bw,min'mm ❌</p>
+#else
+	'Hoop diameter check:
+	d_bw'≥'d_bw,min'mm. The check is satisfied! ✓
+#end if
+
+'<p class="ref">[§ 5.4.3.4.2 (1)]</p>
+'<p><b>Critical region height</b></p>
+h_cr_ = max(l_w; h_w/6)'mm
+'Must not be greater than
+#if n_s ≤ 6
+	h_cr,max = min(2*l_w; h_s)'mm, for number of storeys'n_s'&le; 6
+#else
+	h_cr,max = min(2*l_w; 2*h_s)'mm, for number of storeys'n_s'&gt; 6 
+#end if
+h_cr = min(h_cr_; h_cr,max)'mm
+
+'<p class="ref">[§ 5.1.2 (1)]</p>
+'<p><b>Shear wall dimensions check</b></p>
+#if l_w/b_wo < 4
+	'<p class="err">'l_w/b_wo'&lt; 4. The check is NOT satisfied! ❌</p>
+#else
+	l_w/b_wo'&ge; 4. The check is satisfied! ✓
+#end if
+'<p class="ref">[§ 5.4.1.2.3 (1)]</p>
+'Minimum thickness -'b_w,min = max(150; h_s/20)'mm
+#if b_wo < b_w,min
+	'<p class="err">'b_wo'mm &lt;'b_w,min'mm. The check is NOT satisfied! ❌</p>
+#else
+	b_wo'mm &ge;'b_w,min'mm. The check is satisfied! ✓
+#end if
+'<p class="ref">[ § 5.4.3.4.2 (6)]</p>
+'Confined boundary element length
+l_c = h_c - (d_bw + 2*c)'mm
+'Minimum confined boundary element length
+l_c,min = max(0.15*l_w; 1.5*b_c)'mm
+#if l_c < l_c,min
+	'<p class="err">'l_c'mm &lt;'l_c,min'mm. The check is NOT satisfied! ❌</p>
+#else
+	l_c'mm &ge;'l_c,min'mm. The check is satisfied! ✓
+#end if
+'<p class="ref">[§ 5.4.3.4.2 (10)]</p>
+'Minimum confined boundary element thickness
+#if l_c ≤ max(2*b_c; 0.2*l_w)
+	'For'l_c'mm &le;'max(2*b_c; 0.2*l_w)'mm:
+	b_c,min = max(h_s/15; 200)'mm
+#else
+	'For'l_c'mm &gt;'max(2*b_c; 0.2*l_w)'mm:
+	b_c,min = max(h_s/10; 200)'mm
+#end if
+#if b_c < b_c,min
+	'<p class="err">'b_c'mm &lt;'b_c,min'mm. The check is NOT satisfied! ❌</p>
+#else
+	b_c'mm &ge;'b_c,min'mm. The check is satisfied! ✓
+#end if
+
+'<p class="ref">[§ 5.4.3.4.1 (2)]</p>
+'<p><b>Check for normalized axial load</b></p>
+ν_d = N_Ed/(A_c*f_cd)*10^3
+#if ν_d > 0.4
+	'<p class="err">'ν_d'&gt; 0.4. The check is NOT satisfied! ❌</p>
+#else
+	ν_d'≤ 0.4. The check is satisfied! ✓
+#end if
+
+'<p><b>Design anchorage length</b></p>
+η_1 = 1'- when good conditions are provided
+#if d_bL ≤ 32
+	η_2 = 1'- for'd_bL'≤ 32 mm
+#else
+	η_2 = (132 - d_bL)/100'- for'd_bL'> 32 mm
+#end if
+f_ctd = α_ct*f_ctk,005/γ_c'MPa
+'<p class="ref">[EN 1992-1-1, § 8.4.2 (2)]</p>
+f_bd = 2.25*η_1*η_2*f_ctd'MPa
+σ_sd = f_yd'MPa
+'<p class="ref">[EN 1992-1-1, § 8.4.3 (2)]</p>
+l_b,rqd = d_bL/4*(σ_sd/f_bd)'mm
+'<p class="ref">[EN 1992-1-1, Table 8.2]</p>
+α_1 = 1','α_2 = 1','α_3 = 1','α_5 = 1','α_6 = 1.5
+'<p class="ref">[EN 1992-1-1, § 8.7.3 (1)]</p>
+l_0_ = α_1*α_2*α_3*α_5*α_6*l_b,rqd'mm
+l_0,min = max(0.3*α_6*l_b,rqd; 15*d_bL; 200)'mm
+l_0 = round(max(l_0_; l_0,min))'mm
+
+'Confined core dimensions (between centerlines of hoops)
+b_0 = b_c - (d_bw + 2*c)'mm
+h_0 = h_c - (d_bw + 2*c)'mm
+'Maximum bar spacing
+d_b1 = (h_c - 2*(d_bw + c) - d_bL)/(n_b1 - 1)'mm
+d_b2 = (b_c - 2*(d_bw + c) - d_bL)/(n_b2 - 1)'mm
+'Maximum distance between consecutive longitudinal bars engaged by hoops
+'<p class="ref">[§ 5.4.3.4.2 (9)]</p>
+d_h,max = 200'mm
+'Distance between bars engaged by hoops
+n_h1 = max(floor(d_h,max/d_b1); 1)
+n_h2 = max(floor(d_h,max/d_b2); 1)
+'Distance between bars engaged by hoops
+d_h1 = n_h1*d_b1
+d_h2 = n_h2*d_b2
+#if d_h1 > d_h,max
+	'<p class="err">The distance is greater than the maximum:'d_h1'mm >'d_h,max'mm ❌</p>
+#else if d_h2 > d_h,max
+	'<p class="err">The distance is greater than the maximum:'d_h2'mm >'d_h,max'mm ❌</p>
+#end if
+'Distance between bars engaged by hoops
+n_h1 = round((n_b1 - 1)*d_b1/d_h1)
+n_h2 = round((n_b2 - 1)*d_b2/d_h2)
+
+'Hoop spacing in the critical region
+'<p class="ref">[§ 5.4.3.4.2 (9)]</p>
+s_cr = min(b_0/2; 8*d_bL; 175)'mm
+'Hoop spacing in lap zone
+'<p class="ref">[§ 5.6.3 (3), c)]</p>
+s_l = min(100; b_c/4)'mm
+'Hoop spacing outside lap zone
+'<p class="ref">[EN 1992-1-1, § 9.5.3 (3)]</p>
+s = min(b_c; 20*d_bL; 400)'mm
+
+'<b>Transverse reinforcement in the lap zone</b>
+'Required area of one leg
+'<p class="ref">[§ 5.6.3 (4)]</p>
+A_st = s_l*(d_bL/50)*(f_yd/f_ywd)'mm²
+'Provided area of one leg
+A_sw1 = π*d_bw^2/4'mm²
+#if A_sw1 < A_st
+	'<p class="err">Insufficient area of one leg in the lap zone:'A_sw1'mm² &lt;'A_st'mm² ❌</p>
+#else
+	'Design check:'A_sw1'mm² ≥'A_st'mm². The check is satisfied! ✓
+#end if
+#if d_bL > 20
+	'Check for bar diameters > 20 mm:
+	'Number of legs in the outer 1/3 of lap zone
+	n_w = round(2*l_0/(3*s_l))
+	'Total area of legs in the outer 1/3 of lap zone
+	ΣA_sw = A_sw1*n_w
+	'<p class="ref">[EN 1992-1-1 § 8.7.4.1 (3)]</p>
+	#if ΣA_sw < A_sw1*n_w
+		'<p class="err">Insufficient transverse reinforcement area in the lap zone:'ΣA_sw'mm² &lt;'A_s1'mm² ❌</p>
+	#else
+		'Design check:'ΣA_sw'mm² ≥'A_s1'mm²
+	#end if
+	'An additional hoop is required for compressed bars
+	'<p class="ref">[EN 1992-1-1 § 8.7.4.2 (1)]</p>
+	'at'4*d_bL'mm from the end of the lap zone.
+#end if
+
+'<p><b>Detailing for local ductility in the critical region</b></p>
+'Total length of confining links
+Σl_i = (n_h1 + 1)*b_0 + (n_h2 + 1)*h_0
+'Mechanical volumetric ratio of confining hoops within the critical region
+ω_d = (A_sw1*Σl_i)/(b_0*h_0*s_cr)*(f_ywd/f_cd)
+'<p class="ref">[§ 5.4.3.2.2 (8)]</p>
+'The minimum value is 0.08.
+#if ω_d < 0.08
+	'<p class="err">Design check:'ω_d'&lt;'0.08'. Mechanical volumetric ratio is less than minimum. ❌</p>
+#else
+	'Design check:'ω_d'&ge;'0.08'. The check is satisfied! ✓
+#end if
+'Sum of the squares of the distances between consecutive engaged bars
+Σb2_i = 2*(n_h1*d_h1^2 + n_h2*d_h2^2)
+'Confinement effectiveness factors for bars and links
+α_n = 1 - Σb2_i/(6*b_0*h_0)
+α_s = (1 - s_cr/(2*b_0))*(1 - s_cr/(2*h_0))
+α = α_n*α_s
+#show
+'<p><b>Analysis results</b></p>
+'Fundamental period of first vibration mode -'T_1 = ? {0.6795}'s
+'Upper limit period of constant spectral acceleration -'T_C = ? {0.4}'s
+'Basic behavior factor value -'q_0 = ? {3}
+'Design bending moment -'M_Ed = ? {9591}'kNm
+'Bending moment capacity -'M_Rd = ? {13268}'kNm
+'(The above values refer to the section above the base)
+#post
+'<p><b>Curvature ductility factor</b></p>
+'<p class="ref">[§ 5.2.3.4 (3)]</p>
+#if T_1 ≥ T_C
+	μ_Φ = 2*q_0*(M_Ed/M_Rd) - 1'- for T<sub>1</sub> ≥ T<sub>C</sub>
+#else
+	μ_Φ = 1 + 2*(q_0*(M_Ed/M_Rd) - 1)*(T_C/T_1)'- for T<sub>1</sub> &lt; T<sub>C</sub>
+#end if
+#if C ≡ 0
+	'<!--'μ_Φ = 1.5*μ_Φ'-->
+	'<p class="ref">[§ 5.2.3.4 (4)]</p>
+	'For steel class B, ductility factor is increased by 50% -'μ_Φ
+#end if
+'Design value of steel yield strain - 'ε_sy,d = f_yd/E_s
+'Mechanical ratio of vertical web reinforcement
+ω_v = ρ_v*(f_yd/f_cd)
+'<p class="ref">[§ 5.4.3.4.2 (4)]</p>
+'Design check: <var>αω</var><sub>d</sub> &ge; <var>αω</var><sub>d_min</sub> = 30·<var>μ</var><sub>Φ</sub>·(<var>ν</var><sub>d</sub> + <var>ω</var><sub>v</sub> )·<var>ε</var><sub>sy_d</sub>·<var>b</var><sub>c</sub>/<var>b</var><sub>0</sub> – 0.035
+αω_d = α*ω_d
+αω_d,min = 30*μ_Φ*(ν_d + ω_v)*ε_sy,d*(b_c/b_0) - 0.035
+#if αω_d < αω_d,min
+	'<p class="err">The required curvature ductility is NOT provided:'αω_d'&lt;'αω_d,min'. ❌</p>
+#else
+	'The required curvature ductility is provided:'αω_d'≥'αω_d,min'. ✓
+#end if
+'Ultimate strain of confined concrete
+ε_cu2,c = 0.0035 + 0.1*αω_d
+'Neutral axis depth at ultimate curvature
+x_u = (ν_d + ω_v)*l_w*(b_c/b_0)'mm
+'Confined boundary element length
+l_c,req = x_u*(1 - ε_cu2/ε_cu2,c)'mm
+#if l_c < l_c,req
+	'<p class="err">'l_c'mm &lt;'l_c,req'mm. The check is NOT satisfied! ❌</p>
+#else
+	'Design check:'l_c'mm &ge;'l_c,req'mm. The check is satisfied! ✓
+#end if
+'NOTE: All references are according to EN 1998-1, unless noted otherwise.
+#show
+'</div>

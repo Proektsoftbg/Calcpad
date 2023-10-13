@@ -1,0 +1,29 @@
+"Cantilever with Concentrated Moment at the End
+'<hr /><div style="max-width:180mm;">
+'<img style="width:165pt;" alt="cantilever-beam-concentrated-moment.png" class="side" src="https://calcpad.eu/media/mechanics/beams/cantilever-beam-concentrated-moment.png">
+'<p><b>Input data</b></p>
+'Beam Length -'l = ?'m
+'Load -'M = ?'kN·m
+#post
+'<p><b>Internal forces</b></p>
+'Bending -'M = M'kN·m
+'Shear -'V = 0'kN
+'<p><b>Diagrams</b></p>
+#hide
+PlotWidth = 600
+PlotHeight = 150
+#show
+'Calculate internal forces at'x_1 = ?'m
+#pre
+
+#post
+'Bending
+M(x) = -M
+$Plot{-M(x) @ x = 0 : l}
+M(x_1)'kN·m
+'Shear
+V(x) = 0
+$Plot{V(x) @ x = 0 : l}
+V(x_1)'kN
+#show
+'</div>5	10	1

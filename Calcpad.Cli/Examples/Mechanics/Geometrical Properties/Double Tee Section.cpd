@@ -1,0 +1,29 @@
+"Geometrical Properties of Double Tee Section
+'<hr /><div style="max-width:150mm"><img style="height:165pt;" alt="double-tee.png" class="side" src="https://calcpad.eu/media/mechanics/sections/double-tee.png"></div>
+'Dimensions
+h = ?'%u,'t_w = ?'%u
+b_f1 = ?'%u,'t_f1 = ?'%u
+b_f2 = ?'%u,'t_f2 = ?'%u
+'Area
+A_w = h*t_w'%u<sup>2</sup>
+A_f1 = (b_f1 - t_w)*t_f1'%u<sup>2</sup>
+A_f2 = (b_f2 - t_w)*t_f2'%u<sup>2</sup>
+A = A_w + A_f1 + A_f2'%u<sup>2</sup>
+'Centroid
+y_c = max(b_f1; b_f2)/2 '%u
+S_y = A_w*h/2 + A_f1*t_f1/2 + A_f2*(h - t_f2/2)'%u<sup>3</sup>
+z_c = S_y/A'%u
+'Perimeter
+P = 2*(h + b_f1 + b_f2 - t_w)'%u
+'Second moments of area
+I_y_w = A_w*(h^2/12 +(z_c - h/2)^2)'%u<sup>4</sup>
+I_y_f1 = A_f1*(t_f1^2/12 + (z_c - t_f1/2)^2)'%u<sup>4</sup>
+I_y_f2 = A_f2*(t_f2^2/12 + (h - z_c - t_f2/2)^2)'%u<sup>4</sup>
+I_y = I_y_w + I_y_f1 + I_y_f2'%u<sup>4</sup>
+I_z = (t_f1*b_f1^3 + t_f2*b_f2^3 + (h - t_f1 - t_f2)*t_w^3)/12'%u<sup>4</sup>
+'Polar moment of area
+I_x = I_y + I_z'%u<sup>4</sup>
+'Radii of gyration
+r_y = sqrt(I_y/A)'%u
+r_z = sqrt(I_z/A)'%u
+r_x = sqrt(I_x/A)'%u20	1	10	2	15	3

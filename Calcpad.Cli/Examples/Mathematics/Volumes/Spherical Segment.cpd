@@ -1,0 +1,18 @@
+"Volume and Surface Area of Spherical Segment
+'<hr /><div style = "max-width:130mm"><img style="height:60pt;" class="side" alt="segment.png" src = "https://calcpad.eu/media/math/volume/segment.png"></div>
+'Raduses of bases
+a = ?','b = ?
+'Height
+h = ?
+'Radius of sphere
+R = sqr(((a - b)^2 + h^2)*((a + b)^2 + h^2))/(2*h)
+'Volume
+V = π*h/6*(3*a^2 + 3*b^2 + h^2)
+'Area of side surface
+S_o = 2*π*R*h
+'Base areas
+A = π*a^2
+B = π*b^2
+'Total surface area
+S = S_o + A + B
+'3	2	1

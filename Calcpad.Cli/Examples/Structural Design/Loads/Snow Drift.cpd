@@ -1,0 +1,43 @@
+"Snow Drift on a Roof, Abutting a Taller Construction<hr/><small>According to <strong>Eurocode</strong>: EN 1991-1-3, § 5.3.6</small>
+'<div style="max-width:180mm">
+'<img class="side" style="width:210pt;" src="https://calcpad.eu/media/structures/loads/snow-drift.png" alt="snow-drift.png">
+'Characteristic snow load on the ground -'s_k = ?'kN/m<sup>2</sup>
+'Higher roof width -'b_1 = ?'m
+'Sliding surface width -'b_s = ?'m
+'Lower roof width -'b_2 = ?'m
+'height difference -'h = ?'m
+'Pitch angle of the higher roof -'α = ?'<sup>o</sup>
+#post
+'Shape coefficient for the higher roof
+#if α ≤ 15
+	μ_1h = 0'(α &le; 15 <sup>o</sup>)
+#else
+	#if α ≤ 30
+		μ_1h = 0.8'(15<sup>o</sup> &lt; α &le; 30<sup>o</sup>)
+	#else if α < 60
+		μ_1h = 0.8*(60 - α)/30'(30<sup>o</sup> &lt; α &lt; 60<sup>o</sup>)
+	#else
+		μ_1h = 0'(α &ge; 60<sup>o</sup>)
+	#end if
+#end if
+'Drift length
+'<p class="ref">(5.9) from EN 1991-1-3</p>
+l_s = max(5; min(2*h;15))'m
+'Shape coefficient due to sliding
+'<p class="ref">EN 1991-1-3, § 5.3.6 (1)</p>
+μ_s = μ_1h * b_s / l_s
+'Shape coefficient due to wind
+'<p class="ref">(5.8) from EN 1991-1-3</p>
+μ_w_ = min((b_1 + b_2)/(2*h); 2*h/s_k)
+μ_w = max(0.8; min(μ_w_;4))
+'Shape coefficient for snow load
+'<p class="ref">(5.6) from EN 1991-1-3</p>
+μ_1 = 0.8
+'<p class="ref">(5.7) from EN 1991-1-3</p>
+μ_2 = μ_s + μ_w 
+#if b_2 < l_s
+	'Shape coefficient for the edge of the lower roof
+	μ_12 = (μ_1 - μ_2)*b_2/l_s + μ_2
+#end if
+#show
+'</div>1.5	18	9	36	6.2	3
