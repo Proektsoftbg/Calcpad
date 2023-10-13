@@ -1,0 +1,26 @@
+"Volume and Surface Area of Triangular Prism
+'<hr /><div style = "max-width:120mm"><img style="height:60pt;" class="side" alt="triangular-prism.png" src = "https://calcpad.eu/media/math/volume/triangular-prism.png"></div>
+'Dimensions of base
+a = ?','b = ?','c = ?
+'Height 
+h = ?
+'<!--
+#if (a + b > c)*(b + c > a)*(c + a > b)
+'<-->
+'Base perimeter
+P = a + b + c 
+'Semiperimeter
+p = 0.5*P
+'Area of base (Heron equation)
+A = sqr(p*(p - a)*(p - b)*(p - c)) 
+'Volume
+V = A*h
+'Surface area
+S = 2*A + h*P
+'<!--
+#else
+'<-->
+'The sum of each two sides must be greater than the third.
+'<!--
+#end if
+'<-->5	4	3	2

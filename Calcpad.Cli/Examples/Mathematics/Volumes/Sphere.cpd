@@ -1,0 +1,9 @@
+"Volume and Surface Area of Sphere
+'<hr /><div style = "max-width:100mm"><img style="height:60pt;" class="side" alt="sphere.png" src = "https://calcpad.eu/media/math/volume/sphere.png"></div>
+'Radius
+r = ?
+'Volume
+V = 4/3*π*r^3
+'Surface area
+S = 4*π*r^2
+'1

@@ -1,0 +1,19 @@
+"Interpolation
+'<h4>Data functions in Calcpad</h4>
+f_1(x) = take(x; 9; 2; -1; 1; 4.5; 6; -4)' - discrete values (vector) <span style="color:blue;">▬▬</span>
+f_2(x) = line(x; 9; 2; -1; 1; 4.5; 6; -4)' - linear interpolation <span style="color:green;">▬▬</span>
+f_3(x) = spline(x; 9; 2; -1; 1; 4.5; 6; -4)' - Hermite spline interpolation <span style="color:red;">▬▬</span>
+'<!--'PlotHeight = 250','PlotWidth = 400'--> 
+$Plot{f_3(x) & f_2(x) & f_1(x) @ x = 1 : 7}
+'<h4>Application - wind load height factors</h4>
+'Height above terrain
+Z(x) = spline(x; -0.01; 5; 10; 20; 40; 60; 80; 100; 150; 200; 250; 300; 350)
+'Load for terrain type A
+k_zA(x) = line(x; 0.75; 0.75; 1; 1.25; 1.5; 1.7; 1.85; 2; 2.25; 2.45; 2.65; 2.75; 2.75)
+'НаLoad for terrain typeB
+k_zB(x) = line(x; 0.5; 0.5; 0.65; 0.85; 1.1; 1.3; 1.45; 1.6; 1.9; 2.1; 2.3; 2.5; 2.75)
+'Interpolation factor
+k(z) = $Root{Z(x) = z @ x = 1 : 12}
+'<!--'PlotHeight = 250','PlotWidth = 150'-->
+'Chart
+$Plot{k_zA(k(z))|z & k_zB(k(z))|z @ z = 0 : 50}

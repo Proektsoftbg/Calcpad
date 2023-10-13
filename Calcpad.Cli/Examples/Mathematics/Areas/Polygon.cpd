@@ -1,0 +1,10 @@
+"Area and Perimeter of Regular Polygon
+'<hr /><div style="max-width:110mm;"><img style="height:70pt;" class="side" alt="polygon.png" src="https://calcpad.eu/media/math/area/polygon.png"></div>
+'Number of sides -'n = ?
+'Side length -'a = ?
+'Area
+α = 180/n'&deg;
+A = a^2*n/4*cot(α)
+'Perimeter
+P = n*a
+'8	1

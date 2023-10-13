@@ -1,0 +1,22 @@
+"Hypocycloid
+'<hr/>
+'<div style="max-width:150mm">
+'<img class="side" src="https://calcpad.eu/media/math/hypocycloid.png" alt="hypocycloid.png">
+'<p style="max-width:90mm">Hypocycloid is a parametric curve that is obtained by rolling a smaller circle (<var>r</var>) inside a larger one (<var>R</var>). It shows the trace of a point P, fixed on the circumference of the smaller circle.</p>
+'General equation:
+x(θ) = (k - 1)*cos(θ) + cos((k - 1)*θ)
+y(θ) = (k - 1)*sin(θ) - sin((k - 1)*θ)
+'Outer radius: 'R = ?
+'Inner radius: 'r = ?
+'Ratio: 'k = R/r
+#pre
+
+'Tip: Click "<b>Calculate</b>" to see the respective plot.
+#hide
+#rad
+PlotHeight = 400
+PlotWidth = 400
+#post
+$Plot{x(θ)|y(θ) @ θ = 0 : 2*π*r}
+#show
+'</div>22	3

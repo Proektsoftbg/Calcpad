@@ -1,0 +1,9 @@
+"Area and Perimeter of Rectangle
+'<hr /><div style="max-width:100mm;"><img style="height:55pt;" class="side" alt="rectangle.png" src="https://calcpad.eu/media/math/area/rectangle.png"></div>
+'Dimensions
+a = ?', 'b = ?
+'Area
+A = a*b
+'Perimeter
+P = 2*(a+b)
+'2	1

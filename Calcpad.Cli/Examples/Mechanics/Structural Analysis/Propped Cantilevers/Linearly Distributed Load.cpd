@@ -1,0 +1,58 @@
+"Propped Cantilever with Linearly Distributed Load
+'<hr /><div style="max-width:180mm;">
+#pre
+'<img style="width:210pt;" class="side" alt="propped-cantilever-beam-distributed-load-linear-left.png" src="https://calcpad.eu/media/mechanics/beams/propped-cantilever-beam-distributed-load-linear-left.png">
+#show
+'<p><b>Input data</b></p>
+'Beam Length -'l = ?'m
+'Load -'q_1 = ?'kN/m,'q_2 = ?'kN/m
+#post
+'<div class="side">
+#hide
+#if q_1 < q_2
+	#post
+	'<img style="width:210pt;" alt="propped-cantilever-beam-distributed-load-linear-right.png" src="https://calcpad.eu/media/mechanics/beams/propped-cantilever-beam-distributed-load-linear-right.png">
+	#hide
+#else if q_1 > q_2
+	#post
+	'<img style="width:210pt;" alt="propped-cantilever-beam-distributed-load-linear-left.png" src="https://calcpad.eu/media/mechanics/beams/propped-cantilever-beam-distributed-load-linear-left.png">
+#else
+	'<img style="width:210pt;" alt="propped-cantilever-beam-distributed-load.png" src="https://calcpad.eu/media/mechanics/beams/propped-cantilever-beam-distributed-load.png">
+#end if
+'</div>
+Δq = q_2 - q_1'kN/m
+'<p><b>Internal forces</b></p>
+'Bending at support
+M_A = (8*q_1 + 7*q_2)*l^2/120'kN·m
+'Shear
+V_A = (16*q_1 + 9*q_2)*l/40'kN
+V_B = (4*q_1 + 11*q_2)*l/40'kN
+'Bending at mid-span
+#if '<!--'q_1 ≡ q_2'-->
+	x_max = 5*l/8'm
+#else
+	x_max = l*(sqr(q_1^2 + 2*V_A*Δq/l) - q_1)/Δq'm
+#end if
+M_max = V_A*x_max - x_max^2*(3*l*q_1 + Δq*x_max)/(6*l) - M_A'kN·m
+'<p><b>Diagrams</b></p>
+#hide
+PlotWidth = 600
+PlotHeight = 150
+#show
+'Calculate internal forces at'x_1 = ?'m
+#pre
+
+
+
+#post
+q(x) = q_1 + Δq*x/l
+'Bending
+M(x) = -M_A + V_A*x - (2*q_1 + q(x))*x^2/6
+$Plot{-M(x) @ x = 0 : l}
+M(x_1)'kN·m
+'Shear
+V(x) = V_A - (q_1 + q(x))*x/2
+$Plot{V(x) @ x = 0 : l}
+V(x_1)'kN
+#show
+'</div>10	5	10	1

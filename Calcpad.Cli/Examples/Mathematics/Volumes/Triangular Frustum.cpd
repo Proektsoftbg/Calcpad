@@ -1,0 +1,30 @@
+"Volume of Triangular Frustum
+'<hr /><div style = "max-width:120mm"><img style="height:60pt;" class="side" alt="triangular-frustum.png" src = "https://calcpad.eu/media/math/volume/triangular-frustum.png"></div>
+'<p><b>Dimensions:</b></p>
+'Bottom base
+A = ?','B = ?','C = ?
+'Top base
+a = ?','b = B*a/A','c = C*a/A
+'Height -'h = ?
+'<!--
+#if (A + B > C)*(B + C > A)*(C + A > B)
+'<-->
+'<p><b>Bottom base</b></p>
+'Semiperimeter
+p = 0.5*(A + B + C)
+'Area (Heron equation)
+A_1 = sqr(p*(p - A)*(p - B)*(p - C))
+'<p><b>Top base</b></p>
+'Semiperimeter
+p = 0.5*(a + b + c)
+'Area (Heron equation)
+A_2 = sqr(p*(p - a)*(p - b)*(p - c)) 
+'<p><b>Volume</b></p>
+V = h/3*(A_1 + sqr(A_1*A_2) + A_2)
+'<!--
+#else
+'<-->
+'The sum of each two sides must be greater than the third.
+'<!--
+#end if
+'<-->10	8	6	5	2

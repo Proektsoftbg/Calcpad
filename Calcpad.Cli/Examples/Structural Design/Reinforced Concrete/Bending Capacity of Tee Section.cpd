@@ -1,0 +1,114 @@
+"Bending Capacity of RC Tee Section<hr/><small>According to <strong>Eurocode</strong>: EN 1992-1-1</small>
+'<div style="max-width:180mm">
+'<img style="width:400pt;" src="https://calcpad.eu/media/structures/rc/design/tbeam-bending.png" alt="tbeam-bending.png">
+'Design bending moment -'M_Ed = ?'kN·m
+'<h4>Cross section dimensions</h4>
+'Web -'b_w = ?'mm,'h_w = ?'mm
+'Flange -'b_f = ?'mm,'h_f = ?'mm
+#post
+'Flange area -'A_f = (b_f - b_w)*h_f'mm²
+'Section area -'A_c = b_w*h_w + A_f'mm²
+#show
+'<p><b>Concrete cover to the center of reinforcement</b></p>
+'Bottom -'d_1 = ?'mm,&nbsp;&nbsp;&nbsp;&nbsp;Top -'d_2 = ?'mm
+#post
+'Effective cross section depth -'d = h_w - d_1'mm
+#show
+'<p><b>Reinforcement</b></p>
+'Bottom -'A_s1 = ?'mm²,&nbsp;&nbsp;&nbsp;&nbsp;Top -'A_s2 = ?'mm²
+#post
+'Reinforcement ratios
+'- bottom reinforcement -'ρ_1 = (A_s1)/(b_w*d)
+'- top reinforcement -'ρ_2 = (A_s2)/(b_w*d)
+#show
+'<h4>Material properties</h4>
+'<p style="float:right">[EN 1992-1-1, <a target="_blank" href="https://calcpad.eu/reference/concrete-table.html">Table 3.1</a>]</p>
+'<p><b>Concrete</b></p>
+'Characteristic compressive cylinder strength -'f_ck = ?'MPa
+'Partial safety factor for concrete -'γ_c = 1.5','α_cc = ?
+#post
+'Design compressive cylinder strength -'f_cd = α_cc*f_ck/γ_c'MPa
+'Ultimate compressive strain -'ε_cu2 = 0.0035
+'Strain at the end of the parabolic part of the diagram -'ε_c2 = 0.002
+'Mean value of axial tensile strength -'f_ctm = 0.30*f_ck^(2/3)'MPa
+#show
+'<p><b>Steel</b></p>
+'Characteristic yield strength -'f_yk = ?'MPa 
+#post
+'Partial safety factor for steel -'γ_s = 1.15
+'Design yield strength -'f_yd = f_yk/γ_s'MPa
+'Modulus of elasticity -'E_s = 200'GPa
+'<p><b>Strain-stress diagrams</b>, MPa:</p>
+'<!--'PlotWidth = 250','PlotHeight = 125'-->
+'<table><tr><td>
+#hide
+n = 2
+σ_c(ε) = f_cd*((1 - (1 - ε/ε_c2)^n)*(ε < ε_c2) + (ε ≥ ε_c2))
+#post
+$Plot{σ_c(ε/1000) @ ε = 0 : ε_cu2*1000}
+'</td><td>
+#hide
+σ_s(ε) = max(-f_yd; min(ε*E_s*1000;f_yd))
+#post
+$Plot{σ_s(ε/1000) @ ε = -10 : 10}
+'</td></tr></table>
+'<h4>Design checks</h4>
+'<p class="ref">[EN 1992-1-1, § 9.2.1.1]
+'Minimum tensile reinforcement ratio
+ρ_min = max(0.26*f_ctm/f_yk;0.0013)
+#if ρ_1 < ρ_min
+	'<p class="err">Tensile reinforcement ratio is lower than minimum:'ρ_1'&lt;'ρ_min'</p>'
+#end if
+'Maximum tensile reinforcement ratio -'ρ_max = 0.04
+#if ρ_1 > ρ_max
+	'<p class="err">Tensile reinforcement ratio is greater than maximum:'ρ_1'>'ρ_max'</p>'
+#end if
+'Internal section forces as a function of the compressive zone depth <i>x</i>.
+'Reinforcement strain:
+'- in bottom reinforcement -'ε_s1(x) = ε_cu2*(d - x)/x
+'- in top reinforcement -'ε_s2(x) = ε_cu2*(d_2 - x)/x
+'- at flange bottom edge -'ε_cf(x) = ε_cu2*(x - h_f)/x
+'Factors for integration of concrete stress diagram
+k = f_cd*ε_cu2
+k_1(ε_cu) = $Area{σ_c(ε)/k @ ε = 0 : ε_cu}
+k_2(ε_cu) = $Area{σ_c(ε)*ε/(ε_cu2*k) @ ε = 0 : ε_cu}
+k_1 = k_1(ε_cu2)
+k_2 = k_2(ε_cu2)
+'Internal section forces:
+'- in concrete -'N_c(x) = -(k_1*x*b_f*(x < h_f) + (k_1*x*b_f - k_1(ε_cf(x))*(x - h_f)*(b_f - b_w))*(x ≥ h_f))*f_cd*10^-3
+'- in  bottom reinforcement -'N_s1(x) = σ_s(ε_s1(x))*A_s1*10^-3
+'- in  top reinforcement -'N_s2(x) = σ_s(ε_s2(x))*A_s2*10^-3
+'Section capacity for axial force
+N_Rd(x) = N_c(x) + N_s1(x) + N_s2(x)
+$Plot{N_Rd(x) @ x = 0.1 : h_w}
+'Compression zone depth is determined from the equilibrium of axial forces
+x = $Root{N_Rd(x) @ x = 0.1 : h_w}'mm
+'Compression zone depth at reinforcement yield point
+x_lim = d* ε_cu2/(ε_cu2 + f_yd/E_s*10^-3)'cm
+#if x ≤ x_lim
+	'Check:'x'≤'x_lim'- compressive reinforcement is not required.
+#else
+	'Check:'x'>'x_lim'- compressive reinforcement is required.
+#end if
+'Distance to the equivalent concrete stress force
+'- from the neutral line
+#if x < h_f
+	z_0 = k_2/k_1*x'cm
+#else
+	z_0 = (k_2*x^2*b_f - k_2(ε_cf(x))*(x - h_f)^2*(b_f - b_w))/(k_1*x*b_f - k_1(ε_cf(x))*(x - h_f)*(b_f - b_w))'cm
+#end if
+'- from the bottom edge of the section
+z_c = h_w - x + z_0'mm
+'Bending moment capacity
+M_Rd = (A_s1*σ_s(ε_s1(x))*(z_c - d_1) + A_s2*σ_s(ε_s2(x))*(z_c - h_w + d_2))*10^-6'kN·m
+#if M_Ed > M_Rd
+	'Design bending moment is greater than bending capacity
+	M_Ed'>'M_Rd'kN·m
+	'<p class="err">Design checks are NOT satisfied.</p>
+#else
+	'Design bending moment is lower than bending capacity:
+	M_Ed'≤'M_Rd'kN·m
+	'Design checks are satisfied.
+#end if
+#show
+'</div>800	300	650	1200	120	50	50	3700	0	20	0.85	500

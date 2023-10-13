@@ -1,0 +1,24 @@
+"Geometrical Properties of Rectangular Tube
+'<hr /><div style="max-width:150mm"><img style="height:150pt;" alt="rectangular-tube.png" class="side" src="https://calcpad.eu/media/mechanics/sections/rectangular-tube.png"></div>
+'Dimensions
+h = ?'%u,'t_w = ?'%u
+b = ?'%u,'t_f = ?'%u
+b_1 = b - 2*t_w'%u
+h_1 = h - 2*t_f'%u
+'Area
+A = 2*(h*t_w + b_1*t_f)'%u<sup>2</sup>
+A = h*b - h_1*b_1'%u<sup>2</sup>
+'Centroid
+y_c = b/2'%u
+z_c = h/2'%u
+'Perimeter
+P = 2*(h + b)'%u
+'Second moments of area
+I_y = (b*h^3 - b_1*h_1^3)/12'%u<sup>4</sup>
+I_z = (b^3*h - b_1^3*h_1)/12'%u<sup>4</sup>
+'Polar moment of area
+I_x = I_y + I_z'%u<sup>4</sup>
+'Radii of gyration
+r_y = sqrt(I_y/A)'%u
+r_z = sqrt(I_z/A)'%u
+r_x = sqrt(I_x/A)'%u300	20	200	30

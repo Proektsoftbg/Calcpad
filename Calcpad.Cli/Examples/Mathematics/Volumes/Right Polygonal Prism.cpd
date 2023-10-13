@@ -1,0 +1,22 @@
+"Volume and Surface Area of Right Polygonal Prism
+'<hr /><div style = "max-width:130mm"><img style="height:65pt;" class="side" alt="polygonal-prism.png" src = "https://calcpad.eu/media/math/volume/polygonal-prism.png"></div>
+'Dimensions
+'Number of sides -'n = ?
+'Side length -'a = ?
+'Height -'h = ?
+'<!--
+#if n > 2
+'<-->
+'Area of base
+A = a^2*n/4*cot(180/n) 
+'Volume
+V = A*h
+'Surface area
+S = 2*A + n*a*h
+'<!--
+#else
+'<-->
+'It is required that n > 2
+'<!--
+#end if
+'<-->6	1	2

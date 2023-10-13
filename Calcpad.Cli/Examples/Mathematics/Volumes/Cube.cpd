@@ -1,0 +1,9 @@
+"Volume and Surface Area of Cube
+'<hr /><div style = "max-width:90mm"><img style="height:65pt;" class="side" alt="cube.png" src = "https://calcpad.eu/media/math/volume/cube.png"></div>
+'Side length
+a = ?
+'Volume
+V = a^3
+'Surface area
+S = 6*a^2
+'1

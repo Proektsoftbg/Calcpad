@@ -1,0 +1,36 @@
+"Fully Restrained Beam with Concentrated Moment
+'<div style="max-width:180mm">
+'<hr /><img class="side" style="width:210pt;" alt="fixed-beam-concentrated-moment.png" src="https://calcpad.eu/media/mechanics/beams/fixed-beam-concentrated-moment.png">
+'<p><b>Input data</b></p>
+'Beam length -'l = ?'m
+'Load -'M = ?'kN·m
+'Distances -'a = ?'m,'b = l - a'm
+#post
+'<p><b>Internal forces</b></p>
+'Bending at supports
+M_A = M*b*(2 - 3*b/l)/l'kN·m
+M_B = M*a*(2 - 3*a/l)/l'kN·m
+'Shear
+V = 6*M*a*b/l^3'kN
+'Bending at mid-span
+M_a = V*a - M_A'kN·m
+M_b = V*b - M_B'kN·m
+'<p><b>Diagrams</b></p>
+#hide
+PlotWidth = 600
+PlotHeight = 150
+#show
+'Calculate internal forces at'x_1 = ?'m
+#pre
+
+#post
+'Bending
+M(x) = M_A - V*x + M*(x > a)
+$Plot{-M(x) @ x = 0 : l}
+M(x_1)'kN·m
+'Shear
+V(x) = -V
+$Plot{V(x) @ x = 0 : l}
+V(x_1)'kN
+#show
+'</div>10	10	4	1

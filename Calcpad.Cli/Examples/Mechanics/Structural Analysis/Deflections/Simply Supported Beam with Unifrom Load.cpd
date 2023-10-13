@@ -1,0 +1,23 @@
+"Deflection and Rotation of Simply Supported Beam with Uniformly Distributed Load
+'<hr/><div style = "max-width: 180mm;">
+'<img style="width:165pt;" class="side" src="https://calcpad.eu/media/mechanics/beams/deflection-simply-supported-beam-distributed-load.png" alt="deflection-simply-supported-beam-distributed-load.png">
+'Beam length - 'l = ?'m
+'Load - 'q = ?'kN/m
+'Second moment of area - 'I = ?'cm<sup>4</sup>
+'Modulus of elasticity - 'E = ?'GPa
+'Functions of rotation and deflection along the beam
+EI = E*I*0.01
+φ(x) = q/EI*(x^3/6 - l*x^2/4 + l^3/24)
+d(x) = q/EI*(x^4/24 - l*x^3/12 + l^3/24*x)
+#hide
+PlotWidth = 600
+PlotHeight = 150
+#show
+$Plot{-d(x)*10^3 @ x = 0 : l}
+'Maximum deflection
+d_max = d(l/2)*10^3'mm
+'Maximum rotation
+φ_max = φ(0)*10^3'rad·10³
+'Calculate deflection at'x = ?'m
+d(x)*10^3'mm
+'</div>6	30	160000	30	3

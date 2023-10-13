@@ -1,0 +1,43 @@
+"Fully Restrained Beam with Linearly Distributed Load
+'<div style="max-width:180mm;">
+'<hr /><img style="width:210pt;" alt="fixed-beam-distributed-load-linear.png" class="side" src="https://calcpad.eu/media/mechanics/beams/fixed-beam-distributed-load-linear.png">
+'<p><b>Input data</b></p>
+'Beam Length -'l = ?'m
+'Load -'q_1 = ?'kN/m,'q_2 = ?'kN/m
+Δq = q_2 - q_1'kN/m
+#post
+'<p><b>Internal forces</b></p>
+'Bending at supports
+M_A = (3*q_1 + 2*q_2)*l^2/60'kN·m
+M_B = (2*q_1 + 3*q_2)*l^2/60'kN·m
+'Shear
+V_A = l/20*(7*q_1 + 3*q_2)'kN
+V_B = l/20*(3*q_1 + 7*q_2)'kN
+'Bending at mid-span
+#if '<!--'Δq ≡ 0'-->'
+	x_max = l/2'm
+#else
+	x_max = l*(sqr(q_1^2 + 2*V_A*Δq/l) - q_1)/Δq'm
+#end if
+M_max = V_A*x_max - (3*l*q_1 + Δq*x_max)*x_max^2/(6*l) - M_A'kN·m
+'<p><b>Diagrams</b></p>
+#hide
+PlotWidth = 600
+PlotHeight = 150
+#show
+'Calculate internal forces at'x_1 = ?'m
+#pre
+
+
+#post
+q(x) = q_1 + Δq*x/l
+'Bending
+M(x) = -M_A + V_A*x - (2*q_1 + q(x))*x^2/6
+$Plot{-M(x) @ x = 0 : l}
+M(x_1)'kN·m
+'Shear
+V(x) = V_A - (q_1 + q(x))*x/2
+$Plot{V(x) @ x = 0 : l}
+V(x_1)'kN
+#show
+'</div>10	5	10	1
