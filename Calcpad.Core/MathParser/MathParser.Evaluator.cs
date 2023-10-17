@@ -320,11 +320,11 @@ namespace Calcpad.Core
             {
                 if (t.Type == TokenTypes.Unit)
                 {
-                    var vv = t is ValueToken vt ? 
+                    return EvaluatePercent(
+                        t is ValueToken vt ?
                         vt.Value :
-                        ((VariableToken)t).Variable.Value;
-
-                    return EvaluatePercent(vv);
+                        ((VariableToken)t).Variable.ValueByRef()
+                        );
                 }
                 if (t.Type == TokenTypes.Variable)
                     return EvaluateVariableToken((VariableToken)t);
@@ -342,11 +342,11 @@ namespace Calcpad.Core
                 {
                     if (_parser._isSolver == 0)
                         _parser._hasVariables = true;
-                    var vv = v.Value;
-                    if (vv.Units is null)
-                        return vv;
+                    ref var value = ref v.ValueByRef();
+                    if (value.Units is null)
+                        return value;
 
-                    return EvaluatePercent(vv);
+                    return EvaluatePercent(value);
                 }
                 try
                 {
@@ -368,13 +368,13 @@ namespace Calcpad.Core
             {    
                 if (v.Units is not null && v.Units.IsDimensionless)
                 {
-                    var c = v.Units.Text[0];
-                    if (c == '%')
-                        return new Value(v.Complex * 0.01);
-
-                    if (c == '‰')
-                        return new Value(v.Complex * 0.001);
-                } 
+                    return v.Units.Text[0] switch
+                    {
+                        '%' => new Value(v.Complex * 0.01),
+                        '‰' => new Value(v.Complex * 0.001),
+                        _ => v
+                    };   
+                }
                 return v;
             }
 

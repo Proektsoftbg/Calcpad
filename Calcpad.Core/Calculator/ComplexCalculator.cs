@@ -6,7 +6,7 @@ namespace Calcpad.Core
     {
         private static readonly Func<Value, Value, Value>[] Operators;
         private readonly Func<Value, Value>[] _functions;
-        private static readonly Func<Value, Value, Value>[] Functions2;
+        private readonly Func<Value, Value, Value>[] Functions2;
         private static readonly Func<Value[], Value>[] MultiFunctions;
 
         internal override int Degrees
@@ -64,6 +64,16 @@ namespace Calcpad.Core
                 Not,      //43
                 Timer     //44  
             };
+
+            Functions2 = new[]
+{
+                Atan2,
+                Root,
+                Mod,
+                Gcd,
+                Lcm,
+                MandelbrotSet
+            };
         }
 
         static ComplexCalculator()
@@ -87,16 +97,6 @@ namespace Calcpad.Core
                 (a, b) => a | b,
                 (a, b) => a ^ b,
                 (_, b) => b
-            };
-
-            Functions2 = new[]
-            {
-                Atan2,
-                Root,
-                Mod,
-                Gcd,
-                Lcm,
-                MandelbrotSet
             };
 
             MultiFunctions = new[]
@@ -440,11 +440,8 @@ namespace Calcpad.Core
         private static Value Ceiling(Value value) => new(Complex.Ceiling(value.Complex), value.Units);
         private static Value Truncate(Value value) => new(Complex.Truncate(value.Complex), value.Units);
         private static Value Random(Value value) => new(Complex.Random(value.Complex), value.Units);
-        private static Value Atan2(Value a, Value b) =>
-            new(
-                Complex.Atan2(b.Complex * Unit.Convert(a.Units, b.Units, ','), a.Complex),
-                a.Units
-            );
+        private Value Atan2(Value a, Value b) =>
+            ToAngleUnits(Complex.Atan2(b.Complex * Unit.Convert(a.Units, b.Units, ','), a.Complex));
 
         private static bool AreAllReal(Value[] v)
         {
@@ -455,7 +452,6 @@ namespace Calcpad.Core
             }
             return true;
         }
-
 
         private new static Value Min(Value[] v) =>
             AreAllReal(v) ?

@@ -83,7 +83,7 @@ namespace Calcpad.Core
         internal double ModAB(double left, double right, double target, out double err)
         {
             err = 0;
-            var u = Variable.Value.Units;
+            var u = Variable.ValueByRef().Units;
             double x1 = Math.Min(left, right), y1 = Fd(x1) - target;
             if (Math.Abs(y1) <= Precision)
             {
@@ -265,7 +265,7 @@ namespace Calcpad.Core
                 var y = Fd((left + right) / 2.0);
                 area = (right - left) * y * k;
             }
-            var u = Variable.Value.Units;
+            var u = Variable.ValueByRef().Units;
             if (u is null)
                 return area;
 
@@ -412,7 +412,7 @@ namespace Calcpad.Core
                 h2 = h;
                 h = h2 / 2.0;
             }
-            var u = Variable.Value.Units;
+            var u = Variable.ValueByRef().Units;
             double slope = err > maxErr ? double.NaN : r[0];
             if (u is null)
                 return slope;
