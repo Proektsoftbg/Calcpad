@@ -104,7 +104,6 @@ namespace Calcpad.Wpf
         private bool _isSaving;
         private bool _isSaved;
         private bool _isTextChangedEnabled;
-        private Task _parseTask;
         private bool _isParsing;
         private readonly double _inputHeight;
         private bool _mustPromptUnlock;
