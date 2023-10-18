@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Calcpad.Core
 {
@@ -320,8 +321,7 @@ namespace Calcpad.Core
             {
                 if (t.Type == TokenTypes.Unit)
                 {
-                    return EvaluatePercent(
-                        t is ValueToken vt ?
+                    return EvaluatePercent(t is ValueToken vt ?
                         vt.Value :
                         ((VariableToken)t).Variable.ValueByRef()
                         );
@@ -342,11 +342,8 @@ namespace Calcpad.Core
                 {
                     if (_parser._isSolver == 0)
                         _parser._hasVariables = true;
-                    ref var value = ref v.ValueByRef();
-                    if (value.Units is null)
-                        return value;
 
-                    return EvaluatePercent(value);
+                    return EvaluatePercent(v.ValueByRef());
                 }
                 try
                 {
@@ -364,6 +361,7 @@ namespace Calcpad.Core
                 }
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static Value EvaluatePercent(in Value v)
             {    
                 if (v.Units is not null && v.Units.IsDimensionless)
