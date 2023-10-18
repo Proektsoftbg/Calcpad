@@ -90,12 +90,8 @@ namespace Calcpad.Core
         public static Value operator *(Value a, Value b)
         {
             if (a.Units is null)
-            {
-                if (b.Re == 1d)
-                    return new(a.Re, b.Units);
-
                 return new(a.Re * b.Re, b.Units);
-            }
+            
             var uc = Unit.Multiply(a.Units, b.Units, out var d);
             return new(a.Re * b.Re * d, uc);
         }
@@ -103,12 +99,8 @@ namespace Calcpad.Core
         public static Value Multiply(Value a, Value b)
         {
             if (a.Units is null)
-            {
-                if (b.Re == 1d)
-                    return new(a.Re, b.Units);
-
                 return new(a.Re * b.Re, b.Units);
-            }
+            
             var uc = Unit.Multiply(a.Units, b.Units, out var d, b.IsUnit);
             var isUnit = a.IsUnit && b.IsUnit && uc is not null;
             return new(a.Re * b.Re * d, uc, isUnit);
