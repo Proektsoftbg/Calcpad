@@ -7,7 +7,7 @@ namespace Calcpad.Core
     {
         private static readonly Func<Value, Value, Value>[] Operators;
         private readonly Func<Value, Value>[] _functions;
-        private static readonly Func<Value, Value, Value>[] Functions2;
+        private readonly Func<Value, Value, Value>[] Functions2;
         private static readonly Func<Value[], Value>[] MultiFunctions;
         internal override int Degrees
         {
@@ -64,6 +64,16 @@ namespace Calcpad.Core
                 Not,      //43
                 Timer     //44
             };
+
+            Functions2 = new[]
+            {
+                Atan2,
+                UnitRoot,
+                Mod,
+                Gcd,
+                Lcm,
+                MandelbrotSet
+            };
         }
 
         static RealCalculator()
@@ -87,16 +97,6 @@ namespace Calcpad.Core
                 (a, b) => a | b,
                 (a, b) => a ^ b,
                 (_, b) => b
-            };
-
-            Functions2 = new[]
-            {
-                Atan2,
-                UnitRoot,
-                Mod,
-                Gcd,
-                Lcm,
-                MandelbrotSet
             };
 
             MultiFunctions = new[]
@@ -405,10 +405,8 @@ namespace Calcpad.Core
         private static Value Random(Value value) =>
             new(Complex.RealRandom(value.Re), value.Units);
 
-        private static Value Atan2(Value a, Value b) =>
-            new(
-                Math.Atan2(b.Re * Unit.Convert(a.Units, b.Units, ','), a.Re)
-            );
+        private Value Atan2(Value a, Value b) =>
+            ToAngleUnits(Math.Atan2(b.Re * Unit.Convert(a.Units, b.Units, ','), a.Re));
 
         private static Value Sum(Value[] v)
         {

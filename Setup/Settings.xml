@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Math>
+    <Decimals>6</Decimals>
+    <Degrees>0</Degrees>
+    <IsComplex>false</IsComplex>
+    <Substitute>true</Substitute>
+    <FormatEquations>true</FormatEquations>
+  </Math>
+  <Plot>
+    <IsAdaptive>true</IsAdaptive>
+    <ScreenScaleFactor>2</ScreenScaleFactor>
+    <ImagePath />
+    <ImageUri />
+    <VectorGraphics>false</VectorGraphics>
+    <ColorScale>Rainbow</ColorScale>
+    <SmoothScale>false</SmoothScale>
+    <Shadows>true</Shadows>
+    <LightDirection>NorthWest</LightDirection>
+  </Plot>
+  <Units>m</Units>
+</Settings>

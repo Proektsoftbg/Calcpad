@@ -35,7 +35,7 @@ namespace Calcpad.Core
                 if (!_variables.TryGetValue("Precision", out var v))
                     return 1e-14;
 
-                var precision = v.Value.Re;
+                var precision = v.ValueByRef().Re;
                 return precision switch
                 {
                     < 1e-15 => 1e-15,
@@ -56,9 +56,9 @@ namespace Calcpad.Core
         }
         internal bool ShowWarnings { get; set; } = true;  
         public int Degrees { set => _calc.Degrees = value; }
-        internal int PlotWidth => _variables.TryGetValue("PlotWidth", out var v) ? (int)v.Value.Re : 500;
-        internal int PlotHeight => _variables.TryGetValue("PlotHeight", out var v) ? (int)v.Value.Re : 300;
-        internal int PlotStep => _variables.TryGetValue("PlotStep", out var v) ? (int)v.Value.Re : 0;
+        internal int PlotWidth => _variables.TryGetValue("PlotWidth", out var v) ? (int)v.ValueByRef().Re : 500;
+        internal int PlotHeight => _variables.TryGetValue("PlotHeight", out var v) ? (int)v.ValueByRef().Re : 300;
+        internal int PlotStep => _variables.TryGetValue("PlotStep", out var v) ? (int)v.ValueByRef().Re : 0;
 
         public const char DecimalSymbol = '.'; //CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator[0];
         internal Complex Result { get; private set; }
@@ -101,7 +101,7 @@ namespace Calcpad.Core
 
         public void SetVariable(string name , double value) => SetVariable(name, new Value(value));   
         
-        internal void SetVariable(string name, Value value)
+        internal void SetVariable(string name, in Value value)
         {
             if (_variables.TryGetValue(name, out Variable v))
                 v.Assign(value);
@@ -213,7 +213,7 @@ namespace Calcpad.Core
             {
                 //CompileBlocks();
                 if (_variables.TryGetValue("ReturnAngleUnits", out var v))
-                    _calc.ReturnAngleUnits = v.Value.Re != 0.0;
+                    _calc.ReturnAngleUnits = v.ValueByRef().Re != 0.0;
                 else
                     _calc.ReturnAngleUnits = false;
 

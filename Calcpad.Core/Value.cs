@@ -91,7 +91,7 @@ namespace Calcpad.Core
         {
             if (a.Units is null)
                 return new(a.Re * b.Re, b.Units);
-
+            
             var uc = Unit.Multiply(a.Units, b.Units, out var d);
             return new(a.Re * b.Re * d, uc);
         }
@@ -100,7 +100,7 @@ namespace Calcpad.Core
         {
             if (a.Units is null)
                 return new(a.Re * b.Re, b.Units);
-
+            
             var uc = Unit.Multiply(a.Units, b.Units, out var d, b.IsUnit);
             var isUnit = a.IsUnit && b.IsUnit && uc is not null;
             return new(a.Re * b.Re * d, uc, isUnit);
