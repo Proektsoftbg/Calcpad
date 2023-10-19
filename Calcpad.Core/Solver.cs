@@ -57,7 +57,7 @@ namespace Calcpad.Core
         {
             Variable.SetNumber(x);
             var value = Function();
-            Units ??= value.Units;
+            Units = value.Units;
 
             if (IsComplex && !value.IsReal)
                 Throw.CannotEvaluateFunctionException(x.ToString(CultureInfo.InvariantCulture));
@@ -72,7 +72,7 @@ namespace Calcpad.Core
         {
             Variable.SetNumber(x);
             var value = Function();
-            Units ??= value.Units;
+            Units = value.Units;
 
             if (double.IsNaN(value.Re) && double.IsNaN(value.Im))
                 Throw.CannotEvaluateFunctionException(x.ToString());
@@ -83,7 +83,7 @@ namespace Calcpad.Core
         internal double ModAB(double left, double right, double target, out double err)
         {
             err = 0;
-            var u = Variable.Value.Units;
+            var u = Variable.ValueByRef().Units;
             double x1 = Math.Min(left, right), y1 = Fd(x1) - target;
             if (Math.Abs(y1) <= Precision)
             {
@@ -177,7 +177,6 @@ namespace Calcpad.Core
 
         internal double Root(double left, double right, double target)
         {
-            Units = null;
             var x = ModAB(left, right, target, out var err);
             var eps = Math.Sqrt(Precision);
             if (target != 0)
@@ -189,11 +188,7 @@ namespace Calcpad.Core
             return x;
         }
 
-        internal double Find(double left, double right)
-        {
-            Units = null;
-            return ModAB(left, right, 0.0, out _);
-        }
+        internal double Find(double left, double right) => ModAB(left, right, 0.0, out _);
 
         internal double Sup(double left, double right) => Extremum(left, right, false);
 
@@ -217,7 +212,6 @@ namespace Calcpad.Core
             var x4 = x1 + k * (x2 - x1);
             var eps = Precision * (Math.Abs(x3) + Math.Abs(x4)) / 2.0;
             var tol2 = Precision * Precision;
-            Units = null;
             while (x2 - x1 > eps)
             {
                 var y3 = Fd(x3);    
@@ -252,7 +246,6 @@ namespace Calcpad.Core
                 (left, right) = (right, left);
                 k = -1d;
             }
-            Units = null;
             if (right - left > 1e-14 * (Math.Abs(left) + Math.Abs(right)))
             {
                 if (QuadratureMethod == QuadratureMethods.AdaptiveLobatto)
@@ -265,7 +258,7 @@ namespace Calcpad.Core
                 var y = Fd((left + right) / 2.0);
                 area = (right - left) * y * k;
             }
-            var u = Variable.Value.Units;
+            var u = Variable.ValueByRef().Units;
             if (u is null)
                 return area;
 
@@ -282,7 +275,6 @@ namespace Calcpad.Core
         private double _eps = 1e-14;
         private double AdaptiveLobatto(double left, double right)
         {
-            Units = null;
             _eps = Math.Clamp(Precision, 1e-14, 1e-4) / 2d;
             //Integration must be slightly more precise than differentiation, if used together
             return Lobatto(left, right, Fd(left), Fd(right), 1);
@@ -386,7 +378,6 @@ namespace Calcpad.Core
             var h2 = 2.0 * h;
             var r = new double[n];
             var err = delta / 2.0;
-            Units = null;
             for (int i = 0; i < n; ++i)
             {
                 var x1 = x - h;
@@ -412,7 +403,7 @@ namespace Calcpad.Core
                 h2 = h;
                 h = h2 / 2.0;
             }
-            var u = Variable.Value.Units;
+            var u = Variable.ValueByRef().Units;
             double slope = err > maxErr ? double.NaN : r[0];
             if (u is null)
                 return slope;
@@ -431,7 +422,6 @@ namespace Calcpad.Core
         {
             GetBounds(start, end, out var n1, out var n2);
             var number = 0.0;
-            Units = null;
             for (int i = n1; i <= n2; ++i)
             {
                 number = Fd(i);
@@ -446,24 +436,23 @@ namespace Calcpad.Core
             GetBounds(start, end, out var n1, out var n2);
             var sum = Fd(n1);
             var units = Units;
-            var hasUnits = units is not null;
             n1++;
-            Units = null;
             // Variable to store the error for the Kahan summation algorithm
             var c = 0d;
             for (int i = n1; i <= n2; ++i)
             {
                 var d = Fd(i);
+                if (!ReferenceEquals(units, Units))
+                {
+                    CheckUnits(units);
+                    d *= Units.ConvertTo(units);   
+                }
                 //Kahan summation algorithm
                 var y = d - c;
                 var t = sum + y;
                 c = (t - sum) - y;
                 sum = t;
                 //End 
-
-                if (hasUnits)
-                    CheckUnits(units);
-
                 if (double.IsInfinity(sum))
                     break;
             }
@@ -485,13 +474,14 @@ namespace Calcpad.Core
             var units = Units;
             var hasUnits = units is not null;
             n1++;
-            Units = null;
             for (int i = n1; i <= n2; ++i)
             {
                 number *= Fd(i);
                 if (hasUnits && Units is not null)
+                {
+                    number *= Unit.GetProductOrDivisionFactor(units, Units);
                     units *= Units;
-
+                }
                 if (double.IsInfinity(number))
                     break;
             }
@@ -503,7 +493,6 @@ namespace Calcpad.Core
         {
             GetBounds(start, end, out var n1, out var n2);
             var number = new Complex(0.0);
-            Units = null;
             for (int i = n1; i <= n2; ++i)
             {
                 number = Fc(i);
@@ -518,24 +507,23 @@ namespace Calcpad.Core
             GetBounds(start, end, out var n1, out var n2);
             var sum = Fc(n1);
             var units = Units;
-            var hasUnits = units is not null;
             n1++;
-            Units = null;
             // Variable to store the error for the Kahan summation algorithm
             var c = Complex.Zero;
             for (int i = n1; i <= n2; ++i)
             {
                 var d = Fc(i);
+                if (!ReferenceEquals(units, Units))
+                {
+                    CheckUnits(units);
+                    d *= Units.ConvertTo(units);
+                }
                 //Kahan summation algorithm
                 var y = d - c;
                 var t = sum + y;
                 c = (t - sum) - y;
                 sum = t;
                 //End 
-
-                if (hasUnits)
-                    CheckUnits(units);
-
                 if (IsInfinity(sum))
                     break;
             }
@@ -550,13 +538,14 @@ namespace Calcpad.Core
             var units = Units;
             var hasUnits = units is not null;
             n1++;
-            Units = null;
             for (int i = n1; i <= n2; ++i)
             {
                 number *= Fc(i);
                 if (hasUnits && Units is not null)
+                {
+                    number *= Unit.GetProductOrDivisionFactor(units, Units);
                     units *= Units;
-
+                }
                 if (IsInfinity(number))
                     break;
             }

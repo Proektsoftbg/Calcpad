@@ -216,7 +216,6 @@ namespace Calcpad.Core
 
                     return Expression.Field(Expression.Constant(v), "Value");
                 }
-
                 try
                 {
                     var u = Unit.Get(t.Content);

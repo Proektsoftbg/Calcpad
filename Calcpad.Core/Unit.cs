@@ -950,24 +950,25 @@ namespace Calcpad.Core
             if (divide)
             {
                 for (int i = 0; i < n; ++i)
-                    if (u1._powers[i] != 0f && u2._powers[i] != 0f && u1._factors[i] != u2._factors[i])
+                    if (u1._powers[i] != 0f && u2._powers[i] != 0f)
                         factor *= MyPow(u1._factors[i] / u2._factors[i], u2._powers[i]);
             }
             else
             {
                 for (int i = 0; i < n; ++i)
-                    if (u1._powers[i] != 0f && u2._powers[i] != 0f && u1._factors[i] != u2._factors[i])
+                    if (u1._powers[i] != 0f && u2._powers[i] != 0f)
                         factor *= MyPow(u2._factors[i] / u1._factors[i], u2._powers[i]);
             }
             return factor;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static double MyPow(double x, float y) => y switch
         {
             -3f => 1d / (x * x * x),
             -2f => 1d / (x * x),
             -1f => 1d / x,
-            0f => 1f,
+            0f => 1d,
             1f => x,
             2f => x * x,
             3f => x * x * x,
@@ -1042,7 +1043,7 @@ namespace Calcpad.Core
             var factor = 1d;
             for (int i = 0, n = Length; i < n; ++i)
             {
-                if (_powers[i] != 0f && _factors[i] != u._factors[i])
+                if (_powers[i] != 0f)
                     factor *= MyPow(_factors[i] / u._factors[i], _powers[i]);
             }
             return factor;
