@@ -41,10 +41,10 @@ sudo apt-get install sublime-text
 ```
 Then, goto https://github.com/Proektsoftbg/Calcpad/tree/main/Setup/Linux/Sublime and download the following files:
 
-calcpad.sublime-build<br/>
-calcpad.sublime-completions<br/>
-calcpad.sublime-syntax<br/>
-Monokai.sublime-color-scheme
+> calcpad.sublime-build<br/>
+> calcpad.sublime-completions<br/>
+> calcpad.sublime-syntax<br/>
+> Monokai.sublime-color-scheme
 
 Copy them to the Sublime Text user package folder:
 
