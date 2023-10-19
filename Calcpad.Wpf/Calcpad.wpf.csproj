@@ -17,7 +17,6 @@
     <PackageId>Calcpad</PackageId>
     <Product>Calcpad</Product>
     <AssemblyName>Calcpad</AssemblyName>
-    <NoWin32Manifest>true</NoWin32Manifest>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
 
