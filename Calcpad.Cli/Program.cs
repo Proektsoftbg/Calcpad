@@ -175,7 +175,9 @@ namespace Calcpad.Cli
                             }
                             else
                             {
-                                if (Execute("nano", AppPath + "Settings.xml"))
+                                var settingsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) +
+                                                   $".config{_dirSeparator}calcpad{_dirSeparator}Settings.xml";
+                                if (Execute("/bin/bash", $"-c \"nano {settingsPath}\""))
                                 {
                                     settings = GetSettings();
                                     mp = new(settings.Math);
