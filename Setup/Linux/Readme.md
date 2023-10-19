@@ -25,10 +25,13 @@ And that's it. You can start the Calcpad command line interpreter (CLI) by simpl
 calcpad
 ```
 You can use it to perform calculations in console mode:
+
 ![Cli](https://github.com/Proektsoftbg/Calcpad/blob/main/Setup/Linux/Images/Cli.png)
+
 The Linux version does not include any GUI yet, but you can use some advanced code editors like Notepad++ and Sublime to write Calcpad code and Chromium to view the results.
 Instructions how to install Sublime Text on Linux are provided here:
 https://www.sublimetext.com/docs/linux_repositories.html
+
 For Ubuntu, you can use the following commands:
 ```
 wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/sublimehq-archive.gpg > /dev/null
@@ -39,11 +42,15 @@ sudo apt-get install sublime-text
 Then, goto https://github.com/Proektsoftbg/Calcpad/tree/main/Setup/Linux/Sublime and download the following files:
 
 calcpad.sublime-build
+
 calcpad.sublime-completions
+
 calcpad.sublime-syntax
+
 Monokai.sublime-color-scheme
 
 Copy them to the Sublime Text user package folder:
+
 /home/&lt;user&gt;/.config/sublime-text/Packages/User
 
 Here, &lt;user&gt; must be your actual user name.
@@ -52,5 +59,6 @@ subl &
 chromium
 
 Put them side to side. Start a new *.cpd file in Sublime Text or open an example from the /home/&lt;user&gt;/Calcpad folder.
-Press Ctrl+B to calculate. The results will show in Chromium.
+Press Ctrl+B to calculate. If everything is OK, the results will show in Chromium:
+
 ![Sublime+Chromium](https://github.com/Proektsoftbg/Calcpad/blob/main/Setup/Linux/Images/Sublime+Chromium.png)
