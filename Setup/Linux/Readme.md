@@ -5,21 +5,22 @@ Use the following command to install .NET 7.0 runtime:
 ```
 sudo apt-get install -y dotnet-runtime-7.0
 ```
-2. If you do not have Chromium installed, you will need it to download Calcpad and view the reposts after calculations. Install it with the following command:
+2. If you do not have Chromium installed, you will need it to download Calcpad and view the reports after calculation. Install it with the following command:
 ```
 sudo snap install chromium
 ```
 3. Download the Calcpad setup package from the following link:
 https://github.com/Proektsoftbg/Calcpad/blob/main/Setup/Linux/Calcpad.6.1.7.deb
-Install Calcpad, using the following command:
+
+Then, install Calcpad, using the following command:
 ```
 sudo apt-get install -y <path to your 'downloads' folder>/Calcpad.6.1.7.deb
 ```
-Instead of `<path to your 'downloads' folder>` you have to put the actual path, something like:
+Instead of `<path to your 'downloads' folder>` you must put the actual path, something like:
 ```
 sudo apt-get install -y /home/ned/snap/chromium/2666/Downloads/Calcpad.6.1.7.deb
 ```
-And that 's it. You can start the command line interpreter (CLI) by simply typing:
+And that's it. You can start the Calcpad command line interpreter (CLI) by simply typing:
 ```
 calcpad
 ```
