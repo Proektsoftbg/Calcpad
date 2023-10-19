@@ -46,9 +46,7 @@ Then, goto https://github.com/Proektsoftbg/Calcpad/tree/main/Setup/Linux/Sublime
 > calcpad.sublime-syntax<br/>
 > Monokai.sublime-color-scheme
 
-Copy them to the Sublime Text user package folder:
-
-/home/&lt;user&gt;/.config/sublime-text/Packages/User
+Copy them to the Sublime Text user package folder: /home/&lt;user&gt;/.config/sublime-text/Packages/User
 
 Here, &lt;user&gt; must be your actual user name.
 Finally, you can open Sublime Text and Chromium with the following commands:
