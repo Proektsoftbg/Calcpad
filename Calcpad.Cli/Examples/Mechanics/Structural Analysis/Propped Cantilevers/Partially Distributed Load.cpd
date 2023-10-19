@@ -1,0 +1,38 @@
+"Propped Cantilever with Partially Distributed Load
+'<hr /><div style="max-width:180mm;">
+'<img style="width:210pt;" alt="propped-cantilever-beam-distributed-load-p.png" class="side" src="https://calcpad.eu/media/mechanics/beams/propped-cantilever-beam-distributed-load-p.png">
+'<p><b>Input data</b></p>
+'Beam Length -'l = ?'m
+'Load -'q = ?'kN/m
+'Distances -'a = ?'m,'b = ?'m
+#post
+c = l - a - b'm,
+d = b + c'm, 'e = a + b'm
+'<p><b>Internal forces</b></p>
+'Bending at support
+M_A = q*((l - c^2/l)^2 - (l - d^2/l)^2)/8'kN·m
+'Shear
+V_A = q*b/l*(b/2 + c) + M_A/l'kN
+V_B = q*b - V_A'kN
+'Bending in mid-span
+x_max = V_A/q + a'm
+M_max = V_A*x_max - (x_max - a)^2*q/2 - M_A'kN·m
+'<p><b>Diagrams</b></p>
+#hide
+PlotWidth = 600
+PlotHeight = 150
+#show
+'Calculate internal forces at'x_1 = ?'m
+#pre
+
+#post
+'Bending
+M(x) = -M_A + V_A*x - q*(x - a)^2/2*(x > a) + q*(x - e)^2/2*(x > e)
+$Plot{-M(x) @ x = 0 : l}
+M(x_1)'kN·m
+'Shear
+V(x) = V_A - q*(x - a)*(x > a) + q*(x - e)*(x > e)
+$Plot{V(x) @ x = 0 : l}
+V(x_1)'kN
+#show 
+'</div>10	5	2	6	1

@@ -1,0 +1,11 @@
+"Volume and Surface Area of Rectangular Prism
+'<hr /><div style = "max-width:130mm"><img style="height:65pt;" class="side" alt="rectangular-prism.png" src = "https://calcpad.eu/media/math/volume/rectangular-prism.png"></div>
+'Dimensions of base
+a = ?','b = ?
+'Height
+h = ?
+'Volume
+V = a*b*h
+'Surface area
+S = 2*(a*b + b*h + a*h)
+'3	2	1

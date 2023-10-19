@@ -1,0 +1,84 @@
+"Sample program to check the Collatz conjecture
+CollatzCheck(k; n) = $Repeat{k = switch(k ≡ 1; 1; k⦼2 ≡ 0; k/2; 3*k + 1) @ i = 1 : n}
+
+CollatzCheck(100000000000001; 10000)
+
+CollatzSteps(k; n) = $Repeat{k = switch(k ≡ 1; -1/0; k⦼2 ≡ 0; k/2; 3*k + 1) @ i = 1 : n}
+
+CollatzSteps(100000000000001; 10000)
+
+#def Collatz_Check$(k$; n$)
+#hide
+i = 0
+k_ = k$
+#repeat n$
+i = i + 1
+#if k_ ≡ 1
+#break
+#else if k_⦼2 ≡ 0
+k_ = k_/2
+#else 
+k_ = 3*k_ + 1
+#end if
+#loop
+#show
+#val
+#if k_ ≡ 1
+'Collatz check for <b>'k$'</b> <span class="ok">succeeded</span> after 'i' steps.
+#else
+'Collatz check for <b>'k$'</b> <span class="err">failed</span> after 'n$' steps.
+#end if
+#equ
+#end def
+#def Collatz_Plot$(k$; n$)
+#hide
+i = 0
+k_ = k$
+#show
+#val
+'Collatz check for <b>'k$'</b>:
+'<table>
+'<tr><td>Start -</td><td>&emsp;'k_'</td></tr>
+#repeat n$
+#hide
+i = i + 1
+#show
+#if k_ ≡ 1
+#break
+#else if k_⦼2 ≡ 0
+'<tr><td>/2 =</td><td>&emsp;'k_ = k_/2'</td></tr>
+#else 
+'<tr><td>*3 + 1 =</td><td>&emsp;'k_ = 3*k_ + 1'</td></tr>
+#end if
+#loop
+'</table>
+#if k_ ≡ 1
+'Check <span class="ok">succeeded</span> after 'i' steps.
+#else
+'Check <span class="err">failed</span> after 'n$' steps.
+#end if
+#equ
+#end def
+#def Collatz_Check_Between$(k0$; kn$; n$)
+#hide
+k0 = max(k0$; 1)
+i = k0 - 1
+#repeat kn$ - k0 + 1
+i = i + 1
+k_ = CollatzCheck(i; n$)
+#if k_ ≠ 1
+#break
+#end if
+#loop
+#show
+#val
+#if k_ ≡ 1
+'Collatz check <span class="ok">succeeded</span> for all numbers between 'k0' and 'kn$'.
+#else
+'Collatz check <span class="err">failed</span> for <b>'i'</b> and 'n$' steps.
+#end if
+#equ
+#end def
+Collatz_Check$(100000000000001; 1000)
+Collatz_Plot$(11; 1000)
+Collatz_Check_Between$(2; 100000; 400)

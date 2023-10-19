@@ -1,0 +1,18 @@
+"Area and Arch Length of Circular Sector
+'<hr /><div style="max-width:110mm;"><img style="height:60pt;" class="side" alt="sector-angle.png" src="https://calcpad.eu/media/math/area/sector-angle.png"></div>
+'Radius -'r = ?
+'Angle -'α = ?'&deg;
+'<!--
+#if α ≤ 180
+	'<-->
+	'Area
+	A = π*r^2*α/360
+	'Arch length
+	S = π*r*α/180
+	'<!--
+#else
+	'<-->
+	'Angle must be less or equal to 180 &deg;
+	'<!--
+#end if
+'<-->1	60

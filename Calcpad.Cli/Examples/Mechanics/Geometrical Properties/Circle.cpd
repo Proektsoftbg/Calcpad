@@ -1,0 +1,21 @@
+"Geometrical Properties of Circle
+'<hr /><div style="max-width:120mm"><img style="height:135pt;" alt="circle.png" class="side" src="https://calcpad.eu/media/mechanics/sections/circle.png"></div>
+'Diameter
+d = ?'%u
+'Area
+A = π*d^2/4'%u<sup>2</sup>
+'Centroid
+'<p><i>z</i><sub>c</sub> ='y_c = d/2'%u</p>
+'Perimeter
+P = π*d'%u
+'Second moments of area
+'<p><i>I</i><sub>z</sub> ='I_y = π*d^4/64'%u<sup>4</sup></p>
+'Polar moment of area
+I_x = 2*I_y'%u<sup>4</sup>
+'Radii of gyration
+'<p><i>r</i><sub>z</sub> ='r_y = sqrt(I_y/A)'%u</p>
+r_x = sqr(I_x/A)'%u
+'Torsional constant
+I_t = π*d^4/32'%u<sup>4</sup>
+'Torsional section modulus
+W_t = 2*I_t/d'%u<sup>3</sup>1

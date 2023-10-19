@@ -1,0 +1,9 @@
+"Cantilever with uniformly distributed load
+'<div style = "max-width:180mm;">
+'<hr/><img style="width:165pt;" alt="cantilever-beam-distributed-load-uniform.png" class="side" src="https://calcpad.eu/media/mechanics/beams/cantilever-beam-distributed-load-uniform.png">
+'Beam Length - 'l = ? 'm
+'Load- 'q = ? 'kN/m
+'<p><b>Internal forces</b></p>
+'Bending - 'M = q*l^2/2'kN·m
+'Shear  - 'V = q*l'kN
+'</div>5	5

@@ -1,0 +1,16 @@
+"Lissajous (Oscilloscope) Curve
+'<hr/>
+#hide
+#rad
+PlotHeight = 400
+PlotWidth = 400
+#show
+'Equation:
+x(θ) = sin(a*θ)
+y(θ) = sin(b*θ)
+'Coefficients:'a = ?','b = ?
+#pre
+
+'Tip: Click "<b>Calculate</b>" to see the respective plot.
+#post
+$Plot{x(θ)|y(θ) @ θ = 0 : 2*π}2	3

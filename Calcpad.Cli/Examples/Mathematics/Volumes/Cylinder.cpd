@@ -1,0 +1,14 @@
+"Volume and Surface Area of Cylinder
+'<hr /><div style = "max-width:100mm"><img style="height:55pt;" class="side" alt="cylinder.png" src = "https://calcpad.eu/media/math/volume/cylinder.png"></div>
+'Dimensions
+'Base radius -'r = ?
+'Height -'h = ?
+'Area of base
+A = π*r^2
+'Volume
+V = A*h
+'Area of side surface
+S_o = 2*π*r*h
+'Total surface area
+S = S_o + 2*A
+'1	2

@@ -1,0 +1,22 @@
+"Geometrical Properties of Trapezoid
+'<hr /><div style="max-width:130mm"><img style="height:135pt;" alt="Trapezoid.png" class="side" src="https://calcpad.eu/media/Mechanics/Sections/Trapezoid.png"></div>
+'Dimensions
+a = ?'%u,'b = ?'%u
+'Height
+h = ?'%u
+'Area  
+A = h*(a + b)/2'%u<sup>2</sup>
+'Centroid
+y_c = a/2'%u
+z_c = h*((a + 2*b)/(a + b))/3'%u
+'Perimeter
+P = a + b + 2*sqr(h^2 + (b - a)^2/4)'%u
+'Second moments of area
+I_y = h^3*((a^2 + 4*a*b + b^2)/(a + b))/36'%u<sup>4</sup>
+I_z = h*(a + b)*(a^2 + b^2)/48'%u<sup>4</sup>
+'Polar moment of area
+I_x = I_y + I_z'%u<sup>4</sup>
+'Radii of gyration
+r_y = sqrt(I_y/A)'%u
+r_z = sqrt(I_z/A)'%u
+r_x = sqrt(I_x/A)'%u2	1	1

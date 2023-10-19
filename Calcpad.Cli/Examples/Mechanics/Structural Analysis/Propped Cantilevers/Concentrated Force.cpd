@@ -1,0 +1,35 @@
+"Propped Cantilever with Concentrated Force
+'<hr /><div style="max-width:180mm;">
+'<img style="width:210pt;" alt="propped-cantilever-beam-concentrated-force.png" class="side" src="https://calcpad.eu/media/mechanics/beams/propped-cantilever-beam-concentrated-force.png">
+'<p><b>Input data</b></p>
+'Beam Length -'l = ?'m
+'Load -'F = ?'kN
+'Distances -'a = ?'m,
+#post
+b = l - a'm,'k = b/l
+'<p><b>Internal forces</b></p>
+'Bending
+M_A = F*a*k*(1 + k)/2'kN·m
+M_max = F*b*(2 - 3*k + k^3)/2'kN·m
+'Shear
+V_A = F*k/2*(3 - k^2)'kN
+V_B = F - V_A'kN
+'<p><b>Diagrams</b></p>
+#hide
+PlotWidth = 600
+PlotHeight = 150
+#show
+'Calculate internal forces at'x_1 = ?'m
+#pre
+
+#post
+'Bending
+M(x) = -M_A + V_A*x - F*(x - a)*(x > a)
+$Plot{-M(x) @ x = 0 : l}
+M(x_1)'kN·m
+'Shear
+V(x) = V_A - F*(x > a)
+$Plot{V(x) @ x = 0 : l}
+V(x_1)'kN
+#show
+'</div>10	10	4	1

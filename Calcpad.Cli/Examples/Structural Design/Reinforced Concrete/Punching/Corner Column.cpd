@@ -1,0 +1,140 @@
+"Punching Design of Corner Column<hr/><small>According to <strong>Eurocode</strong>: EN 1992-1-1</small>
+'<div style="max-width:180mm">
+'<img class="side" style="width:225pt;" src="https://calcpad.eu/media/structures/rc/design/punching-corner-column.png" alt="punching-corner-column.png">
+'<h4>Input data</h4>
+'<p><b>Column</b></p>
+'Dimensions - 'c_1 = ?'mm, 'c_2 = ?'mm
+'<p><b>Design loads</b></p>
+'Support reaction -'V_Ed = ?'kN
+'<p><b>Slab</b></p>
+'Depth -'h = ?'mm
+'Concrete cover -'c = ?'mm
+'Longitudinal bars diameter -'d_bL = ?'mm
+'Links diameter -'d_w = ?'mm
+#post
+'Effective slab depth
+d = h - c - d_bL'mm
+#show
+'Longitudinal reinforcement area
+A_sx = ?'mm²/m, 'A_sy = ?'mm²/m
+#post
+'Reinforcement ratio
+ρ_lx = A_sx/(1000*d)
+ρ_ly = A_sy/(1000*d)
+ρ_l = sqr(ρ_lx*ρ_ly)
+#show
+'<p><b>Material properties</b></p>
+'<p><b>Concrete</b> [EN 1992-1-1, <a target="_blank" href="https://calcpad.eu/reference/concrete-table.html">Table 3.1</a>]</p>
+'Characteristic compressive cylinder strength -'f_ck = ?'MPa
+'Partial safety factor for concrete -'γ_c = 1.5','α_cc = ?
+#post
+'Design compressive cylinder strength -'f_cd = α_cc*f_ck/γ_c'MPa
+#show
+'<p><b>Steel</b></p>
+'Characteristic yield strength -'f_yk = ?'MPa
+#post
+'Partial safety factor for steel -'γ_s = 1.15
+'Design yield strength -'f_ywd = f_yk/γ_s'MPa
+#show
+'</td></tr></table>
+#post
+'Basic control perimeter length
+u_1 = c_1 + c_2 + π*d'mm
+'<p class="ref">[EN 1992-1-1, Figure 6.21N]</p>
+'<p><b>β factor</b> -'β = 1.50'</p>
+'<div class="fold">
+'<h4>Punching shear resistance without reinforcement</h4>
+k = min(1 + sqr(200/d);2)
+C_Rd_c = 0.18/γ_c
+'<p class="ref">[EN 1992-1-1 (6.47)]</p>
+'Punching shear resistance
+v_Rd_c_ = C_Rd_c*k*(100*ρ_l*f_ck)^(1/3)'MPa
+'<p class="ref">[EN 1992-1-1 (6.2b)]</p>
+'Minimum shear resistance 
+v_min = 0.035*k^(3/2)*sqr(f_ck)'MPa
+v_Rd_c = max(v_min;v_Rd_c_)'MPa
+'<p class="ref">[EN 1992-1-1 (6.38)]</p>
+'Design shear stress
+v_Ed = β*V_Ed*10^3/(u_1*d)'MPa
+'</div>
+'<p class="ref">[EN 1992-1-1, §6.4.3 (2,b)]</p>
+#if v_Ed ≤ v_Rd_c
+	v_Ed'MPa &le; 'v_Rd_c'MPa. Shear reinforcement is NOT required.
+#else
+	v_Ed'MPa &gt;'v_Rd_c'MPa. Shear reinforcement is required.
+	'<div class="fold">
+	'<h4>Check at column edge</h4>
+	'Column perimeter
+	u_0 = min(c_1 + c_2;3*d)'mm
+	'<p class="ref">[EN 1992-1-1 (6.53)]</p>
+	'Punching shear resistance at column edge
+	v_Ed_max = β*V_Ed*10^3/(u_0*d)'MPa
+	'Maximum punching shear stress
+	ν = 0.6*(1 - f_ck/250)
+	'<p class="ref">[BS EN 1992-1-1, Table NA.1, §6.4.5 (3)]</p>
+	v_Rd_max = 0.5*ν*f_cd'MPa
+	'</div>
+	'<p class="ref">[EN 1992-1-1, §6.4.3 (2,a)]</p>
+	#if v_Ed_max ≤ v_Rd_max
+		v_Ed_max' MPa &le; 'v_Rd_max'MPa. Design check is satisfied.
+	#else
+		'<p class="err">'v_Ed_max' MPa &gt; 'v_Rd_max'MPa. Design check is NOT satisfied!</p>
+		'<p class="err">Increase slab thickness, column dimensions or concrete grade.</p>
+	#end if
+	'<p class="ref">[BS EN 1992-1-1, Table NA.1, §6.4.5 (3)]</p>
+	'Limitation of punching stress at basic control perimeter
+	#if v_Ed ≤ 2*v_Rd_c
+		v_Ed' MPa &le; '2*v_Rd_c'MPa. Design check is satisfied.
+	#else
+		'<p class="err">'v_Ed' MPa &gt; '2*v_Rd_c'MPa. Design check is NOT satisfied!</p>
+	#end if
+	'<div class="fold">
+	'<h4>Punching resistance with shear reinforcement</h4>
+	'Effective yield strength of shear reinforcement	
+	f_ywd_ef = min(250 + 0.25*d;f_ywd)'MPa
+	'Area of one shear link
+	A_sw_1 = π*d_w^2/4'mm²
+	'<p class="ref">[EN 1992-1-1, §9.4.3 (1)]</p>
+	'Radial link spacing - 's_r = 0.75*d'mm
+	'Required shear reinforcement
+	A_sw_req = (v_Ed - 0.75*v_Rd_c)*u_1*s_r/(1.5*f_ywd_ef)'mm²
+	'Tangential link spacing - 's_t = floor(u_1*A_sw_1/A_sw_req)'mm
+	'<p class="ref">[EN 1992-1-1, §9.4.3 (1)]</p>
+	#if s_t ≤ 1.5*d
+		'Check:'s_t'mm &le; '1.5*d'mm. Check is satisfied.
+	#else
+		'Check:'s_t'mm &gt;'1.5*d'mm. 
+		'<p class="err">Distance exceeds the maximum value.</p>
+		'Accepted value: 's_t = 1.5*d'mm
+	#end if
+	'<p class="ref">[EN 1992-1-1, §9.4.3 (2)]</p>
+	'Minimum shear reinforcement
+	A_sw_min = 0.08*sqr(f_ck)/f_yk*s_r*s_t/1.5'mm²
+	#if A_sw_1 ≥ A_sw_min
+		A_sw_1'mm² &ge;'A_sw_min'mm². The calculated reinforcement is greater than the minimum.
+	#else
+		'<p class="err">'A_sw_1'mm² &lt;'A_sw_min'mm². The calculated reinforcement is lower than the minimum!</p>
+	#end if
+	'</div>
+	'Total shear reinforcement for each perimeter
+	A_sw = A_sw_1*u_1/s_t'mm²
+	'<p class="ref">[EN 1992-1-1 (6.52)]</p>
+	'Punching resistance with shear reinforcement
+	v_Rd_cs = 0.75*v_Rd_c + 1.5*d/s_r*A_sw*f_ywd_ef/(u_1*d)
+	#if v_Ed ≤ v_Rd_cs
+		v_Ed'MPa &le;'v_Rd_cs'MPa. Check is satisfied!
+		'<p class="ref">[EN 1992-1-1 (6.54)]</p>
+		'Outer control perimeter at which shear reinforcement is not required
+		u_out = β*V_Ed*10^3/(v_Rd_c*d)'mm
+		'Distance to outer control perimeter
+		a_out = 2*(u_out - c_1 - c_2)/π'mm
+		'Required number of perimeters
+		n = ceiling(max((a_out - 2*d)/(0.75*d) + 1;2))
+	#else
+		'<p class="err">'v_Ed'MPa &gt;'v_Rd_cs'MPa. Check is NOT satisfied. Increase shear reinforcement area.</p>
+	#end if
+	'<img style="width:225pt;" style="display:inline;" src="https://calcpad.eu/media/structures/rc/design/punching-corner-column-reinf-plan.png" alt="punching-corner-column-reinf-plan.png">
+	'<img style="width:195pt;" src="https://calcpad.eu/media/structures/rc/design/punching-corner-column-reinf-section.png" alt="punching-corner-column-reinf-section.png">
+#end if
+#show
+'</div>600	300	125	200	20	10	6	1200	600	25	1	500

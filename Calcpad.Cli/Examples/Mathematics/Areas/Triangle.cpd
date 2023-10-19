@@ -1,0 +1,19 @@
+"Area and Perimeter of Triangle
+'<hr /><div style="max-width:110mm;"><img style="height:55pt;" class="side" alt="triangle.png" src="https://calcpad.eu/media/math/area/triangle.png"></div>
+'Side lengths
+a = ?','b = ?','c = ?
+'<!--
+#if (a + b > c)*(b + c > a)*(c + a > b)
+	'<-->
+	'Perimeter 
+	P = a + b + c
+	'Area (Heron formula)
+	'Semiperimeter -'p = 0.5*P
+	A = sqr(p*(p - a)*(p - b)*(p - c))
+	'<!--
+#else
+	'<-->
+	'The sum of the lengths of each two sides must be greater than the third side.
+	'<!--
+#end if
+'<-->5	4	3

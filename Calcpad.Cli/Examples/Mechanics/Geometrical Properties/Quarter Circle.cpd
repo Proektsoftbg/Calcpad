@@ -1,0 +1,24 @@
+"Geometrical Properties of Quarter Circle
+'<hr /><div style="max-width:120mm"><img style="height:120pt;" alt="quarter-circle.png" class="side" src="https://calcpad.eu/media/mechanics/sections/quarter-circle.png"></div>
+'Radius -'r = ?'%u
+'Area
+A = π*r^2/4'%u<sup>2</sup>
+'Centroid
+'<p><i>z</i><sub>c</sub> ='y_c = 4*r/(3*π)'%u</p>
+'Perimeter
+P = (π/2+2)*r'%u
+'Second moments of area
+'<p><i>I</i><sub>z</sub> ='I_y = (π/16 - 4/(9*π))*r^4'%u<sup>4</sup></p>
+I_yz = (1/8 - 4/(9*π))*r^4'%u<sup>4</sup></p>
+'Principal area moments
+I_1 = I_y + abs(I_yz)'%u<sup>4</sup>
+I_2 = I_y - abs(I_yz)'%u<sup>4</sup>
+'Angle of principal axis
+α_1 = atan((I_y - I_1)/I_yz)'<sup>о</sup>
+'Polar moment of area
+I_x = 2*I_y'%u<sup>4</sup>
+'Radii of gyration
+'<p><i>r</i><sub>z</sub> ='r_y = sqr(I_y/A)'%u</p>
+r_1 = sqr(I_1/A)'%u
+r_2 = sqr(I_2/A)'%u
+r_x = sqr(I_x/A)'%u1

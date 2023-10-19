@@ -1,0 +1,26 @@
+"Geometrical Properties of Channel Section
+'<hr /><div style="max-width:120mm"><img style="height:150pt;" alt="channel.png" class="side" src="https://calcpad.eu/media/mechanics/sections/channel.png"></div>
+'Dimensions
+h = ?'%u,'t_w = ?'%u
+b_f = ?'%u,'t_f = ?'%u
+'Area
+A_w = h*t_w'%u<sup>2</sup>
+A_f = (b_f - t_w)*t_f'%u<sup>2</sup>
+A = A_w + 2*A_f '%u<sup>2</sup>
+'Centroid
+S_z = A_w*t_w/2 + A_f*(b_f+t_w)'%u<sup>3</sup>
+y_c = S_z/A'%u
+z_c = h/2'%u
+'Perimeter
+P = 2*(h + 2*b_f - t_w)'%u
+'Second moments of area
+I_y = (b_f*h^3 - (b_f - t_w)*(h - 2*t_f)^3)/12'%u<sup>4</sup>
+I_z_w = (h - 2*t_f)*t_w*(t_w^2/12 + (y_c - t_w/2)^2)'%u<sup>4</sup>
+I_z_f = t_f*b_f*(b_f^2/12 + (y_c - b_f/2)^2)'%u<sup>4</sup>
+I_z = I_z_w + 2*I_z_f'%u<sup>4</sup>
+'Polar moment of area
+I_x = I_y + I_z'%u<sup>4</sup>
+'Radii of gyration
+r_y = sqrt(I_y/A)'%u
+r_z = sqrt(I_z/A)'%u
+r_x = sqrt(I_x/A)'%u20	1	10	2

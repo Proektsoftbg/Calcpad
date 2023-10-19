@@ -1,0 +1,37 @@
+"Fully Restrained Beam with Concentrated Force
+'<div style="max-width:180mm">
+'<hr /><img style="width:210pt;" alt="fixed-beam-concentrated-force.png" class="side" src="https://calcpad.eu/media/mechanics/beams/fixed-beam-concentrated-force.png">
+'<p><b>Input data</b></p>
+'Beam Length -'l=?'m
+'Load -'F=?'kN
+'Distances -'a=?'m,'b=l-a'm
+#post
+'<p><b>Internal forces</b></p>
+'Bending at supports
+M_A = F*a*b^2/l^2'kN·m
+M_B = F*a^2*b/l^2'kN·m
+'Bending at mid-span
+M_max = 2*F*a^2*b^2/l^3'kN·m
+'Shear
+V_A = F*b^2/l^2*(1+2*a/l)'kN
+V_B = F*a^2/l^2*(1+2*b/l)'kN
+'<p><b>Diagrams</b></p>
+#hide
+PlotWidth = 600
+PlotHeight = 150
+#show
+'Calculate internal forces at'x_1 = ?'m
+#pre
+
+
+#post
+'Bending
+M(x) = -M_A + V_A*x - F*(x - a)*(x > a)
+$Plot{-M(x) @ x = 0 : l}
+M(x_1)'kN·m
+'Shear
+V(x) = V_A - F*(x > a)
+$Plot{V(x) @ x = 0 : l}
+V(x_1)'kN
+#show
+'</div>10	10	2	1

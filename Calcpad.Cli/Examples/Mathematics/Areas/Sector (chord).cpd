@@ -1,0 +1,21 @@
+"Area and Arch Length of Circular Sector
+'<hr /><div style="max-width:110mm;"><img style="height:60pt;" class="side" alt="sector-chord.png" src="https://calcpad.eu/media/math/area/sector-chord.png"></div>
+'Dimensions
+'Radius -'r = ?
+'Chord -'a = ?
+'<!--
+#if a ≤ 2*r
+	'<-->
+	'Angle
+	α = 2*asin(a/(2*r))'&deg;
+	'Area
+	A = π*r^2*α/360
+	'Arch length
+	S = π*r*α/180
+	'<!--
+#else
+	'<-->
+	'Chord <i>a</i> must be less or equal to 2&middot;<i>r</i>
+	'<!--
+#end if
+'<-->1	1

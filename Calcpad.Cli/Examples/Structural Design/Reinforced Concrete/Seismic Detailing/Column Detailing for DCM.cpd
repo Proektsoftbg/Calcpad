@@ -1,0 +1,263 @@
+"Column Detailing for Ductility Class DCM<hr/><small>According to <strong>Eurocode</strong>: EN 1998-1</small>
+'<div style="max-width:180mm">
+'<img class="side" style="width:220pt;" src="https://calcpad.eu/media/structures/rc/detailing/column-section.png" alt="column-section.png">
+'<p><b>Column dimensions</b></p>
+'Cross section -'b_c = ? {500}'mm,'h_c = ? {500}'mm
+'Clear storey height -'l_cl = ? {2850}'mm
+'Cross section area -'A_c = b_c*h_c'mm²
+'Maximum seismic axial load -'N_Ed = ? {983.8}'kN
+
+'<p class="ref">[EN 1992-1-1, <a target="_blank" href="https://calcpad.eu/reference/concrete-table.html">Table 3.1</a>]</p>
+'<p><b>Concrete</b></p>
+'Characteristic compressive cylinder strength -'f_ck = ? {25}'MPa
+'Partial safety factor -'γ_c = 1.5','α_ct = 1','α_cc = ? {1}
+'<img class="side" style="width:130pt;" src="https://calcpad.eu/media/structures/rc/detailing/column-view.png" alt="column-view.png">
+#post
+'Mean value of axial tensile strength
+f_ctm = 0.30*f_ck^(2/3)'MPa 
+'Characteristic axial tensile strength
+f_ctk,005 = 0.7*f_ctm'MPa
+'Design compressive cylinder strength
+f_cd = α_cc*f_ck/γ_c'MPa
+#show
+
+'<p><b>Longitudinal reinforcement</b></p>
+'<p id="C" style="display:none;">'C = ? {0}'</p>
+'Characteristic yield strength -'f_yk = ? {500}'MPa
+#pre
+'<p>Steel class - <select data-target="C"> 
+'<option value="0"> Class B </option>
+'<option value="1"> Class C </option>
+'</select></p>
+#post
+#val
+#if C ≡ 0
+	'Selected steel class <b>B'f_yk'B</b>
+#else if C ≡ 1
+	'Selected steel class <b>B'f_yk'C</b>
+#else
+	'<p class="err">Invalid steel class!</p>
+#end if
+#equ
+'Partial safety factor for steel -'γ_s = 1.15
+'Design yield strength -'f_yd = f_yk/γ_s'MPa
+'Modulus of elasticity -'E_s = 200000'MPa
+#show
+'Bar diameter -'d_bL = ? {28}'mm
+#post
+'<p class="ref">[BS EN 1992-1-1, § 9.5.2 (1)/NA.1]</p>
+'Minimum bar diameter -'d_bL,min = 12'mm
+#if d_bL < d_bL,min
+	'<p class="err">The bar diameter is less than the minimum:'d_bL'mm &lt;'d_bL,min'mm</p>
+#end if
+#show
+'Bar count -'n_b = ? {12}
+'Bar count along "<var>h</var><sub>c</sub>" -'n_b1 = ? {4}
+#post
+'Bar count along "<var>b</var><sub>c</sub>" -'n_b2 = n_b/2 - n_b1 + 2
+#if n_b < 4
+	'<p class="err">The bar count is'n_b'&lt; 4</p>
+#else if (n_b1 < 3) + (n_b2 < 3)
+	'<p class="ref">[§ 5.4.3.2.2 (2)]</p>
+	'<p class="err">Minimum one intermediate bar at each side is required.</p>
+#end if 
+'Reinforcement area
+A_s1 = π*d_bL^2/4'mm²
+A_s = n_b*A_s1'mm²
+'Reinforcement ratio
+ρ_L = A_s/A_c
+'<p class="ref">[§ 5.4.3.2.2 (1)]</p>
+#if ρ_L < 0.01
+	'<p class="err">The reinforcement ratio is less than the minimum:'ρ_L'&lt; 0.01</p>
+#else if ρ_L > 0.04
+	'<p class="err">The reinforcement ratio is greater than the maximum:'ρ_L'&gt; 0.04</p>
+#else 
+	'Design check: 0.01 ≤'ρ_L'≤ 0.04. The check is satisfied! ✓
+#end if
+
+'<p class="ref">[EN 1992-1-1, § 9.5.1 (1)]</p>
+'<p><b>Column dimensions check</b></p>
+#if h_c/b_c > 4
+	'<p class="err">'h_c/b_c'&gt; 4</p>
+#else
+	h_c/b_c'≤ 4. The check is satisfied! ✓
+#end if
+'<p class="ref">[§ 5.4.3.2.1 (3)]</p>
+'Check for normalized axial load
+ν_d = N_Ed/(A_c*f_cd)*1000
+#if ν_d > 0.65
+	'<p class="err">'ν_d'&gt; 0.65. The check is NOT satisfied!  ❌</p>
+#else
+	ν_d'≤ 0.65. The check is satisfied! ✓
+#end if
+
+#if l_cl/h_c < 3
+	'<p class="ref">[§ 5.4.3.2.2 (5)]</p>
+	'<p><b>Critical region length</b></p>
+	l_cr = l_cl'mm - when'l_cl/h_c'&lt; 3, the entire height is a critical region.
+#else
+	'<p class="ref">[§ 5.4.3.2.2 (4)]</p>
+	'<p><b>Critical region length</b></p>
+	l_cr = max(h_c;l_cl/6;450)'mm
+#end if
+'Design anchorage length
+η_1 = 1'- when good conditions are provided
+#if d_bL ≤ 32
+	η_2 = 1'- for'd_bL'≤ 32 mm
+#else
+	η_2 = (132 - d_bL)/100'- for'd_bL'&gt; 32 mm
+#end if
+f_ctd = α_ct*f_ctk,005/γ_c'MPa
+'<p class="ref">[EN 1992-1-1, § 8.4.2 (2)]</p>
+f_bd = 2.25*η_1*η_2*f_ctd'MPa
+σ_sd = f_yd'MPa
+'<p class="ref">[EN 1992-1-1, § 8.4.3 (2)]</p>
+l_b,rqd = d_bL/4*(σ_sd/f_bd)'mm
+'<p class="ref">[EN 1992-1-1, Table 8.2]</p>
+α_1 = 1','α_2 = 1','α_3 = 1','α_5 = 1','α_6 = 1.5
+'<p class="ref">[EN 1992-1-1, § 8.7.3 (1)]</p>
+l_0_ = α_1*α_2*α_3*α_5*α_6*l_b,rqd'mm
+l_0,min = max(0.3*α_6*l_b,rqd;15*d_bL;200)'mm
+l_0 = round(max(l_0_;l_0,min))'mm
+'Mid zone length
+l_1 = max(0;l_cl - l_cr - l_0)'mm
+#show
+
+'<p><b>Transverse reinforcement</b></p>
+'Hoop diameter -'d_bw = ? {10}'mm
+'Characteristic yield strength -'f_ywk = ? {500}'MPa
+#post
+'Design yield strength -'f_ywd = f_ywk/γ_s'MPa
+'Concrete cover to hoops -'c = 40'mm
+'<p class="ref">[EN 1992-1-1, § 9.5.3 (1)]</p>
+'Minimum diameter -'d_bw,min = max(6;0.25*d_bL)'mm
+#if d_bw < d_bw,min
+	'<p class="err">The hoop diameter is less than minimum:</p>
+	'<p class="err">'d_bw'&lt;'d_bw,min'mm</p>
+#else
+	'Hoop diameter check:
+	d_bw'≥'d_bw,min'mm. The check is satisfied! ✓
+#end if
+
+'Confined core dimensions (between centerlines of links)
+b_0 = b_c - (d_bw + 2*c)'mm
+h_0 = h_c - (d_bw + 2*c)'mm
+'Maximum bar spacing
+d_b1 = (h_c - 2*(d_bw + c) - d_bL)/(n_b1 - 1)'mm
+d_b2 = (b_c - 2*(d_bw + c) - d_bL)/(n_b2 - 1)'mm
+'Maximum distance between consecutive longitudinal bars engaged by hoops
+'<p class="ref">[§ 5.4.3.2.2 (11), b)]</p>
+d_h,max = 200'mm
+'Distance between bars engaged by links
+n_h1 = max(floor(d_h,max/d_b1);1)
+n_h2 = max(floor(d_h,max/d_b2);1)
+'Distance between bars engaged by links
+d_h1 = n_h1*d_b1
+d_h2 = n_h2*d_b2
+#if d_h1 > d_h,max
+	'<p class="err">The distance is greater than the maximum:'d_h1'mm >'d_h,max'mm</p>
+#else if d_h2 > d_h,max
+	'<p class="err">The distance is greater than the maximum:'d_h2'mm >'d_h,max'mm</p>
+#end if
+'Distance between bars engaged by links
+n_h1 = round((n_b1 - 1)*d_b1/d_h1)
+n_h2 = round((n_b2 - 1)*d_b2/d_h2)
+
+'Hoop spacing in critical regions
+'<p class="ref">[§ 5.4.3.2.2 (11), a)]</p>
+s_cr = min(b_0/2;8*d_bL;175)'mm
+'Hoop spacing in mid zone
+'<p class="ref">[EN 1992-1-1, § 9.5.3 (3)]</p>
+s = min(b_c;20*d_bL;400)'mm
+'Hoop spacing in lap zone
+'<p class="ref">[§ 5.6.3 (3), c)]</p>
+s_l = min(100;b_c/4)'mm
+
+'<b>Transverse reinforcement in lap zones</b>
+'Required area of one leg
+'<p class="ref">[§ 5.6.3 (4)]</p>
+A_st = s_l*(d_bL/50)*(f_yd/f_ywd)'mm²
+'Provided area of one leg
+A_sw1 = π*d_bw^2/4'mm²
+#if A_sw1 < A_st
+	'<p class="err">Insufficient area of one leg in the lap zone:'A_sw1'mm² &lt;'A_st'mm²</p>
+#else
+	'Design check:'A_sw1'mm² ≥'A_st'mm². The check is satisfied! ✓
+#end if
+#if d_bL > 20
+	'Check for bar diameters > 20 mm:
+	'Number of legs in the outer 1/3 of lap zone
+	n_w = round(2*l_0/(3*s_l))
+	'Total area of legs in the outer 1/3 of lap zone
+	ΣA_sw = A_sw1*n_w
+	'<p class="ref">[EN 1992-1-1, § 8.7.4.1 (3)]</p>
+	#if ΣA_sw < A_sw1*n_w
+		'<p class="err">Insufficient transverse reinforcement area in the lap zone:'ΣA_sw'mm² &lt;'A_s1'mm²</p>
+	#else
+		'Design check:'ΣA_sw'mm² ≥'A_s1'mm²
+	#end if
+	'Additional hoop is required for compressed bars
+	'<p class="ref">[EN 1992-1-1, § 8.7.4.2 (1)]</p>
+	'at'4*d_bL'mm from the end of the lap zone
+#end if
+
+'<b>Calculation of hoop count</b>
+'In the lap zone -'n_w,l = round(l_0/s_l)
+'In the middle zone -'n_w,1 = round(l_1/s)
+#if n_w,1 ≡ 0
+	l_cr,top = max(l_cl - l_0;0)
+	'In critical region -'n_w,cr = round(l_cr,top/s_cr)
+#else
+	'In critical region -'n_w,cr = round(l_cr/s_cr)
+#end if
+'Total number of hoops -'n_w = n_w,l + n_w,1 + n_w,cr
+
+'<p><b>Detailing for local ductility in the critical region at column base</b></p>
+'Total length of confining hoops
+Σl_i = (n_h1 + 1)*b_0 + (n_h2 + 1)*h_0
+'Mechanical volumetric ratio of confining hoops within the critical region
+ω_d = (A_sw1*Σl_i)/(b_0*h_0*min(s_cr;s_l))*(f_ywd/f_cd)
+'<p class="ref">[§ 5.4.3.2.2 (8)]</p>
+'The minimum value is 0.08.
+#if ω_d < 0.08
+	'<p class="err">Design check:'ω_d'&lt;'0.08'.Mechanical volumetric ratio is less than minimum.</p>
+#else
+	'Design check:'ω_d'&ge;'0.08'. The condition is satisfied!
+#end if
+'Sum of the squares of the spacing between consecutive engaged bars
+Σb2_i = 2*(n_h1*d_h1^2 + n_h2*d_h2^2)
+'Confinement effectiveness factors for bars and hoops
+α_n = 1 - Σb2_i/(6*b_0*h_0)
+α_s = (1 - s_cr/(2*b_0))*(1 - s_cr/(2*h_0))
+α = α_n*α_s
+#show
+'<p><b>Analysis results</b></p>
+'Fundamental period of first vibration mode -'T_1 = ? {0.55}'s
+'Upper limit period of constant spectral acceleration -'T_C = ? {0.6}'s
+'Basic behavior factor value -'q_0 = ? {3.9}
+#post
+'<p><b>Curvature ductility factor</b></p>
+'<p class="ref">[§ 5.2.3.4 (3)]</p>
+#if T_1 ≥ T_C
+	μ_Φ = 2*q_0 - 1'- for T<sub>1</sub> ≥ T<sub>C</sub>
+#else
+	μ_Φ = 1 + 2*(q_0 - 1)*(T_C/T_1)'- for T<sub>1</sub> &lt; T<sub>C</sub>
+#end if
+#if C ≡ 0
+	'<!--'μ_Φ = 1.5*μ_Φ'-->
+	'<p class="ref">[§ 5.2.3.4 (4)]</p>
+	'For steel class B, ductility factor is increased by 05% -'μ_Φ
+#end if
+'Design value of steel yield strain - 'ε_sy_d = f_yd/E_s
+'<p class="ref">[§ 5.4.3.2.2 (8)]</p>
+'Design check: <var>αω</var><sub>d</sub> &ge; <var>αω</var><sub>d,min</sub> = 30·<var>μ</var><sub>Φ</sub>·<var>ν</var><sub>d</sub>·<var>ε</var><sub>sy_d</sub>·<var>b</var><sub>c</sub>/<var>b</var><sub>0</sub> – 0.035
+αω_d = α*ω_d
+αω_d,min = 30*μ_Φ*ν_d*ε_sy_d*(b_c/b_0) - 0.035
+#if αω_d < αω_d,min
+	'<p class="err">The required curvature ductility is NOT provided:'αω_d'&lt;'αω_d,min'</p>
+#else
+	'The required curvature ductility is provided:'αω_d'≥'αω_d,min
+#end if
+'NOTE: All references are according to EN 1998-1, unless noted otherwise.
+#show
+'</div>

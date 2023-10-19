@@ -1,0 +1,12 @@
+"Area and Perimeter of Trapezoid
+'<hr /><div style="max-width:90mm;"><img style="height:60pt;" class="side" alt="trapezoid.png" src="https://calcpad.eu/media/math/area/trapezoid.png"></div>
+'Base lengths
+a = ?','b = ?
+'Height
+h = ?
+'Area
+A = (a+b)*h/2
+'Perimeter (symmetrical figure only)
+c = sqr(h^2 + (a - b)^2/4)
+P = a+b + 2*c
+'2	1	1
