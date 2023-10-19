@@ -1,0 +1,22 @@
+"Snow Load on Monopitch or Duopitch Roof<hr/><small>According to <strong>Eurocode</strong>: EN 1991-1-3</small>
+'<div style="max-width:180mm">
+'<img style="width:200pt;" src="http://calcpad.eu/media/structures/loads/snow.png" alt="snow.png"><br /><br />
+'Characteristic snow load on the ground -'s_k = ?'kN/m<sup>2</sup>
+'Roof pitch angle -'α = ?'<sup>o</sup>
+#post
+#if α ≤ 30
+	'Snow shape coefficient -'μ_1 = 0.8'(α &le; 30 <sup>o</sup>)
+#else if'<span style="display:none;">'α < 60'</span>
+	'Snow shape factor -'μ_1 = 0.8*(60 - α)/30'(α &lt; 60 <sup>o</sup>)
+#else
+	'Snow shape coefficient -'μ_1 = 0'(α &gt; 60 <sup>o</sup>)
+#end if
+#show
+'Exposure factor -'C_e = ?
+'Thermal factor -'C_t = ?
+#post
+'<p class="ref">[EN 1991-1-3, т. 5.2 (3)a)]</p>
+'Snow load on roof
+s =μ_1*C_e*C_t*s_k'kN/m<sup>2</sup>
+#show
+'</div>1	0	1	1

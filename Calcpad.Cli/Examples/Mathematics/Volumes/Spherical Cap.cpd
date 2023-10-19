@@ -1,0 +1,16 @@
+"Volume and Surface Area of Spherical Cap
+'<hr /><div style = "max-width:120mm"><img style="height:55pt;" class="side" alt="cap.png" src = "https://calcpad.eu/media/math/volume/cap.png"></div>
+'Dimensions
+'Base radius -'r = ?
+'Height -'h = ?
+'Radius of sphere
+R = (r^2 + h^2)/(2*h)
+'Volume
+V = π*h/6*(3*r^2 + h^2)
+'Area of curved surface
+S_o = 2*π*R*h
+'Area of base
+A = π*r^2
+'Total surface area
+S = S_o + A
+'2	1

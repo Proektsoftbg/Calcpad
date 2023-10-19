@@ -1,0 +1,15 @@
+"Volume and Surface Area of Rectangular Pyramid
+'<hr /><div style = "max-width:130mm"><img style="height:65pt;" class="side" alt="rectangular-pyramid.png" src = "https://calcpad.eu/media/math/volume/rectangular-pyramid.png"></div>
+'Dimensions of base
+a = ?','b = ?
+'Height
+h = ?
+'Volume
+V = 1/3*a*b*h
+'Area of side faces
+S_o = a*sqr(h^2 + b^2/4) + b*sqr(h^2 + a^2/4)
+'Area of base
+A = a*b
+'Total surface area
+S = S_o + A
+'3	2	1

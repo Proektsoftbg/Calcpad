@@ -1,0 +1,19 @@
+"Geometrical Properties of Regular Hexagon
+'<hr /><div style="max-width:120mm"><img style="height:135pt;" alt="hexagon.png" class="side" src="https://calcpad.eu/media/mechanics/sections/hexagon.png"></div>
+'Dimensions
+a = ?'%u
+h = sqr(3)*a'%u
+'Area
+A = 1.5*a*h'%u<sup>2</sup>
+'Centroid
+y_c = a'%u
+z_c = h/2'%u
+'Perimeter
+P = 6*a'%u
+'Second moments of area
+'<p><i>I</i><sub>z</sub> ='I_y = 5*sqr(3)*a^4/16'%u<sup>4</sup></p>
+'Polar moment of area
+I_x=2*I_y'%u<sup>4</sup>
+'Radii of gyration
+'<p><i>r</i><sub>z</sub> ='r_y = sqrt(I_y/A)'%u</p>
+r_x = sqrt(I_x/A)'%u1

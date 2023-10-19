@@ -1,0 +1,27 @@
+'Cross section: <select name="section">
+'<option value="100;150">RHS 100x150</option>
+'<option value="150;200">RHS 150x200</option>
+'<option value="200;250">RHS 200x250</option>
+'</select>
+'<p id="section"> Dimensions:'b = ? {100}mm','h = ? {150}mm'</p>
+
+'<p>Steel grade:
+'<input name="steel" type="radio" id="S235" value="235" > 
+'<label for="S235">S235</label>
+'<input name="steel" type="radio" id="S275" value="275" > 
+'<label for="S275">S275</label>
+'<input name="steel" type="radio" id="S355" value="355" > 
+'<label for="S355">S355</label></p>
+'<p id="steel" style="display:none;">'f_y = ? {235}MPa'</p>
+'Steel yield strength:'f_y
+
+'Additional options:
+'<p><input name="Rolled" type="checkbox" id="roll" value="1">
+'<label for="roll">Hot rolled</label></p>
+'<p id="Rolled" style="display:none;">'Rolled = ? {1}'</p>
+'<p><input name="Zn" type="checkbox" id="zink" value="1" > 
+'<label for="Zn">Zink plated</label></p>
+'<p id="Zn" style="display:none;">'Zinc = ? {1}'</p>
+'Values:
+Rolled
+Zinc

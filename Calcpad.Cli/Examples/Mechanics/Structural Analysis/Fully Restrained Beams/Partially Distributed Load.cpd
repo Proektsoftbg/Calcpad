@@ -1,0 +1,48 @@
+"Fully Restrained Beam with Partially Distributed Load
+'<div style="max-width:180mm;">
+'<hr /><img style="width:210pt;" alt="fixed-beam-distributed-load-partial.png" class="side" src="https://calcpad.eu/media/mechanics/beams/fixed-beam-distributed-load-partial.png">
+'<p><b>Input data</b></p>
+'Beam Length -'l = ?'m
+'Load -'q = ?'kN/m
+'Distances -'a = ?'m,'b = ?'m,'c = l - a - b'm
+'<!--
+#if c < 0
+	'<-->
+	'It must be satisfied that <i>a</i> + <i>b</i> &le; <i>l</i>
+	'<!--
+#else
+	'<-->
+	#post
+	d = a + b'm,'e = b + c'm
+	'<p><b>Internal forces</b></p>
+	'Bending at supports
+	M_A = q*(e^3*(l + 3*a) - c^3*(l + 3*d))/(12*l^2)'kN·m
+	M_B = q*(d^3*(l + 3*c) - a^3*(l + 3*e))/(12*l^2)'kN·m
+	'Shear
+	V_A = (q*b*(b/2 + c) + (M_A - M_B))/l'kN
+	V_B = (q*b*(b/2 + a) + (M_B - M_A))/l'kN
+	'Bending at mid-span
+	x_max = V_A/q + a'm
+	M_max = V_A*(x_max + a)/2 - M_A 'kN·m
+	'<p><b>Diagrams</b></p>
+	#hide
+	PlotWidth = 600
+	PlotHeight = 150
+	#show
+	'Calculate internal forces at'x_1 = ?'m
+	#pre
+
+	#post
+	'Bending
+	M(x) = -M_A + V_A*x - q*(x - a)^2/2*(x > a) + q*(x - d)^2/2*(x > d)
+	$Plot{-M(x) @ x = 0 : l}
+	M(x_1)'kN·m
+	'Shear
+	V(x) = V_A - q*(x - a)*(x > a) + q*(x - d)*(x > d)
+	$Plot{V(x) @ x = 0 : l}
+	V(x_1)'kN
+	#show 
+	'<!--
+#end if
+'<-->
+'</div>10	5	1	6	1

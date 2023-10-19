@@ -1,0 +1,95 @@
+"Bending Design of RC Tee Section<hr/><small>According to <strong>Eurocode</strong>: EN 1992-1-1</small>
+'<div style="max-width:180mm;">
+'<img style="width:400pt;" src="https://calcpad.eu/media/structures/rc/design/tbeam-bending.png" alt="tbeam-bending.png">
+'Design bending moment -'M_Ed = ?'kN·m
+'<h4>Cross section dimensions</h4>
+'Web -'b_w = ?'mm,'h_w = ?'mm
+'Flange -'b_f = ?'mm,'h_f = ?'mm
+'Concrete cover to the center of reinforcement -'d_1 = ?'mm
+#post
+'Effective cross section depth -'d = h_w - d_1'mm
+'Flange area -'A_f = (b_f - b_w)*h_f'mm<sup>2</sup>
+'Flange first moment of area -'S_f = A_f*(d - h_f/2)'mm<sup>3</sup>
+#show
+'<h4>Material properties</h4>
+'<p style="float:right">[EN 1992-1-1, <a target="_blank" href="https://calcpad.eu/reference/concrete-table.html">Table 3.1</a>]</p>
+'<p><b>Concrete</b></p>
+'Characteristic compressive cylinder strength -'f_ck = ?'MPa
+'Partial safety factor for concrete -'γ_c = 1.5','α_cc = ?
+#post
+'Design compressive cylinder strength -'f_cd = α_cc*f_ck/γ_c'MPa
+'Factor for effective compression zone depth -'λ = 0.8
+'Effective compressive strength factor -'η = 1.0
+'Ultimate compressive strain -'ε_cu3 = 0.0035
+'Mean value of axial tensile strength -'f_ctm = 0.30*f_ck^(2/3)'MPa
+#show
+'<p><b>Steel</b></p>
+'Characteristic yield strength -'f_yk = ?'MPa 
+#post
+'Partial safety factor for steel -'γ_s = 1.15
+'Design yield strength -'f_yd = f_yk/γ_s'MPa
+'Modulus of elasticity -'E_s = 200000'MPa
+'<h4>Bending design</h4>
+'Check for the location of the neutral line
+'Bending moment for neutral line at the bottom edge of the flange
+M_f = b_f*h_f*η*f_cd*(d - h_f/2)*10^-6'kN·m
+#if M_Ed > M_f
+	'The neutral line is below the flange - design for T-section
+	'Relative design bending moment -'m_Ed = M_Ed*10^6/(b_w*d^2*η*f_cd)
+	'Compression zone depth -'x = d/λ*(1 - sqr(1 - 2*(m_Ed - S_f/(b_w*d^2))))'mm
+	'Relative compression zone depth -'ξ = x/d'
+	'Design yield strain of reinforcement -'ε_yd = f_yd/E_s
+	'Relative depth of compression zone corresponding to design yield strain
+	ξ_yd = ε_cu3/(ε_cu3 + ε_yd)
+	#show
+	'Limit compression zone depth -'ξ_lim = ?
+	'(enter <i>ξ</i><sub>yd</sub> for elastic or 0.45 for plastic analysis)
+	#post
+	#if ξ ≤ ξ_lim
+		ξ'≤'ξ_lim'- compressive reinforcement is NOT required.
+		'Lever arm of internal forces -'z = d - 0.5*λ*x'mm
+		'Required tensile reinforcement area -'A_s1 = M_Ed*10^6/(z*f_yd)'mm<sup>2</sup>
+		'Reinforcement ratio -'ρ_1 = A_s1/(b_w*d)
+		'<!--'ρ_2 = 0'-->
+	#else
+		ξ'>'ξ_lim'- compressive reinforcement is required.
+		'Relative depth is assumed to be'ξ = ξ_lim'and compressive reinforcement is designed
+		'Compression zone depth -'x = ξ*d'mm
+		'Distance from the center of compressive reinforcement to the concrete surface
+		d_2 = h_w - d'mm
+		'Distance between tensile and compressive reinforcement -'z_s = d - d_2'mm
+		'Required tensile reinforcement area
+		A_s1 = (M_Ed*10^6 + (b_w*λ*x*(λ*x/2 - d_2) + A_f*(h_f/2 - d_2))*η*f_cd)/(f_yd*z_s)'mm<sup>2</sup>
+		'Strain is compressive reinforcement
+		ε_s2 = (x - d_2)/x*ε_cu3
+		'Compressive reinforcement stress
+		σ_s2 = min(ε_s2*E_s; f_yd)'MPa
+		'Required compressive reinforcement area
+		A_s2 = (A_s1*f_yd - (b_w*λ*x + A_f)*η*f_cd)/σ_s2'mm<sup>2</sup>
+		'Reinforcement ratios
+		'- tensile reinforcement -'ρ_1 = A_s1/(b_w*d)
+		'- compressive reinforcement -'ρ_2 = A_s2/(b_w*d)
+	#end if
+#else
+	'The neutral line is within the flange - design of rectangular section with'b_f'mm
+	'Relative design bending moment -'m_Ed = M_Ed*10^6/(b_f*d^2*η*f_cd)
+	'Compression zone depth -'x = d/λ*(1 - sqr(1 - 2*m_Ed))'mm
+	'Lever arm of internal forces -'z = d - 0.5*λ*x'mm
+	'Area of required tensile reinforcement -'A_s1 = M_Ed*10^6/(z*f_yd)'mm<sup>2</sup>
+	'Reinforcement ratio
+	ρ_1 = A_s1/(b_w*d)
+	'<!--'ρ_2 = 0'-->
+#end if
+'<p class="ref">[БДС EN 1992-1-1, § 9.2.1.1]
+'Minimum tensile reinforcement ratio
+ρ_min = max(0.26*f_ctm/f_yk; 0.0013)
+'Minimum reinforcement -'A_s_min = ρ_min*b_w*d'mm<sup>2</sup>
+#if A_s1 < A_s_min
+	'<p class="err">The reinforcement is then the minimum:'A_s1'mm<sup>2</sup> &lt;'A_s_min'mm<sup>2</sup></p>'
+#end if
+'Maximum reinforcement ratio -'ρ_max = 0.04
+#if '<!--'ρ_1 > ρ_max'-->'
+	'<p class="err">Reinforcement ratio is greater than the maximum:'ρ_1'>'ρ_max'mm<sup>2</sup></p>'
+#end if
+#show
+'</div>800	250	600	1200	120	50	20	0.85	500	0.62

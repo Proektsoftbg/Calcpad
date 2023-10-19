@@ -1,0 +1,37 @@
+"Geometrical Properties of Angle Section
+'<hr /><div style="max-width:120mm"><img style="height:150pt;" alt="angle.png" class="side" src="https://calcpad.eu/media/mechanics/sections/angle.png"></div>
+'Dimensions
+h = ?'%u,'t_w = ?'%u
+b_f = ?'%u,'t_f = ?'%u
+'Area
+A_w = h*t_w'%u<sup>2</sup>
+A_f = (b_f - t_w)*t_f'%u<sup>2</sup>
+A = A_w + A_f'%u<sup>2</sup>
+'Centroid
+S_z = A_w*t_w/2 + A_f*(b_f + t_w)/2'%u<sup>3</sup>
+y_c = S_z/A'%u
+S_y = A_w*h/2 + A_f*t_f/2'%u<sup>3</sup>
+z_c = S_y/A'%u
+'Perimeter
+P = 2*(h + b_f)'%u
+'Second moments of area
+I_y_w = A_w*(h^2/12 + (z_c - h/2)^2)'%u<sup>4</sup>
+I_y_f = A_f*(t_f^2/12 + (z_c - t_f/2)^2)'%u<sup>4</sup>
+I_y = I_y_w + I_y_f'%u<sup>4</sup>
+I_z_w = (h - t_f)*t_w*(t_w^2/12 + (y_c - t_w/2)^2)'%u<sup>4</sup>
+I_z_f = t_f*b_f*(b_f^2/12 + (y_c - b_f/2)^2)'%u<sup>4</sup>
+I_z = I_z_w + I_z_f'%u<sup>4</sup>
+I_yz = A_w*(h/2 - z_c)*(t_w/2 - y_c) + A_f*(t_f/2 - z_c)*((b_f + t_w)/2 - y_c)'%u<sup>4</sup>
+'Principal moments of area
+I_1 = (I_y + I_z)/2 + sqrt((I_y - I_z)^2/4 + I_yz^2)'%u<sup>4</sup>
+I_2 = (I_y + I_z)/2 - sqrt((I_y - I_z)^2/4 + I_yz^2)'%u<sup>4</sup>
+'Angle of principal axis
+α_1 = atan((I_y - I_1)/I_yz)'<sup>о</sup>
+'Polar moment of area
+I_x = I_1 + I_2'%u<sup>4</sup>
+'Radii of gyration
+r_y = sqrt(I_y/A)'%u
+r_z = sqrt(I_z/A)'%u
+r_1 = sqrt(I_1/A)'%u
+r_2 = sqrt(I_2/A)'%u
+r_x = sqrt(I_x/A)'%u20	2	10	5

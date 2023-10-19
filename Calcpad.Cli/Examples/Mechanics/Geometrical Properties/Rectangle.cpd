@@ -1,0 +1,38 @@
+"Geometrical Properties of Rectangle
+'<hr /><div style = "max-width:120mm"><img style="height:150pt;" alt="rectangle.png" class="side" src="https://calcpad.eu/media/mechanics/sections/rectangle.png"></div>
+'Dimensions
+h = ?'%u,'b = ?'%u
+'Area
+A = h*b'%u<sup>2</sup>
+'Centroid
+y_c = b/2'%u
+z_c = h/2'%u
+'Perimeter
+P = 2*(h + b)'%u
+'Second moments of area
+I_y = b*h^3/12'%u<sup>4</sup>
+I_z = b^3*h/12'%u<sup>4</sup>
+'Polar moment of area
+I_x = I_y + I_z'%u<sup>4</sup>
+'Radii of gyration
+r_y = sqrt(I_y/A)'%u
+r_z = sqrt(I_z/A)'%u
+r_x = sqrt(I_x/A)'%u
+#if '<!--'h ≡ b'-->'
+'Torsional constant
+I_t = 0.1406*h^4'%u<sup>4</sup>
+'Torsional section modulus
+W_t = 0.2080*h^3'%u<sup>3</sup>
+#else
+#if '<!--'h > b'-->'
+'Torsional constant
+I_t = h*b^3*(1 - 0.630*b/h + 0.052*(b/h)^5)/3'%u<sup>4</sup>
+'Torsional section modulus
+W_t = h*b^2*(1 - 0.630*b/h + 0.250*(b/h)^2)/3'%u<sup>3</sup>
+#else
+'Torsional constant
+I_t = b*h^3*(1 - 0.630*h/b + 0.052*(h/b)^5)/3'%u<sup>4</sup>
+'Torsional section modulus
+W_t = b*h^2*(1 - 0.630*h/b + 0.250*(h/b)^2)/3'%u<sup>3</sup>
+#end if
+#end if2	1

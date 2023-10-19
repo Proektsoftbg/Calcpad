@@ -1,0 +1,13 @@
+"Area and Circumference of Ellipse
+'<hr /><div style="max-width:110mm;"><img style="height:65pt;" class="side" alt="ellipse.png" src="https://calcpad.eu/media/math/area/ellipse.png"></div>
+'Dimensions
+a = ?','b = ?
+'Area
+A = π*a*b/4
+'Circumference
+'Assume -'h = (a-b)^2/(a+b)^2
+'Using the Ramanujan equation
+P = π*(a+b)/2*(1 + 3*h/(10 + sqr(4 - 3*h)))
+'Using series (up to the 4-th member)
+P = π*(a+b)/2*(1 + 1/4*h + 1/64*h^2 + 1/256*h^3)
+'2	1

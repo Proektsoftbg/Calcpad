@@ -1,0 +1,119 @@
+"Shear Design of RC Rectangular Section<hr/><small>According to <strong>Eurocode</strong>: EN 1992-1-1</small>
+'<div style="max-width:180mm;">
+'<img class="side" style="width:270pt;" src="https://calcpad.eu/media/structures/rc/design/beam-shear.png" alt="beam-shear.png">
+'<h4>Cross section dimensions</h4>
+'Width -'b = ?'mm, Height'h = ?'mm
+#post
+'Cross section area -'A_c = b*h'mm²
+#show
+'Tensile reinforcement area -'A_sl = ?'mm²
+'Effective depth -'d = h - ?'mm
+#post
+'Reinforcement ratio -'ρ_l = min(A_sl/(b*d); 0.02)
+#show
+'Shear links diameter -'d_w = ?'mm 
+'Number of legs for one link -'n_w = ?
+'<p><b>Section design loads</b></p>
+'Shear force -'V_Ed = ?'kN&nbsp;&emsp;Axial force -'N_Ed = ?'kN
+'<h4>Material properties</h4>
+'<p class="ref">[EN 1992-1-1, <a target="_blank" href="https://calcpad.eu/reference/concrete-table.html">Table 3.1</a>]</p>
+'<p><b>Concrete</b></p>
+'Characteristic compressive cylinder strength -'f_ck = ?'MPa
+'Partial safety factor for concrete -'γ_c = 1.5','α_cc = ?
+#post
+'Design compressive cylinder strength -'f_cd = α_cc*f_ck/γ_c'MPa
+#show
+'<p><b>Steel for shear reinforcement</b></p>
+'Characteristic yield strength -'f_yk = ?'MPa 
+#post
+'Partial safety factor for steel -'γ_s = 1.15
+'Design yield strength -'f_ywd = f_yk/γ_s'MPa
+'
+'<div class="fold">
+'<h4>Shear capacity without reinforcement<small class="ref">[EN 1992-1-1, § 6.2.2]</small></h4>
+k = min(1 + sqr(200/d); 2)
+'Stress due to axial force (N<sub>Ed</sub> > 0 for compression)
+σ_cp_ = N_Ed*10^3/A_c'MPa
+'Maximum stress value:'0.2*f_cd'MPa
+σ_cp = min(σ_cp_;0.2*f_cd)'MPa
+C_Rd_c = 0.18/γ_c
+v_min = 0.035*k^(3/2)*sqr(f_ck)
+k_1 = 0.15
+'<p class="ref">(6.2a)</p>
+'Shear resistance
+V_Rd_c_ = (C_Rd_c*k*(100*ρ_l*f_ck)^(1/3) + k_1*σ_cp)*b*d*10^-3'kN
+'Minimum shear resistance 
+'<p class="ref">(6.2b)</p>
+V_Rd_c_min = (v_min + k_1*σ_cp)*b*d*10^-3'kN
+V_Rd_c = max(V_Rd_c_min;V_Rd_c_)'kN
+'Design check
+'</div>
+#if V_Ed ≤ V_Rd_c
+	V_Ed'kN ≤'V_Rd_c'kN. Shear reinforcement is NOT required by calculation!
+#else
+	V_Ed'kN &gt;'V_Rd_c'kN. Shear reinforcement is required!
+	'<div class="fold">
+	'<h4>Shear capacity with reinforcement <small class="ref">[EN 1992-1-1, §6.2.3]</small></h4>
+	'Lever arm of internal forces -'z = 0.9*d'mm
+	'<p class="ref">(6.6N)</p>
+	ν_1 = 0.6*(1 - f_ck/250)
+	k_σ = σ_cp_/f_cd
+	'Factor α<sub>cw</sub> depends on the value of k<sub>σ</sub>
+	#if k_σ < 0.25
+		α_cw = 1 + k_σ'for 0 &lt; <i>k</i><sub>σ</sub> &lt; 0.25
+	#else if k_σ < 0.5
+		α_cw = 1.25'for 0.25 &lt; <i>k</i><sub>σ</sub> &lt; 0.5
+	#else if k_σ < 1
+		α_cw = 2.5*(1 - k_σ)'for 0.5 &lt; <i>k</i><sub>σ</sub> &lt; 1
+	#else
+		'<p class="err">The value for σ<sub>cp</sub>is NOT admissible</p>
+	#end if
+	'<p class="ref">(6.9)</p>
+	'Maximum shear capacity at θ = 45°
+	V_Rd_max_45 = α_cw*b*z*ν_1*f_cd/2*10^-3'kN
+	#if V_Ed ≤ V_Rd_max_45
+		V_Ed'kN ≤'V_Rd_max_45'kN. The check is satisfied!
+		'Angle of concrete struts
+		θ_ = 0.5*asin(V_Ed/V_Rd_max_45)'°
+		'<p class="ref">(6.7N)</p>
+		'The angle is limited between 21,8° ≤ θ ≤ 45°(1 ≤ cot(θ) ≤ 2.5)
+		θ = max(21.8;min(θ_;45))'°
+		'<p class="ref">(6.9)</p>
+		'Bearing capacity check at'θ'°
+		V_Rd_max = α_cw*b*z*ν_1*f_cd/(cot(θ) + tan(θ))*10^-3'kN
+		'</div>
+		'Design check:'V_Ed'kN ≤'V_Rd_max'kN
+		'<p class="ref">(6.8)</p>
+		'Required shear reinforcement area
+		A_sw = V_Ed*10^6/(z*f_ywd*cot(θ))'mm²/m'
+		'Shear links with'n_w'legs and diameter -'d_w'mm are provided
+		'Area of one leg -'A_s1 = π*(d_w/2)^2'mm²
+		'Required links spacing -'s = 1000*n_w*A_s1/A_sw'mm
+		'<p class="ref">[EN 1992-1-1, §9.2.2]</p>
+		'Maximum spacing -'s_max = min(0.75*d;300)'mm
+		#if s > s_max
+			s'mm &gt;'s_max'mm. Spacing is greater than the maximum. 
+			'The relevant spacing is accepted:'s = s_max'mm
+		#end if
+		'<p class="ref">(9.4)</p>
+		'Reinforcement ratio 
+		ρ_w = A_sw/(s*b)
+		'<p class="ref">(9.5N)</p>
+		ρ_w_min = 0.08*sqr(f_ck)/f_yk
+		#if ρ_w < ρ_w_min
+			ρ_w'&lt;'ρ_w_min'. Reinforcement ratio is lower than the minimum. Minimum reinforcement ratio is accepted.
+		#end if
+		'<p class="ref">(6.18)</p>
+		'Additional force in tensile reinforcement 
+		ΔF_td = 0.5*V_Ed*cot(θ)'kN
+		'<p class="ref">(9.2)</p>
+		'Bending moment diagram shifting distance
+		a_l = z*cot(θ)/2'mm
+	#else
+		'</div>
+		V_Ed'kN &gt;'V_Rd_max_45'kN
+		'<p class="err">The check is NOT satisfied!. Increase cross section dimensions or concrete grade.</p>
+	#end if
+#end if
+#show
+'</div>300	800	1200	50	8	2	600	0	20	1	500

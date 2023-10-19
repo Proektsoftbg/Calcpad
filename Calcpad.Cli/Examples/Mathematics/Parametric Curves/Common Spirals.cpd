@@ -1,0 +1,51 @@
+"Common Spirals
+'<hr />
+#hide
+#rad
+r(θ) = 1
+#show
+'General parametric equation:
+x(θ) = r(θ)*cos(θ)
+y(θ) = r(θ)*sin(θ)
+'The radius <i>r</i>(<i>θ</i>) if different for each type of curve:
+'Archimedes spiral - 'r(θ) = θ
+#hide
+PlotWidth = 400
+PlotHeight = 390
+#post
+$Plot{x(θ)|y(θ) @ θ = 0 : 8*π}
+#show
+'Fermat spiral - 'r(θ) = sqr(θ)
+#hide
+PlotHeight = 387
+#post
+$Plot{x(θ)|y(θ) & -x(θ)|-y(θ) @ θ = 0 : 8*π}
+#show
+'Logarithmic spiral -'r(θ) = e^(a*θ)
+#hide
+a = 0.3
+φ = (1 + sqr(5))/2
+PlotHeight = 259
+#post
+$Plot{x(θ)|y(θ) @ θ = 0 : 8*π}
+#show
+'Golden spiral -'r(θ) = φ^(2/π*θ)
+#hide
+PlotHeight = 255
+#post
+$Plot{x(θ)|y(θ) @ θ = 0 : 8*π}
+#show
+'Hyperbolic spiral -'r(θ) = 1/θ
+#hide
+PlotHeight = 177
+#post
+$Plot{x(θ)|y(θ) @ θ = π/8 : 8*π}
+#show
+'Lituus -'r(θ) = 1/sqr(θ)
+#hide
+PlotHeight = 188
+#post
+$Plot{x(θ)|y(θ) @ θ = π/16 : 16*π}
+#pre
+
+'Tip: Click "<b>Calculate</b>" to see the respective plot.

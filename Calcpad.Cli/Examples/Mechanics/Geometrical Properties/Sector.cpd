@@ -1,0 +1,22 @@
+"Geometrical Properties of Circular Sector
+'<hr /><div style="max-width:150mm"><img style="height:120pt;" alt="sector.png" class="side" src="https://calcpad.eu/media/mechanics/sections/sector.png"></div>
+'Radius -'r = ?'%u
+'Angle -'α = ?'&deg;
+k = π/180
+a = sqr(2*r^2*(1 - cos(α)))'%u
+'Area
+A = α/2*k*r^2'%u<sup>2</sup>
+'Centroid
+y_c = a/2'%u
+z_c = 4*r*sin(α/2)/(3*α*k)'%u
+'Perimeter
+P = (α*k + 2)*r'%u
+'Second moments of area
+I_y = r^4*((α*k + sin(α))/8 - 8*sin(α/2)^2/(9*α*k))'%u<sup>4</sup>
+I_z = r^4*(α*k - sin(α))/8'%u<sup>4</sup>
+'Polar moment of area
+I_x = I_y + I_z'%u<sup>4</sup>
+'Radii of gyration
+r_y = sqrt(I_y/A)'%u
+r_z = sqrt(I_z/A)'%u
+r_x = sqrt(I_x/A)'%u1	90

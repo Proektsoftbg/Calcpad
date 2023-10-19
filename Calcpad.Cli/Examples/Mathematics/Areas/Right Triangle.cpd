@@ -1,0 +1,10 @@
+"Area and Perimeter of Right Triangle
+'<hr /><div style="max-width:110mm;"><img style="height:60pt;" class="side" alt="right-triangle.png" src="https://calcpad.eu/media/math/area/right-triangle.png"></div>
+'Dimensions
+a = ?','b = ?
+c = sqr(a^2 + b^2)
+'Area
+A = a*b/2
+'Perimeter 
+P = a + b + c
+'4	3

@@ -1,0 +1,21 @@
+"Volume and Surface Area of Rectangular Frustum (Obelisk)
+'<hr /><div style = "max-width:130mm"><img style="height:70pt;" class="side" alt="rectangular-frustum.png" src = "https://calcpad.eu/media/math/volume/rectangular-frustum.png"></div>
+'Dimensions
+'<table>
+'<tr><td>Bottom base -</td><td>'A = ?'</td><td>'B = ?'</td></tr>
+'<tr><td>Top base -</td><td>'a = ?'</td><td>'b = ?'</td></tr>
+'<tr><td><p>Height -</p></td><td>'h = ?'</td><td> </td></tr>
+'</table>
+'Heights of side faces
+h_a = sqr(h^2 + (B - b)^2/4)
+h_b = sqr(h^2 + (A - a)^2/4)
+'Volume
+V = h/6*(A*b + a*B + 2*(a*b + A*B))
+'Area of side faces
+S_o = h_a*(A + a) + h_b*(B + b)
+'Base areas
+A_1 = A*B
+A_2 = a*b
+'Total surface area
+S = S_o + A_1 + A_2
+'8	2	6	4	5

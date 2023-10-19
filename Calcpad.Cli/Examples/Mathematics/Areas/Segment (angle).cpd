@@ -1,0 +1,18 @@
+"Area and Arch Length of Circular Segment
+'<hr /><div style="max-width:120mm;"><img style="height:70pt;" class="side" alt="segment-angle.png" src="https://calcpad.eu/media/math/area/segment-angle.png"></div>
+'Radius -'r = ?
+'Angle -'α = ?'&deg;
+'<!--
+#if α ≤ 180
+	'<-->
+	'Area
+	A = 0.5*(π*α/180 - sin(α))*r^2
+	'Arch length
+	S = π*r*α/180
+	'<!--
+#else
+	'<-->
+	'Angle must be less or equal to 180 &deg;
+	'<!--
+#end if
+'<-->1	60

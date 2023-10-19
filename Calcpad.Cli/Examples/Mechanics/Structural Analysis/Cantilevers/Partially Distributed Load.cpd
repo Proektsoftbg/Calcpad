@@ -1,0 +1,30 @@
+"Cantilever with Partially Distributed Load
+'<hr /><div style="max-width:180mm;">
+'<img style="width:165pt;" alt="cantilever-beam-distributed-load-partial.png" class="side" src="https://calcpad.eu/media/mechanics/beams/cantilever-beam-distributed-load-partial.png">
+'<p><b>Input data</b></p>
+'Beam Length -'l = ?'m
+'Load -'q = ?'kN/m
+'Distances -'b = ?'m,'a = l - b'm
+#post
+'<p><b>Internal forces</b></p>
+'Bending -'M = q*b*(a + b/2)'kN·m
+'Shear -'V = q*b'kN
+'<p><b>Diagrams</b></p>
+#hide
+PlotWidth = 600
+PlotHeight = 150
+#show
+'Calculate internal forces at'x_1 = ?'m
+#pre
+
+#post
+'Bending
+M(x) = -M + V*x - q*(x - a)^2/2*(x > a)
+$Plot{-M(x) @ x = 0 : l}
+M(x_1)'kN·m
+'Shear
+V(x) = V - q*(x - a)*(x > a)
+$Plot{V(x) @ x = 0 : l}
+V(x_1)'kN
+#show
+'</div>5	5	3	1

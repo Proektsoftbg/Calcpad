@@ -1,0 +1,46 @@
+"Simply Supported Beam with Linearly Distributed Load
+'<hr /><div style = "max-width:180mm;">
+'<img style="width:190pt;" alt = "simply-supported-beam-distributed-load-linear.png" class="side" src = "https://calcpad.eu/media/mechanics/beams/simply-supported-beam-distributed-load-linear.png">
+'<p><b>Input data</b></p>
+'Beam length -'l = ?'m
+'Load -'q_1 = ?'kN/m,'q_2 = ?'kN/m
+#post
+Δq = q_2 - q_1'kN/m
+'<p><b>Internal forces</b></p>
+#if '<!--'q_1 ≡ q_2'-->
+	'Bending -'M_max = q_1*l^2/8
+#else if '<!--'q_1 ≡ 0'-->
+	'Distance -'x_max = l/sqr(3)'m
+	'Bending
+	M_max = Δq*l^2/(9*sqr(3))'kN·m
+#else
+	k = Δq/q_1
+	'Distance
+	x_max = l/k*(sqr(1 + k + k^2/3) - 1)'m
+	'Bending
+	M_max = q_1*x_max*(l - x_max)/2 + Δq*x_max*l*(1 - (x_max/l)^2)/6'kN·m
+#end if
+'Shear
+V_A = l*(q_1/2 + Δq/6)'kN
+V_B = l*(q_1/2 + Δq/3)'kN
+'<p><b>Diagrams</b></p>
+#hide
+PlotWidth = 600
+PlotHeight = 150
+#show
+'Calculate internal forces at'x_1 = ?'m
+#pre
+
+
+
+#post
+'Bending
+M(x) = q_1*x*(l - x)/2 + Δq*x*l*(1 - (x/l)^2)/6
+$Plot{-M(x) @ x = 0 : l}
+M(x_1)'kN·m
+'Shear
+V(x) = q_1*(l/2 - x) + Δq*(l/6 - x^2/(2*l))
+$Plot{V(x) @ x = 0 : l}
+V(x_1)'kN
+#show
+'</div>5	5	15	1

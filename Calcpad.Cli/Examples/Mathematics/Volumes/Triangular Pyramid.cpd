@@ -1,0 +1,22 @@
+"Volume of Triangular Pyramid
+'<hr /><div style = "max-width:110mm"><img style="height:60pt;" class="side" alt="triangular-pyramid.png" src = "https://calcpad.eu/media/math/volume/triangular-pyramid.png"></div>
+'Dimensions of base
+a = ?','b = ?','c = ?
+'Height
+h = ?
+'<!--
+#if (a + b > c)*(b + c > a)*(c + a > b)
+'<-->
+'Semiperimeter of base
+p = 0.5*(a + b + c)
+'Area of base (Heron equation)
+A = sqr(p*(p - a)*(p - b)*(p - c)) 
+'Volume
+V = 1/3*A*h
+'<!--
+#else
+'<-->
+'The sum of each two sides must be greater than the third.
+'<!--
+#end if
+'<-->5	4	3	2

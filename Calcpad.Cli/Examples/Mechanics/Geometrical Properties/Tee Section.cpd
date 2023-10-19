@@ -1,0 +1,26 @@
+"Geometrical Properties of Tee Section
+'<hr /><div style="max-width:120mm"><img style="height:150pt;" alt="tee.png" class="side" src="https://calcpad.eu/media/mechanics/sections/tee.png"></div>
+'Dimensions
+h = ?'%u,'t_w = ?'%u
+b_f = ?'%u,'t_f = ?'%u
+'Area
+A_w = h*t_w'%u<sup>2</sup>
+A_f = (b_f - t_w)*t_f'%u<sup>2</sup>
+A = A_w + A_f'%u<sup>2</sup>
+'Centroid
+y_c = b_f/2'%u
+S_y = A_w*h/2 + A_f*(h - t_f/2)'%u<sup>3</sup>
+z_c = S_y/A'%u
+'Perimeter
+P = 2*(h + b_f)'%u
+'Second moments of area
+I_y_w = A_w*(h^2/12 +(z_c - h/2)^2)'%u<sup>4</sup>
+I_y_f = A_f*(t_f^2/12 + (h - z_c - t_f/2)^2)'%u<sup>4</sup>
+I_y = I_y_w + I_y_f'%u<sup>4</sup>
+I_z = (t_f*b_f^3 + (h - t_f)*t_w^3)/12'%u<sup>4</sup>
+'Polar moment of area
+I_x = I_y + I_z'%u<sup>4</sup>
+'Radii of gyration
+r_y = sqrt(I_y/A)'%u
+r_z = sqrt(I_z/A)'%u
+r_x = sqrt(I_x/A)'%u20	2	10	5
