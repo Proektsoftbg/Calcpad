@@ -14,9 +14,9 @@ https://github.com/Proektsoftbg/Calcpad/blob/main/Setup/Linux/Calcpad.6.1.7.deb
 
 Then, install Calcpad, using the following command:
 ```
-sudo apt-get install -y <path to your 'downloads' folder>/Calcpad.6.1.7.deb
+sudo apt-get install -y <path-to-your-downloads-folder>/Calcpad.6.1.7.deb
 ```
-Instead of `<path to your 'downloads' folder>` you must put the actual path, something like:
+Instead of `<path-to-your-downloads-folder>` you must put the actual path, something like this:
 ```
 sudo apt-get install -y /home/ned/snap/chromium/2666/Downloads/Calcpad.6.1.7.deb
 ```
@@ -41,12 +41,9 @@ sudo apt-get install sublime-text
 ```
 Then, goto https://github.com/Proektsoftbg/Calcpad/tree/main/Setup/Linux/Sublime and download the following files:
 
-calcpad.sublime-build
-
-calcpad.sublime-completions
-
-calcpad.sublime-syntax
-
+calcpad.sublime-build<br/>
+calcpad.sublime-completions<br/>
+calcpad.sublime-syntax<br/>
 Monokai.sublime-color-scheme
 
 Copy them to the Sublime Text user package folder:
@@ -54,10 +51,11 @@ Copy them to the Sublime Text user package folder:
 /home/&lt;user&gt;/.config/sublime-text/Packages/User
 
 Here, &lt;user&gt; must be your actual user name.
-Then you can open Sublime Text and Chromium with the following commands:
+Finally, you can open Sublime Text and Chromium with the following commands:
+```
 subl &
-chromium
-
+chromium &
+```
 Put them side to side. Start a new *.cpd file in Sublime Text or open an example from the /home/&lt;user&gt;/Calcpad folder.
 Press Ctrl+B to calculate. If everything is OK, the results will show in Chromium:
 
