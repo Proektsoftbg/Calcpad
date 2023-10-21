@@ -1837,25 +1837,51 @@ You can find your unsaved data in
             SetCodeCheckBoxVisibility();
             _isTextChangedEnabled = false;
             RichTextBox.BeginChange();
-            _document.Blocks.Clear();
-            int j = 1;
+            var blocks = _document.Blocks;  
+            int j = 1, n = blocks.Count;
             var indent = 0d;
+            var b = blocks.FirstBlock;
             foreach (var line in lines)
             {
-                var p = new Paragraph();
+                if (j < n)
+                {
+                    var s = new TextRange(b.ContentStart, b.ContentEnd).Text; 
+                    if (line.SequenceEqual(s))
+                    {
+                        if (_currentParagraph == b)
+                            _highlighter.Parse(_currentParagraph, IsComplex, j);
+
+                        var bp = (Paragraph)b;
+                        if (!UpdateIndent(bp, ref indent))
+                            bp.TextIndent = indent;
+
+                        b = b.NextBlock;
+                        ++j;
+                        continue;
+                    }
+                }
+                var p = b is not null ? (Paragraph)b: new Paragraph();
                 _highlighter.Parse(p, IsComplex, j, line.ToString());
                 if (!UpdateIndent(p, ref indent))
                     p.TextIndent = indent;
 
-                _document.Blocks.Add(p);
+                if (b is null)
+                    blocks.Add(p);
+                else
+                    b = b.NextBlock;
                 ++j;
             }
-            _document.Blocks.Remove(_document.Blocks.LastBlock);
+            blocks.Remove(blocks.LastBlock);
+            while (j < n)
+            {
+                blocks.Remove(blocks.LastBlock);
+                --n;
+            }   
             if (currentLine < 1)
                 currentLine = 1;
-            else if (currentLine > _document.Blocks.Count)
-                currentLine = _document.Blocks.Count;
-            _currentParagraph = (Paragraph)_document.Blocks.ElementAt(currentLine - 1);
+            else if (currentLine > n)
+                currentLine = n;
+            _currentParagraph = (Paragraph)blocks.ElementAt(currentLine - 1);
             _currentLineNumber = currentLine;
             var pointer = HighLighter.FindPositionAtOffset(_currentParagraph, offset);
             RichTextBox.Selection.Select(pointer, pointer);
