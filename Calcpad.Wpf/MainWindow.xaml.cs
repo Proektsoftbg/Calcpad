@@ -672,7 +672,7 @@ You can find your unsaved data in
 
             var s = ".cpd";
             if (!string.IsNullOrWhiteSpace(CurrentFileName))
-                s = Path.GetExtension(CurrentFileName);
+                s = Path.GetExtension(CurrentFileName).ToLowerInvariant();
 
             var dlg = new OpenFileDialog
             {
@@ -702,7 +702,7 @@ You can find your unsaved data in
             if ((string)SaveButton.Tag == "S" || string.IsNullOrWhiteSpace(CurrentFileName))
                 FileSaveAs();
             else
-                FileSave();
+                FileSave(CurrentFileName);
         }
 
         private void ReadSettings()
@@ -931,7 +931,7 @@ You can find your unsaved data in
         {
             string s;
             if (!string.IsNullOrWhiteSpace(CurrentFileName))
-                s = Path.GetExtension(CurrentFileName);
+                s = Path.GetExtension(CurrentFileName).ToLowerInvariant();
             else if (MacroParser.HasInputFields(InputText))
                 s = ".cpd";
             else
@@ -960,16 +960,19 @@ You can find your unsaved data in
             var result = (bool)dlg.ShowDialog();
             if (!result)
                 return false;
-            CopyLocalImages(dlg.FileName);
-            CurrentFileName = dlg.FileName;
 
-            if (s == ".cpdz" && Path.GetExtension(CurrentFileName) != ".cpdz")
-                CurrentFileName = Path.ChangeExtension(CurrentFileName, ".cpdz");
+            var fileName = dlg.FileName;
+            if (s == ".cpdz" && !IsCpdz())
+                fileName = Path.ChangeExtension(fileName, ".cpdz");
 
-            _parser.ShowWarnings = s != ".cpdz";
-            FileSave();
-            AddRecentFile(CurrentFileName);
+            s = Path.GetExtension(fileName);
+            _parser.ShowWarnings = !IsCpdz();
+            CopyLocalImages(fileName);
+            FileSave(fileName);
+            AddRecentFile(fileName);
             return true;
+
+            bool IsCpdz() => string.Equals(Path.GetExtension(fileName), ".cpdz", StringComparison.OrdinalIgnoreCase);
         }
 
         private void CopyLocalImages(string newFileName)
@@ -1012,7 +1015,6 @@ You can find your unsaved data in
                                         ShowErrorMessage(e.Message);
                                         break;
                                     }
-
                                 }
                             }
                         }
@@ -1028,13 +1030,14 @@ You can find your unsaved data in
             }
         }
 
-        private void FileSave()
+        private void FileSave(string fileName)
         {
             if (IsWebForm)
                 SetAutoIndent();
 
-            _macroParser.Parse(InputText, out var outputText, null, 0);
-            if (MacroParser.HasInputFields(outputText))
+            _macroParser.Parse(InputText, out var outputText, null, 0, false);
+            var hasInputFields = MacroParser.HasInputFields(outputText);
+            if (hasInputFields)
             {
                 if (IsWebForm)
                 {
@@ -1049,7 +1052,20 @@ You can find your unsaved data in
                         return;
                 }
             }
-            WriteFile(CurrentFileName, GetInputText());
+            var isZip = string.Equals(Path.GetExtension(fileName), ".cpdz", StringComparison.OrdinalIgnoreCase);
+            if (isZip)
+            {
+                if (hasInputFields)
+                    _macroParser.Parse(InputText, out outputText, null, 0, false);
+
+                WriteFile(fileName, outputText, true);
+                FileOpen(fileName);
+            }
+            else
+            {
+                WriteFile(fileName, GetInputText());
+                CurrentFileName = fileName;
+            }
             SaveButton.Tag = null;
             IsSaved = true;
         }
@@ -1131,7 +1147,7 @@ You can find your unsaved data in
             if (_isParsing)
                 _parser.Cancel();
 
-            var ext = Path.GetExtension(fileName);
+            var ext = Path.GetExtension(fileName).ToLowerInvariant();
             CurrentFileName = fileName;
 
             var hasForm = GetInputTextFromFile();
@@ -1201,7 +1217,7 @@ You can find your unsaved data in
                         return MessageBoxResult.Cancel;
                 }
                 else
-                    FileSave();
+                    FileSave(CurrentFileName);
             }
             return result;
         }
@@ -1231,7 +1247,7 @@ You can find your unsaved data in
             string outputText;
             if (_highlighter.Defined.HasMacros)
             {
-                var hasErrors = _macroParser.Parse(inputText, out outputText, null, 0);
+                var hasErrors = _macroParser.Parse(inputText, out outputText, null, 0, true);
                 _htmlUnwarpedCode = hasErrors || DisplayUnwarpedCode ?
                     CodeToHtml(outputText) :
                     string.Empty;
@@ -1480,6 +1496,9 @@ You can find your unsaved data in
             {
                 if (string.Equals(Path.GetExtension(fileName), ".cpdz", StringComparison.OrdinalIgnoreCase))
                 {
+                    if (Zip.IsComposite(fileName))
+                        return Zip.DecompressWithImages(fileName);
+
                     var f = new FileInfo(fileName)
                     {
                         IsReadOnly = false
@@ -1507,12 +1526,17 @@ You can find your unsaved data in
             {
                 if (string.Equals(Path.GetExtension(fileName), ".cpdz", StringComparison.OrdinalIgnoreCase))
                 {
-                    var f = new FileInfo(fileName)
+                    if (Zip.IsComposite(fileName))
+                        lines = Zip.DecompressWithImages(fileName).EnumerateLines();   
+                    else
                     {
-                        IsReadOnly = false
-                    };
-                    using var fs = f.OpenRead();    
-                    lines = Zip.Decompress(fs);
+                        var f = new FileInfo(fileName)
+                        {
+                            IsReadOnly = false
+                        };
+                        using var fs = f.OpenRead();
+                        lines = Zip.Decompress(fs);
+                    }
                 }
                 else
                 {
@@ -1526,15 +1550,14 @@ You can find your unsaved data in
             return lines;
         }
 
-        private static void WriteFile(string fileName, string s)
+        private static void WriteFile(string fileName, string s, bool zip = false)
         {
             try
             {
-                if (Path.GetExtension(fileName).ToLowerInvariant() == ".cpdz")
+                if (zip)
                 {
-                    var f = new FileInfo(fileName);
-                    using var fs = f.Create();
-                    Zip.Compress(s, fs);
+                    var images = GetLocalImages(s);
+                    Zip.CompressWithImages(s, images, fileName);
                 }
                 else
                 {
@@ -1583,6 +1606,8 @@ You can find your unsaved data in
                 }
                 _document.Blocks.Add(new Paragraph(new Run(s.ToString())));
             }
+            if (_document.Blocks.Count == 0)
+                _document.Blocks.Add(new Paragraph(new Run()));
 
             var b = _document.Blocks.LastBlock;
             if (b.ContentStart.GetOffsetToPosition(b.ContentEnd) == 0)
@@ -2188,7 +2213,7 @@ You can find your unsaved data in
                 var s = string.Join(" ", args, 1, n - 1);
                 if (File.Exists(s))
                 {
-                    var ex = Path.GetExtension(s);
+                    var ex = Path.GetExtension(s).ToLowerInvariant();
                     if (ex == ".cpd" || ex == ".cpdz")
                     {
                         _parser.ShowWarnings = ex != ".cpdz";
@@ -3134,7 +3159,7 @@ You can find your unsaved data in
                     var tt = (ToolTip)r.ToolTip;
                     if (tt is not null)
                         tt.Visibility = Visibility.Hidden;
-                    var ext = Path.GetExtension(fileName);
+                    var ext = Path.GetExtension(fileName).ToLowerInvariant();
                     var path = Path.GetFullPath(fileName);
                     Process process;
                     if (ext == ".txt")
@@ -3489,7 +3514,15 @@ You can find your unsaved data in
             }
             else if (_isSaving)
             {
-                WriteFile(CurrentFileName, GetInputText());
+                var zip = string.Equals(Path.GetExtension(CurrentFileName), ".cpdz", StringComparison.OrdinalIgnoreCase);
+                if (zip)
+                {
+                    _macroParser.Parse(InputText, out var outputText, null, 0, false);
+                    WriteFile(CurrentFileName, outputText, true);
+                }
+                else
+                    WriteFile(CurrentFileName, GetInputText());
+
                 _isSaving = false;
                 IsSaved = true;
             }

@@ -25,7 +25,7 @@ namespace Calcpad.Core
             {
                 i = _span[1..].IndexOf(_commentChar) + 2;
                 if (i == 1)
-                    i = -1;
+                    i = _span.Length;
 
                 _commentChar = '\0';
             }

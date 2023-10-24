@@ -96,7 +96,7 @@ namespace Calcpad.Core
         }
 
         private int _parsedLineNumber;
-        public bool Parse(string sourceCode, out string outCode, StringBuilder sb, int includeLine)
+        public bool Parse(string sourceCode, out string outCode, StringBuilder sb, int includeLine, bool addLineNumbers)
         {
             var sourceLines = sourceCode.EnumerateLines();
             if (includeLine == 0)
@@ -230,13 +230,13 @@ namespace Calcpad.Core
                         AppendError(lineContent.ToString(), "Brackets not closed.");
                     else
                     {
-                        SplitEnumerator split = lineContent[(nf1 + 1)..nf2].EnumerateSplits(';');
+                        SplitEnumerator split = lineContent[(nf1 + 2)..nf2].EnumerateSplits(';');
                         foreach (var item in split)
                             fields.Enqueue(item.Trim().ToString());
                     }
                 }
                 if (fileExist)
-                    Parse(Include(insertFileName, fields), out _, sb, lineNumber);
+                    Parse(Include(insertFileName, fields), out _, sb, lineNumber, addLineNumbers);
             }
 
             void ParseDef(ReadOnlySpan<char> lineContent)
@@ -356,7 +356,11 @@ namespace Calcpad.Core
 
             void AppendLine(string line)
             {
-                sb.AppendLine(line + '\v' + lineNumber.ToString());
+                if (addLineNumbers)
+                    sb.AppendLine(line + '\v' + lineNumber.ToString());
+                else
+                    sb.AppendLine(line);
+
                 ++_parsedLineNumber;
             }
 
