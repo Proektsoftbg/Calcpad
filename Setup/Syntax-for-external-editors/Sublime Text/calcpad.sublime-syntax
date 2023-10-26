@@ -43,7 +43,7 @@ contexts:
         pop: true
       - match: '[^a-zA-Z]'
         pop: true
-    - match: '\b[a-zA-Zα-ωΑ-Ω°øØ∡]+[a-zA-Zα-ωΑ-Ω°øØ∡0-9_,′″‴⁗]*\b'
+    - match: '\b[a-zA-Zα-ωΑ-Ω°øØ∡]+[a-zA-Zα-ωΑ-Ω°øØ∡0-9_,′″‴⁗⁰¹²³⁴⁵⁶⁷⁸⁹ⁿ⁺⁻]*\b'
       scope: variable.function.calcpad variable.other.calcpad
     - match: '\b([0-9]*\.?[0-9]+)'
       scope: constant.numeric.calcpad
