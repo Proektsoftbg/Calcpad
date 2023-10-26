@@ -19,60 +19,49 @@ namespace Calcpad.Wpf
             ms.CopyTo(ds);
         }
 
+        private const string codeFileName = "code.cpd";
         internal static void CompressWithImages(string text, string[] images, string fileName)
         {
-            using (FileStream zipStream = new FileStream(fileName, FileMode.Create))
+            using FileStream zipStream = new(fileName, FileMode.Create);
+            using ZipArchive archive = new(zipStream, ZipArchiveMode.Create);
+            ZipArchiveEntry textEntry = archive.CreateEntry(Path.GetFileName(codeFileName), CompressionLevel.Fastest);
+            using (Stream entryStream = textEntry.Open())
             {
-                using (ZipArchive archive = new ZipArchive(zipStream, ZipArchiveMode.Create))
+                //Crypto.EncryptString(text, entryStream);         //Use this if need higher security
+                Compress(text, entryStream);                       //Use this if you need smaller files
+            }
+            if (images is null)
+                return;
+
+            var sourcePath = Path.GetDirectoryName(fileName);
+            var sourceParent = Directory.GetDirectoryRoot(sourcePath);
+            if (!string.Equals(sourceParent, sourcePath, StringComparison.OrdinalIgnoreCase))
+                sourceParent = Directory.GetParent(sourcePath).FullName;
+
+            var regexString = @"src\s*=\s*""\s*\.\./";
+            for (int i = 0; i < 2; ++i)
+            {
+                foreach (var image in images)
                 {
-                    var textFile = Path.GetTempFileName();
-                    File.WriteAllText(textFile, Crypto.EncryptString(text));
-                    ZipArchiveEntry textEntry = archive.CreateEntry(Path.GetFileName(textFile));
-                    using (Stream entryStream = textEntry.Open())
+                    var m = Regex.Match(image, regexString, RegexOptions.IgnoreCase);
+                    if (m.Success)
                     {
-                        using (var fileStream = File.OpenRead(textFile))
+                        var n = m.Length;
+                        var imageFileName = image[n..^1].Replace('/', '\\');
+                        var imageFilePath = Path.Combine(sourceParent, imageFileName);
+                        if (File.Exists(imageFilePath))
                         {
+                            ZipArchiveEntry imageEntry = archive.CreateEntry(imageFileName, CompressionLevel.Fastest);
+                            using Stream entryStream = imageEntry.Open();
+                            using FileStream fileStream = File.OpenRead(imageFilePath);
                             fileStream.CopyTo(entryStream);
                         }
                     }
-                    if (images is null)
-                        return;
-                    
-                    var sourcePath = Path.GetDirectoryName(fileName);
-                    var sourceParent = Directory.GetDirectoryRoot(sourcePath);
-                    if (!string.Equals(sourceParent, sourcePath, StringComparison.OrdinalIgnoreCase))
-                        sourceParent = Directory.GetParent(sourcePath).FullName;
-
-                    var regexString = @"src\s*=\s*""\s*\.\./";
-                    for (int i = 0; i < 2; ++i)
-                    {
-                        foreach (var image in images)
-                        {
-                            var m = Regex.Match(image, regexString, RegexOptions.IgnoreCase);
-                            if (m.Success)
-                            {
-                                var n = m.Length;
-                                var imageFileName = image[n..^1].Replace('/', '\\');
-                                var imageFilePath = Path.Combine(sourceParent, imageFileName);
-                                if (File.Exists(imageFilePath))
-                                {
-                                    ZipArchiveEntry imageEntry = archive.CreateEntry(imageFileName);
-                                    using (Stream entryStream = imageEntry.Open())
-                                    {
-                                        using (FileStream fileStream = File.OpenRead(imageFilePath))
-                                        {
-                                            fileStream.CopyTo(entryStream);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        regexString = @"src\s*=\s*""\s*\./";
-                        if (string.Equals(sourceParent, sourcePath, StringComparison.OrdinalIgnoreCase))
-                            return;
-                        sourceParent = sourcePath;
-                    }
                 }
+                regexString = @"src\s*=\s*""\s*\./";
+                if (string.Equals(sourceParent, sourcePath, StringComparison.OrdinalIgnoreCase))
+                    return;
+                sourceParent = sourcePath;
             }
         }
 
@@ -91,14 +80,11 @@ namespace Calcpad.Wpf
 
         internal static bool IsComposite(string fileName)
         {
-            byte[] signature = new byte[] { 0x50, 0x4B }; // Signature for ZIP files
-
-            using (FileStream fileStream = File.OpenRead(fileName))
-            {
-                byte[] fileSignature = new byte[2];
-                fileStream.Read(fileSignature, 0, 2);
-                return fileSignature[0] == signature[0] && fileSignature[1] == signature[1];
-            }
+            var signature = "PK"u8; // Signature for ZIP files
+            using FileStream fileStream = File.OpenRead(fileName);
+            byte[] fileSignature = new byte[2];
+            fileStream.Read(fileSignature, 0, 2);
+            return signature.SequenceEqual(fileSignature);
         }
 
         internal static string DecompressWithImages(string fileName)
@@ -112,15 +98,17 @@ namespace Calcpad.Wpf
                     string entryPath = Path.Combine(filePath, entry.FullName);
                     Directory.CreateDirectory(Path.GetDirectoryName(entryPath));
                     if (entry.Length == 0) // It's a directory
-                        Directory.CreateDirectory(entryPath);
+                        Directory.CreateDirectory(entryPath); 
                     else // It's a file
                     {
-                        entry.ExtractToFile(entryPath, true);
-                        if (string.Equals(Path.GetExtension(entry.Name), ".tmp", StringComparison.OrdinalIgnoreCase))
+                        if (string.Equals(entry.Name, codeFileName, StringComparison.Ordinal))
                         {
-                            text = Crypto.DecryptString(File.ReadAllText(entryPath));
-                            File.Delete(entryPath);
+                            using Stream entryStream = entry.Open();
+                            //text = Crypto.DecryptString(entryStream);     //Use this if need higher security
+                            text = DecompressToString(entryStream);         //Use this if you need smaller files
                         }
+                        else
+                            entry.ExtractToFile(entryPath, true);                   
                     }
                 }
             }

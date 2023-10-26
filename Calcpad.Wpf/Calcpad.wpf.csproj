@@ -46,7 +46,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.50" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.54" />
     <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
   </ItemGroup>
   
