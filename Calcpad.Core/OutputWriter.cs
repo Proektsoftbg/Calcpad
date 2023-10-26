@@ -621,14 +621,15 @@ namespace Calcpad.Core
             Run(' ' + s, $"<m:rPr><m:nor/></m:rPr><w:rPr {wXmlns}><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\" /><w:sz w:val=\"22\" /></w:rPr>");
         internal override string FormatFunction(string s)
         {
+            var format = $"<m:rPr><m:nor/></m:rPr><w:rPr {wXmlns}><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\" /></w:rPr>";
             var i = s.IndexOf('_');
             if (i <= 0) return
-                Run(s);
+                Run(s, format);
 
             var i1 = i + 1;
             return i1 < s.Length ?
-                FormatSubscript(Run(s[..i]), s[(i + 1)..]) :
-                Run(s);
+                FormatSubscript(Run(s[..i], format), s[(i + 1)..]) :
+                Run(s, format);
         }
         internal override string FormatRoot(string s, bool formatEquations, int level = 0, string n = "2") => n switch
         {
