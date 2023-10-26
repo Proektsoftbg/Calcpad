@@ -322,7 +322,7 @@ namespace Calcpad.Cli
                 {
                     Include = CalcpadReader.Include
                 };
-                var hasMacroErrors = macroParser.Parse(code, out var unwrappedCode, null, 0);
+                var hasMacroErrors = macroParser.Parse(code, out var unwrappedCode, null, 0, true);
                 string htmlResult;
                 Converter converter = new(isSilent);
                 if (hasMacroErrors)
