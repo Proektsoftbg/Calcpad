@@ -23,7 +23,7 @@ namespace Calcpad.Core
 
         private static bool _isUs;
         private static readonly char[] CompositeUnitChars = { Calculator.NegChar, '/', '·', '^' };
-        private static readonly string[] Names = { "g", "m", "s", "A", "°C", "mol", "cd", "°", "" };
+        private static readonly string[] Names = { "g", "m", "s", "A", "°C", "mol", "cd", "rad", "" };
         private static readonly Dictionary<string, Unit> Units;
         private static readonly Unit[] ForceUnits = new Unit[9], ForceUnits_US = new Unit[9];
         private static readonly HashSet<Unit> ElectricalUnits = new(9);
@@ -88,7 +88,7 @@ namespace Calcpad.Core
             return Field.Other;
         }
 
-        private bool HasTemp => Length == 5 && _powers[4] != 0f;
+        private bool HasTemp => Length >= 5 && _powers[4] != 0f;
 
         internal bool IsTemp => Length == 5 &&
                                 _powers[4] == 1f &&
@@ -768,16 +768,16 @@ namespace Calcpad.Core
                 {"nSv", Sv.Shift(-9)},
                 {"pSv", Sv.Shift(-12)},
 
-                {"lm",  new("lm", 0, 0, 0, 0, 0, 0, 1)},
-                {"lx",  new("lx", 0, -2, 0, 0, 0, 0, 1)},
-                {"kat", new("kat", 0, 0, -1, 0, 0, 1)},
+                {"lm",  new("lm",  0,  0,  0, 0, 0, 0, 1)},
+                {"lx",  new("lx",  0, -2,  0, 0, 0, 0, 1)},
+                {"kat", new("kat", 0,  0, -1, 0, 0, 1)},
 
                 {"°",  new("°",       0, 0, 0, 0, 0, 0, 0, 1)},
                 {"′",  new("′",       0, 0, 0, 0, 0, 0, 0, 1)},
                 {"″",  new("″",       0, 0, 0, 0, 0, 0, 0, 1)},
                 {"rad",  new("rad",   0, 0, 0, 0, 0, 0, 0, 1)},
                 {"grad",  new("grad", 0, 0, 0, 0, 0, 0, 0, 1)},
-                {"rev",  new("rev", 0, 0, 0, 0, 0, 0, 0, 1)}
+                {"rev",  new("rev",   0, 0, 0, 0, 0, 0, 0, 1)}
             };
             var u = Units[string.Empty];
             u._powers[8] = 1f;
@@ -787,7 +787,7 @@ namespace Calcpad.Core
             Units["″"].Scale(Math.PI / 648000.0);
             Units.Add("deg", Units["°"]);
             Units["grad"].Scale(Math.PI / 200.0);
-            Units["rev"].Scale(Math.PI * 2.0);
+            Units["rev"].Scale(Math.Tau);
             Units["K"]._tempChar = 'K';
             Units["°F"]._tempChar = 'F';
             Units["Δ°F"]._tempChar = 'F';
@@ -822,15 +822,13 @@ namespace Calcpad.Core
         }
 
         private string UnitName(int i) =>
-            i == 4 ?
-                _tempChar switch
-                {
-                    'K' => "K",
-                    'F' => "°F",
-                    'R' => "°R",
-                    _ => Names[i]
-                } : 
-                Names[i];
+            i == 4 ? _tempChar switch
+            {
+                'K' => "K",
+                'F' => "°F",
+                'R' => "°R",
+                _ => Names[i]
+            } : Names[i];
 
         private string GetText(OutputWriter.OutputFormat format)
         {
@@ -1161,11 +1159,16 @@ namespace Calcpad.Core
             var factor = 1d;
             for (int i = 0; i < n; ++i)
             {
-                var d = NormDim(_factors[i], UnitName(i));
-                if (d != 1d)
-                    _factors[i] /= d;
+                if (_powers[i] == 0f)
+                    continue;   
 
-                factor *= Math.Pow(d, _powers[i]);
+                var d = _factors[i];
+                if (d != 1d)
+                {
+                    d = NormDim(d, UnitName(i));
+                    _factors[i] /= d;
+                    factor *= Math.Pow(d, _powers[i]);
+                }
             }
             return factor;
         }
@@ -1249,6 +1252,25 @@ namespace Calcpad.Core
                             else
                                 factor = a / 12000d;
                         }
+                    }
+                    break;
+                }
+                case "rad":
+                {
+                        if (Math.Abs(factor - Math.Tau) < 1e-12)
+                            return 1d;
+
+                    var a = Math.PI / factor;
+                    if (Math.Abs(a - Math.Round(a)) < 1e-12)
+                    {
+                        var b = Math.Round(a);
+                        if (b == 180d ||
+                            b == 200d ||
+                            b == 10800d ||
+                            b == 648000d)
+                            return 1d;
+                        else
+                            return a * Math.PI;
                     }
                     break;
                 }
@@ -1411,8 +1433,14 @@ namespace Calcpad.Core
                         }
                         break;
                     }
-                    case "°":
+                    case "rad":
                     {
+                        if (Math.Abs(factor - Math.Tau) < 1e-12)
+                        {
+                            name = "rev";
+                            factor = 1d;
+                            break;
+                        }
                         var a = Math.PI / factor;
                         if (Math.Abs(a - Math.Round(a)) < 1e-12)
                         {
@@ -1420,11 +1448,8 @@ namespace Calcpad.Core
                             factor = 1d;
                             switch (b)
                             {
-                                case 2d:
-                                    name = "rev";
-                                    break;
                                 case 180d:
-                                    name = "°";
+                                    name = "deg";
                                     break;
                                 case 200d:
                                     name = "grad";
@@ -1453,11 +1478,14 @@ namespace Calcpad.Core
             else
                 name = writer.FormatUnits(name);
 
+            if (power == 1f)
+                return name;  
+            
             var sp = writer.FormatReal(power, 1);
             if (power < 0 && writer is TextWriter)
                 sp = writer.AddBrackets(sp);
 
-            return power != 1f ? writer.FormatPower(name, sp, 0, -1) : name;
+            return writer.FormatPower(name, sp, 0, -1);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1528,7 +1556,7 @@ namespace Calcpad.Core
             {
                 uc.Scale(d);
                 d = 1d;
-                if (ub.Text.AsSpan().Contains('·'))
+                if (ub.Text.Contains('·'))
                     uc._text = $"{ua.Text}/({ub.Text})";
                 else
                     uc._text = ua.Text + '/' + ub.Text;
