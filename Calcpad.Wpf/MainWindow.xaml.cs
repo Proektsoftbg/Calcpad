@@ -1902,6 +1902,7 @@ You can find your unsaved data in
                 blocks.Remove(blocks.LastBlock);
                 --n;
             }   
+            n = blocks.Count;   
             if (currentLine < 1)
                 currentLine = 1;
             else if (currentLine > n)
