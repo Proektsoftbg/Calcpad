@@ -386,13 +386,11 @@ namespace Calcpad.Core
 
                 void RenderMultiFunctionToken(RenderToken t, RenderToken b)
                 {
-                    var sb = b.Content;
                     var mfParamCount = t.ParameterCount - 1;
-
                     if (string.Equals(t.Content, "switch", StringComparison.OrdinalIgnoreCase) && _formatEquations)
                     {
                         var args = new string[mfParamCount + 1];
-                        args[mfParamCount] = sb;
+                        args[mfParamCount] = b.Content;
                         for (int j = mfParamCount - 1; j >= 0; --j)
                         {
                             var a = stackBuffer.Pop();
@@ -411,42 +409,42 @@ namespace Calcpad.Core
                     }
                     else
                     {
-                        var s = sb;
-                        t.Level = b.Level;
-                        t.MinOffset = b.MinOffset;
-                        t.MaxOffset = b.MaxOffset;
-                        for (int j = 0; j < mfParamCount; ++j)
-                        {
-                            var a = stackBuffer.Pop();
-                            s = a.Content + div + s;
-                            if (a.Level > t.Level)
-                                t.Level = a.Level;
-                            t.MinOffset = Math.Min(a.MinOffset, t.MinOffset);
-                            t.MaxOffset = Math.Max(a.MaxOffset, t.MaxOffset);
-                        }
-                        t.Content = writer.FormatFunction(t.Content) + AddBrackets(s, t.Level, t.MinOffset, t.MaxOffset);
+                        var s = RenderParameters(t, b, mfParamCount);
+                        t.Content = writer.FormatFunction(t.Content) + 
+                            AddBrackets(s, t.Level, t.MinOffset, t.MaxOffset);
+                        t.MinOffset = 0;
+                        t.MaxOffset = 0;
                     }
                 }
 
                 void RenderCustomFunctionToken(RenderToken t, RenderToken b)
                 {
-                    var sb = b.Content;
                     var cf = _functions[t.Index];
                     var cfParamCount = cf.ParameterCount - 1;
-                    var s = sb;
+                    var s = RenderParameters(t, b, cfParamCount);
+                    t.Content = writer.FormatVariable(t.Content, string.Empty) +
+                        AddBrackets(s, t.Level, t.MinOffset, t.MaxOffset);
+                    t.MinOffset = 0;
+                    t.MaxOffset = 0;
+                }
+
+                string RenderParameters(RenderToken t, RenderToken b, int count)
+                {
+                    var s = b.Content;
                     t.Level = b.Level;
                     t.MinOffset = b.MinOffset;
                     t.MaxOffset = b.MaxOffset;
-                    for (int j = 0; j < cfParamCount; ++j)
+                    for (int j = 0; j < count; ++j)
                     {
                         var a = stackBuffer.Pop();
                         s = a.Content + div + s;
                         if (a.Level > t.Level)
                             t.Level = a.Level;
+
                         t.MinOffset = Math.Min(a.MinOffset, t.MinOffset);
                         t.MaxOffset = Math.Max(a.MaxOffset, t.MaxOffset);
                     }
-                    t.Content = writer.FormatVariable(t.Content, string.Empty) + AddBrackets(s, t.Level, t.MinOffset, t.MaxOffset);
+                    return s;
                 }
 
                 void RenderFactorialToken(RenderToken t, RenderToken b)
@@ -469,18 +467,16 @@ namespace Calcpad.Core
 
                 void RenderAbsToken(RenderToken t, RenderToken b)
                 {
-                    var sb = b.Content;
-                    t.Content = writer.FormatAbs(sb, b.Level);
+                    t.Content = writer.FormatAbs(b.Content, b.Level);
                     t.Level = b.Level;
-   
                 }
 
                 void RenderFunctionToken(RenderToken t, RenderToken b)
                 {
-                    var sb = b.Content;
                     t.Content = (t.Type == TokenTypes.Function ?
                         writer.FormatFunction(t.Content) :
-                        writer.FormatVariable(t.Content, string.Empty)) + AddBrackets(sb, b.Level, b.MinOffset, b.MaxOffset);
+                        writer.FormatVariable(t.Content, string.Empty)) + 
+                        AddBrackets(b.Content, b.Level, b.MinOffset, b.MaxOffset);
                     t.Level = b.Level;
                 }
 
