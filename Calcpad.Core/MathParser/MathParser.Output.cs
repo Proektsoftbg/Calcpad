@@ -70,7 +70,10 @@ namespace Calcpad.Core
                 }
                 else
                 {
-                    _stringBuilder.Append(RenderRpn(rpn, false, writer, out var hasOperators));
+                    var equation = RenderRpn(rpn, false, writer, out var hasOperators);
+                    if (_parser.VariableSubstitution != VariableSubstitutionOptions.SubstitutionsOnly)
+                        _stringBuilder.Append(equation);
+
                     if (_parser._isCalculated && _parser._functionDefinitionIndex < 0)
                     {
                         var subst = string.Empty;
@@ -82,10 +85,15 @@ namespace Calcpad.Core
                             rpn[0].Type == TokenTypes.Solver)
                         )
                         {
-                            if (_parser._settings.Substitute && _parser._hasVariables)
+                            if ((_parser._settings.Substitute && 
+                                _parser.VariableSubstitution == VariableSubstitutionOptions.VariablesAndSubstitutions ||
+                                _parser.VariableSubstitution == VariableSubstitutionOptions.SubstitutionsOnly)
+                                && _parser._hasVariables)
                             {
                                 subst = RenderRpn(rpn, true, writer, out hasOperators);
-                                _stringBuilder.Append(assignment);
+                                if (_parser.VariableSubstitution != VariableSubstitutionOptions.SubstitutionsOnly)
+                                    _stringBuilder.Append(assignment);
+
                                 _stringBuilder.Append(subst);
                             }
                             if (!_parser._hasVariables && _assignmentIndex > 0)

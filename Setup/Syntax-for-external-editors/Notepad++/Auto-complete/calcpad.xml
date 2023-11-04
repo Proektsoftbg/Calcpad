@@ -20,6 +20,8 @@
 		<KeyWord name="#local" />
 		<KeyWord name="#loop" />
 		<KeyWord name="#noc" />
+		<KeyWord name="#nosub" />
+		<KeyWord name="#novar" />
 		<KeyWord name="#pause" />
 		<KeyWord name="#post" />
 		<KeyWord name="#pre" />
@@ -28,6 +30,7 @@
 		<KeyWord name="#round" />
 		<KeyWord name="#show" />
 		<KeyWord name="#val" />
+		<KeyWord name="#varsub" />
 		<KeyWord name="$Area" />
 		<KeyWord name="$Find" />
 		<KeyWord name="$Inf" />

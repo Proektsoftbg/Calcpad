@@ -62,7 +62,11 @@ namespace Calcpad.Core
                 for (int i = 0, count = arguments.Count; i < count; i++)
                 {
                     var j = _order[i];
-                    sb.Replace(_parameters[j], arguments[j]);
+                    var s = arguments[j];
+                    if (s[0] == ' ' && s.Length > 1)
+                        sb.Replace(_parameters[j], s[1..]);
+                    else
+                        sb.Replace(_parameters[j], s);
                 }
                 return sb.ToString();
             }

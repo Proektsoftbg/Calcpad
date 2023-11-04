@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     x:Class="Calcpad.Wpf.MainWindow"
     Closing="Window_Closing"
-    Title=" Calcpad 6.1.8" 
+    Title=" Calcpad 6.1.9"
     Height="800" 
     Width="1200"
     WindowStartupLocation="CenterScreen"
@@ -991,16 +991,20 @@
                     <MenuItem Click="Button_Click" Tag="#hide§x = 50§y = 30§#show§'&lt;text x=&quot;'x'&quot; y=&quot;'y'&quot; text-anchor=&quot;start&quot;&gt;text1&lt;/text&gt;§" Header="Text"/>
                 </MenuItem>
                 <MenuItem Header="Output Visibility Control">
-                    <MenuItem Click="Button_Click" Tag="#hide" Header="#hide"   ToolTip="Hide the content after the current line"/>
-                    <MenuItem Click="Button_Click" Tag="#show" Header="#show"   ToolTip="Always show the content (default)"/>
-                    <MenuItem Click="Button_Click" Tag="#pre"  Header="#pre"    ToolTip="Show the content bellow only before calculations"/>
-                    <MenuItem Click="Button_Click" Tag="#post" Header="#post"   ToolTip="Show the content bellow only after calculations"/>
-                    <MenuItem Click="Button_Click" Tag="#pause" Header="#pause" ToolTip="Pause the calculations and wait"/>
-                    <MenuItem Click="Button_Click" Tag="#input" Header="#input" ToolTip="Pause the execution and display an input form"/>
+                    <MenuItem Click="Button_Click" Tag="#hide"  Header="#hide"   ToolTip="Hide the content after the current line"/>
+                    <MenuItem Click="Button_Click" Tag="#show"  Header="#show"   ToolTip="Always show the content (default)"/>
+                    <MenuItem Click="Button_Click" Tag="#pre"   Header="#pre"    ToolTip="Show the content bellow only before calculations"/>
+                    <MenuItem Click="Button_Click" Tag="#post"  Header="#post"   ToolTip="Show the content bellow only after calculations"/>
+                    <MenuItem Click="Button_Click" Tag="#pause" Header="#pause"  ToolTip="Pause the calculations and wait"/>
+                    <MenuItem Click="Button_Click" Tag="#input" Header="#input"  ToolTip="Pause the execution and display an input form"/>
                     <Separator/>
-                    <MenuItem Click="Button_Click" Tag="#val"  Header="#val"  ToolTip="Show only the calculated values"/>
-                    <MenuItem Click="Button_Click" Tag="#equ"  Header="#equ"  ToolTip="Show the complete equations (default)"/>
-                    <MenuItem Click="Button_Click" Tag="#noc"  Header="#noc"  ToolTip="Show the equations, but without calculating"/>
+                    <MenuItem Click="Button_Click" Tag="#val"   Header="#val"    ToolTip="Show only the calculated values"/>
+                    <MenuItem Click="Button_Click" Tag="#equ"   Header="#equ"    ToolTip="Show the complete equations (default)"/>
+                    <MenuItem Click="Button_Click" Tag="#noc"   Header="#noc"    ToolTip="Show the equations, but without calculating"/>
+                    <Separator/>
+                    <MenuItem Click="Button_Click" Tag="#nosub"  Header="#nosub"  ToolTip="Do not substitute variables (no substitution)"/>
+                    <MenuItem Click="Button_Click" Tag="#novar"  Header="#novar"  ToolTip="Show equations only with substituted values (no variables)"/>
+                    <MenuItem Click="Button_Click" Tag="#varsub" Header="#varsub" ToolTip="Show equations with variables and substituted values (default)"/>
                     <Separator/>
                     <MenuItem Click="Button_Click" Tag="#round"  Header="#round"  ToolTip="Round to the specified digits after the decimal point"/>
                     <Separator/>
@@ -1655,6 +1659,8 @@
                         <ListBoxItem Content="#local"      Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#loop"       Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#noc"        Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#nosub"      Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#novar"      Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#pause"      Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#post"       Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#pre"        Foreground="DarkMagenta"/>
@@ -1663,6 +1669,7 @@
                         <ListBoxItem Content="#round"      Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#show"       Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#val"        Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#varsub"     Foreground="DarkMagenta"/>
                         <ListBoxItem Content="$Area{}"     Foreground="DarkMagenta"/>
                         <ListBoxItem Content="$Find{}"     Foreground="DarkMagenta"/>
                         <ListBoxItem Content="$Inf{}"      Foreground="DarkMagenta"/>
