@@ -17,6 +17,9 @@ namespace Calcpad.Core
             Val,
             Equ,
             Noc,
+            VarSub,
+            NoSub,
+            NoVar,
             Deg,
             Rad,
             Gra,
@@ -290,6 +293,12 @@ namespace Calcpad.Core
                         _isVal = 0;
                     else if (keyword == Keyword.Noc)
                         _isVal = -1;
+                    else if (keyword == Keyword.VarSub)
+                        _parser.VariableSubstitution = MathParser.VariableSubstitutionOptions.VariablesAndSubstitutions;
+                    else if (keyword == Keyword.NoSub)
+                        _parser.VariableSubstitution = MathParser.VariableSubstitutionOptions.VariablesOnly;
+                    else if (keyword == Keyword.NoVar)
+                        _parser.VariableSubstitution = MathParser.VariableSubstitutionOptions.SubstitutionsOnly;
                     else if (keyword == Keyword.Deg)
                         _parser.Degrees = 0;
                     else if (keyword == Keyword.Rad)

@@ -7,6 +7,13 @@ namespace Calcpad.Core
 {
     public partial class MathParser
     {
+        internal enum VariableSubstitutionOptions
+        {
+            VariablesAndSubstitutions,
+            VariablesOnly,
+            SubstitutionsOnly
+        }
+
         private readonly StringBuilder _stringBuilder = new();
         private readonly MathSettings _settings;
         private Token[] _rpn;
@@ -45,6 +52,7 @@ namespace Calcpad.Core
             }
         }
         internal int Line;
+        internal VariableSubstitutionOptions VariableSubstitution { get; set; }
         internal Unit Units { get; private set; }
         internal bool IsCanceled { get; private set; }
         internal bool IsEnabled { get; set; } = true;

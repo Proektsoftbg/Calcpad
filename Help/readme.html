@@ -48,14 +48,14 @@ h1    {font-family: "Calibri Light"; font-weight: normal; font-size: 32pt; margi
 h1 img  { margin-top: -6px;}
 li    {margin: 6px;}
 .menu li ul {padding-left: 42px;}
-var   {color:blue; font-family: "Times New Roman"; font-size: 12pt}
-i     {color:DarkCyan; font-family:Times New Roman; font-size: 12pt}
+var   {color:#06c; font-family: "Times New Roman"; font-size: 12.5pt}
+i     {color:#086; font-family:Times New Roman; font-style: normal; font-size: 11.5pt;}
 img   {vertical-align: middle; max-width:100%;}
 u     {background-color: LightYellow;}
 .comment {color: green;}
 .root {font-family: Times New Roman; font-size: 14pt;}
 .ovr {border-top: solid 1px; padding-left: 1pt; padding-top: -2pt;}
-code .ovr {padding-top: 2pt; font-family="Consolas" font-size: 10pt;}
+code .ovr {padding-top: 2pt; font-family: "Consolas"; font-size: 10pt;}
 .dvc {display: inline-block; vertical-align: middle; text-align: center; line-height:110%; white-space: nowrap;}
 .dvl {display: block; border-bottom: solid 1px black;}
 .dvc.down {position: relative; top:0.5em;}
@@ -72,13 +72,48 @@ code .ovr {padding-top: 2pt; font-family="Consolas" font-size: 10pt;}
 .fold > :first-child::after {content: " ... ▼"; font-size: 80%;}
 .unfold > :first-child::after {content: " ▲"; font-size: 80%;}
 #Units{float:right; margin-top:12px;}
-input, select {
-	background-color:LightYellow; 
-	border: 1px solid #cccccc; 
-	border-radius: 3px; 
-	text-align:right;
-	min-height: 1.5em;
+input[type="text"], select {
+	font-size: 11pt;
+	padding: 0.15em 0.3em; 	
+	border: 0.5pt solid #CCC; 
+	border-radius: 0.35em;
+	text-align: right;
+	box-shadow: 0.06em 0.06em 0.5em #ddd;
+	background-color: LightYellow;
 }
+
+input[type="checkbox"],
+input[type="radio"] {
+	--ssf: 1.1;
+	zoom: var(--ssf);
+	-moz-transform: scale(var(--ssf));
+	-webkit-transform: scale(var(--ssf));
+	transform: scale(var(--ssf));
+	transform-origin: top;
+	position: relative;
+	bottom: -1pt;
+	margin-right: 1pt;
+}
+
+input[type="checkbox"].post:disabled:not(:checked), 
+input[type="checkbox"].post:disabled:not(:checked) + label, 
+input[type="radio"].post:disabled:not(:checked),
+input[type="radio"].post:disabled:not(:checked) + label {
+	display: none;
+}
+
+select.post:disabled {
+	font-size: 12pt;
+	border: none; 
+	box-shadow: none;
+	color: red;
+	background: none;
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+}
+select.post:disabled::-ms-expand {display: none;}
+input[type="text"]:focus {box-shadow: 0.1em 0.1em 1em #ccc; color: black;}
 .exp {
 	display: inline-block;
 	height: 13pt;
@@ -225,7 +260,7 @@ sub {font-family: Arial Nova; font-size:70%; padding-left:0.5pt; padding-right:0
 <p>This software is suitable for engineers and other professionals that need to perform repetitive calculations and present them in official documentation such as calculation notes. They can automate this task efficiently by creating powerful and reliable Calcpad worksheets. It can also help teachers to prepare calculation examples, papers, manuals, books etc. Students can use it to solve various problems, prepare homeworks, phd theses etc.</p>
 
 <h2 id="TOC_103">Installation</h2>
-<p>Installation is performed by the automated setup program <a target="_blank" href="https://calcpad.eu/download/calcpad-setup-en-x64.zip">calcpad-setup-en-x64.exe</a>. Follow the instruction of the setup wizard. The software requires a 64 bit computer with Windows 10 and <a  target="_blank" href="https://dotnet.microsoft.com/en-us/download/dotnet/7.0" target="_blank">Microsoft .NET 7.0</a>.</p>
+<p>Installation is performed by the automated setup program <a target="_blank" href="https://calcpad.eu/download/calcpad-setup-en-x64.zip">calcpad-setup-en-x64.exe</a>. Follow the instruction of the setup wizard. The software requires a 64 bit computer with Windows 10 and <a target="_blank" href="https://dotnet.microsoft.com/en-us/download/dotnet/7.0">Microsoft .NET 7.0</a>.</p>
 
 <h2 id="TOC_104">Licensing and terms of use</h2>
 <p>This software is free for both commercial and non-commercial use. It is distributed under the MIT license:</p>
@@ -333,33 +368,33 @@ sub {font-family: Arial Nova; font-size:70%; padding-left:0.5pt; padding-right:0
 <h3 id="TOC_305">Greek letters</h3>
 <p>You can insert Greek letters by clicking the respective symbol bellow the code editor. Alternatively, type the Latin equivalent from the table below and press "<b>Ctrl+G</b>". If you press it again, you will convert the letter back from Greek to Latin. Since "j"/"J" and "V" remain unused, they are mapped to "ø"/"Ø" and "&measuredangle;", respectively.</p>
 <table class="bordered">
-<tr><th>Name		</th><th>greek</th><th>latin</th><th>Greek</th><th>Latin</th></th>
-<tr><td>alpha		</td><td>α</td><td>a</td></td><td>Α</td><td>A</td></tr>
-<tr><td>beta		</td><td>β</td><td>b</td></td><td>Β</td><td>B</td></tr>
-<tr><td>gamma		</td><td>γ</td><td>g</td></td><td>Γ</td><td>G</td></tr>
-<tr><td>delta		</td><td>δ</td><td>d</td></td><td>Δ</td><td>D</td></tr>
-<tr><td>epsilon		</td><td>ε</td><td>e</td></td><td>Ε</td><td>E</td></tr>
-<tr><td>zeta		</td><td>ζ</td><td>z</td></td><td>Ζ</td><td>Z</td></tr>
-<tr><td>eta			</td><td>η</td><td>h</td></td><td>Η</td><td>H</td></tr>
-<tr><td>theta		</td><td>θ</td><td>q</td></td><td>Θ</td><td>Q</td></tr>
-<tr><td>theta-alt	</td><td>ϑ</td><td>v</td></td><td>&measuredangle;</td><td>V</td></tr>
-<tr><td>iota		</td><td>ι</td><td>i</td></td><td>Ι</td><td>I</td></tr>
-<tr><td>kappa		</td><td>κ</td><td>k</td></td><td>Κ</td><td>K</td></tr>
-<tr><td>lambda		</td><td>λ</td><td>l</td></td><td>Λ</td><td>L</td></tr>
-<tr><td>mu			</td><td>μ</td><td>m</td></td><td>Μ</td><td>M</td></tr>
-<tr><td>nu			</td><td>ν</td><td>n</td></td><td>Ν</td><td>N</td></tr>
-<tr><td>xi			</td><td>ξ</td><td>x</td></td><td>Ξ</td><td>X</td></tr>
-<tr><td>omicron		</td><td>ο</td><td>o</td></td><td>Ο</td><td>O</td></tr>
-<tr><td>pi			</td><td>π</td><td>p</td></td><td>Π</td><td>P</td></tr>
-<tr><td>rho			</td><td>ρ</td><td>r</td></td><td>Ρ</td><td>R</td></tr>
-<tr><td>sigma		</td><td>σ</td><td>s</td></td><td>Σ</td><td>S</td></tr>
-<tr><td>tau			</td><td>τ</td><td>t</td></td><td>Τ</td><td>T</td></tr>
-<tr><td>upsilon		</td><td>υ</td><td>u</td></td><td>Υ</td><td>U</td></tr>
-<tr><td>phi			</td><td>φ</td><td>f</td></td><td>Φ</td><td>F</td></tr>
-<tr><td>chi			</td><td>χ</td><td>c</td></td><td>Χ</td><td>C</td></tr>
-<tr><td>psi			</td><td>ψ</td><td>y</td></td><td>Ψ</td><td>Y</td></tr>
-<tr><td>omega		</td><td>ω</td><td>w</td></td><td>Ω</td><td>W</td></tr>
-<tr><td>phi-diam	</td><td>ø</td><td>j</td></td><td>Ø</td><td>J</td></tr>
+<tr><th>Name		</th><th>greek</th><th>latin</th><th>Greek</th><th>Latin</th>
+<tr><td>alpha		</td><td>α</td><td>a</td><td>Α</td><td>A</td></tr>
+<tr><td>beta		</td><td>β</td><td>b</td><td>Β</td><td>B</td></tr>
+<tr><td>gamma		</td><td>γ</td><td>g</td><td>Γ</td><td>G</td></tr>
+<tr><td>delta		</td><td>δ</td><td>d</td><td>Δ</td><td>D</td></tr>
+<tr><td>epsilon		</td><td>ε</td><td>e</td><td>Ε</td><td>E</td></tr>
+<tr><td>zeta		</td><td>ζ</td><td>z</td><td>Ζ</td><td>Z</td></tr>
+<tr><td>eta			</td><td>η</td><td>h</td><td>Η</td><td>H</td></tr>
+<tr><td>theta		</td><td>θ</td><td>q</td><td>Θ</td><td>Q</td></tr>
+<tr><td>theta-alt	</td><td>ϑ</td><td>v</td><td>&measuredangle;</td><td>V</td></tr>
+<tr><td>iota		</td><td>ι</td><td>i</td><td>Ι</td><td>I</td></tr>
+<tr><td>kappa		</td><td>κ</td><td>k</td><td>Κ</td><td>K</td></tr>
+<tr><td>lambda		</td><td>λ</td><td>l</td><td>Λ</td><td>L</td></tr>
+<tr><td>mu			</td><td>μ</td><td>m</td><td>Μ</td><td>M</td></tr>
+<tr><td>nu			</td><td>ν</td><td>n</td><td>Ν</td><td>N</td></tr>
+<tr><td>xi			</td><td>ξ</td><td>x</td><td>Ξ</td><td>X</td></tr>
+<tr><td>omicron		</td><td>ο</td><td>o</td><td>Ο</td><td>O</td></tr>
+<tr><td>pi			</td><td>π</td><td>p</td><td>Π</td><td>P</td></tr>
+<tr><td>rho			</td><td>ρ</td><td>r</td><td>Ρ</td><td>R</td></tr>
+<tr><td>sigma		</td><td>σ</td><td>s</td><td>Σ</td><td>S</td></tr>
+<tr><td>tau			</td><td>τ</td><td>t</td><td>Τ</td><td>T</td></tr>
+<tr><td>upsilon		</td><td>υ</td><td>u</td><td>Υ</td><td>U</td></tr>
+<tr><td>phi			</td><td>φ</td><td>f</td><td>Φ</td><td>F</td></tr>
+<tr><td>chi			</td><td>χ</td><td>c</td><td>Χ</td><td>C</td></tr>
+<tr><td>psi			</td><td>ψ</td><td>y</td><td>Ψ</td><td>Y</td></tr>
+<tr><td>omega		</td><td>ω</td><td>w</td><td>Ω</td><td>W</td></tr>
+<tr><td>phi-diam	</td><td>ø</td><td>j</td><td>Ø</td><td>J</td></tr>
 </table>
 
 <h3 id="TOC_306">Using Notepad++</h3>
@@ -379,7 +414,7 @@ sub {font-family: Arial Nova; font-size:70%; padding-left:0.5pt; padding-right:0
 	<li><code>15/2 = 7.5</code></li>
 </ul>
 <p>Alternatively, you can have several expressions in a single line, but they must be separated by comments, e.g.:</p>
-<p style="margin-left: 2em;"><code><span class="comment">'Length -'</span><var>a</var> = 3<i>m</i><span class="comment">', Width -'</span><var>b</var> = 2*<var>a</var><span class="comment">', Height -'</span><var>c</var> = 5<i>m</i></code></p>
+<p style="margin-left: 2em;"><code><span class="comment">'Length -'</span><var>a</var> = 3&thinsp;<i>m</i><span class="comment">', Width -'</span><var>b</var> = 2*<var>a</var><span class="comment">', Height -'</span><var>c</var> = 5&thinsp;<i>m</i></code></p>
 <p>Each expression can include constants (numbers), variables, operators, functions and brackets. They must be arranged properly in order to represent a valid expression. The commonly accepted mathematical notation and operator precedence is used as it is taught in school. Detailed description of the expression components is provided bellow.</p>
 <p>You can calculate separate unrelated expressions as with simple calculator or write a complete program that solves a specific problem. You can define variables and assign values to them. Further, you can use them to define other variables and so on until you reach the final result. You can also add text, Html and images to create detailed and professional-looking calculation report. You can save it to a file and use it multiple times to solve similar problems. Bellow, you can see a sample program for solving a quadratic equation:</p>
 <p><img alt="Sample1" src="Images/Sample1.png"></p>
@@ -431,8 +466,10 @@ If you redefine an existing variable with a new value, it will replace the old o
 	</li>
 	<li>"<b>=</b>" - assignment.</li>
 </ul>
+
 <h4>Operator shortcuts</h4>
 <p>Instead of "≡", "≠", "&le;"- and "&ge;", you can use the respective C-style equivalent operators, as follows: "==", "!=", "&lt;=" and "&gt;=". They will be automatically replaced by the corresponding Calcpad operators. The shortcut “%%” will be converted to the modulo operator “⦼”. This is necessary because “%” is reserved for the percent units. Since this symbol is not very common, it is rendered as “mod” in the output, e.g. “7 mod 5 = 2”, instead of “7 ⦼ 5 = 2”.</p>
+
 <h4>Operator precedence and associativity</h4>
 <p>The above operators are listed in the order of their precedence. This is the order they will be evaluated in an expression. When you have different types of operators in a single expression, exponentiation will be evaluated first, then division and multiplication, subtraction and addition and comparison will be the last. When we have a unary minus and exponentiaton, the exponentiaton is evaluated first. For example: "-2^2 = -(2^2) = -4" All relational operators are of equal precedence. If you need to change the order of evaluation, you can use brackets. For example, "5 + 2∙3" makes "11". If the addition have to be first, write "(5 + 2)∙3". You will get "7∙3 = 21". Operators with equal precedence are evaluated from left to right. This is called operator associativity. For example, "3 - 2 + 1" makes "(3 - 2) + 1 = 2" and not "3 - (2 + 1) = 0". Another good example is "2∙3 / 2∙3", which makes "9" and not "1".</p>
 <p>All operators in Calcpad are left-associative (calculations are performed from left to right). The only exception is exponentiation, which is right-associative. It is performed from right to left, which means that <var>x</var>^<var>a</var>^<var>b</var> will be evaluated as <var>x</var><sup>a<sup>b</sup></sup>. However, many hand  calculators and spreadsheet software like Excel use left associativity for exponentiation. In this case <var>x</var>^<var>a</var>^<var>b</var> will be evaluated as <var>x</var><sup>a&middot;b</sup>. If you need to have <var>x</var><sup>a<sup>b</sup></sup>, you will have to add brackets: <var>x</var>^(<var>a</var>^<var>b</var>).</p>
@@ -448,7 +485,7 @@ If you redefine an existing variable with a new value, it will replace the old o
 <li>"∨" (or) returns 1 if any of the operands is 1 and 0 if both are 0;</li>
 <li>"⊕" (xor) returns 1 if just one of the operands is 1 and 0 otherwise.</li>
 </ul>
-<p>The results from both operators are presented in the following tables:</p>
+<p>The results from the above operators are presented in the following tables:</p>
 <table width="100%"><tr><td style="border:none;">
 <p><b>And</b></p>
 <table width="60%" class="tr">
@@ -479,7 +516,7 @@ If you redefine an existing variable with a new value, it will replace the old o
 </td></tr></table>
 
 <h4>Complex arithmetic</h4>
-<p>All operators support complex numbers except for factorial "<b>!</b>", integer division "<b>\</b>", reminder "<b>%</b>" and comparison: "<b>&lt;</b>", "<b>&le;</b>", "<b>&gt;</b>", "<b>&ge;</b>". The evaluation of a complex expression is a little bit more difficult than real. The rules for the basic complex operations are given bellow:</p>
+<p>All operators support complex numbers except for factorial "<b>!</b>", integer division "<b>\</b>", reminder "<b>⦼</b>" and comparison: "<b>&lt;</b>", "<b>&le;</b>", "<b>&gt;</b>", "<b>&ge;</b>". The evaluation of a complex expression is a little bit more difficult than real. The rules for the basic complex operations are given bellow:</p>
 <ul>
 <li>Addition: <code>(a + b<var>i</var>) + (c + d<var>i</var>) = (a + c) + (b + d)<var>i</var></code>;</li>
 <li>Subtraction: <code>(a + b<var>i</var>) &minus; (c + d<var>i</var>) = (a &minus; c) + (b &minus; d)<var>i</var></code>;</li>
@@ -622,8 +659,8 @@ If you redefine an existing variable with a new value, it will replace the old o
 <tr><td>1</td><td>1</td><td>0</td></tr>
 </table>
 </td></tr></table>
-<p>Any numerical value, different from 0, is treated as 1 (true). Multiple arguments are evaluated in couples, from left to right, starting from the first two. Then, the obtained result and the next value are evaluated in turn.</p>
-<p>Rounding of midpoint values with <b>round</b>() evaluates to the neares integer away from zero. The <b>floor</b>() function rounds to the smaller value (towards -∞). The <b>ceiling</b>() function rounds in the opposite direction to the larger value (towards +∞). Unlike <b>floor</b>(), <b>trunc</b>() rounds towards zero, which is equivalent to simply truncating the fractional part. Some examples for rounding negative and positive numbers are provided in the table bellow:</p> 
+<p>Any numerical value, different from 0, is treated as 1 (true). Multiple arguments are evaluated sequentially from left to right, according to the above tables. We start with the first and the second. Then, the obtained result and the next value are evaluated in turn, and so on.</p>
+<p>Rounding of midpoint values with <b>round</b>() evaluates to the nearest integer away from zero. The <b>floor</b>() function rounds to the smaller value (towards -∞). The <b>ceiling</b>() function rounds in the opposite direction to the larger value (towards +∞). Unlike <b>floor</b>(), <b>trunc</b>() rounds towards zero, which is equivalent to simply truncating the fractional part. Some examples for rounding of negative and positive numbers are provided in the table bellow:</p> 
 <table width="70%"><tr><td style="border:none;">
 <p><b>Positive</b></p>
 <table width="90%" class="tr">
@@ -643,7 +680,7 @@ If you redefine an existing variable with a new value, it will replace the old o
 <tr><th>trunc(x)</th><td>-4.8</td><td>-4</td></tr>
 </table>
 </td></tr></table>
-<p>Rounding of complex numbers affects both real and imaginary parts. </p>
+<p>Rounding of complex numbers affects both real and imaginary parts.</p>
 
 <h4>Custom (user defined) functions</h4>
 <p>You can define your own functions, and use them further in the calculations. Custom functions can have unlimited number of parameters. They are specified after the function name, enclosed in brackets "(" … ")" and separated by semicolons ";". Each function is defined, using the following format: "<b>f</b> ( <var>x</var>; <var>y</var>; <var>z</var>; … ) = <b>expression</b>", where "<b>f</b>" is the function name and "<b>x</b>", "<b>y</b>" and "<b>z</b>" are function parameters. On the right side you can have any valid expression including constants, operators, variables and even other functions, e.g.:</p>
@@ -725,7 +762,7 @@ Result: 2D waves<br />
 <h4>Root finding</h4>
 <p style="margin-left: 2em;"><code><span class="cond">$Root</span>{<b>f</b>(<var>x</var>) = const &#64; <var>x</var> = <var>a</var> : <var>b</var>}</code></p>
 <p style="margin-left: 2em;"><code><span class="cond">$Root</span>{<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var> : <var>b</var>}</code></p>
-<p>It finds a single root for an equation of type "<b>f</b>(<var>x</var>) = const" within the interval [<var>a</var>, <var>b</var>]. If "const" is zero, you can omit "= const". The program uses hybrid bracketing method, which is a combination of Bisecton and Anderson-Bjork's method. It subsequently narrows the interval around the root, until it gets smaller than the specified precision. It is required that the function "<b>f</b>(<var>x</var>) - const" has opposite signs at the ends of the interval. According to the Boltzano's theorem, if the function is continuous within the interval, at least one root exist. The bracketing algorithm will find an approximation after a finite number of iterations.</p>
+<p>It finds a single root for an equation of type "<b>f</b>(<var>x</var>) = const" within the interval [<var>a</var>, <var>b</var>]. If "const" is zero, you can omit "= const". The program uses a <a href="https://iopscience.iop.org/article/10.1088/1757-899X/1276/1/012010">hybrid bracketing method</a>, which is a combination of Bisection and Anderson-Bjork's method. It subsequently narrows the interval around the root, until it gets smaller than the specified precision. It is required that the function "<b>f</b>(<var>x</var>) - const" has opposite signs at the ends of the interval. According to the Boltzano's theorem, if the function is continuous within the interval, at least one root exist. The bracketing algorithm will find an approximation after a finite number of iterations.</p>
 <p style="text-align:center;"><img style="height:130pt;" src="Images/Root.png" alt="Root.png"></p>
 <p>With this method, you can find only roots where the function crosses the line at "<var>y</var> = const". When "<b>f</b>(<var>x</var>) - const" is entirely positive or negative and only "touches" the line from one side, you cannot find the root by any bracketing method.</p>
 <p>If no roots exist inside the initial interval, the program returns an error. If there are several roots, it will find only one of them. In such case, it is better to plot the function first. Then, you can see the approximate location of roots and divide the interval into several parts - one for each root. Finally, you can call the function several times to find all the roots. In some cases, it is possible to develop an automated procedure for interval splitting.</p>
@@ -798,14 +835,14 @@ You can use it further to calculate binomial coefficients by the well-known form
 <li>amount of substance - mole (<i>mol</i>)</li>
 <li>luminous intensity - candela (<i>cd</i>)</li>
 </ul>
-<p>All other units are derivative. They are obtained by the respective laws of physics. For example, force = mass&middot;acceleration, so Newton is obtained by <i>N</i> = <i>kg</i>&middot;<i>m</i>/<i>s</i><sup>2</sup>. Multiples of units are also supported by adding the respective prefixes to units names. For example, <i>kN</i> = 10<sup>3</sup><i>N</i>, <i>MN</i> = 10<sup>6</sup><i>N</i> and so on.</p>
-<p>Additionally, there are some "dimensionless" units like percents, permilles and angles (degrees, radians, etc.) that do not include any physical dimensions. However, angles use a special (eighth) non-physical dimension, in order not to cancel and convert to percents, when mixed (which would be weird).</p>
-<p>You can attach units to numbers by typing the unit name after the value, e.g. 15<i>kg</i>. Then, you can use them in expressions, just like any other values. Unit cancellation and conversion is performed automatically during calculations. For example, the following expression will be evaluated as:</p>
-<p style="margin-left: 2em;"><code>1.23<i>m</i> + 35<i>cm</i> + 12<i>mm</i> = 1.59<i>m</i></code>(and not: 1.23 + 35 + 12 = 48.23)</p>
+<p>All other units are derivative. They are obtained by the respective laws of physics. For example, force = mass&middot;acceleration, so Newton is obtained by <i>N</i> = <i>kg</i>&middot;<i>m</i>/<i>s</i><sup>2</sup>. Multiples of units are also supported by adding the respective prefixes to units names. For example, <i>kN</i> = 10<sup>3</sup>&thinsp;<i>N</i>, <i>MN</i> = 10<sup>6</sup>&thinsp;<i>N</i> and so on.</p>
+<p>Additionally, there are some "dimensionless" units like percents, permilles and angles (degrees, radians, etc.) that do not include any physical dimensions. However, angles exist in a special (eighth) non-physical dimension, in order not to cancel and convert to percents, when mixed (which would be weird).</p>
+<p>You can attach units to numbers by typing the unit name after the value, e.g. 15&thinsp;<i>kg</i>. Then, you can use them in expressions, just like any other values. Unit cancellation and conversion is performed automatically during calculations. For example, the following expression will be evaluated as:</p>
+<p style="margin-left: 2em;"><code>1.23&thinsp;<i>m</i> + 35&thinsp;<i>cm</i> + 12&thinsp;<i>mm</i> = 1.59&thinsp;<i>m</i></code>(and not: 1.23 + 35 + 12 = 48.23)</p>
 <p>The result is usually obtained into the first unit in the expression. If you want to use particular units, write a vertical bar "|" followed by the target units at the end:</p>
-<p style="margin-left: 2em;"><code>1.23<i>m</i> + 35<i>cm</i> + 12<i>mm</i>|<i>cm</i></code></p>
-<p>The above expression will evaluate to 159.2<i>cm</i>. If you simply want to convert units, just write the source and the target units, separated by a vertical bar, like: <i>mm</i>|<i>cm</i> or 10<i>m</i>/<i>s</i>|<i>km</i>/<i>h</i>.</p> 
-<p>Unit consistency is also verified automatically. For example, you cannot add <i>m</i> and <i>s</i>(e.g. 6<i>m</i> + 2<i>s</i>), but you can multiply and divide them 6<i>m</i>/2<i>s</i> = 3<i>m</i>/<i>s</i>. </p>
+<p style="margin-left: 2em;"><code>1.23&thinsp;<i>m</i> + 35&thinsp;<i>cm</i> + 12&thinsp;<i>mm</i>|<i>cm</i></code></p>
+<p>The above expression will evaluate to 159.2&thinsp;<i>cm</i>. If you simply want to convert units, just write the source and the target units, separated by a vertical bar, like: &thinsp;<i>mm</i>|<i>cm</i> or 10&thinsp;<i>m</i>/<i>s</i>|<i>km</i>/<i>h</i>.</p> 
+<p>Unit consistency is also verified automatically. For example, you cannot add <i>m</i> and <i>s</i> (e.g. 6&thinsp;<i>m</i> + 2&thinsp;<i>s</i>), but you can multiply and divide them: 6&thinsp;<i>m</i>/2&thinsp;<i>s</i> = 3&thinsp;<i>m</i>/<i>s</i>. </p>
 <p>Arguments for trigonometric, hyperbolic, logarithmic and exponential functions, must be unitless by definition. However, you can use units an any custom defined functions, if it makes any sense. You can also attach units to variables. If you specify the target units in a variable definition, they will be stored permanently inside the variable. Then, the selected units will be used further in the calculations with the respective value. In the next example, speed is calculated in <i>m</i>/<i>s</i>, but it is converted and stored as <i>km</i>/<i>h</i>:</p>
 <table border="1">
 	<thead>
@@ -828,11 +865,11 @@ You can use it further to calculate binomial coefficients by the well-known form
 				<code><var>s</var>	_2 = <var>V</var>*<var>t</var>_2|<i>m</i></code>
 			</td>
 			<td style="line-height:150%;">
-				Distance - <var>s</var><sub>1</sub> = 50<i>m</i><br />
-				Time - <var>t</var><sub>1</sub> = 2<i>s</i><br />
-				Speed - <var>V</var> = <var>s</var><sub>1</sub>/<var>t</var><sub>1</sub> = 50<i>m</i>/2<i>s</i> = 90<i>km</i>/<i>h</i><br />
-				What distance you will travel for <var>t</var><sub>2</sub> = 5<i>s</i> ? <br />
-				<var>s</var><sub>2</sub> = <var>V</var>·<var>t</var><sub>2</sub> = 90<i>km</i>/<i>h</i>·5<i>s</i> = 125<i>m</i>
+				Distance - <var>s</var><sub>1</sub> = 50&thinsp;<i>m</i><br />
+				Time - <var>t</var><sub>1</sub> = 2&thinsp;<i>s</i><br />
+				Speed - <var>V</var> = <var>s</var><sub>1</sub>/<var>t</var><sub>1</sub> = 50&thinsp;<i>m</i>/2&thinsp;<i>s</i> = 90&thinsp;<i>km</i>/<i>h</i><br />
+				What distance you will travel for <var>t</var><sub>2</sub> = 5&thinsp;<i>s</i> ? <br />
+				<var>s</var><sub>2</sub> = <var>V</var>·<var>t</var><sub>2</sub> = 90&thinsp;<i>km</i>/<i>h</i>·5&thinsp;<i>s</i> = 125&thinsp;<i>m</i>
 			</td>
 		</tr>		
 	</tbody>
@@ -841,7 +878,8 @@ You can use it further to calculate binomial coefficients by the well-known form
 <h4>Predefined units</h4>
 <p>Calcpad includes a large collection of predefined units as follows:</p>
 <p>Dimensionless:</p>
-<ul><li>Percent: <i title="percent">%</i>;</li>
+<ul>
+<li>Percent:  <i title="percent" >%</i>;</li>
 <li>Permille: <i title="permille">‰</i>;</li>
 <li>Angles: 
 <i title="degrees">°</i>, 
@@ -851,151 +889,154 @@ You can use it further to calculate binomial coefficients by the well-known form
 <i title="radians">rad</i>, 
 <i title="grades" >grad</i>, 
 <i title="revolutions">rev</i>;
-</li></ul>
+</li>
+</ul>
 <p>Metric units (SI and compatible):</p>
 <ul><li>Mass: 
-<i title="gram"     >g</i>, 
-<i title="hectogram">hg</i>, 
-<i title="kilogram" >kg</i>, 
-<i title="ton"      >t</i>, 
-<i title="kiloton"  >kt</i>, 
-<i title="megaton"  >Mt</i>, 
-<i title="gigaton"  >Gt</i>, 
-<i title="decigram" >dg</i>, 
-<i title="centigram">cg</i>, 
-<i title="milligram">mg</i>, 
-<i title="microgram">μg</i>, 
-<i title="nanogram" >ng</i>, 
-<i title="picogram" >pg</i>,
-<i title="Dalton"   >Da</i> (or 
-<i title="Dalton(alt)">u</i>);
+<i title="gram"         >g</i>, 
+<i title="hectogram"    >hg</i>, 
+<i title="kilogram"     >kg</i>, 
+<i title="ton"          >t</i>, 
+<i title="kiloton"      >kt</i>, 
+<i title="megaton"      >Mt</i>, 
+<i title="gigaton"      >Gt</i>, 
+<i title="decigram"     >dg</i>, 
+<i title="centigram"    >cg</i>, 
+<i title="milligram"    >mg</i>, 
+<i title="microgram"    >μg</i>, 
+<i title="nanogram"     >ng</i>, 
+<i title="picogram"     >pg</i>,
+<i title="Dalton"       >Da</i> (or 
+<i title="Dalton(alt)"  >u</i>);
 </li><li>Length: 
-<i title="meter"      >m</i>, 
-<i title="kilometer"  >km</i>, 
-<i title="decimeter"  >dm</i>, 
-<i title="centimeter" >cm</i>, 
-<i title="millimeter" >mm</i>, 
-<i title="micrometer" >μm</i>, 
-<i title="nanometer"  >nm</i>, 
-<i title="picometer"  >pm</i>,
+<i title="meter"        >m</i>, 
+<i title="kilometer"    >km</i>, 
+<i title="decimeter"    >dm</i>, 
+<i title="centimeter"   >cm</i>, 
+<i title="millimeter"   >mm</i>, 
+<i title="micrometer"   >μm</i>, 
+<i title="nanometer"    >nm</i>, 
+<i title="picometer"    >pm</i>,
 <i title="astronomical unit">AU</i>,
-<i title="light year" >ly</i>;
+<i title="light year"   >ly</i>;
 </li><li>Time: 
-<i title="second"     >s</i>, 
-<i title="millisecond">ms</i>, 
-<i title="microsecond">μs</i>, 
-<i title="nanosecond" >ns</i>, 
-<i title="picosecond" >ps</i>, 
-<i title="minute"     >min</i>, 
-<i title="hour"       >h</i>,
-<i title="day"        >d</i>, 
-<i title="week"       >w</i>, 
-<i title="year"       >y</i>;
+<i title="second"       >s</i>, 
+<i title="millisecond"  >ms</i>, 
+<i title="microsecond"  >μs</i>, 
+<i title="nanosecond"   >ns</i>, 
+<i title="picosecond"   >ps</i>, 
+<i title="minute"       >min</i>, 
+<i title="hour"         >h</i>,
+<i title="day"          >d</i>, 
+<i title="week"         >w</i>, 
+<i title="year"         >y</i>;
 </li><li>Frequency:
-<i title="Hertz"      >Hz</i>, 
-<i title="kilohertz"  >kHz</i>, 
-<i title="megahertz"  >MHz</i>, 
-<i title="gigahertz"  >GHz</i>, 
-<i title="terahertz"  >THz</i>, 
-<i title="millihertz" >mHz</i>, 
-<i title="microhertz" >μHz</i>, 
-<i title="nanohertz"  >nHz</i>, 
-<i title="terahertz"  >pHz</i>, 
+<i title="Hertz"        >Hz</i>, 
+<i title="kilohertz"    >kHz</i>, 
+<i title="megahertz"    >MHz</i>, 
+<i title="gigahertz"    >GHz</i>, 
+<i title="terahertz"    >THz</i>, 
+<i title="millihertz"   >mHz</i>, 
+<i title="microhertz"   >μHz</i>, 
+<i title="nanohertz"    >nHz</i>, 
+<i title="terahertz"    >pHz</i>, 
 <i title="rotations per minute">rpm</i>;
 </li><li>Speed:
 <i href="#0" data-text="kmh" title="kilometers per hour">kmh</i>;
 </li><li>Electric current:
-<i title="Ampere"     >A</i>, 
-<i title="kiloampere" >kA</i>, 
-<i title="megaampere" >MA</i>, 
-<i title="gigaampere" >GA</i>, 
-<i title="teraampere" >TA</i>, 
-<i title="milliampere">mA</i>, 
-<i title="microampere">μA</i>, 
-<i title="nanoampere" >nA</i>, 
-<i title="picoampere" >pA</i>;
+<i title="Ampere"       >A</i>, 
+<i title="kiloampere"   >kA</i>, 
+<i title="megaampere"   >MA</i>, 
+<i title="gigaampere"   >GA</i>, 
+<i title="teraampere"   >TA</i>, 
+<i title="milliampere"  >mA</i>, 
+<i title="microampere"  >μA</i>, 
+<i title="nanoampere"   >nA</i>, 
+<i title="picoampere"   >pA</i>;
 </li><li>Temperature: 
 <i title="degrees Celsius">°C</i>, 
 <i title="difference in degrees Celsius">Δ°C</i>, 
-<i title="Kelvin">K</i>;
+<i title="Kelvin"       >K</i>;
 </li><li>Amount of substance: 
-<i title="Mole">mol</i>;
+<i title="Mole"         >mol</i>;
 </li><li>Luminous intensity: 
-<i title="Candela">cd</i>;
+<i title="Candela"      >cd</i>;
 </li><li>Area: 
-<i title="are"    >a</i>, 
-<i title="decare" >daa</i>, 
-<i title="hectare">ha</i>;
+<i title="are"          >a</i>, 
+<i title="decare"       >daa</i>, 
+<i title="hectare"      >ha</i>;
 </li><li>Volume: 
-<i title="litre"     >L</i>, 
-<i title="decalitre" >daL</i>,
-<i title="hectolitre">hL</i>,
-<i title="decilitre" >dL</i>, 
-<i title="centilitre">cL</i>, 
-<i title="millilitre">mL</i>, 
-<i title="microlitre">μL</i>, 
-<i title="nanolitre" >nL</i>, 
-<i title="picolitre" >pL</i>; 
+<i title="litre"        >L</i>, 
+<i title="decalitre"    >daL</i>,
+<i title="hectolitre"   >hL</i>,
+<i title="decilitre"    >dL</i>, 
+<i title="centilitre"   >cL</i>, 
+<i title="millilitre"   >mL</i>, 
+<i title="microlitre"   >μL</i>, 
+<i title="nanolitre"    >nL</i>, 
+<i title="picolitre"    >pL</i>; 
 </li><li>Force:
-<i title="Newthon"     >N</i>, 
-<i title="decanewthon" >daN</i>, 
-<i title="hectonewthon">hN</i>, 
-<i title="kilonewthon" >kN</i>, 
-<i title="meganewthon" >MN</i>, 
-<i title="giganewthon" >GN</i>, 
-<i title="teranewthon" >TN</i>, 
-<i title="gram-force"  >gf</i>, 
+<i title="Newthon"       >N</i>, 
+<i title="decanewthon"   >daN</i>, 
+<i title="hectonewthon"  >hN</i>, 
+<i title="kilonewthon"   >kN</i>, 
+<i title="meganewthon"   >MN</i>, 
+<i title="giganewthon"   >GN</i>, 
+<i title="teranewthon"   >TN</i>, 
+<i title="gram-force"    >gf</i>, 
 <i title="kilogram-force">kgf</i>, 
-<i title="tonne-force" >tf</i>, 
-<i title="dyne">dyn</i>;
+<i title="tonne-force"   >tf</i>, 
+<i title="dyne"          >dyn</i>;
 </li><li>Moment: 
-<i title="Newton-meter">Nm</i>, 
+<i title="Newton-meter"  >Nm</i>, 
 <i title="kilonewton-meter">kNm</i>;
 </li><li>Pressure: 
-<i title="Pascal"      >Pa</i>, 
-<i title="decapascal"  >daPa</i>, 
-<i title="hectpascal"  >hPa</i>, 
-<i title="kilopascal"  >kPa</i>, 
-<i title="megapascal"  >MPa</i>, 
-<i title="gigapascal"  >GPa</i>, 
-<i title="terapascal"  >TPa</i>, 
-<i title="decipascal"  >dPa</i>, 
-<i title="centipascal" >cPa</i>, 
-<i title="micropascal" >mPa</i>, 
-<i title="millipascal" >μPa</i>, 
-<i title="nanopascal"  >nPa</i>, 
-<i title="picopascal"  >pPa</i>, 
+<i title="Pascal"        >Pa</i>, 
+<i title="decapascal"    >daPa</i>, 
+<i title="hectpascal"    >hPa</i>, 
+<i title="kilopascal"    >kPa</i>, 
+<i title="megapascal"    >MPa</i>, 
+<i title="gigapascal"    >GPa</i>, 
+<i title="terapascal"    >TPa</i>, 
+<i title="decipascal"    >dPa</i>, 
+<i title="centipascal"   >cPa</i>, 
+<i title="micropascal"   >mPa</i>, 
+<i title="millipascal"   >μPa</i>, 
+<i title="nanopascal"    >nPa</i>, 
+<i title="picopascal"    >pPa</i>, 
 <br />&emsp;&emsp;&emsp;&emsp;
-<i title="bar"         >bar</i>, 
-<i title="millibar"    >mbar</i>, 
-<i title="microbar"    >μbar</i>, 
-<i title="atmosphere"  >atm</i>, 
+<i title="bar"           >bar</i>, 
+<i title="millibar"      >mbar</i>, 
+<i title="microbar"      >μbar</i>, 
+<i title="atmosphere"    >atm</i>, 
 <i title="technical atmosphere">at</i>, 
-<i title="Torr"        >Torr</i>, 
+<i title="Torr"          >Torr</i>, 
 <i title="millimeters of mercury">mmHg</i>;
 </li><li>Viscosity: 
-<i title="Poise"        >P</i>, 
-<i title="centipoise"   >cP</i>, 
-<i title="Stokes"       >St</i>, 
-<i title="centistokes"  >cSt</i>; 
+<i title="Poise"         >P</i>, 
+<i title="centipoise"    >cP</i>, 
+<i title="Stokes"        >St</i>, 
+<i title="centistokes"   >cSt</i>; 
 </li><li>Energy work: 
-<i title="Joule"        >J</i>, 
-<i title="kilojoule"    >kJ</i>, 
-<i title="megajoule"    >MJ</i>, 
-<i title="gigajoule"    >GJ</i>, 
-<i title="terajoule"    >TJ</i>, 
-<i title="millijoule"   >mJ</i>, 
-<i title="microjoule"   >μJ</i>, 
-<i title="nanojoule"    >nJ</i>, 
-<i title="picojoule"    >pJ</i>, 
-<i title="watt-hour"    >Wh</i>, 
-<i title="kilowatt-hour">kWh</i>, 
-<i title="megawatt-hour">MWh</i>, 
-<i title="gigawatt-hour">GWh</i>, 
-<i title="terawatt-hour">TWh</i>, 
-<i title="calorie"      >cal</i>, 
-<i title="kilocalorie"  >kcal</i>, 
-<i title="erg"          >erg</i>, 
+<i title="Joule"            >J</i>, 
+<i title="kilojoule"        >kJ</i>, 
+<i title="megajoule"        >MJ</i>, 
+<i title="gigajoule"        >GJ</i>, 
+<i title="terajoule"        >TJ</i>, 
+<i title="millijoule"       >mJ</i>, 
+<i title="microjoule"       >μJ</i>, 
+<i title="nanojoule"        >nJ</i>, 
+<i title="picojoule"        >pJ</i>,
+<br />&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;
+<i title="watt-hour"        >Wh</i>, 
+<i title="kilowatt-hour"    >kWh</i>, 
+<i title="megawatt-hour"    >MWh</i>, 
+<i title="gigawatt-hour"    >GWh</i>, 
+<i title="terawatt-hour"    >TWh</i>,
+<i title="milliwatt-hour"   >mWh</i>, 
+<i title="microwatt-hour"   >μWh</i>, 
+<i title="nanowatt-hour"    >nWh</i>, 
+<i title="picowatt-hour"    >pWh</i>,  
 <br />&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;
 <i title="electronvolt"     >eV</i>, 
 <i title="kiloelectronvolt" >keV</i>, 
@@ -1003,29 +1044,32 @@ You can use it further to calculate binomial coefficients by the well-known form
 <i title="gigaelectronvolt" >GeV</i>, 
 <i title="teraelectronvolt" >TeV</i>, 
 <i title="petaelectronvolt" >PeV</i>, 
-<i title="exaelectronvolt"  >EeV</i>;
+<i title="exaelectronvolt"  >EeV</i>,
+<i title="calorie"          >cal</i>, 
+<i title="kilocalorie"      >kcal</i>, 
+<i title="erg"              >erg</i>;
 </li><li>Power: 
-<i title="Watt"     >W</i>, 
-<i title="kilowatt" >kW</i>, 
-<i title="megawatt" >MW</i>, 
-<i title="gigawatt" >GW</i>, 
-<i title="terawatt" >TW</i>, 
-<i title="milliwatt">mW</i>, 
-<i title="microwatt">μW</i>, 
-<i title="nanowatt" >nW</i>, 
-<i title="picowatt" >pW</i>, 
+<i title="Watt"             >W</i>, 
+<i title="kilowatt"         >kW</i>, 
+<i title="megawatt"         >MW</i>, 
+<i title="gigawatt"         >GW</i>, 
+<i title="terawatt"         >TW</i>, 
+<i title="milliwatt"        >mW</i>, 
+<i title="microwatt"        >μW</i>, 
+<i title="nanowatt"         >nW</i>, 
+<i title="picowatt"         >pW</i>, 
 <i title="horsepower (metric)">hpM</i>, 
 <i title="horsepower (metric)">ks</i>,
 <br />&emsp;&emsp;&emsp;
-<i title="Volt-Ampere"     >VA</i>, 
-<i title="kilovolt-Ampere" >kVA</i>, 
-<i title="megavolt-Ampere" >MVA</i>, 
-<i title="gigavolt-Ampere" >GVA</i>, 
-<i title="teravolt-Ampere" >TVA</i>, 
-<i title="millivolt-Ampere">mVA</i>, 
-<i title="microvolt-Ampere">μVA</i>, 
-<i title="nanovolt-Ampere" >nVA</i>, 
-<i title="picovolt-Ampere" >pVA</i>,
+<i title="Volt-Ampere"      >VA</i>, 
+<i title="kilovolt-Ampere"  >kVA</i>, 
+<i title="megavolt-Ampere"  >MVA</i>, 
+<i title="gigavolt-Ampere"  >GVA</i>, 
+<i title="teravolt-Ampere"  >TVA</i>, 
+<i title="millivolt-Ampere" >mVA</i>, 
+<i title="microvolt-Ampere" >μVA</i>, 
+<i title="nanovolt-Ampere"  >nVA</i>, 
+<i title="picovolt-Ampere"  >pVA</i>,
 <br />&emsp;&emsp;&emsp;
 <i title="Volt-Ampere (reactive)"     >VAR</i>, 
 <i title="kilovolt-Ampere (reactive)" >kVAR</i>, 
@@ -1049,35 +1093,35 @@ You can use it further to calculate binomial coefficients by the well-known form
 <i href="#0" title="Ampere-hour" >Ah</i>, 
 <i href="#0" title="milliampere-hour">mAh</i>;
 </li><li>Potential: 
-<i title="Volt"     >V</i>, 
-<i title="kilovolt" >kV</i>, 
-<i title="megavolt" >MV</i>, 
-<i title="gigavolt" >GV</i>, 
-<i title="teravolt" >TV</i>, 
-<i title="millivolt">mV</i>, 
-<i title="microvolt">μV</i>, 
-<i title="nanovolt" >nV</i>, 
-<i title="picovolt" >pV</i>;
+<i title="Volt"        >V</i>, 
+<i title="kilovolt"    >kV</i>, 
+<i title="megavolt"    >MV</i>, 
+<i title="gigavolt"    >GV</i>, 
+<i title="teravolt"    >TV</i>, 
+<i title="millivolt"   >mV</i>, 
+<i title="microvolt"   >μV</i>, 
+<i title="nanovolt"    >nV</i>, 
+<i title="picovolt"    >pV</i>;
 </li><li>Capacitance: 
-<i title="Farad"     >F</i>, 
-<i title="kilofarad" >kF</i>, 
-<i title="megafarad" >MF</i>, 
-<i title="gigafarad" >GF</i>, 
-<i title="terafarad" >TF</i>, 
-<i title="millifarad">mF</i>, 
-<i title="microfarad">μF</i>, 
-<i title="nanofarad" >nF</i>, 
-<i title="picofarad" >pF</i>;
+<i title="Farad"       >F</i>, 
+<i title="kilofarad"   >kF</i>, 
+<i title="megafarad"   >MF</i>, 
+<i title="gigafarad"   >GF</i>, 
+<i title="terafarad"   >TF</i>, 
+<i title="millifarad"  >mF</i>, 
+<i title="microfarad"  >μF</i>, 
+<i title="nanofarad"   >nF</i>, 
+<i title="picofarad"   >pF</i>;
 </li><li>Resistance: 
-<i title="Ohm"     >Ω</i>, 
-<i title="kiloohm" >kΩ</i>, 
-<i title="megaohm" >MΩ</i>, 
-<i title="gigaohm" >GΩ</i>, 
-<i title="teraohm" >TΩ</i>, 
-<i title="milliohm">mΩ</i>, 
-<i title="microohm">μΩ</i>, 
-<i title="nanoohm" >nΩ</i>, 
-<i title="picoohm" >pΩ</i>;
+<i title="Ohm"         >Ω</i>, 
+<i title="kiloohm"     >kΩ</i>, 
+<i title="megaohm"     >MΩ</i>, 
+<i title="gigaohm"     >GΩ</i>, 
+<i title="teraohm"     >TΩ</i>, 
+<i title="milliohm"    >mΩ</i>, 
+<i title="microohm"    >μΩ</i>, 
+<i title="nanoohm"     >nΩ</i>, 
+<i title="picoohm"     >pΩ</i>;
 </li><li>Conductance: 
 <i title="Siemens"     >S</i>, 
 <i title="kilosiemens" >kS</i>, 
@@ -1088,49 +1132,49 @@ You can use it further to calculate binomial coefficients by the well-known form
 <i title="microsiemens">μS</i>, 
 <i title="nanosiemens" >nS</i>, 
 <i title="picosiemens" >pS</i>,
-<i title="mho"     >℧</i>, 
-<i title="kilomho" >k℧</i>, 
-<i title="megamho" >M℧</i>, 
-<i title="gigamho" >G℧</i>, 
-<i title="teramho" >T℧</i>, 
-<i title="millimho">m℧</i>, 
-<i title="micromho">μ℧</i>, 
-<i title="nanomho" >n℧</i>, 
-<i title="picomho" >p℧</i>;
+<i title="mho"         >℧</i>, 
+<i title="kilomho"     >k℧</i>, 
+<i title="megamho"     >M℧</i>, 
+<i title="gigamho"     >G℧</i>, 
+<i title="teramho"     >T℧</i>, 
+<i title="millimho"    >m℧</i>, 
+<i title="micromho"    >μ℧</i>, 
+<i title="nanomho"     >n℧</i>, 
+<i title="picomho"     >p℧</i>;
 </li><li>Magnetic flux: 
-<i title="Weber"     >Wb </i>, 
-<i title="kiloweber" >kWb</i>, 
-<i title="megaweber" >MWb</i>, 
-<i title="gigaweber" >GWb</i>, 
-<i title="teraweber" >TWb</i>, 
-<i title="milliweber">mWb</i>, 
-<i title="microweber">μWb</i>, 
-<i title="nanoweber" >nWb</i>, 
-<i title="picoweber" >pWb</i>;
+<i title="Weber"       >Wb </i>, 
+<i title="kiloweber"   >kWb</i>, 
+<i title="megaweber"   >MWb</i>, 
+<i title="gigaweber"   >GWb</i>, 
+<i title="teraweber"   >TWb</i>, 
+<i title="milliweber"  >mWb</i>, 
+<i title="microweber"  >μWb</i>, 
+<i title="nanoweber"   >nWb</i>, 
+<i title="picoweber"   >pWb</i>;
 </li><li>Magnetic flux density: 
-<i title="Tesla"     >T</i>, 
-<i title="kilotesla" >kT</i>, 
-<i title="megatesla" >MT</i>, 
-<i title="gigatesla" >GT</i>, 
-<i title="teratesla" >TT</i>, 
-<i title="millitesla">mT</i>, 
-<i title="microtesla">μT</i>, 
-<i title="nanotesla" >nT</i>, 
-<i title="picotesla" >pT</i>;
+<i title="Tesla"       >T</i>, 
+<i title="kilotesla"   >kT</i>, 
+<i title="megatesla"   >MT</i>, 
+<i title="gigatesla"   >GT</i>, 
+<i title="teratesla"   >TT</i>, 
+<i title="millitesla"  >mT</i>, 
+<i title="microtesla"  >μT</i>, 
+<i title="nanotesla"   >nT</i>, 
+<i title="picotesla"   >pT</i>;
 </li><li>Inductance: 
-<i title="Henry"     >H</i>, 
-<i title="kilohenry" >kH</i>, 
-<i title="megahenry" >MH</i>, 
-<i title="gigahenry" >GH</i>, 
-<i title="terahenry" >TH</i>, 
-<i title="millihenry">mH</i>, 
-<i title="microhenry">μH</i>, 
-<i title="nanohenry" >nH</i>, 
-<i title="picohenry" >pH</i>;
+<i title="Henry"       >H</i>, 
+<i title="kilohenry"   >kH</i>, 
+<i title="megahenry"   >MH</i>, 
+<i title="gigahenry"   >GH</i>, 
+<i title="terahenry"   >TH</i>, 
+<i title="millihenry"  >mH</i>, 
+<i title="microhenry"  >μH</i>, 
+<i title="nanohenry"   >nH</i>, 
+<i title="picohenry"   >pH</i>;
 </li><li>Luminous flux: 
-<i title="lumen">lm</i>;
+<i title="lumen"       >lm</i>;
 </li><li>Illuminance: 
-<i title="lux">lx</i>;
+<i title="lux"         >lx</i>;
 </li><li>Radioactivity: 
 <i title="Becquerel"    >Bq</i>, 
 <i title="kilobecquerel">kBq</i>, 
@@ -1144,27 +1188,27 @@ You can use it further to calculate binomial coefficients by the well-known form
 <i title="Curie"        >Ci</i>, 
 <i title="Rutherford"   >Rd</i>;
 </li><li>Absorbed dose: 
-<i title="Gray"     >Gy</i>, 
-<i title="kilogray" >kGy</i>, 
-<i title="megagray" >MGy</i>, 
-<i title="gigagray" >GGy</i>, 
-<i title="teragray" >TGy</i>, 
-<i title="milligray">mGy</i>, 
-<i title="microgray">μGy</i>, 
-<i title="nanogray" >nGy</i>, 
-<i title="picogray" >pGy</i>;
+<i title="Gray"         >Gy</i>, 
+<i title="kilogray"     >kGy</i>, 
+<i title="megagray"     >MGy</i>, 
+<i title="gigagray"     >GGy</i>, 
+<i title="teragray"     >TGy</i>, 
+<i title="milligray"    >mGy</i>, 
+<i title="microgray"    >μGy</i>, 
+<i title="nanogray"     >nGy</i>, 
+<i title="picogray"     >pGy</i>;
 </li><li>Equivalent dose: 
-<i title="Sievert"     >Sv</i>, 
-<i title="kilosievert" >kSv</i>, 
-<i title="megasievert" >MSv</i>, 
-<i title="gigasievert" >GSv</i>, 
-<i title="terasievert" >TSv</i>, 
-<i title="millisievert">mSv</i>, 
-<i title="microsievert">μSv</i>, 
-<i title="nanosievert" >nSv</i>, 
-<i title="picosievert" >pSv</i>;
+<i title="Sievert"      >Sv</i>, 
+<i title="kilosievert"  >kSv</i>, 
+<i title="megasievert"  >MSv</i>, 
+<i title="gigasievert"  >GSv</i>, 
+<i title="terasievert"  >TSv</i>, 
+<i title="millisievert" >mSv</i>, 
+<i title="microsievert" >μSv</i>, 
+<i title="nanosievert"  >nSv</i>, 
+<i title="picosievert"  >pSv</i>;
 </li><li>Catalytic activity: 
-<i title="katal">kat</i>;
+<i title="katal"        >kat</i>;
 </li></ul>
 <p>Non-metric units (Imperial/US):</p>
 <ul><li>Mass:
@@ -1238,10 +1282,10 @@ You can use it further to calculate binomial coefficients by the well-known form
 <i title="gallon (fluid, US)"    >gal</i><sub>_US</sub>, 
 <i title="barrel (fluid, US)"    >bbl</i><sub>_US</sub>; 
 </li><li>Volume, dry: 
-(US) <i title="pint (dry, US)"         >pt</i><sub>_dry</sub>, 
-(US) <i title="quart (dry, US)"        >qt</i><sub>_dry</sub>, 
-(US) <i title="gallon (dry, US)"       >gal</i><sub>_dry</sub>, 
-(US) <i title="barrel (dry, US)"       >bbl</i><sub>_dry</sub>,
+(US) <i title="pint (dry, US)"   >pt</i><sub>_dry</sub>, 
+(US) <i title="quart (dry, US)"  >qt</i><sub>_dry</sub>, 
+(US) <i title="gallon (dry, US)" >gal</i><sub>_dry</sub>, 
+(US) <i title="barrel (dry, US)" >bbl</i><sub>_dry</sub>,
 <br />&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;
 <i title="peck"                  >pk</i> (or  
 <i title="peck (UK)"             >pk</i><sub>_UK</sub>,
@@ -1282,17 +1326,17 @@ You can use it further to calculate binomial coefficients by the well-known form
 <i title="horsepower (boiler)"     >hpS</i>.
 </ul>
 <p>Angle units are accepted by trigonometric functions and they override all other settings. Inverse trigonometric functions return unitless values by default. If you want them to return the result in the current units, you have to define a variable: <var>ReturnAngleUnits</var> = 1.</p>
-<p>Literals that are written immediately after numbers are recognized as units by the parser, e.g. "2<i>m</i>". Standalone literals can be either units or variables, e.g. "<i>N</i>*<i>m</i>". The rules for parsing are as follows: If a literal has not been defined as a variable, it is parsed as a unit. Otherwise, it is parsed as a variable, even if a unit with the same name exists. If you put a dot before the literal, you will force ir to be parsed as a unit, even if a variable with the same name exists, e.g. ".<i>N</i>*.<i>m</i>".</p>
+<p>Literals that follow numbers immediately are parsed as units, e.g. "2&thinsp;<i>m</i>". Standalone literals can be either units or variables, e.g. "<i>N</i>*<i>m</i>". The rules for parsing are as follows: If a literal has not been defined as a variable, it is parsed as a unit. Otherwise, it is parsed as a variable, even if a unit with the same name exists. If you put a dot before the literal, you will force it to be parsed as a unit, even if a variable with the same name exists, e.g. ".<i>N</i>*.<i>m</i>".</p>
 
 <h4>Custom units</h4>
 <p>You can define your own "custom" units and use them like any others in your code. Defining a unit is similar to defining a variable, but the name must be prefixed with a dot ".":</p>
 <p>&emsp;&emsp;<code>.<i>Name</i> = expression</code></p>
-<p>The name can include som currency symbols like: €, £, ₤, ¥, ¢, ₽, ₹, ₩, ₪. If you need to create a unit, that derive from others, you can write an expression with numbers and units on the right side. You can also define dimensionless units, like currency (USD, EUR, €, ₤) or information (bit, byte, KiB, etc), by specifying "= 1" for the first unit and setting the others as multiples. For example:
+<p>Names can include somе currency symbols like: €, £, ₤, ¥, ¢, ₽, ₹, ₩, ₪. If you need to create a unit, that derive from others, you can write an expression with numbers and units on the right side. You can also define dimensionless units, like currency (USD, EUR, €, ₤) or information (bit, byte, KiB, etc), by specifying "= 1" for the first unit and setting the others as multiples. For example:
 <p><code>&emsp;&emsp;.<i>bit</i> = 1<br />
 &emsp;&emsp;.<i>byte</i> = 8*<i>bit</i><br />
 &emsp;&emsp;.<i>KiB</i> = 1024*<i>byte</i><br />
 &emsp;&emsp;...</code></p>
-<p>Custom dimensionless units exist in a special (ninth) non-physical dimension. That is how they do not cancel or convert to other dimensionless units, like percents or angles, when mixed. However, if you have two types of dimensionless units in a single file, they will exist in the same dimension, so you will have to avoid mixing them.</p>
+<p>Custom dimensionless units exist in a special (ninth) non-physical dimension. That is how they do not cancel or convert to other dimensionless units, like percents or angles, when mixed. However, if you have two types of dimensionless units in a single file, they will exist in the same dimension, so you should avoid mixing them.</p>
 
 <h2 id="TOC_500">Reporting</h2>
 <p>All calculations are automatically collected into professionally formatted calculation report. You can print it or open it with MS Word for editing. Besides math expressions, you can add headings, comments, tables and images.</p>
@@ -1331,7 +1375,7 @@ You can use it further to calculate binomial coefficients by the well-known form
 				Length -  <var>l</var> = <input type="text" size="2" name="Variable" value = "1"> <span class="Units">m</span><br />
 				Area -  <var>l</var> = <input type="text" size="2" name="Variable" value = "1"> <span class="Units">m</span><sup>2</sup><br />
 				Volume -  <var>V</var> = <input type="text" size="2" name="Variable" value = "1"> <span class="Units">m</span><sup>3</sup><br />
-				Scale factor -  <i id="UnitScale">Units</var>
+				Scale factor -  <var id="UnitScale">Units</var>
 			</td>
 		</tr>		
 	</tbody>
@@ -1373,7 +1417,7 @@ You can use it further to calculate binomial coefficients by the well-known form
 				<code><b>&lt;i&gt;</b>Italic<b>&lt;/i&gt;</b></code>
 			</td>
 			<td>
-				<i style="color:black;">Italic</var>
+				<i style="color:black;">Italic</i>
 			</td>
 		</tr>		
 		<tr>
@@ -1478,7 +1522,7 @@ You can use it further to calculate binomial coefficients by the well-known form
 &emsp;&emsp;'&lt;p id="<b class="err">target1</b>"&gt; Values:'x = ? {21}','y = ? {22}'&lt;/p&gt;
 </pre>
 <p>Output:</p>
-<p>&emsp;&emsp;Select an option: <select name="target1"> </p>
+<p>&emsp;&emsp;Select an option: <select name="target1">
 <option value="11;12" id="line-3">x1; y1</option> 
 <option value="21;22" id="line-4">x2; y2</option> 
 <option value="31;32" id="line-5">x3; y3</option> 
@@ -1637,12 +1681,15 @@ You can use it further to calculate binomial coefficients by the well-known form
 
 <h3 id="TOC_701">Substitution</h3>
 <p>Calcpad can substitute the values of variables in all formulas in the output, just before the answer:</p>
-<p style="margin-left: 2em;"><var>x</var><sub>1</sub> = <span class="dvc"> -<var>b</var> – <span class="root">√</span><span class="ovr"><var>D</var></span><span class="dvl"></span>2·<var>a</var></span> = <span class="dvc"> -3 – <span class="root">√</span><span class="ovr">89</span><span class="dvl"></span>2·4</span> = -1.55</span></p>
+<p style="margin-left: 2em;"><var>x</var><sub>1</sub> = <span class="dvc"> -<var>b</var> – <span class="root">√</span><span class="ovr"><var>D</var></span><span class="dvl"></span>2·<var>a</var></span> = <span class="dvc"> -3 – <span class="root">√</span><span class="ovr">89</span><span class="dvl"></span>2·4</span> = -1.55</p>
 <p>For that purpose, you need to check the "<b>Substitution</b>" checkbox at the bottom of the program window. That makes the results easy to review and check. This is important when calculations have to be checked by supervisors, teachers etc. This is also an advantage over the spreadsheet software where the actual formulas are hidden in the cells.</p>
 <p>If you do not need the substitution, you can uncheck this option. Then the answers will follow directly the calculation formulas:</p>
-<p style="margin-left: 2em;"><var>x</var><sub>1</sub> = <span class="dvc"> -<var>b</var> – <span class="root">√</span><span class="ovr"><var>D</var></span><span class="dvl"></span>2·<var>a</var></span> = -1.55</span></p>
+<p style="margin-left: 2em;"><var>x</var><sub>1</sub> = <span class="dvc"> -<var>b</var> – <span class="root">√</span><span class="ovr"><var>D</var></span><span class="dvl"></span>2·<var>a</var></span> = -1.55</p>
 <p>After that, if you position the mouse over any variable, you will see a tooltip with the respective value.</p>
-
+<p>There is also an option to control the variable substitution behavior inside worksheets. You can use the following switches for that purpose:<br />
+&emsp;&emsp;<span class="cond">#nosub</span></a> - do not substitute variables (no substitution);<br />
+&emsp;&emsp;<span class="cond">#novar</span></a> - show equations only with substituted values (no variables);<br />
+&emsp;&emsp;<span class="cond">#varsub</span></a> - show equations with variables and substituted values (default).</p>
 
 <h3 id="TOC_702">Rounding</h3>
 <p>Rounding is specified by the number of digits <var>n</var> after the decimal point. It is entered into the "<b>Rounding</b>" input box at the bottom of the program window. The value of <var>n</var> can be between "0" and "15". If you enter "0", all results will be rounded to integers. If the value is less than "0" or greater than "15", the respective limit will be taken.</p>
@@ -1754,7 +1801,7 @@ You can use it further to calculate binomial coefficients by the well-known form
 <h3 id="TOC_804">Save As…</h3>
 <p>If you need to save the current file with a different name, select the "<b>File/Save As…</b>" menu command. A file selection dialog will be displayed. Select file path and name and click "<b>Save</b>"</p>
 <hr />
-<p>Last edited on 30.07.2023 by eng. Nedelcho Ganchovski.</p>
+<p>Last edited on 27.08.2023 by eng. Nedelcho Ganchovski.</p>
 </div>
 <script src="jquery-3.6.3.min.js"></script>
 <script>
