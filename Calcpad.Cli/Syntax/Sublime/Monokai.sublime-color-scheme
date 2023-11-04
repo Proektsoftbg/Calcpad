@@ -1,0 +1,61 @@
+// Documentation at https://www.sublimetext.com/docs/color_schemes.html
+{
+	"variables":
+	{
+		"green": "hsl(80, 100%, 50%)",
+        "green2": "hsl(160, 100%, 50%)",
+		"yellow6": "hsl(50, 100%, 60%)",
+        "magenta": "hsl(320, 100%, 65%)",
+		"magenta2": "hsl(300, 60%, 40%)",
+		"pink": "hsl(320, 100%, 70%)",
+		"blue2": "hsl(200, 50%, 50%)"
+	},
+
+	"globals":
+	{
+	},
+
+	"rules":
+	[
+		{
+            "name": "Calcpad String",
+            "scope": "string.quoted.double.calcpad | string.quoted.single.calcpad",
+            "foreground": "var(green)"
+        },		
+		{
+            "name": "Calcpad Operator",
+            "scope": "keyword.operator.arithmetic.calcpad | keyword.operator.comparison.calcpad |  keyword.operator.logical.calcpad |keyword.operator.assignment.calcpad | punctuation.separator.calcpad",
+            "foreground": "var(yellow6)"
+        },
+        {
+            "name": "Calcpad Keyword",
+            "scope": "keyword.control.calcpad | punctuation.definition.keyword.calcpad",
+            "foreground": "var(magenta)"
+        },
+        {
+            "name": "Calcpad Method",
+            "scope": "support.method.calcpad | punctuation.definition.method.calcpad",
+            "foreground": "var(magenta)"
+        },         
+        {
+            "name": "Calcpad Function",
+            "scope": "support.function.calcpad",
+            "foreground": "var(blue2)"
+        },
+        {
+            "name": "Calcpad Units",
+            "scope": "entity.name.constant.calcpad",
+            "foreground": "var(green2)"
+        },
+        {
+            "name": "Calcpad Brackets",
+            "scope": "punctuation.section.brackets.calcpad",
+            "foreground": "var(pink)"
+        },
+        {
+            "name": "Calcpad String",
+            "scope": "meta.string.calcpad",
+            "foreground": "var(magenta2)"
+        }  		
+	]
+}
