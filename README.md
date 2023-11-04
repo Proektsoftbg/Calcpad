@@ -255,7 +255,7 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;&emsp;#post - show the next contents only after calculations;  
 &emsp;&emsp;#val  - show only the final result, without the equation;  
 &emsp;&emsp;#equ  - show complete equations and results (default);  
-&emsp;&emsp;#noc  - show only equations without results (no calculations);
+&emsp;&emsp;#noc  - show only equations without results (no calculations);  
 &emsp;&emsp;#nosub"  - do not substitute variables (no substitution);  
 &emsp;&emsp;#novar"  - show equations only with substituted values (no variables);  
 &emsp;&emsp;#varsub" - show equations with variables and substituted values (default)";  
