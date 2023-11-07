@@ -47,7 +47,7 @@
                 color: #06c;
                 padding-right: 1pt;
                 padding-left: 1pt;
-				font-size: 12.5pt;
+				font-size: 13pt;
             }
 
             .eq i {
@@ -216,6 +216,8 @@
 
         .eq sub {
             font-family: Calibri, 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+            font-size: 92%;
+            vertical-align: -18%;
         }
 
         .eq sup {
@@ -225,16 +227,22 @@
         }
 
         .eq small {
-            font-size: 80%;
-        }
-
-        small.nth {
+			font-family: Calibri, 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
             font-size: 70%;
+        }
+		
+		.eq small var {
+			font-family: "Times New Roman", Times, serif;
+            font-size: 10pt;
         }
 
         .nth {
             position: relative;
             bottom: 1pt;
+        }
+		
+        .eq small.nth{
+            font-size: 70%;
         }
 
         sup.raised {
@@ -762,10 +770,10 @@
 					var e = $(this);
 					var s = e.val();
 					if (isNumeric(s)) {
-						e.css("color", "black");
-						e.removeAttr("title")
+					    e.css("color", "black");
+					    e.removeAttr("title")
 					} else {
-						e.css("color", "red");
+					    e.css("color", "red");
                         e.attr("title", "Invalid number")
 					}
 				});
