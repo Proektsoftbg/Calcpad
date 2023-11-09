@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using SkiaSharp;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Calcpad.Core
 {
@@ -10,6 +11,7 @@ namespace Calcpad.Core
         public ChartPlotter(MathParser parser, PlotSettings settings) : base(parser, settings) { }
         private const float GDILimit = 1e8f;
         private Variable _var;
+        private Unit _xUnits, _yUnits;  
 
         private void GetImageSize()
         {
@@ -22,6 +24,8 @@ namespace Calcpad.Core
         internal string Plot(Func<Value>[] fx, Func<Value>[] fy, Variable var, double start, double end, Unit u)
         {
             _var = var;
+            _xUnits = null;
+            _yUnits = null; 
             GetImageSize();
             var charts = new Chart[fx.Length];
             Box limits = new();
@@ -179,17 +183,36 @@ namespace Calcpad.Core
         {
             Parser.BreakIfCanceled();
             _var.SetNumber(t);
-            var vx = fx?.Invoke() ?? _var.Value;
-            var vy = fy();
-            return new Node(vx.Re, vy.Re, t);
+            var x = ConvertValue(fx?.Invoke() ?? _var.Value, ref _xUnits);
+            var y = ConvertValue(fy(), ref _yUnits);
+            return new Node(x,y, t);
         }
 
+        double ConvertValue(Value v, ref Unit u)
+        {
+            if (u is null)
+                u = v.Units;
+            else
+            {
+                if (!ReferenceEquals(u, v.Units))
+                {
+                    if (!Unit.IsConsistent(u, v.Units))
+                        Throw.InconsistentUnitsException(Unit.GetText(u), Unit.GetText(v.Units));
+
+                    return v.Re * v.Units.ConvertTo(u);
+                }
+            }
+            return v.Re;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void GetPngPoints(Chart[] charts, double x0, double y0, double xs, double ys)
         {
             for (int i = 0, len = charts.Length; i < len; ++i)
                 charts[i].GetPngPoints(x0, y0, xs, ys);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void GetSvgPoints(Chart[] charts, double x0, double y0, double xs, double ys)
         {
             for (int i = 0, len = charts.Length; i < len; ++i)
@@ -277,7 +300,6 @@ namespace Calcpad.Core
                 chartPens[j].Dispose();
                 chartBrushes[j].Dispose();
             }
-
             canvas.Dispose();
             bitmap.Dispose();
             return HtmlImg(src);
