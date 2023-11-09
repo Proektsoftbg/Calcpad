@@ -181,7 +181,7 @@ namespace Calcpad.Wpf
 #if BG
             _htmlHelp = GetHelp("https://calcpad.bg/download/help.html");
 #else
-            _htmlHelp = GetHelp("https://calcpad.en/download/help.html");
+            _htmlHelp = GetHelp("https://calcpad.eu/download/help.html");
 #endif
             _htmlSource = ReadTextFromFile(AppInfo.Path + "source.html").Replace("jquery", appUrl + "jquery");
             _svgTyping = $"<img style=\"height:1em;\" src=\"{appUrl}typing.gif\" alt=\"...\">";
