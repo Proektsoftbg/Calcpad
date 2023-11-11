@@ -11,15 +11,15 @@ sudo apt-get install -y dotnet-runtime-7.0
 sudo snap install chromium
 ```
 3. Download the Calcpad setup package from the following link:
-https://github.com/Proektsoftbg/Calcpad/blob/main/Setup/Linux/Calcpad.6.1.7.deb
+https://github.com/Proektsoftbg/Calcpad/blob/main/Setup/Linux/Calcpad.6.1.9.deb
 
 Then, install Calcpad, using the following command:
 ```
-sudo apt-get install -y <path-to-your-downloads-folder>/Calcpad.6.1.7.deb
+sudo apt-get install -y <path-to-your-downloads-folder>/Calcpad.6.1.9.deb
 ```
 Instead of `<path-to-your-downloads-folder>` you must put the actual path, something like this:
 ```
-sudo apt-get install -y /home/ned/snap/chromium/2666/Downloads/Calcpad.6.1.7.deb
+sudo apt-get install -y /home/ned/snap/chromium/2686/Downloads/Calcpad.6.1.9.deb
 ```
 And that's it. You can start the Calcpad command line interpreter (CLI) by simply typing:
 ```
