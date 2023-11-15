@@ -11,15 +11,13 @@ namespace Calcpad.Core
         private const string VarNonLetterChars = "℧∡";
         private const string VarLetterChars = "ϑϕøØ";
         private const string SuperscriptChars = "⁰¹²³⁴⁵⁶⁷⁸⁹ⁿ⁺⁻";
-        private const string UnitChars = UnitSymbolChars + CurrencyChars;
+        internal const string UnitChars = UnitSymbolChars + CurrencyChars;
         private const string VarStartingChars = UnitChars + VarNonLetterChars;
         private const string VarChars =
             VarStartingChars + 
             VarSymbolChars +
             SuperscriptChars +
             VarLetterChars;
-
-        internal static char[] UnitCharArray() => UnitChars.ToCharArray();
 
         public static bool IsVariable(string name)
         {

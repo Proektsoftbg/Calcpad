@@ -1,23 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <AnalysisLevel>latest</AnalysisLevel>
     <RootNamespace>Calcpad.Core</RootNamespace>
     <OutputType>Library</OutputType>
-    <Version>6.1.9</Version>
+    <Version>6.2</Version>
     <Authors>Nedelcho Ganchovski</Authors>
     <Company>Proektsoft EOOD</Company>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>..\Calcpad.Wpf\bin\Release\net7.0-windows\</OutputPath>
+    <OutputPath>..\Calcpad.Wpf\bin\Release\net8.0-windows\</OutputPath>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <!--<DefineConstants>BG</DefineConstants>-->
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>..\Calcpad.Wpf\bin\Debug\net7.0-windows\</OutputPath>
+    <OutputPath>..\Calcpad.Wpf\bin\Debug\net8.0-windows\</OutputPath>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <!--<DefineConstants>BG</DefineConstants>-->
   </PropertyGroup>

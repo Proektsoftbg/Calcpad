@@ -1,5 +1,7 @@
 ﻿using Calcpad.Core;
 using System;
+using System.Buffers;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -147,7 +149,7 @@ namespace Calcpad.Wpf
         }
 
         private static readonly Brush[] Colors =
-        {
+        [
              Brushes.Gray,
              Brushes.Black,
              Brushes.DarkCyan,
@@ -163,7 +165,7 @@ namespace Calcpad.Wpf
              Brushes.Indigo,
              Brushes.DarkMagenta,
              Brushes.Crimson
-        };
+        ];
 
         private static readonly Thickness ToolTipPadding = new(3, 1, 3, 2);
         private static readonly SolidColorBrush ToolTipBackground = new(Color.FromArgb(196, 0, 0, 0));
@@ -171,11 +173,12 @@ namespace Calcpad.Wpf
         private static readonly SolidColorBrush ErrorBackground = new(Color.FromRgb(255, 225, 225));
         private static readonly SolidColorBrush BackgroundBrush = new(Color.FromArgb(160, 240, 248, 255));
 
-        private static readonly HashSet<char> Operators = new() { '!', '^', '/', '÷', '\\', '⦼', '*', '-', '+', '<', '>', '≤', '≥', '≡', '≠', '=', '∧', '∨', '⊕' };
-        private static readonly HashSet<char> Delimiters = new() { ';', '|', '&', '@', ':' };
-        private static readonly HashSet<char> Brackets = new() { '(', ')', '{', '}' };
+        private static readonly FrozenSet<char> Operators = new HashSet<char>()  { '!', '^', '/', '÷', '\\', '⦼', '*', '-', '+', '<', '>', '≤', '≥', '≡', '≠', '=', '∧', '∨', '⊕' }.ToFrozenSet();
+        private static readonly FrozenSet<char> Delimiters = new HashSet<char>() { ';', '|', '&', '@', ':' }.ToFrozenSet();
+        private static readonly FrozenSet<char> Brackets = new HashSet<char>()   { '(', ')', '{', '}' }.ToFrozenSet();
 
-        private static readonly HashSet<string> Functions = new(StringComparer.OrdinalIgnoreCase)
+        private static readonly FrozenSet<string> Functions = 
+        new HashSet<string>()
         {
             "abs",
             "mod",
@@ -243,9 +246,11 @@ namespace Calcpad.Wpf
             "xor",
             "fact",
             "timer"
-        };
+        }.ToFrozenSet(StringComparer.OrdinalIgnoreCase);
 
-        private static readonly HashSet<string> Keywords = new(StringComparer.OrdinalIgnoreCase) {
+        private static readonly FrozenSet<string> Keywords = 
+        new HashSet<string>(StringComparer.OrdinalIgnoreCase) 
+        {
             "#if",
             "#else",
             "#else if",
@@ -261,6 +266,8 @@ namespace Calcpad.Wpf
             "#varsub",
             "#nosub",
             "#novar",
+            "#split",
+            "#wrap",
             "#pre",
             "#post",
             "#repeat",
@@ -275,9 +282,10 @@ namespace Calcpad.Wpf
             "#round",
             "#pause",
             "#input"
-        };
+        }.ToFrozenSet(StringComparer.OrdinalIgnoreCase);
 
-        private static readonly HashSet<string> Commands = new(StringComparer.OrdinalIgnoreCase)
+        private static readonly FrozenSet<string> Commands = 
+        new HashSet<string>(StringComparer.OrdinalIgnoreCase)
         {
             "$find",
             "$root",
@@ -291,9 +299,9 @@ namespace Calcpad.Wpf
             "$product",
             "$plot",
             "$map"
-        };
+        }.ToFrozenSet(StringComparer.OrdinalIgnoreCase);
 
-        internal static readonly char[] Comments = { '\'', '"' };
+        internal static readonly SearchValues<char> Comments = SearchValues.Create("'\"");
         private TagHelper _tagHelper;
         private ParserState _state;
         private readonly StringBuilder _builder = new(100);

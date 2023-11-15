@@ -68,14 +68,9 @@ namespace Calcpad.OpenXml
         }
     }
 
-    internal class Base64ImageProcessor : ImageProcessor
+    internal class Base64ImageProcessor(string imageSrc) : ImageProcessor(imageSrc)
     {
-        private readonly byte[] _imageData;
-
-        public Base64ImageProcessor(string imageSrc) : base(imageSrc)
-        {
-            _imageData = GetImageData(imageSrc);
-        }
+        private readonly byte[] _imageData = GetImageData(imageSrc);
 
         public override ImagePart GetImagePart(MainDocumentPart mainPart)
         {
@@ -98,10 +93,8 @@ namespace Calcpad.OpenXml
         }
     }
 
-    internal class UrlImageProcessor : ImageProcessor
+    internal class UrlImageProcessor(string imageSrc) : ImageProcessor(imageSrc)
     {
-        public UrlImageProcessor(string imageSrc) : base(imageSrc) { }
-
         public override ImagePart GetImagePart(MainDocumentPart mainPart)
         {
             var ext = src[(src.LastIndexOf('.') + 1)..];
@@ -196,10 +189,8 @@ namespace Calcpad.OpenXml
         }
     }
 
-    internal class SvgImageProcessor : ImageProcessor
+    internal class SvgImageProcessor(string imageSrc) : ImageProcessor(imageSrc)
     {
-        public SvgImageProcessor(string imageSrc) : base(imageSrc) { }
-
         public override ImagePart GetImagePart(MainDocumentPart mainPart)
         {
             var imagePart = mainPart.AddImagePart(ImagePartType.Svg);

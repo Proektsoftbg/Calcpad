@@ -6,12 +6,11 @@ using System.Runtime.CompilerServices;
 
 namespace Calcpad.Core
 {
-    internal class ChartPlotter : Plotter
+    internal class ChartPlotter(MathParser parser, PlotSettings settings) : Plotter(parser, settings)
     {
-        public ChartPlotter(MathParser parser, PlotSettings settings) : base(parser, settings) { }
         private const float GDILimit = 1e8f;
         private Variable _var;
-        private Unit _xUnits, _yUnits;  
+        private Unit _xUnits, _yUnits;
 
         private void GetImageSize()
         {
@@ -25,7 +24,7 @@ namespace Calcpad.Core
         {
             _var = var;
             _xUnits = null;
-            _yUnits = null; 
+            _yUnits = null;
             GetImageSize();
             var charts = new Chart[fx.Length];
             Box limits = new();
@@ -99,7 +98,7 @@ namespace Calcpad.Core
             return new Box(left, bottom, right, top);
         }
 
-        private IEnumerable<Node> Calculate(Func<Value> fx, Func<Value> fy, double start, double end, Unit u)
+        private Node[] Calculate(Func<Value> fx, Func<Value> fy, double start, double end, Unit u)
         {
             var n = Settings.IsAdaptive ? 31 : 512;
             var s = (end - start) / n;
@@ -185,10 +184,10 @@ namespace Calcpad.Core
             _var.SetNumber(t);
             var x = ConvertValue(fx?.Invoke() ?? _var.Value, ref _xUnits);
             var y = ConvertValue(fy(), ref _yUnits);
-            return new Node(x,y, t);
+            return new Node(x, y, t);
         }
 
-        double ConvertValue(Value v, ref Unit u)
+        static double ConvertValue(Value v, ref Unit u)
         {
             if (u is null)
                 u = v.Units;
@@ -205,14 +204,12 @@ namespace Calcpad.Core
             return v.Re;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void GetPngPoints(Chart[] charts, double x0, double y0, double xs, double ys)
         {
             for (int i = 0, len = charts.Length; i < len; ++i)
                 charts[i].GetPngPoints(x0, y0, xs, ys);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void GetSvgPoints(Chart[] charts, double x0, double y0, double xs, double ys)
         {
             for (int i = 0, len = charts.Length; i < len; ++i)
@@ -226,7 +223,7 @@ namespace Calcpad.Core
             var penWidth = 2f * ScreenScaleFactor;
             var dotRadius = 2f * penWidth;
             SKPaint[] chartPens =
-            {
+            [
                 new() {Color = SKColors.Red, StrokeWidth = penWidth },
                 new() {Color = SKColors.Green, StrokeWidth = penWidth },
                 new() {Color = SKColors.Blue, StrokeWidth = penWidth },
@@ -237,9 +234,9 @@ namespace Calcpad.Core
                 new() {Color = SKColors.DarkOrange, StrokeWidth = penWidth },
                 new() {Color = SKColors.Maroon,  StrokeWidth = penWidth },
                 new() {Color = SKColors.YellowGreen, StrokeWidth = penWidth },
-            };
+            ];
             SKPaint[] chartBrushes =
-{
+[
                 new() {Color = chartPens[0].Color.WithAlpha(12)},
                 new() {Color = chartPens[1].Color.WithAlpha(11)},
                 new() {Color = chartPens[2].Color.WithAlpha(10)},
@@ -250,13 +247,13 @@ namespace Calcpad.Core
                 new() {Color = chartPens[7].Color.WithAlpha(6)},
                 new() {Color = chartPens[8].Color.WithAlpha(6)},
                 new() {Color = chartPens[9].Color.WithAlpha(6)}
-            };
+            ];
             foreach (var pen in chartPens)
             {
                 pen.Style = SKPaintStyle.Stroke;
-                pen.StrokeJoin= SKStrokeJoin.Round;
+                pen.StrokeJoin = SKStrokeJoin.Round;
                 pen.StrokeCap = SKStrokeCap.Round;
-                pen.IsAntialias = true; 
+                pen.IsAntialias = true;
             }
             DrawGridPng(canvas, x0, y0, xs, ys, bounds);
             var penNo = 0;
@@ -268,7 +265,7 @@ namespace Calcpad.Core
                 ref var pen = ref chartPens[penNo];
                 if (c.Bounds.Width == 0 && c.Bounds.Height == 0)
                 {
-                    
+
                     pen.Style = SKPaintStyle.StrokeAndFill;
                     canvas.DrawCircle(c.PngPoints[0], dotRadius, pen);
                     pen.Style = SKPaintStyle.Stroke;
@@ -277,7 +274,7 @@ namespace Calcpad.Core
                 {
                     for (int i = 1, len = c.PngPoints.Length; i < len; ++i)
                         canvas.DrawLine(c.PngPoints[i - 1], c.PngPoints[i], pen);
-                      
+
                     if (c.Fill)
                     {
                         var yf = y0 - Math.Clamp(0, bounds.Bottom * ys, bounds.Top * ys);
@@ -357,8 +354,8 @@ namespace Calcpad.Core
             internal Chart(int size)
             {
                 _points = new Node[size];
-                PngPoints = Array.Empty<SKPoint>();
-                SvgPoints = Array.Empty<SvgPoint>();
+                PngPoints = [];
+                SvgPoints = [];
                 PointCount = 0;
                 Bounds = new Box();
             }

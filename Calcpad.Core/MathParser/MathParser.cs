@@ -17,7 +17,7 @@ namespace Calcpad.Core
         private readonly StringBuilder _stringBuilder = new();
         private readonly MathSettings _settings;
         private Token[] _rpn;
-        private readonly List<SolveBlock> _solveBlocks = new();
+        private readonly List<SolveBlock> _solveBlocks = [];
         private readonly Container<CustomFunction> _functions = new();
         private readonly Dictionary<string, Variable> _variables = new(StringComparer.Ordinal);
         private readonly Dictionary<string, Unit> _units = new(StringComparer.Ordinal);
@@ -62,6 +62,7 @@ namespace Calcpad.Core
             get => _isPlotting;
 
         }
+        internal bool Split { get; set; }
         internal bool ShowWarnings { get; set; } = true;  
         public int Degrees { set => _calc.Degrees = value; }
         internal int PlotWidth => _variables.TryGetValue("PlotWidth", out var v) ? (int)v.ValueByRef().Re : 500;
@@ -141,13 +142,10 @@ namespace Calcpad.Core
 
             var u = d * (value.Units ?? Unit.Get(string.Empty));
             u.Text = name;
-            if (_units.ContainsKey(name))
-                _units[name] = u;
-            else
-            {
-                _units.Add(name, u);
+            if (_units.TryAdd(name, u))
                 _input.DefinedVariables.Add(name);
-            }
+            else
+                _units[name] = u;
         }
 
         internal Unit GetUnit(string name)
@@ -302,7 +300,13 @@ namespace Calcpad.Core
                     {
                         var rpn = Input.GetRpn(input);
                         var index = _functions.IndexOf(name);
-                        var cf = index >= 0 ? _functions[index] : new CustomFunction();
+                        var cf = index >= 0 ? _functions[index] : parameters.Count switch
+                        {
+                            1 => new CustomFunction1(), 
+                            2 => new CustomFunction2(),
+                            3 => new CustomFunction3(),
+                            _ => new CustomFunctionN()
+                        };
 
                         cf.AddParameters(parameters);
                         cf.Rpn = rpn;
@@ -326,7 +330,7 @@ namespace Calcpad.Core
             Throw.InvalidFunctionDefinitionException();
         }
 
-        private void BindParameters(Parameter[] parameters, Token[] rpn)
+        private void BindParameters(ReadOnlySpan<Parameter> parameters, Token[] rpn)
         {
             for (int i = 0, len = rpn.Length; i < len; ++i)
             {
@@ -346,7 +350,7 @@ namespace Calcpad.Core
             }
         }
 
-        internal Func<Value> Compile(string expression, Parameter[] parameters)
+        internal Func<Value> Compile(string expression, ReadOnlySpan<Parameter> parameters)
         {
             var input = _input.GetInput(expression, false);
             new SyntaxAnalyser(_functions).Check(input, out _);

@@ -2,16 +2,11 @@
 
 namespace Calcpad.Core
 {
-    public ref struct CommentEnumerator
+    public ref struct CommentEnumerator(ReadOnlySpan<char> span)
     {
-        private ReadOnlySpan<char> _span;
+        private ReadOnlySpan<char> _span = span;
         private char _commentChar = '\0';
 
-        public CommentEnumerator(ReadOnlySpan<char> span)
-        {
-            _span = span;
-            Current = default;
-        }
         public readonly CommentEnumerator GetEnumerator() => this;
 
         public bool MoveNext()
@@ -41,7 +36,7 @@ namespace Calcpad.Core
             if (i < 0)
             {
                 Current = _span;
-                _span = ReadOnlySpan<char>.Empty;
+                _span = [];
                 return true;
             }
             if (i == 0)
@@ -56,7 +51,7 @@ namespace Calcpad.Core
             }
             return true;
         }
-        public ReadOnlySpan<char> Current { get; private set; }
+        public ReadOnlySpan<char> Current { get; private set; } = default;
         //public readonly bool IsEmpty => _span.IsEmpty;
     }
 }

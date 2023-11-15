@@ -4,10 +4,8 @@ using SkiaSharp;
 
 namespace Calcpad.Core
 {
-    internal class MapPlotter : Plotter
+    internal class MapPlotter(MathParser parser, PlotSettings settings) : Plotter(parser, settings)
     {
-        public MapPlotter(MathParser parser, PlotSettings settings) : base(parser, settings) { }
-
         private int _nx, _ny, _size;
         private const int NColors = 12;
         private static readonly Node[] Colors = new Node[NColors];

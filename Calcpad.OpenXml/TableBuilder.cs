@@ -6,17 +6,11 @@ namespace Calcpad.OpenXml
 {
     internal class TableBuilder
     {
-        private readonly struct CellData
+        private readonly struct CellData(int rowSpan, bool isHead)
         {
-            private readonly int _rowSpan;
+            private readonly int _rowSpan = rowSpan;
             public bool IsMerged => _rowSpan > 0;
-            public bool IsHead { get; }
-
-            public CellData(int rowSpan, bool isHead)
-            {
-                _rowSpan = rowSpan;
-                IsHead = isHead;
-            }
+            public bool IsHead { get; } = isHead;
 
             public CellData CopyDown()
             {
@@ -28,8 +22,8 @@ namespace Calcpad.OpenXml
         }
 
         public bool IsBorderedTable;
-        private List<CellData> _currentRowSpan = new();
-        private List<CellData> _prevRowSpan = new();
+        private List<CellData> _currentRowSpan = [];
+        private List<CellData> _prevRowSpan = [];
         private TableRow _currentRow;
 
         public Table AddTable()

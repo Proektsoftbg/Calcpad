@@ -20,7 +20,7 @@ namespace Calcpad.Core
             }
             private static readonly int[] OrderIndex = 
                 //N  C  V  U  I  O  F  2  M  I  C  L  R  D  S  E
-                { 0, 1, 1, 1, 1, 2, 3, 3, 3, 3, 3, 4, 5, 6, 1, 0 };
+                [0, 1, 1, 1, 1, 2, 3, 3, 3, 3, 3, 4, 5, 6, 1, 0];
             //[N]one
             //[C]onstant
             //[V]ariable

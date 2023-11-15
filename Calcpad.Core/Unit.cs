@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -22,14 +23,14 @@ namespace Calcpad.Core
         private int Length => _powers.Length;
 
         private static bool _isUs;
-        private static readonly char[] CompositeUnitChars = { Calculator.NegChar, '/', '·', '^' };
-        private static readonly string[] Names = { "g", "m", "s", "A", "°C", "mol", "cd", "rad", "" };
-        private static readonly Dictionary<string, Unit> Units;
+        private static readonly string CompositeUnitChars = Calculator.NegChar + "/^";
+        private static readonly string[] Names = ["g", "m", "s", "A", "°C", "mol", "cd", "rad", ""];
         private static readonly Unit[] ForceUnits = new Unit[9], ForceUnits_US = new Unit[9];
-        private static readonly HashSet<Unit> ElectricalUnits = new(9);
+        private static readonly FrozenSet<Unit> ElectricalUnits;
+        private static FrozenDictionary<string, Unit> Units;
 
         private static readonly string[] UnitNames =
-        {
+        [
             "therm",
             "cwt",
             "ton",
@@ -42,7 +43,7 @@ namespace Calcpad.Core
             "pk",
             "bu",
             "tonf" 
-        };
+        ];
 
         internal static bool IsUs
         {
@@ -51,12 +52,14 @@ namespace Calcpad.Core
             {
                 _isUs = value;
                 var suffix = value ? "_US" : "_UK";
+                var units = new Dictionary<string, Unit>(Units);  
                 for ( var i = 0; i < UnitNames.Length; ++i)
                 {
                     ref var s = ref UnitNames[i];
-                    Units[s] = new(Units[s + suffix], s);
+                    units[s] = new(Units[s + suffix], s);
                 }
-                Units["ton_f"] = new(Units["tonf"], "ton_f");
+                units["ton_f"] = new(Units["tonf"], "ton_f");
+                Units = units.ToFrozenDictionary();
             }
         }
 
@@ -346,17 +349,20 @@ namespace Calcpad.Core
             ForceUnits_US[7] = (kipf * m.Pow(3d)).Scale("kip·ft^3", 0.028316846592);
             ForceUnits_US[8] = (kipf * m.Pow(4d)).Scale("kip·ft^4", 0.0086309748412416);
 
-            ElectricalUnits.Add(S);// -1, -2,  3,  2
-            ElectricalUnits.Add(F);// -1, -2,  4,  2
-            ElectricalUnits.Add(C);//  0,  0,  1,  1
-            ElectricalUnits.Add(T);//  1,  0, -2, -1
-            ElectricalUnits.Add(Ohm);//1,  2, -3, -2
-            ElectricalUnits.Add(V);//  1,  2, -3, -1
-            ElectricalUnits.Add(W);//  1,  2, -3
-            ElectricalUnits.Add(H);//  1,  2, -2, -2
-            ElectricalUnits.Add(Wb);// 1,  2, -2, -1
+            ElectricalUnits = new HashSet<Unit>()
+            {
+                S,    // -1, -2,  3,  2
+                F,    // -1, -2,  4,  2
+                C,    //  0,  0,  1,  1
+                T,    //  1,  0, -2, -1
+                Ohm,  //  1,  2, -3, -2
+                V,    //  1,  2, -3, -1
+                W,    //  1,  2, -3
+                H,    //  1,  2, -2, -2
+                Wb    //  1,  2, -2, -1
+            }.ToFrozenSet();
 
-            Units = new(StringComparer.Ordinal)
+            Dictionary<string, Unit> units = new(StringComparer.Ordinal)
             {
                 {string.Empty, new(9)},
                 {"%",     new(0) {_text = "%" } },
@@ -779,24 +785,25 @@ namespace Calcpad.Core
                 {"grad",  new("grad", 0, 0, 0, 0, 0, 0, 0, 1)},
                 {"rev",  new("rev",   0, 0, 0, 0, 0, 0, 0, 1)}
             };
-            var u = Units[string.Empty];
+            var u = units[string.Empty];
             u._powers[8] = 1f;
             u._factors[8] = 1d;
-            Units["°"].Scale(Math.PI / 180.0);
-            Units["′"].Scale(Math.PI / 10800.0);
-            Units["″"].Scale(Math.PI / 648000.0);
-            Units.Add("deg", Units["°"]);
-            Units["grad"].Scale(Math.PI / 200.0);
-            Units["rev"].Scale(Math.Tau);
-            Units["K"]._tempChar = 'K';
-            Units["°F"]._tempChar = 'F';
-            Units["Δ°F"]._tempChar = 'F';
-            Units["°R"]._tempChar = 'R';
+            units["°"].Scale(Math.PI / 180.0);
+            units["′"].Scale(Math.PI / 10800.0);
+            units["″"].Scale(Math.PI / 648000.0);
+            units.Add("deg", units["°"]);
+            units["grad"].Scale(Math.PI / 200.0);
+            units["rev"].Scale(Math.Tau);
+            units["K"]._tempChar = 'K';
+            units["°F"]._tempChar = 'F';
+            units["Δ°F"]._tempChar = 'F';
+            units["°R"]._tempChar = 'R';
             for (var i = 0; i < UnitNames.Length; ++i)
             {
                 ref var name = ref UnitNames[i];
-                Units.Add(name, new(Units[name + "_UK"], name));
+                units.Add(name, new(units[name + "_UK"], name));
             }
+            Units = units.ToFrozenDictionary(); 
         }
 
         internal void Scale(double factor)
@@ -1579,7 +1586,7 @@ namespace Calcpad.Core
             var result = u.Pow(d);
             if (updateText)
             {
-                var s = u.Text;
+                ReadOnlySpan<char> s = u.Text;
                 if (!s.Contains('^'))
                 {
                     var ps = d < 0 ?
@@ -1601,7 +1608,7 @@ namespace Calcpad.Core
 
             if (updateText && Math.Abs(n) > 1)
             {
-                var s = u.Text;
+                ReadOnlySpan<char> s = u.Text;
                 if (!s.Contains('^'))
                     result._text =
                         s.IndexOfAny(CompositeUnitChars) >= 0 ?

@@ -25,7 +25,7 @@ namespace Calcpad.Core
                 }
                 else
                 {
-                    _parameters = parameters.ToArray();
+                    _parameters = [.. parameters];
                     _order = Sort(_parameters);
                 }
             }
@@ -81,7 +81,7 @@ namespace Calcpad.Core
             EndDef,
             Include,
         }
-        private readonly List<int> _lineNumbers = new();
+        private readonly List<int> _lineNumbers = [];
         private static readonly Dictionary<string, Macro> Macros = new(StringComparer.Ordinal);
         public Func<string, Queue<string>, string> Include;
 
@@ -272,7 +272,7 @@ namespace Calcpad.Core
                     c = EatSpace(lineContent, ref i);
                     if (c == '(')
                     {
-                        macroParameters = new();
+                        macroParameters = [];
                         c = EatSpace(lineContent, ref i);
                         textSpan.Reset(i);
                         while (i < len)

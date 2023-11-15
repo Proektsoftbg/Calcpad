@@ -8,7 +8,7 @@ namespace Calcpad.Core
     internal abstract class Plotter
 
     {
-        private static readonly double[] Steps = { 1.0, 2.0, 2.5, 5.0 };
+        private static readonly double[] Steps = [1.0, 2.0, 2.5, 5.0];
         protected readonly float ScreenScaleFactor;
         protected int Width = 500;
         protected int Height = 350;

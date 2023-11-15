@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Text;
 
@@ -24,7 +25,7 @@ namespace Calcpad.Core
                 Error
             }
 
-            private static readonly Dictionary<string, SolverTypes> Definitions = new(StringComparer.OrdinalIgnoreCase)
+            private static readonly FrozenDictionary<string, SolverTypes> Definitions = new Dictionary<string, SolverTypes>(StringComparer.OrdinalIgnoreCase)
             {
                 { "$find", SolverTypes.Find },
                 { "$root", SolverTypes.Root },
@@ -36,10 +37,10 @@ namespace Calcpad.Core
                 { "$repeat", SolverTypes.Repeat },
                 { "$sum", SolverTypes.Sum },
                 { "$product", SolverTypes.Product }
-            };
+            }.ToFrozenDictionary();
 
             private static readonly string[] TypeNames =
-            {
+            [
                 string.Empty,
                 "$Find",
                 "$Root",
@@ -52,7 +53,7 @@ namespace Calcpad.Core
                 "∑",
                 "∏",
                 "$Error"
-            };
+            ];
             private readonly MathParser _parser;
             private readonly SolverTypes _type;
             private Variable _var;
@@ -165,7 +166,7 @@ namespace Calcpad.Core
                     _parser.SetVariable(s, Value.NaN);
                 }
                 var vt = (VariableToken)_items[1].Rpn[0];
-                Parameter[] parameters = { new(vt.Content) };
+                Parameter[] parameters = [new(vt.Content)];
                 vt.Variable = parameters[0].Variable;
                 _var = vt.Variable;
                 _parser.BindParameters(parameters, _items[0].Rpn);
@@ -213,7 +214,7 @@ namespace Calcpad.Core
                     _y = _parser.CompileRpn(_items[4].Rpn);
             }
 
-            internal void BindParameters(Parameter[] parameters, MathParser parser)
+            internal void BindParameters(ReadOnlySpan<Parameter> parameters, MathParser parser)
             {
                 if (parser.IsEnabled)
                 {

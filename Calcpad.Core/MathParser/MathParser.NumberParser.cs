@@ -7,12 +7,12 @@ namespace Calcpad.Core
         private static class NumberParser
         {
             private static readonly double[] Pow10 =
-            {
+            [
                 0.0,   1.0,   1e-01, 1e-02, 1e-03, 1e-04, 1e-05, 1e-06, 1e-07,
                 1e-08, 1e-09, 1e-10, 1e-11, 1e-12, 1e-13, 1e-14, 1e-15, 1e-16,
                 1e-17, 1e-18, 1e-19, 1e-20, 1e-21, 1e-22, 1e-23, 1e-24, 1e-25,
                 1e-26, 1e-27, 1e-28, 1e-29, 1e-30, 1e-31, 1e-32, 1e-33, 1e-34
-            };
+            ];
             const int Pow10Length = 36;
             private static readonly long[,] Mult;
 

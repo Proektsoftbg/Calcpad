@@ -324,7 +324,7 @@ namespace Calcpad.Wpf
                 }
             }
             else
-                dict.Add(key, new() { start, end });
+                dict.Add(key, [start, end]);
         }
 
         private void CompleteMacroParameters(int lineNumber)

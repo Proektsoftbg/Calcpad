@@ -28,7 +28,7 @@ namespace Calcpad.Core
                 Type.DefaultBinder,
                 new[]
                 {
-                    typeof(CustomFunction),
+                    typeof(CustomFunction1),
                     typeof(Value).MakeByRefType()
                 },
                 null
@@ -41,7 +41,7 @@ namespace Calcpad.Core
                 Type.DefaultBinder,
                 new[]
                 {
-                    typeof(CustomFunction),
+                    typeof(CustomFunction2),
                     typeof(Value).MakeByRefType(),
                     typeof(Value).MakeByRefType()
                 },
@@ -55,7 +55,7 @@ namespace Calcpad.Core
                 Type.DefaultBinder,
                 new[]
                 {
-                    typeof(CustomFunction),
+                    typeof(CustomFunction3),
                     typeof(Value).MakeByRefType(),
                     typeof(Value).MakeByRefType(),
                     typeof(Value).MakeByRefType()
@@ -70,7 +70,7 @@ namespace Calcpad.Core
                 Type.DefaultBinder,
                 new[]
                 {
-                    typeof(CustomFunction),
+                    typeof(CustomFunctionN),
                     typeof(Value[])
                 },
                 null
@@ -318,19 +318,22 @@ namespace Calcpad.Core
                     return Expression.Constant(Value.NaN);
 
                 if (AreConstantParameters(arguments))
-                    return Expression.Constant(
-                        _parser._evaluator.EvaluateFunction(
-                            cf, EvaluateConstantParameters(arguments)
-                            )
-                        );
-
-                Expression function = Expression.Constant(cf);
+                {
+                    var parameters = EvaluateConstantParameters(arguments); 
+                    return cf.ParameterCount switch
+                    {
+                        1 => Expression.Constant(_parser._evaluator.EvaluateFunction((CustomFunction1)cf, parameters[0])),
+                        2 => Expression.Constant(_parser._evaluator.EvaluateFunction((CustomFunction2)cf, parameters[0], parameters[1])),
+                        3 => Expression.Constant(_parser._evaluator.EvaluateFunction((CustomFunction3)cf, parameters[0], parameters[1], parameters[2])),
+                        _ => Expression.Constant(_parser._evaluator.EvaluateFunction((CustomFunctionN)cf, parameters)),
+                    };  
+                }
                 var n = arguments.Length;
                 if (n == 1)
                     return Expression.Call(
                         _evaluatorInstance,
                         EvaluateFunctionMethod1,
-                        function,
+                        Expression.Constant((CustomFunction1)cf),
                         arguments[0]
                     );
 
@@ -338,7 +341,7 @@ namespace Calcpad.Core
                     return Expression.Call(
                         _evaluatorInstance,
                         EvaluateFunctionMethod2,
-                        function,
+                        Expression.Constant((CustomFunction2)cf),
                         arguments[0],
                         arguments[1]
                     );
@@ -347,18 +350,17 @@ namespace Calcpad.Core
                     return Expression.Call(
                         _evaluatorInstance,
                         EvaluateFunctionMethod3,
-                        function,
+                        Expression.Constant((CustomFunction3)cf),
                         arguments[0],
                         arguments[1],
                         arguments[2]
                     );
 
-                Expression argsExpression = Expression.NewArrayInit(typeof(Value), arguments);
                 return Expression.Call(
                     _evaluatorInstance,
                     EvaluateFunctionMethod,
-                    function,
-                    argsExpression
+                    Expression.Constant((CustomFunctionN)cf),
+                    Expression.NewArrayInit(typeof(Value), arguments)
                 );
             }
 

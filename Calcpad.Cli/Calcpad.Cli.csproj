@@ -1,16 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <AnalysisLevel>latest</AnalysisLevel>
     <RootNamespace>Calcpad.Cli</RootNamespace>
-    <Version>6.1.8</Version>
+    <Version>6.2</Version>
     <Authors>Nedelcho Ganchovski</Authors>
     <Company>Proektsoft EOOD</Company>
     <PackageId>Cli</PackageId>
     <Product>Cli</Product>
-    <AssemblyName>Calcpad</AssemblyName>
+    <AssemblyName>Cli</AssemblyName>
     <StartupObject>Calcpad.Cli.Program</StartupObject>
   </PropertyGroup>
 

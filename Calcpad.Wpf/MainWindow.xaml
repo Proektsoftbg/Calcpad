@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     x:Class="Calcpad.Wpf.MainWindow"
     Closing="Window_Closing"
-    Title=" Calcpad 6.1.9"
+    Title=" Calcpad 6.2"
     Height="800" 
     Width="1200"
     WindowStartupLocation="CenterScreen"
@@ -1006,6 +1006,9 @@
                     <MenuItem Click="Button_Click" Tag="#novar"  Header="#novar"  ToolTip="Show equations only with substituted values (no variables)"/>
                     <MenuItem Click="Button_Click" Tag="#varsub" Header="#varsub" ToolTip="Show equations with variables and substituted values (default)"/>
                     <Separator/>
+                    <MenuItem Click="Button_Click" Tag="#split"  Header="#split"  ToolTip="Split equations that do not fit on a single line"/>
+                    <MenuItem Click="Button_Click" Tag="#wrap"   Header="#wrap"   ToolTip="Wrap equations that do not fit on a single line (default)"/>
+                    <Separator/>
                     <MenuItem Click="Button_Click" Tag="#round"  Header="#round"  ToolTip="Round to the specified digits after the decimal point"/>
                     <Separator/>
                     <MenuItem Click="Button_Click" Tag="#deg"  Header="#deg"  ToolTip="Set angle measurement in degrees"/>
@@ -1668,7 +1671,9 @@
                         <ListBoxItem Content="#repeat"     Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#round"      Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#show"       Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#split"      Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#val"        Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#wrap"       Foreground="DarkMagenta"/>
                         <ListBoxItem Content="#varsub"     Foreground="DarkMagenta"/>
                         <ListBoxItem Content="$Area{}"     Foreground="DarkMagenta"/>
                         <ListBoxItem Content="$Find{}"     Foreground="DarkMagenta"/>

@@ -5,7 +5,7 @@
         private const double Tol = 1e-14;
         private const string P = "p(x) = x + 1.11111";
         private readonly string[] _functions =
-        {
+        [
             //Sérgio Galdino
             //A family of regula falsi root-finding methods
             "f_01(x) = x^3 - 1",
@@ -77,10 +77,10 @@
             "f_60(x) = e^-x - x - sin(x)",
             "f_61(x) = x^2 - sin(x)^2 - 1",
             "f_62(x) = sin(x) - x/2"
-        };
+        ];
 
         private readonly string[] _commands =
-        {
+        [
             "x_01 = $Root{f_01(x) @ x = 0.5 : 1.5}",
             "x_02 = $Root{f_02(x) @ x = 0.1 : 1}",
             "x_03 = $Root{f_03(x) @ x = 0.1 : 1}",
@@ -143,11 +143,11 @@
             "x_60 = $Root{f_60(x) @ x = 0.0 : 2}",
             "x_61 = $Root{f_61(x) @ x = -1 : 2}",
             "x_62 = $Root{f_62(x) @ x = π / 2 : π}",
-        };
+        ];
 
 
         private readonly double[] _roots =
-        {
+        [
             1,
             0.399422291710968,
             0.804133097503664,
@@ -212,7 +212,7 @@
             1.895494267033981,
             250,
             150,
-        };
+        ];
 
         #region Root
         [Fact]
