@@ -16,7 +16,7 @@ namespace Calcpad.Core
             private readonly List<SolveBlock> _solveBlocks;
             private readonly Dictionary<string, Variable> _variables;
             private readonly Dictionary<string, Unit> _units;
-            private static readonly char[] UnitChars = Validator.UnitCharArray();
+            private static readonly char[] UnitChars = Validator.UnitChars.ToCharArray();
             static Input()
             {
                 // This array is needed to quickly check the token type of a character during parsing
@@ -62,7 +62,7 @@ namespace Calcpad.Core
 
             private void DefineVariables()
             {
-                string[] keys = _variables.Keys.ToArray();
+                string[] keys = [.. _variables.Keys];
                 for (int i = 0, len = keys.Length; i < len; ++i)
                     DefinedVariables.Add(keys[i]);
             }
@@ -681,7 +681,7 @@ namespace Calcpad.Core
                 while (stackBuffer.Count != 0)
                     output.Enqueue(stackBuffer.Pop());
 
-                return output.ToArray();
+                return [.. output];
             }
 
             private int AddSolver(string script, SolveBlock.SolverTypes st)

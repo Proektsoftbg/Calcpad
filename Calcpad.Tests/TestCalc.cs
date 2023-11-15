@@ -2,14 +2,9 @@
 
 namespace Calcpad.Tests
 {
-    internal class TestCalc
+    internal class TestCalc(MathSettings settings)
     {
-        private readonly MathParser _parser;
-
-        public TestCalc(MathSettings settings)
-        {
-            _parser = new MathParser(settings);
-        }  
+        private readonly MathParser _parser = new(settings);
 
         public double Run(string expression)
         {

@@ -39,7 +39,7 @@ namespace Calcpad.Wpf
         {
             if (Clipboard.GetData("DeviceIndependentBitmap") is not MemoryStream ms) return null;
             var dibBuffer = new byte[ms.Length];
-            var read = ms.Read(dibBuffer, 0, dibBuffer.Length);
+            _ = ms.Read(dibBuffer, 0, dibBuffer.Length);
 
             BITMAPINFOHEADER infoHeader =
                 BinaryStructConverter.FromByteArray<BITMAPINFOHEADER>(dibBuffer);

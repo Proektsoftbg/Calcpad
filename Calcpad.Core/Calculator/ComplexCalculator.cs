@@ -16,8 +16,8 @@ namespace Calcpad.Core
 
         public ComplexCalculator()
         {
-            _functions = new[]
-{
+            _functions =
+            [
                 Sin,      // 0
                 Cos,      // 1
                 Tan,      // 2
@@ -63,23 +63,23 @@ namespace Calcpad.Core
                 Negate,   //42
                 Not,      //43
                 Timer     //44  
-            };
+            ];
 
-            Functions2 = new[]
-{
+            Functions2 =
+            [
                 Atan2,
                 Root,
                 Mod,
                 Gcd,
                 Lcm,
                 MandelbrotSet
-            };
+            ];
         }
 
         static ComplexCalculator()
         {
-            Operators = new[]
-            {
+            Operators =
+            [
                 Pow,
                 Divide,
                 IntDiv,
@@ -97,10 +97,10 @@ namespace Calcpad.Core
                 (a, b) => a | b,
                 (a, b) => a ^ b,
                 (_, b) => b
-            };
+            ];
 
-            MultiFunctions = new[]
-            {
+            MultiFunctions =
+            [
                 Min,
                 Max,
                 Sum,
@@ -116,7 +116,7 @@ namespace Calcpad.Core
                 And,
                 Or,
                 Xor
-            };
+            ];
         }
 
         internal override Value EvaluateOperator(int index, Value a, Value b) => Operators[index](a, b);

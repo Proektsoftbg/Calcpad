@@ -14,11 +14,9 @@ namespace Calcpad.Wpf
             aesAlg.Key = Encoding.UTF8.GetBytes(_key);
             aesAlg.IV = new byte[16]; // Initialization Vector (IV)
             ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
-            using (CryptoStream cs = new(stream, encryptor, CryptoStreamMode.Write))
-            {
-                using StreamWriter sw = new(cs);
-                sw.Write(s);
-            }
+            using CryptoStream cs = new(stream, encryptor, CryptoStreamMode.Write);
+            using StreamWriter sw = new(cs);
+            sw.Write(s);
         }
 
         public static string DecryptString(Stream stream)

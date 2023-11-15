@@ -367,12 +367,12 @@ namespace Calcpad.Core
 
     internal class HtmlWriter : OutputWriter
     {
-        private static readonly string[] SqrPad = {
+        private static readonly string[] SqrPad = [
                 "&ensp;&hairsp;",
                 "&ensp;&ensp;",
                 "&emsp;&thinsp;",
                 "&emsp;&ensp;"
-            };
+            ];
             
         private static string RootPad(int level, string n) => level switch
             {

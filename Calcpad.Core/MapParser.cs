@@ -10,7 +10,7 @@ namespace Calcpad.Core
         internal override string Parse(ReadOnlySpan<char> script, bool calculate)
         {
             const int n = 7;
-            char[] delimiters = { '{', '@', '=', ':', '&', '=', ':', '}' };
+            ReadOnlySpan<char> delimiters = ['{', '@', '=', ':', '&', '=', ':', '}'];
             var input = new string[n];
             string result;
             var index = 0;
@@ -86,7 +86,7 @@ namespace Calcpad.Core
                 if (startX.EqualsBinary(endX) || startY.EqualsBinary(endY))
                     Throw.PlotLimitsIdenticalException();
 
-                Parameter[] parameters =
+                ReadOnlySpan<Parameter> parameters = new Parameter[]
                 {
                     new(input[1]),
                     new(input[4])

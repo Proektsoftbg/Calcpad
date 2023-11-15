@@ -2,17 +2,11 @@
 
 namespace Calcpad.Core
 {
-    public ref struct SplitEnumerator
+    public ref struct SplitEnumerator(ReadOnlySpan<char> span, char delimiter)
     {
-        private ReadOnlySpan<char> _span;
-        private readonly char _delimiter;
+        private ReadOnlySpan<char> _span = span;
+        private readonly char _delimiter = delimiter;
 
-        public SplitEnumerator(ReadOnlySpan<char> span, char delimiter)
-        {
-            _span = span;
-            _delimiter = delimiter;
-            Current = default;
-        }
         public readonly SplitEnumerator GetEnumerator() => this;
 
         public bool MoveNext()
@@ -24,14 +18,14 @@ namespace Calcpad.Core
             if (i < 0)
             {
                 Current = _span;
-                _span = ReadOnlySpan<char>.Empty;
+                _span = [];
                 return true;
             }
             Current = _span[..i];
             _span = _span[(i + 1)..];
             return true;
         }
-        public ReadOnlySpan<char> Current { get; private set; }
+        public ReadOnlySpan<char> Current { get; private set; } = default;
         public readonly bool IsEmpty => _span.IsEmpty;
     }
 }

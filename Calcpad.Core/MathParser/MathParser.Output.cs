@@ -51,10 +51,10 @@ namespace Calcpad.Core
                     }
                     var s = writer.AddBrackets(_stringBuilder.ToString());
                     _stringBuilder.Clear();
-                    _stringBuilder.Append(writer.FormatVariable(_functions.LastName, string.Empty));
-                    _stringBuilder.Append(s);
-                    _stringBuilder.Append(assignment);
-                    _stringBuilder.Append(RenderRpn(cf.Rpn, false, writer, out _));
+                    _stringBuilder.Append(writer.FormatVariable(_functions.LastName, string.Empty))
+                        .Append(s)
+                        .Append(assignment)
+                        .Append(RenderRpn(cf.Rpn, false, writer, out _));
                     if (_parser.ShowWarnings && _parser._functionDefinitionIndex < _functions.Count - 1)
                     {
 #if BG
@@ -77,6 +77,7 @@ namespace Calcpad.Core
                     if (_parser._isCalculated && _parser._functionDefinitionIndex < 0)
                     {
                         var subst = string.Empty;
+                        var splitted = false;
                         if (
                             !(rpn.Length == 3 &&
                             rpn[2].Content == "=" &&
@@ -92,8 +93,14 @@ namespace Calcpad.Core
                             {
                                 subst = RenderRpn(rpn, true, writer, out hasOperators);
                                 if (_parser.VariableSubstitution != VariableSubstitutionOptions.SubstitutionsOnly)
+                                {
                                     _stringBuilder.Append(assignment);
-
+                                    if (_parser.Split && format == OutputWriter.OutputFormat.Html)
+                                    {
+                                        splitted = true;
+                                        _stringBuilder.Append($"<br/><span class=\"indent\">");
+                                    }
+                                }
                                 _stringBuilder.Append(subst);
                             }
                             if (!_parser._hasVariables && _assignmentIndex > 0)
@@ -102,9 +109,11 @@ namespace Calcpad.Core
                         var res = writer.FormatValue(new Value(_parser.Result, _parser.Units), _parser._settings.Decimals);
                         if (hasOperators && res != subst || string.IsNullOrEmpty(subst))
                         {
-                            _stringBuilder.Append(assignment);
-                            _stringBuilder.Append(res);
+                            _stringBuilder.Append(assignment)
+                                .Append(res);
                         }
+                        if (splitted)
+                            _stringBuilder.Append("</span>");   
                     }
                 }
                 return _stringBuilder.ToString();

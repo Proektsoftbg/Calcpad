@@ -44,7 +44,7 @@ namespace Calcpad.OpenXml
         private static void AddParagraphStyles(StyleDefinitionsPart styleDefinitionsPart)
         {
             var styles = styleDefinitionsPart.Styles;
-            string[] fontSizes = { "48", "40", "36", "32", "28", "26" };
+            string[] fontSizes = ["48", "40", "36", "32", "28", "26"];
             for (int i = 0; i < 6; ++i)
             {
                 var id = 'h' + (i + 1).ToString();

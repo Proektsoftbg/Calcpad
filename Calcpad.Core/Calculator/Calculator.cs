@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
@@ -15,33 +16,34 @@ namespace Calcpad.Core
         protected bool _returnAngleUnits;
 
         protected static readonly double[] FromRad =
-        {
+        [
             180.0 / Math.PI,
             1.0,
             200.0 / Math.PI
-        };
+        ];
 
         protected static readonly double[] ToRad =
-        {
+        [
             Math.PI / 180.0,
             1.0,
             Math.PI / 200.0
-        };
+        ];
 
         protected static Unit[] AngleUnits =
-        {
+        [
             Unit.Get("deg"),
             Unit.Get("rad"),
             Unit.Get("grad")
-        };
+        ];
 
         internal abstract int Degrees { set; }
         internal bool ReturnAngleUnits { set => _returnAngleUnits = value; }
 
         //                                               ^  ÷  \  ⦼  *  -  +  <  >  ≤  ≥  ≡  ≠  ∧ ∨  ⊕  =
-        internal static readonly int[] OperatorOrder = { 0, 3, 3, 3, 3, 4, 5, 6, 6, 6, 6, 6, 6, 7, 8, 8, 9 };
+        internal static readonly int[] OperatorOrder = [0, 3, 3, 3, 3, 4, 5, 6, 6, 6, 6, 6, 6, 7, 8, 8, 9];
 
-        internal static readonly Dictionary<char, int> OperatorIndex = new()
+        internal static readonly FrozenDictionary<char, int> OperatorIndex =
+        new Dictionary<char, int>()
         {
             { '^', 0 },
             { '/', 1 },
@@ -61,9 +63,10 @@ namespace Calcpad.Core
             { '∨', 14 },
             { '⊕', 15 },
             { '=', 16 }
-        };
+        }.ToFrozenDictionary();
 
-        internal static readonly Dictionary<string, int> FunctionIndex = new(StringComparer.OrdinalIgnoreCase)
+        internal static readonly FrozenDictionary<string, int> FunctionIndex = 
+            new Dictionary<string, int>()
         {
             { "sin", 0 },
             { "cos", 1 },
@@ -110,9 +113,10 @@ namespace Calcpad.Core
             { "‐", 42 },
             { "not", 43},
             { "timer", 44 }
-        };
+        }.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
 
-        internal static readonly Dictionary<string, int> Function2Index = new(StringComparer.OrdinalIgnoreCase)
+        internal static readonly FrozenDictionary<string, int> Function2Index =
+            new Dictionary<string, int>()
         {
             { "atan2", 0 },
             { "root", 1 },
@@ -120,9 +124,10 @@ namespace Calcpad.Core
             { "gcd", 3 },
             { "lcm", 4 },
             { "mandelbrot", 5 }
-        };
+        }.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
 
-        internal static readonly Dictionary<string, int> MultiFunctionIndex = new(StringComparer.OrdinalIgnoreCase)
+        internal static readonly FrozenDictionary<string, int> MultiFunctionIndex = 
+            new Dictionary<string, int>()
         {
             { "min", 0 },
             { "max", 1 },
@@ -139,7 +144,7 @@ namespace Calcpad.Core
             { "and", 12 },
             { "or", 13 },
             { "xor", 14 },
-        };
+        }.ToFrozenDictionary();
 
         internal static bool IsOperator(char name) => OperatorIndex.ContainsKey(name);
         internal static bool IsFunction(string name) => FunctionIndex.ContainsKey(name);

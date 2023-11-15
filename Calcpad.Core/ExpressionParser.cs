@@ -20,6 +20,8 @@ namespace Calcpad.Core
             VarSub,
             NoSub,
             NoVar,
+            Split,
+            Wrap,
             Deg,
             Rad,
             Gra,
@@ -299,6 +301,10 @@ namespace Calcpad.Core
                         _parser.VariableSubstitution = MathParser.VariableSubstitutionOptions.VariablesOnly;
                     else if (keyword == Keyword.NoVar)
                         _parser.VariableSubstitution = MathParser.VariableSubstitutionOptions.SubstitutionsOnly;
+                    else if (keyword == Keyword.Split)
+                        _parser.Split = true;
+                    else if (keyword == Keyword.Wrap)
+                        _parser.Split = false;   
                     else if (keyword == Keyword.Deg)
                         _parser.Degrees = 0;
                     else if (keyword == Keyword.Rad)
@@ -395,7 +401,7 @@ namespace Calcpad.Core
             {
                 ReadOnlySpan<char> expression = s.Length > 7 ?
                     s[7..].Trim() :
-                    Span<char>.Empty;
+                    [];
 
                 if (calculate)
                 {

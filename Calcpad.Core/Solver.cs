@@ -20,7 +20,7 @@ namespace Calcpad.Core
         internal Func<Value> Function;
         public Variable Variable;
         private const int TanhSinhDepth = 11;
-        private static readonly int[] m = { 6, 7, 13, 26, 53, 106, 212, 423, 846, 1693, 3385 };
+        private static readonly int[] m = [6, 7, 13, 26, 53, 106, 212, 423, 846, 1693, 3385];
         private static readonly double[][] r = new double[TanhSinhDepth][];
         private static readonly double[][] w = new double[TanhSinhDepth][];
 

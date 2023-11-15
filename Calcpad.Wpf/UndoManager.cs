@@ -17,8 +17,8 @@ namespace Calcpad.Wpf
                 Offset = offset;
             }
         }
-        private readonly List<Step> _undoStack = new();
-        private readonly List<Step> _redoStack = new();
+        private readonly List<Step> _undoStack = [];
+        private readonly List<Step> _redoStack = [];
         internal string RestoreText { get; private set; }
         internal int RestoreLine { get; private set; }
         internal int RestoreOffset { get; private set; }

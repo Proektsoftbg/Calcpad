@@ -138,31 +138,33 @@ namespace Calcpad.Core
                                 tos -= cfParamCount;
                                 _stackBuffer[++_tos] = Value.NaN;
                             }
-                            else if (cf.ParameterCount == 1)
-                            {
-                                var x = _stackBuffer[_tos--];
-                                _stackBuffer[++_tos] = EvaluateFunction(cf, x);
-                            }
-                            else if (cf.ParameterCount == 2)
-                            {
-                                var y = _stackBuffer[_tos--];
-                                var x = _stackBuffer[_tos--];
-                                _stackBuffer[++_tos] = EvaluateFunction(cf, x, y);
-                            }
-                            else if (cf.ParameterCount == 3)
-                            {
-                                var z = _stackBuffer[_tos--];
-                                var y = _stackBuffer[_tos--];
-                                var x = _stackBuffer[_tos--];
-                                _stackBuffer[++_tos] = EvaluateFunction(cf, x, y, z);
-                            }
                             else
                             {
-                                var cfParams = new Value[cfParamCount];
-                                for (int j = cfParamCount - 1; j >= 0; --j)
-                                    cfParams[j] = _stackBuffer[_tos--];
+                                switch (cf.ParameterCount)
+                                {
+                                    case 1:
+                                        var x = _stackBuffer[_tos--];
+                                        _stackBuffer[++_tos] = EvaluateFunction((CustomFunction1)cf, x);
+                                        continue;
+                                    case 2:
+                                        var y = _stackBuffer[_tos--];
+                                            x = _stackBuffer[_tos--];
+                                        _stackBuffer[++_tos] = EvaluateFunction((CustomFunction2)cf, x, y);
+                                        continue;
+                                    case 3:
+                                        var z = _stackBuffer[_tos--];
+                                            y = _stackBuffer[_tos--];
+                                            x = _stackBuffer[_tos--];
+                                        _stackBuffer[++_tos] = EvaluateFunction((CustomFunction3)cf, x, y, z);
+                                        continue;
+                                    default:
+                                        var cfParams = new Value[cfParamCount];
+                                        for (int j = cfParamCount - 1; j >= 0; --j)
+                                            cfParams[j] = _stackBuffer[_tos--];
 
-                                _stackBuffer[++_tos] = EvaluateFunction(cf, cfParams);
+                                        _stackBuffer[++_tos] = EvaluateFunction((CustomFunctionN)cf, cfParams);
+                                        continue;
+                                }
                             }
                             continue;
                         case TokenTypes.Solver:
@@ -285,7 +287,7 @@ namespace Calcpad.Core
                 return solveBlock.Result;
             }
 
-            private Value EvaluateFunction(CustomFunction cf, in Value x)
+            internal Value EvaluateFunction(CustomFunction1 cf, in Value x)
             {
                 cf.Function ??= _parser.CompileRpn(cf.Rpn);
                 var result = cf.Calculate(x);
@@ -293,7 +295,7 @@ namespace Calcpad.Core
                 return result;
             }
 
-            private Value EvaluateFunction(CustomFunction cf, in Value x, in Value y)
+            internal Value EvaluateFunction(CustomFunction2 cf, in Value x, in Value y)
             {
                 cf.Function ??= _parser.CompileRpn(cf.Rpn);
                 var result = cf.Calculate(x, y);
@@ -301,7 +303,7 @@ namespace Calcpad.Core
                 return result;
             }
 
-            private Value EvaluateFunction(CustomFunction cf, in Value x, in Value y, in Value z)
+            internal Value EvaluateFunction(CustomFunction3 cf, in Value x, in Value y, in Value z)
             {
                 cf.Function ??= _parser.CompileRpn(cf.Rpn);
                 var result = cf.Calculate(x, y, z);
@@ -309,7 +311,7 @@ namespace Calcpad.Core
                 return result;
             }
 
-            internal Value EvaluateFunction(CustomFunction cf, Value[] arguments)
+            internal Value EvaluateFunction(CustomFunctionN cf, Value[] arguments)
             {
                 cf.Function ??= _parser.CompileRpn(cf.Rpn);
                 var result = cf.Calculate(arguments);

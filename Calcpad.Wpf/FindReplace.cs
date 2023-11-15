@@ -49,8 +49,8 @@ namespace Calcpad.Wpf
         internal bool MatchCase { get; set; }
         internal bool WholeWords { get; set; }
         internal bool Selection { get; set; }
-        internal List<string> SearchList { get; init; } = new();
-        internal List<string> ReplaceList { get; init; } = new();
+        internal List<string> SearchList { get; init; } = [];
+        internal List<string> ReplaceList { get; init; } = [];
 
         private Directions _direction;
         private int _col;

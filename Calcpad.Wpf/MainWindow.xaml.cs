@@ -9,6 +9,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -27,8 +28,8 @@ namespace Calcpad.Wpf
     public partial class MainWindow : Window
     {
         //Static resources
-        private static readonly char[] GreekLetters = { 'α', 'β', 'χ', 'δ', 'ε', 'φ', 'γ', 'η', 'ι', 'ø', 'κ', 'λ', 'μ', 'ν', 'ο', 'π', 'θ', 'ρ', 'σ', 'τ', 'υ', 'ϑ', 'ω', 'ξ', 'ψ', 'ζ' };
-        private static readonly char[] LatinLetters = { 'a', 'b', 'g', 'd', 'e', 'z', 'h', 'q', 'i', 'k', 'l', 'm', 'n', 'x', 'o', 'p', 'r', 's', 's', 't', 'u', 'f', 'c', 'y', 'w' };
+        private static readonly char[] GreekLetters = ['α', 'β', 'χ', 'δ', 'ε', 'φ', 'γ', 'η', 'ι', 'ø', 'κ', 'λ', 'μ', 'ν', 'ο', 'π', 'θ', 'ρ', 'σ', 'τ', 'υ', 'ϑ', 'ω', 'ξ', 'ψ', 'ζ'];
+        private static readonly char[] LatinLetters = ['a', 'b', 'g', 'd', 'e', 'z', 'h', 'q', 'i', 'k', 'l', 'm', 'n', 'x', 'o', 'p', 'r', 's', 's', 't', 'u', 'f', 'c', 'y', 'w'];
         private static readonly Regex MyRegex1 = new("\\bhref\\b\\s*=\\s*\"(?!#)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex MyRegex2 = new("\\s+\\btarget\\b\\s*=\\s*\"\\s*_\\w+\\s*\"", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex MyRegex3 = new("src\\s*=\\s*\"\\s*\\.\\.", RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -42,8 +43,8 @@ namespace Calcpad.Wpf
                 Path = AppDomain.CurrentDomain.BaseDirectory;
                 Name = AppDomain.CurrentDomain.FriendlyName + ".exe";
                 FullName = System.IO.Path.Combine(Path, Name);
-                Version = string.Join(".", FileVersionInfo.GetVersionInfo(FullName).ProductVersion.Split('.').Take(3));
-                Title = " Calcpad " + Version;
+                Version = Assembly.GetExecutingAssembly().GetName().Version.ToString(); 
+                Title = " Calcpad " + Version[0..(Version.LastIndexOf('.'))];
             }
             internal static readonly string Path;
             internal static readonly string Name;
@@ -824,7 +825,7 @@ You can find your unsaved data in
 
             var list =
                 Properties.Settings.Default.RecentFileList ??
-                new StringCollection();
+                [];
 
             list.Clear();
             for (int i = 0; i < n; ++i)
@@ -3243,7 +3244,7 @@ You can find your unsaved data in
                 _stringBuilder.Clear();
                 for (int i = 0; i < len; ++i)
                 {
-                    if (getFields is not null && getFields.Any())
+                    if (getFields is not null && getFields.Count != 0)
                     {
                         if (MacroParser.SetLineInputFields(getLines[i].TrimEnd(), _stringBuilder, getFields, false))
                             getLines[i] = _stringBuilder.ToString();
@@ -3260,7 +3261,7 @@ You can find your unsaved data in
             if (fields is null)
                 return null;
 
-            if (fields.Any())
+            if (fields.Count != 0)
             {
                 if (!s.IsEmpty)
                 {
@@ -3270,7 +3271,7 @@ You can find your unsaved data in
                         for (int i = 0; i < fields.Count; ++i)
                             getFields.Dequeue();
 
-                        while (getFields.Any())
+                        while (getFields.Count != 0)
                             fields.Enqueue(getFields.Dequeue());
                     }
                 }
@@ -3341,7 +3342,7 @@ You can find your unsaved data in
                     }
                     ++i;
                 }
-                if (values.Any())
+                if (values.Count != 0)
                 {
                     var r = new TextRange(p.ContentStart, p.ContentEnd);
                     if (MacroParser.SetLineInputFields(r.Text.TrimEnd(), _stringBuilder, values, true))
@@ -3785,12 +3786,12 @@ You can find your unsaved data in
         private bool IsInComment()
         {
             var tp = RichTextBox.Selection.Start;
-            var text = tp.GetTextInRun(LogicalDirection.Backward);
+            var text = tp.GetTextInRun(LogicalDirection.Backward).AsSpan();
             var i = text.IndexOfAny(HighLighter.Comments);
             if (i < 0)
                 return false;
             var c = text[i];
-            i = text.Count(x => x == c);
+            i = text.Count(c);
             return (i % 2 == 1);
         }
 

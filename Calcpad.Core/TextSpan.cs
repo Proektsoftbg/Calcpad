@@ -3,18 +3,11 @@ using System.Linq;
 
 namespace Calcpad.Core
 {
-    public ref struct TextSpan
+    public ref struct TextSpan(ReadOnlySpan<char> contents)
     {
-        private int _start;
-        private int _end;
-        private ReadOnlySpan<char> _contents;
-
-        public TextSpan(ReadOnlySpan<char> contents)
-        {
-            _contents = contents;
-            _start = 0;
-            _end = 0;
-        }
+        private int _start = 0;
+        private int _end = 0;
+        private ReadOnlySpan<char> _contents = contents;
 
         public readonly bool IsEmpty => _end == _start;
         public readonly int Length => _end - _start;
@@ -42,6 +35,6 @@ namespace Calcpad.Core
 
         public readonly bool StartsWithAny(char[] chars) => chars.Contains(_contents[_start]);
 
-        public readonly bool Equals(string s) => _contents[_start.._end].SequenceEqual(s.AsSpan());
+        public readonly bool Equals(ReadOnlySpan<char> s) => _contents[_start.._end].SequenceEqual(s);
     }
 }
