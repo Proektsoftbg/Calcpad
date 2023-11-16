@@ -25,7 +25,7 @@ namespace Calcpad.Core
                 Error
             }
 
-            private static readonly FrozenDictionary<string, SolverTypes> Definitions = new Dictionary<string, SolverTypes>(StringComparer.OrdinalIgnoreCase)
+            private static readonly FrozenDictionary<string, SolverTypes> Definitions = new Dictionary<string, SolverTypes>()
             {
                 { "$find", SolverTypes.Find },
                 { "$root", SolverTypes.Root },
@@ -37,7 +37,7 @@ namespace Calcpad.Core
                 { "$repeat", SolverTypes.Repeat },
                 { "$sum", SolverTypes.Sum },
                 { "$product", SolverTypes.Product }
-            }.ToFrozenDictionary();
+            }.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
 
             private static readonly string[] TypeNames =
             [

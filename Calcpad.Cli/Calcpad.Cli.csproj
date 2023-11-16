@@ -8,9 +8,9 @@
     <Version>6.2</Version>
     <Authors>Nedelcho Ganchovski</Authors>
     <Company>Proektsoft EOOD</Company>
-    <PackageId>Cli</PackageId>
-    <Product>Cli</Product>
-    <AssemblyName>Cli</AssemblyName>
+    <PackageId>Calcpad</PackageId>
+    <Product>Calcpad</Product>
+    <AssemblyName>Calcpad</AssemblyName>
     <StartupObject>Calcpad.Cli.Program</StartupObject>
   </PropertyGroup>
 

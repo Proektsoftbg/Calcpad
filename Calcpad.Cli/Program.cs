@@ -176,14 +176,15 @@ namespace Calcpad.Cli
                             else
                             {
                                 var settingsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) +
-                                                   $".config{_dirSeparator}calcpad{_dirSeparator}Settings.xml";
-                                if (Execute("/bin/bash", $"-c \"nano {settingsPath}\""))
-                                {
-                                    settings = GetSettings();
-                                    mp = new(settings.Math);
-                                    Header(Title, settings.Math.Degrees);
-                                    Render(mp, Lines, true);
-                                }
+                                                   $"{_dirSeparator}.config{_dirSeparator}calcpad{_dirSeparator}Settings.xml";
+                                File.SetUnixFileMode(settingsPath, UnixFileMode.UserRead | UnixFileMode.UserWrite);
+                                Execute("/bin/bash", $"-c \"nano {settingsPath}\"");
+                                Console.Write("Press any key when ready.");
+                                Console.ReadKey();
+                                settings = GetSettings();
+                                mp = new(settings.Math);
+                                Header(Title, settings.Math.Degrees);
+                                Render(mp, Lines, true);
                             }
                             break;
                         case "LICENSE":
@@ -204,41 +205,38 @@ namespace Calcpad.Cli
 
         static Settings GetSettings()
         {
-            Settings settings = new(); 
-            settings.Math.Decimals = 6;
-            XmlSerializer writer = new(settings.GetType());
-            var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"{_dirSeparator}.config{_dirSeparator}calcpad{_dirSeparator}Settings.xml";
-            
-            if (OperatingSystem.IsWindows())
-            {
-                path = AppPath + "Settings.xml";
-            }
-            
+                Settings settings = new(); 
+                settings.Math.Decimals = 6;
+                XmlSerializer writer = new(settings.GetType());
+                var path = OperatingSystem.IsWindows() ?
+                    AppPath:
+                    Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"{_dirSeparator}.config{_dirSeparator}calcpad{_dirSeparator}";
 
-            FileStream file = null;
-            try
-            {
-                if (Path.Exists(path))
+                var fileName = path + "Settings.xml";
+                FileStream fileStream = null;
+                try
                 {
-                    file = File.OpenRead(path);
-                    settings = (Settings)writer.Deserialize(file);
+                    if (Path.Exists(fileName))
+                    {
+                        fileStream = File.OpenRead(fileName);
+                        settings = (Settings)writer.Deserialize(fileStream);
+                    }
+                    else if(Path.Exists(path))
+                    {
+                        fileStream = File.Create(fileName);
+                        writer.Serialize(fileStream, settings);
+                    }
                 }
-                else if(Path.Exists(AppPath))
-                {
-                    file = File.Create(path);
-                    writer.Serialize(file, settings);
-                }
-            }
             catch (Exception ex)
             {
-                file?.Close();
+                fileStream?.Close();
                 var key = WriteErrorAndWait(ex.Message, "Would you like to restore the previous settings (y/n)?");
                 if (key.Key == ConsoleKey.Y)
                     TryRestoreSettings(settings, writer, path);
             }
             finally
             {
-                file?.Close();
+                fileStream?.Close();
             }
             return settings;
         }
@@ -595,7 +593,7 @@ namespace Calcpad.Cli
             var proc = new Process();
             var psi = new ProcessStartInfo
             {
-                UseShellExecute = true,
+                UseShellExecute = OperatingSystem.IsWindows(),
                 FileName = fileName,
                 Arguments = args,
                 Verb = "runas"
