@@ -230,7 +230,7 @@ sub {font-family: Arial Nova; font-size:70%; padding-left:0.5pt; padding-right:0
 <li><a href="mailto:proektsoft.bg@gmail.com">proektsoft.bg@gmail.com</a></li>
 </ul>
 <h1><img alt="Calcpad.png" src="Images/Calcpad.png" height="32"> Calcpad</h1>
-<p style="margin-left:42px; margin-top:0;">Version 6.1 Readme!</p>
+<p style="margin-left:42px; margin-top:0;">Version 6.2 Readme!</p>
 <h2 id="TOC_101">About Calcpad</h2>
 <p>Calcpad is free software for mathematical and engineering calculations. It represents a flexible and modern programmable calculator with Html report generator. It is simple and easy to use, but it also includes many advanced features:</p>
 <ul>
@@ -260,7 +260,7 @@ sub {font-family: Arial Nova; font-size:70%; padding-left:0.5pt; padding-right:0
 <p>This software is suitable for engineers and other professionals that need to perform repetitive calculations and present them in official documentation such as calculation notes. They can automate this task efficiently by creating powerful and reliable Calcpad worksheets. It can also help teachers to prepare calculation examples, papers, manuals, books etc. Students can use it to solve various problems, prepare homeworks, phd theses etc.</p>
 
 <h2 id="TOC_103">Installation</h2>
-<p>Installation is performed by the automated setup program <a target="_blank" href="https://calcpad.eu/download/calcpad-setup-en-x64.zip">calcpad-setup-en-x64.exe</a>. Follow the instruction of the setup wizard. The software requires a 64 bit computer with Windows 10 and <a target="_blank" href="https://dotnet.microsoft.com/en-us/download/dotnet/7.0">Microsoft .NET 7.0</a>.</p>
+<p>Installation is performed by the automated setup program <a target="_blank" href="https://calcpad.eu/download/calcpad-setup-en-x64.zip">calcpad-setup-en-x64.exe</a>. Follow the instruction of the setup wizard. The software requires a 64 bit computer with Windows 10/11 and <a target="_blank" href="https://dotnet.microsoft.com/en-us/download/dotnet/8.0">Microsoft .NET 8.0</a>.</p>
 
 <h2 id="TOC_104">Licensing and terms of use</h2>
 <p>This software is free for both commercial and non-commercial use. It is distributed under the MIT license:</p>
@@ -1690,6 +1690,10 @@ You can use it further to calculate binomial coefficients by the well-known form
 &emsp;&emsp;<span class="cond">#nosub</span></a> - do not substitute variables (no substitution);<br />
 &emsp;&emsp;<span class="cond">#novar</span></a> - show equations only with substituted values (no variables);<br />
 &emsp;&emsp;<span class="cond">#varsub</span></a> - show equations with variables and substituted values (default).</p>
+<p>If an equation gets too long and does not fit on a single line, you can choose the way it looks in the output by using these two switches:<br />
+&emsp;&emsp;<span class="cond">#split</span></a> - the equation is splitted after the "=" symbol;<br />
+&emsp;&emsp;<span class="cond">#warp</span></a> - the equation is warpped at the end of the line (default).<br />
+
 
 <h3 id="TOC_702">Rounding</h3>
 <p>Rounding is specified by the number of digits <var>n</var> after the decimal point. It is entered into the "<b>Rounding</b>" input box at the bottom of the program window. The value of <var>n</var> can be between "0" and "15". If you enter "0", all results will be rounded to integers. If the value is less than "0" or greater than "15", the respective limit will be taken.</p>

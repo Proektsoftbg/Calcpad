@@ -29,8 +29,10 @@
 		<KeyWord name="#repeat" />
 		<KeyWord name="#round" />
 		<KeyWord name="#show" />
+		<KeyWord name="#split" />
 		<KeyWord name="#val" />
 		<KeyWord name="#varsub" />
+		<KeyWord name="#wrap" />
 		<KeyWord name="$Area" />
 		<KeyWord name="$Find" />
 		<KeyWord name="$Inf" />

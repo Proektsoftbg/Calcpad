@@ -31,7 +31,7 @@ This software is developed using the C# programming language and the latest comp
 This software is suitable for engineers and other professionals that need to perform repetitive calculations and present them in official documentation such as calculation notes. They can automate this task efficiently by creating powerful and reliable Calcpad worksheets. It can also help teachers to prepare calculation examples, papers, manuals, books etc. Students can use it to solve various problems, prepare homeworks, phd theses etc.  
   
 ## Installation  
-The installation is performed by the automated setup program [calcpad-setup-en-x64.exe](https://github.com/Proektsoftbg/Calcpad/blob/main/Setup/calcpad-setup-en-x64.exe). Follow the instruction of the setup wizard. The software requires a 64 bit computer with Windows 10 and [Microsoft .NET 7.0](https://dotnet.microsoft.com/en-us/download/dotnet/7.0).  
+The installation is performed by the automated setup program [calcpad-setup-en-x64.exe](https://github.com/Proektsoftbg/Calcpad/blob/main/Setup/calcpad-setup-en-x64.exe). Follow the instruction of the setup wizard. The software requires a 64 bit computer with Windows 10 and [Microsoft .NET 8.0](https://dotnet.microsoft.com/en-us/download/dotnet/8.0).  
 You can also use Calcpad directly in the browser from our website: [https://calcpad.eu/Ide](https://calcpad.eu/Ide)  
   
 ## Licensing and terms of use  
@@ -259,6 +259,8 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;&emsp;#nosub  - do not substitute variables (no substitution);  
 &emsp;&emsp;#novar  - show equations only with substituted values (no variables);  
 &emsp;&emsp;#varsub - show equations with variables and substituted values (default);  
+&emsp;&emsp;#split - split equations that do not fit on a single line;  
+&emsp;&emsp;#wrap - wrap equations that do not fit on a single line (default);  
 &emsp;&emsp;#round n - rounds to n digits after the decimal point.  
 &emsp;&emsp;Each of the above commands is effective after the current line until the end of the report or another command that overwrites it.
 * Breakpoints for step-by-step execution:  

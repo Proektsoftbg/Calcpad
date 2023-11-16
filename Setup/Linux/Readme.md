@@ -4,7 +4,11 @@
 Use the following commands to install .NET 7.0 runtime:
 ```
 sudo apt update
-sudo apt-get install -y dotnet-runtime-7.0
+sudo apt-get install -y dotnet-runtime-8.0
+```
+If you need to uninstall older dotnet versions, run this command before the above ones:
+```
+sudo apt remove dotnet*
 ```
 2. If you do not have Chromium installed, you will need it to download Calcpad and view the reports after calculation. Install it with the following command:
 ```
@@ -15,11 +19,11 @@ https://github.com/Proektsoftbg/Calcpad/blob/main/Setup/Linux/Calcpad.6.1.9.deb
 
 Then, install Calcpad, using the following command:
 ```
-sudo apt-get install -y <path-to-your-downloads-folder>/Calcpad.6.1.9.deb
+sudo apt-get install -y <path-to-your-downloads-folder>/Calcpad.6.2.0.deb
 ```
 Instead of `<path-to-your-downloads-folder>` you must put the actual path, something like this:
 ```
-sudo apt-get install -y /home/ned/snap/chromium/2686/Downloads/Calcpad.6.1.9.deb
+sudo apt-get install -y /home/ned/snap/chromium/2686/Downloads/Calcpad.6.2.0.deb
 ```
 And that's it. You can start the Calcpad command line interpreter (CLI) by simply typing:
 ```
