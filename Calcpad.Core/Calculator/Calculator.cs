@@ -66,7 +66,7 @@ namespace Calcpad.Core
         }.ToFrozenDictionary();
 
         internal static readonly FrozenDictionary<string, int> FunctionIndex = 
-            new Dictionary<string, int>()
+        new Dictionary<string, int>()
         {
             { "sin", 0 },
             { "cos", 1 },
@@ -116,7 +116,7 @@ namespace Calcpad.Core
         }.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
 
         internal static readonly FrozenDictionary<string, int> Function2Index =
-            new Dictionary<string, int>()
+        new Dictionary<string, int>()
         {
             { "atan2", 0 },
             { "root", 1 },
@@ -127,7 +127,7 @@ namespace Calcpad.Core
         }.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
 
         internal static readonly FrozenDictionary<string, int> MultiFunctionIndex = 
-            new Dictionary<string, int>()
+        new Dictionary<string, int>()
         {
             { "min", 0 },
             { "max", 1 },
@@ -144,7 +144,7 @@ namespace Calcpad.Core
             { "and", 12 },
             { "or", 13 },
             { "xor", 14 },
-        }.ToFrozenDictionary();
+        }.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
 
         internal static bool IsOperator(char name) => OperatorIndex.ContainsKey(name);
         internal static bool IsFunction(string name) => FunctionIndex.ContainsKey(name);
