@@ -1,7 +1,7 @@
 # How to install Calcpad on Ubuntu Linux
 
-1. Calcpad is a .NET application, so you need .NET 7.0 to run it on Linux.
-Use the following commands to install .NET 7.0 runtime:
+1. Calcpad is a .NET application, so you need .NET 8.0 to run it on Linux.
+Use the following commands to install .NET 8.0 runtime:
 ```
 sudo apt update
 sudo apt-get install -y dotnet-runtime-8.0
@@ -15,7 +15,7 @@ sudo apt remove dotnet*
 sudo snap install chromium
 ```
 3. Download the Calcpad setup package from the following link:
-https://github.com/Proektsoftbg/Calcpad/blob/main/Setup/Linux/Calcpad.6.1.9.deb
+https://github.com/Proektsoftbg/Calcpad/blob/main/Setup/Linux/Calcpad.6.2.0.deb
 
 Then, install Calcpad, using the following command:
 ```
