@@ -31,7 +31,7 @@ This software is developed using the C# programming language and the latest comp
 This software is suitable for engineers and other professionals that need to perform repetitive calculations and present them in official documentation such as calculation notes. They can automate this task efficiently by creating powerful and reliable Calcpad worksheets. It can also help teachers to prepare calculation examples, papers, manuals, books etc. Students can use it to solve various problems, prepare homeworks, phd theses etc.  
   
 ## Installation  
-The installation is performed by the automated setup program [calcpad-setup-en-x64.exe](https://github.com/Proektsoftbg/Calcpad/blob/main/Setup/calcpad-setup-en-x64.exe). Follow the instruction of the setup wizard. The software requires a 64 bit computer with Windows 10 and [Microsoft .NET 8.0](https://dotnet.microsoft.com/en-us/download/dotnet/8.0).  
+The installation is performed by the automated setup program [calcpad-setup-en-x64.exe](https://github.com/Proektsoftbg/Calcpad/blob/main/Setup/calcpad-setup-en-x64.exe). Follow the instruction of the setup wizard. The software requires a 64 bit computer with Windows 10/11 and [Microsoft .NET 8.0](https://dotnet.microsoft.com/en-us/download/dotnet/8.0).  
 You can also use Calcpad directly in the browser from our website: [https://calcpad.eu/Ide](https://calcpad.eu/Ide)  
   
 ## Licensing and terms of use  
