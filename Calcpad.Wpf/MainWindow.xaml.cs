@@ -3294,7 +3294,7 @@ You can find your unsaved data in
                     if (j > 0)
                         s = s[(j + 1)..];
                 }
-                if (s[0] == '+' || !double.TryParse(s, NumberStyles.AllowLeadingSign | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out var _))
+                if (s.Length == 0 || s[0] == '+' || !double.TryParse(s, NumberStyles.AllowLeadingSign | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out var _))
                 {
                     _wbWarper.ReportInputFieldError(i);
                     return false;
