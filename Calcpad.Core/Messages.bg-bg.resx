@@ -257,4 +257,7 @@
     <data name="Units_cannon_be_raised_to_complex_power" xml:space="preserve">
         <value>Не мога да повдигна мерни единици на комплексна степен.</value>
     </data>
+    <data name="SelectAll" xml:space="preserve">
+        <value>И_збери всичко</value>
+    </data>
 </root>

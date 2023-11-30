@@ -284,6 +284,9 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>AppMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Update="MainWindowResources.bg-bg.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="MainWindowResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>MainWindowResources.Designer.cs</LastGenOutput>

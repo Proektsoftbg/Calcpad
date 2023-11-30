@@ -60,6 +60,15 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Angles:.
+        /// </summary>
+        public static string Angles {
+            get {
+                return ResourceManager.GetString("Angles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to unlock the source code for editing?.
         /// </summary>
         public static string Are_you_sure_you_want_to_unlock_the_source_code_for_editing {
@@ -74,6 +83,15 @@ namespace Calcpad.Wpf {
         public static string calcpad_download_help_html {
             get {
                 return ResourceManager.GetString("calcpad_download_help_html", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Calculate.
+        /// </summary>
+        public static string Calculate {
+            get {
+                return ResourceManager.GetString("Calculate", resourceCulture);
             }
         }
         
@@ -96,11 +114,65 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to _Command Line Interpreter (CLI).
+        /// </summary>
+        public static string CommandLineInterpreter {
+            get {
+                return ResourceManager.GetString("CommandLineInterpreter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Compile to input form (F4).
         /// </summary>
         public static string Compile_to_input_form_F4 {
             get {
                 return ResourceManager.GetString("Compile_to_input_form_F4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Copy.
+        /// </summary>
+        public static string Copy {
+            get {
+                return ResourceManager.GetString("Copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy all output.
+        /// </summary>
+        public static string CopyAllOutput {
+            get {
+                return ResourceManager.GetString("CopyAllOutput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cu_t.
+        /// </summary>
+        public static string Cut {
+            get {
+                return ResourceManager.GetString("Cut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Edit.
+        /// </summary>
+        public static string Edit {
+            get {
+                return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Equation format:.
+        /// </summary>
+        public static string EquationFormat {
+            get {
+                return ResourceManager.GetString("EquationFormat", resourceCulture);
             }
         }
         
@@ -141,6 +213,24 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to _Exit.
+        /// </summary>
+        public static string Exit {
+            get {
+                return ResourceManager.GetString("Exit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _File.
+        /// </summary>
+        public static string File {
+            get {
+                return ResourceManager.GetString("File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Calcpad Compiled (*.cpdz)|*.cpdz.
         /// </summary>
         public static string FileSaveAs_Calcpad_Compiled {
@@ -150,11 +240,38 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to _Find.
+        /// </summary>
+        public static string Find {
+            get {
+                return ResourceManager.GetString("Find", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Find And Replace.
+        /// </summary>
+        public static string FindAndReplace {
+            get {
+                return ResourceManager.GetString("FindAndReplace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;div class=&quot;errorHeader&quot;&gt;Found &lt;b&gt;{0}&lt;/b&gt; errors in modules and macros:.
         /// </summary>
         public static string Found_Errors_In_Modules_And_Macros {
             get {
                 return ResourceManager.GetString("Found_Errors_In_Modules_And_Macros", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Help.
+        /// </summary>
+        public static string Help {
+            get {
+                return ResourceManager.GetString("Help", resourceCulture);
             }
         }
         
@@ -177,11 +294,83 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Input Form.
+        /// </summary>
+        public static string InputForm {
+            get {
+                return ResourceManager.GetString("InputForm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Insert Image.
+        /// </summary>
+        public static string InsertImage {
+            get {
+                return ResourceManager.GetString("InsertImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _New.
+        /// </summary>
+        public static string New {
+            get {
+                return ResourceManager.GetString("New", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New file.
+        /// </summary>
+        public static string NewFile {
+            get {
+                return ResourceManager.GetString("NewFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Non-metric units:.
+        /// </summary>
+        public static string NonMetricUnits {
+            get {
+                return ResourceManager.GetString("NonMetricUnits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Numbers: .
+        /// </summary>
+        public static string Numbers {
+            get {
+                return ResourceManager.GetString("Numbers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Open.
+        /// </summary>
+        public static string Open {
+            get {
+                return ResourceManager.GetString("Open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open source code for editing (F4).
         /// </summary>
         public static string Open_source_code_for_editing__F4 {
             get {
                 return ResourceManager.GetString("Open_source_code_for_editing__F4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open With MS Word.
+        /// </summary>
+        public static string OpenWithWord {
+            get {
+                return ResourceManager.GetString("OpenWithWord", resourceCulture);
             }
         }
         
@@ -195,11 +384,128 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to _Paste.
+        /// </summary>
+        public static string Paste {
+            get {
+                return ResourceManager.GetString("Paste", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Print.
+        /// </summary>
+        public static string Print {
+            get {
+                return ResourceManager.GetString("Print", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Print Preview.
+        /// </summary>
+        public static string PrintPreview {
+            get {
+                return ResourceManager.GetString("PrintPreview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Recent Files.
+        /// </summary>
+        public static string RecentFiles {
+            get {
+                return ResourceManager.GetString("RecentFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Redo.
+        /// </summary>
+        public static string Redo {
+            get {
+                return ResourceManager.GetString("Redo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh results after each edit.
+        /// </summary>
+        public static string RefreshResultsAfterEachEdit {
+            get {
+                return ResourceManager.GetString("RefreshResultsAfterEachEdit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Replace.
+        /// </summary>
+        public static string Replace {
+            get {
+                return ResourceManager.GetString("Replace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Run calculations and display output (F5.
+        /// </summary>
+        public static string RunAndDisplayOutput {
+            get {
+                return ResourceManager.GetString("RunAndDisplayOutput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Save.
+        /// </summary>
+        public static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save _As....
+        /// </summary>
+        public static string SaveAs {
+            get {
+                return ResourceManager.GetString("SaveAs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save output as Html file.
+        /// </summary>
+        public static string SaveAsHTML {
+            get {
+                return ResourceManager.GetString("SaveAsHTML", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save as PDF File.
+        /// </summary>
+        public static string SaveAsPDF {
+            get {
+                return ResourceManager.GetString("SaveAsPDF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to File not saved. Save?.
         /// </summary>
         public static string SavePrompt {
             get {
                 return ResourceManager.GetString("SavePrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show/hide numeric keypad.
+        /// </summary>
+        public static string ShowHideKeypad {
+            get {
+                return ResourceManager.GetString("ShowHideKeypad", resourceCulture);
             }
         }
         
@@ -222,6 +528,15 @@ namespace Calcpad.Wpf {
         public static string TryRestoreState_Recovered_SavePrompt {
             get {
                 return ResourceManager.GetString("TryRestoreState_Recovered_SavePrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Undo.
+        /// </summary>
+        public static string Undo {
+            get {
+                return ResourceManager.GetString("Undo", resourceCulture);
             }
         }
         

@@ -264,4 +264,7 @@
     <data name="Cannot_evaluate_reminder__0__1__The_denominator_must_be_unitless_" xml:space="preserve">
         <value>Cannot evaluate reminder: "{0}  %  {1}". The denominator must be unitless.</value>
     </data>
+    <data name="SelectAll" xml:space="preserve">
+        <value>Select _All</value>
+    </data>
 </root>

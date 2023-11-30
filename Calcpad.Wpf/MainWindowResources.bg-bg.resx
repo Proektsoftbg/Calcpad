@@ -72,4 +72,109 @@
     <data name="Error_setting_units" xml:space="preserve">
         <value>Грешка при задаване на мерни единици.</value>
     </data>
+    <data name="File" xml:space="preserve">
+        <value>_Файл</value>
+    </data>
+    <data name="New" xml:space="preserve">
+        <value>_Нов</value>
+    </data>
+    <data name="Open" xml:space="preserve">
+        <value>_Отвори</value>
+    </data>
+    <data name="RecentFiles" xml:space="preserve">
+        <value>_Последно отваряни</value>
+    </data>
+    <data name="Save" xml:space="preserve">
+        <value>_Запис</value>
+    </data>
+    <data name="SaveAs" xml:space="preserve">
+        <value>Запис _като...</value>
+    </data>
+    <data name="CommandLineInterpreter" xml:space="preserve">
+        <value>_Команден интерпретатор (CLI)</value>
+    </data>
+    <data name="Exit" xml:space="preserve">
+        <value>_Изход</value>
+    </data>
+    <data name="Edit" xml:space="preserve">
+        <value>_Редактор</value>
+    </data>
+    <data name="Find" xml:space="preserve">
+        <value>_Търсене</value>
+    </data>
+    <data name="Replace" xml:space="preserve">
+        <value>_Заместване</value>
+    </data>
+    <data name="Undo" xml:space="preserve">
+        <value>_Отмени</value>
+    </data>
+    <data name="Redo" xml:space="preserve">
+        <value>По_втори</value>
+    </data>
+    <data name="Cut" xml:space="preserve">
+        <value>_Изрежи</value>
+    </data>
+    <data name="Copy" xml:space="preserve">
+        <value>_Копирай</value>
+    </data>
+    <data name="Paste" xml:space="preserve">
+        <value>_Постави</value>
+    </data>
+    <data name="InputForm" xml:space="preserve">
+        <value>Форма за въвеждане</value>
+    </data>
+    <data name="Calculate" xml:space="preserve">
+        <value>Изчисляване</value>
+    </data>
+    <data name="Print" xml:space="preserve">
+        <value>Печат</value>
+    </data>
+    <data name="OpenWithWord" xml:space="preserve">
+        <value>Отвори с MS Word</value>
+    </data>
+    <data name="SaveAsPDF" xml:space="preserve">
+        <value>Запис като PDF файл</value>
+    </data>
+    <data name="Help" xml:space="preserve">
+        <value>Помощ</value>
+    </data>
+    <data name="PrintPreview" xml:space="preserve">
+        <value>Преглед за отпечатване</value>
+    </data>
+    <data name="SaveAsHTML" xml:space="preserve">
+        <value>Запис на резултатите като Html файл</value>
+    </data>
+    <data name="CopyAllOutput" xml:space="preserve">
+        <value>Копирай всички резултати</value>
+    </data>
+    <data name="NewFile" xml:space="preserve">
+        <value>Нов файл</value>
+    </data>
+    <data name="FindAndReplace" xml:space="preserve">
+        <value>Търсене и заместване</value>
+    </data>
+    <data name="InsertImage" xml:space="preserve">
+        <value>Вмъкни изображение</value>
+    </data>
+    <data name="ShowHideKeypad" xml:space="preserve">
+        <value>Покажи/скрий калкулаторна клавиатура</value>
+    </data>
+    <data name="RunAndDisplayOutput" xml:space="preserve">
+        <value>Стартирай изчисленията и покажи резултатите (F5)</value>
+    </data>
+    <data name="RefreshResultsAfterEachEdit" xml:space="preserve">
+        <value>Автоматично преизчислявай резултатите при промяна на ред</value>
+    </data>
+    <data name="Angles" xml:space="preserve">
+        <value>Ъгли:</value>
+    </data>
+    <data name="NonMetricUnits" xml:space="preserve">
+        <value>Неметр. единици:</value>
+    </data>
+    <data name="EquationFormat" xml:space="preserve">
+        <value>Изглед на формули:</value>
+    </data>
+    <data name="Numbers" xml:space="preserve">
+        <value>Числа: </value>
+    </data>
 </root>
