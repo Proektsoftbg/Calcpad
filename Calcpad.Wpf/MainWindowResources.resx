@@ -79,4 +79,109 @@ You can find your unsaved data in
     <data name="Error_setting_units" xml:space="preserve">
         <value>Error setting units.</value>
     </data>
+    <data name="File" xml:space="preserve">
+        <value>_File</value>
+    </data>
+    <data name="Edit" xml:space="preserve">
+        <value>_Edit</value>
+    </data>
+    <data name="New" xml:space="preserve">
+        <value>_New</value>
+    </data>
+    <data name="Open" xml:space="preserve">
+        <value>_Open</value>
+    </data>
+    <data name="RecentFiles" xml:space="preserve">
+        <value>_Recent Files</value>
+    </data>
+    <data name="Save" xml:space="preserve">
+        <value>_Save</value>
+    </data>
+    <data name="SaveAs" xml:space="preserve">
+        <value>Save _As...</value>
+    </data>
+    <data name="CommandLineInterpreter" xml:space="preserve">
+        <value>_Command Line Interpreter (CLI)</value>
+    </data>
+    <data name="Exit" xml:space="preserve">
+        <value>_Exit</value>
+    </data>
+    <data name="Find" xml:space="preserve">
+        <value>_Find</value>
+    </data>
+    <data name="Replace" xml:space="preserve">
+        <value>_Replace</value>
+    </data>
+    <data name="Undo" xml:space="preserve">
+        <value>_Undo</value>
+    </data>
+    <data name="Redo" xml:space="preserve">
+        <value>_Redo</value>
+    </data>
+    <data name="Cut" xml:space="preserve">
+        <value>Cu_t</value>
+    </data>
+    <data name="Copy" xml:space="preserve">
+        <value>_Copy</value>
+    </data>
+    <data name="Paste" xml:space="preserve">
+        <value>_Paste</value>
+    </data>
+    <data name="InputForm" xml:space="preserve">
+        <value>Input Form</value>
+    </data>
+    <data name="Calculate" xml:space="preserve">
+        <value>Calculate</value>
+    </data>
+    <data name="Print" xml:space="preserve">
+        <value>Print</value>
+    </data>
+    <data name="OpenWithWord" xml:space="preserve">
+        <value>Open With MS Word</value>
+    </data>
+    <data name="SaveAsPDF" xml:space="preserve">
+        <value>Save as PDF File</value>
+    </data>
+    <data name="Help" xml:space="preserve">
+        <value>Help</value>
+    </data>
+    <data name="CopyAllOutput" xml:space="preserve">
+        <value>Copy all output</value>
+    </data>
+    <data name="PrintPreview" xml:space="preserve">
+        <value>Print Preview</value>
+    </data>
+    <data name="SaveAsHTML" xml:space="preserve">
+        <value>Save output as Html file</value>
+    </data>
+    <data name="NewFile" xml:space="preserve">
+        <value>New file</value>
+    </data>
+    <data name="FindAndReplace" xml:space="preserve">
+        <value>Find And Replace</value>
+    </data>
+    <data name="InsertImage" xml:space="preserve">
+        <value>Insert Image</value>
+    </data>
+    <data name="ShowHideKeypad" xml:space="preserve">
+        <value>Show/hide numeric keypad</value>
+    </data>
+    <data name="RunAndDisplayOutput" xml:space="preserve">
+        <value>Run calculations and display output (F5</value>
+    </data>
+    <data name="RefreshResultsAfterEachEdit" xml:space="preserve">
+        <value>Refresh results after each edit</value>
+    </data>
+    <data name="Angles" xml:space="preserve">
+        <value>Angles:</value>
+    </data>
+    <data name="NonMetricUnits" xml:space="preserve">
+        <value>Non-metric units:</value>
+    </data>
+    <data name="EquationFormat" xml:space="preserve">
+        <value>Equation format:</value>
+    </data>
+    <data name="Numbers" xml:space="preserve">
+        <value>Numbers: </value>
+    </data>
 </root>
