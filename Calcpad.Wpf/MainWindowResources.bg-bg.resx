@@ -1,0 +1,75 @@
+﻿<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="calcpad_download_help_html" xml:space="preserve">
+        <value>https://calcpad.bg/download/help.html</value>
+    </data>
+    <data name="TryRestoreState_Recovered_SavePrompt" xml:space="preserve">
+        <value>Calcpad се рестартира след неочаквано прекъсване. 
+Желаете ли да се възстановят незаписаните данни?</value>
+    </data>
+    <data name="TryRestoreState_Failed" xml:space="preserve">
+        <value>Възстановяването беше неуспешно поради грешка:
+"{0}".
+Може да намерите незаписаното съдържание в
+"{1}"</value>
+    </data>
+    <data name="Input" xml:space="preserve">
+        <value>Входни данни</value>
+    </data>
+    <data name="Output" xml:space="preserve">
+        <value>Резултати</value>
+    </data>
+    <data name="Inline_Html_elements_must_not_cross_text_lines" xml:space="preserve">
+        <value>Стоп! Inline Html елементи не могат да пресичат редове от текста.</value>
+    </data>
+    <data name="Command_Open_Text_File" xml:space="preserve">
+        <value>Текстов файл (*.txt)|*.txt|Calcpad документ (*.cpd)|*.cpd|Calcpad двоичен файл (*.cpdz)|*.cpdz</value>
+    </data>
+    <data name="Command_Open_Calcpad_Worksheet" xml:space="preserve">
+        <value>Calcpad документ (*.cpd)|*.cpd|Calcpad двоичен файл (*.cpdz)|*.cpdz|Текстов файл (*.txt)|*.txt</value>
+    </data>
+    <data name="SavePrompt" xml:space="preserve">
+        <value>Файлът не е записан. Запис?</value>
+    </data>
+    <data name="FileSaveAs_Calcpad_Compiled" xml:space="preserve">
+        <value>Calcpad двоичен файл (*.cpdz)|*.cpdz</value>
+    </data>
+    <data name="Unwarped_code" xml:space="preserve">
+        <value>Разгънат код</value>
+    </data>
+    <data name="Found_Errors_In_Modules_And_Macros" xml:space="preserve">
+        <value>&lt;div class=\"errorHeader\"&gt;Общо &lt;b&gt;{0}&lt;/b&gt; грешки в модули и макроси:</value>
+    </data>
+    <data name="Are_you_sure_you_want_to_unlock_the_source_code_for_editing" xml:space="preserve">
+        <value>Сигурни ли сте, че искате да отключите изходния код за редактиране?</value>
+    </data>
+    <data name="Error_Exporting_Docx_File" xml:space="preserve">
+        <value>Неуспешен запис на docx файл. Да покажа ли списък с грешките?</value>
+    </data>
+    <data name="Open_source_code_for_editing__F4" xml:space="preserve">
+        <value>Отвори програмния код за редактиране (F4)</value>
+    </data>
+    <data name="Compile_to_input_form_F4" xml:space="preserve">
+        <value>Компилирай до форма за вход на данни (F4)</value>
+    </data>
+    <data name="Error_getting_units" xml:space="preserve">
+        <value>Грешка при връщане на мерни единици.</value>
+    </data>
+    <data name="Error_Invalid_number_Please_correct_and_then_try_again" xml:space="preserve">
+        <value>Грешка! Невалидно число. Моля, направете корекции и опитайте отново.</value>
+    </data>
+    <data name="Error_setting_units" xml:space="preserve">
+        <value>Грешка при задаване на мерни единици.</value>
+    </data>
+</root>

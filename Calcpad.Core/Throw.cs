@@ -177,175 +177,175 @@ namespace Calcpad.Core
             New($"Невалиден обект в дефиниция на функция: \"{s}\".");
 #else
         internal static void InvalidSyntaxException(in string s) =>
-           New($"Invalid syntax: \"{s}\".");
+           New(string.Format(Messages.Invalid_syntax__0__, s));
         internal static void IncompleteExpressionException() =>
-            New("Incomplete expression.");
+            New(Messages.Incomplete_expression);
         internal static void MissingLeftBracketException() =>
-            New("Missing left bracket \"(\".");
+            New(Messages.Missing_left_bracket);
         internal static void MissingRightBracketException() =>
-            New("Missing right bracket \")\".");
+            New(Messages.Missing_right_bracket);
         internal static void InvalidSymbolException(char c) =>
-            New($"Invalid symbol: \"{c}\".");
+            New(string.Format(Messages.Invalid_symbol__0__, c));
         internal static void InvalidUnitsException(in string s) =>
-            New($"Invalid units: \"{s}\".");
+            New(string.Format(Messages.Invalid_units__0__, s));
         internal static void InvalidLiteralException(in string s, in string literal) =>
-            New($"Cannot evaluate \"{s}\" as {literal}.");
+            New(string.Format(Messages.Cannot_evaluate__0__as__1__, s, literal));
         internal static void InvalidNumberException(in string s) =>
             InvalidLiteralException(s, "number");
         internal static void InvalidOperatorException(char c) =>
-            New($"Invalid operator: \"{c}\".");
+            New(string.Format(Messages.Invalid_operator__0__, c));
         internal static void PowerNotUnitlessException() =>
-            New("Power must be unitless.");
+            New(Messages.Power_must_be_unitless);
         internal static void ResultIsNotUnitsException() =>
-            New("The expression on the right does not evaluate to units.");
+            New(Messages.The_expression_on_the_right_does_not_evaluate_to_units);
         internal static void CannotEvaluateFunctionException(in string s) => 
-            New($"Cannot evaluate the function %F for %V = {s}.");
+            New(string.Format(Messages.Cannot_evaluate_the_function_f_for_v_equals__0__, s));
         internal static void FunctionNotDefinedException(in string s) =>
-            New($"The function %F is not defined for %V = {s}.");
+            New(string.Format(Messages.The_function_f_is_not_defined_for_v_equals__0__, s));
         internal static void InconsistentUnitsException(in string u1, in string u2) =>
-            New($"Inconsistent units: \"{u1}\" and \"{u2}\".");
+            New(string.Format(Messages.Inconsistent_units__0__and__1__, u1, u2));
         internal static void IterationLimitsException(in string l1, in string l2) =>
-            New($"Limits out of range: [{l1}; {l2}].");
+            New(string.Format(Messages.Limits_out_of_range__0____1__, l1, l2));
         internal static void InvalidUnitsFunctionException(in string function, in string unit) =>
-            New($"Invalid units for function: \"{function}({unit})\".");
+            New(string.Format(Messages.Invalid_units_for_function__0__1__, function, unit));
         internal static void RootUnitlessException() =>
-            New("Root index must be unitless.");
+            New(Messages.Root_index_must_be_unitless);
         internal static void RootComplexException() =>
-            New("Root index cannot be complex number.");
+            New(Messages.Root_index_cannot_be_a_complex_number);
         internal static void RootIntegerException() =>
-            New("Root index must be integer > 1.");
+            New(Messages.Root_index_must_be_integer_more_than_1);
         internal static void FactorialArgumentOutOfRangeException() =>
-            New("Argument out of range for n!.");
+            New(Messages.Argument_out_of_range_for_n_factorial);
         internal static void FactorialArgumentUnitlessException() =>
-            New("The argument of n! must be unitless.");
+            New(Messages.The_argument_of_n_factorial_must_be_unitless);
         internal static void FactorialArgumentPositiveIntegerException() =>
-            New("The argument of n! must be a positive integer.");
+            New(Messages.The_argument_of_n_factorial_must_be_a_positive_integer);
         internal static void FactorialArgumentComplexException() =>
-            New("The argument of n! cannot be complex.");
+            New(Messages.The_argument_of_n_factorial_cannot_be_complex);
         internal static void ReminderUnitsException(in string u1, in string u2) =>
-            New($"Cannot evaluate reminder: \"{u1}  %  {u2}\". Denominator must be unitless.");
+            New(string.Format(Messages.Cannot_evaluate_reminder__0__1__Denominator_must_be_unitless, u1, u2));
         internal static void BothValuesIntegerException() =>
-            New("Both values must be integer.");
+            New(Messages.Both_values_must_be_integers);
         internal static void VariableNotExistException(in string name) =>
-            New($"Variable '{name}' does not exist.");
+            New(string.Format(Messages.Variable__0__does_not_exist, name));
         internal static void UnitNotExistException(in string name) =>
-            New($"Unit '{name}' does not exist.");
+            New(string.Format(Messages.Unit__0__does_not_exist, name));
         internal static void InteruptedByUserException() =>
-            New("Interupted by user.");
+            New(Messages.Interrupted_by_user);
         internal static void CalculationsNotActiveException() =>
-            New("Calculations not active.");
+            New(Messages.Calculations_not_active);
         internal static void ExpressionEmptyException() =>
-            New("Expression is empty.");
+            New(Messages.Expression_is_empty);
         internal static void MissingOperandException() =>
-            New("Missing operand.");
+            New(Messages.Missing_operand);
         internal static void InvalidFunctionException(in string s) =>
-            New($"Invalid function: \"{s}\".");
+            New(string.Format(Messages.Invalid_function__0__, s));
         internal static void CannotEvaluateAsTypeException(in string literal, in string type) =>
-            New($"Cannot evaluate \"{literal}\" as \"{type}\".");
+            New(string.Format(Messages.Cannot_evaluate__0__as__1__, literal, type));
         internal static void StackLeakException() =>
-            New("Stack memory leak. Invalid expression.");
+            New(Messages.Stack_memory_leak__Invalid_expression);
         internal static void StackEmptyException() =>
-            New("Stack empty. Invalid expression.");
+            New(Messages.Stack_empty_Invalid_expression);
         internal static void UndefinedInputFieldException() =>
-            New("Undefined input field.");
+            New(Messages.Undefined_input_field);
         internal static void UndefinedVariableOrUnitsException(in string s) =>
-            New($"Undefined variable or units: \"{s}\".");
+            New(string.Format(Messages.Undefined_variable_or_units__0__, s));
         internal static void ErrorEvaluatingAsFunctionException(in string s) =>
-            New($"Error evaluating \"{s}\" as function.");
+            New(string.Format(Messages.Error_evaluating__0__as_function, s));
         internal static void ErrorEvaluatingAsFunctionOrOperatorException(in string s) =>
-            New($"Error evaluating \"{s}\" as function or operator.");
+            New(string.Format(Messages.Error_evaluating__0__as_function_or_operator, s));
         internal static void CannotRewiriteUnitsException(in string s) =>
-            New($"Cannot rewirite existing units: {s}.");
+            New(string.Format(Messages.Cannot_rewrite_existing_units__0__, s));
         internal static void InconsistentTargetUnitsException(in string sourceUnits, in string targetUnits) =>
-            New($"The calculated units \"{sourceUnits}\" are inconsistent with the target units \"{targetUnits}\".");
+            New(string.Format(Messages.The_calculated_units__0__are_inconsistent_with_the_target_units__1__, sourceUnits, targetUnits));
         internal static void InvalidCharacterException(char c) =>
-            New($"Invalid character: '{c}'. Variables, functions and units must begin with a letter or ∡, except for the following units: ° ′ ″ % ‰.");
+            New(string.Format(Messages.InvalidCharacterException, c));
         internal static void ImproperAssignmentException() =>
-            New("Improper use of the assignment operator '='.");
+            New(Messages.Improper_use_of_the_assignment_operator_equals);
         internal static void MissingLeftSolverBracketException() =>
-            New("Missing left bracket '{' in solver command.");
+            New(Messages.Missing_left_bracket___in_solver_command);
         internal static void MissingRightSolverBracketException() =>
-            New("Missing right bracket '}' in solver command.");
+            New(Messages.Missing_right_bracket___in_solver_command);
         internal static void InvalidMacroException(in string s) =>
-            New($"Invalid macro identifier: \"{s}$\".");
+            New(string.Format(Messages.Invalid_macro_identifier__0__, s));
         internal static void InvalidSolverException(in string s) =>
-            New($"Invalid solver command definition \"{s}\".");
+            New(string.Format(Messages.Invalid_solver_command_definition__0__, s));
         internal static void ErrorParsingUnitsException(in string s) =>
-            New($"Error parsing \"{s}\" as units.");
+            New(string.Format(Messages.Error_parsing__0__as_units, s));
         internal static void ErrorParsingNumberException(in string s) =>
-            New($"Error parsing \"{s}\" as number.");
+            New(string.Format(Messages.Error_parsing__0__as_number, s));
         internal static void MissingDelimiterException(char delimiter, in string script) =>
-            New($"Missing delimiter \"{delimiter}\" in solver command {{{script}}}.");
+            New(string.Format(Messages.Missing_delimiter__0__in_solver_command__1__, delimiter, script));
         internal static void MultipleAssignmentsException(in string s) =>
-            New($"More than one operators '=' in '{s}'.");
+            New(string.Format(Messages.More_than_one_operator_equals_in__0__, s));
         internal static void NotConstantExpressionException(in string s) =>
-            New($"The expression on the right side must be constant: \"{s}\".");
+            New(string.Format(Messages.The_expression_on_the_right_side_must_be_constant__0__, s));
         internal static void InconsistentUnits1Exception(in string variable, in string units) =>
-            New($"Inconsistent units for \"{variable} = {units}\".");
+            New(string.Format(Messages.Inconsistent_units_for__0__equals__1__, variable, units));
         internal static void InconsistentUnits2Exception(in string variable, in string u1, in string u2) =>
-            New($"Inconsistent units for \"{variable} = {u1} : {u2}\".");
+            New(string.Format(Messages.Inconsistent_units_for__0__equals__1_____2__, variable, u1, u2));
         internal static void NoSolutionException(in string s) =>
-            New($"No solution for: {s}.");
+            New(string.Format(Messages.No_solution_for__0__, s));
         internal static void RecursionNotAllowedException(in string s) =>
-            New($"Recursion is not allowed in function definition: \"{s}\".");
+            New(string.Format(Messages.Recursion_is_not_allowed_in_function_definition__0__, s));
         internal static void AssignmentPrecededException() =>
-            New("The assignment '=' must be preceded by custom function or variable.");
+            New(Messages.The_assignment_equals_must_be_preceded_by_custom_function_or_variable);
         internal static void AssignmentNotFirstException() =>
-            New("Assignment '=' must be the first operator in the expression.");
+            New(Messages.Assignment_equals_must_be_the_first_operator_in_the_expression);
         internal static void InvalidSyntaxException(in string s1, in string s2) =>
-            New($"Invalid syntax: \"{s1} {s2}\".");
+            New(string.Format(Messages.Invalid_syntax__0__1__, s1, s2));
         internal static void UnexpectedDelimiterException() =>
-            New("Unexpected delimiter ';'.");
+            New(Messages.Unexpected_delimiter__);
         internal static void InvalidNumberOfArgumentsException() =>
-            New("Invalid number of arguments.");
+            New(Messages.Invalid_number_of_arguments);
         internal static void ResultNotRealException(in string s) =>
-            New($"The result is not a real number: \"{s}\".");
+            New(string.Format(Messages.The_result_is_not_a_real_number__0__, s));
         internal static void MissingFunctionParameterException() =>
-            New("Missing parameter in function definition.");
+            New(Messages.Missing_parameter_in_function_definition);
         internal static void MissingFunctionDelimiterException() =>
-            New("Missing delimiter in function definition.");
+            New(Messages.Missing_delimiter_in_function_definition);
         internal static void InvalidFunctionTokenException(in string name) =>
-            New($"Invalid token in function definition: \"{name}\".");
+            New(string.Format(Messages.Invalid_token_in_function_definition__0__, name));
         internal static void CircularReferenceException(in string name) =>
-            New($"Circular reference detected for function \"{name}\".");
+            New(string.Format(Messages.Circular_reference_detected_for_function__0__, name));
         internal static void InvalidFunctionDefinitionException() =>
-            New("Invalid function definition. It have to match the pattern: \"f(x; y; z...) =\".");
+            New(Messages.InvalidFunctionDefinitionException);
         internal static void ArgumentOutOfRangeException(in string function) =>
-            New($"Argument out of range for {function}(x).");
+            New(string.Format(Messages.Argument_out_of_range_for__0__x_, function));
         internal static void ConditionEmptyException() =>
-            New("Condition cannot be empty.");
+            New(Messages.Condition_cannot_be_empty);
         internal static void ConditionNotInitializedException() =>
-            New("Condition block not initialized with \"#if\".");
+            New(Messages.Condition_block_not_initialized_with_if_);
         internal static void DuplicateElseException() =>
-            New("Duplicate \"#else\" in condition block.");
+            New(Messages.Duplicate_else_in_condition_block);
         internal static void ElseIfAfterElseException() =>
-            New("\"#else if\" is not allowed after \"#else\" in condition block.");
+            New(Messages.else_if_is_not_allowed_after_else_in_condition_block);
         internal static void ConditionComplexException() =>
-            New("Condition cannot evaluate to a complex number.");
+            New(Messages.Condition_cannot_evaluate_to_a_complex_number);
         internal static void ConditionResultInvalidException(in string s) =>
-            New($"Condition result is invalid: {s}.");
+            New(string.Format(Messages.Condition_result_is_invalid_0_, s));
         internal static void DuplicateMacroParametersException(in string s) =>
-            New($"Duplicate macro parameter names: {s} and {s}.");
+            New(string.Format(Messages.Duplicate_macro_parameter_names__0__and__1__, s, s));
         internal static void UndefinedMacroException(in string s) =>
-            throw new ArgumentException($"Macro not defined: {s}.");
+            throw new ArgumentException(string.Format(Messages.Macro_not_defined__0__, s));
         internal static void MissingMapItemException(in string s) =>
-            New($"Missing {s} in surface map command.");
+            New(string.Format(Messages.Missing__0__in_surface_map_command, s));
         internal static void PlotLimitsIdenticalException() =>
-            New("The limits of plot area are identical.");
+            New(Messages.The_limits_of_plot_area_are_identical);
         internal static void ErrorWritingPngFileException(in string path) =>
-            New($"Error writing a png file to \"{path}\".");
+            New(string.Format(Messages.Error_writing_a_png_file_to__0__, path));
         internal static void ErrorWritingSvgFileException(in string path) =>
-            New($"Error writing a svg file to \"{path}\".");
+            New(string.Format(Messages.Error_writing_a_svg_file_to__0__, path));
         internal static void ErrorConvertingPngToBase64Exception() =>
-            New("Error converting png to Base64.");
+            New(Messages.Error_converting_png_to_Base64);
         internal static void InconsistentUnitsOperationException(in string ua, char op, in string ub) =>
-            New($"Inconsistent units: \"{ua} {op} {ub}\".");
+            New(string.Format(Messages.Inconsistent_units__0__1__2__, ua, op, ub));
         internal static void UnitsToComplexPowerException() =>
-            New("Units cannon be raised to complex power.");
+            New(Messages.Units_cannon_be_raised_to_complex_power);
         internal static void CannotEvaluateReminderException(in string ua, in string ub) =>
-            New($"Cannot evaluate reminder: \"{ua}  %  {ub}\". The denominator must be unitless.");
+            New(string.Format(Messages.Cannot_evaluate_reminder__0__1__The_denominator_must_be_unitless_, ua, ub));
         internal static void IvalidFunctionTokenException(in string s) =>
-            New($"Invalid token in function definition: \"{s}\".");
+            New(string.Format(Messages.Invalid_token_in_function_definition__0__, s));
 #endif
 
         private static void New(in string s) =>

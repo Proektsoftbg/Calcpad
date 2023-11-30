@@ -182,7 +182,7 @@ namespace Calcpad.Wpf
 #if BG
             _htmlHelp = GetHelp("https://calcpad.bg/download/help.html");
 #else
-            _htmlHelp = GetHelp("https://calcpad.eu/download/help.html");
+            _htmlHelp = GetHelp(MainWindowResources.calcpad_download_help_html);
 #endif
             _htmlSource = ReadTextFromFile(AppInfo.Path + "source.html").Replace("jquery", appUrl + "jquery");
             _svgTyping = $"<img style=\"height:1em;\" src=\"{appUrl}typing.gif\" alt=\"...\">";
@@ -244,7 +244,7 @@ namespace Calcpad.Wpf
 #if BG
                 var message = "Calcpad се рестартира след неочаквано прекъсване.\nЖелаете ли да се възстановят незаписаните данни?";
 #else
-                var message = "Calcpad recovered from unexpected shutdown.\nWould you like to restore your unsaved data?";
+                var message = MainWindowResources.TryRestoreState_Recovered_SavePrompt;
 #endif
                 var result = MessageBox.Show(
                     message,
@@ -268,10 +268,7 @@ namespace Calcpad.Wpf
 ""{tempFile}""."
 #else
 
-@$"Recovery failed with error:
-""{ex.Message}"".
-You can find your unsaved data in
-""{tempFile}""."
+string.Format(MainWindowResources.TryRestoreState_Failed, ex.Message, tempFile)
 #endif
                         );
                         IsSaved = true;
@@ -341,7 +338,7 @@ You can find your unsaved data in
 #if BG
             OutputFrame.Header = isWebForm ? "Входни данни" : "Резултати";
 #else
-            OutputFrame.Header = isWebForm ? "Input" : "Output";
+            OutputFrame.Header = isWebForm ? MainWindowResources.Input : MainWindowResources.Output;
 #endif
         }
         private void RichTextBox_Scroll(object sender, ScrollChangedEventArgs e)
@@ -390,7 +387,7 @@ You can find your unsaved data in
 #if BG
                         "Стоп! Inline Html елементи не могат да пресичат редове от текста."
 #else
-                        "Stop! Inline Html elements must not cross text lines."
+                        MainWindowResources.Inline_Html_elements_must_not_cross_text_lines
 #endif
                         , "Calcpad", MessageBoxButton.OK, MessageBoxImage.Stop);
                     return;
@@ -688,8 +685,8 @@ You can find your unsaved data in
                     : "Calcpad документ (*.cpd)|*.cpd|Calcpad двоичен файл (*.cpdz)|*.cpdz|Текстов файл (*.txt)|*.txt"
 #else
                 Filter = s == ".txt"
-                    ? "Text File (*.txt)|*.txt|Calcpad Worksheet (*.cpd)|*.cpd|Calcpad Compiled (*.cpdz)|*.cpdz"
-                    : "Calcpad Worksheet (*.cpd)|*.cpd|Calcpad Compiled (*.cpdz)|*.cpdz|Text File (*.txt)|*.txt"
+                    ? MainWindowResources.Command_Open_Text_File
+                    : MainWindowResources.Command_Open_Calcpad_Worksheet
 #endif
             };
 
@@ -951,9 +948,9 @@ You can find your unsaved data in
                 ".cpdz" => "Calcpad двоичен файл (*.cpdz)|*.cpdz",
                 _ => "Calcpad документ (*.cpd)|*.cpd|Calcpad двоичен файл (*.cpdz)|*.cpdz|Текстов файл (*.txt)|*.txt"
 #else
-                    ".txt" => "Text File (*.txt)|*.txt|Calcpad Worksheet (*.cpd)|*.cpd|Calcpad Compiled (*.cpdz)|*.cpdz",
-                    ".cpdz" => "Calcpad Compiled (*.cpdz)|*.cpdz",
-                    _ => "Calcpad Worksheet (*.cpd)|*.cpd|Calcpad Compiled (*.cpdz)|*.cpdz|Text File (*.txt)|*.txt"
+                    ".txt" => MainWindowResources.Command_Open_Text_File,
+                    ".cpdz" => MainWindowResources.FileSaveAs_Calcpad_Compiled,
+                    _ => MainWindowResources.Command_Open_Calcpad_Worksheet
 #endif
                 }
             };
@@ -1207,7 +1204,7 @@ You can find your unsaved data in
 #if BG
                 result = MessageBox.Show("Файлът не е записан. Запис?", "Calcpad", MessageBoxButton.YesNoCancel);
 #else
-                result = MessageBox.Show("File not saved. Save?", "Calcpad", MessageBoxButton.YesNoCancel);
+                result = MessageBox.Show(MainWindowResources.SavePrompt, "Calcpad", MessageBoxButton.YesNoCancel);
 #endif
             if (result == MessageBoxResult.Yes)
             {
@@ -1269,7 +1266,7 @@ You can find your unsaved data in
 #if BG
                 OutputFrame.Header = "Разгънат код";
 #else
-                OutputFrame.Header = "Unwarped code";
+                OutputFrame.Header = MainWindowResources.Unwarped_code;
 #endif
                 CodeCheckBox.IsChecked = true;
             }
@@ -1322,7 +1319,7 @@ You can find your unsaved data in
 #if BG
                 OutputFrame.Header = toWebForm ? "Входни данни" : "Резултати";
 #else
-                OutputFrame.Header = toWebForm ? "Input" : "Output";
+                OutputFrame.Header = toWebForm ? MainWindowResources.Input : MainWindowResources.Output;
 #endif
             if (_highlighter.Defined.HasMacros && string.IsNullOrEmpty(_htmlUnwarpedCode))
                 _htmlUnwarpedCode = CodeToHtml(outputText);
@@ -1430,7 +1427,7 @@ You can find your unsaved data in
 #if BG
                 _stringBuilder.AppendLine($"<div class=\"errorHeader\">Общо <b>{errors.Count}</b> грешки в модули и макроси:");
 #else
-                _stringBuilder.AppendLine($"<div class=\"errorHeader\">Found <b>{errors.Count}</b> errors in modules and macros:");
+                _stringBuilder.AppendLine(string.Format(MainWindowResources.Found_Errors_In_Modules_And_Macros, errors.Count));
 #endif
                 var count = 0;
                 while (errors.Count != 0 && ++count < 20)
@@ -1785,7 +1782,7 @@ You can find your unsaved data in
 #if BG
                             const string message = "Неуспешен запис на docx файл. Да покажа ли списък с грешките?";
 #else
-                            const string message = "Error exporting docx file. Display validation log?";
+                            string message = MainWindowResources.Error_Exporting_Docx_File;
 #endif
                             if (MessageBox.Show(message, "Calcpad", MessageBoxButton.YesNo, MessageBoxImage.Error) == MessageBoxResult.Yes)
                             {
@@ -1938,7 +1935,7 @@ You can find your unsaved data in
 #if BG
                 const string message = "Сигурни ли сте, че искате да отключите изходния код за редактиране?";
 #else
-                const string message = "Are you sure you want to unlock the source code for editing?";
+                string message = MainWindowResources.Are_you_sure_you_want_to_unlock_the_source_code_for_editing;
 #endif
                 if (MessageBox.Show(message, "Calcpad", MessageBoxButton.YesNo) == MessageBoxResult.No)
                     return;
@@ -1975,7 +1972,7 @@ You can find your unsaved data in
 #if BG
                 WebFormButton.ToolTip = "Отвори програмния код за редактиране (F4)";
 #else
-                WebFormButton.ToolTip = "Open source code for editing (F4)";
+                WebFormButton.ToolTip = MainWindowResources.Open_source_code_for_editing__F4;
 #endif
                 MenuWebForm.Icon = "  ✓";
                 AutoRunCheckBox.Visibility = Visibility.Hidden;
@@ -1994,7 +1991,7 @@ You can find your unsaved data in
 #if BG
                 WebFormButton.ToolTip = "Компилирай до форма за вход на данни (F4)";
 #else
-                WebFormButton.ToolTip = "Compile to input form (F4)";
+                WebFormButton.ToolTip = MainWindowResources.Compile_to_input_form_F4;
 #endif
                 MenuWebForm.Icon = null;
                 WebBrowser.Cursor = cursor;
@@ -2016,7 +2013,7 @@ You can find your unsaved data in
 #if BG
                     ShowErrorMessage("Грешка при връщане на мерни единици.");
 #else
-                    ShowErrorMessage("Error getting units.");
+                    ShowErrorMessage(MainWindowResources.Error_getting_units);
 #endif
                 }
             }
@@ -2029,7 +2026,7 @@ You can find your unsaved data in
 #if BG
                     ShowErrorMessage("Грешка! Невалидно число. Моля, направете корекции и опитайте отново.");
 #else   
-                    ShowErrorMessage("Error! Invalid number. Please correct and then try again.");
+                    ShowErrorMessage(MainWindowResources.Error_Invalid_number_Please_correct_and_then_try_again);
 #endif
                     IsCalculated = false;
                     WebBrowser.Focus();
@@ -2052,7 +2049,7 @@ You can find your unsaved data in
 #if BG
                     ShowErrorMessage("Грешка при задаване на мерни единици.");
 #else
-                    ShowErrorMessage("Error setting units.");
+                    ShowErrorMessage(MainWindowResources.Error_setting_units);
 #endif
                 }
             }
