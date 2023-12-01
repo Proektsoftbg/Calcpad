@@ -129,7 +129,7 @@
                 <Separator/>
                 <MenuItem Command="ApplicationCommands.SelectAll" Header="{x:Static core:Messages.SelectAll}"/>
             </MenuItem>
-            <MenuItem x:Name="MenuInsert" Header="_Insert">
+            <MenuItem x:Name="MenuInsert" Header="{x:Static wpf:MainWindowResources.Insert}">
                 <MenuItem Header="{x:Static wpf:Constants.Constants_Header}">
                     <MenuItem Click="Button_Click" Tag="π" Icon="  π" Header="{x:Static wpf:Constants.PiNumber}"/>
                     <MenuItem Click="Button_Click" Tag="e" Icon="  e" Header="{x:Static wpf:Constants.EulerNumber}"/>
@@ -822,7 +822,7 @@
                             <MenuItem Click="Button_Click" Tag="tsf"  Header="tsf (ton-force per sq. foot)"/>
                             <MenuItem Click="Button_Click" Tag="inHg" Header="inHg (inches of mercuty)"/>
                         </MenuItem>
-                        <MenuItem Header="Density/Unit Weight">
+                        <MenuItem Header="{x:Static wpf:Units.DensityUnitWeight}">
                             <MenuItem Click="Button_Click" Tag="oz/in^3"   Header="oz/in³ (ounce per cubic inch)"/>
                             <MenuItem Click="Button_Click" Tag="oz/ft^3"   Header="oz/ft³ (ounce per cubic foot)"/>
                             <MenuItem Click="Button_Click" Tag="lb/in^3"   Header="lb/in³ (pound per cubic inch)"/>
@@ -864,76 +864,76 @@
                         </MenuItem>
                     </MenuItem>
                 </MenuItem>
-                <MenuItem Header="Function Plot">
-                    <MenuItem Click="Button_Click" Tag="$Plot{f(x) @ x = a : b}"        Header="Simple Plot"/>
-                    <MenuItem Click="Button_Click" Tag="$Plot{x(t) | y(t) @ t = a : b}" Header="Parametric"/>
-                    <MenuItem Click="Button_Click" Tag="$Plot{f1(x) &amp; f2(x) &amp; ... @ x = a : b}" Header="Multiple"/>
-                    <MenuItem Click="Button_Click" Tag="$Plot{x1(t) | y1(t) &amp; x2(t) | y2(t) &amp; ... @ t = a : b}" Header="Multiple Parametric"/>
+                <MenuItem Header="{x:Static wpf:MainWindowResources.FunctionPlot}">
+                    <MenuItem Click="Button_Click" Tag="$Plot{f(x) @ x = a : b}"        Header="{x:Static wpf:MainWindowResources.SimplePlot}"/>
+                    <MenuItem Click="Button_Click" Tag="$Plot{x(t) | y(t) @ t = a : b}" Header="{x:Static wpf:MainWindowResources.Parametric}"/>
+                    <MenuItem Click="Button_Click" Tag="$Plot{f1(x) &amp; f2(x) &amp; ... @ x = a : b}" Header="{x:Static wpf:MainWindowResources.Multiple}"/>
+                    <MenuItem Click="Button_Click" Tag="$Plot{x1(t) | y1(t) &amp; x2(t) | y2(t) &amp; ... @ t = a : b}" Header="{x:Static wpf:MainWindowResources.MultipleParametric}"/>
                     <Separator/>
-                    <MenuItem Click="Button_Click" Tag="$Map{f(x; y) @ x = a : b &amp; y = c : d }"     Header="2D Color Map of a Surface"/>
+                    <MenuItem Click="Button_Click" Tag="$Map{f(x; y) @ x = a : b &amp; y = c : d }"     Header="{x:Static wpf:MainWindowResources._2DColorMap}"/>
                 </MenuItem>
-                <MenuItem Header="Numerical Method">
-                    <MenuItem Click="Button_Click" Tag="$Root{f(x) = const @ x = a : b}" Header="Root Finding for f(x)=const"/>
-                    <MenuItem Click="Button_Click" Tag="$Root{f(x) @ x = a : b}"         Header="Root Finding for f(x)=0"/>
-                    <MenuItem Click="Button_Click" Tag="$Find{f(x) @ x = a : b}"         Header="Non-Strict Root Finding"/>
-                    <MenuItem Click="Button_Click" Tag="$Sup{f(x) @ x = a : b}"          Header="Local Maximum of a Function"/>
-                    <MenuItem Click="Button_Click" Tag="$Inf{f(x) @ x = a : b}"          Header="Local Minimum of a Function"/>
-                    <MenuItem Click="Button_Click" Tag="$Area{f(x) @ x = a : b}"         Header="Adaptive Gauss-Lobatto Integration"/>
-                    <MenuItem Click="Button_Click" Tag="$Integral{f(x) @ x = a : b}"     Header="Tanh-Sinh Integration"/>
-                    <MenuItem Click="Button_Click" Tag="$Slope{f(x) @ x = a}"            Header="Numerical Differentiation"/>
+                <MenuItem Header="{x:Static wpf:MainWindowResources.NumericalMethod}">
+                    <MenuItem Click="Button_Click" Tag="$Root{f(x) = const @ x = a : b}" Header="{x:Static wpf:MainWindowResources.RootFindingForXEqualsConst}"/>
+                    <MenuItem Click="Button_Click" Tag="$Root{f(x) @ x = a : b}"         Header="{x:Static wpf:MainWindowResources.RootFindingForXEqualsZero}"/>
+                    <MenuItem Click="Button_Click" Tag="$Find{f(x) @ x = a : b}"         Header="{x:Static wpf:MainWindowResources.NonStrictRootFinding}"/>
+                    <MenuItem Click="Button_Click" Tag="$Sup{f(x) @ x = a : b}"          Header="{x:Static wpf:MainWindowResources.LocalMaximum}"/>
+                    <MenuItem Click="Button_Click" Tag="$Inf{f(x) @ x = a : b}"          Header="{x:Static wpf:MainWindowResources.LocalMinimum}"/>
+                    <MenuItem Click="Button_Click" Tag="$Area{f(x) @ x = a : b}"         Header="{x:Static wpf:MainWindowResources.AdaptiveGaussLobattoIntegration}"/>
+                    <MenuItem Click="Button_Click" Tag="$Integral{f(x) @ x = a : b}"     Header="{x:Static wpf:MainWindowResources.TanhSinhIntegration}"/>
+                    <MenuItem Click="Button_Click" Tag="$Slope{f(x) @ x = a}"            Header="{x:Static wpf:MainWindowResources.NumericalDifferentiation}"/>
                     <Separator/>
-                    <MenuItem Click="Button_Click" Tag="$Sum{f(k) @ k = a : b}"          Header="Iterative Sum"/>
-                    <MenuItem Click="Button_Click" Tag="$Product{f(k) @ k = a : b}"      Header="Iterative Product"/>
-                    <MenuItem Click="Button_Click" Tag="$Repeat{f(k) @ k = a : b}"       Header="General Inline Iterative Procedure"/>
+                    <MenuItem Click="Button_Click" Tag="$Sum{f(k) @ k = a : b}"          Header="{x:Static wpf:MainWindowResources.IterativeSum}"/>
+                    <MenuItem Click="Button_Click" Tag="$Product{f(k) @ k = a : b}"      Header="{x:Static wpf:MainWindowResources.IterativeProduct}"/>
+                    <MenuItem Click="Button_Click" Tag="$Repeat{f(k) @ k = a : b}"       Header="{x:Static wpf:MainWindowResources.GeneralInlineIterativeProcedure}"/>
                 </MenuItem>
-                <MenuItem Header="Program Flow Control">
-                    <MenuItem Click="Button_Click" Tag="#if 'condition§'Your code here§#end if" Header="Simple: if-end if"/>
-                    <MenuItem Click="Button_Click" Tag="#if 'condition§'Your code here§#else§'Your code here§#end if" Header="Alternative: if-else-end if"/>
-                    <MenuItem Click="Button_Click" Tag="#if 'condition§'Your code here§#else if 'condition§'Your code here§#else§'Some other code§#end if" Header="Complete: if-else if-else-end if"/>
+                <MenuItem Header="{x:Static wpf:MainWindowResources.ProgramFlowControl}">
+                    <MenuItem Click="Button_Click" Tag="#if 'condition§'Your code here§#end if" Header="{x:Static wpf:MainWindowResources.SimpleIfEndIf}"/>
+                    <MenuItem Click="Button_Click" Tag="#if 'condition§'Your code here§#else§'Your code here§#end if" Header="{x:Static wpf:MainWindowResources.AlternativeIfElseEndIf}"/>
+                    <MenuItem Click="Button_Click" Tag="#if 'condition§'Your code here§#else if 'condition§'Your code here§#else§'Some other code§#end if" Header="{x:Static wpf:MainWindowResources.CompleteIfElseIfElseIfEndIf}"/>
                 </MenuItem>
-                <MenuItem Header="Iteration">
-                    <MenuItem Click="Button_Click" Tag="#repeat 'number of repetitions§'Your code here§#loop" Header="Simple: repeat-loop"/>
-                    <MenuItem Click="Button_Click" Tag="#repeat 'number of repetitions§'Your code here§#if 'condition§#break§#end if§'Some more code§#loop" Header="Conditional: repeat-break-loop"/>
-                    <MenuItem Click="Button_Click" Tag="#repeat 'number of repetitions§'Your code here§#if 'condition§#continue§#end if§'Some more code§#loop" Header="Conditional: repeat-continue-loop"/>
+                <MenuItem Header="{x:Static wpf:MainWindowResources.Iteration}">
+                    <MenuItem Click="Button_Click" Tag="#repeat 'number of repetitions§'Your code here§#loop" Header="{x:Static wpf:MainWindowResources.SimpleRepeatLoop}"/>
+                    <MenuItem Click="Button_Click" Tag="#repeat 'number of repetitions§'Your code here§#if 'condition§#break§#end if§'Some more code§#loop" Header="{x:Static wpf:MainWindowResources.ConditionalRepeatBreakLoop}"/>
+                    <MenuItem Click="Button_Click" Tag="#repeat 'number of repetitions§'Your code here§#if 'condition§#continue§#end if§'Some more code§#loop" Header="{x:Static wpf:MainWindowResources.ConditionalRepeatContinueLoop}"/>
                 </MenuItem>
-                <MenuItem Header="String Variable or Macro">
-                    <MenuItem Click="Button_Click" Tag="#def variable_name$ = content" Header="Inline String Variable"/>
-                    <MenuItem Click="Button_Click" Tag="#def variable_name$§'content line 1§'content line 2§'...§#end def" Header="Multiline String Variable"/>
-                    <MenuItem Click="Button_Click" Tag="#def macro_name$(param1$; param2$) = content" Header="Inline Macro"/>
-                    <MenuItem Click="Button_Click" Tag="#def macro_name$(param1$; param2$)§'content line 1§'content line 2§'...§#end def" Header="Multiline Macro"/>
-                    <MenuItem Click="Button_Click" Tag="#include filename.cpd" Header="Include External File"/>
+                <MenuItem Header="{x:Static wpf:MainWindowResources.StringVariableOrMacro}">
+                    <MenuItem Click="Button_Click" Tag="#def variable_name$ = content" Header="{x:Static wpf:MainWindowResources.InlineStringVariable}"/>
+                    <MenuItem Click="Button_Click" Tag="#def variable_name$§'content line 1§'content line 2§'...§#end def" Header="{x:Static wpf:MainWindowResources.MultilineStringVariable}"/>
+                    <MenuItem Click="Button_Click" Tag="#def macro_name$(param1$; param2$) = content" Header="{x:Static wpf:MainWindowResources.InlineMacro}"/>
+                    <MenuItem Click="Button_Click" Tag="#def macro_name$(param1$; param2$)§'content line 1§'content line 2§'...§#end def" Header="{x:Static wpf:MainWindowResources.MultilineMacro}"/>
+                    <MenuItem Click="Button_Click" Tag="#include filename.cpd" Header="{x:Static wpf:MainWindowResources.IncludeExternalFile}"/>
                 </MenuItem>
                 <MenuItem Header="Html">
                     <MenuItem Click="Button_Click" Tag="&lt;h3&gt;|&lt;/h3&gt;" Icon="H3" FontWeight="SemiBold">
                         <MenuItem.Header>
-                            <TextBlock Text="Heading 3"  FontSize="16" />
+                            <TextBlock Text="{x:Static wpf:MainWindowResources.Heading3}"  FontSize="16" />
                         </MenuItem.Header>
                     </MenuItem>
                     <MenuItem Click="Button_Click" Tag="&lt;h4&gt;|&lt;/h4&gt;" Icon="H4" FontWeight="SemiBold">
                         <MenuItem.Header>
-                            <TextBlock Text="Heading 4" FontSize="15" />
+                            <TextBlock Text="{x:Static wpf:MainWindowResources.Heading4}" FontSize="15" />
                         </MenuItem.Header>
                     </MenuItem>
                     <MenuItem Click="Button_Click" Tag="&lt;h5&gt;|&lt;/h5&gt;" Icon="H5" FontWeight="SemiBold">
                         <MenuItem.Header>
-                            <TextBlock Text="Heading 5"  FontSize="14" />
+                            <TextBlock Text="{x:Static wpf:MainWindowResources.Heading5}"  FontSize="14" />
                         </MenuItem.Header>
                     </MenuItem>
                     <MenuItem Click="Button_Click" Tag="&lt;h6&gt;|&lt;/h6&gt;" Icon="H6" FontWeight="SemiBold">
                         <MenuItem.Header>
-                            <TextBlock Text="Heading 6"  FontSize="13" />
+                            <TextBlock Text="{x:Static wpf:MainWindowResources.Heading6}"  FontSize="13" />
                         </MenuItem.Header>
                     </MenuItem>
-                    <MenuItem Click="Button_Click" Tag="&lt;p&gt;|&lt;/p&gt;"   Header="Paragraph"  Icon="  ¶"/>
-                    <MenuItem Click="Button_Click" Tag="|&lt;br /&gt;"          Header="Line Break" Icon=" ⏎"/>
+                    <MenuItem Click="Button_Click" Tag="&lt;p&gt;|&lt;/p&gt;"   Header="{x:Static wpf:MainWindowResources.Paragraph}"  Icon="  ¶"/>
+                    <MenuItem Click="Button_Click" Tag="|&lt;br /&gt;"          Header="{x:Static wpf:MainWindowResources.LineBreak}" Icon=" ⏎"/>
                     <Separator/>
                     <MenuItem x:Name="BoldMenu" Click="Button_Click" Tag="&lt;strong&gt;|&lt;/strong&gt;" 
-                              Header="Bold" Icon="  B" FontWeight="Bold" InputGestureText="Ctrl+B"/>
+                              Header="{x:Static wpf:MainWindowResources.Bold}" Icon="  B" FontWeight="Bold" InputGestureText="Ctrl+B"/>
                     <MenuItem x:Name="ItalicMenu" Click="Button_Click" Tag="&lt;em&gt;|&lt;/em&gt;" 
-                              Header="Italic" Icon="  I" FontStyle="Italic" FontFamily="Georgia" InputGestureText="Ctrl+I"/>
+                              Header="{x:Static wpf:MainWindowResources.Italic}" Icon="  I" FontStyle="Italic" FontFamily="Georgia" InputGestureText="Ctrl+I"/>
                     <MenuItem x:Name="UnderlineMenu" Click="Button_Click" Tag="&lt;ins&gt;|&lt;/ins&gt;" InputGestureText="Ctrl+U">
                         <MenuItem.Header>
-                            <TextBlock Text="Underline" TextDecorations="Underline" />
+                            <TextBlock Text="{x:Static wpf:MainWindowResources.Underline}" TextDecorations="Underline" />
                         </MenuItem.Header>
                         <MenuItem.Icon>
                             <TextBlock Text="U" TextDecorations="Underline" HorizontalAlignment="Center"/>
@@ -941,81 +941,81 @@
                     </MenuItem>
                     <MenuItem Click="Button_Click" Tag="&lt;del&gt;|&lt;/del&gt;">
                         <MenuItem.Header>
-                            <TextBlock Text="Striketrough" TextDecorations="Strikethrough"/>
+                            <TextBlock Text="{x:Static wpf:MainWindowResources.Strikethrough}" TextDecorations="Strikethrough"/>
                         </MenuItem.Header>
                         <MenuItem.Icon>
                             <TextBlock Text="S" TextDecorations="Strikethrough" HorizontalAlignment="Center"/>
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem x:Name="SubscriptMenu" Click="Button_Click" Tag="&lt;sub&gt;|&lt;/sub&gt;" 
-                              Header="Subscript" Icon=" X₂" InputGestureText="Ctrl+&quot;+&quot;"/>
+                              Header="{x:Static wpf:MainWindowResources.Subscript}" Icon=" X₂" InputGestureText="Ctrl+&quot;+&quot;"/>
                     <MenuItem x:Name="SuperscriptMenu" Click="Button_Click" Tag="&lt;sup&gt;|&lt;/sup&gt;" 
-                              Header="Superscript" Icon=" X²" InputGestureText="Ctrl+Shift+&quot;+&quot;"/>
+                              Header="{x:Static wpf:MainWindowResources.Superscript}" Icon=" X²" InputGestureText="Ctrl+Shift+&quot;+&quot;"/>
                     <MenuItem Click="Button_Click" Tag="&lt;span class=&quot;err&quot;&gt;|&lt;/span&gt;" 
-                              Header="Red Color" Foreground="Red" Icon="  R"/>
+                              Header="{x:Static wpf:MainWindowResources.RedColor}" Foreground="Red" Icon="  R"/>
                     <Separator/>
                     <MenuItem Click="Button_Click" Tag="&lt;span&gt;|&lt;/span&gt;" Header="Span" Icon=" ‹/›"/>
                     <MenuItem Click="Button_Click" Tag="'&lt;div&gt;§'&lt;/div&gt;" Header="Div" Icon=" ‹/›"/>
                     <MenuItem Click="Button_Click" Tag="'&lt;div class=&quot;fold&quot;&gt;§'&lt;h4&gt;Heading&lt;/h4&gt;§'Folded content§'&lt;/div&gt;" 
-                              Header="Folded Div" Icon=" ▼"/>
+                              Header="{x:Static wpf:MainWindowResources.FoldedDiv}" Icon=" ▼"/>
                     <Separator/>
                     <MenuItem x:Name="BulletsMenu" Click="Button_Click" Tag="'&lt;ul&gt;§'&lt;li&gt;Item 1&lt;/li&gt;§'&lt;li&gt;Item 2&lt;/li&gt;§'&lt;li&gt;Item 3&lt;/li&gt;§'&lt;/ul&gt;" 
-                              Header="Bulleted List" Icon=" •••" InputGestureText="Ctrl+Shift+L"/>
+                              Header="{x:Static wpf:MainWindowResources.BulletedList}" Icon=" •••" InputGestureText="Ctrl+Shift+L"/>
                     <MenuItem x:Name="NumberingMenu" Click="Button_Click" Tag="'&lt;ol&gt;§'&lt;li&gt;Item 1&lt;/li&gt;§'&lt;li&gt;Item 2&lt;/li&gt;§'&lt;li&gt;Item 3&lt;/li&gt;§'&lt;/ol&gt;" 
-                              Header="Numbered List" InputGestureText="Ctrl+Shift+N">
+                              Header="{x:Static wpf:MainWindowResources.NumberedList}" InputGestureText="Ctrl+Shift+N">
                         <MenuItem.Icon>
                             <TextBlock Text=" 123" FontSize="10" FontWeight="SemiBold"/>
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Click="Button_Click" Tag="'&lt;img src=&quot;&quot; alt=&quot;&quot; style=&quot;float:right;&quot; /&gt;"
-                              Header="Image" Icon=" 🖼️"/>
+                              Header="{x:Static wpf:MainWindowResources.Image}" Icon=" 🖼️"/>
                     <MenuItem Click="Button_Click" Tag="§'&lt;table class=&quot;bordered&quot;&gt;§'&lt;thead&gt;§'&lt;tr&gt;&lt;th&gt;col 1&lt;/th&gt;&lt;th&gt;col 2&lt;/th&gt;&lt;/tr&gt;§'&lt;/thead&gt;§'&lt;tbody&gt;§'&lt;tr&gt;&lt;td&gt;'11'&lt;/td&gt;&lt;td&gt;'12'&lt;/td&gt;&lt;/tr&gt;§'&lt;tr&gt;&lt;td&gt;'21'&lt;/td&gt;&lt;td&gt;'22'&lt;/td&gt;&lt;/tr&gt;§'&lt;/tbody&gt;§'&lt;/table&gt;§"
-                              Header="Table">
+                              Header="{x:Static wpf:MainWindowResources.Table}">
                         <MenuItem.Icon>
                             <TextBlock Text=" ▦" FontSize="18"/>
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Click="Button_Click" Tag="'&lt;hr /&gt;" Header="Dividing Line" Icon=" —"/>
+                    <MenuItem Click="Button_Click" Tag="'&lt;hr /&gt;" Header="{x:Static wpf:MainWindowResources.DividingLine}" Icon=" —"/>
                 </MenuItem>
-                <MenuItem Header="Html UI">
-                    <MenuItem Click="Button_Click" Tag="§'Select an option: &lt;select name=&quot;target1&quot;&gt;§'&lt;option value=&quot;11;12&quot;&gt;x1; y1&lt;/option&gt;§'&lt;option value=&quot;21;22&quot;&gt;x2; y2&lt;/option&gt;§'&lt;option value=&quot;31;32&quot;&gt;x3; y3&lt;/option&gt;§'&lt;/select&gt;§'...§'&lt;p id=&quot;target1&quot;&gt; Values:'x = ? {21}','y = ? {22}'&lt;/p&gt;§" Header="Selection"/>
-                    <MenuItem Click="Button_Click" Tag="§'&lt;p&gt;Select: §'&lt;input name=&quot;target2&quot; type=&quot;radio&quot; id=&quot;opt1&quot; value=&quot;1&quot;/&gt;§'&lt;label for=&quot;opt1&quot;&gt;option 1&lt;/label&gt;§'&lt;input name=&quot;target2&quot; type=&quot;radio&quot; id=&quot;opt2&quot; value=&quot;2&quot;/&gt;§'&lt;label for=&quot;opt2&quot;&gt;option 2&lt;/label&gt;§'...§'&lt;p id=&quot;target2&quot;&gt;Value -'opt = ? {2}'&lt;/p&gt;§" Header="Radio Buttons"/>
-                    <MenuItem Click="Button_Click" Tag="§'&lt;p&gt;&lt;input name=&quot;target3&quot; type=&quot;checkbox&quot; id=&quot;chk1&quot; value=&quot;3&quot;/&gt;§'&lt;label for=&quot;chk1&quot;&gt;Checkbox 1&lt;/label&gt;&lt;/p&gt;§'...§'&lt;p id=&quot;target3&quot;&gt;Value -'chk = ? {3}'&lt;/p&gt;§" Header="Checkbox"/>
+                <MenuItem Header="{x:Static wpf:MainWindowResources.HtmlUI}">
+                    <MenuItem Click="Button_Click" Tag="§'Select an option: &lt;select name=&quot;target1&quot;&gt;§'&lt;option value=&quot;11;12&quot;&gt;x1; y1&lt;/option&gt;§'&lt;option value=&quot;21;22&quot;&gt;x2; y2&lt;/option&gt;§'&lt;option value=&quot;31;32&quot;&gt;x3; y3&lt;/option&gt;§'&lt;/select&gt;§'...§'&lt;p id=&quot;target1&quot;&gt; Values:'x = ? {21}','y = ? {22}'&lt;/p&gt;§" Header="{x:Static wpf:MainWindowResources.Selection}"/>
+                    <MenuItem Click="Button_Click" Tag="§'&lt;p&gt;Select: §'&lt;input name=&quot;target2&quot; type=&quot;radio&quot; id=&quot;opt1&quot; value=&quot;1&quot;/&gt;§'&lt;label for=&quot;opt1&quot;&gt;option 1&lt;/label&gt;§'&lt;input name=&quot;target2&quot; type=&quot;radio&quot; id=&quot;opt2&quot; value=&quot;2&quot;/&gt;§'&lt;label for=&quot;opt2&quot;&gt;option 2&lt;/label&gt;§'...§'&lt;p id=&quot;target2&quot;&gt;Value -'opt = ? {2}'&lt;/p&gt;§" Header="{x:Static wpf:MainWindowResources.RadioButtons}"/>
+                    <MenuItem Click="Button_Click" Tag="§'&lt;p&gt;&lt;input name=&quot;target3&quot; type=&quot;checkbox&quot; id=&quot;chk1&quot; value=&quot;3&quot;/&gt;§'&lt;label for=&quot;chk1&quot;&gt;Checkbox 1&lt;/label&gt;&lt;/p&gt;§'...§'&lt;p id=&quot;target3&quot;&gt;Value -'chk = ? {3}'&lt;/p&gt;§" Header="{x:Static wpf:MainWindowResources.Checkbox}"/>
                 </MenuItem>
-                <MenuItem Header="Drawing/SVG">
-                    <MenuItem Click="Button_Click" Tag="#val§#hide§w = 400§h = 400§#show§'&lt;svg viewbox=&quot;'0' '0' 'w' 'h'&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; version=&quot;1.1&quot; style=&quot;font-size:16px; width:'w'px; height:'h'px&quot;&gt;§'&lt;rect x=&quot;'0'&quot; y=&quot;'0'&quot; width=&quot;'w'&quot; height=&quot;'h'&quot; style=&quot;stroke:black; stroke-width:1; fill:WhiteSmoke; fill-opacity:0.2; stroke-opacity:0.1&quot; /&gt;§'&lt;text x=&quot;'w/2'&quot; y=&quot;'h/2'&quot; text-anchor=&quot;middle&quot; fill=&quot;red&quot; style=&quot;font-size:32px;&quot;&gt;Your drawing goes here!&lt;/text&gt;§'&lt;/svg&gt;§#equ" Header="Drawing"/>
-                    <MenuItem Click="Button_Click" Tag="#hide§x1 = 30§y1 = 30§x2 = 380§y2 = 200§#show§'&lt;line x1=&quot;'x1'&quot; y1=&quot;'y1'&quot; x2=&quot;'x2'&quot; y2=&quot;'y2'&quot; style=&quot;stroke:black; stroke-width:2; stroke-opacity:0.8&quot; /&gt;" Header="Line"/>
-                    <MenuItem Click="Button_Click" Tag="#hide§x = 80§y = 60§w = 300§h = 200§#show§'&lt;rect x=&quot;'x'&quot; y=&quot;'y'&quot; width=&quot;'w'&quot; height=&quot;'h'&quot; style=&quot;stroke:black; stroke-width:2; fill:yellow; fill-opacity:0.2; stroke-opacity:0.8&quot; /&gt;" Header="Rectangle"/>
-                    <MenuItem Click="Button_Click" Tag="#hide§cx = 250§cy = 150§r = 70§#show§'&lt;circle cx=&quot;'cx'&quot; cy=&quot;'cy'&quot; r=&quot;'r'&quot; style=&quot;stroke:black; stroke-width:2; fill:lime; fill-opacity:0.2; stroke-opacity:0.8&quot; /&gt;" Header="Circle"/>
-                    <MenuItem Click="Button_Click" Tag="#hide§cx = 300§cy = 320§rx = 80§ry = 50§#show§'&lt;ellipse cx=&quot;'cx'&quot; cy=&quot;'cy'&quot; rx=&quot;'rx'&quot; ry=&quot;'ry'&quot; style=&quot;stroke:black; stroke-width:2; fill:magenta; fill-opacity:0.1; stroke-opacity:0.8&quot; /&gt;" Header="Ellipse"/>
-                    <MenuItem Click="Button_Click" Tag="#hide§x1 = 20','y1 = 40§x2 = 60','y2 = 350§x3 = 250','y3 = 300§x4 = 360','y4 = 150§#show§'&lt;polyline points=&quot;'x1','y1' 'x2','y2' 'x3','y3' 'x4','y4'&quot; style=&quot;stroke:black; stroke-width:2; fill:none; fill-opacity:0.2; stroke-opacity:0.8&quot; /&gt;" Header="Polyline"/>
-                    <MenuItem Click="Button_Click" Tag="#hide§x1 = 150','y1 = 20§x2 = 10','y2 = 140§x3 = 120','y3 = 360§x4 = 280','y4 = 120§#show§'&lt;polygon points=&quot;'x1','y1' 'x2','y2' 'x3','y3' 'x4','y4'&quot; style=&quot;stroke:black; stroke-width:2; fill:cyan; fill-opacity:0.2; stroke-opacity:0.8&quot; /&gt;" Header="Polygon"/>
-                    <MenuItem Click="Button_Click" Tag="#hide§x = 50§y = 30§#show§'&lt;text x=&quot;'x'&quot; y=&quot;'y'&quot; text-anchor=&quot;start&quot;&gt;text1&lt;/text&gt;§" Header="Text"/>
+                <MenuItem Header="{x:Static wpf:MainWindowResources.DrawingSVG}">
+                    <MenuItem Click="Button_Click" Tag="#val§#hide§w = 400§h = 400§#show§'&lt;svg viewbox=&quot;'0' '0' 'w' 'h'&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; version=&quot;1.1&quot; style=&quot;font-size:16px; width:'w'px; height:'h'px&quot;&gt;§'&lt;rect x=&quot;'0'&quot; y=&quot;'0'&quot; width=&quot;'w'&quot; height=&quot;'h'&quot; style=&quot;stroke:black; stroke-width:1; fill:WhiteSmoke; fill-opacity:0.2; stroke-opacity:0.1&quot; /&gt;§'&lt;text x=&quot;'w/2'&quot; y=&quot;'h/2'&quot; text-anchor=&quot;middle&quot; fill=&quot;red&quot; style=&quot;font-size:32px;&quot;&gt;Your drawing goes here!&lt;/text&gt;§'&lt;/svg&gt;§#equ" Header="{x:Static wpf:MainWindowResources.Drawing}"/>
+                    <MenuItem Click="Button_Click" Tag="#hide§x1 = 30§y1 = 30§x2 = 380§y2 = 200§#show§'&lt;line x1=&quot;'x1'&quot; y1=&quot;'y1'&quot; x2=&quot;'x2'&quot; y2=&quot;'y2'&quot; style=&quot;stroke:black; stroke-width:2; stroke-opacity:0.8&quot; /&gt;" Header="{x:Static wpf:MainWindowResources.Line}"/>
+                    <MenuItem Click="Button_Click" Tag="#hide§x = 80§y = 60§w = 300§h = 200§#show§'&lt;rect x=&quot;'x'&quot; y=&quot;'y'&quot; width=&quot;'w'&quot; height=&quot;'h'&quot; style=&quot;stroke:black; stroke-width:2; fill:yellow; fill-opacity:0.2; stroke-opacity:0.8&quot; /&gt;" Header="{x:Static wpf:MainWindowResources.Rectangle}"/>
+                    <MenuItem Click="Button_Click" Tag="#hide§cx = 250§cy = 150§r = 70§#show§'&lt;circle cx=&quot;'cx'&quot; cy=&quot;'cy'&quot; r=&quot;'r'&quot; style=&quot;stroke:black; stroke-width:2; fill:lime; fill-opacity:0.2; stroke-opacity:0.8&quot; /&gt;" Header="{x:Static wpf:MainWindowResources.Circle}"/>
+                    <MenuItem Click="Button_Click" Tag="#hide§cx = 300§cy = 320§rx = 80§ry = 50§#show§'&lt;ellipse cx=&quot;'cx'&quot; cy=&quot;'cy'&quot; rx=&quot;'rx'&quot; ry=&quot;'ry'&quot; style=&quot;stroke:black; stroke-width:2; fill:magenta; fill-opacity:0.1; stroke-opacity:0.8&quot; /&gt;" Header="{x:Static wpf:MainWindowResources.Ellipse}"/>
+                    <MenuItem Click="Button_Click" Tag="#hide§x1 = 20','y1 = 40§x2 = 60','y2 = 350§x3 = 250','y3 = 300§x4 = 360','y4 = 150§#show§'&lt;polyline points=&quot;'x1','y1' 'x2','y2' 'x3','y3' 'x4','y4'&quot; style=&quot;stroke:black; stroke-width:2; fill:none; fill-opacity:0.2; stroke-opacity:0.8&quot; /&gt;" Header="{x:Static wpf:MainWindowResources.Polyline}"/>
+                    <MenuItem Click="Button_Click" Tag="#hide§x1 = 150','y1 = 20§x2 = 10','y2 = 140§x3 = 120','y3 = 360§x4 = 280','y4 = 120§#show§'&lt;polygon points=&quot;'x1','y1' 'x2','y2' 'x3','y3' 'x4','y4'&quot; style=&quot;stroke:black; stroke-width:2; fill:cyan; fill-opacity:0.2; stroke-opacity:0.8&quot; /&gt;" Header="{x:Static wpf:MainWindowResources.Polygon}"/>
+                    <MenuItem Click="Button_Click" Tag="#hide§x = 50§y = 30§#show§'&lt;text x=&quot;'x'&quot; y=&quot;'y'&quot; text-anchor=&quot;start&quot;&gt;text1&lt;/text&gt;§" Header="{x:Static wpf:MainWindowResources.Text}"/>
                 </MenuItem>
-                <MenuItem Header="Output Visibility Control">
-                    <MenuItem Click="Button_Click" Tag="#hide"  Header="#hide"   ToolTip="Hide the content after the current line"/>
-                    <MenuItem Click="Button_Click" Tag="#show"  Header="#show"   ToolTip="Always show the content (default)"/>
-                    <MenuItem Click="Button_Click" Tag="#pre"   Header="#pre"    ToolTip="Show the content bellow only before calculations"/>
-                    <MenuItem Click="Button_Click" Tag="#post"  Header="#post"   ToolTip="Show the content bellow only after calculations"/>
-                    <MenuItem Click="Button_Click" Tag="#pause" Header="#pause"  ToolTip="Pause the calculations and wait"/>
-                    <MenuItem Click="Button_Click" Tag="#input" Header="#input"  ToolTip="Pause the execution and display an input form"/>
+                <MenuItem Header="{x:Static wpf:MainWindowResources.OutputVisibilityControl}">
+                    <MenuItem Click="Button_Click" Tag="#hide"  Header="#hide"   ToolTip="{x:Static wpf:MainWindowResources.HideContentAfterCurrentLine}"/>
+                    <MenuItem Click="Button_Click" Tag="#show"  Header="#show"   ToolTip="{x:Static wpf:MainWindowResources.AlwaysShowContent}"/>
+                    <MenuItem Click="Button_Click" Tag="#pre"   Header="#pre"    ToolTip="{x:Static wpf:MainWindowResources.ShowContentBelowOnlyBeforeCalc}"/>
+                    <MenuItem Click="Button_Click" Tag="#post"  Header="#post"   ToolTip="{x:Static wpf:MainWindowResources.ShowContentBelowOnlyAfterCalc}"/>
+                    <MenuItem Click="Button_Click" Tag="#pause" Header="#pause"  ToolTip="{x:Static wpf:MainWindowResources.PauseCalculation}"/>
+                    <MenuItem Click="Button_Click" Tag="#input" Header="#input"  ToolTip="{x:Static wpf:MainWindowResources.PauseExecutionAndDisplayInputForm}"/>
                     <Separator/>
-                    <MenuItem Click="Button_Click" Tag="#val"   Header="#val"    ToolTip="Show only the calculated values"/>
-                    <MenuItem Click="Button_Click" Tag="#equ"   Header="#equ"    ToolTip="Show the complete equations (default)"/>
-                    <MenuItem Click="Button_Click" Tag="#noc"   Header="#noc"    ToolTip="Show the equations, but without calculating"/>
+                    <MenuItem Click="Button_Click" Tag="#val"   Header="#val"    ToolTip="{x:Static wpf:MainWindowResources.ShowOnlyCalculatedValues}"/>
+                    <MenuItem Click="Button_Click" Tag="#equ"   Header="#equ"    ToolTip="{x:Static wpf:MainWindowResources.ShowCompleteEquations}"/>
+                    <MenuItem Click="Button_Click" Tag="#noc"   Header="#noc"    ToolTip="{x:Static wpf:MainWindowResources.ShowEquationsWithoutCalculating}"/>
                     <Separator/>
-                    <MenuItem Click="Button_Click" Tag="#nosub"  Header="#nosub"  ToolTip="Do not substitute variables (no substitution)"/>
-                    <MenuItem Click="Button_Click" Tag="#novar"  Header="#novar"  ToolTip="Show equations only with substituted values (no variables)"/>
-                    <MenuItem Click="Button_Click" Tag="#varsub" Header="#varsub" ToolTip="Show equations with variables and substituted values (default)"/>
+                    <MenuItem Click="Button_Click" Tag="#nosub"  Header="#nosub"  ToolTip="{x:Static wpf:MainWindowResources.DoNotSubstituteVariables}"/>
+                    <MenuItem Click="Button_Click" Tag="#novar"  Header="#novar"  ToolTip="{x:Static wpf:MainWindowResources.ShowEquationsOnlyWithSubstitutedValues}"/>
+                    <MenuItem Click="Button_Click" Tag="#varsub" Header="#varsub" ToolTip="{x:Static wpf:MainWindowResources.ShowEquationsWithVariablesAndSubstitutedValues}"/>
                     <Separator/>
-                    <MenuItem Click="Button_Click" Tag="#split"  Header="#split"  ToolTip="Split equations that do not fit on a single line"/>
-                    <MenuItem Click="Button_Click" Tag="#wrap"   Header="#wrap"   ToolTip="Wrap equations that do not fit on a single line (default)"/>
+                    <MenuItem Click="Button_Click" Tag="#split"  Header="#split"  ToolTip="{x:Static wpf:MainWindowResources.SplitEquations}"/>
+                    <MenuItem Click="Button_Click" Tag="#wrap"   Header="#wrap"   ToolTip="{x:Static wpf:MainWindowResources.WrapEquations}"/>
                     <Separator/>
-                    <MenuItem Click="Button_Click" Tag="#round"  Header="#round"  ToolTip="Round to the specified digits after the decimal point"/>
+                    <MenuItem Click="Button_Click" Tag="#round"  Header="#round"  ToolTip="{x:Static wpf:MainWindowResources.RoundToTheSpecifiedDigits}"/>
                     <Separator/>
-                    <MenuItem Click="Button_Click" Tag="#deg"  Header="#deg"  ToolTip="Set angle measurement in degrees"/>
-                    <MenuItem Click="Button_Click" Tag="#rad"  Header="#rad"  ToolTip="Set angle measurement in radians"/>
-                    <MenuItem Click="Button_Click" Tag="#gra"  Header="#gra"  ToolTip="Set angle measurement in grades"/>
+                    <MenuItem Click="Button_Click" Tag="#deg"  Header="#deg"  ToolTip="{x:Static wpf:MainWindowResources.SetAngleDegrees}"/>
+                    <MenuItem Click="Button_Click" Tag="#rad"  Header="#rad"  ToolTip="{x:Static wpf:MainWindowResources.SetAngleRadians}"/>
+                    <MenuItem Click="Button_Click" Tag="#gra"  Header="#gra"  ToolTip="{x:Static wpf:MainWindowResources.SetAngleGrades}"/>
                 </MenuItem>
             </MenuItem>
             <MenuItem x:Name="MenuOutput" Header="{x:Static wpf:MainWindowResources.Output}">
@@ -1215,7 +1215,7 @@
                     <GradientStop Color="#FFE0E0E0" Offset="1"/>
                 </LinearGradientBrush>
             </StatusBar.Background>
-            <TextBlock Text="Round to " 
+            <TextBlock Text="{x:Static wpf:MainWindowResources.RoundTo}" 
                        Height="18" 
                        TextWrapping="Wrap" 
                        FontFamily="Segoe UI" 
@@ -1225,7 +1225,7 @@
                        Margin="10,0,0,0"/>
             <TextBox x:Name="DecimalsTextBox" 
                      Text="2" 
-                     ToolTip="Number of digits after the decimal point" 
+                     ToolTip="{x:Static wpf:MainWindowResources.NumberOfDigitsTooltip}" 
                      TextAlignment="Center"
                      UndoLimit="0" 
                      Height="22" 
@@ -1251,7 +1251,7 @@
                            HorizontalAlignment="Left"
                            ValueChanged="DecimalScrollBar_ValueChanged" />
             </StatusBarItem>
-            <TextBlock Text="digits"  
+            <TextBlock Text="{x:Static wpf:MainWindowResources.Digits}"  
                        Height="18" 
                        Width="35" 
                        FontFamily="Segoe UI" 
@@ -1259,8 +1259,8 @@
                        VerticalAlignment="Center" 
                        Margin="-5,0,0,0"/>
             <CheckBox x:Name="SubstituteCheckBox" 
-                      Content="Substitute" 
-                      ToolTip="Substitute variables in equations" 
+                      Content="{x:Static wpf:MainWindowResources.Substitute}" 
+                      ToolTip="{x:Static wpf:MainWindowResources.SubstituteTooltip}" 
                       Height="16" 
                       Width="76"
                       IsChecked="True" 
@@ -1270,7 +1270,7 @@
                       Padding="2,0,0,0"
                       TabIndex="1" 
                       Click="SubstituteCheckBox_Clicked" />
-            <TextBlock Text="Plot:" 
+            <TextBlock Text="{x:Static wpf:MainWindowResources.Plot}" 
                        Height="18" 
                        Width="27" 
                        FontFamily="Segoe UI" 
@@ -1278,8 +1278,8 @@
                        VerticalAlignment="Center" 
                        HorizontalAlignment="Left"/>
             <CheckBox x:Name="AdaptiveCheckBox" 
-                      Content="Adaptive" 
-                      ToolTip="Adaptive 1D function plot" 
+                      Content="{x:Static wpf:MainWindowResources.Adaptive}" 
+                      ToolTip="{x:Static wpf:MainWindowResources.AdaptiveTooltip}" 
                       IsChecked="True" 
                       Height="16" 
                       Width="72"
@@ -1288,8 +1288,8 @@
                       TabIndex="12" 
                       Click="AdaptiveCheckBox_Clicked"/>
             <CheckBox x:Name="ShadowsCheckBox" 
-                      Content="Shadows:" 
-                      ToolTip="Draw surface maps with shadows" 
+                      Content="{x:Static wpf:MainWindowResources.Shadows}" 
+                      ToolTip="{x:Static wpf:MainWindowResources.ShadowsTooltip}" 
                       Height="16" 
                       VerticalAlignment="Top"
                       HorizontalAlignment="Right" 
@@ -1297,37 +1297,37 @@
                       TabIndex="13" 
                       Click="ShadowsCheckBox_Clicked" />
             <ComboBox x:Name="LightDirectionComboBox" 
-                      ToolTip="Light direction" 
+                      ToolTip="{x:Static wpf:MainWindowResources.LightDirection}" 
                       Height="22"
                       Width="90" 
                       VerticalAlignment="Top" 
                       HorizontalAlignment="Center" 
                       TabIndex="14" 
                       SelectionChanged="LightDirectionComboBox_SelectionChanged" FontFamily="Segoe UI Semibold">
-                <ComboBoxItem Content="North"/>
-                <ComboBoxItem Content="North-east"/>
-                <ComboBoxItem Content="East"/>
-                <ComboBoxItem Content="South-east"/>
-                <ComboBoxItem Content="South"/>
-                <ComboBoxItem Content="South-west"/>
-                <ComboBoxItem Content="West"/>
-                <ComboBoxItem Content="North-west" IsSelected="True"/>
+                <ComboBoxItem Content="{x:Static wpf:MainWindowResources.North}"/>
+                <ComboBoxItem Content="{x:Static wpf:MainWindowResources.NorthEast}"/>
+                <ComboBoxItem Content="{x:Static wpf:MainWindowResources.East}"/>
+                <ComboBoxItem Content="{x:Static wpf:MainWindowResources.SouthEast}"/>
+                <ComboBoxItem Content="{x:Static wpf:MainWindowResources.South}"/>
+                <ComboBoxItem Content="{x:Static wpf:MainWindowResources.SouthWest}"/>
+                <ComboBoxItem Content="{x:Static wpf:MainWindowResources.West}"/>
+                <ComboBoxItem Content="{x:Static wpf:MainWindowResources.NorthWest}" IsSelected="True"/>
             </ComboBox>
-            <TextBlock Text="Palette:" 
+            <TextBlock Text="{x:Static wpf:MainWindowResources.Palette}" 
                        Height="18" 
                        VerticalAlignment="Center" 
                        HorizontalAlignment="Left" 
                        Margin="5,0,0,0"/>
             <ComboBox x:Name="ColorScaleComboBox" 
-                      ToolTip="Surface map color scale" 
+                      ToolTip="{x:Static wpf:MainWindowResources.PaletteTooltip}" 
                       Height="22"
                       Width="100" 
                       VerticalAlignment="Top" 
                       HorizontalAlignment="Right" 
                       TabIndex="15" 
                       SelectionChanged="ColorScaleComboBox_SelectionChanged" FontFamily="Segoe UI Semibold">
-                <ComboBoxItem Content="None" HorizontalAlignment="Left" Width="100" Margin="0,0,-2,0"/>
-                <ComboBoxItem Content="Gray" HorizontalAlignment="Left" Width="100" Margin="0,0,-2,0">
+                <ComboBoxItem Content="{x:Static wpf:MainWindowResources.None}" HorizontalAlignment="Left" Width="100" Margin="0,0,-2,0"/>
+                <ComboBoxItem Content="{x:Static wpf:MainWindowResources.Gray}" HorizontalAlignment="Left" Width="100" Margin="0,0,-2,0">
                     <ComboBoxItem.Background>
                         <LinearGradientBrush EndPoint="0,0.5" MappingMode="RelativeToBoundingBox" StartPoint="1,0.5">
                             <GradientStop Color="#FFFFFFFF"/>
@@ -1335,7 +1335,7 @@
                         </LinearGradientBrush>
                     </ComboBoxItem.Background>
                 </ComboBoxItem>
-                <ComboBoxItem Content="Rainbow" HorizontalAlignment="Left" Width="100" IsSelected="True">
+                <ComboBoxItem Content="{x:Static wpf:MainWindowResources.Rainbow}" HorizontalAlignment="Left" Width="100" IsSelected="True">
                     <ComboBoxItem.Background>
                         <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
                             <GradientStop Color="#FFFF0000" Offset="0"/>
@@ -1346,7 +1346,7 @@
                         </LinearGradientBrush>
                     </ComboBoxItem.Background>
                 </ComboBoxItem>
-                <ComboBoxItem Content="Terrain" HorizontalAlignment="Left" Width="100">
+                <ComboBoxItem Content="{x:Static wpf:MainWindowResources.Terrain}" HorizontalAlignment="Left" Width="100">
                     <ComboBoxItem.Background>
                         <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
                             <GradientStop Color="#FFFF7F00" Offset="0"/>
@@ -1356,7 +1356,7 @@
                         </LinearGradientBrush>
                     </ComboBoxItem.Background>
                 </ComboBoxItem>
-                <ComboBoxItem Content="Violet-yellow" HorizontalAlignment="Left" Width="100">
+                <ComboBoxItem Content="{x:Static wpf:MainWindowResources.VioletYellow}" HorizontalAlignment="Left" Width="100">
                     <ComboBoxItem.Background>
                         <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
                             <GradientStop Color="#FFffff00" Offset="0"/>
@@ -1364,7 +1364,7 @@
                         </LinearGradientBrush>
                     </ComboBoxItem.Background>
                 </ComboBoxItem>
-                <ComboBoxItem Content="Green-yellow" HorizontalAlignment="Left" Width="100">
+                <ComboBoxItem Content="{x:Static wpf:MainWindowResources.GreenYellow}" HorizontalAlignment="Left" Width="100">
                     <ComboBoxItem.Background>
                         <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
                             <GradientStop Color="#FFffff00" Offset="0"/>
@@ -1372,7 +1372,7 @@
                         </LinearGradientBrush>
                     </ComboBoxItem.Background>
                 </ComboBoxItem>
-                <ComboBoxItem Content="Blues" HorizontalAlignment="Left" Width="100">
+                <ComboBoxItem Content="{x:Static wpf:MainWindowResources.Blues}" HorizontalAlignment="Left" Width="100">
                     <ComboBoxItem.Background>
                         <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
                             <GradientStop Color="#FF35fdff" Offset="0"/>
@@ -1382,8 +1382,8 @@
                 </ComboBoxItem>
             </ComboBox>
             <CheckBox x:Name="SmoothCheckBox" 
-                    Content="Smooth" 
-                    ToolTip="Smooth shading for surface map" 
+                    Content="{x:Static wpf:MainWindowResources.Smooth}" 
+                    ToolTip="{x:Static wpf:MainWindowResources.SmoothTooltip}" 
                     Height="16" 
                     VerticalAlignment="Top"
                     HorizontalAlignment="Right" 
@@ -1394,11 +1394,11 @@
             <TextBlock Height="18" 
                        TextWrapping="Wrap" 
                        VerticalAlignment="Top" 
-                       Text="External browser:" 
+                       Text="{x:Static wpf:MainWindowResources.ExternalBrowser}" 
                        HorizontalAlignment="Left" 
                        Margin="5,0,0,0"/>
             <ComboBox x:Name="ExternalBrowserComboBox" 
-                      ToolTip="External browser for opening links in reports" 
+                      ToolTip="{x:Static wpf:MainWindowResources.ExternalBrowserTooltip}" 
                       Height="22"
                       Width="75" 
                       VerticalAlignment="Top" 
@@ -1439,7 +1439,7 @@
                 <ColumnDefinition Width="2" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <GroupBox x:Name="InputFrame" Header="Code" FontSize="13" FontFamily="Segoe UI Semibold"
+            <GroupBox x:Name="InputFrame" Header="{x:Static wpf:MainWindowResources.Code}" FontSize="13" FontFamily="Segoe UI Semibold"
                       Margin="6,1,4,1" MinWidth="575" HorizontalAlignment="Stretch" BorderBrush="#AACCCCCC">
                 <GroupBox.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -1486,7 +1486,7 @@
                         </FlowDocument>
                     </RichTextBox>
                     <Grid x:Name="KeyPadGrid" Grid.Row="1" Margin="1,0,1,0">
-                        <Label Content="┌── Numbers ──┐ ┌──── Operators ─────┐ ┌──────── Functions ────────┐" HorizontalAlignment="Left" Padding="1" Height="22" VerticalAlignment="Top" Width="404" BorderThickness="0,0,0,1" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" FontSize="12" Margin="3,6,0,0" FontFamily="Segoe UI Semibold"/>
+                        <Label Content="{x:Static wpf:MainWindowResources.KeypadLabel}" HorizontalAlignment="Left" Padding="1" Height="22" VerticalAlignment="Top" Width="404" BorderThickness="0,0,0,1" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" FontSize="12" Margin="3,6,0,0" FontFamily="Segoe UI Semibold"/>
                         <Button Click="Button_Click" x:Name="SqrButton" Tag="^2" Margin="197,31,0,0" Style="{StaticResource RoundButton}" ToolTip="Raise to square">
                             <TextBlock><Run Text=" x"/><Run BaselineAlignment="TextTop" FontSize="10" Text=" 2"/></TextBlock>
                         </Button>
@@ -1565,7 +1565,7 @@
                             Style="{StaticResource RoundButton}" FontSize="13" ToolTip="Find a root of equation f(x) = 0"
                             Width="46" FontWeight="Normal"/>
                         <Button Click="Button_Click" Content="{x:Static wpf:Units.Area}" Tag="$Area{f(x) @ x = a : b}" Margin="475,91,0,0"
-                            Style="{StaticResource RoundButton}" FontSize="13" ToolTip="Numerical integration (Adaptive Gauss-Lobatto)" Width="46" FontWeight="Normal"/>
+                            Style="{StaticResource RoundButton}" FontSize="13" ToolTip="{x:Static wpf:MainWindowResources.AdaptiveGaussLobattoIntegration}" Width="46" FontWeight="Normal"/>
                         <Button Click="Button_Click" Content="Slope" Tag="$Slope{f(x) @ x = a}" Margin="523,91,0,0"
                             Style="{StaticResource RoundButton}" FontSize="13" ToolTip="Numerical differentiation"
                             Width="48" FontWeight="Normal"/>
@@ -1583,12 +1583,12 @@
                         <Button Click="Button_Click" x:Name="SecButton" Content="sec" Tag="sec(" Margin="275,61,0,0"
                             Style="{StaticResource RoundButton}" FontSize="14" ToolTip="{x:Static wpf:Constants.Secant}" Width="42" VerticalAlignment="Top"/>
                         <Button Click="Button_Click" Content="π" Tag="π" Margin="409,61,0,0" Style="{StaticResource RoundButton}"
-                            FontStyle="Italic" ToolTip="Constant π (pi)" FontSize="16" FontFamily="Times New Roman" VerticalAlignment="Top"/>
+                            FontStyle="Italic" ToolTip="{x:Static wpf:Constants.Pi}" FontSize="16" FontFamily="Times New Roman" VerticalAlignment="Top"/>
                         <Button Click="Button_Click" Content="C" Tag="C" Margin="441,61,0,0" Style="{StaticResource RoundButton}" Foreground="Red" ToolTip="Backspace" FontSize="13" FontWeight="Bold" VerticalAlignment="Top"/>
                         <Button Click="Button_Click" Content="Sup" Tag="$Sup{f(x) @ x = a : b}" Margin="475,61,0,0"
-                            Style="{StaticResource RoundButton}" FontSize="13" ToolTip="Local maximum of a function" Width="46" FontWeight="Normal" VerticalAlignment="Top"/>
+                            Style="{StaticResource RoundButton}" FontSize="13" ToolTip="{x:Static wpf:MainWindowResources.LocalMaximum}" Width="46" FontWeight="Normal" VerticalAlignment="Top"/>
                         <Button Click="Button_Click" Content="Inf" Tag="$Inf{f(x) @ x = a : b}" Margin="523,61,0,0"
-                            Style="{StaticResource RoundButton}" FontSize="13" ToolTip="Local minimum of a function" Width="48" FontWeight="Normal" Height="28" VerticalAlignment="Top"/>
+                            Style="{StaticResource RoundButton}" FontSize="13" ToolTip="{x:Static wpf:MainWindowResources.LocalMinimum}" Width="48" FontWeight="Normal" Height="28" VerticalAlignment="Top"/>
                     </Grid>
                     <Canvas x:Name="LineNumbers" HorizontalAlignment="Left" Margin="6,5,0,26" Width="40"/>
                     <Border BorderThickness="0,0,1,0" HorizontalAlignment="Left" Margin="0,5,0,24" Width="50" BorderBrush="#FFE3E3E3"/>

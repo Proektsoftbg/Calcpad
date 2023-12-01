@@ -60,6 +60,60 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 2D Color Map of a Surface.
+        /// </summary>
+        public static string _2DColorMap {
+            get {
+                return ResourceManager.GetString("2DColorMap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Adaptive.
+        /// </summary>
+        public static string Adaptive {
+            get {
+                return ResourceManager.GetString("Adaptive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Adaptive Gauss-Lobatto Integration.
+        /// </summary>
+        public static string AdaptiveGaussLobattoIntegration {
+            get {
+                return ResourceManager.GetString("AdaptiveGaussLobattoIntegration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Adaptive 1D function plot.
+        /// </summary>
+        public static string AdaptiveTooltip {
+            get {
+                return ResourceManager.GetString("AdaptiveTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Alternative: if-else-end if.
+        /// </summary>
+        public static string AlternativeIfElseEndIf {
+            get {
+                return ResourceManager.GetString("AlternativeIfElseEndIf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Always show the content (default).
+        /// </summary>
+        public static string AlwaysShowContent {
+            get {
+                return ResourceManager.GetString("AlwaysShowContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Angles:.
         /// </summary>
         public static string Angles {
@@ -78,6 +132,33 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Blues.
+        /// </summary>
+        public static string Blues {
+            get {
+                return ResourceManager.GetString("Blues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bold.
+        /// </summary>
+        public static string Bold {
+            get {
+                return ResourceManager.GetString("Bold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bulleted List.
+        /// </summary>
+        public static string BulletedList {
+            get {
+                return ResourceManager.GetString("BulletedList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://calcpad.eu/download/help.html.
         /// </summary>
         public static string calcpad_download_help_html {
@@ -92,6 +173,33 @@ namespace Calcpad.Wpf {
         public static string Calculate {
             get {
                 return ResourceManager.GetString("Calculate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Checkbox.
+        /// </summary>
+        public static string Checkbox {
+            get {
+                return ResourceManager.GetString("Checkbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Circle.
+        /// </summary>
+        public static string Circle {
+            get {
+                return ResourceManager.GetString("Circle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Code.
+        /// </summary>
+        public static string Code {
+            get {
+                return ResourceManager.GetString("Code", resourceCulture);
             }
         }
         
@@ -132,6 +240,33 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Complete: if-else if-else-end if.
+        /// </summary>
+        public static string CompleteIfElseIfElseIfEndIf {
+            get {
+                return ResourceManager.GetString("CompleteIfElseIfElseIfEndIf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Conditional: repeat-break-loop.
+        /// </summary>
+        public static string ConditionalRepeatBreakLoop {
+            get {
+                return ResourceManager.GetString("ConditionalRepeatBreakLoop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Conditional: repeat-continue-loop.
+        /// </summary>
+        public static string ConditionalRepeatContinueLoop {
+            get {
+                return ResourceManager.GetString("ConditionalRepeatContinueLoop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _Copy.
         /// </summary>
         public static string Copy {
@@ -159,11 +294,74 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to digits.
+        /// </summary>
+        public static string Digits {
+            get {
+                return ResourceManager.GetString("Digits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dividing Line.
+        /// </summary>
+        public static string DividingLine {
+            get {
+                return ResourceManager.GetString("DividingLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do not substitute variables (no substitution).
+        /// </summary>
+        public static string DoNotSubstituteVariables {
+            get {
+                return ResourceManager.GetString("DoNotSubstituteVariables", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Drawing.
+        /// </summary>
+        public static string Drawing {
+            get {
+                return ResourceManager.GetString("Drawing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Drawing/SVG.
+        /// </summary>
+        public static string DrawingSVG {
+            get {
+                return ResourceManager.GetString("DrawingSVG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to East.
+        /// </summary>
+        public static string East {
+            get {
+                return ResourceManager.GetString("East", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _Edit.
         /// </summary>
         public static string Edit {
             get {
                 return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ellipse.
+        /// </summary>
+        public static string Ellipse {
+            get {
+                return ResourceManager.GetString("Ellipse", resourceCulture);
             }
         }
         
@@ -222,6 +420,24 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to External browser:.
+        /// </summary>
+        public static string ExternalBrowser {
+            get {
+                return ResourceManager.GetString("ExternalBrowser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to External browser for opening links in reports.
+        /// </summary>
+        public static string ExternalBrowserTooltip {
+            get {
+                return ResourceManager.GetString("ExternalBrowserTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _File.
         /// </summary>
         public static string File {
@@ -258,11 +474,92 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Folded Div.
+        /// </summary>
+        public static string FoldedDiv {
+            get {
+                return ResourceManager.GetString("FoldedDiv", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;div class=&quot;errorHeader&quot;&gt;Found &lt;b&gt;{0}&lt;/b&gt; errors in modules and macros:.
         /// </summary>
         public static string Found_Errors_In_Modules_And_Macros {
             get {
                 return ResourceManager.GetString("Found_Errors_In_Modules_And_Macros", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Function Plot.
+        /// </summary>
+        public static string FunctionPlot {
+            get {
+                return ResourceManager.GetString("FunctionPlot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General Inline Iterative Procedure.
+        /// </summary>
+        public static string GeneralInlineIterativeProcedure {
+            get {
+                return ResourceManager.GetString("GeneralInlineIterativeProcedure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gray.
+        /// </summary>
+        public static string Gray {
+            get {
+                return ResourceManager.GetString("Gray", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Green-yellow.
+        /// </summary>
+        public static string GreenYellow {
+            get {
+                return ResourceManager.GetString("GreenYellow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Heading 3.
+        /// </summary>
+        public static string Heading3 {
+            get {
+                return ResourceManager.GetString("Heading3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Heading 4.
+        /// </summary>
+        public static string Heading4 {
+            get {
+                return ResourceManager.GetString("Heading4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Heading 5.
+        /// </summary>
+        public static string Heading5 {
+            get {
+                return ResourceManager.GetString("Heading5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Heading 6.
+        /// </summary>
+        public static string Heading6 {
+            get {
+                return ResourceManager.GetString("Heading6", resourceCulture);
             }
         }
         
@@ -276,11 +573,65 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hide the content after the current line.
+        /// </summary>
+        public static string HideContentAfterCurrentLine {
+            get {
+                return ResourceManager.GetString("HideContentAfterCurrentLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Html UI.
+        /// </summary>
+        public static string HtmlUI {
+            get {
+                return ResourceManager.GetString("HtmlUI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Image.
+        /// </summary>
+        public static string Image {
+            get {
+                return ResourceManager.GetString("Image", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Include External File.
+        /// </summary>
+        public static string IncludeExternalFile {
+            get {
+                return ResourceManager.GetString("IncludeExternalFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Stop! Inline Html elements must not cross text lines..
         /// </summary>
         public static string Inline_Html_elements_must_not_cross_text_lines {
             get {
                 return ResourceManager.GetString("Inline_Html_elements_must_not_cross_text_lines", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inline Macro.
+        /// </summary>
+        public static string InlineMacro {
+            get {
+                return ResourceManager.GetString("InlineMacro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inline String Variable.
+        /// </summary>
+        public static string InlineStringVariable {
+            get {
+                return ResourceManager.GetString("InlineStringVariable", resourceCulture);
             }
         }
         
@@ -303,11 +654,146 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to _Insert.
+        /// </summary>
+        public static string Insert {
+            get {
+                return ResourceManager.GetString("Insert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Insert Image.
         /// </summary>
         public static string InsertImage {
             get {
                 return ResourceManager.GetString("InsertImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Italic.
+        /// </summary>
+        public static string Italic {
+            get {
+                return ResourceManager.GetString("Italic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Iteration.
+        /// </summary>
+        public static string Iteration {
+            get {
+                return ResourceManager.GetString("Iteration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Iterative Product.
+        /// </summary>
+        public static string IterativeProduct {
+            get {
+                return ResourceManager.GetString("IterativeProduct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Iterative Sum.
+        /// </summary>
+        public static string IterativeSum {
+            get {
+                return ResourceManager.GetString("IterativeSum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ┌── Numbers ──┐ ┌──── Operators ─────┐ ┌──────── Functions ────────┐.
+        /// </summary>
+        public static string KeypadLabel {
+            get {
+                return ResourceManager.GetString("KeypadLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Light direction.
+        /// </summary>
+        public static string LightDirection {
+            get {
+                return ResourceManager.GetString("LightDirection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Line.
+        /// </summary>
+        public static string Line {
+            get {
+                return ResourceManager.GetString("Line", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Line Break.
+        /// </summary>
+        public static string LineBreak {
+            get {
+                return ResourceManager.GetString("LineBreak", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Local Maximum of a Function.
+        /// </summary>
+        public static string LocalMaximum {
+            get {
+                return ResourceManager.GetString("LocalMaximum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Local Minimum of a Function.
+        /// </summary>
+        public static string LocalMinimum {
+            get {
+                return ResourceManager.GetString("LocalMinimum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Multiline Macro.
+        /// </summary>
+        public static string MultilineMacro {
+            get {
+                return ResourceManager.GetString("MultilineMacro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Multiline String Variable.
+        /// </summary>
+        public static string MultilineStringVariable {
+            get {
+                return ResourceManager.GetString("MultilineStringVariable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Multiple.
+        /// </summary>
+        public static string Multiple {
+            get {
+                return ResourceManager.GetString("Multiple", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Multiple Parametric.
+        /// </summary>
+        public static string MultipleParametric {
+            get {
+                return ResourceManager.GetString("MultipleParametric", resourceCulture);
             }
         }
         
@@ -330,6 +816,15 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        public static string None {
+            get {
+                return ResourceManager.GetString("None", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Non-metric units:.
         /// </summary>
         public static string NonMetricUnits {
@@ -339,11 +834,83 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Non-Strict Root Finding.
+        /// </summary>
+        public static string NonStrictRootFinding {
+            get {
+                return ResourceManager.GetString("NonStrictRootFinding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to North.
+        /// </summary>
+        public static string North {
+            get {
+                return ResourceManager.GetString("North", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to North-east.
+        /// </summary>
+        public static string NorthEast {
+            get {
+                return ResourceManager.GetString("NorthEast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to North-west.
+        /// </summary>
+        public static string NorthWest {
+            get {
+                return ResourceManager.GetString("NorthWest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Numbered List.
+        /// </summary>
+        public static string NumberedList {
+            get {
+                return ResourceManager.GetString("NumberedList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of digits after the decimal point.
+        /// </summary>
+        public static string NumberOfDigitsTooltip {
+            get {
+                return ResourceManager.GetString("NumberOfDigitsTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Numbers: .
         /// </summary>
         public static string Numbers {
             get {
                 return ResourceManager.GetString("Numbers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Numerical Differentiation.
+        /// </summary>
+        public static string NumericalDifferentiation {
+            get {
+                return ResourceManager.GetString("NumericalDifferentiation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Numerical Method.
+        /// </summary>
+        public static string NumericalMethod {
+            get {
+                return ResourceManager.GetString("NumericalMethod", resourceCulture);
             }
         }
         
@@ -384,11 +951,101 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Output Visibility Control.
+        /// </summary>
+        public static string OutputVisibilityControl {
+            get {
+                return ResourceManager.GetString("OutputVisibilityControl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Palette:.
+        /// </summary>
+        public static string Palette {
+            get {
+                return ResourceManager.GetString("Palette", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Surface map color scale.
+        /// </summary>
+        public static string PaletteTooltip {
+            get {
+                return ResourceManager.GetString("PaletteTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paragraph.
+        /// </summary>
+        public static string Paragraph {
+            get {
+                return ResourceManager.GetString("Paragraph", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parametric.
+        /// </summary>
+        public static string Parametric {
+            get {
+                return ResourceManager.GetString("Parametric", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _Paste.
         /// </summary>
         public static string Paste {
             get {
                 return ResourceManager.GetString("Paste", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pause the calculations and wait.
+        /// </summary>
+        public static string PauseCalculation {
+            get {
+                return ResourceManager.GetString("PauseCalculation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pause the execution and display an input form.
+        /// </summary>
+        public static string PauseExecutionAndDisplayInputForm {
+            get {
+                return ResourceManager.GetString("PauseExecutionAndDisplayInputForm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Plot:.
+        /// </summary>
+        public static string Plot {
+            get {
+                return ResourceManager.GetString("Plot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Polygon.
+        /// </summary>
+        public static string Polygon {
+            get {
+                return ResourceManager.GetString("Polygon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Polyline.
+        /// </summary>
+        public static string Polyline {
+            get {
+                return ResourceManager.GetString("Polyline", resourceCulture);
             }
         }
         
@@ -411,11 +1068,56 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Program Flow Control.
+        /// </summary>
+        public static string ProgramFlowControl {
+            get {
+                return ResourceManager.GetString("ProgramFlowControl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Radio Buttons.
+        /// </summary>
+        public static string RadioButtons {
+            get {
+                return ResourceManager.GetString("RadioButtons", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rainbow.
+        /// </summary>
+        public static string Rainbow {
+            get {
+                return ResourceManager.GetString("Rainbow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _Recent Files.
         /// </summary>
         public static string RecentFiles {
             get {
                 return ResourceManager.GetString("RecentFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rectangle.
+        /// </summary>
+        public static string Rectangle {
+            get {
+                return ResourceManager.GetString("Rectangle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Red Color.
+        /// </summary>
+        public static string RedColor {
+            get {
+                return ResourceManager.GetString("RedColor", resourceCulture);
             }
         }
         
@@ -443,6 +1145,42 @@ namespace Calcpad.Wpf {
         public static string Replace {
             get {
                 return ResourceManager.GetString("Replace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Root Finding for f(x)=const.
+        /// </summary>
+        public static string RootFindingForXEqualsConst {
+            get {
+                return ResourceManager.GetString("RootFindingForXEqualsConst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Root Finding for f(x)=0.
+        /// </summary>
+        public static string RootFindingForXEqualsZero {
+            get {
+                return ResourceManager.GetString("RootFindingForXEqualsZero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Round to .
+        /// </summary>
+        public static string RoundTo {
+            get {
+                return ResourceManager.GetString("RoundTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Round to the specified digits after the decimal point.
+        /// </summary>
+        public static string RoundToTheSpecifiedDigits {
+            get {
+                return ResourceManager.GetString("RoundToTheSpecifiedDigits", resourceCulture);
             }
         }
         
@@ -501,11 +1239,299 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Selection.
+        /// </summary>
+        public static string Selection {
+            get {
+                return ResourceManager.GetString("Selection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set angle measurement in degrees.
+        /// </summary>
+        public static string SetAngleDegrees {
+            get {
+                return ResourceManager.GetString("SetAngleDegrees", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set angle measurement in grades.
+        /// </summary>
+        public static string SetAngleGrades {
+            get {
+                return ResourceManager.GetString("SetAngleGrades", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set angle measurement in radians.
+        /// </summary>
+        public static string SetAngleRadians {
+            get {
+                return ResourceManager.GetString("SetAngleRadians", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shadows:.
+        /// </summary>
+        public static string Shadows {
+            get {
+                return ResourceManager.GetString("Shadows", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Draw surface maps with shadows.
+        /// </summary>
+        public static string ShadowsTooltip {
+            get {
+                return ResourceManager.GetString("ShadowsTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show the complete equations (default).
+        /// </summary>
+        public static string ShowCompleteEquations {
+            get {
+                return ResourceManager.GetString("ShowCompleteEquations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show the content below only after calculations.
+        /// </summary>
+        public static string ShowContentBelowOnlyAfterCalc {
+            get {
+                return ResourceManager.GetString("ShowContentBelowOnlyAfterCalc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show the content below only before calculations.
+        /// </summary>
+        public static string ShowContentBelowOnlyBeforeCalc {
+            get {
+                return ResourceManager.GetString("ShowContentBelowOnlyBeforeCalc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show equations only with substituted values (no variables).
+        /// </summary>
+        public static string ShowEquationsOnlyWithSubstitutedValues {
+            get {
+                return ResourceManager.GetString("ShowEquationsOnlyWithSubstitutedValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show the equations, but without calculating.
+        /// </summary>
+        public static string ShowEquationsWithoutCalculating {
+            get {
+                return ResourceManager.GetString("ShowEquationsWithoutCalculating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show equations with variables and substituted values (default).
+        /// </summary>
+        public static string ShowEquationsWithVariablesAndSubstitutedValues {
+            get {
+                return ResourceManager.GetString("ShowEquationsWithVariablesAndSubstitutedValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show/hide numeric keypad.
         /// </summary>
         public static string ShowHideKeypad {
             get {
                 return ResourceManager.GetString("ShowHideKeypad", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show only the calculated values.
+        /// </summary>
+        public static string ShowOnlyCalculatedValues {
+            get {
+                return ResourceManager.GetString("ShowOnlyCalculatedValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Simple: if-end if.
+        /// </summary>
+        public static string SimpleIfEndIf {
+            get {
+                return ResourceManager.GetString("SimpleIfEndIf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Simple Plot.
+        /// </summary>
+        public static string SimplePlot {
+            get {
+                return ResourceManager.GetString("SimplePlot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Simple: repeat-loop.
+        /// </summary>
+        public static string SimpleRepeatLoop {
+            get {
+                return ResourceManager.GetString("SimpleRepeatLoop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Smooth.
+        /// </summary>
+        public static string Smooth {
+            get {
+                return ResourceManager.GetString("Smooth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Smooth shading for surface map.
+        /// </summary>
+        public static string SmoothTooltip {
+            get {
+                return ResourceManager.GetString("SmoothTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to South.
+        /// </summary>
+        public static string South {
+            get {
+                return ResourceManager.GetString("South", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to South-east.
+        /// </summary>
+        public static string SouthEast {
+            get {
+                return ResourceManager.GetString("SouthEast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to South-west.
+        /// </summary>
+        public static string SouthWest {
+            get {
+                return ResourceManager.GetString("SouthWest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Split equations that do not fit on a single line.
+        /// </summary>
+        public static string SplitEquations {
+            get {
+                return ResourceManager.GetString("SplitEquations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Striketrough.
+        /// </summary>
+        public static string Strikethrough {
+            get {
+                return ResourceManager.GetString("Strikethrough", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to String Variable or Macro.
+        /// </summary>
+        public static string StringVariableOrMacro {
+            get {
+                return ResourceManager.GetString("StringVariableOrMacro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subscript.
+        /// </summary>
+        public static string Subscript {
+            get {
+                return ResourceManager.GetString("Subscript", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Substitute.
+        /// </summary>
+        public static string Substitute {
+            get {
+                return ResourceManager.GetString("Substitute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Substitute variables in equations.
+        /// </summary>
+        public static string SubstituteTooltip {
+            get {
+                return ResourceManager.GetString("SubstituteTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Superscript.
+        /// </summary>
+        public static string Superscript {
+            get {
+                return ResourceManager.GetString("Superscript", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Table.
+        /// </summary>
+        public static string Table {
+            get {
+                return ResourceManager.GetString("Table", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tanh-Sinh Integration.
+        /// </summary>
+        public static string TanhSinhIntegration {
+            get {
+                return ResourceManager.GetString("TanhSinhIntegration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Terrain.
+        /// </summary>
+        public static string Terrain {
+            get {
+                return ResourceManager.GetString("Terrain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Text.
+        /// </summary>
+        public static string Text {
+            get {
+                return ResourceManager.GetString("Text", resourceCulture);
             }
         }
         
@@ -532,6 +1558,15 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Underline.
+        /// </summary>
+        public static string Underline {
+            get {
+                return ResourceManager.GetString("Underline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _Undo.
         /// </summary>
         public static string Undo {
@@ -546,6 +1581,33 @@ namespace Calcpad.Wpf {
         public static string Unwarped_code {
             get {
                 return ResourceManager.GetString("Unwarped_code", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Violet-yellow.
+        /// </summary>
+        public static string VioletYellow {
+            get {
+                return ResourceManager.GetString("VioletYellow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to West.
+        /// </summary>
+        public static string West {
+            get {
+                return ResourceManager.GetString("West", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wrap equations that do not fit on a single line (default).
+        /// </summary>
+        public static string WrapEquations {
+            get {
+                return ResourceManager.GetString("WrapEquations", resourceCulture);
             }
         }
     }
