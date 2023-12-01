@@ -861,6 +861,15 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Constant π (pi).
+        /// </summary>
+        public static string Pi {
+            get {
+                return ResourceManager.GetString("Pi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pi number.
         /// </summary>
         public static string PiNumber {

@@ -377,4 +377,7 @@
     <data name="Constants_Header" xml:space="preserve">
         <value>Константи</value>
     </data>
+    <data name="Pi" xml:space="preserve">
+        <value>Константа π (пи)</value>
+    </data>
 </root>

@@ -184,4 +184,359 @@ You can find your unsaved data in
     <data name="Numbers" xml:space="preserve">
         <value>Numbers: </value>
     </data>
+    <data name="Code" xml:space="preserve">
+        <value>Code</value>
+    </data>
+    <data name="KeypadLabel" xml:space="preserve">
+        <value>┌── Numbers ──┐ ┌──── Operators ─────┐ ┌──────── Functions ────────┐</value>
+        <comment>The label for the keypad at the bottom of the code section, only the words should be changed.</comment>
+    </data>
+    <data name="FunctionPlot" xml:space="preserve">
+        <value>Function Plot</value>
+    </data>
+    <data name="SimplePlot" xml:space="preserve">
+        <value>Simple Plot</value>
+    </data>
+    <data name="Parametric" xml:space="preserve">
+        <value>Parametric</value>
+    </data>
+    <data name="Multiple" xml:space="preserve">
+        <value>Multiple</value>
+    </data>
+    <data name="MultipleParametric" xml:space="preserve">
+        <value>Multiple Parametric</value>
+    </data>
+    <data name="2DColorMap" xml:space="preserve">
+        <value>2D Color Map of a Surface</value>
+    </data>
+    <data name="NumericalMethod" xml:space="preserve">
+        <value>Numerical Method</value>
+    </data>
+    <data name="RootFindingForXEqualsConst" xml:space="preserve">
+        <value>Root Finding for f(x)=const</value>
+    </data>
+    <data name="RootFindingForXEqualsZero" xml:space="preserve">
+        <value>Root Finding for f(x)=0</value>
+    </data>
+    <data name="NonStrictRootFinding" xml:space="preserve">
+        <value>Non-Strict Root Finding</value>
+    </data>
+    <data name="LocalMaximum" xml:space="preserve">
+        <value>Local Maximum of a Function</value>
+    </data>
+    <data name="LocalMinimum" xml:space="preserve">
+        <value>Local Minimum of a Function</value>
+    </data>
+    <data name="AdaptiveGaussLobattoIntegration" xml:space="preserve">
+        <value>Adaptive Gauss-Lobatto Integration</value>
+    </data>
+    <data name="TanhSinhIntegration" xml:space="preserve">
+        <value>Tanh-Sinh Integration</value>
+    </data>
+    <data name="NumericalDifferentiation" xml:space="preserve">
+        <value>Numerical Differentiation</value>
+    </data>
+    <data name="GeneralInlineIterativeProcedure" xml:space="preserve">
+        <value>General Inline Iterative Procedure</value>
+    </data>
+    <data name="IterativeProduct" xml:space="preserve">
+        <value>Iterative Product</value>
+    </data>
+    <data name="IterativeSum" xml:space="preserve">
+        <value>Iterative Sum</value>
+    </data>
+    <data name="ProgramFlowControl" xml:space="preserve">
+        <value>Program Flow Control</value>
+    </data>
+    <data name="SimpleIfEndIf" xml:space="preserve">
+        <value>Simple: if-end if</value>
+    </data>
+    <data name="AlternativeIfElseEndIf" xml:space="preserve">
+        <value>Alternative: if-else-end if</value>
+    </data>
+    <data name="CompleteIfElseIfElseIfEndIf" xml:space="preserve">
+        <value>Complete: if-else if-else-end if</value>
+    </data>
+    <data name="Iteration" xml:space="preserve">
+        <value>Iteration</value>
+    </data>
+    <data name="StringVariableOrMacro" xml:space="preserve">
+        <value>String Variable or Macro</value>
+    </data>
+    <data name="SimpleRepeatLoop" xml:space="preserve">
+        <value>Simple: repeat-loop</value>
+    </data>
+    <data name="ConditionalRepeatBreakLoop" xml:space="preserve">
+        <value>Conditional: repeat-break-loop</value>
+    </data>
+    <data name="ConditionalRepeatContinueLoop" xml:space="preserve">
+        <value>Conditional: repeat-continue-loop</value>
+    </data>
+    <data name="InlineStringVariable" xml:space="preserve">
+        <value>Inline String Variable</value>
+    </data>
+    <data name="MultilineStringVariable" xml:space="preserve">
+        <value>Multiline String Variable</value>
+    </data>
+    <data name="InlineMacro" xml:space="preserve">
+        <value>Inline Macro</value>
+    </data>
+    <data name="MultilineMacro" xml:space="preserve">
+        <value>Multiline Macro</value>
+    </data>
+    <data name="IncludeExternalFile" xml:space="preserve">
+        <value>Include External File</value>
+    </data>
+    <data name="Heading3" xml:space="preserve">
+        <value>Heading 3</value>
+    </data>
+    <data name="Heading4" xml:space="preserve">
+        <value>Heading 4</value>
+    </data>
+    <data name="Heading5" xml:space="preserve">
+        <value>Heading 5</value>
+    </data>
+    <data name="Heading6" xml:space="preserve">
+        <value>Heading 6</value>
+    </data>
+    <data name="Paragraph" xml:space="preserve">
+        <value>Paragraph</value>
+    </data>
+    <data name="LineBreak" xml:space="preserve">
+        <value>Line Break</value>
+    </data>
+    <data name="Bold" xml:space="preserve">
+        <value>Bold</value>
+    </data>
+    <data name="Italic" xml:space="preserve">
+        <value>Italic</value>
+    </data>
+    <data name="Underline" xml:space="preserve">
+        <value>Underline</value>
+    </data>
+    <data name="Strikethrough" xml:space="preserve">
+        <value>Striketrough</value>
+    </data>
+    <data name="Subscript" xml:space="preserve">
+        <value>Subscript</value>
+    </data>
+    <data name="Superscript" xml:space="preserve">
+        <value>Superscript</value>
+    </data>
+    <data name="RedColor" xml:space="preserve">
+        <value>Red Color</value>
+    </data>
+    <data name="FoldedDiv" xml:space="preserve">
+        <value>Folded Div</value>
+    </data>
+    <data name="BulletedList" xml:space="preserve">
+        <value>Bulleted List</value>
+    </data>
+    <data name="NumberedList" xml:space="preserve">
+        <value>Numbered List</value>
+    </data>
+    <data name="Image" xml:space="preserve">
+        <value>Image</value>
+    </data>
+    <data name="Table" xml:space="preserve">
+        <value>Table</value>
+    </data>
+    <data name="DividingLine" xml:space="preserve">
+        <value>Dividing Line</value>
+    </data>
+    <data name="HtmlUI" xml:space="preserve">
+        <value>Html UI</value>
+    </data>
+    <data name="Selection" xml:space="preserve">
+        <value>Selection</value>
+    </data>
+    <data name="RadioButtons" xml:space="preserve">
+        <value>Radio Buttons</value>
+    </data>
+    <data name="Checkbox" xml:space="preserve">
+        <value>Checkbox</value>
+    </data>
+    <data name="DrawingSVG" xml:space="preserve">
+        <value>Drawing/SVG</value>
+    </data>
+    <data name="Drawing" xml:space="preserve">
+        <value>Drawing</value>
+    </data>
+    <data name="Line" xml:space="preserve">
+        <value>Line</value>
+    </data>
+    <data name="Rectangle" xml:space="preserve">
+        <value>Rectangle</value>
+    </data>
+    <data name="Circle" xml:space="preserve">
+        <value>Circle</value>
+    </data>
+    <data name="Ellipse" xml:space="preserve">
+        <value>Ellipse</value>
+    </data>
+    <data name="Polyline" xml:space="preserve">
+        <value>Polyline</value>
+    </data>
+    <data name="Polygon" xml:space="preserve">
+        <value>Polygon</value>
+    </data>
+    <data name="Text" xml:space="preserve">
+        <value>Text</value>
+    </data>
+    <data name="OutputVisibilityControl" xml:space="preserve">
+        <value>Output Visibility Control</value>
+    </data>
+    <data name="HideContentAfterCurrentLine" xml:space="preserve">
+        <value>Hide the content after the current line</value>
+    </data>
+    <data name="AlwaysShowContent" xml:space="preserve">
+        <value>Always show the content (default)</value>
+    </data>
+    <data name="ShowContentBelowOnlyBeforeCalc" xml:space="preserve">
+        <value>Show the content below only before calculations</value>
+    </data>
+    <data name="ShowContentBelowOnlyAfterCalc" xml:space="preserve">
+        <value>Show the content below only after calculations</value>
+    </data>
+    <data name="PauseCalculation" xml:space="preserve">
+        <value>Pause the calculations and wait</value>
+    </data>
+    <data name="PauseExecutionAndDisplayInputForm" xml:space="preserve">
+        <value>Pause the execution and display an input form</value>
+    </data>
+    <data name="ShowOnlyCalculatedValues" xml:space="preserve">
+        <value>Show only the calculated values</value>
+    </data>
+    <data name="ShowCompleteEquations" xml:space="preserve">
+        <value>Show the complete equations (default)</value>
+    </data>
+    <data name="ShowEquationsWithoutCalculating" xml:space="preserve">
+        <value>Show the equations, but without calculating</value>
+    </data>
+    <data name="DoNotSubstituteVariables" xml:space="preserve">
+        <value>Do not substitute variables (no substitution)</value>
+    </data>
+    <data name="ShowEquationsOnlyWithSubstitutedValues" xml:space="preserve">
+        <value>Show equations only with substituted values (no variables)</value>
+    </data>
+    <data name="ShowEquationsWithVariablesAndSubstitutedValues" xml:space="preserve">
+        <value>Show equations with variables and substituted values (default)</value>
+    </data>
+    <data name="SplitEquations" xml:space="preserve">
+        <value>Split equations that do not fit on a single line</value>
+    </data>
+    <data name="WrapEquations" xml:space="preserve">
+        <value>Wrap equations that do not fit on a single line (default)</value>
+    </data>
+    <data name="RoundToTheSpecifiedDigits" xml:space="preserve">
+        <value>Round to the specified digits after the decimal point</value>
+    </data>
+    <data name="SetAngleDegrees" xml:space="preserve">
+        <value>Set angle measurement in degrees</value>
+    </data>
+    <data name="SetAngleRadians" xml:space="preserve">
+        <value>Set angle measurement in radians</value>
+    </data>
+    <data name="SetAngleGrades" xml:space="preserve">
+        <value>Set angle measurement in grades</value>
+    </data>
+    <data name="Insert" xml:space="preserve">
+        <value>_Insert</value>
+    </data>
+    <data name="RoundTo" xml:space="preserve">
+        <value>Round to </value>
+    </data>
+    <data name="NumberOfDigitsTooltip" xml:space="preserve">
+        <value>Number of digits after the decimal point</value>
+    </data>
+    <data name="Digits" xml:space="preserve">
+        <value>digits</value>
+    </data>
+    <data name="Substitute" xml:space="preserve">
+        <value>Substitute</value>
+    </data>
+    <data name="SubstituteTooltip" xml:space="preserve">
+        <value>Substitute variables in equations</value>
+    </data>
+    <data name="Plot" xml:space="preserve">
+        <value>Plot:</value>
+    </data>
+    <data name="Adaptive" xml:space="preserve">
+        <value>Adaptive</value>
+    </data>
+    <data name="AdaptiveTooltip" xml:space="preserve">
+        <value>Adaptive 1D function plot</value>
+    </data>
+    <data name="Shadows" xml:space="preserve">
+        <value>Shadows:</value>
+    </data>
+    <data name="ShadowsTooltip" xml:space="preserve">
+        <value>Draw surface maps with shadows</value>
+    </data>
+    <data name="LightDirection" xml:space="preserve">
+        <value>Light direction</value>
+    </data>
+    <data name="North" xml:space="preserve">
+        <value>North</value>
+    </data>
+    <data name="NorthEast" xml:space="preserve">
+        <value>North-east</value>
+    </data>
+    <data name="East" xml:space="preserve">
+        <value>East</value>
+    </data>
+    <data name="SouthEast" xml:space="preserve">
+        <value>South-east</value>
+    </data>
+    <data name="South" xml:space="preserve">
+        <value>South</value>
+    </data>
+    <data name="SouthWest" xml:space="preserve">
+        <value>South-west</value>
+    </data>
+    <data name="West" xml:space="preserve">
+        <value>West</value>
+    </data>
+    <data name="NorthWest" xml:space="preserve">
+        <value>North-west</value>
+    </data>
+    <data name="Palette" xml:space="preserve">
+        <value>Palette:</value>
+    </data>
+    <data name="None" xml:space="preserve">
+        <value>None</value>
+    </data>
+    <data name="Gray" xml:space="preserve">
+        <value>Gray</value>
+    </data>
+    <data name="Rainbow" xml:space="preserve">
+        <value>Rainbow</value>
+    </data>
+    <data name="Terrain" xml:space="preserve">
+        <value>Terrain</value>
+    </data>
+    <data name="VioletYellow" xml:space="preserve">
+        <value>Violet-yellow</value>
+    </data>
+    <data name="GreenYellow" xml:space="preserve">
+        <value>Green-yellow</value>
+    </data>
+    <data name="Blues" xml:space="preserve">
+        <value>Blues</value>
+    </data>
+    <data name="Smooth" xml:space="preserve">
+        <value>Smooth</value>
+    </data>
+    <data name="SmoothTooltip" xml:space="preserve">
+        <value>Smooth shading for surface map</value>
+    </data>
+    <data name="ExternalBrowser" xml:space="preserve">
+        <value>External browser:</value>
+    </data>
+    <data name="ExternalBrowserTooltip" xml:space="preserve">
+        <value>External browser for opening links in reports</value>
+    </data>
+    <data name="PaletteTooltip" xml:space="preserve">
+        <value>Surface map color scale</value>
+    </data>
 </root>

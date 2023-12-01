@@ -384,4 +384,7 @@
     <data name="ProtonMass" xml:space="preserve">
         <value>Proton mass</value>
     </data>
+    <data name="Pi" xml:space="preserve">
+        <value>Constant π (pi)</value>
+    </data>
 </root>
