@@ -124,11 +124,7 @@ namespace Calcpad.Wpf
             }
             if (count == 0 && sb.Length == 0)
             {
-#if BG
-                MessageBox.Show("Търсеният текст не е намерен.", "Търсене и заместване");
-#else
-                MessageBox.Show("Search text not found.", "Find And Replace");
-#endif
+                MessageBox.Show(FindReplaceResources.Search_text_not_found, FindReplaceResources.Find_And_Replace_Caption);
                 if (sb.Length == 0)
                     return;
             }
@@ -138,11 +134,7 @@ namespace Calcpad.Wpf
             tr.Text = sb.ToString();
             EndReplace(this, null);
             RichTextBox.Selection.Select(from, from);
-#if BG
-            MessageBox.Show($"Заменени са {count} срещания.", "Търсене и заместване");
-#else
-            MessageBox.Show($"{count} matches were replaced.", "Find And Replace");
-#endif
+            MessageBox.Show(string.Format(FindReplaceResources.count_matches_were_replaced, count), FindReplaceResources.Find_And_Replace_Caption);
         }
 
         private void FindNext(bool replace)
@@ -240,18 +232,11 @@ namespace Calcpad.Wpf
                     {
                         if (isStart)
                         {                        
-#if BG                            
-                            MessageBox.Show(_direction == Directions.Up ? 
-                                "Достигнато е началото на текста.Няма повече съвпадения." :
-                                "Достигнат е краят на текста. Няма повече съвпадения.",
-                                "Търсене и заместване");
-#else
 
                             MessageBox.Show(_direction == Directions.Up ?
-                                "Start of text reached. There are no other occurrences." :
-                                "End of text reached. There are no other occurrences.", 
-                                "Find And Replace");
-#endif
+                                FindReplaceResources.Start_of_text_reached_There_are_no_other_occurrences :
+                                FindReplaceResources.End_of_text_reached_There_are_no_other_occurrences, 
+                                FindReplaceResources.Find_And_Replace_Caption);
                             return;
                         }
                         isStart = true;
@@ -268,11 +253,7 @@ namespace Calcpad.Wpf
         {
             if (string.IsNullOrEmpty(SearchString))
             {
-#if BG
-                MessageBox.Show("Търсеният текст е празен.", "Търсене и заместване");
-#else
-                MessageBox.Show("The search string is empty.", "Find And Replace");
-#endif
+                MessageBox.Show(FindReplaceResources.The_search_string_is_empty, FindReplaceResources.Find_And_Replace_Caption);
                 return false;
             }
             if (replace && ReplaceString is null)

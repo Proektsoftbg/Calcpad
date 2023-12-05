@@ -34,37 +34,21 @@ namespace Calcpad.Wpf
             var message = GetMessage(e);
             if (main.IsSaved)
             {
-#if BG
-                message += "\r\n\r\nНяма незаписани данни. Ако проблемът продължи, моля пишете на proektsoft.bg@gmail.com.";
-#else
                 message += AppMessages.ReportUnhandledExceptionAndClose_NoUnsavedData;
-#endif
             }
             else
             {
-#if BG
-                message += "\r\n\r\nCalcpad запази вашите данни и се опита да се възстанови автоматчно.";
-#else
                 message += AppMessages.ReportUnhandledExceptionAndClose_NoUnsavedData_RecoveryAttempted;
-#endif
                 try
                 {
                     main.SaveStateAndRestart();
                 }
                 catch
                 {
-#if BG
-                    message += "\r\n\r\nИма незаписани данни. Възстановяването беше неуспешно. Ако проблемът продължи, моля пишете на proektsoft.bg@gmail.com.";
-#else
                     message += AppMessages.ReportUnhandledExceptionAndClose_UnsavedData_RecoveryFailed;
-#endif
                 }
             }
-#if BG            
-            message += $"\r\n\r\nИнформация за грешката:\r\n\r\n\"{e.ToString()}\"";
-#else
             message += string.Format(AppMessages.ExceptionDetails, e);
-#endif
             File.WriteAllText(logFileName, message);
             Process.Start(new ProcessStartInfo
             {
@@ -73,17 +57,7 @@ namespace Calcpad.Wpf
             });
             Environment.Exit(System.Runtime.InteropServices.Marshal.GetHRForException((Exception)e));
         }
-#if BG
-        private static string GetMessage(Exception e) => 
-@$"В Calcpad възникна неочаквана грешка: ""{e.Message}""
-
-Източник: ""{e.Source}""
-
-";
-#else
         private static string GetMessage(Exception e) =>
 string.Format(AppMessages.UnexpectedErrorOccured, e.Message, e.Source);
-
-#endif
     }
 }

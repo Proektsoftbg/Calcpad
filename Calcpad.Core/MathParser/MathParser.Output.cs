@@ -57,11 +57,7 @@ namespace Calcpad.Core
                         .Append(RenderRpn(cf.Rpn, false, writer, out _));
                     if (_parser.ShowWarnings && _parser._functionDefinitionIndex < _functions.Count - 1)
                     {
-#if BG
-                        const string warning = " Внимание! Функцията е предефинирана.";
-#else
-                        const string warning = " Warning! Function redefined.";
-#endif
+                        string warning = Messages.Function_redefined;
                         if (format == OutputWriter.OutputFormat.Text)
                             _stringBuilder.Append(warning);
                         else if (format == OutputWriter.OutputFormat.Html)

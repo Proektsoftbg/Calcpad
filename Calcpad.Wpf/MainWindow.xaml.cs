@@ -179,11 +179,7 @@ namespace Calcpad.Wpf
             var appUrl = "file:///" + AppInfo.Path.Replace("\\", "/");
             _htmlWorksheet = ReadTextFromFile(AppInfo.Path + "template.html").Replace("jquery", appUrl + "jquery");
             _htmlParsing = ReadTextFromFile(AppInfo.Path + "parsing.html");
-#if BG
-            _htmlHelp = GetHelp("https://calcpad.bg/download/help.html");
-#else
             _htmlHelp = GetHelp(MainWindowResources.calcpad_download_help_html);
-#endif
             _htmlSource = ReadTextFromFile(AppInfo.Path + "source.html").Replace("jquery", appUrl + "jquery");
             _svgTyping = $"<img style=\"height:1em;\" src=\"{appUrl}typing.gif\" alt=\"...\">";
             _htmlHelp = _htmlHelp.Replace("jquery", appUrl + "jquery");
@@ -241,11 +237,7 @@ namespace Calcpad.Wpf
                 Properties.Settings.Default.TempFile = null;
                 Properties.Settings.Default.FileName = null;
                 Properties.Settings.Default.Save();
-#if BG
-                var message = "Calcpad се рестартира след неочаквано прекъсване.\nЖелаете ли да се възстановят незаписаните данни?";
-#else
                 var message = MainWindowResources.TryRestoreState_Recovered_SavePrompt;
-#endif
                 var result = MessageBox.Show(
                     message,
                     "Calcpad",
@@ -261,15 +253,7 @@ namespace Calcpad.Wpf
                     catch (Exception ex)
                     {
                         ShowErrorMessage(
-#if BG
-@$"Възстановяването беше неуспешно поради грешка:
-""{ex.Message}"".
-Може да намерите незаписаното съдържание в
-""{tempFile}""."
-#else
-
-string.Format(MainWindowResources.TryRestoreState_Failed, ex.Message, tempFile)
-#endif
+                        string.Format(MainWindowResources.TryRestoreState_Failed, ex.Message, tempFile)
                         );
                         IsSaved = true;
                         Command_New(this, null);
@@ -335,11 +319,7 @@ string.Format(MainWindowResources.TryRestoreState_Failed, ex.Message, tempFile)
 
         private void SetOutputFrameHeader(bool isWebForm)
         {
-#if BG
-            OutputFrame.Header = isWebForm ? "Входни данни" : "Резултати";
-#else
             OutputFrame.Header = isWebForm ? MainWindowResources.Input : MainWindowResources.Output;
-#endif
         }
         private void RichTextBox_Scroll(object sender, ScrollChangedEventArgs e)
         {
@@ -384,11 +364,7 @@ string.Format(MainWindowResources.TryRestoreState_Failed, ex.Message, tempFile)
                 else if (!ReferenceEquals(RichTextBox.Selection.Start.Paragraph, RichTextBox.Selection.End.Paragraph))
                 {
                     MessageBox.Show(
-#if BG
-                        "Стоп! Inline Html елементи не могат да пресичат редове от текста."
-#else
                         MainWindowResources.Inline_Html_elements_must_not_cross_text_lines
-#endif
                         , "Calcpad", MessageBoxButton.OK, MessageBoxImage.Stop);
                     return;
                 }
@@ -679,15 +655,9 @@ string.Format(MainWindowResources.TryRestoreState_Failed, ex.Message, tempFile)
                 InitialDirectory = File.Exists(CurrentFileName) ? Path.GetDirectoryName(CurrentFileName) : DocumentPath,
                 CheckFileExists = true,
                 Multiselect = false,
-#if BG
-                Filter = s == ".txt"
-                    ? "Текстов файл (*.txt)|*.txt|Calcpad документ (*.cpd)|*.cpd|Calcpad двоичен файл (*.cpdz)|*.cpdz"
-                    : "Calcpad документ (*.cpd)|*.cpd|Calcpad двоичен файл (*.cpdz)|*.cpdz|Текстов файл (*.txt)|*.txt"
-#else
                 Filter = s == ".txt"
                     ? MainWindowResources.Command_Open_Text_File
                     : MainWindowResources.Command_Open_Calcpad_Worksheet
-#endif
             };
 
             var result = (bool)dlg.ShowDialog();
@@ -943,15 +913,9 @@ string.Format(MainWindowResources.TryRestoreState_Failed, ex.Message, tempFile)
                 OverwritePrompt = true,
                 Filter = s switch
                 {
-#if BG
-                ".txt" => "Текстов файл (*.txt)|*.txt|Calcpad документ (*.cpd)|*.cpd|Calcpad двоичен файл (*.cpdz)|*.cpdz",
-                ".cpdz" => "Calcpad двоичен файл (*.cpdz)|*.cpdz",
-                _ => "Calcpad документ (*.cpd)|*.cpd|Calcpad двоичен файл (*.cpdz)|*.cpdz|Текстов файл (*.txt)|*.txt"
-#else
                     ".txt" => MainWindowResources.Command_Open_Text_File,
                     ".cpdz" => MainWindowResources.FileSaveAs_Calcpad_Compiled,
                     _ => MainWindowResources.Command_Open_Calcpad_Worksheet
-#endif
                 }
             };
 
@@ -1201,11 +1165,7 @@ string.Format(MainWindowResources.TryRestoreState_Failed, ex.Message, tempFile)
         {
             var result = MessageBoxResult.No;
             if (!IsSaved)
-#if BG
-                result = MessageBox.Show("Файлът не е записан. Запис?", "Calcpad", MessageBoxButton.YesNoCancel);
-#else
                 result = MessageBox.Show(MainWindowResources.SavePrompt, "Calcpad", MessageBoxButton.YesNoCancel);
-#endif
             if (result == MessageBoxResult.Yes)
             {
                 if (string.IsNullOrWhiteSpace(CurrentFileName))
@@ -1263,11 +1223,7 @@ string.Format(MainWindowResources.TryRestoreState_Failed, ex.Message, tempFile)
                 htmlResult = _htmlUnwarpedCode;
                 if (toWebForm)
                     IsWebForm = false;
-#if BG
-                OutputFrame.Header = "Разгънат код";
-#else
                 OutputFrame.Header = MainWindowResources.Unwarped_code;
-#endif
                 CodeCheckBox.IsChecked = true;
             }
             else
@@ -1316,11 +1272,7 @@ string.Format(MainWindowResources.TryRestoreState_Failed, ex.Message, tempFile)
                 ShowErrorMessage(e.Message);
             }
             if (IsWebForm)
-#if BG
-                OutputFrame.Header = toWebForm ? "Входни данни" : "Резултати";
-#else
                 OutputFrame.Header = toWebForm ? MainWindowResources.Input : MainWindowResources.Output;
-#endif
             if (_highlighter.Defined.HasMacros && string.IsNullOrEmpty(_htmlUnwarpedCode))
                 _htmlUnwarpedCode = CodeToHtml(outputText);
         }
@@ -1364,11 +1316,7 @@ string.Format(MainWindowResources.TryRestoreState_Failed, ex.Message, tempFile)
             return s2;
         }
 
-#if BG
-        private const string ErrorString = "#Грешка";       
-#else
-        private const string ErrorString = "#Error";
-#endif
+        private string ErrorString = AppMessages.ErrorString;
         private string CodeToHtml(string code)
         {
             var highlighter = new HighLighter();
@@ -1424,11 +1372,7 @@ string.Format(MainWindowResources.TryRestoreState_Failed, ex.Message, tempFile)
             _stringBuilder.Append("</div>");
             if (errors.Count != 0 && lineNumber > 30)
             {
-#if BG
-                _stringBuilder.AppendLine($"<div class=\"errorHeader\">Общо <b>{errors.Count}</b> грешки в модули и макроси:");
-#else
                 _stringBuilder.AppendLine(string.Format(MainWindowResources.Found_Errors_In_Modules_And_Macros, errors.Count));
-#endif
                 var count = 0;
                 while (errors.Count != 0 && ++count < 20)
                 {
@@ -1779,11 +1723,7 @@ string.Format(MainWindowResources.TryRestoreState_Failed, ex.Message, tempFile)
                         var logString = _wbWarper.ExportOpenXml(fileName);
                         if (logString.Length > 0)
                         {
-#if BG
-                            const string message = "Неуспешен запис на docx файл. Да покажа ли списък с грешките?";
-#else
                             string message = MainWindowResources.Error_Exporting_Docx_File;
-#endif
                             if (MessageBox.Show(message, "Calcpad", MessageBoxButton.YesNo, MessageBoxImage.Error) == MessageBoxResult.Yes)
                             {
                                 var logFile = fileName + "_validation.log";
@@ -1932,11 +1872,7 @@ string.Format(MainWindowResources.TryRestoreState_Failed, ex.Message, tempFile)
 
             if (_mustPromptUnlock && IsWebForm)
             {
-#if BG
-                const string message = "Сигурни ли сте, че искате да отключите изходния код за редактиране?";
-#else
                 string message = MainWindowResources.Are_you_sure_you_want_to_unlock_the_source_code_for_editing;
-#endif
                 if (MessageBox.Show(message, "Calcpad", MessageBoxButton.YesNo) == MessageBoxResult.No)
                     return;
 
@@ -1969,11 +1905,7 @@ string.Format(MainWindowResources.TryRestoreState_Failed, ex.Message, tempFile)
                 InputFrame.Visibility = Visibility.Hidden;
                 FramesGrid.ColumnDefinitions[0].Width = new GridLength(0);
                 FramesGrid.ColumnDefinitions[1].Width = new GridLength(0);
-#if BG
-                WebFormButton.ToolTip = "Отвори програмния код за редактиране (F4)";
-#else
                 WebFormButton.ToolTip = MainWindowResources.Open_source_code_for_editing__F4;
-#endif
                 MenuWebForm.Icon = "  ✓";
                 AutoRunCheckBox.Visibility = Visibility.Hidden;
                 _findReplaceWindow?.Close();
@@ -1988,11 +1920,7 @@ string.Format(MainWindowResources.TryRestoreState_Failed, ex.Message, tempFile)
                 FramesGrid.ColumnDefinitions[0].Width = new GridLength(1, GridUnitType.Star);
                 FramesGrid.ColumnDefinitions[1].Width = new GridLength(5);
                 FramesGrid.ColumnDefinitions[2].Width = new GridLength(1, GridUnitType.Star);
-#if BG
-                WebFormButton.ToolTip = "Компилирай до форма за вход на данни (F4)";
-#else
                 WebFormButton.ToolTip = MainWindowResources.Compile_to_input_form_F4;
-#endif
                 MenuWebForm.Icon = null;
                 WebBrowser.Cursor = cursor;
                 AutoRunCheckBox.Visibility = Visibility.Visible;
@@ -2010,11 +1938,7 @@ string.Format(MainWindowResources.TryRestoreState_Failed, ex.Message, tempFile)
                 }
                 catch
                 {
-#if BG
-                    ShowErrorMessage("Грешка при връщане на мерни единици.");
-#else
                     ShowErrorMessage(MainWindowResources.Error_getting_units);
-#endif
                 }
             }
             else
@@ -2023,11 +1947,7 @@ string.Format(MainWindowResources.TryRestoreState_Failed, ex.Message, tempFile)
             if (!SetInputFields(_wbWarper.GetInputFields()))
             {
                 {
-#if BG
-                    ShowErrorMessage("Грешка! Невалидно число. Моля, направете корекции и опитайте отново.");
-#else   
                     ShowErrorMessage(MainWindowResources.Error_Invalid_number_Please_correct_and_then_try_again);
-#endif
                     IsCalculated = false;
                     WebBrowser.Focus();
                     return false;
@@ -2046,11 +1966,7 @@ string.Format(MainWindowResources.TryRestoreState_Failed, ex.Message, tempFile)
                 }
                 catch
                 {
-#if BG
-                    ShowErrorMessage("Грешка при задаване на мерни единици.");
-#else
                     ShowErrorMessage(MainWindowResources.Error_setting_units);
-#endif
                 }
             }
         }

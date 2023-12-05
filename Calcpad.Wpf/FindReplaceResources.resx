@@ -60,4 +60,28 @@
     <data name="ReplaceAll" xml:space="preserve">
         <value>Replace _All</value>
     </data>
+    <data name="Search_text_not_found" xml:space="preserve">
+        <value>Search text not found.</value>
+    </data>
+    <data name="Find_And_Replace_Caption" xml:space="preserve">
+        <value>Find And Replace</value>
+    </data>
+    <data name="count_matches_were_replaced" xml:space="preserve">
+        <value>{0} matches were replaced.</value>
+    </data>
+    <data name="The_search_string_is_empty" xml:space="preserve">
+        <value>The search string is empty.</value>
+    </data>
+    <data name="Start_of_text_reached_There_are_no_other_occurrences" xml:space="preserve">
+        <value>Start of text reached. There are no other occurrences.</value>
+    </data>
+    <data name="End_of_text_reached_There_are_no_other_occurrences" xml:space="preserve">
+        <value>End of text reached. There are no other occurrences.</value>
+    </data>
+    <data name="Invalid_character_0" xml:space="preserve">
+        <value>Invalid character: {0}.</value>
+    </data>
+    <data name="End_of_line_expected" xml:space="preserve">
+        <value>End of line expected.</value>
+    </data>
 </root>
