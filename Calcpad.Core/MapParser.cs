@@ -34,11 +34,7 @@ namespace Calcpad.Core
                     --bracketCount;
             }
             if (index <= n)
-#if BG
-                return $"<span class = \"err\">Липсва разделител \"{delimiters[index]}\" в команда за 2D графика \"{script}\".</span>";
-#else            
-                return $"<span class = \"err\">Missing delimiter \"{delimiters[index]}\" in surface map command \"{script}\".</span>";
-#endif
+                return string.Format(Messages.Missing_delimiter_0_in_surface_map_command_1, delimiters[index].ToString(), script.ToString());
             for (int i = 0; i < n; ++i)
             {
                 if (string.IsNullOrWhiteSpace(input[i]))

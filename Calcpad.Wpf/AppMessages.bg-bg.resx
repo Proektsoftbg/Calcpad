@@ -38,4 +38,34 @@ Calcpad запази вашите данни и се опита да се въз
 
 Източник: "{1}"</value>
     </data>
+    <data name="File_not_found" xml:space="preserve">
+        <value>Файлът не е намерен.</value>
+    </data>
+    <data name="Undeclared_function" xml:space="preserve">
+        <value>Недекларирана функция.</value>
+    </data>
+    <data name="Invalid_syntax" xml:space="preserve">
+        <value>Невалиден синтаксис.</value>
+    </data>
+    <data name="Undeclared_variable" xml:space="preserve">
+        <value>Недекларирана променлива.</value>
+    </data>
+    <data name="Undefined_units" xml:space="preserve">
+        <value>Недефинирани мерни единици.</value>
+    </data>
+    <data name="Undefined_macro_or_parameter" xml:space="preserve">
+        <value>Недефиниран макрос или параметър.</value>
+    </data>
+    <data name="Invalid_compiler_directive" xml:space="preserve">
+        <value>Невалидна директива за компилатор.</value>
+    </data>
+    <data name="Invalid_method" xml:space="preserve">
+        <value>Невалиден метод.</value>
+    </data>
+    <data name="Error_getting_input_fields_values" xml:space="preserve">
+        <value>Грешка при чете на стойностите на входните данни.</value>
+    </data>
+    <data name="ErrorString" xml:space="preserve">
+        <value>#Грешка</value>
+    </data>
 </root>

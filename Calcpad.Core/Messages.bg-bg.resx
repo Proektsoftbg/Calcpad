@@ -260,4 +260,76 @@
     <data name="SelectAll" xml:space="preserve">
         <value>И_збери всичко</value>
     </data>
+    <data name="if_block_not_closed_Missing_end_if" xml:space="preserve">
+        <value>Грешка: Условният "#if" блок не е затворен. Липсва "#end if".</value>
+    </data>
+    <data name="repeat_block_not_closed_Missing_loop" xml:space="preserve">
+        <value>Грешка: Блокът за цикъл "#repeat" не е затворен. Липсва "#loop".</value>
+    </data>
+    <data name="Unexpected_error_0_Please_check_the_expression_consistency" xml:space="preserve">
+        <value>Неочаквана грешка: {0} Моля проверете коректността на израза.</value>
+    </data>
+    <data name="Paused_Press_F5_to_continue" xml:space="preserve">
+        <value>&lt;p&gt;&lt;span class="err"&gt;Пауза!&lt;/span&gt; натиснете &lt;b&gt;F5&lt;/b&gt; за да &lt;a href="#0" data-text="continue"&gt;продължите&lt;/a&gt; или &lt;b&gt;Esc&lt;/b&gt; за да &lt;a href="#0" data-text="cancel"&gt;прекъснете&lt;/a&gt;.&lt;/p&gt;</value>
+    </data>
+    <data name="Error_found_on_line" xml:space="preserve">
+        <value>&lt;div class=\"errorHeader\"&gt;Общо &lt;b&gt;1&lt;/b&gt; грешка на ред:</value>
+    </data>
+    <data name="Errors_found_on_lines" xml:space="preserve">
+        <value>&lt;div class="errorHeader"&gt;Общо &lt;b&gt;{0}&lt;/b&gt; грешки на редове:</value>
+    </data>
+    <data name="Error_in_0_on_line_1__2" xml:space="preserve">
+        <value>Грешка в "{0}" на ред {1}: {2}</value>
+    </data>
+    <data name="Number_of_iterations_exceeds_the_maximum_0" xml:space="preserve">
+        <value>Броят на итерациите е по-голям от максималния {0}.&lt;/p&gt;</value>
+    </data>
+    <data name="loop_without_a_corresponding_repeat" xml:space="preserve">
+        <value>"#loop" без съответен "#repeat".</value>
+    </data>
+    <data name="Entangled_if__end_if__and_repeat__loop_blocks" xml:space="preserve">
+        <value>Преплитане на "#if - #end if" и "#repeat - #loop" блокове.</value>
+    </data>
+    <data name="continue_without_a_corresponding_repeat" xml:space="preserve">
+        <value>"#continue" без съответен "#repeat".</value>
+    </data>
+    <data name="Macro_definition_block_not_closed_Missing_end_def" xml:space="preserve">
+        <value>#Грешка: Незатворена дефиниция на макрос. Липсва "#end def".</value>
+    </data>
+    <data name="Missing_source_file_for_include" xml:space="preserve">
+        <value>Липсва изходен файл за вмъкване.</value>
+    </data>
+    <data name="File_not_found" xml:space="preserve">
+        <value>Файлът не е намерен.</value>
+    </data>
+    <data name="Invalid_macro_name_0" xml:space="preserve">
+        <value>Невалидно име на макрос: "{0}".</value>
+    </data>
+    <data name="Invalid_inside_macro_definition" xml:space="preserve">
+        <value>Невалидно в дефиниция на макрос.</value>
+    </data>
+    <data name="There_is_no_matching_def" xml:space="preserve">
+        <value>"Няма съответен "#def".</value>
+    </data>
+    <data name="Invalid_symbol_0_in_macro_name" xml:space="preserve">
+        <value>Невалиден символ "{0}" в име на макрос.</value>
+    </data>
+    <data name="Duplicate_macro_name_0_" xml:space="preserve">
+        <value>Повтарящо се име на макрос: "{name}".</value>
+    </data>
+    <data name="Missing_delimiter_0_in_plot_command" xml:space="preserve">
+        <value>&lt;span class = "err"&gt;Липсва разделител "{0}" в команда за графика "{1}".&lt;/span&gt;</value>
+    </data>
+    <data name="Missing_0_in_plot_command_1" xml:space="preserve">
+        <value>&lt;span class = "err"&gt;Липсва {0} в команда за графика "{1}".&lt;/span&gt;.</value>
+    </data>
+    <data name="More_than_one_delimiter_in_plot_command" xml:space="preserve">
+        <value>&lt;span class = "err"&gt;Разделителите "|" са повече от един в команда за графика {0}.&lt;/span&gt;</value>
+    </data>
+    <data name="Missing_delimiter_0_in_surface_map_command_1" xml:space="preserve">
+        <value>&lt;span class = "err"&gt;Липсва разделител "{0}" в команда за 2D графика "{1}".&lt;/span&gt;</value>
+    </data>
+    <data name="Function_redefined" xml:space="preserve">
+        <value> Внимание! Функцията е предефинирана.</value>
+    </data>
 </root>

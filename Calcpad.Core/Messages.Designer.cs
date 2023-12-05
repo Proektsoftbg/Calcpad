@@ -195,11 +195,29 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &quot;#continue&quot; without a corresponding &quot;#repeat&quot;..
+        /// </summary>
+        public static string continue_without_a_corresponding_repeat {
+            get {
+                return ResourceManager.GetString("continue_without_a_corresponding_repeat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Duplicate &quot;#else&quot; in condition block..
         /// </summary>
         public static string Duplicate_else_in_condition_block {
             get {
                 return ResourceManager.GetString("Duplicate_else_in_condition_block", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duplicate macro name: &quot;{0}&quot;..
+        /// </summary>
+        public static string Duplicate_macro_name_0_ {
+            get {
+                return ResourceManager.GetString("Duplicate_macro_name_0_", resourceCulture);
             }
         }
         
@@ -218,6 +236,15 @@ namespace Calcpad.Core {
         public static string else_if_is_not_allowed_after_else_in_condition_block {
             get {
                 return ResourceManager.GetString("else_if_is_not_allowed_after_else_in_condition_block", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Entangled &quot;#if - #end if&quot; and &quot;#repeat - #loop&quot; blocks..
+        /// </summary>
+        public static string Entangled_if__end_if__and_repeat__loop_blocks {
+            get {
+                return ResourceManager.GetString("Entangled_if__end_if__and_repeat__loop_blocks", resourceCulture);
             }
         }
         
@@ -245,6 +272,24 @@ namespace Calcpad.Core {
         public static string Error_evaluating__0__as_function_or_operator {
             get {
                 return ResourceManager.GetString("Error_evaluating__0__as_function_or_operator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;div class=&quot;errorHeader&quot;&gt;Found &lt;b&gt;1&lt;/b&gt; error on line:.
+        /// </summary>
+        public static string Error_found_on_line {
+            get {
+                return ResourceManager.GetString("Error_found_on_line", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error in &quot;{0}&quot; on line {1}: {2}.
+        /// </summary>
+        public static string Error_in_0_on_line_1__2 {
+            get {
+                return ResourceManager.GetString("Error_in_0_on_line_1__2", resourceCulture);
             }
         }
         
@@ -285,11 +330,47 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;div class=&quot;errorHeader&quot;&gt;Found &lt;b&gt;{0}&lt;/b&gt; errors on lines:.
+        /// </summary>
+        public static string Errors_found_on_lines {
+            get {
+                return ResourceManager.GetString("Errors_found_on_lines", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Expression is empty..
         /// </summary>
         public static string Expression_is_empty {
             get {
                 return ResourceManager.GetString("Expression_is_empty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File not found..
+        /// </summary>
+        public static string File_not_found {
+            get {
+                return ResourceManager.GetString("File_not_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  Warning! Function redefined..
+        /// </summary>
+        public static string Function_redefined {
+            get {
+                return ResourceManager.GetString("Function_redefined", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error: &quot;#if&quot; block not closed. Missing &quot;#end if&quot;..
+        /// </summary>
+        public static string if_block_not_closed_Missing_end_if {
+            get {
+                return ResourceManager.GetString("if_block_not_closed_Missing_end_if", resourceCulture);
             }
         }
         
@@ -366,11 +447,29 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid inside macro definition..
+        /// </summary>
+        public static string Invalid_inside_macro_definition {
+            get {
+                return ResourceManager.GetString("Invalid_inside_macro_definition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid macro identifier: &quot;{0}$&quot;..
         /// </summary>
         public static string Invalid_macro_identifier__0__ {
             get {
                 return ResourceManager.GetString("Invalid_macro_identifier__0__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid macro name: &quot;{0}&quot;..
+        /// </summary>
+        public static string Invalid_macro_name_0 {
+            get {
+                return ResourceManager.GetString("Invalid_macro_name_0", resourceCulture);
             }
         }
         
@@ -407,6 +506,15 @@ namespace Calcpad.Core {
         public static string Invalid_symbol__0__ {
             get {
                 return ResourceManager.GetString("Invalid_symbol__0__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid symbol &quot;{0}&quot; in macro name..
+        /// </summary>
+        public static string Invalid_symbol_0_in_macro_name {
+            get {
+                return ResourceManager.GetString("Invalid_symbol_0_in_macro_name", resourceCulture);
             }
         }
         
@@ -483,6 +591,24 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &quot;#loop&quot; without a corresponding &quot;#repeat&quot;..
+        /// </summary>
+        public static string loop_without_a_corresponding_repeat {
+            get {
+                return ResourceManager.GetString("loop_without_a_corresponding_repeat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #Error: Macro definition block not closed. Missing &quot;#end def&quot;..
+        /// </summary>
+        public static string Macro_definition_block_not_closed_Missing_end_def {
+            get {
+                return ResourceManager.GetString("Macro_definition_block_not_closed_Missing_end_def", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Macro not defined: {0}..
         /// </summary>
         public static string Macro_not_defined__0__ {
@@ -501,11 +627,38 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;span class = &quot;err&quot;&gt;Missing {0} in plot command &quot;{1}&quot;.&lt;/span&gt;..
+        /// </summary>
+        public static string Missing_0_in_plot_command_1 {
+            get {
+                return ResourceManager.GetString("Missing_0_in_plot_command_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Missing delimiter &quot;{0}&quot; in solver command {{1}}..
         /// </summary>
         public static string Missing_delimiter__0__in_solver_command__1__ {
             get {
                 return ResourceManager.GetString("Missing_delimiter__0__in_solver_command__1__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;span class = &quot;err&quot;&gt;Missing delimiter &quot;{0}&quot; in plot command &quot;{1}&quot;.&lt;/span&gt;.
+        /// </summary>
+        public static string Missing_delimiter_0_in_plot_command {
+            get {
+                return ResourceManager.GetString("Missing_delimiter_0_in_plot_command", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;span class = &quot;err&quot;&gt;Missing delimiter &quot;{0}&quot; in surface map command &quot;{1}&quot;.&lt;/span&gt;.
+        /// </summary>
+        public static string Missing_delimiter_0_in_surface_map_command_1 {
+            get {
+                return ResourceManager.GetString("Missing_delimiter_0_in_surface_map_command_1", resourceCulture);
             }
         }
         
@@ -573,6 +726,24 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Missing source file for include..
+        /// </summary>
+        public static string Missing_source_file_for_include {
+            get {
+                return ResourceManager.GetString("Missing_source_file_for_include", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;span class = &quot;err&quot;&gt;More than one delimiter &quot;|&quot; in plot command {0}.&lt;/span&gt;.
+        /// </summary>
+        public static string More_than_one_delimiter_in_plot_command {
+            get {
+                return ResourceManager.GetString("More_than_one_delimiter_in_plot_command", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to More than one operators &apos;=&apos; in &apos;{0}&apos;..
         /// </summary>
         public static string More_than_one_operator_equals_in__0__ {
@@ -591,6 +762,24 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Number of iterations exceeds the maximum {0}.&lt;/p&gt;.
+        /// </summary>
+        public static string Number_of_iterations_exceeds_the_maximum_0 {
+            get {
+                return ResourceManager.GetString("Number_of_iterations_exceeds_the_maximum_0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;p&gt;&lt;span class=&quot;err&quot;&gt;Paused!&lt;/span&gt; Press &lt;b&gt;F5&lt;/b&gt; to &lt;a href=&quot;#0&quot; data-text=&quot;continue&quot;&gt;continue&lt;/a&gt; or &lt;b&gt;Esc&lt;/b&gt; to &lt;a href=&quot;#0&quot; data-text=&quot;cancel&quot;&gt;cancel&lt;/a&gt;.&lt;/p&gt;.
+        /// </summary>
+        public static string Paused_Press_F5_to_continue {
+            get {
+                return ResourceManager.GetString("Paused_Press_F5_to_continue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Power must be unitless..
         /// </summary>
         public static string Power_must_be_unitless {
@@ -605,6 +794,15 @@ namespace Calcpad.Core {
         public static string Recursion_is_not_allowed_in_function_definition__0__ {
             get {
                 return ResourceManager.GetString("Recursion_is_not_allowed_in_function_definition__0__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error: &quot;#repeat&quot; block not closed. Missing &quot;#loop&quot;..
+        /// </summary>
+        public static string repeat_block_not_closed_Missing_loop {
+            get {
+                return ResourceManager.GetString("repeat_block_not_closed_Missing_loop", resourceCulture);
             }
         }
         
@@ -753,6 +951,15 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &quot;There is no matching &quot;#def&quot;..
+        /// </summary>
+        public static string There_is_no_matching_def {
+            get {
+                return ResourceManager.GetString("There_is_no_matching_def", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Undefined input field..
         /// </summary>
         public static string Undefined_input_field {
@@ -776,6 +983,15 @@ namespace Calcpad.Core {
         public static string Unexpected_delimiter__ {
             get {
                 return ResourceManager.GetString("Unexpected_delimiter_;", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unexpected error: {0} Please check the expression consistency..
+        /// </summary>
+        public static string Unexpected_error_0_Please_check_the_expression_consistency {
+            get {
+                return ResourceManager.GetString("Unexpected_error_0_Please_check_the_expression_consistency", resourceCulture);
             }
         }
         

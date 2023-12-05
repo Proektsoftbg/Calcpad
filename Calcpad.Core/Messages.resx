@@ -267,4 +267,76 @@
     <data name="SelectAll" xml:space="preserve">
         <value>Select _All</value>
     </data>
+    <data name="if_block_not_closed_Missing_end_if" xml:space="preserve">
+        <value>Error: "#if" block not closed. Missing "#end if".</value>
+    </data>
+    <data name="repeat_block_not_closed_Missing_loop" xml:space="preserve">
+        <value>Error: "#repeat" block not closed. Missing "#loop".</value>
+    </data>
+    <data name="Unexpected_error_0_Please_check_the_expression_consistency" xml:space="preserve">
+        <value>Unexpected error: {0} Please check the expression consistency.</value>
+    </data>
+    <data name="Paused_Press_F5_to_continue" xml:space="preserve">
+        <value>&lt;p&gt;&lt;span class="err"&gt;Paused!&lt;/span&gt; Press &lt;b&gt;F5&lt;/b&gt; to &lt;a href="#0" data-text="continue"&gt;continue&lt;/a&gt; or &lt;b&gt;Esc&lt;/b&gt; to &lt;a href="#0" data-text="cancel"&gt;cancel&lt;/a&gt;.&lt;/p&gt;</value>
+    </data>
+    <data name="Error_found_on_line" xml:space="preserve">
+        <value>&lt;div class="errorHeader"&gt;Found &lt;b&gt;1&lt;/b&gt; error on line:</value>
+    </data>
+    <data name="Errors_found_on_lines" xml:space="preserve">
+        <value>&lt;div class="errorHeader"&gt;Found &lt;b&gt;{0}&lt;/b&gt; errors on lines:</value>
+    </data>
+    <data name="Error_in_0_on_line_1__2" xml:space="preserve">
+        <value>Error in "{0}" on line {1}: {2}</value>
+    </data>
+    <data name="Number_of_iterations_exceeds_the_maximum_0" xml:space="preserve">
+        <value>Number of iterations exceeds the maximum {0}.&lt;/p&gt;</value>
+    </data>
+    <data name="loop_without_a_corresponding_repeat" xml:space="preserve">
+        <value>"#loop" without a corresponding "#repeat".</value>
+    </data>
+    <data name="Entangled_if__end_if__and_repeat__loop_blocks" xml:space="preserve">
+        <value>Entangled "#if - #end if" and "#repeat - #loop" blocks.</value>
+    </data>
+    <data name="continue_without_a_corresponding_repeat" xml:space="preserve">
+        <value>"#continue" without a corresponding "#repeat".</value>
+    </data>
+    <data name="Macro_definition_block_not_closed_Missing_end_def" xml:space="preserve">
+        <value>#Error: Macro definition block not closed. Missing "#end def".</value>
+    </data>
+    <data name="Missing_source_file_for_include" xml:space="preserve">
+        <value>Missing source file for include.</value>
+    </data>
+    <data name="File_not_found" xml:space="preserve">
+        <value>File not found.</value>
+    </data>
+    <data name="Invalid_macro_name_0" xml:space="preserve">
+        <value>Invalid macro name: "{0}".</value>
+    </data>
+    <data name="Invalid_inside_macro_definition" xml:space="preserve">
+        <value>Invalid inside macro definition.</value>
+    </data>
+    <data name="There_is_no_matching_def" xml:space="preserve">
+        <value>"There is no matching "#def".</value>
+    </data>
+    <data name="Invalid_symbol_0_in_macro_name" xml:space="preserve">
+        <value>Invalid symbol "{0}" in macro name.</value>
+    </data>
+    <data name="Duplicate_macro_name_0_" xml:space="preserve">
+        <value>Duplicate macro name: "{0}".</value>
+    </data>
+    <data name="Missing_delimiter_0_in_plot_command" xml:space="preserve">
+        <value>&lt;span class = "err"&gt;Missing delimiter "{0}" in plot command "{1}".&lt;/span&gt;</value>
+    </data>
+    <data name="Missing_0_in_plot_command_1" xml:space="preserve">
+        <value>&lt;span class = "err"&gt;Missing {0} in plot command "{1}".&lt;/span&gt;.</value>
+    </data>
+    <data name="More_than_one_delimiter_in_plot_command" xml:space="preserve">
+        <value>&lt;span class = "err"&gt;More than one delimiter "|" in plot command {0}.&lt;/span&gt;</value>
+    </data>
+    <data name="Missing_delimiter_0_in_surface_map_command_1" xml:space="preserve">
+        <value>&lt;span class = "err"&gt;Missing delimiter "{0}" in surface map command "{1}".&lt;/span&gt;</value>
+    </data>
+    <data name="Function_redefined" xml:space="preserve">
+        <value> Warning! Function redefined.</value>
+    </data>
 </root>
