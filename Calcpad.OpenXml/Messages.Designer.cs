@@ -21,7 +21,7 @@ namespace Calcpad.OpenXml {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Messages {
+    public class Messages {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -35,7 +35,7 @@ namespace Calcpad.OpenXml {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Calcpad.OpenXml.Messages", typeof(Messages).Assembly);
@@ -50,7 +50,7 @@ namespace Calcpad.OpenXml {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -62,7 +62,7 @@ namespace Calcpad.OpenXml {
         /// <summary>
         ///   Looks up a localized string similar to Invalid image data..
         /// </summary>
-        internal static string Invalid_image_data {
+        public static string Invalid_image_data {
             get {
                 return ResourceManager.GetString("Invalid_image_data", resourceCulture);
             }
@@ -71,7 +71,7 @@ namespace Calcpad.OpenXml {
         /// <summary>
         ///   Looks up a localized string similar to Invalid image file: {0}..
         /// </summary>
-        internal static string Invalid_image_file_0 {
+        public static string Invalid_image_file_0 {
             get {
                 return ResourceManager.GetString("Invalid_image_file_0", resourceCulture);
             }
@@ -80,7 +80,7 @@ namespace Calcpad.OpenXml {
         /// <summary>
         ///   Looks up a localized string similar to Unsupported image type: &quot;{0}&quot;..
         /// </summary>
-        internal static string Unsupported_image_type_0 {
+        public static string Unsupported_image_type_0 {
             get {
                 return ResourceManager.GetString("Unsupported_image_type_0", resourceCulture);
             }
@@ -89,7 +89,7 @@ namespace Calcpad.OpenXml {
         /// <summary>
         ///   Looks up a localized string similar to Validation errors in document.
         /// </summary>
-        internal static string Validation_errors_in_document {
+        public static string Validation_errors_in_document {
             get {
                 return ResourceManager.GetString("Validation_errors_in_document", resourceCulture);
             }
