@@ -672,7 +672,7 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Logical &amp;quot;And&amp;quot;.
+        ///   Looks up a localized string similar to Logical &quot;And&quot;.
         /// </summary>
         public static string LogicalAnd {
             get {
@@ -699,7 +699,7 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Logical &amp;quot;Or&amp;quot;.
+        ///   Looks up a localized string similar to Logical &quot;Or&quot;.
         /// </summary>
         public static string LogicalOr {
             get {
@@ -717,7 +717,7 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Logical &amp;quot;Xor&amp;quot;.
+        ///   Looks up a localized string similar to Logical &quot;Xor&quot;.
         /// </summary>
         public static string LogicalXor {
             get {

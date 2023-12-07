@@ -141,13 +141,13 @@
         <value>По-голямо или равно</value>
     </data>
     <data name="LogicalAnd" xml:space="preserve">
-        <value>Логическо &amp;quot;И&amp;quot; (And)</value>
+        <value>Логическо "И" (And)</value>
     </data>
     <data name="LogicalOr" xml:space="preserve">
-        <value>Логическо &amp;quot;ИЛИ&amp;quot; (Or)</value>
+        <value>Логическо "ИЛИ" (Or)</value>
     </data>
     <data name="LogicalXor" xml:space="preserve">
-        <value>Изключващо &amp;quot;ИЛИ&amp;quot; (Xor)</value>
+        <value>Изключващо "ИЛИ" (Xor)</value>
     </data>
     <data name="Assignment" xml:space="preserve">
         <value>Присвояване</value>
@@ -354,13 +354,13 @@
         <value>Логическо отрицание (NOT)</value>
     </data>
     <data name="LogicalAnd_Function" xml:space="preserve">
-        <value>Логическо &amp;quot;И&amp;quot; (AND)</value>
+        <value>Логическо "И" (AND)</value>
     </data>
     <data name="LogicalOr_Function" xml:space="preserve">
-        <value>Логическо &amp;quot;ИЛИ&amp;quot; (OR)</value>
+        <value>Логическо "ИЛИ" (OR)</value>
     </data>
     <data name="LogicalXor_Function" xml:space="preserve">
-        <value>Изключващо &amp;quot;ИЛИ&amp;quot; (XOR)</value>
+        <value>Изключващо "ИЛИ" (XOR)</value>
     </data>
     <data name="Other" xml:space="preserve">
         <value>Други</value>

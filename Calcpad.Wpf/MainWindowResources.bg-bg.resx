@@ -531,4 +531,85 @@
     <data name="NorthWest" xml:space="preserve">
         <value>Северозапад</value>
     </data>
+    <data name="Real" xml:space="preserve">
+        <value>Реални</value>
+    </data>
+    <data name="LogicalORButton" xml:space="preserve">
+        <value>Логическо ИЛИ (OR)</value>
+    </data>
+    <data name="LogicalXORButton" xml:space="preserve">
+        <value>Изключващо ИЛИ (XOR)</value>
+    </data>
+    <data name="LogicalANDButton" xml:space="preserve">
+        <value>Логическо И (AND)</value>
+    </data>
+    <data name="DecimalPoint" xml:space="preserve">
+        <value>Десетична точка</value>
+    </data>
+    <data name="Multiply" xml:space="preserve">
+        <value>Умножение</value>
+    </data>
+    <data name="Divide" xml:space="preserve">
+        <value>Деление</value>
+    </data>
+    <data name="Add" xml:space="preserve">
+        <value>Събиране</value>
+    </data>
+    <data name="Subtract" xml:space="preserve">
+        <value>Изваждане</value>
+    </data>
+    <data name="Minimum" xml:space="preserve">
+        <value>Минимум</value>
+    </data>
+    <data name="Round" xml:space="preserve">
+        <value>Закръгляване към по-близкото</value>
+    </data>
+    <data name="Ceiling" xml:space="preserve">
+        <value>Закръгляване нагоре</value>
+    </data>
+    <data name="Floor" xml:space="preserve">
+        <value>Закръгляване надолу</value>
+    </data>
+    <data name="Maximum" xml:space="preserve">
+        <value>Максимум</value>
+    </data>
+    <data name="LeftBracket" xml:space="preserve">
+        <value>Лява скоба</value>
+    </data>
+    <data name="RightBracket" xml:space="preserve">
+        <value>Дясна скоба</value>
+    </data>
+    <data name="Reset" xml:space="preserve">
+        <value>Изчисти</value>
+    </data>
+    <data name="NewLine" xml:space="preserve">
+        <value>Нов ред</value>
+    </data>
+    <data name="AbsoluteValue" xml:space="preserve">
+        <value>Абсолютна стойност</value>
+    </data>
+    <data name="InverseFunctions" xml:space="preserve">
+        <value>Обратни функции</value>
+    </data>
+    <data name="HyperbolicFunctions" xml:space="preserve">
+        <value>Хиперболични функции</value>
+    </data>
+    <data name="SurfaceMap" xml:space="preserve">
+        <value>Изохроми на повърхнина</value>
+    </data>
+    <data name="FindRootOfEquation" xml:space="preserve">
+        <value>Търсене на корен на уравнението f(x) = 0</value>
+    </data>
+    <data name="CalculateByIterations" xml:space="preserve">
+        <value>Итерационно изчисление</value>
+    </data>
+    <data name="FiniteSum" xml:space="preserve">
+        <value>Крайна сума</value>
+    </data>
+    <data name="FiniteProduct" xml:space="preserve">
+        <value>Крайно произведение</value>
+    </data>
+    <data name="ChangeCase" xml:space="preserve">
+        <value>Главни/малки букви</value>
+    </data>
 </root>

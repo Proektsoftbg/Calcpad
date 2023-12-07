@@ -118,13 +118,13 @@
         <value>Greater Than or Equal</value>
     </data>
     <data name="LogicalAnd" xml:space="preserve">
-        <value>Logical &amp;quot;And&amp;quot;</value>
+        <value>Logical "And"</value>
     </data>
     <data name="LogicalOr" xml:space="preserve">
-        <value>Logical &amp;quot;Or&amp;quot;</value>
+        <value>Logical "Or"</value>
     </data>
     <data name="LogicalXor" xml:space="preserve">
-        <value>Logical &amp;quot;Xor&amp;quot;</value>
+        <value>Logical "Xor"</value>
     </data>
     <data name="Assignment" xml:space="preserve">
         <value>Assignment</value>
