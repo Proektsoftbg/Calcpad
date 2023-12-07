@@ -1197,7 +1197,7 @@
             </RadioButton.RenderTransform>
         </RadioButton>
         <TextBlock Height="16" TextWrapping="Wrap" FontSize="11.5" VerticalAlignment="Top" Margin="374,13,0,0" Text="{x:Static wpf:MainWindowResources.Numbers}" RenderTransformOrigin="0.291,0.394" HorizontalAlignment="Left" Width="50" TextDecorations="{x:Null}" Foreground="#CF000000"/>
-        <RadioButton Checked="ModeRadioButton_Checked" x:Name="Real" GroupName="Mode" Content="Real" TabIndex="1" IsChecked="True" Padding="2,0,0,0" Margin="374,33,0,7" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Left" Width="48" RenderTransformOrigin="0,0" FontSize="14">
+        <RadioButton Checked="ModeRadioButton_Checked" x:Name="Real" GroupName="Mode" Content="{x:Static wpf:MainWindowResources.Real}" TabIndex="1" IsChecked="True" Padding="2,0,0,0" Margin="374,33,0,7" FontFamily="Microsoft Sans Serif" HorizontalAlignment="Left" Width="48" RenderTransformOrigin="0,0" FontSize="14">
             <RadioButton.RenderTransform>
                 <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
             </RadioButton.RenderTransform>
@@ -1519,64 +1519,64 @@
                         <Button Click="Button_Click" Content="8"     Tag="8"        Margin="35,31,0,0"   Style="{StaticResource RoundButton}" FontFamily="Segoe UI Semibold"/>
                         <Button Click="Button_Click" Content="9"     Tag="9"        Margin="67,31,0,0"   Style="{StaticResource RoundButton}" FontFamily="Segoe UI Semibold"/>
                         <Button Click="Button_Click" Content="0"     Tag="0"        Margin="3,121,0,0"   Style="{StaticResource RoundButton}" FontFamily="Segoe UI Semibold"/>
-                        <Button Click="Button_Click" Content="."     Tag="."        Margin="35,121,0,0"  Style="{StaticResource RoundButton}" ToolTip="Decimal point" FontFamily="Microsoft Sans Serif"/>
+                        <Button Click="Button_Click" Content="."     Tag="."        Margin="35,121,0,0"  Style="{StaticResource RoundButton}" ToolTip="{x:Static wpf:MainWindowResources.DecimalPoint}" FontFamily="Microsoft Sans Serif"/>
                         <Button Click="Button_Click" Content="="     Tag=" = "      Margin="67,121,0,0"  Style="{StaticResource RoundButton}" ToolTip="{x:Static wpf:Constants.Assignment}"    FontFamily="Microsoft Sans Serif"/>
-                        <Button Click="Button_Click" Content="*"     Tag="*"        Margin="101,31,0,0"  Style="{StaticResource RoundButton}" ToolTip="Multiply"      VerticalAlignment="Top"/>
-                        <Button Click="Button_Click" Content="/"     Tag="/"        Margin="101,61,0,0"  Style="{StaticResource RoundButton}" ToolTip="Divide"/>
-                        <Button Click="Button_Click" Content="+"     Tag=" + "      Margin="101,91,0,0"  Style="{StaticResource RoundButton}" ToolTip="Add"/>
-                        <Button Click="Button_Click" Content="-"     Tag=" - "      Margin="101,121,0,0" Style="{StaticResource RoundButton}" ToolTip="Subtract"/>
-                        <Button Click="Button_Click" Content="≡"     Tag="≡"        Margin="133,31,0,0"  Style="{StaticResource RoundButton}" ToolTip="Equal (comparision)"/>
-                        <Button Click="Button_Click" Content="≠"     Tag="≠"        Margin="133,61,0,0"  Style="{StaticResource RoundButton}" ToolTip="Not equal" VerticalAlignment="Top"/>
-                        <Button Click="Button_Click" Content="≤"     Tag="≤"        Margin="133,91,0,0"  Style="{StaticResource RoundButton}" ToolTip="Less or equal"/>
-                        <Button Click="Button_Click" Content="≥"     Tag="≥"        Margin="133,121,0,0" Style="{StaticResource RoundButton}" ToolTip="Greater or equal"/>
+                        <Button Click="Button_Click" Content="*"     Tag="*"        Margin="101,31,0,0"  Style="{StaticResource RoundButton}" ToolTip="{x:Static wpf:MainWindowResources.Multiply}"      VerticalAlignment="Top"/>
+                        <Button Click="Button_Click" Content="/"     Tag="/"        Margin="101,61,0,0"  Style="{StaticResource RoundButton}" ToolTip="{x:Static wpf:MainWindowResources.Divide}"/>
+                        <Button Click="Button_Click" Content="+"     Tag=" + "      Margin="101,91,0,0"  Style="{StaticResource RoundButton}" ToolTip="{x:Static wpf:MainWindowResources.Add}"/>
+                        <Button Click="Button_Click" Content="-"     Tag=" - "      Margin="101,121,0,0" Style="{StaticResource RoundButton}" ToolTip="{x:Static wpf:MainWindowResources.Subtract}"/>
+                        <Button Click="Button_Click" Content="≡"     Tag="≡"        Margin="133,31,0,0"  Style="{StaticResource RoundButton}" ToolTip="{x:Static wpf:Constants.EqualTo}"/>
+                        <Button Click="Button_Click" Content="≠"     Tag="≠"        Margin="133,61,0,0"  Style="{StaticResource RoundButton}" ToolTip="{x:Static wpf:Constants.NotEqualTo}" VerticalAlignment="Top"/>
+                        <Button Click="Button_Click" Content="≤"     Tag="≤"        Margin="133,91,0,0"  Style="{StaticResource RoundButton}" ToolTip="{x:Static wpf:Constants.LessThanOrEqual}"/>
+                        <Button Click="Button_Click" Content="≥"     Tag="≥"        Margin="133,121,0,0" Style="{StaticResource RoundButton}" ToolTip="{x:Static wpf:Constants.GreaterThanOrEqual}"/>
                         <Button Click="Button_Click" Content="!"     Tag="!"        Margin="165,31,0,0"  Style="{StaticResource RoundButton}" ToolTip="{x:Static wpf:Constants.Factorial}" FontSize="18"/>
-                        <Button Click="Button_Click" Content="∧"    Tag="∧"        Margin="165,61,0,0"  Style="{StaticResource RoundButton}" ToolTip="Logical AND" VerticalAlignment="Top"/>
-                        <Button Click="Button_Click" Content="∨"    Tag="∨"        Margin="165,91,0,0"  Style="{StaticResource RoundButton}" ToolTip="Logical OR"/>
-                        <Button Click="Button_Click" Content="⊕"     Tag="⊕"        Margin="165,121,0,0" Style="{StaticResource RoundButton}" ToolTip="Logical XOR"/>
+                        <Button Click="Button_Click" Content="∧"    Tag="∧"        Margin="165,61,0,0"  Style="{StaticResource RoundButton}" ToolTip="{x:Static wpf:MainWindowResources.LogicalANDButton}" VerticalAlignment="Top"/>
+                        <Button Click="Button_Click" Content="∨"    Tag="∨"        Margin="165,91,0,0"  Style="{StaticResource RoundButton}" ToolTip="{x:Static wpf:MainWindowResources.LogicalORButton}"/>
+                        <Button Click="Button_Click" Content="⊕"     Tag="⊕"        Margin="165,121,0,0" Style="{StaticResource RoundButton}" ToolTip="{x:Static wpf:MainWindowResources.LogicalXORButton}"/>
                         <Button Click="Button_Click" Content="sin"   Tag="sin("     Margin="231,31,0,0"  Style="{StaticResource RoundButton}" ToolTip="{x:Static wpf:Constants.Sine}"            x:Name="SinButton" FontSize="14" Width="42"/>
                         <Button Click="Button_Click" Content="cos"   Tag="cos("     Margin="231,61,0,0"  Style="{StaticResource RoundButton}" ToolTip="{x:Static wpf:Constants.Cosine}"          x:Name="CosButton" FontSize="14" Width="42" VerticalAlignment="Top"/>
                         <Button Click="Button_Click" Content="tan"   Tag="tan("     Margin="231,91,0,0"  Style="{StaticResource RoundButton}" ToolTip="{x:Static wpf:Constants.Tangent}"         x:Name="TanButton" FontSize="14" Width="42"/>
                         <Button Click="Button_Click" Content="cot"   Tag="cot("     Margin="275,91,0,0"  Style="{StaticResource RoundButton}" ToolTip="{x:Static wpf:Constants.Cotangent}"       x:Name="CotButton" FontSize="14" Width="42"/>
-                        <Button Click="Button_Click" Content="min"   Tag="min("     Margin="319,31,0,0"  Style="{StaticResource RoundButton}" ToolTip="Minimum"                            FontSize="14" Width="42"/>
-                        <Button Click="Button_Click" Content="rnd"   Tag="round("   Margin="319,61,0,0"  Style="{StaticResource RoundButton}" ToolTip="Round"                              FontSize="14" Width="42" VerticalAlignment="Top"/>
-                        <Button Click="Button_Click" Content="ceil"  Tag="ceiling(" Margin="319,91,0,0"  Style="{StaticResource RoundButton}" ToolTip="Ceiling"                            FontSize="14" Width="42"/>
-                        <Button Click="Button_Click" Content="floor" Tag="floor("   Margin="319,121,0,0" Style="{StaticResource RoundButton}" ToolTip="Floor"                              FontSize="14" Width="42"/>
-                        <Button Click="Button_Click" Content="max"   Tag="max("     Margin="363,31,0,0"  Style="{StaticResource RoundButton}" ToolTip="Maximum"                            FontSize="14" Width="42"/>
-                        <Button Click="Button_Click" Content="re"    Tag="re("      Margin="363,61,0,0"  Style="{StaticResource RoundButton}" ToolTip="Real part of a complex number"      FontSize="14" Width="42" VerticalAlignment="Top"/>
-                        <Button Click="Button_Click" Content="im"    Tag="im("      Margin="363,91,0,0"  Style="{StaticResource RoundButton}" ToolTip="Imaginary part of a complex number" FontSize="14" Width="42"/>
-                        <Button Click="Button_Click" Content="ph"    Tag="phase("   Margin="363,121,0,0" Style="{StaticResource RoundButton}" ToolTip="Phase of a complex number"          FontSize="14" Width="42"/>
-                        <Button Click="Button_Click" Content="e"     Tag="e"        Margin="409,31,0,0"  Style="{StaticResource RoundButton}" ToolTip="Euler's number"                     FontSize="14"/>
-                        <Button Click="Button_Click" Content="g"     Tag="g"        Margin="409,91,0,0"  Style="{StaticResource RoundButton}" ToolTip="Gravity acceleration on Earth"      FontSize="14"/>
-                        <Button Click="Button_Click" Content="("     Tag="("        Margin="409,121,0,0" Style="{StaticResource RoundButton}" ToolTip="Left bracket"                       FontSize="14" Foreground="DeepPink"/>
-                        <Button Click="Button_Click" Content=")"     Tag=")"        Margin="441,121,0,0" Style="{StaticResource RoundButton}" ToolTip="Right bracket"                      FontSize="14" Foreground="DeepPink"/>
-                        <Button Click="Button_Click" Content="AC"    Tag="AC"       Margin="441,31,0,0"  Style="{StaticResource RoundButton}" ToolTip="Reset"                              FontSize="13" Foreground="Red" FontWeight="Bold" MouseDoubleClick="Button_MouseDoubleClick" />
-                        <Button Click="Button_Click" Content=" ⏎ "  Tag="Enter"    Margin="441,91,0,0"  Style="{StaticResource RoundButton}" ToolTip="New line"                           FontSize="16" Foreground="Red" FontWeight="Bold" FontFamily="Microsoft Sans Serif"/>
-                        <Button Click="Button_Click" Content="log"   Tag="log("     Margin="231,121,0,0" Style="{StaticResource RoundButton}" ToolTip="Decimal logarithm"                  FontSize="14" Width="42"/>
-                        <Button Click="Button_Click" Content="| x |" Tag="abs("     Margin="275,121,0,0" Style="{StaticResource RoundButton}" ToolTip="Absolute value"                     FontSize="14" Width="42"/>
-                        <Button Click="InvHypButton_Click" x:Name="InvButton" Content="inv" Margin="409,3,0,0" Style="{StaticResource RoundButton}" FontSize="12" ToolTip="Inverse functions" FontFamily="Microsoft Sans Serif" Height="26"/>
-                        <Button Click="InvHypButton_Click" x:Name="HypButton" Content="hyp" Margin="441,3,0,0" Style="{StaticResource RoundButton}" FontSize="12" ToolTip="Hyperbolic functions" FontFamily="Microsoft Sans Serif" Height="26"/>
+                        <Button Click="Button_Click" Content="min"   Tag="min("     Margin="319,31,0,0"  Style="{StaticResource RoundButton}" ToolTip="{x:Static wpf:MainWindowResources.Minimum}"                            FontSize="14" Width="42"/>
+                        <Button Click="Button_Click" Content="rnd"   Tag="round("   Margin="319,61,0,0"  Style="{StaticResource RoundButton}" ToolTip="{x:Static wpf:MainWindowResources.Round}"                              FontSize="14" Width="42" VerticalAlignment="Top"/>
+                        <Button Click="Button_Click" Content="ceil"  Tag="ceiling(" Margin="319,91,0,0"  Style="{StaticResource RoundButton}" ToolTip="{x:Static wpf:MainWindowResources.Ceiling}"                            FontSize="14" Width="42"/>
+                        <Button Click="Button_Click" Content="floor" Tag="floor("   Margin="319,121,0,0" Style="{StaticResource RoundButton}" ToolTip="{x:Static wpf:MainWindowResources.Floor}"                              FontSize="14" Width="42"/>
+                        <Button Click="Button_Click" Content="max"   Tag="max("     Margin="363,31,0,0"  Style="{StaticResource RoundButton}" ToolTip="{x:Static wpf:MainWindowResources.Maximum}"                            FontSize="14" Width="42"/>
+                        <Button Click="Button_Click" Content="re"    Tag="re("      Margin="363,61,0,0"  Style="{StaticResource RoundButton}" ToolTip="{x:Static wpf:Constants.RealPartOfAComplexNumber}"      FontSize="14" Width="42" VerticalAlignment="Top"/>
+                        <Button Click="Button_Click" Content="im"    Tag="im("      Margin="363,91,0,0"  Style="{StaticResource RoundButton}" ToolTip="{x:Static wpf:Constants.ImaginaryPartOfAComplexNumber}" FontSize="14" Width="42"/>
+                        <Button Click="Button_Click" Content="ph"    Tag="phase("   Margin="363,121,0,0" Style="{StaticResource RoundButton}" ToolTip="{x:Static wpf:Constants.PhaseOfAComplexNumber}"          FontSize="14" Width="42"/>
+                        <Button Click="Button_Click" Content="e"     Tag="e"        Margin="409,31,0,0"  Style="{StaticResource RoundButton}" ToolTip="{x:Static wpf:Constants.EulerNumber}"                     FontSize="14"/>
+                        <Button Click="Button_Click" Content="g"     Tag="g"        Margin="409,91,0,0"  Style="{StaticResource RoundButton}" ToolTip="{x:Static wpf:Constants.GravitationalAcceleration}"      FontSize="14"/>
+                        <Button Click="Button_Click" Content="("     Tag="("        Margin="409,121,0,0" Style="{StaticResource RoundButton}" ToolTip="{x:Static wpf:MainWindowResources.LeftBracket}"                       FontSize="14" Foreground="DeepPink"/>
+                        <Button Click="Button_Click" Content=")"     Tag=")"        Margin="441,121,0,0" Style="{StaticResource RoundButton}" ToolTip="{x:Static wpf:MainWindowResources.RightBracket}"                      FontSize="14" Foreground="DeepPink"/>
+                        <Button Click="Button_Click" Content="AC"    Tag="AC"       Margin="441,31,0,0"  Style="{StaticResource RoundButton}" ToolTip="{x:Static wpf:MainWindowResources.Reset}"                              FontSize="13" Foreground="Red" FontWeight="Bold" MouseDoubleClick="Button_MouseDoubleClick" />
+                        <Button Click="Button_Click" Content=" ⏎ "  Tag="Enter"    Margin="441,91,0,0"  Style="{StaticResource RoundButton}" ToolTip="{x:Static wpf:MainWindowResources.NewLine}"                           FontSize="16" Foreground="Red" FontWeight="Bold" FontFamily="Microsoft Sans Serif"/>
+                        <Button Click="Button_Click" Content="log"   Tag="log("     Margin="231,121,0,0" Style="{StaticResource RoundButton}" ToolTip="{x:Static wpf:Constants.DecimalLogarithm}"                  FontSize="14" Width="42"/>
+                        <Button Click="Button_Click" Content="| x |" Tag="abs("     Margin="275,121,0,0" Style="{StaticResource RoundButton}" ToolTip="{x:Static wpf:MainWindowResources.AbsoluteValue}"                     FontSize="14" Width="42"/>
+                        <Button Click="InvHypButton_Click" x:Name="InvButton" Content="inv" Margin="409,3,0,0" Style="{StaticResource RoundButton}" FontSize="12" ToolTip="{x:Static wpf:MainWindowResources.InverseFunctions}" FontFamily="Microsoft Sans Serif" Height="26"/>
+                        <Button Click="InvHypButton_Click" x:Name="HypButton" Content="hyp" Margin="441,3,0,0" Style="{StaticResource RoundButton}" FontSize="12" ToolTip="{x:Static wpf:MainWindowResources.HyperbolicFunctions}" FontFamily="Microsoft Sans Serif" Height="26"/>
                         <Button Click="Button_Click" Content="Plot" Tag="$Plot{f(x) @ x = a : b}" Margin="475,2,0,0"
-                            Style="{StaticResource RoundButton}" FontSize="13" ToolTip="Function plot"
+                            Style="{StaticResource RoundButton}" FontSize="13" ToolTip="{x:Static wpf:MainWindowResources.FunctionPlot}"
                             Width="46" VerticalContentAlignment="Center" FontWeight="Normal" Height="27"/>
                         <Button Click="Button_Click" Content="Map" Tag="$Map{f(x;y) @ x = a : b &amp; y = c : d}"
-                            Margin="523,2,0,0" Style="{StaticResource RoundButton}" FontSize="13" ToolTip="Surface map"
+                            Margin="523,2,0,0" Style="{StaticResource RoundButton}" FontSize="13" ToolTip="{x:Static wpf:MainWindowResources.SurfaceMap}"
                             Width="48" FontWeight="Normal" Height="27"/>
                         <Button Click="Button_Click" Content="Root" Tag="$Root{f(x) @ x = a : b}" Margin="475,31,0,0"
-                            Style="{StaticResource RoundButton}" FontSize="13" ToolTip="Find a root of equation f(x) = 0"
+                            Style="{StaticResource RoundButton}" FontSize="13" ToolTip="{x:Static wpf:MainWindowResources.FindRootOfEquation}"
                             Width="46" FontWeight="Normal"/>
                         <Button Click="Button_Click" Content="{x:Static wpf:Units.Area}" Tag="$Area{f(x) @ x = a : b}" Margin="475,91,0,0"
                             Style="{StaticResource RoundButton}" FontSize="13" ToolTip="{x:Static wpf:MainWindowResources.AdaptiveGaussLobattoIntegration}" Width="46" FontWeight="Normal"/>
                         <Button Click="Button_Click" Content="Slope" Tag="$Slope{f(x) @ x = a}" Margin="523,91,0,0"
-                            Style="{StaticResource RoundButton}" FontSize="13" ToolTip="Numerical differentiation"
+                            Style="{StaticResource RoundButton}" FontSize="13" ToolTip="{x:Static wpf:MainWindowResources.NumericalDifferentiation}"
                             Width="48" FontWeight="Normal"/>
                         <Button Click="Button_Click" Content="Repeat" Tag="$Repeat{f(k) @ k = 1 : n}" Margin="523,31,0,0"
-                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="Calculate by iterations"
+                            Style="{StaticResource RoundButton}" FontSize="14" ToolTip="{x:Static wpf:MainWindowResources.CalculateByIterations}"
                             Width="48" FontFamily="Arial Nova Cond" FontStretch="Condensed"/>
                         <Button Click="Button_Click" Content="Sum" Tag="$Sum{f(k) @ k = 1 : n}" Margin="475,121,0,0"
-                            Style="{StaticResource RoundButton}" FontSize="13" ToolTip="Finite sum" 
+                            Style="{StaticResource RoundButton}" FontSize="13" ToolTip="{x:Static wpf:MainWindowResources.FiniteSum}" 
                             Width="46" FontWeight="Normal"/>
                         <Button Click="Button_Click" Content="Product" Tag="$Product{f(k) @ k = 1 : n}" Margin="523,121,0,0"
-                            Style="{StaticResource RoundButton}" FontSize="13" ToolTip="Finite product"
+                            Style="{StaticResource RoundButton}" FontSize="13" ToolTip="{x:Static wpf:MainWindowResources.FiniteProduct}"
                             Width="48" FontWeight="Normal" FontFamily="Arial Nova Cond" FontStretch="Condensed"/>
                         <Button Click="Button_Click" x:Name="CscButton" Content="csc" Tag="csc(" Margin="275,31,0,0"
                         Style="{StaticResource RoundButton}" FontSize="14" ToolTip="{x:Static wpf:Constants.Cosecant}" Width="42"/>
@@ -1593,8 +1593,8 @@
                     <Canvas x:Name="LineNumbers" HorizontalAlignment="Left" Margin="6,5,0,26" Width="40"/>
                     <Border BorderThickness="0,0,1,0" HorizontalAlignment="Left" Margin="0,5,0,24" Width="50" BorderBrush="#FFE3E3E3"/>
                     <WrapPanel x:Name="GreekLettersWarpPanel" ToolTip="Greek letters" Margin="4,0,0,1" Height="20" VerticalAlignment="Bottom">
-                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="‰" Style="{StaticResource GreekLetter}" Margin="5,2,1,2"/>
-                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="°" Style="{StaticResource GreekLetter}" Margin="2,2,2,2" FontSize="16"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="‰" Style="{StaticResource GreekLetter}" ToolTip="{x:Static wpf:Units.Permille}" Margin="5,2,1,2"/>
+                        <TextBlock MouseUp="GreekLetter_MouseUp" Text="°" Style="{StaticResource GreekLetter}" ToolTip="{x:Static wpf:Units.Degrees}" Margin="2,2,2,2" FontSize="16"/>
                         <TextBlock MouseUp="GreekLetter_MouseUp" Text="′" Style="{StaticResource GreekLetter}" Margin="2,2,1,2" FontSize="16"/>
                         <TextBlock MouseUp="GreekLetter_MouseUp" Text="″" Style="{StaticResource GreekLetter}" Margin="2,2,1,2" FontSize="16"/>
                         <TextBlock MouseUp="GreekLetter_MouseUp" Text="ø" Style="{StaticResource GreekLetter}" Margin="2,2,1,2"/>
@@ -1626,7 +1626,7 @@
                         <TextBlock MouseUp="GreekLetter_MouseUp" Text="ω" Style="{StaticResource GreekLetter}" Margin="2,2,4,2"/>
                         <Button Click="ChangeCaseButton_Click" Content="aA" Style="{StaticResource RoundButton}" 
                                 Width="32" FontSize="13"
-                                Height="20" FontFamily="Microsoft Sans Serif" ToolTip="Change case" VerticalAlignment="Center" FontWeight="Normal" HorizontalAlignment="Center" Margin="2,0,0,0"/>
+                                Height="20" FontFamily="Microsoft Sans Serif" ToolTip="{x:Static wpf:MainWindowResources.ChangeCase}" VerticalAlignment="Center" FontWeight="Normal" HorizontalAlignment="Center" Margin="2,0,0,0"/>
                     </WrapPanel>
                     <ListBox x:Name="AutoCompleteListBox" 
                              HorizontalAlignment="Left" 

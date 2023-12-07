@@ -69,6 +69,15 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Absolute value.
+        /// </summary>
+        public static string AbsoluteValue {
+            get {
+                return ResourceManager.GetString("AbsoluteValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Adaptive.
         /// </summary>
         public static string Adaptive {
@@ -92,6 +101,15 @@ namespace Calcpad.Wpf {
         public static string AdaptiveTooltip {
             get {
                 return ResourceManager.GetString("AdaptiveTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        public static string Add {
+            get {
+                return ResourceManager.GetString("Add", resourceCulture);
             }
         }
         
@@ -173,6 +191,33 @@ namespace Calcpad.Wpf {
         public static string Calculate {
             get {
                 return ResourceManager.GetString("Calculate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Calculate by iterations.
+        /// </summary>
+        public static string CalculateByIterations {
+            get {
+                return ResourceManager.GetString("CalculateByIterations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ceiling.
+        /// </summary>
+        public static string Ceiling {
+            get {
+                return ResourceManager.GetString("Ceiling", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change case.
+        /// </summary>
+        public static string ChangeCase {
+            get {
+                return ResourceManager.GetString("ChangeCase", resourceCulture);
             }
         }
         
@@ -294,11 +339,29 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Decimal point.
+        /// </summary>
+        public static string DecimalPoint {
+            get {
+                return ResourceManager.GetString("DecimalPoint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to digits.
         /// </summary>
         public static string Digits {
             get {
                 return ResourceManager.GetString("Digits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Divide.
+        /// </summary>
+        public static string Divide {
+            get {
+                return ResourceManager.GetString("Divide", resourceCulture);
             }
         }
         
@@ -474,6 +537,42 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Find a root of equation f(x) = 0.
+        /// </summary>
+        public static string FindRootOfEquation {
+            get {
+                return ResourceManager.GetString("FindRootOfEquation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Finite product.
+        /// </summary>
+        public static string FiniteProduct {
+            get {
+                return ResourceManager.GetString("FiniteProduct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Finite sum.
+        /// </summary>
+        public static string FiniteSum {
+            get {
+                return ResourceManager.GetString("FiniteSum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Floor.
+        /// </summary>
+        public static string Floor {
+            get {
+                return ResourceManager.GetString("Floor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Folded Div.
         /// </summary>
         public static string FoldedDiv {
@@ -591,6 +690,15 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hyperbolic functions.
+        /// </summary>
+        public static string HyperbolicFunctions {
+            get {
+                return ResourceManager.GetString("HyperbolicFunctions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Image.
         /// </summary>
         public static string Image {
@@ -672,6 +780,15 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Inverse functions.
+        /// </summary>
+        public static string InverseFunctions {
+            get {
+                return ResourceManager.GetString("InverseFunctions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Italic.
         /// </summary>
         public static string Italic {
@@ -713,6 +830,15 @@ namespace Calcpad.Wpf {
         public static string KeypadLabel {
             get {
                 return ResourceManager.GetString("KeypadLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Left bracket.
+        /// </summary>
+        public static string LeftBracket {
+            get {
+                return ResourceManager.GetString("LeftBracket", resourceCulture);
             }
         }
         
@@ -762,6 +888,51 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Logical and.
+        /// </summary>
+        public static string LogicalANDButton {
+            get {
+                return ResourceManager.GetString("LogicalANDButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Logical OR.
+        /// </summary>
+        public static string LogicalORButton {
+            get {
+                return ResourceManager.GetString("LogicalORButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Logical XOR.
+        /// </summary>
+        public static string LogicalXORButton {
+            get {
+                return ResourceManager.GetString("LogicalXORButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maximum.
+        /// </summary>
+        public static string Maximum {
+            get {
+                return ResourceManager.GetString("Maximum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Minimum.
+        /// </summary>
+        public static string Minimum {
+            get {
+                return ResourceManager.GetString("Minimum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Multiline Macro.
         /// </summary>
         public static string MultilineMacro {
@@ -798,6 +969,15 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Multiply.
+        /// </summary>
+        public static string Multiply {
+            get {
+                return ResourceManager.GetString("Multiply", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _New.
         /// </summary>
         public static string New {
@@ -812,6 +992,15 @@ namespace Calcpad.Wpf {
         public static string NewFile {
             get {
                 return ResourceManager.GetString("NewFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New line.
+        /// </summary>
+        public static string NewLine {
+            get {
+                return ResourceManager.GetString("NewLine", resourceCulture);
             }
         }
         
@@ -1095,6 +1284,15 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Real.
+        /// </summary>
+        public static string Real {
+            get {
+                return ResourceManager.GetString("Real", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _Recent Files.
         /// </summary>
         public static string RecentFiles {
@@ -1149,6 +1347,24 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reset.
+        /// </summary>
+        public static string Reset {
+            get {
+                return ResourceManager.GetString("Reset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Right bracket.
+        /// </summary>
+        public static string RightBracket {
+            get {
+                return ResourceManager.GetString("RightBracket", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Root Finding for f(x)=const.
         /// </summary>
         public static string RootFindingForXEqualsConst {
@@ -1163,6 +1379,15 @@ namespace Calcpad.Wpf {
         public static string RootFindingForXEqualsZero {
             get {
                 return ResourceManager.GetString("RootFindingForXEqualsZero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Round.
+        /// </summary>
+        public static string Round {
+            get {
+                return ResourceManager.GetString("Round", resourceCulture);
             }
         }
         
@@ -1491,11 +1716,29 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Subtract.
+        /// </summary>
+        public static string Subtract {
+            get {
+                return ResourceManager.GetString("Subtract", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Superscript.
         /// </summary>
         public static string Superscript {
             get {
                 return ResourceManager.GetString("Superscript", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Surface map.
+        /// </summary>
+        public static string SurfaceMap {
+            get {
+                return ResourceManager.GetString("SurfaceMap", resourceCulture);
             }
         }
         
