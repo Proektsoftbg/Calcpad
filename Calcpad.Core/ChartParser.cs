@@ -33,20 +33,12 @@ namespace Calcpad.Core
                 if (c == '}')
                     --bracketCount;
             }
-            if (index <= 4)
-#if BG
-                return $"<span class = \"err\">Липсва разделител \"{delimiters[index]}\" в команда за графика \"{script}\".</span>";
-#else            
-                return $"<span class = \"err\">Missing delimiter \"{delimiters[index]}\" in plot command \"{script}\".</span>";
-#endif
+            if (index <= 4)   
+                return string.Format(Messages.Missing_delimiter_0_in_plot_command, delimiters[index].ToString(), script.ToString());
 
             for (int j = 0; j < n; ++j)
                 if (string.IsNullOrWhiteSpace(input[j]))
-#if BG
-                    return $"<span class = \"err\">Липсва {Parts[j]} в команда за графика \"{script}\".</span>.";
-#else           
-                    return $"<span class = \"err\">Missing {Parts[j]} in plot command \"{script}\".</span>.";
-#endif
+                    return string.Format(Messages.Missing_0_in_plot_command_1, Parts[j], script.ToString());
             string result;
             if (calculate)
             {
@@ -60,11 +52,7 @@ namespace Calcpad.Core
                 {
                     var xy = charts[i].Split('|');
                     if (xy.Length > 2)
-#if BG
-                        return $"<span class = \"err\">Разделителите \"|\" са повече от един в команда за графика {script}.</span>";
-#else
-                        return $"<span class = \"err\">More than one delimiter \"|\" in plot command {script}.</span>";
-#endif
+                        return string.Format(Messages.More_than_one_delimiter_in_plot_command, script.ToString());
                     else if (xy.Length > 0)
                     {
                         if (xy.Length == 1)
@@ -115,11 +103,7 @@ namespace Calcpad.Core
             {
                 var xy = s.Split('|');
                 if (xy.Length > 2)
-#if BG
-                    return $"<span class = \"err\">Има повече от един разделител \"|\" в команда за графика {input[0]}.</span>";
-#else
-                    return $"<span class = \"err\">More than one delimiter \"|\" in plot command {input[0]}.</span>";
-#endif
+                    return string.Format(Messages.More_than_one_delimiter_in_plot_command, input[0]);
                 else if (xy.Length > 0)
                 {
                     string sx, sy;

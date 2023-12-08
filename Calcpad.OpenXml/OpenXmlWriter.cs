@@ -84,11 +84,7 @@ namespace Calcpad.OpenXml
             stringBuilder.Append("\n-------------------------------------------");
             stringBuilder.Append("\nContent XML:\n");
             //stringBuilder.Append(doc.MainDocumentPart.Document.OuterXml);
-#if BG
-            return "Грешки при валидиране на документ" + stringBuilder;
-#else
-            return "Validation errors in document" + stringBuilder;
-#endif
+            return Messages.Validation_errors_in_document + stringBuilder;
         }
 
         private OpenXmlElement ParseHtmlNode(HtmlNode domNode, MainDocumentPart mainPart)
