@@ -173,17 +173,9 @@ namespace Calcpad.Core
                 if (currentLine == lineCount && (calculate || !IsPaused))
                 {
                     if (_condition.Id > 0)
-#if BG
-                        _sb.Append(ErrHtml("Грешка: Условният \"#if\" блок не е затворен. Липсва \"#end if\".", currentLine));
-#else
-                        _sb.Append(ErrHtml("Error: \"#if\" block not closed. Missing \"#end if\".", currentLine));
-#endif
+                        _sb.Append(ErrHtml(Messages.if_block_not_closed_Missing_end_if, currentLine));
                     if (_loops.Count != 0)
-#if BG
-                        _sb.Append(ErrHtml("Грешка: Блокът за цикъл \"#repeat\" не е затворен. Липсва \"#loop\".", currentLine));
-#else
-                        _sb.Append(ErrHtml("Error: \"#repeat\" block not closed. Missing \"#loop\".", currentLine));
-#endif
+                        _sb.Append(ErrHtml(Messages.repeat_block_not_closed_Missing_loop, currentLine));
                     if (Debug && (_condition.Id > 0 || _loops.Count != 0))
                         errors.Enqueue(currentLine);
                 }
@@ -194,11 +186,7 @@ namespace Calcpad.Core
             }
             catch (Exception ex)
             {
-#if BG
-                _sb.Append(ErrHtml($"Неочаквана грешка: {ex.Message} Моля проверете коректността на израза.", currentLine));
-#else
-                _sb.Append(ErrHtml($"Unexpected error: {ex.Message} Please check the expression consistency.", currentLine));
-#endif
+                _sb.Append(ErrHtml(string.Format(Messages.Unexpected_error_0_Please_check_the_expression_consistency, ex.Message), currentLine));
                 if (Debug)
                     errors.Enqueue(currentLine);
             }
@@ -208,26 +196,14 @@ namespace Calcpad.Core
                     _startLine = 0;
 
                 if (_startLine > 0)
-#if BG
-                    _sb.Append("<p><span class=\"err\">Пауза!</span> натиснете <b>F5</b> за да <a href=\"#0\" data-text=\"continue\">продължите</a> или <b>Esc</b> за да <a href=\"#0\" data-text=\"cancel\">прекъснете</a>.</p>");
-#else
-                    _sb.Append("<p><span class=\"err\">Paused!</span> Press <b>F5</b> to <a href=\"#0\" data-text=\"continue\">continue</a> or <b>Esc</b> to <a href=\"#0\" data-text=\"cancel\">cancel</a>.</p>");
-#endif
+                    _sb.Append(Messages.Paused_Press_F5_to_continue);
 
                 if (Debug && lineCount > 30 && errors.Count != 0)
                 {
                     if (errors.Count == 1)
-#if BG
-                        _sb.AppendLine("<div class=\"errorHeader\">Общо <b>1</b> грешка на ред:");
-#else
-                        _sb.AppendLine("<div class=\"errorHeader\">Found <b>1</b> error on line:");
-#endif
+                        _sb.AppendLine(Messages.Error_found_on_line);
                     else
-#if BG
-                        _sb.AppendLine($"<div class=\"errorHeader\">Общо <b>{errors.Count}</b> грешки на редове:");
-#else
-                        _sb.AppendLine($"<div class=\"errorHeader\">Found <b>{errors.Count}</b> errors on lines:");
-#endif
+                        _sb.AppendLine(string.Format(Messages.Errors_found_on_lines, errors.Count));
                     var count = 0;
                     var prevLine = 0;
                     while (errors.Count != 0 && count < 20)
@@ -259,11 +235,8 @@ namespace Calcpad.Core
 
             void AppendError(string lineContent, string text, int line)
             {
-#if BG
-                _sb.Append(ErrHtml($"Грешка в \"{lineContent}\" на ред {LineHtml(line)}: {text}", line));
-#else
-                _sb.Append(ErrHtml($"Error in \"{lineContent}\" on line {LineHtml(line)}: {text}", line));
-#endif
+                _sb.Append(ErrHtml(string.Format(Messages.Error_in_0_on_line_1__2, lineContent, LineHtml(line), text), line));
+                
                 if (Debug)
                     errors.Enqueue(line);
             }
@@ -415,11 +388,7 @@ namespace Calcpad.Core
                                 _parser.Parse(expression);
                                 _parser.Calculate();
                                 if (_parser.Real > int.MaxValue)
-#if BG
-                                    AppendError(s.ToString(), $"Броят на итерациите е по-голям от максималния {int.MaxValue}.</p>", currentLine);
-#else
-                                    AppendError(s.ToString(), $"Number of iterations exceeds the maximum {int.MaxValue}.</p>", currentLine);
-#endif
+                                    AppendError(s.ToString(), string.Format(Messages.Number_of_iterations_exceeds_the_maximum_0, int.MaxValue), currentLine);
                                 else
                                     count = (int)Math.Round(_parser.Real, MidpointRounding.AwayFromZero);
                             }
@@ -460,17 +429,9 @@ namespace Calcpad.Core
                     if (_condition.IsSatisfied)
                     {
                         if (_loops.Count == 0)
-#if BG
-                            AppendError(s.ToString(), "\"#loop\" без съответен \"#repeat\".", currentLine);
-#else
-                            AppendError(s.ToString(), "\"#loop\" without a corresponding \"#repeat\".", currentLine);
-#endif
+                            AppendError(s.ToString(), Messages.loop_without_a_corresponding_repeat, currentLine);
                         else if (_loops.Peek().Id != _condition.Id)
-#if BG
-                            AppendError(s.ToString(), "Преплитане на \"#if - #end if\" и \"#repeat - #loop\" блокове.", currentLine);
-#else
-                            AppendError(s.ToString(), "Entangled \"#if - #end if\" and \"#repeat - #loop\" blocks.", currentLine);
-#endif
+                            AppendError(s.ToString(), Messages.Entangled_if__end_if__and_repeat__loop_blocks, currentLine);
                         else if (!_loops.Peek().Iterate(ref currentLine))
                             _loops.Pop();
                     }
@@ -505,11 +466,7 @@ namespace Calcpad.Core
                     if (_condition.IsSatisfied)
                     {
                         if (_loops.Count == 0)
-#if BG
-                            AppendError(s.ToString(), "\"#continue\" без съответен \"#repeat\".", currentLine);
-#else
-                            AppendError(s.ToString(), "\"#continue\" without a corresponding \"#repeat\".", currentLine);
-#endif
+                            AppendError(s.ToString(), Messages.continue_without_a_corresponding_repeat, currentLine);
                         else
                         {
                             var loop = _loops.Peek();
@@ -672,11 +629,7 @@ namespace Calcpad.Core
                                 errText = token.Value.Replace("?", "<input type=\"text\" size=\"2\" name=\"Var\">");
                             else
                                 errText = HttpUtility.HtmlEncode(token.Value);
-#if BG
-                            errText = $"Грешка в \"{errText}\" на ред {LineHtml(currentLine)}: {ex.Message}";
-#else
-                            errText = $"Error in \"{errText}\" on line {LineHtml(currentLine)}: {ex.Message}";
-#endif  
+                            errText = string.Format(Messages.Error_in_0_on_line_1__2, errText, LineHtml(currentLine), ex.Message);
                             _sb.Append($"<span class=\"err\"{Id(currentLine)}>{errText}</span>");
                             if (Debug)
                                 errors.Enqueue(currentLine);

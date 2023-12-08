@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
+using Messages = Calcpad.Core.Messages;
 
 namespace Calcpad.Core
 {
@@ -164,11 +165,7 @@ namespace Calcpad.Core
 
                 if (macroDefCount > 0)
                 {
-#if BG
-                    sb.Append("#Грешка: Незатворена дефиниция на макрос. Липсва \"#end def\".");
-#else
-                    sb.Append("#Error: Macro definition block not closed. Missing \"#end def\".");
-#endif
+                    sb.Append(Messages.Macro_definition_block_not_closed_Missing_end_def);
                     hasErrors = true;
                 }
             }
@@ -205,11 +202,7 @@ namespace Calcpad.Core
             {
                 int n = lineContent.Length;
                 if (n < 9)
-#if BG
-                    AppendError(lineContent.ToString(), "Липсва изходен файл за вмъкване.");
-#else
-                    AppendError(lineContent.ToString(), "Missing source file for include.");
-#endif
+                    AppendError(lineContent.ToString(), Messages.Missing_source_file_for_include);
                 n = lineContent.IndexOfAny('\'', '"');
                 var nf1 = lineContent.LastIndexOf('#');
                 if (n < 9 || nf1 > 0 && nf1 < n)
@@ -221,11 +214,7 @@ namespace Calcpad.Core
                 var insertFileName = lineContent[8..n].Trim().ToString();
                 var fileExist = File.Exists(insertFileName);
                 if (!fileExist)
-#if BG
-                    AppendError(lineContent.ToString(), "Файлът не е намерен.");
-#else
-                    AppendError(lineContent.ToString(), "File not found.");
-#endif
+                    AppendError(lineContent.ToString(), Messages.File_not_found);
                 Queue<string> fields = new();
                 if (nf1 > 0)
                 {
@@ -314,12 +303,8 @@ namespace Calcpad.Core
                         if (string.IsNullOrWhiteSpace(macroName))
                         {
                             macroName = textSpan.ToString();
-
-#if BG
-                            AppendError(lineContent.ToString(), $"Невалидно име на макрос: \"{macroName}\".");
-#else
-                            AppendError(lineContent.ToString(), $"Invalid macro name: \"{macroName}\".");
-#endif
+                            AppendError(lineContent.ToString(), string.Format(Messages.Invalid_macro_name_0, macroName));
+                            
                             macroName = string.Empty;
                             textSpan.Reset(i);
                         }
@@ -328,11 +313,7 @@ namespace Calcpad.Core
                 }
                 else
                 {
-#if BG
-                    AppendError(lineContent.ToString(), "Невалидно в дефиниция на макрос.");
-#else
-                    AppendError(lineContent.ToString(), "Invalid inside macro definition.");
-#endif
+                    AppendError(lineContent.ToString(), Messages.Invalid_inside_macro_definition);
                     ++macroDefCount;
                 }
             }
@@ -341,11 +322,7 @@ namespace Calcpad.Core
             {
                 if (macroDefCount < 1)
                 {
-#if BG
-                    AppendError(lineContent.ToString(), "\"Няма съответен \"#def\".");
-#else
-                    AppendError(lineContent.ToString(), "\"There is no matching \"#def\".");
-#endif
+                    AppendError(lineContent.ToString(), Messages.There_is_no_matching_def);
                 }
                 else
                 {
@@ -370,31 +347,19 @@ namespace Calcpad.Core
 
             void SymbolError(ReadOnlySpan<char> lineContent, char c)
             {
-#if BG
-                AppendError(lineContent.ToString(), $"Невалиден символ \"{c}\" в име на макрос.");
-#else
-                AppendError(lineContent.ToString(), $"Invalid symbol \"{c}\" in macro name.");
-#endif
+                AppendError(lineContent.ToString(), string.Format(Messages.Invalid_symbol_0_in_macro_name, c));
             }
 
             void AppendError(string lineContent, string errorMessage)
             {
-#if BG
-                sb.AppendLine($"#Грешка в \"{HttpUtility.HtmlEncode(lineContent)}\" на ред {LineHtml(lineNumber)}: {errorMessage}");
-#else
-                sb.AppendLine($"#Error in \"{HttpUtility.HtmlEncode(lineContent)}\" on line {LineHtml(lineNumber)}: {errorMessage}");
-#endif
+                sb.AppendLine(string.Format(Messages.Error_in_0_on_line_1__2, HttpUtility.HtmlEncode(lineContent), LineHtml(lineNumber), errorMessage));
                 hasErrors = true;
             }
 
             void AddMacro(string lineContent, string name, Macro macro)
             {
                 if (!Macros.TryAdd(name, macro))
-#if BG
-                    AppendError(lineContent, $"Повтарящо се име на макрос: \"{name}\".");
-#else
-                    AppendError(lineContent, $"Duplicate macro name: \"{name}\".");
-#endif
+                    AppendError(lineContent, string.Format(Messages.Duplicate_macro_name_0_, name));
             }
             static string LineHtml(int line) => $"[<a href=\"#0\" data-text=\"{line}\">{line}</a>]";
         }

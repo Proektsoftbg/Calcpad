@@ -473,11 +473,7 @@ namespace Calcpad.Wpf
                 {
                     if (IsParseError(c, _state.CurrentType))
                     {
-#if BG
-                        _state.Message = $"Невалиден символ: {c}.";
-#else
-                        _state.Message = $"Invalid character: {c}.";
-#endif
+                        _state.Message = string.Format(FindReplaceResources.Invalid_character_0, c);
                         _state.CurrentType = Types.Error;
                     }
                     if (_state.CurrentType == Types.None && _builder.Length > 0)
@@ -497,11 +493,7 @@ namespace Calcpad.Wpf
                 if (_state.IsSingleLineKeyword)
                 {
                     _builder.Append(text[++i..]);
-#if BG
-                    _state.Message = "Очаква се край на ред.";
-#else
-                    _state.Message = "End of line expected.";
-#endif
+                    _state.Message = FindReplaceResources.End_of_line_expected;
                     Append(Types.Error);
                     return;
                 }
@@ -1039,11 +1031,7 @@ namespace Calcpad.Wpf
                 _state.Message = GetPartialSource(sourceCode);
                 return Types.Include;
             }
-#if BG
-            _state.Message = "Файлът не е намерен.";
-#else
-            _state.Message = "File not found.";
-#endif
+            _state.Message = AppMessages.File_not_found;
             return Types.Error;
         }
 
@@ -1053,11 +1041,7 @@ namespace Calcpad.Wpf
             {
                 if (!IsFunction(s, _state.Line))
                 {
-#if BG
-                    _state.Message = "Недекларирана функция.";
-#else
-                    _state.Message = "Undeclared function.";
-#endif
+                    _state.Message = AppMessages.Undeclared_function;
                     return Types.Error;
                 }
             }
@@ -1067,11 +1051,7 @@ namespace Calcpad.Wpf
                 var pt = r is null ? Types.None : GetTypeFromColor(r.Foreground);
                 if (pt == Types.Variable || pt == Types.Units)
                 {
-#if BG
-                    _state.Message = "Невалиден синтаксис.";
-#else
-                    _state.Message = "Invalid syntax.";
-#endif
+                    _state.Message = AppMessages.Invalid_syntax;
                     r.Text += ' ' + s;
                     r.Foreground = Colors[(int)Types.Error];
                     r.Background = ErrorBackground;
@@ -1083,11 +1063,7 @@ namespace Calcpad.Wpf
                 {
                     if (IsUnit(s, _state.Line))
                         return Types.Units;
-#if BG
-                    _state.Message = "Недекларирана променлива.";
-#else
-                    _state.Message = "Undeclared variable.";
-#endif
+                    _state.Message = AppMessages.Undeclared_variable;
                     return Types.Error;
                 }
             }
@@ -1095,11 +1071,7 @@ namespace Calcpad.Wpf
             {
                 if (!IsUnit(s, _state.Line))
                 {
-#if BG
-                    _state.Message = "Недефинирани мерни единици.";
-#else
-                    _state.Message = "Undefined units.";
-#endif
+                    _state.Message = AppMessages.Undefined_units;
                     return Types.Error;
                 }
             }
@@ -1107,11 +1079,7 @@ namespace Calcpad.Wpf
             {
                 if (!Defined.IsMacroOrParameter(s, _state.Line))
                 {
-#if BG
-                    _state.Message = "Недефиниран макрос или параметър.";
-#else
-                    _state.Message = "Undefined macro or parameter.";
-#endif
+                    _state.Message = AppMessages.Undefined_macro_or_parameter;
                     return Types.Error;
                 }
             }
@@ -1120,11 +1088,7 @@ namespace Calcpad.Wpf
                 var st = s.TrimEnd();
                 if (!Keywords.Contains(st))
                 {
-#if BG
-                    _state.Message = "Невалидна директива за компилатор.";
-#else
-                    _state.Message = "Invalid compiler directive.";
-#endif
+                    _state.Message = AppMessages.Invalid_compiler_directive;
                     return Types.Error;
                 }
                 if (!(st.Equals("#if", StringComparison.OrdinalIgnoreCase) ||
@@ -1139,11 +1103,7 @@ namespace Calcpad.Wpf
             {
                 if (!Commands.Contains(s))
                 {
-#if BG
-                    _state.Message = "Невалиден метод.";
-#else
-                    _state.Message = "Invalid method.";
-#endif
+                    _state.Message = AppMessages.Invalid_method;
                     return Types.Error;
                 }
             }

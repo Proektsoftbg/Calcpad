@@ -22,11 +22,7 @@ namespace Calcpad.OpenXml
             var start = data.IndexOf('/') + 1;
             var end = data.IndexOf(';');
             if (start <= 0 || end <= 0)
-#if BG
-                throw new Exception("Невалидни данни на изображение.");
-#else
-                throw new Exception("Invalid image data.");
-#endif
+                throw new Exception(Messages.Invalid_image_data);
             return data[start..end];
         }
 
@@ -34,11 +30,8 @@ namespace Calcpad.OpenXml
         {
             var start = data.IndexOf(',') + 1;
             if (start <= 0)
-#if BG
-                throw new Exception("Невалидни данни на изображение.");
-#else
-                throw new Exception("Invalid image data.");
-#endif
+                throw new Exception(Messages.Invalid_image_data);
+            
             var base64 = data[start..];
             return Convert.FromBase64String(base64);
         }
@@ -59,11 +52,7 @@ namespace Calcpad.OpenXml
                 "ico" => ImagePartType.Icon,
                 "pcx" => ImagePartType.Pcx,
                 "svg" => ImagePartType.Svg, 
-#if BG
-                _ => throw new Exception($"Неподдържан тип изображение: \"{ext}\".")
-#else
-                _ => throw new Exception($"Unsupported image type: \"{ext}\".")
-#endif
+                _ => throw new Exception(string.Format(Messages.Unsupported_image_type_0, ext))
             };
         }
     }
@@ -157,11 +146,7 @@ namespace Calcpad.OpenXml
         {
             _fileInfo = new FileInfo(imageSrc);
             if (!_fileInfo.Exists)
-#if BG
-                throw new Exception($"Невалиден файл с изображение: {imageSrc}.");
-#else
-                throw new Exception($"Invalid image file: {imageSrc}.");
-#endif
+                throw new Exception(string.Format(Messages.Invalid_image_file_0, imageSrc));
         }
         public override ImagePart GetImagePart(MainDocumentPart mainPart)
         {

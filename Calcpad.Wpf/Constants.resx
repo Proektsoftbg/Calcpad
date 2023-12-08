@@ -1,0 +1,390 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="SpeedOfLight" xml:space="preserve">
+        <value>Speed of light in vacuum</value>
+    </data>
+    <data name="SolarMass" xml:space="preserve">
+        <value>Solar mass</value>
+    </data>
+    <data name="PiNumber" xml:space="preserve">
+        <value>Pi number</value>
+    </data>
+    <data name="GravitationalConstant" xml:space="preserve">
+        <value>Gravitational constant</value>
+    </data>
+    <data name="GravitationalAcceleration" xml:space="preserve">
+        <value>Gravitational acceleration on Earth</value>
+    </data>
+    <data name="GoldenRatio" xml:space="preserve">
+        <value>Golden ratio</value>
+    </data>
+    <data name="EulerNumber" xml:space="preserve">
+        <value>Euler number</value>
+    </data>
+    <data name="EulerConstant" xml:space="preserve">
+        <value>Euler constant</value>
+    </data>
+    <data name="EarthMass" xml:space="preserve">
+        <value>Earth mass</value>
+    </data>
+    <data name="StefanBoltzmannConstant" xml:space="preserve">
+        <value>Stefan–Boltzmann constant</value>
+    </data>
+    <data name="BoltzmannConstant" xml:space="preserve">
+        <value>Boltzmann constant</value>
+    </data>
+    <data name="MolarGasConstant" xml:space="preserve">
+        <value>Molar gas constant </value>
+    </data>
+    <data name="FaradayConstant" xml:space="preserve">
+        <value>Faraday constant</value>
+    </data>
+    <data name="UnitWeightOfConcrete" xml:space="preserve">
+        <value>Unit weight of concrete</value>
+    </data>
+    <data name="UnitWeightOfSteel" xml:space="preserve">
+        <value>Unit weight of steel</value>
+    </data>
+    <data name="UnitWeightOfAluminium" xml:space="preserve">
+        <value>Unit weight of aluminium</value>
+    </data>
+    <data name="UnitWeightOfGlass" xml:space="preserve">
+        <value>Unit weight of glass</value>
+    </data>
+    <data name="UnitWeightOfWater" xml:space="preserve">
+        <value>Unit weight of water</value>
+    </data>
+    <data name="Factorial" xml:space="preserve">
+        <value>Factorial</value>
+    </data>
+    <data name="Exponentiation" xml:space="preserve">
+        <value>Exponentiation</value>
+    </data>
+    <data name="Division" xml:space="preserve">
+        <value>Division</value>
+    </data>
+    <data name="DivisionBar" xml:space="preserve">
+        <value>Division Bar</value>
+    </data>
+    <data name="IntegerDivision" xml:space="preserve">
+        <value>Integer Division</value>
+    </data>
+    <data name="Modulo" xml:space="preserve">
+        <value>Modulo (reminder)</value>
+    </data>
+    <data name="Multiplication" xml:space="preserve">
+        <value>Multiplication</value>
+    </data>
+    <data name="Subtraction" xml:space="preserve">
+        <value>Subtraction</value>
+    </data>
+    <data name="Addition" xml:space="preserve">
+        <value>Addition</value>
+    </data>
+    <data name="EqualTo" xml:space="preserve">
+        <value>Equal To</value>
+    </data>
+    <data name="NotEqualTo" xml:space="preserve">
+        <value>Not Equal To</value>
+    </data>
+    <data name="LessThan" xml:space="preserve">
+        <value>Less Than</value>
+    </data>
+    <data name="GreaterThan" xml:space="preserve">
+        <value>Greater Than</value>
+    </data>
+    <data name="LessThanOrEqual" xml:space="preserve">
+        <value>Less Than or Equal</value>
+    </data>
+    <data name="GreaterThanOrEqual" xml:space="preserve">
+        <value>Greater Than or Equal</value>
+    </data>
+    <data name="LogicalAnd" xml:space="preserve">
+        <value>Logical "And"</value>
+    </data>
+    <data name="LogicalOr" xml:space="preserve">
+        <value>Logical "Or"</value>
+    </data>
+    <data name="LogicalXor" xml:space="preserve">
+        <value>Logical "Xor"</value>
+    </data>
+    <data name="Assignment" xml:space="preserve">
+        <value>Assignment</value>
+    </data>
+    <data name="Sine" xml:space="preserve">
+        <value>Sine</value>
+    </data>
+    <data name="Cosine" xml:space="preserve">
+        <value>Cosine</value>
+    </data>
+    <data name="Tangent" xml:space="preserve">
+        <value>Tangent</value>
+    </data>
+    <data name="Cosecant" xml:space="preserve">
+        <value>Cosecant</value>
+    </data>
+    <data name="Secant" xml:space="preserve">
+        <value>Secant</value>
+    </data>
+    <data name="Cotangent" xml:space="preserve">
+        <value>Cotangent</value>
+    </data>
+    <data name="HyperbolicSine" xml:space="preserve">
+        <value>Hyperbolic Sine</value>
+    </data>
+    <data name="HyperbolicCosine" xml:space="preserve">
+        <value>Hyperbolic Cosine</value>
+    </data>
+    <data name="HyperbolicTangent" xml:space="preserve">
+        <value>Hyperbolic Tangent</value>
+    </data>
+    <data name="HyperbolicCosecant" xml:space="preserve">
+        <value>Hyperbolic Cosecant</value>
+    </data>
+    <data name="HyperbolicSecant" xml:space="preserve">
+        <value>Hyperbolic Secant</value>
+    </data>
+    <data name="HyperbolicCotangent" xml:space="preserve">
+        <value>Hyperbolic Cotangent</value>
+    </data>
+    <data name="InverseSine" xml:space="preserve">
+        <value>Inverse Sine</value>
+    </data>
+    <data name="InverseCosine" xml:space="preserve">
+        <value>Inverse Cosine</value>
+    </data>
+    <data name="InverseTangent" xml:space="preserve">
+        <value>Inverse Tangent</value>
+    </data>
+    <data name="AngleWhoseTangentIsXDividedByY" xml:space="preserve">
+        <value>The angle whose tangent is x/y</value>
+    </data>
+    <data name="InverseCosecant" xml:space="preserve">
+        <value>Inverse Cosecant</value>
+    </data>
+    <data name="InverseSecant" xml:space="preserve">
+        <value>Inverse Secant</value>
+    </data>
+    <data name="InverseCotangent" xml:space="preserve">
+        <value>Inverse Cotangent</value>
+    </data>
+    <data name="InverseHyperbolicSine" xml:space="preserve">
+        <value>Inverse Hyperbolic Sine</value>
+    </data>
+    <data name="InverseHyperbolicCosine" xml:space="preserve">
+        <value>Inverse Hyperbolic Cosine</value>
+    </data>
+    <data name="InverseHyperbolicTangent" xml:space="preserve">
+        <value>Inverse Hyperbolic Tangent</value>
+    </data>
+    <data name="InverseHyperbolicCosecant" xml:space="preserve">
+        <value>Inverse Hyperbolic Cosecant</value>
+    </data>
+    <data name="InverseHyperbolicSecant" xml:space="preserve">
+        <value>Inverse Hyperbolic Secant</value>
+    </data>
+    <data name="InverseHyperbolicCotangent" xml:space="preserve">
+        <value>Inverse Hyperbolic Cotangent</value>
+    </data>
+    <data name="DecimalLogarithm" xml:space="preserve">
+        <value>Decimal Logarithm</value>
+    </data>
+    <data name="NaturalLogarithm" xml:space="preserve">
+        <value>Natural Logarithm</value>
+    </data>
+    <data name="BinaryLogarithm" xml:space="preserve">
+        <value>Binary Logarithm</value>
+    </data>
+    <data name="NaturalExponent" xml:space="preserve">
+        <value>Natural Exponent</value>
+    </data>
+    <data name="LogarithmicExponentialAndRoots" xml:space="preserve">
+        <value>Logarithmic, Exponential and Roots</value>
+    </data>
+    <data name="InverseHyperbolic" xml:space="preserve">
+        <value>Inverse Hyperbolic</value>
+    </data>
+    <data name="InverseTrigonometric" xml:space="preserve">
+        <value>Inverse Trigonometric</value>
+    </data>
+    <data name="Hyperbolic" xml:space="preserve">
+        <value>Hyperbolic</value>
+    </data>
+    <data name="Trigonometric" xml:space="preserve">
+        <value>Trigonometric</value>
+    </data>
+    <data name="Functions" xml:space="preserve">
+        <value>Functions</value>
+    </data>
+    <data name="Operators" xml:space="preserve">
+        <value>Operators</value>
+    </data>
+    <data name="Constants_Header" xml:space="preserve">
+        <value>Constants</value>
+    </data>
+    <data name="SquareRoot" xml:space="preserve">
+        <value>Square Root</value>
+    </data>
+    <data name="CubicRoot" xml:space="preserve">
+        <value>Cubic Root</value>
+    </data>
+    <data name="NthRoot" xml:space="preserve">
+        <value>n-th Root</value>
+    </data>
+    <data name="RoundToNearestInteger" xml:space="preserve">
+        <value>Round to the nearest integer</value>
+    </data>
+    <data name="RoundToTheLowerInteger" xml:space="preserve">
+        <value>Round to the lower integer</value>
+    </data>
+    <data name="RoundUpToTheGreaterInteger" xml:space="preserve">
+        <value>Round up to the greater integer</value>
+    </data>
+    <data name="RoundTowardsZero" xml:space="preserve">
+        <value>Round towards zero</value>
+    </data>
+    <data name="Rounding" xml:space="preserve">
+        <value>Rounding</value>
+    </data>
+    <data name="Modulo_Description" xml:space="preserve">
+        <value>The modulo (reminder) of an integer division</value>
+    </data>
+    <data name="GreatestCommonDivisor" xml:space="preserve">
+        <value>The greatest common divisor of two integers</value>
+    </data>
+    <data name="LeastCommonMultiple" xml:space="preserve">
+        <value>The least common multiple of two integers</value>
+    </data>
+    <data name="RealPartOfAComplexNumber" xml:space="preserve">
+        <value>The real part of a complex number</value>
+    </data>
+    <data name="ImaginaryPartOfAComplexNumber" xml:space="preserve">
+        <value>The imaginary part of a complex number</value>
+    </data>
+    <data name="PhaseOfAComplexNumber" xml:space="preserve">
+        <value>The phase of a complex number</value>
+    </data>
+    <data name="AbsoluteValue" xml:space="preserve">
+        <value>Absolute value/magnitude</value>
+    </data>
+    <data name="Integer" xml:space="preserve">
+        <value>Integer</value>
+    </data>
+    <data name="Complex" xml:space="preserve">
+        <value>Complex</value>
+    </data>
+    <data name="AggregateAndInterpolation" xml:space="preserve">
+        <value>Aggregate and Interpolation</value>
+    </data>
+    <data name="MinimumOfMultipleValues" xml:space="preserve">
+        <value>Minimum of multiple values</value>
+    </data>
+    <data name="MaximumOfMultipleValues" xml:space="preserve">
+        <value>Maximum of multiple values</value>
+    </data>
+    <data name="SumOfMultipleValues" xml:space="preserve">
+        <value>Sum of multiple values</value>
+    </data>
+    <data name="SumOfSquares" xml:space="preserve">
+        <value>Sum of squares</value>
+    </data>
+    <data name="SquareRootOfSumOfSquares" xml:space="preserve">
+        <value>Square root of sum of squares</value>
+    </data>
+    <data name="AverageOfMultipleValues" xml:space="preserve">
+        <value>Average of multiple values</value>
+    </data>
+    <data name="ProductOfMultipleValues" xml:space="preserve">
+        <value>Product of multiple values</value>
+    </data>
+    <data name="GeometricMean" xml:space="preserve">
+        <value>Geometric mean</value>
+    </data>
+    <data name="TakeTheNthElement" xml:space="preserve">
+        <value>Take the n-th element</value>
+    </data>
+    <data name="LinearInterpolation" xml:space="preserve">
+        <value>Linear interpolation</value>
+    </data>
+    <data name="HermiteSplineInterpolation" xml:space="preserve">
+        <value>Hermite spline interpolation</value>
+    </data>
+    <data name="ConditionalAndLogical" xml:space="preserve">
+        <value>Conditional and Logical</value>
+    </data>
+    <data name="ConditionalEvaluation_Function" xml:space="preserve">
+        <value>Conditional evaluation</value>
+    </data>
+    <data name="SelectiveEvaluation_Function" xml:space="preserve">
+        <value>Selective evaluation</value>
+    </data>
+    <data name="LogicalNot_Function" xml:space="preserve">
+        <value>Logical not</value>
+    </data>
+    <data name="LogicalAnd_Function" xml:space="preserve">
+        <value>Logical and</value>
+    </data>
+    <data name="LogicalOr_Function" xml:space="preserve">
+        <value>Logical or</value>
+    </data>
+    <data name="LogicalXor_Function" xml:space="preserve">
+        <value>Logical xor</value>
+    </data>
+    <data name="Other" xml:space="preserve">
+        <value>Other</value>
+    </data>
+    <data name="SignOfANumber" xml:space="preserve">
+        <value>Sign of a number</value>
+    </data>
+    <data name="RandomNumber" xml:space="preserve">
+        <value>Random number between 0 and x</value>
+    </data>
+    <data name="PlanckConstant" xml:space="preserve">
+        <value>Planck constant</value>
+    </data>
+    <data name="CoulombConstant" xml:space="preserve">
+        <value>Coulomb constant</value>
+    </data>
+    <data name="VacuumPermeability" xml:space="preserve">
+        <value>Vacuum magnetic permeability</value>
+    </data>
+    <data name="VacuumPermitivity" xml:space="preserve">
+        <value>Vacuum electric permittivity</value>
+    </data>
+    <data name="ElectronMass" xml:space="preserve">
+        <value>Electron mass</value>
+    </data>
+    <data name="ElementaryCharge" xml:space="preserve">
+        <value>Elementary charge</value>
+    </data>
+    <data name="AvogadroConstant" xml:space="preserve">
+        <value>Avogadro constant</value>
+    </data>
+    <data name="NeutronMass" xml:space="preserve">
+        <value>Neutron mass</value>
+    </data>
+    <data name="ProtonMass" xml:space="preserve">
+        <value>Proton mass</value>
+    </data>
+    <data name="Pi" xml:space="preserve">
+        <value>Constant π (pi)</value>
+    </data>
+</root>

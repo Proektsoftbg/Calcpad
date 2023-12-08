@@ -249,11 +249,7 @@ EndFragment:0000000004";
             }
             catch
             {
-#if BG
-                MessageBox.Show("Грешка при чете на стойностите на входните данни.", "Calcpad", MessageBoxButton.OK, MessageBoxImage.Error); 
-#else
-                MessageBox.Show("Error getting input fields values.", "Calcpad", MessageBoxButton.OK, MessageBoxImage.Error);
-#endif
+                MessageBox.Show(AppMessages.Error_getting_input_fields_values, "Calcpad", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             return null;
         }
