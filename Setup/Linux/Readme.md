@@ -23,8 +23,11 @@ sudo apt-get install -y <path-to-your-downloads-folder>/Calcpad.6.2.0.deb
 ```
 Instead of `<path-to-your-downloads-folder>` you must put the actual path, something like this:
 ```
-sudo apt-get install -y /home/ned/snap/chromium/2686/Downloads/Calcpad.6.2.0.deb
+sudo apt-get install -y /home/ned/snap/chromium/2695/Downloads/Calcpad.6.2.0.deb
 ```
+If you get a message like the one bellow, please ignore it:
+N: Download is performed unsandboxed as root as file '.../Calcpad.6.2.0.deb' couldn't be accessed by user '_apt'. - pkgAcquire::Run (13: Permission denied)
+
 And that's it. You can start the Calcpad command line interpreter (CLI) by simply typing:
 ```
 calcpad
