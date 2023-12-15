@@ -1,0 +1,17 @@
+"Information units
+'Definition
+.bit = 1
+.byte = 8bit
+.KB = 1000byte','.KiB = 1024byte
+.MB = 1000KB','.MiB = 1024KiB
+.TB = 1000MB','.TiB = 1024MiB
+.PB = 1000TB','.PiB = 1024TiB
+.EB = 1000PB','.EiB = 1024PiB
+.ZB = 1000EB','.ZiB = 1024EiB
+.YB = 1000ZB','.YiB = 1024ZiB
+'Conversion
+MiB|byte
+TiB|byte
+'Usage
+v = 10000000byte/s
+v|TiB/h
