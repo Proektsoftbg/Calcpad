@@ -109,7 +109,7 @@ namespace Calcpad.OpenXml
             return new Paragraph(
                 new ParagraphProperties(
                     new SpacingBetweenLines()
-                    { 
+                    {
                         Before = "0",
                         After = "0",
                         Line = "0",
@@ -142,12 +142,12 @@ namespace Calcpad.OpenXml
                                 RightEdge = 0L,
                                 BottomEdge = 0L
                             },
-                            new DW.WrapSquare() {WrapText = DW.WrapTextValues.Largest },
+                            new DW.WrapSquare() { WrapText = DW.WrapTextValues.Largest },
                             new DW.DocProperties()
                             {
                                 Id = (UInt32Value)(uint)Random.Next(0, int.MaxValue),
                                 Name = name
-                            },                    
+                            },
                             new DW.NonVisualGraphicFrameDrawingProperties(
                                     new D.GraphicFrameLocks() { NoChangeAspect = true }
                             ),
@@ -208,15 +208,15 @@ namespace Calcpad.OpenXml
                 )
                 { Uri = "http://schemas.openxmlformats.org/drawingml/2006/picture" }
             );
-            if (Path.GetExtension(name).Equals(".svg" ,StringComparison.OrdinalIgnoreCase))
+            if (Path.GetExtension(name).Equals(".svg", StringComparison.OrdinalIgnoreCase))
             {
-                var pic = g.GraphicData.ChildElements.First<P.Picture>();  
-                var blip = pic.BlipFill.Blip;  
+                var pic = g.GraphicData.ChildElements.First<P.Picture>();
+                var blip = pic.BlipFill.Blip;
                 var list = blip.ChildElements.First<D.BlipExtensionList>();
                 list.AddChild(new D.BlipExtension(new SVGBlip { Embed = imageId })
                 {
                     Uri = "{96DAC541-7B7A-43D3-8B79-37D633B846F1}"
-                }); 
+                });
             }
             return g;
         }

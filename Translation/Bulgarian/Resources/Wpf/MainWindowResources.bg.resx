@@ -1,0 +1,724 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="calcpad_download_help_html" xml:space="preserve">
+    <value>https://calcpad.bg/download/help.html</value>
+  </data>
+  <data name="TryRestoreState_Recovered_SavePrompt" xml:space="preserve">
+    <value>Calcpad се рестартира след неочаквано прекъсване. 
+Желаете ли да се възстановят незаписаните данни?</value>
+  </data>
+  <data name="TryRestoreState_Failed" xml:space="preserve">
+    <value>Възстановяването беше неуспешно поради грешка:
+"{0}".
+Може да намерите незаписаното съдържание в
+"{1}".</value>
+  </data>
+  <data name="Input" xml:space="preserve">
+    <value>Входни данни</value>
+  </data>
+  <data name="Output" xml:space="preserve">
+    <value>_Резултати</value>
+  </data>
+  <data name="Inline_Html_elements_must_not_cross_text_lines" xml:space="preserve">
+    <value>Стоп! Inline Html елементи не могат да пресичат редове от текста.</value>
+  </data>
+  <data name="Command_Open_Text_File" xml:space="preserve">
+    <value>Текстов файл (*.txt)|*.txt|Calcpad документ (*.cpd)|*.cpd|Calcpad двоичен файл (*.cpdz)|*.cpdz</value>
+  </data>
+  <data name="Command_Open_Calcpad_Worksheet" xml:space="preserve">
+    <value>Calcpad документ (*.cpd)|*.cpd|Calcpad двоичен файл (*.cpdz)|*.cpdz|Текстов файл (*.txt)|*.txt</value>
+  </data>
+  <data name="SavePrompt" xml:space="preserve">
+    <value>Файлът не е записан. Запис?</value>
+  </data>
+  <data name="FileSaveAs_Calcpad_Compiled" xml:space="preserve">
+    <value>Calcpad двоичен файл (*.cpdz)|*.cpdz</value>
+  </data>
+  <data name="Unwarped_code" xml:space="preserve">
+    <value>Разгънат код</value>
+  </data>
+  <data name="Found_Errors_In_Modules_And_Macros" xml:space="preserve">
+    <value>&lt;div class=\"errorHeader\"&gt;Общо &lt;b&gt;{0}&lt;/b&gt; грешки в модули и макроси:</value>
+  </data>
+  <data name="Are_you_sure_you_want_to_unlock_the_source_code_for_editing" xml:space="preserve">
+    <value>Сигурни ли сте, че искате да отключите изходния код за редактиране?</value>
+  </data>
+  <data name="Error_Exporting_Docx_File" xml:space="preserve">
+    <value>Неуспешен запис на docx файл. Да покажа ли списък с грешките?</value>
+  </data>
+  <data name="Open_source_code_for_editing__F4" xml:space="preserve">
+    <value>Отвори програмния код за редактиране (F4)</value>
+  </data>
+  <data name="Compile_to_input_form_F4" xml:space="preserve">
+    <value>Компилирай до форма за вход на данни (F4)</value>
+  </data>
+  <data name="Error_getting_units" xml:space="preserve">
+    <value>Грешка при връщане на мерни единици.</value>
+  </data>
+  <data name="Error_Invalid_number_Please_correct_and_then_try_again" xml:space="preserve">
+    <value>Грешка! Невалидно число. Моля, направете корекции и опитайте отново.</value>
+  </data>
+  <data name="Error_setting_units" xml:space="preserve">
+    <value>Грешка при задаване на мерни единици.</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>_Файл</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>_Нов</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>_Отвори</value>
+  </data>
+  <data name="RecentFiles" xml:space="preserve">
+    <value>_Последно отваряни</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>_Запис</value>
+  </data>
+  <data name="SaveAs" xml:space="preserve">
+    <value>Запис _като...</value>
+  </data>
+  <data name="CommandLineInterpreter" xml:space="preserve">
+    <value>_Команден интерпретатор (CLI)</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>_Изход</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>_Редактор</value>
+  </data>
+  <data name="Find" xml:space="preserve">
+    <value>_Търсене</value>
+  </data>
+  <data name="Replace" xml:space="preserve">
+    <value>_Заместване</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>_Отмени</value>
+  </data>
+  <data name="Redo" xml:space="preserve">
+    <value>По_втори</value>
+  </data>
+  <data name="Cut" xml:space="preserve">
+    <value>_Изрежи</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>_Копирай</value>
+  </data>
+  <data name="Paste" xml:space="preserve">
+    <value>_Постави</value>
+  </data>
+  <data name="InputForm" xml:space="preserve">
+    <value>Форма за въвеждане</value>
+  </data>
+  <data name="Calculate" xml:space="preserve">
+    <value>Изчисляване</value>
+  </data>
+  <data name="Print" xml:space="preserve">
+    <value>Печат</value>
+  </data>
+  <data name="OpenWithWord" xml:space="preserve">
+    <value>Отвори с MS Word</value>
+  </data>
+  <data name="SaveAsPDF" xml:space="preserve">
+    <value>Запис като PDF файл</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>_Помощ</value>
+  </data>
+  <data name="PrintPreview" xml:space="preserve">
+    <value>Преглед за отпечатване</value>
+  </data>
+  <data name="SaveAsHTML" xml:space="preserve">
+    <value>Запис на резултатите като Html файл</value>
+  </data>
+  <data name="CopyAllOutput" xml:space="preserve">
+    <value>Копирай всички резултати</value>
+  </data>
+  <data name="NewFile" xml:space="preserve">
+    <value>Нов файл</value>
+  </data>
+  <data name="FindAndReplace" xml:space="preserve">
+    <value>Търсене и заместване</value>
+  </data>
+  <data name="InsertImage" xml:space="preserve">
+    <value>Вмъкни изображение</value>
+  </data>
+  <data name="ShowHideKeypad" xml:space="preserve">
+    <value>Покажи/скрий калкулаторна клавиатура</value>
+  </data>
+  <data name="RunAndDisplayOutput" xml:space="preserve">
+    <value>Стартирай изчисленията и покажи резултатите (F5)</value>
+  </data>
+  <data name="RefreshResultsAfterEachEdit" xml:space="preserve">
+    <value>Автоматично преизчислявай резултатите при промяна на ред</value>
+  </data>
+  <data name="Angles" xml:space="preserve">
+    <value>Ъгли:</value>
+  </data>
+  <data name="NonMetricUnits" xml:space="preserve">
+    <value>Неметр. единици:</value>
+  </data>
+  <data name="EquationFormat" xml:space="preserve">
+    <value>Изглед на формули:</value>
+  </data>
+  <data name="Numbers" xml:space="preserve">
+    <value>Числа: </value>
+  </data>
+  <data name="Code" xml:space="preserve">
+    <value>Код</value>
+  </data>
+  <data name="KeypadLabel" xml:space="preserve">
+    <value>┌──── Числа ───┐ ┌───── Оператори ────┐ ┌───────── Функции ────────┐</value>
+  </data>
+  <data name="FunctionPlot" xml:space="preserve">
+    <value>Графика на функция</value>
+  </data>
+  <data name="SimplePlot" xml:space="preserve">
+    <value>Единична</value>
+  </data>
+  <data name="Parametric" xml:space="preserve">
+    <value>Параметрична</value>
+  </data>
+  <data name="Multiple" xml:space="preserve">
+    <value>Паралелни</value>
+  </data>
+  <data name="MultipleParametric" xml:space="preserve">
+    <value>Паралелни параметрични</value>
+  </data>
+  <data name="2DColorMap" xml:space="preserve">
+    <value>Изохроми на повърхнина</value>
+  </data>
+  <data name="NumericalMethod" xml:space="preserve">
+    <value>Числен метод</value>
+  </data>
+  <data name="RootFindingForXEqualsConst" xml:space="preserve">
+    <value>Търсене на корен на уравнението f(x)=const</value>
+  </data>
+  <data name="RootFindingForXEqualsZero" xml:space="preserve">
+    <value>Търсене на корен на уравнението f(x)=0</value>
+  </data>
+  <data name="NonStrictRootFinding" xml:space="preserve">
+    <value>Нестрого търсене на корен</value>
+  </data>
+  <data name="LocalMaximum" xml:space="preserve">
+    <value>Локален максимум на функция</value>
+  </data>
+  <data name="LocalMinimum" xml:space="preserve">
+    <value>Локален минимум на функция</value>
+  </data>
+  <data name="AdaptiveGaussLobattoIntegration" xml:space="preserve">
+    <value>Числено интегриране (Adaptive Gauss-Lobatto)</value>
+  </data>
+  <data name="TanhSinhIntegration" xml:space="preserve">
+    <value>Числено интегриране (Tanh-Sinh квадратура)</value>
+  </data>
+  <data name="NumericalDifferentiation" xml:space="preserve">
+    <value>Числено диференциране</value>
+  </data>
+  <data name="GeneralInlineIterativeProcedure" xml:space="preserve">
+    <value>Обща итеративна процедура</value>
+  </data>
+  <data name="IterativeSum" xml:space="preserve">
+    <value>Итеративна сума</value>
+  </data>
+  <data name="IterativeProduct" xml:space="preserve">
+    <value>Итеративно произведение</value>
+  </data>
+  <data name="ProgramFlowControl" xml:space="preserve">
+    <value>Условно разклонение</value>
+  </data>
+  <data name="SimpleIfEndIf" xml:space="preserve">
+    <value>Единично: if-end if</value>
+  </data>
+  <data name="AlternativeIfElseEndIf" xml:space="preserve">
+    <value>Алтернативно: if-else-end if</value>
+  </data>
+  <data name="CompleteIfElseIfElseIfEndIf" xml:space="preserve">
+    <value>Пълно: if-else if-else-end if</value>
+  </data>
+  <data name="Iteration" xml:space="preserve">
+    <value>Цикъл</value>
+  </data>
+  <data name="SimpleRepeatLoop" xml:space="preserve">
+    <value>Стандартен: repeat-loop</value>
+  </data>
+  <data name="ConditionalRepeatBreakLoop" xml:space="preserve">
+    <value>Условен: repeat-break-loop</value>
+  </data>
+  <data name="ConditionalRepeatContinueLoop" xml:space="preserve">
+    <value>Условен: repeat-continue-loop</value>
+  </data>
+  <data name="StringVariableOrMacro" xml:space="preserve">
+    <value>Текстова променлива или макрос</value>
+  </data>
+  <data name="InlineStringVariable" xml:space="preserve">
+    <value>Едноредова текстова променлива</value>
+  </data>
+  <data name="MultilineStringVariable" xml:space="preserve">
+    <value>Многоредова текстова променлива</value>
+  </data>
+  <data name="InlineMacro" xml:space="preserve">
+    <value>Едноредов макрос</value>
+  </data>
+  <data name="MultilineMacro" xml:space="preserve">
+    <value>Многоредов макрос</value>
+  </data>
+  <data name="IncludeExternalFile" xml:space="preserve">
+    <value>Външен файл (модул)</value>
+  </data>
+  <data name="Heading3" xml:space="preserve">
+    <value>Заглавие 3</value>
+  </data>
+  <data name="Heading4" xml:space="preserve">
+    <value>Заглавие 4</value>
+  </data>
+  <data name="Heading5" xml:space="preserve">
+    <value>Заглавие 5</value>
+  </data>
+  <data name="Heading6" xml:space="preserve">
+    <value>Заглавие 6</value>
+  </data>
+  <data name="Paragraph" xml:space="preserve">
+    <value>Абзац</value>
+  </data>
+  <data name="LineBreak" xml:space="preserve">
+    <value>Прекъсване на ред</value>
+  </data>
+  <data name="Bold" xml:space="preserve">
+    <value>Получер</value>
+  </data>
+  <data name="Italic" xml:space="preserve">
+    <value>Курсив</value>
+  </data>
+  <data name="Underline" xml:space="preserve">
+    <value>Подчертан</value>
+  </data>
+  <data name="Strikethrough" xml:space="preserve">
+    <value>Задраскан</value>
+  </data>
+  <data name="Subscript" xml:space="preserve">
+    <value>Долен индекс</value>
+  </data>
+  <data name="Superscript" xml:space="preserve">
+    <value>Горен индекс</value>
+  </data>
+  <data name="RedColor" xml:space="preserve">
+    <value>Червен</value>
+  </data>
+  <data name="FoldedDiv" xml:space="preserve">
+    <value>Сгъваем Div</value>
+  </data>
+  <data name="BulletedList" xml:space="preserve">
+    <value>Неномериран списък</value>
+  </data>
+  <data name="NumberedList" xml:space="preserve">
+    <value>Номериран списък</value>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value>Изображение</value>
+  </data>
+  <data name="Table" xml:space="preserve">
+    <value>Таблица</value>
+  </data>
+  <data name="DividingLine" xml:space="preserve">
+    <value>Разделителна линия</value>
+  </data>
+  <data name="HtmlUI" xml:space="preserve">
+    <value>Html интерфейс</value>
+  </data>
+  <data name="Selection" xml:space="preserve">
+    <value>Списък с опции</value>
+  </data>
+  <data name="RadioButtons" xml:space="preserve">
+    <value>Радио бутони</value>
+  </data>
+  <data name="Checkbox" xml:space="preserve">
+    <value>Отметка</value>
+  </data>
+  <data name="DrawingSVG" xml:space="preserve">
+    <value>SVG чертеж</value>
+  </data>
+  <data name="Drawing" xml:space="preserve">
+    <value>Чертеж</value>
+  </data>
+  <data name="Line" xml:space="preserve">
+    <value>Линия</value>
+  </data>
+  <data name="Rectangle" xml:space="preserve">
+    <value>Правоъгълник</value>
+  </data>
+  <data name="Circle" xml:space="preserve">
+    <value>Кръг</value>
+  </data>
+  <data name="Ellipse" xml:space="preserve">
+    <value>Елипса</value>
+  </data>
+  <data name="Polyline" xml:space="preserve">
+    <value>Полилиния</value>
+  </data>
+  <data name="Polygon" xml:space="preserve">
+    <value>Полигон</value>
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value>Текст</value>
+  </data>
+  <data name="HideContentAfterCurrentLine" xml:space="preserve">
+    <value>Скрий съдържанието надолу в документа</value>
+  </data>
+  <data name="AlwaysShowContent" xml:space="preserve">
+    <value>Показвай винаги съдържанието (по подразбиране)</value>
+  </data>
+  <data name="ShowContentBelowOnlyAfterCalc" xml:space="preserve">
+    <value>Показвай следващото съдържание само в резултатите</value>
+  </data>
+  <data name="ShowContentBelowOnlyBeforeCalc" xml:space="preserve">
+    <value>Показвай следващото съдържание само при въвеждане</value>
+  </data>
+  <data name="PauseCalculation" xml:space="preserve">
+    <value>Спри изчисленията на пауза и чакай</value>
+  </data>
+  <data name="OutputVisibilityControl" xml:space="preserve">
+    <value>Контрол на видимостта</value>
+  </data>
+  <data name="PauseExecutionAndDisplayInputForm" xml:space="preserve">
+    <value>Спри изчисленията на пауза и покажи форма за въвеждане</value>
+  </data>
+  <data name="ShowCompleteEquations" xml:space="preserve">
+    <value>Показвай пълните формули (по подразбиране)</value>
+  </data>
+  <data name="ShowEquationsWithoutCalculating" xml:space="preserve">
+    <value>Показвай уравненията но без да се изчисляват</value>
+  </data>
+  <data name="ShowOnlyCalculatedValues" xml:space="preserve">
+    <value>Показвай само изчислените стойности</value>
+  </data>
+  <data name="RoundToTheSpecifiedDigits" xml:space="preserve">
+    <value>Закръглявай до посочения брой цифри след десетичната точка</value>
+  </data>
+  <data name="SetAngleDegrees" xml:space="preserve">
+    <value>Ъгли в градуси</value>
+  </data>
+  <data name="SetAngleRadians" xml:space="preserve">
+    <value>Ъгли в радиани</value>
+  </data>
+  <data name="SetAngleGrades" xml:space="preserve">
+    <value>Ъгли в гради</value>
+  </data>
+  <data name="ShowEquationsOnlyWithSubstitutedValues" xml:space="preserve">
+    <value>Показване на уравнения само със заместени стойности (без променливи)</value>
+  </data>
+  <data name="ShowEquationsWithVariablesAndSubstitutedValues" xml:space="preserve">
+    <value>Показване на уравнения с променливи и заместени стойности (по подразбиране)</value>
+  </data>
+  <data name="SplitEquations" xml:space="preserve">
+    <value>Разделяне на уравнения, които не се побират на един ред</value>
+  </data>
+  <data name="WrapEquations" xml:space="preserve">
+    <value>Обвиване на уравнения, които не се побират на един ред (по подразбиране)</value>
+  </data>
+  <data name="DoNotSubstituteVariables" xml:space="preserve">
+    <value>Без заместване на променливи</value>
+  </data>
+  <data name="Insert" xml:space="preserve">
+    <value>_Вмъкни</value>
+  </data>
+  <data name="RoundTo" xml:space="preserve">
+    <value>Закръгл.</value>
+  </data>
+  <data name="NumberOfDigitsTooltip" xml:space="preserve">
+    <value>Брой цифри след десетичната точка</value>
+  </data>
+  <data name="Digits" xml:space="preserve">
+    <value>цифри</value>
+  </data>
+  <data name="SubstituteTooltip" xml:space="preserve">
+    <value>Замействай стойностите на променливите във формулите</value>
+  </data>
+  <data name="Substitute" xml:space="preserve">
+    <value>Заместване</value>
+  </data>
+  <data name="Plot" xml:space="preserve">
+    <value>Графики:</value>
+  </data>
+  <data name="Adaptive" xml:space="preserve">
+    <value>Адапт.</value>
+  </data>
+  <data name="AdaptiveTooltip" xml:space="preserve">
+    <value>Адаптивни 1D графики на функции</value>
+  </data>
+  <data name="Shadows" xml:space="preserve">
+    <value>Сенки:</value>
+  </data>
+  <data name="ShadowsTooltip" xml:space="preserve">
+    <value>Чертай повърхнини със светлосенки</value>
+  </data>
+  <data name="LightDirection" xml:space="preserve">
+    <value>Посока към източника на светлина</value>
+  </data>
+  <data name="North" xml:space="preserve">
+    <value>Север</value>
+  </data>
+  <data name="NorthEast" xml:space="preserve">
+    <value>Североизток</value>
+  </data>
+  <data name="East" xml:space="preserve">
+    <value>Изток</value>
+  </data>
+  <data name="SouthEast" xml:space="preserve">
+    <value>Югоизток</value>
+  </data>
+  <data name="South" xml:space="preserve">
+    <value>Юг</value>
+  </data>
+  <data name="SouthWest" xml:space="preserve">
+    <value>Югозапад</value>
+  </data>
+  <data name="West" xml:space="preserve">
+    <value>Запад</value>
+  </data>
+  <data name="PaletteTooltip" xml:space="preserve">
+    <value>Цветна палитра за изохроми на повърхнини</value>
+  </data>
+  <data name="Palette" xml:space="preserve">
+    <value>Палитра:</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>Няма</value>
+  </data>
+  <data name="Gray" xml:space="preserve">
+    <value>Сиво</value>
+  </data>
+  <data name="Rainbow" xml:space="preserve">
+    <value>Дъга</value>
+  </data>
+  <data name="Terrain" xml:space="preserve">
+    <value>Терен</value>
+  </data>
+  <data name="VioletYellow" xml:space="preserve">
+    <value>Виолетово-жълта</value>
+  </data>
+  <data name="GreenYellow" xml:space="preserve">
+    <value>Зелено-жълта</value>
+  </data>
+  <data name="Blues" xml:space="preserve">
+    <value>Сини</value>
+  </data>
+  <data name="Smooth" xml:space="preserve">
+    <value>Преливка</value>
+  </data>
+  <data name="SmoothTooltip" xml:space="preserve">
+    <value>Плавно преливане на цветовете</value>
+  </data>
+  <data name="ExternalBrowser" xml:space="preserve">
+    <value>Браузър:</value>
+  </data>
+  <data name="ExternalBrowserTooltip" xml:space="preserve">
+    <value>Външен браузър за отваряне на линкове от записки</value>
+  </data>
+  <data name="NorthWest" xml:space="preserve">
+    <value>Северозапад</value>
+  </data>
+  <data name="Real" xml:space="preserve">
+    <value>Реални</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Изчисти</value>
+  </data>
+  <data name="NewLine" xml:space="preserve">
+    <value>Нов ред</value>
+  </data>
+  <data name="InverseFunctions" xml:space="preserve">
+    <value>Обратни функции</value>
+  </data>
+  <data name="HyperbolicFunctions" xml:space="preserve">
+    <value>Хиперболични функции</value>
+  </data>
+  <data name="SurfaceMap" xml:space="preserve">
+    <value>Изохроми на повърхнина</value>
+  </data>
+  <data name="FindRootOfEquation" xml:space="preserve">
+    <value>Търсене на корен на уравнението f(x) = 0</value>
+  </data>
+  <data name="CalculateByIterations" xml:space="preserve">
+    <value>Итерационно изчисление</value>
+  </data>
+  <data name="FiniteSum" xml:space="preserve">
+    <value>Крайна сума</value>
+  </data>
+  <data name="FiniteProduct" xml:space="preserve">
+    <value>Крайно произведение</value>
+  </data>
+  <data name="ChangeCase" xml:space="preserve">
+    <value>Главни/малки букви</value>
+  </data>
+  <data name="Pro" xml:space="preserve">
+    <value>Фигурни</value>
+  </data>
+  <data name="Degrees" xml:space="preserve">
+    <value>Градуси</value>
+  </data>
+  <data name="Grades" xml:space="preserve">
+    <value>Гради</value>
+  </data>
+  <data name="Radians" xml:space="preserve">
+    <value>Радиани</value>
+  </data>
+  <data name="Inline" xml:space="preserve">
+    <value>Линейни</value>
+  </data>
+  <data name="Backspace" xml:space="preserve">
+    <value>Изтриване назад</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>Други</value>
+  </data>
+  <data name="Complex" xml:space="preserve">
+    <value>Комплексни</value>
+  </data>
+  <data name="OpenFile" xml:space="preserve">
+    <value>Отвори файл</value>
+  </data>
+  <data name="SaveFile" xml:space="preserve">
+    <value>Запис на файла</value>
+  </data>
+  <data name="CopyText" xml:space="preserve">
+    <value>Копирай избрания текст</value>
+  </data>
+  <data name="PasteText" xml:space="preserve">
+    <value>Постави копирания текст</value>
+  </data>
+  <data name="RedoEdit" xml:space="preserve">
+    <value>Възстановяване</value>
+  </data>
+  <data name="ShowHelp" xml:space="preserve">
+    <value>Помощна информация</value>
+  </data>
+  <data name="GreekLetters" xml:space="preserve">
+    <value>Гръцки букви и символи</value>
+  </data>
+  <data name="UndoEdit" xml:space="preserve">
+    <value>Отмяна</value>
+  </data>
+  <data name="RecentFileList" xml:space="preserve">
+    <value>Последно отваряни файлове</value>
+  </data>
+</root>

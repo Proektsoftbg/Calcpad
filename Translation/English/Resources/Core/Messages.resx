@@ -1,0 +1,345 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="Invalid_syntax__0__" xml:space="preserve">
+        <value>Invalid syntax: "{0}".</value>
+    </data>
+    <data name="Incomplete_expression" xml:space="preserve">
+        <value>Incomplete expression.</value>
+    </data>
+    <data name="Missing_left_bracket" xml:space="preserve">
+        <value>Missing left bracket "(".</value>
+    </data>
+    <data name="Missing_right_bracket" xml:space="preserve">
+        <value>Missing right bracket ")".</value>
+    </data>
+    <data name="Invalid_symbol__0__" xml:space="preserve">
+        <value>Invalid symbol: "{0}".</value>
+    </data>
+    <data name="Invalid_units__0__" xml:space="preserve">
+        <value>Invalid units: "{0}".</value>
+    </data>
+    <data name="Cannot_evaluate__0__as__1__" xml:space="preserve">
+        <value>Cannot evaluate "{0}" as {1}.</value>
+    </data>
+    <data name="Invalid_operator__0__" xml:space="preserve">
+        <value>Invalid operator: "{0}".</value>
+    </data>
+    <data name="Power_must_be_unitless" xml:space="preserve">
+        <value>Power must be unitless.</value>
+    </data>
+    <data name="The_expression_on_the_right_does_not_evaluate_to_units" xml:space="preserve">
+        <value>The expression on the right does not evaluate to units.</value>
+    </data>
+    <data name="Cannot_evaluate_the_function_f_for_v_equals__0__" xml:space="preserve">
+        <value>Cannot evaluate the function %F for %V = {0}.</value>
+    </data>
+    <data name="The_function_f_is_not_defined_for_v_equals__0__" xml:space="preserve">
+        <value>The function %F is not defined for %V = {0}.</value>
+    </data>
+    <data name="Inconsistent_units__0__and__1__" xml:space="preserve">
+        <value>Inconsistent units: "{0}" and "{1}".</value>
+    </data>
+    <data name="Limits_out_of_range__0____1__" xml:space="preserve">
+        <value>Limits out of range: [{0}; {1}].</value>
+    </data>
+    <data name="Invalid_units_for_function__0__1__" xml:space="preserve">
+        <value>Invalid units for function: "{0}({1})".</value>
+    </data>
+    <data name="Root_index_must_be_unitless" xml:space="preserve">
+        <value>Root index must be unitless.</value>
+    </data>
+    <data name="Root_index_cannot_be_a_complex_number" xml:space="preserve">
+        <value>Root index cannot be a complex number.</value>
+    </data>
+    <data name="Root_index_must_be_integer_more_than_1" xml:space="preserve">
+        <value>Root index must be an integer &gt; 1.</value>
+    </data>
+    <data name="Argument_out_of_range_for_n_factorial" xml:space="preserve">
+        <value>Argument out of range for n!.</value>
+    </data>
+    <data name="The_argument_of_n_factorial_must_be_unitless" xml:space="preserve">
+        <value>The argument of n! must be unitless.</value>
+    </data>
+    <data name="The_argument_of_n_factorial_must_be_a_positive_integer" xml:space="preserve">
+        <value>The argument of n! must be a positive integer.</value>
+    </data>
+    <data name="The_argument_of_n_factorial_cannot_be_complex" xml:space="preserve">
+        <value>The argument of n! cannot be complex.</value>
+    </data>
+    <data name="Cannot_evaluate_reminder__0__1__Denominator_must_be_unitless" xml:space="preserve">
+        <value>Cannot evaluate reminder: "{0}  %  {1}". Denominator must be unitless.</value>
+    </data>
+    <data name="Both_values_must_be_integers" xml:space="preserve">
+        <value>Both values must be integers.</value>
+    </data>
+    <data name="Variable__0__does_not_exist" xml:space="preserve">
+        <value>Variable '{0}' does not exist.</value>
+    </data>
+    <data name="Unit__0__does_not_exist" xml:space="preserve">
+        <value>Unit '{0}' does not exist.</value>
+    </data>
+    <data name="Interrupted_by_user" xml:space="preserve">
+        <value>Interrupted by user.</value>
+    </data>
+    <data name="Calculations_not_active" xml:space="preserve">
+        <value>Calculations not active.</value>
+    </data>
+    <data name="Expression_is_empty" xml:space="preserve">
+        <value>Expression is empty.</value>
+    </data>
+    <data name="Missing_operand" xml:space="preserve">
+        <value>Missing operand.</value>
+    </data>
+    <data name="Invalid_function__0__" xml:space="preserve">
+        <value>Invalid function: "{0}".</value>
+    </data>
+    <data name="Stack_memory_leak__Invalid_expression" xml:space="preserve">
+        <value>Stack memory leak. Invalid expression.</value>
+    </data>
+    <data name="Stack_empty_Invalid_expression" xml:space="preserve">
+        <value>Stack empty. Invalid expression.</value>
+    </data>
+    <data name="Undefined_input_field" xml:space="preserve">
+        <value>Undefined input field.</value>
+    </data>
+    <data name="Undefined_variable_or_units__0__" xml:space="preserve">
+        <value>Undefined variable or units: "{0}".</value>
+    </data>
+    <data name="Error_evaluating__0__as_function" xml:space="preserve">
+        <value>Error evaluating "{0}" as function.</value>
+    </data>
+    <data name="Error_evaluating__0__as_function_or_operator" xml:space="preserve">
+        <value>Error evaluating "{0}" as function or operator.</value>
+    </data>
+    <data name="Cannot_rewrite_existing_units__0__" xml:space="preserve">
+        <value>Cannot rewrite existing units: {0}.</value>
+    </data>
+    <data name="The_calculated_units__0__are_inconsistent_with_the_target_units__1__" xml:space="preserve">
+        <value>The calculated units "{0}" are inconsistent with the target units "{1}".</value>
+    </data>
+    <data name="InvalidCharacterException" xml:space="preserve">
+        <value>Invalid character: '{0}'. Variables, functions and units must begin with a letter or ∡, except for the following units: ° ′ ″ % ‰.</value>
+    </data>
+    <data name="Improper_use_of_the_assignment_operator_equals" xml:space="preserve">
+        <value>Improper use of the assignment operator '='.</value>
+    </data>
+    <data name="Missing_left_bracket_{_in_solver_command" xml:space="preserve">
+        <value>Missing left bracket '{' in solver command.</value>
+    </data>
+    <data name="Missing_right_bracket_}_in_solver_command" xml:space="preserve">
+        <value>Missing right bracket '}' in solver command.</value>
+    </data>
+    <data name="Invalid_macro_identifier__0__" xml:space="preserve">
+        <value>Invalid macro identifier: "{0}$".</value>
+    </data>
+    <data name="Invalid_solver_command_definition__0__" xml:space="preserve">
+        <value>Invalid solver command definition "{0}".</value>
+    </data>
+    <data name="Error_parsing__0__as_units" xml:space="preserve">
+        <value>Error parsing "{0}" as units.</value>
+    </data>
+    <data name="Error_parsing__0__as_number" xml:space="preserve">
+        <value>Error parsing "{0}" as number.</value>
+    </data>
+    <data name="Missing_delimiter__0__in_solver_command__1__" xml:space="preserve">
+        <value>Missing delimiter "{0}" in solver command {{1}}.</value>
+    </data>
+    <data name="More_than_one_operator_equals_in__0__" xml:space="preserve">
+        <value>More than one operators '=' in '{0}'.</value>
+    </data>
+    <data name="The_expression_on_the_right_side_must_be_constant__0__" xml:space="preserve">
+        <value>The expression on the right side must be constant: "{0}".</value>
+    </data>
+    <data name="Inconsistent_units_for__0__equals__1__" xml:space="preserve">
+        <value>Inconsistent units for "{0} = {1}".</value>
+    </data>
+    <data name="Inconsistent_units_for__0__equals__1__:__2__" xml:space="preserve">
+        <value>Inconsistent units for "{0} = {1} : {2}".</value>
+    </data>
+    <data name="No_solution_for__0__" xml:space="preserve">
+        <value>No solution for: {0}.</value>
+    </data>
+    <data name="Recursion_is_not_allowed_in_function_definition__0__" xml:space="preserve">
+        <value>Recursion is not allowed in function definition: "{0}".</value>
+    </data>
+    <data name="The_assignment_equals_must_be_preceded_by_custom_function_or_variable" xml:space="preserve">
+        <value>The assignment '=' must be preceded by custom function or variable.</value>
+    </data>
+    <data name="Assignment_equals_must_be_the_first_operator_in_the_expression" xml:space="preserve">
+        <value>Assignment '=' must be the first operator in the expression.</value>
+    </data>
+    <data name="Invalid_syntax__0__1__" xml:space="preserve">
+        <value>Invalid syntax: "{0} {1}".</value>
+    </data>
+    <data name="Unexpected_delimiter_;" xml:space="preserve">
+        <value>Unexpected delimiter ';'.</value>
+    </data>
+    <data name="Invalid_number_of_arguments" xml:space="preserve">
+        <value>Invalid number of arguments.</value>
+    </data>
+    <data name="The_result_is_not_a_real_number__0__" xml:space="preserve">
+        <value>The result is not a real number: "{0}".</value>
+    </data>
+    <data name="Missing_parameter_in_function_definition" xml:space="preserve">
+        <value>Missing parameter in function definition.</value>
+    </data>
+    <data name="Missing_delimiter_in_function_definition" xml:space="preserve">
+        <value>Missing delimiter in function definition.</value>
+    </data>
+    <data name="Invalid_token_in_function_definition__0__" xml:space="preserve">
+        <value>Invalid token in function definition: "{0}".</value>
+    </data>
+    <data name="Circular_reference_detected_for_function__0__" xml:space="preserve">
+        <value>Circular reference detected for function "{0}".</value>
+    </data>
+    <data name="InvalidFunctionDefinitionException" xml:space="preserve">
+        <value>Invalid function definition. It has to match the pattern: "f(x; y; z...) =".</value>
+    </data>
+    <data name="Argument_out_of_range_for__0__x_" xml:space="preserve">
+        <value>Argument out of range for {0}(x).</value>
+    </data>
+    <data name="Condition_cannot_be_empty" xml:space="preserve">
+        <value>Condition cannot be empty.</value>
+    </data>
+    <data name="Condition_block_not_initialized_with_if_" xml:space="preserve">
+        <value>Condition block not initialized with "#if".</value>
+    </data>
+    <data name="Duplicate_else_in_condition_block" xml:space="preserve">
+        <value>Duplicate "#else" in condition block.</value>
+    </data>
+    <data name="else_if_is_not_allowed_after_else_in_condition_block" xml:space="preserve">
+        <value>"#else if" is not allowed after "#else" in condition block.</value>
+    </data>
+    <data name="Condition_cannot_evaluate_to_a_complex_number" xml:space="preserve">
+        <value>Condition cannot evaluate to a complex number.</value>
+    </data>
+    <data name="Condition_result_is_invalid_0_" xml:space="preserve">
+        <value>Condition result is invalid: {0}.</value>
+    </data>
+    <data name="Duplicate_macro_parameter_names__0__and__1__" xml:space="preserve">
+        <value>Duplicate macro parameter names: {0} and {1}.</value>
+    </data>
+    <data name="Macro_not_defined__0__" xml:space="preserve">
+        <value>Macro not defined: {0}.</value>
+    </data>
+    <data name="Missing__0__in_surface_map_command" xml:space="preserve">
+        <value>Missing {0} in surface map command.</value>
+    </data>
+    <data name="The_limits_of_plot_area_are_identical" xml:space="preserve">
+        <value>The limits of plot area are identical.</value>
+    </data>
+    <data name="Error_writing_a_png_file_to__0__" xml:space="preserve">
+        <value>Error writing a png file to "{0}".</value>
+    </data>
+    <data name="Error_writing_a_svg_file_to__0__" xml:space="preserve">
+        <value>Error writing a svg file to "{0}".</value>
+    </data>
+    <data name="Error_converting_png_to_Base64" xml:space="preserve">
+        <value>Error converting png to Base64.</value>
+    </data>
+    <data name="Inconsistent_units__0__1__2__" xml:space="preserve">
+        <value>Inconsistent units: "{0} {1} {2}".</value>
+    </data>
+    <data name="Units_cannon_be_raised_to_complex_power" xml:space="preserve">
+        <value>Units cannon be raised to complex power.</value>
+    </data>
+    <data name="Cannot_evaluate_reminder__0__1__The_denominator_must_be_unitless_" xml:space="preserve">
+        <value>Cannot evaluate reminder: "{0}  %  {1}". The denominator must be unitless.</value>
+    </data>
+    <data name="SelectAll" xml:space="preserve">
+        <value>Select _All</value>
+    </data>
+    <data name="if_block_not_closed_Missing_end_if" xml:space="preserve">
+        <value>Error: "#if" block not closed. Missing "#end if".</value>
+    </data>
+    <data name="repeat_block_not_closed_Missing_loop" xml:space="preserve">
+        <value>Error: "#repeat" block not closed. Missing "#loop".</value>
+    </data>
+    <data name="Unexpected_error_0_Please_check_the_expression_consistency" xml:space="preserve">
+        <value>Unexpected error: {0} Please check the expression consistency.</value>
+    </data>
+    <data name="Paused_Press_F5_to_continue" xml:space="preserve">
+        <value>&lt;p&gt;&lt;span class="err"&gt;Paused!&lt;/span&gt; Press &lt;b&gt;F5&lt;/b&gt; to &lt;a href="#0" data-text="continue"&gt;continue&lt;/a&gt; or &lt;b&gt;Esc&lt;/b&gt; to &lt;a href="#0" data-text="cancel"&gt;cancel&lt;/a&gt;.&lt;/p&gt;</value>
+    </data>
+    <data name="Error_found_on_line" xml:space="preserve">
+        <value>&lt;div class="errorHeader"&gt;Found &lt;b&gt;1&lt;/b&gt; error on line:</value>
+    </data>
+    <data name="Errors_found_on_lines" xml:space="preserve">
+        <value>&lt;div class="errorHeader"&gt;Found &lt;b&gt;{0}&lt;/b&gt; errors on lines:</value>
+    </data>
+    <data name="Error_in_0_on_line_1__2" xml:space="preserve">
+        <value>Error in "{0}" on line {1}: {2}</value>
+    </data>
+    <data name="Number_of_iterations_exceeds_the_maximum_0" xml:space="preserve">
+        <value>Number of iterations exceeds the maximum {0}.&lt;/p&gt;</value>
+    </data>
+    <data name="loop_without_a_corresponding_repeat" xml:space="preserve">
+        <value>"#loop" without a corresponding "#repeat".</value>
+    </data>
+    <data name="Entangled_if__end_if__and_repeat__loop_blocks" xml:space="preserve">
+        <value>Entangled "#if - #end if" and "#repeat - #loop" blocks.</value>
+    </data>
+    <data name="continue_without_a_corresponding_repeat" xml:space="preserve">
+        <value>"#continue" without a corresponding "#repeat".</value>
+    </data>
+    <data name="Macro_definition_block_not_closed_Missing_end_def" xml:space="preserve">
+        <value>#Error: Macro definition block not closed. Missing "#end def".</value>
+    </data>
+    <data name="Missing_source_file_for_include" xml:space="preserve">
+        <value>Missing source file for include.</value>
+    </data>
+    <data name="File_not_found" xml:space="preserve">
+        <value>File not found.</value>
+    </data>
+    <data name="Invalid_macro_name_0" xml:space="preserve">
+        <value>Invalid macro name: "{0}".</value>
+    </data>
+    <data name="Invalid_inside_macro_definition" xml:space="preserve">
+        <value>Invalid inside macro definition.</value>
+    </data>
+    <data name="There_is_no_matching_def" xml:space="preserve">
+        <value>"There is no matching "#def".</value>
+    </data>
+    <data name="Invalid_symbol_0_in_macro_name" xml:space="preserve">
+        <value>Invalid symbol "{0}" in macro name.</value>
+    </data>
+    <data name="Duplicate_macro_name_0_" xml:space="preserve">
+        <value>Duplicate macro name: "{0}".</value>
+    </data>
+    <data name="Missing_delimiter_0_in_plot_command" xml:space="preserve">
+        <value>&lt;span class = "err"&gt;Missing delimiter "{0}" in plot command "{1}".&lt;/span&gt;</value>
+    </data>
+    <data name="Missing_0_in_plot_command_1" xml:space="preserve">
+        <value>&lt;span class = "err"&gt;Missing {0} in plot command "{1}".&lt;/span&gt;.</value>
+    </data>
+    <data name="More_than_one_delimiter_in_plot_command" xml:space="preserve">
+        <value>&lt;span class = "err"&gt;More than one delimiter "|" in plot command {0}.&lt;/span&gt;</value>
+    </data>
+    <data name="Missing_delimiter_0_in_surface_map_command_1" xml:space="preserve">
+        <value>&lt;span class = "err"&gt;Missing delimiter "{0}" in surface map command "{1}".&lt;/span&gt;</value>
+    </data>
+    <data name="Function_redefined" xml:space="preserve">
+        <value> Warning! Function redefined.</value>
+    </data>
+  <data name="Raise_to_square" xml:space="preserve">
+    <value>Raise to square</value>
+  </data>
+</root>

@@ -1,6 +1,6 @@
-﻿using System;
+﻿using SkiaSharp;
+using System;
 using System.Runtime.InteropServices;
-using SkiaSharp;
 
 namespace Calcpad.Core
 {
@@ -332,16 +332,15 @@ namespace Calcpad.Core
                 if (n < 100)
                     n = 100;
             }
-                
+
             var dh = (float)h / n;
+            using var b = new SKPaint();
             for (int i = 0; i < n; ++i)
             {
                 GetColor(out var red, out var green, out var blue, (i + 0.5) / n, 1.0);
-                using var b = new SKPaint();
                 b.Style = SKPaintStyle.Fill;
                 b.Color = new SKColor(red, green, blue);
                 canvas.DrawRect(x0, y0 - i * dh - dh, w, dh, b);
-                b.Dispose();
             }
             using var axisPen = CreateAxisPen();
             using var textPen = CreateTextPen();
@@ -472,7 +471,7 @@ namespace Calcpad.Core
             return d;
         }
 
-        private void SetBitmapBits(SKBitmap bitmap, double[,,] values)
+        private GCHandle SetBitmapBits(SKBitmap bitmap, double[,,] values)
         {
             Node light = new(), spec = new();
             double length, ks = 0.5;
@@ -534,21 +533,21 @@ namespace Calcpad.Core
                         bytes[jStr + 3] = 255;
                         bytes[jStr + 2] = (byte)(red + (255 - red) * s);
                         bytes[jStr + 1] = (byte)(green + (255 - green) * s);
-                        bytes[jStr] =   (byte)(blue + (255 - blue) * s);
+                        bytes[jStr] = (byte)(blue + (255 - blue) * s);
                     }
                 }
             }
             GCHandle pinnedArray = GCHandle.Alloc(bytes, GCHandleType.Pinned);
             IntPtr pointer = pinnedArray.AddrOfPinnedObject();
             bitmap.SetPixels(pointer);
-            pinnedArray.Free();
+            return pinnedArray;
         }
 
         private string DrawPng(Map m, int x0, int y0, double xs, double ys, Box bounds)
         {
             var values = Interpolate(m);
             using var bitmap = new SKBitmap(Width, Height);
-            SetBitmapBits(bitmap, values);
+            var gcHandle = SetBitmapBits(bitmap, values);
             using var canvas = new SKCanvas(bitmap);
             DrawGridPng(canvas, x0, y0, xs, ys, bounds);
             DrawColorScalePng(canvas, m);
@@ -558,6 +557,7 @@ namespace Calcpad.Core
             else
                 src = Settings.ImageUri + PngToFile(bitmap, Settings.ImagePath);
 
+            gcHandle.Free();
             return HtmlImg(src);
         }
 
@@ -570,8 +570,9 @@ namespace Calcpad.Core
             string src;
             using (var bitmap = new SKBitmap(w, h))
             {
-                SetBitmapBits(bitmap, values);
+                var gcHandle = SetBitmapBits(bitmap, values);
                 src = ImageToBase64(bitmap);
+                gcHandle.Free();
             }
             g.DrawImage(Left, Margin, w, h, src);
             DrawGridSvg(g, x0, y0, xs, ys, bounds);

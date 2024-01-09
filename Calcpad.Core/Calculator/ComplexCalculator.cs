@@ -70,8 +70,6 @@ namespace Calcpad.Core
                 Atan2,
                 Root,
                 Mod,
-                Gcd,
-                Lcm,
                 MandelbrotSet
             ];
         }
@@ -115,7 +113,9 @@ namespace Calcpad.Core
                 Spline,
                 And,
                 Or,
-                Xor
+                Xor,
+                Gcd,
+                Lcm,
             ];
         }
 
@@ -531,19 +531,19 @@ namespace Calcpad.Core
                 u = Unit.Multiply(u, value.Units, out var b);
                 result *= value.Complex * b;
             }
-            result = Complex.Pow(result, 1.0 / v.Length); 
+            result = Complex.Pow(result, 1.0 / v.Length);
             if (u is null)
-                return new(result); 
+                return new(result);
 
             u = Unit.Root(u, v.Length);
             return new(result, u);
         }
 
-        private new static Value Gcd(Value a, Value b) =>
-            a.IsReal && b.IsReal ? Calculator.Gcd(a, b) : new(double.NaN, a.Units);
+        private new static Value Gcd(Value[] v) =>
+            AreAllReal(v) ? Gcd(v) : new(double.NaN, v[0].Units);
 
-        private new static Value Lcm(Value a, Value b) =>
-            a.IsReal && b.IsReal ? Calculator.Lcm(a, b) : new(double.NaN, a.Units);
+        private new static Value Lcm(Value[] v) =>
+            AreAllReal(v) ? Lcm(v) : new(double.NaN, v[0].Units);
 
         private Complex FromAngleUnits(in Value value)
         {

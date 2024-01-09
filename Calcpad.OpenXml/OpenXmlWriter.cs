@@ -186,10 +186,10 @@ namespace Calcpad.OpenXml
 
             var cellPara = parentElement is TableCell && childElement is not Table ?
                 parentElement.GetFirstChild<Paragraph>() ?? parentElement.AppendChild(
-                    _tableBuilder.IsBorderedTable ? 
+                    _tableBuilder.IsBorderedTable ?
                     AddCellParagraph(JustificationValues.Center) :
                     new Paragraph()
-                ) : 
+                ) :
                 null;
 
             if (childElement is Break)
@@ -261,7 +261,7 @@ namespace Calcpad.OpenXml
 
         private void AppendGrandChildren(OpenXmlElement parentElement, OpenXmlElement childElement)
         {
-            var hasGrandChildren = !(childElement is CustomXmlElement e &&  e.Element == "FOLD");
+            var hasGrandChildren = !(childElement is CustomXmlElement e && e.Element == "FOLD");
             do
             {
                 var grandChild = childElement.FirstChild;
@@ -300,7 +300,7 @@ namespace Calcpad.OpenXml
             if (IsHidden(domNode))
                 return null;
 
-            var nodeName = domNode.Name.ToLowerInvariant(); 
+            var nodeName = domNode.Name.ToLowerInvariant();
             switch (nodeName)
             {
                 case "#document":
@@ -316,7 +316,7 @@ namespace Calcpad.OpenXml
                 case "small":
                     return new Run(new RunProperties(new FontSize() { Val = "22" }));
                 case "img":
-                case "svg": 
+                case "svg":
                     try
                     {
                         var w = (int)GetImgSize(domNode, "width");
@@ -324,7 +324,7 @@ namespace Calcpad.OpenXml
                         var align = domNode.GetAttributeValue("style", null);
                         if (align is not null)
                             align = CssParser.GetCSSParameter(align, "float");
-                        
+
                         if (domNode.HasClass("side"))
                             align = "right";
 
@@ -377,10 +377,10 @@ namespace Calcpad.OpenXml
                     return AddSpan(domNode);
                 case "input":
                     var type = domNode.GetAttributeValue("type", "text");
-                    if (type=="radio")
+                    if (type == "radio")
                     {
                         var chk = domNode.GetAttributeValue("checked", null);
-                        return new Run(new Text(chk is null ? " ◯ " : " ⦿ ")); 
+                        return new Run(new Text(chk is null ? " ◯ " : " ⦿ "));
                     }
                     else if (type == "checkbox")
                     {
@@ -406,7 +406,7 @@ namespace Calcpad.OpenXml
                 return true;
 
             var style = node.GetAttributeValue("style", null);
-            if (style is null) 
+            if (style is null)
                 return false;
 
             return IsHiddenRegex.Matches(style).Count != 0;
@@ -488,7 +488,7 @@ namespace Calcpad.OpenXml
                 {
                     FontSize = new() { Val = "2" }
                 },
-                
+
             };
             return new Paragraph(r)
             {
@@ -729,7 +729,7 @@ namespace Calcpad.OpenXml
                     if (styleName == "p")
                         p.ParagraphProperties = new ParagraphProperties();
 
-                    
+
                     Shading shading = new()
                     {
                         Val = ShadingPatternValues.Clear
@@ -768,7 +768,7 @@ namespace Calcpad.OpenXml
             {
                 if (string.Equals(attr.Name, "style", StringComparison.OrdinalIgnoreCase))
                 {
-                    SplitEnumerator props = new(attr.Value,';');
+                    SplitEnumerator props = new(attr.Value, ';');
                     foreach (var prop in props)
                     {
                         if (!prop.IsEmpty || prop.IsWhiteSpace())
@@ -803,7 +803,7 @@ namespace Calcpad.OpenXml
         {
             if (color.StartsWith('#'))
                 return color[1..];
-            
+
             if (color.StartsWith("rgb", StringComparison.Ordinal))
                 return CssColor.RgbToHex(color);
 
@@ -832,10 +832,10 @@ namespace Calcpad.OpenXml
                             childNodes.Insert(i, sourceNode.CloneNode(true));
                             domNode.RemoveChild(childNode, true);
                         }
-                    }   
+                    }
                 }
                 else
-                    CloneSvgUses(childNode);    
+                    CloneSvgUses(childNode);
             }
         }
     }

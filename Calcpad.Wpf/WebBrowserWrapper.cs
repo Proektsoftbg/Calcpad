@@ -2,7 +2,6 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -113,7 +112,7 @@ namespace Calcpad.Wpf
                 return 0d;
             }
         }
-             
+
 
         internal bool IsContextMenu
         {

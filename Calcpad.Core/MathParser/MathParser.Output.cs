@@ -82,7 +82,7 @@ namespace Calcpad.Core
                             rpn[0].Type == TokenTypes.Solver)
                         )
                         {
-                            if ((_parser._settings.Substitute && 
+                            if ((_parser._settings.Substitute &&
                                 _parser.VariableSubstitution == VariableSubstitutionOptions.VariablesAndSubstitutions ||
                                 _parser.VariableSubstitution == VariableSubstitutionOptions.SubstitutionsOnly)
                                 && _parser._hasVariables)
@@ -109,7 +109,7 @@ namespace Calcpad.Core
                                 .Append(res);
                         }
                         if (splitted)
-                            _stringBuilder.Append("</span>");   
+                            _stringBuilder.Append("</span>");
                     }
                 }
                 return _stringBuilder.ToString();
@@ -147,13 +147,13 @@ namespace Calcpad.Core
                         else
                         {
                             if (tt == TokenTypes.Function2)
-                                RenderFunction2Token(t, b); 
+                                RenderFunction2Token(t, b);
                             else if (tt == TokenTypes.If)
-                                RenderIfToken(t, b);    
+                                RenderIfToken(t, b);
                             else if (tt == TokenTypes.MultiFunction)
-                                RenderMultiFunctionToken(t, b); 
+                                RenderMultiFunctionToken(t, b);
                             else if (tt == TokenTypes.CustomFunction)
-                                RenderCustomFunctionToken(t, b);    
+                                RenderCustomFunctionToken(t, b);
                             else if (t.Content == "!")
                                 RenderFactorialToken(t, b);
                             else if (t.Content == "sqr" || t.Content == "sqrt" || t.Content == "cbrt")
@@ -387,7 +387,7 @@ namespace Calcpad.Core
                     var c = stackBuffer.Pop();
                     if (_formatEquations)
                     {
-                        t.Level = (Math.Max(a.Level, c.Level) +  b.Level + 1);
+                        t.Level = (Math.Max(a.Level, c.Level) + b.Level + 1);
                         t.Content = writer.FormatIf(c.Content, a.Content, sb, t.Level);
                     }
                     else
@@ -423,7 +423,7 @@ namespace Calcpad.Core
                     else
                     {
                         var s = RenderParameters(t, b, mfParamCount);
-                        t.Content = writer.FormatFunction(t.Content) + 
+                        t.Content = writer.FormatFunction(t.Content) +
                             AddBrackets(s, t.Level, t.MinOffset, t.MaxOffset);
                         t.MinOffset = 0;
                         t.MaxOffset = 0;
@@ -488,7 +488,7 @@ namespace Calcpad.Core
                 {
                     t.Content = (t.Type == TokenTypes.Function ?
                         writer.FormatFunction(t.Content) :
-                        writer.FormatVariable(t.Content, string.Empty)) + 
+                        writer.FormatVariable(t.Content, string.Empty)) +
                         AddBrackets(b.Content, b.Level, b.MinOffset, b.MaxOffset);
                     t.Level = b.Level;
                 }

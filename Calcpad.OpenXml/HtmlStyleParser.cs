@@ -103,7 +103,7 @@ namespace Calcpad.OpenXml
                 {
                     if (cssUnits == CssUnits.EM || cssUnits == CssUnits.REM)
                         return CssUnits.PC;
-                    return cssUnits;                
+                    return cssUnits;
                 }
 
 

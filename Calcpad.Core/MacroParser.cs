@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
-using Messages = Calcpad.Core.Messages;
 
 namespace Calcpad.Core
 {
@@ -304,7 +303,7 @@ namespace Calcpad.Core
                         {
                             macroName = textSpan.ToString();
                             AppendError(lineContent.ToString(), string.Format(Messages.Invalid_macro_name_0, macroName));
-                            
+
                             macroName = string.Empty;
                             textSpan.Reset(i);
                         }

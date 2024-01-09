@@ -83,7 +83,7 @@
             internal int Level;
             internal int Offset;          //-1 - down, 0 - none, 1 - up
             internal int MinOffset;
-            internal int MaxOffset; 
+            internal int MaxOffset;
             internal readonly int ParameterCount;
             internal bool IsCompositeValue;
 

@@ -226,14 +226,14 @@ namespace Calcpad.Core
                 catch
                 {
                     Throw.UndefinedVariableOrUnitsException(t.Content);
-                    return null;    
+                    return null;
                 }
             }
 
             private Expression ParseToken(Token t, Expression a)
             {
                 if (t.Type != TokenTypes.Function && t.Content != NegateString)
-                    Throw.ErrorEvaluatingAsFunctionException(t.Content);   
+                    Throw.ErrorEvaluatingAsFunctionException(t.Content);
 
                 if (a.NodeType == ExpressionType.Constant)
                     return Expression.Constant(_calc.GetFunction(t.Index)(EvaluateConstantExpression(a)));
@@ -294,8 +294,8 @@ namespace Calcpad.Core
                     vc = _calc.GetFunction2(t.Index)(va, vb);
                 else
                 {
-                    Throw.ErrorEvaluatingAsFunctionOrOperatorException(t.Content); 
-                    return null;    
+                    Throw.ErrorEvaluatingAsFunctionOrOperatorException(t.Content);
+                    return null;
                 }
                 return Expression.Constant(vc);
             }
@@ -319,14 +319,14 @@ namespace Calcpad.Core
 
                 if (AreConstantParameters(arguments))
                 {
-                    var parameters = EvaluateConstantParameters(arguments); 
+                    var parameters = EvaluateConstantParameters(arguments);
                     return cf.ParameterCount switch
                     {
                         1 => Expression.Constant(_parser._evaluator.EvaluateFunction((CustomFunction1)cf, parameters[0])),
                         2 => Expression.Constant(_parser._evaluator.EvaluateFunction((CustomFunction2)cf, parameters[0], parameters[1])),
                         3 => Expression.Constant(_parser._evaluator.EvaluateFunction((CustomFunction3)cf, parameters[0], parameters[1], parameters[2])),
                         _ => Expression.Constant(_parser._evaluator.EvaluateFunction((CustomFunctionN)cf, parameters)),
-                    };  
+                    };
                 }
                 var n = arguments.Length;
                 if (n == 1)

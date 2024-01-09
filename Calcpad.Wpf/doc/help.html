@@ -1,0 +1,1023 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title>Calcpad Quick Reference</title>
+    <style>
+        body {
+            font-size: 12pt;
+            font-family: Calibri;
+            margin-top: 0;
+            padding-top: 0;
+        }
+
+        a {
+            color: unset;
+            text-decoration: none;
+        }
+
+            a:hover {
+                background-color: #dff2ff;
+            }
+
+        p, li {
+            line-height: 140%;
+        }
+
+        p, ul, ol {
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+        }
+
+        var, i, b, em {
+            font-family: 'Times New Roman';
+        }
+
+        var, b {
+            font-size: 12.5pt;
+        }
+
+        b {
+            color: black;
+        }
+
+        em {
+            color: gray;
+        }
+
+        var {
+            color: #06c;
+            padding-right: 1pt;
+        }
+
+        i {
+            color: #086;
+            font-size: 11.5pt;
+            font-style: normal;
+        }
+
+        img {
+            vertical-align: top;
+            height: 14pt;
+        }
+
+        .cond {
+            color: magenta;
+        }
+
+        .macro {
+            color: darkMagenta;
+        }
+
+        .o {
+            color: goldenrod;
+        }
+
+        .b {
+            color: deeppink;
+            padding: 0 1pt 0 1pt;
+        }
+
+        .exp {
+            display: inline-block;
+            line-height: 100%;
+            font-size: 12pt;
+            font-weight: bold;
+            border: solid 1px #cccccc;
+            padding: 0 3pt 1pt 3pt;
+            margin-left: -16pt;
+            margin-right: 4pt;
+            border-radius: 3pt;
+        }
+
+            .exp:hover {
+                cursor: pointer;
+                box-shadow: #cccccc 0 0 3pt;
+            }
+
+        sub {
+            font-family: Arial Nova;
+            font-size: 70%;
+            padding-left: 0.5pt;
+            padding-right: 0.5pt;
+        }
+
+        .banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            margin: 0;
+            padding: 1pt 6pt;
+            background-color: #fbf0ff;
+            font-size: 11pt;
+			border: solid 1pt #edf;
+        }
+
+        .banner a:hover {background-color: #eacfff;}
+    </style>
+</head>
+<body>
+    <p><strong style="font-size:13pt;">How it works?</strong></p>
+    <ol>
+        <li><strong>Enter</strong> text and formulas into the "<strong>Code</strong>" box on the left.</li>
+        <li>Press <strong>F5</strong> or click <img alt="Play" src=" data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAt1BMVEVHcEz/yAv/yAv/yAv/yRj/yQv/yAv/wwv/yAv/yAv/yAv/yAv/0Qv/yQv/ygv/yA3/yAv/vQv/yAv/xQv/yAv/yAv/yQv/yQz/yAv/yQ3/yAv/yQz/yAv/yQz/yAv/yQ3/yQ3/yAv/yQ3/yQ3/yAv/yAv///////3//vn/yQ7/+eL/3F7/yhL/zBn/9dH/zyj/6qH/1Dv/55P/8Lj/7q3//PD/1kb/4HX/ziH/5o3/0TH/9Mn/10u+KKJTAAAAJXRSTlMA2VbgCrbdBv3vzosO4xFNsQQdF+pIvIL5b0PWy5RddHJTo5pBdeAVQgAAAX5JREFUSMfFlutygjAQhQGEAKKgonijrW03Yi9Wq733/Z+rLWBLyCahgzOen4FvNifZ7K6mnUhdIxmZ7rfMUbLoqv8nhuVASY5lECnQuugAp86kJSYCE1DZgQDwQxDqEg008EAib8ATfR2k0vsc0QGF7Eoc4oFSc/a0r6CGkjIxhFqalm7QrIeYf0d9Xl6/2z8ImclvkIhBaPp4L0CiQ5gzYBFKb24FjFEgIw6hdP2MIlbxPhwEoXSDWRr7GbJgV1cFglvKc7otQFBL7QyxhAhvycnN6BKELjevbEJniFuJTVmlb2VLUYaM5QhraVwPWX9WEcXG2GOLMPuwVNu3JMjuvfIxxK4SUvVVBgLk6WXFJ8wQS8sDspekZdVMhnxs0eQP0Sf2g6B7Kj8xwpa9lE0Rpl4QtFzAbqsuFxqZ1StKM9Kk9PHXiardtIxrXaUdz2/eklSNbz7AmmUvdkSAE/cEPXkq2Jx+/e9RgRx3IMlHhiAObRfAtcN46J9q+PoCy+3uzfsd8iwAAAAASUVORK5CYII="> to <strong>calculate</strong>. The results will appear in the "<strong>Output</strong>" box on the right as a professionally formatted Html <strong>report</strong>.</li>
+        <li>Click <img alt="PrintPreview" src=" data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAKlBMVEVHcExmZmZmZmZmZmZmZmZnZ2dmZmZmZmb////MzMxmZmZxcXGwsLB+fn7gdc34AAAACHRSTlMA5YUFh8LFwzanracAAACRSURBVEjH7ZbRDsAQDEVnsCn+/3e3CGYSsMAenFc5SdvoZdtGAwlaKmeEpSzlARMEhaAda4VABbtWEEheiARkWuDFmKZ6KVIIWakIANFf+VDYmIm1U1J3q6US35f5igq7UD2UosLcIucVu8heXISFKae848ILpfuU+QoNFBtKMwL2CIdMswqrV/75voz4w/TjApkOPCUKGaemAAAAAElFTkSuQmCC"> to <strong>print</strong> or <img alt="Copy" src=" data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAYUExURUdwTGpqamlpaWlpaf///2lpacPDw4ODg+TnpFYAAAAEdFJOUwAZ2c/7RV8SAAAAuklEQVQ4y8WT0Q2DMAxEMwIrsIsF/1RRFqg8Qbp/U8d2SExoEKp6v0/PdyBw7k485zH1iJ8NgRwrKXnNPbJurSQEjAQLIj4TEUkmBQAmIunaKNdE0uaghKWyNirJUln7aaIelnxZG2FJhLJlImupifdUBLiJeHWNpSNCUjqAlqyhIdKza6qIvD3bk3NApI1qvhOU5IUwQqprpwtwgJSa3gK4seDP76BLXPu96ZOeEPt/lvs/InWGyPW8AfZFEmse5iDyAAAAAElFTkSuQmCC"> to <strong>copy</strong> the output.<br />You can also <strong>export</strong> it to <strong>Html</strong> <img alt="Html" src=" data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAMFBMVEVHcEzv7++pv/9mZmb///91dXV/f3+cse6Ii5Kvr69ubm5qb36YqtuMpeyjuf/R2Oy2YhawAAAAAnRSTlMAIqPzjNwAAAC0SURBVEjH7dbdDsIgDAXgyQEHsJ/3f1vjUAFCoajbxbKTcPklQAvpMBwVo9DKPRNgJDUKk3gGkOUAo0oNIFpEZIYmGoDeSGZoAgDwJDU1Ij8kMUyymVsfiQybhL3xiRiBXiL2IeglUfW5JPTY/4gjH4ujyEwZN1OEkxOTRVvqlq1eikTX/jFdJBYrUX65wvY1TNQzF7nIt8SvOvHrF7L/WZqjQiATFH8gecewx55XlDlsFnsA1AEZ9J9wjU8AAAAASUVORK5CYII=">, <strong>PDF</strong> <img alt="PDF" src=" data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAhUExURUdwTKcgJcTDxP///2lpaaggQ/bg/ISEhN5tHfTNmuubYXiOrSMAAAABdFJOUwBA5thmAAAAzUlEQVQ4y63SwQ2DIBQGYA9dgAML6AT6mhR7MtGEAZqwAAt46AKMwAjdtBBo+h5IW7TvwMEv/w+iTbNvTst71qJIKjO85kxDWKQsyXxfqbRhnFxkSQCHSBvgEBUcom04lAgKJW0oRO6A3B5uCzLlEpNT3lYjLZ7uN9mzT62wrTkiCqD3y8i4BrBU4OEXm4ng2irBup5rQ9vcQy+3ay4ho8ZM3BbGi8u4Y1CxLLYlIuJmWycIlbYk/k3N4XsryMdvOhT/neGff9WSznepnScEc5ex7N8D+QAAAABJRU5ErkJggg=="> or <strong>MS Word</strong> <img alt="Word" style="height:14pt;" src=" data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAeUExURUdwTGlpaf///z1eksPDxOzt8YSEhKOrwNDU3Wt+o6siHTAAAAABdFJOUwBA5thmAAAA5klEQVQ4y9WSsQ6CMBRF8Q+ExO4+rIXVhgArOjjXxFl/AQedMfwAi/FvfZAY2j4aImHxsvXkXt67redN1cLvdXESZpIAvlqbJp0w5iKr68VBgjNzEa6bDAJb5iK6ySS6ySKaySLQj2d0YLRHyRJPZa9dz+cgm0OnYpSoUCZwkk1E0iohGwhlKQjBoxKErGKShjGVEm2oTRIuVR1JeJK0DN7wgBz2hKRwhxd+N5KWwpHn6BrYFPAvquYD7SicrFLRACkg7jaiaWXbDVJKGlylbY6mJThwhnSW+5nwDqz39k/EtzVOftMHw0aVK6IaLeUAAAAASUVORK5CYII="> document.</li>
+    </ol>
+    <p><strong style="font-size:13pt;">The language</strong></p>
+    <p>The Calcpad language includes the following elements (click an item to insert):</p>
+    <ul>
+        <li>Real numbers: digits <b>0</b> - <b>9</b> and decimal point "<b>.</b>";</li>
+        <li>Complex numbers: <b>re</b> &plusmn; <b>im</b><var>i</var> (e.g. <b>3</b> - <b>2</b><var>i</var>);</li>
+        <li style="list-style-type: none;">
+            <span class="exp" id="btn1">+</span>Variables:<br />
+            <span id="list1" style="display: none;">
+                - Latin letters: <var>a</var> - <var>z</var>, <var>A</var> - <var>Z</var>;<br />
+                - Greek letters: <var>&alpha;</var> - <var>&omega;</var>, <var>&Alpha;</var> - <var>&Omega;</var>;<br />
+                - digits: <b>0</b> - <b>9</b>;<br />
+                - comma: "<a href="#0" data-text=","> <b>,</b> </a>";<br />
+                - prime symbols:
+                <a href="#0" data-text="′"> <b>′</b> </a>,
+                <a href="#0" data-text="″"> <b>″</b> </a>,
+                <a href="#0" data-text="‴"> <b>‴</b> </a>,
+                <a href="#0" data-text="⁗"> <b>⁗</b> </a>;<br />
+                - superscripts:
+                <a href="#0" data-text="⁰"> <b>⁰</b> </a>,
+                <a href="#0" data-text="¹"> <b>¹</b> </a>,
+                <a href="#0" data-text="²"> <b>²</b> </a>,
+                <a href="#0" data-text="³"> <b>³</b> </a>,
+                <a href="#0" data-text="⁴"> <b>⁴</b> </a>,
+                <a href="#0" data-text="⁵"> <b>⁵</b> </a>,
+                <a href="#0" data-text="⁶"> <b>⁶</b> </a>,
+                <a href="#0" data-text="⁷"> <b>⁷</b> </a>,
+                <a href="#0" data-text="⁸"> <b>⁸</b> </a>,
+                <a href="#0" data-text="⁹"> <b>⁹</b> </a>,
+                <a href="#0" data-text="ⁿ"> <b>ⁿ</b> </a>,
+                <a href="#0" data-text="⁺"> <b>⁺</b> </a>,
+                <a href="#0" data-text="⁻"> <b>⁻</b> </a>;<br />
+                - special symbols:
+                <a href="#0" data-text="‾"> <b>‾</b> </a>,
+                <a href="#0" data-text="ø"> <b>ø</b> </a>,
+                <a href="#0" data-text="Ø"> <b>Ø</b> </a>,
+                <a href="#0" data-text="°"> <b>°</b> </a>,
+                <a href="#0" data-text="∡"> <b>&measuredangle;</b> </a>;<br />
+                - "<a href="#0" data-text="_"> <b>_</b> </a>" for subscript;<br />
+                A variable name must start with a letter or &measuredangle;. Names are case sensitive.
+            </span>
+        </li>
+        <li>
+            Constants:
+            <a href="#0" data-text="π" title="Pi"><var>π</var></a>,
+            <a href="#0" data-text="e" title="Euler number"><var>e</var></a>,
+            <a href="#0" data-text="φ = 1.618033988749894" title="Golden ratio"><var>φ</var></a>,
+            <a href="#0" data-text="γ = 0.5772156649015328" title="Euler constant"><var>γ</var></a>,
+            <a href="#0" data-text="g = 9.80665m/s^2" title="Gravitational acceleration on Earth"><var>g</var></a>,
+            <a href="#0" data-text="G = 6.67430*10^-11*(m^3/(kg*s^2))" title="Gravitational constant"><var>G</var></a>,
+            <a href="#0" data-text="M_E = 5.9722*10^24*kg" title="Earth mass"><var>M</var><sub>E</sub></a>,
+            <a href="#0" data-text="M_S = 1.98847*10^30*kg" title="Solar mass"><var>M</var><sub>S</sub></a>,
+            <a href="#0" data-text="c = 299792458m/s" title="Speed of light in vacuum"><var>c</var></a>,
+            <a href="#0" data-text="h = 6.62607015*10^-34*J/Hz" title="Planck constant"><var>h</var></a>,
+            <a href="#0" data-text="μ_0 = 1.25663706212*10^-6*N/A^2" title="Vacuum magnetic permeability"><var>μ</var><sub>0</sub></a>,
+            <a href="#0" data-text="ε_0 = 8.8541878128*10^-12*F/m" title="Vacuum electric permittivity"><var>ε</var><sub>0</sub></a>,
+            <a href="#0" data-text="k_e = 8.9875517923*10^9*N*m^2/C^2" title="Coulomb constant"><var>k</var><sub>e</sub></a>,
+            <a href="#0" data-text="e = 1.602176634*10^-19*C" title="Elementary charge"><var>e</var></a>,
+            <a href="#0" data-text="m_e = 9.1093837015*10^-31*kg" title="Electron mass"><var>m</var><sub>e</sub></a>,
+            <a href="#0" data-text="m_p = 1.67262192369*10^-27*kg" title="Proton mass"><var>m</var><sub>p</sub></a>,
+            <a href="#0" data-text="m_n = 1.67492749804*10^-27*kg" title="Neutron mass"><var>m</var><sub>n</sub></a>,
+            <a href="#0" data-text="N_A = 6.02214076*10^23*mol^-1" title="Avogadro constant"><var>N</var><sub>A</sub></a>,
+            <a href="#0" data-text="σ = 5.670374419*10^-8*(W/(m^2*K^4))" title="Stefan–Boltzmann constant"><var>σ</var></a>,
+            <a href="#0" data-text="k_B = 1.380649*10^-23*J/K" title="Boltzmann constant"><var>k</var><sub>B</sub></a>,
+            <a href="#0" data-text="R = 8.31446261815324*(J/(mol*K))" title="Molar gas constant"><var>R</var></a>,
+            <a href="#0" data-text="F = 96485.33212331C/mol" title="Faraday constant"><var>F</var></a>,
+            <a href="#0" data-text="γ_c = 25kN/m^3" title="Unit weight of concrete"><var>γ</var><sub>c</sub></a>,
+            <a href="#0" data-text="γ_s = 78.5kN/m^3" title="Unit weight of steel"><var>γ</var><sub>s</sub></a>,
+            <a href="#0" data-text="γ_a = 27kN/m^3" title="Unit weight of aluminum"><var>γ</var><sub>a</sub></a>,
+            <a href="#0" data-text="γ_g = 25kN/m^3" title="Unit weight of glass"><var>γ</var><sub>g</sub></a>,
+            <a href="#0" data-text="γ_w = 10kN/m^3" title="Unit weight of water"><var>γ</var><sub>w</sub></a>
+        </li>
+        <li style="list-style-type: none;">
+            <span class="exp" id="btn2">+</span>Operators:<br />
+            <span id="list2" style="display: none;">
+                "<a href="#0" data-text="!"><b class="o">!</b></a>" - factorial;<br />
+                "<a href="#0" data-text="^"><b class="o">^</b></a>" - exponent;<br />
+                "<a href="#0" data-text="/"><b class="o">/</b></a>" - division;<br />
+                "<a href="#0" data-text="÷"><b class="o">÷</b></a>" - force division bar;<br />
+                "<a href="#0" data-text="\"><b class="o">\</b></a>" - division;<br />
+                "<a href="#0" data-text="⦼"><b class="o" style="font-size:80%;">⦼</b></a>" - modulo (reminder);<br />
+                "<a href="#0" data-text="*"><b class="o">*</b></a>" - multiplication;<br />
+                "<a href="#0" data-text="-"><b class="o">-</b></a>" - minus;<br />
+                "<a href="#0" data-text="+"><b class="o">+</b></a>" - plus;<br />
+                "<a href="#0" data-text="≡"><b class="o">≡</b></a>" - equal to;<br />
+                "<a href="#0" data-text="≠"><b class="o">≠</b></a>" - not equal to;<br />
+                "<a href="#0" data-text="<"><b class="o">&lt;</b></a>" - less than;<br />
+                "<a href="#0" data-text=">"><b class="o">&gt;</b></a>" - greater than;<br />
+                "<a href="#0" data-text="&le;"><b class="o">&le;</b></a>" - less or equal;<br />
+                "<a href="#0" data-text="&ge;"><b class="o">&ge;</b></a>" - greater or equal;<br />
+                "<a href="#0" data-text="∧"><b class="o">∧</b></a>" - logical "AND";<br />
+                "<a href="#0" data-text="∨"><b class="o">∨</b></a>" - logical "OR";<br />
+                "<a href="#0" data-text="∨"><b class="o" style="font-size:80%;">⊕</b></a>" - logical "XOR";<br />
+                "<a href="#0" data-text="="><b class="o">=</b></a>" - assignment;
+            </span>
+        </li>
+        <li>Custom functions of type <b>f</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var><span class="o">;</span> ...<span class="b">)</span>;</li>
+        <li style="list-style-type: none;">
+            <span class="exp" id="btn3">+</span>Built-in functions:
+            <ul id="list3" style="display: none;">
+                <li style="list-style-type: none; margin-left: 18pt;">
+                    <span class="exp" id="btn30">+</span>Trigonometric:<br />
+                    <span id="list30" style="display: none;">
+                        <a href="#0" data-text="sin("><b>sin</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - sine;<br />
+                        <a href="#0" data-text="cos("><b>cos</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - cosine;<br />
+                        <a href="#0" data-text="tan("><b>tan</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - tangent;<br />
+                        <a href="#0" data-text="csc("><b>csc</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - cosecant;<br />
+                        <a href="#0" data-text="sec("><b>sec</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - secant;<br />
+                        <a href="#0" data-text="cot("><b>cot</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - cotangent;<br />
+                    </span>
+                </li>
+                <li style="list-style-type: none; margin-left: 18pt;">
+                    <span class="exp" id="btn31">+</span>Hyperbolic:<br />
+                    <span id="list31" style="display: none;">
+                        <a href="#0" data-text="sinh("><b>sinh</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - hyperbolic sine;<br />
+                        <a href="#0" data-text="cosh("><b>cosh</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - hyperbolic cosine;<br />
+                        <a href="#0" data-text="tanh("><b>tanh</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - hyperbolic tangent;<br />
+                        <a href="#0" data-text="csch("><b>csch</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - hyperbolic cosecant;<br />
+                        <a href="#0" data-text="sech("><b>sech</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - hyperbolic secant;<br />
+                        <a href="#0" data-text="coth("><b>coth</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - hyperbolic cotangent;<br />
+                    </span>
+                </li>
+                <li style="list-style-type: none; margin-left: 18pt;">
+                    <span class="exp" id="btn32">+</span>Inverse trigonometric:<br />
+                    <span id="list32" style="display: none;">
+                        <a href="#0" data-text="asin("><b>asin</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - inverse sine;<br />
+                        <a href="#0" data-text="acos("><b>acos</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - inverse cosine;<br />
+                        <a href="#0" data-text="atan("><b>atan</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - inverse tangent;<br />
+                        <a href="#0" data-text="atan2("><b>atan2</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="b">)</span></a> -  the angle whose tangent is the quotient of <var>y</var> and <var>x</var>;<br />
+                        <a href="#0" data-text="acsc("><b>acsc</b><span class="b">(</span><var>x</var><span class="b">)</span></a> -   inverse cosecant;<br />
+                        <a href="#0" data-text="asec("><b>asec</b><span class="b">(</span><var>x</var><span class="b">)</span></a> -   inverse secant;<br />
+                        <a href="#0" data-text="acot("><b>acot</b><span class="b">(</span><var>x</var><span class="b">)</span></a> -   inverse cotangent;<br />
+                    </span>
+                </li>
+                <li style="list-style-type: none; margin-left: 18pt;">
+                    <span class="exp" id="btn33">+</span>Inverse hyperbolic:<br />
+                    <span id="list33" style="display: none;">
+                        <a href="#0" data-text="asinh("><b>asinh</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - inverse hyperbolic sine;<br />
+                        <a href="#0" data-text="acosh("><b>acosh</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - inverse hyperbolic cosine;<br />
+                        <a href="#0" data-text="atanh("><b>atanh</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - inverse hyperbolic tangent;<br />
+                        <a href="#0" data-text="acsch("><b>acsch</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - inverse hyperbolic cosecant;<br />
+                        <a href="#0" data-text="asech("><b>asech</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - inverse hyperbolic secant;<br />
+                        <a href="#0" data-text="acoth("><b>acoth</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - inverse hyperbolic cotangent;<br />
+                    </span>
+                </li>
+                <li style="list-style-type: none; margin-left: 18pt;">
+                    <span class="exp" id="btn34">+</span>Logarithmic, exponential and roots:<br />
+                    <span id="list34" style="display: none;">
+                        <a href="#0" data-text="log("><b>log</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - decimal logarithm;<br />
+                        <a href="#0" data-text="ln("><b>ln</b><span class="b">(</span><var>x</var><span class="b">)</span></a>  - natural logarithm;<br />
+                        <a href="#0" data-text="log_2("><b>log_2</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - binary logarithm;<br />
+                        <a href="#0" data-text="exp("><b>exp</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - natural exponent = <var>e</var>&hairsp;ˣ&hairsp;;<br />
+                        <a href="#0" data-text="sqr("><b>sqr</b><span class="b">(</span><var>x</var><span class="b">)</span></a> or <b>sqrt</b><span class="b">(</span><var>x</var><span class="b">)</span> - square root;<br />
+                        <a href="#0" data-text="cbrt("><b>cbrt</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - cubic root;<br />
+                        <a href="#0" data-text="root("><b>root</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>n</var><span class="b">)</span></a> - n-th root;<br />
+                    </span>
+                </li>
+                <li style="list-style-type: none; margin-left: 18pt;">
+                    <span class="exp" id="btn35">+</span>Rounding:<br />
+                    <span id="list35" style="display: none;">
+                        <a href="#0" data-text="round("><b>round</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - round to the nearest integer;<br />
+                        <a href="#0" data-text="floor("><b>floor</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - round to the smaller integer (towards -∞);<br />
+                        <a href="#0" data-text="ceiling("><b>ceiling</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - round to the greater integer (towards +∞);<br />
+                        <a href="#0" data-text="trunc("><b>trunc</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - round to the smaller integer (towards zero);<br />
+                    </span>
+                </li>
+                <li style="list-style-type: none; margin-left: 18pt;">
+                    <span class="exp" id="btn36">+</span>Integer:<br />
+                    <span id="list36" style="display: none;">
+                        <a href="#0" data-text="mod("><b>mod</b><span class="b">(</span><var>x</var>; <var>y</var><span class="b">)</span></a> - the reminder of an integer division;<br />
+                        <a href="#0" data-text="gcd("><b>gcd</b><span class="b">(</span><var>x</var>; <var>y</var><span class="b">)</span></a> - the greatest common divisor of two integers;<br />
+                        <a href="#0" data-text="lcm("><b>lcm</b><span class="b">(</span><var>x</var>; <var>y</var><span class="b">)</span></a> - the least common multiple of two integers;<br />
+                    </span>
+                </li>
+                <li style="list-style-type: none; margin-left: 18pt;">
+                    <span class="exp" id="btn37">+</span>Complex:<br />
+                    <span id="list37" style="display: none;">
+                        <a href="#0" data-text="abs("><b>abs</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - absolute value/magnitude;<br />
+                        <a href="#0" data-text="re("><b>re</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - the real part of a complex number;<br />
+                        <a href="#0" data-text="im("><b>im</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - the imaginary part of a complex number;<br />
+                        <a href="#0" data-text="phase("><b>phase</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - the phase of a complex number;<br />
+                    </span>
+                </li>
+                <li style="list-style-type: none; margin-left: 18pt;">
+                    <span class="exp" id="btn38">+</span>Aggregate and interpolation:<br />
+                    <span id="list38" style="display: none;">
+                        <a href="#0" data-text="min("><b>min</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - minimum of multiple values;<br />
+                        <a href="#0" data-text="max("><b>max</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - maximum of multiple values;<br />
+                        <a href="#0" data-text="sum("><b>sum</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - sum of multiple values = <var>x</var> <span class="o">+</span> <var>y</var> <span class="o">+</span> <var>z</var>...;<br />
+                        <a href="#0" data-text="sumsq("><b>sumsq</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - sum of squares = <var>x</var>² <span class="o">+</span> <var>y</var>² <span class="o">+</span> <var>z</var>²...;<br />
+                        <a href="#0" data-text="srss("><b>srss</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - square root of sum of squares = <b>sqrt</b><span class="b">(</span><var>x</var>² <span class="o">+</span> <var>y</var>² <span class="o">+</span> <var>z</var>²...<span class="b">)</span>;<br />
+                        <a href="#0" data-text="average("><b>average</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - average of multiple values = <span class="b">(</span><var>x</var> <span class="o">+</span> <var>y</var> <span class="o">+</span> <var>z</var>...<span class="b">)</span><span class="o">/</span><var>n</var>;<br />
+                        <a href="#0" data-text="product("><b>product</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - product of multiple values = <var>x</var><span class="o">·</span><var>y</var><span class="o">·</span><var>z</var>...;<br />
+                        <a href="#0" data-text="mean("><b>mean</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - geometric mean = n-th <b>root</b><span class="b">(</span><var>x</var><span class="o">·</span><var>y</var><span class="o">·</span><var>z</var>...<span class="b">)</span>;<br />
+                        <a href="#0" data-text="take("><b>take</b><span class="b">(</span><var>n</var><span class="o">;</span> <var>a</var><span class="o">;</span> <var>b</var><span class="o">;</span> <var>c</var>...<span class="b">)</span></a> - returns the n-th element from the list;<br />
+                        <a href="#0" data-text="line("><b>line</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>a</var><span class="o">;</span> <var>b</var><span class="o">;</span> <var>c</var>...<span class="b">)</span></a> - linear interpolation;<br />
+                        <a href="#0" data-text="spline("><b>spline</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>a</var><span class="o">;</span> <var>b</var><span class="o">;</span> <var>c</var>...<span class="b">)</span></a> - Hermite spline interpolation;
+                    </span>
+                </li>
+                <li style="list-style-type: none; margin-left: 18pt;">
+                    <span class="exp" id="btn39">+</span>Conditional and logical:<br />
+                    <span id="list39" style="display: none;">
+                        <a href="#0" data-text="if("><b>if</b><span class="b">(</span><em>cond</em><span class="o">;</span> <em>value-if-true</em><span class="o">;</span> <em>value-if-false</em><span class="b">)</span></a> - conditional evaluation;<br />
+                        <a href="#0" data-text="switch("><b>switch</b><span class="b">(</span><em>cond1</em><span class="o">;</span> <em>value1</em><span class="o">;</span> <em>cond2</em><span class="o">;</span> <em>value2</em><span class="o">;</span> ...<span class="o">;</span> <em>default</em><span class="b">)</span></a> - selective evaluation;<br />
+                        <a href="#0" data-text="not("><b>not</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - logical "NOT";<br />
+                        <a href="#0" data-text="and("><b>and</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - logical "AND";<br />
+                        <a href="#0" data-text="or("><b>or</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - logical "OR";<br />
+                        <a href="#0" data-text="xor("><b>xor</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - logical "XOR";<br />
+                    </span>
+                </li>
+                <li style="list-style-type: none; margin-left: 18pt;">
+                    <span class="exp" id="btn310">+</span>Other:<br />
+                    <span id="list310" style="display: none;">
+                        <a href="#0" data-text="sign("><b>sign</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - sign of a number;<br />
+                        <a href="#0" data-text="random("><b>random</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - random number between 0 and <var>x</var>.<br />
+                    </span>
+                </li>
+            </ul>
+        </li>
+        <li>Comments: <a href="#0" data-text="&quot;Title&quot;"><b>"Title"</b></a> or <a href="#0" data-text="'text'"><b>'text'</b></a> in double or single quotes, respectively. <strong>HTML</strong>, <strong>CSS</strong>, <strong>JS</strong> and <strong>SVG</strong> are allowed.</li>
+        <li style="list-style-type: none;">
+            <span class="exp" id="btn4">+</span>Graphing and plotting:<br />
+            <span id="list4" style="display: none;">
+                <a href="#0" data-text="$Plot{f(x) @ x = a : b}"><span class="cond">$Plot</span><span class="b">{</span><b>f</b><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - simple plot;<br />
+                <a href="#0" data-text="$Plot{x(t) | y(t) @ t = a : b}"><span class="cond">$Plot</span><span class="b">{</span><b>x</b><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">|</span> <b>y</b><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">&#64;</span> <var>t</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - parametric;<br />
+                <a href="#0" data-text="$Plot{f_1(x) & f_2(x) @ x = a : b}"><span class="cond">$Plot</span><span class="b">{</span><b>f</b><sub>1</sub><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">&amp;</span> <b>f</b><sub>2</sub><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">&amp;</span> ... <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - multiple;<br />
+                <a href="#0" data-text="$Plot{x_1(x) | y_1(t) & x_2(x) | y_2(t) @ t = a : b}"><span class="cond">$Plot</span><span class="b">{</span><b>x</b><sub>1</sub><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">|</span> <b>y</b><sub>1</sub><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">&amp;</span> <b>x</b><sub>2</sub><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">|</span> <b>y</b><sub>2</sub><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">&amp;</span> ... <span class="o">&#64;</span> <var>t</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - multiple parametric;<br />
+                <a href="#0" data-text="$Map{f(x; y) @ x = a : b & y = c : d}"><span class="cond">$Map</span><span class="b">{</span><b>f</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="b">)</span> <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var> <span class="o">&amp;</span> <var>y</var> <span class="o">=</span> <var>c</var> <span class="o">:</span> <var>d</var><span class="b">}</span></a> - 2D color map of a 3D surface;<br />
+                <a href="#0" data-text="PlotHeight ="><var>PlotHeight</var></a> - height of plot area in pixels;<br />
+                <a href="#0" data-text="PlotWidth ="><var>PlotWidth</var></a> - width of plot area in pixels;<br />
+                <a href="#0" data-text="PlotWidth ="><var>PlotStep</var></a> - the size of the mesh for map plotting.
+            </span>
+        </li>
+        <li style="list-style-type: none;">
+            <span class="exp" id="btn5">+</span>Iterative and numerical methods:<br />
+            <span id="list5" style="display: none;">
+                <a href="#0" data-text="$Root{f(x) = const @ x = a : b}"><span class="cond">$Root</span><span class="b">{</span><b>f</b><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">=</span> <em>const</em> <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - root finding for <b>f</b><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">=</span> <em>const</em>;<br />
+                <a href="#0" data-text="$Root{f(x) @ x = a : b}"><span class="cond">$Root</span><span class="b">{</span><b>f</b><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - root finding for <b>f</b><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">=</span> 0;<br />
+                <a href="#0" data-text="$Find{f(x) @ x = a : b}"><span class="cond">$Find</span><span class="b">{</span><b>f</b><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - similar to the above, but <var>x</var> is not required to be a precise solution;<br />
+                <a href="#0" data-text="$Sup{f(x) @ x = a : b}"><span class="cond">$Sup</span><span class="b">{</span><b>f</b><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - local maximum of a function;<br />
+                <a href="#0" data-text="$Inf{f(x) @ x = a : b}"><span class="cond">$Inf</span><span class="b">{</span><b>f</b><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - local minimum of a function;<br />
+                <a href="#0" data-text="$Area{f(x) @ x = a : b}"><span class="cond">$Area</span><span class="b">{</span><b>f</b><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - adaptive Gauss-Lobatto numerical integration;<br />
+                <a href="#0" data-text="$Integral{f(x) @ x = a : b}"><span class="cond">$Integral</span><span class="b">{</span><b>f</b><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - Tanh-Sinh numerical integration;<br />
+                <a href="#0" data-text="$Slope{f(x) @ x = a}"><span class="cond">$Slope</span><span class="b">{</span><b>f</b><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var><span class="b">}</span></a> - numerical differentiation;<br />
+                <a href="#0" data-text="$Sum{f(k) @ k = a : b}"><span class="cond">$Sum</span><span class="b">{</span><b>f</b><span class="b">(</span><var>k</var><span class="b">)</span> <span class="o">&#64;</span> <var>k</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - iterative sum;<br />
+                <a href="#0" data-text="$Product{f(k) @ k = a : b}"><span class="cond">$Product</span><span class="b">{</span><b>f</b><span class="b">(</span><var>k</var><span class="b">)</span> <span class="o">&#64;</span> <var>k</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - iterative product;<br />
+                <a href="#0" data-text="$Repeat{f(k) @ k = a : b}"><span class="cond">$Repeat</span><span class="b">{</span><b>f</b><span class="b">(</span><var>k</var><span class="b">)</span> <span class="o">&#64;</span> <var>k</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - general inline iterative procedure;<br />
+                <a href="#0" data-text="Precision ="><var>Precision</var></a> - relative precision for numerical methods [10<sup>-2</sup>; 10<sup>-16</sup>] (default is 10<sup>-12</sup>)
+            </span>
+        </li>
+        <li style="list-style-type: none;">
+            <span class="exp" id="btn6">+</span>Program flow control:<br />
+            <span id="list6" style="display: none;">
+                Simple:<br />
+                <a href="#0" data-text="#if 'condition
+'your code goes here
+#end if">
+                    &emsp;&emsp;<span class="cond">#if</span> <em>condition</em><br />
+                    &emsp;&emsp;&emsp;&emsp;<em>your code goes here</em><br />
+                    &emsp;&emsp;<span class="cond">#end if</span>
+                </a><br />
+                Alternative:<br />
+                <a href="#0" data-text="#if 'condition
+'your code goes here
+#else
+'some other code
+#end if">
+                    &emsp;&emsp;<span class="cond">#if</span> <em>condition</em><br />
+                    &emsp;&emsp;&emsp;&emsp;<em>your code goes here</em><br />
+                    &emsp;&emsp;<span class="cond">#else</span><br />
+                    &emsp;&emsp;&emsp;&emsp;<em>some other code</em><br />
+                    &emsp;&emsp;<span class="cond">#end if</span>
+                </a><br />
+                Complete:<br />
+                <a href="#0" data-text="#if 'condition1
+'your code goes here
+#else if 'condition2
+'your code goes here
+#else
+'some other code
+#end if">
+                    &emsp;&emsp;<span class="cond">#if</span> <em>condition1</em><br />
+                    &emsp;&emsp;&emsp;&emsp;<em>your code goes here</em><br />
+                    &emsp;&emsp;<span class="cond">#else if</span> <em>condition2</em><br />
+                    &emsp;&emsp;&emsp;&emsp;<em>your code goes here</em><br />
+                    &emsp;&emsp;<span class="cond">#else</span><br />
+                    &emsp;&emsp;&emsp;&emsp;<em>some other code</em><br />
+                    &emsp;&emsp;<span class="cond">#end if</span>
+                </a><br />
+                You can add as many "<span class="cond">#else if</span>"s as needed, but only one "<span class="cond">#else</span>". You can any of them.
+            </span>
+        </li>
+        <li style="list-style-type: none;">
+            <span class="exp" id="btn7">+</span>Iteration blocks:<br />
+            <span id="list7" style="display: none;">
+                Simple:<br />
+                <a href="#0" data-text="#repeat 'number of repetitions
+'your code goes here
+#loop">
+                    &emsp;&emsp;<span class="cond">#repeat</span> <em>number of repetitions</em><br />
+                    &emsp;&emsp;&emsp;&emsp;<em>your code goes here</em><br />
+                    &emsp;&emsp;<span class="cond">#loop</span>
+                </a><br />
+                With conditional break/continue:<br />
+                <a href="#0" data-text="#repeat 'number of repetitions
+'your code goes here
+#if 'condition
+#break
+'or #continue
+#end if
+'some more code
+#loop">
+                    &emsp;&emsp;<span class="cond">#repeat</span> <em>number of repetitions</em><br />
+                    &emsp;&emsp;&emsp;&emsp;<em>your code goes here</em><br />
+                    &emsp;&emsp;&emsp;&emsp;<span class="cond">#if</span> <em>condition</em><br />
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<span class="cond">#break</span> or <span class="cond">#continue</span><br />
+                    &emsp;&emsp;&emsp;&emsp;<span class="cond">#end if</span><br />
+                    &emsp;&emsp;&emsp;&emsp;<em>some more code</em><br />
+                    &emsp;&emsp;<span class="cond">#loop</span>
+                </a><br />
+            </span>
+        </li>
+        <li style="list-style-type: none;">
+            <span class="exp" id="btn8">+</span>Modules and macros/string variables:<br />
+            <span id="list8" style="display: none;">
+                Modules:<br />
+                &emsp;&emsp;<a href="#0" data-text="#include filename">
+                    <span class="cond">#include</span>
+                    <em class="macro">filename</em>
+                </a> - include external file (module);<br />
+                &emsp;&emsp;<a href="#0" data-text="#local"><span class="cond">#local</span></a> - start local section (not to be included);<br />
+                &emsp;&emsp;<a href="#0" data-text="#global"><span class="cond">#global</span></a> - start global section (to be included);<br />
+                Inline string variable:<br />
+                &emsp;&emsp;<a href="#0" data-text="#def variable_name$ = content">
+                    <span class="cond">#def</span> <em class="macro">variable_name$</em> <span class="o">=</span> <em>content</em>
+                </a><br />
+                Multiline string variable:<br />
+                <a href="#0" data-text="#def variable_name$
+'line 1
+'line 2
+'...
+#end def">
+                    &emsp;&emsp;<span class="cond">#def</span> <em class="macro">variable_name$</em><br />
+                    &emsp;&emsp;&emsp;&emsp;<em>content line 1</em><br />
+                    &emsp;&emsp;&emsp;&emsp;<em>content line 2</em><br />
+                    &emsp;&emsp;&emsp;&emsp;<em>...</em><br />
+                    &emsp;&emsp;<span class="cond">#end def</span>
+                </a><br />
+                Inline macro:<br />
+                &emsp;&emsp;<a href="#0" data-text="#def macro_name$(param1$; param2$) = content">
+                    <span class="cond">#def</span> <em class="macro">macro_name$</em><span class="b">(</span><em class="macro">param1$</em><span class="o">;</span> <em class="macro">param2$</em><span class="o">;</span>...<span class="b">)</span> <span class="o">=</span> <em>content</em>
+                </a><br />
+                Multiline macro:<br />
+                <a href="#0" data-text="#def macro_name$(param1$; param2$)
+'line 1
+'line 2
+'...
+#end def">
+                    &emsp;&emsp;<span class="cond">#def</span> <em class="macro">macro_name$</em><span class="b">(</span><em class="macro">param1$</em><span class="o">;</span> <em class="macro">param2$</em><span class="o">;</span>...<span class="b">)</span><br />
+                    &emsp;&emsp;&emsp;&emsp;<em>content line 1</em><br />
+                    &emsp;&emsp;&emsp;&emsp;<em>content line 2</em><br />
+                    &emsp;&emsp;&emsp;&emsp;<em>...</em><br />
+                    &emsp;&emsp;<span class="cond">#end def</span>
+                </a><br />
+            </span>
+        </li>
+        <li style="list-style-type: none;">
+            <span class="exp" id="btn9">+</span>Output control:<br />
+		    <span id="list9" style="display: none;">
+			    <a href="#0" data-text="#hide"><span class="cond">#hide</span></a> - hide the report contents;<br />
+			    <a href="#0" data-text="#show"><span class="cond">#show</span></a> - always show the contents (default);<br />
+			    <a href="#0" data-text="#pre"><span class="cond">#pre</span></a> - show the next contents only before calculations;<br />
+			    <a href="#0" data-text="#post"><span class="cond">#post</span></a> - show the next contents only after calculations;<br />
+			    <a href="#0" data-text="#val"><span class="cond">#val</span></a> - show only the final result, without the equation;<br />
+			    <a href="#0" data-text="#equ"><span class="cond">#equ</span></a> - show complete equations and results (default);<br />
+			    <a href="#0" data-text="#noc"><span class="cond">#noc</span></a> - show only equations without results (no calculations);<br />
+			    <a href="#0" data-text="#nosub"><span class="cond">#nosub</span></a> - do not substitute variables (no substitution);<br />
+			    <a href="#0" data-text="#novar"><span class="cond">#novar</span></a> - show equations only with substituted values (no variables);<br />
+			    <a href="#0" data-text="#varsub"><span class="cond">#varsub</span></a> - show equations with variables and substituted values (default);<br />
+			    <a href="#0" data-text="#split"><span class="cond">#split</span></a> - split equations that do not fit on a single line;<br />
+			    <a href="#0" data-text="#wrap"><span class="cond">#wrap</span></a> - wrap equations that do not fit on a single line (default);<br />
+			    <a href="#0" data-text="#round "><span class="cond">#round <em>n</em></span></a> - rounds the output to <em>n</em> digits after the decimal point.<br />
+			    Each of the above commands is effective after the current line until the end of the report or another command that overwrites it.
+		    </span>
+        </li>
+        <li style="list-style-type: none;">
+            <span class="exp" id="btn10">+</span>Breakpoints for step-by-step execution:<br />
+            <span id="list10" style="display: none;">
+                <a href="#0" data-text="#pause"><span class="cond">#pause</span></a> - calculates down to the current line and waits for the user to resume manually;<br />
+                <a href="#0" data-text="#input"><span class="cond">#input</span></a> - renders an input form to the current line and waits for user input.<br />
+            </span>
+        </li>
+        <li>
+            Switches for trigonometric units:
+            <a href="#0" data-text="#deg"><span class="cond">#deg</span></a> - degrees,
+            <a href="#0" data-text="#rad"><span class="cond">#rad</span></a> - radians;
+            <a href="#0" data-text="#gra"><span class="cond">#gra</span></a> - grades;
+        </li>
+        <li>Separator for target units: <a title="must be at the end of the line" href="#0" data-text="|">|</a>;</li>
+        <li>Return angles with units: <a title="from all inverse trigonometric functions" href="#0" data-text="ReturnAngleUnits = 1"><var>ReturnAngleUnits</var> = 1</a>;</li>
+        <li>
+            Dimensionless units:
+            <a href="#0" data-text="%" title="percent"><i>%</i></a>,
+            <a href="#0" data-text="‰" title="permille"><i>‰</i></a>;
+        </li>
+        <li>
+            Angle units:
+            <a href="#0" data-text="°" title="degrees"><i>°</i></a>,
+            <a href="#0" data-text="′" title="minutes (angle)"><i>′</i></a>,
+            <a href="#0" data-text="″" title="seconds (angle)"><i>″</i></a>,
+            <a href="#0" data-text="deg" title="degrees"><i>deg</i></a>,
+            <a href="#0" data-text="rad" title="radians"><i>rad</i></a>,
+            <a href="#0" data-text="grad" title="grades"><i>grad</i></a>,
+            <a href="#0" data-text="rev" title="revolutions"><i>rev</i></a>;
+        </li>
+        <li style="list-style-type: none;">
+            <span class="exp" id="btn11">+</span>Metric units (SI and compatible):<br />
+            <span id="list11" style="display: none;">
+                Mass:
+                <a href="#0" data-text="g" title="gram"><i>g</i></a>,
+                <a href="#0" data-text="hg" title="hectogram"><i>hg</i></a>,
+                <a href="#0" data-text="kg" title="kilogram"><i>kg</i></a>,
+                <a href="#0" data-text="t" title="ton"><i>t</i></a>,
+                <a href="#0" data-text="kt" title="kiloton"><i>kt</i></a>,
+                <a href="#0" data-text="Mt" title="megaton"><i>Mt</i></a>,
+                <a href="#0" data-text="Gt" title="gigaton"><i>Gt</i></a>,
+                <a href="#0" data-text="dg" title="decigram"><i>dg</i></a>,
+                <a href="#0" data-text="cg" title="centigram"><i>cg</i></a>,
+                <a href="#0" data-text="mg" title="milligram"><i>mg</i></a>,
+                <a href="#0" data-text="μg" title="microgram"><i>μg</i></a>,
+                <a href="#0" data-text="ng" title="nanogram"><i>ng</i></a>,
+                <a href="#0" data-text="pg" title="picogram"><i>pg</i></a>,
+                <a href="#0" data-text="Da" title="Dalton"><i>Da</i></a> <span class="b">(</span>or
+                <a href="#0" data-text="u" title="Dalton(alt)"><i>u</i></a><span class="b">)</span>;<br />
+                Length:
+                <a href="#0" data-text="m" title="meter"><i>m</i></a>,
+                <a href="#0" data-text="km" title="kilometer"><i>km</i></a>,
+                <a href="#0" data-text="dm" title="decimeter"><i>dm</i></a>,
+                <a href="#0" data-text="cm" title="centimeter"><i>cm</i></a>,
+                <a href="#0" data-text="mm" title="millimeter"><i>mm</i></a>,
+                <a href="#0" data-text="μm" title="micrometer"><i>μm</i></a>,
+                <a href="#0" data-text="nm" title="nanometer"><i>nm</i></a>,
+                <a href="#0" data-text="pm" title="picometer"><i>pm</i></a>,
+                <a href="#0" data-text="AU" title="astronomical unit"><i>AU</i></a>,
+                <a href="#0" data-text="ly" title="light year"><i>ly</i></a>;<br />
+                Time:
+                <a href="#0" data-text="s" title="second"><i>s</i></a>,
+                <a href="#0" data-text="ms" title="millisecond"><i>ms</i></a>,
+                <a href="#0" data-text="μs" title="microsecond"><i>μs</i></a>,
+                <a href="#0" data-text="ns" title="nanosecond"><i>ns</i></a>,
+                <a href="#0" data-text="ps" title="picosecond"><i>ps</i></a>,
+                <a href="#0" data-text="min" title="minute"><i>min</i></a>,
+                <a href="#0" data-text="h" title="hour"><i>h</i></a>,
+                <a href="#0" data-text="d" title="day"><i>d</i></a>,
+                <a href="#0" data-text="w" title="week"><i>w</i></a>,
+                <a href="#0" data-text="y" title="year"><i>y</i></a>;<br />
+                Frequency:
+                <a href="#0" data-text="Hz" title="Hertz"><i>Hz</i></a>,
+                <a href="#0" data-text="kHz" title="kilohertz"><i>kHz</i></a>,
+                <a href="#0" data-text="MHz" title="megahertz"><i>MHz</i></a>,
+                <a href="#0" data-text="GHz" title="gigahertz"><i>GHz</i></a>,
+                <a href="#0" data-text="THz" title="terahertz"><i>THz</i></a>,
+                <a href="#0" data-text="mHz" title="millihertz"><i>mHz</i></a>,
+                <a href="#0" data-text="μHz" title="microhertz"><i>μHz</i></a>,
+                <a href="#0" data-text="nHz" title="nanohertz"><i>nHz</i></a>,
+                <a href="#0" data-text="pHz" title="terahertz"><i>pHz</i></a>,
+                <a href="#0" data-text="rpm" title="rotations per minute"><i>rpm</i></a>;<br />
+                Speed:
+                <a href="#0" data-text="kmh" title="kilometers per hour"><i>kmh</i></a>;<br />
+                Electric current:
+                <a href="#0" data-text="A" title="Ampere"><i>A</i></a>,
+                <a href="#0" data-text="kA" title="kiloampere"><i>kA</i></a>,
+                <a href="#0" data-text="MA" title="megaampere"><i>MA</i></a>,
+                <a href="#0" data-text="GA" title="gigaampere"><i>GA</i></a>,
+                <a href="#0" data-text="TA" title="teraampere"><i>TA</i></a>,
+                <a href="#0" data-text="mA" title="milliampere"><i>mA</i></a>,
+                <a href="#0" data-text="μA" title="microampere"><i>μA</i></a>,
+                <a href="#0" data-text="nA" title="nanoampere"><i>nA</i></a>,
+                <a href="#0" data-text="pA" title="picoampere"><i>pA</i></a>;<br />
+                Temperature:
+                <a href="#0" data-text="°C" title="degrees Celsius"><i>°C</i></a>,
+                <a href="#0" data-text="Δ°C" title="difference in degrees Celsius"><i>Δ°C</i></a>,
+                <a href="#0" data-text="K" title="Kelvin"><i>K</i></a>;<br />
+                Amount of substance:
+                <a href="#0" data-text="mol" title="Mole"><i>mol</i></a>;<br />
+                Luminous intensity:
+                <a href="#0" data-text="cd" title="Candela"><i>cd</i></a>;<br />
+                Area:
+                <a href="#0" data-text="a" title="are"><i>a</i></a>,
+                <a href="#0" data-text="daa" title="decare"><i>daa</i></a>,
+                <a href="#0" data-text="ha" title="hectare"><i>ha</i></a>;<br />
+                Volume:
+                <a href="#0" data-text="L" title="litre"><i>L</i></a>,
+                <a href="#0" data-text="daL" title="decalitre"><i>daL</i></a>,
+                <a href="#0" data-text="hL" title="hectolitre"><i>hL</i></a>,
+                <a href="#0" data-text="dL" title="decilitre"><i>dL</i></a>,
+                <a href="#0" data-text="cL" title="centilitre"><i>cL</i></a>,
+                <a href="#0" data-text="mL" title="millilitre"><i>mL</i></a>,
+                <a href="#0" data-text="μL" title="microlitre"><i>μL</i></a>,
+                <a href="#0" data-text="nL" title="nanolitre"><i>nL</i></a>,
+                <a href="#0" data-text="pL" title="picolitre"><i>pL</i></a>;<br />
+                Force:
+                <a href="#0" data-text="N" title="Newthon"><i>N</i></a>,
+                <a href="#0" data-text="daN" title="decanewthon"><i>daN</i></a>,
+                <a href="#0" data-text="hN" title="hectonewthon"><i>hN</i></a>,
+                <a href="#0" data-text="kN" title="kilonewthon"><i>kN</i></a>,
+                <a href="#0" data-text="MN" title="meganewthon"><i>MN</i></a>,
+                <a href="#0" data-text="GN" title="giganewthon"><i>GN</i></a>,
+                <a href="#0" data-text="TN" title="teranewthon"><i>TN</i></a>,
+                <a href="#0" data-text="gf" title="gram-force"><i>gf</i></a>,
+                <a href="#0" data-text="kgf" title="kilogram-force"><i>kgf</i></a>,
+                <a href="#0" data-text="tf" title="tonne-force"><i>tf</i></a>,
+                <a href="#0" data-text="dyn" title="dyne"><i>dyn</i></a>;<br />
+                Moment:
+                <a href="#0" data-text="Nm" title="Newton-meter"><i>Nm</i></a>,
+                <a href="#0" data-text="kNm" title="kilonewton-meter"><i>kNm</i></a>;<br />
+                Pressure:
+                <a href="#0" data-text="Pa" title="Pascal"><i>Pa</i></a>,
+                <a href="#0" data-text="daPa" title="decapascal"><i>daPa</i></a>,
+                <a href="#0" data-text="hPa" title="hectpascal"><i>hPa</i></a>,
+                <a href="#0" data-text="kPa" title="kilopascal"><i>kPa</i></a>,
+                <a href="#0" data-text="MPa" title="megapascal"><i>MPa</i></a>,
+                <a href="#0" data-text="GPa" title="gigapascal"><i>GPa</i></a>,
+                <a href="#0" data-text="TPa" title="terapascal"><i>TPa</i></a>,<br />
+                &emsp;&emsp;&emsp;&emsp;
+                <a href="#0" data-text="dPa" title="decipascal"><i>dPa</i></a>,
+                <a href="#0" data-text="cPa" title="centipascal"><i>cPa</i></a>,
+                <a href="#0" data-text="mPa" title="micropascal"><i>mPa</i></a>,
+                <a href="#0" data-text="μPa" title="millipascal"><i>μPa</i></a>,
+                <a href="#0" data-text="nPa" title="nanopascal"><i>nPa</i></a>,
+                <a href="#0" data-text="pPa" title="picopascal"><i>pPa</i></a>,<br />
+                &emsp;&emsp;&emsp;&emsp;
+                <a href="#0" data-text="bar" title="bar"><i>bar</i></a>,
+                <a href="#0" data-text="mbar" title="millibar"><i>mbar</i></a>,
+                <a href="#0" data-text="μbar" title="microbar"><i>μbar</i></a>,
+                <a href="#0" data-text="atm" title="atmosphere"><i>atm</i></a>,
+                <a href="#0" data-text="at" title="technical atmosphere"><i>at</i></a>,
+                <a href="#0" data-text="Torr" title="Torr"><i>Torr</i></a>,
+                <a href="#0" data-text="mmHg" title="millimeters of mercury"><i>mmHg</i></a>;<br />
+                Viscosity:
+                <a href="#0" data-text="P" title="Poise"><i>P</i></a>,
+                <a href="#0" data-text="cP" title="centipoise"><i>cP</i></a>,
+                <a href="#0" data-text="St" title="Stokes"><i>St</i></a>,
+                <a href="#0" data-text="cSt" title="centistokes"><i>cSt</i></a>;<br />
+                Energy work:
+                <a href="#0" data-text="J" title="Joule"><i>J</i></a>,
+                <a href="#0" data-text="kJ" title="kilojoule"><i>kJ</i></a>,
+                <a href="#0" data-text="MJ" title="megajoule"><i>MJ</i></a>,
+                <a href="#0" data-text="GJ" title="gigajoule"><i>GJ</i></a>,
+                <a href="#0" data-text="TJ" title="terajoule"><i>TJ</i></a>,
+                <a href="#0" data-text="mJ" title="millijoule"><i>mJ</i></a>,
+                <a href="#0" data-text="μJ" title="microjoule"><i>μJ</i></a>,
+                <a href="#0" data-text="nJ" title="nanojoule"><i>nJ</i></a>,
+                <a href="#0" data-text="pJ" title="picojoule"><i>pJ</i></a>,<br />
+                &emsp;&emsp;&emsp;&emsp;&emsp;
+                <a href="#0" data-text="Wh" title="watt-hour"><i>Wh</i></a>,
+                <a href="#0" data-text="kWh" title="kilowatt-hour"><i>kWh</i></a>,
+                <a href="#0" data-text="MWh" title="megawatt-hour"><i>MWh</i></a>,
+                <a href="#0" data-text="GWh" title="gigawatt-hour"><i>GWh</i></a>,
+                <a href="#0" data-text="TWh" title="terawatt-hour"><i>TWh</i></a>,
+                <a href="#0" data-text="mWh" title="milliwatt-hour"><i>mWh</i></a>,
+                <a href="#0" data-text="μWh" title="microwatt-hour"><i>μWh</i></a>,
+                <a href="#0" data-text="nWh" title="nanowatt-hour"><i>nWh</i></a>,
+                <a href="#0" data-text="pWh" title="picowatt-hour"><i>pWh</i></a>,<br />
+                &emsp;&emsp;&emsp;&emsp;&emsp;
+                <a href="#0" data-text="eV" title="electronvolt"><i>eV</i></a>,
+                <a href="#0" data-text="keV" title="kiloelectronvolt"><i>keV</i></a>,
+                <a href="#0" data-text="MeV" title="megaelectronvolt"><i>MeV</i></a>,
+                <a href="#0" data-text="GeV" title="gigaelectronvolt"><i>GeV</i></a>,
+                <a href="#0" data-text="TeV" title="teraelectronvolt"><i>TeV</i></a>,
+                <a href="#0" data-text="PeV" title="petaelectronvolt"><i>PeV</i></a>,
+                <a href="#0" data-text="EeV" title="exaelectronvolt"><i>EeV</i></a>,
+                <a href="#0" data-text="cal" title="calorie"><i>cal</i></a>,
+                <a href="#0" data-text="kcal" title="kilocalorie"><i>kcal</i></a>,
+                <a href="#0" data-text="erg" title="erg"><i>erg</i></a>;<br />
+                Power:
+                <a href="#0" data-text="W" title="Watt"><i>W</i></a>,
+                <a href="#0" data-text="kW" title="kilowatt"><i>kW</i></a>,
+                <a href="#0" data-text="MW" title="megawatt"><i>MW</i></a>,
+                <a href="#0" data-text="GW" title="gigawatt"><i>GW</i></a>,
+                <a href="#0" data-text="TW" title="terawatt"><i>TW</i></a>,
+                <a href="#0" data-text="mW" title="milliwatt"><i>mW</i></a>,
+                <a href="#0" data-text="μW" title="microwatt"><i>μW</i></a>,
+                <a href="#0" data-text="nW" title="nanowatt"><i>nW</i></a>,
+                <a href="#0" data-text="pW" title="picowatt"><i>pW</i></a>,
+                <a href="#0" data-text="hpM" title="horsepower (metric)"><i>hpM</i></a>,
+                <a href="#0" data-text="ks" title="horsepower (metric)"><i>ks</i></a>,<br />
+                &emsp;&emsp;&emsp;
+                <a href="#0" data-text="VA" title="Volt-Ampere"><i>VA</i></a>,
+                <a href="#0" data-text="kVA" title="kilovolt-Ampere"><i>kVA</i></a>,
+                <a href="#0" data-text="MVA" title="megavolt-Ampere"><i>MVA</i></a>,
+                <a href="#0" data-text="GVA" title="gigavolt-Ampere"><i>GVA</i></a>,
+                <a href="#0" data-text="TVA" title="teravolt-Ampere"><i>TVA</i></a>,
+                <a href="#0" data-text="mVA" title="millivolt-Ampere"><i>mVA</i></a>,
+                <a href="#0" data-text="μVA" title="microvolt-Ampere"><i>μVA</i></a>,
+                <a href="#0" data-text="nVA" title="nanovolt-Ampere"><i>nVA</i></a>,
+                <a href="#0" data-text="pVA" title="picovolt-Ampere"><i>pVA</i></a>,<br />
+                &emsp;&emsp;&emsp;
+                <a href="#0" data-text="VAR" title="Volt-Ampere (reactive)"><i>VAR</i></a>,
+                <a href="#0" data-text="kVAR" title="kilovolt-Ampere (reactive)"><i>kVAR</i></a>,
+                <a href="#0" data-text="MVAR" title="megavolt-Ampere (reactive)"><i>MVAR</i></a>,
+                <a href="#0" data-text="GVAR" title="gigavolt-Ampere (reactive)"><i>GVAR</i></a>,
+                <a href="#0" data-text="TVAR" title="teravolt-Ampere (reactive)"><i>TVAR</i></a>,
+                <a href="#0" data-text="mVAR" title="millivolt-Ampere (reactive)"><i>mVAR</i></a>,
+                <a href="#0" data-text="μVAR" title="microvolt-Ampere (reactive)"><i>μVAR</i></a>,
+                <a href="#0" data-text="nVAR" title="nanovolt-Ampere (reactive)"><i>nVAR</i></a>,
+                <a href="#0" data-text="pVAR" title="picovolt-Ampere (reactive)"><i>pVAR</i></a>;<br />
+                Electric charge:
+                <a href="#0" data-text="C" title="Coulomb"><i>C</i></a>,
+                <a href="#0" data-text="kC" title="kilocoulomb"><i>kC</i></a>,
+                <a href="#0" data-text="MC" title="megacoulomb"><i>MC</i></a>,
+                <a href="#0" data-text="GC" title="gigacoulomb"><i>GC</i></a>,
+                <a href="#0" data-text="TC" title="teracoulomb"><i>TC</i></a>,
+                <a href="#0" data-text="mC" title="millicoulomb"><i>mC</i></a>,
+                <a href="#0" data-text="μC" title="microcoulomb"><i>μC</i></a>,
+                <a href="#0" data-text="nC" title="nanocoulomb"><i>nC</i></a>,
+                <a href="#0" data-text="pC" title="picocoulomb"><i>pC</i></a>,
+                <a href="#0" data-text="Ah" title="Ampere-hour"><i>Ah</i></a>,
+                <a href="#0" data-text="mAh" title="milliampere-hour"><i>mAh</i></a>;<br />
+                Potential:
+                <a href="#0" data-text="V" title="Volt"><i>V</i></a>,
+                <a href="#0" data-text="kV" title="kilovolt"><i>kV</i></a>,
+                <a href="#0" data-text="MV" title="megavolt"><i>MV</i></a>,
+                <a href="#0" data-text="GV" title="gigavolt"><i>GV</i></a>,
+                <a href="#0" data-text="TV" title="teravolt"><i>TV</i></a>,
+                <a href="#0" data-text="mV" title="millivolt"><i>mV</i></a>,
+                <a href="#0" data-text="μV" title="microvolt"><i>μV</i></a>,
+                <a href="#0" data-text="nV" title="nanovolt"><i>nV</i></a>,
+                <a href="#0" data-text="pV" title="picovolt"><i>pV</i></a>;<br />
+                Capacitance:
+                <a href="#0" data-text="F" title="Farad"><i>F</i></a>,
+                <a href="#0" data-text="kF" title="kilofarad"><i>kF</i></a>,
+                <a href="#0" data-text="MF" title="megafarad"><i>MF</i></a>,
+                <a href="#0" data-text="GF" title="gigafarad"><i>GF</i></a>,
+                <a href="#0" data-text="TF" title="terafarad"><i>TF</i></a>,
+                <a href="#0" data-text="mF" title="millifarad"><i>mF</i></a>,
+                <a href="#0" data-text="μF" title="microfarad"><i>μF</i></a>,
+                <a href="#0" data-text="nF" title="nanofarad"><i>nF</i></a>,
+                <a href="#0" data-text="pF" title="picofarad"><i>pF</i></a>;<br />
+                Resistance:
+                <a href="#0" data-text="Ω" title="Ohm"><i>Ω</i></a>,
+                <a href="#0" data-text="kΩ" title="kiloohm"><i>kΩ</i></a>,
+                <a href="#0" data-text="MΩ" title="megaohm"><i>MΩ</i></a>,
+                <a href="#0" data-text="GΩ" title="gigaohm"><i>GΩ</i></a>,
+                <a href="#0" data-text="TΩ" title="teraohm"><i>TΩ</i></a>,
+                <a href="#0" data-text="mΩ" title="milliohm"><i>mΩ</i></a>,
+                <a href="#0" data-text="μΩ" title="microohm"><i>μΩ</i></a>,
+                <a href="#0" data-text="nΩ" title="nanoohm"><i>nΩ</i></a>,
+                <a href="#0" data-text="pΩ" title="picoohm"><i>pΩ</i></a>;<br />
+                Conductance:
+                <a href="#0" data-text="S" title="Siemens"><i>S</i></a>,
+                <a href="#0" data-text="kS" title="kilosiemens"><i>kS</i></a>,
+                <a href="#0" data-text="MS" title="megasiemens"><i>MS</i></a>,
+                <a href="#0" data-text="GS" title="gigasiemens"><i>GS</i></a>,
+                <a href="#0" data-text="TS" title="terasiemens"><i>TS</i></a>,
+                <a href="#0" data-text="mS" title="millisiemens"><i>mS</i></a>,
+                <a href="#0" data-text="μS" title="microsiemens"><i>μS</i></a>,
+                <a href="#0" data-text="nS" title="nanosiemens"><i>nS</i></a>,
+                <a href="#0" data-text="pS" title="picosiemens"><i>pS</i></a>,<br />
+                &emsp;&emsp;&emsp;&emsp;&emsp;&ensp;
+                <a href="#0" data-text="℧" title="mho"><i>℧</i></a>,
+                <a href="#0" data-text="k℧" title="kilomho"><i>k℧</i></a>,
+                <a href="#0" data-text="M℧" title="megamho"><i>M℧</i></a>,
+                <a href="#0" data-text="G℧" title="gigamho"><i>G℧</i></a>,
+                <a href="#0" data-text="T℧" title="teramho"><i>T℧</i></a>,
+                <a href="#0" data-text="m℧" title="millimho"><i>m℧</i></a>,
+                <a href="#0" data-text="μ℧" title="micromho"><i>μ℧</i></a>,
+                <a href="#0" data-text="n℧" title="nanomho"><i>n℧</i></a>,
+                <a href="#0" data-text="p℧" title="picomho"><i>p℧</i></a>;<br />
+                Magnetic flux:
+                <a href="#0" data-text="Wb" title="Weber"><i>Wb </i></a>,
+                <a href="#0" data-text="kWb" title="kiloweber"><i>kWb</i></a>,
+                <a href="#0" data-text="MWb" title="megaweber"><i>MWb</i></a>,
+                <a href="#0" data-text="GWb" title="gigaweber"><i>GWb</i></a>,
+                <a href="#0" data-text="TWb" title="teraweber"><i>TWb</i></a>,
+                <a href="#0" data-text="mWb" title="milliweber"><i>mWb</i></a>,
+                <a href="#0" data-text="μWb" title="microweber"><i>μWb</i></a>,
+                <a href="#0" data-text="nWb" title="nanoweber"><i>nWb</i></a>,
+                <a href="#0" data-text="pWb" title="picoweber"><i>pWb</i></a>;<br />
+                Magnetic flux density:
+                <a href="#0" data-text="T" title="Tesla"><i>T</i></a>,
+                <a href="#0" data-text="kT" title="kilotesla"><i>kT</i></a>,
+                <a href="#0" data-text="MT" title="megatesla"><i>MT</i></a>,
+                <a href="#0" data-text="GT" title="gigatesla"><i>GT</i></a>,
+                <a href="#0" data-text="TT" title="teratesla"><i>TT</i></a>,
+                <a href="#0" data-text="mT" title="millitesla"><i>mT</i></a>,
+                <a href="#0" data-text="μT" title="microtesla"><i>μT</i></a>,
+                <a href="#0" data-text="nT" title="nanotesla"><i>nT</i></a>,
+                <a href="#0" data-text="pT" title="picotesla"><i>pT</i></a>;<br />
+                Inductance:
+                <a href="#0" data-text="H" title="Henry"><i>H</i></a>,
+                <a href="#0" data-text="kH" title="kilohenry"><i>kH</i></a>,
+                <a href="#0" data-text="MH" title="megahenry"><i>MH</i></a>,
+                <a href="#0" data-text="GH" title="gigahenry"><i>GH</i></a>,
+                <a href="#0" data-text="TH" title="terahenry"><i>TH</i></a>,
+                <a href="#0" data-text="mH" title="millihenry"><i>mH</i></a>,
+                <a href="#0" data-text="μH" title="microhenry"><i>μH</i></a>,
+                <a href="#0" data-text="nH" title="nanohenry"><i>nH</i></a>,
+                <a href="#0" data-text="pH" title="picohenry"><i>pH</i></a>;<br />
+                Luminous flux:
+                <a href="#0" data-text="lm" title="lumen"><i>lm</i></a>;<br />
+                Illuminance:
+                <a href="#0" data-text="lx" title="lux"><i>lx</i></a>;<br />
+                Radioactivity:
+                <a href="#0" data-text="Bq" title="Becquerel"><i>Bq</i></a>,
+                <a href="#0" data-text="kBq" title="kilobecquerel"><i>kBq</i></a>,
+                <a href="#0" data-text="MBq" title="megacquerel"><i>MBq</i></a>,
+                <a href="#0" data-text="GBq" title="gigacquerel"><i>GBq</i></a>,
+                <a href="#0" data-text="TBq" title="teracquerel"><i>TBq</i></a>,
+                <a href="#0" data-text="mBq" title="millicquerel"><i>mBq</i></a>,
+                <a href="#0" data-text="μBq" title="microcquerel"><i>μBq</i></a>,
+                <a href="#0" data-text="nBq" title="nanocquerel"><i>nBq</i></a>,
+                <a href="#0" data-text="pBq" title="picocquerel"><i>pBq</i></a>,
+                <a href="#0" data-text="Ci" title="Curie"><i>Ci</i></a>,
+                <a href="#0" data-text="Rd" title="Rutherford"><i>Rd</i></a>;<br />
+                Absorbed dose:
+                <a href="#0" data-text="Gy" title="Gray"><i>Gy</i></a>,
+                <a href="#0" data-text="kGy" title="kilogray"><i>kGy</i></a>,
+                <a href="#0" data-text="MGy" title="megagray"><i>MGy</i></a>,
+                <a href="#0" data-text="GGy" title="gigagray"><i>GGy</i></a>,
+                <a href="#0" data-text="TGy" title="teragray"><i>TGy</i></a>,
+                <a href="#0" data-text="mGy" title="milligray"><i>mGy</i></a>,
+                <a href="#0" data-text="μGy" title="microgray"><i>μGy</i></a>,
+                <a href="#0" data-text="nGy" title="nanogray"><i>nGy</i></a>,
+                <a href="#0" data-text="pGy" title="picogray"><i>pGy</i></a>;<br />
+                Equivalent dose:
+                <a href="#0" data-text="Sv" title="Sievert"><i>Sv</i></a>,
+                <a href="#0" data-text="kSv" title="kilosievert"><i>kSv</i></a>,
+                <a href="#0" data-text="MSv" title="megasievert"><i>MSv</i></a>,
+                <a href="#0" data-text="GSv" title="gigasievert"><i>GSv</i></a>,
+                <a href="#0" data-text="TSv" title="terasievert"><i>TSv</i></a>,
+                <a href="#0" data-text="mSv" title="millisievert"><i>mSv</i></a>,
+                <a href="#0" data-text="μSv" title="microsievert"><i>μSv</i></a>,
+                <a href="#0" data-text="nSv" title="nanosievert"><i>nSv</i></a>,
+                <a href="#0" data-text="pSv" title="picosievert"><i>pSv</i></a>;<br />
+                Catalytic activity:
+                <a href="#0" data-text="kat" title="katal"><i>kat</i></a>;
+            </span>
+        </li>
+        <li style="list-style-type: none;">
+            <span class="exp" id="btn12">+</span>Non-metric units (Imperial/US):<br />
+            <span id="list12" style="display: none;">
+                Mass:
+                <a href="#0" data-text="gr" title="grain"><i>gr</i></a>,
+                <a href="#0" data-text="dr" title="drachm"><i>dr</i></a>,
+                <a href="#0" data-text="oz" title="ounce"><i>oz</i></a>,
+                <a href="#0" data-text="lb" title="pound"><i>lb</i></a> <span class="b">(</span>or
+                <a href="#0" data-text="lbm" title="pound-mass"><i>lbm</i></a>,
+                <a href="#0" data-text="lb_m" title="pound-mass (alt)"><i>lb</i><sub>_m</sub></a><span class="b">)</span>,
+                <a href="#0" data-text="kipm" title="kilopound-mass"><i>kipm</i></a> <span class="b">(</span>or
+                <a href="#0" data-text="kip_m" title="kilopound-mass (alt)"><i>kip</i><sub>_m</sub></a><span class="b">)</span>,
+                <a href="#0" data-text="st" title="stone"><i>st</i></a>,
+                <a href="#0" data-text="qr" title="quarter"><i>qr</i></a>,<br />
+                &emsp;&emsp;&ensp;
+                <a href="#0" data-text="cwt" title="hundredweight"><i>cwt</i></a> <span class="b">(</span>or
+                <a href="#0" data-text="cwt_UK" title="hundredweight (UK)"><i>cwt</i><sub>_UK</sub></a>,
+                <a href="#0" data-text="cwt_US" title="hundredweight (US)"><i>cwt</i><sub>_US</sub></a><span class="b">)</span>,
+                <a href="#0" data-text="ton" title="ton"><i>ton</i></a> <span class="b">(</span>or
+                <a href="#0" data-text="ton_UK" title="ton (UK)"><i>ton</i><sub>_UK</sub></a>,
+                <a href="#0" data-text="ton_US" title="ton (US)"><i>ton</i><sub>_US</sub></a><span class="b">)</span>,
+                <a href="#0" data-text="slug" title="slug"><i>slug</i></a>;<br />
+                Length:
+                <a href="#0" data-text="th" title="thou"><i>th</i></a>,
+                <a href="#0" data-text="in" title="inch"><i>in</i></a>,
+                <a href="#0" data-text="ft" title="foot"><i>ft</i></a>,
+                <a href="#0" data-text="yd" title="yard"><i>yd</i></a>,
+                <a href="#0" data-text="ch" title="chain"><i>ch</i></a>,
+                <a href="#0" data-text="fur" title="furlong"><i>fur</i></a>,
+                <a href="#0" data-text="mi" title="mile"><i>mi</i></a>,
+                <a href="#0" data-text="ftm" title="fathom"><i>ftm</i></a> <span class="b">(</span>or
+                <a href="#0" data-text="ftm_UK" title="fathom (UK)"><i>ftm</i><sub>_UK</sub></a>,
+                <a href="#0" data-text="ftm_US" title="fathom (US)"><i>ftm</i><sub>_US</sub></a><span class="b">)</span>,<br />
+                &emsp;&emsp;&ensp;&ensp;
+                <a href="#0" data-text="cable" title="cable"><i>cable</i></a> <span class="b">(</span>or
+                <a href="#0" data-text="cable_UK" title="cable (UK)"><i>cable</i><sub>_UK</sub></a>,
+                <a href="#0" data-text="cable_US" title="cable (US)"><i>cable</i><sub>_US</sub></a><span class="b">)</span>,
+                <a href="#0" data-text="nmi" title="nautical mile"><i>nmi</i></a>,
+                <a href="#0" data-text="li" title="link"><i>li</i></a>,
+                <a href="#0" data-text="rod" title="rod"><i>rod</i></a>,
+                <a href="#0" data-text="pole" title="pole"><i>pole</i></a>,
+                <a href="#0" data-text="perch" title="perch"><i>perch</i></a>,
+                <a href="#0" data-text="lea" title="league"><i>lea</i></a>;<br />
+                Speed:
+                <a href="#0" data-text="mph" title="miles per hour"><i>mph</i></a>,
+                <a href="#0" data-text="knot" title="knots"><i>knot</i></a>;<br />
+                Temperature:
+                <a href="#0" data-text="°F" title="degrees Fahrenheit"><i>°F</i></a>,
+                <a href="#0" data-text="Δ°F" title="difference in °F"><i>Δ°F</i></a>,
+                <a href="#0" data-text="°R" title="degrees Rankine"><i>°R</i></a>;<br />
+                Area:
+                <a href="#0" data-text="rood" title="rood"><i>rood</i></a>,
+                <a href="#0" data-text="ac" title="acre"><i>ac</i></a>;<br />
+                Volume, fluid:
+                <a href="#0" data-text="fl_oz" title="fluid ounce"><i>fl_oz</i></a>,
+                <a href="#0" data-text="gi" title="gill"><i>gi</i></a>,
+                <a href="#0" data-text="pt" title="pint"><i>pt</i></a>,
+                <a href="#0" data-text="qt" title="quart"><i>qt</i></a>,
+                <a href="#0" data-text="gal" title="gallon"><i>gal</i></a>,
+                <a href="#0" data-text="bbl" title="barrel"><i>bbl</i></a>, or:<br />
+                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                <a href="#0" data-text="fl_oz_UK" title="fluid ounce (UK)"><i>fl_oz</i><sub>_UK</sub></a>,
+                <a href="#0" data-text="gi_UK" title="gill (UK)"><i>gi</i><sub>_UK</sub></a>,
+                <a href="#0" data-text="pt_UK" title="pint (fluid, UK)"><i>pt</i><sub>_UK</sub></a>,
+                <a href="#0" data-text="qt_UK" title="quart (fluid, UK)"><i>qt</i><sub>_UK</sub></a>,
+                <a href="#0" data-text="gal_UK" title="gallon (fluid, UK)"><i>gal</i><sub>_UK</sub></a>,
+                <a href="#0" data-text="bbl_UK" title="barrel (fluid, UK)"><i>bbl</i><sub>_UK</sub></a>,<br />
+                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                <a href="#0" data-text="fl_oz_US" title="fluid ounce (US)"><i>fl_oz</i><sub>_US</sub></a>,
+                <a href="#0" data-text="gi_US" title="gill (US)"><i>gi</i><sub>_US</sub></a>,
+                <a href="#0" data-text="pt_US" title="pint (fluid, US)"><i>pt</i><sub>_US</sub></a>,
+                <a href="#0" data-text="qt_US" title="quart (fluid, US)"><i>qt</i><sub>_US</sub></a>,
+                <a href="#0" data-text="gal_US" title="gallon (fluid, US)"><i>gal</i><sub>_US</sub></a>,
+                <a href="#0" data-text="bbl_US" title="barrel (fluid, US)"><i>bbl</i><sub>_US</sub></a>;<br />
+                Volume, dry:
+                <span class="b">(</span>US<span class="b">)</span> <a href="#0" data-text="pt_dry" title="pint (dry, US)"><i>pt</i><sub>_dry</sub></a>,
+                <span class="b">(</span>US<span class="b">)</span> <a href="#0" data-text="qt_dry" title="quart (dry, US)"><i>qt</i><sub>_dry</sub></a>,
+                <span class="b">(</span>US<span class="b">)</span> <a href="#0" data-text="gal_dry" title="gallon (dry, US)"><i>gal</i><sub>_dry</sub></a>,
+                <span class="b">(</span>US<span class="b">)</span> <a href="#0" data-text="bbl_dry" title="barrel (dry, US)"><i>bbl</i><sub>_dry</sub></a>,<br />
+                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                <a href="#0" data-text="pk" title="peck"><i>pk</i></a> <span class="b">(</span>or
+                <a href="#0" data-text="pk_UK" title="peck (dry, UK)"><i>pk</i><sub>_UK</sub></a>,
+                <a href="#0" data-text="pk_US" title="peck (dry, US)"><i>pk</i><sub>_US</sub></a><span class="b">)</span>,
+                <a href="#0" data-text="bu" title="bushel"><i>bu</i></a> <span class="b">(</span>or
+                <a href="#0" data-text="bu_UK" title="bushel (dry, UK)"><i>bu</i><sub>_UK</sub></a>,
+                <a href="#0" data-text="bu_US" title="bushel (dry, US)"><i>bu</i><sub>_US</sub></a><span class="b">)</span>;<br />
+                Force:
+                <a href="#0" data-text="ozf" title="ounce-force"><i>ozf</i></a> <span class="b">(</span>or
+                <a href="#0" data-text="oz_f" title="ounce-force (alt)"><i>oz</i><sub>_f</sub></a><span class="b">)</span>,
+                <a href="#0" data-text="lbf" title="pound-force"><i>lbf</i></a> <span class="b">(</span>or
+                <a href="#0" data-text="lb_f" title="pound-force (alt)"><i>lb</i><sub>_f</sub></a><span class="b">)</span>,
+                <a href="#0" data-text="kip" title="kilopound"><i>kip</i></a> <span class="b">(</span>or
+                <a href="#0" data-text="kipf" title="kilopound-force"><i>kipf</i></a>,
+                <a href="#0" data-text="kip_f" title="kilopound-force (alt)"><i>kip</i><sub>_f</sub></a><span class="b">)</span>,
+                <a href="#0" data-text="tonf" title="ton-force"><i>tonf</i></a> <span class="b">(</span>or
+                <a href="#0" data-text="ton_f" title="ton-force (alt)"><i>ton</i><sub>_f</sub></a><span class="b">)</span>,
+                <a href="#0" data-text="pdl" title="poundal"><i>pdl</i></a>;<br />
+                Pressure:
+                <a href="#0" data-text="osi" title="ounce-force per sq. inch"><i>osi</i></a>,
+                <a href="#0" data-text="osf" title="ounce-force per sq. foot"><i>osf</i></a>
+                <a href="#0" data-text="psi" title="pound-force per sq. inch"><i>psi</i></a>,
+                <a href="#0" data-text="psf" title="pound-force per sq. foot"><i>psf</i></a>,
+                <a href="#0" data-text="ksi" title="kilopound-force per sq. inch"><i>ksi</i></a>,
+                <a href="#0" data-text="ksf" title="kilopound-force per sq. foot"><i>ksf</i></a>,
+                <a href="#0" data-text="tsi" title="ton-force per sq. inch"><i>tsi</i></a>,
+                <a href="#0" data-text="tsf" title="ton-force per sq. foot"><i>tsf</i></a>,
+                <a href="#0" data-text="inHg" title="inches of mercury (conventional)"><i>inHg</i></a>;<br />
+                Energy/work:
+                <a href="#0" data-text="BTU" title="British Thermal Unit"><i>BTU</i></a>,
+                <a href="#0" data-text="therm" title="therm"><i>therm</i></a>, <span class="b">(</span>or
+                <a href="#0" data-text="therm_UK" title="therm (UK)"><i>therm</i><sub>_UK</sub></a>,
+                <a href="#0" data-text="therm_US" title="therm (US)"><i>therm</i><sub>_US</sub></a><span class="b">)</span>,
+                <a href="#0" data-text="quad" title="quad"><i>quad</i></a>;<br />
+                Power:
+                <a href="#0" data-text="hp" title="horsepower"><i>hp</i></a>,
+                <a href="#0" data-text="hpE" title="horsepower (electrical)"><i>hpE</i></a>,
+                <a href="#0" data-text="hpS" title="horsepower (boiler)"><i>hpS</i></a>;
+            </span>
+        </li>
+        <li>
+            Custom units: .<i>Name</i> = expression. <br />Names can include currency symbols:
+            <a href="#0" data-text="€" title="Euro">€</a>,
+            <a href="#0" data-text="£" title="Pound">£</a>,
+            <a href="#0" data-text="₤" title="Lira">₤</a>,
+            <a href="#0" data-text="¥" title="Yen">¥</a>,
+            <a href="#0" data-text="¢" title="Cent">¢</a>,
+            <a href="#0" data-text="₽" title="Ruble">₽</a>,
+            <a href="#0" data-text="₹" title="Rupee">₹</a>,
+            <a href="#0" data-text="₩" title="Won">₩</a>,
+            <a href="#0" data-text="₪" title="Shekel">₪</a>.
+        </li>
+    </ul>
+    <script src="jquery-3.6.3.min.js"></script>
+    <script>
+        function delayedLoad(path) { setTimeout(function () { document.write(path); }, 500); }
+        if (window.jQuery) {
+            $(document).ready(function () {
+
+                function Toggle(btn) {
+                    var list = $("#list" + btn.attr("id").substring(3));
+                    if (list.css("display") == "none") {
+                        list.css("display", "inline");
+                        btn.html("&minus;");
+                    }
+                    else {
+                        list.css("display", "none");
+                        btn.html("+");
+                    }
+                }
+
+                $(".exp").click(function () {
+                    Toggle($(this));
+                });
+            });
+        }
+    </script>
+</body>
+</html>	

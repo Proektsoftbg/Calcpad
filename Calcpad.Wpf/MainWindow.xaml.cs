@@ -2,7 +2,6 @@
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
@@ -12,6 +11,7 @@ using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows;
@@ -27,6 +27,10 @@ namespace Calcpad.Wpf
 {
     public partial class MainWindow : Window
     {
+
+        //Culture
+        private static readonly string _currentCultureName = "en";
+
         //Static resources
         private static readonly char[] GreekLetters = ['α', 'β', 'χ', 'δ', 'ε', 'φ', 'γ', 'η', 'ι', 'ø', 'κ', 'λ', 'μ', 'ν', 'ο', 'π', 'θ', 'ρ', 'σ', 'τ', 'υ', 'ϑ', 'ω', 'ξ', 'ψ', 'ζ'];
         private static readonly char[] LatinLetters = ['a', 'b', 'g', 'd', 'e', 'z', 'h', 'q', 'i', 'k', 'l', 'm', 'n', 'x', 'o', 'p', 'r', 's', 's', 't', 'u', 'f', 'c', 'y', 'w'];
@@ -43,7 +47,7 @@ namespace Calcpad.Wpf
                 Path = AppDomain.CurrentDomain.BaseDirectory;
                 Name = AppDomain.CurrentDomain.FriendlyName + ".exe";
                 FullName = System.IO.Path.Combine(Path, Name);
-                Version = Assembly.GetExecutingAssembly().GetName().Version.ToString(); 
+                Version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
                 Title = " Calcpad " + Version[0..(Version.LastIndexOf('.'))];
             }
             internal static readonly string Path;
@@ -79,6 +83,7 @@ namespace Calcpad.Wpf
         private readonly UndoManager _undoMan;
         private readonly WebBrowserWrapper _wbWarper;
 
+        private string _readmeFileName;
         private string DocumentPath { get; set; }
         private string _cfn;
         private string CurrentFileName
@@ -100,7 +105,7 @@ namespace Calcpad.Wpf
                 }
             }
         }
-        //State variables
+        //State variablesx
         private readonly string _svgTyping;
         private bool _isSaving;
         private bool _isSaved;
@@ -161,13 +166,13 @@ namespace Calcpad.Wpf
         private bool DisplayUnwarpedCode => CodeCheckBox.Visibility == Visibility.Visible && CodeCheckBox.IsChecked.Value;
         private bool IsUnwarpedCode => WebBrowser.Tag is bool b && b;
 
-
         public MainWindow()
         {
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             _parser = new();
             _highlighter = new();
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(_currentCultureName);
             InitializeComponent();
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             _inputHeight = InputGrid.RowDefinitions[1].Height.Value;
             ToolTipService.InitialShowDelayProperty.OverrideMetadata(
                 typeof(DependencyObject),
@@ -176,14 +181,15 @@ namespace Calcpad.Wpf
             UserDefined.Include = Include;
             LineNumbers.ClipToBounds = true;
             SetCurrentDirectory();
-            var appUrl = "file:///" + AppInfo.Path.Replace("\\", "/");
-            _htmlWorksheet = ReadTextFromFile(AppInfo.Path + "template.html").Replace("jquery", appUrl + "jquery");
-            _htmlParsing = ReadTextFromFile(AppInfo.Path + "parsing.html");
-            _htmlHelp = GetHelp(MainWindowResources.calcpad_download_help_html);
-            _htmlSource = ReadTextFromFile(AppInfo.Path + "source.html").Replace("jquery", appUrl + "jquery");
+            var appUrl = $"file:///{AppInfo.Path.Replace("\\", "/")}doc/";
+            var docPath = AppInfo.Path + "doc";
+            var htmlExt = AddCultureExt("html");
+            _htmlWorksheet = ReadTextFromFile($"{docPath}\\template{htmlExt}").Replace("jquery", appUrl + "jquery");
+            _htmlParsing = ReadTextFromFile($"{docPath}\\parsing{htmlExt}");
+            _htmlHelp = GetHelp(MainWindowResources.calcpad_download_help_html).Replace("jquery", appUrl + "jquery");
+            _htmlSource = ReadTextFromFile($"{docPath}\\source.html").Replace("jquery", appUrl + "jquery");
             _svgTyping = $"<img style=\"height:1em;\" src=\"{appUrl}typing.gif\" alt=\"...\">";
-            _htmlHelp = _htmlHelp.Replace("jquery", appUrl + "jquery");
-            //_htmlTempFileName = Path.GetTempFileName() + ".html";
+            _readmeFileName = $"{docPath}\\readme{htmlExt}";
             InvButton.Tag = false;
             HypButton.Tag = false;
             RichTextBox.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(RichTextBox_Scroll));
@@ -216,6 +222,10 @@ namespace Calcpad.Wpf
             _isTextChangedEnabled = true;
         }
 
+        private static string AddCultureExt(string ext) => string.Equals(_currentCultureName, "en", StringComparison.Ordinal) ?
+                $".{ext}" :
+                $".{_currentCultureName}.{ext}";
+
         public bool SaveStateAndRestart()
         {
             var tempFile = Path.GetTempFileName();
@@ -231,34 +241,30 @@ namespace Calcpad.Wpf
         private void TryRestoreState()
         {
             var tempFile = Properties.Settings.Default.TempFile;
-            if (!string.IsNullOrEmpty(tempFile))
+            if (string.IsNullOrEmpty(tempFile)) return;
+            var fileName = Properties.Settings.Default.FileName;
+            Properties.Settings.Default.TempFile = null;
+            Properties.Settings.Default.FileName = null;
+            Properties.Settings.Default.Save();
+            var message = MainWindowResources.TryRestoreState_Recovered_SavePrompt;
+            var result = MessageBox.Show(
+                message,
+                "Calcpad",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+            if (result != MessageBoxResult.Yes) return;
+            try
             {
-                var fileName = Properties.Settings.Default.FileName;
-                Properties.Settings.Default.TempFile = null;
-                Properties.Settings.Default.FileName = null;
-                Properties.Settings.Default.Save();
-                var message = MainWindowResources.TryRestoreState_Recovered_SavePrompt;
-                var result = MessageBox.Show(
-                    message,
-                    "Calcpad",
-                    MessageBoxButton.YesNo,
-                    MessageBoxImage.Question);
-                if (result == MessageBoxResult.Yes)
-                {
-                    try
-                    {
-                        FileOpen(tempFile);
-                        CurrentFileName = fileName;
-                    }
-                    catch (Exception ex)
-                    {
-                        ShowErrorMessage(
-                        string.Format(MainWindowResources.TryRestoreState_Failed, ex.Message, tempFile)
-                        );
-                        IsSaved = true;
-                        Command_New(this, null);
-                    }
-                }
+                FileOpen(tempFile);
+                CurrentFileName = fileName;
+            }
+            catch (Exception ex)
+            {
+                ShowErrorMessage(
+                    string.Format(MainWindowResources.TryRestoreState_Failed, ex.Message, tempFile)
+                );
+                IsSaved = true;
+                Command_New(this, null);
             }
         }
 
@@ -287,13 +293,13 @@ namespace Calcpad.Wpf
             _forceHighlight = false;
         }
 
-        private static void SetButton(Button b, bool on)
+        private static void SetButton(Control b, bool on)
         {
             if (on)
             {
                 b.Tag = "T";
                 b.BorderBrush = Brushes.SteelBlue;
-                b.Background = Brushes.AliceBlue;
+                b.Background = Brushes.LightBlue;
             }
             else
             {
@@ -412,36 +418,36 @@ namespace Calcpad.Wpf
                 SetAutoIndent();
             }
             else switch (tag)
-            {
-                case "AC": RemoveLine(); break;
-                case "C": RemoveChar(); break;
-                case "Enter": InsertLine(); break;
-                default:
-                    if (tag[0] == '#' ||
-                        tag[0] == '$' && (
-                            tag.StartsWith("$plot", StringComparison.OrdinalIgnoreCase) ||
-                            tag.StartsWith("$map", StringComparison.OrdinalIgnoreCase)
-                        ))
-                    {
-                        var p = RichTextBox.Selection.End.Paragraph;
-                        if (new TextRange(p.ContentStart, p.ContentEnd).Text.Length > 0)
+                {
+                    case "AC": RemoveLine(); break;
+                    case "C": RemoveChar(); break;
+                    case "Enter": InsertLine(); break;
+                    default:
+                        if (tag[0] == '#' ||
+                            tag[0] == '$' && (
+                                tag.StartsWith("$plot", StringComparison.OrdinalIgnoreCase) ||
+                                tag.StartsWith("$map", StringComparison.OrdinalIgnoreCase)
+                            ))
                         {
-                            var tp = p.ContentEnd.InsertParagraphBreak();
-                            tp.InsertTextInRun(tag);
-                            p = tp.Paragraph;
-                            var lineNumber = GetLineNumber(p);
-                            _highlighter.Parse(p, IsComplex, lineNumber);
-                            SetAutoIndent();
-                            tp = p.ContentEnd;
-                            RichTextBox.Selection.Select(tp, tp);
+                            var p = RichTextBox.Selection.End.Paragraph;
+                            if (new TextRange(p.ContentStart, p.ContentEnd).Text.Length > 0)
+                            {
+                                var tp = p.ContentEnd.InsertParagraphBreak();
+                                tp.InsertTextInRun(tag);
+                                p = tp.Paragraph;
+                                var lineNumber = GetLineNumber(p);
+                                _highlighter.Parse(p, IsComplex, lineNumber);
+                                SetAutoIndent();
+                                tp = p.ContentEnd;
+                                RichTextBox.Selection.Select(tp, tp);
+                            }
+                            else
+                                InsertText(tag);
                         }
                         else
                             InsertText(tag);
-                    }
-                    else
-                        InsertText(tag);
-                    break;
-            }
+                        break;
+                }
             if (tag == "Enter")
                 CalculateAsync();
 
@@ -609,7 +615,7 @@ namespace Calcpad.Wpf
                     ShowHelp();
             }
         }
-        
+
         private void Command_New(object senter, ExecutedRoutedEventArgs e)
         {
             var r = PromptSave();
@@ -689,7 +695,7 @@ namespace Calcpad.Wpf
             Inline.IsChecked = settings.Equations == 'I';
             DecimalsTextBox.Text = settings.Decimals.ToString();
             SubstituteCheckBox.IsChecked = settings.Substitute;
-            AdaptiveCheckBox.IsChecked = settings.Adaptive; 
+            AdaptiveCheckBox.IsChecked = settings.Adaptive;
             ShadowsCheckBox.IsChecked = settings.Shadows;
             LightDirectionComboBox.SelectedIndex = settings.Direction;
             ColorScaleComboBox.SelectedIndex = settings.Palette;
@@ -710,7 +716,7 @@ namespace Calcpad.Wpf
                                             2;
             math.Substitute = SubstituteCheckBox.IsChecked ?? false;
 
-            var plot = _parser.Settings.Plot;   
+            var plot = _parser.Settings.Plot;
             plot.ImagePath = string.Empty; //tmpDir;
             plot.ImageUri = string.Empty; //tmpDir;
             plot.VectorGraphics = false;
@@ -762,8 +768,8 @@ namespace Calcpad.Wpf
             var settings = Properties.Settings.Default;
             settings.Numbers = Real.IsChecked ?? false ? 'R' : 'C';
             settings.AutoRun = AutoRunCheckBox.IsChecked ?? false;
-            settings.Angles = Deg.IsChecked ?? false ? 'D' : 
-                              Rad.IsChecked ?? false ? 'R' :  'G';
+            settings.Angles = Deg.IsChecked ?? false ? 'D' :
+                              Rad.IsChecked ?? false ? 'R' : 'G';
             settings.Units = UK.IsChecked ?? false ? 'K' : 'S';
             settings.Equations = Professional.IsChecked ?? false ? 'P' : 'I';
             settings.Decimals = byte.TryParse(DecimalsTextBox.Text, out byte b) ? b : (byte)2;
@@ -877,6 +883,9 @@ namespace Calcpad.Wpf
         {
             RecentFilesListContextMenu.PlacementTarget = RecentFliesListButton;
             RecentFilesListContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Relative;
+            var margin = RecentFilesListContextMenu.Margin;
+            margin.Left = RecentFliesListButton.Margin.Left;
+            RecentFilesListContextMenu.Margin = margin;
             RecentFilesListContextMenu.StaysOpen = true;
             RecentFilesListContextMenu.IsOpen = true;
         }
@@ -927,7 +936,6 @@ namespace Calcpad.Wpf
             if (s == ".cpdz" && !IsCpdz())
                 fileName = Path.ChangeExtension(fileName, ".cpdz");
 
-            s = Path.GetExtension(fileName);
             _parser.ShowWarnings = !IsCpdz();
             CopyLocalImages(fileName);
             FileSave(fileName);
@@ -946,7 +954,7 @@ namespace Calcpad.Wpf
                 var targetPath = Path.GetDirectoryName(newFileName);
                 if (sourcePath != targetPath && Directory.Exists(targetPath))
                 {
-                    var sourceParent = Directory.GetDirectoryRoot(sourcePath);    
+                    var sourceParent = Directory.GetDirectoryRoot(sourcePath);
                     var targetParent = Directory.GetDirectoryRoot(targetPath);
                     if (!string.Equals(sourceParent, sourcePath, StringComparison.OrdinalIgnoreCase))
                         sourceParent = Directory.GetParent(sourcePath).FullName;
@@ -1034,9 +1042,8 @@ namespace Calcpad.Wpf
 
         private void Command_Help(object sender, ExecutedRoutedEventArgs e)
         {
-            var fileName = AppInfo.Path + "readme.html";
-            if (File.Exists(fileName))
-                Execute(fileName);
+            if (File.Exists(_readmeFileName))
+                Execute(_readmeFileName);
             else
                 ShowHelp();
         }
@@ -1068,19 +1075,19 @@ namespace Calcpad.Wpf
         }
 
         private void Command_Print(object sender, ExecutedRoutedEventArgs e)
-        { 
+        {
             if (!_isParsing)
-                _wbWarper.PrintPreview(); 
+                _wbWarper.PrintPreview();
         }
 
         private void Command_Find(object sender, ExecutedRoutedEventArgs e) =>
-            CommandFindReplace(FindReplace.Modes.Find); 
+            CommandFindReplace(FindReplace.Modes.Find);
 
         private void Command_Replace(object sender, ExecutedRoutedEventArgs e) =>
             CommandFindReplace(FindReplace.Modes.Replace);
 
         private void CommandFindReplace(FindReplace.Modes mode)
-        { 
+        {
             if (IsWebForm)
                 return;
 
@@ -1097,11 +1104,11 @@ namespace Calcpad.Wpf
             bool isSelection = s is not null && s.Length > 5;
             _findReplaceWindow.SelectionCheckbox.IsEnabled = isSelection;
             _isTextChangedEnabled = false;
-            _findReplace.Mode = mode;    
+            _findReplace.Mode = mode;
             _findReplaceWindow.Show();
         }
 
-        private void Command_FindNext(object sender, ExecutedRoutedEventArgs e) => 
+        private void Command_FindNext(object sender, ExecutedRoutedEventArgs e) =>
             _findReplace.Find();
 
         private void FileOpen(string fileName)
@@ -1316,7 +1323,7 @@ namespace Calcpad.Wpf
             return s2;
         }
 
-        private string ErrorString = AppMessages.ErrorString;
+        private readonly string ErrorString = AppMessages.ErrorString;
         private string CodeToHtml(string code)
         {
             var highlighter = new HighLighter();
@@ -1428,7 +1435,11 @@ namespace Calcpad.Wpf
             }
             catch
             {
-                return ReadTextFromFile(AppInfo.Path + "help.html");
+                var fileName = $"{AppInfo.Path}doc\\help.{_currentCultureName}.html";
+                if (!File.Exists(fileName))
+                    fileName = $"{AppInfo.Path}doc\\help.html";
+
+                return ReadTextFromFile(fileName);
             }
         }
 
@@ -1469,7 +1480,7 @@ namespace Calcpad.Wpf
                 if (string.Equals(Path.GetExtension(fileName), ".cpdz", StringComparison.OrdinalIgnoreCase))
                 {
                     if (Zip.IsComposite(fileName))
-                        lines = Zip.DecompressWithImages(fileName).EnumerateLines();   
+                        lines = Zip.DecompressWithImages(fileName).EnumerateLines();
                     else
                     {
                         var f = new FileInfo(fileName)
@@ -1699,10 +1710,11 @@ namespace Calcpad.Wpf
         private void WordButton_Click(object sender, RoutedEventArgs e)
         {
             if (_isParsing) return;
-            var isDoc = (Professional.IsChecked ?? false) && (IsCalculated || IsWebForm);
+            var isOutput = IsCalculated || IsWebForm || _parser.IsPaused;
+            var isDoc = (Professional.IsChecked ?? false) && isOutput;
             var fileExt = isDoc ? "docx" : "html";
             string fileName;
-            if (IsCalculated || IsWebForm)
+            if (isOutput)
             {
                 if (string.IsNullOrEmpty(CurrentFileName))
                     fileName = Path.GetTempPath() + "Calcpad\\Output." + fileExt;
@@ -1711,11 +1723,13 @@ namespace Calcpad.Wpf
             }
             else
             {
-                fileName = AppInfo.Path + "help.docx";
+                fileName =  $"{AppInfo.Path}doc\\help.{_currentCultureName}.docx";
+                if (!File.Exists(fileName))
+                    fileName = $"{AppInfo.Path}doc\\help.docx";
             }
             try
             {
-                if (IsCalculated || IsWebForm)
+                if (isOutput)
                 {
                     if (isDoc)
                     {
@@ -1739,9 +1753,7 @@ namespace Calcpad.Wpf
                     }
                 }
                 if (RunExternalApp("WINWORD", fileName) is null)
-                {
                     RunExternalApp("SOFFICE", fileName);
-                }
             }
             catch (Exception ex)
             {
@@ -1800,7 +1812,7 @@ namespace Calcpad.Wpf
             SetCodeCheckBoxVisibility();
             _isTextChangedEnabled = false;
             RichTextBox.BeginChange();
-            var blocks = _document.Blocks;  
+            var blocks = _document.Blocks;
             int j = 1, n = blocks.Count;
             var indent = 0d;
             var b = blocks.FirstBlock;
@@ -1808,7 +1820,7 @@ namespace Calcpad.Wpf
             {
                 if (j < n)
                 {
-                    var s = new TextRange(b.ContentStart, b.ContentEnd).Text; 
+                    var s = new TextRange(b.ContentStart, b.ContentEnd).Text;
                     if (line.SequenceEqual(s))
                     {
                         if (_currentParagraph == b)
@@ -1823,7 +1835,7 @@ namespace Calcpad.Wpf
                         continue;
                     }
                 }
-                var p = b is not null ? (Paragraph)b: new Paragraph();
+                var p = b is not null ? (Paragraph)b : new Paragraph();
                 _highlighter.Parse(p, IsComplex, j, line.ToString());
                 if (!UpdateIndent(p, ref indent))
                     p.TextIndent = indent;
@@ -1839,8 +1851,8 @@ namespace Calcpad.Wpf
             {
                 blocks.Remove(blocks.LastBlock);
                 --n;
-            }   
-            n = blocks.Count;   
+            }
+            n = blocks.Count;
             if (currentLine < 1)
                 currentLine = 1;
             else if (currentLine > n)
@@ -1924,7 +1936,7 @@ namespace Calcpad.Wpf
                 MenuWebForm.Icon = null;
                 WebBrowser.Cursor = cursor;
                 AutoRunCheckBox.Visibility = Visibility.Visible;
-                SetOutputFrameHeader(value);
+                SetOutputFrameHeader(false);
             }
         }
 
@@ -2087,8 +2099,8 @@ namespace Calcpad.Wpf
         {
             if (IsInitialized)
             {
-                var deg = ReferenceEquals(sender, Deg) ? 0 : 
-                          ReferenceEquals(sender, Rad) ? 1 : 
+                var deg = ReferenceEquals(sender, Deg) ? 0 :
+                          ReferenceEquals(sender, Rad) ? 1 :
                           2;
                 _parser.Settings.Math.Degrees = deg;
                 Deg.IsChecked = deg == 0;
@@ -2115,7 +2127,7 @@ namespace Calcpad.Wpf
 
         private void SaveOutputButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!_isParsing) 
+            if (!_isParsing)
                 HtmlFileSave();
         }
 
@@ -2437,7 +2449,7 @@ namespace Calcpad.Wpf
                 _isPasting = true;
                 GetPasteOffset();
             }
-            else 
+            else
             {
                 e.CancelCommand();
                 if (hasImage && Clipboard.ContainsImage())
@@ -2449,9 +2461,9 @@ namespace Calcpad.Wpf
                         name = fn[0];
                         name = Path.GetFileNameWithoutExtension(name) + ".png";
                     }
-                    Dispatcher.InvokeAsync(() => PasteImage(name),DispatcherPriority.ApplicationIdle);
+                    Dispatcher.InvokeAsync(() => PasteImage(name), DispatcherPriority.ApplicationIdle);
                 }
-            }  
+            }
         }
 
         private void PasteImage(string name)
@@ -2471,10 +2483,10 @@ namespace Calcpad.Wpf
             else
                 path = Path.GetTempPath() + "Calcpad\\Images\\";
 
-            if (!Directory.Exists(path)) 
+            if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
 
-            path = Path.Combine(path, name); 
+            path = Path.Combine(path, name);
             try
             {
                 BitmapSource src = BitmapPaster.PasteImageFromClipboard();
@@ -2483,7 +2495,7 @@ namespace Calcpad.Wpf
                 src.CopyPixels(Int32Rect.Empty, data.Scan0, data.Height * data.Stride, data.Stride);
                 bitmap.UnlockBits(data);
                 SD.Image image = bitmap;
-                image.Save(path, System.Drawing.Imaging.ImageFormat.Png);
+                image.Save(path, SD.Imaging.ImageFormat.Png);
                 InsertImage(path);
             }
             catch (Exception ex)
@@ -2571,9 +2583,9 @@ namespace Calcpad.Wpf
             _isTextChangedEnabled = false;
             RichTextBox.Selection.ApplyPropertyValue(TextElement.BackgroundProperty, null);
             _isTextChangedEnabled = true;
-            var modifiers = e.KeyboardDevice.Modifiers; 
-            var isCtrl = modifiers == ModifierKeys.Control;  
-            var isCtrlShift = modifiers == (ModifierKeys.Control | ModifierKeys.Shift); 
+            var modifiers = e.KeyboardDevice.Modifiers;
+            var isCtrl = modifiers == ModifierKeys.Control;
+            var isCtrlShift = modifiers == (ModifierKeys.Control | ModifierKeys.Shift);
             if (e.Key == Key.B && isCtrl)
             {
                 Button_Click(BoldMenu, e);
@@ -2911,15 +2923,9 @@ namespace Calcpad.Wpf
             var b = (Button)sender;
             b.Tag = !(bool)b.Tag;
             if ((bool)b.Tag)
-            {
-                //b.FontWeight = FontWeights.Bold;
-                b.Foreground = Brushes.Blue;
-            }
+                b.Foreground = Brushes.Teal;
             else
-            {
-                //b.FontWeight = FontWeights.Normal;
                 b.Foreground = Brushes.Black;
-            }
 
             bool inv = (bool)InvButton.Tag, hyp = (bool)HypButton.Tag;
             string pref = string.Empty, post = string.Empty;
@@ -2929,18 +2935,13 @@ namespace Calcpad.Wpf
             if (hyp)
                 post = "h";
 
-            double fs;
+            double fs = inv && hyp ? 14d : 15d;
             FontFamily ff;
-            if (inv && hyp)
-            {
-                ff = new FontFamily("Arial Narrow");
-                fs = 14.5;
-            }
+            if (inv || hyp)
+                ff = new FontFamily("Arial Nova Cond");
             else
-            {
-                ff = new FontFamily("Microsoft Sans Serif");
-                fs = 13;
-            }
+                ff = new FontFamily("Roboto");
+
             SetTrigButton(SinButton, pref + "sin" + post, fs, ff);
             SetTrigButton(CosButton, pref + "cos" + post, fs, ff);
             SetTrigButton(TanButton, pref + "tan" + post, fs, ff);
@@ -2963,6 +2964,45 @@ namespace Calcpad.Wpf
             btn.Tag = s + '(';
             btn.FontSize = fontSize;
             btn.FontFamily = fontFamily;
+            btn.FontStretch = fontFamily.Source.Contains("Cond") ?
+                FontStretches.Condensed :
+                FontStretches.Normal;
+
+            btn.FontWeight = fontFamily.Source.Contains("Light") ?
+                FontWeights.Light :
+                FontWeights.Normal;
+
+            btn.ToolTip = s switch
+            {
+                "sin" => MathResources.Sine,
+                "cos" => MathResources.Cosine,
+                "tan" => MathResources.Tangent,
+                "csc" => MathResources.Cosecant,
+                "sec" => MathResources.Secant,
+                "cot" => MathResources.Cotangent,
+
+                "asin" => MathResources.InverseSine,
+                "acos" => MathResources.InverseCosine,
+                "atan" => MathResources.InverseTangent,
+                "acsc" => MathResources.InverseCosecant,
+                "asec" => MathResources.InverseSecant,
+                "acot" => MathResources.InverseCotangent,
+
+                "sinh" => MathResources.HyperbolicSine,
+                "cosh" => MathResources.HyperbolicCosine,
+                "tanh" => MathResources.HyperbolicTangent,
+                "csch" => MathResources.HyperbolicCosecant,
+                "sech" => MathResources.HyperbolicSecant,
+                "coth" => MathResources.HyperbolicCotangent,
+
+                "asinh" => MathResources.InverseHyperbolicSine,
+                "acosh" => MathResources.InverseHyperbolicCosine,
+                "atanh" => MathResources.InverseHyperbolicTangent,
+                "acsch" => MathResources.InverseHyperbolicCosecant,
+                "asech" => MathResources.InverseHyperbolicSecant,
+                "acoth" => MathResources.InverseHyperbolicCotangent,
+                _ => null
+            };
         }
 
         private void ColorScaleComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -3213,7 +3253,7 @@ namespace Calcpad.Wpf
                     return false;
                 }
             }
-            return true;    
+            return true;
         }
 
 
@@ -3291,7 +3331,7 @@ namespace Calcpad.Wpf
             foreach (var s in fields)
                 values.Enqueue(s.ToString());
 
-            while (p is not null && values.Any())
+            while (p is not null && values.Count != 0)
             {
                 var r = new TextRange(p.ContentStart, p.ContentEnd);
                 if (MacroParser.SetLineInputFields(r.Text.TrimEnd(), _stringBuilder, values, false))
@@ -3310,21 +3350,29 @@ namespace Calcpad.Wpf
                 UseShellExecute = true
             };
             Process.Start(info);
-         }
+        }
 
         private void PdfButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_isParsing ) 
-                return;    
+            if (_isParsing)
+                return;
 
-            if (IsCalculated || IsWebForm)
+            if (IsCalculated || IsWebForm || _parser.IsPaused)
             {
                 var fileName = PromtSavePdf();
                 if (fileName is not null)
-                    SavePdf(fileName);            
+                    SavePdf(fileName);
             }
             else
-                StartPdf(AppInfo.Path + "help.pdf");
+            {
+                var fileName = _currentCultureName == "en" ? 
+                    $"{AppInfo.Path}doc\\help.pdf":
+                    $"{AppInfo.Path}doc\\help.{_currentCultureName}.pdf";
+                if (!File.Exists(fileName))
+                    fileName = $"{AppInfo.Path}doc\\help.pdf";
+
+                StartPdf(fileName);
+            }
         }
 
         private string PromtSavePdf()
@@ -3621,6 +3669,7 @@ namespace Calcpad.Wpf
         }
 
         private TextPointer _autoCompleteStart;
+
         private void InitAutoComplete(string input)
         {
             var c = string.IsNullOrEmpty(input) ? '\0' : input[0];
@@ -3775,7 +3824,18 @@ namespace Calcpad.Wpf
         private void EndAutoComplete()
         {
             int i = _currentParagraph.ContentEnd.GetOffsetToPosition(RichTextBox.Selection.End);
-            string s = (string)((ListBoxItem)AutoCompleteListBox.SelectedItem).Content;
+            var selectedItem = (ListBoxItem)AutoCompleteListBox.SelectedItem;
+            string s = (string)selectedItem.Content;
+            var items = AutoCompleteListBox.Items;
+            var index = items.IndexOf(selectedItem);
+            if (index < items.Count - 1)
+            {
+                var nextItem = (ListBoxItem)items[index + 1];   
+                if (selectedItem.Foreground == Brushes.DarkCyan &&
+                    nextItem.Foreground == Brushes.Blue &&
+                    string.Equals((string)nextItem.Content, s, StringComparison.Ordinal))
+                    s = "." + s;
+            }
             new TextRange(_autoCompleteStart, RichTextBox.Selection.End).Text = s;
             AutoCompleteListBox.Visibility = Visibility.Hidden;
             if (s.Length > 0)
@@ -3787,6 +3847,7 @@ namespace Calcpad.Wpf
             var tp = _currentParagraph.ContentEnd.GetPositionAtOffset(i);
             if (tp is not null)
                 RichTextBox.Selection.Select(tp, tp);
+
             RichTextBox.Focus();
         }
 

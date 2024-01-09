@@ -1,0 +1,98 @@
+﻿<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+  <data name="EulerNumber" xml:space="preserve">
+        <value>Неперово число</value>
+    </data>
+    <data name="EulerConstant" xml:space="preserve">
+        <value>Константа на Ойлер</value>
+    </data>
+    <data name="GoldenRatio" xml:space="preserve">
+        <value>Златно сечение</value>
+    </data>
+    <data name="GravitationalAcceleration" xml:space="preserve">
+        <value>Земно ускорение</value>
+    </data>
+    <data name="GravitationalConstant" xml:space="preserve">
+        <value>Гравитационна константа</value>
+    </data>
+    <data name="EarthMass" xml:space="preserve">
+        <value>Земна маса</value>
+    </data>
+    <data name="SolarMass" xml:space="preserve">
+        <value>Слънчева маса</value>
+    </data>
+    <data name="SpeedOfLight" xml:space="preserve">
+        <value>Скорост на светлината във вакуум</value>
+    </data>
+    <data name="PlanckConstant" xml:space="preserve">
+        <value>Константа на Планк</value>
+    </data>
+    <data name="VacuumPermeability" xml:space="preserve">
+        <value>Магнитна проницаемост на вакуума</value>
+    </data>
+    <data name="VacuumPermitivity" xml:space="preserve">
+        <value>Диелектрична проницаемост на вакуума</value>
+    </data>
+    <data name="CoulombConstant" xml:space="preserve">
+        <value>Константа на Кулон</value>
+    </data>
+    <data name="ElementaryCharge" xml:space="preserve">
+        <value>Елементарен заряд</value>
+    </data>
+    <data name="ElectronMass" xml:space="preserve">
+        <value>Маса на електрона</value>
+    </data>
+    <data name="ProtonMass" xml:space="preserve">
+        <value>Маса на протона</value>
+    </data>
+  <data name="AvogadroConstant" xml:space="preserve">
+        <value>Число на Авогадро</value>
+    </data>
+    <data name="StefanBoltzmannConstant" xml:space="preserve">
+        <value>Константа на Стефан-Болцман</value>
+    </data>
+    <data name="BoltzmannConstant" xml:space="preserve">
+        <value>Константа на Болцман</value>
+    </data>
+    <data name="MolarGasConstant" xml:space="preserve">
+        <value>Универсална газова константа</value>
+    </data>
+    <data name="FaradayConstant" xml:space="preserve">
+        <value>Константа на Фарадей</value>
+    </data>
+    <data name="UnitWeightOfConcrete" xml:space="preserve">
+        <value>Обемно тегло на бетона</value>
+    </data>
+    <data name="UnitWeightOfSteel" xml:space="preserve">
+        <value>Обемно тегло на стоманата</value>
+    </data>
+    <data name="UnitWeightOfAluminium" xml:space="preserve">
+        <value>Обемно тегло на алуминия</value>
+    </data>
+    <data name="UnitWeightOfGlass" xml:space="preserve">
+        <value>Обемно тегло на стъклото</value>
+    </data>
+    <data name="UnitWeightOfWater" xml:space="preserve">
+        <value>Обемно тегло на водата</value>
+    </data>
+  <data name="Constants_Header" xml:space="preserve">
+        <value>Константи</value>
+    </data>
+    <data name="Pi" xml:space="preserve">
+        <value>Константа π (пи)</value>
+    </data>
+  <data name="NeutronMass" xml:space="preserve">
+        <value>Маса на неутрона</value>
+    </data>
+</root>

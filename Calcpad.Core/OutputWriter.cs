@@ -35,11 +35,11 @@ namespace Calcpad.Core
                 {
                     case '/':
                     case '*':
-                    {
-                        AppendPower();
-                        _stringBuilder.Append(FormatOperator(c));
-                        break;
-                    }
+                        {
+                            AppendPower();
+                            _stringBuilder.Append(FormatOperator(c));
+                            break;
+                        }
                     case '^':
                         isPower = true;
                         break;
@@ -47,69 +47,69 @@ namespace Calcpad.Core
                         brackets.Push(isPower ? power.Length : _stringBuilder.Length);
                         break;
                     case ')':
-                    {
-                        if(brackets.Count == 0)
-                            Throw.MissingLeftBracketException();
-
-                        var index = brackets.Pop();
-                        if (isPower && index < power.Length)
                         {
-                            if (index == 0)
-                                power = this is TextWriter ? $"({power})" : power;
+                            if (brackets.Count == 0)
+                                Throw.MissingLeftBracketException();
+
+                            var index = brackets.Pop();
+                            if (isPower && index < power.Length)
+                            {
+                                if (index == 0)
+                                    power = this is TextWriter ? $"({power})" : power;
+                                else
+                                {
+                                    var s = power[index..];
+                                    power = power.Remove(index);
+                                    power += $"({s})";
+                                }
+                            }
                             else
                             {
-                                var s = power[index..];
-                                power = power.Remove(index);
-                                power += $"({s})";
+                                AppendPower();
+                                var length = _stringBuilder.Length - index;
+                                var s = _stringBuilder.ToString(index, length);
+                                _stringBuilder.Remove(index, length);
+                                literal = AddBrackets(s);
                             }
+                            break;
                         }
-                        else
-                        {
-                            AppendPower();
-                            var length = _stringBuilder.Length - index;
-                            var s = _stringBuilder.ToString(index, length);
-                            _stringBuilder.Remove(index, length);
-                            literal = AddBrackets(s);
-                        }
-                        break;
-                    }
                     default:
-                    {
-                        if (isPower)
-                            power += c;
-                        else
                         {
-                            var cl = string.IsNullOrEmpty(literal) ?
-                                '\0' :
-                                literal[^1];
-                            var isSub = sub switch
+                            if (isPower)
+                                power += c;
+                            else
                             {
-                                0 => c == '_',
-                                1 => c == 'U' || 
-                                     c == 'd' || 
-                                     c == 'm' || 
-                                     c == 'f',
-                                2 => cl switch
+                                var cl = string.IsNullOrEmpty(literal) ?
+                                    '\0' :
+                                    literal[^1];
+                                var isSub = sub switch
+                                {
+                                    0 => c == '_',
+                                    1 => c == 'U' ||
+                                         c == 'd' ||
+                                         c == 'm' ||
+                                         c == 'f',
+                                    2 => cl switch
                                     {
-                                        'U' => c == 'K' || 
+                                        'U' => c == 'K' ||
                                                c == 'S',
                                         'd' => c == 'r',
-                                         _  => false
+                                        _ => false
                                     },
-                                3 => cl == 'r' && c == 'y',
-                                _ => false
-                            };
-                            if (isSub)
-                                sub++;
-                            else if (c == '_')
-                                sub = 1;
-                            else
-                                sub = 0;
+                                    3 => cl == 'r' && c == 'y',
+                                    _ => false
+                                };
+                                if (isSub)
+                                    sub++;
+                                else if (c == '_')
+                                    sub = 1;
+                                else
+                                    sub = 0;
 
-                            literal += c;
+                                literal += c;
+                            }
+                            break;
                         }
-                        break;
-                    }
                 }
             }
             if (brackets.Count != 0)
@@ -229,7 +229,7 @@ namespace Calcpad.Core
                 {
                     i = decimals - i;
                     if (i < 0)
-                        i = 0;  
+                        i = 0;
 
                     if (decimals == 0 && a < 1d)
                         ++i;
@@ -313,7 +313,7 @@ namespace Calcpad.Core
                 "2" => $"√({s})",
                 "3" => $"³√({s})",
                 "4" => $"⁴√({s})",
-                _ => $"root({s}; {n})"  
+                _ => $"root({s}; {n})"
             };
 
         internal override string FormatOperator(char c) => FormatOperatorHelper(c);
@@ -355,9 +355,9 @@ namespace Calcpad.Core
         {
             string s = "switch(" + sa[0];
             for (int i = 1, len = sa.Length; i < len; ++i)
-                s += "; " + sa[i]; 
+                s += "; " + sa[i];
 
-            return s +")";
+            return s + ")";
         }
 
         internal override string FormatIf(string sc, string sa, string sb, int level = 0) =>
@@ -369,18 +369,18 @@ namespace Calcpad.Core
     {
         private static readonly string[] SqrPad = [
                 "&ensp;&hairsp;",
-                "&ensp;&ensp;",
-                "&emsp;&thinsp;",
-                "&emsp;&ensp;"
+            "&ensp;&ensp;",
+            "&emsp;&thinsp;",
+            "&emsp;&ensp;"
             ];
-            
+
         private static string RootPad(int level, string n) => level switch
-            {
-                0 => $"&hairsp;<sup class=\"nth\">{n}</sup>&hairsp;",
-                1 => $"&nbsp;<small class=\"nth\">{n}</small>&nbsp;&hairsp;",
-                2 => $"&hairsp;&nbsp;<small class=\"nth\">{n}</small>&nbsp;&thinsp;",
-                _ => $"&ensp;<small class=\"nth\">{n}</small>&ensp;"
-            };
+        {
+            0 => $"&hairsp;<sup class=\"nth\">{n}</sup>&hairsp;",
+            1 => $"&nbsp;<small class=\"nth\">{n}</small>&nbsp;&hairsp;",
+            2 => $"&hairsp;&nbsp;<small class=\"nth\">{n}</small>&nbsp;&thinsp;",
+            _ => $"&ensp;<small class=\"nth\">{n}</small>&ensp;"
+        };
 
         internal override string UnitString(Unit units) => units.Html;
 
@@ -550,8 +550,8 @@ namespace Calcpad.Core
                 return "<span class=\"err\"> Undefined </span>";
 
             if (double.IsInfinity(re) && double.IsInfinity(im))
-                return "<span class=\"err\"> ∞ </span>";            
-            
+                return "<span class=\"err\"> ∞ </span>";
+
             return FormatComplexHelper(re, im, decimals);
         }
 
@@ -565,7 +565,7 @@ namespace Calcpad.Core
                 return $"<b>switch</b>{AddBrackets($"{sa[0]}; {sa[1]}", level)}";
 
             var s = $"if {sa[0]}: {sa[1]}";
-            for (int i = 2; i < len; i+= 2) 
+            for (int i = 2; i < len; i += 2)
             {
                 if (len - i == 1)
                     s += $"<br />else: {sa[i]}";

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Packaging;
+using SkiaSharp;
+using System;
 using System.IO;
 using System.Net.Http;
-using DocumentFormat.OpenXml.Packaging;
-using SkiaSharp;
 
 namespace Calcpad.OpenXml
 {
@@ -31,7 +31,7 @@ namespace Calcpad.OpenXml
             var start = data.IndexOf(',') + 1;
             if (start <= 0)
                 throw new Exception(Messages.Invalid_image_data);
-            
+
             var base64 = data[start..];
             return Convert.FromBase64String(base64);
         }
@@ -51,7 +51,7 @@ namespace Calcpad.OpenXml
                 "emf" => ImagePartType.Emf,
                 "ico" => ImagePartType.Icon,
                 "pcx" => ImagePartType.Pcx,
-                "svg" => ImagePartType.Svg, 
+                "svg" => ImagePartType.Svg,
                 _ => throw new Exception(string.Format(Messages.Unsupported_image_type_0, ext))
             };
         }
@@ -108,11 +108,11 @@ namespace Calcpad.OpenXml
         {
             get
             {
-                var isBitmap = string.Equals(Path.GetExtension(src), ".bmp", StringComparison.OrdinalIgnoreCase);    
+                var isBitmap = string.Equals(Path.GetExtension(src), ".bmp", StringComparison.OrdinalIgnoreCase);
                 var uri = new Uri(src);
                 if (uri.IsFile)
                 {
-                    if (isBitmap )
+                    if (isBitmap)
                     {
                         using var bmp = SKBitmap.Decode(src);
                         return new(bmp.Width, bmp.Height);
@@ -162,7 +162,7 @@ namespace Calcpad.OpenXml
         {
             get
             {
-                if (string.Equals(Path.GetExtension(src), ".bmp",StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(Path.GetExtension(src), ".bmp", StringComparison.OrdinalIgnoreCase))
                 {
                     using var bmp = SKBitmap.Decode(src);
                     return new(bmp.Width, bmp.Height);
@@ -179,8 +179,8 @@ namespace Calcpad.OpenXml
         public override ImagePart GetImagePart(MainDocumentPart mainPart)
         {
             var imagePart = mainPart.AddImagePart(ImagePartType.Svg);
-            var bytes = System.Text.Encoding.UTF8.GetBytes(src);    
-            using var stream = new MemoryStream(bytes); 
+            var bytes = System.Text.Encoding.UTF8.GetBytes(src);
+            using var stream = new MemoryStream(bytes);
             imagePart.FeedData(stream);
             return imagePart;
         }

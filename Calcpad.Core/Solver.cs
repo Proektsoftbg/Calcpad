@@ -214,10 +214,10 @@ namespace Calcpad.Core
             var tol2 = Precision * Precision;
             while (x2 - x1 > eps)
             {
-                var y3 = Fd(x3);    
+                var y3 = Fd(x3);
                 var y4 = Fd(x4);
                 if (y3 == y4)
-                    break;  
+                    break;
 
                 if (isMin == y3 < y4)
                 {
@@ -445,7 +445,7 @@ namespace Calcpad.Core
                 if (!ReferenceEquals(units, Units))
                 {
                     CheckUnits(units);
-                    d *= Units.ConvertTo(units);   
+                    d *= Units.ConvertTo(units);
                 }
                 //Kahan summation algorithm
                 var y = d - c;

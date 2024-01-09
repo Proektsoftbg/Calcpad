@@ -98,7 +98,7 @@ namespace Calcpad.Wpf
                     string entryPath = Path.Combine(filePath, entry.FullName);
                     Directory.CreateDirectory(Path.GetDirectoryName(entryPath));
                     if (entry.Length == 0) // It's a directory
-                        Directory.CreateDirectory(entryPath); 
+                        Directory.CreateDirectory(entryPath);
                     else // It's a file
                     {
                         if (string.Equals(entry.Name, codeFileName, StringComparison.Ordinal))
@@ -108,7 +108,7 @@ namespace Calcpad.Wpf
                             text = DecompressToString(entryStream);         //Use this if you need smaller files
                         }
                         else
-                            entry.ExtractToFile(entryPath, true);                   
+                            entry.ExtractToFile(entryPath, true);
                     }
                 }
             }

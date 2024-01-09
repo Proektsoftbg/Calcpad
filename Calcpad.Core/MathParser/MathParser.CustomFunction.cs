@@ -12,7 +12,7 @@ namespace Calcpad.Core
             internal event Action OnChange;
             internal Token[] Rpn;
             internal Unit Units;
-            internal int ParameterCount { get; set; } 
+            internal int ParameterCount { get; set; }
             internal bool IsRecursion;
             internal Func<Value> Function;
 
@@ -66,7 +66,7 @@ namespace Calcpad.Core
         {
             private readonly Dictionary<Value, Value> _cache = [];
             protected Parameter _x;
-            
+
             internal override void AddParameters(List<string> parameters)
             {
                 ParameterCount = 1;
@@ -118,13 +118,13 @@ namespace Calcpad.Core
             private readonly struct Tuple : IEquatable<Tuple>
             {
                 private readonly Value _x, _y;
-                private readonly int _hash; 
+                private readonly int _hash;
 
                 internal Tuple(in Value x, in Value y)
                 {
                     _x = x;
                     _y = y;
-                    _hash = HashCode.Combine(_x, _y);   
+                    _hash = HashCode.Combine(_x, _y);
                 }
 
                 public override int GetHashCode() => _hash;
@@ -156,11 +156,11 @@ namespace Calcpad.Core
                 _y = new(parameters[1]);
             }
 
-            internal override ReadOnlySpan<Parameter> Parameters =>  new Parameter[] { _x, _y };
-            internal override string ParameterName(int index) => index switch 
+            internal override ReadOnlySpan<Parameter> Parameters => new Parameter[] { _x, _y };
+            internal override string ParameterName(int index) => index switch
             {
-                0 =>_x.Name,
-                1 =>_y.Name,
+                0 => _x.Name,
+                1 => _y.Name,
                 _ => throw new ArgumentOutOfRangeException(nameof(index), index, null)
             };
 
@@ -195,7 +195,7 @@ namespace Calcpad.Core
 
         private class CustomFunction3 : CustomFunction
         {
-            private Parameter _x, _y,_z;
+            private Parameter _x, _y, _z;
 
             internal override void AddParameters(List<string> parameters)
             {

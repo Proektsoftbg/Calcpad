@@ -2,16 +2,19 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Xml.Serialization;
 
 namespace Calcpad.Cli
 {
     class Program
     {
+        private static readonly string _currentCultureName = "en";
         private static readonly char _dirSeparator = Path.DirectorySeparatorChar;
         const string Prompt = " |> ";
         private static int _width;
@@ -19,7 +22,7 @@ namespace Calcpad.Cli
         internal static readonly string AppPath = AppContext.BaseDirectory;
         struct Line
         {
-            private static readonly char[] GreekLetters = { 'α', 'β', 'χ', 'δ', 'ε', 'φ', 'γ', 'η', 'ι', 'ø', 'κ', 'λ', 'μ', 'ν', 'ο', 'π', 'θ', 'ρ', 'σ', 'τ', 'υ', 'ϑ', 'ω', 'ξ', 'ψ', 'ζ' };
+            private static readonly char[] GreekLetters = ['α', 'β', 'χ', 'δ', 'ε', 'φ', 'γ', 'η', 'ι', 'ø', 'κ', 'λ', 'μ', 'ν', 'ο', 'π', 'θ', 'ρ', 'σ', 'τ', 'υ', 'ϑ', 'ω', 'ξ', 'ψ', 'ζ'];
             private readonly StringBuilder _sb = new(80);
             public string Input, Output;
             public Line(string Input)
@@ -66,6 +69,7 @@ namespace Calcpad.Cli
 
         static void Main()
         {
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(_currentCultureName);
             try
             {
                 _width = Math.Min(Math.Min(Console.WindowWidth, Console.BufferWidth), 85);
@@ -92,7 +96,7 @@ namespace Calcpad.Cli
             }
             
             //Console.WindowWidth = 85;
-            List<Line> Lines = new();
+            List<Line> Lines = [];
             var Title = TryOpenOnStartup(Lines);
             Header(Title, settings.Math.Degrees);
             if (Title.Length > 0)
@@ -179,7 +183,7 @@ namespace Calcpad.Cli
                                                    $"{_dirSeparator}.config{_dirSeparator}calcpad{_dirSeparator}Settings.xml";
                                 File.SetUnixFileMode(settingsPath, UnixFileMode.UserRead | UnixFileMode.UserWrite);
                                 Execute("/bin/bash", $"-c \"nano {settingsPath}\"");
-                                Console.Write("Press any key when ready.");
+                                Console.Write(Messages.Press_Any_Key_When_Ready);
                                 Console.ReadKey();
                                 settings = GetSettings();
                                 mp = new(settings.Math);
@@ -188,8 +192,12 @@ namespace Calcpad.Cli
                             }
                             break;
                         case "LICENSE":
-                        case "HELP": 
-                            RenderFile(sCaps);
+                        case "HELP":
+                            var fileName = $"{AppPath}doc\\{sCaps}{AddCultureExt("TXT")}";
+                            if (!File.Exists(fileName))
+                                fileName = $"{AppPath}doc\\{sCaps}.TXT";
+
+                            RenderFile(fileName);
                             break;
                         default:
                             Console.SetCursorPosition(0, Console.CursorTop - 1);
@@ -202,6 +210,10 @@ namespace Calcpad.Cli
                 }
             }
         }
+
+        internal static string AddCultureExt(string ext) => string.Equals(_currentCultureName, "en", StringComparison.Ordinal) ?
+                $".{ext}" :
+                $".{_currentCultureName}.{ext}";
 
         static Settings GetSettings()
         {
@@ -259,9 +271,8 @@ namespace Calcpad.Cli
             }
         }
 
-        static void RenderFile(string fileName)
+        static void RenderFile(string path)
         {
-            var path = AppPath + fileName + ".TXT";
             try
             {
                 Console.Write(File.ReadAllText(path));
@@ -397,9 +408,9 @@ namespace Calcpad.Cli
             Console.Clear();
             var ver = Assembly.GetExecutingAssembly().GetName().Version;
             Console.WriteLine(new string('—', _width));
-            Console.WriteLine($" Welcome to Calcpad command line interpreter v.{ver.Major}.{ver.Minor}.{ver.Build}!");
-            Console.WriteLine(" Copyright: © 2023 by Proektsoft EOOD");
-            Console.Write("\r\n Commands: NEW OPEN SAVE LIST EXIT RESET CLS DEL ");
+            Console.WriteLine(string.Format(Messages.Welcome_To_Calcpad_Command_Line_Interpreter, ver.Major, ver.Minor, ver.Build));
+            Console.WriteLine(Messages.Copyright_2023_By_Proektsoft_EOOD);
+            Console.Write($"\r\n {Messages.Commands}: NEW OPEN SAVE LIST EXIT RESET CLS DEL ");
             switch (drg)
             {
                 case 0:
@@ -429,7 +440,7 @@ namespace Calcpad.Cli
             if (Title.Length > 0)
                 Console.WriteLine(" " + Title + ":\n");
             else
-                Console.WriteLine(" Enter math expressions or commands (or type HELP for further instructions):\n");
+                Console.WriteLine($" {Messages.Enter_Math_Expressions_Or_Commands_Or_Type_HELP_For_Further_Instructions}:\n");
         }
 
         static bool Calculate(MathParser mp, string Prompt, ref Line L)
@@ -467,7 +478,7 @@ namespace Calcpad.Cli
             }
             catch (Exception ex)
             {
-                WriteError(Prompt + L.Input + " Error: " + ex.Message, true);
+                WriteError($"{Prompt + L.Input} {Messages.Error}: {ex.Message}", true);
                 return false;
             }
         }
@@ -514,10 +525,10 @@ namespace Calcpad.Cli
             var FilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"{_dirSeparator}cpc";
             if (!Directory.Exists(FilePath))
             {
-                WriteError(Prompt + "OPEN There are no saved problems.\r\n", false);
+                WriteError($"{Prompt}OPEN {Messages.There_Are_No_Saved_Problems}\r\n", false);
                 return null;
             }
-            Console.Write(Prompt + "OPEN Problem title: ");
+            Console.Write($"{Prompt}OPEN {Messages.Problem_Title} ");
             var Title = Console.ReadLine();
             var FileName = FilePath + _dirSeparator + Title + ".cpc";
             if (File.Exists(FileName))
@@ -531,7 +542,7 @@ namespace Calcpad.Cli
             }
             else
             {
-                WriteError($"{Prompt}Problem \"{Title}\" does not exist.", true);
+                WriteError(Prompt + string.Format(Messages.Problem_0_Does_Not_Exist, Title), true);
                 return null;
             }
         }
@@ -543,7 +554,7 @@ namespace Calcpad.Cli
                 Directory.CreateDirectory(FilePath);
 
             Console.SetCursorPosition(0, Console.CursorTop - 1);
-            Prompt += "SAVE Problem title";
+            Prompt += "SAVE" + Messages.Problem_Title;
             if (Title.Length > 0 )
                 Prompt += $" ({Title}): ";
             else
@@ -568,7 +579,7 @@ namespace Calcpad.Cli
             string FilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"{_dirSeparator}cpc";
             if (!Directory.Exists(FilePath))
             {
-                WriteError(Prompt + "There are no saved problems.", true);
+                WriteError(Prompt + Messages.There_Are_No_Saved_Problems, true);
                 return;
             }
             List<string> Lines = Directory.EnumerateFiles(FilePath).ToList();
@@ -601,7 +612,7 @@ namespace Calcpad.Cli
             proc.StartInfo = psi;
             try
             {
-                Console.WriteLine("Loading the settings file...");
+                Console.WriteLine(Calcpad.Cli.Messages.Loading_The_Settings_File);
                 var result = proc.Start();
                 proc.WaitForExit();
                 return result;

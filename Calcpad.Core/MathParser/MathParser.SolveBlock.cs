@@ -172,7 +172,7 @@ namespace Calcpad.Core
                 _parser.BindParameters(parameters, _items[0].Rpn);
                 SubscribeCompile(_items[0].Rpn);
                 SubscribeCompile(_items[2].Rpn);
-                if(n == 3)
+                if (n == 3)
                     SubscribeCompile(_items[3].Rpn);
 
                 if (_type == SolverTypes.Repeat)
@@ -263,7 +263,7 @@ namespace Calcpad.Core
                     _parser.CheckReal(x2);
                     var ux2 = x2.Units;
                     if (!Unit.IsConsistent(ux1, ux2))
-                        Throw.InconsistentUnits2Exception(_items[0].Input, Unit.GetText(ux1), Unit.GetText(ux2)); 
+                        Throw.InconsistentUnits2Exception(_items[0].Input, Unit.GetText(ux1), Unit.GetText(ux2));
 
                     if (ux2 is not null)
                         x2 *= ux2.ConvertTo(ux1);

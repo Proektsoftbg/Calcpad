@@ -145,7 +145,7 @@ namespace Calcpad.Core
                     var htmlId = string.Empty;
                     if (Debug && (_loops.Count == 0 || _loops.Peek().Iteration == 1))
                         htmlId = $" id=\"line-{currentLine + 1}\" class=\"line\"";
-                        
+
                     if (_parser.IsCanceled)
                         break;
 
@@ -236,14 +236,14 @@ namespace Calcpad.Core
             void AppendError(string lineContent, string text, int line)
             {
                 _sb.Append(ErrHtml(string.Format(Messages.Error_in_0_on_line_1__2, lineContent, LineHtml(line), text), line));
-                
+
                 if (Debug)
                     errors.Enqueue(line);
             }
 
             string ErrHtml(string text, int line) => $"<p class=\"err\"{Id(line)}\">{text}</p>";
             string LineHtml(int line) => $"[<a href=\"#0\" data-text=\"{line + 1}\">{line + 1}</a>]";
-            string Id(int line) => Debug ? $" id=\"line-{line + 1}\"" : string.Empty;  
+            string Id(int line) => Debug ? $" id=\"line-{line + 1}\"" : string.Empty;
             KeywordResult ParseKeyword(ReadOnlySpan<char> s, string htmlId, out Keyword keyword)
             {
                 keyword = Keyword.None;
@@ -277,7 +277,7 @@ namespace Calcpad.Core
                     else if (keyword == Keyword.Split)
                         _parser.Split = true;
                     else if (keyword == Keyword.Wrap)
-                        _parser.Split = false;   
+                        _parser.Split = false;
                     else if (keyword == Keyword.Deg)
                         _parser.Degrees = 0;
                     else if (keyword == Keyword.Rad)

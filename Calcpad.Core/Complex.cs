@@ -80,9 +80,9 @@ namespace Calcpad.Core
         {
             get
             {
-                var phi = Math.Atan2(_b, _a);  
+                var phi = Math.Atan2(_b, _a);
                 if (phi < 0d)
-                    return phi + 2d * Math.PI; 
+                    return phi + 2d * Math.PI;
 
                 return phi;
             }
@@ -114,12 +114,12 @@ namespace Calcpad.Core
                 if (c == 0 && (a != 0 || b != 0))
                     return new(double.PositiveInfinity, double.PositiveInfinity);
 
-                return new(a / c, b / c);   
+                return new(a / c, b / c);
             }
-            else if ((double.IsInfinity(c) || double.IsInfinity(d)) && 
+            else if ((double.IsInfinity(c) || double.IsInfinity(d)) &&
                     !(double.IsInfinity(a) || double.IsInfinity(b)))
-                return 0d;            
-            
+                return 0d;
+
             double e, f;
             if (Math.Abs(d) < Math.Abs(c))
             {
@@ -170,7 +170,7 @@ namespace Calcpad.Core
         public static Complex IntDiv(in Complex left, in Complex right) =>
             right.IsReal && right._a != 0 ?
             new(Math.Truncate(left._a / right._a), Math.Truncate(left._b / right._a)) :
-            new(double.NaN); 
+            new(double.NaN);
 
         public static Complex operator %(in Complex left, in Complex right) =>
             right.IsReal ?
@@ -223,13 +223,13 @@ namespace Calcpad.Core
 
         private static bool Equals(in Complex left, in Complex right)
         {
-            var leftType = left.Type(); 
-            var rightType = right.Type();    
+            var leftType = left.Type();
+            var rightType = right.Type();
             if (leftType == Types.Real && rightType == Types.Real)
                 return left._a.EqualsBinary(right._a);
 
             if (leftType == Types.Imaginary && rightType == Types.Imaginary)
-                return left._b.EqualsBinary(right._b);   
+                return left._b.EqualsBinary(right._b);
 
             return left._a.EqualsBinary(right._a) && left._b.EqualsBinary(right._b);
         }
@@ -348,7 +348,7 @@ namespace Calcpad.Core
         {
             var tha = Math.Tanh(value._a);
             var tb = Math.Tan(value._b);
-            return tb == 0 ? 
+            return tb == 0 ?
                 tha :
                 new Complex(tha, tb) / new Complex(1d, tha * tb);
         }
@@ -395,7 +395,7 @@ namespace Calcpad.Core
             if (power == 0)
                 return 1d;
 
-            var isInteger = double.IsInteger(power);    
+            var isInteger = double.IsInteger(power);
             if (value._b == 0 && (value._a > 0 || isInteger))
             {
                 return value._a == 0 ?
@@ -412,10 +412,10 @@ namespace Calcpad.Core
                     result *= value;
 
                 if (power < 0)
-                    return 1d / result;   
+                    return 1d / result;
 
                 return result;
-            }   
+            }
             var r = Modulus(value);
             var theta = power * value.NormalPhase;
             var t = Math.Pow(r, power);
@@ -424,7 +424,7 @@ namespace Calcpad.Core
 
         internal static Complex Pow(in Complex value, in Complex power)
         {
-            var c = power._a;       
+            var c = power._a;
             var d = power._b;
             if (d == 0)
                 return Pow(value, c);
@@ -472,7 +472,7 @@ namespace Calcpad.Core
 
         internal static Complex Round(in Complex value) =>
             new(
-                Math.Round(value._a, MidpointRounding.AwayFromZero), 
+                Math.Round(value._a, MidpointRounding.AwayFromZero),
                 Math.Round(value._b, MidpointRounding.AwayFromZero)
                 );
 

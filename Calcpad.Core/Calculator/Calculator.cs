@@ -65,7 +65,7 @@ namespace Calcpad.Core
             { '=', 16 }
         }.ToFrozenDictionary();
 
-        internal static readonly FrozenDictionary<string, int> FunctionIndex = 
+        internal static readonly FrozenDictionary<string, int> FunctionIndex =
         new Dictionary<string, int>()
         {
             { "sin", 0 },
@@ -121,12 +121,10 @@ namespace Calcpad.Core
             { "atan2", 0 },
             { "root", 1 },
             { "mod", 2 },
-            { "gcd", 3 },
-            { "lcm", 4 },
-            { "mandelbrot", 5 }
+            { "mandelbrot", 3 }
         }.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
 
-        internal static readonly FrozenDictionary<string, int> MultiFunctionIndex = 
+        internal static readonly FrozenDictionary<string, int> MultiFunctionIndex =
         new Dictionary<string, int>()
         {
             { "min", 0 },
@@ -144,6 +142,8 @@ namespace Calcpad.Core
             { "and", 12 },
             { "or", 13 },
             { "xor", 14 },
+            { "gcd", 15 },
+            { "lcm", 16 },
         }.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
 
         internal static bool IsOperator(char name) => OperatorIndex.ContainsKey(name);
@@ -249,64 +249,67 @@ namespace Calcpad.Core
             return Value.NaN;
         }
 
-        protected static Value Take(Value[] v)
+        protected static Value Take(Value[] v) => Take(v[0], v.AsSpan(1));
+        internal static Value Take(Value x, ReadOnlySpan<Value> y)
         {
-            var x = Math.Round(v[0].Re, MidpointRounding.AwayFromZero);
-            if (!double.IsNormal(x) || x < DeltaMinus || x > v.Length * DeltaPlus - 1.0)
+            var d = Math.Round(x.Re, MidpointRounding.AwayFromZero);
+            if (!double.IsNormal(d) || d < DeltaMinus || d > y.Length * DeltaPlus)
                 return Value.NaN;
 
-            return v[(int)x];
+            return y[(int)d - 1];
         }
 
-        protected static Value Line(Value[] v)
+        protected static Value Line(Value[] v) => Line(v[0], v.AsSpan(1));
+        internal static Value Line(Value x, ReadOnlySpan<Value> y)
         {
-            var x = v[0].Re;
-            if (!double.IsNormal(x) || x < DeltaMinus || x > v.Length * DeltaPlus - 1.0)
+            var d = x.Re;
+            if (!double.IsNormal(d) || d < DeltaMinus || d > y.Length * DeltaPlus)
                 return Value.NaN;
 
-            var i = (int)Math.Floor(x);
-            if (i == x || x >= v.Length - 1)
-                return v[i];
+            var i = (int)Math.Floor(d);
+            if (i == d || d >= y.Length)
+                return y[i - 1];
 
-            return v[i] + (v[i + 1] - v[i]) * (x - i);
+            return y[i - 1] + (y[i] - y[i - 1]) * (d - i);
         }
 
-        protected static Value Spline(Value[] v)
+        protected static Value Spline(Value[] v) => Spline(v[0], v.AsSpan(1));
+        internal static Value Spline(Value x, ReadOnlySpan<Value> y)
         {
-            var x = v[0].Re;
-            if (!double.IsNormal(x) || x < DeltaMinus || x > v.Length * DeltaPlus - 1.0)
+            var d = x.Re;
+            if (!double.IsNormal(d) || d < DeltaMinus || d > y.Length * DeltaPlus)
                 return Value.NaN;
 
-            var i = (int)Math.Floor(x);
-            if (i == x || x >= v.Length - 1)
-                return v[i];
+            var i = (int)Math.Floor(d) - 1;
+            if (i == d || d >= y.Length)
+                return y[i];
 
-            var u = v[1].Units;
-            var y0 = v[i].Re * Unit.Convert(u, v[i].Units, ',');
-            var y1 = v[i + 1].Re * Unit.Convert(u, v[i + 1].Units, ',');
-            var d = y1 - y0;
-            var a = d;
-            var b = d;
-            d = Math.Sign(d);
-            if (i > 1)
+            var u = y[0].Units;
+            var y0 = y[i].Re * Unit.Convert(u, y[i].Units, ',');
+            var y1 = y[i + 1].Re * Unit.Convert(u, y[i + 1].Units, ',');
+            var dy = y1 - y0;
+            var a = dy;
+            var b = dy;
+            dy = Math.Sign(dy);
+            if (i > 0)
             {
-                var y2 = v[i - 1].Re * Unit.Convert(u, v[i - 1].Units, ',');
-                a = (y1 - y2) * (Math.Sign(y0 - y2) == d ? 0.5 : 0.25);
+                var y2 = y[i - 1].Re * Unit.Convert(u, y[i - 1].Units, ',');
+                a = (y1 - y2) * (Math.Sign(y0 - y2) == dy ? 0.5 : 0.25);
             }
-            if (i < v.Length - 2)
+            if (i < y.Length - 2)
             {
-                var y2 = v[i + 2].Re * Unit.Convert(u, v[i + 2].Units, ',');
-                b = (y2 - y0) * (Math.Sign(y2 - y1) == d ? 0.5 : 0.25);
+                var y2 = y[i + 2].Re * Unit.Convert(u, y[i + 2].Units, ',');
+                b = (y2 - y0) * (Math.Sign(y2 - y1) == dy ? 0.5 : 0.25);
             }
-            if (i == 1)
+            if (i == 0)
                 a += (a - b) / 2;
 
-            if (i == v.Length - 2)
+            if (i == y.Length - 2)
                 b += (b - a) / 2;
 
-            var t = x - i;
-            var y = y0 + ((y1 - y0) * (3 - 2 * t) * t + ((a + b) * t - a) * (t - 1)) * t;
-            return new(y, u);
+            var t = d - i - 1d;
+            d = y0 + ((y1 - y0) * (3 - 2 * t) * t + ((a + b) * t - a) * (t - 1)) * t;
+            return new(d, u);
         }
 
         protected static Value And(Value[] v)
@@ -356,7 +359,7 @@ namespace Calcpad.Core
                 {
                     if (y > -0.25 && y < 0.25)
                     {
-                        double x1 = x + 1,
+                        double x1 = x + 1d,
                             y2 = y * y,
                             x2 = x1 * x1;
                         if (x2 + y2 <= 0.0625)
@@ -378,29 +381,39 @@ namespace Calcpad.Core
                 double reSq = re * re, imSq = im * im;
                 if (reSq + imSq > 4)
                 {
-                    var logZn = Math.Log(im * im + re * re) / 2;
+                    var logZn = Math.Log(im * im + re * re) / 2d;
                     var nu = Math.Log(logZn * Log2Inv) * Log2Inv;
-                    return (1.01 - Math.Pow(i + 1 - nu, 0.001)) * 1000;
+                    return (1.01 - Math.Pow(i + 1d - nu, 0.001)) * 1000;
                 }
-                im = 2 * re * im + y;
+                im = 2d * re * im + y;
                 re = reSq - imSq + x;
             }
             return double.NaN;
         }
 
 
-        protected static Value Gcd(Value a, Value b) => 
-            new(
-                Gcd(AsLong(a.Re), AsLong(b.Re * Unit.Convert(a.Units, b.Units, ',')))
-            );
-
-        protected static Value Lcm(Value a, Value b)
+        protected static Value Gcd(Value[] v)
         {
-            var la = AsLong(a.Re);
-            var lb = AsLong(b.Re * Unit.Convert(a.Units, b.Units, ','));
-            return new(
-                Math.Abs(la * lb) / Gcd(la, lb)
-            );
+            var a = AsLong(v[0].Re);
+            var u = v[0].Units;
+            for (int i = 1, len = v.Length; i < len; ++i)
+            {
+                var b = AsLong(v[i].Re * Unit.Convert(u, v[i].Units, ','));
+                a = Gcd(a, b);
+            }
+            return new(a);
+        }
+
+        protected static Value Lcm(Value[] v)
+        {
+            var a = AsLong(v[0].Re);
+            var u = v[0].Units;
+            for (int i = 1, len = v.Length; i < len; ++i)
+            {
+                var b = AsLong(v[i].Re * Unit.Convert(u, v[i].Units, ','));
+                a = a * b / Gcd(a, b);
+            }
+            return new(a);
         }
 
         private static long AsLong(double d)
@@ -436,7 +449,7 @@ namespace Calcpad.Core
             } while (b != 0);
             return a << k;
         }
-        private static readonly long  Ticks = DateTime.Now.Ticks;
+        private static readonly long Ticks = DateTime.Now.Ticks;
         protected static Value Timer(Value _) => new((DateTime.Now.Ticks - Ticks) / 10000000.0, Unit.Get("s"));
     }
 }

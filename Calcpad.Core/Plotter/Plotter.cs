@@ -1,7 +1,7 @@
-﻿using System;
+﻿using SkiaSharp;
+using System;
 using System.Globalization;
 using System.IO;
-using SkiaSharp;
 
 namespace Calcpad.Core
 {
@@ -190,7 +190,7 @@ namespace Calcpad.Core
             TextSize = 11f * ScreenScaleFactor,
             TextAlign = SKTextAlign.Left,
             IsAntialias = true,
-            IsAutohinted = true 
+            IsAutohinted = true
         };
 
         protected void DrawGridSvg(SvgDrawing g, double x0, double y0, double xs, double ys, Box bounds)

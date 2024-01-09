@@ -28,7 +28,6 @@ namespace Calcpad.Core
         private static readonly Unit[] ForceUnits = new Unit[9], ForceUnits_US = new Unit[9];
         private static readonly FrozenSet<Unit> ElectricalUnits;
         private static FrozenDictionary<string, Unit> Units;
-
         private static readonly string[] UnitNames =
         [
             "therm",
@@ -42,7 +41,7 @@ namespace Calcpad.Core
             "bbl",
             "pk",
             "bu",
-            "tonf" 
+            "tonf"
         ];
 
         internal static bool IsUs
@@ -52,8 +51,8 @@ namespace Calcpad.Core
             {
                 _isUs = value;
                 var suffix = value ? "_US" : "_UK";
-                var units = new Dictionary<string, Unit>(Units);  
-                for ( var i = 0; i < UnitNames.Length; ++i)
+                var units = new Dictionary<string, Unit>(Units);
+                for (var i = 0; i < UnitNames.Length; ++i)
                 {
                     ref var s = ref UnitNames[i];
                     units[s] = new(Units[s + suffix], s);
@@ -149,7 +148,7 @@ namespace Calcpad.Core
             if (_hashCode == 0)
             {
                 var hash = new HashCode();
-                var  n = Length;    
+                var n = Length;
                 hash.Add(n);
                 for (int i = 0; i < n; ++i)
                 {
@@ -255,7 +254,8 @@ namespace Calcpad.Core
             var n = u.Length;
             _powers = u._powers;
             _factors = new double[n];
-            Array.Copy(u._factors, _factors, n);
+            //Array.Copy(u._factors, _factors, n);
+            u._factors.AsSpan().CopyTo(_factors);
         }
 
         internal Unit(Unit u, string alias)
@@ -322,15 +322,15 @@ namespace Calcpad.Core
             var kipf = N.Scale("kip", 4448.2216153);
             var ksi = Pa.Scale("ksi", 6894757.29322959);
 
-            ForceUnits[0] = kN * m.Pow(-4d);
-            ForceUnits[1] = kN * m.Pow(-3d);
+            ForceUnits[0] = kN * m.Pow(-4f);
+            ForceUnits[1] = kN * m.Pow(-3f);
             ForceUnits[2] = kPa;
-            ForceUnits[3] = kN * m.Pow(-1d);
+            ForceUnits[3] = kN * m.Pow(-1f);
             ForceUnits[4] = kN;
             ForceUnits[5] = kNm;
-            ForceUnits[6] = kN * m.Pow(2d);
-            ForceUnits[7] = kN * m.Pow(3d);
-            ForceUnits[8] = kN * m.Pow(4d);
+            ForceUnits[6] = kN * m.Pow(2f);
+            ForceUnits[7] = kN * m.Pow(3f);
+            ForceUnits[8] = kN * m.Pow(4f);
 
             ForceUnits[0]._text = "kN/m^4";
             ForceUnits[1]._text = "kN/m^3";
@@ -339,15 +339,15 @@ namespace Calcpad.Core
             ForceUnits[7]._text = "kN·m^3";
             ForceUnits[8]._text = "kN·m^4";
 
-            ForceUnits_US[0] = (kipf * m.Pow(-4d)).Scale("kip/in^4", 1 / 4.162314256E-7);
-            ForceUnits_US[1] = (kipf * m.Pow(-3d)).Scale("kip/in^3", 1 / 0.000016387064);
+            ForceUnits_US[0] = (kipf * m.Pow(-4f)).Scale("kip/in^4", 1 / 4.162314256E-7);
+            ForceUnits_US[1] = (kipf * m.Pow(-3f)).Scale("kip/in^3", 1 / 0.000016387064);
             ForceUnits_US[2] = ksi;
-            ForceUnits_US[3] = (kipf * m.Pow(-1d)).Scale("kip/ft", 1 / 0.3048);
+            ForceUnits_US[3] = (kipf * m.Pow(-1f)).Scale("kip/ft", 1 / 0.3048);
             ForceUnits_US[4] = kipf;
             ForceUnits_US[5] = (kipf * m).Scale("kip·ft", 0.3048);
-            ForceUnits_US[6] = (kipf * m.Pow(2d)).Scale("kip·ft^2", 0.09290304);
-            ForceUnits_US[7] = (kipf * m.Pow(3d)).Scale("kip·ft^3", 0.028316846592);
-            ForceUnits_US[8] = (kipf * m.Pow(4d)).Scale("kip·ft^4", 0.0086309748412416);
+            ForceUnits_US[6] = (kipf * m.Pow(2f)).Scale("kip·ft^2", 0.09290304);
+            ForceUnits_US[7] = (kipf * m.Pow(3f)).Scale("kip·ft^3", 0.028316846592);
+            ForceUnits_US[8] = (kipf * m.Pow(4f)).Scale("kip·ft^4", 0.0086309748412416);
 
             ElectricalUnits = new HashSet<Unit>()
             {
@@ -803,7 +803,7 @@ namespace Calcpad.Core
                 ref var name = ref UnitNames[i];
                 units.Add(name, new(units[name + "_UK"], name));
             }
-            Units = units.ToFrozenDictionary(); 
+            Units = units.ToFrozenDictionary();
         }
 
         internal void Scale(double factor)
@@ -897,7 +897,7 @@ namespace Calcpad.Core
             if (n1 == n2)
             {
                 if (divide)
-                    do { if (--n < 0) return null; } while (u1._powers[n] ==  u2._powers[n]);
+                    do { if (--n < 0) return null; } while (u1._powers[n] == u2._powers[n]);
                 else
                     do { if (--n < 0) return null; } while (u1._powers[n] == -u2._powers[n]);
                 ++n;
@@ -933,13 +933,18 @@ namespace Calcpad.Core
             var len = n2 - n1;
             if (len > 0)
             {
-                Array.Copy(u2._factors, n1, unit._factors, n1, len);
+                //Array.Copy(u2._factors, n1, unit._factors, n1, len);
+                u2._factors.AsSpan(n1, len).CopyTo(unit._factors.AsSpan(n1));
+
                 if (divide)
                     for (int i = n1; i < n2; ++i)
                         unit._powers[i] = -u2._powers[i];
                 else
-                    Array.Copy(u2._powers, n1, unit._powers, n1, len);
-            }    
+                {
+                    //Array.Copy(u2._powers, n1, unit._powers, n1, len);
+                    u2._powers.AsSpan(n1, len).CopyTo(unit._powers.AsSpan(n1));
+                }
+            }
             return unit;
         }
 
@@ -982,19 +987,19 @@ namespace Calcpad.Core
 
         public static Unit operator /(Unit u, double d) => u * (1d / d);
 
-        public static Unit operator /(double d, Unit u) => d * u.Pow(-1d);
+        public static Unit operator /(double d, Unit u) => d * u.Pow(-1f);
 
-        internal Unit Pow(double x)
+        internal Unit Pow(float x)
         {
-            var f = (float)x;
             var n = Length;
             Unit unit = new(n)
             {
                 _tempChar = _tempChar
             };
-            Array.Copy(_factors, unit._factors, n);
+            //Array.Copy(_factors, unit._factors, n);
+            _factors.AsSpan().CopyTo(unit._factors);
             for (int i = 0; i < n; ++i)
-                unit._powers[i] = _powers[i] * f;
+                unit._powers[i] = _powers[i] * x;
 
             return unit;
         }
@@ -1160,14 +1165,14 @@ namespace Calcpad.Core
         internal double Normalize()
         {
             var n = _factors.Length;
-            if (n == 0 || _text is not null) 
+            if (n == 0 || _text is not null)
                 return 1d;
 
             var factor = 1d;
             for (int i = 0; i < n; ++i)
             {
                 if (_powers[i] == 0f)
-                    continue;   
+                    continue;
 
                 var d = _factors[i];
                 if (d != 1d)
@@ -1188,99 +1193,99 @@ namespace Calcpad.Core
             switch (name)
             {
                 case "s":
-                {
-                    if (factor == 60d || 
-                        factor == 3600d || 
-                        factor == 86400d)
-                        return 1d;
-                    break;
-                }
-                case "g":
-                {
-                    var a1 = factor / 14.59390294;
-                    if (Math.Abs(a1 - Math.Round(a1)) < 1e-12)
-                        factor = a1;
-                    else
                     {
-                        var a2 = factor / 453.59237;
-                        if (a2 < 1d)
+                        if (factor == 60d ||
+                            factor == 3600d ||
+                            factor == 86400d)
+                            return 1d;
+                        break;
+                    }
+                case "g":
+                    {
+                        var a1 = factor / 14.59390294;
+                        if (Math.Abs(a1 - Math.Round(a1)) < 1e-12)
+                            factor = a1;
+                        else
                         {
-                            var a3 = 1d / a2;
-                            if (Math.Abs(a3 - Math.Round(a3)) < 1e-12)
+                            var a2 = factor / 453.59237;
+                            if (a2 < 1d)
                             {
-                                a3 = Math.Round(a3);
-                                if (a3 == 7000d ||
-                                    a3 == 256d ||
-                                    a3 == 16d)
+                                var a3 = 1d / a2;
+                                if (Math.Abs(a3 - Math.Round(a3)) < 1e-12)
+                                {
+                                    a3 = Math.Round(a3);
+                                    if (a3 == 7000d ||
+                                        a3 == 256d ||
+                                        a3 == 16d)
+                                        return 1d;
+                                    else
+                                        factor = a3;
+                                }
+                            }
+                            else if (Math.Abs(a2 - Math.Round(a2)) < 1e-12)
+                            {
+                                a2 = Math.Round(a2);
+                                if (a2 == 14d ||
+                                    a2 == 28d ||
+                                    a2 == 100d ||
+                                    a2 == 112d ||
+                                    a2 == 1000d ||
+                                    a2 == 2000d ||
+                                    a2 == 2240d)
                                     return 1d;
                                 else
-                                    factor = a3;
+                                    factor = a2;
                             }
-                        }
-                        else if (Math.Abs(a2 - Math.Round(a2)) < 1e-12)
-                        {
-                            a2 = Math.Round(a2);
-                            if (a2 == 14d ||
-                                a2 == 28d ||
-                                a2 == 100d ||
-                                a2 == 112d ||
-                                a2 == 1000d ||
-                                a2 == 2000d ||
-                                a2 == 2240d)
-                                return 1d;
                             else
-                                factor = a2;
-                        }
-                        else
-                            if (factor  >= 1000000d)
+                                if (factor >= 1000000d)
                                 factor /= 1000000d;
                             else if (factor >= 1000d)
                                 factor /= 1000d;
-                    }
-                    break;
-                }
-                case "m":
-                {
-                    if (factor == 1852d)
-                        return 1d;
-                    else
-                    {
-                        var a = factor / 2.54e-05;
-                        if (Math.Abs(a - Math.Round(a)) < 1e-12)
-                        {
-                            a = Math.Round(a);
-                            if (a == 1d ||
-                                a == 1000d ||
-                                a == 36000d ||
-                                a == 792000d ||
-                                a == 7920000d ||
-                                a == 63360000d)
-                                return 1d;
-                            else
-                                factor = a / 12000d;
                         }
+                        break;
                     }
-                    break;
-                }
+                case "m":
+                    {
+                        if (factor == 1852d)
+                            return 1d;
+                        else
+                        {
+                            var a = factor / 2.54e-05;
+                            if (Math.Abs(a - Math.Round(a)) < 1e-12)
+                            {
+                                a = Math.Round(a);
+                                if (a == 1d ||
+                                    a == 1000d ||
+                                    a == 36000d ||
+                                    a == 792000d ||
+                                    a == 7920000d ||
+                                    a == 63360000d)
+                                    return 1d;
+                                else
+                                    factor = a / 12000d;
+                            }
+                        }
+                        break;
+                    }
                 case "rad":
-                {
+                    {
                         if (Math.Abs(factor - Math.Tau) < 1e-12)
                             return 1d;
 
-                    var a = Math.PI / factor;
-                    if (Math.Abs(a - Math.Round(a)) < 1e-12)
-                    {
-                        var b = Math.Round(a);
-                        if (b == 180d ||
-                            b == 200d ||
-                            b == 10800d ||
-                            b == 648000d)
-                            return 1d;
-                        else
-                            return a * Math.PI;
+                        var a = Math.PI / factor;
+                        if (Math.Abs(a - Math.Round(a)) < 1e-12)
+                        {
+                            var b = Math.Round(a);
+                            if (b == 180d ||
+                                b == 200d ||
+                                b == 10800d ||
+                                b == 648000d)
+                                return 1d;
+                            else
+                                return a * Math.PI;
+                        }
+                        break;
                     }
-                    break;
-                }
             }
             var n = GetPower(factor);
             factor /= GetScale(n);
@@ -1301,180 +1306,180 @@ namespace Calcpad.Core
                 switch (name)
                 {
                     case "s":
-                    {
-                        if (factor == 60d || factor == 3600d || factor == 86400d)
                         {
-                            name = factor switch
+                            if (factor == 60d || factor == 3600d || factor == 86400d)
                             {
-                                60d => "min",
-                                3600d => "h",
-                                86400d => "d",
-                                _ => "s"
-                            };
-                            factor = 1d;
-                        }
-                        break;
-                    }
-                    case "g":
-                    {
-                        var a1 = factor / 14.59390294;
-                        if (Math.Abs(a1 - Math.Round(a1)) < 1e-12)
-                        {
-                            name = "slug";
-                            factor = a1;
-                        }
-                        else
-                        {
-                            var a2 = factor / 453.59237;
-                            if (a2 < 1d)
-                            {
-                                var a3 = 1d / a2;
-                                if (Math.Abs(a3 - Math.Round(a3)) < 1e-12)
+                                name = factor switch
                                 {
-                                    a3 = Math.Round(a3);
-                                    factor = 1d;
-                                    switch (a3)
+                                    60d => "min",
+                                    3600d => "h",
+                                    86400d => "d",
+                                    _ => "s"
+                                };
+                                factor = 1d;
+                            }
+                            break;
+                        }
+                    case "g":
+                        {
+                            var a1 = factor / 14.59390294;
+                            if (Math.Abs(a1 - Math.Round(a1)) < 1e-12)
+                            {
+                                name = "slug";
+                                factor = a1;
+                            }
+                            else
+                            {
+                                var a2 = factor / 453.59237;
+                                if (a2 < 1d)
+                                {
+                                    var a3 = 1d / a2;
+                                    if (Math.Abs(a3 - Math.Round(a3)) < 1e-12)
                                     {
-                                        case 7000d:
-                                            name = "gr";
+                                        a3 = Math.Round(a3);
+                                        factor = 1d;
+                                        switch (a3)
+                                        {
+                                            case 7000d:
+                                                name = "gr";
+                                                break;
+                                            case 256d:
+                                                name = "dr";
+                                                break;
+                                            case 16d:
+                                                name = "oz";
+                                                break;
+                                            default:
+                                                name = "lb";
+                                                factor = a3;
+                                                break;
+                                        }
+                                    }
+                                }
+                                else if (Math.Abs(a2 - Math.Round(a2)) < 1e-12)
+                                {
+                                    a2 = Math.Round(a2);
+                                    factor = 1d;
+                                    switch (a2)
+                                    {
+                                        case 14d:
+                                            name = "st";
                                             break;
-                                        case 256d:
-                                            name = "dr";
+                                        case 28d:
+                                            name = "qr";
                                             break;
-                                        case 16d:
-                                            name = "oz";
+                                        case 100d:
+                                            name = "cwt_US";
+                                            break;
+                                        case 112d:
+                                            name = "cwt_UK";
+                                            break;
+                                        case 1000d:
+                                            name = "kip_m";
+                                            break;
+                                        case 2000d:
+                                            name = "ton_US";
+                                            break;
+                                        case 2240d:
+                                            name = "ton_UK";
                                             break;
                                         default:
                                             name = "lb";
-                                            factor = a3;
+                                            factor = a2;
                                             break;
                                     }
                                 }
+                                else
+                                    switch (factor)
+                                    {
+                                        case >= 1000000d:
+                                            factor /= 1000000d;
+                                            name = "t";
+                                            break;
+                                        case >= 1000d:
+                                            factor /= 1000d;
+                                            name = "kg";
+                                            break;
+                                    }
                             }
-                            else if (Math.Abs(a2 - Math.Round(a2)) < 1e-12)
+                            break;
+                        }
+                    case "m":
+                        {
+                            if (factor == 1852d)
                             {
-                                a2 = Math.Round(a2);
+                                name = "nmi";
                                 factor = 1d;
-                                switch (a2)
+                                break;
+                            }
+                            var a = factor / 2.54e-05;
+                            if (Math.Abs(a - Math.Round(a)) < 1e-12)
+                            {
+                                a = Math.Round(a);
+                                factor = 1d;
+                                switch (a)
                                 {
-                                    case 14d:
-                                        name = "st";
-                                        break;
-                                    case 28d:
-                                        name = "qr";
-                                        break;
-                                    case 100d:
-                                        name = "cwt_US";
-                                        break;
-                                    case 112d:
-                                        name = "cwt_UK";
+                                    case 1d:
+                                        name = "th";
                                         break;
                                     case 1000d:
-                                        name = "kip_m";
+                                        name = "in";
                                         break;
-                                    case 2000d:
-                                        name = "ton_US";
+                                    case 36000d:
+                                        name = "yd";
                                         break;
-                                    case 2240d:
-                                        name = "ton_UK";
+                                    case 792000d:
+                                        name = "ch";
+                                        break;
+                                    case 7920000d:
+                                        name = "fur";
+                                        break;
+                                    case 63360000d:
+                                        name = "mi";
                                         break;
                                     default:
-                                        name = "lb";
-                                        factor = a2;
+                                        name = "ft";
+                                        factor = a / 12000d;
                                         break;
                                 }
                             }
-                            else
-                                switch (factor)
-                                {
-                                    case >= 1000000d:
-                                        factor /= 1000000d;
-                                        name = "t";
-                                        break;
-                                    case >= 1000d:
-                                        factor /= 1000d;
-                                        name = "kg";
-                                        break;
-                                }
-                        }
-                        break;
-                    }
-                    case "m":
-                    {
-                        if (factor == 1852d)
-                        {
-                            name = "nmi";
-                            factor = 1d;
                             break;
                         }
-                        var a = factor / 2.54e-05;
-                        if (Math.Abs(a - Math.Round(a)) < 1e-12)
-                        {
-                            a = Math.Round(a);
-                            factor = 1d;
-                            switch (a)
-                            {
-                                case 1d:
-                                    name = "th";
-                                    break;
-                                case 1000d:
-                                    name = "in";
-                                    break;
-                                    case 36000d:
-                                    name = "yd";
-                                    break;
-                                case 792000d:
-                                    name = "ch";
-                                    break;
-                                case 7920000d:
-                                    name = "fur";
-                                    break;
-                                case 63360000d:
-                                    name = "mi";
-                                    break;
-                                default:
-                                    name = "ft";
-                                    factor = a / 12000d;
-                                    break;
-                            }
-                        }
-                        break;
-                    }
                     case "rad":
-                    {
-                        if (Math.Abs(factor - Math.Tau) < 1e-12)
                         {
-                            name = "rev";
-                            factor = 1d;
+                            if (Math.Abs(factor - Math.Tau) < 1e-12)
+                            {
+                                name = "rev";
+                                factor = 1d;
+                                break;
+                            }
+                            var a = Math.PI / factor;
+                            if (Math.Abs(a - Math.Round(a)) < 1e-12)
+                            {
+                                var b = Math.Round(a);
+                                factor = 1d;
+                                switch (b)
+                                {
+                                    case 180d:
+                                        name = "deg";
+                                        break;
+                                    case 200d:
+                                        name = "grad";
+                                        break;
+                                    case 10800d:
+                                        name = "′";
+                                        break;
+                                    case 648000d:
+                                        name = "″";
+                                        break;
+                                    default:
+                                        name = "rad";
+                                        factor = a * Math.PI;
+                                        break;
+                                }
+                            }
                             break;
                         }
-                        var a = Math.PI / factor;
-                        if (Math.Abs(a - Math.Round(a)) < 1e-12)
-                        {
-                            var b = Math.Round(a);
-                            factor = 1d;
-                            switch (b)
-                            {
-                                case 180d:
-                                    name = "deg";
-                                    break;
-                                case 200d:
-                                    name = "grad";
-                                    break;
-                                case 10800d:
-                                    name = "′";
-                                    break;
-                                case 648000d:
-                                    name = "″";
-                                    break;
-                                default:
-                                    name = "rad";
-                                    factor = a * Math.PI;
-                                    break;
-                            }
-                        }
-                        break;
-                    }
                 }
                 var n = GetPower(factor);
                 name = writer.FormatUnits(GetPrefix(n) + name);
@@ -1486,8 +1491,8 @@ namespace Calcpad.Core
                 name = writer.FormatUnits(name);
 
             if (power == 1f)
-                return name;  
-            
+                return name;
+
             var sp = writer.FormatReal(power, 1);
             if (power < 0 && writer is TextWriter)
                 sp = writer.AddBrackets(sp);
@@ -1551,7 +1556,7 @@ namespace Calcpad.Core
             if (ua is null)
             {
                 d = 1d;
-                return ub.Pow(-1.0);
+                return ub.Pow(-1f);
             }
 
             d = GetProductOrDivisionFactor(ua, ub, true);
@@ -1583,7 +1588,7 @@ namespace Calcpad.Core
                 Throw.UnitsToComplexPowerException();
 
             var d = power.Re;
-            var result = u.Pow(d);
+            var result = u.Pow((float)d);
             if (updateText)
             {
                 ReadOnlySpan<char> s = u.Text;
@@ -1604,7 +1609,7 @@ namespace Calcpad.Core
 
         internal static Unit Root(Unit u, int n, bool updateText = false)
         {
-            var result = u.Pow(1.0 / n);
+            var result = u.Pow(1f / n);
 
             if (updateText && Math.Abs(n) > 1)
             {

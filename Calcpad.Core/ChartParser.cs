@@ -11,7 +11,7 @@ namespace Calcpad.Core
         internal override string Parse(ReadOnlySpan<char> script, bool calculate)
         {
             const int n = 4;
-            ReadOnlySpan<char> delimiters = [ '{', '@', '=', ':', '}' ];
+            ReadOnlySpan<char> delimiters = ['{', '@', '=', ':', '}'];
             var input = new string[4];
             var index = 0;
             var bracketCount = 0;
@@ -33,7 +33,7 @@ namespace Calcpad.Core
                 if (c == '}')
                     --bracketCount;
             }
-            if (index <= 4)   
+            if (index <= 4)
                 return string.Format(Messages.Missing_delimiter_0_in_plot_command, delimiters[index].ToString(), script.ToString());
 
             for (int j = 0; j < n; ++j)
@@ -44,7 +44,7 @@ namespace Calcpad.Core
             {
                 var charts = input[0].Split('&');
                 input[1] = input[1].Trim();
-                ReadOnlySpan<Parameter> parameters = new Parameter[]{ new(input[1]) };
+                ReadOnlySpan<Parameter> parameters = new Parameter[] { new(input[1]) };
                 var count = charts.Length;
                 _fx = new Func<Value>[count];
                 _fy = new Func<Value>[count];
