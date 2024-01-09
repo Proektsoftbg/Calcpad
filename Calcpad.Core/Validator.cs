@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Runtime.CompilerServices; 
+using System.Runtime.CompilerServices;
 
 namespace Calcpad.Core
 {
@@ -14,7 +14,7 @@ namespace Calcpad.Core
         internal const string UnitChars = UnitSymbolChars + CurrencyChars;
         private const string VarStartingChars = UnitChars + VarNonLetterChars;
         private const string VarChars =
-            VarStartingChars + 
+            VarStartingChars +
             VarSymbolChars +
             SuperscriptChars +
             VarLetterChars;
@@ -86,7 +86,7 @@ namespace Calcpad.Core
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static bool IsVarStartingChar(char c) =>
-            char.IsLetter(c) || 
+            char.IsLetter(c) ||
             VarStartingChars.Contains(c);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

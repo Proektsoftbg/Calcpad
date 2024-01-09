@@ -26,7 +26,7 @@ namespace Calcpad.Core
             New(Messages.Power_must_be_unitless);
         internal static void ResultIsNotUnitsException() =>
             New(Messages.The_expression_on_the_right_does_not_evaluate_to_units);
-        internal static void CannotEvaluateFunctionException(in string s) => 
+        internal static void CannotEvaluateFunctionException(in string s) =>
             New(string.Format(Messages.Cannot_evaluate_the_function_f_for_v_equals__0__, s));
         internal static void FunctionNotDefinedException(in string s) =>
             New(string.Format(Messages.The_function_f_is_not_defined_for_v_equals__0__, s));

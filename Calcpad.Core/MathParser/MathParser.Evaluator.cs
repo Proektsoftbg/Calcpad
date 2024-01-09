@@ -23,7 +23,7 @@ namespace Calcpad.Core
                 _functions = parser._functions;
                 _solveBlocks = parser._solveBlocks;
                 _calc = parser._calc;
-                _units = parser._units; 
+                _units = parser._units;
             }
 
             internal void Reset() => _tos = 0;
@@ -93,7 +93,7 @@ namespace Calcpad.Core
                                     else if (rpn[0].Type == TokenTypes.Unit && rpn[0] is ValueToken tc)
                                     {
                                         if (tc.Value.Units is not null)
-                                            Throw.CannotRewiriteUnitsException(tc.Value.Units.Text); 
+                                            Throw.CannotRewiriteUnitsException(tc.Value.Units.Text);
 
                                         _parser.SetUnit(tc.Content, b);
                                         tc.Value = new(_parser.GetUnit(tc.Content));
@@ -148,13 +148,13 @@ namespace Calcpad.Core
                                         continue;
                                     case 2:
                                         var y = _stackBuffer[_tos--];
-                                            x = _stackBuffer[_tos--];
+                                        x = _stackBuffer[_tos--];
                                         _stackBuffer[++_tos] = EvaluateFunction((CustomFunction2)cf, x, y);
                                         continue;
                                     case 3:
                                         var z = _stackBuffer[_tos--];
-                                            y = _stackBuffer[_tos--];
-                                            x = _stackBuffer[_tos--];
+                                        y = _stackBuffer[_tos--];
+                                        x = _stackBuffer[_tos--];
                                         _stackBuffer[++_tos] = EvaluateFunction((CustomFunction3)cf, x, y, z);
                                         continue;
                                     default:
@@ -182,7 +182,7 @@ namespace Calcpad.Core
                     return v;
                 }
                 if (_tos > tos)
-                    Throw.StackLeakException();  
+                    Throw.StackLeakException();
 
                 _parser.Units = null;
                 return new Value(0.0);
@@ -216,12 +216,12 @@ namespace Calcpad.Core
                 }
                 var cu = u.Text[0];
                 if ((cu == '%' || cu == '‰') && vu is null)
-                { 
+                {
                     v = new Value(v.Complex * (cu == '%' ? 100d : 1000d), u);
                     return u;
                 }
                 if (!Unit.IsConsistent(vu, u))
-                    Throw.InconsistentTargetUnitsException(Unit.GetText(vu), Unit.GetText(u));   
+                    Throw.InconsistentTargetUnitsException(Unit.GetText(vu), Unit.GetText(u));
 
                 var d = vu.ConvertTo(u);
                 if (u.IsTemp)
@@ -359,13 +359,13 @@ namespace Calcpad.Core
                 catch
                 {
                     Throw.UndefinedVariableOrUnitsException(t.Content);
-                    return default;    
+                    return default;
                 }
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static Value EvaluatePercent(in Value v)
-            {    
+            {
                 if (v.Units is not null && v.Units.IsDimensionless)
                 {
                     return v.Units.Text[0] switch
@@ -373,7 +373,7 @@ namespace Calcpad.Core
                         '%' => new Value(v.Complex * 0.01),
                         '‰' => new Value(v.Complex * 0.001),
                         _ => v
-                    };   
+                    };
                 }
                 return v;
             }

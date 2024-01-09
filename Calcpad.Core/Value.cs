@@ -12,7 +12,7 @@ namespace Calcpad.Core
         internal static readonly Value Zero = new(0d);
         internal static readonly Value One = new(1d);
         internal static readonly Value NaN = new(double.NaN);
-        internal static readonly Value PositiveInfinity = new(double.PositiveInfinity); 
+        internal static readonly Value PositiveInfinity = new(double.PositiveInfinity);
         internal static readonly Value NegativeInfinity = new(double.NegativeInfinity);
         internal static readonly Value ComplexInfinity = new(double.PositiveInfinity, double.PositiveInfinity, null);
 
@@ -91,7 +91,7 @@ namespace Calcpad.Core
         {
             if (a.Units is null)
                 return new(a.Re * b.Re, b.Units);
-            
+
             var uc = Unit.Multiply(a.Units, b.Units, out var d);
             return new(a.Re * b.Re * d, uc);
         }
@@ -100,7 +100,7 @@ namespace Calcpad.Core
         {
             if (a.Units is null)
                 return new(a.Re * b.Re, b.Units);
-            
+
             var uc = Unit.Multiply(a.Units, b.Units, out var d, b.IsUnit);
             var isUnit = a.IsUnit && b.IsUnit && uc is not null;
             return new(a.Re * b.Re * d, uc, isUnit);
@@ -134,9 +134,9 @@ namespace Calcpad.Core
         {
             var uc = Unit.Divide(a.Units, b.Units, out var d);
             bool isUnit = a.IsUnit && b.IsUnit && uc is not null;
-            var c = b.Re == 0d ? 
+            var c = b.Re == 0d ?
                 double.NaN :
-                Math.Truncate(a.Re / b.Re * d);    
+                Math.Truncate(a.Re / b.Re * d);
             return new(c, uc, isUnit);
         }
 
@@ -189,7 +189,7 @@ namespace Calcpad.Core
         public static Value operator &(Value a, Value b) =>
             Math.Abs(a.Re) < LogicalZero || Math.Abs(b.Re) < LogicalZero ? Zero : One;
 
-        public static Value operator |(Value a, Value b) => 
+        public static Value operator |(Value a, Value b) =>
             Math.Abs(a.Re) >= LogicalZero || Math.Abs(b.Re) >= LogicalZero ? One : Zero;
 
         public static Value operator ^(Value a, Value b) =>

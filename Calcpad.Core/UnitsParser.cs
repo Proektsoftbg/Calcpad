@@ -175,7 +175,7 @@ namespace Calcpad.Core
                             }
                             catch
                             {
-                                Throw.InvalidUnitsException(literal); 
+                                Throw.InvalidUnitsException(literal);
                             }
                         }
                         else
@@ -318,7 +318,7 @@ namespace Calcpad.Core
         private static Token EvaluateOperator(Token T, UnitToken a, UnitToken b)
         {
             char c = T.Content[0];
-            double d = c == '^' ? 1.0 : Unit.GetProductOrDivisionFactor(a.Value, b.Value);
+            double d = c == '^' ? 1d : Unit.GetProductOrDivisionFactor(a.Value, b.Value);
             var u = c switch
             {
                 '*' => a.Value * b.Value,
@@ -334,12 +334,12 @@ namespace Calcpad.Core
 
         private static UnitToken EvaluateOperator(Token T, UnitToken a, ValueToken b)
         {
-            char c = T.Content[0];  
+            char c = T.Content[0];
             return c switch
             {
                 '*' => new UnitToken(a.Value * b.Value),
-                '/' =>new UnitToken(a.Value / b.Value),
-                '^' => new UnitToken(a.Value.Pow(b.Value)),
+                '/' => new UnitToken(a.Value / b.Value),
+                '^' => new UnitToken(a.Value.Pow((float)b.Value)),
                 _ => Throw.InvalidOperator<UnitToken>(c)
             };
         }
@@ -358,7 +358,7 @@ namespace Calcpad.Core
 
         private static ValueToken EvaluateOperator(Token T, ValueToken a, ValueToken b)
         {
-            char c = T.Content[0];  
+            char c = T.Content[0];
             return c switch
             {
                 '*' => new ValueToken(a.Value * b.Value),
@@ -385,7 +385,7 @@ namespace Calcpad.Core
 
                     if (a.Order > T.Order)
                         a.Content = AddBrackets(a.Content);
-                    
+
                     var tc = T.Content[0];
                     if (tc == '^')
                     {
@@ -395,11 +395,11 @@ namespace Calcpad.Core
                         if (IsNegative(b) || b.Order != Token.DefaultOrder)
                             b.Content = AddBrackets(b.Content);
                     }
-                    else if (b.Order > T.Order || 
-                             b.Order == T.Order && tc == '/' || 
+                    else if (b.Order > T.Order ||
+                             b.Order == T.Order && tc == '/' ||
                              IsNegative(b))
                         b.Content = AddBrackets(b.Content);
-                            
+
                     var c = new Token(a.Content + tc + b.Content, T.Type, T.Order);
                     stackBuffer.Push(c);
                 }

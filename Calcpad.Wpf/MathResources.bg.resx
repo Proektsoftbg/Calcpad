@@ -1,0 +1,429 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="InverseCosecant" xml:space="preserve">
+    <value>Аркускосеканс</value>
+  </data>
+  <data name="IntegerDivision" xml:space="preserve">
+    <value>Целочислено деление</value>
+  </data>
+  <data name="Integer" xml:space="preserve">
+    <value>Целочислени</value>
+  </data>
+  <data name="InverseCosine" xml:space="preserve">
+        <value>Аркускосинус</value>
+    </data>
+  <data name="InverseCotangent" xml:space="preserve">
+        <value>Аркускотангенс</value>
+    </data>
+  <data name="InverseHyperbolic" xml:space="preserve">
+        <value>Обратни хиперболични</value>
+    </data>
+  <data name="InverseHyperbolicCosecant" xml:space="preserve">
+        <value>Аркускосеканс хиперболичен</value>
+    </data>
+  <data name="InverseHyperbolicCosine" xml:space="preserve">
+        <value>Аркускосинус хиперболичен</value>
+    </data>
+  <data name="InverseHyperbolicCotangent" xml:space="preserve">
+        <value>Аркускотангенс хиперболичен</value>
+    </data>
+  <data name="InverseHyperbolicSecant" xml:space="preserve">
+        <value>Аркуссеканс хиперболичен</value>
+    </data>
+  <data name="InverseHyperbolicSine" xml:space="preserve">
+        <value>Аркуссинус хиперболичен</value>
+    </data>
+  <data name="InverseHyperbolicTangent" xml:space="preserve">
+        <value>Аркустангенс хиперболичен</value>
+    </data>
+  <data name="InverseSecant" xml:space="preserve">
+        <value>Аркуссеканс</value>
+    </data>
+  <data name="InverseSine" xml:space="preserve">
+        <value>Аркуссинус</value>
+    </data>
+  <data name="InverseTangent" xml:space="preserve">
+        <value>Аркустангенс</value>
+    </data>
+  <data name="InverseTrigonometric" xml:space="preserve">
+        <value>Обратни тригонометрични</value>
+    </data>
+  <data name="LeastCommonMultiple" xml:space="preserve">
+        <value>Най-малко общо кратно</value>
+    </data>
+  <data name="LessThan" xml:space="preserve">
+        <value>По-малко</value>
+    </data>
+  <data name="LessThanOrEqual" xml:space="preserve">
+        <value>По-малко или равно</value>
+    </data>
+  <data name="LinearInterpolation" xml:space="preserve">
+        <value>Линейна интерполация</value>
+    </data>
+  <data name="LogarithmicExponentialAndRoots" xml:space="preserve">
+        <value>Логаритмични, експоненциални и корени</value>
+    </data>
+  <data name="LogicalAnd" xml:space="preserve">
+    <value>Логическо "И" (AND)</value>
+  </data>
+  <data name="LogicalNot" xml:space="preserve">
+        <value>Логическо отрицание (NOT)</value>
+    </data>
+  <data name="LogicalOr" xml:space="preserve">
+    <value>Логическо "ИЛИ" (OR)</value>
+  </data>
+  <data name="LogicalXor" xml:space="preserve">
+    <value>Изключващо "ИЛИ" (XOR)</value>
+  </data>
+  <data name="MinimumOfMultipleValues" xml:space="preserve">
+    <value>Най-малката стойност от списък</value>
+  </data>
+  <data name="Modulo" xml:space="preserve">
+        <value>Остатък</value>
+    </data>
+  <data name="Modulo_Description" xml:space="preserve">
+    <value>Остатък от деление</value>
+  </data>
+  <data name="Multiplication" xml:space="preserve">
+        <value>Умножение</value>
+    </data>
+  <data name="NaturalExponent" xml:space="preserve">
+        <value>Експоненциална функция</value>
+    </data>
+  <data name="NaturalLogarithm" xml:space="preserve">
+        <value>Натурален логаритъм</value>
+    </data>
+  <data name="NotEqualTo" xml:space="preserve">
+        <value>Не равно</value>
+    </data>
+  <data name="NthRoot" xml:space="preserve">
+        <value>Корен n-ти</value>
+    </data>
+  <data name="Operators" xml:space="preserve">
+        <value>Оператори</value>
+    </data>
+  <data name="PiNumber" xml:space="preserve">
+        <value>Числото Пи</value>
+    </data>
+  <data name="ProductOfMultipleValues" xml:space="preserve">
+        <value>Произведение на множество стойности</value>
+    </data>
+  <data name="RandomNumber" xml:space="preserve">
+        <value>Произволно число между 0 и x</value>
+    </data>
+  <data name="RealPartOfAComplexNumber" xml:space="preserve">
+        <value>Реалната част на комплексно число</value>
+    </data>
+  <data name="Rounding" xml:space="preserve">
+        <value>Закръгляване</value>
+    </data>
+  <data name="RoundToNearestInteger" xml:space="preserve">
+    <value>Закръгляване към най-близкото цяло число</value>
+  </data>
+  <data name="RoundToTheLowerInteger" xml:space="preserve">
+    <value>Закръгляване към по-малкото цяло число</value>
+  </data>
+  <data name="RoundTowardsZero" xml:space="preserve">
+        <value>Закръгляване към по-близкото число в посока към нулата</value>
+    </data>
+  <data name="RoundToTheGreaterInteger" xml:space="preserve">
+    <value>Закръгляване към по-голямото цяло число</value>
+  </data>
+  <data name="Secant" xml:space="preserve">
+        <value>Секанс</value>
+    </data>
+  <data name="SelectiveEvaluation_Function" xml:space="preserve">
+        <value>Избирателно изчисление</value>
+    </data>
+  <data name="SignOfANumber" xml:space="preserve">
+        <value>Знак на число</value>
+    </data>
+  <data name="Sine" xml:space="preserve">
+        <value>Синус</value>
+    </data>
+  <data name="SquareRoot" xml:space="preserve">
+        <value>Корен квадратен</value>
+    </data>
+  <data name="SquareRootOfSumOfSquares" xml:space="preserve">
+        <value>Корен квадратен от сумата на квадратите</value>
+    </data>
+  <data name="Subtraction" xml:space="preserve">
+        <value>Изваждане</value>
+    </data>
+  <data name="SumOfMultipleValues" xml:space="preserve">
+        <value>Сума на множество стойности</value>
+    </data>
+  <data name="SumOfSquares" xml:space="preserve">
+        <value>Сума от квадратите</value>
+    </data>
+  <data name="TakeTheNthElement" xml:space="preserve">
+        <value>Връща n-тия елемент от списъка</value>
+    </data>
+  <data name="Tangent" xml:space="preserve">
+        <value>Тангенс</value>
+    </data>
+  <data name="Trigonometric" xml:space="preserve">
+        <value>Тригонометрични</value>
+    </data>
+  <data name="PhaseOfAComplexNumber" xml:space="preserve">
+        <value>Фаза на комплексно число</value>
+    </data>
+  <data name="Cotangent" xml:space="preserve">
+    <value>Котангенс</value>
+  </data>
+  <data name="DecimalLogarithm" xml:space="preserve">
+    <value>Десетичен логаритъм</value>
+  </data>
+  <data name="RaiseToSquare" xml:space="preserve">
+    <value>Повдигни на квадрат</value>
+  </data>
+  <data name="RaiseToCube" xml:space="preserve">
+    <value>Повдигни на куб</value>
+  </data>
+  <data name="RaiseToPower" xml:space="preserve">
+    <value>Степенуване</value>
+  </data>
+  <data name="CubicRoot" xml:space="preserve">
+    <value>Кубичен корен</value>
+  </data>
+  <data name="DecimalPoint" xml:space="preserve">
+    <value>Десетична точка</value>
+  </data>
+  <data name="Assignment" xml:space="preserve">
+    <value>Присвояване</value>
+  </data>
+  <data name="Multiply" xml:space="preserve">
+    <value>Умножение</value>
+  </data>
+  <data name="Divide" xml:space="preserve">
+    <value>Деление</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Събиране</value>
+  </data>
+  <data name="Subtract" xml:space="preserve">
+    <value>Изваждане</value>
+  </data>
+  <data name="Factorial" xml:space="preserve">
+    <value>Факториел</value>
+  </data>
+  <data name="Exponentiation" xml:space="preserve">
+    <value>Степенуване</value>
+  </data>
+  <data name="Division" xml:space="preserve">
+    <value>Деление</value>
+  </data>
+  <data name="DivisionBar" xml:space="preserve">
+    <value>Дробна черта</value>
+  </data>
+  <data name="Addition" xml:space="preserve">
+    <value>Събиране</value>
+  </data>
+  <data name="EqualTo" xml:space="preserve">
+    <value>Равно (сравнение)</value>
+  </data>
+  <data name="Equal" xml:space="preserve">
+    <value>Равно (сравнение)</value>
+  </data>
+  <data name="NotEqual" xml:space="preserve">
+    <value>Не равно</value>
+  </data>
+  <data name="GreaterThan" xml:space="preserve">
+    <value>По-голямо</value>
+  </data>
+  <data name="GreaterThanOrEqual" xml:space="preserve">
+    <value>По-голямо или равно</value>
+  </data>
+  <data name="Functions" xml:space="preserve">
+    <value>Функции</value>
+  </data>
+  <data name="Cosine" xml:space="preserve">
+    <value>Косинус</value>
+  </data>
+  <data name="Cosecant" xml:space="preserve">
+    <value>Косеканс</value>
+  </data>
+  <data name="HyperbolicSine" xml:space="preserve">
+    <value>Синус хиперболичен</value>
+  </data>
+  <data name="HyperbolicTangent" xml:space="preserve">
+    <value>Тангенс хиперболичен</value>
+  </data>
+  <data name="HyperbolicCosine" xml:space="preserve">
+    <value>Косинус хиперболичен</value>
+  </data>
+  <data name="Hyperbolic" xml:space="preserve">
+    <value>Хиперболични</value>
+  </data>
+  <data name="HyperbolicCosecant" xml:space="preserve">
+    <value>Косеканс хиперболичен</value>
+  </data>
+  <data name="HyperbolicCotangent" xml:space="preserve">
+    <value>Котангенс хиперболичен</value>
+  </data>
+  <data name="HyperbolicSecant" xml:space="preserve">
+    <value>Секанс хиперболичен</value>
+  </data>
+  <data name="AngleWhichTangentIsYDividedByX" xml:space="preserve">
+    <value>Ъгъл, чийто тангенс е отношението на y към x</value>
+  </data>
+  <data name="BinaryLogarithm" xml:space="preserve">
+    <value>Двоичен логаритъм</value>
+  </data>
+  <data name="GreatestCommonDivisor" xml:space="preserve">
+    <value>Най-голям общ делител</value>
+  </data>
+  <data name="Complex" xml:space="preserve">
+    <value>Комплексни</value>
+  </data>
+  <data name="ImaginaryPartOfAComplexNumber" xml:space="preserve">
+    <value>Имагинерната част на комплексно число</value>
+  </data>
+  <data name="AbsoluteValue" xml:space="preserve">
+    <value>Абсолютна стойност</value>
+  </data>
+  <data name="AggregateAndInterpolation" xml:space="preserve">
+    <value>Агрегатни и интерполационни</value>
+  </data>
+  <data name="MaximumOfMultipleValues" xml:space="preserve">
+    <value>Най-голямата стойност от списък</value>
+  </data>
+  <data name="AverageOfMultipleValues" xml:space="preserve">
+    <value>Средно аритметично на множество стойности</value>
+  </data>
+  <data name="GeometricMean" xml:space="preserve">
+    <value>Средно геометрично</value>
+  </data>
+  <data name="HermiteSplineInterpolation" xml:space="preserve">
+    <value>Spline интерполация на Ермит</value>
+  </data>
+  <data name="ConditionalAndLogical" xml:space="preserve">
+    <value>Условни и логически</value>
+  </data>
+  <data name="ConditionalEvaluation_Function" xml:space="preserve">
+    <value>Условно изчисление</value>
+  </data>
+  <data name="LeftBracket" xml:space="preserve">
+    <value>Лява скоба</value>
+  </data>
+  <data name="RightBracket" xml:space="preserve">
+    <value>Дясна скоба</value>
+  </data>
+</root>

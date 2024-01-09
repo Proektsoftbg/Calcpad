@@ -54,7 +54,7 @@ namespace Calcpad.Wpf
             foreach (var line in lines)
             {
                 ++lineNumber;
-                if (!line.IsEmpty) 
+                if (!line.IsEmpty)
                     Get(line, lineNumber);
             }
         }
@@ -139,7 +139,7 @@ namespace Calcpad.Wpf
                                 break;
                             }
                             if (c == '_')
-                                isSubscript = true; 
+                                isSubscript = true;
 
                             if (ts.IsEmpty)
                                 ts.Reset(j);
@@ -239,7 +239,7 @@ namespace Calcpad.Wpf
                             {
                                 if (!ts.IsEmpty)
                                 {
-                                    TryAdd(isFunction ? MacroFunctions : MacroVariables, 
+                                    TryAdd(isFunction ? MacroFunctions : MacroVariables,
                                         ts.Cut().ToString(), i, lineNumber);
                                 }
                                 break;

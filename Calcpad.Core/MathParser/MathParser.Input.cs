@@ -70,9 +70,9 @@ namespace Calcpad.Core
             private static TokenTypes GetCharType(char c) => c switch
             {
                 <= '~' => CharTypes[c],
-                '≡' or '≠' or 
-                '≤' or '≥' or 
-                '÷' or '⦼' or 
+                '≡' or '≠' or
+                '≤' or '≥' or
+                '÷' or '⦼' or
                 '∧' or '∨' or '⊕' => TokenTypes.Operator,
                 >= 'Α' and <= 'Ω' or
                 >= 'α' and <= 'ω' => TokenTypes.Unit,
@@ -89,7 +89,7 @@ namespace Calcpad.Core
                 var isDivision = false;
                 var isUnitDivision = false;
                 var isInput = false;
-                var isSubscript = false;    
+                var isSubscript = false;
                 var bracketCounter = 0;
                 var n = expression.IndexOf('|');
                 var tokenLiteral = new TextSpan(expression);
@@ -144,8 +144,8 @@ namespace Calcpad.Core
                         if (pt == TokenTypes.Unit || pt == TokenTypes.Variable)
                         {
                             tokenLiteral.Expand();
-                            tt = tokenLiteral.StartsWithAny(UnitChars) ? 
-                                TokenTypes.Unit : 
+                            tt = tokenLiteral.StartsWithAny(UnitChars) ?
+                                TokenTypes.Unit :
                                 TokenTypes.Variable;
                         }
                         else if (c == 'i' &&
@@ -418,7 +418,7 @@ namespace Calcpad.Core
                             t.Content = tokenLiteral.ToString();
                             if (_parser.IsEnabled)
                                 ((ValueToken)t).Value = new Value(double.Parse(t.Content, CultureInfo.InvariantCulture));
-                            
+
                             tokenLiteral.Reset(i);
                             isInput = false;
                             tt = TokenTypes.Input;
@@ -471,7 +471,7 @@ namespace Calcpad.Core
 
                 var index = _functions.IndexOf(s);
                 if (index < 0 && anyTokens)
-                    Throw.InvalidFunctionException(s);   
+                    Throw.InvalidFunctionException(s);
 
                 return new Token(s, TokenTypes.CustomFunction)
                 {
@@ -517,7 +517,7 @@ namespace Calcpad.Core
                 try
                 {
                     var unit = Unit.Get(units);
-                    var v =  new Value(unit);
+                    var v = new Value(unit);
                     return new ValueToken(v)
                     {
                         Content = "<i>" + units + "</i>",
@@ -581,14 +581,14 @@ namespace Calcpad.Core
                                 t.Type = TokenTypes.Unit;
                                 v.SetValue(u);
                             }
-                            catch{ }
+                            catch { }
                         }
                     }
                     if (t.Type == TokenTypes.Unit)
                     {
                         if (isUnit)
                         {
-                            var c =  pt?.Content[0];
+                            var c = pt?.Content[0];
                             if (c == '*' || c == '/' || c == '÷')
                                 pt.Order = 1;
                         }

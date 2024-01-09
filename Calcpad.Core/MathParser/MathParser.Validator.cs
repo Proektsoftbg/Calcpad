@@ -18,7 +18,7 @@ namespace Calcpad.Core
                     CountOfDivisors = countOfDivisors;
                 }
             }
-            private static readonly int[] OrderIndex = 
+            private static readonly int[] OrderIndex =
                 //N  C  V  U  I  O  F  2  M  I  C  L  R  D  S  E
                 [0, 1, 1, 1, 1, 2, 3, 3, 3, 3, 3, 4, 5, 6, 1, 0];
             //[N]one
@@ -135,7 +135,7 @@ namespace Calcpad.Core
                         correctOrder = CorrectOrder[OrderIndex[(int)pt.Type], OrderIndex[(int)t.Type]];
 
                     if (!correctOrder)
-                        Throw.InvalidSyntaxException(pt.Content, t.Content); 
+                        Throw.InvalidSyntaxException(pt.Content, t.Content);
 
                     pt = t;
                 }

@@ -5,7 +5,7 @@
     <AnalysisLevel>latest</AnalysisLevel>
     <RootNamespace>Calcpad.OpenXml</RootNamespace>
     <OutputType>Library</OutputType>
-    <Version>6.2.0</Version>
+    <Version>6.2.1</Version>
     <Authors>Nedelcho Ganchovski</Authors>
     <Company>Proektsoft EOOD</Company>
   </PropertyGroup>
@@ -13,13 +13,11 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>..\Calcpad.Wpf\bin\Release\net8.0-windows\</OutputPath>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <!--<DefineConstants>BG</DefineConstants>-->
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\Calcpad.Wpf\bin\Debug\net8.0-windows\</OutputPath>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <!--<DefineConstants>BG</DefineConstants>-->
   </PropertyGroup>
 
   <ItemGroup>
@@ -33,6 +31,9 @@
     <EmbeddedResource Update="Messages.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Messages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+	<EmbeddedResource Update="Messages.bg.resx">
+      <DependentUpon>Messages.resx</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
 

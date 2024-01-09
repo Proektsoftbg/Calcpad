@@ -1,8 +1,7 @@
-﻿using System;
+﻿using SkiaSharp;
+using System;
 using System.Collections.Generic;
-using SkiaSharp;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace Calcpad.Core
 {
@@ -218,35 +217,35 @@ namespace Calcpad.Core
 
         private string DrawPng(Chart[] charts, double x0, double y0, double xs, double ys, Box bounds)
         {
-            var bitmap = new SKBitmap(Width, Height);
-            var canvas = new SKCanvas(bitmap);
+            using var bitmap = new SKBitmap(Width, Height);
+            using var canvas = new SKCanvas(bitmap);
             var penWidth = 2f * ScreenScaleFactor;
             var dotRadius = 2f * penWidth;
             SKPaint[] chartPens =
             [
-                new() {Color = SKColors.Red, StrokeWidth = penWidth },
-                new() {Color = SKColors.Green, StrokeWidth = penWidth },
-                new() {Color = SKColors.Blue, StrokeWidth = penWidth },
-                new() {Color = SKColors.Goldenrod, StrokeWidth = penWidth },
-                new() {Color = SKColors.Magenta, StrokeWidth = penWidth },
-                new() {Color = SKColors.DarkCyan, StrokeWidth = penWidth },
-                new() {Color = SKColors.Purple, StrokeWidth = penWidth },
-                new() {Color = SKColors.DarkOrange, StrokeWidth = penWidth },
-                new() {Color = SKColors.Maroon,  StrokeWidth = penWidth },
-                new() {Color = SKColors.YellowGreen, StrokeWidth = penWidth },
+                new() { Color = SKColors.Red, StrokeWidth = penWidth },
+                new() { Color = SKColors.Green, StrokeWidth = penWidth },
+                new() { Color = SKColors.Blue, StrokeWidth = penWidth },
+                new() { Color = SKColors.Goldenrod, StrokeWidth = penWidth },
+                new() { Color = SKColors.Magenta, StrokeWidth = penWidth },
+                new() { Color = SKColors.DarkCyan, StrokeWidth = penWidth },
+                new() { Color = SKColors.Purple, StrokeWidth = penWidth },
+                new() { Color = SKColors.DarkOrange, StrokeWidth = penWidth },
+                new() { Color = SKColors.Maroon, StrokeWidth = penWidth },
+                new() { Color = SKColors.YellowGreen, StrokeWidth = penWidth },
             ];
             SKPaint[] chartBrushes =
 [
-                new() {Color = chartPens[0].Color.WithAlpha(12)},
-                new() {Color = chartPens[1].Color.WithAlpha(11)},
-                new() {Color = chartPens[2].Color.WithAlpha(10)},
-                new() {Color = chartPens[3].Color.WithAlpha(9)},
-                new() {Color = chartPens[4].Color.WithAlpha(8)},
-                new() {Color = chartPens[5].Color.WithAlpha(7)},
-                new() {Color = chartPens[6].Color.WithAlpha(6)},
-                new() {Color = chartPens[7].Color.WithAlpha(6)},
-                new() {Color = chartPens[8].Color.WithAlpha(6)},
-                new() {Color = chartPens[9].Color.WithAlpha(6)}
+                new() { Color = chartPens[0].Color.WithAlpha(12) },
+    new() { Color = chartPens[1].Color.WithAlpha(11) },
+    new() { Color = chartPens[2].Color.WithAlpha(10) },
+    new() { Color = chartPens[3].Color.WithAlpha(9) },
+    new() { Color = chartPens[4].Color.WithAlpha(8) },
+    new() { Color = chartPens[5].Color.WithAlpha(7) },
+    new() { Color = chartPens[6].Color.WithAlpha(6) },
+    new() { Color = chartPens[7].Color.WithAlpha(6) },
+    new() { Color = chartPens[8].Color.WithAlpha(6) },
+    new() { Color = chartPens[9].Color.WithAlpha(6) }
             ];
             foreach (var pen in chartPens)
             {
@@ -297,8 +296,6 @@ namespace Calcpad.Core
                 chartPens[j].Dispose();
                 chartBrushes[j].Dispose();
             }
-            canvas.Dispose();
-            bitmap.Dispose();
             return HtmlImg(src);
         }
 
@@ -311,7 +308,7 @@ namespace Calcpad.Core
             for (int i = 0; i < len; ++i)
                 fillPoints[i + 1] = points[i];
 
-            var path = new SKPath();
+            using var path = new SKPath();
             path.AddPoly(fillPoints);
             canvas.DrawPath(path, brush);
         }

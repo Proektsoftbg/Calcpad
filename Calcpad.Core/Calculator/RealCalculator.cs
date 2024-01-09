@@ -70,8 +70,6 @@ namespace Calcpad.Core
                 Atan2,
                 UnitRoot,
                 Mod,
-                Gcd,
-                Lcm,
                 MandelbrotSet
             ];
         }
@@ -115,7 +113,9 @@ namespace Calcpad.Core
                 Spline,
                 And,
                 Or,
-                Xor
+                Xor,
+                Gcd,
+                Lcm,
             ];
         }
 
@@ -257,7 +257,7 @@ namespace Calcpad.Core
         {
             CheckFunctionUnits("asec", value.Units);
             return value.Re == 0d ?
-                Value.PositiveInfinity : 
+                Value.PositiveInfinity :
                 ToAngleUnits(Math.Acos(1d / value.Re));
         }
 
@@ -350,7 +350,7 @@ namespace Calcpad.Core
                 new(result, Unit.Root(value.Units, 2, isUnit), isUnit);
         }
 
-        private static Value Sqrt(Value value) => 
+        private static Value Sqrt(Value value) =>
             Sqrt(value, false);
 
         private static Value UnitSqrt(Value value) =>
@@ -388,7 +388,7 @@ namespace Calcpad.Core
             Root(value, root, false);
 
         private static Value UnitRoot(Value value, Value root) =>
-            Root(value, root, value.IsUnit);    
+            Root(value, root, value.IsUnit);
 
         private static Value Round(Value value) =>
             new(Math.Round(value.Re, MidpointRounding.AwayFromZero), value.Units);

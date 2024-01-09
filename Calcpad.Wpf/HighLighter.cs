@@ -151,20 +151,20 @@ namespace Calcpad.Wpf
         private static readonly Brush[] Colors =
         [
              Brushes.Gray,
-             Brushes.Black,
-             Brushes.DarkCyan,
-             Brushes.Goldenrod,
-             Brushes.Blue,
-             Brushes.Black,
-             Brushes.Magenta,
-             Brushes.Magenta,
-             Brushes.DeepPink,
-             Brushes.ForestGreen,
-             Brushes.DarkOrchid,
-             Brushes.Red,
-             Brushes.Indigo,
-             Brushes.DarkMagenta,
-             Brushes.Crimson
+            Brushes.Black,
+            Brushes.DarkCyan,
+            Brushes.Goldenrod,
+            Brushes.Blue,
+            Brushes.Black,
+            Brushes.Magenta,
+            Brushes.Magenta,
+            Brushes.DeepPink,
+            Brushes.ForestGreen,
+            Brushes.DarkOrchid,
+            Brushes.Red,
+            Brushes.Indigo,
+            Brushes.DarkMagenta,
+            Brushes.Crimson
         ];
 
         private static readonly Thickness ToolTipPadding = new(3, 1, 3, 2);
@@ -173,11 +173,11 @@ namespace Calcpad.Wpf
         private static readonly SolidColorBrush ErrorBackground = new(Color.FromRgb(255, 225, 225));
         private static readonly SolidColorBrush BackgroundBrush = new(Color.FromArgb(160, 240, 248, 255));
 
-        private static readonly FrozenSet<char> Operators = new HashSet<char>()  { '!', '^', '/', '÷', '\\', '⦼', '*', '-', '+', '<', '>', '≤', '≥', '≡', '≠', '=', '∧', '∨', '⊕' }.ToFrozenSet();
+        private static readonly FrozenSet<char> Operators = new HashSet<char>() { '!', '^', '/', '÷', '\\', '⦼', '*', '-', '+', '<', '>', '≤', '≥', '≡', '≠', '=', '∧', '∨', '⊕' }.ToFrozenSet();
         private static readonly FrozenSet<char> Delimiters = new HashSet<char>() { ';', '|', '&', '@', ':' }.ToFrozenSet();
-        private static readonly FrozenSet<char> Brackets = new HashSet<char>()   { '(', ')', '{', '}' }.ToFrozenSet();
+        private static readonly FrozenSet<char> Brackets = new HashSet<char>() { '(', ')', '{', '}' }.ToFrozenSet();
 
-        private static readonly FrozenSet<string> Functions = 
+        private static readonly FrozenSet<string> Functions =
         new HashSet<string>()
         {
             "abs",
@@ -248,8 +248,8 @@ namespace Calcpad.Wpf
             "timer"
         }.ToFrozenSet(StringComparer.OrdinalIgnoreCase);
 
-        private static readonly FrozenSet<string> Keywords = 
-        new HashSet<string>(StringComparer.OrdinalIgnoreCase) 
+        private static readonly FrozenSet<string> Keywords =
+        new HashSet<string>(StringComparer.OrdinalIgnoreCase)
         {
             "#if",
             "#else",
@@ -284,7 +284,7 @@ namespace Calcpad.Wpf
             "#input"
         }.ToFrozenSet(StringComparer.OrdinalIgnoreCase);
 
-        private static readonly FrozenSet<string> Commands = 
+        private static readonly FrozenSet<string> Commands =
         new HashSet<string>(StringComparer.OrdinalIgnoreCase)
         {
             "$find",
@@ -614,7 +614,7 @@ namespace Calcpad.Wpf
         private bool IsParseError(char c, Types t) =>
                 t == Types.Const && !Validator.IsDigit(c) ||
                 t == Types.Macro && !Validator.IsMacroLetter(c, _builder.Length) ||
-                t == Types.Variable && !(Validator.IsVarChar(c) || _state.IsSubscript &&  char.IsLetter(c));
+                t == Types.Variable && !(Validator.IsVarChar(c) || _state.IsSubscript && char.IsLetter(c));
 
         private void ParseMacroInComment(Types t)
         {
@@ -663,7 +663,7 @@ namespace Calcpad.Wpf
                 _state.CurrentType = Types.Bracket;
                 Append(_state.CurrentType);
                 if (_state.TextComment != '\0' && c == ')' && _state.BracketCount == 0)
-                    _state.CurrentType = Types.Comment;  
+                    _state.CurrentType = Types.Comment;
             }
             else if (c == ';')
             {
@@ -673,7 +673,7 @@ namespace Calcpad.Wpf
                 Append(_state.CurrentType);
             }
             else if (!(_state.HasMacro && c == ' '))
-                _builder.Append(c); 
+                _builder.Append(c);
 
             _state.PreviousType = _state.CurrentType;
         }
@@ -704,7 +704,7 @@ namespace Calcpad.Wpf
                 if (!(_state.IsTag && c == _state.TagComment))
                 {
                     if (_state.CurrentType == Types.Macro)
-                    {   
+                    {
                         if (c == '(' || c == ')')
                             ParseBrackets(c);
                         else

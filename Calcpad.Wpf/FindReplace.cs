@@ -231,19 +231,19 @@ namespace Calcpad.Wpf
                     if (p is null)
                     {
                         if (isStart)
-                        {                        
+                        {
 
                             MessageBox.Show(_direction == Directions.Up ?
                                 FindReplaceResources.Start_of_text_reached_There_are_no_other_occurrences :
-                                FindReplaceResources.End_of_text_reached_There_are_no_other_occurrences, 
+                                FindReplaceResources.End_of_text_reached_There_are_no_other_occurrences,
                                 FindReplaceResources.Find_And_Replace_Caption);
                             return;
                         }
                         isStart = true;
                         p = (Paragraph)RichTextBox.Document.Blocks.FirstBlock;
                     }
-                    _col = Direction == Directions.Up ? 
-                        p.ContentStart.GetOffsetToPosition(p.ContentEnd) : 
+                    _col = Direction == Directions.Up ?
+                        p.ContentStart.GetOffsetToPosition(p.ContentEnd) :
                         0;
                 }
             }

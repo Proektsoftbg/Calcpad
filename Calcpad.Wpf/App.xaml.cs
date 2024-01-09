@@ -26,7 +26,7 @@ namespace Calcpad.Wpf
             ReportUnhandledExceptionAndClose(e.Exception);
         }
 
-        private static void ReportUnhandledExceptionAndClose(Exception e) 
+        private static void ReportUnhandledExceptionAndClose(Exception e)
         {
 
             MainWindow main = (MainWindow)Current.MainWindow;

@@ -63,7 +63,7 @@ namespace Calcpad.Core
 
         }
         internal bool Split { get; set; }
-        internal bool ShowWarnings { get; set; } = true;  
+        internal bool ShowWarnings { get; set; } = true;
         public int Degrees { set => _calc.Degrees = value; }
         internal int PlotWidth => _variables.TryGetValue("PlotWidth", out var v) ? (int)v.ValueByRef().Re : 500;
         internal int PlotHeight => _variables.TryGetValue("PlotHeight", out var v) ? (int)v.ValueByRef().Re : 300;
@@ -72,7 +72,7 @@ namespace Calcpad.Core
         public const char DecimalSymbol = '.'; //CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator[0];
         internal Complex Result { get; private set; }
         public double Real => Result.Re;
-        public double Imaginary => Result.Im;   
+        public double Imaginary => Result.Im;
         public System.Numerics.Complex Complex => Result;
 
         public static readonly char NegateChar = Calculator.NegChar;
@@ -98,7 +98,7 @@ namespace Calcpad.Core
             _compiler = new Compiler(this);
             _output = new Output(this);
         }
-        
+
         public void SaveAnswer()
         {
             var v = new Value(Result, Units);
@@ -108,8 +108,8 @@ namespace Calcpad.Core
 
         public void ClearCustomUnits() => _units.Clear();
 
-        public void SetVariable(string name , double value) => SetVariable(name, new Value(value));   
-        
+        public void SetVariable(string name, double value) => SetVariable(name, new Value(value));
+
         internal void SetVariable(string name, in Value value)
         {
             if (_variables.TryGetValue(name, out Variable v))
@@ -302,7 +302,7 @@ namespace Calcpad.Core
                         var index = _functions.IndexOf(name);
                         var cf = index >= 0 ? _functions[index] : parameters.Count switch
                         {
-                            1 => new CustomFunction1(), 
+                            1 => new CustomFunction1(),
                             2 => new CustomFunction2(),
                             3 => new CustomFunction3(),
                             _ => new CustomFunctionN()

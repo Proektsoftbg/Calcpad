@@ -5,12 +5,12 @@
     <LangVersion>latest</LangVersion>
     <AnalysisLevel>latest</AnalysisLevel>
     <RootNamespace>Calcpad.Cli</RootNamespace>
-    <Version>6.2.0</Version>
+    <Version>6.2.1</Version>
     <Authors>Nedelcho Ganchovski</Authors>
     <Company>Proektsoft EOOD</Company>
-    <PackageId>Calcpad</PackageId>
-    <Product>Calcpad</Product>
-    <AssemblyName>Calcpad</AssemblyName>
+    <PackageId>Cli</PackageId>
+    <Product>Cli</Product>
+    <AssemblyName>Cli</AssemblyName>
     <StartupObject>Calcpad.Cli.Program</StartupObject>
   </PropertyGroup>
 
@@ -20,13 +20,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="HELP.TXT">
+    <None Update="doc\HELP.bg.TXT">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="LICENSE.TXT">
+    <None Update="doc\HELP.TXT">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="template.html">
+    <None Update="doc\LICENSE.bg.TXT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="doc\LICENSE.TXT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="doc\template.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="doc\template.bg.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="wkhtmltopdf.exe">
@@ -35,10 +44,11 @@
     <Content Include="start.sh" CopyToPublishDirectory="PreserveNewest" LinuxFileMode="755">
       <LinuxPath>/usr/local/bin/calcpad</LinuxPath>
     </Content>
-    <Content Include="Examples\*\**" CopyToPublishDirectory="PreserveNewest"/>
-    <Content Include="Syntax\*\**" CopyToPublishDirectory="PreserveNewest"/>
-    <Content Include="Fonts\**" CopyToPublishDirectory="PreserveNewest"/>
-    <Content Include="Settings.xml" CopyToPublishDirectory="PreserveNewest"/>
+    <Content Include="doc\*\**" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="Examples\*\**" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="Syntax\*\**" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="Fonts\**" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="Settings.xml" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
   
   <ItemGroup>
@@ -47,7 +57,26 @@
   </ItemGroup>
   
   <ItemGroup>
+    <Folder Include="doc\" />
     <Folder Include="Syntax\Sublime\" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Update="Messages.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Messages.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Messages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Messages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Messages.bg.resx">
+      <DependentUpon>Messages.resx</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
 
   <PropertyGroup>

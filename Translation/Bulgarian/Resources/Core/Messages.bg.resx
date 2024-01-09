@@ -1,0 +1,339 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Invalid_syntax__0__" xml:space="preserve">
+        <value>Невалиден синтаксис: "{0}".</value>
+    </data>
+  <data name="Incomplete_expression" xml:space="preserve">
+        <value>Непълен израз.</value>
+    </data>
+  <data name="Missing_left_bracket" xml:space="preserve">
+        <value>Липсва лява скоба "(".</value>
+    </data>
+  <data name="Missing_right_bracket" xml:space="preserve">
+        <value>Липсва дясна скоба ")".</value>
+    </data>
+  <data name="Invalid_symbol__0__" xml:space="preserve">
+        <value>Невалиден символ: "{0}".</value>
+    </data>
+  <data name="Invalid_units__0__" xml:space="preserve">
+        <value>Невалидни мерни единици: "{0}".</value>
+    </data>
+  <data name="Cannot_evaluate__0__as__1__" xml:space="preserve">
+        <value>Не мога да изчисля "{0}" като {1}.</value>
+    </data>
+  <data name="Missing_operand" xml:space="preserve">
+        <value>Липсва операнд.</value>
+    </data>
+  <data name="Invalid_operator__0__" xml:space="preserve">
+        <value>Невалиден оператор: "{0}".</value>
+    </data>
+  <data name="Power_must_be_unitless" xml:space="preserve">
+        <value>Степенният показател трябва да е бездименсионен.</value>
+    </data>
+  <data name="The_expression_on_the_right_does_not_evaluate_to_units" xml:space="preserve">
+        <value>Изразът отдясно не се изчислява до мерни единици.</value>
+    </data>
+  <data name="Cannot_evaluate_the_function_f_for_v_equals__0__" xml:space="preserve">
+        <value>Не мога да изчисля функцията %F за %V = {0}.</value>
+    </data>
+  <data name="The_function_f_is_not_defined_for_v_equals__0__" xml:space="preserve">
+        <value>Функцията %F не е дефинирана за %V = {0}.</value>
+    </data>
+  <data name="Inconsistent_units__0__and__1__" xml:space="preserve">
+        <value>Несъвместими мерни единици: "{0}" и "{1}".</value>
+    </data>
+  <data name="Limits_out_of_range__0____1__" xml:space="preserve">
+        <value>Границите са извън допустимите: [{0}; {1}].</value>
+    </data>
+  <data name="Invalid_units_for_function__0__1__" xml:space="preserve">
+        <value>Невалидни мерни единици за функция: "{0}({1})".</value>
+    </data>
+  <data name="Root_index_must_be_unitless" xml:space="preserve">
+        <value>Коренният показател трябва да е бездименсионен.</value>
+    </data>
+  <data name="Root_index_cannot_be_a_complex_number" xml:space="preserve">
+        <value>Коренният показател не може да е комплексно число.</value>
+    </data>
+  <data name="Root_index_must_be_integer_more_than_1" xml:space="preserve">
+        <value>Коренният показател трябва да е цяло число &gt; 1.</value>
+    </data>
+  <data name="Argument_out_of_range_for_n_factorial" xml:space="preserve">
+        <value>Аргументът e извън допустимите стойности n!.</value>
+    </data>
+  <data name="The_argument_of_n_factorial_must_be_unitless" xml:space="preserve">
+        <value>Аргументът на n! трябва да е бездименсионен.</value>
+    </data>
+  <data name="The_argument_of_n_factorial_must_be_a_positive_integer" xml:space="preserve">
+        <value>Аргументът на n! трябва да е цяло положително число.</value>
+    </data>
+  <data name="The_argument_of_n_factorial_cannot_be_complex" xml:space="preserve">
+        <value>Аргументът на n! не може да е комплексно число.</value>
+    </data>
+  <data name="Cannot_evaluate_reminder__0__1__Denominator_must_be_unitless" xml:space="preserve">
+        <value>Не мога да изчисля остатъка: "{0}  %  {1}". Делителя трябва да е бездименсионен.</value>
+    </data>
+  <data name="Cannot_evaluate_reminder__0__1__The_denominator_must_be_unitless_" xml:space="preserve">
+        <value>Не мога да изчисля остатъка: "{0}  %  {1}". Делителя трябва да е бездименсионен.</value>
+    </data>
+  <data name="Both_values_must_be_integers" xml:space="preserve">
+        <value>Двете стойности трябва да са цели числа.</value>
+    </data>
+  <data name="Variable__0__does_not_exist" xml:space="preserve">
+        <value>Недифинирана променлива '{0}'.</value>
+    </data>
+  <data name="Unit__0__does_not_exist" xml:space="preserve">
+        <value>Недифинирани мерни единици '{0}'.</value>
+    </data>
+  <data name="Interrupted_by_user" xml:space="preserve">
+        <value>Прекъсване от потребителя.</value>
+    </data>
+  <data name="Calculations_not_active" xml:space="preserve">
+        <value>Изчислителното ядро не е активно.</value>
+    </data>
+  <data name="Expression_is_empty" xml:space="preserve">
+        <value>Изразът е празен.</value>
+    </data>
+  <data name="Invalid_function__0__" xml:space="preserve">
+        <value>Невалидна функция: "{0}".</value>
+    </data>
+  <data name="Stack_memory_leak__Invalid_expression" xml:space="preserve">
+        <value>Неосвободена памет в стека. Невалиден израз.</value>
+    </data>
+  <data name="Stack_empty_Invalid_expression" xml:space="preserve">
+        <value>Стекът е празен. Невалиден израз.</value>
+    </data>
+  <data name="Undefined_input_field" xml:space="preserve">
+        <value>Недефинирано поле за въвеждане.</value>
+    </data>
+  <data name="Undefined_variable_or_units__0__" xml:space="preserve">
+        <value>Недефинирана променлива или мерни единици: "{0}".</value>
+    </data>
+  <data name="Error_evaluating__0__as_function" xml:space="preserve">
+        <value>Грешка при изчисляване на "{0}" като функция.</value>
+    </data>
+  <data name="Error_evaluating__0__as_function_or_operator" xml:space="preserve">
+        <value>Грешка при изчисляване на "{0}" като функция или оператор.</value>
+    </data>
+  <data name="Cannot_rewrite_existing_units__0__" xml:space="preserve">
+        <value>Не мога да презапиша съществуващи единици: {0}.</value>
+    </data>
+  <data name="The_calculated_units__0__are_inconsistent_with_the_target_units__1__" xml:space="preserve">
+        <value>Получените мерни единици "{0}" не съответстват на отправните "{1}".</value>
+    </data>
+  <data name="InvalidCharacterException" xml:space="preserve">
+        <value>Невалиден символ: '{0}'. Имената на променливи, функции и мерни единици трябва да започват с буква или ∡, освен единиците: ° ′ ″ % ‰.</value>
+    </data>
+  <data name="Improper_use_of_the_assignment_operator_equals" xml:space="preserve">
+        <value>Неправилно използване на оператора за присвояване '='.</value>
+    </data>
+  <data name="Missing_left_bracket_{_in_solver_command" xml:space="preserve">
+        <value>Липсва лява фигурна скоба '{' в команда за числени методи.</value>
+    </data>
+  <data name="Missing_right_bracket_}_in_solver_command" xml:space="preserve">
+        <value>Липсва дясна фигурна скоба '}' в команда за числени методи.</value>
+    </data>
+  <data name="Invalid_macro_identifier__0__" xml:space="preserve">
+        <value>Невалидeн идентификатор на макро "{0}$".</value>
+    </data>
+  <data name="Invalid_solver_command_definition__0__" xml:space="preserve">
+        <value>Невалидна дефиниция на команда за числени методи "{0}".</value>
+    </data>
+  <data name="Error_parsing__0__as_units" xml:space="preserve">
+        <value>Грешка при опит за разпознаване на "{0}" като мерни единици.</value>
+    </data>
+  <data name="Error_parsing__0__as_number" xml:space="preserve">
+        <value>Грешка при опит за разпознаване на "{0}" като число.</value>
+    </data>
+  <data name="Missing_delimiter__0__in_solver_command__1__" xml:space="preserve">
+        <value>Липсва разделител "{0}" в команда за числени методи {{1}}.</value>
+    </data>
+  <data name="More_than_one_operator_equals_in__0__" xml:space="preserve">
+        <value>Повече от един оператор '=' в '{0}'.</value>
+    </data>
+  <data name="The_expression_on_the_right_side_must_be_constant__0__" xml:space="preserve">
+        <value>Изразът от дясната страна трябва да е константа: "{0}".</value>
+    </data>
+  <data name="Inconsistent_units_for__0__equals__1__" xml:space="preserve">
+        <value>Несъвместими мерни единици за "{0} = {1}".</value>
+    </data>
+  <data name="Inconsistent_units_for__0__equals__1__:__2__" xml:space="preserve">
+        <value>Несъвместими мерни единици за "{0} = {1} : {2}".</value>
+    </data>
+  <data name="No_solution_for__0__" xml:space="preserve">
+        <value>Няма решение за: {0}.</value>
+    </data>
+  <data name="Recursion_is_not_allowed_in_function_definition__0__" xml:space="preserve">
+        <value>Не e разрешена рекурсия в дефиницията на функция: "{0}".</value>
+    </data>
+  <data name="The_assignment_equals_must_be_preceded_by_custom_function_or_variable" xml:space="preserve">
+        <value>Преди оператора за присвояване '=' трябва да има функция или променлива.</value>
+    </data>
+  <data name="Assignment_equals_must_be_the_first_operator_in_the_expression" xml:space="preserve">
+        <value>Преди оператора за присвояване '=' не може да има други оператори.</value>
+    </data>
+  <data name="Invalid_syntax__0__1__" xml:space="preserve">
+        <value>Невалиден синтаксис: "{0} {1}".</value>
+    </data>
+  <data name="Unexpected_delimiter_;" xml:space="preserve">
+        <value>Неочакван символ за разделител ';'.</value>
+    </data>
+  <data name="Invalid_number_of_arguments" xml:space="preserve">
+        <value>Невалиден брой аргументи на функция.</value>
+    </data>
+  <data name="The_result_is_not_a_real_number__0__" xml:space="preserve">
+        <value>Резултатът не е реално число: "{0}".</value>
+    </data>
+  <data name="Missing_parameter_in_function_definition" xml:space="preserve">
+        <value>Липсва параметър в дефиниция на функция.</value>
+    </data>
+  <data name="Missing_delimiter_in_function_definition" xml:space="preserve">
+        <value>Липсва разделител в дефиниция на функция.</value>
+    </data>
+  <data name="Invalid_token_in_function_definition__0__" xml:space="preserve">
+        <value>Невалиден обект в дефиниция на функция: "{0}".</value>
+    </data>
+  <data name="Circular_reference_detected_for_function__0__" xml:space="preserve">
+        <value>Открита е циклична референция за функция "{0}".</value>
+    </data>
+  <data name="InvalidFunctionDefinitionException" xml:space="preserve">
+        <value>Невалидна дефиниция на функция. Трябва да съответства на шаблона: \"f(x; y; z...) =\".</value>
+    </data>
+  <data name="Argument_out_of_range_for__0__x_" xml:space="preserve">
+        <value>Аргументът е извън допустимия интервал за {0}(x).</value>
+    </data>
+  <data name="Condition_cannot_be_empty" xml:space="preserve">
+        <value>Условието не може да бъде празно.</value>
+    </data>
+  <data name="Condition_block_not_initialized_with_if_" xml:space="preserve">
+        <value>Условният блок не е инициализиран с "#if".</value>
+    </data>
+  <data name="Duplicate_else_in_condition_block" xml:space="preserve">
+        <value>Може да има само едно "#else" в условен блок.</value>
+    </data>
+  <data name="else_if_is_not_allowed_after_else_in_condition_block" xml:space="preserve">
+        <value>Не може да има "#else if" след "#else" в условен блок.</value>
+    </data>
+  <data name="Condition_cannot_evaluate_to_a_complex_number" xml:space="preserve">
+        <value>Условието не може да бъде комплексно число.</value>
+    </data>
+  <data name="Condition_result_is_invalid_0_" xml:space="preserve">
+        <value>Невалиден резултат от проверка на условие: {0}.</value>
+    </data>
+  <data name="Duplicate_macro_parameter_names__0__and__1__" xml:space="preserve">
+        <value>Дублиране на имената на параметрите на макрос: {0} и {1}.</value>
+    </data>
+  <data name="Macro_not_defined__0__" xml:space="preserve">
+        <value>Недефиниран макрос: {0}.</value>
+    </data>
+  <data name="Missing__0__in_surface_map_command" xml:space="preserve">
+        <value>Липсва {0} в команда за 2D графика.</value>
+    </data>
+  <data name="The_limits_of_plot_area_are_identical" xml:space="preserve">
+        <value>Границите на чертожната площ съвпадат.</value>
+    </data>
+  <data name="Error_writing_a_png_file_to__0__" xml:space="preserve">
+        <value>Грешка при запис на png файл като "{0}".</value>
+    </data>
+  <data name="Error_writing_a_svg_file_to__0__" xml:space="preserve">
+        <value>Грешка при запис на svg файл като "{0}".</value>
+    </data>
+  <data name="Error_converting_png_to_Base64" xml:space="preserve">
+        <value>Грешка при конвертиране на png към Base64.</value>
+    </data>
+  <data name="Inconsistent_units__0__1__2__" xml:space="preserve">
+        <value>Несъвместими мерни единици: "{0} {1} {2}".</value>
+    </data>
+  <data name="Units_cannon_be_raised_to_complex_power" xml:space="preserve">
+        <value>Не мога да повдигна мерни единици на комплексна степен.</value>
+    </data>
+  <data name="SelectAll" xml:space="preserve">
+        <value>И_збери всичко</value>
+    </data>
+  <data name="if_block_not_closed_Missing_end_if" xml:space="preserve">
+        <value>Грешка: Условният "#if" блок не е затворен. Липсва "#end if".</value>
+    </data>
+  <data name="repeat_block_not_closed_Missing_loop" xml:space="preserve">
+        <value>Грешка: Блокът за цикъл "#repeat" не е затворен. Липсва "#loop".</value>
+    </data>
+  <data name="Unexpected_error_0_Please_check_the_expression_consistency" xml:space="preserve">
+        <value>Неочаквана грешка: {0} Моля проверете коректността на израза.</value>
+    </data>
+  <data name="Paused_Press_F5_to_continue" xml:space="preserve">
+        <value>&lt;p&gt;&lt;span class="err"&gt;Пауза!&lt;/span&gt; натиснете &lt;b&gt;F5&lt;/b&gt; за да &lt;a href="#0" data-text="continue"&gt;продължите&lt;/a&gt; или &lt;b&gt;Esc&lt;/b&gt; за да &lt;a href="#0" data-text="cancel"&gt;прекъснете&lt;/a&gt;.&lt;/p&gt;</value>
+    </data>
+  <data name="Error_found_on_line" xml:space="preserve">
+        <value>&lt;div class=\"errorHeader\"&gt;Общо &lt;b&gt;1&lt;/b&gt; грешка на ред:</value>
+    </data>
+  <data name="Errors_found_on_lines" xml:space="preserve">
+        <value>&lt;div class="errorHeader"&gt;Общо &lt;b&gt;{0}&lt;/b&gt; грешки на редове:</value>
+    </data>
+  <data name="Error_in_0_on_line_1__2" xml:space="preserve">
+        <value>Грешка в "{0}" на ред {1}: {2}</value>
+    </data>
+  <data name="Number_of_iterations_exceeds_the_maximum_0" xml:space="preserve">
+        <value>Броят на итерациите е по-голям от максималния {0}.&lt;/p&gt;</value>
+    </data>
+  <data name="loop_without_a_corresponding_repeat" xml:space="preserve">
+        <value>"#loop" без съответен "#repeat".</value>
+    </data>
+  <data name="Entangled_if__end_if__and_repeat__loop_blocks" xml:space="preserve">
+        <value>Преплитане на "#if - #end if" и "#repeat - #loop" блокове.</value>
+    </data>
+  <data name="continue_without_a_corresponding_repeat" xml:space="preserve">
+        <value>"#continue" без съответен "#repeat".</value>
+    </data>
+  <data name="Macro_definition_block_not_closed_Missing_end_def" xml:space="preserve">
+        <value>#Грешка: Незатворена дефиниция на макрос. Липсва "#end def".</value>
+    </data>
+  <data name="Missing_source_file_for_include" xml:space="preserve">
+        <value>Липсва изходен файл за вмъкване.</value>
+    </data>
+  <data name="File_not_found" xml:space="preserve">
+        <value>Файлът не е намерен.</value>
+    </data>
+  <data name="Invalid_macro_name_0" xml:space="preserve">
+        <value>Невалидно име на макрос: "{0}".</value>
+    </data>
+  <data name="Invalid_inside_macro_definition" xml:space="preserve">
+        <value>Невалидно в дефиниция на макрос.</value>
+    </data>
+  <data name="There_is_no_matching_def" xml:space="preserve">
+        <value>"Няма съответен "#def".</value>
+    </data>
+  <data name="Invalid_symbol_0_in_macro_name" xml:space="preserve">
+        <value>Невалиден символ "{0}" в име на макрос.</value>
+    </data>
+  <data name="Duplicate_macro_name_0_" xml:space="preserve">
+        <value>Повтарящо се име на макрос: "{0}".</value>
+    </data>
+  <data name="Missing_delimiter_0_in_plot_command" xml:space="preserve">
+        <value>&lt;span class = "err"&gt;Липсва разделител "{0}" в команда за графика "{1}".&lt;/span&gt;</value>
+    </data>
+  <data name="Missing_0_in_plot_command_1" xml:space="preserve">
+        <value>&lt;span class = "err"&gt;Липсва {0} в команда за графика "{1}".&lt;/span&gt;.</value>
+    </data>
+  <data name="More_than_one_delimiter_in_plot_command" xml:space="preserve">
+        <value>&lt;span class = "err"&gt;Разделителите "|" са повече от един в команда за графика {0}.&lt;/span&gt;</value>
+    </data>
+  <data name="Missing_delimiter_0_in_surface_map_command_1" xml:space="preserve">
+        <value>&lt;span class = "err"&gt;Липсва разделител "{0}" в команда за 2D графика "{1}".&lt;/span&gt;</value>
+    </data>
+  <data name="Function_redefined" xml:space="preserve">
+        <value> Внимание! Функцията е предефинирана.</value>
+    </data>
+  <data name="Raise_to_square" xml:space="preserve">
+    <value>Степенуване</value>
+  </data>
+</root>
