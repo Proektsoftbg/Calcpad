@@ -30,7 +30,7 @@
     log(x)     ln(x)      log_2(x)    exp(x)   
     sqr(x)     sqrt(x)    cbrt(x)     root(x; n)
     round(x)   floor(x)   ceiling(x)  trunc(x)
-    sign(x)    mod(x; y)  gcd(x; y)   lcm(x; y)   atan2(x; y)
+    sign(x)    mod(x; y)  gcd(x; y; z…)           lcm(x; y; z…)  atan2(x; y)
     abs(x)     re(x)      im(x)       phase(x)    random(x)
     and(x; y; z…)         or(x; y; z…)            xor(x; y; z…)  not(x)        
     min(x; y; z…)         max(x; y; z…)
