@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace Calcpad.Core
 {
-    internal class Vector : IEnumerable<Vector>
-    {
-        private readonly Value[] _items;
+    internal class Vector : IEnumerable<Vector>, IValue
+    { 
+        private Value[] _items;
         public IEnumerator<Vector> GetEnumerator() =>
             (IEnumerator<Vector>)_items.GetEnumerator();
 
@@ -19,11 +19,16 @@ namespace Calcpad.Core
             get => _items[index];
             set => _items[index] = value;
         }
+            
+        internal int Count
+        {
+            get => _items.Length;   
+            set => Array.Resize(ref _items, value); 
+        }
 
-        internal int Count => _items.Length;
-
+        internal Vector() { }
         internal Vector(Value[] items) => _items = items;
-        internal Vector(int size) => _items = new Value[size];
+        internal Vector(int size) => _items = new Value[size];   
 
         public override int GetHashCode()
         {
@@ -39,9 +44,9 @@ namespace Calcpad.Core
         public static Vector operator -(Vector a)
         {
             Vector b = new(a.Count);
-            for (int i = 0, n = a.Count; i < n; ++i)
+            for (int i = 0, n = a.Count; i < n; ++i) 
                 b[i] = -a[i];
-
+            
             return b;
         }
 
@@ -88,20 +93,20 @@ namespace Calcpad.Core
 
             return c;
         }
-
+        
         public static Vector CrossProduct(Vector a, Vector b)
         {
             var na = a.Count;
             var nb = b.Count;
             if (na < 2 || na > 3 || nb < 2 || nb > 3)
                 throw new MathParser.MathParserException("Cross product is defined only for 2D and 3D vectors.");
-
+            
             Vector c = new(3);
             c[2] = a[0] * b[1] - a[1] * b[0];
             if (na == 3)
             {
                 c[0] = -a[2] * b[1];
-                c[1] = a[2] * b[0];
+                c[1] =  a[2] * b[0];
             }
             if (nb == 3)
             {
@@ -142,7 +147,7 @@ namespace Calcpad.Core
 
         public static Vector operator *(Vector a, Value b)
         {
-            var n = a.Count;
+            var n = a.Count;    
             Vector c = new(n);
             for (int i = 0; i < n; ++i)
                 c[i] = a[i] * b;
@@ -150,17 +155,17 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Value operator ==(Vector a, Vector b) =>
+        public static Value operator ==(Vector a, Vector b) => 
             new(a.Equals(b) ? 1d : 0d);
 
-        public static Value operator !=(Vector a, Vector b) =>
+        public static Value operator !=(Vector a, Vector b) => 
             new(a.Equals(b) ? 0d : 1d);
 
-        public bool Equals(Vector other) =>
+        public bool Equals(Vector other) => 
             _items.AsSpan().SequenceEqual(other._items);
 
         internal Vector Sort()
-        {
+        { 
             var n = Count;
             Vector b = new(n);
             Array.Copy(_items, b._items, n);
@@ -172,16 +177,16 @@ namespace Calcpad.Core
         {
             var n = Count;
             Vector b = new(n);
-            int n1 = n - 1;
+            int n1 = n - 1;  
             for (int i = 0; i < n; ++i)
-                b[i] = _items[n1 - i];
+                b[i] = _items[n1 - i];   
             return b;
         }
 
         internal Vector First(int length)
         {
             if (length >= Count)
-                return this;
+                return this;    
             Vector b = new(length);
             Array.Copy(_items, b._items, length);
             return b;
@@ -190,7 +195,7 @@ namespace Calcpad.Core
         internal Vector Last(int length)
         {
             if (length >= Count)
-                return this;
+                return this;    
             Vector b = new(length);
             Array.Copy(_items, Count - length, b._items, 0, length);
             return b;
@@ -201,6 +206,16 @@ namespace Calcpad.Core
             var n = Math.Min(length, Count - start);
             Vector b = new(n);
             Array.Copy(_items, start, b._items, 0, n);
+            return b;
+        }
+
+        internal Vector EvaluateFunction(int Index, Vector a, Calculator calculator)
+        {
+            var n = a.Count;
+            Vector b = new(n);
+            for (int i = 0; i < n; ++i)
+                b[i] = calculator.EvaluateFunction(Index, a[i]); ;
+
             return b;
         }
     }

@@ -7,6 +7,9 @@ namespace Calcpad.Core
 {
     internal abstract class Calculator
     {
+        internal delegate Value Operator(in Value a, in Value b);
+        internal delegate Value Function(in Value a);
+
         private const double DeltaPlus = 1 + 1e-15, DeltaMinus = 1 - 1e-15;
         private static readonly double Log2Inv = 1 / Math.Log(2);
 
@@ -150,13 +153,13 @@ namespace Calcpad.Core
         internal static bool IsFunction(string name) => FunctionIndex.ContainsKey(name);
         internal static bool IsFunction2(string name) => Function2Index.ContainsKey(name);
         internal static bool IsMultiFunction(string name) => MultiFunctionIndex.ContainsKey(name);
-        internal abstract Value EvaluateOperator(int index, Value a, Value b);
-        internal abstract Value EvaluateFunction(int index, Value a);
-        internal abstract Value EvaluateFunction2(int index, Value a, Value b);
+        internal abstract Value EvaluateOperator(int index, in Value a, in Value b);
+        internal abstract Value EvaluateFunction(int index, in Value a);
+        internal abstract Value EvaluateFunction2(int index, in Value a, in Value b);
         internal abstract Value EvaluateMultiFunction(int index, Value[] a);
-        internal abstract Func<Value, Value, Value> GetOperator(int index);
-        internal abstract Func<Value, Value> GetFunction(int index);
-        internal abstract Func<Value, Value, Value> GetFunction2(int index);
+        internal abstract Operator GetOperator(int index);
+        internal abstract Function GetFunction(int index);
+        internal abstract Operator GetFunction2(int index);
         internal abstract Func<Value[], Value> GetMultiFunction(int index);
 
         internal static readonly int PowerIndex = OperatorIndex['^'];
@@ -179,7 +182,6 @@ namespace Calcpad.Core
             if (unit is not null && !unit.IsAngle)
                 Throw.InvalidUnitsFunctionException(func, Unit.GetText(unit));
         }
-
 
         protected static int GetRoot(in Value root)
         {
@@ -339,11 +341,12 @@ namespace Calcpad.Core
             return b ? Value.One : Value.Zero;
         }
 
-        protected static Value Not(Value v) => Math.Abs(v.Re) < Value.LogicalZero ? Value.One : Value.Zero;
+        protected static Value Not(in Value value) => 
+            Math.Abs(value.Re) < Value.LogicalZero ? Value.One : Value.Zero;
 
-        protected static Value Mod(Value a, Value b) => a % b;
+        protected static Value Mod(in Value a, in Value b) => a % b;
 
-        protected static Value MandelbrotSet(Value a, Value b) =>
+        protected static Value MandelbrotSet(in Value a, in Value b) =>
             new(
                 MandelbrotSet(
                     a.Re, b.Re * Unit.Convert(a.Units, b.Units, ',')
@@ -450,6 +453,6 @@ namespace Calcpad.Core
             return a << k;
         }
         private static readonly long Ticks = DateTime.Now.Ticks;
-        protected static Value Timer(Value _) => new((DateTime.Now.Ticks - Ticks) / 10000000.0, Unit.Get("s"));
+        protected static Value Timer(in Value _) => new((DateTime.Now.Ticks - Ticks) / 10000000.0, Unit.Get("s"));
     }
 }

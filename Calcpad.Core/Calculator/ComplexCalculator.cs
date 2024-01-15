@@ -4,9 +4,9 @@ namespace Calcpad.Core
 {
     internal class ComplexCalculator : Calculator
     {
-        private static readonly Func<Value, Value, Value>[] Operators;
-        private readonly Func<Value, Value>[] _functions;
-        private readonly Func<Value, Value, Value>[] Functions2;
+        private static readonly Operator[] Operators;
+        private readonly Function[] _functions;
+        private readonly Operator[] Functions2;
         private static readonly Func<Value[], Value>[] MultiFunctions;
 
         internal override int Degrees
@@ -91,10 +91,10 @@ namespace Calcpad.Core
                 GreaterThanOrEqual,
                 Equal,
                 NotEqual,
-                (a, b) => a & b,
-                (a, b) => a | b,
-                (a, b) => a ^ b,
-                (_, b) => b
+                (in Value a, in Value b) => a & b,
+                (in Value a, in Value b) => a | b,
+                (in Value a, in Value b) => a ^ b,
+                (in Value _, in Value b) => b
             ];
 
             MultiFunctions =
@@ -119,16 +119,16 @@ namespace Calcpad.Core
             ];
         }
 
-        internal override Value EvaluateOperator(int index, Value a, Value b) => Operators[index](a, b);
-        internal override Value EvaluateFunction(int index, Value a) => _functions[index](a);
-        internal override Value EvaluateFunction2(int index, Value a, Value b) => Functions2[index](a, b);
+        internal override Value EvaluateOperator(int index, in Value a, in Value b) => Operators[index](a, b);
+        internal override Value EvaluateFunction(int index, in Value a) => _functions[index](a);
+        internal override Value EvaluateFunction2(int index, in Value a, in Value b) => Functions2[index](a, b);
         internal override Value EvaluateMultiFunction(int index, Value[] a) => MultiFunctions[index](a);
-        internal override Func<Value, Value, Value> GetOperator(int index) => Operators[index];
-        internal override Func<Value, Value> GetFunction(int index) => _functions[index];
-        internal override Func<Value, Value, Value> GetFunction2(int index) => Functions2[index];
+        internal override Operator GetOperator(int index) => Operators[index];
+        internal override Function GetFunction(int index) => _functions[index];
+        internal override Operator GetFunction2(int index) => Functions2[index];
         internal override Func<Value[], Value> GetMultiFunction(int index) => MultiFunctions[index];
 
-        private static Value Fact(Value value)
+        private static Value Fact(in Value value)
         {
             if (!(value.IsReal))
                 Throw.FactorialArgumentComplexException();
@@ -139,38 +139,38 @@ namespace Calcpad.Core
             return new(Fact(value.Re));
         }
 
-        private static Value Real(Value value) => new(value.Re, value.Units);
-        private static Value Imaginary(Value value) => new(value.Im, value.Units);
-        private static Value Phase(Value value) => new(value.Complex.Phase);
-        private static Value Negate(Value a) => new(-a.Re, -a.Im, a.Units, a.IsUnit);
+        private static Value Real(in Value value) => new(value.Re, value.Units);
+        private static Value Imaginary(in Value value) => new(value.Im, value.Units);
+        private static Value Phase(in Value value) => new(value.Complex.Phase);
+        private static Value Negate(in Value value) => new(-value.Re, -value.Im, value.Units, value.IsUnit);
 
-        private static Value Add(Value a, Value b) =>
+        private static Value Add(in Value a, in Value b) =>
             new(
                 a.Complex + b.Complex * Unit.Convert(a.Units, b.Units, '+'),
                 a.Units
             );
 
-        private static Value Subtract(Value a, Value b) =>
+        private static Value Subtract(in Value a, in Value b) =>
             new(
                 a.Complex - b.Complex * Unit.Convert(a.Units, b.Units, '+'),
                 a.Units
             );
 
-        private static Value Multiply(Value a, Value b)
+        private static Value Multiply(in Value a, in Value b)
         {
             var uc = Unit.Multiply(a.Units, b.Units, out var d, b.IsUnit);
             var c = a.Complex * b.Complex * d;
             return new(c, uc, a.IsUnit && b.IsUnit);
         }
 
-        private static Value Divide(Value a, Value b)
+        private static Value Divide(in Value a, in Value b)
         {
             var uc = Unit.Divide(a.Units, b.Units, out var d, b.IsUnit);
             var c = a.Complex / b.Complex * d;
             return new(c, uc, a.IsUnit && b.IsUnit);
         }
 
-        private static Value Reminder(Value a, Value b)
+        private static Value Reminder(in Value a, in Value b)
         {
             if (b.Units is not null)
                 Throw.ReminderUnitsException(Unit.GetText(a.Units), Unit.GetText(b.Units));
@@ -178,140 +178,140 @@ namespace Calcpad.Core
             return new(a.Complex % b.Complex, a.Units);
         }
 
-        private static Value IntDiv(Value a, Value b)
+        private static Value IntDiv(in Value a, in Value b)
         {
             var uc = Unit.Divide(a.Units, b.Units, out var d);
             var c = Complex.IntDiv(a.Complex * d, b.Complex);
             return new(c, uc, a.IsUnit && b.IsUnit);
         }
 
-        private static Value Equal(Value a, Value b) =>
+        private static Value Equal(in Value a, in Value b) =>
             new(
                 a.Complex == b.Complex * Unit.Convert(a.Units, b.Units, '≡')
             );
 
-        private static Value NotEqual(Value a, Value b) =>
+        private static Value NotEqual(in Value a, in Value b) =>
             new(
                 a.Complex != b.Complex * Unit.Convert(a.Units, b.Units, '≠')
             );
 
-        private static Value LessThan(Value a, Value b) =>
+        private static Value LessThan(in Value a, in Value b) =>
             new(
                 a.Complex < b.Complex * Unit.Convert(a.Units, b.Units, '<')
             );
 
-        private static Value GreaterThan(Value a, Value b) =>
+        private static Value GreaterThan(in Value a, in Value b) =>
             new(
                 a.Complex > b.Complex * Unit.Convert(a.Units, b.Units, '>')
             );
 
-        private static Value LessThanOrEqual(Value a, Value b) =>
+        private static Value LessThanOrEqual(in Value a, in Value b) =>
             new(
                 a.Complex <= b.Complex * Unit.Convert(a.Units, b.Units, '≤')
             );
 
-        private static Value GreaterThanOrEqual(Value a, Value b) =>
+        private static Value GreaterThanOrEqual(in Value a, in Value b) =>
             new(
                 a.Complex >= b.Complex * Unit.Convert(a.Units, b.Units, '≥')
             );
 
-        private static Value Abs(Value value) =>
+        private static Value Abs(in Value value) =>
            new(Complex.Abs(value.Complex), value.Units);
 
-        private static Value Sign(Value value) =>
+        private static Value Sign(in Value value) =>
             new(Complex.Sign(value.Complex));
 
-        private Value Sin(Value value)
+        private Value Sin(in Value value)
         {
             CheckFunctionUnits("sin", value.Units);
             return new(Complex.Sin(FromAngleUnits(value)));
         }
 
-        private Value Cos(Value value)
+        private Value Cos(in Value value)
         {
             CheckFunctionUnits("cos", value.Units);
             return new(Complex.Cos(FromAngleUnits(value)));
         }
 
-        private Value Tan(Value value)
+        private Value Tan(in Value value)
         {
             CheckFunctionUnits("tan", value.Units);
             return new(Complex.Tan(FromAngleUnits(value)));
         }
 
-        private Value Csc(Value value)
+        private Value Csc(in Value value)
         {
             CheckFunctionUnits("csc", value.Units);
-            return new(1.0 / Complex.Sin(FromAngleUnits(value)));
+            return new(1d / Complex.Sin(FromAngleUnits(value)));
         }
 
-        private Value Sec(Value value)
+        private Value Sec(in Value value)
         {
             CheckFunctionUnits("sec", value.Units);
-            return new(1.0 / Complex.Cos(FromAngleUnits(value)));
+            return new(1d / Complex.Cos(FromAngleUnits(value)));
         }
 
-        private Value Cot(Value value)
+        private Value Cot(in Value value)
         {
             CheckFunctionUnits("cot", value.Units);
             return new(Complex.Cot(FromAngleUnits(value)));
         }
 
-        private static Value Sinh(Value value) /* Hyperbolic sin */
+        private static Value Sinh(in Value value) /* Hyperbolic sin */
         {
             CheckFunctionUnits("sinh", value.Units);
             return new(Complex.Sinh(value.Complex));
         }
 
-        private static Value Cosh(Value value)
+        private static Value Cosh(in Value value)
         {
             CheckFunctionUnits("cosh", value.Units);
             return new(Complex.Cosh(value.Complex));
         }
 
-        private static Value Tanh(Value value)
+        private static Value Tanh(in Value value)
         {
             CheckFunctionUnits("tanh", value.Units);
             return new(Complex.Tanh(value.Complex));
         }
 
-        private static Value Csch(Value value)
+        private static Value Csch(in Value value)
         {
             CheckFunctionUnits("csch", value.Units);
             return new(1d / Complex.Sinh(value.Complex));
         }
 
-        private static Value Sech(Value value)
+        private static Value Sech(in Value value)
         {
             CheckFunctionUnits("sech", value.Units);
             return new(1d / Complex.Cosh(value.Complex));
         }
 
-        private static Value Coth(Value value)
+        private static Value Coth(in Value value)
         {
             CheckFunctionUnits("coth", value.Units);
             return new(Complex.Coth(value.Complex));
         }
 
-        private Value Asin(Value value)
+        private Value Asin(in Value value)
         {
             CheckFunctionUnits("asin", value.Units);
             return ToAngleUnits(Complex.Asin(value.Complex));
         }
 
-        private Value Acos(Value value)
+        private Value Acos(in Value value)
         {
             CheckFunctionUnits("acos", value.Units);
             return ToAngleUnits(Complex.Acos(value.Complex));
         }
 
-        private Value Atan(Value value)
+        private Value Atan(in Value value)
         {
             CheckFunctionUnits("atan", value.Units);
             return ToAngleUnits(Complex.Atan(value.Complex));
         }
 
-        private Value Acsc(Value value)
+        private Value Acsc(in Value value)
         {
             CheckFunctionUnits("acsc", value.Units);
             return value.Equals(Value.Zero) ?
@@ -319,7 +319,7 @@ namespace Calcpad.Core
                 ToAngleUnits(Complex.Asin(1d / value.Complex));
         }
 
-        private Value Asec(Value value)
+        private Value Asec(in Value value)
         {
             CheckFunctionUnits("asec", value.Units);
             return value.Equals(Value.Zero) ?
@@ -327,31 +327,31 @@ namespace Calcpad.Core
                 ToAngleUnits(Complex.Acos(1d / value.Complex));
         }
 
-        private Value Acot(Value value)
+        private Value Acot(in Value value)
         {
             CheckFunctionUnits("acot", value.Units);
             return ToAngleUnits(Complex.Acot(value.Complex));
         }
 
-        private static Value Asinh(Value value)
+        private static Value Asinh(in Value value)
         {
             CheckFunctionUnits("asinh", value.Units);
             return new(Complex.Asinh(value.Complex));
         }
 
-        private static Value Acosh(Value value)
+        private static Value Acosh(in Value value)
         {
             CheckFunctionUnits("acosh", value.Units);
             return new(Complex.Acosh(value.Complex));
         }
 
-        private static Value Atanh(Value value)
+        private static Value Atanh(in Value value)
         {
             CheckFunctionUnits("atanh", value.Units);
             return new(Complex.Atanh(value.Complex));
         }
 
-        private static Value Acsch(Value value)
+        private static Value Acsch(in Value value)
         {
             CheckFunctionUnits("acsch", value.Units);
             return value.Equals(Value.Zero) ?
@@ -359,7 +359,7 @@ namespace Calcpad.Core
                 new(Complex.Asinh(1d / value.Complex));
         }
 
-        private static Value Asech(Value value)
+        private static Value Asech(in Value value)
         {
             CheckFunctionUnits("asech", value.Units);
             return value.Equals(Value.Zero) ?
@@ -367,44 +367,44 @@ namespace Calcpad.Core
                 new(Complex.Acosh(1d / value.Complex));
         }
 
-        private static Value Acoth(Value value)
+        private static Value Acoth(in Value value)
         {
             CheckFunctionUnits("acoth", value.Units);
             return new(Complex.Acoth(value.Complex));
         }
 
-        private static Value Pow(Value value, Value power)
+        private static Value Pow(in Value value, in Value power)
         {
             var result = Complex.Pow(value.Complex, power.Complex);
             var unit = Unit.Pow(value.Units, power, value.IsUnit);
             return new(result, unit, value.IsUnit);
         }
 
-        private static Value Log(Value value)
+        private static Value Log(in Value value)
         {
             CheckFunctionUnits("ln", value.Units);
             return new(Complex.Log(value.Complex));
         }
 
-        private static Value Log10(Value value)
+        private static Value Log10(in Value value)
         {
             CheckFunctionUnits("log", value.Units);
             return new(Complex.Log10(value.Complex));
         }
 
-        private static Value Log2(Value value)
+        private static Value Log2(in Value value)
         {
             CheckFunctionUnits("log_2", value.Units);
             return new(Complex.Log2(value.Complex));
         }
 
-        private static Value Exp(Value value)
+        private static Value Exp(in Value value)
         {
             CheckFunctionUnits("exp", value.Units);
             return new(Complex.Exp(value.Complex));
         }
 
-        private static Value Sqrt(Value value)
+        private static Value Sqrt(in Value value)
         {
             var result = Complex.Sqrt(value.Complex);
             if (value.Units is null)
@@ -414,7 +414,7 @@ namespace Calcpad.Core
             return new(result, unit);
         }
 
-        private static Value Cbrt(Value value)
+        private static Value Cbrt(in Value value)
         {
             var result = Complex.Cbrt(value.Complex);
             if (value.Units is null)
@@ -424,10 +424,10 @@ namespace Calcpad.Core
             return new(result, unit);
         }
 
-        private static Value Root(Value value, Value root)
+        private static Value Root(in Value value, in Value root)
         {
             var n = GetRoot(root);
-            var result = Complex.Pow(value.Complex, 1.0 / n);
+            var result = Complex.Pow(value.Complex, 1d / n);
 
             if (value.Units is null)
                 return new(result);
@@ -435,12 +435,12 @@ namespace Calcpad.Core
             var unit = Unit.Root(value.Units, n, value.IsUnit);
             return new(result, unit);
         }
-        private static Value Round(Value value) => new(Complex.Round(value.Complex), value.Units);
-        private static Value Floor(Value value) => new(Complex.Floor(value.Complex), value.Units);
-        private static Value Ceiling(Value value) => new(Complex.Ceiling(value.Complex), value.Units);
-        private static Value Truncate(Value value) => new(Complex.Truncate(value.Complex), value.Units);
-        private static Value Random(Value value) => new(Complex.Random(value.Complex), value.Units);
-        private Value Atan2(Value a, Value b) =>
+        private static Value Round(in Value value) => new(Complex.Round(value.Complex), value.Units);
+        private static Value Floor(in Value value) => new(Complex.Floor(value.Complex), value.Units);
+        private static Value Ceiling(in Value value) => new(Complex.Ceiling(value.Complex), value.Units);
+        private static Value Truncate(in Value value) => new(Complex.Truncate(value.Complex), value.Units);
+        private static Value Random(in Value value) => new(Complex.Random(value.Complex), value.Units);
+        private Value Atan2(in Value a, in Value b) =>
             ToAngleUnits(Complex.Atan2(b.Complex * Unit.Convert(a.Units, b.Units, ','), a.Complex));
 
         private static bool AreAllReal(Value[] v)

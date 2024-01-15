@@ -2,7 +2,7 @@
 
 namespace Calcpad.Core
 {
-    internal readonly struct Value : IEquatable<Value>
+    internal readonly struct Value : IEquatable<Value> 
     {
         internal const double LogicalZero = 1e-12;
         internal readonly double Re;
@@ -96,7 +96,7 @@ namespace Calcpad.Core
             return new(a.Re * b.Re * d, uc);
         }
 
-        public static Value Multiply(Value a, Value b)
+        public static Value Multiply(in Value a, in Value b)
         {
             if (a.Units is null)
                 return new(a.Re * b.Re, b.Units);
@@ -112,7 +112,7 @@ namespace Calcpad.Core
             return new(a.Re / b.Re * d, uc);
         }
 
-        public static Value Divide(Value a, Value b)
+        public static Value Divide(in Value a, in Value b)
         {
             var uc = Unit.Divide(a.Units, b.Units, out var d, b.IsUnit);
             var isUnit = a.IsUnit && b.IsUnit && uc is not null;
@@ -130,7 +130,7 @@ namespace Calcpad.Core
             return new(a.Re % b.Re, a.Units);
         }
 
-        public static Value IntDiv(Value a, Value b)
+        public static Value IntDiv(in Value a, in Value b)
         {
             var uc = Unit.Divide(a.Units, b.Units, out var d);
             bool isUnit = a.IsUnit && b.IsUnit && uc is not null;
@@ -141,49 +141,37 @@ namespace Calcpad.Core
         }
 
         public static Value operator ==(Value a, Value b) =>
-            new(
-                a.Re.EqualsBinary(b.Re * Unit.Convert(a.Units, b.Units, '≡')) ? 1.0 : 0.0
-            );
+            a.Re.EqualsBinary(b.Re * Unit.Convert(a.Units, b.Units, '≡')) ? One : Zero;
 
         public static Value operator !=(Value a, Value b) =>
-            new(
-                a.Re.EqualsBinary(b.Re * Unit.Convert(a.Units, b.Units, '≠')) ? 0.0 : 1.0
-            );
+            a.Re.EqualsBinary(b.Re * Unit.Convert(a.Units, b.Units, '≠')) ? Zero : One;
 
         public static Value operator <(Value a, Value b)
         {
             var c = a.Re;
             var d = b.Re * Unit.Convert(a.Units, b.Units, '<');
-            return new(
-                c < d && !c.EqualsBinary(d) ? 1.0 : 0.0
-            );
+            return c < d && !c.EqualsBinary(d) ? One : Zero;
         }
 
         public static Value operator >(Value a, Value b)
         {
             var c = a.Re;
             var d = b.Re * Unit.Convert(a.Units, b.Units, '>');
-            return new(
-                c > d && !c.EqualsBinary(d) ? 1.0 : 0.0
-            );
+            return c > d && !c.EqualsBinary(d) ? One : Zero;
         }
 
         public static Value operator <=(Value a, Value b)
         {
             var c = a.Re;
             var d = b.Re * Unit.Convert(a.Units, b.Units, '≤');
-            return new(
-                c <= d || c.EqualsBinary(d) ? 1.0 : 0.0
-            );
+            return c <= d || c.EqualsBinary(d) ? One : Zero;
         }
 
         public static Value operator >=(Value a, Value b)
         {
             var c = a.Re;
             var d = b.Re * Unit.Convert(a.Units, b.Units, '≥');
-            return new(
-                c >= d || c.EqualsBinary(d) ? 1.0 : 0.0
-            );
+            return c >= d || c.EqualsBinary(d) ? One : Zero;
         }
 
         public static Value operator &(Value a, Value b) =>
