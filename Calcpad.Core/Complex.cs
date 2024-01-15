@@ -4,8 +4,8 @@ namespace Calcpad.Core
 {
     internal readonly struct Complex : IEquatable<Complex>
     {
-        private static readonly double Log2Inv = 1 / Math.Log(2d);
-        private static readonly double Log10Inv = 1 / Math.Log(10d);
+        private static readonly double Log2Inv = 1d / Math.Log(2d);
+        private static readonly double Log10Inv = 1d / Math.Log(10d);
         private const double TrigMin = -1e8;
         private const double TrigMax = 1e8;
         private const double Eps = 1e-12;
@@ -17,6 +17,10 @@ namespace Calcpad.Core
         internal static readonly Complex Zero = new(0d);
         internal static readonly Complex One = new(1d);
         internal static readonly Complex ImaginaryOne = new(0d, 1d);
+        internal static readonly Complex NaN = new(double.NaN);
+        internal static readonly Complex PositiveInfinity = new(double.PositiveInfinity);
+        internal static readonly Complex NegativeInfinity = new(double.NegativeInfinity);
+        internal static readonly Complex ComplexInfinity = new(double.PositiveInfinity, double.PositiveInfinity);
 
         public Complex(double real, double imaginary)
         {
@@ -69,7 +73,7 @@ namespace Calcpad.Core
         {
             get
             {
-                if (_b == 0.0)
+                if (_b == 0d)
                     return _a >= 0d ? 0d : Math.PI;
 
                 return Math.Atan2(_b, _a);
@@ -112,13 +116,13 @@ namespace Calcpad.Core
             if (d == 0)
             {
                 if (c == 0 && (a != 0 || b != 0))
-                    return new(double.PositiveInfinity, double.PositiveInfinity);
+                    return ComplexInfinity;
 
                 return new(a / c, b / c);
             }
             else if ((double.IsInfinity(c) || double.IsInfinity(d)) &&
                     !(double.IsInfinity(a) || double.IsInfinity(b)))
-                return 0d;
+                return Zero;
 
             double e, f;
             if (Math.Abs(d) < Math.Abs(c))
@@ -147,13 +151,13 @@ namespace Calcpad.Core
             if (b == 0)
             {
                 if (a == 0 && (left != 0))
-                    return new(double.PositiveInfinity);
+                    return PositiveInfinity;
 
                 return new(left / a);
             }
             else if ((double.IsInfinity(a) || double.IsInfinity(b)) &&
                     !double.IsInfinity(left))
-                return 0d;
+                return Zero;
 
             double e, f;
             if (Math.Abs(b) < Math.Abs(a))
@@ -170,12 +174,12 @@ namespace Calcpad.Core
         public static Complex IntDiv(in Complex left, in Complex right) =>
             right.IsReal && right._a != 0 ?
             new(Math.Truncate(left._a / right._a), Math.Truncate(left._b / right._a)) :
-            new(double.NaN);
+            NaN;
 
         public static Complex operator %(in Complex left, in Complex right) =>
             right.IsReal ?
             new(left._a % right._a, left._b % right._a) :
-            new(double.NaN);
+            NaN;
 
         public static double operator ==(in Complex left, in Complex right) =>
             Equals(left, right) ? 1d : 0d;
@@ -241,7 +245,6 @@ namespace Calcpad.Core
         public override int GetHashCode() =>
             IsReal ? _a.GetHashCode() : HashCode.Combine(_a, _b);
 
-
         internal static Complex Abs(in Complex value) => Modulus(value);
 
         private static double Modulus(in Complex value)
@@ -255,13 +258,13 @@ namespace Calcpad.Core
             if (c > d)
             {
                 r = d / c;
-                return c * Math.Sqrt(1.0 + r * r);
+                return c * Math.Sqrt(1d + r * r);
             }
             if (d == 0.0)
                 return c;
 
             r = c / d;
-            return d * Math.Sqrt(1.0 + r * r);
+            return d * Math.Sqrt(1d + r * r);
         }
 
         internal static Complex Sign(in Complex value) =>
@@ -323,7 +326,7 @@ namespace Calcpad.Core
                 return 1d / ta;
 
             var thb = Math.Tanh(value._b);
-            return new Complex(1.0, -ta * thb) / new Complex(ta, thb);
+            return new Complex(1d, -ta * thb) / new Complex(ta, thb);
         }
 
         internal static Complex Sinh(in Complex value) /* Hyperbolic sin */
@@ -348,7 +351,7 @@ namespace Calcpad.Core
         {
             var tha = Math.Tanh(value._a);
             var tb = Math.Tan(value._b);
-            return tb == 0 ?
+            return tb == 0d ?
                 tha :
                 new Complex(tha, tb) / new Complex(1d, tha * tb);
         }
@@ -357,7 +360,7 @@ namespace Calcpad.Core
         {
             var tha = Math.Tanh(value._a);
             var tb = Math.Tan(value._b);
-            return tb == 0 ?
+            return tb == 0d ?
                 1d / tha :
                 new Complex(1d, tha * tb) / new Complex(tha, tb);
         }
@@ -402,7 +405,7 @@ namespace Calcpad.Core
                     0d :
                     Math.Pow(value._a, power);
             }
-            if (power == 2)
+            if (power == 2d)
                 return value * value;
 
             if (isInteger && power > 0 && power < 6)
@@ -426,13 +429,13 @@ namespace Calcpad.Core
         {
             var c = power._a;
             var d = power._b;
-            if (d == 0)
+            if (d == 0d)
                 return Pow(value, c);
 
             var a = value._a;
             var b = value._b;
-            if (a == 0 && b == 0)
-                return new(0d);
+            if (a == 0d && b == 0d)
+                return Zero;
 
             var r = Modulus(value);
             var phi = value.NormalPhase;
