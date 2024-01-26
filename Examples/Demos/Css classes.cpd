@@ -1,4 +1,6 @@
 "Css classes in Calcpad
+'<p class="ref">[ref (float right)]</p>
+'<p>Design checks: <span class="ok">ok</span> / <span class="err">fail</span>.
 'Image (side)
 '<img class="side" style="height:114pt; width:127pt;" src="https://calcpad.eu/media/mechanics/beams/cantilever-beam-concentrated-force.png" alt="cantilever-beam-concentrated-force.png">
 '<div class="fold">
@@ -7,8 +9,6 @@
 'Folded content line 2
 'Folded content line 3...
 '</div>
-'<p class="ref">[ref]</p>
-'<p>Design checks: <span class="ok">ok</span> / <span class="err">fail</span>.
 'Bordered table
 '<table class="bordered">
 '<thead>
