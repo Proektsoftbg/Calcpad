@@ -1,626 +1,623 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-
 <root>
-    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-        <xsd:element name="root" msdata:IsDataSet="true">
-            
-        </xsd:element>
-    </xsd:schema>
-    <resheader name="resmimetype">
-        <value>text/microsoft-resx</value>
-    </resheader>
-    <resheader name="version">
-        <value>1.3</value>
-    </resheader>
-    <resheader name="reader">
-        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-    </resheader>
-    <resheader name="writer">
-        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-    </resheader>
-    <data name="calcpad_download_help_html" xml:space="preserve">
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true"></xsd:element>
+	</xsd:schema>
+	<resheader name="resmimetype">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="version">
+		<value>1.3</value>
+	</resheader>
+	<resheader name="reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="calcpad_download_help_html" xml:space="preserve">
         <value>https://calcpad.eu/download/help.html</value>
     </data>
-    <data name="TryRestoreState_Recovered_SavePrompt" xml:space="preserve">
-        <value>Calcpad recovered from unexpected shutdown.
-Would you like to restore your unsaved data?</value>
+	<data name="TryRestoreState_Recovered_SavePrompt" xml:space="preserve">
+        <value>Calcpad 从不明原因的关闭中恢复.
+是否需要恢复未保存的数据?</value>
     </data>
-    <data name="TryRestoreState_Failed" xml:space="preserve">
-        <value>Recovery failed with error:
+	<data name="TryRestoreState_Failed" xml:space="preserve">
+        <value>错误导致恢复失败:
 "{0}".
-You can find your unsaved data in
-"{1}".</value>
+您也可以从
+"{1}"中查找未保存的数据.</value>
     </data>
-    <data name="Input" xml:space="preserve">
-        <value>Input</value>
+	<data name="Input" xml:space="preserve">
+        <value>输入</value>
     </data>
-  <data name="Output" xml:space="preserve">
-    <value>_Output</value>
+	<data name="Output" xml:space="preserve">
+    <value>输出</value>
   </data>
-    <data name="Inline_Html_elements_must_not_cross_text_lines" xml:space="preserve">
-        <value>Stop! Inline Html elements must not cross text lines.</value>
+	<data name="Inline_Html_elements_must_not_cross_text_lines" xml:space="preserve">
+        <value>停止! 行内Html 元素不能跨行.</value>
     </data>
-    <data name="Command_Open_Text_File" xml:space="preserve">
-        <value>Text File (*.txt)|*.txt|Calcpad Worksheet (*.cpd)|*.cpd|Calcpad Compiled (*.cpdz)|*.cpdz</value>
+	<data name="Command_Open_Text_File" xml:space="preserve">
+        <value>文本文件 (*.txt)|*.txt|Calcpad工作薄 (*.cpd)|*.cpd|Calcpad封装包 (*.cpdz)|*.cpdz</value>
     </data>
-    <data name="Command_Open_Calcpad_Worksheet" xml:space="preserve">
-        <value>Calcpad Worksheet (*.cpd)|*.cpd|Calcpad Compiled (*.cpdz)|*.cpdz|Text File (*.txt)|*.txt</value>
+	<data name="Command_Open_Calcpad_Worksheet" xml:space="preserve">
+        <value>Calcpad工作薄 (*.cpd)|*.cpd|Calcpad 封装包 (*.cpdz)|*.cpdz|文本文件 (*.txt)|*.txt</value>
     </data>
-    <data name="FileSaveAs_Calcpad_Compiled" xml:space="preserve">
-        <value>Calcpad Compiled (*.cpdz)|*.cpdz</value>
+	<data name="FileSaveAs_Calcpad_Compiled" xml:space="preserve">
+        <value>Calcpad 封装包(*.cpdz)|*.cpdz</value>
     </data>
-    <data name="SavePrompt" xml:space="preserve">
-        <value>File not saved. Save?</value>
+	<data name="SavePrompt" xml:space="preserve">
+        <value>文件未保存. 是否保存?</value>
     </data>
-    <data name="Unwarped_code" xml:space="preserve">
-        <value>Unwarped code</value>
+	<data name="Unwarped_code" xml:space="preserve">
+        <value>未换行代码</value>
     </data>
-    <data name="Found_Errors_In_Modules_And_Macros" xml:space="preserve">
+	<data name="Found_Errors_In_Modules_And_Macros" xml:space="preserve">
         <value>&lt;div class="errorHeader"&gt;Found &lt;b&gt;{0}&lt;/b&gt; errors in modules and macros:</value>
     </data>
-    <data name="Error_Exporting_Docx_File" xml:space="preserve">
-        <value>Error exporting docx file. Display validation log?</value>
+	<data name="Error_Exporting_Docx_File" xml:space="preserve">
+        <value>导出docx文件错误. 是否显示检验日志?</value>
     </data>
-    <data name="Are_you_sure_you_want_to_unlock_the_source_code_for_editing" xml:space="preserve">
-        <value>Are you sure you want to unlock the source code for editing?</value>
+	<data name="Are_you_sure_you_want_to_unlock_the_source_code_for_editing" xml:space="preserve">
+        <value>是否确定要打开源代码以编辑?</value>
     </data>
-    <data name="Open_source_code_for_editing__F4" xml:space="preserve">
-        <value>Open source code for editing (F4)</value>
+	<data name="Open_source_code_for_editing__F4" xml:space="preserve">
+        <value>打开并编辑源代码(F4)</value>
     </data>
-    <data name="Compile_to_input_form_F4" xml:space="preserve">
-        <value>Compile to input form (F4)</value>
+	<data name="Compile_to_input_form_F4" xml:space="preserve">
+        <value>编译成输入表模式 (F4)</value>
     </data>
-    <data name="Error_getting_units" xml:space="preserve">
-        <value>Error getting units.</value>
+	<data name="Error_getting_units" xml:space="preserve">
+        <value>获取单位错误.</value>
     </data>
-    <data name="Error_Invalid_number_Please_correct_and_then_try_again" xml:space="preserve">
-        <value>Error! Invalid number. Please correct and then try again.</value>
+	<data name="Error_Invalid_number_Please_correct_and_then_try_again" xml:space="preserve">
+        <value>错误! 无效的数值. 更正后重试.</value>
     </data>
-    <data name="Error_setting_units" xml:space="preserve">
-        <value>Error setting units.</value>
+	<data name="Error_setting_units" xml:space="preserve">
+        <value>设置单位错误.</value>
     </data>
-    <data name="File" xml:space="preserve">
-        <value>_File</value>
+	<data name="File" xml:space="preserve">
+        <value>文件</value>
     </data>
-    <data name="Edit" xml:space="preserve">
-        <value>_Edit</value>
+	<data name="Edit" xml:space="preserve">
+        <value>编辑</value>
     </data>
-    <data name="New" xml:space="preserve">
-        <value>_New</value>
+	<data name="New" xml:space="preserve">
+        <value>新建</value>
     </data>
-    <data name="Open" xml:space="preserve">
-        <value>_Open</value>
+	<data name="Open" xml:space="preserve">
+        <value>打开</value>
     </data>
-    <data name="RecentFiles" xml:space="preserve">
-        <value>_Recent Files</value>
+	<data name="RecentFiles" xml:space="preserve">
+        <value>最近文件</value>
     </data>
-    <data name="Save" xml:space="preserve">
-        <value>_Save</value>
+	<data name="Save" xml:space="preserve">
+        <value>保存</value>
     </data>
-    <data name="SaveAs" xml:space="preserve">
-        <value>Save _As...</value>
+	<data name="SaveAs" xml:space="preserve">
+        <value>保存为</value>
     </data>
-    <data name="CommandLineInterpreter" xml:space="preserve">
-        <value>_Command Line Interpreter (CLI)</value>
+	<data name="CommandLineInterpreter" xml:space="preserve">
+        <value>命令行解释器(CLI)</value>
     </data>
-    <data name="Exit" xml:space="preserve">
-        <value>_Exit</value>
+	<data name="Exit" xml:space="preserve">
+        <value>退出</value>
     </data>
-    <data name="Find" xml:space="preserve">
-        <value>_Find</value>
+	<data name="Find" xml:space="preserve">
+        <value>查找</value>
     </data>
-    <data name="Replace" xml:space="preserve">
-        <value>_Replace</value>
+	<data name="Replace" xml:space="preserve">
+        <value>替换</value>
     </data>
-    <data name="Undo" xml:space="preserve">
-        <value>_Undo</value>
+	<data name="Undo" xml:space="preserve">
+        <value>取消</value>
     </data>
-    <data name="Redo" xml:space="preserve">
-        <value>_Redo</value>
+	<data name="Redo" xml:space="preserve">
+        <value>重做</value>
     </data>
-    <data name="Cut" xml:space="preserve">
-        <value>Cu_t</value>
+	<data name="Cut" xml:space="preserve">
+        <value>剪切</value>
     </data>
-    <data name="Copy" xml:space="preserve">
-        <value>_Copy</value>
+	<data name="Copy" xml:space="preserve">
+        <value>复制</value>
     </data>
-    <data name="Paste" xml:space="preserve">
-        <value>_Paste</value>
+	<data name="Paste" xml:space="preserve">
+        <value>粘贴</value>
     </data>
-    <data name="InputForm" xml:space="preserve">
-        <value>Input Form</value>
+	<data name="InputForm" xml:space="preserve">
+        <value>输入表</value>
     </data>
-    <data name="Calculate" xml:space="preserve">
-        <value>Calculate</value>
+	<data name="Calculate" xml:space="preserve">
+        <value>计算</value>
     </data>
-    <data name="Print" xml:space="preserve">
-        <value>Print</value>
+	<data name="Print" xml:space="preserve">
+        <value>打印</value>
     </data>
-    <data name="OpenWithWord" xml:space="preserve">
-        <value>Open With MS Word</value>
+	<data name="OpenWithWord" xml:space="preserve">
+        <value>用MS Word打开</value>
     </data>
-    <data name="SaveAsPDF" xml:space="preserve">
-        <value>Save as PDF File</value>
+	<data name="SaveAsPDF" xml:space="preserve">
+        <value>保存为PDF文件</value>
     </data>
-  <data name="Help" xml:space="preserve">
-    <value>_Help</value>
+	<data name="Help" xml:space="preserve">
+    <value>帮助</value>
   </data>
-    <data name="CopyAllOutput" xml:space="preserve">
-        <value>Copy all output</value>
+	<data name="CopyAllOutput" xml:space="preserve">
+        <value>复制所有输出</value>
     </data>
-    <data name="PrintPreview" xml:space="preserve">
-        <value>Print Preview</value>
+	<data name="PrintPreview" xml:space="preserve">
+        <value>打印预览</value>
     </data>
-    <data name="SaveAsHTML" xml:space="preserve">
-        <value>Save output as Html file</value>
+	<data name="SaveAsHTML" xml:space="preserve">
+        <value>将输出保存为Html文件</value>
     </data>
-    <data name="NewFile" xml:space="preserve">
-        <value>New file</value>
+	<data name="NewFile" xml:space="preserve">
+        <value>新文件</value>
     </data>
-  <data name="FindAndReplace" xml:space="preserve">
-    <value>Find and replace</value>
+	<data name="FindAndReplace" xml:space="preserve">
+    <value>查找和替换</value>
   </data>
-  <data name="InsertImage" xml:space="preserve">
-    <value>Insert image</value>
+	<data name="InsertImage" xml:space="preserve">
+    <value>插入图像</value>
   </data>
-    <data name="ShowHideKeypad" xml:space="preserve">
-        <value>Show/hide numeric keypad</value>
+	<data name="ShowHideKeypad" xml:space="preserve">
+        <value>显示/隐藏虚拟数值键盘</value>
     </data>
-    <data name="RunAndDisplayOutput" xml:space="preserve">
-        <value>Run calculations and display output (F5</value>
+	<data name="RunAndDisplayOutput" xml:space="preserve">
+        <value>运行计算&amp;显示输出 (F5）</value>
     </data>
-    <data name="RefreshResultsAfterEachEdit" xml:space="preserve">
-        <value>Refresh results after each edit</value>
+	<data name="RefreshResultsAfterEachEdit" xml:space="preserve">
+        <value>自动更新结果</value>
     </data>
-    <data name="Angles" xml:space="preserve">
-        <value>Angles:</value>
+	<data name="Angles" xml:space="preserve">
+        <value>角度:</value>
     </data>
-    <data name="NonMetricUnits" xml:space="preserve">
-        <value>Non-metric units:</value>
+	<data name="NonMetricUnits" xml:space="preserve">
+        <value>非米制单位:</value>
     </data>
-    <data name="EquationFormat" xml:space="preserve">
-        <value>Equation format:</value>
+	<data name="EquationFormat" xml:space="preserve">
+        <value>方程式格式:</value>
     </data>
-    <data name="Numbers" xml:space="preserve">
-        <value>Numbers: </value>
+	<data name="Numbers" xml:space="preserve">
+        <value>数值: </value>
     </data>
-    <data name="Code" xml:space="preserve">
-        <value>Code</value>
+	<data name="Code" xml:space="preserve">
+        <value>代码</value>
     </data>
-    <data name="KeypadLabel" xml:space="preserve">
-        <value>┌── Numbers ──┐ ┌───── Operators ──────┐ ┌──────── Functions ────────┐</value>
+	<data name="KeypadLabel" xml:space="preserve">
+        <value>┌── 数字 ──┐ ┌───── 运算符 ──────┐ ┌──────── 函数 ────────┐</value>
         <comment>The label for the keypad at the bottom of the code section, only the words should be changed.</comment>
     </data>
-    <data name="FunctionPlot" xml:space="preserve">
-        <value>Function Plot</value>
+	<data name="FunctionPlot" xml:space="preserve">
+        <value>函数绘图</value>
     </data>
-    <data name="SimplePlot" xml:space="preserve">
-        <value>Simple Plot</value>
+	<data name="SimplePlot" xml:space="preserve">
+        <value>简单绘图</value>
     </data>
-    <data name="Parametric" xml:space="preserve">
-        <value>Parametric</value>
+	<data name="Parametric" xml:space="preserve">
+        <value>参数化的</value>
     </data>
-    <data name="Multiple" xml:space="preserve">
-        <value>Multiple</value>
+	<data name="Multiple" xml:space="preserve">
+        <value>多个</value>
     </data>
-    <data name="MultipleParametric" xml:space="preserve">
-        <value>Multiple Parametric</value>
+	<data name="MultipleParametric" xml:space="preserve">
+        <value>多参数</value>
     </data>
-  <data name="2DColorMap" xml:space="preserve">
-    <value>2D color map of a surface</value>
+	<data name="2DColorMap" xml:space="preserve">
+    <value>3D曲面的平面映射</value>
   </data>
-    <data name="NumericalMethod" xml:space="preserve">
-        <value>Numerical Method</value>
+	<data name="NumericalMethod" xml:space="preserve">
+        <value>数值方法</value>
     </data>
-    <data name="RootFindingForXEqualsConst" xml:space="preserve">
-        <value>Root Finding for f(x)=const</value>
+	<data name="RootFindingForXEqualsConst" xml:space="preserve">
+        <value>求方程f(x)=常数 的解</value>
     </data>
-    <data name="RootFindingForXEqualsZero" xml:space="preserve">
-        <value>Root Finding for f(x)=0</value>
+	<data name="RootFindingForXEqualsZero" xml:space="preserve">
+        <value>求方程f(x)=0的解</value>
     </data>
-    <data name="NonStrictRootFinding" xml:space="preserve">
-        <value>Non-Strict Root Finding</value>
+	<data name="NonStrictRootFinding" xml:space="preserve">
+        <value>非严格寻根</value>
     </data>
-    <data name="LocalMaximum" xml:space="preserve">
-        <value>Local Maximum of a Function</value>
+	<data name="LocalMaximum" xml:space="preserve">
+        <value>函数的局部最大值</value>
     </data>
-  <data name="LocalMinimum" xml:space="preserve">
-    <value>Local minimum of a function</value>
+	<data name="LocalMinimum" xml:space="preserve">
+    <value>函数的局部最小值</value>
   </data>
-    <data name="AdaptiveGaussLobattoIntegration" xml:space="preserve">
-        <value>Adaptive Gauss-Lobatto Integration</value>
+	<data name="AdaptiveGaussLobattoIntegration" xml:space="preserve">
+        <value>自适应Gauss-Lobatto积分</value>
     </data>
-    <data name="TanhSinhIntegration" xml:space="preserve">
-        <value>Tanh-Sinh Integration</value>
+	<data name="TanhSinhIntegration" xml:space="preserve">
+        <value>Tanh-Sinh积分</value>
     </data>
-    <data name="NumericalDifferentiation" xml:space="preserve">
-        <value>Numerical Differentiation</value>
+	<data name="NumericalDifferentiation" xml:space="preserve">
+        <value>数值微分</value>
     </data>
-    <data name="GeneralInlineIterativeProcedure" xml:space="preserve">
-        <value>General Inline Iterative Procedure</value>
+	<data name="GeneralInlineIterativeProcedure" xml:space="preserve">
+        <value>一般单行迭代程序</value>
     </data>
-    <data name="IterativeProduct" xml:space="preserve">
-        <value>Iterative Product</value>
+	<data name="IterativeProduct" xml:space="preserve">
+        <value>迭代积</value>
     </data>
-    <data name="IterativeSum" xml:space="preserve">
-        <value>Iterative Sum</value>
+	<data name="IterativeSum" xml:space="preserve">
+        <value>迭代和</value>
     </data>
-    <data name="ProgramFlowControl" xml:space="preserve">
-        <value>Program Flow Control</value>
+	<data name="ProgramFlowControl" xml:space="preserve">
+        <value>程序流控制</value>
     </data>
-    <data name="SimpleIfEndIf" xml:space="preserve">
-        <value>Simple: if-end if</value>
+	<data name="SimpleIfEndIf" xml:space="preserve">
+        <value>简单型: if-end if</value>
     </data>
-    <data name="AlternativeIfElseEndIf" xml:space="preserve">
-        <value>Alternative: if-else-end if</value>
+	<data name="AlternativeIfElseEndIf" xml:space="preserve">
+        <value>可选型: if-else-end if</value>
     </data>
-    <data name="CompleteIfElseIfElseIfEndIf" xml:space="preserve">
-        <value>Complete: if-else if-else-end if</value>
+	<data name="CompleteIfElseIfElseIfEndIf" xml:space="preserve">
+        <value>完备型: if-else if-else-end if</value>
     </data>
-    <data name="Iteration" xml:space="preserve">
-        <value>Iteration</value>
+	<data name="Iteration" xml:space="preserve">
+        <value>迭代</value>
     </data>
-    <data name="StringVariableOrMacro" xml:space="preserve">
-        <value>String Variable or Macro</value>
+	<data name="StringVariableOrMacro" xml:space="preserve">
+        <value>字符串变量或宏</value>
     </data>
-    <data name="SimpleRepeatLoop" xml:space="preserve">
-        <value>Simple: repeat-loop</value>
+	<data name="SimpleRepeatLoop" xml:space="preserve">
+        <value>简单型: repeat-loop</value>
     </data>
-    <data name="ConditionalRepeatBreakLoop" xml:space="preserve">
-        <value>Conditional: repeat-break-loop</value>
+	<data name="ConditionalRepeatBreakLoop" xml:space="preserve">
+        <value>条件型: repeat-break-loop</value>
     </data>
-    <data name="ConditionalRepeatContinueLoop" xml:space="preserve">
-        <value>Conditional: repeat-continue-loop</value>
+	<data name="ConditionalRepeatContinueLoop" xml:space="preserve">
+        <value>条件型: repeat-continue-loop</value>
     </data>
-    <data name="InlineStringVariable" xml:space="preserve">
-        <value>Inline String Variable</value>
+	<data name="InlineStringVariable" xml:space="preserve">
+        <value>单行字符串变量</value>
     </data>
-    <data name="MultilineStringVariable" xml:space="preserve">
-        <value>Multiline String Variable</value>
+	<data name="MultilineStringVariable" xml:space="preserve">
+        <value>多行字符串变量</value>
     </data>
-    <data name="InlineMacro" xml:space="preserve">
-        <value>Inline Macro</value>
+	<data name="InlineMacro" xml:space="preserve">
+        <value>单行宏</value>
     </data>
-    <data name="MultilineMacro" xml:space="preserve">
-        <value>Multiline Macro</value>
+	<data name="MultilineMacro" xml:space="preserve">
+        <value>多行宏</value>
     </data>
-    <data name="IncludeExternalFile" xml:space="preserve">
-        <value>Include External File</value>
+	<data name="IncludeExternalFile" xml:space="preserve">
+        <value>调用外部文件</value>
     </data>
-    <data name="Heading3" xml:space="preserve">
-        <value>Heading 3</value>
+	<data name="Heading3" xml:space="preserve">
+        <value>标题3</value>
     </data>
-    <data name="Heading4" xml:space="preserve">
-        <value>Heading 4</value>
+	<data name="Heading4" xml:space="preserve">
+        <value>标题4</value>
     </data>
-    <data name="Heading5" xml:space="preserve">
-        <value>Heading 5</value>
+	<data name="Heading5" xml:space="preserve">
+        <value>标题5</value>
     </data>
-    <data name="Heading6" xml:space="preserve">
-        <value>Heading 6</value>
+	<data name="Heading6" xml:space="preserve">
+        <value>标题6</value>
     </data>
-    <data name="Paragraph" xml:space="preserve">
-        <value>Paragraph</value>
+	<data name="Paragraph" xml:space="preserve">
+        <value>段落</value>
     </data>
-    <data name="LineBreak" xml:space="preserve">
-        <value>Line Break</value>
+	<data name="LineBreak" xml:space="preserve">
+        <value>断行</value>
     </data>
-    <data name="Bold" xml:space="preserve">
-        <value>Bold</value>
+	<data name="Bold" xml:space="preserve">
+        <value>粗体</value>
     </data>
-    <data name="Italic" xml:space="preserve">
-        <value>Italic</value>
+	<data name="Italic" xml:space="preserve">
+        <value>斜体</value>
     </data>
-    <data name="Underline" xml:space="preserve">
-        <value>Underline</value>
+	<data name="Underline" xml:space="preserve">
+        <value>加下划线</value>
     </data>
-    <data name="Strikethrough" xml:space="preserve">
-        <value>Striketrough</value>
+	<data name="Strikethrough" xml:space="preserve">
+        <value>加横贯线</value>
     </data>
-    <data name="Subscript" xml:space="preserve">
-        <value>Subscript</value>
+	<data name="Subscript" xml:space="preserve">
+        <value>下标</value>
     </data>
-    <data name="Superscript" xml:space="preserve">
-        <value>Superscript</value>
+	<data name="Superscript" xml:space="preserve">
+        <value>上标</value>
     </data>
-    <data name="RedColor" xml:space="preserve">
-        <value>Red Color</value>
+	<data name="RedColor" xml:space="preserve">
+        <value>红色</value>
     </data>
-    <data name="FoldedDiv" xml:space="preserve">
-        <value>Folded Div</value>
+	<data name="FoldedDiv" xml:space="preserve">
+        <value>折叠段落</value>
     </data>
-    <data name="BulletedList" xml:space="preserve">
-        <value>Bulleted List</value>
+	<data name="BulletedList" xml:space="preserve">
+        <value>符号列表段</value>
     </data>
-    <data name="NumberedList" xml:space="preserve">
-        <value>Numbered List</value>
+	<data name="NumberedList" xml:space="preserve">
+        <value>编号列表段</value>
     </data>
-    <data name="Image" xml:space="preserve">
-        <value>Image</value>
+	<data name="Image" xml:space="preserve">
+        <value>图像</value>
     </data>
-    <data name="Table" xml:space="preserve">
-        <value>Table</value>
+	<data name="Table" xml:space="preserve">
+        <value>表格</value>
     </data>
-    <data name="DividingLine" xml:space="preserve">
-        <value>Dividing Line</value>
+	<data name="DividingLine" xml:space="preserve">
+        <value>水平分隔线</value>
     </data>
-    <data name="HtmlUI" xml:space="preserve">
-        <value>Html UI</value>
+	<data name="HtmlUI" xml:space="preserve">
+        <value>Html交互界面</value>
     </data>
-    <data name="Selection" xml:space="preserve">
-        <value>Selection</value>
+	<data name="Selection" xml:space="preserve">
+        <value>选择</value>
     </data>
-    <data name="RadioButtons" xml:space="preserve">
-        <value>Radio Buttons</value>
+	<data name="RadioButtons" xml:space="preserve">
+        <value>圆形选择按钮</value>
     </data>
-    <data name="Checkbox" xml:space="preserve">
-        <value>Checkbox</value>
+	<data name="Checkbox" xml:space="preserve">
+        <value>勾选框</value>
     </data>
-    <data name="DrawingSVG" xml:space="preserve">
-        <value>Drawing/SVG</value>
+	<data name="DrawingSVG" xml:space="preserve">
+        <value>绘图/SVG矢量图</value>
     </data>
-    <data name="Drawing" xml:space="preserve">
-        <value>Drawing</value>
+	<data name="Drawing" xml:space="preserve">
+        <value>绘图</value>
     </data>
-    <data name="Line" xml:space="preserve">
-        <value>Line</value>
+	<data name="Line" xml:space="preserve">
+        <value>线</value>
     </data>
-    <data name="Rectangle" xml:space="preserve">
-        <value>Rectangle</value>
+	<data name="Rectangle" xml:space="preserve">
+        <value>矩形</value>
     </data>
-    <data name="Circle" xml:space="preserve">
-        <value>Circle</value>
+	<data name="Circle" xml:space="preserve">
+        <value>圆</value>
     </data>
-    <data name="Ellipse" xml:space="preserve">
-        <value>Ellipse</value>
+	<data name="Ellipse" xml:space="preserve">
+        <value>椭圆</value>
     </data>
-    <data name="Polyline" xml:space="preserve">
-        <value>Polyline</value>
+	<data name="Polyline" xml:space="preserve">
+        <value>多线</value>
     </data>
-    <data name="Polygon" xml:space="preserve">
-        <value>Polygon</value>
+	<data name="Polygon" xml:space="preserve">
+        <value>多边形</value>
     </data>
-    <data name="Text" xml:space="preserve">
-        <value>Text</value>
+	<data name="Text" xml:space="preserve">
+        <value>文本</value>
     </data>
-    <data name="OutputVisibilityControl" xml:space="preserve">
-        <value>Output Visibility Control</value>
+	<data name="OutputVisibilityControl" xml:space="preserve">
+        <value>输出内容可见性控制</value>
     </data>
-    <data name="HideContentAfterCurrentLine" xml:space="preserve">
-        <value>Hide the content after the current line</value>
+	<data name="HideContentAfterCurrentLine" xml:space="preserve">
+        <value>隐藏当前行后的内容</value>
     </data>
-    <data name="AlwaysShowContent" xml:space="preserve">
-        <value>Always show the content (default)</value>
+	<data name="AlwaysShowContent" xml:space="preserve">
+        <value>总是显示内容 (默认)</value>
     </data>
-    <data name="ShowContentBelowOnlyBeforeCalc" xml:space="preserve">
-        <value>Show the content below only before calculations</value>
+	<data name="ShowContentBelowOnlyBeforeCalc" xml:space="preserve">
+        <value>仅在计算前显示以下内容</value>
     </data>
-    <data name="ShowContentBelowOnlyAfterCalc" xml:space="preserve">
-        <value>Show the content below only after calculations</value>
+	<data name="ShowContentBelowOnlyAfterCalc" xml:space="preserve">
+        <value>仅在计算后显示以下内容</value>
     </data>
-    <data name="PauseCalculation" xml:space="preserve">
-        <value>Pause the calculations and wait</value>
+	<data name="PauseCalculation" xml:space="preserve">
+        <value>暂停计算并等待</value>
     </data>
-    <data name="PauseExecutionAndDisplayInputForm" xml:space="preserve">
-        <value>Pause the execution and display an input form</value>
+	<data name="PauseExecutionAndDisplayInputForm" xml:space="preserve">
+        <value>暂停计算并显示输入框</value>
     </data>
-    <data name="ShowOnlyCalculatedValues" xml:space="preserve">
-        <value>Show only the calculated values</value>
+	<data name="ShowOnlyCalculatedValues" xml:space="preserve">
+        <value>仅显示计算出的数值</value>
     </data>
-    <data name="ShowCompleteEquations" xml:space="preserve">
-        <value>Show the complete equations (default)</value>
+	<data name="ShowCompleteEquations" xml:space="preserve">
+        <value>显示完整的计算式 (默认)</value>
     </data>
-    <data name="ShowEquationsWithoutCalculating" xml:space="preserve">
-        <value>Show the equations, but without calculating</value>
+	<data name="ShowEquationsWithoutCalculating" xml:space="preserve">
+        <value>显示方程式，但不计算</value>
     </data>
-    <data name="DoNotSubstituteVariables" xml:space="preserve">
-        <value>Do not substitute variables (no substitution)</value>
+	<data name="DoNotSubstituteVariables" xml:space="preserve">
+        <value> 仅显示含变量的方程式(不显示代入计算)</value>
     </data>
-    <data name="ShowEquationsOnlyWithSubstitutedValues" xml:space="preserve">
-        <value>Show equations only with substituted values (no variables)</value>
+	<data name="ShowEquationsOnlyWithSubstitutedValues" xml:space="preserve">
+        <value>仅显示代入数值的方程式 (不显示变量)</value>
     </data>
-    <data name="ShowEquationsWithVariablesAndSubstitutedValues" xml:space="preserve">
-        <value>Show equations with variables and substituted values (default)</value>
+	<data name="ShowEquationsWithVariablesAndSubstitutedValues" xml:space="preserve">
+        <value>显示方程式的变量和代入值 (默认)</value>
     </data>
-    <data name="SplitEquations" xml:space="preserve">
-        <value>Split equations that do not fit on a single line</value>
+	<data name="SplitEquations" xml:space="preserve">
+        <value>分割长方程式</value>
     </data>
-    <data name="WrapEquations" xml:space="preserve">
-        <value>Wrap equations that do not fit on a single line (default)</value>
+	<data name="WrapEquations" xml:space="preserve">
+        <value>长方程式换行 (默认)</value>
     </data>
-    <data name="RoundToTheSpecifiedDigits" xml:space="preserve">
-        <value>Round to the specified digits after the decimal point</value>
+	<data name="RoundToTheSpecifiedDigits" xml:space="preserve">
+        <value>舍入到小数点后位数</value>
     </data>
-    <data name="SetAngleDegrees" xml:space="preserve">
-        <value>Set angle measurement in degrees</value>
+	<data name="SetAngleDegrees" xml:space="preserve">
+        <value>设置角度以degrees度量</value>
     </data>
-    <data name="SetAngleRadians" xml:space="preserve">
-        <value>Set angle measurement in radians</value>
+	<data name="SetAngleRadians" xml:space="preserve">
+        <value>设置角度以radians度量</value>
     </data>
-    <data name="SetAngleGrades" xml:space="preserve">
-        <value>Set angle measurement in grades</value>
+	<data name="SetAngleGrades" xml:space="preserve">
+        <value>设置角度以 grades度量</value>
     </data>
-    <data name="Insert" xml:space="preserve">
-        <value>_Insert</value>
+	<data name="Insert" xml:space="preserve">
+        <value>插入</value>
     </data>
-    <data name="RoundTo" xml:space="preserve">
-        <value>Round to </value>
+	<data name="RoundTo" xml:space="preserve">
+        <value>舍入到</value>
     </data>
-    <data name="NumberOfDigitsTooltip" xml:space="preserve">
-        <value>Number of digits after the decimal point</value>
+	<data name="NumberOfDigitsTooltip" xml:space="preserve">
+        <value>小数点后位数</value>
     </data>
-    <data name="Digits" xml:space="preserve">
-        <value>digits</value>
+	<data name="Digits" xml:space="preserve">
+        <value>数字</value>
     </data>
-    <data name="Substitute" xml:space="preserve">
-        <value>Substitute</value>
+	<data name="Substitute" xml:space="preserve">
+        <value>代入</value>
     </data>
-    <data name="SubstituteTooltip" xml:space="preserve">
-        <value>Substitute variables in equations</value>
+	<data name="SubstituteTooltip" xml:space="preserve">
+        <value>将变量带入到方程式中</value>
     </data>
-    <data name="Plot" xml:space="preserve">
-        <value>Plot:</value>
+	<data name="Plot" xml:space="preserve">
+        <value>绘图:</value>
     </data>
-    <data name="Adaptive" xml:space="preserve">
-        <value>Adaptive</value>
+	<data name="Adaptive" xml:space="preserve">
+        <value>自适应</value>
     </data>
-    <data name="AdaptiveTooltip" xml:space="preserve">
-        <value>Adaptive 1D function plot</value>
+	<data name="AdaptiveTooltip" xml:space="preserve">
+        <value>自适应1D函数绘图</value>
     </data>
-    <data name="Shadows" xml:space="preserve">
-        <value>Shadows:</value>
+	<data name="Shadows" xml:space="preserve">
+        <value>阴影:</value>
     </data>
-    <data name="ShadowsTooltip" xml:space="preserve">
-        <value>Draw surface maps with shadows</value>
+	<data name="ShadowsTooltip" xml:space="preserve">
+        <value>画带阴影的曲面投影</value>
     </data>
-    <data name="LightDirection" xml:space="preserve">
-        <value>Light direction</value>
+	<data name="LightDirection" xml:space="preserve">
+        <value>打光方向</value>
     </data>
-    <data name="North" xml:space="preserve">
-        <value>North</value>
+	<data name="North" xml:space="preserve">
+        <value>北</value>
     </data>
-    <data name="NorthEast" xml:space="preserve">
-        <value>North-east</value>
+	<data name="NorthEast" xml:space="preserve">
+        <value>北-东</value>
     </data>
-    <data name="East" xml:space="preserve">
-        <value>East</value>
+	<data name="East" xml:space="preserve">
+        <value>东</value>
     </data>
-    <data name="SouthEast" xml:space="preserve">
-        <value>South-east</value>
+	<data name="SouthEast" xml:space="preserve">
+        <value>南-东</value>
     </data>
-    <data name="South" xml:space="preserve">
-        <value>South</value>
+	<data name="South" xml:space="preserve">
+        <value>南</value>
     </data>
-    <data name="SouthWest" xml:space="preserve">
-        <value>South-west</value>
+	<data name="SouthWest" xml:space="preserve">
+        <value>南-西</value>
     </data>
-    <data name="West" xml:space="preserve">
-        <value>West</value>
+	<data name="West" xml:space="preserve">
+        <value>西</value>
     </data>
-    <data name="NorthWest" xml:space="preserve">
-        <value>North-west</value>
+	<data name="NorthWest" xml:space="preserve">
+        <value>北-西</value>
     </data>
-    <data name="Palette" xml:space="preserve">
-        <value>Palette:</value>
+	<data name="Palette" xml:space="preserve">
+        <value>调色板:</value>
     </data>
-    <data name="None" xml:space="preserve">
-        <value>None</value>
+	<data name="None" xml:space="preserve">
+        <value>无</value>
     </data>
-    <data name="Gray" xml:space="preserve">
-        <value>Gray</value>
+	<data name="Gray" xml:space="preserve">
+        <value>灰色</value>
     </data>
-    <data name="Rainbow" xml:space="preserve">
-        <value>Rainbow</value>
+	<data name="Rainbow" xml:space="preserve">
+        <value>彩虹带</value>
     </data>
-    <data name="Terrain" xml:space="preserve">
-        <value>Terrain</value>
+	<data name="Terrain" xml:space="preserve">
+        <value>地形上色</value>
     </data>
-    <data name="VioletYellow" xml:space="preserve">
-        <value>Violet-yellow</value>
+	<data name="VioletYellow" xml:space="preserve">
+        <value>紫红-黄</value>
     </data>
-    <data name="GreenYellow" xml:space="preserve">
-        <value>Green-yellow</value>
+	<data name="GreenYellow" xml:space="preserve">
+        <value>绿-黄</value>
     </data>
-    <data name="Blues" xml:space="preserve">
-        <value>Blues</value>
+	<data name="Blues" xml:space="preserve">
+        <value>蓝色</value>
     </data>
-    <data name="Smooth" xml:space="preserve">
-        <value>Smooth</value>
+	<data name="Smooth" xml:space="preserve">
+        <value>平滑</value>
     </data>
-    <data name="SmoothTooltip" xml:space="preserve">
-        <value>Smooth shading for surface map</value>
+	<data name="SmoothTooltip" xml:space="preserve">
+        <value>曲面投影阴影平滑</value>
     </data>
-    <data name="ExternalBrowser" xml:space="preserve">
-        <value>External browser:</value>
+	<data name="ExternalBrowser" xml:space="preserve">
+        <value>外部浏览器:</value>
     </data>
-    <data name="ExternalBrowserTooltip" xml:space="preserve">
-        <value>External browser for opening links in reports</value>
+	<data name="ExternalBrowserTooltip" xml:space="preserve">
+        <value>打开报告中链接的外部浏览器</value>
     </data>
-    <data name="PaletteTooltip" xml:space="preserve">
-        <value>Surface map color scale</value>
+	<data name="PaletteTooltip" xml:space="preserve">
+        <value>曲面二维映射图色标</value>
     </data>
-    <data name="Real" xml:space="preserve">
-        <value>Real</value>
+	<data name="Real" xml:space="preserve">
+        <value>实数</value>
     </data>
-  <data name="Reset" xml:space="preserve">
-        <value>Reset</value>
+	<data name="Reset" xml:space="preserve">
+        <value>重置</value>
     </data>
-    <data name="NewLine" xml:space="preserve">
-        <value>New line</value>
+	<data name="NewLine" xml:space="preserve">
+        <value>新起一行</value>
     </data>
-  <data name="InverseFunctions" xml:space="preserve">
-        <value>Inverse functions</value>
+	<data name="InverseFunctions" xml:space="preserve">
+        <value>反函数</value>
     </data>
-  <data name="HyperbolicFunctions" xml:space="preserve">
-    <value>Hyperbolic Functions</value>
+	<data name="HyperbolicFunctions" xml:space="preserve">
+    <value>双曲函数</value>
   </data>
-    <data name="SurfaceMap" xml:space="preserve">
-        <value>Surface map</value>
+	<data name="SurfaceMap" xml:space="preserve">
+        <value>曲面投影</value>
     </data>
-    <data name="FindRootOfEquation" xml:space="preserve">
-        <value>Find a root of equation f(x) = 0</value>
+	<data name="FindRootOfEquation" xml:space="preserve">
+        <value>求方程f(x) = 0的根</value>
     </data>
-    <data name="CalculateByIterations" xml:space="preserve">
-        <value>Calculate by iterations</value>
+	<data name="CalculateByIterations" xml:space="preserve">
+        <value>通过迭代计算</value>
     </data>
-    <data name="FiniteSum" xml:space="preserve">
-        <value>Finite sum</value>
+	<data name="FiniteSum" xml:space="preserve">
+        <value>求和</value>
     </data>
-    <data name="FiniteProduct" xml:space="preserve">
-        <value>Finite product</value>
+	<data name="FiniteProduct" xml:space="preserve">
+        <value>累积</value>
     </data>
-    <data name="ChangeCase" xml:space="preserve">
-        <value>Change case</value>
+	<data name="ChangeCase" xml:space="preserve">
+        <value>更改大小写</value>
     </data>
-  <data name="Degrees" xml:space="preserve">
-    <value>Degrees</value>
+	<data name="Degrees" xml:space="preserve">
+    <value>度</value>
   </data>
-  <data name="Radians" xml:space="preserve">
-    <value>Radians</value>
+	<data name="Radians" xml:space="preserve">
+    <value>弧度</value>
   </data>
-  <data name="Grades" xml:space="preserve">
-    <value>Grades</value>
+	<data name="Grades" xml:space="preserve">
+    <value>百分度</value>
   </data>
-  <data name="Pro" xml:space="preserve">
-    <value>Professional</value>
+	<data name="Pro" xml:space="preserve">
+    <value>专业公式</value>
   </data>
-  <data name="Inline" xml:space="preserve">
-    <value>Inline</value>
+	<data name="Inline" xml:space="preserve">
+    <value>行内公式</value>
   </data>
-  <data name="Backspace" xml:space="preserve">
+	<data name="Backspace" xml:space="preserve">
     <value>Backspace</value>
   </data>
-  <data name="Other" xml:space="preserve">
-    <value>Other</value>
+	<data name="Other" xml:space="preserve">
+    <value>其他</value>
   </data>
-  <data name="Complex" xml:space="preserve">
-    <value>Complex</value>
+	<data name="Complex" xml:space="preserve">
+    <value>复数</value>
   </data>
-  <data name="OpenFile" xml:space="preserve">
-    <value>Open file</value>
+	<data name="OpenFile" xml:space="preserve">
+    <value>打开</value>
   </data>
-  <data name="SaveFile" xml:space="preserve">
-    <value>Save file</value>
+	<data name="SaveFile" xml:space="preserve">
+    <value>保存</value>
   </data>
-  <data name="CopyText" xml:space="preserve">
-    <value>Copy selected text to Clipboard</value>
+	<data name="CopyText" xml:space="preserve">
+    <value>复制文本到剪贴板</value>
   </data>
-  <data name="PasteText" xml:space="preserve">
-    <value>Paste text from Clipboard</value>
+	<data name="PasteText" xml:space="preserve">
+    <value>从剪贴板粘贴文本</value>
   </data>
-  <data name="UndoEdit" xml:space="preserve">
-    <value>Undo</value>
+	<data name="UndoEdit" xml:space="preserve">
+    <value>取消</value>
   </data>
-  <data name="RedoEdit" xml:space="preserve">
-    <value>Redo</value>
+	<data name="RedoEdit" xml:space="preserve">
+    <value>重做</value>
   </data>
-  <data name="ShowHelp" xml:space="preserve">
-    <value>Help</value>
+	<data name="ShowHelp" xml:space="preserve">
+    <value>帮助</value>
   </data>
-  <data name="GreekLetters" xml:space="preserve">
-    <value>Greek letters and symbols</value>
+	<data name="GreekLetters" xml:space="preserve">
+    <value>希腊字母和符号</value>
   </data>
-  <data name="RecentFileList" xml:space="preserve">
-    <value>Recent files</value>
+	<data name="RecentFileList" xml:space="preserve">
+    <value>最近文件</value>
   </data>
 </root>

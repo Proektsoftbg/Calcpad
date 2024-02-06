@@ -58,7 +58,6 @@
 			: using a System.ComponentModel.TypeConverter
 			: and then encoded with base64 encoding.
 	-->
-	
 	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
 		<xsd:element name="root" msdata:IsDataSet="true">
 			<xsd:complexType>
@@ -98,313 +97,313 @@
 	<resheader name="writer">
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
-  <data name="Integer" xml:space="preserve">
-        <value>Integer</value>
+	<data name="Integer" xml:space="preserve">
+        <value>整数相关</value>
     </data>
-  <data name="IntegerDivision" xml:space="preserve">
-        <value>Integer Division</value>
+	<data name="IntegerDivision" xml:space="preserve">
+        <value>整除</value>
     </data>
-  <data name="InverseCosecant" xml:space="preserve">
-        <value>Inverse Cosecant</value>
+	<data name="InverseCosecant" xml:space="preserve">
+        <value>反余割</value>
     </data>
-  <data name="InverseCosine" xml:space="preserve">
-        <value>Inverse Cosine</value>
+	<data name="InverseCosine" xml:space="preserve">
+        <value>反余弦</value>
     </data>
-  <data name="InverseCotangent" xml:space="preserve">
-        <value>Inverse Cotangent</value>
+	<data name="InverseCotangent" xml:space="preserve">
+        <value>反余切</value>
     </data>
-  <data name="InverseHyperbolic" xml:space="preserve">
-    <value>Inverse Hyperbolic</value>
+	<data name="InverseHyperbolic" xml:space="preserve">
+    <value>反双曲</value>
   </data>
-  <data name="InverseHyperbolicCosecant" xml:space="preserve">
-    <value>Inverse Hyperbolic Cosecant</value>
+	<data name="InverseHyperbolicCosecant" xml:space="preserve">
+    <value>反双曲余割</value>
   </data>
-  <data name="InverseHyperbolicCosine" xml:space="preserve">
-    <value>Inverse Hyperbolic Cosine</value>
+	<data name="InverseHyperbolicCosine" xml:space="preserve">
+    <value>反双曲余弦</value>
   </data>
-  <data name="InverseHyperbolicCotangent" xml:space="preserve">
-    <value>Inverse Hyperbolic Cotangent</value>
+	<data name="InverseHyperbolicCotangent" xml:space="preserve">
+    <value>反双曲余切</value>
   </data>
-  <data name="InverseHyperbolicSecant" xml:space="preserve">
-    <value>Inverse Hyperbolic Secant</value>
+	<data name="InverseHyperbolicSecant" xml:space="preserve">
+    <value>反双曲正割</value>
   </data>
-  <data name="InverseHyperbolicSine" xml:space="preserve">
-    <value>Inverse Hyperbolic Sine</value>
+	<data name="InverseHyperbolicSine" xml:space="preserve">
+    <value>反双曲正弦</value>
   </data>
-  <data name="InverseHyperbolicTangent" xml:space="preserve">
-    <value>Inverse Hyperbolic Tangent</value>
+	<data name="InverseHyperbolicTangent" xml:space="preserve">
+    <value>反双曲正切</value>
   </data>
-  <data name="InverseSecant" xml:space="preserve">
-        <value>Inverse Secant</value>
+	<data name="InverseSecant" xml:space="preserve">
+        <value>反正割</value>
     </data>
-  <data name="InverseSine" xml:space="preserve">
-        <value>Inverse Sine</value>
+	<data name="InverseSine" xml:space="preserve">
+        <value>反正弦</value>
     </data>
-  <data name="InverseTangent" xml:space="preserve">
-        <value>Inverse Tangent</value>
+	<data name="InverseTangent" xml:space="preserve">
+        <value>反正切</value>
     </data>
-  <data name="InverseTrigonometric" xml:space="preserve">
-        <value>Inverse Trigonometric</value>
+	<data name="InverseTrigonometric" xml:space="preserve">
+        <value>反三角函数</value>
     </data>
-  <data name="LeastCommonMultiple" xml:space="preserve">
-    <value>The least common multiple of several integers</value>
+	<data name="LeastCommonMultiple" xml:space="preserve">
+    <value>最小公倍数</value>
   </data>
-  <data name="LessThan" xml:space="preserve">
-        <value>Less Than</value>
+	<data name="LessThan" xml:space="preserve">
+        <value>&lt;</value>
     </data>
-  <data name="LessThanOrEqual" xml:space="preserve">
-        <value>Less Than or Equal</value>
+	<data name="LessThanOrEqual" xml:space="preserve">
+        <value>≤</value>
     </data>
-  <data name="LinearInterpolation" xml:space="preserve">
-        <value>Linear interpolation</value>
+	<data name="LinearInterpolation" xml:space="preserve">
+        <value>线性内插</value>
     </data>
-  <data name="LogarithmicExponentialAndRoots" xml:space="preserve">
-        <value>Logarithmic, Exponential and Roots</value>
+	<data name="LogarithmicExponentialAndRoots" xml:space="preserve">
+        <value>对数,指数和根</value>
     </data>
-  <data name="LogicalAnd" xml:space="preserve">
-    <value>Logical "AND"</value>
+	<data name="LogicalAnd" xml:space="preserve">
+    <value>逻辑 "且"</value>
   </data>
-  <data name="LogicalNot" xml:space="preserve">
-    <value>Logical "NOT"</value>
+	<data name="LogicalNot" xml:space="preserve">
+    <value>逻辑 "否"</value>
   </data>
-  <data name="LogicalOr" xml:space="preserve">
-    <value>Logical "OR"</value>
+	<data name="LogicalOr" xml:space="preserve">
+    <value>逻辑 "或"</value>
   </data>
-  <data name="LogicalXor" xml:space="preserve">
+	<data name="LogicalXor" xml:space="preserve">
     <value>Logical "XOR"</value>
   </data>
-  <data name="MinimumOfMultipleValues" xml:space="preserve">
-        <value>Minimum of multiple values</value>
+	<data name="MinimumOfMultipleValues" xml:space="preserve">
+        <value>最小值</value>
     </data>
-  <data name="Modulo" xml:space="preserve">
-        <value>Modulo (reminder)</value>
+	<data name="Modulo" xml:space="preserve">
+        <value>模 (余)</value>
     </data>
-  <data name="Modulo_Description" xml:space="preserve">
-        <value>The modulo (reminder) of an integer division</value>
+	<data name="Modulo_Description" xml:space="preserve">
+        <value>求整除的模 (余)</value>
     </data>
-  <data name="Multiplication" xml:space="preserve">
-        <value>Multiplication</value>
+	<data name="Multiplication" xml:space="preserve">
+        <value>×</value>
     </data>
-  <data name="NaturalExponent" xml:space="preserve">
-        <value>Natural Exponent</value>
+	<data name="NaturalExponent" xml:space="preserve">
+        <value>自然指数 </value>
     </data>
-  <data name="NaturalLogarithm" xml:space="preserve">
-        <value>Natural Logarithm</value>
+	<data name="NaturalLogarithm" xml:space="preserve">
+        <value>自然对数</value>
     </data>
-  <data name="NotEqualTo" xml:space="preserve">
-        <value>Not Equal To</value>
+	<data name="NotEqualTo" xml:space="preserve">
+        <value>≠</value>
     </data>
-  <data name="NthRoot" xml:space="preserve">
-        <value>n-th Root</value>
+	<data name="NthRoot" xml:space="preserve">
+        <value>第n个根</value>
     </data>
-  <data name="Operators" xml:space="preserve">
-        <value>Operators</value>
+	<data name="Operators" xml:space="preserve">
+        <value>计算符</value>
     </data>
-  <data name="PiNumber" xml:space="preserve">
-        <value>Pi number</value>
+	<data name="PiNumber" xml:space="preserve">
+        <value>圆周率Π</value>
     </data>
-  <data name="ProductOfMultipleValues" xml:space="preserve">
-        <value>Product of multiple values</value>
+	<data name="ProductOfMultipleValues" xml:space="preserve">
+        <value>累积</value>
     </data>
-  <data name="RandomNumber" xml:space="preserve">
-        <value>Random number between 0 and x</value>
+	<data name="RandomNumber" xml:space="preserve">
+        <value>0 和 x间的随机数</value>
     </data>
-  <data name="RealPartOfAComplexNumber" xml:space="preserve">
-        <value>The real part of a complex number</value>
+	<data name="RealPartOfAComplexNumber" xml:space="preserve">
+        <value>复数的实部</value>
     </data>
-  <data name="Rounding" xml:space="preserve">
-        <value>Rounding</value>
+	<data name="Rounding" xml:space="preserve">
+        <value>舍入</value>
     </data>
-  <data name="RoundToNearestInteger" xml:space="preserve">
-        <value>Round to the nearest integer</value>
+	<data name="RoundToNearestInteger" xml:space="preserve">
+        <value>舍入到最近整数</value>
     </data>
-  <data name="RoundToTheLowerInteger" xml:space="preserve">
-        <value>Round to the lower integer</value>
+	<data name="RoundToTheLowerInteger" xml:space="preserve">
+        <value>舍入到稍小整数</value>
     </data>
-  <data name="RoundTowardsZero" xml:space="preserve">
-        <value>Round towards zero</value>
+	<data name="RoundTowardsZero" xml:space="preserve">
+        <value>向0舍入</value>
     </data>
-  <data name="RoundToTheGreaterInteger" xml:space="preserve">
-    <value>Round to the greater integer</value>
+	<data name="RoundToTheGreaterInteger" xml:space="preserve">
+    <value>舍入到稍大整数</value>
   </data>
-  <data name="Secant" xml:space="preserve">
-        <value>Secant</value>
+	<data name="Secant" xml:space="preserve">
+        <value>正割sec</value>
     </data>
-  <data name="SelectiveEvaluation_Function" xml:space="preserve">
-        <value>Selective evaluation</value>
+	<data name="SelectiveEvaluation_Function" xml:space="preserve">
+        <value>选择性执行</value>
     </data>
-  <data name="SignOfANumber" xml:space="preserve">
-        <value>Sign of a number</value>
+	<data name="SignOfANumber" xml:space="preserve">
+        <value>数的符号</value>
     </data>
-  <data name="Sine" xml:space="preserve">
-        <value>Sine</value>
+	<data name="Sine" xml:space="preserve">
+        <value>正弦</value>
     </data>
-  <data name="SquareRoot" xml:space="preserve">
-        <value>Square Root</value>
+	<data name="SquareRoot" xml:space="preserve">
+        <value>平方根</value>
     </data>
-  <data name="SquareRootOfSumOfSquares" xml:space="preserve">
-        <value>Square root of sum of squares</value>
+	<data name="SquareRootOfSumOfSquares" xml:space="preserve">
+        <value>平方和的平方根</value>
     </data>
-  <data name="Subtraction" xml:space="preserve">
-        <value>Subtraction</value>
+	<data name="Subtraction" xml:space="preserve">
+        <value>减</value>
     </data>
-  <data name="SumOfMultipleValues" xml:space="preserve">
-        <value>Sum of multiple values</value>
+	<data name="SumOfMultipleValues" xml:space="preserve">
+        <value>累加</value>
     </data>
-  <data name="SumOfSquares" xml:space="preserve">
-        <value>Sum of squares</value>
+	<data name="SumOfSquares" xml:space="preserve">
+        <value>平方和</value>
     </data>
-  <data name="TakeTheNthElement" xml:space="preserve">
-        <value>Take the n-th element</value>
+	<data name="TakeTheNthElement" xml:space="preserve">
+        <value>取第n个元素</value>
     </data>
-  <data name="Tangent" xml:space="preserve">
-        <value>Tangent</value>
+	<data name="Tangent" xml:space="preserve">
+        <value>正切</value>
     </data>
-  <data name="Trigonometric" xml:space="preserve">
-        <value>Trigonometric</value>
+	<data name="Trigonometric" xml:space="preserve">
+        <value>三角函数</value>
     </data>
-  <data name="PhaseOfAComplexNumber" xml:space="preserve">
-        <value>The phase of a complex number</value>
+	<data name="PhaseOfAComplexNumber" xml:space="preserve">
+        <value>复数的阶</value>
     </data>
-  <data name="Cotangent" xml:space="preserve">
-    <value>Cotangent</value>
+	<data name="Cotangent" xml:space="preserve">
+    <value>余切</value>
   </data>
-  <data name="DecimalLogarithm" xml:space="preserve">
-    <value>Decimal logarithm</value>
+	<data name="DecimalLogarithm" xml:space="preserve">
+    <value>十进制对数</value>
   </data>
-  <data name="RaiseToSquare" xml:space="preserve">
-    <value>Raise to square</value>
+	<data name="RaiseToSquare" xml:space="preserve">
+    <value>平方</value>
   </data>
-  <data name="RaiseToCube" xml:space="preserve">
-    <value>Raise to cube</value>
+	<data name="RaiseToCube" xml:space="preserve">
+    <value>立方</value>
   </data>
-  <data name="RaiseToPower" xml:space="preserve">
-    <value>Raise to power</value>
+	<data name="RaiseToPower" xml:space="preserve">
+    <value>指数</value>
   </data>
-  <data name="CubicRoot" xml:space="preserve">
-    <value>Cubic root</value>
+	<data name="CubicRoot" xml:space="preserve">
+    <value>立方根</value>
   </data>
-  <data name="DecimalPoint" xml:space="preserve">
-    <value>Decimal point</value>
+	<data name="DecimalPoint" xml:space="preserve">
+    <value>小数点</value>
   </data>
-  <data name="Assignment" xml:space="preserve">
-    <value>Assignment</value>
+	<data name="Assignment" xml:space="preserve">
+    <value>赋值</value>
   </data>
-  <data name="Multiply" xml:space="preserve">
-    <value>Multiply</value>
+	<data name="Multiply" xml:space="preserve">
+    <value>×</value>
   </data>
-  <data name="Divide" xml:space="preserve">
-    <value>Divide</value>
+	<data name="Divide" xml:space="preserve">
+    <value>÷</value>
   </data>
-  <data name="Add" xml:space="preserve">
-    <value>Add</value>
+	<data name="Add" xml:space="preserve">
+    <value>+</value>
   </data>
-  <data name="Subtract" xml:space="preserve">
-    <value>Subtract</value>
+	<data name="Subtract" xml:space="preserve">
+    <value>-</value>
   </data>
-  <data name="Factorial" xml:space="preserve">
-    <value>Factorial</value>
+	<data name="Factorial" xml:space="preserve">
+    <value>级数</value>
   </data>
-  <data name="Exponentiation" xml:space="preserve">
-    <value>Exponentiation</value>
+	<data name="Exponentiation" xml:space="preserve">
+    <value>指数</value>
   </data>
-  <data name="Division" xml:space="preserve">
-    <value>Division</value>
+	<data name="Division" xml:space="preserve">
+    <value>÷</value>
   </data>
-  <data name="DivisionBar" xml:space="preserve">
-    <value>Division Bar</value>
+	<data name="DivisionBar" xml:space="preserve">
+    <value>/</value>
   </data>
-  <data name="Addition" xml:space="preserve">
-    <value>Addition</value>
+	<data name="Addition" xml:space="preserve">
+    <value>+</value>
   </data>
-  <data name="EqualTo" xml:space="preserve">
-    <value>Equal To</value>
+	<data name="EqualTo" xml:space="preserve">
+    <value>=</value>
   </data>
-  <data name="Equal" xml:space="preserve">
-    <value>Equal</value>
+	<data name="Equal" xml:space="preserve">
+    <value>=</value>
   </data>
-  <data name="NotEqual" xml:space="preserve">
-    <value>Not еqual</value>
+	<data name="NotEqual" xml:space="preserve">
+    <value>≠</value>
   </data>
-  <data name="GreaterThan" xml:space="preserve">
-    <value>Greater Than</value>
+	<data name="GreaterThan" xml:space="preserve">
+    <value>&gt;</value>
   </data>
-  <data name="GreaterThanOrEqual" xml:space="preserve">
-    <value>Greater Than Or Equal</value>
+	<data name="GreaterThanOrEqual" xml:space="preserve">
+    <value>≥</value>
   </data>
-  <data name="Functions" xml:space="preserve">
-    <value>Functions</value>
+	<data name="Functions" xml:space="preserve">
+    <value>函数</value>
   </data>
-  <data name="Cosine" xml:space="preserve">
-    <value>Cosine</value>
+	<data name="Cosine" xml:space="preserve">
+    <value>余弦:cos</value>
   </data>
-  <data name="Cosecant" xml:space="preserve">
-    <value>Cosecant</value>
+	<data name="Cosecant" xml:space="preserve">
+    <value>余割:csc</value>
   </data>
-  <data name="HyperbolicSine" xml:space="preserve">
-    <value>Hyperbolic Sine</value>
+	<data name="HyperbolicSine" xml:space="preserve">
+    <value>双曲正弦</value>
   </data>
-  <data name="HyperbolicCosine" xml:space="preserve">
-    <value>Hyperbolic Cosine</value>
+	<data name="HyperbolicCosine" xml:space="preserve">
+    <value>双曲余弦</value>
   </data>
-  <data name="HyperbolicTangent" xml:space="preserve">
-    <value>Hyperbolic Tangent</value>
+	<data name="HyperbolicTangent" xml:space="preserve">
+    <value>双曲正切</value>
   </data>
-  <data name="Hyperbolic" xml:space="preserve">
-    <value>Hyperbolic</value>
+	<data name="Hyperbolic" xml:space="preserve">
+    <value>双曲函数</value>
   </data>
-  <data name="HyperbolicCosecant" xml:space="preserve">
-    <value>Hyperbolic Cosecant</value>
+	<data name="HyperbolicCosecant" xml:space="preserve">
+    <value>双曲余割</value>
   </data>
-  <data name="HyperbolicSecant" xml:space="preserve">
-    <value>HyperbolicSecant</value>
+	<data name="HyperbolicSecant" xml:space="preserve">
+    <value>双曲正割</value>
   </data>
-  <data name="HyperbolicCotangent" xml:space="preserve">
-    <value>Hyperbolic Cotangent</value>
+	<data name="HyperbolicCotangent" xml:space="preserve">
+    <value>双曲正切</value>
   </data>
-  <data name="AngleWhichTangentIsYDividedByX" xml:space="preserve">
-    <value>The angle which tangent is y/x</value>
+	<data name="AngleWhichTangentIsYDividedByX" xml:space="preserve">
+    <value>正切值为y/x的角度</value>
   </data>
-  <data name="BinaryLogarithm" xml:space="preserve">
-    <value>Binary Logarithm</value>
+	<data name="BinaryLogarithm" xml:space="preserve">
+    <value>2进制对数</value>
   </data>
-  <data name="GreatestCommonDivisor" xml:space="preserve">
-    <value>The greatest common divisor of several integers</value>
+	<data name="GreatestCommonDivisor" xml:space="preserve">
+    <value>最大公约数</value>
   </data>
-  <data name="Complex" xml:space="preserve">
-    <value>Complex</value>
+	<data name="Complex" xml:space="preserve">
+    <value>复数</value>
   </data>
-  <data name="ImaginaryPartOfAComplexNumber" xml:space="preserve">
-    <value>The imaginary part of a complex numbers</value>
+	<data name="ImaginaryPartOfAComplexNumber" xml:space="preserve">
+    <value>复数的虚部</value>
   </data>
-  <data name="AggregateAndInterpolation" xml:space="preserve">
-    <value>Aggregate and Interpolation</value>
+	<data name="AggregateAndInterpolation" xml:space="preserve">
+    <value>求和和插值</value>
   </data>
-  <data name="AbsoluteValue" xml:space="preserve">
-    <value>Absolute value/magnitude</value>
+	<data name="AbsoluteValue" xml:space="preserve">
+    <value>绝对值/长度</value>
   </data>
-  <data name="MaximumOfMultipleValues" xml:space="preserve">
-    <value>Maximum of multiple values</value>
+	<data name="MaximumOfMultipleValues" xml:space="preserve">
+    <value>最大值</value>
   </data>
-  <data name="AverageOfMultipleValues" xml:space="preserve">
-    <value>Average of multiple values</value>
+	<data name="AverageOfMultipleValues" xml:space="preserve">
+    <value>平均值</value>
   </data>
-  <data name="GeometricMean" xml:space="preserve">
-    <value>Geometric mean</value>
+	<data name="GeometricMean" xml:space="preserve">
+    <value>几何平均</value>
   </data>
-  <data name="HermiteSplineInterpolation" xml:space="preserve">
-    <value>Hermite spline interpolation</value>
+	<data name="HermiteSplineInterpolation" xml:space="preserve">
+    <value>Hermite多线性插值</value>
   </data>
-  <data name="ConditionalAndLogical" xml:space="preserve">
-    <value>Conditional And Logical</value>
+	<data name="ConditionalAndLogical" xml:space="preserve">
+    <value>条件和逻辑判断</value>
   </data>
-  <data name="ConditionalEvaluation_Function" xml:space="preserve">
-    <value>Conditional еvaluation</value>
+	<data name="ConditionalEvaluation_Function" xml:space="preserve">
+    <value>有条件执行</value>
   </data>
-  <data name="LeftBracket" xml:space="preserve">
-    <value>Left bracket</value>
+	<data name="LeftBracket" xml:space="preserve">
+    <value>左括号(</value>
   </data>
-  <data name="RightBracket" xml:space="preserve">
-    <value>Right bracket</value>
+	<data name="RightBracket" xml:space="preserve">
+    <value>右括号)</value>
   </data>
 </root>
