@@ -34,7 +34,7 @@
         <value>无效单位: "{0}".</value>
     </data>
 	<data name="Cannot_evaluate__0__as__1__" xml:space="preserve">
-        <value>无法将 "{0}" 计算为"{1}".</value>
+        <value>无法将 "{0}" 计算为{1}.</value>
     </data>
 	<data name="Invalid_operator__0__" xml:space="preserve">
         <value>无效算子: "{0}".</value>
@@ -46,16 +46,16 @@
         <value>右侧表达式的值不为单位</value>
     </data>
 	<data name="Cannot_evaluate_the_function_f_for_v_equals__0__" xml:space="preserve">
-        <value>不能计算 %V = "{0}"时函数 %F 的值.</value>
+        <value>不能计算 %V = {0}时函数 %F 的值.</value>
     </data>
 	<data name="The_function_f_is_not_defined_for_v_equals__0__" xml:space="preserve">
-        <value>函数 %F 在 %V = "{0}"处无定义.</value>
+        <value>函数 %F 在 %V = {0}处无定义.</value>
     </data>
 	<data name="Inconsistent_units__0__and__1__" xml:space="preserve">
-        <value>不一致的单位: "{0}" 和 "{1}".</value>
+        <value>不协调的单位: "{0}" 和 "{1}".</value>
     </data>
 	<data name="Limits_out_of_range__0____1__" xml:space="preserve">
-        <value>域界: ["{0}"; "{1}"].</value>
+        <value>阈值超限: [{0}; {1}].</value>
     </data>
 	<data name="Invalid_units_for_function__0__1__" xml:space="preserve">
         <value>函数的单位无效: "{0}({1})".</value>
@@ -127,7 +127,7 @@
         <value>将 "{0}" 作为函数或算子计算时出错.</value>
     </data>
 	<data name="Cannot_rewrite_existing_units__0__" xml:space="preserve">
-        <value>无法重写已存在的单位: "{0}".</value>
+        <value>无法重写已存在的单位: {0} .</value>
     </data>
 	<data name="The_calculated_units__0__are_inconsistent_with_the_target_units__1__" xml:space="preserve">
         <value>计算的单位 "{0}" 与要换算的单位"{1}"不协调.</value>
@@ -157,7 +157,7 @@
         <value>将 "{0}" 解析为数时出错.</value>
     </data>
 	<data name="Missing_delimiter__0__in_solver_command__1__" xml:space="preserve">
-        <value>Missing delimiter "{0}" in solver command {{1}}.</value>
+        <value>求解命令 {{1}}中缺失分隔符"{0}".</value>
     </data>
 	<data name="More_than_one_operator_equals_in__0__" xml:space="preserve">
         <value>在 '{0}'中超过1处'='.</value>
@@ -172,7 +172,7 @@
         <value>单位不协调: "{0} = {1} : {2}".</value>
     </data>
 	<data name="No_solution_for__0__" xml:space="preserve">
-        <value>"{0}"无解.</value>
+        <value>对于{0}无解.</value>
     </data>
 	<data name="Recursion_is_not_allowed_in_function_definition__0__" xml:space="preserve">
         <value>函数定义中不允许递归: "{0}".</value>
@@ -187,7 +187,7 @@
         <value>无效语法: "{0} {1}".</value>
     </data>
 	<data name="Unexpected_delimiter_;" xml:space="preserve">
-        <value>不应出现的';'.</value>
+        <value>不当分隔符 ';'.</value>
     </data>
 	<data name="Invalid_number_of_arguments" xml:space="preserve">
         <value>无效的自变量值.</value>
@@ -211,7 +211,7 @@
         <value>无效函数定义. 应符合如下范式: "f(x; y; z...) =".</value>
     </data>
 	<data name="Argument_out_of_range_for__0__x_" xml:space="preserve">
-        <value>"{0}"(x)变量值超出了定义域.</value>
+        <value>{0}(x)中变量值超出了定义域.</value>
     </data>
 	<data name="Condition_cannot_be_empty" xml:space="preserve">
         <value>条件不能为空.</value>
@@ -229,10 +229,10 @@
         <value>条件判断结果不能为复数.</value>
     </data>
 	<data name="Condition_result_is_invalid_0_" xml:space="preserve">
-        <value>条件结果无效: "{0}".</value>
+        <value>条件结果无效: {0}.</value>
     </data>
 	<data name="Duplicate_macro_parameter_names__0__and__1__" xml:space="preserve">
-        <value>宏参数重复: "{0}" 和"{1}".</value>
+        <value>宏参数重复: {0} 和 {1}.</value>
     </data>
 	<data name="Macro_not_defined__0__" xml:space="preserve">
         <value>宏未定义: {0}.</value>
@@ -241,7 +241,7 @@
         <value>曲面映射命令中缺失 {0} .</value>
     </data>
 	<data name="The_limits_of_plot_area_are_identical" xml:space="preserve">
-        <value>绘图区上下界限相同.</value>
+        <value>绘图区上下界限相同导致冲突.</value>
     </data>
 	<data name="Error_writing_a_png_file_to__0__" xml:space="preserve">
         <value>将png文件写入到 "{0}"时出错.</value>
@@ -283,10 +283,10 @@
         <value>&lt;div class="errorHeader"&gt;找到&lt;b&gt;"{0}"&lt;/b&gt; 处错误在行:</value>
     </data>
 	<data name="Error_in_0_on_line_1__2" xml:space="preserve">
-        <value>"{1}": "{2}"行的 "{0}"存在错误.</value>
+        <value>{1}: {2} 行的 "{0}"存在错误.</value>
     </data>
 	<data name="Number_of_iterations_exceeds_the_maximum_0" xml:space="preserve">
-        <value>迭代次数超过了最大值 "{0}".&lt;/p&gt;</value>
+        <value>迭代次数超过了最大值 {0}.</value>
     </data>
 	<data name="loop_without_a_corresponding_repeat" xml:space="preserve">
         <value>"#loop" 无对应的 "#repeat".</value>
@@ -325,10 +325,10 @@
         <value>&lt;span class = "err"&gt;plot命令 "{1}"中缺分隔符"{0}".&lt;/span&gt;</value>
     </data>
 	<data name="Missing_0_in_plot_command_1" xml:space="preserve">
-        <value>&lt;span class = "err"&gt;plot命令 "{1}"中缺“{0}”.&lt;/span&gt;.</value>
+        <value>&lt;span class = "err"&gt;plot命令 "{1}"中缺{0}.&lt;/span&gt;.</value>
     </data>
 	<data name="More_than_one_delimiter_in_plot_command" xml:space="preserve">
-        <value>&lt;span class = "err"&gt;plot命令"{0}"中多于1个分隔符"|".&lt;/span&gt;</value>
+        <value>&lt;span class = "err"&gt;plot命令{0}中多于1个分隔符"|".&lt;/span&gt;</value>
     </data>
 	<data name="Missing_delimiter_0_in_surface_map_command_1" xml:space="preserve">
         <value>&lt;span class = "err"&gt;曲面映射命令 "{1}"中缺分隔符"{0}".&lt;/span&gt;</value>
