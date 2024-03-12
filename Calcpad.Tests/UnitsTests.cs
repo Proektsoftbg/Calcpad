@@ -2114,7 +2114,7 @@
                     new TestCalc(new()).Run(".m = 1");
                 }
             );
-            Assert.Contains("Cannot rewirite existing units", e.Message);
+            Assert.Contains("Cannot rewrite existing units: m.", e.Message);
         }
         #endregion
 

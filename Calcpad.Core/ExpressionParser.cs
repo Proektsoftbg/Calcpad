@@ -127,7 +127,8 @@ namespace Calcpad.Core
             var lineCount = lines.Count - 1;
             var currentLine = _startLine - 1;
             var isVisible = true;
-            var s = ReadOnlySpan<char>.Empty;
+            var s = string.Empty;
+            var lineExtend = $" _{Environment.NewLine}";
             try
             {
                 while (++currentLine < lineCount)
@@ -142,6 +143,15 @@ namespace Calcpad.Core
                     else
                         _parser.Line = currentLine + 1;
 
+                    if (s.EndsWith(lineExtend))
+                        s = s[..(s.Length - lineExtend.Length)] + expr.TrimStart().ToString();
+                    else
+                        s = expr.ToString();
+
+                    if (expr.EndsWith(lineExtend))
+                        continue;
+
+                    s = s.Trim();
                     var htmlId = string.Empty;
                     if (Debug && (_loops.Count == 0 || _loops.Peek().Iteration == 1))
                         htmlId = $" id=\"line-{currentLine + 1}\" class=\"line\"";
@@ -149,8 +159,7 @@ namespace Calcpad.Core
                     if (_parser.IsCanceled)
                         break;
 
-                    s = expr.Trim();
-                    if (s.IsEmpty)
+                    if (s.Length == 0)
                     {
                         if (isVisible)
                             _sb.AppendLine($"<p{htmlId}>&nbsp;</p>");
