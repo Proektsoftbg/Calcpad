@@ -42,7 +42,7 @@ namespace Calcpad.Core
         internal abstract int Degrees { set; }
         internal bool ReturnAngleUnits { set => _returnAngleUnits = value; }
 
-        //                                               ^  ÷  \  ⦼  *  -  +  <  >  ≤  ≥  ≡  ≠  ∧ ∨  ⊕  =
+        //                                              ^  ÷  \  ⦼  *  -  +  <  >  ≤  ≥  ≡  ≠  ∧ ∨  ⊕  =
         internal static readonly int[] OperatorOrder = [0, 3, 3, 3, 3, 4, 5, 6, 6, 6, 6, 6, 6, 7, 8, 8, 9];
 
         internal static readonly FrozenDictionary<char, int> OperatorIndex =

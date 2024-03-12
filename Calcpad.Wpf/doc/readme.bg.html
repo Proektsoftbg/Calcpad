@@ -39,6 +39,8 @@ body {font-size: 11pt; font-family: "Segoe UI";}
 }
 th    {background-color:#F0F0F0; border: solid 1px #AAAAAA; padding:6px;}
 td    {border: solid 1px #cccccc; padding:6px;}
+.nb td {border: none;}
+.tr td {text-align:right;}
 p     {line-height: 150%;}
 ul    {padding-left: 24px;}
 li ul {padding-left: 12px;}
@@ -46,14 +48,14 @@ h1    {font-family: "Calibri Light"; font-weight: normal; font-size: 32pt; margi
 h1 img  { margin-top: -6px;}
 li    {margin: 6px;}
 .menu li ul {padding-left: 42px;}
-var   {color:blue; font-family: "Times New Roman"; font-size: 12pt}
-i     {color:DarkCyan; font-family:Times New Roman; font-size: 12pt}
+var   {color:#06c; font-family: "Times New Roman"; font-size: 12.5pt}
+i     {color:#086; font-family:Times New Roman; font-style: normal; font-size: 11.5pt;}
 img   {vertical-align: middle; max-width:100%;}
 u     {background-color: LightYellow;}
 .comment {color: green;}
 .root {font-family: Times New Roman; font-size: 14pt;}
 .ovr {border-top: solid 1px; padding-left: 1pt; padding-top: -2pt;}
-code .ovr {padding-top: 2pt; font-family="Consolas" font-size: 10pt;}
+code .ovr {padding-top: 2pt; font-family: "Consolas"; font-size: 10pt;}
 .dvc {display: inline-block; vertical-align: middle; text-align: center; line-height:110%; white-space: nowrap;}
 .dvl {display: block; border-bottom: solid 1px black;}
 .dvc.down {position: relative; top:0.5em;}
@@ -70,30 +72,66 @@ code .ovr {padding-top: 2pt; font-family="Consolas" font-size: 10pt;}
 .fold > :first-child::after {content: " ... ▼"; font-size: 80%;}
 .unfold > :first-child::after {content: " ▲"; font-size: 80%;}
 #Units{float:right; margin-top:12px;}
-input, select {
-	background-color:LightYellow; 
-	border: 1px solid #cccccc; 
-	border-radius: 3px; 
-	text-align:right;
-	min-height: 1.5em;
+input[type="text"], select {
+	font-size: 11pt;
+	padding: 0.15em 0.3em; 	
+	border: 0.5pt solid #CCC; 
+	border-radius: 0.35em;
+	text-align: right;
+	box-shadow: 0.06em 0.06em 0.5em #ddd;
+	background-color: LightYellow;
 }
+
+input[type="checkbox"],
+input[type="radio"] {
+	--ssf: 1.1;
+	zoom: var(--ssf);
+	-moz-transform: scale(var(--ssf));
+	-webkit-transform: scale(var(--ssf));
+	transform: scale(var(--ssf));
+	transform-origin: top;
+	position: relative;
+	bottom: -1pt;
+	margin-right: 1pt;
+}
+
+input[type="checkbox"].post:disabled:not(:checked), 
+input[type="checkbox"].post:disabled:not(:checked) + label, 
+input[type="radio"].post:disabled:not(:checked),
+input[type="radio"].post:disabled:not(:checked) + label {
+	display: none;
+}
+
+select.post:disabled {
+	font-size: 12pt;
+	border: none; 
+	box-shadow: none;
+	color: red;
+	background: none;
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+}
+select.post:disabled::-ms-expand {display: none;}
+input[type="text"]:focus {box-shadow: 0.1em 0.1em 1em #ccc; color: black;}
 .exp {
-		display: inline-block;
-		height: 12pt;
-		line-height: 80%;
-		font-size: 11pt;
-		font-weight: bold;
-		border: solid 1px #cccccc; 
-		padding: 0 2pt 0 2pt; 
-		margin-right: 4pt; 		
-		border-radius: 4pt;
-	}
+	display: inline-block;
+	height: 13pt;
+	line-height: 80%;
+	font-size: 12pt;
+	font-weight: bold;
+	border: solid 1px #cccccc; 
+	padding: 0 1.5pt 0 1.5pt; 
+	margin-right: 4pt; 		
+	border-radius: 4pt;
+}
 .exp:hover {
 	cursor: pointer;
 	box-shadow: #cccccc 0 0 4px;
 }
+sub {font-family: Arial Nova; font-size:70%; padding-left:0.5pt; padding-right:0.5pt;}
 @media screen and (max-width: 960px){
-    .menu{display:none};
+    .menu{display:none;}
 }
 </style>
 </head>

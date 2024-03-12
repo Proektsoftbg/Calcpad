@@ -300,7 +300,9 @@ namespace Calcpad.Core
                     {
                         var rpn = Input.GetRpn(input);
                         var index = _functions.IndexOf(name);
-                        var cf = index >= 0 ? _functions[index] : parameters.Count switch
+                        var cf = index >= 0 && 
+                            _functions[index].ParameterCount == parameters.Count ? 
+                            _functions[index] : parameters.Count switch
                         {
                             1 => new CustomFunction1(),
                             2 => new CustomFunction2(),

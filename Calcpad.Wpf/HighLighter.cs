@@ -150,7 +150,7 @@ namespace Calcpad.Wpf
 
         private static readonly Brush[] Colors =
         [
-             Brushes.Gray,
+            Brushes.Gray,
             Brushes.Black,
             Brushes.DarkCyan,
             Brushes.Goldenrod,
@@ -323,12 +323,39 @@ namespace Calcpad.Wpf
         private bool IsVariable(string s, int line) => LocalVariables.Contains(s) || Defined.IsVariable(s, line);
         private bool IsUnit(string s, int line) => Defined.IsUnit(s, line) || MathParser.IsUnit(s);
 
+        private void InitLocalValraibles(Paragraph p)
+        {
+            var b = p;
+            while (true)
+            {
+                var pb = (Paragraph)b.PreviousBlock;
+                if (pb is null)
+                    break;
+
+                var inline = (Run)pb.Inlines.LastInline;
+                if (inline is not null && inline.Text.EndsWith("_"))
+                    b = pb;
+                else
+                    break;
+            }
+            LocalVariables.Clear();
+            if (ReferenceEquals(b, p) || b is null)
+                return;
+
+            foreach (Run r in b.Inlines.Cast<Run>())
+            {
+                var s = r.Text;
+                if (string.Equals(s, " = "))
+                    GetLocalVariables(r, false);
+            }
+        }
+
         internal void CheckHighlight(Paragraph p, int line)
         {
             if (p is null)
                 return;
 
-            LocalVariables.Clear();
+            InitLocalValraibles(p);  
             var isCommand = false;
             var commandCount = 0;
             foreach (Run r in p.Inlines.Cast<Run>())
@@ -411,14 +438,33 @@ namespace Calcpad.Wpf
             text ??= new TextRange(p.ContentStart, p.ContentEnd).Text;
             p.Inlines.Clear();
             InitState(p, text, line);
+            InitLocalValraibles(p);
             _tagHelper = new();
-            LocalVariables.Clear();
             _hasTargetUnitsDelimiter = false;
             _allowUnaryMinus = true;
             _builder.Clear();
             for (int i = 0, len = text.Length; i < len; ++i)
             {
                 var c = text[i];
+                if (c == '_' && i == len - 1)
+                {
+                    if (i > 0 && text[i - 1] == ' ' || _builder.Length == 0)
+                    {
+                        if (_builder.Length == 0)
+                            c = ' ';
+                        else
+                        {
+                            c = _builder[_builder.Length - 1];
+                            Append(_state.CurrentType);
+                        }
+                        if (c == ' ')
+                            _builder.Append("_");
+                        else
+                            _builder.Append(" _");
+                        Append(Types.None);
+                        break;
+                    }
+                }
                 _state.GetInputState(c);
                 if (!(_state.IsPlot || _state.CurrentType == Types.Comment) && c == '|')
                     _state.IsUnits = true;

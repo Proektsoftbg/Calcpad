@@ -51,11 +51,29 @@ namespace Calcpad.Wpf
         {
             Clear(isComplex);
             var lineNumber = 0;
+            var firstLine = 0;
+            StringBuilder sb = new StringBuilder();
             foreach (var line in lines)
             {
                 ++lineNumber;
                 if (!line.IsEmpty)
-                    Get(line, lineNumber);
+                {
+                    if (line.EndsWith(" _"))
+                    {
+                        if (sb.Length == 0)
+                            firstLine = lineNumber;
+
+                        sb.Append(line[..^2]);
+                    }
+                    else if (sb.Length > 0)
+                    {
+                        sb.Append(line);
+                        Get(sb.ToString().AsSpan(), firstLine);
+                        sb.Clear();
+                    }
+                    else
+                        Get(line, lineNumber);
+                }
             }
         }
 

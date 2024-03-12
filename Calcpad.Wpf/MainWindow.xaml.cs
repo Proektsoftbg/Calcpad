@@ -27,7 +27,6 @@ namespace Calcpad.Wpf
 {
     public partial class MainWindow : Window
     {
-
         //Culture
         private static readonly string _currentCultureName = "en";
 

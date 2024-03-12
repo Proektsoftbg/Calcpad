@@ -341,7 +341,7 @@ sub {font-family: Arial Nova; font-size:70%; padding-left:0.5pt; padding-right:0
 
 <h3 id="TOC_209">Find</h3>
 <p>You can search for a certain text inside the code and replace it with another, if needed. Select the "<b>Edit/Find</b>" menu, click the <img alt="Find" height="20" src="Images/Search.png"> button or press "<b>Ctrl+F</b>". The "<b>Find And Replace</b>" dialog will appear.</p>
-<p><img alt="Find Dialog" width="450" src="Images/FindDialog.png"></p>
+<p><img alt="Find Dialog" width="600" src="Images/FindDialog.png"></p>
 <p>Enter a word or phrase to search for and click "<b>Find Next</b>". The programs starts from the current position and finds the first occurrence in the selected direction. If the searched phrase is found, it is highlighted and the search is stopped. To find the next occurrence, click "<b>Find Next</b>" again. You can also press "<b>F3</b>" to continue searching even after you close the dialog.</p>
 <p>If you need to replace the searched text, click the "<b>Replace</b>" tab and fill in the "<b>Replace with</b>" box. Then click the "<b>Replace</b>" button. The program will replace the current occurrence and will automatically move to the next one. If you want to replace all occurrence in the code, click the respective button instead. </p>
 <p>There are several options that affect the search results, as follows:</p>
@@ -363,7 +363,7 @@ sub {font-family: Arial Nova; font-size:70%; padding-left:0.5pt; padding-right:0
 <p>When you start typing, the program displays a drop-down list with suggestions that match what you have just typed. It contains keywords, units of measurement, built in function and all custom variables and functions that are defined above the current line. The list is dynamically filtered ans sorted while you are typing. The current suggestion in the list is highlighted. If that is what you need, just press "<b>Tab</b>" to insert it at the current position. Click on the list to insert some of the other suggestions. Alternatively, you can press "<b>Down Arrow</b>" to browse the available suggestions and "<b>Enter</b>" to insert the selected one. If the list is above the current line, press "<b>Up Arrow</b>" instead.</p>
 
 <h3 id="TOC_304">Bracket matching</h3>
-<p>The program can find the matching opening and closing brackets. If you position the cursor next or before one of them, both brackets are highlighted. If theere is no corresponding bracket, nothing is highlighted.</p>
+<p>The program can find the matching opening and closing brackets. If you position the cursor next or before one of them, both brackets are highlighted. If there is no corresponding bracket, nothing is highlighted.</p>
 
 <h3 id="TOC_305">Greek letters</h3>
 <p>You can insert Greek letters by clicking the respective symbol bellow the code editor. Alternatively, type the Latin equivalent from the table below and press "<b>Ctrl+G</b>". If you press it again, you will convert the letter back from Greek to Latin. Since "j"/"J" and "V" remain unused, they are mapped to "ø"/"Ø" and "&measuredangle;", respectively.</p>
@@ -1564,7 +1564,7 @@ You can use it further to calculate binomial coefficients by the well-known form
 <p>You can easily specify which parts of the code should be visible or hidden in the output. Unlike conditional execution, the hidden code is always calculated. It is just not displayed. The following keywords can be used for that purpose:</p>
 <ul style="list-style-type:none;">
 <li><span class="cond">#Hide</span> - hides the contents after the current line;</li>
-<li><span class="cond">#Pre</span> - shows the contents in "input" mode only (see ""<a href="#TOC_601">Input forms</a>" bellow);</li>
+<li><span class="cond">#Pre</span> - shows the contents in "input" mode only (see "<a href="#TOC_601">Input forms</a>" above);</li>
 <li><span class="cond">#Post</span> - shows the contents in "output" mode and hides it in "input" mode;</li>
 <li><span class="cond">#Show</span> - always shows the contents (revoke all other keywords);</li>
 </ul>
@@ -1612,11 +1612,11 @@ You can use it further to calculate binomial coefficients by the well-known form
 <h3 id="TOC_604">Iteration blocks</h3>
 <p>You can have simple iterations inside a Calcpad program. For that purpose, you have to define a "<b>repeat-loop</b>" block:</p>
 <ul style="list-style-type:none;">
-<li><span class="cond">#Repeat</span> <var>n</var></li>
+<li><code class="cond">#Repeat</code> <var>n</var></li>
 <li style="margin-left: 2em;">Code to be executed repeatedly</li>
-<li><span class="cond">#Loop</span></li>
+<li><code class="cond">#Loop</code></li>
 </ul>
-<p>The symbol <var>n</var> stands for the number of repetitions. Instead of <var>n</var>, you can put a number, variable or any valid expression. If the result of the expression is not integer, it is rounded to the nearest one. You can exit the repeat-loop cycle prematurely by putting <span class="cond">#Break</span> inside the block. It will make sense only if you combine it a conditional block. Otherwise, it will always break at the same line, without performing any loops. A typical "repeat-break-loop" will look like this:</p>
+<p>The symbol <var>n</var> stands for the number of repetitions. Instead of <var>n</var>, you can put a number, variable or any valid expression. If the result of the expression is not integer, it is rounded to the nearest one. You can exit the repeat-loop cycle prematurely by putting <code class="cond">#Break</code> inside the block. It will make sense only if you combine it a conditional block. Otherwise, it will always break at the same line, without performing any loops. A typical "repeat-break-loop" will look like this:</p>
 <ul style="list-style-type:none;">
 <li><code class="cond">#Repeat</code></li>
 <li style="margin-left: 2em;">Code to be executed repeatedly</li>
@@ -1627,7 +1627,7 @@ You can use it further to calculate binomial coefficients by the well-known form
 <li><code class="cond">#Loop</code></li>
 </ul>
 <p>You can use <code class="cond">#Continue</code> instead of <code class="cond">#Break</code>. The program will skip the remaining lines, return to the top of the conditional block and continue with the next iteration. You can omit the number of repetitions <var>n</var> only if you are sure that the condition will be satisfied and the loop will brake sooner or later. Anyway, to avoid infinite loop, the number of iterations is limited to 100 000 if nothing else is specified.</p>
-<p>Besides repetitive calculations, you can use loops to generate repetitive report content (like table rows). If you want to hide the iteration details, you can use output control directives (see the previous section). For example, you can enclose the "repeat-loop" block with <span class="cond">#Hide</span> and <span class="cond">#Show</span> statements.</p>
+<p>Besides repetitive calculations, you can use loops to generate repetitive report content (like table rows). If you want to hide the iteration details, you can use output control directives (see the previous section). For example, you can enclose the "repeat-loop" block with <code class="cond">#Hide</code> and <code class="cond">#Show</code> statements.</p>
 
 <h3 id="TOC_605">Interactive (step-by-step) execution</h3>
 <p>You can make a Calcpad worksheet to execute interactively (step-by-step) by defining "breakpoints" at certain lines. It will allow the user to review the intermediate results and enter some additional input data if needed. There are two special keywords, you can use for that purpose:</p>
@@ -1643,35 +1643,35 @@ You can use it further to calculate binomial coefficients by the well-known form
 
 <h3 id="TOC_606">Modules (include)</h3>
 <p>Calcpad allows you to include contents from external files in your worksheet. If you have pieces of code that is repeated in different worksheets, you can organize it in modules and reuse it multiple times. Also, if you have a longer worksheet, you can split it into modules that will be easier to maintain. Then, you can include them into the main file by using the following statement:</p>
-<p>&emsp;&emsp;<span class="cond">#include</span> <em class="macro">filename</em></p>
+<p>&emsp;&emsp;<code class="cond">#include</code> <em class="macro">filename</em></p>
 <p>The "<em class="macro">filename</em>" must contain the full path to a local file. If the file is the same folder as the current one, you can specify only the filename.</p>
-<p>By default, Calcpad will include the whole contents of the external module. However, you can prevent some parts from inclusion, by making them local. To start a "local" section in a module, add a new line, containing the <span class="cond">#local</span> keyword. To end a "local" section (or start a "global" one), add a new line with the <span class="cond">#global</span> keyword. Calcpad supports multiple levels of inclusions. That means that the included file, in its turn, can reference other files and so on.</p>
+<p>By default, Calcpad will include the whole contents of the external module. However, you can prevent some parts from inclusion, by making them local. To start a "local" section in a module, add a new line, containing the <code class="cond">#local</code> keyword. To end a "local" section (or start a "global" one), add a new line with the <code class="cond">#global</code> keyword. Calcpad supports multiple levels of inclusions. That means that the included file, in its turn, can reference other files and so on.</p>
 
 <h3 id="TOC_607">Macros and string variables</h3>
 <p>Macros and string variables are convenient ways to organize your code inside a single file and prevent repetitions. They can be inline or multiline. Unlike string variables, macros can have parameters. You can define them, by using the following statements:</p>
 <p>Inline string variable:<br />
-	&emsp;&emsp;<span class="cond">#def</span> 
+	&emsp;&emsp;<code class="cond">#def</code> 
 	<em class="macro">variable_name$</em> <span class="o">=</span> <em>content</em>
 </p>
 <p>Multiline string variable:<br />
-	&emsp;&emsp;<span class="cond">#def</span> <em class="macro">variable_name$</em><br />
+	&emsp;&emsp;<code class="cond">#def</code> <em class="macro">variable_name$</em><br />
 	&emsp;&emsp;&emsp;&emsp;<em>content line 1</em><br />
 	&emsp;&emsp;&emsp;&emsp;<em>content line 2</em><br />
 	&emsp;&emsp;&emsp;&emsp;<em>...</em><br />
-	&emsp;&emsp;<span class="cond">#end def</span>
+	&emsp;&emsp;<code class="cond">#end def</code>
 </p>
 <p>Inline string macro:<br />
-	&emsp;<span class="cond">#def</span> 
+	&emsp;<code class="cond">#def</code> 
 	<em class="macro">macro_name$</em>(<em class="macro">param1$</em><span class="o">;</span> <em class="macro">param2$</em><span class="o">;</span>...) <span class="o">=</span> <em>content</em>
 </p>
 <p>Multiline string macro:<br />
-	&emsp;&emsp;<span class="cond">#def</span> <em class="macro">macro_name$</em>(<em class="macro">param1$</em><span class="o">;</span> <em class="macro">param2$</em><span class="o">;</span>...)<br />
+	&emsp;&emsp;<code class="cond">#def</code> <em class="macro">macro_name$</em>(<em class="macro">param1$</em><span class="o">;</span> <em class="macro">param2$</em><span class="o">;</span>...)<br />
 	&emsp;&emsp;&emsp;&emsp;<em>content line 1</em><br />
 	&emsp;&emsp;&emsp;&emsp;<em>content line 2</em><br />
 	&emsp;&emsp;&emsp;&emsp;<em>...</em><br />
-	&emsp;&emsp;<span class="cond">#end def</span>
+	&emsp;&emsp;<code class="cond">#end def</code>
 </p>
-<p>Names of string variables, macros, and their parameters can contain small and capital latin letters and underscore "_". They must b with the "$" symbol. The contents can be virtually any string. It is not necessary to be a valid Calcpad expression, since it is not processed by the parser at this stage. However, other macro/string variable definitions are not allowed inside. You can insert only references to previously defined ones. Also, input fields "?" are not supported in macros yet. This feature will be developed in the next versions. You can use <span class="cond">#include</span> inside macros, but only if the included file does not contain other macros.</p>
+<p>Names of string variables, macros, and their parameters can contain small and capital latin letters and underscore "_". They must b with the "$" symbol. The contents can be virtually any string. It is not necessary to be a valid Calcpad expression, since it is not processed by the parser at this stage. However, other macro/string variable definitions are not allowed inside. You can insert only references to previously defined ones. Also, input fields "?" are not supported in macros yet. This feature will be developed in the next versions. You can use <code class="cond">#include</code> inside macros, but only if the included file does not contain other macros.</p>
 <p>After a string variable is defined, you can use it anywhere in the code, by writing its name (with the ending "$"). The same is for macros, but you also need to specify values for parameters. Macros and string variables are preprocessed and rewritten before the actual parsing is performed. As a result, intermediate (unwrapped) code is generated. You can review it by checking the "<b>Unwrapped code</b>" checkbox bellow the "<b>Output</b>" window.</p> 
 <p>If any errors occur during macro preprocessing, the unwrapped code is displayed, together with the errors. Line numbers in error descriptions refer to your initial code. If preprocessing is completed successfully, the unwrapped code is parsed and calculated as normal. If errors are detected at this stage, they are displayed in the output. Line numbers in error descriptions refer to the unwrapped code. You can go to the respective line, by clicking the link on the line number.</p>
 
@@ -1687,12 +1687,12 @@ You can use it further to calculate binomial coefficients by the well-known form
 <p style="margin-left: 2em;"><var>x</var><sub>1</sub> = <span class="dvc"> -<var>b</var> – <span class="root">√</span><span class="ovr"><var>D</var></span><span class="dvl"></span>2·<var>a</var></span> = -1.55</p>
 <p>After that, if you position the mouse over any variable, you will see a tooltip with the respective value.</p>
 <p>There is also an option to control the variable substitution behavior inside worksheets. You can use the following switches for that purpose:<br />
-&emsp;&emsp;<span class="cond">#nosub</span></a> - do not substitute variables (no substitution);<br />
-&emsp;&emsp;<span class="cond">#novar</span></a> - show equations only with substituted values (no variables);<br />
-&emsp;&emsp;<span class="cond">#varsub</span></a> - show equations with variables and substituted values (default).</p>
+&emsp;&emsp;<code class="cond">#nosub</code></a> - do not substitute variables (no substitution);<br />
+&emsp;&emsp;<code class="cond">#novar</code></a> - show equations only with substituted values (no variables);<br />
+&emsp;&emsp;<code class="cond">#varsub</code></a> - show equations with variables and substituted values (default).</p>
 <p>If an equation gets too long and does not fit on a single line, you can choose the way it looks in the output by using these two switches:<br />
-&emsp;&emsp;<span class="cond">#split</span></a> - the equation is splitted after the "=" symbol;<br />
-&emsp;&emsp;<span class="cond">#wrap</span></a> - the equation is wrapped at the end of the line (default).<br />
+&emsp;&emsp;<code class="cond">#split</code></a> - the equation is split after the "=" symbol;<br />
+&emsp;&emsp;<code class="cond">#wrap</code></a> - the equation is wrapped at the end of the line (default).<br />
 
 
 <h3 id="TOC_702">Rounding</h3>
