@@ -83,7 +83,7 @@ A variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;"**/**" - division;  
 &emsp;&emsp;"**÷**" - force division bar;  
 &emsp;&emsp;"**\\**" - integer division;  
-&emsp;&emsp;"**⦼**" - modulo (reminder);  
+&emsp;&emsp;"**⦼**" - modulo (remainder);  
 &emsp;&emsp;"**\***" - multiplication;  
 &emsp;&emsp;"**-**" - minus;  
 &emsp;&emsp;"**+**" - plus;  
@@ -142,7 +142,7 @@ A variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;&emsp;&emsp;**ceiling**(x) - round to the greater integer (towards +∞);  
 &emsp;&emsp;&emsp;&emsp;**trunc**(x) - round to the smaller integer (towards zero);  
 &emsp;&emsp;Integer:  
-&emsp;&emsp;&emsp;&emsp;**mod**(x; y) - the reminder of an integer division;  
+&emsp;&emsp;&emsp;&emsp;**mod**(x; y) - the remainder of an integer division;  
 &emsp;&emsp;&emsp;&emsp;**gcd**(x; y) - the greatest common divisor of two integers;  
 &emsp;&emsp;&emsp;&emsp;**lcm**(x; y) - the least common multiple of two integers;  
 &emsp;&emsp;Complex:  
