@@ -1369,7 +1369,7 @@
         <Button Grid.Row="0" x:Name="PrintButton" Command="ApplicationCommands.Print"
                 HorizontalAlignment="Right"  VerticalAlignment="Top"
                 Height="24" Width="24" Margin="0,24,83,0"
-                Click="SaveOutputButton_Click" IsTabStop="false" Focusable="false" 
+                IsTabStop="false" Focusable="false" 
                 Background="{x:Null}" BorderBrush="{x:Null}"
                 ToolTip="{x:Static wpf:MainWindowResources.PrintPreview}">
             <Image Source="Resources/print.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
