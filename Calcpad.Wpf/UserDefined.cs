@@ -315,7 +315,8 @@ namespace Calcpad.Wpf
                     isComplete = true;
                 else if (c == '=')
                 {
-                    _macroContents.TryAdd(_macroName, lineContent[(i + 1)..].ToString());
+                    if (!string.IsNullOrWhiteSpace(_macroName))
+                        _macroContents.TryAdd(_macroName, lineContent[(i + 1)..].ToString());
                     _macroName = null;
                     if (isComplete)
                         CompleteMacroParameters(lineNumber);
