@@ -655,7 +655,7 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Modulo (reminder).
+        ///   Looks up a localized string similar to Modulo (remainder).
         /// </summary>
         public static string Modulo {
             get {
@@ -664,7 +664,7 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The modulo (reminder) of an integer division.
+        ///   Looks up a localized string similar to The modulo (remainder) of an integer division.
         /// </summary>
         public static string Modulo_Description {
             get {

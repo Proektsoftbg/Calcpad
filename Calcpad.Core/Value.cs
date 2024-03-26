@@ -125,7 +125,7 @@ namespace Calcpad.Core
         public static Value operator %(Value a, Value b)
         {
             if (b.Units is not null)
-                Throw.CannotEvaluateReminderException(Unit.GetText(a.Units), Unit.GetText(b.Units));
+                Throw.CannotEvaluateRemainderException(Unit.GetText(a.Units), Unit.GetText(b.Units));
 
             return new(a.Re % b.Re, a.Units);
         }

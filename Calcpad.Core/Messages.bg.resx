@@ -81,10 +81,10 @@
   <data name="The_argument_of_n_factorial_cannot_be_complex" xml:space="preserve">
         <value>Аргументът на n! не може да е комплексно число.</value>
     </data>
-  <data name="Cannot_evaluate_reminder__0__1__Denominator_must_be_unitless" xml:space="preserve">
+  <data name="Cannot_evaluate_remainder__0__1__Denominator_must_be_unitless" xml:space="preserve">
         <value>Не мога да изчисля остатъка: "{0}  %  {1}". Делителя трябва да е бездименсионен.</value>
     </data>
-  <data name="Cannot_evaluate_reminder__0__1__The_denominator_must_be_unitless_" xml:space="preserve">
+  <data name="Cannot_evaluate_remainder__0__1__The_denominator_must_be_unitless_" xml:space="preserve">
         <value>Не мога да изчисля остатъка: "{0}  %  {1}". Делителя трябва да е бездименсионен.</value>
     </data>
   <data name="Both_values_must_be_integers" xml:space="preserve">

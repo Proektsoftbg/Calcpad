@@ -15,7 +15,7 @@ namespace Calcpad.Cli
         internal Converter(bool isSilent)
         {
             var appUrl = $"file:///{Program.AppPath.Replace("\\", "/")}doc/";
-            var templatePath =  $"{Program.AppPath}doc\\template{Program.AddCultureExt("html")}";
+            var templatePath =  $"{Program.AppPath}doc{Path.DirectorySeparatorChar}template{Program.AddCultureExt("html")}";
             _htmlWorksheet = File.ReadAllText(templatePath).Replace("jquery", appUrl + "jquery");
             _isSilent = isSilent;   
         }

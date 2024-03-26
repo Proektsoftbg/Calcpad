@@ -177,10 +177,10 @@
         <value>Minimum of multiple values</value>
     </data>
   <data name="Modulo" xml:space="preserve">
-        <value>Modulo (reminder)</value>
+        <value>Modulo (remainder)</value>
     </data>
   <data name="Modulo_Description" xml:space="preserve">
-        <value>The modulo (reminder) of an integer division</value>
+        <value>The modulo (remainder) of an integer division</value>
     </data>
   <data name="Multiplication" xml:space="preserve">
         <value>Multiplication</value>

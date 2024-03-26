@@ -81,8 +81,8 @@
   <data name="The_argument_of_n_factorial_cannot_be_complex" xml:space="preserve">
         <value>The argument of n! cannot be complex.</value>
     </data>
-  <data name="Cannot_evaluate_reminder__0__1__Denominator_must_be_unitless" xml:space="preserve">
-        <value>Cannot evaluate reminder: "{0}  %  {1}". Denominator must be unitless.</value>
+  <data name="Cannot_evaluate_remainder__0__1__Denominator_must_be_unitless" xml:space="preserve">
+        <value>Cannot evaluate remainder: "{0}  %  {1}". Denominator must be unitless.</value>
     </data>
   <data name="Both_values_must_be_integers" xml:space="preserve">
         <value>Both values must be integers.</value>
@@ -258,8 +258,8 @@
   <data name="Units_cannon_be_raised_to_complex_power" xml:space="preserve">
         <value>Units cannon be raised to complex power.</value>
     </data>
-  <data name="Cannot_evaluate_reminder__0__1__The_denominator_must_be_unitless_" xml:space="preserve">
-        <value>Cannot evaluate reminder: "{0}  %  {1}". The denominator must be unitless.</value>
+  <data name="Cannot_evaluate_remainder__0__1__The_denominator_must_be_unitless_" xml:space="preserve">
+        <value>Cannot evaluate remainder: "{0}  %  {1}". The denominator must be unitless.</value>
     </data>
   <data name="SelectAll" xml:space="preserve">
         <value>Select _All</value>
