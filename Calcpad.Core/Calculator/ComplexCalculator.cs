@@ -81,7 +81,7 @@ namespace Calcpad.Core
                 Pow,
                 Divide,
                 IntDiv,
-                Reminder,
+                Remainder,
                 Multiply,
                 Subtract,
                 Add,
@@ -170,10 +170,10 @@ namespace Calcpad.Core
             return new(c, uc, a.IsUnit && b.IsUnit);
         }
 
-        private static Value Reminder(in Value a, in Value b)
+        private static Value Remainder(in Value a, in Value b)
         {
             if (b.Units is not null)
-                Throw.ReminderUnitsException(Unit.GetText(a.Units), Unit.GetText(b.Units));
+                Throw.RemainderUnitsException(Unit.GetText(a.Units), Unit.GetText(b.Units));
 
             return new(a.Complex % b.Complex, a.Units);
         }

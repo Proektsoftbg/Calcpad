@@ -143,8 +143,8 @@ A variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;&emsp;&emsp;**trunc**(x) - round to the smaller integer (towards zero);  
 &emsp;&emsp;Integer:  
 &emsp;&emsp;&emsp;&emsp;**mod**(x; y) - the remainder of an integer division;  
-&emsp;&emsp;&emsp;&emsp;**gcd**(x; y) - the greatest common divisor of two integers;  
-&emsp;&emsp;&emsp;&emsp;**lcm**(x; y) - the least common multiple of two integers;  
+&emsp;&emsp;&emsp;&emsp;**gcd**(x; y; z...) - the greatest common divisor of several integers;  
+&emsp;&emsp;&emsp;&emsp;**lcm**(x; y; z...) - the least common multiple of several integers;  
 &emsp;&emsp;Complex:  
 &emsp;&emsp;&emsp;&emsp;**abs**(x)  - absolute value/magnitude;  
 &emsp;&emsp;&emsp;&emsp;**re**(x)    - the real part of a complex number;  

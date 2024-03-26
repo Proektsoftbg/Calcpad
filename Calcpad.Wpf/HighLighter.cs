@@ -488,7 +488,7 @@ namespace Calcpad.Wpf
                 else if (c == '$' && _builder.Length > 0)
                     ParseMacro();
                 else if (c == '%' && _builder.Length > 0 && _builder[^1] == '%')
-                    AppendReminderShortcut();
+                    AppendRemainderShortcut();
                 else if (Validator.IsWhiteSpace(c))
                     ParseSpace(c);
                 else if (Brackets.Contains(c))
@@ -1054,7 +1054,7 @@ namespace Calcpad.Wpf
             return false;
         }
 
-        private void AppendReminderShortcut()
+        private void AppendRemainderShortcut()
         {
             if (_builder.Length > 1)
             {

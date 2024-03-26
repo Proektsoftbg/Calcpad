@@ -115,20 +115,20 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot evaluate reminder: &quot;{0}  %  {1}&quot;. Denominator must be unitless..
+        ///   Looks up a localized string similar to Cannot evaluate remainder: &quot;{0}  %  {1}&quot;. Denominator must be unitless..
         /// </summary>
-        public static string Cannot_evaluate_reminder__0__1__Denominator_must_be_unitless {
+        public static string Cannot_evaluate_remainder__0__1__Denominator_must_be_unitless {
             get {
-                return ResourceManager.GetString("Cannot_evaluate_reminder__0__1__Denominator_must_be_unitless", resourceCulture);
+                return ResourceManager.GetString("Cannot_evaluate_remainder__0__1__Denominator_must_be_unitless", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot evaluate reminder: &quot;{0}  %  {1}&quot;. The denominator must be unitless..
+        ///   Looks up a localized string similar to Cannot evaluate remainder: &quot;{0}  %  {1}&quot;. The denominator must be unitless..
         /// </summary>
-        public static string Cannot_evaluate_reminder__0__1__The_denominator_must_be_unitless_ {
+        public static string Cannot_evaluate_remainder__0__1__The_denominator_must_be_unitless_ {
             get {
-                return ResourceManager.GetString("Cannot_evaluate_reminder__0__1__The_denominator_must_be_unitless_", resourceCulture);
+                return ResourceManager.GetString("Cannot_evaluate_remainder__0__1__The_denominator_must_be_unitless_", resourceCulture);
             }
         }
         

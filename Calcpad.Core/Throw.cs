@@ -50,8 +50,8 @@ namespace Calcpad.Core
             New(Messages.The_argument_of_n_factorial_must_be_a_positive_integer);
         internal static void FactorialArgumentComplexException() =>
             New(Messages.The_argument_of_n_factorial_cannot_be_complex);
-        internal static void ReminderUnitsException(in string u1, in string u2) =>
-            New(string.Format(Messages.Cannot_evaluate_reminder__0__1__Denominator_must_be_unitless, u1, u2));
+        internal static void RemainderUnitsException(in string u1, in string u2) =>
+            New(string.Format(Messages.Cannot_evaluate_remainder__0__1__Denominator_must_be_unitless, u1, u2));
         internal static void BothValuesIntegerException() =>
             New(Messages.Both_values_must_be_integers);
         internal static void VariableNotExistException(in string name) =>
@@ -170,8 +170,8 @@ namespace Calcpad.Core
             New(string.Format(Messages.Inconsistent_units__0__1__2__, ua, op, ub));
         internal static void UnitsToComplexPowerException() =>
             New(Messages.Units_cannon_be_raised_to_complex_power);
-        internal static void CannotEvaluateReminderException(in string ua, in string ub) =>
-            New(string.Format(Messages.Cannot_evaluate_reminder__0__1__The_denominator_must_be_unitless_, ua, ub));
+        internal static void CannotEvaluateRemainderException(in string ua, in string ub) =>
+            New(string.Format(Messages.Cannot_evaluate_remainder__0__1__The_denominator_must_be_unitless_, ua, ub));
         internal static void IvalidFunctionTokenException(in string s) =>
             New(string.Format(Messages.Invalid_token_in_function_definition__0__, s));
 
