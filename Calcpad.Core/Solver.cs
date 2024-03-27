@@ -196,7 +196,7 @@ namespace Calcpad.Core
 
         private double Extremum(double left, double right, bool isMin)
         {
-            const double k = 0.6180339887498948;
+            const double k = 0.6180339887498948482;
             double x1, x2;
             if (left < right)
             {
@@ -208,33 +208,47 @@ namespace Calcpad.Core
                 x1 = right;
                 x2 = left;
             }
-            var x3 = x2 - k * (x2 - x1);
-            var x4 = x1 + k * (x2 - x1);
+            var d = x2 - x1;
+            var d0 = 0.1 * d;
+            var x3 = x2 - k * d;
+            var x4 = x1 + k * d;
             var eps = Precision * (Math.Abs(x3) + Math.Abs(x4)) / 2.0;
-            var tol2 = Precision * Precision;
-            while (x2 - x1 > eps)
+            var tol2 = 1e-30;
+            var y3 = Fd(x3);
+            var y4 = Fd(x4);
+            while (d > eps)
             {
-                var y3 = Fd(x3);
-                var y4 = Fd(x4);
-                if (y3 == y4)
+                if (y3 == y4 && d < d0)
                     break;
 
                 if (isMin == y3 < y4)
                 {
                     x2 = x4;
                     x4 = x3;
-                    x3 = x2 - k * (x2 - x1);
+                    y4 = y3;
+                    d = x2 - x1;
+                    x3 = x2 - k * d;
+                    y3 = Fd(x3);
                 }
                 else
                 {
                     x1 = x3;
                     x3 = x4;
-                    x4 = x1 + k * (x2 - x1);
+                    y3 = y4;
+                    d = x2 - x1;
+                    x4 = x1 + k * d;
+                    y4 = Fd(x4);
                 }
                 eps = Precision * (Math.Abs(x3) + Math.Abs(x4));
                 if (eps < tol2)
                     eps = tol2;
             }
+            if (x1 == left)
+                return Fd(left);
+
+            if (x2 == right) 
+                return Fd(right);  
+
             return Fd((x1 + x2) / 2.0);
         }
 
