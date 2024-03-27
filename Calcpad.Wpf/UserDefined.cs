@@ -1,4 +1,5 @@
 ﻿using Calcpad.Core;
+using DocumentFormat.OpenXml.Drawing.Charts;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -207,10 +208,27 @@ namespace Calcpad.Wpf
                                 isFunction = true;
                         }
                     }
-                    if (item.Contains("$sup", StringComparison.OrdinalIgnoreCase))
-                        Variables.TryAdd("x_sup", lineNumber);
-                    else if (item.Contains("$inf", StringComparison.OrdinalIgnoreCase))
-                        Variables.TryAdd("x_inf", lineNumber);
+                    var index = item.IndexOf("$sup", StringComparison.OrdinalIgnoreCase);
+                    if (index >= 0)
+                        AddVariable(item[index..], "_sup");
+
+                    index = item.IndexOf("$inf", StringComparison.OrdinalIgnoreCase);
+                    if (index >= 0)
+                        AddVariable(item[index..], "_inf");
+                }
+            }
+
+            void AddVariable(ReadOnlySpan<char> span, string suffix)
+            {
+                var i1 = span.IndexOf('@') + 1;
+                if (i1 > 0)
+                {
+                    var i2 = span[i1..].IndexOf('=');
+                    if (i2 >= 0)
+                    {
+                        var name = span.Slice(i1, i2).Trim().ToString() + suffix;
+                        Variables.TryAdd(name, lineNumber);
+                    }
                 }
             }
         }
