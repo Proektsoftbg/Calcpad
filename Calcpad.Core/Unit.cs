@@ -1073,7 +1073,7 @@ namespace Calcpad.Core
 
         internal static Unit GetElectricalUnit(Unit u)
         {
-            if (!u._text.StartsWith("VA"))
+            if (!u._text?.StartsWith("VA") ?? true)
                 if (ElectricalUnits.TryGetValue(u, out var eu))
                     return eu;
 

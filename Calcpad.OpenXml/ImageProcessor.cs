@@ -6,16 +6,11 @@ using System.Net.Http;
 
 namespace Calcpad.OpenXml
 {
-    internal abstract class ImageProcessor
+    internal abstract class ImageProcessor(string imageSrc)
     {
-        protected readonly string src;
+        protected readonly string src = imageSrc;
         public abstract ImagePart GetImagePart(MainDocumentPart mainPart);
         public abstract Tuple<int, int> ImageSize { get; }
-
-        protected ImageProcessor(string imageSrc)
-        {
-            src = imageSrc;
-        }
 
         protected static string GetImageDataType(string data)
         {
@@ -36,7 +31,7 @@ namespace Calcpad.OpenXml
             return Convert.FromBase64String(base64);
         }
 
-        protected static ImagePartType GetImagePartType(string ext)
+        protected static PartTypeInfo GetImagePartType(string ext)
         {
             return ext.ToLowerInvariant() switch
             {
