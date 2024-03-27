@@ -52,7 +52,7 @@ namespace Calcpad.Wpf
             Clear(isComplex);
             var lineNumber = 0;
             var firstLine = 0;
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             foreach (var line in lines)
             {
                 ++lineNumber;

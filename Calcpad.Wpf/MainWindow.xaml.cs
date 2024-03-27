@@ -82,7 +82,7 @@ namespace Calcpad.Wpf
         private readonly UndoManager _undoMan;
         private readonly WebBrowserWrapper _wbWarper;
 
-        private string _readmeFileName;
+        private readonly string _readmeFileName;
         private string DocumentPath { get; set; }
         private string _cfn;
         private string CurrentFileName

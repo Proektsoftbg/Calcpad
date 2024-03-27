@@ -323,7 +323,7 @@ namespace Calcpad.Wpf
         private bool IsVariable(string s, int line) => LocalVariables.Contains(s) || Defined.IsVariable(s, line);
         private bool IsUnit(string s, int line) => Defined.IsUnit(s, line) || MathParser.IsUnit(s);
 
-        private void InitLocalValraibles(Paragraph p)
+        private static void InitLocalValraibles(Paragraph p)
         {
             var b = p;
             while (true)
@@ -333,7 +333,7 @@ namespace Calcpad.Wpf
                     break;
 
                 var inline = (Run)pb.Inlines.LastInline;
-                if (inline is not null && inline.Text.EndsWith("_"))
+                if (inline is not null && inline.Text.EndsWith('_'))
                     b = pb;
                 else
                     break;
@@ -454,11 +454,11 @@ namespace Calcpad.Wpf
                             c = ' ';
                         else
                         {
-                            c = _builder[_builder.Length - 1];
+                            c = _builder[^1];
                             Append(_state.CurrentType);
                         }
                         if (c == ' ')
-                            _builder.Append("_");
+                            _builder.Append('_');
                         else
                             _builder.Append(" _");
                         Append(Types.None);
