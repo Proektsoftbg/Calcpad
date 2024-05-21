@@ -1,0 +1,151 @@
+————————————————————————————————————————————————————————————————————————————————
+ 命令:
+————————————————————————————————————————————————————————————————————————————————
+	NEW     - 清除当前会话并开始新会话
+	OPEN    - 从磁盘打开存储的文件;
+	SAVE    - 将当前文件保存到磁盘;
+	LIST    - 列出磁盘上的可用文件;
+	EXIT    - 关闭程序;
+	RESET   - 清除输出并从头开始重新计算所有内容;
+	CLS     - 清除输出并从最后一行继续;
+	DEL     - 删除最后一行；
+	DEG     - 将默认三角单位设置为度;
+	RAD     - 将默认三角单位设置为弧度;
+	GRA     - 将默认三角单位设置为等级;
+	SETTINGS/OPTIONS -显示设置文件进行编辑; 
+	LICENSE - 显示许可证文件;
+	HELP    - 显示此帮助文件.
+
+————————————————————————————————————————————————————————————————————————————————
+ 运营商: ! ^ / ÷ \ % * - + ≡ ≠ < > ≤ ≥ ∧ ∨ ⊕ = ? (输入字段)
+————————————————————————————————————————————————————————————————————————————————
+ 自定义功能: f(x; y; z…) = 表达
+————————————————————————————————————————————————————————————————————————————————
+ 功能:
+————————————————————————————————————————————————————————————————————————————————
+    sin(x)     cos(x)     tan(x)      csc(x)      sec(x)         cot(x)
+    asin(x)    acos(x)    atan(x)     acsc(x)     asec(x)        acot(x)
+    sinh(x)    cosh(x)    tanh(x)     csch(x)     sech(x)        coth(x)
+    asinh(x)   acosh(x)   atanh(x)    acsch(x)    asech(x)       acoth(x)
+    log(x)     ln(x)      log_2(x)    exp(x)   
+    sqr(x)     sqrt(x)    cbrt(x)     root(x; n)
+    round(x)   floor(x)   ceiling(x)  trunc(x)
+    sign(x)    mod(x; y)  gcd(x; y)   lcm(x; y)   atan2(x; y)
+    abs(x)     re(x)      im(x)       phase(x)    random(x)
+    and(x; y; z…)         or(x; y; z…)            xor(x; y; z…)  not(x)        
+    min(x; y; z…)         max(x; y; z…)
+    sum(x; y; z…)         average(x; y; z…)       sumsq(x; y; z…)
+    product(x; y; z…)     mean(x; y; z…)          srss(x; y; z…)
+    if(cond; val-if-true; val-if-false)
+    switch(cond1; val1; cond2; val2; …; default)
+    take(n; a; b; c…)     line(x; a; b; c…)       spline(x; a; b; c…)
+	
+————————————————————————————————————————————————————————————————————————————————
+迭代和数值方法:
+————————————————————————————————————————————————————————————————————————————————
+    $Root{f(x) = const @ x = a : b}
+    $Root{f(x) @ x = a : b}
+    $Find{f(x) @ x = a : b}
+    $Sup{f(x) @ x = a : b}
+    $Inf{f(x) @ x = a : b}
+    $Area{f(x) @ x = a : b}
+    $Integral{f(x) @ x = a : b}
+    $Slope{f(x) @ x = a}
+    $Sum{f(k) @ k = a : b}
+    $Product{f(k) @ k = a : b}
+    $Repeat{f(k) @ k = a : b}
+    Precision
+	
+————————————————————————————————————————————————————————————————————————————————
+ Units of measurement:
+————————————————————————————————————————————————————————————————————————————————
+    无量纲:      % ‰
+    角度:        ° ′ ″ deg rad grad rev
+	
+    米制单位 (SI标准制及相容单位):
+        质量:    g hg kg t kt Mt Gt dg cg mg μg Da u
+        长度:    m km dm cm mm μm nm pm AU ly
+        时间:    s ms μs ns ps min h d w y
+        频率::   Hz kHz MHz GHz THz mHz μHz nHz pHz rpm
+        速度:    kmh
+        电流:    A kA MA GA TA mA μA nA pA
+        温度:    °C Δ°C K
+        物质量:  mol
+        光强:    cd
+        面积:   a daa ha
+        体积:   L daL hL dL cL mL μL nL pL
+        力:     N daN hN kN MN GN TN gf kgf tf dyn
+        力矩:   Nm kNm
+        压强:    Pa daPa hPa kPa MPa GPa TPa dPa cPa mPa μPa nPa pPa
+                bar mbar μbar atm at Torr mmHg
+        黏度:   P cP St cSt
+        能量功: J   kJ   MJ   GJ   TJ   mJ   μJ   nJ   pJ
+                Wh  kWh  MWh  GWh  TWh  mWh  μWh  nWh  pWh
+                eV  keV  MeV  GeV  TeV  PeV  EeV  cal  kcal erg 
+        功率:   W   kW   MW   GW   TW   mW   μW   nW   pW   hpM  ks
+                VA  kVA  MVA  GVA  TVA  mVA  μVA  nVA  pVA
+                VAR kVAR MVAR GVAR TVAR mVAR μVAR nVAR pVAR
+        电量:   C   kC   MC   GC   TC   mC   μC   nC   pC   Ah   mAh
+        电势:   V   kV   MV   GV   TV   mV   μV   nV   pV
+        电容:   F   kF   MF   GF   TF   mF   μF   nF   pF
+        电阻:   Ω   kΩ   MΩ   GΩ   TΩ   mΩ   μΩ   nΩ   pΩ
+        电导:   S   kS   MS   GS   TS   mS   μS   nS   pS 
+                ℧   k℧   M℧   G℧   T℧   m℧   μ℧   n℧   p℧
+        磁通量: Wb  kWb  MWb  GWb  TWb  mWb  μWb  nWb  pWb
+        磁感应强度/磁通量密度/磁通密度:  T   kT   MT   GT   TT   mT   μT   nT   pT
+        电感:   H   kH   MH   GH   TH   mH   μH   nH   pH
+        光通量: lm
+        照度/照明度: lx
+        放射性活度:  Bq  kBq  MBq  GBq  TBq  mBq  μBq  nBq  pBq  Ci Rd
+        吸收剂量:    Gy  kGy  MGy  GGy  TGy  mGy  μGy  nGy  pGy
+        等效剂量:    Sv  kSv  MSv  GSv  TSv  mSv  μSv  nSv  pSv
+        催化活性:    kat
+		
+    非米制单位 (英制/美制):
+        质量:     gr dr oz lb (lbm, lb_m) kipm (kip_m) st qr 
+                  cwt (cwt_UK, cwt_US) ton (ton_UK, ton_US) slug
+        长度:     th in ft yd ch fur mi ftm (ftm_UK, ftm_US)
+                  cable (cable_UK, cable_US) nmi li rod pole perch lea
+        速度:     mph knot
+        温度:     °F Δ°F °R
+        面积:     rood ac
+        液体体积: fl_oz     gi      pt     qt     gal     bbl   
+                  fl_oz_UK  gi_UK   pt_UK  qt_UK  gal_UK  bbl_UK
+                  fl_oz_US  gi_US   pt_US  qt_US  gal_US  bbl_US
+       干体积:    pt_dry qt_dry gal_dry bbl_dry
+                  pk (pk_UK, pk_US) bu (bu_UK, bu_US)
+        力:       ozf (oz_f) lbf (lb_f) kip (kipf, kip_f) tonf (ton_f) pdl
+        压强:     osi osf psi psf ksi ksf tsi tsf inHg
+        能量/功:  BTU therm (therm_UK, therm_US) quad
+        功率:     hp hpE hpS
+
+————————————————————————————————————————————————————————————————————————————————
+ 特殊符号换算表:
+————————————————————————————————————————————————————————————————————————————————
+(在相应的拉丁字母之前添加撇号 `)
+
+Fr: `a `b `c `d `e `f `g `h `i `j `k `l `m `n `o `p `q `r `s `t `u `v `w `x `y `z 
+To:  α  β  χ  δ  ε  φ  γ  η  ι  ø  κ  λ  μ  ν  ο  π  θ  ρ  σ  τ  υ  ϑ  ω  ξ  ψ  ζ
+
+Fr: `A `B `C `D `E `F `G `H `I `J `K `L `M `N `O `P `Q `R `S `T `U `V `W `X `Y `Z 
+To:  Α  Β  Χ  Δ  Ε  Φ  Γ  Η  Ι  Ø  Κ  Λ  Μ  Ν  Ο  Π  Θ  Ρ  Σ  Τ  Υ  ∡  Ω  Ξ  Ψ  Ζ
+
+Fr: `@ `' (single quote) `" (double quote)
+To:  °  ′ (single prime)  ″ (double prime/second)
+
+————————————————————————————————————————————————————————————————————————————————
+命令行选项（支持与 Calcpad.exe 相同的语言功能）：
+———————————————————————————————————————————————————————————————————————————————— 
+    cli input.cpd output.html - 计算 input.cpd 并导出
+    cli input.cpd output.docx   将结果转换为相应的格式
+    cli input.cpd output.pdf    （html、docx 或 pdf）；
+		
+    cli input.cpd html - 计算input.cpd并导出到input.html；
+    cli input.cpd docx - 计算input.cpd并导出到input.docx；
+    cli input.cpd pdf  - 计算input.cpd并导出到input.pdf；
+	
+    cli input.cpd      - 计算input.cpd并导出到input.html；.
+	
+	附加参数:
+		-s   		   - 静默模式（不打开输出文件），例如:
+		cli input.cpd output.html -s

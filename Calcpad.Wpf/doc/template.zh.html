@@ -1,0 +1,793 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <title>Calcpad</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <script src="jquery-3.6.3.min.js"></script>
+    <style>
+        body {
+            font-size: 12pt;
+            font-family: Calibri, sans-serif;
+            margin-left: 1.5em;
+            max-width: 190mm
+        }
+
+        h1, h2, h3, h4, h5, h6, .errorHeader, .roundBox {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0.5em 0 0.5em 0;
+            padding: 0;
+            line-height: 150%;
+        }
+
+        p, li {
+            margin: 0.3em 0 0.3em 0;
+            padding: 0;
+            line-height: 150%;
+        }
+
+        select, kbd {
+            font-family: Calibri, sans-serif;
+        }
+
+        code, kbd {
+            font-size: 9pt;
+        }
+
+        a:hover {
+            background-color: #e9f6ff;
+        }
+
+        .eq, input {
+            font-family: "Times New Roman", Times, serif;
+        }
+
+            .eq var {
+                color: #06c;
+                padding-right: 1pt;
+                padding-left: 1pt;
+				font-size: 13pt;
+            }
+
+            .eq i {
+                color: #086;
+				font-style: normal;
+				font-size: 11.5pt;
+            }
+
+            .eq u, input, select {
+                background-color: LightYellow;
+            }
+
+                input[type="text"], select {
+                    font-size: 11pt;
+                    padding: 0.15em 0.3em;
+                    border: 0.5pt solid #CCC;
+                    border-radius: 0.35em;
+                    text-align: right;
+                    box-shadow: 0.06em 0.06em 0.5em #ddd;
+                }
+
+                input[type="checkbox"],
+                input[type="radio"] {
+                    --ssf: 1.3;
+                    zoom: var(--ssf);
+                    -moz-transform: scale(var(--ssf));
+                    -webkit-transform: scale(var(--ssf));
+                    transform: scale(var(--ssf));
+                    transform-origin: bottom;
+                    position: relative;
+                    bottom: 1pt;
+                    margin-right: 1pt;
+                }
+
+                    input[type="checkbox"].post:disabled:not(:checked),
+                    input[type="checkbox"].post:disabled:not(:checked) + label,
+                    input[type="radio"].post:disabled:not(:checked),
+                    input[type="radio"].post:disabled:not(:checked) + label {
+                        display: none;
+                    }
+
+                select.post:disabled {
+                    font-size: 12pt;
+                    border: none;
+                    box-shadow: none;
+                    color: red;
+                    background: none;
+                    appearance: none;
+                    -webkit-appearance: none;
+                    -moz-appearance: none;
+                }
+
+                    select.post:disabled::-ms-expand {
+                        display: none;
+                    }
+
+                input[type="text"]:focus {
+                    box-shadow: 0.1em 0.1em 1em #ccc;
+                    color: black;
+                }
+
+        td, th {
+            padding: 2pt 4pt 2pt 4pt;
+            vertical-align: top;
+        }
+
+        small {
+            font-weight: normal;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+            table.bordered {
+                margin-top: 1em;
+            }
+
+                table.bordered th {
+                    background-color: #F0F0F0;
+                    border: solid 1pt #AAAAAA;
+                }
+
+                table.bordered td {
+                    border: solid 1pt #CCCCCC;
+                }
+
+            table.centered td {
+                text-align: center;
+            }
+
+            table.data td {
+                text-align: right;
+            }
+
+                table.data td:first-child {
+                    text-align: left;
+                    padding-left: 0;
+                }
+
+        .r0, .r1, .r2, .r3,
+        .o0, .o1, .o2, .o3,
+        .b1, .b2, .b3,
+        .c1, .c2, .c3, .c4,
+        .c5, .c6, .c7, .c8 {
+            display: inline-block;
+        }
+
+        .r0, .r1, .r2, .r3 {
+            margin-top: -1.5pt;
+            margin-right: 1.5pt;
+            vertical-align: top;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: right top;
+        }
+
+        .o0, .o1, .o2, .o3 {
+            border-top: solid 0.75pt;
+            line-height: 130%;
+            vertical-align: middle;
+            margin-top: 0.75pt;
+            padding-top: 1.25pt;
+            padding-left: 1pt;
+            padding-right: 1pt;
+        }
+
+        .r {
+            font-size: 130%;
+            display: inline-block;
+            vertical-align: top;
+            margin-left: -9pt;
+        }
+
+        .r0 {
+            content: "";
+            background-image: url("data: image/svg+xml;base64,PHN2ZyB4bWxuczpzdmc9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDEwIDIwIiBoZWlnaHQ9IjE1cHQiIHdpZHRoPSIxMHB4Ij4NCiAgPHBvbHlsaW5lIHBvaW50cz0iMCwxMyAyLDEyIDUsMTkgOSwwIiBzdHlsZT0ic3Ryb2tlOmJsYWNrOyBzdHJva2Utd2lkdGg6MC42cHQ7IHN0cm9rZS1saW5lam9pbjpyb3VuZDsgc3Ryb2tlLWxpbmVjYXA6cm91bmQ7IGZpbGw6bm9uZSIgLz4NCiAgPGxpbmUgeDE9IjIuMiIgeTE9IjEyLjMiIHgyPSI0LjYiIHkyPSIxOC43IiBzdHlsZT0ic3Ryb2tlOmJsYWNrOyBzdHJva2Utd2lkdGg6MC44cHQ7IHN0cm9rZS1saW5lY2FwOnJvdW5kOyIgLz4NCjwvc3ZnPg==");
+            width: 8pt;
+            height: 16pt;
+            margin-left: -8pt;
+        }
+
+        .r1 {
+            content: "";
+            background-image: url("data: image/svg+xml;base64,PHN2ZyB4bWxuczpzdmc9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDE1IDQwIiBoZWlnaHQ9IjMwcHQiIHdpZHRoPSIxNXB4Ij4NCiAgPHBvbHlsaW5lIHBvaW50cz0iMSwyNiAzLDI0IDgsMzggMTQsMCIgc3R5bGU9InN0cm9rZTpibGFjazsgc3Ryb2tlLXdpZHRoOjAuNnB0OyBzdHJva2UtbGluZWpvaW46cm91bmQ7IHN0cm9rZS1saW5lY2FwOnJvdW5kOyBmaWxsOm5vbmUiIC8+DQogIDxsaW5lIHgxPSIzLjIiIHkxPSIyNC40IiB4Mj0iNy42IiB5Mj0iMzcuNiIgc3R5bGU9InN0cm9rZTpibGFjazsgc3Ryb2tlLXdpZHRoOjFwdDsgc3Ryb2tlLWxpbmVjYXA6cm91bmQ7IiAvPg0KPC9zdmc+");
+            width: 12pt;
+            height: 32pt;
+            margin-left: -12pt;
+        }
+
+        .r2 {
+            content: "";
+            background-image: url("data: image/svg+xml;base64,PHN2ZyB4bWxuczpzdmc9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDIwIDYwIiBoZWlnaHQ9IjQ1cHQiIHdpZHRoPSIyMHB4Ij4NCiAgPHBvbHlsaW5lIHBvaW50cz0iMiwzNyA1LDM0IDExLDU1IDE5LDAiIHN0eWxlPSJzdHJva2U6YmxhY2s7IHN0cm9rZS13aWR0aDowLjZwdDsgc3Ryb2tlLWxpbmVqb2luOnJvdW5kOyBzdHJva2UtbGluZWNhcDpyb3VuZDsgZmlsbDpub25lIiAvPg0KICA8bGluZSB4MT0iNS4xIiB5MT0iMzQuNiIgeDI9IjEwLjYiIHkyPSI1NC40IiBzdHlsZT0ic3Ryb2tlOmJsYWNrOyBzdHJva2Utd2lkdGg6MS4ycHQ7IHN0cm9rZS1saW5lY2FwOnJvdW5kOyIgLz4NCjwvc3ZnPg==");
+            width: 16pt;
+            height: 48pt;
+            margin-left: -16pt;
+        }
+
+        .r3 {
+            content: "";
+            background-image: url("data: image/svg+xml;base64,PHN2ZyB4bWxuczpzdmc9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDI1IDgwIiBoZWlnaHQ9IjYwcHQiIHdpZHRoPSIyNXB4Ij4NCiAgPHBvbHlsaW5lIHBvaW50cz0iMyw1MCA3LDQ2IDE1LDc0IDI0LDAiIHN0eWxlPSJzdHJva2U6YmxhY2s7IHN0cm9rZS13aWR0aDowLjZwdDsgc3Ryb2tlLWxpbmVqb2luOnJvdW5kOyBzdHJva2UtbGluZWNhcDpyb3VuZDsgZmlsbDpub25lIiAvPg0KICA8bGluZSB4MT0iNy4xIiB5MT0iNDYuOCIgeDI9IjE0LjUiIHkyPSI3My4yIiBzdHlsZT0ic3Ryb2tlOmJsYWNrOyBzdHJva2Utd2lkdGg6MS4ycHQ7IHN0cm9rZS1saW5lY2FwOnJvdW5kOyIgLz4NCjwvc3ZnPg==");
+            width: 19pt;
+            height: 62pt;
+            margin-left: -19pt;
+        }
+
+        .eq sub {
+            font-family: Calibri, 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+            font-size: 92%;
+            vertical-align: -18%;
+        }
+
+        .eq sup {
+            display: inline-block;
+            margin-left: 1pt;
+            margin-top: -2pt;
+        }
+
+        .eq small {
+			font-family: Calibri, 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+            font-size: 70%;
+        }
+		
+		.eq small var {
+			font-family: "Times New Roman", Times, serif;
+            font-size: 10pt;
+        }
+
+            .eq small i {
+                font-family: "Times New Roman", Times, serif;
+                font-size: 9pt;
+            }
+
+        .nth {
+            position: relative;
+            bottom: 1pt;
+        }
+		
+        .eq small.nth{
+            font-size: 70%;
+        }
+
+        sup.raised {
+            vertical-align: top;
+        }
+
+        sup .r0, sup .r1, sup .r2, sup .r3 {
+            zoom: 0.7;
+            -moz-transform: scale(0.7);
+            -webkit-transform: scale(0.7);
+            transform: scale(0.7);
+            transform-origin: top right;
+            max-height: none;
+        }
+
+        sup .r0 {
+            margin-left: -5pt;
+        }
+
+        sup .r1 {
+            margin-left: -11pt;
+        }
+
+        sup .r2 {
+            margin-left: -13pt;
+        }
+
+        sup .r3 {
+            margin-left: -16pt;
+        }
+
+        .b1, .b2, .b3, .c1, .c2, .c3, .c4, .c5, .c6, .c7, .c8 {
+            vertical-align: middle;
+            font-weight: 100;
+            font-stretch: ultra-condensed;
+        }
+
+        .b2, .b3, .c2, .c3, .c4, .c5, .c6, .c7, .c8 {
+            font-family: "Jost* Hairline";
+        }
+
+        .b0, .b1, .c1 {
+            font-family: "Jost* Thin";
+        }
+
+        .b0 {
+            font-size: 120%;
+        }
+
+        .b1 {
+            font-size: 240%;
+            margin-top: -3pt;
+        }
+
+        .b2 {
+            font-size: 370%;
+            margin-top: -5pt;
+            margin-left: -3pt;
+            margin-right: -3pt;
+        }
+
+        .b3 {
+            font-size: 520%;
+            margin-top: -8pt;
+            margin-left: -5pt;
+            margin-right: -5pt;
+        }
+
+        .c1 {
+            font-size: 240%;
+            margin-top: -4pt;
+        }
+
+        .c2 {
+            font-size: 360%;
+            margin-top: -6pt;
+            margin-left: -2.5pt;
+            margin-right: -0.5pt;
+        }
+
+        .c3 {
+            font-size: 480%;
+            margin-top: -8pt;
+            margin-left: -3pt;
+            margin-right: -1pt;
+        }
+
+        .c4 {
+            font-size: 600%;
+            margin-top: -10pt;
+            margin-left: -4pt;
+            margin-right: -2pt;
+            transform: scaleX(0.9);
+        }
+
+        .c5 {
+            font-size: 710%;
+            margin-top: -11.5pt;
+            margin-left: -6pt;
+            margin-right: -4pt;
+            transform: scaleX(0.8);
+        }
+
+        .c6 {
+            font-size: 820%;
+            margin-top: -13pt;
+            margin-left: -7pt;
+            margin-right: -5pt;
+            transform: scaleX(0.7);
+        }
+
+        .c7 {
+            font-size: 930%;
+            margin-top: -14.5pt;
+            margin-left: -8pt;
+            margin-right: -6pt;
+            transform: scaleX(0.6);
+        }
+
+        .c8 {
+            font-size: 1040%;
+            margin-top: -16pt;
+            margin-left: -9pt;
+            margin-right: -7pt;
+            transform: scaleX(0.5);
+        }
+
+        .dvc, .dvr, .dvs{
+            display: inline-block;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        .dvc {
+            text-align: center;
+            line-height: 110%;
+        }
+
+        .dvr {
+            text-align: center;
+            line-height: 105%;
+        }
+
+        .dvs {
+            text-align: left;
+            line-height: 110%;
+        }
+
+        .dvl {
+            display: block;
+            border-bottom: solid 0.75pt black;
+            margin-top: 1pt;
+            margin-bottom: 1pt;
+        }
+
+        .nary {
+            color: #D000D0;
+            font-size: 200%;
+            font-family: "Segoe UI Light";
+            line-height: 80%;
+            display: block;
+            margin-top: -3pt;
+            margin-bottom: 5pt;
+        }
+
+        .dvc.down {
+            position: relative;
+            top: 0.5em;
+        }
+
+        .dvc.up {
+            position: relative;
+            bottom: 0.6em;
+        }
+
+        .cond {
+            color: #FA00FA;
+        }
+
+        .err {
+            color: Crimson;
+            background-color: #FEE;
+        }
+
+        .ok {
+            color: Green;
+            background-color: #F0FFF0;
+        }
+
+        .ref {
+            float: right;
+            margin-left: 18pt;
+            color: Green;
+            background-color: #F8FFF0;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        .side {
+            float: right;
+            max-width: 50%;
+        }
+
+        .plot {
+            max-width: 100%
+        }
+
+        .indent {
+            border-left: 0.75pt solid #dddddd;
+            padding-left: 2em;
+        }
+
+        span.indent {
+            display: inline-block;
+        }
+
+        .fold {
+            height: 2.4em;
+            overflow: hidden;
+        }
+
+        .unfold {
+            height: auto;
+            overflow: auto;
+        }
+
+            .fold > :first-child, .unfold > :first-child {
+                cursor: pointer;
+            }
+
+                .fold > :first-child:hover, .unfold > :first-child:hover {
+                    color: #0066bb;
+                    text-decoration: underline;
+                }
+
+                .fold > :first-child::after {
+                    content: " ... ▼";
+                    font-size: 80%;
+                }
+
+                .unfold > :first-child::after {
+                    content: " ▲";
+                    font-size: 80%;
+                }
+
+        #Units {
+            float: right;
+        }
+
+        @media screen {
+            .no-screen {
+                display: none;
+            }
+        }
+
+        @media print {
+            .side {
+                zoom: 0.8;
+                -moz-transform: scale(0.8);
+            }
+
+            .no-print {
+                display: none;
+            }
+        }
+
+        .value {
+            position: relative;
+            background-color: #f4fbff;
+            border-radius: 3pt;
+        }
+
+            .value:after {
+                content: "";
+                position: absolute;
+                left: 100%;
+                top: -100%;
+                transform: translateY(-50%);
+                margin-left: 2pt;
+                height: 16pt;
+                line-height: 16pt;
+                vertical-align: middle;
+                width: fit-content;
+                white-space: nowrap;
+                min-width: 10pt;
+                z-index: 1;
+                vertical-align: middle;
+                padding: 0 6pt 0 6pt;
+                border-radius: 6pt 6pt 6pt 0;
+                background: #000;
+                color: #fff;
+                font-family: Calibri, sans-serif;
+                font-style: normal;
+                font-size: 10pt;
+                text-align: center;
+                display: none;
+                opacity: 0;
+                transition: opacity 2s;
+                user-select: none;
+                -webkit-user-select: none;
+                -ms-user-select: none;
+                -moz-user-select: none;
+            }
+
+            .value:hover:after {
+                content: attr(data-value);
+                display: block;
+                opacity: 1;
+            }
+
+        .errorHeader {
+            color: white;
+            background-color: crimson;
+            font-size: 10pt;
+            position: fixed;
+            top: 0;
+            left: 0;
+            margin-top: 0;
+            width: 100vw;
+            max-width: 100%;
+            height: 1.8em;
+            line-height: 1.2em;
+            padding-left: 6pt;
+            overflow-x: hidden;
+        }
+
+        .roundBox {
+            background-color: #fee;
+            color: crimson;
+            font-size: 9pt;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            display: inline-block;
+            border-radius: 4pt;
+            min-width: 1.1em;
+            padding-left: 2pt;
+            padding-right: 2pt;
+            margin-top: 2pt;
+        }
+
+            .roundBox:hover {
+                background-color: white;
+            }
+
+        .lineLink {
+            background: none;
+            color: #b0e0ff;
+            font-family: Calibri, sans-serif;
+            font-size: 10pt;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: left;
+            text-decoration: none;
+            display: inline-block;
+            position: absolute;
+            left: 0;
+            width: 2em;
+            height: 4em;
+            z-index: 1;
+        }
+
+            .lineLink:hover {
+                background: none;
+                color: #09e;
+            }
+    </style>
+</head>
+<body>
+    <script>
+        var contextMenu = false;
+        function delayedLoad(path) { setTimeout(function () { document.write(path); }, 1000); }
+        function getVerticalPosition(line) { return document.querySelector("[data-text='" + line + "']").getBoundingClientRect().top; }
+		function isNumeric(s) {return s.match(/^-?\d+(?:\.\d+)?$/); }
+		
+        if (window.jQuery) {
+            function getHtmlWithInput() {
+                $("input[type=text]").each(function () {
+                    $(this).attr("value", $(this).val());
+                });
+                $("input[type=hidden]").each(function () {
+                    $(this).attr("value", $(this).val());
+                });
+                $("textarea").each(function () {
+                    $(this).html($(this).val());
+                });
+                $("input[type=radio]").each(function () {
+                    if (this.checked)
+                        $(this).attr("checked", "checked");
+                    else
+                        $(this).removeAttr("checked");
+                });
+                $("input[type=checkbox]").each(function () {
+                    if (this.checked)
+                        $(this).attr("checked", "checked");
+                    else
+                        $(this).removeAttr("checked");
+                });
+                $("select option").each(function () {
+                    if (this.selected) {
+                        $(this).attr("selected", "true");
+                    }
+                    else
+                        $(this).removeAttr("selected");
+                });
+                return document.body.outerHTML;
+            }
+
+            function getTargetId(element) {
+                var id = $(element).attr("name");
+                if (id != null && id.length > 0)
+                    return id;
+
+                return $(element).data("target");
+            }
+
+            function getValue(id, source) {
+                var value = "";
+                var target = $("#" + id + " input");
+                var domObj = target.get(0);
+                if (domObj == null || domObj.Length == 0) {
+                    target = $("#" + id + " .eq u");
+                    target.each(function () {
+                        value += $(this).text() + ";";
+                    });
+                    $(source).prop('disabled', true);
+                }
+                else {
+                    target.each(function () {
+                        value += $(this).val() + ";";
+                    });
+                }
+                if (value.length > 1) {
+                    value = value.slice(0, -1);
+                }
+                return value;
+            }
+
+            $(document).ready(function () {
+
+                $("#Units").change(function () { $(".Units").text($(this).val()); });
+
+                $(".fold > :first-child").click(function () {
+                    if ($(this).parent().hasClass("fold")) {
+                        $(this).parent().removeClass("fold").addClass("unfold");
+                    }
+                    else {
+                        $(this).parent().removeClass("unfold").addClass("fold");
+                    }
+                });
+
+                $("select").each(function (index) {
+                    if ($(this).prop("id") != "Units") {
+                        var id = getTargetId(this);
+                        if (id != null && id.length > 0) {
+                            var value = getValue(id, this);
+                            $(this).val(value);
+                        }
+                    }
+
+                });
+
+                $("select").change(function () {
+                    var id = getTargetId(this);
+                    if (id != null && id.length > 0) {
+                        var target = $("#" + id + " input");
+                        if (target != null) {
+                            var values = $(this).val().split(";");
+                            target.each(function (index) {
+                                $(this).val(values[index]);
+                            });
+                        }
+                    }
+                });
+
+                $("input:radio, input:checkbox").each(function (index) {
+                    var id = getTargetId(this);
+                    if (id != null && id.length > 0) {
+                        var value = getValue(id, this);
+                        $(this).prop("checked", $(this).val() == value);
+                    }
+                });
+
+                $("input:radio, input:checkbox").change(function () {
+                    var id = getTargetId(this);
+                    if (id != null && id.length > 0) {
+                        var target = $("#" + id + " input");
+                        if (target != null) {
+                            if ($(this).prop("checked")) {
+                                var values = $(this).val().split(";");
+                                target.each(function (index) {
+                                    $(this).val(values[index]);
+                                });
+                            }
+                            else if ($(this).prop("type") == "checkbox") {
+                                target.each(function () {
+                                    $(this).val("0");
+                                });
+                            }
+                        }
+                    }
+                });
+                $(".line:not(style, script)").each(function () {
+                    var line = $(this).prop("id").split("-")[1];
+                    var $lineLink = $('<a class="lineLink" href="#0" data-text="' + line + '" title="Code line ' + line + '">&larr;</a>');
+                    $(this).append($lineLink);
+                    $lineLink.hide();
+                    $(this).hover(function () {
+                        $lineLink.show();
+                    }, function () {
+                        $lineLink.hide();
+                    });
+                    $(window).scroll(function () {
+                        $lineLink.hide();
+                    });
+                });
+
+                $(".roundBox").click(function () {
+                    var line = $(this).data("line");
+                    var e = document.getElementById("line-" + line);
+                    if (e) {
+                        window.scrollTo(0, e.offsetTop - $(this).outerHeight() - 20);
+                    }
+                });
+                $(".money").each(function () { $(this).text(Number(($(this).text())).toFixed(2)); });
+				
+				$("input").change(function(){
+					var e = $(this);
+					var s = e.val();
+					if (isNumeric(s)) {
+					    e.css("color", "black");
+					    e.removeAttr("title");
+					} else {
+					    e.css("color", "red");
+                        e.attr("title", "Invalid number");
+					}
+				});
+            });
+        }
+        document.oncontextmenu = function () { contextMenu = true; };
+        document.onmousedown = function () { contextMenu = false; };
+    </script>

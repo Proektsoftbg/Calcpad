@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <title>Calcpad</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -751,7 +751,7 @@
                         }
                     }
                 });
-                $(".line").each(function () {
+                $(".line:not(style, script)").each(function () {
                     var line = $(this).prop("id").split("-")[1];
                     var $lineLink = $('<a class="lineLink" href="#0" data-text="' + line + '" title="Code line ' + line + '">&larr;</a>');
                     $(this).append($lineLink);
