@@ -1,1148 +1,1152 @@
-﻿<root>
-    <resheader name="resmimetype">
-        <value>text/microsoft-resx</value>
-    </resheader>
-    <resheader name="version">
-        <value>1.3</value>
-    </resheader>
-    <resheader name="reader">
-        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-    </resheader>
-    <resheader name="writer">
-        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-    </resheader>
-    <data name="Percent" xml:space="preserve">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Percent" xml:space="preserve">
         <value>% (процент)</value>
     </data>
-    <data name="Permille" xml:space="preserve">
+  <data name="Permille" xml:space="preserve">
         <value>‰ (промил)</value>
     </data>
-    <data name="Degrees" xml:space="preserve">
+  <data name="Degrees" xml:space="preserve">
         <value>° (градус)</value>
     </data>
-    <data name="Minutes" xml:space="preserve">
+  <data name="Minutes" xml:space="preserve">
         <value>′ (минута)</value>
     </data>
-    <data name="Seconds" xml:space="preserve">
+  <data name="Seconds" xml:space="preserve">
         <value>″ (секунда)</value>
     </data>
-    <data name="DegDegrees" xml:space="preserve">
+  <data name="DegDegrees" xml:space="preserve">
         <value>deg (градус)</value>
     </data>
-    <data name="Radians" xml:space="preserve">
+  <data name="Radians" xml:space="preserve">
         <value>rad (радиан)</value>
     </data>
-    <data name="Gradians" xml:space="preserve">
+  <data name="Gradians" xml:space="preserve">
         <value>grad (град)</value>
     </data>
-    <data name="Revolutions" xml:space="preserve">
+  <data name="Revolutions" xml:space="preserve">
         <value>rev (оборот)</value>
     </data>
-    <data name="Angles" xml:space="preserve">
+  <data name="Angles" xml:space="preserve">
         <value>Ъгли</value>
     </data>
-    <data name="Units_Header" xml:space="preserve">
+  <data name="Units_Header" xml:space="preserve">
         <value>Мерни единици</value>
     </data>
-    <data name="Metric" xml:space="preserve">
+  <data name="Metric" xml:space="preserve">
         <value>Метрични</value>
     </data>
-    <data name="Mass" xml:space="preserve">
+  <data name="Mass" xml:space="preserve">
         <value>Маса</value>
     </data>
-    <data name="Gram" xml:space="preserve">
+  <data name="Gram" xml:space="preserve">
         <value>g (грам)</value>
     </data>
-    <data name="Hectogram" xml:space="preserve">
+  <data name="Hectogram" xml:space="preserve">
         <value>hg (хектограм)</value>
     </data>
-    <data name="Kilogram" xml:space="preserve">
+  <data name="Kilogram" xml:space="preserve">
         <value>kg (килограм)</value>
     </data>
-    <data name="Ton" xml:space="preserve">
+  <data name="Ton" xml:space="preserve">
         <value>t (тон)</value>
     </data>
-    <data name="Kiloton" xml:space="preserve">
+  <data name="Kiloton" xml:space="preserve">
         <value>kt (килотон)</value>
     </data>
-    <data name="Megaton" xml:space="preserve">
+  <data name="Megaton" xml:space="preserve">
         <value>Mt (мегатон)</value>
     </data>
-    <data name="Gigaton" xml:space="preserve">
+  <data name="Gigaton" xml:space="preserve">
         <value>Gt (гигатон)</value>
     </data>
-    <data name="Decigram" xml:space="preserve">
+  <data name="Decigram" xml:space="preserve">
         <value>dg (дециграм)</value>
     </data>
-    <data name="Centigram" xml:space="preserve">
+  <data name="Centigram" xml:space="preserve">
         <value>cg (сантиграм)</value>
     </data>
-    <data name="Milligram" xml:space="preserve">
+  <data name="Milligram" xml:space="preserve">
         <value>mg (милиграм)</value>
     </data>
-    <data name="Microgram" xml:space="preserve">
+  <data name="Microgram" xml:space="preserve">
         <value>μg (микрограм)</value>
     </data>
-    <data name="Nanogram" xml:space="preserve">
+  <data name="Nanogram" xml:space="preserve">
         <value>ng (нанограм)</value>
     </data>
-    <data name="Picogram" xml:space="preserve">
+  <data name="Picogram" xml:space="preserve">
         <value>pg (пикограм)</value>
     </data>
-    <data name="Dalton" xml:space="preserve">
+  <data name="Dalton" xml:space="preserve">
         <value>Da (Далтон)</value>
     </data>
-    <data name="DaltonAlt" xml:space="preserve">
+  <data name="DaltonAlt" xml:space="preserve">
         <value>u (Далтон алт.)</value>
     </data>
-    <data name="Length" xml:space="preserve">
+  <data name="Length" xml:space="preserve">
         <value>Дължина</value>
     </data>
-    <data name="Meter" xml:space="preserve">
+  <data name="Meter" xml:space="preserve">
         <value>m (метър)</value>
     </data>
-    <data name="Kilometer" xml:space="preserve">
+  <data name="Kilometer" xml:space="preserve">
         <value>km (километър)</value>
     </data>
-    <data name="Decimeter" xml:space="preserve">
+  <data name="Decimeter" xml:space="preserve">
         <value>dm (дециметър)</value>
     </data>
-    <data name="Centimeter" xml:space="preserve">
+  <data name="Centimeter" xml:space="preserve">
         <value>cm (сантиметър)</value>
     </data>
-    <data name="Millimeter" xml:space="preserve">
+  <data name="Millimeter" xml:space="preserve">
         <value>mm (милиметър)</value>
     </data>
-    <data name="Micrometer" xml:space="preserve">
+  <data name="Micrometer" xml:space="preserve">
         <value>μm (микрометър)</value>
     </data>
-    <data name="Nanometer" xml:space="preserve">
+  <data name="Nanometer" xml:space="preserve">
         <value>nm (нанометър)</value>
     </data>
-    <data name="Picometer" xml:space="preserve">
+  <data name="Picometer" xml:space="preserve">
         <value>pm (пикометър)</value>
     </data>
-    <data name="AstronomicalUnit" xml:space="preserve">
+  <data name="AstronomicalUnit" xml:space="preserve">
         <value>AU (астрономическа единица)</value>
     </data>
-    <data name="LightYear" xml:space="preserve">
+  <data name="LightYear" xml:space="preserve">
         <value>ly (светлинна година)</value>
     </data>
-    <data name="Area" xml:space="preserve">
+  <data name="Area" xml:space="preserve">
         <value>Площ</value>
     </data>
-    <data name="SqMeter" xml:space="preserve">
+  <data name="SqMeter" xml:space="preserve">
         <value>m² (кв. метър)</value>
     </data>
-    <data name="SqKilometer" xml:space="preserve">
+  <data name="SqKilometer" xml:space="preserve">
         <value>km² (кв. километър)</value>
     </data>
-    <data name="SqDecimeter" xml:space="preserve">
+  <data name="SqDecimeter" xml:space="preserve">
         <value>dm² (кв. дециметър)</value>
     </data>
-    <data name="SqCentimeter" xml:space="preserve">
+  <data name="SqCentimeter" xml:space="preserve">
         <value>cm² (кв. сантиметър)</value>
     </data>
-    <data name="SqMillimeter" xml:space="preserve">
+  <data name="SqMillimeter" xml:space="preserve">
         <value>mm² (кв. милиметър)</value>
     </data>
-    <data name="Are" xml:space="preserve">
+  <data name="Are" xml:space="preserve">
         <value>a (ар)</value>
     </data>
-    <data name="Decare" xml:space="preserve">
+  <data name="Decare" xml:space="preserve">
         <value>daa (декар)</value>
     </data>
-    <data name="Hectare" xml:space="preserve">
+  <data name="Hectare" xml:space="preserve">
         <value>ha (хектар)</value>
     </data>
-    <data name="Volume" xml:space="preserve">
+  <data name="Volume" xml:space="preserve">
         <value>Обем</value>
     </data>
-    <data name="CubicMeter" xml:space="preserve">
+  <data name="CubicMeter" xml:space="preserve">
         <value>m³ (кубичен метър)</value>
     </data>
-    <data name="CubicKilometer" xml:space="preserve">
+  <data name="CubicKilometer" xml:space="preserve">
         <value>km³ (кубичен километър)</value>
     </data>
-    <data name="CubicDecimeter" xml:space="preserve">
+  <data name="CubicDecimeter" xml:space="preserve">
         <value>dm³ (кубичен дециметър)</value>
     </data>
-    <data name="CubicCentimeter" xml:space="preserve">
+  <data name="CubicCentimeter" xml:space="preserve">
         <value>cm³ (кубичен сантиметър)</value>
     </data>
-    <data name="CubicMillimeter" xml:space="preserve">
+  <data name="CubicMillimeter" xml:space="preserve">
         <value>mm³ (кубичен милиметър)</value>
     </data>
-    <data name="Litre" xml:space="preserve">
+  <data name="Litre" xml:space="preserve">
         <value>L (литър)</value>
     </data>
-    <data name="Decalitre" xml:space="preserve">
+  <data name="Decalitre" xml:space="preserve">
         <value>daL (декалитър)</value>
     </data>
-    <data name="Hectolitre" xml:space="preserve">
+  <data name="Hectolitre" xml:space="preserve">
         <value>hL (хектолитър)</value>
     </data>
-    <data name="Decilitre" xml:space="preserve">
+  <data name="Decilitre" xml:space="preserve">
         <value>dL (децилитър)</value>
     </data>
-    <data name="Centilitre" xml:space="preserve">
+  <data name="Centilitre" xml:space="preserve">
         <value>cL (сантилитър)</value>
     </data>
-    <data name="Millilitre" xml:space="preserve">
+  <data name="Millilitre" xml:space="preserve">
         <value>mL (милилитър)</value>
     </data>
-    <data name="Microlitre" xml:space="preserve">
+  <data name="Microlitre" xml:space="preserve">
         <value>μL (микролитър)</value>
     </data>
-    <data name="Nanolitre" xml:space="preserve">
+  <data name="Nanolitre" xml:space="preserve">
         <value>nL (нанолитър)</value>
     </data>
-    <data name="Picolitre" xml:space="preserve">
+  <data name="Picolitre" xml:space="preserve">
         <value>pL (пиколитър)</value>
     </data>
-    <data name="Time" xml:space="preserve">
+  <data name="Time" xml:space="preserve">
         <value>Време</value>
     </data>
-    <data name="Second" xml:space="preserve">
+  <data name="Second" xml:space="preserve">
         <value>s (секунда)</value>
     </data>
-    <data name="Millisecond" xml:space="preserve">
+  <data name="Millisecond" xml:space="preserve">
         <value>ms (милисекунда)</value>
     </data>
-    <data name="Microsecond" xml:space="preserve">
+  <data name="Microsecond" xml:space="preserve">
         <value>μs (микросекунда)</value>
     </data>
-    <data name="Nanosecond" xml:space="preserve">
+  <data name="Nanosecond" xml:space="preserve">
         <value>ns (наносекунда)</value>
     </data>
-    <data name="Picosecond" xml:space="preserve">
+  <data name="Picosecond" xml:space="preserve">
         <value>ps (пикосекунда)</value>
     </data>
-    <data name="Minute" xml:space="preserve">
+  <data name="Minute" xml:space="preserve">
         <value>min (минута)</value>
     </data>
-    <data name="Hour" xml:space="preserve">
+  <data name="Hour" xml:space="preserve">
         <value>h (час)</value>
     </data>
-    <data name="Day" xml:space="preserve">
+  <data name="Day" xml:space="preserve">
         <value>d (ден)</value>
     </data>
-    <data name="Week" xml:space="preserve">
+  <data name="Week" xml:space="preserve">
         <value>w (седмица)</value>
     </data>
-    <data name="Year" xml:space="preserve">
+  <data name="Year" xml:space="preserve">
         <value>y (година)</value>
     </data>
-    <data name="Frequency" xml:space="preserve">
+  <data name="Frequency" xml:space="preserve">
         <value>Честота</value>
     </data>
-    <data name="Hertz" xml:space="preserve">
+  <data name="Hertz" xml:space="preserve">
         <value>Hz  (Херц)</value>
     </data>
-    <data name="Kilohertz" xml:space="preserve">
+  <data name="Kilohertz" xml:space="preserve">
         <value>kHz (килохерц)</value>
     </data>
-    <data name="Megahertz" xml:space="preserve">
+  <data name="Megahertz" xml:space="preserve">
         <value>MHz (мегахерц)</value>
     </data>
-    <data name="Gigahertz" xml:space="preserve">
+  <data name="Gigahertz" xml:space="preserve">
         <value>GHz (гигахерц)</value>
     </data>
-    <data name="Terahertz" xml:space="preserve">
+  <data name="Terahertz" xml:space="preserve">
         <value>THz (терахерц)</value>
     </data>
-    <data name="Millihertz" xml:space="preserve">
+  <data name="Millihertz" xml:space="preserve">
         <value>mHz (милихерц)</value>
     </data>
-    <data name="Microhertz" xml:space="preserve">
+  <data name="Microhertz" xml:space="preserve">
         <value>μHz (микрохерц)</value>
     </data>
-    <data name="Nanohertz" xml:space="preserve">
+  <data name="Nanohertz" xml:space="preserve">
         <value>nHz (нанохерц)</value>
     </data>
-    <data name="Picohertz" xml:space="preserve">
+  <data name="Picohertz" xml:space="preserve">
         <value>pHz (пикохерц)</value>
     </data>
-    <data name="RPM" xml:space="preserve">
+  <data name="RPM" xml:space="preserve">
         <value>rpm (оборота в минута)</value>
     </data>
-    <data name="Speed" xml:space="preserve">
+  <data name="Speed" xml:space="preserve">
         <value>Скорост</value>
     </data>
-    <data name="MetersPerSecond" xml:space="preserve">
+  <data name="MetersPerSecond" xml:space="preserve">
         <value>m/s (метра в секунда)</value>
     </data>
-    <data name="KilometersPerHour" xml:space="preserve">
+  <data name="KilometersPerHour" xml:space="preserve">
         <value>kmh (километра в час)</value>
     </data>
-    <data name="Temperature" xml:space="preserve">
+  <data name="Temperature" xml:space="preserve">
         <value>Температура</value>
     </data>
-    <data name="DegreeCelsius" xml:space="preserve">
+  <data name="DegreeCelsius" xml:space="preserve">
         <value>°C (градус Целзий)</value>
     </data>
-    <data name="DifferenceInDegreesCelsius" xml:space="preserve">
+  <data name="DifferenceInDegreesCelsius" xml:space="preserve">
         <value>Δ°C (разлика в градуси Целзий)</value>
     </data>
-    <data name="Kelvin" xml:space="preserve">
+  <data name="Kelvin" xml:space="preserve">
         <value>K (Келвин)</value>
     </data>
-    <data name="Force" xml:space="preserve">
+  <data name="Force" xml:space="preserve">
         <value>Сила</value>
     </data>
-    <data name="Newton" xml:space="preserve">
+  <data name="Newton" xml:space="preserve">
         <value>N   (Нютон)</value>
     </data>
-    <data name="Decanewton" xml:space="preserve">
+  <data name="Decanewton" xml:space="preserve">
         <value>daN (деканютон)</value>
     </data>
-    <data name="Hectonewton" xml:space="preserve">
+  <data name="Hectonewton" xml:space="preserve">
         <value>hN  (хектонютон)</value>
     </data>
-    <data name="Kilonewton" xml:space="preserve">
+  <data name="Kilonewton" xml:space="preserve">
         <value>kN  (килонютон)</value>
     </data>
-    <data name="Meganewton" xml:space="preserve">
+  <data name="Meganewton" xml:space="preserve">
         <value>MN  (меганютон)</value>
     </data>
-    <data name="Giganewton" xml:space="preserve">
+  <data name="Giganewton" xml:space="preserve">
         <value>GN  (гиганютон)</value>
     </data>
-    <data name="Teranewton" xml:space="preserve">
+  <data name="Teranewton" xml:space="preserve">
         <value>TN  (теранютон)</value>
     </data>
-    <data name="GramForce" xml:space="preserve">
+  <data name="GramForce" xml:space="preserve">
         <value>gf  (грам-сила)</value>
     </data>
-    <data name="KilogramForce" xml:space="preserve">
+  <data name="KilogramForce" xml:space="preserve">
         <value>kgf (килограм-сила)</value>
     </data>
-    <data name="TonneForce" xml:space="preserve">
+  <data name="TonneForce" xml:space="preserve">
         <value>tf  (тон-сила)</value>
     </data>
-    <data name="Dyne" xml:space="preserve">
+  <data name="Dyne" xml:space="preserve">
         <value>dyn (дин)</value>
     </data>
-    <data name="TorqueMoment" xml:space="preserve">
+  <data name="TorqueMoment" xml:space="preserve">
         <value>Усукване/Момент</value>
     </data>
-    <data name="NewtonMeter" xml:space="preserve">
+  <data name="NewtonMeter" xml:space="preserve">
         <value>Nm (Нютон-метър)</value>
     </data>
-    <data name="NewtonMillimeter" xml:space="preserve">
+  <data name="NewtonMillimeter" xml:space="preserve">
         <value>N·mm (Нютон-милиметър)</value>
     </data>
-    <data name="KiloNewtonCentimeter" xml:space="preserve">
+  <data name="KiloNewtonCentimeter" xml:space="preserve">
         <value>kN·cm (килонютон-сантиметър)</value>
     </data>
-    <data name="KiloNewtonMeter" xml:space="preserve">
+  <data name="KiloNewtonMeter" xml:space="preserve">
         <value>kNm (килонютон-метър)</value>
     </data>
-    <data name="NewtonCentimeter" xml:space="preserve">
+  <data name="NewtonCentimeter" xml:space="preserve">
         <value>N·cm (Нютон-сантиметър)</value>
     </data>
-    <data name="Pressure" xml:space="preserve">
+  <data name="Pressure" xml:space="preserve">
         <value>Налягане</value>
     </data>
-    <data name="NewtonsPerSqMillimeter" xml:space="preserve">
+  <data name="NewtonsPerSqMillimeter" xml:space="preserve">
         <value>N/mm² (Нютон на mm)</value>
     </data>
-    <data name="NewtonsPerSqCentimeter" xml:space="preserve">
+  <data name="NewtonsPerSqCentimeter" xml:space="preserve">
         <value>N/cm² (Нютон на cm)</value>
     </data>
-    <data name="NewtonsPerSqMeter" xml:space="preserve">
+  <data name="NewtonsPerSqMeter" xml:space="preserve">
         <value>N/m² (Нютон на кв. метър)</value>
     </data>
-    <data name="KiloNewtonsPerSqCentimeter" xml:space="preserve">
+  <data name="KiloNewtonsPerSqCentimeter" xml:space="preserve">
         <value>kN/cm² (kN на кв. cm)</value>
     </data>
-    <data name="KiloNewtonsPerSqMeter" xml:space="preserve">
+  <data name="KiloNewtonsPerSqMeter" xml:space="preserve">
         <value>kN/m² (kN на кв. метър)</value>
     </data>
-    <data name="KilogramFrocePerSqCentimeter" xml:space="preserve">
+  <data name="KilogramFrocePerSqCentimeter" xml:space="preserve">
         <value>kgf/cm² (kg-сила на кв. cm)</value>
     </data>
-    <data name="TonneForcePerSqMeter" xml:space="preserve">
+  <data name="TonneForcePerSqMeter" xml:space="preserve">
         <value>tf/m² (тон-сила на кв. метър)</value>
     </data>
-    <data name="Pascal" xml:space="preserve">
+  <data name="Pascal" xml:space="preserve">
         <value>Pa (Паскал)</value>
     </data>
-    <data name="Decapascal" xml:space="preserve">
+  <data name="Decapascal" xml:space="preserve">
         <value>daPa (декапаскал)</value>
     </data>
-    <data name="Hectopascal" xml:space="preserve">
+  <data name="Hectopascal" xml:space="preserve">
         <value>hPa (хектопаскал)</value>
     </data>
-    <data name="Kilopascal" xml:space="preserve">
+  <data name="Kilopascal" xml:space="preserve">
         <value>kPa (килопаскал)</value>
     </data>
-    <data name="Megapascal" xml:space="preserve">
+  <data name="Megapascal" xml:space="preserve">
         <value>MPa (мегапаскал)</value>
     </data>
-    <data name="Gigapascal" xml:space="preserve">
+  <data name="Gigapascal" xml:space="preserve">
         <value>GPa (гигапаскал)</value>
     </data>
-    <data name="Terapascal" xml:space="preserve">
+  <data name="Terapascal" xml:space="preserve">
         <value>TPa (терапаскал)</value>
     </data>
-    <data name="Decipascal" xml:space="preserve">
+  <data name="Decipascal" xml:space="preserve">
         <value>dPa (деципаскал)</value>
     </data>
-    <data name="Centipascal" xml:space="preserve">
+  <data name="Centipascal" xml:space="preserve">
         <value>cPa (сантипаскал)</value>
     </data>
-    <data name="Millipascal" xml:space="preserve">
+  <data name="Millipascal" xml:space="preserve">
         <value>mPa (милипаскал)</value>
     </data>
-    <data name="Micropascal" xml:space="preserve">
+  <data name="Micropascal" xml:space="preserve">
         <value>μPa (микропаскал)</value>
     </data>
-    <data name="Nanopascal" xml:space="preserve">
+  <data name="Nanopascal" xml:space="preserve">
         <value>nPa (нанопаскал)</value>
     </data>
-    <data name="Picopascal" xml:space="preserve">
+  <data name="Picopascal" xml:space="preserve">
         <value>pPa (пикопаскал)</value>
     </data>
-    <data name="Bar" xml:space="preserve">
+  <data name="Bar" xml:space="preserve">
         <value>bar (бар)</value>
     </data>
-    <data name="Millibar" xml:space="preserve">
+  <data name="Millibar" xml:space="preserve">
         <value>mbar (милибар)</value>
     </data>
-    <data name="Microbar" xml:space="preserve">
+  <data name="Microbar" xml:space="preserve">
         <value>μbar (микробар)</value>
     </data>
-    <data name="Atmosphere" xml:space="preserve">
+  <data name="Atmosphere" xml:space="preserve">
         <value>atm (атмосфера)</value>
     </data>
-    <data name="TechnicalAtmosphere" xml:space="preserve">
+  <data name="TechnicalAtmosphere" xml:space="preserve">
         <value>at (техническа атмосфера)</value>
     </data>
-    <data name="Torr" xml:space="preserve">
+  <data name="Torr" xml:space="preserve">
         <value>Torr (Тор)</value>
     </data>
-    <data name="MillilitersOfMercury" xml:space="preserve">
+  <data name="MillilitersOfMercury" xml:space="preserve">
         <value>mmHg (милиметра живачен стълб)</value>
     </data>
-    <data name="DensityUnitWeight" xml:space="preserve">
+  <data name="DensityUnitWeight" xml:space="preserve">
         <value>Плътност/обемно тегло</value>
     </data>
-    <data name="GramsPerCubicCentimeter" xml:space="preserve">
+  <data name="GramsPerCubicCentimeter" xml:space="preserve">
         <value>g/cm³ (грам на кубичен cm)</value>
     </data>
-    <data name="GramsPerCubicMillimeter" xml:space="preserve">
+  <data name="GramsPerCubicMillimeter" xml:space="preserve">
         <value>g/mm³ (грам на кубичен mm)</value>
     </data>
-    <data name="KilogramsPerCubicCentimeter" xml:space="preserve">
+  <data name="KilogramsPerCubicCentimeter" xml:space="preserve">
         <value>kg/cm³ (килограм на кубичен cm)</value>
     </data>
-    <data name="TonnesPerCubicMeter" xml:space="preserve">
+  <data name="TonnesPerCubicMeter" xml:space="preserve">
         <value>t/m³ (тон на кубичен метър)</value>
     </data>
-    <data name="KilogramForcePerCubicCentimeter" xml:space="preserve">
+  <data name="KilogramForcePerCubicCentimeter" xml:space="preserve">
         <value>kgf/cm³ (kg-сила на кубичен cm)</value>
     </data>
-    <data name="TonneForcePerCubicMeter" xml:space="preserve">
+  <data name="TonneForcePerCubicMeter" xml:space="preserve">
         <value>tf/m³ (тон-сила на кубичен метър)</value>
     </data>
-    <data name="NewtonsPerCubicMillimeter" xml:space="preserve">
+  <data name="NewtonsPerCubicMillimeter" xml:space="preserve">
         <value>N/mm³ (Нютон на кубичен mm)</value>
     </data>
-    <data name="NewtonsPerCubicCentimeter" xml:space="preserve">
+  <data name="NewtonsPerCubicCentimeter" xml:space="preserve">
         <value>N/cm³ (Нютон на кубичен cm)</value>
     </data>
-    <data name="KilonewtonsPerCubicCentimeter" xml:space="preserve">
+  <data name="KilonewtonsPerCubicCentimeter" xml:space="preserve">
         <value>kN/cm³ (килонютон на кубичен cm)</value>
     </data>
-    <data name="KilonewtonsPerCubicMeter" xml:space="preserve">
+  <data name="KilonewtonsPerCubicMeter" xml:space="preserve">
         <value>kN/m³ (килонютон на кубичен метър)</value>
     </data>
-    <data name="Viscosity" xml:space="preserve">
+  <data name="Viscosity" xml:space="preserve">
         <value>Вискозитет</value>
     </data>
-    <data name="PascalSecond" xml:space="preserve">
+  <data name="PascalSecond" xml:space="preserve">
         <value>Pa∙s (Паскал-секунда)</value>
     </data>
-    <data name="Poise" xml:space="preserve">
+  <data name="Poise" xml:space="preserve">
         <value>P (Поаз)</value>
     </data>
-    <data name="Centipoise" xml:space="preserve">
+  <data name="Centipoise" xml:space="preserve">
         <value>cP (сантипоаз)</value>
     </data>
-    <data name="SquareMetersPerSecond" xml:space="preserve">
+  <data name="SquareMetersPerSecond" xml:space="preserve">
         <value>m²/s (квадратни метра в секунда)</value>
     </data>
-    <data name="Stokes" xml:space="preserve">
+  <data name="Stokes" xml:space="preserve">
         <value>St (Стокс)</value>
     </data>
-    <data name="Centistokes" xml:space="preserve">
+  <data name="Centistokes" xml:space="preserve">
         <value>cSt (сантистокс)</value>
     </data>
-    <data name="EnergyWork" xml:space="preserve">
+  <data name="EnergyWork" xml:space="preserve">
         <value>Енергия/работа</value>
     </data>
-    <data name="Joule" xml:space="preserve">
+  <data name="Joule" xml:space="preserve">
         <value>J (Джаул)</value>
     </data>
-    <data name="Kilojoule" xml:space="preserve">
+  <data name="Kilojoule" xml:space="preserve">
         <value>kJ (килоджаул)</value>
     </data>
-    <data name="Megajoule" xml:space="preserve">
+  <data name="Megajoule" xml:space="preserve">
         <value>MJ (мегаджаул)</value>
     </data>
-    <data name="Gigajoule" xml:space="preserve">
+  <data name="Gigajoule" xml:space="preserve">
         <value>GJ (гигаджаул)</value>
     </data>
-    <data name="Terajoule" xml:space="preserve">
+  <data name="Terajoule" xml:space="preserve">
         <value>TJ (тераджаул)</value>
     </data>
-    <data name="Millijoule" xml:space="preserve">
+  <data name="Millijoule" xml:space="preserve">
         <value>mJ (милиджаул)</value>
     </data>
-    <data name="Microjoule" xml:space="preserve">
+  <data name="Microjoule" xml:space="preserve">
         <value>μJ (микроджаул)</value>
     </data>
-    <data name="Nanojoule" xml:space="preserve">
+  <data name="Nanojoule" xml:space="preserve">
         <value>nJ (наноджаул)</value>
     </data>
-    <data name="Picojoule" xml:space="preserve">
+  <data name="Picojoule" xml:space="preserve">
         <value>pJ (пикоджаул)</value>
     </data>
-    <data name="Electronvolt" xml:space="preserve">
+  <data name="Electronvolt" xml:space="preserve">
         <value>eV (електронволт)</value>
     </data>
-    <data name="Kiloelectronvolt" xml:space="preserve">
+  <data name="Kiloelectronvolt" xml:space="preserve">
         <value>keV (килоелектронволт)</value>
     </data>
-    <data name="Megaelectronvolt" xml:space="preserve">
+  <data name="Megaelectronvolt" xml:space="preserve">
         <value>MeV (мегаелектронволт)</value>
     </data>
-    <data name="Gigaelectronvolt" xml:space="preserve">
+  <data name="Gigaelectronvolt" xml:space="preserve">
         <value>GeV (гигаелектронволт)</value>
     </data>
-    <data name="Teraelectronvolt" xml:space="preserve">
+  <data name="Teraelectronvolt" xml:space="preserve">
         <value>TeV (тераелектронволт)</value>
     </data>
-    <data name="Petaelectronvolt" xml:space="preserve">
+  <data name="Petaelectronvolt" xml:space="preserve">
         <value>PeV (петаелектронволт)</value>
     </data>
-    <data name="Exaelectronvolt" xml:space="preserve">
+  <data name="Exaelectronvolt" xml:space="preserve">
         <value>EeV (екзаелектронволт)</value>
     </data>
-    <data name="Erg" xml:space="preserve">
+  <data name="Erg" xml:space="preserve">
         <value>erg (ерг)</value>
     </data>
-    <data name="Calorie" xml:space="preserve">
+  <data name="Calorie" xml:space="preserve">
         <value>cal (калория)</value>
     </data>
-    <data name="Kilocalorie" xml:space="preserve">
+  <data name="Kilocalorie" xml:space="preserve">
         <value>kcal (килокалория)</value>
     </data>
-    <data name="Power" xml:space="preserve">
+  <data name="Power" xml:space="preserve">
         <value>Мощност</value>
     </data>
-    <data name="Watt" xml:space="preserve">
+  <data name="Watt" xml:space="preserve">
         <value>W  (Ват)</value>
     </data>
-    <data name="Kilowatt" xml:space="preserve">
+  <data name="Kilowatt" xml:space="preserve">
         <value>kW (киловат)</value>
     </data>
-    <data name="Megawatt" xml:space="preserve">
+  <data name="Megawatt" xml:space="preserve">
         <value>MW (мегават)</value>
     </data>
-    <data name="Gigawatt" xml:space="preserve">
+  <data name="Gigawatt" xml:space="preserve">
         <value>GW (гигават)</value>
     </data>
-    <data name="Terawatt" xml:space="preserve">
+  <data name="Terawatt" xml:space="preserve">
         <value>TW (терават)</value>
     </data>
-    <data name="Milliwatt" xml:space="preserve">
+  <data name="Milliwatt" xml:space="preserve">
         <value>mW (миливат)</value>
     </data>
-    <data name="Microwatt" xml:space="preserve">
+  <data name="Microwatt" xml:space="preserve">
         <value>μW (микроват)</value>
     </data>
-    <data name="Nanowatt" xml:space="preserve">
+  <data name="Nanowatt" xml:space="preserve">
         <value>nW (нановат)</value>
     </data>
-    <data name="Picowatt" xml:space="preserve">
+  <data name="Picowatt" xml:space="preserve">
         <value>pW (пиковат)</value>
     </data>
-    <data name="Electric" xml:space="preserve">
+  <data name="Electric" xml:space="preserve">
         <value>Електрически</value>
     </data>
-    <data name="Charge" xml:space="preserve">
+  <data name="Charge" xml:space="preserve">
         <value>Заряд</value>
     </data>
-    <data name="Ampere" xml:space="preserve">
+  <data name="Ampere" xml:space="preserve">
         <value>A  (Ампер)</value>
     </data>
-    <data name="Energy" xml:space="preserve">
+  <data name="Energy" xml:space="preserve">
         <value>Енергия</value>
     </data>
-    <data name="Current" xml:space="preserve">
+  <data name="Current" xml:space="preserve">
         <value>Поток</value>
     </data>
-    <data name="Kiloampere" xml:space="preserve">
+  <data name="Kiloampere" xml:space="preserve">
         <value>kA (килоампер)</value>
     </data>
-    <data name="Megaampere" xml:space="preserve">
+  <data name="Megaampere" xml:space="preserve">
         <value>MA (мегаампер)</value>
     </data>
-    <data name="Gigaampere" xml:space="preserve">
+  <data name="Gigaampere" xml:space="preserve">
         <value>GA (гигаампер)</value>
     </data>
-    <data name="Teraampere" xml:space="preserve">
+  <data name="Teraampere" xml:space="preserve">
         <value>TA (тераампер)</value>
     </data>
-    <data name="Milliampere" xml:space="preserve">
+  <data name="Milliampere" xml:space="preserve">
         <value>mA (милиампер)</value>
     </data>
-    <data name="Microampere" xml:space="preserve">
+  <data name="Microampere" xml:space="preserve">
         <value>μA (микроампер)</value>
     </data>
-    <data name="Nanoampere" xml:space="preserve">
+  <data name="Nanoampere" xml:space="preserve">
         <value>nA (наноампер)</value>
     </data>
-    <data name="Picoampere" xml:space="preserve">
+  <data name="Picoampere" xml:space="preserve">
         <value>pA (пикоампер)</value>
     </data>
-    <data name="Coulomb" xml:space="preserve">
+  <data name="Coulomb" xml:space="preserve">
         <value>C (Кулон)</value>
     </data>
-    <data name="Kilocoulomb" xml:space="preserve">
+  <data name="Kilocoulomb" xml:space="preserve">
         <value>kC (килокулон)</value>
     </data>
-    <data name="Megacoulomb" xml:space="preserve">
+  <data name="Megacoulomb" xml:space="preserve">
         <value>MC (мегакулон)</value>
     </data>
-    <data name="Gigacoulomb" xml:space="preserve">
+  <data name="Gigacoulomb" xml:space="preserve">
         <value>GC (гигакулон)</value>
     </data>
-    <data name="Teracoulomb" xml:space="preserve">
+  <data name="Teracoulomb" xml:space="preserve">
         <value>TC (теракулон)</value>
     </data>
-    <data name="Millicoulomb" xml:space="preserve">
+  <data name="Millicoulomb" xml:space="preserve">
         <value>mC (миликулон)</value>
     </data>
-    <data name="Microcoulomb" xml:space="preserve">
+  <data name="Microcoulomb" xml:space="preserve">
         <value>μC (микрокулон)</value>
     </data>
-    <data name="Nanocoulomb" xml:space="preserve">
+  <data name="Nanocoulomb" xml:space="preserve">
         <value>nC (нанокулон)</value>
     </data>
-    <data name="Picocoulomb" xml:space="preserve">
+  <data name="Picocoulomb" xml:space="preserve">
         <value>pC (пикокулон)</value>
     </data>
-    <data name="AmpereHour" xml:space="preserve">
+  <data name="AmpereHour" xml:space="preserve">
         <value>Ah (ампер-час)</value>
     </data>
-    <data name="MillampereHour" xml:space="preserve">
+  <data name="MillampereHour" xml:space="preserve">
         <value>mAh (милиампер-час)</value>
     </data>
-    <data name="Potential" xml:space="preserve">
+  <data name="Potential" xml:space="preserve">
         <value>Потенциал</value>
     </data>
-    <data name="Volt" xml:space="preserve">
+  <data name="Volt" xml:space="preserve">
         <value>V (Волт)</value>
     </data>
-    <data name="Kilovolt" xml:space="preserve">
+  <data name="Kilovolt" xml:space="preserve">
         <value>kV (киловолт)</value>
     </data>
-    <data name="Megavolt" xml:space="preserve">
+  <data name="Megavolt" xml:space="preserve">
         <value>MV (мегаволт)</value>
     </data>
-    <data name="Gigavolt" xml:space="preserve">
+  <data name="Gigavolt" xml:space="preserve">
         <value>GV (гигаволт)</value>
     </data>
-    <data name="Teravolt" xml:space="preserve">
+  <data name="Teravolt" xml:space="preserve">
         <value>TV (тераволт)</value>
     </data>
-    <data name="Millivolt" xml:space="preserve">
+  <data name="Millivolt" xml:space="preserve">
         <value>mV (миливолт)</value>
     </data>
-    <data name="Microvolt" xml:space="preserve">
+  <data name="Microvolt" xml:space="preserve">
         <value>μV (микроволт)</value>
     </data>
-    <data name="Nanovolt" xml:space="preserve">
+  <data name="Nanovolt" xml:space="preserve">
         <value>nV (нановолт)</value>
     </data>
-    <data name="Picovolt" xml:space="preserve">
+  <data name="Picovolt" xml:space="preserve">
         <value>pV (пиковолт)</value>
     </data>
-    <data name="Capacitance" xml:space="preserve">
+  <data name="Capacitance" xml:space="preserve">
         <value>Капацитет</value>
     </data>
-    <data name="Farad" xml:space="preserve">
+  <data name="Farad" xml:space="preserve">
         <value>F (Фарад)</value>
     </data>
-    <data name="Kilofarad" xml:space="preserve">
+  <data name="Kilofarad" xml:space="preserve">
         <value>kF (килофарад)</value>
     </data>
-    <data name="Microfarad" xml:space="preserve">
+  <data name="Microfarad" xml:space="preserve">
         <value>μF (микрофарад)</value>
     </data>
-    <data name="Megafarad" xml:space="preserve">
+  <data name="Megafarad" xml:space="preserve">
         <value>MF (мегафарад)</value>
     </data>
-    <data name="Gigafarad" xml:space="preserve">
+  <data name="Gigafarad" xml:space="preserve">
         <value>GF (гигафарад)</value>
     </data>
-    <data name="Terafarad" xml:space="preserve">
+  <data name="Terafarad" xml:space="preserve">
         <value>TF (терафарад)</value>
     </data>
-    <data name="Millifarad" xml:space="preserve">
+  <data name="Millifarad" xml:space="preserve">
         <value>mF (милифарад)</value>
     </data>
-    <data name="Nanofarad" xml:space="preserve">
+  <data name="Nanofarad" xml:space="preserve">
         <value>nF (нанофарад)</value>
     </data>
-    <data name="Picofarad" xml:space="preserve">
+  <data name="Picofarad" xml:space="preserve">
         <value>pF (пикофарад)</value>
     </data>
-    <data name="Resistance" xml:space="preserve">
+  <data name="Resistance" xml:space="preserve">
         <value>Съпротивление</value>
     </data>
-    <data name="Ohm" xml:space="preserve">
+  <data name="Ohm" xml:space="preserve">
         <value>Ω (Ом)</value>
     </data>
-    <data name="Kiloohm" xml:space="preserve">
+  <data name="Kiloohm" xml:space="preserve">
         <value>kΩ (килоом)</value>
     </data>
-    <data name="Megaohm" xml:space="preserve">
+  <data name="Megaohm" xml:space="preserve">
         <value>MΩ (мегаом)</value>
     </data>
-    <data name="Gigaohm" xml:space="preserve">
+  <data name="Gigaohm" xml:space="preserve">
         <value>GΩ (гигаом)</value>
     </data>
-    <data name="Teraohm" xml:space="preserve">
+  <data name="Teraohm" xml:space="preserve">
         <value>TΩ (тераом)</value>
     </data>
-    <data name="Milliohm" xml:space="preserve">
+  <data name="Milliohm" xml:space="preserve">
         <value>mΩ (милиом)</value>
     </data>
-    <data name="Microohm" xml:space="preserve">
+  <data name="Microohm" xml:space="preserve">
         <value>μΩ (микроом)</value>
     </data>
-    <data name="Nanoohm" xml:space="preserve">
+  <data name="Nanoohm" xml:space="preserve">
         <value>nΩ (наноом)</value>
     </data>
-    <data name="Picoohm" xml:space="preserve">
+  <data name="Picoohm" xml:space="preserve">
         <value>pΩ (пикоом)</value>
     </data>
-    <data name="Conductance" xml:space="preserve">
+  <data name="Conductance" xml:space="preserve">
         <value>Проводимост</value>
     </data>
-    <data name="Siemens" xml:space="preserve">
+  <data name="Siemens" xml:space="preserve">
         <value>S (Сименс)</value>
     </data>
-    <data name="Kilosiemens" xml:space="preserve">
+  <data name="Kilosiemens" xml:space="preserve">
         <value>kS (килосименс)</value>
     </data>
-    <data name="Megasiemens" xml:space="preserve">
+  <data name="Megasiemens" xml:space="preserve">
         <value>MS (мегасименс)</value>
     </data>
-    <data name="Gigasiemens" xml:space="preserve">
+  <data name="Gigasiemens" xml:space="preserve">
         <value>GS (гигасименс)</value>
     </data>
-    <data name="Terasiemens" xml:space="preserve">
+  <data name="Terasiemens" xml:space="preserve">
         <value>TS (терасименс)</value>
     </data>
-    <data name="Millisiemens" xml:space="preserve">
+  <data name="Millisiemens" xml:space="preserve">
         <value>mS (милисименс)</value>
     </data>
-    <data name="Microsiemens" xml:space="preserve">
+  <data name="Microsiemens" xml:space="preserve">
         <value>μS (микросименс)</value>
     </data>
-    <data name="Nanosiemens" xml:space="preserve">
+  <data name="Nanosiemens" xml:space="preserve">
         <value>nS (наносименс)</value>
     </data>
-    <data name="Picosiemens" xml:space="preserve">
+  <data name="Picosiemens" xml:space="preserve">
         <value>pS (пикосименс)</value>
     </data>
-    <data name="Mho" xml:space="preserve">
+  <data name="Mho" xml:space="preserve">
         <value>℧ (мо)</value>
     </data>
-    <data name="Kilomho" xml:space="preserve">
+  <data name="Kilomho" xml:space="preserve">
         <value>k℧ (киломо)</value>
     </data>
-    <data name="Megamho" xml:space="preserve">
+  <data name="Megamho" xml:space="preserve">
         <value>M℧ (мегамо)</value>
     </data>
-    <data name="Gigamho" xml:space="preserve">
+  <data name="Gigamho" xml:space="preserve">
         <value>G℧ (гигамо)</value>
     </data>
-    <data name="Teramho" xml:space="preserve">
+  <data name="Teramho" xml:space="preserve">
         <value>T℧ (терамо)</value>
     </data>
-    <data name="Millimho" xml:space="preserve">
+  <data name="Millimho" xml:space="preserve">
         <value>m℧ (милимо)</value>
     </data>
-    <data name="Micromho" xml:space="preserve">
+  <data name="Micromho" xml:space="preserve">
         <value>μ℧ (микромо)</value>
     </data>
-    <data name="Nanomho" xml:space="preserve">
+  <data name="Nanomho" xml:space="preserve">
         <value>n℧ (наномо)</value>
     </data>
-    <data name="Picomho" xml:space="preserve">
+  <data name="Picomho" xml:space="preserve">
         <value>p℧ (пикомо)</value>
     </data>
-    <data name="WattHour" xml:space="preserve">
+  <data name="WattHour" xml:space="preserve">
         <value>Wh (Ват-час)</value>
     </data>
-    <data name="KilowattHour" xml:space="preserve">
+  <data name="KilowattHour" xml:space="preserve">
         <value>kWh (киловат-час)</value>
     </data>
-    <data name="MegawattHour" xml:space="preserve">
+  <data name="MegawattHour" xml:space="preserve">
         <value>MWh (мегават-час)</value>
     </data>
-    <data name="GigawattHour" xml:space="preserve">
+  <data name="GigawattHour" xml:space="preserve">
         <value>GWh (гигават-час)</value>
     </data>
-    <data name="TerawattHour" xml:space="preserve">
+  <data name="TerawattHour" xml:space="preserve">
         <value>TWh (терават-час)</value>
     </data>
-    <data name="MilliwattHour" xml:space="preserve">
+  <data name="MilliwattHour" xml:space="preserve">
         <value>mWh (миливат-час)</value>
     </data>
-    <data name="MicrowattHour" xml:space="preserve">
+  <data name="MicrowattHour" xml:space="preserve">
         <value>μWh (микроват-час)</value>
     </data>
-    <data name="NanowattHour" xml:space="preserve">
+  <data name="NanowattHour" xml:space="preserve">
         <value>nWh (нановат-час)</value>
     </data>
-    <data name="PicowattHour" xml:space="preserve">
+  <data name="PicowattHour" xml:space="preserve">
         <value>pWh (пиковат-час)</value>
     </data>
-    <data name="VoltAmpere" xml:space="preserve">
+  <data name="VoltAmpere" xml:space="preserve">
         <value>VA (Волт-Ампер)</value>
     </data>
-    <data name="KilovoltAmpere" xml:space="preserve">
+  <data name="KilovoltAmpere" xml:space="preserve">
         <value>kVA (киловолт-Ампер)</value>
     </data>
-    <data name="MegavoltAmpere" xml:space="preserve">
+  <data name="MegavoltAmpere" xml:space="preserve">
         <value>MVA (мегаволт-Ампер)</value>
     </data>
-    <data name="GigavoltAmpere" xml:space="preserve">
+  <data name="GigavoltAmpere" xml:space="preserve">
         <value>GVA (гигаволт-Ампер)</value>
     </data>
-    <data name="TeravoltAmpere" xml:space="preserve">
+  <data name="TeravoltAmpere" xml:space="preserve">
         <value>TVA (тераволт-Ампер)</value>
     </data>
-    <data name="MillivoltAmpere" xml:space="preserve">
+  <data name="MillivoltAmpere" xml:space="preserve">
         <value>mVA (миливолт-Ампер)</value>
     </data>
-    <data name="MicrovoltAmpere" xml:space="preserve">
+  <data name="MicrovoltAmpere" xml:space="preserve">
         <value>μVA (микроволт-Ампер)</value>
     </data>
-    <data name="NanovoltAmpere" xml:space="preserve">
+  <data name="NanovoltAmpere" xml:space="preserve">
         <value>nVA (нановолт-Ампер)</value>
     </data>
-    <data name="PicovoltAmpere" xml:space="preserve">
+  <data name="PicovoltAmpere" xml:space="preserve">
         <value>pVA (пиковолт-Ампер)</value>
     </data>
-    <data name="VoltAmpereReactive" xml:space="preserve">
+  <data name="VoltAmpereReactive" xml:space="preserve">
         <value>VAR (волт-Ампер (реактивна))</value>
     </data>
-    <data name="KilovoltAmpereReactive" xml:space="preserve">
+  <data name="KilovoltAmpereReactive" xml:space="preserve">
         <value>kVAR (киловолт-Ампер реактивна)</value>
     </data>
-    <data name="MegavoltAmpereReactive" xml:space="preserve">
+  <data name="MegavoltAmpereReactive" xml:space="preserve">
         <value>MVAR (мегаволт-Ампер реактивна)</value>
     </data>
-    <data name="GigavoltAmpereReactive" xml:space="preserve">
+  <data name="GigavoltAmpereReactive" xml:space="preserve">
         <value>GVAR (гигаволт-Ампер реактивна)</value>
     </data>
-    <data name="TeravoltAmpereReactive" xml:space="preserve">
+  <data name="TeravoltAmpereReactive" xml:space="preserve">
         <value>TVAR (тераволт-Ампер реактивна)</value>
     </data>
-    <data name="MillivoltAmpereReactive" xml:space="preserve">
+  <data name="MillivoltAmpereReactive" xml:space="preserve">
         <value>mVAR (миливолт-Ампер реактивна)</value>
     </data>
-    <data name="MicrovoltAmpereReactive" xml:space="preserve">
+  <data name="MicrovoltAmpereReactive" xml:space="preserve">
         <value>μVAR (микроволт-Ампер реактивна)</value>
     </data>
-    <data name="NanovoltAmpereReactive" xml:space="preserve">
+  <data name="NanovoltAmpereReactive" xml:space="preserve">
         <value>nVAR (нановолт-Ампер реактивна)</value>
     </data>
-    <data name="PicovoltAmpereReactive" xml:space="preserve">
+  <data name="PicovoltAmpereReactive" xml:space="preserve">
         <value>pVAR (пиковолт-Ампер реактивна)</value>
     </data>
-    <data name="ElectricField" xml:space="preserve">
+  <data name="ElectricField" xml:space="preserve">
         <value>Електрическо поле</value>
     </data>
-    <data name="VoltsPerMeter" xml:space="preserve">
+  <data name="VoltsPerMeter" xml:space="preserve">
         <value>V/m (Волт на метър)</value>
     </data>
-    <data name="VoltMeter" xml:space="preserve">
+  <data name="VoltMeter" xml:space="preserve">
         <value>V∙m (Волт-метър)</value>
     </data>
-    <data name="NewtonsPerCoulomb" xml:space="preserve">
+  <data name="NewtonsPerCoulomb" xml:space="preserve">
         <value>N/C (Нютон на Кулон)</value>
     </data>
-    <data name="OhmMeter" xml:space="preserve">
+  <data name="OhmMeter" xml:space="preserve">
         <value>Ω∙m (Ом-метър)</value>
     </data>
-    <data name="SiemensPerMeter" xml:space="preserve">
+  <data name="SiemensPerMeter" xml:space="preserve">
         <value>S/m (Сименс на метър)</value>
     </data>
-    <data name="Weber" xml:space="preserve">
+  <data name="Weber" xml:space="preserve">
         <value>Wb (Вебер)</value>
     </data>
-    <data name="Kiloweber" xml:space="preserve">
+  <data name="Kiloweber" xml:space="preserve">
         <value>kWb (киловебер)</value>
     </data>
-    <data name="Megaweber" xml:space="preserve">
+  <data name="Megaweber" xml:space="preserve">
         <value>MWb (мегавебер)</value>
     </data>
-    <data name="Gigaweber" xml:space="preserve">
+  <data name="Gigaweber" xml:space="preserve">
         <value>GWb (гигавебер)</value>
     </data>
-    <data name="Teraweber" xml:space="preserve">
+  <data name="Teraweber" xml:space="preserve">
         <value>TWb (теравебер)</value>
     </data>
-    <data name="Milliweber" xml:space="preserve">
+  <data name="Milliweber" xml:space="preserve">
         <value>mWb (миливебер)</value>
     </data>
-    <data name="Microweber" xml:space="preserve">
+  <data name="Microweber" xml:space="preserve">
         <value>μWb (микровебер)</value>
     </data>
-    <data name="Nanoweber" xml:space="preserve">
+  <data name="Nanoweber" xml:space="preserve">
         <value>nWb (нановебер)</value>
     </data>
-    <data name="Picoweber" xml:space="preserve">
+  <data name="Picoweber" xml:space="preserve">
         <value>pWb (пиковебер)</value>
     </data>
-    <data name="Magnetic" xml:space="preserve">
+  <data name="Magnetic" xml:space="preserve">
         <value>Магнитни</value>
     </data>
-    <data name="Flux" xml:space="preserve">
+  <data name="Flux" xml:space="preserve">
         <value>Поток</value>
     </data>
-    <data name="FluxDensity" xml:space="preserve">
+  <data name="FluxDensity" xml:space="preserve">
         <value>Плътност на потока</value>
     </data>
-    <data name="Tesla" xml:space="preserve">
+  <data name="Tesla" xml:space="preserve">
         <value>T (Тесла)</value>
     </data>
-    <data name="Kilotesla" xml:space="preserve">
+  <data name="Kilotesla" xml:space="preserve">
         <value>kT (килотесла)</value>
     </data>
-    <data name="Megatesla" xml:space="preserve">
+  <data name="Megatesla" xml:space="preserve">
         <value>MT (мегатесла)</value>
     </data>
-    <data name="Gigatesla" xml:space="preserve">
+  <data name="Gigatesla" xml:space="preserve">
         <value>GT (гигатесла)</value>
     </data>
-    <data name="Teratesla" xml:space="preserve">
+  <data name="Teratesla" xml:space="preserve">
         <value>TT (тератесла)</value>
     </data>
-    <data name="Millitesla" xml:space="preserve">
+  <data name="Millitesla" xml:space="preserve">
         <value>mT (милитесла)</value>
     </data>
-    <data name="Microtesla" xml:space="preserve">
+  <data name="Microtesla" xml:space="preserve">
         <value>μT (микротесла)</value>
     </data>
-    <data name="Nanotesla" xml:space="preserve">
+  <data name="Nanotesla" xml:space="preserve">
         <value>nT (нанотесла)</value>
     </data>
-    <data name="Picotesla" xml:space="preserve">
+  <data name="Picotesla" xml:space="preserve">
         <value>pT (пикотесла)</value>
     </data>
-    <data name="Inductance" xml:space="preserve">
+  <data name="Inductance" xml:space="preserve">
         <value>Индукция</value>
     </data>
-    <data name="Henry" xml:space="preserve">
+  <data name="Henry" xml:space="preserve">
         <value>H  (Хенри)</value>
     </data>
-    <data name="Kilohenry" xml:space="preserve">
+  <data name="Kilohenry" xml:space="preserve">
         <value>kH (килохенри)</value>
     </data>
-    <data name="Megahenry" xml:space="preserve">
+  <data name="Megahenry" xml:space="preserve">
         <value>MH (мегахенри)</value>
     </data>
-    <data name="Gigahenry" xml:space="preserve">
+  <data name="Gigahenry" xml:space="preserve">
         <value>GH (гигахенри)</value>
     </data>
-    <data name="Terahenry" xml:space="preserve">
+  <data name="Terahenry" xml:space="preserve">
         <value>TH (терахенри)</value>
     </data>
-    <data name="Millihenry" xml:space="preserve">
+  <data name="Millihenry" xml:space="preserve">
         <value>mH (милихенри)</value>
     </data>
-    <data name="Microhenry" xml:space="preserve">
+  <data name="Microhenry" xml:space="preserve">
         <value>μH (микрохенри)</value>
     </data>
-    <data name="Nanohenry" xml:space="preserve">
+  <data name="Nanohenry" xml:space="preserve">
         <value>nH (нанохенри)</value>
     </data>
-    <data name="Picohenry" xml:space="preserve">
+  <data name="Picohenry" xml:space="preserve">
         <value>pH (пикохенри)</value>
     </data>
-    <data name="LightRadiation" xml:space="preserve">
+  <data name="LightRadiation" xml:space="preserve">
         <value>Осветеност/излъчване</value>
     </data>
-    <data name="LumenSecondPerCubicMeter" xml:space="preserve">
+  <data name="LumenSecondPerCubicMeter" xml:space="preserve">
         <value>lm·s/m³ (лумен-секунда на m³)</value>
     </data>
-    <data name="LumenPerWatt" xml:space="preserve">
+  <data name="LumenPerWatt" xml:space="preserve">
         <value>lm/W (лумена на Ват)</value>
     </data>
-    <data name="CandelaPerSqMeter" xml:space="preserve">
+  <data name="CandelaPerSqMeter" xml:space="preserve">
         <value>cd/m² (кандела на кв. метър)</value>
     </data>
-    <data name="Lumen" xml:space="preserve">
+  <data name="Lumen" xml:space="preserve">
         <value>lm (лумен)</value>
     </data>
-    <data name="LumenSecond" xml:space="preserve">
+  <data name="LumenSecond" xml:space="preserve">
         <value>lm·s (лумен-секунда)</value>
     </data>
-    <data name="Candela" xml:space="preserve">
+  <data name="Candela" xml:space="preserve">
         <value>cd (кандела)</value>
     </data>
-    <data name="Lux" xml:space="preserve">
+  <data name="Lux" xml:space="preserve">
         <value>lx (лукс)</value>
     </data>
-    <data name="LuxSecond" xml:space="preserve">
+  <data name="LuxSecond" xml:space="preserve">
         <value>lx·s (лукс-секунда)</value>
     </data>
-    <data name="Radioactivity" xml:space="preserve">
+  <data name="Radioactivity" xml:space="preserve">
         <value>Радиоактивност</value>
     </data>
-    <data name="Becquerel" xml:space="preserve">
+  <data name="Becquerel" xml:space="preserve">
         <value>Bq  (Бекерел)</value>
     </data>
-    <data name="Kilobecquerel" xml:space="preserve">
+  <data name="Kilobecquerel" xml:space="preserve">
         <value>kBq (килобекерел)</value>
     </data>
-    <data name="Megabecquerel" xml:space="preserve">
+  <data name="Megabecquerel" xml:space="preserve">
         <value>MBq (мегабекерел)</value>
     </data>
-    <data name="Gigabecquerel" xml:space="preserve">
+  <data name="Gigabecquerel" xml:space="preserve">
         <value>GBq (гигабекерел)</value>
     </data>
-    <data name="Terabecquerel" xml:space="preserve">
+  <data name="Terabecquerel" xml:space="preserve">
         <value>TBq (терабекерел)</value>
     </data>
-    <data name="Millibecquerel" xml:space="preserve">
+  <data name="Millibecquerel" xml:space="preserve">
         <value>mBq (милибекерел)</value>
     </data>
-    <data name="Microbecquerel" xml:space="preserve">
+  <data name="Microbecquerel" xml:space="preserve">
         <value>μBq (микробекерел)</value>
     </data>
-    <data name="Nanobecquerel" xml:space="preserve">
+  <data name="Nanobecquerel" xml:space="preserve">
         <value>nBq (нанобекерел)</value>
     </data>
-    <data name="Picobecquerel" xml:space="preserve">
+  <data name="Picobecquerel" xml:space="preserve">
         <value>pBq (пикобекерел)</value>
     </data>
-    <data name="Curie" xml:space="preserve">
+  <data name="Curie" xml:space="preserve">
         <value>Ci (Кюри)</value>
     </data>
-    <data name="Rutherford" xml:space="preserve">
+  <data name="Rutherford" xml:space="preserve">
         <value>Rd (Ръдърфорд)</value>
     </data>
-    <data name="Exposure" xml:space="preserve">
+  <data name="Exposure" xml:space="preserve">
         <value>Експозиция</value>
     </data>
-    <data name="AbsorbedDose" xml:space="preserve">
+  <data name="AbsorbedDose" xml:space="preserve">
         <value>Погълната доза</value>
     </data>
-    <data name="Roentgen" xml:space="preserve">
+  <data name="Roentgen" xml:space="preserve">
         <value>R (Рентген)</value>
     </data>
-    <data name="CoulombPerKilogram" xml:space="preserve">
+  <data name="CoulombPerKilogram" xml:space="preserve">
         <value>C/kg (Кулон на килограм)</value>
     </data>
-    <data name="Gray" xml:space="preserve">
+  <data name="Gray" xml:space="preserve">
         <value>Gy (Грей)</value>
     </data>
-    <data name="Kilogray" xml:space="preserve">
+  <data name="Kilogray" xml:space="preserve">
         <value>kGy (килогрей)</value>
     </data>
-    <data name="Megagray" xml:space="preserve">
+  <data name="Megagray" xml:space="preserve">
         <value>MGy (мегагрей)</value>
     </data>
-    <data name="Gigagray" xml:space="preserve">
+  <data name="Gigagray" xml:space="preserve">
         <value>GGy (гигагрей)</value>
     </data>
-    <data name="Teragray" xml:space="preserve">
+  <data name="Teragray" xml:space="preserve">
         <value>TGy (терагрей)</value>
     </data>
-    <data name="Milligray" xml:space="preserve">
+  <data name="Milligray" xml:space="preserve">
         <value>mGy (милигрей)</value>
     </data>
-    <data name="Microgray" xml:space="preserve">
+  <data name="Microgray" xml:space="preserve">
         <value>μGy (микрогрей)</value>
     </data>
-    <data name="Nanogray" xml:space="preserve">
+  <data name="Nanogray" xml:space="preserve">
         <value>nGy (наногрей)</value>
     </data>
-    <data name="Picogray" xml:space="preserve">
+  <data name="Picogray" xml:space="preserve">
         <value>pGy (пикогрей)</value>
     </data>
-    <data name="EquivalentDose" xml:space="preserve">
+  <data name="EquivalentDose" xml:space="preserve">
         <value>Еквивалентна доза</value>
     </data>
-    <data name="Sievert" xml:space="preserve">
+  <data name="Sievert" xml:space="preserve">
         <value>Sv (Сиверт)</value>
     </data>
-    <data name="Kilosievert" xml:space="preserve">
+  <data name="Kilosievert" xml:space="preserve">
         <value>kSv (килосиверт)</value>
     </data>
-    <data name="Megasievert" xml:space="preserve">
+  <data name="Megasievert" xml:space="preserve">
         <value>MSv (мегасиверт)</value>
     </data>
-    <data name="Gigasievert" xml:space="preserve">
+  <data name="Gigasievert" xml:space="preserve">
         <value>GSv (гигасиверт)</value>
     </data>
-    <data name="Terasievert" xml:space="preserve">
+  <data name="Terasievert" xml:space="preserve">
         <value>TSv (терасиверт)</value>
     </data>
-    <data name="Millisievert" xml:space="preserve">
+  <data name="Millisievert" xml:space="preserve">
         <value>mSv (милисиверт)</value>
     </data>
-    <data name="Microsievert" xml:space="preserve">
+  <data name="Microsievert" xml:space="preserve">
         <value>μSv (микросиверт)</value>
     </data>
-    <data name="Nanosievert" xml:space="preserve">
+  <data name="Nanosievert" xml:space="preserve">
         <value>nSv (наносиверт)</value>
     </data>
-    <data name="Picosievert" xml:space="preserve">
+  <data name="Picosievert" xml:space="preserve">
         <value>pSv (пикосиверт)</value>
     </data>
-    <data name="Mol" xml:space="preserve">
+  <data name="Mol" xml:space="preserve">
         <value>mol (количество вещество)</value>
     </data>
-    <data name="CatalyticActivity" xml:space="preserve">
+  <data name="CatalyticActivity" xml:space="preserve">
         <value>kat (активност на катализатор)</value>
     </data>
-    <data name="LuminousIntensity" xml:space="preserve">
+  <data name="LuminousIntensity" xml:space="preserve">
         <value>Интензитет на светлината</value>
     </data>
-    <data name="LuminousFlux" xml:space="preserve">
+  <data name="LuminousFlux" xml:space="preserve">
         <value>Светлинен поток</value>
     </data>
-    <data name="LuminousEnergy" xml:space="preserve">
+  <data name="LuminousEnergy" xml:space="preserve">
         <value>Светлинна енергия</value>
     </data>
-    <data name="LuminousEnergyDensity" xml:space="preserve">
+  <data name="LuminousEnergyDensity" xml:space="preserve">
         <value>Плътност на светлинната енергия</value>
     </data>
-    <data name="LuminousEfficacy" xml:space="preserve">
+  <data name="LuminousEfficacy" xml:space="preserve">
         <value>Светлинна ефективност</value>
     </data>
-    <data name="Luminance" xml:space="preserve">
+  <data name="Luminance" xml:space="preserve">
         <value>Яркост</value>
     </data>
-    <data name="Illuminance" xml:space="preserve">
+  <data name="Illuminance" xml:space="preserve">
         <value>Осветеност</value>
     </data>
-    <data name="LuminousExposure" xml:space="preserve">
+  <data name="LuminousExposure" xml:space="preserve">
         <value>Светлинна експозиция</value>
     </data>
-    <data name="Dimensionless" xml:space="preserve">
+  <data name="Dimensionless" xml:space="preserve">
         <value>Бездименсионни</value>
     </data>
+  <data name="Imperial_US" xml:space="preserve">
+    <value>Imperial/US</value>
+  </data>
 </root>
