@@ -1,0 +1,1974 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<title>Calcpad自述文件</title>
+<meta charset="UTF-8">
+<style>
+.menu{
+	position:fixed; 
+	left:780px; 
+	top:0; 
+	font-size:11pt; 
+	list-style:none;
+}
+
+.menu li{
+	margin-left:-14px;
+}
+
+.menu li ul{
+	font-size: 11pt; 
+	list-style: none;
+	display: none;
+}
+
+.active{
+	color: black !Important;
+	font-weight: bold;
+	font-size:11pt;
+}
+
+table {border-collapse: collapse;}
+body {font-size: 11pt; font-family: "Segoe UI";}
+.body {
+	width: 700px;
+	max-width: 85%;
+	background: white; 
+	margin: 12px; 
+	padding: 12px 24px 12px 30px;
+}
+th    {background-color:#F0F0F0; border: solid 1px #AAAAAA; padding:6px;}
+td    {border: solid 1px #cccccc; padding:6px;}
+.nb td {border: none;}
+.tr td {text-align:right;}
+p     {line-height: 150%;}
+ul    {padding-left: 24px;}
+li ul {padding-left: 12px;}
+h1    {font-family: "Calibri Light"; font-weight: normal; font-size: 32pt; margin: 0;}
+h1 img  { margin-top: -6px;}
+li    {margin: 6px;}
+.menu li ul {padding-left: 42px;}
+var   {color:#06c; font-family: "Times New Roman"; font-size: 12.5pt}
+i     {color:#086; font-family:Times New Roman; font-style: normal; font-size: 11.5pt;}
+img   {vertical-align: middle; max-width:100%;}
+u     {background-color: LightYellow;}
+.comment {color: green;}
+.root {font-family: Times New Roman; font-size: 14pt;}
+.ovr {border-top: solid 1px; padding-left: 1pt; padding-top: -2pt;}
+code .ovr {padding-top: 2pt; font-family: "Consolas"; font-size: 10pt;}
+.dvc {display: inline-block; vertical-align: middle; text-align: center; line-height:110%; white-space: nowrap;}
+.dvl {display: block; border-bottom: solid 1px black;}
+.dvc.down {position: relative; top:0.5em;}
+.dvc.up {position: relative; bottom:0.6em;}
+.cond {color: magenta;}
+.macro {color: darkMagenta;}
+.err {color: red;}
+.toc {color: #888888; text-decoration:none; font-size:10.5pt;}
+.toc:hover {text-decoration: underline; color: black;}
+.fold {height: 2.4em; overflow: hidden;}
+.unfold {height: auto; overflow: auto;}
+.fold > :first-child, .unfold > :first-child {cursor: pointer;}
+.fold > :first-child:hover, .unfold > :first-child:hover {color: #0066bb; text-decoration: underline;}
+.fold > :first-child::after {content: " ... ▼"; font-size: 80%;}
+.unfold > :first-child::after {content: " ▲"; font-size: 80%;}
+#Units{float:right; margin-top:12px;}
+input[type="text"], select {
+	font-size: 11pt;
+	padding: 0.15em 0.3em; 	
+	border: 0.5pt solid #CCC; 
+	border-radius: 0.35em;
+	text-align: right;
+	box-shadow: 0.06em 0.06em 0.5em #ddd;
+	background-color: LightYellow;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+	--ssf: 1.1;
+	zoom: var(--ssf);
+	-moz-transform: scale(var(--ssf));
+	-webkit-transform: scale(var(--ssf));
+	transform: scale(var(--ssf));
+	transform-origin: top;
+	position: relative;
+	bottom: -1pt;
+	margin-right: 1pt;
+}
+
+input[type="checkbox"].post:disabled:not(:checked), 
+input[type="checkbox"].post:disabled:not(:checked) + label, 
+input[type="radio"].post:disabled:not(:checked),
+input[type="radio"].post:disabled:not(:checked) + label {
+	display: none;
+}
+
+select.post:disabled {
+	font-size: 12pt;
+	border: none; 
+	box-shadow: none;
+	color: red;
+	background: none;
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+}
+select.post:disabled::-ms-expand {display: none;}
+input[type="text"]:focus {box-shadow: 0.1em 0.1em 1em #ccc; color: black;}
+.exp {
+	display: inline-block;
+	height: 13pt;
+	line-height: 80%;
+	font-size: 12pt;
+	font-weight: bold;
+	border: solid 1px #cccccc; 
+	padding: 0 1.5pt 0 1.5pt; 
+	margin-right: 4pt; 		
+	border-radius: 4pt;
+}
+.exp:hover {
+	cursor: pointer;
+	box-shadow: #cccccc 0 0 4px;
+}
+sub {font-family: Arial Nova; font-size:70%; padding-left:0.5pt; padding-right:0.5pt;}
+@media screen and (max-width: 960px){
+    .menu{display:none;}
+}
+</style>
+</head>
+<body>
+<ul class="menu">
+<li style="font-size:13pt; font-weight:bold; border-bottom: solid 1px gray; padding-bottom:3px; margin-bottom:6px;">目录</li>
+<li><a class="toc" href="#TOC_101">关于Calcpad</a></li>
+<li><a class="toc" href="#TOC_102">应用领域</a></li>
+<li><a class="toc" href="#TOC_103">安装</a></li>
+<li><a class="toc" href="#TOC_104">许可和使用条款</a></li>
+<li><a class="toc" href="#TOC_105">如何运行</a></li>
+<li><a class="toc" href="#TOC_106">理论背景</a></li>
+<li><span class="exp" id="button2">+</span><a class="toc" href="#TOC_200">写计算代码</a><br />
+	<ul id="list2">
+		<li><a class="toc" href="#TOC_201">数值键盘</a></li>
+		<li><a class="toc" href="#TOC_202">在文本中移动</a></li>
+		<li><a class="toc" href="#TOC_203">选择</a></li>
+		<li><a class="toc" href="#TOC_204">删除</a></li>
+		<li><a class="toc" href="#TOC_205">复制</a></li>
+		<li><a class="toc" href="#TOC_206">粘贴</a></li>
+		<li><a class="toc" href="#TOC_207">撤回</a></li>
+		<li><a class="toc" href="#TOC_208">重做</a></li>
+		<li><a class="toc" href="#TOC_209">查找</a></li>
+	</ul>
+</li>
+<li><span class="exp" id="button3">+</span><a class="toc" href="#TOC_300">编程辅助功能</a><br />
+	<ul id="list3">
+		<li><a class="toc" href="#TOC_301">语法高亮</a></li>
+		<li><a class="toc" href="#TOC_302">自动缩进</a></li>
+		<li><a class="toc" href="#TOC_303">自动补全</a></li>
+		<li><a class="toc" href="#TOC_304">括号匹配</a></li>
+		<li><a class="toc" href="#TOC_305">希腊字母</a></li>
+		<li><a class="toc" href="#TOC_306">用Notepad++工作</a></li>
+	</ul>
+</li>
+<li><span class="exp" id="button4">+</span><a class="toc" href="#TOC_400">表达式</a><br />
+	<ul id="list4">
+		<li><a class="toc" href="#TOC_401">常量</a></li>
+		<li><a class="toc" href="#TOC_402">变量</a></li>
+		<li><a class="toc" href="#TOC_403">运算符</a></li>
+		<li><a class="toc" href="#TOC_404">括号</a></li>
+		<li><a class="toc" href="#TOC_405">函数</a></li>
+		<li><a class="toc" href="#TOC_406">绘图</a></li>
+		<li><a class="toc" href="#TOC_407">数值方法</a></li>
+		<li><a class="toc" href="#TOC_408">迭代程序</a></li>
+		<li><a class="toc" href="#TOC_409">单位</a></li>
+	</ul>
+</li>
+<li><span class="exp" id="button5">+</span><a class="toc" href="#TOC_500">报告</a><br />
+	<ul id="list5">
+		<li><a class="toc" href="#TOC_501">标题</a></li>
+		<li><a class="toc" href="#TOC_502">文本/注释</a></li>
+		<li><a class="toc" href="#TOC_503">注释中的单位</a></li>
+		<li><a class="toc" href="#TOC_504">用Html和CSS设置格式</a></li>
+		<li><a class="toc" href="#TOC_505">图像</a></li>
+	</ul>
+</li>
+<li><span class="exp" id="button6">+</span><a class="toc" href="#TOC_600">编程</a><br />
+	<ul id="list6">
+		<li><a class="toc" href="#TOC_601">输入表单</a></li>
+		<li><a class="toc" href="#TOC_602">输出控制</a></li>
+		<li><a class="toc" href="#TOC_603">按条件执行</a></li>
+		<li><a class="toc" href="#TOC_604">迭代块</a></li>
+		<li><a class="toc" href="#TOC_605">交互式（逐步）执行</a></li>
+		<li><a class="toc" href="#TOC_606">子程序(调用)</a></li>
+		<li><a class="toc" href="#TOC_607">宏和字符串变量</a></li>
+	</ul>
+</li>		
+<li><span class="exp" id="button7">+</span><a class="toc" href="#TOC_700">结果</a><br />
+	<ul id="list7">
+		<li><a class="toc" href="#TOC_701">变量代入</a></li>
+		<li><a class="toc" href="#TOC_702">舍入</a></li>
+		<li><a class="toc" href="#TOC_703">格式化</a></li>
+		<li><a class="toc" href="#TOC_704">缩放</a></li>
+		<li><a class="toc" href="#TOC_705">保存</a></li>
+		<li><a class="toc" href="#TOC_706">打印</a></li>
+		<li><a class="toc" href="#TOC_707">复制</a></li>
+		<li><a class="toc" href="#TOC_708">导出到Word</a></li>
+		<li><a class="toc" href="#TOC_709">导出到PDF</a></li>
+	</ul>
+</li>
+<li><span class="exp" id="button8">+</span><a class="toc" href="#TOC_800">文件</a><br />
+	<ul id="list8">
+		<li><a class="toc" href="#TOC_801">新建</a></li>
+		<li><a class="toc" href="#TOC_802">打开</a></li>
+		<li><a class="toc" href="#TOC_803">保存</a></li>
+		<li><a class="toc" href="#TOC_804">另存为…</a></li>
+	</ul>
+</li>
+</ul>
+<div class="body">
+<ul style="float:right; font-size:9pt; list-style:none;">
+<li><img alt="Logo" src="Images/Logo.png" height="32"><span style="font-size:130%">®</span></li>
+<li>34-36 Peyo Yavorov blvd, Sofia 1164, Bulgaria</li>
+<li>+359 2 423 4455</li>
+<li><a href="mailto:proektsoft.bg@gmail.com">proektsoft.bg@gmail.com</a></li>
+</ul>
+<h1><img alt="Calcpad.png" src="Images/Calcpad.png" height="32"> Calcpad</h1>
+<p style="margin-left:42px; margin-top:0;">6.2版自述文件</p>
+<h2 id="TOC_101">关于Calcpad</h2>
+<p>Calcpad是一款用于数学和工程计算的免费软件。它是一个灵活现代的可编程计算器，具有Html报告生成器。它简单易用，但也包含许多高级功能:</p>
+<ul>
+<li>实数和复数;</li>
+<li>测量单位（国际单位制、英制和美国习惯单位制）;</li>
+<li>自定义变量和单位;</li>
+<li>内置的常见数学函数库;</li>
+<li>多参数函数f(x; y; z; …);</li>
+<li>强大的数值方法，用于求根和极值、数值积分和微分;</li>
+<li>有限求和、乘积和迭代过程;</li>
+<li>模块、宏和字符串变量;</li>
+<li>带有条件和循环的程序流程控制;</li>
+<li>引号内的“标题”和'文本'注释;</li> 
+<li>注释中支持Html和CSS进行丰富格式化;</li>
+<li>函数绘图、图像、表格、参数化SVG绘图等;</li>
+<li>自动生成用于数据输入的Html表单;</li>
+<li>专业外观的Html报告，用于查看和打印;</li>
+<li>导出为Word（*.docx）和PDF文档;</li>
+<li>变量替换和智能舍入数字;</li> 
+<li>输出可见性控制和内容折叠;</li>
+<li>支持纯文本（*.txt，*.cpd）和二进制（*.cpdz）文件格式.</li>
+</ul>
+<p>该软件使用C#编程语言和最新的计算机技术开发。它会自动解析输入，替换变量，计算表达式并显示输出。所有结果都会发送到外观专业的Html报告中，供查看和打印。</p>
+<p style="text-align:center;"><img alt="Calcpad" src="Images/Sample.zh.png" width="650"></p>
+
+<h2 id="TOC_102">应用领域</h2>
+<p>这个软件适用于需要执行重复计算并将其呈现在官方文档（如计算说明）中的工程师和其他专业人士。他们可以通过创建强大可靠的Calcpad工作表来高效地自动化这项任务。它还可以帮助教师准备计算示例、论文、手册、书籍等等。学生可以使用它来解决各种问题、准备家庭作业、博士论文等。</p>
+
+<h2 id="TOC_103">安装</h2>
+<p>安装由自动化安装程序<a target="_blank" href="https://calcpad.eu/download/calcpad-setup-en-x64.zip">calcpad-setup-en-x64.exe</a>执行。按照安装向导的说明进行操作。该软件需要一台64位计算机，安装有Windows 10和<a target="_blank" href="https://dotnet.microsoft.com/en-us/download/dotnet/7.0">Microsoft .NET 7.0</a>。</p>
+
+<h2 id="TOC_104">许可和使用条款</h2>
+<p>这个软件对商业和非商业用途均免费。它是根据MIT许可证分发的：</p>
+<p>版权所有 © 2021 PROEKTSOFT EOOD®</p><hr />
+<p>特此授予任何获得本软件及相关文档文件（“软件”）副本的人免费使用本软件的权限，包括但不限于使用、复制、修改、合并、发布、分发、再许可和/或销售本软件的副本，以及允许使用本软件的人这样做，但须遵守以下条件：</p>
+<p>上述版权声明和本许可声明应包含在所有副本或实质部分的软件中。</p>
+<p>本软件按“原样”提供，不附带任何形式的明示或暗示担保，包括但不限于适销性、特定用途适用性和非侵权性的担保。在任何情况下，作者或版权持有人均不对任何索赔、损害或其他责任承担责任，无论是在合同、侵权或其他方面，由于软件或使用或其他交易引起的或与之相关的软件而导致的，包括但不限于使用或其他交易的任何损失或利润损失。</p><hr />
+<p>源代码托管在GitHub上:</p>
+<p><a title="GitHub repository" href="https://github.com/Proektsoftbg/Calcpad">https://github.com/Proektsoftbg/Calcpad</a></p>
+<p>或在我们的SourceForge仓库:</p>
+<p><a title="SourceForge repository" href="https://sourceforge.net/p/calyx/code/ci/master/tree/">https://sourceforge.net/p/calyx/code/ci/master/tree/</a></p>
+<p>Calcpad开发的任何脚本均为各自作者的财产。除了作者本身指定的限制外，可以无限制地使用。</p>
+<h3>致谢</h3>
+<p>该项目使用了一些额外的第三方组件、软件和设计。它们在各自作者提供的许可条件下免费重新分发。</p>
+<p>1. 使用<a target="_blank" href="https://icons8.com">icons8.com</a>创建了新的漂亮图标。</p>
+<p>2. 感谢<a target="_blank" href="https://wkhtmltopdf.org/">wkhtmltopdf.org</a>项目，使得PDF导出成为可能。</p>
+<p>3. 使用<a href="https://indestructibletype.com/">indestructible type*</a>开发的Jost*字体系列，根据<a href="https://scripts.sil.org/cms/scripts/page.php?item_id=OFL_web">SIL开源字体许可证</a>进行分发。方括号稍作修改以适应应用程序的需求。</p>
+
+<h2 id="TOC_105">工作原理</h2>
+<p>该软件快速且易于使用。只需按照以下简单步骤操作：</p>
+<ol>
+<li>在左边的"<strong>Code(代码)</strong>"窗口中<strong>输入</strong> 文本和表达式 "<strong>Code</strong>" .</li>
+<li>按<b>F5</b>或点击<img alt="Play" height="24" src="Images/Play.png"> 启动计算.结果将以专业排版的Html<b>报告</b>显示在右侧的"<b>Output(输出)</b>" 窗口中.</li>
+<li>点击 <img alt="PrintPreview" height="24" src="Images/PrintPreview.png"><b>打印</b>或<img alt="Copy" height="24" src="Images/Copy.png"> <b>复制</b>输出.<br />或将输出<b>导出</b>到<b>Html</b> <img alt="Html" height="24" src="Images/Save.png">, <b>PDF</b> <img alt="PDF" height="24" src="Images/Pdf.png">或<b>MS Word</b> <img alt="Word" height="24" src="Images/Word.png"> 文档中.</li>
+</ol>
+<p>该程序可以在两种不同的模式下使用：</p>
+<ul>
+<li><b>计算器</b> - 源代码可在左侧框中进行编辑。计算完成后，结果将显示在右侧框中。该模式适用于简短且简单的问题，不涉及复杂的格式。</li>
+<li><b>输入表单</b> - 源代码不可访问。相反，显示一个HTML输入表单。它包含了所有参数的输入字段，这些参数是计算所需的。其余内容被锁定不可编辑。这种模式更适用于需要丰富格式的复杂问题，并且经常使用。它清楚地显示了所需的输入参数，并保护源代码免受意外损坏。</li>
+</ul>
+<p>在"<b>输入表单</b>"模式下，您需要填写输入数据并点击<img alt="Play" height="24" src="Images/Play.png">按钮。您可以非常简单地直接从源代码中创建这样一个表单。只需在需要输入值的地方放置"<b>?</b>"符号。然后将问题保存为"*.cpd"文件。您可以在本手册的后面找到有关表单的更多信息。</p>
+
+<h2 id="TOC_106">理论基础</h2>
+<p style="font-style: italic;">(若觉无趣可直接跳过)</p>
+<p>Calcpad是如何工作的？它内部包含一个复杂的数学解析器，它完成了大部分的工作.首先，源代码会被扫描，使用词法分析将字节序列转换成令牌列表。每个令牌都由数据和类型（目的、角色）表示.</p> 
+<p>
+然后解析器会检查所有令牌是否按照正确的顺序排列。我们需要知道表达式是否在数学上是正确的并且可以计算。否则，应该生成一个易于理解的错误消息。例如，"3 + a / 5" 是一个正确的表达式，而 "3 a + / 5"不是。为了实现这个目的，标准的数学表示法被表示为具有上下文无关文法的形式语言，并使用语法分析.
+.</p>
+<p>
+算术表达式通常以中缀表示法编写。这意味着每个运算符位于相应的操作数之间（例如 "5*3 + 2"）。问题在于，与人类不同，计算机很难理解这种表示法。主要问题是运算符的优先级和括号的使用。例如，上述表达式得出的结果是"17"，而 "5*(3 + 2)" 得出的结果是"25"。因此，表达式会被转换为不同类型的表示法，称为"后缀"或逆波兰表示法（RPN）。对计算机来说，读取这种表示法非常容易。例如，表达式 "5*(3 + 2)" 在RPN中写作 "5 3 2 + *"。其主要优势是可以明确指定操作的顺序，而无需使用括号.</p>
+<p>对于计算逆波兰表示法（RPN）的表达式，有一个简单而强大的算法。几乎所有的计算器都使用这种算法。然而，Calcpad还包括额外的功能，用于处理参数、函数、宏、条件执行、循环等.</p> 
+<p>这是一份简短说明.若对该话题感兴趣，可以从专门的书籍、文章或网站中找到更多信息.推荐维基百科:
+<p style="margin-left: 2em;"><a target="_blank" href="https://en.wikipedia.org/wiki/Parsing">https://en.wikipedia.org/wiki/Parsing</a></p> 
+<p style="margin-left: 2em;"><a target="_blank" href="https://en.wikipedia.org/wiki/Lexical_analysis">https://en.wikipedia.org/wiki/Lexical_analysis</a></p> 
+<p style="margin-left: 2em;"><a target="_blank" href="https://en.wikipedia.org/wiki/Context-free_grammar">https://en.wikipedia.org/wiki/Context-free_grammar</a></p> 
+<p style="margin-left: 2em;"><a target="_blank" href="https://en.wikipedia.org/wiki/Shunting-yard_algorithm">https://en.wikipedia.org/wiki/Shunting-yard_algorithm</a></p> 
+<p style="margin-left: 2em;"><a target="_blank" href="https://en.wikipedia.org/wiki/Reverse_Polish_notation">https://en.wikipedia.org/wiki/Reverse_Polish_notation</a></p> 
+
+<h2 id="TOC_200">编写代码</h2>
+<p>将代码输入到“<b>代码</b>”输入窗口中。空格和缩进会自动保持。您可以使用计算机键盘或下面的“<b>数字键盘</b>”。您可以从输入窗口或任何外部程序（例如<b>Word</b>）复制文本。输入窗口上方有一个工具栏，其中包含一些有用的编辑命令：复制、粘贴、撤消、重做和插入图像。</p>
+<p>源代码在逻辑上分为多行，自动编号。每个表达式应该在单独的一行上。特殊情况下，可以在同一行上有多个表达式，但它们必须用注释分隔开。当您完成一行时，按下“<b>Enter</b>”开始新的一行。语法高亮会自动执行。不同的代码元素以不同的颜色显示，具体取决于其类型。例如，注释以绿色显示，错误以红色显示。所有注释必须用引号括起来。它们可以包含普通文本和<b>Html</b>。您可以使用Html添加图片、表格和格式化报告。</p>
+
+<h3 id="TOC_201">数字键盘</h3>
+<p><img alt="Keyboard" height="180" src="Images/Keyboard.zh.png"></p>
+<p>当您使用平板电脑或带有触摸屏的笔记本电脑时，数字键盘非常有用。按下按钮时，相应的符号将插入到光标所在的位置。数字键盘分为四个部分：“<b>数字</b>”、“<b>运算符</b>”、“<b>函数</b>”和“<b>其他</b>”。"<b>=</b>"键不像简单计算器那样计算答案。这是赋值运算符（例如，“<var>a</var> = 4”）。如果您需要检查两个数字的相等性，请使用“<b>≡</b>”运算符（例如，“<var>a</var> ≡ <var>b</var>”表示：“<var>a</var>是否等于<var>b</var>？”）。"<b>e</b>"、"<b>π</b>"和"<b>g</b>"键插入相应的内置常数<var>e</var> ≈ 2.7183、<var>π</var> ≈ 3.1416和<var>g</var> ≈ 9.8066。</p>
+<p>如果您不需要数字键盘并想释放一些空间，可以使用<img alt="Calc" height="24" src="Images/Calc.png">按钮隐藏它。再次点击可以显示数字键盘。</p>
+<p>“<b style="color:red">C</b>”按钮删除上一个符号，“<b style="color:red">AC</b>”删除整行。如果您双击此按钮，将清除整个文本。如果您不小心这样做了，可以使用<b>撤消</b> <img alt="Undo" height="24" src="Images/Undo.png">来恢复。</p>
+
+<h3 id="TOC_202">在文本中移动</h3>
+<p>在Calcpad中编写和编辑文本与任何其他Windows程序没有太大区别。如果您有一些经验，可以跳过这一部分，直接进入“<b>表达式</b>”。</p>
+<p>您可以在文本的任意位置输入。插入符号的位置称为“<b>文本光标</b>”（闪烁的垂直线“<b>|</b>”）。您可以通过单击鼠标或使用键盘上的箭头“← → ↑ ↓”来更改光标位置。箭头将使光标向左或向右移动一个符号，并向上或向下移动一行。如果按住“<b>Ctrl</b>”键并按箭头键，光标将移动一个完整的单词。按下“<b>Home</b>”和“<b>End</b>”键将分别将光标发送到当前行的开头或结尾。如果事先按住“<b>Ctrl</b>”键，您将转到整个文本的开头或结尾。</p>
+
+<h3 id="TOC_203">选择文本</h3>
+<p>大多数编辑命令要求您选择要应用命令的一些文本。所选择的文本通常显示为<span style="background-color:LightSkyBlue;">蓝色背景</span>（根据您的系统设置可能会有所不同）。您可以按照以下方式使用鼠标选择文本：在要选择的文本的起始位置按下左鼠标按钮。按住按钮并将鼠标移动到结束位置。然后释放按钮。或者，您可以在起始位置单击，按下<b>Shift</b>，然后在结束位置单击。您还可以使用计算机键盘。按住<b>Shift</b>并按箭头键或“<b>Home</b>”、“<b>End</b>”、“<b>Page Up</b>”、“<b>Page Down</b>”。</p>
+
+<h3 id="TOC_204">删除文本</h3>
+<p>您可以通过按下“<b>Delete</b>”（“Del”）或“<b>Backspace</b>”（“Bkspc”）键来删除单个符号。区别在于，“Delete”删除光标后的符号，“Backspace”删除光标前的符号。如果事先按住“<b>Ctrl</b>”键，您可以删除整个单词而不是单个符号。如果您需要删除文本的较大部分，可以选择它，然后按“Delete”或“Backspace”。</p>
+
+<h3 id="TOC_205">复制</h3>
+<p>如果文本的某个部分重复出现，您可以将其复制而不是再次输入。这需要两个步骤："复制"和"粘贴"。在第一步（复制）中，所选文本被发送到称为<b>剪贴板</b>的内存中。在第二步（粘贴）中，文本被插入到新位置。一旦复制，您可以将文本粘贴到多个位置.您可以通过按"<b>Ctrl+C</b>"或点击<img alt="Copy" height="24" src="Images/Copy.png">按钮将所选文本复制到剪贴板中.</p>
+
+<h3 id="TOC_206">粘贴</h3>
+<p>在从剪贴板中粘贴文本之前，您必须将光标定位到所需位置。然后按"<b>Ctrl+V</b>"或<img alt="Paste" height="24" src="Images/Paste.png">按钮。您可以将文本从Calcpad复制并粘贴到其他程序中，反之亦然。例如，您可以从Word中获取一些公式，在Calcpad中计算它们，然后将结果返回到Word中.</p>
+
+<h3 id="TOC_207">撤销</h3>
+<p>此命令撤消上一个编辑命令的结果并恢复先前的状态。您可以撤消多达10个步骤。只需按"<b>Ctrl+Z</b>"或单击<img alt="Undo" height="24" src="Images/Undo.png">按钮即可.</p>
+
+<h3 id="TOC_208">重做</h3>
+<p>"重做"（Redo）与"撤销"（Undo）的方式相反。它恢复了被撤销的命令。重做必须紧随上一个撤销。如果您在此期间输入或编辑一些文本，您将失去重做的能力。点击<img alt="Redo" height="24" src="Images/Redo.png">按钮进行重做.</p>
+
+<h3 id="TOC_209">查找</h3>
+<p>如果需要，您可以在代码中搜索某个特定文本并将其替换为另一个文本。选择"<b>编辑/查找</b>"菜单，点击<img alt="Find" height="24" src="Images/Search.png">按钮或按"<b>Ctrl+F</b>"键。将会出现"<b>查找和替换</b>"对话框.</p>
+<p><img alt="Find Dialog" width="450" src="Images/FindDialog.zh.png"></p>
+<p>输入要搜索的单词或短语，然后点击"<b>查找下一个</b>"。程序从当前位置开始，在所选方向中查找第一次出现的搜索短语。如果找到了搜索短语，它会被突出显示，搜索就会停止。要查找下一个出现，再次点击"<b>查找下一个</b>"。您还可以按"<b>F3</b>"键，即使在关闭对话框后也可以继续搜索.</p>
+<p>如果需要替换搜索到的文本，点击"<b>替换</b>"选项卡并填写"<b>替换为</b>"框中的内容，然后点击"<b>替换</b>"按钮。程序将替换当前出现的文本，并自动移动到下一个。如果您想替换代码中的所有出现，只需点击相应的按钮即可. </p>
+<p>有几个选项会影响搜索结果，如下所示:</p>
+<ul>
+<li><b>搜索方向</b>: "向上"、"向下"和"全部"。"全部"和"向下"都是朝着文档的末尾搜索。不同之处在于，"全部"在到达文档末尾后会跳到开头重新开始搜索.</li>
+<li><b>选择</b>：它仅适用于"<b>全部替换</b>"命令。您需要先进行选择，然后显示"<b>查找和替换</b>"对话框。然后，如果选中"<b>选择</b>"选项，所有的替换都将仅在所选文本中进行。</li>
+<li><b>大小写</b>：如果选中，搜索将区分大小写。默认情况下，大小写被忽略。</li>
+<li><b>全字匹配</b>：如果选中，程序将仅搜索代表整个单词的序列。</li>
+</ul>
+
+<h2 id="TOC_300">编程辅助功能</h2>
+<h3 id="TOC_301">语法高亮</h3>
+<p>语法高亮将不同的颜色应用于编程语言的不同组成部分：函数、变量、运算符等。它会在您每次编辑并离开当前行时自动运行。所有错误都将以红色突出显示。程序区分已定义和未定义的变量和函数。颜色调色板是预定义的，无法更改。目前，Calcpad不支持自定义样式和主题。</p>
+
+<h3 id="TOC_302">自动缩进</h3>
+<p>程序会自动维护代码中各行的缩进。所有在条件和循环块内的行都会相应地缩进。此外，您可以在每行开头添加空格。虽然间距也是自动处理的，但前导空格不受影响。</p>
+
+<h3 id="TOC_303">自动补全</h3>
+<p>当您开始输入时，程序会显示一个下拉列表，其中包含与您刚刚输入的内容匹配的建议。它包含关键字、测量单位、内置函数和所有在当前行上面定义的自定义变量和函数。列表在您输入时动态过滤和排序。列表中的当前建议会被突出显示。如果这就是您需要的，请按“<b>Tab</b>”将其插入到当前位置。单击列表以插入其他建议中的一些。或者，您可以按“<b>向下箭头</b>”浏览可用的建议，按“<b>Enter</b>”插入所选的建议。如果列表在当前行上方，请改为按“<b>向上箭头</b>”。</p>
+
+<h3 id="TOC_304">括号匹配</h3>
+<p>程序可以找到匹配的开放和关闭括号。如果将光标放置在其中一个括号旁边，两个括号都会突出显示。如果没有相应的括号，则不会突出显示任何内容。</p>
+
+<h3 id="TOC_305">希腊字母</h3>
+<p>您可以通过点击代码编辑器下方的相应符号来插入希腊字母。或者，您可以从下面的表格中输入相应的拉丁字母，然后按"<b>Ctrl+G</b>"。如果再次按下该键，您将把字母从希腊转换回拉丁。由于"j"/"J"和"V"保持未使用状态，它们分别映射为"ø"/"Ø"和"&measuredangle;".</p>
+<table class="bordered">
+<tr><th>名称		</th><th>希腊字母</th><th>拉丁字母</th><th>Greek</th><th>Latin</th>
+<tr><td>alpha西格玛		</td><td>α</td><td>a</td><td>Α</td><td>A</td></tr>
+<tr><td>beta贝塔		</td><td>β</td><td>b</td><td>Β</td><td>B</td></tr>
+<tr><td>gamma伽马		</td><td>γ</td><td>g</td><td>Γ</td><td>G</td></tr>
+<tr><td>delta德尔塔		</td><td>δ</td><td>d</td><td>Δ</td><td>D</td></tr>
+<tr><td>epsilon伊普西隆		</td><td>ε</td><td>e</td><td>Ε</td><td>E</td></tr>
+<tr><td>zeta泽塔		</td><td>ζ</td><td>z</td><td>Ζ</td><td>Z</td></tr>
+<tr><td>eta伊塔			</td><td>η</td><td>h</td><td>Η</td><td>H</td></tr>
+<tr><td>theta西塔		</td><td>θ</td><td>q</td><td>Θ</td><td>Q</td></tr>
+<tr><td>theta-alt	</td><td>ϑ</td><td>v</td><td>&measuredangle;</td><td>V</td></tr>
+<tr><td>iota		</td><td>ι</td><td>i</td><td>Ι</td><td>I</td></tr>
+<tr><td>kappa		</td><td>κ</td><td>k</td><td>Κ</td><td>K</td></tr>
+<tr><td>lambda拉姆达		</td><td>λ</td><td>l</td><td>Λ</td><td>L</td></tr>
+<tr><td>mu缪			</td><td>μ</td><td>m</td><td>Μ</td><td>M</td></tr>
+<tr><td>nu			</td><td>ν</td><td>n</td><td>Ν</td><td>N</td></tr>
+<tr><td>xi			</td><td>ξ</td><td>x</td><td>Ξ</td><td>X</td></tr>
+<tr><td>omicron		</td><td>ο</td><td>o</td><td>Ο</td><td>O</td></tr>
+<tr><td>pi			</td><td>π</td><td>p</td><td>Π</td><td>P</td></tr>
+<tr><td>rho			</td><td>ρ</td><td>r</td><td>Ρ</td><td>R</td></tr>
+<tr><td>sigma		</td><td>σ</td><td>s</td><td>Σ</td><td>S</td></tr>
+<tr><td>tau			</td><td>τ</td><td>t</td><td>Τ</td><td>T</td></tr>
+<tr><td>upsilon		</td><td>υ</td><td>u</td><td>Υ</td><td>U</td></tr>
+<tr><td>phi			</td><td>φ</td><td>f</td><td>Φ</td><td>F</td></tr>
+<tr><td>chi			</td><td>χ</td><td>c</td><td>Χ</td><td>C</td></tr>
+<tr><td>psi			</td><td>ψ</td><td>y</td><td>Ψ</td><td>Y</td></tr>
+<tr><td>omega欧米伽		</td><td>ω</td><td>w</td><td>Ω</td><td>W</td></tr>
+<tr><td>phi-diam	</td><td>ø</td><td>j</td><td>Ø</td><td>J</td></tr>
+</table>
+
+<h3 id="TOC_306">使用Notepad++</h3>
+<p><b>Notepad++</b>是一款流行的文本/代码编辑器。它是免费且开源的，可以从官方网站<a href="https://notepad-plus-plus.org" target="_blank">https://notepad-plus-plus.org</a>下载。它支持许多编程或脚本语言。它的文本编辑功能比Calcpad更强大。它还非常适用于编写HTML代码。您也可以在Notepad++中使用<b>Calcpad</b>语法。它被预定义为一个XML文件，可以插入到Notepad++中。您可以通过选择"<b>语言</b>"菜单，然后点击"<b>定义您的语言</b>"，然后"<b>导入...</b>"来实现。在您的<b>Program Files</b>目录或Calcpad安装目录中找到<b>Calcpad</b>文件夹，然后选择名为<a href="https://calcpad.eu/download/Notepadpp.zip" target="_blank">Calcpad-syntax-for-Notepad++.xml</a>的文件。</p>
+
+<h2 id="TOC_400">表达式</h2>
+<p>Calcpad的主要目的是进行计算。因此，除非用引号括起来，否则输入窗口中的所有内容都被视为数学表达式。如果用引号括起来，则被视为注释。默认情况下，每个表达式必须在单独的一行中，例如：</p>
+<ul style="list-style: none;">
+	<li><code>2 + 3</code></li>
+	<li><code>5*(3+1)</code></li>
+	<li><code>15/2</code></li>
+</ul>
+<p>您不应在每个表达式的末尾添加"="。这是赋值运算符，用于将值赋给变量，例如"<var>a</var> = 2"。点击<img alt="Play" height="24" src="Images/Play.png">按钮，在输出窗口中查看结果：</p>
+<ul style="list-style: none;">
+	<li><code>2 + 3 = 5</code></li>
+	<li><code>5∙(3 + 1) = 20</code></li>
+	<li><code>15/2 = 7.5</code></li>
+</ul>
+<p>或者，您可以在一行中有多个表达式，但它们必须用注释分隔，例如：</p>
+<p style="margin-left: 2em;"><code><span class="comment">'长度 -'</span><var>a</var> = 3&thinsp;<i>m</i><span class="comment">', 宽度 -'</span><var>b</var> = 2*<var>a</var><span class="comment">', 高度 -'</span><var>c</var> = 5&thinsp;<i>m</i></code></p>
+<p>每个表达式可以包括常数（数字）、变量、运算符、函数和括号。它们必须正确排列以表示有效的表达式。使用通常接受的数学符号和运算符优先级，与学校教学的方式相同。下面详细描述了表达式组成部分。</p>
+<p>您可以像使用简单计算器一样计算单独的不相关表达式，或编写一个完整的程序来解决特定的问题。您可以定义变量并给它们赋值。此外，您可以使用它们来定义其他变量，依此类推，直到达到最终结果。您还可以添加文本、HTML和图像以创建详细且专业的计算报告。您可以将其保存到文件中，并多次使用它来解决类似的问题。下面是一个解二次方程的示例程序：</p>
+<p><img alt="Sample1" src="Images/Sample1.zh.png"></p>
+
+<h3 id="TOC_401">常数</h3>
+<h4>实数</h4>
+<p>实数常数可以是正负整数和小数。它们可以包括数字“<b>0</b>” - “<b>9</b>”和小数点“<b>.</b>”。您还可以将数字表示为分数，如“<b>3/4</b>”。但是，程序将将它们视为表达式（两个数字的除法）。您不能以浮点格式定义数字：“<b>3.4e+6</b>”。您必须使用表达式“<b>3.4*10^6</b>”代替。</p>
+<p>所有常数和变量在内部以“双精度浮点”数字的形式存储。它们的值范围从<b>-1.7976931348623157E+308</b>到<b>1.7976931348623157E+308</b>。如果结果超出上述区间，程序将分别返回“<span class="err">-∞</span>”或“<span class="err">+∞</span>”。除以零会得到相同的结果，但“<b>0/0</b>”=“<span class="err">未定义</span>”。最小的正数是<b>4.94065645841247E-324</b>。更小的值将被精确地四舍五入为0。</p>
+<h4>复数</h4>
+<p>如果选择“<b>复数</b>”模式，您可以在计算中使用复数。否则，仅应用实数运算。每个复数由有序对（<b>a</b>；<b>b</b>）表示，其中“<b>a</b>”是实数，“<b>b</b> = |<b>b</b>|<b><var>i</var></b>”被称为“虚数”。它可以用所谓的代数形式表示：&plusmn;<b>a</b> &plusmn; <b>b<var>i</var></b>（例如“2 + 3<var>i</var>”）。您还可以使用其他形式，如极坐标或指数形式，通过输入相应的表达式。在Calcpad中，虚数单位可以输入为“<var>i</var>”或“1<var>i</var>”（如果您有一个名为“<var>i</var>”的变量）。虚数单位是满足表达式<var>i</var><sup> 2</sup> = -1的特殊数字。</p>
+
+<h3 id="TOC_402">变量</h3>
+<p>变量通过表达式“<var>a</var> = 4”来定义其名称和值。符号“<b>=</b>”是赋值运算符。左边只允许一个变量名。右边可以是任何有效的数学表达式，例如“<var>b</var> = <var>a</var> + 4”。变量的“生命周期”从其定义的位置到程序的结束。因此，在定义之前不能使用变量。这将引发错误。如果您用新值重新定义现有变量，它将替换旧变量，并且新值将继续使用。</p>
+<p>变量名称可以包含小写或大写的拉丁字母“<var>a</var>”-“<var>z</var>”，“<var>A</var>”-“<var>Z</var>”，希腊字母“<var>&alpha;</var>”-“<var>&omega;</var>”，“<var>&Alpha;</var>”-“<var>&Omega;</var>”和数字。名称区分大小写。例如，“<var>a</var>”和“<var>A</var>”是不同的变量。名称必须以字母或&measuredangle;开头。您还可以使用“，”（逗号）、“<b>‾</b>”（上划线）、“<b>_</b>”（下划线）、上标：“ <b>⁰</b> ”-“ <b>⁹</b> ”、“ <b>ⁿ</b> ”、“ <b>⁺</b> ”、“ <b>⁻</b> ”和其他符号：“ <b>′</b> ”、“ <b>″</b> ”、“ <b>‴</b> ”、“ <b>⁗</b> ”、“ <b>ø</b> ”、“<b>Ø</b>”、“ <b>°</b> ”、“<b>∡</b>”。名称中下划线的第一次出现会开始一个下标。例如，“a_1_1”将显示为“<var>a</var><sub>1_1</sub>”。变量可以存储实数或复数（在“复数”模式下）。</p>
+
+<h3 id="TOC_403">运算符</h3>
+<p>Calcpad语言支持下列运算:</p>
+<ul>
+	<li>算术:
+		<ul style="list-style-type:none;">
+			<li>"<b>!</b>" - 级数;</li>
+			<li>"<b>^</b>" - 指数;</li>
+			<li>"<b>/</b>" - 浮点除法;</li>
+			<li>"<b>\</b>" - 整除; </li>
+			<li>"<b>÷</b>" - division bar; </li>
+			<li>"<b style="font-size:80%;">⦼</b>" - 求模 (%%, 求余);</li>
+			<li>"<b>*</b>" - 乘法;</li>
+			<li>"<b>-</b>" - 减法; </li>
+			<li>"<b>+</b>" - 加法; </li>
+		</ul>
+	</li>
+	<li>关系(比较):
+		<ul style="list-style-type:none;">
+			<li>"<b>≡</b>" - 等于(==);</li>
+			<li>"<b>≠</b>" - 不等于(!=);</li>
+			<li>"<b>&lt;</b>" - 小于(&lt;);</li>
+			<li>"<b>&gt;</b>" - 大于(&gt;);</li>
+			<li>"<b>&le;</b>" - 小于等于(&lt;=);</li>
+			<li>"<b>&ge;</b>" - 大于等于(&gt;=);</li>
+		</ul>
+	</li>
+	<li>逻辑值:
+		<ul style="list-style-type:none;">
+			<li>"<b>∧</b>" - 逻辑值 "且";</li>
+			<li>"<b>∨</b>" - 逻辑值 "或";</li>
+			<li>"<b style="font-size:80%;">⊕</b>" - 逻辑值 “异或”;</li>
+		</ul>
+	</li>
+	<li>"<b>=</b>" - assignment.</li>
+</ul>
+
+<h4>运算符快捷方式</h4>
+<p>您可以使用相应的C风格等效运算符来替代"≡"、"≠"、"&le;"和"&ge;"，如下所示："=="、"!="、"&lt;="和"&gt;="。它们将自动替换为相应的Calcpad运算符。快捷方式“%%”将转换为模运算符“⦼”。这是必要的，因为“%”被保留用于百分比单位。由于这个符号不太常见，它在输出中被呈现为“mod”，例如“7 mod 5 = 2”，而不是“7 ⦼ 5 = 2”。</p>
+
+<h4>运算符优先级和结合性</h4>
+<p>上述运算符按照它们的优先级顺序列出。这是它们在表达式中将被评估的顺序。当在一个表达式中有不同类型的运算符时，指数运算先进行评估，然后是除法和乘法，减法和加法，最后是比较运算。当我们有一个一元负号和指数运算时，指数运算先进行评估。例如：“-2^2 = -(2^2) = -4” 所有关系运算符的优先级相同。如果您需要改变评估的顺序，可以使用括号。例如，“5 + 2∙3”得到“11”。如果要先进行加法，写成“(5 + 2)∙3”。您将得到“7∙3 = 21”。优先级相同的运算符从左到右进行评估。这被称为运算符的结合性。例如，“3 - 2 + 1”得到“(3 - 2) + 1 = 2”而不是“3 - (2 + 1) = 0”。另一个很好的例子是“2∙3 / 2∙3”，得到“9”而不是“1”。</p>
+<p>在Calcpad中，所有运算符都是左结合的（计算从左到右进行）。唯一的例外是指数运算，它是右结合的。它是从右到左进行计算的，这意味着<var>x</var>^<var>a</var>^<var>b</var>将被评估为<var>x</var><sup>a<sup>b</sup></sup>。然而，许多手持计算器和电子表格软件（如Excel）使用左结合性进行指数运算。在这种情况下，<var>x</var>^<var>a</var>^<var>b</var>将被评估为<var>x</var><sup>a&middot;b</sup>。如果您需要得到<var>x</var><sup>a<sup>b</sup></sup>，您将需要添加括号：<var>x</var>^(<var>a</var>^<var>b</var>)。</p>
+
+<h4>关系表达式</h4>
+<p>关系运算符只能返回两个值：“<b>1</b>”表示“<b>true</b>”，“<b>0</b>”表示“<b>false</b>”。您可以与算术运算符一起在表达式中使用它们。例如，您可以通过表达式“<var>a</var>*(<var>a</var> &ge; <var>b</var>) + <var>b</var>*(<var>a</var> &lt; <var>b</var>)”获得两个数<var>a</var>和<var>b</var>中的较大值。但是您需要小心。如果您使用“<b>&le;</b>”而不是“<b>&lt;</b>”，对于<var>a</var>等于<var>b</var>的情况，您将得到<var>a</var> + <var>b</var>，这可能不是您想要的结果。为了这个特殊目的，最好使用内置函数<b>max</b>(<var>a</var>; <var>b</var>)、逻辑运算符或条件执行（请查看本手册后面的内容）。算术运算符的优先级高于关系运算符，两者在逻辑运算符之前进行评估。</p>
+
+
+<h4>逻辑表达式</h4>
+<p>Calcpad仅处理数值数据，并没有专门的布尔数据类型。与关系运算符类似，逻辑运算符也使用"<b>1</b>"表示"<b>true(真)</b>"，使用"<b>0</b>"表示"<b>false(假)</b>"。任何非0的输入值也被视为"<b>true</b>"。您可以通过使用逻辑运算符和/或逻辑函数（请参阅本手册后面的内容）来构建逻辑表达式。它们的工作原理如下：</p>
+<ul style="list-style-type:none;">
+<li>"∧"（and）如果两个操作数都为1，则返回1，否则返回0；</li>
+<li>"∨"（or）如果任何一个操作数为1，则返回1，如果两个操作数都为0，则返回0；</li>
+<li>"⊕"（xor）如果只有一个操作数为1，则返回1，否则返回0。</li>
+</ul>
+<p>上述运算符的结果如下表所示：</p>
+<table width="100%"><tr><td style="border:none;">
+<p><b>且</b></p>
+<table width="60%" class="tr">
+<tr><th>x</th><th>y</th><th>x∧y</th></tr>
+<tr><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>0</td><td>1</td><td>0</td></tr>
+<tr><td>1</td><td>0</td><td>0</td></tr>
+<tr><td>1</td><td>1</td><td>1</td></tr>
+</table>
+</td><td style="border:none;">
+<p><b>或</b></p>
+<table width="60%" class="tr">
+<tr><th>x</th><th>y</th><th>x∨y</th></tr>
+<tr><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>0</td><td>1</td><td>1</td></tr>
+<tr><td>1</td><td>0</td><td>1</td></tr>
+<tr><td>1</td><td>1</td><td>1</td></tr>
+</table>
+</td><td style="border:none;">
+<p><b>异或</b></p>
+<table width="60%" class="tr">
+<tr><th>x</th><th>y</th><th>x<span style="font-size:80%">⊕</span>y</th></tr>
+<tr><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>0</td><td>1</td><td>1</td></tr>
+<tr><td>1</td><td>0</td><td>1</td></tr>
+<tr><td>1</td><td>1</td><td>0</td></tr>
+</table>
+</td></tr></table>
+
+<h4>复数代数</h4>
+<p>除了阶乘"<b>!</b>"、整数除法"<b>\</b>"、求余"<b>⦼</b>"和比较运算符"<b>&lt;</b>"、"<b>&le;</b>"、"<b>&gt;</b>"、"<b>&ge;</b>"之外，所有运算符都支持复数。复杂表达式的求值比实数稍微复杂一些。基本复数运算的规则如下：</p>
+<ul>
+<li>加法: <code>(a + b<var>i</var>) + (c + d<var>i</var>) = (a + c) + (b + d)<var>i</var></code>;</li>
+<li>减法: <code>(a + b<var>i</var>) &minus; (c + d<var>i</var>) = (a &minus; c) + (b &minus; d)<var>i</var></code>;</li>
+<li>乘法: <code>(a + b<var>i</var>)&middot;(c + d<var>i</var>) = (ac &minus; bd) + (bc + ad)<var>i</var></code>;</li>
+<li>除法: <code>(a + b<var>i</var>)/(c + d<var>i</var>) = (ac + bd)/(c<sup>2</sup> + d<sup>2</sup>) + (bc &minus; ad)/(c<sup>2</sup> + d<sup>2</sup>)<var>i</var></code>;</li>
+</ul>
+
+<h3 id="TOC_404">括号</h3>
+<p>括号有两种用途：改变计算顺序和括住函数参数。只允许使用圆括号：" <b>(</b>" 和 "<b>)</b>"。软件会检查每个表达式是否满足以下规则：</p>
+<ul>
+<li>表达式中的第一个括号必须是左括号；</li>
+<li>左括号和右括号的数量必须相等；</li>
+<li>左括号之前只允许使用运算符或函数标识符；</li>
+<li>在运算符或函数标识符之后不允许使用右括号；</li>
+<li>函数标识符后必须始终跟随左括号。</li>
+</ul>
+<p>在渲染输出时，Calcpad使用"智能"括号插入。这意味着重复或不影响计算顺序的括号将从输出中省略。另一方面，在输入中不需要的情况下，会添加括号以增加清晰度。这通常发生在替换负数或复数变量时。例如：</p>
+<ul>
+<li>如果<var>a</var> = -2，则<var>a</var><sup>2</sup> = (-2)<sup>2</sup> = 4，而不是<var>a</var><sup>2</sup> = -2<sup>2</sup>。第二种情况是不明确的，符号可以应用于指数运算，结果为-4。此外，对复数变量的指数运算添加了括号；</li>
+<li>如果<var>a</var> = -2，则<var>b</var> = -<var>a</var> = -(-2) = 2，而不是<var>b</var> = -<var>a</var> = --2 = 2；</li>
+<li>在乘法和除法中，对负变量添加括号：<var>a</var>&middot;<var>b</var> = -2&middot;(-3) = 6；</li>
+<li>几乎每次我们需要替换复数变量时都需要添加括号：<var>a</var>&middot;<var>b</var> = (2 + 3<var>i</var>)&middot;(3 - 2<var>i</var>) = 12 + 5<var>i</var>.</li>
+</ul>
+
+<h3 id="TOC_405">函数</h3>
+<h4>库函数（内置函数）</h4>
+<p>Calcpad包含一个常用数学函数库，可以直接使用：</p>
+<ul>
+<li>三角函数:<ul style="list-style-type:none;">
+<li><code><b>sin</b>(<var>x</var>)</code> - 正弦;</li>
+<li><code><b>cos</b>(<var>x</var>)</code> - 余弦;</li>
+<li><code><b>tan</b>(<var>x</var>)</code> - 正切 = <code><b>sin</b>(<var>x</var>)/<b>cos</b>(<var>x</var>)</code>, for each <var>x</var> ≠ kπ, k=1, 2, 3…;</li>
+<li><code><b>csc</b>(<var>x</var>)</code> - 余割 = <code>1/<b>sin</b>(<var>x</var>)</code>, for each <var>x</var> ≠ kπ, k=1, 2, 3…;</li>
+<li><code><b>sec</b>(<var>x</var>)</code> - 正割 = <code>1/<b>cos</b>(<var>x</var>)</code>, for each <var>x</var> ≠ π/2 + kπ, k=1, 2, 3…;</li>
+<li><code><b>cot</b>(<var>x</var>)</code> - 余切 = <code><b>cos</b>(<var>x</var>)/<b>sin</b>(<var>x</var>)</code>, for each <var>x</var> ≠ π/2 + kπ, k=1, 2, 3…;</li>
+</ul></li><li>双曲三角函数:<ul style="list-style-type:none;">
+<li><code><b>sinh</b>(<var>x</var>)</code> - 双曲正弦 = <code>(e<sup><var>x</var></sup> - e<sup>-<var>x</var></sup>)/2</code>;</li>
+<li><code><b>cosh</b>(<var>x</var>)</code> - 双曲余弦 = <code>(e<sup><var>x</var></sup> + e<sup>-<var>x</var></sup>)/2</code>;</li>
+<li><code><b>tanh</b>(<var>x</var>)</code> - 双曲正切 = <code>(e<sup><var>x</var></sup> - e<sup>-<var>x</var></sup>)/(e<sup><var>x</var></sup> + e<sup>-<var>x</var></sup>)</code>;</li>
+<li><code><b>csch</b>(<var>x</var>)</code> - 双曲余割 = <code>1/<b>sinh</b>(<var>x</var>)</code>;</li>
+<li><code><b>sech</b>(<var>x</var>)</code> - 双曲正割 = <code>1/<b>cosh</b>(<var>x</var>)</code>;</li>
+<li><code><b>coth</b>(<var>x</var>)</code> - 双曲余切 = <code>(e<sup><var>x</var></sup> + e<sup>-<var>x</var></sup>)/(e<sup><var>x</var></sup> - e<sup>-<var>x</var></sup>), for <var>x</var> ≠ 0</code>;</li>
+</ul></li><li>反三角函数:<ul style="list-style-type:none;">
+<li><code><b>asin</b>(<var>x</var>)</code> - 反正弦, 定义域: -1 &le; <var>x</var> &le; 1;</li>
+<li><code><b>acos</b>(<var>x</var>)</code> - 反余弦, 定义域: -1 &le; <var>x</var> &le; 1;</li>
+<li><code><b>atan</b>(<var>x</var>)</code> - 反正切;</li>
+<li><code><b>atan2</b>(<var>x</var>; <var>y</var>)</code>  - 正切值为<var>y</var>/<var>x</var>的角度;</li>
+<li><code><b>acsc</b>(<var>x</var>)</code> - 反余割 = <code><b>asin</b>(1/<var>x</var>)</code>;</li>
+<li><code><b>asec</b>(<var>x</var>)</code> - 反正割 = <code><b>acos</b>(1/<var>x</var>)</code>;</li>
+<li><code><b>acot</b>(<var>x</var>)</code> - 反余切;</li>
+</ul></li><li>反双曲函数:<ul style="list-style-type:none;">
+<li><code><b>asinh</b> (<var>x</var>)</code> - 反双曲正弦 = <code><b>ln</b>(<var>x</var> + <span class="root">√</span><span class="ovr"><var>x</var><sup>2</sup> + 1</span>)</code>, 定义域: -∞ &le; <var>x</var> &le; +∞;</li>
+<li><code><b>acosh</b>(<var>x</var>)</code> - 反双曲余弦 = <code><b>ln</b>(<var>x</var> + <span class="root">√</span><span class="ovr"><var>x</var> + 1</span>&middot;<span class="root">√</span><span class="ovr"><var>x</var> - 1</span>)</code>, 定义域: <var>x</var> &ge; 1;</li>
+<li><code><b>atanh</b>(<var>x</var>)</code> - 反双曲正切 = <code>1/2&middot;<b>ln</b>[(1 + <var>x</var>)/(1 - <var>x</var>)]</code>, for -1 &lt; <var>x</var> &lt; 1;</li>
+<li><code><b>acsch</b>(<var>x</var>)</code> - 反双曲余切 = <code><b>atanh</b>(1/<var>x</var>)</code>;</li>
+<li><code><b>asech</b>(<var>x</var>)</code> - 反双曲正割 = <code><b>acosh</b>(1/<var>x</var>)</code>;</li>
+<li><code><b>acoth</b>(<var>x</var>)</code> - 反双曲余切 = <code>1/2&middot;<b>ln</b>[(<var>x</var> + 1)/(<var>x</var> - 1)]</code>, for |<var>x</var>| &gt; 1;</li>
+</ul></li><li>对数, 指数 和 根:<ul style="list-style-type:none;">
+<li><code><b>log</b>(<var>x</var>)</code> - 十进制对数(底数为10), 定义域: <var>x</var> &gt; 0;</li>
+<li><code><b>ln</b>(<var>x</var>)</code> - 自然对数(底数<var>e</var> ≈ 2.7183), 定义域: <var>x</var> &gt; 0;</li>
+<li><code><b>log_2</b>(<var>x</var>)</code>  - 二进制对数 (底数为2), 定义域: <var>x</var> &gt; 0;</li>
+<li><code><b>exp</b>(<var>x</var>)</code> - 自然指数函数 = <var>e</var>&hairsp;ˣ;</li>
+<li><code><b>sqr</b>(<var>x</var>)</code>  或 <code><b>sqrt</b>(<var>x</var>)</code>  - 平方根 (<span class="root">√</span><span class="ovr"><var>x</var></span> ), 定义域: 定义域: <var>x</var> &ge; 0;</li> 
+<li><code><b>cbrt</b>(<var>x</var>)</code> - 立方根 ( <sup><sup>3</sup></sup><span class="root">√</span><span class="ovr"><var>x</var></span> );</li>
+<li><code><b>root</b>(<var>x</var>; <var>n</var>)</code> - n次方根 ( <sup><sup>n</sup></sup><span class="root">√</span><span class="ovr"><var>x</var></span> );</li> 
+</ul></li><li>舍入:<ul style="list-style-type:none;">
+<li><code><b>round</b>(<var>x</var>)</code> - 舍入到最接近的整数;</li> 
+<li><code><b>floor</b>(<var>x</var>)</code> - 舍入到稍小的整数(向 -∞方向舍入);</li> 
+<li><code><b>ceiling</b>(<var>x</var>)</code> - 舍入到稍大的整数(向 +∞方向舍入);</li> 
+<li><code><b>trunc</b>(<var>x</var>)</code> - 舍入到稍小的整数(向0的方向舍入);</li>
+</ul></li><li>Integer:<ul style="list-style-type:none;">
+<li><code><b>mod</b>(<var>x</var>; <var>y</var>)</code> - 整除的余数;</li>
+<li><code><b>gcd</b>(<var>x</var>; <var>y</var>)</code> - 最大公约数;</li>
+<li><code><b>lcm</b>(<var>x</var>; <var>y</var>)</code> - 最小公倍数;</li>
+</ul></li><li>复数:<ul style="list-style-type:none;">
+<li><code><b>abs</b>(<var>x</var>)</code> - 实数的绝对值(模)| <var>x</var> |;</li>
+<li><code><b>abs</b>(a + b<var>i</var>)</code> - 复数模 = <b>sqrt</b>(a<sup>2</sup> + b<sup>2</sup>);</li>
+<li><code><b>re</b>(a + b<var>i</var>)</code> - 仅返回复数的实部, <b>re</b>(a + b<var>i</var>) = a;</li>
+<li><code><b>im</b>(a + b<var>i</var>)</code> - 返回复数的虚部的数值(实数), <b>im</b>(a + b<var>i</var>) = b;</li>
+<li><code><b>phase</b>(a + b<var>i</var>)</code> - 复数的阶(辐角) = <b>atan2</b>(a; b).</li>
+</ul></li><li>集合和内插:<ul style="list-style-type:none;">
+<li><code><b>min</b>(<var>x</var>; <var>y</var>; <var>z</var>…)</code> - 最小值;</li>
+<li><code><b>max</b>(<var>x</var>; <var>y</var>; <var>z</var>…)</code> - 最大值;</li>
+<li><code><b>sum</b>(<var>x</var>; <var>y</var>; <var>z</var>…)</code> - 求和<code> = <var>x</var> + <var>y</var> + <var>z</var>…</code>;</li>
+<li><code><b>sumsq</b>(<var>x</var>; <var>y</var>; <var>z</var>…)</code> - 平方和<code> = <var>x</var>² + <var>y</var>² + <var>z</var>²…</code>;</li>
+<li><code><b>srss</b>(<var>x</var>; <var>y</var>; <var>z</var>…)</code> - 平方和的平方根<code> = <b>sqrt</b>(<var>x</var>² + <var>y</var>² + <var>z</var>²…)</code>;</li>
+<li><code><b>average</b>(<var>x</var>; <var>y</var>; <var>z</var>…)</code> - 平均值<code> = (<var>x</var> + <var>y</var> + <var>z</var>…)/n</code>;</li>
+<li><code><b>product</b>(<var>x</var>; <var>y</var>; <var>z</var>…)</code> - 累积<code> = <var>x</var>·<var>y</var>·<var>z</var>…;</code></li>
+<li><code><b>mean</b>(<var>x</var>; <var>y</var>; <var>z</var>…)</code> - 几何平均<code> = (<var>x</var>·<var>y</var>·<var>z</var>…)的n次方<b>根</b></code>;</li>
+<li><code><b>take</b>(<var>n</var>; <var>a</var>; <var>b</var>; <var>c</var>…)</code> - 返回列表中的第n个元素;</li>
+<li><code><b>line</b>(<var>x</var>; <var>a</var>; <var>b</var>; <var>c</var>…)</code> - 以<var>x</var>为参数在特定值中执行线性插值>;</li>
+<li><code><b>spline</b>(<var>x</var>; <var>a</var>; <var>b</var>; <var>c</var>…)</code> - 执行Hermite多线性插值;</li>
+</ul></li><li>条件和逻辑：<ul style="list-style-type:none;">
+<li><code><b>if</b>(&lt;<em>条件</em>&gt;; &lt;<em>条件为真的返回值</em>&gt;; &lt;<em>条件为假的返回值</em>&gt;)</code> - 如果<var>条件</var>满足，则函数返回第一个值，否则返回第二个值。当条件计算结果为非零数时，条件被满足；</li>
+<li><code><b>switch</b>(&lt;<em>条件1</em>&gt;; &lt;<em>值1</em>&gt;; &lt;<em>条件2</em>&gt;; &lt;<em>值2</em>&gt;;…; &lt;<em>默认值</em>&gt;)</code> - 返回满足相应条件的值。条件从左到右进行检查。如果没有条件被满足，则最后返回默认值；</li>
+<li><code><b>not</b>(<var>x</var>)</code> - 逻辑值 "否";</li>
+<li><code><b>and</b>(<var>x</var>; <var>y</var>; <var>z</var>…)</code> - 逻辑值 "且";</li>
+<li><code><b>or</b>(<var>x</var>; <var>y</var>; <var>z</var>…)</code> - 逻辑值 "或";</li>
+<li><code><b>xor</b>(<var>x</var>; <var>y</var>; <var>z</var>…)</code> - 逻辑值 "异或";</li>
+</ul></li><li>其他:<ul style="list-style-type:none;">
+<li><code><b>sign</b>(<var>x</var>)</code> - 符号函数 = -1, if <var>x</var> < 0; 1, if <var>x</var> > 0, 0 if <var>x</var> = 0;</li>
+<li><code><b>random</b>(<var>x</var>)</code> - 生成0 和 <var>x</var>之间的随机数.</li> 
+</ul></li></ul>
+<p>参数必须用圆括号括起来。它们可以是常数、变量或任何有效的表达式。多个参数必须用分号 ";" 分隔。当参数超出范围时，函数返回 "<span class="err">Undefined</span>"。不适用此规则的例外是 "<b>cot</b>(0)" 和 "<b>coth</b>(0)"，它们返回 "<span class="err">+∞</span>".</p>
+<p>三角函数的参数可以是 <b>度</b>、<b>弧度</b> 或 <b>梯度</b>。角度单位可以以三种不同的方式指定:</p>
+<p>1. 通过输出窗口上方的单选按钮 (<small>🔘</small><b>D</b>、<small>🔘</small><b>R</b>、<small>🔘</small><b>G</b>).</p>
+<p>2. 通过代码内的编译器开关。您必须插入一行单独的代码，其中包含：<span class="cond">#deg</span> 表示度，<span class="cond">#rad</span> 表示弧度或 <span class="cond">#gra</span> 表示梯度。这将影响当前行后的所有表达式，直到找到另一个指令为止.</p>
+<p>3. 通过将原生单位附加到值本身：<i>deg</i>、<i>°</i>、<i>′</i>、<i>″</i>、<i>rad</i>、<i>grad</i>、<i>rev</i>（请参见本手册中的“单位”部分）.</p>
+<p>原生单位具有最高优先级，其次是源代码中的编译器开关。两者都会覆盖单选按钮设置，后者为最低优先级.</p> 
+<p>所有函数也在复数域中定义，除了<b>mod</b>(<var>x</var>; <var>y</var>)、<b>gcd</b>(<var>x</var>; <var>y</var>)、<b>lcm</b>(<var>x</var>; <var>y</var>)、<b>min</b>(<var>x</var>; <var>y</var>) 和 <b>max</b>(<var>x</var>; <var>y</var>).</p>
+<p>逻辑函数接受数值并返回“<b>0</b>”表示“<b>false</b>”，返回“<b>1</b>”表示“<b>true</b>”。两个参数（一个为“<b>not</b>”）的结果如下表所示:</p>
+<table width="100%"><tr><td style="border:none; vertical-align:top;">
+<table width="90%" class="tr">
+<tr><th>x</th><th style="width:60%">not(x)</th></tr>
+<tr><td>0</td><td>1</td></tr>
+<tr><td>1</td><td>0</td></tr>
+</table>
+</td><td style="border:none;">
+<table width="90%" class="tr">
+<tr><th>x</th><th>y</th><th style="width:50%">and(x; y)</th></tr>
+<tr><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>0</td><td>1</td><td>0</td></tr>
+<tr><td>1</td><td>0</td><td>0</td></tr>
+<tr><td>1</td><td>1</td><td>1</td></tr>
+</table>
+</td><td style="border:none;">
+<table width="90%" class="tr">
+<tr><th>x</th><th>y</th><th style="width:50%">or(x; y)</th></tr>
+<tr><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>0</td><td>1</td><td>1</td></tr>
+<tr><td>1</td><td>0</td><td>1</td></tr>
+<tr><td>1</td><td>1</td><td>1</td></tr>
+</table>
+</td><td style="border:none;">
+<table width="90%" class="tr">
+<tr><th>x</th><th>y</th><th style="width:50%">xor(x; y)</th></tr>
+<tr><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>0</td><td>1</td><td>1</td></tr>
+<tr><td>1</td><td>0</td><td>1</td></tr>
+<tr><td>1</td><td>1</td><td>0</td></tr>
+</table>
+</td></tr></table>
+<p>任何与0不同的数值都被视为1（真）。多个参数按照上述表格从左到右顺序进行评估。我们从第一个和第二个开始。然后，依次评估获得的结果和下一个值，以此类推.</p>
+<p>使用<b>round</b>()函数对中点值进行四舍五入，结果为离0最近的整数。<b>floor</b>()函数向较小的值（向-∞）进行舍入。<b>ceiling</b>()函数向较大的值（向+∞）进行舍入。与<b>floor</b>()不同，<b>trunc</b>()函数向0进行舍入，相当于简单地截断小数部分。下表提供了一些负数和正数舍入的示例:</p> 
+<table width="70%"><tr><td style="border:none;">
+<p><b>正数</b></p>
+<table width="90%" class="tr">
+<tr><th>函数</th><th style="width:30%">x</th><th>结果</th></tr>
+<tr><th>round(x)</th><td>4.5</td><td>5</td></tr>
+<tr><th>floor(x)</th><td>4.8</td><td>4</td></tr>
+<tr><th>ceiling(x)</th><td>4.2</td><td>5</td></tr>
+<tr><th>trunc(x)</th><td>4.8</td><td>4</td></tr>
+</table>
+</td><td style="border:none;">
+<p><b>负数</b></p>
+<table width="90%" class="tr">
+<tr><th>函数</th><th style="width:30%">x</th><th>结果</th></tr>
+<tr><th>round(x)</th><td>-4.5</td><td>-5</td></tr>
+<tr><th>floor(x)</th><td>-4.8</td><td>-5</td></tr>
+<tr><th>ceiling(x)</th><td>-4.2</td><td>-4</td></tr>
+<tr><th>trunc(x)</th><td>-4.8</td><td>-4</td></tr>
+</table>
+</td></tr></table>
+<p>舍入复数会影响实部和虚部.</p>
+
+<h4>自定义函数</h4>
+<p>您可以定义自己的函数，并在计算中进一步使用它们。自定义函数可以有无限数量的参数。它们在函数名后面指定，用括号“（”…“）”括起来，并用分号“;”分隔。每个函数的定义格式如下：“<b>f</b>（<var>x</var>；<var>y</var>；<var>z</var>；…）= <b>expression(表达式)</b>”，其中“<b>f</b>”是函数名，“<b>x</b>”、“<b>y</b>”和“<b>z</b>”是函数参数。在右侧，您可以有任何有效的表达式，包括常数、运算符、变量甚至其他函数，例如：</p>
+<ul style="list-style-type:none;">
+<li><code><b>f</b>(<var>x</var>) = <var>x</var>^2 + 2*x*<b>sin</b>(<var>x</var>)</code></li>
+<li><code><b>g</b>(<var>x</var>; <var>y</var>) = <b>f</b>(<var>x</var>)/(<var>y</var> - 4)</code></li>
+</ul>
+<p>定义后，您可以在任何表达式中使用函数，只需写出函数名，然后在括号中指定参数，例如 <var>b</var> = <b>g</b>（<var>a</var> + 2；3） + 3。函数名必须符合变量名的规则。参数可以是任何有效的表达式。您必须提供与函数参数数量相同的参数。函数的生命周期从定义的位置到代码的结尾。如果您定义了一个同名的新函数，旧函数将被替换。您不能重新定义库函数。例如，<b>sin</b>（<var>x</var>）= <var>x</var>^2 将返回错误。</p>
+<p>不需要预先定义用于参数的变量。但是，如果在函数体内使用其他变量，则必须在第一次调用函数之前定义它们。参数在函数体内起到局部变量的作用。如果函数外存在同名变量，对该函数的调用不会重写全局变量的值。例如：</p>
+<ul style="list-style-type:none;">
+<li>若变量 "<var>x</var> = 4"</li>
+<li>且函数"<b>f</b>(<var>x</var>) = <var>x</var><sup>2</sup>".</li>
+<li>当调用 "<b>f</b>(2)", 将得到 <var>x</var><sup>2</sup> = 2<sup>2</sup> = 4, 因为局部变量 <var>x</var> = 2</li>
+<li>如果在这之后调用 "<var>x</var><sup>2</sup>" , 将得到 <var>x</var><sup>2</sup> = 4<sup>2</sup> = 16, 因为全局变量 <var>x</var> 仍为4.</li>
+</ul>
+<p>自定义函数支持实数和复数.</p>
+
+<h3 id="TOC_406">绘图</h3>
+<p>除了函数外，Calcpad还提供了用于高级操作的特殊命令。它们接受函数和表达式作为参数，并执行绘图、迭代解和数值方法。它们的名称以"$"开头，以与普通函数区分。它们的参数必须用花括号"{"和"}"括起来。其中一个是绘图命令<span class="cond">$Plot</span>。它可以在指定的区间内绘制一个变量的函数。它的格式如下：</p>
+<p style="margin-left: 2em;"><code><span class="cond">$Plot</span>{<b>y</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var> : <var>b</var>}</code></p>
+<p>, 其中:</p>
+<ul style="list-style-type:none;">
+<li><b>y</b>(<var>x</var>) - 要绘制的函数。可以使用任何有效的表达式代替<b>y</b>(<var>x</var>)，它将用于计算纵坐标的值；</li>
+<li><var>x</var> - 横坐标上的变量名。您只能在此处放置一个变量名。不需要预先定义该变量；</li>
+<li><var>a</var>和<var>b</var>是<var>x</var>变量的区间限制。您可以在<var>a</var>和<var>b</var>处放置数字、变量或任何有效的表达式。</li>
+</ul>
+<p>例如，如果您输入：<code><span class="cond">$Plot</span>{<var>x</var>^2 - 5*<var>x</var> + 3 &#64; x = -1:6}</code>，您将得到以下结果：</p>
+<p style="text-align:center;"><img width="400" src="Images/Plot.png" alt="Plot.png"></p>
+<p>上述命令一次只能绘制一个变量的一个函数。还有其他格式可以使用：</p>
+<p style="margin-left: 2em;"><code><span class="cond">$Plot</span>{<b>x</b>(<var>t</var>)|<b>y</b>(<var>t</var>) &#64; <var>t</var> = <var>a</var> : <var>b</var>}</code> - 参数绘图：坐标都是参数的函数；<br />
+<code><span class="cond">$Plot</span>{<b>y</b><sub>1</sub>(<var>x</var>) &amp; <b>y</b><sub>2</sub>(<var>x</var>) &amp;  … &#64; <var>x</var> = <var>a</var> : <var>b</var>}</code> - 多个函数：在一个图上绘制多个函数；<br />
+<code><span class="cond">$Plot</span>{<b>x</b><sub>1</sub>(<var>t</var>)|<b>y</b><sub>1</sub>(<var>t</var>) &amp; <b>x</b><sub>2</sub>(<var>t</var>)|<b>y</b><sub>2</sub>(<var>t</var>) &amp; … &#64; <var>t</var> = <var>a</var> : <var>b</var>}</code> - 多个参数绘图；<br />
+<code><span class="cond">$Map</span>{<b>f</b>(<var>x</var>; <var>y</var>) &#64; <var>x</var> = <var>a</var> : <var>b</var> &amp; <var>y</var> = <var>c</var> : <var>d</var>}</code> - 绘制由<b>f</b>(<var>x</var>; <var>y</var>)定义的3D表面的2D颜色图。</p>
+<p><span class="cond">$Plot</span>{...}函数必须是一行中的第一件事。在它之前只能有空格和制表符，甚至不能有注释。否则，程序将返回错误。在闭括号"}"之后的任何文本都将被忽略。绘图仅支持实数。只有在绘图区间上，<var>x</var>和<var>y</var>都是实数并且函数返回实数结果时，才能在复数模式下使用。</p>
+<p>您可以通过定义两个变量：<var>PlotWidth</var>和<var>PlotHeight</var>（以像素为单位）来指定绘图区域的大小。默认值为<var>PlotWidth</var> = 400和<var>PlotHeight</var> = 250。</p>
+<p><span class="cond">$Map</span>{...}函数可以使用不同的调色板。从程序窗口底部的"<b>Palette</b>"组合框中选择首选项。如果选择了"<b>Smooth</b>"复选框，刻度将显示为平滑渐变。否则，程序将绘制彩色条。您还可以通过选择相应的组合框来为图形添加3D效果。</p>
+<p>以下是不同绘图方法的示例：</p>
+<table class="nb">
+<tr><td style="line-height:150%;">
+<b>参数化</b><br />
+方程:<br /><br />
+<code><b>r</b>(<var>θ</var>) = <b>cos</b>(5/2*<var>θ</var>)</code><br />
+<code><span class="cond">$Plot</span>{<b>r</b>(<var>θ</var>)*<b>cos</b>(<var>θ</var>)|<b>r</b>(<var>θ</var>)*<b>sin</b>(<var>θ</var>) &#64; <var>θ</var> = 0:6*π}</code>
+</td><td style="line-height:150%;">
+<b>多变量</b><br />
+方程:<br />
+<code><b>y</b><sub>1</sub>(<var>θ</var>) = <b>cos</b>(<var>θ</var>) - <b>sin</b>(<var>θ</var>)</code><br />
+<code><b>y</b><sub>2</sub>(<var>θ</var>) = <b>cos</b>(<var>θ</var>) + <b>sin</b>(<var>θ</var>)</code><br />
+<code><span class="cond">$Plot</span>{<b>cos</b>(<var>θ</var>) & <b>y</b><sub>1</sub>(<var>θ</var>) & <b>y</b><sub>2</sub>(<var>θ</var>) &#64; <var>θ</var> = 0:<var>π</var>}</code>
+</td></tr><tr><td>
+结果: "玫瑰" 曲线<br />
+<img style="height:220pt;" src="Images/Plot-Rose.png" alt="Plot-Rose.png">
+</td><td>
+结果: 3个三角函数构成的树叶形<br />
+<img style="height:220pt;" src="Images/Plot-Leaf.png" alt="Plot-Leaf.png">
+</td></tr><tr><td style="line-height:150%;">
+<b>多参数化</b><br />
+方程:<br />
+<code><b>x</b>(<var>θ</var>) = <b>sqr</b>(<var>θ</var>)*<b>cos</b>(<var>θ</var>)</code><br />
+<code><b>y</b>(<var>θ</var>) = <b>sqr</b>(<var>θ</var>)*<b>sin</b>(<var>θ</var>)</code><br />
+<code><span class="cond">$Plot</span>{<b>x</b>(<var>θ</var>)|<b>y</b>(<var>θ</var>) & -<b>x</b>(<var>θ</var>)|-<b>y</b>(<var>θ</var>) &#64; <var>θ</var> = 0:3*<var>π</var>}</code>
+</td><td style="line-height:150%;">
+<b>彩图</b><br />
+方程:<br /><br />
+<code><b>f</b>(<var>x</var>; <var>y</var>) = <b>cos</b>(<var>x</var>/3) + <b>sin</b>(<var>y</var>) - <b>sin</b>(<var>x</var>)*<b>cos</b>(<var>y</var>/4)</code><br />
+<code><span class="cond">$Map</span>{<b>f</b>(<var>x</var>; <var>y</var>) &#64; <var>x</var> = -15 : 15 & <var>y</var> = -15 : 15}</code>
+</td></tr><tr><td>
+结果:双Fermat螺旋线<br />
+<img style="height:220pt;" src="Images/Plot-Fermat.png" alt="Plot-Fermat.png">
+</td><td>
+结果: 2D波浪图<br />
+<img style="height:220pt;" src="Images/Map-Wave.png" alt="Plot-Wave.png">
+</td></tr>
+</table>
+
+<h3 id="TOC_407">数值方法</h3>
+<p>Calcpad内置了一个"<b>Solver(求解器)</b>"模块，可以使用数值方法解决更复杂的问题。它只能处理实数，而不能处理复数。该模块包括以下函数：</p>
+
+<h4>求根</h4>
+<p style="margin-left: 2em;"><code><span class="cond">$Root</span>{<b>f</b>(<var>x</var>) = const &#64; <var>x</var> = <var>a</var> : <var>b</var>}</code></p>
+<p style="margin-left: 2em;"><code><span class="cond">$Root</span>{<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var> : <var>b</var>}</code></p>
+<p>它在区间[<var>a</var>, <var>b</var>]内找到方程"<b>f</b>(<var>x</var>) = const"的一个根。如果"const"为零，您可以省略"= const"。程序使用<a href="https://iopscience.iop.org/article/10.1088/1757-899X/1276/1/012010">混合括号法</a>，它是二分法和Anderson-Bjork方法的组合。它随后缩小根周围的区间，直到小于指定的精度。要求函数"<b>f</b>(<var>x</var>) - const"在区间的两端具有相反的符号。根据波尔查诺定理，如果函数在区间内是连续的，至少存在一个根。括号法算法将在有限次迭代后找到一个近似值。</p>
+<p style="text-align:center;"><img style="height:130pt;" src="Images/Root.png" alt="Root.png"></p>
+<p>使用此方法，您只能找到函数与"<var>y</var> = const"相交的根。当"<b>f</b>(<var>x</var>) - const"完全为正或负，并且只从一侧"触碰"该线时，您无法通过任何括号法找到根。</p>
+<p>如果初始区间内不存在根，则程序返回错误。如果有多个根，它只会找到其中的一个。在这种情况下，最好先绘制函数。然后，您可以看到根的大致位置，并将区间分成几个部分 - 每个根一个区间。最后，您可以多次调用函数来找到所有的根。在某些情况下，可以开发自动分割区间的程序。</p>
+
+<h4>最小值</h4>
+<p style="margin-left: 2em;"><code><span class="cond">$Inf</span>{<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var> : <var>b</var>}</code></p>
+<p>它在指定区间[<var>a</var>, <var>b</var>]内找到函数<b>f</b>(<var>x</var>)的最小值。为此，应用黄金分割搜索方法。如果函数在区间内包含局部最小值，则将其作为结果返回。否则，函数将返回区间两端值中较小的一个：<b>f</b>(<var>a</var>)或<b>f</b>(<var>b</var>)。如果存在多个局部最小值，则程序将仅返回其中一个，但不一定是最小的。在这种情况下，最好将区间分割。找到最小值的<var>x</var>值存储在变量<var>x</var><sub>inf</sub>中。如果您使用不同的参数名称，而不是<var>x</var>，它将在该名称末尾添加"_inf"。</p>
+
+<h4>最大值</h4>
+<p style="margin-left: 2em;"><code><span class="cond">$Sup</span>{<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var> : <var>b</var>}</code></p>
+<p>它的工作方式类似于查找最小值的函数，但它找到的是最大值。存储最大值所在的<var>x</var>值的变量名为<var>x</var><sub>sup</sub>。</p>
+
+<h4>数值积分</h4>
+<p style="margin-left: 2em;"><code><span class="cond">$Area</span>{<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var> : <var>b</var>}</code></p>
+<p>它计算指定区间[<var>a</var>, <var>b</var>]内函数<b>f</b>(<var>x</var>)的定积分值。为此，应用自适应高斯-洛巴托积分与Kronrod扩展 (<a target="_blank" href = "https://www.researchgate.net/publication/226706221_Adaptive_Quadrature-Revisited">Gander & Gautschi</a>, 2000).</p>
+
+<p style="margin-left: 2em;"><code><span class="cond">$Integral</span>{<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var> : <var>b</var>}</code></p>
+<p>这个命令与上面的命令类似，但它使用了Tanh-Sinh积分（<a target="_blank" href="https://ems.press/content/serial-article-files/2719">Takahasi＆Mori</a>，1974），后来由<a target="_blank" href="https://www.ingentaconnect.com/content/tandf/jew/2016/00000030/00000003/art00001;jsessionid=55mdimh9e060a.x-ic-live-03">Michashki＆Mosig</a>（2016）和<a target="_blank" href="https://www.genivia.com/files/qthsh.pdf">Van Engelen</a>（2022）进行了进一步的改进。在Calcpad中进行了进一步的改进，通过预计算和缓存横坐标和权重，这个算法在连续和光滑函数的情况下显著优于<code class="cond">$Area</code>。但是，如果函数不满足这些要求，则<b>不应</b>使用<code class="cond">$Integral</code>方法。这时，你有两个选项：</p>
+<ol>
+<li>通过使用不连续点将区间[<var>a</var>,<var>b</var>]分成较小的部分，对每个部分分别应用该方法，并将结果相加；</li>
+<li>如果你不确定不连续点在哪里，请改用<code class="cond">$Area</code>方法。</li>
+</ol>
+
+<h4>数值微分</h4>
+<p style="margin-left: 2em;"><code><span class="cond">$Slope</span>{<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var>}</code></p>
+<p>它找到函数<b>f</b>(<var>x</var>)在<var>x</var>=<var>a</var>处的一阶导数值。导数表示函数在相应点的切线斜率。使用两点模板的Richardson外推法。</p>
+
+<h4>一般性考虑</h4>
+<p>与绘图命令不同，你可以在表达式中包含数值方法。它们返回可用于进一步计算的值。例如，你可以将结果存储到一个变量中：</p>
+<p style="margin-left: 2em;"><code><var>y</var><sub>min</sub> = <span class="cond">$Inf</span>{<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var> : <var>b</var>}</code></p>
+<p>与标准函数类似，"<var>x</var>"对于所有数值方法都是局部的，在调用方法后不会修改它的全局值。</p>
+
+<h3 id="TOC_408">迭代过程</h3>
+<p>还有一些其他命令可以让你以迭代的方式计算结果。与数值方法不同，它们可以处理复数。</p>
+
+<h4>求和</h4>
+<p style="margin-left: 2em;"><code><span class="cond">$Sum</span>{<b>f</b>(<var>k</var>) &#64; <var>k</var> = <var>a</var> : <var>b</var>}</code></p>
+<p>它对所有整数<var>k</var>在<var>a</var>和<var>b</var>之间的<b>f</b>(<var>k</var>)的值进行求和。<var>k</var>的值只能增加，所以需要满足<var>a</var> &lt; <var>b</var>。你可以在<b>f</b>(<var>k</var>)的位置上放置任何包含<var>k</var>的有效表达式。否则，它将简单地将相同的值<var>k</var>累加<var>k</var>次。例如，你可以使用级数来计算常数。这是计算π的莱布尼兹公式的例子：</p>
+<p style="margin-left: 2em;"><code>4*<span class="cond">$Sum</span>{(-1)<sup><var>k</var>+1</sup>/(2*<var>k</var> - 1) &#64; <var>k</var> = 1:1000}= 3.1406</code></p>
+<p>你还可以使用级数来定义函数。当然，它们不能是无限的。迭代次数应足够提供所需结果的精度。下面的模式可以用来用傅里叶级数近似一个函数：</p>
+<p style="margin-left: 2em;"><code><b>f</b>(<var>x</var>) = <var>a</var><sub>0</sub>/2 + <span class="cond">$Sum</span>{<b>a</b>(<var>k</var>)*<b>cos</b>(<var>k</var>*<var>x</var>*π/<var>l</var>) &#64; <var>k</var> = 1:<var>n</var>} + <span class="cond">$Sum</span>{<b>b</b>(<var>k</var>)*<b>sin</b>(<var>k</var>*<var>x</var>*π/<var>l</var>) &#64; <var>k</var> = 1:<var>n</var>}</code></p>
+<p>例如，我们可以在区间(0; 2*<var>l</var>)上用方程: f(<var>x</var>) = <var>x</var>/(2*<var>l</var>)取一条直线. 积分常数为 <var>a</var>(<var>k</var>) = 0 及 <var>b</var>(<var>k</var>) = -1/(<var>k</var>*π). 若对<var>n</var> = 5画出Fourier(傅里叶)近似，可以得到如下结果:</p>
+<p style="text-align:center;"><img alt="Fourier" src="Images/Fourier.png" width="400"></p>
+
+<h4>累积</h4>
+<p style="margin-left: 2em;"><code><span class="cond">$Product</span>{<b>f</b>(<var>k</var>) &#64; <var>k</var> = <var>a</var> : <var>b</var>}</code></p>
+<p>类似"<b>Sum</b>", 只是变成了多个量的连乘. 例如, 可以这样自定义阶乘函数:</p>
+<p style="margin-left: 2em;"><code><b>F</b>(<var>n</var>) = <span class="cond">$Product</span> {<var>k</var> &#64; <var>k</var> = 1 : <var>n</var>}</code></p>
+可以进一步利用表达式: <b>C</b>(<var>n</var>; <var>k</var>) = <b>F</b>(<var>n</var>)/(<b>F</b>(<var>k</var>)*<b>F</b>(<var>n</var> - <var>k</var>))计算二项式系数. 然而,自定义一个特殊程序来直接计算系数比使用阶乘更高效:
+<p style="margin-left: 2em;"><code><span class="cond">$Product</span>{(<var>i</var> + <var>n</var> - <var>k</var>)/<var>i</var> &#64; <var>i</var> = <var>1</var>:<var>k</var>}</code></p>
+<p>而且,与阶乘相比，后者不会因为<var>n</var>数值过大而溢出.</p>
+
+<h4>重复</h4>
+<p style="margin-left: 2em;"><code><span class="cond">$Repeat</span>{<b>f</b>(<var>k</var>) &#64; <var>k</var> = <var>a</var> : <var>b</var>}</code></p>
+<p>这是一个通用的内联迭代过程，可以重复计算<b>f</b>(<var>k</var>)。它可以用于求和和乘积，而不是相应的过程，但效率不太高。然而，有些表达式只能通过"<b>Repeat</b>"命令来计算。通常，如果你将结果赋给一个变量以在下一次迭代中使用，这样的表达式才有意义。因此，在实践中更有可能应用以下模式：</p>
+<p style="margin-left: 2em;"><code><span class="cond">$Repeat</span>{<var>x</var> = <b>f</b>(<var>x</var>; <var>k</var>) &#64; <var>k</var> = <var>a</var> : <var>b</var>}</code></p>
+<p>例如，你可以使用这个命令在一行中定义Mandelbrot集：</p>
+<p style="margin-left: 2em;"><code><b>f</b>(<var>z</var>; <var>c</var>) = <span class="cond">$Repeat</span>{<var>z</var> = <var>z</var>^2 + <var>c</var> &#64; <var>i</var> = 1:100}</code></p>
+<p>你不应忘记切换到"Complex"模式。然后你可以绘制结果：</p>
+<p style="margin-left: 2em;"><code><span class="cond">$Map</span>{<b>abs</b>(<b>f</b>(0; <var>x</var> + 1i*<var>y</var>)) &#64; <var>x</var> = -1.5:0.5 & <var>y</var> = -1:1}</code></p>
+<p style="text-align:center;"><img alt="Mandelbrot" src="Images/Mandelbrot.png" width="500"></p>
+
+<h3 id="TOC_409">单位</h3>
+<p>Calcpad提供了对物理单位的全面支持。当前版本支持公制（国际单位制和兼容单位制）、美制和英制单位。有七个基本单位对应于七个物理维度：</p>
+<ul>
+<li>质量 - 千克（<i>kg</i>）</li>
+<li>长度 - 米（<i>m</i>）</li>
+<li>时间 - 秒（<i>s</i>）</li>
+<li>电流 - 安培（<i>A</i>）</li>
+<li>温度 - 摄氏度（<i>°C</i>）</li>
+<li>物质的量 - 摩尔（<i>mol</i>）</li>
+<li>光强 - 坎德拉（<i>cd</i>）</li>
+</ul>
+<p>所有其他单位都是派生单位。它们是通过相应的物理定律得到的。例如，力 = 质量&middot;加速度，所以牛顿是通过 <i>N</i> = <i>kg</i>&middot;<i>m</i>/<i>s</i><sup>2</sup> 得到的。单位的倍数也可以通过在单位名称后添加相应的前缀来表示。例如，<i>kN</i> = 10<sup>3</sup>&thinsp;<i>N</i>，<i>MN</i> = 10<sup>6</sup>&thinsp;<i>N</i>等等。</p>
+<p>此外，还有一些“无量纲”单位，如百分比、千分比和角度（度、弧度等），它们不包含任何物理维度。然而，角度存在于一个特殊的（第八个）非物理维度中，以避免在混合时被取消和转换为百分比（这将很奇怪）。</p>
+<p>你可以在数字后面输入单位名称来附加单位，例如 15&thinsp;<i>kg</i>。然后，你可以像其他值一样在表达式中使用它们。单位的取消和转换在计算过程中会自动进行。例如，以下表达式将被计算为：</p>
+1
+<table border="1">
+	<thead>
+		<tr>
+			<th>
+				Code(代码)
+			</th>
+			<th>
+				Output(结果)
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="line-height:180%;">
+				<code>'距离 -'<var>s</var>_1 = 50<i>m</i></code><br />
+				<code>'时间 -'<var>t</var>_1 = 2<i>s</i></code><br />
+				<code>'速度 -'<var>V</var> = <var>s</var>_1/<var>t</var>_1|<i>km</i>/<i>h</i></code><br />
+				<code>'运动的距离'<var>t</var>_2 = 5<i>s</i>'?</code><br />
+				<code><var>s</var>	_2 = <var>V</var>*<var>t</var>_2|<i>m</i></code>
+			</td>
+			<td style="line-height:150%;">
+				距离 - <var>s</var><sub>1</sub> = 50&thinsp;<i>m</i><br />
+				时间 - <var>t</var><sub>1</sub> = 2&thinsp;<i>s</i><br />
+				速度 - <var>V</var> = <var>s</var><sub>1</sub>/<var>t</var><sub>1</sub> = 50&thinsp;<i>m</i>/2&thinsp;<i>s</i> = 90&thinsp;<i>km</i>/<i>h</i><br />
+				时间<var>t</var><sub>2</sub>内运动的距离 = 5&thinsp;<i>s</i> ? <br />
+				<var>s</var><sub>2</sub> = <var>V</var>·<var>t</var><sub>2</sub> = 90&thinsp;<i>km</i>/<i>h</i>·5&thinsp;<i>s</i> = 125&thinsp;<i>m</i>
+			</td>
+		</tr>		
+	</tbody>
+</table>
+
+<h4>内置单位</h4>
+<p>Calcpad包含大量内置单位:</p>
+<p>无量纲单位:</p>
+<ul>
+<li>百分号:  <i title="percent">%</i>;</li>
+<li>千分号: <i title="permille">‰</i>;</li>
+<li>角度: 
+<i title="度">°</i>, 
+<i title="分">′</i>, 
+<i title="秒">″</i>, 
+<i title="度">deg</i>,
+<i title="弧度">rad</i>, 
+<i title="grades">grad</i>, 
+<i title="revolutions">rev</i>;
+</li>
+</ul>
+<p>米制单位 (SI标准制及相容单位):</p>
+<ul><li>质量: 
+<i title="克"       	>g</i>, 
+<i title="百克"     	>hg</i>, 
+<i title="千克"     	>kg</i>, 
+<i title="吨"      	>t</i>, 
+<i title="千吨"     	>kt</i>, 
+<i title="兆吨"     	>Mt</i>, 
+<i title="吉吨"     	>Gt</i>, 
+<i title="分克"    		>dg</i>, 
+<i title="厘克"    		>cg</i>, 
+<i title="毫克"     	>mg</i>, 
+<i title="微克"     	>μg</i>, 
+<i title="纳克"     	>ng</i>, 
+<i title="pico克"   	>pg</i>,
+<i title="Dal吨">Da</i> (或 
+<i title="Dal吨(alt)">u</i>);
+</li><li>长度: 
+<i title="米">m</i>, 
+<i title="千米">km</i>, 
+<i title="分米">dm</i>, 
+<i title="厘米">cm</i>, 
+<i title="毫米">mm</i>, 
+<i title="微米">μm</i>, 
+<i title="纳米">nm</i>, 
+<i title="pico米">pm</i>,
+<i title="宇宙单位">AU</i>,
+<i title="光年">ly</i>;
+</li><li>时间: 
+<i title="秒">s</i>, 
+<i title="毫秒"  	 >ms</i>, 
+<i title="微秒"  	 >μs</i>, 
+<i title="纳秒"  	 >ns</i>, 
+<i title="pico秒">ps</i>, 
+<i title="分钟">min</i>, 
+<i title="小时">h</i>,
+<i title="天">d</i>, 
+<i title="周">w</i>, 
+<i title="年">y</i>;
+</li><li>频率:
+<i title="赫兹"        	>Hz</i>, 
+<i title="千赫兹"    	>kHz</i>, 
+<i title="兆赫兹"    	>MHz</i>, 
+<i title="吉赫兹"    	>GHz</i>, 
+<i title="tera赫兹"    	>THz</i>, 
+<i title="毫赫兹"   	>mHz</i>, 
+<i title="微赫兹"   	>μHz</i>, 
+<i title="纳赫兹"    	>nHz</i>, 
+<i title="tera赫兹"    	>pHz</i>, 
+<i title="转每分种"		>rpm</i>;
+</li><li>速度:
+<i title="千米每小时"	>kmh</i>;
+</li><li>电流:
+<i title="安培">A</i>, 
+<i title="千安"    	>kA</i>, 
+<i title="兆安"    	>MA</i>, 
+<i title="吉安"    	>GA</i>, 
+<i title="tera安">TA</i>, 
+<i title="毫安"   	>mA</i>, 
+<i title="微安"   	>μA</i>, 
+<i title="纳安"    	>nA</i>, 
+<i title="pico安">pA</i>;
+</li><li>温度:
+<i title="摄氏度">°C</i>, 
+<i title="摄氏度温差">Δ°C</i>, 
+<i title="开尔文">K</i>;
+</li><li>物质量:
+<i title="摩尔">mol</i>;
+</li><li>光强:
+<i title="坎德拉">cd</i>;
+</li><li>面积:
+<i title="公亩">a</i>, 
+<i title="十are">daa</i>, 
+<i title="hectare">ha</i>;
+</li><li>体积:
+<i title="升">L</i>, 
+<i title="十升">daL</i>, 
+<i title="百升">hL</i>,
+<i title="分升">dL</i>, 
+<i title="厘升">cL</i>, 
+<i title="毫升">mL</i>, 
+<i title="微升">μL</i>, 
+<i title="纳升">nL</i>, 
+<i title="pico升">pL</i>;
+</li><li>力:
+<i title="牛顿">N</i>, 
+<i title="十牛">daN</i>, 
+<i title="百牛">hN</i>, 
+<i title="千牛">kN</i>, 
+<i title="兆牛">MN</i>, 
+<i title="吉牛">GN</i>, 
+<i title="tera牛">TN</i>, 
+<i title="克-力">gf</i>, 
+<i title="千克-力">kgf</i>, 
+<i title="吨-力">tf</i>, 
+<i title="dyne">dyn</i>;
+</li><li>力矩: 
+<i title="牛-米">Nm</i>, 
+<i title="千牛-米">kNm</i>;
+</li><li>压强: 
+<i title="帕斯卡">Pa</i>, 
+<i title="十帕">daPa</i>, 
+<i title="百帕">hPa</i>, 
+<i title="千帕">kPa</i>, 
+<i title="兆帕">MPa</i>, 
+<i title="吉帕">GPa</i>, 
+<i title="tera帕">TPa</i>,<br/>
+&emsp;&emsp;
+<i title="分帕">dPa</i>, 
+<i title="厘帕">cPa</i>, 
+<i title="微帕">mPa</i>, 
+<i title="毫帕">μPa</i>, 
+<i title="纳帕">nPa</i>, 
+<i title="pico帕">pPa</i>,<br/>
+&emsp;&emsp;
+<i title="巴">bar</i>, 
+<i title="毫巴">mbar</i>, 
+<i title="微巴">μbar</i>, 
+<i title="大气压">atm</i>, 
+<i title="technical大气压">at</i>, 
+<i title="Torr">Torr</i>, 
+<i title="毫米水银">mmHg</i>;	
+</li><li>黏度: 
+<i title="Poise">P</i>, 
+<i title="厘poise">cP</i>, 
+<i title="Stokes">St</i>, 
+<i title="厘stokes">cSt</i>;	
+</li><li>能量功:
+<i title="焦耳">J</i>, 
+<i title="千焦">kJ</i>, 
+<i title="兆焦">MJ</i>, 
+<i title="吉焦">GJ</i>, 
+<i title="tera焦">TJ</i>, 
+<i title="毫焦">mJ</i>, 
+<i title="微焦">μJ</i>, 
+<i title="纳焦">nJ</i>, 
+<i title="pico焦">pJ</i>,<br/>
+&emsp;&emsp;&emsp;
+<i title="瓦-时">Wh</i>, 
+<i title="千瓦-时">kWh</i>, 
+<i title="兆瓦-时">MWh</i>, 
+<i title="吉瓦-时">GWh</i>, 
+<i title="tera瓦-时">TWh</i>, 
+<i title="毫瓦-时">mWh</i>, 
+<i title="微瓦-时">μWh</i>, 
+<i title="纳瓦-时">nWh</i>, 
+<i title="pico瓦-时">pWh</i>,<br/>
+&emsp;&emsp;&emsp;
+<i title="electron伏特">eV</i>, 
+<i title="千electron伏特">keV</i>, 
+<i title="兆electron伏特">MeV</i>, 
+<i title="吉electron伏特">GeV</i>, 
+<i title="teraelectron伏特">TeV</i>, 
+<i title="petaelectron伏特">PeV</i>, 
+<i title="exaelectron伏特">EeV</i>,
+<i title="卡路里">cal</i>, 
+<i title="千卡">kcal</i>, 
+<i title="erg">erg</i>;
+</li><li>功率: 
+<i title="瓦特">W</i>, 
+<i title="千瓦">kW</i>, 
+<i title="兆瓦">MW</i>, 
+<i title="吉瓦">GW</i>, 
+<i title="tera瓦">TW</i>, 
+<i title="毫瓦">mW</i>, 
+<i title="微瓦">μW</i>, 
+<i title="纳瓦">nW</i>, 
+<i title="pico瓦">pW</i>,
+<i title="马力 (metric)">hpM</i>, 
+<i title="马力 (metric)">ks</i>,<br/>
+&emsp;&emsp;
+<i title="伏-安">VA</i>, 
+<i title="千伏-安">kVA</i>, 
+<i title="兆伏-安">MVA</i>, 
+<i title="吉伏-安">GVA</i>, 
+<i title="tera伏-安">TVA</i>, 
+<i title="毫伏-安">mVA</i>, 
+<i title="微伏-安">μVA</i>, 
+<i title="纳伏-安">nVA</i>, 
+<i title="pico伏-安">pVA</i>,<br/>
+&emsp;&emsp;
+<i title="伏-安 (reactive)">VAR</i>, 
+<i title="千伏-安 (reactive)">kVAR</i>, 
+<i title="兆伏-安 (reactive)">MVAR</i>, 
+<i title="吉伏-安 (reactive)">GVAR</i>, 
+<i title="tera伏-安 (reactive)">TVAR</i>, 
+<i title="毫伏-安 (reactive)">mVAR</i>, 
+<i title="微伏-安 (reactive)">μVAR</i>, 
+<i title="纳伏-安 (reactive)">nVAR</i>, 
+<i title="pico伏-安 (reactive)">pVAR</i>;
+</li><li>电量: 
+<i title="库伦">C</i>, 
+<i title="千库伦">kC</i>, 
+<i title="兆库伦">MC</i>, 
+<i title="吉库伦">GC</i>, 
+<i title="tera库伦">TC</i>, 
+<i title="毫库伦">mC</i>, 
+<i title="微库伦">μC</i>, 
+<i title="纳库伦">nC</i>, 
+<i title="pico库伦">pC</i>, 
+<i title="安-时">Ah</i>, 
+<i title="毫安-时">mAh</i>;
+</li><li>电势: 
+<i title="伏特">V</i>, 
+<i title="千伏特">kV</i>, 
+<i title="兆伏特">MV</i>, 
+<i title="吉伏特">GV</i>, 
+<i title="tera伏特">TV</i>, 
+<i title="毫伏特">mV</i>, 
+<i title="微伏特">μV</i>, 
+<i title="纳伏特">nV</i>, 
+<i title="pico伏特">pV</i>;
+</li><li>电容: 
+<i title="法拉">F</i>, 
+<i title="千法拉">kF</i>, 
+<i title="兆法拉">MF</i>, 
+<i title="吉法拉">GF</i>, 
+<i title="tera法拉">TF</i>, 
+<i title="毫法拉">mF</i>, 
+<i title="微法拉">μF</i>, 
+<i title="纳法拉">nF</i>, 
+<i title="pico法拉">pF</i>;
+</li><li>电阻:
+<i title="欧姆">Ω</i>, 
+<i title="千欧姆">kΩ</i>, 
+<i title="兆欧姆">MΩ</i>, 
+<i title="吉欧姆">GΩ</i>, 
+<i title="tera欧姆">TΩ</i>, 
+<i title="毫欧姆">mΩ</i>, 
+<i title="微欧姆">μΩ</i>, 
+<i title="纳欧姆">nΩ</i>, 
+<i title="pico欧姆">pΩ</i>;
+</li><li>电导:
+<i title="西门子">S</i>, 
+<i title="千西门子">kS</i>, 
+<i title="兆西门子">MS</i>,  	
+<i title="吉西门子">GS</i>, 
+<i title="tera西门子">TS</i>, 
+<i title="毫西门子">mS</i>, 
+<i title="微西门子">μS</i>, 
+<i title="纳西门子">nS</i>, 
+<i title="pico西门子">pS</i>,<br/>
+&emsp;&emsp;
+<i title="mho">℧</i>, 
+<i title="千mho">k℧</i>, 
+<i title="兆mho">M℧</i>, 
+<i title="吉mho">G℧</i>, 
+<i title="teramho">T℧</i>, 
+<i title="毫mho">m℧</i>, 
+<i title="微mho">μ℧</i>, 
+<i title="纳mho">n℧</i>, 
+<i title="picomho">p℧</i>;
+</li><li>磁通量:
+<i title="韦伯">Wb </i>, 
+<i title="千韦伯">kWb</i>, 
+<i title="兆韦伯">MWb</i>, 
+<i title="吉韦伯">GWb</i>, 
+<i title="tera韦伯">TWb</i>, 
+<i title="毫韦伯">mWb</i>, 
+<i title="微韦伯">μWb</i>, 
+<i title="纳韦伯">nWb</i>, 
+<i title="pico韦伯">pWb</i>;
+</li><li>磁感应强度/磁通量密度/磁通密度:
+<i title="特斯拉">T</i>, 
+<i title="千特斯拉">kT</i>, 
+<i title="兆特斯拉">MT</i>, 
+<i title="吉特斯拉">GT</i>, 
+<i title="tera特斯拉">TT</i>, 
+<i title="毫特斯拉">mT</i>, 
+<i title="微特斯拉">μT</i>, 
+<i title="纳特斯拉">nT</i>, 
+<i title="pico特斯拉">pT</i>;
+</li><li>电感:
+<i title="亨利">H</i>, 
+<i title="千亨利">kH</i>, 
+<i title="兆亨利">MH</i>, 
+<i title="吉亨利">GH</i>, 
+<i title="tera亨利">TH</i>, 
+<i title="毫亨利">mH</i>, 
+<i title="微亨利">μH</i>, 
+<i title="纳亨利">nH</i>, 
+<i title="pico亨利">pH</i>;
+</li><li>光通量: 
+<i title="流明">lm</i>;
+</li><li>照度/照明度:
+<i title="勒克斯">lx</i>;
+</li><li>放射性活度: 
+<i title="贝克勒尔">Bq</i>, 
+<i title="千贝克勒尔">kBq</i>, 
+<i title="兆贝克勒尔">MBq</i>, 
+<i title="吉贝克勒尔">GBq</i>, 
+<i title="tera贝克勒尔">TBq</i>, 
+<i title="毫贝克勒尔">mBq</i>, 
+<i title="微贝克勒尔">μBq</i>, 
+<i title="纳贝克勒尔">nBq</i>, 
+<i title="pico贝克勒尔">pBq</i>, 
+<i title="Curie">Ci</i>, 
+<i title="Rutherford">Rd</i>;
+</li><li>吸收剂量: 
+<i title="格雷">Gy</i>, 
+<i title="千格雷">kGy</i>, 
+<i title="兆格雷">MGy</i>, 
+<i title="吉格雷">GGy</i>, 
+<i title="tera格雷">TGy</i>, 
+<i title="毫格雷">mGy</i>, 
+<i title="微格雷">μGy</i>, 
+<i title="纳格雷">nGy</i>, 
+<i title="pico格雷">pGy</i>;
+</li><li>等效剂量: 
+<i title="Sievert">Sv</i>, 
+<i title="千sievert">kSv</i>, 
+<i title="兆sievert">MSv</i>, 
+<i title="吉sievert">GSv</i>, 
+<i title="terasievert">TSv</i>, 
+<i title="毫sievert">mSv</i>, 
+<i title="微sievert">μSv</i>, 
+<i title="纳sievert">nSv</i>, 
+<i title="picosievert">pSv</i>;
+</li><li>催化活性: 
+<i title="katal">kat</i>;
+</li></ul>
+<p>非米制单位 (英制/美制):</p>
+<ul><li>质量:
+<i title="grain">gr</i>, 
+<i title="drachm">dr</i>, 
+<i title="盎司">oz</i>, 
+<i title="磅">lb</i> (或 
+<i title="磅-质量">lbm</i>, 
+<i title="磅-质量 (alt)">lb</i><sub>_m</sub>), 
+<i title="千磅-质量">kipm</i>(或
+<i title="千磅-质量 (alt)">kip</i><sub>_m</sub>), 
+<i title="stone">st</i>, 
+<i title="quarter">qr</i>,<br />&emsp;&emsp;&ensp;
+<i title="hundredweight">cwt</i>(或 
+<i title="hundredweight (UK)">cwt</i><sub>_UK</sub>, 
+<i title="hundredweight (US)">cwt</i><sub>_US</sub>),  
+<i title="吨">ton</i> (或 
+<i title="吨 (UK)">ton</i><sub>_UK</sub>, 
+<i title="吨 (US)">ton</i><sub>_US</sub>), 
+<i title="slug">slug</i>;
+</li><li>长度:  
+<i title="thou">th</i>, 
+<i title="inch">in</i>, 
+<i title="foot">ft</i>, 
+<i title="yard">yd</i>, 
+<i title="chain">ch</i>, 
+<i title="furlong">fur</i>, 
+<i title="mile">mi</i>, 
+<i title="fathom">ftm</i>(或 
+<i title="fathom (UK)">ftm</i><sub>_UK</sub>, 
+<i title="fathom (US)">ftm</i><sub>_US</sub>),
+<br />&emsp;&emsp;&ensp;&ensp;
+<i title="cable">cable</i>(或  
+<i title="cable (UK)">cable</i><sub>_UK</sub>, 
+<i title="cable (US)">cable</i><sub>_US</sub>),
+<i title="nautical mile">nmi</i>, 
+<i title="link">li</i>, 
+<i title="rod">rod</i>, 
+<i title="pole">pole</i>, 
+<i title="perch">perch</i>, 
+<i title="league">lea</i>;
+</li><li>速度:
+<i title="英里每小时">mph</i>,
+<i title="节">knot</i>;                  
+</li><li>温度: 
+<i title="华氏度">°F</i>, 
+<i title="华氏度°F差">Δ°F</i>, 
+<i title="Rankine度">°R</i>;           
+</li><li>面积:
+<i title="rood">rood</i>, 
+<i title="acre">ac</i>;                   
+</li><li>液体体积: 
+<i title="fluid 盎司">fl_oz</i>, 
+<i title="gill">gi</i>, 
+<i title="pint">pt</i>, 
+<i title="quart">qt</i>, 
+<i title="gallon">gal</i>, 
+<i title="barrel">bbl</i>, 或:
+<br />&emsp;&emsp;&emsp;&emsp;
+<i title="fluid 盎司 (UK)">fl_oz</i><sub>_UK</sub>, 
+<i title="gill (UK)">gi</i><sub>_UK</sub>, 
+<i title="pint (fluid, UK)">pt</i><sub>_UK</sub>, 
+<i title="quart (fluid, UK)">qt</i><sub>_UK</sub>, 
+<i title="gallon (fluid, UK)">gal</i><sub>_UK</sub>, 
+<i title="barrel (fluid, UK)">bbl</i><sub>_UK</sub>,
+<br />&emsp;&emsp;&emsp;&emsp;
+<i title="fluid 盎司 (US)">fl_oz</i><sub>_US</sub>, 
+<i title="gill (US)">gi</i><sub>_US</sub>, 
+<i title="pint (fluid, US)">pt</i><sub>_US</sub>, 
+<i title="quart (fluid, US)">qt</i><sub>_US</sub>, 
+<i title="gallon (fluid, US)">gal</i><sub>_US</sub>, 
+<i title="barrel (fluid, US)">bbl</i><sub>_US</sub>;
+</li><li>干体积:
+(US)<i title="pint (dry, US)">pt</i><sub>_dry</sub>, 
+(US)<i title="quart (dry, US)">qt</i><sub>_dry</sub>, 
+(US)<i title="gallon (dry, US)">gal</i><sub>_dry</sub>, 
+(US)<i title="barrel (dry, US)">bbl</i><sub>_dry</sub>, 
+<br />&emsp;&emsp;&emsp;
+<i title="peck">pk</i> (或
+<i title="peck (dry, UK)">pk</i><sub>_UK</sub>, 
+<i title="peck (dry, US)">pk</i><sub>_US</sub>),
+<i title="bushel">bu</i> (或 
+<i title="bushel (dry, UK)">bu</i><sub>_UK</sub>, 
+<i title="bushel (dry, US)">bu</i><sub>_US</sub>);
+(US) <i title="pint (dry, US)">pt</i><sub>_dry</sub>, 
+(US) <i title="quart (dry, US)">qt</i><sub>_dry</sub>, 
+(US) <i title="gallon (dry, US)">gal</i><sub>_dry</sub>, 
+(US) <i title="barrel (dry, US)">bbl</i><sub>_dry</sub>,
+<br />&emsp;&emsp;&emsp;
+<i title="peck">pk</i> (或  
+<i title="peck (UK)">pk</i><sub>_UK</sub>,
+<i title="peck (US)">pk</i><sub>_US</sub>),
+<i title="bushel">bu</i> (或  
+<i title="bushel (UK)">bu</i><sub>_UK</sub>,
+<i title="bushel (US)">bu</i><sub>_US</sub>);
+</li><li>力: 
+<i title="盎司-力">ozf</i> (或
+<i title="盎司-力 (alt)">oz</i><sub>_f</sub>), 
+<i title="磅-力">lbf</i> (或 
+<i title="磅-力 (alt)">lb</i><sub>_f</sub>), 
+<i title="千磅">kip</i> (或
+<i title="千磅-力">kipf</i>, 
+<i title="千磅-力 (alt)">kip</i><sub>_f</sub>), 
+<i title="吨-力">tonf</i> (or 
+<i title="吨-力 (alt)">ton</i><sub>_f</sub>), 
+<i title="poundal">pdl</i>;
+</li><li>压强: 
+<i title="盎司-力每平方inch">osi</i>, 
+<i title="盎司-力每平方foot">osf</i>
+<i title="磅-力每平方inch">psi</i>, 
+<i title="磅-力每平方foot">psf</i>, 
+<i title="千磅-力每平方inch">ksi</i>, 
+<i title="千磅-力每平方foot">ksf</i>, 
+<i title="吨-力每平方inch">tsi</i>, 
+<i title="吨-力每平方foot">tsf</i>,
+<i title="inches of mercury (conventional)">inHg</i>;
+</li><li>能量/功: 
+<i title="英制热单位">BTU</i>, 
+<i title="萨姆">therm</i>, <span class="b">(</span>or 
+<i title=" 萨姆(UK)">therm</i><sub>_UK</sub>, 
+<i title="萨姆 (US)">therm</i><sub>_US</sub><span class="b">)</span>, 
+<i title="quad">quad</i>;
+</li><li>功率:
+<i title="马力">hp</i>, 
+<i title="马力(电)">hpE</i>, 
+<i title="马力(锅炉)">hpS</i>.
+</li><li>能量/功: 
+<i title="英国热单位">BTU</i>, 
+<i title="therm">therm</i> (or  
+<i title="therm (UK)">therm</i><sub>_UK</sub>, 
+<i title="therm (US)">therm</i><sub>_US</sub>), 
+<i title="quad">quad</i>;
+</li><li>功率:
+<i title="horsepower">hp</i>, 
+<i title="horsepower (电力)">hpE</i>, 
+<i title="horsepower (锅炉)">hpS</i>.
+</ul>
+<p>角度单位适用于三角函数，并覆盖所有其他设置。反三角函数默认返回无单位的值。如果您希望它们返回当前单位的结果，您需要定义一个变量：<var>ReturnAngleUnits</var> = 1。</p>
+<p>紧跟数字后面的文字被解析为单位，例如"2&thinsp;<i>m</i>"。独立的文字可以是单位或变量，例如"<i>N</i>*<i>m</i>"。解析的规则如下：如果一个文字没有被定义为变量，它会被解析为单位。否则，它会被解析为变量，即使存在同名的单位。如果在文字前面加上一个点，即使存在同名的变量，它也会被解析为单位，例如".<i>N</i>*.<i>m</i>"。</p>
+
+<h4>自定义单位</h4>
+<p>您可以定义自己的"自定义"单位，并像其他单位一样在代码中使用它们。定义单位类似于定义变量，但名称必须以点"."为前缀：</p>
+<p>&emsp;&emsp;<code>.<i>Name</i> = 表达式</code></p>
+<p>名称可以包括一些货币符号，如：€, £, ₤, ¥, ¢, ₽, ₹, ₩, ₪。如果您需要创建从其他单位派生的单位，可以在右侧使用数字和单位编写表达式。您还可以通过将第一个单位设置为 "= 1" 并将其他单位设置为倍数来定义无量纲单位，例如货币（USD、EUR、€、₤）或信息（bit、byte、KiB 等）。例如：</p>
+<p><code>&emsp;&emsp;.<i>bit</i> = 1<br />
+&emsp;&emsp;.<i>byte</i> = 8*<i>bit</i><br />
+&emsp;&emsp;.<i>KiB</i> = 1024*<i>byte</i><br />
+&emsp;&emsp;...</code></p>
+<p>自定义无量纲单位存在于特殊的（第九个）非物理维度中。这样它们在混合时不会被取消或转换为其他无量纲单位，比如百分比或角度。然而，如果您在一个文件中有两种类型的无量纲单位，它们将存在于同一个维度中，所以您应该避免混合使用它们。</p>
+
+<h2 id="TOC_500">报告</h2>
+<p>所有的计算结果都会自动汇总成专业格式的计算报告。您可以打印它或使用 MS Word 打开进行编辑。除了数学表达式，您还可以添加标题、注释、表格和图片。</p>
+
+<h3 id="TOC_501">标题</h3>
+<p>标题是用双引号 (<b>"</b>) 括起来的文本。它的字体加粗并且比主要文本要大。</p>
+
+<h3 id="TOC_502">文本/注释</h3>
+<p>注释是用单引号 (<b>'</b>) 括起来的文本。如果它是行中的最后一个符号，您可以省略闭合引号。标题和注释可以包含任何符号，没有限制。它们之外的所有内容都被认为是数学表达式。然而，如果您在注释中放入任何公式，它们将不会被计算或格式化。由于最终的输出是呈现为 Html 文档，您可以在注释中使用 Html 和 CSS 来为您的计算报告提供额外的格式。</p>
+
+<h3 id="TOC_503">注释中的单位</h3>
+<p>除了使用原生单位，您还可以将所有值都输入为无单位，然后将单位放在注释中。在这种情况下，您将需要在方程中包含所有的单位转换因子。此外，还有一个选项可以为长度单位生成选择框 - <b>m</b>、<b>cm</b> 和 <b>mm</b>。您只需要在注释中插入 <b>%u</b>，无论您想要在哪里显示单位。当程序生成输入表单时（参见下文），它会检查代码中是否存在 <b>%u</b>。如果存在，它会自动在右上角添加一个单位选择组合框。当您从组合框中更改单位时，所有代码中的 <b>%u</b> 都会被填充为新的单位。您可以在下面尝试一下：</p>
+<table border="1" width="550">
+	<thead>
+		<tr>
+			<th>
+				Code(代码)
+			</th>
+			<th>
+				Output(输出)
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td style="line-height:200%;">
+				<code>"注释中的单位</code><br />
+				<code>'长度:'l = ?'%u</code><br />
+				<code>'面积:'l = ? %u&lt;sup&gt;2&lt;/sup&gt;</code><br />
+				<code>'体积:'l = ?'%u&lt;sup>3&lt;/sup&gt;</code><br />
+				<code>'缩放系数:'Units</code><br />
+			</td>
+			<td style="line-height:200%;">
+				<select id="Units" name="Units"><option value="m"> m </option><option value="cm"> cm </option><option value="mm"> mm </option></select>
+				<b>注释中的单位</b><br />
+				长度:  <var>l</var> = <input type="text" size="2" name="Variable" value = "1"> <span class="Units">m</span><br />
+				面积:  <var>l</var> = <input type="text" size="2" name="Variable" value = "1"> <span class="Units">m</span><sup>2</sup><br />
+				体积:  <var>V</var> = <input type="text" size="2" name="Variable" value = "1"> <span class="Units">m</span><sup>3</sup><br />
+				缩放系数:  <var id="UnitScale">Units</var>
+			</td>
+		</tr>		
+	</tbody>
+</table>`
+<p>当您运行计算时，“单位”选项框将从输出中消失。只有单位会保留填写。程序还会创建一个变量<var>Units</var>，它将包含从选择的单位到米的转换因子。对于m、mm和cm，它们的值分别为1、100和1000。您可以在计算中使用它进行单位转换。例如，您可以创建一个条件块来显示报告中选择的单位：</p>
+<p>&emsp;&emsp;<span class="cond">#if</span> <var>Units</var> ≡ 1<br />
+&emsp;&emsp;&emsp;&emsp;'选择的单位为m<br />
+&emsp;&emsp;<span class="cond">#else if</span> <var>Units</var> ≡ 100<br />
+&emsp;&emsp;&emsp;&emsp;'选择的单位为cm<br />
+&emsp;&emsp;<span class="cond">#else if</span> <var>Units</var> ≡ 1000<br />
+&emsp;&emsp;&emsp;&emsp;'选择的单位为mm<br />
+&emsp;&emsp;<span class="cond">#end if</span></p>
+
+<h3 id="TOC_504">使用 Html 和 CSS 进行格式化</h3>
+<p>Calcpad可以作为一个专业工程程序的开发平台。如果您不打算这样做，您可以跳过本章节。</p>
+<p><b>Html</b>（超文本标记语言）是一种用于格式化网页的标记语言。您可以更改字体类型、大小和粗细，文字的颜色，插入表格、图片等。这是通过添加特殊的元素，称为“标签”来完成的。每个标签都被尖括号括起来：“&lt;标签&gt;”。有些标签是成对使用的 - 开始标签“&lt;标签&gt;”和结束标签“&lt;/标签&gt;”。内容位于两者之间。例如，如果您想要将一些文本加粗，您可以使用以下标签：&lt;b&gt;<b>加粗文本</b>&lt;/b&gt;。即使您不是专业程序员，您也可以轻松学习一些基本的Html，以在Calcpad中使用：</p>
+<table border="1">
+	<thead>
+		<tr>
+			<th>
+				Html代码
+			</th>
+			<th>
+				输出
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>
+				<code><b>&lt;b&gt;</b>粗体文本<b>&lt;/b&gt;</b></code>
+			</td>
+			<td>
+				<b style="color:black;">粗体文本</b>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<code><b>&lt;i&gt;</b>斜体文本<b>&lt;/i&gt;</b></code>
+			</td>
+			<td>
+				<i style="color:black;">斜体文本</i>
+			</td>
+		</tr>		
+		<tr>
+			<td>
+				<code><b>&lt;u&gt;</b>带下划线文本<b>&lt;/u&gt;</b></code>
+			</td>
+			<td>
+				<u style="background:none;">带下划线文本</u>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<code><b>&lt;span style="color:red;"&gt;</b>红色文本<b>&lt;/span&gt;</b></code>
+			</td>
+			<td>
+				<span style="color:red;">红色文本</span>
+			</td>
+		</tr>		
+		<tr>
+			<td>
+				<code>x<b>&lt;sup&gt;</b>上标<b>&lt;/sup&gt;</b></code>
+			</td>
+			<td>
+				<var>x</var>x<sup>上标</sup>
+			</td>
+		</tr>		
+		<tr>
+			<td>
+				<code>x<b>&lt;sub&gt;</b>下标<b>&lt;/sub&gt;</b></code>
+			</td>
+			<td>
+				<var>x</var><sub>下标</sub>
+			</td>
+		</tr>			
+		<tr>
+			<td>
+				<code><b>&lt;span style="font:16pt Times-New-Roman;"&gt;</b><br />&emsp;Times New Roman, 16pt<br /><b>&lt;/span&gt;</b></code>
+			</td>
+			<td>
+				<span style="font:16pt Times-New-Roman;">Times New Roman, 16pt</span>
+			</td>
+		</tr>		
+	</tbody>
+</table>
+<p>您只能在注释中使用Html标签，但也可以使它们影响表达式。例如：</p>
+<p style="margin-left: 2em;"><code>'&lt;span style="color:red;"&gt; 简单如 ' 2 + 2 '&lt;/span&gt;'</code></p>
+<p>将得到以下输出：</p>
+<p style="margin-left: 2em;"><span style="color:red;"> 简单如 2 + 2 = 4 </span></p>
+<p>我们只是用两个注释将表达式括起来。第一个注释包含了开标签 '<code>&lt;span style="color:red;"&gt;</code>'，第二个注释包含了闭标签 <code>'&lt;/span&gt;'</code>。两个标签之间的内容被着为红色。请确保不要忘记引号。否则，程序将尝试解析Html代码作为数学表达式，并返回错误。样式代码：style="color:red" 被称为“内联CSS”（级联样式表），它用于格式化Html文档的外观。您可以从以下链接了解更多关于Html和CSS的内容：</p>
+<p><a href="http://www.w3schools.com/html/">http://www.w3schools.com/html/</a></p>
+<p><a href="http://www.w3schools.com/CSS/">http://www.w3schools.com/CSS/</a></p>
+<p>可以从互联网上找到一些免费的WYSIWYG(所见即所得)Html编辑器使用.</p>
+
+<h4>内容折叠</h4>
+<p>如果您有一些长而详细的计算，您可以选择将它们折叠在输出中。它们默认情况下是隐藏的，除了第一行，可以用作部分标题。您只需要将折叠部分放在一个带有类名为 "<b>fold</b>" 的 Html "<b>div</b>" 元素中，如下所示：</p>
+<p>&emsp;&emsp;<code>'&lt;div class="fold"&gt;</code><br/>
+&emsp;&emsp;<code>'&lt;b&gt;标题&lt;/b&gt; (点击展开)</code><br/>
+&emsp;&emsp;<code>'折叠的内容</code><br/>
+&emsp;&emsp;<code>'&lt;/div&gt;</code></p>
+<p>效果如下:</p>
+<div class="fold">
+	<p style="margin-left: 2em;"><b>标题</b> (点击展开)</p>
+	<p style="margin-left: 2em;">折叠的内容</p>
+</div>
+
+<h3 id="TOC_505">图片</h3>
+<p>在将图片插入Calcpad文档之前，您需要已经将其保存为文件。您可以使用一些图像编辑软件创建图片，并将其保存为*.png、*.gif或*.jpg文件。您可以使用一些免费软件，如Paint、Gimp、InkScape、DraftSight等。然后，您可以使用Html插入它。您只需要在所需位置的注释中放入以下文本：</p>
+<p style="margin-left: 2em;"><code>'&lt;img style="float:right" src="c:/Users/Me/Pictures/Picture1.png" alt="Picture1.png"&gt;</code></p>
+<p>当然，您需要将"<b>c:/Users/Me/Pictures/Picture1.png</b>"替换为实际图片的路径。文件可以是本地文件、网络文件或互联网上的文件。即使文件是本地文件，也始终使用正斜杠"<b>/</b>"。如果图片位于当前工作表的同一文件夹中，您可以使用相对路径指定如下："<b>./Picture1.png</b>"。文本 <b>style="float:right;"</b> 将图片对齐到右侧，使文本在左侧浮动。否则，图片将成为文本流的一部分，并导致文本分割。作为 <b>style="float:right"</b> 的替代，您可以使用 <b>class="side"</b> 来实现相同的效果。</p>
+<p>您还可以使用工具栏上的<img alt="Image" height="24" src="Images/Image.png">按钮插入图片。您将被提示选择一个文件。当您点击"<b>打开</b>"时，所需的记录将插入到代码的开头。运行计算时，图片将出现在输出窗口中。</p>
+
+<h2 id="TOC_600">编程</h2>
+
+<h3 id="TOC_601">输入表单</h3>
+<p>如果您有一个长而复杂的问题，或者您想与他人共享您的解决方案，那么创建一个输入表单是一个好主意。使用Calcpad非常容易实现。只需将需要输入的值替换为问号"<b>?</b>"，例如"<var>a</var> = ?"。请注意，这样做后，您将无法直接点击<img alt="Play" height="24" src="Images/Play.png">计算结果。您必须先将其编译为输入表单。为此，单击<img alt="Form" height="24" src="Images/Form.png">按钮或按下键盘上的<b>F4</b>。</p>
+<p>代码将被隐藏，表单将被加载到主窗口的全宽"<b>输入</b>"框中。所有的文本和公式都将以Html格式呈现，受到保护，无法修改。除了注释中的问号外，每个"<b>?</b>"符号的出现都将生成一个输入框。准备好使用的输入表单如下所示：</p>
+<p><img alt="Sample3" width="700" src="Images/Sample3.zh.png"></p>
+<p>现在您需要填写输入框并点击<img alt="Play" height="24" src="Images/Play.png">来计算结果。结果将显示在"<b>输出</b>"框中。</p>
+<p><img alt="Sample4" width="700" src="Images/Sample4.zh.png"></p>
+<p>要返回输入模式，请再次点击<img alt="Play" height="24" src="Images/Play.png">以关闭按钮。输入数据将保持自上次输入以来的不变。如果您需要修改源代码，您需要点击<img alt="Form" height="24" src="Images/Form.png">按钮解锁它。"<b>代码</b>"框将再次显示在主窗口的左侧。输入数据将附加到问号上。如果您将鼠标悬停在其中一个上面，您将看到相应的值。单击问号以更改它。编辑代码完成后，您可以将其重新编译为输入表单。输入值将填入相应的字段。最后，您可以将文档保存为"<b>*.cpd</b>"文件。当您打开此类文件时，它将直接显示为输入表单模式。与简单的文本文件相比，此格式更方便使用，具有以下优点：</p>
+<ul>
+<li>用户可以清楚地看到应输入哪些参数。您还可以提供图片和附加说明。这对用户来说更容易理解，特别是如果程序是由其他人开发的；</li>
+<li>源代码的其余部分受到保护，除非您有意解锁它。这可以防止不熟悉的用户意外损坏计算公式。</li>
+</ul>
+<p>如果将文档保存为"<b>*.cpdz</b>"文件，则无法再访问源代码。在Calcpad中无法解锁它。此外，没有人可以在外部文本编辑器中编辑文件，因为它是编码的。这样，您可以保护源代码免受未经授权的复制、查看和修改。</p>
+<p>您可以在代码的任何位置放置问号"<b>?</b>"，例如：</p>
+<p style="margin-left: 2em;">2 + ?</p>
+<p style="margin-left: 2em;">2 + <input type="text" size="2"></p>
+<p>然后，您可以输入一个值并计算结果。这种方法不推荐用于复杂的问题，因为程序逻辑变得不清晰且难以理解。</p>
+
+<h4>使用Html和CSS创建高级UI</h4>
+<p>除了简单的输入框外，您可以在工作表中使用一些高级UI元素，例如"<b>select</b>"（组合框）、"<b>radio</b>"按钮和"<b>checkboxes</b>"。由于Calcpad的所有输出都被呈现为Html文档，因此您可以使用Html和CSS来实现这一目的。但是，Calcpad仅接受来自文本框的输入。因此，需要将每个其他UI元素映射到某个文本框。这是通过将文本框包含在具有特定<b>id</b>的外部html元素（段落或div）中来执行的。相同的id必须分配为源UI元素的<b>name</b>或<b>data-target</b>属性。然后，源元素值属性的内容将自动填充到目标文本框中。您可以使用以下示例代码：</p>
+<p><b>选择框：</b></p>
+<p>代码:</p>
+<pre>
+&emsp;&emsp;'选择: &lt;选择名称="<b class="err">target1</b>"&gt;
+&emsp;&emsp;'&lt;option value="11;12"&gt;x1; y1&lt;/option&gt;
+&emsp;&emsp;'&lt;option value="21;22"&gt;x2; y2&lt;/option&gt;
+&emsp;&emsp;'&lt;option value="31;32"&gt;x3; y3&lt;/option&gt;
+&emsp;&emsp;'&lt;/select&gt;
+&emsp;&emsp;'...
+&emsp;&emsp;'&lt;p id="<b class="err">target1</b>"&gt; 值:'x = ? {21}','y = ? {22}'&lt;/p&gt;
+</pre>
+<p>输出:</p>
+<p>&emsp;&emsp;选择: <select name="target1">
+<option value="11;12" id="line-3">x1; y1</option> 
+<option value="21;22" id="line-4">x2; y2</option> 
+<option value="31;32" id="line-5">x3; y3</option> 
+</select><br/>&emsp;&emsp;... </p>
+<p id="target1">&emsp;&emsp;值: <span class="eq"><var>x</var> = <input type="text" size="2" name="Var" value="21">&#8202;</span> , <span class="eq"><var>y</var> = <input type="text" size="2" name="Var" value="22">&#8202;</span> </p> 
+<p><b>点选圈:</b></p>
+<p>代码:</p>
+<pre>
+&emsp;&emsp;'&lt;p&gt;选择: 
+&emsp;&emsp;'&lt;input name="<b class="err">target2</b>" type="radio" id="opt1" value="1"/&gt;
+&emsp;&emsp;'&lt;label for="opt1"&gt;option 1&lt;/label&gt;
+&emsp;&emsp;'&lt;input name="<b class="err">target2</b>" type="radio" id="opt2" value="2"/&gt;
+&emsp;&emsp;'&lt;label for="opt2"&gt;option 2&lt;/label&gt;
+&emsp;&emsp;'...
+&emsp;&emsp;'&lt;p id="<b class="err">target2</b>"&gt;值-'opt = ? {2}'&lt;/p&gt;
+</pre>
+<p>输出:</p>
+<p>&emsp;&emsp;选择: 
+<input name="target2" type="radio" id="opt1" value="1"/> 
+<label for="opt1">选项 1</label> 
+<input name="target2" type="radio" id="opt2" value="2"/> 
+<label for="opt2">选项 2</label><br/>&emsp;&emsp;... </p>
+<p id="target2">&emsp;&emsp;<span class="eq"><var>opt</var> = <input type="text" size="2" name="Var" value="2">&#8202;</span> </p> 
+<p><b>勾选框:</b></p>
+<p>代码:</p>
+<pre>
+&emsp;&emsp;'&lt;p&gt;&lt;输入名称="<b class="err">target3</b>" type="checkbox" id="chk1" value="3"/&gt;
+&emsp;&emsp;'&lt;label for="chk1"&gt;Checkbox 1&lt;/label&gt;&lt;/p&gt;
+&emsp;&emsp;'...
+&emsp;&emsp;'&lt;p id="<b class="err">target3</b>"&gt;Value -'chk = ? {3}'&lt;/p&gt;
+</pre>
+<p>输出:</p>
+<p>&emsp;&emsp;<input name="target3" type="checkbox" id="chk1" value="3"/> 
+<label for="chk1">勾选框1</label><br/>&emsp;&emsp;... </p>
+<p id="target3">&emsp;&emsp;<span class="eq"><var>chk</var> = <input type="text" size="2" name="Var" value="3">&#8202;</span> </p> 
+<p>从第一个示例中可以看出，一个"value"属性可以包含多个值，用分号";"分隔。在这种情况下，您必须在目标段落中提供相应数量的文本框。您可以复制上面的代码，添加任意多的选项，并编写自己的标签和值。您还可以更改名称和ID，但请确保所有源名称与目标ID完全匹配，并且不存在重复的ID。</p>
+
+<h3 id="TOC_602">输出控制</h3>
+<p>您可以轻松指定代码中哪些部分在输出中可见或隐藏。与条件执行不同，隐藏的代码始终被计算。它只是不显示出来。以下关键字可用于此目的：</p>
+<ul style="list-style-type:none;">
+<li><span class="cond">#Hide</span> - 从当前行后起隐藏报告内容;</li>
+<li><span class="cond">#Pre</span> - 仅在"input(输入)" 模式 (详见下文 ""<a href="#TOC_601">输入表</a>" )显示内容;</li>
+<li><span class="cond">#Post</span> - 尽在"output(输出)"模式下显示并在"input(输入)"模式下隐藏内容;</li>
+<li><span class="cond">#Show</span> - 总是显示内容(覆盖其他所有关键字);</li>
+</ul>
+<p>上述每个关键字都会影响当前行之后的内容，并覆盖前一个关键字。您可以使用它们来隐藏不应该显示的长时间重复的计算。您可以使用<span class="cond">#Pre</span>命令添加一些关于填充输入数据的说明，使用<span class="cond">#Post</span>隐藏数据输入期间的计算算法。</p>
+<p>您还可以按以下方式修改方程的显示：</p>
+<ul style="list-style-type:none;">
+<li><span class="cond">#Val</span> - 仅显示结果的数值;</li>
+<li><span class="cond">#Equ</span> - 同时显示方程式和计算结果(默认);</li>
+<li><span class="cond">#Noc</span> - 仅显示方程式,不显示结果(不计算).</li>
+</ul>
+<p>上述每个关键字都会覆盖其他关键字。您可以使用<span class="cond">#Val</span>创建一个带有值但没有公式的表格，就像在Excel中一样。</p>
+
+<h3 id="TOC_603">条件执行</h3>
+<p>有时解决方案必须根据一些中间值以不同的方式继续。类似于其他编程语言，Calcpad中也包含了这个功能。它被称为"条件执行块"，具有以下一般形式：</p>
+<ul style="list-style-type:none;">
+<li><code><span class="cond">#If</span> <b>条件1</b></code></li>
+<li style="margin-left: 2em;">如果条件1满足将要执行的代码段</li>
+<li><code><span class="cond">#Else If</span> <b>条件2</b></code></li>
+<li style="margin-left: 2em;">如果条件1满足将要执行的代码段</li>
+<li><code><span class="cond">#Else If</span> <b>条件3</b></code></li>
+<li style="margin-left: 2em;">如果条件满足将要执行的代码段</li>
+<li>. . .</li>
+<li><code><span class="cond">#Else</span></code></li>
+<li style="margin-left: 2em;">如果所有条件无一满足将要执行的代码段</li>
+<li><code><span class="cond">#end if</span></code></li>
+</ul>
+<p>简短形式:</p>
+<ul style="list-style-type:none;">
+<li><code><span class="cond">#If</span> <b>条件</b></code></li>
+<li style="margin-left: 2em;">如果条件满足将要执行的代码段</li>
+<li><code><span class="cond">#Else</span></code></li>
+<li style="margin-left: 2em;">如果条件不满足将要执行的代码段</li>
+<li><code><span class="cond">#end if</span></code></li>
+</ul>
+<p>或:</p>
+<ul style="list-style-type:none;">
+<li><code><span class="cond">#If</span> <b>条件</b></code></li>
+<li style="margin-left: 2em;">如果条件满足将要执行的代码段</li>
+<li><code><span class="cond">#end if</span></code></li>
+</ul>
+<p>条件块不仅会影响计算路径，还会影响文本和图像等报告内容。"#"符号必须是该行的第一个符号。在"<b>condition</b>"的位置上，您可以放置任何有效的表达式。通常使用比较运算符，如"<span class="cond">#If</span> <var>a</var> &lt; 0"，但这不是必须的。如果计算结果为任何非零数字，则假定满足条件。否则，条件不满足。任何绝对值&le; 0.00000001的结果都被认为是零。</p>
+<p>让我们再次看一下我们之前使用的二次方程示例。如果我们输入"<var>c</var> = 5"，则判别式将为负数，结果将为<span class="err">NaN</span>。这不是一个很智能的程序结束方式。我们需要做的是检查"<var>D</var> &lt; 0"，如果是，则提供一个易于理解的消息。否则，我们必须计算根。我们可以使用条件执行来实现这一点，具体如下：</p>
+<p><img alt="Sample2" width="700" src="Images/Sample2.zh.png"></p>
+
+<h3 id="TOC_604">迭代块</h3>
+<p>您可以在Calcpad程序中使用简单的迭代。为此，您需要定义一个"<b>repeat-loop</b>"块：</p>
+<ul style="list-style-type:none;">
+<li><span class="cond">#Repeat</span> <var>n</var></li>
+<li style="margin-left: 2em;">重复执行的代码段</li>
+<li><span class="cond">#Loop</span></li>
+</ul>
+<p>符号<var>n</var>代表重复次数。您可以在<var>n</var>中放置一个数字、变量或任何有效的表达式。如果表达式的结果不是整数，则四舍五入为最近的整数。您可以在块内放置<span class="cond">#Break</span>来提前退出重复循环。只有当您将其与条件块相结合时，它才有意义。否则，它将始终在同一行中中断，而不执行任何循环。典型的"重复-中断-循环"看起来像这样：</p><ul style="list-style-type:none;">
+<li><code class="cond">#Repeat</code></li>
+<li style="margin-left: 2em;">重复执行的代码段</li>
+<li style="margin-left: 2em;"><code class="cond">#If</code> 条件</li>
+<li style="margin-left: 4em;"><code class="cond">#Break</code></li>
+<li style="margin-left: 2em;"><code class="cond">#End if</code></li>
+<li style="margin-left: 2em;">其他代码</li>
+<li><code class="cond">#Loop</code></li>
+</ul>
+<p>您可以使用<code class="cond">#Continue</code>代替<code class="cond">#Break</code>。程序将跳过剩余的行，返回到条件块的顶部，并继续下一次迭代。只有当您确定条件将被满足并且循环迟早会中断时，才可以省略重复次数<var>n</var>。无论如何，为了避免无限循环，如果没有其他指定，迭代次数限制为100,000次。</p>
+<p>除了重复计算，您还可以使用循环生成重复的报告内容（如表格行）。如果您想隐藏迭代细节，可以使用输出控制指令（参见前一节）。例如，您可以使用<span class="cond">#Hide</span>和<span class="cond">#Show</span>语句将"重复-循环"块括起来。</p>
+
+<h3 id="TOC_605">交互式（逐步）执行</h3>
+<p>您可以创建一个Calcpad工作表，通过在特定行定义"断点"来进行交互式（逐步）执行。这将允许用户查看中间结果，并在需要时输入一些额外的输入数据。有两个特殊的关键字，您可以用于此目的：</p>
+<ul style="list-style-type:none;">
+<li><code class="cond">#Pause</code> - 计算到当前行，显示结果并等待用户恢复；</li>
+<li><code class="cond">#Input</code> - 在当前行呈现输入表单，并等待用户输入数据和恢复。</li>
+</ul><p>当计算过程中止,程序在报告的结尾给出如下提示信息:</p>
+<p>&emsp;&emsp;<span class="err">Paused!</span> 按 <b>F5</b>  <a href="#0" data-text="continue">继续</a> 或 <b>Esc</b>  <a href="#0" data-text="cancel">取消计算</a>.</p>
+<p>您可以通过按下<b>F5</b>、点击链接或再次点击<img alt="Play" height="24" src="Images/Play.png">按钮来恢复执行。在单个工作表中可以设置多个断点。当使用<code class="cond">#Input</code>关键字时，在显示当前输入表单之前，将计算前一节。通过这种方式，计算的阶段会重叠，如下面的示例所示：</p>
+<p><img alt="Interactive" height="360" src="Images/Interactive.png"></p>
+<p>此外，用户可以随时从键盘上按下"<b>Pause/Break</b>"或"<b>Ctrl + Alt + P</b>"来暂停执行。执行将在当前行暂停，就像检测到<code class="cond">#Pause</code>一样。</p>
+
+<h3 id="TOC_606">模块（包含）</h3>
+<p>Calcpad允许您在工作表中包含来自外部文件的内容。如果您在不同的工作表中重复使用某些代码片段，您可以将其组织成模块，并多次重用。此外，如果您有一个较长的工作表，您可以将其拆分为易于维护的模块。然后，您可以使用以下语句将它们包含到主文件中：</p>
+<p>&emsp;&emsp;<span class="cond">#include</span> <em class="macro">文件名</em></p>
+<p>"<em class="macro">文件名</em>"必须包含到本地文件的完整路径。如果文件与当前文件夹相同，您只需指定文件名即可。</p>
+<p>默认情况下，Calcpad将包含外部模块的全部内容。然而，您可以通过使其成为局部的来防止某些部分被包含。要在模块中开始一个"局部"部分，请添加一个新行，其中包含<span class="cond">#local</span>关键字。要结束一个"局部"部分（或开始一个"全局"部分），请添加一个新行，其中包含<span class="cond">#global</span>关键字。Calcpad支持多级包含。这意味着包含文件可以引用其他文件，依此类推。</p>
+
+<h3 id="TOC_607">宏和字符串变量</h3>
+<p>宏和字符串变量是在单个文件中组织代码和防止重复的便捷方式。它们可以是单行的，也可以是多行的。与字符串变量不同，宏可以具有参数。您可以使用以下语句来定义它们：</p>
+<p>单行字符串变量:<br />
+	&emsp;&emsp;<span class="cond">#def</span> 
+	<em class="macro">variable_name$</em> <span class="o">=</span> <em>内容</em>
+</p>
+<p>多行字符串变量:<br />
+	&emsp;&emsp;<span class="cond">#def</span> <em class="macro">variable_name$</em><br />
+	&emsp;&emsp;&emsp;&emsp;<em>内容行 1</em><br />
+	&emsp;&emsp;&emsp;&emsp;<em>内容行 2</em><br />
+	&emsp;&emsp;&emsp;&emsp;<em>...</em><br />
+	&emsp;&emsp;<span class="cond">#end def</span>
+</p>
+<p>单行字符串宏:<br />
+	&emsp;<span class="cond">#def</span> 
+	<em class="macro">macro_name$</em>(<em class="macro">param1$</em><span class="o">;</span> <em class="macro">param2$</em><span class="o">;</span>...) <span class="o">=</span> <em>内容</em>
+</p>
+<p>多行字符串宏:<br />
+	&emsp;&emsp;<span class="cond">#def</span> <em class="macro">macro_name$</em>(<em class="macro">param1$</em><span class="o">;</span> <em class="macro">param2$</em><span class="o">;</span>...)<br />
+	&emsp;&emsp;&emsp;&emsp;<em>内容行 1</em><br />
+	&emsp;&emsp;&emsp;&emsp;<em>内容行 2</em><br />
+	&emsp;&emsp;&emsp;&emsp;<em>...</em><br />
+	&emsp;&emsp;<span class="cond">#end def</span>
+</p>
+
+<p>字符串变量、宏及其参数的名称可以包含小写和大写的拉丁字母和下划线"_"。它们必须以"$"符号开头。内容可以是任何字符串。它不一定是有效的Calcpad表达式，因为在这个阶段它不会被解析器处理。但是，在其中不允许其他的宏/字符串变量定义。您只能插入对先前定义的宏/字符串变量的引用。此外，宏内部不支持输入字段"?"。这个功能将在以后的版本中开发。您可以在宏中使用<span class="cond">#include</span>，但前提是所包含的文件不包含其他宏。</p>
+<p>在定义字符串变量之后，您可以在代码的任何地方使用它，只需写入它的名称（以"$"结尾）。对于宏也是一样，但您还需要为参数指定值。宏和字符串变量在实际解析之前进行预处理和重写。结果是生成中间（展开）代码。您可以通过在"<b>输出</b>"窗口下方勾选"<b>展开的代码</b>"复选框来查看它。</p>
+<p>如果在宏预处理过程中发生任何错误，将显示展开的代码以及错误信息。错误描述中的行号是指您的初始代码。如果预处理成功完成，则对展开的代码进行解析和计算，就像正常情况下一样。如果在这个阶段检测到错误，它们将显示在输出中。错误描述中的行号是指展开的代码。您可以通过点击行号上的链接转到相应的行。</p>
+
+<h2 id="TOC_700">结果</h2>
+<p>您可以通过按下<b>F5</b>或单击<img alt="Play" height="24" src="Images/Play.png">按钮来运行解决方案。结果将出现在"<b>输出</b>"框中。您无法编辑输出内容，但可以选择、复制和打印它。为此，您可以使用右侧"<b>输出</b>"框上方的工具栏。您还可以使用上下文菜单中的其他命令。如果您在"<b>输出</b>"框内右键单击，将显示一个弹出菜单，其中包含其他命令。本手册中提供了详细的描述。</p>
+<p>自版本6.5.3以来，您可以使用"☑<b>自动运行</b>"模式。当勾选此选项时，每次更改代码并移动到另一行时，结果都会刷新。如果需要手动同步结果，可以按"<b>Ctrl + Enter</b>"。此外，输出窗口将滚动以匹配源代码中的当前位置。您也可以通过双击输入窗口来实现相同的效果。</p>
+
+<h3 id="TOC_701">替代</h3>
+<p>Calcpad可以在输出中的所有公式中替代变量的值，就在答案之前：</p>
+<p style="margin-left: 2em;"><var>x</var><sub>1</sub> = <span class="dvc"> -<var>b</var> – <span class="root">√</span><span class="ovr"><var>D</var></span><span class="dvl"></span>2·<var>a</var></span> = <span class="dvc"> -3 – <span class="root">√</span><span class="ovr">89</span><span class="dvl"></span>2·4</span> = -1.55</p>
+<p>为此，您需要在程序窗口底部勾选"<b>替代</b>"复选框。这样可以方便地查看和检查结果。当需要由主管、教师等检查计算时，这一点非常重要。这也是与电子表格软件的优势之一，因为实际的公式是隐藏在单元格中的。</p>
+<p>如果您不需要替代，可以取消选中此选项。然后答案将直接遵循计算公式：</p>
+<p style="margin-left: 2em;"><var>x</var><sub>1</sub> = <span class="dvc"> -<var>b</var> – <span class="root">√</span><span class="ovr"><var>D</var></span><span class="dvl"></span>2·<var>a</var></span> = -1.55</p>
+<p>之后，如果将鼠标放在任何变量上，将显示带有相应值的工具提示。</p>
+
+
+<h3 id="TOC_702">舍入</h3>
+<p>舍入是由小数点后的数字个数<var>n</var>指定的。它输入到程序窗口底部的"<b>舍入</b>"输入框中。变量<var>n</var>的值可以在"0"和"15"之间。如果输入"0"，所有结果将舍入为整数。如果值小于"0"或大于"15"，则会采用相应的限制。</p>
+<p>然而，舍入可能会遇到一些潜在的问题。如果结果小于10<sup>-<var>n</var></sup>并且您将其舍入为小数点后<var>n</var>位数，结果将只包含零。因此，Calcpad采用了一些高级规则：如果舍入后输出的有效数字少于<var>n</var>位数，则会扩展到<var>n</var>位有效数字。即使如此，如果数字太小，很难计算小数点后的零的个数。因此，在这种情况下，输出将转换为具有<var>n</var>位数字的浮点格式。当总位数大于2<var>n</var>时，小数部分将被截断。通过这种方式，输出变得更容易阅读，同时至少提供2<var>n</var>位有效数字。您可以在下面看到几个示例，这些示例是针对（<var>n</var> = 3）获得的。</p>
+<ul style="list-style-type:none;">
+<li>0.000001∙<var>π</var> = 3.14E-06</li>
+<li>0.001∙<var>π</var> = 0.00314</li>
+<li>0.1∙<var>π</var> = 0.314</li>
+<li>1∙<var>π</var> = 3.142</li>
+<li>1000∙<var>π</var> = 3141.59</li>
+<li>1000000∙<var>π</var> = 3141593</li>
+</ul>
+<p>舍入仅影响输出中数字的显示方式。在内部，所有数字都以最大可能的精度存储。这就是为什么，如果您打印输出并尝试使用报告中的数字重复计算，可能会得到一些小的差异。这是因为您使用的是舍入后的值而不是实际值。</p>
+<p>您可以使用<code class="cond">#Round</code> <var>n</var>关键字在工作表中覆盖全局舍入，其中<var>n</var>是小数点后的位数（从"0"到"15"）。</p>
+
+<h3 id="TOC_703">格式化</h3>
+<p>Calcpad不仅计算公式，还可以根据您的源代码生成专业外观的报告。它使用Html格式化输出。它被广泛认可，可以让您在Web上发布您的计算。您可以选择两种不同的方程格式化样式："专业"和"内联"。专业样式使用分数线、大括号、小括号、根号等。分子和分母显示在上下两行。内联样式使用斜线来显示除法，所有符号都排列在一行中。以下格式化规则适用：</p>
+<ul>
+<li>间隔会自动保持。</li>
+<li>变量以<var>斜体</var>格式显示。</li>
+<li>乘法运算符"*"被替换为"∙"。</li>
+<li>指数运算符"^"格式化为上标。</li>
+<li>下划线"_"格式化为下标。</li>
+<li>平方根函数被替换为根号"<span class="root">√</span><span class="ovr">&nbsp;&nbsp;</span>"。</li>
+</ul>
+<p>下表中提供了不同情况下的几个格式化示例：</p>
+<table style="margin-left:24px; max-width: 300px;" border="1">
+	<thead>
+		<tr>
+			<th style="width:50%">Text</th>
+			<th>Html</th>
+		</tr>	
+	</thead>
+	<tbody>
+		<tr>
+			<td><code>x&emsp;+&emsp;3</code></td>
+			<td><var>x</var> + 3</td>
+		</tr>
+		<tr>
+			<td><code>x-3</code></td>
+			<td><var>x</var> – 3</td>
+		</tr>
+		<tr>
+			<td><code>3*x</code></td>
+			<td>3∙<var>x</var></td>
+		</tr>
+		<tr>
+			<td><code>(x + 1)/3</code></td>
+			<td>(<var>x</var> + 1)/3 or <span class="dvc"><var>x</var> + 1<span class="dvl"></span>3</span></td>
+		</tr>
+		<tr>
+			<td><code>x+3 * y</code></td>
+			<td><var>x</var> + 3∙<var>y</var></td>
+		</tr>
+		<tr>
+			<td><code>sqr(x+3)</code></td>
+			<td><span class="root">√</span><span class="ovr"><var>x</var> + 3</span></td>
+		</tr>
+		<tr>
+			<td><code>x_1^3</code></td>
+			<td><var>x</var><sub>1</sub><sup>3</sup></td>
+		</tr>
+		<tr>
+			<td><code>sin(x)</code></td>
+			<td><b>sin</b>(<var>x</var>)</td>
+		</tr>
+	</tbody>
+</table>
+<p>Html格式使报告比相应的纯文本更易于阅读和检查。您还可以在注释中插入其他Html代码，这将影响最终的外观。通过这种方式，您可以使用Calcpad代码构建专业的Web应用程序。为此，您还需要Calcpad的云版本。</p>
+
+<h3 id="TOC_704">缩放</h3>
+<p>您可以在输出窗口中缩放文本大小。按住"<b>Ctrl</b>"键并旋转鼠标滚轮。向前旋转将放大，向后旋转将缩小。</p>
+
+<h3 id="TOC_705">保存输出</h3>
+<p>您可以将输出保存为<b>Html</b>文件。与输入文件不同，它无法使用Calcpad进行修改。另一方面，每个人都可以在没有Calcpad的情况下查看和打印您的计算。Html文件可以在任何计算机上使用Web浏览器或类似Word的办公程序打开。</p>
+<p>您可以通过单击输出框上的<img alt="Save" height="24" src="Images/Save.png">按钮来保存文件。然后选择文件名并单击"<b>保存</b>"。</p>
+
+<h3 id="TOC_706">打印</h3>
+<p>您可以通过单击<img alt="PrintPreview" height="24" src="Images/PrintPreview.png">按钮打印输出。通常，在计算后执行打印。单击按钮时，将显示打印预览对话框：</p>
+<p><img alt="Sample5" height="360" src="Images/Sample5.zh.png"></p>
+<p>它允许您设置打印布局和边距。单击<img alt="Page Setup" height="24" src="Images/PageSetup.png">按钮更改纸张大小和类型。最后，按下<img alt="Print" height="24" src="Images/Print.png">按钮。将出现打印机选择对话框。选择首选打印机，然后单击"<b>打印</b>"。</p>
+<p><img alt="PrintDialog" height="360" src="Images/PrintDialog.png"></p>
+<p>在Calcpad中打印使用Windows和Edge的内置功能。上面的截图在您的计算机上可能会有所不同，具体取决于您使用的版本。或者，您可以在输出窗口中右键单击，然后从上下文菜单中选择"<b>打印预览…</b>"。如果选择"<b>打印</b>"，则将跳过预览并直接进行打印。</p>
+
+<h3 id="TOC_707">复制</h3>
+<p>您可以通过单击输出窗口上的<img alt="Copy" height="24" src="Images/Copy.png">按钮一次复制整个输出。然后，您可以将其粘贴到任何其他程序中。如果目标程序支持Html，例如Word，则将保留格式。否则，内容将作为纯文本粘贴。</p>
+
+<h3 id="TOC_708">导出到Word</h3>
+<p>您可以通过单击<img alt="Word" height="24" src="Images/Word.png">按钮直接在<b>MS Word</b>中打开结果。它必须安装在计算机上，但不需要预先打开。这种方法比复制粘贴更容易，并提供了一些额外的好处。如果输出是使用专业公式格式选项获得的，Calcpad将使用"<b>*.docx</b>"文件格式进行导出。这是最新版本的<b>MS Word</b>的本机格式，将自动打开。如果您有<b>Open Office</b>或<b>Libre office</b>，将使用相应的程序代替。如果您当前没有安装任何文本编辑器，文件将保存到磁盘，但不会打开。您可以稍后转到相应的文件夹并手动打开它。公式将作为<b>MathType</b>对象导出，并可以在Word中进行修改。但是，可能会丢失部分Html格式。支持图像、表格和大多数常见标签。如果选择了行内公式格式，Calcpad将使用<b>Html</b>文件进行导出。它将保留大部分格式，但公式将成为文档文本的一部分。</p>
+
+<h3 id="TOC_709">导出到PDF</h3>
+<p>将报告保存为<b>pdf</b>文件是另一种制作计算的纸质副本的好方法。单击<img alt="PDF" height="24" src="Images/Pdf.png">按钮，然后选择文件的名称和位置。程序将输出保存到指定的文件，并使用默认查看器打开它。pdf始终以A4页面大小生成。</p>
+<p>或者，您可以使用pdf打印机。互联网上有很多免费的pdf打印机。只需下载并安装一个即可。安装完成后，打印过程与任何其他打印机并没有太大区别。上面提供了从Calcpad打印的详细说明。</p>
+
+<h2 id="TOC_800">文件操作</h2>
+<p>在Calcpad中输入的数据可以保存到磁盘并多次重用。支持的文件格式为"<b>*.txt</b>"、"<b>*.cpd</b>"和"<b>*.cpdz</b>"。输入表单必须保存为"<b>*.cpd</b>"和"<b>*.cpdz</b>"文件，文本脚本必须保存为"<b>*.txt</b>"文件。"<b>*.cpd</b>"和"<b>*.cpdz</b>"文件类型都与Calcpad相关联，并且可以通过双击打开。两种格式之间的主要区别在于"<b>*.cpd</b>"是文本文件，可以进行编辑，而"<b>*.cpdz</b>"是二进制文件，只能被执行。其中的源代码受到保护，防止查看、复制和修改。</p>
+
+<h3 id="TOC_801">新建</h3>
+<p>单击<img alt="New" height="24" src="Images/New.png">按钮可以开始一个新文件。这将清除文件名和源代码。如果当前文件未保存，将提示您进行保存。</p>
+<p><img alt="PromptSave" height="160" src="Images/PromptSave.zh.png"></p>
+<p>如果您选择"<b>Yes</b>"，将出现"<b>文件保存</b>"对话框。输入文件名并单击"<b>保存</b>"。这样，您就可以在被清除之前保存您的数据。如果您选择"<b>Cancel</b>"，您将中断命令，一切都将保持不变。</p>
+
+<h3 id="TOC_802">打开</h3>
+<p>您可以使用<img alt="Open" height="24" src="Images/Open.png">按钮打开现有文件。将出现一个文件选择对话框。默认情况下，活动文件扩展名为"*.cpd"。如果您要搜索"*.txt"或"*.cpdz"文件，请在对话框底部选择相应的类型。然后找到所需的文件，按"<b>打开</b>"或双击文件。它将被加载到Calcpad中，并且文件名将显示在标题栏中。</p>
+
+<h3 id="TOC_803">保存</h3>
+<p>您可以点击<img alt="Save" height="24" src="Images/Save.png">按钮来保存当前文件。如果文件尚未保存，将提示您选择路径和名称。否则，它将被重新写入当前位置。</p>
+
+<h3 id="TOC_804">另存为...</h3>
+<p>如果您需要使用不同的名称保存当前文件，请选择"<b>文件/另存为...</b>"菜单命令。将显示一个文件选择对话框。选择文件路径和名称，然后点击"<b>保存</b>"。</p>
+<hr />
+<p>2024.02.05——ChengChu编辑.</p>
+</div>
+<script src="jquery-3.6.3.min.js"></script>
+<script>
+if(window.jQuery){
+
+	function getTargetId(element) {
+		var id = $(element).attr("name");
+		if (id != null && id.length > 0)
+			return id;
+
+		return $(element).data("target");
+	}
+
+	function getValue(id, source) {
+		var value = "";
+		var target = $("#" + id + " input");
+		var domObj = target.get(0);
+		if (domObj == null || domObj.Length == 0) {
+			target = $("#" + id + " .eq u");
+			target.each(function() {
+				value += $(this).text() + ";";
+			});
+			$(source).prop('disabled', true);
+		}
+		else {
+			target.each(function() {
+				value += $(this).val() + ";";
+			});
+		}
+		if (value.length > 1) {
+			value = value.slice(0, -1);
+		}
+		return value;
+	}
+
+	function Toggle(button)
+	{
+		var list = $("#list" + button.attr("id").substring(6));
+		if (list.css("display") == "none")
+		{
+			list.css("display", "list-item");
+			button.html("&minus;");			
+		}
+		else
+		{
+			list.css("display","none");
+			button.html("+");			
+		}
+	}
+	
+	$(document).ready(function(){
+	
+		$("#Units").change(function(){
+			$(".Units").text($(this).val());
+		});
+		
+		$(".exp").click(function(){
+			Toggle($(this));
+		});
+		
+		$(".fold > :first-child").click(function() {
+			if ($(this).parent().hasClass("fold")) {
+				$(this).parent().removeClass("fold").addClass("unfold");
+			} 
+			else {
+				$(this).parent().removeClass("unfold").addClass("fold");
+			}
+		});
+		
+		$("select").each(function(index) {
+			if ($(this).prop("id") != "Units")
+			{
+				var id = getTargetId(this);
+				if (id != null && id.length > 0){
+					var value = getValue(id, this);
+					$(this).val(value);
+				}
+			}
+
+		});
+		
+		$("select").change(function(){
+			var id = getTargetId(this);
+			if (id != null && id.length > 0){
+				var target = $("#" + id + " input");
+				if (target != null){
+					var values = $(this).val().split(";");
+					target.each(function(index) {
+						$(this).val(values[index]);
+					});
+				}
+			}
+		});
+		
+		$("input:radio, input:checkbox").each(function(index) {
+			var id = getTargetId(this);
+			if (id != null && id.length > 0){
+				var value = getValue(id, this);
+				$(this).prop("checked", $(this).val() == value);
+			}
+		});
+		
+		$("input:radio, input:checkbox").change(function(){
+			var id = getTargetId(this);
+			if (id != null && id.length > 0){
+				var target = $("#" + id + " input");
+				if (target != null){
+					if ($(this).prop("checked")){
+						var values = $(this).val().split(";");
+						target.each(function(index) {
+							$(this).val(values[index]);
+						});
+					} 
+					else if($(this).prop("type") == "checkbox"){
+						target.each(function() {
+							$(this).val("0");
+						});
+					}
+				}
+			}
+		});
+		
+		$(".money").each(function(){$(this).text(Number(($(this).text())).toFixed(2));});	
+		
+		$(window).scroll(function() {
+			if ($(".menu").is(":visible")){
+				var scrollTop = $(window).scrollTop();
+				var id;
+				var min = 1e20;
+				$("h2, h3").each(function() {
+					var d =  scrollTop - $(this).offset().top + 50;
+					if (d > 0 && Math.abs(d) < min) {
+						console.log(d);
+						min = d;
+						id = $(this).attr("id");
+					}					
+				});
+				$(".active").removeClass("active");
+				var element = $("a[href$='#" + id + "']")
+				if (!element.is(":visible"))
+				{
+					$(".exp").html("+");
+					$(".menu li ul").css("display", "none");
+					var b = "#button" + id.substring(4, id.length - 2);
+					Toggle($(b));
+				}
+				element.addClass("active");
+			}
+		});
+	}); 
+}
+</script>
+</body>
+</html>

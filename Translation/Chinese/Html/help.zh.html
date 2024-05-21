@@ -235,7 +235,7 @@ sub {font-family: Arial Nova; font-size:70%; padding-left:0.5pt; padding-right:0
 		</li>
 		<li style="list-style-type: none; margin-left: 18pt;"><span class="exp" id="btn39">+</span>条件和逻辑计算:<br />
 			<span id="list39" style="display: none;">
-				<a href="#0" data-text="if("><b>if</b><span class="b">(</span><em>条件</em><span class="o">;</span> <em>value-if-true</em><span class="o">;</span> <em>value-if-false</em><span class="b">)</span></a> -有条件执行;<br /> 
+				<a href="#0" data-text="if("><b>if</b><span class="b">(</span><em>条件</em><span class="o">;</span> <em>条件逻辑值为真时的返回值</em><span class="o">;</span> <em>条件逻辑值为假时的返回值</em><span class="b">)</span></a> -有条件执行;<br /> 
 				<a href="#0" data-text="switch("><b>switch</b><span class="b">(</span><em>条件1</em><span class="o">;</span> <em>值1</em><span class="o">;</span> <em>条件2</em><span class="o">;</span> <em>值2</em><span class="o">;</span> ...<span class="o">;</span> <em>默认值</em><span class="b">)</span></a> - 选择性执行;<br />
 				<a href="#0" data-text="not("><b>not</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 逻辑值 "否";<br /> 
 				<a href="#0" data-text="and("><b>and</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - 逻辑值 "且";<br /> 
@@ -284,36 +284,36 @@ sub {font-family: Arial Nova; font-size:70%; padding-left:0.5pt; padding-right:0
 	<span id="list6" style="display: none;">
 	简单条件型:<br />
 	<a href="#0" data-text="#if 'condition
-'你要执行的代码
+'要执行的代码
 #end if">
 	&emsp;&emsp;<span class="cond">#if</span> <em>条件</em><br />
-	&emsp;&emsp;&emsp;&emsp;<em>你要执行的代码</em><br />
+	&emsp;&emsp;&emsp;&emsp;<em>要执行的代码</em><br />
 	&emsp;&emsp;<span class="cond">#end if</span>
 	</a><br />
 	是否二选一型:<br />
 	<a href="#0" data-text="#if 'condition
-'你要执行的代码
+'要执行的代码
 #else
 '其他代码
 #end if">
 	&emsp;&emsp;<span class="cond">#if</span> <em>条件</em><br />
-	&emsp;&emsp;&emsp;&emsp;<em>你要执行的代码</em><br />
+	&emsp;&emsp;&emsp;&emsp;<em>要执行的代码</em><br />
 	&emsp;&emsp;<span class="cond">#else</span><br />
 	&emsp;&emsp;&emsp;&emsp;<em>其他代码</em><br />
 	&emsp;&emsp;<span class="cond">#end if</span>
 	</a><br />
 	完整型:<br />
 <a href="#0" data-text="#if 'condition1
-'你要执行的代码
+'要执行的代码
 #else if 'condition2
-'你要执行的代码
+'要执行的代码
 #else
 '其他代码
 #end if">
 	&emsp;&emsp;<span class="cond">#if</span> <em>条件1</em><br />
-	&emsp;&emsp;&emsp;&emsp;<em>你要执行的代码</em><br />
+	&emsp;&emsp;&emsp;&emsp;<em>要执行的代码</em><br />
 	&emsp;&emsp;<span class="cond">#else if</span> <em>条件2</em><br />
-	&emsp;&emsp;&emsp;&emsp;<em>你要执行的代码</em><br />
+	&emsp;&emsp;&emsp;&emsp;<em>要执行的代码</em><br />
 	&emsp;&emsp;<span class="cond">#else</span><br />
 	&emsp;&emsp;&emsp;&emsp;<em>其他代码</em><br />
 	&emsp;&emsp;<span class="cond">#end if</span>
@@ -325,15 +325,15 @@ sub {font-family: Arial Nova; font-size:70%; padding-left:0.5pt; padding-right:0
 	<span id="list7" style="display: none;">
 	简单迭代块:<br />
 	<a href="#0" data-text="#repeat '重复次数
-'你要执行的代码
+'要执行的代码
 #loop">
 	&emsp;&emsp;<span class="cond">#repeat</span> <em>重复次数</em><br />
-	&emsp;&emsp;&emsp;&emsp;<em>你要执行的代码</em><br />
+	&emsp;&emsp;&emsp;&emsp;<em>要执行的代码</em><br />
 	&emsp;&emsp;<span class="cond">#loop</span>
 	</a><br />
 	有条件的中断/继续:<br />
 	<a href="#0" data-text="#repeat '重复次数
-'你要执行的代码
+'要执行的代码
 #if 'condition
 #break 
 'or #continue
@@ -341,7 +341,7 @@ sub {font-family: Arial Nova; font-size:70%; padding-left:0.5pt; padding-right:0
 'some more code
 #loop">
 	&emsp;&emsp;<span class="cond">#repeat</span> <em>重复次数</em><br />
-	&emsp;&emsp;&emsp;&emsp;<em>你要执行的代码</em><br />
+	&emsp;&emsp;&emsp;&emsp;<em>要执行的代码</em><br />
 	&emsp;&emsp;&emsp;&emsp;<span class="cond">#if</span> <em>条件</em><br />
 	&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<span class="cond">#break</span> 或 <span class="cond">#continue</span><br />
 	&emsp;&emsp;&emsp;&emsp;<span class="cond">#end if</span><br />
@@ -374,7 +374,7 @@ sub {font-family: Arial Nova; font-size:70%; padding-left:0.5pt; padding-right:0
 	&emsp;&emsp;<span class="cond">#end def</span>
 	</a><br />
 	单行宏:<br />
-	&emsp;&emsp;<a href="#0" data-text="#def macro_name$(param1$; param2$) = content">
+	&emsp;&emsp;<a href="#0" data-text="#def macro_name$(param1$; param2$) = 内容">
 		<span class="cond">#def</span> <em class="macro">macro_name$</em><span class="b">(</span><em class="macro">param1$</em><span class="o">;</span> <em class="macro">param2$</em><span class="o">;</span>...<span class="b">)</span> <span class="o">=</span> <em>content</em>
 	</a><br />
 	多行宏:<br />
@@ -403,7 +403,9 @@ sub {font-family: Arial Nova; font-size:70%; padding-left:0.5pt; padding-right:0
 	<a href="#0" data-text="#nosub"><span class="cond">#nosub</span></a> : 不代入变量(无代入);<br />
 	<a href="#0" data-text="#novar"><span class="cond">#novar</span></a> : 仅显示代入变量值的方程式(无变量);<br />
 	<a href="#0" data-text="#varsub"><span class="cond">#varsub</span></a> : 显示方程式的变量表达式和代入值(默认);<br />
-	<a href="#0" data-text="#round "><span class="cond">#round <em>n</em></span></a> :将结果的数值舍入到小数点后 <em>n</em> 位.<br />
+	<a href="#0" data-text="#split"><span class="cond">#split</span></a>: 分割(从=开始)不适合单行显示的长公式为跨行显示;<br/>
+    <a href="#0" data-text="#wrap"><span class="cond">#wrap</span></a>: 对不适合单行显示的方程式换行显示(默认);<br/>
+    <a href="#0" data-text="#round "><span class="cond">#round <em>n</em></span></a> : 将结果的数值舍入到小数点后 <em>n</em> 位.<br />
 	上述每个命令仅在当前行以后生效,直到报告结束或另一个命令生效为止.
 	</span>
 </li>

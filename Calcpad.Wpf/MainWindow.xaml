@@ -848,7 +848,7 @@
                             <MenuItem Click="Button_Click" Tag="kat" Header="{x:Static wpf:UnitsResources.CatalyticActivity}"/>
                         </MenuItem>
                     </MenuItem>
-                    <MenuItem Header="Imperial/US">
+                    <MenuItem Header="{x:Static wpf:UnitsResources.Imperial_US}">
                         <MenuItem Header="{x:Static wpf:UnitsResources.Mass}">
                             <MenuItem Click="Button_Click" Tag="gr"       Header="gr (grain)"/>
                             <MenuItem Click="Button_Click" Tag="dr"       Header="dr (drachm)"/>

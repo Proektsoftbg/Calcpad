@@ -1,0 +1,918 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<title>Calcpad快速参考</title>
+<style>
+body    {font-size: 12pt; font-family: Calibri; margin-top: 0; padding-top: 0;}
+a       {color: unset; text-decoration: none;}
+a:hover {background-color: #dff2ff;}
+p, li   {line-height: 140%;}
+p, ul, ol {margin-top: 0.5em; margin-bottom: 0.5em;}
+var, i, b, em {font-family: 'Times New Roman';}
+var, b  {font-size: 12.5pt;}
+b   	{color: black;}
+em   	{color: gray;}
+var     {color: #06c; padding-right: 1pt;}
+i       {color: #086; font-size: 11.5pt; font-style: normal;}
+img     {vertical-align: top; height: 16pt;}
+.cond   {color: magenta;}
+.macro  {color: darkMagenta;}
+.o      {color: goldenrod;}
+.b      {color: deeppink; padding: 0 1pt 0 1pt;}
+.exp    {
+			display: inline-block;
+			line-height: 100%;
+			font-size: 12pt;
+			font-weight: bold;
+			border: solid 1px #cccccc; 
+			padding: 0 3pt 1pt 3pt; 
+			margin-left: -16pt; 		
+			margin-right: 4pt; 		
+			border-radius: 3pt;
+		}
+.exp:hover {
+	cursor: pointer;
+	box-shadow: #cccccc 0 0 3pt;
+}
+
+sub {font-family: Arial Nova; font-size:70%; padding-left:0.5pt; padding-right:0.5pt;}
+</style>
+</head>
+<body>
+<p><strong style="font-size:13pt;">如何运行?</strong></p>
+<ol>
+<li>在左侧的"<strong>Code（代码）</strong>"窗口中输入<strong>输入</strong> 文本和表达式.</li>
+<li>按 <strong>F5</strong> 或单击 <img alt="Play" style="height:16pt;" src=" data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAt1BMVEVHcEz/yAv/yAv/yAv/yRj/yQv/yAv/wwv/yAv/yAv/yAv/yAv/0Qv/yQv/ygv/yA3/yAv/vQv/yAv/xQv/yAv/yAv/yQv/yQz/yAv/yQ3/yAv/yQz/yAv/yQz/yAv/yQ3/yQ3/yAv/yQ3/yQ3/yAv/yAv///////3//vn/yQ7/+eL/3F7/yhL/zBn/9dH/zyj/6qH/1Dv/55P/8Lj/7q3//PD/1kb/4HX/ziH/5o3/0TH/9Mn/10u+KKJTAAAAJXRSTlMA2VbgCrbdBv3vzosO4xFNsQQdF+pIvIL5b0PWy5RddHJTo5pBdeAVQgAAAX5JREFUSMfFlutygjAQhQGEAKKgonijrW03Yi9Wq733/Z+rLWBLyCahgzOen4FvNifZ7K6mnUhdIxmZ7rfMUbLoqv8nhuVASY5lECnQuugAp86kJSYCE1DZgQDwQxDqEg008EAib8ATfR2k0vsc0QGF7Eoc4oFSc/a0r6CGkjIxhFqalm7QrIeYf0d9Xl6/2z8ImclvkIhBaPp4L0CiQ5gzYBFKb24FjFEgIw6hdP2MIlbxPhwEoXSDWRr7GbJgV1cFglvKc7otQFBL7QyxhAhvycnN6BKELjevbEJniFuJTVmlb2VLUYaM5QhraVwPWX9WEcXG2GOLMPuwVNu3JMjuvfIxxK4SUvVVBgLk6WXFJ8wQS8sDspekZdVMhnxs0eQP0Sf2g6B7Kj8xwpa9lE0Rpl4QtFzAbqsuFxqZ1StKM9Kk9PHXiardtIxrXaUdz2/eklSNbz7AmmUvdkSAE/cEPXkq2Jx+/e9RgRx3IMlHhiAObRfAtcN46J9q+PoCy+3uzfsd8iwAAAAASUVORK5CYII="> <strong>计算</strong>. 计算结果将以专业排版的Html <strong>报告</strong>显示在右侧的"<strong>Output（输出）</strong>" 窗口中.</li>
+<li>单击 <img alt="PrintPreview" style="height:16pt;" src=" data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAKlBMVEVHcExmZmZmZmZmZmZmZmZnZ2dmZmZmZmb////MzMxmZmZxcXGwsLB+fn7gdc34AAAACHRSTlMA5YUFh8LFwzanracAAACRSURBVEjH7ZbRDsAQDEVnsCn+/3e3CGYSsMAenFc5SdvoZdtGAwlaKmeEpSzlARMEhaAda4VABbtWEEheiARkWuDFmKZ6KVIIWakIANFf+VDYmIm1U1J3q6US35f5igq7UD2UosLcIucVu8heXISFKae848ILpfuU+QoNFBtKMwL2CIdMswqrV/75voz4w/TjApkOPCUKGaemAAAAAElFTkSuQmCC"> <strong>打印</strong> ,或 <img alt="Copy" style="height:18pt;" src=" data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAYUExURUdwTGpqamlpaWlpaf///2lpacPDw4ODg+TnpFYAAAAEdFJOUwAZ2c/7RV8SAAAAuklEQVQ4y8WT0Q2DMAxEMwIrsIsF/1RRFqg8Qbp/U8d2SExoEKp6v0/PdyBw7k485zH1iJ8NgRwrKXnNPbJurSQEjAQLIj4TEUkmBQAmIunaKNdE0uaghKWyNirJUln7aaIelnxZG2FJhLJlImupifdUBLiJeHWNpSNCUjqAlqyhIdKza6qIvD3bk3NApI1qvhOU5IUwQqprpwtwgJSa3gK4seDP76BLXPu96ZOeEPt/lvs/InWGyPW8AfZFEmse5iDyAAAAAElFTkSuQmCC"> <strong>复制</strong> 输出内容.<br />也可以将其 <strong>导出</strong> 到 <strong>Html</strong> <img alt="Html" style="height:16pt;" src=" data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAMFBMVEVHcEzv7++pv/9mZmb///91dXV/f3+cse6Ii5Kvr69ubm5qb36YqtuMpeyjuf/R2Oy2YhawAAAAAnRSTlMAIqPzjNwAAAC0SURBVEjH7dbdDsIgDAXgyQEHsJ/3f1vjUAFCoajbxbKTcPklQAvpMBwVo9DKPRNgJDUKk3gGkOUAo0oNIFpEZIYmGoDeSGZoAgDwJDU1Ij8kMUyymVsfiQybhL3xiRiBXiL2IeglUfW5JPTY/4gjH4ujyEwZN1OEkxOTRVvqlq1eikTX/jFdJBYrUX65wvY1TNQzF7nIt8SvOvHrF7L/WZqjQiATFH8gecewx55XlDlsFnsA1AEZ9J9wjU8AAAAASUVORK5CYII=">, <strong>PDF</strong> <img alt="PDF" style="height:16pt;" src=" data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAhUExURUdwTKcgJcTDxP///2lpaaggQ/bg/ISEhN5tHfTNmuubYXiOrSMAAAABdFJOUwBA5thmAAAAzUlEQVQ4y63SwQ2DIBQGYA9dgAML6AT6mhR7MtGEAZqwAAt46AKMwAjdtBBo+h5IW7TvwMEv/w+iTbNvTst71qJIKjO85kxDWKQsyXxfqbRhnFxkSQCHSBvgEBUcom04lAgKJW0oRO6A3B5uCzLlEpNT3lYjLZ7uN9mzT62wrTkiCqD3y8i4BrBU4OEXm4ng2irBup5rQ9vcQy+3ay4ho8ZM3BbGi8u4Y1CxLLYlIuJmWycIlbYk/k3N4XsryMdvOhT/neGff9WSznepnScEc5ex7N8D+QAAAABJRU5ErkJggg=="> 或 <strong>MS Word</strong> <img alt="Word" style="height:16pt;" src=" data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAeUExURUdwTGlpaf///z1eksPDxOzt8YSEhKOrwNDU3Wt+o6siHTAAAAABdFJOUwBA5thmAAAA5klEQVQ4y9WSsQ6CMBRF8Q+ExO4+rIXVhgArOjjXxFl/AQedMfwAi/FvfZAY2j4aImHxsvXkXt67redN1cLvdXESZpIAvlqbJp0w5iKr68VBgjNzEa6bDAJb5iK6ySS6ySKaySLQj2d0YLRHyRJPZa9dz+cgm0OnYpSoUCZwkk1E0iohGwhlKQjBoxKErGKShjGVEm2oTRIuVR1JeJK0DN7wgBz2hKRwhxd+N5KWwpHn6BrYFPAvquYD7SicrFLRACkg7jaiaWXbDVJKGlylbY6mJThwhnSW+5nwDqz39k/EtzVOftMHw0aVK6IaLeUAAAAASUVORK5CYII="> 文档.</li>
+</ol>
+<p><strong style="font-size:13pt;">程序语言</strong></p>
+<p>Calcpad程序语言包含以下元素(单击项目即可插入):</p>
+<ul>
+<li>实数: 数字 <b>0</b> - <b>9</b> 及小数点 "<b>.</b>";</li>
+<li>复数: <b>re</b> &plusmn; <b>im</b><var>i</var> (例如： <b>3</b> - <b>2</b><var>i</var>);</li>
+<li style="list-style-type: none;"><span class="exp" id="btn1">+</span>变量:<br />
+	<span id="list1" style="display: none;">
+	- 拉丁字母: <var>a</var> - <var>z</var>, <var>A</var> - <var>Z</var>;<br />
+	- 希腊字母: <var>&alpha;</var> - <var>&omega;</var>, <var>&Alpha;</var> - <var>&Omega;</var>;<br />
+	- 数字: <b>0</b> - <b>9</b>;<br />
+	- 逗号: "<a href="#0" data-text=","> <b>,</b> </a>";<br />
+	- prime符号: 
+		<a href="#0" data-text="′"> <b>′</b> </a>, 
+		<a href="#0" data-text="″"> <b>″</b> </a>, 
+		<a href="#0" data-text="‴"> <b>‴</b> </a>, 
+		<a href="#0" data-text="⁗"> <b>⁗</b> </a>;<br />
+	- 上标:
+		<a href="#0" data-text="⁰"> <b>⁰</b> </a>, 
+		<a href="#0" data-text="¹"> <b>¹</b> </a>, 
+		<a href="#0" data-text="²"> <b>²</b> </a>, 
+		<a href="#0" data-text="³"> <b>³</b> </a>,
+		<a href="#0" data-text="⁴"> <b>⁴</b> </a>,
+		<a href="#0" data-text="⁵"> <b>⁵</b> </a>,
+		<a href="#0" data-text="⁶"> <b>⁶</b> </a>,
+		<a href="#0" data-text="⁷"> <b>⁷</b> </a>,
+		<a href="#0" data-text="⁸"> <b>⁸</b> </a>,
+		<a href="#0" data-text="⁹"> <b>⁹</b> </a>,
+		<a href="#0" data-text="ⁿ"> <b>ⁿ</b> </a>,
+		<a href="#0" data-text="⁺"> <b>⁺</b> </a>,
+		<a href="#0" data-text="⁻"> <b>⁻</b> </a>;<br />
+	- 特殊符号: 
+		<a href="#0" data-text="‾"> <b>‾</b> </a>, 
+		<a href="#0" data-text="ø"> <b>ø</b> </a>, 
+		<a href="#0" data-text="Ø"> <b>Ø</b> </a>, 
+		<a href="#0" data-text="°"> <b>°</b> </a>, 
+		<a href="#0" data-text="∡"> <b>&measuredangle;</b> </a>;<br />
+	-下标"<a href="#0" data-text="_"> <b>_</b> </a>" ;<br />
+	变量必须以字母或 &measuredangle;开始,并对大小写敏感.
+	</span>
+</li>
+<li>
+常量:
+<a href="#0" data-text="π"                                   title="Pi"><var>π</var></a>, 
+<a href="#0" data-text="e"                                   title="欧拉数(自然底数)e"><var>e</var></a>, 
+<a href="#0" data-text="φ = 1.618033988749894"               title="黄金分割率"><var>φ</var></a>, 
+<a href="#0" data-text="γ = 0.5772156649015328"              title="欧拉常量"><var>γ</var></a>, 
+<a href="#0" data-text="g = 9.80665m/s^2"                    title="地球重力加速度"><var>g</var></a>, 
+<a href="#0" data-text="G = 6.67430*10^-11*(m^3/(kg*s^2))"   title="引力常量"><var>G</var></a>, 
+<a href="#0" data-text="M_E = 5.9722*10^24*kg"               title="地球质量"><var>M</var><sub>E</sub></a>, 
+<a href="#0" data-text="M_S = 1.98847*10^30*kg"              title="太阳质量"><var>M</var><sub>S</sub></a>, 
+<a href="#0" data-text="c = 299792458m/s"                    title="真空光速"><var>c</var></a>, 
+<a href="#0" data-text="h = 6.62607015*10^-34*J/Hz"          title="普朗克常量"><var>h</var></a>, 
+<a href="#0" data-text="μ_0 = 1.25663706212*10^-6*N/A^2"     title="Vacuum magnetic permeability"><var>μ</var><sub>0</sub></a>, 
+<a href="#0" data-text="ε_0 = 8.8541878128*10^-12*F/m"       title="Vacuum electric permittivity"><var>ε</var><sub>0</sub></a>, 
+<a href="#0" data-text="k_e = 8.9875517923*10^9*N*m^2/C^2"   title="库伦常量"><var>k</var><sub>e</sub></a>, 
+<a href="#0" data-text="e = 1.602176634*10^-19*C"            title="Elementary charge"><var>e</var></a>, 
+<a href="#0" data-text="m_e = 9.1093837015*10^-31*kg"        title="电子质量"><var>m</var><sub>e</sub></a>, 
+<a href="#0" data-text="m_p = 1.67262192369*10^-27*kg"       title="Proton 质量"><var>m</var><sub>p</sub></a>, 
+<a href="#0" data-text="m_n = 1.67492749804*10^-27*kg"       title="中子质量"><var>m</var><sub>n</sub></a>, 
+<a href="#0" data-text="N_A = 6.02214076*10^23*mol^-1"       title="Avogadro constant"><var>N</var><sub>A</sub></a>, 
+<a href="#0" data-text="σ = 5.670374419*10^-8*(W/(m^2*K^4))" title="Stefan–Boltzmann常量"><var>σ</var></a>, 
+<a href="#0" data-text="k_B = 1.380649*10^-23*J/K"           title="Boltzmann常量"><var>k</var><sub>B</sub></a>, 
+<a href="#0" data-text="R = 8.31446261815324*(J/(mol*K))"    title="Molar gas constant"><var>R</var></a>, 
+<a href="#0" data-text="F = 96485.33212331C/mol"             title="法拉第常量"><var>F</var></a>, 
+<a href="#0" data-text="γ_c = 25kN/m^3"                      title="混凝土容重"><var>γ</var><sub>c</sub></a>, 
+<a href="#0" data-text="γ_s = 78.5kN/m^3"                    title="铁容重Unit weight of steel"><var>γ</var><sub>s</sub></a>, 
+<a href="#0" data-text="γ_a = 27kN/m^3"                      title="铝容重"><var>γ</var><sub>a</sub></a>, 
+<a href="#0" data-text="γ_g = 25kN/m^3"                      title="玻璃容重"><var>γ</var><sub>g</sub></a>, 
+<a href="#0" data-text="γ_w = 10kN/m^3"                      title="水的比重"><var>γ</var><sub>w</sub></a>
+</li>
+<li style="list-style-type: none;"><span class="exp" id="btn2">+</span>运算符:<br />
+	<span id="list2" style="display: none;">
+	"<a href="#0" data-text="!"><b class="o">!</b></a>" - 级数;<br />
+	"<a href="#0" data-text="^"><b class="o">^</b></a>" - 指数;<br />
+	"<a href="#0" data-text="/"><b class="o">/</b></a>" - 除以;<br />
+	"<a href="#0" data-text="÷"><b class="o">÷</b></a>" - 强制除法;<br />
+	"<a href="#0" data-text="\"><b class="o">\</b></a>" - 除;<br />
+	"<a href="#0" data-text="⦼"><b class="o" style="font-size:80%;" >⦼</b></a>" - 求模(余);<br />
+	"<a href="#0" data-text="*"><b class="o">*</b></a>" - 乘;<br />
+	"<a href="#0" data-text="-"><b class="o">-</b></a>" - 减;<br />
+	"<a href="#0" data-text="+"><b class="o">+</b></a>" - 加;<br />
+	"<a href="#0" data-text="≡"><b class="o">≡</b></a>" - 等于;<br />
+	"<a href="#0" data-text="≠"><b class="o">≠</b></a>" - 不等于;<br />
+	"<a href="#0" data-text="<"><b class="o">&lt;</b></a>" - 小于;<br />
+	"<a href="#0" data-text=">"><b class="o">&gt;</b></a>" - 大于;<br />
+	"<a href="#0" data-text="&le;"><b class="o">&le;</b></a>" - 小于等于;<br />
+	"<a href="#0" data-text="&ge;"><b class="o">&ge;</b></a>" - 大于等于;<br />
+	"<a href="#0" data-text="∧"><b class="o">∧</b></a>" - 逻辑值 "且";<br />
+	"<a href="#0" data-text="∨"><b class="o">∨</b></a>" - 逻辑值 "或";<br />
+	"<a href="#0" data-text="∨"><b class="o" style="font-size:80%;" >⊕</b></a>" - 逻辑值 "异或";<br />
+	"<a href="#0" data-text="="><b class="o">=</b></a>" - 赋值于;
+	</span>
+</li>
+<li>自定义多变量函数 <b>f</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var><span class="o">;</span> ...<span class="b">)</span>;</li>
+<li style="list-style-type: none;"><span class="exp" id="btn3">+</span>程序内置函数:
+	<ul id="list3" style="display: none;">
+		<li style="list-style-type: none; margin-left: 18pt;"><span class="exp" id="btn30">+</span>三角函数:<br />
+			<span id="list30" style="display: none;">
+				<a href="#0" data-text="sin("><b>sin</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 正弦;<br />
+				<a href="#0" data-text="cos("><b>cos</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 余弦;<br />
+				<a href="#0" data-text="tan("><b>tan</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 正切;<br />
+				<a href="#0" data-text="csc("><b>csc</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 余隔;<br />
+				<a href="#0" data-text="sec("><b>sec</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 正割;<br />
+				<a href="#0" data-text="cot("><b>cot</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 余切;<br />
+			</span>
+		</li>
+		<li style="list-style-type: none; margin-left: 18pt;"><span class="exp" id="btn31">+</span>双曲函数:<br />
+			<span id="list31" style="display: none;">
+				<a href="#0" data-text="sinh("><b>sinh</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 双曲正弦;<br />
+				<a href="#0" data-text="cosh("><b>cosh</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 双曲余弦;<br />
+				<a href="#0" data-text="tanh("><b>tanh</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 双曲正切;<br />
+				<a href="#0" data-text="csch("><b>csch</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 双曲余切;<br />
+				<a href="#0" data-text="sech("><b>sech</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 双曲正割;<br />
+				<a href="#0" data-text="coth("><b>coth</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 双曲余割;<br />
+			</span>
+		</li>
+		<li style="list-style-type: none; margin-left: 18pt;"><span class="exp" id="btn32">+</span>反三角函数:<br />
+			<span id="list32" style="display: none;">
+				<a href="#0" data-text="asin("><b>asin</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 反正弦;<br />
+				<a href="#0" data-text="acos("><b>acos</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 反余弦;<br />
+				<a href="#0" data-text="atan("><b>atan</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 反正切;<br />
+				<a href="#0" data-text="atan2("><b>atan2</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="b">)</span></a> - 正切值为y/x的角度;<br />
+				<a href="#0" data-text="acsc("><b>acsc</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 反余割;<br />
+				<a href="#0" data-text="asec("><b>asec</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 反正割;<br />
+				<a href="#0" data-text="acot("><b>acot</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 反余切;<br />
+			</span>
+		</li>
+		<li style="list-style-type: none; margin-left: 18pt;"><span class="exp" id="btn33">+</span>反双曲三角函数:<br />
+			<span id="list33" style="display: none;">
+				<a href="#0" data-text="asinh("><b>asinh</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 反双曲正弦;<br />
+				<a href="#0" data-text="acosh("><b>acosh</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 反双曲余弦;<br />
+				<a href="#0" data-text="atanh("><b>atanh</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 反双曲正切;<br />
+				<a href="#0" data-text="acsch("><b>acsch</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 反双曲余割;<br />
+				<a href="#0" data-text="asech("><b>asech</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 反双曲正割;<br />
+				<a href="#0" data-text="acoth("><b>acoth</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 反双曲余切;<br /> 
+			</span>
+		</li>
+		<li style="list-style-type: none; margin-left: 18pt;"><span class="exp" id="btn34">+</span>指数, 对数和根:<br />
+			<span id="list34" style="display: none;">
+				<a href="#0" data-text="log("><b>log</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 十进制对数;<br /> 
+				<a href="#0" data-text="ln("><b>ln</b><span class="b">(</span><var>x</var><span class="b">)</span></a>  - 自然指数;<br />
+				<a href="#0" data-text="log_2("><b>log_2</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 底数为2的指数;<br />
+				<a href="#0" data-text="exp("><b>exp</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 自然对数 = <var>e</var>&hairsp;ˣ&hairsp;;<br /> 	
+				<a href="#0" data-text="sqr("><b>sqr</b><span class="b">(</span><var>x</var><span class="b">)</span></a> or <b>sqrt</b><span class="b">(</span><var>x</var><span class="b">)</span> - 平方根;<br /> 
+				<a href="#0" data-text="cbrt("><b>cbrt</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 立方根;<br /> 
+				<a href="#0" data-text="root("><b>root</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>n</var><span class="b">)</span></a> -第n个根;<br /> 
+			</span>
+		</li>
+		<li style="list-style-type: none; margin-left: 18pt;"><span class="exp" id="btn35">+</span>舍入:<br />
+			<span id="list35" style="display: none;">
+				<a href="#0" data-text="round("><b>round</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 舍入到最近的整数;<br />
+				<a href="#0" data-text="floor("><b>floor</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 舍入到稍小的整数(向 -∞方向);<br /> 
+				<a href="#0" data-text="ceiling("><b>ceiling</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 舍入到稍大的整数(向 +∞方向);<br /> 
+				<a href="#0" data-text="trunc("><b>trunc</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 舍入(向原点方向)到整数;<br /> 
+			</span>
+		</li>
+		<li style="list-style-type: none; margin-left: 18pt;"><span class="exp" id="btn36">+</span>整数:<br />
+			<span id="list36" style="display: none;">
+				<a href="#0" data-text="mod("><b>mod</b><span class="b">(</span><var>x</var>; <var>y</var><span class="b">)</span></a> - 整除的余数;<br />
+				<a href="#0" data-text="gcd("><b>gcd</b><span class="b">(</span><var>x</var>; <var>y</var><span class="b">)</span></a> - 两整数的最大公约数;<br />
+				<a href="#0" data-text="lcm("><b>lcm</b><span class="b">(</span><var>x</var>; <var>y</var><span class="b">)</span></a> - 两整数的最小公倍数;<br />
+			</span>
+		</li>
+		<li style="list-style-type: none; margin-left: 18pt;"><span class="exp" id="btn37">+</span>复数:<br />
+			<span id="list37" style="display: none;">
+				<a href="#0" data-text="abs("><b>abs</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 绝对值/幅值;<br />
+				<a href="#0" data-text="re("><b>re</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 复数的实部;<br /> 
+				<a href="#0" data-text="im("><b>im</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 复数的虚部;<br /> 
+				<a href="#0" data-text="phase("><b>phase</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 复数的相位;<br />
+			</span>
+		</li>
+		<li style="list-style-type: none; margin-left: 18pt;"><span class="exp" id="btn38">+</span>求和与积分:<br />
+			<span id="list38" style="display: none;">
+				<a href="#0" data-text="min("><b>min</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - 最小值;<br /> 
+				<a href="#0" data-text="max("><b>max</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - 最大值;<br />
+				<a href="#0" data-text="sum("><b>sum</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - 求和 = <var>x</var> <span class="o">+</span> <var>y</var> <span class="o">+</span> <var>z</var>...;<br />
+				<a href="#0" data-text="sumsq("><b>sumsq</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - 平方和 = <var>x</var>² <span class="o">+</span> <var>y</var>² <span class="o">+</span> <var>z</var>²...;<br />
+				<a href="#0" data-text="srss("><b>srss</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - 平方和的平方根 = <b>sqrt</b><span class="b">(</span><var>x</var>² <span class="o">+</span> <var>y</var>² <span class="o">+</span> <var>z</var>²...<span class="b">)</span>;<br />
+				<a href="#0" data-text="average("><b>average</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - 平均值 = <span class="b">(</span><var>x</var> <span class="o">+</span> <var>y</var> <span class="o">+</span> <var>z</var>...<span class="b">)</span><span class="o">/</span><var>n</var>;<br />
+				<a href="#0" data-text="product("><b>product</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - 连积 = <var>x</var><span class="o">·</span><var>y</var><span class="o">·</span><var>z</var>...;<br />
+				<a href="#0" data-text="mean("><b>mean</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - 几何平均(n个变量值连乘积的n次方根) = <b>root</b><span class="b">(</span><var>x</var><span class="o">·</span><var>y</var><span class="o">·</span><var>z</var>...;n<span class="b">)</span>;<br />
+				<a href="#0" data-text="take("><b>take</b><span class="b">(</span><var>n</var><span class="o">;</span> <var>a</var><span class="o">;</span> <var>b</var><span class="o">;</span> <var>c</var>...<span class="b">)</span></a> - 返回列表的第n个元素;<br /> 
+				<a href="#0" data-text="line("><b>line</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>a</var><span class="o">;</span> <var>b</var><span class="o">;</span> <var>c</var>...<span class="b">)</span></a> - 线性内插;<br /> 
+				<a href="#0" data-text="spline("><b>spline</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>a</var><span class="o">;</span> <var>b</var><span class="o">;</span> <var>c</var>...<span class="b">)</span></a> - Hermite多线性内插;
+			</span>
+		</li>
+		<li style="list-style-type: none; margin-left: 18pt;"><span class="exp" id="btn39">+</span>条件和逻辑计算:<br />
+			<span id="list39" style="display: none;">
+				<a href="#0" data-text="if("><b>if</b><span class="b">(</span><em>条件</em><span class="o">;</span> <em>条件逻辑值为真时的返回值</em><span class="o">;</span> <em>条件逻辑值为假时的返回值</em><span class="b">)</span></a> -有条件执行;<br /> 
+				<a href="#0" data-text="switch("><b>switch</b><span class="b">(</span><em>条件1</em><span class="o">;</span> <em>值1</em><span class="o">;</span> <em>条件2</em><span class="o">;</span> <em>值2</em><span class="o">;</span> ...<span class="o">;</span> <em>默认值</em><span class="b">)</span></a> - 选择性执行;<br />
+				<a href="#0" data-text="not("><b>not</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 逻辑值 "否";<br /> 
+				<a href="#0" data-text="and("><b>and</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - 逻辑值 "且";<br /> 
+				<a href="#0" data-text="or("><b>or</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - 逻辑值 "或";<br /> 
+				<a href="#0" data-text="xor("><b>xor</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - 逻辑值 "异或";<br /> 
+			</span>
+		</li>
+		<li style="list-style-type: none; margin-left: 18pt;"><span class="exp" id="btn310">+</span>其他函数:<br />
+			<span id="list310" style="display: none;">
+				<a href="#0" data-text="sign("><b>sign</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 数的符号;<br />
+				<a href="#0" data-text="random("><b>random</b><span class="b">(</span><var>x</var><span class="b">)</span></a> -  0 和 <var>x</var>之间的随机数.<br />
+			</span>
+		</li>
+	</ul>
+</li>
+<li>备注: <a href="#0" data-text="&quot;Title&quot;"><b>"标题"</b></a> 或 <a href="#0" data-text="'text'"><b>'文本'</b></a> 分别放在双引号和单引号中.备注支持 <strong>HTML</strong>, <strong>CSS</strong>, <strong>JS</strong> 和 <strong>SVG</strong> .</li>
+<li style="list-style-type: none;"><span class="exp" id="btn4">+</span>图像和绘图:<br />
+	<span id="list4" style="display: none;">
+	<a href="#0" data-text="$Plot{f(x) @ x = a : b}"><span class="cond">$Plot</span><span class="b">{</span><b>f</b><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - 简单绘图;<br />
+	<a href="#0" data-text="$Plot{x(t) | y(t) @ t = a : b}"><span class="cond">$Plot</span><span class="b">{</span><b>x</b><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">|</span> <b>y</b><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">&#64;</span> <var>t</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - 参数绘图;<br />
+	<a href="#0" data-text="$Plot{f_1(x) & f_2(x) @ x = a : b}"><span class="cond">$Plot</span><span class="b">{</span><b>f</b><sub>1</sub><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">&amp;</span> <b>f</b><sub>2</sub><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">&amp;</span> ... <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - 多函数绘图;<br />
+	<a href="#0" data-text="$Plot{x_1(x) | y_1(t) & x_2(x) | y_2(t) @ t = a : b}"><span class="cond">$Plot</span><span class="b">{</span><b>x</b><sub>1</sub><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">|</span> <b>y</b><sub>1</sub><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">&amp;</span> <b>x</b><sub>2</sub><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">|</span> <b>y</b><sub>2</sub><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">&amp;</span> ... <span class="o">&#64;</span> <var>t</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - 多参数绘图;<br />
+	<a href="#0" data-text="$Map{f(x; y) @ x = a : b & y = c : d}"><span class="cond">$Map</span><span class="b">{</span><b>f</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="b">)</span> <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var> <span class="o">&amp;</span> <var>y</var> <span class="o">=</span> <var>c</var> <span class="o">:</span> <var>d</var><span class="b">}</span></a> - 3D曲面映射到2D彩图;<br />
+	<a href="#0" data-text="PlotHeight ="><var>PlotHeight</var></a> - 绘图区高度的像素数;<br />
+	<a href="#0" data-text="PlotWidth ="><var>PlotWidth</var></a> - 绘图区宽度的像素数;<br />
+	<a href="#0" data-text="PlotWidth ="><var>PlotStep</var></a> - 绘图的网格尺寸.		
+	</span>
+</li>
+<li style="list-style-type: none;"><span class="exp" id="btn5">+</span>迭代和数值方法:<br />
+	<span id="list5" style="display: none;">
+	<a href="#0" data-text="$Root{f(x) = const @ x = a : b}"><span class="cond">$Root</span><span class="b">{</span><b>f</b><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">=</span> <em>常量</em> <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> :求解<b>f</b><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">=</span> <em>常量</em>的根;<br />
+	<a href="#0" data-text="$Root{f(x) @ x = a : b}"><span class="cond">$Root</span><span class="b">{</span><b>f</b><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> :求解 <b>f</b><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">=</span> 0的根;<br />
+	<a href="#0" data-text="$Find{f(x) @ x = a : b}"><span class="cond">$Find</span><span class="b">{</span><b>f</b><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> :与上面相似, 但不要求<var>x</var>是精确解;<br />
+	<a href="#0" data-text="$Sup{f(x) @ x = a : b}"><span class="cond">$Sup</span><span class="b">{</span><b>f</b><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - 函数局部最大值;<br />
+	<a href="#0" data-text="$Inf{f(x) @ x = a : b}"><span class="cond">$Inf</span><span class="b">{</span><b>f</b><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - 函数局部最小值;<br />
+	<a href="#0" data-text="$Area{f(x) @ x = a : b}"><span class="cond">$Area</span><span class="b">{</span><b>f</b><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - 自适应Gauss-Lobatto数值积分;<br />
+	<a href="#0" data-text="$Integral{f(x) @ x = a : b}"><span class="cond">$Integral</span><span class="b">{</span><b>f</b><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - Tanh-Sinh(双曲:正切-正弦数值积分);<br />
+	<a href="#0" data-text="$Slope{f(x) @ x = a}"><span class="cond">$Slope</span><span class="b">{</span><b>f</b><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var><span class="b">}</span></a> - 数值微分;<br />
+	<a href="#0" data-text="$Sum{f(k) @ k = a : b}"><span class="cond">$Sum</span><span class="b">{</span><b>f</b><span class="b">(</span><var>k</var><span class="b">)</span> <span class="o">&#64;</span> <var>k</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - 迭代求和;<br />
+	<a href="#0" data-text="$Product{f(k) @ k = a : b}"><span class="cond">$Product</span><span class="b">{</span><b>f</b><span class="b">(</span><var>k</var><span class="b">)</span> <span class="o">&#64;</span> <var>k</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - 迭代求积;<br />
+	<a href="#0" data-text="$Repeat{f(k) @ k = a : b}"><span class="cond">$Repeat</span><span class="b">{</span><b>f</b><span class="b">(</span><var>k</var><span class="b">)</span> <span class="o">&#64;</span> <var>k</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - 一般单行迭代程序;<br />
+	<a href="#0" data-text="Precision ="><var>Precision</var></a> - 数值方法的相对精度[10<sup>-2</sup>; 10<sup>-16</sup>] (默认为10<sup>-12</sup>)
+	</span>
+</li>
+<li style="list-style-type: none;"><span class="exp" id="btn6">+</span>程序流控制:<br />
+	<span id="list6" style="display: none;">
+	简单条件型:<br />
+	<a href="#0" data-text="#if 'condition
+'要执行的代码
+#end if">
+	&emsp;&emsp;<span class="cond">#if</span> <em>条件</em><br />
+	&emsp;&emsp;&emsp;&emsp;<em>要执行的代码</em><br />
+	&emsp;&emsp;<span class="cond">#end if</span>
+	</a><br />
+	是否二选一型:<br />
+	<a href="#0" data-text="#if 'condition
+'要执行的代码
+#else
+'其他代码
+#end if">
+	&emsp;&emsp;<span class="cond">#if</span> <em>条件</em><br />
+	&emsp;&emsp;&emsp;&emsp;<em>要执行的代码</em><br />
+	&emsp;&emsp;<span class="cond">#else</span><br />
+	&emsp;&emsp;&emsp;&emsp;<em>其他代码</em><br />
+	&emsp;&emsp;<span class="cond">#end if</span>
+	</a><br />
+	完整型:<br />
+<a href="#0" data-text="#if 'condition1
+'要执行的代码
+#else if 'condition2
+'要执行的代码
+#else
+'其他代码
+#end if">
+	&emsp;&emsp;<span class="cond">#if</span> <em>条件1</em><br />
+	&emsp;&emsp;&emsp;&emsp;<em>要执行的代码</em><br />
+	&emsp;&emsp;<span class="cond">#else if</span> <em>条件2</em><br />
+	&emsp;&emsp;&emsp;&emsp;<em>要执行的代码</em><br />
+	&emsp;&emsp;<span class="cond">#else</span><br />
+	&emsp;&emsp;&emsp;&emsp;<em>其他代码</em><br />
+	&emsp;&emsp;<span class="cond">#end if</span>
+	</a><br />
+	用户可以按需增加多个"<span class="cond">#else if</span>"但最后只有一个 "<span class="cond">#else</span>".
+	</span>
+</li>
+<li style="list-style-type: none;"><span class="exp" id="btn7">+</span>迭代块:<br />
+	<span id="list7" style="display: none;">
+	简单迭代块:<br />
+	<a href="#0" data-text="#repeat '重复次数
+'要执行的代码
+#loop">
+	&emsp;&emsp;<span class="cond">#repeat</span> <em>重复次数</em><br />
+	&emsp;&emsp;&emsp;&emsp;<em>要执行的代码</em><br />
+	&emsp;&emsp;<span class="cond">#loop</span>
+	</a><br />
+	有条件的中断/继续:<br />
+	<a href="#0" data-text="#repeat '重复次数
+'要执行的代码
+#if 'condition
+#break 
+'or #continue
+#end if
+'some more code
+#loop">
+	&emsp;&emsp;<span class="cond">#repeat</span> <em>重复次数</em><br />
+	&emsp;&emsp;&emsp;&emsp;<em>要执行的代码</em><br />
+	&emsp;&emsp;&emsp;&emsp;<span class="cond">#if</span> <em>条件</em><br />
+	&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<span class="cond">#break</span> 或 <span class="cond">#continue</span><br />
+	&emsp;&emsp;&emsp;&emsp;<span class="cond">#end if</span><br />
+	&emsp;&emsp;&emsp;&emsp;<em>其他代码</em><br />
+	&emsp;&emsp;<span class="cond">#loop</span>
+	</a><br />
+	</span>
+</li>
+<li style="list-style-type: none;"><span class="exp" id="btn8">+</span>子程序和宏/字符串变量:<br />
+	<span id="list8" style="display: none;">
+	子程序:<br />
+	&emsp;&emsp;<a href="#0" data-text="#include filename"><span class="cond">#include</span> 
+	<em class="macro">文件名</em></a>:调用外部文件(子程序);<br />
+	&emsp;&emsp;<a href="#0" data-text="#local"><span class="cond">#local</span></a> - 局部表达式(不被外部程序调用);<br />
+	&emsp;&emsp;<a href="#0" data-text="#global"><span class="cond">#global</span></a> - 全局表达式(可被外部程序调用);<br />
+	单行字符串变量:<br />
+	&emsp;&emsp;<a href="#0" data-text="#def variable_name$ = content">
+		<span class="cond">#def</span> <em class="macro">variable_name$</em> <span class="o">=</span> <em>content</em>
+	</a><br />
+	多行字符串变量:<br />
+	<a href="#0" data-text="#def variable_name$
+'line 1
+'line 2
+'...
+#end def">
+	&emsp;&emsp;<span class="cond">#def</span> <em class="macro">variable_name$</em><br />
+	&emsp;&emsp;&emsp;&emsp;<em>第1行内容</em><br />
+	&emsp;&emsp;&emsp;&emsp;<em>第2行内容</em><br />
+	&emsp;&emsp;&emsp;&emsp;<em>...</em><br />
+	&emsp;&emsp;<span class="cond">#end def</span>
+	</a><br />
+	单行宏:<br />
+	&emsp;&emsp;<a href="#0" data-text="#def macro_name$(param1$; param2$) = 内容">
+		<span class="cond">#def</span> <em class="macro">macro_name$</em><span class="b">(</span><em class="macro">param1$</em><span class="o">;</span> <em class="macro">param2$</em><span class="o">;</span>...<span class="b">)</span> <span class="o">=</span> <em>content</em>
+	</a><br />
+	多行宏:<br />
+	<a href="#0" data-text="#def macro_name$(param1$; param2$)
+'line 1
+'line 2
+'...
+#end def">
+	&emsp;&emsp;<span class="cond">#def</span> <em class="macro">macro_name$</em><span class="b">(</span><em class="macro">param1$</em><span class="o">;</span> <em class="macro">param2$</em><span class="o">;</span>...<span class="b">)</span><br />
+	&emsp;&emsp;&emsp;&emsp;<em>第1行内容</em><br />
+	&emsp;&emsp;&emsp;&emsp;<em>第2行内容</em><br />
+	&emsp;&emsp;&emsp;&emsp;<em>...</em><br />
+	&emsp;&emsp;<span class="cond">#end def</span>
+	</a><br />
+	</span>
+</li>
+<li style="list-style-type: none;"><span class="exp" id="btn9">+</span>输出控制:<br />
+	<span id="list9" style="display: none;">
+	<a href="#0" data-text="#hide"><span class="cond">#hide</span></a> : 隐藏报告内容;<br /> 
+	<a href="#0" data-text="#show"><span class="cond">#show</span></a> : 总是显示内容(默认);<br />
+	<a href="#0" data-text="#pre"><span class="cond">#pre</span></a> : 仅在计算前显示下面的内容;<br /> 
+	<a href="#0" data-text="#post"><span class="cond">#post</span></a> : 仅在计算后显示下面的内容;<br />
+	<a href="#0" data-text="#val"><span class="cond">#val</span></a> : 不显示方程式,仅显示最终结果;<br /> 
+	<a href="#0" data-text="#equ"><span class="cond">#equ</span></a> : 显示完成的方程式和结果(默认);<br />
+	<a href="#0" data-text="#noc"><span class="cond">#noc</span></a> : 仅显示方程式,无计算结果;<br />
+	<a href="#0" data-text="#nosub"><span class="cond">#nosub</span></a> : 不代入变量(无代入);<br />
+	<a href="#0" data-text="#novar"><span class="cond">#novar</span></a> : 仅显示代入变量值的方程式(无变量);<br />
+	<a href="#0" data-text="#varsub"><span class="cond">#varsub</span></a> : 显示方程式的变量表达式和代入值(默认);<br />
+	<a href="#0" data-text="#split"><span class="cond">#split</span></a>: 分割(从=开始)不适合单行显示的长公式为跨行显示;<br/>
+    <a href="#0" data-text="#wrap"><span class="cond">#wrap</span></a>: 对不适合单行显示的方程式换行显示(默认);<br/>
+    <a href="#0" data-text="#round "><span class="cond">#round <em>n</em></span></a> : 将结果的数值舍入到小数点后 <em>n</em> 位.<br />
+	上述每个命令仅在当前行以后生效,直到报告结束或另一个命令生效为止.
+	</span>
+</li>
+<li style="list-style-type: none;"><span class="exp" id="btn10">+</span>逐步执行的间断点:<br />
+	<span id="list10" style="display: none;">
+	<a href="#0" data-text="#pause"><span class="cond">#pause</span></a> :计算到当前行并等待用户手动恢复计算;<br />
+	<a href="#0" data-text="#input"><span class="cond">#input</span></a> :该命令行可以生成一个输入框读入用户输入.<br />
+	</span>
+</li>
+<li>三角函数单位换算: 
+	<a href="#0" data-text="#deg"><span class="cond">#deg</span></a> :度,°, 
+	<a href="#0" data-text="#rad"><span class="cond">#rad</span></a> :弧度;
+	<a href="#0" data-text="#gra"><span class="cond">#gra</span></a> : grades;</li>
+<li>单位换算符: <a title="must be at the end of the line" href="#0" data-text="|">|</a>;</li>
+<li>返回带单位的角度: <a title="from all 反三角函数" href="#0" data-text="ReturnAngleUnits = 1"><var>ReturnAngleUnits</var> = 1</a>;</li>
+<li>无量纲单位: 
+	<a href="#0" data-text="%"    title="百分号"  ><i>%</i></a>, 
+	<a href="#0" data-text="‰"    title="千分号" ><i>‰</i></a>;
+</li>
+<li>角度单位: 
+	<a href="#0" data-text="°"    title="度" ><i>°</i></a>, 
+	<a href="#0" data-text="′"    title="分(角度)"><i>′</i></a>, 
+	<a href="#0" data-text="″"    title="秒(角度)"><i>″</i></a>, 
+	<a href="#0" data-text="deg"  title="度" ><i>deg</i></a>, 
+	<a href="#0" data-text="rad"  title="弧度" ><i>rad</i></a>, 
+	<a href="#0" data-text="grad" title="grades"  ><i>grad</i></a>,
+	<a href="#0" data-text="rev"  title="revolutions"><i>rev</i></a>;
+</li> 
+<li style="list-style-type: none;"><span class="exp" id="btn11">+</span>米制单位 (SI标准制及相容单位):<br />
+	<span id="list11" style="display: none;">
+	质量: 
+<a href="#0" data-text="g"  title="克"          ><i>g</i></a>, 
+<a href="#0" data-text="hg" title="百克"     ><i>hg</i></a>, 
+<a href="#0" data-text="kg" title="千克"      ><i>kg</i></a>, 
+<a href="#0" data-text="t"  title="吨"           ><i>t</i></a>, 
+<a href="#0" data-text="kt" title="千吨"       ><i>kt</i></a>, 
+<a href="#0" data-text="Mt" title="兆吨"       ><i>Mt</i></a>, 
+<a href="#0" data-text="Gt" title="吉吨"       ><i>Gt</i></a>, 
+<a href="#0" data-text="dg" title="分克"      ><i>dg</i></a>, 
+<a href="#0" data-text="cg" title="厘克"     ><i>cg</i></a>, 
+<a href="#0" data-text="mg" title="毫克"     ><i>mg</i></a>, 
+<a href="#0" data-text="μg" title="微克"     ><i>μg</i></a>, 
+<a href="#0" data-text="ng" title="纳克"      ><i>ng</i></a>, 
+<a href="#0" data-text="pg" title="pico克"      ><i>pg</i></a>,
+<a href="#0" data-text="Da" title="Dal吨"        ><i>Da</i></a> <span class="b">(</span>或 
+<a href="#0" data-text="u"  title="Dal吨(alt)"   ><i>u</i></a><span class="b">)</span>;<br />
+	长度:
+<a href="#0" data-text="m"  title="米"         ><i>m</i></a>, 
+<a href="#0" data-text="km" title="千米"     ><i>km</i></a>, 
+<a href="#0" data-text="dm" title="分米"     ><i>dm</i></a>, 
+<a href="#0" data-text="cm" title="厘米"    ><i>cm</i></a>, 
+<a href="#0" data-text="mm" title="毫米"    ><i>mm</i></a>, 
+<a href="#0" data-text="μm" title="微米"    ><i>μm</i></a>, 
+<a href="#0" data-text="nm" title="纳米"     ><i>nm</i></a>, 
+<a href="#0" data-text="pm" title="pico米"     ><i>pm</i></a>,
+<a href="#0" data-text="AU" title="宇宙单位"><i>AU</i></a>,
+<a href="#0" data-text="ly" title="光年"    ><i>ly</i></a>;<br />
+	时间:
+<a href="#0" data-text="s"   title="秒"       ><i>s</i></a>, 
+<a href="#0" data-text="ms"  title="毫秒"  ><i>ms</i></a>, 
+<a href="#0" data-text="μs"  title="微秒"  ><i>μs</i></a>, 
+<a href="#0" data-text="ns"  title="纳秒"   ><i>ns</i></a>, 
+<a href="#0" data-text="ps"  title="pico秒"   ><i>ps</i></a>, 
+<a href="#0" data-text="min" title="分钟"       ><i>min</i></a>, 
+<a href="#0" data-text="h"   title="小时"         ><i>h</i></a>,
+<a href="#0" data-text="d"   title="天"          ><i>d</i></a>, 
+<a href="#0" data-text="w"   title="周"         ><i>w</i></a>, 
+<a href="#0" data-text="y"   title="年"         ><i>y</i></a>;<br />
+	频率:
+<a href="#0" data-text="Hz"  title="赫兹"        ><i>Hz</i></a>, 
+<a href="#0" data-text="kHz" title="千赫兹"    ><i>kHz</i></a>, 
+<a href="#0" data-text="MHz" title="兆赫兹"    ><i>MHz</i></a>, 
+<a href="#0" data-text="GHz" title="吉赫兹"    ><i>GHz</i></a>, 
+<a href="#0" data-text="THz" title="tera赫兹"    ><i>THz</i></a>, 
+<a href="#0" data-text="mHz" title="毫赫兹"   ><i>mHz</i></a>, 
+<a href="#0" data-text="μHz" title="微赫兹"   ><i>μHz</i></a>, 
+<a href="#0" data-text="nHz" title="纳赫兹"    ><i>nHz</i></a>, 
+<a href="#0" data-text="pHz" title="tera赫兹"    ><i>pHz</i></a>, 
+<a href="#0" data-text="rpm" title="rotations 每 minute"><i>rpm</i></a>;<br />
+	速度:
+<a href="#0" data-text="kmh" title="千米 每 小时"><i>kmh</i></a>;<br />
+	电流:
+<a href="#0" data-text="A"  title="安培"        ><i>A</i></a>, 
+<a href="#0" data-text="kA" title="千安"    ><i>kA</i></a>, 
+<a href="#0" data-text="MA" title="兆安"    ><i>MA</i></a>, 
+<a href="#0" data-text="GA" title="吉安"    ><i>GA</i></a>, 
+<a href="#0" data-text="TA" title="tera安"    ><i>TA</i></a>, 
+<a href="#0" data-text="mA" title="毫安"   ><i>mA</i></a>, 
+<a href="#0" data-text="μA" title="微安"   ><i>μA</i></a>, 
+<a href="#0" data-text="nA" title="纳安"    ><i>nA</i></a>, 
+<a href="#0" data-text="pA" title="pico安"    ><i>pA</i></a>;<br />
+	温度: 
+<a href="#0" data-text="°C"  title="摄氏度"><i>°C</i></a>, 
+<a href="#0" data-text="Δ°C" title="摄氏度差"><i>Δ°C</i></a>, 
+<a href="#0" data-text="K"   title="开尔文"       ><i>K</i></a>;<br />
+	物质量:
+<a href="#0" data-text="mol" title="摩尔"         ><i>mol</i></a>;<br />
+	光强:
+<a href="#0" data-text="cd"  title="坎德拉"      ><i>cd</i></a>;<br />
+	面积:
+<a href="#0" data-text="a"   title="公亩"          ><i>a</i></a>, 
+<a href="#0" data-text="daa" title="十are"       ><i>daa</i></a>, 
+<a href="#0" data-text="ha"  title="hectare"      ><i>ha</i></a>;<br />
+	体积:
+<a href="#0" data-text="L"   title="升"        ><i>L</i></a>, 
+<a href="#0" data-text="daL" title="十升"    ><i>daL</i></a>, 
+<a href="#0" data-text="hL"  title="百升"   ><i>hL</i></a>,
+<a href="#0" data-text="dL"  title="分升"    ><i>dL</i></a>, 
+<a href="#0" data-text="cL"  title="厘升"   ><i>cL</i></a>, 
+<a href="#0" data-text="mL"  title="毫升"   ><i>mL</i></a>, 
+<a href="#0" data-text="μL"  title="微升"   ><i>μL</i></a>, 
+<a href="#0" data-text="nL"  title="纳升"    ><i>nL</i></a>, 
+<a href="#0" data-text="pL"  title="pico升"    ><i>pL</i></a>;<br />
+	力:
+<a href="#0" data-text="N"   title="牛顿"      ><i>N</i></a>, 
+<a href="#0" data-text="daN" title="十牛"  ><i>daN</i></a>, 
+<a href="#0" data-text="hN"  title="百牛" ><i>hN</i></a>, 
+<a href="#0" data-text="kN"  title="千牛"  ><i>kN</i></a>, 
+<a href="#0" data-text="MN"  title="兆牛"  ><i>MN</i></a>, 
+<a href="#0" data-text="GN"  title="吉牛"  ><i>GN</i></a>, 
+<a href="#0" data-text="TN"  title="tera牛"  ><i>TN</i></a>, 
+<a href="#0" data-text="gf"  title="克-力"   ><i>gf</i></a>, 
+<a href="#0" data-text="kgf" title="千克-力"><i>kgf</i></a>, 
+<a href="#0" data-text="tf"  title="吨-力"  ><i>tf</i></a>, 
+<a href="#0" data-text="dyn" title="dyne"         ><i>dyn</i></a>;<br />
+	力矩: 
+<a href="#0" data-text="Nm"  title="牛-米" ><i>Nm</i></a>, 
+<a href="#0" data-text="kNm" title="千牛-米"><i>kNm</i></a>;<br />
+	压强: 
+<a href="#0" data-text="Pa"   title="帕斯卡"      ><i>Pa</i></a>, 
+<a href="#0" data-text="daPa" title="十帕"  ><i>daPa</i></a>, 
+<a href="#0" data-text="hPa"  title="百帕"  ><i>hPa</i></a>, 
+<a href="#0" data-text="kPa"  title="千帕"  ><i>kPa</i></a>, 
+<a href="#0" data-text="MPa"  title="兆帕"  ><i>MPa</i></a>, 
+<a href="#0" data-text="GPa"  title="吉帕"  ><i>GPa</i></a>, 
+<a href="#0" data-text="TPa"  title="tera帕"  ><i>TPa</i></a>,<br />
+&emsp;&emsp;&emsp;&emsp;
+<a href="#0" data-text="dPa"  title="分帕"  ><i>dPa</i></a>, 
+<a href="#0" data-text="cPa"  title="厘帕" ><i>cPa</i></a>, 
+<a href="#0" data-text="mPa"  title="微帕" ><i>mPa</i></a>, 
+<a href="#0" data-text="μPa"  title="毫帕" ><i>μPa</i></a>, 
+<a href="#0" data-text="nPa"  title="纳帕"  ><i>nPa</i></a>, 
+<a href="#0" data-text="pPa"  title="pico帕"  ><i>pPa</i></a>,<br />
+&emsp;&emsp;&emsp;&emsp;
+<a href="#0" data-text="bar"  title="巴"         ><i>bar</i></a>, 
+<a href="#0" data-text="mbar" title="毫巴"    ><i>mbar</i></a>, 
+<a href="#0" data-text="μbar" title="微巴"    ><i>μbar</i></a>, 
+<a href="#0" data-text="atm"  title="大气压"  ><i>atm</i></a>, 
+<a href="#0" data-text="at"   title="technical大气压"><i>at</i></a>, 
+<a href="#0" data-text="Torr" title="Torr"             ><i>Torr</i></a>, 
+<a href="#0" data-text="mmHg" title="毫米水银"><i>mmHg</i></a>;<br />	
+	黏度: 
+<a href="#0" data-text="P"    title="Poise"            ><i>P</i></a>, 
+<a href="#0" data-text="cP"   title="厘poise"       ><i>cP</i></a>, 
+<a href="#0" data-text="St"   title="Stokes"           ><i>St</i></a>, 
+<a href="#0" data-text="cSt"  title="厘stokes"      ><i>cSt</i></a>;<br />	
+	能量功:
+<a href="#0" data-text="J"    title="焦耳"            ><i>J</i></a>, 
+<a href="#0" data-text="kJ"   title="千焦"        ><i>kJ</i></a>, 
+<a href="#0" data-text="MJ"   title="兆焦"        ><i>MJ</i></a>, 
+<a href="#0" data-text="GJ"   title="吉焦"        ><i>GJ</i></a>, 
+<a href="#0" data-text="TJ"   title="tera焦"        ><i>TJ</i></a>, 
+<a href="#0" data-text="mJ"   title="毫焦"       ><i>mJ</i></a>, 
+<a href="#0" data-text="μJ"   title="微焦"       ><i>μJ</i></a>, 
+<a href="#0" data-text="nJ"   title="纳焦"        ><i>nJ</i></a>, 
+<a href="#0" data-text="pJ"   title="pico焦"        ><i>pJ</i></a>,<br />
+&emsp;&emsp;&emsp;&emsp;&emsp;
+<a href="#0" data-text="Wh"   title="瓦-时"        ><i>Wh</i></a>, 
+<a href="#0" data-text="kWh"  title="千瓦-时"    ><i>kWh</i></a>, 
+<a href="#0" data-text="MWh"  title="兆瓦-时"    ><i>MWh</i></a>, 
+<a href="#0" data-text="GWh"  title="吉瓦-时"    ><i>GWh</i></a>, 
+<a href="#0" data-text="TWh"  title="tera瓦-时"    ><i>TWh</i></a>, 
+<a href="#0" data-text="mWh"  title="毫瓦-时"   ><i>mWh</i></a>, 
+<a href="#0" data-text="μWh"  title="微瓦-时"   ><i>μWh</i></a>, 
+<a href="#0" data-text="nWh"  title="纳瓦-时"    ><i>nWh</i></a>, 
+<a href="#0" data-text="pWh"  title="pico瓦-时"    ><i>pWh</i></a>,<br />
+&emsp;&emsp;&emsp;&emsp;&emsp;
+<a href="#0" data-text="eV"   title="electron伏特"     ><i>eV</i></a>, 
+<a href="#0" data-text="keV"  title="千electron伏特" ><i>keV</i></a>, 
+<a href="#0" data-text="MeV"  title="兆electron伏特" ><i>MeV</i></a>, 
+<a href="#0" data-text="GeV"  title="吉electron伏特" ><i>GeV</i></a>, 
+<a href="#0" data-text="TeV"  title="teraelectron伏特" ><i>TeV</i></a>, 
+<a href="#0" data-text="PeV"  title="petaelectron伏特" ><i>PeV</i></a>, 
+<a href="#0" data-text="EeV"  title="exaelectron伏特"  ><i>EeV</i></a>,
+<a href="#0" data-text="cal"  title="卡路里"          ><i>cal</i></a>, 
+<a href="#0" data-text="kcal" title="千卡"      ><i>kcal</i></a>, 
+<a href="#0" data-text="erg"  title="erg"              ><i>erg</i></a>;<br />
+	功率: 
+<a href="#0" data-text="W"    title="瓦特"             ><i>W</i></a>, 
+<a href="#0" data-text="kW"   title="千瓦"         ><i>kW</i></a>, 
+<a href="#0" data-text="MW"   title="兆瓦"         ><i>MW</i></a>, 
+<a href="#0" data-text="GW"   title="吉瓦"         ><i>GW</i></a>, 
+<a href="#0" data-text="TW"   title="tera瓦"         ><i>TW</i></a>, 
+<a href="#0" data-text="mW"   title="毫瓦"        ><i>mW</i></a>, 
+<a href="#0" data-text="μW"   title="微瓦"        ><i>μW</i></a>, 
+<a href="#0" data-text="nW"   title="纳瓦"         ><i>nW</i></a>, 
+<a href="#0" data-text="pW"   title="pico瓦"         ><i>pW</i></a>,
+<a href="#0" data-text="hpM"  title="马力 (metric)"><i>hpM</i></a>, 
+<a href="#0" data-text="ks"   title="马力 (metric)"><i>ks</i></a>,<br />
+&emsp;&emsp;&emsp;
+<a href="#0" data-text="VA"   title="伏-安"      ><i>VA</i></a>, 
+<a href="#0" data-text="kVA"  title="千伏-安"  ><i>kVA</i></a>, 
+<a href="#0" data-text="MVA"  title="兆伏-安"  ><i>MVA</i></a>, 
+<a href="#0" data-text="GVA"  title="吉伏-安"  ><i>GVA</i></a>, 
+<a href="#0" data-text="TVA"  title="tera伏-安"  ><i>TVA</i></a>, 
+<a href="#0" data-text="mVA"  title="毫伏-安" ><i>mVA</i></a>, 
+<a href="#0" data-text="μVA"  title="微伏-安" ><i>μVA</i></a>, 
+<a href="#0" data-text="nVA"  title="纳伏-安"  ><i>nVA</i></a>, 
+<a href="#0" data-text="pVA"  title="pico伏-安"  ><i>pVA</i></a>,<br />
+&emsp;&emsp;&emsp;
+<a href="#0" data-text="VAR"  title="伏-安 (reactive)"     ><i>VAR</i></a>, 
+<a href="#0" data-text="kVAR" title="千伏-安 (reactive)" ><i>kVAR</i></a>, 
+<a href="#0" data-text="MVAR" title="兆伏-安 (reactive)" ><i>MVAR</i></a>, 
+<a href="#0" data-text="GVAR" title="吉伏-安 (reactive)" ><i>GVAR</i></a>, 
+<a href="#0" data-text="TVAR" title="tera伏-安 (reactive)" ><i>TVAR</i></a>, 
+<a href="#0" data-text="mVAR" title="毫伏-安 (reactive)"><i>mVAR</i></a>, 
+<a href="#0" data-text="μVAR" title="微伏-安 (reactive)"><i>μVAR</i></a>, 
+<a href="#0" data-text="nVAR" title="纳伏-安 (reactive)" ><i>nVAR</i></a>, 
+<a href="#0" data-text="pVAR" title="pico伏-安 (reactive)" ><i>pVAR</i></a>;<br />
+	电量: 
+<a href="#0" data-text="C"    title="库伦"     ><i>C</i></a>, 
+<a href="#0" data-text="kC"   title="千库伦" ><i>kC</i></a>, 
+<a href="#0" data-text="MC"   title="兆库伦" ><i>MC</i></a>, 
+<a href="#0" data-text="GC"   title="吉库伦" ><i>GC</i></a>, 
+<a href="#0" data-text="TC"   title="tera库伦" ><i>TC</i></a>, 
+<a href="#0" data-text="mC"   title="毫库伦"><i>mC</i></a>, 
+<a href="#0" data-text="μC"   title="微库伦"><i>μC</i></a>, 
+<a href="#0" data-text="nC"   title="纳库伦" ><i>nC</i></a>, 
+<a href="#0" data-text="pC"   title="pico库伦" ><i>pC</i></a>, 
+<a href="#0" data-text="Ah"   title="安-时" ><i>Ah</i></a>, 
+<a href="#0" data-text="mAh"  title="毫安-时"><i>mAh</i></a>;<br />
+	电势: 
+<a href="#0" data-text="V"    title="伏特"        ><i>V</i></a>, 
+<a href="#0" data-text="kV"   title="千伏特"    ><i>kV</i></a>, 
+<a href="#0" data-text="MV"   title="兆伏特"    ><i>MV</i></a>, 
+<a href="#0" data-text="GV"   title="吉伏特"    ><i>GV</i></a>, 
+<a href="#0" data-text="TV"   title="tera伏特"    ><i>TV</i></a>, 
+<a href="#0" data-text="mV"   title="毫伏特"   ><i>mV</i></a>, 
+<a href="#0" data-text="μV"   title="微伏特"   ><i>μV</i></a>, 
+<a href="#0" data-text="nV"   title="纳伏特"    ><i>nV</i></a>, 
+<a href="#0" data-text="pV"   title="pico伏特"    ><i>pV</i></a>;<br />
+	电容: 
+<a href="#0" data-text="F"    title="法拉"       ><i>F</i></a>, 
+<a href="#0" data-text="kF"   title="千法拉"   ><i>kF</i></a>, 
+<a href="#0" data-text="MF"   title="兆法拉"   ><i>MF</i></a>, 
+<a href="#0" data-text="GF"   title="吉法拉"   ><i>GF</i></a>, 
+<a href="#0" data-text="TF"   title="tera法拉"   ><i>TF</i></a>, 
+<a href="#0" data-text="mF"   title="毫法拉"  ><i>mF</i></a>, 
+<a href="#0" data-text="μF"   title="微法拉"  ><i>μF</i></a>, 
+<a href="#0" data-text="nF"   title="纳法拉"   ><i>nF</i></a>, 
+<a href="#0" data-text="pF"   title="pico法拉"   ><i>pF</i></a>;<br />
+	电阻:
+<a href="#0" data-text="Ω"    title="欧姆"         ><i>Ω</i></a>, 
+<a href="#0" data-text="kΩ"   title="千欧姆"     ><i>kΩ</i></a>, 
+<a href="#0" data-text="MΩ"   title="兆欧姆"     ><i>MΩ</i></a>, 
+<a href="#0" data-text="GΩ"   title="吉欧姆"     ><i>GΩ</i></a>, 
+<a href="#0" data-text="TΩ"   title="tera欧姆"     ><i>TΩ</i></a>, 
+<a href="#0" data-text="mΩ"   title="毫欧姆"    ><i>mΩ</i></a>, 
+<a href="#0" data-text="μΩ"   title="微欧姆"    ><i>μΩ</i></a>, 
+<a href="#0" data-text="nΩ"   title="纳欧姆"     ><i>nΩ</i></a>, 
+<a href="#0" data-text="pΩ"   title="pico欧姆"     ><i>pΩ</i></a>;<br />
+	电导:
+<a href="#0" data-text="S"    title="西门子"     ><i>S</i></a>, 
+<a href="#0" data-text="kS"   title="千西门子" ><i>kS</i></a>, 
+<a href="#0" data-text="MS"   title="兆西门子" ><i>MS</i></a>, 
+<a href="#0" data-text="GS"   title="吉西门子" ><i>GS</i></a>, 
+<a href="#0" data-text="TS"   title="tera西门子" ><i>TS</i></a>, 
+<a href="#0" data-text="mS"   title="毫西门子"><i>mS</i></a>, 
+<a href="#0" data-text="μS"   title="微西门子"><i>μS</i></a>, 
+<a href="#0" data-text="nS"   title="纳西门子" ><i>nS</i></a>, 
+<a href="#0" data-text="pS"   title="pico西门子" ><i>pS</i></a>,<br />
+&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;
+<a href="#0" data-text="℧"    title="mho"         ><i>℧</i></a>, 
+<a href="#0" data-text="k℧"   title="千mho"     ><i>k℧</i></a>, 
+<a href="#0" data-text="M℧"   title="兆mho"     ><i>M℧</i></a>, 
+<a href="#0" data-text="G℧"   title="吉mho"     ><i>G℧</i></a>, 
+<a href="#0" data-text="T℧"   title="teramho"     ><i>T℧</i></a>, 
+<a href="#0" data-text="m℧"   title="毫mho"    ><i>m℧</i></a>, 
+<a href="#0" data-text="μ℧"   title="微mho"    ><i>μ℧</i></a>, 
+<a href="#0" data-text="n℧"   title="纳mho"     ><i>n℧</i></a>, 
+<a href="#0" data-text="p℧"   title="picomho"     ><i>p℧</i></a>;<br />
+	磁通量:
+<a href="#0" data-text="Wb"   title="韦伯"       ><i>Wb </i></a>, 
+<a href="#0" data-text="kWb"  title="千韦伯"   ><i>kWb</i></a>, 
+<a href="#0" data-text="MWb"  title="兆韦伯"   ><i>MWb</i></a>, 
+<a href="#0" data-text="GWb"  title="吉韦伯"   ><i>GWb</i></a>, 
+<a href="#0" data-text="TWb"  title="tera韦伯"   ><i>TWb</i></a>, 
+<a href="#0" data-text="mWb"  title="毫韦伯"  ><i>mWb</i></a>, 
+<a href="#0" data-text="μWb"  title="微韦伯"  ><i>μWb</i></a>, 
+<a href="#0" data-text="nWb"  title="纳韦伯"   ><i>nWb</i></a>, 
+<a href="#0" data-text="pWb"  title="pico韦伯"   ><i>pWb</i></a>;<br />
+	磁感应强度/磁通量密度/磁通密度:
+<a href="#0" data-text="T"    title="特斯拉"       ><i>T</i></a>, 
+<a href="#0" data-text="kT"   title="千特斯拉"   ><i>kT</i></a>, 
+<a href="#0" data-text="MT"   title="兆特斯拉"   ><i>MT</i></a>, 
+<a href="#0" data-text="GT"   title="吉特斯拉"   ><i>GT</i></a>, 
+<a href="#0" data-text="TT"   title="tera特斯拉"   ><i>TT</i></a>, 
+<a href="#0" data-text="mT"   title="毫特斯拉"  ><i>mT</i></a>, 
+<a href="#0" data-text="μT"   title="微特斯拉"  ><i>μT</i></a>, 
+<a href="#0" data-text="nT"   title="纳特斯拉"   ><i>nT</i></a>, 
+<a href="#0" data-text="pT"   title="pico特斯拉"   ><i>pT</i></a>;<br />
+	电感:
+<a href="#0" data-text="H"    title="亨利"       ><i>H</i></a>, 
+<a href="#0" data-text="kH"   title="千亨利"   ><i>kH</i></a>, 
+<a href="#0" data-text="MH"   title="兆亨利"   ><i>MH</i></a>, 
+<a href="#0" data-text="GH"   title="吉亨利"   ><i>GH</i></a>, 
+<a href="#0" data-text="TH"   title="tera亨利"   ><i>TH</i></a>, 
+<a href="#0" data-text="mH"   title="毫亨利"  ><i>mH</i></a>, 
+<a href="#0" data-text="μH"   title="微亨利"  ><i>μH</i></a>, 
+<a href="#0" data-text="nH"   title="纳亨利"   ><i>nH</i></a>, 
+<a href="#0" data-text="pH"   title="pico亨利"   ><i>pH</i></a>;<br />
+	光通量: 
+<a href="#0" data-text="lm"   title="流明"       ><i>lm</i></a>;<br />
+	照度/照明度:
+<a href="#0" data-text="lx"   title="勒克斯"         ><i>lx</i></a>;<br />
+	放射性活度: 
+<a href="#0" data-text="Bq"  title="贝克勒尔"    ><i>Bq</i></a>, 
+<a href="#0" data-text="kBq" title="千贝克勒尔"><i>kBq</i></a>, 
+<a href="#0" data-text="MBq" title="兆贝克勒尔"  ><i>MBq</i></a>, 
+<a href="#0" data-text="GBq" title="吉贝克勒尔"  ><i>GBq</i></a>, 
+<a href="#0" data-text="TBq" title="tera贝克勒尔"  ><i>TBq</i></a>, 
+<a href="#0" data-text="mBq" title="毫贝克勒尔" ><i>mBq</i></a>, 
+<a href="#0" data-text="μBq" title="微贝克勒尔" ><i>μBq</i></a>, 
+<a href="#0" data-text="nBq" title="纳贝克勒尔"  ><i>nBq</i></a>, 
+<a href="#0" data-text="pBq" title="pico贝克勒尔"  ><i>pBq</i></a>, 
+<a href="#0" data-text="Ci"  title="Curie"        ><i>Ci</i></a>, 
+<a href="#0" data-text="Rd"  title="Rutherford"   ><i>Rd</i></a>;<br />
+	吸收剂量: 
+<a href="#0" data-text="Gy"  title="格雷"         ><i>Gy</i></a>, 
+<a href="#0" data-text="kGy" title="千格雷"     ><i>kGy</i></a>, 
+<a href="#0" data-text="MGy" title="兆格雷"     ><i>MGy</i></a>, 
+<a href="#0" data-text="GGy" title="吉格雷"     ><i>GGy</i></a>, 
+<a href="#0" data-text="TGy" title="tera格雷"     ><i>TGy</i></a>, 
+<a href="#0" data-text="mGy" title="毫格雷"    ><i>mGy</i></a>, 
+<a href="#0" data-text="μGy" title="微格雷"    ><i>μGy</i></a>, 
+<a href="#0" data-text="nGy" title="纳格雷"     ><i>nGy</i></a>, 
+<a href="#0" data-text="pGy" title="pico格雷"     ><i>pGy</i></a>;<br />
+	等效剂量: 
+<a href="#0" data-text="Sv"  title="Sievert"      ><i>Sv</i></a>, 
+<a href="#0" data-text="kSv" title="千sievert"  ><i>kSv</i></a>, 
+<a href="#0" data-text="MSv" title="兆sievert"  ><i>MSv</i></a>, 
+<a href="#0" data-text="GSv" title="吉sievert"  ><i>GSv</i></a>, 
+<a href="#0" data-text="TSv" title="terasievert"  ><i>TSv</i></a>, 
+<a href="#0" data-text="mSv" title="毫sievert" ><i>mSv</i></a>, 
+<a href="#0" data-text="μSv" title="微sievert" ><i>μSv</i></a>, 
+<a href="#0" data-text="nSv" title="纳sievert"  ><i>nSv</i></a>, 
+<a href="#0" data-text="pSv" title="picosievert"  ><i>pSv</i></a>;<br />
+	催化活性: 
+<a href="#0" data-text="kat" title="katal"><i>kat</i></a>;
+</span>
+</li>
+<li style="list-style-type: none;"><span class="exp" id="btn12">+</span>非米制单位 (英制/美制):<br />
+	<span id="list12" style="display: none;">
+	质量:
+<a href="#0" data-text="gr"     title="grain"                ><i>gr</i></a>, 
+<a href="#0" data-text="dr"     title="drachm"               ><i>dr</i></a>, 
+<a href="#0" data-text="oz"     title="盎司"                ><i>oz</i></a>, 
+<a href="#0" data-text="lb"     title="磅"                ><i>lb</i></a> <span class="b">(</span>或 
+<a href="#0" data-text="lbm"    title="磅-质量"           ><i>lbm</i></a>, 
+<a href="#0" data-text="lb_m"   title="磅-质量 (alt)"     ><i>lb</i><sub>_m</sub></a><span class="b">)</span>, 
+<a href="#0" data-text="kipm"   title="千磅-质量"       ><i>kipm</i></a> <span class="b">(</span>或
+<a href="#0" data-text="kip_m"  title="千磅-质量 (alt)" ><i>kip</i><sub>_m</sub></a><span class="b">)</span>, 
+<a href="#0" data-text="st"     title="stone"                ><i>st</i></a>, 
+<a href="#0" data-text="qr"     title="quarter"              ><i>qr</i></a>,<br />
+&emsp;&emsp;&ensp;
+<a href="#0" data-text="cwt"    title="hundredweight"        ><i>cwt</i></a> <span class="b">(</span>或 
+<a href="#0" data-text="cwt_UK" title="hundredweight (UK)"   ><i>cwt</i><sub>_UK</sub></a>, 
+<a href="#0" data-text="cwt_US" title="hundredweight (US)"   ><i>cwt</i><sub>_US</sub></a><span class="b">)</span>,  
+<a href="#0" data-text="ton"    title="吨"                  ><i>ton</i></a> <span class="b">(</span>或 
+<a href="#0" data-text="ton_UK" title="吨 (UK)"             ><i>ton</i><sub>_UK</sub></a>, 
+<a href="#0" data-text="ton_US" title="吨 (US)"             ><i>ton</i><sub>_US</sub></a><span class="b">)</span>, 
+<a href="#0" data-text="slug"   title="slug"                 ><i>slug</i></a>;<br />
+	长度:
+<a href="#0" data-text="th"       title="thou"          ><i>th</i></a>, 
+<a href="#0" data-text="in"       title="inch"          ><i>in</i></a>, 
+<a href="#0" data-text="ft"       title="foot"          ><i>ft</i></a>, 
+<a href="#0" data-text="yd"       title="yard"          ><i>yd</i></a>, 
+<a href="#0" data-text="ch"       title="chain"         ><i>ch</i></a>, 
+<a href="#0" data-text="fur"      title="furlong"       ><i>fur</i></a>, 
+<a href="#0" data-text="mi"       title="mile"          ><i>mi</i></a>, 
+<a href="#0" data-text="ftm"      title="fathom"        ><i>ftm</i></a> <span class="b">(</span>或  
+<a href="#0" data-text="ftm_UK"   title="fathom (UK)"   ><i>ftm</i><sub>_UK</sub></a>, 
+<a href="#0" data-text="ftm_US"   title="fathom (US)"   ><i>ftm</i><sub>_US</sub></a><span class="b">)</span>,<br />
+&emsp;&emsp;&ensp;&ensp;
+<a href="#0" data-text="cable"    title="cable"         ><i>cable</i></a> <span class="b">(</span>或  
+<a href="#0" data-text="cable_UK" title="cable (UK)"    ><i>cable</i><sub>_UK</sub></a>, 
+<a href="#0" data-text="cable_US" title="cable (US)"    ><i>cable</i><sub>_US</sub></a><span class="b">)</span>,
+<a href="#0" data-text="nmi"      title="nautical mile" ><i>nmi</i></a>, 
+<a href="#0" data-text="li"       title="link"          ><i>li</i></a>, 
+<a href="#0" data-text="rod"      title="rod"           ><i>rod</i></a>, 
+<a href="#0" data-text="pole"     title="pole"          ><i>pole</i></a>, 
+<a href="#0" data-text="perch"    title="perch"         ><i>perch</i></a>, 
+<a href="#0" data-text="lea"      title="league"        ><i>lea</i></a>;<br />
+	速度: 
+<a href="#0" data-text="mph"   title="miles per 时"   ><i>mph</i></a>,
+<a href="#0" data-text="knot"   title="knots"           ><i>knot</i></a>;<br />
+	温度: 
+<a href="#0" data-text="°F"    title="华氏度"><i>°F</i></a>, 
+<a href="#0" data-text="Δ°F"   title="华氏度°F差"  ><i>Δ°F</i></a>, 
+<a href="#0" data-text="°R"    title="degrees Rankine"   ><i>°R</i></a>;<br />
+	面积: 
+<a href="#0" data-text="rood"  title="rood"          ><i>rood</i></a>, 
+<a href="#0" data-text="ac"    title="acre"          ><i>ac</i></a>;<br />
+	液体体积: 
+<a href="#0" data-text="fl_oz" title="fluid 盎司"   ><i>fl_oz</i></a>, 
+<a href="#0" data-text="gi"    title="gill"          ><i>gi</i></a>, 
+<a href="#0" data-text="pt"    title="pint"          ><i>pt</i></a>, 
+<a href="#0" data-text="qt"    title="quart"         ><i>qt</i></a>, 
+<a href="#0" data-text="gal"   title="gallon"        ><i>gal</i></a>, 
+<a href="#0" data-text="bbl"   title="barrel"        ><i>bbl</i></a>, 或:<br />
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+<a href="#0" data-text="fl_oz_UK" title="fluid 盎司 (UK)"   ><i>fl_oz</i><sub>_UK</sub></a>, 
+<a href="#0" data-text="gi_UK"    title="gill (UK)"          ><i>gi</i><sub>_UK</sub></a>, 
+<a href="#0" data-text="pt_UK"    title="pint (fluid, UK)"   ><i>pt</i><sub>_UK</sub></a>, 
+<a href="#0" data-text="qt_UK"    title="quart (fluid, UK)"  ><i>qt</i><sub>_UK</sub></a>, 
+<a href="#0" data-text="gal_UK"   title="gallon (fluid, UK)" ><i>gal</i><sub>_UK</sub></a>, 
+<a href="#0" data-text="bbl_UK"   title="barrel (fluid, UK)" ><i>bbl</i><sub>_UK</sub></a>,<br />
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+<a href="#0" data-text="fl_oz_US" title="fluid 盎司 (US)"   ><i>fl_oz</i><sub>_US</sub></a>, 
+<a href="#0" data-text="gi_US"    title="gill (US)"          ><i>gi</i><sub>_US</sub></a>, 
+<a href="#0" data-text="pt_US"    title="pint (fluid, US)"   ><i>pt</i><sub>_US</sub></a>, 
+<a href="#0" data-text="qt_US"    title="quart (fluid, US)"  ><i>qt</i><sub>_US</sub></a>, 
+<a href="#0" data-text="gal_US"   title="gallon (fluid, US)" ><i>gal</i><sub>_US</sub></a>, 
+<a href="#0" data-text="bbl_US"   title="barrel (fluid, US)" ><i>bbl</i><sub>_US</sub></a>;<br />
+	干体积:
+<span class="b">(</span>US<span class="b">)</span> <a href="#0" data-text="pt_dry"   title="pint (dry, US)"     ><i>pt</i><sub>_dry</sub></a>, 
+<span class="b">(</span>US<span class="b">)</span> <a href="#0" data-text="qt_dry"   title="quart (dry, US)"    ><i>qt</i><sub>_dry</sub></a>, 
+<span class="b">(</span>US<span class="b">)</span> <a href="#0" data-text="gal_dry"  title="gallon (dry, US)"   ><i>gal</i><sub>_dry</sub></a>, 
+<span class="b">(</span>US<span class="b">)</span> <a href="#0" data-text="bbl_dry"  title="barrel (dry, US)"   ><i>bbl</i><sub>_dry</sub></a>,<br /> 
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+<a href="#0" data-text="pk"       title="peck"               ><i>pk</i></a> <span class="b">(</span>或 
+<a href="#0" data-text="pk_UK"    title="peck (dry, UK)"     ><i>pk</i><sub>_UK</sub></a>, 
+<a href="#0" data-text="pk_US"    title="peck (dry, US)"     ><i>pk</i><sub>_US</sub></a><span class="b">)</span>,
+<a href="#0" data-text="bu"       title="bushel"             ><i>bu</i></a> <span class="b">(</span>或 
+<a href="#0" data-text="bu_UK"    title="bushel (dry, UK)"   ><i>bu</i><sub>_UK</sub></a>, 
+<a href="#0" data-text="bu_US"    title="bushel (dry, US)"   ><i>bu</i><sub>_US</sub></a><span class="b">)</span>;<br />
+	力: 
+<a href="#0" data-text="ozf"   title="盎司-力"           ><i>ozf</i></a> <span class="b">(</span>或 
+<a href="#0" data-text="oz_f"  title="盎司-力 (alt)"     ><i>oz</i><sub>_f</sub></a><span class="b">)</span>, 
+<a href="#0" data-text="lbf"   title="磅-力"           ><i>lbf</i></a> <span class="b">(</span>或 
+<a href="#0" data-text="lb_f"  title="磅-力 (alt)"     ><i>lb</i><sub>_f</sub></a><span class="b">)</span>, 
+<a href="#0" data-text="kip"   title="千磅"             ><i>kip</i></a> <span class="b">(</span>或 
+<a href="#0" data-text="kipf"  title="千磅-力"       ><i>kipf</i></a>, 
+<a href="#0" data-text="kip_f" title="千磅-力 (alt)" ><i>kip</i><sub>_f</sub></a><span class="b">)</span>, 
+<a href="#0" data-text="tonf"  title="吨-力"             ><i>tonf</i></a> <span class="b">(</span>或 
+<a href="#0" data-text="ton_f" title="吨-力 (alt)"       ><i>ton</i><sub>_f</sub></a><span class="b">)</span>, 
+<a href="#0" data-text="pdl"   title="poundal"               ><i>pdl</i></a>;<br />
+	压强: 
+<a href="#0" data-text="osi"   title="盎司-力 每 平方 inch"    ><i>osi</i></a>, 
+<a href="#0" data-text="osf"   title="盎司-力 每 平方 foot"    ><i>osf</i></a>
+<a href="#0" data-text="psi"   title="磅-力 每 平方 inch"    ><i>psi</i></a>, 
+<a href="#0" data-text="psf"   title="磅-力 每 平方 foot"    ><i>psf</i></a>, 
+<a href="#0" data-text="ksi"   title="千磅-力 每 平方 inch"><i>ksi</i></a>, 
+<a href="#0" data-text="ksf"   title="千磅-力 每 平方 foot"><i>ksf</i></a>, 
+<a href="#0" data-text="tsi"   title="吨-力 每 平方 inch"      ><i>tsi</i></a>, 
+<a href="#0" data-text="tsf"   title="吨-力 每 平方 foot"      ><i>tsf</i></a>,
+<a href="#0" data-text="inHg"  title="inches of mercury (conventional)"><i>inHg</i></a>;<br />
+	能量/功: 
+<a href="#0" data-text="BTU"      title="英制热单位" ><i>BTU</i></a>, 
+<a href="#0" data-text="therm"    title="萨姆"                ><i>therm</i></a>, <span class="b">(</span>或 
+<a href="#0" data-text="therm_UK" title=" 萨姆(UK)"           ><i>therm</i><sub>_UK</sub></a>, 
+<a href="#0" data-text="therm_US" title="萨姆 (US)"           ><i>therm</i><sub>_US</sub></a><span class="b">)</span>, 
+<a href="#0" data-text="quad"     title="quad"                 ><i>quad</i></a>;<br />
+	功率:
+<a href="#0" data-text="hp"    title="马力"              ><i>hp</i></a>, 
+<a href="#0" data-text="hpE"   title="马力 (电)" ><i>hpE</i></a>, 
+<a href="#0" data-text="hpS"   title="马力 (锅炉)"     ><i>hpS</i></a>;
+	</span>
+</li>
+<li>自定义单位 .<i>单位符号</i> = 单位的表达式. <br />单位符号可以包含如下货币符号: 
+	<a href="#0" data-text="€" title="欧元">€</a>, 
+	<a href="#0" data-text="£" title="英镑">£</a>, 
+	<a href="#0" data-text="₤" title="Lira">₤</a>, 
+	<a href="#0" data-text="¥" title="Yen">¥</a>, 
+	<a href="#0" data-text="¢" title="Cent">¢</a>,
+	<a href="#0" data-text="₽" title="Ruble">₽</a>,
+	<a href="#0" data-text="₹" title="Rupee">₹</a>,
+	<a href="#0" data-text="₩" title="Won">₩</a>,
+	<a href="#0" data-text="₪" title="Shekel">₪</a>.
+</li>
+</ul>
+<script src="jquery-3.6.3.min.js"></script>
+<script>
+function delayedLoad(path) { setTimeout(function() {document.write(path);}, 500);}
+if(window.jQuery){
+	$(document).ready(function(){
+		
+		function Toggle(btn)
+		{
+			var list = $("#list" + btn.attr("id").substring(3));
+			if (list.css("display") == "none")
+			{
+				list.css("display", "inline");
+				btn.html("&minus;");			
+			}
+			else
+			{
+				list.css("display","none");
+				btn.html("+");			
+			}
+		}
+		
+		$(".exp").click(function(){
+			Toggle($(this));
+		});
+	}); 
+}
+</script>
+</body>
+</html>
