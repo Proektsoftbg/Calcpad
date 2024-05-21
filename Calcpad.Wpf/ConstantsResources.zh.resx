@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true"></xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="SpeedOfLight" xml:space="preserve">
+        <value>真空中的光速</value>
+    </data>
+  <data name="SolarMass" xml:space="preserve">
+        <value>太阳质量</value>
+    </data>
+  <data name="GravitationalConstant" xml:space="preserve">
+        <value>万有引力常数</value>
+    </data>
+  <data name="GravitationalAcceleration" xml:space="preserve">
+        <value>地球上的重力加速度</value>
+    </data>
+  <data name="GoldenRatio" xml:space="preserve">
+        <value>黄金比例</value>
+    </data>
+  <data name="EulerNumber" xml:space="preserve">
+        <value>欧拉数</value>
+    </data>
+  <data name="EulerConstant" xml:space="preserve">
+        <value>欧拉常数</value>
+    </data>
+  <data name="EarthMass" xml:space="preserve">
+        <value>地球质量</value>
+    </data>
+  <data name="StefanBoltzmannConstant" xml:space="preserve">
+        <value>斯蒂芬-玻尔兹曼常数</value>
+    </data>
+  <data name="BoltzmannConstant" xml:space="preserve">
+        <value>玻尔兹曼常数</value>
+    </data>
+  <data name="MolarGasConstant" xml:space="preserve">
+        <value>气体摩尔常数</value>
+    </data>
+  <data name="FaradayConstant" xml:space="preserve">
+        <value>法拉第常数</value>
+    </data>
+  <data name="UnitWeightOfConcrete" xml:space="preserve">
+        <value>混凝土单位重量</value>
+    </data>
+  <data name="UnitWeightOfSteel" xml:space="preserve">
+        <value>钢材单位重量</value>
+    </data>
+  <data name="UnitWeightOfAluminium" xml:space="preserve">
+        <value>铝的单位重量</value>
+    </data>
+  <data name="UnitWeightOfGlass" xml:space="preserve">
+        <value>玻璃单位重量</value>
+    </data>
+  <data name="UnitWeightOfWater" xml:space="preserve">
+        <value>水的单位重量</value>
+    </data>
+  <data name="Constants_Header" xml:space="preserve">
+        <value>常数</value>
+    </data>
+  <data name="PlanckConstant" xml:space="preserve">
+        <value>普朗克常数</value>
+    </data>
+  <data name="CoulombConstant" xml:space="preserve">
+        <value>库仑常数</value>
+    </data>
+  <data name="VacuumPermeability" xml:space="preserve">
+        <value>真空磁导率</value>
+    </data>
+  <data name="VacuumPermitivity" xml:space="preserve">
+        <value>真空介电常数</value>
+    </data>
+  <data name="ElectronMass" xml:space="preserve">
+        <value>电子质量</value>
+    </data>
+  <data name="ElementaryCharge" xml:space="preserve">
+        <value>基本电荷</value>
+    </data>
+  <data name="AvogadroConstant" xml:space="preserve">
+        <value>阿伏加德罗常数</value>
+    </data>
+  <data name="ProtonMass" xml:space="preserve">
+        <value>质子质量</value>
+    </data>
+  <data name="Pi" xml:space="preserve">
+        <value>常数 π (pi)</value>
+    </data>
+  <data name="NeutronMass" xml:space="preserve">
+        <value>中子质量</value>
+    </data>
+</root>
