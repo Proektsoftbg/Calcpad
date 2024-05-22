@@ -170,7 +170,7 @@
     <value>逻辑 "或"</value>
   </data>
 	<data name="LogicalXor" xml:space="preserve">
-    <value>Logical "XOR"</value>
+    <value>逻辑 "异或"</value>
   </data>
 	<data name="MinimumOfMultipleValues" xml:space="preserve">
         <value>最小值</value>

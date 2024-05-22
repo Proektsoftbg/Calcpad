@@ -26,13 +26,10 @@
         <value>有数据未保存. Calcpad未能成功恢复. 若问题一直存在请联系proektsoft.bg@gmail.com.</value>
     </data>
 	<data name="ExceptionDetails" xml:space="preserve">
-        <value>异常详情:
-
-"{0}"</value>
+        <value>异常详情:"{0}"</value>
     </data>
 	<data name="UnexpectedErrorOccured" xml:space="preserve">
         <value>Calcpad发生无法预知的错误: "{0}"
-
 错误源: "{1}"</value>
     </data>
 	<data name="File_not_found" xml:space="preserve">
@@ -54,7 +51,7 @@
         <value>未定义的宏或参数.</value>
     </data>
 	<data name="Invalid_compiler_directive" xml:space="preserve">
-        <value>Invalid compiler directive.</value>
+        <value>无效编译命令.</value>
     </data>
 	<data name="Invalid_method" xml:space="preserve">
         <value>无效方法.</value>

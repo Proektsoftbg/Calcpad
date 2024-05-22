@@ -274,7 +274,7 @@
         <value>意外错误: {0} 请检查表达式的协调性.</value>
     </data>
 	<data name="Paused_Press_F5_to_continue" xml:space="preserve">
-        <value>&lt;p&gt;&lt;span class="err"&gt;已暂停!&lt;/span&gt; 按 &lt;b&gt;F5&lt;/b&gt; 以 &lt;a href="#0" data-text="继续计算"&gt;继续计算&lt;/a&gt; or &lt;b&gt;Esc&lt;/b&gt; 以 &lt;a href="#0" data-text="取消"&gt;取消&lt;/a&gt;.&lt;/p&gt;</value>
+        <value>&lt;p&gt;&lt;span class="err"&gt;已暂停!&lt;/span&gt; 按 &lt;b&gt;F5&lt;/b&gt; 以 &lt;a href="#0" data-text="继续计算"&gt;继续计算&lt;/a&gt; 或 &lt;b&gt;Esc&lt;/b&gt; 以 &lt;a href="#0" data-text="取消"&gt;取消&lt;/a&gt;.&lt;/p&gt;</value>
     </data>
 	<data name="Error_found_on_line" xml:space="preserve">
         <value>&lt;div class="errorHeader"&gt;找到&lt;b&gt;1&lt;/b&gt; 处错误在行:</value>
