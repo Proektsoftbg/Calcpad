@@ -163,7 +163,7 @@
         <value>ha (百公亩)</value>
     </data>
 	<data name="Volume" xml:space="preserve">
-        <value>V体积</value>
+        <value>体积</value>
     </data>
 	<data name="CubicMeter" xml:space="preserve">
         <value>m³ (立方米)</value>
@@ -427,7 +427,7 @@
         <value>at (工程大气压，98.07kPa)</value>
     </data>
 	<data name="Torr" xml:space="preserve">
-        <value>Torr (托，1mm汞柱压强，1 Torr=1.33322 × 10^2 Pa)</value>
+        <value>Torr (托,1mm汞柱压强,1 Torr=1.33322 × 10^2 Pa)</value>
     </data>
 	<data name="MillilitersOfMercury" xml:space="preserve">
         <value>mmHg (毫米水银)</value>
@@ -436,16 +436,16 @@
         <value>密度/容重</value>
     </data>
 	<data name="GramsPerCubicMillimeter" xml:space="preserve">
-        <value>g/mm³ </value>
+        <value>g/mm³(克/立方毫米) </value>
     </data>
 	<data name="GramsPerCubicCentimeter" xml:space="preserve">
-        <value>g/cm³ </value>
+        <value>g/cm³(克/立方厘米) </value>
     </data>
 	<data name="KilogramsPerCubicCentimeter" xml:space="preserve">
-        <value>kg/cm³ </value>
+        <value>kg/cm³(千克/立方厘米) </value>
     </data>
 	<data name="TonnesPerCubicMeter" xml:space="preserve">
-        <value>t/m³ </value>
+        <value>t/m³(吨/立方米) </value>
     </data>
 	<data name="KilogramForcePerCubicCentimeter" xml:space="preserve">
         <value>kgf/cm³ (千克-力每立方厘米)</value>
@@ -454,16 +454,16 @@
         <value>tf/m³ (吨-力每立方米)</value>
     </data>
 	<data name="NewtonsPerCubicMillimeter" xml:space="preserve">
-        <value>N/mm³ </value>
+        <value>N/mm³(牛/立方毫米) </value>
     </data>
 	<data name="NewtonsPerCubicCentimeter" xml:space="preserve">
-        <value>N/cm³ </value>
+        <value>N/cm³(牛/立方厘米) </value>
     </data>
 	<data name="KilonewtonsPerCubicCentimeter" xml:space="preserve">
-        <value>kN/cm³ </value>
+        <value>kN/cm³(千牛/立方厘米) </value>
     </data>
 	<data name="KilonewtonsPerCubicMeter" xml:space="preserve">
-        <value>kN/m³ </value>
+        <value>kN/m³ (千牛/立方米)</value>
     </data>
 	<data name="Viscosity" xml:space="preserve">
         <value>黏度</value>
@@ -478,7 +478,7 @@
         <value>cP (厘泊)</value>
     </data>
 	<data name="SquareMetersPerSecond" xml:space="preserve">
-        <value>m²/s</value>
+        <value>m²/s(平方米/秒)</value>
     </data>
 	<data name="Stokes" xml:space="preserve">
         <value>St (斯托克斯)</value>
@@ -1147,6 +1147,6 @@
         <value>mol (物质量)</value>
     </data>
 	<data name="CatalyticActivity" xml:space="preserve">
-        <value>kat (catalytic activity)</value>
+        <value>kat (催化活性)</value>
     </data>
 </root>
