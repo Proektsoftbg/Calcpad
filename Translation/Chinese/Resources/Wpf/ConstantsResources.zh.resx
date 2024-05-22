@@ -19,87 +19,87 @@
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
     <data name="SpeedOfLight" xml:space="preserve">
-        <value>Speed of light in vacuum</value>
+        <value>真空中光速</value>
     </data>
     <data name="SolarMass" xml:space="preserve">
-        <value>Solar mass</value>
+        <value>太阳质量</value>
     </data>
   <data name="GravitationalConstant" xml:space="preserve">
-        <value>Gravitational constant</value>
+        <value>引力常数</value>
     </data>
     <data name="GravitationalAcceleration" xml:space="preserve">
-        <value>Gravitational acceleration on Earth</value>
+        <value>地球重力加速度</value>
     </data>
     <data name="GoldenRatio" xml:space="preserve">
-        <value>Golden ratio</value>
+        <value>黄金比例</value>
     </data>
     <data name="EulerNumber" xml:space="preserve">
-        <value>Euler number</value>
+        <value>欧拉数</value>
     </data>
     <data name="EulerConstant" xml:space="preserve">
-        <value>Euler constant</value>
+        <value>欧拉常数</value>
     </data>
     <data name="EarthMass" xml:space="preserve">
-        <value>Earth mass</value>
+        <value>地球质量</value>
     </data>
     <data name="StefanBoltzmannConstant" xml:space="preserve">
-        <value>Stefan–Boltzmann constant</value>
+        <value>Stefan–Boltzmann常数</value>
     </data>
     <data name="BoltzmannConstant" xml:space="preserve">
-        <value>Boltzmann constant</value>
+        <value>Boltzmann常数</value>
     </data>
     <data name="MolarGasConstant" xml:space="preserve">
         <value>Molar gas constant </value>
     </data>
     <data name="FaradayConstant" xml:space="preserve">
-        <value>Faraday constant</value>
+        <value>法拉第常数</value>
     </data>
     <data name="UnitWeightOfConcrete" xml:space="preserve">
-        <value>Unit weight of concrete</value>
+        <value>混凝土容重</value>
     </data>
     <data name="UnitWeightOfSteel" xml:space="preserve">
-        <value>Unit weight of steel</value>
+        <value>钢材容重</value>
     </data>
     <data name="UnitWeightOfAluminium" xml:space="preserve">
-        <value>Unit weight of aluminium</value>
+        <value>铝的容重</value>
     </data>
     <data name="UnitWeightOfGlass" xml:space="preserve">
-        <value>Unit weight of glass</value>
+        <value>玻璃容重</value>
     </data>
     <data name="UnitWeightOfWater" xml:space="preserve">
-        <value>Unit weight of water</value>
+        <value>水的容重</value>
     </data>
   <data name="Constants_Header" xml:space="preserve">
-        <value>Constants</value>
+        <value>常数</value>
     </data>
   <data name="PlanckConstant" xml:space="preserve">
-        <value>Planck constant</value>
+        <value>普朗克常数</value>
     </data>
     <data name="CoulombConstant" xml:space="preserve">
-        <value>Coulomb constant</value>
+        <value>库伦常数</value>
     </data>
     <data name="VacuumPermeability" xml:space="preserve">
-        <value>Vacuum magnetic permeability</value>
+        <value>真空磁导率</value>
     </data>
     <data name="VacuumPermitivity" xml:space="preserve">
-        <value>Vacuum electric permittivity</value>
+        <value>真空电介常数</value>
     </data>
     <data name="ElectronMass" xml:space="preserve">
-        <value>Electron mass</value>
+        <value>电子质量</value>
     </data>
     <data name="ElementaryCharge" xml:space="preserve">
         <value>Elementary charge</value>
     </data>
     <data name="AvogadroConstant" xml:space="preserve">
-        <value>Avogadro constant</value>
+        <value>阿伏伽德罗常量</value>
     </data>
   <data name="ProtonMass" xml:space="preserve">
-        <value>Proton mass</value>
+        <value>质子质量</value>
     </data>
     <data name="Pi" xml:space="preserve">
-        <value>Constant π (pi)</value>
+        <value>常数π (pi)</value>
     </data>
   <data name="NeutronMass" xml:space="preserve">
-        <value>Neutron mass</value>
+        <value>中子质量</value>
     </data>
 </root>
