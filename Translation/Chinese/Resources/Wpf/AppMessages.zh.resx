@@ -16,8 +16,7 @@
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
 	<data name="ReportUnhandledExceptionAndClose_NoUnsavedData" xml:space="preserve">
-        <value>数据无丢失. 若问题一直存在请联系proektsoft.bg@gmail.com.
-</value>
+        <value>数据无丢失. 若问题一直存在请联系proektsoft.bg@gmail.com.</value>
     </data>
 	<data name="ReportUnhandledExceptionAndClose_NoUnsavedData_RecoveryAttempted" xml:space="preserve">
         <value>Calcpad保存了您的工作正尝试自动恢复.</value>
@@ -60,6 +59,6 @@
         <value>读取输入区数据错误.</value>
     </data>
 	<data name="ErrorString" xml:space="preserve">
-        <value>#错误</value>
+        <value>错误字符</value>
     </data>
 </root>
