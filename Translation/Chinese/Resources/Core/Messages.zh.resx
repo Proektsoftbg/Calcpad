@@ -462,7 +462,7 @@
     <comment/>
   </data>
   <data name="Paused_Press_F5_to_continue" xml:space="preserve">
-    <value>&lt;p&gt;&lt;span class="err"&gt;已暂停!&lt;/span&gt; 按 &lt;b&gt;F5&lt;/b&gt; 以 &lt;a href="#0" data-text="continue"&gt;继续计算&lt;/a&gt; 或 &lt;b&gt;Esc&lt;/b&gt; 以 &lt;a href="#0" data-text="cancel"&gt;取消&lt;/a&gt;.&lt;/p&gt;</value>
+    <value>&lt;p&gt;&lt;span class="err"&gt;已暂停!&lt;/span&gt; 按 &lt;b&gt;F5&lt;/b&gt; 以 &lt;a href="#0" data-text="继续计算"&gt;继续计算&lt;/a&gt; 或 &lt;b&gt;Esc&lt;/b&gt; 以 &lt;a href="#0" data-text="取消"&gt;取消&lt;/a&gt;.&lt;/p&gt;</value>
     <comment/>
   </data>
   <data name="Error_found_on_line" xml:space="preserve">
