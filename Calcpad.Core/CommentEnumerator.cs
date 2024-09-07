@@ -31,8 +31,10 @@ namespace Calcpad.Core
             }
             var j = _span.IndexOf('\n');
             if (j > -1 && j < i)
+            {
+                _commentChar = '\0';
                 i = j;
-
+            }
             if (i < 0)
             {
                 Current = _span;

@@ -16,6 +16,8 @@ namespace Calcpad.Wpf
         public FindReplaceWindow()
         {
             InitializeComponent();
+            SearchCombo.IsTextSearchCaseSensitive = true;
+            ReplaceCombo.IsTextSearchCaseSensitive = true;
         }
 
         private List<string> SearchList
@@ -44,24 +46,12 @@ namespace Calcpad.Wpf
                 return;
 
             TabItem tabItem = (TabItem)tabControl.SelectedItem;
-            if (ReferenceEquals(tabItem, tabControl.Items[0]))
+            if (ReferenceEquals(tabItem, FindTabItem))
                 SearchCombo.Focus();
-            else if (ReferenceEquals(tabItem, tabControl.Items[1]))
+            else if (ReferenceEquals(tabItem, ReplaceTabItem))
                 ReplaceCombo.Focus();
 
-            SetButtons((!SelectionCheckbox.IsChecked ?? false) || FindReplaceTab.SelectedIndex == 0);
-        }
-
-        private void Window_ContentRendered(object sender, EventArgs e)
-        {
-            Dispatcher.InvokeAsync(
-                () =>
-                {
-                    FindGrid.Focus();
-                    SearchCombo.Focus();
-                },
-                DispatcherPriority.ApplicationIdle
-            );
+            SetButtons((!SelectionCheckbox.IsChecked ?? false) || FindReplaceTabControl.SelectedIndex == 0);
         }
 
         private void TabItem_GotFocus(object sender, RoutedEventArgs e)
@@ -76,8 +66,8 @@ namespace Calcpad.Wpf
             FindReplace.MatchCase = MatchCaseCheckbox.IsChecked ?? false;
             FindReplace.WholeWords = WholeWordsCheckbox.IsChecked ?? false;
             FindReplace.Direction = (FindReplace.Directions)(DirectionCombo.SelectedIndex - 1);
-            FindReplace.Mode = (FindReplace.Modes)FindReplaceTab.SelectedIndex;
-            if (FindReplaceTab.SelectedIndex == 1)
+            FindReplace.Mode = (FindReplace.Modes)FindReplaceTabControl.SelectedIndex;
+            if (FindReplaceTabControl.SelectedIndex == 1)
                 FindReplace.Selection = SelectionCheckbox.IsChecked ?? false;
             else
                 FindReplace.Selection = false;
@@ -113,7 +103,7 @@ namespace Calcpad.Wpf
             MatchCaseCheckbox.IsChecked = FindReplace.MatchCase;
             WholeWordsCheckbox.IsChecked = FindReplace.WholeWords;
             DirectionCombo.SelectedIndex = (int)FindReplace.Direction + 1;
-            FindReplaceTab.SelectedIndex = (int)FindReplace.Mode;
+            FindReplaceTabControl.SelectedIndex = (int)FindReplace.Mode;
             SelectionCheckbox.IsChecked =
                 FindReplace.Mode == FindReplace.Modes.Replace &&
                 FindReplace.Selection &&
@@ -123,7 +113,7 @@ namespace Calcpad.Wpf
             SearchCombo.Text = FindReplace.SearchString;
             ReplaceCombo.Text = FindReplace.ReplaceString;
             FindReplace.InitPosition();
-            FindReplace.HighlightSelection();
+            FindReplace.HighlightSelection();   
         }
 
         private void Window_KeyUp(object sender, KeyEventArgs e)
@@ -133,9 +123,9 @@ namespace Calcpad.Wpf
             else if (e.KeyboardDevice.Modifiers == ModifierKeys.Control)
             {
                 if (e.Key == Key.F)
-                    FindReplaceTab.SelectedIndex = 0;
+                    FindReplaceTabControl.SelectedIndex = 0;
                 else if (e.Key == Key.H)
-                    FindReplaceTab.SelectedIndex = 1;
+                    FindReplaceTabControl.SelectedIndex = 1;
             }
         }
 
@@ -147,7 +137,7 @@ namespace Calcpad.Wpf
 
         private void SelectionCheckbox_Checked(object sender, RoutedEventArgs e)
         {
-            SetButtons(FindReplaceTab.SelectedIndex == 0);
+            SetButtons(FindReplaceTabControl.SelectedIndex == 0);
         }
 
         private void SelectionCheckbox_Unchecked(object sender, RoutedEventArgs e)
@@ -166,5 +156,53 @@ namespace Calcpad.Wpf
             Owner.Activate();
             Owner.Focus();
         }
+
+        private void SearchCombo_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab && FindReplaceTabControl.SelectedIndex == 1 && !IsShiftDown())
+            {
+                e.Handled = true;
+                ReplaceCombo.Focus();
+            }
+        }
+
+        private void Window_ContentRendered(object sender, EventArgs e)
+        {
+            FindButton.Focus();
+            Dispatcher.InvokeAsync(() => SearchCombo.Focus(), DispatcherPriority.ApplicationIdle);
+        }
+
+        private void ReplaceCombo_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab)
+            {
+                e.Handled = true;
+                if (IsShiftDown())
+                    SearchCombo.Focus();
+                else
+                    DirectionCombo.Focus();
+            }
+        }
+
+        private void WholeWordsCheckbox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab && FindReplaceTabControl.SelectedIndex == 1 && !IsShiftDown())
+            {
+                e.Handled = true;
+                ReplaceButton.Focus();
+            }
+        }
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                e.Handled = true;
+                FindReplaceTabControl.SelectedIndex = 1 - FindReplaceTabControl.SelectedIndex;
+            }
+        }
+
+        private bool IsShiftDown() => 
+            (Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift;
     }
 }

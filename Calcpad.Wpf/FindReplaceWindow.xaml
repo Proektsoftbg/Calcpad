@@ -11,30 +11,29 @@
         VerticalAlignment="Center" MinHeight="260" MinWidth="560" 
         IsTabStop="False" 
         Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" 
-        ContentRendered="Window_ContentRendered" 
         ShowInTaskbar="False" 
         FocusManager.FocusedElement="{Binding ElementName=SearchCombo}" 
         KeyUp="Window_KeyUp" 
         Deactivated="Window_Deactivated" 
         SizeToContent="WidthAndHeight" 
         WindowStyle="SingleBorderWindow" 
-        Activated="Window_Activated" Icon="resources/find.png" Closed="Window_Closed">
-    <Grid Focusable="True" Margin="5,5,5,5" Height="234" VerticalAlignment="Top" HorizontalAlignment="Left" Width="550">
-        <TabControl x:Name="FindReplaceTab" SelectionChanged="TabControl_SelectionChanged" Focusable="False" Margin="5,5,5,5" Height="224" VerticalAlignment="Top" Width="540" HorizontalAlignment="Left">
-            <TabItem Header="{x:Static wpf:FindReplaceResources.Find}" TabIndex="10" GotFocus="TabItem_GotFocus"/>
-            <TabItem Header="{x:Static wpf:FindReplaceResources.Replace}" TabIndex="11">
-                <Grid x:Name="ReplaceGrid" Focusable="True" Margin="0,0,0,0">
+        Activated="Window_Activated" Icon="resources/find.png" Closed="Window_Closed" ContentRendered="Window_ContentRendered" PreviewKeyDown="Window_PreviewKeyDown">
+    <Grid Margin="5,5,5,5" Height="234" VerticalAlignment="Top" HorizontalAlignment="Left" Width="550">
+        <TabControl x:Name="FindReplaceTabControl" SelectionChanged="TabControl_SelectionChanged" Focusable="False" Margin="5,5,5,5" Height="224" VerticalAlignment="Top" Width="540" HorizontalAlignment="Left">
+            <TabItem x:Name="FindTabItem" Header="{x:Static wpf:FindReplaceResources.Find}" TabIndex="10" GotFocus="TabItem_GotFocus"/>
+            <TabItem x:Name="ReplaceTabItem" Header="{x:Static wpf:FindReplaceResources.Replace}" TabIndex="11">
+                <Grid x:Name="ReplaceGrid" Margin="0,0,0,0">
                     <Label Content="{x:Static wpf:FindReplaceResources.ReplaceWith}" Margin="12,53,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="24" Width="76" Padding="2,2,2,2" VerticalContentAlignment="Center" />
-                    <ComboBox x:Name="ReplaceCombo" IsEditable="True" Height="24" Margin="92,53,15,0" VerticalAlignment="Top" TabIndex="1" />
+                    <ComboBox x:Name="ReplaceCombo" IsEditable="True" Height="24" Margin="92,53,15,0" VerticalAlignment="Top" TabIndex="1" IsTabStop="True" PreviewKeyDown="ReplaceCombo_PreviewKeyDown" />
                     <CheckBox x:Name="SelectionCheckbox" Content="{x:Static wpf:FindReplaceResources.Selection}" Margin="0,95,240,0" HorizontalAlignment="Right" VerticalAlignment="Top" TabIndex="3" Height="24" Width="100" Checked="SelectionCheckbox_Checked" Unchecked="SelectionCheckbox_Unchecked" VerticalContentAlignment="Center"/>
                     <Button x:Name="ReplaceButton" Content="{x:Static wpf:FindReplaceResources.Replace}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,150,350,0" Height="24" Width="90" TabIndex="6" Click="ReplaceButton_Click" Padding="1,0,1,1"/>
                     <Button x:Name="ReplaceAllButton" Content="{x:Static wpf:FindReplaceResources.ReplaceAll}" HorizontalAlignment="Right" Margin="0,150,236,0" Width="100" TabIndex="7" Height="24" VerticalAlignment="Top" Click="ReplaceAllButton_Click" Padding="1,0,1,1"/>
                 </Grid>
             </TabItem>
         </TabControl>
-        <Grid x:Name="FindGrid" Margin="5,32,5,5" Focusable="True" Height="197" VerticalAlignment="Top" HorizontalAlignment="Left" Width="540">
+        <Grid x:Name="FindGrid" Margin="5,32,5,5" Height="197" VerticalAlignment="Top" HorizontalAlignment="Left" Width="540">
             <Label Content="{x:Static wpf:FindReplaceResources.SearchFor}" Margin="15,18,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="24" Width="75" Padding="2,2,2,2" VerticalContentAlignment="Center" />
-            <ComboBox x:Name="SearchCombo" IsEditable="True" Height="24" Margin="95,18,18,0" VerticalAlignment="Top" TabIndex="0" />
+            <ComboBox x:Name="SearchCombo" IsEditable="True" Height="24" Margin="95,18,18,0" VerticalAlignment="Top" TabIndex="0" IsTabStop="True" PreviewKeyDown="SearchCombo_PreviewKeyDown" />
             <Label Content="{x:Static wpf:FindReplaceResources.Direction}" Margin="15,93,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="24" Width="75" Padding="2,2,2,2" VerticalContentAlignment="Center" />
             <ComboBox x:Name="DirectionCombo" HorizontalAlignment="Left" Height="24" Margin="95,93,0,0" VerticalAlignment="Top" Width="75" TabIndex="2" Padding="6,4,2,2">
                 <ComboBoxItem Content="{x:Static wpf:FindReplaceResources.Up}"/>
@@ -42,7 +41,7 @@
                 <ComboBoxItem Content="{x:Static wpf:FindReplaceResources.Down}"/>
             </ComboBox>
             <CheckBox x:Name="MatchCaseCheckbox" Content="{x:Static wpf:FindReplaceResources.MatchCase}" Margin="0,93,130,0" HorizontalAlignment="Right" VerticalAlignment="Top" TabIndex="4" Height="24" Width="102" VerticalContentAlignment="Center"/>
-            <CheckBox x:Name="WholeWordsCheckbox" Content="{x:Static wpf:FindReplaceResources.WholeWords}" Margin="0,93,20,0" HorizontalAlignment="Right" VerticalAlignment="Top" TabIndex="5" Height="24" Width="90" VerticalContentAlignment="Center"/>
+            <CheckBox x:Name="WholeWordsCheckbox" Content="{x:Static wpf:FindReplaceResources.WholeWords}" Margin="0,93,20,0" HorizontalAlignment="Right" VerticalAlignment="Top" TabIndex="5" Height="24" Width="90" VerticalContentAlignment="Center" PreviewKeyDown="WholeWordsCheckbox_PreviewKeyDown"/>
             <Button x:Name="FindButton" Content="{x:Static wpf:FindReplaceResources.FindNext}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,148,124,0" Height="24" Width="101" IsDefault="True" TabIndex="8" Click="FindButton_Click" Padding="1,0,1,1"/>
             <Button x:Name="CancelButton" Content="{x:Static wpf:FindReplaceResources.Close}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,148,20,0" Height="24" Width="90" IsCancel="True" TabIndex="9" Click="CancelButton_Click" Padding="1,0,1,1"/>
         </Grid>
