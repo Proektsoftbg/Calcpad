@@ -1,0 +1,310 @@
+'<h1>Arithmetic operators</h1>
+"Addition
+a = [5; 12.3; -44; 13; 21.4]
+b = -5
+c = a + b
+f(a; b) = a + b','c = f(a; b)
+
+a = Vector(5)
+b = 0
+c = a + b
+c = f(a; b)
+
+a = [23.1]
+b = -2.5
+c = a + b
+c = f(a; b)
+
+"Subtraction
+a = [-3; 0; 4.5; -7; 2.25]
+b = 3.14
+c = a - b
+f(a; b) = a - b','c = f(a; b)
+
+a
+b
+c = a - b
+c = f(a; b)
+
+a = [1.1; -2.2]
+b = 0.001
+c = a - b
+c = f(a; b)
+
+"Multiplication
+a = [0.1; -0.2; 0.3; -0.4; 0.5]
+b = 8.9
+c = a*b
+f(a; b) = a*b','c = f(a; b)
+
+a
+b
+c = a*b
+c = f(a; b)
+
+a = [0.25; -0.5; 0.75; -1; 1.25]
+b = 6.72
+c = a*b
+c = f(a; b)
+
+"Division
+a = [0.1; -0.2; 0.3; -0.4; 0.5]
+b = -10
+c = a/b
+f(a; b) = a/b','c = f(a; b)
+
+a
+b
+c = a/b
+c = f(a; b)
+
+"Exponentiation
+a = [-4.25; 0; 7.89; -10; 3.14159]
+b = -2
+c = a^b
+f(a; b) = a^b','c = f(a; b)
+
+a
+b
+c = a^b
+c = f(a; b)
+
+"Division bar
+a = [0.1; -0.2; 0.3; -0.4; 0.5; -5; 8.4; 0]
+b = 1
+c = a÷b
+f(a; b) = a÷b','c = f(a; b)
+
+a
+b
+c = a÷b
+c = f(a; b)
+
+a = [-5; -2.1; 7]
+b = 0
+c = a÷b
+c = f(a; b)
+
+"Integer division
+a = [-0.5; 3; 0; -7.8; 5.6; 4.2; -6; 1.8; -3.1]
+b = 5.67
+c = a\b
+f(a; b) = a\b','c = f(a; b)
+
+a
+b
+c = a\b
+c = f(a; b)
+
+a = [0]
+b = -3
+c = a\b
+c = f(a; b)
+
+"Modulo (remainder)
+a = [-4.3; 0; 6.9; -2.8; 3; -3; 6.5; 0]
+b = 2.7
+c = a⦼b
+f(a; b) = a⦼b','c = f(a; b)
+
+a
+b
+c = a⦼b
+c = f(a; b)
+
+a = [-3; 6.5]
+b = 0.5
+c = a⦼b
+c = f(a; b)
+
+"Factorial
+a = [4; 2; 6; 2; 3]
+c = a!
+f(a) = a!','c = f(a)
+
+a
+c = a!
+c = f(a)
+
+a = [5; 2; 0; 7; 6]
+c = a!
+
+'<h1>Relational operators</h1>
+"Equal to
+a = [8.2; 0; 6.9; -2.8; 3; 8.2; -7; 4.6]
+b = 8.2
+c = a ≡ b
+f(a; b) = a ≡ b','c = f(a; b)
+
+a
+b
+c = a ≡ b
+f(a; b)
+
+a = [0.5; 6.5]
+b = 0
+c = a ≡ b
+f(a; b)
+
+"Not equal to
+a = [-4.3; 0; 6.9; -2.8; 3; -5; 0; 2.7; -1.4]
+b = 0
+c = a ≠ b
+f(a; b) = a ≠ b','c = f(a; b)
+
+a
+b
+c = a ≠ b
+f(a; b)
+
+a = [-3]
+b = 7.3
+c = a ≠ b
+f(a; b)
+
+"Less than
+a = [0; -6.7; 3.8; -2; 9.5; 7.2; 0; -1.3; 5]
+b = 4
+c = a < b
+f(a; b) = a < b','c = f(a; b)
+
+a
+b
+c = a < b
+c = f(a; b)
+
+a = [6; -2.5; 0]
+b = 8.6
+c = a < b
+c = f(a; b)
+
+"Greater than
+a = [4.7; -8; 0; 2.3; -6.5; -3; 6.2; 0; -5.1; 7.4]
+b = -3
+c = a > b
+f(a; b) = a > b','c = f(a; b)
+
+a
+b
+c = a > b
+c = f(a; b)
+
+a = [0]
+b = 29
+c = a > b
+c = f(a; b)
+
+"Less than or equal 
+a = [5; -2.1; 0; 7.8; -4.6]
+b = -7
+c = a ≤ b
+f(a; b) = a ≤ b','c = f(a; b)
+
+a
+b
+c = a ≤ b
+c = f(a; b)
+
+a = [3.6; -5; 0; 1.8; -8.3; 0; -3.4; 9.1]
+b = 9.1
+c = a ≤ b
+c = f(a; b)
+
+"Greater than or equal
+a = [20; 16.7; 0; 22.3; 13.5; 21.2; 0; -19.3; 25]
+b = -19.3
+c = a ≥ b
+f(a; b) = a ≥ b','c = f(a; b)
+
+a
+b
+c = a ≥ b
+c = f(a; b)
+
+a = [30; 25.8; 0]
+b = 25.8
+c = a ≥ b
+c = f(a; b)
+
+'<h1>Logical operators</h1>
+"Logical AND 
+a = [0; 16.7; 0; 22.3; 13.5; -18; 21.2; 0; -19.3; 25]
+b = 0
+c = a ∧ b
+f(a; b) = a ∧ b','c = f(a; b)
+
+a
+b
+c = a ∧ b
+c = f(a; b)
+
+a = [30]
+b = 4
+c = a ∧ b
+c = f(a; b)
+
+"Logical OR
+a = [0; 16.7; 0; 22.3; 13.5; -18; 21.2; 0; -19.3; 25]
+b = 0
+c = a ∨ b
+f(a; b) = a ∨ b','c = f(a; b)
+
+a
+b
+c = a ∨ b
+c = f(a; b)
+
+a = [30; 0; 0]
+b = 0
+c = a ∨ b
+c = f(a; b)
+
+"Logical XOR
+a = [6; -2.5; 0; 4.3; -8.1; 8.6; 0; -5.2; 1.9]
+b = 0
+c = a ⊕ b
+f(a; b) = a ⊕ b','c = f(a; b)
+
+a
+b
+c = a ⊕ b
+c = f(a; b)
+
+a = [-4]
+b = 0
+c = a ⊕ b
+c = f(a; b)
+
+"Assignment
+a = [6; -2.5; 0; 4.3; -8.1]
+b = 7
+c = a
+f(a) = c','c = f(a)
+
+a
+b
+c = b
+c = f(b)
+
+a = [-4; 7.2; 0; -1.3; 5]
+b = 21
+c = a
+c = f(a)
+
+'<h1>Combined operations</h1>
+x = [6; -2.5; 0; 4.3; -8.1; 8.6; 0; -5.2; 1.9]
+y = 2.7
+c = (x + y*2) ≤ 0
+f(x; y) = x + y*2','c = f(x; y)
+
+c = x^2 - y/3 ≥ 0
+f(x; y) = x^2 - y/3','c = f(x; y)
+
+c = 4*x + 5 ≡ 0
+f(x; y) = 4*x + 5','c = f(x; y)
+
+c = (x/2 > 0) - y
+f(x; y) = x/2 - y','c = f(x; y)
+
+c = x^2 + (y/4 ≤ 1)
+f(x; y) = x^2 + y^4','c = f(x; y)

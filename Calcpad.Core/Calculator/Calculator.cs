@@ -7,14 +7,15 @@ namespace Calcpad.Core
 {
     internal abstract class Calculator
     {
-        internal delegate Value Operator(in Value a, in Value b);
+
         internal delegate Value Function(in Value a);
+        internal delegate Value Operator(in Value a, in Value b);
+        internal delegate IValue Function3(in IValue a, in IValue b, in IValue c);
 
-        private const double DeltaPlus = 1 + 1e-15, DeltaMinus = 1 - 1e-15;
-        private static readonly double Log2Inv = 1 / Math.Log(2);
-
-        private static readonly double[] Factorial;
+        internal const double DeltaPlus = 1 + 1e-15, DeltaMinus = 1 - 1e-15;
         internal const char NegChar = '‐'; //hyphen, not minus "-"
+        private static readonly double Log2Inv = 1 / Math.Log(2);
+        private static readonly double[] Factorial;
         protected int _degrees;
         protected bool _returnAngleUnits;
 
@@ -39,11 +40,23 @@ namespace Calcpad.Core
             Unit.Get("grad")
         ];
 
+        protected Function3[] Functions3 =
+        [
+            If
+        ];
+
+        protected Func<Value[], Value>[] Interpolations =
+        [
+            Take,
+            Line,
+            Spline,
+        ];
+
         internal abstract int Degrees { set; }
         internal bool ReturnAngleUnits { set => _returnAngleUnits = value; }
 
-        //                                              ^  ÷  \  ⦼  *  -  +  <  >  ≤  ≥  ≡  ≠  ∧ ∨  ⊕  =
-        internal static readonly int[] OperatorOrder = [0, 3, 3, 3, 3, 4, 5, 6, 6, 6, 6, 6, 6, 7, 8, 8, 9];
+        // Negation = 1                                   ^  ÷  \  ⦼  *  -  +  <  >  ≤  ≥  ≡  ≠  ∧ ∨  ⊕  =
+        internal static readonly sbyte[] OperatorOrder = [0, 3, 3, 3, 3, 4, 5, 6, 6, 6, 6, 6, 6, 7, 8, 8, 9];
 
         internal static readonly FrozenDictionary<char, int> OperatorIndex =
         new Dictionary<char, int>()
@@ -67,6 +80,29 @@ namespace Calcpad.Core
             { '⊕', 15 },
             { '=', 16 }
         }.ToFrozenDictionary();
+
+        internal static bool[] IsZeroPreservingOperator = [
+            false,   // ^  0
+            false,   // /÷ 1
+            false,   // \  2
+            false,   // ⦼  3
+            true,    // *  4
+            true,    // -  5
+            true,    // +  6
+            true,    // <  7
+            true,    // >  8
+            false,   // ≤  9
+            false,   // ≥ 10
+            false,   // ≡ 11
+            true,    // ≠ 12
+            true,    // ∧ 13
+            true,    // ∨ 14
+            true,    // ⊕ 15
+            true     // = 16
+            ];
+
+
+        internal static bool OperatorRequireConsistentUnits(long index) => index > 4 && index < 13;
 
         internal static readonly FrozenDictionary<string, int> FunctionIndex =
         new Dictionary<string, int>()
@@ -115,7 +151,7 @@ namespace Calcpad.Core
             { "fact", 41 },
             { "‐", 42 },
             { "not", 43},
-            { "timer", 44 }
+            { "timer", 44 },
         }.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
 
         internal static readonly FrozenDictionary<string, int> Function2Index =
@@ -124,7 +160,13 @@ namespace Calcpad.Core
             { "atan2", 0 },
             { "root", 1 },
             { "mod", 2 },
-            { "mandelbrot", 3 }
+            { "mandelbrot", 3 },
+        }.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
+
+        internal static readonly FrozenDictionary<string, int> Function3Index =
+        new Dictionary<string, int>()
+        {
+            { "if", 0 },
         }.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
 
         internal static readonly FrozenDictionary<string, int> MultiFunctionIndex =
@@ -139,34 +181,50 @@ namespace Calcpad.Core
             { "product", 6 },
             { "mean", 7 },
             { "switch", 8 },
-            { "take", 9 },
-            { "line", 10 },
-            { "spline", 11 },
-            { "and", 12 },
-            { "or", 13 },
-            { "xor", 14 },
-            { "gcd", 15 },
-            { "lcm", 16 },
+            { "and", 9 },
+            { "or", 10 },
+            { "xor", 11 },
+            { "gcd", 12 },
+            { "lcm", 13 },
         }.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
 
+        internal static readonly FrozenDictionary<string, int> InterpolationIndex =
+        new Dictionary<string, int>()
+        {
+            { "take", 0 },
+            { "line", 1 },
+            { "spline", 2 },
+        }.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
+
+        internal static sbyte UnitMultOrder = (sbyte)(OperatorOrder[OperatorIndex['*']] - 1);
         internal static bool IsOperator(char name) => OperatorIndex.ContainsKey(name);
         internal static bool IsFunction(string name) => FunctionIndex.ContainsKey(name);
         internal static bool IsFunction2(string name) => Function2Index.ContainsKey(name);
+        internal static bool IsFunction3(string name) => Function3Index.ContainsKey(name);
         internal static bool IsMultiFunction(string name) => MultiFunctionIndex.ContainsKey(name);
-        internal abstract Value EvaluateOperator(int index, in Value a, in Value b);
-        internal abstract Value EvaluateFunction(int index, in Value a);
-        internal abstract Value EvaluateFunction2(int index, in Value a, in Value b);
-        internal abstract Value EvaluateMultiFunction(int index, Value[] a);
-        internal abstract Operator GetOperator(int index);
-        internal abstract Function GetFunction(int index);
-        internal abstract Operator GetFunction2(int index);
-        internal abstract Func<Value[], Value> GetMultiFunction(int index);
+        internal static bool IsInterpolation(string name) => InterpolationIndex.ContainsKey(name);
+        internal abstract Value EvaluateOperator(long index, in Value a, in Value b);
+        internal abstract Value EvaluateFunction(long index, in Value a);
+        internal abstract Value EvaluateFunction2(long index, in Value a, in Value b);
+        internal abstract IValue EvaluateFunction3(long index, in IValue a, in IValue b, in IValue c);
+        internal abstract Value EvaluateMultiFunction(long index, Value[] a);
+        internal abstract Value EvaluateInterpolation(long index, Value[] a);
+        internal abstract Operator GetOperator(long index);
+        internal abstract Function GetFunction(long index);
+        internal abstract Operator GetFunction2(long index);
+        internal abstract Function3 GetFunction3(long index);
+        internal abstract Func<Value[], Value> GetMultiFunction(long index);
+        internal Func<Value[], Value> GetInterpolation(long index) => Interpolations[index];
 
         internal static readonly int PowerIndex = OperatorIndex['^'];
+        internal static readonly int MultiplyIndex = OperatorIndex['*'];
+        internal static readonly int AddIndex = OperatorIndex['+'];
         internal static readonly int SqrIndex = FunctionIndex["sqr"];
         internal static readonly int SqrtIndex = FunctionIndex["sqrt"];
         internal static readonly int CbrtIndex = FunctionIndex["cbrt"];
         internal static readonly int RootIndex = Function2Index["root"];
+        internal static readonly int SrssIndex = MultiFunctionIndex["srss"];
+        internal static readonly int SumIndex = MultiFunctionIndex["sum"];
 
         static Calculator()
         {
@@ -196,6 +254,14 @@ namespace Calcpad.Core
                 Throw.RootIntegerException();
 
             return n;
+        }
+
+        protected static IValue If(in IValue condition, in IValue valueIfTrue, in IValue valueIfFalse)
+        {
+            var value = IValue.AsValue(condition);
+            return Math.Abs(value.Re) < Value.LogicalZero ?
+                valueIfFalse :
+                valueIfTrue;
         }
 
         protected static double Fact(double value)
@@ -251,9 +317,10 @@ namespace Calcpad.Core
             return Value.NaN;
         }
 
-        protected static Value Take(Value[] v) => Take(v[0], v.AsSpan(1));
-        internal static Value Take(Value x, ReadOnlySpan<Value> y)
+        protected static Value Take(Value[] values)
         {
+            var x = values[0];
+            ReadOnlySpan<Value> y = values.AsSpan(1..);
             var d = Math.Round(x.Re, MidpointRounding.AwayFromZero);
             if (!double.IsNormal(d) || d < DeltaMinus || d > y.Length * DeltaPlus)
                 return Value.NaN;
@@ -261,46 +328,53 @@ namespace Calcpad.Core
             return y[(int)d - 1];
         }
 
-        protected static Value Line(Value[] v) => Line(v[0], v.AsSpan(1));
-        internal static Value Line(Value x, ReadOnlySpan<Value> y)
+        protected static Value Line(Value[] values)
         {
+            var x = values[0];
+            ReadOnlySpan<Value> y = values.AsSpan(1..);
             var d = x.Re;
             if (!double.IsNormal(d) || d < DeltaMinus || d > y.Length * DeltaPlus)
                 return Value.NaN;
 
             var i = (int)Math.Floor(d);
+            var y1 = y[i - 1];
             if (i == d || d >= y.Length)
-                return y[i - 1];
+                return y1;
 
-            return y[i - 1] + (y[i] - y[i - 1]) * (d - i);
+            return y1 + (y[i] - y1) * (d - i);
         }
 
-        protected static Value Spline(Value[] v) => Spline(v[0], v.AsSpan(1));
-        internal static Value Spline(Value x, ReadOnlySpan<Value> y)
+        protected static Value Spline(Value[] values)
         {
+            var x = values[0];
+            ReadOnlySpan<Value> y = values.AsSpan(1..);
             var d = x.Re;
             if (!double.IsNormal(d) || d < DeltaMinus || d > y.Length * DeltaPlus)
                 return Value.NaN;
 
             var i = (int)Math.Floor(d) - 1;
+            var v = y[i];
             if (i == d || d >= y.Length)
-                return y[i];
+                return v;
 
-            var u = y[0].Units;
-            var y0 = y[i].Re * Unit.Convert(u, y[i].Units, ',');
-            var y1 = y[i + 1].Re * Unit.Convert(u, y[i + 1].Units, ',');
+            var u = v.Units;
+            var y0 = v.Re;
+            v = y[i + 1];
+            var y1 = v.Re * Unit.Convert(u, v.Units, ',');
             var dy = y1 - y0;
             var a = dy;
             var b = dy;
             dy = Math.Sign(dy);
             if (i > 0)
             {
-                var y2 = y[i - 1].Re * Unit.Convert(u, y[i - 1].Units, ',');
+                v = y[i - 1];
+                var y2 = v.Re * Unit.Convert(u, v.Units, ',');
                 a = (y1 - y2) * (Math.Sign(y0 - y2) == dy ? 0.5 : 0.25);
             }
             if (i < y.Length - 2)
             {
-                var y2 = y[i + 2].Re * Unit.Convert(u, y[i + 2].Units, ',');
+                v = y[i + 2];
+                var y2 = v.Re * Unit.Convert(u, v.Units, ',');
                 b = (y2 - y0) * (Math.Sign(y2 - y1) == dy ? 0.5 : 0.25);
             }
             if (i == 0)
@@ -341,7 +415,7 @@ namespace Calcpad.Core
             return b ? Value.One : Value.Zero;
         }
 
-        protected static Value Not(in Value value) => 
+        protected static Value Not(in Value value) =>
             Math.Abs(value.Re) < Value.LogicalZero ? Value.One : Value.Zero;
 
         protected static Value Mod(in Value a, in Value b) => a % b;
@@ -394,7 +468,6 @@ namespace Calcpad.Core
             return double.NaN;
         }
 
-
         protected static Value Gcd(Value[] v)
         {
             var a = AsLong(v[0].Re);
@@ -414,20 +487,22 @@ namespace Calcpad.Core
             for (int i = 1, len = v.Length; i < len; ++i)
             {
                 var b = AsLong(v[i].Re * Unit.Convert(u, v[i].Units, ','));
+                if (a == 0 && b == 0)
+                    return Value.NaN;
                 a = a * b / Gcd(a, b);
             }
             return new(a);
         }
 
-        private static long AsLong(double d)
+        internal static long AsLong(double d)
         {
-            var c = Math.Abs(d);
-            if (c > long.MaxValue || c != Math.Truncate(c))
+            var a = Math.Abs(d);
+            if (a > long.MaxValue || a != Math.Truncate(a))
                 Throw.BothValuesIntegerException();
-            return (long)c;
+            return (long)a;
         }
 
-        private static long Gcd(long a, long b)
+        internal static long Gcd(long a, long b)
         {
             if (a == 0) return b;
             if (b == 0) return a;

@@ -286,7 +286,7 @@
         <value>Броят на итерациите е по-голям от максималния {0}.&lt;/p&gt;</value>
     </data>
   <data name="loop_without_a_corresponding_repeat" xml:space="preserve">
-        <value>"#loop" без съответен "#repeat".</value>
+        <value>"#loop" без съответен "#repeat", "#for" или "#while".</value>
     </data>
   <data name="Entangled_if__end_if__and_repeat__loop_blocks" xml:space="preserve">
         <value>Преплитане на "#if - #end if" и "#repeat - #loop" блокове.</value>
@@ -335,5 +335,125 @@
     </data>
   <data name="Raise_to_square" xml:space="preserve">
     <value>Степенуване</value>
+  </data>
+  <data name="Too_many_errors" xml:space="preserve">
+    <value>Има твърде много грешки. Пропускам следващите изчисления.</value>
+  </data>
+  <data name="Iteration_block_not_closed_Missing_loop" xml:space="preserve">
+    <value>Грешка: Незатворен блок за итерации. Липсва "#loop".</value>
+  </data>
+  <data name="The_output_is_longer_than_20000_lines_The_rest_will_be_skipped" xml:space="preserve">
+    <value>Записката е по-дълга от 20000 реда. Останалата част ще бъде пренебрегната.</value>
+  </data>
+  <data name="Index" xml:space="preserve">
+    <value>Индекс</value>
+  </data>
+  <data name="Missing_vector_opening_bracket" xml:space="preserve">
+    <value>Липсва отваряща скоба за вектор "[".</value>
+  </data>
+  <data name="Bracket_mismatch" xml:space="preserve">
+    <value>Преплитане на скоби.</value>
+  </data>
+  <data name="_must_be_scalar" xml:space="preserve">
+    <value> трябва да е скалар.</value>
+  </data>
+  <data name="Index_out_of_range" xml:space="preserve">
+    <value>Индексът е извън границите:</value>
+  </data>
+  <data name="Cannot_assign_vector_to_scalar" xml:space="preserve">
+    <value>Не мога да присвоя вектор на скалар.</value>
+  </data>
+  <data name="Missing_vector_closing_bracket" xml:space="preserve">
+    <value>Липсва затваряща скоба на вектор "]".</value>
+  </data>
+  <data name="_must_be_vector" xml:space="preserve">
+    <value> трябва да бъде вектор.</value>
+  </data>
+  <data name="_must_be_positive_integer" xml:space="preserve">
+    <value> трябва да бъде положително цяло число.</value>
+  </data>
+  <data name="Step_cannot_be_zero" xml:space="preserve">
+    <value>Стъпката не може да е нула.</value>
+  </data>
+  <data name="Vector_size_cannot_exceed" xml:space="preserve">
+    <value>Размерът на вектора не може да надвишава</value>
+  </data>
+  <data name="Cross_product_is_definedonly_for_vectors_with_2_and_3_elements" xml:space="preserve">
+    <value>Векторното произведение е дефинирано само за вектори с 2 или 3 елемента.</value>
+  </data>
+  <data name="Function__0__is_not_defined_in_complex_mode" xml:space="preserve">
+    <value>Функцията {0} не е дефинирана в комплексен режим.</value>
+  </data>
+  <data name="Matrix_dimensions_do_not_match" xml:space="preserve">
+    <value>Размерите на матриците на се съответни.</value>
+  </data>
+  <data name="Matrix_must_be_square" xml:space="preserve">
+    <value>Матрицата трябва да е квадратна.</value>
+  </data>
+  <data name="The_Lp_norm_argument_must_be_p_ge_1" xml:space="preserve">
+    <value>Аргументът на Lp нормата трябва да е p ≥ 1.</value>
+  </data>
+  <data name="Matrix_must_be_symmetric" xml:space="preserve">
+    <value>Матрицата трябва да е симетрична.</value>
+  </data>
+  <data name="Matrix_is_not_positive_definite" xml:space="preserve">
+    <value>Матрицата не е положително дефинирана.</value>
+  </data>
+  <data name="Matrix_is_singular" xml:space="preserve">
+    <value>Матрицата е особена.</value>
+  </data>
+  <data name="Matrix_is_singular_or_close_to_singular" xml:space="preserve">
+    <value>Матрицата е особена или близка до особена.</value>
+  </data>
+  <data name="Vectors_and_matrices_are_not_supported_in_complex_mode" xml:space="preserve">
+    <value>Векторите и матриците не се поддържат в комплексен режим.</value>
+  </data>
+  <data name="Cannot_interpolate_with_non_scalar_value" xml:space="preserve">
+    <value>Не мога да интерполирам с не-скаларна стойност.</value>
+  </data>
+  <data name="Jacobi_iteration_failed" xml:space="preserve">
+    <value>Неуспешна итерация на Якоби.</value>
+  </data>
+  <data name="Invalid_operand" xml:space="preserve">
+    <value>Невалиден операнд:</value>
+  </data>
+  <data name="Invalid_argument" xml:space="preserve">
+    <value>Невалиден аргумент:</value>
+  </data>
+  <data name="The_argument_is_not_an_eigenvalue" xml:space="preserve">
+    <value>Аргументът не е собствена стойност:</value>
+  </data>
+  <data name="The_QL_algorithm_failed_to_converge" xml:space="preserve">
+    <value>Няма сходимост на QL алгоритъма.</value>
+  </data>
+  <data name="Matrix_size_cannot_exceed" xml:space="preserve">
+    <value>Размерът на матрицата не може да надвишава</value>
+  </data>
+  <data name="The_number_of_matrix_rows_must_be_greater_than_or_equal_to_the_number_of_columns" xml:space="preserve">
+    <value>Броят на редовете на матрицата трябва да бъде по-голям или равен на броя на колоните</value>
+  </data>
+  <data name="Count" xml:space="preserve">
+    <value>Броят</value>
+  </data>
+  <data name="Number_of_rows" xml:space="preserve">
+    <value>Броят редове</value>
+  </data>
+  <data name="Number_of_columns" xml:space="preserve">
+    <value>Броят колони</value>
+  </data>
+  <data name="Argument" xml:space="preserve">
+    <value>Аргументът</value>
+  </data>
+  <data name="Result" xml:space="preserve">
+    <value>Резултатът</value>
+  </data>
+  <data name="Variable" xml:space="preserve">
+    <value>Променливата</value>
+  </data>
+  <data name="Invalid_item" xml:space="preserve">
+    <value>Невалиден обект</value>
+  </data>
+  <data name="Index_target" xml:space="preserve">
+    <value>Индексирания обект</value>
   </data>
 </root>

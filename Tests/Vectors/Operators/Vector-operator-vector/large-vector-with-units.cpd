@@ -1,0 +1,149 @@
+#hide
+'<h1>Defining vectors to work with</h1>
+x = vector(150)
+y = vector(500)
+z = vector(9999999)
+vec_unitless = vector(300)
+#for i = 1 : 8
+	x.i = (((i - 1)^2 - 10*cos(i) + 3*(-1)^(i - 1) - 5*sin(i)))/4.0dm
+#loop
+#for i = 1 : 12
+	y.i = ((i - 1)^2 - 5*cos(i) + 3*(-1)^(i - 1) - 5*sin(i))/4.0m
+#loop
+#for i = 1 : 10
+	z.i = ((i - 5)^2 - 10*cos(i) + 3*(-1)^(i - 5) - 5*sin(i))/4.0cm
+#loop
+#for i = 1 : 20
+	vec_unitless.i = (i^2 - 10*cos(i) + 3*(-1)^i - 5*sin(i))/4.0
+#loop
+#show
+'<h1>Arithmetic operators</h1>
+"Negation
+x
+c = -x
+f(x) = -x','c = f(x)
+
+"Addition
+x
+y
+c = x + y
+f(x; y) = x + y','c = f(x; y)
+
+"Subtraction
+x
+z
+c = x - z
+f(x; z) = x - z','c = f(x; z)
+
+"Multiplication
+z
+y
+c = z*y
+f(z; y) = z*y','c = f(z; y)
+
+
+"Division
+y
+x
+c = y/x
+f(y; x) = y/x','c = f(y; x)
+
+"Division bar
+x
+y
+c = x÷y
+f(x; y) = x÷y','c = f(x; y)
+
+"Integer division
+z
+y
+c = z\y
+f(z; y) = z\y','c = f(z; y)
+
+"Modulo (remainder)
+x
+vec_unitless
+c = x⦼vec_unitless
+f(x; vec_unitless) = x⦼vec_unitless','c = f(x; vec_unitless)
+
+"Exponentiation
+z
+vec_unitless
+c = z^vec_unitless
+f(z; vec_unitless) = z^vec_unitless','c = f(z; vec_unitless)
+
+"Factorial
+v = vector(120)
+v = range(1; 10; 1)
+c = v!
+f(v) = v!','c = f(v)
+
+'<h1>Relational operators</h1>
+#hide
+fill(x; 0)
+#for i = 1 : 7
+	x.i = ((i - 2)^2 - 10*cos(i) + 3*(-1)^(i - 1) - 5*sin(i))/4.0min
+#loop
+fill(y; 0)
+#for i = 1 : 12
+	y.i = ((i - 5)^2 - 10*cos(i) + 3*(-1)^(i - 5) - 5*sin(i))/4.0s
+#loop
+fill(z; 0)
+#for i = 1 : 8
+	z.i = ((i - 2)^2 - 10*cos(i) + 3*(-1)^(i - 2) - 5*sin(i))/4.0h
+#loop
+#show
+"Equal to
+x
+y
+c = x ≡ y
+f(x; y) = x ≡ y','c = f(x; y)
+
+"Not equal to
+x
+z
+c = x ≠ z
+f(x; z) = x ≠ z','c = f(x; z)
+
+"Less than
+y
+x
+c = y < x
+f(y; x) = y < x','c = f(y; x)
+
+"Greater than
+y
+z
+c = y > z
+f(y; z) = y > z','c = f(y; z)
+
+"Less than or equal 
+z
+x
+c = z ≤ x
+f(z; x) = z ≤ x','c = f(z; x)
+
+"Greater than or equal
+z
+y
+c = z ≥ y
+f(z; y) = z ≥ y','c = f(z; y)
+
+'<h1>Logical operators</h1>
+"Logical AND 
+x
+y
+c = x ∧ y
+f(x; y) = x ∧ y','c = f(x; y)
+
+"Logical OR
+x
+z
+c = x ∨ z
+f(x; z) = x ∨ z','c = f(x; z)
+
+"Logical XOR
+y
+x
+c = y ⊕ x
+f(y; x) = y ⊕ x','c = f(y; x)

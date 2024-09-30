@@ -1,0 +1,103 @@
+'<h1>Vector functions</h1>'
+#hide
+vec2 = vector(4999999)
+vec3 = vector(5000000)
+#for i = 1 : 7
+	vec2.i = ((i^2 + 5*sin(i) - 3*cos(i) + (-1)^i*sqrt(i + 1))/3.0)
+#loop
+#for i = 1 : 15
+	vec3.i = ((i^3 - 4*sin(i) + 2*cos(i) - sqrt(i + 1) + (-1)^i*log(i + 1))/3.5)
+#loop
+vec4 = vector(150000)
+#for i = 1 : 10
+	vec4.i = ((i^3 + 2*sin(i) - 4*cos(i) + sqrt(i + 1) - (-1)^i*log(i + 1))/4.0)
+#loop
+vec5 = vector(150000)
+#for i = 1 : 5
+	vec5.i = ((i^2 - 3*sin(i) + 5*cos(i) - tan(i) + (-1)^i*exp(i⦼3))/2.5)
+#loop
+vec6 = vector(102)
+#for i = 1 : 13
+	vec6.i = ((i^2 + 3*sin(i) - 2*cos(i) + tan(i/2) - (-1)^i*sqrt(i + 1))/2.7)
+#loop
+#show
+vec2
+vec3
+vec4
+vec5
+vec6
+
+'<h3>Structural functions</h3>'
+vec1 = vector(1256000)
+fill(vec1; 10)
+range(1; 56; 1)
+n = 7
+vec_len = join(vec2; vec3; n)
+resize(vec2; 20)
+len(vec_len)
+size(vec_len)
+slice(vec2; 5; 10)
+first(vec2; 15)
+vec_int = vector(780)
+vec_int = range(1; 20; 2)
+extract(vec2; vec_int)'second argument (the index) must be a positive integer!
+
+'<h3>Mathematical functions</h3>'
+vec4
+norm_1(vec4)
+norm(vec4)','norm_2(vec4)
+norm_e(vec4)
+p = 4
+norm_p(vec4; p)
+norm_i(vec4)
+unit(vec4)
+dot(vec2; vec3)
+short_vec1 = [10; -2.3; 6.75]
+short_vec2 = [-3.5; 5; 4.25]
+cross(short_vec1; short_vec1)
+
+'<h3>Functions for sorting and reordering</h3>'
+vec5
+sort(vec5)
+rsort(vec5)
+order(vec5)
+revorder(vec5)
+reverse(vec5)
+count(vec5; 4.5; 1)
+search(vec5; -7; 2)
+find(vec5; 4.5; 1)','find_eq(vec5; 4.5; 1)
+find_ne(vec5; 4.5; 2)
+find_le(vec5; 4.5; 2)
+find_gt(vec5; 4.5; 2)
+find_ge(vec5; 4.5; 2)
+lookup(vec4; vec5; 1)','lookup_eq(vec4; vec5; 1)
+lookup_ne(vec5; vec4; 0)
+lookup_lt(vec4; vec5; 0)
+lookup_gt(vec4; vec5; 0)
+lookup_ge(vec4; vec5; 15)'Двата вектора трябва да имат равна дължина
+
+'<h3>Functions for comparison</h3>'
+vec4
+min(vec4)
+max(vec4)
+
+'<h3>Cumulative functions</h3>'
+vec5
+sum(vec5)
+sumsq(vec5)
+srss(vec5)
+average(vec5)
+product(vec5)
+mean(vec5)
+
+'<h3>Functions with interpolation</h3>'
+take(3; vec5)
+line(1; vec5)
+spline(3; vec5)
+
+'<h3>Logical functions</h3>'
+vec6
+not(vec6)
+or(vec6)
+and(vec6)
+xor(vec6)

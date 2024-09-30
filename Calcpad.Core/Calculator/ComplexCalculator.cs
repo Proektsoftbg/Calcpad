@@ -108,9 +108,6 @@ namespace Calcpad.Core
                 Product,
                 Mean,
                 Switch,
-                Take,
-                Line,
-                Spline,
                 And,
                 Or,
                 Xor,
@@ -119,14 +116,17 @@ namespace Calcpad.Core
             ];
         }
 
-        internal override Value EvaluateOperator(int index, in Value a, in Value b) => Operators[index](a, b);
-        internal override Value EvaluateFunction(int index, in Value a) => _functions[index](a);
-        internal override Value EvaluateFunction2(int index, in Value a, in Value b) => Functions2[index](a, b);
-        internal override Value EvaluateMultiFunction(int index, Value[] a) => MultiFunctions[index](a);
-        internal override Operator GetOperator(int index) => Operators[index];
-        internal override Function GetFunction(int index) => _functions[index];
-        internal override Operator GetFunction2(int index) => Functions2[index];
-        internal override Func<Value[], Value> GetMultiFunction(int index) => MultiFunctions[index];
+        internal override Value EvaluateOperator(long index, in Value a, in Value b) => Operators[index](a, b);
+        internal override Value EvaluateFunction(long index, in Value a) => _functions[index](a);
+        internal override Value EvaluateFunction2(long index, in Value a, in Value b) => Functions2[index](a, b);
+        internal override IValue EvaluateFunction3(long index, in IValue a, in IValue b, in IValue c) => Functions3[index](a, b, c);
+        internal override Value EvaluateMultiFunction(long index, Value[] a) => MultiFunctions[index](a);
+        internal override Value EvaluateInterpolation(long index, Value[] a) => Interpolations[index](a);
+        internal override Operator GetOperator(long index) => Operators[index];
+        internal override Function GetFunction(long index) => _functions[index];
+        internal override Operator GetFunction2(long index) => Functions2[index];
+        internal override Function3 GetFunction3(long index) => Functions3[index];
+        internal override Func<Value[], Value> GetMultiFunction(long index) => MultiFunctions[index];
 
         private static Value Fact(in Value value)
         {
@@ -142,21 +142,21 @@ namespace Calcpad.Core
         private static Value Real(in Value value) => new(value.Re, value.Units);
         private static Value Imaginary(in Value value) => new(value.Im, value.Units);
         private static Value Phase(in Value value) => new(value.Complex.Phase);
-        private static Value Negate(in Value value) => new(-value.Re, -value.Im, value.Units, value.IsUnit);
+        internal static Value Negate(in Value value) => new(-value.Re, -value.Im, value.Units, value.IsUnit);
 
-        private static Value Add(in Value a, in Value b) =>
+        internal static Value Add(in Value a, in Value b) =>
             new(
                 a.Complex + b.Complex * Unit.Convert(a.Units, b.Units, '+'),
                 a.Units
             );
 
-        private static Value Subtract(in Value a, in Value b) =>
+        internal static Value Subtract(in Value a, in Value b) =>
             new(
                 a.Complex - b.Complex * Unit.Convert(a.Units, b.Units, '+'),
                 a.Units
             );
 
-        private static Value Multiply(in Value a, in Value b)
+        internal static Value Multiply(in Value a, in Value b)
         {
             var uc = Unit.Multiply(a.Units, b.Units, out var d, b.IsUnit);
             var c = a.Complex * b.Complex * d;
@@ -215,7 +215,7 @@ namespace Calcpad.Core
                 a.Complex >= b.Complex * Unit.Convert(a.Units, b.Units, '≥')
             );
 
-        private static Value Abs(in Value value) =>
+        internal static Value Abs(in Value value) =>
            new(Complex.Abs(value.Complex), value.Units);
 
         private static Value Sign(in Value value) =>
@@ -404,7 +404,7 @@ namespace Calcpad.Core
             return new(Complex.Exp(value.Complex));
         }
 
-        private static Value Sqrt(in Value value)
+        internal static Value Sqrt(in Value value)
         {
             var result = Complex.Sqrt(value.Complex);
             if (value.Units is null)

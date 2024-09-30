@@ -1,2 +1,2 @@
-global using Xunit;
 global using Calcpad.Core;
+global using Xunit;

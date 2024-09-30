@@ -1,0 +1,169 @@
+'<h1>Scalar functions</h1>'
+#hide
+m1 = matrix(3; 4)
+m1.(1; 1) = 17
+m1.(1; 2) = -5
+m1.(1; 3) = 0.5
+m1.(1; 4) = -3.14
+m1.(2; 1) = 8
+m1.(2; 2) = -7.89
+m1.(2; 3) = 0
+m1.(2; 4) = 3.3
+m1.(3; 1) = -12
+m1.(3; 2) = 6.28
+m1.(3; 3) = 4
+m1.(3; 4) = -1.23
+#show
+m1
+'<h2>Trigonometric functions</h2>'
+c = sin(m1)', 'f(m1) = sin(m1)
+c = f(m1)
+c = cos(m1)', 'f(m1) = cos(m1)
+c = f(m1)
+c = tan(m1)', 'f(m1) = tan(m1)
+c = f(m1)
+c = csc(m1)', 'f(m1) = csc(m1)
+c = f(m1)
+c = sec(m1)', 'f(m1) = sec(m1)
+c = f(m1)
+c = cot(m1)', 'f(m1) = cot(m1)
+c = f(m1)
+
+'<h2>Hyperbolic functions</h2>'
+#hide
+m1 = column(5; 5)
+m1.(1; 1) = 2.7
+m1.(2; 1) = 2
+m1.(3; 1) = 0
+m1.(4; 1) = -1.43
+#show
+m1
+c = sinh(m1)', 'f(m1) = sinh(m1)
+c = f(m1)
+c = cosh(m1)', 'f(m1) = cosh(m1)
+c = f(m1)
+c = csch(m1)', 'f(m1) = csch(m1)
+c = f(m1)
+c = sech(m1)', 'f(m1) = sech(m1)
+c = f(m1)
+c = tanh(m1)', 'f(m1) = tanh(m1)
+c = f(m1)
+c = coth(m1)', 'f(m1) = coth(m1)
+c = f(m1)
+
+'<h2>Inverse trigonometric functions</h2>'
+#hide
+m1 = diagonal(4; 8)
+m1.(1; 1) = 6.3
+m1.(2; 2) = -1.5
+m1.(3; 3) = -3
+#show
+c = asinh(m1)', 'f(m1) = asinh(m1)
+c = f(m1)
+c = acosh(m1)', 'f(m1) = acosh(m1)
+c = f(m1)
+c = atanh(m1)', 'f(m1) = atanh(m1)
+c = f(m1)
+c = acsch(m1)', 'f(m1) = acsch(m1)
+c = f(m1)
+c = asech(m1)', 'f(m1) = asech(m1)
+c = f(m1)
+c = acoth(m1)', 'f(m1) = acoth(m1)
+c = f(m1)
+
+'<h2>Exponential and logarithmic functions</h2>'
+#hide
+m1 = ltriang(5)
+m1.(1; 1) = 4.5
+m1.(2; 1) = -3.2
+m1.(2; 2) = 3.4
+m1.(3; 1) = 2.8
+m1.(3; 2) = -6.2
+m1.(3; 3) = 4.6
+m1.(4; 1) = -1.6
+m1.(4; 2) = 1.9
+m1.(4; 3) = -8.9
+m1.(4; 4) = 2.1
+m1.(5; 1) = 0.9
+m1.(5; 2) = -4.3
+m1.(5; 3) = 3.2
+m1.(5; 4) = -7.4
+m1.(5; 5) = 6.8
+#show
+m1
+c = ln(m1)', 'f(m1) = ln(m1)
+c = f(m1)
+c = log(m1)', 'f(m1) = log(m1)
+c = f(m1)
+c = log_2(m1)', 'f(m1) = log_2(m1)
+c = f(m1)
+c = exp(m1)', 'f(m1) = exp(m1)
+c = f(m1)
+c = sqr(m1)', 'f(m1) = sqr(m1)
+c = f(m1)
+c = sqrt(m1)', 'f(m1) = sqrt(m1)
+c = f(m1)
+c = sqrt(m1)', 'f(m1) = sqrt(m1)
+c = f(m1)
+c = cbrt(m1)', 'f(m1) = cbrt(m1)
+c = f(m1)
+c = root(m1; 4)', 'f(m1; m2) = root(m1; 4)
+c = f(m1; 4)
+
+'<h2>Rounding functions</h2>'
+#hide
+m1 = utriang(4)
+m1.(1; 1) = 4.5
+m1.(1; 2) = -3.2
+m1.(1; 3) = 2.8
+m1.(1; 4) = -1.6
+m1.(2; 2) = 3.4
+m1.(2; 3) = -6.2
+m1.(2; 4) = 1.9
+m1.(3; 3) = 4.6
+m1.(3; 4) = -8.9
+m1.(4; 4) = 2.1
+#show
+m1
+c = round(m1)', 'f(m1) = round(m1)
+c = f(m1)
+c = floor(m1)', 'f(m1) = floor(m1)
+c = f(m1)
+c = ceiling(m1)', 'f(m1) = ceiling(m1)
+c = f(m1)
+c = trunc(m1)', 'f(m1) = trunc(m1)
+c = f(m1)
+
+'<h2>Integer functions</h2>'
+#hide
+m1 = symmetric(5)
+m1.(1; 1) = 4
+m1.(1; 2) = 3
+m1.(1; 3) = 2
+m1.(1; 4) = 1
+m1.(1; 5) = 0
+m1.(2; 2) = 3
+m1.(2; 3) = -6
+m1.(2; 4) = 1
+m1.(2; 5) = -4
+m1.(3; 3) = 4
+m1.(3; 4) = -8
+m1.(3; 5) = 3
+m1.(4; 4) = 2
+m1.(4; 5) = -7
+m1.(5; 5) = 6
+#show
+m1
+c = mod(m1; 1)', 'f(m1) = mod(m1; 1)
+c = f(m1)
+c = gcd(m1; 4; 0; -2; 5)', 'f(m1) = gcd(m1; 4; 0; -2; 5)
+c = f(m1)
+c = lcm(m1; 0; 1; 2; 3)', 'f(m1) = lcm(m1; 0; 1; 2; 3)
+c = f(m1)
+
+'<h2>Others</h2>'
+m1
+c = sign(m1)', 'f(m1) = sign(m1)
+c = f(m1)
+c = random(m1)', 'f(m1) = random(m1)
+c = f(m1)

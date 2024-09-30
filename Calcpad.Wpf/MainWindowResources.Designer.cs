@@ -97,6 +97,33 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Adds all elements from A to those of B, starting from indexes i and j of B.
+        /// </summary>
+        public static string AddsAllElementsFromAToThoseOfBStartingFromIndexesIAndJOfB {
+            get {
+                return ResourceManager.GetString("AddsAllElementsFromAToThoseOfBStartingFromIndexesIAndJOfB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Adjugate of matrix M.
+        /// </summary>
+        public static string AdjugateOfMatrixM {
+            get {
+                return ResourceManager.GetString("AdjugateOfMatrixM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All elements in vector a for which the corresponding elements in vector b are.
+        /// </summary>
+        public static string AllElementsInVectorAForWhichTheCorrespondingElementsInVectorBAre {
+            get {
+                return ResourceManager.GetString("AllElementsInVectorAForWhichTheCorrespondingElementsInVectorBAre", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Alternative: if-else-end if.
         /// </summary>
         public static string AlternativeIfElseEndIf {
@@ -111,6 +138,15 @@ namespace Calcpad.Wpf {
         public static string AlwaysShowContent {
             get {
                 return ResourceManager.GetString("AlwaysShowContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A new vector containing the elements of v in reverse order.
+        /// </summary>
+        public static string ANewVectorContainingTheElementsOfVInReverseOrder {
+            get {
+                return ResourceManager.GetString("ANewVectorContainingTheElementsOfVInReverseOrder", resourceCulture);
             }
         }
         
@@ -214,6 +250,15 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cholesky decomposition of a symmetric, positive-definite matrix M.
+        /// </summary>
+        public static string CholeskyDecompositionOfASymmetricPositiveDefiniteMatrixM {
+            get {
+                return ResourceManager.GetString("CholeskyDecompositionOfASymmetricPositiveDefiniteMatrixM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Circle.
         /// </summary>
         public static string Circle {
@@ -228,6 +273,15 @@ namespace Calcpad.Wpf {
         public static string Code {
             get {
                 return ResourceManager.GetString("Code", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cofactor matrix of M.
+        /// </summary>
+        public static string CofactorMatrixOfM {
+            get {
+                return ResourceManager.GetString("CofactorMatrixOfM", resourceCulture);
             }
         }
         
@@ -304,6 +358,60 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Conditional: while-loop.
+        /// </summary>
+        public static string ConditionalWhileLoop {
+            get {
+                return ResourceManager.GetString("ConditionalWhileLoop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Condition number of M based on the Frobenius norm.
+        /// </summary>
+        public static string ConditionNumberOfMBasedOnTheFrobeniusNorm {
+            get {
+                return ResourceManager.GetString("ConditionNumberOfMBasedOnTheFrobeniusNorm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Condition number of M based on the L1 norm.
+        /// </summary>
+        public static string ConditionNumberOfMBasedOnTheL1Norm {
+            get {
+                return ResourceManager.GetString("ConditionNumberOfMBasedOnTheL1Norm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Condition number of M based on the L2 norm.
+        /// </summary>
+        public static string ConditionNumberOfMBasedOnTheL2Norm {
+            get {
+                return ResourceManager.GetString("ConditionNumberOfMBasedOnTheL2Norm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Condition number of M based on the L∞ norm.
+        /// </summary>
+        public static string ConditionNumberOfMBasedOnTheLNorm {
+            get {
+                return ResourceManager.GetString("ConditionNumberOfMBasedOnTheLNorm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copies all elements from A to B, starting from indexes i and j of B.
+        /// </summary>
+        public static string CopiesAllElementsFromAToBStartingFromIndexesIAndJOfB {
+            get {
+                return ResourceManager.GetString("CopiesAllElementsFromAToBStartingFromIndexesIAndJOfB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _Copy.
         /// </summary>
         public static string Copy {
@@ -331,11 +439,182 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Creates a column matrix from the elements of vector v.
+        /// </summary>
+        public static string CreatesAColumnMatrixFromTheElementsOfVectorV {
+            get {
+                return ResourceManager.GetString("CreatesAColumnMatrixFromTheElementsOfVectorV", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creates a column matrix with dimensions m⨯1, filled with value c.
+        /// </summary>
+        public static string CreatesAColumnMatrixWithDimensionsM1FilledWithValueC {
+            get {
+                return ResourceManager.GetString("CreatesAColumnMatrixWithDimensionsM1FilledWithValueC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creates a diagonal matrix from the elements of vector v.
+        /// </summary>
+        public static string CreatesADiagonalMatrixFromTheElementsOfVectorV {
+            get {
+                return ResourceManager.GetString("CreatesADiagonalMatrixFromTheElementsOfVectorV", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creates a diagonal matrix with dimensions n⨯n and fills the diagonal with value d.
+        /// </summary>
+        public static string CreatesADiagonalMatrixWithDimensionsNNAndFillsTheDiagonalWithValueD {
+            get {
+                return ResourceManager.GetString("CreatesADiagonalMatrixWithDimensionsNNAndFillsTheDiagonalWithValueD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creates a lower triangular matrix with dimensions n⨯n.
+        /// </summary>
+        public static string CreatesALowerTriangularMatrixWithDimensionsNN {
+            get {
+                return ResourceManager.GetString("CreatesALowerTriangularMatrixWithDimensionsNN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creates an empty matrix with dimensions m⨯n.
+        /// </summary>
+        public static string CreatesAnEmptyMatrixWithDimensionsMN {
+            get {
+                return ResourceManager.GetString("CreatesAnEmptyMatrixWithDimensionsMN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creates an empty vector with length n.
+        /// </summary>
+        public static string CreatesAnEmptyVectorWithLengthN {
+            get {
+                return ResourceManager.GetString("CreatesAnEmptyVectorWithLengthN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creates a new matrix by appending matrices A; B; C side by side.
+        /// </summary>
+        public static string CreatesANewMatrixByAppendingMatricesABCSideBySide {
+            get {
+                return ResourceManager.GetString("CreatesANewMatrixByAppendingMatricesABCSideBySide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creates a new matrix by joining column vectors.
+        /// </summary>
+        public static string CreatesANewMatrixByJoiningColumnVectors {
+            get {
+                return ResourceManager.GetString("CreatesANewMatrixByJoiningColumnVectors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creates a new matrix by joining row vectors.
+        /// </summary>
+        public static string CreatesANewMatrixByJoiningRowVectors {
+            get {
+                return ResourceManager.GetString("CreatesANewMatrixByJoiningRowVectors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creates a new matrix by stacking matrices A; B; C one below the other.
+        /// </summary>
+        public static string CreatesANewMatrixByStackingMatricesABCOneBelowTheOther {
+            get {
+                return ResourceManager.GetString("CreatesANewMatrixByStackingMatricesABCOneBelowTheOther", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creates an identity matrix with dimensions n⨯n.
+        /// </summary>
+        public static string CreatesAnIdentityMatrixWithDimensionsNN {
+            get {
+                return ResourceManager.GetString("CreatesAnIdentityMatrixWithDimensionsNN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creates an upper triangular matrix with dimensions n⨯n.
+        /// </summary>
+        public static string CreatesAnUpperTriangularMatrixWithDimensionsNN {
+            get {
+                return ResourceManager.GetString("CreatesAnUpperTriangularMatrixWithDimensionsNN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creates a symmetric matrix with dimensions n⨯n.
+        /// </summary>
+        public static string CreatesASymmetricMatrixWithDimensionsNN {
+            get {
+                return ResourceManager.GetString("CreatesASymmetricMatrixWithDimensionsNN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creates a vector by joining the arguments: matrices, vectors and scalars.
+        /// </summary>
+        public static string CreatesAVectorByJoiningTheArgumentsMatricesVectorsAndScalars {
+            get {
+                return ResourceManager.GetString("CreatesAVectorByJoiningTheArgumentsMatricesVectorsAndScalars", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creates a vector with values spanning from x₁ to xₙ with step s.
+        /// </summary>
+        public static string CreatesAVectorWithValuesSpanningFromXToXₙWithStepS {
+            get {
+                return ResourceManager.GetString("CreatesAVectorWithValuesSpanningFromXToXₙWithStepS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creational.
+        /// </summary>
+        public static string Creational {
+            get {
+                return ResourceManager.GetString("Creational", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cross product of two vectors a and b (with length 2 or 3).
+        /// </summary>
+        public static string CrossProductOfTwoVectorsAAndBWithLength2Or3 {
+            get {
+                return ResourceManager.GetString("CrossProductOfTwoVectorsAAndBWithLength2Or3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cu_t.
         /// </summary>
         public static string Cut {
             get {
                 return ResourceManager.GetString("Cut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data.
+        /// </summary>
+        public static string Data {
+            get {
+                return ResourceManager.GetString("Data", resourceCulture);
             }
         }
         
@@ -349,11 +628,29 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Determinant of matrix M.
+        /// </summary>
+        public static string DeterminantOfMatrixM {
+            get {
+                return ResourceManager.GetString("DeterminantOfMatrixM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to digits.
         /// </summary>
         public static string Digits {
             get {
                 return ResourceManager.GetString("Digits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display small matrix elements as zero instead of exponent..
+        /// </summary>
+        public static string DisplaySmallMatrixElementsAsZeroInsteadOfExponent {
+            get {
+                return ResourceManager.GetString("DisplaySmallMatrixElementsAsZeroInsteadOfExponent", resourceCulture);
             }
         }
         
@@ -372,6 +669,24 @@ namespace Calcpad.Wpf {
         public static string DoNotSubstituteVariables {
             get {
                 return ResourceManager.GetString("DoNotSubstituteVariables", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Double Hermite spline interpolation from the elements of matrix M based on the values of x and y.
+        /// </summary>
+        public static string DoubleHermiteSplineInterpolationFromTheElementsOfMatrixMBasedOnTheValuesOfXAndY {
+            get {
+                return ResourceManager.GetString("DoubleHermiteSplineInterpolationFromTheElementsOfMatrixMBasedOnTheValuesOfXAndY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Double linear interpolation from the elements of matrix M based on the values of x and y.
+        /// </summary>
+        public static string DoubleLinearInterpolationFromTheElementsOfMatrixMBasedOnTheValuesOfXAndY {
+            get {
+                return ResourceManager.GetString("DoubleLinearInterpolationFromTheElementsOfMatrixMBasedOnTheValuesOfXAndY", resourceCulture);
             }
         }
         
@@ -408,6 +723,33 @@ namespace Calcpad.Wpf {
         public static string Edit {
             get {
                 return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Eigenvalues and eigenvectors of matrix M.
+        /// </summary>
+        public static string EigenvaluesAndEigenvectorsOfMatrixM {
+            get {
+                return ResourceManager.GetString("EigenvaluesAndEigenvectorsOfMatrixM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Eigenvalues of matrix M.
+        /// </summary>
+        public static string EigenvaluesOfMatrixM {
+            get {
+                return ResourceManager.GetString("EigenvaluesOfMatrixM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Eigenvectors of matrix M.
+        /// </summary>
+        public static string EigenvectorsOfMatrixM {
+            get {
+                return ResourceManager.GetString("EigenvectorsOfMatrixM", resourceCulture);
             }
         }
         
@@ -475,7 +817,7 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to External browser:.
+        ///   Looks up a localized string similar to Ext. browser:.
         /// </summary>
         public static string ExternalBrowser {
             get {
@@ -489,6 +831,69 @@ namespace Calcpad.Wpf {
         public static string ExternalBrowserTooltip {
             get {
                 return ResourceManager.GetString("ExternalBrowserTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Extracts a submatrix of M, bounded by rows i₁ and i₂ and columns j₁ and j₂, incl..
+        /// </summary>
+        public static string ExtractsASubmatrixOfMBoundedByRowsIAndIAndColumnsJAndJIncl {
+            get {
+                return ResourceManager.GetString("ExtractsASubmatrixOfMBoundedByRowsIAndIAndColumnsJAndJIncl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Extracts the columns from matrix M whose indexes are contained in vector j.
+        /// </summary>
+        public static string ExtractsTheColumnsFromMatrixMWhoseIndexesAreContainedInVectorJ {
+            get {
+                return ResourceManager.GetString("ExtractsTheColumnsFromMatrixMWhoseIndexesAreContainedInVectorJ", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Extracts the diagonal elements of matrix M to a vector.
+        /// </summary>
+        public static string ExtractsTheDiagonalElementsOfMatrixMToAVector {
+            get {
+                return ResourceManager.GetString("ExtractsTheDiagonalElementsOfMatrixMToAVector", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Extracts the elements from v which indexes are contained in i.
+        /// </summary>
+        public static string ExtractsTheElementsFromVWhichIndexesAreContainedInI {
+            get {
+                return ResourceManager.GetString("ExtractsTheElementsFromVWhichIndexesAreContainedInI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Extracts the i-th row of matrix M as a vector.
+        /// </summary>
+        public static string ExtractsTheIThRowOfMatrixMAsAVector {
+            get {
+                return ResourceManager.GetString("ExtractsTheIThRowOfMatrixMAsAVector", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Extracts the j-th column of matrix M as a vector.
+        /// </summary>
+        public static string ExtractsTheJThColumnOfMatrixMAsAVector {
+            get {
+                return ResourceManager.GetString("ExtractsTheJThColumnOfMatrixMAsAVector", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Extracts the rows from matrix M whose indexes are contained in vector i.
+        /// </summary>
+        public static string ExtractsTheRowsFromMatrixMWhoseIndexesAreContainedInVectorI {
+            get {
+                return ResourceManager.GetString("ExtractsTheRowsFromMatrixMWhoseIndexesAreContainedInVectorI", resourceCulture);
             }
         }
         
@@ -507,6 +912,42 @@ namespace Calcpad.Wpf {
         public static string FileSaveAs_Calcpad_Compiled {
             get {
                 return ResourceManager.GetString("FileSaveAs_Calcpad_Compiled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fills matrix M with value x.
+        /// </summary>
+        public static string FillsMatrixMWithValueX {
+            get {
+                return ResourceManager.GetString("FillsMatrixMWithValueX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fills the i-th row of matrix M with value x.
+        /// </summary>
+        public static string FillsTheIThRowOfMatrixMWithValueX {
+            get {
+                return ResourceManager.GetString("FillsTheIThRowOfMatrixMWithValueX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fills the j-th column of matrix M with value x.
+        /// </summary>
+        public static string FillsTheJThColumnOfMatrixMWithValueX {
+            get {
+                return ResourceManager.GetString("FillsTheJThColumnOfMatrixMWithValueX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fills vector v with value x.
+        /// </summary>
+        public static string FillsVectorVWithValueX {
+            get {
+                return ResourceManager.GetString("FillsVectorVWithValueX", resourceCulture);
             }
         }
         
@@ -574,6 +1015,24 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Frobenius norm of matrix M.
+        /// </summary>
+        public static string FrobeniusNormOfMatrixM {
+            get {
+                return ResourceManager.GetString("FrobeniusNormOfMatrixM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Frobenius product of matrices A and B.
+        /// </summary>
+        public static string FrobeniusProductOfMatricesAAndB {
+            get {
+                return ResourceManager.GetString("FrobeniusProductOfMatricesAAndB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Function Plot.
         /// </summary>
         public static string FunctionPlot {
@@ -624,6 +1083,15 @@ namespace Calcpad.Wpf {
         public static string GreenYellow {
             get {
                 return ResourceManager.GetString("GreenYellow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hadamard product of matrices A and B.
+        /// </summary>
+        public static string HadamardProductOfMatricesAAndB {
+            get {
+                return ResourceManager.GetString("HadamardProductOfMatricesAAndB", resourceCulture);
             }
         }
         
@@ -799,6 +1267,15 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Inverse of matrix M.
+        /// </summary>
+        public static string InverseOfMatrixM {
+            get {
+                return ResourceManager.GetString("InverseOfMatrixM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Italic.
         /// </summary>
         public static string Italic {
@@ -844,6 +1321,51 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Kronecker product of matrices A and B.
+        /// </summary>
+        public static string KroneckerProductOfMatricesAAndB {
+            get {
+                return ResourceManager.GetString("KroneckerProductOfMatricesAAndB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to L1 (Manhattan) norm of vector v.
+        /// </summary>
+        public static string L1ManhattanNormOfVectorV {
+            get {
+                return ResourceManager.GetString("L1ManhattanNormOfVectorV", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to L1 norm of matrix M.
+        /// </summary>
+        public static string L1NormOfMatrixM {
+            get {
+                return ResourceManager.GetString("L1NormOfMatrixM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to L2 (Euclidean) norm of vector v.
+        /// </summary>
+        public static string L2EuclideanNormOfVectorV {
+            get {
+                return ResourceManager.GetString("L2EuclideanNormOfVectorV", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to L2 norm of matrix M.
+        /// </summary>
+        public static string L2NormOfMatrixM {
+            get {
+                return ResourceManager.GetString("L2NormOfMatrixM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Light direction.
         /// </summary>
         public static string LightDirection {
@@ -871,6 +1393,24 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to L∞ (infinity) norm of vector v.
+        /// </summary>
+        public static string LInfinityNormOfVectorV {
+            get {
+                return ResourceManager.GetString("LInfinityNormOfVectorV", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to L∞ norm of matrix M.
+        /// </summary>
+        public static string LNormOfMatrixM {
+            get {
+                return ResourceManager.GetString("LNormOfMatrixM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Local Maximum of a Function.
         /// </summary>
         public static string LocalMaximum {
@@ -885,6 +1425,60 @@ namespace Calcpad.Wpf {
         public static string LocalMinimum {
             get {
                 return ResourceManager.GetString("LocalMinimum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lp norm of vector v.
+        /// </summary>
+        public static string LpNormOfVectorV {
+            get {
+                return ResourceManager.GetString("LpNormOfVectorV", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to LU decomposition of matrix M.
+        /// </summary>
+        public static string LUDecompositionOfMatrixM {
+            get {
+                return ResourceManager.GetString("LUDecompositionOfMatrixM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Math.
+        /// </summary>
+        public static string Math {
+            get {
+                return ResourceManager.GetString("Math", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Matrix.
+        /// </summary>
+        public static string Matrix {
+            get {
+                return ResourceManager.GetString("Matrix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maximum number of elements in vector or matrix row/column to display in the output.
+        /// </summary>
+        public static string MaximumNumberOfElementsInVectorOrMatrixRowColumnToDisplayInTheOutput {
+            get {
+                return ResourceManager.GetString("MaximumNumberOfElementsInVectorOrMatrixRowColumnToDisplayInTheOutput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Max output count:.
+        /// </summary>
+        public static string MaxOutputCount {
+            get {
+                return ResourceManager.GetString("MaxOutputCount", resourceCulture);
             }
         }
         
@@ -1015,11 +1609,38 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Number of columns in matrix M.
+        /// </summary>
+        public static string NumberOfColumnsInMatrixM {
+            get {
+                return ResourceManager.GetString("NumberOfColumnsInMatrixM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Number of digits after the decimal point.
         /// </summary>
         public static string NumberOfDigitsTooltip {
             get {
                 return ResourceManager.GetString("NumberOfDigitsTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of occurrences of value x in matrix M.
+        /// </summary>
+        public static string NumberOfOccurrencesOfValueXInMatrixM {
+            get {
+                return ResourceManager.GetString("NumberOfOccurrencesOfValueXInMatrixM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of rows in matrix M.
+        /// </summary>
+        public static string NumberOfRowsInMatrixM {
+            get {
+                return ResourceManager.GetString("NumberOfRowsInMatrixM", resourceCulture);
             }
         }
         
@@ -1249,6 +1870,15 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to QR decomposition of matrix M.
+        /// </summary>
+        public static string QRDecompositionOfMatrixM {
+            get {
+                return ResourceManager.GetString("QRDecompositionOfMatrixM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Radians.
         /// </summary>
         public static string Radians {
@@ -1272,6 +1902,15 @@ namespace Calcpad.Wpf {
         public static string Rainbow {
             get {
                 return ResourceManager.GetString("Rainbow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rank of matrix M.
+        /// </summary>
+        public static string RankOfMatrixM {
+            get {
+                return ResourceManager.GetString("RankOfMatrixM", resourceCulture);
             }
         }
         
@@ -1366,6 +2005,33 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Returns the element of matrix M at indexes x and y.
+        /// </summary>
+        public static string ReturnsTheElementOfMatrixMAtIndexesXAndY {
+            get {
+                return ResourceManager.GetString("ReturnsTheElementOfMatrixMAtIndexesXAndY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Returns the length of vector v.
+        /// </summary>
+        public static string ReturnsTheLengthOfVectorV {
+            get {
+                return ResourceManager.GetString("ReturnsTheLengthOfVectorV", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Returns the part of vector v bounded by indexes i₁ and i₂ inclusive.
+        /// </summary>
+        public static string ReturnsThePartOfVectorVBoundedByIndexesIAndIInclusive {
+            get {
+                return ResourceManager.GetString("ReturnsThePartOfVectorVBoundedByIndexesIAndIInclusive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Root Finding for f(x)=const.
         /// </summary>
         public static string RootFindingForXEqualsConst {
@@ -1384,11 +2050,11 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Round to.
+        ///   Looks up a localized string similar to Round.
         /// </summary>
-        public static string RoundTo {
+        public static string Round {
             get {
-                return ResourceManager.GetString("RoundTo", resourceCulture);
+                return ResourceManager.GetString("Round", resourceCulture);
             }
         }
         
@@ -1465,6 +2131,15 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Scalar product of two vectors a and b.
+        /// </summary>
+        public static string ScalarProductOfTwoVectorsAAndB {
+            get {
+                return ResourceManager.GetString("ScalarProductOfTwoVectorsAAndB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Selection.
         /// </summary>
         public static string Selection {
@@ -1497,6 +2172,24 @@ namespace Calcpad.Wpf {
         public static string SetAngleRadians {
             get {
                 return ResourceManager.GetString("SetAngleRadians", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sets a new length n of vector v.
+        /// </summary>
+        public static string SetsANewLengthNOfVectorV {
+            get {
+                return ResourceManager.GetString("SetsANewLengthNOfVectorV", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sets new dimensions m and n for matrix M.
+        /// </summary>
+        public static string SetsNewDimensionsMAndNForMatrixM {
+            get {
+                return ResourceManager.GetString("SetsNewDimensionsMAndNForMatrixM", resourceCulture);
             }
         }
         
@@ -1627,6 +2320,15 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Singular value decomposition of M.
+        /// </summary>
+        public static string SingularValueDecompositionOfM {
+            get {
+                return ResourceManager.GetString("SingularValueDecompositionOfM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Smooth.
         /// </summary>
         public static string Smooth {
@@ -1641,6 +2343,80 @@ namespace Calcpad.Wpf {
         public static string SmoothTooltip {
             get {
                 return ResourceManager.GetString("SmoothTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Solves the linear matrix equation Ax = b with a symmetric, positive-definite matrix A using Cholesky decomposition.
+        /// </summary>
+        public static string SolvesTheLinearMatrixEquationAxBWithASymmetricPositiveDefiniteMatrixAUsingCholeskyDecomposition {
+            get {
+                return ResourceManager.GetString("SolvesTheLinearMatrixEquationAxBWithASymmetricPositiveDefiniteMatrixAUsingCholesk" +
+                        "yDecomposition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Solves the system of linear equations Ax = b using LDLT decomposition for symmetric matrices, and LU for non-symmetric.
+        /// </summary>
+        public static string SolvesTheSystemOfLinearEquationsAxBUsingLDLTDecompositionForSymmetricMatricesAndLUForNonSymmetric {
+            get {
+                return ResourceManager.GetString("SolvesTheSystemOfLinearEquationsAxBUsingLDLTDecompositionForSymmetricMatricesAndL" +
+                        "UForNonSymmetric", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sorts the columns of M based on the values in row i in ascending order.
+        /// </summary>
+        public static string SortsTheColumnsOfMBasedOnTheValuesInRowIInAscendingOrder {
+            get {
+                return ResourceManager.GetString("SortsTheColumnsOfMBasedOnTheValuesInRowIInAscendingOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sorts the columns of M based on the values in row i in descending order.
+        /// </summary>
+        public static string SortsTheColumnsOfMBasedOnTheValuesInRowIInDescendingOrder {
+            get {
+                return ResourceManager.GetString("SortsTheColumnsOfMBasedOnTheValuesInRowIInDescendingOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sorts the elements of vector v in descending order.
+        /// </summary>
+        public static string SortsTheElementsOfVectorVInDescendingOrder {
+            get {
+                return ResourceManager.GetString("SortsTheElementsOfVectorVInDescendingOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sorts the elements of vector v in vector ascending order.
+        /// </summary>
+        public static string SortsTheElementsOfVectorVInVectorAscendingOrder {
+            get {
+                return ResourceManager.GetString("SortsTheElementsOfVectorVInVectorAscendingOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sorts the rows of M based on the values in column j in ascending order.
+        /// </summary>
+        public static string SortsTheRowsOfMBasedOnTheValuesInColumnJInAscendingOrder {
+            get {
+                return ResourceManager.GetString("SortsTheRowsOfMBasedOnTheValuesInColumnJInAscendingOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sorts the rows of M based on the values in column j in descending order.
+        /// </summary>
+        public static string SortsTheRowsOfMBasedOnTheValuesInColumnJInDescendingOrder {
+            get {
+                return ResourceManager.GetString("SortsTheRowsOfMBasedOnTheValuesInColumnJInDescendingOrder", resourceCulture);
             }
         }
         
@@ -1695,6 +2471,15 @@ namespace Calcpad.Wpf {
         public static string StringVariableOrMacro {
             get {
                 return ResourceManager.GetString("StringVariableOrMacro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Structural.
+        /// </summary>
+        public static string Structural {
+            get {
+                return ResourceManager.GetString("Structural", resourceCulture);
             }
         }
         
@@ -1780,6 +2565,168 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The actual size of vector v - the index of the last non-zero element.
+        /// </summary>
+        public static string TheActualSizeOfVectorVTheIndexOfTheLastNonZeroElement {
+            get {
+                return ResourceManager.GetString("TheActualSizeOfVectorVTheIndexOfTheLastNonZeroElement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The first n elements of vector v.
+        /// </summary>
+        public static string TheFirstNElementsOfVectorV {
+            get {
+                return ResourceManager.GetString("TheFirstNElementsOfVectorV", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The indexes of all elements in M that are.
+        /// </summary>
+        public static string TheIndexesOfAllElementsInMThatAre {
+            get {
+                return ResourceManager.GetString("TheIndexesOfAllElementsInMThatAre", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The indexes of all elements in v, starting from the i-th one, that are.
+        /// </summary>
+        public static string TheIndexesOfAllElementsInVStartingFromTheIThOneThatAre {
+            get {
+                return ResourceManager.GetString("TheIndexesOfAllElementsInVStartingFromTheIThOneThatAre", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The indexes of the columns of M based on the ordering of the values from row i in ascending order.
+        /// </summary>
+        public static string TheIndexesOfTheColumnsOfMBasedOnTheOrderingOfTheValuesFromRowIInAscendingOrder {
+            get {
+                return ResourceManager.GetString("TheIndexesOfTheColumnsOfMBasedOnTheOrderingOfTheValuesFromRowIInAscendingOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The indexes of the columns of M based on the ordering of the values from row i in descending order.
+        /// </summary>
+        public static string TheIndexesOfTheColumnsOfMBasedOnTheOrderingOfTheValuesFromRowIInDescendingOrder {
+            get {
+                return ResourceManager.GetString("TheIndexesOfTheColumnsOfMBasedOnTheOrderingOfTheValuesFromRowIInDescendingOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The indexes of the rows of M based on the ordering of the values in column j in ascending order.
+        /// </summary>
+        public static string TheIndexesOfTheRowsOfMBasedOnTheOrderingOfTheValuesInColumnJInAscendingOrder {
+            get {
+                return ResourceManager.GetString("TheIndexesOfTheRowsOfMBasedOnTheOrderingOfTheValuesInColumnJInAscendingOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The indexes of the rows of M based on the ordering of the values in column j in descending order.
+        /// </summary>
+        public static string TheIndexesOfTheRowsOfMBasedOnTheOrderingOfTheValuesInColumnJInDescendingOrder {
+            get {
+                return ResourceManager.GetString("TheIndexesOfTheRowsOfMBasedOnTheOrderingOfTheValuesInColumnJInDescendingOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The indexes of vector v, arranged by the ascending order of its elements.
+        /// </summary>
+        public static string TheIndexesOfVectorVArrangedByTheAscendingOrderOfItsElements {
+            get {
+                return ResourceManager.GetString("TheIndexesOfVectorVArrangedByTheAscendingOrderOfItsElements", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The indexes of vector v, arranged by the descending order of its elements.
+        /// </summary>
+        public static string TheIndexesOfVectorVArrangedByTheDescendingOrderOfItsElements {
+            get {
+                return ResourceManager.GetString("TheIndexesOfVectorVArrangedByTheDescendingOrderOfItsElements", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The index of the first element in v, starting from the i-th one, that is equal to x.
+        /// </summary>
+        public static string TheIndexOfTheFirstElementInVStartingFromTheIThOneThatIsEqualToX {
+            get {
+                return ResourceManager.GetString("TheIndexOfTheFirstElementInVStartingFromTheIThOneThatIsEqualToX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The last n elements of vector v.
+        /// </summary>
+        public static string TheLastNElementsOfVectorV {
+            get {
+                return ResourceManager.GetString("TheLastNElementsOfVectorV", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The normalized vector v (with L2 norm = 1).
+        /// </summary>
+        public static string TheNormalizedVectorVWithL2Norm1 {
+            get {
+                return ResourceManager.GetString("TheNormalizedVectorVWithL2Norm1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The number of elements of vector v, starting from the i-th one, that are equal to x.
+        /// </summary>
+        public static string TheNumberOfElementsOfVectorVStartingFromTheIThOneThatAreEqualToX {
+            get {
+                return ResourceManager.GetString("TheNumberOfElementsOfVectorVStartingFromTheIThOneThatAreEqualToX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The values from column j₂ of M, for which the elements in column j₁ are.
+        /// </summary>
+        public static string TheValuesFromColumnJOfMForWhichTheElementsInColumnJAre {
+            get {
+                return ResourceManager.GetString("TheValuesFromColumnJOfMForWhichTheElementsInColumnJAre", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The values from row i₂ of M, for which the elements in row i₁ are.
+        /// </summary>
+        public static string TheValuesFromRowIOfMForWhichTheElementsInRowIAre {
+            get {
+                return ResourceManager.GetString("TheValuesFromRowIOfMForWhichTheElementsInRowIAre", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trace of matrix M.
+        /// </summary>
+        public static string TraceOfMatrixM {
+            get {
+                return ResourceManager.GetString("TraceOfMatrixM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transpose of matrix M.
+        /// </summary>
+        public static string TransposeOfMatrixM {
+            get {
+                return ResourceManager.GetString("TransposeOfMatrixM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Recovery failed with error:
         ///&quot;{0}&quot;.
         ///You can find your unsaved data in
@@ -1838,6 +2785,24 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Vector.
+        /// </summary>
+        public static string Vector {
+            get {
+                return ResourceManager.GetString("Vector", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vector with the two indexes of the first occurrence of x in matrix M, starting from indexes i and j.
+        /// </summary>
+        public static string VectorWithTheTwoIndexesOfTheFirstOccurrenceOfXInMatrixMStartingFromIndexesIAndJ {
+            get {
+                return ResourceManager.GetString("VectorWithTheTwoIndexesOfTheFirstOccurrenceOfXInMatrixMStartingFromIndexesIAndJ", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Violet-yellow.
         /// </summary>
         public static string VioletYellow {
@@ -1856,11 +2821,29 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to With counter: for-loop.
+        /// </summary>
+        public static string WithCounterForLoop {
+            get {
+                return ResourceManager.GetString("WithCounterForLoop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Wrap equations that do not fit on a single line (default).
         /// </summary>
         public static string WrapEquations {
             get {
                 return ResourceManager.GetString("WrapEquations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zero small elem..
+        /// </summary>
+        public static string ZeroSmallElem {
+            get {
+                return ResourceManager.GetString("ZeroSmallElem", resourceCulture);
             }
         }
     }

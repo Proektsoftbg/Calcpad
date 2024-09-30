@@ -61,6 +61,42 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to  must be positive integer..
+        /// </summary>
+        public static string _must_be_positive_integer {
+            get {
+                return ResourceManager.GetString("_must_be_positive_integer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  must be scalar..
+        /// </summary>
+        public static string _must_be_scalar {
+            get {
+                return ResourceManager.GetString("_must_be_scalar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  must be vector..
+        /// </summary>
+        public static string _must_be_vector {
+            get {
+                return ResourceManager.GetString("_must_be_vector", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Argument.
+        /// </summary>
+        public static string Argument {
+            get {
+                return ResourceManager.GetString("Argument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Argument out of range for {0}(x)..
         /// </summary>
         public static string Argument_out_of_range_for__0__x_ {
@@ -97,11 +133,29 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bracket mismatch..
+        /// </summary>
+        public static string Bracket_mismatch {
+            get {
+                return ResourceManager.GetString("Bracket_mismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Calculations not active..
         /// </summary>
         public static string Calculations_not_active {
             get {
                 return ResourceManager.GetString("Calculations_not_active", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot assign vector to scalar..
+        /// </summary>
+        public static string Cannot_assign_vector_to_scalar {
+            get {
+                return ResourceManager.GetString("Cannot_assign_vector_to_scalar", resourceCulture);
             }
         }
         
@@ -138,6 +192,15 @@ namespace Calcpad.Core {
         public static string Cannot_evaluate_the_function_f_for_v_equals__0__ {
             get {
                 return ResourceManager.GetString("Cannot_evaluate_the_function_f_for_v_equals__0__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot interpolate with non-scalar value..
+        /// </summary>
+        public static string Cannot_interpolate_with_non_scalar_value {
+            get {
+                return ResourceManager.GetString("Cannot_interpolate_with_non_scalar_value", resourceCulture);
             }
         }
         
@@ -201,6 +264,24 @@ namespace Calcpad.Core {
         public static string continue_without_a_corresponding_repeat {
             get {
                 return ResourceManager.GetString("continue_without_a_corresponding_repeat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Count.
+        /// </summary>
+        public static string Count {
+            get {
+                return ResourceManager.GetString("Count", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cross product is defined only for vectors with 2 and 3 elements..
+        /// </summary>
+        public static string Cross_product_is_definedonly_for_vectors_with_2_and_3_elements {
+            get {
+                return ResourceManager.GetString("Cross_product_is_definedonly_for_vectors_with_2_and_3_elements", resourceCulture);
             }
         }
         
@@ -358,6 +439,15 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Function {0} is not defined in complex mode..
+        /// </summary>
+        public static string Function__0__is_not_defined_in_complex_mode {
+            get {
+                return ResourceManager.GetString("Function__0__is_not_defined_in_complex_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to  Warning! Function redefined..
         /// </summary>
         public static string Function_redefined {
@@ -430,11 +520,47 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Index.
+        /// </summary>
+        public static string Index {
+            get {
+                return ResourceManager.GetString("Index", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Index out of range:.
+        /// </summary>
+        public static string Index_out_of_range {
+            get {
+                return ResourceManager.GetString("Index_out_of_range", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Index target.
+        /// </summary>
+        public static string Index_target {
+            get {
+                return ResourceManager.GetString("Index_target", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Interrupted by user..
         /// </summary>
         public static string Interrupted_by_user {
             get {
                 return ResourceManager.GetString("Interrupted_by_user", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid argument:.
+        /// </summary>
+        public static string Invalid_argument {
+            get {
+                return ResourceManager.GetString("Invalid_argument", resourceCulture);
             }
         }
         
@@ -453,6 +579,15 @@ namespace Calcpad.Core {
         public static string Invalid_inside_macro_definition {
             get {
                 return ResourceManager.GetString("Invalid_inside_macro_definition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid item.
+        /// </summary>
+        public static string Invalid_item {
+            get {
+                return ResourceManager.GetString("Invalid_item", resourceCulture);
             }
         }
         
@@ -480,6 +615,15 @@ namespace Calcpad.Core {
         public static string Invalid_number_of_arguments {
             get {
                 return ResourceManager.GetString("Invalid_number_of_arguments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid operand:.
+        /// </summary>
+        public static string Invalid_operand {
+            get {
+                return ResourceManager.GetString("Invalid_operand", resourceCulture);
             }
         }
         
@@ -583,6 +727,24 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error: Iteration block not closed. Missing &quot;#loop&quot;..
+        /// </summary>
+        public static string Iteration_block_not_closed_Missing_loop {
+            get {
+                return ResourceManager.GetString("Iteration_block_not_closed_Missing_loop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Jacobi iteration failed..
+        /// </summary>
+        public static string Jacobi_iteration_failed {
+            get {
+                return ResourceManager.GetString("Jacobi_iteration_failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Limits out of range: [{0}; {1}]..
         /// </summary>
         public static string Limits_out_of_range__0____1__ {
@@ -592,7 +754,7 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &quot;#loop&quot; without a corresponding &quot;#repeat&quot;..
+        ///   Looks up a localized string similar to &quot;#loop&quot; without a corresponding &quot;#repeat&quot;, &quot;#for&quot; or &quot;#while&quot;..
         /// </summary>
         public static string loop_without_a_corresponding_repeat {
             get {
@@ -615,6 +777,69 @@ namespace Calcpad.Core {
         public static string Macro_not_defined__0__ {
             get {
                 return ResourceManager.GetString("Macro_not_defined__0__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Matrix dimensions do not match..
+        /// </summary>
+        public static string Matrix_dimensions_do_not_match {
+            get {
+                return ResourceManager.GetString("Matrix_dimensions_do_not_match", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Matrix is not positive definite..
+        /// </summary>
+        public static string Matrix_is_not_positive_definite {
+            get {
+                return ResourceManager.GetString("Matrix_is_not_positive_definite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Matrix is singular..
+        /// </summary>
+        public static string Matrix_is_singular {
+            get {
+                return ResourceManager.GetString("Matrix_is_singular", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Matrix is singular or close to singular..
+        /// </summary>
+        public static string Matrix_is_singular_or_close_to_singular {
+            get {
+                return ResourceManager.GetString("Matrix_is_singular_or_close_to_singular", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Matrix must be square..
+        /// </summary>
+        public static string Matrix_must_be_square {
+            get {
+                return ResourceManager.GetString("Matrix_must_be_square", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Matrix must be symmetric..
+        /// </summary>
+        public static string Matrix_must_be_symmetric {
+            get {
+                return ResourceManager.GetString("Matrix_must_be_symmetric", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Matrix size cannot exceed.
+        /// </summary>
+        public static string Matrix_size_cannot_exceed {
+            get {
+                return ResourceManager.GetString("Matrix_size_cannot_exceed", resourceCulture);
             }
         }
         
@@ -736,6 +961,24 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Missing vector closing bracket &quot;]&quot;..
+        /// </summary>
+        public static string Missing_vector_closing_bracket {
+            get {
+                return ResourceManager.GetString("Missing_vector_closing_bracket", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing vector opening bracket &quot;[&quot;..
+        /// </summary>
+        public static string Missing_vector_opening_bracket {
+            get {
+                return ResourceManager.GetString("Missing_vector_opening_bracket", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;span class = &quot;err&quot;&gt;More than one delimiter &quot;|&quot; in plot command {0}.&lt;/span&gt;.
         /// </summary>
         public static string More_than_one_delimiter_in_plot_command {
@@ -763,11 +1006,29 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Number of columns.
+        /// </summary>
+        public static string Number_of_columns {
+            get {
+                return ResourceManager.GetString("Number_of_columns", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Number of iterations exceeds the maximum {0}.&lt;/p&gt;.
         /// </summary>
         public static string Number_of_iterations_exceeds_the_maximum_0 {
             get {
                 return ResourceManager.GetString("Number_of_iterations_exceeds_the_maximum_0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of rows.
+        /// </summary>
+        public static string Number_of_rows {
+            get {
+                return ResourceManager.GetString("Number_of_rows", resourceCulture);
             }
         }
         
@@ -808,11 +1069,20 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error: &quot;#repeat&quot; block not closed. Missing &quot;#loop&quot;..
+        ///   Looks up a localized string similar to Repeat block not closed. Missing loop..
         /// </summary>
         public static string repeat_block_not_closed_Missing_loop {
             get {
                 return ResourceManager.GetString("repeat_block_not_closed_Missing_loop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Result.
+        /// </summary>
+        public static string Result {
+            get {
+                return ResourceManager.GetString("Result", resourceCulture);
             }
         }
         
@@ -867,6 +1137,24 @@ namespace Calcpad.Core {
         public static string Stack_memory_leak__Invalid_expression {
             get {
                 return ResourceManager.GetString("Stack_memory_leak__Invalid_expression", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Step cannot be zero..
+        /// </summary>
+        public static string Step_cannot_be_zero {
+            get {
+                return ResourceManager.GetString("Step_cannot_be_zero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The argument is not an eigenvalue:.
+        /// </summary>
+        public static string The_argument_is_not_an_eigenvalue {
+            get {
+                return ResourceManager.GetString("The_argument_is_not_an_eigenvalue", resourceCulture);
             }
         }
         
@@ -952,6 +1240,42 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Lp norm argument must be p ≥ 1..
+        /// </summary>
+        public static string The_Lp_norm_argument_must_be_p_ge_1 {
+            get {
+                return ResourceManager.GetString("The_Lp_norm_argument_must_be_p_ge_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The number of matrix rows must be greater than or equal to the number of columns.
+        /// </summary>
+        public static string The_number_of_matrix_rows_must_be_greater_than_or_equal_to_the_number_of_columns {
+            get {
+                return ResourceManager.GetString("The_number_of_matrix_rows_must_be_greater_than_or_equal_to_the_number_of_columns", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The output is longer than 20000 lines. The rest will be skipped..
+        /// </summary>
+        public static string The_output_is_longer_than_20000_lines_The_rest_will_be_skipped {
+            get {
+                return ResourceManager.GetString("The_output_is_longer_than_20000_lines_The_rest_will_be_skipped", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The QL algorithm failed to converge..
+        /// </summary>
+        public static string The_QL_algorithm_failed_to_converge {
+            get {
+                return ResourceManager.GetString("The_QL_algorithm_failed_to_converge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The result is not a real number: &quot;{0}&quot;..
         /// </summary>
         public static string The_result_is_not_a_real_number__0__ {
@@ -966,6 +1290,15 @@ namespace Calcpad.Core {
         public static string There_is_no_matching_def {
             get {
                 return ResourceManager.GetString("There_is_no_matching_def", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Too many errors. Further calculations are skipped..
+        /// </summary>
+        public static string Too_many_errors {
+            get {
+                return ResourceManager.GetString("Too_many_errors", resourceCulture);
             }
         }
         
@@ -1024,11 +1357,38 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Variable.
+        /// </summary>
+        public static string Variable {
+            get {
+                return ResourceManager.GetString("Variable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Variable &apos;{0}&apos; does not exist..
         /// </summary>
         public static string Variable__0__does_not_exist {
             get {
                 return ResourceManager.GetString("Variable__0__does_not_exist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vector size cannot exceed.
+        /// </summary>
+        public static string Vector_size_cannot_exceed {
+            get {
+                return ResourceManager.GetString("Vector_size_cannot_exceed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vectors and matrices are not supported in complex mode..
+        /// </summary>
+        public static string Vectors_and_matrices_are_not_supported_in_complex_mode {
+            get {
+                return ResourceManager.GetString("Vectors_and_matrices_are_not_supported_in_complex_mode", resourceCulture);
             }
         }
     }

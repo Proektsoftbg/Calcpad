@@ -139,6 +139,7 @@
         [Trait("Category", "Weight")]
         public void Test_slug() => Test("slug|g", 14593.90294);
         #endregion
+        
         #region Length
         [Fact]
         [Trait("Category", "Length")]
@@ -1985,7 +1986,7 @@
 
         [Fact]
         [Trait("Category", "Arithmetics")]
-        public void Test_Sum_Dimensionless() => Test("1 + 10% + 10‰", "1.11");
+        public void Test_Sum_Dimensionless() => Test("2 + 30% +45‰", 2.345);
 
         [Fact]
         [Trait("Category", "Arithmetics")]
@@ -1993,8 +1994,11 @@
 
         [Fact]
         [Trait("Category", "Arithmetics")]
-        public void Test_kCal() => Test("(2kcal/cm^2)/(1000kcal/kg)", "20kg/m^2");
+        public void Test_kCal() => Test("(2kcal/cm^2)/(1000kcal/kg)", "0.02t/m^2");
 
+        [Fact]
+        [Trait("Category", "Arithmetics")]
+        public void Test_kN_kg() => Test("(2kN/cm^2)/(1000kN/kg)", "0.02t/m^2");
         [Fact]
         [Trait("Category", "Arithmetics")]
         public void Test_Subt_F() => Test("180°F - 18°F", "162°F");
@@ -2023,7 +2027,7 @@
             calc.Run("σ = 4 * 10 ^ -8 * W * m ^ -2 * K ^ -4");
             calc.Run("I = 625W/m^2");
             calc.Run("T = (I/(4*σ))^0.25");
-            var result = calc.ToString();  
+            var result = calc.ToString();
             Assert.Equal("250K", result);
         }
 
@@ -2049,7 +2053,7 @@
         [Trait("Category", "Arithmetics")]
         public static void Atan_deg()
         {
-            var calc = new TestCalc(new() { Degrees = 0});
+            var calc = new TestCalc(new() { Degrees = 0 });
             calc.Run("ReturnAngleUnits = 1");
             calc.Run("atan(1)");
             var result = calc.ToString();
@@ -2066,6 +2070,11 @@
             var result = calc.ToString();
             Assert.Equal("(2 + 3i)Ω", result);
         }
+
+        [Fact]
+        [Trait("Category", "Arithmetics")]
+        public void Test_Sum_Percent() => Test("1 + 20% + 30‰", "1.23");
+
         #endregion
 
         #region Custom Units
@@ -2121,7 +2130,7 @@
         private static void Test(string expression, double expected)
         {
             var result = new TestCalc(new()).Run(expression);
-            Assert.True(Math.Abs(expected - result) < Tol*Math.Abs(expected));
+            Assert.True(Math.Abs(expected - result) < Tol * Math.Abs(expected));
         }
 
         private static void Test(string expression, string expected)

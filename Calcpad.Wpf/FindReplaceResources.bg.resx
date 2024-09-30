@@ -75,7 +75,4 @@
   <data name="Invalid_character_0" xml:space="preserve">
         <value>Невалиден символ: {0}.</value>
     </data>
-  <data name="End_of_line_expected" xml:space="preserve">
-        <value>Очаква се край на ред.</value>
-    </data>
 </root>

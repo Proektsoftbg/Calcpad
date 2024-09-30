@@ -440,9 +440,6 @@ You can find your unsaved data in
   <data name="Insert" xml:space="preserve">
         <value>_Insert</value>
     </data>
-  <data name="RoundTo" xml:space="preserve">
-        <value>Round to</value>
-    </data>
   <data name="NumberOfDigitsTooltip" xml:space="preserve">
         <value>Number of digits after the decimal point</value>
     </data>
@@ -528,7 +525,7 @@ You can find your unsaved data in
         <value>Smooth shading for surface map</value>
     </data>
   <data name="ExternalBrowser" xml:space="preserve">
-        <value>External browser:</value>
+        <value>Ext. browser:</value>
     </data>
   <data name="ExternalBrowserTooltip" xml:space="preserve">
         <value>External browser for opening links in reports</value>
@@ -619,5 +616,335 @@ You can find your unsaved data in
   </data>
   <data name="RecentFileList" xml:space="preserve">
     <value>Recent files</value>
+  </data>
+  <data name="Round" xml:space="preserve">
+    <value>Round</value>
+  </data>
+  <data name="WithCounterForLoop" xml:space="preserve">
+    <value>With counter: for-loop</value>
+  </data>
+  <data name="ConditionalWhileLoop" xml:space="preserve">
+    <value>Conditional: while-loop</value>
+  </data>
+  <data name="MaxOutputCount" xml:space="preserve">
+    <value>Max output count:</value>
+  </data>
+  <data name="MaximumNumberOfElementsInVectorOrMatrixRowColumnToDisplayInTheOutput" xml:space="preserve">
+    <value>Maximum number of elements in vector or matrix row/column to display in the output</value>
+  </data>
+  <data name="ZeroSmallElem" xml:space="preserve">
+    <value>Zero small elem.</value>
+  </data>
+  <data name="DisplaySmallMatrixElementsAsZeroInsteadOfExponent" xml:space="preserve">
+    <value>Display small matrix elements as zero instead of exponent.</value>
+  </data>
+  <data name="Vector" xml:space="preserve">
+    <value>Vector</value>
+  </data>
+  <data name="Creational" xml:space="preserve">
+    <value>Creational</value>
+  </data>
+  <data name="Structural" xml:space="preserve">
+    <value>Structural</value>
+  </data>
+  <data name="Data" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="Math" xml:space="preserve">
+    <value>Math</value>
+  </data>
+  <data name="Matrix" xml:space="preserve">
+    <value>Matrix</value>
+  </data>
+  <data name="CreatesAnEmptyVectorWithLengthN" xml:space="preserve">
+    <value>Creates an empty vector with length n</value>
+  </data>
+  <data name="FillsVectorVWithValueX" xml:space="preserve">
+    <value>Fills vector v with value x</value>
+  </data>
+  <data name="CreatesAVectorWithValuesSpanningFromXToXₙWithStepS" xml:space="preserve">
+    <value>Creates a vector with values spanning from x₁ to xₙ with step s</value>
+  </data>
+  <data name="ReturnsTheLengthOfVectorV" xml:space="preserve">
+    <value>Returns the length of vector v</value>
+  </data>
+  <data name="TheActualSizeOfVectorVTheIndexOfTheLastNonZeroElement" xml:space="preserve">
+    <value>The actual size of vector v - the index of the last non-zero element</value>
+  </data>
+  <data name="CreatesAVectorByJoiningTheArgumentsMatricesVectorsAndScalars" xml:space="preserve">
+    <value>Creates a vector by joining the arguments: matrices, vectors and scalars</value>
+  </data>
+  <data name="ReturnsThePartOfVectorVBoundedByIndexesIAndIInclusive" xml:space="preserve">
+    <value>Returns the part of vector v bounded by indexes i₁ and i₂ inclusive</value>
+  </data>
+  <data name="SetsANewLengthNOfVectorV" xml:space="preserve">
+    <value>Sets a new length n of vector v</value>
+  </data>
+  <data name="TheFirstNElementsOfVectorV" xml:space="preserve">
+    <value>The first n elements of vector v</value>
+  </data>
+  <data name="TheLastNElementsOfVectorV" xml:space="preserve">
+    <value>The last n elements of vector v</value>
+  </data>
+  <data name="ExtractsTheElementsFromVWhichIndexesAreContainedInI" xml:space="preserve">
+    <value>Extracts the elements from v which indexes are contained in i</value>
+  </data>
+  <data name="SortsTheElementsOfVectorVInVectorAscendingOrder" xml:space="preserve">
+    <value>Sorts the elements of vector v in vector ascending order</value>
+  </data>
+  <data name="SortsTheElementsOfVectorVInDescendingOrder" xml:space="preserve">
+    <value>Sorts the elements of vector v in descending order</value>
+  </data>
+  <data name="TheIndexesOfVectorVArrangedByTheAscendingOrderOfItsElements" xml:space="preserve">
+    <value>The indexes of vector v, arranged by the ascending order of its elements</value>
+  </data>
+  <data name="TheIndexesOfVectorVArrangedByTheDescendingOrderOfItsElements" xml:space="preserve">
+    <value>The indexes of vector v, arranged by the descending order of its elements</value>
+  </data>
+  <data name="ANewVectorContainingTheElementsOfVInReverseOrder" xml:space="preserve">
+    <value>A new vector containing the elements of v in reverse order</value>
+  </data>
+  <data name="TheNumberOfElementsOfVectorVStartingFromTheIThOneThatAreEqualToX" xml:space="preserve">
+    <value>The number of elements of vector v, starting from the i-th one, that are equal to x</value>
+  </data>
+  <data name="TheIndexOfTheFirstElementInVStartingFromTheIThOneThatIsEqualToX" xml:space="preserve">
+    <value>The index of the first element in v, starting from the i-th one, that is equal to x</value>
+  </data>
+  <data name="TheIndexesOfAllElementsInVStartingFromTheIThOneThatAre" xml:space="preserve">
+    <value>The indexes of all elements in v, starting from the i-th one, that are</value>
+  </data>
+  <data name="AllElementsInVectorAForWhichTheCorrespondingElementsInVectorBAre" xml:space="preserve">
+    <value>All elements in vector a for which the corresponding elements in vector b are</value>
+  </data>
+  <data name="L2EuclideanNormOfVectorV" xml:space="preserve">
+    <value>L2 (Euclidean) norm of vector v</value>
+  </data>
+  <data name="L1ManhattanNormOfVectorV" xml:space="preserve">
+    <value>L1 (Manhattan) norm of vector v</value>
+  </data>
+  <data name="LpNormOfVectorV" xml:space="preserve">
+    <value>Lp norm of vector v</value>
+  </data>
+  <data name="LInfinityNormOfVectorV" xml:space="preserve">
+    <value>L∞ (infinity) norm of vector v</value>
+  </data>
+  <data name="TheNormalizedVectorVWithL2Norm1" xml:space="preserve">
+    <value>The normalized vector v (with L2 norm = 1)</value>
+  </data>
+  <data name="ScalarProductOfTwoVectorsAAndB" xml:space="preserve">
+    <value>Scalar product of two vectors a and b</value>
+  </data>
+  <data name="CrossProductOfTwoVectorsAAndBWithLength2Or3" xml:space="preserve">
+    <value>Cross product of two vectors a and b (with length 2 or 3)</value>
+  </data>
+  <data name="CreatesAnEmptyMatrixWithDimensionsMN" xml:space="preserve">
+    <value>Creates an empty matrix with dimensions m⨯n</value>
+  </data>
+  <data name="CreatesAnIdentityMatrixWithDimensionsNN" xml:space="preserve">
+    <value>Creates an identity matrix with dimensions n⨯n</value>
+  </data>
+  <data name="CreatesADiagonalMatrixWithDimensionsNNAndFillsTheDiagonalWithValueD" xml:space="preserve">
+    <value>Creates a diagonal matrix with dimensions n⨯n and fills the diagonal with value d</value>
+  </data>
+  <data name="CreatesAColumnMatrixWithDimensionsM1FilledWithValueC" xml:space="preserve">
+    <value>Creates a column matrix with dimensions m⨯1, filled with value c</value>
+  </data>
+  <data name="CreatesAnUpperTriangularMatrixWithDimensionsNN" xml:space="preserve">
+    <value>Creates an upper triangular matrix with dimensions n⨯n</value>
+  </data>
+  <data name="CreatesALowerTriangularMatrixWithDimensionsNN" xml:space="preserve">
+    <value>Creates a lower triangular matrix with dimensions n⨯n</value>
+  </data>
+  <data name="CreatesASymmetricMatrixWithDimensionsNN" xml:space="preserve">
+    <value>Creates a symmetric matrix with dimensions n⨯n</value>
+  </data>
+  <data name="CreatesADiagonalMatrixFromTheElementsOfVectorV" xml:space="preserve">
+    <value>Creates a diagonal matrix from the elements of vector v</value>
+  </data>
+  <data name="CreatesAColumnMatrixFromTheElementsOfVectorV" xml:space="preserve">
+    <value>Creates a column matrix from the elements of vector v</value>
+  </data>
+  <data name="CreatesANewMatrixByJoiningColumnVectors" xml:space="preserve">
+    <value>Creates a new matrix by joining column vectors</value>
+  </data>
+  <data name="CreatesANewMatrixByJoiningRowVectors" xml:space="preserve">
+    <value>Creates a new matrix by joining row vectors</value>
+  </data>
+  <data name="CreatesANewMatrixByAppendingMatricesABCSideBySide" xml:space="preserve">
+    <value>Creates a new matrix by appending matrices A; B; C side by side</value>
+  </data>
+  <data name="CreatesANewMatrixByStackingMatricesABCOneBelowTheOther" xml:space="preserve">
+    <value>Creates a new matrix by stacking matrices A; B; C one below the other</value>
+  </data>
+  <data name="NumberOfRowsInMatrixM" xml:space="preserve">
+    <value>Number of rows in matrix M</value>
+  </data>
+  <data name="NumberOfColumnsInMatrixM" xml:space="preserve">
+    <value>Number of columns in matrix M</value>
+  </data>
+  <data name="SetsNewDimensionsMAndNForMatrixM" xml:space="preserve">
+    <value>Sets new dimensions m and n for matrix M</value>
+  </data>
+  <data name="FillsMatrixMWithValueX" xml:space="preserve">
+    <value>Fills matrix M with value x</value>
+  </data>
+  <data name="FillsTheIThRowOfMatrixMWithValueX" xml:space="preserve">
+    <value>Fills the i-th row of matrix M with value x</value>
+  </data>
+  <data name="FillsTheJThColumnOfMatrixMWithValueX" xml:space="preserve">
+    <value>Fills the j-th column of matrix M with value x</value>
+  </data>
+  <data name="CopiesAllElementsFromAToBStartingFromIndexesIAndJOfB" xml:space="preserve">
+    <value>Copies all elements from A to B, starting from indexes i and j of B</value>
+  </data>
+  <data name="AddsAllElementsFromAToThoseOfBStartingFromIndexesIAndJOfB" xml:space="preserve">
+    <value>Adds all elements from A to those of B, starting from indexes i and j of B</value>
+  </data>
+  <data name="ExtractsTheIThRowOfMatrixMAsAVector" xml:space="preserve">
+    <value>Extracts the i-th row of matrix M as a vector</value>
+  </data>
+  <data name="ExtractsTheJThColumnOfMatrixMAsAVector" xml:space="preserve">
+    <value>Extracts the j-th column of matrix M as a vector</value>
+  </data>
+  <data name="ExtractsTheRowsFromMatrixMWhoseIndexesAreContainedInVectorI" xml:space="preserve">
+    <value>Extracts the rows from matrix M whose indexes are contained in vector i</value>
+  </data>
+  <data name="ExtractsTheColumnsFromMatrixMWhoseIndexesAreContainedInVectorJ" xml:space="preserve">
+    <value>Extracts the columns from matrix M whose indexes are contained in vector j</value>
+  </data>
+  <data name="ExtractsTheDiagonalElementsOfMatrixMToAVector" xml:space="preserve">
+    <value>Extracts the diagonal elements of matrix M to a vector</value>
+  </data>
+  <data name="ExtractsASubmatrixOfMBoundedByRowsIAndIAndColumnsJAndJIncl" xml:space="preserve">
+    <value>Extracts a submatrix of M, bounded by rows i₁ and i₂ and columns j₁ and j₂, incl.</value>
+  </data>
+  <data name="SortsTheColumnsOfMBasedOnTheValuesInRowIInAscendingOrder" xml:space="preserve">
+    <value>Sorts the columns of M based on the values in row i in ascending order</value>
+  </data>
+  <data name="SortsTheColumnsOfMBasedOnTheValuesInRowIInDescendingOrder" xml:space="preserve">
+    <value>Sorts the columns of M based on the values in row i in descending order</value>
+  </data>
+  <data name="SortsTheRowsOfMBasedOnTheValuesInColumnJInAscendingOrder" xml:space="preserve">
+    <value>Sorts the rows of M based on the values in column j in ascending order</value>
+  </data>
+  <data name="SortsTheRowsOfMBasedOnTheValuesInColumnJInDescendingOrder" xml:space="preserve">
+    <value>Sorts the rows of M based on the values in column j in descending order</value>
+  </data>
+  <data name="TheIndexesOfTheColumnsOfMBasedOnTheOrderingOfTheValuesFromRowIInAscendingOrder" xml:space="preserve">
+    <value>The indexes of the columns of M based on the ordering of the values from row i in ascending order</value>
+  </data>
+  <data name="TheIndexesOfTheColumnsOfMBasedOnTheOrderingOfTheValuesFromRowIInDescendingOrder" xml:space="preserve">
+    <value>The indexes of the columns of M based on the ordering of the values from row i in descending order</value>
+  </data>
+  <data name="TheIndexesOfTheRowsOfMBasedOnTheOrderingOfTheValuesInColumnJInAscendingOrder" xml:space="preserve">
+    <value>The indexes of the rows of M based on the ordering of the values in column j in ascending order</value>
+  </data>
+  <data name="TheIndexesOfTheRowsOfMBasedOnTheOrderingOfTheValuesInColumnJInDescendingOrder" xml:space="preserve">
+    <value>The indexes of the rows of M based on the ordering of the values in column j in descending order</value>
+  </data>
+  <data name="NumberOfOccurrencesOfValueXInMatrixM" xml:space="preserve">
+    <value>Number of occurrences of value x in matrix M</value>
+  </data>
+  <data name="VectorWithTheTwoIndexesOfTheFirstOccurrenceOfXInMatrixMStartingFromIndexesIAndJ" xml:space="preserve">
+    <value>Vector with the two indexes of the first occurrence of x in matrix M, starting from indexes i and j</value>
+  </data>
+  <data name="TheIndexesOfAllElementsInMThatAre" xml:space="preserve">
+    <value>The indexes of all elements in M that are</value>
+  </data>
+  <data name="TheValuesFromRowIOfMForWhichTheElementsInRowIAre" xml:space="preserve">
+    <value>The values from row i₂ of M, for which the elements in row i₁ are</value>
+  </data>
+  <data name="TheValuesFromColumnJOfMForWhichTheElementsInColumnJAre" xml:space="preserve">
+    <value>The values from column j₂ of M, for which the elements in column j₁ are</value>
+  </data>
+  <data name="HadamardProductOfMatricesAAndB" xml:space="preserve">
+    <value>Hadamard product of matrices A and B</value>
+  </data>
+  <data name="FrobeniusProductOfMatricesAAndB" xml:space="preserve">
+    <value>Frobenius product of matrices A and B</value>
+  </data>
+  <data name="KroneckerProductOfMatricesAAndB" xml:space="preserve">
+    <value>Kronecker product of matrices A and B</value>
+  </data>
+  <data name="L2NormOfMatrixM" xml:space="preserve">
+    <value>L2 norm of matrix M</value>
+  </data>
+  <data name="L1NormOfMatrixM" xml:space="preserve">
+    <value>L1 norm of matrix M</value>
+  </data>
+  <data name="FrobeniusNormOfMatrixM" xml:space="preserve">
+    <value>Frobenius norm of matrix M</value>
+  </data>
+  <data name="LNormOfMatrixM" xml:space="preserve">
+    <value>L∞ norm of matrix M</value>
+  </data>
+  <data name="ConditionNumberOfMBasedOnTheL2Norm" xml:space="preserve">
+    <value>Condition number of M based on the L2 norm</value>
+  </data>
+  <data name="ConditionNumberOfMBasedOnTheL1Norm" xml:space="preserve">
+    <value>Condition number of M based on the L1 norm</value>
+  </data>
+  <data name="ConditionNumberOfMBasedOnTheFrobeniusNorm" xml:space="preserve">
+    <value>Condition number of M based on the Frobenius norm</value>
+  </data>
+  <data name="ConditionNumberOfMBasedOnTheLNorm" xml:space="preserve">
+    <value>Condition number of M based on the L∞ norm</value>
+  </data>
+  <data name="DeterminantOfMatrixM" xml:space="preserve">
+    <value>Determinant of matrix M</value>
+  </data>
+  <data name="RankOfMatrixM" xml:space="preserve">
+    <value>Rank of matrix M</value>
+  </data>
+  <data name="TraceOfMatrixM" xml:space="preserve">
+    <value>Trace of matrix M</value>
+  </data>
+  <data name="TransposeOfMatrixM" xml:space="preserve">
+    <value>Transpose of matrix M</value>
+  </data>
+  <data name="AdjugateOfMatrixM" xml:space="preserve">
+    <value>Adjugate of matrix M</value>
+  </data>
+  <data name="CofactorMatrixOfM" xml:space="preserve">
+    <value>Cofactor matrix of M</value>
+  </data>
+  <data name="EigenvaluesOfMatrixM" xml:space="preserve">
+    <value>Eigenvalues of matrix M</value>
+  </data>
+  <data name="EigenvectorsOfMatrixM" xml:space="preserve">
+    <value>Eigenvectors of matrix M</value>
+  </data>
+  <data name="EigenvaluesAndEigenvectorsOfMatrixM" xml:space="preserve">
+    <value>Eigenvalues and eigenvectors of matrix M</value>
+  </data>
+  <data name="CholeskyDecompositionOfASymmetricPositiveDefiniteMatrixM" xml:space="preserve">
+    <value>Cholesky decomposition of a symmetric, positive-definite matrix M</value>
+  </data>
+  <data name="LUDecompositionOfMatrixM" xml:space="preserve">
+    <value>LU decomposition of matrix M</value>
+  </data>
+  <data name="QRDecompositionOfMatrixM" xml:space="preserve">
+    <value>QR decomposition of matrix M</value>
+  </data>
+  <data name="SingularValueDecompositionOfM" xml:space="preserve">
+    <value>Singular value decomposition of M</value>
+  </data>
+  <data name="InverseOfMatrixM" xml:space="preserve">
+    <value>Inverse of matrix M</value>
+  </data>
+  <data name="SolvesTheSystemOfLinearEquationsAxBUsingLDLTDecompositionForSymmetricMatricesAndLUForNonSymmetric" xml:space="preserve">
+    <value>Solves the system of linear equations Ax = b using LDLT decomposition for symmetric matrices, and LU for non-symmetric</value>
+  </data>
+  <data name="SolvesTheLinearMatrixEquationAxBWithASymmetricPositiveDefiniteMatrixAUsingCholeskyDecomposition" xml:space="preserve">
+    <value>Solves the linear matrix equation Ax = b with a symmetric, positive-definite matrix A using Cholesky decomposition</value>
+  </data>
+  <data name="ReturnsTheElementOfMatrixMAtIndexesXAndY" xml:space="preserve">
+    <value>Returns the element of matrix M at indexes x and y</value>
+  </data>
+  <data name="DoubleLinearInterpolationFromTheElementsOfMatrixMBasedOnTheValuesOfXAndY" xml:space="preserve">
+    <value>Double linear interpolation from the elements of matrix M based on the values of x and y</value>
+  </data>
+  <data name="DoubleHermiteSplineInterpolationFromTheElementsOfMatrixMBasedOnTheValuesOfXAndY" xml:space="preserve">
+    <value>Double Hermite spline interpolation from the elements of matrix M based on the values of x and y</value>
   </data>
 </root>

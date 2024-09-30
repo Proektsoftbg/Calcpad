@@ -78,7 +78,4 @@
   <data name="Invalid_character_0" xml:space="preserve">
         <value>Invalid character: {0}.</value>
     </data>
-  <data name="End_of_line_expected" xml:space="preserve">
-        <value>End of line expected.</value>
-    </data>
 </root>

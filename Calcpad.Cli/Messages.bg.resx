@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Welcome_To_Calcpad_Command_Line_Interpreter" xml:space="preserve">
-    <value> Добре дошли в командния интерпретатор на Calcpad  v.{0}.{1}.{2}!</value>
+    <value> Добре дошли в командния интерпретатор на Calcpad VM {0}.{1}.{2}!</value>
   </data>
   <data name="Press_Any_Key_When_Ready" xml:space="preserve">
     <value>Натиснете произволен клавиш за да продължите.</value>
   </data>
   <data name="Copyright_2023_By_Proektsoft_EOOD" xml:space="preserve">
-    <value> © 2023 Проектсофт ЕООД. Всички права запазени.</value>
+    <value> © 2024 Проектсофт ЕООД. Всички права запазени.</value>
   </data>
   <data name="Commands" xml:space="preserve">
     <value>Команди</value>
@@ -146,5 +146,11 @@
   </data>
   <data name="Loading_The_Settings_File" xml:space="preserve">
     <value>Отваряне на файл с настройки...</value>
+  </data>
+  <data name="WouldYouLikeToRestoreThePreviousSettingsYN" xml:space="preserve">
+    <value>Желаете ли да възстановите предишните настройки (да/не)?</value>
+  </data>
+  <data name="PressAnyKeyToContinue" xml:space="preserve">
+    <value>Натиснете произволен клавиш, за да продължите.</value>
   </data>
 </root>

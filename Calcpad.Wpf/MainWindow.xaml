@@ -5,7 +5,7 @@
     xmlns:core="clr-namespace:Calcpad.Core;assembly=Calcpad.Core"
     x:Class="Calcpad.Wpf.MainWindow"
     Closing="Window_Closing"
-    Title=" Calcpad 6.2.4"
+    Title=" Calcpad VM 7.0.7"
     Height="800" 
     Width="1200"
     WindowStartupLocation="CenterScreen"
@@ -435,6 +435,420 @@
                         <MenuItem Click="Button_Click" Tag="random("  Header="random(x)"             
                                   ToolTip="{x:Static wpf:MathResources.RandomNumber}"/>
                     </MenuItem>
+                    <MenuItem Header="{x:Static wpf:MainWindowResources.Vector}">
+                        <MenuItem Header="{x:Static wpf:MainWindowResources.Creational}">
+                            <MenuItem Click="Button_Click" Tag="vector(" Header="vector(n)" ToolTip="{x:Static wpf:MainWindowResources.CreatesAnEmptyVectorWithLengthN}" />
+                            <MenuItem Click="Button_Click" Tag="fill(" Header="fill(v; x)" ToolTip="{x:Static wpf:MainWindowResources.FillsVectorVWithValueX}" />
+                            <MenuItem Click="Button_Click" Tag="range(" Header="range(x₁; xₙ; s)" ToolTip="{x:Static wpf:MainWindowResources.CreatesAVectorWithValuesSpanningFromXToXₙWithStepS}" />
+                        </MenuItem>
+                        <MenuItem Header="{x:Static wpf:MainWindowResources.Structural}">
+                            <MenuItem Click="Button_Click" Tag="len(" Header="len(v)" ToolTip="{x:Static wpf:MainWindowResources.ReturnsTheLengthOfVectorV}" />
+                            <MenuItem Click="Button_Click" Tag="size(" Header="size(v)" ToolTip="{x:Static wpf:MainWindowResources.TheActualSizeOfVectorVTheIndexOfTheLastNonZeroElement}" />
+                            <MenuItem Click="Button_Click" Tag="join(" Header="join(a; b; c…)" ToolTip="{x:Static wpf:MainWindowResources.CreatesAVectorByJoiningTheArgumentsMatricesVectorsAndScalars}" />
+                            <MenuItem Click="Button_Click" Tag="slice(" Header="slice(v; i₁; i₂)" ToolTip="{x:Static wpf:MainWindowResources.ReturnsThePartOfVectorVBoundedByIndexesIAndIInclusive}" />
+                            <MenuItem Click="Button_Click" Tag="resize(" Header="resize(v; n)" ToolTip="{x:Static wpf:MainWindowResources.SetsANewLengthNOfVectorV}" />
+                            <MenuItem Click="Button_Click" Tag="first(" Header="first(v; n)" ToolTip="{x:Static wpf:MainWindowResources.TheFirstNElementsOfVectorV}" />
+                            <MenuItem Click="Button_Click" Tag="last(" Header="last(v; n)" ToolTip="{x:Static wpf:MainWindowResources.TheLastNElementsOfVectorV}" />
+                            <MenuItem Click="Button_Click" Tag="extract(" Header="extract(v; iv)" ToolTip="{x:Static wpf:MainWindowResources.ExtractsTheElementsFromVWhichIndexesAreContainedInI}" />
+                        </MenuItem>
+                        <MenuItem Header="{x:Static wpf:MainWindowResources.Data}">
+                            <MenuItem Click="Button_Click" Tag="sort(" Header="sort(v)" ToolTip="{x:Static wpf:MainWindowResources.SortsTheElementsOfVectorVInVectorAscendingOrder}" />
+                            <MenuItem Click="Button_Click" Tag="rsort(" Header="rsort(v)" ToolTip="{x:Static wpf:MainWindowResources.SortsTheElementsOfVectorVInDescendingOrder}" />
+                            <MenuItem Click="Button_Click" Tag="order(" Header="order(v)" ToolTip="{x:Static wpf:MainWindowResources.TheIndexesOfVectorVArrangedByTheAscendingOrderOfItsElements}" />
+                            <MenuItem Click="Button_Click" Tag="revorder(" Header="revorder(v)" ToolTip="{x:Static wpf:MainWindowResources.TheIndexesOfVectorVArrangedByTheDescendingOrderOfItsElements}" />
+                            <MenuItem Click="Button_Click" Tag="reverse(" Header="reverse(v)" ToolTip="{x:Static wpf:MainWindowResources.ANewVectorContainingTheElementsOfVInReverseOrder}" />
+                            <MenuItem Click="Button_Click" Tag="count(" Header="count(v; x; i)" ToolTip="{x:Static wpf:MainWindowResources.TheNumberOfElementsOfVectorVStartingFromTheIThOneThatAreEqualToX}" />
+                            <MenuItem Click="Button_Click" Tag="search(" Header="search(v; x; i)" ToolTip="{x:Static wpf:MainWindowResources.TheIndexOfTheFirstElementInVStartingFromTheIThOneThatIsEqualToX}" />
+                            <MenuItem Header="Find">
+                                <MenuItem Click="Button_Click" Tag="find(" Header="find(v; x; i)">
+                                    <MenuItem.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="{x:Static wpf:MainWindowResources.TheIndexesOfAllElementsInVStartingFromTheIThOneThatAre}"/>
+                                            <Run Text=" = x"/>
+                                        </TextBlock>
+                                    </MenuItem.ToolTip>
+                                </MenuItem>
+                                <MenuItem Click="Button_Click" Tag="find_eq(" Header="find__eq(v; x; i)">
+                                    <MenuItem.ToolTip>
+                                        <TextBlock>
+                                                <Run Text="{x:Static wpf:MainWindowResources.TheIndexesOfAllElementsInVStartingFromTheIThOneThatAre}"/>
+                                                <Run Text=" = x"/>
+                                        </TextBlock>
+                                    </MenuItem.ToolTip>
+                                </MenuItem>
+                                <MenuItem Click="Button_Click" Tag="find_ne(" Header="find__ne(v; x; i)">
+                                    <MenuItem.ToolTip>
+                                        <TextBlock>
+                                        <Run Text="{x:Static wpf:MainWindowResources.TheIndexesOfAllElementsInVStartingFromTheIThOneThatAre}"/>
+                                        <Run Text=" ≠ x"/>
+                                        </TextBlock>
+                                    </MenuItem.ToolTip>
+                                </MenuItem>
+                                <MenuItem Click="Button_Click" Tag="find_lt(" Header="find__lt(v; x; i)">
+                                    <MenuItem.ToolTip>
+                                        <TextBlock>
+                                        <Run Text="{x:Static wpf:MainWindowResources.TheIndexesOfAllElementsInVStartingFromTheIThOneThatAre}"/>
+                                        <Run Text=" &lt; x"/>
+                                        </TextBlock>
+                                    </MenuItem.ToolTip>
+                                </MenuItem>                                
+                                <MenuItem Click="Button_Click" Tag="find_le(" Header="find__le(v; x; i)">
+                                    <MenuItem.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="{x:Static wpf:MainWindowResources.TheIndexesOfAllElementsInVStartingFromTheIThOneThatAre}"/>
+                                            <Run Text=" ≤ x"/>
+                                        </TextBlock>
+                                    </MenuItem.ToolTip>
+                                </MenuItem>
+                                <MenuItem Click="Button_Click" Tag="find_gt(" Header="find__gt(v; x; i)">
+                                    <MenuItem.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="{x:Static wpf:MainWindowResources.TheIndexesOfAllElementsInVStartingFromTheIThOneThatAre}"/>
+                                            <Run Text=" &gt; x"/>
+                                        </TextBlock>
+                                    </MenuItem.ToolTip>
+                                </MenuItem>                                
+                                <MenuItem Click="Button_Click" Tag="find_ge(" Header="find__ge(v; x; i)">
+                                    <MenuItem.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="{x:Static wpf:MainWindowResources.TheIndexesOfAllElementsInVStartingFromTheIThOneThatAre}"/>
+                                            <Run Text=" ≥ x"/>
+                                        </TextBlock>
+                                    </MenuItem.ToolTip>
+                                </MenuItem>
+                            </MenuItem>
+                            <MenuItem Header="Lookup">
+                                <MenuItem Click="Button_Click" Tag="lookup(" Header="lookup(a; b; x)">
+                                    <MenuItem.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="{x:Static wpf:MainWindowResources.AllElementsInVectorAForWhichTheCorrespondingElementsInVectorBAre}"/>
+                                            <Run Text=" = x"/>
+                                        </TextBlock>
+                                    </MenuItem.ToolTip>
+                                </MenuItem>
+                                <MenuItem Click="Button_Click" Tag="lookup_eq(" Header="lookup__eq(a; b; x)">
+                                    <MenuItem.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="{x:Static wpf:MainWindowResources.AllElementsInVectorAForWhichTheCorrespondingElementsInVectorBAre}"/>
+                                            <Run Text=" = x"/>
+                                        </TextBlock>
+                                    </MenuItem.ToolTip>
+                                </MenuItem>
+                                <MenuItem Click="Button_Click" Tag="lookup_ne(" Header="lookup__ne(a; b; x)">
+                                    <MenuItem.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="{x:Static wpf:MainWindowResources.AllElementsInVectorAForWhichTheCorrespondingElementsInVectorBAre}"/>
+                                            <Run Text=" ≠ x"/>
+                                        </TextBlock>
+                                    </MenuItem.ToolTip>
+                                </MenuItem>
+                                <MenuItem Click="Button_Click" Tag="lookup_lt(" Header="lookup__lt(a; b; x)">
+                                    <MenuItem.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="{x:Static wpf:MainWindowResources.AllElementsInVectorAForWhichTheCorrespondingElementsInVectorBAre}"/>
+                                            <Run Text=" &lt; x"/>
+                                        </TextBlock>
+                                    </MenuItem.ToolTip>
+                                </MenuItem>
+                                <MenuItem Click="Button_Click" Tag="lookup_le(" Header="lookup__le(a; b; x)">
+                                    <MenuItem.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="{x:Static wpf:MainWindowResources.AllElementsInVectorAForWhichTheCorrespondingElementsInVectorBAre}"/>
+                                            <Run Text=" ≤ x"/>
+                                        </TextBlock>
+                                    </MenuItem.ToolTip>
+                                </MenuItem>
+                                <MenuItem Click="Button_Click" Tag="lookup_gt(" Header="lookup__gt(a; b; x)">
+                                    <MenuItem.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="{x:Static wpf:MainWindowResources.AllElementsInVectorAForWhichTheCorrespondingElementsInVectorBAre}"/>
+                                            <Run Text=" &gt; x"/>
+                                        </TextBlock>
+                                    </MenuItem.ToolTip>
+                                </MenuItem>
+                                <MenuItem Click="Button_Click" Tag="lookup_ge(" Header="lookup__ge(a; b; x)">
+                                    <MenuItem.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="{x:Static wpf:MainWindowResources.AllElementsInVectorAForWhichTheCorrespondingElementsInVectorBAre}"/>
+                                            <Run Text=" ≥ x"/>
+                                        </TextBlock>
+                                    </MenuItem.ToolTip>
+                                </MenuItem>
+                            </MenuItem>
+                        </MenuItem>
+                        <MenuItem Header="{x:Static wpf:MainWindowResources.Math}">
+                            <MenuItem Click="Button_Click" Tag="norm(" Header="norm(v)" ToolTip="{x:Static wpf:MainWindowResources.L2EuclideanNormOfVectorV}" />
+                            <MenuItem Click="Button_Click" Tag="norm_1(" Header="norm__1(v)" ToolTip="{x:Static wpf:MainWindowResources.L1ManhattanNormOfVectorV}" />
+                            <MenuItem Click="Button_Click" Tag="norm_2(" Header="norm__2(v)" ToolTip="{x:Static wpf:MainWindowResources.L2EuclideanNormOfVectorV}" />
+                            <MenuItem Click="Button_Click" Tag="norm_e(" Header="norm__e(v)" ToolTip="{x:Static wpf:MainWindowResources.L2EuclideanNormOfVectorV}" />
+                            <MenuItem Click="Button_Click" Tag="norm_p(" Header="norm__p(v; p)" ToolTip="{x:Static wpf:MainWindowResources.LpNormOfVectorV}" />
+                            <MenuItem Click="Button_Click" Tag="norm_i(" Header="norm__i(v)" ToolTip="{x:Static wpf:MainWindowResources.LInfinityNormOfVectorV}" />
+                            <MenuItem Click="Button_Click" Tag="unit(" Header="unit(v)" ToolTip="{x:Static wpf:MainWindowResources.TheNormalizedVectorVWithL2Norm1}" />
+                            <MenuItem Click="Button_Click" Tag="dot(" Header="dot(a; b)" ToolTip="{x:Static wpf:MainWindowResources.ScalarProductOfTwoVectorsAAndB}" />
+                            <MenuItem Click="Button_Click" Tag="cross(" Header="cross(a; b)" ToolTip="{x:Static wpf:MainWindowResources.CrossProductOfTwoVectorsAAndBWithLength2Or3}" />
+                        </MenuItem>
+                    </MenuItem>
+                    <MenuItem Header="{x:Static wpf:MainWindowResources.Matrix}">
+                        <MenuItem Header="{x:Static wpf:MainWindowResources.Creational}">
+                            <MenuItem Click="Button_Click" Tag="matrix(" Header="matrix(m; n)" ToolTip="{x:Static wpf:MainWindowResources.CreatesAnEmptyMatrixWithDimensionsMN}" />
+                            <MenuItem Click="Button_Click" Tag="identity(" Header="identity(n)" ToolTip="{x:Static wpf:MainWindowResources.CreatesAnIdentityMatrixWithDimensionsNN}" />
+                            <MenuItem Click="Button_Click" Tag="diagonal(" Header="diagonal(n; d)" ToolTip="{x:Static wpf:MainWindowResources.CreatesADiagonalMatrixWithDimensionsNNAndFillsTheDiagonalWithValueD}" />
+                            <MenuItem Click="Button_Click" Tag="column(" Header="column(m; c)" ToolTip="{x:Static wpf:MainWindowResources.CreatesAColumnMatrixWithDimensionsM1FilledWithValueC}" />
+                            <MenuItem Click="Button_Click" Tag="utriang(" Header="utriang(n)" ToolTip="{x:Static wpf:MainWindowResources.CreatesAnUpperTriangularMatrixWithDimensionsNN}" />
+                            <MenuItem Click="Button_Click" Tag="ltriang(" Header="ltriang(n)" ToolTip="{x:Static wpf:MainWindowResources.CreatesALowerTriangularMatrixWithDimensionsNN}" />
+                            <MenuItem Click="Button_Click" Tag="symmetric(" Header="symmetric(n)" ToolTip="{x:Static wpf:MainWindowResources.CreatesASymmetricMatrixWithDimensionsNN}" />
+                            <MenuItem Click="Button_Click" Tag="vec2diag(" Header="vec2diag(v)" ToolTip="{x:Static wpf:MainWindowResources.CreatesADiagonalMatrixFromTheElementsOfVectorV}" />
+                            <MenuItem Click="Button_Click" Tag="vec2col(" Header="vec2col(v)" ToolTip="{x:Static wpf:MainWindowResources.CreatesAColumnMatrixFromTheElementsOfVectorV}" />
+                            <MenuItem Click="Button_Click" Tag="join_cols(" Header="join__cols(c₁; c₂; c₃...)" ToolTip="{x:Static wpf:MainWindowResources.CreatesANewMatrixByJoiningColumnVectors}" />
+                            <MenuItem Click="Button_Click" Tag="join_rows(" Header="join__rows(r₁; r₂; r₃...)" ToolTip="{x:Static wpf:MainWindowResources.CreatesANewMatrixByJoiningRowVectors}" />
+                            <MenuItem Click="Button_Click" Tag="augment(" Header="augment(A; B; C...)" ToolTip="{x:Static wpf:MainWindowResources.CreatesANewMatrixByAppendingMatricesABCSideBySide}" />
+                            <MenuItem Click="Button_Click" Tag="stack(" Header="stack(A; B; C...)" ToolTip="{x:Static wpf:MainWindowResources.CreatesANewMatrixByStackingMatricesABCOneBelowTheOther}" />
+                        </MenuItem>
+                        <MenuItem Header="{x:Static wpf:MainWindowResources.Structural}">
+                            <MenuItem Click="Button_Click" Tag="n_rows(" Header="n__rows(M)" ToolTip="{x:Static wpf:MainWindowResources.NumberOfRowsInMatrixM}" />
+                            <MenuItem Click="Button_Click" Tag="n_cols(" Header="n__cols(M)" ToolTip="{x:Static wpf:MainWindowResources.NumberOfColumnsInMatrixM}" />
+                            <MenuItem Click="Button_Click" Tag="mresize(" Header="mresize(M; m; n)" ToolTip="{x:Static wpf:MainWindowResources.SetsNewDimensionsMAndNForMatrixM}" />
+                            <MenuItem Click="Button_Click" Tag="mfill(" Header="mfill(M; x)" ToolTip="{x:Static wpf:MainWindowResources.FillsMatrixMWithValueX}" />
+                            <MenuItem Click="Button_Click" Tag="fill_row(" Header="fill__row(M; i; x)" ToolTip="{x:Static wpf:MainWindowResources.FillsTheIThRowOfMatrixMWithValueX}" />
+                            <MenuItem Click="Button_Click" Tag="fill_col(" Header="fill__col(M; j; x)" ToolTip="{x:Static wpf:MainWindowResources.FillsTheJThColumnOfMatrixMWithValueX}" />
+                            <MenuItem Click="Button_Click" Tag="copy(" Header="copy(A; B; i; j)" ToolTip="{x:Static wpf:MainWindowResources.CopiesAllElementsFromAToBStartingFromIndexesIAndJOfB}" />
+                            <MenuItem Click="Button_Click" Tag="add(" Header="add(A; B; i; j)" ToolTip="{x:Static wpf:MainWindowResources.AddsAllElementsFromAToThoseOfBStartingFromIndexesIAndJOfB}" />
+                            <MenuItem Click="Button_Click" Tag="row(" Header="row(M; i)" ToolTip="{x:Static wpf:MainWindowResources.ExtractsTheIThRowOfMatrixMAsAVector}" />
+                            <MenuItem Click="Button_Click" Tag="col(" Header="col(M; j)" ToolTip="{x:Static wpf:MainWindowResources.ExtractsTheJThColumnOfMatrixMAsAVector}" />
+                            <MenuItem Click="Button_Click" Tag="extract_rows(" Header="extract__rows(M; i)" ToolTip="{x:Static wpf:MainWindowResources.ExtractsTheRowsFromMatrixMWhoseIndexesAreContainedInVectorI}" />
+                            <MenuItem Click="Button_Click" Tag="extract_cols(" Header="extract__cols(M; j)" ToolTip="{x:Static wpf:MainWindowResources.ExtractsTheColumnsFromMatrixMWhoseIndexesAreContainedInVectorJ}" />
+                            <MenuItem Click="Button_Click" Tag="diag2vec(" Header="diag2vec(M)" ToolTip="{x:Static wpf:MainWindowResources.ExtractsTheDiagonalElementsOfMatrixMToAVector}" />
+                            <MenuItem Click="Button_Click" Tag="submatrix(" Header="submatrix(M; i₁; i₂; j₁; j₂)" ToolTip="{x:Static wpf:MainWindowResources.ExtractsASubmatrixOfMBoundedByRowsIAndIAndColumnsJAndJIncl}" />
+                        </MenuItem>
+                        <MenuItem Header="{x:Static wpf:MainWindowResources.Data}">
+                            <MenuItem Click="Button_Click" Tag="sort_cols(" Header="sort__cols(M; i)" ToolTip="{x:Static wpf:MainWindowResources.SortsTheColumnsOfMBasedOnTheValuesInRowIInAscendingOrder}" />
+                            <MenuItem Click="Button_Click" Tag="rsort_cols(" Header="rsort__cols(M; i)" ToolTip="{x:Static wpf:MainWindowResources.SortsTheColumnsOfMBasedOnTheValuesInRowIInDescendingOrder}" />
+                            <MenuItem Click="Button_Click" Tag="sort_rows(" Header="sort__rows(M; j)" ToolTip="{x:Static wpf:MainWindowResources.SortsTheRowsOfMBasedOnTheValuesInColumnJInAscendingOrder}" />
+                            <MenuItem Click="Button_Click" Tag="rsort_rows(" Header="rsort__rows(M; j)" ToolTip="{x:Static wpf:MainWindowResources.SortsTheRowsOfMBasedOnTheValuesInColumnJInDescendingOrder}" />
+                            <MenuItem Click="Button_Click" Tag="order_cols(" Header="order__cols(M; i)" ToolTip="{x:Static wpf:MainWindowResources.TheIndexesOfTheColumnsOfMBasedOnTheOrderingOfTheValuesFromRowIInAscendingOrder}" />
+                            <MenuItem Click="Button_Click" Tag="revorder_cols(" Header="revorder_cols(M; i)" ToolTip="{x:Static wpf:MainWindowResources.TheIndexesOfTheColumnsOfMBasedOnTheOrderingOfTheValuesFromRowIInDescendingOrder}" />
+                            <MenuItem Click="Button_Click" Tag="order_rows(" Header="order__rows(M; j)" ToolTip="{x:Static wpf:MainWindowResources.TheIndexesOfTheRowsOfMBasedOnTheOrderingOfTheValuesInColumnJInAscendingOrder}" />
+                            <MenuItem Click="Button_Click" Tag="revorder_rows(" Header="revorder__rows(M; j)" ToolTip="{x:Static wpf:MainWindowResources.TheIndexesOfTheRowsOfMBasedOnTheOrderingOfTheValuesInColumnJInDescendingOrder}" />
+                            <MenuItem Click="Button_Click" Tag="mcount(" Header="mcount(M; x)" ToolTip="{x:Static wpf:MainWindowResources.NumberOfOccurrencesOfValueXInMatrixM}" />
+                            <MenuItem Click="Button_Click" Tag="msearch(" Header="msearch(M; x; i; j)" ToolTip="{x:Static wpf:MainWindowResources.VectorWithTheTwoIndexesOfTheFirstOccurrenceOfXInMatrixMStartingFromIndexesIAndJ}" />
+                            <MenuItem Header="Find">
+                                <MenuItem Click="Button_Click" Tag="mfind(" Header="mfind(M; x)">
+                                    <MenuItem.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="{x:Static wpf:MainWindowResources.TheIndexesOfAllElementsInMThatAre}"/>
+                                            <Run Text=" = x"/>
+                                        </TextBlock>
+                                    </MenuItem.ToolTip>
+                                </MenuItem>
+                                <MenuItem Click="Button_Click" Tag="mfind_eq(" Header="mfind__eq(M; x)">
+                                    <MenuItem.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="{x:Static wpf:MainWindowResources.TheIndexesOfAllElementsInMThatAre}"/>
+                                            <Run Text=" = x"/>
+                                        </TextBlock>
+                                    </MenuItem.ToolTip>
+                                </MenuItem>
+                                <MenuItem Click="Button_Click" Tag="mfind_ne(" Header="mfind__ne(M; x)">
+                                    <MenuItem.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="{x:Static wpf:MainWindowResources.TheIndexesOfAllElementsInMThatAre}"/>
+                                            <Run Text=" ≠ x"/>
+                                        </TextBlock>
+                                    </MenuItem.ToolTip>
+                                </MenuItem>
+                                <MenuItem Click="Button_Click" Tag="mfind_lt(" Header="mfind__lt(M; x)">
+                                    <MenuItem.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="{x:Static wpf:MainWindowResources.TheIndexesOfAllElementsInMThatAre}"/>
+                                            <Run Text=" &lt; x"/>
+                                        </TextBlock>
+                                    </MenuItem.ToolTip>
+                                </MenuItem>
+                                <MenuItem Click="Button_Click" Tag="mfind_le(" Header="mfind__le(M; x)">
+                                    <MenuItem.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="{x:Static wpf:MainWindowResources.TheIndexesOfAllElementsInMThatAre}"/>
+                                            <Run Text=" ≤ x"/>
+                                        </TextBlock>
+                                    </MenuItem.ToolTip>
+                                </MenuItem>
+                                <MenuItem Click="Button_Click" Tag="mfind_gt(" Header="mfind__gt(M; x)">
+                                    <MenuItem.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="{x:Static wpf:MainWindowResources.TheIndexesOfAllElementsInMThatAre}"/>
+                                            <Run Text=" &gt; x"/>
+                                        </TextBlock>
+                                    </MenuItem.ToolTip>
+                                </MenuItem>
+                                <MenuItem Click="Button_Click" Tag="mfind_ge(" Header="mfind__ge(M; x)">
+                                    <MenuItem.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="{x:Static wpf:MainWindowResources.TheIndexesOfAllElementsInMThatAre}"/>
+                                            <Run Text=" ≥ x"/>
+                                        </TextBlock>
+                                    </MenuItem.ToolTip>
+                                </MenuItem>
+                            </MenuItem>
+                            <MenuItem Header="Lookup">
+                                <MenuItem Click="Button_Click" Tag="hlookup(" Header="hlookup(M; x; i₁; i₂)">
+                                    <MenuItem.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="{x:Static wpf:MainWindowResources.TheValuesFromRowIOfMForWhichTheElementsInRowIAre}"/>
+                                            <Run Text=" = x"/>
+                                        </TextBlock>
+                                    </MenuItem.ToolTip>
+                                </MenuItem>
+                                <MenuItem Click="Button_Click" Tag="hlookup_eq(" Header="hlookup__eq(M; x; i₁; i₂)">
+                                    <MenuItem.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="{x:Static wpf:MainWindowResources.TheValuesFromRowIOfMForWhichTheElementsInRowIAre}"/>
+                                            <Run Text=" = x"/>
+                                        </TextBlock>
+                                    </MenuItem.ToolTip>
+                                </MenuItem>
+                                <MenuItem Click="Button_Click" Tag="hlookup_ne(" Header="hlookup__ne(M; x; i₁; i₂)">
+                                    <MenuItem.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="{x:Static wpf:MainWindowResources.AllElementsInVectorAForWhichTheCorrespondingElementsInVectorBAre}"/>
+                                            <Run Text=" &lt; x"/>
+                                        </TextBlock>
+                                    </MenuItem.ToolTip>
+                                </MenuItem>
+                                <MenuItem Click="Button_Click" Tag="hlookup_lt(" Header="hlookup__lt(M; x; i₁; i₂)">
+                                    <MenuItem.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="{x:Static wpf:MainWindowResources.AllElementsInVectorAForWhichTheCorrespondingElementsInVectorBAre}"/>
+                                            <Run Text=" ≠ x"/>
+                                        </TextBlock>
+                                    </MenuItem.ToolTip>
+                                </MenuItem>
+                                <MenuItem Click="Button_Click" Tag="hlookup_le(" Header="hlookup__le(M; x; i₁; i₂)">
+                                    <MenuItem.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="{x:Static wpf:MainWindowResources.AllElementsInVectorAForWhichTheCorrespondingElementsInVectorBAre}"/>
+                                            <Run Text=" ≤ x"/>
+                                        </TextBlock>
+                                    </MenuItem.ToolTip>
+                                </MenuItem>
+                                <MenuItem Click="Button_Click" Tag="hlookup_gt(" Header="hlookup__gt(M; x; i₁; i₂)">
+                                    <MenuItem.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="{x:Static wpf:MainWindowResources.AllElementsInVectorAForWhichTheCorrespondingElementsInVectorBAre}"/>
+                                            <Run Text=" &gt; x"/>
+                                        </TextBlock>
+                                    </MenuItem.ToolTip>
+                                </MenuItem>
+                                <MenuItem Click="Button_Click" Tag="hlookup_ge(" Header="hlookup__ge(M; x; i₁; i₂)">
+                                    <MenuItem.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="{x:Static wpf:MainWindowResources.AllElementsInVectorAForWhichTheCorrespondingElementsInVectorBAre}"/>
+                                            <Run Text=" ≥ x"/>
+                                        </TextBlock>
+                                    </MenuItem.ToolTip>
+                                </MenuItem>
+                                <MenuItem Click="Button_Click" Tag="vlookup(" Header="vlookup(M; x; j₁; j₂)">
+                                    <MenuItem.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="{x:Static wpf:MainWindowResources.TheValuesFromColumnJOfMForWhichTheElementsInColumnJAre}"/>
+                                            <Run Text=" = x"/>
+                                        </TextBlock>
+                                    </MenuItem.ToolTip>
+                                </MenuItem>
+                                <MenuItem Click="Button_Click" Tag="vlookup_eq(" Header="vlookup__eq(M; x; j₁; j₂)">
+                                    <MenuItem.ToolTip>
+                                        <TextBlock>
+                                            <Run Text="{x:Static wpf:MainWindowResources.TheValuesFromColumnJOfMForWhichTheElementsInColumnJAre}"/>
+                                            <Run Text=" = x"/>
+                                        </TextBlock>
+                                    </MenuItem.ToolTip>
+                                </MenuItem>
+                                <MenuItem Click="Button_Click" Tag="vlookup_ne(" Header="vlookup__ne(M; x; j₁; j₂)">
+                                    <MenuItem.ToolTip>
+                                        <TextBlock>
+                                        <Run Text="{x:Static wpf:MainWindowResources.TheValuesFromColumnJOfMForWhichTheElementsInColumnJAre}"/>
+                                        <Run Text=" ≠ x"/>
+                                        </TextBlock>
+                                    </MenuItem.ToolTip>
+                                </MenuItem>
+                                <MenuItem Click="Button_Click" Tag="vlookup_lt(" Header="vlookup__lt(M; x; j₁; j₂)">
+                                    <MenuItem.ToolTip>
+                                        <TextBlock>
+                                        <Run Text="{x:Static wpf:MainWindowResources.TheValuesFromColumnJOfMForWhichTheElementsInColumnJAre}"/>
+                                        <Run Text=" &lt; x"/>
+                                        </TextBlock>
+                                    </MenuItem.ToolTip>
+                                </MenuItem>
+                                <MenuItem Click="Button_Click" Tag="vlookup_le(" Header="vlookup__le(M; x; j₁; j₂)">
+                                    <MenuItem.ToolTip>
+                                        <TextBlock>
+                                        <Run Text="{x:Static wpf:MainWindowResources.TheValuesFromColumnJOfMForWhichTheElementsInColumnJAre}"/>
+                                        <Run Text=" ≤ x"/>
+                                        </TextBlock>
+                                    </MenuItem.ToolTip>
+                                </MenuItem>
+                                <MenuItem Click="Button_Click" Tag="vlookup_gt(" Header="vlookup__gt(M; x; j₁; j₂)">
+                                    <MenuItem.ToolTip>
+                                        <TextBlock>
+                                        <Run Text="{x:Static wpf:MainWindowResources.TheValuesFromColumnJOfMForWhichTheElementsInColumnJAre}"/>
+                                        <Run Text=" &gt; x"/>
+                                        </TextBlock>
+                                    </MenuItem.ToolTip>
+                                </MenuItem>
+                                <MenuItem Click="Button_Click" Tag="vlookup_ge(" Header="vlookup__ge(M; x; j₁; j₂)">
+                                    <MenuItem.ToolTip>
+                                        <TextBlock>
+                                        <Run Text="{x:Static wpf:MainWindowResources.TheValuesFromColumnJOfMForWhichTheElementsInColumnJAre}"/>
+                                        <Run Text=" ≥ x"/>
+                                        </TextBlock>
+                                    </MenuItem.ToolTip>
+                                </MenuItem>
+                            </MenuItem>
+                        </MenuItem>
+                        <MenuItem Header="{x:Static wpf:MainWindowResources.Math}">
+                            <MenuItem Click="Button_Click" Tag="hprod(" Header="hprod(A; B)" ToolTip="{x:Static wpf:MainWindowResources.HadamardProductOfMatricesAAndB}" />
+                            <MenuItem Click="Button_Click" Tag="fprod(" Header="fprod(A; B)" ToolTip="{x:Static wpf:MainWindowResources.FrobeniusProductOfMatricesAAndB}" />
+                            <MenuItem Click="Button_Click" Tag="kprod(" Header="kprod(A; B)" ToolTip="{x:Static wpf:MainWindowResources.KroneckerProductOfMatricesAAndB}" />
+                            <MenuItem Header="Norms">
+                                <MenuItem Click="Button_Click" Tag="mnorm(" Header="mnorm(M)" ToolTip="{x:Static wpf:MainWindowResources.L2NormOfMatrixM}" />
+                                <MenuItem Click="Button_Click" Tag="mnorm_1(" Header="mnorm__1(M)" ToolTip="{x:Static wpf:MainWindowResources.L1NormOfMatrixM}" />
+                                <MenuItem Click="Button_Click" Tag="mnorm_2(" Header="mnorm__2(M)" ToolTip="{x:Static wpf:MainWindowResources.L2NormOfMatrixM}" />
+                                <MenuItem Click="Button_Click" Tag="mnorm_e(" Header="mnorm__e(M)" ToolTip="{x:Static wpf:MainWindowResources.FrobeniusNormOfMatrixM}" />
+                                <MenuItem Click="Button_Click" Tag="mnorm_i(" Header="mnorm__i(M)" ToolTip="{x:Static wpf:MainWindowResources.LNormOfMatrixM}" />
+                            </MenuItem>
+                            <MenuItem Header="Condition numbers">
+                                <MenuItem Click="Button_Click" Tag="cond(" Header="cond(M)" ToolTip="{x:Static wpf:MainWindowResources.ConditionNumberOfMBasedOnTheL2Norm}" />
+                                <MenuItem Click="Button_Click" Tag="cond_1(" Header="cond__1(M)" ToolTip="{x:Static wpf:MainWindowResources.ConditionNumberOfMBasedOnTheL1Norm}" />
+                                <MenuItem Click="Button_Click" Tag="cond_2(" Header="cond__2(M)" ToolTip="{x:Static wpf:MainWindowResources.ConditionNumberOfMBasedOnTheL2Norm}" />
+                                <MenuItem Click="Button_Click" Tag="cond_e(" Header="cond__e(M)" ToolTip="{x:Static wpf:MainWindowResources.ConditionNumberOfMBasedOnTheFrobeniusNorm}" />
+                                <MenuItem Click="Button_Click" Tag="cond_i(" Header="cond__i(M)" ToolTip="{x:Static wpf:MainWindowResources.ConditionNumberOfMBasedOnTheLNorm}" />
+                            </MenuItem>
+                            <MenuItem Click="Button_Click" Tag="det(" Header="det(M)" ToolTip="{x:Static wpf:MainWindowResources.DeterminantOfMatrixM}" />
+                            <MenuItem Click="Button_Click" Tag="rank(" Header="rank(M)" ToolTip="{x:Static wpf:MainWindowResources.RankOfMatrixM}" />
+                            <MenuItem Click="Button_Click" Tag="trace(" Header="trace(M)" ToolTip="{x:Static wpf:MainWindowResources.TraceOfMatrixM}" />
+                            <MenuItem Click="Button_Click" Tag="transp(" Header="transp(M)" ToolTip="{x:Static wpf:MainWindowResources.TransposeOfMatrixM}" />
+                            <MenuItem Click="Button_Click" Tag="adj(" Header="adj(M)" ToolTip="{x:Static wpf:MainWindowResources.AdjugateOfMatrixM}" />
+                            <MenuItem Click="Button_Click" Tag="cofactor(" Header="cofactor(M)" ToolTip="{x:Static wpf:MainWindowResources.CofactorMatrixOfM}" />
+                            <MenuItem Header="Eigenvalues and eigenvectors">
+                                <MenuItem Click="Button_Click" Tag="eigenvals(" Header="eigenvals(M)" ToolTip="{x:Static wpf:MainWindowResources.EigenvaluesOfMatrixM}" />
+                                <MenuItem Click="Button_Click" Tag="eigenvecs(" Header="eigenvecs(M)" ToolTip="{x:Static wpf:MainWindowResources.EigenvectorsOfMatrixM}" />
+                                <MenuItem Click="Button_Click" Tag="eigenvals(" Header="eigen(M)" ToolTip="{x:Static wpf:MainWindowResources.EigenvaluesAndEigenvectorsOfMatrixM}" />
+                            </MenuItem>
+                            <MenuItem Header="Decompositions">
+                                <MenuItem Click="Button_Click" Tag="cholesky(" Header="cholesky(M)" ToolTip="{x:Static wpf:MainWindowResources.CholeskyDecompositionOfASymmetricPositiveDefiniteMatrixM}" />
+                                <MenuItem Click="Button_Click" Tag="lu(" Header="lu(M)" ToolTip="{x:Static wpf:MainWindowResources.LUDecompositionOfMatrixM}" />
+                                <MenuItem Click="Button_Click" Tag="qr(" Header="qr(M)" ToolTip="{x:Static wpf:MainWindowResources.QRDecompositionOfMatrixM}" />
+                                <MenuItem Click="Button_Click" Tag="svd(" Header="svd(M)" ToolTip="{x:Static wpf:MainWindowResources.SingularValueDecompositionOfM}" />
+                            </MenuItem>
+                            <MenuItem Click="Button_Click" Tag="inverse(" Header="inverse(M)" ToolTip="{x:Static wpf:MainWindowResources.InverseOfMatrixM}" />
+                            <MenuItem Click="Button_Click" Tag="lsolve(" Header="lsolve(A; b)" ToolTip="{x:Static wpf:MainWindowResources.SolvesTheSystemOfLinearEquationsAxBUsingLDLTDecompositionForSymmetricMatricesAndLUForNonSymmetric}" />
+                            <MenuItem Click="Button_Click" Tag="clsolve(" Header="clsolve(A; b)" ToolTip="{x:Static wpf:MainWindowResources.SolvesTheLinearMatrixEquationAxBWithASymmetricPositiveDefiniteMatrixAUsingCholeskyDecomposition}" />
+                            <MenuItem Header="Double Interpolation">
+                                <MenuItem Click="Button_Click" Tag="take(" Header="take(x; y; M)" ToolTip="{x:Static wpf:MainWindowResources.ReturnsTheElementOfMatrixMAtIndexesXAndY}" />
+                                <MenuItem Click="Button_Click" Tag="line(" Header="line(x; y; M)" ToolTip="{x:Static wpf:MainWindowResources.DoubleLinearInterpolationFromTheElementsOfMatrixMBasedOnTheValuesOfXAndY}" />
+                                <MenuItem Click="Button_Click" Tag="spline(" Header="spline(x; y; M)" ToolTip="{x:Static wpf:MainWindowResources.DoubleHermiteSplineInterpolationFromTheElementsOfMatrixMBasedOnTheValuesOfXAndY}" />
+                            </MenuItem>
+                        </MenuItem>
+                    </MenuItem>
                 </MenuItem>
                 <MenuItem Header="{x:Static wpf:UnitsResources.Units_Header}">
                     <MenuItem Header="{x:Static wpf:UnitsResources.Dimensionless}">
@@ -848,7 +1262,7 @@
                             <MenuItem Click="Button_Click" Tag="kat" Header="{x:Static wpf:UnitsResources.CatalyticActivity}"/>
                         </MenuItem>
                     </MenuItem>
-                    <MenuItem Header="{x:Static wpf:UnitsResources.Imperial_US}">
+                    <MenuItem Header="Imperial/US">
                         <MenuItem Header="{x:Static wpf:UnitsResources.Mass}">
                             <MenuItem Click="Button_Click" Tag="gr"       Header="gr (grain)"/>
                             <MenuItem Click="Button_Click" Tag="dr"       Header="dr (drachm)"/>
@@ -1074,6 +1488,10 @@
                               Header="{x:Static wpf:MainWindowResources.ConditionalRepeatBreakLoop}"/>
                     <MenuItem Click="Button_Click" Tag="#repeat 'number of repetitions§'Your code here§#if 'condition§#continue§#end if§'Some more code§#loop" 
                               Header="{x:Static wpf:MainWindowResources.ConditionalRepeatContinueLoop}"/>
+                    <MenuItem Click="Button_Click" Tag="#for counter = start : end§'Your code here§#loop" 
+                              Header="{x:Static wpf:MainWindowResources.WithCounterForLoop}"/>
+                    <MenuItem Click="Button_Click" Tag="#while 'condition§'Your code here§#loop" 
+                              Header="{x:Static wpf:MainWindowResources.ConditionalWhileLoop}"/>
                 </MenuItem>
                 <MenuItem Header="{x:Static wpf:MainWindowResources.StringVariableOrMacro}">
                     <MenuItem Click="Button_Click" Tag="#def variable_name$ = content" 
@@ -1088,38 +1506,38 @@
                               Header="{x:Static wpf:MainWindowResources.IncludeExternalFile}"/>
                 </MenuItem>
                 <MenuItem Header="Html">
-                    <MenuItem Click="Button_Click" Tag="&lt;h3&gt;|&lt;/h3&gt;" Icon="H3" FontWeight="SemiBold">
+                    <MenuItem Click="Button_Click" Tag="&lt;h3&gt;‖&lt;/h3&gt;" Icon="H3" FontWeight="SemiBold">
                         <MenuItem.Header>
                             <TextBlock Text="{x:Static wpf:MainWindowResources.Heading3}"  FontSize="16" />
                         </MenuItem.Header>
                     </MenuItem>
-                    <MenuItem Click="Button_Click" Tag="&lt;h4&gt;|&lt;/h4&gt;" Icon="H4" FontWeight="SemiBold">
+                    <MenuItem Click="Button_Click" Tag="&lt;h4&gt;‖&lt;/h4&gt;" Icon="H4" FontWeight="SemiBold">
                         <MenuItem.Header>
                             <TextBlock Text="{x:Static wpf:MainWindowResources.Heading4}" FontSize="15" />
                         </MenuItem.Header>
                     </MenuItem>
-                    <MenuItem Click="Button_Click" Tag="&lt;h5&gt;|&lt;/h5&gt;" Icon="H5" FontWeight="SemiBold">
+                    <MenuItem Click="Button_Click" Tag="&lt;h5&gt;‖&lt;/h5&gt;" Icon="H5" FontWeight="SemiBold">
                         <MenuItem.Header>
                             <TextBlock Text="{x:Static wpf:MainWindowResources.Heading5}"  FontSize="14" />
                         </MenuItem.Header>
                     </MenuItem>
-                    <MenuItem Click="Button_Click" Tag="&lt;h6&gt;|&lt;/h6&gt;" Icon="H6" FontWeight="SemiBold">
+                    <MenuItem Click="Button_Click" Tag="&lt;h6&gt;‖&lt;/h6&gt;" Icon="H6" FontWeight="SemiBold">
                         <MenuItem.Header>
                             <TextBlock Text="{x:Static wpf:MainWindowResources.Heading6}"  FontSize="13" />
                         </MenuItem.Header>
                     </MenuItem>
-                    <MenuItem Click="Button_Click" Tag="&lt;p&gt;|&lt;/p&gt;" Icon="  ¶"
+                    <MenuItem Click="Button_Click" Tag="&lt;p&gt;‖&lt;/p&gt;" Icon="  ¶"
                               Header="{x:Static wpf:MainWindowResources.Paragraph}"/>
-                    <MenuItem Click="Button_Click" Tag="|&lt;br /&gt;" Icon=" ⏎"
+                    <MenuItem Click="Button_Click" Tag="‖&lt;br /&gt;" Icon=" ⏎"
                               Header="{x:Static wpf:MainWindowResources.LineBreak}"/>
                     <Separator/>
-                    <MenuItem x:Name="BoldMenu" Click="Button_Click" Tag="&lt;strong&gt;|&lt;/strong&gt;"  
+                    <MenuItem x:Name="BoldMenu" Click="Button_Click" Tag="&lt;strong&gt;‖&lt;/strong&gt;"  
                               Icon="  B" FontWeight="Bold" InputGestureText="Ctrl+B"
                               Header="{x:Static wpf:MainWindowResources.Bold}"/>
-                    <MenuItem x:Name="ItalicMenu" Click="Button_Click" Tag="&lt;em&gt;|&lt;/em&gt;"  
+                    <MenuItem x:Name="ItalicMenu" Click="Button_Click" Tag="&lt;em&gt;‖&lt;/em&gt;"  
                               Icon="  I" FontStyle="Italic" FontFamily="Georgia" InputGestureText="Ctrl+I"
                               Header="{x:Static wpf:MainWindowResources.Italic}"/>
-                    <MenuItem x:Name="UnderlineMenu" Click="Button_Click" Tag="&lt;ins&gt;|&lt;/ins&gt;" InputGestureText="Ctrl+U">
+                    <MenuItem x:Name="UnderlineMenu" Click="Button_Click" Tag="&lt;ins&gt;‖&lt;/ins&gt;" InputGestureText="Ctrl+U">
                         <MenuItem.Header>
                             <TextBlock Text="{x:Static wpf:MainWindowResources.Underline}" TextDecorations="Underline" />
                         </MenuItem.Header>
@@ -1127,7 +1545,7 @@
                             <TextBlock Text="U" TextDecorations="Underline" HorizontalAlignment="Center"/>
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Click="Button_Click" Tag="&lt;del&gt;|&lt;/del&gt;">
+                    <MenuItem Click="Button_Click" Tag="&lt;del&gt;‖&lt;/del&gt;">
                         <MenuItem.Header>
                             <TextBlock Text="{x:Static wpf:MainWindowResources.Strikethrough}" TextDecorations="Strikethrough"/>
                         </MenuItem.Header>
@@ -1135,14 +1553,14 @@
                             <TextBlock Text="S" TextDecorations="Strikethrough" HorizontalAlignment="Center"/>
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem x:Name="SubscriptMenu" Click="Button_Click" Tag="&lt;sub&gt;|&lt;/sub&gt;" 
+                    <MenuItem x:Name="SubscriptMenu" Click="Button_Click" Tag="&lt;sub&gt;‖&lt;/sub&gt;" 
                               Header="{x:Static wpf:MainWindowResources.Subscript}" Icon=" X₂" InputGestureText="Ctrl+&quot;+&quot;"/>
-                    <MenuItem x:Name="SuperscriptMenu" Click="Button_Click" Tag="&lt;sup&gt;|&lt;/sup&gt;" 
+                    <MenuItem x:Name="SuperscriptMenu" Click="Button_Click" Tag="&lt;sup&gt;‖&lt;/sup&gt;" 
                               Header="{x:Static wpf:MainWindowResources.Superscript}" Icon=" X²" InputGestureText="Ctrl+Shift+&quot;+&quot;"/>
-                    <MenuItem Click="Button_Click" Tag="&lt;span class=&quot;err&quot;&gt;|&lt;/span&gt;" 
+                    <MenuItem Click="Button_Click" Tag="&lt;span class=&quot;err&quot;&gt;‖&lt;/span&gt;" 
                               Header="{x:Static wpf:MainWindowResources.RedColor}" Foreground="Red" Icon="  R"/>
                     <Separator/>
-                    <MenuItem Click="Button_Click" Tag="&lt;span&gt;|&lt;/span&gt;" Header="Span" Icon=" ‹/›"/>
+                    <MenuItem Click="Button_Click" Tag="&lt;span&gt;‖&lt;/span&gt;" Header="Span" Icon=" ‹/›"/>
                     <MenuItem Click="Button_Click" Tag="'&lt;div&gt;§'&lt;/div&gt;" Header="Div" Icon=" ‹/›"/>
                     <MenuItem Click="Button_Click" Tag="'&lt;div class=&quot;fold&quot;&gt;§'&lt;h4&gt;Heading&lt;/h4&gt;§'Folded content§'&lt;/div&gt;" 
                               Header="{x:Static wpf:MainWindowResources.FoldedDiv}" Icon=" ▼"/>
@@ -1275,9 +1693,9 @@
         <Button Grid.Row="0" x:Name="RecentFliesListButton" HorizontalAlignment="Left" VerticalAlignment="Top" 
                 Height="24" Margin="57,24,0,0" 
                 Focusable="false" IsTabStop="false" 
-                Background="{x:Null}"  BorderBrush="{x:Null}"
+                Background="{x:Null}" BorderBrush="{x:Null}"
                 Click="RecentFliesListButton_Click" IsEnabled="False" ClickMode="Press"
-                ToolTip="{x:Static wpf:MainWindowResources.RecentFileList}">
+                ToolTip="{x:Static wpf:MainWindowResources.RecentFileList}" Width="10">
             <Button.ContextMenu>
                 <ContextMenu x:Name="RecentFilesListContextMenu" HorizontalAlignment="Right" HorizontalOffset="-35" VerticalOffset="30"/>
             </Button.ContextMenu>
@@ -1349,6 +1767,23 @@
                 ToolTip="{x:Static wpf:MainWindowResources.ShowHelp}">
             <Image Source="Resources/help.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Button>
+        <TextBlock Grid.Row="0" TextWrapping="Wrap" FontSize="11.5" Margin="0,6,146,0" Height="16" 
+            VerticalAlignment="Top"  HorizontalAlignment="Right" Width="110" Foreground="#DA000000"
+            Text="{x:Static wpf:MainWindowResources.MaxOutputCount}" />
+        <TextBox x:Name="MaxOutputCountTextBox" 
+            Text="20" 
+            TextAlignment="Right"
+            UndoLimit="0" 
+            Height="20" Width="46" 
+            FontFamily="Segoe UI Semibold" 
+            FontWeight="Normal"
+            FontSize="13" 
+            VerticalAlignment="Top" HorizontalAlignment="Right" 
+            TabIndex="11"
+            ToolTip="Maximum number of elements in vector or matrix row/column to display in the output" 
+            Margin="0,27,210,0" 
+            KeyUp="MaxOutputCountTextBox_KeyUp" 
+           LostFocus="MaxOutputCountTextBox_LostFocus"/>
         <Button Grid.Row="0" x:Name="SaveOutputButton" 
                 HorizontalAlignment="Right" VerticalAlignment="Top"
                 Width="24" Height="24" Margin="0,24,109,0"
@@ -1408,7 +1843,7 @@
                     HorizontalAlignment="Center"/>
             </Button>
             <CheckBox x:Name="AutoRunCheckBox" Content=" AutoRun" IsChecked="True" 
-                      TabIndex="3" Padding="0"  FontSize="12.5"
+                      TabIndex="6" Padding="0"  FontSize="12.5"
                       Width="75" HorizontalAlignment="Left" Height="16" 
                       Canvas.Left="107" Canvas.Top="5" VerticalAlignment="Center" 
                       Checked="AutoRunCheckBox_Checked" Unchecked="AutoRunCheckBox_Unchecked"
@@ -1428,32 +1863,32 @@
                 <RotateTransform Angle="90"/>
             </Separator.RenderTransform>
         </Separator>
-        <TextBlock Grid.Row="0" TextWrapping="Wrap" FontSize="11.5" Margin="0,6,455,0" TextAlignment="Left" 
-                   Height="16" VerticalAlignment="Top" HorizontalAlignment="Right" Width="42" Foreground="#DA000000"
+        <TextBlock Grid.Row="0" TextWrapping="Wrap" FontSize="11.5" Margin="473,6,0,0" TextAlignment="Left" 
+                   Height="16" VerticalAlignment="Top" HorizontalAlignment="Left" Width="42" Foreground="#DA000000"
                    Text="{x:Static wpf:MainWindowResources.Angles}"/>
         <RadioButton Grid.Row="0" Checked="AngleRadioButton_Checked" x:Name="Deg" Content="D" GroupName="Angle" TabIndex="3"
-                     IsChecked="True" Margin="0,27,473,0"
-                     Height="20" Width="24" HorizontalAlignment="Right" VerticalAlignment="Top" 
+                     IsChecked="True" Margin="472,27,0,0"
+                     Height="20" Width="24" HorizontalAlignment="Left" VerticalAlignment="Top" 
                      FontSize="14"
                      Style="{StaticResource Toggle}"
                      ToolTip="{x:Static wpf:MainWindowResources.Degrees}"/>
         <RadioButton Grid.Row="0" Checked="AngleRadioButton_Checked" x:Name="Rad" Content="R" GroupName="Angle" TabIndex="4"
-                     Height="20" Width="24" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,27,445,0"
+                     Height="20" Width="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="500,27,0,0"
                      FontSize="14"
                      Style="{StaticResource Toggle}"
                      ToolTip="{x:Static wpf:MainWindowResources.Radians}">
         </RadioButton>
         <RadioButton Grid.Row="0" Checked="AngleRadioButton_Checked" x:Name="Gra" Content="G" GroupName="Angle" TabIndex="5"
-                     Height="20" Width="24" HorizontalAlignment="Right" VerticalAlignment="Top"  Margin="0,27,417,0" 
+                     Height="20" Width="24" HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="528,27,0,0" 
                      FontSize="14"
                      Style="{StaticResource Toggle}"
                      ToolTip="{x:Static wpf:MainWindowResources.Grades}"/>
-        <TextBlock Grid.Row="0" TextWrapping="Wrap" FontSize="11.5" Margin="0,6,307,0" Height="16" 
+        <TextBlock Grid.Row="0" TextWrapping="Wrap" FontSize="11.5" Margin="0,6,403,0" Height="16" 
                    VerticalAlignment="Top"  HorizontalAlignment="Right"
                    TextAlignment="Center" Width="105" Foreground="#DA000000"
                    Text="{x:Static wpf:MainWindowResources.NonMetricUnits}" />
         <RadioButton Grid.Row="0" Checked="UnitsRadioButton_Checked" x:Name="UK" Content="UK" 
-                     GroupName="Units" TabIndex="6" IsChecked="True" Margin="0,27,363,0" 
+                     GroupName="Units" TabIndex="7" IsChecked="True" Margin="0,27,458,0" 
                      Width="30" Height="20" HorizontalAlignment="Right" VerticalAlignment="Top" 
                      FontSize="14"
                      Style="{StaticResource Toggle}">
@@ -1465,33 +1900,33 @@
             </RadioButton.Background>
         </RadioButton>
         <RadioButton Grid.Row="0" Checked="UnitsRadioButton_Checked" x:Name="US" Content="US" 
-                     GroupName="Units" TabIndex="6" Margin="0,27,328,0" 
+                     GroupName="Units" TabIndex="8" Margin="0,27,423,0" 
                      Width="30" Height="20" HorizontalAlignment="Right" VerticalAlignment="Top" 
                      FontSize="14"
                      Style="{StaticResource Toggle}">
         </RadioButton>
-        <TextBlock Grid.Row="0" TextWrapping="Wrap" FontSize="11.5" Margin="0,6,171,0" Height="16" Width="120"
+        <TextBlock Grid.Row="0" TextWrapping="Wrap" FontSize="11.5" Margin="0,6,278,0" Height="16" Width="120"
                    VerticalAlignment="Top" Text="{x:Static wpf:MainWindowResources.EquationFormat}" 
                    HorizontalAlignment="Right" Foreground="#DA000000" TextAlignment="Center" />
-        <WrapPanel Grid.Row="0" Margin="0,27,170,0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="20">
+        <WrapPanel Grid.Row="0" Margin="0,27,277,0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="20">
             <RadioButton Checked="EquationRadioButton_Checked" x:Name="Professional" 
-                         GroupName="EquationFormatting" TabIndex="8" IsChecked="True" 
+                         GroupName="EquationFormatting" TabIndex="9" IsChecked="True" 
                          HorizontalAlignment="Right" Margin="0,0,2,0"
                          Style="{StaticResource Toggle}"
                          Content="{x:Static wpf:MainWindowResources.Pro}">
             </RadioButton>
-            <RadioButton Checked="EquationRadioButton_Checked" TabIndex="9" x:Name="Inline" GroupName="EquationFormatting" 
+            <RadioButton Checked="EquationRadioButton_Checked" TabIndex="10" x:Name="Inline" GroupName="EquationFormatting" 
                          Height="20" Margin="2,0,0,0" HorizontalAlignment="Right" 
                          Style="{StaticResource Toggle}"
                          Content="{x:Static wpf:MainWindowResources.Inline}">
             </RadioButton>
         </WrapPanel>
         <TextBlock Grid.Row="0" Height="16" TextWrapping="Wrap" FontSize="11.5" VerticalAlignment="Top" 
-                   Margin="374,6,0,0"
+                   Margin="330,7,0,0"
                    RenderTransformOrigin="0.291,0.394" HorizontalAlignment="Left" Width="50" 
                    TextDecorations="{x:Null}" Foreground="#DA000000"
                    Text="{x:Static wpf:MainWindowResources.Numbers}" />
-        <WrapPanel Grid.Row="0" Margin="373,26,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20">
+        <WrapPanel Grid.Row="0" Margin="329,27,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20">
             <RadioButton Checked="ModeRadioButton_Checked" x:Name="Real" GroupName="Mode"
                          TabIndex="1" IsChecked="True"  Height="20" Margin="0,0,2,0" 
                          Style="{StaticResource Toggle}"
@@ -1509,13 +1944,13 @@
                     <GradientStop Color="#FFE0E0E0" Offset="1"/>
                 </LinearGradientBrush>
             </StatusBar.Background>
-            <TextBlock Text="{x:Static wpf:MainWindowResources.RoundTo}" 
+            <TextBlock Text="{x:Static wpf:MainWindowResources.Round}"
                        Height="18" 
                        TextWrapping="Wrap" 
-                       FontSize="12" 
+                       FontSize="11" 
                        VerticalAlignment="Top" 
                        HorizontalAlignment="Left" 
-                       Margin="10,0,0,0"/>
+                       Margin="5,0,0,0"/>
             <TextBox x:Name="DecimalsTextBox" 
                      Text="2" 
                      TextAlignment="Center"
@@ -1525,15 +1960,15 @@
                      FontWeight="Normal"
                      FontSize="13" 
                      VerticalAlignment="Center" HorizontalAlignment="Center" 
-                     TabIndex="10"
+                     TabIndex="12"
                      TextChanged="DecimalsTextBox_TextChanged" 
                      ToolTip="{x:Static wpf:MainWindowResources.NumberOfDigitsTooltip}"/>
-            <StatusBarItem Width="26" Margin="0,-5,0,-5" RenderTransformOrigin="0,0.5">
+            <StatusBarItem Width="22" Margin="0,-5,0,-5" RenderTransformOrigin="0,0.5" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <StatusBarItem.RenderTransform>
                     <ScaleTransform ScaleX="0.7" ScaleY="0.7"/>
                 </StatusBarItem.RenderTransform>
                 <ScrollBar x:Name="DecimalScrollBar" 
-                           Height="34" Width="20" 
+                           Height="34" Width="16" 
                            Maximum="15" 
                            SmallChange="1" 
                            Value="13" 
@@ -1541,26 +1976,32 @@
                            HorizontalAlignment="Left"
                            ValueChanged="DecimalScrollBar_ValueChanged" />
             </StatusBarItem>
-            <TextBlock Text="{x:Static wpf:MainWindowResources.Digits}"  
-                       Height="20" 
-                       FontSize="12" 
-                       VerticalAlignment="Center" 
-                       Margin="-5,0,5,0"/>
+            <CheckBox x:Name="ZeroSmallMatrixElementsCheckBox" 
+                      Content="{x:Static wpf:MainWindowResources.ZeroSmallElem}"
+                      ToolTip="{x:Static wpf:MainWindowResources.DisplaySmallMatrixElementsAsZeroInsteadOfExponent}" 
+                      Height="18" 
+                      Width="130"
+                      IsChecked="True" 
+                      FontSize="11" 
+                      VerticalAlignment="Center" 
+                      HorizontalAlignment="Center" 
+                      Padding="2,0,0,0"
+                      TabIndex="13" Click="ZeroSmallMatrixElementsCheckBox_Click"/>
             <CheckBox x:Name="SubstituteCheckBox" 
                       Content="{x:Static wpf:MainWindowResources.Substitute}" 
                       ToolTip="{x:Static wpf:MainWindowResources.SubstituteTooltip}" 
                       Height="18" 
-                      Width="82"
+                      Width="80"
                       IsChecked="True" 
-                      FontSize="12" 
+                      FontSize="11" 
                       VerticalAlignment="Center" 
                       HorizontalAlignment="Center" 
                       Padding="2,0,0,0"
-                      TabIndex="1" 
-                      Click="SubstituteCheckBox_Clicked"/>
+                      TabIndex="14" 
+                      Click="SubstituteCheckBox_Click"/>
             <TextBlock Text="{x:Static wpf:MainWindowResources.Plot}" 
                        Height="18" 
-                       FontSize="12" 
+                       FontSize="11" 
                        VerticalAlignment="Center" 
                        HorizontalAlignment="Left"/>
             <CheckBox x:Name="AdaptiveCheckBox" 
@@ -1570,8 +2011,8 @@
                       Height="16"
                       VerticalAlignment="Center"
                       HorizontalAlignment="Center" 
-                      TabIndex="12" 
-                      Click="AdaptiveCheckBox_Clicked"/>
+                      TabIndex="15" 
+                      Click="AdaptiveCheckBox_Click" FontSize="11"/>
             <CheckBox x:Name="ShadowsCheckBox" 
                       Content="{x:Static wpf:MainWindowResources.Shadows}" 
                       ToolTip="{x:Static wpf:MainWindowResources.ShadowsTooltip}" 
@@ -1579,17 +2020,17 @@
                       VerticalAlignment="Top"
                       HorizontalAlignment="Right" 
                       Margin="2,0,0,0"
-                      TabIndex="13" 
-                      Click="ShadowsCheckBox_Clicked" />
+                      TabIndex="16" 
+                      Click="ShadowsCheckBox_Click" FontSize="11" />
             <ComboBox x:Name="LightDirectionComboBox" 
                       ToolTip="{x:Static wpf:MainWindowResources.LightDirection}" 
                       Height="22"
                       Width="105" 
                       VerticalAlignment="Center" 
                       HorizontalAlignment="Center" 
-                      TabIndex="14" 
+                      TabIndex="17" 
                       FontFamily="Segoe UI Semibold"
-                      SelectionChanged="LightDirectionComboBox_SelectionChanged" >
+                      SelectionChanged="LightDirectionComboBox_SelectionChanged" FontSize="11" >
                 <ComboBoxItem Content="{x:Static wpf:MainWindowResources.North}"/>
                 <ComboBoxItem Content="{x:Static wpf:MainWindowResources.NorthEast}"/>
                 <ComboBoxItem Content="{x:Static wpf:MainWindowResources.East}"/>
@@ -1603,16 +2044,16 @@
                        Height="18" 
                        VerticalAlignment="Center" 
                        HorizontalAlignment="Left" 
-                       Margin="5,0,0,0"/>
+                       Margin="4,0,0,0" FontSize="11"/>
             <ComboBox x:Name="ColorScaleComboBox" 
                       ToolTip="{x:Static wpf:MainWindowResources.PaletteTooltip}" 
                       Height="22"
                       Width="100" 
                       VerticalAlignment="Top" 
                       HorizontalAlignment="Right" 
-                      TabIndex="15" 
+                      TabIndex="18" 
                       FontFamily="Segoe UI Semibold"
-                      SelectionChanged="ColorScaleComboBox_SelectionChanged" >
+                      SelectionChanged="ColorScaleComboBox_SelectionChanged" FontSize="11" >
                 <ComboBoxItem Content="{x:Static wpf:MainWindowResources.None}" HorizontalAlignment="Left" Width="100" Margin="0,0,-2,0"/>
                 <ComboBoxItem Content="{x:Static wpf:MainWindowResources.Gray}" HorizontalAlignment="Left" Width="100" Margin="0,0,-2,0">
                     <ComboBoxItem.Background>
@@ -1674,23 +2115,23 @@
                     Height="16" 
                     VerticalAlignment="Top"
                     HorizontalAlignment="Right" 
-                    Margin="5,0,0,0"
-                    TabIndex="16" 
-                    Click="SmoothCheckBox_Clicked" 
+                    Margin="4,0,0,0"
+                    TabIndex="19" 
+                    Click="SmoothCheckBox_Click" FontSize="11" 
                     />
             <TextBlock Height="18" 
                        TextWrapping="Wrap" 
                        VerticalAlignment="Top" 
                        Text="{x:Static wpf:MainWindowResources.ExternalBrowser}" 
                        HorizontalAlignment="Left" 
-                       Margin="5,0,0,0"/>
+                       Margin="4,0,0,0" FontSize="11"/>
             <ComboBox x:Name="ExternalBrowserComboBox" 
                       ToolTip="{x:Static wpf:MainWindowResources.ExternalBrowserTooltip}" 
                       Height="22"
                       Width="75" 
                       VerticalAlignment="Top" 
                       HorizontalAlignment="Right" 
-                      TabIndex="17" FontFamily="Segoe UI Semibold">
+                      TabIndex="20" FontFamily="Segoe UI Semibold" FontSize="11">
                 <ComboBoxItem Width="70" Content="Chrome" HorizontalAlignment="Left" IsSelected="True"/>
                 <ComboBoxItem Width="70" Content="MSEdge" HorizontalAlignment="Left"/>
                 <ComboBoxItem Width="70" Content="Firefox" HorizontalAlignment="Left"/>
@@ -1707,7 +2148,7 @@
                       HorizontalAlignment="Left" 
                       TabIndex="17" 
                       Margin="5,0,0,0" 
-                      Click="CodeCheckBox_Clicked" 
+                      Click="CodeCheckBox_Click" 
                       Visibility="Hidden"/>
             <Image x:Name="Logo" 
                    Source="Resources/logo.png" 
@@ -1715,7 +2156,7 @@
                    Width="2000" 
                    VerticalAlignment="Top" 
                    HorizontalAlignment="Right" 
-                   Margin="0,0,5,0" 
+                   Margin="0,0,4,0" 
                    Cursor="Hand" 
                    MouseUp="Logo_MouseUp"/>
         </StatusBar>
@@ -1831,581 +2272,711 @@
                              BorderBrush="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  
                              PreviewMouseLeftButtonUp="AutoCompleteListBox_PreviewMouseLeftButtonUp" 
                              PreviewKeyDown="AutoCompleteListBox_PreviewKeyDown">
-                        <ListBoxItem Content="°"           Foreground="DarkCyan"/>
-                        <ListBoxItem Content="#break"      Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="#continue"   Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="#def"        Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="#deg"        Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="#else"       Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="#else if"    Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="#end def"    Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="#end if"     Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="#equ"        Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="#global"     Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="#gra"        Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="#hide"       Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="#if"         Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="#include"    Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="#input"      Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="#local"      Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="#loop"       Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="#noc"        Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="#nosub"      Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="#novar"      Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="#pause"      Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="#post"       Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="#pre"        Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="#rad"        Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="#repeat"     Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="#round"      Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="#show"       Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="#split"      Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="#val"        Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="#wrap"       Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="#varsub"     Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="$Area{}"     Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="$Find{}"     Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="$Inf{}"      Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="$Integral{}" Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="$Map{}"      Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="$Plot{}"     Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="$Product{}"  Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="$Root{}"     Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="$Slope{}"    Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="$Sum{}"      Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="$Sup{}"      Foreground="DarkMagenta"/>
-                        <ListBoxItem Content="A"           Foreground="DarkCyan"/>
-                        <ListBoxItem Content="a"           Foreground="DarkCyan"/>
-                        <ListBoxItem Content="abs()"       FontWeight="Bold"/>
-                        <ListBoxItem Content="ac"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="acos()"      FontWeight="Bold"/>
-                        <ListBoxItem Content="acosh()"     FontWeight="Bold"/>
-                        <ListBoxItem Content="acot()"      FontWeight="Bold"/>
-                        <ListBoxItem Content="acoth()"     FontWeight="Bold"/>
-                        <ListBoxItem Content="acsc()"      FontWeight="Bold"/>
-                        <ListBoxItem Content="acsch()"     FontWeight="Bold"/>
-                        <ListBoxItem Content="and()"       FontWeight="Bold"/>
-                        <ListBoxItem Content="Ah"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="asec()"      FontWeight="Bold"/>
-                        <ListBoxItem Content="asech()"     FontWeight="Bold"/>
-                        <ListBoxItem Content="asin()"      FontWeight="Bold"/>
-                        <ListBoxItem Content="asinh()"     FontWeight="Bold"/>
-                        <ListBoxItem Content="at"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="atan()"      FontWeight="Bold"/>
-                        <ListBoxItem Content="atan2()"     FontWeight="Bold"/>
-                        <ListBoxItem Content="atanh()"     FontWeight="Bold"/>
-                        <ListBoxItem Content="atm"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="AU"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="average()"   FontWeight="Bold"/>
-                        <ListBoxItem Content="bar"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="bbl"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="bbl_dry"     Foreground="DarkCyan"/>
-                        <ListBoxItem Content="bbl_UK"      Foreground="DarkCyan"/>
-                        <ListBoxItem Content="bbl_US"      Foreground="DarkCyan"/>
-                        <ListBoxItem Content="Bq"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="BTU"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="bu"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="bu_UK"       Foreground="DarkCyan"/>
-                        <ListBoxItem Content="bu_US"       Foreground="DarkCyan"/>
-                        <ListBoxItem Content="C"           Foreground="DarkCyan"/>
-                        <ListBoxItem Content="C/kg"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="cable"       Foreground="DarkCyan"/>
-                        <ListBoxItem Content="cable_UK"    Foreground="DarkCyan"/>
-                        <ListBoxItem Content="cable_UK"    Foreground="DarkCyan"/>
-                        <ListBoxItem Content="cal"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="cbrt()"      FontWeight="Bold"/>
-                        <ListBoxItem Content="cd"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="cd/m^2"      Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ceiling()"   FontWeight="Bold"/>
-                        <ListBoxItem Content="cg"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ch"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="Ci"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="cL"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="cm"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="cm^2"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="cm^3"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="cos()"       FontWeight="Bold"/>
-                        <ListBoxItem Content="cosh()"      FontWeight="Bold"/>
-                        <ListBoxItem Content="cot()"       FontWeight="Bold"/>
-                        <ListBoxItem Content="coth()"      FontWeight="Bold"/>
-                        <ListBoxItem Content="cPa"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="csc()"       FontWeight="Bold"/>
-                        <ListBoxItem Content="csch()"      FontWeight="Bold"/>
-                        <ListBoxItem Content="cwt"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="cwt_UK"      Foreground="DarkCyan"/>
-                        <ListBoxItem Content="cwt_US"      Foreground="DarkCyan"/>
-                        <ListBoxItem Content="d"           Foreground="DarkCyan"/>
-                        <ListBoxItem Content="Da"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="daa"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="daL"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="daN"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="daPa"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="deg"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="dg"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="dL"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="dm"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="dm^2"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="dm^3"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="dPa"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="dr"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="EeV"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="erg"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="eV"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="F"           Foreground="DarkCyan"/>
-                        <ListBoxItem Content="floor()"     FontWeight="Bold"/>
-                        <ListBoxItem Content="fl_oz"       Foreground="DarkCyan"/>
-                        <ListBoxItem Content="fl_oz_UK"    Foreground="DarkCyan"/>
-                        <ListBoxItem Content="fl_oz_US"    Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ft"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ft*lb_f"     Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ft*lb_f/h"   Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ft*lb_f/min" Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ft*lb_f/s"   Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ft*oz_f"     Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ft/s"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ftm"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ftm_UK"      Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ftm_US"      Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ft^2"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ft^3"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="fur"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="g"           Foreground="DarkCyan"/>
-                        <ListBoxItem Content="g/cm^3"      Foreground="DarkCyan"/>
-                        <ListBoxItem Content="g/mm^3"      Foreground="DarkCyan"/>
-                        <ListBoxItem Content="GA"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="gal"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="gal_dry"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="gal_UK"      Foreground="DarkCyan"/>
-                        <ListBoxItem Content="gal_US"      Foreground="DarkCyan"/>
-                        <ListBoxItem Content="GBq"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="GC"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="gcd()"       FontWeight="Bold"/>
-                        <ListBoxItem Content="GeV"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="gf"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="GF"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="GGy"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="GH"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="GHz"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="gi"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="gi_UK"       Foreground="DarkCyan"/>
-                        <ListBoxItem Content="gi_US"       Foreground="DarkCyan"/>
-                        <ListBoxItem Content="GJ"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="GN"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="GPa"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="gr"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="grad"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="GS"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="GSv"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="GT"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="Gt"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="GV"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="GVA"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="GVAR"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="GW"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="GWb"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="GWh"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="Gy"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="GΩ"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="G℧"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="H"           Foreground="DarkCyan"/>
-                        <ListBoxItem Content="h"           Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ha"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="hg"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="hL"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="hN"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="hp"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="hPa"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="hpE"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="hpS"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="Hz"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="if()"        FontWeight="Bold"/>
-                        <ListBoxItem Content="im()"        FontWeight="Bold"/>
-                        <ListBoxItem Content="in"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="in*lb_f"     Foreground="DarkCyan"/>
-                        <ListBoxItem Content="in*oz_f"     Foreground="DarkCyan"/>
-                        <ListBoxItem Content="in/s"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="in^2"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="in^3"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="J"           Foreground="DarkCyan"/>
-                        <ListBoxItem Content="K"           Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kA"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kat"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kBq"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kC"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kcal"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="keV"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kF"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kg"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kg/cm^3"     Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kgf"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kgf/cm^2"    Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kgf/cm^3"    Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kGy"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kH"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kHz"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kip"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kip/ft"      Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kip/ft^3"    Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kip/in^3"    Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kip*ft"      Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kipf"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kipm"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kip_f"       Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kip_m"       Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kJ"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="klb"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="klb/ft^3"    Foreground="DarkCyan"/>
-                        <ListBoxItem Content="klb/in^3"    Foreground="DarkCyan"/>
-                        <ListBoxItem Content="km"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kmh"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="km^2"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="km^3"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kN"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kN*cm"       Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kN/cm"       Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kN/cm^2"     Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kN/cm^3"     Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kN/m"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kN/m^2"      Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kN/m^3"      Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kNm"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kPa"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kS"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ksf"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ksi"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kSv"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kt"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kT"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kV"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kVA"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kVAR"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kW"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kWb"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kWh"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="kΩ"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="k℧"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="L"           Foreground="DarkCyan"/>
-                        <ListBoxItem Content="lb"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="lb/bu"       Foreground="DarkCyan"/>
-                        <ListBoxItem Content="lb/ft^3"     Foreground="DarkCyan"/>
-                        <ListBoxItem Content="lb/gal"      Foreground="DarkCyan"/>
-                        <ListBoxItem Content="lb/in^3"     Foreground="DarkCyan"/>
-                        <ListBoxItem Content="lb/yd^3"     Foreground="DarkCyan"/>
-                        <ListBoxItem Content="lbf"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="lbm"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="lb_f"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="lb_f/ft^3"   Foreground="DarkCyan"/>
-                        <ListBoxItem Content="lb_f/in^3"   Foreground="DarkCyan"/>
-                        <ListBoxItem Content="lb_f*ft"     Foreground="DarkCyan"/>
-                        <ListBoxItem Content="lb_f*in"     Foreground="DarkCyan"/>
-                        <ListBoxItem Content="lb_m"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="lcm()"       FontWeight="Bold"/>
-                        <ListBoxItem Content="lea"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="li"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="line()"      FontWeight="Bold"/>
-                        <ListBoxItem Content="lm"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="lm*s"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="lm*s/m^3"    Foreground="DarkCyan"/>
-                        <ListBoxItem Content="lm/W"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ln()"        FontWeight="Bold"/>
-                        <ListBoxItem Content="log()"       FontWeight="Bold"/>
-                        <ListBoxItem Content="log_2()"     FontWeight="Bold"/>
-                        <ListBoxItem Content="lx"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="lx*s"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ly"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="m"           Foreground="DarkCyan"/>
-                        <ListBoxItem Content="m/s"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="mA"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="MA"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="mAh"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="max()"       FontWeight="Bold"/>
-                        <ListBoxItem Content="mbar"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="mBq"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="MBq"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="MC"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="mC"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="mean()"      FontWeight="Bold"/>
-                        <ListBoxItem Content="MeV"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="mF"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="MF"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="mg"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="mGy"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="MGy"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="mH"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="MH"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="mHz"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="MHz"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="mi"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="min"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="min()"       FontWeight="Bold"/>
-                        <ListBoxItem Content="mi^2"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="mi^3"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="mJ"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="MJ"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="mL"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="mm"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="mmHg"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="mm^2"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="mm^3"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="MN"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="mod()"       FontWeight="Bold"/>
-                        <ListBoxItem Content="mol"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="mPa"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="MPa"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="mph"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ms"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="mS"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="MS"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="MSv"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="mSv"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="Mt"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="MT"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="mT"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="mV"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="MV"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="mVA"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="MVA"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="mVAR"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="MVAR"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="mW"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="MW"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="mWb"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="MWb"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="mWh"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="MWh"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="m^2"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="m^3"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="MΩ"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="mΩ"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="M℧"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="m℧"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="N"           Foreground="DarkCyan"/>
-                        <ListBoxItem Content="N*cm"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="N*mm"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="N/C"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="N/cm"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="N/cm^2"      Foreground="DarkCyan"/>
-                        <ListBoxItem Content="N/cm^3"      Foreground="DarkCyan"/>
-                        <ListBoxItem Content="N/mm"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="N/mm^2"      Foreground="DarkCyan"/>
-                        <ListBoxItem Content="N/mm^3"      Foreground="DarkCyan"/>
-                        <ListBoxItem Content="N/m^2"       Foreground="DarkCyan"/>
-                        <ListBoxItem Content="nA"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="nBq"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="nC"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="nF"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ng"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="nGy"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="nH"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="nHz"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="nJ"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="nL"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="Nm"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="nm"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="nmi"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="not()"       FontWeight="Bold"/>
-                        <ListBoxItem Content="nPa"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ns"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="nS"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="nSv"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="nT"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="nV"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="nVA"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="nVAR"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="nW"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="nWb"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="nWh"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="nΩ"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="n℧"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="or()"        FontWeight="Bold"/>
-                        <ListBoxItem Content="osf"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="osi"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="oz"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="oz/ft^3"     Foreground="DarkCyan"/>
-                        <ListBoxItem Content="oz/in^3"     Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ozf"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="oz_f"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="oz_f*ft"     Foreground="DarkCyan"/>
-                        <ListBoxItem Content="oz_f*in"     Foreground="DarkCyan"/>
-                        <ListBoxItem Content="oz_f/ft^3"   Foreground="DarkCyan"/>
-                        <ListBoxItem Content="oz_f/in^3"   Foreground="DarkCyan"/>
-                        <ListBoxItem Content="pA"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="Pa"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="pBq"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="pC"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="perch"       Foreground="DarkCyan"/>
-                        <ListBoxItem Content="perch^2"     Foreground="DarkCyan"/>
-                        <ListBoxItem Content="PeV"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="pF"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="pg"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="pGy"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="pH"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="phase()"     FontWeight="Bold"/>
-                        <ListBoxItem Content="pHz"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="pJ"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="pk"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="pk_UK"       Foreground="DarkCyan"/>
-                        <ListBoxItem Content="pk_US"       Foreground="DarkCyan"/>
-                        <ListBoxItem Content="pL"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="PlotHeight"  Foreground="Blue"/>
-                        <ListBoxItem Content="PlotStep"    Foreground="Blue"/>
-                        <ListBoxItem Content="PlotWidth"   Foreground="Blue"/>
-                        <ListBoxItem Content="Precision"   Foreground="Blue"/>
-                        <ListBoxItem Content="pm"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="pole"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="pole^2"      Foreground="DarkCyan"/>
-                        <ListBoxItem Content="pPa"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="product()"   FontWeight="Bold"/>
-                        <ListBoxItem Content="ps"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="pS"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="psf"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="psi"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="pSv"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="pT"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="pt"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="pt_dry"      Foreground="DarkCyan"/>
-                        <ListBoxItem Content="pt_UK"       Foreground="DarkCyan"/>
-                        <ListBoxItem Content="pt_US"       Foreground="DarkCyan"/>
-                        <ListBoxItem Content="pV"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="pVA"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="pVAR"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="pW"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="pWb"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="pWh"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="pΩ"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="p℧"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="qr"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="qt"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="qt_dry"      Foreground="DarkCyan"/>
-                        <ListBoxItem Content="qt_UK"       Foreground="DarkCyan"/>
-                        <ListBoxItem Content="qt_US"       Foreground="DarkCyan"/>
-                        <ListBoxItem Content="quad"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="R"           Foreground="DarkCyan"/>
-                        <ListBoxItem Content="rad"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="random()"    FontWeight="Bold"/>
-                        <ListBoxItem Content="Rd"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="re()"        FontWeight="Bold"/>
-                        <ListBoxItem Content="ReturnAngleUnits" Foreground="Blue"/>
-                        <ListBoxItem Content="rev"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="rod"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="rod^2"       Foreground="DarkCyan"/>
-                        <ListBoxItem Content="rood"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="root()"      FontWeight="Bold"/>
-                        <ListBoxItem Content="round()"     FontWeight="Bold"/>
-                        <ListBoxItem Content="rpm"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="S"           Foreground="DarkCyan"/>
-                        <ListBoxItem Content="s"           Foreground="DarkCyan"/>
-                        <ListBoxItem Content="S/m"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="sec()"       FontWeight="Bold"/>
-                        <ListBoxItem Content="sech()"      FontWeight="Bold"/>
-                        <ListBoxItem Content="sin()"       FontWeight="Bold"/>
-                        <ListBoxItem Content="sinh()"      FontWeight="Bold"/>
-                        <ListBoxItem Content="slug"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="slug/ft^3"   Foreground="DarkCyan"/>
-                        <ListBoxItem Content="spline()"    FontWeight="Bold"/>
-                        <ListBoxItem Content="sqrt()"      FontWeight="Bold"/>
-                        <ListBoxItem Content="srss()"      FontWeight="Bold"/>
-                        <ListBoxItem Content="st"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="sum()"       FontWeight="Bold"/>
-                        <ListBoxItem Content="sumsq()"     FontWeight="Bold"/>
-                        <ListBoxItem Content="Sv"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="switch()"    FontWeight="Bold"/>
-                        <ListBoxItem Content="T"           Foreground="DarkCyan"/>
-                        <ListBoxItem Content="t"           Foreground="DarkCyan"/>
-                        <ListBoxItem Content="t/m^3"       Foreground="DarkCyan"/>
-                        <ListBoxItem Content="TA"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="take()"      FontWeight="Bold"/>
-                        <ListBoxItem Content="tan()"       FontWeight="Bold"/>
-                        <ListBoxItem Content="tanh()"      FontWeight="Bold"/>
-                        <ListBoxItem Content="TBq"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="TC"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="TeV"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="TF"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="tf"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="tf/m^2"      Foreground="DarkCyan"/>
-                        <ListBoxItem Content="tf/m^3"      Foreground="DarkCyan"/>
-                        <ListBoxItem Content="TGy"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="TH"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="th"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="therm"       Foreground="DarkCyan"/>
-                        <ListBoxItem Content="THz"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="th^2"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="th^3"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="TJ"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="TN"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ton"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ton/ft^3"    Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ton/yd^3"    Foreground="DarkCyan"/>
-                        <ListBoxItem Content="tonf"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ton_f"       Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ton_f/ft^3"  Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ton_f/in^3"  Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ton_UK"      Foreground="DarkCyan"/>
-                        <ListBoxItem Content="ton_US"      Foreground="DarkCyan"/>
-                        <ListBoxItem Content="Torr"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="TPa"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="trunc()"     FontWeight="Bold"/>
-                        <ListBoxItem Content="TS"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="tsf"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="tsi"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="TSv"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="TT"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="TV"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="TVA"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="TVAR"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="TW"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="TWb"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="TWh"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="TΩ"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="T℧"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="u"           Foreground="DarkCyan"/>
-                        <ListBoxItem Content="V"           Foreground="DarkCyan"/>
-                        <ListBoxItem Content="V*m"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="V/m"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="VA"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="VAR"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="w"           Foreground="DarkCyan"/>
-                        <ListBoxItem Content="W"           Foreground="DarkCyan"/>
-                        <ListBoxItem Content="Wb"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="Wh"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="xor()"       FontWeight="Bold"/>
-                        <ListBoxItem Content="y"           Foreground="DarkCyan"/>
-                        <ListBoxItem Content="yd"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="yd/s"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="yd^2"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="yd^3"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="°C"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="°F"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="°R"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="Δ°C"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="Δ°F"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="μA"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="μbar"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="μBq"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="μC"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="μF"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="μg"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="μGy"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="μH"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="μHz"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="μJ"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="μL"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="μm"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="μPa"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="μS"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="μs"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="μSv"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="μT"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="μV"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="μVA"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="μVAR"        Foreground="DarkCyan"/>
-                        <ListBoxItem Content="μW"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="μWb"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="μWh"         Foreground="DarkCyan"/>
-                        <ListBoxItem Content="μΩ"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="μ℧"          Foreground="DarkCyan"/>
-                        <ListBoxItem Content="Ω"           Foreground="DarkCyan"/>
-                        <ListBoxItem Content="Ω*m"         Foreground="DarkCyan"/>
+                        <ListBoxItem Content="#break"             Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#continue"          Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#def"               Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#deg"               Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#else if"           Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#else"              Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#end def"           Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#end if"            Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#equ"               Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#for"               Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#global"            Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#gra"               Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#hide"              Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#if"                Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#include"           Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#input"             Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#local"             Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#loop"              Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#noc"               Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#nosub"             Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#novar"             Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#pause"             Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#post"              Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#pre"               Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#rad"               Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#repeat"            Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#round"             Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#show"              Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#split"             Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#val"               Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#varsub"            Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#while"             Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="#wrap"              Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="$Area{}"            Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="$Find{}"            Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="$Inf{}"             Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="$Integral{}"        Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="$Map{}"             Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="$Plot{}"            Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="$Product{}"         Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="$Root{}"            Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="$Slope{}"           Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="$Sum{}"             Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="$Sup{}"             Foreground="DarkMagenta"/>
+                        <ListBoxItem Content="A"                  Foreground="DarkCyan"/>
+                        <ListBoxItem Content="a"                  Foreground="DarkCyan"/>
+                        <ListBoxItem Content="abs()"              FontWeight="Bold"/>
+                        <ListBoxItem Content="ac"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="acos()"             FontWeight="Bold"/>
+                        <ListBoxItem Content="acosh()"            FontWeight="Bold"/>
+                        <ListBoxItem Content="acot()"             FontWeight="Bold"/>
+                        <ListBoxItem Content="acoth()"            FontWeight="Bold"/>
+                        <ListBoxItem Content="acsc()"             FontWeight="Bold"/>
+                        <ListBoxItem Content="acsch()"            FontWeight="Bold"/>
+                        <ListBoxItem Content="add()"              FontWeight="Bold"/>
+                        <ListBoxItem Content="adj()"              FontWeight="Bold"/>
+                        <ListBoxItem Content="Ah"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="and()"              FontWeight="Bold"/>
+                        <ListBoxItem Content="asec()"             FontWeight="Bold"/>
+                        <ListBoxItem Content="asech()"            FontWeight="Bold"/>
+                        <ListBoxItem Content="asin()"             FontWeight="Bold"/>
+                        <ListBoxItem Content="asinh()"            FontWeight="Bold"/>
+                        <ListBoxItem Content="at"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="atan()"             FontWeight="Bold"/>
+                        <ListBoxItem Content="atan2()"            FontWeight="Bold"/>
+                        <ListBoxItem Content="atanh()"            FontWeight="Bold"/>
+                        <ListBoxItem Content="atm"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="AU"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="augment()"          FontWeight="Bold"/>
+                        <ListBoxItem Content="average()"          FontWeight="Bold"/>
+                        <ListBoxItem Content="bar"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="bbl"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="bbl_dry"            Foreground="DarkCyan"/>
+                        <ListBoxItem Content="bbl_UK"             Foreground="DarkCyan"/>
+                        <ListBoxItem Content="bbl_US"             Foreground="DarkCyan"/>
+                        <ListBoxItem Content="Bq"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="BTU"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="bu"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="bu_UK"              Foreground="DarkCyan"/>
+                        <ListBoxItem Content="bu_US"              Foreground="DarkCyan"/>
+                        <ListBoxItem Content="C"                  Foreground="DarkCyan"/>
+                        <ListBoxItem Content="C/kg"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="cable"              Foreground="DarkCyan"/>
+                        <ListBoxItem Content="cable_UK"           Foreground="DarkCyan"/>
+                        <ListBoxItem Content="cable_UK"           Foreground="DarkCyan"/>
+                        <ListBoxItem Content="cal"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="cbrt()"             FontWeight="Bold"/>
+                        <ListBoxItem Content="cd"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="cd/m^2"             Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ceiling()"          FontWeight="Bold"/>
+                        <ListBoxItem Content="cg"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ch"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="cholesky()"         FontWeight="Bold"/>
+                        <ListBoxItem Content="Ci"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="cL"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="clsolve()"          FontWeight="Bold"/>
+                        <ListBoxItem Content="cm"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="cm^2"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="cm^3"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="cofactor()"         FontWeight="Bold"/>
+                        <ListBoxItem Content="col()"              FontWeight="Bold"/>
+                        <ListBoxItem Content="column()"           FontWeight="Bold"/>
+                        <ListBoxItem Content="cond()"             FontWeight="Bold"/>
+                        <ListBoxItem Content="cond_1()"           FontWeight="Bold"/>
+                        <ListBoxItem Content="cond_2()"           FontWeight="Bold"/>
+                        <ListBoxItem Content="cond_e()"           FontWeight="Bold"/>
+                        <ListBoxItem Content="cond_i()"           FontWeight="Bold"/>
+                        <ListBoxItem Content="copy()"             FontWeight="Bold"/>
+                        <ListBoxItem Content="cos()"              FontWeight="Bold"/>
+                        <ListBoxItem Content="cosh()"             FontWeight="Bold"/>
+                        <ListBoxItem Content="cot()"              FontWeight="Bold"/>
+                        <ListBoxItem Content="coth()"             FontWeight="Bold"/>
+                        <ListBoxItem Content="count()"            FontWeight="Bold"/>
+                        <ListBoxItem Content="cPa"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="cross()"            FontWeight="Bold"/>
+                        <ListBoxItem Content="csc()"              FontWeight="Bold"/>
+                        <ListBoxItem Content="csch()"             FontWeight="Bold"/>
+                        <ListBoxItem Content="cwt"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="cwt_UK"             Foreground="DarkCyan"/>
+                        <ListBoxItem Content="cwt_US"             Foreground="DarkCyan"/>
+                        <ListBoxItem Content="d"                  Foreground="DarkCyan"/>
+                        <ListBoxItem Content="Da"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="daa"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="daL"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="daN"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="daPa"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="deg"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="det()"              FontWeight="Bold"/>
+                        <ListBoxItem Content="dg"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="diag2vec()"         FontWeight="Bold"/>
+                        <ListBoxItem Content="diagonal()"         FontWeight="Bold"/>
+                        <ListBoxItem Content="dL"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="dm"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="dm^2"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="dm^3"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="dot()"              FontWeight="Bold"/>
+                        <ListBoxItem Content="dPa"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="dr"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="EeV"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="eigen()"            FontWeight="Bold"/>
+                        <ListBoxItem Content="eigenvals()"        FontWeight="Bold"/>
+                        <ListBoxItem Content="eigenvecs()"        FontWeight="Bold"/>
+                        <ListBoxItem Content="erg"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="eV"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="extract()"          FontWeight="Bold"/>
+                        <ListBoxItem Content="extract_cols()"     FontWeight="Bold"/>
+                        <ListBoxItem Content="extract_rows()"     FontWeight="Bold"/>
+                        <ListBoxItem Content="F"                  Foreground="DarkCyan"/>
+                        <ListBoxItem Content="fill()"             FontWeight="Bold"/>
+                        <ListBoxItem Content="fill_col()"         FontWeight="Bold"/>
+                        <ListBoxItem Content="fill_row()"         FontWeight="Bold"/>
+                        <ListBoxItem Content="find()"             FontWeight="Bold"/>
+                        <ListBoxItem Content="find_eq()"          FontWeight="Bold"/>
+                        <ListBoxItem Content="find_ge()"          FontWeight="Bold"/>
+                        <ListBoxItem Content="find_gt()"          FontWeight="Bold"/>
+                        <ListBoxItem Content="find_le()"          FontWeight="Bold"/>
+                        <ListBoxItem Content="find_lt()"          FontWeight="Bold"/>
+                        <ListBoxItem Content="find_ne()"          FontWeight="Bold"/>
+                        <ListBoxItem Content="first()"            FontWeight="Bold"/>
+                        <ListBoxItem Content="fl_oz"              Foreground="DarkCyan"/>
+                        <ListBoxItem Content="fl_oz_UK"           Foreground="DarkCyan"/>
+                        <ListBoxItem Content="fl_oz_US"           Foreground="DarkCyan"/>
+                        <ListBoxItem Content="floor()"            FontWeight="Bold"/>
+                        <ListBoxItem Content="fprod()"            FontWeight="Bold"/>
+                        <ListBoxItem Content="ft"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ft*lb_f"            Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ft*lb_f/h"          Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ft*lb_f/min"        Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ft*lb_f/s"          Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ft*oz_f"            Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ft/s"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ft^2"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ft^3"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ftm"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ftm_UK"             Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ftm_US"             Foreground="DarkCyan"/>
+                        <ListBoxItem Content="fur"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="g"                  Foreground="DarkCyan"/>
+                        <ListBoxItem Content="g/cm^3"             Foreground="DarkCyan"/>
+                        <ListBoxItem Content="g/mm^3"             Foreground="DarkCyan"/>
+                        <ListBoxItem Content="GA"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="gal"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="gal_dry"            Foreground="DarkCyan"/>
+                        <ListBoxItem Content="gal_UK"             Foreground="DarkCyan"/>
+                        <ListBoxItem Content="gal_US"             Foreground="DarkCyan"/>
+                        <ListBoxItem Content="GBq"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="GC"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="gcd()"              FontWeight="Bold"/>
+                        <ListBoxItem Content="GeV"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="GF"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="gf"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="GGy"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="GH"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="GHz"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="gi"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="gi_UK"              Foreground="DarkCyan"/>
+                        <ListBoxItem Content="gi_US"              Foreground="DarkCyan"/>
+                        <ListBoxItem Content="GJ"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="GN"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="GPa"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="gr"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="grad"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="GS"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="GSv"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="GT"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="Gt"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="GV"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="GVA"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="GVAR"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="GW"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="GWb"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="GWh"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="Gy"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="GΩ"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="G℧"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="h"                  Foreground="DarkCyan"/>
+                        <ListBoxItem Content="H"                  Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ha"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="hg"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="hL"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="hlookup()"          FontWeight="Bold"/>
+                        <ListBoxItem Content="hlookup_eq()"       FontWeight="Bold"/>
+                        <ListBoxItem Content="hlookup_ge()"       FontWeight="Bold"/>
+                        <ListBoxItem Content="hlookup_gt()"       FontWeight="Bold"/>
+                        <ListBoxItem Content="hlookup_le()"       FontWeight="Bold"/>
+                        <ListBoxItem Content="hlookup_lt()"       FontWeight="Bold"/>
+                        <ListBoxItem Content="hlookup_ne()"       FontWeight="Bold"/>
+                        <ListBoxItem Content="hN"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="hp"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="hPa"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="hpE"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="hprod()"            FontWeight="Bold"/>
+                        <ListBoxItem Content="hpS"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="Hz"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="identity()"         FontWeight="Bold"/>
+                        <ListBoxItem Content="if()"               FontWeight="Bold"/>
+                        <ListBoxItem Content="im()"               FontWeight="Bold"/>
+                        <ListBoxItem Content="in"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="in*lb_f"            Foreground="DarkCyan"/>
+                        <ListBoxItem Content="in*oz_f"            Foreground="DarkCyan"/>
+                        <ListBoxItem Content="in/s"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="in^2"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="in^3"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="inverse()"          FontWeight="Bold"/>
+                        <ListBoxItem Content="J"                  Foreground="DarkCyan"/>
+                        <ListBoxItem Content="join()"             FontWeight="Bold"/>
+                        <ListBoxItem Content="join_cols()"        FontWeight="Bold"/>
+                        <ListBoxItem Content="join_rows()"        FontWeight="Bold"/>
+                        <ListBoxItem Content="K"                  Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kA"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kat"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kBq"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kC"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kcal"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="keV"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kF"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kg"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kg/cm^3"            Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kgf"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kgf/cm^2"           Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kgf/cm^3"           Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kGy"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kH"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kHz"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kip"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kip*ft"             Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kip/ft"             Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kip/ft^3"           Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kip/in^3"           Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kip_f"              Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kip_m"              Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kipf"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kipm"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kJ"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="klb"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="klb/ft^3"           Foreground="DarkCyan"/>
+                        <ListBoxItem Content="klb/in^3"           Foreground="DarkCyan"/>
+                        <ListBoxItem Content="km"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="km^2"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="km^3"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kmh"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kN"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kN*cm"              Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kN/cm"              Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kN/cm^2"            Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kN/cm^3"            Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kN/m"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kN/m^2"             Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kN/m^3"             Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kNm"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kPa"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kprod()"            FontWeight="Bold"/>
+                        <ListBoxItem Content="kS"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ksf"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ksi"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kSv"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kT"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kt"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kV"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kVA"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kVAR"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kW"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kWb"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kWh"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="kΩ"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="k℧"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="L"                  Foreground="DarkCyan"/>
+                        <ListBoxItem Content="last()"             FontWeight="Bold"/>
+                        <ListBoxItem Content="lb"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="lb/bu"              Foreground="DarkCyan"/>
+                        <ListBoxItem Content="lb/ft^3"            Foreground="DarkCyan"/>
+                        <ListBoxItem Content="lb/gal"             Foreground="DarkCyan"/>
+                        <ListBoxItem Content="lb/in^3"            Foreground="DarkCyan"/>
+                        <ListBoxItem Content="lb/yd^3"            Foreground="DarkCyan"/>
+                        <ListBoxItem Content="lb_f"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="lb_f*ft"            Foreground="DarkCyan"/>
+                        <ListBoxItem Content="lb_f*in"            Foreground="DarkCyan"/>
+                        <ListBoxItem Content="lb_f/ft^3"          Foreground="DarkCyan"/>
+                        <ListBoxItem Content="lb_f/in^3"          Foreground="DarkCyan"/>
+                        <ListBoxItem Content="lb_m"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="lbf"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="lbm"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="lcm()"              FontWeight="Bold"/>
+                        <ListBoxItem Content="lea"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="len()"              FontWeight="Bold"/>
+                        <ListBoxItem Content="li"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="line()"             FontWeight="Bold"/>
+                        <ListBoxItem Content="lm"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="lm*s"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="lm*s/m^3"           Foreground="DarkCyan"/>
+                        <ListBoxItem Content="lm/W"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ln()"               FontWeight="Bold"/>
+                        <ListBoxItem Content="log()"              FontWeight="Bold"/>
+                        <ListBoxItem Content="log_2()"            FontWeight="Bold"/>
+                        <ListBoxItem Content="lookup()"           FontWeight="Bold"/>
+                        <ListBoxItem Content="Lookup_eq()"        FontWeight="Bold"/>
+                        <ListBoxItem Content="Lookup_ge()"        FontWeight="Bold"/>
+                        <ListBoxItem Content="Lookup_gt()"        FontWeight="Bold"/>
+                        <ListBoxItem Content="Lookup_le()"        FontWeight="Bold"/>
+                        <ListBoxItem Content="Lookup_lt()"        FontWeight="Bold"/>
+                        <ListBoxItem Content="Lookup_ne()"        FontWeight="Bold"/>
+                        <ListBoxItem Content="lsolve()"           FontWeight="Bold"/>
+                        <ListBoxItem Content="ltriang()"          FontWeight="Bold"/>
+                        <ListBoxItem Content="lu()"               FontWeight="Bold"/>
+                        <ListBoxItem Content="lx"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="lx*s"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ly"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="m"                  Foreground="DarkCyan"/>
+                        <ListBoxItem Content="m/s"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="m^2"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="m^3"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="mA"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="MA"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="mAh"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="matrix()"           FontWeight="Bold"/>
+                        <ListBoxItem Content="max()"              FontWeight="Bold"/>
+                        <ListBoxItem Content="mbar"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="mBq"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="MBq"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="mC"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="MC"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="mcount()"           FontWeight="Bold"/>
+                        <ListBoxItem Content="mean()"             FontWeight="Bold"/>
+                        <ListBoxItem Content="MeV"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="mF"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="MF"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="mfill()"            FontWeight="Bold"/>
+                        <ListBoxItem Content="mfind()"            FontWeight="Bold"/>
+                        <ListBoxItem Content="mfind_eq()"         FontWeight="Bold"/>
+                        <ListBoxItem Content="mfind_ge()"         FontWeight="Bold"/>
+                        <ListBoxItem Content="mfind_gt()"         FontWeight="Bold"/>
+                        <ListBoxItem Content="mfind_le()"         FontWeight="Bold"/>
+                        <ListBoxItem Content="mfind_lt()"         FontWeight="Bold"/>
+                        <ListBoxItem Content="mfind_ne()"         FontWeight="Bold"/>
+                        <ListBoxItem Content="mg"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="MGy"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="mGy"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="MH"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="mH"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="MHz"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="mHz"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="mi"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="mi^2"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="mi^3"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="min"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="min()"              FontWeight="Bold"/>
+                        <ListBoxItem Content="MJ"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="mJ"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="mL"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="mm"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="mm^2"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="mm^3"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="mmHg"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="MN"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="mnorm()"            FontWeight="Bold"/>
+                        <ListBoxItem Content="mnorm_1()"          FontWeight="Bold"/>
+                        <ListBoxItem Content="mnorm_2()"          FontWeight="Bold"/>
+                        <ListBoxItem Content="mnorm_e()"          FontWeight="Bold"/>
+                        <ListBoxItem Content="mnorm_i()"          FontWeight="Bold"/>
+                        <ListBoxItem Content="mod()"              FontWeight="Bold"/>
+                        <ListBoxItem Content="mol"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="MPa"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="mPa"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="mph"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="mresize()"          FontWeight="Bold"/>
+                        <ListBoxItem Content="MS"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="mS"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ms"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="msearch()"          FontWeight="Bold"/>
+                        <ListBoxItem Content="MSv"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="mSv"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="Mt"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="MT"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="mT"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="MV"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="mV"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="MVA"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="mVA"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="MVAR"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="mVAR"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="MW"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="mW"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="mWb"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="MWb"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="mWh"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="MWh"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="mΩ"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="MΩ"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="M℧"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="m℧"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="N"                  Foreground="DarkCyan"/>
+                        <ListBoxItem Content="N*cm"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="N*mm"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="N/C"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="N/cm"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="N/cm^2"             Foreground="DarkCyan"/>
+                        <ListBoxItem Content="N/cm^3"             Foreground="DarkCyan"/>
+                        <ListBoxItem Content="N/m^2"              Foreground="DarkCyan"/>
+                        <ListBoxItem Content="N/mm"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="N/mm^2"             Foreground="DarkCyan"/>
+                        <ListBoxItem Content="N/mm^3"             Foreground="DarkCyan"/>
+                        <ListBoxItem Content="n_cols()"           FontWeight="Bold"/>
+                        <ListBoxItem Content="n_rows()"           FontWeight="Bold"/>
+                        <ListBoxItem Content="nA"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="nBq"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="nC"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="nF"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ng"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="nGy"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="nH"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="nHz"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="nJ"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="nL"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="Nm"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="nm"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="nmi"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="norm()"             FontWeight="Bold"/>
+                        <ListBoxItem Content="norm_1()"           FontWeight="Bold"/>
+                        <ListBoxItem Content="norm_2()"           FontWeight="Bold"/>
+                        <ListBoxItem Content="norm_e()"           FontWeight="Bold"/>
+                        <ListBoxItem Content="norm_i()"           FontWeight="Bold"/>
+                        <ListBoxItem Content="norm_p()"           FontWeight="Bold"/>
+                        <ListBoxItem Content="not()"              FontWeight="Bold"/>
+                        <ListBoxItem Content="nPa"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="nS"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ns"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="nSv"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="nT"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="nV"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="nVA"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="nVAR"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="nW"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="nWb"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="nWh"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="nΩ"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="n℧"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="or()"               FontWeight="Bold"/>
+                        <ListBoxItem Content="order()"            FontWeight="Bold"/>
+                        <ListBoxItem Content="order_cols()"       FontWeight="Bold"/>
+                        <ListBoxItem Content="order_rows()"       FontWeight="Bold"/>
+                        <ListBoxItem Content="osf"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="osi"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="oz"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="oz/ft^3"            Foreground="DarkCyan"/>
+                        <ListBoxItem Content="oz/in^3"            Foreground="DarkCyan"/>
+                        <ListBoxItem Content="oz_f"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="oz_f*ft"            Foreground="DarkCyan"/>
+                        <ListBoxItem Content="oz_f*in"            Foreground="DarkCyan"/>
+                        <ListBoxItem Content="oz_f/ft^3"          Foreground="DarkCyan"/>
+                        <ListBoxItem Content="oz_f/in^3"          Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ozf"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="pA"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="Pa"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="pBq"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="pC"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="perch"              Foreground="DarkCyan"/>
+                        <ListBoxItem Content="perch^2"            Foreground="DarkCyan"/>
+                        <ListBoxItem Content="PeV"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="pF"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="pg"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="pGy"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="pH"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="phase()"            FontWeight="Bold"/>
+                        <ListBoxItem Content="pHz"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="pJ"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="pk"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="pk_UK"              Foreground="DarkCyan"/>
+                        <ListBoxItem Content="pk_US"              Foreground="DarkCyan"/>
+                        <ListBoxItem Content="pL"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="PlotHeight"         Foreground="Blue"/>
+                        <ListBoxItem Content="PlotStep"           Foreground="Blue"/>
+                        <ListBoxItem Content="PlotWidth"          Foreground="Blue"/>
+                        <ListBoxItem Content="pm"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="pole"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="pole^2"             Foreground="DarkCyan"/>
+                        <ListBoxItem Content="pPa"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="Precision"          Foreground="Blue"/>
+                        <ListBoxItem Content="product()"          FontWeight="Bold"/>
+                        <ListBoxItem Content="pS"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ps"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="psf"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="psi"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="pSv"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="pt"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="pT"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="pt_dry"             Foreground="DarkCyan"/>
+                        <ListBoxItem Content="pt_UK"              Foreground="DarkCyan"/>
+                        <ListBoxItem Content="pt_US"              Foreground="DarkCyan"/>
+                        <ListBoxItem Content="pV"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="pVA"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="pVAR"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="pW"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="pWb"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="pWh"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="pΩ"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="p℧"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="qr"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="qr()"               FontWeight="Bold"/>
+                        <ListBoxItem Content="qt"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="qt_dry"             Foreground="DarkCyan"/>
+                        <ListBoxItem Content="qt_UK"              Foreground="DarkCyan"/>
+                        <ListBoxItem Content="qt_US"              Foreground="DarkCyan"/>
+                        <ListBoxItem Content="quad"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="R"                  Foreground="DarkCyan"/>
+                        <ListBoxItem Content="rad"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="random()"           FontWeight="Bold"/>
+                        <ListBoxItem Content="range()"            FontWeight="Bold"/>
+                        <ListBoxItem Content="rank()"             FontWeight="Bold"/>
+                        <ListBoxItem Content="Rd"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="re()"               FontWeight="Bold"/>
+                        <ListBoxItem Content="resize()"           FontWeight="Bold"/>
+                        <ListBoxItem Content="ReturnAngleUnits"   Foreground="Blue"/>
+                        <ListBoxItem Content="rev"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="reverse()"          FontWeight="Bold"/>
+                        <ListBoxItem Content="revorder()"         FontWeight="Bold"/>
+                        <ListBoxItem Content="revorder_cols()"    FontWeight="Bold"/>
+                        <ListBoxItem Content="revorder_rows()"    FontWeight="Bold"/>
+                        <ListBoxItem Content="rod"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="rod^2"              Foreground="DarkCyan"/>
+                        <ListBoxItem Content="rood"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="root()"             FontWeight="Bold"/>
+                        <ListBoxItem Content="round()"            FontWeight="Bold"/>
+                        <ListBoxItem Content="row()"              FontWeight="Bold"/>
+                        <ListBoxItem Content="rpm"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="rsort()"            FontWeight="Bold"/>
+                        <ListBoxItem Content="rsort_cols()"       FontWeight="Bold"/>
+                        <ListBoxItem Content="rsort_rows()"       FontWeight="Bold"/>
+                        <ListBoxItem Content="s"                  Foreground="DarkCyan"/>
+                        <ListBoxItem Content="S"                  Foreground="DarkCyan"/>
+                        <ListBoxItem Content="S/m"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="search()"           FontWeight="Bold"/>
+                        <ListBoxItem Content="sec()"              FontWeight="Bold"/>
+                        <ListBoxItem Content="sech()"             FontWeight="Bold"/>
+                        <ListBoxItem Content="sin()"              FontWeight="Bold"/>
+                        <ListBoxItem Content="sinh()"             FontWeight="Bold"/>
+                        <ListBoxItem Content="size()"             FontWeight="Bold"/>
+                        <ListBoxItem Content="slice()"            FontWeight="Bold"/>
+                        <ListBoxItem Content="slug"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="slug/ft^3"          Foreground="DarkCyan"/>
+                        <ListBoxItem Content="sort()"             FontWeight="Bold"/>
+                        <ListBoxItem Content="sort_cols()"        FontWeight="Bold"/>
+                        <ListBoxItem Content="sort_rows()"        FontWeight="Bold"/>
+                        <ListBoxItem Content="spline()"           FontWeight="Bold"/>
+                        <ListBoxItem Content="sqrt()"             FontWeight="Bold"/>
+                        <ListBoxItem Content="srss()"             FontWeight="Bold"/>
+                        <ListBoxItem Content="st"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="stack()"            FontWeight="Bold"/>
+                        <ListBoxItem Content="submatrix()"        FontWeight="Bold"/>
+                        <ListBoxItem Content="sum()"              FontWeight="Bold"/>
+                        <ListBoxItem Content="sumsq()"            FontWeight="Bold"/>
+                        <ListBoxItem Content="Sv"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="svd()"              FontWeight="Bold"/>
+                        <ListBoxItem Content="switch()"           FontWeight="Bold"/>
+                        <ListBoxItem Content="symmetric()"        FontWeight="Bold"/>
+                        <ListBoxItem Content="t"                  Foreground="DarkCyan"/>
+                        <ListBoxItem Content="T"                  Foreground="DarkCyan"/>
+                        <ListBoxItem Content="t/m^3"              Foreground="DarkCyan"/>
+                        <ListBoxItem Content="TA"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="take()"             FontWeight="Bold"/>
+                        <ListBoxItem Content="tan()"              FontWeight="Bold"/>
+                        <ListBoxItem Content="tanh()"             FontWeight="Bold"/>
+                        <ListBoxItem Content="TBq"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="TC"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="TeV"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="TF"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="tf"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="tf/m^2"             Foreground="DarkCyan"/>
+                        <ListBoxItem Content="tf/m^3"             Foreground="DarkCyan"/>
+                        <ListBoxItem Content="TGy"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="TH"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="th"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="th^2"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="th^3"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="therm"              Foreground="DarkCyan"/>
+                        <ListBoxItem Content="THz"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="TJ"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="TN"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ton"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ton/ft^3"           Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ton/yd^3"           Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ton_f"              Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ton_f/ft^3"         Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ton_f/in^3"         Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ton_UK"             Foreground="DarkCyan"/>
+                        <ListBoxItem Content="ton_US"             Foreground="DarkCyan"/>
+                        <ListBoxItem Content="tonf"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="Torr"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="TPa"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="trace()"            FontWeight="Bold"/>
+                        <ListBoxItem Content="transp()"           FontWeight="Bold"/>
+                        <ListBoxItem Content="trunc()"            FontWeight="Bold"/>
+                        <ListBoxItem Content="TS"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="tsf"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="tsi"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="TSv"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="TT"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="TV"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="TVA"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="TVAR"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="TW"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="TWb"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="TWh"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="TΩ"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="T℧"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="u"                  Foreground="DarkCyan"/>
+                        <ListBoxItem Content="unit()"             FontWeight="Bold"/>
+                        <ListBoxItem Content="utriang()"          FontWeight="Bold"/>
+                        <ListBoxItem Content="V"                  Foreground="DarkCyan"/>
+                        <ListBoxItem Content="V*m"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="V/m"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="VA"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="VAR"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="vec2col()"          FontWeight="Bold"/>
+                        <ListBoxItem Content="vec2diag()"         FontWeight="Bold"/>
+                        <ListBoxItem Content="vector()"           FontWeight="Bold"/>
+                        <ListBoxItem Content="vlookup()"          FontWeight="Bold"/>
+                        <ListBoxItem Content="vlookup_eq()"       FontWeight="Bold"/>
+                        <ListBoxItem Content="vlookup_ge()"       FontWeight="Bold"/>
+                        <ListBoxItem Content="vlookup_gt()"       FontWeight="Bold"/>
+                        <ListBoxItem Content="vlookup_le()"       FontWeight="Bold"/>
+                        <ListBoxItem Content="vlookup_lt()"       FontWeight="Bold"/>
+                        <ListBoxItem Content="vlookup_ne()"       FontWeight="Bold"/>
+                        <ListBoxItem Content="W"                  Foreground="DarkCyan"/>
+                        <ListBoxItem Content="w"                  Foreground="DarkCyan"/>
+                        <ListBoxItem Content="Wb"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="Wh"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="xor()"              FontWeight="Bold"/>
+                        <ListBoxItem Content="y"                  Foreground="DarkCyan"/>
+                        <ListBoxItem Content="yd"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="yd/s"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="yd^2"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="yd^3"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="°"                  Foreground="DarkCyan"/>
+                        <ListBoxItem Content="°C"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="°F"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="°R"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="Δ°C"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="Δ°F"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="Ω"                  Foreground="DarkCyan"/>
+                        <ListBoxItem Content="Ω*m"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="μA"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="μbar"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="μBq"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="μC"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="μF"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="μg"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="μGy"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="μH"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="μHz"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="μJ"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="μL"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="μm"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="μPa"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="μS"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="μs"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="μSv"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="μT"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="μV"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="μVA"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="μVAR"               Foreground="DarkCyan"/>
+                        <ListBoxItem Content="μW"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="μWb"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="μWh"                Foreground="DarkCyan"/>
+                        <ListBoxItem Content="μΩ"                 Foreground="DarkCyan"/>
+                        <ListBoxItem Content="μ℧"                 Foreground="DarkCyan"/>
                     </ListBox>
                     <Grid x:Name="KeyPadGrid" Grid.Row="1" Margin="1,0,1,0">
                         <Label HorizontalAlignment="Left" VerticalAlignment="Top" Padding="1" Height="22"
@@ -2662,5 +3233,8 @@
                 <WebBrowser x:Name="WebBrowser" Margin="5,5,5,5" LoadCompleted="WebBrowser_LoadCompleted" KeyUp="WebBrowser_KeyUp" PreviewKeyDown="WebBrowser_PreviewKeyDown" />
             </GroupBox>
         </Grid>
+        <TextBlock Grid.Row="0" TextWrapping="Wrap" FontSize="12.5" Margin="0,28,155,0" Height="16" 
+            VerticalAlignment="Top"  HorizontalAlignment="Right" Width="50"
+            Text="(5-100)" />
     </Grid>
 </Window>

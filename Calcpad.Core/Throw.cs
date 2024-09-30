@@ -4,6 +4,32 @@ namespace Calcpad.Core
 {
     internal static class Throw
     {
+        internal enum Items
+        {
+            Index,
+            Count,
+            NumRows,
+            NumCols,
+            Argument,
+            Result,
+            Variable,
+            IndexTarget
+        }
+
+        private static string ItemToString(Items item) =>
+            item switch
+            {
+                Items.Index => Messages.Index,
+                Items.Count => Messages.Count,
+                Items.NumRows => Messages.Number_of_rows,
+                Items.NumCols => Messages.Number_of_columns,
+                Items.Argument => Messages.Argument,
+                Items.Result => Messages.Result,
+                Items.Variable => Messages.Variable,
+                Items.IndexTarget => Messages.Index_target,
+                _ => throw new ArgumentException(Messages.Invalid_item),
+            };
+
         internal static void InvalidSyntaxException(in string s) =>
            New(string.Format(Messages.Invalid_syntax__0__, s));
         internal static void IncompleteExpressionException() =>
@@ -82,7 +108,7 @@ namespace Calcpad.Core
             New(string.Format(Messages.Error_evaluating__0__as_function, s));
         internal static void ErrorEvaluatingAsFunctionOrOperatorException(in string s) =>
             New(string.Format(Messages.Error_evaluating__0__as_function_or_operator, s));
-        internal static void CannotRewiriteUnitsException(in string s) =>
+        internal static void CannotRewriteUnitsException(in string s) =>
             New(string.Format(Messages.Cannot_rewrite_existing_units__0__, s));
         internal static void InconsistentTargetUnitsException(in string sourceUnits, in string targetUnits) =>
             New(string.Format(Messages.The_calculated_units__0__are_inconsistent_with_the_target_units__1__, sourceUnits, targetUnits));
@@ -175,9 +201,6 @@ namespace Calcpad.Core
         internal static void IvalidFunctionTokenException(in string s) =>
             New(string.Format(Messages.Invalid_token_in_function_definition__0__, s));
 
-        private static void New(in string s) =>
-            throw new MathParser.MathParserException(s);
-
         internal static T InvalidOperator<T>(char c)
         {
             InvalidOperatorException(c);
@@ -195,5 +218,94 @@ namespace Calcpad.Core
             InvalidUnitsException(s);
             return default;
         }
+
+        internal static void MissingVectorOpeningBracketException() =>
+            New(Messages.Missing_vector_opening_bracket);
+
+        internal static void BracketMismatchException() =>
+            New(Messages.Bracket_mismatch);
+
+        internal static void IndexOutOfRangeException(string index) =>
+            New(Messages.Index_out_of_range + $" {index}.");
+
+        internal static void CannotAssignVectorToScalarException() =>
+            New(Messages.Cannot_assign_vector_to_scalar);
+
+        internal static void MissingVectorClosingBracketException() =>
+            New(Messages.Missing_vector_closing_bracket);
+
+        internal static void MustBeScalarException(Items item) =>
+            New(ItemToString(item) + Messages._must_be_scalar);
+
+        internal static void MustBePositiveIntegerException(Items item) =>
+            New(ItemToString(item) + Messages._must_be_positive_integer);
+
+        internal static void MustBeMatrixException(Items item) =>
+            New(ItemToString(item) + " must be matrix.");
+
+        internal static void MustBeVectorException(Items item) =>
+            New(ItemToString(item) + Messages._must_be_vector);
+        internal static void StepCannotBeZeroException() =>
+            New(Messages.Step_cannot_be_zero);
+
+        internal static void VectorSizeLimitException() =>
+            New(Messages.Vector_size_cannot_exceed + $" {Vector.MaxLength}.");
+
+        internal static void CrossProductVectorDimensionsException() =>
+            New(Messages.Cross_product_is_definedonly_for_vectors_with_2_and_3_elements);
+
+        internal static void FunctionOnlyRealModeException(string name) =>
+            New(string.Format(Messages.Function__0__is_not_defined_in_complex_mode, name));
+
+        internal static void MatrixDimensionsException() =>
+            New(Messages.Matrix_dimensions_do_not_match);
+
+        internal static void MatrixNotSquareException() =>
+            New(Messages.Matrix_must_be_square);
+
+        internal static void InvalidLpNormArgumentException() =>
+            New(Messages.The_Lp_norm_argument_must_be_p_ge_1);
+
+        internal static void MatrixMustBeSymmetricException() =>
+            New(Messages.Matrix_must_be_symmetric);
+
+        internal static void MatrixNotPositiveDefinite() =>
+            New(Messages.Matrix_is_not_positive_definite);
+
+        internal static void MatrixSingularException() =>
+            New(Messages.Matrix_is_singular);
+
+        internal static void MatrixCloseToSingularException() =>
+            New(Messages.Matrix_is_singular_or_close_to_singular);
+
+        internal static void ComplexVectorsAndMatricesNotSupportedException() =>
+            New(Messages.Vectors_and_matrices_are_not_supported_in_complex_mode);
+
+        internal static void CannotInterpolateWithNonScalarValueException() =>
+            New(Messages.Cannot_interpolate_with_non_scalar_value);
+
+        internal static void JacobiFailedException() =>
+            New(Messages.Jacobi_iteration_failed);
+
+        internal static void InvalidOperand(string value) =>
+            New(Messages.Invalid_operand + $" {value}.");
+
+        internal static void InvalidArgument(string value) =>
+            New(Messages.Invalid_argument + $" {value}.");
+
+        internal static void ArgumentNotEigenvalueException(string value) =>
+            New(Messages.The_argument_is_not_an_eigenvalue + $" {value}.");
+
+        internal static void QLAlgorithmFailed() =>
+            New(Messages.The_QL_algorithm_failed_to_converge);
+
+        internal static void MatirixSizeLimitException() =>
+            New(Messages.Matrix_size_cannot_exceed + $" {Matrix.MaxSize}.");
+
+        internal static void MatrixNotHighException() =>
+            New(Messages.The_number_of_matrix_rows_must_be_greater_than_or_equal_to_the_number_of_columns);
+
+        private static void New(in string s) =>
+            throw new MathParser.MathParserException(s);
     }
 }

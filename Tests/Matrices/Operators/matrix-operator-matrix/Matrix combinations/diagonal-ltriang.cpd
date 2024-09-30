@@ -1,0 +1,125 @@
+
+'<h1>Arithmetic operators</h1>'
+#hide
+m1 = diagonal(5; 5)
+m2 = ltriang(5)
+m1.(1; 1) = 10
+m1.(2; 2) = -5.5
+m1.(3; 3) = 3.14
+m1.(4; 4) = -7
+m1.(5; 5) = 8.88
+
+
+m2.(1; 1) = 9
+m2.(2; 1) = -4
+m2.(2; 2) = 3.14
+m2.(3; 1) = -7
+m2.(3; 2) = 8.88
+m2.(3; 3) = -2.22
+m2.(4; 1) = 10
+m2.(4; 2) = 6
+m2.(4; 3) = -4
+m2.(4; 4) = 2.5
+m2.(5; 1) = -5.5
+m2.(5; 2) = 1.8
+m2.(5; 3) = -3
+m2.(5; 4) = 1.7
+m2.(5; 5) = 11
+#show
+
+m1
+
+m2
+
+
+c = m1 + m2
+f(m1; m2) = m1 + m2
+c1 = f(m1; m2)
+
+
+c = m1 - m2
+f(m1; m2) = m1 - m2
+c1 = f(m1; m2)
+
+
+c = m1⦼m2
+f(m1; m2) = m1⦼m2
+c = f(m1; m2)
+
+
+c = m1*m2
+f(m1; m2) = m1*m2
+c1 = f(m1; m2)
+
+
+
+c = m1/m2
+f(m1; m2) = m1/m2
+c1 = f(m1; m2)
+
+c = m1^m2
+f(m1; m2) = m1^m2
+c = f(m1; m2)
+
+c = m1\m2
+f(m1; m2) = m1\m2
+c1 = f(m1; m2)
+
+c = m1÷m2
+f(m1; m2) = m1÷m2
+c1 = f(m1; m2)
+
+#hide
+fm = diagonal(3; 4)
+fm.(1; 1) = 11
+fm.(2; 2) = 66
+fm.(3; 3) = 111
+
+#show
+fm
+c = fm!
+f(fm) = fm!
+c1 = f(fm)
+
+'<h1>Relational operators</h1>'
+
+c = m1 ≡ m2
+f(m1; m2) = m1 ≡ m2
+c1 = f(m1; m2)
+
+c = m1 ≠ m2
+f(m1; m2) = m1 ≠ m2
+c1 = f(m1; m2)
+
+c = m1 < m2
+f(m1; m2) = m1 < m2
+c1 = f(m1; m2)
+
+c = m1 > m2
+f(m1; m2) = m1 > m2
+c1 = f(m1; m2)
+
+c = m1 ≥ m2
+f(m1; m2) = m1 ≥ m2
+c1 = f(m1; m2)
+
+c = m1 ≤ m2
+f(m1; m2) = m1 ≤ m2
+c1 = f(m1; m2)
+
+'<h1>Logical operators</h1>'
+
+c = m1 ∧ m2
+f(m1; m2) = m1 ∧ m2
+c1 = f(m1; m2)
+
+c = m1 ∨ m2
+f(m1; m2) = m1 ∨ m2
+c1 = f(m1; m2)
+
+c = m1 ⊕ m2
+f(m1; m2) = m1 ⊕ m2
+c1 = f(m1; m2)
+
+
+

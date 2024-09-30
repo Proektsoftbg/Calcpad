@@ -267,8 +267,8 @@
   <data name="if_block_not_closed_Missing_end_if" xml:space="preserve">
         <value>Error: "#if" block not closed. Missing "#end if".</value>
     </data>
-  <data name="repeat_block_not_closed_Missing_loop" xml:space="preserve">
-        <value>Error: "#repeat" block not closed. Missing "#loop".</value>
+  <data name="Iteration_block_not_closed_Missing_loop" xml:space="preserve">
+        <value>Error: Iteration block not closed. Missing "#loop".</value>
     </data>
   <data name="Unexpected_error_0_Please_check_the_expression_consistency" xml:space="preserve">
         <value>Unexpected error: {0} Please check the expression consistency.</value>
@@ -289,7 +289,7 @@
         <value>Number of iterations exceeds the maximum {0}.&lt;/p&gt;</value>
     </data>
   <data name="loop_without_a_corresponding_repeat" xml:space="preserve">
-        <value>"#loop" without a corresponding "#repeat".</value>
+        <value>"#loop" without a corresponding "#repeat", "#for" or "#while".</value>
     </data>
   <data name="Entangled_if__end_if__and_repeat__loop_blocks" xml:space="preserve">
         <value>Entangled "#if - #end if" and "#repeat - #loop" blocks.</value>
@@ -338,5 +338,125 @@
     </data>
   <data name="Raise_to_square" xml:space="preserve">
     <value>Raise to square</value>
+  </data>
+  <data name="Too_many_errors" xml:space="preserve">
+    <value>Too many errors. Further calculations are skipped.</value>
+  </data>
+  <data name="repeat_block_not_closed_Missing_loop" xml:space="preserve">
+    <value>Repeat block not closed. Missing loop.</value>
+  </data>
+  <data name="The_output_is_longer_than_20000_lines_The_rest_will_be_skipped" xml:space="preserve">
+    <value>The output is longer than 20000 lines. The rest will be skipped.</value>
+  </data>
+  <data name="Index" xml:space="preserve">
+    <value>Index</value>
+  </data>
+  <data name="Missing_vector_opening_bracket" xml:space="preserve">
+    <value>Missing vector opening bracket "[".</value>
+  </data>
+  <data name="Bracket_mismatch" xml:space="preserve">
+    <value>Bracket mismatch.</value>
+  </data>
+  <data name="_must_be_scalar" xml:space="preserve">
+    <value> must be scalar.</value>
+  </data>
+  <data name="Index_out_of_range" xml:space="preserve">
+    <value>Index out of range:</value>
+  </data>
+  <data name="Cannot_assign_vector_to_scalar" xml:space="preserve">
+    <value>Cannot assign vector to scalar.</value>
+  </data>
+  <data name="Missing_vector_closing_bracket" xml:space="preserve">
+    <value>Missing vector closing bracket "]".</value>
+  </data>
+  <data name="_must_be_vector" xml:space="preserve">
+    <value> must be vector.</value>
+  </data>
+  <data name="_must_be_positive_integer" xml:space="preserve">
+    <value> must be positive integer.</value>
+  </data>
+  <data name="Step_cannot_be_zero" xml:space="preserve">
+    <value>Step cannot be zero.</value>
+  </data>
+  <data name="Vector_size_cannot_exceed" xml:space="preserve">
+    <value>Vector size cannot exceed</value>
+  </data>
+  <data name="Cross_product_is_definedonly_for_vectors_with_2_and_3_elements" xml:space="preserve">
+    <value>Cross product is defined only for vectors with 2 and 3 elements.</value>
+  </data>
+  <data name="Function__0__is_not_defined_in_complex_mode" xml:space="preserve">
+    <value>Function {0} is not defined in complex mode.</value>
+  </data>
+  <data name="Matrix_dimensions_do_not_match" xml:space="preserve">
+    <value>Matrix dimensions do not match.</value>
+  </data>
+  <data name="Matrix_must_be_square" xml:space="preserve">
+    <value>Matrix must be square.</value>
+  </data>
+  <data name="The_Lp_norm_argument_must_be_p_ge_1" xml:space="preserve">
+    <value>The Lp norm argument must be p ≥ 1.</value>
+  </data>
+  <data name="Matrix_must_be_symmetric" xml:space="preserve">
+    <value>Matrix must be symmetric.</value>
+  </data>
+  <data name="Matrix_is_not_positive_definite" xml:space="preserve">
+    <value>Matrix is not positive definite.</value>
+  </data>
+  <data name="Matrix_is_singular" xml:space="preserve">
+    <value>Matrix is singular.</value>
+  </data>
+  <data name="Matrix_is_singular_or_close_to_singular" xml:space="preserve">
+    <value>Matrix is singular or close to singular.</value>
+  </data>
+  <data name="Vectors_and_matrices_are_not_supported_in_complex_mode" xml:space="preserve">
+    <value>Vectors and matrices are not supported in complex mode.</value>
+  </data>
+  <data name="Cannot_interpolate_with_non_scalar_value" xml:space="preserve">
+    <value>Cannot interpolate with non-scalar value.</value>
+  </data>
+  <data name="Jacobi_iteration_failed" xml:space="preserve">
+    <value>Jacobi iteration failed.</value>
+  </data>
+  <data name="Invalid_operand" xml:space="preserve">
+    <value>Invalid operand:</value>
+  </data>
+  <data name="Invalid_argument" xml:space="preserve">
+    <value>Invalid argument:</value>
+  </data>
+  <data name="The_argument_is_not_an_eigenvalue" xml:space="preserve">
+    <value>The argument is not an eigenvalue:</value>
+  </data>
+  <data name="The_QL_algorithm_failed_to_converge" xml:space="preserve">
+    <value>The QL algorithm failed to converge.</value>
+  </data>
+  <data name="Matrix_size_cannot_exceed" xml:space="preserve">
+    <value>Matrix size cannot exceed</value>
+  </data>
+  <data name="The_number_of_matrix_rows_must_be_greater_than_or_equal_to_the_number_of_columns" xml:space="preserve">
+    <value>The number of matrix rows must be greater than or equal to the number of columns</value>
+  </data>
+  <data name="Count" xml:space="preserve">
+    <value>Count</value>
+  </data>
+  <data name="Number_of_rows" xml:space="preserve">
+    <value>Number of rows</value>
+  </data>
+  <data name="Number_of_columns" xml:space="preserve">
+    <value>Number of columns</value>
+  </data>
+  <data name="Argument" xml:space="preserve">
+    <value>Argument</value>
+  </data>
+  <data name="Result" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="Variable" xml:space="preserve">
+    <value>Variable</value>
+  </data>
+  <data name="Index_target" xml:space="preserve">
+    <value>Index target</value>
+  </data>
+  <data name="Invalid_item" xml:space="preserve">
+    <value>Invalid item</value>
   </data>
 </root>

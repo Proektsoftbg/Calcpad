@@ -87,7 +87,7 @@ namespace Calcpad.Tests
                     Degrees = 1,
                     IsComplex = true
                 }
-            );    
+            );
             var re = calc.Run("sec(i)");
             var im = calc.Imaginary;
             Assert.Equal(1d / Math.Cosh(1d), re, Tol);
@@ -125,9 +125,9 @@ namespace Calcpad.Tests
                 }
             );
             var re = calc.Run("sinh(πi/2)");
-            var im = calc.Imaginary;    
+            var im = calc.Imaginary;
             Assert.Equal(0d, re, Tol);
-            Assert.Equal(1d, im, Tol);  
+            Assert.Equal(1d, im, Tol);
         }
 
         [Fact]
@@ -144,7 +144,7 @@ namespace Calcpad.Tests
             var re = calc.Run("cosh(-3*πi/4)");
             var im = calc.Imaginary;
             Assert.Equal(-_sqrt2 / 2d, re, Tol);
-            Assert.Equal(0d, im, Tol);  
+            Assert.Equal(0d, im, Tol);
         }
 
         [Fact]
@@ -159,9 +159,9 @@ namespace Calcpad.Tests
                 }
             );
             var re = calc.Run("Tanh(πi/4)");
-            var im = calc.Imaginary;    
+            var im = calc.Imaginary;
             Assert.Equal(0d, re, Tol);
-            Assert.Equal(1d, im, Tol);  
+            Assert.Equal(1d, im, Tol);
         }
 
         [Fact]
@@ -177,7 +177,7 @@ namespace Calcpad.Tests
             );
             var re = calc.Run("Csch(πi/3)");
             var im = calc.Imaginary;
-            Assert.Equal(0d, re, Tol);  
+            Assert.Equal(0d, re, Tol);
             Assert.Equal(-2d / _sqrt3, im, Tol);
         }
 
@@ -210,7 +210,7 @@ namespace Calcpad.Tests
                 }
             );
             var re = calc.Run("Coth(πi/4)");
-            var im = calc.Imaginary;    
+            var im = calc.Imaginary;
             Assert.Equal(0d, re, Tol);
             Assert.Equal(-1d, im, Tol);
         }
@@ -229,7 +229,7 @@ namespace Calcpad.Tests
                 }
             );
             var re = calc.Run("asin(1i)");
-            var im = calc.Imaginary;    
+            var im = calc.Imaginary;
             Assert.Equal(0d, re, Tol);
             Assert.Equal(Math.Log(_sqrt2 + 1d), im, Tol);
         }
@@ -367,7 +367,7 @@ namespace Calcpad.Tests
                 }
             );
             var re = calc.Run("asinh(i*sqrt(3)/2)");
-            var im = calc.Imaginary;    
+            var im = calc.Imaginary;
             Assert.Equal(0d, re, Tol);
             Assert.Equal(Math.PI / 3d, im, Tol);
         }
@@ -520,9 +520,9 @@ namespace Calcpad.Tests
         {
             var calc = new TestCalc(new() { IsComplex = true });
             var re = calc.Run("-exp(πi)");
-            var im = calc.Imaginary;    
+            var im = calc.Imaginary;
             Assert.Equal(1d, re, Tol);
-            Assert.Equal(0d, im, Tol);  
+            Assert.Equal(0d, im, Tol);
         }
 
         [Fact]
@@ -600,7 +600,7 @@ namespace Calcpad.Tests
         {
             var calc = new TestCalc(new() { IsComplex = true });
             var re = calc.Run("round(3.5 + 4.5i)");
-            var im = calc.Imaginary;    
+            var im = calc.Imaginary;
             Assert.Equal(4d, re, Tol);
             Assert.Equal(5d, im, Tol);
         }
@@ -622,7 +622,7 @@ namespace Calcpad.Tests
         {
             var calc = new TestCalc(new() { IsComplex = true });
             var re = calc.Run("floor(4.8i)");
-            var im = calc.Imaginary;    
+            var im = calc.Imaginary;
             Assert.Equal(0d, re, Tol);
             Assert.Equal(4d, im, Tol);
         }
@@ -633,7 +633,7 @@ namespace Calcpad.Tests
         {
             var calc = new TestCalc(new() { IsComplex = true });
             var re = calc.Run("floor(-2.4 - 4.8i)");
-            var im = calc.Imaginary;    
+            var im = calc.Imaginary;
             Assert.Equal(-3d, re, Tol);
             Assert.Equal(-5d, im, Tol);
         }
@@ -655,7 +655,7 @@ namespace Calcpad.Tests
         {
             var calc = new TestCalc(new() { IsComplex = true });
             var re = calc.Run("ceiling(-4.2i)");
-            var im = calc.Imaginary;    
+            var im = calc.Imaginary;
             Assert.Equal(0d, re, Tol);
             Assert.Equal(-4d, im, Tol);
         }
@@ -678,7 +678,7 @@ namespace Calcpad.Tests
             var calc = new TestCalc(new() { IsComplex = true });
             var re = calc.Run("trunc(-4.8i)");
             var im = calc.Imaginary;
-            Assert.Equal(0d, re, Tol); 
+            Assert.Equal(0d, re, Tol);
             Assert.Equal(-4d, im, Tol);
         }
         #endregion
@@ -733,7 +733,7 @@ namespace Calcpad.Tests
         {
             var calc = new TestCalc(new() { IsComplex = true });
             var re = calc.Run("abs((3 + 4i))");
-            var im = calc.Imaginary;    
+            var im = calc.Imaginary;
             Assert.Equal(5d, re, Tol);
             Assert.Equal(0d, im, Tol);
         }
@@ -799,7 +799,7 @@ namespace Calcpad.Tests
             var re = calc.Run("sum(1i; 2i; 3; 4)");
             var im = calc.Imaginary;
             Assert.Equal(7d, re, Tol);
-            Assert.Equal(3d, im, Tol);   
+            Assert.Equal(3d, im, Tol);
         }
 
         [Fact]
@@ -910,11 +910,11 @@ namespace Calcpad.Tests
         public void Switch()
         {
             var calc = new TestCalc(new() { IsComplex = true });
-            calc.Run("x = 10");  
+            calc.Run("x = 10");
             var re = calc.Run("switch(x ≤ 1; 1i; x ≤ 2; 2i; x ≤ 3; 3i; 4i)");
             var im = calc.Imaginary;
             Assert.Equal(0d, re);
-            Assert.Equal(4d, im);    
+            Assert.Equal(4d, im);
         }
         #endregion
 

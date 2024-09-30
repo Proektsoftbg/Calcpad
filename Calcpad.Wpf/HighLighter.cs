@@ -5,6 +5,7 @@ using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -80,7 +81,8 @@ namespace Calcpad.Wpf
             internal bool IsTag;
             internal bool IsTagComment;
             internal bool IsMacro;
-            internal bool IsSingleLineKeyword;
+            internal bool IsSingleLineExpressionKeyword;
+            internal bool IsEndOfLineLineKeyword;
             internal bool HasMacro;
             internal bool Redefine;
             internal int MacroArgs;
@@ -145,37 +147,41 @@ namespace Calcpad.Wpf
             Input,
             Include,
             Macro,
+            HtmlComment,
             Error
         }
-
-        private static readonly Brush[] Colors =
-        [
-            Brushes.Gray,
-            Brushes.Black,
-            Brushes.DarkCyan,
-            Brushes.Goldenrod,
-            Brushes.Blue,
-            Brushes.Black,
-            Brushes.Magenta,
-            Brushes.Magenta,
-            Brushes.DeepPink,
-            Brushes.ForestGreen,
-            Brushes.DarkOrchid,
-            Brushes.Red,
-            Brushes.Indigo,
-            Brushes.DarkMagenta,
-            Brushes.Crimson
-        ];
 
         private static readonly Thickness ToolTipPadding = new(3, 1, 3, 2);
         private static readonly SolidColorBrush ToolTipBackground = new(Color.FromArgb(196, 0, 0, 0));
         private static readonly SolidColorBrush TitleBackground = new(Color.FromRgb(245, 255, 240));
         private static readonly SolidColorBrush ErrorBackground = new(Color.FromRgb(255, 225, 225));
         private static readonly SolidColorBrush BackgroundBrush = new(Color.FromArgb(160, 240, 248, 255));
+        private static readonly SolidColorBrush HtmlCommentBrush = new(Color.FromRgb(160, 160, 160));
+
+
+        private static readonly Brush[] Colors =
+        [
+             Brushes.Gray,
+             Brushes.Black,
+             Brushes.DarkCyan,
+             Brushes.Goldenrod,
+             Brushes.Blue,
+             Brushes.Black,
+             Brushes.Magenta,
+             Brushes.Magenta,
+             Brushes.DeepPink,
+             Brushes.ForestGreen,
+             Brushes.DarkOrchid,
+             Brushes.Red,
+             Brushes.Indigo,
+             Brushes.DarkMagenta,
+             HtmlCommentBrush,
+             Brushes.Crimson
+        ];
 
         private static readonly FrozenSet<char> Operators = new HashSet<char>() { '!', '^', '/', '÷', '\\', '⦼', '*', '-', '+', '<', '>', '≤', '≥', '≡', '≠', '=', '∧', '∨', '⊕' }.ToFrozenSet();
         private static readonly FrozenSet<char> Delimiters = new HashSet<char>() { ';', '|', '&', '@', ':' }.ToFrozenSet();
-        private static readonly FrozenSet<char> Brackets = new HashSet<char>() { '(', ')', '{', '}' }.ToFrozenSet();
+        private static readonly FrozenSet<char> Brackets = new HashSet<char>() { '(', ')', '{', '}', '[', ']' }.ToFrozenSet();
 
         private static readonly FrozenSet<string> Functions =
         new HashSet<string>()
@@ -244,9 +250,136 @@ namespace Calcpad.Wpf
             "and",
             "or",
             "xor",
-            "fact",
-            "timer"
-        }.ToFrozenSet(StringComparer.OrdinalIgnoreCase);
+            "timer",
+            "vector",
+            "len",
+            "size",
+            "fill",
+            "range",
+            "join",
+            "resize",
+            "first",
+            "last",
+            "slice",
+            "sort",
+            "rsort",
+            "order",
+            "revorder",
+            "reverse",
+            "extract",
+            "search",
+            "count",
+            "find",
+            "find_eq",
+            "find_ne",
+            "find_lt",
+            "find_gt",
+            "find_le",
+            "find_ge",
+            "lookup",
+            "Lookup_eq",
+            "Lookup_ne",
+            "Lookup_lt",
+            "Lookup_gt",
+            "Lookup_le",
+            "Lookup_ge",
+            "norm",
+            "norm_1",
+            "norm_2",
+            "norm_e",
+            "norm_i",
+            "norm_p",
+            "unit",
+            "dot",
+            "cross",
+            "matrix",
+            "identity",
+            "diagonal",
+            "column",
+            "utriang",
+            "ltriang",
+            "symmetric",
+            "vec2diag",
+            "diag2vec",
+            "vec2col",
+            "join_cols",
+            "join_rows",
+            "augment",
+            "stack",
+            "mfill",
+            "fill_row",
+            "fill_col",
+            "mresize",
+            "copy",
+            "add",
+            "n_rows",
+            "n_cols",
+            "row",
+            "col",
+            "extract_rows",
+            "extract_cols",
+            "submatrix",
+            "mnorm",
+            "mnorm_2",
+            "mnorm_e",
+            "mnorm_1",
+            "mnorm_i",
+            "cond",
+            "cond_1",
+            "cond_2",
+            "cond_e",
+            "cond_i",
+            "det",
+            "rank",
+            "transp",
+            "trace",
+            "inverse",
+            "adj",
+            "cofactor",
+            "eigenvals",
+            "eigenvecs",
+            "eigen",
+            "lu",
+            "qr",
+            "svd",
+            "cholesky",
+            "lsolve",
+            "clsolve",
+            "hprod",
+            "fprod",
+            "kprod",
+            "sort_cols",
+            "rsort_cols",
+            "sort_rows",
+            "rsort_rows",
+            "order_cols",
+            "revorder_cols",
+            "order_rows",
+            "revorder_rows",
+            "mcount",
+            "mfind",
+            "mfind_eq",
+            "mfind_ne",
+            "mfind_lt",
+            "mfind_le",
+            "mfind_gt",
+            "mfind_ge",
+            "msearch",
+            "hlookup",
+            "hlookup_eq",
+            "hlookup_ne",
+            "hlookup_lt",
+            "hlookup_le",
+            "hlookup_gt",
+            "hlookup_ge",
+            "vlookup",
+            "vlookup_eq",
+            "vlookup_ne",
+            "vlookup_lt",
+            "vlookup_le",
+            "vlookup_gt",
+            "vlookup_ge",
+       }.ToFrozenSet(StringComparer.OrdinalIgnoreCase);
 
         private static readonly FrozenSet<string> Keywords =
         new HashSet<string>(StringComparer.OrdinalIgnoreCase)
@@ -271,6 +404,8 @@ namespace Calcpad.Wpf
             "#pre",
             "#post",
             "#repeat",
+            "#for",
+            "#while",
             "#loop",
             "#break",
             "#continue",
@@ -333,7 +468,7 @@ namespace Calcpad.Wpf
                     break;
 
                 var inline = (Run)pb.Inlines.LastInline;
-                if (inline is not null && inline.Text.EndsWith('_'))
+                if (inline is not null && inline.Text.AsSpan().EndsWith("_"))
                     b = pb;
                 else
                     break;
@@ -355,7 +490,7 @@ namespace Calcpad.Wpf
             if (p is null)
                 return;
 
-            InitLocalValraibles(p);  
+            InitLocalValraibles(p);
             var isCommand = false;
             var commandCount = 0;
             foreach (Run r in p.Inlines.Cast<Run>())
@@ -440,9 +575,14 @@ namespace Calcpad.Wpf
             InitState(p, text, line);
             InitLocalValraibles(p);
             _tagHelper = new();
+            LocalVariables.Clear();
             _hasTargetUnitsDelimiter = false;
             _allowUnaryMinus = true;
             _builder.Clear();
+            var nu = text.LastIndexOf('|');
+            if (nu > 0 && text[(nu + 1)..].Contains(']'))
+                nu = -1;
+
             for (int i = 0, len = text.Length; i < len; ++i)
             {
                 var c = text[i];
@@ -451,7 +591,11 @@ namespace Calcpad.Wpf
                     if (i > 0 && text[i - 1] == ' ' || _builder.Length == 0)
                     {
                         if (_builder.Length == 0)
-                            c = ' ';
+                        {
+                            var inline = p.Inlines.LastInline;
+                            if (inline is null || inline is Run r && r.Text.EndsWith(' '))
+                                c = ' ';
+                        }
                         else
                         {
                             c = _builder[^1];
@@ -466,7 +610,10 @@ namespace Calcpad.Wpf
                     }
                 }
                 _state.GetInputState(c);
-                if (!(_state.IsPlot || _state.CurrentType == Types.Comment) && c == '|')
+                if (!_state.IsPlot &&
+                    _state.CurrentType != Types.Comment &&
+                    c == '|' &&
+                    i == nu)
                     _state.IsUnits = true;
 
                 if (_state.MacroArgs == 0)
@@ -515,6 +662,14 @@ namespace Calcpad.Wpf
                     ParseImaginary(c, i, len);
                 else if (_state.CurrentType == Types.Const && Validator.IsLetter(c))
                     ParseUnits(c);
+                else if (_state.CurrentType == Types.Variable && c == '.' &&
+                    Defined.IsVariable(_builder.ToString(), line))
+                {
+                    Append(Types.Variable);
+                    _builder.Append(c);
+                    _state.CurrentType = Types.Operator;
+                    Append(Types.Operator);
+                }
                 else
                 {
                     if (IsParseError(c, _state.CurrentType))
@@ -522,7 +677,7 @@ namespace Calcpad.Wpf
                         _state.Message = string.Format(FindReplaceResources.Invalid_character_0, c);
                         _state.CurrentType = Types.Error;
                     }
-                    if (_state.CurrentType == Types.None && _builder.Length > 0)
+                    else if (_state.CurrentType == Types.None && _builder.Length > 0)
                     {
                         _state.CurrentType = _state.PreviousType;
                         Append(_state.CurrentType);
@@ -535,11 +690,14 @@ namespace Calcpad.Wpf
                     }
                     _builder.Append(c);
                 }
-
-                if (_state.IsSingleLineKeyword)
+                if (_state.IsEndOfLineLineKeyword ||
+                    _state.IsSingleLineExpressionKeyword &&
+                    (c == '\'' || c == '"'))
                 {
                     _builder.Append(text[++i..]);
-                    _state.Message = FindReplaceResources.End_of_line_expected;
+                    _state.Message = _state.IsEndOfLineLineKeyword ?
+                        AppMessages.End_of_line_expected :
+                        AppMessages.Single_expression_expected;
                     Append(Types.Error);
                     return;
                 }
@@ -557,7 +715,11 @@ namespace Calcpad.Wpf
                 else
                     _state.IsSubscript = false;
             }
-            Append(_state.PreviousTypeIfCurrentIsNone);
+            _state.CurrentType = _state.PreviousTypeIfCurrentIsNone;
+            if (_state.CurrentType == Types.Comment)
+                CheckHtmlComment();
+
+            Append(_state.CurrentType);
             if (_state.Redefine)
             {
                 text = new TextRange(p.ContentStart, p.ContentEnd).Text;
@@ -636,8 +798,11 @@ namespace Calcpad.Wpf
                 {
                     _state.TextComment = '\0';
                     _state.CurrentType = Types.Comment;
+                    CheckHtmlComment();
+
                     _builder.Append(c);
                     Append(_state.CurrentType);
+                    _state.CurrentType = Types.Comment;
                 }
                 else if (_state.IsTag)
                 {
@@ -731,6 +896,9 @@ namespace Calcpad.Wpf
                 _builder.Append(c);
                 if (_state.IsTag)
                     _state.CurrentType = Types.Tag;
+                else
+                    CheckHtmlComment();
+
                 Append(_state.CurrentType);
                 _state.CurrentType = Types.Comment;
                 _state.IsTag = false;
@@ -925,7 +1093,9 @@ namespace Calcpad.Wpf
         {
             Append(_state.PreviousTypeIfCurrentIsNone);
             _builder.Append(c);
-            if (_state.CommandCount > 0 || c == ';')
+            if (_state.CommandCount > 0 ||
+                c == ';' || c == '|' && !_state.IsUnits ||
+                c == ':' && _state.Text.StartsWith("#for", StringComparison.OrdinalIgnoreCase))
                 Append(Types.Operator);
             else
                 Append(Types.Error);
@@ -989,6 +1159,13 @@ namespace Calcpad.Wpf
                 _state.CurrentType = Types.Error;
         }
 
+        private void CheckHtmlComment()
+        {
+            var s = _builder.ToString();
+            if (s.StartsWith("<!--") || s.EndsWith("-->"))
+                _state.CurrentType = Types.HtmlComment;
+        }
+
         private void Append(Types t)
         {
             if (_builder.Length == 0)
@@ -1035,7 +1212,9 @@ namespace Calcpad.Wpf
             if (s is not null)
                 AppendRun(t, s);
 
-            _allowUnaryMinus = t == Types.Comment || t == Types.Operator || s == "(" || s == "{";
+            _allowUnaryMinus =
+                t == Types.Comment || t == Types.Operator ||
+                s == "(" || s == "{" || s == "[";
         }
 
         private bool AppendRelOperatorShortcut(string s)
@@ -1137,13 +1316,16 @@ namespace Calcpad.Wpf
                     _state.Message = AppMessages.Invalid_compiler_directive;
                     return Types.Error;
                 }
-                if (!(st.Equals("#if", StringComparison.OrdinalIgnoreCase) ||
-                      st.Equals("#else if", StringComparison.OrdinalIgnoreCase) ||
-                      st.Equals("#repeat", StringComparison.OrdinalIgnoreCase) ||
-                      st.Equals("#def", StringComparison.OrdinalIgnoreCase) ||
-                      st.Equals("#include", StringComparison.OrdinalIgnoreCase) ||
-                      st.Equals("#round", StringComparison.OrdinalIgnoreCase)))
-                    _state.IsSingleLineKeyword = true;
+                if (st.Equals("#if", StringComparison.OrdinalIgnoreCase) ||
+                    st.Equals("#else if", StringComparison.OrdinalIgnoreCase) ||
+                    st.Equals("#repeat", StringComparison.OrdinalIgnoreCase) ||
+                    st.Equals("#for", StringComparison.OrdinalIgnoreCase) ||
+                    st.Equals("#round", StringComparison.OrdinalIgnoreCase))
+                    _state.IsSingleLineExpressionKeyword = true;
+                else if (!(st.Equals("#while", StringComparison.OrdinalIgnoreCase) ||
+                    st.Equals("#def", StringComparison.OrdinalIgnoreCase) ||
+                    st.Equals("#include", StringComparison.OrdinalIgnoreCase)))
+                    _state.IsEndOfLineLineKeyword = true;
             }
             else if (t == Types.Command)
             {
@@ -1189,13 +1371,15 @@ namespace Calcpad.Wpf
                     run.ToolTip = AppendToolTip(_state.Message);
                     _state.Message = null;
                 }
-
                 if (run.ToolTip is not null && t == Types.Include)
                 {
                     run.Cursor = Cursors.Hand;
                     run.AddHandler(UIElement.MouseLeftButtonDownEvent, IncludeClickEventHandler);
                 }
             }
+            else if (t == Types.HtmlComment)
+                run.Background = Brushes.WhiteSmoke;
+
             _state.Paragraph.Inlines.Add(run);
         }
 

@@ -202,7 +202,7 @@ namespace Calcpad.Wpf
             }
         }
 
-        private bool IsShiftDown() => 
+        private static bool IsShiftDown() => 
             (Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift;
     }
 }

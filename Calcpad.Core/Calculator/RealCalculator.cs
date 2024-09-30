@@ -7,7 +7,7 @@ namespace Calcpad.Core
     {
         private static readonly Operator[] Operators;
         private readonly Function[] _functions;
-        private readonly Operator[] Functions2;
+        private readonly Operator[] _functions2;
         private static readonly Func<Value[], Value>[] MultiFunctions;
         internal override int Degrees
         {
@@ -65,7 +65,7 @@ namespace Calcpad.Core
                 Timer     //44
             ];
 
-            Functions2 =
+            _functions2 =
             [
                 Atan2,
                 UnitRoot,
@@ -108,9 +108,6 @@ namespace Calcpad.Core
                 Product,
                 Mean,
                 Switch,
-                Take,
-                Line,
-                Spline,
                 And,
                 Or,
                 Xor,
@@ -119,13 +116,14 @@ namespace Calcpad.Core
             ];
         }
 
-        internal override Value EvaluateOperator(int index, in Value a, in Value b) => Operators[index](a, b);
-        internal override Value EvaluateFunction(int index, in Value a) => _functions[index](a);
-        internal override Value EvaluateFunction2(int index, in Value a, in Value b) => Functions2[index](a, b);
-        internal override Value EvaluateMultiFunction(int index, Value[] a) => MultiFunctions[index](a);
-        internal override Operator GetOperator(int index) => index == PowerIndex ? Pow : Operators[index];
-
-        internal override Function GetFunction(int index)
+        internal override Value EvaluateOperator(long index, in Value a, in Value b) => Operators[index](a, b);
+        internal override Value EvaluateFunction(long index, in Value a) => _functions[index](a);
+        internal override Value EvaluateFunction2(long index, in Value a, in Value b) => _functions2[index](a, b);
+        internal override IValue EvaluateFunction3(long index, in IValue a, in IValue b, in IValue c) => Functions3[index](a, b, c);
+        internal override Value EvaluateMultiFunction(long index, Value[] a) => MultiFunctions[index](a);
+        internal override Value EvaluateInterpolation(long index, Value[] a) => Interpolations[index](a);
+        internal override Operator GetOperator(long index) => index == PowerIndex ? Pow : Operators[index];
+        internal override Function GetFunction(long index)
         {
             if (index == SqrIndex || index == SqrtIndex)
                 return Sqrt;
@@ -135,7 +133,9 @@ namespace Calcpad.Core
 
             return _functions[index];
         }
-
+        internal override Operator GetFunction2(long index) => index == RootIndex ? Root : _functions2[index];
+        internal override Function3 GetFunction3(long index) => Functions3[index];
+        internal override Func<Value[], Value> GetMultiFunction(long index) => MultiFunctions[index];
 
         public static Value Fact(in Value a)
         {
@@ -145,15 +145,11 @@ namespace Calcpad.Core
             return new(Fact(a.Re));
         }
 
-        internal override Operator GetFunction2(int index) => index == RootIndex ? Root : Functions2[index];
-        internal override Func<Value[], Value> GetMultiFunction(int index) => MultiFunctions[index];
-
         private static Value Real(in Value value) => value;
         private static Value Imaginary(in Value _) => Value.Zero;
         private static Value Phase(in Value value) => new(value.Complex.Phase);
-        private static Value Abs(in Value value) => new(Math.Abs(value.Re), value.Units);
-
-        private static Value Sign(in Value value) => new(Math.Sign(value.Re));
+        internal static Value Abs(in Value value) => new(Math.Abs(value.Re), value.Units);
+        private static Value Sign(in Value value) => double.IsNaN(value.Re) ? Value.NaN : new(Math.Sign(value.Re));
 
         private Value Sin(in Value value)
         {
@@ -335,7 +331,7 @@ namespace Calcpad.Core
                 isUnit
             );
 
-        private static Value Pow(in Value value, in Value power) =>
+        internal static Value Pow(in Value value, in Value power) =>
             Pow(value, power, false);
 
         private static Value UnitPow(in Value value, in Value power) =>
@@ -350,7 +346,7 @@ namespace Calcpad.Core
                 new(result, Unit.Root(value.Units, 2, isUnit), isUnit);
         }
 
-        private static Value Sqrt(in Value value) =>
+        internal static Value Sqrt(in Value value) =>
             Sqrt(value, false);
 
         private static Value UnitSqrt(in Value value) =>
@@ -372,7 +368,7 @@ namespace Calcpad.Core
             Cbrt(value, value.IsUnit);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static Value Root(in Value value,in Value root, bool isUnit)
+        private static Value Root(in Value value, in Value root, bool isUnit)
         {
             var n = GetRoot(root);
             var result = int.IsOddInteger(n) && value.Re < 0 ?
@@ -431,7 +427,7 @@ namespace Calcpad.Core
             return new(result, u is null ? null : u * u);
         }
 
-        private static Value Srss(Value[] v)
+        internal static Value Srss(Value[] v)
         {
             var result = v[0].Re;
             var u = v[0].Units;

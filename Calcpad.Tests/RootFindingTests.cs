@@ -218,7 +218,7 @@
         [Fact]
         public void Root_F_01()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[0]);
             var result = calc.Run(_commands[0]);
             Assert.Equal(_roots[0], result, Tol);
@@ -229,7 +229,7 @@
         [Fact]
         public void Root_F_02()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[1]);
             var result = calc.Run(_commands[1]);
             Assert.Equal(_roots[1], result, Tol);
@@ -240,7 +240,7 @@
         [Fact]
         public void Root_F_03()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[2]);
             var result = calc.Run(_commands[2]);
             Assert.Equal(_roots[2], result, Tol);
@@ -251,7 +251,7 @@
         [Fact]
         public void Root_F_04()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[3]);
             var result = calc.Run(_commands[3]);
             Assert.Equal(_roots[3], result, Tol);
@@ -262,7 +262,7 @@
         [Fact]
         public void Root_F_05()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[4]);
             var result = calc.Run(_commands[4]);
             Assert.Equal(_roots[4], result, Tol);
@@ -273,7 +273,7 @@
         [Fact]
         public void Root_F_06()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[5]);
             var result = calc.Run(_commands[5]);
             Assert.Equal(_roots[5], result, Tol);
@@ -284,7 +284,7 @@
         [Fact]
         public void Root_F_07()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[6]);
             var result = calc.Run(_commands[6]);
             Assert.Equal(_roots[6], result, Tol);
@@ -295,7 +295,7 @@
         [Fact]
         public void Root_F_08()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[7]);
             var result = calc.Run(_commands[7]);
             Assert.Equal(_roots[7], result, Tol);
@@ -306,7 +306,7 @@
         [Fact]
         public void Root_F_09()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[8]);
             var result = calc.Run(_commands[8]);
             Assert.Equal(_roots[8], result, Tol);
@@ -317,7 +317,7 @@
         [Fact]
         public void Root_F_10()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[9]);
             var result = calc.Run(_commands[9]);
             Assert.Equal(_roots[9], result, Tol);
@@ -328,7 +328,7 @@
         [Fact]
         public void Root_F_11()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[10]);
             var result = calc.Run(_commands[10]);
             Assert.Equal(_roots[10], result, Tol);
@@ -339,7 +339,7 @@
         [Fact]
         public void Root_F_12()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[11]);
             var result = calc.Run(_commands[11]);
             Assert.Equal(_roots[11], result, Tol);
@@ -350,7 +350,7 @@
         [Fact]
         public void Root_F_13()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[12]);
             var result = calc.Run(_commands[12]);
             Assert.Equal(_roots[12], result, Tol);
@@ -361,7 +361,7 @@
         [Fact]
         public void Root_F_14()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[13]);
             var result = calc.Run(_commands[13]);
             Assert.Equal(_roots[13], result, Tol);
@@ -372,7 +372,7 @@
         [Fact]
         public void Root_F_15()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[14]);
             var result = calc.Run(_commands[14]);
             Assert.Equal(_roots[14], result, Tol);
@@ -383,7 +383,7 @@
         [Fact]
         public void Root_F_16()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[15]);
             var result = calc.Run(_commands[15]);
             Assert.Equal(_roots[15], result, Tol);
@@ -394,7 +394,7 @@
         [Fact]
         public void Root_F_17()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[16]);
             var result = calc.Run(_commands[16]);
             Assert.Equal(_roots[16], result, Tol);
@@ -405,7 +405,7 @@
         [Fact]
         public void Root_F_18()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[17]);
             var result = calc.Run(_commands[17]);
             Assert.Equal(_roots[17], result, Tol);
@@ -416,7 +416,7 @@
         [Fact]
         public void Root_F_19()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[18]);
             var result = calc.Run(_commands[18]);
             Assert.Equal(_roots[18], result, Tol);
@@ -427,7 +427,7 @@
         [Fact]
         public void Root_F_20()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[19]);
             var result = calc.Run(_commands[19]);
             Assert.Equal(_roots[19], result, Tol);
@@ -438,7 +438,7 @@
         [Fact]
         public void Root_F_21()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[20]);
             var result = calc.Run(_commands[20]);
             Assert.Equal(_roots[20], result, Tol);
@@ -449,7 +449,7 @@
         [Fact]
         public void Root_F_22()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[21]);
             var result = calc.Run(_commands[21]);
             Assert.Equal(_roots[21], result, Tol);
@@ -460,7 +460,7 @@
         [Fact]
         public void Root_F_23()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[22]);
             var result = calc.Run(_commands[22]);
             Assert.Equal(_roots[22], result, Tol);
@@ -471,7 +471,7 @@
         [Fact]
         public void Root_F_24()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[23]);
             var result = calc.Run(_commands[23]);
             Assert.Equal(_roots[23], result, Tol);
@@ -482,7 +482,7 @@
         [Fact]
         public void Root_F_25()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[24]);
             var result = calc.Run(_commands[24]);
             Assert.Equal(_roots[24], result, Tol);
@@ -493,7 +493,7 @@
         [Fact]
         public void Root_F_26()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[25]);
             var result = calc.Run(_commands[25]);
             Assert.Equal(_roots[25], result, Tol);
@@ -504,7 +504,7 @@
         [Fact]
         public void Root_F_27()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(P);
             calc.Run(_functions[26]);
             var result = calc.Run(_commands[26]);
@@ -516,7 +516,7 @@
         [Fact]
         public void Root_F_28()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[27]);
             var result = calc.Run(_commands[27]);
             Assert.Equal(_roots[27], result, Tol);
@@ -527,7 +527,7 @@
         [Fact]
         public void Root_F_29()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[28]);
             var result = calc.Run(_commands[28]);
             Assert.Equal(_roots[28], result, Tol);
@@ -538,18 +538,18 @@
         [Fact]
         public void Root_F_30()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[29]);
             var result = calc.Run(_commands[29]);
             Assert.Equal(_roots[29], result, Tol);
             result = calc.Run("f_30(x_30)");
-            Assert.Equal(0d, result, Tol*100d);
+            Assert.Equal(0d, result, Tol * 100d);
         }
 
         [Fact]
         public void Root_F_31()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[30]);
             var result = calc.Run(_commands[30]);
             Assert.Equal(_roots[30], result, Tol);
@@ -560,7 +560,7 @@
         [Fact]
         public void Root_F_32()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[31]);
             var result = calc.Run(_commands[31]);
             Assert.Equal(_roots[31], result, Tol);
@@ -571,7 +571,7 @@
         [Fact]
         public void Root_F_33()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[32]);
             var result = calc.Run(_commands[32]);
             Assert.Equal(_roots[32], result, Tol);
@@ -582,7 +582,7 @@
         [Fact]
         public void Root_F_34()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[33]);
             var result = calc.Run(_commands[33]);
             Assert.Equal(_roots[33], result, Tol);
@@ -593,7 +593,7 @@
         [Fact]
         public void Root_F_35()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[34]);
             var result = calc.Run(_commands[34]);
             Assert.Equal(_roots[34], result, Tol);
@@ -604,9 +604,9 @@
         [Fact]
         public void Root_F_36()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[35]);
-            var result = calc.Run(_commands[35]); 
+            var result = calc.Run(_commands[35]);
             Assert.Equal(_roots[35], result, Tol);
             //Find
         }
@@ -614,7 +614,7 @@
         [Fact]
         public void Root_F_37()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[36]);
             var result = calc.Run(_commands[36]);
             Assert.Equal(_roots[36], result, Tol);
@@ -625,7 +625,7 @@
         [Fact]
         public void Root_F_38()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[37]);
             var result = calc.Run(_commands[37]);
             Assert.Equal(_roots[37], result, Tol);
@@ -635,7 +635,7 @@
         [Fact]
         public void Root_F_39()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[38]);
             var result = calc.Run(_commands[38]);
             Assert.Equal(_roots[38], result, Tol);
@@ -645,7 +645,7 @@
         [Fact]
         public void Root_F_40()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[39]);
             var result = calc.Run(_commands[39]);
             Assert.Equal(_roots[39], result, Tol);
@@ -655,7 +655,7 @@
         [Fact]
         public void Root_F_41()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[40]);
             var result = calc.Run(_commands[40]);
             Assert.Equal(_roots[40], result, Tol);
@@ -666,7 +666,7 @@
         [Fact]
         public void Root_F_42()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[41]);
             var result = calc.Run(_commands[41]);
             Assert.Equal(_roots[41], result, Tol);
@@ -677,7 +677,7 @@
         [Fact]
         public void Root_F_43()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[42]);
             var result = calc.Run(_commands[42]);
             Assert.Equal(_roots[42], result, Tol);
@@ -688,7 +688,7 @@
         [Fact]
         public void Root_F_44()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[43]);
             var result = calc.Run(_commands[43]);
             Assert.Equal(_roots[43], result, Tol);
@@ -699,7 +699,7 @@
         [Fact]
         public void Root_F_45()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[44]);
             var result = calc.Run(_commands[44]);
             Assert.Equal(_roots[44], result, Tol);
@@ -710,7 +710,7 @@
         [Fact]
         public void Root_F_46()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[45]);
             var result = calc.Run(_commands[45]);
             Assert.Equal(_roots[45], result, Tol);
@@ -721,7 +721,7 @@
         [Fact]
         public void Root_F_47()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[46]);
             var result = calc.Run(_commands[46]);
             Assert.Equal(_roots[46], result, Tol);
@@ -732,7 +732,7 @@
         [Fact]
         public void Root_F_48()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[47]);
             var result = calc.Run(_commands[47]);
             Assert.Equal(_roots[47], result, Tol);
@@ -743,7 +743,7 @@
         [Fact]
         public void Root_F_49()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[48]);
             var result = calc.Run(_commands[48]);
             Assert.Equal(_roots[48], result, Tol);
@@ -754,7 +754,7 @@
         [Fact]
         public void Root_F_50()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[49]);
             var result = calc.Run(_commands[49]);
             Assert.Equal(_roots[49], result, Tol);
@@ -765,7 +765,7 @@
         [Fact]
         public void Root_F_51()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[50]);
             var result = calc.Run(_commands[50]);
             Assert.Equal(_roots[50], result, Tol);
@@ -776,7 +776,7 @@
         [Fact]
         public void Root_F_52()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[51]);
             var result = calc.Run(_commands[51]);
             Assert.Equal(_roots[51], result, Tol);
@@ -787,7 +787,7 @@
         [Fact]
         public void Root_F_53()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[52]);
             var result = calc.Run(_commands[52]);
             Assert.Equal(_roots[52], result, Tol);
@@ -798,7 +798,7 @@
         [Fact]
         public void Root_F_54()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[53]);
             var result = calc.Run(_commands[53]);
             Assert.Equal(_roots[53], result, Tol);
@@ -809,7 +809,7 @@
         [Fact]
         public void Root_F_55()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[54]);
             var result = calc.Run(_commands[54]);
             Assert.Equal(_roots[54], result, Tol);
@@ -820,7 +820,7 @@
         [Fact]
         public void Root_F_56()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[55]);
             var result = calc.Run(_commands[55]);
             Assert.Equal(_roots[55], result, Tol);
@@ -831,7 +831,7 @@
         [Fact]
         public void Root_F_57()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[56]);
             var result = calc.Run(_commands[56]);
             Assert.Equal(_roots[56], result, Tol);
@@ -842,7 +842,7 @@
         [Fact]
         public void Root_F_58()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[57]);
             var result = calc.Run(_commands[57]);
             Assert.Equal(_roots[57], result, Tol);
@@ -853,7 +853,7 @@
         [Fact]
         public void Root_F_59()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[58]);
             var result = calc.Run(_commands[58]);
             Assert.Equal(_roots[58], result, Tol);
@@ -864,7 +864,7 @@
         [Fact]
         public void Root_F_60()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[59]);
             var result = calc.Run(_commands[59]);
             Assert.Equal(_roots[59], result, Tol);
@@ -875,7 +875,7 @@
         [Fact]
         public void Root_F_61()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[60]);
             var result = calc.Run(_commands[60]);
             Assert.Equal(_roots[60], result, Tol);
@@ -886,13 +886,13 @@
         [Fact]
         public void Root_F_62()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run(_functions[61]);
             var result = calc.Run(_commands[61]);
             Assert.Equal(_roots[61], result, Tol);
             result = calc.Run("f_62(x_62)");
             Assert.Equal(0d, result, Tol);
-        }   
+        }
 
         #endregion
     }

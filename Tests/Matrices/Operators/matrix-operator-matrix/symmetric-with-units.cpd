@@ -1,0 +1,186 @@
+
+'<h1>Arithmetic operators</h1>'
+#hide
+m1 = symmetric(6)
+m2 = symmetric(6)
+m1.(1; 1) = 9m
+m1.(2; 2) = -4m
+m1.(3; 3) = 3.14m
+m1.(4; 4) = -7m
+m1.(5; 5) = 8.88m
+m1.(6; 6) = -2.22m
+m1.(1; 2) = 10m
+m1.(1; 3) = -5.5m
+m1.(1; 4) = 3.14m
+m1.(1; 5) = -7m
+m1.(1; 6) = 8.88m
+m1.(2; 3) = 6m
+m1.(2; 4) = -4m
+m1.(2; 5) = 2.5m
+m1.(2; 6) = -1.5m
+m1.(3; 4) = 9m
+m1.(3; 5) = -3m
+m1.(3; 6) = 1.7m
+m1.(4; 5) = 11m
+m1.(4; 6) = -2.3m
+m1.(5; 6) = 4m
+
+m2.(1; 1) = 9dm
+m2.(2; 2) = -4dm
+m2.(3; 3) = 3.14dm
+m2.(4; 4) = -7dm
+m2.(5; 5) = 8.88dm
+m2.(6; 6) = -2.22dm
+m2.(1; 2) = 8dm
+m2.(1; 3) = -3.5dm
+m2.(1; 4) = 2dm
+m2.(1; 5) = -1.2dm
+m2.(1; 6) = 0.9dm
+m2.(2; 3) = 7dm
+m2.(2; 4) = -2.5dm
+m2.(2; 5) = 1.8dm
+m2.(2; 6) = -1.1dm
+m2.(3; 4) = 6dm
+m2.(3; 5) = -2dm
+m2.(3; 6) = 1.5dm
+m2.(4; 5) = 5dm
+m2.(4; 6) = -1.5dm
+m2.(5; 6) = 4dm
+
+#show
+
+m1
+
+m2
+
+
+c = m1 + m2
+f(m1; m2) = m1 + m2
+c1 = f(m1; m2)
+
+
+c = m1 - m2
+f(m1; m2) = m1 - m2
+c1 = f(m1; m2)
+
+
+c = m1*m2
+f(m1; m2) = m1*m2
+c1 = f(m1; m2)
+
+c = m1/m2
+f(m1; m2) = m1/m2
+c1 = f(m1; m2)
+
+"Exponentiation and the remainder operators must be without a unit. Therefore we need to define an unitless matrix
+#hide
+matrix_unitless = symmetric(6)
+matrix_unitless.(1; 1) = 9
+matrix_unitless.(2; 2) = -4
+matrix_unitless.(3; 3) = 3.14
+matrix_unitless.(4; 4) = -7
+matrix_unitless.(5; 5) = 8.88
+matrix_unitless.(6; 6) = -2.22
+matrix_unitless.(1; 2) = 8
+matrix_unitless.(1; 3) = -3.5
+matrix_unitless.(1; 4) = 2
+matrix_unitless.(1; 5) = -1.2
+matrix_unitless.(1; 6) = 0.9
+matrix_unitless.(2; 3) = 7
+matrix_unitless.(2; 4) = -2.5
+matrix_unitless.(2; 5) = 1.8
+matrix_unitless.(2; 6) = -1.1
+matrix_unitless.(3; 4) = 6
+matrix_unitless.(3; 5) = -2
+matrix_unitless.(3; 6) = 1.5
+matrix_unitless.(4; 5) = 5
+matrix_unitless.(4; 6) = -1.5
+matrix_unitless.(5; 6) = 4
+#show
+matrix_unitless
+c = m1^matrix_unitless
+f(m1; matrix_unitless) = m1^matrix_unitless
+c1 = f(m1; matrix_unitless)
+
+c = m1\m2
+f(m1; m2) = m1\m2
+c1 = f(m1; m2)
+
+
+c = m1⦼matrix_unitless
+f(m1; matrix_unitless) = m1⦼matrix_unitless
+c1 = f(m1; matrix_unitless)
+
+
+
+c = m1÷m2
+f(m1; m2) = m1÷m2
+c1 = f(m1; m2)
+
+#hide
+fm = symmetric(5)
+fm.(1; 1) = 1
+fm.(1; 2) = 10
+fm.(1; 3) = 7
+fm.(1; 4) = 8
+fm.(1; 5) = 9
+fm.(2; 2) = 4
+fm.(2; 3) = 12
+fm.(2; 4) = 5
+fm.(2; 5) = 14
+fm.(3; 3) = 2
+fm.(3; 4) = 11
+fm.(3; 5) = 6
+fm.(4; 4) = 2
+fm.(4; 5) = 13
+fm.(5; 5) = 9
+
+#show
+fm
+c = fm!
+f(fm) = fm!
+c1 = f(fm)
+
+'<h1>Relational operators</h1>'
+
+c = m1 ≡ m2
+f(m1; m2) = m1 ≡ m2
+c1 = f(m1; m2)
+
+c = m1 ≠ m2
+f(m1; m2) = m1 ≠ m2
+c1 = f(m1; m2)
+
+c = m1 < m2
+f(m1; m2) = m1 < m2
+c1 = f(m1; m2)
+
+c = m1 > m2
+f(m1; m2) = m1 > m2
+c1 = f(m1; m2)
+
+c = m1 ≥ m2
+f(m1; m2) = m1 ≥ m2
+c1 = f(m1; m2)
+
+c = m1 ≤ m2
+f(m1; m2) = m1 ≤ m2
+c1 = f(m1; m2)
+
+'<h1>Logical operators</h1>'
+
+c = m1 ∧ m2
+f(m1; m2) = m1 ∧ m2
+c1 = f(m1; m2)
+
+c = m1 ∨ m2
+f(m1; m2) = m1 ∨ m2
+c1 = f(m1; m2)
+
+c = m1 ⊕ m2
+f(m1; m2) = m1 ⊕ m2
+c1 = f(m1; m2)
+
+
+
+

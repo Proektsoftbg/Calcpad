@@ -1,5 +1,4 @@
 ﻿using Calcpad.Core;
-using DocumentFormat.OpenXml.Drawing.Charts;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -48,12 +47,13 @@ namespace Calcpad.Wpf
             _macroBuilder.Clear();
         }
 
+        private readonly StringBuilder sb = new();
         internal void Get(SpanLineEnumerator lines, bool isComplex)
         {
             Clear(isComplex);
             var lineNumber = 0;
             var firstLine = 0;
-            var sb = new StringBuilder();
+            sb.Clear();
             foreach (var line in lines)
             {
                 ++lineNumber;
@@ -132,6 +132,9 @@ namespace Calcpad.Wpf
 
         private void GetVariablesUnitsAndFunctions(ReadOnlySpan<char> lineContent, int lineNumber)
         {
+            if (lineContent.StartsWith("#for ", StringComparison.OrdinalIgnoreCase))
+                lineContent = lineContent[5..];
+
             var commentEnumerator = lineContent.EnumerateComments();
             foreach (var item in commentEnumerator)
             {
@@ -333,8 +336,9 @@ namespace Calcpad.Wpf
                     isComplete = true;
                 else if (c == '=')
                 {
-                    if (!string.IsNullOrWhiteSpace(_macroName))
+                    if (!string.IsNullOrEmpty(_macroName))
                         _macroContents.TryAdd(_macroName, lineContent[(i + 1)..].ToString());
+
                     _macroName = null;
                     if (isComplete)
                         CompleteMacroParameters(lineNumber);

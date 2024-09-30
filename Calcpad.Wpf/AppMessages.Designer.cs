@@ -61,6 +61,15 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to End of line expected..
+        /// </summary>
+        public static string End_of_line_expected {
+            get {
+                return ResourceManager.GetString("End_of_line_expected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error getting input fields values..
         /// </summary>
         public static string Error_getting_input_fields_values {
@@ -161,6 +170,15 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Single expression expected..
+        /// </summary>
+        public static string Single_expression_expected {
+            get {
+                return ResourceManager.GetString("Single_expression_expected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Undeclared function..
         /// </summary>
         public static string Undeclared_function {
@@ -197,13 +215,13 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unexpected error occured in Calcpad: &quot;{0}&quot;
+        ///   Looks up a localized string similar to Unexpected error occurred in Calcpad: &quot;{0}&quot;
         ///
         ///Source: &quot;{1}&quot;.
         /// </summary>
-        public static string UnexpectedErrorOccured {
+        public static string UnexpectedErrorOccurred {
             get {
-                return ResourceManager.GetString("UnexpectedErrorOccured", resourceCulture);
+                return ResourceManager.GetString("UnexpectedErrorOccurred", resourceCulture);
             }
         }
     }

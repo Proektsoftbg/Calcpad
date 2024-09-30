@@ -23,10 +23,10 @@ namespace Calcpad.Tests
             return _parser.Real;
         }
 
-        public double Real => _parser.Real;    
+        public double Real => _parser.Real;
         public double Imaginary => _parser.Imaginary;
         public Complex Complex => _parser.Complex;
 
-        public override string ToString() => _parser.ResultAsString;    
+        public override string ToString() => _parser.ResultAsString;
     }
 }

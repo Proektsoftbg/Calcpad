@@ -10,7 +10,7 @@ namespace Calcpad.OpenXml
     {
         protected readonly string src = imageSrc;
         public abstract ImagePart GetImagePart(MainDocumentPart mainPart);
-        public abstract Tuple<int, int> ImageSize { get; }
+        public abstract (int, int) ImageSize { get; }
 
         protected static string GetImageDataType(string data)
         {
@@ -66,13 +66,13 @@ namespace Calcpad.OpenXml
             return imagePart;
         }
 
-        public override Tuple<int, int> ImageSize
+        public override (int, int) ImageSize
         {
             get
             {
                 using var stream = new MemoryStream(_imageData);
                 using var img = SKBitmap.Decode(stream);
-                return new(img.Width, img.Height);
+                return (img.Width, img.Height);
             }
         }
     }
@@ -99,7 +99,7 @@ namespace Calcpad.OpenXml
             return imagePart;
         }
 
-        public override Tuple<int, int> ImageSize
+        public override (int, int) ImageSize
         {
             get
             {
@@ -110,11 +110,11 @@ namespace Calcpad.OpenXml
                     if (isBitmap)
                     {
                         using var bmp = SKBitmap.Decode(src);
-                        return new(bmp.Width, bmp.Height);
+                        return (bmp.Width, bmp.Height);
                     }
                     using var data = SKData.Create(src);
                     using var img = SKImage.FromEncodedData(data);
-                    return new(img.Width, img.Height);
+                    return (img.Width, img.Height);
                 }
                 else
                 {
@@ -153,14 +153,14 @@ namespace Calcpad.OpenXml
             return imagePart;
         }
 
-        public override Tuple<int, int> ImageSize
+        public override (int, int) ImageSize
         {
             get
             {
                 if (string.Equals(Path.GetExtension(src), ".bmp", StringComparison.OrdinalIgnoreCase))
                 {
                     using var bmp = SKBitmap.Decode(src);
-                    return new(bmp.Width, bmp.Height);
+                    return (bmp.Width, bmp.Height);
                 }
                 using var data = SKData.Create(src);
                 using var img = SKImage.FromEncodedData(data);
@@ -180,6 +180,6 @@ namespace Calcpad.OpenXml
             return imagePart;
         }
 
-        public override Tuple<int, int> ImageSize => new(0, 0);
+        public override (int, int) ImageSize => (0, 0);
     }
 }

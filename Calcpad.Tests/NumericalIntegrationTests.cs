@@ -44,7 +44,7 @@
         [Trait("Category", "Integral")]
         public void Integral_5()
         {
-            var result = new TestCalc(new() {Degrees = 1})
+            var result = new TestCalc(new() { Degrees = 1 })
                 .Run("$Integral{sin(x)/x @ x = 0 : 1}");
             Assert.Equal(0.946083070367183, result, Tol);
         }

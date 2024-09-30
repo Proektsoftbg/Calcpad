@@ -14,7 +14,7 @@
             var e = Assert.Throws<MathParser.MathParserException>(
                 () =>
                 {
-                    new TestCalc(new() { IsComplex = true}).Run("1i!");
+                    new TestCalc(new() { IsComplex = true }).Run("1i!");
                 }
             );
             Assert.Contains("The argument of n! cannot be complex.", e.Message);
@@ -87,7 +87,7 @@
         }
 
         [Fact]
-        [Trait("Category", "Power")]    
+        [Trait("Category", "Power")]
         public void Pow_Minus_1__1_Div_2()
         {
             var calc = new TestCalc(new() { IsComplex = true });
@@ -150,7 +150,7 @@
             var re = calc.Run("(1 + 1i)^-2");
             var im = calc.Imaginary;
             Assert.Equal(0d, re, Tol);
-            Assert.Equal(-1d/2d, im, Tol);
+            Assert.Equal(-1d / 2d, im, Tol);
         }
 
         [Fact]
@@ -183,7 +183,7 @@
         {
             var calc = new TestCalc(new() { IsComplex = true });
             var re = calc.Run("1i/0");
-            var im = calc.Imaginary;    
+            var im = calc.Imaginary;
             Assert.Equal(double.PositiveInfinity, re, Tol);
             Assert.Equal(double.PositiveInfinity, im, Tol);
         }
@@ -207,7 +207,7 @@
         {
             var calc = new TestCalc(new() { IsComplex = true });
             var re = calc.Run("1i*1i");
-            var im = calc.Imaginary;    
+            var im = calc.Imaginary;
             Assert.Equal(-1d, re, Tol);
             Assert.Equal(0d, im, Tol);
 
@@ -232,7 +232,7 @@
         {
             var calc = new TestCalc(new() { IsComplex = true });
             var re = calc.Run("(3 + 4i) + (2 - 3i)");
-            var im = calc.Imaginary;    
+            var im = calc.Imaginary;
             Assert.Equal(5d, re, Tol);
             Assert.Equal(1d, im, Tol);
         }

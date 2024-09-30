@@ -344,6 +344,9 @@ namespace Calcpad.OpenXml
                 case "hr":
                     return AddHr(domNode);
                 case "table":
+                    if (domNode.HasClass("matrix"))
+                        return null;
+
                     _tableBuilder.IsBorderedTable = domNode.HasClass("bordered");
                     return _tableBuilder.AddTable();
                 case "tr":

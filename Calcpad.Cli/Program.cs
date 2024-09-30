@@ -242,7 +242,7 @@ namespace Calcpad.Cli
             catch (Exception ex)
             {
                 fileStream?.Close();
-                var key = WriteErrorAndWait(ex.Message, "Would you like to restore the previous settings (y/n)?");
+                var key = WriteErrorAndWait(ex.Message, Messages.WouldYouLikeToRestoreThePreviousSettingsYN);
                 if (key.Key == ConsoleKey.Y)
                     TryRestoreSettings(settings, writer, path);
             }
@@ -369,7 +369,7 @@ namespace Calcpad.Cli
         private static ConsoleKeyInfo WriteErrorAndWait(string message, string prompt = null)
         {
             WriteError(message, true);
-            prompt ??= "Press any key to continue.";
+            prompt ??= Messages.PressAnyKeyToContinue;
             Console.WriteLine(prompt);
             return Console.ReadKey();
         }
@@ -612,7 +612,7 @@ namespace Calcpad.Cli
             proc.StartInfo = psi;
             try
             {
-                Console.WriteLine(Calcpad.Cli.Messages.Loading_The_Settings_File);
+                Console.WriteLine(Messages.Loading_The_Settings_File);
                 var result = proc.Start();
                 proc.WaitForExit();
                 return result;

@@ -128,7 +128,7 @@ namespace Calcpad.Core
             Height = h + 2 * Margin;
         }
 
-        internal string Plot(Func<Value> function, Variable varX, Variable varY, double startX, double endX, double startY, double endY, Unit xUnits, Unit yUnits)
+        internal string Plot(Func<IValue> function, Variable varX, Variable varY, double startX, double endX, double startY, double endY, Unit xUnits, Unit yUnits)
         {
             GetColorScale();
             GetImageSize();
@@ -155,7 +155,7 @@ namespace Calcpad.Core
             }
         }
 
-        private Node[,] Calculate(Func<Value> function, Variable varX, Variable varY, double startX, double endX, double startY, double endY, Unit xUnits, Unit yUnits)
+        private Node[,] Calculate(Func<IValue> function, Variable varX, Variable varY, double startX, double endX, double startY, double endY, Unit xUnits, Unit yUnits)
         {
             var n = new Node[_nx + 1, _ny + 1];
             var sx = (endX - startX) / _nx;
@@ -177,7 +177,7 @@ namespace Calcpad.Core
                 {
                     varY.SetNumber(y);
                     var value = function();
-                    var z = value.Re;
+                    var z = (IValue.AsValue(value)).Re;
                     n[i, j] = new Node(x, y * d, z);
                     y += sy;
                 }

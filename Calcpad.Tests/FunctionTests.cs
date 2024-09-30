@@ -6,6 +6,11 @@
         private readonly double _sqrt2 = Math.Sqrt(2);
         private readonly double _sqrt3 = Math.Sqrt(3);
         private const double E = Math.E;
+        private static readonly string[] expressions =
+        [
+            "ReturnAngleUnits = 1",
+            "asin(sqrt(3)/2)"
+        ];
 
         #region Trig
         [Fact]
@@ -238,11 +243,7 @@
         {
             var calc = new TestCalc(new());
             calc.Run(
-                new[]
-                {
-                    "ReturnAngleUnits = 1",
-                    "asin(sqrt(3)/2)"
-                }
+                expressions
             );
             Assert.Equal("60°", calc.ToString());
         }
@@ -283,7 +284,7 @@
         [Trait("Category", "InvTrig")]
         public void Acot()
         {
-            var result = new TestCalc(new(){ IsComplex = true }).Run("acot(0)");
+            var result = new TestCalc(new() { IsComplex = true }).Run("acot(0)");
             Assert.Equal(90d, result, Tol);
         }
         #endregion
@@ -294,7 +295,7 @@
         public void Asinh_1()
         {
             var result = new TestCalc(new()).Run("asinh(1)");
-            var expected = Math.Log(1 + _sqrt2);  
+            var expected = Math.Log(1 + _sqrt2);
             Assert.Equal(expected, result, Tol);
         }
 
@@ -302,7 +303,7 @@
         [Trait("Category", "InvHyp")]
         public void Acosh_1()
         {
-            var result = new TestCalc(new()).Run("acosh(1)");   
+            var result = new TestCalc(new()).Run("acosh(1)");
             Assert.Equal(0d, result, Tol);
         }
 
@@ -310,16 +311,16 @@
         [Trait("Category", "InvHyp")]
         public void Acosh_2()
         {
-            var result = new TestCalc(new()).Run("acosh(2)");   
-            var expected = Math.Log(2d + _sqrt3);  
-            Assert.Equal(expected, result, Tol);    
+            var result = new TestCalc(new()).Run("acosh(2)");
+            var expected = Math.Log(2d + _sqrt3);
+            Assert.Equal(expected, result, Tol);
         }
 
         [Fact]
         [Trait("Category", "InvHyp")]
         public void Atanh_1()
         {
-            var result = new TestCalc(new()).Run("atanh(1)"); 
+            var result = new TestCalc(new()).Run("atanh(1)");
             Assert.Equal(double.PositiveInfinity, result, Tol);
         }
 
@@ -336,16 +337,16 @@
         [Trait("Category", "InvHyp")]
         public void Acsch_1()
         {
-            var result = new TestCalc(new()).Run("acsch(1)"); 
-            var expected = Math.Log(1d + _sqrt2);  
-            Assert.Equal(expected, result, Tol);  
+            var result = new TestCalc(new()).Run("acsch(1)");
+            var expected = Math.Log(1d + _sqrt2);
+            Assert.Equal(expected, result, Tol);
         }
 
         [Fact]
         [Trait("Category", "InvHyp")]
         public void Asech_1()
         {
-            var result = new TestCalc(new()).Run("asech(1)");   
+            var result = new TestCalc(new()).Run("asech(1)");
             Assert.Equal(0d, result, Tol);
         }
 
@@ -354,7 +355,7 @@
         public void Asech_05()
         {
             var result = new TestCalc(new()).Run("asech(0.5)");
-            var expected = Math.Log(2d + _sqrt3);  
+            var expected = Math.Log(2d + _sqrt3);
             Assert.Equal(expected, result, Tol);
         }
 
@@ -362,7 +363,7 @@
         [Trait("Category", "InvHyp")]
         public void Acoth_1()
         {
-            var result = new TestCalc(new()).Run("acoth(1)");   
+            var result = new TestCalc(new()).Run("acoth(1)");
             Assert.Equal(double.PositiveInfinity, result, Tol);
         }
 
@@ -370,9 +371,9 @@
         [Trait("Category", "InvHyp")]
         public void Acoth_2()
         {
-            var result = new TestCalc(new()).Run("acoth(2)");   
+            var result = new TestCalc(new()).Run("acoth(2)");
             var expected = Math.Log(3d) / 2d;
-            Assert.Equal(expected, result, Tol);    
+            Assert.Equal(expected, result, Tol);
         }
 
 
