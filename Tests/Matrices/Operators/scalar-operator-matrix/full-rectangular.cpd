@@ -1,0 +1,122 @@
+
+'<h1>Arithmetic operators</h1>'
+#hide
+m1 = -7.4
+m2 = matrix(3; 4)
+m2.(1; 1) = 17
+m2.(1; 2) = -5
+m2.(1; 3) = 0.5
+m2.(1; 4) = -3.14
+m2.(2; 1) = 8
+m2.(2; 2) = -7.89
+m2.(2; 3) = 0
+m2.(2; 4) = 3.3
+m2.(3; 1) = -12
+m2.(3; 2) = 6.28
+m2.(3; 3) = 4
+m2.(3; 4) = -1.23
+
+#show
+
+m1
+
+m2
+
+
+c = m1 + m2
+f(m1; m2) = m1 + m2
+c1 = f(m1; m2)
+
+
+c = m1 - m2
+f(m1; m2) = m1 - m2
+c1 = f(m1; m2)
+
+
+
+
+c = m1*m2
+f(m1; m2) = m1*m2
+c1 = f(m1; m2)
+
+c = m1/m2
+f(m1; m2) = m1/m2
+c1 = f(m1; m2)
+
+c = m1^m2
+f(m1; m2) = m1^m2
+c = f(m1; m2)
+
+c = m1⦼m2
+f(m1; m2) = m1⦼m2
+c = f(m1; m2)
+
+c = m1\m2
+f(m1; m2) = m1\m2
+c1 = f(m1; m2)
+
+c = m1÷m2
+f(m1; m2) = m1÷m2
+c1 = f(m1; m2)
+
+#hide
+fm = matrix(3; 4)
+fm.(1; 1) = 11
+fm.(1; 2) = 22
+fm.(1; 3) = 33
+fm.(1; 4) = 44
+fm.(2; 1) = 55
+fm.(2; 2) = 66
+fm.(2; 3) = 77
+fm.(2; 4) = 88
+fm.(3; 1) = 99
+fm.(3; 2) = 100
+fm.(3; 3) = 111
+fm.(3; 4) = 122
+#show
+fm
+c = fm!
+f(fm) = fm!
+c1 = f(fm)
+
+'<h1>Relational operators</h1>'
+
+c = m1 ≡ m2
+f(m1; m2) = m1 ≡ m2
+c1 = f(m1; m2)
+
+c = m1 ≠ m2
+f(m1; m2) = m1 ≠ m2
+c1 = f(m1; m2)
+
+c = m1 < m2
+f(m1; m2) = m1 < m2
+c1 = f(m1; m2)
+
+c = m1 > m2
+f(m1; m2) = m1 > m2
+c1 = f(m1; m2)
+
+c = m1 ≥ m2
+f(m1; m2) = m1 ≥ m2
+c1 = f(m1; m2)
+
+c = m1 ≤ m2
+f(m1; m2) = m1 ≤ m2
+c1 = f(m1; m2)
+
+'<h1>Logical operators</h1>'
+
+c = m1 ∧ m2
+f(m1; m2) = m1 ∧ m2
+c1 = f(m1; m2)
+
+c = m1 ∨ m2
+f(m1; m2) = m1 ∨ m2
+c1 = f(m1; m2)
+
+c = m1 ⊕ m2
+f(m1; m2) = m1 ⊕ m2
+c1 = f(m1; m2)
+
+

@@ -1,0 +1,291 @@
+'<h1>Arithmetic operators</h1>
+"Addition
+a = -5dm
+b = [5m; 12.3m; -44m; 13m; 21.4m]
+c = a + b
+f(a; b) = a + b','c = f(a; b)
+
+a = 0dm
+b = [0m; 0m; 0m; 0m; 0m; 0m]
+c = a + b
+f(a; b) = a + b','c = f(a; b)
+
+a = -2.5dm
+b = [23.1m]
+c = a + b
+f(a; b) = a + b','c = f(a; b)
+
+"Subtraction
+a = 3.14kN
+b = [-3N; 0N; 4.5N; -7N; 2.25N]
+c = a - b
+f(a; b) = a - b','c = f(a; b)
+
+a = 0kN
+b = [0N; 0N; 0N; 0N; 0N; 0N]
+c = a - b
+f(a; b) = a - b','c = f(a; b)
+
+a = 0.001kN
+b = [1.1N; -2.2N]
+c = a - b
+f(a; b) = a - b','c = f(a; b)
+
+"Multiplication
+a = 8.9m^2*s^(-3)
+b = [0.1kg; -0.2kg; 0.3kg; -0.4kg; 0.5kg]
+c = a*b
+f(a; b) = a*b','c = f(a; b)
+
+a = 0m^2*s^(-3)
+b = [0kg; 0kg; 0kg; 0kg; 0kg; 0kg]
+c = a*b
+f(a; b) = a*b','c = f(a; b)
+
+a = 6.72m^2*s^(-3)
+b = [0.25kg; -0.5kg; 0.75kg; -1kg; 1.25kg]
+c = a*b
+f(a; b) = a*b','c = f(a; b)
+
+"Division
+a = -10s
+b = [0.1kg; -0.2kg; 0.3kg; -0.4kg; 0.5kg]
+c = a/b
+f(a; b) = a/b','c = f(a; b)
+
+a = 0kg
+b = [0s; 0s; 0s; 0s; 0s; 0s]
+c = a/b
+c = f(a; b)
+
+"Exponentiation
+a = -2s
+b = [-4.25; 0; 7.89; -10; 3.14159]
+c = a^b
+f(a; b) = a^b','c = f(a; b)
+
+a = 0s
+b = [0; 0; 0; 0; 0; 0]
+c = a^b
+c = f(a; b)
+
+"Division bar
+a = 1kg
+b = [0.1m; -0.2m; 0.3m; -0.4m; 0.5m; -5m; 8.4m; 0m]
+c = a÷b
+f(a; b) = a÷b','c = f(a; b)
+
+a = 0kg
+b = [0m; 0m; 0m; 0m; 0m; 0m]
+c = a÷b
+c = f(a; b)
+
+a = 0kg
+b = [-5m; -2.1m; 7m]
+c = a÷b
+c = f(a; b)
+
+"Integer division
+a = 5.67kg
+b = [-0.5m*s^2; 3m*s^2; 0m*s^2; -7.8m*s^2; 5.6m*s^2; 4.2m*s^2; -6m*s^2; 1.8m*s^2; -3.1m*s^2]
+c = a\b
+f(a; b) = a\b','c = f(a; b)
+
+a = 0kg
+b = [0m*s^2; 0m*s^2; 0m*s^2; 0m*s^2; 0m*s^2; 0m*s^2]
+c = a\b
+c = f(a; b)
+
+a = -3m^3
+b = [0J]
+c = a\b
+c = f(a; b)
+
+"Modulo (remainder)
+a = 2.7t
+b = [-4.3; 0; 6.9; -2.8; 3; -3; 6.5; 0]
+c = a⦼b
+f(a; b) = a⦼b','c = f(a; b)
+
+a = 0t
+b = [0; 0; 0; 0; 0; 0]
+c = a⦼b
+c = f(a; b)
+
+a = 0.5t
+b = [-3; 6.5]
+c = a⦼b
+c = f(a; b)
+
+"Factorial
+a = [4; 2; 6; 2; 3]
+c = a!
+f(a) = a!','c = f(a)
+
+a = [0; 0; 0; 0; 0; 0]
+c = a!
+c = f(a)
+
+a2 = [5; 2; 0; 7; 6]
+c2 = a2!
+
+'<h1>Relational operators</h1>
+"Equal to
+a = 8.2W/A
+b = [8.2V; 0V; 6.9V; -2.8V; 3V; 8.2V; -7V; 4.6V]
+c = a ≡ b
+f(a; b) = a ≡ b','c = f(a; b)
+
+a = 0W/A
+b = [0V; 0V; 0V; 0V; 0V; 0V]
+c = a ≡ b
+f(a; b)
+
+a = 0W/A
+b = [0.5V; 6.5V]
+c = a ≡ b
+f(a; b)
+
+"Not equal to
+a = 0V/A
+b = [-4.3Ω; 0Ω; 6.9Ω; -2.8Ω; 3Ω; -5Ω; 0Ω; 2.7Ω; -1.4Ω]
+c = a ≠ b
+f(a; b) = a ≠ b','c = f(a; b)
+
+a = 0V/A
+b = [0Ω; 0Ω; 0Ω; 0Ω; 0Ω; 0Ω]
+c = a ≠ b
+f(a; b)
+
+a = 7.3V/A
+b = [-3Ω]
+c = a ≠ b
+f(a; b)
+
+"Less than
+a = 4s^(-1)
+b = [0Hz; -6.7Hz; 3.8Hz; -2Hz; 9.5Hz; 7.2Hz; 0Hz; -1.3Hz; 5Hz]
+c = a < b
+f(a; b) = a < b','c = f(a; b)
+
+a = 0s^(-1)
+b = [0Hz; 0Hz; 0Hz; 0Hz; 0Hz; 0Hz]
+c = a < b
+c = f(a; b)
+
+a = 8.6s^(-1)
+b = [6Hz; -2.5Hz; 0Hz]
+c = a < b
+c = f(a; b)
+
+"Greater than
+a = 3N*m
+b = [4.7J; -8J; 0J; 2.3J; -6.5J; -3J; 6.2J; 0J; -5.1J; 7.4J]
+c = a > b
+f(a; b) = a > b','c = f(a; b)
+
+a = 0N*m
+b = [0J; 0J; 0J; 0J; 0J; 0J]
+c = a > b
+c = f(a; b)
+
+a = 29N*m
+b = [0J]
+c = a > b
+c = f(a; b)
+
+"Less than or equal 
+a = 0J/s
+b = [5W; -2.1W; 0W; 7.8W; -4.6W]
+c = a ≤ b
+f(a; b) = a ≤ b','c = f(a; b)
+
+a = [0W; 0W; 0W; 0W; 0W; 0W]
+b = 0J/s
+c = a ≤ b
+c = f(a; b)
+
+a = 9.1J/s
+b = [3.6W; -5W; 0W; 1.8W; -8.3W; 0W; -3.4W; 9.1W]
+c = a ≤ b
+c = f(a; b)
+
+"Greater than or equal
+a = -19.3A*s
+b = [20C; 16.7C; 0C; 22.3C; 13.5C; 21.2C; 0C; -19.3C; 25C]
+c = a ≥ b
+f(a; b) = a ≥ b','c = f(a; b)
+
+a = 0A*s
+b = [0C; 0C; 0C; 0C; 0C; 0C]
+c = a ≥ b
+c = f(a; b)
+
+a = 25.8A*s
+b = [30C; 25.8C; 0C]
+c = a ≥ b
+c = f(a; b)
+
+'<h1>Logical operators</h1>
+"Logical AND 
+a = 0V*s
+b = [0Wb; 16.7Wb; 0Wb; 22.3Wb; 13.5Wb; -18Wb; 21.2Wb; 0Wb; -19.3Wb; 25Wb]
+c = a ∧ b
+f(a; b) = a ∧ b','c = f(a; b)
+
+a = 0V*s
+b = [0Wb; 0Wb; 0Wb; 0Wb; 0Wb; 0Wb]
+c = a ∧ b
+c = f(a; b)
+
+a = 4V*s
+b = [30Wb]
+c = a ∧ b
+c = f(a; b)
+
+"Logical OR
+a = 0Wb/A
+b = [0H; 16.7H; 0H; 22.3H; 13.5H; -18H; 21.2H; 0H; -19.3H; 25H]
+c = a ∨ b
+f(a; b) = a ∨ b','c = f(a; b)
+
+a = 0Wb/A
+b = [0H; 0H; 0H; 0H; 0H; 0H]
+c = a ∨ b
+c = f(a; b)
+
+a = 0Wb/A
+b = [30H; 0H; 0H]
+c = a ∨ b
+c = f(a; b)
+
+"Logical XOR
+a = 0J/kg
+b = [6Gy; -2.5Gy; 0Gy; 4.3Gy; -8.1Gy; 8.6Gy; 0Gy; -5.2Gy; 1.9Gy]
+c = a ⊕ b
+f(a; b) = a ⊕ b','c = f(a; b)
+
+a = 0J/kg
+b = [0Gy; 0Gy; 0Gy; 0Gy; 0Gy; 0Gy]
+c = a ⊕ b
+c = f(a; b)
+
+a = 0J/kg
+b = [-4Gy]
+c = a ⊕ b
+c = f(a; b)
+
+'<h1>Combined operations</h1>
+x = 2.7A/V
+y = [6S; -2.5S; 0S; 4.3S; -8.1S; 8.6S; 0S; -5.2S; 1.9S]
+c = (x + y*2) ≤ 0S
+f(x; y) = x + y*2','c = f(x; y)
+
+c = x^2/y + 1S ≥ 0S
+f(x; y) = x^2/y + 1S','c = f(x; y)
+
+c = 4*x + 5S ≡ 0S
+f(x; y) = 4*x + 5S','c = f(x; y)
+
+c = (x > 0S)*S - y
+f(x; y) = x/2 - y','c = f(x; y)

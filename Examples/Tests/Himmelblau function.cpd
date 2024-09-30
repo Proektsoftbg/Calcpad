@@ -1,0 +1,12 @@
+"Himmelblau's function
+f(x; y) = (x^2 + y - 11)^2 + (x + y^2 - 7)^2
+'<!--'PlotHeight = 300''PlotWidth = 300'-->
+$Map{min(f(x; y); 500) @ x = -5 : 5 & y = -5 : 5}
+z_inf = $inf{$inf{f(x; y) @ x = -5 : 0} @ y = -5 : 0}
+x_inf','y_inf
+z_inf = $inf{$inf{f(x; y) @ x = -5 : 0} @ y = 0 : 5}
+x_inf','y_inf
+z_inf = $inf{$inf{f(x; y) @ x = 0 : 5} @ y = 0 : 5}
+x_inf','y_inf
+z_inf = $inf{$inf{f(x; y) @ x = 0 : 5} @ y = -5 : 0}
+x_inf','y_inf

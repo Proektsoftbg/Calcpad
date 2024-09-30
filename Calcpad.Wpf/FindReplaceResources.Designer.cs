@@ -106,15 +106,6 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to End of line expected..
-        /// </summary>
-        public static string End_of_line_expected {
-            get {
-                return ResourceManager.GetString("End_of_line_expected", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to End of text reached. There are no other occurrences..
         /// </summary>
         public static string End_of_text_reached_There_are_no_other_occurrences {

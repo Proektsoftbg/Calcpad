@@ -70,7 +70,7 @@ namespace Calcpad.Cli {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to  Copyright: © 2023 by Proektsoft EOOD..
+        ///   Looks up a localized string similar to  Copyright: © 2024 by Proektsoft EOOD..
         /// </summary>
         internal static string Copyright_2023_By_Proektsoft_EOOD {
             get {
@@ -115,6 +115,15 @@ namespace Calcpad.Cli {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Press any key to continue..
+        /// </summary>
+        internal static string PressAnyKeyToContinue {
+            get {
+                return ResourceManager.GetString("PressAnyKeyToContinue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Problem \&quot;{0}\&quot; does not exist..
         /// </summary>
         internal static string Problem_0_Does_Not_Exist {
@@ -142,11 +151,20 @@ namespace Calcpad.Cli {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to  Welcome to Calcpad command line interpreter v.{0}.{1}.{2}!.
+        ///   Looks up a localized string similar to  Welcome to Calcpad VM command line interpreter v.{0}.{1}.{2}!.
         /// </summary>
         internal static string Welcome_To_Calcpad_Command_Line_Interpreter {
             get {
                 return ResourceManager.GetString("Welcome_To_Calcpad_Command_Line_Interpreter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Would you like to restore the previous settings (y/n)?.
+        /// </summary>
+        internal static string WouldYouLikeToRestoreThePreviousSettingsYN {
+            get {
+                return ResourceManager.GetString("WouldYouLikeToRestoreThePreviousSettingsYN", resourceCulture);
             }
         }
     }

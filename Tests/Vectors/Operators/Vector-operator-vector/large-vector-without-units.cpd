@@ -1,0 +1,144 @@
+#hide
+'<h1>Defining vectors to work with</h1>
+x = vector(150)
+y = vector(500)
+z = vector(9999999)
+#for i = 1 : 20
+	x.i = (i^2 - 10*cos(i))/4
+	#if x.i > 50
+		x.i = exp(0.1*i)
+	#end if
+#loop
+#for i = 10 : 25
+	y.i = ((i - 10)^2 - 10*cos(i) + 3*(-1)^(i - 10) - 5*sin(i))/4.0
+#loop
+#for i = 5 : 26
+	z.i = ((i - 5)^2 - 10*cos(i) + 3*(-1)^(i - 5) - 5*sin(i))/4.0
+#loop
+#show
+'<h1>Arithmetic operators</h1>
+"Negation
+x
+c = -x
+f(x) = -x','c = f(x)
+
+"Addition
+x
+y
+c = x + y
+f(x; y) = x + y','c = f(x; y)
+
+"Subtraction
+x
+z
+c = x - z
+f(x; z) = x - z','c = f(x; z)
+
+"Multiplication
+z
+y
+c = z*y
+f(z; y) = z*y','c = f(z; y)
+
+"Division
+y
+x
+c = y/x
+f(y; x) = y/x','c = f(y; x)
+
+"Exponentiation
+z
+x
+c = z^x
+f(a; b) = z^x','c = f(z; x)
+
+"Division bar
+x
+y
+c = x÷y
+f(x; y) = x÷y','c = f(x; y)
+
+"Integer division
+z
+y
+c = z\y
+f(z; y) = z\y','c = f(z; y)
+
+"Modulo (remainder)
+x
+y
+c = x⦼y
+f(x; y) = x⦼y','c = f(x; y)
+
+"Factorial
+v = vector(120)
+v = v + range(1; 10; 1)
+c = v!
+f(v) = v!','c = f(v)
+
+'<h1>Relational operators</h1>
+#hide
+#for i = 1 : 15
+	x.i = ((i - 2)^2 - 10*cos(i) + 3*(-1)^(i - 1) - 5*sin(i))/4.0
+#loop
+#for i = 5 : 17
+	y.i = ((i - 5)^2 - 10*cos(i) + 3*(-1)^(i - 5) - 5*sin(i))/4.0
+#loop
+#for i = 2 : 8
+	z.i = ((i - 2)^2 - 10*cos(i) + 3*(-1)^(i - 2) - 5*sin(i))/4.0
+#loop
+#show
+"Equal to
+x
+y
+c = x ≡ y
+f(x; y) = x ≡ y','c = f(x; y)
+
+"Not equal to
+x
+z
+c = x ≠ z
+f(a; b) = x ≠ z','c = f(x; z)
+
+"Less than
+y
+x
+c = y < x
+f(y; x) = y < x','c = f(y; x)
+
+"Greater than
+y
+z
+c = y > z
+f(y; z) = y > z','c = f(y; z)
+
+"Less than or equal 
+z
+x
+c = z ≤ x
+f(z; x) = z ≤ x','c = f(z; x)
+
+"Greater than or equal
+z
+y
+c = z ≥ y
+f(z; y) = z ≥ y','c = f(z; y)
+
+'<h1>Logical operators</h1>
+"Logical AND 
+x
+y
+c = x ∧ y
+f(x; y) = x ∧ y','c = f(x; y)
+
+"Logical OR
+x
+z
+c = x ∨ z
+f(x; z) = x ∨ z','c = f(x; z)
+
+"Logical XOR
+y
+x
+c = y ⊕ x
+f(y; x) = y ⊕ x','c = f(y; x)

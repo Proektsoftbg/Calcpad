@@ -17,7 +17,7 @@ namespace Calcpad.Core
         internal double Precision = 1E-14;
         internal QuadratureMethods QuadratureMethod = QuadratureMethods.AdaptiveLobatto;
         internal Unit Units;
-        internal Func<Value> Function;
+        internal Func<IValue> Function;
         public Variable Variable;
         private const int TanhSinhDepth = 11;
         private static readonly int[] m = [6, 7, 13, 26, 53, 106, 212, 423, 846, 1693, 3385];
@@ -56,7 +56,13 @@ namespace Calcpad.Core
         private double Fd(double x)
         {
             Variable.SetNumber(x);
-            var value = Function();
+            var result = Function();
+            var value = Value.NaN;
+            if (result is Value val)
+                value = val;
+            else
+                Throw.MustBeScalarException(Throw.Items.Result);
+
             Units = value.Units;
 
             if (IsComplex && !value.IsReal)
@@ -71,19 +77,41 @@ namespace Calcpad.Core
         private Complex Fc(Complex x)
         {
             Variable.SetNumber(x);
-            var value = Function();
-            Units = value.Units;
+            //Since vectors and matrices are not supported in complex mode,
+            //the result will always be a scalar   
+            var result = (Value)Function();
+            Units = result.Units;
 
-            if (double.IsNaN(value.Re) && double.IsNaN(value.Im))
+            if (double.IsNaN(result.Re) && double.IsNaN(result.Im))
                 Throw.CannotEvaluateFunctionException(x.ToString());
 
-            return value.Complex;
+            return result.Complex;
+        }
+
+        private IValue Fi(double x)
+        {
+            Variable.SetNumber(x);
+            var result = Function();
+            Value value = Value.NaN;
+            if (result is Value val)
+                value = val;
+            else if (result is Vector vector)
+                value = vector[0];
+            else if (result is Matrix matrix)
+                value = matrix[0, 0];
+
+            if (double.IsNaN(value.Re) || double.IsInfinity(value.Re))
+                Throw.FunctionNotDefinedException(x.ToString(CultureInfo.InvariantCulture));
+
+            Units = value.Units;
+
+            return result;
         }
 
         internal double ModAB(double left, double right, double target, out double err)
         {
             err = 0;
-            var u = Variable.ValueByRef().Units;
+            var u = ((Value)Variable.ValueByRef()).Units;
             double x1 = Math.Min(left, right), y1 = Fd(x1) - target;
             if (Math.Abs(y1) <= Precision)
             {
@@ -246,8 +274,8 @@ namespace Calcpad.Core
             if (x1 == left)
                 return Fd(left);
 
-            if (x2 == right) 
-                return Fd(right);  
+            if (x2 == right)
+                return Fd(right);
 
             return Fd((x1 + x2) / 2.0);
         }
@@ -272,7 +300,7 @@ namespace Calcpad.Core
                 var y = Fd((left + right) / 2.0);
                 area = (right - left) * y * k;
             }
-            var u = Variable.ValueByRef().Units;
+            var u = ((Value)Variable.ValueByRef()).Units;
             if (u is null)
                 return area;
 
@@ -417,7 +445,7 @@ namespace Calcpad.Core
                 h2 = h;
                 h = h2 / 2.0;
             }
-            var u = Variable.ValueByRef().Units;
+            var u = ((Value)Variable.ValueByRef()).Units;
             double slope = err > maxErr ? double.NaN : r[0];
             if (u is null)
                 return slope;
@@ -432,17 +460,17 @@ namespace Calcpad.Core
             return slope * factor;
         }
 
-        internal double Repeat(double start, double end)
+        internal IValue Repeat(double start, double end)
         {
             GetBounds(start, end, out var n1, out var n2);
-            var number = 0.0;
+            IValue result = Value.NaN;
             for (int i = n1; i <= n2; ++i)
             {
-                number = Fd(i);
-                if (double.IsInfinity(number))
+                result = Fi(i);
+                if (result is Value value && double.IsInfinity(value.Re))
                     break;
             }
-            return number;
+            return result;
         }
 
         internal double Sum(double start, double end)

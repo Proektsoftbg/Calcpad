@@ -5,7 +5,7 @@ namespace Calcpad.Core
 {
     public static class ExtensionMethods
     {
-        public static bool EqualsBinary(this double d1, double d2)
+        public static bool AlmostEquals(this double d1, double d2)
         {
             var l1 = BitConverter.DoubleToInt64Bits(d1);
             var l2 = BitConverter.DoubleToInt64Bits(d2);
@@ -40,7 +40,7 @@ namespace Calcpad.Core
                 return new SpanLineEnumerator();
 
             if (s.Length > 1 && s[^2] == '\r')
-                return s.AsSpan()[..^2].EnumerateLines();
+                return s.AsSpan(..^2).EnumerateLines();
 
             return s.AsSpan().EnumerateLines();
         }

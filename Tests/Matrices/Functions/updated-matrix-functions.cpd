@@ -1,0 +1,272 @@
+'<h1>Matrix functions</h1>'
+#hide
+A = [1; -7; 4| _
+     4; 5; -1| _
+     2; -3; -7]
+
+B = [6; 1; 1| _
+     4; -2; 5| _
+     2; 8; 7]
+
+C = [-1; -1; 5| _
+     1; -1; -2| _
+     0; -2; 3]
+
+A_sym = symmetric(3)
+A_sym.(1; 1) = 2
+A_sym.(1; 2) = 3
+A_sym.(1; 3) = 1
+A_sym.(2; 2) = 5
+A_sym.(2; 3) = 4
+A_sym.(3; 3) = 6
+
+m_definitive = symmetric(3)
+m_definitive.(1; 1) = 4
+m_definitive.(1; 2) = 1
+m_definitive.(1; 3) = 2
+m_definitive.(2; 2) = 5
+m_definitive.(2; 3) = 3
+m_definitive.(3; 3) = 6
+#show
+A
+B
+C
+
+'<h3>Creational functions</h3>'
+matrix(5; 5)
+identity(500)
+diagonal(5; 4)
+A_column = column(24; 0)', 'mfill(A_column; 2)
+A_utriang = utriang(10)
+mfill(A_utriang; 3)
+A_ltriang = ltriang(4)
+mfill(A_ltriang; 1)
+A_symmetric = symmetric(17)
+mfill(A_symmetric; 7)
+vec2diag([12; -0.5; 4; -13.5; 1])
+vec2col([1; -3.2; -4; 0; -3.14; 5])
+join_cols([1; 23; 0; 4.6; -3; 5]; [2; -3; 4.5; 1.2; 0])
+join_rows([0; -1; -3.6; 2.8; 11]; [11; 50000; -23; -4.5; -0.99999999])
+
+'<h3>Structural functions</h3>'
+A
+B
+augment(A; B)
+stack(A; B)
+mresize(C; 4; 4)
+mfill(C; 3)
+fill_row(C; 1; 1)
+fill_col(C; 1; 2)
+A
+C
+copy(A; C; 2; 2)
+A
+C
+add(A; C; 1; 1)
+n_rows(A)
+n_cols(A)
+row(A; 2)
+col(A; 1)
+C
+C_submatrix = submatrix(C; 1; 3; 1; 3)
+vec1 = [1; 2; 1; 1; 2; 2]
+extract_rows(A; vec1)
+extract_cols(A; vec1)
+
+'<h3>Math functions</h3>'
+A
+B
+H = hprod(A; B)
+H = matrix(3; 3)
+$Repeat{$Repeat{H.(i; j) = A.(i; j)*B.(i; j) @ j = 1 : 3} @ i = 1 : 3}
+H
+
+f = fprod(A; B)
+f = 0
+$Repeat{$Repeat{f = f + A.(i; j)*B.(i; j) @ j = 1 : 3} @ i = 1 : 3}
+
+K = kprod(A; B)
+mfill(K; 0)
+$Repeat{$Repeat{copy(A.(i; j)*B; K; 3*i - 2; 3*j - 2) @ j = 1 : 3} @ i = 1 : 3}
+
+A
+mnorm_e(A)
+sum_sq = 0
+$Repeat{$Repeat{sum_sq = sum_sq + abs(A.(i; j)^2) @ j = 1 : 3} @ i = 1 : 3}
+frobenius_norm = sqrt(sum_sq)
+
+A
+det(A)
+A_det = A.(1; 1)*A.(2; 2)*A.(3; 3) + A.(1; 2)*A.(2; 3)*A.(3; 1) + A.(1; 3)*A.(2; 1)*A.(3; 2) - A.(1; 3)*A.(2; 2)*A.(3; 1) - A.(1; 2)*A.(2; 1)*A.(3; 3) - A.(1; 1)*A.(2; 3)*A.(3; 2)
+M = [1; 2; 3|4; 5; 6|7; 8; 9]
+
+rank(M)
+M.(2; 1) = M.(2; 1) - 4*M.(1; 1)
+M.(2; 2) = M.(2; 2) - 4*M.(1; 2)
+M.(2; 3) = M.(2; 3) - 4*M.(1; 3)
+M.(3; 1) = M.(3; 1) - 7*M.(1; 1)
+M.(3; 2) = M.(3; 2) - 7*M.(1; 2)
+M.(3; 3) = M.(3; 3) - 7*M.(1; 3)
+M.(3; 1) = M.(3; 1) - 2*M.(2; 1)
+M.(3; 2) = M.(3; 2) - 2*M.(2; 2)
+M.(3; 3) = M.(3; 3) - 2*M.(2; 3)
+M
+
+A
+trace(A)
+A_trace = A.(1; 1) + A.(2; 2) + A.(3; 3)
+A_trace = sum(diag2vec(A))
+B = transp(A)
+B = [col(A; 1)|col(A; 2)|col(A; 3)]
+row(A; 2)
+row(A; 3)
+
+A
+mnorm_1(A)
+max(norm_1(col(A; 1)); norm_1(col(A; 2)); norm_1(col(A; 3)))
+n = n_cols(A)
+mn1 = 0
+$Repeat{mn1 = max(mn1; norm_1(col(A; k))) @ k = 1 : n}
+
+mnorm_2(A)
+gram_matrix = A*A
+'max(eigenvals(gram_matrix))
+
+mnorm_i(A)
+max(norm_1(row(A; 1)); norm_1(row(A; 2)); norm_1(row(A; 3)))
+n = n_rows(A)
+mn1 = 0
+$Repeat{mn1 = max(mn1; norm_1(row(A; k))) @ k = 1 : n}
+
+L_p(v; p) = ($Sum{abs(take(k; v))^p @ k = 1 : len(v)})^(1/p)
+v = [1; 2; 3; 7; -2; 10]
+L_p(v; 100)
+10 + 5
+(10^2 + 5^2)^(1/2)
+
+A
+cond_e(A)
+mnorm_inv = mnorm_e(inverse(A))
+cond = mnorm_e(A)*mnorm_inv
+cond_1(A)
+mnorm_inv = mnorm_1(inverse(A))
+cond_1 = mnorm_1(A)*mnorm_inv
+cond_2(A)
+mnorm_inv = mnorm_2(inverse(A))
+cond_2 = mnorm_2(A)*mnorm_inv
+cond_i(A)
+mnorm_inv = mnorm_i(inverse(A))
+cond_i = mnorm_i(A)*mnorm_inv
+
+A
+adj(A)
+C = cofactor(A)
+A_adjugate = transp(C)
+cofactor(A)
+cofactor_transp = inverse(A)*det(A)
+transp(cofactor_transp)
+A_sym
+m_definitive
+cholesky(m_definitive)
+L = ltriang(3)
+#for i = 1 : n_rows(m_definitive)
+	#for j = 1 : i
+		#if i ≡ j
+			L.(i; i) = sqrt(m_definitive.(i; i) - $Sum{L.(i; k)^2 @ k = 1 : i})
+			
+		#else
+			L.(i; j) = (m_definitive.(i; j) - $Sum{L.(i; k)*L.(j; k) @ k = 1 : i})/L.(j; j)
+			
+		#end if
+		
+	#loop
+#loop
+L' = 'transp(L)
+cholesky(m_definitive)
+M = [8; -3; 7; 2|5; 11; -1; 6|-4; 9; 10; 3|2; -7; 4; 1]
+LU = lu(M)
+D = not(identity(4))
+L = hprod(mfill(ltriang(4); 1); LU)^D
+U = hprod(mfill(utriang(4); 1); LU)
+extract_rows(L*U; order(ind))
+#hide
+M_symmetric = symmetric(4)
+M_symmetric.(1; 1) = 4
+M_symmetric.(1; 2) = 2
+M_symmetric.(1; 3) = 3
+M_symmetric.(1; 4) = 1
+M_symmetric.(2; 2) = 5
+M_symmetric.(2; 3) = -1
+M_symmetric.(2; 4) = 2
+M_symmetric.(3; 3) = 6
+M_symmetric.(3; 4) = -3
+M_symmetric.(4; 4) = 7
+B = symmetric(4)' 'copy(M_symmetric; B; 1; 1)
+V = identity(4)
+#show
+QR = qr(M_symmetric)
+Q = submatrix(QR; 1; 4; 1; 4)
+R = submatrix(QR; 1; 4; 5; 8)
+M_symmetric', B = M_symmetric
+Q*R
+#hide
+#for i = 1 : 86
+	QR = qr(M_symmetric)
+	Q = submatrix(QR; 1; 4; 1; 4)', 'R = submatrix(QR; 1; 4; 5; 8)
+	M_symmetric = R*Q', 'V = V*Q
+#loop
+#show
+round(M_symmetric*10^14)*10^-14','V
+
+'<h4>Eigenvalues and eigenvectors</h4>
+M_symmetric
+B
+sort(diag2vec(M_symmetric))','eigenvals(B)
+extract_cols(V; order(diag2vec(M_symmetric)))
+eigenvecs(B)
+SVD = svd(M)
+U = submatrix(SVD; 1; 4; 1; 4)
+V = submatrix(SVD; 1; 4; 6; 9)
+σ = col(SVD; 5)
+Σ = vec2diag(σ)
+M
+U'.'Σ'.'transp(V)
+C
+inverse_C = adj(C)/det(C)
+inverse(C)
+A = [8; 6; -4|6; 12; -3|-4; -3; 9]
+b = [10; 20; 30]
+x = lsolve(A; b)
+A*x
+A = copy([8; 6; -4|6; 12; -3|-4; -3; 9]; symmetric(3); 1; 1)
+b
+x = clsolve(A; b)
+A*x
+
+'<h3>Data functions</h3>'
+M = [8; -3; 7; 2|5; 11; -1; 6|-4; 9; 10; 3|2; -7; 4; 1]
+A
+B = sort_cols(A; 3)
+C = rsort_cols(A; 3)
+A
+b = order_cols(A; 2)
+B = extract_cols(A; b)
+c = revorder_cols(A; 2)
+C = extract_cols(A; c)
+b = order_rows(A; 2)
+B = extract_rows(A; b)
+c = revorder_rows(A; 2)
+B = extract_rows(A; c)
+A
+n = mcount(A; 6)
+M
+b = msearch(M; 8; 1; 1)
+C = msearch(M; 11; 1; 2)
+d = msearch(M; 9; 2; 1)
+M
+b = mfind(M; 7)
+c = mfind(M; -7)
+b = hlookup(M; 5; 2; 4)
+c = hlookup(M; -1; 2; 3)
+b = vlookup(M; -4; 1; 4)
+c = vlookup(M; 10; 3; 1)

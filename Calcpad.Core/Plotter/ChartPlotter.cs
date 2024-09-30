@@ -19,7 +19,7 @@ namespace Calcpad.Core
             Height = (int)(Parser.PlotHeight * ScreenScaleFactor) + 2 * Margin;
         }
 
-        internal string Plot(Func<Value>[] fx, Func<Value>[] fy, Variable var, double start, double end, Unit u)
+        internal string Plot(Func<IValue>[] fx, Func<IValue>[] fy, Variable var, double start, double end, Unit u)
         {
             _var = var;
             _xUnits = null;
@@ -50,7 +50,7 @@ namespace Calcpad.Core
                 limits = FixLimits(limits);
                 if (limits.Width == 0 || !double.IsNormal(limits.Width) || ys == limits.Height)
                 {
-                    if (start.EqualsBinary(end))
+                    if (start.AlmostEquals(end))
                     {
                         var padding = double.IsNormal(limits.Height) ?
                             Math.Max(limits.Height, 0.1) :
@@ -97,7 +97,7 @@ namespace Calcpad.Core
             return new Box(left, bottom, right, top);
         }
 
-        private Node[] Calculate(Func<Value> fx, Func<Value> fy, double start, double end, Unit u)
+        private Node[] Calculate(Func<IValue> fx, Func<IValue> fy, double start, double end, Unit u)
         {
             var n = Settings.IsAdaptive ? 31 : 512;
             var s = (end - start) / n;
@@ -112,7 +112,7 @@ namespace Calcpad.Core
             return points;
         }
 
-        private LinkedList<Node> CalculateAdaptive(Chart chart, Func<Value> fx, Func<Value> fy, double kxy)
+        private LinkedList<Node> CalculateAdaptive(Chart chart, Func<IValue> fx, Func<IValue> fy, double kxy)
         {
             const double tol = 0.996;
             var points = new LinkedList<Node>(chart.GetPoints());
@@ -177,12 +177,12 @@ namespace Calcpad.Core
             return new Node(x / l, y / l);
         }
 
-        Node CalculatePoint(Func<Value> fx, Func<Value> fy, double t)
+        Node CalculatePoint(Func<IValue> fx, Func<IValue> fy, double t)
         {
             Parser.BreakIfCanceled();
             _var.SetNumber(t);
-            var x = ConvertValue(fx?.Invoke() ?? _var.Value, ref _xUnits);
-            var y = ConvertValue(fy(), ref _yUnits);
+            var x = ConvertValue(IValue.AsValue((fx?.Invoke() ?? _var.Value)), ref _xUnits);
+            var y = ConvertValue(IValue.AsValue(fy()), ref _yUnits);
             return new Node(x, y, t);
         }
 

@@ -6,8 +6,8 @@
     <title>Calcpad Quick Reference</title>
     <style>
         body {
-            font-size: 12pt;
-            font-family: Calibri;
+            font-size: 11pt;
+            font-family: Calibri;	
             margin-top: 0;
             padding-top: 0;
         }
@@ -29,13 +29,15 @@
             margin-top: 0.5em;
             margin-bottom: 0.5em;
         }
+		
+		ol, ul {margin-left: 0; padding-left: 2em;}
 
-        var, i, b, em {
+        var, i, em {
             font-family: 'Times New Roman';
         }
 
-        var, b {
-            font-size: 12.5pt;
+        var{
+            font-size: 11.5pt;
         }
 
         b {
@@ -48,7 +50,7 @@
 
         var {
             color: #06c;
-            padding-right: 1pt;
+            padding-right: 0.5pt;
         }
 
         i {
@@ -59,7 +61,16 @@
 
         img {
             vertical-align: top;
-            height: 14pt;
+            height: 13pt;
+        }
+
+        .vec {
+            color: black;
+            font-style: normal;
+            display: inline-block;
+            vertical-align: 1.1pt;
+            margin-left: 2pt;
+            margin-right: -5.5pt;
         }
 
         .cond {
@@ -81,13 +92,13 @@
 
         .exp {
             display: inline-block;
-            line-height: 100%;
-            font-size: 12pt;
+            line-height: 90%;
+            font-size: 11pt;
             font-weight: bold;
             border: solid 1px #cccccc;
-            padding: 0 3pt 1pt 3pt;
-            margin-left: -16pt;
-            margin-right: 4pt;
+            padding: 0 2pt 1pt 2pt;
+            margin-left: -14pt;
+            margin-right: 3pt;
             border-radius: 3pt;
         }
 
@@ -112,10 +123,12 @@
             padding: 1pt 6pt;
             background-color: #fbf0ff;
             font-size: 11pt;
-			border: solid 1pt #edf;
+            border: solid 1pt #edf;
         }
 
-        .banner a:hover {background-color: #eacfff;}
+            .banner a:hover {
+                background-color: #eacfff;
+            }
     </style>
 </head>
 <body>
@@ -130,11 +143,13 @@
     <ul>
         <li>Real numbers: digits <b>0</b> - <b>9</b> and decimal point "<b>.</b>";</li>
         <li>Complex numbers: <b>re</b> &plusmn; <b>im</b><var>i</var> (e.g. <b>3</b> - <b>2</b><var>i</var>);</li>
+        <li>Vectors: [v<sub>1</sub>; v<sub>2</sub>; v<sub>3</sub>; …; v<sub>n</sub>];</li>
+        <li>Matrices: [M<sub>11</sub>; M<sub>12</sub>; … ; M<sub>1n</sub> | M<sub>21</sub>; M<sub>22</sub>; … ; M<sub>2n</sub> | … | M<sub>m1</sub>; M<sub>m2</sub>; … ; M<sub>mn</sub>]</li>
         <li style="list-style-type: none;">
             <span class="exp" id="btn1">+</span>Variables:<br />
             <span id="list1" style="display: none;">
-                - Latin letters: <var>a</var> - <var>z</var>, <var>A</var> - <var>Z</var>;<br />
-                - Greek letters: <var>&alpha;</var> - <var>&omega;</var>, <var>&Alpha;</var> - <var>&Omega;</var>;<br />
+                - Latin letters: <var>a</var> - <var>z</var><span class="o">;</span> <var>A</var> - <var>Z</var>;<br />
+                - Greek letters: <var>&alpha;</var> - <var>&omega;</var><span class="o">;</span> <var>&Alpha;</var> - <var>&Omega;</var>;<br />
                 - digits: <b>0</b> - <b>9</b>;<br />
                 - comma: "<a href="#0" data-text=","> <b>,</b> </a>";<br />
                 - prime symbols:
@@ -220,7 +235,7 @@
                 "<a href="#0" data-text="="><b class="o">=</b></a>" - assignment;
             </span>
         </li>
-        <li>Custom functions of type <b>f</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var><span class="o">;</span> ...<span class="b">)</span>;</li>
+        <li>Custom functions of type <b>f</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var><span class="o">;</span> …<span class="b">)</span>;</li>
         <li style="list-style-type: none;">
             <span class="exp" id="btn3">+</span>Built-in functions:
             <ul id="list3" style="display: none;">
@@ -293,9 +308,9 @@
                 <li style="list-style-type: none; margin-left: 18pt;">
                     <span class="exp" id="btn36">+</span>Integer:<br />
                     <span id="list36" style="display: none;">
-                        <a href="#0" data-text="mod("><b>mod</b><span class="b">(</span><var>x</var>; <var>y</var><span class="b">)</span></a> - the remainder of an integer division;<br />
-                        <a href="#0" data-text="gcd("><b>gcd</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - the greatest common divisor of several integers;<br />
-                        <a href="#0" data-text="lcm("><b>lcm</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - the least common multiple of several integers;<br />
+                        <a href="#0" data-text="mod("><b>mod</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="b">)</span></a> - the remainder of an integer division;<br />
+                        <a href="#0" data-text="gcd("><b>gcd</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>…<span class="b">)</span></a> - the greatest common divisor of several integers;<br />
+                        <a href="#0" data-text="lcm("><b>lcm</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>…<span class="b">)</span></a> - the least common multiple of several integers;<br />
                     </span>
                 </li>
                 <li style="list-style-type: none; margin-left: 18pt;">
@@ -310,35 +325,184 @@
                 <li style="list-style-type: none; margin-left: 18pt;">
                     <span class="exp" id="btn38">+</span>Aggregate and interpolation:<br />
                     <span id="list38" style="display: none;">
-                        <a href="#0" data-text="min("><b>min</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - minimum of multiple values;<br />
-                        <a href="#0" data-text="max("><b>max</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - maximum of multiple values;<br />
-                        <a href="#0" data-text="sum("><b>sum</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - sum of multiple values = <var>x</var> <span class="o">+</span> <var>y</var> <span class="o">+</span> <var>z</var>...;<br />
-                        <a href="#0" data-text="sumsq("><b>sumsq</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - sum of squares = <var>x</var>² <span class="o">+</span> <var>y</var>² <span class="o">+</span> <var>z</var>²...;<br />
-                        <a href="#0" data-text="srss("><b>srss</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - square root of sum of squares = <b>sqrt</b><span class="b">(</span><var>x</var>² <span class="o">+</span> <var>y</var>² <span class="o">+</span> <var>z</var>²...<span class="b">)</span>;<br />
-                        <a href="#0" data-text="average("><b>average</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - average of multiple values = <span class="b">(</span><var>x</var> <span class="o">+</span> <var>y</var> <span class="o">+</span> <var>z</var>...<span class="b">)</span><span class="o">/</span><var>n</var>;<br />
-                        <a href="#0" data-text="product("><b>product</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - product of multiple values = <var>x</var><span class="o">·</span><var>y</var><span class="o">·</span><var>z</var>...;<br />
-                        <a href="#0" data-text="mean("><b>mean</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - geometric mean = n-th <b>root</b><span class="b">(</span><var>x</var><span class="o">·</span><var>y</var><span class="o">·</span><var>z</var>...<span class="b">)</span>;<br />
-                        <a href="#0" data-text="take("><b>take</b><span class="b">(</span><var>n</var><span class="o">;</span> <var>a</var><span class="o">;</span> <var>b</var><span class="o">;</span> <var>c</var>...<span class="b">)</span></a> - returns the n-th element from the list;<br />
-                        <a href="#0" data-text="line("><b>line</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>a</var><span class="o">;</span> <var>b</var><span class="o">;</span> <var>c</var>...<span class="b">)</span></a> - linear interpolation;<br />
-                        <a href="#0" data-text="spline("><b>spline</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>a</var><span class="o">;</span> <var>b</var><span class="o">;</span> <var>c</var>...<span class="b">)</span></a> - Hermite spline interpolation;
+                        <a href="#0" data-text="min("><b>min</b><span class="b">(</span><var>A</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="o">;</span> <var>c</var>…<span class="b">)</span></a> - minimum of multiple values;<br />
+                        <a href="#0" data-text="max("><b>max</b><span class="b">(</span><var>A</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="o">;</span> <var>c</var>…<span class="b">)</span></a> - maximum of multiple values;<br />
+                        <a href="#0" data-text="sum("><b>sum</b><span class="b">(</span><var>A</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="o">;</span> <var>c</var>…<span class="b">)</span></a> - sum of multiple values;<br />
+                        <a href="#0" data-text="sumsq("><b>sumsq</b><span class="b">(</span><var>A</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="o">;</span> <var>c</var>…<span class="b">)</span></a> - sum of squares;<br />
+                        <a href="#0" data-text="srss("><b>srss</b><span class="b">(</span><var>A</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="o">;</span> <var>c</var>…<span class="b">)</span></a> - square root of sum of squares;<br />
+                        <a href="#0" data-text="average("><b>average</b><span class="b">(</span><var>A</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="o">;</span> <var>c</var>…<span class="b">)</span></a> - average of multiple values;<br />
+                        <a href="#0" data-text="product("><b>product</b><span class="b">(</span><var>A</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="o">;</span> <var>c</var>…<span class="b">)</span></a> - product of multiple values;<br />
+                        <a href="#0" data-text="mean("><b>mean</b><span class="b">(</span><var>A</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="o">;</span> <var>c</var>…<span class="b">)</span></a> - geometric mean;<br />
+                        <a href="#0" data-text="take("><b>take</b><span class="b">(</span><var>n</var><span class="o">;</span> <var>A</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="o">;</span> <var>c</var>…<span class="b">)</span></a> - the n-th element from the list;<br />
+                        <a href="#0" data-text="line("><b>line</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>A</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="o">;</span> <var>c</var>…<span class="b">)</span></a> - linear interpolation;<br />
+                        <a href="#0" data-text="spline("><b>spline</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>A</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="o">;</span> <var>c</var>…<span class="b">)</span></a> - Hermite spline interpolation;
                     </span>
                 </li>
                 <li style="list-style-type: none; margin-left: 18pt;">
                     <span class="exp" id="btn39">+</span>Conditional and logical:<br />
                     <span id="list39" style="display: none;">
                         <a href="#0" data-text="if("><b>if</b><span class="b">(</span><em>cond</em><span class="o">;</span> <em>value-if-true</em><span class="o">;</span> <em>value-if-false</em><span class="b">)</span></a> - conditional evaluation;<br />
-                        <a href="#0" data-text="switch("><b>switch</b><span class="b">(</span><em>cond1</em><span class="o">;</span> <em>value1</em><span class="o">;</span> <em>cond2</em><span class="o">;</span> <em>value2</em><span class="o">;</span> ...<span class="o">;</span> <em>default</em><span class="b">)</span></a> - selective evaluation;<br />
+                        <a href="#0" data-text="switch("><b>switch</b><span class="b">(</span><em>cond1</em><span class="o">;</span> <em>value1</em><span class="o">;</span> <em>cond2</em><span class="o">;</span> <em>value2</em><span class="o">;</span> …<span class="o">;</span> <em>default</em><span class="b">)</span></a> - selective evaluation;<br />
                         <a href="#0" data-text="not("><b>not</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - logical "NOT";<br />
-                        <a href="#0" data-text="and("><b>and</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - logical "AND";<br />
-                        <a href="#0" data-text="or("><b>or</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - logical "OR";<br />
-                        <a href="#0" data-text="xor("><b>xor</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - logical "XOR";<br />
+                        <a href="#0" data-text="and("><b>and</b><span class="b">(</span><var>A</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="o">;</span> <var>c</var>…<span class="b">)</span></a> - logical "AND";<br />
+                        <a href="#0" data-text="or("><b>or</b><span class="b">(</span><var>A</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="o">;</span> <var>c</var>…<span class="b">)</span></a> - logical "OR";<br />
+                        <a href="#0" data-text="xor("><b>xor</b><span class="b">(</span><var>A</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="o">;</span> <var>c</var>…<span class="b">)</span></a> - logical "XOR";<br />
                     </span>
                 </li>
                 <li style="list-style-type: none; margin-left: 18pt;">
                     <span class="exp" id="btn310">+</span>Other:<br />
                     <span id="list310" style="display: none;">
                         <a href="#0" data-text="sign("><b>sign</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - sign of a number;<br />
-                        <a href="#0" data-text="random("><b>random</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - random number between 0 and <var>x</var>.<br />
+                        <a href="#0" data-text="random("><b>random</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - a random number between 0 and <var>x</var>.<br />
+                    </span>
+                </li>
+                <li style="list-style-type: none; margin-left: 18pt;">
+                    <span class="exp" id="btn311">+</span>Vector:<br />
+                    <span id="list311" style="display: none;">
+						<u>Creational:</u><br />
+                        <a href="#0" data-text="vector("><b>vector</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - creates an empty vector with length <var>n</var>;<br />
+                        <a href="#0" data-text="fill("><b>fill</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - fills vector <var><span class="vec">⃗</span>v</var> with value <var>x</var>;<br />
+                        <a href="#0" data-text="range("><b>range</b><span class="b">(</span><var>x</var><sub>1</sub><span class="o">;</span> <var>x</var><sub>n</sub><span class="o">;</span> <var>s</var><span class="b">)</span></a> - creates a vector with values spanning from <var>x</var><sub>1</sub> to <var>x</var><sub>n</sub> with step <var>s</var>;<br />
+						<u>Structural:</u><br />
+						<a href="#0" data-text="len("><b>len</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - returns the length of vector <var><span class="vec">⃗</span>v</var>;<br />
+                        <a href="#0" data-text="size("><b>size</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - the actual size of vector <var><span class="vec">⃗</span>v</var> (the index of the last non-zero element);<br />
+						<a href="#0" data-text="resize("><b>resize</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>n</var><span class="b">)</span></a> - sets a new length <var>n</var> of vector <var><span class="vec">⃗</span>v</var>;<br />
+                        <a href="#0" data-text="join("><b>join</b><span class="b">(</span><var>A</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="o">;</span> <var>c</var>…<span class="b">)</span></a> - creates a vector by joining the arguments: matrices, vectors and scalars;<br />
+                        <a href="#0" data-text="slice("><b>slice</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>i</var><sub>1</sub><span class="o">;</span> <var>i</var><sub>2</sub><span class="b">)</span></a> - returns the part of vector <var><span class="vec">⃗</span>v</var> bounded by indexes <var>i</var><sub>1</sub> and <var>i</var><sub>2</sub> inclusive;<br />
+                        <a href="#0" data-text="first("><b>first</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>n</var><span class="b">)</span></a> - the first <var>n</var> elements of vector <var><span class="vec">⃗</span>v</var>;<br />
+                        <a href="#0" data-text="last("><b>last</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>n</var><span class="b">)</span></a> - the last <var>n</var> elements of vector <var><span class="vec">⃗</span>v</var>;<br />
+                        <a href="#0" data-text="extract("><b>extract</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var><span class="vec">⃗</span>i</var><span class="b">)</span></a>	- extracts the elements from <var><span class="vec">⃗</span>v</var> which indexes are contained in <var><span class="vec">⃗</span>i</var>;<br />
+						<u>Data:</u><br />
+                        <a href="#0" data-text="sort("><b>sort</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - sorts the elements of vector <var><span class="vec">⃗</span>v</var> in ascending order;<br />
+                        <a href="#0" data-text="rsort("><b>rsort</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - sorts the elements of vector <var><span class="vec">⃗</span>v</var> in descending order;<br />
+                        <a href="#0" data-text="order("><b>order</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - the indexes of vector <var><span class="vec">⃗</span>v</var>, arranged by the ascending order of its elements;<br />
+                        <a href="#0" data-text="revorder("><b>revorder</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - the indexes of vector <var><span class="vec">⃗</span>v</var>, arranged by the descending order of its elements;<br />
+                        <a href="#0" data-text="reverse("><b>reverse</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - a new vector containing the elements of <var><span class="vec">⃗</span>v</var> in reverse order;<br />
+                        <a href="#0" data-text="count("><b>count</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><span class="b">)</span></a> - the number of elements in <var><span class="vec">⃗</span>v</var>, after the i-th one, that are equal to <var>x</var>;<br />
+                        <a href="#0" data-text="search("><b>search</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><span class="b">)</span></a>- the index of the first element in <var><span class="vec">⃗</span>v</var>, after the i-th one, that is equal to <var>x</var>;<br />
+                        <a href="#0" data-text="find("><b>find</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><span class="b">)</span></a> or <br />
+                        <a href="#0" data-text="find_eq("><b>find_eq</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><span class="b">)</span></a> - the indexes of all elements in <var><span class="vec">⃗</span>v</var>, after the <var>i</var>-th one, that are = <var>x</var>;<br />
+                        <a href="#0" data-text="find_ne("><b>find_ne</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><span class="b">)</span></a> - the indexes of all elements in <var><span class="vec">⃗</span>v</var>, after the <var>i</var>-th one, that are ≠ <var>x</var>;<br />
+                        <a href="#0" data-text="find_lt("><b>find_lt</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><span class="b">)</span></a> - the indexes of all elements in <var><span class="vec">⃗</span>v</var>, after the <var>i</var>-th one, that are &lt; <var>x</var>;<br />
+                        <a href="#0" data-text="find_le("><b>find_le</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><span class="b">)</span></a> - the indexes of all elements in <var><span class="vec">⃗</span>v</var>, after the <var>i</var>-th one, that are &le; <var>x</var>;<br />
+                        <a href="#0" data-text="find_gt("><b>find_gt</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><span class="b">)</span></a> - the indexes of all elements in <var><span class="vec">⃗</span>v</var>, after the <var>i</var>-th one, that are &gt; <var>x</var>;<br />
+                        <a href="#0" data-text="find_ge("><b>find_ge</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><span class="b">)</span></a> - the indexes of all elements in <var><span class="vec">⃗</span>v</var>, after the <var>i</var>-th one, that are &ge; <var>x</var>;<br />
+                        <a href="#0" data-text="lookup("><b>lookup</b><span class="b">(</span><var><span class="vec">⃗</span>a</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> or<br />
+                        <a href="#0" data-text="lookup_eq("><b>lookup_eq</b><span class="b">(</span><var><span class="vec">⃗</span>a</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - all elements in <var><span class="vec">⃗</span>a</var> for which the respective elements in <var><span class="vec">⃗</span>b</var> are = <var>x</var>;<br />
+                        <a href="#0" data-text="lookup_ne("><b>lookup_ne</b><span class="b">(</span><var><span class="vec">⃗</span>a</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - all elements in <var><span class="vec">⃗</span>a</var> for which the respective elements in <var><span class="vec">⃗</span>b</var> are ≠ <var>x</var>;<br />
+                        <a href="#0" data-text="lookup_lt("><b>lookup_lt</b><span class="b">(</span><var><span class="vec">⃗</span>a</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - all elements in <var><span class="vec">⃗</span>a</var> for which the respective elements in <var><span class="vec">⃗</span>b</var> are &lt; <var>x</var>;<br />
+                        <a href="#0" data-text="lookup_le("><b>lookup_le</b><span class="b">(</span><var><span class="vec">⃗</span>a</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - all elements in <var><span class="vec">⃗</span>a</var> for which the respective elements in <var><span class="vec">⃗</span>b</var> are &le; <var>x</var>;<br />
+                        <a href="#0" data-text="lookup_gt("><b>lookup_gt</b><span class="b">(</span><var><span class="vec">⃗</span>a</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - all elements in <var><span class="vec">⃗</span>a</var> for which the respective elements in <var><span class="vec">⃗</span>b</var> are &gt; <var>x</var>;<br />
+                        <a href="#0" data-text="lookup_ge("><b>lookup_ge</b><span class="b">(</span><var><span class="vec">⃗</span>a</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - all elements in <var><span class="vec">⃗</span>a</var> for which the respective elements in <var><span class="vec">⃗</span>b</var> are &ge; <var>x</var>;<br />
+						<u>Math:</u><br />
+                        <a href="#0" data-text="norm_1("><b>norm_1</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - L1 (Manhattan) norm of vector <var><span class="vec">⃗</span>v</var>;<br />
+                        <a href="#0" data-text="norm("><b>norm</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> or<br />
+                        <a href="#0" data-text="norm_2("><b><b>norm_2</b></b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> or<br />
+                        <a href="#0" data-text="norm_e("><b>norm_e</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - L2 (Euclidean) norm of vector <var><span class="vec">⃗</span>v</var>;<br />
+                        <a href="#0" data-text="norm_p("><b>norm_p</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>p</var><span class="b">)</span></a> - Lp norm of vector <var><span class="vec">⃗</span>v</var>;<br />
+                        <a href="#0" data-text="norm_i("><b>norm_i</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - L∞ (infinity) norm of vector <var><span class="vec">⃗</span>v</var>;<br />
+                        <a href="#0" data-text="unit("><b>unit</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - the normalized vector <var><span class="vec">⃗</span>v</var> (with L2 norm = 1);<br />
+                        <a href="#0" data-text="dot("><b>dot</b><span class="b">(</span><var><span class="vec">⃗</span>a</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="b">)</span></a> - scalar product of two vectors <var><span class="vec">⃗</span>a</var> and <var><span class="vec">⃗</span>b</var>;<br />
+                        <a href="#0" data-text="cross("><b>cross</b><span class="b">(</span><var><span class="vec">⃗</span>a</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="b">)</span></a> - cross product of two vectors <var><span class="vec">⃗</span>a</var> and <var><span class="vec">⃗</span>b</var> (with length 2 or 3);<br />
+                    </span>
+                </li>
+                <li style="list-style-type: none; margin-left: 18pt;">
+                    <span class="exp" id="btn312">+</span>Matrix:<br />
+                    <span id="list312" style="display: none;">
+						<u>Creational:</u><br />
+                        <a href="#0" data-text="matrix("><b>matrix</b><span class="b">(</span><var>m</var><span class="o">;</span> <var>n</var><span class="b">)</span></a> - creates an empty matrix with dimensions <var>m</var>⨯<var>n</var>;<br />
+                        <a href="#0" data-text="identity("><b>identity</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - creates an identity matrix with dimensions <var>n</var>⨯<var>n</var>;<br />
+                        <a href="#0" data-text="diagonal("><b>diagonal</b><span class="b">(</span><var>n</var><span class="o">;</span> <var>d</var><span class="b">)</span></a> - creates a <var>n</var>⨯<var>n</var> diagonal matrix and fills the diagonal with value <var>d</var>;<br />
+                        <a href="#0" data-text="column("><b>column</b><span class="b">(</span><var>m</var><span class="o">;</span> <var>c</var><span class="b">)</span></a> - creates a column matrix with dimensions <var>m</var>⨯1, filled with value <var>c</var>;<br />
+                        <a href="#0" data-text="utriang("><b>utriang</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - creates an upper triangular matrix with dimensions <var>n</var>⨯<var>n</var>;<br />
+                        <a href="#0" data-text="ltriang("><b>ltriang</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - creates a lower triangular matrix with dimensions <var>n</var>⨯<var>n</var>;<br />
+                        <a href="#0" data-text="symmetric("><b>symmetric</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - creates a symmetric matrix with dimensions <var>n</var>⨯<var>n</var>;<br />
+                        <a href="#0" data-text="vec2diag("><b>vec2diag</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - creates a diagonal matrix from the elements of vector <var><span class="vec">⃗</span>v</var>;<br />
+                        <a href="#0" data-text="vec2col("><b>vec2col</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - creates a column matrix from the elements of vector <var><span class="vec">⃗</span>v</var>;<br />
+                        <a href="#0" data-text="join_cols("><b>join_cols</b><span class="b">(</span><var><span class="vec">⃗</span>c</var><sub>1</sub><span class="o">;</span> <var><span class="vec">⃗</span>c</var><sub>2</sub><span class="o">;</span> <var><span class="vec">⃗</span>c</var><sub>3</sub>…<span class="b">)</span></a> - creates a new matrix by joining column vectors;<br />
+                        <a href="#0" data-text="join_rows("><b>join_rows</b><span class="b">(</span><var><span class="vec">⃗</span>r</var><sub>1</sub><span class="o">;</span> <var><span class="vec">⃗</span>r</var><sub>2</sub><span class="o">;</span> <var><span class="vec">⃗</span>r</var><sub>3</sub>…<span class="b">)</span></a> - creates a new matrix by joining row vectors;<br />
+                        <a href="#0" data-text="augment("><b>augment</b><span class="b">(</span><var>A</var><span class="o">;</span> <var>B</var><span class="o">;</span> <var>C</var>…<span class="b">)</span></a> - creates a new matrix by appending matrices <var>A</var><span class="o">;</span> <var>B</var><span class="o">;</span> <var>C</var> side by side;<br />
+                        <a href="#0" data-text="stack("><b>stack</b><span class="b">(</span><var>A</var><span class="o">;</span> <var>B</var><span class="o">;</span> <var>C</var>…<span class="b">)</span></a> - creates a new matrix by stacking matrices <var>A</var><span class="o">;</span> <var>B</var><span class="o">;</span> <var>C</var> one below the other;<br />
+						<u>Structural:</u><br />
+                        <a href="#0" data-text="n_rows("><b>n_rows</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - number of rows in matrix <var>M</var>;<br />
+                        <a href="#0" data-text="n_cols("><b>n_cols</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - number of columns in matrix <var>M</var>;<br />						
+                        <a href="#0" data-text="mresize("><b>mresize</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>m</var><span class="o">;</span> <var>n</var><span class="b">)</span></a> - sets new dimensions <var>m</var> and <var>n</var> for matrix <var>M</var>;<br />
+                        <a href="#0" data-text="mfill("><b>mfill</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - fills matrix <var>M</var> with value <var>x</var>;<br />
+                        <a href="#0" data-text="fill_row("><b>fill_row</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>i</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - fills the <var>i</var>-th row of matrix <var>M</var> with value <var>x</var>;<br />
+                        <a href="#0" data-text="fill_col("><b>fill_col</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>j</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - fills the <var>j</var>-th column of matrix <var>M</var> with value <var>x</var>;<br />
+                        <a href="#0" data-text="copy("><b>copy</b><span class="b">(</span><var>A</var><span class="o">;</span> <var>B</var><span class="o">;</span> <var>i</var><span class="o">;</span> <var>j</var><span class="b">)</span></a> - copies all elements from <var>A</var> to <var>B</var>, starting from indexes <var>i</var> and <var>j</var> of <var>B</var>;<br />
+                        <a href="#0" data-text="add("><b>add</b><span class="b">(</span><var>A</var><span class="o">;</span> <var>B</var><span class="o">;</span> <var>i</var><span class="o">;</span> <var>j</var><span class="b">)</span></a> - adds all elements from <var>A</var> to those of <var>B</var>, starting from indexes <var>i</var> and <var>j</var> of <var>B</var>;<br />
+                        <a href="#0" data-text="row("><b>row</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>i</var><span class="b">)</span></a> - extracts the <var>i</var>-th row of matrix <var>M</var> as a vector;<br />
+                        <a href="#0" data-text="col("><b>col</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>j</var><span class="b">)</span></a> - extracts the <var>j</var>-th column of matrix <var>M</var> as a vector;<br />
+                        <a href="#0" data-text="extract_rows("><b>extract_rows</b><span class="b">(</span><var>M</var><span class="o">;</span> <var><span class="vec">⃗</span>i</var><span class="b">)</span></a> - extracts the rows from matrix <var>M</var> whose indexes are contained in vector <var><span class="vec">⃗</span>i</var>;<br />
+                        <a href="#0" data-text="extract_cols("><b>extract_cols</b><span class="b">(</span><var>M</var><span class="o">;</span> <var><span class="vec">⃗</span>j</var><span class="b">)</span></a> - extracts the columns from matrix <var>M</var> whose indexes are contained in vector <var><span class="vec">⃗</span>j</var>;<br />                        
+						<a href="#0" data-text="diag2vec("><b>diag2vec</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - extracts the diagonal elements of matrix <var>M</var> to a vector;<br />
+						<a href="#0" data-text="submatrix("><b>submatrix</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>i</var><sub>1</sub><span class="o">;</span> <var>i</var><sub>2</sub><span class="o">;</span> <var>j</var><sub>1</sub><span class="o">;</span> <var>j</var><sub>2</sub><span class="b">)</span></a> - extracts a submatrix of <var>M</var>, bounded by rows <var>i</var><sub>1</sub> and <var>i</var><sub>2</sub> and columns <var>j</var><sub>1</sub> and <var>j</var><sub>2</sub>, incl.;<br />
+						<u>Data:</u><br />
+						<a href="#0" data-text="sort_cols("><b>sort_cols</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>i</var><span class="b">)</span></a> - sorts the columns of <var>M</var> based on the values in row <var>i</var> in ascending order;<br />
+                        <a href="#0" data-text="rsort_cols("><b>rsort_cols</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>i</var><span class="b">)</span></a> - sorts the columns of <var>M</var> based on the values in row <var>i</var> in descending order;<br />
+                        <a href="#0" data-text="sort_rows("><b>sort_rows</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>j</var><span class="b">)</span></a> - sorts the rows of <var>M</var> based on the values in column <var>j</var> in ascending order;<br />
+                        <a href="#0" data-text="rsort_rows("><b>rsort_rows</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>j</var><span class="b">)</span></a> - sorts the rows of <var>M</var> based on the values in column <var>j</var> in descending order;<br />
+                        <a href="#0" data-text="order_cols("><b>order_cols</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>i</var><span class="b">)</span></a> - the indexes of the columns of <var>M</var> based on the ordering of the values from row <var>i</var> in ascending order;<br />
+                        <a href="#0" data-text="revorder_cols("><b>revorder_cols</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>i</var><span class="b">)</span></a> - the indexes of the columns of <var>M</var> based on the ordering of the values from row <var>i</var> in descending order;<br />
+                        <a href="#0" data-text="order_rows("><b>order_rows</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>j</var><span class="b">)</span></a> - the indexes of the rows of <var>M</var> based on the ordering of the values in column <var>j</var> in ascending order;<br />
+                        <a href="#0" data-text="revorder_rows("><b>revorder_rows</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>j</var><span class="b">)</span></a> - the indexes of the rows of <var>M</var> based on the ordering of the values in column <var>j</var> in descending order;<br />
+                        <a href="#0" data-text="mcount("><b>mcount</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - number of occurrences of value <var>x</var> in matrix <var>M</var>;<br />
+                        <a href="#0" data-text="msearch("><b>msearch</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><span class="o">;</span> <var>j</var><span class="b">)</span></a> - vector with the two indexes of the first occurrence of <var>x</var> in matrix <var>M</var>, starting from indexes <var>i</var> and <var>j</var>;<br />
+                        <a href="#0" data-text="mfind("><b>mfind</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> or<br />
+                        <a href="#0" data-text="mfind_eq("><b>mfind_eq</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - the indexes of all elements in <var>M</var> that are = <var>x</var>;<br />
+                        <a href="#0" data-text="mfind_ne("><b>mfind_ne</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - the indexes of all elements in <var>M</var> that are ≠ <var>x</var>;<br />
+                        <a href="#0" data-text="mfind_lt("><b>mfind_lt</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - the indexes of all elements in <var>M</var> that are &lt; <var>x</var>;<br />
+                        <a href="#0" data-text="mfind_le("><b>mfind_le</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - the indexes of all elements in <var>M</var> that are &le; <var>x</var>;<br />
+                        <a href="#0" data-text="mfind_gt("><b>mfind_gt</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - the indexes of all elements in <var>M</var> that are &gt; <var>x</var>;<br />
+                        <a href="#0" data-text="mfind_ge("><b>mfind_ge</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - the indexes of all elements in <var>M</var> that are &ge; <var>x</var>;<br />
+                        <a href="#0" data-text="hlookup("><b>hlookup</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><sub>1</sub><span class="o">;</span> <var>i</var><sub>2</sub><span class="b">)</span></a> or<br />
+                        <a href="#0" data-text="hlookup_eq("><b>hlookup_eq</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><sub>1</sub><span class="o">;</span> <var>i</var><sub>2</sub><span class="b">)</span></a> - the values from row <var>i</var><sub>2</sub> of <var>M</var>, for which the elements in row <var>i</var><sub>1</sub> are = <var>x</var>;<br />
+                        <a href="#0" data-text="hlookup_ne("><b>hlookup_ne</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><sub>1</sub><span class="o">;</span> <var>i</var><sub>2</sub><span class="b">)</span></a> - the values from row <var>i</var><sub>2</sub> of <var>M</var>, for which the elements in row <var>i</var><sub>1</sub> are ≠ <var>x</var>;<br />
+                        <a href="#0" data-text="hlookup_lt("><b>hlookup_lt</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><sub>1</sub><span class="o">;</span> <var>i</var><sub>2</sub><span class="b">)</span></a> - the values from row <var>i</var><sub>2</sub> of <var>M</var>, for which the elements in row <var>i</var><sub>1</sub> are &lt; <var>x</var>;<br />
+                        <a href="#0" data-text="hlookup_le("><b>hlookup_le</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><sub>1</sub><span class="o">;</span> <var>i</var><sub>2</sub><span class="b">)</span></a> - the values from row <var>i</var><sub>2</sub> of <var>M</var>, for which the elements in row <var>i</var><sub>1</sub> are &le; <var>x</var>;<br />
+                        <a href="#0" data-text="hlookup_gt("><b>hlookup_gt</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><sub>1</sub><span class="o">;</span> <var>i</var><sub>2</sub><span class="b">)</span></a> - the values from row <var>i</var><sub>2</sub> of <var>M</var>, for which the elements in row <var>i</var><sub>1</sub> are &gt; <var>x</var>;<br />
+                        <a href="#0" data-text="hlookup_ge("><b>hlookup_ge</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><sub>1</sub><span class="o">;</span> <var>i</var><sub>2</sub><span class="b">)</span></a> - the values from row <var>i</var><sub>2</sub> of <var>M</var>, for which the elements in row <var>i</var><sub>1</sub> are &ge; <var>x</var>;<br />
+                        <a href="#0" data-text="vlookup("><b>vlookup</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>j</var><sub>1</sub><span class="o">;</span> <var>j</var><sub>2</sub><span class="b">)</span></a> or<br />
+                        <a href="#0" data-text="vlookup_eq("><b>vlookup_eq</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>j</var><sub>1</sub><span class="o">;</span> <var>j</var><sub>2</sub><span class="b">)</span></a> - the values from column <var>j</var><sub>2</sub> of <var>M</var>, for which the elements in column <var>j</var><sub>1</sub> are = <var>x</var>;<br />
+                        <a href="#0" data-text="vlookup_ne("><b>vlookup_ne</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>j</var><sub>1</sub><span class="o">;</span> <var>j</var><sub>2</sub><span class="b">)</span></a> - the values from column <var>j</var><sub>2</sub> of <var>M</var>, for which the elements in column <var>j</var><sub>1</sub> are ≠ <var>x</var>;<br />
+                        <a href="#0" data-text="vlookup_lt("><b>vlookup_lt</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>j</var><sub>1</sub><span class="o">;</span> <var>j</var><sub>2</sub><span class="b">)</span></a> - the values from column <var>j</var><sub>2</sub> of <var>M</var>, for which the elements in column <var>j</var><sub>1</sub> are &lt; <var>x</var>;<br />
+                        <a href="#0" data-text="vlookup_le("><b>vlookup_le</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>j</var><sub>1</sub><span class="o">;</span> <var>j</var><sub>2</sub><span class="b">)</span></a> - the values from column <var>j</var><sub>2</sub> of <var>M</var>, for which the elements in column <var>j</var><sub>1</sub> are &le; <var>x</var>;<br />
+                        <a href="#0" data-text="vlookup_gt("><b>vlookup_gt</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>j</var><sub>1</sub><span class="o">;</span> <var>j</var><sub>2</sub><span class="b">)</span></a> - the values from column <var>j</var><sub>2</sub> of <var>M</var>, for which the elements in column <var>j</var><sub>1</sub> are &gt; <var>x</var>;<br />
+                        <a href="#0" data-text="vlookup_ge("><b>vlookup_ge</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>j</var><sub>1</sub><span class="o">;</span> <var>j</var><sub>2</sub><span class="b">)</span></a> - the values from column <var>j</var><sub>2</sub> of <var>M</var>, for which the elements in column <var>j</var><sub>1</sub> are &ge; <var>x</var>;<br />
+						<u>Math:</u><br />
+                        <a href="#0" data-text="hprod("><b>hprod</b><span class="b">(</span><var>A</var><span class="o">;</span> <var>B</var><span class="b">)</span></a> - Hadamard product of matrices <var>A</var> and <var>B</var>;<br />
+                        <a href="#0" data-text="fprod("><b>fprod</b><span class="b">(</span><var>A</var><span class="o">;</span> <var>B</var><span class="b">)</span></a> - Frobenius product of matrices <var>A</var> and <var>B</var>;<br />
+                        <a href="#0" data-text="kprod("><b>kprod</b><span class="b">(</span><var>A</var><span class="o">;</span> <var>B</var><span class="b">)</span></a> - Kronecker product of matrices <var>A</var> and <var>B</var>;<br />
+                        <a href="#0" data-text="mnorm_1("><b>mnorm_1</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - L1 norm of matrix <var>M</var>;<br />
+                        <a href="#0" data-text="mnorm("><b>mnorm</b><span class="b">(</span><var>M</var><span class="b">)</span></a> or<br /><a href="#0" data-text="mnorm_2("><b>mnorm_2</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - L2 norm of matrix <var>M</var>;<br />
+                        <a href="#0" data-text="mnorm_e("><b>mnorm_e</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - Frobenius norm of matrix <var>M</var>;<br />
+                        <a href="#0" data-text="mnorm_i("><b>mnorm_i</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - L∞ norm of matrix <var>M</var>;<br />
+                        <a href="#0" data-text="cond_1("><b>cond_1</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - condition number of <var>M</var> based on the L1 norm;<br />
+                        <a href="#0" data-text="cond("><b>cond</b><span class="b">(</span><var>M</var><span class="b">)</span></a> or<br />
+						<a href="#0" data-text="cond_2("><b>cond_2</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - condition number of <var>M</var> based on the L2 norm;<br />
+                        <a href="#0" data-text="cond_e("><b>cond_e</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - condition number of <var>M</var> based on the Frobenius norm;<br />
+                        <a href="#0" data-text="cond_i("><b>cond_i</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - condition number of <var>M</var> based on the L∞ norm;<br />
+                        <a href="#0" data-text="det("><b>det</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - determinant of matrix <var>M</var>;<br />
+                        <a href="#0" data-text="rank("><b>rank</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - rank of matrix <var>M</var>;<br />
+                        <a href="#0" data-text="trace("><b>trace</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - trace of matrix <var>M</var>;<br />
+                        <a href="#0" data-text="transp("><b>transp</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - transpose of matrix <var>M</var>;<br />
+                        <a href="#0" data-text="adj("><b>adj</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - adjugate of matrix <var>M</var>;<br />
+                        <a href="#0" data-text="cofactor("><b>cofactor</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - cofactor matrix of <var>M</var>;<br />
+                        <a href="#0" data-text="eigenvals("><b>eigenvals</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - eigenvalues of matrix <var>M</var>;<br />
+                        <a href="#0" data-text="eigenvecs("><b>eigenvecs</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - eigenvectors of matrix <var>M</var>;<br />
+						<a href="#0" data-text="eigenvals("><b>eigen</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - eigenvalues and eigenvectors of matrix <var>M</var>;<br />
+						<a href="#0" data-text="cholesky("><b>cholesky</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - Cholesky decomposition of a symmetric, positive-definite matrix <var>M</var>;<br />
+                        <a href="#0" data-text="lu("><b>lu</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - LU decomposition of matrix <var>M</var>;<br />
+                        <a href="#0" data-text="qr("><b>qr</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - QR decomposition of matrix <var>M</var>;<br />
+                        <a href="#0" data-text="svd("><b>svd</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - singular value decomposition of <var>M</var>;<br />
+                        <a href="#0" data-text="inverse("><b>inverse</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - inverse of matrix <var>M</var>;<br />
+                        <a href="#0" data-text="lsolve("><b>lsolve</b><span class="b">(</span><var>A</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="b">)</span></a> - solves the system of linear equations <var>A<span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> using LDL<sup>T</sup> decomposition for symmetric matrices, and LU for non-symmetric;<br />
+                        <a href="#0" data-text="clsolve("><b>clsolve</b><span class="b">(</span><var>A</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="b">)</span></a> - solves the linear matrix equation <var>A<span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> with a symmetric, positive-definite matrix <var>A</var> using Cholesky decomposition;<br />
+						<u>Double interpolation:</u><br />
+                        <a href="#0" data-text="take("><b>take</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>M</var><span class="b">)</span></a> - returns the element of matrix <var>M</var> at indexes <var>x</var> and <var>y</var>;<br />
+                        <a href="#0" data-text="line("><b>line</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>M</var><span class="b">)</span></a> - double linear interpolation from the elements of matrix <var>M</var> based on the values of <var>x</var> and <var>y</var>;<br />
+                        <a href="#0" data-text="spline("><b>spline</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>M</var><span class="b">)</span></a> - double Hermite spline interpolation from the elements of matrix <var>M</var> based on the values of <var>x</var> and <var>y</var>.<br>
                     </span>
                 </li>
             </ul>
@@ -349,8 +513,8 @@
             <span id="list4" style="display: none;">
                 <a href="#0" data-text="$Plot{f(x) @ x = a : b}"><span class="cond">$Plot</span><span class="b">{</span><b>f</b><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - simple plot;<br />
                 <a href="#0" data-text="$Plot{x(t) | y(t) @ t = a : b}"><span class="cond">$Plot</span><span class="b">{</span><b>x</b><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">|</span> <b>y</b><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">&#64;</span> <var>t</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - parametric;<br />
-                <a href="#0" data-text="$Plot{f_1(x) & f_2(x) @ x = a : b}"><span class="cond">$Plot</span><span class="b">{</span><b>f</b><sub>1</sub><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">&amp;</span> <b>f</b><sub>2</sub><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">&amp;</span> ... <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - multiple;<br />
-                <a href="#0" data-text="$Plot{x_1(x) | y_1(t) & x_2(x) | y_2(t) @ t = a : b}"><span class="cond">$Plot</span><span class="b">{</span><b>x</b><sub>1</sub><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">|</span> <b>y</b><sub>1</sub><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">&amp;</span> <b>x</b><sub>2</sub><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">|</span> <b>y</b><sub>2</sub><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">&amp;</span> ... <span class="o">&#64;</span> <var>t</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - multiple parametric;<br />
+                <a href="#0" data-text="$Plot{f_1(x) & f_2(x) @ x = a : b}"><span class="cond">$Plot</span><span class="b">{</span><b>f</b><sub>1</sub><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">&amp;</span> <b>f</b><sub>2</sub><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">&amp;</span> … <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - multiple;<br />
+                <a href="#0" data-text="$Plot{x_1(x) | y_1(t) & x_2(x) | y_2(t) @ t = a : b}"><span class="cond">$Plot</span><span class="b">{</span><b>x</b><sub>1</sub><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">|</span> <b>y</b><sub>1</sub><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">&amp;</span> <b>x</b><sub>2</sub><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">|</span> <b>y</b><sub>2</sub><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">&amp;</span> … <span class="o">&#64;</span> <var>t</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - multiple parametric;<br />
                 <a href="#0" data-text="$Map{f(x; y) @ x = a : b & y = c : d}"><span class="cond">$Map</span><span class="b">{</span><b>f</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="b">)</span> <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var> <span class="o">&amp;</span> <var>y</var> <span class="o">=</span> <var>c</var> <span class="o">:</span> <var>d</var><span class="b">}</span></a> - 2D color map of a 3D surface;<br />
                 <a href="#0" data-text="PlotHeight ="><var>PlotHeight</var></a> - height of plot area in pixels;<br />
                 <a href="#0" data-text="PlotWidth ="><var>PlotWidth</var></a> - width of plot area in pixels;<br />
@@ -444,6 +608,22 @@
                     &emsp;&emsp;&emsp;&emsp;<em>some more code</em><br />
                     &emsp;&emsp;<span class="cond">#loop</span>
                 </a><br />
+                With counter:<br />
+                <a href="#0" data-text="#for counter = start : end
+'your code goes here
+#loop">
+                    &emsp;&emsp;<span class="cond">#for</span> <em>counter</em> = <em>start</em> : <em>end</em><br />
+                    &emsp;&emsp;&emsp;&emsp;<em>your code goes here</em><br />
+                    &emsp;&emsp;<span class="cond">#loop</span>
+                </a><br />
+                With condition:<br />
+                <a href="#0" data-text="#while 'condition
+'your code goes here
+#loop">
+                    &emsp;&emsp;<span class="cond">#while</span> <em>condition</em><br />
+                    &emsp;&emsp;&emsp;&emsp;<em>your code goes here</em><br />
+                    &emsp;&emsp;<span class="cond">#loop</span>
+                </a><br />
             </span>
         </li>
         <li style="list-style-type: none;">
@@ -464,50 +644,50 @@
                 <a href="#0" data-text="#def variable_name$
 'line 1
 'line 2
-'...
+'…
 #end def">
                     &emsp;&emsp;<span class="cond">#def</span> <em class="macro">variable_name$</em><br />
                     &emsp;&emsp;&emsp;&emsp;<em>content line 1</em><br />
                     &emsp;&emsp;&emsp;&emsp;<em>content line 2</em><br />
-                    &emsp;&emsp;&emsp;&emsp;<em>...</em><br />
+                    &emsp;&emsp;&emsp;&emsp;<em>…</em><br />
                     &emsp;&emsp;<span class="cond">#end def</span>
                 </a><br />
                 Inline macro:<br />
                 &emsp;&emsp;<a href="#0" data-text="#def macro_name$(param1$; param2$) = content">
-                    <span class="cond">#def</span> <em class="macro">macro_name$</em><span class="b">(</span><em class="macro">param1$</em><span class="o">;</span> <em class="macro">param2$</em><span class="o">;</span>...<span class="b">)</span> <span class="o">=</span> <em>content</em>
+                    <span class="cond">#def</span> <em class="macro">macro_name$</em><span class="b">(</span><em class="macro">param1$</em><span class="o">;</span> <em class="macro">param2$</em><span class="o">;</span>…<span class="b">)</span> <span class="o">=</span> <em>content</em>
                 </a><br />
                 Multiline macro:<br />
                 <a href="#0" data-text="#def macro_name$(param1$; param2$)
 'line 1
 'line 2
-'...
+'…
 #end def">
-                    &emsp;&emsp;<span class="cond">#def</span> <em class="macro">macro_name$</em><span class="b">(</span><em class="macro">param1$</em><span class="o">;</span> <em class="macro">param2$</em><span class="o">;</span>...<span class="b">)</span><br />
+                    &emsp;&emsp;<span class="cond">#def</span> <em class="macro">macro_name$</em><span class="b">(</span><em class="macro">param1$</em><span class="o">;</span> <em class="macro">param2$</em><span class="o">;</span>…<span class="b">)</span><br />
                     &emsp;&emsp;&emsp;&emsp;<em>content line 1</em><br />
                     &emsp;&emsp;&emsp;&emsp;<em>content line 2</em><br />
-                    &emsp;&emsp;&emsp;&emsp;<em>...</em><br />
+                    &emsp;&emsp;&emsp;&emsp;<em>…</em><br />
                     &emsp;&emsp;<span class="cond">#end def</span>
                 </a><br />
             </span>
         </li>
         <li style="list-style-type: none;">
             <span class="exp" id="btn9">+</span>Output control:<br />
-		    <span id="list9" style="display: none;">
-			    <a href="#0" data-text="#hide"><span class="cond">#hide</span></a> - hide the report contents;<br />
-			    <a href="#0" data-text="#show"><span class="cond">#show</span></a> - always show the contents (default);<br />
-			    <a href="#0" data-text="#pre"><span class="cond">#pre</span></a> - show the next contents only before calculations;<br />
-			    <a href="#0" data-text="#post"><span class="cond">#post</span></a> - show the next contents only after calculations;<br />
-			    <a href="#0" data-text="#val"><span class="cond">#val</span></a> - show only the final result, without the equation;<br />
-			    <a href="#0" data-text="#equ"><span class="cond">#equ</span></a> - show complete equations and results (default);<br />
-			    <a href="#0" data-text="#noc"><span class="cond">#noc</span></a> - show only equations without results (no calculations);<br />
-			    <a href="#0" data-text="#nosub"><span class="cond">#nosub</span></a> - do not substitute variables (no substitution);<br />
-			    <a href="#0" data-text="#novar"><span class="cond">#novar</span></a> - show equations only with substituted values (no variables);<br />
-			    <a href="#0" data-text="#varsub"><span class="cond">#varsub</span></a> - show equations with variables and substituted values (default);<br />
-			    <a href="#0" data-text="#split"><span class="cond">#split</span></a> - split equations that do not fit on a single line;<br />
-			    <a href="#0" data-text="#wrap"><span class="cond">#wrap</span></a> - wrap equations that do not fit on a single line (default);<br />
-			    <a href="#0" data-text="#round "><span class="cond">#round <em>n</em></span></a> - rounds the output to <em>n</em> digits after the decimal point.<br />
-			    Each of the above commands is effective after the current line until the end of the report or another command that overwrites it.
-		    </span>
+            <span id="list9" style="display: none;">
+                <a href="#0" data-text="#hide"><span class="cond">#hide</span></a> - hide the report contents;<br />
+                <a href="#0" data-text="#show"><span class="cond">#show</span></a> - always show the contents (default);<br />
+                <a href="#0" data-text="#pre"><span class="cond">#pre</span></a> - show the next contents only before calculations;<br />
+                <a href="#0" data-text="#post"><span class="cond">#post</span></a> - show the next contents only after calculations;<br />
+                <a href="#0" data-text="#val"><span class="cond">#val</span></a> - show only the final result, without the equation;<br />
+                <a href="#0" data-text="#equ"><span class="cond">#equ</span></a> - show complete equations and results (default);<br />
+                <a href="#0" data-text="#noc"><span class="cond">#noc</span></a> - show only equations without results (no calculations);<br />
+                <a href="#0" data-text="#nosub"><span class="cond">#nosub</span></a> - do not substitute variables (no substitution);<br />
+                <a href="#0" data-text="#novar"><span class="cond">#novar</span></a> - show equations only with substituted values (no variables);<br />
+                <a href="#0" data-text="#varsub"><span class="cond">#varsub</span></a> - show equations with variables and substituted values (default);<br />
+                <a href="#0" data-text="#split"><span class="cond">#split</span></a> - split equations that do not fit on a single line;<br />
+                <a href="#0" data-text="#wrap"><span class="cond">#wrap</span></a> - wrap equations that do not fit on a single line (default);<br />
+                <a href="#0" data-text="#round "><span class="cond">#round <em>n</em></span></a> - rounds the output to <em>n</em> digits after the decimal point.<br />
+                Each of the above commands is effective after the current line until the end of the report or another command that overwrites it.
+            </span>
         </li>
         <li style="list-style-type: none;">
             <span class="exp" id="btn10">+</span>Breakpoints for step-by-step execution:<br />

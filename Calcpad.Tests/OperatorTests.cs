@@ -26,12 +26,12 @@
         public void Factorial_180()
         {
             var e = Assert.Throws<MathParser.MathParserException>(
-                () => 
-                { 
-                    new TestCalc(new()).Run("180!"); 
+                () =>
+                {
+                    new TestCalc(new()).Run("180!");
                 }
             );
-            Assert.Contains("Argument out of range for n!", e.Message);   
+            Assert.Contains("Argument out of range for n!", e.Message);
         }
 
         [Fact]
@@ -39,9 +39,9 @@
         public void Factorial_Minus_10()
         {
             var e = Assert.Throws<MathParser.MathParserException>(
-                () => 
+                () =>
                 {
-                    new TestCalc(new()).Run("(-10)!"); 
+                    new TestCalc(new()).Run("(-10)!");
                 }
             );
             Assert.Contains("Argument out of range for n!", e.Message);
@@ -90,8 +90,8 @@
 
         [Fact]
         [Trait("Category", "Real")]
-        public void Power_10_310() 
-        { 
+        public void Power_10_310()
+        {
             var result = new TestCalc(new()).Run("10^310");
             Assert.Equal(double.PositiveInfinity, result);
         }
@@ -202,8 +202,8 @@
         [Trait("Category", "Real")]
         public void Int_Div_10_3()
         {
-            var result = new TestCalc(new()).Run("10\\3");  
-            Assert.Equal(3d, result);  
+            var result = new TestCalc(new()).Run("10\\3");
+            Assert.Equal(3d, result);
         }
 
         [Fact]
@@ -395,7 +395,7 @@
         }
 
         [Fact]
-        [Trait("Category", "Real")] 
+        [Trait("Category", "Real")]
         public void Equals_Sin_Small_Number()
         {
             var result = new TestCalc(new() { Degrees = 1 }).Run("sin(10^-8) ≡ 0.00000001");
@@ -407,7 +407,7 @@
         public void Equals_Inf_Inf()
         {
             var calc = new TestCalc(new());
-            calc.Run("inf = 10^310");   
+            calc.Run("inf = 10^310");
             var result = calc.Run("inf ≡ inf");
             Assert.Equal(1d, result);
         }
@@ -587,7 +587,7 @@
         public void Assign()
         {
             var calc = new TestCalc(new());
-            calc.Run("x = 1"); 
+            calc.Run("x = 1");
             var result = calc.Run("x");
             Assert.Equal(1d, result);
         }

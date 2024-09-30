@@ -32,6 +32,6 @@ namespace Calcpad.Core
             return -1;
         }
 
-        internal T this[int index] => _values[index];
+        internal T this[long index] => _values[index];
     }
 }

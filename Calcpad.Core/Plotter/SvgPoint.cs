@@ -14,9 +14,6 @@ namespace Calcpad.Core
             Y = Math.Round(y, Decimals);
         }
 
-        public override string ToString()
-        {
-            return X + "," + Y;
-        }
+        public override string ToString() => X + "," + Y;
     }
 }

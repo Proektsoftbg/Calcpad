@@ -16,6 +16,27 @@ namespace Calcpad.Core
         private readonly StringBuilder _stringBuilder = new(200);
         protected static int PowerOrder = Calculator.OperatorOrder[Calculator.OperatorIndex['^']];
 
+        internal abstract string UnitString(Unit units);
+        internal abstract string FormatInput(string s, Unit units, int line, bool isCalculated);
+        internal abstract string FormatSubscript(string sa, string sb);
+        internal abstract string FormatVariable(string name, string value);
+        internal abstract string FormatUnits(string s);
+        internal abstract string FormatFunction(string s);
+        internal abstract string FormatSwitch(string[] sa, int level = 0);
+        internal abstract string FormatIf(string sc, string sa, string sb, int level = 0);
+        internal abstract string FormatRoot(string s, bool formatEquations, int level = 0, string n = "2");
+        internal abstract string FormatOperator(char c);
+        internal abstract string FormatPower(string sa, string sb, int level, int order);
+        internal abstract string FormatDivision(string sa, string sb, int level);
+        internal abstract string FormatNary(string symbol, string sub, string sup, string expr); //Integral, sum, product
+        internal abstract string FormatValue(in Value v, int decimals);
+        internal abstract string AddBrackets(string s, int level = 0, char left = '(', char right = ')');
+        internal abstract string FormatAbs(string s, int level = 0);
+        internal abstract string FormatReal(double d, int decimals, bool zeroSmall = false);
+        internal abstract string FormatComplex(double re, double im, int decimals);
+        internal abstract string FormatMatrix(Matrix matrix, int decimals, int max, bool zeroSmallElements);
+        internal abstract string FormatMatrixValue(Value v, int decimals, bool zeroSmall);
+
         internal string FormatUnitsText(string text)
         {
             _stringBuilder.Clear();
@@ -153,25 +174,6 @@ namespace Calcpad.Core
             }
         }
 
-        internal abstract string UnitString(Unit units);
-        internal abstract string FormatInput(string s, Unit units, int line, bool isCalculated);
-        internal abstract string FormatSubscript(string sa, string sb);
-        internal abstract string FormatVariable(string name, string value);
-        internal abstract string FormatUnits(string s);
-        internal abstract string FormatFunction(string s);
-        internal abstract string FormatSwitch(string[] sa, int level = 0);
-        internal abstract string FormatIf(string sc, string sa, string sb, int level = 0);
-        internal abstract string FormatRoot(string s, bool formatEquations, int level = 0, string n = "2");
-        internal abstract string FormatOperator(char c);
-        internal abstract string FormatPower(string sa, string sb, int level, int order);
-        internal abstract string FormatDivision(string sa, string sb, int level);
-        internal abstract string FormatNary(string symbol, string sub, string sup, string expr); //Integral, sum, product
-        internal abstract string FormatValue(in Value v, int decimals);
-        internal abstract string AddBrackets(string s, int level = 0);
-        internal abstract string FormatAbs(string s, int level = 0);
-        internal abstract string FormatReal(double d, int decimals);
-        internal abstract string FormatComplex(double re, double im, int decimals);
-
         protected static string FormatOperatorHelper(char c) => c switch
         {
             Calculator.NegChar => "-",
@@ -190,6 +192,8 @@ namespace Calcpad.Core
             '⊕' => " xor ",
             '*' => "·",
             ';' => "; ",
+            ',' => ", ",
+            '|' => " | ",
             _ => c.ToString()
         };
 
@@ -303,13 +307,13 @@ namespace Calcpad.Core
             units is null ? s : s + ' ' + units.Text;
 
         internal override string FormatSubscript(string sa, string sb) => sa + "_" + sb;
-        internal override string FormatVariable(string name, string value) => name;
+        internal override string FormatVariable(string name, string value) => 
+            name[0] == '\u20D7' ? name[1..] : name;
         internal override string FormatUnits(string s) => s;
         internal override string FormatFunction(string s) => s;
         internal override string FormatRoot(string s, bool formatEquations, int level = 0, string n = "2") =>
             n switch
             {
-
                 "2" => $"√({s})",
                 "3" => $"³√({s})",
                 "4" => $"⁴√({s})",
@@ -333,10 +337,25 @@ namespace Calcpad.Core
             return s;
         }
 
-        internal override string AddBrackets(string s, int level = 0) => $"({s})";
-
+        internal override string AddBrackets(string s, int level = 0, char left = '(', char right = ')') => left + s + right;
         internal override string FormatAbs(string s, int level = 0) => $"|{s}|";
-        internal override string FormatReal(double d, int decimals) => FormatNumberHelper(d, decimals);
+        internal override string FormatReal(double d, int decimals, bool zeroSmall = false)
+        {
+            var s = FormatNumberHelper(d, decimals);
+            if (double.IsNaN(d) || double.IsInfinity(d))
+                return s;
+
+            var i = s.LastIndexOf('E');
+            if (i <= 0)
+                return s;
+
+            var i1 = i + 1;
+            if (zeroSmall && s[i1] == '-')
+                return "0";
+
+            return s;
+        }
+
         internal override string FormatComplex(double re, double im, int decimals)
         {
             if (double.IsNaN(re) && double.IsNaN(im))
@@ -363,16 +382,67 @@ namespace Calcpad.Core
         internal override string FormatIf(string sc, string sa, string sb, int level = 0) =>
             $"if({sc}; {sa}; {sb})";
 
+        internal override string FormatMatrix(Matrix matrix, int decimals, int max, bool zeroSmallElements)
+        {
+            var sb = new StringBuilder();
+            var nc = matrix.ColCount - 1;
+            var d = matrix.Diagonal();
+            var dmax = Math.Abs(d[0].Re);
+            var imax = 0;
+            for (int i = 1, nd = d.Length; i < nd; ++i)
+            {
+                var di = Math.Abs(d[i].Re);
+                if (di > dmax)
+                {
+                    dmax = di;
+                    imax = i;
+                }
+            }
+            var len = FormatMatrixValue(d[imax], decimals, zeroSmallElements).Length;
+            var format = $"{{0,{len}}}";
+            var cont = string.Format(format, "...");
+            sb.Append('[');
+            for (int i = 0, nr = matrix.RowCount - 1; i <= nr; ++i)
+            {
+                if (i == max)
+                {
+                    sb.Insert(sb.Length, cont, Math.Min(max, nc));
+                    i = nr;
+                }
+                for (int j = 0; j <= nc; ++j)
+                {
+                    if (j == max)
+                    {
+                        sb.Append(cont);
+                        j = nc;
+                    }
+                    var s = FormatMatrixValue(matrix[i, j], decimals, zeroSmallElements);
+                    sb.Append(string.Format(format, s));
+                    if (j < nc)
+                        sb.Append("  ");
+                }
+                if (i < nr)
+                    sb.Append('|'); 
+            }
+            sb.Append(']');
+            return sb.ToString();
+        }
+
+        internal override string FormatMatrixValue(Value v, int decimals, bool zeroSmall)
+        {
+            var s = FormatReal(v.Re, decimals, zeroSmall);
+            return v.Units is null ? s : s + ' ' + v.Units.Text;
+        }
     }
 
     internal class HtmlWriter : OutputWriter
     {
         private static readonly string[] SqrPad = [
-                "&ensp;&hairsp;",
+            "&ensp;&hairsp;",
             "&ensp;&ensp;",
             "&emsp;&thinsp;",
             "&emsp;&ensp;"
-            ];
+        ];
 
         private static string RootPad(int level, string n) => level switch
         {
@@ -419,7 +489,9 @@ namespace Calcpad.Core
         {
             var s = string.IsNullOrEmpty(value) ?
                 string.Empty :
-                $" class=\"value\" data-value=\"{value}\"";
+                $" class=\"value\" data-value='{value}'";
+            if (name[0] == '\u20D7')
+                name = "<span class=\"vec\">\u20D7</span>" + name[1..];
             var i = name.IndexOf('_');
             if (i > 0)
             {
@@ -500,12 +572,11 @@ namespace Calcpad.Core
             return s + "&#8201;" + v.Units.Html;
         }
 
-        internal override string AddBrackets(string s, int level = 0) =>
+        internal override string AddBrackets(string s, int level = 0, char left = '(', char right = ')') =>
             level switch
             {
-                0 => $"({s})",
-                < 2 => FormatBrackets('(', level) + s + FormatBrackets(')', level),
-                _ => FormatBrackets('[', level) + s + FormatBrackets(']', level)
+                0 => left + s + right,
+                _ => FormatBrackets(left, level) + s + FormatBrackets(right, level)
             };
 
         private static string FormatLeftCurl(int level) =>
@@ -521,7 +592,7 @@ namespace Calcpad.Core
                 _ => $"<span class=\"b{level}\">|</span>{s}<span class=\"b{level}\">|</span>"
             };
 
-        internal override string FormatReal(double d, int decimals)
+        internal override string FormatReal(double d, int decimals, bool zeroSmall = false)
         {
             var s = FormatNumberHelper(d, decimals);
             if (double.IsNaN(d) || double.IsInfinity(d))
@@ -536,6 +607,9 @@ namespace Calcpad.Core
             var sign = s[i1++];
             if (sign is '+' or '-' or '0')
             {
+                if (zeroSmall && sign == '-')
+                    return "0";
+
                 if (s[i1] is '0')
                     i1++;
             }
@@ -583,6 +657,45 @@ namespace Calcpad.Core
             var s = $"if {sc}: {sa}<br />else: {sb}";
             return $"{FormatLeftCurl(level)}<span class=\"dvs\">{s}</span>";
         }
+
+        internal override string FormatMatrix(Matrix matrix, int decimals, int max, bool zeroSmallElements)
+        {
+            var sb = new StringBuilder();
+            var nc = matrix.ColCount;
+            sb.AppendLine("<span class=\"matrix\">");
+            for (int i = 0, nr = matrix.RowCount; i < nr; ++i)
+            {
+                sb.Append("<span class=\"tr\"><span class=\"td\"></span>");
+                if (i == max)
+                {
+                    sb.Insert(sb.Length, "<span class=\"td\">⋮</span>", Math.Min(max, nc));
+                    if (nc > max)
+                        sb.Append("<span class=\"td\">⋱</span><span class=\"td\">⋮</span>");
+
+                    sb.Append("<span class=\"td\"></span></span><span class=\"tr\"><span class=\"td\"></span>");
+                    i = nr - 1;
+                }
+                for (int j = 0; j < nc; ++j)
+                {
+                    if (j == max)
+                    {
+                        sb.Append("<span class=\"td\">⋯</span>");
+                        j = nc - 1;
+                    }
+                    var s = FormatMatrixValue(matrix[i, j], decimals, zeroSmallElements);
+                    sb.Append($"<span class=\"td\">{s}</span>");
+                }
+                sb.AppendLine("<span class=\"td\"></span></span>");
+            }
+            sb.AppendLine("</span>");
+            return sb.ToString();
+        }
+
+        internal override string FormatMatrixValue(Value v, int decimals, bool zeroSmall)
+        {
+            var s = FormatReal(v.Re, decimals, zeroSmall);
+            return v.Units is null ? s : s + "&#8201;" + v.Units.Html;
+        }   
     }
 
     internal class XmlWriter : OutputWriter
@@ -602,21 +715,29 @@ namespace Calcpad.Core
 
             return units is null ? output : output + units.Xml;
         }
-        internal override string FormatSubscript(string sa, string sb) =>
-            $"<m:sSub><m:e>{sa}</m:e><m:sub>{Run(sb)}</m:sub></m:sSub>";
+        internal override string FormatSubscript(string sa, string sb)
+        {
+            var s = sb.StartsWith('<') ? sb : Run(sb);
+            return $"<m:sSub><m:e>{sa}</m:e><m:sub>{s}</m:sub></m:sSub>";
+        }
 
         internal override string FormatVariable(string name, string value)
         {
             const string format = $"<w:rPr {wXmlns}><w:color w:val=\"0000FF\" /></w:rPr>";
             var i = name.IndexOf('_');
             if (i <= 0)
-                return Run(name, format);
+                return FormatVector(name, format);
 
             var i1 = i + 1;
             return i1 < name.Length ?
-                FormatSubscript(Run(name[..i], format), name[(i + 1)..]) :
-                Run(name);
+                FormatSubscript(FormatVector(name[..i], format), name[i1..]) :
+                FormatVector(name, string.Empty);
         }
+
+        private static string FormatVector(string s, string format) => s[0] == '\u20D7' ?
+            $"<m:acc><m:accPr><m:chr m:val=\"\u20D7\"/></m:accPr><m:e>{Run(s[1..], format)}</m:e></m:acc>" :
+            Run(s, format);
+
         internal override string FormatUnits(string s) =>
             Run(' ' + s, $"<m:rPr><m:nor/></m:rPr><w:rPr {wXmlns}><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\" /><w:sz w:val=\"22\" /></w:rPr>");
         internal override string FormatFunction(string s)
@@ -650,6 +771,7 @@ namespace Calcpad.Core
             '∧' => Run(" and "),
             '∨' => Run(" or "),
             '⊕' => Run(" xor "),
+            '|' => Run(" | "),
             Calculator.NegChar => Run("-"),
             _ => Run(c.ToString())
         };
@@ -686,12 +808,9 @@ namespace Calcpad.Core
             return s + v.Units.Xml;
         }
 
-        internal override string AddBrackets(string s, int level = 0) =>
-            level > 1 ? Brackets('[', ']', s) : Brackets('(', ')', s);
+        internal override string FormatAbs(string s, int level = 0) => AddBrackets(s, level, '|', '|');
 
-        internal override string FormatAbs(string s, int level = 0) => Brackets('|', '|', s);
-
-        internal override string FormatReal(double d, int decimals)
+        internal override string FormatReal(double d, int decimals, bool zeroSmall = false)
         {
             var s = FormatNumberHelper(d, decimals);
             if (double.IsNaN(d) || double.IsInfinity(d))
@@ -702,6 +821,9 @@ namespace Calcpad.Core
                 return Run(s);
 
             var i1 = i + 1;
+            if (zeroSmall && s[i1] == '-')
+                return Run("0");
+
             if (s[i1] == '+')
                 i1++;
 
@@ -732,8 +854,11 @@ namespace Calcpad.Core
 
         internal static string Run(string content) => $"<m:r><m:t>{content}</m:t></m:r>";
         internal static string Run(string content, string format) => $"<m:r>{format}<m:t>{content}</m:t></m:r>";
-        internal static string Brackets(char opening, char closing, string s) =>
-            $"<m:d><m:dPr><m:begChr m:val=\"{opening}\"/><m:endChr m:val=\"{closing}\"/></m:dPr><m:e>{s}</m:e></m:d>";
+        internal override string AddBrackets(string s, int level = 0, char left = '(', char right = ')') =>
+            Brackets(s, left, right);
+
+        internal static string Brackets(string s, char left, char right) =>
+            $"<m:d><m:dPr><m:begChr m:val=\"{left}\"/><m:endChr m:val=\"{right}\"/></m:dPr><m:e>{s}</m:e></m:d>";
 
         internal override string FormatSwitch(string[] sa, int level = 0)
         {
@@ -759,6 +884,49 @@ namespace Calcpad.Core
         {
             var s = FormatIfRow(sc, sa) + FormatElseRow(sb);
             return $"<m:d><m:dPr><m:begChr m:val=\"{{\"/><m:endChr m:val=\" \"/></m:dPr><m:e><m:m>{mPr}{s}</m:m></m:e></m:d>";
+        }
+
+        internal override string FormatMatrix(Matrix matrix, int decimals, int max, bool zeroSmallElements)
+        {
+            var sb = new StringBuilder();
+            var nr = matrix.RowCount;
+            var nc = matrix.ColCount;
+
+            sb.Append($"<m:d><m:dPr><m:begChr m:val=\"[\"/><m:endChr m:val=\"]\"/></m:dPr><m:e><m:m><m:mPr><m:mcs><m:mc><m:mcPr><m:count m:val=\"{nc}\"/><m:mcJc m:val=\"center\"/></m:mcPr></m:mc></m:mcs></m:mPr>");
+            for (int i = 0; i < nr; ++i)
+            {
+                sb.Append("<m:mr>");
+                if (i == max)
+                {
+                    sb.Insert(sb.Length, td("⋮"), Math.Min(max, nc));
+                    if (nc > max)
+                        sb.Append(td("⋱")).Append(td("⋮"));
+
+                    sb.Append("</m:mr><m:mr>");
+                    i = nr - 1;
+                }
+                for (int j = 0; j < nc; ++j)
+                {
+                    if (j == max)
+                    {
+                        sb.Append(td("⋯"));
+                        j = nc - 1;
+                    }
+                    var s = FormatMatrixValue(matrix[i, j], decimals, zeroSmallElements);
+                    sb.Append($"<m:e>{s}</m:e>");
+                }
+                sb.Append("</m:mr>");
+            }
+            sb.Append("</m:m></m:e></m:d>");
+            return sb.ToString();
+
+            static string td(string s) => $"<m:e><m:r><m:t>{s}</m:t></m:r></m:e>";
+        }
+
+        internal override string FormatMatrixValue(Value v, int decimals, bool zeroSmall)
+        {
+            var s = FormatReal(v.Re, decimals, zeroSmall);
+            return v.Units is null ? s : s + v.Units.Xml;
         }
 
         private const string mPr = "<m:mPr><m:mcs><m:mc><m:mcPr><m:count m:val=\"2\"/><m:mcJc m:val=\"left\"/></m:mcPr></m:mc></m:mcs></m:mPr>";

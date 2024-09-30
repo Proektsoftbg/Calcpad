@@ -7,7 +7,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -47,7 +46,7 @@ namespace Calcpad.Wpf
                 Name = AppDomain.CurrentDomain.FriendlyName + ".exe";
                 FullName = System.IO.Path.Combine(Path, Name);
                 Version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-                Title = " Calcpad " + Version[0..(Version.LastIndexOf('.'))];
+                Title = " Calcpad VM " + Version[0..(Version.LastIndexOf('.'))];
             }
             internal static readonly string Path;
             internal static readonly string Name;
@@ -82,7 +81,7 @@ namespace Calcpad.Wpf
         private readonly UndoManager _undoMan;
         private readonly WebBrowserWrapper _wbWarper;
 
-        private readonly string _readmeFileName;
+        private string _readmeFileName;
         private string DocumentPath { get; set; }
         private string _cfn;
         private string CurrentFileName
@@ -104,7 +103,7 @@ namespace Calcpad.Wpf
                 }
             }
         }
-        //State variablesx
+        //State variables
         private readonly string _svgTyping;
         private bool _isSaving;
         private bool _isSaved;
@@ -288,8 +287,8 @@ namespace Calcpad.Wpf
                 RichTextBox.CaretPosition = _document.ContentStart;
                 HighLightAll();
                 SetAutoIndent();
+                _forceHighlight = false;
             }
-            _forceHighlight = false;
         }
 
         private static void SetButton(Control b, bool on)
@@ -361,9 +360,9 @@ namespace Calcpad.Wpf
             var element = (FrameworkElement)sender;
             var tag = element.Tag.ToString();
             RichTextBox.BeginChange();
-            if (tag.Contains('|'))
+            if (tag.Contains('‖'))
             {
-                var parts = tag.Split('|');
+                var parts = tag.Split('‖');
                 if (RichTextBox.Selection.Start.GetOffsetToPosition(RichTextBox.Selection.End) == 0)
                     InsertComment(RichTextBox.Selection.End, parts[0] + parts[1]);
                 else if (!ReferenceEquals(RichTextBox.Selection.Start.Paragraph, RichTextBox.Selection.End.Paragraph))
@@ -700,6 +699,8 @@ namespace Calcpad.Wpf
             ColorScaleComboBox.SelectedIndex = settings.Palette;
             SmoothCheckBox.IsChecked = settings.Smooth;
             ExternalBrowserComboBox.SelectedIndex = settings.Browser;
+            ZeroSmallMatrixElementsCheckBox.IsChecked = settings.ZeroSmallMatrixElements;
+            MaxOutputCountTextBox.Text = settings.MaxOutputCount.ToString(); 
             if (settings.WindowLeft > 0) Left = settings.WindowLeft;
             if (settings.WindowTop > 0) Top = settings.WindowTop;
             if (settings.WindowWidth > 0) Width = settings.WindowWidth;
@@ -714,7 +715,8 @@ namespace Calcpad.Wpf
                                             Rad.IsChecked ?? false ? 1 :
                                             2;
             math.Substitute = SubstituteCheckBox.IsChecked ?? false;
-
+            math.ZeroSmallMatrixElements = ZeroSmallMatrixElementsCheckBox.IsChecked ?? false;
+            math.MaxOutputCount = int.TryParse(MaxOutputCountTextBox.Text, out int i) ? i : (int)20;
             var plot = _parser.Settings.Plot;
             plot.ImagePath = string.Empty; //tmpDir;
             plot.ImageUri = string.Empty; //tmpDir;
@@ -726,7 +728,6 @@ namespace Calcpad.Wpf
             plot.ColorScale = (PlotSettings.ColorScales)ColorScaleComboBox.SelectedIndex;
             plot.LightDirection = (PlotSettings.LightDirections)LightDirectionComboBox.SelectedIndex;
         }
-
 
         private void ReadRecentFiles()
         {
@@ -780,6 +781,8 @@ namespace Calcpad.Wpf
             settings.Palette = (byte)ColorScaleComboBox.SelectedIndex;
             settings.Smooth = SmoothCheckBox.IsChecked ?? false;
             settings.Browser = (byte)ExternalBrowserComboBox.SelectedIndex;
+            settings.ZeroSmallMatrixElements = ZeroSmallMatrixElementsCheckBox.IsChecked ?? false;
+            settings.MaxOutputCount = int.TryParse(MaxOutputCountTextBox.Text, out int i) ? i : (int)20;
             settings.WindowLeft = Left;
             settings.WindowTop = Top;
             settings.WindowWidth = Width;
@@ -1151,12 +1154,15 @@ namespace Calcpad.Wpf
                         IsWebForm = false;
                     else
                     {
-                        ForceHighlight();
                         Task.Run(DispatchLineNumbers);
+                        ForceHighlight();
                     }
                     SaveButton.Tag = null;
-                    IsCalculated = true;
-                    CalculateAsync();
+                    if (IsAutoRun)
+                    {
+                        IsCalculated = true;
+                        CalculateAsync();
+                    }
                 }
             }
             _mustPromptUnlock = IsWebForm;
@@ -1195,13 +1201,24 @@ namespace Calcpad.Wpf
             {
                 var i = (int)Math.Floor(d);
                 _parser.Settings.Math.Decimals = i;
-                DecimalsTextBox.Text = i.ToString();
+                DecimalsTextBox.Text = _parser.Settings.Math.Decimals.ToString();
                 DecimalsTextBox.Foreground = Brushes.Black;
             }
             else
                 DecimalsTextBox.Foreground = Brushes.Red;
 
+            if (double.TryParse(MaxOutputCountTextBox.Text, out var m))
+            {
+                var i = (int)Math.Floor(m);
+                _parser.Settings.Math.MaxOutputCount = i;
+                MaxOutputCountTextBox.Text = _parser.Settings.Math.MaxOutputCount.ToString();
+                MaxOutputCountTextBox.Foreground = Brushes.Black;
+            }
+            else
+                MaxOutputCountTextBox.Foreground = Brushes.Red;
+
             _parser.Settings.Math.Substitute = SubstituteCheckBox.IsChecked ?? false;
+            _parser.Settings.Math.ZeroSmallMatrixElements = ZeroSmallMatrixElementsCheckBox.IsChecked ?? false;    
             if (IsWebForm && !toWebForm)
             {
                 if (!GetAndSetInputFields())
@@ -1221,6 +1238,7 @@ namespace Calcpad.Wpf
                 outputText = inputText;
                 _htmlUnwarpedCode = string.Empty;
             }
+
             string htmlResult;
             if (!string.IsNullOrEmpty(_htmlUnwarpedCode) && !(IsWebForm || toWebForm))
             {
@@ -1426,19 +1444,19 @@ namespace Calcpad.Wpf
 
         private static string GetHelp(string helpURL)
         {
-            try
-            {
-                using var client = new HttpClient();
-                return client.GetStringAsync(helpURL).Result;
-            }
-            catch
-            {
-                var fileName = $"{AppInfo.Path}doc\\help.{_currentCultureName}.html";
-                if (!File.Exists(fileName))
-                    fileName = $"{AppInfo.Path}doc\\help.html";
+            //try
+            //{
+            //    using var client = new HttpClient();
+            //    return client.GetStringAsync(helpURL).Result;
+            //}
+            //catch
+            //{
+            var fileName = $"{AppInfo.Path}doc\\help.{_currentCultureName}.html";
+            if (!File.Exists(fileName))
+                fileName = $"{AppInfo.Path}doc\\help.html";
 
-                return ReadTextFromFile(fileName);
-            }
+            return ReadTextFromFile(fileName);
+            //}
         }
 
         private static string ReadTextFromFile(string fileName)
@@ -1721,7 +1739,7 @@ namespace Calcpad.Wpf
             }
             else
             {
-                fileName =  $"{AppInfo.Path}doc\\help.{_currentCultureName}.docx";
+                fileName = $"{AppInfo.Path}doc\\help.{_currentCultureName}.docx";
                 if (!File.Exists(fileName))
                     fileName = $"{AppInfo.Path}doc\\help.docx";
             }
@@ -1924,8 +1942,8 @@ namespace Calcpad.Wpf
             {
                 var cursor = WebBrowser.Cursor;
                 WebBrowser.Cursor = Cursors.Wait;
-                ForceHighlight();
                 Task.Run(DispatchLineNumbers);
+                ForceHighlight();
                 InputFrame.Visibility = Visibility.Visible;
                 FramesGrid.ColumnDefinitions[0].Width = new GridLength(1, GridUnitType.Star);
                 FramesGrid.ColumnDefinitions[1].Width = new GridLength(5);
@@ -1981,9 +1999,7 @@ namespace Calcpad.Wpf
             }
         }
 
-
-        private void SubstituteCheckBox_Clicked(object sender, RoutedEventArgs e) => ClearOutput();
-
+        private void SubstituteCheckBox_Click(object sender, RoutedEventArgs e) => ClearOutput();
         private void DecimalsTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             ClearOutput(false);
@@ -2712,18 +2728,14 @@ namespace Calcpad.Wpf
             if (pp is not null)
             {
                 indent = pp.TextIndent;
-                var s = new TextRange(pp.ContentStart, pp.ContentEnd).Text.ToLowerInvariant();
-                if (s.Length > 0 &&
-                    s[0] == '#' && (
-                    s.StartsWith("#if", StringComparison.Ordinal) ||
-                    s.StartsWith("#else", StringComparison.Ordinal) ||
-                    s.StartsWith("#repeat", StringComparison.Ordinal) ||
-                    s.StartsWith("#def", StringComparison.Ordinal) &&
-                    !s.Contains('=')
-                    ))
-                    indent += AutoIndentStep;
+                var s = new TextRange(pp.ContentStart, pp.ContentEnd).Text.Trim().ToLowerInvariant();
+                if (s.Length > 3 && s[0] == '#')
+                {
+                    var span = s.AsSpan(1);
+                    if (IsIndentStart(span) || span.StartsWith("else"))
+                        indent += AutoIndentStep;
+                }
             }
-
             _isTextChangedEnabled = false;
             RichTextBox.BeginChange();
             while (p is not null)
@@ -2769,32 +2781,21 @@ namespace Calcpad.Wpf
         private static bool UpdateIndent(Paragraph p, ref double indent)
         {
             var s = new TextRange(p.ContentStart, p.ContentEnd).Text.ToLowerInvariant().Trim();
-            if (s.Length > 0 && s[0] == '#')
+            if (s.Length > 3 && s[0] == '#')
             {
-                if (!(s.StartsWith("#if", StringComparison.Ordinal) ||
-                    s.StartsWith("#el", StringComparison.Ordinal) ||
-                    s.StartsWith("#en", StringComparison.Ordinal) ||
-                    s.StartsWith("#re", StringComparison.Ordinal) ||
-                    s.StartsWith("#lo", StringComparison.Ordinal) ||
-                    s.StartsWith("#def", StringComparison.Ordinal) &&
-                    !s.Contains('=')
-                    ))
+                var span = s.AsSpan(1);
+                if (!IsIndent(span))
                     return false;
-                else if (s.StartsWith("#if", StringComparison.Ordinal) ||
-                         s.StartsWith("#repeat", StringComparison.Ordinal) ||
-                         s.StartsWith("#def", StringComparison.Ordinal) &&
-                         !s.Contains('=')
-                         )
+                else if (IsIndentStart(span))
                 {
                     p.TextIndent = indent;
                     indent += AutoIndentStep;
                 }
-                else if (indent > 0 && (
-                    s.StartsWith("#end", StringComparison.Ordinal) ||
-                    s.StartsWith("#loop", StringComparison.Ordinal)
-                    ))
+                else if (IsIndentEnd(span))
                 {
                     indent -= AutoIndentStep;
+                    if (indent < 0)
+                        indent = 0;
                     p.TextIndent = indent;
                 }
                 else
@@ -2805,9 +2806,32 @@ namespace Calcpad.Wpf
             return false;
         }
 
+        private static bool IsIndent(ReadOnlySpan<char> s) =>
+            s.StartsWith("if") ||
+            s.StartsWith("el") ||
+            s.StartsWith("en") ||
+            s.StartsWith("re") ||
+            s.StartsWith("fo") ||
+            s.StartsWith("wh") ||
+            s.StartsWith("lo") ||
+            s.StartsWith("def") &&
+            !s.Contains('=');
+
+        private static bool IsIndentStart(ReadOnlySpan<char> s) =>
+            s.StartsWith("if") ||
+            s.StartsWith("repeat") ||
+            s.StartsWith("for") ||
+            s.StartsWith("while") ||
+            s.StartsWith("def") &&
+            !s.Contains('=');
+
+        private static bool IsIndentEnd(ReadOnlySpan<char> s) =>
+            s.StartsWith("end") || s.StartsWith("loop");
+
         private void HighLightAll()
         {
             _isTextChangedEnabled = false;
+            Cursor = Cursors.Wait;
             RichTextBox.BeginChange();
             _highlighter.Defined.Get(InputTextLines, IsComplex);
             SetCodeCheckBoxVisibility();
@@ -2821,11 +2845,12 @@ namespace Calcpad.Wpf
                     _highlighter.Parse(p, IsComplex, i);
                 p = (Paragraph)p.NextBlock;
                 ++i;
-            }
+             }
             _currentParagraph = RichTextBox.Selection.Start.Paragraph;
             _currentLineNumber = GetLineNumber(_currentParagraph);
             HighLighter.Clear(_currentParagraph);
             RichTextBox.EndChange();
+            Cursor = Cursors.Arrow;
             _isTextChangedEnabled = true;
         }
 
@@ -2882,7 +2907,7 @@ namespace Calcpad.Wpf
             p ??= (Paragraph)_document.Blocks.FirstBlock;
 
             var lineNumber = GetLineNumber(p);
-            while (p != _currentParagraph)
+            while (p != _currentParagraph && p != null)
             {
                 _highlighter.Parse(p, IsComplex, lineNumber++);
                 p = (Paragraph)p.NextBlock;
@@ -3017,19 +3042,19 @@ namespace Calcpad.Wpf
         }
 
 
-        private void ShadowsCheckBox_Clicked(object sender, RoutedEventArgs e)
+        private void ShadowsCheckBox_Click(object sender, RoutedEventArgs e)
         {
             _parser.Settings.Plot.Shadows = ShadowsCheckBox.IsChecked ?? false;
             ClearOutput();
         }
 
-        private void SmoothCheckBox_Clicked(object sender, RoutedEventArgs e)
+        private void SmoothCheckBox_Click(object sender, RoutedEventArgs e)
         {
             _parser.Settings.Plot.SmoothScale = SmoothCheckBox.IsChecked ?? false;
             ClearOutput();
         }
 
-        private void AdaptiveCheckBox_Clicked(object sender, RoutedEventArgs e)
+        private void AdaptiveCheckBox_Click(object sender, RoutedEventArgs e)
         {
             _parser.Settings.Plot.IsAdaptive = AdaptiveCheckBox.IsChecked ?? false;
             ClearOutput();
@@ -3363,8 +3388,8 @@ namespace Calcpad.Wpf
             }
             else
             {
-                var fileName = _currentCultureName == "en" ? 
-                    $"{AppInfo.Path}doc\\help.pdf":
+                var fileName = _currentCultureName == "en" ?
+                    $"{AppInfo.Path}doc\\help.pdf" :
                     $"{AppInfo.Path}doc\\help.{_currentCultureName}.pdf";
                 if (!File.Exists(fileName))
                     fileName = $"{AppInfo.Path}doc\\help.pdf";
@@ -3396,7 +3421,7 @@ namespace Calcpad.Wpf
             {
                 FileName = AppInfo.Path + "wkhtmltopdf.exe"
             };
-            const string s = " --enable-local-file-access --disable-smart-shrinking --page-size A4  --margin-bottom 15 --margin-left 15 --margin-right 10 --margin-top 15 ";
+            const string s = " --enable-local-file-access --disable-smart-shrinking --page-size A4  --margin-bottom 15 --margin-left 15 --margin-right 10 --margin-top 15 --encoding 'utf-8' ";
             if (htmlFileName.Contains(' '))
                 startInfo.Arguments = s + '\"' + htmlFileName + "\" \"" + pdfFileName + '\"';
             else
@@ -3828,7 +3853,7 @@ namespace Calcpad.Wpf
             var index = items.IndexOf(selectedItem);
             if (index < items.Count - 1)
             {
-                var nextItem = (ListBoxItem)items[index + 1];   
+                var nextItem = (ListBoxItem)items[index + 1];
                 if (selectedItem.Foreground == Brushes.DarkCyan &&
                     nextItem.Foreground == Brushes.Blue &&
                     string.Equals((string)nextItem.Content, s, StringComparison.Ordinal))
@@ -3906,7 +3931,7 @@ namespace Calcpad.Wpf
             }
         }
 
-        private void CodeCheckBox_Clicked(object sender, RoutedEventArgs e)
+        private void CodeCheckBox_Click(object sender, RoutedEventArgs e)
         {
             ClearOutput();
         }
@@ -3928,5 +3953,15 @@ namespace Calcpad.Wpf
         {
             Execute(AppInfo.Path + "Cli.exe");
         }
+
+        private void ZeroSmallMatrixElementsCheckBox_Click(object sender, RoutedEventArgs e) => ClearOutput();
+
+        private void MaxOutputCountTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Enter)
+                ClearOutput(false);
+        }
+
+        private void MaxOutputCountTextBox_LostFocus(object sender, RoutedEventArgs e) => ClearOutput(false);
     }
 }

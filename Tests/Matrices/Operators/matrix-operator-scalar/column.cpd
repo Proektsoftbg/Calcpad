@@ -1,0 +1,101 @@
+
+'<h1>Arithmetic operators</h1>'
+#hide
+m1 = column(5; 5)
+m2 = -4.5
+
+#show
+
+m1
+
+m2
+
+
+c = m1 + m2
+f(m1; m2) = m1 + m2
+c1 = f(m1; m2)
+
+
+c = m1 - m2
+f(m1; m2) = m1 - m2
+c1 = f(m1; m2)
+
+
+
+
+c = m1*m2
+f(m1; m2) = m1*m2
+c1 = f(m1; m2)
+
+c = m1/m2
+f(m1; m2) = m1/m2
+c1 = f(m1; m2)
+
+c = m1^m2
+f(m1; m2) = m1^m2
+c = f(m1; m2)
+
+c = m1\m2
+f(m1; m2) = m1\m2
+c1 = f(m1; m2)
+
+c = m1⦼m2
+f(m1; m2) = m1⦼m2
+c = f(m1; m2)
+
+
+c = m1÷m2
+f(m1; m2) = m1÷m2
+c1 = f(m1; m2)
+
+#hide
+fm = column(5; 5)
+
+#show
+fm
+c = fm!
+f(fm) = fm!
+c1 = f(fm)
+
+'<h1>Relational operators</h1>'
+
+c = m1 ≡ m2
+f(m1; m2) = m1 ≡ m2
+c1 = f(m1; m2)
+
+c = m1 ≠ m2
+f(m1; m2) = m1 ≠ m2
+c1 = f(m1; m2)
+
+c = m1 < m2
+f(m1; m2) = m1 < m2
+c1 = f(m1; m2)
+
+c = m1 > m2
+f(m1; m2) = m1 > m2
+c1 = f(m1; m2)
+
+c = m1 ≥ m2
+f(m1; m2) = m1 ≥ m2
+c1 = f(m1; m2)
+
+c = m1 ≤ m2
+f(m1; m2) = m1 ≤ m2
+c1 = f(m1; m2)
+
+'<h1>Logical operators</h1>'
+
+c = m1 ∧ m2
+f(m1; m2) = m1 ∧ m2
+c1 = f(m1; m2)
+
+c = m1 ∨ m2
+f(m1; m2) = m1 ∨ m2
+c1 = f(m1; m2)
+
+c = m1 ⊕ m2
+f(m1; m2) = m1 ⊕ m2
+c1 = f(m1; m2)
+
+
+

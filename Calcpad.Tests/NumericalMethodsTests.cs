@@ -44,7 +44,7 @@
         [Trait("Category", "Optimization")]
         public void Sup_Cos()
         {
-            var calc = new TestCalc(new() { Degrees = 1});
+            var calc = new TestCalc(new() { Degrees = 1 });
             calc.Run("f(x) = cos(x - 1)");
             var result = calc.Run("$Sup{f(x) @ x = -1 : 2}");
             Assert.Equal(1d, result, Tol);
@@ -68,9 +68,9 @@
         [Trait("Category", "Slope")]
         public void Slope_Sin()
         {
-            var result = new TestCalc(new() { Degrees = 1})
+            var result = new TestCalc(new() { Degrees = 1 })
                 .Run("sin(1009*π)");
-            var expected = Math.Sin(1009d * Math.PI);   
+            var expected = Math.Sin(1009d * Math.PI);
             Assert.Equal(expected, result, Tol);
         }
 
@@ -80,7 +80,7 @@
         {
             var result = new TestCalc(new() { Degrees = 1 })
                 .Run("$Slope{cos(x^2) @ x = 1013}");
-            var expected = -2d * 1013d * Math.Sin(1013d * 1013d);   
+            var expected = -2d * 1013d * Math.Sin(1013d * 1013d);
             Assert.Equal(expected, result, 1e-6);
         }
         #endregion
@@ -141,7 +141,7 @@
         {
             var calc = new TestCalc(new());
             calc.Run("F(n) = $Product{k @ k = 1 : n}");
-            var result =calc.Run("F(5)");
+            var result = calc.Run("F(5)");
             Assert.Equal(120d, result, Tol);
         }
 
@@ -165,7 +165,7 @@
             calc.Run("x = 1");
             var result = calc
                 .Run("$Repeat{x = 0.5*(x + 5/x) @ k = 1 : 6}");
-            var expected = Math.Sqrt(5d);   
+            var expected = Math.Sqrt(5d);
             Assert.Equal(expected, result, Tol);
         }
 
@@ -177,7 +177,7 @@
             calc.Run("x = 1");
             var result = calc
                 .Run("$Repeat{x = 1/(1 + x) @ k = 1 : 40}");
-            var expected = 2d / (1d + Math.Sqrt(5d));   
+            var expected = 2d / (1d + Math.Sqrt(5d));
             Assert.Equal(expected, result, Tol);
         }
         #endregion

@@ -1,0 +1,315 @@
+'<h1>Arithmetic operators</h1>
+"Negation
+a = [-3m; 0cm; 4.5mm; -7dm; 2.25m]
+c = -a
+f(a) = -a','c = f(a)
+
+a0 = [0cm; 0cm; 0dm; 0m; 0mm; 0dm]
+c0 = -a0
+c0 = f(a0)
+
+a1 = [1.1m; -2.2cm; 0dm; 3.3mm; -4.4m]
+c1 = -a1
+c1 = f(a1)
+
+"Addition
+a = [5dm; 12.3dm; -44dm; 13dm; 21.4dm]
+b = [-5mm; 12.5mm; 10mm; 0mm; -21.3mm]
+c = a + b
+f(a; b) = a + b','c = f(a; b)
+
+a0 = [0dm; 0dm; 0dm; 0dm; 0dm; 0dm]
+b0 = [0cm; 0cm; 0cm; 0cm; 0cm; 0cm]
+c0 = a0 + b0
+c0 = f(a0; b0)
+
+a1 = [23.1mm; 12mm; -37mm; 5mm; 48.7mm]
+b1 = [-19m; 41m; 3m; 31.2m]
+c1 = a1 + b1
+c1 = f(a1; b1)
+
+"Subtraction
+a = [-3m; 0m; 4.5m; -7m; 2.25m]
+b = [-2.5dm; 0dm; 3.75dm; -1dm; 4.2dm]
+c = a - b
+f(a; b) = a - b','c = f(a; b)
+
+a0 = [0m; 0m; 0m; 0m; 0m; 0m]
+b0 = [0dm; 0dm; 0dm; 0dm; 0dm; 0dm]
+c0 = a0 - b0
+c0 = f(a0; b0)
+
+a1 = [1.1m; -2.2m; 0m; 3.3m; -4.4m]
+b1 = [0.5dm; 0.5dm; -1.5dm; 1.5dm]
+c1 = a1 - b1
+c1 = f(a1; b1)
+
+"Multiplication
+a = [0.1kg; -0.2cm; 0.3mm; -0.4kg; 0.5cm]
+b = [-1.5t; -1m; 0cm; 1t; 1.5m]
+c = a*b
+f(a; b) = a*b','c = f(a; b)
+
+a0 = [0kg; 0cm; 0mm; 0kg; 0cm; 0mm]
+b0 = [0t; 0m; 0cm; 0t; 0m; 0cm]
+c0 = a0*b0
+c0 = f(a0; b0)
+
+a1 = [0.25kg; -0.5cm; 0.75mm; -1kg; 1.25cm]
+b1 = [-2.75t; -2.5m; -2.25cm; -2t]
+c1 = a1*b1
+c1 = f(a1; b1)
+
+"Division
+a = [0.1kN; -0.2kN; 0.3kN; -0.4kN; 0.5kN]
+b = [-1.5m; -1m; 0m; 1m; 1.5m]
+c = a/b
+f(a; b) = a/b','c = f(a; b)
+
+a0 = [0kN; 0kN; 0kN; 0kN; 0kN; 0kN]
+b0 = [0m; 0m; 0m; 0m; 0m; 0m]
+c0 = a0/b0
+c0 = f(a0; b0)
+
+a1 = [0.25kN; -0.5kN; 0.75kN; -1kN; 27.25kN]
+b1 = [-2.75m; -2.5m; -2.25m; -2m]
+c1 = a1/b1
+c1 = f(a1; b1)
+
+"Exponentiation
+a = [-4.25m; 0m; 7.89m; -10m; 3.14159m]
+b = [3.7; -5.2; 0; 8; -2.6]
+c = a^b
+f(a; b) = a^b','c = f(a; b)
+
+a0 = [0dm; 0dm; 0dm; 0dm; 0dm; 0dm]
+b0 = [0; 0; 0; 0; 0; 0]
+c0 = a0^b0
+c0 = f(a0; b0)
+
+a1 = [-1m; 4.8m; 0.2m; -6m; 10m]
+b1 = [7.5; -3; 0; 9.6]
+c1 = a1^b1
+c1 = f(a1; b1)
+
+"Division bar
+a = [0.1dm; -0.2dm; 0.3dm; -0.4dm; 0.5dm]
+b = [-1.5m; -1m; 0m; 1m; 1.5m]
+c = a÷b
+f(a; b) = a÷b','c = f(a; b)
+
+a0 = [0m; 0m; 0m; 0m; 0m; 0m]
+b0 = Vector(5)
+c0 = a0÷b0
+c0 = f(a0; b0)
+
+a1 = [-5cm; 8.4cm; 0cm; -2.1cm; 7cm]
+b1 = [2; -9.2; 0; 6.7]
+c1 = a1÷b1
+c1 = f(a1; b1)
+
+"Integer division
+a = [-0.5m; 3m; 0m; -7.8m; 5.6m]
+b = [4.2dm; -6dm; 0dm; 1.8dm; -3.1dm]
+c = a\b
+f(a; b) = a\b','c = f(a; b)
+
+a0 = [0m; 0m; 0m; 0m; 0m; 0m]
+b0
+c0 = a0\b0
+c0 = f(a0; b0)
+
+a1 = [0; 7; -2.3; 5.1; -8.6]
+b1 = [-3cm; 0cm; 9.6cm; -4.3cm]
+c1 = a1\b1
+c1 = f(a1; b1)
+
+"Modulo (remainder)
+a = [-4.3m; 0m; 6.9m; -2.8m; 3m]
+b = [8.2; -5; 0; 2.7; -1.4]
+c = a⦼b
+f(a; b) = a⦼b','c = f(a; b)
+
+a0 = [0dm; 0dm; 0dm; 0dm; 0dm; 0dm]
+b0
+c0 = a0⦼b0
+c0 = f(a0; b0)
+
+a1 = [-3dm; 6.5dm; 0dm; -7dm; 4.6]
+b1 = [0.5; -2.9; 0; 7.3]
+c1 = a1⦼b1
+c1 = f(a1; b1)
+
+"Factorial
+a = [4; 2; 6; 2; 3]
+c = a!
+f(a) = a!','c = f(a)
+
+a0 = Vector(5)
+c0 = a0!
+c0 = f(a0)
+
+a2 = [5; 2; 0; 7; 6]
+c2 = a2!
+
+'<h1>Relational operators</h1>
+"Equal to
+a = [8.2m; 0m; 6.9m; -2.8m; 3m]
+b = [8.2cm; -5cm; 0cm; 2.7cm; -1.4cm]
+c = a ≡ b
+f(a; b) = a ≡ b','c = f(a; b)
+
+a0 = [0cm; 0cm; 0cm; 0cm; 0cm; 0m]
+b0 = [0cm; 0cm; 0cm; 0cm; 0cm; 0m]
+c0 = a0 ≡ b0
+f(a0; b0)
+
+a1 = [0.5cm; 6.5m; 0m; -7dm; 4.6m]
+b1 = [0.5cm; -2.9m; 0m; 7.3dm]
+c1 = a1 ≡ b1
+f(a1; b1)
+
+"Not equal to
+a = [-4.3mm; 0mm; 6.9m; -2.8mm; 3mm]
+b = [8.2cm; -5cm; 0cm; 2.7cm; -1.4cm]
+c = a ≠ b
+f(a; b) = a ≠ b','c = f(a; b)
+
+a0 = [0cm; 0mm; 0dm; 0m; 0kg; 0t]
+b0 = [0m; 0cm; 0m; 0mm; 0t; 0kg]
+c0 = a0 ≠ b0
+f(a0; b0)
+
+a1 = [-3mm; 6.5mm; 0mm; -7mm; 4.6mm]
+b1 = [0.5cm; -2.9cm; 0cm; 7.3cm]
+c1 = a1 ≠ b1
+f(a1; b1)
+
+" Less than
+a = [0m; -6.7m; 3.8m; -2m; 9.5m]
+b = [4dm; 7.2dm; 0dm; -1.3dm; 5dm]
+c = a < b
+f(a; b) = a < b','c = f(a; b)
+
+a0 = [0m; 0m; 0m; 0m; 0m; 0m]
+b0 = [0dm; 0dm; 0dm; 0dm; 0dm; 0dm]
+c0 = a0 < b0
+c0 = f(a0; b0)
+
+a1 = [6m; -2.5m; 0m; 4.3m; -8.1m]
+b1 = [8.6dm; 0dm; -5.2dm; 1.9dm]
+c1 = a1 < b1
+c1 = f(a1; b1)
+
+"Greater than
+a = [4.7dm; -8dm; 0dm; 2.3dm; -6.5dm]
+b = [-3m; 6.2m; 0m; -5.1m; 7.4m]
+c = a > b
+f(a; b) = a > b','c = f(a; b)
+
+a0 = [0dm; 0dm; 0dm; 0dm; 0dm; 0dm]
+b0 = [0m; 0m; 0m; 0m; 0m; 0m]
+c0 = a0 > b0
+c0 = f(a0; b0)
+
+a1 = [0dm; -4.8dm; 2.9dm; -7dm; 5.6dm]
+b1 = [3m; 0m; -6.9m; 8.2m]
+c1 = a1 > b1
+c1 = f(a1; b1)
+
+"Less than or equal 
+a = [5kg; -2.1kg; 0kg; 7.8kg; -4.6kg]
+b = [-7t; 1.3t; 0t; 4.5t; -9t]
+c = a ≤ b
+f(a; b) = a ≤ b','c = f(a; b)
+
+a0 = [0kg; 0kg; 0kg; 0kg; 0kg; 0kg]
+b0 = [0t; 0t; 0t; 0t; 0t; 0t]
+c0 = a0 ≤ b0
+c0 = f(a0; b0)
+
+a1 = [3.6kg; -5kg; 0kg; 1.8kg; -8.3kg]
+b1 = [6.5t; 0t; -3.4t; 9.1t]
+c1 = a1 ≤ b1
+c1 = f(a1; b1)
+
+"Greater than or equal
+a = [20h; 16.7h; 0h; 22.3h; 13.5h]
+b = [-18d; 21.2d; 0d; -19.3d; 25d]
+c = a ≥ b
+f(a; b) = a ≥ b','c = f(a; b)
+
+a0 = [0h; 0h; 0h; 0h; 0h; 0h]
+b0 = [0d; 0d; 0d; 0d; 0d; 0d]
+c0 = a0 ≥ b0
+c0 = f(a0; b0)
+
+a1 = [30h; 25.8h; 0h; 28.1h; 31.9h]
+b1 = [31.9d; 0d; 37.8d; 27.6d]
+c1 = a1 ≥ b1
+c1 = f(a1; b1)
+
+'<h1>Logical operators</h1>
+"Logical AND 
+a = [0dm; 16.7dm; 0dm; 22.3dm; 13.5dm]
+b = [-18cm; 21.2cm; 0cm; -19.3cm; 25cm]
+c = a ∧ b
+f(a; b) = a ∧ b','c = f(a; b)
+
+a0 = [0dm; 0dm; 0dm; 0dm; 0dm; 0dm]
+b0 = [0cm; 0cm; 0cm; 0cm; 0cm; 0cm]
+c0 = a0 ∧ b0
+c0 = f(a0; b0)
+
+a1 = [30dm; 25.8dm; 0dm; 28.1dm; 31.9dm]
+b1 = [31.9cm; 0cm; 37.8cm; 27.6cm]
+c1 = a1 ∧ b1
+c1 = f(a1; b1)
+
+"Logical OR
+a = [0N; 16.7N; 0N; 22.3N; 13.5N]
+b = [-18kN; 21.2kN; 0kN; -19.3kN; 25kN]
+c = a ∨ b
+f(a; b) = a ∨ b','c = f(a; b)
+
+a0 = [0N; 0N; 0N; 0N; 0N; 0N]
+b0 = [0kN; 0kN; 0kN; 0kN; 0kN; 0kN]
+c0 = a0 ∨ b0
+c0 = f(a0; b0)
+
+a1 = [30N; 0N; 0N; 28.1N; 31.9N]
+b1 = [31.9kN; 0kN; 37.8kN; 27.6kN]
+c1 = a1 ∨ b1
+c1 = f(a1; b1)
+
+"Logical XOR
+a = [6Hz; -2.5Hz; 0Hz; 4.3Hz; -8.1Hz]
+b = [0kHz; 8.6kHz; 0kHz; -5.2kHz; 1.9kHz]
+c = a ⊕ b
+f(a; b) = a ⊕ b','c = f(a; b)
+
+a0 = [0Hz; 0Hz; 0Hz; 0Hz; 0Hz; 0Hz]
+b0 = [0; 0; 0; 0; 0; 0]
+c0 = a0 ⊕ b0
+c0 = f(a0; b0)
+
+a1 = [-4Hz; 7.2Hz; 0Hz; -1.3Hz; 5Hz]
+b1 = [6kHz; -2.5kHz; 0kHz; 4.3kHz]
+c1 = a1 ⊕ b1
+c1 = f(a1; b1)
+
+"Assignment
+a = [6m; -2.5m; 0m; 4.3m; -8.1m]
+b = [0; 8.6; 0; -5.2; 1.9]
+c = a
+f(a) = c','c = f(a)
+
+a0 = [0kg; 0kg; 0kg; 0kg; 0kg; 0kg]
+b0 = [0; 0; 0; 0; 0; 0]
+c = b0
+c0 = f(b0)
+
+a1 = [-4t; 7.2t; 0t; -1.3t; 5t]
+b1 = [6; -2.5; 0; 4.3]
+c = a1
+c1 = f(a1)

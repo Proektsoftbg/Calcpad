@@ -979,15 +979,6 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Imperial/US.
-        /// </summary>
-        public static string Imperial_US {
-            get {
-                return ResourceManager.GetString("Imperial_US", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Inductance.
         /// </summary>
         public static string Inductance {

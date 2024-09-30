@@ -50,9 +50,7 @@ namespace Calcpad.OpenXml
             var imagePart = imageProcessor.GetImagePart(mainPart);
             if (width == 0 || height == 0)
             {
-                var imageSize = imageProcessor.ImageSize;
-                var w = imageSize.Item1;
-                var h = imageSize.Item2;
+                (int w, int h) = imageProcessor.ImageSize;
                 if (width == 0)
                     width = w;
                 if (height == 0)

@@ -57,7 +57,8 @@ namespace Calcpad.Wpf
             });
             Environment.Exit(System.Runtime.InteropServices.Marshal.GetHRForException((Exception)e));
         }
+
         private static string GetMessage(Exception e) =>
-string.Format(AppMessages.UnexpectedErrorOccured, e.Message, e.Source);
+            string.Format(AppMessages.UnexpectedErrorOccurred, e.Message, e.Source);
     }
 }
