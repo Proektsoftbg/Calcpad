@@ -142,23 +142,6 @@ namespace Calcpad.Core
                     }
                     _parser.Parse(_items[i].Input, i == 0 && allowAssignment);
                     _items[i].Rpn = _parser._rpn;
-                    _items[i].Html = _parser.ToHtml();
-                    _items[i].Xml = _parser.ToXml();
-                }
-                IsFigure = _type == SolverTypes.Sum ||
-                           _type == SolverTypes.Product ||
-                           _type == SolverTypes.Integral ||
-                           _type == SolverTypes.Area;
-                if (IsFigure)
-                {
-                    var order = Calculator.OperatorOrder[Calculator.OperatorIndex['*']];
-                    var rpn = _items[0].Rpn;
-                    var t = rpn[^1];
-                    if (t.Order > order)
-                    {
-                        _items[0].Html = new HtmlWriter().AddBrackets(_items[0].Html, 1);
-                        _items[0].Xml = new XmlWriter().AddBrackets(_items[0].Xml, 1);
-                    }
                 }
                 if (_type == SolverTypes.Inf || _type == SolverTypes.Sup)
                 {
@@ -181,6 +164,27 @@ namespace Calcpad.Core
                     FixRepeat(_items[0].Rpn);
 
                 _parser._targetUnits = targetUnits;
+                for (int i = 0; i <= n; ++i)
+                {
+                    _parser._rpn = _items[i].Rpn;
+                    _items[i].Html = _parser.ToHtml();
+                    _items[i].Xml = _parser.ToXml();
+                }
+                IsFigure = _type == SolverTypes.Sum ||
+                           _type == SolverTypes.Product ||
+                           _type == SolverTypes.Integral ||
+                           _type == SolverTypes.Area;
+                if (IsFigure)
+                {
+                    var order = Calculator.OperatorOrder[Calculator.OperatorIndex['*']];
+                    var rpn = _items[0].Rpn;
+                    var t = rpn[^1];
+                    if (t.Order > order)
+                    {
+                        _items[0].Html = new HtmlWriter().AddBrackets(_items[0].Html, 1);
+                        _items[0].Xml = new XmlWriter().AddBrackets(_items[0].Xml, 1);
+                    }
+                }
             }
 
             private static void FixRepeat(Token[] rpn)
