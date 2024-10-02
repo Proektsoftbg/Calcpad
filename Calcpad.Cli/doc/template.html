@@ -39,7 +39,7 @@
             background-color: #e9f6ff;
         }
 
-        .eq, input {
+        .eq, input, table.matrix {
             font-family: "Times New Roman", Times, serif;
         }
 
@@ -135,7 +135,7 @@
                     border: solid 1pt #CCCCCC;
                 }
 
-            table.centered td {
+            table.centered td, .matrix .td {
                 text-align: center;
             }
 
@@ -147,6 +147,47 @@
                     text-align: left;
                     padding-left: 0;
                 }
+
+        .matrix {
+            display: inine-table;
+        }
+
+            .matrix .tr {
+                display: table-row;
+            }
+
+            .matrix .td {
+                padding: 0 2pt 0 2pt;
+                min-width: 12pt;
+                display: table-cell;
+            }
+
+                .matrix .td:first-child,
+                .matrix .td:last-child {
+                    width: 0.75pt;
+                    min-width: 0.75pt;
+                    max-width: 0.75pt;
+                    padding: 0 1pt 0 1pt;
+                }
+
+                .matrix .td:first-child {
+                    border-left: solid 1.25pt black;
+                }
+
+                .matrix .td:last-child {
+                    border-right: solid 1.25pt black;
+                }
+
+            .matrix .tr:first-child .td:first-child,
+            .matrix .tr:first-child .td:last-child {
+                border-top: solid 0.5pt black;
+            }
+
+            .matrix .tr:last-child .td:first-child,
+            .matrix .tr:last-child .td:last-child {
+                border-bottom: solid 0.5pt black;
+            }
+
 
         .r0, .r1, .r2, .r3,
         .o0, .o1, .o2, .o3,
@@ -493,6 +534,20 @@
                     font-size: 80%;
                 }
 
+        .vec {
+            font-family: 'Cambria Math';
+            color: black;
+            font-style: normal;
+            display: inline-block;
+            vertical-align: 2pt;
+            margin-left: 7pt;
+            margin-right: -7pt;
+        }
+
+        small .vec {
+            margin-right: -6pt;
+        }
+
         #Units {
             float: right;
         }
@@ -751,7 +806,7 @@
                         }
                     }
                 });
-                $(".line").each(function () {
+                $(".line:not(style, script)").each(function () {
                     var line = $(this).prop("id").split("-")[1];
                     var $lineLink = $('<a class="lineLink" href="#0" data-text="' + line + '" title="Code line ' + line + '">&larr;</a>');
                     $(this).append($lineLink);
