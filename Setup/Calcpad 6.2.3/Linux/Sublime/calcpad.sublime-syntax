@@ -1,0 +1,78 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Calcpad
+scope: source.calcpad
+
+file_extensions:
+- cpd
+
+contexts:
+  main:
+    - match: '[\^/÷\\%*\-+]'
+      scope: keyword.operator.arithmetic.calcpad
+    - match: '[≡≠<>≤≥]'
+      scope: keyword.operator.comparison.calcpad
+    - match: '[∧∨⊕]'
+      scope: keyword.operator.logical.calcpad
+    - match: '='
+      scope: keyword.operator.assignment.calcpad
+    - match: '[;&@:|]'
+      scope: punctuation.separator.calcpad
+    - match: '[\{()\}]'
+      scope: punctuation.section.brackets.calcpad
+    - match: '[a-zA-Z]+[a-zA-Z0-9_]*\$'
+      scope: meta.string.calcpad
+    - match: '\b(sign|abs|mod|gcd|lcm|sin|cos|tan|csc|sec|cot|sinh|cosh|tanh|csch|sech|coth|asin|acos|atan|acsc|asec|acot|asinh|acosh|atanh|acsch|asech|acoth|ln|log|log_2|exp|sqr|sqrt|cbrt|round|floor|ceiling|trunc|re|im|phase|random|root|atan2|min|max|sum|sumsq|srss|average|product|mean|switch|take|line|spline|not|and|or|xor)\b'
+      scope: support.function.calcpad
+    - match: '#'
+      scope: punctuation.definition.keyword.calcpad
+      pop: true
+      set:
+      - match: '\b([Rr]epeat|[Ll]oop|[Bb]reak|[Cc]coutinue|[Ss]how|[Hh]ide|[Pp]re|[Pp]ost|[Vv]al|[Ee]qu|[Nn]oc|[Nn]osub|[Nn]ovar|[Vv]arsub|[Rr]ad|[Dd]eg|[Gg]ra|[Ii]f|[Ee]lse|[Ee]lse [Ii]f|[Ee]nd [Ii]f|[Ii]nclude|[Ll]ocal|[Gg]lobal|[Dd]ef|[Ee]nd [Dd]ef|[Pp]ause|[Ii]nput|[Ss]plit|[Ww]rap)\b'
+        scope: keyword.control.calcpad
+      - match: '[^a-zA-Z]'
+        pop: true
+    - match: '\$'
+      scope: punctuation.definition.method.calcpad
+      push:
+      - match: '\b([Rr]oot|[Ff]ind|[Ii]nf|[Ss]up|[Aa]rea|[Ii]ntegral|[Ss]lope|[Ss]um|[Pp]roduct|[Rr]epeat|[Mm]ap|[Pp]lot)\b'
+        scope: support.method.calcpad
+      - match: '\{'
+        scope: punctuation.section.brackets.calcpad
+        pop: true
+      - match: '[^a-zA-Z]'
+        pop: true
+    - match: '\b[a-zA-Zα-ωΑ-Ω°øØ∡]+[a-zA-Zα-ωΑ-Ω°øØ∡0-9_,′″‴⁗⁰¹²³⁴⁵⁶⁷⁸⁹ⁿ⁺⁻]*\b'
+      scope: variable.function.calcpad variable.other.calcpad
+    - match: '\b([0-9]*\.?[0-9]+)'
+      scope: constant.numeric.calcpad
+      pop: true
+      set:
+      - match: '[A-Za-z°]+'
+        scope: entity.name.constant.calcpad
+        pop: true
+      - match: '\b'
+        pop: true
+    - match: \"
+      scope: punctuation.definition.string.begin.calcpad
+      push: double_quoted_string
+    - match: \'
+      scope: punctuation.definition.string.begin.calcpad
+      push: single_quoted_string
+
+  double_quoted_string:
+    - meta_scope: string.quoted.double.calcpad
+    - match: \\.
+      scope: constant.character.escape.calcpad
+    - match: '["\r\n]'
+      scope: punctuation.definition.string.end.calcpad
+      pop: true
+
+  single_quoted_string:
+    - meta_scope: string.quoted.single.calcpad
+    - match: \\.
+      scope: constant.character.escape.calcpad
+    - match: "['\r\n]"
+      scope: punctuation.definition.string.end.calcpad
+      pop: true
