@@ -1,0 +1,99 @@
+"Geometrical properties of arbitrary polygon
+'<h4>Point coordinates</h4>
+x = [0; 6.3; 6; 1; 0.4; 0]
+y = [0; 0; 0.6; 1; 4; 4.2]
+#hide
+'Calculations
+A = 0
+I_x = 0
+I_y = 0
+I_xy = 0
+S_x = 0
+S_y = 0
+n = len(x)
+#for i1 = 1 : n
+	i2 = if(i1 ≡ n; 1; i1 + 1)
+	A_i = (x.i1*y.i2 - y.i1*x.i2)/2
+	x_C.i = (x.i1 + x.i2)/3
+	y_C.i = (y.i1 + y.i2)/3
+	A = A + A_i
+	S_x = S_x + y_C.i*A_i
+	S_y = S_y + x_C.i*A_i
+#loop
+x_C = S_y/A
+y_C = S_x/A
+x = x - x_C
+y = y - y_C
+#for i = 1 : n
+	i1 = if(i ≡ 1; n; i - 1)
+	i2 = i
+	I_x.i = (y.i2^2 + y.i1^2)*(x.i2 - x.i1)*(y.i2 + y.i1)/12
+	I_y.i = (x.i2^2 + x.i1^2)*(y.i2 - y.i1)*(x.i2 + x.i1)/12
+	I_xy.i = (x.i1 + x.i2)*(y.i2 + y.i1)^2/24
+	I_xy.i = I_xy.i + (x.i2*y.i2^2 + x.i1*y.i1^2)/12
+	I_xy.i = (x.i2 - x.i1)*I_xy.i
+	I_x = I_x + I_x.i
+	I_y = I_y + I_y.i
+	I_xy = I_xy - I_xy.i
+	#hide
+#loop
+x = x + x_C
+y = y + y_C
+A = abs(A)
+I_x = abs(I_x)
+I_y = abs(I_y)
+K_1 = (I_x + I_y)/2
+K_2 = Sqr((I_x - I_y)^2/4 + I_xy^2)
+I_1 = K_1 + K_2
+I_2 = K_1 - K_2
+I_o = I_1 + I_2
+#if I_y ≡ I_1
+	α = π/2*rad
+#else
+	α = atan(I_xy/(I_y - I_1))*rad
+#end if
+#show
+'<h4>Geometrical properties</h4>
+'Area -'A', Center point -'x_C','y_C
+'Second moments of area -'I_x','I_y','I_xy
+'Principal moments -'I_1', 'I_2', 'I_o
+'Angle of first principal axis -'α|°
+'<h4>Drawing</h4>
+#hide
+x0 = min(x)
+y0 = min(y)
+w = max(x) - x0
+h = max(y) - y0
+y′ = y_C - y
+y_C′ = 0
+y0 = min(y′)
+r = sqrt(w*w + h*h)/2
+c = cos(α)
+s = sin(α)
+x_I = x_C + [-c; c; s; -s]*r
+y_I = y_C′ + [s; -s; c; -c]*r
+δ = 0.1
+#def axis$ = stroke:green; stroke-width:0.02; stroke-opacity:0.5; stroke-dasharray:0.2,0.1,0.05,0.1
+#def section$ = stroke:black; stroke-width:0.025;
+#def p$(i$) = 'x.i$','y′.i$'
+#show
+#val
+'<svg viewbox="'x0 - 1' 'y0 - 1' 'w + 1' 'h + 1'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-size:0.12pt; width:'80*(w + 2)'px; height:'80*(h + 2)'px;">
+#for i1 = 1 : n
+	#hide
+	i2 = if(i1 ≡ n; 1; i1 + 1)
+	#show
+	'<line x1="'x.i1'" y1="'y′.i1'" x2="'x.i2'" y2="'y′.i2'" style="section$"/>
+	'<circle r="0.05" cx="'x.i1'" cy="'y′.i1'" fill="red" />
+	'<text x="'x.i1 + δ'" y="'y′.i1 - δ'">'i1' ('x.i1','y.i1')</text>
+#loop
+'<line x1="'x_I.1'" y1="'y_I.1'" x2="'x_I.2'" y2="'y_I.2'" style="axis$"/>
+'<text x="'x_I.1 + δ'" y="'y_I.1 - δ'">1</text>
+'<text x="'x_I.2 + δ'" y="'y_I.2 - δ'">1</text>
+'<line x1="'x_I.3'" y1="'y_I.3'" x2="'x_I.4'" y2="'y_I.4'" style="axis$"/>
+'<text x="'x_I.3 + δ'" y="'y_I.3 - δ'">2</text>
+'<text x="'x_I.4 + δ'" y="'y_I.4 - δ'">2</text>
+'<circle r="0.05" cx="'x_C'" cy="'y_C′'" fill="red"  />
+'<text x="'x_C + δ'" y="'y_C′ - δ'">C ('x_C','y_C')</text>
+'</svg>
+#equ

@@ -1,0 +1,125 @@
+"Matrix operators
+'<h4>Matrix-matrix</h4>
+A = [0; 1; 2|3; 4; 5]', 'B = [11; 10; 9|8; 7; 6]
+'Arithmetic:
+A!'- factorial
+A^B'- exponentiation
+A/B'- floating point division
+A\B'- integer division
+A÷B'- division bar
+A⦼B'- modulo(⦼, remainder)
+hprod(A; B)'- element-wise multiplication
+A - B'- subtraction
+A + B'- addition
+'Relational (comparison):
+A ≡ B'- equal to
+A ≠ B'- unequal to 
+A < B'- less then
+A > B'- greater than
+A ≤ B'- less or equal
+A ≥ B'- greater or equal
+'Logical:
+A ∧ B'- logical "and"
+A ∨ B'- logical "or"
+A ⊕ B'- logical "xor"
+'Matrix multiplication
+A = [1; 2; 3|4; 5; 6]
+B = [6; 5|4; 3|2; 1]
+A*B
+
+'<h4>Matrix-vector</h4>
+A = [0|1|2|3|4|5]', 'b = [11; 10; 9; 8; 7; 6]
+'Arithmetic:
+A^b'- exponentiation
+A/b'- floating point division
+A\b'- integer division
+A÷b'- division bar
+A⦼b'- modulo(⦼, remainder)
+hprod(A; b)'- element-wise multiplication
+A - b'- subtraction
+A + b'- addition
+'Relational (comparison):
+A ≡ b'- equal to
+A ≠ b'- unequal to 
+A < b'- less then
+A > b'- greater than
+A ≤ b'- less or equal
+A ≥ b'- greater or equal
+'Logical:
+A ∧ b'- logical "and"
+A ∨ b'- logical "or"
+A ⊕ b'- logical "xor"
+'Matrix multiplication
+A*transp(b)
+transp(A)*b
+
+'<h4>Vector-matrix</h4>
+a = [0; 1; 2; 3; 4; 5]', 'B = [11|10|9|8|7|6]
+'Arithmetic:
+a^B'- exponentiation
+a/B'- floating point division
+a\B'- integer division
+a÷B'- division bar
+a⦼B'- modulo(⦼, remainder)
+hprod(a; b)'- element-wise multiplication
+a - B'- subtraction
+a + B'- addition
+'Relational (comparison):
+a ≡ B'- equal to
+a ≠ B'- unequal to 
+a < B'- less then
+a > B'- greater than
+a ≤ B'- less or equal
+a ≥ B'- greater or equal
+'Logical:
+a ∧ B'- logical "and"
+a ∨ B'- logical "or"
+a ⊕ B'- logical "xor"
+'Matrix multiplication
+a*transp(b)
+transp(a)*b
+
+'<h4>Matrix-scalar</h4>
+A = [0; 1; 2|3; 4; 5]', 'b = 2
+'Arithmetic:
+A^2'- exponentiation
+A/2'- floating point division
+A\2'- integer division
+A÷2'- division bar
+A⦼2'- modulo(⦼, remainder)
+A - 2'- subtraction
+A + 2'- addition
+'Relational (comparison):
+A ≡ 2'- equal to
+A ≠ 2'- unequal to
+A < 2'- less then
+A > 2'- greater than
+A ≤ 2'- less or equal
+A ≥ 2'- greater or equal
+'Logical:
+A ∧ 2'- logical "and"
+A ∨ 2'- logical "or"
+A ⊕ 2'- logical "xor"
+
+'<h4>Scalar-matrix</h4>
+a = 2', 'B = [11; 10; 9|8; 7; 6]
+'Arithmetic:
+2^B'-exponentiation
+2/B'- floating point division
+2\B'- integer division
+2÷B'- division bar
+2⦼B'- modulo(⦼, remainder)
+2*B'- multiplication
+2 - B'- subtraction
+2 + B'- addition
+'Relational (comparison):
+2 ≡ B'- equal to
+2 ≠ B'- unequal to
+2 < B'- less then 
+2 > B'- greater than
+2 ≤ B'- less or equal
+2 ≥ B'- greater or equal
+'Logical:
+2 ∧ B'- logical "and"
+2 ∨ B'- logical "or
+2 ⊕ B'- logical "xor"

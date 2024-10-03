@@ -1,0 +1,28 @@
+"Css classes in Calcpad
+'<p class="ref">[ref (float right)]</p>
+'<p>Design checks: <span class="ok">ok</span> / <span class="err">fail</span>.
+'Image (side)
+'<img class="side" style="height:114pt; width:127pt;" src="https://calcpad.eu/media/mechanics/beams/cantilever-beam-concentrated-force.png" alt="cantilever-beam-concentrated-force.png">
+'<div class="fold">
+'<h4>Fold heading</h4>
+'Folded content line 1
+'Folded content line 2
+'Folded content line 3...
+'</div>
+'Bordered table
+'<table class="bordered">
+'<thead>
+'<tr><th>col 1</th><th>col 2</th></tr>
+'</thead>
+'<tbody>
+'<tr><td>'11'</td><td>'12'</td></tr>
+'<tr><td>'21'</td><td>'22'</td></tr>
+'</tbody>
+'</table>
+'Data table (first col aligned left, others - right)
+'<table class="data">
+'<tbody>
+'<tr><td>Height -</td><td>111.0m</td></tr>
+'<tr><td>Thickness -</td><td>2cm</td></tr>
+'</tbody>
+'</table>
