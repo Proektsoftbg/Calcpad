@@ -1,0 +1,61 @@
+'<style>em {font-family:"Times New Roman";}</style>
+"Matrix data functions
+'<p><b>Sort_Cols</b>(<em>matrix</em>; <em>row index</em>) and <b>Rsort_Cols</b>(<em>matrix</em>; <em>row index</em>)</p><hr/>
+A = [5; 2; 3|4; 9; 1|6; 8; 7]
+B = sort_cols(A; 2)'- the matrix sorted by row 2 in ascending order
+C = rsort_cols(A; 2)'- the matrix sorted by row 2 in descending order
+A' - the original matrix remains unchanged
+
+'<p><b>Sort_Rows</b>(<em>matrix</em>; <em>column index</em>) and <b>Rsort_Rows</b>(<em>matrix</em>; <em>column index</em>)</p><hr/>
+A = [5; 2; 3|4; 9; 1|6; 8; 7]
+B = sort_rows(A; 2)'- the matrix sorted by column 2 in ascending order
+C = rsort_rows(A; 2)'- the matrix sorted by column 2 in descending order
+A' - the original matrix remains unchanged
+
+'<p><b>Order_Cols</b>(<em>matrix</em>; <em>row index</em>) and <b>Revorder_Cols</b>(<em>matrix</em>; <em>row index</em>)</p><hr/>
+A = [5; 2; 3|4; 9; 1|6; 8; 7]
+b = order_cols(A; 2)'- the indexes of matrix columns ordered by the values in row 2 in ascending order
+B = extract_cols(A; b)'- the matrix sorted by row 2 in ascending order
+c = revorder_cols(A; 2)'- the indexes of matrix columns ordered by the values in row 2 in descending order
+C = extract_cols(A; c)'- the matrix sorted by row 2 in descending order
+
+'<p><b>Order_Rows</b>(<em>matrix</em>; <em>column index</em>) and <b>Revorder_Rows</b>(<em>matrix</em>; <em>column index</em>)</p><hr/>
+A = [5; 2; 3|4; 9; 1|6; 8; 7]
+b = order_rows(A; 2)'- the indexes of matrix rows ordered by the values in column 2 in ascending order
+B = extract_rows(A; b)
+c = revorder_rows(A; 2)'- the matrix sorted by row 2 in descending order
+C = extract_rows(A; c)'- the indexes of matrix rows ordered by the values in column 2 in descending order
+
+'<p><b>Mcount</b>(<em>matrix</em>; <em>value</em>)</p><hr/>
+A = [1; 0; 1|2; 1; 2|1; 3; 1]
+n = mcount(A; 1)'- the number of occurances of value 1 in matrix A
+
+'<p><b>Msearch</b>(<em>matrix</em>; <em>value</em>; <em>starting row index</em>; <em>starting column index</em>)</p><hr/>
+A = [1; 2; 3|1; 5; 6|1; 8; 9]
+b = msearch(A; 1; 1; 1)' - the row and column indexes of the first occurance of value 1 in A, starting from (1,1)
+c = msearch(A; 1; 2; 2)' - the same are previous, but starting  from (2,2)
+d = msearch(A; 4; 1; 1)' - if the value is not found [0 0] is returned
+
+'<p><b>Mfind</b>(<em>matrix</em>; <em>value</em>)</p><hr/>
+A = [1; 2; 3|4; 1; 6|1; 8; 9]
+B = mfind(A; 1)' - the row and column indexes of all elements in A, that are equal to 1
+C = mfind_ne(A; 1)' - the row and column indexes of all elements in A, that are not equal to 1
+D = mfind_lt(A; 5)' - the row and column indexes of all elements in A, that are less than 5
+E = mfind(A; 5)'- if the value is not found
+
+'<p><b>Hlookup</b>(<em>matrix</em>; <em>value</em>; <em>reference row</em>; <em>return row</em>)</p><hr/>
+A = [0; 1; 0; 1|1; 2; 3; 4; 5|6; 7; 8; 9; 10]
+b = hlookup(A; 0; 1; 3)'- the values in row 3, where row 1 contains zeros
+c = hlookup_ne(A; 0; 1; 3)'- the values in row 3, where row 1  does not contain zeros
+d = hlookup_lt(A; 9; 3; 2)'- the values in row 2, where the respective values in row 3 are &lt; 9
+e = hlookup_ge(A; 8; 3; 2)'- the values in row 2, where the respective values in row 3 are &ge; 8
+f = hlookup(A; 0; 1; 3)'- the values in row 3, where row 1 contains zeros
+g = hlookup(A; 2; 1; 3)'- since 2 is not found in row 1, an empty vector is returned
+
+'<p><b>Vlookup</b>(<em>matrix</em>; <em>value</em>; <em>reference column</em>; <em>return column</em>)</p><hr/>
+A = [1; 2|3; 4; 1|5; 6|7; 8; 1|9; 10]
+b = vlookup(A; 0; 3; 1)'- the values in column 1, where column 3 contains zeros
+c = vlookup_ne(A; 0; 3; 2)'- the values in column 2, where column 3 does not contain zeros
+d = vlookup_le(A; 5; 1; 2)'- the values in column 2, where the respective values in column 1 are &le; 5
+e = vlookup_gt(A; 3; 1; 2)'- the values in column 2, where the respective values in column 1 are &gt; 3
+f = vlookup(A; 2; 3; 1)'- since 2 is not found in column 3, an empty vector is returned

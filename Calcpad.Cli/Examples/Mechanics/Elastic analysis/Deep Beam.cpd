@@ -2,12 +2,12 @@
 '<hr />
 #rad
 '<table><tr><td>
-'Beam length -'l = ?m
-'Height -'h = ?m
-'Load -'q = ?*(kN/m)
-'Length of load -'b = ?m
-'Length of support -'d = ?m
-'Number of iterations -'N = ?
+'Beam length -'l = ? {4}m
+'Height -'h = ? {2}m
+'Load -'q = ? {100}*(kN/m)
+'Length of load -'b = ? {0.8}m
+'Length of support -'d = ? {0.4}m
+'Number of iterations -'N = ? {21}
 '</td><td><img src="https://calcpad.eu/media/mechanics/elastic/deep-beam.png" style="height:160pt; margin-left:50pt;"></td></tr></table>
 #hide
 a = (l - b)/2
@@ -66,4 +66,3 @@ $Map{τ_xy(x; y) @ x = 0m : l & y = 0m : h}
 $Map{σ_1(x; y) @ x = 0m : l & y = 0m : h}
 σ_2(x; y) = σ_m(x; y) - Δσ(x; y)
 $Map{σ_2(x; y) @ x = 0m : l & y = 0m : h}
-4	2	100	0.8	0.4	21

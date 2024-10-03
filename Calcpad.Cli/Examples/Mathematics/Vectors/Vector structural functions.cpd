@@ -1,0 +1,44 @@
+'<style>em {font-family:"Times New Roman";}</style>
+"Vector structural functions
+'<p><b>Len</b>(<em>vector</em>) and <b>Size</b>(<em>vector</em>)</p><hr/>
+'Explicitly initialized short vectors:
+len([1; 2; 3; 0; 0])'- vector length
+size([1; 2; 3; 0; 0])'- the actual size in memory
+'Size is equal to length even if last elements are zero
+'Implicitly initialized large vectors:
+a = vector(200)
+a.35 = 1
+len(a)'- the lenght is equal to the count of all elements
+size(a)'- the size is equal to the index of the last element intitalized with a non-zero value
+
+'<p><b>Resize</b>(<em>vector</em>; <em>new length</em>)</p><hr/>
+a = [1; 2; 3; 4; 5]
+b = resize(a; 3)' - set a new size and return a reference to <var>a</var>
+a'- the original vector was modified
+b.1 = 0'- changing a value in the referece...
+a'- also changes the original vector.
+
+'<p><b>Join</b>(<em>mixed list of arguments</em>)</p><hr/>
+A = [1; 2|3; 4]
+b = [7; 8; 9]
+c = join(0; A; 5; 6; b)'- by function... 
+c = [0; A; 5; 6; b]'- or by square brackets initializer.
+
+'<p><b>Slice</b>(<em>vector</em>; <em>start index</em>; <em>end index</em>)</p><hr/>
+a = [1; 2; 3; 4; 5; 6; 7; 8]
+slice(a; 3; 7)'- segment between the 3-rd and 7-th elements of vector <em>a</em>, incl.
+slice(a; 6; 10)'- if the index is > of the vector length, returns the elements up to the end
+
+'<p><b>First</b>(<em>vector</em>; <em>count</em>)</p><hr/>
+a = [0; 1; 2; 3; 4; 5; 6]
+first(a; 3)'- the first 3 elements of the vector <em>a</em>
+first(a; 10)'- if the number of elements is > the vector  length, returns all elements
+
+'<p><b>Last</b>(<em>vector</em>; <em>count</em>)</p><hr/>
+a = [0; 1; 2; 3; 4; 5; 6]
+last(a; 3)'- the last 3 elements of the vector <em>a</em>
+last(a; 10)'- if the number of elements is > the length of the vector, returns all elements
+
+'<p><b>Extract</b>(<em>vector</em>; <em>indexes</em>)</p><hr/>
+a = [0; 1; 2; 3; 4; 5; 6]
+extract(a; [2; 4; 6])'- the elements of <em>a</em>, with indexes 3, 4, and 6

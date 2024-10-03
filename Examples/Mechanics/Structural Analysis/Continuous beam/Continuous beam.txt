@@ -8,9 +8,12 @@ x = vector(n)', '$Repeat{x.k = sum(first(l; k)) @ k = 1 : n}
 'Coordinates of supports -'x
 'Total beam length -'L = x.n
 'Load -'q = 10kN/m
-'Elastic modulus of the material -'E = 30GPa
-'Cross section
-'Rectangular section with dimensions:'b = 250mm', 'h = 500mm
+'<h5>Material</h5>
+'Elastic modulus -'E = 30GPa
+'Poisson′s ratio - 'ν = 0.2
+'Shear modulus -'G = E/(2*(1 + ν))
+'<h5>Cross section</h5>
+'Rectangular with dimensions:'b = 250mm', 'h = 500mm
 'Area -'A = b*h
 'Moment of inertia -'I = b*h^3/12
 'Shear area -'A_Q = 5/6*b*h
@@ -40,8 +43,8 @@ V_F(x) = q*(L/2 - x)
 $Plot{V_F(x) @ x = 0m : L}
 'Number of unknowns by force method -'n_1 = n - 1
 'Flexibility coefficients
-δ(i; j) = $Area{M_1(x; i)*M_1(x; j)/(E*I) @ x = 0m : L} + $Area{V_1(x; i)*V_1(x; j)/(E*A_Q) @ x = 0m : L}|m/kN
-Δ_F(i) = $Area{M_1(x; i)*M_F(x)/(E*I) @ x = 0m : L} + $Area{V_1(x; i)*V_F(x)/(E*A_Q) @ x = 0m : L}
+δ(i; j) = $Area{M_1(x; i)*M_1(x; j)/(E*I) @ x = 0m : L} + $Area{V_1(x; i)*V_1(x; j)/(G*A_Q) @ x = 0m : L}|m/kN
+Δ_F(i) = $Area{M_1(x; i)*M_F(x)/(E*I) @ x = 0m : L} + $Area{V_1(x; i)*V_F(x)/(G*A_Q) @ x = 0m : L}
 δ = symmetric(n_1)','Δ_F = vector(n_1)
 $Repeat{$Repeat{δ.(i; j) = δ(i; j) @ i = 1 : n_1} @ j = 1 : n_1}
 $Repeat{Δ_F.i = Δ_F(i) @ i = 1 : n_1}
@@ -69,9 +72,9 @@ V_max
 V_min
 'Deflections
 '- in section <em>a</em>, due to unit force <em>X</em><sub>i</sub>:
-d_1(a; i) = $Area{M_1,a(x; a)*M_1(x; i)/(E*I) @ x = 0m : L} + $Area{V_1,a(x; a)*V_1(x; i)/(E*A_Q) @ x = 0m : L}|m/kN
+d_1(a; i) = $Area{M_1,a(x; a)*M_1(x; i)/(E*I) @ x = 0m : L} + $Area{V_1,a(x; a)*V_1(x; i)/(G*A_Q) @ x = 0m : L}|m/kN
 '- due to external loads in primary system:
-d_F(a) = $Area{M_1,a(x; a)*M_F(x)/(E*I) @ x = 0m : L} + $Area{V_1,a(x; a)*V_F(x)/(E*A_Q) @ x = 0m : L}
+d_F(a) = $Area{M_1,a(x; a)*M_F(x)/(E*I) @ x = 0m : L} + $Area{V_1,a(x; a)*V_F(x)/(G*A_Q) @ x = 0m : L}
 d(x) = d_F(x) + $Sum{d_1(x; i)*X.i @ i = 1 : n_1}|mm
 $Plot{d(x) @ x = 0m : L}
 'Maximum deflection -'d_max = $inf{d(x) @ x = 0m : L}|mm
