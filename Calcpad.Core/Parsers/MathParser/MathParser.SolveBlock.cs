@@ -164,16 +164,19 @@ namespace Calcpad.Core
                     FixRepeat(_items[0].Rpn);
 
                 _parser._targetUnits = targetUnits;
-                for (int i = 0; i <= n; ++i)
-                {
-                    _parser._rpn = _items[i].Rpn;
-                    _items[i].Html = _parser.ToHtml();
-                    _items[i].Xml = _parser.ToXml();
-                }
                 IsFigure = _type == SolverTypes.Sum ||
-                           _type == SolverTypes.Product ||
-                           _type == SolverTypes.Integral ||
-                           _type == SolverTypes.Area;
+                   _type == SolverTypes.Product ||
+                   _type == SolverTypes.Integral ||
+                   _type == SolverTypes.Area;
+
+                RenderOutput();
+            }
+
+            private void RenderOutput()
+            {
+                for (int i = 0, n = _items.Length; i < n; ++i)
+                    _items[i].Render(_parser);
+
                 if (IsFigure)
                 {
                     var order = Calculator.OperatorOrder[Calculator.OperatorIndex['*']];
@@ -534,6 +537,17 @@ namespace Calcpad.Core
                 internal string Html;
                 internal string Xml;
                 internal Token[] Rpn;
+
+                internal void Render(MathParser parser)
+                {
+                    if (Rpn is not null)
+                    {
+                        parser._rpn = Rpn;
+                        Html = parser.ToHtml();
+                        Xml = parser.ToXml();
+                    }
+
+                }
             }
         }
     }
