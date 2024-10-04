@@ -71,7 +71,9 @@ You can also **export** it to **Html** <img alt="Html" height="24" src="https://
   
 Calcpad uses a simple programming language that includes the following elements:  
 * Real numbers: digits 0 - 9 and decimal point ".";  
-* Complex numbers: re ± imi (e.g. 3 - 2i);  
+* Complex numbers: re ± imi (e.g. 3 - 2i); 
+* Vectors: [v₁; v₂; v₃; …; vₙ];
+* Matrices: [M₁₁; M₁₂; … ; M₁ₙ | M₂₁; M₂₂; … ; M₂ₙ | … | Mₘ₁; Mₘ₂; … ; Mₘₙ] 
 * Variables:  
 &emsp;&emsp;- Latin letters: a - z, A - Z;  
 &emsp;&emsp;- Greek letters: α - ω, Α - Ω;  
@@ -187,7 +189,7 @@ A variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;&emsp;&emsp;**size**(v) - the actual size of vector v - the index of the last non-zero element;  
 &emsp;&emsp;&emsp;&emsp;**resize**(v; n) - sets a new length n of vector v;  
 &emsp;&emsp;&emsp;&emsp;**join**(A; b; c…) - creates a vector by joining the arguments: matrices, vectors and scalars;  
-&emsp;&emsp;&emsp;&emsp;**slice**(v; i1; i2) - returns the part of vector v bounded by indexes i1 and i2 inclusive;  
+&emsp;&emsp;&emsp;&emsp;**slice**(v; i₁; i₂) - returns the part of vector v bounded by indexes i₁ and i₂ inclusive;  
 &emsp;&emsp;&emsp;&emsp;**first**(v; n) - the first n elements of vector v;  
 &emsp;&emsp;&emsp;&emsp;**last**(v; n) - the last n elements of vector v;  
 &emsp;&emsp;&emsp;&emsp;**extract**(v; i) - extracts the elements from v which indexes are contained in i;  
@@ -252,7 +254,7 @@ A variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;&emsp;&emsp;**extract_rows**(M; i) - extracts the rows from matrix M whose indexes are contained in vector i;  
 &emsp;&emsp;&emsp;&emsp;**extract_cols**(M; j) - extracts the columns from matrix M whose indexes are contained in vector j;  
 &emsp;&emsp;&emsp;&emsp;**diag2vec**(M) - extracts the diagonal elements of matrix M to a vector;  
-&emsp;&emsp;&emsp;&emsp;**submatrix**(M; i1; i2; j1; j2) - extracts a submatrix of M, bounded by rows i1 and i2 and columns j1 and j2, incl.;  
+&emsp;&emsp;&emsp;&emsp;**submatrix**(M; i₁; i₂; j₁; j₂) - extracts a submatrix of M, bounded by rows i₁ and i₂ and columns j₁ and j₂, incl.;  
 &emsp;&emsp;&emsp;&emsp;<ins>Data:</ins>  
 &emsp;&emsp;&emsp;&emsp;**sort_cols**(M; i) - sorts the columns of M based on the values in row i in ascending order;  
 &emsp;&emsp;&emsp;&emsp;**rsort_cols**(M; i) - sorts the columns of M based on the values in row i in descending order;  
@@ -271,20 +273,20 @@ A variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;&emsp;&emsp;**mfind_le**(M; x) - the indexes of all elements in M that are ≤ x;  
 &emsp;&emsp;&emsp;&emsp;**mfind_gt**(M; x) - the indexes of all elements in M that are > x;  
 &emsp;&emsp;&emsp;&emsp;**mfind_ge**(M; x) - the indexes of all elements in M that are ≥ x;  
-&emsp;&emsp;&emsp;&emsp;**hlookup**(M; x; i1; i2) or  
-&emsp;&emsp;&emsp;&emsp;**hlookup_eq**(M; x; i1; i2) - the values from row i2 of M, for which the elements in row i1 are = x;  
-&emsp;&emsp;&emsp;&emsp;**hlookup_ne**(M; x; i1; i2) - the values from row i2 of M, for which the elements in row i1 are ≠ x;  
-&emsp;&emsp;&emsp;&emsp;**hlookup_lt**(M; x; i1; i2) - the values from row i2 of M, for which the elements in row i1 are < x;  
-&emsp;&emsp;&emsp;&emsp;**hlookup_le**(M; x; i1; i2) - the values from row i2 of M, for which the elements in row i1 are ≤ x;  
-&emsp;&emsp;&emsp;&emsp;**hlookup_gt**(M; x; i1; i2) - the values from row i2 of M, for which the elements in row i1 are > x;  
-&emsp;&emsp;&emsp;&emsp;**hlookup_ge**(M; x; i1; i2) - the values from row i2 of M, for which the elements in row i1 are ≥ x;  
-&emsp;&emsp;&emsp;&emsp;**vlookup**(M; x; j1; j2) or  
-&emsp;&emsp;&emsp;&emsp;**vlookup_eq**(M; x; j1; j2) - the values from column j2 of M, for which the elements in column j1 are = x;  
-&emsp;&emsp;&emsp;&emsp;**vlookup_ne**(M; x; j1; j2) - the values from column j2 of M, for which the elements in column j1 are ≠ x;  
-&emsp;&emsp;&emsp;&emsp;**vlookup_lt**(M; x; j1; j2) - the values from column j2 of M, for which the elements in column j1 are < x;  
-&emsp;&emsp;&emsp;&emsp;**vlookup_le**(M; x; j1; j2) - the values from column j2 of M, for which the elements in column j1 are ≤ x;  
-&emsp;&emsp;&emsp;&emsp;**vlookup_gt**(M; x; j1; j2) - the values from column j2 of M, for which the elements in column j1 are > x;  
-&emsp;&emsp;&emsp;&emsp;**vlookup_ge**(M; x; j1; j2) - the values from column j2 of M, for which the elements in column j1 are ≥ x;  
+&emsp;&emsp;&emsp;&emsp;**hlookup**(M; x; i₁; i₂) or  
+&emsp;&emsp;&emsp;&emsp;**hlookup_eq**(M; x; i₁; i₂) - the values from row i₂ of M, for which the elements in row i₁ are = x;  
+&emsp;&emsp;&emsp;&emsp;**hlookup_ne**(M; x; i₁; i₂) - the values from row i₂ of M, for which the elements in row i₁ are ≠ x;  
+&emsp;&emsp;&emsp;&emsp;**hlookup_lt**(M; x; i₁; i₂) - the values from row i₂ of M, for which the elements in row i₁ are < x;  
+&emsp;&emsp;&emsp;&emsp;**hlookup_le**(M; x; i₁; i₂) - the values from row i₂ of M, for which the elements in row i₁ are ≤ x;  
+&emsp;&emsp;&emsp;&emsp;**hlookup_gt**(M; x; i₁; i₂) - the values from row i₂ of M, for which the elements in row i₁ are > x;  
+&emsp;&emsp;&emsp;&emsp;**hlookup_ge**(M; x; i₁; i₂) - the values from row i₂ of M, for which the elements in row i₁ are ≥ x;  
+&emsp;&emsp;&emsp;&emsp;**vlookup**(M; x; j₁; j₂) or  
+&emsp;&emsp;&emsp;&emsp;**vlookup_eq**(M; x; j₁; j₂) - the values from column j₂ of M, for which the elements in column j₁ are = x;  
+&emsp;&emsp;&emsp;&emsp;**vlookup_ne**(M; x; j₁; j₂) - the values from column j₂ of M, for which the elements in column j₁ are ≠ x;  
+&emsp;&emsp;&emsp;&emsp;**vlookup_lt**(M; x; j₁; j₂) - the values from column j₂ of M, for which the elements in column j₁ are < x;  
+&emsp;&emsp;&emsp;&emsp;**vlookup_le**(M; x; j₁; j₂) - the values from column j₂ of M, for which the elements in column j₁ are ≤ x;  
+&emsp;&emsp;&emsp;&emsp;**vlookup_gt**(M; x; j₁; j₂) - the values from column j₂ of M, for which the elements in column j₁ are > x;  
+&emsp;&emsp;&emsp;&emsp;**vlookup_ge**(M; x; j₁; j₂) - the values from column j₂ of M, for which the elements in column j₁ are ≥ x;  
 &emsp;&emsp;&emsp;&emsp;<ins>Math:</ins>  
 &emsp;&emsp;&emsp;&emsp;**hprod**(A; B) - Hadamard product of matrices A and B;  
 &emsp;&emsp;&emsp;&emsp;**fprod**(A; B) - Frobenius product of matrices A and B;  
