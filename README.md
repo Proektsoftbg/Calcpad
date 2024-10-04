@@ -236,8 +236,8 @@ A variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;&emsp;&emsp;**symmetric**(n) - creates a symmetric matrix with dimensions n⨯n;  
 &emsp;&emsp;&emsp;&emsp;**vec2diag**(v) - creates a diagonal matrix from the elements of vector v;  
 &emsp;&emsp;&emsp;&emsp;**vec2col**(v) - creates a column matrix from the elements of vector v;  
-&emsp;&emsp;&emsp;&emsp;**join_cols**(c1; c2; c3…) - creates a new matrix by joining column vectors;  
-&emsp;&emsp;&emsp;&emsp;**join_rows**(r1; r2; r3…) - creates a new matrix by joining row vectors;  
+&emsp;&emsp;&emsp;&emsp;**join_cols**(c₁; c₂; c₃…) - creates a new matrix by joining column vectors;  
+&emsp;&emsp;&emsp;&emsp;**join_rows**(r₁; r₂; r₃…) - creates a new matrix by joining row vectors;  
 &emsp;&emsp;&emsp;&emsp;**augment**(A; B; C…) - creates a new matrix by appending matrices A; B; C side by side;  
 &emsp;&emsp;&emsp;&emsp;**stack**(A; B; C…) - creates a new matrix by stacking matrices A; B; C one below the other;  
 &emsp;&emsp;&emsp;&emsp;<ins>Structural:</ins>  
