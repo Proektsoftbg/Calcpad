@@ -2253,7 +2253,7 @@ namespace Calcpad.Core
             var dx = Math.Round(x.Re, MidpointRounding.AwayFromZero);
             var dy = Math.Round(y.Re, MidpointRounding.AwayFromZero);
             if (!double.IsNormal(dy) || dy < Calculator.DeltaMinus || dy > _rowCount * Calculator.DeltaPlus ||
-                !double.IsNormal(dx) || dx < Calculator.DeltaMinus || dx > _rowCount * Calculator.DeltaPlus)
+                !double.IsNormal(dx) || dx < Calculator.DeltaMinus || dx > _colCount * Calculator.DeltaPlus)
                 return Value.NaN;
 
             return this[(int)dy - 1, (int)dx - 1];
