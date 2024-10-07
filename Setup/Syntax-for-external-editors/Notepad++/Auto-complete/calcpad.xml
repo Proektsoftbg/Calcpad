@@ -33,6 +33,7 @@
 		<KeyWord name="#split" />
 		<KeyWord name="#val" />
 		<KeyWord name="#varsub" />
+		<KeyWord name="#while" />
 		<KeyWord name="#wrap" />
 		<KeyWord name="$Area" />
 		<KeyWord name="$Find" />
@@ -97,6 +98,7 @@
 		<KeyWord name="cL" />
 		<KeyWord name="clsolve" />
 		<KeyWord name="cm" />
+		<KeyWord name="cmsolve" />
 		<KeyWord name="cofactor" />
 		<KeyWord name="col" />
 		<KeyWord name="column" />
@@ -359,6 +361,7 @@
 		<KeyWord name="ms" />
 		<KeyWord name="mS" />
 		<KeyWord name="msearch" />
+		<KeyWord name="msolve" />
 		<KeyWord name="MSv" />
 		<KeyWord name="mSv" />
 		<KeyWord name="Mt" />

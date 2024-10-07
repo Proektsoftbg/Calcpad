@@ -168,7 +168,7 @@ object SyntAnal6: TLibSyntAnalyzer
 		'|[Pp]ost|[Vv]al|[Ee]qu|[Nn]oc|[Nn]osub|[Nn]ovar|[Vv]arsub|[Rr]ou' + 
 		'nd|[Rr]ad|[Dd]eg|[Ii]f|[Ee]lse\s[Ii]f|[Ee]lse|[Ee]nd\s[Ii]f|[Ii]' + 
 		'nclude|[Ll]ocal|[Gg]lobal|[Dd]ef|[Ee]nd\s[Dd]ef|[Pp]ause|[Ii]nput' + 
-		'|[Ss]plit|[Ww]rap|[Ff]or)\b'
+		'|[Ss]plit|[Ww]rap|[Ff]or|[Ww]hile|)\b'
       ColumnFrom = 0
       ColumnTo = 0
     end
@@ -203,7 +203,7 @@ object SyntAnal6: TLibSyntAnalyzer
         'ws|n_cols|row|col|extrac_rows|extract_cols|submatrix|mnorm|mnorm' +
         '_2|mnorm_e|mnorm_1|mnorm_i|cond|cond_1|cond_2|cond_e|cond_i|det|' +
         'rank|transp|trace|inverse|adj|cofactor|eigenvals|eigenvecs|eigen' +
-        '|lu|qr|svd|cholesky|lsolve|clsolve|hprod|fprod|kprod|sort_cols|r' +
+        '|lu|qr|svd|cholesky|lsolve|clsolve|msolve|cmsolve|hprod|fprod|kprod|sort_cols|r' +
         'sort_cols|sort_rows|rsort_rows|order_cols|revorder_cols|order_ro' +
         'ws|revorder_rows|mcount|mfind|mfind_eq|mfind_ne|mfnd_lt|mfind_le' +
         '|mfind_gt|mfind_ge|msearch|hlookup|hlookup_eq|hlookup_ne|hlookup' +
@@ -246,6 +246,34 @@ object SyntAnal6: TLibSyntAnalyzer
         item
           TagList.Strings = (
             '#repeat')
+          IgnoreCase = True
+        end>
+      BlockEnd = '#loop'
+      HighlightPos = cpAny
+      DrawStaple = True
+      CollapseFmt = '%sz0'
+      IgnoreAsParent = False
+    end
+	item
+      DisplayName = '#for'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '#for')
+          IgnoreCase = True
+        end>
+      BlockEnd = '#loop'
+      HighlightPos = cpAny
+      DrawStaple = True
+      CollapseFmt = '%sz0'
+      IgnoreAsParent = False
+    end
+	item
+      DisplayName = '#for'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '#for')
           IgnoreCase = True
         end>
       BlockEnd = '#loop'
