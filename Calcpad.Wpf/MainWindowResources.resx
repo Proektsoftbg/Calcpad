@@ -947,4 +947,13 @@ You can find your unsaved data in
   <data name="DoubleHermiteSplineInterpolationFromTheElementsOfMatrixMBasedOnTheValuesOfXAndY" xml:space="preserve">
     <value>Double Hermite spline interpolation from the elements of matrix M based on the values of x and y</value>
   </data>
+  <data name="SolvesTheGeneralizedMatrixEquationAXBUsingLDLTDecompositionForSymmetricMatricesAndLUForNonSymmetric" xml:space="preserve">
+    <value>Solves the generalized matrix equation AX = B using LDLT decomposition for symmetric matrices and LU for non-symmetric</value>
+  </data>
+  <data name="SolvesTheGeneralizedMatrixEquationAXBWithSymmetricPositiveDefiniteMatrixAUsingCholeskyDecomposition" xml:space="preserve">
+    <value>Solves the generalized matrix equation AX = B with symmetric positive definite matrix A using Cholesky decomposition</value>
+  </data>
+  <data name="RoundTo" xml:space="preserve">
+    <value>Round to</value>
+  </data>
 </root>

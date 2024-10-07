@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Calcpad.Core
 {
@@ -123,6 +124,17 @@ namespace Calcpad.Core
                 x[i] = sum / row[0];
             }
             return x;
+        }
+
+        internal override Matrix MSolve(Matrix M)
+        {
+            var m = _rowCount;
+            var n = M.ColCount;
+            var v = new Vector[n];
+            Parallel.For(0, n, j =>
+                v[j] = LSolve(M.Col(j + 1))
+            );
+            return CreateFromCols(v, m);
         }
 
         private LowerTriangularMatrix RawCopy()

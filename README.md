@@ -316,7 +316,9 @@ A variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;&emsp;&emsp;**svd**(M) - singular value decomposition of M;  
 &emsp;&emsp;&emsp;&emsp;**inverse**(M) - inverse of matrix M;  
 &emsp;&emsp;&emsp;&emsp;**lsolve**(A; b) - solves the system of linear equations Ax = b using LDLT decomposition for symmetric matrices, and LU for non-symmetric;  
-&emsp;&emsp;&emsp;&emsp;**clsolve**(A; b) - solves the linear matrix equation Ax = b with a symmetric, positive-definite matrix A using Cholesky decomposition;  
+&emsp;&emsp;&emsp;&emsp;**clsolve**(A; b) - solves the linear matrix equation Ax = b with symmetric, positive-definite matrix A using Cholesky decomposition;  
+&emsp;&emsp;&emsp;&emsp;**msolve**(A; b) - solves the generalized matrix equation AX = B using LDLT decomposition for symmetric matrices, and LU for non-symmetric;  
+&emsp;&emsp;&emsp;&emsp;**cmsolve**(A; b) - solves the generalized matrix equation AX = B with symmetric, positive-definite matrix A using Cholesky decomposition;  
 &emsp;&emsp;&emsp;&emsp;**<ins>Double interpolation:</ins>**  
 &emsp;&emsp;&emsp;&emsp;**take**(x; y; M) - returns the element of matrix M at indexes x and y;  
 &emsp;&emsp;&emsp;&emsp;**line**(x; y; M) - double linear interpolation from the elements of matrix M based on the values of x and y;  

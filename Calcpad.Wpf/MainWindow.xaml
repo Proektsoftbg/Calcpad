@@ -5,7 +5,7 @@
     xmlns:core="clr-namespace:Calcpad.Core;assembly=Calcpad.Core"
     x:Class="Calcpad.Wpf.MainWindow"
     Closing="Window_Closing"
-    Title=" Calcpad VM 7.0.8"
+    Title=" Calcpad VM 7.0.9"
     Height="800" 
     Width="1200"
     WindowStartupLocation="CenterScreen"
@@ -837,11 +837,12 @@
                                 <MenuItem Click="Button_Click" Tag="cholesky(" Header="cholesky(M)" ToolTip="{x:Static wpf:MainWindowResources.CholeskyDecompositionOfASymmetricPositiveDefiniteMatrixM}" />
                                 <MenuItem Click="Button_Click" Tag="lu(" Header="lu(M)" ToolTip="{x:Static wpf:MainWindowResources.LUDecompositionOfMatrixM}" />
                                 <MenuItem Click="Button_Click" Tag="qr(" Header="qr(M)" ToolTip="{x:Static wpf:MainWindowResources.QRDecompositionOfMatrixM}" />
-                                <MenuItem Click="Button_Click" Tag="svd(" Header="svd(M)" ToolTip="{x:Static wpf:MainWindowResources.SingularValueDecompositionOfM}" />
-                            </MenuItem>
+                                <MenuItem Click="Button_Click" Tag="svd(" Header="svd(M)" ToolTip="{x:Static wpf:MainWindowResources.SingularValueDecompositionOfM}" />                            </MenuItem>
                             <MenuItem Click="Button_Click" Tag="inverse(" Header="inverse(M)" ToolTip="{x:Static wpf:MainWindowResources.InverseOfMatrixM}" />
                             <MenuItem Click="Button_Click" Tag="lsolve(" Header="lsolve(A; b)" ToolTip="{x:Static wpf:MainWindowResources.SolvesTheSystemOfLinearEquationsAxBUsingLDLTDecompositionForSymmetricMatricesAndLUForNonSymmetric}" />
                             <MenuItem Click="Button_Click" Tag="clsolve(" Header="clsolve(A; b)" ToolTip="{x:Static wpf:MainWindowResources.SolvesTheLinearMatrixEquationAxBWithASymmetricPositiveDefiniteMatrixAUsingCholeskyDecomposition}" />
+                            <MenuItem Click="Button_Click" Tag="msolve(" Header="msolve(A; B)" ToolTip="{x:Static wpf:MainWindowResources.SolvesTheGeneralizedMatrixEquationAXBUsingLDLTDecompositionForSymmetricMatricesAndLUForNonSymmetric}" />
+                            <MenuItem Click="Button_Click" Tag="cmsolve(" Header="cmsolve(A; B)" ToolTip="{x:Static wpf:MainWindowResources.SolvesTheGeneralizedMatrixEquationAXBWithSymmetricPositiveDefiniteMatrixAUsingCholeskyDecomposition}" />
                             <MenuItem Header="Double Interpolation">
                                 <MenuItem Click="Button_Click" Tag="take(" Header="take(x; y; M)" ToolTip="{x:Static wpf:MainWindowResources.ReturnsTheElementOfMatrixMAtIndexesXAndY}" />
                                 <MenuItem Click="Button_Click" Tag="line(" Header="line(x; y; M)" ToolTip="{x:Static wpf:MainWindowResources.DoubleLinearInterpolationFromTheElementsOfMatrixMBasedOnTheValuesOfXAndY}" />
@@ -2368,6 +2369,7 @@
                         <ListBoxItem Content="Ci"                 Foreground="DarkCyan"/>
                         <ListBoxItem Content="cL"                 Foreground="DarkCyan"/>
                         <ListBoxItem Content="clsolve()"          FontWeight="Bold"/>
+                        <ListBoxItem Content="cmsolve()"          FontWeight="Bold"/>
                         <ListBoxItem Content="cm"                 Foreground="DarkCyan"/>
                         <ListBoxItem Content="cm^2"               Foreground="DarkCyan"/>
                         <ListBoxItem Content="cm^3"               Foreground="DarkCyan"/>
@@ -2681,6 +2683,7 @@
                         <ListBoxItem Content="mS"                 Foreground="DarkCyan"/>
                         <ListBoxItem Content="ms"                 Foreground="DarkCyan"/>
                         <ListBoxItem Content="msearch()"          FontWeight="Bold"/>
+                        <ListBoxItem Content="msolve()"           FontWeight="Bold"/>
                         <ListBoxItem Content="MSv"                Foreground="DarkCyan"/>
                         <ListBoxItem Content="mSv"                Foreground="DarkCyan"/>
                         <ListBoxItem Content="Mt"                 Foreground="DarkCyan"/>

@@ -41,6 +41,63 @@
     take(n; a; b; c…)     line(x; a; b; c…)       spline(x; a; b; c…)
 	
 ————————————————————————————————————————————————————————————————————————————————
+ Векторни функции:
+————————————————————————————————————————————————————————————————————————————————
+    Създаване:            Математически:  Данни:              search(v; x; i)
+    vector(n)             norm_1(v)       sort(v)             rsort(v)
+    fill(v; x)            norm(v)         order(v)            revorder(v)
+    range(x1; xn; s)      norm_2(v)       reverse(v)          count(v; x; i)
+                          norm_e(v)       find(v; x; i)       lookup(a; b; x)
+    Структурни:           norm_p(v; p)    find_eq(v; x; i)    lookup_eq(a; b; x)
+    len(v)                norm_i(v)       find_ne(v; x; i)    lookup_ne(a; b; x)
+    size(v)               unit(v)         find_lt(v; x; i)    lookup_lt(a; b; x)
+    resize(v; n)          dot(a; b)       find_le(v; x; i)    lookup_le(a; b; x)
+    join(a; b; c…)        cross(a; b)     find_gt(v; x; i)    lookup_gt(a; b; x)
+    slice(v; i1; i2)                      find_ge(v; x; i)    lookup_ge(a; b; x)
+    first(v; n)                             
+    last(v; n)                              
+    extract(v; i )      
+    
+————————————————————————————————————————————————————————————————————————————————
+ Матрични функции:
+————————————————————————————————————————————————————————————————————————————————
+    Създаване:                   Математически:         Данни:                    
+    matrix(m; n)                 hprod(A; B)            sort_cols(M; i) 
+    identity(n)                  fprod(A; B)            rsort_cols(M; i)
+    diagonal(n; d)               kprod(A; B)            sort_rows(M; j) 
+    column(m; c)                 mnorm(M)               rsort_rows(M; j)
+    utriang(n)                   mnorm_e(M)             order_cols(M; i)
+    ltriang(n)                   mnorm_1(M)             revorder_cols(M; i)
+    symmetric(n)                 mnorm_2(M)             order_rows(M; j)
+    vec2diag(v)                  mnorm_i(M)             revorder_rows(M; j)
+    vec2col(v)                   cond(M)                mcount(M; x)
+    join_cols(c1; c2; c3…)       cond_e(M)              msearch(M; x; i; j)
+    join_rows(r1; r2; r3…)       cond_1(M)              mfind(M; x)
+    augment(A; B; C…)            cond_2(M)              mfind_eq(M; x)
+    stack(A; B; C…)              cond_i(M)              mfind_ne(M; x)
+                                 det(M)                 mfind_lt(M; x)
+    Структурни:                  rank(M)                mfind_le(M; x)
+    n_rows(M)                    trace(M)               mfind_gt(M; x)
+    n_cols(M)                    transp(M)              mfind_ge(M; x)
+    resize(M; m; n)              adj(M)                 hlookup(M; x; i1; i2)   
+    fill(M; x)                   cofactor(M)            hlookup_eq(M; x; i1; i2)
+    fill_row(M; x; i)            eigenvals(M)           hlookup_ne(M; x; i1; i2)
+    fill_col(M; x; j)            eigenvecs(M)           hlookup_lt(M; x; i1; i2)
+    copy(A; B; i; j)             cholesky(M)            hlookup_le(M; x; i1; i2)
+    add(A; B; i; j)              lu(M)                  hlookup_gt(M; x; i1; i2)
+    row(M; i)                    qr(M)                  hlookup_ge(M; x; i1; i2)
+    col(M; j)                    svd(M)                 vlookup(M; x; j1; j2)   
+    extract_rows(M; i)           inverse(M)             vlookup_eq(M; x; j1; j2)
+    extract_cols(M; j)           lsolve(A; b)           vlookup_ne(M; x; j1; j2)
+    diag2vec(v)                  clsolve(A; b)          vlookup_lt(M; x; j1; j2)
+    submatrix(M; i1; i2; j1; j2) msolve(A; B)           vlookup_le(M; x; j1; j2)
+                                 cmsolve(A; B)          vlookup_gt(M; x; j1; j2)
+    Двойна интерполация:                                vlookup_ge(M; x; j1; j2)
+    take(x; y; M)	                              
+    line(x; y; M)                               
+	spline(x; y; M)							 
+
+————————————————————————————————————————————————————————————————————————————————
  Итерационни и числени методи:
 ————————————————————————————————————————————————————————————————————————————————
     $Root{f(x) = const @ x = a : b}

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Calcpad.Core
 {
@@ -126,6 +127,18 @@ namespace Calcpad.Core
         {
             CheckSingular();
             return v / _rows[0];
+        }
+
+        internal override Matrix MSolve(Matrix M)
+        {
+            CheckSingular();
+            var m = _rowCount;
+            var n = M.ColCount;
+            var v = new Vector[n];
+            Parallel.For(0, n, j => 
+                v[j] = M.Col(j) / _rows[0]
+            );
+            return CreateFromCols(v, m);
         }
 
         private void CheckSingular()

@@ -345,6 +345,8 @@ namespace Calcpad.Wpf
             "cholesky",
             "lsolve",
             "clsolve",
+            "msolve",
+            "cmsolve",
             "hprod",
             "fprod",
             "kprod",

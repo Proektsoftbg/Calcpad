@@ -1211,69 +1211,69 @@
                     <li><code><b>sign</b>(<var>x</var>)</code> - знак на число = -1, if <var>x</var> &lt; 0; 1, if <var>x</var> &gt; 0; 0, if <var>x</var> = 0;</li>
                     <li><code><b>abs</b>(<var>x</var>)</code> - абсолютна стойност (модул) |<var>x</var>|;</li>
                     <li><code><b>random</b>(<var>x</var>)</code> - генерира (псевдо) случайно число между 0 и <var>x</var>;</li>
-				</ul>
+                </ul>
             </li>
-			<li>
-				Векторни:
-				<ul>
-					<li>
-						Създаване и инициализация:<ul style="list-style-type:none;">
-							<li><code><b>vector</b>(<var>n</var>)</code> - създава празен вектор с дължина <var>n</var>;</li>
-							<li><code><b>fill</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>)</code> - запълва вектора <var><span class="vec">⃗</span>v</var> със стойност <var>x</var>;</li>
-							<li><code><b>range</b>(<var>x</var><sub>1</sub>; <var>x</var><sub>n</sub>; <var>s</var>)</code> - създава вектор от стойностите в интервала от <var>x</var><sub>1</sub> до <var>x</var><sub>n</sub> със стъпка <var>s</var>;</li>
-						</ul>
-					</li>
-					<li>
-						Структурни:<ul style="list-style-type:none;">
-							<li><code><b>len</b>(<var><span class="vec">⃗</span>v</var>)</code> - връща дължината на вектора <var><span class="vec">⃗</span>v</var>;</li>
-							<li><code><b>size</b>(<var><span class="vec">⃗</span>v</var>)</code> - действителния размер на вектора <var><span class="vec">⃗</span>v</var> (индекса на последния ненулев елемент);</li>
-							<li><code><b>resize</b>(<var><span class="vec">⃗</span>v</var>; <var>n</var>)</code> - задава нова дължина <var>n</var> на вектора <var><span class="vec">⃗</span>v</var>;</li>
-							<li><code><b>join</b>(<var>A</var>; <var><span class="vec">⃗</span>b</var>; <var>c</var>…)</code> - създава вектор чрез обединяване на аргументите в списъка - матрици, вектори и скалари;</li>
-							<li><code><b>slice</b>(<var><span class="vec">⃗</span>v</var>; <var>i</var><sub>1</sub>; <var>i</var><sub>2</sub>)</code>  - връща частта от вектора <var><span class="vec">⃗</span>v</var>, ограничена от индекси <var>i</var><sub>1</sub> и <var>i</var><sub>2</sub>, включително;</li>
-							<li><code><b>first</b>(<var><span class="vec">⃗</span>v</var>; <var>n</var>)</code> - първите <var>n</var> елемента на вектора <var><span class="vec">⃗</span>v</var>;</li>
-							<li><code><b>last</b>(<var><span class="vec">⃗</span>v</var>; <var>n</var>)</code> - последните <var>n</var> елемента на вектора <var><span class="vec">⃗</span>v</var>;</li>
-							<li><code><b>extract</b>(<var><span class="vec">⃗</span>v</var>; <var><span class="vec">⃗</span>i</var>)</code> - извлича онези елементи от <var><span class="vec">⃗</span>v</var>, чиито индекси се съдържат в <var><span class="vec">⃗</span>i</var>;</li>
-						</ul>
-					</li>
-					<li>
-						Данни:<ul style="list-style-type:none;">
-							<li><code><b>sort</b>(<var><span class="vec">⃗</span>v</var>)</code> - сортира елементите на вектор <var><span class="vec">⃗</span>v</var> във възходящ ред;</li>
-							<li><code><b>rsort</b>(<var><span class="vec">⃗</span>v</var>)</code> - сортира елементите на вектор <var><span class="vec">⃗</span>v</var> в низходящ ред;</li>
-							<li><code><b>order</b>(<var><span class="vec">⃗</span>v</var>)</code> - индексите на вектор <var><span class="vec">⃗</span>v</var>, подредени по възходящия ред на неговите елементи;</li>
-							<li><code><b>revorder</b>(<var><span class="vec">⃗</span>v</var>)</code> - индексите на вектор <var><span class="vec">⃗</span>v</var>, подредени по низходящия ред на неговите елементи;</li>
-							<li><code><b>reverse</b>(<var><span class="vec">⃗</span>v</var>)</code> - нов вектор, съдържащ елементите на <var><span class="vec">⃗</span>v</var> в обратен ред;</li>
-							<li><code><b>count</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> - броя на елементите в <var><span class="vec">⃗</span>v</var> от <var>i</var>-тия нататък, които са равни на <var>x</var>;</li>
-							<li><code><b>search</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> - индекса на първия елемент в <var><span class="vec">⃗</span>v</var> от <var>i</var>-тия нататък, който е равен на <var>x</var>;</li>
-							<li><code><b>find</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> или </li>
-							<li><code><b>find_eq</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> - индексите на всички елементи в <var><span class="vec">⃗</span>v</var> от <var>i</var>-тия нататък, които са = <var>x</var>;</li>
-							<li><code><b>find_ne</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> - индексите на всички елементи в <var><span class="vec">⃗</span>v</var> от <var>i</var>-тия нататък, които са ≠ <var>x</var>;</li>
-							<li><code><b>find_lt</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> - индексите на всички елементи в <var><span class="vec">⃗</span>v</var> от <var>i</var>-тия нататък, които са &lt; <var>x</var>;</li>
-							<li><code><b>find_le</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> - индексите на всички елементи в <var><span class="vec">⃗</span>v</var> от <var>i</var>-тия нататък, които са &le; <var>x</var>;</li>
-							<li><code><b>find_gt</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> - индексите на всички елементи в <var><span class="vec">⃗</span>v</var> от <var>i</var>-тия нататък, които са &gt; <var>x</var>;</li>
-							<li><code><b>find_ge</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> - индексите на всички елементи в <var><span class="vec">⃗</span>v</var> от <var>i</var>-тия нататък, които са &ge; <var>x</var>;</li>
-							<li><code><b>lookup</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>; <var>x</var>)</code> или</li>
-							<li><code><b>lookup_eq</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>; <var>x</var>)</code> - всички елементи в <var><span class="vec">⃗</span>a</var>, за които съответните елементи в <var><span class="vec">⃗</span>b</var> са = <var>x</var>;</li>
-							<li><code><b>lookup_ne</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>; <var>x</var>)</code> - всички елементи в <var><span class="vec">⃗</span>a</var>, за които съответните елементи в <var><span class="vec">⃗</span>b</var> са ≠ <var>x</var>;</li>
-							<li><code><b>lookup_lt</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>; <var>x</var>)</code> - всички елементи в <var><span class="vec">⃗</span>a</var>, за които съответните елементи в <var><span class="vec">⃗</span>b</var> са &lt; <var>x</var>;</li>
-							<li><code><b>lookup_le</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>; <var>x</var>)</code> - всички елементи в <var><span class="vec">⃗</span>a</var>, за които съответните елементи в <var><span class="vec">⃗</span>b</var> са &le; <var>x</var>;</li>
-							<li><code><b>lookup_gt</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>; <var>x</var>)</code> - всички елементи в <var><span class="vec">⃗</span>a</var>, за които съответните елементи в <var><span class="vec">⃗</span>b</var> са &gt; <var>x</var>;</li>
-							<li><code><b>lookup_ge</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>; <var>x</var>)</code> - всички елементи в <var><span class="vec">⃗</span>a</var>, за които съответните елементи в <var><span class="vec">⃗</span>b</var> са &ge; <var>x</var>;</li>
-						</ul>
-					</li>
-					<li>
-						Математически:<ul style="list-style-type:none;">
-							<li><code><b>norm_1</b>(<var><span class="vec">⃗</span>v</var>)</code> - L1 (Манхатън) норма на вектора <var><span class="vec">⃗</span>v</var>;</li>
-							<li><code><b>norm</b>(<var><span class="vec">⃗</span>v</var>)</code> или</li>
-							<li><code><b>norm_2</b>(<var><span class="vec">⃗</span>v</var>)</code> или</li>
-							<li><code><b>norm_e</b>(<var><span class="vec">⃗</span>v</var>)</code> - L2 (Евклидова) норма на вектора <var><span class="vec">⃗</span>v</var>;</li>
-							<li><code><b>norm_p</b>(<var><span class="vec">⃗</span>v</var>; <var>p</var>)</code> - Lp норма на вектора <var><span class="vec">⃗</span>v</var>;</li>
-							<li><code><b>norm_i</b>(<var><span class="vec">⃗</span>v</var>)</code> - L∞ (безкрайна) норма на вектора <var><span class="vec">⃗</span>v</var>;</li>
-							<li><code><b>unit</b>(<var><span class="vec">⃗</span>v</var>)</code> - нормализирания (единичен) вектор <var><span class="vec">⃗</span>v</var> (с L2 норма = 1);</li>
-							<li><code><b>dot</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>)</code> - скаларно произведение на два вектора <var><span class="vec">⃗</span>a</var> и <var><span class="vec">⃗</span>b</var>;</li>
-							<li><code><b>cross</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>)</code> - векторно произведение на два вектора <var><span class="vec">⃗</span>a</var> и <var><span class="vec">⃗</span>b</var> (с дължина 2 или 3);</li>
-						</ul>
-					</li>
-				</ul>
+            <li>
+                Векторни:
+                <ul>
+                    <li>
+                        Създаване и инициализация:<ul style="list-style-type:none;">
+                            <li><code><b>vector</b>(<var>n</var>)</code> - създава празен вектор с дължина <var>n</var>;</li>
+                            <li><code><b>fill</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>)</code> - запълва вектора <var><span class="vec">⃗</span>v</var> със стойност <var>x</var>;</li>
+                            <li><code><b>range</b>(<var>x</var><sub>1</sub>; <var>x</var><sub>n</sub>; <var>s</var>)</code> - създава вектор от стойностите в интервала от <var>x</var><sub>1</sub> до <var>x</var><sub>n</sub> със стъпка <var>s</var>;</li>
+                        </ul>
+                    </li>
+                    <li>
+                        Структурни:<ul style="list-style-type:none;">
+                            <li><code><b>len</b>(<var><span class="vec">⃗</span>v</var>)</code> - връща дължината на вектора <var><span class="vec">⃗</span>v</var>;</li>
+                            <li><code><b>size</b>(<var><span class="vec">⃗</span>v</var>)</code> - действителния размер на вектора <var><span class="vec">⃗</span>v</var> (индекса на последния ненулев елемент);</li>
+                            <li><code><b>resize</b>(<var><span class="vec">⃗</span>v</var>; <var>n</var>)</code> - задава нова дължина <var>n</var> на вектора <var><span class="vec">⃗</span>v</var>;</li>
+                            <li><code><b>join</b>(<var>A</var>; <var><span class="vec">⃗</span>b</var>; <var>c</var>…)</code> - създава вектор чрез обединяване на аргументите в списъка - матрици, вектори и скалари;</li>
+                            <li><code><b>slice</b>(<var><span class="vec">⃗</span>v</var>; <var>i</var><sub>1</sub>; <var>i</var><sub>2</sub>)</code>  - връща частта от вектора <var><span class="vec">⃗</span>v</var>, ограничена от индекси <var>i</var><sub>1</sub> и <var>i</var><sub>2</sub>, включително;</li>
+                            <li><code><b>first</b>(<var><span class="vec">⃗</span>v</var>; <var>n</var>)</code> - първите <var>n</var> елемента на вектора <var><span class="vec">⃗</span>v</var>;</li>
+                            <li><code><b>last</b>(<var><span class="vec">⃗</span>v</var>; <var>n</var>)</code> - последните <var>n</var> елемента на вектора <var><span class="vec">⃗</span>v</var>;</li>
+                            <li><code><b>extract</b>(<var><span class="vec">⃗</span>v</var>; <var><span class="vec">⃗</span>i</var>)</code> - извлича онези елементи от <var><span class="vec">⃗</span>v</var>, чиито индекси се съдържат в <var><span class="vec">⃗</span>i</var>;</li>
+                        </ul>
+                    </li>
+                    <li>
+                        Данни:<ul style="list-style-type:none;">
+                            <li><code><b>sort</b>(<var><span class="vec">⃗</span>v</var>)</code> - сортира елементите на вектор <var><span class="vec">⃗</span>v</var> във възходящ ред;</li>
+                            <li><code><b>rsort</b>(<var><span class="vec">⃗</span>v</var>)</code> - сортира елементите на вектор <var><span class="vec">⃗</span>v</var> в низходящ ред;</li>
+                            <li><code><b>order</b>(<var><span class="vec">⃗</span>v</var>)</code> - индексите на вектор <var><span class="vec">⃗</span>v</var>, подредени по възходящия ред на неговите елементи;</li>
+                            <li><code><b>revorder</b>(<var><span class="vec">⃗</span>v</var>)</code> - индексите на вектор <var><span class="vec">⃗</span>v</var>, подредени по низходящия ред на неговите елементи;</li>
+                            <li><code><b>reverse</b>(<var><span class="vec">⃗</span>v</var>)</code> - нов вектор, съдържащ елементите на <var><span class="vec">⃗</span>v</var> в обратен ред;</li>
+                            <li><code><b>count</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> - броя на елементите в <var><span class="vec">⃗</span>v</var> от <var>i</var>-тия нататък, които са равни на <var>x</var>;</li>
+                            <li><code><b>search</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> - индекса на първия елемент в <var><span class="vec">⃗</span>v</var> от <var>i</var>-тия нататък, който е равен на <var>x</var>;</li>
+                            <li><code><b>find</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> или </li>
+                            <li><code><b>find_eq</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> - индексите на всички елементи в <var><span class="vec">⃗</span>v</var> от <var>i</var>-тия нататък, които са = <var>x</var>;</li>
+                            <li><code><b>find_ne</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> - индексите на всички елементи в <var><span class="vec">⃗</span>v</var> от <var>i</var>-тия нататък, които са ≠ <var>x</var>;</li>
+                            <li><code><b>find_lt</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> - индексите на всички елементи в <var><span class="vec">⃗</span>v</var> от <var>i</var>-тия нататък, които са &lt; <var>x</var>;</li>
+                            <li><code><b>find_le</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> - индексите на всички елементи в <var><span class="vec">⃗</span>v</var> от <var>i</var>-тия нататък, които са &le; <var>x</var>;</li>
+                            <li><code><b>find_gt</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> - индексите на всички елементи в <var><span class="vec">⃗</span>v</var> от <var>i</var>-тия нататък, които са &gt; <var>x</var>;</li>
+                            <li><code><b>find_ge</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> - индексите на всички елементи в <var><span class="vec">⃗</span>v</var> от <var>i</var>-тия нататък, които са &ge; <var>x</var>;</li>
+                            <li><code><b>lookup</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>; <var>x</var>)</code> или</li>
+                            <li><code><b>lookup_eq</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>; <var>x</var>)</code> - всички елементи в <var><span class="vec">⃗</span>a</var>, за които съответните елементи в <var><span class="vec">⃗</span>b</var> са = <var>x</var>;</li>
+                            <li><code><b>lookup_ne</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>; <var>x</var>)</code> - всички елементи в <var><span class="vec">⃗</span>a</var>, за които съответните елементи в <var><span class="vec">⃗</span>b</var> са ≠ <var>x</var>;</li>
+                            <li><code><b>lookup_lt</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>; <var>x</var>)</code> - всички елементи в <var><span class="vec">⃗</span>a</var>, за които съответните елементи в <var><span class="vec">⃗</span>b</var> са &lt; <var>x</var>;</li>
+                            <li><code><b>lookup_le</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>; <var>x</var>)</code> - всички елементи в <var><span class="vec">⃗</span>a</var>, за които съответните елементи в <var><span class="vec">⃗</span>b</var> са &le; <var>x</var>;</li>
+                            <li><code><b>lookup_gt</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>; <var>x</var>)</code> - всички елементи в <var><span class="vec">⃗</span>a</var>, за които съответните елементи в <var><span class="vec">⃗</span>b</var> са &gt; <var>x</var>;</li>
+                            <li><code><b>lookup_ge</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>; <var>x</var>)</code> - всички елементи в <var><span class="vec">⃗</span>a</var>, за които съответните елементи в <var><span class="vec">⃗</span>b</var> са &ge; <var>x</var>;</li>
+                        </ul>
+                    </li>
+                    <li>
+                        Математически:<ul style="list-style-type:none;">
+                            <li><code><b>norm_1</b>(<var><span class="vec">⃗</span>v</var>)</code> - L1 (Манхатън) норма на вектора <var><span class="vec">⃗</span>v</var>;</li>
+                            <li><code><b>norm</b>(<var><span class="vec">⃗</span>v</var>)</code> или</li>
+                            <li><code><b>norm_2</b>(<var><span class="vec">⃗</span>v</var>)</code> или</li>
+                            <li><code><b>norm_e</b>(<var><span class="vec">⃗</span>v</var>)</code> - L2 (Евклидова) норма на вектора <var><span class="vec">⃗</span>v</var>;</li>
+                            <li><code><b>norm_p</b>(<var><span class="vec">⃗</span>v</var>; <var>p</var>)</code> - Lp норма на вектора <var><span class="vec">⃗</span>v</var>;</li>
+                            <li><code><b>norm_i</b>(<var><span class="vec">⃗</span>v</var>)</code> - L∞ (безкрайна) норма на вектора <var><span class="vec">⃗</span>v</var>;</li>
+                            <li><code><b>unit</b>(<var><span class="vec">⃗</span>v</var>)</code> - нормализирания (единичен) вектор <var><span class="vec">⃗</span>v</var> (с L2 норма = 1);</li>
+                            <li><code><b>dot</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>)</code> - скаларно произведение на два вектора <var><span class="vec">⃗</span>a</var> и <var><span class="vec">⃗</span>b</var>;</li>
+                            <li><code><b>cross</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>)</code> - векторно произведение на два вектора <var><span class="vec">⃗</span>a</var> и <var><span class="vec">⃗</span>b</var> (с дължина 2 или 3);</li>
+                        </ul>
+                    </li>
+                </ul>
             </li>
             <li>
                 Матрични:<ul>
@@ -1378,6 +1378,8 @@
                             <li><code><b>inverse</b>(<var>M</var>)</code> - обратната матрица на <var>M</var>;</li>
                             <li><code><b>lsolve</b>(<var>A</var>; <var>b</var>)</code> - решава системата линейни уравнения <var>A<span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> като използва LDL<sup>T</sup> декомпозиция за симетрични матрици и LU декомпозиция за несиметрични;</li>
                             <li><code><b>clsolve</b>(<var>A</var>; <var>b</var>)</code> - решава системата линейни уравнения <var>A<span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> със симетрична, положително определена матрица на коефициентите <var>A</var> като използва декомпозиция на Холецки;</li>
+                            <li><code><b>msolve</b>(<var>A</var>; <var>B</var>)</code> - решава обобщеното матрично уравнение <var>AX</var> = <var>B</var> като използва LDL<sup>T</sup> декомпозиция за симетрични матрици <var>A</var> и LU декомпозиция за несиметрични;</li>
+                            <li><code><b>cmsolve</b>(<var>A</var>; <var>B</var>)</code> - решава системата линейни уравнения <var>AX</var> = <var>B</var> със симетрична, положително определена матрица на коефициентите <var>A</var> като използва декомпозиция на Холецки;</li>
                         </ul>
                     </li>
                     <li>
@@ -2493,10 +2495,10 @@
             <tr><td><code>_ge</code></td><td><code><b>find_ge</b>(<var><span class="vec">⃗</span>a</var>; <var>x</var>; <var>i</var>)</code></td><td><code><b>lookup_ge</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>; <var>x</var>)</code></td><td><code>&ge;</code> - по-голямо или равно</td></tr>
         </table>
 
-		<p><b>Математически функции</b></p>
-		<p>Всички стандартни скаларни математически функции приемат също и векторни аргументи. Функцията се прилага поотделно към всеки елемент от входящия вектор и резултатите се връщат в съответния изходен вектор. Например:</p>
-		<p>&emsp;&emsp;<code><b>sin</b>([0; 30; 45; 90])</code>' = [0&ensp;0,5&ensp;0,707&ensp;1]</p>
-		<p>Calcpad също включва няколко математически функции, които са специфични за вектори:</p>
+        <p><b>Математически функции</b></p>
+        <p>Всички стандартни скаларни математически функции приемат също и векторни аргументи. Функцията се прилага поотделно към всеки елемент от входящия вектор и резултатите се връщат в съответния изходен вектор. Например:</p>
+        <p>&emsp;&emsp;<code><b>sin</b>([0; 30; 45; 90])</code>' = [0&ensp;0,5&ensp;0,707&ensp;1]</p>
+        <p>Calcpad също включва няколко математически функции, които са специфични за вектори:</p>
 
         <p>&emsp;&emsp;<code><b>norm_p</b>(<var><span class="vec">⃗</span>a</var>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&ensp;<var><span class="vec">⃗</span>a</var> - вектор.<br />
@@ -2564,8 +2566,8 @@
             </span>
         </p>
 
-		<p><b>Агрегатни и интерполационни функции</b></p>
-		<p>Всички агрегатни функции могат да работят с вектори. Тъй като те са многопараметрични, всяка от тях може да приема както единичен вектор, така и списък от скалари, вектори и матрици, смесени в произволен ред. В този случай, елементите на всички аргументи се обединяват в общ масив от скалари, последователно отляво надясно. Например:</p>
+        <p><b>Агрегатни и интерполационни функции</b></p>
+        <p>Всички агрегатни функции могат да работят с вектори. Тъй като те са многопараметрични, всяка от тях може да приема както единичен вектор, така и списък от скалари, вектори и матрици, смесени в произволен ред. В този случай, елементите на всички аргументи се обединяват в общ масив от скалари, последователно отляво надясно. Например:</p>
         <p>
             &emsp;&emsp;<code><var>a</var> = [0; 2; 6]</code><br />
             &emsp;&emsp;<code><var>b</var> = [5; 3; 1]</code><br />
@@ -2584,17 +2586,17 @@
         <p>Върнатата стойност е всъщност третият елемент във вектора <var><span class="vec">⃗</span>b</var>, но има индекс 7 в крайната последователност. Пълен списък на наличните агрегатни и интерполационни функции е даден по-горе в настоящото ръководство (виж „Изрази/Функции“).</p>
 
         <p><b>Оператори</b></p>
-		<p>Всички оператори могат да работят и с векторни операнди. Операциите се изпълняват поелементно и резултатите се връщат в изходен вектор. Това важи и за оператора за умножение. Например:</p>
-		<p>&emsp;&emsp;<code>[2; 4; 5]*[2; 3; 4]</code>' = [4&ensp;12&ensp;20]</p>
-		<p>Ако дължините на двата вектора са различни, по-късият вектор се допълва с нули до дължината на по-дългия. Скаларните и векторните произведения в Calcpad са реализирани като функции (виж по-горе). Всички двоични оператори се поддържат за векторно-скаларни и скаларно-векторни операнди по аналогичен начин. Например:</p>
-		<p>&emsp;&emsp;<code>[2; 4; 5]*2</code>' = [4&ensp;8&ensp;10]</p>
+        <p>Всички оператори могат да работят и с векторни операнди. Операциите се изпълняват поелементно и резултатите се връщат в изходен вектор. Това важи и за оператора за умножение. Например:</p>
+        <p>&emsp;&emsp;<code>[2; 4; 5]*[2; 3; 4]</code>' = [4&ensp;12&ensp;20]</p>
+        <p>Ако дължините на двата вектора са различни, по-късият вектор се допълва с нули до дължината на по-дългия. Скаларните и векторните произведения в Calcpad са реализирани като функции (виж по-горе). Всички двоични оператори се поддържат за векторно-скаларни и скаларно-векторни операнди по аналогичен начин. Например:</p>
+        <p>&emsp;&emsp;<code>[2; 4; 5]*2</code>' = [4&ensp;8&ensp;10]</p>
 
         <h3 id="TOC_411">Матрици</h3>
         <p><b>Вътрешно представяне и видове</b></p>
-		<p>Calcpad включва различни видове матрици: общи (правоъгълни) и специални (матрици-стълбове, симетрични, диагонални, горни и  долни триъгълни). Вътрешно всеки тип е реализиран по различен начин, като се възползва от специфичната структура за по-добра ефективност. Външно всички те имат аналогично поведение, с изключение на отделни случаи.</p>
-		<p>Всеки тип матрица е реализиран като масив от вектори, както е показано на фигурата по-долу. Векторите обикновено представляват редове на матриците, с изключение на диагоналните и стълбовите матрици.</p>
-		<p><img width="800" src="Images/Matrices.png"></p>
-		<p>Calcpad използва големи вектори, за да съхранява стойностите на матриците. Така че не се налага да заделя памет за допълнителните нулеви елементи в частично запълнени (лентови) матрици. Операторът за индексиране за всеки тип е вътрешно предефиниран, така че да върне директно нула, когато се опитаме да прочетем стойност извън структурата на матрицата или ширината на лентата.</p>
+        <p>Calcpad включва различни видове матрици: общи (правоъгълни) и специални (матрици-стълбове, симетрични, диагонални, горни и  долни триъгълни). Вътрешно всеки тип е реализиран по различен начин, като се възползва от специфичната структура за по-добра ефективност. Външно всички те имат аналогично поведение, с изключение на отделни случаи.</p>
+        <p>Всеки тип матрица е реализиран като масив от вектори, както е показано на фигурата по-долу. Векторите обикновено представляват редове на матриците, с изключение на диагоналните и стълбовите матрици.</p>
+        <p><img width="800" src="Images/Matrices.png"></p>
+        <p>Calcpad използва големи вектори, за да съхранява стойностите на матриците. Така че не се налага да заделя памет за допълнителните нулеви елементи в частично запълнени (лентови) матрици. Операторът за индексиране за всеки тип е вътрешно предефиниран, така че да върне директно нула, когато се опитаме да прочетем стойност извън структурата на матрицата или ширината на лентата.</p>
         <table>
             <tr><td>a) диагонална матрица -  	 </td><td>M[i, j] = d[i], if i = j и 0, if i ≠ j;</td></tr>
             <tr><td>b) матрица-стълб - 			 </td><td>M[i, j] = c[i], if j = 1, иначе – грешка;</td></tr>
@@ -2605,7 +2607,7 @@
             <tr><td>g) правоъгълна матрица -  	 </td><td>M[i, j] = r<sub>i</sub>[j];</td></tr>
         </table>
         <p>Ако се опитаме да запишем ненулева стойност извън структурата на матрицата, ще получим грешка „Индексът е извън границите“. Например, не можете да присвоите ненулева стойност на елемент извън главния диагонал на диагонален тип матрица.</p>
-		
+
         <p><b>Дефиниране</b></p>
         <p>Подобно на векторите, можете да дефинирате матрици, като използвате синтаксиса с "квадратни скоби". Отделните редове трябва да са разделени с вертикална черта " | ", както следва:</p>
         <p><var>A</var><sub>m⨯n</sub> = [<var>a</var><sub>1,1</sub>; <var>a</var><sub>1,2</sub>; … ; <var>a</var><sub>1,n</sub> | <var>a</var><sub>2,1</sub>; <var>a</var><sub>2,2</sub>; … ; <var>a</var><sub>2,n</sub> | … | <var>a</var><sub>m,1</sub>; <var>a</var><sub>m,2</sub>; … ; <var>a</var><sub>m,n</sub>]</p>
@@ -2671,7 +2673,7 @@
         </p>
         <p>Едноредовият еквивалент на горния цикъл е следният:</p>
         <p>&emsp;&emsp;<code>$Repeat{$Repeat{<var>A</var>.(<var>i</var>; <var>j</var>) = <var>x</var>.<var>i</var>^(<var>j</var> - 1) @ <var>j</var> = 1 : <b>n_cols</b>(<var>A</var>)} @ <var>i</var> = 1 : <b>n_rows</b>(<var>A</var>)}</code></p>
-		
+
         <p><b>Функции за създаване и инициализация</b></p>
         <p>Синтаксисът с "квадратни скоби" е много мощен и гъвкав за създаване на малки матрици с фиксирани размери. Той обаче има и доста ограничения. Например, с него не може да се създават специални типове матрици, както и не може да се указват размерите на матрицата. Ето защо Calcpad включва и различни функции за създаване на матрици, както следва:</p>
 
@@ -2759,8 +2761,10 @@
         <p>&emsp;&emsp;<code><b>symmetric</b>(<var>n</var>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&ensp;<var>n</var> - брой редове/стълбове.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;празна n⨯n симетрична матрица.<br />
-            &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang">Тя е вътрешно различна и по-ефективна от обща n⨯n матрица. В паметта се съjoin_cols
-хранява само запълнената част от горната дясна страна, образувайки профилна структура. Ако промените стойност от която и да е страна на главния диагонал, се променя и съответната стойност от другата страна, така че симетрията на матрицата се запазва.</span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang">
+                Тя е вътрешно различна и по-ефективна от обща n⨯n матрица. В паметта се съjoin_cols
+                хранява само запълнената част от горната дясна страна, образувайки профилна структура. Ако промените стойност от която и да е страна на главния диагонал, се променя и съответната стойност от другата страна, така че симетрията на матрицата се запазва.
+            </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Пример</em>: &emsp;&emsp;<span class="hang">
                 <code><var>A</var> = <b>symmetric</b>(4)</code><br />
                 <code><var>A</var>.(1; 1) = 5', '<var>A</var>.(1; 2) = 4</code><br />
@@ -2859,8 +2863,8 @@
             </span>
         </p>
 
-		<p><b>Структурни функции</b></p>
-		<p>Структурните функции се отнасят само до матричната структура. За разлика от функциите за данни и математика, резултатът най-често не зависи от стойностите на елементите.</p>
+        <p><b>Структурни функции</b></p>
+        <p>Структурните функции се отнасят само до матричната структура. За разлика от функциите за данни и математика, резултатът най-често не зависи от стойностите на елементите.</p>
 
         <p>&emsp;&emsp;<code><b>n_rows</b>(<var>M</var>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&ensp;<var>M</var> - матрица.<br />
@@ -2882,7 +2886,7 @@
             </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;матрицата <var>M</var>, преоразмерена до <var>m</var> реда и <var>n</var> стълба.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang">Ако новите размери са по-големи, добавените елементи се инициализират с нули. Ако са по-малки, матрицата се подрязва. Ако новите размери са съвместими с типа на матрицата, тогава оригиналната матрица се преоразмерява на място и се връща референция към нея. В противен случай се връща нов правоъгълен тип матрица с посочените размери и оригиналната матрица остава непроменена.</span><br />
-			&emsp;&emsp;&emsp;&emsp;<em>Пример</em>:&emsp;&emsp; <span class="hang">
+            &emsp;&emsp;&emsp;&emsp;<em>Пример</em>:&emsp;&emsp; <span class="hang">
                 <code><var>A</var> = [1; 2; 3|4; 5; 6|7; 8; 9]</code>' = <span class="eq matrix">
                     <span class="tr"><span class="td"></span><span class="td">1</span><span class="td">2</span><span class="td">3</span><span class="td"></span></span>
                     <span class="tr"><span class="td"></span><span class="td">4</span><span class="td">5</span><span class="td">6</span><span class="td"></span></span>
@@ -2944,9 +2948,9 @@
 
         <p>&emsp;&emsp;<code><b>fill_row</b>(<var>M</var>; <var>i</var>; <var>x</var>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&ensp;<span class="hang">
-				<var>M</var> - матрицата, чийто ред трябва да бъде запълнен;<br />
-				<var>i</var> - индексът на реда, който да се запълни;<br />
-				<var>x</var> - стойността, с която да се запълни реда.
+                <var>M</var> - матрицата, чийто ред трябва да бъде запълнен;<br />
+                <var>i</var> - индексът на реда, който да се запълни;<br />
+                <var>x</var> - стойността, с която да се запълни реда.
             </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;матрицата <var>M</var>, чийто ред <var>i</var> е запълнен със стойност <var>x</var>.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang">Матрицата <var>M</var> се редактира на място и се връща референция към нея. Тази функция е структурно съвместима. Специалните матрици се запълват само вътре в предопределената област, като се запазва типа.</span><br />
@@ -2970,9 +2974,9 @@
 
         <p>&emsp;&emsp;<code><b>fill_col</b>(<var>M</var>; <var>j</var>; <var>x</var>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&ensp;<span class="hang">
-				<var>M</var> - матрицата, чийто стълб трябва да бъде запълнен;<br />
-				<var>j</var> - индексът на стълба, който да се запълни;<br />
-				<var>x</var> - стойността, с която да се запълни стълба.
+                <var>M</var> - матрицата, чийто стълб трябва да бъде запълнен;<br />
+                <var>j</var> - индексът на стълба, който да се запълни;<br />
+                <var>x</var> - стойността, с която да се запълни стълба.
             </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;матрицата <var>M</var>, след като <var>j</var>-тия стълб е запълнен със стойност <var>x</var>.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang">Матрицата <var>M</var> се редактира на място и се връща референция към нея. Тази функция е структурно съвместима. Специалните матрици се запълват само в предопределената област, като се запазва типа.</span><br />
@@ -2995,10 +2999,10 @@
 
         <p>&emsp;&emsp;<code><b>copy</b>(<var>A</var>; <var>B</var>; <var>i</var>; <var>j</var>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&ensp;<span class="hang">
-				<var>A</var> - изходна матрица;<br />
-				<var>B</var> - отправна матрица, в която ще бъдат копирани елементите;<br />
-				<var>i</var> - начален индекс на реда в матрицата <var>B</var>;<br />
-				<var>j</var> - начален индекс на стълба в матрицата <var>B</var>.
+                <var>A</var> - изходна матрица;<br />
+                <var>B</var> - отправна матрица, в която ще бъдат копирани елементите;<br />
+                <var>i</var> - начален индекс на реда в матрицата <var>B</var>;<br />
+                <var>j</var> - начален индекс на стълба в матрицата <var>B</var>.
             </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;<span class="hang">матрицата <var>B</var>, след като елементите от <var>A</var> са копирани в нея, започвайки от индекси <var>i</var> и <var>j</var> в <var>B</var>.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang">Копирането на елементите от <var>A</var> в <var>B</var> променя матрицата <var>B</var> на място. Съществуващите елементи на <var>B</var> се заменят със съответните нови елементи от <var>A</var>. Като резултат се връща референция към <var>B</var>.</span><br />
@@ -3021,10 +3025,10 @@
 
         <p>&emsp;&emsp;<code><b>add</b>(<var>A</var>; <var>B</var>; <var>i</var>; <var>j</var>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&ensp;<span class="hang">
-				<var>A</var> - изходна матрица;<br />
-				<var>B</var> - отправна матрица, към която ще бъдат добавени елементите;<br />
-				<var>i</var> - начален индекс на реда в матрицата <var>B</var>;<br />
-				<var>j</var> - начален индекс на стълба в матрицата <var>B</var>.
+                <var>A</var> - изходна матрица;<br />
+                <var>B</var> - отправна матрица, към която ще бъдат добавени елементите;<br />
+                <var>i</var> - начален индекс на реда в матрицата <var>B</var>;<br />
+                <var>j</var> - начален индекс на стълба в матрицата <var>B</var>.
             </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;<span class="hang">матрицата <var>B</var>, след добавянето на елементите от <var>A</var>, към съответните елементи на <var>B</var>, започвайки от индекси <var>i</var> и <var>j</var> в <var>B</var>.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang">Добавянето на елементите от <var>A</var> към тези на <var>B</var> променя матрицата <var>B</var> на място. Като резултат се връща референция към <var>B</var>.</span><br />
@@ -3139,12 +3143,12 @@
         <p>&emsp;&emsp;<code><b>submatrix</b>(<var>M</var>; <var>i</var><sub>1</sub>; <var>i</var><sub>2</sub>; <var>j</var><sub>1</sub>; <var>j</var><sub>2</sub>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&ensp;<span class="hang">
                 <var>M</var> - матрица;<br />
-				<var>i</var><sub>1</sub> - индекс на началния ред;<br />
-				<var>i</var><sub>2</sub> - индекс на крайния ред;<br />
-				<var>j</var><sub>1</sub> - индекс на началния стълб;<br />
-				<var>j</var><sub>2</sub> - индекс на крайния стълб.
+                <var>i</var><sub>1</sub> - индекс на началния ред;<br />
+                <var>i</var><sub>2</sub> - индекс на крайния ред;<br />
+                <var>j</var><sub>1</sub> - индекс на началния стълб;<br />
+                <var>j</var><sub>2</sub> - индекс на крайния стълб.
             </span><br />
-            &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;<span class="hang">нова матрица, съдържаща подматрицата на <var>M</var>, ограничена от редове от <var>i</var><sub>1</sub> до <var>i</var><sub>2</sub > и стълбове от <var>j</var><sub>1</sub> до <var>j</var><sub>2</sub>, включително.</span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;<span class="hang">нова матрица, съдържаща подматрицата на <var>M</var>, ограничена от редове от <var>i</var><sub>1</sub> до <var>i</var><sub>2</sub> и стълбове от <var>j</var><sub>1</sub> до <var>j</var><sub>2</sub>, включително.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang">Началните индекси могат да бъдат по-големи от крайните индекси. Връща се обаче същата част от матрицата. Резултатът винаги е общ (правоъгълен) тип матрица, дори ако изходната матрица е специална.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Пример</em>: &emsp;&emsp;<span class="hang">
                 <code><var>A</var> = [ 1; &nbsp;2; &nbsp;3; &nbsp;4| _</code><br />
@@ -3158,15 +3162,15 @@
             </span>
         </p>
 
-		<p><b>Функции за данни</b></p>
-		<p>Функциите за данни нямат отношение към структурата на матриците, а към стойностите на елементите в нея. Следните функции са налични за използване в Calcpad:</p>
+        <p><b>Функции за данни</b></p>
+        <p>Функциите за данни нямат отношение към структурата на матриците, а към стойностите на елементите в нея. Следните функции са налични за използване в Calcpad:</p>
         <p>
             &emsp;&emsp;<code><b>sort_cols</b>(<var>M</var>; <var>i</var>)</code><br />
             &emsp;&emsp;<code><b>rsort_cols</b>(<var>M</var>; <var>i</var>)</code>
         </p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&ensp;<span class="hang">
-				<var>M</var> - матрицата, която да бъде сортирана;<br />
-				<var>i</var> - индексът на реда, на който ще се базира сортирането.
+                <var>M</var> - матрицата, която да бъде сортирана;<br />
+                <var>i</var> - индексът на реда, на който ще се базира сортирането.
             </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;нова матрица, съдържаща стълбовете на <var>M</var>, сортирани по стойностите в ред <var>i</var>.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang"><b>sort_cols</b> сортира във възходящ ред, а <b>rsort_cols</b> - в низходящ. Оригиналната матрица не се променя.</span><br />
@@ -3199,8 +3203,8 @@
             &emsp;&emsp;<code><b>rsort_rows</b>(<var>M</var>; <var>j</var>)</code>
         </p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&ensp;<span class="hang">
-				<var>M</var> - матрицата, която да бъде сортирана;<br />
-				<var>i</var> - индексът на стълба, на който ще се базира сортирането.
+                <var>M</var> - матрицата, която да бъде сортирана;<br />
+                <var>i</var> - индексът на стълба, на който ще се базира сортирането.
             </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;Нова матрица, съдържаща редовете на <var>M</var>, сортирани по стойностите в стълб <var>j</var>.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang"><b>sort_rows</b> сортира във възходящ ред, а <b>rsort_rows</b> - в низходящ. Оригиналната матрица не се променя.</span><br />
@@ -3233,11 +3237,11 @@
             &emsp;&emsp;<code><b>revorder_cols</b>(<var>M</var>; <var>i</var>)</code>
         </p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&ensp;<span class="hang">
-				<var>M</var> - матрицата, чието подреждане да бъде получено;<br />
-				<var>i</var> - индексът на реда, на който ще се базира подреждането.
-			</span><br />
+                <var>M</var> - матрицата, чието подреждане да бъде получено;<br />
+                <var>i</var> - индексът на реда, на който ще се базира подреждането.
+            </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;<span class="hang">вектор, съдържащ индексите на стълбовете на матрицата <var>M</var>, подредени по стойностите в ред <var>i</var>.</span><br />
-            &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang"><b>order_cols</b> връща индексите във възходящ ред, а <b>revorder_cols</b> - в низходящ. Самата матрица не се променя. Всеки индекс в получения вектор <var><span class="vec">⃗</span>j</var> показва кой стълб на <var>M</var> трябва да се постави на текущата позиция, за да се получи сортирана последователност на стойностите в ред <var>i</var>. Можете да конструирате сортираната матрица, като извикате функцията <b>extract_cols</b>&hairsp;(<var>M</var>&hairsp;; <var><span class="vec">⃗</span>j</var >&hairsp;).</span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang"><b>order_cols</b> връща индексите във възходящ ред, а <b>revorder_cols</b> - в низходящ. Самата матрица не се променя. Всеки индекс в получения вектор <var><span class="vec">⃗</span>j</var> показва кой стълб на <var>M</var> трябва да се постави на текущата позиция, за да се получи сортирана последователност на стойностите в ред <var>i</var>. Можете да конструирате сортираната матрица, като извикате функцията <b>extract_cols</b>&hairsp;(<var>M</var>&hairsp;; <var><span class="vec">⃗</span>j</var>&hairsp;).</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Пример</em>: &emsp;&emsp;<span class="hang">
                 <code><var>A</var> = [5; 2; 3|4; 9; 1|6; 8; 7]</code>' = <span class="eq matrix">
                     <span class="tr"><span class="td"></span><span class="td">5</span><span class="td">2</span><span class="td">3</span><span class="td"></span></span>
@@ -3264,11 +3268,11 @@
             &emsp;&emsp;<code><b>revorder_rows</b>(<var>M</var>; <var>j</var>)</code>
         </p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&ensp;<span class="hang">
-				<var>M</var> - матрицата, чието подреждане искаме да получим;<br />
-				<var>i</var> - индексът на стълба, на който ще се базира подреждането.
+                <var>M</var> - матрицата, чието подреждане искаме да получим;<br />
+                <var>i</var> - индексът на стълба, на който ще се базира подреждането.
             </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;<span class="hang">вектор, съдържащ индексите на редовете на матрицата <var>M</var>, подредени по стойностите в стълб <var>j</var>.</span><br />
-            &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang"><b>order_rows</b> връща индексите във възходящ ред, а <b>revorder_rows</b> - в низходящ. Самата матрица не се променя. Всеки индекс в получения вектор <var><span class="vec">⃗</span>i</var> показва кой ред на <var>M</var> трябва да бъде поставен на текущата позиция, за да се получи сортирана последователност в стълб <var>j</var>. Можете да конструирате сортираната матрица, като извикате функцията <b>extract_rows</b>&hairsp;(<var>M</var>&hairsp;; <var><span class="vec">⃗</span>i</var >&hairsp;).</span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang"><b>order_rows</b> връща индексите във възходящ ред, а <b>revorder_rows</b> - в низходящ. Самата матрица не се променя. Всеки индекс в получения вектор <var><span class="vec">⃗</span>i</var> показва кой ред на <var>M</var> трябва да бъде поставен на текущата позиция, за да се получи сортирана последователност в стълб <var>j</var>. Можете да конструирате сортираната матрица, като извикате функцията <b>extract_rows</b>&hairsp;(<var>M</var>&hairsp;; <var><span class="vec">⃗</span>i</var>&hairsp;).</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Пример</em>: &emsp;&emsp;<span class="hang">
                 <code><var>A</var> = [5; 2; 3|4; 9; 1|6; 8; 7]</code>' = <span class="eq matrix">
                     <span class="tr"><span class="td"></span><span class="td">5</span><span class="td">2</span><span class="td">3</span><span class="td"></span></span>
@@ -3353,12 +3357,12 @@
 
         <p>&emsp;&emsp;<code><b>hlookup</b>(<var>M</var>; <var>x</var>; <var>i</var><sub>1</sub>; <var>i</var><sub>2</sub>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&ensp;<span class="hang">
-				<var>M</var> - матрицата, в която да се извършва справката;<br />
-				<var>x</var> - стойността, която да се търси;<br />
-				<var>i</var><sub>1</sub> - индексът на реда, където ще става търсенето;<br />
-				<var>i</var><sub>2</sub> - индексът на реда, от който да се върнат съответните стойности.
+                <var>M</var> - матрицата, в която да се извършва справката;<br />
+                <var>x</var> - стойността, която да се търси;<br />
+                <var>i</var><sub>1</sub> - индексът на реда, където ще става търсенето;<br />
+                <var>i</var><sub>2</sub> - индексът на реда, от който да се върнат съответните стойности.
             </span><br />
-            &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;<span class="hang">вектор, съдържащ стойностите от ред <var>i</var><sub>2</sub> на матрицата <var>M</var>, за които съответните елементи в ред <var>i</var><sub >1</sub> са равни на <var>x</var>.</span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;<span class="hang">вектор, съдържащ стойностите от ред <var>i</var><sub>2</sub> на матрицата <var>M</var>, за които съответните елементи в ред <var>i</var><sub>1</sub> са равни на <var>x</var>.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang">Стойностите се сканират последователно отляво надясно. Ако не бъде намерено нищо, се връща празен вектор [].</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Пример</em>: &emsp;&emsp;<span class="hang">
                 <code><var>A</var> = [0; 1; 0; 1|1; 2; 3; 4; 5|6; 7; 8; 9; 10]</code> ' = <span class="eq matrix">
@@ -3373,12 +3377,12 @@
 
         <p>&emsp;&emsp;<code><b>vlookup</b>(<var>M</var>; <var>x</var>; <var>j</var><sub>1</sub>; <var>j</var><sub>2</sub>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&ensp;<span class="hang">
-				<var>M</var> - матрицата, в която да се извършва справката;<br />
-				<var>x</var> - стойността, която да се търси;<br />
-				<var>i</var><sub>1</sub> - индексът на стълба, където ще става търсенето;<br />
-				<var>i</var><sub>2</sub> - индексът на стълба, от който да се върнат съответните стойности.
+                <var>M</var> - матрицата, в която да се извършва справката;<br />
+                <var>x</var> - стойността, която да се търси;<br />
+                <var>i</var><sub>1</sub> - индексът на стълба, където ще става търсенето;<br />
+                <var>i</var><sub>2</sub> - индексът на стълба, от който да се върнат съответните стойности.
             </span><br />
-            &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;<span class="hang">вектор, съдържащ стойностите от стълб <var>j</var><sub>2</sub> на матрицата <var>M</var>, за която съответните елементи в стълб <var>j</var><sub >1</sub> са равни на <var>x</var>.</span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;<span class="hang">вектор, съдържащ стойностите от стълб <var>j</var><sub>2</sub> на матрицата <var>M</var>, за която съответните елементи в стълб <var>j</var><sub>1</sub> са равни на <var>x</var>.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang">Стойностите се сканират последователно отгоре надолу. Ако не бъде намерено нищо, се връща празен вектор [].</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Пример</em>: &emsp;&emsp;<span class="hang">
                 <code><var>A</var> = [1; 2|3; 4; 1|5; 6|7; 8; 1|9; 10]</code>' = <span class="eq matrix">
@@ -3441,8 +3445,8 @@
             </tr>
         </table>
 
-		<p><b>Математически функции</b></p>
-		<p>Всички стандартни скаларни математически функции приемат и матрични аргументи. Функцията се прилага отделно към всеки елемент от входната матрица, дори и когато е от специален тип. Резултатите се връщат в съответната изходна матрица. Тя винаги е от общ (правоъгълен) тип, така че структурата не се запазва. Например:</p>
+        <p><b>Математически функции</b></p>
+        <p>Всички стандартни скаларни математически функции приемат и матрични аргументи. Функцията се прилага отделно към всеки елемент от входната матрица, дори и когато е от специален тип. Резултатите се връщат в съответната изходна матрица. Тя винаги е от общ (правоъгълен) тип, така че структурата не се запазва. Например:</p>
         <p>
             &emsp;&emsp;<code>#rad</code><br />
             &emsp;&emsp;<code><var>M</var> = <b>diagonal</b>(3; <var>π</var>/2)</code>' = <span class="eq matrix">
@@ -3515,7 +3519,7 @@
                 <var>B</var> - втора матрица.
             </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;(матрица) произведение на Kronecker на матриците <var>A</var> и <var>B</var>.<br />
-            &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang">Ако <var>A</var> е m×n, а <var>B</var> е p×q матрица, резултатът е mp×nq блокова матрица <var>C</var>, където всеки блок е получен от уравнението:<br/>[<var>C</var>&hairsp;]<sub>ij</sub> = <var>A</var><sub>ij</sub> <var>B</var>.</span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang">Ако <var>A</var> е m×n, а <var>B</var> е p×q матрица, резултатът е mp×nq блокова матрица <var>C</var>, където всеки блок е получен от уравнението:<br />[<var>C</var>&hairsp;]<sub>ij</sub> = <var>A</var><sub>ij</sub> <var>B</var>.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Пример</em>: &emsp;&emsp;<span class="hang">
                 <code><var>A</var> = [1; 2|3; 4]</code>' = <span class="eq matrix">
                     <span class="tr"><span class="td"></span><span class="td">1</span><span class="td">2</span><span class="td"></span></span>
@@ -3552,7 +3556,7 @@
             &emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&ensp;<var>M</var> - m×n матрица, където m &ge; n.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;скалар, представляващ L<sub>2</sub> (спектралната) норма на матрицата <var>M</var>.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang">
-               Получава се като максималната от всички сингулярни стойности на матрицата <var>M</var>&hairsp;: 
+                Получава се като максималната от всички сингулярни стойности на матрицата <var>M</var>&hairsp;:
                 <span class="eq">||<var>M</var>&hairsp;||<sub>2</sub> = <var>&sigma;</var><sub>max</sub>&hairsp;(<var>M</var>&hairsp;)</span>.
             </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Пример</em>: &emsp;&emsp;<span class="hang">
@@ -3598,7 +3602,7 @@
 
         <p>&emsp;&emsp;<code><b>cond_1</b>(<var>M</var>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&ensp;<var>M</var> - квадратна матрица.<br />
-				&emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;(скалар) числото на обусловеност на <var>M</var>, базирано на L<sub>1</sub> нормата.<br />
+            &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;(скалар) числото на обусловеност на <var>M</var>, базирано на L<sub>1</sub> нормата.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang">
                 Изчислява се от уравнението:<br />
                 <span class="eq"><var>&kappa;</var>&hairsp;<sub>1</sub>(<var>M</var>&hairsp;) = ||<var>M</var>&hairsp;||<sub>1</sub>&middot;&hairsp;||&hairsp;<var>M</var> <sup>-1</sup>&hairsp;||<sub>1</sub></span>
@@ -3865,8 +3869,8 @@
             &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;(матрица) LU декомпозиция на матрицата <var>M</var>.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang">
                 LU декомпозицията представя матрицата като произведение на две матрици: долна триъгълна <var>L</var> и горна триъгълна <var>U</var> (<var>M</var> = <var>L</var>&middot;<var>U</var>&hairsp;). То не изисква матрицата да бъде симетрична. Тъй като LU разлагането не е уникално, съществуват безброй много решения. Обикновено се приема, че всички елементи по главния диагонал на <var>L</var> са равни на единица. Функцията връща двете матрици <var>L</var> и <var>U</var>, обединени в обща квадратна матрица. Елементите по главния диагонал принадлежат на <var>U</var>, тъй като е известно, че тези на <var>L</var> са единици. Решението се извършва чрез алгоритъма на Crout и преподреждане с частичен избор на водещ елемент. Вместо обаче да изгражда пермутационна матрица <var>P</var>, Calcpad вътрешно създава вектор <var><span class="vec">⃗</span>ind</var>, съдържащ индексите на редовете след преподреждането.<br />
-				Ако са необходими двете матрици <var>L</var> и <var>U</var> поотделно, можете да ги извлечете чрез умножение на Hadamard на комбинираната матрица със съответната долна/горна триъгълна матрица. След това трябва да презапишете диагоналните елементи на <var>L</var> с единици.<br />
-				Ако типът на <var>M</var> е симетрична матрица, вместо LU се връща LDL<sup>T</sup> декомпозицията. Тя е подобна на декомпозицията на Cholesky, но се избягва коренуването на диагоналните елементи. По тази причина, не е задължително матрицата да бъде положително определена. За сметка на това пък се налага да се съхраняват диагоналните елементи в отделна диагонална матрица <var>D</var>. Вследствие на това, матрицата <var>M</var> се представя като произведение на три матрици: <var>M</var> = <var>L</var>&middot;<var>D</var>&middot;<var>L</var>&hairsp;<sup>T</sup>. Те също се връщат обединени в една обща квадратна матрица.
+                Ако са необходими двете матрици <var>L</var> и <var>U</var> поотделно, можете да ги извлечете чрез умножение на Hadamard на комбинираната матрица със съответната долна/горна триъгълна матрица. След това трябва да презапишете диагоналните елементи на <var>L</var> с единици.<br />
+                Ако типът на <var>M</var> е симетрична матрица, вместо LU се връща LDL<sup>T</sup> декомпозицията. Тя е подобна на декомпозицията на Cholesky, но се избягва коренуването на диагоналните елементи. По тази причина, не е задължително матрицата да бъде положително определена. За сметка на това пък се налага да се съхраняват диагоналните елементи в отделна диагонална матрица <var>D</var>. Вследствие на това, матрицата <var>M</var> се представя като произведение на три матрици: <var>M</var> = <var>L</var>&middot;<var>D</var>&middot;<var>L</var>&hairsp;<sup>T</sup>. Те също се връщат обединени в една обща квадратна матрица.
             </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Пример</em>: &emsp;&emsp;<span class="hang">
                 <code><var>A</var> = [4; 12; -16|12; 37; -43|-16; -43; 98]</code>' = <span class="eq matrix">
@@ -3941,7 +3945,7 @@
             &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;декомпозиция по сингулярни стойности (SVD) на матрицата <var>M</var>.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang">
                 Матрицата се разлага като произведение на три матрици:<br /><var>M</var> = <var>U</var>&middot;<var>&Sigma;</var>&middot;<var>V</var>&hairsp;<sup>T</sup>,<br />където <var>&Sigma;</var> е диагонална матрица, съдържаща сингулярните стойности на <var>M</var>, а <var>U</var> и <var>V</var>&hairsp;<sup>T</sup> са ортонормални матрици, чиито стълбове представляват съответно левите и десните сингулярни вектори. Резултатът се връща като една обща m×(2n + 1) матрица [U, &Sigma;, V], където <var>&Sigma;</var> е единичен стълб, съдържащ всички сингулярни стойности. Те са сортирани в низходящ ред, а сингулярните вектори са дадени в реда на съответните им сингулярни стойности. Трябва да се има в предвид, че върнатата матрица <var>V</var>&hairsp;<sup>T</sup> вече е транспонирана, така че не е нужно да я транспонирате отново.<br />
-				Понякога, определени сингулярни вектори може да сменят знаците си, така че произведението на получените матрици <var>U</var>&middot;<var>&Sigma;</var>&middot;<var>V</var>&hairsp;<sup>T</sup> да не дава <var>M</var>. Неопределеността на знаците е добре известен и често срещан проблем при повечето SVD алгоритми. За симетрични матрици сингулярните стойности са равни на абсолютните собствените стойности: <var>&sigma;</var><sub>i</sub> = |&hairsp;<var>&lambda;</var><sub>i</sub>|
+                Понякога, определени сингулярни вектори може да сменят знаците си, така че произведението на получените матрици <var>U</var>&middot;<var>&Sigma;</var>&middot;<var>V</var>&hairsp;<sup>T</sup> да не дава <var>M</var>. Неопределеността на знаците е добре известен и често срещан проблем при повечето SVD алгоритми. За симетрични матрици сингулярните стойности са равни на абсолютните собствените стойности: <var>&sigma;</var><sub>i</sub> = |&hairsp;<var>&lambda;</var><sub>i</sub>|
             </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Пример</em>: &emsp;&emsp;<span class="hang">
                 <code><var>A</var> = [4; 12; -16|12; 37; -43|-16; -43; 98]</code>' = <span class="eq matrix">
@@ -4010,7 +4014,7 @@
                     <span class="tr"><span class="td"></span><span class="td">-4</span><span class="td">-3</span><span class="td">9</span><span class="td"></span></span>
                 </span><br />
                 <code><var>b</var> = [10; 20; 30]</code>' = [10&ensp;20&ensp;30]<br />
-                <code><var>x</var> = <b>lsolve</b>(<var>A</var>; <var>b</var>)</code>' = [2.5&ensp;1.667&ensp;5] - векторът на решението<br />
+                <code><var>x</var> = <b>xxxxxxx</b>(<var>A</var>; <var>b</var>)</code>' = [2.5&ensp;1.667&ensp;5] - векторът на решението<br />
                 <code><var>A</var>*<var>x</var></code>' = [10&ensp;20&ensp;30] - проверка<br />
             </span>
         </p>
@@ -4037,8 +4041,68 @@
             </span>
         </p>
 
-		<p><b>Агрегатни и интерполационни функции</b></p>
-		<p>Всички агрегатни функции могат да работят и с матрични аргументи. Тъй като те са многопараметрични, всяка от тях може да приема като аргумент както единична матрица, така и списък от скалари, вектори и матрици, смесени в произволен ред. Например:</p>
+        <p>&emsp;&emsp;<code><b>msolve</b>(<var>A</var>; <var>B</var>)</code></p><p>
+            &emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&emsp;<span class="hang">
+                <var>A</var> - квадратна матрица с коефициентите на уравнението;<br />
+                <var>B</var> - матрица на дясната страна.
+            </span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>:&ensp;матрицата решение <var>X</var> на обобщеното матрично уравнение <var>AX</var> = <var>B</var>.<br />
+            &emsp;&emsp;&emsp;&emsp;<em>Бележки</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">Функцията е подобна на <b>lsolve</b>, при положение, че стълбовете на матрицата <var>B</var> съдържат множество десни вектори, а стълбовете на матрицата <var>X</var> представляват съответните резултантни вектори. По този начин функцията може да решава множество системи линейни уравнения паралелно. LU/LDLT декомпозицията на <var>A</var> се извършва само веднъж в началото и резултатът се преизползва многократно при обратния ход на решението.</span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Пример</em>:&emsp;&emsp; <span class="hang">
+                <code><var>A</var> = [8; 6; -4|6; 12; -3|-4; -3; 9]</code>' = <span class="eq matrix">
+                    <span class="tr"><span class="td"></span><span class="td">8</span><span class="td">6</span><span class="td">-4</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">6</span><span class="td">12</span><span class="td">-3</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">-4</span><span class="td">-3</span><span class="td">9</span><span class="td"></span></span>
+                </span><br />
+                <code><var>B</var> = <b>join</b><sub>cols</sub>([10; 20; 30]; [40; 50; 60])</code>' = <span class="matrix">
+                    <span class="tr"><span class="td"></span><span class="td">10</span><span class="td">40</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">20</span><span class="td">50</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">30</span><span class="td">60</span><span class="td"></span></span>
+                </span><br />
+                <code><var>X</var> = <b>msolve</b>(<var>A</var>; <var>B</var>)</code>' = <span class="matrix">
+                    <span class="tr"><span class="td"></span><span class="td">2.5</span><span class="td">8.71</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">1.67</span><span class="td">2.67</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">5</span><span class="td">11.43</span><span class="td"></span></span>
+                </span><br />
+                <code><var>A</var>*<var>X</var></code>' = <span class="matrix">
+                    <span class="tr"><span class="td"></span><span class="td">10</span><span class="td">40</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">20</span><span class="td">50</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">30</span><span class="td">60</span><span class="td"></span></span>
+                </span> - проверка<br />
+            </span>
+        </p>
+
+        <p>&emsp;&emsp;<code><b>cmsolve</b>(<var>A</var>; <var>B</var>)</code></p><p>   &emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&emsp;<span class="hang">
+            <var>A</var> - симетрична, положително определена матрица на коефициентите;<br />
+            <var>B</var> - матрица на дясната страна на уравнението. </span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>:&ensp;<span class="hang">матрицата решение <var>X</var> на обобщеното матрично уравнение <var>A</var><var>X</var> = <var>B</var> чрез декомпозиция на Холецки.</span><br /> &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">Функцията е подобна на <b>clsolve</b>, при положение, че стълбовете на матрицата <var>B</var> съдържат множество десни вектори, а стълбовете на матрицата <var>X</var> представляват съответните резултантни вектори. По този начин, функцията може да решава няколко системи линейни уравнения паралелно. Декомпозицията на Холецки на матрицата <var>A</var> се извършва само веднъж в началото и резултатът се преизползва многократно при обратния ход на решението.</span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Пример</em>:&emsp;&emsp; <span class="hang">
+            <code> <var>A</var> = <b>copy</b>([8; 6; -4|6; 12; -3|-4; -3; 9]; _<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<b>symmetric</b>(3); 1; 1) </code>' = <span class="eq matrix">
+                <span class="tr"><span class="td"></span><span class="td">8</span><span class="td">6</span><span class="td">-4</span><span class="td"></span></span>
+                <span class="tr"><span class="td"></span><span class="td">6</span><span class="td">12</span><span class="td">-3</span><span class="td"></span></span>
+                <span class="tr"><span class="td"></span><span class="td">-4</span><span class="td">-3</span><span class="td">9</span><span class="td"></span></span> 
+                </span><br /> 
+            <code><var>B</var> = <b>join</b><sub>cols</sub>([10; 20; 30]; [40; 50; 60])</code>' = <span class="matrix">
+                <span class="tr"><span class="td"></span><span class="td">10</span><span class="td">40</span><span class="td"></span></span>
+                <span class="tr"><span class="td"></span><span class="td">20</span><span class="td">50</span><span class="td"></span></span>
+                <span class="tr"><span class="td"></span><span class="td">30</span><span class="td">60</span><span class="td"></span></span>
+            </span><br />
+            <code><var>X</var> = <b>msolve</b>(<var>A</var>; <var>B</var>)</code>' = <span class="matrix"> 
+                <span class="tr"><span class="td"></span><span class="td">2.5</span><span class="td">8.71</span><span class="td"></span></span>
+                <span class="tr"><span class="td"></span><span class="td">1.67</span><span class="td">2.67</span><span class="td"></span></span>
+                <span class="tr"><span class="td"></span><span class="td">5</span><span class="td">11.43</span><span class="td"></span></span>
+            </span><br /> 
+            <code><var>A</var>*<var>X</var></code>' = <span class="matrix">
+                <span class="tr"><span class="td"></span><span class="td">10</span><span class="td">40</span><span class="td"></span></span>
+                <span class="tr"><span class="td"></span><span class="td">20</span><span class="td">50</span><span class="td"></span></span>
+                <span class="tr"><span class="td"></span><span class="td">30</span><span class="td">60</span><span class="td"></span></span> 
+                </span> - проверка<br /> 
+            </span>
+        </p>
+
+        <p><b>Агрегатни и интерполационни функции</b></p>
+        <p>Всички агрегатни функции могат да работят и с матрични аргументи. Тъй като те са многопараметрични, всяка от тях може да приема като аргумент както единична матрица, така и списък от скалари, вектори и матрици, смесени в произволен ред. Например:</p>
         <p>
             &emsp;&emsp;<code><var>A</var> = [0; 2| 4; 8]</code><br />
             &emsp;&emsp;<code><var>b</var> = [5; 3; 1]</code><br />
@@ -4103,7 +4167,7 @@
         <p>Пълен списък на наличните агрегатни и интерполационни функции е даден по-горе в настоящото ръководство (виж "Изрази/Функции").</p>
 
         <p><b>Оператори</b></p>
-		<p>Всички оператори могат да се използват и с матрични операнди. Двете матрици трябва да са с един и същ размер. Операциите се извършват елемент по елемент, а резултатите се връщат в изходна матрица. Например:</p>
+        <p>Всички оператори могат да се използват и с матрични операнди. Двете матрици трябва да са с един и същ размер. Операциите се извършват елемент по елемент, а резултатите се връщат в изходна матрица. Например:</p>
         <p>
             &emsp;&emsp;<code><var>A</var> = [0; 1; 2|3; 4; 5]</code>' = <span class="eq matrix">
                 <span class="tr"><span class="td"></span><span class="td">0</span><span class="td">1</span><span class="td">2</span><span class="td"></span></span>
@@ -4118,7 +4182,7 @@
                 <span class="tr"><span class="td"></span><span class="td">11</span><span class="td">11</span><span class="td">11</span><span class="td"></span></span>
             </span>
         </p>
-		<p>Единственото изключение е операторът за умножение "*", който представлява стандартно произведение на две матрици. Поелементното умножение (произведение на Hadamard или Schur) е реализирано в Calcpad като функция: <b>hprod</b>. Матричното умножение <var>C</var><sub>m×p</sub> = <var>A</var><sub>m×n</sub> <var>B</var><sub>n×p</sub> е дефинирано така, че всеки елемент <var>c</var><sub>i&hairsp;j</sub> се получава като скаларно произведение на <var>i</var>-ти ред на <var>A</var> и <var>j</var>-ти стълб на <var>B</var>:</p>
+        <p>Единственото изключение е операторът за умножение "*", който представлява стандартно произведение на две матрици. Поелементното умножение (произведение на Hadamard или Schur) е реализирано в Calcpad като функция: <b>hprod</b>. Матричното умножение <var>C</var><sub>m×p</sub> = <var>A</var><sub>m×n</sub> <var>B</var><sub>n×p</sub> е дефинирано така, че всеки елемент <var>c</var><sub>i&hairsp;j</sub> се получава като скаларно произведение на <var>i</var>-ти ред на <var>A</var> и <var>j</var>-ти стълб на <var>B</var>:</p>
         <p>&emsp;&emsp;<span class="eq"><var>c</var><sub>ij</sub> = <span class="dvr"><small><var>n</var></small><span class="nary">∑</span><small><var>k</var>&hairsp;=&hairsp;1</small></span><var>a</var><sub>ik</sub>&hairsp;<var>b</var><sub>kj</sub></span></p>
         <p>Например:</p>
         <p>
@@ -4146,7 +4210,7 @@
             &emsp;&emsp;<code><var>b</var> = [6; 5; 4]</code><br />
             &emsp;&emsp;<code><var>A</var>*<var>b</var></code>' = [28&ensp;73]
         </p>
-		<p>Операторите за матрица-скалар и скалар-матрица също са реализирани поелементно. Операцията с предоставения скалар се извършва за всеки елемент, а резултатът се връща като матрица. Например:</p>
+        <p>Операторите за матрица-скалар и скалар-матрица също са реализирани поелементно. Операцията с предоставения скалар се извършва за всеки елемент, а резултатът се връща като матрица. Например:</p>
         <p>
             &emsp;&emsp;<code>[1; 2|3; 4]*5</code>' = <span class="eq matrix">
                 <span class="tr"><span class="td"></span><span class="td">5</span><span class="td">10</span><span class="td"></span></span>

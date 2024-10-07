@@ -231,13 +231,17 @@ namespace Calcpad.Core
             return false;
         }
 
-        public int WriteEquationToCache()
+        public int WriteEquationToCache(bool isVisible = true)
         {
             {
                 if (_rpn is null)
                     return -1;
 
-                _equationCache.Add(new Equation(_rpn, _targetUnits, _compiler.Compile(_rpn, true)));
+                Func<IValue> f = null;
+                if (!isVisible)
+                    f = _compiler.Compile(_rpn, true);
+
+                _equationCache.Add(new Equation(_rpn, _targetUnits, f));
                 return _equationCache.Count - 1;
             }
         }
@@ -270,21 +274,14 @@ namespace Calcpad.Core
             {
                 bool isAssignment = _rpn[0].Type == TokenTypes.Variable && _rpn[^1].Content == "=";
                 _calc.ReturnAngleUnits = GetSettingsVariable("ReturnAngleUnits", 0) != 0d;
-                if (cacheId >= 0 && cacheId < _equationCache.Count)
+                if (!isVisible && cacheId >= 0 && cacheId < _equationCache.Count)
                 {
                     _result = _equationCache[cacheId].Function();
                     if (isAssignment && _rpn[0] is VariableToken vt)
                     {
                         ref var v = ref vt.Variable.ValueByRef();
                         Units = Evaluator.ApplyUnits(ref v, _targetUnits);
-                        if (isVisible)
-                            _result = v;
                     }
-                    else if (isVisible)
-                        Units = Evaluator.ApplyUnits(ref _result, _targetUnits);
-
-                    if (isVisible)
-                        _evaluator.NormalizeUnits(ref _result);
                 }
                 else
                 {
@@ -292,7 +289,6 @@ namespace Calcpad.Core
                     if (isVisible && !isAssignment)
                         _evaluator.NormalizeUnits(ref _result);
                 }
-
                 PurgeCache();
             }
             _isCalculated = true;

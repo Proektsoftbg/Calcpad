@@ -2059,6 +2059,15 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Round to.
+        /// </summary>
+        public static string RoundTo {
+            get {
+                return ResourceManager.GetString("RoundTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Round to the specified digits after the decimal point.
         /// </summary>
         public static string RoundToTheSpecifiedDigits {
@@ -2343,6 +2352,26 @@ namespace Calcpad.Wpf {
         public static string SmoothTooltip {
             get {
                 return ResourceManager.GetString("SmoothTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Solves the generalized matrix equation AX = B using LDLT decomposition for symmetric matrices and LU for non-symmetric.
+        /// </summary>
+        public static string SolvesTheGeneralizedMatrixEquationAXBUsingLDLTDecompositionForSymmetricMatricesAndLUForNonSymmetric {
+            get {
+                return ResourceManager.GetString("SolvesTheGeneralizedMatrixEquationAXBUsingLDLTDecompositionForSymmetricMatricesAn" +
+                        "dLUForNonSymmetric", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Solves the generalized matrix equation AX = B with symmetric positive definite matrix A using Cholesky decomposition.
+        /// </summary>
+        public static string SolvesTheGeneralizedMatrixEquationAXBWithSymmetricPositiveDefiniteMatrixAUsingCholeskyDecomposition {
+            get {
+                return ResourceManager.GetString("SolvesTheGeneralizedMatrixEquationAXBWithSymmetricPositiveDefiniteMatrixAUsingCho" +
+                        "leskyDecomposition", resourceCulture);
             }
         }
         
