@@ -93,9 +93,11 @@ namespace Calcpad.Core
             { "mfind_ge", 23 },
             { "lsolve", 24 },
             { "clsolve", 25 },
-            { "hprod", 26 },
-            { "fprod", 27 },
-            { "kprod", 28 }
+            { "msolve", 26 },
+            { "cmsolve", 27 },
+            { "hprod", 28 },
+            { "fprod", 29 },
+            { "kprod", 30 }
         }.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
 
         internal static readonly FrozenDictionary<string, int> Function3Index =
@@ -208,6 +210,8 @@ namespace Calcpad.Core
                 FindGe,
                 LSolve,
                 ClSolve,
+                MSolve,
+                CmSolve,
                 Hadamard,
                 Frobenius,
                 Kronecker
@@ -458,29 +462,54 @@ namespace Calcpad.Core
         private Matrix FindLe(in IValue M, in IValue value) => IValue.AsMatrix(M).FindAll(IValue.AsValue(value), Vector.Relation.LessOrEqual);
         private Matrix FindGt(in IValue M, in IValue value) => IValue.AsMatrix(M).FindAll(IValue.AsValue(value), Vector.Relation.GreaterThan);
         private Matrix FindGe(in IValue M, in IValue value) => IValue.AsMatrix(M).FindAll(IValue.AsValue(value), Vector.Relation.GreaterOrEqual);
-        private Vector LSolve(in IValue M, in IValue vector)
+        private Vector LSolve(in IValue A, in IValue B)
         {
-            var m = IValue.AsMatrix(M);
-            var v = IValue.AsVector(vector);
-            if (m.RowCount != v.Length)
+            var a = IValue.AsMatrix(A);
+            var b = IValue.AsVector(B);
+            if (a.RowCount != b.Length)
                 Throw.MatrixDimensionsException();
 
-            return m.LSolve(v);
+            return a.LSolve(b);
         }
 
-        private Vector ClSolve(in IValue M, in IValue vector)
+        private Vector ClSolve(in IValue A, in IValue B)
         {
-            var m = IValue.AsMatrix(M);
-            var v = IValue.AsVector(vector);
-            if (m.RowCount != v.Length)
+            var a = IValue.AsMatrix(A);
+            var b = IValue.AsVector(B);
+            if (a.RowCount != b.Length)
                 Throw.MatrixDimensionsException();
 
-            if (m is SymmetricMatrix sm)
-                return sm.ClSolve(v);
+            if (a is SymmetricMatrix sm)
+                return sm.ClSolve(b);
 
             Throw.MatrixMustBeSymmetricException();
             return null;
         }
+
+        private Matrix MSolve(in IValue A, in IValue B)
+        {
+            var a = IValue.AsMatrix(A);
+            var b = IValue.AsMatrix(B);
+            if (a.RowCount != b.RowCount)
+                Throw.MatrixDimensionsException();
+
+            return a.MSolve(b);
+        }
+
+        private Matrix CmSolve(in IValue A, in IValue B)
+        {
+            var a = IValue.AsMatrix(A);
+            var b = IValue.AsMatrix(B);
+            if (a.RowCount != b.RowCount)
+                Throw.MatrixDimensionsException();
+
+            if (a is SymmetricMatrix sm)
+                return sm.CmSolve(b);
+
+            Throw.MatrixMustBeSymmetricException();
+            return null;
+        }
+
 
         private Matrix Hadamard(in IValue A, in IValue B) => Matrix.Hadamard(IValue.AsMatrix(A), IValue.AsMatrix(B));
 
@@ -520,18 +549,7 @@ namespace Calcpad.Core
                 else
                     Throw.MustBeVectorException(Throw.Items.Argument);
             }
-            return CreateFromCols(v.Cast<Vector>(), m);
-        }
-
-        private static Matrix CreateFromCols(IEnumerable<Vector> cols, int m)
-        {
-            var n = cols.Count();
-            var M = new Matrix(m, n);
-            var i = 0;
-            foreach (var col in cols)
-                M.SetCol(i++, col);
-
-            return M;
+            return Matrix.CreateFromCols(v.Cast<Vector>().ToArray(), m);
         }
 
         internal static Matrix JoinRows(IValue[] v)
@@ -548,18 +566,7 @@ namespace Calcpad.Core
                 else
                     Throw.MustBeVectorException(Throw.Items.Argument);
             }
-            return CreateFromRows(v.Cast<Vector>(), n);
-        }
-
-        private static Matrix CreateFromRows(IEnumerable<Vector> rows, int n)
-        {
-            var m = rows.Count();
-            var M = new Matrix(m, n);
-            var i = 0;
-            foreach (var row in rows)
-                M.SetRow(i++, row);
-
-            return M;
+            return Matrix.CreateFromRows(v.Cast<Vector>().ToArray(), n);
         }
 
         private static Matrix[] CastValues(IValue[] values)

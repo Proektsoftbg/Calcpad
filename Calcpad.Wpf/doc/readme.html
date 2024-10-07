@@ -1364,7 +1364,11 @@
                     <li><code><b>svd</b>(<var>M</var>)</code> - singular value decomposition of <var>M</var>;</li>
                     <li><code><b>inverse</b>(<var>M</var>)</code> - inverse of matrix <var>M</var>;</li>
                     <li><code><b>lsolve</b>(<var>A</var>; <var>b</var>)</code> - solves the system of linear equations <var>A<span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> using LDL<sup>T</sup> decomposition for symmetric matrices, and LU for non-symmetric;</li>
-                    <li><code><b>clsolve</b>(<var>A</var>; <var>b</var>)</code> - solves the linear matrix equation <var>A<span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> with a symmetric, positive-definite matrix <var>A</var> using Cholesky decomposition;</li>
+                    <li><code><b>clsolve</b>(<var>A</var>; <var>b</var>)</code> - solves the linear matrix equation <var>A<span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> with symmetric, positive-definite coefficient matrix <var>A</var> using Cholesky decomposition;</li>
+                    <li><code><b>msolve</b>(<var>A</var>; <var>B</var>)</code> - solves the generalized matrix equation <var>AX</var> = <var>B</var> using LDL<sup>T</sup> decomposition for symmetric matrices, and LU for non-symmetric;</li>
+                    <li><code><b>cmsolve</b>(<var>A</var>; <var>B</var>)</code> - solves the generalized matrix equation <var>AX</var> = <var>B</var> with symmetric, positive-definite coefficient matrix <var>A</var> using Cholesky decomposition;<br />
+                    </li>   
+                    </li>
 				</ul></li>
 				<li>Double interpolation:<ul style="list-style-type:none;">
                     <li><code><b>take</b>(<var>x</var>; <var>y</var>; <var>M</var>)</code> - returns the element of matrix <var>M</var> at indexes <var>x</var> and <var>y</var>;</li>
@@ -3979,6 +3983,71 @@
             </span>
         </p>
 
+        <p>&emsp;&emsp;<code><b>msolve</b>(<var>A</var>; <var>B</var>)</code></p><p>
+            &emsp;&emsp;&emsp;&emsp;<em>Parameters</em>:&emsp;<span class="hang">
+                <var>A</var> - a square matrix with the equation coefficients;<br />
+                <var>B</var> - the right-hand side matrix.
+            </span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;the solution matrix <var>X</var> of the generalized matrix equation <var>AX</var> = <var>B</var>.<br />
+            &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">Similar to <b>lsolve</b>, having that <var>B</var> matrix columns contain multiple right-hand side vectors and <var>X</var> matrix columns represent the respective solution vectors. In this way, the function can solve multiple systems of linear equations in parallel. The LU/LDLT decomposition of <var>A</var> is performed only once in the beginning and the result is reused for backsubstitution multiple times.</span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <span class="hang">
+            <code><var>A</var> = [8; 6; -4|6; 12; -3|-4; -3; 9]</code>' = <span class="eq matrix">
+                <span class="tr"><span class="td"></span><span class="td">8</span><span class="td">6</span><span class="td">-4</span><span class="td"></span></span>
+                <span class="tr"><span class="td"></span><span class="td">6</span><span class="td">12</span><span class="td">-3</span><span class="td"></span></span>
+                <span class="tr"><span class="td"></span><span class="td">-4</span><span class="td">-3</span><span class="td">9</span><span class="td"></span></span>
+            </span><br />
+            <code><var>B</var> = <b>join</b><sub>cols</sub>([10; 20; 30]; [40; 50; 60])</code>' = <span class="matrix">
+                <span class="tr"><span class="td"></span><span class="td">10</span><span class="td">40</span><span class="td"></span></span>
+                <span class="tr"><span class="td"></span><span class="td">20</span><span class="td">50</span><span class="td"></span></span>
+                <span class="tr"><span class="td"></span><span class="td">30</span><span class="td">60</span><span class="td"></span></span>
+            </span><br />
+            <code><var>X</var> = <b>msolve</b>(<var>A</var>; <var>B</var>)</code>' = <span class="matrix">
+                <span class="tr"><span class="td"></span><span class="td">2.5</span><span class="td">8.71</span><span class="td"></span></span>
+                <span class="tr"><span class="td"></span><span class="td">1.67</span><span class="td">2.67</span><span class="td"></span></span>
+                <span class="tr"><span class="td"></span><span class="td">5</span><span class="td">11.43</span><span class="td"></span></span>
+            </span><br />
+            <code><var>A</var>*<var>X</var></code>' = <span class="matrix">
+                <span class="tr"><span class="td"></span><span class="td">10</span><span class="td">40</span><span class="td"></span></span>
+                <span class="tr"><span class="td"></span><span class="td">20</span><span class="td">50</span><span class="td"></span></span>
+                <span class="tr"><span class="td"></span><span class="td">30</span><span class="td">60</span><span class="td"></span></span>
+            </span> - check<br />
+        </span>
+        </p>
+
+        <p>&emsp;&emsp;<code><b>cmsolve</b>(<var>A</var>; <var>B</var>)</code></p><p>
+            &emsp;&emsp;&emsp;&emsp;<em>Parameters</em>:&emsp;<span class="hang">
+                <var>A</var> - symmetric, positive-definite coefficient matrix;<br />
+                <var>B</var> - the right-hand side matrix.
+            </span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;<span class="hang">the solution matrix <var>X</var> of the generalized matrix equation <var>A</var><var>X</var> = <var>B</var> using Cholesky decomposition.</span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">Similar to <b>clsolve</b>, having that <var>B</var> matrix columns contain multiple right-hand side vectors and <var>X</var> matrix columns represent the respective solution vectors. In this way, the function can solve multiple systems of linear equations in parallel. The Cholesky decomposition of <var>A</var> is performed only once in the beginning and the result is reused for backsubstitution multiple times.</span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <span class="hang">
+                <code>
+                    <var>A</var> = <b>copy</b>([8; 6; -4|6; 12; -3|-4; -3; 9]; _<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;<b>symmetric</b>(3); 1; 1)
+                </code>' = <span class="eq matrix">
+                    <span class="tr"><span class="td"></span><span class="td">8</span><span class="td">6</span><span class="td">-4</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">6</span><span class="td">12</span><span class="td">-3</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">-4</span><span class="td">-3</span><span class="td">9</span><span class="td"></span></span>
+                </span><br />
+            <code><var>B</var> = <b>join</b><sub>cols</sub>([10; 20; 30]; [40; 50; 60])</code>' = <span class="matrix">
+                <span class="tr"><span class="td"></span><span class="td">10</span><span class="td">40</span><span class="td"></span></span>
+                <span class="tr"><span class="td"></span><span class="td">20</span><span class="td">50</span><span class="td"></span></span>
+                <span class="tr"><span class="td"></span><span class="td">30</span><span class="td">60</span><span class="td"></span></span>
+            </span><br />
+            <code><var>X</var> = <b>msolve</b>(<var>A</var>; <var>B</var>)</code>' = <span class="matrix">
+                <span class="tr"><span class="td"></span><span class="td">2.5</span><span class="td">8.71</span><span class="td"></span></span>
+                <span class="tr"><span class="td"></span><span class="td">1.67</span><span class="td">2.67</span><span class="td"></span></span>
+                <span class="tr"><span class="td"></span><span class="td">5</span><span class="td">11.43</span><span class="td"></span></span>
+            </span><br />
+            <code><var>A</var>*<var>X</var></code>' = <span class="matrix">
+                <span class="tr"><span class="td"></span><span class="td">10</span><span class="td">40</span><span class="td"></span></span>
+                <span class="tr"><span class="td"></span><span class="td">20</span><span class="td">50</span><span class="td"></span></span>
+                <span class="tr"><span class="td"></span><span class="td">30</span><span class="td">60</span><span class="td"></span></span>
+            </span> - check<br />
+            </span>
+        </p>
+
         <p><b>Aggregate and interpolation functions</b></p>
         <p>All aggregate functions can work with matrices. Since they are multivariate, each of them can accept a single matrix, but also a list of scalars, vectors and matrices, mixed in arbitrary order. For example:</p>
         <p>
@@ -4587,7 +4656,7 @@
         <h3 id="TOC_804">Save As…</h3>
         <p>If you need to save the current file with a different name, select the "<b>File/Save As…</b>" menu command. A file selection dialog will be displayed. Select file path and name and click "<b>Save</b>"</p>
         <hr />
-        <p>Last edited on 13.08.2024 by eng. Nedelcho Ganchovski.</p>
+        <p>Last edited on 06.10.2024 by eng. Nedelcho Ganchovski.</p>
     </div>
     <script src="jquery-3.6.3.min.js"></script>
     <script>

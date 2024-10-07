@@ -391,7 +391,7 @@ namespace Calcpad.Core
                         {
                             _parser.Parse(token.Value);
                             if (isLoop)
-                                tokens[i].CacheID = _parser.WriteEquationToCache();
+                                tokens[i].CacheID = _parser.WriteEquationToCache(isOutput);
                         }
                         else
                             _parser.ReadEquationFromCache(cacheID);

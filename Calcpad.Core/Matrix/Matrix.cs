@@ -1702,6 +1702,13 @@ namespace Calcpad.Core
                 this[i, index] = col[i];
         }
 
+        internal void SetCol(int index, Value[] col)
+        {
+            var n = Math.Min(col.Length, _rowCount) - 1;
+            for (int i = n; i >= 0; --i)
+                this[i, index] = col[i];
+        }
+
         internal Matrix Submatrix(int i1, int i2, int j1, int j2)
         {
             if (i2 < i1)
@@ -2992,6 +2999,27 @@ namespace Calcpad.Core
             return new(x);
         }
 
+        internal virtual Matrix MSolve(Matrix M)
+        {
+            var LU = GetLU(out int[] indexes, out double minPivot);
+            if (LU is null)
+                Throw.MatrixSingularException();
+
+            if (minPivot < 1e-15)
+                Throw.MatrixCloseToSingularException();
+
+            var m = _rowCount;
+            var n = M._colCount;
+            var v = new Vector[n];
+            Parallel.For(0, n, j =>
+            {
+                var x = new Value[m];
+                FwdAndBackSubst(LU, indexes, M.Col(j + 1), ref x);
+                v[j] = new(x);
+            });
+            return CreateFromCols(v, m);
+        }
+
         internal virtual Matrix Invert()
         {
             var LU = GetLU(out int[] indexes, out double minPivot);
@@ -3163,6 +3191,26 @@ namespace Calcpad.Core
                 return i == j;
 
             return true;
+        }
+
+        internal static Matrix CreateFromCols(Vector[] cols, int m)
+        {
+            var n = cols.Length;
+            var M = new Matrix(m, n);
+            for (int j = n - 1; j >= 0; --j)
+                M.SetCol(j, cols[j]); 
+
+            return M;
+        }
+
+        internal static Matrix CreateFromRows(Vector[] rows, int n)
+        {
+            var m = rows.Length;
+            var M = new Matrix(m, n);
+            for (int i = m - 1; i >= 0; --i)
+                M.SetRow(i, rows[i]);
+
+            return M;
         }
     }
 }

@@ -1048,4 +1048,13 @@
   <data name="DoubleHermiteSplineInterpolationFromTheElementsOfMatrixMBasedOnTheValuesOfXAndY" xml:space="preserve">
     <value>Двойна сплайн интерполация на Ермит от елементите на матрицата M на базата на стойностите на x и y</value>
   </data>
+  <data name="RoundTo" xml:space="preserve">
+    <value>Закр.</value>
+  </data>
+  <data name="SolvesTheGeneralizedMatrixEquationAXBUsingLDLTDecompositionForSymmetricMatricesAndLUForNonSymmetric" xml:space="preserve">
+    <value>Решава обобщеното матрично уравнение AX = B, използвайки LDLT декомпозиция за симетрични матрици и LU за несиметрични</value>
+  </data>
+  <data name="SolvesTheGeneralizedMatrixEquationAXBWithSymmetricPositiveDefiniteMatrixAUsingCholeskyDecomposition" xml:space="preserve">
+    <value>Решава обобщеното матрично уравнение AX = B със симетрична положително определена матрица A, използвайки декомпозиция на Холецки</value>
+  </data>
 </root>

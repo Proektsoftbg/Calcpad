@@ -1159,10 +1159,10 @@ namespace Calcpad.Core
             {
                 Relation.Equal => a.AlmostEquals(b),
                 Relation.NotEqual => !a.AlmostEquals(b),
-                Relation.LessThan => a.CompareTo(b) < 0,
-                Relation.LessOrEqual => a.CompareTo(b) <= 0,
-                Relation.GreaterThan => a.CompareTo(b) > 0,
-                Relation.GreaterOrEqual => a.CompareTo(b) >= 0,
+                Relation.LessThan => a.CompareTo(b) < 0 && !a.AlmostEquals(b),
+                Relation.LessOrEqual => a.CompareTo(b) <= 0 || a.AlmostEquals(b),
+                Relation.GreaterThan => a.CompareTo(b) > 0 && !a.AlmostEquals(b),
+                Relation.GreaterOrEqual => a.CompareTo(b) >= 0 || a.AlmostEquals(b),
                 _ => false
             };
 

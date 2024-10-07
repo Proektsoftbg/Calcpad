@@ -30,7 +30,7 @@
     log(x)     ln(x)      log_2(x)    exp(x)   
     sqr(x)     sqrt(x)    cbrt(x)     root(x; n)
     round(x)   floor(x)   ceiling(x)  trunc(x)
-    sign(x)    mod(x; y)  gcd(x; y)   lcm(x; y)   atan2(x; y)
+    sign(x)    mod(x; y)  gcd(x; y; z…)           lcm(x; y; z…)  atan2(x; y)
     abs(x)     re(x)      im(x)       phase(x)    random(x)
     and(x; y; z…)         or(x; y; z…)            xor(x; y; z…)  not(x)        
     min(x; y; z…)         max(x; y; z…)
@@ -39,7 +39,7 @@
     if(cond; val-if-true; val-if-false)
     switch(cond1; val1; cond2; val2; …; default)
     take(n; a; b; c…)     line(x; a; b; c…)       spline(x; a; b; c…)
-
+	
 ————————————————————————————————————————————————————————————————————————————————
  Векторни функции:
 ————————————————————————————————————————————————————————————————————————————————
@@ -61,7 +61,7 @@
 ————————————————————————————————————————————————————————————————————————————————
  Матрични функции:
 ————————————————————————————————————————————————————————————————————————————————
-    Създаване:                   Математически:         Данни:                  
+    Създаване:                   Математически:         Данни:                    
     matrix(m; n)                 hprod(A; B)            sort_cols(M; i) 
     identity(n)                  fprod(A; B)            rsort_cols(M; i)
     diagonal(n; d)               kprod(A; B)            sort_rows(M; j) 
@@ -89,12 +89,14 @@
     col(M; j)                    svd(M)                 vlookup(M; x; j1; j2)   
     extract_rows(M; i)           inverse(M)             vlookup_eq(M; x; j1; j2)
     extract_cols(M; j)           lsolve(A; b)           vlookup_ne(M; x; j1; j2)
-    diag2vec(v)                  clsolve(A; b           vlookup_lt(M; x; j1; j2)
-    submatrix(M; i1; i2; j1; j2)                        vlookup_le(M; x; j1; j2)
-                                 Double interpolation:  vlookup_gt(M; x; j1; j2)
-                                 take(x; y; M)	        vlookup_ge(M; x; j1; j2)
-                                 line(x; y; M)  
-                                 spline(x; y; M)	
+    diag2vec(v)                  clsolve(A; b)          vlookup_lt(M; x; j1; j2)
+    submatrix(M; i1; i2; j1; j2) msolve(A; B)           vlookup_le(M; x; j1; j2)
+                                 cmsolve(A; B)          vlookup_gt(M; x; j1; j2)
+    Двойна интерполация:                                vlookup_ge(M; x; j1; j2)
+    take(x; y; M)	                              
+    line(x; y; M)                               
+	spline(x; y; M)							 
+
 ————————————————————————————————————————————————————————————————————————————————
  Итерационни и числени методи:
 ————————————————————————————————————————————————————————————————————————————————

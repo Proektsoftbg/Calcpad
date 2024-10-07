@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Calcpad.Core
 {
@@ -190,6 +191,43 @@ namespace Calcpad.Core
             var x = new Value[_rowCount];
             CholeskyFwdAndBackSubst(U, v, ref x);
             return new(x);
+        }
+
+        internal override Matrix MSolve(Matrix M)
+        {
+            var U = GetLDLT();
+            if (U is null)
+                Throw.MatrixSingularException();
+
+            var m = _rowCount;
+            var n = M.ColCount;
+            var v = new Vector[n];
+            Parallel.For(0, n, j =>
+            {
+                var x = new Value[m];
+                FwdAndBackSubst(U, M.Col(j + 1), ref x);
+                v[j] = new(x);
+            });
+            return CreateFromCols(v, m);
+        }
+
+
+        internal virtual Matrix CmSolve(Matrix M)
+        {
+            var U = GetCholesky();
+            if (U is null)
+                Throw.MatrixNotPositiveDefinite();
+
+            var m = _rowCount;
+            var n = M.ColCount;
+            var v = new Vector[n];
+            Parallel.For(0, n, j =>
+            {
+                var x = new Value[m];
+                CholeskyFwdAndBackSubst(U, M.Col(j + 1), ref x);
+                v[j] = new(x);
+            });
+            return CreateFromCols(v, m);
         }
 
         internal override Matrix Invert()
