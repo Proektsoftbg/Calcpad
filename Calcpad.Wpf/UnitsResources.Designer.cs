@@ -2590,6 +2590,24 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to pcm (per 100 000).
+        /// </summary>
+        public static string Per100000 {
+            get {
+                return ResourceManager.GetString("Per100000", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ppb (per billion).
+        /// </summary>
+        public static string PerBillion {
+            get {
+                return ResourceManager.GetString("PerBillion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to % (percent).
         /// </summary>
         public static string Percent {
@@ -2604,6 +2622,42 @@ namespace Calcpad.Wpf {
         public static string Permille {
             get {
                 return ResourceManager.GetString("Permille", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ppm (per million).
+        /// </summary>
+        public static string PerMillion {
+            get {
+                return ResourceManager.GetString("PerMillion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ‱ (permyriad).
+        /// </summary>
+        public static string Permyriad {
+            get {
+                return ResourceManager.GetString("Permyriad", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ppq (per quadrillion).
+        /// </summary>
+        public static string PerQuadrillion {
+            get {
+                return ResourceManager.GetString("PerQuadrillion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ppt (per trillion).
+        /// </summary>
+        public static string PerTrillion {
+            get {
+                return ResourceManager.GetString("PerTrillion", resourceCulture);
             }
         }
         

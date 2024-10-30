@@ -576,9 +576,9 @@ namespace Calcpad.Wpf {
         /// <summary>
         ///   Looks up a localized string similar to Creates a vector with values spanning from x₁ to xₙ with step s.
         /// </summary>
-        public static string CreatesAVectorWithValuesSpanningFromXToXₙWithStepS {
+        public static string CreatesAVectorWithValuesSpanningFromX1ToXnWithStepS {
             get {
-                return ResourceManager.GetString("CreatesAVectorWithValuesSpanningFromXToXₙWithStepS", resourceCulture);
+                return ResourceManager.GetString("CreatesAVectorWithValuesSpanningFromX1ToXnWithStepS", resourceCulture);
             }
         }
         

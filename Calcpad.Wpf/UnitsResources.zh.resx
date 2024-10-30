@@ -1149,7 +1149,4 @@
   <data name="CatalyticActivity" xml:space="preserve">
         <value>kat (catalytic activity)</value>
     </data>
-  <data name="Imperial_US" xml:space="preserve">
-    <value>英制/美制</value>
-  </data>
 </root>

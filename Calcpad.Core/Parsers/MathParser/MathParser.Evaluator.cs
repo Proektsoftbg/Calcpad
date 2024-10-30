@@ -678,10 +678,9 @@ namespace Calcpad.Core
 
                     return v.Units;
                 }
-                var cu = u.Text[0];
-                if ((cu == '%' || cu == '‰') && vu is null)
+                if (u.IsDimensionless && vu is null)
                 {
-                    v = new Value(v.Complex * (cu == '%' ? 100d : 1000d), u);
+                    v = new Value(v.Complex * u.GetDimensionlessFactor(), u);
                     return u;
                 }
                 if (!Unit.IsConsistent(vu, u))

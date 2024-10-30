@@ -763,7 +763,7 @@
   <data name="FillsVectorVWithValueX" xml:space="preserve">
     <value>Запълва вектора v със стойност x</value>
   </data>
-  <data name="CreatesAVectorWithValuesSpanningFromXToXₙWithStepS" xml:space="preserve">
+  <data name="CreatesAVectorWithValuesSpanningFromX1ToXnWithStepS" xml:space="preserve">
     <value>Създава вектор със стойности, в диапазона от x₁ до xₙ със стъпка s</value>
   </data>
   <data name="ReturnsTheLengthOfVectorV" xml:space="preserve">

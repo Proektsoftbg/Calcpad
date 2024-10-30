@@ -662,7 +662,7 @@ You can find your unsaved data in
   <data name="FillsVectorVWithValueX" xml:space="preserve">
     <value>Fills vector v with value x</value>
   </data>
-  <data name="CreatesAVectorWithValuesSpanningFromXToXₙWithStepS" xml:space="preserve">
+  <data name="CreatesAVectorWithValuesSpanningFromX1ToXnWithStepS" xml:space="preserve">
     <value>Creates a vector with values spanning from x₁ to xₙ with step s</value>
   </data>
   <data name="ReturnsTheLengthOfVectorV" xml:space="preserve">

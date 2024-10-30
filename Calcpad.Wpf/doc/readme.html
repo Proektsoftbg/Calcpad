@@ -1668,8 +1668,17 @@
         <p>Calcpad includes a large collection of predefined units as follows:</p>
         <p>Dimensionless:</p>
         <ul>
-            <li>Percent:  <i title="percent">%</i>;</li>
-            <li>Permille: <i title="permille">‰</i>;</li>
+            <li>
+                Parts:
+                <i title="percent">%</i>,
+                <i title="permille">‰</i>,
+                <i title="permyriad">‱</i>,
+                <i title="per 100 000">pcm</i>,
+                <i title="per million">ppm</i>,
+                <i title="per billion">ppb</i>,
+                <i title="per trillion">ppt</i>,
+                <i title="per quadrillion">ppq</i>;
+            </li>
             <li>
                 Angles:
                 <i title="degrees">°</i>,
@@ -3810,7 +3819,7 @@
             &emsp;&emsp;&emsp;&emsp;<em>Parameters</em>:&emsp;<var>M</var> - square matrix.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;(matrix) the LU decomposition of <var>M</var>.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">
-                The LU decomposition factors the matrix as a product of two matrices: lower triangular <var>L</var> and upper triangular <var>U</var> (<var>M</var> = <var>L</var>&middot;<var>U</var>&hairsp;). It does not require the matrix to be symmetric. Since LU decomposition is not unique, there are infinite number of solutions. Here is assumed that all elements along the main diagonal of <var>L</var> are equal to one. The function returns both matrices <var>L</var> and <var>U</var>, packed in a single square matrix. The elements along the main diagonal belong to <var>U</var>, since it is known that those of <var>L</var> are ones. The solution is performed by using the Crout's algorithm with partial pivoting. Instead of building the permutation matrix <var>P</var>, Calcpad internally creates a vector <var><span class="vec">⃗</span>ind</var> containing the indexes of the rows after reordering.<br />
+                The LU decomposition factors the matrix as a product of two matrices: lower triangular <var>L</var> and upper triangular <var>U</var> (<var>M</var> = <var>L</var>&middot;<var>U</var>&hairsp;). It does not require the matrix to be symmetric. Since LU decomposition is not unique, there is an infinite number of solutions. Here is assumed that all elements along the main diagonal of <var>L</var> are equal to one. The function returns both matrices <var>L</var> and <var>U</var>, packed in a single square matrix. The elements along the main diagonal belong to <var>U</var>, since it is known that those of <var>L</var> are ones. The solution is performed by using the Crout's algorithm with partial pivoting. Instead of building the permutation matrix <var>P</var>, Calcpad internally creates a vector <var><span class="vec">⃗</span>ind</var> containing the indexes of the rows after reordering.<br />
                 If you need both matrices <var>L</var> and <var>U</var> separately, you can extract them by a Hadamard product of the combined matrix by the respective lower/upper triangular matrix. After that, you have to reset the diagonal elements of <var>L</var> to ones.<br />
                 If the type of <var>M</var> is symmetric matrix, the LDL<sup>T</sup> decomposition is returned instead of LU. It is similar to Cholesky decomposition, but avoids taking square roots of diagonal elements. For that reason, the matrix is not required to be positive-definite. However, it makes necessary to store the diagonal elements in a separate diagonal matrix <var>D</var>. Therefore, matrix <var>M</var> is represented as a product of three matrices:<br /><var>M</var> = <var>L</var>&middot;<var>D</var>&middot;<var>L</var>&hairsp;<sup>T</sup>. They are also packed in a single square matrix.
             </span><br />

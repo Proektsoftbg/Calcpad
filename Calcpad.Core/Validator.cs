@@ -6,7 +6,7 @@ namespace Calcpad.Core
     public static class Validator
     {
         private const string CurrencyChars = "€£₤¥¢₽₹₩₪"; //For custom currency units
-        private const string UnitSymbolChars = "°′″%‰";
+        private const string UnitSymbolChars = "°′″%‰‱";
         private const string VarSymbolChars = ",_‾‴⁗";
         private const string VarNonLetterChars = "℧∡";
         private const string VarLetterChars = "ϑϕøØ";

@@ -116,7 +116,7 @@
 ————————————————————————————————————————————————————————————————————————————————
  Units of measurement:
 ————————————————————————————————————————————————————————————————————————————————
-    Dimensionless:           % ‰
+    Dimensionless:           % ‰ ‱ pcm ppm ppb ppt ppq
     Angles:                  ° ′ ″ deg rad grad rev
     
     Metric (SI and compatible):
