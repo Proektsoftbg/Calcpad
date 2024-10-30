@@ -44,10 +44,10 @@ namespace Calcpad.Core
             $" id=\"line-{_currentLine + 1}\" class=\"line\"" :
             string.Empty;
 
-        public void Parse(string sourceCode, bool calculate = true) =>
-            Parse(sourceCode.AsSpan(), calculate);
+        public void Parse(string sourceCode, bool calculate = true, bool getXml = true) =>
+            Parse(sourceCode.AsSpan(), calculate, getXml);
 
-        private void Parse(ReadOnlySpan<char> code, bool calculate = true)
+        private void Parse(ReadOnlySpan<char> code, bool calculate, bool getXml)
         {
             var lines = new List<int> { 0 };
             var len = code.Length;
@@ -55,11 +55,13 @@ namespace Calcpad.Core
                 if (code[i] == '\n')
                     lines.Add(i + 1);
 
+            if (lines[^1] < len)
+                lines.Add(len);
+
             Initialize(calculate, lines.Count);
             var lineCount = lines.Count - 1;
             var s = string.Empty;
             var textSpan = s.AsSpan();
-            var nllen = Environment.NewLine.Length;
             try
             {
                 while (++_currentLine < lineCount)
@@ -72,11 +74,10 @@ namespace Calcpad.Core
                             _condition.SetCondition(-1);
                             ParseLine(_currentLineCache.Tokens, Keyword.None);
                         }
-
                         continue;
                     }
                     var i1 = lines[_currentLine];
-                    var i2 = lines[_currentLine + 1] - nllen;
+                    var i2 = lines[_currentLine + 1];
                     var lineSpan = code[i1..i2];
                     var eolIndex = lineSpan.IndexOf('\v');
                     if (eolIndex > -1)
@@ -87,9 +88,10 @@ namespace Calcpad.Core
                     else
                         _parser.Line = _currentLine + 1;
 
+                    lineSpan = lineSpan.Trim();
                     if (HasLineExtension(textSpan))
                     {
-                        s = textSpan[..(textSpan.Length - 2)].ToString() + lineSpan.TrimStart().ToString();
+                        s = textSpan[0..^2].ToString() + lineSpan.ToString();
                         textSpan = s.AsSpan();
                     }
                     else
@@ -98,13 +100,12 @@ namespace Calcpad.Core
                     if (HasLineExtension(lineSpan))
                         continue;
 
-                    textSpan = textSpan.Trim();
                     if (_parser.IsCanceled)
                         break;
 
                     if (textSpan.IsEmpty)
                     {
-                        if (_isVisible && 
+                        if (_isVisible &&
                             (_condition.IsSatisfied || !_calculate) &&
                             _htmlLines < MaxHtmlLines)
                             _sb.AppendLine($"<p{HtmlId}>&nbsp;</p>");
@@ -129,7 +130,11 @@ namespace Calcpad.Core
                                 tokens = GetTokens(textSpan[_condition.KeywordLength..]);
                                 _lineCache[_currentLine] = new(tokens, keyword);
                             }
+                            _parser.HasInputFields = false;
                             ParseLine(tokens, keyword);
+                            //If the line has input fields, the line cach is cleared, to allow #input to work
+                            if (_parser.HasInputFields)
+                                _lineCache[_currentLine] = new(null, keyword);
                         }
                     }
                 }
@@ -250,12 +255,12 @@ namespace Calcpad.Core
                     if (kwdLength > 0 && !_calculate)
                         _sb.Append(_condition.ToHtml());
 
-                    ParseTokens(tokens, true);
+                    ParseTokens(tokens, true, getXml);
                     AppendHtmlLineEnd(lineType, keyword == Keyword.If);
                 }
                 else
                 {
-                    ParseTokens(tokens, false);
+                    ParseTokens(tokens, false, getXml);
                     if (_htmlLines == MaxHtmlLines)
                     {
                         ++_htmlLines;
@@ -321,6 +326,9 @@ namespace Calcpad.Core
             }
             else
             {
+                if (_lineCache.Length < lineCount)
+                    Array.Resize(ref _lineCache, lineCount);
+
                 var n = _sb.Length - _pauseCharCount;
                 if (n > 0)
                     _sb.Remove(_pauseCharCount, n);
@@ -376,7 +384,7 @@ namespace Calcpad.Core
             _errors.Clear();
         }
 
-        private void ParseTokens(List<Token> tokens, bool isOutput)
+        private void ParseTokens(List<Token> tokens, bool isOutput, bool getXml)
         {
             var isLoop = _loops.Count > 0;
             for(int i = 0, count = tokens.Count; i < count; ++i)
@@ -408,7 +416,7 @@ namespace Calcpad.Core
                             else
                             {
                                 var html = _parser.ToHtml();
-                                if (Settings.Math.FormatEquations)
+                                if (getXml && Settings.Math.FormatEquations)
                                 {
                                     var xml = _parser.ToXml();
                                     _sb.Append($"<span class=\"eq\" data-xml=\'{xml}\'>{html}</span>");

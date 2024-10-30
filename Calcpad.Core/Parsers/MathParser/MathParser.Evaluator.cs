@@ -9,7 +9,8 @@ namespace Calcpad.Core
         private class Evaluator
         {
             private int _tos;
-            private readonly IValue[] _stackBuffer = new IValue[100];
+            private int _stackUBound = 99;
+            private IValue[] _stackBuffer = new IValue[100];
             internal readonly HashSet<string> DefinedVariables = new(StringComparer.Ordinal);
             private readonly MathParser _parser;
             private readonly Container<CustomFunction> _functions;
@@ -31,7 +32,15 @@ namespace Calcpad.Core
             }
 
             internal void Reset() => _tos = 0;
-            private void StackPush(IValue v) => _stackBuffer[++_tos] = v;
+            private void StackPush(IValue v)
+            {
+                if (_tos >= _stackUBound)
+                {
+                    _stackUBound *= 2;
+                    Array.Resize(ref _stackBuffer, _stackUBound + 1);
+                }
+                _stackBuffer[++_tos] = v;
+            }
             private IValue StackPop() => _stackBuffer[_tos--];
 
             internal IValue Evaluate(Token[] rpn, bool isVisible = false)

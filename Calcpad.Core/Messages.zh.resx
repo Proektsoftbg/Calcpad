@@ -277,7 +277,7 @@
         <value>&lt;div class="errorHeader"&gt;找到&lt;b&gt;"{0}"&lt;/b&gt; 处错误在行:</value>
     </data>
   <data name="Error_in_0_on_line_1__2" xml:space="preserve">
-        <value>{1}: {2} 行的 "{0}"存在错误</value>
+        <value>将 {1}: {2} 行的 "{0}"存在错误</value>
     </data>
   <data name="Number_of_iterations_exceeds_the_maximum_0" xml:space="preserve">
         <value>迭代次数超过了最大值 {0}.&lt;/p&gt;</value>

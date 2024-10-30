@@ -763,7 +763,7 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to #Error: Macro definition block not closed. Missing &quot;#end def&quot;..
+        ///   Looks up a localized string similar to Error: Macro definition block not closed. Missing &quot;#end def&quot;..
         /// </summary>
         public static string Macro_definition_block_not_closed_Missing_end_def {
             get {

@@ -153,4 +153,13 @@
   <data name="PressAnyKeyToContinue" xml:space="preserve">
     <value>Натиснете произволен клавиш, за да продължите.</value>
   </data>
+  <data name="InvalidInputFileExtensionMustBeCpdOrTxt" xml:space="preserve">
+    <value>Невалидно разширение на входния файл. Трябва да е 'cpd' или 'txt'.</value>
+  </data>
+  <data name="InputFileDoesNotExist" xml:space="preserve">
+    <value>Входният файл не съществува.</value>
+  </data>
+  <data name="InvalidOutputExtensionMustBeHtmlDocxOrPdf" xml:space="preserve">
+    <value>Невалидно изходно разширение.. Трябва да е 'html', 'docx' или 'pdf'.</value>
+  </data>
 </root>

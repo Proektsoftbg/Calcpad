@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <RootNamespace>PyCalcpad</RootNamespace>
+    <OutputType>Library</OutputType>
+    <Version>7.1.0</Version>
+    <Authors>Nedelcho Ganchovski</Authors>
+    <Company>Proektsoft EOOD</Company>
+    <GenerateRuntimeConfigFiles>true</GenerateRuntimeConfigFiles>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <ServerGarbageCollection>true</ServerGarbageCollection>
+    <ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Calcpad.Core\Calcpad.Core.csproj" />
+    <ProjectReference Include="..\..\Calcpad.OpenXml\Calcpad.OpenXml.csproj" />
+  </ItemGroup>
+</Project>

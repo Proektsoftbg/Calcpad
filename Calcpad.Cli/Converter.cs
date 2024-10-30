@@ -68,7 +68,7 @@ namespace Calcpad.Cli
             startInfo.UseShellExecute = true;
             startInfo.WindowStyle = ProcessWindowStyle.Hidden;
             var process = Process.Start(startInfo);
-            process.WaitForExit();
+            process?.WaitForExit();
             
             File.Delete(htmlFile);
             if (!_isSilent && File.Exists(path))

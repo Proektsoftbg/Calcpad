@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PyCalcpad", "PyCalcpad\PyCalcpad.csproj", "{B45D5A7A-BB8E-4D58-9894-28BE84B96A99}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calcpad.Core", "..\Calcpad.Core\Calcpad.Core.csproj", "{59DB62B0-BF17-4E0A-93D8-1A9C05B51B7A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calcpad.OpenXml", "..\Calcpad.OpenXml\Calcpad.OpenXml.csproj", "{7776B61D-2080-40E7-9FB2-BF90A559F931}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F859AF45-2657-4D23-A2DE-FD589485DE9B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B45D5A7A-BB8E-4D58-9894-28BE84B96A99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B45D5A7A-BB8E-4D58-9894-28BE84B96A99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B45D5A7A-BB8E-4D58-9894-28BE84B96A99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B45D5A7A-BB8E-4D58-9894-28BE84B96A99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59DB62B0-BF17-4E0A-93D8-1A9C05B51B7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59DB62B0-BF17-4E0A-93D8-1A9C05B51B7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59DB62B0-BF17-4E0A-93D8-1A9C05B51B7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59DB62B0-BF17-4E0A-93D8-1A9C05B51B7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7776B61D-2080-40E7-9FB2-BF90A559F931}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7776B61D-2080-40E7-9FB2-BF90A559F931}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7776B61D-2080-40E7-9FB2-BF90A559F931}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7776B61D-2080-40E7-9FB2-BF90A559F931}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EFC36969-3C4B-4EF7-81FA-F0DD4ACC7E51}
+	EndGlobalSection
+EndGlobal

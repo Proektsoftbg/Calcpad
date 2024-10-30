@@ -65,7 +65,7 @@ Exception details:
         <value>Error getting input fields values.</value>
     </data>
   <data name="ErrorString" xml:space="preserve">
-        <value>#Error</value>
+        <value>Error</value>
     </data>
   <data name="Single_expression_expected" xml:space="preserve">
     <value>Single expression expected.</value>
@@ -77,5 +77,8 @@ Exception details:
     <value>Unexpected error occurred in Calcpad: "{0}"
 
 Source: "{1}"</value>
+  </data>
+  <data name="InvalidMacroName" xml:space="preserve">
+    <value>Invalid macro name.</value>
   </data>
 </root>

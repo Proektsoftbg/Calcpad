@@ -344,7 +344,7 @@ namespace Calcpad.Core
                 try
                 {
                     _sb.Append($"<p{HtmlId}><span class=\"cond\">#while</span> ");
-                    ParseTokens(GetTokens(expression), true);
+                    ParseTokens(GetTokens(expression), true, false);
                     _sb.Append("</p><div class=\"indent\">");
                 }
                 catch (MathParser.MathParserException ex)
@@ -412,7 +412,7 @@ namespace Calcpad.Core
             {
                 condition = condition[commentIndex..];
                 var tokens = GetTokens(condition);
-                ParseTokens(tokens, isOutput);
+                ParseTokens(tokens, isOutput, false);
             }
         }
 

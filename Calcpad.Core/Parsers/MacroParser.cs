@@ -210,7 +210,7 @@ namespace Calcpad.Core
                 if (n < 9)
                     n = lineContent.Length;
 
-                var insertFileName = lineContent[8..n].Trim().ToString();
+                var insertFileName = Environment.ExpandEnvironmentVariables(lineContent[8..n].Trim().ToString());
                 var fileExist = File.Exists(insertFileName);
                 if (!fileExist)
                     AppendError(lineContent.ToString(), Messages.File_not_found);

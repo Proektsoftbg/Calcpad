@@ -1270,7 +1270,7 @@ namespace Calcpad.Wpf
                     {
                         WebBrowser.NavigateToString(_htmlParsing);
                     }
-                    void parse() => _parser.Parse(outputText);
+                    void parse() =>_parser.Parse(outputText);
                     await Task.Run(parse);
                     _isParsing = false;
                     if (!IsWebForm)
@@ -1339,9 +1339,9 @@ namespace Calcpad.Wpf
             return s2;
         }
 
-        private readonly string ErrorString = AppMessages.ErrorString;
         private string CodeToHtml(string code)
         {
+            var ErrorString = AppMessages.ErrorString;
             var highlighter = new HighLighter();
             var errors = new Queue<int>();
             _stringBuilder.Clear();
@@ -1361,7 +1361,7 @@ namespace Calcpad.Wpf
                 if (line.StartsWith(ErrorString))
                 {
                     errors.Enqueue(lineNumber);
-                    _stringBuilder.Append($"<span class=\"error\">{lineText[1..]}</span>");
+                    _stringBuilder.Append($"<span class=\"error\">{lineText}</span>");
                 }
                 else
                 {

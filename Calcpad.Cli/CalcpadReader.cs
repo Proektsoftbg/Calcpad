@@ -49,7 +49,7 @@ namespace Calcpad.Cli
         private static SpanLineEnumerator ReadLines(string fileName)
         {
             var lines = new SpanLineEnumerator();
-            if (Path.GetExtension(fileName).ToLowerInvariant() == ".cpdz")
+            if (Path.GetExtension(fileName).Equals(".cpdz", StringComparison.InvariantCultureIgnoreCase))
             {
                 var f = new FileInfo(fileName)
                 {
