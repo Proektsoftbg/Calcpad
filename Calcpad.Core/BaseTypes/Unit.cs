@@ -372,6 +372,12 @@ namespace Calcpad.Core
                 {string.Empty, new(9)},
                 {"%",     new(0) {_text = "%" } },
                 {"‰",     new(0) {_text = "‰" } },
+                {"‱",    new(0) {_text = "‱" } },
+                {"pcm",   new(0) {_text = "pcm" } },
+                {"ppm",   new(0) {_text = "ppm" } },
+                {"ppb",   new(0) {_text = "ppb" } },
+                {"ppt",   new(0) {_text = "ppt" } },
+                {"ppq",   new(0) {_text = "ppq" } },
                 {"g",     g},
                 {"dag",   g.Shift(1)},
                 {"hg",    g.Shift(2)},
@@ -1046,6 +1052,9 @@ namespace Calcpad.Core
 
         internal double ConvertTo(Unit u)
         {
+            if (IsDimensionless)
+                return GetDimensionlessFactor() / u.GetDimensionlessFactor();
+
             var factor = 1d;
             for (int i = 0, n = Length; i < n; ++i)
             {
@@ -1554,25 +1563,21 @@ namespace Calcpad.Core
             if (ReferenceEquals(ua, ub))
                 return 1d;
 
-            if (ub is not null && ub.IsDimensionless)
+            if (ua is null)
             {
-                if (ua is null)
+                if (ub.IsDimensionless)
                     return ub.GetDimensionlessFactor();
-
-                if (ua.IsDimensionless)
-                    return ub.GetDimensionlessFactor() / ua.GetDimensionlessFactor();
             }
-            if (ua is not null && ua.IsDimensionless)
+            else if (ub is null)
             {
-                if (ub is null)
+                if(ua.IsDimensionless)
                     return 1d / ua. GetDimensionlessFactor();
             }
-            if (ua is null || 
-                ub is null || 
-                !ua.IsConsistent(ub))
-                Throw.InconsistentUnitsOperationException(GetText(ua), op, GetText(ub));
+            else if(ua.IsConsistent(ub))
+                return ub.ConvertTo(ua);
 
-            return ub.ConvertTo(ua);
+            Throw.InconsistentUnitsOperationException(GetText(ua), op, GetText(ub));
+            return double.NaN;
         }
 
         internal static Unit Multiply(Unit ua, Unit ub, out double d, bool updateText = false)
@@ -1729,8 +1734,14 @@ namespace Calcpad.Core
         internal double GetDimensionlessFactor() => 
             Text switch
             {
-                "%" => 0.01,
-                "‰" => 0.001,
+                "%" => 1e-2,
+                "‰" => 1e-3,
+                "‱" => 1e-4,
+                "pcm" => 1e-5,
+                "ppm" => 1e-6,
+                "ppb" => 1e-9,
+                "ppt" => 1e-12,
+                "ppq" => 1e-15,
                 _ => 1
             };
     }

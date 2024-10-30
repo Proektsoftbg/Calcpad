@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Numerics;
-using System.Runtime.Intrinsics;
 using System.Text;
 
 namespace Calcpad.Core
@@ -341,7 +339,7 @@ namespace Calcpad.Core
 
     internal class TextWriter : OutputWriter
     {
-        internal override string UnitString(Unit units) => units.Text;
+        internal override string UnitString(Unit units) => units.Text.Replace("‱", "‱ ");
         internal override string FormatInput(string s, Unit units, int line, bool isCalculated) =>
             units is null ? s : s + ' ' + units.Text;
 
