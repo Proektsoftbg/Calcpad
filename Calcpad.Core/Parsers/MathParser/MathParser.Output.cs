@@ -738,10 +738,10 @@ namespace Calcpad.Core
                     s;
             }
 
-            private static string RenderMatrix(Matrix matrix, int decimals, OutputWriter writer, int max, bool zeroSmallElements) =>
-                writer.FormatMatrix(matrix, decimals, max, zeroSmallElements);
+            private static string RenderMatrix(Matrix matrix, int decimals, OutputWriter writer, int maxCount, bool zeroSmallElements) =>
+                writer.FormatMatrix(matrix, decimals, maxCount, zeroSmallElements);
 
-            private static string RenderVector(Vector vector, int decimals, OutputWriter writer, int max, bool zeroSmallElements)
+            private static string RenderVector(Vector vector, int decimals, OutputWriter writer, int maxCount, bool zeroSmallElements)
             {
                 var div = writer is XmlWriter ? 
                     XmlWriter.Run(VectorSpacing) :
@@ -749,16 +749,22 @@ namespace Calcpad.Core
                         "  " :
                         VectorSpacing;
                 var sb = new StringBuilder();
-                for (int i = 0, count = vector.Length; i < count; ++i)
+                const double tol = 1e-14;
+                var zeroThreshold = GetMaxVisibleVectorValue(vector, maxCount) * tol;
+                if (zeroThreshold > tol)
+                    zeroThreshold = tol;
+
+                var len = vector.Length;
+                for (int i = 0; i < len; ++i)
                 {
                     if (i > 0)
                         sb.Append(div);
 
-                    if (i == max)
+                    if (i == maxCount)
                     {
                         if (writer is HtmlWriter)
                         {
-                            var n = count - max;
+                            var n = len - maxCount;
                             sb.Append($"<span title=\"{n - Math.Sign(n - 1)} elements skipped.\">...</span>");
 
                         }
@@ -770,13 +776,38 @@ namespace Calcpad.Core
                         sb.Append(div);
                         break;
                     }
-                    sb.Append(writer.FormatMatrixValue(vector[i], decimals, zeroSmallElements));
+                    var e = vector[i];
+                    var d = Math.Abs(e.Re);
+                    sb.Append(writer.FormatMatrixValue(e, decimals, zeroSmallElements && d < zeroThreshold));
                 }
-                var j = vector.Length - 1;
-                if (0 < max && max < j)
-                    sb.Append(writer.FormatMatrixValue(vector[j], decimals, zeroSmallElements));
-
+                var last = len - 1;
+                if (maxCount < last)
+                {
+                    var e = vector[last];
+                    var d = Math.Abs(e.Re);
+                    sb.Append(writer.FormatMatrixValue(e, decimals, zeroSmallElements && d < zeroThreshold));
+                }
                 return writer.AddBrackets(sb.ToString(), 0, '[', ']');
+            }
+
+            private static double GetMaxVisibleVectorValue(Vector vector, int maxCount)
+            {
+                var maxAbs = 0d;
+                var len = Math.Min(maxCount, vector.Size);
+                for (int i = 0; i < len; ++i)
+                {
+                    var d = Math.Abs(vector[i].Re);
+                    if (d > maxAbs)
+                        maxAbs = d;
+                }
+                var last = vector.Length - 1;
+                if (maxCount < last)
+                {
+                    var d = Math.Abs(vector[last].Re);
+                    if (d > maxAbs)
+                        maxAbs = d;
+                }
+                return maxAbs;
             }
 
             private string RenderSolver(int index, bool substitute, bool formatEquations, OutputWriter writer)

@@ -153,4 +153,13 @@
   <data name="PressAnyKeyToContinue" xml:space="preserve">
     <value>Press any key to continue.</value>
   </data>
+  <data name="InvalidInputFileExtensionMustBeCpdOrTxt" xml:space="preserve">
+    <value>Invalid input file extension. Must be 'cpd' or 'txt'.</value>
+  </data>
+  <data name="InputFileDoesNotExist" xml:space="preserve">
+    <value>Input file does not exist.</value>
+  </data>
+  <data name="InvalidOutputExtensionMustBeHtmlDocxOrPdf" xml:space="preserve">
+    <value>Invalid output extension.. Must be 'html', 'docx' or 'pdf'.</value>
+  </data>
 </root>

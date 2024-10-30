@@ -5,7 +5,7 @@
     xmlns:core="clr-namespace:Calcpad.Core;assembly=Calcpad.Core"
     x:Class="Calcpad.Wpf.MainWindow"
     Closing="Window_Closing"
-    Title=" Calcpad VM 7.0.9"
+    Title=" Calcpad VM 7.1.0"
     Height="800" 
     Width="1200"
     WindowStartupLocation="CenterScreen"

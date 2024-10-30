@@ -1,0 +1,208 @@
+————————————————————————————————————————————————————————————————————————————————
+ Commands:
+————————————————————————————————————————————————————————————————————————————————
+    NEW     - clear the current session and start a new one;
+    OPEN    - open a stored problem from the disk;
+    SAVE    - save the current problem to the disk;
+    LIST    - list the available problems on the disk;
+    EXIT    - close the program;
+    RESET   - clear the output and re-calculate everything from the start;
+    CLS     - clear the output and continue from the last line;
+    DEL     - delete the last line;
+    DEG     - set default trigonometric units to degrees;
+    RAD     - set default trigonometric units to radians;
+    GRA     - set default trigonometric units to grades;
+    SETTINGS/OPTIONS - display the settings file for editing; 
+    LICENSE - display the license file;
+    HELP    - show this help file.
+
+————————————————————————————————————————————————————————————————————————————————
+ Operators: ! ^ / ÷ \ % * - + ≡ ≠ < > ≤ ≥ ∧ ∨ ⊕ = ? (input field)
+————————————————————————————————————————————————————————————————————————————————
+ Custom functions: f(x; y; z…) = expression
+————————————————————————————————————————————————————————————————————————————————
+ Functions:
+————————————————————————————————————————————————————————————————————————————————
+    sin(x)     cos(x)     tan(x)      csc(x)      sec(x)         cot(x)
+    asin(x)    acos(x)    atan(x)     acsc(x)     asec(x)        acot(x)
+    sinh(x)    cosh(x)    tanh(x)     csch(x)     sech(x)        coth(x)
+    asinh(x)   acosh(x)   atanh(x)    acsch(x)    asech(x)       acoth(x)
+    log(x)     ln(x)      log_2(x)    exp(x)   
+    sqr(x)     sqrt(x)    cbrt(x)     root(x; n)
+    round(x)   floor(x)   ceiling(x)  trunc(x)
+    sign(x)    mod(x; y)  gcd(x; y)   lcm(x; y)   atan2(x; y)
+    abs(x)     re(x)      im(x)       phase(x)    random(x)
+    and(x; y; z…)         or(x; y; z…)            xor(x; y; z…)  not(x)        
+    min(x; y; z…)         max(x; y; z…)
+    sum(x; y; z…)         average(x; y; z…)       sumsq(x; y; z…)
+    product(x; y; z…)     mean(x; y; z…)          srss(x; y; z…)
+    if(cond; val-if-true; val-if-false)
+    switch(cond1; val1; cond2; val2; …; default)
+    take(n; a; b; c…)     line(x; a; b; c…)       spline(x; a; b; c…)
+
+————————————————————————————————————————————————————————————————————————————————
+ Vector functions:
+————————————————————————————————————————————————————————————————————————————————
+    Creational:           Math:           Data:               search(v; x; i)
+    vector(n)             norm_1(v)       sort(v)             rsort(v)
+    fill(v; x)            norm(v)         order(v)            revorder(v)
+    range(x1; xn; s)      norm_2(v)       reverse(v)          count(v; x; i)
+                          norm_e(v)       find(v; x; i)       lookup(a; b; x)
+    Structural:           norm_p(v; p)    find_eq(v; x; i)    lookup_eq(a; b; x)
+    len(v)                norm_i(v)       find_ne(v; x; i)    lookup_ne(a; b; x)
+    size(v)               unit(v)         find_lt(v; x; i)    lookup_lt(a; b; x)
+    resize(v; n)          dot(a; b)       find_le(v; x; i)    lookup_le(a; b; x)
+    join(a; b; c…)        cross(a; b)     find_gt(v; x; i)    lookup_gt(a; b; x)
+    slice(v; i1; i2)                      find_ge(v; x; i)    lookup_ge(a; b; x)
+    first(v; n)                             
+    last(v; n)                              
+    extract(v; i )      
+    
+————————————————————————————————————————————————————————————————————————————————
+ Matrix functions:
+————————————————————————————————————————————————————————————————————————————————
+    Creational:                  Math:                  Data:                    
+    matrix(m; n)                 hprod(A; B)            sort_cols(M; i) 
+    identity(n)                  fprod(A; B)            rsort_cols(M; i)
+    diagonal(n; d)               kprod(A; B)            sort_rows(M; j) 
+    column(m; c)                 mnorm(M)               rsort_rows(M; j)
+    utriang(n)                   mnorm_e(M)             order_cols(M; i)
+    ltriang(n)                   mnorm_1(M)             revorder_cols(M; i)
+    symmetric(n)                 mnorm_2(M)             order_rows(M; j)
+    vec2diag(v)                  mnorm_i(M)             revorder_rows(M; j)
+    vec2col(v)                   cond(M)                mcount(M; x)
+    join_cols(c1; c2; c3…)       cond_e(M)              msearch(M; x; i; j)
+    join_rows(r1; r2; r3…)       cond_1(M)              mfind(M; x)
+    augment(A; B; C…)            cond_2(M)              mfind_eq(M; x)
+    stack(A; B; C…)              cond_i(M)              mfind_ne(M; x)
+                                 det(M)                 mfind_lt(M; x)
+    Structural:                  rank(M)                mfind_le(M; x)
+    n_rows(M)                    trace(M)               mfind_gt(M; x)
+    n_cols(M)                    transp(M)              mfind_ge(M; x)
+    resize(M; m; n)              adj(M)                 hlookup(M; x; i1; i2)   
+    fill(M; x)                   cofactor(M)            hlookup_eq(M; x; i1; i2)
+    fill_row(M; x; i)            eigenvals(M)           hlookup_ne(M; x; i1; i2)
+    fill_col(M; x; j)            eigenvecs(M)           hlookup_lt(M; x; i1; i2)
+    copy(A; B; i; j)             cholesky(M)            hlookup_le(M; x; i1; i2)
+    add(A; B; i; j)              lu(M)                  hlookup_gt(M; x; i1; i2)
+    row(M; i)                    qr(M)                  hlookup_ge(M; x; i1; i2)
+    col(M; j)                    svd(M)                 vlookup(M; x; j1; j2)   
+    extract_rows(M; i)           inverse(M)             vlookup_eq(M; x; j1; j2)
+    extract_cols(M; j)           lsolve(A; b)           vlookup_ne(M; x; j1; j2)
+    diag2vec(v)                  clsolve(A; b)          vlookup_lt(M; x; j1; j2)
+    submatrix(M; i1; i2; j1; j2) msolve(A; B)           vlookup_le(M; x; j1; j2)
+                                 cmsolve(A; B)          vlookup_gt(M; x; j1; j2)
+    Double interpolation:                               vlookup_ge(M; x; j1; j2)
+    take(x; y; M)	                              
+    line(x; y; M)                               
+	spline(x; y; M)							 
+
+————————————————————————————————————————————————————————————————————————————————
+ Iterative and numerical methods:
+————————————————————————————————————————————————————————————————————————————————
+    $Root{f(x) = const @ x = a : b}
+    $Root{f(x) @ x = a : b}
+    $Find{f(x) @ x = a : b}
+    $Sup{f(x) @ x = a : b}
+    $Inf{f(x) @ x = a : b}
+    $Area{f(x) @ x = a : b}
+    $Integral{f(x) @ x = a : b}
+    $Slope{f(x) @ x = a}
+    $Sum{f(k) @ k = a : b}
+    $Product{f(k) @ k = a : b}
+    $Repeat{f(k) @ k = a : b}
+    Precision
+    
+————————————————————————————————————————————————————————————————————————————————
+ Units of measurement:
+————————————————————————————————————————————————————————————————————————————————
+    Dimensionless:           % ‰
+    Angles:                  ° ′ ″ deg rad grad rev
+    
+    Metric (SI and compatible):
+        Mass:                g hg kg t kt Mt Gt dg cg mg μg Da u
+        Length:              m km dm cm mm μm nm pm AU ly
+        Time:                s ms μs ns ps min h d w y
+        Frequency:           Hz kHz MHz GHz THz mHz μHz nHz pHz rpm
+        Speed:               kmh
+        Electric current:    A kA MA GA TA mA μA nA pA
+        Temperature:         °C Δ°C K
+        Amount of substance: mol
+        Luminous intensity:  cd
+        Area:                a daa ha
+        Volume:              L daL hL dL cL mL μL nL pL
+        Force:               N daN hN kN MN GN TN gf kgf tf dyn
+        Moment:              Nm kNm
+        Pressure:            Pa daPa hPa kPa MPa GPa TPa dPa cPa mPa μPa nPa pPa
+                             bar mbar μbar atm at Torr mmHg
+        Viscosity:           P cP St cSt
+        Energy work:         J   kJ   MJ   GJ   TJ   mJ   μJ   nJ   pJ
+                             Wh  kWh  MWh  GWh  TWh  mWh  μWh  nWh  pWh
+                             eV  keV  MeV  GeV  TeV  PeV  EeV  cal  kcal erg 
+        Power:               W   kW   MW   GW   TW   mW   μW   nW   pW   hpM  ks
+                             VA  kVA  MVA  GVA  TVA  mVA  μVA  nVA  pVA
+                             VAR kVAR MVAR GVAR TVAR mVAR μVAR nVAR pVAR
+        Electric charge:     C   kC   MC   GC   TC   mC   μC   nC   pC   Ah   mAh
+        Potential:           V   kV   MV   GV   TV   mV   μV   nV   pV
+        Capacitance:         F   kF   MF   GF   TF   mF   μF   nF   pF
+        Resistance:          Ω   kΩ   MΩ   GΩ   TΩ   mΩ   μΩ   nΩ   pΩ
+        Conductance:         S   kS   MS   GS   TS   mS   μS   nS   pS 
+                             ℧   k℧   M℧   G℧   T℧   m℧   μ℧   n℧   p℧
+        Magnetic flux:       Wb  kWb  MWb  GWb  TWb  mWb  μWb  nWb  pWb
+        Magn. flux density:  T   kT   MT   GT   TT   mT   μT   nT   pT
+        Inductance:          H   kH   MH   GH   TH   mH   μH   nH   pH
+        Luminous flux:       lm
+        Illuminance:         lx
+        Radioactivity:       Bq  kBq  MBq  GBq  TBq  mBq  μBq  nBq  pBq  Ci Rd
+        Absorbed dose:       Gy  kGy  MGy  GGy  TGy  mGy  μGy  nGy  pGy
+        Equivalent dose:     Sv  kSv  MSv  GSv  TSv  mSv  μSv  nSv  pSv
+        Catalytic activity:  kat
+        
+    Non-metric (Imperial/US):
+        Mass:          gr dr oz lb (lbm, lb_m) kipm (kip_m) st qr 
+                       cwt (cwt_UK, cwt_US) ton (ton_UK, ton_US) slug
+        Length:        th in ft yd ch fur mi ftm (ftm_UK, ftm_US)
+                       cable (cable_UK, cable_US) nmi li rod pole perch lea
+        Speed:         mph knot
+        Temperature:   °F Δ°F °R
+        Area:          rood ac
+        Volume, fluid: fl_oz     gi      pt     qt     gal     bbl   
+                       fl_oz_UK  gi_UK   pt_UK  qt_UK  gal_UK  bbl_UK
+                       fl_oz_US  gi_US   pt_US  qt_US  gal_US  bbl_US
+        Volume, dry:                     pt_dry qt_dry gal_dry bbl_dry
+                       pk (pk_UK, pk_US) bu (bu_UK, bu_US)
+        Force:         ozf (oz_f) lbf (lb_f) kip (kipf, kip_f) tonf (ton_f) pdl
+        Pressure:      osi osf psi psf ksi ksf tsi tsf inHg
+        Energy/work:   BTU therm (therm_UK, therm_US) quad
+        Power:         hp hpE hpS
+
+————————————————————————————————————————————————————————————————————————————————
+ Special symbol conversion table:
+————————————————————————————————————————————————————————————————————————————————
+(add apostrophe ` before the respective latin letter)
+
+Fr: `a `b `c `d `e `f `g `h `i `j `k `l `m `n `o `p `q `r `s `t `u `v `w `x `y `z 
+To:  α  β  χ  δ  ε  φ  γ  η  ι  ø  κ  λ  μ  ν  ο  π  θ  ρ  σ  τ  υ  ϑ  ω  ξ  ψ  ζ
+
+Fr: `A `B `C `D `E `F `G `H `I `J `K `L `M `N `O `P `Q `R `S `T `U `V `W `X `Y `Z 
+To:  Α  Β  Χ  Δ  Ε  Φ  Γ  Η  Ι  Ø  Κ  Λ  Μ  Ν  Ο  Π  Θ  Ρ  Σ  Τ  Υ  ∡  Ω  Ξ  Ψ  Ζ
+
+Fr: `@ `' (single quote) `" (double quote)
+To:  °  ′ (single prime)  ″ (double prime/second)
+
+————————————————————————————————————————————————————————————————————————————————
+ Command line options (support the same language features as Calcpad.exe):
+———————————————————————————————————————————————————————————————————————————————— 
+    cli input.cpd output.html - calculates input.cpd and exports 
+    cli input.cpd output.docx   the results to the respective format
+    cli input.cpd output.pdf    (html, docx or pdf);
+        
+    cli input.cpd html - calculates input.cpd and exports to input.html;
+    cli input.cpd docx - calculates input.cpd and exports to input.docx;    
+    cli input.cpd pdf  - calculates input.cpd and exports to input.pdf;
+    
+    cli input.cpd      - calculates input.cpd and exports to input.html.
+    
+    Additional arguments:
+        -s              - silent mode (do not open the output file), e.g.:
+        cli input.cpd output.html -s

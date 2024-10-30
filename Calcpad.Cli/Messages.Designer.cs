@@ -97,6 +97,33 @@ namespace Calcpad.Cli {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Input file does not exist..
+        /// </summary>
+        internal static string InputFileDoesNotExist {
+            get {
+                return ResourceManager.GetString("InputFileDoesNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid input file extension. Must be &apos;cpd&apos; or &apos;txt&apos;..
+        /// </summary>
+        internal static string InvalidInputFileExtensionMustBeCpdOrTxt {
+            get {
+                return ResourceManager.GetString("InvalidInputFileExtensionMustBeCpdOrTxt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid output extension.. Must be &apos;html&apos;, &apos;docx&apos; or &apos;pdf&apos;..
+        /// </summary>
+        internal static string InvalidOutputExtensionMustBeHtmlDocxOrPdf {
+            get {
+                return ResourceManager.GetString("InvalidOutputExtensionMustBeHtmlDocxOrPdf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loading the settings file....
         /// </summary>
         internal static string Loading_The_Settings_File {

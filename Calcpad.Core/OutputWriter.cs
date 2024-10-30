@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Numerics;
+using System.Runtime.Intrinsics;
 using System.Text;
 
 namespace Calcpad.Core
@@ -34,7 +36,7 @@ namespace Calcpad.Core
         internal abstract string FormatAbs(string s, int level = 0);
         internal abstract string FormatReal(double d, int decimals, bool zeroSmall = false);
         internal abstract string FormatComplex(double re, double im, int decimals);
-        internal abstract string FormatMatrix(Matrix matrix, int decimals, int max, bool zeroSmallElements);
+        internal abstract string FormatMatrix(Matrix matrix, int decimals, int maxCount, bool zeroSmallElements);
         internal abstract string FormatMatrixValue(Value v, int decimals, bool zeroSmall);
 
         internal string FormatUnitsText(string text)
@@ -229,25 +231,23 @@ namespace Calcpad.Core
             {
                 var a = Math.Abs(d);
                 var i = GetDigits(a);
-                if (i >= -4)
+                if (i >= -2 * decimals - 1)
                 {
-                    i = decimals - i;
-                    if (i < 0)
-                        i = 0;
-
-                    if (decimals == 0 && a < 1d)
-                        ++i;
+                    if (i >= 0)
+                    {
+                        i = decimals - i;
+                        if (i < 0)
+                            i = 0;
+                    }
+                    else
+                        i = decimals - i + 1;
 
                     if (i <= 16)
                     {
-                        if (Math.Abs(d) < 1d && decimals > 0 && i < 16)
-                            ++i;
-
                         var s = d.ToString("G17", CultureInfo.InvariantCulture);
                         if (!s.Contains('E'))
                         {
-                            var dec = decimal.Parse(s, CultureInfo.InvariantCulture);
-                            dec = Math.Round(dec, i);
+                            var dec = Math.Round(decimal.Parse(s, CultureInfo.InvariantCulture), i);
                             s = dec.ToString("G29", CultureInfo.InvariantCulture);
                             return s == "-0" ? "0" : s;
                         }
@@ -297,6 +297,45 @@ namespace Calcpad.Core
                 < 1e-1 => -1,
                 _ => 0
             };
+        }
+
+        protected static double GetMaxVisibleMatrixValue(Matrix matrix, int maxCount, out int row, out int col)
+        {
+            var maxAbs = 0d;
+            var m = Math.Min(maxCount, matrix.RowCount);
+            var n = Math.Min(maxCount, matrix.ColCount);
+            var lastRow = matrix.RowCount - 1;
+            var lastCol = matrix.ColCount - 1;
+            int ii = 0, jj = 0;
+            for (int i = 0; i < m; ++i)
+                GetMaxVisibleRowValue(i);
+            
+            if (maxCount < lastRow)
+                GetMaxVisibleRowValue(lastRow);
+
+            row = ii;
+            col = jj;
+            return maxAbs;
+
+            void GetMaxVisibleRowValue(int i)
+            {
+                for (int j = 0; j < n; ++j)
+                    CheckMatrixValue(i, j);
+
+                if (maxCount < lastCol)
+                    CheckMatrixValue(i, lastCol);
+            }
+
+            void CheckMatrixValue(int i, int j)
+            {
+                var d = Math.Abs(matrix[i, j].Re);
+                if (d > maxAbs)
+                {
+                    maxAbs = d;
+                    ii = i;
+                    jj = j;
+                }
+            }
         }
     }
 
@@ -349,8 +388,7 @@ namespace Calcpad.Core
             if (i <= 0)
                 return s;
 
-            var i1 = i + 1;
-            if (zeroSmall && s[i1] == '-')
+            if (zeroSmall && s[i + 1] == '-')
                 return "0";
 
             return s;
@@ -382,41 +420,32 @@ namespace Calcpad.Core
         internal override string FormatIf(string sc, string sa, string sb, int level = 0) =>
             $"if({sc}; {sa}; {sb})";
 
-        internal override string FormatMatrix(Matrix matrix, int decimals, int max, bool zeroSmallElements)
+        internal override string FormatMatrix(Matrix matrix, int decimals, int maxCount, bool zeroSmallElements)
         {
             var sb = new StringBuilder();
             var nc = matrix.ColCount - 1;
-            var d = matrix.Diagonal();
-            var dmax = Math.Abs(d[0].Re);
-            var imax = 0;
-            for (int i = 1, nd = d.Length; i < nd; ++i)
-            {
-                var di = Math.Abs(d[i].Re);
-                if (di > dmax)
-                {
-                    dmax = di;
-                    imax = i;
-                }
-            }
-            var len = FormatMatrixValue(d[imax], decimals, zeroSmallElements).Length;
+            var zeroThreshold = GetMaxVisibleMatrixValue(matrix, decimals, out int row, out int col) * 1e-14;
+            var len = FormatMatrixValue(matrix[row, col], decimals, zeroSmallElements).Length;
             var format = $"{{0,{len}}}";
             var cont = string.Format(format, "...");
             sb.Append('[');
             for (int i = 0, nr = matrix.RowCount - 1; i <= nr; ++i)
             {
-                if (i == max)
+                if (i == maxCount)
                 {
-                    sb.Insert(sb.Length, cont, Math.Min(max, nc));
+                    sb.Insert(sb.Length, cont, Math.Min(maxCount, nc));
                     i = nr;
                 }
                 for (int j = 0; j <= nc; ++j)
                 {
-                    if (j == max)
+                    if (j == maxCount)
                     {
                         sb.Append(cont);
                         j = nc;
                     }
-                    var s = FormatMatrixValue(matrix[i, j], decimals, zeroSmallElements);
+                    var e = matrix[i, j];
+                    var d = Math.Abs(e.Re);
+                    var s = FormatMatrixValue(e, decimals, zeroSmallElements && d < zeroThreshold);
                     sb.Append(string.Format(format, s));
                     if (j < nc)
                         sb.Append("  ");
@@ -431,7 +460,7 @@ namespace Calcpad.Core
         internal override string FormatMatrixValue(Value v, int decimals, bool zeroSmall)
         {
             var s = FormatReal(v.Re, decimals, zeroSmall);
-            return v.Units is null ? s : s + ' ' + v.Units.Text;
+            return v.Units is null ? s : s + v.Units.Text;
         }
     }
 
@@ -658,18 +687,19 @@ namespace Calcpad.Core
             return $"{FormatLeftCurl(level)}<span class=\"dvs\">{s}</span>";
         }
 
-        internal override string FormatMatrix(Matrix matrix, int decimals, int max, bool zeroSmallElements)
+        internal override string FormatMatrix(Matrix matrix, int decimals, int maxCount, bool zeroSmallElements)
         {
             var sb = new StringBuilder();
             var nc = matrix.ColCount;
+            var zeroThreshold = GetMaxVisibleMatrixValue(matrix, maxCount, out int _, out int _) * 1e-14;
             sb.AppendLine("<span class=\"matrix\">");
             for (int i = 0, nr = matrix.RowCount; i < nr; ++i)
             {
                 sb.Append("<span class=\"tr\"><span class=\"td\"></span>");
-                if (i == max)
+                if (i == maxCount)
                 {
-                    sb.Insert(sb.Length, "<span class=\"td\">⋮</span>", Math.Min(max, nc));
-                    if (nc > max)
+                    sb.Insert(sb.Length, "<span class=\"td\">⋮</span>", Math.Min(maxCount, nc));
+                    if (nc > maxCount)
                         sb.Append("<span class=\"td\">⋱</span><span class=\"td\">⋮</span>");
 
                     sb.Append("<span class=\"td\"></span></span><span class=\"tr\"><span class=\"td\"></span>");
@@ -677,12 +707,14 @@ namespace Calcpad.Core
                 }
                 for (int j = 0; j < nc; ++j)
                 {
-                    if (j == max)
+                    if (j == maxCount)
                     {
                         sb.Append("<span class=\"td\">⋯</span>");
                         j = nc - 1;
                     }
-                    var s = FormatMatrixValue(matrix[i, j], decimals, zeroSmallElements);
+                    var e = matrix[i, j];
+                    var d = Math.Abs(e.Re);
+                    var s = FormatMatrixValue(e, decimals, zeroSmallElements && d < zeroThreshold);
                     sb.Append($"<span class=\"td\">{s}</span>");
                 }
                 sb.AppendLine("<span class=\"td\"></span></span>");
@@ -886,20 +918,20 @@ namespace Calcpad.Core
             return $"<m:d><m:dPr><m:begChr m:val=\"{{\"/><m:endChr m:val=\" \"/></m:dPr><m:e><m:m>{mPr}{s}</m:m></m:e></m:d>";
         }
 
-        internal override string FormatMatrix(Matrix matrix, int decimals, int max, bool zeroSmallElements)
+        internal override string FormatMatrix(Matrix matrix, int decimals, int maxCount, bool zeroSmallElements)
         {
             var sb = new StringBuilder();
             var nr = matrix.RowCount;
             var nc = matrix.ColCount;
-
+            var zeroThreshold = GetMaxVisibleMatrixValue(matrix, maxCount, out int _, out int _) * 1e-14;
             sb.Append($"<m:d><m:dPr><m:begChr m:val=\"[\"/><m:endChr m:val=\"]\"/></m:dPr><m:e><m:m><m:mPr><m:mcs><m:mc><m:mcPr><m:count m:val=\"{nc}\"/><m:mcJc m:val=\"center\"/></m:mcPr></m:mc></m:mcs></m:mPr>");
             for (int i = 0; i < nr; ++i)
             {
                 sb.Append("<m:mr>");
-                if (i == max)
+                if (i == maxCount)
                 {
-                    sb.Insert(sb.Length, td("⋮"), Math.Min(max, nc));
-                    if (nc > max)
+                    sb.Insert(sb.Length, td("⋮"), Math.Min(maxCount, nc));
+                    if (nc > maxCount)
                         sb.Append(td("⋱")).Append(td("⋮"));
 
                     sb.Append("</m:mr><m:mr>");
@@ -907,12 +939,14 @@ namespace Calcpad.Core
                 }
                 for (int j = 0; j < nc; ++j)
                 {
-                    if (j == max)
+                    if (j == maxCount)
                     {
                         sb.Append(td("⋯"));
                         j = nc - 1;
                     }
-                    var s = FormatMatrixValue(matrix[i, j], decimals, zeroSmallElements);
+                    var e = matrix[i, j];
+                    var d = Math.Abs(e.Re);
+                    var s = FormatMatrixValue(e, decimals, zeroSmallElements && d < zeroThreshold);
                     sb.Append($"<m:e>{s}</m:e>");
                 }
                 sb.Append("</m:mr>");

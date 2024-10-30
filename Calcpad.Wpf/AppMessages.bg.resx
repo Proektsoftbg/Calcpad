@@ -172,12 +172,15 @@ Calcpad запази вашите данни и се опита да се въз
     <value>Грешка при чете на стойностите на входните данни.</value>
   </data>
   <data name="ErrorString" xml:space="preserve">
-    <value>#Грешка</value>
+    <value>Грешка</value>
   </data>
   <data name="Single_expression_expected" xml:space="preserve">
     <value>Очаква се единичен израз.</value>
   </data>
   <data name="End_of_line_expected" xml:space="preserve">
     <value>Очаква се край на ред.</value>
+  </data>
+  <data name="InvalidMacroName" xml:space="preserve">
+    <value>Невалидно име на макрос.</value>
   </data>
 </root>

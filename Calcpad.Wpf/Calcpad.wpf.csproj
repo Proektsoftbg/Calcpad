@@ -11,7 +11,7 @@
     <Authors>Nedelcho Ganchovski</Authors>
     <RootNamespace>Calcpad.Wpf</RootNamespace>
     <Platforms>AnyCPU</Platforms>
-		<Version>7.0.9</Version>
+		<Version>7.1.0</Version>
 		<Authors>Nedelcho Ganchovski</Authors>
 		<Company>Proektsoft EOOD</Company>
     <PackageId>Calcpad</PackageId>
@@ -51,8 +51,8 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.60" />
-    <PackageReference Include="System.Drawing.Common" Version="8.0.3" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.70" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.10" />
   </ItemGroup>
   
   <ItemGroup>

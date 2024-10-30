@@ -298,7 +298,7 @@
         <value>"#continue" without a corresponding "#repeat".</value>
     </data>
   <data name="Macro_definition_block_not_closed_Missing_end_def" xml:space="preserve">
-        <value>#Error: Macro definition block not closed. Missing "#end def".</value>
+        <value>Error: Macro definition block not closed. Missing "#end def".</value>
     </data>
   <data name="Missing_source_file_for_include" xml:space="preserve">
         <value>Missing source file for include.</value>

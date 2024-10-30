@@ -136,16 +136,16 @@ To:  °  ′ (single prime)  ″ (double prime/second)
 ————————————————————————————————————————————————————————————————————————————————
 命令行选项（支持与 Calcpad.exe 相同的语言功能）：
 ———————————————————————————————————————————————————————————————————————————————— 
-    cli input.cpd output.html - 计算 input.cpd 并导出
-    cli input.cpd output.docx   将结果转换为相应的格式
-    cli input.cpd output.pdf    （html、docx 或 pdf）；
+    calcpad input.cpd output.html - 计算 input.cpd 并导出
+    calcpad input.cpd output.docx   将结果转换为相应的格式
+    calcpad input.cpd output.pdf    （html、docx 或 pdf）；
 		
-    cli input.cpd html - 计算input.cpd并导出到input.html；
-    cli input.cpd docx - 计算input.cpd并导出到input.docx；
-    cli input.cpd pdf  - 计算input.cpd并导出到input.pdf；
+    calcpad input.cpd html - 计算input.cpd并导出到input.html；
+    calcpad input.cpd docx - 计算input.cpd并导出到input.docx；
+    calcpad input.cpd pdf  - 计算input.cpd并导出到input.pdf；
 	
-    cli input.cpd      - 计算input.cpd并导出到input.html；.
+    calcpad input.cpd      - 计算input.cpd并导出到input.html；.
 	
 	附加参数:
 		-s   		   - 静默模式（不打开输出文件），例如:
-		cli input.cpd output.html -s
+		calcpad input.cpd output.html -s

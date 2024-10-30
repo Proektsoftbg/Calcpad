@@ -37,11 +37,6 @@ Calcpad保存了您的工作正尝试自动恢复.</value>
 
 "{0}"</value>
     </data>
-  <data name="UnexpectedErrorOccured" xml:space="preserve">
-        <value>Calcpad发生无法预知的错误: "{0}"
-
-错误源: "{1}"</value>
-    </data>
   <data name="File_not_found" xml:space="preserve">
         <value>文件未找到.</value>
     </data>
@@ -70,6 +65,11 @@ Calcpad保存了您的工作正尝试自动恢复.</value>
         <value>读取输入区数据错误.</value>
     </data>
   <data name="ErrorString" xml:space="preserve">
-        <value>#错误</value>
+        <value>将</value>
     </data>
+  <data name="UnexpectedErrorOccurred" xml:space="preserve">
+    <value>Calcpad发生无法预知的错误: "{0}"
+
+错误源: "{1}"</value>
+  </data>
 </root>

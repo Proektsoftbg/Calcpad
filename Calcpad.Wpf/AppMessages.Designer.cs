@@ -79,7 +79,7 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to #Error.
+        ///   Looks up a localized string similar to Error.
         /// </summary>
         public static string ErrorString {
             get {
@@ -133,6 +133,15 @@ namespace Calcpad.Wpf {
         public static string Invalid_syntax {
             get {
                 return ResourceManager.GetString("Invalid_syntax", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid macro name..
+        /// </summary>
+        public static string InvalidMacroName {
+            get {
+                return ResourceManager.GetString("InvalidMacroName", resourceCulture);
             }
         }
         

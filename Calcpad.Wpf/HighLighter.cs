@@ -940,21 +940,21 @@ namespace Calcpad.Wpf
 
         private void ParseMacro()
         {
+            _builder.Append('$');
             if (_state.IsMacro)
             {
                 if (_state.CurrentType != Types.Macro)
                     _state.CurrentType = Types.Error;
             }
-            else if (_state.CurrentType != Types.Variable)
+            else if (_state.CurrentType != Types.Variable && _state.CurrentType != Types.Units)
                 _state.CurrentType = Types.Error;
             else if (IsValidMacroName())
                 _state.CurrentType = Types.Macro;
             else
             {
-                _state.Message = "Invalid macro name.";
+                _state.Message = Calcpad.Wpf.AppMessages.InvalidMacroName;
                 _state.CurrentType = Types.Error;
             }
-            _builder.Append('$');
             Append(_state.CurrentType);
             if (_state.IsMacro)
                 _state.HasMacro = true;
@@ -965,10 +965,21 @@ namespace Calcpad.Wpf
 
         private bool IsValidMacroName()
         {
-            for (int i = 0, len = _builder.Length; i < len; ++i)
+            var len = _builder.Length;
+            for (int i = len - 2; i >= 0; --i)
+            { 
                 if (!Validator.IsMacroLetter(_builder[i], i))
                     return false;
 
+                var s = _builder.ToString(i, len - i);
+                if (Defined.IsMacroOrParameter(s, _state.Line))
+                {
+                    _builder.Remove(i, len - i);
+                    Append(_state.CurrentType);
+                    _builder.Append(s);
+                    return true;
+                }
+            }
             return true;
         }
 
@@ -1252,9 +1263,10 @@ namespace Calcpad.Wpf
 
         private Types AppendInclude(string s)
         {
-            if (File.Exists(s))
+            var fileName = Environment.ExpandEnvironmentVariables(s);
+            if (File.Exists(fileName))
             {
-                var sourceCode = UserDefined.Include(s, null);
+                var sourceCode = UserDefined.Include(fileName, null);
                 _state.Message = GetPartialSource(sourceCode);
                 return Types.Include;
             }

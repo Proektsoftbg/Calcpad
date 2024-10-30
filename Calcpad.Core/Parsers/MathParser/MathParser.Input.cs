@@ -301,12 +301,15 @@ namespace Calcpad.Core
 
                             }
                             else if (tt == TokenTypes.Input)
+                            {
+                                _parser.HasInputFields = true;
                                 t = new ValueToken(Value.Zero)
                                 {
                                     Index = _parser.Line,
                                     Type = TokenTypes.Input,
                                     Content = c.ToString()
-                                };
+                                };                            
+                            }
                             else
                             {
                                 if (isUnitDivision &&

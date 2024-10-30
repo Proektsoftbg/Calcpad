@@ -1714,7 +1714,6 @@ namespace Calcpad.Core
         internal static Unit Root(Unit u, int n, bool updateText = false)
         {
             var result = u.Pow(1f / n);
-
             if (updateText && Math.Abs(n) > 1)
             {
                 ReadOnlySpan<char> s = u.Text;
@@ -1728,10 +1727,10 @@ namespace Calcpad.Core
         }
 
         internal double GetDimensionlessFactor() => 
-            Text[0] switch
+            Text switch
             {
-                '%' => 0.01,
-                '‰' => 0.001,
+                "%" => 0.01,
+                "‰" => 0.001,
                 _ => 1
             };
     }

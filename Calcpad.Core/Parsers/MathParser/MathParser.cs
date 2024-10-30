@@ -52,6 +52,8 @@ namespace Calcpad.Core
                 };
             }
         }
+        internal bool HasInputFields;
+        //If MathParser has input, the line is not cached in ExpressionParser
         internal int Line;
         internal VariableSubstitutionOptions VariableSubstitution { get; set; }
         internal Unit Units { get; private set; }

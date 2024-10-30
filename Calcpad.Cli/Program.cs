@@ -193,9 +193,9 @@ namespace Calcpad.Cli
                             break;
                         case "LICENSE":
                         case "HELP":
-                            var fileName = $"{AppPath}doc\\{sCaps}{AddCultureExt("TXT")}";
+                            var fileName = $"{AppPath}doc{_dirSeparator}{sCaps}{AddCultureExt("TXT")}";
                             if (!File.Exists(fileName))
-                                fileName = $"{AppPath}doc\\{sCaps}.TXT";
+                                fileName = $"{AppPath}doc{_dirSeparator}{sCaps}.TXT";
 
                             RenderFile(fileName);
                             break;
@@ -288,17 +288,31 @@ namespace Calcpad.Cli
         {
             var args = Environment.GetCommandLineArgs();
             var n = args.Length;
-            if (n == 0)
+            if (n <= 1)
                 return false;
 
             var fileName = string.Join(" ", args, 1, n - 1).Trim();
+            if (string.IsNullOrWhiteSpace(fileName))
+                return false;
+
             if (OperatingSystem.IsWindows())
-            {
                 fileName = fileName.ToLower();
-            }
+            
             var i = fileName.IndexOf(".cpd");
             if (i < 0)
-                return false;
+            {
+                i = fileName.IndexOf(".txt");
+                if (i < 0)
+                {
+                    if (fileName.IndexOf(".cpc") < 0)
+                    {
+                        WriteErrorAndWait(Messages.InvalidInputFileExtensionMustBeCpdOrTxt + ": " + fileName);
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+            }
             i += 4;
             var outFile = fileName[i..].Trim();
             var isSilent = outFile.EndsWith(" -s");
@@ -307,7 +321,10 @@ namespace Calcpad.Cli
 
             fileName = fileName[..i].Trim();
             if (!File.Exists(fileName))
-                return false;
+            {
+                WriteErrorAndWait(Messages.InputFileDoesNotExist);
+                return true;
+            }
 
             if (string.IsNullOrWhiteSpace(outFile))
                 outFile = Path.ChangeExtension(fileName, ".html");
@@ -346,7 +363,7 @@ namespace Calcpad.Cli
                     {
                         Settings = settings
                     };
-                    parser.Parse(unwrappedCode, true);
+                    parser.Parse(unwrappedCode, true, ext == ".docx");
                     htmlResult = parser.HtmlResult; 
                 }
                 if (ext == ".html" || ext == ".htm")
@@ -356,13 +373,14 @@ namespace Calcpad.Cli
                 else if (ext == ".pdf")
                     converter.ToPdf(htmlResult, outFile);
                 else
-                    return false;
+                    WriteErrorAndWait(Messages.InvalidOutputExtensionMustBeHtmlDocxOrPdf);
+
                 return true;
             }
             catch (Exception ex) 
             {
                 WriteErrorAndWait(ex.Message);
-                return false;
+                return true;
             }
         }
 

@@ -295,7 +295,7 @@
         <value>"#continue" без съответен "#repeat".</value>
     </data>
   <data name="Macro_definition_block_not_closed_Missing_end_def" xml:space="preserve">
-        <value>#Грешка: Незатворена дефиниция на макрос. Липсва "#end def".</value>
+        <value>Грешка: Незатворена дефиниция на макрос. Липсва "#end def".</value>
     </data>
   <data name="Missing_source_file_for_include" xml:space="preserve">
         <value>Липсва изходен файл за вмъкване.</value>
