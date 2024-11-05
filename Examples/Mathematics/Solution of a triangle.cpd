@@ -1,0 +1,256 @@
+"Solution of triangle, defined by three sides
+'<hr />
+#deg
+'Lengths of sides:
+a = ? {5}', 'b = ? {4}', 'c = ? {6}
+#hide
+#if (a + b > c)*(b + c > a)*(c + a > b)
+	#post
+	'Perimeter 
+	P = a + b + c
+	'Half-perimeter -'p = 0.5*P
+	'Area (Heron`s formula):
+	A = sqr(p*(p - a)*(p - b)*(p - c))
+	'Radius of inscribed circle:
+	r = A/p
+	'Radius of escribed circle:
+	R = a*b*c/(4*A)
+	'Angles (Law of cosines):
+	α = acos((b^2 + c^2 - a^2)/(2*b*c))'&deg;
+	β = acos((c^2 + a^2 - b^2)/(2*c*a))'&deg;
+	γ = acos((a^2 + b^2 - c^2)/(2*a*b))'&deg;
+	#if (α ≡ 90) + (β ≡ 90) + (γ ≡ 90)
+		'<p>Type of triangle: right, 
+	#else if (α > 90) + (β > 90) + (γ > 90)
+		'<p>Type of triangle: obtuse, 
+	#else
+		'<p>Type of triangle: acute, 
+	#end if
+	#if (a ≡ b)*(a ≡ c)
+		'<!-- -->equilateral.</p>
+	#else if (a ≡ b) + (a ≡ c) + (b ≡ c)
+		'<!-- -->isosceles.</p>
+	#else
+		'<!-- -->scalene.</p>
+	#end if
+	#pre
+	'<svg viewbox="-20 -20 440 232" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-size: 20px; width: 440px; height: 232px">
+	'<path d="M40 192 A 40 40 0 0 0 32 168" style="stroke:goldenrod; stroke-width:1; fill: none"/>
+	'<path d="M360 192 A 40 40 0 0 1 376 160" style="stroke:goldenrod; stroke-width:1; fill: none"/>
+	'<path d="M280 32 A 40 40 0 0 1 224 24" style="stroke:goldenrod; stroke-width:1; fill: none"/>
+	'<polyline points="0,192 400,192 256,0 0,192" style="stroke:black; stroke-width:2; fill:yellow; fill-opacity:0.2"/>
+	'<circle cx="0" cy="192" r="4" style="fill:red"/>
+	'<circle cx="400" cy="192" r="4" style="fill:red"/>
+	'<circle cx="256" cy="0" r="4" style="fill:red"/>
+	'<text x="0" y="212" text-anchor="end">A</text>
+	'<text x="400" y="212">B</text>
+	'<text x="256" y="-5">C</text>
+	'<text x="200" y="212" text-anchor="middle">c</text>
+	'<text x="328" y="86" text-anchor="start">a</text>
+	'<text x="128" y="86" text-anchor="end">b</text>
+	'<text x="50" y="182">α</text>
+	'<text x="350" y="182" text-anchor="end">β</text>
+	'<text x="256" y="60" text-anchor="middle">γ</text>
+	'</svg>
+	#hide
+	h_c = a*sin(β)
+	c_1 = b*cos(α)
+	x_min = min(0; c_1)
+	x_max = max(c; c_1)
+	dx = x_max - x_min
+	k = 400/max(dx; h_c)
+	w = dx*k
+	h = h_c*k
+	x_A = 0
+	y_A = h
+	x_B = x_A + c*k
+	y_B = y_A
+	x_C = x_A + c_1*k
+	y_C = y_A - h_c*k
+	#post
+	#val
+	'<svg viewbox="'x_min*k - 20' -20 'w + 40' 'h + 40'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-size: 16px; width: 'w + 40'px; height: 'h + 40'px"> 
+	'<path d="M'x_A + 40' 'y_A' A 40 40 0 0 0 'x_A + 40*cos(α)' 'y_A - 40*sin(α)'" style="stroke:goldenrod; stroke-width:1; fill: none"/>
+	'<path d="M'x_B - 40' 'y_A' A 40 40 0 0 1 'x_B - 40*cos(β)' 'y_B - 40*sin(β)'" style="stroke:goldenrod; stroke-width:1; fill: none"/>
+	'<path d="M'x_C + 40*cos(β)' 'y_C + 40*sin(β)' A 40 40 0 0 1 'x_C - 40*cos(α)' 'y_C + 40*sin(α)'" style="stroke:goldenrod; stroke-width:1; fill: none"/>
+	'<polyline points="'x_A','y_A' 'x_B','y_B' 'x_C','y_C' 'x_A','y_A'" style="stroke:black; stroke-width:2; fill:yellow; fill-opacity:0.2"/>
+	'<circle cx="'x_A'" cy="'y_A'" r="4" style="fill:red"/>
+	'<circle cx="'x_B'" cy="'y_B'" r="4" style="fill:red"/>
+	'<circle cx="'x_C'" cy="'y_C'" r="4" style="fill:red"/>
+	'<text x="'x_A'" y="'y_A + 20'" text-anchor="end">A</text>
+	'<text x="'x_B'" y="'y_B + 20'">B</text>
+	'<text x="'x_C'" y="'y_C - 5'">C</text>
+	'<text x="'(x_A + x_B)/2'" y="'y_A + 20'" text-anchor="middle">'c'</text>
+	'<text x="'(x_B + x_C)/2 + 5'" y="'(y_B + y_C)/2 - 10'" text-anchor="start">'a'</text>
+	'<text x="'(x_C + x_A)/2 - 5'" y="'(y_B + y_C)/2 - 10'" text-anchor="end">'b'</text>
+	'<text x="'x_A + 50'" y="'y_A - 10'">'α'&deg;</text>
+	'<text x="'x_B - 50'" y="'y_B - 10'" text-anchor="end">'β'&deg;</text>
+	'<text x="'x_C'" y="'y_C + 60'" text-anchor="middle">'γ'&deg;</text>
+	'</svg>
+	#equ
+	'Medians:
+	m_a = sqrt((b^2 + c^2 - 0.5*a^2)/2)
+	m_b = sqrt((a^2 + c^2 - 0.5*b^2)/2)
+	m_c = sqrt((a^2 + b^2 - 0.5*c^2)/2)
+	#hide
+	x_mA = (x_B + x_C)/2
+	y_mA = (y_B + y_C)/2
+	x_mB = (x_A + x_C)/2
+	y_mB = (y_A + y_C)/2
+	x_mC = (x_A + x_B)/2
+	y_mC = (y_A + y_B)/2
+	x_ma = (2*x_A + x_mA)/3 - 20
+	y_ma = (2*y_A + y_mA)/3 - 10
+	x_mb = (2*x_B + x_mB)/3 + 5
+	y_mb = (2*y_B + y_mB)/3 - 5
+	x_mc = (2*x_C + x_mC)/3 + 5
+	y_mc = (2*y_C + y_mC)/3 - 10
+	x_M = (x_C + 2*x_mC)/3
+	y_M = (y_C + 2*y_mC)/3
+	#post
+	#val
+	'<svg viewbox="'x_min*k - 20' -20 'w + 40' 'h + 40'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-size: 16px; width: 'w + 40'px; height: 'h + 40'px"> 
+	'<line x1="'x_A'" y1="'y_A'" x2="'x_mA'" y2="'y_mA'" style="stroke:orange; stroke-width:1"/>
+	'<line x1="'x_B'" y1="'y_B'" x2="'x_mB'" y2="'y_mB'" style="stroke:orange; stroke-width:1"/>
+	'<line x1="'x_C'" y1="'y_C'" x2="'x_mC'" y2="'y_mC'" style="stroke:orange; stroke-width:1"/>
+	'<polyline points="'x_A','y_A' 'x_B','y_B' 'x_C','y_C' 'x_A','y_A'" style="stroke:black; stroke-width:2; fill:yellow; fill-opacity:0.2"/>
+	'<circle cx="'x_A'" cy="'y_A'" r="4" style="fill:red"/>
+	'<circle cx="'x_B'" cy="'y_B'" r="4" style="fill:red"/>
+	'<circle cx="'x_C'" cy="'y_C'" r="4" style="fill:red"/>
+	'<circle cx="'x_M'" cy="'y_M'" r="4" style="fill:red"/>
+	'<text x="'x_A'" y="'y_A + 20'" text-anchor="end">A</text>
+	'<text x="'x_B'" y="'y_B + 20'">B</text>
+	'<text x="'x_C'" y="'y_C - 5'">C</text>
+	'<text x="'x_ma'" y="'y_ma'" font-style="italic">m</text>
+	'<text x="'x_mb'" y="'y_mb'" font-style="italic">m</text>
+	'<text x="'x_mc'" y="'y_mc'" font-style="italic">m</text>
+	'<text x="'x_ma + 15'" y="'y_ma + 6'">a</text>
+	'<text x="'x_mb + 15'" y="'y_mb + 6'">b</text>
+	'<text x="'x_mc + 15'" y="'y_mc + 6'">c</text>
+	'</svg>
+	#equ
+	'Angle bisectors:
+	l_a = sqrt(b*c*(1 - a^2/(b + c)^2))
+	l_b = sqrt(a*c*(1 - b^2/(a + c)^2))
+	l_c = sqrt(a*b*(1 - c^2/(a + b)^2))
+	#hide
+	x_o = c/2
+	y_o = sqr(R^2 - c^2/4)*sign(90 - γ)
+	y_min = y_o - R
+	y_max = y_o + R
+	dx = 2*R
+	dy = dx
+	k = 400/dx
+	w = dx*k
+	h = dy*k
+	x_A = (R - x_o)*k
+	y_A = (R + y_o)*k
+	x_B = x_A + c*k
+	y_B = y_A
+	x_C = x_A + c_1*k
+	y_C = y_A - h_c*k
+	x_lA = (x_B*b + x_C*c)/(b + c)
+	y_lA = (y_B*b + y_C*c)/(b + c)
+	x_lB = (x_A*a + x_C*c)/(a + c)
+	y_lB = (y_A*a + y_C*c)/(a + c)
+	x_lC = (x_A*a + x_B*b)/(a + b)
+	y_lC = (y_A*a + y_B*b)/(a + b)
+	x_la = (2*x_A + x_lA)/3 - 20
+	y_la = (2*y_A + y_lA)/3 - 10
+	x_lb = (2*x_B + x_lB)/3 + 5
+	y_lb = (2*y_B + y_lB)/3 - 5
+	x_lc = (2*x_C + x_lC)/3 + 5
+	y_lc = (2*y_C + y_lC)/3 - 10
+	x_L = x_A + (b + c - a)/2*k
+	y_L = y_A - r*k
+	x_O = x_A + x_o*k
+	y_O = y_A - y_o*k
+	#post
+	#val
+	'<svg viewbox="'x_min*k - 20' -20 'w + 40' 'h + 40'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-size: 16px; width: 'w + 40'px; height: 'h + 40'px"> 
+	'<circle cx="'x_O'" cy="'y_O'" r="'R*k'" style="stroke:red; fill:none "/>
+	'<circle cx="'x_L'" cy="'y_L'" r="'r*k'" style="stroke:green; fill:palegreen; fill-opacity:0.4"/>
+	'<path d="M'x_A + 40' 'y_A' A 40 40 0 0 0 'x_A + 40*cos(α)' 'y_A - 40*sin(α)'" style="stroke:goldenrod; stroke-width:1; fill: none"/>
+	'<path d="M'x_B - 40' 'y_A' A 40 40 0 0 1 'x_B - 40*cos(β)' 'y_B - 40*sin(β)'" style="stroke:goldenrod; stroke-width:1; fill: none"/>
+	'<path d="M'x_C + 40*cos(β)' 'y_C + 40*sin(β)' A 40 40 0 0 1 'x_C - 40*cos(α)' 'y_C + 40*sin(α)'" style="stroke:goldenrod; stroke-width:1; fill: none"/>
+	'<line x1="'x_A'" y1="'y_A'" x2="'x_lA'" y2="'y_lA'" style="stroke:green; stroke-width:1"/>
+	'<line x1="'x_B'" y1="'y_B'" x2="'x_lB'" y2="'y_lB'" style="stroke:green; stroke-width:1"/>
+	'<line x1="'x_C'" y1="'y_C'" x2="'x_lC'" y2="'y_lC'" style="stroke:green; stroke-width:1"/>
+	'<polyline points="'x_A','y_A' 'x_B','y_B' 'x_C','y_C' 'x_A','y_A'" style="stroke:black; stroke-width:2; fill:yellow; fill-opacity:0.2"/>
+	'<circle cx="'x_A'" cy="'y_A'" r="4" style="fill:red"/>
+	'<circle cx="'x_B'" cy="'y_B'" r="4" style="fill:red"/>
+	'<circle cx="'x_C'" cy="'y_C'" r="4" style="fill:red"/>
+	'<circle cx="'x_L'" cy="'y_L'" r="4" style="fill:red"/>
+	'<circle cx="'x_O'" cy="'y_O'" r="4" style="fill:red"/>
+	'<text x="'x_A'" y="'y_A + 20'" text-anchor="end">A</text>
+	'<text x="'x_B'" y="'y_B + 20'">B</text>
+	'<text x="'x_C'" y="'y_C - 5'">C</text>
+	'<text x="'x_O'" y="'y_O - 5'">O</text>
+	'<text x="'x_la'" y="'y_la'" font-style="italic">l</text>
+	'<text x="'x_lb'" y="'y_lb'" font-style="italic">l</text>
+	'<text x="'x_lc'" y="'y_lc'" font-style="italic">l</text>
+	'<text x="'x_la + 6'" y="'y_la + 6'">a</text>
+	'<text x="'x_lb + 6'" y="'y_lb + 6'">b</text>
+	'<text x="'x_lc + 6'" y="'y_lc + 6'">c</text>
+	'</svg>
+	#equ
+	'Altitudes:
+	h_a = b*sin(γ)
+	h_b = c*sin(α)
+	h_c = a*sin(β)
+	#hide
+	y_h = c_1*cot(β)
+	y_min = min(0; y_h)
+	y_max = max(h_c; y_h)
+	dy = y_max - y_min
+	k = 400/max(dx; dy)
+	w = dx*k
+	h = dy*k
+	x_A = 0
+	y_A = h
+	x_B = x_A + c*k
+	y_B = y_A
+	x_C = x_A + c_1*k
+	y_C = y_A - h_c*k
+	y_H = y_A - y_h*k
+	x_ha = x_A + h_a*k*sin(β)/2 - 20
+	y_ha = y_A - h_a*k*cos(β)/2 - 10
+	x_hb = x_B - h_b*k*sin(α)/2 + 5
+	y_hb = y_B - h_b*k*cos(α)/2 - 5
+	x_hc = x_C + 5
+	y_hc = y_C + h_c*k/2 - 10
+	#post
+	#val
+	'<svg viewbox="'x_min*k - 20' '-y_min*k - 20' 'w + 40' 'h + 40'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-size: 16px; width: 'w + 40'px; height: 'h + 40'px">
+	'<line x1="'x_C'" y1="'y_H'" x2="'x_A + h_a*k*sin(β)'" y2="'y_A - h_a*k*cos(β)'" style="stroke:red; stroke-width:1; stroke-dasharray: 5,5; stroke-opacity:0.4"/>
+	'<line x1="'x_C'" y1="'y_H'" x2="'x_B - h_b*k*sin(α)'" y2="'y_B - h_b*k*cos(α)'" style="stroke:red; stroke-width:1; stroke-dasharray: 5,5; stroke-opacity:0.4"/>
+	'<line x1="'x_C'" y1="'y_H'" x2="'x_C'" y2="'y_A'" style="stroke:red; stroke-width:1; stroke-dasharray: 5,5; stroke-opacity:0.4"/>
+	'<line x1="'x_A'" y1="'y_A'" x2="'x_A + h_a*k*sin(β)'" y2="'y_A - h_a*k*cos(β)'" style="stroke:red; stroke-width:1"/>
+	'<line x1="'x_B'" y1="'y_B'" x2="'x_B - h_b*k*sin(α)'" y2="'y_B - h_b*k*cos(α)'" style="stroke:red; stroke-width:1"/>
+	'<line x1="'x_C'" y1="'y_A'" x2="'x_C'" y2="'y_C'" style="stroke:red; stroke-width:1"/>
+	'<line x1="'x_B'" y1="'y_B'" x2="'x_A + h_a*k*sin(β)'" y2="'y_A - h_a*k*cos(β)'" style="stroke:black; stroke-width:1; stroke-dasharray: 5,5; stroke-opacity:0.2"/>
+	'<line x1="'x_C'" y1="'y_C'" x2="'x_A + h_a*k*sin(β)'" y2="'y_A - h_a*k*cos(β)'" style="stroke:black; stroke-width:1; stroke-dasharray: 5,5; stroke-opacity:0.2"/>
+	'<line x1="'x_A'" y1="'y_A'" x2="'x_B - h_b*k*sin(α)'" y2="'y_B - h_b*k*cos(α)'" style="stroke:black; stroke-width:1; stroke-dasharray: 5,5; stroke-opacity:0.2"/>
+	'<line x1="'x_C'" y1="'y_C'" x2="'x_B - h_b*k*sin(α)'" y2="'y_B - h_b*k*cos(α)'" style="stroke:black; stroke-width:1; stroke-dasharray: 5,5; stroke-opacity:0.2"/>
+	'<line x1="'x_A'" y1="'y_A'" x2="'x_C'" y2="'y_A'" style="stroke:black; stroke-width:1; stroke-dasharray: 5,5; stroke-opacity:0.2"/>
+	'<line x1="'x_B'" y1="'y_B'" x2="'x_C'" y2="'y_A'" style="stroke:black; stroke-width:1; stroke-dasharray: 5,5; stroke-opacity:0.2"/>
+	'<polyline points="'x_A','y_A' 'x_B','y_B' 'x_C','y_C' 'x_A','y_A'" style="stroke:black; stroke-width:2; fill:yellow; fill-opacity:0.2"/>
+	'<circle cx="'x_A'" cy="'y_A'" r="4" style="fill:red"/>
+	'<circle cx="'x_B'" cy="'y_B'" r="4" style="fill:red"/>
+	'<circle cx="'x_C'" cy="'y_C'" r="4" style="fill:red"/>
+	'<circle cx="'x_C'" cy="'y_H'" r="4" style="fill:red"/>
+	'<text x="'x_A'" y="'y_A + 20'" text-anchor="end">A</text>
+	'<text x="'x_B'" y="'y_B + 20'">B</text>
+	'<text x="'x_C'" y="'y_C - 5'">C</text>
+	'<text x="'x_ha'" y="'y_ha'" font-style="italic">h</text>
+	'<text x="'x_hb'" y="'y_hb'" font-style="italic">h</text>
+	'<text x="'x_hc'" y="'y_hc'" font-style="italic">h</text>
+	'<text x="'x_ha + 12'" y="'y_ha + 6'">a</text>
+	'<text x="'x_hb + 12'" y="'y_hb + 6'">b</text>
+	'<text x="'x_hc + 12'" y="'y_hc + 6'">c</text>
+	'</svg>
+	#equ
+#else
+	'The triangle is not properly defined.
+	'The sum of each two sides, must be greater than the length of the third side.
+#end if
