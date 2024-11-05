@@ -1,0 +1,6 @@
+"Mandelbrot set (undocumented function)
+#hide
+PlotStep = 1','PlotWidth = 600','PlotHeight = PlotWidth
+#show
+$Map{Mandelbrot(x; y) @ x = -2 : 0.5 & y = -1.25 : 1.25}
+$Map{Mandelbrot(x; y) @ x = -0.59 : -0.58 & y = 0.55 : 0.56}
