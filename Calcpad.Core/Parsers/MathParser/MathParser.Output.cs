@@ -88,8 +88,7 @@ namespace Calcpad.Core
                         )
                         {
                             if ((_parser._settings.Substitute &&
-                                _parser.VariableSubstitution == VariableSubstitutionOptions.VariablesAndSubstitutions ||
-                                _parser.VariableSubstitution == VariableSubstitutionOptions.SubstitutionsOnly)
+                                _parser.VariableSubstitution != VariableSubstitutionOptions.VariablesOnly)
                                 && _parser._hasVariables)
                             {
                                 subst = RenderRpn(rpn, true, writer, out hasOperators);
@@ -107,15 +106,20 @@ namespace Calcpad.Core
                             if (!_parser._hasVariables && _assignmentIndex > 0 && _assignmentIndex < _stringBuilder.Length)
                                 subst = _stringBuilder.ToString()[_assignmentIndex..];
                         }
-                        var res = _parser._result is Value value ?
-                            writer.FormatValue(value, _parser._settings.Decimals) :
-                            _parser._result is Vector vector ?
-                            RenderVector(vector, _parser._settings.Decimals, writer, _maxOutputCount, _zeroSmallMatrixElements) :
-                            RenderMatrix((Matrix)_parser._result, _parser._settings.Decimals, writer, _maxOutputCount, _zeroSmallMatrixElements);
-                        ;
+                        var dec = _parser._settings.Decimals;
+                        var res = _parser._result switch
+                        {
+                            Value value => writer.FormatValue(value, dec),
+                            Vector vector => RenderVector(vector, dec, writer, _maxOutputCount, _zeroSmallMatrixElements),
+                            Matrix matrix => RenderMatrix(matrix, dec, writer, _maxOutputCount, _zeroSmallMatrixElements),
+                            _ => null
+                        };
                         if (hasOperators && res != subst || string.IsNullOrEmpty(subst))
                         {
-                            _stringBuilder.Append(assignment).Append(res);
+                            if (_stringBuilder.Length > 0)
+                                _stringBuilder.Append(assignment);
+                                    
+                            _stringBuilder.Append(res);
                         }
                         if (splitted)
                             _stringBuilder.Append("</span>");
