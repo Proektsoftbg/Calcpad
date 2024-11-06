@@ -680,7 +680,7 @@ namespace Calcpad.Core
                 }
                 if (u.IsDimensionless && vu is null)
                 {
-                    v = new Value(v.Complex * u.GetDimensionlessFactor(), u);
+                    v = new Value(v.Complex / u.GetDimensionlessFactor(), u);
                     return u;
                 }
                 if (!Unit.IsConsistent(vu, u))

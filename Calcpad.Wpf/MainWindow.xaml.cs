@@ -1569,7 +1569,7 @@ namespace Calcpad.Wpf
                 }
                 else
                 {
-                    s = ReplaceCStyleRelationalOperators(line.TrimStart('\t'));
+                    s = ReplaceCStyleOperators(line.TrimStart('\t'));
                     if (!hasForm)
                         hasForm = MacroParser.HasInputFields(s);
                 }
@@ -1592,7 +1592,7 @@ namespace Calcpad.Wpf
             return hasForm;
         }
 
-        private string ReplaceCStyleRelationalOperators(ReadOnlySpan<char> s)
+        private string ReplaceCStyleOperators(ReadOnlySpan<char> s)
         {
             if (s.IsEmpty)
                 return string.Empty;
@@ -1637,6 +1637,22 @@ namespace Calcpad.Wpf
                             var n = _stringBuilder.Length - 1;
                             if (n >= 0 && _stringBuilder[n] == '%')
                                 _stringBuilder[n] = '⦼';
+                            else
+                                _stringBuilder.Append(c);
+                        }
+                        else if (c == '&')
+                        {
+                            var n = _stringBuilder.Length - 1;
+                            if (n >= 0 && _stringBuilder[n] == '&')
+                                _stringBuilder[n] = '∧';
+                            else
+                                _stringBuilder.Append(c);
+                        }
+                        else if (c == '|')
+                        {
+                            var n = _stringBuilder.Length - 1;
+                            if (n >= 0 && _stringBuilder[n] == '|')
+                                _stringBuilder[n] = '∨';
                             else
                                 _stringBuilder.Append(c);
                         }
@@ -3596,6 +3612,10 @@ namespace Calcpad.Wpf
                         c = '′';
                     else if (c == '⁗')
                         c = '″';
+                    else if (c == '‰')
+                        c = '‱';
+                    else if (c == '‱')
+                        c = '‰';
                     tb.Text = c.ToString();
                 }
             }

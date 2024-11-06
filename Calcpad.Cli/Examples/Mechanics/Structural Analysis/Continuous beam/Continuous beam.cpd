@@ -1,0 +1,81 @@
+"Analysis of continuous beam by force method
+'<h4>Input data</h4>
+'Span lengths -'l = [4; 7; 3; 5]*m
+'Number of spans -'n = len(l)
+#hide
+x = vector(n)', '$Repeat{x.k = sum(first(l; k)) @ k = 1 : n}
+#show
+'Coordinates of supports -'x
+'Total beam length -'L = x.n
+'Load -'q = 10kN/m
+'<h5>Material</h5>
+'Elastic modulus -'E = 30GPa
+'Poisson′s ratio - 'ν = 0.2
+'Shear modulus -'G = E/(2*(1 + ν))
+'<h5>Cross section</h5>
+'Rectangular with dimensions:'b = 250mm', 'h = 500mm
+'Area -'A = b*h
+'Moment of inertia -'I = b*h^3/12
+'Shear area -'A_Q = 5/6*b*h
+'<h4>Solution</h4>
+'The solution will be performed by the force method with a primary system - simply supported beam with internal supports removed and replaced by unknown forces <em>X</em><sub>i</sub>
+'Bending moments
+'- in section <em>a</em> due to unit force at distance <em>x</em> from the beginning of the beam:
+M_1,max(x) = (x/L - 1)*x
+M_1,a(a; x) = M_1,max(x)*if(a < x; a/x; (L - a)/(L - x))
+'- in section <em>a</em>, due to unit force <em>X</em><sub>i</sub>:
+M_1(a; i) = M_1,a(a; x.i)
+#hide
+PlotHeight = 100', 'PlotWidth = 600
+#show
+$Plot{-M_1(x; 1) & -M_1(x; 2) & -M_1(x; 3) @ x = 0m : L}
+'- due to external loads in primary system:
+M_F(x) = q*x/2*(L - x)
+$Plot{-M_F(x) @ x = 0m : L}
+'Shear forces
+'- in section <em>a</em> due to unit force at distance <em>x</em> from the beginning of the beam:
+V_1,a(a; x) = if(a < x; x/L - 1; x/L)
+'- in section <em>a</em>, due to unit force <em>X</em><sub>i</sub>:
+V_1(a; i) = V_1,a(a; x.i)
+$Plot{V_1(x; 1) & V_1(x; 2) & V_1(x; 3) @ x = 0m : L}
+'- due to external loads in primary system:
+V_F(x) = q*(L/2 - x)
+$Plot{V_F(x) @ x = 0m : L}
+'Number of unknowns by force method -'n_1 = n - 1
+'Flexibility coefficients
+δ(i; j) = $Area{M_1(x; i)*M_1(x; j)/(E*I) @ x = 0m : L} + $Area{V_1(x; i)*V_1(x; j)/(G*A_Q) @ x = 0m : L}|m/kN
+Δ_F(i) = $Area{M_1(x; i)*M_F(x)/(E*I) @ x = 0m : L} + $Area{V_1(x; i)*V_F(x)/(G*A_Q) @ x = 0m : L}
+δ = symmetric(n_1)','Δ_F = vector(n_1)
+$Repeat{$Repeat{δ.(i; j) = δ(i; j) @ i = 1 : n_1} @ j = 1 : n_1}
+$Repeat{Δ_F.i = Δ_F(i) @ i = 1 : n_1}
+δ','Δ_F
+'Calculation of the unknown forces <em>X</em><sub>i</sub>
+X = -clsolve(δ; Δ_F)
+'<h4>Results</h4>
+'Bending moment diagram -'M(x) = M_F(x) + $Sum{M_1(x; i)*X.i @ i = 1 : n_1}
+$Plot{-M(x) @ x = 0m : L}
+#hide
+M_min = vector(n_1)', 'M_max = vector(n)
+$Repeat{M_min.i = M(x.i) @ i = 1 : n_1}
+$Repeat{M_max.i = $Sup{M(x) @ x = x.i : x.i - l.i} @ i = 1 : n}
+#show
+M_max
+M_min
+'Shear force diagram -'V(x) = V_F(x) + $Sum{V_1(x; i)*X.i @ i = 1 : n_1}
+$Plot{V(x) @ x = 0m : L}
+#hide
+V_min = vector(n)', 'V_max = vector(n)
+$Repeat{V_min.i = $Inf{V(x) @ x = x.i : x.i - l.i} @ i = 1 : n}
+$Repeat{V_max.i = $Sup{V(x) @ x = x.i : x.i - l.i} @ i = 1 : n}
+#show
+V_max
+V_min
+'Deflections
+'- in section <em>a</em>, due to unit force <em>X</em><sub>i</sub>:
+d_1(a; i) = $Area{M_1,a(x; a)*M_1(x; i)/(E*I) @ x = 0m : L} + $Area{V_1,a(x; a)*V_1(x; i)/(G*A_Q) @ x = 0m : L}|m/kN
+'- due to external loads in primary system:
+d_F(a) = $Area{M_1,a(x; a)*M_F(x)/(E*I) @ x = 0m : L} + $Area{V_1,a(x; a)*V_F(x)/(G*A_Q) @ x = 0m : L}
+d(x) = d_F(x) + $Sum{d_1(x; i)*X.i @ i = 1 : n_1}|mm
+$Plot{d(x) @ x = 0m : L}
+'Maximum deflection -'d_max = $inf{d(x) @ x = 0m : L}|mm
+'At a distance from the origin -'x_inf

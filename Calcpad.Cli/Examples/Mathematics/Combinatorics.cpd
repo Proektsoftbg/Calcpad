@@ -1,0 +1,24 @@
+"Combinatorics
+'<h4>1. Permutations</h4> (order of element matters)
+'<h5>1.1. Permutations without repetitions </h5>
+'Number of permutations of n elements -'P(n) = n!'(factorial function)
+'Example -'P(5)
+'Number of permutations of k elements from n possible -'P(n; k) = n!/(n - k)!
+'Example -'P(5; 2)
+'Efficient method for calculation -'P(n; k) = $Product{n - i @ i = 0 : k - 1}
+'Example -'P(5; 2)
+'<h5>1.2. Permutations with repetitions</h5>
+'Number of permutations of k elements from n possible -'P(n; k) = n^k
+'Example -'P(5; 2)
+'<h4>2. Combinations</h4> (order of element doesn′t matter)
+'<h5>2.1. Combinations without repetitions</h5>
+'Number of combinations of k elements from n possible -'C(n; k) = n!/((n - k)!*k!)
+'(a.k.a. binomial coefficients)
+'Example -'C(5; 2)
+'Efficient method for calculation -'C(n; k) = $Product{1 + (n - k)/i @ i = 1 : k}
+'Example -'C(5; 2)' = 'C(5; 5 - 3)
+'<h5>2.1. Combinations with repetitions</h5>
+'Number of combinations of k elements from n possible -'C(n; k) = (k + n - 1)!/((n - 1)!*k!)
+'Example -'C(5; 2)
+'Efficient method for calculation -'C(n; k) = $Product{1 + (n - 1)/i @ i = 1 : k}
+'Example -'C(5; 2)

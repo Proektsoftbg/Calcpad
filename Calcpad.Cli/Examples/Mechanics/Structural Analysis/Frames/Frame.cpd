@@ -1,0 +1,458 @@
+#include svg_drawing.cpd
+"Analysis of plane frames with arbitrary cross-sections
+'<h4>Joint coordinates - xJ; yJ</h4>
+#hide
+#deg
+δz = 10^-12
+Precision = 10^-9
+x_J = [0; 0; 8; 16; 16]*m
+y_J = [0; 8; 10; 8; 0]*m
+#show
+x_J','y_J
+n_J = len(x_J)
+'<h4>Elements - [J1; J2]</h4>
+#hide
+e_J = [1; 2|2; 3|3; 4|4; 5]
+#show
+transp(e_J)
+n_E = n_rows(e_J)
+'Element endpoint coordinates
+x_1(e) = x_J.e_J.(e; 1)','y_1(e) = y_J.e_J.(e; 1)
+x_2(e) = x_J.e_J.(e; 2)','y_2(e) = y_J.e_J.(e; 2)
+'Element length - 'l(e) = sqrt((x_2(e) - x_1(e))^2 + (y_2(e) - y_1(e))^2)
+'Element direction
+c(e) = (x_2(e) - x_1(e))/l(e)','s(e) = (y_2(e) - y_1(e))/l(e)
+'Transformation matrix
+'Diagonal 3x3 block -'t(e) = [c(e); s(e); 0|-s(e); c(e); 0|0; 0; 1]
+'Generation of the full transformation matrix
+T(e) = add(t(e); add(t(e); matrix(6; 6); 1; 1); 4; 4)
+'<h4>Supports - [Joint; cx; cy; cr]</h4>
+#hide
+c = [1; 10^20kN/m; 10^20kN/m; 0kNm|5; 10^20kN/m; 10^20kN/m; 10^20kNm]
+#show
+c
+n_c = n_rows(c)
+'<h4>Loads - [Element, qx, qy]</h4>
+#hide
+q = [1; 10kN/m; 0kN/m|2; 0kN/m; -20kN/m|3; 0kN/m; -10kN/m]
+n_q = n_rows(q)
+q_x = vector(n_E)*kN/m
+q_y = vector(n_E)*kN/m
+$Repeat{q_x.(q.(i; 1)) = q_x.(q.(i; 1)) + q.(i; 2) @ i = 1 : n_q}
+$Repeat{q_y.(q.(i; 1)) = q_y.(q.(i; 1)) + q.(i; 3) @ i = 1 : n_q}
+#show
+q
+'Load values on elements
+q_x
+q_y
+'<h4>Scheme of the structure</h4>
+#hide
+w = max(x_J)
+h = max(y_J)
+W = 240
+H = h*W/w
+k = W/w
+#def svg$ = '<svg viewbox="'-3m*k' '-2m*k' '(w + 6m)*k' '(h + 4m)*k'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-family: Georgia Pro; font-size:4pt; width:'W + 150'pt; height:'H + 200*H/W'pt">
+#def thin_style$ = style = "stroke:green; stroke-width:1; fill:none"
+#def thick_style$ = style = "stroke:green; stroke-width:2; fill:none"
+k_q = m/kN
+#show
+#val
+svg$
+#for i = 1 : n_E
+	#hide
+	x1 = x_1(i)*k
+	y1 = (h - y_1(i))*k
+	x2 = x_2(i)*k
+	y2 = (h - y_2(i))*k
+	q_xi = q_x.i
+	q_yi = q_y.i
+	α = atan2(c(i); s(i))
+	#if α ≥ 135
+		α = α - 180
+	#end if
+	#if α < -45
+		α = α + 180
+	#else if α < 0
+		α = 360 + α
+	#end if
+	#if q_xi ≠ 0kN/m
+		#hide
+		x3 = x2 - q_xi*k_q','y3 = y2
+		x4 = x1 - q_xi*k_q','y4 = y1
+		x = (x3 + x4)/2 - 5*sign(q_xi)
+		y = (y3 + y4)/2
+		#show
+		'<polygon points="'x1','y1' 'x2','y2' 'x3','y3' 'x4','y4'" style="stroke:magenta; stroke-width:1; stroke-opacity:0.3; fill:magenta; fill-opacity:0.1;" />
+		text$(x;y;α;qx='abs(q_xi)')
+	#end if
+	#if q_yi ≠ 0kN/m
+		#hide
+		x3 = x2','y3 = y2 + q_yi*k_q
+		x4 = x1','y4 = y1 + q_yi*k_q
+		x = (x3 + x4)/2
+		y = (y3 + y4)/2 + 5*sign(q_yi)
+		#show
+		'<polygon points="'x1','y1' 'x2','y2' 'x3','y3' 'x4','y4'" style="stroke:dodgerblue; stroke-width:1; stroke-opacity:0.4; fill:dodgerblue; fill-opacity:0.15;" />
+		text$(x;y;α;qy='abs(q_yi)')
+	#end if
+	#show
+	line$(x1; y1; x2; y2; main_style$)
+#loop
+'<g id="frame">
+#for i = 1 : n_E
+	#hide
+	x1 = x_1(i)*k
+	y1 = (h - y_1(i))*k
+	x2 = x_2(i)*k
+	y2 = (h - y_2(i))*k
+	#show
+	line$(x1; y1; x2; y2; main_style$)
+#loop
+#for i = 1 : n_c
+	#hide
+	j = c.(i; 1)
+	x1 = x_J.j*k
+	y1 = (h - y_J.j)*k
+	δ = w/30*k*sign(x1 - w/2*k)
+	x2 = x1 - δ
+	y2 = y1 - abs(δ)
+	x3 = x1 + δ
+	y3 = y1 + abs(δ)
+	#show
+	#if c.(i; 2) ≠ 0kN/m
+		#if c.(i; 3) ≠ 0kN/m
+			#if c.(i; 4) ≠ 0kNm
+				line$(x1; y1; x1; y3; thin_style$)
+				line$(x2; y3; x3; y3; thick_style$)
+			#else
+				line$(x2; y3; x3; y3; thick_style$)
+				line$(x2; y3; x1; y1; thin_style$)
+				line$(x3; y3; x1; y1; thin_style$)
+			#end if
+		#else
+			#if c.(i; 4) ≠ 0kNm
+				line$(x1; y1; x2; y1; thin_style$)
+				line$(x2; y2; x2; y3; thick_style$)
+				line$(x2 - δ/2; y2; x2 - δ/2; y3; thick_style$)
+			#else
+				line$(x2; y2; x1; y1; thin_style$)
+				line$(x2; y3; x1; y1; thin_style$)
+				line$(x2; y2; x2; y3; thin_style$)
+				line$(x2 - δ/2; y2; x2 - δ/2; y3; thick_style$)
+			#end if
+		#end if
+	#else
+		#if c.(i; 3) ≠ 0kN/m
+			#if c.(i; 4) ≠ 0kNm
+				line$(x1; y1; x1; y3; thin_style$)
+				line$(x2; y3; x3; y3; thick_style$)
+				line$(x2; y3 + abs(δ)/2; x3; y3 + abs(δ)/2; thick_style$)
+			#else
+				line$(x2; y3; x3; y3; thin_style$)
+				line$(x2; y3; x1; y1; thin_style$)
+				line$(x3; y3; x1; y1; thin_style$)
+				line$(x2; y3 + abs(δ)/2; x3; y3 + abs(δ)/2; thick_style$)
+			#end if
+		#else
+			line$(x2; y2; x3; y3; thick_style$)
+		#end if
+	#end if
+#loop
+'</g>
+#for i = 1 : n_E
+	#hide
+	x = (x_1(i) + x_2(i))*k/2
+	y = (h - (y_1(i) + y_2(i))/2)*k
+	#show
+	texth$(x + 0.8m*sign(W/2 - x)*k; y + 0.6m*k; e'i')
+#loop
+#for i = 1 : n_J
+	point$(x_J.i*k; (h - y_J.i)*k; point_style$)
+	texth$((x_J.i - 0.7m*sign(w/2 - x_J.i))*k; (h - y_J.i - 0.4m)*k; J'i')
+#loop
+dimv$((w + 2m)*k; (h - y_J.4)*k; h*k; 'y_J.4')
+dimv$((w + 2m)*k; 0; (h - y_J.4)*k; 'h - y_J.4')
+dimh$(0; w*k; (h + 1.5m)*k; 'w')
+'</svg>
+#equ
+'<h4>Materials</h4>
+'Modules of elasticity -'E = [45; 35]*GPa
+'Poisson coefficients -'ν = [0.2; 0.2]
+'Shear modules -'G = E/(2*(1 + ν))
+'Assignments on elements -'e_M = [1; 2; 2; 1]
+'<h4>Cross-sections</h4>
+#hide
+b = vector(2)','h = vector(2)
+#show
+'Section S1 -'h.1 = 500mm'- circular - 'b_C(z) = 2*sqrt((h.1/2)^2 - (z - h.1/2)^2)
+'Section S2 -'b.2 = 250mm','h.2 = 700mm'- rectangular -'b_R(z) = b.2
+'General representation -'b(z; s) = take(s; b_C(z); b_R(z))
+'<h4>Cross section properties</h4>
+'Equations
+'Area -'A(s) = $Integral{b(z; s) @ z = 0mm : h.s}
+'First moment of area -'S(s) = $Integral{b(z; s)*z @ z = 0mm : h.s}|cm^3
+'Centroid -'z_c(s) = S(s)/A(s)|mm
+'Second moment of area -'I(s) = $Integral{b(z; s)*(z - z_c(s))^2 @ z = 0mm : h.s}
+'First moment of area below z -'S_1(z; s) = $Integral{b(ζ; s)*(z_c(s) - ζ) @ ζ = 0mm : z}
+'Shear area -'A_s(s) = I(s)^2/$Integral{S_1(z; s)^2/b(z; s) @ z = 0mm : h.s}
+'Calculated results
+'Centroids -'z_c = [z_c(1); z_c(2)]
+'Areas -'A = [A(1); A(2)]
+'Shear areas -'A_s = [A_s(1); A_s(2)]
+'Second moments of area -'I = [I(1); I(2)]
+'Assignments on elements -'e_S = [1; 2; 2; 1]
+'<h4>Element stiffness matrix</h4>
+'Elastic properties for element "e"
+EA(e) = E.e_M.e*A.e_S.e
+EI(e) = E.e_M.e*I.e_S.e
+GA_s(e) = G.e_M.e*A_s.e_S.e
+k_s(e) = 12*EI(e)/(GA_s(e)*l(e)^2)
+α(e) = EA(e)/l(e)','β(e) = EI(e)/(l(e)^3*(1 + k_s(e)))
+'Stiffness matrix coefficients for element "e"
+k_11(e) = α(e)*(m/kN)','k_22(e) = 12*β(e)*(m/kN)','k_23(e) = 6*β(e)*l(e)*(1/kN)
+k_33(e) = (4 + k_s(e))*β(e)*l(e)^2*(1/kNm)
+k_36(e) = (2 - k_s(e))*β(e)*l(e)^2*(1/kNm)
+'Assembling the 3x3 stiffness matrix blocks for element "e"
+k_ii(e) = [k_11(e)|0; k_22(e); k_23(e)|0; k_23(e); k_33(e)]
+k_ij(e) = [-k_11(e)|0; -k_22(e); k_23(e)|0; -k_23(e); k_36(e)]
+k_ji(e) = transp(k_ij(e))
+k_jj(e) = [k_11(e)|0; k_22(e); -k_23(e)|0; -k_23(e); k_33(e)]
+'Full element stiffness matrix
+k_E(e) = stack(augment(k_ii(e); k_ij(e)); augment(k_ji(e); k_jj(e)))
+'Stiffness matrices obtained in local coordinates
+k_E(1)
+k_E(2)
+'Stiffness matrices obtained in global coordinates
+transp(T(1))*k_E(1)*T(1)
+transp(T(2))*k_E(2)*T(2)
+'<h4>Global stiffness matrix</h4>
+#hide
+K = symmetric(3*n_J)
+'Add element stiffness matrices
+#for e = 1 : n_E
+	i = 3*e_J.(e; 1) - 2','j = 3*e_J.(e; 2) - 2
+	t = t(e)','tT = transp(t)
+	add(tT*k_ii(e)*t; K; i; i)
+	#if j > i
+		add(tT*k_ij(e)*t; K; i; j)
+	#else
+		add(tT*k_ji(e)*t; K; j; i)
+	#end if
+	add(tT*k_jj(e)*t; K; j; j)
+#loop
+'Add supports
+#for i = 1 : n_c
+	j = 3*c.(i; 1) - 2
+	add(vec2diag(last(row(c; i); 3)/[kN/m; kN/m; kNm]); K; j; j)
+#loop
+#show
+K
+'<h4>Element load vector</h4>
+'Lateral load in local CS -'q_E(e) = -q_x.e*s(e) + q_y.e*c(e)
+'Axial load in local CS -'n_E(e) = q_x.e*c(e) + q_y.e*s(e)
+'Equivalent loads at element endpoints
+F_Ex(e) = q_x.e*l(e)/2*(1/kN)','F_Ey(e) = q_y.e*l(e)/2*(1/kN)
+M_E(e) = q_E(e)*l(e)^2/12*(1/kNm)
+'Load vector -'F_E(e) = [F_Ex(e); F_Ey(e); M_E(e); F_Ex(e); F_Ey(e); -M_E(e)]
+#novar
+'Results for elements
+#for e = 1 : n_E
+	'Element Е'e' -'F_E(e)
+#loop
+#varsub
+'<h4>Global load vector</h4>
+#hide
+F = vector(3*n_J)
+#for i = 1 : n_q
+	e = q.(i; 1)
+	#for jj = 1 : 2
+		j = 3*e_J.(e; jj) - 3
+		F.(j + 1) = F.(j + 1) + take(3*jj - 2; F_E(e))
+		F.(j + 2) = F.(j + 2) + take(3*jj - 1; F_E(e))
+		F.(j + 3) = F.(j + 3) + take(3*jj; F_E(e))
+	#loop
+#loop
+#show
+F
+'<h4>Results</h4>
+'<p><strong>Solution of the system of equations by Cholesky decomposition</strong></p>
+Z = clsolve(K; F)
+'<p><strong>Joint displacements</strong></p>
+z_J(j) = slice(Z; 3*j - 2; 3*j)
+z(j) = round(z_J(j)/δz)*δz*1000*[mm; mm; 1]
+#novar
+#for j = 1 : n_J
+	z(j)
+#loop
+#varsub
+'<p><strong>Support reactions</strong></p>
+r(i) = row(c; i)','j(i) = take(1; r(i))
+R(i) = -z_J(j(i))*[m; m; 1]*last(r(i); 3)
+#novar
+#for i = 1 : n_c
+	#val
+	'<p>Joint <b>J'j(i)' - 
+	#equ
+	'</b>'R(i)'</p>
+#loop
+#varsub
+'<p><strong>Element end forces</strong></p>
+z_E(e) = [z_J(e_J.(e; 1)); z_J(e_J.(e; 2))]
+R_E(e) = col(k_E(e)*T(e)*z_E(e) - T(e)*F_E(e); 1)*[1; 1; m; 1; 1; m]*kN
+#novar
+#for e = 1 : n_E
+	R_E(e)
+#loop
+#varsub
+'<p><strong>Element internal forces</strong></p>
+N(e; x) = -take(1; R_E(e)) - n_E(e)*x
+Q(e; x) = take(2; R_E(e)) + q_E(e)*x
+M(e; x) = -take(3; R_E(e)) + take(2; R_E(e))*x + q_E(e)*x^2/2
+#hide
+w = max(x_J)
+h = max(y_J)
+W = 240
+H = h*W/w
+k = W/w
+#def red_style$ = style = "stroke:red; stroke-width:1; fill:red"
+#deg
+#for i = 1 : 3
+	#hide
+	R(e; x) = take(i; N(e; x); Q(e; x); M(e; x))
+	sgn = take(i; 1; 1; -1)
+	tol = 0.01*take(i; kN; kN; kNm)
+	R_max = $Sup{$Sup{R(e; x) @ x = 0m : l(e)} @ e = 1 : n_E}
+	R_min = $Sup{abs($Inf{R(e; x) @ x = 0m : l(e)}) @ e = 1 : n_E}
+	k_R = sgn*1m*k/max(R_min; R_max)
+	#show
+	#if i ≡ 1
+		'<p><strong>Axial forces diagram, kN</strong></p>
+	#else if i ≡ 2
+		'<p><strong>Shear forces diagram, kN</strong></p>
+	#else
+		'<p><strong>Bending moments diagram, kNm</strong></p>
+	#end if
+	#val
+	svg$
+	'<use href="#frame"/>
+	#for e = 1 : n_E
+		#hide
+		x1 = x_1(e)*k
+		y1 = (h - y_1(e))*k
+		x2 = x_2(e)*k
+		y2 = (h - y_2(e))*k
+		c_e = c(e)
+		s_e = s(e)
+		l_e = l(e)
+		st = l_e/10
+		xd2 = x1
+		yd2 = y1
+		#show
+		#for j = 0 : 10
+			#hide
+			xd1 = xd2
+			yd1 = yd2
+			x = j*st*k
+			v = R(e; j*st)
+			y = v*k_R
+			xd2 = x1 + x*c_e - y*s_e
+			yd2 = y1 - x*s_e - y*c_e
+			α = 90 + atan2(c_e; s_e)
+			#if α ≥ 135
+				α = α - 180
+			#end if
+			#if α < -45
+				α = α + 180
+			#else if α < 0
+				α = 360 + α
+			#end if
+			d = -15*sign(v*sgn)
+			#show
+			line$(xd1; yd1; xd2; yd2; red_style$)
+			#if (j ≡ 0 ∨ j ≡ 10) ∧ abs(v) > tol
+				text$(xd2 + s_e*d; yd2 + d*c_e; α; 'v')
+			#end if
+			line$(xd1; yd1; xd2; yd2; red_style$)
+		#loop
+		#hide
+		xd1 = x2
+		yd1 = y2
+		#show
+		line$(xd1; yd1; xd2; yd2; red_style$)
+	#loop
+	'</svg>
+#loop
+#equ
+'<p><strong>Deformed shape</strong></p>
+'Shape function in relative coordinates ξ = x/l (with account to shear deflections) 
+Φ_1(e; ξ) = 1/(1 + k_s(e))*(1 + k_s(e) - k_s(e)*ξ - 3*ξ^2 + 2*ξ^3)
+Φ_2(e; ξ) = ξ*l(e)*m^-1/(1 + k_s(e))*(1 + k_s(e)/2 - (2 + k_s(e)/2)*ξ + ξ^2)
+Φ_3(e; ξ) = ξ/(1 + k_s(e))*(k_s(e) + 3*ξ - 2*ξ^2)
+Φ_4(e; ξ) = ξ*l(e)*m^-1/(1 + k_s(e))*(-k_s(e)/2 - (1 - k_s(e)/2)*ξ + ξ^2)
+'Element endpoint displacements and rotations
+z_E,loc(e) = T(e)*z_E(e)
+u_1(e) = take(1; z_E,loc(e))','v_1(e) = take(2; z_E,loc(e))','φ_1(e) = take(3; z_E,loc(e))
+u_2(e) = take(4; z_E,loc(e))','v_2(e) = take(5; z_E,loc(e))','φ_2(e) = take(6; z_E,loc(e))
+'Displacement functions
+u(e; ξ) = u_1(e)*(1 - ξ) + u_2(e)*ξ
+v(e; ξ) = v_1(e)*Φ_1(e; ξ) + φ_1(e)*Φ_2(e; ξ) + v_2(e)*Φ_3(e; ξ) + φ_2(e)*Φ_4(e; ξ)
+'Deformed shape, mm
+#val
+#hide
+tol = 0.00001
+k_R = 1200
+#show
+svg$
+'<use href="#frame" style="opacity:0.4;"/>
+#for e = 1 : n_E
+	#hide
+	x1 = x_1(e)*k
+	y1 = (h - y_1(e))*k
+	x2 = x_2(e)*k
+	y2 = (h - y_2(e))*k
+	c_e = c(e)
+	s_e = s(e)
+	l_e = l(e)
+	u = u(e; 0)
+	v = v(e; 0)
+	x = u*k_R
+	y = v*k_R
+	xd2 = x1 + x*c_e - y*s_e
+	yd2 = y1 - x*s_e - y*c_e
+	#show
+	#for j = 0 : 10
+		#hide
+		xd1 = xd2
+		yd1 = yd2
+		ξ = j/10
+		u = u(e; ξ)
+		v = v(e; ξ)
+		x = ξ*l_e*k + u*k_R
+		y = v*k_R
+		xd2 = x1 + x*c_e - y*s_e
+		yd2 = y1 - x*s_e - y*c_e
+		d = -15*sign(v)
+		#show
+		line$(xd1; yd1; xd2; yd2; red_style$)
+	#loop
+#loop
+#for j = 1 : n_J
+	#hide
+	z_J = z_J(j)
+	u = z_J.1
+	v = z_J.2
+	x = x_J.j*k + u*k_R
+	y = (h - y_J.j)*k - v*k_R
+	dx = 15*sign(u)
+	dy = -15*sign(v)
+	#show
+	#if abs(u) > tol
+		texth$(x + dx; y; 'u*1000')
+	#end if
+	#if abs(v) > tol
+		textv$(x; y + dy; 'v*1000')
+	#end if
+#loop
+'</svg>
+#equ

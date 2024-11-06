@@ -1232,15 +1232,40 @@ namespace Calcpad.Wpf
 
         private bool AppendRelOperatorShortcut(string s)
         {
-            if (s == "=" && _state.Paragraph.Inlines.Count > 0)
+            if (_state.Paragraph.Inlines.Count > 0)
             {
-                Run r = (Run)_state.Paragraph.Inlines.LastInline;
-                switch (r.Text)
+                if (s == "=")
                 {
-                    case " = ": r.Text = " ≡ "; return true;
-                    case "!": r.Text = " ≠ "; return true;
-                    case " > ": r.Text = " ≥ "; return true;
-                    case " < ": r.Text = " ≤ "; return true;
+                    Run r = (Run)_state.Paragraph.Inlines.LastInline;
+                    switch (r.Text)
+                    {
+                        case " = ": r.Text = " ≡ "; return true;
+                        case "!": r.Text = " ≠ "; return true;
+                        case " > ": r.Text = " ≥ "; return true;
+                        case " < ": r.Text = " ≤ "; return true;
+                    }
+                }
+                else if (s == "&")
+                {
+                    Run r = (Run)_state.Paragraph.Inlines.LastInline;
+                    if (r.Text == "&")
+                    {
+                        r.Text = " ∧ ";
+                        r.Background = null;
+                        r.Foreground = Colors[(int)Types.Operator];
+                        return true;
+                    }
+                }
+                else if (s == "|")
+                {
+                    Run r = (Run)_state.Paragraph.Inlines.LastInline;
+                    if (r.Text == "|")
+                    {
+                        r.Text = " ∨ ";
+                        r.Background = null;
+                        r.Foreground = Colors[(int)Types.Operator];
+                        return true;
+                    }
                 }
             }
             return false;
