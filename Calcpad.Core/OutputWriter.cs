@@ -231,7 +231,14 @@ namespace Calcpad.Core
                 var i = GetDigits(a);
                 if (i >= -2 * decimals - 1)
                 {
-                    if (i >= 0)
+                    if (i == 0)
+                    {
+                        if (a < 1)
+                            i = decimals + 1;
+                        else
+                            i = decimals;
+                    }
+                    else if (i > 0)
                     {
                         i = decimals - i;
                         if (i < 0)

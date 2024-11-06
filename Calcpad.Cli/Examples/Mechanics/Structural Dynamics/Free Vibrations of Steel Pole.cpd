@@ -1,0 +1,156 @@
+"Free ibrations of steel pole with variable cross-section of arbitrary shape
+#rad
+'<h3>Static scheme</h3>
+'Cantilever with length -'L = 110m
+'<h3>Material</h3>
+'<h4>Steel</h4>
+'Elastic modulus -'E = 206GPa
+'Poisson′s ratio - 'ν = 0.3
+'Shear modulus -'G = E/(2*(1 + ν))
+'Mass density -'γ_s = 7.85*t/m^3
+'<!--Section shape 'shape = 3', 'Precision = 10^-4'--> 
+'<h3>Cross-section</h3>
+'Section height:
+'- at bottom -'h_b = 3000mm
+'- at top -'h_t = 750mm
+'- difference -'Δh = h_t - h_b
+'- as a function of distance to base -'h(x) = h_b + Δh*x/L
+'Section width:
+'- at bottom -'w_b = 3000mm
+'- at top -'w_t = 750mm
+'- difference -'Δw = w_t - w_b
+'- as a function of distance to base -'w(x) = w_b + Δw*x/L
+'<p>Cross-section shape - 
+#if shape ≡ 0
+	'<b>Rectangular</b></p>
+#else if shape ≡ 1
+	'<b>Circular</b>
+#else if shape ≡ 2
+	'<b>Elliptical</b></p>
+#else if shape ≡ 3
+	'<b>Elliptical tube</b></p>
+	'Thickness -'t_b = 20mm', 't_t = 9mm
+#else if shape ≡ 4
+	'<b>Trapezoidal</b></p>
+	'Width at top edge -'b_2 = 90mm
+#else if shape ≡ 5
+	'<b>T-profile</b></p>
+	'Top flange -'b_2 = 70mm', 'h_2 = 20mm
+#else if shape ≡ 6
+	'<b>Double-T profile</b></p>
+	'Bottom flange -'b_1 = 70mm', 'h_1 = 20mm
+	'Top flange -'b_2 = 90mm', 'h_2 = 15mm
+#end if
+'Function of cross-section outline
+#if shape ≡ 0
+	b(x; z) = w(x)
+#else if shape ≡ 1
+	b(x; z) = 2*sqrt((h(x)/2)^2 - (z - h(x)/2)^2)
+#else if shape ≡ 2
+	b(x; z) = 2*w(x)/h(x)*sqrt((h(x)/2)^2 - (z - h(x)/2)^2)
+#else if shape ≡ 3
+	t(x) = t_b + (t_t - t_b)*x/L
+	b_i(x; z) = w(x) - 2*t(x)
+	h_i(x; z) = h(x) - 2*t(x)
+	b_1(x; z) = 2*w(x)/h(x)*sqrt((h(x)/2)^2 - (z - h(x)/2)^2)
+	b_2(x; z) = if((z > t(x))*(z < (h(x) - t(x))); 2*b_i(x; z)/h_i(x; z)*sqrt((h_i(x; z)/2)^2 - (z - h(x)/2)^2); 0m)
+	b(x; z) = b_1(x; z) - b_2(x; z)
+#else if shape ≡ 4
+	b(x; z) = w(z) + z*(b_2 - w(x))/h(x)
+#else if shape ≡ 5
+	b(x; z) = if(z > h(x) - h_2; b_2; w(x))
+#else if shape ≡ 6
+	b(x; z) = if(z > h(x) - h_2; b_2; if(z < h_1; b_1; w(x)))
+#end if
+'<h4>Cross section properties</h4>
+δ = 0.01mm
+#if shape ≡ 3
+	'Area -'A(x) = $Integral{b_1(x; z) @ z = 0mm : h(x)} - $Integral{b_2(x; z) @ z = t(x) : h(x) - t(x)}|cm^2
+	'First moment of area -'S(x) = $Integral{b_1(x; z)*z @ z = 0mm : h(x)} - $Integral{b_2(x; z)*z @ z = t(x) : h(x) - t(x)}|cm^3
+	'Geometrical center-'z_c(x) = S(x)/A(x)|mm
+	'Second moment of area
+	I_1(x) = $Integral{b_1(x; z)*(z - z_c(x))^2 @ z = 0mm : h(x)}
+	I_2(x) = $Integral{b_2(x; z)*(z - z_c(x))^2 @ z = t(x) : h(x) - t(x)}|cm^4
+	I(x) = I_1(x) - I_2(x)
+	'First moment of area under z
+	S_1(x; z) = $Integral{b_1(x; ζ)*(z_c(x) - ζ) @ ζ = δ : z}
+	S_2(x; z) = $Integral{b_2(x; ζ)*(z_c(x) - ζ) @ ζ = t(x) + δ : z}
+	'Shear area
+	A_Q1(x) = I_1(x)^2/$Integral{S_1(x; z)^2/b_1(x; z) @ z = δ : h(x) - δ}
+	A_Q2(x) = I_2(x)^2/$Integral{S_2(x; z)^2/b_2(x; z) @ z = t(x) + δ : h(x) - t(x) - δ}
+	A_Q(x) = A_Q1(x) - A_Q2(x)
+#else
+	'Area -'A(x) = $Area{b(x; z) @ z = 0mm : h(x)}|cm^2
+	'First moment of area -'S(x) = $Area{b(x; z)*z @ z = 0mm : h(x)}|cm^3
+	'Center of gravity -'z_c(x) = S(x)/A(x)|mm
+	'Second moment of area -'I(x) = $Area{b(x; z)*(z - z_c(x))^2 @ z = 0mm : h(x)}|cm^4
+	'First moment of area under z -'S_1(x; z) = $Area{b(x; ζ)*(z_c(x) - ζ) @ ζ = δ : z}
+	'Shear area -'A_Q(x) = I(x)^2/$Area{S_1(x; z)^2/b(x; z) @ z = δ : h(x) - δ}
+#end if
+'<!--'PlotWidth = 200','PlotHeight = 200'-->
+#def PlotSection$(x$)
+	#if shape ≡ 3
+		$Plot{0mm|z_c(x$) & b_1(x$; z)/2|z & -b_1(x$; z)/2|z & b_2(x$; z)/2|z & -b_2(x$; z)/2|z & h(x$)/2 - z|z_c(x$) @ z = 0mm : h(x$)}
+	#else
+		$Plot{0mm|z_c(x$) & b(x$; z)/2|z & -b(x$; z)/2|z & h(x$)/2 - z|z_c(x$) @ z = 0mm : x$}
+	#end if
+#end def
+PlotSection$(0mm)
+PlotSection$(L)
+'<h3>Mass</h3>
+'Distributed mass along height -'m(x) = A(x)*γ_s
+'<h3>Solution</h3>
+'Number of nodes -'n_J = 11
+'Length of one segment -'Δx = L/n_J
+'Elevation of node <var>j</var> -'x(j) = Δx*j
+'Bending due to horizontal force <var>F</var><sub>j</sub> = 1 at node <var>j</var>
+M(j; x) = max(x(j) - x; 0m)
+'Flexibility matrix
+D(i; j) = $Integral{M(i; x)*M(j; x)/I(x) @ x = 0m : L}*(1/E) + $Integral{1/A_Q(x) @ x = 0m : L}*(1/G)
+#hide
+D = symmetric(n_J)
+#for i = 1 : n_J
+	#for j = 1 : n_J
+		x_min = min(x(i); x(j))
+		D.(i; j) = ($Integral{M(i; x)*M(j; x)/I(x) @ x = 0m : x_min}/E + $Integral{1/A_Q(x) @ x = 0m : x_min}/G)*kN/mm
+	#loop
+#loop
+#show
+D'mm/kN
+'Mass matrix
+d_M.j = $Integral{m(x) @ x = x(j) - Δx/2 : x(j) + Δx/2}
+#hide
+d_M = vector(n_J)
+#for j = 1 : n_J - 1
+	d_M.j = $Integral{m(x) @ x = x(j) - Δx/2 : x(j) + Δx/2}/t
+#loop
+d_M.n_J = $Integral{m(x) @ x = L - Δx/2 : L}/t
+M = vec2diag(d_M)
+#show
+M
+'Total mass of structure -'M_tot = sum(d_M)'t
+'Eigenvalues
+M_sq = sqrt(M)
+C = copy(M_sq*D*M_sq; symmetric(n_J); 1; 1)
+λ = reverse(last(eigenvals(C*10^-3); 3))
+'Natural frequencies
+ω = sqrt(1/λ)
+'Vibration frequencies
+f = ω/(2*π)*Hz
+'Vibration periods
+T = 1/f
+'Mode shapes
+Φ = inverse(M_sq)*extract_cols(eigenvecs(C*10^-3); range(n_J; n_J - 2; -1))
+X = stack(matrix(1; 3); Φ)
+#hide
+PlotHeight = 400
+PlotWidth = 120
+#show
+$Plot{spline(i + 1; 1; X)|i*Δx & spline(i + 1; 2; X)|i*Δx & spline(i + 1; 3; X)|i*Δx @ i = 0 : n_J}
+'Comparison with ASCE SEI 7/22 <span class="ref">(C26.11-13)</span>
+λ_1 = 1.9*exp(-4*(h_t/h_b)) + 6.65/(0.9 + (t_t/t_b)^0.666)
+'<p class="ref">(C26.11-12)</p>
+'Fundamental natural frequency
+n_1 = λ_1/(2*π*L^2)*sqrt(E*I(0m)/m(0m))|Hz
+'Fundamental period of vibrations
+T_1 = 1/n_1
