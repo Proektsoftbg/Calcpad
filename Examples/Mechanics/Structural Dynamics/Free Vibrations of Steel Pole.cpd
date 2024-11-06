@@ -1,4 +1,4 @@
-"Modal analysis of steel pole with arbitrary, variable cross-section along height
+"Free ibrations of steel pole with variable cross-section of arbitrary shape
 #rad
 '<h3>Static scheme</h3>
 'Cantilever with length -'L = 110m
