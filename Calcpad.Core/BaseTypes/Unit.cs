@@ -78,11 +78,8 @@ namespace Calcpad.Core
                             if (i >= 0 && _text.AsSpan(i).Contains('2'))
                                 return Field.Mechanical;
                         }
-                        else if (_powers[2] == -3f)
-                        {
-                            if (_powers[1] == 2f)
-                                return Field.Electrical;
-                        }
+                        else if (_powers[2] == -3f && _powers[1] == 2f)
+                            return Field.Electrical;
                     }
                     break;
                 case 4:
@@ -181,10 +178,6 @@ namespace Calcpad.Core
             _factors = new double[n];
         }
 
-        internal static Unit Get(string text) => Units[text];
-        internal static bool TryGet(string text, out Unit u) =>
-            Units.TryGetValue(text, out u);
-
         internal Unit(
             string text,
             float mass,
@@ -237,13 +230,11 @@ namespace Calcpad.Core
                             if (n > 5)
                             {
                                 _powers[5] = substance;
+                                if (n > 6)
                                 {
-                                    if (n > 6)
-                                    {
-                                        _powers[6] = luminosity;
-                                        if (n > 7)
-                                            _powers[7] = angle;
-                                    }
+                                    _powers[6] = luminosity;
+                                    if (n > 7)
+                                        _powers[7] = angle;
                                 }
                             }
                         }
@@ -271,6 +262,11 @@ namespace Calcpad.Core
             _powers = u._powers;
             _factors = u._factors;
         }
+
+        internal static Unit Get(string text) => Units[text];
+
+        internal static bool TryGet(string text, out Unit u) =>
+            Units.TryGetValue(text, out u);
 
         private static string TemperatureToDelta(string s)
         {
@@ -828,8 +824,6 @@ namespace Calcpad.Core
                 }
             }
         }
-
-        internal Unit Shift(int n) => Scale(GetPrefix(n) + _text, GetScale(n));
         internal Unit Scale(string s, double factor)
         {
             var unit = new Unit(this) { _text = s };
@@ -838,6 +832,8 @@ namespace Calcpad.Core
 
             return unit;
         }
+
+        internal Unit Shift(int n) => Scale(GetPrefix(n) + _text, GetScale(n));
 
         private string UnitName(int i) =>
             i == 4 ? _tempChar switch
@@ -1078,9 +1074,9 @@ namespace Calcpad.Core
 
         internal static Unit GetElectricalUnit(Unit u)
         {
-            if (!u._text?.StartsWith("VA") ?? true)
-                if (ElectricalUnits.TryGetValue(u, out var eu))
-                    return eu;
+            if ((!u._text?.StartsWith("VA") ?? true) && 
+                ElectricalUnits.TryGetValue(u, out var eu))
+                return eu;
 
             return u;
         }
@@ -1170,13 +1166,6 @@ namespace Calcpad.Core
                 },
                 _ => 0
             };
-
-        //private static int GetIntPower(double factor)
-        //{
-        //    var d = Math.Log10(factor);
-        //    var n = (int)d;
-        //    return Math.Abs(n - d) < 1E-12 ? n : 0;
-        //}
 
         internal static double GetTempUnitsDelta(string src, string tgt) =>
             src switch

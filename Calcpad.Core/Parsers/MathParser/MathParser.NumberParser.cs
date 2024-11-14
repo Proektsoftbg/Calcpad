@@ -46,19 +46,20 @@ namespace Calcpad.Core
                 1e-34
             ];
             const int Pow10Length = 36;
-            private static readonly long[,] Mult;
+            private static readonly long[,] Mult = InitMult();
 
-            static NumberParser()
+            private static long[,] InitMult()
             {
-                Mult = new long[10, 16];
+                var mult = new long[10, 16];
                 long k = 1;
                 for (int j = 0; j < 16; ++j)
                 {
                     for (int i = 1; i < 10; ++i)
-                        Mult[i, j] = i * k;
+                        mult[i, j] = i * k;
 
                     k *= 10;
                 }
+                return mult;
             }
 
             internal static double Parse(string s)

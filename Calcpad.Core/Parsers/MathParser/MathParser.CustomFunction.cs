@@ -70,10 +70,10 @@ namespace Calcpad.Core
             }
         }
 
-        private class CustomFunction1 : CustomFunction
+        private sealed class CustomFunction1 : CustomFunction
         {
             private readonly Dictionary<Value, IValue> _cache = [];
-            protected Parameter _x;
+            private Parameter _x;
 
             internal override void AddParameters(List<string> parameters)
             {
@@ -126,7 +126,7 @@ namespace Calcpad.Core
             }
         }
 
-        private class CustomFunction2 : CustomFunction
+        private sealed class CustomFunction2 : CustomFunction
         {
             private readonly struct Tuple : IEquatable<Tuple>
             {
@@ -212,7 +212,7 @@ namespace Calcpad.Core
             }
         }
 
-        private class CustomFunction3 : CustomFunction
+        private sealed class CustomFunction3 : CustomFunction
         {
             private Parameter _x, _y, _z;
 
@@ -250,7 +250,7 @@ namespace Calcpad.Core
             }
         }
 
-        private class CustomFunctionN : CustomFunction
+        private sealed class CustomFunctionN : CustomFunction
         {
             private Parameter[] _parameters;
 

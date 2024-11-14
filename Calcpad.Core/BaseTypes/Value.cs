@@ -247,12 +247,5 @@ namespace Calcpad.Core
         public static Value operator ^(Value a, Value b) =>
             (Math.Abs(a.Re) >= LogicalZero) != (Math.Abs(b.Re) >= LogicalZero) ? One : Zero;
 
-        //internal Value EvaluatePercent()
-        //{
-        //    if (Units is not null && Units.IsDimensionless)
-        //        return new Value(Re, Im, null) * Unit.GetDimensionlessFactor(Units.Text[0]);
-        //
-        //    return this;
-        //}
     }
 }

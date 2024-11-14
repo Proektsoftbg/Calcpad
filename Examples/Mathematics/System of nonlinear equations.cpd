@@ -1,0 +1,146 @@
+"Numerical methods for solution of systems of nonlinear equations with Calcpad
+'<!--'x = [1; 1; 1; 1]','g(x) = 0','g_k(x) = 0','f′(x) = 0','J(x) = 0'-->
+#noc
+'Given the following real system of equations:
+' <div style="border-left:solid 1pt; margin-left:2em; padding-left:4pt;">
+5*x.1 + 4*x.2 + x.3 - x.4^2'='0
+x.1^2 - x.2 + 2*x.3 - sqrt(x.4) - 3'='0
+3*x.1^3 - 2*x.2^3 + 3*x.3 + 2*x.4 - 4'='0
+4*x.1 - 3*x.2 + x.3^2 + x.4 - 11'='0
+'</div>
+'Find:'x.1'= ?,'x.2'= ?,'x.3'= ?,'x.4'= ?
+'<h3>Solution</h3>
+'<h4>1. Fixed point iteration method</h4>
+'Fixed point iteration is the slowest, but also the most simple and intuitive method for solving nonlinear equations of type'f(x) = 0'. First, the equation is transformed into the following expression:'x'='g(x)'. Then, starting from an initial guess'x_⁰', it is repeatedly executed until it hopefully converges, as follows:
+'  'x_ⁿ⁺¹ = g(x_ⁿ)
+'In the multidimensional case, the solution is performed in the following way:
+'Rearrange the equations in the form:'x.k'='g_k(x)', so that'g_k(x)'is contractive. We will use the following expressions for the functions'g_k(x)':
+#equ
+'  'g_4(x) = sqrt(abs(5*x.1 + 4*x.2 + x.3))
+'  'g_1(x) = sqrt(abs(x.2 - 2*x.3 + sqrt(abs(x.4)) + 3))
+'  'g_2(x) = cbrt((3*x.1^3 + 3*x.3 + 2*x.4 - 4)/2)
+'  'g_3(x) = sqrt(abs(-4*x.1 + 3*x.2 - x.4 + 11))
+'Select an initial guess -'x = [2; 2; 2; 2]
+'Set the relative precision -'ε_max = 10^-15
+#hide
+#for n = 1 : 1000
+	x⁰ = join(x)
+	x.1 = g_1(x)','x.2 = g_2(x)
+	x.3 = g_3(x)','x.4 = g_4(x)
+	δx = x - x⁰
+	ε = norm_e(δx)/norm_e(x)
+	#if ε < ε_max
+		#break
+	#end if
+#loop
+#show
+'Calculate the following expressions iteratively (the last results are displayed only): 
+'  'x⁰ = join(x)' - store a copy of the previous vector <var>x</var>
+'  Update the solution vector with a new approximation
+'  'x.1 = g_1(x)','x.2 = g_2(x)','x.3 = g_3(x)','x.4 = g_4(x)
+'  'δx = x - x⁰'- difference
+'  'ε = norm_e(δx)/norm_e(x)'- relative error
+#noc
+'Loop until'ε'&lt;'ε_max'or'n'&le;'1000'(guard limit in case of divergence).
+#equ
+'Completed in'n'iterations at'ε'&lt;'ε_max'.
+'Result -'x
+'Check:
+'  '5*x.1 + 4*x.2 + x.3 - x.4^2
+'  'x.1^2 - x.2 + 2*x.3 - sqrt(x.4) - 3
+'  '3*x.1^3 - 2*x.2^3 + 3*x.3 + 2*x.4 - 4
+'  '4*x.1 - 3*x.2 + x.3^2 + x.4 - 11
+'<h4>2. Newton-Raphson’s method</h4>
+'In the one-dimensional case, we obtain the solution iteratively by constructing the tangent line to the function at the current point and intersecting it with the abscissa to obtain the next point.
+'<img style="height:100pt; width:160pt;" src="./Newton.png" alt="Newton.png">
+#noc
+'This process can be represented by the following equation -'x_ⁿ⁺¹ = x_ⁿ - f(x_ⁿ)/f′(x_ⁿ)
+'In the multidimensional case, 'x' is a vector, 'f' is a vector-valued function, and 'f′' is replaced by the matrix of the partial derivatives, called "Jacobian" ('J'). So, the above equation is transformed to the expression:'x_ⁿ⁺¹ = x_ⁿ - J(x_ⁿ)^-1*f(x_ⁿ)', where'J_ij = df_i/dx_j'. The solution is performed as follows:
+#equ
+'Define the equations as functions:
+'  'f_1(x) = 5*x.1 + 4*x.2 + x.3 - x.4^2
+'  'f_2(x) = x.1^2 - x.2 + 2*x.3 - sqrt(abs(x.4)) - 3
+'  'f_3(x) = 3*x.1^3 - 2*x.2^3 + 3*x.3 + 2*x.4 - 4
+'  'f_4(x) = 4*x.1 - 3*x.2 + x.3^2 + x.4 - 11
+'Represent the whole system as a single vector-valued function:
+'  'f(x) = [f_1(x); f_2(x); f_3(x); f_4(x)]
+#noc
+'Define the Jacobian matrix containing the partial derivatives of the function'f':
+#equ
+J(x) = [5; 4; 1; -2*x.4| _
+       2*x.1; -1; 2; -1/(2*sqrt(abs(x.4)))| _
+       9*x.1^2; -6*x.2^2; 3; 2| _
+       4; -3; 2*x.3; 1]
+#equ
+'Initial guess -'x = [2; 2; 2; 2]
+#hide
+#for n = 1 : 1000
+	x⁰ = x
+	δx = inverse(J(x⁰))*f(x⁰)
+	ε = norm_e(δx)/norm_e(x)
+	#if ε < ε_max
+		#break
+	#end if
+	x = x⁰ - δx
+#loop
+#show
+'Calculate the following expressions iteratively (the last results are displayed only): 
+'  'x⁰ = x' - store the previous vector <var>x</var>
+'  'δx = inverse(J(x⁰))*f(x⁰)'- difference
+'  'x = x⁰ - δx'- update the solution vector
+'  'ε = norm_e(δx)/norm_e(x)'- relative error
+#noc
+'Loop until'ε'&lt;'ε_max'or'n'&le;'1000'(guard limit in case of divergence).
+#equ
+'Completed in'n'iterations at'ε'&lt;'ε_max'.
+'Result -'x
+'Check -'f(x)
+'<h4>3. Broyden’s method</h4> 
+'The Broyden’s method is the mulidimensional equivalent to the secant method. It is similar to Newton’s method, but instead of calculating the inverse Jacobian on each iteration, it uses the secant between two consecutive approximations. 
+'<img style="height:100pt; width:160pt;" src="./Secant.png" alt="Secant.png">
+'Although its convergence is slower, it avoids the heavy operation on computing and inverting the Jacobian each time. The solution is performed as follows:
+#equ
+'Initial guess -'x⁰ = [2; 2; 2; 2]
+'Find the first approximation by using the Jacobian as in Newton-Raphson’s method
+y⁰ = f(x⁰)
+J_inv = inverse(J(x⁰))
+x¹ = x⁰ - J_inv*y⁰
+y¹ = f(x¹)
+'Correction factor to improve stability -'α = 0.9
+#hide
+#for n = 1 : 1000
+	Δx = x¹ - x⁰
+	Δy = y¹ - y⁰
+	ΔxT = transp(Δx)
+	ΔxTJΔy = ΔxT*J_inv*Δy
+	J_inv = J_inv + (Δx - J_inv*Δy)/ΔxTJΔy*ΔxT*J_inv
+	δx = J_inv*y¹
+	ε = norm_e(δx)/norm_e(x)
+	#if ε < ε_max
+		#break
+	#end if
+	x² = x¹ - α*δx
+	y² = f(x²)
+	x⁰ = x¹','y⁰ = y¹
+	x¹ = x²','y¹ = y²
+#loop
+#show
+'Calculate the following expressions iteratively (the last results are displayed only): 
+'  'y⁰ = f(x⁰)'- function values at prev. step
+'  'x¹ = x⁰ - J_inv*y⁰'- current step approximation
+'  'y¹ = f(x¹)'- function values at current step
+'  'Δx = x¹ - x⁰'- difference in approximations
+'  'Δy = y¹ - y⁰'- difference in function values
+'  Update the inverse of the Jacobian using the Sherman–Morrison formula:
+'  'ΔxTJ_inv = transp(Δx)*J_inv
+'  'ΔxTJΔy = ΔxTJ_inv*Δy
+'  'J_inv = J_inv + (Δx - J_inv*Δy)/ΔxTJΔy*ΔxTJ_inv
+'  'δx = J_inv*y¹'- difference
+'  'x⁰ = x¹ - α*δx'- next approximation
+'  'ε = norm_e(δx)/norm_e(x)'- relative error
+#noc
+'Loop until'ε'&lt;'ε_max'or'n'&le;'1000'(guard limit in case of divergence).
+#equ
+'Completed in'n'iterations at'ε'&lt;'ε_max'.
+'Result -'x⁰
+'Check -'f(x⁰)

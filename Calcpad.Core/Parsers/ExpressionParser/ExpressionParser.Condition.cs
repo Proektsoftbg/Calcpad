@@ -5,7 +5,7 @@ namespace Calcpad.Core
     public partial class ExpressionParser
     {
         private Condition _condition;
-        private class Condition
+        private sealed class Condition
         {
             internal const int RemoveConditionKeyword = Keyword.EndIf - Keyword.If;
             private enum Types
@@ -85,7 +85,7 @@ namespace Calcpad.Core
 
                 var type = (Types)(index + 1);
                 _keywordLength = GetKeywordLength(type);
-                _keyword = GetKeyword(type);
+                _keyword = GetConditinalKeyword(type);
                 IsUnchecked = type == Types.If || type == Types.ElseIf;
                 if (type > Types.If && type < Types.While && _count == 0)
                     Throw.ConditionNotInitializedException();
@@ -159,7 +159,7 @@ namespace Calcpad.Core
                 };
             }
 
-            private static string GetKeyword(Types type)
+            private static string GetConditinalKeyword(Types type)
             {
                 return type switch
                 {

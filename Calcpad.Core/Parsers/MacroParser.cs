@@ -567,11 +567,8 @@ namespace Calcpad.Core
                             }
                             else if (inputChar == '{')
                                 continue;
-                            else if (c != ' ')
-                            {
-                                if (AddField(item[j0..j]))
-                                    j0 = j;
-                            }
+                            else if (c != ' ' && AddField(item[j0..j]))
+                                j0 = j;
                         }
                         if (!AddField($"{item[j0..]} "))
                             sb.Append($"{item[j0..]}");

@@ -5,10 +5,45 @@ namespace Calcpad.Core
 {
     internal class RealCalculator : Calculator
     {
-        private static readonly Operator[] Operators;
+        private static readonly Operator[] Operators =
+            [
+                UnitPow,
+                Value.Divide,
+                Value.IntDiv,
+                (in Value a, in Value b) => a % b,
+                Value.Multiply,
+                (in Value a, in Value b) => a - b,
+                (in Value a, in Value b) => a + b,
+                (in Value a, in Value b) => a < b,
+                (in Value a, in Value b) => a > b,
+                (in Value a, in Value b) => a <= b,
+                (in Value a, in Value b) => a >= b,
+                (in Value a, in Value b) => a == b,
+                (in Value a, in Value b) => a != b,
+                (in Value a, in Value b) => a & b,
+                (in Value a, in Value b) => a | b,
+                (in Value a, in Value b) => a ^ b,
+                (in Value _, in Value b) => b
+            ];
         private readonly Function[] _functions;
         private readonly Operator[] _functions2;
-        private static readonly Func<Value[], Value>[] MultiFunctions;
+        private static readonly Func<Value[], Value>[] MultiFunctions =
+            [
+                Min,
+                Max,
+                Sum,
+                SumSq,
+                Srss,
+                Average,
+                Product,
+                Mean,
+                Switch,
+                And,
+                Or,
+                Xor,
+                Gcd,
+                Lcm,
+            ];
         internal override int Degrees
         {
             set => _degrees = value;
@@ -71,48 +106,6 @@ namespace Calcpad.Core
                 UnitRoot,
                 Mod,
                 MandelbrotSet
-            ];
-        }
-
-        static RealCalculator()
-        {
-            Operators =
-            [
-                UnitPow,
-                Value.Divide,
-                Value.IntDiv,
-                (in Value a, in Value b) => a % b,
-                Value.Multiply,
-                (in Value a, in Value b) => a - b,
-                (in Value a, in Value b) => a + b,
-                (in Value a, in Value b) => a < b,
-                (in Value a, in Value b) => a > b,
-                (in Value a, in Value b) => a <= b,
-                (in Value a, in Value b) => a >= b,
-                (in Value a, in Value b) => a == b,
-                (in Value a, in Value b) => a != b,
-                (in Value a, in Value b) => a & b,
-                (in Value a, in Value b) => a | b,
-                (in Value a, in Value b) => a ^ b,
-                (in Value _, in Value b) => b
-            ];
-
-            MultiFunctions =
-            [
-                Min,
-                Max,
-                Sum,
-                SumSq,
-                Srss,
-                Average,
-                Product,
-                Mean,
-                Switch,
-                And,
-                Or,
-                Xor,
-                Gcd,
-                Lcm,
             ];
         }
 

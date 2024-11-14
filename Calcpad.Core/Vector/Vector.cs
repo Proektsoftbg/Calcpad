@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Calcpad.Core
 {
-    internal class Vector : IValue
+    internal class Vector : IValue, IEquatable<Vector>
     {
         internal enum Relation
         {
@@ -294,11 +294,9 @@ namespace Calcpad.Core
             var c = CreateFrom(a);
             var na = a._size;
             var nc = c.Length;
-            if (nc > na)
-            {
-                if (!b.Equals(Value.Zero))
-                    c.Fill(Value.NaN, na, nc - na);
-            }
+            if (nc > na && !b.Equals(Value.Zero))
+                c.Fill(Value.NaN, na, nc - na);
+
             for (int i = na - 1; i >= 0; --i)
                 c[i] = a[i] % b;
 
@@ -387,7 +385,7 @@ namespace Calcpad.Core
 
                     c[i] = a[i] != zero;
                 }
-            else if (na > nb)
+            else if (nb > na)
                 for (int i = n2 - 1; i >= n1; --i)
                 {
                     var u = b[i].Units;

@@ -5,7 +5,7 @@ namespace Calcpad.Core
 {
     public partial class MathParser
     {
-        private partial class Compiler
+        private sealed partial class Compiler
         {
             private static readonly MethodInfo EvaluateEqual =
                 typeof(IValue).GetMethod(

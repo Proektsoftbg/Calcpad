@@ -393,30 +393,26 @@ namespace Calcpad.Core
 
         private static Matrix EigenVectors(in IValue M)
         {
-            {
-                var matrix = IValue.AsMatrix(M);
-                if (matrix is SymmetricMatrix sm)
-                    return sm.EigenVectors();
-                if (matrix is DiagonalMatrix dm)
-                    return dm.EigenVectors();
+            var matrix = IValue.AsMatrix(M);
+            if (matrix is SymmetricMatrix sm)
+                return sm.EigenVectors();
+            if (matrix is DiagonalMatrix dm)
+                return dm.EigenVectors();
 
-                Throw.MatrixMustBeSymmetricException();
-                return null;
-            }
+            Throw.MatrixMustBeSymmetricException();
+            return null;
         }
 
         private static Matrix Eigen(in IValue M)
         {
-            {
-                var matrix = IValue.AsMatrix(M);
-                if (matrix is SymmetricMatrix sm)
-                    return sm.Eigen();
-                if (matrix is DiagonalMatrix dm)
-                    return dm.Eigen();
+            var matrix = IValue.AsMatrix(M);
+            if (matrix is SymmetricMatrix sm)
+                return sm.Eigen();
+            if (matrix is DiagonalMatrix dm)
+                return dm.Eigen();
 
-                Throw.MatrixMustBeSymmetricException();
-                return null;
-            }
+            Throw.MatrixMustBeSymmetricException();
+            return null;
         }
 
         private Matrix LUDecomposition(in IValue M)
@@ -444,25 +440,25 @@ namespace Calcpad.Core
         private static ColumnMatrix Column(in IValue n, in IValue value) => new(IValue.AsInt(n), IValue.AsValue(value));
         private static Vector Row(in IValue M, in IValue row) => IValue.AsMatrix(M).Row(IValue.AsInt(row));
         private static Vector Col(in IValue M, in IValue col) => IValue.AsMatrix(M).Col(IValue.AsInt(col));
-        private Matrix ExtractRows(in IValue M, in IValue rows) => IValue.AsMatrix(M).ExtractRows(IValue.AsVector(rows));
-        private Matrix ExtractCols(in IValue M, in IValue cols) => IValue.AsMatrix(M).ExtractCols(IValue.AsVector(cols));
-        private Matrix Fill(in IValue M, in IValue value) => IValue.AsMatrix(M).Fill(IValue.AsValue(value));
-        private Matrix SortCols(in IValue M, in IValue row) => IValue.AsMatrix(M).SortCols(IValue.AsInt(row));
-        private Matrix RsortCols(in IValue M, in IValue row) => IValue.AsMatrix(M).SortCols(IValue.AsInt(row), true);
-        private Matrix SortRows(in IValue M, in IValue col) => IValue.AsMatrix(M).SortRows(IValue.AsInt(col));
-        private Matrix RsortRows(in IValue M, in IValue col) => IValue.AsMatrix(M).SortRows(IValue.AsInt(col), true);
-        private Vector OrderCols(in IValue M, in IValue row) => IValue.AsMatrix(M).OrderCols(IValue.AsInt(row));
-        private Vector RevOrderCols(in IValue M, in IValue row) => IValue.AsMatrix(M).OrderCols(IValue.AsInt(row), true);
-        private Vector OrderRows(in IValue M, in IValue col) => IValue.AsMatrix(M).OrderRows(IValue.AsInt(col));
-        private Vector RevOrderRows(in IValue M, in IValue col) => IValue.AsMatrix(M).OrderRows(IValue.AsInt(col), true);
-        private IValue Count(in IValue M, in IValue value) => IValue.AsMatrix(M).Count(IValue.AsValue(value));
-        private Matrix FindEq(in IValue M, in IValue value) => IValue.AsMatrix(M).FindAll(IValue.AsValue(value), Vector.Relation.Equal);
-        private Matrix FindNe(in IValue M, in IValue value) => IValue.AsMatrix(M).FindAll(IValue.AsValue(value), Vector.Relation.NotEqual);
-        private Matrix FindLt(in IValue M, in IValue value) => IValue.AsMatrix(M).FindAll(IValue.AsValue(value), Vector.Relation.LessThan);
-        private Matrix FindLe(in IValue M, in IValue value) => IValue.AsMatrix(M).FindAll(IValue.AsValue(value), Vector.Relation.LessOrEqual);
-        private Matrix FindGt(in IValue M, in IValue value) => IValue.AsMatrix(M).FindAll(IValue.AsValue(value), Vector.Relation.GreaterThan);
-        private Matrix FindGe(in IValue M, in IValue value) => IValue.AsMatrix(M).FindAll(IValue.AsValue(value), Vector.Relation.GreaterOrEqual);
-        private Vector LSolve(in IValue A, in IValue B)
+        private static Matrix ExtractRows(in IValue M, in IValue rows) => IValue.AsMatrix(M).ExtractRows(IValue.AsVector(rows));
+        private static Matrix ExtractCols(in IValue M, in IValue cols) => IValue.AsMatrix(M).ExtractCols(IValue.AsVector(cols));
+        private static Matrix Fill(in IValue M, in IValue value) => IValue.AsMatrix(M).Fill(IValue.AsValue(value));
+        private static Matrix SortCols(in IValue M, in IValue row) => IValue.AsMatrix(M).SortCols(IValue.AsInt(row));
+        private static Matrix RsortCols(in IValue M, in IValue row) => IValue.AsMatrix(M).SortCols(IValue.AsInt(row), true);
+        private static Matrix SortRows(in IValue M, in IValue col) => IValue.AsMatrix(M).SortRows(IValue.AsInt(col));
+        private static Matrix RsortRows(in IValue M, in IValue col) => IValue.AsMatrix(M).SortRows(IValue.AsInt(col), true);
+        private static Vector OrderCols(in IValue M, in IValue row) => IValue.AsMatrix(M).OrderCols(IValue.AsInt(row));
+        private static Vector RevOrderCols(in IValue M, in IValue row) => IValue.AsMatrix(M).OrderCols(IValue.AsInt(row), true);
+        private static Vector OrderRows(in IValue M, in IValue col) => IValue.AsMatrix(M).OrderRows(IValue.AsInt(col));
+        private static Vector RevOrderRows(in IValue M, in IValue col) => IValue.AsMatrix(M).OrderRows(IValue.AsInt(col), true);
+        private static IValue Count(in IValue M, in IValue value) => IValue.AsMatrix(M).Count(IValue.AsValue(value));
+        private static Matrix FindEq(in IValue M, in IValue value) => IValue.AsMatrix(M).FindAll(IValue.AsValue(value), Vector.Relation.Equal);
+        private static Matrix FindNe(in IValue M, in IValue value) => IValue.AsMatrix(M).FindAll(IValue.AsValue(value), Vector.Relation.NotEqual);
+        private static Matrix FindLt(in IValue M, in IValue value) => IValue.AsMatrix(M).FindAll(IValue.AsValue(value), Vector.Relation.LessThan);
+        private static Matrix FindLe(in IValue M, in IValue value) => IValue.AsMatrix(M).FindAll(IValue.AsValue(value), Vector.Relation.LessOrEqual);
+        private static Matrix FindGt(in IValue M, in IValue value) => IValue.AsMatrix(M).FindAll(IValue.AsValue(value), Vector.Relation.GreaterThan);
+        private static Matrix FindGe(in IValue M, in IValue value) => IValue.AsMatrix(M).FindAll(IValue.AsValue(value), Vector.Relation.GreaterOrEqual);
+        private static Vector LSolve(in IValue A, in IValue B)
         {
             var a = IValue.AsMatrix(A);
             var b = IValue.AsVector(B);
@@ -472,7 +468,7 @@ namespace Calcpad.Core
             return a.LSolve(b);
         }
 
-        private Vector ClSolve(in IValue A, in IValue B)
+        private static Vector ClSolve(in IValue A, in IValue B)
         {
             var a = IValue.AsMatrix(A);
             var b = IValue.AsVector(B);
@@ -486,7 +482,7 @@ namespace Calcpad.Core
             return null;
         }
 
-        private Matrix MSolve(in IValue A, in IValue B)
+        private static Matrix MSolve(in IValue A, in IValue B)
         {
             var a = IValue.AsMatrix(A);
             var b = IValue.AsMatrix(B);
@@ -496,7 +492,7 @@ namespace Calcpad.Core
             return a.MSolve(b);
         }
 
-        private Matrix CmSolve(in IValue A, in IValue B)
+        private static Matrix CmSolve(in IValue A, in IValue B)
         {
             var a = IValue.AsMatrix(A);
             var b = IValue.AsMatrix(B);
@@ -511,11 +507,11 @@ namespace Calcpad.Core
         }
 
 
-        private Matrix Hadamard(in IValue A, in IValue B) => Matrix.Hadamard(IValue.AsMatrix(A), IValue.AsMatrix(B));
+        private static Matrix Hadamard(in IValue A, in IValue B) => Matrix.Hadamard(IValue.AsMatrix(A), IValue.AsMatrix(B));
 
-        private IValue Frobenius(in IValue A, in IValue B) => Matrix.Frobenius(IValue.AsMatrix(A), IValue.AsMatrix(B));
+        private static IValue Frobenius(in IValue A, in IValue B) => Matrix.Frobenius(IValue.AsMatrix(A), IValue.AsMatrix(B));
 
-        private Matrix Kronecker(in IValue A, in IValue B) => Matrix.Kronecker(IValue.AsMatrix(A), IValue.AsMatrix(B));
+        private static Matrix Kronecker(in IValue A, in IValue B) => Matrix.Kronecker(IValue.AsMatrix(A), IValue.AsMatrix(B));
         private static Matrix FillRow(Matrix M, in IValue row, in IValue value) => M.FillRow(IValue.AsInt(row), IValue.AsValue(value));
         private static Matrix FillCol(Matrix M, in IValue col, in IValue value) => M.FillCol(IValue.AsInt(col), IValue.AsValue(value));
         private static Matrix Resize(Matrix M, in IValue m, in IValue n) => M.Resize(IValue.AsInt(m), IValue.AsInt(n));

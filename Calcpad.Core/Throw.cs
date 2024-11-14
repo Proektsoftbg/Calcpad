@@ -30,8 +30,6 @@ namespace Calcpad.Core
                 _ => throw new ArgumentException(Messages.Invalid_item),
             };
 
-        internal static void InvalidSyntaxException(in string s) =>
-           New(string.Format(Messages.Invalid_syntax__0__, s));
         internal static void IncompleteExpressionException() =>
             New(Messages.Incomplete_expression);
         internal static void MissingLeftBracketException() =>
@@ -146,6 +144,8 @@ namespace Calcpad.Core
             New(Messages.The_assignment_equals_must_be_preceded_by_custom_function_or_variable);
         internal static void AssignmentNotFirstException() =>
             New(Messages.Assignment_equals_must_be_the_first_operator_in_the_expression);
+        internal static void InvalidSyntaxException(in string s) =>
+           New(string.Format(Messages.Invalid_syntax__0__, s));
         internal static void InvalidSyntaxException(in string s1, in string s2) =>
             New(string.Format(Messages.Invalid_syntax__0__1__, s1, s2));
         internal static void UnexpectedDelimiterException() =>

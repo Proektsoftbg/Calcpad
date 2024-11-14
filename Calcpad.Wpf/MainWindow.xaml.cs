@@ -1974,7 +1974,7 @@ namespace Calcpad.Wpf
 
         private bool GetAndSetInputFields()
         {
-            if (InputText.Contains("%u", StringComparison.OrdinalIgnoreCase))
+            if (InputText.Contains("%u", StringComparison.Ordinal))
             {
                 try
                 {

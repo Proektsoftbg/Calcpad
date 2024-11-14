@@ -31,10 +31,8 @@ namespace Calcpad.Core
         private readonly Output _output;
         private readonly List<Equation> _equationCache = [];
         private IValue _result;
-        private bool _hasVariables;
         private int _assignmentIndex;
         private bool _isCalculated;
-        private bool _isPlotting;
         private int _isSolver;
         private Unit _targetUnits;
         private int _functionDefinitionIndex;
@@ -59,11 +57,8 @@ namespace Calcpad.Core
         internal Unit Units { get; private set; }
         internal bool IsCanceled { get; private set; }
         internal bool IsEnabled { get; set; } = true;
-        internal bool IsPlotting
-        {
-            set => _isPlotting = value;
-            get => _isPlotting;
-        }
+        internal bool IsPlotting { get; set; }
+        internal bool IsCalculation { get; set; }
         internal bool Split { get; set; }
         internal bool ShowWarnings { get; set; } = true;
         public int Degrees { set => _calc.Degrees = value; }
@@ -79,16 +74,10 @@ namespace Calcpad.Core
                 if (_result is Value value)
                     return value.Complex;
 
-                if (_result is Vector vector)
-                {
-                    if (vector.Length >= 1)
-                        return vector[0].Complex;
-                }
-                if (_result is Matrix matrix)
-                {
-                    if (matrix.RowCount >= 1 && matrix.ColCount >= 1)
-                        return matrix[0, 0].Complex;
-                }   
+                if (_result is Vector vector && vector.Length >= 1)
+                    return vector[0].Complex;
+                if (_result is Matrix matrix && matrix.RowCount >= 1 && matrix.ColCount >= 1)
+                    return matrix[0, 0].Complex;
                 return 0;
             }
         }
@@ -208,8 +197,8 @@ namespace Calcpad.Core
             _isCalculated = false;
             _functionDefinitionIndex = -1;
             var input = _input.GetInput(expression, allowAssignment);
-            new SyntaxAnalyser(_functions).Check(input, IsEnabled, out var isFunctionDefinition);
-            _input.OrderOperators(input, isFunctionDefinition || _isSolver > 0 || _isPlotting, _assignmentIndex);
+            new SyntaxAnalyser(_functions).Check(input, IsCalculation && IsEnabled, out var isFunctionDefinition);
+            _input.OrderOperators(input, isFunctionDefinition || _isSolver > 0 || IsPlotting, _assignmentIndex);
             if (isFunctionDefinition)
             {
                 _rpn = null;
@@ -235,17 +224,15 @@ namespace Calcpad.Core
 
         public int WriteEquationToCache(bool isVisible = true)
         {
-            {
-                if (_rpn is null)
-                    return -1;
+            if (_rpn is null)
+                return -1;
 
-                Func<IValue> f = null;
-                if (!isVisible)
-                    f = _compiler.Compile(_rpn, true);
+            Func<IValue> f = null;
+            if (!isVisible)
+                f = _compiler.Compile(_rpn, true);
 
-                _equationCache.Add(new Equation(_rpn, _targetUnits, f));
-                return _equationCache.Count - 1;
-            }
+            _equationCache.Add(new Equation(_rpn, _targetUnits, f));
+            return _equationCache.Count - 1;
         }
 
         private void PurgeCache()
@@ -360,11 +347,10 @@ namespace Calcpad.Core
                         else if (t.Type != TokenTypes.Divisor)
                             Throw.IvalidFunctionTokenException(t.Content);
 
-                        if (pt.Type == t.Type || pt.Type == TokenTypes.BracketLeft && t.Type == TokenTypes.Divisor)
-                        {
-                            if (t.Type == TokenTypes.Divisor)
-                                Throw.MissingFunctionParameterException();
-                        }
+                        if ((pt.Type == t.Type || 
+                            pt.Type == TokenTypes.BracketLeft && 
+                            t.Type == TokenTypes.Divisor) && t.Type == TokenTypes.Divisor)
+                            Throw.MissingFunctionParameterException();
                         pt = t;
                     }
                     if (input.Count != 0 && input.Dequeue().Content == "=")
@@ -491,7 +477,6 @@ namespace Calcpad.Core
         public string ToHtml() => _output.Render(OutputWriter.OutputFormat.Html);
         public string ToXml() => _output.Render(OutputWriter.OutputFormat.Xml);
 
-        [Serializable]
         public class MathParserException : Exception
         {
             internal MathParserException(string message) : base(message) { }

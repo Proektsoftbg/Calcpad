@@ -118,24 +118,23 @@ namespace Calcpad.Core
                     else if (result == KeywordResult.Break)
                         break;
 
-                    if (textSpan[0] != '$' || !ParsePlot(textSpan))
+                    _parser.IsCalculation = _isVal != -1;
+                    if ((textSpan[0] != '$' || !ParsePlot(textSpan)) && 
+                        ParseCondition(textSpan, keyword))
                     {
-                        if (ParseCondition(textSpan, keyword))
+                        List<Token> tokens;
+                        if (_lineCache[_currentLine].IsCached)
+                            tokens = _lineCache[_currentLine].Tokens;
+                        else
                         {
-                            List<Token> tokens;
-                            if (_lineCache[_currentLine].IsCached)
-                                tokens = _lineCache[_currentLine].Tokens;
-                            else
-                            {
-                                tokens = GetTokens(textSpan[_condition.KeywordLength..]);
-                                _lineCache[_currentLine] = new(tokens, keyword);
-                            }
-                            _parser.HasInputFields = false;
-                            ParseLine(tokens, keyword);
-                            //If the line has input fields, the line cach is cleared, to allow #input to work
-                            if (_parser.HasInputFields)
-                                _lineCache[_currentLine] = new(null, keyword);
+                            tokens = GetTokens(textSpan[_condition.KeywordLength..]);
+                            _lineCache[_currentLine] = new(tokens, keyword);
                         }
+                        _parser.HasInputFields = false;
+                        ParseLine(tokens, keyword);
+                        //If the line has input fields, the line cach is cleared, to allow #input to work
+                        if (_parser.HasInputFields)
+                            _lineCache[_currentLine] = new(null, keyword);
                     }
                 }
                 ApplyUnits(_sb, _calculate);
@@ -252,7 +251,7 @@ namespace Calcpad.Core
                     if (lineType == TokenTypes.Html && !string.IsNullOrEmpty(htmlId))
                         tokens[0] = new Token(InsertAttribute(tokens[0].Value, htmlId), TokenTypes.Html);
 
-                    if (kwdLength > 0 && !_calculate)
+                    if (kwdLength > 0 )
                         _sb.Append(_condition.ToHtml());
 
                     ParseTokens(tokens, true, getXml);
@@ -397,7 +396,7 @@ namespace Calcpad.Core
                         var cacheID = token.CacheID;
                         if (cacheID < 0)
                         {
-                            _parser.Parse(token.Value);
+                            _parser.Parse(token.Value, true);
                             if (isLoop)
                                 tokens[i].CacheID = _parser.WriteEquationToCache(isOutput);
                         }

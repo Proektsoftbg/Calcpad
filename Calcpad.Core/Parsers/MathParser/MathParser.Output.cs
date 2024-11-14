@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Xml;
 
@@ -7,7 +8,7 @@ namespace Calcpad.Core
 {
     public partial class MathParser
     {
-        private class Output
+        private sealed class Output
         {
             private readonly MathParser _parser;
             private readonly Container<CustomFunction> _functions;
@@ -15,11 +16,12 @@ namespace Calcpad.Core
             private readonly StringBuilder _stringBuilder;
             private readonly int _decimals;
             private readonly bool _formatEquations;
-            private readonly int _maxOutputCount = 20;
-            private readonly bool _zeroSmallMatrixElements = true;  
-            private int _assignmentIndex;
+            private readonly int _maxOutputCount;
+            private readonly bool _zeroSmallMatrixElements;  
+            private int _assignmentPosition;
+            private bool _hasVariables;
 
-            internal const string VectorSpacing = " ";
+            internal const string VectorSpacing = "\u2002";
             internal Output(MathParser parser)
             {
                 _parser = parser;
@@ -34,7 +36,8 @@ namespace Calcpad.Core
 
             internal string Render(OutputWriter.OutputFormat format)
             {
-                _assignmentIndex = 0;
+                _assignmentPosition = 0;
+                _hasVariables = false;
                 Token[] rpn = _parser._rpn;
                 OutputWriter writer = format switch
                 {
@@ -60,7 +63,7 @@ namespace Calcpad.Core
                         .Append(s)
                         .Append(assignment)
                         .Append(RenderRpn(cf.Rpn, false, writer, out _));
-                  if (_parser.ShowWarnings && _parser._functionDefinitionIndex < _functions.Count - 1)
+                    if (_parser.ShowWarnings && _parser._functionDefinitionIndex < _functions.Count - 1)
                     {
                         string warning = Messages.Function_redefined;
                         if (format == OutputWriter.OutputFormat.Text)
@@ -81,30 +84,34 @@ namespace Calcpad.Core
                         var splitted = false;
                         if (
                             !(rpn.Length == 3 &&
-                            rpn[2].Content == "=" &&
-                            rpn[1].Type == TokenTypes.Solver
+                            rpn[1].Content == "=" &&
+                            rpn[2].Type == TokenTypes.Solver
                             || rpn.Length == 1 &&
                             rpn[0].Type == TokenTypes.Solver)
                         )
                         {
-                            if ((_parser._settings.Substitute &&
-                                _parser.VariableSubstitution != VariableSubstitutionOptions.VariablesOnly)
-                                && _parser._hasVariables)
+                            if (_hasVariables)
                             {
-                                subst = RenderRpn(rpn, true, writer, out hasOperators);
-                                if (_parser.VariableSubstitution != VariableSubstitutionOptions.SubstitutionsOnly)
+                                if ((_parser._settings.Substitute &&
+                                    _parser.VariableSubstitution != VariableSubstitutionOptions.VariablesOnly))
                                 {
-                                    _stringBuilder.Append(assignment);
-                                    if (_parser.Split && format == OutputWriter.OutputFormat.Html)
+                                    subst = RenderRpn(rpn, true, writer, out hasOperators);
+                                    if (_parser.VariableSubstitution != VariableSubstitutionOptions.SubstitutionsOnly)
                                     {
-                                        splitted = true;
-                                        _stringBuilder.Append($"<br/><span class=\"indent\">");
+                                        _stringBuilder.Append(assignment);
+                                        if (_parser.Split && format == OutputWriter.OutputFormat.Html)
+                                        {
+                                            splitted = true;
+                                            _stringBuilder.Append($"<br/><span class=\"indent\">");
+                                        }
                                     }
+                                    _stringBuilder.Append(subst);
                                 }
-                                _stringBuilder.Append(subst);
                             }
-                            if (!_parser._hasVariables && _assignmentIndex > 0 && _assignmentIndex < _stringBuilder.Length)
-                                subst = _stringBuilder.ToString()[_assignmentIndex..];
+                            else if (_assignmentPosition > 0 && 
+                                _assignmentPosition < _stringBuilder.Length
+                                && _parser._result is Value)
+                                subst = _stringBuilder.ToString()[_assignmentPosition..];
                         }
                         var dec = _parser._settings.Decimals;
                         var res = _parser._result switch
@@ -275,9 +282,7 @@ namespace Calcpad.Core
                     var ival = i > 0 && vt.Content == _parser._backupVariable.Key ?
                         _parser._backupVariable.Value :
                         vt.Variable?.Value;
-                    if (ival is null)
-                        t.Content = writer.FormatVariable(t.Content, string.Empty);
-                    else if (ival is Value value)
+                    if (ival is Value value)
                     {
                         if (substitute)
                         {
@@ -295,6 +300,7 @@ namespace Calcpad.Core
                                 textWriter.FormatValue(value, _decimals) :
                                 string.Empty;
                             t.Content = writer.FormatVariable(t.Content, s);
+                            _hasVariables = i > 0 || rpn[^1].Content != "=";
                         }
                     }
                     else if (ival is Vector vector)
@@ -306,9 +312,8 @@ namespace Calcpad.Core
                             string.Empty;
                         t.Content = writer.FormatVariable('\u20D7' + t.Content, s);
                     }
-                    else
+                    else if (ival is Matrix matrix)
                     {
-                        var matrix = (Matrix)ival;
                         var s = !_parser._settings.Substitute &&
                                  _parser._functionDefinitionIndex < 0 &&
                                  _parser._isCalculated ?
@@ -316,6 +321,8 @@ namespace Calcpad.Core
                             string.Empty;
                         t.Content = writer.FormatVariable(t.Content, s);
                     }
+                    else
+                        t.Content = writer.FormatVariable(t.Content, string.Empty);
                 }
 
                 void RenderNegationToken(RenderToken t, RenderToken b, ref bool hasOperators)
@@ -325,7 +332,7 @@ namespace Calcpad.Core
                     if (isNegative || b.Order > Token.DefaultOrder)
                     {
                         if (b.Index == 1 && b.Level > 0)
-                            sb = " " + sb;
+                            sb = "\u2009" + sb;
                         else
                             sb = AddBrackets(sb, b.Level, b.MinOffset, b.MaxOffset, '(', ')');
 
@@ -437,7 +444,7 @@ namespace Calcpad.Core
                             t.MinOffset = Math.Min(Math.Min(a.MinOffset, b.MinOffset), t.Offset);
                             t.MaxOffset = Math.Max(Math.Max(a.MaxOffset, b.MaxOffset), t.Offset);
                             if (content == "=")
-                                _assignmentIndex = t.Content.Length - sb.Length;
+                                _assignmentPosition = t.Content.Length - sb.Length;
                             else
                             {
                                 if (t.Order != 1 && !(a.ValType == ValueTypes.Number && b.ValType == ValueTypes.Unit))
@@ -598,9 +605,13 @@ namespace Calcpad.Core
 
                 void RenderCustomFunctionToken(RenderToken t, RenderToken b)
                 {
-                    var cf = _functions[t.Index];
-                    var cfParamCount = cf.ParameterCount - 1;
-                    var s = RenderParameters(t, b, cfParamCount);
+                    var cfParameterCount = t.ParameterCount - 1;
+                    if (cfParameterCount < 0)
+                    {
+                        var cf = _functions[t.Index];
+                        cfParameterCount = cf.ParameterCount - 1;
+                    }
+                    var s = RenderParameters(t, b, cfParameterCount);
                     t.Content = writer.FormatVariable(t.Content, string.Empty) +
                         AddBrackets(s, t.Level, t.MinOffset, t.MaxOffset, '(', ')');
                     t.MinOffset = 0;
@@ -736,10 +747,12 @@ namespace Calcpad.Core
                     return writer.AddBrackets(FixOffset(s, offset), level, left, right);
                 }
 
-                string FixOffset(string s, int offset) => offset < 0 ?
-                    $"<span class=\"dvc up\">{s}</span>" : offset > 0 ?
-                    $"<span class=\"dvc down\">{s}</span>" :
-                    s;
+                string FixOffset(string s, int offset) => offset switch
+                {
+                    < 0 => $"<span class=\"dvc up\">{s}</span>",
+                    > 0 => $"<span class=\"dvc down\">{s}</span>",
+                    _ => s
+                };
             }
 
             private static string RenderMatrix(Matrix matrix, int decimals, OutputWriter writer, int maxCount, bool zeroSmallElements) =>
@@ -747,11 +760,12 @@ namespace Calcpad.Core
 
             private static string RenderVector(Vector vector, int decimals, OutputWriter writer, int maxCount, bool zeroSmallElements)
             {
-                var div = writer is XmlWriter ? 
-                    XmlWriter.Run(VectorSpacing) :
-                    writer is TextWriter?
-                        "  " :
-                        VectorSpacing;
+                var div = writer switch
+                {
+                    XmlWriter _ => XmlWriter.Run(VectorSpacing),
+                    TextWriter _ => "  ",
+                    _ => VectorSpacing
+                };
                 var sb = new StringBuilder();
                 const double tol = 1e-14;
                 var zeroThreshold = GetMaxVisibleVectorValue(vector, maxCount) * tol;
@@ -830,6 +844,9 @@ namespace Calcpad.Core
 
                     return writer.FormatValue(Value.NaN, _decimals);
                 }
+                else
+                    _hasVariables = true;
+
                 if (writer is HtmlWriter)
                     return _solveBlocks[index].ToHtml(formatEquations);
 
@@ -856,11 +873,10 @@ namespace Calcpad.Core
                         isTag = false;
                     else if (isTag)
                     {
-                        if (c == 'r')
-                        {
-                            if (i > 8 && string.Equals(s[(i - 7)..i], "class=\"", StringComparison.OrdinalIgnoreCase))
-                                break;
-                        }
+                        if (c == 'r' && 
+                            i > 8 && 
+                            string.Equals(s[(i - 7)..i], "class=\"", StringComparison.OrdinalIgnoreCase))
+                            break;
                     }
                     else
                     {

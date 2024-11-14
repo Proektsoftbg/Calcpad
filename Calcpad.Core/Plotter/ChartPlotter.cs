@@ -206,13 +206,13 @@ namespace Calcpad.Core
         private static void GetPngPoints(Chart[] charts, double x0, double y0, double xs, double ys)
         {
             for (int i = 0, len = charts.Length; i < len; ++i)
-                charts[i].GetPngPoints(x0, y0, xs, ys);
+                charts[i].GetChartPngPoints(x0, y0, xs, ys);
         }
 
         private static void GetSvgPoints(Chart[] charts, double x0, double y0, double xs, double ys)
         {
             for (int i = 0, len = charts.Length; i < len; ++i)
-                charts[i].GetSvgPoints(x0, y0, xs, ys);
+                charts[i].GetChartSvgPoints(x0, y0, xs, ys);
         }
 
         private string DrawPng(Chart[] charts, double x0, double y0, double xs, double ys, Box bounds)
@@ -369,7 +369,7 @@ namespace Calcpad.Core
 
             internal readonly IEnumerable<Node> GetPoints() => _points.Take(PointCount);
 
-            internal void GetPngPoints(double x0, double y0, double xs, double ys)
+            internal void GetChartPngPoints(double x0, double y0, double xs, double ys)
             {
                 PngPoints = new SKPoint[PointCount];
                 for (int i = 0; i < PointCount; ++i)
@@ -386,7 +386,7 @@ namespace Calcpad.Core
                 }
             }
 
-            internal void GetSvgPoints(double x0, double y0, double xs, double ys)
+            internal void GetChartSvgPoints(double x0, double y0, double xs, double ys)
             {
                 SvgPoints = new SvgPoint[PointCount];
                 for (int i = 0; i < PointCount; ++i)

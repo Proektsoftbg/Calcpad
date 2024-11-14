@@ -165,7 +165,6 @@ namespace Calcpad.Core
             if (yUnits is not null && Unit.IsConsistent(xUnits, yUnits))
                 d = yUnits.ConvertTo(xUnits);
 
-            //Unit zUnits = null;
             varX.SetUnits(xUnits);
             varY.SetUnits(yUnits);
             for (int i = 0; i <= _nx; ++i)
