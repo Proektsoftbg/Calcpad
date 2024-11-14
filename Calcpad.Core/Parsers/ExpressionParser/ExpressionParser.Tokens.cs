@@ -5,7 +5,7 @@ namespace Calcpad.Core
 {
     public partial class ExpressionParser
     {
-        private class Token
+        private sealed class Token
         {
             internal string Value { get; }
             internal TokenTypes Type;

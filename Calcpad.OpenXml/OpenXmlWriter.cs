@@ -21,20 +21,16 @@ namespace Calcpad.OpenXml
         public string Convert(string html, Stream stream, string url = "")
         {
             using var doc = WordprocessingDocument.Create(stream, WordprocessingDocumentType.Document);
-            {
-                _url = url;
-                WriteDocument(html, doc);
-                return Validate(doc);
-            }
+            _url = url;
+            WriteDocument(html, doc);
+            return Validate(doc);
         }
 
         public string Convert(string html, string path)
         {
             using var doc = WordprocessingDocument.Create(path, WordprocessingDocumentType.Document);
-            {
-                WriteDocument(html, doc);
-                return Validate(doc);
-            }
+            WriteDocument(html, doc);
+            return Validate(doc);
         }
 
         private void WriteDocument(string html, WordprocessingDocument doc)
@@ -199,7 +195,7 @@ namespace Calcpad.OpenXml
                 else if (parentElement is Paragraph)
                     parentElement.Append(new Run(childElement.CloneNode(false)));
                 else if (parentElement is TableCell)
-                    cellPara.Append(new Run(childElement.CloneNode(false)));
+                    cellPara?.Append(new Run(childElement.CloneNode(false)));
                 else
                     parentElement.Append(new Paragraph(new Run(childElement.CloneNode(false))));
             }
@@ -214,7 +210,7 @@ namespace Calcpad.OpenXml
                     {
                         r.RunProperties = new RunProperties(new Bold());
                     }
-                    cellPara.AppendChild(r);
+                    cellPara?.AppendChild(r);
                 }
                 else if (parentElement is Body || parentElement is CustomXmlBlock)
                     parentElement.AppendChild(new Paragraph(new Run(childElement.CloneNode(false))));
@@ -233,7 +229,7 @@ namespace Calcpad.OpenXml
                 if (childElement is Paragraph || childElement is Table)
                     parentElement.AppendChild(childElement);
                 else
-                    cellPara.AppendChild(childElement);
+                    cellPara?.AppendChild(childElement);
             }
             else if (childElement is Run || childElement is M.Paragraph)
             {
@@ -285,9 +281,10 @@ namespace Calcpad.OpenXml
                 if (!r.HasChildren)
                     return true;
 
-                if (r.ChildElements.Count == 1 && r.FirstChild is Text t)
-                    if (string.IsNullOrWhiteSpace(t.Text))
-                        return true;
+                if (r.ChildElements.Count == 1 && 
+                    r.FirstChild is Text t && 
+                    string.IsNullOrWhiteSpace(t.Text))
+                    return true;
             }
             return false;
         }
@@ -383,12 +380,12 @@ namespace Calcpad.OpenXml
                     if (type == "radio")
                     {
                         var chk = domNode.GetAttributeValue("checked", null);
-                        return new Run(new Text(chk is null ? " ◯ " : " ⦿ "));
+                        return new Run(new Text(chk is null ? "\u200A◯\u200A" : "\u200A⦿\u200A"));
                     }
                     else if (type == "checkbox")
                     {
                         var chk = domNode.GetAttributeValue("checked", null);
-                        return new Run(new Text(chk is null ? " ☐ " : " ☑ "));
+                        return new Run(new Text(chk is null ? "\u200A☐\u200A" : "\u200A☑\u200A"));
                     }
                     return new Run(new Text(domNode.GetAttributeValue("value", "0")));
                 case "select":

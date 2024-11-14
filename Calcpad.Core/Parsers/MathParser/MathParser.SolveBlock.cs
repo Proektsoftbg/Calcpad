@@ -7,7 +7,7 @@ namespace Calcpad.Core
 {
     public partial class MathParser
     {
-        private class SolveBlock
+        private sealed class SolveBlock
         {
             internal enum SolverTypes
             {

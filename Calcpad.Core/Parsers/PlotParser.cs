@@ -15,7 +15,7 @@ namespace Calcpad.Core
 
         internal abstract string Parse(ReadOnlySpan<char> script, bool calculate);
 
-        protected static string[] Parts =
+        protected static readonly string[] Parts =
         [
             "function",
             "variable name",

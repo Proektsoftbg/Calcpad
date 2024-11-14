@@ -78,7 +78,6 @@ namespace Calcpad.Core
                     var factor = rightUnits.ConvertTo(leftUnits);
                     right *= factor;
                 }
-                //Parser.CompileBlocks();
                 result = GetHtmlImage(parameters[0].Variable, left, right, leftUnits);
             }
             else

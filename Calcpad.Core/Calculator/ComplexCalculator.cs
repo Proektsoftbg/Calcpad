@@ -4,10 +4,45 @@ namespace Calcpad.Core
 {
     internal class ComplexCalculator : Calculator
     {
-        private static readonly Operator[] Operators;
+        private static readonly Operator[] Operators =
+            [
+                Pow,
+                Divide,
+                IntDiv,
+                Remainder,
+                Multiply,
+                Subtract,
+                Add,
+                LessThan,
+                GreaterThan,
+                LessThanOrEqual,
+                GreaterThanOrEqual,
+                Equal,
+                NotEqual,
+                (in Value a, in Value b) => a & b,
+                (in Value a, in Value b) => a | b,
+                (in Value a, in Value b) => a ^ b,
+                (in Value _, in Value b) => b
+            ];
         private readonly Function[] _functions;
         private readonly Operator[] Functions2;
-        private static readonly Func<Value[], Value>[] MultiFunctions;
+        private static readonly Func<Value[], Value>[] MultiFunctions =
+            [
+                Min,
+                Max,
+                Sum,
+                SumSq,
+                Srss,
+                Average,
+                Product,
+                Mean,
+                Switch,
+                And,
+                Or,
+                Xor,
+                Gcd,
+                Lcm,
+            ];
 
         internal override int Degrees
         {
@@ -71,48 +106,6 @@ namespace Calcpad.Core
                 Root,
                 Mod,
                 MandelbrotSet
-            ];
-        }
-
-        static ComplexCalculator()
-        {
-            Operators =
-            [
-                Pow,
-                Divide,
-                IntDiv,
-                Remainder,
-                Multiply,
-                Subtract,
-                Add,
-                LessThan,
-                GreaterThan,
-                LessThanOrEqual,
-                GreaterThanOrEqual,
-                Equal,
-                NotEqual,
-                (in Value a, in Value b) => a & b,
-                (in Value a, in Value b) => a | b,
-                (in Value a, in Value b) => a ^ b,
-                (in Value _, in Value b) => b
-            ];
-
-            MultiFunctions =
-            [
-                Min,
-                Max,
-                Sum,
-                SumSq,
-                Srss,
-                Average,
-                Product,
-                Mean,
-                Switch,
-                And,
-                Or,
-                Xor,
-                Gcd,
-                Lcm,
             ];
         }
 

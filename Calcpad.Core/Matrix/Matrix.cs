@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Calcpad.Core
 {
-    internal class Matrix : IValue
+    internal class Matrix : IValue, IEquatable<Matrix>
     {
         internal const int ParallelTreshold = 100;
         internal const int MaxSize = 1000000;
@@ -393,7 +393,7 @@ namespace Calcpad.Core
                 return ad * b;
             }
             else if (b is DiagonalMatrix bd)
-                return bd * a;
+                return a * bd;
 
             Matrix c;
             c = new Matrix(a._rowCount, b._colCount);
@@ -1564,9 +1564,10 @@ namespace Calcpad.Core
             get
             {
                 Value[] values = new Value[_rowCount * _colCount];
-                for (int i = 0, k = 0; i < _rowCount; ++i)
-                    for (int j = 0; j < _colCount; ++j, ++k)
-                        values[k] = this[i, j];
+                int k = 0;
+                for (int i = 0; i < _rowCount; ++i)
+                    for (int j = 0; j < _colCount; ++j)
+                        values[++k] = this[i, j];
 
                 return values;
             }
@@ -3030,10 +3031,6 @@ namespace Calcpad.Core
                 Throw.MatrixCloseToSingularException();
 
             var M = GetInverse(LU, indexes);
-            //var cond = InfNorm() * M.InfNorm();
-            //if (Math.Abs(cond.Re) > 1e16)
-            //    Throw.MatrixCloseToSingularException();
-
             return M;
         }
 

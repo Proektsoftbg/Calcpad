@@ -20,9 +20,9 @@ namespace Calcpad.Core
         internal Func<IValue> Function;
         public Variable Variable;
         private const int TanhSinhDepth = 11;
-        private static readonly int[] m = [6, 7, 13, 26, 53, 106, 212, 423, 846, 1693, 3385];
-        private static readonly double[][] r = new double[TanhSinhDepth][];
-        private static readonly double[][] w = new double[TanhSinhDepth][];
+        private static readonly int[] _m = [6, 7, 13, 26, 53, 106, 212, 423, 846, 1693, 3385];
+        private static readonly double[][] _r = new double[TanhSinhDepth][];
+        private static readonly double[][] _w = new double[TanhSinhDepth][];
 
         static Solver()
         {
@@ -37,17 +37,17 @@ namespace Calcpad.Core
                 h /= 2d;
                 var eh = Math.Exp(h);
                 var t = eh;
-                r[i] = new double[m[i]];
-                w[i] = new double[m[i]];
+                _r[i] = new double[_m[i]];
+                _w[i] = new double[_m[i]];
                 if (i > 0)
                     eh *= eh;
 
-                for (int j = 0; j < m[i]; ++j)
+                for (int j = 0; j < _m[i]; ++j)
                 {
                     var u = Math.Exp(1d / t - t);
                     var d = 2d * u / (1d + u);
-                    r[i][j] = d;
-                    w[i][j] = (1d / t + t) * d / (1d + u);
+                    _r[i][j] = d;
+                    _w[i][j] = (1d / t + t) * d / (1d + u);
                     t *= eh;
                 }
             }
@@ -378,7 +378,7 @@ namespace Calcpad.Core
                 int j = 0;
                 do
                 {
-                    var x = r[i][j] * d;
+                    var x = _r[i][j] * d;
                     if (left + x > left)
                     {
                         var y = Fd(left + x);
@@ -391,10 +391,10 @@ namespace Calcpad.Core
                         if (double.IsFinite(y))
                             fm = y;
                     }
-                    q = w[i][j] * (fp + fm);
+                    q = _w[i][j] * (fp + fm);
                     p += q;
                     ++j;
-                } while (Math.Abs(q) > _eps * Math.Abs(p) && j < m[i]);
+                } while (Math.Abs(q) > _eps * Math.Abs(p) && j < _m[i]);
                 err = 2d * s;
                 s += p;
                 err = Math.Abs(err - s);

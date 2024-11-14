@@ -257,19 +257,19 @@ namespace Calcpad.Core
         private static Vector Reverse(in IValue vector) =>
             IValue.AsVector(vector).Reverse();
 
-        private IValue Norm(in IValue vector) =>
+        private static IValue Norm(in IValue vector) =>
             IValue.AsVector(vector).Norm();
 
-        private IValue L1Norm(in IValue vector) =>
+        private static IValue L1Norm(in IValue vector) =>
             IValue.AsVector(vector).L1Norm();
 
-        private IValue InfNorm(in IValue vector) =>
+        private static IValue InfNorm(in IValue vector) =>
             IValue.AsVector(vector).InfNorm();
 
-        private Vector Unit(in IValue vector) =>
+        private static Vector Unit(in IValue vector) =>
             IValue.AsVector(vector).Normalize();
 
-        private IValue LpNorm(in IValue vector, in IValue p) =>
+        private static IValue LpNorm(in IValue vector, in IValue p) =>
             IValue.AsVector(vector).LpNorm(IValue.AsInt(p));
 
         private static Vector Resize(in IValue vector, in IValue length) =>
@@ -287,10 +287,10 @@ namespace Calcpad.Core
         private static Vector Extract(in IValue vector, in IValue indexes) =>
             IValue.AsVector(vector).Extract(IValue.AsVector(indexes));
 
-        private IValue Dot(in IValue a, in IValue b) =>
+        private static IValue Dot(in IValue a, in IValue b) =>
             Vector.DotProduct(IValue.AsVector(a), IValue.AsVector(b));
 
-        private Vector Cross(in IValue a, in IValue b) =>
+        private static Vector Cross(in IValue a, in IValue b) =>
             Vector.CrossProduct(IValue.AsVector(a), IValue.AsVector(b));
 
         private static Vector Slice(in IValue vector, in IValue n1, in IValue n2) =>

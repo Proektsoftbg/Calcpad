@@ -6,12 +6,11 @@ namespace Calcpad.Core
 {
     public partial class MathParser
     {
-        private class Evaluator
+        private sealed class Evaluator
         {
             private int _tos;
             private int _stackUBound = 99;
             private IValue[] _stackBuffer = new IValue[100];
-            internal readonly HashSet<string> DefinedVariables = new(StringComparer.Ordinal);
             private readonly MathParser _parser;
             private readonly Container<CustomFunction> _functions;
             private readonly List<SolveBlock> _solveBlocks;
@@ -152,7 +151,6 @@ namespace Calcpad.Core
                 return Value.Zero;
             }
 
-
             private IValue EvaluateToken(Token t)
             {
                 if (t.Type == TokenTypes.Unit)
@@ -186,32 +184,6 @@ namespace Calcpad.Core
                 return ((ValueToken)t).Value;
             }
 
-            private IValue EvaluateVariableToken(VariableToken t)
-            {
-                var v = t.Variable;
-                if (v.IsInitialized || t.Type == TokenTypes.Vector || t.Type == TokenTypes.Matrix)
-                {
-                    ref var value = ref v.ValueByRef();
-                    if (_parser._isSolver == 0 && value is Value)
-                        _parser._hasVariables = true;
-
-                    return value;
-                }
-                try
-                {
-                    if (!_units.TryGetValue(t.Content, out var u))
-                        u = Unit.Get(t.Content);
-
-                    t.Type = TokenTypes.Unit;
-                    v.SetValue(u);
-                    return v.Value;
-                }
-                catch
-                {
-                    Throw.UndefinedVariableOrUnitsException(t.Content);
-                    return default;
-                }
-            }
 
             private IValue EvaluateToken(Token t, in IValue a)
             {
@@ -254,6 +226,30 @@ namespace Calcpad.Core
                 return _matrixCalc.EvaluateMatrixFunction2(t.Index, a, b);
             }
 
+
+            private IValue EvaluateVariableToken(VariableToken t)
+            {
+                var v = t.Variable;
+                if (v.IsInitialized || 
+                    t.Type == TokenTypes.Vector || 
+                    t.Type == TokenTypes.Matrix)
+                    return v.Value;
+                
+                try
+                {
+                    if (!_units.TryGetValue(t.Content, out var u))
+                        u = Unit.Get(t.Content);
+
+                    t.Type = TokenTypes.Unit;
+                    v.SetValue(u);
+                    return v.Value;
+                }
+                catch
+                {
+                    Throw.UndefinedVariableOrUnitsException(t.Content);
+                    return default;
+                }
+            }
             private IValue EvaluateAssignment(IValue b, Token[] rpn, bool isVisible)
             {
                 _parser.Units = ApplyUnits(ref b, _parser._targetUnits);
@@ -581,7 +577,7 @@ namespace Calcpad.Core
                         v = value;
                     }
                 }
-                else if (v is Vector vector && vector is not null)
+                else if (v is Vector vector)
                     NormalizeUnits(vector);
                 else if (v is not null)
                     NormalizeUnits((Matrix)v);

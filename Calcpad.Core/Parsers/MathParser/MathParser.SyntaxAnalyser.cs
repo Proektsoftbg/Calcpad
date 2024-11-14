@@ -5,7 +5,7 @@ namespace Calcpad.Core
 {
     public partial class MathParser
     {
-        private class SyntaxAnalyser
+        private sealed class SyntaxAnalyser
         {
             private readonly struct MultiFunctionStackItem
             {
@@ -126,6 +126,9 @@ namespace Calcpad.Core
                             {
                                 if (isFunctionDefinition && t.Content == firstToken.Content)
                                     Throw.RecursionNotAllowedException(t.Content);
+
+                                if (t is FunctionToken)
+                                    multiFunctionStack.Push(new MultiFunctionStackItem(t, countOfBrackets, countOfDivisors));
                             }
                             else
                                 countOfDivisors += 1 - _functions[t.Index].ParameterCount;
@@ -148,8 +151,11 @@ namespace Calcpad.Core
                                 countOfBrackets == mfStackItem.CountOfBrackets)
                             {
                                 multiFunctionStack.Pop();
-                                FunctionToken ft = (FunctionToken)mfStackItem.Token;
-                                ft.ParameterCount = countOfDivisors - mfStackItem.CountOfDivisors + 1;
+                                if (mfStackItem.Token is FunctionToken ft)
+                                    ft.ParameterCount = countOfDivisors - mfStackItem.CountOfDivisors + 1;
+                                else
+                                    Throw.InvalidFunctionException(mfStackItem.Token.Content);
+                                
                                 countOfDivisors = mfStackItem.CountOfDivisors;
                             }
                             else if (indexStack.TryPeek(out var indStackItem) &&
@@ -188,15 +194,18 @@ namespace Calcpad.Core
                                     countOfDivisors = 0;
                                     isFunctionDefinition = true;
                                 }
-                                else if (
-                                    pt.Type != TokenTypes.Variable &&
-                                    pt.Type != TokenTypes.Unit &&
-                                    firstToken.Type != TokenTypes.Vector &&
-                                    firstToken.Type != TokenTypes.Matrix
-                                )
-                                    Throw.AssignmentPrecededException();
-                                else if (countOfOperators != 1)
-                                    Throw.AssignmentNotFirstException();
+                                else if (isCalculating)
+                                {
+                                    if (
+                                       pt.Type != TokenTypes.Variable &&
+                                       pt.Type != TokenTypes.Unit &&
+                                       firstToken.Type != TokenTypes.Vector &&
+                                       firstToken.Type != TokenTypes.Matrix
+                                    )
+                                       Throw.AssignmentPrecededException();
+                                    else if (countOfOperators != 1)
+                                        Throw.AssignmentNotFirstException();
+                                }
                             }
                             break;
                         case TokenTypes.VectorIndex:
@@ -223,7 +232,10 @@ namespace Calcpad.Core
                     pt.Content != "!")
                     Throw.IncompleteExpressionException();
 
-                if (firstToken.Type == TokenTypes.CustomFunction && firstToken.Index < 0 && !isFunctionDefinition)
+                if (firstToken.Type == TokenTypes.CustomFunction && 
+                    firstToken.Index < 0 && 
+                    !isFunctionDefinition &&
+                    isCalculating)
                     Throw.InvalidFunctionException(firstToken.Content);
 
                 if (countOfBrackets > 0)

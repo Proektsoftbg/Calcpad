@@ -15,7 +15,7 @@ namespace Calcpad.Core
         internal const double DeltaPlus = 1 + 1e-15, DeltaMinus = 1 - 1e-15;
         internal const char NegChar = '‐'; //hyphen, not minus "-"
         private static readonly double Log2Inv = 1 / Math.Log(2);
-        private static readonly double[] Factorial;
+        private static readonly double[] Factorial = InitFactorial();
         protected int _degrees;
         protected bool _returnAngleUnits;
 
@@ -33,7 +33,7 @@ namespace Calcpad.Core
             Math.PI / 200.0
         ];
 
-        protected static Unit[] AngleUnits =
+        protected  static readonly Unit[] AngleUnits =
         [
             Unit.Get("deg"),
             Unit.Get("rad"),
@@ -81,7 +81,7 @@ namespace Calcpad.Core
             { '=', 16 }
         }.ToFrozenDictionary();
 
-        internal static bool[] IsZeroPreservingOperator = [
+        internal static readonly bool[] IsZeroPreservingOperator = [
             false,   // ^  0
             false,   // /÷ 1
             false,   // \  2
@@ -196,7 +196,7 @@ namespace Calcpad.Core
             { "spline", 2 },
         }.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
 
-        internal static sbyte UnitMultOrder = (sbyte)(OperatorOrder[OperatorIndex['*']] - 1);
+        internal static readonly sbyte UnitMultOrder = (sbyte)(OperatorOrder[OperatorIndex['*']] - 1);
         internal static bool IsOperator(char name) => OperatorIndex.ContainsKey(name);
         internal static bool IsFunction(string name) => FunctionIndex.ContainsKey(name);
         internal static bool IsFunction2(string name) => Function2Index.ContainsKey(name);
@@ -226,12 +226,14 @@ namespace Calcpad.Core
         internal static readonly int SrssIndex = MultiFunctionIndex["srss"];
         internal static readonly int SumIndex = MultiFunctionIndex["sum"];
 
-        static Calculator()
+        private static double[] InitFactorial()
         {
-            Factorial = new double[171];
-            Factorial[0] = 1;
+            var factorial = new double[171];
+            factorial[0] = 1;
             for (int i = 1; i < 171; ++i)
-                Factorial[i] = Factorial[i - 1] * i;
+                factorial[i] = factorial[i - 1] * i;
+
+            return factorial;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

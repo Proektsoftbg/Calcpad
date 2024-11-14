@@ -14,7 +14,7 @@ namespace Calcpad.Core
             Xml
         }
         private readonly StringBuilder _stringBuilder = new(200);
-        protected static int PowerOrder = Calculator.OperatorOrder[Calculator.OperatorIndex['^']];
+        protected static readonly int PowerOrder = Calculator.OperatorOrder[Calculator.OperatorIndex['^']];
 
         internal abstract string UnitString(Unit units);
         internal abstract string FormatInput(string s, Unit units, int line, bool isCalculated);
@@ -147,7 +147,7 @@ namespace Calcpad.Core
                 if (n >= 2 && n <= 4)
                 {
                     sub = 0;
-                    return FormatSubscript(FormatUnits(s[..^n]), " " + s[^(n - 1)..]);
+                    return FormatSubscript(FormatUnits(s[..^n]), "\u200A" + s[^(n - 1)..]);
                 }
                 if (s.Contains('/') || s.Contains('·'))
                     return s;
@@ -738,17 +738,17 @@ namespace Calcpad.Core
     internal class XmlWriter : OutputWriter
     {
         private const string wXmlns = "xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"";
-
+        private const string NormalText = "<m:rPr><m:nor/></m:rPr>";
         internal override string UnitString(Unit units) => units.Xml;
         internal override string FormatInput(string s, Unit units, int line, bool isCalculated)
         {
             string output;
             if (s == "?")
-                output = Run(s);//<w:rPr><w:color w:val=\"FF0000\" /><w:shd w:fill=\"FFFF88\" /></w:rPr>
+                output = Run(s, $"<w:rPr {wXmlns}><w:color w:val=\"FF0000\" /><w:shd w:fill=\"FFFCCC\" /></w:rPr>");
             else if (isCalculated)
-                output = Run(s);//<w:rPr><w:u /><w:shd w:fill=\"FFFF88\" /></w:rPr>
+                output = Run(s, $"<w:rPr {wXmlns}><w:u /><w:shd w:val=\"clear\" w:color=\"auto\" w:fill=\"FFFCCC\" /></w:rPr>");
             else
-                output = Run(s);//<w:rPr><w:bdr w:val=\"single\" w:space=\"0\" w:color=\"000000\"<w:shd w:fill=\"FFFF88\" /></w:rPr>
+                output = Run(s, $"<w:rPr {wXmlns}><w:shd w:val=\"clear\" w:color=\"auto\"  w:fill=\"FFFCCC\" /></w:rPr>");
 
             return units is null ? output : output + units.Xml;
         }
@@ -776,10 +776,10 @@ namespace Calcpad.Core
             Run(s, format);
 
         internal override string FormatUnits(string s) =>
-            Run(' ' + s, $"<m:rPr><m:nor/></m:rPr><w:rPr {wXmlns}><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\" /><w:sz w:val=\"22\" /></w:rPr>");
+            Run(' ' + s, $"{NormalText}<w:rPr {wXmlns}><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\" /><w:sz w:val=\"22\" /></w:rPr>");
         internal override string FormatFunction(string s)
         {
-            var format = $"<m:rPr><m:nor/></m:rPr><w:rPr {wXmlns}><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\" /></w:rPr>";
+            var format = $"{NormalText}<w:rPr {wXmlns}><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\" /><w:b w:val=\"true\" /></w:rPr>";
             var i = s.IndexOf('_');
             if (i <= 0) return
                 Run(s, format);
@@ -809,7 +809,7 @@ namespace Calcpad.Core
             '∨' => Run(" or "),
             '⊕' => Run(" xor "),
             '|' => Run(" | "),
-            Calculator.NegChar => Run("-"),
+            Calculator.NegChar => Run("-", NormalText),
             _ => Run(c.ToString())
         };
 
@@ -855,7 +855,7 @@ namespace Calcpad.Core
 
             var i = s.LastIndexOf('E');
             if (i <= 0)
-                return Run(s);
+                return ValueRun(s);
 
             var i1 = i + 1;
             if (zeroSmall && s[i1] == '-')
@@ -864,8 +864,14 @@ namespace Calcpad.Core
             if (s[i1] == '+')
                 i1++;
 
-            return $"{Run(s[..i] + "×")}<m:sSup><m:e>{Run("10")}</m:e><m:sup><m:r><m:t>{s[i1..]}</m:t></m:r></m:sup></m:sSup>";
+            var ms = ValueRun(s[..i]);
+            var xs = Run("×", $"{NormalText}<w:rPr {wXmlns}><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\" /><w:sz w:val=\"16\" /></w:rPr>");
+            var es = ValueRun(s[i1..]);
+            return $"{ms + xs}<m:sSup><m:e>{Run("10")}</m:e><m:sup>{es}</m:sup></m:sSup>";
+            
+            static string ValueRun(string s) => s[0] == '-' ? Run("-", NormalText) + Run(s[1..]) : Run(s);
         }
+
 
         internal override string FormatComplex(double re, double im, int decimals)
         {

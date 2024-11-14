@@ -7,7 +7,7 @@ namespace Calcpad.Core
 {
     public partial class MathParser
     {
-        private partial class Compiler
+        private sealed partial class Compiler
         {
             private readonly Expression _evaluatorInstance;
             private readonly MathParser _parser;
@@ -224,31 +224,6 @@ namespace Calcpad.Core
                 }
                 return Expression.Constant(((ValueToken)t).Value, typeof(IValue));
             }
-
-            private Expression ParseVariableToken(VariableToken t)
-            {
-                var v = t.Variable;
-                if (v.IsInitialized || t.Type == TokenTypes.Vector || t.Type == TokenTypes.Matrix)
-                {
-                    if (t.Index < 0 && !_allowAssignment)
-                        return Expression.Constant(v.Value, typeof(IValue));
-
-                    return Expression.Field(Expression.Constant(v), "Value");
-                }
-                try
-                {
-                    var u = Unit.Get(t.Content);
-                    t.Type = TokenTypes.Unit;
-                    v.SetValue(u);
-                    return Expression.Constant(v.Value, typeof(IValue));
-                }
-                catch
-                {
-                    Throw.UndefinedVariableOrUnitsException(t.Content);
-                    return null;
-                }
-            }
-
             private Expression ParseToken(Token t, Expression a)
             {
                 if (a.NodeType == ExpressionType.Constant)
@@ -369,6 +344,32 @@ namespace Calcpad.Core
                     Expression.Constant(t.Index), a, b);
             }
 
+
+            private Expression ParseVariableToken(VariableToken t)
+            {
+                var v = t.Variable;
+                if (v.IsInitialized || t.Type == TokenTypes.Vector || t.Type == TokenTypes.Matrix)
+                {
+                    if (t.Index < 0 && !_allowAssignment)
+                        return Expression.Constant(v.Value, typeof(IValue));
+
+                    return Expression.Field(Expression.Constant(v), "Value");
+                }
+                try
+                {
+                    var u = Unit.Get(t.Content);
+                    t.Type = TokenTypes.Unit;
+                    v.SetValue(u);
+                    return Expression.Constant(v.Value, typeof(IValue));
+                }
+                catch
+                {
+                    Throw.UndefinedVariableOrUnitsException(t.Content);
+                    return null;
+                }
+            }
+
+
             private static IValue EvaluateConstantExpression(Expression a) =>
                 (IValue)((ConstantExpression)a).Value;
 
@@ -452,7 +453,7 @@ namespace Calcpad.Core
 
                 if (AreConstantParameters(arguments))
                 {
-                    var parameters = EvaluateConstantParameters(arguments).Cast<IValue>().ToArray();
+                    var parameters = EvaluateConstantParameters(arguments).ToArray();
                     return cf.ParameterCount switch
                     {
                         1 => Expression.Constant(
@@ -655,8 +656,8 @@ namespace Calcpad.Core
                 var itemProperty = Expression.Convert(
                         Expression.Property(
                             m, "item",
-                        [Expression.Subtract(i, Expression.Constant(1)),
-                        Expression.Subtract(j, Expression.Constant(1))]),
+                        Expression.Subtract(i, Expression.Constant(1)),
+                        Expression.Subtract(j, Expression.Constant(1))),
                     typeof(IValue));
                 return Expression.Block(checkBounds, itemProperty);
             }

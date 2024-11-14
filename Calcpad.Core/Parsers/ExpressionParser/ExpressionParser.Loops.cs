@@ -8,14 +8,12 @@ namespace Calcpad.Core
         private readonly Stack<Loop> _loops = new();
         private abstract class Loop
         {
-            protected static int _maxCount = 1000000;
+            protected const int _maxCount = 1000000;
             protected readonly int _startLine;
             protected int _iteration;
             internal int Id { get; }
             internal int Iteration => _iteration;
-
-            internal static int MaxCount => _maxCount;
-            internal Loop(int startLine, int count, int id)
+            private protected Loop(int startLine, int count, int id)
             {
                 _startLine = startLine;
                 if (count < 0 || count > _maxCount)
@@ -39,14 +37,14 @@ namespace Calcpad.Core
             internal bool IsBroken => _iteration == 0;
         }
 
-        private class RepeatLoop : Loop
+        private sealed class RepeatLoop : Loop
         {
             internal RepeatLoop(int startLine, int count, int id) :
                 base(startLine, count, id)
             { }
         }
 
-        private class ForLoop : Loop
+        private sealed class ForLoop : Loop
         {
             private readonly Value _start;
             private readonly Value _end;
@@ -64,7 +62,7 @@ namespace Calcpad.Core
             internal string VarName => _varName;
         }
 
-        private class WhileLoop : Loop
+        private sealed class WhileLoop : Loop
         {
             private readonly string _condition;
             internal WhileLoop(int startLine, string condition, int id) :

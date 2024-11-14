@@ -42,7 +42,7 @@ namespace Calcpad.Core
             }
         }
 
-        private class ValueToken : Token
+        private sealed class ValueToken : Token
         {
             internal readonly double Value;
             internal ValueToken(double d) : base(d.ToString(CultureInfo.InvariantCulture), TokenTypes.Constant)
@@ -126,7 +126,6 @@ namespace Calcpad.Core
             var pt = TokenTypes.None;
             var terminatedExpression = expression + " ";
             var literal = string.Empty;
-            //HasSolver = false;
             for (int i = 0, len = terminatedExpression.Length; i < len; ++i)
             {
                 var c = terminatedExpression[i];

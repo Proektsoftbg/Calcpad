@@ -69,13 +69,13 @@
                 Order = order;
             }
         }
-        private class FunctionToken : Token
+        private sealed class FunctionToken : Token
         {
             internal int ParameterCount;
             internal FunctionToken(string content) : base(content, TokenTypes.MultiFunction) { }
         }
 
-        private class ValueToken : Token
+        private sealed class ValueToken : Token
         {
             internal Value Value;
             internal ValueToken(in Value value) : base(string.Empty, TokenTypes.Constant)
@@ -84,7 +84,7 @@
             }
         }
 
-        private class VariableToken : Token
+        private sealed class VariableToken : Token
         {
             internal Variable Variable;
             internal VariableToken(string content, Variable v) : this(content)
@@ -95,7 +95,7 @@
             private VariableToken(string content) : base(content, TokenTypes.Variable) { }
         }
 
-        private class VectorToken : Token
+        private sealed class VectorToken : Token
         {
             internal Vector Vector;
             internal VectorToken(string content, Vector v) : this(content)
@@ -106,7 +106,7 @@
             private VectorToken(string content) : base(content, TokenTypes.Vector) { }
         }
 
-        private class MatrixToken : Token
+        private sealed class MatrixToken : Token
         {
             internal Matrix Matrix;
             internal MatrixToken(string content, Matrix M) : this(content)
@@ -117,7 +117,7 @@
             private MatrixToken(string content) : base(content, TokenTypes.Matrix) { }
         }
 
-        private class RenderToken : Token
+        private sealed class RenderToken : Token
         {
 
             internal ValueTypes ValType;  //0 - none, 1 - number, 2 - unit, 3 - number + unit

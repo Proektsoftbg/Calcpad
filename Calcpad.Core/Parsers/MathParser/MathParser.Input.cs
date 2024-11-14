@@ -7,7 +7,7 @@ namespace Calcpad.Core
 {
     public partial class MathParser
     {
-        private class Input
+        private sealed class Input
         {
             internal readonly HashSet<string> DefinedVariables = new(StringComparer.Ordinal);
             private static readonly TokenTypes[] CharTypes = new TokenTypes[127];
@@ -95,7 +95,6 @@ namespace Calcpad.Core
                 var tokenLiteral = new TextSpan(expression);
                 var unitsLiteral = new TextSpan(expression);
                 var textSpan = new TextSpan(expression);
-                _parser._hasVariables = false;
                 _parser._assignmentIndex = 0;
                 Token t = null;
                 var n = GetTargetUnits(expression);
@@ -137,11 +136,6 @@ namespace Calcpad.Core
                             {
                                 var s = tokenLiteral.ToString();
                                 t = MakeVectorOrMatrixToken(s);
-                                //if (t is null && _parser._assignmentIndex > 0)
-                                //{
-                                //    t = MakeVariableToken(s);
-                                //    t.Type = TokenTypes.Vector;
-                                //}
                                 if (t is not null)
                                 {
                                     if (_parser._settings.IsComplex)
@@ -235,7 +229,7 @@ namespace Calcpad.Core
                             {
                                 var s = tokenLiteral.ToString();
                                 if (tt == TokenTypes.BracketLeft)
-                                    t = MakeFunctionToken(s, tokens.Count != 0);
+                                    t = MakeFunctionToken(s, _parser.IsCalculation && tokens.Count != 0);
                                 else
                                 {
                                     if (t is not null && (
@@ -493,7 +487,7 @@ namespace Calcpad.Core
                 return n;
             }
 
-            private Token MakeFunctionToken(string s, bool anyTokens)
+            private Token MakeFunctionToken(string s, bool mustExist)
             {
                 if (Calculator.IsFunction(s))
                     return new Token(s, TokenTypes.Function)
@@ -574,8 +568,17 @@ namespace Calcpad.Core
                         Type = TokenTypes.MatrixMultiFunction
                     };
                 var index = _functions.IndexOf(s);
-                if (index < 0 && anyTokens)
-                    Throw.InvalidFunctionException(s);
+                if (index < 0)
+                {
+                    if (mustExist)
+                        Throw.InvalidFunctionException(s);
+
+                    if (!_parser.IsCalculation)
+                        return new FunctionToken(s)
+                        {
+                            Type = TokenTypes.CustomFunction
+                        };
+                }
 
                 return new Token(s, TokenTypes.CustomFunction)
                 {
@@ -880,7 +883,6 @@ namespace Calcpad.Core
                 ++_parser._isSolver;
                 _solveBlocks.Add(new SolveBlock(script, st, _parser));
                 --_parser._isSolver;
-                _parser._hasVariables = true;
                 return _solveBlocks.Count - 1;
             }
         }
