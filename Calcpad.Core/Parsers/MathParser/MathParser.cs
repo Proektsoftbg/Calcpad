@@ -473,6 +473,48 @@ namespace Calcpad.Core
                 }
             }
         }
+
+        public string ResultAsVal
+        {
+            get
+            {
+                if (_result is Value value)
+                    return FormatResultValue(value);
+
+                var sb = new StringBuilder();
+                sb.Append('[');
+                if (_result is Vector vector)
+                    for (int i = 0, len = vector.Length - 1; i <= len; ++i)
+                    {
+                        sb.Append(FormatResultValue(vector[i]));
+                        if (i < len)
+                            sb.Append(", ");
+                    }
+                else if (_result is Matrix matrix)
+                    for (int i = 0, m = matrix.RowCount - 1; i <= m; ++i)
+                    {
+                        sb.Append('[');
+                        for (int j = 0, n = matrix.ColCount - 1; j <= n; ++j)
+                        {
+                            sb.Append(FormatResultValue(matrix[i, j]));
+                            if (j < n)
+                                sb.Append(", ");
+                        }
+                        sb.Append(']');
+                        if (i < m)
+                            sb.Append(", ");
+                    }
+
+                sb.Append(']');
+                return sb.ToString();
+
+                string FormatResultValue(in Value value) =>
+                    Core.Complex.Format(value.Complex, _settings.Decimals, OutputWriter.OutputFormat.Text);
+            }
+        }
+
+
+
         public override string ToString() => _output.Render(OutputWriter.OutputFormat.Text);
         public string ToHtml() => _output.Render(OutputWriter.OutputFormat.Html);
         public string ToXml() => _output.Render(OutputWriter.OutputFormat.Xml);
