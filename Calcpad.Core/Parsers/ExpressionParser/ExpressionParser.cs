@@ -106,6 +106,7 @@ namespace Calcpad.Core
                     if (textSpan.IsEmpty)
                     {
                         if (_isVisible &&
+                            _isVal != 1 &&
                             (_condition.IsSatisfied || !_calculate) &&
                             _htmlLines < MaxHtmlLines)
                             _sb.AppendLine($"<p{HtmlId}>&nbsp;</p>");
@@ -246,8 +247,12 @@ namespace Calcpad.Core
                         tokens[0].Type :
                         TokenTypes.Text;
                     ++_htmlLines;
-                    AppendHtmlLineStart(lineType, isIndent);
-                    var htmlId = HtmlId;
+                    string htmlId = null;
+                    if (_isVal != 1)
+                    {
+                        htmlId = HtmlId;
+                        AppendHtmlLineStart(lineType, isIndent);
+                    }
                     if (lineType == TokenTypes.Html && !string.IsNullOrEmpty(htmlId))
                         tokens[0] = new Token(InsertAttribute(tokens[0].Value, htmlId), TokenTypes.Html);
 
@@ -255,6 +260,7 @@ namespace Calcpad.Core
                         _sb.Append(_condition.ToHtml());
 
                     ParseTokens(tokens, true, getXml);
+                    if (_isVal != 1)
                     AppendHtmlLineEnd(lineType, keyword == Keyword.If);
                 }
                 else
@@ -396,7 +402,7 @@ namespace Calcpad.Core
                         var cacheID = token.CacheID;
                         if (cacheID < 0)
                         {
-                            _parser.Parse(token.Value, true);
+                            _parser.Parse(token.Value);
                             if (isLoop)
                                 tokens[i].CacheID = _parser.WriteEquationToCache(isOutput);
                         }
@@ -411,7 +417,7 @@ namespace Calcpad.Core
                         if (isOutput)
                         {
                             if (_isVal == 1 && _calculate)
-                                _sb.Append(Complex.Format(_parser.Result, Settings.Math.Decimals, OutputWriter.OutputFormat.Html));
+                                _sb.Append(_parser.ResultAsVal);
                             else
                             {
                                 var html = _parser.ToHtml();
