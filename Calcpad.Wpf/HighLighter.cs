@@ -1290,9 +1290,15 @@ namespace Calcpad.Wpf
         {
             var fileName = Environment.ExpandEnvironmentVariables(s);
             if (File.Exists(fileName))
-            {
-                var sourceCode = UserDefined.Include(fileName, null);
-                _state.Message = GetPartialSource(sourceCode);
+            {   try
+                {
+                    var sourceCode = UserDefined.Include(fileName, null);
+                    _state.Message = GetPartialSource(sourceCode);
+                }
+                catch (Exception e)
+                {
+                    _state.Message = e.Message;
+                }
                 return Types.Include;
             }
             _state.Message = AppMessages.File_not_found;

@@ -459,4 +459,7 @@
   <data name="FunctionDefinitionNotAllowedInSolverBlock" xml:space="preserve">
     <value>Неразрешена дефиниция на функция в блок за числени методи.</value>
   </data>
+  <data name="BracketsNotClosed" xml:space="preserve">
+    <value>Незатворени скоби.</value>
+  </data>
 </root>

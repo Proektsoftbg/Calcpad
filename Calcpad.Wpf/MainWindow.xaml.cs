@@ -3217,9 +3217,13 @@ namespace Calcpad.Wpf
                         if (Validator.IsKeyword(line, "#include"))
                         {
                             var includeFileName = UserDefined.GetFileName(line);
-                            getLines.Add(fields is null
-                                ? Include(includeFileName, null)
-                                : Include(includeFileName, new()));
+                            includeFileName = Environment.ExpandEnvironmentVariables(includeFileName);
+                            if (!File.Exists(includeFileName))
+                                throw new FileNotFoundException(Core.Messages.File_not_found + ": " + includeFileName);
+                            else
+                                getLines.Add(fields is null
+                                    ? Include(includeFileName, null)
+                                    : Include(includeFileName, new()));
                         }
                         else
                             getLines.Add(line.ToString());

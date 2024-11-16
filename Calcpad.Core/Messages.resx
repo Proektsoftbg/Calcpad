@@ -462,4 +462,7 @@
   <data name="FunctionDefinitionNotAllowedInSolverBlock" xml:space="preserve">
     <value>Function definition not allowed in solver block.</value>
   </data>
+  <data name="BracketsNotClosed" xml:space="preserve">
+    <value>Brackets not closed.</value>
+  </data>
 </root>

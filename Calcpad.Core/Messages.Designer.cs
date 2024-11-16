@@ -142,6 +142,15 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Brackets not closed..
+        /// </summary>
+        public static string BracketsNotClosed {
+            get {
+                return ResourceManager.GetString("BracketsNotClosed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Calculations not active..
         /// </summary>
         public static string Calculations_not_active {
