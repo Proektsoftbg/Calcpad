@@ -456,4 +456,7 @@
   <data name="Index_target" xml:space="preserve">
     <value>Индексирания обект</value>
   </data>
+  <data name="FunctionDefinitionNotAllowedInSolverBlock" xml:space="preserve">
+    <value>Неразрешена дефиниция на функция в блок за числени методи.</value>
+  </data>
 </root>

@@ -457,6 +457,15 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Function definition not allowed in solver block..
+        /// </summary>
+        public static string FunctionDefinitionNotAllowedInSolverBlock {
+            get {
+                return ResourceManager.GetString("FunctionDefinitionNotAllowedInSolverBlock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error: &quot;#if&quot; block not closed. Missing &quot;#end if&quot;..
         /// </summary>
         public static string if_block_not_closed_Missing_end_if {
