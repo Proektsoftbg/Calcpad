@@ -1,0 +1,20 @@
+'<style>.header{width: 100%; max-width:170mm;} .header th{border: solid 1pt lightgray; text-align:left; font-size:90%;} .header th p{line-height:1em; } .logo{width:80pt; height:17.6pt; float:right; margin-top:3pt;} .addr{margin-bottom:8pt;} .pr{font-size:130%;}</style>
+'<table class="header"><thead>
+'<tr><th rowspan=3><img class="logo" src="./logo.png" alt="logo.png">
+'<h4 style="margin:0;">Proektsoft EOOD<sup>®</sup></h4>
+'<p class="addr"><small>34-36 Peyo Yavorov blvd, 1164 Sofia, tel. +359 2 423 4455<br/>email: <a href="mailto:proektsoft.bg@gmail.com">proektsoft.bg@gmail.com</a></small></p>
+'<p><small>Project: </small><b class="pr">24 Kensington Road Residential</b></p>
+'<p><small>Client: </small>Dream Home Development Ltd</p>
+'</th>'
+'<th><small>Date:</small><br/>11/2024</th>
+'<th><small>Page:</small><br/></th></tr><tr> 
+'<th><small>Job No:</small><br/>1001</th>
+'<th><small>Revision:</small><br/>0</th></tr><tr>
+'<th><small>Design by:</small><br/>ABC</th>
+'<th><small>Check by:</small><br/>DEF</th></tr>
+'</thead><tbody><tr><td colspan="4" style="padding-top:6pt;">
+'Your worksheet content goes here.
+#for i = 1 : 100
+	
+#loop
+'</td></tr></tbody></table>

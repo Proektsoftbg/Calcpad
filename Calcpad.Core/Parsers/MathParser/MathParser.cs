@@ -201,6 +201,9 @@ namespace Calcpad.Core
             _input.OrderOperators(input, isFunctionDefinition || _isSolver > 0 || IsPlotting, _assignmentIndex);
             if (isFunctionDefinition)
             {
+                if (_isSolver > 0)
+                    Throw.FunctionDefinitionInSolverException();
+
                 _rpn = null;
                 AddFunction(input);
             }

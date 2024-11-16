@@ -459,4 +459,7 @@
   <data name="Invalid_item" xml:space="preserve">
     <value>Invalid item</value>
   </data>
+  <data name="FunctionDefinitionNotAllowedInSolverBlock" xml:space="preserve">
+    <value>Function definition not allowed in solver block.</value>
+  </data>
 </root>
