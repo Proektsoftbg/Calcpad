@@ -120,7 +120,7 @@
         private sealed class RenderToken : Token
         {
 
-            internal ValueTypes ValType;  //0 - none, 1 - number, 2 - unit, 3 - number + unit
+            internal ValueTypes ValType;
             internal int Level;
             internal int Offset;          //-1 - down, 0 - none, 1 - up
             internal int MinOffset;

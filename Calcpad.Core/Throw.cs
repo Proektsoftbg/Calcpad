@@ -13,7 +13,8 @@ namespace Calcpad.Core
             Argument,
             Result,
             Variable,
-            IndexTarget
+            IndexTarget,
+            Limit,
         }
 
         private static string ItemToString(Items item) =>

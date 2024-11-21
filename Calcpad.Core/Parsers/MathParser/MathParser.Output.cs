@@ -375,14 +375,17 @@ namespace Calcpad.Core
                             sa = AddBrackets(sa, a.Level, a.MinOffset, a.MaxOffset, '(', ')');
 
                         if (content == "^" &&
-                            (a.ValType != ValueTypes.Vector &&
-                            b.ValType != ValueTypes.Vector))
+                            a.ValType != ValueTypes.Vector &&
+                            a.ValType != ValueTypes.Matrix &&
+                            b.ValType != ValueTypes.Vector &&
+                            b.ValType != ValueTypes.Matrix)
                         {
                             if (a.IsCompositeValue || IsNegative(a))
                                 sa = AddBrackets(sa, a.Level, a.MinOffset, a.MaxOffset, '(', ')');
 
                             if (writer is TextWriter && (IsNegative(b) || b.Order != Token.DefaultOrder))
                                 sb = AddBrackets(sb, b.Level, b.MinOffset, b.MaxOffset, '(', ')');
+
                             t.Content = writer.FormatPower(sa, sb, a.Level, a.Order);
 
                             t.Level = a.Level;
