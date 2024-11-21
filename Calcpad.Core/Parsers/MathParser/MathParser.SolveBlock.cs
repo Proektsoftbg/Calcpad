@@ -2,6 +2,7 @@
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Text;
+using static Calcpad.Core.Throw;
 
 namespace Calcpad.Core
 {
@@ -261,14 +262,14 @@ namespace Calcpad.Core
                     Compile();
 
                 ++_parser._isSolver;
-                var x1 = (Value)(_a?.Invoke() ?? _va);
+                var x1 = IValue.AsValue((_a?.Invoke() ?? _va));
                 _parser.CheckReal(x1);
                 var x2 = Value.Zero;
                 var y = 0d;
                 var ux1 = x1.Units;
                 if (_type != SolverTypes.Slope)
                 {
-                    x2 = (Value)(_b?.Invoke() ?? _vb);
+                    x2 = IValue.AsValue((_b?.Invoke() ?? _vb),Throw.Items.Limit);
                     _parser.CheckReal(x2);
                     var ux2 = x2.Units;
                     if (!Unit.IsConsistent(ux1, ux2))
@@ -280,12 +281,12 @@ namespace Calcpad.Core
                 _var.Value = x1;
                 if (_type == SolverTypes.Root && _y is not null)
                 {
-                    var y1 = (Value)_f();
+                    var y1 = IValue.AsValue(_f(), Throw.Items.Result);
                     var uy1 = y1.Units;
-                    y1 = (Value)_y();
+                    y1 = IValue.AsValue(_y(), Throw.Items.Result);
                     _parser.CheckReal(y1);
                     _var.SetNumber(x2.Re);
-                    var y2 = (Value)_y();
+                    var y2 = IValue.AsValue(_y(), Throw.Items.Result);
                     _parser.CheckReal(y2);
                     if (Math.Abs(y2.Re - y1.Re) > 1e-14)
                         Throw.NotConstantExpressionException(_items[4].Input);
