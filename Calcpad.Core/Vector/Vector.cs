@@ -1128,7 +1128,7 @@ namespace Calcpad.Core
                     return new Value(i + 1);
             }
             if (_size < n && value.AlmostEquals(Value.Zero))
-                return new Value(_size);
+                return new Value(_size + 1);
 
             return Value.Zero;
         }

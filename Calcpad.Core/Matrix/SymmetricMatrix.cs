@@ -703,10 +703,11 @@ namespace Calcpad.Core
             return M * det;
         }
 
-        protected override Matrix GetLU(out int[] indexes, out double minPivot)
+        protected override Matrix GetLU(out int[] indexes, out double minPivot, out double det)
         {
             indexes = new int[_rowCount];
             minPivot = double.MaxValue;
+            det = 1d;
             for (int i = 0; i < _rowCount; ++i)
                 indexes[i] = i;
 

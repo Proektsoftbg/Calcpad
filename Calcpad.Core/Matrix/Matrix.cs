@@ -2434,14 +2434,14 @@ namespace Calcpad.Core
 
         internal Matrix LUDecomposition(out int[] indexes)
         {
-            var LU = GetLU(out indexes, out double _);
+            var LU = GetLU(out indexes, out double _, out double _);
             if (LU is null)
                 Throw.MatrixSingularException();
 
             return LU;
         }
 
-        protected virtual Matrix GetLU(out int[] indexes, out double minPivot)
+        protected virtual Matrix GetLU(out int[] indexes, out double minPivot, out double det)
         {
             if (_rowCount != _colCount)
                 Throw.MatrixNotSquareException();
@@ -2450,7 +2450,8 @@ namespace Calcpad.Core
             var vv = new Value[_rowCount];
             indexes = new int[_rowCount];
             Value big;
-            minPivot = double.MaxValue;
+            minPivot = double.MaxValue; //Used to determine singularity
+            det = 1d; //Used to compute the sign change of determinant after pivot interchanges
             for (int i = 0; i < _rowCount; ++i)
             {
                 indexes[i] = i;
@@ -2516,6 +2517,7 @@ namespace Calcpad.Core
                     (LU._rows[j], LU._rows[imax]) = (LU._rows[imax], LU._rows[j]);
                     vv[imax] = vv[j];
                     (indexes[j], indexes[imax]) = (indexes[imax], indexes[j]);
+                    det = -det;
                 }
                 if (j != _rowCount - 1)
                 {
@@ -2988,7 +2990,7 @@ namespace Calcpad.Core
 
         internal virtual Vector LSolve(Vector v)
         {
-            var LU = GetLU(out int[] indexes, out double minPivot);
+            var LU = GetLU(out int[] indexes, out double minPivot, out double _);
             if (LU is null)
                 Throw.MatrixSingularException();
 
@@ -3002,7 +3004,7 @@ namespace Calcpad.Core
 
         internal virtual Matrix MSolve(Matrix M)
         {
-            var LU = GetLU(out int[] indexes, out double minPivot);
+            var LU = GetLU(out int[] indexes, out double minPivot, out double _);
             if (LU is null)
                 Throw.MatrixSingularException();
 
@@ -3023,7 +3025,7 @@ namespace Calcpad.Core
 
         internal virtual Matrix Invert()
         {
-            var LU = GetLU(out int[] indexes, out double minPivot);
+            var LU = GetLU(out int[] indexes, out double minPivot, out double _);
             if (LU is null)
                 Throw.MatrixSingularException();
 
@@ -3056,11 +3058,11 @@ namespace Calcpad.Core
             if (_rowCount != _colCount)
                 Throw.MatrixNotSquareException();
 
-            var LU = GetLU(out int[] _, out double _);
+            var LU = GetLU(out int[] _, out double _, out double det);
             if (LU is null)
                 return Value.Zero;
 
-            return GetDeterminant(LU);
+            return GetDeterminant(LU) * det;
         }
 
         private Value GetDeterminant(Matrix lu)
@@ -3087,7 +3089,7 @@ namespace Calcpad.Core
             if (_rowCount != _colCount)
                 Throw.MatrixNotSquareException();
 
-            var LU = GetLU(out int[] indexes, out double _); //Decompose the matrix by LU decomp.
+            var LU = GetLU(out int[] indexes, out double _, out double _); //Decompose the matrix by LU decomp.
             if (LU is null)
                 return Value.PositiveInfinity;
 
@@ -3111,13 +3113,13 @@ namespace Calcpad.Core
 
         internal virtual Matrix Adjoint()
         {
-            var LU = GetLU(out int[] indexes, out double _);
+            var LU = GetLU(out int[] indexes, out double _, out double det);
             if (LU is null)
                 Throw.MatrixSingularException();
 
-            var det = GetDeterminant(LU);
+            var determinant = GetDeterminant(LU) * det;
             var M = GetInverse(LU, indexes);
-            return M * det;
+            return M * determinant;
         }
         internal Matrix Cofactor() => Adjoint().Transpose();
 
