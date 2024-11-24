@@ -554,9 +554,8 @@ namespace Calcpad.Core
                         for (int j = vector.Length - 1; j >= 0; --j)
                             values.Add(vector[j]);
                     }
-                    else
+                    else if (ival is Matrix matrix)
                     {
-                        var matrix = (Matrix)ival;
                         var colCount = matrix.ColCount;
                         for (int i = matrix.RowCount - 1; i >= 0; --i)
                             for (int j = colCount - 1; j >= 0; --j)
