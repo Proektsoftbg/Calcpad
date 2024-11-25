@@ -411,7 +411,7 @@
             string M = "[2; 5; 7|3; 8; 1|6; 4; 9]";
             var calc = new TestCalc(new());
             calc.Run(["f(a) = adj(a)", $"f({M})"]);
-            Assert.Equal("[-68 17 51|21 24 -19|36 -22 -1]", calc.ToString());
+            Assert.Equal("[68 -17 -51|-21 -24 19|-36 22 1]", calc.ToString());
         }
         [Fact]
         [Trait("Category", "MathFunctions")]
@@ -420,7 +420,7 @@
             string M = "[2; 4; 8|1; 7; 3|5; 9; 6]";
             var calc = new TestCalc(new());
             calc.Run(["f(a) = cofactor(a)", $"f({M})"]);
-            Assert.Equal("[-15 -9 26|-48 28 -2|44 -2 -10]", calc.ToString());
+            Assert.Equal("[15 9 -26|48 -28 2|-44 2 10]", calc.ToString());
         }
         [Fact]
         [Trait("Category", "MathFunctions")]
