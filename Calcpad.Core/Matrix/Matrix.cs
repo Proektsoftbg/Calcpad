@@ -1567,7 +1567,7 @@ namespace Calcpad.Core
                 int k = 0;
                 for (int i = 0; i < _rowCount; ++i)
                     for (int j = 0; j < _colCount; ++j)
-                        values[++k] = this[i, j];
+                        values[k++] = this[i, j];
 
                 return values;
             }
