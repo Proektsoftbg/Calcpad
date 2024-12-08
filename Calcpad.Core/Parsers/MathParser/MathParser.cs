@@ -266,9 +266,13 @@ namespace Calcpad.Core
             {
                 bool isAssignment = _rpn[0].Type == TokenTypes.Variable && _rpn[^1].Content == "=";
                 _calc.ReturnAngleUnits = GetSettingsVariable("ReturnAngleUnits", 0) != 0d;
+                Func<IValue> f = null;
                 if (!isVisible && cacheId >= 0 && cacheId < _equationCache.Count)
+                    f = _equationCache[cacheId].Function;
+
+                if (f is not null)
                 {
-                    _result = _equationCache[cacheId].Function();
+                    _result = f();
                     if (isAssignment && _rpn[0] is VariableToken vt)
                     {
                         ref var v = ref vt.Variable.ValueByRef();
