@@ -1,84 +1,186 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
-	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-		<xsd:element name="root" msdata:IsDataSet="true"></xsd:element>
-	</xsd:schema>
-	<resheader name="resmimetype">
-		<value>text/microsoft-resx</value>
-	</resheader>
-	<resheader name="version">
-		<value>1.3</value>
-	</resheader>
-	<resheader name="reader">
-		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-	<resheader name="writer">
-		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-	<data name="Find" xml:space="preserve">
-        <value>查找</value>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
     </data>
-	<data name="Replace" xml:space="preserve">
-        <value>替换</value>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
     </data>
-	<data name="SearchFor" xml:space="preserve">
-        <value>搜索:</value>
-    </data>
-	<data name="Direction" xml:space="preserve">
-        <value>搜索方向:</value>
-    </data>
-	<data name="Up" xml:space="preserve">
-        <value>向上</value>
-    </data>
-	<data name="All" xml:space="preserve">
-        <value>所有</value>
-    </data>
-	<data name="Down" xml:space="preserve">
-        <value>向下</value>
-    </data>
-	<data name="MatchCase" xml:space="preserve">
-        <value>匹配大小写</value>
-    </data>
-	<data name="WholeWords" xml:space="preserve">
-        <value>全词匹配</value>
-    </data>
-	<data name="FindNext" xml:space="preserve">
-        <value>查找下一个</value>
-    </data>
-	<data name="Close" xml:space="preserve">
-        <value>关闭</value>
-    </data>
-	<data name="ReplaceWith" xml:space="preserve">
-        <value>替换为：</value>
-    </data>
-	<data name="Selection" xml:space="preserve">
-        <value>选择</value>
-    </data>
-	<data name="ReplaceAll" xml:space="preserve">
-        <value>全部替换</value>
-    </data>
-	<data name="Search_text_not_found" xml:space="preserve">
-        <value>找不到匹配项.</value>
-    </data>
-	<data name="Find_And_Replace_Caption" xml:space="preserve">
-        <value>查找和替换</value>
-    </data>
-	<data name="count_matches_were_replaced" xml:space="preserve">
-        <value>{0} 个匹配项已替换.</value>
-    </data>
-	<data name="The_search_string_is_empty" xml:space="preserve">
-        <value>查找语句空缺.</value>
-    </data>
-	<data name="Start_of_text_reached_There_are_no_other_occurrences" xml:space="preserve">
-        <value>已到文首.无其他匹配项.</value>
-    </data>
-	<data name="End_of_text_reached_There_are_no_other_occurrences" xml:space="preserve">
-        <value>已到文尾.无其他匹配项.</value>
-    </data>
-	<data name="Invalid_character_0" xml:space="preserve">
-        <value>无效字符: {0}.</value>
-    </data>
-	<data name="End_of_line_expected" xml:space="preserve">
-        <value>需要结束当前行.</value>
-    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Find" xml:space="preserve">
+    <value>查找</value>
+  </data>
+  <data name="Replace" xml:space="preserve">
+    <value>替换</value>
+  </data>
+  <data name="SearchFor" xml:space="preserve">
+    <value>查找内容</value>
+  </data>
+  <data name="Direction" xml:space="preserve">
+    <value>方向</value>
+  </data>
+  <data name="Up" xml:space="preserve">
+    <value>向上</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>全部</value>
+  </data>
+  <data name="Down" xml:space="preserve">
+    <value>向下</value>
+  </data>
+  <data name="MatchCase" xml:space="preserve">
+    <value>匹配大小写</value>
+  </data>
+  <data name="WholeWords" xml:space="preserve">
+    <value>全词匹配</value>
+  </data>
+  <data name="FindNext" xml:space="preserve">
+    <value>查找下一个</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="ReplaceWith" xml:space="preserve">
+    <value>替换为</value>
+  </data>
+  <data name="Selection" xml:space="preserve">
+    <value>选择</value>
+  </data>
+  <data name="ReplaceAll" xml:space="preserve">
+    <value>全部替换</value>
+  </data>
+  <data name="Search_text_not_found" xml:space="preserve">
+    <value>未找到要查找的文本</value>
+  </data>
+  <data name="Find_And_Replace_Caption" xml:space="preserve">
+    <value>查找和替换</value>
+  </data>
+  <data name="count_matches_were_replaced" xml:space="preserve">
+    <value>{0} 个匹配项被替换</value>
+  </data>
+  <data name="The_search_string_is_empty" xml:space="preserve">
+    <value>搜索字符串为空</value>
+  </data>
+  <data name="Start_of_text_reached_There_are_no_other_occurrences" xml:space="preserve">
+    <value>已到达文首.未找到其他匹配项</value>
+  </data>
+  <data name="End_of_text_reached_There_are_no_other_occurrences" xml:space="preserve">
+    <value>已到达文尾.未找到其他匹配项</value>
+  </data>
+  <data name="Invalid_character_0" xml:space="preserve">
+    <value>无效字符: {0}</value>
+  </data>
+  <data name="End_of_line_expected" xml:space="preserve">
+    <value>应为行尾</value>
+  </data>
 </root>
