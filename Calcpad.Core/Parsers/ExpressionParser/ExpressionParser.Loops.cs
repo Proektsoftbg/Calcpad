@@ -29,6 +29,7 @@ namespace Calcpad.Core
 
                 currentLine = _startLine;
                 --_iteration;
+
                 return true;
             }
 
