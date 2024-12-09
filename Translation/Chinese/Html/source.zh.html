@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <title>Calcpad</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <script src="jquery-3.6.3.min.js"></script>
+    <style>
+        body {
+            font-size: 12pt;
+            font-family: Times New Roman, Calibri, sans-serif;
+        }
+
+        h1, h2, h3, h4, h5, h6, .errorHeader, .roundBox {
+            font-family: Bold, Times New Roman,Arial, Helvetica, sans-serif;
+        }
+
+        p, li {
+            margin: 0;
+            padding: 0;
+            line-height: 14pt;
+        }
+
+        .line-num {
+            color: darkcyan;
+            display: inline-block;
+            width: 25pt;
+            height: 15pt;
+            border-right: solid 1px #ccc;
+            margin-right: 6pt;
+            padding-right: 6pt;
+            text-align: right;
+            font-size: 10pt;
+        }
+
+        .line-text {
+            padding-left: 42pt;
+            text-indent: -42pt;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+            a:hover {
+                text-decoration: underline;
+                background-color: #e9f6ff;
+            }
+
+        .code {
+            font-size: 10.5pt;
+            font-family: Consolas;
+        }
+
+        .const {
+            color: black;
+        }
+
+        .units {
+            color: darkcyan;
+        }
+
+        .operator {
+            color: goldenrod;
+        }
+
+        .variable {
+            color: blue;
+        }
+
+        .function {
+            color: black;
+            font-weight: bold;
+        }
+
+        .keyword {
+            color: magenta;
+        }
+
+        .command {
+            color: magenta;
+        }
+
+        .bracket {
+            color: deeppink;
+        }
+
+        .comment {
+            color: forestgreen;
+        }
+
+        .tag {
+            color: darkorchid;
+        }
+
+        .input {
+            color: crimson;
+        }
+
+        .include {
+            color: indigo;
+        }
+
+        .macro {
+            color: darkmagenta;
+        }
+
+        .error {
+            color: crimson;
+            background-color: #ffe2e0;
+        }
+
+        .errorHeader {
+            color: white;
+            background-color: crimson;
+            font-size: 10pt;
+            position: fixed;
+            top: 0;
+            left: 0;
+            margin-top: 0;
+            width: 100vw;
+            max-width: 100%;
+            height: 1.6em;
+            line-height: 1.2em;
+            padding-left: 6pt;
+            overflow-x: hidden;
+        }
+
+        .roundBox {
+            background-color: #fee;
+            color: crimson;
+            font-size: 9pt;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            display: inline-block;
+            border-radius: 4pt;
+            min-width: 1.1em;
+            padding-left: 2pt;
+            padding-right: 2pt;
+            margin-top: 2pt;
+        }
+
+            .roundBox:hover {
+                background-color: white;
+            }
+    </style>
+</head>
+<body>
+    <script>
+        function delayedLoad(path) { setTimeout(function () { document.write(path); }, 500); }
+        function getVerticalPosition(line) { return document.querySelector("[data-text='" + line + "']").getBoundingClientRect().top; }
+        if (window.jQuery) {
+            $(document).ready(function () {
+                $(".roundBox").click(function () {
+                    var line = $(this).data("line");
+                    var e = document.getElementById('line-' + line);
+                    if (e) {
+                        window.scrollTo(0, e.offsetTop - $(this).outerHeight() - 20);
+                    }
+                });
+            });
+        }
+    </script>

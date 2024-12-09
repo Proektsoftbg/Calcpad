@@ -66,13 +66,17 @@ namespace Calcpad.Core
             {
                 while (++_currentLine < lineCount)
                 {
-                    ref var _currentLineCache = ref _lineCache[_currentLine];
-                    if (_currentLineCache.IsCached && _currentLineCache.Keyword == Keyword.None)
+                    ref var currentLineCache = ref _lineCache[_currentLine];
+                    if (currentLineCache.Keyword == Keyword.Continue)
+                        continue;
+
+                    if (currentLineCache.IsCached && currentLineCache.Keyword == Keyword.None)
                     {
                         if (_condition.IsSatisfied || !_calculate)
                         {
                             _condition.SetCondition(-1);
-                            ParseLine(_currentLineCache.Tokens, Keyword.None);
+                            _parser.IsCalculation = _isVal != -1;
+                            ParseLine(currentLineCache.Tokens, Keyword.None);
                         }
                         continue;
                     }
@@ -98,7 +102,10 @@ namespace Calcpad.Core
                         textSpan = lineSpan;
 
                     if (HasLineExtension(lineSpan))
+                    {
+                        _lineCache[_currentLine] = new(null, Keyword.Continue);
                         continue;
+                    }
 
                     if (_parser.IsCanceled)
                         break;
@@ -132,6 +139,7 @@ namespace Calcpad.Core
                             _lineCache[_currentLine] = new(tokens, keyword);
                         }
                         _parser.HasInputFields = false;
+                        
                         ParseLine(tokens, keyword);
                         //If the line has input fields, the line cach is cleared, to allow #input to work
                         if (_parser.HasInputFields)
@@ -391,7 +399,7 @@ namespace Calcpad.Core
 
         private void ParseTokens(List<Token> tokens, bool isOutput, bool getXml)
         {
-            var isLoop = _loops.Count > 0;
+            var isLoop = _loops.Count > 0 && _calculate && _isVal >- 1;
             for(int i = 0, count = tokens.Count; i < count; ++i)
             {
                 var token = tokens[i];
@@ -403,7 +411,7 @@ namespace Calcpad.Core
                         if (cacheID < 0)
                         {
                             _parser.Parse(token.Value);
-                            if (isLoop)
+                            if (isLoop )
                                 tokens[i].CacheID = _parser.WriteEquationToCache(isOutput);
                         }
                         else

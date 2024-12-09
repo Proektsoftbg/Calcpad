@@ -1,399 +1,501 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
-	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-		<xsd:element name="root" msdata:IsDataSet="true"></xsd:element>
-	</xsd:schema>
-	<resheader name="resmimetype">
-		<value>text/microsoft-resx</value>
-	</resheader>
-	<resheader name="version">
-		<value>1.3</value>
-	</resheader>
-	<resheader name="reader">
-		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-	<resheader name="writer">
-		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-	<data name="Units_Header" xml:space="preserve">
-        <value>单位</value>
-    </data>
-	<data name="Dimensionless" xml:space="preserve">
-        <value>无量纲型</value>
-    </data>
-	<data name="Percent" xml:space="preserve">
-        <value>% (百分号)</value>
-    </data>
-	<data name="Permille" xml:space="preserve">
-        <value>‰ (千分号)</value>
-    </data>
-	<data name="Angles" xml:space="preserve">
-        <value>角度</value>
-    </data>
-	<data name="Degrees" xml:space="preserve">
-        <value>° (角度)</value>
-    </data>
-	<data name="Minutes" xml:space="preserve">
-        <value>′ (分)</value>
-    </data>
-	<data name="Seconds" xml:space="preserve">
-        <value>″ (秒)</value>
-    </data>
-	<data name="DegDegrees" xml:space="preserve">
-        <value>deg (度)</value>
-    </data>
-	<data name="Radians" xml:space="preserve">
-        <value>rad (弧度)</value>
-    </data>
-	<data name="Gradians" xml:space="preserve">
-        <value>grad (百分度)</value>
-    </data>
-	<data name="Revolutions" xml:space="preserve">
-        <value>rev( 转 )</value>
-    </data>
-	<data name="Metric" xml:space="preserve">
-        <value>米制</value>
-    </data>
-	<data name="Mass" xml:space="preserve">
-        <value>质量</value>
-    </data>
-	<data name="Gram" xml:space="preserve">
-        <value>g (克）</value>
-    </data>
-	<data name="Hectogram" xml:space="preserve">
-        <value>hg (百克)</value>
-    </data>
-	<data name="Kilogram" xml:space="preserve">
-        <value>kg (千克)</value>
-    </data>
-	<data name="Ton" xml:space="preserve">
-        <value>t (吨)</value>
-    </data>
-	<data name="Kiloton" xml:space="preserve">
-        <value>kt (千吨)</value>
-    </data>
-	<data name="Megaton" xml:space="preserve">
-        <value>Mt (兆吨)</value>
-    </data>
-	<data name="Gigaton" xml:space="preserve">
-        <value>Gt (吉吨)</value>
-    </data>
-	<data name="Decigram" xml:space="preserve">
-        <value>dg (分克)</value>
-    </data>
-	<data name="Centigram" xml:space="preserve">
-        <value>cg (厘克)</value>
-    </data>
-	<data name="Milligram" xml:space="preserve">
-        <value>mg (毫克)</value>
-    </data>
-	<data name="Microgram" xml:space="preserve">
-        <value>μg (微克)</value>
-    </data>
-	<data name="Nanogram" xml:space="preserve">
-        <value>ng (纳克)</value>
-    </data>
-	<data name="Picogram" xml:space="preserve">
-        <value>pg (皮克)</value>
-    </data>
-	<data name="Dalton" xml:space="preserve">
-        <value>Da (道尔顿，1/16氧原子质量)</value>
-    </data>
-	<data name="DaltonAlt" xml:space="preserve">
-        <value>u (Dalton alt.)</value>
-    </data>
-	<data name="Length" xml:space="preserve">
-        <value>长度</value>
-    </data>
-	<data name="Meter" xml:space="preserve">
-        <value>m (米)</value>
-    </data>
-	<data name="Kilometer" xml:space="preserve">
-        <value>km (千米)</value>
-    </data>
-	<data name="Decimeter" xml:space="preserve">
-        <value>dm (分米)</value>
-    </data>
-	<data name="Centimeter" xml:space="preserve">
-        <value>cm (厘米)</value>
-    </data>
-	<data name="Millimeter" xml:space="preserve">
-        <value>mm (毫米)</value>
-    </data>
-	<data name="Micrometer" xml:space="preserve">
-        <value>μm (微米)</value>
-    </data>
-	<data name="Nanometer" xml:space="preserve">
-        <value>nm (纳米)</value>
-    </data>
-	<data name="Picometer" xml:space="preserve">
-        <value>pm (皮米)</value>
-    </data>
-	<data name="AstronomicalUnit" xml:space="preserve">
-        <value>AU (天文单位)</value>
-    </data>
-	<data name="LightYear" xml:space="preserve">
-        <value>ly (光年)</value>
-    </data>
-	<data name="Area" xml:space="preserve">
-        <value>面积</value>
-    </data>
-	<data name="SqMeter" xml:space="preserve">
-        <value>m² (平方米)</value>
-    </data>
-	<data name="SqKilometer" xml:space="preserve">
-        <value>km² (平方千米)</value>
-    </data>
-	<data name="SqDecimeter" xml:space="preserve">
-        <value>dm² (平方分米)</value>
-    </data>
-	<data name="SqCentimeter" xml:space="preserve">
-        <value>cm² (平方厘米)</value>
-    </data>
-	<data name="SqMillimeter" xml:space="preserve">
-        <value>mm² (平方毫米)</value>
-    </data>
-	<data name="Are" xml:space="preserve">
-        <value>a (公亩，100平方米)</value>
-    </data>
-	<data name="Decare" xml:space="preserve">
-        <value>daa (十公亩)</value>
-    </data>
-	<data name="Hectare" xml:space="preserve">
-        <value>ha (百公亩)</value>
-    </data>
-	<data name="Volume" xml:space="preserve">
-        <value>体积</value>
-    </data>
-	<data name="CubicMeter" xml:space="preserve">
-        <value>m³ (立方米)</value>
-    </data>
-	<data name="CubicKilometer" xml:space="preserve">
-        <value>km³ (立方千米)</value>
-    </data>
-	<data name="CubicDecimeter" xml:space="preserve">
-        <value>dm³ (立方分米)</value>
-    </data>
-	<data name="CubicCentimeter" xml:space="preserve">
-        <value>cm³ (立方厘米)</value>
-    </data>
-	<data name="CubicMillimeter" xml:space="preserve">
-        <value>mm³ (立方毫米)</value>
-    </data>
-	<data name="Litre" xml:space="preserve">
-        <value>L (升)</value>
-    </data>
-	<data name="Decalitre" xml:space="preserve">
-        <value>daL (十升)</value>
-    </data>
-	<data name="Hectolitre" xml:space="preserve">
-        <value>hL (百升)</value>
-    </data>
-	<data name="Decilitre" xml:space="preserve">
-        <value>dL (分升)</value>
-    </data>
-	<data name="Centilitre" xml:space="preserve">
-        <value>cL (厘升)</value>
-    </data>
-	<data name="Millilitre" xml:space="preserve">
-        <value>mL (毫升)</value>
-    </data>
-	<data name="Microlitre" xml:space="preserve">
-        <value>μL (微升)</value>
-    </data>
-	<data name="Nanolitre" xml:space="preserve">
-        <value>nL (纳升)</value>
-    </data>
-	<data name="Picolitre" xml:space="preserve">
-        <value>pL (1×10^-12升)</value>
-    </data>
-	<data name="Time" xml:space="preserve">
-        <value>时间</value>
-    </data>
-	<data name="Second" xml:space="preserve">
-        <value>s (秒)</value>
-    </data>
-	<data name="Millisecond" xml:space="preserve">
-        <value>ms (毫秒)</value>
-    </data>
-	<data name="Microsecond" xml:space="preserve">
-        <value>μs (微秒)</value>
-    </data>
-	<data name="Nanosecond" xml:space="preserve">
-        <value>ns (纳秒)</value>
-    </data>
-	<data name="Picosecond" xml:space="preserve">
-        <value>ps (皮秒)</value>
-    </data>
-	<data name="Minute" xml:space="preserve">
-        <value>min (分)</value>
-    </data>
-	<data name="Hour" xml:space="preserve">
-        <value>h (小时)</value>
-    </data>
-	<data name="Day" xml:space="preserve">
-        <value>d (天)</value>
-    </data>
-	<data name="Week" xml:space="preserve">
-        <value>w (周)</value>
-    </data>
-	<data name="Year" xml:space="preserve">
-        <value>y (年)</value>
-    </data>
-	<data name="Frequency" xml:space="preserve">
-        <value>频率</value>
-    </data>
-	<data name="Hertz" xml:space="preserve">
-        <value>Hz (赫兹)</value>
-    </data>
-	<data name="Kilohertz" xml:space="preserve">
-        <value>kHz (千赫兹)</value>
-    </data>
-	<data name="Megahertz" xml:space="preserve">
-        <value>MHz (兆赫兹)</value>
-    </data>
-	<data name="Gigahertz" xml:space="preserve">
-        <value>GHz (吉赫兹)</value>
-    </data>
-	<data name="Terahertz" xml:space="preserve">
-        <value>THz (太拉赫兹)</value>
-    </data>
-	<data name="Millihertz" xml:space="preserve">
-        <value>mHz (毫赫兹)</value>
-    </data>
-	<data name="Microhertz" xml:space="preserve">
-        <value>μHz (微赫兹)</value>
-    </data>
-	<data name="Nanohertz" xml:space="preserve">
-        <value>nHz (纳赫兹)</value>
-    </data>
-	<data name="Picohertz" xml:space="preserve">
-        <value>pHz (皮赫兹)</value>
-    </data>
-	<data name="RPM" xml:space="preserve">
-        <value>rpm (转每分)</value>
-    </data>
-	<data name="Speed" xml:space="preserve">
-        <value>速度</value>
-    </data>
-	<data name="MetersPerSecond" xml:space="preserve">
-        <value>m/s (米每秒)</value>
-    </data>
-	<data name="KilometersPerHour" xml:space="preserve">
-        <value>km/h (千米每小时)</value>
-    </data>
-	<data name="DegreeCelsius" xml:space="preserve">
-        <value>°C (摄氏度)</value>
-    </data>
-	<data name="Temperature" xml:space="preserve">
-        <value>温度</value>
-    </data>
-	<data name="DifferenceInDegreesCelsius" xml:space="preserve">
-        <value>Δ°C (摄氏温差 )</value>
-    </data>
-	<data name="Kelvin" xml:space="preserve">
-        <value>K (开尔文)</value>
-    </data>
-	<data name="Force" xml:space="preserve">
-        <value>力</value>
-    </data>
-	<data name="Newton" xml:space="preserve">
-        <value>N (牛顿)</value>
-    </data>
-	<data name="Decanewton" xml:space="preserve">
-        <value>daN (十牛)</value>
-    </data>
-	<data name="Hectonewton" xml:space="preserve">
-        <value>hN (百牛)</value>
-    </data>
-	<data name="Kilonewton" xml:space="preserve">
-        <value>kN (千牛)</value>
-    </data>
-	<data name="Meganewton" xml:space="preserve">
-        <value>MN (兆牛)</value>
-    </data>
-	<data name="Giganewton" xml:space="preserve">
-        <value>GN (吉牛)</value>
-    </data>
-	<data name="Teranewton" xml:space="preserve">
-        <value>TN (太拉牛)</value>
-    </data>
-	<data name="GramForce" xml:space="preserve">
-        <value>gf (克-力)</value>
-    </data>
-	<data name="KilogramForce" xml:space="preserve">
-        <value>kgf (千克-力)</value>
-    </data>
-	<data name="TonneForce" xml:space="preserve">
-        <value>tf (吨-力)</value>
-    </data>
-	<data name="Dyne" xml:space="preserve">
-        <value>dyn (达因，10^-5牛)</value>
-    </data>
-	<data name="TorqueMoment" xml:space="preserve">
-        <value>扭矩/弯矩</value>
-    </data>
-	<data name="NewtonMeter" xml:space="preserve">
-        <value>Nm (牛-米)</value>
-    </data>
-	<data name="NewtonMillimeter" xml:space="preserve">
-        <value>N·mm (牛-毫米)</value>
-    </data>
-	<data name="NewtonCentimeter" xml:space="preserve">
-        <value>N·cm (牛-厘米)</value>
-    </data>
-	<data name="KiloNewtonCentimeter" xml:space="preserve">
-        <value>kN·cm (千牛-厘米)</value>
-    </data>
-	<data name="KiloNewtonMeter" xml:space="preserve">
-        <value>kNm (千牛-米)</value>
-    </data>
-	<data name="Pressure" xml:space="preserve">
-        <value>压强</value>
-    </data>
-	<data name="NewtonsPerSqMillimeter" xml:space="preserve">
-        <value>N/mm² (牛每平方毫米)</value>
-    </data>
-	<data name="NewtonsPerSqCentimeter" xml:space="preserve">
-        <value>N/cm² (牛每平方厘米)</value>
-    </data>
-	<data name="NewtonsPerSqMeter" xml:space="preserve">
-        <value>N/m² (牛每平方米)</value>
-    </data>
-	<data name="KiloNewtonsPerSqCentimeter" xml:space="preserve">
-        <value>kN/cm² (千牛每平方厘米)</value>
-    </data>
-	<data name="KiloNewtonsPerSqMeter" xml:space="preserve">
-        <value>kN/m² (千牛每平方米)</value>
-    </data>
-	<data name="KilogramFrocePerSqCentimeter" xml:space="preserve">
-        <value>kgf/cm² (千克-力每平方厘米)</value>
-    </data>
-	<data name="TonneForcePerSqMeter" xml:space="preserve">
-        <value>tf/m² (吨-力每平方米)</value>
-    </data>
-	<data name="Pascal" xml:space="preserve">
-        <value>Pa (帕斯卡)</value>
-    </data>
-	<data name="Decapascal" xml:space="preserve">
-        <value>daPa (十帕)</value>
-    </data>
-	<data name="Hectopascal" xml:space="preserve">
-        <value>hPa (百帕)</value>
-    </data>
-	<data name="Kilopascal" xml:space="preserve">
-        <value>kPa (千帕)</value>
-    </data>
-	<data name="Megapascal" xml:space="preserve">
-        <value>MPa (兆帕)</value>
-    </data>
-	<data name="Gigapascal" xml:space="preserve">
-        <value>GPa (吉帕)</value>
-    </data>
-	<data name="Terapascal" xml:space="preserve">
-        <value>TPa (太拉帕，10^12帕)</value>
-    </data>
-	<data name="Decipascal" xml:space="preserve">
+  <-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Units_Header" xml:space="preserve">
+    <value>单位</value>
+  </data>
+  <data name="Dimensionless" xml:space="preserve">
+        <value>无量纲</value>
+  </data>
+  <data name="Percent" xml:space="preserve">
+    <value>％ （百分比）</value>
+  </data>
+  <data name="Permille" xml:space="preserve">
+    <value>‰ （千分比） </value>
+  </data>
+  <data name="Angles" xml:space="preserve">
+    <value>角度</value>
+  </data>
+  <data name="Degrees" xml:space="preserve">
+    <value>° (度)</value>
+  </data>
+  <data name="Minutes" xml:space="preserve">
+    <value>′ (分)</value>
+  </data>
+  <data name="Seconds" xml:space="preserve">
+    <value>″ (秒)</value>
+  </data>
+  <data name="DegDegrees" xml:space="preserve">
+    <value>deg (度)</value>
+  </data>
+  <data name="Radians" xml:space="preserve">
+    <value>rad （弧度）</value>
+  </data>
+  <data name="Gradians" xml:space="preserve">
+    <value>grad（坡度） </value>
+  </data>
+  <data name="Revolutions" xml:space="preserve">
+    <value>rev （转） </value>
+  </data>
+  <data name="Metric" xml:space="preserve">
+    <value>公制</value>
+  </data>
+  <data name="Mass" xml:space="preserve">
+    <value>质量</value>
+  </data>
+  <data name="Gram" xml:space="preserve">
+    <value>g （克）</value>
+  </data>
+  <data name="Hectogram" xml:space="preserve">
+    <value>hg （百克） </value>
+  </data>
+  <data name="Kilogram" xml:space="preserve">
+    <value>kg （千克）</value>
+  </data>
+  <data name="Ton" xml:space="preserve">
+    <value>t （吨） </value>
+  </data>
+  <data name="Kiloton" xml:space="preserve">
+    <value>kt （千吨）</value>
+  </data>
+  <data name="Megaton" xml:space="preserve">
+    <value>Mt （百万吨） </value>
+  </data>
+  <data name="Gigaton" xml:space="preserve">
+    <value>Gt （千兆吨） </value>
+  </data>
+  <data name="Decigram" xml:space="preserve">
+    <value>dg （分克） </value>
+  </data>
+  <data name="Centigram" xml:space="preserve">
+    <value>cg （厘克） </value>
+  </data>
+  <data name="Milligram" xml:space="preserve">
+    <value>mg （毫克）</value>
+  </data>
+  <data name="Microgram" xml:space="preserve">
+    <value>μg (微克)</value>
+  </data>
+  <data name="Nanogram" xml:space="preserve">
+    <value>ng （纳克） </value>
+  </data>
+  <data name="Picogram" xml:space="preserve">
+    <value>pg (皮克)</value>
+  </data>
+  <data name="Dalton" xml:space="preserve">
+    <value>Da (道尔顿)</value>
+  </data>
+  <data name="DaltonAlt" xml:space="preserve">
+    <value>u （道尔顿alt. ） </value>
+  </data>
+  <data name="Length" xml:space="preserve">
+    <value>长度</value>
+  </data>
+  <data name="Meter" xml:space="preserve">
+    <value>m (米)</value>
+  </data>
+  <data name="Kilometer" xml:space="preserve">
+    <value>km (公里)</value>
+  </data>
+  <data name="Decimeter" xml:space="preserve">
+    <value>dm (分米)</value>
+  </data>
+  <data name="Centimeter" xml:space="preserve">
+    <value>cm (厘米)</value>
+  </data>
+  <data name="Millimeter" xml:space="preserve">
+    <value>mm （毫米） </value>
+  </data>
+  <data name="Micrometer" xml:space="preserve">
+    <value>μm （微米）</value>
+  </data>
+  <data name="Nanometer" xml:space="preserve">
+    <value>nm (纳米)</value>
+  </data>
+  <data name="Picometer" xml:space="preserve">
+    <value>pm （皮米） </value>
+  </data>
+  <data name="AstronomicalUnit" xml:space="preserve">
+    <value>AU （天文单位） </value>
+  </data>
+  <data name="LightYear" xml:space="preserve">
+    <value>ly （光年） </value>
+  </data>
+  <data name="Area" xml:space="preserve">
+    <value>面积</value>
+  </data>
+  <data name="SqMeter" xml:space="preserve">
+    <value>m²（平方米） </value>
+  </data>
+  <data name="SqKilometer" xml:space="preserve">
+    <value>km² (平方公里)</value>
+  </data>
+  <data name="SqDecimeter" xml:space="preserve">
+    <value>dm² （平方分米） </value>
+  </data>
+  <data name="SqCentimeter" xml:space="preserve">
+    <value>cm² （平方厘米） </value>
+  </data>
+  <data name="SqMillimeter" xml:space="preserve">
+    <value>mm² （平方毫米） </value>
+  </data>
+  <data name="Are" xml:space="preserve">
+    <value>a (公亩)</value>
+  </data>
+  <data name="Decare" xml:space="preserve">
+    <value>daa （十公亩） </value>
+  </data>
+  <data name="Hectare" xml:space="preserve">
+    <value>公顷</value>
+  </data>
+  <data name="Volume" xml:space="preserve">
+    <value>体积</value>
+  </data>
+  <data name="CubicMeter" xml:space="preserve">
+    <value>m³ （立方米）</value>
+  </data>
+  <data name="CubicKilometer" xml:space="preserve">
+    <value>km³ （立方公里） </value>
+  </data>
+  <data name="CubicDecimeter" xml:space="preserve">
+    <value>dm³ （立方分米） </value>
+  </data>
+  <data name="CubicCentimeter" xml:space="preserve">
+    <value>cm³ （立方厘米） </value>
+  </data>
+  <data name="CubicMillimeter" xml:space="preserve">
+    <value>mm³ （立方毫米） </value>
+  </data>
+  <data name="Litre" xml:space="preserve">
+    <value>升</value>
+  </data>
+  <data name="Decalitre" xml:space="preserve">
+    <value>daL （十升） </value>
+  </data>
+  <data name="Hectolitre" xml:space="preserve">
+    <value>hL （百升） </value>
+  </data>
+  <data name="Decilitre" xml:space="preserve">
+    <value>dL （分升） </value>
+  </data>
+  <data name="Centilitre" xml:space="preserve">
+    <value>cL （厘升） </value>
+  </data>
+  <data name="Millilitre" xml:space="preserve">
+    <value>mL （毫升） </value>
+  </data>
+  <data name="Microlitre" xml:space="preserve">
+    <value>μL （微升） </value>
+  </data>
+  <data name="Nanolitre" xml:space="preserve">
+    <value>nL （纳升） </value>
+  </data>
+  <data name="Picolitre" xml:space="preserve">
+    <value>pL （皮升） </value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>时间</value>
+  </data>
+  <data name="Second" xml:space="preserve">
+    <value>s （秒）</value>
+  </data>
+  <data name="Millisecond" xml:space="preserve">
+    <value>ms （毫秒） </value>
+  </data>
+  <data name="Microsecond" xml:space="preserve">
+    <value>μs （微秒） </value>
+  </data>
+  <data name="Nanosecond" xml:space="preserve">
+    <value>ns （纳秒） </value>
+  </data>
+  <data name="Picosecond" xml:space="preserve">
+    <value>ps （皮秒） </value>
+  </data>
+  <data name="Minute" xml:space="preserve">
+    <value>min (分钟)</value>
+  </data>
+  <data name="Hour" xml:space="preserve">
+    <value>h （小时）</value>
+  </data>
+  <data name="Day" xml:space="preserve">
+    <value>d （天）</value>
+  </data>
+  <data name="Week" xml:space="preserve">
+    <value>w (周)</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>y (年)</value>
+  </data>
+  <data name="Frequency" xml:space="preserve">
+    <value>频率</value>
+  </data>
+  <data name="Hertz" xml:space="preserve">
+    <value>Hz (赫兹)</value>
+  </data>
+  <data name="Kilohertz" xml:space="preserve">
+    <value>kHz （千赫）</value>
+  </data>
+  <data name="Megahertz" xml:space="preserve">
+    <value>MHz （兆赫） </value>
+  </data>
+  <data name="Gigahertz" xml:space="preserve">
+    <value>GHz （千兆赫） </value>
+  </data>
+  <data name="Terahertz" xml:space="preserve">
+    <value>THz （太赫兹） </value>
+  </data>
+  <data name="Millihertz" xml:space="preserve">
+    <value>mHz （毫赫兹） </value>
+  </data>
+  <data name="Microhertz" xml:space="preserve">
+    <value>μHz （微赫兹） </value>
+  </data>
+  <data name="Nanohertz" xml:space="preserve">
+    <value>nHz （纳赫兹） </value>
+  </data>
+  <data name="Picohertz" xml:space="preserve">
+    <value>pHz （微赫兹） </value>
+  </data>
+  <data name="RPM" xml:space="preserve">
+    <value>rPM （每分钟转数） </value>
+  </data>
+  <data name="Speed" xml:space="preserve">
+    <value>速率</value>
+  </data>
+  <data name="MetersPerSecond" xml:space="preserve">
+    <value>m/s （米/秒） </value>
+  </data>
+  <data name="KilometersPerHour" xml:space="preserve">
+    <value>kmh (公里每小时)</value>
+  </data>
+  <data name="DegreeCelsius" xml:space="preserve">
+    <value>°C （摄氏度） </value>
+  </data>
+  <data name="Temperature" xml:space="preserve">
+    <value>温度</value>
+  </data>
+  <data name="DifferenceInDegreesCelsius" xml:space="preserve">
+    <value>Δ °C （以°C为单位的温差） </value>
+  </data>
+  <data name="Kelvin" xml:space="preserve">
+    <value>K （开尔文） </value>
+  </data>
+  <data name="Force" xml:space="preserve">
+    <value>力</value>
+  </data>
+  <data name="Newton" xml:space="preserve">
+    <value>N （牛顿） </value>
+  </data>
+  <data name="Decanewton" xml:space="preserve">
+    <value>daN （十牛） </value>
+  </data>
+  <data name="Hectonewton" xml:space="preserve">
+    <value>hN (百牛)</value>
+  </data>
+  <data name="Kilonewton" xml:space="preserve">
+    <value>kN (千牛)</value>
+  </data>
+  <data name="Meganewton" xml:space="preserve">
+    <value>MN （兆牛）</value>
+  </data>
+  <data name="Giganewton" xml:space="preserve">
+    <value>GN （吉牛） </value>
+  </data>
+  <data name="Teranewton" xml:space="preserve">
+    <value>TN (太牛) </value>
+  </data>
+  <data name="GramForce" xml:space="preserve">
+    <value>gf （克力） </value>
+  </data>
+  <data name="KilogramForce" xml:space="preserve">
+    <value>kgf （千克力） </value>
+  </data>
+  <data name="TonneForce" xml:space="preserve">
+    <value>tf （吨力） </value>
+  </data>
+  <data name="Dyne" xml:space="preserve">
+    <value>dyn (g-cm-s对应的力)</value>
+  </data>
+  <data name="TorqueMoment" xml:space="preserve">
+    <value>扭矩/力矩</value>
+  </data>
+  <data name="NewtonMeter" xml:space="preserve">
+    <value>Nm （牛顿米） </value>
+  </data>
+  <data name="NewtonMillimeter" xml:space="preserve">
+    <value>N·mm （牛顿毫米） </value>
+  </data>
+  <data name="NewtonCentimeter" xml:space="preserve">
+    <value>N·cm （牛顿厘米） </value>
+  </data>
+  <data name="KiloNewtonCentimeter" xml:space="preserve">
+    <value>kN·cm （千牛顿厘米） </value>
+  </data>
+  <data name="KiloNewtonMeter" xml:space="preserve">
+    <value>kNm （千牛顿米） </value>
+  </data>
+  <data name="Pressure" xml:space="preserve">
+    <value>压力</value>
+  </data>
+  <data name="NewtonsPerSqMillimeter" xml:space="preserve">
+    <value>N/mm² （牛顿每平方毫米） </value>
+  </data>
+  <data name="NewtonsPerSqCentimeter" xml:space="preserve">
+    <value>N/cm² （牛顿每平方厘米） </value>
+  </data>
+  <data name="NewtonsPerSqMeter" xml:space="preserve">
+    <value>N/m² （牛顿每平方米） </value>
+  </data>
+  <data name="KiloNewtonsPerSqCentimeter" xml:space="preserve">
+    <value>kN/cm² （ kN每平方厘米） </value>
+  </data>
+  <data name="KiloNewtonsPerSqMeter" xml:space="preserve">
+    <value>kN/m² （ kN每平方米） </value>
+  </data>
+  <data name="KilogramFrocePerSqCentimeter" xml:space="preserve">
+    <value>kgf/cm² （ 千克力每平方厘米） </value>
+  </data>
+  <data name="TonneForcePerSqMeter" xml:space="preserve">
+    <value>tf/m² （吨力每平方米） </value>
+  </data>
+  <data name="Pascal" xml:space="preserve">
+    <value>帕斯卡</value>
+  </data>
+  <data name="Decapascal" xml:space="preserve">
+    <value>daPa （十帕斯卡） </value>
+  </data>
+  <data name="Hectopascal" xml:space="preserve">
+    <value>hPa （百帕） </value>
+  </data>
+  <data name="Kilopascal" xml:space="preserve">
+    <value>kPa （千帕） </value>
+  </data>
+  <data name="Megapascal" xml:space="preserve">
+    <value>MPa （兆帕） </value>
+  </data>
+  <data name="Gigapascal" xml:space="preserve">
+    <value>GPa （千兆帕斯卡） </value>
+  </data>
+  <data name="Terapascal" xml:space="preserve">
+    <value>TPa （太帕斯卡） </value>
+  </data>
+  <data name="Decipascal" xml:space="preserve">
         <value>dPa (分帕)</value>
     </data>
 	<data name="Centipascal" xml:space="preserve">
@@ -427,7 +529,7 @@
         <value>at (工程大气压，98.07kPa)</value>
     </data>
 	<data name="Torr" xml:space="preserve">
-        <value>Torr (托,1mm汞柱压强,1 Torr=1.33322 × 10^2 Pa)</value>
+        <value>Torr (托，1mm汞柱压强，1 Torr=1.33322 × 10^2 Pa)</value>
     </data>
 	<data name="MillilitersOfMercury" xml:space="preserve">
         <value>mmHg (毫米水银)</value>
@@ -436,16 +538,16 @@
         <value>密度/容重</value>
     </data>
 	<data name="GramsPerCubicMillimeter" xml:space="preserve">
-        <value>g/mm³(克/立方毫米) </value>
+        <value>g/mm³ </value>
     </data>
 	<data name="GramsPerCubicCentimeter" xml:space="preserve">
-        <value>g/cm³(克/立方厘米) </value>
+        <value>g/cm³ </value>
     </data>
 	<data name="KilogramsPerCubicCentimeter" xml:space="preserve">
-        <value>kg/cm³(千克/立方厘米) </value>
+        <value>kg/cm³ </value>
     </data>
 	<data name="TonnesPerCubicMeter" xml:space="preserve">
-        <value>t/m³(吨/立方米) </value>
+        <value>t/m³ </value>
     </data>
 	<data name="KilogramForcePerCubicCentimeter" xml:space="preserve">
         <value>kgf/cm³ (千克-力每立方厘米)</value>
@@ -454,16 +556,16 @@
         <value>tf/m³ (吨-力每立方米)</value>
     </data>
 	<data name="NewtonsPerCubicMillimeter" xml:space="preserve">
-        <value>N/mm³(牛/立方毫米) </value>
+        <value>N/mm³ </value>
     </data>
 	<data name="NewtonsPerCubicCentimeter" xml:space="preserve">
-        <value>N/cm³(牛/立方厘米) </value>
+        <value>N/cm³ </value>
     </data>
 	<data name="KilonewtonsPerCubicCentimeter" xml:space="preserve">
-        <value>kN/cm³(千牛/立方厘米) </value>
+        <value>kN/cm³ </value>
     </data>
 	<data name="KilonewtonsPerCubicMeter" xml:space="preserve">
-        <value>kN/m³ (千牛/立方米)</value>
+        <value>kN/m³ </value>
     </data>
 	<data name="Viscosity" xml:space="preserve">
         <value>黏度</value>
@@ -478,7 +580,7 @@
         <value>cP (厘泊)</value>
     </data>
 	<data name="SquareMetersPerSecond" xml:space="preserve">
-        <value>m²/s(平方米/秒)</value>
+        <value>m²/s</value>
     </data>
 	<data name="Stokes" xml:space="preserve">
         <value>St (斯托克斯)</value>

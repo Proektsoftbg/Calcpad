@@ -1,17 +1,17 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!--
-    Microsoft ResX Schema
-
+  <!-- 
+    Microsoft ResX Schema 
+    
     Version 2.0
-
-    The primary goals of this format is to allow a simple XML format
-    that is mostly human readable. The generation and parsing of the
-    various data types are done through the TypeConverter classes
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
     associated with the data types.
-
+    
     Example:
-
+    
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,79 +26,79 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-
-    There are any number of "resheader" rows that contain simple
+                
+    There are any number of "resheader" rows that contain simple 
     name/value pairs.
-
-    Each data row contains a name, and value. The row also contains a
-    type or mimetype. Type corresponds to a .NET class that support
-    text/value conversion through the TypeConverter architecture.
-    Classes that don't support this are serialized and stored with the
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
     mimetype set.
-
-    The mimetype is used for serialized objects, and tells the
-    ResXResourceReader how to depersist the object. This is currently not
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
     extensible. For a given mimetype the value must be set accordingly:
-
-    Note - application/x-microsoft.net.object.binary.base64 is the format
-    that the ResXResourceWriter will generate, however the reader can
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
     read any of the formats listed below.
-
+    
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with
+    value   : The object must be serialized with 
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-
+    
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with
+    value   : The object must be serialized with 
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array
+    value   : The object must be serialized into a byte array 
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -118,415 +118,312 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Integer" xml:space="preserve">
-    <value>整数运算</value>
-    <comment/>
+    <value>整数</value>
   </data>
   <data name="IntegerDivision" xml:space="preserve">
-    <value>整除</value>
-    <comment/>
+    <value>整数除法</value>
   </data>
   <data name="InverseCosecant" xml:space="preserve">
     <value>反余割</value>
-    <comment/>
   </data>
   <data name="InverseCosine" xml:space="preserve">
     <value>反余弦</value>
-    <comment/>
   </data>
   <data name="InverseCotangent" xml:space="preserve">
     <value>反余切</value>
-    <comment/>
   </data>
   <data name="InverseHyperbolic" xml:space="preserve">
-    <value>反双曲</value>
-    <comment/>
+    <value>反双曲线</value>
   </data>
   <data name="InverseHyperbolicCosecant" xml:space="preserve">
     <value>反双曲余割</value>
-    <comment/>
   </data>
   <data name="InverseHyperbolicCosine" xml:space="preserve">
     <value>反双曲余弦</value>
-    <comment/>
   </data>
   <data name="InverseHyperbolicCotangent" xml:space="preserve">
     <value>反双曲余切</value>
-    <comment/>
   </data>
   <data name="InverseHyperbolicSecant" xml:space="preserve">
     <value>反双曲正割</value>
-    <comment/>
   </data>
   <data name="InverseHyperbolicSine" xml:space="preserve">
     <value>反双曲正弦</value>
-    <comment/>
   </data>
   <data name="InverseHyperbolicTangent" xml:space="preserve">
     <value>反双曲正切</value>
-    <comment/>
   </data>
   <data name="InverseSecant" xml:space="preserve">
     <value>反正割</value>
-    <comment/>
   </data>
   <data name="InverseSine" xml:space="preserve">
     <value>反正弦</value>
-    <comment/>
   </data>
   <data name="InverseTangent" xml:space="preserve">
     <value>反正切</value>
-    <comment/>
   </data>
   <data name="InverseTrigonometric" xml:space="preserve">
     <value>反三角函数</value>
-    <comment/>
   </data>
   <data name="LeastCommonMultiple" xml:space="preserve">
-    <value>最小公倍数</value>
-    <comment/>
+    <value>几个整数的最小公倍数</value>
   </data>
   <data name="LessThan" xml:space="preserve">
-    <value>&lt;</value>
-    <comment/>
+    <value>小于</value>
   </data>
   <data name="LessThanOrEqual" xml:space="preserve">
-    <value>≤</value>
-    <comment/>
+    <value>小于或等于</value>
   </data>
   <data name="LinearInterpolation" xml:space="preserve">
-    <value>线性内插</value>
-    <comment/>
+    <value>直线插补</value>
   </data>
   <data name="LogarithmicExponentialAndRoots" xml:space="preserve">
-    <value>对数,指数和根</value>
-    <comment/>
+    <value>对数、指数和根</value>
   </data>
   <data name="LogicalAnd" xml:space="preserve">
-    <value>逻辑 "且"</value>
-    <comment/>
+    <value>逻辑与 "AND"</value>
   </data>
   <data name="LogicalNot" xml:space="preserve">
-    <value>逻辑 "否"</value>
-    <comment/>
+    <value>逻辑非"NOT"</value>
   </data>
   <data name="LogicalOr" xml:space="preserve">
-    <value>逻辑 "或"</value>
-    <comment/>
+    <value>逻辑或"OR"</value>
   </data>
   <data name="LogicalXor" xml:space="preserve">
-    <value>逻辑 "异或"</value>
-    <comment/>
+    <value>逻辑异或“XOR” </value>
   </data>
   <data name="MinimumOfMultipleValues" xml:space="preserve">
-    <value>最小值</value>
-    <comment/>
+    <value>多个值的最小值</value>
   </data>
   <data name="Modulo" xml:space="preserve">
-    <value>模 (余)</value>
-    <comment/>
+    <value>模数（余） </value>
   </data>
   <data name="Modulo_Description" xml:space="preserve">
-    <value>求整除的模 (余)</value>
-    <comment/>
+    <value>整数除法的模（余）</value>
   </data>
   <data name="Multiplication" xml:space="preserve">
-    <value>×</value>
-    <comment/>
+    <value>乘法</value>
   </data>
   <data name="NaturalExponent" xml:space="preserve">
-    <value>自然指数 </value>
-    <comment/>
+    <value>自然指数</value>
   </data>
   <data name="NaturalLogarithm" xml:space="preserve">
     <value>自然对数</value>
-    <comment/>
   </data>
   <data name="NotEqualTo" xml:space="preserve">
-    <value>≠</value>
-    <comment/>
+    <value>不等于</value>
   </data>
   <data name="NthRoot" xml:space="preserve">
-    <value>第n个根</value>
-    <comment/>
+    <value>n次方根</value>
   </data>
   <data name="Operators" xml:space="preserve">
-    <value>计算符</value>
-    <comment/>
+    <value>运算符</value>
   </data>
   <data name="PiNumber" xml:space="preserve">
-    <value>圆周率Π</value>
-    <comment/>
+    <value>圆周率</value>
   </data>
   <data name="ProductOfMultipleValues" xml:space="preserve">
-    <value>累积</value>
-    <comment/>
+    <value>多值乘积</value>
   </data>
   <data name="RandomNumber" xml:space="preserve">
-    <value>0 和 x间的随机数</value>
-    <comment/>
+    <value>0到x之间的随机数</value>
   </data>
   <data name="RealPartOfAComplexNumber" xml:space="preserve">
-    <value>复数的实部</value>
-    <comment/>
+    <value>复数的实数部分</value>
   </data>
   <data name="Rounding" xml:space="preserve">
     <value>舍入</value>
-    <comment/>
   </data>
   <data name="RoundToNearestInteger" xml:space="preserve">
-    <value>舍入到最近整数</value>
-    <comment/>
+    <value>向下舍入到最接近的整数</value>
   </data>
   <data name="RoundToTheLowerInteger" xml:space="preserve">
-    <value>舍入到稍小整数</value>
-    <comment/>
+    <value>四舍五入到较小的整数</value>
   </data>
   <data name="RoundTowardsZero" xml:space="preserve">
-    <value>向0舍入</value>
-    <comment/>
+    <value>向零四舍五入</value>
   </data>
   <data name="RoundToTheGreaterInteger" xml:space="preserve">
-    <value>舍入到稍大整数</value>
-    <comment/>
+    <value>四舍五入到更大的整数</value>
   </data>
   <data name="Secant" xml:space="preserve">
     <value>正割</value>
-    <comment/>
   </data>
   <data name="SelectiveEvaluation_Function" xml:space="preserve">
-    <value>选择性执行函数</value>
-    <comment/>
+    <value>选择性计算</value>
   </data>
   <data name="SignOfANumber" xml:space="preserve">
-    <value>数的符号</value>
-    <comment/>
+    <value>数字的符号</value>
   </data>
   <data name="Sine" xml:space="preserve">
     <value>正弦</value>
-    <comment/>
   </data>
   <data name="SquareRoot" xml:space="preserve">
     <value>平方根</value>
-    <comment/>
   </data>
   <data name="SquareRootOfSumOfSquares" xml:space="preserve">
     <value>平方和的平方根</value>
-    <comment/>
   </data>
   <data name="Subtraction" xml:space="preserve">
-    <value>减</value>
-    <comment/>
+    <value>减法</value>
   </data>
   <data name="SumOfMultipleValues" xml:space="preserve">
-    <value>累加</value>
-    <comment/>
+    <value>多个值的总和</value>
   </data>
   <data name="SumOfSquares" xml:space="preserve">
     <value>平方和</value>
-    <comment/>
   </data>
   <data name="TakeTheNthElement" xml:space="preserve">
     <value>取第n个元素</value>
-    <comment/>
   </data>
   <data name="Tangent" xml:space="preserve">
     <value>正切</value>
-    <comment/>
   </data>
   <data name="Trigonometric" xml:space="preserve">
     <value>三角函数</value>
-    <comment/>
   </data>
   <data name="PhaseOfAComplexNumber" xml:space="preserve">
-    <value>复数的阶</value>
-    <comment/>
+    <value>复数的相位</value>
   </data>
   <data name="Cotangent" xml:space="preserve">
     <value>余切</value>
-    <comment/>
   </data>
   <data name="DecimalLogarithm" xml:space="preserve">
     <value>十进制对数</value>
-    <comment/>
   </data>
   <data name="RaiseToSquare" xml:space="preserve">
-    <value>平方</value>
-    <comment/>
+    <value>求平方</value>
   </data>
   <data name="RaiseToCube" xml:space="preserve">
-    <value>立方</value>
-    <comment/>
+    <value>求立方</value>
   </data>
   <data name="RaiseToPower" xml:space="preserve">
-    <value>指数</value>
-    <comment/>
+    <value>^求幂</value>
   </data>
   <data name="CubicRoot" xml:space="preserve">
     <value>立方根</value>
-    <comment/>
   </data>
   <data name="DecimalPoint" xml:space="preserve">
-    <value>.</value>
-    <comment/>
+    <value>小数点</value>
   </data>
   <data name="Assignment" xml:space="preserve">
-    <value>=</value>
-    <comment/>
+    <value>赋值</value>
   </data>
   <data name="Multiply" xml:space="preserve">
-    <value>×</value>
-    <comment/>
+    <value>乘</value>
   </data>
   <data name="Divide" xml:space="preserve">
-    <value>÷</value>
-    <comment/>
+    <value>除</value>
   </data>
   <data name="Add" xml:space="preserve">
-    <value>+</value>
-    <comment/>
+    <value>加</value>
   </data>
   <data name="Subtract" xml:space="preserve">
-    <value>-</value>
-    <comment/>
+    <value>减</value>
   </data>
   <data name="Factorial" xml:space="preserve">
-    <value>级数</value>
-    <comment/>
+    <value>阶乘</value>
   </data>
   <data name="Exponentiation" xml:space="preserve">
-    <value>指数</value>
-    <comment/>
+    <value>幂(指数)</value>
   </data>
   <data name="Division" xml:space="preserve">
-    <value>÷</value>
-    <comment/>
+    <value>除法</value>
   </data>
   <data name="DivisionBar" xml:space="preserve">
-    <value>/</value>
-    <comment/>
+    <value>除法(分数线)</value>
   </data>
   <data name="Addition" xml:space="preserve">
-    <value>+</value>
-    <comment/>
+    <value>加法</value>
   </data>
   <data name="EqualTo" xml:space="preserve">
-    <value>=</value>
-    <comment/>
+    <value>等于</value>
   </data>
   <data name="Equal" xml:space="preserve">
-    <value>=</value>
-    <comment/>
+    <value>相等</value>
   </data>
   <data name="NotEqual" xml:space="preserve">
-    <value>≠</value>
-    <comment/>
+    <value>不等于</value>
   </data>
   <data name="GreaterThan" xml:space="preserve">
-    <value>&gt;</value>
-    <comment/>
+    <value>大于</value>
   </data>
   <data name="GreaterThanOrEqual" xml:space="preserve">
-    <value>≥</value>
-    <comment/>
+    <value>大于等于</value>
   </data>
   <data name="Functions" xml:space="preserve">
     <value>函数</value>
-    <comment/>
   </data>
   <data name="Cosine" xml:space="preserve">
     <value>余弦</value>
-    <comment/>
   </data>
   <data name="Cosecant" xml:space="preserve">
     <value>余割</value>
-    <comment/>
   </data>
   <data name="HyperbolicSine" xml:space="preserve">
     <value>双曲正弦</value>
-    <comment/>
   </data>
   <data name="HyperbolicCosine" xml:space="preserve">
     <value>双曲余弦</value>
-    <comment/>
   </data>
   <data name="HyperbolicTangent" xml:space="preserve">
     <value>双曲正切</value>
-    <comment/>
   </data>
   <data name="Hyperbolic" xml:space="preserve">
-    <value>双曲函数</value>
-    <comment/>
+    <value>双曲正弦</value>
   </data>
   <data name="HyperbolicCosecant" xml:space="preserve">
     <value>双曲余割</value>
-    <comment/>
   </data>
   <data name="HyperbolicSecant" xml:space="preserve">
     <value>双曲正割</value>
-    <comment/>
   </data>
   <data name="HyperbolicCotangent" xml:space="preserve">
-    <value>双曲正切</value>
-    <comment/>
+    <value>双曲余切</value>
   </data>
   <data name="AngleWhichTangentIsYDividedByX" xml:space="preserve">
-    <value>正切值为y/x的角度</value>
-    <comment/>
+    <value>正切值为y/x 的角度</value>
   </data>
   <data name="BinaryLogarithm" xml:space="preserve">
-    <value>2进制对数</value>
-    <comment/>
+    <value>二进制对数</value>
   </data>
   <data name="GreatestCommonDivisor" xml:space="preserve">
-    <value>最大公约数</value>
-    <comment/>
+    <value>几个整数的最大公因子</value>
   </data>
   <data name="Complex" xml:space="preserve">
     <value>复数</value>
-    <comment/>
   </data>
   <data name="ImaginaryPartOfAComplexNumber" xml:space="preserve">
     <value>复数的虚部</value>
-    <comment/>
   </data>
   <data name="AggregateAndInterpolation" xml:space="preserve">
     <value>求和和插值</value>
-    <comment/>
   </data>
   <data name="AbsoluteValue" xml:space="preserve">
-    <value>绝对值/长度</value>
-    <comment/>
+    <value>绝对值/幅度</value>
   </data>
   <data name="MaximumOfMultipleValues" xml:space="preserve">
-    <value>最大值</value>
-    <comment/>
+    <value>多个值中的最大值</value>
   </data>
   <data name="AverageOfMultipleValues" xml:space="preserve">
-    <value>平均值</value>
-    <comment/>
+    <value>多个值的平均值</value>
   </data>
   <data name="GeometricMean" xml:space="preserve">
-    <value>几何平均</value>
-    <comment/>
+    <value>几何平均数</value>
   </data>
   <data name="HermiteSplineInterpolation" xml:space="preserve">
-    <value>Hermite多线性插值</value>
-    <comment/>
+    <value>赫米特(Hermite)样条插值</value>
   </data>
   <data name="ConditionalAndLogical" xml:space="preserve">
-    <value>条件和逻辑判断</value>
-    <comment/>
+    <value>有条件执行和根据逻辑值执行</value>
   </data>
   <data name="ConditionalEvaluation_Function" xml:space="preserve">
-    <value>有条件执行函数</value>
-    <comment/>
+    <value>有条件的执行计算</value>
   </data>
   <data name="LeftBracket" xml:space="preserve">
     <value>左括号</value>
-    <comment/>
   </data>
   <data name="RightBracket" xml:space="preserve">
     <value>右括号</value>
-    <comment/>
   </data>
 </root>
