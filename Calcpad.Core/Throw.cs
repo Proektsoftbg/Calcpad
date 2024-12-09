@@ -308,7 +308,7 @@ namespace Calcpad.Core
 
 
         internal static void FunctionDefinitionInSolverException() =>
-            New(Calcpad.Core.Messages.FunctionDefinitionNotAllowedInSolverBlock);
+            New(Messages.FunctionDefinitionNotAllowedInSolverBlock);
 
         private static void New(in string s) =>
             throw new MathParser.MathParserException(s);
