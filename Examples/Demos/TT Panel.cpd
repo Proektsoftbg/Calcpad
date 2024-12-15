@@ -19,7 +19,7 @@
 'Number of tendons in one row -'n_ph = ? {2}'
 'Number of rows -'n_pv = ? {3}'
 #pre
-'<img  style="width:450pt;"  src="https://proektsoft.bg/calcpad/Media/Structures/RC/Precast/TT-section.png" alt="TT-section.png">
+'<img  style="width:450pt;" src="https://proektsoft.bg/calcpad/Media/Structures/RC/Precast/TT-section.png" alt="TT-section.png">
 #hide
 x_1 = B_0/2
 x_2 = x_1 + b_2/2
@@ -31,7 +31,7 @@ x_7 = x_6 - 140
 x_8 = x_1 - 20*(n_ph - 1)
 #post
 #val
-'<svg viewbox="'-b_f - 200' -150 'B + 300' 'H + 400'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-family: Calibri; font-size: 32pt; width:900px; height:'900*H/B + 100'px"> 
+'<svg viewbox="'-b_f - 200' -150 'B + 300' 'H + 400'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-family: Arial Nova Cond, Noto Sans Cond, Segoe UI; font-size: '54'px; width:500pt; height:'500*H/B + 50'pt"> 
 '<polygon points="'b_f','0' 'b_f','h_f' 'x_3','h_f' 'x_2','h_f + 30' 'x_4','H' 'x_5','H' 'x_6','h_f + 30' 'x_7','h_f' '-x_7','h_f' '-x_6','h_f + 30' '-x_5','H' '-x_4','H' '-x_2','h_f + 30' '-x_3','h_f' '-b_f','h_f' '-b_f','0'" sec_style$/>
 line$(-x_1; -100; -x_1; H + 100; axis_style$)
 line$( x_1; -100; x_1; H + 100; axis_style$)
@@ -46,15 +46,15 @@ dimh$(-x_4; -x_5; H + 80;            b<tspan dy=5>₁</tspan
 #def tendon$ = r="10" style="stroke:red; fill:red; stroke-width:1"
 i = 0
 #repeat n_pv
-j = 0
-#repeat n_ph
-#post
-'<circle cx="'x_8 + 40*j'" cy="'H - d_p1 - 40*i'" tendon$/>
-'<circle cx="'-x_8 - 40*j'" cy="'H - d_p1 - 40*i'" tendon$/>
-#hide
-j = j + 1
-#loop
-i = i + 1
+	j = 0
+	#repeat n_ph
+		#post
+		'<circle cx="'x_8 + 40*j'" cy="'H - d_p1 - 40*i'" tendon$/>
+		'<circle cx="'-x_8 - 40*j'" cy="'H - d_p1 - 40*i'" tendon$/>
+		#hide
+		j = j + 1
+	#loop
+	i = i + 1
 #loop
 #post
 '</svg>
