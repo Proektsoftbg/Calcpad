@@ -143,7 +143,7 @@ namespace Calcpad.Core
             var y0 = Height - Margin + (int)(startY * ys);
 
             var bounds = new Box(startX, startY, endX, endY);
-            if (Settings.VectorGraphics)
+            if (Settings.VectorGraphics || Parser.PlotSVG)
             {
                 m.GetSvgPoints(x0, y0, xs, ys);
                 return DrawSvg(m, x0, y0, xs, ys, bounds);
@@ -365,15 +365,15 @@ namespace Calcpad.Core
 
         private void DrawColorScaleSvg(SvgDrawing g, Map m)
         {
-            var x0 = Width - Right + 30;
+            var x0 = Width - Right + Margin / 2;
             var y0 = Height - Margin;
-            const int w = 15;
+            int w = Margin / 4;
             var h = Height - 2 * Margin;
             var n = NColors;
             if (Settings.SmoothScale)
                 n = h / _size + 1;
             var dh = (double)h / n;
-            const double th = 11, th05 = th / 2;
+            double th = 10 * ScreenScaleFactor, th05 = th / 2;
             for (int i = 0; i < n; ++i)
             {
                 GetColor(out var red, out var green, out var blue, (i + 0.5) / n, 1.0);
@@ -383,12 +383,13 @@ namespace Calcpad.Core
 
             var dy = (m.Max - m.Min) / NColors;
             dh = (double)h / NColors;
+            var a = 5 * ScreenScaleFactor;
             for (int i = 0; i <= NColors; ++i)
             {
                 var y = y0 - i * dh;
                 g.DrawLine(x0, y, x0 + w, y, "PlotGrid");
                 var s = OutputWriter.FormatNumberHelper(m.Min + i * dy, 2);
-                g.DrawText(s, x0 + w + 5, y + th05);
+                g.DrawText(s, x0 + w + a, y + th05);
             }
         }
 
@@ -562,7 +563,7 @@ namespace Calcpad.Core
 
         private string DrawSvg(Map m, double x0, double y0, double xs, double ys, Box bounds)
         {
-            var g = new SvgDrawing(Width, Height);
+            var g = new SvgDrawing(Width, Height, ScreenScaleFactor);
             var values = Interpolate(m);
             var w = values.GetLength(0) - 1;
             var h = values.GetLength(1) - 1;

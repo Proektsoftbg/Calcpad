@@ -12,7 +12,7 @@
 	DEG     - задава единици за тригонометрични функции - градуси;
 	RAD     - задава единици за тригонометрични функции - радиани;
 	GRA     - задава единици за тригонометрични функции - гради;
-	SETTINGS/OPTIONS - отваря файла с настройки за редактиране;
+	SETTINGS/OPTIONS - отваря файла с настройки за редактиране; 
 	LICENSE - показва лицензния файл;
 	HELP    - показва текущия помощен файл.
 
@@ -81,8 +81,8 @@
     n_cols(M)                    transp(M)              mfind_ge(M; x)
     resize(M; m; n)              adj(M)                 hlookup(M; x; i1; i2)   
     fill(M; x)                   cofactor(M)            hlookup_eq(M; x; i1; i2)
-    fill_row(M; x; i)            eigenvals(M)           hlookup_ne(M; x; i1; i2)
-    fill_col(M; x; j)            eigenvecs(M)           hlookup_lt(M; x; i1; i2)
+    fill_row(M; i; x)            eigenvals(M)           hlookup_ne(M; x; i1; i2)
+    fill_col(M; j; x)            eigenvecs(M)           hlookup_lt(M; x; i1; i2)
     copy(A; B; i; j)             cholesky(M)            hlookup_le(M; x; i1; i2)
     add(A; B; i; j)              lu(M)                  hlookup_gt(M; x; i1; i2)
     row(M; i)                    qr(M)                  hlookup_ge(M; x; i1; i2)
@@ -193,16 +193,16 @@
 ————————————————————————————————————————————————————————————————————————————————
 Опции на командния ред (поддържат същите възможности на езика като Calcpad.exe):
 ———————————————————————————————————————————————————————————————————————————————— 
-    calcpad input.cpd output.html - изчислява input.cpd и записва резултатите
-    calcpad input.cpd output.docx   в посочения изходен файл със съответния формат
-    calcpad input.cpd output.pdf    (html, docx или pdf);
+    cli input.cpd output.html - изчислява input.cpd и записва резултатите
+    cli input.cpd output.docx   в посочения изходен файл със съответния формат
+    cli input.cpd output.pdf    (html, docx или pdf);
 		
-    calcpad input.cpd html - изчислява input.cpd и записва резултатите в input.html;
-    calcpad input.cpd docx - изчислява input.cpd и записва резултатите в input.docx;	
-    calcpad input.cpd pdf  - изчислява input.cpd и записва резултатите в input.pdf;
+    cli input.cpd html - изчислява input.cpd и записва резултатите в input.html;
+    cli input.cpd docx - изчислява input.cpd и записва резултатите в input.docx;	
+    cli input.cpd pdf  - изчислява input.cpd и записва резултатите в input.pdf;
 	
-    calcpad input.cpd      - изчислява input.cpd и записва резултатите в input.html.
+    cli input.cpd      - изчислява input.cpd и записва резултатите в input.html.
 	
 	Допълнителни аргументи:
 		-s   		   - "тих" режим (не отваря изходния файл), например:
-		calcpad input.cpd output.html -s
+		cli input.cpd output.html -s

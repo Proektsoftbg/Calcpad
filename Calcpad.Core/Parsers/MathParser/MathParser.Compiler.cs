@@ -572,7 +572,7 @@ namespace Calcpad.Core
             {
                 var iParams = EvaluateConstantParameters(arguments);
                 return Expression.Constant(
-                    IValue.EvaluateInterpolation(_matrixCalc, t.Index, iParams));
+                    IValue.EvaluateInterpolation(_matrixCalc, t.Index, iParams), typeof(IValue));
             }
 
             private ConstantExpression EvaluateMultiFunction(Token t, Expression[] arguments)
@@ -581,15 +581,15 @@ namespace Calcpad.Core
 
                 if (t.Type == TokenTypes.MultiFunction)
                     return Expression.Constant(
-                        IValue.EvaluateMultiFunction(_matrixCalc, t.Index, mfParams));
+                        IValue.EvaluateMultiFunction(_matrixCalc, t.Index, mfParams), typeof(IValue));
 
                 if (t.Type == TokenTypes.VectorMultiFunction)
                     return Expression.Constant(
-                        _vectorCalc.EvaluateVectorMultiFunction(t.Index, mfParams));
+                        _vectorCalc.EvaluateVectorMultiFunction(t.Index, mfParams), typeof(IValue));
 
                 //MatrixMultiFunction
                 return Expression.Constant(
-                    _matrixCalc.EvaluateMatrixMultiFunction(t.Index, mfParams));
+                    _matrixCalc.EvaluateMatrixMultiFunction(t.Index, mfParams), typeof(IValue));
             }
 
             private static NewExpression ParseVectorToken(Expression[] values)

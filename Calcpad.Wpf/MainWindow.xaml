@@ -2792,6 +2792,7 @@
                         <ListBoxItem Content="pL"                 Foreground="DarkCyan"/>
                         <ListBoxItem Content="PlotHeight"         Foreground="Blue"/>
                         <ListBoxItem Content="PlotStep"           Foreground="Blue"/>
+                        <ListBoxItem Content="PlotSVG"            Foreground="Blue"/>
                         <ListBoxItem Content="PlotWidth"          Foreground="Blue"/>
                         <ListBoxItem Content="pm"                 Foreground="DarkCyan"/>
                         <ListBoxItem Content="pole"               Foreground="DarkCyan"/>

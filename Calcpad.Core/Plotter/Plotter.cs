@@ -22,7 +22,7 @@ namespace Calcpad.Core
         {
             Settings = settings;
             Parser = parser;
-            ScreenScaleFactor = (float)settings.ScreenScaleFactor;
+            ScreenScaleFactor = 2*(float)settings.ScreenScaleFactor;
             Margin = (int)(30 * ScreenScaleFactor);
             Left = Margin;
             Right = Margin;
@@ -88,12 +88,14 @@ namespace Calcpad.Core
 
                 if (yg >= bounds.Bottom && yg <= bounds.Top)
                     canvas.DrawLine(Left, y, xn, y, gridPen);
+
                 if (Math.Abs(yg) < stepY * 1e-8)
                     s = "0";
                 else if (isScientific)
                     s = yg.ToString("0.##E+0", CultureInfo.InvariantCulture);
                 else
                     s = OutputWriter.FormatNumberHelper(yg, 2);
+
                 canvas.DrawText(s, xt, y + th, textPen);
                 yg += stepY;
             }
@@ -129,6 +131,7 @@ namespace Calcpad.Core
 
                 if (xg >= bounds.Left && xg <= bounds.Right)
                     canvas.DrawLine(x, Margin, x, yn, gridPen);
+
                 if (even)
                 {
                     if (Math.Abs(xg) < stepX * 1e-8)
@@ -137,6 +140,7 @@ namespace Calcpad.Core
                         s = xg.ToString("0.##E+0", CultureInfo.InvariantCulture);
                     else
                         s = OutputWriter.FormatNumberHelper(xg, 2);
+
                     canvas.DrawText(s, x, yt, textPen);
                 }
                 if (midLine)
@@ -145,12 +149,12 @@ namespace Calcpad.Core
             }
             textPen.TextAlign = SKTextAlign.Left;
             canvas.DrawRect(Left, Margin, xn - Left, yn - Margin, axisPen);
-            if (y0 >= Margin && y0 <= yn)
+            if (y0 >= Margin - 0.1 && y0 <= yn + 0.1)
             {
                 canvas.DrawLine(Left, (float)y0, xn, (float)y0, axisPen);
                 canvas.DrawText("x", xn + tw, (float)y0, textPen);
             }
-            if (x0 >= Left && x0 <= xn)
+            if (x0 >= Left - 0.1 && x0 <= xn + 0.1)
             {
                 canvas.DrawLine((float)x0, Margin, (float)x0, yn, axisPen);
                 canvas.DrawText("y", (float)x0 - tw / 2f, Margin - 2f * th, textPen);
@@ -160,15 +164,15 @@ namespace Calcpad.Core
             textPen.TextAlign = SKTextAlign.Left;
             textPen.Color = SKColors.Gray;
             a /= 2f;
-            canvas.DrawText($"[{sx0}; {sy0}]", 5f, Height - 1f * th - a, textPen);
+            canvas.DrawText($"[{sx0}; {sy0}]", a, Height - 1f * th - a, textPen);
             textPen.TextAlign = SKTextAlign.Right;
-            canvas.DrawText($"[{sx1}; {sy1}]", Width - 5f, 2f * th + a, textPen);
+            canvas.DrawText($"[{sx1}; {sy1}]", Width - a, 2f * th + a, textPen);
         }
 
         protected SKPaint CreateGridPen() => new()
         {
             Style = SKPaintStyle.Stroke,
-            Color = SKColors.Black.WithAlpha(32),
+            Color = SKColors.Black.WithAlpha(15),
             StrokeWidth = ScreenScaleFactor,
             IsAntialias = true
         };
@@ -176,7 +180,7 @@ namespace Calcpad.Core
         protected SKPaint CreateAxisPen() => new()
         {
             Style = SKPaintStyle.Stroke,
-            Color = SKColors.Black,
+            Color = SKColors.Black.WithAlpha(60),
             StrokeWidth = ScreenScaleFactor,
             IsAntialias = true
         };
@@ -186,77 +190,119 @@ namespace Calcpad.Core
             Style = SKPaintStyle.StrokeAndFill,
             Color = SKColors.Black,
             StrokeWidth = 0.5f,
-            Typeface = SKTypeface.FromFamilyName("Arial Nova"),
-            TextSize = 11f * ScreenScaleFactor,
+            Typeface = SKTypeface.FromFamilyName("Segoe UI"),
+            TextSize = 10f * ScreenScaleFactor,
             TextAlign = SKTextAlign.Left,
             IsAntialias = true,
             IsAutohinted = true
         };
 
-        protected void DrawGridSvg(SvgDrawing g, double x0, double y0, double xs, double ys, Box bounds)
+        protected void DrawGridSvg(SvgDrawing canvas, double x0, double y0, double xs, double ys, Box bounds)
         {
-            const double th = 12.0;
-            const double th05 = th / 2.0;
-            const double tw = 6.0;
+            double tw = 5 * ScreenScaleFactor;
+            double th = 4 * ScreenScaleFactor;
+            double th05 = th / 2.0;
             double xn = Width - Right;
             double yn = Height - Margin;
-            var maxSteps = (int)Math.Min(12.0 * yn / xn, (yn - Margin) / (2.5 * th));
+            var maxSteps = (int)Math.Min(15d * yn / xn, (yn - Margin) / (2.5 * th));
             var delta = bounds.Top - bounds.Bottom;
             var stepY = GetGridStep(delta, maxSteps);
-            var tol = delta * 0.01;
-            var yg = Math.Round((bounds.Bottom - tol) / stepY) * stepY;
+            if (stepY * ys > 8f * th && delta < 7 * stepY)
+                stepY /= 2f;
+            var tol = delta * 0.02;
+            var yg = Math.Round(bounds.Bottom / stepY) * stepY;
+            if (yg < bounds.Bottom - tol)
+                yg += stepY;
             var max = bounds.Top + tol;
-            var xt = Margin - tw;
+            var isScientific = Math.Abs(bounds.Top) + Math.Abs(bounds.Bottom) >= 20000;
+            var a = 4f * ScreenScaleFactor;
+            var xt = Left - tw / 2f - a / 2f;
+            string s;
             while ((yg < max) == (stepY > 0))
             {
                 var y = y0 - yg * ys;
-                g.DrawLine(Margin, y, xn, y, "PlotGrid");
-                var s = OutputWriter.FormatNumberHelper(yg, 2);
-                g.DrawText(s, xt, y + th05, "end");
+                if (Math.Abs(y) > 1e8)
+                    break;
+
+                if (yg >= bounds.Bottom && yg <= bounds.Top)
+                    canvas.DrawLine(Left, y, xn, y, "PlotGrid");
+
+                if (Math.Abs(yg) < stepY * 1e-8)
+                    s = "0";
+                else if (isScientific)
+                    s = yg.ToString("0.##E+0", CultureInfo.InvariantCulture);
+                else
+                    s = OutputWriter.FormatNumberHelper(yg, 2);
+
+                canvas.DrawText(s, xt, y + th, "end");
                 yg += stepY;
             }
             var sx0 = OutputWriter.FormatNumberHelper(bounds.Left, 2);
             var sx1 = OutputWriter.FormatNumberHelper(bounds.Right, 2);
             var n = Math.Max(sx0.Length, sx1.Length) + 2;
-            maxSteps = Math.Min(12, (int)((xn - Margin) / (tw * n)));
+            maxSteps = Math.Min(15, (int)((xn - Left) / (tw * n)));
             delta = bounds.Right - bounds.Left;
             var stepX = GetGridStep(delta, maxSteps);
             var midLine = stepX * xs > 1.5 * stepY * ys;
             if (midLine)
                 stepX /= 2.0;
-            tol = delta * 0.01;
+
+            tol = delta * 0.02;
             var xg = Math.Round((bounds.Left - tol) / stepX) * stepX;
+            if (xg < bounds.Left - tol)
+                xg += stepX;
+
             max = bounds.Right + tol;
-            var yt = yn + 1.5 * th;
+            var yt = yn + 2f * th + 1.5 * a;
+            isScientific = Math.Abs(bounds.Right) + Math.Abs(bounds.Left) >= 20000;
+            if (midLine)
+            {
+                n = OutputWriter.FormatNumberHelper(Math.Round(max / stepX) * stepX, 2).Length + 2;
+                if (tw * n < stepX * xs)
+                    midLine = false;
+            }
             var even = true;
             while ((xg < max) == (stepX > 0))
             {
-                double x = (float)(x0 + xg * xs);
-                g.DrawLine(x, Margin, x, yn, "PlotGrid");
+                var x = x0 + xg * xs;
+                if (Math.Abs(x) > 1e8)
+                    break;
+
+                if (xg >= bounds.Left && xg <= bounds.Right)
+                    canvas.DrawLine(x, Margin, x, yn, "PlotGrid");
+
                 if (even)
                 {
-                    var s = OutputWriter.FormatNumberHelper(xg, 2);
-                    g.DrawText(s, x, yt, "middle");
+                    if (Math.Abs(xg) < stepX * 1e-8)
+                        s = "0";
+                    else if (isScientific)
+                        s = xg.ToString("0.##E+0", CultureInfo.InvariantCulture);
+                    else
+                        s = OutputWriter.FormatNumberHelper(xg, 2);
+
+                    canvas.DrawText(s, x, yt, "middle");
                 }
                 if (midLine)
                     even = !even;
+
                 xg += stepX;
             }
-            g.DrawRectangle(Margin, Margin, xn - Margin, yn - Margin, "PlotAxis");
-            if (y0 >= Margin && y0 <= yn)
+            canvas.DrawRectangle(Left, Margin, xn - Left, yn - Margin, "PlotAxis");
+            if (y0 >= Margin - 0.1 && y0 <= yn + 0.1)
             {
-                g.DrawLine(Margin, y0, xn, y0, "PlotAxis");
-                g.DrawText("x", xn + 2 * tw, y0 + th05);
+                canvas.DrawLine(Left, y0, xn, y0, "PlotAxis");
+                canvas.DrawText("x", xn + tw, y0 - th);
             }
-            if (x0 >= Margin && x0 <= xn)
+            if (x0 >= Left - 0.1 && x0 <= xn + 0.1)
             {
-                g.DrawLine(x0, Margin, x0, yn, "PlotAxis");
-                g.DrawText("y", x0 - tw, Margin - th);
+                canvas.DrawLine(x0, Margin, x0, yn, "PlotAxis");
+                canvas.DrawText("y", x0 + tw/2d, Margin - th - a/2d);
             }
             var sy0 = OutputWriter.FormatNumberHelper(bounds.Bottom, 2);
             var sy1 = OutputWriter.FormatNumberHelper(bounds.Top, 2);
-            g.DrawText($"({sx0}; {sy0})", 5, Height - th);
-            g.DrawText($"({sx1}; {sy1})", Width - 2.5 * tw, 1.5f * th, "end");
+            a /= 2f;
+            canvas.DrawText($"[{sx0}; {sy0}]", a, Height - 1d * th - a);
+            canvas.DrawText($"[{sx1}; {sy1}]", Width - a, 2d * th + a, "end");
         }
 
         protected string HtmlImg(string src)
