@@ -269,8 +269,8 @@ namespace Calcpad.Core
                             else
                                 t.Content = writer.UnitString(v.Units);
                         }
-                        else if (!v.IsReal)
-                            t.Content += 'i';
+                        else
+                            t.Content = writer.FormatValue(v, _decimals);
 
                         t.IsCompositeValue = v.IsComposite();
                     }

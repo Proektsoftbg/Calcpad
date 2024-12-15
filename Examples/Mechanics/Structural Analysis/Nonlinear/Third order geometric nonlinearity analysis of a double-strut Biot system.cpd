@@ -12,7 +12,7 @@
 L = l/2cm
 H = 0
 k = L/10
-#def svg$ = '<svg viewbox="'-5*k' '-5*k' '2*(L+5*k)' '10*k + H'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-family: Georgia Pro; font-size:2.5pt; width:'500'pt; height:'150'pt">
+#def svg$ = '<svg viewbox="'-5*k' '-5*k' '2*(L+5*k)' '10*k + H'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-family: Georgia Pro; font-size:8px; width:'450'pt; height:'150'pt">
 #def thin_style$ = style="stroke:darkcyan; stroke-width:1; fill:none"
 #def pin_style$ = style="stroke:red; stroke-width:1; fill:white"
 #def thick_style$ = style="stroke:darkcyan; stroke-width:3; fill:none"

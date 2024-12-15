@@ -61,7 +61,7 @@ H = (h + 3m)*k
 r = 3
 x1(j) = (x_J.j + Z.(2*j - 1))*k
 y1(j) = (h - y_J.j + Z.(2*j))*k
-#def svg$ = '<svg viewbox="'-3m*k' '-1m*k' '(w + 6m)*k' 'H'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-family: Georgia Pro Cond; font-size:3.5pt; width:'W + 120'pt; height:'H + 100*H/W'pt">
+#def svg$ = '<svg viewbox="'-2.5m*k' '-1m*k' '(w + 5m)*k' 'H'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-family: Georgia Pro Cond; font-size:11px; width:'W + 100'pt; height:'H + 100*H/W'pt">
 #def thin_style$ = style="stroke:darkcyan; stroke-width:1; fill:none"
 #def pin_style$ = style="stroke:red; stroke-width:1; fill:white"
 #def thick_style$ = style="stroke:darkcyan; stroke-width:3; fill:none"

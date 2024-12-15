@@ -1,7 +1,7 @@
 #def line$(x1$; y1$; x2$; y2$; style$) = '<line x1="'x1$'" y1="'y1$'" x2="'x2$'" y2="'y2$'" style$/>
 #def rect$(x$; y$; w$; h$; style$) = '<rect x="'x$'" y="'y$'" width="'w$'" height="'h$'" style$/>
 #def point$(x$; y$; style$) = '<circle cx="'x$'" cy="'y$'" r="2" style$/>
-#def circle$(x$; y$; r$; style$) = '<circle cx="'x$'" cy="'y$'" r="r$" style$/>
+#def circle$(x$; y$; r$; style$) = '<circle cx="'x$'" cy="'y$'" r="'r$'" style$/>
 #def texth$(x$; y$; s$) = '<text x="'x$'" y="'y$'" text-anchor="middle">s$</text>
 #def textv$(x$; y$; s$) = '<text x="'x$'" y="'y$'" text-anchor="middle" transform="rotate(-90,'x$','y$')">s$</text>
 #def text$(x$; y$; a$; s$) = '<text x="'x$'" y="'y$'" text-anchor="middle" transform="rotate(-'a$','x$','y$')">s$</text>
