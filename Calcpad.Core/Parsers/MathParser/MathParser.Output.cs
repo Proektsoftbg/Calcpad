@@ -14,12 +14,12 @@ namespace Calcpad.Core
             private readonly Container<CustomFunction> _functions;
             private readonly List<SolveBlock> _solveBlocks;
             private readonly StringBuilder _stringBuilder;
-            private readonly int _decimals;
             private readonly bool _formatEquations;
             private readonly int _maxOutputCount;
             private readonly bool _zeroSmallMatrixElements;  
             private int _assignmentPosition;
             private bool _hasVariables;
+            private int _decimals;
 
             internal const string VectorSpacing = "\u2002";
             internal Output(MathParser parser)
@@ -36,6 +36,7 @@ namespace Calcpad.Core
 
             internal string Render(OutputWriter.OutputFormat format)
             {
+                _decimals = _parser._settings.Decimals;
                 _assignmentPosition = 0;
                 _hasVariables = false;
                 Token[] rpn = _parser._rpn;
@@ -113,12 +114,11 @@ namespace Calcpad.Core
                                 && _parser._result is Value)
                                 subst = _stringBuilder.ToString()[_assignmentPosition..];
                         }
-                        var dec = _parser._settings.Decimals;
                         var res = _parser._result switch
                         {
-                            Value value => writer.FormatValue(value, dec),
-                            Vector vector => RenderVector(vector, dec, writer, _maxOutputCount, _zeroSmallMatrixElements),
-                            Matrix matrix => RenderMatrix(matrix, dec, writer, _maxOutputCount, _zeroSmallMatrixElements),
+                            Value value => writer.FormatValue(value, _decimals),
+                            Vector vector => RenderVector(vector, _decimals, writer, _maxOutputCount, _zeroSmallMatrixElements),
+                            Matrix matrix => RenderMatrix(matrix, _decimals, writer, _maxOutputCount, _zeroSmallMatrixElements),
                             _ => null
                         };
                         if (hasOperators && res != subst || string.IsNullOrEmpty(subst))
@@ -269,8 +269,8 @@ namespace Calcpad.Core
                             else
                                 t.Content = writer.UnitString(v.Units);
                         }
-                        else
-                            t.Content = writer.FormatValue(v, _decimals);
+                        else if (!v.IsReal)
+                            t.Content += 'i';
 
                         t.IsCompositeValue = v.IsComposite();
                     }

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -118,17 +118,17 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="calcpad_download_help_html" xml:space="preserve">
-    <value>https://calcpad.eu/download/help.zh.html</value>
+    <value>https://calcpad.eu/download/help.html ！</value>
   </data>
   <data name="TryRestoreState_Recovered_SavePrompt" xml:space="preserve">
-    <value>Calcpad 从不明原因的关闭中恢复.
-是否需要恢复未保存的数据?</value>
+    <value>Calcpad从意外关闭中恢复.
+是否要恢复未保存的数据？</value>
   </data>
   <data name="TryRestoreState_Failed" xml:space="preserve">
-    <value>错误导致恢复失败:
+    <value>恢复失败，出现错误：
 "{0}".
-您也可以从
-"{1}"中查找未保存的数据.</value>
+您可以在以下位置找到未保存的数据：
+"{1}".</value>
   </data>
   <data name="Input" xml:space="preserve">
     <value>输入</value>
@@ -137,46 +137,46 @@
     <value>输出</value>
   </data>
   <data name="Inline_Html_elements_must_not_cross_text_lines" xml:space="preserve">
-    <value>停止! 行内Html 元素不能跨行.</value>
+    <value>停止！行内Html元素不得跨越文本行！</value>
   </data>
   <data name="Command_Open_Text_File" xml:space="preserve">
-    <value>文本文件 (*.txt)|*.txt|Calcpad工作薄 (*.cpd)|*.cpd|Calcpad封装包 (*.cpdz)|*.cpdz</value>
+    <value>文本文件(* .txt) | * .txt | Calcpad工作表(* .cpd) | * .cpd | Calcpad已编译(* .cpdz) | * .cpdz!</value>
   </data>
   <data name="Command_Open_Calcpad_Worksheet" xml:space="preserve">
-    <value>Calcpad工作薄 (*.cpd)|*.cpd|Calcpad 封装包 (*.cpdz)|*.cpdz|文本文件 (*.txt)|*.txt</value>
+    <value>Calcpad工作表(* .cpd) | * .cpd | 已编译Calcpad(* .cpdz) | * .cpdz |文本文件(* .txt) | * .txt</value>
   </data>
   <data name="FileSaveAs_Calcpad_Compiled" xml:space="preserve">
-    <value>Calcpad 封装包(*.cpdz)|*.cpdz</value>
+    <value>已编译Calcpad(* .cpdz) | * .cpdz</value>
   </data>
   <data name="SavePrompt" xml:space="preserve">
-    <value>文件未保存. 是否保存?</value>
+    <value>文件未保存.保存？</value>
   </data>
   <data name="Unwarped_code" xml:space="preserve">
-    <value>未换行代码</value>
+    <value>未结束代码</value>
   </data>
   <data name="Found_Errors_In_Modules_And_Macros" xml:space="preserve">
-    <value>&lt;div class="errorHeader"&gt;Found &lt;b&gt;{0}&lt;/b&gt; errors in modules and macros:</value>
+    <value>&lt;div class="errorHeader"&gt;在模块和宏中发现 &lt;b&gt;{0}&lt;/b&gt;个错误：</value>
   </data>
   <data name="Error_Exporting_Docx_File" xml:space="preserve">
-    <value>导出docx文件错误. 是否显示检验日志?</value>
+    <value>导出docx文件时出错.显示验证日志？ ！</value>
   </data>
   <data name="Are_you_sure_you_want_to_unlock_the_source_code_for_editing" xml:space="preserve">
-    <value>是否确定要打开源代码以编辑?</value>
+    <value>确定要解锁源代码进行编辑吗？</value>
   </data>
   <data name="Open_source_code_for_editing__F4" xml:space="preserve">
-    <value>打开并编辑源代码(F4)</value>
+    <value>打开源代码进行编辑（F4）！</value>
   </data>
   <data name="Compile_to_input_form_F4" xml:space="preserve">
-    <value>编译成输入表模式 (F4)</value>
+    <value>编译为输入表单（F4）</value>
   </data>
   <data name="Error_getting_units" xml:space="preserve">
-    <value>获取单位错误.</value>
+    <value>获取单位时出错</value>
   </data>
   <data name="Error_Invalid_number_Please_correct_and_then_try_again" xml:space="preserve">
-    <value>错误! 无效的数值. 更正后重试.</value>
+    <value>错误！无效号码.请更正后重试！</value>
   </data>
   <data name="Error_setting_units" xml:space="preserve">
-    <value>设置单位错误.</value>
+    <value>设置单位时出错</value>
   </data>
   <data name="File" xml:space="preserve">
     <value>文件</value>
@@ -191,16 +191,16 @@
     <value>打开</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
-    <value>最近文件</value>
+    <value>最近打开的文件</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>保存</value>
   </data>
   <data name="SaveAs" xml:space="preserve">
-    <value>保存为...</value>
+    <value>另存为...</value>
   </data>
   <data name="CommandLineInterpreter" xml:space="preserve">
-    <value>命令行解释器(CLI)</value>
+    <value>命令行解释器（ CLI ）</value>
   </data>
   <data name="Exit" xml:space="preserve">
     <value>退出</value>
@@ -227,7 +227,7 @@
     <value>粘贴</value>
   </data>
   <data name="InputForm" xml:space="preserve">
-    <value>输入表</value>
+    <value>输入表单</value>
   </data>
   <data name="Calculate" xml:space="preserve">
     <value>计算</value>
@@ -236,10 +236,10 @@
     <value>打印</value>
   </data>
   <data name="OpenWithWord" xml:space="preserve">
-    <value>用MS Word打开</value>
+    <value>使用MS Word打开</value>
   </data>
   <data name="SaveAsPDF" xml:space="preserve">
-    <value>保存为PDF文件</value>
+    <value>另存为pdf文件</value>
   </data>
   <data name="Help" xml:space="preserve">
     <value>帮助</value>
@@ -251,10 +251,10 @@
     <value>打印预览</value>
   </data>
   <data name="SaveAsHTML" xml:space="preserve">
-    <value>将输出保存为Html文件</value>
+    <value>将输出另存为Html文件</value>
   </data>
   <data name="NewFile" xml:space="preserve">
-    <value>新文件</value>
+    <value>新建文件</value>
   </data>
   <data name="FindAndReplace" xml:space="preserve">
     <value>查找和替换</value>
@@ -263,32 +263,31 @@
     <value>插入图像</value>
   </data>
   <data name="ShowHideKeypad" xml:space="preserve">
-    <value>显示/隐藏虚拟数值键盘</value>
+    <value>显示/隐藏数字键盘</value>
   </data>
   <data name="RunAndDisplayOutput" xml:space="preserve">
-    <value>运行计算&amp;显示输出 (F5）</value>
+    <value>运行计算并显示输出（F5)</value>
   </data>
   <data name="RefreshResultsAfterEachEdit" xml:space="preserve">
-    <value>自动更新结果</value>
+    <value>每次编辑后刷新结果！</value>
   </data>
   <data name="Angles" xml:space="preserve">
-    <value>角度:</value>
+    <value>角度</value>
   </data>
   <data name="NonMetricUnits" xml:space="preserve">
-    <value>非米制单位:</value>
+    <value>非国际单位制</value>
   </data>
   <data name="EquationFormat" xml:space="preserve">
-    <value>方程式格式:</value>
+    <value>代数式格式:</value>
   </data>
   <data name="Numbers" xml:space="preserve">
-    <value>数值: </value>
+    <value>数字</value>
   </data>
   <data name="Code" xml:space="preserve">
     <value>代码</value>
   </data>
   <data name="KeypadLabel" xml:space="preserve">
-    <value>┌──── 数字 ─────┐ ┌────── 运算符 ──────┐ ┌─────────── 函数 ───────────┐</value>
-    <comment>The label for the keypad at the bottom of the code section, only the words should be changed.</comment>
+    <value>┌── 数字 ──┐ ┌───── 运算符 ──────┐ ┌──────── 函数 ────────┐</value>
   </data>
   <data name="FunctionPlot" xml:space="preserve">
     <value>函数绘图</value>
@@ -297,28 +296,28 @@
     <value>简单绘图</value>
   </data>
   <data name="Parametric" xml:space="preserve">
-    <value>参数化的</value>
+    <value>参数绘图</value>
   </data>
   <data name="Multiple" xml:space="preserve">
-    <value>多个</value>
+    <value>多函数单图</value>
   </data>
   <data name="MultipleParametric" xml:space="preserve">
-    <value>多参数</value>
+    <value>多参数函数图</value>
   </data>
   <data name="2DColorMap" xml:space="preserve">
-    <value>3D曲面的平面映射</value>
+    <value>曲面的2D彩色映射图</value>
   </data>
   <data name="NumericalMethod" xml:space="preserve">
     <value>数值方法</value>
   </data>
   <data name="RootFindingForXEqualsConst" xml:space="preserve">
-    <value>求方程f(x)=常数 的解</value>
+    <value>求f(x)=常量的根</value>
   </data>
   <data name="RootFindingForXEqualsZero" xml:space="preserve">
-    <value>求方程f(x)=0的解</value>
+    <value>求f(x)=0的根</value>
   </data>
   <data name="NonStrictRootFinding" xml:space="preserve">
-    <value>非严格寻根</value>
+    <value>非严格求根</value>
   </data>
   <data name="LocalMaximum" xml:space="preserve">
     <value>函数的局部最大值</value>
@@ -327,7 +326,7 @@
     <value>函数的局部最小值</value>
   </data>
   <data name="AdaptiveGaussLobattoIntegration" xml:space="preserve">
-    <value>自适应Gauss-Lobatto积分</value>
+    <value>自适应高斯-洛巴托(Gauss-Lobatto)积分</value>
   </data>
   <data name="TanhSinhIntegration" xml:space="preserve">
     <value>Tanh-Sinh积分</value>
@@ -336,7 +335,7 @@
     <value>数值微分</value>
   </data>
   <data name="GeneralInlineIterativeProcedure" xml:space="preserve">
-    <value>一般单行迭代程序</value>
+    <value>一般行内迭代程序</value>
   </data>
   <data name="IterativeProduct" xml:space="preserve">
     <value>迭代积</value>
@@ -348,13 +347,13 @@
     <value>程序流控制</value>
   </data>
   <data name="SimpleIfEndIf" xml:space="preserve">
-    <value>简单型: if-end if</value>
+    <value>简单： if-end if!</value>
   </data>
   <data name="AlternativeIfElseEndIf" xml:space="preserve">
-    <value>可选型: if-else-end if</value>
+    <value>选择性执行： if-else-end if!</value>
   </data>
   <data name="CompleteIfElseIfElseIfEndIf" xml:space="preserve">
-    <value>完备型: if-else if-else-end if</value>
+    <value>完备型选择执行： if-else if-else-end if!</value>
   </data>
   <data name="Iteration" xml:space="preserve">
     <value>迭代</value>
@@ -363,16 +362,16 @@
     <value>字符串变量或宏</value>
   </data>
   <data name="SimpleRepeatLoop" xml:space="preserve">
-    <value>简单型: repeat-loop</value>
+    <value>简单循环：repeat-loop</value>
   </data>
   <data name="ConditionalRepeatBreakLoop" xml:space="preserve">
-    <value>条件型: repeat-break-loop</value>
+    <value>有条件的循环：repeat-break-loop</value>
   </data>
   <data name="ConditionalRepeatContinueLoop" xml:space="preserve">
-    <value>条件型: repeat-continue-loop</value>
+    <value>有条件的循环： repeat-continue-loop ！</value>
   </data>
   <data name="InlineStringVariable" xml:space="preserve">
-    <value>单行字符串变量</value>
+    <value>行内字符串变量</value>
   </data>
   <data name="MultilineStringVariable" xml:space="preserve">
     <value>多行字符串变量</value>
@@ -384,25 +383,25 @@
     <value>多行宏</value>
   </data>
   <data name="IncludeExternalFile" xml:space="preserve">
-    <value>调用外部文件</value>
+    <value>包含外部文件</value>
   </data>
   <data name="Heading3" xml:space="preserve">
-    <value>标题3</value>
+    <value>标题 3</value>
   </data>
   <data name="Heading4" xml:space="preserve">
-    <value>标题4</value>
+    <value>标题 4</value>
   </data>
   <data name="Heading5" xml:space="preserve">
-    <value>标题5</value>
+    <value>标题 5</value>
   </data>
   <data name="Heading6" xml:space="preserve">
-    <value>标题6</value>
+    <value>标题 6</value>
   </data>
   <data name="Paragraph" xml:space="preserve">
     <value>段落</value>
   </data>
   <data name="LineBreak" xml:space="preserve">
-    <value>断行</value>
+    <value>换行符</value>
   </data>
   <data name="Bold" xml:space="preserve">
     <value>粗体</value>
@@ -411,10 +410,10 @@
     <value>斜体</value>
   </data>
   <data name="Underline" xml:space="preserve">
-    <value>加下划线</value>
+    <value>下划线</value>
   </data>
   <data name="Strikethrough" xml:space="preserve">
-    <value>加横贯线</value>
+    <value>删除线(横贯线)</value>
   </data>
   <data name="Subscript" xml:space="preserve">
     <value>下标</value>
@@ -426,13 +425,13 @@
     <value>红色</value>
   </data>
   <data name="FoldedDiv" xml:space="preserve">
-    <value>折叠段落</value>
+    <value>折叠</value>
   </data>
   <data name="BulletedList" xml:space="preserve">
-    <value>符号列表段</value>
+    <value>符号列表</value>
   </data>
   <data name="NumberedList" xml:space="preserve">
-    <value>编号列表段</value>
+    <value>编号清单</value>
   </data>
   <data name="Image" xml:space="preserve">
     <value>图像</value>
@@ -441,28 +440,28 @@
     <value>表格</value>
   </data>
   <data name="DividingLine" xml:space="preserve">
-    <value>水平分隔线</value>
+    <value>分割线</value>
   </data>
   <data name="HtmlUI" xml:space="preserve">
-    <value>Html交互界面</value>
+    <value>HTML用户界面</value>
   </data>
   <data name="Selection" xml:space="preserve">
     <value>选择</value>
   </data>
   <data name="RadioButtons" xml:space="preserve">
-    <value>圆形选择按钮</value>
+    <value>单选按钮</value>
   </data>
   <data name="Checkbox" xml:space="preserve">
     <value>勾选框</value>
   </data>
   <data name="DrawingSVG" xml:space="preserve">
-    <value>绘图/SVG矢量图</value>
+    <value>图像/SVG</value>
   </data>
   <data name="Drawing" xml:space="preserve">
-    <value>绘图</value>
+    <value>图像</value>
   </data>
   <data name="Line" xml:space="preserve">
-    <value>线</value>
+    <value>行</value>
   </data>
   <data name="Rectangle" xml:space="preserve">
     <value>矩形</value>
@@ -474,7 +473,7 @@
     <value>椭圆</value>
   </data>
   <data name="Polyline" xml:space="preserve">
-    <value>多线</value>
+    <value>折线</value>
   </data>
   <data name="Polygon" xml:space="preserve">
     <value>多边形</value>
@@ -483,61 +482,61 @@
     <value>文本</value>
   </data>
   <data name="OutputVisibilityControl" xml:space="preserve">
-    <value>输出内容可见性控制</value>
+    <value>输出可见性控制</value>
   </data>
   <data name="HideContentAfterCurrentLine" xml:space="preserve">
     <value>隐藏当前行后的内容</value>
   </data>
   <data name="AlwaysShowContent" xml:space="preserve">
-    <value>总是显示内容 (默认)</value>
+    <value>始终显示内容（默认）</value>
   </data>
   <data name="ShowContentBelowOnlyBeforeCalc" xml:space="preserve">
-    <value>仅在计算前显示以下内容</value>
+    <value>仅在计算前显示以下内容！</value>
   </data>
   <data name="ShowContentBelowOnlyAfterCalc" xml:space="preserve">
-    <value>仅在计算后显示以下内容</value>
+    <value>仅在计算后显示以下内容！</value>
   </data>
   <data name="PauseCalculation" xml:space="preserve">
     <value>暂停计算并等待</value>
   </data>
   <data name="PauseExecutionAndDisplayInputForm" xml:space="preserve">
-    <value>暂停计算并显示输入框</value>
+    <value>暂停执行并显示输入表单</value>
   </data>
   <data name="ShowOnlyCalculatedValues" xml:space="preserve">
-    <value>仅显示计算出的数值</value>
+    <value>仅显示计算值！</value>
   </data>
   <data name="ShowCompleteEquations" xml:space="preserve">
-    <value>显示完整的计算式 (默认)</value>
+    <value>显示完整的代数式（默认）</value>
   </data>
   <data name="ShowEquationsWithoutCalculating" xml:space="preserve">
-    <value>显示方程式，但不计算</value>
+    <value>显示代数式，但不计算</value>
   </data>
   <data name="DoNotSubstituteVariables" xml:space="preserve">
-    <value>仅显示含变量的方程式(不显示代入计算)</value>
+    <value>请勿替换变量（无替换）</value>
   </data>
   <data name="ShowEquationsOnlyWithSubstitutedValues" xml:space="preserve">
-    <value>仅显示代入数值的方程式 (不显示变量)</value>
+    <value>仅使用替换值（无变量）显示方程！</value>
   </data>
   <data name="ShowEquationsWithVariablesAndSubstitutedValues" xml:space="preserve">
-    <value>显示方程式的变量和代入值 (默认)</value>
+    <value>显示带有变量和代入值的代数式（默认）</value>
   </data>
   <data name="SplitEquations" xml:space="preserve">
-    <value>分割长方程式</value>
+    <value>拆分不适合单线的公式！</value>
   </data>
   <data name="WrapEquations" xml:space="preserve">
-    <value>长方程式换行 (默认)</value>
+    <value>换行公式不适用于单行（默认）</value>
   </data>
   <data name="RoundToTheSpecifiedDigits" xml:space="preserve">
-    <value>舍入到小数点后位数</value>
+    <value>舍入到小数点后指定位数</value>
   </data>
   <data name="SetAngleDegrees" xml:space="preserve">
-    <value>设置角度以degrees度量</value>
+    <value>设置角度单位为度</value>
   </data>
   <data name="SetAngleRadians" xml:space="preserve">
-    <value>设置角度以radians度量</value>
+    <value>设置角度单位为弧度</value>
   </data>
   <data name="SetAngleGrades" xml:space="preserve">
-    <value>设置角度以 grades度量</value>
+    <value>设置角度单位为坡度</value>
   </data>
   <data name="Insert" xml:space="preserve">
     <value>插入</value>
@@ -555,25 +554,25 @@
     <value>代入</value>
   </data>
   <data name="SubstituteTooltip" xml:space="preserve">
-    <value>将变量带入到方程式中</value>
+    <value>代入方程中的变量值</value>
   </data>
   <data name="Plot" xml:space="preserve">
-    <value>绘图:</value>
+    <value>绘图</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
     <value>自适应</value>
   </data>
   <data name="AdaptiveTooltip" xml:space="preserve">
-    <value>自适应1D函数绘图</value>
+    <value>自适应一维函数图</value>
   </data>
   <data name="Shadows" xml:space="preserve">
     <value>阴影:</value>
   </data>
   <data name="ShadowsTooltip" xml:space="preserve">
-    <value>画带阴影的曲面投影</value>
+    <value>绘制带阴影的投影图</value>
   </data>
   <data name="LightDirection" xml:space="preserve">
-    <value>打光方向</value>
+    <value>光照方向</value>
   </data>
   <data name="North" xml:space="preserve">
     <value>北</value>
@@ -600,25 +599,25 @@
     <value>北-西</value>
   </data>
   <data name="Palette" xml:space="preserve">
-    <value>调色板:</value>
+    <value>调色盘</value>
   </data>
   <data name="None" xml:space="preserve">
-    <value>无</value>
+    <value>无!</value>
   </data>
   <data name="Gray" xml:space="preserve">
     <value>灰色</value>
   </data>
   <data name="Rainbow" xml:space="preserve">
-    <value>彩虹带</value>
+    <value>彩虹色</value>
   </data>
   <data name="Terrain" xml:space="preserve">
-    <value>地形上色</value>
+    <value>地形色</value>
   </data>
   <data name="VioletYellow" xml:space="preserve">
-    <value>紫红-黄</value>
+    <value>紫罗兰-黄</value>
   </data>
   <data name="GreenYellow" xml:space="preserve">
-    <value>绿-黄</value>
+    <value>绿-黄色</value>
   </data>
   <data name="Blues" xml:space="preserve">
     <value>蓝色</value>
@@ -627,16 +626,16 @@
     <value>平滑</value>
   </data>
   <data name="SmoothTooltip" xml:space="preserve">
-    <value>曲面投影阴影平滑</value>
+    <value>曲面投影的阴影平滑！</value>
   </data>
   <data name="ExternalBrowser" xml:space="preserve">
-    <value>外部浏览器:</value>
+    <value>外部浏览器</value>
   </data>
   <data name="ExternalBrowserTooltip" xml:space="preserve">
-    <value>打开报告中链接的外部浏览器</value>
+    <value>用于在报告中打开链接的外部浏览器</value>
   </data>
   <data name="PaletteTooltip" xml:space="preserve">
-    <value>曲面二维映射图色标</value>
+    <value>平面投影图色阶</value>
   </data>
   <data name="Real" xml:space="preserve">
     <value>实数</value>
@@ -645,10 +644,10 @@
     <value>重置</value>
   </data>
   <data name="NewLine" xml:space="preserve">
-    <value>新起一行</value>
+    <value>新行</value>
   </data>
   <data name="InverseFunctions" xml:space="preserve">
-    <value>反函数</value>
+    <value>反三角函数</value>
   </data>
   <data name="HyperbolicFunctions" xml:space="preserve">
     <value>双曲函数</value>
@@ -657,37 +656,37 @@
     <value>曲面投影</value>
   </data>
   <data name="FindRootOfEquation" xml:space="preserve">
-    <value>求方程f(x) = 0的根</value>
+    <value>求方程f (x) = 0的根</value>
   </data>
   <data name="CalculateByIterations" xml:space="preserve">
-    <value>通过迭代计算</value>
+    <value>迭代计算！</value>
   </data>
   <data name="FiniteSum" xml:space="preserve">
-    <value>求和</value>
+    <value>有限连加</value>
   </data>
   <data name="FiniteProduct" xml:space="preserve">
-    <value>累积</value>
+    <value>有限连乘</value>
   </data>
   <data name="ChangeCase" xml:space="preserve">
     <value>更改大小写</value>
   </data>
   <data name="Degrees" xml:space="preserve">
-    <value>度</value>
+    <value>度数</value>
   </data>
   <data name="Radians" xml:space="preserve">
-    <value>弧度</value>
+    <value>弧度(rad)</value>
   </data>
   <data name="Grades" xml:space="preserve">
-    <value>百分度</value>
+    <value>坡度(grad)</value>
   </data>
   <data name="Pro" xml:space="preserve">
-    <value>专业公式</value>
+    <value>专业</value>
   </data>
   <data name="Inline" xml:space="preserve">
-    <value>行内公式</value>
+    <value>行内</value>
   </data>
   <data name="Backspace" xml:space="preserve">
-    <value>Backspace</value>
+    <value>退格键</value>
   </data>
   <data name="Other" xml:space="preserve">
     <value>其他</value>
@@ -696,16 +695,16 @@
     <value>复数</value>
   </data>
   <data name="OpenFile" xml:space="preserve">
-    <value>打开</value>
+    <value>打开文件</value>
   </data>
   <data name="SaveFile" xml:space="preserve">
-    <value>保存</value>
+    <value>保存文件</value>
   </data>
   <data name="CopyText" xml:space="preserve">
-    <value>复制文本到剪贴板</value>
+    <value>复制选中项到剪贴板</value>
   </data>
   <data name="PasteText" xml:space="preserve">
-    <value>从剪贴板粘贴文本</value>
+    <value>从剪贴板粘贴</value>
   </data>
   <data name="UndoEdit" xml:space="preserve">
     <value>取消</value>
@@ -720,6 +719,6 @@
     <value>希腊字母和符号</value>
   </data>
   <data name="RecentFileList" xml:space="preserve">
-    <value>最近文件</value>
+    <value>最近打开的文件</value>
   </data>
 </root>

@@ -81,8 +81,8 @@
     n_cols(M)                    transp(M)              mfind_ge(M; x)
     resize(M; m; n)              adj(M)                 hlookup(M; x; i1; i2)   
     fill(M; x)                   cofactor(M)            hlookup_eq(M; x; i1; i2)
-    fill_row(M; x; i)            eigenvals(M)           hlookup_ne(M; x; i1; i2)
-    fill_col(M; x; j)            eigenvecs(M)           hlookup_lt(M; x; i1; i2)
+    fill_row(M; i; x)            eigenvals(M)           hlookup_ne(M; x; i1; i2)
+    fill_col(M; j; x)            eigenvecs(M)           hlookup_lt(M; x; i1; i2)
     copy(A; B; i; j)             cholesky(M)            hlookup_le(M; x; i1; i2)
     add(A; B; i; j)              lu(M)                  hlookup_gt(M; x; i1; i2)
     row(M; i)                    qr(M)                  hlookup_ge(M; x; i1; i2)
@@ -193,16 +193,16 @@ To:  °  ′ (single prime)  ″ (double prime/second)
 ————————————————————————————————————————————————————————————————————————————————
  Command line options (support the same language features as Calcpad.exe):
 ———————————————————————————————————————————————————————————————————————————————— 
-    calcpad input.cpd output.html - calculates input.cpd and exports 
-    calcpad input.cpd output.docx   the results to the respective format
-    calcpad input.cpd output.pdf    (html, docx or pdf);
+    cli input.cpd output.html - calculates input.cpd and exports 
+    cli input.cpd output.docx   the results to the respective format
+    cli input.cpd output.pdf    (html, docx or pdf);
         
-    calcpad input.cpd html - calculates input.cpd and exports to input.html;
-    calcpad input.cpd docx - calculates input.cpd and exports to input.docx;    
-    calcpad input.cpd pdf  - calculates input.cpd and exports to input.pdf;
+    cli input.cpd html - calculates input.cpd and exports to input.html;
+    cli input.cpd docx - calculates input.cpd and exports to input.docx;    
+    cli input.cpd pdf  - calculates input.cpd and exports to input.pdf;
     
-    calcpad input.cpd      - calculates input.cpd and exports to input.html.
+    cli input.cpd      - calculates input.cpd and exports to input.html.
     
     Additional arguments:
         -s              - silent mode (do not open the output file), e.g.:
-        calcpad input.cpd output.html -s
+        cli input.cpd output.html -s

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -118,33 +118,33 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Welcome_To_Calcpad_Command_Line_Interpreter" xml:space="preserve">
-    <value> 欢迎使用Calcpad命令行执行器v.{0}.{1}.{2}!</value>
+    <value>欢迎使用Calcpad命令行解释器v.{0}.{1}.{2}!</value>
   </data>
   <data name="Press_Any_Key_When_Ready" xml:space="preserve">
-    <value>按任意键开始.</value>
+    <value>准备好后按任意键！</value>
   </data>
   <data name="Copyright_2023_By_Proektsoft_EOOD" xml:space="preserve">
-    <value> 版权: © 2024 Proektsoft EOOD所有.</value>
+    <value>版权所有： © 2023 by Proektsoft EOOD</value>
   </data>
   <data name="Commands" xml:space="preserve">
     <value>命令</value>
   </data>
   <data name="Enter_Math_Expressions_Or_Commands_Or_Type_HELP_For_Further_Instructions" xml:space="preserve">
-    <value>输入数学表达式或命令 (或输HELP查看更多说明)</value>
+    <value>输入数学表达式或命令（或键入帮助以获取进一步说明）</value>
   </data>
   <data name="Error" xml:space="preserve">
-    <value>错误</value>
+    <value>错误！</value>
   </data>
   <data name="There_Are_No_Saved_Problems" xml:space="preserve">
-    <value>没有未保存的问题.</value>
+    <value>没有已保存的问题！</value>
   </data>
   <data name="Problem_Title" xml:space="preserve">
     <value>问题标题:</value>
   </data>
   <data name="Problem_0_Does_Not_Exist" xml:space="preserve">
-    <value>问问题 \"{0}\" 不存在.</value>
+    <value>问题\"{0}\"不存在！</value>
   </data>
   <data name="Loading_The_Settings_File" xml:space="preserve">
-    <value>正在加载设置文件...</value>
+    <value>正在加载设置文件... </value>
   </data>
 </root>

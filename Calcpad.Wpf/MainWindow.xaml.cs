@@ -1430,7 +1430,7 @@ namespace Calcpad.Wpf
         {
             _stringBuilder.Clear();
             var ssf = Math.Round(0.9 * Math.Sqrt(_screenScaleFactor), 2).ToString(CultureInfo.InvariantCulture);
-            _stringBuilder.Append(_htmlWorksheet.Replace("var(--ssf)", ssf));
+            _stringBuilder.Append(_htmlWorksheet.Replace("var(--screen-scale-factor)", ssf));
             _stringBuilder.Append(s);
             _stringBuilder.Append(" </body></html>");
             return _stringBuilder.ToString();

@@ -65,6 +65,7 @@ namespace Calcpad.Core
         internal int PlotWidth => (int)GetSettingsVariable("PlotWidth", 500);
         internal int PlotHeight => (int)GetSettingsVariable("PlotHeight", 300);
         internal int PlotStep => (int)GetSettingsVariable("PlotStep", 0);
+        internal bool PlotSVG => GetSettingsVariable("PlotSVG", 0) != 0d;
 
         public const char DecimalSymbol = '.'; //CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator[0];
         internal Complex Result

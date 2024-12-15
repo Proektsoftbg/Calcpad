@@ -1,6 +1,9 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using System.Text;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Net.WebRequestMethods;
 
 namespace Calcpad.Core
 {
@@ -11,13 +14,17 @@ namespace Calcpad.Core
         private readonly string _svgTag;
         internal double Width { get; }
         internal double Height { get; }
-        internal SvgDrawing(double width, double height)
+        internal double ScaleFactor { get; set; } = 1.0;
+        internal SvgDrawing(double width, double height, double scaleFactor)
         {
-            Width = width;
-            Height = height;
-            _svgTag = "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" viewbox=\" 0 0 " + width + " " + height + "\">";
-            _sb = new StringBuilder(1000);
+            Width = Math.Round(width);
+            Height = Math.Round(height);
+            ScaleFactor = scaleFactor;
+            var k = 1.35 * scaleFactor;
+            _svgTag = $"<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" viewbox=\" 0 0 {Width} {Height}\" style=\"font-size: {3*scaleFactor}pt; width: {width/k}pt; height: {height/k}pt;\">";
+            _sb = new StringBuilder(_svgTag);
             _sb.AppendLine();
+            AddStyle();
         }
 
         private void AddClass(string svgClass)
@@ -55,6 +62,15 @@ namespace Calcpad.Core
             _sb.Append("\" height=\"" + Math.Round(h, Decimals));
             _sb.Append("\" fill=\"" + color + "\" stroke=\"none\" />");
             _sb.AppendLine();
+        }
+
+
+        internal void FillPolygon(SvgPoint[] points, string svgClass)
+        {
+            _sb.Append("<polygon");
+            DrawPoints(points);
+            _sb.Append("\" stroke-width=\"0");
+            AddClass(svgClass);
         }
 
         internal void DrawCircle(double x, double y, double r, string svgClass = "")
@@ -118,32 +134,56 @@ namespace Calcpad.Core
 
         public override string ToString()
         {
-            return _svgTag + _sb + "</svg>\n";
+            return _sb + "</svg>\n";
+        }
+
+        private void AddStyle()
+        {
+            var sf2 = 1.5 * ScaleFactor;
+            _sb.AppendLine("<style type=\"text/css\">");
+            _sb.AppendLine($".PlotGrid {{fill:none; stroke-width:{ScaleFactor}; stroke:Black; stroke-opacity:0.06;}}");
+            _sb.AppendLine($".PlotAxis {{fill:none; stroke-width:{ScaleFactor}; stroke:Black; stroke-opacity:0.24;}}");
+            _sb.AppendLine($".PlotSeries1 {{fill:none; stroke-width:{sf2}; stroke:Red;}}");
+            _sb.AppendLine($".PlotSeries2 {{fill:none; stroke-width:{sf2}; stroke:Green;}}");
+            _sb.AppendLine($".PlotSeries3 {{fill:none; stroke-width:{sf2}; stroke:Blue;}}");
+            _sb.AppendLine($".PlotSeries4 {{fill:none; stroke-width:{sf2}; stroke:Goldenrod;}}");
+            _sb.AppendLine($".PlotSeries5 {{fill:none; stroke-width:{sf2}; stroke:Magenta;}}");
+            _sb.AppendLine($".PlotSeries6 {{fill:none; stroke-width:{sf2}; stroke:DarkCyan;}}");
+            _sb.AppendLine($".PlotSeries7 {{fill:none; stroke-width:{sf2}; stroke:Purple;}}");
+            _sb.AppendLine($".PlotSeries8 {{fill:none; stroke-width:{sf2}; stroke:DarkOrange;}}");
+            _sb.AppendLine($".PlotSeries9 {{fill:none; stroke-width:{sf2}; stroke:Maroon;}}");
+            _sb.AppendLine($".PlotSeries10 {{fill:none; stroke-width:{sf2}; stroke:YellowGreen;}}");
+            _sb.AppendLine("circle.PlotSeries1 {fill:Red;}");
+            _sb.AppendLine("circle.PlotSeries2 {fill:Green;}");
+            _sb.AppendLine("circle.PlotSeries3 {fill:Blue;}");
+            _sb.AppendLine("circle.PlotSeries4 {fill:Goldenrod;}");
+            _sb.AppendLine("circle.PlotSeries5 {fill:Magenta;}");
+            _sb.AppendLine("circle.PlotSeries6 {fill:DarkCyan;}");
+            _sb.AppendLine("circle.PlotSeries7 {fill:Purple;}");
+            _sb.AppendLine("circle.PlotSeries8 {fill:DarkOrange;}");
+            _sb.AppendLine("circle.PlotSeries9 {fill:Maroon;}");
+            _sb.AppendLine("circle.PlotSeries10 {fill:YellowGreen;}");
+            _sb.AppendLine(".PlotFill1 {stroke:none; fill:Red; fill-opacity:0.050;}");
+            _sb.AppendLine(".PlotFill2 {stroke:none; fill:Green; fill-opacity:0.045;}");
+            _sb.AppendLine(".PlotFill3 {stroke:none; fill:Blue; fill-opacity:0.040;}");
+            _sb.AppendLine(".PlotFill4 {stroke:none; fill:Goldenrod; fill-opacity:0.035;}");
+            _sb.AppendLine(".PlotFill5 {stroke:none; fill:Magenta; fill-opacity:0.030;}");
+            _sb.AppendLine(".PlotFill6 {stroke:none; fill:DarkCyan; fill-opacity:0.025;}");
+            _sb.AppendLine(".PlotFill7 {stroke:none; fill:Purple; fill-opacity:0.020;}");
+            _sb.AppendLine(".PlotFill8 {stroke:none; fill:DarkOrange; fill-opacity:0.020;}");
+            _sb.AppendLine(".PlotFill9 {stroke:none; fill:Maroon; fill-opacity:0.020;}");
+            _sb.AppendLine(".PlotFill10 {stroke:none; fill:YellowGreen; fill-opacity:0.020;}");
+            _sb.AppendLine($"text {{fill:Black; font-family:'Segoe UI', Sans; font-size:{10*ScaleFactor}px}}");
+            _sb.AppendLine("text.left {text-anchor: start;}");
+            _sb.AppendLine("text.middle {text-anchor: middle;}");
+            _sb.AppendLine("text.end {text-anchor: end;}");
+            _sb.AppendLine("</style>");
         }
 
         internal void Save(string fileName)
         {
             using var sr = new StreamWriter(fileName);
             sr.WriteLine("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
-            sr.WriteLine(_svgTag);
-            sr.WriteLine("<style type=\"text/css\">");
-            sr.WriteLine(".PlotGrid      {fill: none; stroke-width:1; stroke: Black; stroke-opacity: 0.15;}");
-            sr.WriteLine(".PlotAxis      {fill: none; stroke-width:1; stroke: Black;}");
-            sr.WriteLine(".PlotFunction1 {fill: none; stroke-width:2; stroke: Red;}");
-            sr.WriteLine(".PlotFunction2 {fill: none; stroke-width:2; stroke: Green;}");
-            sr.WriteLine(".PlotFunction3 {fill: none; stroke-width:2; stroke: Blue;}");
-            sr.WriteLine(".PlotFunction4 {fill: none; stroke-width:2; stroke: Goldenrod;}");
-            sr.WriteLine(".PlotFunction5 {fill: none; stroke-width:2; stroke: Magenta;}");
-            sr.WriteLine(".PlotFunction6 {fill: none; stroke-width:2; stroke: DarkCyan;}");
-            sr.WriteLine(".PlotFunction7 {fill: none; stroke-width:2; stroke: Purple;}");
-            sr.WriteLine(".PlotFunction8 {fill: none; stroke-width:2; stroke: DarkOrange;}");
-            sr.WriteLine(".PlotFunction9 {fill: none; stroke-width:2; stroke: Maroon;}");
-            sr.WriteLine(".PlotFunction10{fill: none; stroke-width:2; stroke: YellowGreen;}");
-            sr.WriteLine("text           {fill: Black; font-family: \"Arial\", Sans; font-size: 9pt;}");
-            sr.WriteLine("text.left      {text-anchor: start;}");
-            sr.WriteLine("text.middle    {text-anchor: middle;}");
-            sr.WriteLine("text.end       {text-anchor: end;}");
-            sr.WriteLine("</style>");
             sr.Write(_sb.ToString());
             sr.WriteLine("</svg>");
         }

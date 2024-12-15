@@ -73,7 +73,7 @@ namespace Calcpad.Core
                 ys = (Height - 2 * Margin) / limits.Height;
                 y0 = Height - Margin + (int)(limits.Bottom * ys);
             }
-            if (Settings.VectorGraphics)
+            if (Settings.VectorGraphics || Parser.PlotSVG)
             {
                 GetSvgPoints(charts, x0, y0, xs, ys);
                 return DrawSvg(charts, x0, y0, xs, ys, limits);
@@ -219,8 +219,8 @@ namespace Calcpad.Core
         {
             using var bitmap = new SKBitmap(Width, Height);
             using var canvas = new SKCanvas(bitmap);
-            var penWidth = 2f * ScreenScaleFactor;
-            var dotRadius = 2f * penWidth;
+            var penWidth = 1.5f * ScreenScaleFactor;
+            var dotRadius = 2f * ScreenScaleFactor;
             SKPaint[] chartPens =
             [
                 new() { Color = SKColors.Red, StrokeWidth = penWidth },
@@ -235,17 +235,17 @@ namespace Calcpad.Core
                 new() { Color = SKColors.YellowGreen, StrokeWidth = penWidth },
             ];
             SKPaint[] chartBrushes =
-[
+            [
                 new() { Color = chartPens[0].Color.WithAlpha(12) },
-    new() { Color = chartPens[1].Color.WithAlpha(11) },
-    new() { Color = chartPens[2].Color.WithAlpha(10) },
-    new() { Color = chartPens[3].Color.WithAlpha(9) },
-    new() { Color = chartPens[4].Color.WithAlpha(8) },
-    new() { Color = chartPens[5].Color.WithAlpha(7) },
-    new() { Color = chartPens[6].Color.WithAlpha(6) },
-    new() { Color = chartPens[7].Color.WithAlpha(6) },
-    new() { Color = chartPens[8].Color.WithAlpha(6) },
-    new() { Color = chartPens[9].Color.WithAlpha(6) }
+                new() { Color = chartPens[1].Color.WithAlpha(11) },
+                new() { Color = chartPens[2].Color.WithAlpha(10) },
+                new() { Color = chartPens[3].Color.WithAlpha(9) },
+                new() { Color = chartPens[4].Color.WithAlpha(8) },
+                new() { Color = chartPens[5].Color.WithAlpha(7) },
+                new() { Color = chartPens[6].Color.WithAlpha(6) },
+                new() { Color = chartPens[7].Color.WithAlpha(6) },
+                new() { Color = chartPens[8].Color.WithAlpha(6) },
+                new() { Color = chartPens[9].Color.WithAlpha(6) }
             ];
             foreach (var pen in chartPens)
             {
@@ -315,22 +315,29 @@ namespace Calcpad.Core
 
         private string DrawSvg(Chart[] charts, double x0, double y0, double xs, double ys, Box bounds)
         {
-            var svgDrawing = new SvgDrawing(Width, Height);
+            var svgDrawing = new SvgDrawing(Width, Height, ScreenScaleFactor);
             DrawGridSvg(svgDrawing, x0, y0, xs, ys, bounds);
             var penNo = 1;
-            foreach (var chart in charts)
+            var dotRadius = 2 * ScreenScaleFactor;
+            foreach (var c in charts)
             {
-                if (chart.PointCount > 0)
-                {
-                    if (chart.Bounds.Width == 0 && chart.Bounds.Height == 0)
-                        svgDrawing.DrawCircle(chart.SvgPoints[0].X, chart.SvgPoints[0].Y, 4.0, "PlotFunction" + penNo);
-                    else
-                        svgDrawing.DrawPolyline(chart.SvgPoints, "PlotFunction" + penNo);
+                if (c.PointCount <= 0)
+                    continue;
 
-                    penNo++;
-                    if (penNo > 10)
-                        penNo = 1;
+                if (c.Bounds.Width == 0 && c.Bounds.Height == 0)
+                    svgDrawing.DrawCircle(c.SvgPoints[0].X, c.SvgPoints[0].Y, dotRadius, "PlotSeries" + penNo);
+                else
+                {
+                    svgDrawing.DrawPolyline(c.SvgPoints, "PlotSeries" + penNo);
+                    if (c.Fill)
+                    {
+                        var yf = y0 - Math.Clamp(0, bounds.Bottom * ys, bounds.Top * ys);
+                        FillChartSVG(svgDrawing, "PlotFill" + penNo, yf, c.SvgPoints);
+                    }
                 }
+                penNo++;
+                if (penNo > 10)
+                    penNo = 1;
             }
             if (!string.IsNullOrEmpty(Settings.ImagePath))
                 return HtmlImg(Settings.ImageUri + SvgToFile(svgDrawing, Settings.ImagePath));
@@ -340,6 +347,19 @@ namespace Calcpad.Core
             double dh = Math.Round(d * Height);
             return $"<div class=\"plot\" style=\"width:{dw}pt; height:{dh}pt;\">{svgDrawing}</div>";
         }
+
+        private static void FillChartSVG(SvgDrawing svgDrawing, string svgClass, double y0, SvgPoint[] points)
+        {
+            var len = points.Length;
+            var fillPoints = new SvgPoint[points.Length + 2];
+            fillPoints[0] = new(points[0].X, y0);
+            fillPoints[^1] = new(points[^1].X, y0);
+            for (int i = 0; i < len; ++i)
+                fillPoints[i + 1] = points[i];
+
+            svgDrawing.FillPolygon(fillPoints, svgClass);
+        }
+
         private struct Chart
         {
             private readonly Node[] _points;
