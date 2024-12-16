@@ -21,7 +21,7 @@ namespace Calcpad.Core
             Height = Math.Round(height);
             ScaleFactor = scaleFactor;
             var k = 1.35 * scaleFactor;
-            _svgTag = $"<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" viewbox=\" 0 0 {Width} {Height}\" style=\"font-size: {3*scaleFactor}pt; width: {width/k}pt; height: {height/k}pt;\">";
+            _svgTag = $"<svg class=\"Plot\" xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" viewbox=\" 0 0 {Width} {Height}\" style=\"font-size: {3*scaleFactor}pt; width: {width/k}pt; height: {height/k}pt;\">";
             _sb = new StringBuilder(_svgTag);
             _sb.AppendLine();
             AddStyle();
@@ -141,8 +141,9 @@ namespace Calcpad.Core
         {
             var sf2 = 1.5 * ScaleFactor;
             _sb.AppendLine("<style type=\"text/css\">");
-            _sb.AppendLine($".PlotGrid {{fill:none; stroke-width:{ScaleFactor}; stroke:Black; stroke-opacity:0.06;}}");
-            _sb.AppendLine($".PlotAxis {{fill:none; stroke-width:{ScaleFactor}; stroke:Black; stroke-opacity:0.24;}}");
+            _sb.AppendLine($".PlotGrid {{fill:none; stroke-width:{ScaleFactor}; stroke:Black; stroke-opacity:0.08;}}");
+            _sb.AppendLine($".PlotFrame {{fill:none; stroke-width:{ScaleFactor}; stroke:Black; stroke-opacity:0.24;}}");
+            _sb.AppendLine($".PlotAxis {{fill:none; stroke-width:{ScaleFactor}; stroke:Black;}}");
             _sb.AppendLine($".PlotSeries1 {{fill:none; stroke-width:{sf2}; stroke:Red;}}");
             _sb.AppendLine($".PlotSeries2 {{fill:none; stroke-width:{sf2}; stroke:Green;}}");
             _sb.AppendLine($".PlotSeries3 {{fill:none; stroke-width:{sf2}; stroke:Blue;}}");
@@ -173,10 +174,10 @@ namespace Calcpad.Core
             _sb.AppendLine(".PlotFill8 {stroke:none; fill:DarkOrange; fill-opacity:0.020;}");
             _sb.AppendLine(".PlotFill9 {stroke:none; fill:Maroon; fill-opacity:0.020;}");
             _sb.AppendLine(".PlotFill10 {stroke:none; fill:YellowGreen; fill-opacity:0.020;}");
-            _sb.AppendLine($"text {{fill:Black; font-family:'Segoe UI', Sans; font-size:{10*ScaleFactor}px}}");
-            _sb.AppendLine("text.left {text-anchor: start;}");
-            _sb.AppendLine("text.middle {text-anchor: middle;}");
-            _sb.AppendLine("text.end {text-anchor: end;}");
+            _sb.AppendLine($".Plot text {{fill:Black; font-family:'Segoe UI', Sans; font-size:{12*ScaleFactor}px}}");
+            _sb.AppendLine(".Plot text.left {text-anchor: start;}");
+            _sb.AppendLine(".Plot text.middle {text-anchor: middle;}");
+            _sb.AppendLine(".Plot text.end {text-anchor: end;}");
             _sb.AppendLine("</style>");
         }
 

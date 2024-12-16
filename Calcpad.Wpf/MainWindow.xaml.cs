@@ -2387,7 +2387,7 @@ namespace Calcpad.Wpf
                 var keys = defs.Keys;
                 foreach (var s in keys)
                 {
-                    if (defs[s] < _currentLineNumber)
+                    if (defs[s] < _currentLineNumber && !IsPlot(s))
                     {
                         var item = new ListBoxItem()
                         {
@@ -2402,6 +2402,13 @@ namespace Calcpad.Wpf
                     }
                 }
             }
+
+            bool IsPlot(string s) => s[0] == 'P' && 
+                (s.Equals("PlotWidth", StringComparison.Ordinal) || 
+                 s.Equals("PlotHeight", StringComparison.Ordinal) ||
+                 s.Equals("PlotStep", StringComparison.Ordinal) ||
+                 s.Equals("PlotSVG", StringComparison.Ordinal)
+            );
         }
 
 
