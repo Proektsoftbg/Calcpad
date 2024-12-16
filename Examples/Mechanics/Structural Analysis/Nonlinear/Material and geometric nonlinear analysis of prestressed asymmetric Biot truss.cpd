@@ -139,7 +139,7 @@ frame$
 '<h4>Finite element formulation</h4>
 '<!--'u = 0','v = 0','z = [0; 0]'--> 
 'We will formulate a 2D truss element with 3rd order geometric nonlinearity. The equilibrium equations will be derived in local CS, for the deformed state of the structure, assuming large displacements, as follows:
-'<img style="height:115pt; width:198pt;" src="G:/Моят диск/phd/UACG 2/struct/Nonlin/Worksheets/Images/nonlin-truss-element.png" alt="nonlin-truss-element.png">
+'<img style="height:115pt; width:198pt;" src="./Images/nonlin-truss-element.png" alt="nonlin-truss-element.png">
 #noc
 'Relative displacements -'u = u_2 - u_1', 'v = v_2 - v_1', 'z = [u; v]
 #equ
