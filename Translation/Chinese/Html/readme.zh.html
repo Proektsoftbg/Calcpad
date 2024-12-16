@@ -2986,7 +2986,7 @@ sub {font-family: Arial Nova; font-size:70%; padding-left:0.5pt; padding-right:0
         <p>&emsp;&emsp;<code><b>adj</b>(<var>M</var>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>参数</em>:&emsp;<var>M</var> - 方阵.<br />
             &emsp;&emsp;&emsp;&emsp;<em>返回值</em>:&ensp;矩阵<var>M</var>的伴随矩阵.<br />
-            &emsp;&emsp;&emsp;&emsp;<em>注意</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">方阵的伴随矩阵为协因数矩阵的转置,可以通过 <var>M</var> 乘以 <var>M</var>&hairsp;的行列式得到:<br/> <b>adj</b>(<var>M</var>&hairsp;) = <var>M</var>&hairsp;<sup>-1</sup> &middot; |<var>M</var>&hairsp;|</span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>注意</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">方阵的伴随矩阵为协因数矩阵的转置,可以通过 <var>M</var>的逆阵 乘以 <var>M</var>&hairsp;的行列式得到:<br/> <b>adj</b>(<var>M</var>&hairsp;) = <var>M</var>&hairsp;<sup>-1</sup> &middot; |<var>M</var>&hairsp;|</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>示例</em>:&emsp;&emsp; <span class="hang">
                 <code><var>A</var> = [1; 2|3; 4]</code>' = <span class="eq matrix">
                     <span class="tr"><span class="td"></span><span class="td">1</span><span class="td">2</span><span class="td"></span></span>
@@ -3006,8 +3006,8 @@ sub {font-family: Arial Nova; font-size:70%; padding-left:0.5pt; padding-right:0
 
         <p>&emsp;&emsp;<code><b>cofactor</b>(<var>A</var>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>参数</em>:&emsp;<var>A</var> - 方阵.<br />
-            &emsp;&emsp;&emsp;&emsp;<em>返回值</em>:&ensp;the cofactor matrix of <var>A</var>.<br />
-            &emsp;&emsp;&emsp;&emsp;<em>注意</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">协因数/共因子 <var>C</var><sub>ij</sub> 定义为相应的余子式 <var>M</var><sub>ij</sub> 乘以 (-1)<sup><var>i</var> + <var>j</var></sup>.因此通过删除第 <var>i</var> 行和第 <var>j</var> 列获得的协因数 <var>M</var><sub>ij</sub> 等于矩阵的行列式.此外,协因数矩阵等于 伴随矩阵<var>A</var>&hairsp;的转置:<br /><var>C</var> = <b>adj</b>(<var>A</var>&hairsp;)<sup>T</sup></span><br /> 
+            &emsp;&emsp;&emsp;&emsp;<em>返回值</em>:&ensp;矩阵<var>A</var>的协因数/共因子阵(即伴随矩阵的转置).<br />
+            &emsp;&emsp;&emsp;&emsp;<em>注意</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">协因数/共因子 <var>C</var><sub>ij</sub> 即为矩阵<var>A</var>元素的代数余子式：余子式 <var>M</var><sub>ij</sub> 乘以 (-1)<sup><var>i</var> + <var>j</var></sup>.对删除矩阵<var>M</var>第 <var>i</var> 行和第 <var>j</var> 列后的余阵求行列式得到余子式<var>M</var><sub>ij</sub>.此外,协因数矩阵等于伴随矩阵<var>A</var>&hairsp;的转置:<br /><var>C</var> = <b>adj</b>(<var>A</var>&hairsp;)<sup>T</sup></span><br /> 
             &emsp;&emsp;&emsp;&emsp;<em>示例</em>:&emsp;&emsp; <span class="hang">
                 <code><b>cofactor</b>([1; 2|3; 4])</code>' = <span class="eq matrix">
                     <span class="tr"><span class="td"></span><span class="td">-4</span><span class="td">3</span><span class="td"></span></span>
