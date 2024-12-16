@@ -59,6 +59,7 @@ namespace Calcpad.Core
             using var gridPen = CreateGridPen();
             using var axisPen = CreateAxisPen();
             using var textPen = CreateTextPen();
+            using var framePen = CreateFramePen();
             var sz = new SKRect();
             textPen.MeasureText(" -0.12 ", ref sz);
             var tw = sz.Width / 5f;
@@ -148,7 +149,7 @@ namespace Calcpad.Core
                 xg += stepX;
             }
             textPen.TextAlign = SKTextAlign.Left;
-            canvas.DrawRect(Left, Margin, xn - Left, yn - Margin, axisPen);
+            canvas.DrawRect(Left, Margin, xn - Left, yn - Margin, framePen);
             if (y0 >= Margin - 0.1 && y0 <= yn + 0.1)
             {
                 canvas.DrawLine(Left, (float)y0, xn, (float)y0, axisPen);
@@ -172,7 +173,15 @@ namespace Calcpad.Core
         protected SKPaint CreateGridPen() => new()
         {
             Style = SKPaintStyle.Stroke,
-            Color = SKColors.Black.WithAlpha(15),
+            Color = SKColors.Black.WithAlpha(20),
+            StrokeWidth = ScreenScaleFactor,
+            IsAntialias = true
+        };
+
+        protected SKPaint CreateFramePen() => new()
+        {
+            Style = SKPaintStyle.Stroke,
+            Color = SKColors.Black.WithAlpha(62),
             StrokeWidth = ScreenScaleFactor,
             IsAntialias = true
         };
@@ -180,10 +189,11 @@ namespace Calcpad.Core
         protected SKPaint CreateAxisPen() => new()
         {
             Style = SKPaintStyle.Stroke,
-            Color = SKColors.Black.WithAlpha(60),
+            Color = SKColors.Black,
             StrokeWidth = ScreenScaleFactor,
             IsAntialias = true
         };
+
 
         protected SKPaint CreateTextPen() => new()
         {
@@ -191,7 +201,7 @@ namespace Calcpad.Core
             Color = SKColors.Black,
             StrokeWidth = 0.5f,
             Typeface = SKTypeface.FromFamilyName("Segoe UI"),
-            TextSize = 10f * ScreenScaleFactor,
+            TextSize = 12f * ScreenScaleFactor,
             TextAlign = SKTextAlign.Left,
             IsAntialias = true,
             IsAutohinted = true
@@ -199,8 +209,8 @@ namespace Calcpad.Core
 
         protected void DrawGridSvg(SvgDrawing canvas, double x0, double y0, double xs, double ys, Box bounds)
         {
-            double tw = 5 * ScreenScaleFactor;
-            double th = 4 * ScreenScaleFactor;
+            double tw = 5.5 * ScreenScaleFactor;
+            double th = 4.5 * ScreenScaleFactor;
             double th05 = th / 2.0;
             double xn = Width - Right;
             double yn = Height - Margin;
@@ -218,6 +228,7 @@ namespace Calcpad.Core
             var a = 4f * ScreenScaleFactor;
             var xt = Left - tw / 2f - a / 2f;
             string s;
+            canvas.DrawRectangle(Left, Margin, xn - Left, yn - Margin, "PlotFrame");
             while ((yg < max) == (stepY > 0))
             {
                 var y = y0 - yg * ys;
@@ -253,7 +264,7 @@ namespace Calcpad.Core
                 xg += stepX;
 
             max = bounds.Right + tol;
-            var yt = yn + 2f * th + 1.5 * a;
+            var yt = yn + 2f * th + a;
             isScientific = Math.Abs(bounds.Right) + Math.Abs(bounds.Left) >= 20000;
             if (midLine)
             {
@@ -287,7 +298,6 @@ namespace Calcpad.Core
 
                 xg += stepX;
             }
-            canvas.DrawRectangle(Left, Margin, xn - Left, yn - Margin, "PlotAxis");
             if (y0 >= Margin - 0.1 && y0 <= yn + 0.1)
             {
                 canvas.DrawLine(Left, y0, xn, y0, "PlotAxis");
@@ -296,7 +306,7 @@ namespace Calcpad.Core
             if (x0 >= Left - 0.1 && x0 <= xn + 0.1)
             {
                 canvas.DrawLine(x0, Margin, x0, yn, "PlotAxis");
-                canvas.DrawText("y", x0 + tw/2d, Margin - th - a/2d);
+                canvas.DrawText("y", x0, Margin - 2*th, "middle");
             }
             var sy0 = OutputWriter.FormatNumberHelper(bounds.Bottom, 2);
             var sy1 = OutputWriter.FormatNumberHelper(bounds.Top, 2);

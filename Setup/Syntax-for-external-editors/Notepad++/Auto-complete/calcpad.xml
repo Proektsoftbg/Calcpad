@@ -449,6 +449,7 @@
 		<KeyWord name="pL" />
 		<KeyWord name="PlotHeight" />
 		<KeyWord name="PlotStep" />
+		<KeyWord name="PlotSVG" />
 		<KeyWord name="PlotWidth" />
 		<KeyWord name="pm" />
 		<KeyWord name="pole" />
