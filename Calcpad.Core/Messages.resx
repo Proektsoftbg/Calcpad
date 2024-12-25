@@ -345,8 +345,8 @@
   <data name="repeat_block_not_closed_Missing_loop" xml:space="preserve">
     <value>Repeat block not closed. Missing loop.</value>
   </data>
-  <data name="The_output_is_longer_than_20000_lines_The_rest_will_be_skipped" xml:space="preserve">
-    <value>The output is longer than 20000 lines. The rest will be skipped.</value>
+  <data name="The_output_is_longer_than_0_lines_The_rest_will_be_skipped" xml:space="preserve">
+    <value>The output is longer than {0} lines. The rest will be skipped.</value>
   </data>
   <data name="Index" xml:space="preserve">
     <value>Index</value>
