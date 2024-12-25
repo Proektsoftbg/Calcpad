@@ -1276,11 +1276,11 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The output is longer than 20000 lines. The rest will be skipped..
+        ///   Looks up a localized string similar to The output is longer than {0} lines. The rest will be skipped..
         /// </summary>
-        public static string The_output_is_longer_than_20000_lines_The_rest_will_be_skipped {
+        public static string The_output_is_longer_than_0_lines_The_rest_will_be_skipped {
             get {
-                return ResourceManager.GetString("The_output_is_longer_than_20000_lines_The_rest_will_be_skipped", resourceCulture);
+                return ResourceManager.GetString("The_output_is_longer_than_0_lines_The_rest_will_be_skipped", resourceCulture);
             }
         }
         

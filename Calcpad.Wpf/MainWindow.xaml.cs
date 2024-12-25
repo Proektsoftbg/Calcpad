@@ -1,5 +1,6 @@
 ﻿using Calcpad.Core;
 using Microsoft.Win32;
+using SHDocVw;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -81,7 +82,7 @@ namespace Calcpad.Wpf
         private readonly UndoManager _undoMan;
         private readonly WebBrowserWrapper _wbWarper;
 
-        private string _readmeFileName;
+        private readonly string _readmeFileName;
         private string DocumentPath { get; set; }
         private string _cfn;
         private string CurrentFileName
@@ -226,7 +227,7 @@ namespace Calcpad.Wpf
 
         public bool SaveStateAndRestart()
         {
-            var tempFile = Path.GetTempFileName();
+            var tempFile = Path.GetRandomFileName();
             File.WriteAllText(tempFile, InputText);
             Properties.Settings.Default.TempFile = tempFile;
             Properties.Settings.Default.FileName = CurrentFileName;

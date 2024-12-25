@@ -8,7 +8,7 @@ namespace Calcpad.Core
 {
     public partial class ExpressionParser
     {
-        private const int MaxHtmlLines = 20000;
+        private const int MaxHtmlLines = 50000;
         private int _errorCount;
         private int _isVal;
         private int _startLine;
@@ -250,36 +250,37 @@ namespace Calcpad.Core
 
                 if (isOutput)
                 {
-                    bool isIndent = keyword == Keyword.ElseIf || keyword == Keyword.EndIf;
-                    var lineType = tokens.Count != 0 ?
-                        tokens[0].Type :
-                        TokenTypes.Text;
                     ++_htmlLines;
-                    string htmlId = null;
-                    if (_isVal != 1)
+                    if (_htmlLines == MaxHtmlLines)
+                        AppendError(string.Concat(tokens), string.Format(Messages.The_output_is_longer_than_0_lines_The_rest_will_be_skipped, MaxHtmlLines), _currentLine);
+                    else
                     {
-                        htmlId = HtmlId;
-                        AppendHtmlLineStart(lineType, isIndent);
+                        bool isIndent = keyword == Keyword.ElseIf || keyword == Keyword.EndIf;
+                        var lineType = tokens.Count != 0 ?
+                            tokens[0].Type :
+                            TokenTypes.Text;
+
+
+                        string htmlId = null;
+                        if (_isVal != 1)
+                        {
+                            htmlId = HtmlId;
+                            AppendHtmlLineStart(lineType, isIndent);
+                        }
+                        if (lineType == TokenTypes.Html && !string.IsNullOrEmpty(htmlId))
+                            tokens[0] = new Token(InsertAttribute(tokens[0].Value, htmlId), TokenTypes.Html);
+
+                        if (kwdLength > 0)
+                            _sb.Append(_condition.ToHtml());
+
+                        ParseTokens(tokens, true, getXml);
+                        if (_isVal != 1)
+                            AppendHtmlLineEnd(lineType, keyword == Keyword.If);
                     }
-                    if (lineType == TokenTypes.Html && !string.IsNullOrEmpty(htmlId))
-                        tokens[0] = new Token(InsertAttribute(tokens[0].Value, htmlId), TokenTypes.Html);
-
-                    if (kwdLength > 0 )
-                        _sb.Append(_condition.ToHtml());
-
-                    ParseTokens(tokens, true, getXml);
-                    if (_isVal != 1)
-                    AppendHtmlLineEnd(lineType, keyword == Keyword.If);
                 }
                 else
-                {
                     ParseTokens(tokens, false, getXml);
-                    if (_htmlLines == MaxHtmlLines)
-                    {
-                        ++_htmlLines;
-                        AppendError(string.Concat(tokens), Messages.The_output_is_longer_than_20000_lines_The_rest_will_be_skipped, _currentLine);
-                    }
-                }
+
                 if (_condition.IsUnchecked)
                 {
                     if (_calculate)
@@ -463,7 +464,8 @@ namespace Calcpad.Core
 
         void AppendError(string lineContent, string text, int line)
         {
-            _sb.Append(ErrHtml(string.Format(Messages.Error_in_0_on_line_1__2, lineContent, LineHtml(line), text), line));
+            string s = lineContent.Replace("<", "&lt;").Replace(">", "&gt;");
+            _sb.Append(ErrHtml(string.Format(Messages.Error_in_0_on_line_1__2, s, LineHtml(line), text), line));
 
             if (Debug)
                 _errors.Enqueue(line);
