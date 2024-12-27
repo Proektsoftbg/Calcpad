@@ -1,0 +1,451 @@
+﻿#nullable enable
+
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Table = DocumentFormat.OpenXml.Spreadsheet.Table;
+
+namespace Calcpad.OpenXml
+{
+    internal partial class ExcelFunctions
+    {
+        internal static string[,] ReadExcelData(string filepath, string range)
+        {
+            using SpreadsheetDocument document = SpreadsheetDocument.Open(filepath, false); // Open in read-only mode
+            WorkbookPart wbPart = document.WorkbookPart ?? throw new InvalidOperationException("The Excel workbook is missing or not initialized.");
+            WorksheetPart wsPart = GetWorksheetPart(wbPart, range); // !!! Move this back to this function, it is fairly different from the write version
+            string cellRange = GetCellRange(wbPart, range); // !!! Make this also return sheetName
+
+            // Initialize the array based on the range dimensions
+            int[] rangeDims = GetRangeSizeAndLocation(cellRange); // [start row, start column, number of rows, number of columns]
+            string[,] readData = new string[rangeDims[2], rangeDims[3]];
+
+            for (int i = 0; i < rangeDims[2]; i++)
+            {
+                for (int j = 0; j < rangeDims[3]; j++)
+                {
+                    string addressName = string.Concat(ExcelColumnNumbertoName(rangeDims[0] + i), ":", Convert.ToString(rangeDims[1] + j));
+                    readData[i, j] = GetCellValue(wbPart, wsPart, addressName);
+                }
+            }
+            return readData;
+        }
+
+        internal static void WriteExcelData(string filepath, string range, ExternalDataSchema matrixData)
+        {
+            // Creates a new spreadsheet if it doesn't find one at the filepath given
+            if (File.Exists(filepath) == false)
+            {
+                CreateSpreadsheetWorkbook(filepath);
+            }
+            
+            using SpreadsheetDocument document = SpreadsheetDocument.Open(filepath, false); // Open in read-only mode
+            WorkbookPart wbPart = document.WorkbookPart ?? throw new InvalidOperationException("The Excel workbook is missing or not initialized.");
+            WorksheetPart wsPart = GetWorksheetPart(wbPart, range);
+            string cellRange = GetCellRange(wbPart, range);
+
+            // Initialize the array based on the range dimensions
+            int[] rangeDims = GetRangeSizeAndLocation(cellRange); // [start row, start column, number of rows, number of columns]
+
+            for (int i = 0; i < rangeDims[2]; i++)
+            {
+                for (int j = 0; j < rangeDims[3]; j++)
+                {
+                    string addressName = string.Concat(ExcelColumnNumbertoName(rangeDims[0] + i), ":", Convert.ToString(rangeDims[1] + j));
+                    data[i, j] = GetCellValue(wbPart, wsPart, addressName);
+                }
+            }
+        }
+
+        // -- Read Functions
+
+        // Gets the cell value using OpenXML
+        static string GetCellValue(WorkbookPart wbPart, WorksheetPart wsPart, string addressName)
+        {
+            string? value = null;
+            // Use its Worksheet property to get a reference to the cell whose address matches the address you supplied.
+            Cell? cell = wsPart.Worksheet?.Descendants<Cell>()?.Where(c => c.CellReference == addressName).FirstOrDefault();
+            // If the cell does not exist, return an empty string.
+            if (cell is null || cell.InnerText.Length < 0)
+            {
+                return string.Empty;
+            }
+            value = cell.InnerText;
+            // If the cell represents an integer number, you are done. For dates, this code returns the serialized value that 
+            // represents the date. The code handles strings and Booleans individually. For shared strings, the code looks up the corresponding
+            // value in the shared string table. For Booleans, the code converts the value into the words TRUE or FALSE.
+            if (cell.DataType is not null)
+            {
+                if (cell.DataType.Value == CellValues.SharedString)
+                {
+                    // For shared strings, look up the value in the shared strings table.
+                    var stringTable = wbPart.GetPartsOfType<SharedStringTablePart>().FirstOrDefault();
+                    // If the shared string table is missing, something is wrong. Return the index that is in the cell.
+                    // Otherwise, look up the correct text in the table.
+                    if (stringTable is not null)
+                    {
+                        value = stringTable.SharedStringTable.ElementAt(int.Parse(value)).InnerText;
+                    }
+                }
+                else if (cell.DataType.Value == CellValues.Boolean)
+                {
+                    value = value switch
+                    {
+                        "0" => "FALSE",
+                        _ => "TRUE",
+                    };
+                }
+            }
+            return value;
+        }
+
+        // -- Write Functions !!! Finish integrating these
+
+        static void CreateSpreadsheetWorkbook(string filepath)
+        {
+            // Create a spreadsheet document by supplying the filepath.
+            // By default, AutoSave = true, Editable = true, and Type = xlsx.
+            SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Create(filepath, SpreadsheetDocumentType.Workbook);
+
+            // Add a WorkbookPart to the document.
+            WorkbookPart workbookPart = spreadsheetDocument.AddWorkbookPart();
+            workbookPart.Workbook = new Workbook();
+
+            // Add a WorksheetPart to the WorkbookPart.
+            WorksheetPart worksheetPart = workbookPart.AddNewPart<WorksheetPart>();
+            worksheetPart.Worksheet = new Worksheet(new SheetData());
+
+            // Add Sheets to the Workbook.
+            Sheets sheets = workbookPart.Workbook.AppendChild(new Sheets());
+
+            // Append a new worksheet and associate it with the workbook.
+            Sheet sheet = new Sheet() { Id = workbookPart.GetIdOfPart(worksheetPart), SheetId = 1, Name = "Sheet1" };
+            sheets.Append(sheet);
+
+            workbookPart.Workbook.Save();
+
+            // Dispose the document.
+            spreadsheetDocument.Dispose();
+        }
+
+        // Given a document name and text, 
+        // inserts a new work sheet and writes the text to cell "A1" of the new worksheet.
+        static void InsertValue(string filepath, string value)
+        {
+            // Open the document for editing.
+            using SpreadsheetDocument spreadSheet = SpreadsheetDocument.Open(filepath, true);
+            WorkbookPart workbookPart = spreadSheet.WorkbookPart ?? spreadSheet.AddWorkbookPart();
+
+            // Get the SharedStringTablePart. If it does not exist, create a new one.
+            SharedStringTablePart shareStringPart;
+            if (workbookPart.GetPartsOfType<SharedStringTablePart>().Count() > 0)
+            {
+                shareStringPart = workbookPart.GetPartsOfType<SharedStringTablePart>().First();
+            }
+            else
+            {
+                shareStringPart = workbookPart.AddNewPart<SharedStringTablePart>();
+            }
+
+            // Insert the text into the SharedStringTablePart.
+            int index = InsertSharedStringItem(value, shareStringPart);
+
+            // Insert a new worksheet.
+            WorksheetPart worksheetPart = InsertWorksheet(workbookPart);
+
+            // Insert cell A1 into the new worksheet.
+            Cell cell = InsertCellInWorksheet("A", 1, worksheetPart);
+
+            // Set the value of cell A1.
+            cell.CellValue = new CellValue(index.ToString());
+            cell.DataType = new EnumValue<CellValues>(CellValues.SharedString);
+
+            // Save the new worksheet.
+            worksheetPart.Worksheet.Save();
+        }
+
+        // Given text and a SharedStringTablePart, creates a SharedStringItem with the specified text 
+        // and inserts it into the SharedStringTablePart. If the item already exists, returns its index.
+        static int InsertSharedStringItem(string text, SharedStringTablePart shareStringPart)
+        {
+            // If the part does not contain a SharedStringTable, create one.
+            shareStringPart.SharedStringTable ??= new SharedStringTable();
+
+            int i = 0;
+
+            // Iterate through all the items in the SharedStringTable. If the text already exists, return its index.
+            foreach (SharedStringItem item in shareStringPart.SharedStringTable.Elements<SharedStringItem>())
+            {
+                if (item.InnerText == text)
+                {
+                    return i;
+                }
+
+                i++;
+            }
+
+            // The text does not exist in the part. Create the SharedStringItem and return its index.
+            shareStringPart.SharedStringTable.AppendChild(new SharedStringItem(new DocumentFormat.OpenXml.Spreadsheet.Text(text)));
+            shareStringPart.SharedStringTable.Save();
+
+            return i;
+        }
+
+        // Given a WorkbookPart, inserts a new worksheet.
+        static WorksheetPart InsertWorksheet(WorkbookPart workbookPart)
+        {
+            // Add a new worksheet part to the workbook.
+            WorksheetPart newWorksheetPart = workbookPart.AddNewPart<WorksheetPart>();
+            newWorksheetPart.Worksheet = new Worksheet(new SheetData());
+            newWorksheetPart.Worksheet.Save();
+
+            Sheets sheets = workbookPart.Workbook.GetFirstChild<Sheets>() ?? workbookPart.Workbook.AppendChild(new Sheets());
+            string relationshipId = workbookPart.GetIdOfPart(newWorksheetPart);
+
+            // Get a unique ID for the new sheet.
+            uint sheetId = 1;
+            if (sheets.Elements<Sheet>().Count() > 0)
+            {
+                sheetId = sheets.Elements<Sheet>().Select<Sheet, uint>(s =>
+                {
+                    if (s.SheetId is not null && s.SheetId.HasValue)
+                    {
+                        return s.SheetId.Value;
+                    }
+
+                    return 0;
+                }).Max() + 1;
+            }
+
+            string sheetName = "Sheet" + sheetId;
+
+            // Append the new worksheet and associate it with the workbook.
+            Sheet sheet = new Sheet() { Id = relationshipId, SheetId = sheetId, Name = sheetName };
+            sheets.Append(sheet);
+            workbookPart.Workbook.Save();
+
+            return newWorksheetPart;
+        }
+
+        // Given a column name, a row index, and a WorksheetPart, inserts a cell into the worksheet. 
+        // If the cell already exists, returns it. 
+        static Cell InsertCellInWorksheet(string columnName, uint rowIndex, WorksheetPart worksheetPart)
+        {
+            Worksheet worksheet = worksheetPart.Worksheet;
+            SheetData? sheetData = worksheet.GetFirstChild<SheetData>();
+            string cellReference = columnName + rowIndex;
+
+            // If the worksheet does not contain a row with the specified row index, insert one.
+            Row row;
+
+            if (sheetData?.Elements<Row>().Where(r => r.RowIndex is not null && r.RowIndex == rowIndex).Count() != 0)
+            {
+                row = sheetData!.Elements<Row>().Where(r => r.RowIndex is not null && r.RowIndex == rowIndex).First();
+            }
+            else
+            {
+                row = new Row() { RowIndex = rowIndex };
+                sheetData.Append(row);
+            }
+
+            // If there is not a cell with the specified column name, insert one.  
+            if (row.Elements<Cell>().Where(c => c.CellReference is not null && c.CellReference.Value == columnName + rowIndex).Count() > 0)
+            {
+                return row.Elements<Cell>().Where(c => c.CellReference is not null && c.CellReference.Value == cellReference).First();
+            }
+            else
+            {
+                // Cells must be in sequential order according to CellReference. Determine where to insert the new cell.
+                Cell? refCell = null;
+
+                foreach (Cell cell in row.Elements<Cell>())
+                {
+                    if (string.Compare(cell.CellReference?.Value, cellReference, true) > 0)
+                    {
+                        refCell = cell;
+                        break;
+                    }
+                }
+
+                Cell newCell = new Cell() { CellReference = cellReference };
+                row.InsertBefore(newCell, refCell);
+
+                worksheet.Save();
+                return newCell;
+            }
+        }
+
+        // -- Other Functions
+
+        static WorksheetPart GetWorksheetPart(WorkbookPart wbPart, string range)
+        {
+            range = GetExcelRange(wbPart, range);
+            string sheetName = "";
+            // Get the worksheet by name
+            WorksheetPart? wsPart = null;
+
+            // Regex for sheet name being present and correctly formatted (without quotes around sheet name and including a valid multi-cell reference)
+            if (ExcelRangeWithSheetName().Match(range).Success)
+            {
+                sheetName = range.Split("!")[0];
+                wsPart = wbPart.WorksheetParts.FirstOrDefault(ws => ws.Uri.OriginalString.Contains(sheetName)) ?? throw new InvalidOperationException($"Worksheet '{sheetName}' not found.");
+            }
+            // Regex for multi-cell range without a sheet name, uses the first sheet
+            else if (ExcelRangeWithoutSheetName().Match(range).Success)
+            {
+                wsPart = wbPart.WorksheetParts.FirstOrDefault() ?? throw new InvalidOperationException($"No worksheets found.");
+            }
+            else
+            {
+                throw new ArgumentException("Invalid range format");
+            }
+            return wsPart;
+        }
+
+        static string GetCellRange(WorkbookPart wbPart, string range)
+        {
+            range = GetExcelRange(wbPart, range);
+            string cellRange;
+            if (ExcelRangeWithSheetName().Match(range).Success)
+            {
+                cellRange = range.Split("!").Last();
+            }
+            // Regex for multi-cell range without a sheet name, uses the first sheet
+            else if (ExcelRangeWithoutSheetName().Match(range).Success)
+            {
+                cellRange = range;
+            }
+            else
+            {
+                throw new ArgumentException("Invalid range format");
+            }
+            return cellRange;
+        }
+
+        static int[] GetRangeSizeAndLocation(string cellRange)
+        {
+            return
+            [
+                GetRowNumberFromRange(cellRange.Split(':')[0]), // start row
+                GetColNumberFromRange(cellRange.Split(':')[0]), // start column
+                GetRowNumberFromRange(cellRange.Split(':')[1]) - GetRowNumberFromRange(cellRange.Split(':')[0]) + 1, // number of rows
+                GetColNumberFromRange(cellRange.Split(':')[1]) - GetColNumberFromRange(cellRange.Split(':')[0]) + 1, // number of columns
+            ];
+        }
+
+        static string GetExcelRange(WorkbookPart wbPart, string range)
+        {
+            Dictionary<string, string> definedNames = GetDefinedNames(wbPart);
+
+            if (definedNames.TryGetValue(range, out string? value))
+            {
+                range = value;
+            }
+            return range;
+        }
+
+        static Dictionary<String, String> GetDefinedNames(WorkbookPart wbPart)
+        {
+            // Return a dictionary of defined names and Table names.
+            // The pairs include the range name and a string representing the range.
+            var returnValue = new Dictionary<String, String>();
+
+            // Retrieve a reference to the defined names collection.
+            DefinedNames? definedNames = wbPart.Workbook.DefinedNames;
+
+            // If there are defined names, add them to the dictionary.
+            if (definedNames is not null)
+            {
+                foreach (DefinedName dn in definedNames.Cast<DefinedName>())
+                {
+                    if (dn?.Name?.Value is not null && dn?.Text is not null)
+                    {
+                        returnValue.Add(dn.Name.Value, dn.Text);
+                    }
+                }
+            }
+            var tables = wbPart.Workbook.Descendants<Table>();
+            if (tables is not null)
+            {
+                foreach (Table tb in tables.Cast<Table>())
+                {
+                    if (tb?.Name?.Value is not null && tb?.Reference?.Value is not null)
+                    {
+                        returnValue.Add(tb.Name.Value, tb.Reference.Value);
+                    }
+                }
+            }
+            return returnValue;
+        }
+
+        // Converts a column index to a letter for a range
+        static string ExcelColumnNumbertoName(int columnNumber)
+        {
+            string columnName = "";
+
+            while (columnNumber > 0)
+            {
+                int modulo = (columnNumber - 1) % 26;
+                columnName = Convert.ToChar('A' + modulo) + columnName;
+                columnNumber = (columnNumber - modulo) / 26;
+            }
+
+            return columnName;
+        }
+
+        // Converts a column letter to a number index
+        static int ExcelColumnNameToNumber(string columnName)
+        {
+            if (string.IsNullOrEmpty(columnName)) throw new ArgumentNullException(nameof(columnName));
+
+            columnName = columnName.ToUpperInvariant();
+
+            int sum = 0;
+
+            for (int i = 0; i < columnName.Length; i++)
+            {
+                sum *= 26;
+                sum += (columnName[i] - 'A' + 1);
+            }
+
+            return sum;
+        }
+
+        // Extract digits from the cell reference, which represents the row number
+        static int GetRowNumberFromRange(string cellreference)
+        {
+            string rowPart = string.Empty;
+            foreach (char c in cellreference)
+            {
+                if (Char.IsDigit(c))
+                {
+                    rowPart += c;
+                }
+            }
+            return int.Parse(rowPart);
+        }
+
+        // Extract letters from the cell reference, which represents the column number
+        static int GetColNumberFromRange(string cellreference)
+        {
+            string colPart = string.Empty;
+            foreach (char c in cellreference)
+            {
+                if (Char.IsLetter(c))
+                {
+                    colPart += c;
+                }
+            }
+            return ExcelColumnNameToNumber(colPart);
+        }
+
+        [System.Text.RegularExpressions.GeneratedRegex(@"([^'!]+)!([A-Za-z]+[0-9]+):([A-Za-z]+[0-9]+)")]
+        private static partial System.Text.RegularExpressions.Regex ExcelRangeWithSheetName();
+        [System.Text.RegularExpressions.GeneratedRegex(@"([A-Z]+)(\d+):([A-Z]+)(\d+)")]
+        private static partial System.Text.RegularExpressions.Regex ExcelRangeWithoutSheetName();
+    }
+}
