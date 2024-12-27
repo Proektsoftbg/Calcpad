@@ -28,7 +28,7 @@ namespace Calcpad.Wpf
     public partial class MainWindow : Window
     {
         //Culture
-        private static readonly string _currentCultureName = "en";
+        private static readonly string _currentCultureName = "bg";
 
         //Static resources
         private static readonly char[] GreekLetters = ['α', 'β', 'χ', 'δ', 'ε', 'φ', 'γ', 'η', 'ι', 'ø', 'κ', 'λ', 'μ', 'ν', 'ο', 'π', 'θ', 'ρ', 'σ', 'τ', 'υ', 'ϑ', 'ω', 'ξ', 'ψ', 'ζ'];

@@ -71,11 +71,11 @@
 
                 input[type="checkbox"],
                 input[type="radio"] {
-                    --ssf: 1.3;
-                    zoom: var(--ssf);
-                    -moz-transform: scale(var(--ssf));
-                    -webkit-transform: scale(var(--ssf));
-                    transform: scale(var(--ssf));
+                    --screen-scale-factor: 1.3;
+                    zoom: var(--screen-scale-factor);
+                    -moz-transform: scale(var(--screen-scale-factor));
+                    -webkit-transform: scale(var(--screen-scale-factor));
+                    transform: scale(var(--screen-scale-factor));
                     transform-origin: bottom;
                     position: relative;
                     bottom: 1pt;
@@ -304,21 +304,10 @@
             max-height: none;
         }
 
-        sup .r0 {
-            margin-left: -5pt;
-        }
-
-        sup .r1 {
-            margin-left: -11pt;
-        }
-
-        sup .r2 {
-            margin-left: -13pt;
-        }
-
-        sup .r3 {
-            margin-left: -16pt;
-        }
+        sup .r0 {margin-left: -5pt;}
+        sup .r1 {margin-left: -11pt;}
+        sup .r2 {margin-left: -13pt;}
+        sup .r3 {margin-left: -16pt;}
 
         .b1, .b2, .b3, .c1, .c2, .c3, .c4, .c5, .c6, .c7, .c8 {
             vertical-align: middle;
@@ -327,11 +316,11 @@
         }
 
         .b2, .b3, .c2, .c3, .c4, .c5, .c6, .c7, .c8 {
-            font-family: "Jost* Hairline";
+            font-family: "Jost* Hairline", sans-serif;
         }
 
         .b0, .b1, .c1 {
-            font-family: "Jost* Thin";
+            font-family: "Jost* Thin", sans-serif;
         }
 
         .b0 {
@@ -447,7 +436,7 @@
         .nary {
             color: #D000D0;
             font-size: 200%;
-            font-family: "Segoe UI Light";
+            font-family: "Segoe UI Light", sans-serif;
             line-height: 80%;
             display: block;
             margin-top: -3pt;
@@ -535,12 +524,12 @@
                 }
 
         .vec {
-            font-family: 'Cambria Math';
+            font-family: 'Cambria Math', serif;
             color: black;
             font-style: normal;
             display: inline-block;
             vertical-align: 2pt;
-            margin-left: 7pt;
+            margin-left: 3pt;
             margin-right: -7pt;
         }
 
@@ -589,7 +578,6 @@
                 white-space: nowrap;
                 min-width: 10pt;
                 z-index: 1;
-                vertical-align: middle;
                 padding: 0 6pt 0 6pt;
                 border-radius: 6pt 6pt 6pt 0;
                 background: #000;
@@ -657,7 +645,6 @@
             font-weight: bold;
             text-decoration: none;
             text-align: left;
-            text-decoration: none;
             display: inline-block;
             position: absolute;
             left: 0;
@@ -670,6 +657,7 @@
                 background: none;
                 color: #09e;
             }
+
     </style>
 </head>
 <body>
