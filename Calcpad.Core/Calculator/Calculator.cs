@@ -7,12 +7,11 @@ namespace Calcpad.Core
 {
     internal abstract class Calculator
     {
-
         internal delegate Value Function(in Value a);
         internal delegate Value Operator(in Value a, in Value b);
         internal delegate IValue Function3(in IValue a, in IValue b, in IValue c);
 
-        internal const double DeltaPlus = 1 + 1e-15, DeltaMinus = 1 - 1e-15;
+        internal const double DeltaPlus = 1 + 1e-14, DeltaMinus = 1 - 1e-14;
         internal const char NegChar = '‐'; //hyphen, not minus "-"
         private static readonly double Log2Inv = 1 / Math.Log(2);
         private static readonly double[] Factorial = InitFactorial();

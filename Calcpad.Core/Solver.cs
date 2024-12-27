@@ -154,7 +154,7 @@ namespace Calcpad.Core
                 if (err < eps1 || Math.Abs(x3 - ans) < eps)
                 {
                     Units = u;
-                    return x3;
+                    return Math.Clamp(x3, x1, x2);
                 }
                 ans = x3;
                 if (Math.Sign(y1) == Math.Sign(y3))

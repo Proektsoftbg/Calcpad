@@ -34,7 +34,7 @@ a = ? {5}', 'b = ? {4}', 'c = ? {6}
 		'<!-- -->scalene.</p>
 	#end if
 	#pre
-	'<svg viewbox="-20 -20 440 232" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-size: 20px; width: 440px; height: 232px">
+	'<svg viewbox="-20 -20 440 232" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-size: 20px; width: 220pt; height: 116pt">
 	'<path d="M40 192 A 40 40 0 0 0 32 168" style="stroke:goldenrod; stroke-width:1; fill: none"/>
 	'<path d="M360 192 A 40 40 0 0 1 376 160" style="stroke:goldenrod; stroke-width:1; fill: none"/>
 	'<path d="M280 32 A 40 40 0 0 1 224 24" style="stroke:goldenrod; stroke-width:1; fill: none"/>
@@ -69,7 +69,7 @@ a = ? {5}', 'b = ? {4}', 'c = ? {6}
 	y_C = y_A - h_c*k
 	#post
 	#val
-	'<svg viewbox="'x_min*k - 20' -20 'w + 40' 'h + 40'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-size: 16px; width: 'w + 40'px; height: 'h + 40'px"> 
+	'<svg viewbox="'x_min*k - 20' -20 'w + 40' 'h + 40'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-size: 18px; width: 'w/2 + 20'pt; height: 'h/2 + 20'pt"> 
 	'<path d="M'x_A + 40' 'y_A' A 40 40 0 0 0 'x_A + 40*cos(α)' 'y_A - 40*sin(α)'" style="stroke:goldenrod; stroke-width:1; fill: none"/>
 	'<path d="M'x_B - 40' 'y_A' A 40 40 0 0 1 'x_B - 40*cos(β)' 'y_B - 40*sin(β)'" style="stroke:goldenrod; stroke-width:1; fill: none"/>
 	'<path d="M'x_C + 40*cos(β)' 'y_C + 40*sin(β)' A 40 40 0 0 1 'x_C - 40*cos(α)' 'y_C + 40*sin(α)'" style="stroke:goldenrod; stroke-width:1; fill: none"/>
@@ -109,7 +109,7 @@ a = ? {5}', 'b = ? {4}', 'c = ? {6}
 	y_M = (y_C + 2*y_mC)/3
 	#post
 	#val
-	'<svg viewbox="'x_min*k - 20' -20 'w + 40' 'h + 40'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-size: 16px; width: 'w + 40'px; height: 'h + 40'px"> 
+	'<svg viewbox="'x_min*k - 20' -20 'w + 40' 'h + 40'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-size: 18px; width: 'w/2 + 20'pt; height: 'h/2 + 20'pt"> 
 	'<line x1="'x_A'" y1="'y_A'" x2="'x_mA'" y2="'y_mA'" style="stroke:orange; stroke-width:1"/>
 	'<line x1="'x_B'" y1="'y_B'" x2="'x_mB'" y2="'y_mB'" style="stroke:orange; stroke-width:1"/>
 	'<line x1="'x_C'" y1="'y_C'" x2="'x_mC'" y2="'y_mC'" style="stroke:orange; stroke-width:1"/>
@@ -167,7 +167,7 @@ a = ? {5}', 'b = ? {4}', 'c = ? {6}
 	y_O = y_A - y_o*k
 	#post
 	#val
-	'<svg viewbox="'x_min*k - 20' -20 'w + 40' 'h + 40'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-size: 16px; width: 'w + 40'px; height: 'h + 40'px"> 
+	'<svg viewbox="'x_min*k - 20' -20 'w + 40' 'h + 40'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-size: 18px; width: 'w/2 + 20'pt; height: 'h/2 + 20'pt"> 
 	'<circle cx="'x_O'" cy="'y_O'" r="'R*k'" style="stroke:red; fill:none "/>
 	'<circle cx="'x_L'" cy="'y_L'" r="'r*k'" style="stroke:green; fill:palegreen; fill-opacity:0.4"/>
 	'<path d="M'x_A + 40' 'y_A' A 40 40 0 0 0 'x_A + 40*cos(α)' 'y_A - 40*sin(α)'" style="stroke:goldenrod; stroke-width:1; fill: none"/>
@@ -221,7 +221,7 @@ a = ? {5}', 'b = ? {4}', 'c = ? {6}
 	y_hc = y_C + h_c*k/2 - 10
 	#post
 	#val
-	'<svg viewbox="'x_min*k - 20' '-y_min*k - 20' 'w + 40' 'h + 40'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-size: 16px; width: 'w + 40'px; height: 'h + 40'px">
+	'<svg viewbox="'x_min*k - 20' '-y_min*k - 20' 'w + 40' 'h + 40'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-size: 18px; width: 'w/2 + 20'pt; height: 'h/2 + 20'pt">
 	'<line x1="'x_C'" y1="'y_H'" x2="'x_A + h_a*k*sin(β)'" y2="'y_A - h_a*k*cos(β)'" style="stroke:red; stroke-width:1; stroke-dasharray: 5,5; stroke-opacity:0.4"/>
 	'<line x1="'x_C'" y1="'y_H'" x2="'x_B - h_b*k*sin(α)'" y2="'y_B - h_b*k*cos(α)'" style="stroke:red; stroke-width:1; stroke-dasharray: 5,5; stroke-opacity:0.4"/>
 	'<line x1="'x_C'" y1="'y_H'" x2="'x_C'" y2="'y_A'" style="stroke:red; stroke-width:1; stroke-dasharray: 5,5; stroke-opacity:0.4"/>

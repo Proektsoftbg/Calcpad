@@ -1,0 +1,33 @@
+"Least squares fitting
+'Point coordinates
+x = [0; 1; 2; 3; 4; 5; 6; 7; 8; 9]
+y = [400; 450; 440; 400; 380; 330; 250; 200; 150; 160]
+'Number of points -'n = len(x)
+e = fill(vector(n); 1)
+'<h4>Linear fit</h4>
+X = [e|x]
+A = copy(X*transp(X); symmetric(n_rows(X)); 1; 1)
+b = X*y
+a_L = clsolve(A; b)
+P_L(x) = dot(a_L; [1; x])
+'<h4>Quadratic fit</h4>
+X = [e|x|x^2]
+A = copy(X*transp(X); symmetric(n_rows(X)); 1; 1)
+b = X*y
+a_Q = clsolve(A; b)
+P_Q(x) = dot(a_Q; [1; x; x^2])
+'<h4>Poly(5) fit</h4>
+X = [e|x|x^2|x^3|x^4|x^5]
+A = copy(X*transp(X); symmetric(n_rows(X)); 1; 1)
+b = X*y
+a_C = clsolve(A; b)
+P_C(x) = dot(a_C; [1; x; x^2; x^3; x^4; x^5])
+'<h4>Plot</h4>
+#hide
+PlotWidth = 250
+PlotHeight = 150
+#def P$ = x.1|y.1 & x.2|y.2 & x.3|y.3 & x.4|y.4 & x.5|y.5 & x.6|y.6 & x.7|y.7 & x.8|y.8 & x.9|y.9 & x.10|y.10
+#show
+$Plot{ξ|P_L(ξ) & P$ @ ξ = x.1 : x.n}
+$Plot{ξ|P_Q(ξ) & P$ @ ξ = x.1 : x.n}
+$Plot{ξ|P_C(ξ) & P$ @ ξ = x.1 : x.n}
