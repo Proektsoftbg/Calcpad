@@ -122,13 +122,13 @@
     <value>函数 "{0}({1})" 的单位无效!</value>
   </data>
   <data name="Root_index_must_be_unitless" xml:space="preserve">
-    <value>根索引号必须是无单位的！</value>
+    <value>根的索引号必须是无单位的！</value>
   </data>
   <data name="Root_index_cannot_be_a_complex_number" xml:space="preserve">
-    <value>根索引号不能是复数！</value>
+    <value>根的索引号不能是复数！</value>
   </data>
   <data name="Root_index_must_be_integer_more_than_1" xml:space="preserve">
-    <value>根索引必须是大于1的整数！</value>
+    <value>根索引必须是＞1的整数！</value>
   </data>
   <data name="Argument_out_of_range_for_n_factorial" xml:space="preserve">
     <value>n! 的参数超出范围！</value>
@@ -155,7 +155,7 @@
     <value>单位 '{0}' 不存在!</value>
   </data>
   <data name="Interrupted_by_user" xml:space="preserve">
-    <value>被用户打断！</value>
+    <value>用户已打断！</value>
   </data>
   <data name="Calculations_not_active" xml:space="preserve">
     <value>计算未激活！</value>
@@ -164,7 +164,7 @@
     <value>表达式为空！</value>
   </data>
   <data name="Missing_operand" xml:space="preserve">
-    <value>缺少操作数！</value>
+    <value>缺少自变量！</value>
   </data>
   <data name="Invalid_function__0__" xml:space="preserve">
     <value>无效函数： "{0}" !</value>
@@ -176,7 +176,7 @@
     <value>堆栈为空.表达式无效！</value>
   </data>
   <data name="Undefined_input_field" xml:space="preserve">
-    <value>未定义的输入字段！</value>
+    <value>未定义的输入区！</value>
   </data>
   <data name="Undefined_variable_or_units__0__" xml:space="preserve">
     <value>未定义的变量或单位： "{0}" !</value>
@@ -188,10 +188,10 @@
     <value>将 "{0}" 作为函数或运算符计算时出错!</value>
   </data>
   <data name="Cannot_rewrite_existing_units__0__" xml:space="preserve">
-    <value>无法重写现有单位： {0} ！</value>
+    <value>无法重写已有位： {0} ！</value>
   </data>
   <data name="The_calculated_units__0__are_inconsistent_with_the_target_units__1__" xml:space="preserve">
-    <value>计算单位 "{0}" 与目标单位 "{1}" 不一致！</value>
+    <value>计算单位 "{0}" 与目标单位 "{1}" 量纲不一致！</value>
   </data>
   <data name="InvalidCharacterException" xml:space="preserve">
     <value>无效字符： '{0}' .变量、函数和单位必须以字母或∡开头，以下单位除外： ° ′ ″ % ‰</value>
@@ -269,7 +269,7 @@
     <value>检测到函数 "{0}" 的循环引用!</value>
   </data>
   <data name="InvalidFunctionDefinitionException" xml:space="preserve">
-    <value>函数定义无效.它必须符合范式： "f (x; y; z...) =".</value>
+    <value>函数定义无效.必须符合范式： "f (x; y; z...) =".</value>
   </data>
   <data name="Argument_out_of_range_for__0__x_" xml:space="preserve">
     <value>{0}(x)的参数超出范围!</value>
@@ -278,7 +278,7 @@
     <value>条件不能为空！</value>
   </data>
   <data name="Condition_block_not_initialized_with_if_" xml:space="preserve">
-    <value>条件块未用 "#if" 初始化!</value>
+    <value>条件块未以 "#if" 开始!</value>
   </data>
   <data name="Duplicate_else_in_condition_block" xml:space="preserve">
     <value>条件块中重复出现 "#else" !</value>
@@ -302,7 +302,7 @@
     <value>曲面投影命令中缺少 {0} ！</value>
   </data>
   <data name="The_limits_of_plot_area_are_identical" xml:space="preserve">
-    <value>绘图区域的上下界限是相同(冲突)的！</value>
+    <value>绘图区域的上下界限相同(冲突)！</value>
   </data>
   <data name="Error_writing_a_png_file_to__0__" xml:space="preserve">
     <value>将png文件写入 "{0}" 时出错!</value>
@@ -317,7 +317,7 @@
     <value>单位不一致： "{0} {1} {2}"！</value>
   </data>
   <data name="Units_cannon_be_raised_to_complex_power" xml:space="preserve">
-    <value>单位无法计算复数次幂</value>
+    <value>带单位的量无法计算复数次幂</value>
   </data>
   <data name="Cannot_evaluate_reminder__0__1__The_denominator_must_be_unitless_" xml:space="preserve">
     <value>无法计算求余： "{0} % {1}" .分母必须是无单位的！</value>
@@ -328,10 +328,10 @@
   <data name="if_block_not_closed_Missing_end_if" xml:space="preserve">
     <value>错误： "#if" 块未闭合.缺少 "#end if" !</value>
   </data>
-  <data name="repeat_block_not_closed_Missing_loop" xml:space="preserve">
-    <value>错误： "#repeat" 块未闭合.缺少 "#loop" !</value>
-  </data>
-  <data name="Unexpected_error_0_Please_check_the_expression_consistency" xml:space="preserve">
+    <data name="Iteration_block_not_closed_Missing_loop" xml:space="preserve">
+        <value>错误: 迭代块未闭合，缺失 "#loop".</value>
+    </data>
+    <data name="Unexpected_error_0_Please_check_the_expression_consistency" xml:space="preserve">
     <value>意外错误： {0} 请检查表达式的一致性!</value>
   </data>
   <data name="Paused_Press_F5_to_continue" xml:space="preserve">
@@ -399,5 +399,130 @@
   </data>
   <data name="Raise_to_square" xml:space="preserve">
     <value>求平方！</value>
+  </data>
+    <data name="Too_many_errors" xml:space="preserve">
+    <value>大量错误. 计算提前结束.</value>
+  <data name="repeat_block_not_closed_Missing_loop" xml:space="preserve">
+    <value>错误： "#repeat" 块未闭合.缺少 "#loop" !</value>
+  </data>
+    <data name="The_output_is_longer_than_0_lines_The_rest_will_be_skipped" xml:space="preserve">
+    <value>输出超过 {0} 行. 剩下的结果将略过.</value>
+  </data>
+    </data>
+  <data name="Index" xml:space="preserve">
+    <value>索引</value>
+  </data>
+    <data name="Missing_vector_opening_bracket" xml:space="preserve">
+    <value>向量缺失左侧开括号 "[".</value>
+  <data name="Bracket_mismatch" xml:space="preserve">
+    <value>括号不匹配.</value>
+  </data>
+  <data name="_must_be_scalar" xml:space="preserve">
+    <value> 必须为标量.</value>
+  </data>
+  <data name="Index_out_of_range" xml:space="preserve">
+    <value>索引超限:</value>
+  </data>
+  <data name="Cannot_assign_vector_to_scalar" xml:space="preserve">
+    <value>无法将向量赋值给标量.</value>
+  </data>
+  <data name="Missing_vector_closing_bracket" xml:space="preserve">
+    <value>缺失向量闭合括号 "]".</value>
+  </data>
+  <data name="_must_be_vector" xml:space="preserve">
+    <value> 必须为向量.</value>
+  </data>
+  <data name="_must_be_positive_integer" xml:space="preserve">
+    <value> 必须未正整数.</value>
+  </data>
+  <data name="Step_cannot_be_zero" xml:space="preserve">
+    <value>步长不能为0.</value>
+  </data>
+  <data name="Vector_size_cannot_exceed" xml:space="preserve">
+    <value>不允许超过向量的维数</value>
+  </data>
+  <data name="Cross_product_is_definedonly_for_vectors_with_2_and_3_elements" xml:space="preserve">
+    <value>叉积仅对2维和3维向量有定义.</value>
+  </data>
+  <data name="Function__0__is_not_defined_in_complex_mode" xml:space="preserve">
+    <value>函数 {0} 不是在复数模式下定义的.</value>
+  </data>
+  <data name="Matrix_dimensions_do_not_match" xml:space="preserve">
+    <value>矩阵维数不匹配.</value>
+  </data>
+  <data name="Matrix_must_be_square" xml:space="preserve">
+    <value>矩阵必须为方阵.</value>
+  </data>
+  <data name="The_Lp_norm_argument_must_be_p_ge_1" xml:space="preserve">
+    <value>Lp 范数的参数必须满足 p ≥ 1.</value>
+  </data>
+  <data name="Matrix_must_be_symmetric" xml:space="preserve">
+    <value>矩阵必须对称.</value>
+  </data>
+  <data name="Matrix_is_not_positive_definite" xml:space="preserve">
+    <value>矩阵非正定.</value>
+  </data>
+  <data name="Matrix_is_singular" xml:space="preserve">
+    <value>矩阵奇异.</value>
+  </data>
+  <data name="Matrix_is_singular_or_close_to_singular" xml:space="preserve">
+    <value>矩阵奇异或接近奇异.</value>
+  </data>
+  <data name="Vectors_and_matrices_are_not_supported_in_complex_mode" xml:space="preserve">
+    <value>复数模式下不支持向量和矩阵.</value>
+  </data>
+  <data name="Cannot_interpolate_with_non_scalar_value" xml:space="preserve">
+    <value>无法对非标量值内插.</value>
+  </data>
+  <data name="Jacobi_iteration_failed" xml:space="preserve">
+    <value>雅可比Jacobi迭代失败.</value>
+  </data>
+  <data name="Invalid_operand" xml:space="preserve">
+    <value>无效自变量:</value>
+  </data>
+  <data name="Invalid_argument" xml:space="preserve">
+    <value>无效参数:</value>
+  </data>
+  <data name="The_argument_is_not_an_eigenvalue" xml:space="preserve">
+    <value>参数不是特征值:</value>
+  </data>
+  <data name="The_QL_algorithm_failed_to_converge" xml:space="preserve">
+    <value>QL算法无法收敛.</value>
+  </data>
+  <data name="Matrix_size_cannot_exceed" xml:space="preserve">
+    <value>矩阵的大小不允许超过限值</value>
+  </data>
+  <data name="The_number_of_matrix_rows_must_be_greater_than_or_equal_to_the_number_of_columns" xml:space="preserve">
+    <value>矩阵的行数必须≥列数</value>
+  </data>
+  <data name="Count" xml:space="preserve">
+    <value>计数</value>
+  </data>
+  <data name="Number_of_rows" xml:space="preserve">
+    <value>行数</value>
+  </data>
+  <data name="Number_of_columns" xml:space="preserve">
+    <value>列数</value>
+  </data>
+  <data name="Argument" xml:space="preserve">
+    <value>参数</value>
+  </data>
+  <data name="Result" xml:space="preserve">
+    <value>结果</value>
+  </data>
+  <data name="Variable" xml:space="preserve">
+    <value>变量</value>
+  </data>
+  <data name="Index_target" xml:space="preserve">
+    <value>索引目标</value>
+  </data>
+  <data name="Invalid_item" xml:space="preserve">
+    <value>无效项</value>
+  </data>
+  <data name="FunctionDefinitionNotAllowedInSolverBlock" xml:space="preserve">
+    <value>求解块中不支持定义函数.</value>
+  </data>
+  <data name="BracketsNotClosed" xml:space="preserve">
+    <value>括号未闭合.</value>
   </data>
 </root>
