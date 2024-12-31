@@ -1,6 +1,7 @@
 ﻿#nullable enable
 
 using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Office2016.Excel;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using System;
@@ -24,21 +25,25 @@ namespace Calcpad.OpenXml
 
             // Get the worksheet by name
             WorksheetPart? wsPart = null;
+            string sheetID = string.Empty;
 
             // Regex for sheet name being present and correctly formatted (without quotes around sheet name and including a valid multi-cell reference)
             if (ExcelRangeWithSheetName().Match(range).Success)
             {
-                wsPart = wbPart.WorksheetParts.FirstOrDefault(ws => ws.Uri.OriginalString.Contains(sheetName)) ?? throw new InvalidOperationException($"Worksheet '{sheetName}' not found.");
+                Sheet sheet = wbPart.Workbook.Descendants<Sheet>().Where(s => s.Name == sheetName).FirstOrDefault() ?? throw new InvalidOperationException($"Worksheet '{sheetName}' not found.");
+                sheetID = sheet?.Id?.Value ?? string.Empty;
             }
             // Regex for multi-cell range without a sheet name, uses the first sheet
             else if (ExcelRangeWithoutSheetName().Match(range).Success)
             {
-                wsPart = wbPart.WorksheetParts.FirstOrDefault() ?? throw new InvalidOperationException($"No worksheets found.");
+                Sheet firstSheet = wbPart.Workbook.Sheets?.Elements<Sheet>().FirstOrDefault() ?? throw new InvalidOperationException("No sheets were found.");
+                sheetID = firstSheet?.Id?.Value ?? string.Empty;
             }
             else
             {
                 throw new ArgumentException("Invalid range format");
             }
+            wsPart = (WorksheetPart)(wbPart.GetPartById(sheetID));
 
             // Initialize the array based on the range dimensions
             int startRow = GetRangeStart(cellRange).Item1;
@@ -51,7 +56,7 @@ namespace Calcpad.OpenXml
             {
                 for (int j = 0; j < colNum; j++)
                 {
-                    string addressName = string.Concat(ExcelColumnNumbertoName(startRow + i), ":", Convert.ToString(startCol + j));
+                    string addressName = string.Concat(ExcelColumnNumbertoName(startCol + j), Convert.ToString(startRow + i));
                     readData[i, j] = GetCellValue(wbPart, wsPart, addressName);
                 }
             }
@@ -72,36 +77,39 @@ namespace Calcpad.OpenXml
             Tuple<string, string> rangeObject = GetCellRange(range, false);
             string sheetName = rangeObject.Item1;
             string cellRange = rangeObject.Item2;
-            WorksheetPart? wsPart = null;
+            string sheetID = string.Empty;
 
-            if (ExcelRangeWithSheetName().Match(range).Success)
+            if (ExcelCellWithSheetName().Match(range).Success)
             {
-                wsPart = wbPart.WorksheetParts.FirstOrDefault(ws => ws.Uri.OriginalString.Contains(sheetName)) ?? throw new InvalidOperationException($"Worksheet '{sheetName}' not found.");
+                Sheet sheet = wbPart.Workbook.Descendants<Sheet>().Where(s => s.Name == sheetName).FirstOrDefault() ?? throw new InvalidOperationException($"Worksheet '{sheetName}' not found.");
+                sheetID = sheet?.Id?.Value ?? string.Empty;
             }
             // Regex for multi-cell range without a sheet name, uses the first sheet
-            else if (ExcelRangeWithoutSheetName().Match(range).Success)
+            else if (ExcelCellWithoutSheetName().Match(range).Success)
             {
-                wsPart = wbPart.WorksheetParts.FirstOrDefault() ?? throw new InvalidOperationException($"No worksheets found.");
+                Sheet firstSheet = wbPart.Workbook.Sheets?.Elements<Sheet>().FirstOrDefault() ?? throw new InvalidOperationException("No sheets were found.");
+                sheetID = firstSheet?.Id?.Value ?? string.Empty;
             }
             else
             {
                 // Insert a new worksheet.
-                wsPart = InsertWorksheet(wbPart, sheetName);
+                sheetID = InsertWorksheet(wbPart, sheetName);
             }
+
+            WorksheetPart wsPart = (WorksheetPart)(wbPart.GetPartById(sheetID));
 
             // Initialize the array based on the range dimensions
             int startRow = GetRangeStart(cellRange).Item1;
             int startCol = GetRangeStart(cellRange).Item2;
             int rowNum = matrixData.Values.GetLength(0);
             int colNum = matrixData.Values.GetLength(1);
-            string[,] readData = new string[rowNum, colNum];
 
             if (matrixData.Units is not null)
             {
                 // Puts the string representing the units in the first row
                 for (int i = 0; i < colNum; i++)
                 {
-                    string addressName = string.Concat(ExcelColumnNumbertoName(startRow), ":", Convert.ToString(startCol + i));
+                    string addressName = string.Concat(ExcelColumnNumbertoName(startCol + i), Convert.ToString(startRow));
                     InsertValue(wbPart, wsPart, addressName, matrixData.Units[i]);
                 }
                 // Data will be entered in the row after the units
@@ -112,13 +120,11 @@ namespace Calcpad.OpenXml
             {
                 for (int j = 0; j < colNum; j++)
                 {
-                    string addressName = string.Concat(ExcelColumnNumbertoName(startRow + i), ":", Convert.ToString(startCol + j));
+                    string addressName = string.Concat(ExcelColumnNumbertoName(startCol + j), Convert.ToString(startRow + i));
+                    // Known issue - writing to a table or defined name corrupts the file. This will need to be checked for and handled in the future.
                     InsertValue(wbPart, wsPart, addressName, matrixData.Values[i, j]);
                 }
             }
-            // Save the new worksheet.
-            wsPart.Worksheet.Save();
-
             wbPart.Workbook.Save();
 
             // Dispose the document (closes).
@@ -128,11 +134,12 @@ namespace Calcpad.OpenXml
         // -- Read Functions
 
         // Gets the cell value using OpenXML
-        static string GetCellValue(WorkbookPart wbPart, WorksheetPart wsPart, string addressName)
+        static string GetCellValue(WorkbookPart wbPart, WorksheetPart? wsPart, string addressName)
         {
             string? value = null;
             // Use its Worksheet property to get a reference to the cell whose address matches the address you supplied.
-            Cell? cell = wsPart.Worksheet?.Descendants<Cell>()?.Where(c => c.CellReference == addressName).FirstOrDefault();
+
+            Cell? cell = wsPart?.Worksheet?.Descendants<Cell>().FirstOrDefault(c => c.CellReference == addressName);
             // If the cell does not exist, return an empty string.
             if (cell is null || cell.InnerText.Length < 0)
             {
@@ -194,18 +201,24 @@ namespace Calcpad.OpenXml
                 {
                     if (dn?.Name?.Value is not null && dn?.Text is not null)
                     {
-                        returnValue.Add(dn.Name.Value, dn.Text);
+                        returnValue.Add(dn.Name.Value, dn.Text.Replace("$", string.Empty));
                     }
                 }
             }
-            var tables = wbPart.Workbook.Descendants<Table>();
-            if (tables is not null)
+            if (wbPart.Workbook.Sheets is not null)
             {
-                foreach (Table tb in tables.Cast<Table>())
+                foreach (Sheet sheet in wbPart.Workbook.Sheets.Elements<Sheet>())
                 {
-                    if (tb?.Name?.Value is not null && tb?.Reference?.Value is not null)
+                    string sheetID = sheet?.Id?.Value ?? string.Empty;
+                    string sheetName = sheet?.Name?.Value ?? string.Empty;
+                    WorksheetPart? wsPart = (WorksheetPart)wbPart.GetPartById(sheetID) ?? throw new Exception("Sheet not found");
+
+                    foreach (TableDefinitionPart tb in wsPart.TableDefinitionParts)
                     {
-                        returnValue.Add(tb.Name.Value, tb.Reference.Value);
+                        string tableName = tb?.Table?.Name?.Value ?? string.Empty;
+                        string cellReference = tb?.Table?.Reference?.Value ?? string.Empty;
+                        string tableReference = String.Join('!', [sheetName, cellReference]);
+                        returnValue.Add(tableName, tableReference);
                     }
                 }
             }
@@ -243,11 +256,18 @@ namespace Calcpad.OpenXml
 
         // Given a document name and text, 
         // inserts a new work sheet and writes the text to cell "A1" of the new worksheet.
-        static void InsertValue(WorkbookPart wbPart, WorksheetPart wsPart, string range, object value)
+        static void InsertValue(WorkbookPart wbPart, WorksheetPart? wsPart, string range, object value)
         {
-
+            Cell cell;
             // Insert cell into the worksheet or return the cell at the range
-            Cell cell = InsertCellInWorksheet(GetColLetterFromRange(range), (uint)GetRowNumberFromRange(range), wsPart);
+            if (wsPart is not null)
+            {
+                cell = InsertCellInWorksheet(GetColLetterFromRange(range), (uint)GetRowNumberFromRange(range), wsPart);
+            }
+            else
+            {
+                return;
+            }
 
             switch (value)
             {
@@ -276,7 +296,9 @@ namespace Calcpad.OpenXml
                 default:
                     throw new Exception("Invalid data type for Excel insert value function");
             }
-           
+
+            // Save the new worksheet.
+            wsPart.Worksheet.Save();
         }
 
         // Given text and a SharedStringTablePart, creates a SharedStringItem with the specified text 
@@ -307,15 +329,15 @@ namespace Calcpad.OpenXml
         }
 
         // Given a WorkbookPart, inserts a new worksheet.
-        static WorksheetPart InsertWorksheet(WorkbookPart workbookPart, string sheetName)
+        static string InsertWorksheet(WorkbookPart wbPart, string sheetName)
         {
             // Add a new worksheet part to the workbook.
-            WorksheetPart newWorksheetPart = workbookPart.AddNewPart<WorksheetPart>();
+            WorksheetPart newWorksheetPart = wbPart.AddNewPart<WorksheetPart>();
             newWorksheetPart.Worksheet = new Worksheet(new SheetData());
             newWorksheetPart.Worksheet.Save();
 
-            Sheets sheets = workbookPart.Workbook.GetFirstChild<Sheets>() ?? workbookPart.Workbook.AppendChild(new Sheets());
-            string relationshipId = workbookPart.GetIdOfPart(newWorksheetPart);
+            Sheets sheets = wbPart.Workbook.GetFirstChild<Sheets>() ?? wbPart.Workbook.AppendChild(new Sheets());
+            string relationshipId = wbPart.GetIdOfPart(newWorksheetPart);
 
             // Get a unique ID for the new sheet.
             uint sheetId = 1;
@@ -335,9 +357,9 @@ namespace Calcpad.OpenXml
             // Append the new worksheet and associate it with the workbook.
             Sheet sheet = new() { Id = relationshipId, SheetId = sheetId, Name = sheetName };
             sheets.Append(sheet);
-            workbookPart.Workbook.Save();
+            wbPart.Workbook.Save();
 
-            return newWorksheetPart;
+            return Convert.ToString(sheetId);
         }
 
         // Given a column name, a row index, and a WorksheetPart, inserts a cell into the worksheet. 
@@ -390,7 +412,7 @@ namespace Calcpad.OpenXml
 
         // -- Other Functions
 
-        static Tuple<string, string> GetCellRange(string range, bool read=true)
+        static Tuple<string, string> GetCellRange(string range, bool read = true)
         {
             string sheetName = "";
             string cellRange;
@@ -420,12 +442,12 @@ namespace Calcpad.OpenXml
             {
                 throw new ArgumentException("Invalid range format");
             }
-            return new Tuple<string, string> (sheetName, cellRange);
+            return new Tuple<string, string>(sheetName, cellRange);
         }
 
         static Tuple<int, int> GetRangeSize(string cellRange)
         {
-            return new Tuple<int, int> (
+            return new Tuple<int, int>(
                 GetRowNumberFromRange(cellRange.Split(':')[1]) - GetRowNumberFromRange(cellRange.Split(':')[0]) + 1, // number of rows
                 ExcelColumnNameToNumber(GetColLetterFromRange(cellRange.Split(':')[1])) - ExcelColumnNameToNumber(GetColLetterFromRange(cellRange.Split(':')[0])) + 1 // number of columns
             );
