@@ -8,9 +8,12 @@ using System.Text.RegularExpressions;
 
 namespace Calcpad.OpenXml
 {
-    public class ExternalData(string Reference)
+    public class ExternalData
     {
-        public ExternalDataSchema Data {get; set;} = DataReader.GetData(Reference);
+        public static ExternalDataSchema GetData(string Reference)
+        {
+            return DataReader.GetData(Reference);
+        }
     }
     public class ExternalDataSchema(double[,] values, string[]? units)
     {
@@ -48,7 +51,7 @@ namespace Calcpad.OpenXml
             } 
             else if (filepath.Split('.').Last() == "xls" || filepath.Split('.').Last() == "xlsx")
             {
-                if (reference is not null)
+                if (range != "")
                 {
                     textData = ExcelFunctions.ReadExcelData(filepath, range);
                 }
@@ -59,7 +62,7 @@ namespace Calcpad.OpenXml
             } 
             else
             {
-                throw new FileFormatException($"'.{filepath.Split(".").Last()}' is an unsupported file extension.");
+                throw new Exception($"'.{filepath.Split(".").Last()}' is an unsupported file extension.");
             }
             return ConvertData(textData);
         }
@@ -77,7 +80,7 @@ namespace Calcpad.OpenXml
             int i = 0;
             while (!csvReader.EndOfData)
             {
-                string[] fieldData = csvReader.ReadFields() ?? throw new FileFormatException("CSV file is not correctly formatted");
+                string[] fieldData = csvReader.ReadFields() ?? throw new Exception("CSV file is not correctly formatted");
                 if (fieldData != null)
                 {
                     for (int j = 0; j < csvColumns; j++)
@@ -94,7 +97,6 @@ namespace Calcpad.OpenXml
         {
             bool header = false;
             string[] units = new string[data.GetLength(1)];
-            double[,] convertedData = new double[data.GetLength(0), data.GetLength(1)];
 
             for (int i = 0; i < data.GetLength(1); i++)
             {
@@ -107,34 +109,40 @@ namespace Calcpad.OpenXml
 
             // If any cells in the first row contains non-numeric values, it assumes the first row is a header.
             // Further data validation is required to check if each unit string matches a valid unit. If not, it should assume it is unitless.
-
+            
             if (header)
             {
+                string match = "";
                 for (int i = 0; i < data.GetLength(1); i++)
-                    try
+                {
+                    // Checks if header cell has any text in parenthesis. If so, it will take the first match as the unit instead of the entire string.
+
+                    match = UnitInParenthesis().Match(data[0, i]).Groups[1].Value;
+
+                    if (match == "")
                     {
-                        // Checks if header cell has any text in parenthesis. If so, it will take the first match as the unit instead of the entire string.
-                        units[i] = UnitInParenthesis().Match(data[0, i]).Groups[1].Value;
-                    }
-                    catch (IndexOutOfRangeException)
-                    {
-                        // If there is no text in parenthesis, it assumes the entire header string is the unit.
                         units[i] = data[0, i];
                     }
+                    else
+                    {
+                        units[i] = match;
+                    }
+                }
             }
 
             int startRow = 0;
             if (header) startRow++;
+            double[,] convertedData = new double[data.GetLength(0) - startRow, data.GetLength(1)];
 
-            for (int i = startRow; i < data.GetLength(0); i++)
+            for (int i = 0; i < data.GetLength(0) - startRow; i++)
             {
                 for (int j = 0; j < data.GetLength(1); j++)
                 {
-                    if (double.TryParse(data[i, j], out double _))
+                    if (double.TryParse(data[i + startRow, j], out double _))
                     {
-                        convertedData[i, j] = double.Parse(data[i, j]);
-                    } 
-                    else 
+                        convertedData[i, j] = double.Parse(data[i + startRow, j]);
+                    }
+                    else
                     {
                         throw new ArgumentException("Invalid Data. Ensure all data values outside of the header are numbers.");
                     }
