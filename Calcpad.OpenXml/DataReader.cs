@@ -12,9 +12,9 @@ namespace Calcpad.OpenXml
     {
         public ExternalDataSchema Data {get; set;} = DataReader.GetData(Reference);
     }
-    public class ExternalDataSchema(double[,]? values, string[]? units)
+    public class ExternalDataSchema(double[,] values, string[]? units)
     {
-        public double[,]? Values {get; set;} = values;
+        public double[,] Values {get; set;} = values;
         public string[]? Units {get; set;} = units;
     }
     internal partial class DataReader
@@ -27,9 +27,8 @@ namespace Calcpad.OpenXml
         internal static ExternalDataSchema GetData(string reference)
         {
             // Return Values and Units as null if an error is encountered
-            ExternalDataSchema externalData = new(null, null);
             string range = "";
-            string[,]? textData;
+            string[,] textData;
 
             string filepath;
             // Get filepath from reference
@@ -41,12 +40,6 @@ namespace Calcpad.OpenXml
             else
             {
                 filepath = reference;
-            }
-
-            // Check if the file exists
-            if (!File.Exists(filepath))
-            {
-                throw new FileNotFoundException($"The file at {filepath} does not exist.");
             }
 
             if (filepath.Split('.').Last() == "csv")
@@ -68,12 +61,9 @@ namespace Calcpad.OpenXml
             {
                 throw new FileFormatException($"'.{filepath.Split(".").Last()}' is an unsupported file extension.");
             }
-            if (textData is not null)
-            {
-                externalData = ConvertData(textData);
-            }
-            return externalData;
+            return ConvertData(textData);
         }
+
         // Reads a csv file, it must have rows of equal length
         internal static string[,] ReadCsvData(string filepath)
         {
