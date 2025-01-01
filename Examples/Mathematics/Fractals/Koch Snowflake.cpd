@@ -1,4 +1,4 @@
-"Happy New Year With Koch Snowflake Generation
+"Koch Snowflake Generation
 'Initial triangle coordinates
 a = sqrt(3)/2
 x = [0; 1; 0.5; 0]
