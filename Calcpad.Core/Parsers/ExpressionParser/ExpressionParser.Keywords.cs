@@ -50,7 +50,7 @@ namespace Calcpad.Core
 
         private static void InitKeyWordStrings()
         {
-            KeywordStrings = Enum.GetNames(typeof(Keyword));
+            KeywordStrings = Enum.GetNames<Keyword>();
             for (int i = 0, len = KeywordStrings.Length; i < len; ++i)
                 KeywordStrings[i] = '#' + KeywordStrings[i].ToLowerInvariant();
 
