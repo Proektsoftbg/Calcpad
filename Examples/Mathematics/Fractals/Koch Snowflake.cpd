@@ -5,18 +5,20 @@ x = [0; 1; 0.5; 0]
 y = [0; 0; a; 0]
 'Number of iterations -'n = 6
 #val
-'<style>polygon {stroke:darkcyan; stroke-width:0.2; fill:cyan; fill-opacity:0.1; stroke-opacity:0.7;}</style> 
+'<style>polygon {stroke:steelBlue; stroke-width:0.2; stroke-opacity:0.4;}</style> 
 #hide
 w = 300', 'h = w', 'k = 100
 #for i = 1 : n
 	n_p = len(x)
 	#show
 	'<h4>Iteration 'i'</h4>
-	'<svg viewbox="0 0 'k' 'k'" style="transform:scale(0.9); width:'w'pt; height:'h'pt"><polygon id="sf'i'" points="
+	'<svg viewbox="0 0 'k' 'k'" style="transform:scale(0.9); width:'w'pt; height:'h'pt">
+	'<defs><radialGradient id="sff" cx="50%" cy="50%"><stop offset="0%" stop-color="lightCyan"/><stop offset="100%" stop-color="lightBlue"/></defs>
+	'<polygon id = "sf'i'" points = "
 	#for j = 1 : n_p
 		x.j*k','(a - y.j)*k' '
 	#loop
-	'"/></svg>
+	'" fill="url(#sff)"/></svg>
 	#hide
 	x1 = [x.1]', 'y1 = [y.1]
 	'Iterate over the segments
