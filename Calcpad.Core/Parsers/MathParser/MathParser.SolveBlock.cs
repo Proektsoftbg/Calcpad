@@ -245,7 +245,7 @@ namespace Calcpad.Core
                     var t = rpn[i];
                     if (t is VariableToken vt && vt.Variable is not null)
                         vt.Variable.OnChange += Clear;
-                    else if (t.Type == TokenTypes.CustomFunction)
+                    else if (t.Type == TokenTypes.CustomFunction && t.Index != -1)
                         _parser._functions[t.Index].OnChange += Clear;
                 }
             }

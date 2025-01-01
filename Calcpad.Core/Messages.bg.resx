@@ -274,7 +274,7 @@
         <value>&lt;p&gt;&lt;span class="err"&gt;Пауза!&lt;/span&gt; натиснете &lt;b&gt;F5&lt;/b&gt; за да &lt;a href="#0" data-text="continue"&gt;продължите&lt;/a&gt; или &lt;b&gt;Esc&lt;/b&gt; за да &lt;a href="#0" data-text="cancel"&gt;прекъснете&lt;/a&gt;.&lt;/p&gt;</value>
     </data>
   <data name="Error_found_on_line" xml:space="preserve">
-        <value>&lt;div class=\"errorHeader\"&gt;Общо &lt;b&gt;1&lt;/b&gt; грешка на ред:</value>
+        <value>&lt;div class="errorHeader"&gt;Общо &lt;b&gt;1&lt;/b&gt; грешка на ред:</value>
     </data>
   <data name="Errors_found_on_lines" xml:space="preserve">
         <value>&lt;div class="errorHeader"&gt;Общо &lt;b&gt;{0}&lt;/b&gt; грешки на редове:</value>
