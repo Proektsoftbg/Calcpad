@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script>
+            function subst() {
+                var vars = {};
+                var query_strings_from_url = document.location.search.substring(1).split('&');
+                for (var query_string in query_strings_from_url) {
+                    if (query_strings_from_url.hasOwnProperty(query_string)) {
+                        var temp_var = query_strings_from_url[query_string].split('=', 2);
+                        vars[temp_var[0]] = decodeURI(temp_var[1]);
+                    }
+                }
+                var css_selector_classes = ['page', 'frompage', 'topage', 'webpage', 'section', 'subsection', 'date', 'isodate', 'time', 'title', 'doctitle', 'sitepage', 'sitepages'];
+                for (var css_class in css_selector_classes) {
+                    if (css_selector_classes.hasOwnProperty(css_class)) {
+                        var element = document.getElementsByClassName(css_selector_classes[css_class]);
+                        for (var j = 0; j < element.length; ++j) {
+                            element[j].textContent = vars[css_selector_classes[css_class]];
+                        }
+                    }
+                }
+            }
+        </script>
+        <style>
+            .header {
+                font-size: 12pt;
+                font-family: Calibri, sans-serif;
+                margin-left: 1.5em;
+            }
+            .header h4 {
+                font-family: Arial, Helvetica, sans-serif;
+                margin: 0;
+                padding: 0;
+                line-height: 150%;
+            }
+            .header table {
+                width: 100%;
+                max-width: 170mm;
+                border-collapse: collapse;
+            }
+            .header th {
+                border: solid 1pt lightgray;
+                text-align: left;
+                font-size: 90%;
+                padding: 2pt 4pt 2pt 4pt;
+                vertical-align: top;
+            }
+            .header p {
+                margin: 0.3em 0 0.3em 0;
+                padding: 0;
+                line-height: 1em;
+            }
+            .header .logo {
+                width: 80pt;
+                height: 17.6pt;
+                float: right;
+                margin-top: 3pt;
+            }
+            .header small { font-weight: normal; }
+            .header .addr{ margin-bottom: 8pt; }
+            .header .pr{ font-size:130%; }
+        </style>
+    </head>
+    <body class="header" onload="subst()">
+        <table>
+            <thead>
+                <tr>
+                    <th rowspan=3>
+                        <img class="logo" src="./logo.png" alt="logo.png">
+                        <h4>Proektsoft EOOD<sup>&reg;</sup></h4>
+                        <p class="addr"><small>34-36 Peyo Yavorov blvd, 1164 Sofia, tel. +359 2 423 4455<br/>email:&emsp;<a href="mailto:proektsoft.bg@gmail.com">proektsoft.bg@gmail.com</a></small></p>
+                        <p><small>Project:&ensp;</small><b class="pr">24 Kensington Road Residential</b></p>
+                        <p><small>Client:&emsp;</small>Dream Home Development Ltd</p>
+                    </th>
+                    <th><small>Date:</small><br/>11/2024</th>
+                    <th><small>Page:</small><br/><span class="page"></span>/<span class="topage"></span></th></tr><tr>
+                    <th><small>Job No:</small><br/>1001</th>
+                    <th><small>Revision:</small><br/>0</th></tr><tr>
+                    <th><small>Design by:</small><br/>ABC</th>
+                    <th><small>Check by:</small><br/>DEF</th>
+            </tr>
+            </thead>
+        </table>
+    </body>
+</html>

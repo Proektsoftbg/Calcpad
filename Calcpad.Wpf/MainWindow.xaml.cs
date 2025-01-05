@@ -28,7 +28,7 @@ namespace Calcpad.Wpf
     public partial class MainWindow : Window
     {
         //Culture
-        private static readonly string _currentCultureName = "bg";
+        private static readonly string _currentCultureName = "en";
 
         //Static resources
         private static readonly char[] GreekLetters = ['α', 'β', 'χ', 'δ', 'ε', 'φ', 'γ', 'η', 'ι', 'ø', 'κ', 'λ', 'μ', 'ν', 'ο', 'π', 'θ', 'ρ', 'σ', 'τ', 'υ', 'ϑ', 'ω', 'ξ', 'ψ', 'ζ'];
@@ -3450,10 +3450,8 @@ namespace Calcpad.Wpf
                 FileName = AppInfo.Path + "wkhtmltopdf.exe"
             };
             const string s = " --enable-local-file-access --disable-smart-shrinking --page-size A4  --margin-bottom 15 --margin-left 15 --margin-right 10 --margin-top 15 --encoding 'utf-8' ";
-            if (htmlFileName.Contains(' '))
-                startInfo.Arguments = s + '\"' + htmlFileName + "\" \"" + pdfFileName + '\"';
-            else
-                startInfo.Arguments = s + htmlFileName + " " + pdfFileName;
+            var wkhtmltopdfParams = s + _parser.pdfOptions;
+            startInfo.Arguments = $"{wkhtmltopdfParams} \"{htmlFileName}\" \"{pdfFileName}\"";
 
             startInfo.UseShellExecute = true;
             startInfo.WindowStyle = ProcessWindowStyle.Hidden;

@@ -22,6 +22,9 @@ namespace Calcpad.Core
         private readonly StringBuilder _sb = new(10000);
         private Queue<int> _errors;
         private LineInfo[] _lineCache;
+
+        public string pdfOptions = "";
+
         public Settings Settings { get; set; } = new();
         public string HtmlResult { get; private set; }
         public static bool IsUs
@@ -412,7 +415,7 @@ namespace Calcpad.Core
                         if (cacheID < 0)
                         {
                             _parser.Parse(token.Value);
-                            if (isLoop )
+                            if (isLoop)
                                 tokens[i].CacheID = _parser.WriteEquationToCache(isOutput);
                         }
                         else

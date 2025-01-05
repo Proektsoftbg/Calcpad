@@ -35,6 +35,7 @@ namespace Calcpad.Core
             Local,
             Global,
             Round,
+            Pdf,
             Pause,
             Input
         }
@@ -108,6 +109,8 @@ namespace Calcpad.Core
                     _parser.Degrees = 2;
                 else if (keyword == Keyword.Round)
                     ParseKeywordRound(s);
+                else if (keyword == Keyword.Pdf)
+                    ParseKeywordPdf(s);
                 else if (keyword == Keyword.Repeat)
                     ParseKeywordRepeat(s);
                 else if (keyword == Keyword.For)
@@ -194,6 +197,14 @@ namespace Calcpad.Core
                         AppendError(s.ToString(), ex.Message, _currentLine);
                     }
                 }
+            }
+        }
+
+        void ParseKeywordPdf(ReadOnlySpan<char> s)
+        {
+            if (s.Length > 4)
+            {
+                pdfOptions = $"{s[5..].Trim()}";
             }
         }
 

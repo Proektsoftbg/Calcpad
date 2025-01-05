@@ -417,6 +417,7 @@ namespace Calcpad.Wpf
             "#def",
             "#end def",
             "#round",
+            "#pdf",
             "#pause",
             "#input"
         }.ToFrozenSet(StringComparer.OrdinalIgnoreCase);
