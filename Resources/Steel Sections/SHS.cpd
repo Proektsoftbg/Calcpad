@@ -1,0 +1,1908 @@
+#def SHS40x2_6$
+	#hide
+	b_SHS40x2_6 = 40mm
+	t_SHS40x2_6 = 2.6mm
+	ro_SHS40x2_6 = 3.9mm
+	ri_SHS40x2_6 = 2.6mm
+	m_SHS40x2_6 = 3kg/m
+	P_SHS40x2_6 = 0.15m
+	A_SHS40x2_6 = 382mm^2
+	Av_SHS40x2_6 = 191mm^2
+	Isec_SHS40x2_6 = 87970mm^4
+	i_SHS40x2_6 = 15.2mm
+	Wel_SHS40x2_6 = 4399mm^3
+	Wpl_SHS40x2_6 = 5312mm^3
+	It_SHS40x2_6 = 140300mm^4
+	Wt_SHS40x2_6 = 6407mm^3
+	#show
+#end def
+#def SHS40x3_2$
+	#hide
+	b_SHS40x3_2 = 40mm
+	t_SHS40x3_2 = 3.2mm
+	ro_SHS40x3_2 = 4.8mm
+	ri_SHS40x3_2 = 3.2mm
+	m_SHS40x3_2 = 3.61kg/m
+	P_SHS40x3_2 = 0.15m
+	A_SHS40x3_2 = 460mm^2
+	Av_SHS40x3_2 = 230mm^2
+	Isec_SHS40x3_2 = 102300mm^4
+	i_SHS40x3_2 = 14.9mm
+	Wel_SHS40x3_2 = 5115mm^3
+	Wpl_SHS40x3_2 = 6284mm^3
+	It_SHS40x3_2 = 165400mm^4
+	Wt_SHS40x3_2 = 7417mm^3
+	#show
+#end def
+#def SHS40x4$
+	#hide
+	b_SHS40x4 = 40mm
+	t_SHS40x4 = 4mm
+	ro_SHS40x4 = 6mm
+	ri_SHS40x4 = 4mm
+	m_SHS40x4 = 4.39kg/m
+	P_SHS40x4 = 0.15m
+	A_SHS40x4 = 559mm^2
+	Av_SHS40x4 = 279mm^2
+	Isec_SHS40x4 = 118300mm^4
+	i_SHS40x4 = 14.5mm
+	Wel_SHS40x4 = 5915mm^3
+	Wpl_SHS40x4 = 7439mm^3
+	It_SHS40x4 = 194800mm^4
+	Wt_SHS40x4 = 8536mm^3
+	#show
+#end def
+#def SHS40x5$
+	#hide
+	b_SHS40x5 = 40mm
+	t_SHS40x5 = 5mm
+	ro_SHS40x5 = 7.5mm
+	ri_SHS40x5 = 5mm
+	m_SHS40x5 = 5.28kg/m
+	P_SHS40x5 = 0.15m
+	A_SHS40x5 = 673mm^2
+	Av_SHS40x5 = 337mm^2
+	Isec_SHS40x5 = 133700mm^4
+	i_SHS40x5 = 14.1mm
+	Wel_SHS40x5 = 6684mm^3
+	Wpl_SHS40x5 = 8663mm^3
+	It_SHS40x5 = 225000mm^4
+	Wt_SHS40x5 = 9602mm^3
+	#show
+#end def
+#def SHS50x2_6$
+	#hide
+	b_SHS50x2_6 = 50mm
+	t_SHS50x2_6 = 2.6mm
+	ro_SHS50x2_6 = 3.9mm
+	ri_SHS50x2_6 = 2.6mm
+	m_SHS50x2_6 = 3.81kg/m
+	P_SHS50x2_6 = 0.19m
+	A_SHS50x2_6 = 486mm^2
+	Av_SHS50x2_6 = 243mm^2
+	Isec_SHS50x2_6 = 180300mm^4
+	i_SHS50x2_6 = 19.3mm
+	Wel_SHS50x2_6 = 7212mm^3
+	Wpl_SHS50x2_6 = 8583mm^3
+	It_SHS50x2_6 = 284100mm^4
+	Wt_SHS50x2_6 = 10550mm^3
+	#show
+#end def
+#def SHS50x3_2$
+	#hide
+	b_SHS50x3_2 = 50mm
+	t_SHS50x3_2 = 3.2mm
+	ro_SHS50x3_2 = 4.8mm
+	ri_SHS50x3_2 = 3.2mm
+	m_SHS50x3_2 = 4.62kg/m
+	P_SHS50x3_2 = 0.19m
+	A_SHS50x3_2 = 588mm^2
+	Av_SHS50x3_2 = 294mm^2
+	Isec_SHS50x3_2 = 212300mm^4
+	i_SHS50x3_2 = 19mm
+	Wel_SHS50x3_2 = 8491mm^3
+	Wpl_SHS50x3_2 = 10240mm^3
+	It_SHS50x3_2 = 338200mm^4
+	Wt_SHS50x3_2 = 12370mm^3
+	#show
+#end def
+#def SHS50x4$
+	#hide
+	b_SHS50x4 = 50mm
+	t_SHS50x4 = 4mm
+	ro_SHS50x4 = 6mm
+	ri_SHS50x4 = 4mm
+	m_SHS50x4 = 5.64kg/m
+	P_SHS50x4 = 0.19m
+	A_SHS50x4 = 719mm^2
+	Av_SHS50x4 = 359mm^2
+	Isec_SHS50x4 = 249700mm^4
+	i_SHS50x4 = 18.6mm
+	Wel_SHS50x4 = 9990mm^3
+	Wpl_SHS50x4 = 12270mm^3
+	It_SHS50x4 = 403900mm^4
+	Wt_SHS50x4 = 14490mm^3
+	#show
+#end def
+#def SHS50x5$
+	#hide
+	b_SHS50x5 = 50mm
+	t_SHS50x5 = 5mm
+	ro_SHS50x5 = 7.5mm
+	ri_SHS50x5 = 5mm
+	m_SHS50x5 = 6.85kg/m
+	P_SHS50x5 = 0.19m
+	A_SHS50x5 = 873mm^2
+	Av_SHS50x5 = 437mm^2
+	Isec_SHS50x5 = 288800mm^4
+	i_SHS50x5 = 18.2mm
+	Wel_SHS50x5 = 11550mm^3
+	Wpl_SHS50x5 = 14530mm^3
+	It_SHS50x5 = 475600mm^4
+	Wt_SHS50x5 = 16670mm^3
+	#show
+#end def
+#def SHS50x6_3$
+	#hide
+	b_SHS50x6_3 = 50mm
+	t_SHS50x6_3 = 6.3mm
+	ro_SHS50x6_3 = 9.4mm
+	ri_SHS50x6_3 = 6.3mm
+	m_SHS50x6_3 = 8.31kg/m
+	P_SHS50x6_3 = 0.18m
+	A_SHS50x6_3 = 1059mm^2
+	Av_SHS50x6_3 = 529mm^2
+	Isec_SHS50x6_3 = 327600mm^4
+	i_SHS50x6_3 = 17.6mm
+	Wel_SHS50x6_3 = 13100mm^3
+	Wpl_SHS50x6_3 = 17010mm^3
+	It_SHS50x6_3 = 551900mm^4
+	Wt_SHS50x6_3 = 18820mm^3
+	#show
+#end def
+#def SHS60x2_6$
+	#hide
+	b_SHS60x2_6 = 60mm
+	t_SHS60x2_6 = 2.6mm
+	ro_SHS60x2_6 = 3.9mm
+	ri_SHS60x2_6 = 2.6mm
+	m_SHS60x2_6 = 4.63kg/m
+	P_SHS60x2_6 = 0.23m
+	A_SHS60x2_6 = 590mm^2
+	Av_SHS60x2_6 = 295mm^2
+	Isec_SHS60x2_6 = 321600mm^4
+	i_SHS60x2_6 = 23.4mm
+	Wel_SHS60x2_6 = 10720mm^3
+	Wpl_SHS60x2_6 = 12630mm^3
+	It_SHS60x2_6 = 502500mm^4
+	Wt_SHS60x2_6 = 15740mm^3
+	#show
+#end def
+#def SHS60x3_2$
+	#hide
+	b_SHS60x3_2 = 60mm
+	t_SHS60x3_2 = 3.2mm
+	ro_SHS60x3_2 = 4.8mm
+	ri_SHS60x3_2 = 3.2mm
+	m_SHS60x3_2 = 5.62kg/m
+	P_SHS60x3_2 = 0.23m
+	A_SHS60x3_2 = 716mm^2
+	Av_SHS60x3_2 = 358mm^2
+	Isec_SHS60x3_2 = 381600mm^4
+	i_SHS60x3_2 = 23.1mm
+	Wel_SHS60x3_2 = 12720mm^3
+	Wpl_SHS60x3_2 = 15160mm^3
+	It_SHS60x3_2 = 601900mm^4
+	Wt_SHS60x3_2 = 18600mm^3
+	#show
+#end def
+#def SHS60x4$
+	#hide
+	b_SHS60x4 = 60mm
+	t_SHS60x4 = 4mm
+	ro_SHS60x4 = 6mm
+	ri_SHS60x4 = 4mm
+	m_SHS60x4 = 6.9kg/m
+	P_SHS60x4 = 0.23m
+	A_SHS60x4 = 879mm^2
+	Av_SHS60x4 = 439mm^2
+	Isec_SHS60x4 = 453900mm^4
+	i_SHS60x4 = 22.7mm
+	Wel_SHS60x4 = 15130mm^3
+	Wpl_SHS60x4 = 18310mm^3
+	It_SHS60x4 = 725100mm^4
+	Wt_SHS60x4 = 22030mm^3
+	#show
+#end def
+#def SHS60x5$
+	#hide
+	b_SHS60x5 = 60mm
+	t_SHS60x5 = 5mm
+	ro_SHS60x5 = 7.5mm
+	ri_SHS60x5 = 5mm
+	m_SHS60x5 = 8.42kg/m
+	P_SHS60x5 = 0.23m
+	A_SHS60x5 = 1073mm^2
+	Av_SHS60x5 = 537mm^2
+	Isec_SHS60x5 = 532600mm^4
+	i_SHS60x5 = 22.3mm
+	Wel_SHS60x5 = 17750mm^3
+	Wpl_SHS60x5 = 21890mm^3
+	It_SHS60x5 = 864000mm^4
+	Wt_SHS60x5 = 25720mm^3
+	#show
+#end def
+#def SHS60x6_3$
+	#hide
+	b_SHS60x6_3 = 60mm
+	t_SHS60x6_3 = 6.3mm
+	ro_SHS60x6_3 = 9.4mm
+	ri_SHS60x6_3 = 6.3mm
+	m_SHS60x6_3 = 10.3kg/m
+	P_SHS60x6_3 = 0.22m
+	A_SHS60x6_3 = 1311mm^2
+	Av_SHS60x6_3 = 655mm^2
+	Isec_SHS60x6_3 = 616500mm^4
+	i_SHS60x6_3 = 21.7mm
+	Wel_SHS60x6_3 = 20550mm^3
+	Wpl_SHS60x6_3 = 26000mm^3
+	It_SHS60x6_3 = 1020000mm^4
+	Wt_SHS60x6_3 = 29620mm^3
+	#show
+#end def
+#def SHS60x8$
+	#hide
+	b_SHS60x8 = 60mm
+	t_SHS60x8 = 8mm
+	ro_SHS60x8 = 12mm
+	ri_SHS60x8 = 8mm
+	m_SHS60x8 = 12.5kg/m
+	P_SHS60x8 = 0.22m
+	A_SHS60x8 = 1595mm^2
+	Av_SHS60x8 = 798mm^2
+	Isec_SHS60x8 = 697300mm^4
+	i_SHS60x8 = 20.9mm
+	Wel_SHS60x8 = 23240mm^3
+	Wpl_SHS60x8 = 30440mm^3
+	It_SHS60x8 = 1182000mm^4
+	Wt_SHS60x8 = 33350mm^3
+	#show
+#end def
+#def SHS70x3_2$
+	#hide
+	b_SHS70x3_2 = 70mm
+	t_SHS70x3_2 = 3.2mm
+	ro_SHS70x3_2 = 4.8mm
+	ri_SHS70x3_2 = 3.2mm
+	m_SHS70x3_2 = 6.63kg/m
+	P_SHS70x3_2 = 0.27m
+	A_SHS70x3_2 = 844mm^2
+	Av_SHS70x3_2 = 422mm^2
+	Isec_SHS70x3_2 = 623100mm^4
+	i_SHS70x3_2 = 27.2mm
+	Wel_SHS70x3_2 = 17800mm^3
+	Wpl_SHS70x3_2 = 21040mm^3
+	It_SHS70x3_2 = 975800mm^4
+	Wt_SHS70x3_2 = 26110mm^3
+	#show
+#end def
+#def SHS70x4$
+	#hide
+	b_SHS70x4 = 70mm
+	t_SHS70x4 = 4mm
+	ro_SHS70x4 = 6mm
+	ri_SHS70x4 = 4mm
+	m_SHS70x4 = 8.15kg/m
+	P_SHS70x4 = 0.27m
+	A_SHS70x4 = 1039mm^2
+	Av_SHS70x4 = 519mm^2
+	Isec_SHS70x4 = 746900mm^4
+	i_SHS70x4 = 26.8mm
+	Wel_SHS70x4 = 21340mm^3
+	Wpl_SHS70x4 = 25540mm^3
+	It_SHS70x4 = 1182000mm^4
+	Wt_SHS70x4 = 31160mm^3
+	#show
+#end def
+#def SHS70x5$
+	#hide
+	b_SHS70x5 = 70mm
+	t_SHS70x5 = 5mm
+	ro_SHS70x5 = 7.5mm
+	ri_SHS70x5 = 5mm
+	m_SHS70x5 = 9.99kg/m
+	P_SHS70x5 = 0.27m
+	A_SHS70x5 = 1273mm^2
+	Av_SHS70x5 = 637mm^2
+	Isec_SHS70x5 = 885000mm^4
+	i_SHS70x5 = 26.4mm
+	Wel_SHS70x5 = 25290mm^3
+	Wpl_SHS70x5 = 30760mm^3
+	It_SHS70x5 = 1420000mm^4
+	Wt_SHS70x5 = 36760mm^3
+	#show
+#end def
+#def SHS70x6_3$
+	#hide
+	b_SHS70x6_3 = 70mm
+	t_SHS70x6_3 = 6.3mm
+	ro_SHS70x6_3 = 9.4mm
+	ri_SHS70x6_3 = 6.3mm
+	m_SHS70x6_3 = 12.3kg/m
+	P_SHS70x6_3 = 0.26m
+	A_SHS70x6_3 = 1563mm^2
+	Av_SHS70x6_3 = 781mm^2
+	Isec_SHS70x6_3 = 1038000mm^4
+	i_SHS70x6_3 = 25.8mm
+	Wel_SHS70x6_3 = 29670mm^3
+	Wpl_SHS70x6_3 = 36880mm^3
+	It_SHS70x6_3 = 1695000mm^4
+	Wt_SHS70x6_3 = 42920mm^3
+	#show
+#end def
+#def SHS70x8$
+	#hide
+	b_SHS70x8 = 70mm
+	t_SHS70x8 = 8mm
+	ro_SHS70x8 = 12mm
+	ri_SHS70x8 = 8mm
+	m_SHS70x8 = 15kg/m
+	P_SHS70x8 = 0.26m
+	A_SHS70x8 = 1915mm^2
+	Av_SHS70x8 = 958mm^2
+	Isec_SHS70x8 = 1198000mm^4
+	i_SHS70x8 = 25mm
+	Wel_SHS70x8 = 34220mm^3
+	Wpl_SHS70x8 = 43770mm^3
+	It_SHS70x8 = 1997000mm^4
+	Wt_SHS70x8 = 49240mm^3
+	#show
+#end def
+#def SHS80x3_2$
+	#hide
+	b_SHS80x3_2 = 80mm
+	t_SHS80x3_2 = 3.2mm
+	ro_SHS80x3_2 = 4.8mm
+	ri_SHS80x3_2 = 3.2mm
+	m_SHS80x3_2 = 7.63kg/m
+	P_SHS80x3_2 = 0.31m
+	A_SHS80x3_2 = 972mm^2
+	Av_SHS80x3_2 = 486mm^2
+	Isec_SHS80x3_2 = 949500mm^4
+	i_SHS80x3_2 = 31.3mm
+	Wel_SHS80x3_2 = 23740mm^3
+	Wpl_SHS80x3_2 = 27880mm^3
+	It_SHS80x3_2 = 1479000mm^4
+	Wt_SHS80x3_2 = 34900mm^3
+	#show
+#end def
+#def SHS80x4$
+	#hide
+	b_SHS80x4 = 80mm
+	t_SHS80x4 = 4mm
+	ro_SHS80x4 = 6mm
+	ri_SHS80x4 = 4mm
+	m_SHS80x4 = 9.41kg/m
+	P_SHS80x4 = 0.31m
+	A_SHS80x4 = 1199mm^2
+	Av_SHS80x4 = 599mm^2
+	Isec_SHS80x4 = 1145000mm^4
+	i_SHS80x4 = 30.9mm
+	Wel_SHS80x4 = 28610mm^3
+	Wpl_SHS80x4 = 33980mm^3
+	It_SHS80x4 = 1800000mm^4
+	Wt_SHS80x4 = 41900mm^3
+	#show
+#end def
+#def SHS80x5$
+	#hide
+	b_SHS80x5 = 80mm
+	t_SHS80x5 = 5mm
+	ro_SHS80x5 = 7.5mm
+	ri_SHS80x5 = 5mm
+	m_SHS80x5 = 11.6kg/m
+	P_SHS80x5 = 0.31m
+	A_SHS80x5 = 1473mm^2
+	Av_SHS80x5 = 737mm^2
+	Isec_SHS80x5 = 1366000mm^4
+	i_SHS80x5 = 30.5mm
+	Wel_SHS80x5 = 34150mm^3
+	Wpl_SHS80x5 = 41130mm^3
+	It_SHS80x5 = 2174000mm^4
+	Wt_SHS80x5 = 49790mm^3
+	#show
+#end def
+#def SHS80x6_3$
+	#hide
+	b_SHS80x6_3 = 80mm
+	t_SHS80x6_3 = 6.3mm
+	ro_SHS80x6_3 = 9.4mm
+	ri_SHS80x6_3 = 6.3mm
+	m_SHS80x6_3 = 14.2kg/m
+	P_SHS80x6_3 = 0.3m
+	A_SHS80x6_3 = 1815mm^2
+	Av_SHS80x6_3 = 907mm^2
+	Isec_SHS80x6_3 = 1619000mm^4
+	i_SHS80x6_3 = 29.9mm
+	Wel_SHS80x6_3 = 40470mm^3
+	Wpl_SHS80x6_3 = 49650mm^3
+	It_SHS80x6_3 = 2615000mm^4
+	Wt_SHS80x6_3 = 58710mm^3
+	#show
+#end def
+#def SHS80x8$
+	#hide
+	b_SHS80x8 = 80mm
+	t_SHS80x8 = 8mm
+	ro_SHS80x8 = 12mm
+	ri_SHS80x8 = 8mm
+	m_SHS80x8 = 17.5kg/m
+	P_SHS80x8 = 0.3m
+	A_SHS80x8 = 2235mm^2
+	Av_SHS80x8 = 1118mm^2
+	Isec_SHS80x8 = 1893000mm^4
+	i_SHS80x8 = 29.1mm
+	Wel_SHS80x8 = 47320mm^3
+	Wpl_SHS80x8 = 59510mm^3
+	It_SHS80x8 = 3117000mm^4
+	Wt_SHS80x8 = 68290mm^3
+	#show
+#end def
+#def SHS90x4$
+	#hide
+	b_SHS90x4 = 90mm
+	t_SHS90x4 = 4mm
+	ro_SHS90x4 = 6mm
+	ri_SHS90x4 = 4mm
+	m_SHS90x4 = 10.7kg/m
+	P_SHS90x4 = 0.35m
+	A_SHS90x4 = 1359mm^2
+	Av_SHS90x4 = 679mm^2
+	Isec_SHS90x4 = 1663000mm^4
+	i_SHS90x4 = 35mm
+	Wel_SHS90x4 = 36950mm^3
+	Wpl_SHS90x4 = 43610mm^3
+	It_SHS90x4 = 2601000mm^4
+	Wt_SHS90x4 = 54230mm^3
+	#show
+#end def
+#def SHS90x5$
+	#hide
+	b_SHS90x5 = 90mm
+	t_SHS90x5 = 5mm
+	ro_SHS90x5 = 7.5mm
+	ri_SHS90x5 = 5mm
+	m_SHS90x5 = 13.1kg/m
+	P_SHS90x5 = 0.35m
+	A_SHS90x5 = 1673mm^2
+	Av_SHS90x5 = 837mm^2
+	Isec_SHS90x5 = 1996000mm^4
+	i_SHS90x5 = 34.5mm
+	Wel_SHS90x5 = 44350mm^3
+	Wpl_SHS90x5 = 52990mm^3
+	It_SHS90x5 = 3155000mm^4
+	Wt_SHS90x5 = 64810mm^3
+	#show
+#end def
+#def SHS90x6_3$
+	#hide
+	b_SHS90x6_3 = 90mm
+	t_SHS90x6_3 = 6.3mm
+	ro_SHS90x6_3 = 9.4mm
+	ri_SHS90x6_3 = 6.3mm
+	m_SHS90x6_3 = 16.2kg/m
+	P_SHS90x6_3 = 0.34m
+	A_SHS90x6_3 = 2067mm^2
+	Av_SHS90x6_3 = 1033mm^2
+	Isec_SHS90x6_3 = 2383000mm^4
+	i_SHS90x6_3 = 34mm
+	Wel_SHS90x6_3 = 52950mm^3
+	Wpl_SHS90x6_3 = 64310mm^3
+	It_SHS90x6_3 = 3818000mm^4
+	Wt_SHS90x6_3 = 77010mm^3
+	#show
+#end def
+#def SHS90x8$
+	#hide
+	b_SHS90x8 = 90mm
+	t_SHS90x8 = 8mm
+	ro_SHS90x8 = 12mm
+	ri_SHS90x8 = 8mm
+	m_SHS90x8 = 20.1kg/m
+	P_SHS90x8 = 0.34m
+	A_SHS90x8 = 2555mm^2
+	Av_SHS90x8 = 1278mm^2
+	Isec_SHS90x8 = 2815000mm^4
+	i_SHS90x8 = 33.2mm
+	Wel_SHS90x8 = 62550mm^3
+	Wpl_SHS90x8 = 77650mm^3
+	It_SHS90x8 = 4590000mm^4
+	Wt_SHS90x8 = 90500mm^3
+	#show
+#end def
+#def SHS100x4$
+	#hide
+	b_SHS100x4 = 100mm
+	t_SHS100x4 = 4mm
+	ro_SHS100x4 = 6mm
+	ri_SHS100x4 = 4mm
+	m_SHS100x4 = 11.9kg/m
+	P_SHS100x4 = 0.39m
+	A_SHS100x4 = 1519mm^2
+	Av_SHS100x4 = 759mm^2
+	Isec_SHS100x4 = 2318000mm^4
+	i_SHS100x4 = 39.1mm
+	Wel_SHS100x4 = 46360mm^3
+	Wpl_SHS100x4 = 54440mm^3
+	It_SHS100x4 = 3611000mm^4
+	Wt_SHS100x4 = 68150mm^3
+	#show
+#end def
+#def SHS100x5$
+	#hide
+	b_SHS100x5 = 100mm
+	t_SHS100x5 = 5mm
+	ro_SHS100x5 = 7.5mm
+	ri_SHS100x5 = 5mm
+	m_SHS100x5 = 14.7kg/m
+	P_SHS100x5 = 0.39m
+	A_SHS100x5 = 1873mm^2
+	Av_SHS100x5 = 937mm^2
+	Isec_SHS100x5 = 2794000mm^4
+	i_SHS100x5 = 38.6mm
+	Wel_SHS100x5 = 55890mm^3
+	Wpl_SHS100x5 = 66360mm^3
+	It_SHS100x5 = 4394000mm^4
+	Wt_SHS100x5 = 81830mm^3
+	#show
+#end def
+#def SHS100x6_3$
+	#hide
+	b_SHS100x6_3 = 100mm
+	t_SHS100x6_3 = 6.3mm
+	ro_SHS100x6_3 = 9.4mm
+	ri_SHS100x6_3 = 6.3mm
+	m_SHS100x6_3 = 18.2kg/m
+	P_SHS100x6_3 = 0.38m
+	A_SHS100x6_3 = 2319mm^2
+	Av_SHS100x6_3 = 1159mm^2
+	Isec_SHS100x6_3 = 3356000mm^4
+	i_SHS100x6_3 = 38mm
+	Wel_SHS100x6_3 = 67110mm^3
+	Wpl_SHS100x6_3 = 80860mm^3
+	It_SHS100x6_3 = 5342000mm^4
+	Wt_SHS100x6_3 = 97820mm^3
+	#show
+#end def
+#def SHS100x8$
+	#hide
+	b_SHS100x8 = 100mm
+	t_SHS100x8 = 8mm
+	ro_SHS100x8 = 12mm
+	ri_SHS100x8 = 8mm
+	m_SHS100x8 = 22.6kg/m
+	P_SHS100x8 = 0.38m
+	A_SHS100x8 = 2875mm^2
+	Av_SHS100x8 = 1438mm^2
+	Isec_SHS100x8 = 3996000mm^4
+	i_SHS100x8 = 37.3mm
+	Wel_SHS100x8 = 79920mm^3
+	Wpl_SHS100x8 = 98180mm^3
+	It_SHS100x8 = 6462000mm^4
+	Wt_SHS100x8 = 115900mm^3
+	#show
+#end def
+#def SHS100x10$
+	#hide
+	b_SHS100x10 = 100mm
+	t_SHS100x10 = 10mm
+	ro_SHS100x10 = 15mm
+	ri_SHS100x10 = 10mm
+	m_SHS100x10 = 27.4kg/m
+	P_SHS100x10 = 0.37m
+	A_SHS100x10 = 3493mm^2
+	Av_SHS100x10 = 1746mm^2
+	Isec_SHS100x10 = 4621000mm^4
+	i_SHS100x10 = 36.4mm
+	Wel_SHS100x10 = 92420mm^3
+	Wpl_SHS100x10 = 116200mm^3
+	It_SHS100x10 = 7610000mm^4
+	Wt_SHS100x10 = 133400mm^3
+	#show
+#end def
+#def SHS120x5$
+	#hide
+	b_SHS120x5 = 120mm
+	t_SHS120x5 = 5mm
+	ro_SHS120x5 = 7.5mm
+	ri_SHS120x5 = 5mm
+	m_SHS120x5 = 17.8kg/m
+	P_SHS120x5 = 0.47m
+	A_SHS120x5 = 2273mm^2
+	Av_SHS120x5 = 1137mm^2
+	Isec_SHS120x5 = 4977000mm^4
+	i_SHS120x5 = 46.8mm
+	Wel_SHS120x5 = 82950mm^3
+	Wpl_SHS120x5 = 97590mm^3
+	It_SHS120x5 = 7765000mm^4
+	Wt_SHS120x5 = 121900mm^3
+	#show
+#end def
+#def SHS120x6_3$
+	#hide
+	b_SHS120x6_3 = 120mm
+	t_SHS120x6_3 = 6.3mm
+	ro_SHS120x6_3 = 9.4mm
+	ri_SHS120x6_3 = 6.3mm
+	m_SHS120x6_3 = 22.2kg/m
+	P_SHS120x6_3 = 0.46m
+	A_SHS120x6_3 = 2823mm^2
+	Av_SHS120x6_3 = 1411mm^2
+	Isec_SHS120x6_3 = 6029000mm^4
+	i_SHS120x6_3 = 46.2mm
+	Wel_SHS120x6_3 = 100500mm^3
+	Wpl_SHS120x6_3 = 119600mm^3
+	It_SHS120x6_3 = 9502000mm^4
+	Wt_SHS120x6_3 = 147000mm^3
+	#show
+#end def
+#def SHS120x8$
+	#hide
+	b_SHS120x8 = 120mm
+	t_SHS120x8 = 8mm
+	ro_SHS120x8 = 12mm
+	ri_SHS120x8 = 8mm
+	m_SHS120x8 = 27.6kg/m
+	P_SHS120x8 = 0.46m
+	A_SHS120x8 = 3515mm^2
+	Av_SHS120x8 = 1758mm^2
+	Isec_SHS120x8 = 7263000mm^4
+	i_SHS120x8 = 45.5mm
+	Wel_SHS120x8 = 121100mm^3
+	Wpl_SHS120x8 = 146500mm^3
+	It_SHS120x8 = 11600000mm^4
+	Wt_SHS120x8 = 176200mm^3
+	#show
+#end def
+#def SHS120x10$
+	#hide
+	b_SHS120x10 = 120mm
+	t_SHS120x10 = 10mm
+	ro_SHS120x10 = 15mm
+	ri_SHS120x10 = 10mm
+	m_SHS120x10 = 33.7kg/m
+	P_SHS120x10 = 0.45m
+	A_SHS120x10 = 4293mm^2
+	Av_SHS120x10 = 2146mm^2
+	Isec_SHS120x10 = 8521000mm^4
+	i_SHS120x10 = 44.6mm
+	Wel_SHS120x10 = 142000mm^3
+	Wpl_SHS120x10 = 175200mm^3
+	It_SHS120x10 = 13820000mm^4
+	Wt_SHS120x10 = 205800mm^3
+	#show
+#end def
+#def SHS120x12_5$
+	#hide
+	b_SHS120x12_5 = 120mm
+	t_SHS120x12_5 = 12.5mm
+	ro_SHS120x12_5 = 18.8mm
+	ri_SHS120x12_5 = 12.5mm
+	m_SHS120x12_5 = 40.9kg/m
+	P_SHS120x12_5 = 0.45m
+	A_SHS120x12_5 = 5207mm^2
+	Av_SHS120x12_5 = 2604mm^2
+	Isec_SHS120x12_5 = 9818000mm^4
+	i_SHS120x12_5 = 43.4mm
+	Wel_SHS120x12_5 = 163600mm^3
+	Wpl_SHS120x12_5 = 206800mm^3
+	It_SHS120x12_5 = 16230000mm^4
+	Wt_SHS120x12_5 = 235900mm^3
+	#show
+#end def
+#def SHS140x5$
+	#hide
+	b_SHS140x5 = 140mm
+	t_SHS140x5 = 5mm
+	ro_SHS140x5 = 7.5mm
+	ri_SHS140x5 = 5mm
+	m_SHS140x5 = 21kg/m
+	P_SHS140x5 = 0.55m
+	A_SHS140x5 = 2673mm^2
+	Av_SHS140x5 = 1337mm^2
+	Isec_SHS140x5 = 8075000mm^4
+	i_SHS140x5 = 55mm
+	Wel_SHS140x5 = 115400mm^3
+	Wpl_SHS140x5 = 134800mm^3
+	It_SHS140x5 = 12530000mm^4
+	Wt_SHS140x5 = 169900mm^3
+	#show
+#end def
+#def SHS140x6_3$
+	#hide
+	b_SHS140x6_3 = 140mm
+	t_SHS140x6_3 = 6.3mm
+	ro_SHS140x6_3 = 9.4mm
+	ri_SHS140x6_3 = 6.3mm
+	m_SHS140x6_3 = 26.1kg/m
+	P_SHS140x6_3 = 0.54m
+	A_SHS140x6_3 = 3327mm^2
+	Av_SHS140x6_3 = 1663mm^2
+	Isec_SHS140x6_3 = 9839000mm^4
+	i_SHS140x6_3 = 54.4mm
+	Wel_SHS140x6_3 = 140600mm^3
+	Wpl_SHS140x6_3 = 166000mm^3
+	It_SHS140x6_3 = 15400000mm^4
+	Wt_SHS140x6_3 = 206200mm^3
+	#show
+#end def
+#def SHS140x8$
+	#hide
+	b_SHS140x8 = 140mm
+	t_SHS140x8 = 8mm
+	ro_SHS140x8 = 12mm
+	ri_SHS140x8 = 8mm
+	m_SHS140x8 = 32.6kg/m
+	P_SHS140x8 = 0.54m
+	A_SHS140x8 = 4155mm^2
+	Av_SHS140x8 = 2078mm^2
+	Isec_SHS140x8 = 11950000mm^4
+	i_SHS140x8 = 53.6mm
+	Wel_SHS140x8 = 170700mm^3
+	Wpl_SHS140x8 = 204300mm^3
+	It_SHS140x8 = 18920000mm^4
+	Wt_SHS140x8 = 249300mm^3
+	#show
+#end def
+#def SHS140x10$
+	#hide
+	b_SHS140x10 = 140mm
+	t_SHS140x10 = 10mm
+	ro_SHS140x10 = 15mm
+	ri_SHS140x10 = 10mm
+	m_SHS140x10 = 40kg/m
+	P_SHS140x10 = 0.53m
+	A_SHS140x10 = 5093mm^2
+	Av_SHS140x10 = 2546mm^2
+	Isec_SHS140x10 = 14160000mm^4
+	i_SHS140x10 = 52.7mm
+	Wel_SHS140x10 = 202300mm^3
+	Wpl_SHS140x10 = 246100mm^3
+	It_SHS140x10 = 22720000mm^4
+	Wt_SHS140x10 = 294100mm^3
+	#show
+#end def
+#def SHS140x12_5$
+	#hide
+	b_SHS140x12_5 = 140mm
+	t_SHS140x12_5 = 12.5mm
+	ro_SHS140x12_5 = 18.8mm
+	ri_SHS140x12_5 = 12.5mm
+	m_SHS140x12_5 = 48.7kg/m
+	P_SHS140x12_5 = 0.53m
+	A_SHS140x12_5 = 6207mm^2
+	Av_SHS140x12_5 = 3104mm^2
+	Isec_SHS140x12_5 = 16530000mm^4
+	i_SHS140x12_5 = 51.6mm
+	Wel_SHS140x12_5 = 236100mm^3
+	Wpl_SHS140x12_5 = 293300mm^3
+	It_SHS140x12_5 = 26960000mm^4
+	Wt_SHS140x12_5 = 341600mm^3
+	#show
+#end def
+#def SHS150x5$
+	#hide
+	b_SHS150x5 = 150mm
+	t_SHS150x5 = 5mm
+	ro_SHS150x5 = 7.5mm
+	ri_SHS150x5 = 5mm
+	m_SHS150x5 = 22.6kg/m
+	P_SHS150x5 = 0.59m
+	A_SHS150x5 = 2873mm^2
+	Av_SHS150x5 = 1437mm^2
+	Isec_SHS150x5 = 10020000mm^4
+	i_SHS150x5 = 59mm
+	Wel_SHS150x5 = 133600mm^3
+	Wpl_SHS150x5 = 155700mm^3
+	It_SHS150x5 = 15500000mm^4
+	Wt_SHS150x5 = 196900mm^3
+	#show
+#end def
+#def SHS150x6_3$
+	#hide
+	b_SHS150x6_3 = 150mm
+	t_SHS150x6_3 = 6.3mm
+	ro_SHS150x6_3 = 9.4mm
+	ri_SHS150x6_3 = 6.3mm
+	m_SHS150x6_3 = 28.1kg/m
+	P_SHS150x6_3 = 0.58m
+	A_SHS150x6_3 = 3579mm^2
+	Av_SHS150x6_3 = 1789mm^2
+	Isec_SHS150x6_3 = 12230000mm^4
+	i_SHS150x6_3 = 58.5mm
+	Wel_SHS150x6_3 = 163100mm^3
+	Wpl_SHS150x6_3 = 192000mm^3
+	It_SHS150x6_3 = 19090000mm^4
+	Wt_SHS150x6_3 = 239600mm^3
+	#show
+#end def
+#def SHS150x8$
+	#hide
+	b_SHS150x8 = 150mm
+	t_SHS150x8 = 8mm
+	ro_SHS150x8 = 12mm
+	ri_SHS150x8 = 8mm
+	m_SHS150x8 = 35.1kg/m
+	P_SHS150x8 = 0.58m
+	A_SHS150x8 = 4475mm^2
+	Av_SHS150x8 = 2238mm^2
+	Isec_SHS150x8 = 14910000mm^4
+	i_SHS150x8 = 57.7mm
+	Wel_SHS150x8 = 198700mm^3
+	Wpl_SHS150x8 = 236900mm^3
+	It_SHS150x8 = 23510000mm^4
+	Wt_SHS150x8 = 290600mm^3
+	#show
+#end def
+#def SHS150x10$
+	#hide
+	b_SHS150x10 = 150mm
+	t_SHS150x10 = 10mm
+	ro_SHS150x10 = 15mm
+	ri_SHS150x10 = 10mm
+	m_SHS150x10 = 43.1kg/m
+	P_SHS150x10 = 0.57m
+	A_SHS150x10 = 5493mm^2
+	Av_SHS150x10 = 2746mm^2
+	Isec_SHS150x10 = 17730000mm^4
+	i_SHS150x10 = 56.8mm
+	Wel_SHS150x10 = 236400mm^3
+	Wpl_SHS150x10 = 286000mm^3
+	It_SHS150x10 = 28320000mm^4
+	Wt_SHS150x10 = 344200mm^3
+	#show
+#end def
+#def SHS150x12_5$
+	#hide
+	b_SHS150x12_5 = 150mm
+	t_SHS150x12_5 = 12.5mm
+	ro_SHS150x12_5 = 18.8mm
+	ri_SHS150x12_5 = 12.5mm
+	m_SHS150x12_5 = 52.7kg/m
+	P_SHS150x12_5 = 0.57m
+	A_SHS150x12_5 = 6707mm^2
+	Av_SHS150x12_5 = 3354mm^2
+	Isec_SHS150x12_5 = 20800000mm^4
+	i_SHS150x12_5 = 55.7mm
+	Wel_SHS150x12_5 = 277400mm^3
+	Wpl_SHS150x12_5 = 342100mm^3
+	It_SHS150x12_5 = 33750000mm^4
+	Wt_SHS150x12_5 = 401900mm^3
+	#show
+#end def
+#def SHS150x14_2$
+	#hide
+	b_SHS150x14_2 = 150mm
+	t_SHS150x14_2 = 14.2mm
+	ro_SHS150x14_2 = 21.3mm
+	ri_SHS150x14_2 = 14.2mm
+	m_SHS150x14_2 = 58.9kg/m
+	P_SHS150x14_2 = 0.56m
+	A_SHS150x14_2 = 7497mm^2
+	Av_SHS150x14_2 = 3749mm^2
+	Isec_SHS150x14_2 = 22620000mm^4
+	i_SHS150x14_2 = 54.9mm
+	Wel_SHS150x14_2 = 301500mm^3
+	Wpl_SHS150x14_2 = 376900mm^3
+	It_SHS150x14_2 = 37070000mm^4
+	Wt_SHS150x14_2 = 435700mm^3
+	#show
+#end def
+#def SHS150x16$
+	#hide
+	b_SHS150x16 = 150mm
+	t_SHS150x16 = 16mm
+	ro_SHS150x16 = 24mm
+	ri_SHS150x16 = 16mm
+	m_SHS150x16 = 65.2kg/m
+	P_SHS150x16 = 0.56m
+	A_SHS150x16 = 8301mm^2
+	Av_SHS150x16 = 4151mm^2
+	Isec_SHS150x16 = 24300000mm^4
+	i_SHS150x16 = 54.1mm
+	Wel_SHS150x16 = 324000mm^3
+	Wpl_SHS150x16 = 410700mm^3
+	It_SHS150x16 = 40260000mm^4
+	Wt_SHS150x16 = 467000mm^3
+	#show
+#end def
+#def SHS160x5$
+	#hide
+	b_SHS160x5 = 160mm
+	t_SHS160x5 = 5mm
+	ro_SHS160x5 = 7.5mm
+	ri_SHS160x5 = 5mm
+	m_SHS160x5 = 24.1kg/m
+	P_SHS160x5 = 0.63m
+	A_SHS160x5 = 3073mm^2
+	Av_SHS160x5 = 1537mm^2
+	Isec_SHS160x5 = 12250000mm^4
+	i_SHS160x5 = 63.1mm
+	Wel_SHS160x5 = 153100mm^3
+	Wpl_SHS160x5 = 178100mm^3
+	It_SHS160x5 = 18920000mm^4
+	Wt_SHS160x5 = 225900mm^3
+	#show
+#end def
+#def SHS160x6_3$
+	#hide
+	b_SHS160x6_3 = 160mm
+	t_SHS160x6_3 = 6.3mm
+	ro_SHS160x6_3 = 9.4mm
+	ri_SHS160x6_3 = 6.3mm
+	m_SHS160x6_3 = 30.1kg/m
+	P_SHS160x6_3 = 0.62m
+	A_SHS160x6_3 = 3831mm^2
+	Av_SHS160x6_3 = 1915mm^2
+	Isec_SHS160x6_3 = 14990000mm^4
+	i_SHS160x6_3 = 62.6mm
+	Wel_SHS160x6_3 = 187400mm^3
+	Wpl_SHS160x6_3 = 219900mm^3
+	It_SHS160x6_3 = 23330000mm^4
+	Wt_SHS160x6_3 = 275500mm^3
+	#show
+#end def
+#def SHS160x8$
+	#hide
+	b_SHS160x8 = 160mm
+	t_SHS160x8 = 8mm
+	ro_SHS160x8 = 12mm
+	ri_SHS160x8 = 8mm
+	m_SHS160x8 = 37.6kg/m
+	P_SHS160x8 = 0.62m
+	A_SHS160x8 = 4795mm^2
+	Av_SHS160x8 = 2398mm^2
+	Isec_SHS160x8 = 18310000mm^4
+	i_SHS160x8 = 61.8mm
+	Wel_SHS160x8 = 228900mm^3
+	Wpl_SHS160x8 = 271800mm^3
+	It_SHS160x8 = 28800000mm^4
+	Wt_SHS160x8 = 335200mm^3
+	#show
+#end def
+#def SHS160x10$
+	#hide
+	b_SHS160x10 = 160mm
+	t_SHS160x10 = 10mm
+	ro_SHS160x10 = 15mm
+	ri_SHS160x10 = 10mm
+	m_SHS160x10 = 46.3kg/m
+	P_SHS160x10 = 0.61m
+	A_SHS160x10 = 5893mm^2
+	Av_SHS160x10 = 2946mm^2
+	Isec_SHS160x10 = 21860000mm^4
+	i_SHS160x10 = 60.9mm
+	Wel_SHS160x10 = 273200mm^3
+	Wpl_SHS160x10 = 329000mm^3
+	It_SHS160x10 = 34780000mm^4
+	Wt_SHS160x10 = 398300mm^3
+	#show
+#end def
+#def SHS160x12_5$
+	#hide
+	b_SHS160x12_5 = 160mm
+	t_SHS160x12_5 = 12.5mm
+	ro_SHS160x12_5 = 18.8mm
+	ri_SHS160x12_5 = 12.5mm
+	m_SHS160x12_5 = 56.6kg/m
+	P_SHS160x12_5 = 0.61m
+	A_SHS160x12_5 = 7207mm^2
+	Av_SHS160x12_5 = 3604mm^2
+	Isec_SHS160x12_5 = 25760000mm^4
+	i_SHS160x12_5 = 59.8mm
+	Wel_SHS160x12_5 = 322000mm^3
+	Wpl_SHS160x12_5 = 394700mm^3
+	It_SHS160x12_5 = 41580000mm^4
+	Wt_SHS160x12_5 = 467100mm^3
+	#show
+#end def
+#def SHS160x14_2$
+	#hide
+	b_SHS160x14_2 = 160mm
+	t_SHS160x14_2 = 14.2mm
+	ro_SHS160x14_2 = 21.3mm
+	ri_SHS160x14_2 = 14.2mm
+	m_SHS160x14_2 = 63.3kg/m
+	P_SHS160x14_2 = 0.6m
+	A_SHS160x14_2 = 8065mm^2
+	Av_SHS160x14_2 = 4033mm^2
+	Isec_SHS160x14_2 = 28090000mm^4
+	i_SHS160x14_2 = 59mm
+	Wel_SHS160x14_2 = 351100mm^3
+	Wpl_SHS160x14_2 = 435800mm^3
+	It_SHS160x14_2 = 45790000mm^4
+	Wt_SHS160x14_2 = 508000mm^3
+	#show
+#end def
+#def SHS160x16$
+	#hide
+	b_SHS160x16 = 160mm
+	t_SHS160x16 = 16mm
+	ro_SHS160x16 = 24mm
+	ri_SHS160x16 = 16mm
+	m_SHS160x16 = 70.2kg/m
+	P_SHS160x16 = 0.6m
+	A_SHS160x16 = 8941mm^2
+	Av_SHS160x16 = 4471mm^2
+	Isec_SHS160x16 = 30280000mm^4
+	i_SHS160x16 = 58.2mm
+	Wel_SHS160x16 = 378500mm^3
+	Wpl_SHS160x16 = 476100mm^3
+	It_SHS160x16 = 49880000mm^4
+	Wt_SHS160x16 = 546300mm^3
+	#show
+#end def
+#def SHS180x5$
+	#hide
+	b_SHS180x5 = 180mm
+	t_SHS180x5 = 5mm
+	ro_SHS180x5 = 7.5mm
+	ri_SHS180x5 = 5mm
+	m_SHS180x5 = 27.3kg/m
+	P_SHS180x5 = 0.71m
+	A_SHS180x5 = 3473mm^2
+	Av_SHS180x5 = 1737mm^2
+	Isec_SHS180x5 = 17650000mm^4
+	i_SHS180x5 = 71.3mm
+	Wel_SHS180x5 = 196100mm^3
+	Wpl_SHS180x5 = 227300mm^3
+	It_SHS180x5 = 27180000mm^4
+	Wt_SHS180x5 = 289900mm^3
+	#show
+#end def
+#def SHS180x6_3$
+	#hide
+	b_SHS180x6_3 = 180mm
+	t_SHS180x6_3 = 6.3mm
+	ro_SHS180x6_3 = 9.4mm
+	ri_SHS180x6_3 = 6.3mm
+	m_SHS180x6_3 = 34kg/m
+	P_SHS180x6_3 = 0.7m
+	A_SHS180x6_3 = 4335mm^2
+	Av_SHS180x6_3 = 2167mm^2
+	Isec_SHS180x6_3 = 21680000mm^4
+	i_SHS180x6_3 = 70.7mm
+	Wel_SHS180x6_3 = 240900mm^3
+	Wpl_SHS180x6_3 = 281300mm^3
+	It_SHS180x6_3 = 33610000mm^4
+	Wt_SHS180x6_3 = 354900mm^3
+	#show
+#end def
+#def SHS180x8$
+	#hide
+	b_SHS180x8 = 180mm
+	t_SHS180x8 = 8mm
+	ro_SHS180x8 = 12mm
+	ri_SHS180x8 = 8mm
+	m_SHS180x8 = 42.7kg/m
+	P_SHS180x8 = 0.7m
+	A_SHS180x8 = 5435mm^2
+	Av_SHS180x8 = 2718mm^2
+	Isec_SHS180x8 = 26610000mm^4
+	i_SHS180x8 = 70mm
+	Wel_SHS180x8 = 295600mm^3
+	Wpl_SHS180x8 = 348900mm^3
+	It_SHS180x8 = 41620000mm^4
+	Wt_SHS180x8 = 433800mm^3
+	#show
+#end def
+#def SHS180x10$
+	#hide
+	b_SHS180x10 = 180mm
+	t_SHS180x10 = 10mm
+	ro_SHS180x10 = 15mm
+	ri_SHS180x10 = 10mm
+	m_SHS180x10 = 52.5kg/m
+	P_SHS180x10 = 0.69m
+	A_SHS180x10 = 6693mm^2
+	Av_SHS180x10 = 3346mm^2
+	Isec_SHS180x10 = 31930000mm^4
+	i_SHS180x10 = 69.1mm
+	Wel_SHS180x10 = 354800mm^3
+	Wpl_SHS180x10 = 423900mm^3
+	It_SHS180x10 = 50480000mm^4
+	Wt_SHS180x10 = 518500mm^3
+	#show
+#end def
+#def SHS180x12_5$
+	#hide
+	b_SHS180x12_5 = 180mm
+	t_SHS180x12_5 = 12.5mm
+	ro_SHS180x12_5 = 18.8mm
+	ri_SHS180x12_5 = 12.5mm
+	m_SHS180x12_5 = 64.4kg/m
+	P_SHS180x12_5 = 0.69m
+	A_SHS180x12_5 = 8207mm^2
+	Av_SHS180x12_5 = 4104mm^2
+	Isec_SHS180x12_5 = 37900000mm^4
+	i_SHS180x12_5 = 68mm
+	Wel_SHS180x12_5 = 421100mm^3
+	Wpl_SHS180x12_5 = 511200mm^3
+	It_SHS180x12_5 = 60700000mm^4
+	Wt_SHS180x12_5 = 612600mm^3
+	#show
+#end def
+#def SHS180x14_2$
+	#hide
+	b_SHS180x14_2 = 180mm
+	t_SHS180x14_2 = 14.2mm
+	ro_SHS180x14_2 = 21.3mm
+	ri_SHS180x14_2 = 14.2mm
+	m_SHS180x14_2 = 72.2kg/m
+	P_SHS180x14_2 = 0.68m
+	A_SHS180x14_2 = 9201mm^2
+	Av_SHS180x14_2 = 4601mm^2
+	Isec_SHS180x14_2 = 41540000mm^4
+	i_SHS180x14_2 = 67.2mm
+	Wel_SHS180x14_2 = 461600mm^3
+	Wpl_SHS180x14_2 = 566300mm^3
+	It_SHS180x14_2 = 67110000mm^4
+	Wt_SHS180x14_2 = 669500mm^3
+	#show
+#end def
+#def SHS180x16$
+	#hide
+	b_SHS180x16 = 180mm
+	t_SHS180x16 = 16mm
+	ro_SHS180x16 = 24mm
+	ri_SHS180x16 = 16mm
+	m_SHS180x16 = 80.2kg/m
+	P_SHS180x16 = 0.68m
+	A_SHS180x16 = 10221mm^2
+	Av_SHS180x16 = 5111mm^2
+	Isec_SHS180x16 = 45040000mm^4
+	i_SHS180x16 = 66.4mm
+	Wel_SHS180x16 = 500400mm^3
+	Wpl_SHS180x16 = 621200mm^3
+	It_SHS180x16 = 73430000mm^4
+	Wt_SHS180x16 = 724000mm^3
+	#show
+#end def
+#def SHS200x5$
+	#hide
+	b_SHS200x5 = 200mm
+	t_SHS200x5 = 5mm
+	ro_SHS200x5 = 7.5mm
+	ri_SHS200x5 = 5mm
+	m_SHS200x5 = 30.4kg/m
+	P_SHS200x5 = 0.79m
+	A_SHS200x5 = 3873mm^2
+	Av_SHS200x5 = 1937mm^2
+	Isec_SHS200x5 = 24450000mm^4
+	i_SHS200x5 = 79.5mm
+	Wel_SHS200x5 = 244500mm^3
+	Wpl_SHS200x5 = 282500mm^3
+	It_SHS200x5 = 37560000mm^4
+	Wt_SHS200x5 = 361900mm^3
+	#show
+#end def
+#def SHS200x6_3$
+	#hide
+	b_SHS200x6_3 = 200mm
+	t_SHS200x6_3 = 6.3mm
+	ro_SHS200x6_3 = 9.4mm
+	ri_SHS200x6_3 = 6.3mm
+	m_SHS200x6_3 = 38kg/m
+	P_SHS200x6_3 = 0.78m
+	A_SHS200x6_3 = 4839mm^2
+	Av_SHS200x6_3 = 2419mm^2
+	Isec_SHS200x6_3 = 30110000mm^4
+	i_SHS200x6_3 = 78.9mm
+	Wel_SHS200x6_3 = 301100mm^3
+	Wpl_SHS200x6_3 = 350300mm^3
+	It_SHS200x6_3 = 46530000mm^4
+	Wt_SHS200x6_3 = 444300mm^3
+	#show
+#end def
+#def SHS200x8$
+	#hide
+	b_SHS200x8 = 200mm
+	t_SHS200x8 = 8mm
+	ro_SHS200x8 = 12mm
+	ri_SHS200x8 = 8mm
+	m_SHS200x8 = 47.7kg/m
+	P_SHS200x8 = 0.78m
+	A_SHS200x8 = 6075mm^2
+	Av_SHS200x8 = 3038mm^2
+	Isec_SHS200x8 = 37090000mm^4
+	i_SHS200x8 = 78.1mm
+	Wel_SHS200x8 = 370900mm^3
+	Wpl_SHS200x8 = 435600mm^3
+	It_SHS200x8 = 57780000mm^4
+	Wt_SHS200x8 = 545200mm^3
+	#show
+#end def
+#def SHS200x10$
+	#hide
+	b_SHS200x10 = 200mm
+	t_SHS200x10 = 10mm
+	ro_SHS200x10 = 15mm
+	ri_SHS200x10 = 10mm
+	m_SHS200x10 = 58.8kg/m
+	P_SHS200x10 = 0.77m
+	A_SHS200x10 = 7493mm^2
+	Av_SHS200x10 = 3746mm^2
+	Isec_SHS200x10 = 44710000mm^4
+	i_SHS200x10 = 77.2mm
+	Wel_SHS200x10 = 447100mm^3
+	Wpl_SHS200x10 = 530900mm^3
+	It_SHS200x10 = 70310000mm^4
+	Wt_SHS200x10 = 654600mm^3
+	#show
+#end def
+#def SHS200x12_5$
+	#hide
+	b_SHS200x12_5 = 200mm
+	t_SHS200x12_5 = 12.5mm
+	ro_SHS200x12_5 = 18.8mm
+	ri_SHS200x12_5 = 12.5mm
+	m_SHS200x12_5 = 72.3kg/m
+	P_SHS200x12_5 = 0.77m
+	A_SHS200x12_5 = 9207mm^2
+	Av_SHS200x12_5 = 4604mm^2
+	Isec_SHS200x12_5 = 53360000mm^4
+	i_SHS200x12_5 = 76.1mm
+	Wel_SHS200x12_5 = 533600mm^3
+	Wpl_SHS200x12_5 = 642600mm^3
+	It_SHS200x12_5 = 84910000mm^4
+	Wt_SHS200x12_5 = 777900mm^3
+	#show
+#end def
+#def SHS200x14_2$
+	#hide
+	b_SHS200x14_2 = 200mm
+	t_SHS200x14_2 = 14.2mm
+	ro_SHS200x14_2 = 21.3mm
+	ri_SHS200x14_2 = 14.2mm
+	m_SHS200x14_2 = 81.1kg/m
+	P_SHS200x14_2 = 0.76m
+	A_SHS200x14_2 = 10337mm^2
+	Av_SHS200x14_2 = 5169mm^2
+	Isec_SHS200x14_2 = 58720000mm^4
+	i_SHS200x14_2 = 75.4mm
+	Wel_SHS200x14_2 = 587200mm^3
+	Wpl_SHS200x14_2 = 714000mm^3
+	It_SHS200x14_2 = 94170000mm^4
+	Wt_SHS200x14_2 = 853700mm^3
+	#show
+#end def
+#def SHS200x16$
+	#hide
+	b_SHS200x16 = 200mm
+	t_SHS200x16 = 16mm
+	ro_SHS200x16 = 24mm
+	ri_SHS200x16 = 16mm
+	m_SHS200x16 = 90.3kg/m
+	P_SHS200x16 = 0.76m
+	A_SHS200x16 = 11501mm^2
+	Av_SHS200x16 = 5751mm^2
+	Isec_SHS200x16 = 63940000mm^4
+	i_SHS200x16 = 74.6mm
+	Wel_SHS200x16 = 639400mm^3
+	Wpl_SHS200x16 = 785500mm^3
+	It_SHS200x16 = 103400000mm^4
+	Wt_SHS200x16 = 927100mm^3
+	#show
+#end def
+#def SHS220x6_3$
+	#hide
+	b_SHS220x6_3 = 220mm
+	t_SHS220x6_3 = 6.3mm
+	ro_SHS220x6_3 = 9.4mm
+	ri_SHS220x6_3 = 6.3mm
+	m_SHS220x6_3 = 41.9kg/m
+	P_SHS220x6_3 = 0.86m
+	A_SHS220x6_3 = 5343mm^2
+	Av_SHS220x6_3 = 2671mm^2
+	Isec_SHS220x6_3 = 40490000mm^4
+	i_SHS220x6_3 = 87.1mm
+	Wel_SHS220x6_3 = 368100mm^3
+	Wpl_SHS220x6_3 = 426900mm^3
+	It_SHS220x6_3 = 62400000mm^4
+	Wt_SHS220x6_3 = 543800mm^3
+	#show
+#end def
+#def SHS220x8$
+	#hide
+	b_SHS220x8 = 220mm
+	t_SHS220x8 = 8mm
+	ro_SHS220x8 = 12mm
+	ri_SHS220x8 = 8mm
+	m_SHS220x8 = 52.7kg/m
+	P_SHS220x8 = 0.86m
+	A_SHS220x8 = 6715mm^2
+	Av_SHS220x8 = 3358mm^2
+	Isec_SHS220x8 = 50020000mm^4
+	i_SHS220x8 = 86.3mm
+	Wel_SHS220x8 = 454700mm^3
+	Wpl_SHS220x8 = 531800mm^3
+	It_SHS220x8 = 77650000mm^4
+	Wt_SHS220x8 = 669400mm^3
+	#show
+#end def
+#def SHS220x10$
+	#hide
+	b_SHS220x10 = 220mm
+	t_SHS220x10 = 10mm
+	ro_SHS220x10 = 15mm
+	ri_SHS220x10 = 10mm
+	m_SHS220x10 = 65.1kg/m
+	P_SHS220x10 = 0.85m
+	A_SHS220x10 = 8293mm^2
+	Av_SHS220x10 = 4146mm^2
+	Isec_SHS220x10 = 60500000mm^4
+	i_SHS220x10 = 85.4mm
+	Wel_SHS220x10 = 550000mm^3
+	Wpl_SHS220x10 = 649800mm^3
+	It_SHS220x10 = 94730000mm^4
+	Wt_SHS220x10 = 806800mm^3
+	#show
+#end def
+#def SHS220x12_5$
+	#hide
+	b_SHS220x12_5 = 220mm
+	t_SHS220x12_5 = 12.5mm
+	ro_SHS220x12_5 = 18.8mm
+	ri_SHS220x12_5 = 12.5mm
+	m_SHS220x12_5 = 80.1kg/m
+	P_SHS220x12_5 = 0.85m
+	A_SHS220x12_5 = 10207mm^2
+	Av_SHS220x12_5 = 5104mm^2
+	Isec_SHS220x12_5 = 72540000mm^4
+	i_SHS220x12_5 = 84.3mm
+	Wel_SHS220x12_5 = 659500mm^3
+	Wpl_SHS220x12_5 = 789100mm^3
+	It_SHS220x12_5 = 114800000mm^4
+	Wt_SHS220x12_5 = 963200mm^3
+	#show
+#end def
+#def SHS220x14_2$
+	#hide
+	b_SHS220x14_2 = 220mm
+	t_SHS220x14_2 = 14.2mm
+	ro_SHS220x14_2 = 21.3mm
+	ri_SHS220x14_2 = 14.2mm
+	m_SHS220x14_2 = 90.1kg/m
+	P_SHS220x14_2 = 0.84m
+	A_SHS220x14_2 = 11473mm^2
+	Av_SHS220x14_2 = 5737mm^2
+	Isec_SHS220x14_2 = 80070000mm^4
+	i_SHS220x14_2 = 83.5mm
+	Wel_SHS220x14_2 = 727900mm^3
+	Wpl_SHS220x14_2 = 878600mm^3
+	It_SHS220x14_2 = 127700000mm^4
+	Wt_SHS220x14_2 = 1060000mm^3
+	#show
+#end def
+#def SHS220x16$
+	#hide
+	b_SHS220x16 = 220mm
+	t_SHS220x16 = 16mm
+	ro_SHS220x16 = 24mm
+	ri_SHS220x16 = 16mm
+	m_SHS220x16 = 100.3kg/m
+	P_SHS220x16 = 0.84m
+	A_SHS220x16 = 12781mm^2
+	Av_SHS220x16 = 6391mm^2
+	Isec_SHS220x16 = 87490000mm^4
+	i_SHS220x16 = 82.7mm
+	Wel_SHS220x16 = 795300mm^3
+	Wpl_SHS220x16 = 969000mm^3
+	It_SHS220x16 = 140500000mm^4
+	Wt_SHS220x16 = 1156000mm^3
+	#show
+#end def
+#def SHS250x6_3$
+	#hide
+	b_SHS250x6_3 = 250mm
+	t_SHS250x6_3 = 6.3mm
+	ro_SHS250x6_3 = 9.4mm
+	ri_SHS250x6_3 = 6.3mm
+	m_SHS250x6_3 = 47.9kg/m
+	P_SHS250x6_3 = 0.98m
+	A_SHS250x6_3 = 6099mm^2
+	Av_SHS250x6_3 = 3049mm^2
+	Isec_SHS250x6_3 = 60140000mm^4
+	i_SHS250x6_3 = 99.3mm
+	Wel_SHS250x6_3 = 481100mm^3
+	Wpl_SHS250x6_3 = 555900mm^3
+	It_SHS250x6_3 = 92380000mm^4
+	Wt_SHS250x6_3 = 712000mm^3
+	#show
+#end def
+#def SHS250x8$
+	#hide
+	b_SHS250x8 = 250mm
+	t_SHS250x8 = 8mm
+	ro_SHS250x8 = 12mm
+	ri_SHS250x8 = 8mm
+	m_SHS250x8 = 60.3kg/m
+	P_SHS250x8 = 0.98m
+	A_SHS250x8 = 7675mm^2
+	Av_SHS250x8 = 3838mm^2
+	Isec_SHS250x8 = 74550000mm^4
+	i_SHS250x8 = 98.6mm
+	Wel_SHS250x8 = 596400mm^3
+	Wpl_SHS250x8 = 694200mm^3
+	It_SHS250x8 = 115300000mm^4
+	Wt_SHS250x8 = 879800mm^3
+	#show
+#end def
+#def SHS250x10$
+	#hide
+	b_SHS250x10 = 250mm
+	t_SHS250x10 = 10mm
+	ro_SHS250x10 = 15mm
+	ri_SHS250x10 = 10mm
+	m_SHS250x10 = 74.5kg/m
+	P_SHS250x10 = 0.97m
+	A_SHS250x10 = 9493mm^2
+	Av_SHS250x10 = 4746mm^2
+	Isec_SHS250x10 = 90550000mm^4
+	i_SHS250x10 = 97.7mm
+	Wel_SHS250x10 = 724400mm^3
+	Wpl_SHS250x10 = 850700mm^3
+	It_SHS250x10 = 141100000mm^4
+	Wt_SHS250x10 = 1065000mm^3
+	#show
+#end def
+#def SHS250x12_5$
+	#hide
+	b_SHS250x12_5 = 250mm
+	t_SHS250x12_5 = 12.5mm
+	ro_SHS250x12_5 = 18.8mm
+	ri_SHS250x12_5 = 12.5mm
+	m_SHS250x12_5 = 91.9kg/m
+	P_SHS250x12_5 = 0.97m
+	A_SHS250x12_5 = 11707mm^2
+	Av_SHS250x12_5 = 5854mm^2
+	Isec_SHS250x12_5 = 109200000mm^4
+	i_SHS250x12_5 = 96.6mm
+	Wel_SHS250x12_5 = 873200mm^3
+	Wpl_SHS250x12_5 = 1037000mm^3
+	It_SHS250x12_5 = 171600000mm^4
+	Wt_SHS250x12_5 = 1279000mm^3
+	#show
+#end def
+#def SHS250x14_2$
+	#hide
+	b_SHS250x14_2 = 250mm
+	t_SHS250x14_2 = 14.2mm
+	ro_SHS250x14_2 = 21.3mm
+	ri_SHS250x14_2 = 14.2mm
+	m_SHS250x14_2 = 103.4kg/m
+	P_SHS250x14_2 = 0.96m
+	A_SHS250x14_2 = 13177mm^2
+	Av_SHS250x14_2 = 6589mm^2
+	Isec_SHS250x14_2 = 120900000mm^4
+	i_SHS250x14_2 = 95.8mm
+	Wel_SHS250x14_2 = 967500mm^3
+	Wpl_SHS250x14_2 = 1158000mm^3
+	It_SHS250x14_2 = 191400000mm^4
+	Wt_SHS250x14_2 = 1413000mm^3
+	#show
+#end def
+#def SHS250x16$
+	#hide
+	b_SHS250x16 = 250mm
+	t_SHS250x16 = 16mm
+	ro_SHS250x16 = 24mm
+	ri_SHS250x16 = 16mm
+	m_SHS250x16 = 115.4kg/m
+	P_SHS250x16 = 0.96m
+	A_SHS250x16 = 14701mm^2
+	Av_SHS250x16 = 7351mm^2
+	Isec_SHS250x16 = 132700000mm^4
+	i_SHS250x16 = 95mm
+	Wel_SHS250x16 = 1061000mm^3
+	Wpl_SHS250x16 = 1280000mm^3
+	It_SHS250x16 = 211400000mm^4
+	Wt_SHS250x16 = 1546000mm^3
+	#show
+#end def
+#def SHS260x6_3$
+	#hide
+	b_SHS260x6_3 = 260mm
+	t_SHS260x6_3 = 6.3mm
+	ro_SHS260x6_3 = 9.4mm
+	ri_SHS260x6_3 = 6.3mm
+	m_SHS260x6_3 = 49.9kg/m
+	P_SHS260x6_3 = 1.02m
+	A_SHS260x6_3 = 6351mm^2
+	Av_SHS260x6_3 = 3175mm^2
+	Isec_SHS260x6_3 = 67880000mm^4
+	i_SHS260x6_3 = 103.4mm
+	Wel_SHS260x6_3 = 522200mm^3
+	Wpl_SHS260x6_3 = 602700mm^3
+	It_SHS260x6_3 = 104200000mm^4
+	Wt_SHS260x6_3 = 773000mm^3
+	#show
+#end def
+#def SHS260x8$
+	#hide
+	b_SHS260x8 = 260mm
+	t_SHS260x8 = 8mm
+	ro_SHS260x8 = 12mm
+	ri_SHS260x8 = 8mm
+	m_SHS260x8 = 62.8kg/m
+	P_SHS260x8 = 1.02m
+	A_SHS260x8 = 7995mm^2
+	Av_SHS260x8 = 3998mm^2
+	Isec_SHS260x8 = 84230000mm^4
+	i_SHS260x8 = 102.6mm
+	Wel_SHS260x8 = 647900mm^3
+	Wpl_SHS260x8 = 753200mm^3
+	It_SHS260x8 = 130100000mm^4
+	Wt_SHS260x8 = 956300mm^3
+	#show
+#end def
+#def SHS260x10$
+	#hide
+	b_SHS260x10 = 260mm
+	t_SHS260x10 = 10mm
+	ro_SHS260x10 = 15mm
+	ri_SHS260x10 = 10mm
+	m_SHS260x10 = 77.7kg/m
+	P_SHS260x10 = 1.01m
+	A_SHS260x10 = 9893mm^2
+	Av_SHS260x10 = 4946mm^2
+	Isec_SHS260x10 = 102400000mm^4
+	i_SHS260x10 = 101.8mm
+	Wel_SHS260x10 = 787900mm^3
+	Wpl_SHS260x10 = 923600mm^3
+	It_SHS260x10 = 159300000mm^4
+	Wt_SHS260x10 = 1159000mm^3
+	#show
+#end def
+#def SHS260x12_5$
+	#hide
+	b_SHS260x12_5 = 260mm
+	t_SHS260x12_5 = 12.5mm
+	ro_SHS260x12_5 = 18.8mm
+	ri_SHS260x12_5 = 12.5mm
+	m_SHS260x12_5 = 95.8kg/m
+	P_SHS260x12_5 = 1.01m
+	A_SHS260x12_5 = 12207mm^2
+	Av_SHS260x12_5 = 6104mm^2
+	Isec_SHS260x12_5 = 123600000mm^4
+	i_SHS260x12_5 = 100.6mm
+	Wel_SHS260x12_5 = 951100mm^3
+	Wpl_SHS260x12_5 = 1127000mm^3
+	It_SHS260x12_5 = 194100000mm^4
+	Wt_SHS260x12_5 = 1394000mm^3
+	#show
+#end def
+#def SHS260x14_2$
+	#hide
+	b_SHS260x14_2 = 260mm
+	t_SHS260x14_2 = 14.2mm
+	ro_SHS260x14_2 = 21.3mm
+	ri_SHS260x14_2 = 14.2mm
+	m_SHS260x14_2 = 107.9kg/m
+	P_SHS260x14_2 = 1m
+	A_SHS260x14_2 = 13745mm^2
+	Av_SHS260x14_2 = 6873mm^2
+	Isec_SHS260x14_2 = 137100000mm^4
+	i_SHS260x14_2 = 99.9mm
+	Wel_SHS260x14_2 = 1055000mm^3
+	Wpl_SHS260x14_2 = 1259000mm^3
+	It_SHS260x14_2 = 216600000mm^4
+	Wt_SHS260x14_2 = 1542000mm^3
+	#show
+#end def
+#def SHS260x16$
+	#hide
+	b_SHS260x16 = 260mm
+	t_SHS260x16 = 16mm
+	ro_SHS260x16 = 24mm
+	ri_SHS260x16 = 16mm
+	m_SHS260x16 = 120.4kg/m
+	P_SHS260x16 = 1m
+	A_SHS260x16 = 15341mm^2
+	Av_SHS260x16 = 7671mm^2
+	Isec_SHS260x16 = 150600000mm^4
+	i_SHS260x16 = 99.1mm
+	Wel_SHS260x16 = 1159000mm^3
+	Wpl_SHS260x16 = 1394000mm^3
+	It_SHS260x16 = 239400000mm^4
+	Wt_SHS260x16 = 1689000mm^3
+	#show
+#end def
+#def SHS300x6_3$
+	#hide
+	b_SHS300x6_3 = 300mm
+	t_SHS300x6_3 = 6.3mm
+	ro_SHS300x6_3 = 9.4mm
+	ri_SHS300x6_3 = 6.3mm
+	m_SHS300x6_3 = 57.8kg/m
+	P_SHS300x6_3 = 1.18m
+	A_SHS300x6_3 = 7359mm^2
+	Av_SHS300x6_3 = 3679mm^2
+	Isec_SHS300x6_3 = 105500000mm^4
+	i_SHS300x6_3 = 119.7mm
+	Wel_SHS300x6_3 = 703100mm^3
+	Wpl_SHS300x6_3 = 808800mm^3
+	It_SHS300x6_3 = 161400000mm^4
+	Wt_SHS300x6_3 = 1043000mm^3
+	#show
+#end def
+#def SHS300x8$
+	#hide
+	b_SHS300x8 = 300mm
+	t_SHS300x8 = 8mm
+	ro_SHS300x8 = 12mm
+	ri_SHS300x8 = 8mm
+	m_SHS300x8 = 72.8kg/m
+	P_SHS300x8 = 1.18m
+	A_SHS300x8 = 9275mm^2
+	Av_SHS300x8 = 4638mm^2
+	Isec_SHS300x8 = 131300000mm^4
+	i_SHS300x8 = 119mm
+	Wel_SHS300x8 = 875200mm^3
+	Wpl_SHS300x8 = 1013000mm^3
+	It_SHS300x8 = 201900000mm^4
+	Wt_SHS300x8 = 1294000mm^3
+	#show
+#end def
+#def SHS300x10$
+	#hide
+	b_SHS300x10 = 300mm
+	t_SHS300x10 = 10mm
+	ro_SHS300x10 = 15mm
+	ri_SHS300x10 = 10mm
+	m_SHS300x10 = 90.2kg/m
+	P_SHS300x10 = 1.17m
+	A_SHS300x10 = 11493mm^2
+	Av_SHS300x10 = 5746mm^2
+	Isec_SHS300x10 = 160300000mm^4
+	i_SHS300x10 = 118.1mm
+	Wel_SHS300x10 = 1068000mm^3
+	Wpl_SHS300x10 = 1246000mm^3
+	It_SHS300x10 = 248100000mm^4
+	Wt_SHS300x10 = 1575000mm^3
+	#show
+#end def
+#def SHS300x12_5$
+	#hide
+	b_SHS300x12_5 = 300mm
+	t_SHS300x12_5 = 12.5mm
+	ro_SHS300x12_5 = 18.8mm
+	ri_SHS300x12_5 = 12.5mm
+	m_SHS300x12_5 = 111.5kg/m
+	P_SHS300x12_5 = 1.17m
+	A_SHS300x12_5 = 14207mm^2
+	Av_SHS300x12_5 = 7104mm^2
+	Isec_SHS300x12_5 = 194400000mm^4
+	i_SHS300x12_5 = 117mm
+	Wel_SHS300x12_5 = 1296000mm^3
+	Wpl_SHS300x12_5 = 1525000mm^3
+	It_SHS300x12_5 = 303300000mm^4
+	Wt_SHS300x12_5 = 1904000mm^3
+	#show
+#end def
+#def SHS300x14_2$
+	#hide
+	b_SHS300x14_2 = 300mm
+	t_SHS300x14_2 = 14.2mm
+	ro_SHS300x14_2 = 21.3mm
+	ri_SHS300x14_2 = 14.2mm
+	m_SHS300x14_2 = 125.7kg/m
+	P_SHS300x14_2 = 1.16m
+	A_SHS300x14_2 = 16017mm^2
+	Av_SHS300x14_2 = 8009mm^2
+	Isec_SHS300x14_2 = 216400000mm^4
+	i_SHS300x14_2 = 116.2mm
+	Wel_SHS300x14_2 = 1442000mm^3
+	Wpl_SHS300x14_2 = 1708000mm^3
+	It_SHS300x14_2 = 339400000mm^4
+	Wt_SHS300x14_2 = 2114000mm^3
+	#show
+#end def
+#def SHS300x16$
+	#hide
+	b_SHS300x16 = 300mm
+	t_SHS300x16 = 16mm
+	ro_SHS300x16 = 24mm
+	ri_SHS300x16 = 16mm
+	m_SHS300x16 = 140.5kg/m
+	P_SHS300x16 = 1.16m
+	A_SHS300x16 = 17901mm^2
+	Av_SHS300x16 = 8951mm^2
+	Isec_SHS300x16 = 238500000mm^4
+	i_SHS300x16 = 115.4mm
+	Wel_SHS300x16 = 1590000mm^3
+	Wpl_SHS300x16 = 1895000mm^3
+	It_SHS300x16 = 376200000mm^4
+	Wt_SHS300x16 = 2325000mm^3
+	#show
+#end def
+#def SHS350x8$
+	#hide
+	b_SHS350x8 = 350mm
+	t_SHS350x8 = 8mm
+	ro_SHS350x8 = 12mm
+	ri_SHS350x8 = 8mm
+	m_SHS350x8 = 85.4kg/m
+	P_SHS350x8 = 1.38m
+	A_SHS350x8 = 10875mm^2
+	Av_SHS350x8 = 5438mm^2
+	Isec_SHS350x8 = 211300000mm^4
+	i_SHS350x8 = 139.4mm
+	Wel_SHS350x8 = 1207000mm^3
+	Wpl_SHS350x8 = 1392000mm^3
+	It_SHS350x8 = 323800000mm^4
+	Wt_SHS350x8 = 1789000mm^3
+	#show
+#end def
+#def SHS350x10$
+	#hide
+	b_SHS350x10 = 350mm
+	t_SHS350x10 = 10mm
+	ro_SHS350x10 = 15mm
+	ri_SHS350x10 = 10mm
+	m_SHS350x10 = 105.9kg/m
+	P_SHS350x10 = 1.37m
+	A_SHS350x10 = 13493mm^2
+	Av_SHS350x10 = 6746mm^2
+	Isec_SHS350x10 = 258800000mm^4
+	i_SHS350x10 = 138.5mm
+	Wel_SHS350x10 = 1479000mm^3
+	Wpl_SHS350x10 = 1715000mm^3
+	It_SHS350x10 = 398900000mm^4
+	Wt_SHS350x10 = 2185000mm^3
+	#show
+#end def
+#def SHS350x12_5$
+	#hide
+	b_SHS350x12_5 = 350mm
+	t_SHS350x12_5 = 12.5mm
+	ro_SHS350x12_5 = 18.8mm
+	ri_SHS350x12_5 = 12.5mm
+	m_SHS350x12_5 = 131.2kg/m
+	P_SHS350x12_5 = 1.37m
+	A_SHS350x12_5 = 16707mm^2
+	Av_SHS350x12_5 = 8354mm^2
+	Isec_SHS350x12_5 = 315400000mm^4
+	i_SHS350x12_5 = 137.4mm
+	Wel_SHS350x12_5 = 1802000mm^3
+	Wpl_SHS350x12_5 = 2107000mm^3
+	It_SHS350x12_5 = 489300000mm^4
+	Wt_SHS350x12_5 = 2654000mm^3
+	#show
+#end def
+#def SHS350x14_2$
+	#hide
+	b_SHS350x14_2 = 350mm
+	t_SHS350x14_2 = 14.2mm
+	ro_SHS350x14_2 = 21.3mm
+	ri_SHS350x14_2 = 14.2mm
+	m_SHS350x14_2 = 148kg/m
+	P_SHS350x14_2 = 1.36m
+	A_SHS350x14_2 = 18857mm^2
+	Av_SHS350x14_2 = 9429mm^2
+	Isec_SHS350x14_2 = 352100000mm^4
+	i_SHS350x14_2 = 136.6mm
+	Wel_SHS350x14_2 = 2012000mm^3
+	Wpl_SHS350x14_2 = 2364000mm^3
+	It_SHS350x14_2 = 548800000mm^4
+	Wt_SHS350x14_2 = 2957000mm^3
+	#show
+#end def
+#def SHS350x16$
+	#hide
+	b_SHS350x16 = 350mm
+	t_SHS350x16 = 16mm
+	ro_SHS350x16 = 24mm
+	ri_SHS350x16 = 16mm
+	m_SHS350x16 = 165.6kg/m
+	P_SHS350x16 = 1.36m
+	A_SHS350x16 = 21101mm^2
+	Av_SHS350x16 = 10551mm^2
+	Isec_SHS350x16 = 389400000mm^4
+	i_SHS350x16 = 135.8mm
+	Wel_SHS350x16 = 2225000mm^3
+	Wpl_SHS350x16 = 2630000mm^3
+	It_SHS350x16 = 609900000mm^4
+	Wt_SHS350x16 = 3264000mm^3
+	#show
+#end def
+#def SHS400x10$
+	#hide
+	b_SHS400x10 = 400mm
+	t_SHS400x10 = 10mm
+	ro_SHS400x10 = 15mm
+	ri_SHS400x10 = 10mm
+	m_SHS400x10 = 121.6kg/m
+	P_SHS400x10 = 1.57m
+	A_SHS400x10 = 15493mm^2
+	Av_SHS400x10 = 7746mm^2
+	Isec_SHS400x10 = 391300000mm^4
+	i_SHS400x10 = 158.9mm
+	Wel_SHS400x10 = 1956000mm^3
+	Wpl_SHS400x10 = 2260000mm^3
+	It_SHS400x10 = 600900000mm^4
+	Wt_SHS400x10 = 2895000mm^3
+	#show
+#end def
+#def SHS400x12_5$
+	#hide
+	b_SHS400x12_5 = 400mm
+	t_SHS400x12_5 = 12.5mm
+	ro_SHS400x12_5 = 18.8mm
+	ri_SHS400x12_5 = 12.5mm
+	m_SHS400x12_5 = 150.8kg/m
+	P_SHS400x12_5 = 1.57m
+	A_SHS400x12_5 = 19207mm^2
+	Av_SHS400x12_5 = 9604mm^2
+	Isec_SHS400x12_5 = 478400000mm^4
+	i_SHS400x12_5 = 157.8mm
+	Wel_SHS400x12_5 = 2392000mm^3
+	Wpl_SHS400x12_5 = 2782000mm^3
+	It_SHS400x12_5 = 739100000mm^4
+	Wt_SHS400x12_5 = 3530000mm^3
+	#show
+#end def
+#def SHS400x14_2$
+	#hide
+	b_SHS400x14_2 = 400mm
+	t_SHS400x14_2 = 14.2mm
+	ro_SHS400x14_2 = 21.3mm
+	ri_SHS400x14_2 = 14.2mm
+	m_SHS400x14_2 = 170.3kg/m
+	P_SHS400x14_2 = 1.56m
+	A_SHS400x14_2 = 21697mm^2
+	Av_SHS400x14_2 = 10849mm^2
+	Isec_SHS400x14_2 = 535300000mm^4
+	i_SHS400x14_2 = 157.1mm
+	Wel_SHS400x14_2 = 2676000mm^3
+	Wpl_SHS400x14_2 = 3127000mm^3
+	It_SHS400x14_2 = 830300000mm^4
+	Wt_SHS400x14_2 = 3942000mm^3
+	#show
+#end def
+#def SHS400x16$
+	#hide
+	b_SHS400x16 = 400mm
+	t_SHS400x16 = 16mm
+	ro_SHS400x16 = 24mm
+	ri_SHS400x16 = 16mm
+	m_SHS400x16 = 190.8kg/m
+	P_SHS400x16 = 1.56m
+	A_SHS400x16 = 24301mm^2
+	Av_SHS400x16 = 12151mm^2
+	Isec_SHS400x16 = 593400000mm^4
+	i_SHS400x16 = 156.3mm
+	Wel_SHS400x16 = 2967000mm^3
+	Wpl_SHS400x16 = 3484000mm^3
+	It_SHS400x16 = 924400000mm^4
+	Wt_SHS400x16 = 4362000mm^3
+	#show
+#end def
+#def SHS400x20$
+	#hide
+	b_SHS400x20 = 400mm
+	t_SHS400x20 = 20mm
+	ro_SHS400x20 = 30mm
+	ri_SHS400x20 = 20mm
+	m_SHS400x20 = 235.3kg/m
+	P_SHS400x20 = 1.55m
+	A_SHS400x20 = 29971mm^2
+	Av_SHS400x20 = 14985mm^2
+	Isec_SHS400x20 = 715300000mm^4
+	i_SHS400x20 = 154.5mm
+	Wel_SHS400x20 = 3577000mm^3
+	Wpl_SHS400x20 = 4247000mm^3
+	It_SHS400x20 = 1125000000mm^4
+	Wt_SHS400x20 = 5237000mm^3
+	#show
+#end def

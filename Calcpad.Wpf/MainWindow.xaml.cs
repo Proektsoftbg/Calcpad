@@ -2,6 +2,7 @@
 using Microsoft.Win32;
 using SHDocVw;
 using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -28,7 +29,7 @@ namespace Calcpad.Wpf
     public partial class MainWindow : Window
     {
         //Culture
-        private static readonly string _currentCultureName = "bg";
+        private static readonly string _currentCultureName = "en";
 
         //Static resources
         private static readonly char[] GreekLetters = ['α', 'β', 'χ', 'δ', 'ε', 'φ', 'γ', 'η', 'ι', 'ø', 'κ', 'λ', 'μ', 'ν', 'ο', 'π', 'θ', 'ρ', 'σ', 'τ', 'υ', 'ϑ', 'ω', 'ξ', 'ψ', 'ζ'];
@@ -511,8 +512,28 @@ namespace Calcpad.Wpf
 
         private void InsertText(string text)
         {
+            RichTextBox.Selection.Text = text;
+            SelectInsertedText(text);
+        }
+
+        private void SelectInsertedText(string text)
+        {
             var sel = RichTextBox.Selection;
-            sel.Text = text;
+            var i1 = text.IndexOf('{') + 1;
+            if (i1 > 0)
+            {
+                var i2 = text.IndexOfAny(['@', '}'], i1) - 1;
+                var tpEnd = i2 < 0 ? sel.End : sel.Start.GetPositionAtOffset(i2);
+                sel.Select(sel.Start.GetPositionAtOffset(i1), tpEnd);
+                return;
+            }
+            i1 = text.IndexOf('(') + 1;
+            if (i1 > 0)
+            {
+                var i2 = text.IndexOfAny([';', ')'], i1);
+                var tpEnd = i2 < 0 ? sel.End : sel.Start.GetPositionAtOffset(i2);
+                sel.Select(sel.Start.GetPositionAtOffset(i1), tpEnd); return;
+            }
             sel.Select(sel.End, sel.End);
         }
 
@@ -564,8 +585,6 @@ namespace Calcpad.Wpf
                     tp = RichTextBox.Selection.End;
 
                 InsertText(data);
-                if (tp is not null)
-                    RichTextBox.Selection.Select(tp, tp);
             }
             else
             {
@@ -2367,32 +2386,38 @@ namespace Calcpad.Wpf
             {
                 var defs = _highlighter.Defined;
                 FillDefined(defs.Variables, Brushes.Blue);
-                FillDefined(defs.Functions, Brushes.Black, "()");
+                FillDefined(defs.FunctionDefs.ToDictionary(null), Brushes.Black);
                 FillDefined(defs.Units, Brushes.DarkCyan);
                 FillDefined(defs.Macros, Brushes.DarkMagenta);
-                foreach (var k in defs.MacroParameters)
+                foreach (var kvp in defs.MacroParameters)
                 {
-                    var bounds = k.Value;
+                    var bounds = kvp.Value;
                     if (bounds[0] < _currentLineNumber && _currentLineNumber < bounds[1])
                         items.Add(new ListBoxItem()
                         {
-                            Content = k.Key,
+                            Content = kvp.Key,
                             Foreground = Brushes.DarkMagenta
                         });
                 }
             }
             catch { }
 
-            void FillDefined(Dictionary<string, int> defs, Brush foreground, string suffix = null)
+            void FillDefined(Dictionary<string, int> defs, Brush foreground)
             {
-                var keys = defs.Keys;
-                foreach (var s in keys)
+                foreach (var kvp in defs)
                 {
-                    if (defs[s] < _currentLineNumber && !IsPlot(s))
+                    var line = kvp.Value;
+                    if (line < _currentLineNumber && !IsPlot(kvp.Key))
                     {
+                        var s = kvp.Key;
+                        if (s[^1] == '$')
+                        {
+                            if (_highlighter.Defined.MacroProcedures.TryGetValue(s, out var proc))
+                                s += proc;
+                        }
                         var item = new ListBoxItem()
                         {
-                            Content = suffix is null ? s : s + suffix
+                            Content = s
                         };
                         if (foreground == Brushes.Black)
                             item.FontWeight = FontWeights.Bold;
@@ -3893,16 +3918,7 @@ namespace Calcpad.Wpf
             }
             new TextRange(_autoCompleteStart, RichTextBox.Selection.End).Text = s;
             AutoCompleteListBox.Visibility = Visibility.Hidden;
-            if (s.Length > 0)
-            {
-                char c = s[^1];
-                if (c == ')' || c == '}')
-                    --i;
-            }
-            var tp = _currentParagraph.ContentEnd.GetPositionAtOffset(i);
-            if (tp is not null)
-                RichTextBox.Selection.Select(tp, tp);
-
+            SelectInsertedText(s);
             RichTextBox.Focus();
         }
 

@@ -1,0 +1,648 @@
+#def HEB100$
+	#hide
+	h_HEB100 = 100mm
+	b_HEB100 = 100mm
+	tw_HEB100 = 6mm
+	tf_HEB100 = 10mm
+	r_HEB100 = 12mm
+	m_HEB100 = 20.4kg/m
+	P_HEB100 = 0.57m
+	A_HEB100 = 2604mm^2
+	Avz_HEB100 = 904mm^2
+	Avy_HEB100 = 2000mm^2
+	Iy_HEB100 = 4495000mm^4
+	iy_HEB100 = 41.6mm
+	Wely_HEB100 = 89910mm^3
+	Wply_HEB100 = 104200mm^3
+	Iz_HEB100 = 1673000mm^4
+	iz_HEB100 = 25.3mm
+	Welz_HEB100 = 33450mm^3
+	Wplz_HEB100 = 51420mm^3
+	It_HEB100 = 93090mm^4
+	Wt_HEB100 = 15520mm^3
+	Iw_HEB100 = 3233000000mm^6
+	Ww_HEB100 = 1462000mm^4
+	#show
+	
+#end def
+#def HEB120$
+	#hide
+	h_HEB120 = 120mm
+	b_HEB120 = 120mm
+	tw_HEB120 = 6.5mm
+	tf_HEB120 = 11mm
+	r_HEB120 = 12mm
+	m_HEB120 = 26.7kg/m
+	P_HEB120 = 0.69m
+	A_HEB120 = 3401mm^2
+	Avz_HEB120 = 1096mm^2
+	Avy_HEB120 = 2640mm^2
+	Iy_HEB120 = 8644000mm^4
+	iy_HEB120 = 50.4mm
+	Wely_HEB120 = 144100mm^3
+	Wply_HEB120 = 165200mm^3
+	Iz_HEB120 = 3175000mm^4
+	iz_HEB120 = 30.6mm
+	Welz_HEB120 = 52920mm^3
+	Wplz_HEB120 = 80970mm^3
+	It_HEB120 = 139400mm^4
+	Wt_HEB120 = 21450mm^3
+	Iw_HEB120 = 9125000000mm^6
+	Ww_HEB120 = 2824000mm^4
+	#show
+	
+#end def
+#def HEB140$
+	#hide
+	h_HEB140 = 140mm
+	b_HEB140 = 140mm
+	tw_HEB140 = 7mm
+	tf_HEB140 = 12mm
+	r_HEB140 = 12mm
+	m_HEB140 = 33.7kg/m
+	P_HEB140 = 0.81m
+	A_HEB140 = 4296mm^2
+	Avz_HEB140 = 1308mm^2
+	Avy_HEB140 = 3360mm^2
+	Iy_HEB140 = 15090000mm^4
+	iy_HEB140 = 59.3mm
+	Wely_HEB140 = 215600mm^3
+	Wply_HEB140 = 245400mm^3
+	Iz_HEB140 = 5497000mm^4
+	iz_HEB140 = 35.8mm
+	Welz_HEB140 = 78520mm^3
+	Wplz_HEB140 = 119800mm^3
+	It_HEB140 = 202000mm^4
+	Wt_HEB140 = 28860mm^3
+	Iw_HEB140 = 21965000000mm^6
+	Ww_HEB140 = 4948000mm^4
+	#show
+	
+#end def
+#def HEB160$
+	#hide
+	h_HEB160 = 160mm
+	b_HEB160 = 160mm
+	tw_HEB160 = 8mm
+	tf_HEB160 = 13mm
+	r_HEB160 = 15mm
+	m_HEB160 = 42.6kg/m
+	P_HEB160 = 0.92m
+	A_HEB160 = 5425mm^2
+	Avz_HEB160 = 1759mm^2
+	Avy_HEB160 = 4160mm^2
+	Iy_HEB160 = 24920000mm^4
+	iy_HEB160 = 67.8mm
+	Wely_HEB160 = 311500mm^3
+	Wply_HEB160 = 354000mm^3
+	Iz_HEB160 = 8892000mm^4
+	iz_HEB160 = 40.5mm
+	Welz_HEB160 = 111200mm^3
+	Wplz_HEB160 = 170000mm^3
+	It_HEB160 = 312400mm^4
+	Wt_HEB160 = 39050mm^3
+	Iw_HEB160 = 46667000000mm^6
+	Ww_HEB160 = 8020000mm^4
+	#show
+	
+#end def
+#def HEB180$
+	#hide
+	h_HEB180 = 180mm
+	b_HEB180 = 180mm
+	tw_HEB180 = 8.5mm
+	tf_HEB180 = 14mm
+	r_HEB180 = 15mm
+	m_HEB180 = 51.2kg/m
+	P_HEB180 = 1.04m
+	A_HEB180 = 6525mm^2
+	Avz_HEB180 = 2024mm^2
+	Avy_HEB180 = 5040mm^2
+	Iy_HEB180 = 38310000mm^4
+	iy_HEB180 = 76.6mm
+	Wely_HEB180 = 425700mm^3
+	Wply_HEB180 = 481400mm^3
+	Iz_HEB180 = 13630000mm^4
+	iz_HEB180 = 45.7mm
+	Welz_HEB180 = 151400mm^3
+	Wplz_HEB180 = 231000mm^3
+	It_HEB180 = 422400mm^4
+	Wt_HEB180 = 49690mm^3
+	Iw_HEB180 = 91728000000mm^6
+	Ww_HEB180 = 12380000mm^4
+	#show
+	
+#end def
+#def HEB200$
+	#hide
+	h_HEB200 = 200mm
+	b_HEB200 = 200mm
+	tw_HEB200 = 9mm
+	tf_HEB200 = 15mm
+	r_HEB200 = 18mm
+	m_HEB200 = 61.3kg/m
+	P_HEB200 = 1.15m
+	A_HEB200 = 7808mm^2
+	Avz_HEB200 = 2483mm^2
+	Avy_HEB200 = 6000mm^2
+	Iy_HEB200 = 56960000mm^4
+	iy_HEB200 = 85.4mm
+	Wely_HEB200 = 569600mm^3
+	Wply_HEB200 = 642500mm^3
+	Iz_HEB200 = 20030000mm^4
+	iz_HEB200 = 50.7mm
+	Welz_HEB200 = 200300mm^3
+	Wplz_HEB200 = 305800mm^3
+	It_HEB200 = 595900mm^4
+	Wt_HEB200 = 66210mm^3
+	Iw_HEB200 = 167060000000mm^6
+	Ww_HEB200 = 18230000mm^4
+	#show
+	
+#end def
+#def HEB220$
+	#hide
+	h_HEB220 = 220mm
+	b_HEB220 = 220mm
+	tw_HEB220 = 9.5mm
+	tf_HEB220 = 16mm
+	r_HEB220 = 18mm
+	m_HEB220 = 71.5kg/m
+	P_HEB220 = 1.27m
+	A_HEB220 = 9104mm^2
+	Avz_HEB220 = 2792mm^2
+	Avy_HEB220 = 7040mm^2
+	Iy_HEB220 = 80910000mm^4
+	iy_HEB220 = 94.3mm
+	Wely_HEB220 = 735500mm^3
+	Wply_HEB220 = 827000mm^3
+	Iz_HEB220 = 28430000mm^4
+	iz_HEB220 = 55.9mm
+	Welz_HEB220 = 258500mm^3
+	Wplz_HEB220 = 393900mm^3
+	It_HEB220 = 770200mm^4
+	Wt_HEB220 = 81070mm^3
+	Iw_HEB220 = 289510000000mm^6
+	Ww_HEB220 = 26010000mm^4
+	#show
+	
+#end def
+#def HEB240$
+	#hide
+	h_HEB240 = 240mm
+	b_HEB240 = 240mm
+	tw_HEB240 = 10mm
+	tf_HEB240 = 17mm
+	r_HEB240 = 21mm
+	m_HEB240 = 83.2kg/m
+	P_HEB240 = 1.38m
+	A_HEB240 = 10599mm^2
+	Avz_HEB240 = 3323mm^2
+	Avy_HEB240 = 8160mm^2
+	Iy_HEB240 = 112600000mm^4
+	iy_HEB240 = 103.1mm
+	Wely_HEB240 = 938300mm^3
+	Wply_HEB240 = 1053000mm^3
+	Iz_HEB240 = 39230000mm^4
+	iz_HEB240 = 60.8mm
+	Welz_HEB240 = 326900mm^3
+	Wplz_HEB240 = 498400mm^3
+	It_HEB240 = 1036000mm^4
+	Wt_HEB240 = 103600mm^3
+	Iw_HEB240 = 476280000000mm^6
+	Ww_HEB240 = 35890000mm^4
+	#show
+	
+#end def
+#def HEB260$
+	#hide
+	h_HEB260 = 260mm
+	b_HEB260 = 260mm
+	tw_HEB260 = 10mm
+	tf_HEB260 = 17.5mm
+	r_HEB260 = 24mm
+	m_HEB260 = 93kg/m
+	P_HEB260 = 1.5m
+	A_HEB260 = 11844mm^2
+	Avz_HEB260 = 3759mm^2
+	Avy_HEB260 = 9100mm^2
+	Iy_HEB260 = 149200000mm^4
+	iy_HEB260 = 112.2mm
+	Wely_HEB260 = 1148000mm^3
+	Wply_HEB260 = 1283000mm^3
+	Iz_HEB260 = 51350000mm^4
+	iz_HEB260 = 65.8mm
+	Welz_HEB260 = 395000mm^3
+	Wplz_HEB260 = 602200mm^3
+	It_HEB260 = 1257000mm^4
+	Wt_HEB260 = 125700mm^3
+	Iw_HEB260 = 736280000000mm^6
+	Ww_HEB260 = 47140000mm^4
+	#show
+	
+#end def
+#def HEB280$
+	#hide
+	h_HEB280 = 280mm
+	b_HEB280 = 280mm
+	tw_HEB280 = 10.5mm
+	tf_HEB280 = 18mm
+	r_HEB280 = 24mm
+	m_HEB280 = 103.1kg/m
+	P_HEB280 = 1.62m
+	A_HEB280 = 13136mm^2
+	Avz_HEB280 = 4109mm^2
+	Avy_HEB280 = 10080mm^2
+	Iy_HEB280 = 192700000mm^4
+	iy_HEB280 = 121.1mm
+	Wely_HEB280 = 1376000mm^3
+	Wply_HEB280 = 1534000mm^3
+	Iz_HEB280 = 65950000mm^4
+	iz_HEB280 = 70.9mm
+	Welz_HEB280 = 471000mm^3
+	Wplz_HEB280 = 717600mm^3
+	It_HEB280 = 1453000mm^4
+	Wt_HEB280 = 138400mm^3
+	Iw_HEB280 = 1107200000000mm^6
+	Ww_HEB280 = 60840000mm^4
+	#show
+	
+#end def
+#def HEB300$
+	#hide
+	h_HEB300 = 300mm
+	b_HEB300 = 300mm
+	tw_HEB300 = 11mm
+	tf_HEB300 = 19mm
+	r_HEB300 = 27mm
+	m_HEB300 = 117kg/m
+	P_HEB300 = 1.73m
+	A_HEB300 = 14908mm^2
+	Avz_HEB300 = 4743mm^2
+	Avy_HEB300 = 11400mm^2
+	Iy_HEB300 = 251700000mm^4
+	iy_HEB300 = 129.9mm
+	Wely_HEB300 = 1678000mm^3
+	Wply_HEB300 = 1869000mm^3
+	Iz_HEB300 = 85630000mm^4
+	iz_HEB300 = 75.8mm
+	Welz_HEB300 = 570900mm^3
+	Wplz_HEB300 = 870100mm^3
+	It_HEB300 = 1874000mm^4
+	Wt_HEB300 = 170400mm^3
+	Iw_HEB300 = 1651000000000mm^6
+	Ww_HEB300 = 79000000mm^4
+	#show
+	
+#end def
+#def HEB320$
+	#hide
+	h_HEB320 = 320mm
+	b_HEB320 = 300mm
+	tw_HEB320 = 11.5mm
+	tf_HEB320 = 20.5mm
+	r_HEB320 = 27mm
+	m_HEB320 = 126.7kg/m
+	P_HEB320 = 1.77m
+	A_HEB320 = 16134mm^2
+	Avz_HEB320 = 5177mm^2
+	Avy_HEB320 = 12300mm^2
+	Iy_HEB320 = 308200000mm^4
+	iy_HEB320 = 138.2mm
+	Wely_HEB320 = 1926000mm^3
+	Wply_HEB320 = 2149000mm^3
+	Iz_HEB320 = 92390000mm^4
+	iz_HEB320 = 75.7mm
+	Welz_HEB320 = 615900mm^3
+	Wplz_HEB320 = 939100mm^3
+	It_HEB320 = 2292000mm^4
+	Wt_HEB320 = 199300mm^3
+	Iw_HEB320 = 2026200000000mm^6
+	Ww_HEB320 = 90900000mm^4
+	#show
+	
+#end def
+#def HEB340$
+	#hide
+	h_HEB340 = 340mm
+	b_HEB340 = 300mm
+	tw_HEB340 = 12mm
+	tf_HEB340 = 21.5mm
+	r_HEB340 = 27mm
+	m_HEB340 = 134.2kg/m
+	P_HEB340 = 1.81m
+	A_HEB340 = 17090mm^2
+	Avz_HEB340 = 5609mm^2
+	Avy_HEB340 = 12900mm^2
+	Iy_HEB340 = 366600000mm^4
+	iy_HEB340 = 146.5mm
+	Wely_HEB340 = 2156000mm^3
+	Wply_HEB340 = 2408000mm^3
+	Iz_HEB340 = 96900000mm^4
+	iz_HEB340 = 75.3mm
+	Welz_HEB340 = 646000mm^3
+	Wplz_HEB340 = 985700mm^3
+	It_HEB340 = 2620000mm^4
+	Wt_HEB340 = 218300mm^3
+	Iw_HEB340 = 2405600000000mm^6
+	Ww_HEB340 = 101500000mm^4
+	#show
+	
+#end def
+#def HEB360$
+	#hide
+	h_HEB360 = 360mm
+	b_HEB360 = 300mm
+	tw_HEB360 = 12.5mm
+	tf_HEB360 = 22.5mm
+	r_HEB360 = 27mm
+	m_HEB360 = 141.8kg/m
+	P_HEB360 = 1.85m
+	A_HEB360 = 18063mm^2
+	Avz_HEB360 = 6060mm^2
+	Avy_HEB360 = 13500mm^2
+	Iy_HEB360 = 431900000mm^4
+	iy_HEB360 = 154.6mm
+	Wely_HEB360 = 2400000mm^3
+	Wply_HEB360 = 2683000mm^3
+	Iz_HEB360 = 101400000mm^4
+	iz_HEB360 = 74.9mm
+	Welz_HEB360 = 676100mm^3
+	Wplz_HEB360 = 1032000mm^3
+	It_HEB360 = 2979000mm^4
+	Wt_HEB360 = 238300mm^3
+	Iw_HEB360 = 2829300000000mm^6
+	Ww_HEB360 = 112600000mm^4
+	#show
+	
+#end def
+#def HEB400$
+	#hide
+	h_HEB400 = 400mm
+	b_HEB400 = 300mm
+	tw_HEB400 = 13.5mm
+	tf_HEB400 = 24mm
+	r_HEB400 = 27mm
+	m_HEB400 = 155.3kg/m
+	P_HEB400 = 1.93m
+	A_HEB400 = 19778mm^2
+	Avz_HEB400 = 6998mm^2
+	Avy_HEB400 = 14400mm^2
+	Iy_HEB400 = 576800000mm^4
+	iy_HEB400 = 170.8mm
+	Wely_HEB400 = 2884000mm^3
+	Wply_HEB400 = 3232000mm^3
+	Iz_HEB400 = 108200000mm^4
+	iz_HEB400 = 74mm
+	Welz_HEB400 = 721300mm^3
+	Wplz_HEB400 = 1104000mm^3
+	It_HEB400 = 3611000mm^4
+	Wt_HEB400 = 267500mm^3
+	Iw_HEB400 = 3751100000000mm^6
+	Ww_HEB400 = 133900000mm^4
+	#show
+	
+#end def
+#def HEB450$
+	#hide
+	h_HEB450 = 450mm
+	b_HEB450 = 300mm
+	tw_HEB450 = 14mm
+	tf_HEB450 = 26mm
+	r_HEB450 = 27mm
+	m_HEB450 = 171.1kg/m
+	P_HEB450 = 2.03m
+	A_HEB450 = 21798mm^2
+	Avz_HEB450 = 7966mm^2
+	Avy_HEB450 = 15600mm^2
+	Iy_HEB450 = 798900000mm^4
+	iy_HEB450 = 191.4mm
+	Wely_HEB450 = 3551000mm^3
+	Wply_HEB450 = 3982000mm^3
+	Iz_HEB450 = 117200000mm^4
+	iz_HEB450 = 73.3mm
+	Welz_HEB450 = 781400mm^3
+	Wplz_HEB450 = 1198000mm^3
+	It_HEB450 = 4489000mm^4
+	Wt_HEB450 = 320600mm^3
+	Iw_HEB450 = 5177700000000mm^6
+	Ww_HEB450 = 163800000mm^4
+	#show
+	
+#end def
+#def HEB500$
+	#hide
+	h_HEB500 = 500mm
+	b_HEB500 = 300mm
+	tw_HEB500 = 14.5mm
+	tf_HEB500 = 28mm
+	r_HEB500 = 27mm
+	m_HEB500 = 187.3kg/m
+	P_HEB500 = 2.13m
+	A_HEB500 = 23864mm^2
+	Avz_HEB500 = 8982mm^2
+	Avy_HEB500 = 16800mm^2
+	Iy_HEB500 = 1072000000mm^4
+	iy_HEB500 = 211.9mm
+	Wely_HEB500 = 4287000mm^3
+	Wply_HEB500 = 4815000mm^3
+	Iz_HEB500 = 126200000mm^4
+	iz_HEB500 = 72.7mm
+	Welz_HEB500 = 841600mm^3
+	Wplz_HEB500 = 1292000mm^3
+	It_HEB500 = 5499000mm^4
+	Wt_HEB500 = 379200mm^3
+	Iw_HEB500 = 6920700000000mm^6
+	Ww_HEB500 = 196600000mm^4
+	#show
+	
+#end def
+#def HEB550$
+	#hide
+	h_HEB550 = 550mm
+	b_HEB550 = 300mm
+	tw_HEB550 = 15mm
+	tf_HEB550 = 29mm
+	r_HEB550 = 27mm
+	m_HEB550 = 199.4kg/m
+	P_HEB550 = 2.22m
+	A_HEB550 = 25406mm^2
+	Avz_HEB550 = 10007mm^2
+	Avy_HEB550 = 17400mm^2
+	Iy_HEB550 = 1367000000mm^4
+	iy_HEB550 = 232mm
+	Wely_HEB550 = 4971000mm^3
+	Wply_HEB550 = 5591000mm^3
+	Iz_HEB550 = 130800000mm^4
+	iz_HEB550 = 71.7mm
+	Welz_HEB550 = 871800mm^3
+	Wplz_HEB550 = 1341000mm^3
+	It_HEB550 = 6123000mm^4
+	Wt_HEB550 = 408200mm^3
+	Iw_HEB550 = 8743900000000mm^6
+	Ww_HEB550 = 224900000mm^4
+	#show
+	
+#end def
+#def HEB600$
+	#hide
+	h_HEB600 = 600mm
+	b_HEB600 = 300mm
+	tw_HEB600 = 15.5mm
+	tf_HEB600 = 30mm
+	r_HEB600 = 27mm
+	m_HEB600 = 211.9kg/m
+	P_HEB600 = 2.32m
+	A_HEB600 = 26996mm^2
+	Avz_HEB600 = 11081mm^2
+	Avy_HEB600 = 18000mm^2
+	Iy_HEB600 = 1710000000mm^4
+	iy_HEB600 = 251.7mm
+	Wely_HEB600 = 5701000mm^3
+	Wply_HEB600 = 6425000mm^3
+	Iz_HEB600 = 135300000mm^4
+	iz_HEB600 = 70.8mm
+	Welz_HEB600 = 902000mm^3
+	Wplz_HEB600 = 1391000mm^3
+	It_HEB600 = 6796000mm^4
+	Wt_HEB600 = 438500mm^3
+	Iw_HEB600 = 10838000000000mm^6
+	Ww_HEB600 = 254700000mm^4
+	#show
+	
+#end def
+#def HEB650$
+	#hide
+	h_HEB650 = 650mm
+	b_HEB650 = 300mm
+	tw_HEB650 = 16mm
+	tf_HEB650 = 31mm
+	r_HEB650 = 27mm
+	m_HEB650 = 224.8kg/m
+	P_HEB650 = 2.42m
+	A_HEB650 = 28634mm^2
+	Avz_HEB650 = 12204mm^2
+	Avy_HEB650 = 18600mm^2
+	Iy_HEB650 = 2106000000mm^4
+	iy_HEB650 = 271.2mm
+	Wely_HEB650 = 6480000mm^3
+	Wply_HEB650 = 7320000mm^3
+	Iz_HEB650 = 139800000mm^4
+	iz_HEB650 = 69.9mm
+	Welz_HEB650 = 932300mm^3
+	Wplz_HEB650 = 1441000mm^3
+	It_HEB650 = 7520000mm^4
+	Wt_HEB650 = 470000mm^3
+	Iw_HEB650 = 13219000000000mm^6
+	Ww_HEB650 = 286000000mm^4
+	#show
+	
+#end def
+#def HEB700$
+	#hide
+	h_HEB700 = 700mm
+	b_HEB700 = 300mm
+	tw_HEB700 = 17mm
+	tf_HEB700 = 32mm
+	r_HEB700 = 27mm
+	m_HEB700 = 240.5kg/m
+	P_HEB700 = 2.52m
+	A_HEB700 = 30638mm^2
+	Avz_HEB700 = 13710mm^2
+	Avy_HEB700 = 19200mm^2
+	Iy_HEB700 = 2569000000mm^4
+	iy_HEB700 = 289.6mm
+	Wely_HEB700 = 7340000mm^3
+	Wply_HEB700 = 8327000mm^3
+	Iz_HEB700 = 144400000mm^4
+	iz_HEB700 = 68.7mm
+	Welz_HEB700 = 962700mm^3
+	Wplz_HEB700 = 1495000mm^3
+	It_HEB700 = 8417000mm^4
+	Wt_HEB700 = 495100mm^3
+	Iw_HEB700 = 15900000000000mm^6
+	Ww_HEB700 = 318700000mm^4
+	#show
+	
+#end def
+#def HEB800$
+	#hide
+	h_HEB800 = 800mm
+	b_HEB800 = 300mm
+	tw_HEB800 = 17.5mm
+	tf_HEB800 = 33mm
+	r_HEB800 = 30mm
+	m_HEB800 = 262.3kg/m
+	P_HEB800 = 2.71m
+	A_HEB800 = 33418mm^2
+	Avz_HEB800 = 16175mm^2
+	Avy_HEB800 = 19800mm^2
+	Iy_HEB800 = 3591000000mm^4
+	iy_HEB800 = 327.8mm
+	Wely_HEB800 = 8977000mm^3
+	Wply_HEB800 = 10230000mm^3
+	Iz_HEB800 = 149000000mm^4
+	iz_HEB800 = 66.8mm
+	Welz_HEB800 = 993600mm^3
+	Wplz_HEB800 = 1553000mm^3
+	It_HEB800 = 9621000mm^4
+	Wt_HEB800 = 549800mm^3
+	Iw_HEB800 = 21617000000000mm^6
+	Ww_HEB800 = 377500000mm^4
+	#show
+	
+#end def
+#def HEB900$
+	#hide
+	h_HEB900 = 900mm
+	b_HEB900 = 300mm
+	tw_HEB900 = 18.5mm
+	tf_HEB900 = 35mm
+	r_HEB900 = 30mm
+	m_HEB900 = 291.5kg/m
+	P_HEB900 = 2.91m
+	A_HEB900 = 37128mm^2
+	Avz_HEB900 = 18875mm^2
+	Avy_HEB900 = 21000mm^2
+	Iy_HEB900 = 4941000000mm^4
+	iy_HEB900 = 364.8mm
+	Wely_HEB900 = 10980000mm^3
+	Wply_HEB900 = 12580000mm^3
+	Iz_HEB900 = 158200000mm^4
+	iz_HEB900 = 65.3mm
+	Welz_HEB900 = 1054000mm^3
+	Wplz_HEB900 = 1658000mm^3
+	It_HEB900 = 11540000mm^4
+	Wt_HEB900 = 623800mm^3
+	Iw_HEB900 = 29196000000000mm^6
+	Ww_HEB900 = 451800000mm^4
+	#show
+	
+#end def
+#def HEB1000$
+	#hide
+	h_HEB1000 = 1000mm
+	b_HEB1000 = 300mm
+	tw_HEB1000 = 19mm
+	tf_HEB1000 = 36mm
+	r_HEB1000 = 30mm
+	m_HEB1000 = 314kg/m
+	P_HEB1000 = 3.11m
+	A_HEB1000 = 40005mm^2
+	Avz_HEB1000 = 21249mm^2
+	Avy_HEB1000 = 21600mm^2
+	Iy_HEB1000 = 6447000000mm^4
+	iy_HEB1000 = 401.5mm
+	Wely_HEB1000 = 12890000mm^3
+	Wply_HEB1000 = 14860000mm^3
+	Iz_HEB1000 = 162800000mm^4
+	iz_HEB1000 = 63.8mm
+	Welz_HEB1000 = 1085000mm^3
+	Wplz_HEB1000 = 1716000mm^3
+	It_HEB1000 = 12720000mm^4
+	Wt_HEB1000 = 669500mm^3
+	Iw_HEB1000 = 37340000000000mm^6
+	Ww_HEB1000 = 518300000mm^4
+	#show
+	
+#end def
