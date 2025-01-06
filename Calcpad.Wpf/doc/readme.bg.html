@@ -1287,6 +1287,7 @@
                             <li><code><b>ltriang</b>(<var>n</var>)</code> - създава долна триъгълна матрица с размери <var>n</var>⨯<var>n</var>;</li>
                             <li><code><b>symmetric</b>(<var>n</var>)</code> - създава симетрична матрица с размери <var>n</var>⨯<var>n</var>;</li>
                             <li><code><b>vec2diag</b>(<var><span class="vec">⃗</span>v</var>)</code> - създава диагонална матрица от елементите на вектора <var><span class="vec">⃗</span>v</var>;</li>
+                            <li><code><b>vec2row</b>(<var><span class="vec">⃗</span>v</var>)</code> - създава матрица-ред от елементите на вектора <var><span class="vec">⃗</span>v</var>;</li>
                             <li><code><b>vec2col</b>(<var><span class="vec">⃗</span>v</var>)</code> - създава матрица-стълб от елементите на вектора <var><span class="vec">⃗</span>v</var>;</li>
                             <li><code><b>join_cols</b>(<var><span class="vec">⃗</span>c</var><sub>1</sub>; <var><span class="vec">⃗</span>c</var><sub>2</sub>; <var><span class="vec">⃗</span>c</var><sub>3</sub>…)</code> - създава нова матрица чрез обединяване на вектори в стълбове;</li>
                             <li><code><b>join_rows</b>(<var><span class="vec">⃗</span>r</var><sub>1</sub>; <var><span class="vec">⃗</span>r</var><sub>2</sub>; <var><span class="vec">⃗</span>r</var><sub>3</sub>…)</code> - създава нова матрица чрез обединяване на вектори в редове;</li>
@@ -2792,18 +2793,32 @@
             &emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&ensp;<var><span class="vec">⃗</span>v</var> - вектор, съдържащ диагоналните елементи.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;диагонална матрица от елементите на вектора <var><span class="vec">⃗</span>v</var>.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;Размерът на матрицата е равен на броя елементи на <var><span class="vec">⃗</span>v</var>.<br />
-            &emsp;&emsp;&emsp;&emsp;<em>Пример</em>: &emsp;&emsp;<code><b>vec2diag</b>([1; 2; 3]</code>' = <span class="eq matrix">
+            &emsp;&emsp;&emsp;&emsp;<em>Пример</em>: &emsp;&emsp;<code><b>vec2diag</b>([1; 2; 3])</code>' = <span class="eq matrix">
                 <span class="tr"><span class="td"></span><span class="td">1</span><span class="td">0</span><span class="td">0</span><span class="td"></span></span>
                 <span class="tr"><span class="td"></span><span class="td">0</span><span class="td">2</span><span class="td">0</span><span class="td"></span></span>
                 <span class="tr"><span class="td"></span><span class="td">0</span><span class="td">0</span><span class="td">3</span><span class="td"></span></span>
             </span>
         </p>
 
+        <p>&emsp;&emsp;<code><b>vec2row</b>(<var><span class="vec">⃗</span>v</var>)</code></p><p>
+            &emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&ensp;<var><span class="vec">⃗</span>v</var> - вектор, съдържащ елементите на матрицата-ред.<br />
+            &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;матрица-ред от елементите на вектора <var><span class="vec">⃗</span>v</var>.<br />
+            &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;Броят на стълбовете на матрицата е равен на размера на <var><span class="vec">⃗</span>v</var>.<br />
+            &emsp;&emsp;&emsp;&emsp;<em>Пример</em>: &emsp;&emsp;<code><b>vec2row</b>([1; 2; 3])</code>' = <span class="eq matrix">
+                <span class="tr"><span class="td"></span>
+                    <span class="td">1</span>
+                    <span class="td">2</span>
+                    <span class="td">3</span>
+                <span class="td"></span></span>
+            </span>
+        </p>
+
+
         <p>&emsp;&emsp;<code><b>vec2col</b>(<var><span class="vec">⃗</span>v</var>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&ensp;<var><span class="vec">⃗</span>v</var> - вектор, съдържащ елементите на матрицата-стълб.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;матрица-стълб от елементите на вектора <var><span class="vec">⃗</span>v</var>.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;Броят на редовете на матрицата е равен на размера на <var><span class="vec">⃗</span>v</var>.<br />
-            &emsp;&emsp;&emsp;&emsp;<em>Пример</em>: &emsp;&emsp;<code><b>vec2col</b>([1; 2; 3]</code>' = <span class="eq matrix">
+            &emsp;&emsp;&emsp;&emsp;<em>Пример</em>: &emsp;&emsp;<code><b>vec2col</b>([1; 2; 3])</code>' = <span class="eq matrix">
                 <span class="tr"><span class="td"></span><span class="td">1</span><span class="td"></span></span>
                 <span class="tr"><span class="td"></span><span class="td">2</span><span class="td"></span></span>
                 <span class="tr"><span class="td"></span><span class="td">3</span><span class="td"></span></span>
@@ -2815,7 +2830,7 @@
             &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;<span class="hang">нова правоъгълна матрица, получена чрез присъединяване на векторите в стълбове.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang">Можете да зададете произволен брой входни вектори с различни дължини. Броят на редовете е равен на дължината на най-големия вектор. Останалите стълбове се допълват с нули. Векторите се съединяват последователно отляво-надясно.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Пример</em>: &emsp;&emsp;<span class="hang">
-                <code><b>join_cols</b>([1]; [4; 5; 6]; [7; 8]; [10; 11; 12]</code>' = <span class="eq matrix">
+                <code><b>join_cols</b>([1]; [4; 5; 6]; [7; 8]; [10; 11; 12])</code>' = <span class="eq matrix">
                     <span class="tr"><span class="td"></span><span class="td">1</span><span class="td">4</span><span class="td">7</span><span class="td">10</span><span class="td"></span></span>
                     <span class="tr"><span class="td"></span><span class="td">0</span><span class="td">5</span><span class="td">8</span><span class="td">11</span><span class="td"></span></span>
                     <span class="tr"><span class="td"></span><span class="td">0</span><span class="td">6</span><span class="td">0</span><span class="td">12</span><span class="td"></span></span>
@@ -2828,7 +2843,7 @@
             &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;нова правоъгълна матрица, чиито редове са дадените вектори.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang">Може да имате произволен брой входни вектори с различни дължини. Броят на стълбовете е равен на максималната дължина на вектор. Останалите редове се допълват с нули. Аргументите се прочитат отляво надясно и се подреждат в редове отгоре надолу.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Пример</em>: &emsp;&emsp;<span class="hang">
-                <code><b>join_rows</b>([1; 2; 3; 4]; [6; 7; 8; 9; 10]</code>' = <span class="eq matrix">
+                <code><b>join_rows</b>([1; 2; 3; 4]; [6; 7; 8; 9; 10])</code>' = <span class="eq matrix">
                     <span class="tr"><span class="td"></span><span class="td">1</span><span class="td">2</span><span class="td">3</span><span class="td">4</span><span class="td">0</span><span class="td"></span></span>
                     <span class="tr"><span class="td"></span><span class="td">6</span><span class="td">7</span><span class="td">8</span><span class="td">9</span><span class="td">10</span><span class="td"></span></span>
                 </span>
@@ -4081,32 +4096,36 @@
             </span>
         </p>
 
-        <p>&emsp;&emsp;<code><b>cmsolve</b>(<var>A</var>; <var>B</var>)</code></p><p>   &emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&emsp;<span class="hang">
-            <var>A</var> - симетрична, положително определена матрица на коефициентите;<br />
-            <var>B</var> - матрица на дясната страна на уравнението. </span><br />
+        <p>&emsp;&emsp;<code><b>cmsolve</b>(<var>A</var>; <var>B</var>)</code></p><p>
+            &emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&emsp;<span class="hang">
+                <var>A</var> - симетрична, положително определена матрица на коефициентите;<br />
+                <var>B</var> - матрица на дясната страна на уравнението.
+            </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>:&ensp;<span class="hang">матрицата решение <var>X</var> на обобщеното матрично уравнение <var>A</var><var>X</var> = <var>B</var> чрез декомпозиция на Холецки.</span><br /> &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">Функцията е подобна на <b>clsolve</b>, при положение, че стълбовете на матрицата <var>B</var> съдържат множество десни вектори, а стълбовете на матрицата <var>X</var> представляват съответните резултантни вектори. По този начин, функцията може да решава няколко системи линейни уравнения паралелно. Декомпозицията на Холецки на матрицата <var>A</var> се извършва само веднъж в началото и резултатът се преизползва многократно при обратния ход на решението.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Пример</em>:&emsp;&emsp; <span class="hang">
-            <code> <var>A</var> = <b>copy</b>([8; 6; -4|6; 12; -3|-4; -3; 9]; _<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;<b>symmetric</b>(3); 1; 1) </code>' = <span class="eq matrix">
-                <span class="tr"><span class="td"></span><span class="td">8</span><span class="td">6</span><span class="td">-4</span><span class="td"></span></span>
-                <span class="tr"><span class="td"></span><span class="td">6</span><span class="td">12</span><span class="td">-3</span><span class="td"></span></span>
-                <span class="tr"><span class="td"></span><span class="td">-4</span><span class="td">-3</span><span class="td">9</span><span class="td"></span></span> 
-                </span><br /> 
-            <code><var>B</var> = <b>join</b><sub>cols</sub>([10; 20; 30]; [40; 50; 60])</code>' = <span class="matrix">
-                <span class="tr"><span class="td"></span><span class="td">10</span><span class="td">40</span><span class="td"></span></span>
-                <span class="tr"><span class="td"></span><span class="td">20</span><span class="td">50</span><span class="td"></span></span>
-                <span class="tr"><span class="td"></span><span class="td">30</span><span class="td">60</span><span class="td"></span></span>
-            </span><br />
-            <code><var>X</var> = <b>msolve</b>(<var>A</var>; <var>B</var>)</code>' = <span class="matrix"> 
-                <span class="tr"><span class="td"></span><span class="td">2.5</span><span class="td">8.71</span><span class="td"></span></span>
-                <span class="tr"><span class="td"></span><span class="td">1.67</span><span class="td">2.67</span><span class="td"></span></span>
-                <span class="tr"><span class="td"></span><span class="td">5</span><span class="td">11.43</span><span class="td"></span></span>
-            </span><br /> 
-            <code><var>A</var>*<var>X</var></code>' = <span class="matrix">
-                <span class="tr"><span class="td"></span><span class="td">10</span><span class="td">40</span><span class="td"></span></span>
-                <span class="tr"><span class="td"></span><span class="td">20</span><span class="td">50</span><span class="td"></span></span>
-                <span class="tr"><span class="td"></span><span class="td">30</span><span class="td">60</span><span class="td"></span></span> 
-                </span> - проверка<br /> 
+                <code>
+                    <var>A</var> = <b>copy</b>([8; 6; -4|6; 12; -3|-4; -3; 9]; _<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;<b>symmetric</b>(3); 1; 1)
+                </code>' = <span class="eq matrix">
+                    <span class="tr"><span class="td"></span><span class="td">8</span><span class="td">6</span><span class="td">-4</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">6</span><span class="td">12</span><span class="td">-3</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">-4</span><span class="td">-3</span><span class="td">9</span><span class="td"></span></span>
+                </span><br />
+                <code><var>B</var> = <b>join</b><sub>cols</sub>([10; 20; 30]; [40; 50; 60])</code>' = <span class="matrix">
+                    <span class="tr"><span class="td"></span><span class="td">10</span><span class="td">40</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">20</span><span class="td">50</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">30</span><span class="td">60</span><span class="td"></span></span>
+                </span><br />
+                <code><var>X</var> = <b>msolve</b>(<var>A</var>; <var>B</var>)</code>' = <span class="matrix">
+                    <span class="tr"><span class="td"></span><span class="td">2.5</span><span class="td">8.71</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">1.67</span><span class="td">2.67</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">5</span><span class="td">11.43</span><span class="td"></span></span>
+                </span><br />
+                <code><var>A</var>*<var>X</var></code>' = <span class="matrix">
+                    <span class="tr"><span class="td"></span><span class="td">10</span><span class="td">40</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">20</span><span class="td">50</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">30</span><span class="td">60</span><span class="td"></span></span>
+                </span> - проверка<br />
             </span>
         </p>
 

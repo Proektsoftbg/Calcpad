@@ -1,0 +1,648 @@
+#def HEA100$
+	#hide
+	h_HEA100 = 96mm
+	b_HEA100 = 100mm
+	tw_HEA100 = 5mm
+	tf_HEA100 = 8mm
+	r_HEA100 = 12mm
+	m_HEA100 = 16.7kg/m
+	P_HEA100 = 0.56m
+	A_HEA100 = 2124mm^2
+	Avz_HEA100 = 756mm^2
+	Avy_HEA100 = 1600mm^2
+	Iy_HEA100 = 3492000mm^4
+	iy_HEA100 = 40.6mm
+	Wely_HEA100 = 72760mm^3
+	Wply_HEA100 = 83010mm^3
+	Iz_HEA100 = 1338000mm^4
+	iz_HEA100 = 25.1mm
+	Welz_HEA100 = 26760mm^3
+	Wplz_HEA100 = 41140mm^3
+	It_HEA100 = 51990mm^4
+	Wt_HEA100 = 10400mm^3
+	Iw_HEA100 = 2475000000mm^6
+	Ww_HEA100 = 1143000mm^4
+	#show
+	
+#end def
+#def HEA120$
+	#hide
+	h_HEA120 = 114mm
+	b_HEA120 = 120mm
+	tw_HEA120 = 5mm
+	tf_HEA120 = 8mm
+	r_HEA120 = 12mm
+	m_HEA120 = 19.9kg/m
+	P_HEA120 = 0.68m
+	A_HEA120 = 2534mm^2
+	Avz_HEA120 = 846mm^2
+	Avy_HEA120 = 1920mm^2
+	Iy_HEA120 = 6062000mm^4
+	iy_HEA120 = 48.9mm
+	Wely_HEA120 = 106300mm^3
+	Wply_HEA120 = 119500mm^3
+	Iz_HEA120 = 2309000mm^4
+	iz_HEA120 = 30.2mm
+	Welz_HEA120 = 38480mm^3
+	Wplz_HEA120 = 58850mm^3
+	It_HEA120 = 59570mm^4
+	Wt_HEA120 = 11910mm^3
+	Iw_HEA120 = 6285000000mm^6
+	Ww_HEA120 = 1998000mm^4
+	#show
+	
+#end def
+#def HEA140$
+	#hide
+	h_HEA140 = 133mm
+	b_HEA140 = 140mm
+	tw_HEA140 = 5.5mm
+	tf_HEA140 = 8.5mm
+	r_HEA140 = 12mm
+	m_HEA140 = 24.7kg/m
+	P_HEA140 = 0.79m
+	A_HEA140 = 3142mm^2
+	Avz_HEA140 = 1012mm^2
+	Avy_HEA140 = 2380mm^2
+	Iy_HEA140 = 10330000mm^4
+	iy_HEA140 = 57.3mm
+	Wely_HEA140 = 155400mm^3
+	Wply_HEA140 = 173500mm^3
+	Iz_HEA140 = 3893000mm^4
+	iz_HEA140 = 35.2mm
+	Welz_HEA140 = 55620mm^3
+	Wplz_HEA140 = 84850mm^3
+	It_HEA140 = 80320mm^4
+	Wt_HEA140 = 14600mm^3
+	Iw_HEA140 = 14729000000mm^6
+	Ww_HEA140 = 3409000mm^4
+	#show
+	
+#end def
+#def HEA160$
+	#hide
+	h_HEA160 = 152mm
+	b_HEA160 = 160mm
+	tw_HEA160 = 6mm
+	tf_HEA160 = 9mm
+	r_HEA160 = 15mm
+	m_HEA160 = 30.4kg/m
+	P_HEA160 = 0.91m
+	A_HEA160 = 3877mm^2
+	Avz_HEA160 = 1321mm^2
+	Avy_HEA160 = 2880mm^2
+	Iy_HEA160 = 16730000mm^4
+	iy_HEA160 = 65.7mm
+	Wely_HEA160 = 220100mm^3
+	Wply_HEA160 = 245100mm^3
+	Iz_HEA160 = 6156000mm^4
+	iz_HEA160 = 39.8mm
+	Welz_HEA160 = 76950mm^3
+	Wplz_HEA160 = 117600mm^3
+	It_HEA160 = 118400mm^4
+	Wt_HEA160 = 19730mm^3
+	Iw_HEA160 = 30615000000mm^6
+	Ww_HEA160 = 5404000mm^4
+	#show
+	
+#end def
+#def HEA180$
+	#hide
+	h_HEA180 = 171mm
+	b_HEA180 = 180mm
+	tw_HEA180 = 6mm
+	tf_HEA180 = 9.5mm
+	r_HEA180 = 15mm
+	m_HEA180 = 35.5kg/m
+	P_HEA180 = 1.02m
+	A_HEA180 = 4525mm^2
+	Avz_HEA180 = 1447mm^2
+	Avy_HEA180 = 3420mm^2
+	Iy_HEA180 = 25100000mm^4
+	iy_HEA180 = 74.5mm
+	Wely_HEA180 = 293600mm^3
+	Wply_HEA180 = 324900mm^3
+	Iz_HEA180 = 9246000mm^4
+	iz_HEA180 = 45.2mm
+	Welz_HEA180 = 102700mm^3
+	Wplz_HEA180 = 156500mm^3
+	It_HEA180 = 146600mm^4
+	Wt_HEA180 = 24430mm^3
+	Iw_HEA180 = 59014000000mm^6
+	Ww_HEA180 = 8182000mm^4
+	#show
+	
+#end def
+#def HEA200$
+	#hide
+	h_HEA200 = 190mm
+	b_HEA200 = 200mm
+	tw_HEA200 = 6.5mm
+	tf_HEA200 = 10mm
+	r_HEA200 = 18mm
+	m_HEA200 = 42.3kg/m
+	P_HEA200 = 1.14m
+	A_HEA200 = 5383mm^2
+	Avz_HEA200 = 1808mm^2
+	Avy_HEA200 = 4000mm^2
+	Iy_HEA200 = 36920000mm^4
+	iy_HEA200 = 82.8mm
+	Wely_HEA200 = 388600mm^3
+	Wply_HEA200 = 429500mm^3
+	Iz_HEA200 = 13360000mm^4
+	iz_HEA200 = 49.8mm
+	Welz_HEA200 = 133600mm^3
+	Wplz_HEA200 = 203800mm^3
+	It_HEA200 = 204300mm^4
+	Wt_HEA200 = 31430mm^3
+	Iw_HEA200 = 105580000000mm^6
+	Ww_HEA200 = 11830000mm^4
+	#show
+	
+#end def
+#def HEA220$
+	#hide
+	h_HEA220 = 210mm
+	b_HEA220 = 220mm
+	tw_HEA220 = 7mm
+	tf_HEA220 = 11mm
+	r_HEA220 = 18mm
+	m_HEA220 = 50.5kg/m
+	P_HEA220 = 1.26m
+	A_HEA220 = 6434mm^2
+	Avz_HEA220 = 2067mm^2
+	Avy_HEA220 = 4840mm^2
+	Iy_HEA220 = 54100000mm^4
+	iy_HEA220 = 91.7mm
+	Wely_HEA220 = 515200mm^3
+	Wply_HEA220 = 568500mm^3
+	Iz_HEA220 = 19550000mm^4
+	iz_HEA220 = 55.1mm
+	Welz_HEA220 = 177700mm^3
+	Wplz_HEA220 = 270600mm^3
+	It_HEA220 = 280900mm^4
+	Wt_HEA220 = 40130mm^3
+	Iw_HEA220 = 189610000000mm^6
+	Ww_HEA220 = 17440000mm^4
+	#show
+	
+#end def
+#def HEA240$
+	#hide
+	h_HEA240 = 230mm
+	b_HEA240 = 240mm
+	tw_HEA240 = 7.5mm
+	tf_HEA240 = 12mm
+	r_HEA240 = 21mm
+	m_HEA240 = 60.3kg/m
+	P_HEA240 = 1.37m
+	A_HEA240 = 7684mm^2
+	Avz_HEA240 = 2518mm^2
+	Avy_HEA240 = 5760mm^2
+	Iy_HEA240 = 77630000mm^4
+	iy_HEA240 = 100.5mm
+	Wely_HEA240 = 675100mm^3
+	Wply_HEA240 = 744600mm^3
+	Iz_HEA240 = 27690000mm^4
+	iz_HEA240 = 60mm
+	Welz_HEA240 = 230700mm^3
+	Wplz_HEA240 = 351700mm^3
+	It_HEA240 = 410300mm^4
+	Wt_HEA240 = 54710mm^3
+	Iw_HEA240 = 321640000000mm^6
+	Ww_HEA240 = 24780000mm^4
+	#show
+	
+#end def
+#def HEA260$
+	#hide
+	h_HEA260 = 250mm
+	b_HEA260 = 260mm
+	tw_HEA260 = 7.5mm
+	tf_HEA260 = 12.5mm
+	r_HEA260 = 24mm
+	m_HEA260 = 68.2kg/m
+	P_HEA260 = 1.48m
+	A_HEA260 = 8682mm^2
+	Avz_HEA260 = 2876mm^2
+	Avy_HEA260 = 6500mm^2
+	Iy_HEA260 = 104500000mm^4
+	iy_HEA260 = 109.7mm
+	Wely_HEA260 = 836400mm^3
+	Wply_HEA260 = 919800mm^3
+	Iz_HEA260 = 36680000mm^4
+	iz_HEA260 = 65mm
+	Welz_HEA260 = 282100mm^3
+	Wplz_HEA260 = 430200mm^3
+	It_HEA260 = 520000mm^4
+	Wt_HEA260 = 69330mm^3
+	Iw_HEA260 = 504990000000mm^6
+	Ww_HEA260 = 32980000mm^4
+	#show
+	
+#end def
+#def HEA280$
+	#hide
+	h_HEA280 = 270mm
+	b_HEA280 = 280mm
+	tw_HEA280 = 8mm
+	tf_HEA280 = 13mm
+	r_HEA280 = 24mm
+	m_HEA280 = 76.4kg/m
+	P_HEA280 = 1.6m
+	A_HEA280 = 9726mm^2
+	Avz_HEA280 = 3174mm^2
+	Avy_HEA280 = 7280mm^2
+	Iy_HEA280 = 136700000mm^4
+	iy_HEA280 = 118.6mm
+	Wely_HEA280 = 1013000mm^3
+	Wply_HEA280 = 1112000mm^3
+	Iz_HEA280 = 47630000mm^4
+	iz_HEA280 = 70mm
+	Welz_HEA280 = 340200mm^3
+	Wplz_HEA280 = 518100mm^3
+	It_HEA280 = 613900mm^4
+	Wt_HEA280 = 76740mm^3
+	Iw_HEA280 = 770140000000mm^6
+	Ww_HEA280 = 43120000mm^4
+	#show
+	
+#end def
+#def HEA300$
+	#hide
+	h_HEA300 = 290mm
+	b_HEA300 = 300mm
+	tw_HEA300 = 8.5mm
+	tf_HEA300 = 14mm
+	r_HEA300 = 27mm
+	m_HEA300 = 88.3kg/m
+	P_HEA300 = 1.72m
+	A_HEA300 = 11253mm^2
+	Avz_HEA300 = 3728mm^2
+	Avy_HEA300 = 8400mm^2
+	Iy_HEA300 = 182600000mm^4
+	iy_HEA300 = 127.4mm
+	Wely_HEA300 = 1260000mm^3
+	Wply_HEA300 = 1383000mm^3
+	Iz_HEA300 = 63100000mm^4
+	iz_HEA300 = 74.9mm
+	Welz_HEA300 = 420600mm^3
+	Wplz_HEA300 = 641200mm^3
+	It_HEA300 = 842400mm^4
+	Wt_HEA300 = 99110mm^3
+	Iw_HEA300 = 1174700000000mm^6
+	Ww_HEA300 = 57190000mm^4
+	#show
+	
+#end def
+#def HEA320$
+	#hide
+	h_HEA320 = 310mm
+	b_HEA320 = 300mm
+	tw_HEA320 = 9mm
+	tf_HEA320 = 15.5mm
+	r_HEA320 = 27mm
+	m_HEA320 = 97.6kg/m
+	P_HEA320 = 1.76m
+	A_HEA320 = 12437mm^2
+	Avz_HEA320 = 4113mm^2
+	Avy_HEA320 = 9300mm^2
+	Iy_HEA320 = 229300000mm^4
+	iy_HEA320 = 135.8mm
+	Wely_HEA320 = 1479000mm^3
+	Wply_HEA320 = 1628000mm^3
+	Iz_HEA320 = 69850000mm^4
+	iz_HEA320 = 74.9mm
+	Welz_HEA320 = 465700mm^3
+	Wplz_HEA320 = 709700mm^3
+	It_HEA320 = 1088000mm^4
+	Wt_HEA320 = 120900mm^3
+	Iw_HEA320 = 1482600000000mm^6
+	Ww_HEA320 = 67640000mm^4
+	#show
+	
+#end def
+#def HEA340$
+	#hide
+	h_HEA340 = 330mm
+	b_HEA340 = 300mm
+	tw_HEA340 = 9.5mm
+	tf_HEA340 = 16.5mm
+	r_HEA340 = 27mm
+	m_HEA340 = 104.8kg/m
+	P_HEA340 = 1.8m
+	A_HEA340 = 13347mm^2
+	Avz_HEA340 = 4495mm^2
+	Avy_HEA340 = 9900mm^2
+	Iy_HEA340 = 276900000mm^4
+	iy_HEA340 = 144mm
+	Wely_HEA340 = 1678000mm^3
+	Wply_HEA340 = 1850000mm^3
+	Iz_HEA340 = 74360000mm^4
+	iz_HEA340 = 74.6mm
+	Welz_HEA340 = 495700mm^3
+	Wplz_HEA340 = 755900mm^3
+	It_HEA340 = 1287000mm^4
+	Wt_HEA340 = 135500mm^3
+	Iw_HEA340 = 1790200000000mm^6
+	Ww_HEA340 = 76670000mm^4
+	#show
+	
+#end def
+#def HEA360$
+	#hide
+	h_HEA360 = 350mm
+	b_HEA360 = 300mm
+	tw_HEA360 = 10mm
+	tf_HEA360 = 17.5mm
+	r_HEA360 = 27mm
+	m_HEA360 = 112.1kg/m
+	P_HEA360 = 1.83m
+	A_HEA360 = 14276mm^2
+	Avz_HEA360 = 4896mm^2
+	Avy_HEA360 = 10500mm^2
+	Iy_HEA360 = 330900000mm^4
+	iy_HEA360 = 152.2mm
+	Wely_HEA360 = 1891000mm^3
+	Wply_HEA360 = 2088000mm^3
+	Iz_HEA360 = 78870000mm^4
+	iz_HEA360 = 74.3mm
+	Welz_HEA360 = 525800mm^3
+	Wplz_HEA360 = 802300mm^3
+	It_HEA360 = 1510000mm^4
+	Wt_HEA360 = 151000mm^3
+	Iw_HEA360 = 2137700000000mm^6
+	Ww_HEA360 = 86300000mm^4
+	#show
+	
+#end def
+#def HEA400$
+	#hide
+	h_HEA400 = 390mm
+	b_HEA400 = 300mm
+	tw_HEA400 = 11mm
+	tf_HEA400 = 19mm
+	r_HEA400 = 27mm
+	m_HEA400 = 124.8kg/m
+	P_HEA400 = 1.91m
+	A_HEA400 = 15898mm^2
+	Avz_HEA400 = 5733mm^2
+	Avy_HEA400 = 11400mm^2
+	Iy_HEA400 = 450700000mm^4
+	iy_HEA400 = 168.4mm
+	Wely_HEA400 = 2311000mm^3
+	Wply_HEA400 = 2562000mm^3
+	Iz_HEA400 = 85640000mm^4
+	iz_HEA400 = 73.4mm
+	Welz_HEA400 = 570900mm^3
+	Wplz_HEA400 = 872900mm^3
+	It_HEA400 = 1914000mm^4
+	Wt_HEA400 = 174000mm^3
+	Iw_HEA400 = 2893600000000mm^6
+	Ww_HEA400 = 104700000mm^4
+	#show
+	
+#end def
+#def HEA450$
+	#hide
+	h_HEA450 = 440mm
+	b_HEA450 = 300mm
+	tw_HEA450 = 11.5mm
+	tf_HEA450 = 21mm
+	r_HEA450 = 27mm
+	m_HEA450 = 139.8kg/m
+	P_HEA450 = 2.01m
+	A_HEA450 = 17803mm^2
+	Avz_HEA450 = 6578mm^2
+	Avy_HEA450 = 12600mm^2
+	Iy_HEA450 = 637200000mm^4
+	iy_HEA450 = 189.2mm
+	Wely_HEA450 = 2896000mm^3
+	Wply_HEA450 = 3216000mm^3
+	Iz_HEA450 = 94650000mm^4
+	iz_HEA450 = 72.9mm
+	Welz_HEA450 = 631000mm^3
+	Wplz_HEA450 = 965500mm^3
+	It_HEA450 = 2491000mm^4
+	Wt_HEA450 = 216600mm^3
+	Iw_HEA450 = 4087200000000mm^6
+	Ww_HEA450 = 130800000mm^4
+	#show
+	
+#end def
+#def HEA500$
+	#hide
+	h_HEA500 = 490mm
+	b_HEA500 = 300mm
+	tw_HEA500 = 12mm
+	tf_HEA500 = 23mm
+	r_HEA500 = 27mm
+	m_HEA500 = 155.1kg/m
+	P_HEA500 = 2.11m
+	A_HEA500 = 19754mm^2
+	Avz_HEA500 = 7472mm^2
+	Avy_HEA500 = 13800mm^2
+	Iy_HEA500 = 869700000mm^4
+	iy_HEA500 = 209.8mm
+	Wely_HEA500 = 3550000mm^3
+	Wply_HEA500 = 3949000mm^3
+	Iz_HEA500 = 103700000mm^4
+	iz_HEA500 = 72.4mm
+	Welz_HEA500 = 691100mm^3
+	Wplz_HEA500 = 1059000mm^3
+	It_HEA500 = 3177000mm^4
+	Wt_HEA500 = 264800mm^3
+	Iw_HEA500 = 5569200000000mm^6
+	Ww_HEA500 = 159800000mm^4
+	#show
+	
+#end def
+#def HEA550$
+	#hide
+	h_HEA550 = 540mm
+	b_HEA550 = 300mm
+	tw_HEA550 = 12.5mm
+	tf_HEA550 = 24mm
+	r_HEA550 = 27mm
+	m_HEA550 = 166.2kg/m
+	P_HEA550 = 2.21m
+	A_HEA550 = 21176mm^2
+	Avz_HEA550 = 8372mm^2
+	Avy_HEA550 = 14400mm^2
+	Iy_HEA550 = 1119000000mm^4
+	iy_HEA550 = 229.9mm
+	Wely_HEA550 = 4146000mm^3
+	Wply_HEA550 = 4622000mm^3
+	Iz_HEA550 = 108200000mm^4
+	iz_HEA550 = 71.5mm
+	Welz_HEA550 = 721300mm^3
+	Wplz_HEA550 = 1107000mm^3
+	It_HEA550 = 3606000mm^4
+	Wt_HEA550 = 288500mm^3
+	Iw_HEA550 = 7103100000000mm^6
+	Ww_HEA550 = 184400000mm^4
+	#show
+	
+#end def
+#def HEA600$
+	#hide
+	h_HEA600 = 590mm
+	b_HEA600 = 300mm
+	tw_HEA600 = 13mm
+	tf_HEA600 = 25mm
+	r_HEA600 = 27mm
+	m_HEA600 = 177.8kg/m
+	P_HEA600 = 2.31m
+	A_HEA600 = 22646mm^2
+	Avz_HEA600 = 9321mm^2
+	Avy_HEA600 = 15000mm^2
+	Iy_HEA600 = 1412000000mm^4
+	iy_HEA600 = 249.7mm
+	Wely_HEA600 = 4787000mm^3
+	Wply_HEA600 = 5350000mm^3
+	Iz_HEA600 = 112700000mm^4
+	iz_HEA600 = 70.5mm
+	Welz_HEA600 = 751400mm^3
+	Wplz_HEA600 = 1156000mm^3
+	It_HEA600 = 4075000mm^4
+	Wt_HEA600 = 313500mm^3
+	Iw_HEA600 = 8879600000000mm^6
+	Ww_HEA600 = 210500000mm^4
+	#show
+	
+#end def
+#def HEA650$
+	#hide
+	h_HEA650 = 640mm
+	b_HEA650 = 300mm
+	tw_HEA650 = 13.5mm
+	tf_HEA650 = 26mm
+	r_HEA650 = 27mm
+	m_HEA650 = 189.7kg/m
+	P_HEA650 = 2.41m
+	A_HEA650 = 24164mm^2
+	Avz_HEA650 = 10319mm^2
+	Avy_HEA650 = 15600mm^2
+	Iy_HEA650 = 1752000000mm^4
+	iy_HEA650 = 269.3mm
+	Wely_HEA650 = 5474000mm^3
+	Wply_HEA650 = 6136000mm^3
+	Iz_HEA650 = 117200000mm^4
+	iz_HEA650 = 69.7mm
+	Welz_HEA650 = 781600mm^3
+	Wplz_HEA650 = 1205000mm^3
+	It_HEA650 = 4586000mm^4
+	Wt_HEA650 = 339700mm^3
+	Iw_HEA650 = 10915000000000mm^6
+	Ww_HEA650 = 238000000mm^4
+	#show
+	
+#end def
+#def HEA700$
+	#hide
+	h_HEA700 = 690mm
+	b_HEA700 = 300mm
+	tw_HEA700 = 14.5mm
+	tf_HEA700 = 27mm
+	r_HEA700 = 27mm
+	m_HEA700 = 204.5kg/m
+	P_HEA700 = 2.51m
+	A_HEA700 = 26048mm^2
+	Avz_HEA700 = 11697mm^2
+	Avy_HEA700 = 16200mm^2
+	Iy_HEA700 = 2153000000mm^4
+	iy_HEA700 = 287.5mm
+	Wely_HEA700 = 6241000mm^3
+	Wply_HEA700 = 7032000mm^3
+	Iz_HEA700 = 121800000mm^4
+	iz_HEA700 = 68.4mm
+	Welz_HEA700 = 811900mm^3
+	Wplz_HEA700 = 1257000mm^3
+	It_HEA700 = 5228000mm^4
+	Wt_HEA700 = 360600mm^3
+	Iw_HEA700 = 13223000000000mm^6
+	Ww_HEA700 = 267000000mm^4
+	#show
+	
+#end def
+#def HEA800$
+	#hide
+	h_HEA800 = 790mm
+	b_HEA800 = 300mm
+	tw_HEA800 = 15mm
+	tf_HEA800 = 28mm
+	r_HEA800 = 30mm
+	m_HEA800 = 224.4kg/m
+	P_HEA800 = 2.7m
+	A_HEA800 = 28583mm^2
+	Avz_HEA800 = 13883mm^2
+	Avy_HEA800 = 16800mm^2
+	Iy_HEA800 = 3034000000mm^4
+	iy_HEA800 = 325.8mm
+	Wely_HEA800 = 7682000mm^3
+	Wply_HEA800 = 8699000mm^3
+	Iz_HEA800 = 126400000mm^4
+	iz_HEA800 = 66.5mm
+	Welz_HEA800 = 842600mm^3
+	Wplz_HEA800 = 1312000mm^3
+	It_HEA800 = 6096000mm^4
+	Wt_HEA800 = 406400mm^3
+	Iw_HEA800 = 18113000000000mm^6
+	Ww_HEA800 = 318200000mm^4
+	#show
+	
+#end def
+#def HEA900$
+	#hide
+	h_HEA900 = 890mm
+	b_HEA900 = 300mm
+	tw_HEA900 = 16mm
+	tf_HEA900 = 30mm
+	r_HEA900 = 30mm
+	m_HEA900 = 251.6kg/m
+	P_HEA900 = 2.9m
+	A_HEA900 = 32053mm^2
+	Avz_HEA900 = 16333mm^2
+	Avy_HEA900 = 18000mm^2
+	Iy_HEA900 = 4221000000mm^4
+	iy_HEA900 = 362.9mm
+	Wely_HEA900 = 9485000mm^3
+	Wply_HEA900 = 10810000mm^3
+	Iz_HEA900 = 135500000mm^4
+	iz_HEA900 = 65mm
+	Welz_HEA900 = 903200mm^3
+	Wplz_HEA900 = 1414000mm^3
+	It_HEA900 = 7510000mm^4
+	Wt_HEA900 = 469400mm^3
+	Iw_HEA900 = 24748000000000mm^6
+	Ww_HEA900 = 385100000mm^4
+	#show
+	
+#end def
+#def HEA1000$
+	#hide
+	h_HEA1000 = 990mm
+	b_HEA1000 = 300mm
+	tw_HEA1000 = 16.5mm
+	tf_HEA1000 = 31mm
+	r_HEA1000 = 30mm
+	m_HEA1000 = 272.3kg/m
+	P_HEA1000 = 3.1m
+	A_HEA1000 = 34685mm^2
+	Avz_HEA1000 = 18456mm^2
+	Avy_HEA1000 = 18600mm^2
+	Iy_HEA1000 = 5538000000mm^4
+	iy_HEA1000 = 399.6mm
+	Wely_HEA1000 = 11190000mm^3
+	Wply_HEA1000 = 12820000mm^3
+	Iz_HEA1000 = 140000000mm^4
+	iz_HEA1000 = 63.5mm
+	Welz_HEA1000 = 933600mm^3
+	Wplz_HEA1000 = 1470000mm^3
+	It_HEA1000 = 8373000mm^4
+	Wt_HEA1000 = 507500mm^3
+	Iw_HEA1000 = 31834000000000.01mm^6
+	Ww_HEA1000 = 444100000mm^4
+	#show
+	
+#end def
