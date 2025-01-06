@@ -1914,9 +1914,9 @@
                      FontSize="14"
                      Style="{StaticResource Toggle}">
         </RadioButton>
-        <TextBlock Grid.Row="0" TextWrapping="Wrap" FontSize="11.5" Margin="0,6,278,0" Height="16" Width="120"
+        <TextBlock Grid.Row="0" TextWrapping="Wrap" FontSize="11.5" Margin="0,6,288,0" Height="16" Width="110"
                    VerticalAlignment="Top" Text="{x:Static wpf:MainWindowResources.EquationFormat}" 
-                   HorizontalAlignment="Right" Foreground="#DA000000" TextAlignment="Center" />
+                   HorizontalAlignment="Right" Foreground="#DA000000" TextAlignment="Right" />
         <WrapPanel Grid.Row="0" Margin="0,27,277,0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="20">
             <RadioButton Checked="EquationRadioButton_Checked" x:Name="Professional" 
                          GroupName="EquationFormatting" TabIndex="9" IsChecked="True" 
