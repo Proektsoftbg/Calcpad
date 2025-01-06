@@ -61,6 +61,15 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string _ {
+            get {
+                return ResourceManager.GetString("", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to  must be positive integer..
         /// </summary>
         public static string _must_be_positive_integer {
@@ -106,7 +115,7 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Argument out of range for n!..
+        ///   Looks up a localized string similar to Argument out of range for n! ..
         /// </summary>
         public static string Argument_out_of_range_for_n_factorial {
             get {
@@ -1087,7 +1096,7 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Repeat block not closed. Missing loop..
+        ///   Looks up a localized string similar to Repeat block not closed. Missing &quot;#loop#..
         /// </summary>
         public static string repeat_block_not_closed_Missing_loop {
             get {
