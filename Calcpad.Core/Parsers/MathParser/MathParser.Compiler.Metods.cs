@@ -233,6 +233,12 @@ namespace Calcpad.Core
                     nameof(MatrixCalculator.JoinRows),
                     BindingFlags.Static | BindingFlags.NonPublic
                 );
+
+            private static readonly MethodInfo AssignVariableMethod =
+                typeof(Variable).GetMethod(
+                    nameof(Variable.Assign),
+                    BindingFlags.Instance | BindingFlags.NonPublic
+                );
         }
     }
 }
