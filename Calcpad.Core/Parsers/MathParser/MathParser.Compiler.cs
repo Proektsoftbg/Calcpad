@@ -295,6 +295,13 @@ namespace Calcpad.Core
                                 c.Expressions[0],
                                 Expression.Assign(a, b));
                         }
+                        if (a is MemberExpression ma)
+                        {
+                            a = ma.Expression;
+                            return Expression.Block(
+                                Expression.Call(a, AssignVariableMethod, b),
+                                b);
+                        }
                         return Expression.Assign(a, b);
                     }
                     if (_parser._settings.IsComplex)

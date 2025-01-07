@@ -83,7 +83,7 @@ namespace Calcpad.Wpf
             var signature = "PK"u8; // Signature for ZIP files
             using FileStream fileStream = File.OpenRead(fileName);
             byte[] fileSignature = new byte[2];
-            fileStream.Read(fileSignature, 0, 2);
+            fileStream.ReadExactly(fileSignature, 0, 2);
             return signature.SequenceEqual(fileSignature);
         }
 
