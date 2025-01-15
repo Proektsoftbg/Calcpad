@@ -574,15 +574,11 @@ namespace Calcpad.Wpf
             var p = RichTextBox.Selection.Start.Paragraph;
             if (lines.Length == 1)
             {
-                TextPointer tp;
                 if ((data[0] == '#' || data[0] == '$') && !p.ContentEnd.IsAtLineStartPosition)
                 {
-                    tp = p.ContentEnd.InsertParagraphBreak();
+                    var tp = p.ContentEnd.InsertParagraphBreak();
                     RichTextBox.Selection.Select(tp, tp);
                 }
-                else
-                    tp = RichTextBox.Selection.End;
-
                 InsertText(data);
             }
             else
@@ -735,7 +731,7 @@ namespace Calcpad.Wpf
                                             2;
             math.Substitute = SubstituteCheckBox.IsChecked ?? false;
             math.ZeroSmallMatrixElements = ZeroSmallMatrixElementsCheckBox.IsChecked ?? false;
-            math.MaxOutputCount = int.TryParse(MaxOutputCountTextBox.Text, out int i) ? i : (int)20;
+            math.MaxOutputCount = int.TryParse(MaxOutputCountTextBox.Text, out int i) ? i : 20;
             var plot = _parser.Settings.Plot;
             plot.ImagePath = string.Empty; //tmpDir;
             plot.ImageUri = string.Empty; //tmpDir;
@@ -801,7 +797,7 @@ namespace Calcpad.Wpf
             settings.Smooth = SmoothCheckBox.IsChecked ?? false;
             settings.Browser = (byte)ExternalBrowserComboBox.SelectedIndex;
             settings.ZeroSmallMatrixElements = ZeroSmallMatrixElementsCheckBox.IsChecked ?? false;
-            settings.MaxOutputCount = int.TryParse(MaxOutputCountTextBox.Text, out int i) ? i : (int)20;
+            settings.MaxOutputCount = int.TryParse(MaxOutputCountTextBox.Text, out int i) ? i : 20;
             settings.WindowLeft = Left;
             settings.WindowTop = Top;
             settings.WindowWidth = Width;
@@ -2387,7 +2383,7 @@ namespace Calcpad.Wpf
             {
                 var defs = _highlighter.Defined;
                 FillDefined(defs.Variables, Brushes.Blue);
-                FillDefined(defs.FunctionDefs.ToDictionary(null), Brushes.Black);
+                FillDefined(defs.FunctionDefs, Brushes.Black);
                 FillDefined(defs.Units, Brushes.DarkCyan);
                 FillDefined(defs.Macros, Brushes.DarkMagenta);
                 foreach (var kvp in defs.MacroParameters)
@@ -2403,7 +2399,7 @@ namespace Calcpad.Wpf
             }
             catch { }
 
-            void FillDefined(Dictionary<string, int> defs, Brush foreground)
+            void FillDefined(IEnumerable<KeyValuePair<string, int>> defs, Brush foreground)
             {
                 foreach (var kvp in defs)
                 {

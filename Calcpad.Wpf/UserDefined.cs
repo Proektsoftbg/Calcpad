@@ -13,8 +13,8 @@ namespace Calcpad.Wpf
         internal readonly Dictionary<string, int> Variables = new(StringComparer.Ordinal);
         internal readonly Dictionary<string, int> Units = new(StringComparer.Ordinal);
         internal readonly Dictionary<string, int> Functions = new(StringComparer.Ordinal);
-        internal readonly List<KeyValuePair<string, int>> FunctionDefs = new();
-        internal readonly Dictionary<string, string> MacroProcedures = new();
+        internal readonly List<KeyValuePair<string, int>> FunctionDefs = [];
+        internal readonly Dictionary<string, string> MacroProcedures = [];
         internal readonly Dictionary<string, int> Macros = new(StringComparer.Ordinal);
         internal readonly Dictionary<string, List<int>> MacroParameters = new(StringComparer.Ordinal);
         internal readonly Dictionary<string, List<int>> MacroVariables = new(StringComparer.Ordinal);
@@ -179,6 +179,11 @@ namespace Calcpad.Wpf
                                 var s = ts.Cut();
                             if (isFunction)
                                 {
+                                    if (s[^1] == '.')
+                                    {
+                                        if (Variables.ContainsKey(s[..^1].ToString()))
+                                            break;
+                                    }
                                     Functions.TryAdd(s.ToString(), lineNumber);
                                     FunctionDefs.Add(new(item[0..j].Trim().ToString(), lineNumber));
                                 }
