@@ -586,6 +586,7 @@
 		"utriang",
 		"vec2col",
 		"vec2diag",
+		"vec2row",
 		"vector",
 		"vlookup",
 		"vlookup_eq",

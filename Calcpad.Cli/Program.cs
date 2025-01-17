@@ -480,6 +480,8 @@ namespace Calcpad.Cli
                                 .Replace("!=", "≠")
                                 .Replace("<=", "≤")
                                 .Replace(">=", "≥")
+                                .Replace("||", "∨")
+                                .Replace("&&", "∧")
                                 .Replace("%%", "⦼");
                             mp.Parse(s);
                             mp.Calculate();
