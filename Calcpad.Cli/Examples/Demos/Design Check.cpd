@@ -1,0 +1,15 @@
+"Design check example
+#def check$(s$; f$)
+	#if s$ < f$
+		'<p>Design check:'s$'&le;'f$'<span class="ok">The check is satisfied ✔</span>
+	#else
+		'<p>Design check:'s$'&gt;'f$'<span class="err">The check is NOT satisfied ✖</span>
+	#end if
+#end def
+'
+'Stress -'σ = 200MPa
+'Resitance -'f_y = 205MPa
+check$(σ; f_y)
+'
+'Stress -'σ = 210MPa
+check$(σ; f_y)

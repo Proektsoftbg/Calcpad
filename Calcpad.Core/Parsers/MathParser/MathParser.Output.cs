@@ -97,16 +97,20 @@ namespace Calcpad.Core
                                     _parser.VariableSubstitution != VariableSubstitutionOptions.VariablesOnly))
                                 {
                                     subst = RenderRpn(rpn, true, writer, out hasOperators);
-                                    if (_parser.VariableSubstitution != VariableSubstitutionOptions.SubstitutionsOnly)
+                                    var len = equation.Length - equation.LastIndexOf(assignment) - assignment.Length;
+                                    if (subst.Length != len)
                                     {
-                                        _stringBuilder.Append(assignment);
-                                        if (_parser.Split && format == OutputWriter.OutputFormat.Html)
+                                        if (_parser.VariableSubstitution != VariableSubstitutionOptions.SubstitutionsOnly)
                                         {
-                                            splitted = true;
-                                            _stringBuilder.Append($"<br/><span class=\"indent\">");
+                                            _stringBuilder.Append(assignment);
+                                            if (_parser.Split && format == OutputWriter.OutputFormat.Html)
+                                            {
+                                                splitted = true;
+                                                _stringBuilder.Append($"<br/><span class=\"indent\">");
+                                            }
                                         }
+                                        _stringBuilder.Append(subst);
                                     }
-                                    _stringBuilder.Append(subst);
                                 }
                             }
                             else if (_assignmentPosition > 0 && 

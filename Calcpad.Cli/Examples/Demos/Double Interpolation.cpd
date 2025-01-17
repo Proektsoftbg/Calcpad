@@ -1,6 +1,6 @@
 "Double interpolation
-'Input padameters
-x(j) = spline(j; 2; 4; 8)'- x vaues
+'Input parameters
+x(j) = spline(j; 2; 4; 8)'- x values
 y(i) = spline(i; 3; 9; 27)'- y values
 'Output values
 R_1(j) = spline(j; 11; 12; 13)' - first row

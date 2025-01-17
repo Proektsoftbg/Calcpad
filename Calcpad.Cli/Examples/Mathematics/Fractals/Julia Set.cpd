@@ -1,0 +1,8 @@
+"Julia set
+J(z; c; n) = abs($Repeat{z = if(abs(z) < 2; z^2 + c; 4) @ i = 1 : n})
+JuliaSet(z; c) = $Find{J(z; c; x) - 2 @ x = 1 : n}
+#hide
+PlotStep = 1','PlotWidth = 600','PlotHeight = 400','Precision = 10^-6
+#show
+'Plot for'c = -0.4 + 0.6i'and'n = 100'iterations
+$Map{JuliaSet(x + 1i*y; c) @ x = -1.5 : 1.5 & y = -1 : 1}

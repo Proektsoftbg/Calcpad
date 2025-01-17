@@ -1,0 +1,22 @@
+#val
+#hide
+w = 300','h = 800
+p = [0; 0|w; 0|w/2; h]
+v = [random(w); random(h)]
+n = 49990
+#show
+'<svg viewbox="'0' '-40' 'w' 'h + 120'" style="width:'w'px; height:'h'px;">
+#for i = 1 : n
+	#hide
+	d = 2 + i/n
+	k = max(1; min(round(5*random(d/3.5)); 3))
+	v = (v + row(p; k))/2
+	cx = v.1','cy = h - v.2
+	#show
+	'<ellipse cx="'cx'" cy="'cy'" rx="0.3"  ry="0.8" fill="green"/>
+#loop
+'<defs><radialGradient id="ball" cx="35%" cy="35%"><stop offset="0%" stop-color="Gold"/><stop offset="100%" stop-color="GoldenRod"/></defs>
+'<circle cx="'w/2'" cy="-12" r="12" fill="url(#ball)"/>
+'<text x="'w/2'" y="'h + 40'" text-anchor="middle" fill="firebrick" style="font-size:42px;">Merry Christmas!</text>
+'</svg>
+#equ
