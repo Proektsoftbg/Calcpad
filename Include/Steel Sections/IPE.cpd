@@ -1,0 +1,486 @@
+#def IPE80$
+	#hide
+	h_IPE80 = 80mm
+	b_IPE80 = 46mm
+	tw_IPE80 = 3.8mm
+	tf_IPE80 = 5.2mm
+	r_IPE80 = 5mm
+	m_IPE80 = 6kg/m
+	P_IPE80 = 0.33m
+	A_IPE80 = 764mm^2
+	Avz_IPE80 = 358mm^2
+	Avy_IPE80 = 478mm^2
+	Iy_IPE80 = 801400mm^4
+	iy_IPE80 = 32.4mm
+	Wely_IPE80 = 20030mm^3
+	Wply_IPE80 = 23220mm^3
+	Iz_IPE80 = 84890mm^4
+	iz_IPE80 = 10.5mm
+	Welz_IPE80 = 3691mm^3
+	Wplz_IPE80 = 5818mm^3
+	It_IPE80 = 6727mm^4
+	Wt_IPE80 = 1770mm^3
+	Iw_IPE80 = 115100000mm^6
+	Ww_IPE80 = 135200mm^4
+	#show
+	
+#end def
+#def IPE100$
+	#hide
+	h_IPE100 = 100mm
+	b_IPE100 = 55mm
+	tw_IPE100 = 4.1mm
+	tf_IPE100 = 5.7mm
+	r_IPE100 = 7mm
+	m_IPE100 = 8.1kg/m
+	P_IPE100 = 0.4m
+	A_IPE100 = 1032mm^2
+	Avz_IPE100 = 508mm^2
+	Avy_IPE100 = 627mm^2
+	Iy_IPE100 = 1710000mm^4
+	iy_IPE100 = 40.7mm
+	Wely_IPE100 = 34200mm^3
+	Wply_IPE100 = 39410mm^3
+	Iz_IPE100 = 159200mm^4
+	iz_IPE100 = 12.4mm
+	Welz_IPE100 = 5789mm^3
+	Wplz_IPE100 = 9146mm^3
+	It_IPE100 = 11530mm^4
+	Wt_IPE100 = 2812mm^3
+	Iw_IPE100 = 342100000mm^6
+	Ww_IPE100 = 266800mm^4
+	#show
+	
+#end def
+#def IPE120$
+	#hide
+	h_IPE120 = 120mm
+	b_IPE120 = 64mm
+	tw_IPE120 = 4.4mm
+	tf_IPE120 = 6.3mm
+	r_IPE120 = 7mm
+	m_IPE120 = 10.4kg/m
+	P_IPE120 = 0.48m
+	A_IPE120 = 1321mm^2
+	Avz_IPE120 = 631mm^2
+	Avy_IPE120 = 806mm^2
+	Iy_IPE120 = 3178000mm^4
+	iy_IPE120 = 49mm
+	Wely_IPE120 = 52960mm^3
+	Wply_IPE120 = 60730mm^3
+	Iz_IPE120 = 276700mm^4
+	iz_IPE120 = 14.5mm
+	Welz_IPE120 = 8646mm^3
+	Wplz_IPE120 = 13580mm^3
+	It_IPE120 = 16890mm^4
+	Wt_IPE120 = 3839mm^3
+	Iw_IPE120 = 872000000mm^6
+	Ww_IPE120 = 483400mm^4
+	#show
+	
+#end def
+#def IPE140$
+	#hide
+	h_IPE140 = 140mm
+	b_IPE140 = 73mm
+	tw_IPE140 = 4.7mm
+	tf_IPE140 = 6.9mm
+	r_IPE140 = 7mm
+	m_IPE140 = 12.9kg/m
+	P_IPE140 = 0.55m
+	A_IPE140 = 1643mm^2
+	Avz_IPE140 = 764mm^2
+	Avy_IPE140 = 1007mm^2
+	Iy_IPE140 = 5412000mm^4
+	iy_IPE140 = 57.4mm
+	Wely_IPE140 = 77320mm^3
+	Wply_IPE140 = 88340mm^3
+	Iz_IPE140 = 449200mm^4
+	iz_IPE140 = 16.5mm
+	Welz_IPE140 = 12310mm^3
+	Wplz_IPE140 = 19250mm^3
+	It_IPE140 = 24010mm^4
+	Wt_IPE140 = 5109mm^3
+	Iw_IPE140 = 1951000000mm^6
+	Ww_IPE140 = 808200mm^4
+	#show
+	
+#end def
+#def IPE160$
+	#hide
+	h_IPE160 = 160mm
+	b_IPE160 = 82mm
+	tw_IPE160 = 5mm
+	tf_IPE160 = 7.4mm
+	r_IPE160 = 9mm
+	m_IPE160 = 15.8kg/m
+	P_IPE160 = 0.62m
+	A_IPE160 = 2009mm^2
+	Avz_IPE160 = 966mm^2
+	Avy_IPE160 = 1214mm^2
+	Iy_IPE160 = 8693000mm^4
+	iy_IPE160 = 65.8mm
+	Wely_IPE160 = 108700mm^3
+	Wply_IPE160 = 123900mm^3
+	Iz_IPE160 = 683100mm^4
+	iz_IPE160 = 18.4mm
+	Welz_IPE160 = 16660mm^3
+	Wplz_IPE160 = 26100mm^3
+	It_IPE160 = 35300mm^4
+	Wt_IPE160 = 7060mm^3
+	Iw_IPE160 = 3889000000mm^6
+	Ww_IPE160 = 1252000mm^4
+	#show
+	
+#end def
+#def IPE180$
+	#hide
+	h_IPE180 = 180mm
+	b_IPE180 = 91mm
+	tw_IPE180 = 5.3mm
+	tf_IPE180 = 8mm
+	r_IPE180 = 9mm
+	m_IPE180 = 18.8kg/m
+	P_IPE180 = 0.7m
+	A_IPE180 = 2395mm^2
+	Avz_IPE180 = 1125mm^2
+	Avy_IPE180 = 1456mm^2
+	Iy_IPE180 = 13170000mm^4
+	iy_IPE180 = 74.2mm
+	Wely_IPE180 = 146300mm^3
+	Wply_IPE180 = 166400mm^3
+	Iz_IPE180 = 1009000mm^4
+	iz_IPE180 = 20.5mm
+	Welz_IPE180 = 22160mm^3
+	Wplz_IPE180 = 34600mm^3
+	It_IPE180 = 47230mm^4
+	Wt_IPE180 = 8911mm^3
+	Iw_IPE180 = 7322000000mm^6
+	Ww_IPE180 = 1882000mm^4
+	#show
+	
+#end def
+#def IPE200$
+	#hide
+	h_IPE200 = 200mm
+	b_IPE200 = 100mm
+	tw_IPE200 = 5.6mm
+	tf_IPE200 = 8.5mm
+	r_IPE200 = 12mm
+	m_IPE200 = 22.4kg/m
+	P_IPE200 = 0.77m
+	A_IPE200 = 2848mm^2
+	Avz_IPE200 = 1400mm^2
+	Avy_IPE200 = 1700mm^2
+	Iy_IPE200 = 19430000mm^4
+	iy_IPE200 = 82.6mm
+	Wely_IPE200 = 194300mm^3
+	Wply_IPE200 = 220600mm^3
+	Iz_IPE200 = 1424000mm^4
+	iz_IPE200 = 22.4mm
+	Welz_IPE200 = 28470mm^3
+	Wplz_IPE200 = 44610mm^3
+	It_IPE200 = 68460mm^4
+	Wt_IPE200 = 12220mm^3
+	Iw_IPE200 = 12746000000mm^6
+	Ww_IPE200 = 2683000mm^4
+	#show
+	
+#end def
+#def IPE220$
+	#hide
+	h_IPE220 = 220mm
+	b_IPE220 = 110mm
+	tw_IPE220 = 5.9mm
+	tf_IPE220 = 9.2mm
+	r_IPE220 = 12mm
+	m_IPE220 = 26.2kg/m
+	P_IPE220 = 0.85m
+	A_IPE220 = 3337mm^2
+	Avz_IPE220 = 1588mm^2
+	Avy_IPE220 = 2024mm^2
+	Iy_IPE220 = 27720000mm^4
+	iy_IPE220 = 91.1mm
+	Wely_IPE220 = 252000mm^3
+	Wply_IPE220 = 285400mm^3
+	Iz_IPE220 = 2049000mm^4
+	iz_IPE220 = 24.8mm
+	Welz_IPE220 = 37250mm^3
+	Wplz_IPE220 = 58110mm^3
+	It_IPE220 = 89820mm^4
+	Wt_IPE220 = 15220mm^3
+	Iw_IPE220 = 22310000000mm^6
+	Ww_IPE220 = 3874000mm^4
+	#show
+	
+#end def
+#def IPE240$
+	#hide
+	h_IPE240 = 240mm
+	b_IPE240 = 120mm
+	tw_IPE240 = 6.2mm
+	tf_IPE240 = 9.8mm
+	r_IPE240 = 15mm
+	m_IPE240 = 30.7kg/m
+	P_IPE240 = 0.92m
+	A_IPE240 = 3912mm^2
+	Avz_IPE240 = 1914mm^2
+	Avy_IPE240 = 2352mm^2
+	Iy_IPE240 = 38920000mm^4
+	iy_IPE240 = 99.7mm
+	Wely_IPE240 = 324300mm^3
+	Wply_IPE240 = 366600mm^3
+	Iz_IPE240 = 2836000mm^4
+	iz_IPE240 = 26.9mm
+	Welz_IPE240 = 47270mm^3
+	Wplz_IPE240 = 73920mm^3
+	It_IPE240 = 127400mm^4
+	Wt_IPE240 = 20550mm^3
+	Iw_IPE240 = 36680000000mm^6
+	Ww_IPE240 = 5354000mm^4
+	#show
+	
+#end def
+#def IPE270$
+	#hide
+	h_IPE270 = 270mm
+	b_IPE270 = 135mm
+	tw_IPE270 = 6.6mm
+	tf_IPE270 = 10.2mm
+	r_IPE270 = 15mm
+	m_IPE270 = 36.1kg/m
+	P_IPE270 = 1.04m
+	A_IPE270 = 4595mm^2
+	Avz_IPE270 = 2214mm^2
+	Avy_IPE270 = 2754mm^2
+	Iy_IPE270 = 57900000mm^4
+	iy_IPE270 = 112.3mm
+	Wely_IPE270 = 428900mm^3
+	Wply_IPE270 = 484000mm^3
+	Iz_IPE270 = 4199000mm^4
+	iz_IPE270 = 30.2mm
+	Welz_IPE270 = 62200mm^3
+	Wplz_IPE270 = 96950mm^3
+	It_IPE270 = 157100mm^4
+	Wt_IPE270 = 23800mm^3
+	Iw_IPE270 = 69469000000mm^6
+	Ww_IPE270 = 7974000mm^4
+	#show
+	
+#end def
+#def IPE300$
+	#hide
+	h_IPE300 = 300mm
+	b_IPE300 = 150mm
+	tw_IPE300 = 7.1mm
+	tf_IPE300 = 10.7mm
+	r_IPE300 = 15mm
+	m_IPE300 = 42.2kg/m
+	P_IPE300 = 1.16m
+	A_IPE300 = 5381mm^2
+	Avz_IPE300 = 2568mm^2
+	Avy_IPE300 = 3210mm^2
+	Iy_IPE300 = 83560000mm^4
+	iy_IPE300 = 124.6mm
+	Wely_IPE300 = 557100mm^3
+	Wply_IPE300 = 628400mm^3
+	Iz_IPE300 = 6038000mm^4
+	iz_IPE300 = 33.5mm
+	Welz_IPE300 = 80500mm^3
+	Wplz_IPE300 = 125200mm^3
+	It_IPE300 = 197500mm^4
+	Wt_IPE300 = 27820mm^3
+	Iw_IPE300 = 124260000000mm^6
+	Ww_IPE300 = 11520000mm^4
+	#show
+	
+#end def
+#def IPE330$
+	#hide
+	h_IPE330 = 330mm
+	b_IPE330 = 160mm
+	tw_IPE330 = 7.5mm
+	tf_IPE330 = 11.5mm
+	r_IPE330 = 18mm
+	m_IPE330 = 49.1kg/m
+	P_IPE330 = 1.25m
+	A_IPE330 = 6261mm^2
+	Avz_IPE330 = 3081mm^2
+	Avy_IPE330 = 3680mm^2
+	Iy_IPE330 = 117700000mm^4
+	iy_IPE330 = 137.1mm
+	Wely_IPE330 = 713100mm^3
+	Wply_IPE330 = 804300mm^3
+	Iz_IPE330 = 7881000mm^4
+	iz_IPE330 = 35.5mm
+	Welz_IPE330 = 98520mm^3
+	Wplz_IPE330 = 153700mm^3
+	It_IPE330 = 275900mm^4
+	Wt_IPE330 = 36790mm^3
+	Iw_IPE330 = 196090000000mm^6
+	Ww_IPE330 = 15490000mm^4
+	#show
+	
+#end def
+#def IPE360$
+	#hide
+	h_IPE360 = 360mm
+	b_IPE360 = 170mm
+	tw_IPE360 = 8mm
+	tf_IPE360 = 12.7mm
+	r_IPE360 = 18mm
+	m_IPE360 = 57.1kg/m
+	P_IPE360 = 1.35m
+	A_IPE360 = 7273mm^2
+	Avz_IPE360 = 3514mm^2
+	Avy_IPE360 = 4318mm^2
+	Iy_IPE360 = 162700000mm^4
+	iy_IPE360 = 149.5mm
+	Wely_IPE360 = 903600mm^3
+	Wply_IPE360 = 1019000mm^3
+	Iz_IPE360 = 10430000mm^4
+	iz_IPE360 = 37.9mm
+	Welz_IPE360 = 122800mm^3
+	Wplz_IPE360 = 191100mm^3
+	It_IPE360 = 370800mm^4
+	Wt_IPE360 = 46350mm^3
+	Iw_IPE360 = 309370000000mm^6
+	Ww_IPE360 = 21070000mm^4
+	#show
+	
+#end def
+#def IPE400$
+	#hide
+	h_IPE400 = 400mm
+	b_IPE400 = 180mm
+	tw_IPE400 = 8.6mm
+	tf_IPE400 = 13.5mm
+	r_IPE400 = 21mm
+	m_IPE400 = 66.3kg/m
+	P_IPE400 = 1.47m
+	A_IPE400 = 8446mm^2
+	Avz_IPE400 = 4269mm^2
+	Avy_IPE400 = 4860mm^2
+	Iy_IPE400 = 231300000mm^4
+	iy_IPE400 = 165.5mm
+	Wely_IPE400 = 1156000mm^3
+	Wply_IPE400 = 1307000mm^3
+	Iz_IPE400 = 13180000mm^4
+	iz_IPE400 = 39.5mm
+	Welz_IPE400 = 146400mm^3
+	Wplz_IPE400 = 229000mm^3
+	It_IPE400 = 504100mm^4
+	Wt_IPE400 = 58620mm^3
+	Iw_IPE400 = 482890000000mm^6
+	Ww_IPE400 = 27930000mm^4
+	#show
+	
+#end def
+#def IPE450$
+	#hide
+	h_IPE450 = 450mm
+	b_IPE450 = 190mm
+	tw_IPE450 = 9.4mm
+	tf_IPE450 = 14.6mm
+	r_IPE450 = 21mm
+	m_IPE450 = 77.6kg/m
+	P_IPE450 = 1.61m
+	A_IPE450 = 9882mm^2
+	Avz_IPE450 = 5085mm^2
+	Avy_IPE450 = 5548mm^2
+	Iy_IPE450 = 337400000mm^4
+	iy_IPE450 = 184.8mm
+	Wely_IPE450 = 1500000mm^3
+	Wply_IPE450 = 1702000mm^3
+	Iz_IPE450 = 16760000mm^4
+	iz_IPE450 = 41.2mm
+	Welz_IPE450 = 176400mm^3
+	Wplz_IPE450 = 276400mm^3
+	It_IPE450 = 660500mm^4
+	Wt_IPE450 = 70270mm^3
+	Iw_IPE450 = 780970000000mm^6
+	Ww_IPE450 = 37970000mm^4
+	#show
+	
+#end def
+#def IPE500$
+	#hide
+	h_IPE500 = 500mm
+	b_IPE500 = 200mm
+	tw_IPE500 = 10.2mm
+	tf_IPE500 = 16mm
+	r_IPE500 = 21mm
+	m_IPE500 = 90.7kg/m
+	P_IPE500 = 1.74m
+	A_IPE500 = 11552mm^2
+	Avz_IPE500 = 5987mm^2
+	Avy_IPE500 = 6400mm^2
+	Iy_IPE500 = 482000000mm^4
+	iy_IPE500 = 204.3mm
+	Wely_IPE500 = 1928000mm^3
+	Wply_IPE500 = 2194000mm^3
+	Iz_IPE500 = 21420000mm^4
+	iz_IPE500 = 43.1mm
+	Welz_IPE500 = 214200mm^3
+	Wplz_IPE500 = 335900mm^3
+	It_IPE500 = 886200mm^4
+	Wt_IPE500 = 86880mm^3
+	Iw_IPE500 = 1235400000000mm^6
+	Ww_IPE500 = 51280000mm^4
+	#show
+	
+#end def
+#def IPE550$
+	#hide
+	h_IPE550 = 550mm
+	b_IPE550 = 210mm
+	tw_IPE550 = 11.1mm
+	tf_IPE550 = 17.2mm
+	r_IPE550 = 24mm
+	m_IPE550 = 105.5kg/m
+	P_IPE550 = 1.88m
+	A_IPE550 = 13442mm^2
+	Avz_IPE550 = 7234mm^2
+	Avy_IPE550 = 7224mm^2
+	Iy_IPE550 = 671200000mm^4
+	iy_IPE550 = 223.5mm
+	Wely_IPE550 = 2441000mm^3
+	Wply_IPE550 = 2787000mm^3
+	Iz_IPE550 = 26680000mm^4
+	iz_IPE550 = 44.5mm
+	Welz_IPE550 = 254100mm^3
+	Wplz_IPE550 = 400500mm^3
+	It_IPE550 = 1217000mm^4
+	Wt_IPE550 = 109600mm^3
+	Iw_IPE550 = 1861500000000mm^6
+	Ww_IPE550 = 66890000mm^4
+	#show
+	
+#end def
+#def IPE600$
+	#hide
+	h_IPE600 = 600mm
+	b_IPE600 = 220mm
+	tw_IPE600 = 12mm
+	tf_IPE600 = 19mm
+	r_IPE600 = 24mm
+	m_IPE600 = 122.4kg/m
+	P_IPE600 = 2.02m
+	A_IPE600 = 15598mm^2
+	Avz_IPE600 = 8378mm^2
+	Avy_IPE600 = 8360mm^2
+	Iy_IPE600 = 920800000mm^4
+	iy_IPE600 = 243mm
+	Wely_IPE600 = 3069000mm^3
+	Wply_IPE600 = 3512000mm^3
+	Iz_IPE600 = 33870000mm^4
+	iz_IPE600 = 46.6mm
+	Welz_IPE600 = 307900mm^3
+	Wplz_IPE600 = 485600mm^3
+	It_IPE600 = 1646000mm^4
+	Wt_IPE600 = 137200mm^3
+	Iw_IPE600 = 2814700000000mm^6
+	Ww_IPE600 = 88510000mm^4
+	#show
+	
+#end def

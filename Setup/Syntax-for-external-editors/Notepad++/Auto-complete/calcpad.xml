@@ -583,6 +583,7 @@
 		<KeyWord name="VAR" />
 		<KeyWord name="vec2col" />
 		<KeyWord name="vec2diag" />
+		<KeyWord name="vec2row" />
 		<KeyWord name="vector" />
 		<KeyWord name="vlookup" />
 		<KeyWord name="vlookup_eq" />

@@ -340,10 +340,10 @@ namespace Calcpad.Core
             ForceUnits[7]._text = "kN·m^3";
             ForceUnits[8]._text = "kN·m^4";
 
-            ForceUnits_US[0] = (kipf * m.Pow(-4f)).Scale("kip/in^4", 1 / 4.162314256E-7);
-            ForceUnits_US[1] = (kipf * m.Pow(-3f)).Scale("kip/in^3", 1 / 0.000016387064);
+            ForceUnits_US[0] = (kipf * m.Pow(-4f)).Scale("kip/in^4", 1d / 4.162314256E-7);
+            ForceUnits_US[1] = (kipf * m.Pow(-3f)).Scale("kip/in^3", 1d / 0.000016387064);
             ForceUnits_US[2] = ksi;
-            ForceUnits_US[3] = (kipf * m.Pow(-1f)).Scale("kip/ft", 1 / 0.3048);
+            ForceUnits_US[3] = (kipf * m.Pow(-1f)).Scale("kip/ft", 1d / 0.3048);
             ForceUnits_US[4] = kipf;
             ForceUnits_US[5] = (kipf * m).Scale("kip·ft", 0.3048);
             ForceUnits_US[6] = (kipf * m.Pow(2f)).Scale("kip·ft^2", 0.09290304);
@@ -901,12 +901,14 @@ namespace Calcpad.Core
             var n1 = u1.Length;
             var n2 = u2.Length;
             var n = n1 > n2 ? n1 : n2;
+            var p1 = u1._powers;
+            var p2 = u2._powers;
             if (n1 == n2)
             {
                 if (divide)
-                    do { if (--n < 0) return null; } while (u1._powers[n] == u2._powers[n]);
+                    do { if (--n < 0) return null; } while (p1[n] == p2[n]);
                 else
-                    do { if (--n < 0) return null; } while (u1._powers[n] == -u2._powers[n]);
+                    do { if (--n < 0) return null; } while (p1[n] == -p2[n]);
                 ++n;
             }
             Unit unit = new(n);
@@ -917,32 +919,32 @@ namespace Calcpad.Core
 
             if (n1 > n) n1 = n;
             if (n2 > n) n2 = n;
+            var f1 = u1._factors;
+            var f2 = u2._factors;
+            var p = unit._powers;
+            var f = unit._factors;
             for (int i = 0; i < n1; ++i)
             {
-                var p1 = u1._powers[i];
                 if (i < n2)
                 {
-                    var p2 = u2._powers[i]; 
-                    unit._powers[i] = divide ? p1 - p2 : p1 + p2;
-                    unit._factors[i] = p1 == 0f ?
-                        u2._factors[i] :
-                        u1._factors[i];
+                    p[i] = divide ? p1[i] - p2[i] : p1[i] + p2[i];
+                    f[i] = p1[i] == 0f ? f2[i] : f1[i];
                 }
                 else
                 {
-                    unit._powers[i] = p1;
-                    unit._factors[i] = p1 != 0f ? u1._factors[i] : 1f;
+                    p[i] = p1[i];
+                    f[i] = p1[i] != 0f ? f1[i] : 1f;
                 }
             }
             var len = n2 - n1;
             if (len > 0)
             {
-                u2._factors.AsSpan(n1, len).CopyTo(unit._factors.AsSpan(n1));
+                f2.AsSpan(n1, len).CopyTo(f.AsSpan(n1));
                 if (divide)
                     for (int i = n1; i < n2; ++i)
-                        unit._powers[i] = -u2._powers[i];
+                        p[i] = -p2[i];
                 else
-                    u2._powers.AsSpan(n1, len).CopyTo(unit._powers.AsSpan(n1));
+                    p2.AsSpan(n1, len).CopyTo(p.AsSpan(n1));
             }
             return unit;
         }
@@ -956,17 +958,21 @@ namespace Calcpad.Core
             var n2 = u2.Length;
             var n = n1 < n2 ? n1 : n2;
             var factor = 1d;
+            var p1 = u1._powers;
+            var p2 = u2._powers;
+            var f1 = u1._factors;
+            var f2 = u2._factors;
             if (divide)
             {
                 for (int i = 0; i < n; ++i)
-                    if (u1._powers[i] != 0f && u2._powers[i] != 0f)
-                        factor *= MyPow(u1._factors[i] / u2._factors[i], u2._powers[i]);
+                    if (p1[i] != 0f && p2[i] != 0f)
+                        factor *= MyPow(f1[i] / f2[i], p2[i]);
             }
             else
             {
                 for (int i = 0; i < n; ++i)
-                    if (u1._powers[i] != 0f && u2._powers[i] != 0f)
-                        factor *= MyPow(u2._factors[i] / u1._factors[i], u2._powers[i]);
+                    if (p1[i] != 0f && p2[i] != 0f)
+                        factor *= MyPow(f2[i] / f1[i], p2[i]);
             }
             return factor;
         }
@@ -996,8 +1002,9 @@ namespace Calcpad.Core
                 _tempChar = _tempChar
             };
             _factors.AsSpan().CopyTo(unit._factors);
+            var p = unit._powers;
             for (int i = 0; i < n; ++i)
-                unit._powers[i] = _powers[i] * x;
+                p[i] = _powers[i] * x;
 
             return unit;
         }
@@ -1024,10 +1031,11 @@ namespace Calcpad.Core
                 return false;
 
             double d1 = 0d;
+            var op = other._powers;
             for (int i = 0; i < n; ++i)
             {
-                ref var p1 = ref _powers[i];
-                ref var p2 = ref other._powers[i];
+                var p1 = _powers[i];
+                var p2 = op[i];
                 if (p1 != p2)
                 {
                     if (p1 == 0f || p2 == 0f)
@@ -1052,10 +1060,11 @@ namespace Calcpad.Core
                 return GetDimensionlessFactor() / u.GetDimensionlessFactor();
 
             var factor = 1d;
+            var uf = u._factors;
             for (int i = 0, n = Length; i < n; ++i)
             {
                 if (_powers[i] != 0f)
-                    factor *= MyPow(_factors[i] / u._factors[i], _powers[i]);
+                    factor *= MyPow(_factors[i] / uf[i], _powers[i]);
             }
             return factor;
         }

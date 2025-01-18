@@ -54,7 +54,7 @@ PlotHeight = PlotWidth*h/l
 σ_x(x; y) = $Sum{Y_2(n; y)*sin(α(n)*x) @ n = 1 : N}
 '<!--'k = round(abs(σ_x(l/2; h))/20)*50'-->
 $Map{σ_x(x; y) @ x = 0m : l & y = 0m : h}
-'Plot for σ<sub>x</sub> за <var>x</var> = <var>l</var>/2
+'Plot for σ<sub>x</sub> at <var>x</var> = <var>l</var>/2
 $Plot{σ_x(l/2; y)|y & -k|0m & k|0m @ y = 0m : h}
 σ_y(x; y) = -$Sum{α(n)^2*Y(n; y)*sin(α(n)*x) @ n = 1 : N}
 $Map{σ_y(x; y) @ x = 0m : l & y = 0m : h}

@@ -1,0 +1,648 @@
+#def HEM100$
+	#hide
+	h_HEM100 = 120mm
+	b_HEM100 = 106mm
+	tw_HEM100 = 12mm
+	tf_HEM100 = 20mm
+	r_HEM100 = 12mm
+	m_HEM100 = 41.8kg/m
+	P_HEM100 = 0.62m
+	A_HEM100 = 5324mm^2
+	Avz_HEM100 = 1804mm^2
+	Avy_HEM100 = 4240mm^2
+	Iy_HEM100 = 11430000mm^4
+	iy_HEM100 = 46.3mm
+	Wely_HEM100 = 190400mm^3
+	Wply_HEM100 = 235800mm^3
+	Iz_HEM100 = 3992000mm^4
+	iz_HEM100 = 27.4mm
+	Welz_HEM100 = 75310mm^3
+	Wplz_HEM100 = 116300mm^3
+	It_HEM100 = 672800mm^4
+	Wt_HEM100 = 56070mm^3
+	Iw_HEM100 = 9430000000mm^6
+	Ww_HEM100 = 3640000mm^4
+	#show
+	
+#end def
+#def HEM120$
+	#hide
+	h_HEM120 = 140mm
+	b_HEM120 = 126mm
+	tw_HEM120 = 12.5mm
+	tf_HEM120 = 21mm
+	r_HEM120 = 12mm
+	m_HEM120 = 52.1kg/m
+	P_HEM120 = 0.74m
+	A_HEM120 = 6641mm^2
+	Avz_HEM120 = 2115mm^2
+	Avy_HEM120 = 5292mm^2
+	Iy_HEM120 = 20180000mm^4
+	iy_HEM120 = 55.1mm
+	Wely_HEM120 = 288200mm^3
+	Wply_HEM120 = 350600mm^3
+	Iz_HEM120 = 7028000mm^4
+	iz_HEM120 = 32.5mm
+	Welz_HEM120 = 111600mm^3
+	Wplz_HEM120 = 171600mm^3
+	It_HEM120 = 905300mm^4
+	Wt_HEM120 = 72420mm^3
+	Iw_HEM120 = 23887000000mm^6
+	Ww_HEM120 = 6477000mm^4
+	#show
+	
+#end def
+#def HEM140$
+	#hide
+	h_HEM140 = 160mm
+	b_HEM140 = 146mm
+	tw_HEM140 = 13mm
+	tf_HEM140 = 22mm
+	r_HEM140 = 12mm
+	m_HEM140 = 63.2kg/m
+	P_HEM140 = 0.86m
+	A_HEM140 = 8056mm^2
+	Avz_HEM140 = 2446mm^2
+	Avy_HEM140 = 6424mm^2
+	Iy_HEM140 = 32910000mm^4
+	iy_HEM140 = 63.9mm
+	Wely_HEM140 = 411400mm^3
+	Wply_HEM140 = 493800mm^3
+	Iz_HEM140 = 11440000mm^4
+	iz_HEM140 = 37.7mm
+	Welz_HEM140 = 156800mm^3
+	Wplz_HEM140 = 240500mm^3
+	It_HEM140 = 1186000mm^4
+	Wt_HEM140 = 91230mm^3
+	Iw_HEM140 = 52826000000mm^6
+	Ww_HEM140 = 10620000mm^4
+	#show
+	
+#end def
+#def HEM160$
+	#hide
+	h_HEM160 = 180mm
+	b_HEM160 = 166mm
+	tw_HEM160 = 14mm
+	tf_HEM160 = 23mm
+	r_HEM160 = 15mm
+	m_HEM160 = 76.2kg/m
+	P_HEM160 = 0.97m
+	A_HEM160 = 9705mm^2
+	Avz_HEM160 = 3081mm^2
+	Avy_HEM160 = 7636mm^2
+	Iy_HEM160 = 50980000mm^4
+	iy_HEM160 = 72.5mm
+	Wely_HEM160 = 566500mm^3
+	Wply_HEM160 = 674600mm^3
+	Iz_HEM160 = 17590000mm^4
+	iz_HEM160 = 42.6mm
+	Welz_HEM160 = 211900mm^3
+	Wplz_HEM160 = 325500mm^3
+	It_HEM160 = 1608000mm^4
+	Wt_HEM160 = 114900mm^3
+	Iw_HEM160 = 104700000000mm^6
+	Ww_HEM160 = 16290000mm^4
+	#show
+	
+#end def
+#def HEM180$
+	#hide
+	h_HEM180 = 200mm
+	b_HEM180 = 186mm
+	tw_HEM180 = 14.5mm
+	tf_HEM180 = 24mm
+	r_HEM180 = 15mm
+	m_HEM180 = 88.9kg/m
+	P_HEM180 = 1.09m
+	A_HEM180 = 11325mm^2
+	Avz_HEM180 = 3465mm^2
+	Avy_HEM180 = 8928mm^2
+	Iy_HEM180 = 74830000mm^4
+	iy_HEM180 = 81.3mm
+	Wely_HEM180 = 748300mm^3
+	Wply_HEM180 = 883400mm^3
+	Iz_HEM180 = 25800000mm^4
+	iz_HEM180 = 47.7mm
+	Welz_HEM180 = 277400mm^3
+	Wplz_HEM180 = 425200mm^3
+	It_HEM180 = 2014000mm^4
+	Wt_HEM180 = 138900mm^3
+	Iw_HEM180 = 194300000000mm^6
+	Ww_HEM180 = 24010000mm^4
+	#show
+	
+#end def
+#def HEM200$
+	#hide
+	h_HEM200 = 220mm
+	b_HEM200 = 206mm
+	tw_HEM200 = 15mm
+	tf_HEM200 = 25mm
+	r_HEM200 = 18mm
+	m_HEM200 = 103.1kg/m
+	P_HEM200 = 1.2m
+	A_HEM200 = 13128mm^2
+	Avz_HEM200 = 4103mm^2
+	Avy_HEM200 = 10300mm^2
+	Iy_HEM200 = 106400000mm^4
+	iy_HEM200 = 90mm
+	Wely_HEM200 = 967400mm^3
+	Wply_HEM200 = 1135000mm^3
+	Iz_HEM200 = 36510000mm^4
+	iz_HEM200 = 52.7mm
+	Welz_HEM200 = 354500mm^3
+	Wplz_HEM200 = 543200mm^3
+	It_HEM200 = 2581000mm^4
+	Wt_HEM200 = 172100mm^3
+	Iw_HEM200 = 336870000000mm^6
+	Ww_HEM200 = 33930000mm^4
+	#show
+	
+#end def
+#def HEM220$
+	#hide
+	h_HEM220 = 240mm
+	b_HEM220 = 226mm
+	tw_HEM220 = 15.5mm
+	tf_HEM220 = 26mm
+	r_HEM220 = 18mm
+	m_HEM220 = 117.3kg/m
+	P_HEM220 = 1.32m
+	A_HEM220 = 14944mm^2
+	Avz_HEM220 = 4531mm^2
+	Avy_HEM220 = 11752mm^2
+	Iy_HEM220 = 146000000mm^4
+	iy_HEM220 = 98.9mm
+	Wely_HEM220 = 1217000mm^3
+	Wply_HEM220 = 1419000mm^3
+	Iz_HEM220 = 50120000mm^4
+	iz_HEM220 = 57.9mm
+	Welz_HEM220 = 443500mm^3
+	Wplz_HEM220 = 678600mm^3
+	It_HEM220 = 3136000mm^4
+	Wt_HEM220 = 202300mm^3
+	Iw_HEM220 = 559550000000mm^6
+	Ww_HEM220 = 46750000mm^4
+	#show
+	
+#end def
+#def HEM240$
+	#hide
+	h_HEM240 = 270mm
+	b_HEM240 = 248mm
+	tw_HEM240 = 18mm
+	tf_HEM240 = 32mm
+	r_HEM240 = 21mm
+	m_HEM240 = 156.7kg/m
+	P_HEM240 = 1.46m
+	A_HEM240 = 19959mm^2
+	Avz_HEM240 = 6007mm^2
+	Avy_HEM240 = 15872mm^2
+	Iy_HEM240 = 242900000mm^4
+	iy_HEM240 = 110.3mm
+	Wely_HEM240 = 1799000mm^3
+	Wply_HEM240 = 2117000mm^3
+	Iz_HEM240 = 81530000mm^4
+	iz_HEM240 = 63.9mm
+	Welz_HEM240 = 657500mm^3
+	Wplz_HEM240 = 1006000mm^3
+	It_HEM240 = 6272000mm^4
+	Wt_HEM240 = 348400mm^3
+	Iw_HEM240 = 1123500000000mm^6
+	Ww_HEM240 = 76950000mm^4
+	#show
+	
+#end def
+#def HEM260$
+	#hide
+	h_HEM260 = 290mm
+	b_HEM260 = 268mm
+	tw_HEM260 = 18mm
+	tf_HEM260 = 32.5mm
+	r_HEM260 = 24mm
+	m_HEM260 = 172.4kg/m
+	P_HEM260 = 1.58m
+	A_HEM260 = 21964mm^2
+	Avz_HEM260 = 6689mm^2
+	Avy_HEM260 = 17420mm^2
+	Iy_HEM260 = 313100000mm^4
+	iy_HEM260 = 119.4mm
+	Wely_HEM260 = 2159000mm^3
+	Wply_HEM260 = 2524000mm^3
+	Iz_HEM260 = 104500000mm^4
+	iz_HEM260 = 69mm
+	Welz_HEM260 = 779700mm^3
+	Wplz_HEM260 = 1192000mm^3
+	It_HEM260 = 7223000mm^4
+	Wt_HEM260 = 401300mm^3
+	Iw_HEM260 = 1684000000000mm^6
+	Ww_HEM260 = 98650000mm^4
+	#show
+	
+#end def
+#def HEM280$
+	#hide
+	h_HEM280 = 310mm
+	b_HEM280 = 288mm
+	tw_HEM280 = 18.5mm
+	tf_HEM280 = 33mm
+	r_HEM280 = 24mm
+	m_HEM280 = 188.5kg/m
+	P_HEM280 = 1.69m
+	A_HEM280 = 24016mm^2
+	Avz_HEM280 = 7203mm^2
+	Avy_HEM280 = 19008mm^2
+	Iy_HEM280 = 395500000mm^4
+	iy_HEM280 = 128.3mm
+	Wely_HEM280 = 2551000mm^3
+	Wply_HEM280 = 2966000mm^3
+	Iz_HEM280 = 131600000mm^4
+	iz_HEM280 = 74mm
+	Welz_HEM280 = 914100mm^3
+	Wplz_HEM280 = 1397000mm^3
+	It_HEM280 = 8094000mm^4
+	Wt_HEM280 = 437500mm^3
+	Iw_HEM280 = 2463000000000mm^6
+	Ww_HEM280 = 124700000mm^4
+	#show
+	
+#end def
+#def HEM300$
+	#hide
+	h_HEM300 = 340mm
+	b_HEM300 = 310mm
+	tw_HEM300 = 21mm
+	tf_HEM300 = 39mm
+	r_HEM300 = 27mm
+	m_HEM300 = 237.9kg/m
+	P_HEM300 = 1.83m
+	A_HEM300 = 30308mm^2
+	Avz_HEM300 = 9053mm^2
+	Avy_HEM300 = 24180mm^2
+	Iy_HEM300 = 592000000mm^4
+	iy_HEM300 = 139.8mm
+	Wely_HEM300 = 3482000mm^3
+	Wply_HEM300 = 4078000mm^3
+	Iz_HEM300 = 194000000mm^4
+	iz_HEM300 = 80mm
+	Welz_HEM300 = 1252000mm^3
+	Wplz_HEM300 = 1913000mm^3
+	It_HEM300 = 14150000mm^4
+	Wt_HEM300 = 673800mm^3
+	Iw_HEM300 = 4280100000000mm^6
+	Ww_HEM300 = 185400000mm^4
+	#show
+	
+#end def
+#def HEM320$
+	#hide
+	h_HEM320 = 359mm
+	b_HEM320 = 309mm
+	tw_HEM320 = 21mm
+	tf_HEM320 = 40mm
+	r_HEM320 = 27mm
+	m_HEM320 = 245kg/m
+	P_HEM320 = 1.87m
+	A_HEM320 = 31205mm^2
+	Avz_HEM320 = 9485mm^2
+	Avy_HEM320 = 24720mm^2
+	Iy_HEM320 = 681300000mm^4
+	iy_HEM320 = 147.8mm
+	Wely_HEM320 = 3796000mm^3
+	Wply_HEM320 = 4435000mm^3
+	Iz_HEM320 = 197100000mm^4
+	iz_HEM320 = 79.5mm
+	Welz_HEM320 = 1276000mm^3
+	Wplz_HEM320 = 1951000mm^3
+	It_HEM320 = 15100000mm^4
+	Wt_HEM320 = 719000mm^3
+	Iw_HEM320 = 4890000000000mm^6
+	Ww_HEM320 = 200400000mm^4
+	#show
+	
+#end def
+#def HEM340$
+	#hide
+	h_HEM340 = 377mm
+	b_HEM340 = 309mm
+	tw_HEM340 = 21mm
+	tf_HEM340 = 40mm
+	r_HEM340 = 27mm
+	m_HEM340 = 247.9kg/m
+	P_HEM340 = 1.9m
+	A_HEM340 = 31583mm^2
+	Avz_HEM340 = 9863mm^2
+	Avy_HEM340 = 24720mm^2
+	Iy_HEM340 = 763700000mm^4
+	iy_HEM340 = 155.5mm
+	Wely_HEM340 = 4052000mm^3
+	Wply_HEM340 = 4718000mm^3
+	Iz_HEM340 = 197100000mm^4
+	iz_HEM340 = 79mm
+	Welz_HEM340 = 1276000mm^3
+	Wplz_HEM340 = 1953000mm^3
+	It_HEM340 = 15160000mm^4
+	Wt_HEM340 = 721900mm^3
+	Iw_HEM340 = 5463300000000mm^6
+	Ww_HEM340 = 211800000mm^4
+	#show
+	
+#end def
+#def HEM360$
+	#hide
+	h_HEM360 = 395mm
+	b_HEM360 = 308mm
+	tw_HEM360 = 21mm
+	tf_HEM360 = 40mm
+	r_HEM360 = 27mm
+	m_HEM360 = 250.3kg/m
+	P_HEM360 = 1.93m
+	A_HEM360 = 31881mm^2
+	Avz_HEM360 = 10241mm^2
+	Avy_HEM360 = 24640mm^2
+	Iy_HEM360 = 848700000mm^4
+	iy_HEM360 = 163.2mm
+	Wely_HEM360 = 4297000mm^3
+	Wply_HEM360 = 4989000mm^3
+	Iz_HEM360 = 195200000mm^4
+	iz_HEM360 = 78.3mm
+	Welz_HEM360 = 1268000mm^3
+	Wplz_HEM360 = 1942000mm^3
+	It_HEM360 = 15170000mm^4
+	Wt_HEM360 = 722400mm^3
+	Iw_HEM360 = 6009300000000mm^6
+	Ww_HEM360 = 221800000mm^4
+	#show
+	
+#end def
+#def HEM400$
+	#hide
+	h_HEM400 = 432mm
+	b_HEM400 = 307mm
+	tw_HEM400 = 21mm
+	tf_HEM400 = 40mm
+	r_HEM400 = 27mm
+	m_HEM400 = 255.7kg/m
+	P_HEM400 = 2m
+	A_HEM400 = 32578mm^2
+	Avz_HEM400 = 11018mm^2
+	Avy_HEM400 = 24560mm^2
+	Iy_HEM400 = 1041000000mm^4
+	iy_HEM400 = 178.8mm
+	Wely_HEM400 = 4820000mm^3
+	Wply_HEM400 = 5571000mm^3
+	Iz_HEM400 = 193400000mm^4
+	iz_HEM400 = 77mm
+	Welz_HEM400 = 1260000mm^3
+	Wplz_HEM400 = 1934000mm^3
+	It_HEM400 = 15240000mm^4
+	Wt_HEM400 = 725700mm^3
+	Iw_HEM400 = 7268800000000mm^6
+	Ww_HEM400 = 243500000mm^4
+	#show
+	
+#end def
+#def HEM450$
+	#hide
+	h_HEM450 = 478mm
+	b_HEM450 = 307mm
+	tw_HEM450 = 21mm
+	tf_HEM450 = 40mm
+	r_HEM450 = 27mm
+	m_HEM450 = 263.3kg/m
+	P_HEM450 = 2.1m
+	A_HEM450 = 33544mm^2
+	Avz_HEM450 = 11984mm^2
+	Avy_HEM450 = 24560mm^2
+	Iy_HEM450 = 1315000000mm^4
+	iy_HEM450 = 198mm
+	Wely_HEM450 = 5501000mm^3
+	Wply_HEM450 = 6331000mm^3
+	Iz_HEM450 = 193400000mm^4
+	iz_HEM450 = 75.9mm
+	Welz_HEM450 = 1260000mm^3
+	Wplz_HEM450 = 1939000mm^3
+	It_HEM450 = 15380000mm^4
+	Wt_HEM450 = 732400mm^3
+	Iw_HEM450 = 9092300000000mm^6
+	Ww_HEM450 = 272400000mm^4
+	#show
+	
+#end def
+#def HEM500$
+	#hide
+	h_HEM500 = 524mm
+	b_HEM500 = 306mm
+	tw_HEM500 = 21mm
+	tf_HEM500 = 40mm
+	r_HEM500 = 27mm
+	m_HEM500 = 270.3kg/m
+	P_HEM500 = 2.18m
+	A_HEM500 = 34430mm^2
+	Avz_HEM500 = 12950mm^2
+	Avy_HEM500 = 24480mm^2
+	Iy_HEM500 = 1619000000mm^4
+	iy_HEM500 = 216.9mm
+	Wely_HEM500 = 6180000mm^3
+	Wply_HEM500 = 7094000mm^3
+	Iz_HEM500 = 191500000mm^4
+	iz_HEM500 = 74.6mm
+	Welz_HEM500 = 1252000mm^3
+	Wplz_HEM500 = 1932000mm^3
+	It_HEM500 = 15480000mm^4
+	Wt_HEM500 = 737100mm^3
+	Iw_HEM500 = 11012000000000mm^6
+	Ww_HEM500 = 299300000mm^4
+	#show
+	
+#end def
+#def HEM550$
+	#hide
+	h_HEM550 = 572mm
+	b_HEM550 = 306mm
+	tw_HEM550 = 21mm
+	tf_HEM550 = 40mm
+	r_HEM550 = 27mm
+	m_HEM550 = 278.2kg/m
+	P_HEM550 = 2.28m
+	A_HEM550 = 35438mm^2
+	Avz_HEM550 = 13958mm^2
+	Avy_HEM550 = 24480mm^2
+	Iy_HEM550 = 1980000000mm^4
+	iy_HEM550 = 236.4mm
+	Wely_HEM550 = 6923000mm^3
+	Wply_HEM550 = 7933000mm^3
+	Iz_HEM550 = 191600000mm^4
+	iz_HEM550 = 73.5mm
+	Welz_HEM550 = 1252000mm^3
+	Wplz_HEM550 = 1937000mm^3
+	It_HEM550 = 15630000mm^4
+	Wt_HEM550 = 744300mm^3
+	Iw_HEM550 = 13323000000000mm^6
+	Ww_HEM550 = 329300000mm^4
+	#show
+	
+#end def
+#def HEM600$
+	#hide
+	h_HEM600 = 620mm
+	b_HEM600 = 305mm
+	tw_HEM600 = 21mm
+	tf_HEM600 = 40mm
+	r_HEM600 = 27mm
+	m_HEM600 = 285.5kg/m
+	P_HEM600 = 2.37m
+	A_HEM600 = 36366mm^2
+	Avz_HEM600 = 14966mm^2
+	Avy_HEM600 = 24400mm^2
+	Iy_HEM600 = 2374000000mm^4
+	iy_HEM600 = 255.5mm
+	Wely_HEM600 = 7660000mm^3
+	Wply_HEM600 = 8772000mm^3
+	Iz_HEM600 = 189800000mm^4
+	iz_HEM600 = 72.2mm
+	Welz_HEM600 = 1244000mm^3
+	Wplz_HEM600 = 1930000mm^3
+	It_HEM600 = 15740000mm^4
+	Wt_HEM600 = 749500mm^3
+	Iw_HEM600 = 15700000000000mm^6
+	Ww_HEM600 = 357000000mm^4
+	#show
+	
+#end def
+#def HEM650$
+	#hide
+	h_HEM650 = 668mm
+	b_HEM650 = 305mm
+	tw_HEM650 = 21mm
+	tf_HEM650 = 40mm
+	r_HEM650 = 27mm
+	m_HEM650 = 293.4kg/m
+	P_HEM650 = 2.47m
+	A_HEM650 = 37374mm^2
+	Avz_HEM650 = 15974mm^2
+	Avy_HEM650 = 24400mm^2
+	Iy_HEM650 = 2817000000mm^4
+	iy_HEM650 = 274.5mm
+	Wely_HEM650 = 8433000mm^3
+	Wply_HEM650 = 9657000mm^3
+	Iz_HEM650 = 189800000mm^4
+	iz_HEM650 = 71.3mm
+	Welz_HEM650 = 1245000mm^3
+	Wplz_HEM650 = 1936000mm^3
+	It_HEM650 = 15880000mm^4
+	Wt_HEM650 = 756200mm^3
+	Iw_HEM650 = 18427000000000mm^6
+	Ww_HEM650 = 386800000mm^4
+	#show
+	
+#end def
+#def HEM700$
+	#hide
+	h_HEM700 = 716mm
+	b_HEM700 = 304mm
+	tw_HEM700 = 21mm
+	tf_HEM700 = 40mm
+	r_HEM700 = 27mm
+	m_HEM700 = 300.7kg/m
+	P_HEM700 = 2.56m
+	A_HEM700 = 38302mm^2
+	Avz_HEM700 = 16982mm^2
+	Avy_HEM700 = 24320mm^2
+	Iy_HEM700 = 3293000000mm^4
+	iy_HEM700 = 293.2mm
+	Wely_HEM700 = 9198000mm^3
+	Wply_HEM700 = 10540000mm^3
+	Iz_HEM700 = 188000000mm^4
+	iz_HEM700 = 70.1mm
+	Welz_HEM700 = 1237000mm^3
+	Wplz_HEM700 = 1929000mm^3
+	It_HEM700 = 15990000mm^4
+	Wt_HEM700 = 761400mm^3
+	Iw_HEM700 = 21161000000000mm^6
+	Ww_HEM700 = 413800000mm^4
+	#show
+	
+#end def
+#def HEM800$
+	#hide
+	h_HEM800 = 814mm
+	b_HEM800 = 303mm
+	tw_HEM800 = 21mm
+	tf_HEM800 = 40mm
+	r_HEM800 = 30mm
+	m_HEM800 = 317.3kg/m
+	P_HEM800 = 2.75m
+	A_HEM800 = 40427mm^2
+	Avz_HEM800 = 19427mm^2
+	Avy_HEM800 = 24240mm^2
+	Iy_HEM800 = 4426000000mm^4
+	iy_HEM800 = 330.9mm
+	Wely_HEM800 = 10870000mm^3
+	Wply_HEM800 = 12490000mm^3
+	Iz_HEM800 = 186300000mm^4
+	iz_HEM800 = 67.9mm
+	Welz_HEM800 = 1230000mm^3
+	Wplz_HEM800 = 1930000mm^3
+	It_HEM800 = 16630000mm^4
+	Wt_HEM800 = 791900mm^3
+	Iw_HEM800 = 27472000000000mm^6
+	Ww_HEM800 = 470800000mm^4
+	#show
+	
+#end def
+#def HEM900$
+	#hide
+	h_HEM900 = 910mm
+	b_HEM900 = 302mm
+	tw_HEM900 = 21mm
+	tf_HEM900 = 40mm
+	r_HEM900 = 30mm
+	m_HEM900 = 332.5kg/m
+	P_HEM900 = 2.93m
+	A_HEM900 = 42363mm^2
+	Avz_HEM900 = 21443mm^2
+	Avy_HEM900 = 24160mm^2
+	Iy_HEM900 = 5704000000mm^4
+	iy_HEM900 = 367mm
+	Wely_HEM900 = 12540000mm^3
+	Wply_HEM900 = 14440000mm^3
+	Iz_HEM900 = 184500000mm^4
+	iz_HEM900 = 66mm
+	Welz_HEM900 = 1222000mm^3
+	Wplz_HEM900 = 1929000mm^3
+	It_HEM900 = 16890000mm^4
+	Wt_HEM900 = 804300mm^3
+	Iw_HEM900 = 34419000000000mm^6
+	Ww_HEM900 = 526200000mm^4
+	#show
+	
+#end def
+#def HEM1000$
+	#hide
+	h_HEM1000 = 1008mm
+	b_HEM1000 = 302mm
+	tw_HEM1000 = 21mm
+	tf_HEM1000 = 40mm
+	r_HEM1000 = 30mm
+	m_HEM1000 = 348.7kg/m
+	P_HEM1000 = 3.13m
+	A_HEM1000 = 44421mm^2
+	Avz_HEM1000 = 23501mm^2
+	Avy_HEM1000 = 24160mm^2
+	Iy_HEM1000 = 7223000000mm^4
+	iy_HEM1000 = 403.2mm
+	Wely_HEM1000 = 14330000mm^3
+	Wply_HEM1000 = 16570000mm^3
+	Iz_HEM1000 = 184600000mm^4
+	iz_HEM1000 = 64.5mm
+	Welz_HEM1000 = 1222000mm^3
+	Wplz_HEM1000 = 1940000mm^3
+	It_HEM1000 = 17190000mm^4
+	Wt_HEM1000 = 818600mm^3
+	Iw_HEM1000 = 42665000000000mm^6
+	Ww_HEM1000 = 586000000mm^4
+	#show
+	
+#end def

@@ -34,33 +34,34 @@ namespace Calcpad.Core
             { "symmetric", 3 },
             { "vec2diag", 4 },
             { "diag2vec", 5 },
-            { "vec2col", 6 },
-            { "n_rows", 7 },
-            { "n_cols", 8 },
-            { "mnorm_1", 9 },
-            { "mnorm_2", 10 },
-            { "mnorm", 10 },
-            { "mnorm_e", 11 },
-            { "mnorm_i", 12 },
-            { "cond_1", 13 },
-            { "cond_2", 14 },
-            { "cond", 14 },
-            { "cond_e", 15 },
-            { "cond_i", 16 },
-            { "det", 17 },
-            { "rank", 18 },
-            { "transp", 19 },
-            { "trace", 20 },
-            { "inverse", 21 },
-            { "adj", 22 },
-            { "cofactor", 23 },
-            { "eigenvals", 24 },
-            { "eigenvecs", 25 },
-            { "eigen", 26 },
-            { "lu", 27 },
-            { "qr", 28 },
-            { "svd", 29 },
-            { "cholesky", 30 },
+            { "vec2row", 6 },
+            { "vec2col", 7 },
+            { "n_rows", 8 },
+            { "n_cols", 9 },
+            { "mnorm_1", 10 },
+            { "mnorm_2", 11 },
+            { "mnorm", 11 },
+            { "mnorm_e", 12 },
+            { "mnorm_i", 13 },
+            { "cond_1", 14 },
+            { "cond_2", 15 },
+            { "cond", 16 },
+            { "cond_e", 17 },
+            { "cond_i", 18 },
+            { "det", 18 },
+            { "rank", 19 },
+            { "transp", 20 },
+            { "trace", 21 },
+            { "inverse", 22 },
+            { "adj", 23 },
+            { "cofactor", 24 },
+            { "eigenvals", 25 },
+            { "eigenvecs", 26 },
+            { "eigen", 27 },
+            { "lu", 28 },
+            { "qr", 29 },
+            { "svd", 30 },
+            { "cholesky", 21 },
 
         }.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
 
@@ -157,31 +158,32 @@ namespace Calcpad.Core
                 Symmetric,              //3
                 Vec2Diag,               //4
                 Diag2Vec,               //5
-                Vec2Col,                //6
-                NRows,                  //7
-                NCols,                  //8
-                L1Norm,                 //9
-                L2Norm,                 //10
-                FrobNorm,               //11
-                InfNorm,                //12
-                Cond1,                  //13
-                Cond2,                  //14
-                CondFrob,               //15
-                CondInf,                //16
-                Det,                    //17
-                Rank,                   //18
-                Transpose,              //19
-                Trace,                  //20
-                Invert,                 //21
-                Adjoint,                //22
-                Cofactor,               //23
-                EigenValues,            //24
-                EigenVectors,           //25
-                Eigen,                  //26
-                LUDecomposition,        //27
-                QRDecomposition,        //28
-                SVDDecomposition,       //29
-                CholeskyDecomposition,  //30
+                Vec2Row,                //6
+                Vec2Col,                //7
+                NRows,                  //8
+                NCols,                  //9
+                L1Norm,                 //10
+                L2Norm,                 //11
+                FrobNorm,               //12
+                InfNorm,                //13
+                Cond1,                  //14
+                Cond2,                  //15
+                CondFrob,               //16
+                CondInf,                //17
+                Det,                    //18
+                Rank,                   //19
+                Transpose,              //20
+                Trace,                  //21
+                Invert,                 //22
+                Adjoint,                //23
+                Cofactor,               //24
+                EigenValues,            //25
+                EigenVectors,           //26
+                Eigen,                  //27
+                LUDecomposition,        //28
+                QRDecomposition,        //29
+                SVDDecomposition,       //30
+                CholeskyDecomposition,  //31
             ];
             MatrixFunctions2 = [
                 Create,
@@ -361,6 +363,7 @@ namespace Calcpad.Core
         private static SymmetricMatrix Symmetric(in IValue n) => new(IValue.AsInt(n));
         private static DiagonalMatrix Vec2Diag(in IValue v) => new(IValue.AsVector(v));
         private static Vector Diag2Vec(in IValue M) => IValue.AsMatrix(M).Diagonal();
+        private static Matrix Vec2Row(in IValue v) => new(IValue.AsVector(v));
         private static ColumnMatrix Vec2Col(in IValue v) => new(IValue.AsVector(v));
         private static IValue NRows(in IValue M) => new Value(IValue.AsMatrix(M).RowCount);
         private static IValue NCols(in IValue M) => new Value(IValue.AsMatrix(M).ColCount);

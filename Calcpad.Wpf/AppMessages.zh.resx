@@ -59,16 +59,24 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ReportUnhandledExceptionAndClose_NoUnsavedData" xml:space="preserve">
-    <value>没有未保存的数据. 如果问题仍然存在，请联系proektsoft.bg@gmail.com ！</value>
+    <value>
+
+没有未保存的数据. 如果问题仍然存在，请联系proektsoft.bg@gmail.com.</value>
   </data>
   <data name="ReportUnhandledExceptionAndClose_NoUnsavedData_RecoveryAttempted" xml:space="preserve">
-    <value>Calcpad已保存您的工作并尝试自动恢复</value>
+    <value>
+
+Calcpad已保存您的工作并尝试自动恢复.</value>
   </data>
   <data name="ReportUnhandledExceptionAndClose_UnsavedData_RecoveryFailed" xml:space="preserve">
-    <value>有未保存的数据. Calcpad已尝试，但无法恢复. 如果问题仍然存在，请联系proektsoft.bg@gmail.com ！</value>
+    <value>
+
+有未保存的数据. Calcpad已尝试，但无法恢复. 如果问题仍然存在，请联系proektsoft.bg@gmail.com.</value>
   </data>
   <data name="ExceptionDetails" xml:space="preserve">
-    <value>异常信息详情：
+    <value>
+
+异常信息详情：
 
 "{0}"</value>
   </data>
@@ -79,7 +87,7 @@
     <value>未声明的函数.</value>
   </data>
   <data name="Invalid_syntax" xml:space="preserve">
-    <value>无效的语法</value>
+    <value>无效的语法.</value>
   </data>
   <data name="Undeclared_variable" xml:space="preserve">
     <value>未声明的变量.</value>
@@ -94,17 +102,26 @@
     <value>编译器指令无效.</value>
   </data>
   <data name="Invalid_method" xml:space="preserve">
-    <value>无效方法</value>
+    <value>无效方法.</value>
   </data>
   <data name="Error_getting_input_fields_values" xml:space="preserve">
     <value>获取输入值时出错.</value>
   </data>
   <data name="ErrorString" xml:space="preserve">
-    <value>错误！</value>
+    <value>错误</value>
+  </data>
+  <data name="Single_expression_expected" xml:space="preserve">
+    <value>应为单个表达式.</value>
+  </data>
+  <data name="End_of_line_expected" xml:space="preserve">
+    <value>应置于行尾.</value>
   </data>
   <data name="UnexpectedErrorOccurred" xml:space="preserve">
     <value>Calcpad中发生意外错误： "{0}"
 
-来源： "{1}" </value>
+来源： "{1}"</value>
+  </data>
+  <data name="InvalidMacroName" xml:space="preserve">
+    <value>无效宏名称.</value>
   </data>
 </root>

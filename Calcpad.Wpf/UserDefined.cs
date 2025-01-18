@@ -13,6 +13,8 @@ namespace Calcpad.Wpf
         internal readonly Dictionary<string, int> Variables = new(StringComparer.Ordinal);
         internal readonly Dictionary<string, int> Units = new(StringComparer.Ordinal);
         internal readonly Dictionary<string, int> Functions = new(StringComparer.Ordinal);
+        internal readonly List<KeyValuePair<string, int>> FunctionDefs = [];
+        internal readonly Dictionary<string, string> MacroProcedures = [];
         internal readonly Dictionary<string, int> Macros = new(StringComparer.Ordinal);
         internal readonly Dictionary<string, List<int>> MacroParameters = new(StringComparer.Ordinal);
         internal readonly Dictionary<string, List<int>> MacroVariables = new(StringComparer.Ordinal);
@@ -28,11 +30,13 @@ namespace Calcpad.Wpf
             Variables.Clear();
             Units.Clear();
             Functions.Clear();
+            FunctionDefs.Clear();
             Macros.Clear();
             MacroParameters.Clear();
             _macroContents.Clear();
             MacroVariables.Clear();
             MacroFunctions.Clear();
+            MacroProcedures.Clear();
             Variables.Add("e", -1);
             Variables.Add("pi", -1);
             Variables.Add("π", -1);
@@ -173,8 +177,16 @@ namespace Calcpad.Wpf
                             if (!ts.IsEmpty)
                             {
                                 var s = ts.Cut();
-                                if (isFunction)
+                            if (isFunction)
+                                {
+                                    if (s[^1] == '.')
+                                    {
+                                        if (Variables.ContainsKey(s[..^1].ToString()))
+                                            break;
+                                    }
                                     Functions.TryAdd(s.ToString(), lineNumber);
+                                    FunctionDefs.Add(new(item[0..j].Trim().ToString(), lineNumber));
+                                }
                                 else if (ts.StartsWith('.'))
                                     Units.TryAdd(s[1..].ToString(), lineNumber);
                                 else if (!Validator.IsUnitStart(s[0]))
@@ -333,7 +345,10 @@ namespace Calcpad.Wpf
                     isFunction = true;
                 }
                 else if (isFunction && c == ')')
+                {
+                    MacroProcedures.Add(_macroName, lineContent[(_macroName.Length + 1)..(i + 1)].ToString());
                     isComplete = true;
+                }
                 else if (c == '=')
                 {
                     if (!string.IsNullOrEmpty(_macroName))
@@ -380,6 +395,7 @@ namespace Calcpad.Wpf
                 }
             }
         }
+
         internal bool IsMacroOrParameter(string s, int line) =>
             IsDefined(s, line, Macros, MacroParameters);
 

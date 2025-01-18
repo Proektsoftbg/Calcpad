@@ -198,7 +198,7 @@ object SyntAnal6: TLibSyntAnalyzer
         '_ne|find_lt|find_gt|find_le|find_ge|lookup|Lookup_eq|Lookup_ne|L' +
         'ookup_lt|Lookup_gt|Lookup_le|Lookup_ge|norm|norm_1|norm_2|norm_e' +
         '|norm_i|norm_p|unit|dot|cross|matrix|identiy|diagonal|column|utr' +
-        'iang|ltriang|symmetric|vec2diag|diag2vec|vec2col|join_cols|join_' +
+        'iang|ltriang|symmetric|vec2diag|diag2vec|vec2col|vec2row|join_cols|join_' +
         'rows|augment|stack|mfill|fill_row|fill_col|mresize|copy|add|n_ro' +
         'ws|n_cols|row|col|extrac_rows|extract_cols|submatrix|mnorm|mnorm' +
         '_2|mnorm_e|mnorm_1|mnorm_i|cond|cond_1|cond_2|cond_e|cond_i|det|' +

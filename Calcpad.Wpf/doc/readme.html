@@ -764,14 +764,15 @@
             <li>vectors and matrices: rectangular, symmetric, column, diagonal, upper/lower triangular;</li>
             <li>custom variables and units;</li>
             <li>built-in library with common math functions;</li>
-			<li>vectors and matrix functions: <ul>
-				<li>data functions: search, lookup, sort, count, etc.;</li>
-				<li>aggregate functions: min, max, sum, sumsq, srss, average, product, (geometric) mean, etc.;</li>
-				<li>
-					math functions: norm, condition, determinant, rank, trace, transpose, adjugate and cofactor, inverse,
-					factorization (Cholesky, ldlt, lu, qr and svd), eigenvalues/vectors and linear systems of equations;
-				</li>
-			</ul>
+            <li>
+                vectors and matrix functions: <ul>
+                    <li>data functions: search, lookup, sort, count, etc.;</li>
+                    <li>aggregate functions: min, max, sum, sumsq, srss, average, product, (geometric) mean, etc.;</li>
+                    <li>
+                        math functions: norm, condition, determinant, rank, trace, transpose, adjugate and cofactor, inverse,
+                        factorization (Cholesky, ldlt, lu, qr and svd), eigenvalues/vectors and linear systems of equations;
+                    </li>
+                </ul>
             <li>custom functions of multiple parameters f(x; y; z; …);</li>
             <li>powerful numerical methods for root and extremum finding, numerical integration and differentiation;</li>
             <li>finite sum, product and iteration procedures;</li>
@@ -1194,169 +1195,191 @@
             </li>
             <li>
                 Other:<ul style="list-style-type:none;">
-                    <li><code><b>sign</b>(<var>x</var>)</code> - sign of a number = -1, if <var>x</var> &lt; 0; 1, if <var>x</var> &gt; 0; 0, if <var>x</var> = 0;</li></li>
-                    <li><code><b>random</b>(<var>x</var>)</code> - a random number between 0 and <var>x</var>.</li>
-                </ul>
+                    <li><code><b>sign</b>(<var>x</var>)</code> - sign of a number = -1, if <var>x</var> &lt; 0; 1, if <var>x</var> &gt; 0; 0, if <var>x</var> = 0;</li>
             </li>
-            <li>
-                Vector:<ul>
-				<li>Creational:<ul style="list-style-type:none;">
-                    <li><code><b>vector</b>(<var>n</var>)</code> - creates an empty vector with length <var>n</var>;</li>
-                    <li><code><b>fill</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>)</code> - fills vector <var><span class="vec">⃗</span>v</var> with value <var>x</var>;</li>
-                    <li><code><b>range</b>(<var>x</var><sub>1</sub>; <var>x</var><sub>n</sub>; <var>s</var>)</code> - creates a vector with values spanning from <var>x</var><sub>1</sub> to <var>x</var><sub>n</sub> with step <var>s</var>;</li>
-				</ul></li>
-				<li>Structural:<ul style="list-style-type:none;">
-                    <li><code><b>len</b>(<var><span class="vec">⃗</span>v</var>)</code> - returns the length of vector <var><span class="vec">⃗</span>v</var>;</li>
-                    <li><code><b>size</b>(<var><span class="vec">⃗</span>v</var>)</code> - the actual size of vector <var><span class="vec">⃗</span>v</var> (the index of the last non-zero element);</li>
-                    <li><code><b>resize</b>(<var><span class="vec">⃗</span>v</var>; <var>n</var>)</code> - sets a new length <var>n</var> of vector <var><span class="vec">⃗</span>v</var>;</li>
-  					<li><code><b>join</b>(<var>A</var>; <var><span class="vec">⃗</span>b</var>; <var>c</var>…)</code> - creates a vector by joining the arguments in the list - matrices, vectors and scalars;</li>
-                    <li><code><b>slice</b>(<var><span class="vec">⃗</span>v</var>; <var>i</var><sub>1</sub>; <var>i</var><sub>2</sub>)</code> - returns the part of vector <var><span class="vec">⃗</span>v</var>, bounded by indexes <var>i</var><sub>1</sub> and <var>i</var><sub>2</sub>, inclusively;</li>
-                    <li><code><b>first</b>(<var><span class="vec">⃗</span>v</var>; <var>n</var>)</code> - the first <var>n</var> elements of vector <var><span class="vec">⃗</span>v</var>;</li>
-                    <li><code><b>last</b>(<var><span class="vec">⃗</span>v</var>; <var>n</var>)</code> - the last <var>n</var> elements of vector <var><span class="vec">⃗</span>v</var>;</li>
-                    <li><code><b>extract</b>(<var><span class="vec">⃗</span>v</var>; <var><span class="vec">⃗</span>i</var>)</code> - extracts the elements from <var><span class="vec">⃗</span>v</var> which indexes are contained in <var><span class="vec">⃗</span>i</var>;</li>
-				</ul></li>
-				<li>Data:<ul style="list-style-type:none;">
-					<li><code><b>sort</b>(<var><span class="vec">⃗</span>v</var>)</code> - sorts the elements of vector <var><span class="vec">⃗</span>v</var> in ascending order;</li>
-                    <li><code><b>rsort</b>(<var><span class="vec">⃗</span>v</var>)</code> - sorts the elements of vector <var><span class="vec">⃗</span>v</var> in descending order;</li>
-                    <li><code><b>order</b>(<var><span class="vec">⃗</span>v</var>)</code> - the indexes of vector <var><span class="vec">⃗</span>v</var>, by ascending order of its elements;</li>
-                    <li><code><b>revorder</b>(<var><span class="vec">⃗</span>v</var>)</code> - the indexes of vector <var><span class="vec">⃗</span>v</var>, by descending order of its elements;</li>
-                    <li><code><b>reverse</b>(<var><span class="vec">⃗</span>v</var>)</code> - a vector containing the elements of <var><span class="vec">⃗</span>v</var> in reverse order;</li>
-                    <li><code><b>count</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> - number of elements of vector <var><span class="vec">⃗</span>v</var>, after the <var>i</var>-th incl., that are equal to <var>x</var>;</li>
-                    <li><code><b>search</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> - the index of the first element in <var><span class="vec">⃗</span>v</var>, after the <var>i</var>-th incl., that is equal to <var>x</var>;</li>
-                    <li><code><b>find</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> or </li>
-                    <li><code><b>find_eq</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> - the indexes of all elements in <var><span class="vec">⃗</span>v</var>, after the <var>i</var>-th incl., that are = <var>x</var>;</li>
-                    <li><code><b>find_ne</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> - the indexes of all elements in <var><span class="vec">⃗</span>v</var>, after the <var>i</var>-th incl. that are ≠ <var>x</var>;</li>
-                    <li><code><b>find_lt</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> - the indexes of all elements in <var><span class="vec">⃗</span>v</var>, after the <var>i</var>-th incl., that are &lt; <var>x</var>;</li>
-                    <li><code><b>find_le</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> - the indexes of all elements in <var><span class="vec">⃗</span>v</var>, after the <var>i</var>-th incl., that are &le; <var>x</var>;</li>
-                    <li><code><b>find_gt</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> - the indexes of all elements in <var><span class="vec">⃗</span>v</var>, after the <var>i</var>-th incl., that are &gt; <var>x</var>;</li>
-                    <li><code><b>find_ge</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> - the indexes of all elements in <var><span class="vec">⃗</span>v</var>, after the <var>i</var>-th incl., that are &ge; <var>x</var>;</li>
-                    <li><code><b>lookup</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>; <var>x</var>)</code> or</li>
-                    <li><code><b>lookup_eq</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>; <var>x</var>)</code> - all elements in <var><span class="vec">⃗</span>a</var> for which the corresponding elements in <var><span class="vec">⃗</span>b</var> are = <var>x</var>;</li>
-                    <li><code><b>lookup_ne</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>; <var>x</var>)</code> - all elements in <var><span class="vec">⃗</span>a</var> for which the corresponding elements in <var><span class="vec">⃗</span>b</var> are ≠ <var>x</var>;</li>
-                    <li><code><b>lookup_lt</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>; <var>x</var>)</code> - all elements in <var><span class="vec">⃗</span>a</var> for which the corresponding elements in <var><span class="vec">⃗</span>b</var> are &lt; <var>x</var>;</li>
-                    <li><code><b>lookup_le</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>; <var>x</var>)</code> - all elements in <var><span class="vec">⃗</span>a</var> for which the corresponding elements in <var><span class="vec">⃗</span>b</var> are &le; <var>x</var>;</li>
-                    <li><code><b>lookup_gt</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>; <var>x</var>)</code> - all elements in <var><span class="vec">⃗</span>a</var> for which the corresponding elements in <var><span class="vec">⃗</span>b</var> are &gt; <var>x</var>;</li>
-                    <li><code><b>lookup_ge</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>; <var>x</var>)</code> - all elements in <var><span class="vec">⃗</span>a</var> for which the corresponding elements in <var><span class="vec">⃗</span>b</var> are &ge; <var>x</var>;</li>
-				</ul></li>
-				<li>Math:<ul style="list-style-type:none;">  				
-					<li><code><b>norm_1</b>(<var><span class="vec">⃗</span>v</var>)</code> - L1 (Manhattan) norm of vector <var><span class="vec">⃗</span>v</var>;</li>
-                    <li><code><b>norm</b>(<var><span class="vec">⃗</span>v</var>)</code> or</li>
-                    <li><code><b>norm_2</b>(<var><span class="vec">⃗</span>v</var>)</code> or</li>
-                    <li><code><b>norm_e</b>(<var><span class="vec">⃗</span>v</var>)</code> - L2 (Euclidean) norm of vector <var><span class="vec">⃗</span>v</var>;</li>
-                    <li><code><b>norm_p</b>(<var><span class="vec">⃗</span>v</var>; <var>p</var>)</code> - Lp norm of vector <var><span class="vec">⃗</span>v</var>;</li>
-                    <li><code><b>norm_i</b>(<var><span class="vec">⃗</span>v</var>)</code> - L∞ (infinity) norm of vector <var><span class="vec">⃗</span>v</var>;</li>
-                    <li><code><b>unit</b>(<var><span class="vec">⃗</span>v</var>)</code> - the normalized vector <var><span class="vec">⃗</span>v</var> (with L2 norm = 1);</li>
-                    <li><code><b>dot</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>)</code> - scalar product of two vectors <var><span class="vec">⃗</span>a</var> and <var><span class="vec">⃗</span>b</var>;</li>
-                    <li><code><b>cross</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>)</code> - cross product of two vectors <var><span class="vec">⃗</span>a</var> and <var><span class="vec">⃗</span>b</var> (with length 2 or 3);</li>
-                </ul></li></ul>
-            </li>
-            <li>
-                Matrix:<ul>
-				<li>Creational:<ul style="list-style-type:none;">
-                    <li><code><b>matrix</b>(<var>m</var>; <var>n</var>)</code> - creates an empty matrix with dimensions <var>m</var>⨯<var>n</var>;</li>
-                    <li><code><b>identity</b>(<var>n</var>)</code> - creates an identity matrix with dimensions <var>n</var>⨯<var>n</var>;</li>
-                    <li><code><b>diagonal</b>(<var>n</var>; <var>d</var>)</code> - creates a diagonal <var>n</var>⨯<var>n</var>  matrix and fills the diagonal with value <var>d</var>;</li>
-                    <li><code><b>column</b>(<var>m</var>; <var>c</var>)</code> - creates a column matrix with dimensions <var>m</var>⨯1, filled with value <var>c</var>;</li>
-                    <li><code><b>utriang</b>(<var>n</var>)</code> - creates an upper triangular matrix with dimensions <var>n</var>⨯<var>n</var>;</li>
-                    <li><code><b>ltriang</b>(<var>n</var>)</code> - creates a lower triangular matrix with dimensions <var>n</var>⨯<var>n</var>;</li>
-                    <li><code><b>symmetric</b>(<var>n</var>)</code> - creates a symmetric matrix with dimensions <var>n</var>⨯<var>n</var>;</li>
-                    <li><code><b>vec2diag</b>(<var><span class="vec">⃗</span>v</var>)</code> - creates a diagonal matrix from the elements of vector <var><span class="vec">⃗</span>v</var>;</li>
-                    <li><code><b>vec2col</b>(<var><span class="vec">⃗</span>v</var>)</code> - creates a column matrix from the elements of vector <var><span class="vec">⃗</span>v</var>;</li>
-                    <li><code><b>join_cols</b>(<var><span class="vec">⃗</span>c</var><sub>1</sub>; <var><span class="vec">⃗</span>c</var><sub>2</sub>; <var><span class="vec">⃗</span>c</var><sub>3</sub>…)</code> - creates a new matrix by joining column vectors;</li>
-                    <li><code><b>join_rows</b>(<var><span class="vec">⃗</span>r</var><sub>1</sub>; <var><span class="vec">⃗</span>r</var><sub>2</sub>; <var><span class="vec">⃗</span>r</var><sub>3</sub>…)</code> - creates a new matrix by joining row vectors;</li>
-                    <li><code><b>augment</b>(<var>A</var>; <var><span class="vec">⃗</span>b</var>; <var>c</var>…)</code> - creates a new matrix by appending matrices <var>A</var>; <var><span class="vec">⃗</span>b</var>; <var>c</var>… side by side;</li>
-                    <li><code><b>stack</b>(<var>A</var>; <var><span class="vec">⃗</span>b</var>; <var>c</var>…)</code> - creates a new matrix by stacking matrices <var>A</var>; <var><span class="vec">⃗</span>b</var>; <var>c</var>… one below the other;</li>
-				</ul></li>
-				<li>Structural:<ul style="list-style-type:none;"> 
-                    <li><code><b>n_rows</b>(<var>M</var>)</code> - number of rows in matrix <var>M</var>;</li>
-                    <li><code><b>n_cols</b>(<var>M</var>)</code> - number of columns in matrix <var>M</var>;</li>
-					<li><code><b>mresize</b>(<var>M</var>; <var>m</var>; <var>n</var>)</code> - sets new dimensions <var>m</var> and <var>n</var> for matrix <var>M</var>;</li>
-                    <li><code><b>mfill</b>(<var>M</var>; <var>x</var>)</code> - fills matrix <var>M</var> with value <var>x</var>;</li>
-                    <li><code><b>fill_row</b>(<var>M</var>; <var>i</var>; <var>x</var>)</code> - fills the <var>i</var>-th row of matrix <var>M</var> with value <var>x</var>;</li>
-                    <li><code><b>fill_col</b>(<var>M</var>; <var>j</var>; <var>x</var>)</code> - fills the <var>j</var>-th column of matrix <var>M</var> with value <var>x</var>;</li>
-                    <li><code><b>copy</b>(<var>A</var>; <var>B</var>; <var>i</var>; <var>j</var>)</code> - copies all elements from <var>A</var> to <var>B</var>, starting from indexes <var>i</var> and <var>j</var> of <var>B</var>;</li>
-                    <li><code><b>add</b>(<var>A</var>; <var>B</var>; <var>i</var>; <var>j</var>)</code> - adds all elements from <var>A</var> to those of <var>B</var>, starting from indexes <var>i</var> and <var>j</var> of <var>B</var>;</li>
-                    <li><code><b>row</b>(<var>M</var>; <var>i</var>)</code> - extracts the <var>i</var>-th row of matrix <var>M</var> as a vector;</li>
-                    <li><code><b>col</b>(<var>M</var>; <var>j</var>)</code> - extracts the <var>j</var>-th column of matrix <var>M</var> as a vector;</li>
-					<li><code><b>extract_rows</b>(<var>M</var>; <var><span class="vec">⃗</span>i</var>)</code> - extracts the rows from matrix <var>M</var> whose indexes are contained in vector <var><span class="vec">⃗</span>i</var>;</li>
-                    <li><code><b>extract_cols</b>(<var>M</var>; <var><span class="vec">⃗</span>j</var>)</code> - extracts the columns from matrix <var>M</var> whose indexes are contained in vector <var><span class="vec">⃗</span>j</var>;</li>
-					<li><code><b>diag2vec</b>(<var>M</var>)</code> - extracts the diagonal elements of matrix <var>M</var> to a vector;</li>
-                    <li><code><b>submatrix</b>(<var>M</var>; <var>i</var><sub>1</sub>; <var>i</var><sub>2</sub>; <var>j</var><sub>1</sub>; <var>j</var><sub>2</sub>)</code> - extracts a submatrix of <var>M</var>, bounded by rows <var>i</var><sub>1</sub> and <var>i</var><sub>2</sub> and columns <var>j</var><sub>1</sub> and <var>j</var><sub>2</sub>, incl.;</li>
-				</ul></li>
-				<li>Data:<ul style="list-style-type:none;">                    
-					<li><code><b>sort_cols</b>(<var>M</var>; <var>i</var>)</code> - sorts the columns of <var>M</var> based on the values in row <var>i</var> in ascending order;</li>
-                    <li><code><b>rsort_cols</b>(<var>M</var>; <var>i</var>)</code> - sorts the columns of <var>M</var> based on the values in row <var>i</var> in descending order;</li>
-                    <li><code><b>sort_rows</b>(<var>M</var>; <var>j</var>)</code> - sorts the rows of <var>M</var> based on the values in column <var>j</var> in ascending order;</li>
-                    <li><code><b>rsort_rows</b>(<var>M</var>; <var>j</var>)</code> - sorts the rows of <var>M</var> based on the values in column <var>j</var> in descending order;</li>
-                    <li><code><b>order_cols</b>(<var>M</var>; <var>i</var>)</code> - the indexes of the columns of <var>M</var> based on the ordering of the values from row <var>i</var> in ascending order;</li>
-                    <li><code><b>revorder_cols</b>(<var>M</var>; <var>i</var>)</code> - the indexes of the columns of <var>M</var> based on the ordering of the values from row <var>i</var> in descending order;</li>
-                    <li><code><b>order_rows</b>(<var>M</var>; <var>j</var>)</code> - the indexes of the rows of <var>M</var> based on the ordering of the values in column <var>j</var> in ascending order;</li>
-                    <li><code><b>revorder_rows</b>(<var>M</var>; <var>j</var>)</code> - the indexes of the rows of <var>M</var> based on the ordering of the values in column <var>j</var> in descending order;</li>
-                    <li><code><b>mcount</b>(<var>M</var>; <var>x</var>)</code> - number of occurrences of value <var>x</var> in matrix <var>M</var>;</li>
-                    <li><code><b>msearch</b>(<var>M</var>; <var>x</var>; <var>i</var>; <var>j</var>)</code> - vector with the two indexes of the first occurrence of <var>x</var> in matrix <var>M</var>, starting from indexes <var>i</var> and <var>j</var>;</li>
-                    <li><code><b>mfind</b>(<var>M</var>; <var>x</var>)</code> or</li>
-                    <li><code><b>mfind_eq</b>(<var>M</var>; <var>x</var>)</code> - the indexes of all elements in <var>M</var> equal to <var>x</var>;</li>
-                    <li><code><b>mfind_ne</b>(<var>M</var>; <var>x</var>)</code> - the indexes of all elements in <var>M</var> not equal to <var>x</var>;</li>
-                    <li><code><b>mfind_lt</b>(<var>M</var>; <var>x</var>)</code> - the indexes of all elements in <var>M</var> less than <var>x</var>;</li>
-                    <li><code><b>mfind_le</b>(<var>M</var>; <var>x</var>)</code> - the indexes of all elements in <var>M</var> less than or equal to <var>x</var>;</li>
-                    <li><code><b>mfind_gt</b>(<var>M</var>; <var>x</var>)</code> - the indexes of all elements in <var>M</var> greater than <var>x</var>;</li>
-                    <li><code><b>mfind_ge</b>(<var>M</var>; <var>x</var>)</code> - the indexes of all elements in <var>M</var> greater than or equal to <var>x</var>;</li>
-                    <li><code><b>hlookup</b>(<var>M</var>; <var>x</var>; <var>i</var><sub>1</sub>; <var>i</var><sub>2</sub>)</code> or</li>
-                    <li><code><b>hlookup_eq</b>(<var>M</var>; <var>x</var>; <var>i</var><sub>1</sub>; <var>i</var><sub>2</sub>)</code> - the values from row <var>i</var><sub>2</sub> of <var>M</var>, for which the elements in row <var>i</var><sub>1</sub> are equal to <var>x</var>;</li>
-                    <li><code><b>hlookup_ne</b>(<var>M</var>; <var>x</var>; <var>i</var><sub>1</sub>; <var>i</var><sub>2</sub>)</code> - the values from row <var>i</var><sub>2</sub> of <var>M</var>, for which the elements in row <var>i</var><sub>1</sub> are not equal to <var>x</var>;</li>
-                    <li><code><b>hlookup_lt</b>(<var>M</var>; <var>x</var>; <var>i</var><sub>1</sub>; <var>i</var><sub>2</sub>)</code> - the values from row <var>i</var><sub>2</sub> of <var>M</var>, for which the elements in row <var>i</var><sub>1</sub> are less than <var>x</var>;</li>
-                    <li><code><b>hlookup_le</b>(<var>M</var>; <var>x</var>; <var>i</var><sub>1</sub>; <var>i</var><sub>2</sub>)</code> - the values from row <var>i</var><sub>2</sub> of <var>M</var>, for which the elements in row <var>i</var><sub>1</sub> are less than or equal to <var>x</var>;</li>
-                    <li><code><b>hlookup_gt</b>(<var>M</var>; <var>x</var>; <var>i</var><sub>1</sub>; <var>i</var><sub>2</sub>)</code> - the values from row <var>i</var><sub>2</sub> of <var>M</var>, for which the elements in row <var>i</var><sub>1</sub> are greater than <var>x</var>;</li>
-                    <li><code><b>hlookup_ge</b>(<var>M</var>; <var>x</var>; <var>i</var><sub>1</sub>; <var>i</var><sub>2</sub>)</code> - the values from row <var>i</var><sub>2</sub> of <var>M</var>, for which the elements in row <var>i</var><sub>1</sub> are greater than or equal to <var>x</var>;</li>
-                    <li><code><b>vlookup</b>(<var>M</var>; <var>x</var>; <var>j</var><sub>1</sub>; <var>j</var><sub>2</sub>)</code> or</li>
-                    <li><code><b>vlookup_eq</b>(<var>M</var>; <var>x</var>; <var>j</var><sub>1</sub>; <var>j</var><sub>2</sub>)</code> - the values from column <var>j</var><sub>2</sub> of <var>M</var>, for which the elements in column <var>j</var><sub>1</sub> are equal to <var>x</var>;</li>
-                    <li><code><b>vlookup_ne</b>(<var>M</var>; <var>x</var>; <var>j</var><sub>1</sub>; <var>j</var><sub>2</sub>)</code> - the values from column <var>j</var><sub>2</sub> of <var>M</var>, for which the elements in column <var>j</var><sub>1</sub> are not equal to <var>x</var>;</li>
-                    <li><code><b>vlookup_lt</b>(<var>M</var>; <var>x</var>; <var>j</var><sub>1</sub>; <var>j</var><sub>2</sub>)</code> - the values from column <var>j</var><sub>2</sub> of <var>M</var>, for which the elements in column <var>j</var><sub>1</sub> are less than <var>x</var>;</li>
-                    <li><code><b>vlookup_le</b>(<var>M</var>; <var>x</var>; <var>j</var><sub>1</sub>; <var>j</var><sub>2</sub>)</code> - the values from column <var>j</var><sub>2</sub> of <var>M</var>, for which the elements in column <var>j</var><sub>1</sub> are less than or equal to <var>x</var>;</li>
-                    <li><code><b>vlookup_gt</b>(<var>M</var>; <var>x</var>; <var>j</var><sub>1</sub>; <var>j</var><sub>2</sub>)</code> - the values from column <var>j</var><sub>2</sub> of <var>M</var>, for which the elements in column <var>j</var><sub>1</sub> are greater than <var>x</var>;</li>
-                    <li><code><b>vlookup_ge</b>(<var>M</var>; <var>x</var>; <var>j</var><sub>1</sub>; <var>j</var><sub>2</sub>)</code> - the values from column <var>j</var><sub>2</sub> of <var>M</var>, for which the elements in column <var>j</var><sub>1</sub> are greater than or equal to <var>x</var>;</li>
-				</ul></li>
-				<li>Math:<ul style="list-style-type:none;">
-					<li><code><b>hprod</b>(<var>A</var>; <var>B</var>)</code> - Hadamard product of matrices <var>A</var> and <var>B</var>;</li>
-                    <li><code><b>fprod</b>(<var>A</var>; <var>B</var>)</code> - Frobenius product of matrices <var>A</var> and <var>B</var>;</li>
-                    <li><code><b>kprod</b>(<var>A</var>; <var>B</var>)</code> - Kronecker product of matrices <var>A</var> and <var>B</var>;</li>
-                    <li><code><b>mnorm_1</b>(<var>M</var>)</code> - L1 norm of matrix <var>M</var>;</li>
-                    <li><code><b>mnorm</b>(<var>M</var>)</code> or<br />
-                    <li><code><b>mnorm_2</b>(<var>M</var>)</code> - L2 norm of matrix <var>M</var>;</li>
-                    <li><code><b>mnorm_e</b>(<var>M</var>)</code> - Frobenius norm of matrix <var>M</var>;</li>
-                    <li><code><b>mnorm_i</b>(<var>M</var>)</code> - L∞ norm of matrix <var>M</var>;</li>
-                    <li><code><b>cond_1</b>(<var>M</var>)</code> - condition number of <var>M</var> based on the L1 norm;</li>
-                    <li><code><b>cond</b>(<var>M</var>)</code> or</li>
-                    <li><code><b>cond_2</b>(<var>M</var>)</code> - condition number of <var>M</var> based on the L2 norm;</li>
-                    <li><code><b>cond_e</b>(<var>M</var>)</code> - condition number of <var>M</var> based on the Frobenius norm;</li>
-                    <li><code><b>cond_i</b>(<var>M</var>)</code> - condition number of <var>M</var> based on the L∞ norm;</li>
-                    <li><code><b>det</b>(<var>M</var>)</code> - determinant of matrix <var>M</var>;</li>
-                    <li><code><b>rank</b>(<var>M</var>)</code> - rank of matrix <var>M</var>;</li>
-                    <li><code><b>trace</b>(<var>M</var>)</code> - trace of matrix <var>M</var>;</li>
-                    <li><code><b>transp</b>(<var>M</var>)</code> - transpose of matrix <var>M</var>;</li>
-                    <li><code><b>adj</b>(<var>M</var>)</code> - adjugate of matrix <var>M</var>;</li>
-                    <li><code><b>cofactor</b>(<var>M</var>)</code> - cofactor matrix of <var>M</var>;</li>
-                    <li><code><b>eigenvals</b>(<var>M</var>)</code> - eigenvalues of matrix <var>M</var>;</li>
-                    <li><code><b>eigenvecs</b>(<var>M</var>)</code> - eigenvectors of matrix <var>M</var>;</li>
-                    <li><code><b>eigen</b>(<var>M</var>)</code> - eigenvalues and eigenvectors of matrix <var>M</var>;</li>
-                    <li><code><b>cholesky</b>(<var>M</var>)</code> - Cholesky decomposition of a symmetric, positive-definite matrix <var>M</var>;</li>
-                    <li><code><b>lu</b>(<var>M</var>)</code> - LU decomposition of matrix <var>M</var>;</li>
-                    <li><code><b>qr</b>(<var>M</var>)</code> - QR decomposition of matrix <var>M</var>;</li>
-                    <li><code><b>svd</b>(<var>M</var>)</code> - singular value decomposition of <var>M</var>;</li>
-                    <li><code><b>inverse</b>(<var>M</var>)</code> - inverse of matrix <var>M</var>;</li>
-                    <li><code><b>lsolve</b>(<var>A</var>; <var>b</var>)</code> - solves the system of linear equations <var>A<span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> using LDL<sup>T</sup> decomposition for symmetric matrices, and LU for non-symmetric;</li>
-                    <li><code><b>clsolve</b>(<var>A</var>; <var>b</var>)</code> - solves the linear matrix equation <var>A<span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> with symmetric, positive-definite coefficient matrix <var>A</var> using Cholesky decomposition;</li>
-                    <li><code><b>msolve</b>(<var>A</var>; <var>B</var>)</code> - solves the generalized matrix equation <var>AX</var> = <var>B</var> using LDL<sup>T</sup> decomposition for symmetric matrices, and LU for non-symmetric;</li>
-                    <li><code><b>cmsolve</b>(<var>A</var>; <var>B</var>)</code> - solves the generalized matrix equation <var>AX</var> = <var>B</var> with symmetric, positive-definite coefficient matrix <var>A</var> using Cholesky decomposition;<br />
-                    </li>   
-                    </li>
-				</ul></li>
-				<li>Double interpolation:<ul style="list-style-type:none;">
-                    <li><code><b>take</b>(<var>x</var>; <var>y</var>; <var>M</var>)</code> - returns the element of matrix <var>M</var> at indexes <var>x</var> and <var>y</var>;</li>
-                    <li><code><b>line</b>(<var>x</var>; <var>y</var>; <var>M</var>)</code> - double linear interpolation from the elements of matrix <var>M</var> based on the values of <var>x</var> and <var>y</var>;</li>
-                    <li><code><b>spline</b>(<var>x</var>; <var>y</var>; <var>M</var>)</code> - double Hermite spline interpolation from the elements of matrix <var>M</var> based on the values of <var>x</var> and <var>y</var>.</li>
-                </ul></li></ul>
-            </li>
+            <li><code><b>random</b>(<var>x</var>)</code> - a random number between 0 and <var>x</var>.</li>
+        </ul>
+        </li>
+        <li>
+            Vector:<ul>
+                <li>
+                    Creational:<ul style="list-style-type:none;">
+                        <li><code><b>vector</b>(<var>n</var>)</code> - creates an empty vector with length <var>n</var>;</li>
+                        <li><code><b>fill</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>)</code> - fills vector <var><span class="vec">⃗</span>v</var> with value <var>x</var>;</li>
+                        <li><code><b>range</b>(<var>x</var><sub>1</sub>; <var>x</var><sub>n</sub>; <var>s</var>)</code> - creates a vector with values spanning from <var>x</var><sub>1</sub> to <var>x</var><sub>n</sub> with step <var>s</var>;</li>
+                    </ul>
+                </li>
+                <li>
+                    Structural:<ul style="list-style-type:none;">
+                        <li><code><b>len</b>(<var><span class="vec">⃗</span>v</var>)</code> - returns the length of vector <var><span class="vec">⃗</span>v</var>;</li>
+                        <li><code><b>size</b>(<var><span class="vec">⃗</span>v</var>)</code> - the actual size of vector <var><span class="vec">⃗</span>v</var> (the index of the last non-zero element);</li>
+                        <li><code><b>resize</b>(<var><span class="vec">⃗</span>v</var>; <var>n</var>)</code> - sets a new length <var>n</var> of vector <var><span class="vec">⃗</span>v</var>;</li>
+                        <li><code><b>join</b>(<var>A</var>; <var><span class="vec">⃗</span>b</var>; <var>c</var>…)</code> - creates a vector by joining the arguments in the list - matrices, vectors and scalars;</li>
+                        <li><code><b>slice</b>(<var><span class="vec">⃗</span>v</var>; <var>i</var><sub>1</sub>; <var>i</var><sub>2</sub>)</code> - returns the part of vector <var><span class="vec">⃗</span>v</var>, bounded by indexes <var>i</var><sub>1</sub> and <var>i</var><sub>2</sub>, inclusively;</li>
+                        <li><code><b>first</b>(<var><span class="vec">⃗</span>v</var>; <var>n</var>)</code> - the first <var>n</var> elements of vector <var><span class="vec">⃗</span>v</var>;</li>
+                        <li><code><b>last</b>(<var><span class="vec">⃗</span>v</var>; <var>n</var>)</code> - the last <var>n</var> elements of vector <var><span class="vec">⃗</span>v</var>;</li>
+                        <li><code><b>extract</b>(<var><span class="vec">⃗</span>v</var>; <var><span class="vec">⃗</span>i</var>)</code> - extracts the elements from <var><span class="vec">⃗</span>v</var> which indexes are contained in <var><span class="vec">⃗</span>i</var>;</li>
+                    </ul>
+                </li>
+                <li>
+                    Data:<ul style="list-style-type:none;">
+                        <li><code><b>sort</b>(<var><span class="vec">⃗</span>v</var>)</code> - sorts the elements of vector <var><span class="vec">⃗</span>v</var> in ascending order;</li>
+                        <li><code><b>rsort</b>(<var><span class="vec">⃗</span>v</var>)</code> - sorts the elements of vector <var><span class="vec">⃗</span>v</var> in descending order;</li>
+                        <li><code><b>order</b>(<var><span class="vec">⃗</span>v</var>)</code> - the indexes of vector <var><span class="vec">⃗</span>v</var>, by ascending order of its elements;</li>
+                        <li><code><b>revorder</b>(<var><span class="vec">⃗</span>v</var>)</code> - the indexes of vector <var><span class="vec">⃗</span>v</var>, by descending order of its elements;</li>
+                        <li><code><b>reverse</b>(<var><span class="vec">⃗</span>v</var>)</code> - a vector containing the elements of <var><span class="vec">⃗</span>v</var> in reverse order;</li>
+                        <li><code><b>count</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> - number of elements of vector <var><span class="vec">⃗</span>v</var>, after the <var>i</var>-th incl., that are equal to <var>x</var>;</li>
+                        <li><code><b>search</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> - the index of the first element in <var><span class="vec">⃗</span>v</var>, after the <var>i</var>-th incl., that is equal to <var>x</var>;</li>
+                        <li><code><b>find</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> or </li>
+                        <li><code><b>find_eq</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> - the indexes of all elements in <var><span class="vec">⃗</span>v</var>, after the <var>i</var>-th incl., that are = <var>x</var>;</li>
+                        <li><code><b>find_ne</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> - the indexes of all elements in <var><span class="vec">⃗</span>v</var>, after the <var>i</var>-th incl. that are ≠ <var>x</var>;</li>
+                        <li><code><b>find_lt</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> - the indexes of all elements in <var><span class="vec">⃗</span>v</var>, after the <var>i</var>-th incl., that are &lt; <var>x</var>;</li>
+                        <li><code><b>find_le</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> - the indexes of all elements in <var><span class="vec">⃗</span>v</var>, after the <var>i</var>-th incl., that are &le; <var>x</var>;</li>
+                        <li><code><b>find_gt</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> - the indexes of all elements in <var><span class="vec">⃗</span>v</var>, after the <var>i</var>-th incl., that are &gt; <var>x</var>;</li>
+                        <li><code><b>find_ge</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>; <var>i</var>)</code> - the indexes of all elements in <var><span class="vec">⃗</span>v</var>, after the <var>i</var>-th incl., that are &ge; <var>x</var>;</li>
+                        <li><code><b>lookup</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>; <var>x</var>)</code> or</li>
+                        <li><code><b>lookup_eq</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>; <var>x</var>)</code> - all elements in <var><span class="vec">⃗</span>a</var> for which the corresponding elements in <var><span class="vec">⃗</span>b</var> are = <var>x</var>;</li>
+                        <li><code><b>lookup_ne</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>; <var>x</var>)</code> - all elements in <var><span class="vec">⃗</span>a</var> for which the corresponding elements in <var><span class="vec">⃗</span>b</var> are ≠ <var>x</var>;</li>
+                        <li><code><b>lookup_lt</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>; <var>x</var>)</code> - all elements in <var><span class="vec">⃗</span>a</var> for which the corresponding elements in <var><span class="vec">⃗</span>b</var> are &lt; <var>x</var>;</li>
+                        <li><code><b>lookup_le</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>; <var>x</var>)</code> - all elements in <var><span class="vec">⃗</span>a</var> for which the corresponding elements in <var><span class="vec">⃗</span>b</var> are &le; <var>x</var>;</li>
+                        <li><code><b>lookup_gt</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>; <var>x</var>)</code> - all elements in <var><span class="vec">⃗</span>a</var> for which the corresponding elements in <var><span class="vec">⃗</span>b</var> are &gt; <var>x</var>;</li>
+                        <li><code><b>lookup_ge</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>; <var>x</var>)</code> - all elements in <var><span class="vec">⃗</span>a</var> for which the corresponding elements in <var><span class="vec">⃗</span>b</var> are &ge; <var>x</var>;</li>
+                    </ul>
+                </li>
+                <li>
+                    Math:<ul style="list-style-type:none;">
+                        <li><code><b>norm_1</b>(<var><span class="vec">⃗</span>v</var>)</code> - L1 (Manhattan) norm of vector <var><span class="vec">⃗</span>v</var>;</li>
+                        <li><code><b>norm</b>(<var><span class="vec">⃗</span>v</var>)</code> or</li>
+                        <li><code><b>norm_2</b>(<var><span class="vec">⃗</span>v</var>)</code> or</li>
+                        <li><code><b>norm_e</b>(<var><span class="vec">⃗</span>v</var>)</code> - L2 (Euclidean) norm of vector <var><span class="vec">⃗</span>v</var>;</li>
+                        <li><code><b>norm_p</b>(<var><span class="vec">⃗</span>v</var>; <var>p</var>)</code> - Lp norm of vector <var><span class="vec">⃗</span>v</var>;</li>
+                        <li><code><b>norm_i</b>(<var><span class="vec">⃗</span>v</var>)</code> - L∞ (infinity) norm of vector <var><span class="vec">⃗</span>v</var>;</li>
+                        <li><code><b>unit</b>(<var><span class="vec">⃗</span>v</var>)</code> - the normalized vector <var><span class="vec">⃗</span>v</var> (with L2 norm = 1);</li>
+                        <li><code><b>dot</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>)</code> - scalar product of two vectors <var><span class="vec">⃗</span>a</var> and <var><span class="vec">⃗</span>b</var>;</li>
+                        <li><code><b>cross</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>)</code> - cross product of two vectors <var><span class="vec">⃗</span>a</var> and <var><span class="vec">⃗</span>b</var> (with length 2 or 3);</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>
+            Matrix:<ul>
+                <li>
+                    Creational:<ul style="list-style-type:none;">
+                        <li><code><b>matrix</b>(<var>m</var>; <var>n</var>)</code> - creates an empty matrix with dimensions <var>m</var>⨯<var>n</var>;</li>
+                        <li><code><b>identity</b>(<var>n</var>)</code> - creates an identity matrix with dimensions <var>n</var>⨯<var>n</var>;</li>
+                        <li><code><b>diagonal</b>(<var>n</var>; <var>d</var>)</code> - creates a diagonal <var>n</var>⨯<var>n</var>  matrix and fills the diagonal with value <var>d</var>;</li>
+                        <li><code><b>column</b>(<var>m</var>; <var>c</var>)</code> - creates a column matrix with dimensions <var>m</var>⨯1, filled with value <var>c</var>;</li>
+                        <li><code><b>utriang</b>(<var>n</var>)</code> - creates an upper triangular matrix with dimensions <var>n</var>⨯<var>n</var>;</li>
+                        <li><code><b>ltriang</b>(<var>n</var>)</code> - creates a lower triangular matrix with dimensions <var>n</var>⨯<var>n</var>;</li>
+                        <li><code><b>symmetric</b>(<var>n</var>)</code> - creates a symmetric matrix with dimensions <var>n</var>⨯<var>n</var>;</li>
+                        <li><code><b>vec2diag</b>(<var><span class="vec">⃗</span>v</var>)</code> - creates a diagonal matrix from the elements of vector <var><span class="vec">⃗</span>v</var>;</li>
+                        <li><code><b>vec2row</b>(<var><span class="vec">⃗</span>v</var>)</code> - creates a row matrix from the elements of vector <var><span class="vec">⃗</span>v</var>;</li>
+                        <li><code><b>vec2col</b>(<var><span class="vec">⃗</span>v</var>)</code> - creates a column matrix from the elements of vector <var><span class="vec">⃗</span>v</var>;</li>
+                        <li><code><b>join_cols</b>(<var><span class="vec">⃗</span>c</var><sub>1</sub>; <var><span class="vec">⃗</span>c</var><sub>2</sub>; <var><span class="vec">⃗</span>c</var><sub>3</sub>…)</code> - creates a new matrix by joining column vectors;</li>
+                        <li><code><b>join_rows</b>(<var><span class="vec">⃗</span>r</var><sub>1</sub>; <var><span class="vec">⃗</span>r</var><sub>2</sub>; <var><span class="vec">⃗</span>r</var><sub>3</sub>…)</code> - creates a new matrix by joining row vectors;</li>
+                        <li><code><b>augment</b>(<var>A</var>; <var><span class="vec">⃗</span>b</var>; <var>c</var>…)</code> - creates a new matrix by appending matrices <var>A</var>; <var><span class="vec">⃗</span>b</var>; <var>c</var>… side by side;</li>
+                        <li><code><b>stack</b>(<var>A</var>; <var><span class="vec">⃗</span>b</var>; <var>c</var>…)</code> - creates a new matrix by stacking matrices <var>A</var>; <var><span class="vec">⃗</span>b</var>; <var>c</var>… one below the other;</li>
+                    </ul>
+                </li>
+                <li>
+                    Structural:<ul style="list-style-type:none;">
+                        <li><code><b>n_rows</b>(<var>M</var>)</code> - number of rows in matrix <var>M</var>;</li>
+                        <li><code><b>n_cols</b>(<var>M</var>)</code> - number of columns in matrix <var>M</var>;</li>
+                        <li><code><b>mresize</b>(<var>M</var>; <var>m</var>; <var>n</var>)</code> - sets new dimensions <var>m</var> and <var>n</var> for matrix <var>M</var>;</li>
+                        <li><code><b>mfill</b>(<var>M</var>; <var>x</var>)</code> - fills matrix <var>M</var> with value <var>x</var>;</li>
+                        <li><code><b>fill_row</b>(<var>M</var>; <var>i</var>; <var>x</var>)</code> - fills the <var>i</var>-th row of matrix <var>M</var> with value <var>x</var>;</li>
+                        <li><code><b>fill_col</b>(<var>M</var>; <var>j</var>; <var>x</var>)</code> - fills the <var>j</var>-th column of matrix <var>M</var> with value <var>x</var>;</li>
+                        <li><code><b>copy</b>(<var>A</var>; <var>B</var>; <var>i</var>; <var>j</var>)</code> - copies all elements from <var>A</var> to <var>B</var>, starting from indexes <var>i</var> and <var>j</var> of <var>B</var>;</li>
+                        <li><code><b>add</b>(<var>A</var>; <var>B</var>; <var>i</var>; <var>j</var>)</code> - adds all elements from <var>A</var> to those of <var>B</var>, starting from indexes <var>i</var> and <var>j</var> of <var>B</var>;</li>
+                        <li><code><b>row</b>(<var>M</var>; <var>i</var>)</code> - extracts the <var>i</var>-th row of matrix <var>M</var> as a vector;</li>
+                        <li><code><b>col</b>(<var>M</var>; <var>j</var>)</code> - extracts the <var>j</var>-th column of matrix <var>M</var> as a vector;</li>
+                        <li><code><b>extract_rows</b>(<var>M</var>; <var><span class="vec">⃗</span>i</var>)</code> - extracts the rows from matrix <var>M</var> whose indexes are contained in vector <var><span class="vec">⃗</span>i</var>;</li>
+                        <li><code><b>extract_cols</b>(<var>M</var>; <var><span class="vec">⃗</span>j</var>)</code> - extracts the columns from matrix <var>M</var> whose indexes are contained in vector <var><span class="vec">⃗</span>j</var>;</li>
+                        <li><code><b>diag2vec</b>(<var>M</var>)</code> - extracts the diagonal elements of matrix <var>M</var> to a vector;</li>
+                        <li><code><b>submatrix</b>(<var>M</var>; <var>i</var><sub>1</sub>; <var>i</var><sub>2</sub>; <var>j</var><sub>1</sub>; <var>j</var><sub>2</sub>)</code> - extracts a submatrix of <var>M</var>, bounded by rows <var>i</var><sub>1</sub> and <var>i</var><sub>2</sub> and columns <var>j</var><sub>1</sub> and <var>j</var><sub>2</sub>, incl.;</li>
+                    </ul>
+                </li>
+                <li>
+                    Data:<ul style="list-style-type:none;">
+                        <li><code><b>sort_cols</b>(<var>M</var>; <var>i</var>)</code> - sorts the columns of <var>M</var> based on the values in row <var>i</var> in ascending order;</li>
+                        <li><code><b>rsort_cols</b>(<var>M</var>; <var>i</var>)</code> - sorts the columns of <var>M</var> based on the values in row <var>i</var> in descending order;</li>
+                        <li><code><b>sort_rows</b>(<var>M</var>; <var>j</var>)</code> - sorts the rows of <var>M</var> based on the values in column <var>j</var> in ascending order;</li>
+                        <li><code><b>rsort_rows</b>(<var>M</var>; <var>j</var>)</code> - sorts the rows of <var>M</var> based on the values in column <var>j</var> in descending order;</li>
+                        <li><code><b>order_cols</b>(<var>M</var>; <var>i</var>)</code> - the indexes of the columns of <var>M</var> based on the ordering of the values from row <var>i</var> in ascending order;</li>
+                        <li><code><b>revorder_cols</b>(<var>M</var>; <var>i</var>)</code> - the indexes of the columns of <var>M</var> based on the ordering of the values from row <var>i</var> in descending order;</li>
+                        <li><code><b>order_rows</b>(<var>M</var>; <var>j</var>)</code> - the indexes of the rows of <var>M</var> based on the ordering of the values in column <var>j</var> in ascending order;</li>
+                        <li><code><b>revorder_rows</b>(<var>M</var>; <var>j</var>)</code> - the indexes of the rows of <var>M</var> based on the ordering of the values in column <var>j</var> in descending order;</li>
+                        <li><code><b>mcount</b>(<var>M</var>; <var>x</var>)</code> - number of occurrences of value <var>x</var> in matrix <var>M</var>;</li>
+                        <li><code><b>msearch</b>(<var>M</var>; <var>x</var>; <var>i</var>; <var>j</var>)</code> - vector with the two indexes of the first occurrence of <var>x</var> in matrix <var>M</var>, starting from indexes <var>i</var> and <var>j</var>;</li>
+                        <li><code><b>mfind</b>(<var>M</var>; <var>x</var>)</code> or</li>
+                        <li><code><b>mfind_eq</b>(<var>M</var>; <var>x</var>)</code> - the indexes of all elements in <var>M</var> equal to <var>x</var>;</li>
+                        <li><code><b>mfind_ne</b>(<var>M</var>; <var>x</var>)</code> - the indexes of all elements in <var>M</var> not equal to <var>x</var>;</li>
+                        <li><code><b>mfind_lt</b>(<var>M</var>; <var>x</var>)</code> - the indexes of all elements in <var>M</var> less than <var>x</var>;</li>
+                        <li><code><b>mfind_le</b>(<var>M</var>; <var>x</var>)</code> - the indexes of all elements in <var>M</var> less than or equal to <var>x</var>;</li>
+                        <li><code><b>mfind_gt</b>(<var>M</var>; <var>x</var>)</code> - the indexes of all elements in <var>M</var> greater than <var>x</var>;</li>
+                        <li><code><b>mfind_ge</b>(<var>M</var>; <var>x</var>)</code> - the indexes of all elements in <var>M</var> greater than or equal to <var>x</var>;</li>
+                        <li><code><b>hlookup</b>(<var>M</var>; <var>x</var>; <var>i</var><sub>1</sub>; <var>i</var><sub>2</sub>)</code> or</li>
+                        <li><code><b>hlookup_eq</b>(<var>M</var>; <var>x</var>; <var>i</var><sub>1</sub>; <var>i</var><sub>2</sub>)</code> - the values from row <var>i</var><sub>2</sub> of <var>M</var>, for which the elements in row <var>i</var><sub>1</sub> are equal to <var>x</var>;</li>
+                        <li><code><b>hlookup_ne</b>(<var>M</var>; <var>x</var>; <var>i</var><sub>1</sub>; <var>i</var><sub>2</sub>)</code> - the values from row <var>i</var><sub>2</sub> of <var>M</var>, for which the elements in row <var>i</var><sub>1</sub> are not equal to <var>x</var>;</li>
+                        <li><code><b>hlookup_lt</b>(<var>M</var>; <var>x</var>; <var>i</var><sub>1</sub>; <var>i</var><sub>2</sub>)</code> - the values from row <var>i</var><sub>2</sub> of <var>M</var>, for which the elements in row <var>i</var><sub>1</sub> are less than <var>x</var>;</li>
+                        <li><code><b>hlookup_le</b>(<var>M</var>; <var>x</var>; <var>i</var><sub>1</sub>; <var>i</var><sub>2</sub>)</code> - the values from row <var>i</var><sub>2</sub> of <var>M</var>, for which the elements in row <var>i</var><sub>1</sub> are less than or equal to <var>x</var>;</li>
+                        <li><code><b>hlookup_gt</b>(<var>M</var>; <var>x</var>; <var>i</var><sub>1</sub>; <var>i</var><sub>2</sub>)</code> - the values from row <var>i</var><sub>2</sub> of <var>M</var>, for which the elements in row <var>i</var><sub>1</sub> are greater than <var>x</var>;</li>
+                        <li><code><b>hlookup_ge</b>(<var>M</var>; <var>x</var>; <var>i</var><sub>1</sub>; <var>i</var><sub>2</sub>)</code> - the values from row <var>i</var><sub>2</sub> of <var>M</var>, for which the elements in row <var>i</var><sub>1</sub> are greater than or equal to <var>x</var>;</li>
+                        <li><code><b>vlookup</b>(<var>M</var>; <var>x</var>; <var>j</var><sub>1</sub>; <var>j</var><sub>2</sub>)</code> or</li>
+                        <li><code><b>vlookup_eq</b>(<var>M</var>; <var>x</var>; <var>j</var><sub>1</sub>; <var>j</var><sub>2</sub>)</code> - the values from column <var>j</var><sub>2</sub> of <var>M</var>, for which the elements in column <var>j</var><sub>1</sub> are equal to <var>x</var>;</li>
+                        <li><code><b>vlookup_ne</b>(<var>M</var>; <var>x</var>; <var>j</var><sub>1</sub>; <var>j</var><sub>2</sub>)</code> - the values from column <var>j</var><sub>2</sub> of <var>M</var>, for which the elements in column <var>j</var><sub>1</sub> are not equal to <var>x</var>;</li>
+                        <li><code><b>vlookup_lt</b>(<var>M</var>; <var>x</var>; <var>j</var><sub>1</sub>; <var>j</var><sub>2</sub>)</code> - the values from column <var>j</var><sub>2</sub> of <var>M</var>, for which the elements in column <var>j</var><sub>1</sub> are less than <var>x</var>;</li>
+                        <li><code><b>vlookup_le</b>(<var>M</var>; <var>x</var>; <var>j</var><sub>1</sub>; <var>j</var><sub>2</sub>)</code> - the values from column <var>j</var><sub>2</sub> of <var>M</var>, for which the elements in column <var>j</var><sub>1</sub> are less than or equal to <var>x</var>;</li>
+                        <li><code><b>vlookup_gt</b>(<var>M</var>; <var>x</var>; <var>j</var><sub>1</sub>; <var>j</var><sub>2</sub>)</code> - the values from column <var>j</var><sub>2</sub> of <var>M</var>, for which the elements in column <var>j</var><sub>1</sub> are greater than <var>x</var>;</li>
+                        <li><code><b>vlookup_ge</b>(<var>M</var>; <var>x</var>; <var>j</var><sub>1</sub>; <var>j</var><sub>2</sub>)</code> - the values from column <var>j</var><sub>2</sub> of <var>M</var>, for which the elements in column <var>j</var><sub>1</sub> are greater than or equal to <var>x</var>;</li>
+                    </ul>
+                </li>
+                <li>
+                    Math:<ul style="list-style-type:none;">
+                        <li><code><b>hprod</b>(<var>A</var>; <var>B</var>)</code> - Hadamard product of matrices <var>A</var> and <var>B</var>;</li>
+                        <li><code><b>fprod</b>(<var>A</var>; <var>B</var>)</code> - Frobenius product of matrices <var>A</var> and <var>B</var>;</li>
+                        <li><code><b>kprod</b>(<var>A</var>; <var>B</var>)</code> - Kronecker product of matrices <var>A</var> and <var>B</var>;</li>
+                        <li><code><b>mnorm_1</b>(<var>M</var>)</code> - L1 norm of matrix <var>M</var>;</li>
+                        <li><code><b>mnorm</b>(<var>M</var>)</code> or<br />
+                        <li><code><b>mnorm_2</b>(<var>M</var>)</code> - L2 norm of matrix <var>M</var>;</li>
+                        <li><code><b>mnorm_e</b>(<var>M</var>)</code> - Frobenius norm of matrix <var>M</var>;</li>
+                        <li><code><b>mnorm_i</b>(<var>M</var>)</code> - L∞ norm of matrix <var>M</var>;</li>
+                        <li><code><b>cond_1</b>(<var>M</var>)</code> - condition number of <var>M</var> based on the L1 norm;</li>
+                        <li><code><b>cond</b>(<var>M</var>)</code> or</li>
+                        <li><code><b>cond_2</b>(<var>M</var>)</code> - condition number of <var>M</var> based on the L2 norm;</li>
+                        <li><code><b>cond_e</b>(<var>M</var>)</code> - condition number of <var>M</var> based on the Frobenius norm;</li>
+                        <li><code><b>cond_i</b>(<var>M</var>)</code> - condition number of <var>M</var> based on the L∞ norm;</li>
+                        <li><code><b>det</b>(<var>M</var>)</code> - determinant of matrix <var>M</var>;</li>
+                        <li><code><b>rank</b>(<var>M</var>)</code> - rank of matrix <var>M</var>;</li>
+                        <li><code><b>trace</b>(<var>M</var>)</code> - trace of matrix <var>M</var>;</li>
+                        <li><code><b>transp</b>(<var>M</var>)</code> - transpose of matrix <var>M</var>;</li>
+                        <li><code><b>adj</b>(<var>M</var>)</code> - adjugate of matrix <var>M</var>;</li>
+                        <li><code><b>cofactor</b>(<var>M</var>)</code> - cofactor matrix of <var>M</var>;</li>
+                        <li><code><b>eigenvals</b>(<var>M</var>)</code> - eigenvalues of matrix <var>M</var>;</li>
+                        <li><code><b>eigenvecs</b>(<var>M</var>)</code> - eigenvectors of matrix <var>M</var>;</li>
+                        <li><code><b>eigen</b>(<var>M</var>)</code> - eigenvalues and eigenvectors of matrix <var>M</var>;</li>
+                        <li><code><b>cholesky</b>(<var>M</var>)</code> - Cholesky decomposition of a symmetric, positive-definite matrix <var>M</var>;</li>
+                        <li><code><b>lu</b>(<var>M</var>)</code> - LU decomposition of matrix <var>M</var>;</li>
+                        <li><code><b>qr</b>(<var>M</var>)</code> - QR decomposition of matrix <var>M</var>;</li>
+                        <li><code><b>svd</b>(<var>M</var>)</code> - singular value decomposition of <var>M</var>;</li>
+                        <li><code><b>inverse</b>(<var>M</var>)</code> - inverse of matrix <var>M</var>;</li>
+                        <li><code><b>lsolve</b>(<var>A</var>; <var>b</var>)</code> - solves the system of linear equations <var>A<span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> using LDL<sup>T</sup> decomposition for symmetric matrices, and LU for non-symmetric;</li>
+                        <li><code><b>clsolve</b>(<var>A</var>; <var>b</var>)</code> - solves the linear matrix equation <var>A<span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> with symmetric, positive-definite coefficient matrix <var>A</var> using Cholesky decomposition;</li>
+                        <li><code><b>msolve</b>(<var>A</var>; <var>B</var>)</code> - solves the generalized matrix equation <var>AX</var> = <var>B</var> using LDL<sup>T</sup> decomposition for symmetric matrices, and LU for non-symmetric;</li>
+                        <li>
+                            <code><b>cmsolve</b>(<var>A</var>; <var>B</var>)</code> - solves the generalized matrix equation <var>AX</var> = <var>B</var> with symmetric, positive-definite coefficient matrix <var>A</var> using Cholesky decomposition;<br />
+                        </li>
+                </li>
+            </ul>
+        </li>
+        <li>
+            Double interpolation:<ul style="list-style-type:none;">
+                <li><code><b>take</b>(<var>x</var>; <var>y</var>; <var>M</var>)</code> - returns the element of matrix <var>M</var> at indexes <var>x</var> and <var>y</var>;</li>
+                <li><code><b>line</b>(<var>x</var>; <var>y</var>; <var>M</var>)</code> - double linear interpolation from the elements of matrix <var>M</var> based on the values of <var>x</var> and <var>y</var>;</li>
+                <li><code><b>spline</b>(<var>x</var>; <var>y</var>; <var>M</var>)</code> - double Hermite spline interpolation from the elements of matrix <var>M</var> based on the values of <var>x</var> and <var>y</var>.</li>
+            </ul>
+        </li></ul>
+        </li>
         </ul>
 
         <p>Arguments must be enclosed in round brackets. They can be constants, variables or any valid expression. Multiple arguments must be separated by semicolons ";". When arguments are out of range, the function returns "<span class="err">Undefined</span>". Exceptions from this rule are "<b>cot</b>(0)" and "<b>coth</b>(0)", which return "<span class="err">+∞</span>".</p>
@@ -2306,7 +2329,7 @@
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <span class="hang">
                 <code>
                     <var>A</var> = [1; 2|3; 4]<br />
-					<var>b</var> = [7; 8; 9]<br />
+                    <var>b</var> = [7; 8; 9]<br />
                     <var>c</var> = <b>join</b>(0; <var>A</var>; 5; 6; <var>b</var>)
                 </code>' = [0&ensp;1&ensp;2&ensp;3&ensp;4&ensp;5&ensp;6&ensp;7&ensp;8&ensp;9]
             </span>
@@ -2314,9 +2337,10 @@
 
         <p>&emsp;&emsp;<code><b>slice</b>(<var><span class="vec">⃗</span>a</var>; <var>i</var><sub>1</sub>; <var>i</var><sub>2</sub>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Parameters</em>:&emsp;<span class="hang">
-            <var><span class="vec">⃗</span>a</var> - vector;<br />
-            <var>i</var><sub>1</sub> - (positive integer) starting index;<br />
-            <var>i</var><sub>2</sub> - (positive integer) ending index.</span><br />
+                <var><span class="vec">⃗</span>a</var> - vector;<br />
+                <var>i</var><sub>1</sub> - (positive integer) starting index;<br />
+                <var>i</var><sub>2</sub> - (positive integer) ending index.
+            </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;<span class="hang">a new vector, containing the part of vector <var><span class="vec">⃗</span>a</var> bounded by indexes <var>i</var><sub>1</sub> and <var>i</var><sub>2</sub>, inclusively.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">It is not required that <var>i</var><sub>1</sub> &le; <var>i</var><sub>2</sub>. If an index is greater than the vector length, then all remaining elements are returned to the end.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <span class="hang">
@@ -2326,9 +2350,12 @@
         </p>
 
         <p>&emsp;&emsp;<code><b>first</b>(<var><span class="vec">⃗</span>a</var>; <var>n</var>)</code></p><p>
-            &emsp;&emsp;&emsp;&emsp;<em>Parameters</em>:&emsp;<span class="hang"><var>
-                <span class="vec">⃗</span>a</var> - vector;<br />
-                <var>n</var> - (positive integer) the number of elements to return.</span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Parameters</em>:&emsp;<span class="hang">
+                <var>
+                    <span class="vec">⃗</span>a
+                </var> - vector;<br />
+                <var>n</var> - (positive integer) the number of elements to return.
+            </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;a vector containing the first <var>n</var> elements of <var><span class="vec">⃗</span>a</var>.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">If <var>n</var> is greater than the length of <var><span class="vec">⃗</span>a</var>, then all elements are returned. Unlike <b>resize</b> the original vector is not modified.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <span class="hang">
@@ -2340,7 +2367,8 @@
         <p>&emsp;&emsp;<code><b>last</b>(<var><span class="vec">⃗</span>a</var>; <var>n</var>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Parameters</em>:&emsp;<span class="hang">
                 <var><span class="vec">⃗</span>a</var> - vector;<br />
-                <var>n</var> - (positive integer) the number of elements to return.</span><br />
+                <var>n</var> - (positive integer) the number of elements to return.
+            </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;a vector containing the last <var>n</var> elements of <var><span class="vec">⃗</span>a</var>.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; If <var>n</var> is greater than the length of <var><span class="vec">⃗</span>a</var>, then all elements are returned.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <span class="hang">
@@ -2352,7 +2380,8 @@
         <p>&emsp;&emsp;<code><b>extract</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>i</var>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Parameters</em>:&emsp;<span class="hang">
                 <var><span class="vec">⃗</span>a</var> - a vector containing the elements to be extracted;<br />
-                <var><span class="vec">⃗</span>i</var> - a vector with the indexes of the elements to be extracted from <var><span class="vec">⃗</span>a</var>.</span><br />
+                <var><span class="vec">⃗</span>i</var> - a vector with the indexes of the elements to be extracted from <var><span class="vec">⃗</span>a</var>.
+            </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;a vector with the extracted elements from <var><span class="vec">⃗</span>a</var> which indexes are provided in <var><span class="vec">⃗</span>i</var>.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">All indexes in <var><span class="vec">⃗</span>i</var> must be positive integers. If an index is greater than the length of vector <var><span class="vec">⃗</span>a</var>, an "<span class="err">Index out of range</span>" error is returned.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <span class="hang">
@@ -2370,7 +2399,8 @@
             &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; The original content of <var><span class="vec">⃗</span>a</var> is not modified.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <span class="hang">
                 <code><var>a</var> = [4; 0; 2; 3; -1; 1]<br /><var>b</var> = <b>sort</b>(<var>a</var>)</code>' = [-1&ensp;0&ensp;1&ensp;2&ensp;3&ensp;4]<br />
-                <code><var>a</var></code>' = [4&ensp;0&ensp;2&ensp;3&ensp;-1&ensp;1]</span>
+                <code><var>a</var></code>' = [4&ensp;0&ensp;2&ensp;3&ensp;-1&ensp;1]
+            </span>
         </p>
 
         <p>&emsp;&emsp;<code><b>rsort</b>(<var><span class="vec">⃗</span>a</var>)</code></p><p>
@@ -2409,9 +2439,10 @@
 
         <p>&emsp;&emsp;<code><b>count</b>(<var><span class="vec">⃗</span>a</var>; <var>x</var>; <var>i</var>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Parameters</em>:&emsp;<span class="hang">
-            <var><span class="vec">⃗</span>a</var> - vector;<br />
-            <var>x</var> - (scalar) the value to count;<br />
-            <var>i</var> - (positive integer) the index to start with.</span><br />
+                <var><span class="vec">⃗</span>a</var> - vector;<br />
+                <var>x</var> - (scalar) the value to count;<br />
+                <var>i</var> - (positive integer) the index to start with.
+            </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;(scalar) the number of elements in <var><span class="vec">⃗</span>a</var>, after the <var>i</var>-th incl., that are equal to <var>x</var>.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; If <var>i</var> is greater than the length of <var><span class="vec">⃗</span>a</var>, then zero is returned.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <code><b>count</b>([0; 1; 2; 1; 4; 1]; 1; 4)</code>' = 2
@@ -2419,9 +2450,10 @@
 
         <p>&emsp;&emsp;<code><b>search</b>(<var><span class="vec">⃗</span>a</var>; <var>x</var>; <var>i</var>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Parameters</em>:&emsp;<span class="hang">
-            <var><span class="vec">⃗</span>a</var> - vector;<br />
-            <var>x</var> - (scalar) the value to search for;<br />
-            <var>i</var> - (positive integer) the index to start with.</span><br />
+                <var><span class="vec">⃗</span>a</var> - vector;<br />
+                <var>x</var> - (scalar) the value to search for;<br />
+                <var>i</var> - (positive integer) the index to start with.
+            </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;(scalar) the index of the first element in <var><span class="vec">⃗</span>a</var>, after the <var>i</var>-th incl., that is equal to <var>x</var>.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; If <var>i</var> is greater than the length of <var><span class="vec">⃗</span>a</var> or the value is not found, zero is returned.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <span class="hang"><code><b>search</b>([0; 1; 2; 1; 4; 1]; 1; 3)</code>' = 4<br /><code><b>search</b>([0; 1; 2; 1; 4; 1]; 1; 7)</code>' = 0</span>
@@ -2431,7 +2463,8 @@
             &emsp;&emsp;&emsp;&emsp;<em>Parameters</em>:&emsp;<span class="hang">
                 <var><span class="vec">⃗</span>a</var> - vector;<br />
                 <var>x</var> - (scalar) the value to search for;<br />
-                <var>i</var> - (positive integer) the index to start with.</span><br />
+                <var>i</var> - (positive integer) the index to start with.
+            </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;<span class="hang">a vector with the indexes of all elements in <var><span class="vec">⃗</span>a</var>, after the <var>i</var>-th incl., that are equal to <var>x</var></span>.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">If <var>i</var> is greater than the length of <var><span class="vec">⃗</span>a</var> or the value is not found, an empty vector is returned (with zero length).</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <span class="hang"><code><b>find</b>([0; 1; 2; 1; 4; 1]; 1; 2)</code>' = [2&ensp;4&ensp;6]<br /><code><b>find</b>([0; 1; 2; 1; 4; 1]; 3; 2)</code>' = []</span>
@@ -2439,9 +2472,10 @@
 
         <p>&emsp;&emsp;<code><b>lookup</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>; <var>x</var>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Parameters</em>:&emsp;<span class="hang">
-            <var><span class="vec">⃗</span>a</var> - vector with reference values;<br />
-            <var><span class="vec">⃗</span>b</var> - vector with return values;<br />
-            <var>x</var> - (scalar) the value to look for.</span><br />
+                <var><span class="vec">⃗</span>a</var> - vector with reference values;<br />
+                <var><span class="vec">⃗</span>b</var> - vector with return values;<br />
+                <var>x</var> - (scalar) the value to look for.
+            </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;<span class="hang">a vector with all elements in <var><span class="vec">⃗</span>b</var>, for which the corresponding elements in<br /><var><span class="vec">⃗</span>a</var> are equal to <var>x</var>.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">if the value is not found, an empty vector is returned (with zero length)</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <span class="hang"><code><var>a</var> = [0; 1; 0; 0; 1; 1]<br /><var>b</var> = [1; 2; 3; 4; 5; 6]<br /><b>lookup</b>(<var>a</var>; <var>b</var>; 0)</code>' =  [1&ensp;3&ensp;4]<br /><code><b>lookup</b>(<var>a</var>; <var>b</var>; 2)</code>' = []</span>
@@ -2503,11 +2537,13 @@
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;scalar representing the dot product of both vectors <var><span class="vec">⃗</span>a</var>&hairsp;&middot;<var><span class="vec">⃗</span>b</var>;<br />
             &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; The dot product is obtained by the expression: <span class="eq"><var><span class="vec">⃗</span>a</var>&hairsp;&middot;<var><span class="vec">⃗</span>b</var> = <span class="dvr"><small><var>n</var></small><span class="nary">∑</span><small><var>i</var>&hairsp;=&hairsp;1</small></span> <var>a</var><sub><var>i</var></sub>&hairsp;&middot;<var>b</var><sub><var>i</var></sub></span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <span class="hang">
-                <code><var>a</var> = [1; 2; 4]<br />
-                <var>b</var> = [5; 3; 1]<br />
-                <b>dot</b>(<var>a</var>; <var>b</var>)</code>' = 15
+                <code>
+                    <var>a</var> = [1; 2; 4]<br />
+                    <var>b</var> = [5; 3; 1]<br />
+                    <b>dot</b>(<var>a</var>; <var>b</var>)
+                </code>' = 15
             </span>
-</p>
+        </p>
 
         <p>&emsp;&emsp;<code><b>cross</b>(<var><span class="vec">⃗</span>a</var>; <var><span class="vec">⃗</span>b</var>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Parameters</em>:&emsp;<var><span class="vec">⃗</span>a</var>, <var><span class="vec">⃗</span>b</var> - vectors.<br />
@@ -2519,9 +2555,11 @@
                 <var>c</var><sub>3</sub> = <var>a</var><sub>1</sub>&hairsp;<var>b</var><sub>2</sub> &minus;  <var>a</var><sub>2</sub>&hairsp;<var>b</var><sub>1</sub><br />
             </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <span class="hang">
-                <code><var>a</var> = [1; 2; 4]<br />
-                <var>b</var> = [5; 3; 1]<br />
-                <b>cross</b>(<var>a</var>; <var>b</var>)</code>' = [-10&ensp;19&ensp;-7]
+                <code>
+                    <var>a</var> = [1; 2; 4]<br />
+                    <var>b</var> = [5; 3; 1]<br />
+                    <b>cross</b>(<var>a</var>; <var>b</var>)
+                </code>' = [-10&ensp;19&ensp;-7]
             </span>
         </p>
 
@@ -2637,7 +2675,8 @@
         <p>&emsp;&emsp;<code><b>matrix</b>(<var>m</var>; <var>n</var>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Parameters</em>:&emsp;<span class="hang">
                 <var>m</var> - (positive integer) number of rows;<br />
-                <var>n</var> - (positive integer) number of columns.</span><br />
+                <var>n</var> - (positive integer) number of columns.
+            </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;an empty rectangular matrix with dimensions m⨯n.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp;<span class="hang"><var>m</var> and <var>n</var> must be between 1 and 1 000 000. This also applies to all other kinds of matrices below.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <code><b>matrix</b>(3; 4)</code>' = <span class="eq matrix">
@@ -2660,8 +2699,9 @@
 
         <p>&emsp;&emsp;<code><b>diagonal</b>(<var>n</var>; <var>d</var>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Parameters</em>:&emsp;<span class="hang">
-            <var>n</var> - number of rows/columns;<br />
-            <var>d</var> - the value along the main diagonal.</span><br />
+                <var>n</var> - number of rows/columns;<br />
+                <var>d</var> - the value along the main diagonal.
+            </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;an n⨯n diagonal matrix, filled with value <var>d</var> along the main diagonal.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp;It is internally different and more efficient than an n⨯n symmetric matrix.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <code><b>diagonal</b>(3; 2)</code>' = <span class="eq matrix">
@@ -2673,8 +2713,9 @@
 
         <p>&emsp;&emsp;<code><b>column</b>(<var>m</var>; <var>c</var>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Parameters</em>:&emsp;<span class="hang">
-            <var>m</var> - number of rows;<br />
-            <var>c</var> - a value to fill the matrix with.</span><br />
+                <var>m</var> - number of rows;<br />
+                <var>c</var> - a value to fill the matrix with.
+            </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;an m⨯1 column matrix, filled with value <var>c</var>.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp;It is internally different and more efficient than an mx1 rectangular matrix.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <code><b>column</b>(3; 2)</code>' =<span class="eq matrix">
@@ -2715,7 +2756,7 @@
         <p>&emsp;&emsp;<code><b>symmetric</b>(<var>n</var>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Parameters</em>:&emsp;<var>n</var> - number of rows/columns.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;an empty n⨯n symmetric matrix.<br />
-            &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp;<span class="hang">It is internally different and more efficient than general n⨯n matrix. Only the filled side of the upper-right half of the matrix is stored, forming a skyline structure. If you change a value on either of both sides also changes the respective value on the other side, keeping the matrix always symmetric.</span><br/>
+            &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp;<span class="hang">It is internally different and more efficient than general n⨯n matrix. Only the filled side of the upper-right half of the matrix is stored, forming a skyline structure. If you change a value on either of both sides also changes the respective value on the other side, keeping the matrix always symmetric.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <span class="hang">
                 <code><var>A</var> = <b>symmetric</b>(4)</code><br />
                 <code><var>A</var>.(1; 1) = 5', '<var>A</var>.(1; 2) = 4</code><br />
@@ -2738,6 +2779,19 @@
                 <span class="tr"><span class="td"></span><span class="td">1</span><span class="td">0</span><span class="td">0</span><span class="td"></span></span>
                 <span class="tr"><span class="td"></span><span class="td">0</span><span class="td">2</span><span class="td">0</span><span class="td"></span></span>
                 <span class="tr"><span class="td"></span><span class="td">0</span><span class="td">0</span><span class="td">3</span><span class="td"></span></span>
+            </span>
+        </p>
+
+        <p>&emsp;&emsp;<code><b>vec2row</b>(<var><span class="vec">⃗</span>v</var>)</code></p><p>
+            &emsp;&emsp;&emsp;&emsp;<em>Parameters</em>:&emsp;<var><span class="vec">⃗</span>v</var> - a vector containing the elements of the row matrix.<br />
+            &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;a row matrix from the elements of vector  <var><span class="vec">⃗</span>v</var>.<br />
+            &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; The number of columns of the matrix is equal to the size of <var><span class="vec">⃗</span>v</var>.<br />
+            &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <code><b>vec2row</b>([1; 2; 3]</code>' = <span class="eq matrix">
+                <span class="tr"><span class="td"></span>
+                    <span class="td">1</span>
+                    <span class="td">2</span>
+                    <span class="td">3</span>
+                <span class="td"></span></span>
             </span>
         </p>
 
@@ -2833,7 +2887,8 @@
             &emsp;&emsp;&emsp;&emsp;<em>Parameters</em>:&emsp;<span class="hang">
                 <var>M</var> - the matrix to be resized;<br />
                 <var>m</var> - the new number of rows;<br />
-                <var>n</var> - the new number of columns.</span><br />
+                <var>n</var> - the new number of columns.
+            </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;the matrix <var>M</var> resized to <var>m</var> rows and <var>n</var> columns.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp;<span class="hang">If the new dimensions are larger, the added elements are initialized with zeroes. If smaller, the matrix is truncated. If the new dimensions are compatible to the matrix type, then the original matrix is resized in place and a reference to it is returned. Otherwise, a new rectangular type of matrix is returned with the specified dimensions and the original matrix remains unchanged.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <span class="hang">
@@ -2952,7 +3007,8 @@
                 <var>A</var> - source matrix;<br />
                 <var>B</var> - destination matrix where the elements will be copied;<br />
                 <var>i</var> - starting row index in matrix <var>B</var>;<br />
-                <var>j</var> - starting column index in matrix <var>B</var>.</span><br />
+                <var>j</var> - starting column index in matrix <var>B</var>.
+            </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;<span class="hang">the matrix <var>B</var>, after the elements from <var>A</var> are copied, starting at indexes <var>i</var> and <var>j</var> in <var>B</var>.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp;<span class="hang">Copying the elements from <var>A</var> to <var>B</var> modifies the matrix <var>B</var> in place. The existing elements in <var>B</var> are replaced by the respective elements from <var>A</var>. A reference to <var>B</var> is returned as result.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <span class="hang">
@@ -2977,7 +3033,8 @@
                 <var>A</var> - source matrix;<br />
                 <var>B</var> - destination matrix where the elements will be added;<br />
                 <var>i</var> - starting row index in matrix <var>B</var>;<br />
-                <var>j</var> - starting column index in matrix <var>B</var>.</span><br />
+                <var>j</var> - starting column index in matrix <var>B</var>.
+            </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;<span class="hang">the matrix <var>B</var> with the added elements from <var>A</var> to the respective elements in <var>B</var>, starting at indexes <var>i</var> and <var>j</var> in <var>B</var>.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp;<span class="hang">Adding the elements from <var>A</var> to <var>B</var> modifies the matrix <var>B</var> in place. A reference to <var>B</var> is returned as result.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <span class="hang">
@@ -3094,7 +3151,8 @@
                 <var>i</var><sub>1</sub> - starting row index;<br />
                 <var>i</var><sub>2</sub> - ending row index;<br />
                 <var>j</var><sub>1</sub> - starting column index;<br />
-                <var>j</var><sub>2</sub> - ending column index.</span><br />
+                <var>j</var><sub>2</sub> - ending column index.
+            </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;<span class="hang">a new matrix containing the submatrix of <var>M</var> bounded by rows <var>i</var><sub>1</sub> to <var>i</var><sub>2</sub> and columns <var>j</var><sub>1</sub> to <var>j</var><sub>2</sub>, inclusive.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp;<span class="hang">Starting indexes can be greater than ending indexes. However, the same part of the matrix is returned. The result is always a general (rectangular) type of matrix, even if the source matrix is special.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <span class="hang">
@@ -3110,14 +3168,15 @@
         </p>
 
         <p><b>Data functions</b></p>
-		<p>Data functions are not related to the structure of matrices but to the values of the elements. The following functions are available for use:</p>
+        <p>Data functions are not related to the structure of matrices but to the values of the elements. The following functions are available for use:</p>
         <p>
             &emsp;&emsp;<code><b>sort_cols</b>(<var>M</var>; <var>i</var>)</code><br />
             &emsp;&emsp;<code><b>rsort_cols</b>(<var>M</var>; <var>i</var>)</code>
         </p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Parameters</em>:&emsp;<span class="hang">
                 <var>M</var> - the matrix to be sorted;<br />
-                <var>i</var> - the index of the row on which the sorting will be based.</span><br />
+                <var>i</var> - the index of the row on which the sorting will be based.
+            </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;a new matrix with the columns of <var>M</var>, sorted by the values in row <var>i</var>.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp;<span class="hang"><b>sort_cols</b> sorts in ascending order, and <b>rsort_cols</b> - in descending order. The original matrix is not modified.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <span class="hang">
@@ -3150,7 +3209,8 @@
         </p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Parameters</em>:&emsp;<span class="hang">
                 <var>M</var> - the matrix to be sorted;<br />
-                <var>j</var> - the index of the column on which the sorting will be based.</span><br />
+                <var>j</var> - the index of the column on which the sorting will be based.
+            </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;A new matrix with the rows of <var>M</var>, sorted by values in column <var>j</var>.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp;<span class="hang"><b>sort_rows</b> sorts in ascending order, and <b>rsort_rows</b> sorts in descending order. The original matrix is not modified.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <span class="hang">
@@ -3183,7 +3243,8 @@
         </p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Parameters</em>:&emsp;<span class="hang">
                 <var>M</var> - the matrix to be ordered;<br />
-                <var>i</var> - the index of the row on which the ordering will be based.</span><br />
+                <var>i</var> - the index of the row on which the ordering will be based.
+            </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;<span class="hang">a vector containing the indexes of the columns of matrix <var>M</var> ordered by the values in row <var>i</var>.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp;<span class="hang"><b>order_cols</b> returns the indexes in ascending order, and <b>revorder_cols</b> - in descending order. The matrix is not modified. Each index in the output vector <var><span class="vec">⃗</span>j</var> shows which column in <var>M</var> should be placed at the current position to obtain a sorted sequence in row <var>i</var>. You can get the sorted matrix by calling <b>extract_cols</b>&hairsp;(<var>M</var>&hairsp;; <var><span class="vec">⃗</span>j</var>&hairsp;).</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <span class="hang">
@@ -3198,7 +3259,7 @@
                     <span class="tr hl"><span class="td"></span><span class="td">1</span><span class="td">4</span><span class="td">9</span><span class="td"></span></span>
                     <span class="tr"><span class="td"></span><span class="td">7</span><span class="td">6</span><span class="td">8</span><span class="td"></span></span>
                 </span><br />
-                <code><var>c</var> = <b>revorder_cols</b>(<var>A</var>; 2)</code>' = [2&ensp;1&ensp;3]<br/>
+                <code><var>c</var> = <b>revorder_cols</b>(<var>A</var>; 2)</code>' = [2&ensp;1&ensp;3]<br />
                 <code><var>C</var> = <b>extract_cols</b>(<var>A</var>; <var>c</var>)</code>' = <span class="eq matrix">
                     <span class="tr"><span class="td"></span><span class="td">2</span><span class="td">5</span><span class="td">3</span><span class="td"></span></span>
                     <span class="tr hl"><span class="td"></span><span class="td">9</span><span class="td">4</span><span class="td">1</span><span class="td"></span></span>
@@ -3259,7 +3320,8 @@
                 <var>M</var> - matrix;<br />
                 <var>x</var> - the value to search for;<br />
                 <var>i</var> - starting row index;<br />
-                <var>j</var> - starting column index.</span><br />
+                <var>j</var> - starting column index.
+            </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;<span class="hang">a vector containing the row and column indexes of the first occurrence of <var>x</var> in matrix <var>M</var> after indexes <var>i</var> and <var>j</var>, inclusive.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp;<span class="hang">The searching is performed row by row, consecutively from left to right. If nothing is found, [0&ensp;0] is returned as result.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <span class="hang">
@@ -3277,7 +3339,8 @@
         <p>&emsp;&emsp;<code><b>mfind</b>(<var>M</var>; <var>x</var>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Parameters</em>:&emsp;<span class="hang">
                 <var>M</var> - matrix;<br />
-                <var>x</var> - the value to search for.</span><br />
+                <var>x</var> - the value to search for.
+            </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;<span class="hang">a two-row matrix containing the indexes of all elements in matrix <var>M</var> that are equal to <var>x</var>.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp;<span class="hang">The top row in the result contains the row indexes, and the bottom row - the respective column indexes of the elements in <var>M</var> equal to <var>x</var>. If nothing is found, a 2×1 matrix with zeros is returned.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <span class="hang">
@@ -3302,7 +3365,8 @@
                 <var>M</var> - the matrix in which to perform the lookup;<br />
                 <var>x</var> - the value to look for;<br />
                 <var>i</var><sub>1</sub> - the index of the row where to search for value <var>x</var>;<br />
-                <var>i</var><sub>2</sub> - the index of the row from which to return the corresponding values.</span><br />
+                <var>i</var><sub>2</sub> - the index of the row from which to return the corresponding values.
+            </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;<span class="hang">a vector containing the values from row <var>i</var><sub>2</sub> of matrix <var>M</var> for which the respective elements in row <var>i</var><sub>1</sub> are equal to <var>x</var>.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">The values are collected consequently from left to right. If nothing is found, an empty vector [] is returned.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <span class="hang">
@@ -3321,7 +3385,8 @@
                 <var>M</var> - the matrix in which to perform the lookup;<br />
                 <var>x</var> - the value to look for;<br />
                 <var>j</var><sub>1</sub> - the index of the column where to search for value <var>x</var>;<br />
-                <var>j</var><sub>2</sub> - the index of the column from which to return the values.</span><br />
+                <var>j</var><sub>2</sub> - the index of the column from which to return the values.
+            </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;<span class="hang">a vector containing the values from column <var>j</var><sub>2</sub> of matrix <var>M</var> for which the respective elements in column <var>j</var><sub>1</sub> are equal to <var>x</var>.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">The values are collected consequently from top to bottom. If nothing is found, an empty vector [] is returned.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <span class="hang">
@@ -3434,7 +3499,8 @@
                 <var>B</var> - second matrix.
             </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;(scalar) the Frobenius product of matrices <var>A</var> and <var>B</var>.<br />
-            &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">Both matrices must be of the same size. The result is obtained by summing the products of the corresponding element pairs of the input matrices:<br />
+            &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">
+                Both matrices must be of the same size. The result is obtained by summing the products of the corresponding element pairs of the input matrices:<br />
                 <span class="eq"><var>p</var> = <span class="dvr"><small><var>m</var></small><span class="nary">∑</span><small><var>i</var>=&hairsp;1</small></span><span class="dvr"><small><var>n</var></small><span class="nary">∑</span><small><var>j</var>=&hairsp;1</small></span><var>A</var><sub>ij</sub> <var>B</var><sub>ij</sub></span>
             </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <span class="hang">
@@ -3494,8 +3560,10 @@
         <p>&emsp;&emsp;<code><b>mnorm</b>(<var>M</var>)</code> or <code><b>mnorm_2</b>(<var>M</var>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Parameters</em>:&emsp;<var>M</var> - an m×n matrix where m &ge; n.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;scalar representing the L<sub>2</sub> (spectral) norm of matrix <var>M</var>.<br />
-            &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">It is obtained as the maximum singular value of matrix <var>M</var>&hairsp;:<br />
-                <span class="eq">||<var>M</var>&hairsp;||<sub>2</sub> = <var>&sigma;</var><sub>max</sub>&hairsp;(<var>M</var>&hairsp;)</span>.</span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">
+                It is obtained as the maximum singular value of matrix <var>M</var>&hairsp;:<br />
+                <span class="eq">||<var>M</var>&hairsp;||<sub>2</sub> = <var>&sigma;</var><sub>max</sub>&hairsp;(<var>M</var>&hairsp;)</span>.
+            </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <span class="hang">
                 <code><var>A</var> = [1; 2; 3|4; 5; 6|7; 8; 9]</code>' = <span class="eq matrix">
                     <span class="tr"><span class="td"></span><span class="td">1</span><span class="td">2</span><span class="td">3</span><span class="td"></span></span>
@@ -3509,7 +3577,8 @@
         <p>&emsp;&emsp;<code><b>mnorm_e</b>(<var>M</var>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Parameters</em>:&emsp;<var>M</var> - matrix.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;scalar representing the Frobenius (Euclidean) norm of matrix <var>M</var>.<br />
-            &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">It is similar to vector Euclidian norm, assuming that the matrix is linearized by row concatenation. It calculated as the square root of sum of the squares of all elements, as follows:<br />
+            &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">
+                It is similar to vector Euclidian norm, assuming that the matrix is linearized by row concatenation. It calculated as the square root of sum of the squares of all elements, as follows:<br />
                 <span class="eq">||<var>M</var>&hairsp;||<sub>e</sub> = &emsp;<span class="o2"><span class="r2"></span><span class="dvr"><small><var>m</var></small><span class="nary">∑</span><small><var>i</var>&hairsp;=&hairsp;1</small></span><span class="dvr"><small><var>n</var></small><span class="nary">∑</span><small><var>j</var>&hairsp;=&hairsp;1</small></span><var>M</var><sub>ij</sub><sup>2</sup></span></span>
             </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <span class="hang">
@@ -3539,7 +3608,8 @@
         <p>&emsp;&emsp;<code><b>cond_1</b>(<var>M</var>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Parameters</em>:&emsp;<var>M</var> - square matrix.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;(scalar) the condition number of <var>M</var> based on the L<sub>1</sub> norm.<br />
-            &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">It is calculated by the equation:<br />
+            &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">
+                It is calculated by the equation:<br />
                 <span class="eq"><var>&kappa;</var>&hairsp;<sub>1</sub>(<var>M</var>&hairsp;) = ||<var>M</var>&hairsp;||<sub>1</sub>&middot;&hairsp;||&hairsp;<var>M</var> <sup>-1</sup>&hairsp;||<sub>1</sub></span>
             </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <span class="hang">
@@ -3555,7 +3625,8 @@
         <p>&emsp;&emsp;<code><b>cond</b>(<var>M</var>)</code> or <code><b>cond_2</b>(<var>M</var>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Parameters</em>:&emsp;<var>M</var> - an m×n matrix where m &ge; n.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;(scalar) the condition number of <var>M</var> based on the L<sub>2</sub> norm.<br />
-            &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">The condition number shows how sensitive is the matrix <var>A</var> for solving the equation <var>A</var><var><span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> or inverting the matrix. The higher is the number, the lower is the accuracy of the obtained solution. In theory, singular matrices have infinite condition numbers. However, in floating point environment, one can obtain very large, but finite number, due to floating point errors. The condition number is calculated by the following expression:<br />
+            &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">
+                The condition number shows how sensitive is the matrix <var>A</var> for solving the equation <var>A</var><var><span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> or inverting the matrix. The higher is the number, the lower is the accuracy of the obtained solution. In theory, singular matrices have infinite condition numbers. However, in floating point environment, one can obtain very large, but finite number, due to floating point errors. The condition number is calculated by the following expression:<br />
                 <span class="eq"><var>&kappa;</var>&hairsp;<sub>2</sub>(<var>M</var>&hairsp;) = <var>&sigma;</var><sub>max</sub>(<var>M</var>&hairsp;) / <var>&sigma;</var><sub>min</sub>(<var>M</var>&hairsp;)</span><br />
                 Since this is computationally expensive, the other functions can be used instead, providing similar values but at lower computational cost.
             </span><br />
@@ -3572,7 +3643,8 @@
         <p>&emsp;&emsp;<code><b>cond_e</b>(<var>M</var>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Parameters</em>:&emsp;<var>M</var> - square matrix.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;(scalar) the condition number of <var>M</var> based on the Frobenius norm.<br />
-            &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">It is calculated by the expression:<br />
+            &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">
+                It is calculated by the expression:<br />
                 <span class="eq"><var>&kappa;</var>&hairsp;<sub>e</sub>(<var>M</var>&hairsp;) = ||<var>M</var>&hairsp;||<sub>e</sub>&middot;&hairsp;||&hairsp;<var>M</var> <sup>-1</sup>&hairsp;||<sub>e</sub></span>
             </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <span class="hang">
@@ -3588,7 +3660,8 @@
         <p>&emsp;&emsp;<code><b>cond_i</b>(<var>M</var>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Parameters</em>:&emsp;<var>M</var> - square matrix.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;(scalar) the condition number of <var>M</var> based on the L<sub>∞</sub> norm.<br />
-            &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">It is obtained by the equation:<br />
+            &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">
+                It is obtained by the equation:<br />
                 <span class="eq"><var>&kappa;</var>&hairsp;<sub>∞</sub>(<var>M</var>&hairsp;) = ||<var>M</var>&hairsp;||<sub>∞</sub>&middot;&hairsp;||&hairsp;<var>M</var> <sup>-1</sup>&hairsp;||<sub>∞</sub></span>
             </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <span class="hang">
@@ -3664,7 +3737,7 @@
         <p>&emsp;&emsp;<code><b>adj</b>(<var>M</var>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Parameters</em>:&emsp;<var>M</var> - square matrix.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;the adjugate of matrix <var>M</var>.<br />
-            &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">The adjugate of a square matrix is the transpose of the cofactor matrix. It is obtained by multiplying the inverse of <var>M</var> by the determinant of <var>M</var>&hairsp;:<br/> <b>adj</b>(<var>M</var>&hairsp;) = <var>M</var>&hairsp;<sup>-1</sup> &middot; |<var>M</var>&hairsp;|</span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">The adjugate of a square matrix is the transpose of the cofactor matrix. It is obtained by multiplying the inverse of <var>M</var> by the determinant of <var>M</var>&hairsp;:<br /> <b>adj</b>(<var>M</var>&hairsp;) = <var>M</var>&hairsp;<sup>-1</sup> &middot; |<var>M</var>&hairsp;|</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <span class="hang">
                 <code><var>A</var> = [1; 2|3; 4]</code>' = <span class="eq matrix">
                     <span class="tr"><span class="td"></span><span class="td">1</span><span class="td">2</span><span class="td"></span></span>
@@ -3981,27 +4054,27 @@
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;the solution matrix <var>X</var> of the generalized matrix equation <var>AX</var> = <var>B</var>.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">Similar to <b>lsolve</b>, having that <var>B</var> matrix columns contain multiple right-hand side vectors and <var>X</var> matrix columns represent the respective solution vectors. In this way, the function can solve multiple systems of linear equations in parallel. The LU/LDLT decomposition of <var>A</var> is performed only once in the beginning and the result is reused for backsubstitution multiple times.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <span class="hang">
-            <code><var>A</var> = [8; 6; -4|6; 12; -3|-4; -3; 9]</code>' = <span class="eq matrix">
-                <span class="tr"><span class="td"></span><span class="td">8</span><span class="td">6</span><span class="td">-4</span><span class="td"></span></span>
-                <span class="tr"><span class="td"></span><span class="td">6</span><span class="td">12</span><span class="td">-3</span><span class="td"></span></span>
-                <span class="tr"><span class="td"></span><span class="td">-4</span><span class="td">-3</span><span class="td">9</span><span class="td"></span></span>
-            </span><br />
-            <code><var>B</var> = <b>join</b><sub>cols</sub>([10; 20; 30]; [40; 50; 60])</code>' = <span class="matrix">
-                <span class="tr"><span class="td"></span><span class="td">10</span><span class="td">40</span><span class="td"></span></span>
-                <span class="tr"><span class="td"></span><span class="td">20</span><span class="td">50</span><span class="td"></span></span>
-                <span class="tr"><span class="td"></span><span class="td">30</span><span class="td">60</span><span class="td"></span></span>
-            </span><br />
-            <code><var>X</var> = <b>msolve</b>(<var>A</var>; <var>B</var>)</code>' = <span class="matrix">
-                <span class="tr"><span class="td"></span><span class="td">2.5</span><span class="td">8.71</span><span class="td"></span></span>
-                <span class="tr"><span class="td"></span><span class="td">1.67</span><span class="td">2.67</span><span class="td"></span></span>
-                <span class="tr"><span class="td"></span><span class="td">5</span><span class="td">11.43</span><span class="td"></span></span>
-            </span><br />
-            <code><var>A</var>*<var>X</var></code>' = <span class="matrix">
-                <span class="tr"><span class="td"></span><span class="td">10</span><span class="td">40</span><span class="td"></span></span>
-                <span class="tr"><span class="td"></span><span class="td">20</span><span class="td">50</span><span class="td"></span></span>
-                <span class="tr"><span class="td"></span><span class="td">30</span><span class="td">60</span><span class="td"></span></span>
-            </span> - check<br />
-        </span>
+                <code><var>A</var> = [8; 6; -4|6; 12; -3|-4; -3; 9]</code>' = <span class="eq matrix">
+                    <span class="tr"><span class="td"></span><span class="td">8</span><span class="td">6</span><span class="td">-4</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">6</span><span class="td">12</span><span class="td">-3</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">-4</span><span class="td">-3</span><span class="td">9</span><span class="td"></span></span>
+                </span><br />
+                <code><var>B</var> = <b>join</b><sub>cols</sub>([10; 20; 30]; [40; 50; 60])</code>' = <span class="matrix">
+                    <span class="tr"><span class="td"></span><span class="td">10</span><span class="td">40</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">20</span><span class="td">50</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">30</span><span class="td">60</span><span class="td"></span></span>
+                </span><br />
+                <code><var>X</var> = <b>msolve</b>(<var>A</var>; <var>B</var>)</code>' = <span class="matrix">
+                    <span class="tr"><span class="td"></span><span class="td">2.5</span><span class="td">8.71</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">1.67</span><span class="td">2.67</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">5</span><span class="td">11.43</span><span class="td"></span></span>
+                </span><br />
+                <code><var>A</var>*<var>X</var></code>' = <span class="matrix">
+                    <span class="tr"><span class="td"></span><span class="td">10</span><span class="td">40</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">20</span><span class="td">50</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">30</span><span class="td">60</span><span class="td"></span></span>
+                </span> - check<br />
+            </span>
         </p>
 
         <p>&emsp;&emsp;<code><b>cmsolve</b>(<var>A</var>; <var>B</var>)</code></p><p>
@@ -4020,21 +4093,21 @@
                     <span class="tr"><span class="td"></span><span class="td">6</span><span class="td">12</span><span class="td">-3</span><span class="td"></span></span>
                     <span class="tr"><span class="td"></span><span class="td">-4</span><span class="td">-3</span><span class="td">9</span><span class="td"></span></span>
                 </span><br />
-            <code><var>B</var> = <b>join</b><sub>cols</sub>([10; 20; 30]; [40; 50; 60])</code>' = <span class="matrix">
-                <span class="tr"><span class="td"></span><span class="td">10</span><span class="td">40</span><span class="td"></span></span>
-                <span class="tr"><span class="td"></span><span class="td">20</span><span class="td">50</span><span class="td"></span></span>
-                <span class="tr"><span class="td"></span><span class="td">30</span><span class="td">60</span><span class="td"></span></span>
-            </span><br />
-            <code><var>X</var> = <b>msolve</b>(<var>A</var>; <var>B</var>)</code>' = <span class="matrix">
-                <span class="tr"><span class="td"></span><span class="td">2.5</span><span class="td">8.71</span><span class="td"></span></span>
-                <span class="tr"><span class="td"></span><span class="td">1.67</span><span class="td">2.67</span><span class="td"></span></span>
-                <span class="tr"><span class="td"></span><span class="td">5</span><span class="td">11.43</span><span class="td"></span></span>
-            </span><br />
-            <code><var>A</var>*<var>X</var></code>' = <span class="matrix">
-                <span class="tr"><span class="td"></span><span class="td">10</span><span class="td">40</span><span class="td"></span></span>
-                <span class="tr"><span class="td"></span><span class="td">20</span><span class="td">50</span><span class="td"></span></span>
-                <span class="tr"><span class="td"></span><span class="td">30</span><span class="td">60</span><span class="td"></span></span>
-            </span> - check<br />
+                <code><var>B</var> = <b>join</b><sub>cols</sub>([10; 20; 30]; [40; 50; 60])</code>' = <span class="matrix">
+                    <span class="tr"><span class="td"></span><span class="td">10</span><span class="td">40</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">20</span><span class="td">50</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">30</span><span class="td">60</span><span class="td"></span></span>
+                </span><br />
+                <code><var>X</var> = <b>msolve</b>(<var>A</var>; <var>B</var>)</code>' = <span class="matrix">
+                    <span class="tr"><span class="td"></span><span class="td">2.5</span><span class="td">8.71</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">1.67</span><span class="td">2.67</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">5</span><span class="td">11.43</span><span class="td"></span></span>
+                </span><br />
+                <code><var>A</var>*<var>X</var></code>' = <span class="matrix">
+                    <span class="tr"><span class="td"></span><span class="td">10</span><span class="td">40</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">20</span><span class="td">50</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">30</span><span class="td">60</span><span class="td"></span></span>
+                </span> - check<br />
             </span>
         </p>
 
@@ -4138,17 +4211,20 @@
             </span>
         </p>
 
-        <p>All binary operators are supported for mixed matrix-vector and vector-matrix operands. In this case, the vector is treated as column matrix. For example:</p> 
-        <p>&emsp;&emsp;<code><var>A</var> = [1; 2; 3|4; 5; 6]</code>' = <span class="eq matrix">
-            <span class="tr"><span class="td"></span><span class="td">1</span><span class="td">2</span><span class="td">3</span><span class="td"></span></span>
-            <span class="tr"><span class="td"></span><span class="td">4</span><span class="td">5</span><span class="td">6</span><span class="td"></span></span>
+        <p>All binary operators are supported for mixed matrix-vector and vector-matrix operands. In this case, the vector is treated as column matrix. For example:</p>
+        <p>
+            &emsp;&emsp;<code><var>A</var> = [1; 2; 3|4; 5; 6]</code>' = <span class="eq matrix">
+                <span class="tr"><span class="td"></span><span class="td">1</span><span class="td">2</span><span class="td">3</span><span class="td"></span></span>
+                <span class="tr"><span class="td"></span><span class="td">4</span><span class="td">5</span><span class="td">6</span><span class="td"></span></span>
             </span><br />
-        &emsp;&emsp;<code><var>b</var> = [6; 5; 4]</code><br />
-        &emsp;&emsp;<code><var>A</var>*<var>b</var></code>' = [28&ensp;73]</p>
+            &emsp;&emsp;<code><var>b</var> = [6; 5; 4]</code><br />
+            &emsp;&emsp;<code><var>A</var>*<var>b</var></code>' = [28&ensp;73]
+        </p>
         <p>Matrix-scalar and scalar-matrix operators are also implemented in a element-wise manner. The operation with the provided scalar is performed for each element and the result is returned as matrix. For example:</p>
-        <p>&emsp;&emsp;<code>[1; 2|3; 4]*5</code>' = <span class="eq matrix">
-            <span class="tr"><span class="td"></span><span class="td">5</span><span class="td">10</span><span class="td"></span></span>
-            <span class="tr"><span class="td"></span><span class="td">15</span><span class="td">20</span><span class="td"></span></span>
+        <p>
+            &emsp;&emsp;<code>[1; 2|3; 4]*5</code>' = <span class="eq matrix">
+                <span class="tr"><span class="td"></span><span class="td">5</span><span class="td">10</span><span class="td"></span></span>
+                <span class="tr"><span class="td"></span><span class="td">15</span><span class="td">20</span><span class="td"></span></span>
             </span>
         </p>
 
@@ -4452,13 +4528,13 @@
         </ul>
         <p>You can use <span class="cond">#Continue</span> instead of <span class="cond">#Break</span>. The program will skip the remaining lines, return to the top of the conditional block and continue with the next iteration. You can omit the number of repetitions <var>n</var> only if you are sure that the condition will be satisfied and the loop will brake sooner or later. Anyway, to avoid infinite loop, the number of iterations is limited to 100 000 if nothing else is specified.</p>
         <p>Besides repetitive calculations, you can use loops to generate repetitive report content (like table rows). If you want to hide the iteration details, you can use output control directives (see the previous section). For example, you can enclose the "repeat-loop" block with <span class="cond">#Hide</span> and <span class="cond">#Show</span> statements.</p>
-		<p>Since version VM 7.0, two new iteration blocks were added: "for-loop" and "while-loop", as follows:</p>
-		<ul style="list-style-type:none;">
+        <p>Since version VM 7.0, two new iteration blocks were added: "for-loop" and "while-loop", as follows:</p>
+        <ul style="list-style-type:none;">
             <li><span class="cond">#For</span> <var>counter</var> =  <var>start</var> : <var>end</var></li>
             <li style="margin-left: 2em;">Code to be executed repeatedly</li>
             <li><span class="cond">#Loop</span></li>
         </ul>
-		<ul style="list-style-type:none;">
+        <ul style="list-style-type:none;">
             <li><span class="cond">#While</span> <b>condition</b></li>
             <li style="margin-left: 2em;">Code to be executed repeatedly</li>
             <li><span class="cond">#Loop</span></li>
