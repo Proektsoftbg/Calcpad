@@ -1,16 +1,17 @@
 "Elastic Analysis of Deep Beam
 '<hr />
 #rad
+'<h3>Input data</h3> 
 '<table><tr><td>
 'Beam length -'l = ? {4}m
 'Height -'h = ? {2}m
 'Load -'q = ? {100}*(kN/m)
 'Length of load -'b = ? {0.8}m
+'Distance to load start -'a = ? {1.6}m
 'Length of support -'d = ? {0.4}m
 'Number of iterations -'N = ? {21}
-'</td><td><img src="https://calcpad.eu/media/mechanics/elastic/deep-beam.png" style="height:160pt; margin-left:50pt;"></td></tr></table>
+'</td><td><img src="https://calcpad.eu/media/mechanics/elastic/deep-beam-fea.png" style="height:160pt; margin-left:50pt;"></td></tr></table>
 #hide
-a = (l - b)/2
 c = a + b
 q(x) = if((x < a) + (x > c); 0kN/m; q)
 α(n) = n*π/l
@@ -50,16 +51,20 @@ Y(N; h) - q_n(N)/α(N)^2
 PlotStep = 5
 PlotHeight = PlotWidth*h/l
 #post
-'Calculation of stresses
+'<h3>Calculation of stresses</h3> 
 σ_x(x; y) = $Sum{Y_2(n; y)*sin(α(n)*x) @ n = 1 : N}
 '<!--'k = round(abs(σ_x(l/2; h))/20)*50'-->
 $Map{σ_x(x; y) @ x = 0m : l & y = 0m : h}
 'Plot for σ<sub>x</sub> at <var>x</var> = <var>l</var>/2
 $Plot{σ_x(l/2; y)|y & -k|0m & k|0m @ y = 0m : h}
+'Bottom value -'σ_x(l/2; 0m)
+'Top value -'σ_x(l/2; h)
 σ_y(x; y) = -$Sum{α(n)^2*Y(n; y)*sin(α(n)*x) @ n = 1 : N}
 $Map{σ_y(x; y) @ x = 0m : l & y = 0m : h}
+'Top value -'σ_y(l/2; h)
 τ_xy(x; y) = -$Sum{α(n)*Y_1(n; y)*cos(α(n)*x) @ n = 1 : N}
 $Map{τ_xy(x; y) @ x = 0m : l & y = 0m : h}
+'Value at 3/4 of span -'τ_xy(3*l/4; h/2)
 σ_m(x; y) = 0.5*(σ_x(x; y) + σ_y(x; y))
 Δσ(x; y) = 0.5*sqr((σ_x(x; y) - σ_y(x; y))^2 + 4*τ_xy(x; y)^2)
 σ_1(x; y) = σ_m(x; y) + Δσ(x; y)
