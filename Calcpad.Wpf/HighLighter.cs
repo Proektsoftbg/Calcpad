@@ -302,6 +302,7 @@ namespace Calcpad.Wpf
             "vec2diag",
             "diag2vec",
             "vec2col",
+            "vec2row",
             "join_cols",
             "join_rows",
             "augment",
