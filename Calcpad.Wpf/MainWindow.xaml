@@ -2945,9 +2945,9 @@
                         <ListBoxItem Content="V/m"                 Foreground="DarkCyan"/>
                         <ListBoxItem Content="VA"                  Foreground="DarkCyan"/>
                         <ListBoxItem Content="VAR"                 Foreground="DarkCyan"/>
-                        <ListBoxItem Content="vec2row(v)"          FontWeight="Bold"/>
                         <ListBoxItem Content="vec2col(v)"          FontWeight="Bold"/>
                         <ListBoxItem Content="vec2diag(v)"         FontWeight="Bold"/>
+                        <ListBoxItem Content="vec2row(v)"          FontWeight="Bold"/>
                         <ListBoxItem Content="vector(n)"           FontWeight="Bold"/>
                         <ListBoxItem Content="vlookup(M; x; j₁; j₂)"    FontWeight="Bold"/>
                         <ListBoxItem Content="vlookup_eq(M; x; j₁; j₂)" FontWeight="Bold"/>
