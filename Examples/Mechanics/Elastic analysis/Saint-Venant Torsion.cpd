@@ -1,11 +1,13 @@
 "Saint-Venant Torsion of Rectangular Section
 '<hr /><table><tr><td>
+'<h3>Input data</h3> 
 'Dimensions of cross section
-a = ?cm','b = ?*(cm/2)
-'Torsional moment -'M_t = ?kNm
-'Number of iterations -'n = ?
+a = ? {50}cm','b = ? {30}*(cm/2)
+'Torsional moment -'M_t = ? {20}kNm
 '</td><td><img src="https://calcpad.eu/media/mechanics/elastic/torsion.png" style="height:110pt; margin-left:50pt;"></td></tr></table>
+'Number of iterations -'n = ? {10}
 #post
+'<h3>Analysis</h3> 
 k(i) = 2*i + 1', 'α(i) = k(i)*π/a
 #hide
 #rad
@@ -20,6 +22,7 @@ C_1 = 4*C*a/π^2|MPa
 'Shear stress calculation
 τ_zx(x; y) = C_1*$Sum{1/(k(i)^2*cosh(α(i)*b))*sinh(α(i)*y)*sin(α(i)*x) @ i = 0 : n}|MPa
 τ_zy(x; y) = C*(a/2 - x) - C_1*$Sum{1/(k(i)^2*cosh(α(i)*b))*cosh(α(i)*y)*cos(α(i)*x) @ i = 0 : n}|MPa
+'<h3>Results</h3> 
 'Peak values
 τ_zx(a/2; b)
 τ_zy(0cm; 0cm)
@@ -35,4 +38,3 @@ y(k) = (2*k - 1)*b
 #post
 'Stress line plots
 $Plot{a/2 + c*τ_zx(a/2; y(k))|y(k) & a/2|y(k) & x(k)|0cm & a + c*τ_zy(a; y(k))|y(k) & x(k)|c*τ_zy(x(k); 0cm) & x(k)|b - c*τ_zx(x(k); b) @ k = 0 : 1}
-50	30	20	10

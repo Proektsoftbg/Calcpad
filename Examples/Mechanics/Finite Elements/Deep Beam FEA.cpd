@@ -1,0 +1,320 @@
+"Finite Element Analysis of Deep Beam
+'<h3>Input data</h3>
+'<table><tr><td style="padding:0;">
+'Length -'l = 4'm, Height -'h = 2'm
+'Thickness -'t = 0.1'm
+'Distributed load -'q = 100'kN/m
+'<p><b>Loads</b></p>
+'Load length -'b = 0.8'm 
+'Load position -'a = (l - b)/2'm
+'Load function -'q(x) = q*(x ≥ a ∧ x ≤ a + b)
+'</td><td><img src="./deep-beam-fea.png" style="height:160pt; margin-left:20pt;"></td></tr></table>
+'<p><b>Supports</b></p>
+'Support length -'d = 0.4'm
+'Support elastic stiffness -'k_s = 50000'MN/m²
+'Support function -'s(x) = k_s*t*(x ≤ d ∨ x ≥ l - d)
+'<p><b>Material properties</b></p>
+'Modulus of elasticity -'E = 20000'MPa
+'Poisson`s ratio -'ν = 0.2
+'<h3>Finite element mesh</h3>
+'We will use rectangular finite element with'n = 8'DOFs
+'Number of elements along <var>l</var> and <var>h</var> -'n_l = 20', 'n_h = 10
+'Total number of elements -'n_e = n_l*n_h
+'Total number of joints -'n_j = (n_l + 1)*(n_h + 1)
+'Element dimensions -'l_1 = l/n_l', 'h_1 = h/n_h
+#hide
+x_j = vector(n_j)','y_j = vector(n_j)
+x = 0', 'y = 0
+#for j = 1 : n_j
+	x_j.j = x
+	y_j.j = y
+	y = y + h_1
+	#if y > h
+		y = 0
+		x = x + l_1
+	#end if
+#loop
+e_j = matrix(n_e; 4)
+#for i_l = 1 : n_l
+	#for i_h = 1 : n_h
+		e = i_h + n_h*(i_l - 1)
+		j = e + i_l - 1
+		e_j.(e; 1) = j
+		e_j.(e; 2) = j + 1
+		e_j.(e; 3) = j + n_h + 1
+		e_j.(e; 4) = j + n_h + 2
+	#loop
+#loop
+#show
+'Joint coordinates
+x_j'm
+y_j'm
+'Joint numbers for elements
+transp(e_j)
+'Coordinates of element centers
+j_e(e) = row(e_j; e)
+x_c(e) = sum(extract(x_j; j_e(e)))/4',' _
+y_c(e) = sum(extract(y_j; j_e(e)))/4
+#hide
+x_c = vector(n_e)', 'y_c = vector(n_e)
+$Repeat{x_c.e = x_c(e) @ e = 1 : n_e}
+$Repeat{y_c.e = y_c(e) @ e = 1 : n_e}
+#show
+x_c'm
+y_c'm
+'Elements along the bottom (supported) edge
+e_S = find_lt(y_c; h_1; 1)
+'Elements along the top (loaded) edge
+e_L = find_gt(y_c; h - h_1; 1)
+#val
+#hide
+W = 400
+k = W/l
+δ = 20
+H = h/l*W
+r = 0.02*k
+#show
+'<svg viewbox="'-δ/2' '-3*δ' 'W + 2*δ' 'H + 5*δ'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-family: Segoe UI; font-size:8px; width:'W + δ'pt; height:'H + 5*δ'pt">
+'<style>.joint{fill:orangeRed;} .support{stroke:red; stroke-width:1; fill:lightpink;} .element{stroke:seaGreen; stroke-width:1; fill:lime; fill-opacity:0.1; stroke-opacity:0.5;} .struct{fill:yellow; fill-opacity:0.25;stroke:goldenRod; stroke-opacity:0.5;}</style>
+'<rect x="'0'" y="'0'" width="'W'" height="'H'" class="struct"/>
+'<rect x="'0'" y="'H'" width="'d*k'" height="'1.5*δ'" class="struct"/>
+'<rect x="'W - d*k'" y="'H'" width="'d*k'" height="'1.5*δ'" class="struct"/>
+'<rect x="'a*k'" y="'-1.5*δ'" width="'b*k'" height="'1.5*δ'" style="fill:cyan; fill-opacity:0.15; stroke:darkCyan; stroke-opacity:0.5;"/>
+'<text x="'(a + b/2)*k + r'" y="'-1.8*δ'" text-anchor="middle" style="font-size:11px;">q='q' kN/m</text>
+#for e = 1 : n_e
+	#hide
+	x = x_c.e*k
+	y = y_c.e*k
+	#show
+	'<text x="'x'" y="'H - y'" text-anchor="middle">'e'</text>
+	'<rect x="'x - l_1/2*k'" y="'H - y - h_1/2*k'" width="'l_1*k'" height="'h_1*k'" class="element" />
+#loop
+#for j = 1 : n_j
+	#hide
+	x = x_j.j*k
+	y = H - y_j.j*k
+	#show
+	'<circle cx="'x'" cy="'y'" r="'r'" class="joint" />
+	'<text x="'x + r'" y="'y - r'" text-anchor="start">'j'</text>
+#loop
+'</svg>
+#noc
+'<h3>Finite element formation</h3>
+'<p><b>Shape functions</b></p>
+'They are defined in relative coordinates to the center of the element:
+'<img src="./plane-element.png" alt="plane-elemen.png" style="float:right; width:150pt;" />
+ξ = 2*(x - x_c)/l_1'∈ (-1; 1),'η = 2*(y - y_c)/h_1'∈ (-1; 1)
+#equ
+'Base functions -'Φ_1(ξ) = (1 - ξ)/2', 'Φ_2(ξ) = (1 + ξ)/2
+'First derivatives -'Φ′_1(ξ) = -1/2', 'Φ′_2(ξ) = 1/2
+'Shape functions for joints at elements` corners
+N_1(ξ; η) = Φ_1(ξ)*Φ_1(η)', 'N_2(ξ; η) = Φ_1(ξ)*Φ_2(η)
+N_3(ξ; η) = Φ_2(ξ)*Φ_1(η)', 'N_4(ξ; η) = Φ_2(ξ)*Φ_2(η)
+'<p><b>Constitutive matrix</b> (stress-strain relationship)</p>
+D = E*t/(1 - ν^2)*[1; ν; 0|ν; 1; 0|0; 0; (1 - ν)/2]
+'<p><b>Strain-displacement matrix</b></p>
+B_1(j; η) = (1/l_1)*take(j; -Φ_1(η); 0; -Φ_2(η); 0; Φ_1(η); 0; Φ_2(η); 0)
+B_2(j; ξ) = (1/h_1)*take(j; 0; -Φ_1(ξ); 0; Φ_1(ξ); 0; -Φ_2(ξ); 0; Φ_2(ξ))
+B_3(j; ξ; η) = take(j; _
+-Φ_1(ξ)/h_1; -Φ_1(η)/l_1; Φ_1(ξ)/h_1; -Φ_2(η)/l_1; _
+-Φ_2(ξ)/h_1; Φ_1(η)/l_1; Φ_2(ξ)/h_1; Φ_2(η)/l_1)
+B(j; ξ; η) = [B_1(j; η); B_2(j; ξ); B_3(j; ξ; η)]
+'The elements of the stiffness matrix will be calculated by using direct integration
+#noc
+K_e,ij = l_1*h_1/4*$Area{$Area{B_i(ξ; η)^T*D*B_j(ξ; η) @ ξ = -1 : 1} @ η = -1 : 1}
+#equ
+'<p><b>Element stiffness matrix</b> (above the main diagonal only)</p>
+#hide
+K_e = utriang(8)
+Precision = 10^-4
+e = 1
+#show
+BTDB_e(i; j; ξ; η) = transp(B(i; ξ; η))*D*B(j; ξ; η)
+K_e(i; j) = l_1*h_1/4*$Area{$Area{BTDB_e(i; j; ξ; η) @ ξ = -1 : 1} @ η = -1 : 1}
+$Repeat{$Repeat{K_e.(i; j) = K_e(i; j) @ j = i : n} @ i = 1 : n}
+K_e'MN/m
+'Boundary conditions
+'Supports
+'Number of elements along the supported edge -'n_S = len(e_S)
+'Element′s joint springs stiffness factors
+#noc
+K_s,j(e) = l_1/2*$Area{N_j(ξ; -1)*s(x_c.e + ξ*l_1/2) @ ξ = -1 : 1}', 'j = 1', '3
+#equ
+'Results for element 1
+K_s,1(e) = l_1/2*$Area{N_1(ξ; -1)*s(x_c.e + ξ*l_1/2) @ ξ = -1 : 1}','K_s,1(1)'MN/m
+K_s,3(e) = l_1/2*$Area{N_3(ξ; -1)*s(x_c.e + ξ*l_1/2) @ ξ = -1 : 1}','K_s,3(1)'MN/m
+'Number of elements along the loaded edge -'n_L = len(e_L)
+'Element load vector
+#noc
+F_j(e) = l_1/2*$Area{N_j(ξ; 1)*q(x_c.e + ξ*l_1/2) @ ξ = -1 : 1}', 'j = 2', '4
+#val
+'Results for element 'e = e_L.(n_l/2)
+#equ
+F_2(e) = l_1/2*$Area{N_2(ξ; 1)*q(x_c.e + ξ*l_1/2) @ ξ = -1 : 1}','F_2(e)'kN
+F_4(e) = l_1/2*$Area{N_4(ξ; 1)*q(x_c.e + ξ*l_1/2) @ ξ = -1 : 1}','F_4(e)'kN
+'<h3>Solution</h3>
+'Global stiffness matrix
+#hide
+k_1 = n/4
+n = k_1*n_j
+K = symmetric(n)
+'Addition of element stiffness matrix coefficients
+#for e = 1 : n_e
+	#for i = 1 : 4
+		#for j = i : 4
+			j_1 = e_j.(e; i)', 'i_1 = k_1*(j_1 - 1) + 1
+			j_2 = e_j.(e; j)', 'i_2 = k_1*(j_2 - 1) + 1
+			k_ij = submatrix(K_e; k_1*(i - 1) + 1; k_1*i; k_1*(j - 1) + 1; k_1*j)
+			#if j_1 > j_2
+				add(transp(k_ij); K; i_2; i_1)
+			#else
+				add(k_ij; K; i_1; i_2)
+			#end if
+		#loop
+	#loop
+#loop
+'Addition of supports
+#for i = 1 : n_S
+	e = e_S.i
+	K_se,1 = K_s,1(e)
+	K_se,3 = K_s,3(e)
+	j_1 = e_j.(e; 1)', 'i_1 = k_1*(j_1 - 1) + 2
+	j_3 = e_j.(e; 3)', 'i_3 = k_1*(j_3 - 1) + 2
+	K.(i_1; i_1) = K.(i_1; i_1) + K_se,1
+	K.(i_3; i_3) = K.(i_3; i_3) + K_se,3
+#loop
+j_M = find(x_j; l/2; 1)
+n_M = len(j_M)
+#for i = 1 : n_M
+	j = j_M.i', 'i_1 = k_1*(j - 1) + 1
+	K.(i_1; i_1) = K.(i_1; i_1) + k_s
+#loop
+#show
+K
+'Global load vector
+#hide
+F = vector(n)
+#for i = 1 : n_L
+	e = e_L.i
+	F_e,2 = F_2(e)
+	F_e,4 = F_4(e)
+	j_2 = e_j.(e; 2)', 'i_2 = k_1*(j_2 - 1) + 2
+	j_4 = e_j.(e; 4)', 'i_4 = k_1*(j_4 - 1) + 2
+	F.i_2 = F.i_2 + F_e,2
+	F.i_4 = F.i_4 + F_e,4
+#loop
+#show
+F
+sum(F)'kN
+'Solution of the system of equations
+Z = clsolve(K; F)'mm
+'<h3>Results</h3>
+#hide
+'Joint displacements
+u = matrix(n_l + 1; n_h + 1)
+u(j) = Z.(k_1*(j - 1) + 1)
+$Repeat{$Repeat{u.(i; j) = round(u((i - 1)*(n_h + 1) + j)*1000000)/1000 @ j = 1 : n_h + 1} @ i = 1 : n_l + 1}
+u(x; y) = spline(1 + x/l_1; 1 + y/h_1; u)
+v = matrix(n_l + 1; n_h + 1)
+v(j) = Z.(k_1*(j - 1) + 2)
+$Repeat{$Repeat{v.(i; j) = round(v((i - 1)*(n_h + 1) + j)*1000000)/1000 @ j = 1 : n_h + 1} @ i = 1 : n_l + 1}
+v(x; y) = spline(1 + x/l_1; 1 + y/h_1; v)
+PlotWidth = 100*l
+PlotHeight = 100*h
+PlotStep = 10
+#show
+'Horizontal joint displacements, ·10<sup>-3</sup>mm
+transp(u)
+$Map{u(x; y) @ x = 0 : l & y = 0 : h}
+'Vertical joint displacements, ·10<sup>-3</sup>mm
+transp(v)
+$Map{v(x; y) @ x = 0 : l & y = 0 : h}
+'Calculation of internal forces
+'Displacements for joint - 'Z_j(j) = slice(Z; k_1*(j - 1) + 1; k_1*j)
+'Displacements for element - 'Z_e(e) = [Z_j(e_j.(e; 1)); Z_j(e_j.(e; 2)); Z_j(e_j.(e; 3)); Z_j(e_j.(e; 4))]
+#hide
+B(ξ; η) = [ _
+B_1(1; η); B_1(2; η); B_1(3; η); B_1(4; η); _
+B_1(5; η); B_1(6; η); B_1(7; η); B_1(8; η)| _
+B_2(1; ξ); B_2(2; ξ); B_2(3; ξ); B_2(4; ξ); _
+B_2(5; ξ); B_2(6; ξ); B_2(7; ξ); B_2(8; ξ)| _
+B_3(1; ξ; η); B_3(2; ξ; η); B_3(3; ξ; η); B_3(4; ξ; η); _
+B_3(5; ξ; η); B_3(6; ξ; η); B_3(7; ξ; η); B_3(8; ξ; η)]
+#show
+'Membrane forces in element -'N_e(e; x; y) = -D*B(2*x/l_1; 2*y/h_1)*Z_e(e)
+#hide
+N_j = matrix(3; n_j)
+c_j = vector(n_j)
+#for e = 1 : n_e
+	Z_е = Z_e(e)
+	j_1 = e_j.(e; 1)
+	x_1 = x_c.e
+	y_1 = y_c.e
+	#for i = 1 : 4
+		j = e_j.(e; i)
+		c_j.j = c_j.j + 1
+		x = x_j.j - x_1
+		y = y_j.j - y_1
+		N_e = N_e(e; x; y)
+		add(N_e; N_j; 1; j)
+	#loop
+#loop
+#for j = 1 : n_j
+	N_j.(1; j) = N_j.(1; j)/c_j.j
+	N_j.(2; j) = N_j.(2; j)/c_j.j
+	N_j.(3; j) = N_j.(3; j)/c_j.j
+#loop
+Nx = matrix(n_l + 1; n_h + 1)
+Ny = matrix(n_l + 1; n_h + 1)
+Nxy = matrix(n_l + 1; n_h + 1)
+#for i = 1 : n_l + 1
+	#for k = 1 : n_h + 1
+		j = (i - 1)*(n_h + 1) + k
+		Nx.(i; k) = N_j.(1; j)
+		Ny.(i; k) = N_j.(2; j)
+		Nxy.(i; k) = N_j.(3; j)
+	#loop
+#loop
+N_x(x; y) = spline(1 + x/l_1; 1 + y/h_1; Nx)
+N_y(x; y) = spline(1 + x/l_1; 1 + y/h_1; Ny)
+N_xy(x; y) = spline(1 + x/l_1; 1 + y/h_1; Nxy)
+i = round(n_l/2)
+j = round(n_h/2)
+e = e_S.(n_l/2 + 1)
+j = e_j.(e; 1)
+x = -l_1/2
+y = -h_1/2
+#show
+#val
+'Results for element 'e' and joint 'j':
+#equ
+Z_e = Z_e(e)'mm
+N_e = N_e(e; x; y)'kN/m
+'Average membrane forces at joints, kN/m
+N_j
+'Membrane forces for the structure
+'Normal membrane forces - <var>N</var><sub>x</sub>, kN/m
+transp(Nx)
+'<!--'k = round(abs(N_x(l/2; h))/20)*50'-->
+$Map{N_x(x; y) @ x = 0 : l & y = 0 : h}
+'Plot for <var>N</var><sub>x</sub>, kN/m at <var>x</var> = <var>l</var>/2
+$Plot{N_x(l/2; y)|y & -k|0 & k|0 @ y = 0 : h}
+'Bottom value -'N_x(l/2; 0)'kN/m
+'Top value -'N_x(l/2; h)'kN/m
+'Normal membrane forces - <var>N</var><sub>y</sub>, kN/m
+transp(Ny)
+$Map{N_y(x; y) @ x = 0 : l & y = 0 : h}
+'<!--'k = round(abs(N_y(l/2; h))/20)*50'-->
+$Plot{N_y(l/2; y)|y & -k|0 & k|0 @ y = 0 : h}
+'Top value -'N_y(l/2; h)'kN/m
+'Shear membrane forces - <var>N</var><sub>xy</sub>, kN/m
+transp(Nxy)
+$Map{N_xy(x; y) @ x = 0 : l & y = 0 : h}
+'Max. value at 3/4 of span -'N_xy(3*l/4; h/2)'kN/m	
+'Principal membrane forces, kN/m
+N_m(x; y) = 0.5*(N_x(x; y) + N_y(x; y))
+ΔN(x; y) = 0.5*sqr((N_x(x; y) - N_y(x; y))^2 + 4*N_xy(x; y)^2)
+N_max(x; y) = N_m(x; y) + ΔN(x; y)'kN/m
+$Map{N_max(x; y) @ x = 0 : l & y = 0 : h}
+N_min(x; y) = N_m(x; y) - ΔN(x; y)'kN/m
+$Map{N_min(x; y) @ x = 0 : l & y = 0 : h}
