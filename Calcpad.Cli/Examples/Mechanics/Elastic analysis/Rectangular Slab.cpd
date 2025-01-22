@@ -1,5 +1,6 @@
 "Elastic Analysis of Rectangular Slab
 '<hr />
+'<h3>Input data</h3> 
 'Dimensions in plan -'a = ? {6}m','b = ? {4}m
 '<table><tr><td>
 'Slab thickness -'t = ? {0.1}m
@@ -10,6 +11,7 @@
 '</td><td><img src="https://calcpad.eu/media/mechanics/elastic/slab.png" style="height:110pt; margin-left:40pt;"></td></tr></table>
 #rad
 #post
+'<h3>Analysis</h3> 
 'Cylindrical stiffness -'D = E*t^3/(12*(1 - ν^2))
 α = a/b
 α_2 = α^2
@@ -28,25 +30,31 @@ PlotStep = 10
 #post
 'Deflections
 w(x; y) = q_0*(a/π)^4/D*$Sum{S_a(m; x)*$Sum{A_1(m; n)*S_b(n; y) @ n = 0 : N} @ m = 0 : N}|mm
-$Map{-w(x; y) @ x = 0m : a & y = 0m : b}
-'Maximum value -'w(a/2; b/2)
 'Bending moments
 M_x(x; y) = q_0*(a/π)^2*$Sum{S_a(m; x)*$Sum{B_1(m; n)*S_b(n; y) @ n = 0 : N} @ m = 0 : N}
-$Map{M_x(x; y) @ x = 0m : a & y = 0m : b}
-'Maximum value -'M_x(a/2; b/2)
 M_y(x; y) = q_0*(a/π)^2*$Sum{S_a(m; x)*$Sum{C_1(m; n)*S_b(n; y) @ n = 0 : N} @ m = 0 : N}
-$Map{M_y(x; y) @ x = 0m : a & y = 0m : b}
-'Maximum value -'M_y(a/2; b/2)
 k_1(n) = 2*n
 M_xy(x; y) = -q_0*((a/π)^2)*(1 - ν)*α*$Sum{cos(k(m)*π*x/a)*$Sum{A_1(m; n)*cos(k(n)*π*y/b) @ n = 0 : N} @ m = 0 : N}
-$Map{M_xy(x; y) @ x = 0m : a & y = 0m : b}
-'Maximum value -'M_xy(0m; 0m)|kN
 'Principal bending moments
-M_1(x; y) = (M_x(x; y) + M_y(x; y))/2 + sqrt((M_x(x; y) - M_y(x; y))^2/4 + M_xy(x; y)^2)
-$Map{M_1(x; y) @ x = 0m : a & y = 0m : b}
-'Maximum value -'M_1(a/2; b/2)
-M_2(x; y) = (M_x(x; y) + M_y(x; y))/2 - sqrt((M_x(x; y) - M_y(x; y))^2/4 + M_xy(x; y)^2)
-$Map{M_2(x; y) @ x = 0m : a & y = 0m : b}
-'Maximum value -'M_2(b/2; b/2)|kN
-'Minimum value -'M_2(0m; 0m)|kN
-6	4	0.1	10	35000	0.15	5
+M_max(x; y) = (M_x(x; y) + M_y(x; y))/2 + sqrt((M_x(x; y) - M_y(x; y))^2/4 + M_xy(x; y)^2)
+M_min(x; y) = (M_x(x; y) + M_y(x; y))/2 - sqrt((M_x(x; y) - M_y(x; y))^2/4 + M_xy(x; y)^2)
+'<h3>Results</h3> 
+'Deflections
+$Map{-w(x; y) @ x = 0m : a & y = 0m : b}
+'Maximum value -'w(a/2; b/2)
+'Bending moments - Mx, kNm/m
+$Map{M_x(x; y) @ x = 0m : a & y = 0m : b}
+'Maximum value -'M_x(a/2; b/2)|kNm/m
+'Bending moments - My, kNm/m
+$Map{M_y(x; y) @ x = 0m : a & y = 0m : b}
+'Maximum value -'M_y(a/2; b/2)|kNm/m
+'Bending moments - Mxy, kNm/m
+$Map{M_xy(x; y) @ x = 0m : a & y = 0m : b}
+'Maximum value -'M_xy(0m; 0m)|kNm/m
+'Principal bending moments - Mmax, kNm/m
+$Map{M_min(x; y) @ x = 0m : a & y = 0m : b}
+'Maximum value -'M_max(a/2; b/2)|kNm/m
+'Principal bending moments - Mmin, kNm/m
+$Map{M_min(x; y) @ x = 0m : a & y = 0m : b}
+'Maximum value -'M_min(b/2; b/2)|kNm/m
+'Minimum value -'M_min(0m; 0m)|kNm/m
