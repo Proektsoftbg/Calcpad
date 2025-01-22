@@ -1,0 +1,160 @@
+
+
+; File G:\Моят диск\phd\UACG 2\struct\Plate\Plate_6x4.$2k saved 1.4.25 16:18:12 in KN-m
+
+SYSTEM
+  DOF=UZ,RX,RY  LENGTH=m  FORCE=KN  PAGE=SECTIONS
+
+JOINT
+  1  X=-3  Y=-2  Z=0
+  2  X=-3  Y=-1  Z=0
+  3  X=-3  Y=0  Z=0
+  4  X=-3  Y=1  Z=0
+  5  X=-3  Y=2  Z=0
+  6  X=-2  Y=-2  Z=0
+  7  X=-2  Y=-1  Z=0
+  8  X=-2  Y=0  Z=0
+  9  X=-2  Y=1  Z=0
+  10  X=-2  Y=2  Z=0
+  11  X=-1  Y=-2  Z=0
+  12  X=-1  Y=-1  Z=0
+  13  X=-1  Y=0  Z=0
+  14  X=-1  Y=1  Z=0
+  15  X=-1  Y=2  Z=0
+  16  X=0  Y=-2  Z=0
+  17  X=0  Y=-1  Z=0
+  18  X=0  Y=0  Z=0
+  19  X=0  Y=1  Z=0
+  20  X=0  Y=2  Z=0
+  21  X=1  Y=-2  Z=0
+  22  X=1  Y=-1  Z=0
+  23  X=1  Y=0  Z=0
+  24  X=1  Y=1  Z=0
+  25  X=1  Y=2  Z=0
+  26  X=2  Y=-2  Z=0
+  27  X=2  Y=-1  Z=0
+  28  X=2  Y=0  Z=0
+  29  X=2  Y=1  Z=0
+  30  X=2  Y=2  Z=0
+  31  X=3  Y=-2  Z=0
+  32  X=3  Y=-1  Z=0
+  33  X=3  Y=0  Z=0
+  34  X=3  Y=1  Z=0
+  35  X=3  Y=2  Z=0
+
+RESTRAINT
+  ADD=1  DOF=U3,R1,R2
+  ADD=6  DOF=U3,R2
+  ADD=10  DOF=U3,R2
+  ADD=5  DOF=U3,R1,R2
+  ADD=11  DOF=U3,R2
+  ADD=15  DOF=U3,R2
+  ADD=16  DOF=U3,R2
+  ADD=20  DOF=U3,R2
+  ADD=21  DOF=U3,R2
+  ADD=25  DOF=U3,R2
+  ADD=26  DOF=U3,R2
+  ADD=30  DOF=U3,R2
+  ADD=31  DOF=U3,R1,R2
+  ADD=35  DOF=U3,R1,R2
+  ADD=2  DOF=U3,R1
+  ADD=3  DOF=U3,R1
+  ADD=4  DOF=U3,R1
+  ADD=32  DOF=U3,R1
+  ADD=33  DOF=U3,R1
+  ADD=34  DOF=U3,R1
+
+PATTERN
+  NAME=DEFAULT
+
+MATERIAL
+  NAME=STEEL  IDES=S  M=7.8271  W=76.81955
+    T=0  E=1.99948E+08  U=.3  A=.0000117  FY=248211.3
+  NAME=CONC  IDES=C  
+    T=0  E=3.5E+07  U=.15  A=.0000099
+  NAME=OTHER  IDES=N  M=2.40068  W=23.56161
+    T=0  E=2.482113E+07  U=.2  A=.0000099
+
+SHELL SECTION
+  NAME=SSEC1  MAT=CONC    TYPE=Plate,Thin  TH=.1
+
+SHELL
+  1  J=1,6,2,7  SEC=SSEC1
+  2  J=2,7,3,8  SEC=SSEC1
+  3  J=3,8,4,9  SEC=SSEC1
+  4  J=4,9,5,10  SEC=SSEC1
+  5  J=6,11,7,12  SEC=SSEC1
+  6  J=7,12,8,13  SEC=SSEC1
+  7  J=8,13,9,14  SEC=SSEC1
+  8  J=9,14,10,15  SEC=SSEC1
+  9  J=11,16,12,17  SEC=SSEC1
+  10  J=12,17,13,18  SEC=SSEC1
+  11  J=13,18,14,19  SEC=SSEC1
+  12  J=14,19,15,20  SEC=SSEC1
+  13  J=16,21,17,22  SEC=SSEC1
+  14  J=17,22,18,23  SEC=SSEC1
+  15  J=18,23,19,24  SEC=SSEC1
+  16  J=19,24,20,25  SEC=SSEC1
+  17  J=21,26,22,27  SEC=SSEC1
+  18  J=22,27,23,28  SEC=SSEC1
+  19  J=23,28,24,29  SEC=SSEC1
+  20  J=24,29,25,30  SEC=SSEC1
+  21  J=26,31,27,32  SEC=SSEC1
+  22  J=27,32,28,33  SEC=SSEC1
+  23  J=28,33,29,34  SEC=SSEC1
+  24  J=29,34,30,35  SEC=SSEC1
+
+LOAD
+  NAME=LOAD1  CSYS=0
+    TYPE=UNIFORM
+      ADD=1  UZ=-10
+      ADD=2  UZ=-10
+      ADD=3  UZ=-10
+      ADD=4  UZ=-10
+      ADD=5  UZ=-10
+      ADD=6  UZ=-10
+      ADD=7  UZ=-10
+      ADD=8  UZ=-10
+      ADD=9  UZ=-10
+      ADD=10  UZ=-10
+      ADD=11  UZ=-10
+      ADD=12  UZ=-10
+      ADD=13  UZ=-10
+      ADD=14  UZ=-10
+      ADD=15  UZ=-10
+      ADD=17  UZ=-10
+      ADD=18  UZ=-10
+      ADD=19  UZ=-10
+      ADD=20  UZ=-10
+      ADD=21  UZ=-10
+      ADD=22  UZ=-10
+      ADD=23  UZ=-10
+      ADD=24  UZ=-10
+      ADD=16  UZ=-10
+
+OUTPUT
+; No Output Requested
+
+END
+
+; The following data is used for graphics, design and pushover analysis.
+; If changes are made to the analysis data above, then the following data
+; should be checked for consistency.
+SAP2000 V7.40 SUPPLEMENTAL DATA
+  GRID GLOBAL  X "1"  -3
+  GRID GLOBAL  X "2"  -2
+  GRID GLOBAL  X "3"  -1
+  GRID GLOBAL  X "4"  0
+  GRID GLOBAL  X "5"  1
+  GRID GLOBAL  X "6"  2
+  GRID GLOBAL  X "7"  3
+  GRID GLOBAL  Y "8"  -2
+  GRID GLOBAL  Y "9"  -1
+  GRID GLOBAL  Y "10"  0
+  GRID GLOBAL  Y "11"  1
+  GRID GLOBAL  Y "12"  2
+  GRID GLOBAL  Z "13"  0
+  MATERIAL STEEL FY 248211.3
+  MATERIAL CONC FYREBAR 413685.5 FYSHEAR 275790.3 FC 27579.03 FCSHEAR 27579.03
+  STATICLOAD LOAD1 TYPE DEAD
+END SUPPLEMENTAL DATA
