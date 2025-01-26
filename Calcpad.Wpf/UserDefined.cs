@@ -61,7 +61,7 @@ namespace Calcpad.Wpf
             foreach (var line in lines)
             {
                 ++lineNumber;
-                if (!line.IsEmpty)
+                if (!(line.IsEmpty && string.IsNullOrEmpty(_macroName)))
                 {
                     if (line.EndsWith(" _"))
                     {
@@ -102,7 +102,7 @@ namespace Calcpad.Wpf
             }
             else if (Validator.IsKeyword(lineContent, "#end def"))
             {
-                if (!string.IsNullOrEmpty(_macroName) && _macroName.Length > 0)
+                if (!string.IsNullOrEmpty(_macroName))
                 {
                     CompleteMacroParameters(lineNumber);
                     _macroContents.TryAdd(_macroName, _macroBuilder.ToString());
@@ -111,7 +111,7 @@ namespace Calcpad.Wpf
                     _macroBuilder.Clear();
                 }
             }
-            else if (_macroName is null)
+            else if (string.IsNullOrEmpty(_macroName))
                 GetVariablesUnitsAndFunctions(lineContent, lineNumber);
             else
                 _macroBuilder.AppendLine(lineContent.ToString());
@@ -250,11 +250,11 @@ namespace Calcpad.Wpf
 
         private void GetMacroVariablesAndFunctions(ReadOnlySpan<char> content, int lineNumber)
         {
-            var lines = content.EnumerateLines();
-            var i = lineNumber;
-            foreach (var _ in lines)
-                --i;
+            if (content.StartsWith("#for ", StringComparison.OrdinalIgnoreCase))
+                content = content[5..];
 
+            var lines = content.EnumerateLines();
+            var i = lineNumber - content.Count(Environment.NewLine) - 1;
             foreach (var line in lines)
             {
                 ++i;
