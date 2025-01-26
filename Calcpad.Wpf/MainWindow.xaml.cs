@@ -197,7 +197,7 @@ namespace Calcpad.Wpf
             if (!Directory.Exists(tmpDir))
                 Directory.CreateDirectory(tmpDir);
             _document = RichTextBox.Document;
-            _currentParagraph = (Paragraph)_document.Blocks.FirstBlock;
+            _currentParagraph = _document.Blocks.FirstBlock as Paragraph;
             _currentLineNumber = 1;
             HighLighter.Clear(_currentParagraph);
             _undoMan = new UndoManager();
@@ -490,7 +490,7 @@ namespace Calcpad.Wpf
             RichTextBox.BeginChange();
             if (_document.Blocks.Count <= 1)
             {
-                _currentParagraph = (Paragraph)_document.Blocks.FirstBlock;
+                _currentParagraph = _document.Blocks.FirstBlock as Paragraph;
                 _currentParagraph.Inlines.Clear();
             }
             else
@@ -1713,7 +1713,7 @@ namespace Calcpad.Wpf
             var b = _document.Blocks.FirstBlock;
             while (b is not null)
             {
-                var n = (int)(((Paragraph)b).TextIndent / AutoIndentStep);
+                var n = (int)((b as Paragraph).TextIndent / AutoIndentStep);
                 if (n > 12)
                     n = 12;
                 var line = new TextRange(b.ContentStart, b.ContentEnd).Text;
@@ -1867,6 +1867,7 @@ namespace Calcpad.Wpf
             int j = 1, n = blocks.Count;
             var indent = 0d;
             var b = blocks.FirstBlock;
+            _highlighter.All = true;
             foreach (var line in lines)
             {
                 if (j < n)
@@ -1877,7 +1878,7 @@ namespace Calcpad.Wpf
                         if (_currentParagraph == b)
                             _highlighter.Parse(_currentParagraph, IsComplex, j);
 
-                        var bp = (Paragraph)b;
+                        var bp = b as Paragraph;
                         if (!UpdateIndent(bp, ref indent))
                             bp.TextIndent = indent;
 
@@ -1886,7 +1887,7 @@ namespace Calcpad.Wpf
                         continue;
                     }
                 }
-                var p = b is not null ? (Paragraph)b : new Paragraph();
+                var p = b is not null ? b as Paragraph : new Paragraph();
                 _highlighter.Parse(p, IsComplex, j, line.ToString());
                 if (!UpdateIndent(p, ref indent))
                     p.TextIndent = indent;
@@ -1897,6 +1898,7 @@ namespace Calcpad.Wpf
                     b = b.NextBlock;
                 ++j;
             }
+            _highlighter.All = false;
             blocks.Remove(blocks.LastBlock);
             while (j < n)
             {
@@ -1908,7 +1910,7 @@ namespace Calcpad.Wpf
                 currentLine = 1;
             else if (currentLine > n)
                 currentLine = n;
-            _currentParagraph = (Paragraph)blocks.ElementAt(currentLine - 1);
+            _currentParagraph = blocks.ElementAt(currentLine - 1) as Paragraph;
             _currentLineNumber = currentLine;
             var pointer = HighLighter.FindPositionAtOffset(_currentParagraph, offset);
             RichTextBox.Selection.Select(pointer, pointer);
@@ -2259,7 +2261,7 @@ namespace Calcpad.Wpf
                 var p = RichTextBox.CaretPosition.Paragraph;
                 if (p is not null)
                 {
-                    var pp = (Paragraph)p.PreviousBlock;
+                    var pp = p.PreviousBlock as Paragraph;
                     if (pp is not null)
                     {
                         _isTextChangedEnabled = false;
@@ -2346,7 +2348,7 @@ namespace Calcpad.Wpf
                 {
                     _highlighter.Defined.Get(InputTextLines, IsComplex);
                     SetCodeCheckBoxVisibility();
-                    HighLightPastedText();
+                    Dispatcher.InvokeAsync(HighLightPastedText, DispatcherPriority.Background);
                     SetAutoIndent();
                     var p = RichTextBox.Selection.End.Paragraph;
                     if (p is not null)
@@ -2644,9 +2646,6 @@ namespace Calcpad.Wpf
 
         private void RichTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            _isTextChangedEnabled = false;
-            RichTextBox.Selection.ApplyPropertyValue(TextElement.BackgroundProperty, null);
-            _isTextChangedEnabled = true;
             var modifiers = e.KeyboardDevice.Modifiers;
             var isCtrl = modifiers == ModifierKeys.Control;
             var isCtrlShift = modifiers == (ModifierKeys.Control | ModifierKeys.Shift);
@@ -2763,9 +2762,9 @@ namespace Calcpad.Wpf
         {
             var p = RichTextBox.Selection.End.Paragraph;
             if (p is null)
-                p = (Paragraph)_document.Blocks.FirstBlock;
+                p = _document.Blocks.FirstBlock as Paragraph;
             else if (p.PreviousBlock is not null)
-                p = (Paragraph)p.PreviousBlock;
+                p = p.PreviousBlock as Paragraph;
 
             if (p is null)
             {
@@ -2774,7 +2773,7 @@ namespace Calcpad.Wpf
             }
             var indent = 0.0;
             var i = 0;
-            var pp = ((Paragraph)p.PreviousBlock);
+            var pp = (p.PreviousBlock as Paragraph);
             if (pp is not null)
             {
                 indent = pp.TextIndent;
@@ -2804,7 +2803,7 @@ namespace Calcpad.Wpf
                         i = 0;
                     }
                 }
-                p = (Paragraph)p.NextBlock;
+                p = p.NextBlock as Paragraph;
             }
             RichTextBox.EndChange();
             _isTextChangedEnabled = true;
@@ -2813,7 +2812,7 @@ namespace Calcpad.Wpf
         private void SetAutoIndent()
         {
             var indent = 0.0;
-            var p = (Paragraph)_document.Blocks.FirstBlock;
+            var p = _document.Blocks.FirstBlock as Paragraph;
 
             _isTextChangedEnabled = false;
             RichTextBox.BeginChange();
@@ -2822,7 +2821,7 @@ namespace Calcpad.Wpf
                 if (!UpdateIndent(p, ref indent))
                     p.TextIndent = indent;
 
-                p = (Paragraph)p.NextBlock;
+                p = p.NextBlock as Paragraph;
             }
             RichTextBox.EndChange();
             _isTextChangedEnabled = true;
@@ -2885,17 +2884,19 @@ namespace Calcpad.Wpf
             RichTextBox.BeginChange();
             _highlighter.Defined.Get(InputTextLines, IsComplex);
             SetCodeCheckBoxVisibility();
-            var p = (Paragraph)_document.Blocks.FirstBlock;
+            var p = _document.Blocks.FirstBlock as Paragraph;
             var i = 1;
+            _highlighter.All = true;
             while (p is not null)
             {
                 if (_forceHighlight)
                     _highlighter.Parse(p, IsComplex, i, new TextRange(p.ContentStart, p.ContentEnd).Text.TrimStart('\t'));
                 else
                     _highlighter.Parse(p, IsComplex, i);
-                p = (Paragraph)p.NextBlock;
+                p = p.NextBlock as Paragraph;
                 ++i;
             }
+            _highlighter.All = false;
             _currentParagraph = RichTextBox.Selection.Start.Paragraph;
             _currentLineNumber = GetLineNumber(_currentParagraph);
             HighLighter.Clear(_currentParagraph);
@@ -2926,14 +2927,14 @@ namespace Calcpad.Wpf
 
             _isTextChangedEnabled = false;
             RichTextBox.BeginChange();
-            var p = (Paragraph)_lastModifiedParagraph.NextBlock;
+            var p = _lastModifiedParagraph.NextBlock as Paragraph;
             var lineNumber = GetLineNumber(p);
             var maxNumber = lineNumber + 35;
             while (p is not null)
             {
                 if (!ReferenceEquals(p, _currentParagraph))
                     _highlighter.CheckHighlight(p, lineNumber);
-                p = (Paragraph)p.NextBlock;
+                p = p.NextBlock as Paragraph;
                 lineNumber++;
                 if (lineNumber >= maxNumber)
                 {
@@ -2954,14 +2955,16 @@ namespace Calcpad.Wpf
             RichTextBox.BeginChange();
             var p = _pasteEnd.Paragraph;
             _currentParagraph = RichTextBox.Selection.Start.Paragraph;
-            p ??= (Paragraph)_document.Blocks.FirstBlock;
+            p ??= _document.Blocks.FirstBlock as Paragraph;
 
             var lineNumber = GetLineNumber(p);
+            _highlighter.All = true;
             while (p != _currentParagraph && p != null)
             {
                 _highlighter.Parse(p, IsComplex, lineNumber++);
-                p = (Paragraph)p.NextBlock;
+                p = p.NextBlock as Paragraph;
             }
+            _highlighter.All = false;
             _currentLineNumber = GetLineNumber(_currentParagraph);
             HighLighter.Clear(_currentParagraph);
             RichTextBox.EndChange();
