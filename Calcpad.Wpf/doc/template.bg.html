@@ -257,14 +257,14 @@
 
         .eq sub {
             font-family: Calibri, 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
-            font-size: 92%;
+            font-size: 90%;
             vertical-align: -18%;
         }
 
         .eq sup {
             display: inline-block;
             margin-left: 1pt;
-            margin-top: -2pt;
+            margin-top: -3pt;
         }
 
         .eq small {
@@ -289,6 +289,10 @@
 		
         .eq small.nth{
             font-size: 70%;
+        }
+
+        .dvr small {
+            font-size: 65%;
         }
 
         sup.raised {
@@ -412,13 +416,16 @@
         }
 
         .dvc {
+            padding-left: 2pt;
+            padding-right: 2pt;
             text-align: center;
             line-height: 110%;
         }
 
         .dvr {
             text-align: center;
-            line-height: 105%;
+            line-height: 110%;
+            margin-bottom: 4pt;
         }
 
         .dvs {
@@ -428,19 +435,19 @@
 
         .dvl {
             display: block;
-            border-bottom: solid 0.75pt black;
+            border-bottom: solid 1pt black;
             margin-top: 1pt;
             margin-bottom: 1pt;
         }
 
         .nary {
             color: #D000D0;
-            font-size: 200%;
-            font-family: "Segoe UI Light", sans-serif;
+            font-size: 220%;
+            font-family: Corbel Light, sans-serif;
+            font-weight: 200;
             line-height: 80%;
             display: block;
-            margin-top: -3pt;
-            margin-bottom: 5pt;
+            margin: -3pt 1pt 2pt 1pt;
         }
 
         .dvc.down {
@@ -657,7 +664,6 @@
                 background: none;
                 color: #09e;
             }
-
     </style>
 </head>
 <body>
@@ -796,7 +802,7 @@
                 });
                 $(".line:not(style, script)").each(function () {
                     var line = $(this).prop("id").split("-")[1];
-                    var $lineLink = $('<a class="lineLink" href="#0" data-text="' + line + '" title="Code line ' + line + '">&larr;</a>');
+                    var $lineLink = $('<a class="lineLink" href="#0" data-text="' + line + '" title="Изходен код ред ' + line + '">&larr;</a>');
                     $(this).append($lineLink);
                     $lineLink.hide();
                     $(this).hover(function () {
