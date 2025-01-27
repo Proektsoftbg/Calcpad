@@ -234,8 +234,8 @@ A variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;&emsp;&emsp;**utriang**(n) - creates an upper triangular matrix with dimensions n⨯n;  
 &emsp;&emsp;&emsp;&emsp;**ltriang**(n) - creates a lower triangular matrix with dimensions n⨯n;  
 &emsp;&emsp;&emsp;&emsp;**symmetric**(n) - creates a symmetric matrix with dimensions n⨯n;  
-&emsp;&emsp;&emsp;&emsp;**vec2diag**(v) - creates a diagonal matrix from the elements of vector v;
-&emsp;&emsp;&emsp;&emsp;**vec2row**(v) - creates a row matrix from the elements of vector v;   
+&emsp;&emsp;&emsp;&emsp;**vec2diag**(v) - creates a diagonal matrix from the elements of vector v;  
+&emsp;&emsp;&emsp;&emsp;**vec2row**(v) - creates a row matrix from the elements of vector v;  
 &emsp;&emsp;&emsp;&emsp;**vec2col**(v) - creates a column matrix from the elements of vector v;  
 &emsp;&emsp;&emsp;&emsp;**join_cols**(c₁; c₂; c₃…) - creates a new matrix by joining column vectors;  
 &emsp;&emsp;&emsp;&emsp;**join_rows**(r₁; r₂; r₃…) - creates a new matrix by joining row vectors;  
