@@ -496,9 +496,9 @@ namespace Calcpad.Core
 
             return offset switch
             {
-                -1 => s[..n] + " down" + s[n..],
-                1 => s[..n] + " up" + s[n..],
-                _ => s
+                -1 =>  $"{s[..n]} down{s[n..]}",
+                 1 =>  $"{s[..n]} up{s[n..]}",
+                 _ => s
             };
         }
 
@@ -586,7 +586,14 @@ namespace Calcpad.Core
         internal override string FormatDivision(string sa, string sb, int level)
         {
             if (level < 4)
+            {
+                if (level == 3)
+                {
+                    sa = sa.Replace("dvc up", "dvc").Replace("dvc down", "dvc");
+                    sb = sb.Replace("dvc up", "dvc").Replace("dvc down", "dvc");
+                }
                 return $"<span class=\"dvc\">{sa}<span class=\"dvl\"></span>{sb}</span>";
+            }
 
             return sa + " ÷ " + sb;
         }

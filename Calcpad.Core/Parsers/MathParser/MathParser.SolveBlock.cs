@@ -390,9 +390,9 @@ namespace Calcpad.Core
                 {
                     if (_type == SolverTypes.Integral || _type == SolverTypes.Area)
                         return new HtmlWriter().FormatNary(
-                            $"<em>{TypeName(_type)}</em>",
-                            _items[2].Html,
-                            _items[3].Html,
+                            $"{TypeName(_type)}",
+                            _items[2].Html + "&nbsp;",
+                            "&ensp;" + _items[3].Html,
                             _items[0].Html + " d" + _items[1].Html
                             );
 
