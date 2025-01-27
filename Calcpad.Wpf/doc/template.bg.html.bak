@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="zh">
+<html lang="bg">
 <head>
     <title>Calcpad</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -664,6 +664,7 @@
                 background: none;
                 color: #09e;
             }
+
     </style>
 </head>
 <body>
@@ -802,7 +803,7 @@
                 });
                 $(".line:not(style, script)").each(function () {
                     var line = $(this).prop("id").split("-")[1];
-                    var $lineLink = $('<a class="lineLink" href="#0" data-text="' + line + '" title="代码行 ' + line + '">&larr;</a>');
+                    var $lineLink = $('<a class="lineLink" href="#0" data-text="' + line + '" title="Code line ' + line + '">&larr;</a>');
                     $(this).append($lineLink);
                     $lineLink.hide();
                     $(this).hover(function () {
@@ -832,7 +833,7 @@
 					    e.removeAttr("title");
 					} else {
 					    e.css("color", "red");
-                        e.attr("title", "无效号码");
+                        e.attr("title", "Невалидно число");
 					}
 				});
             });
