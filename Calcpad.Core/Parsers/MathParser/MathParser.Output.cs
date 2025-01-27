@@ -333,7 +333,7 @@ namespace Calcpad.Core
                 {
                     var sb = b.Content;
                     bool isNegative = IsNegative(b);
-                    if (isNegative || b.Order > Token.DefaultOrder)
+                    if (isNegative || b.Order > Token.DefaultOrder && b.Type != TokenTypes.Solver)
                     {
                         if (b.Index == 1 && b.Level > 0)
                             sb = "\u2009" + sb;
@@ -400,7 +400,7 @@ namespace Calcpad.Core
                         else
                         {
                             if (!formatEquation && (
-                                b.Order > t.Order ||
+                                b.Order > t.Order && b.Type != TokenTypes.Solver ||
                                 b.Order == t.Order && (content == "-" || content == "/") ||
                                 IsNegative(b) && content != "="))
                                 sb = AddBrackets(sb, b.Level, b.MinOffset, b.MaxOffset, '(', ')');
