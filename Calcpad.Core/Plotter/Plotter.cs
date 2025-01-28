@@ -6,7 +6,6 @@ using System.IO;
 namespace Calcpad.Core
 {
     internal abstract class Plotter
-
     {
         private static readonly double[] Steps = [1.0, 2.0, 2.5, 5.0];
         protected readonly float ScreenScaleFactor;
@@ -165,7 +164,7 @@ namespace Calcpad.Core
             textPen.TextAlign = SKTextAlign.Left;
             textPen.Color = SKColors.Gray;
             a /= 2f;
-            canvas.DrawText($"[{sx0}; {sy0}]", a, Height - 1f * th - a, textPen);
+            canvas.DrawText($"[{sx0}; {sy0}]", a, Height - 0.5f * th - a, textPen);
             textPen.TextAlign = SKTextAlign.Right;
             canvas.DrawText($"[{sx1}; {sy1}]", Width - a, 2f * th + a, textPen);
         }
@@ -211,7 +210,6 @@ namespace Calcpad.Core
         {
             double tw = 5.5 * ScreenScaleFactor;
             double th = 4.5 * ScreenScaleFactor;
-            double th05 = th / 2.0;
             double xn = Width - Right;
             double yn = Height - Margin;
             var maxSteps = (int)Math.Min(15d * yn / xn, (yn - Margin) / (2.5 * th));
@@ -311,7 +309,7 @@ namespace Calcpad.Core
             var sy0 = OutputWriter.FormatNumberHelper(bounds.Bottom, 2);
             var sy1 = OutputWriter.FormatNumberHelper(bounds.Top, 2);
             a /= 2f;
-            canvas.DrawText($"[{sx0}; {sy0}]", a, Height - 1d * th - a);
+            canvas.DrawText($"[{sx0}; {sy0}]", a, Height - 0.5d * th - a);
             canvas.DrawText($"[{sx1}; {sy1}]", Width - a, 2d * th + a, "end");
         }
 
