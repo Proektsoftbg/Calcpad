@@ -96,7 +96,7 @@
     <value>Разгънат код</value>
   </data>
   <data name="Found_Errors_In_Modules_And_Macros" xml:space="preserve">
-    <value>&lt;div class=\"errorHeader\"&gt;Общо &lt;b&gt;{0}&lt;/b&gt; грешки в модули и макроси:</value>
+    <value>&lt;div class="errorHeader"&gt;Общо &lt;b&gt;{0}&lt;/b&gt; грешки в модули и макроси:</value>
   </data>
   <data name="Are_you_sure_you_want_to_unlock_the_source_code_for_editing" xml:space="preserve">
     <value>Сигурни ли сте, че искате да отключите изходния код за редактиране?</value>
@@ -997,5 +997,23 @@
   </data>
   <data name="SolvesTheGeneralizedMatrixEquationAXBWithSymmetricPositiveDefiniteMatrixAUsingCholeskyDecomposition" xml:space="preserve">
     <value>Решава обобщеното матрично уравнение AX = B със симетрична положително определена матрица A, използвайки декомпозиция на Холецки</value>
+  </data>
+  <data name="Norms" xml:space="preserve">
+    <value>Норми</value>
+  </data>
+  <data name="ConditionNumbers" xml:space="preserve">
+    <value>Числа на обусловеност</value>
+  </data>
+  <data name="EigenvaluesAndEigenvectors" xml:space="preserve">
+    <value>Собствени числа и вектори</value>
+  </data>
+  <data name="Decompositions" xml:space="preserve">
+    <value>Декомпозиции</value>
+  </data>
+  <data name="DoubleInterpolation" xml:space="preserve">
+    <value>Двойна интерполация</value>
+  </data>
+  <data name="ImperialUS" xml:space="preserve">
+    <value>Imperial/US</value>
   </data>
 </root>

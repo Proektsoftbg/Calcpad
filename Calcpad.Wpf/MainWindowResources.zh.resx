@@ -228,7 +228,7 @@
     <value>代码</value>
   </data>
   <data name="KeypadLabel" xml:space="preserve">
-    <value>┌── 数字 ──┐ ┌───── 运算符 ──────┐ ┌──────── 函数 ────────┐</value>
+    <value>┌───── 数字 ────┐ ┌────── 运算符 ──────┐ ┌─────────── 函数 ───────────┐</value>
   </data>
   <data name="FunctionPlot" xml:space="preserve">
     <value>函数绘图</value>
@@ -997,5 +997,23 @@
   </data>
   <data name="SolvesTheGeneralizedMatrixEquationAXBWithSymmetricPositiveDefiniteMatrixAUsingCholeskyDecomposition" xml:space="preserve">
     <value>用Cholesky分解求解系数阵A为对称正定阵的一般方程AX=B</value>
+  </data>
+  <data name="ImperialUS" xml:space="preserve">
+    <value>英制 / 美制</value>
+  </data>
+  <data name="Norms" xml:space="preserve">
+    <value>范数</value>
+  </data>
+  <data name="ConditionNumbers" xml:space="preserve">
+    <value>条件数</value>
+  </data>
+  <data name="EigenvaluesAndEigenvectors" xml:space="preserve">
+    <value>特征值和特征向量</value>
+  </data>
+  <data name="Decompositions" xml:space="preserve">
+    <value>分解</value>
+  </data>
+  <data name="DoubleInterpolation" xml:space="preserve">
+    <value>双重内插</value>
   </data>
 </root>

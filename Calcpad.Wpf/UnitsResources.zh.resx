@@ -182,19 +182,19 @@
     <value>面积</value>
   </data>
   <data name="SqMeter" xml:space="preserve">
-    <value>m?（平方米）</value>
+    <value>m²（平方米）</value>
   </data>
   <data name="SqKilometer" xml:space="preserve">
-    <value>km? (平方公里)</value>
+    <value>km² (平方公里)</value>
   </data>
   <data name="SqDecimeter" xml:space="preserve">
-    <value>dm? （平方分米）</value>
+    <value>dm² （平方分米）</value>
   </data>
   <data name="SqCentimeter" xml:space="preserve">
-    <value>cm? （平方厘米）</value>
+    <value>cm² （平方厘米）</value>
   </data>
   <data name="SqMillimeter" xml:space="preserve">
-    <value>mm? （平方毫米）</value>
+    <value>mm² （平方毫米）</value>
   </data>
   <data name="Are" xml:space="preserve">
     <value>a (公亩)</value>
@@ -209,19 +209,19 @@
     <value>体积</value>
   </data>
   <data name="CubicMeter" xml:space="preserve">
-    <value>m? （立方米）</value>
+    <value>m³ （立方米）</value>
   </data>
   <data name="CubicKilometer" xml:space="preserve">
-    <value>km? （立方公里）</value>
+    <value>km³ （立方公里）</value>
   </data>
   <data name="CubicDecimeter" xml:space="preserve">
-    <value>dm? （立方分米）</value>
+    <value>dm³ （立方分米）</value>
   </data>
   <data name="CubicCentimeter" xml:space="preserve">
-    <value>cm? （立方厘米）</value>
+    <value>cm³ （立方厘米）</value>
   </data>
   <data name="CubicMillimeter" xml:space="preserve">
-    <value>mm? （立方毫米）</value>
+    <value>mm³ （立方毫米）</value>
   </data>
   <data name="Litre" xml:space="preserve">
     <value>升</value>
@@ -395,25 +395,25 @@
     <value>压力</value>
   </data>
   <data name="NewtonsPerSqMillimeter" xml:space="preserve">
-    <value>N/mm? （牛顿每平方毫米）</value>
+    <value>N/mm² （牛顿每平方毫米）</value>
   </data>
   <data name="NewtonsPerSqCentimeter" xml:space="preserve">
-    <value>N/cm? （牛顿每平方厘米）</value>
+    <value>N/cm² （牛顿每平方厘米）</value>
   </data>
   <data name="NewtonsPerSqMeter" xml:space="preserve">
-    <value>N/m? （牛顿每平方米）</value>
+    <value>N/m² （牛顿每平方米）</value>
   </data>
   <data name="KiloNewtonsPerSqCentimeter" xml:space="preserve">
-    <value>kN/cm? （ kN每平方厘米）</value>
+    <value>kN/cm² （ kN每平方厘米）</value>
   </data>
   <data name="KiloNewtonsPerSqMeter" xml:space="preserve">
-    <value>kN/m? （ kN每平方米）</value>
+    <value>kN/m² （ kN每平方米）</value>
   </data>
   <data name="KilogramFrocePerSqCentimeter" xml:space="preserve">
-    <value>kgf/cm? （ 千克力每平方厘米）</value>
+    <value>kgf/cm² （ 千克力每平方厘米）</value>
   </data>
   <data name="TonneForcePerSqMeter" xml:space="preserve">
-    <value>tf/m? （吨力每平方米）</value>
+    <value>tf/m² （吨力每平方米）</value>
   </data>
   <data name="Pascal" xml:space="preserve">
     <value>帕斯卡</value>
@@ -452,7 +452,7 @@
         <value>nPa (纳帕)</value>
     </data>
   <data name="Picopascal" xml:space="preserve">
-        <value>pPa (皮克帕，10^-12帕)</value>
+        <value>pPa (皮克帕，10⁻¹²帕)</value>
     </data>
   <data name="Bar" xml:space="preserve">
         <value>bar (巴)</value>
@@ -470,7 +470,7 @@
         <value>at (工程大气压，98.07kPa)</value>
     </data>
   <data name="Torr" xml:space="preserve">
-        <value>Torr (托，1mm汞柱压强，1 Torr=1.33322 × 10^2 Pa)</value>
+        <value>Torr (托，1mm汞柱压强，=1.33322×10² Pa)</value>
     </data>
   <data name="MillilitersOfMercury" xml:space="preserve">
         <value>mmHg (毫米水银)</value>
@@ -512,7 +512,7 @@
         <value>黏度</value>
     </data>
   <data name="PascalSecond" xml:space="preserve">
-        <value>Pa?s (帕斯卡-秒)</value>
+        <value>Pa∙s (帕斯卡-秒)</value>
     </data>
   <data name="Poise" xml:space="preserve">
         <value>P (泊)</value>
@@ -521,7 +521,7 @@
         <value>cP (厘泊)</value>
     </data>
   <data name="SquareMetersPerSecond" xml:space="preserve">
-        <value>m?/s</value>
+        <value>m²/s</value>
     </data>
   <data name="Stokes" xml:space="preserve">
         <value>St (斯托克斯)</value>
@@ -812,28 +812,28 @@
         <value>℧ (欧姆)</value>
     </data>
   <data name="Kilomho" xml:space="preserve">
-        <value>k? (千欧)</value>
+        <value>k℧ (千欧)</value>
     </data>
   <data name="Megamho" xml:space="preserve">
-        <value>M? (兆欧)</value>
+        <value>M℧ (兆欧)</value>
     </data>
   <data name="Gigamho" xml:space="preserve">
-        <value>G? (吉欧)</value>
+        <value>G℧ (吉欧)</value>
     </data>
   <data name="Teramho" xml:space="preserve">
-        <value>T? (太拉欧)</value>
+        <value>T℧ (太拉欧)</value>
     </data>
   <data name="Millimho" xml:space="preserve">
-        <value>m? (毫欧)</value>
+        <value>m℧ (毫欧)</value>
     </data>
   <data name="Micromho" xml:space="preserve">
-        <value>μ? (微欧)</value>
+        <value>μ℧ (微欧)</value>
     </data>
   <data name="Nanomho" xml:space="preserve">
-        <value>n? (纳欧)</value>
+        <value>n℧ (纳欧)</value>
     </data>
   <data name="Picomho" xml:space="preserve">
-        <value>p? (皮克欧)</value>
+        <value>p℧ (皮克欧)</value>
     </data>
   <data name="Energy" xml:space="preserve">
         <value>能量</value>
@@ -929,7 +929,7 @@
         <value>N/C (牛顿每库伦)</value>
     </data>
   <data name="OhmMeter" xml:space="preserve">
-        <value>Ω?m (欧姆-米)</value>
+        <value>Ω∙m (欧姆-米)</value>
     </data>
   <data name="SiemensPerMeter" xml:space="preserve">
         <value>S/m (西门子每米)</value>
@@ -1055,7 +1055,7 @@
         <value>发光能量密度</value>
     </data>
   <data name="LumenSecondPerCubicMeter" xml:space="preserve">
-        <value>lm·s/m? (流明-秒每立方米)</value>
+        <value>lm·s/m³ (流明-秒每立方米)</value>
     </data>
   <data name="LuminousEfficacy" xml:space="preserve">
         <value>发光效率</value>

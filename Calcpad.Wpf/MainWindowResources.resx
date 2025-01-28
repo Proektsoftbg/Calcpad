@@ -999,4 +999,22 @@ You can find your unsaved data in
   <data name="RoundTo" xml:space="preserve">
     <value>Round to</value>
   </data>
+  <data name="Norms" xml:space="preserve">
+    <value>Norms</value>
+  </data>
+  <data name="ConditionNumbers" xml:space="preserve">
+    <value>Condition numbers</value>
+  </data>
+  <data name="EigenvaluesAndEigenvectors" xml:space="preserve">
+    <value>Eigenvalues and eigenvectors</value>
+  </data>
+  <data name="Decompositions" xml:space="preserve">
+    <value>Decompositions</value>
+  </data>
+  <data name="DoubleInterpolation" xml:space="preserve">
+    <value>Double Interpolation</value>
+  </data>
+  <data name="ImperialUS" xml:space="preserve">
+    <value>Imperial/US</value>
+  </data>
 </root>

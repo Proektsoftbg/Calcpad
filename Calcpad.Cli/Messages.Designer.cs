@@ -70,7 +70,7 @@ namespace Calcpad.Cli {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to  Copyright: © 2024 by Proektsoft EOOD..
+        ///   Looks up a localized string similar to  Copyright: © 2025 by Proektsoft EOOD..
         /// </summary>
         internal static string Copyright_2023_By_Proektsoft_EOOD {
             get {
