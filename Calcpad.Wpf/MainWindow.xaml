@@ -5,7 +5,7 @@
     xmlns:core="clr-namespace:Calcpad.Core;assembly=Calcpad.Core"
     x:Class="Calcpad.Wpf.MainWindow"
     Closing="Window_Closing"
-    Title=" Calcpad VM 7.1.6"
+    Title=" Calcpad VM 7.1.7"
     Height="800" 
     Width="1200"
     WindowStartupLocation="CenterScreen"
@@ -809,14 +809,14 @@
                             <MenuItem Click="Button_Click" Tag="hprod(A; B)" Header="hprod(A; B)" ToolTip="{x:Static wpf:MainWindowResources.HadamardProductOfMatricesAAndB}" />
                             <MenuItem Click="Button_Click" Tag="fprod(A; B)" Header="fprod(A; B)" ToolTip="{x:Static wpf:MainWindowResources.FrobeniusProductOfMatricesAAndB}" />
                             <MenuItem Click="Button_Click" Tag="kprod(A; B)" Header="kprod(A; B)" ToolTip="{x:Static wpf:MainWindowResources.KroneckerProductOfMatricesAAndB}" />
-                            <MenuItem Header="Norms">
+                            <MenuItem Header="{x:Static wpf:MainWindowResources.Norms}">
                                 <MenuItem Click="Button_Click" Tag="mnorm("     Header="mnorm(M)"    ToolTip="{x:Static wpf:MainWindowResources.L2NormOfMatrixM}" />
                                 <MenuItem Click="Button_Click" Tag="mnorm_1(M)" Header="mnorm__1(M)" ToolTip="{x:Static wpf:MainWindowResources.L1NormOfMatrixM}" />
                                 <MenuItem Click="Button_Click" Tag="mnorm_2(M)" Header="mnorm__2(M)" ToolTip="{x:Static wpf:MainWindowResources.L2NormOfMatrixM}" />
                                 <MenuItem Click="Button_Click" Tag="mnorm_e(M)" Header="mnorm__e(M)" ToolTip="{x:Static wpf:MainWindowResources.FrobeniusNormOfMatrixM}" />
                                 <MenuItem Click="Button_Click" Tag="mnorm_i(M)" Header="mnorm__i(M)" ToolTip="{x:Static wpf:MainWindowResources.LNormOfMatrixM}" />
                             </MenuItem>
-                            <MenuItem Header="Condition numbers">
+                            <MenuItem Header="{x:Static wpf:MainWindowResources.ConditionNumbers}">
                                 <MenuItem Click="Button_Click" Tag="cond(M)"   Header="cond(M)"    ToolTip="{x:Static wpf:MainWindowResources.ConditionNumberOfMBasedOnTheL2Norm}" />
                                 <MenuItem Click="Button_Click" Tag="cond_1(M)" Header="cond__1(M)" ToolTip="{x:Static wpf:MainWindowResources.ConditionNumberOfMBasedOnTheL1Norm}" />
                                 <MenuItem Click="Button_Click" Tag="cond_2(M)" Header="cond__2(M)" ToolTip="{x:Static wpf:MainWindowResources.ConditionNumberOfMBasedOnTheL2Norm}" />
@@ -829,12 +829,12 @@
                             <MenuItem Click="Button_Click" Tag="transp(M)"   Header="transp(M)"   ToolTip="{x:Static wpf:MainWindowResources.TransposeOfMatrixM}" />
                             <MenuItem Click="Button_Click" Tag="adj(M)"      Header="adj(M)"      ToolTip="{x:Static wpf:MainWindowResources.AdjugateOfMatrixM}" />
                             <MenuItem Click="Button_Click" Tag="cofactor(M)" Header="cofactor(M)" ToolTip="{x:Static wpf:MainWindowResources.CofactorMatrixOfM}" />
-                            <MenuItem Header="Eigenvalues and eigenvectors">
+                            <MenuItem Header="{x:Static wpf:MainWindowResources.EigenvaluesAndEigenvectors}">
                                 <MenuItem Click="Button_Click" Tag="eigenvals(M)" Header="eigenvals(M)" ToolTip="{x:Static wpf:MainWindowResources.EigenvaluesOfMatrixM}" />
                                 <MenuItem Click="Button_Click" Tag="eigenvecs(M)" Header="eigenvecs(M)" ToolTip="{x:Static wpf:MainWindowResources.EigenvectorsOfMatrixM}" />
                                 <MenuItem Click="Button_Click" Tag="eigen(M)"     Header="eigen(M)"     ToolTip="{x:Static wpf:MainWindowResources.EigenvaluesAndEigenvectorsOfMatrixM}" />
                             </MenuItem>
-                            <MenuItem Header="Decompositions">
+                            <MenuItem Header="{x:Static wpf:MainWindowResources.Decompositions}">
                                 <MenuItem Click="Button_Click" Tag="cholesky(M)" Header="cholesky(M)"   ToolTip="{x:Static wpf:MainWindowResources.CholeskyDecompositionOfASymmetricPositiveDefiniteMatrixM}" />
                                 <MenuItem Click="Button_Click" Tag="lu(M)"       Header="lu(M)"         ToolTip="{x:Static wpf:MainWindowResources.LUDecompositionOfMatrixM}" />
                                 <MenuItem Click="Button_Click" Tag="qr(M)"       Header="qr(M)"         ToolTip="{x:Static wpf:MainWindowResources.QRDecompositionOfMatrixM}" />
@@ -845,7 +845,7 @@
                             <MenuItem Click="Button_Click" Tag="clsolve(A; b)"   Header="clsolve(A; b)" ToolTip="{x:Static wpf:MainWindowResources.SolvesTheLinearMatrixEquationAxBWithASymmetricPositiveDefiniteMatrixAUsingCholeskyDecomposition}" />
                             <MenuItem Click="Button_Click" Tag="msolve(A; B)"    Header="msolve(A; B)"  ToolTip="{x:Static wpf:MainWindowResources.SolvesTheGeneralizedMatrixEquationAXBUsingLDLTDecompositionForSymmetricMatricesAndLUForNonSymmetric}" />
                             <MenuItem Click="Button_Click" Tag="cmsolve(A; B)"   Header="cmsolve(A; B)" ToolTip="{x:Static wpf:MainWindowResources.SolvesTheGeneralizedMatrixEquationAXBWithSymmetricPositiveDefiniteMatrixAUsingCholeskyDecomposition}" />
-                            <MenuItem Header="Double Interpolation">
+                            <MenuItem Header="{x:Static wpf:MainWindowResources.DoubleInterpolation}">
                                 <MenuItem Click="Button_Click" Tag="take(x; y; M)"   Header="take(x; y; M)"   ToolTip="{x:Static wpf:MainWindowResources.ReturnsTheElementOfMatrixMAtIndexesXAndY}" />
                                 <MenuItem Click="Button_Click" Tag="line(x; y; M)"   Header="line(x; y; M)"   ToolTip="{x:Static wpf:MainWindowResources.DoubleLinearInterpolationFromTheElementsOfMatrixMBasedOnTheValuesOfXAndY}" />
                                 <MenuItem Click="Button_Click" Tag="spline(x; y; M)" Header="spline(x; y; M)" ToolTip="{x:Static wpf:MainWindowResources.DoubleHermiteSplineInterpolationFromTheElementsOfMatrixMBasedOnTheValuesOfXAndY}" />
@@ -1271,7 +1271,7 @@
                             <MenuItem Click="Button_Click" Tag="kat" Header="{x:Static wpf:UnitsResources.CatalyticActivity}"/>
                         </MenuItem>
                     </MenuItem>
-                    <MenuItem Header="Imperial/US">
+                    <MenuItem Header="{x:Static wpf:MainWindowResources.ImperialUS}">
                         <MenuItem Header="{x:Static wpf:UnitsResources.Mass}">
                             <MenuItem Click="Button_Click" Tag="gr"       Header="gr (grain)"/>
                             <MenuItem Click="Button_Click" Tag="dr"       Header="dr (drachm)"/>

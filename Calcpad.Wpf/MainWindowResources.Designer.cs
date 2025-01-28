@@ -403,6 +403,15 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Condition numbers.
+        /// </summary>
+        public static string ConditionNumbers {
+            get {
+                return ResourceManager.GetString("ConditionNumbers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Copies all elements from A to B, starting from indexes i and j of B.
         /// </summary>
         public static string CopiesAllElementsFromAToBStartingFromIndexesIAndJOfB {
@@ -619,6 +628,15 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Decompositions.
+        /// </summary>
+        public static string Decompositions {
+            get {
+                return ResourceManager.GetString("Decompositions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Degrees.
         /// </summary>
         public static string Degrees {
@@ -682,6 +700,15 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Double Interpolation.
+        /// </summary>
+        public static string DoubleInterpolation {
+            get {
+                return ResourceManager.GetString("DoubleInterpolation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Double linear interpolation from the elements of matrix M based on the values of x and y.
         /// </summary>
         public static string DoubleLinearInterpolationFromTheElementsOfMatrixMBasedOnTheValuesOfXAndY {
@@ -723,6 +750,15 @@ namespace Calcpad.Wpf {
         public static string Edit {
             get {
                 return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Eigenvalues and eigenvectors.
+        /// </summary>
+        public static string EigenvaluesAndEigenvectors {
+            get {
+                return ResourceManager.GetString("EigenvaluesAndEigenvectors", resourceCulture);
             }
         }
         
@@ -1177,6 +1213,15 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Imperial/US.
+        /// </summary>
+        public static string ImperialUS {
+            get {
+                return ResourceManager.GetString("ImperialUS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Include External File.
         /// </summary>
         public static string IncludeExternalFile {
@@ -1569,6 +1614,15 @@ namespace Calcpad.Wpf {
         public static string NonStrictRootFinding {
             get {
                 return ResourceManager.GetString("NonStrictRootFinding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Norms.
+        /// </summary>
+        public static string Norms {
+            get {
+                return ResourceManager.GetString("Norms", resourceCulture);
             }
         }
         

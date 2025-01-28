@@ -124,4 +124,7 @@ Source: "{1}"</value>
   <data name="InvalidMacroName" xml:space="preserve">
     <value>Invalid macro name.</value>
   </data>
+  <data name="" xml:space="preserve">
+    <value></value>
+  </data>
 </root>

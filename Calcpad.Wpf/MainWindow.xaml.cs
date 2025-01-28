@@ -2348,7 +2348,7 @@ namespace Calcpad.Wpf
                 {
                     _highlighter.Defined.Get(InputTextLines, IsComplex);
                     SetCodeCheckBoxVisibility();
-                    Dispatcher.InvokeAsync(HighLightPastedText, DispatcherPriority.Background);
+                    await Dispatcher.InvokeAsync(HighLightPastedText, DispatcherPriority.Background);
                     SetAutoIndent();
                     var p = RichTextBox.Selection.End.Paragraph;
                     if (p is not null)
