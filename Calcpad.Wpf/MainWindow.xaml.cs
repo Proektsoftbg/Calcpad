@@ -531,7 +531,8 @@ namespace Calcpad.Wpf
             {
                 var i2 = text.IndexOfAny([';', ')'], i1);
                 var tpEnd = i2 < 0 ? sel.End : sel.Start.GetPositionAtOffset(i2);
-                sel.Select(sel.Start.GetPositionAtOffset(i1), tpEnd); return;
+                sel.Select(sel.Start.GetPositionAtOffset(i1), tpEnd); 
+                return;
             }
             sel.Select(sel.End, sel.End);
         }
@@ -3921,6 +3922,7 @@ namespace Calcpad.Wpf
             }
             new TextRange(_autoCompleteStart, RichTextBox.Selection.End).Text = s;
             AutoCompleteListBox.Visibility = Visibility.Hidden;
+            RichTextBox.Selection.Select(_autoCompleteStart, _autoCompleteStart.GetPositionAtOffset(s.Length));
             SelectInsertedText(s);
             RichTextBox.Focus();
         }
@@ -3931,11 +3933,11 @@ namespace Calcpad.Wpf
             var n = text.Length - 1;
             for (int i = n; i >= 0; --i)
             {
+                n = i;
                 if (!Validator.IsLetter(text[i]))
-                {
-                    n = i;
                     break;
-                }
+
+                --n;
             }
             if (n < text.Length - 1)
                 Task.Run(
