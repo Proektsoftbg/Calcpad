@@ -300,7 +300,7 @@ namespace Calcpad.Core
                             a = ma.Expression;
                             return Expression.Block(
                                 Expression.Call(a, AssignVariableMethod, b),
-                                b);
+                                ma);
                         }
                         return Expression.Assign(a, b);
                     }
@@ -350,7 +350,6 @@ namespace Calcpad.Core
                     EvaluateMatrixFunction2Method,
                     Expression.Constant(t.Index), a, b);
             }
-
 
             private Expression ParseVariableToken(VariableToken t)
             {
