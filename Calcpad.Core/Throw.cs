@@ -306,7 +306,6 @@ namespace Calcpad.Core
         internal static void MatrixNotHighException() =>
             New(Messages.The_number_of_matrix_rows_must_be_greater_than_or_equal_to_the_number_of_columns);
 
-
         internal static void FunctionDefinitionInSolverException() =>
             New(Messages.FunctionDefinitionNotAllowedInSolverBlock);
 

@@ -346,7 +346,9 @@ namespace Calcpad.Wpf
                 }
                 else if (isFunction && c == ')')
                 {
-                    MacroProcedures.Add(_macroName, lineContent[(_macroName.Length + 1)..(i + 1)].ToString());
+                    if (!string.IsNullOrEmpty(_macroName))
+                        MacroProcedures.Add(_macroName, lineContent[(_macroName.Length + 1)..(i + 1)].ToString());
+                    
                     isComplete = true;
                 }
                 else if (c == '=')
