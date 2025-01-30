@@ -476,7 +476,7 @@ namespace Calcpad.Core
                             _parser._targetUnits = null;
                         }
                         else
-                            _parser._targetUnits = UnitsParser.Parse(unit.ToString(), _units);
+                            _parser._targetUnits = UnitsParser.Parse(unit.ToString().Trim(), _units);
                     }
                 }
                 else
