@@ -272,7 +272,8 @@ namespace Calcpad.Wpf
                             var c = item[j];
                             if (Validator.IsWhiteSpace(c) && ts.IsEmpty)
                                 continue;
-                            else if (Validator.IsVarChar(c))
+
+                            if (Validator.IsVarChar(c))
                             {
                                 if (isDone)
                                 {
@@ -347,7 +348,7 @@ namespace Calcpad.Wpf
                 else if (isFunction && c == ')')
                 {
                     if (!string.IsNullOrEmpty(_macroName))
-                        MacroProcedures.Add(_macroName, lineContent[(_macroName.Length + 1)..(i + 1)].ToString());
+                        MacroProcedures.TryAdd(_macroName, lineContent[(_macroName.Length + 1)..(i + 1)].ToString());
                     
                     isComplete = true;
                 }
