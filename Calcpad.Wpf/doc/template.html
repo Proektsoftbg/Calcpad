@@ -33,34 +33,57 @@
             line-height: 150%;
         }
 
-        select, kbd {
-            font-family: 'Segoe UI', sans-serif;
-        }
-
-        code, kbd {
-            font-size: 9pt;
-        }
-
-        a:hover {
-            background-color: #e9f6ff;
-        }
+        select, kbd { font-family: 'Segoe UI', sans-serif; }
+        code, kbd { font-size: 9pt; }
+        a:hover { background-color: #e9f6ff;}
 
         .eq, input[type="text"], table.matrix {
-            font-family: 'Georgia Pro Cond', Georgia, 'Times New Roman', Times, serif;
+            font-family: 'Georgia Pro', Georgia, 'Times New Roman', Times, serif;
         }
 
-        .eq var {
-            color: #06D;
-            padding-right: 1pt;
-            padding-left: 1pt;
-			font-size: 11.5pt;
-        }
+            .eq var {
+                color: #06D;
+                padding-right: 1pt;
+                padding-left: 1pt;
+			    font-size: 11.5pt;
+            }
 
-        .eq i {
-            color: #086;
-			font-style: normal;
-			font-size: 10pt;
-        }
+            .eq i {
+                color: #086;
+			    font-style: normal;
+			    font-size: 10pt;
+            }
+
+            .eq b {
+                font-weight: 600;
+            }
+
+            .eq sub {
+                font-family: 'Segoe UI', 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+                font-size: 85%;
+                vertical-align: -18%;
+            }
+
+            .eq sup {
+                display: inline-block;
+                margin-left: 1pt;
+                margin-top: -3pt;
+            }
+
+            .eq small {
+                font-family: 'Segoe UI', 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+                font-size: 70%;
+            }
+
+                .eq small var {
+                    font-family: 'Georgia Pro', Georgia, 'Times New Roman', Times, serif;
+                    font-size: 8.5pt;
+                }
+
+                .eq small i {
+                    font-family: 'Georgia Pro', Georgia, 'Times New Roman', Times, serif;
+                    font-size: 6pt;
+                }
 
         .eq u, input, select {
             background-color: LightYellow;
@@ -168,7 +191,7 @@
                 padding: 0 2pt 0 2pt;
                 min-width: 10pt;
                 display: table-cell;
-                font-size: 95%;
+                font-size: 10pt;
             }
 
                 .matrix .td:first-child,
@@ -266,37 +289,6 @@
             height: 62pt;
             margin-left: -19pt;
         }
-
-        .eq b{
-            font-weight: 600;
-        }
-
-        .eq sub {
-            font-family: 'Segoe UI', 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
-            font-size: 85%;
-            vertical-align: -18%;
-        }
-
-        .eq sup {
-            display: inline-block;
-            margin-left: 1pt;
-            margin-top: -3pt;
-        }
-
-        .eq small {
-			font-family: 'Segoe UI', 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
-            font-size: 70%;
-        }
-		
-		.eq small var {
-			font-family:  'Georgia Pro', Georgia, 'Times New Roman', Times, serif;
-            font-size: 8.5pt;
-        }
-
-            .eq small i {
-                font-family:  'Georgia Pro', Georgia, 'Times New Roman', Times, serif;
-                font-size: 6pt;
-            }
 
         .nth {
             position: relative;
