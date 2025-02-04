@@ -272,9 +272,6 @@ namespace Calcpad.Core
             return d * Math.Sqrt(1d + rd * rd);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static double SquaredAbs(double a, double b) => a * a + b * b;
-
         internal static Complex Sign(in Complex value) =>
             value.IsReal ? Math.Sign(value._a) : double.NaN;
 

@@ -1683,7 +1683,7 @@ namespace Calcpad.Core
             return uc;
         }
 
-        internal static Unit Pow(Unit u, Value power, bool updateText = false)
+        internal static Unit Pow(Unit u, IScalarValue power, bool updateText = false)
         {
             if (power.Units is not null)
                 Throw.PowerNotUnitlessException();

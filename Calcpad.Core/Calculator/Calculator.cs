@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
 
 namespace Calcpad.Core
 {
     internal abstract class Calculator
     {
-        internal delegate Value Function(in Value a);
-        internal delegate Value Operator(in Value a, in Value b);
+        internal delegate T Function<T>(in T a) where T : IScalarValue;
+        internal delegate T Operator<T>(in T a, in T b) where T : IScalarValue;
         internal delegate IValue Function3(in IValue a, in IValue b, in IValue c);
 
         internal const double DeltaPlus = 1 + 1e-14, DeltaMinus = 1 - 1e-14;
@@ -44,7 +45,7 @@ namespace Calcpad.Core
             If
         ];
 
-        protected Func<Value[], Value>[] Interpolations =
+        protected Func<IScalarValue[], IScalarValue>[] Interpolations =
         [
             Take,
             Line,
@@ -202,18 +203,18 @@ namespace Calcpad.Core
         internal static bool IsFunction3(string name) => Function3Index.ContainsKey(name);
         internal static bool IsMultiFunction(string name) => MultiFunctionIndex.ContainsKey(name);
         internal static bool IsInterpolation(string name) => InterpolationIndex.ContainsKey(name);
-        internal abstract Value EvaluateOperator(long index, in Value a, in Value b);
-        internal abstract Value EvaluateFunction(long index, in Value a);
-        internal abstract Value EvaluateFunction2(long index, in Value a, in Value b);
+        internal abstract IScalarValue EvaluateOperator(long index, in IScalarValue a, in IScalarValue b);
+        internal abstract IScalarValue EvaluateFunction(long index, in IScalarValue a);
+        internal abstract IScalarValue EvaluateFunction2(long index, in IScalarValue a, in IScalarValue b);
         internal abstract IValue EvaluateFunction3(long index, in IValue a, in IValue b, in IValue c);
-        internal abstract Value EvaluateMultiFunction(long index, Value[] a);
-        internal abstract Value EvaluateInterpolation(long index, Value[] a);
-        internal abstract Operator GetOperator(long index);
-        internal abstract Function GetFunction(long index);
-        internal abstract Operator GetFunction2(long index);
+        internal abstract IScalarValue EvaluateMultiFunction(long index, IScalarValue[] a);
+        internal abstract IScalarValue EvaluateInterpolation(long index, IScalarValue[] a);
+        internal abstract Operator<RealValue> GetOperator(long index);
+        internal abstract Function<RealValue> GetFunction(long index);
+        internal abstract Operator<RealValue> GetFunction2(long index);
         internal abstract Function3 GetFunction3(long index);
-        internal abstract Func<Value[], Value> GetMultiFunction(long index);
-        internal Func<Value[], Value> GetInterpolation(long index) => Interpolations[index];
+        internal abstract Func<IScalarValue[], IScalarValue> GetMultiFunction(long index);
+        internal Func<IScalarValue[], IScalarValue> GetInterpolation(long index) => Interpolations[index];
 
         internal static readonly int PowerIndex = OperatorIndex['^'];
         internal static readonly int MultiplyIndex = OperatorIndex['*'];
@@ -242,7 +243,7 @@ namespace Calcpad.Core
                 Throw.InvalidUnitsFunctionException(func, Unit.GetText(unit));
         }
 
-        protected static int GetRoot(in Value root)
+        protected static int GetRoot(in IScalarValue root)
         {
             if (root.Units is not null)
                 Throw.RootUnitlessException();
@@ -260,7 +261,7 @@ namespace Calcpad.Core
         protected static IValue If(in IValue condition, in IValue valueIfTrue, in IValue valueIfFalse)
         {
             var value = IValue.AsValue(condition);
-            return Math.Abs(value.Re) < Value.LogicalZero ?
+            return Math.Abs(value.Re) < ComplexValue.LogicalZero ?
                 valueIfFalse :
                 valueIfTrue;
         }
@@ -279,79 +280,83 @@ namespace Calcpad.Core
         }
 
 
-        protected static Value Min(Value[] v)
+        protected static IScalarValue Min(IScalarValue[] values)
         {
-            var result = v[0].Re;
-            var u = v[0].Units;
-            for (int i = 1, len = v.Length; i < len; ++i)
+            ref var value = ref values[0];
+            var result = value.Re;
+            var u = value.Units;
+            for (int i = 1, len = values.Length; i < len; ++i)
             {
-                var b = v[i].Re * Unit.Convert(u, v[i].Units, ',');
+                value = ref values[i];
+                var b = value.Re * Unit.Convert(u, value.Units, ',');
                 if (b < result)
                     result = b;
             }
-            return new(result, u);
+            return new RealValue(result, u);
         }
 
-        protected static Value Max(Value[] v)
+        protected static IScalarValue Max(IScalarValue[] values)
         {
-            var result = v[0].Re;
-            var u = v[0].Units;
-            for (int i = 1, len = v.Length; i < len; ++i)
+            ref var value = ref values[0];
+            var result = value.Re;
+            var u = value.Units;
+            for (int i = 1, len = values.Length; i < len; ++i)
             {
-                var b = v[i].Re * Unit.Convert(u, v[i].Units, ',');
+                value = ref values[i];
+                var b = value.Re * Unit.Convert(u, value.Units, ',');
                 if (b > result)
                     result = b;
             }
-            return new(result, u);
+            return new RealValue(result, u);
         }
 
-        protected static Value Switch(Value[] v)
+        protected static IScalarValue Switch(IScalarValue[] v)
         {
             for (int i = 0, len = v.Length - 1; i < len; i += 2)
             {
-                if (Math.Abs(v[i].Re) >= Value.LogicalZero)
+                if (Math.Abs(v[i].Re) >= ComplexValue.LogicalZero)
                     return v[i + 1];
             }
             if (v.Length % 2 != 0)
                 return v[^1];
 
-            return Value.NaN;
+            return RealValue.NaN;
         }
 
-        protected static Value Take(Value[] values)
+        protected static IScalarValue Take(IScalarValue[] values)
         {
             var x = values[0];
-            ReadOnlySpan<Value> y = values.AsSpan(1..);
+            ReadOnlySpan<IScalarValue> y = values.AsSpan(1..);
             var d = Math.Round(x.Re, MidpointRounding.AwayFromZero);
             if (!double.IsNormal(d) || d < DeltaMinus || d > y.Length * DeltaPlus)
-                return Value.NaN;
+                return RealValue.NaN;
 
             return y[(int)d - 1];
         }
 
-        protected static Value Line(Value[] values)
+        protected static IScalarValue Line(IScalarValue[] values)
         {
             var x = values[0];
-            ReadOnlySpan<Value> y = values.AsSpan(1..);
+            ReadOnlySpan<IScalarValue> y = values.AsSpan(1..);
             var d = x.Re;
             if (!double.IsNormal(d) || d < DeltaMinus || d > y.Length * DeltaPlus)
-                return Value.NaN;
+                return RealValue.NaN;
 
             var i = (int)Math.Floor(d);
             var y1 = y[i - 1];
             if (i == d || d >= y.Length)
                 return y1;
 
-            return y1 + (y[i] - y1) * (d - i);
+            return y1 + (y[i] - y1)  * (d - i);
         }
 
-        protected static Value Spline(Value[] values)
+        protected static IScalarValue Spline(IScalarValue[] values)
         {
             var x = values[0];
-            ReadOnlySpan<Value> y = values.AsSpan(1..);
+            ReadOnlySpan<IScalarValue> y = values.AsSpan(1..);
             var d = x.Re;
             if (!double.IsNormal(d) || d < DeltaMinus || d > y.Length * DeltaPlus)
-                return Value.NaN;
+                return RealValue.NaN;
 
             var i = (int)Math.Floor(d) - 1;
             var v = y[i];
@@ -386,43 +391,38 @@ namespace Calcpad.Core
 
             var t = d - i - 1d;
             d = y0 + ((y1 - y0) * (3 - 2 * t) * t + ((a + b) * t - a) * (t - 1)) * t;
-            return new(d, u);
+            return new RealValue(d, u);
         }
 
-        protected static Value And(Value[] v)
+        protected static IScalarValue And(IScalarValue[] v)
         {
             for (int i = 0, len = v.Length; i < len; ++i)
-                if (Math.Abs(v[i].Re) < Value.LogicalZero)
-                    return Value.Zero;
+                if (Math.Abs(v[i].Re) < RealValue.LogicalZero)
+                    return RealValue.Zero;
 
-            return Value.One;
+            return RealValue.One;
         }
 
-        protected static Value Or(Value[] v)
+        protected static IScalarValue Or(IScalarValue[] v)
         {
             for (int i = 0, len = v.Length; i < len; ++i)
-                if (Math.Abs(v[i].Re) >= Value.LogicalZero)
-                    return Value.One;
+                if (Math.Abs(v[i].Re) >= RealValue.LogicalZero)
+                    return RealValue.One;
 
-            return Value.Zero;
+            return RealValue.Zero;
         }
 
-        protected static Value Xor(Value[] v)
+        protected static IScalarValue Xor(IScalarValue[] v)
         {
-            var b = Math.Abs(v[0].Re) >= Value.LogicalZero;
+            var b = Math.Abs(v[0].Re) >= RealValue.LogicalZero;
             for (int i = 1, len = v.Length; i < len; ++i)
-                b = b != Math.Abs(v[i].Re) >= Value.LogicalZero;
+                b = b != Math.Abs(v[i].Re) >= RealValue.LogicalZero;
 
-            return b ? Value.One : Value.Zero;
+            return b ? RealValue.One : RealValue.Zero;
         }
 
-        protected static Value Not(in Value value) =>
-            Math.Abs(value.Re) < Value.LogicalZero ? Value.One : Value.Zero;
-
-        protected static Value Mod(in Value a, in Value b) => a % b;
-
-        protected static Value MandelbrotSet(in Value a, in Value b) =>
-            new(
+        protected static RealValue MandelbrotSet(in IScalarValue a, in IScalarValue b) =>
+            new RealValue(
                 MandelbrotSet(
                     a.Re, b.Re * Unit.Convert(a.Units, b.Units, ',')
                 ),
@@ -469,7 +469,7 @@ namespace Calcpad.Core
             return double.NaN;
         }
 
-        protected static Value Gcd(Value[] v)
+        protected static RealValue Gcd(IScalarValue[] v)
         {
             var a = AsLong(v[0].Re);
             var u = v[0].Units;
@@ -478,10 +478,10 @@ namespace Calcpad.Core
                 var b = AsLong(v[i].Re * Unit.Convert(u, v[i].Units, ','));
                 a = Gcd(a, b);
             }
-            return new(a);
+            return new RealValue(a);
         }
 
-        protected static Value Lcm(Value[] v)
+        protected static RealValue Lcm(IScalarValue[] v)
         {
             var a = AsLong(v[0].Re);
             var u = v[0].Units;
@@ -489,10 +489,10 @@ namespace Calcpad.Core
             {
                 var b = AsLong(v[i].Re * Unit.Convert(u, v[i].Units, ','));
                 if (a == 0 && b == 0)
-                    return Value.NaN;
+                    return RealValue.NaN;
                 a = a * b / Gcd(a, b);
             }
-            return new(a);
+            return new RealValue(a);
         }
 
         internal static long AsLong(double d)
@@ -500,6 +500,7 @@ namespace Calcpad.Core
             var a = Math.Abs(d);
             if (a > long.MaxValue || a != Math.Truncate(a))
                 Throw.BothValuesIntegerException();
+
             return (long)a;
         }
 
@@ -529,6 +530,6 @@ namespace Calcpad.Core
             return a << k;
         }
         private static readonly long Ticks = DateTime.Now.Ticks;
-        protected static Value Timer(in Value _) => new((DateTime.Now.Ticks - Ticks) / 10000000.0, Unit.Get("s"));
+        protected static double Timer() => (DateTime.Now.Ticks - Ticks) / 10000000.0;
     }
 }

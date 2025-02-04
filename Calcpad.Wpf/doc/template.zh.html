@@ -8,18 +8,25 @@
     <script src="jquery-3.6.3.min.js"></script>
     <style>
         body {
-            font-size: 12pt;
-            font-family: Calibri, sans-serif;
+            font-size: 11pt;
+            font-family: 'Segoe UI', 'Arial Nova', Helvetica, sans-serif;
             margin-left: 1.5em;
             max-width: 190mm
         }
 
         h1, h2, h3, h4, h5, h6, .errorHeader, .roundBox {
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: 'Arial Nova', Helvetica, sans-serif;
             margin: 0.5em 0 0.5em 0;
             padding: 0;
             line-height: 150%;
         }
+
+        h1 {font-size: 2.1em;}
+        h2 {font-size: 1.7em;}
+        h3 {font-size: 1.4em;}
+        h4 {font-size: 1.2em;}
+        h5 {font-size: 1.1em;}
+        h6 {font-size: 1em;}
 
         p, li {
             margin: 0.3em 0 0.3em 0;
@@ -28,7 +35,7 @@
         }
 
         select, kbd {
-            font-family: Calibri, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
         }
 
         code, kbd {
@@ -40,20 +47,20 @@
         }
 
         .eq, input, table.matrix {
-            font-family: "Times New Roman", Times, serif;
+            font-family: 'Georgia Pro', Georgia, 'Times New Roman', Times, serif;
         }
 
             .eq var {
                 color: #06c;
                 padding-right: 1pt;
                 padding-left: 1pt;
-				font-size: 13pt;
+                font-size: 11.5pt;
             }
 
             .eq i {
                 color: #086;
-				font-style: normal;
-				font-size: 11.5pt;
+                font-style: normal;
+                font-size: 10pt;
             }
 
             .eq u, input, select {
@@ -160,6 +167,7 @@
                 padding: 0 2pt 0 2pt;
                 min-width: 12pt;
                 display: table-cell;
+                font-size: 90%;
             }
 
                 .matrix .td:first-child,
@@ -171,11 +179,11 @@
                 }
 
                 .matrix .td:first-child {
-                    border-left: solid 1.25pt black;
+                    border-left: solid 1pt black;
                 }
 
                 .matrix .td:last-child {
-                    border-right: solid 1.25pt black;
+                    border-right: solid 1pt black;
                 }
 
             .matrix .tr:first-child .td:first-child,
@@ -217,10 +225,13 @@
         }
 
         .r {
-            font-size: 130%;
+            font-family: 'Times New Roman';
+            font-size: 150%;
             display: inline-block;
             vertical-align: top;
             margin-left: -9pt;
+            position: relative;
+            top: 1pt;
         }
 
         .r0 {
@@ -255,9 +266,13 @@
             margin-left: -19pt;
         }
 
+        .eq b {
+            font-weight: 600;
+        }
+
         .eq sub {
-            font-family: Calibri, 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
-            font-size: 90%;
+            font-family: 'Segoe UI', 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+            font-size: 85%;
             vertical-align: -18%;
         }
 
@@ -268,26 +283,26 @@
         }
 
         .eq small {
-			font-family: Calibri, 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+            font-family: 'Segoe UI', 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
             font-size: 70%;
         }
-		
-		.eq small var {
-			font-family: "Times New Roman", Times, serif;
-            font-size: 9pt;
-        }
+
+            .eq small var {
+                font-family: 'Georgia Pro', Georgia, 'Times New Roman', Times, serif;
+                font-size: 8.5pt;
+            }
 
             .eq small i {
-                font-family: "Times New Roman", Times, serif;
-                font-size: 8pt;
+                font-family: 'Georgia Pro', Georgia, 'Times New Roman', Times, serif;
+                font-size: 6pt;
             }
 
         .nth {
             position: relative;
             bottom: 1pt;
         }
-		
-        .eq small.nth{
+
+        .eq small.nth {
             font-size: 70%;
         }
 
@@ -308,10 +323,21 @@
             max-height: none;
         }
 
-        sup .r0 {margin-left: -5pt;}
-        sup .r1 {margin-left: -11pt;}
-        sup .r2 {margin-left: -13pt;}
-        sup .r3 {margin-left: -16pt;}
+        sup .r0 {
+            margin-left: -5pt;
+        }
+
+        sup .r1 {
+            margin-left: -11pt;
+        }
+
+        sup .r2 {
+            margin-left: -13pt;
+        }
+
+        sup .r3 {
+            margin-left: -16pt;
+        }
 
         .b1, .b2, .b3, .c1, .c2, .c3, .c4, .c5, .c6, .c7, .c8 {
             vertical-align: middle;
@@ -329,6 +355,8 @@
 
         .b0 {
             font-size: 120%;
+            font-weight: 400;
+            padding: 0 1pt 0 1pt;
         }
 
         .b1 {
@@ -409,7 +437,7 @@
             transform: scaleX(0.5);
         }
 
-        .dvc, .dvr, .dvs{
+        .dvc, .dvr, .dvs {
             display: inline-block;
             vertical-align: middle;
             white-space: nowrap;
@@ -442,12 +470,12 @@
 
         .nary {
             color: #D000D0;
-            font-size: 220%;
+            font-size: 240%;
             font-family: Corbel Light, sans-serif;
             font-weight: 200;
             line-height: 80%;
             display: block;
-            margin: -2pt 1pt 2pt 1pt;
+            margin: -1pt 1pt 3pt 1pt;
         }
 
         .dvc.down {
@@ -589,7 +617,7 @@
                 border-radius: 6pt 6pt 6pt 0;
                 background: #000;
                 color: #fff;
-                font-family: Calibri, sans-serif;
+                font-family: 'Segoe UI', sans-serif;
                 font-style: normal;
                 font-size: 10pt;
                 text-align: center;

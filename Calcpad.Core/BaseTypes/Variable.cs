@@ -16,39 +16,45 @@ namespace Calcpad.Core
             _isIntialised = true;
         }
 
-        internal Variable(in Complex number) : this(new Value(number)) { }
+        internal Variable(in Complex number) : this(new ComplexValue(number)) { }
         public Variable() { }
         internal void SetNumber(in Complex number)
         {
-            ref var value = ref ValueByRef();
-            if (value is Value v)
-                Value = new Value(number, v.Units);
+            ref var ival = ref ValueByRef();
+            if (ival is RealValue real)
+                Value = new ComplexValue(number, real.Units);
+            else if (ival is ComplexValue complex)
+                Value = new ComplexValue(number, complex.Units);
             else
-                Value = new Value(number);
+                Value = new ComplexValue(number);
 
         }
         internal void SetNumber(double number)
         {
-            ref var value = ref ValueByRef();
-            if (value is Value v)
-                Value = new Value(number, v.Units);
+            ref var ival = ref ValueByRef();
+            if (ival is RealValue real)
+                Value = new RealValue(number, real.Units);
+            else if (ival is ComplexValue complex)
+                Value = new RealValue(number, complex.Units);
             else
-                Value = new Value(number);
+                Value = new ComplexValue(number);
         }
 
         internal void SetUnits(Unit units)
         {
             ref var value = ref ValueByRef();
-            if (value is Value v)
-                Value = new Value(v.Re, v.Im, units);
+            if (value is RealValue real)
+                Value = new RealValue(real.D, units);
+            else if (value is ComplexValue complex)
+                Value = new ComplexValue(complex.A, complex.B, units);
             else
                 ((Vector)Value).SetUnits(units);
 
         }
-        internal void SetValue(Unit units) => Value = new Value(units);
+        internal void SetValue(Unit units) => Value = new RealValue(units);
         internal void SetValue(double number, Unit units)
         {
-            Value = new Value(number, units);
+            Value = new RealValue(number, units);
             _isIntialised = true;
         }
 

@@ -115,12 +115,12 @@ namespace Calcpad.Core
                             }
                             else if (_assignmentPosition > 0 && 
                                 _assignmentPosition < _stringBuilder.Length
-                                && _parser._result is Value)
+                                && _parser._result is IScalarValue)
                                 subst = _stringBuilder.ToString()[_assignmentPosition..];
                         }
                         var res = _parser._result switch
                         {
-                            Value value => writer.FormatValue(value, _decimals),
+                            IScalarValue scalar => writer.FormatValue(scalar, _decimals),
                             Vector vector => RenderVector(vector, _decimals, writer, _maxOutputCount, _zeroSmallMatrixElements),
                             Matrix matrix => RenderMatrix(matrix, _decimals, writer, _maxOutputCount, _zeroSmallMatrixElements),
                             _ => null
@@ -246,15 +246,15 @@ namespace Calcpad.Core
 
                 void RenderConstantToken(RenderToken t, int i)
                 {
-                    var v = Value.Zero;
+                    IScalarValue value = RealValue.Zero;
                     var hasValue = true;
                     if (rpn[i] is ValueToken valToken)
-                        v = valToken.Value;
+                        value = valToken.Value;
                     else if (rpn[i] is VariableToken varToken)
                     {
                         IValue ival = varToken.Variable.Value;
-                        if (ival is Value value)
-                            v = value;
+                        if (ival is IScalarValue scalar)
+                            value = scalar;
                         else
                             hasValue = false;
                     }
@@ -265,18 +265,18 @@ namespace Calcpad.Core
                     {
                         if (t.Type == TokenTypes.Unit)
                         {
-                            if (v.Units is null)
+                            if (value.Units is null)
                             {
                                 if (_parser._isCalculated)
                                     Throw.InvalidUnitsException(t.Content);
                             }
                             else
-                                t.Content = writer.UnitString(v.Units);
+                                t.Content = writer.UnitString(value.Units);
                         }
                         else
-                            t.Content = writer.FormatValue(v, _decimals);
+                            t.Content = writer.FormatValue(value, _decimals);
 
-                        t.IsCompositeValue = v.IsComposite();
+                        t.IsCompositeValue = value.IsComposite();
                     }
                 }
 
@@ -286,22 +286,22 @@ namespace Calcpad.Core
                     var ival = i > 0 && vt.Content == _parser._backupVariable.Key ?
                         _parser._backupVariable.Value :
                         vt.Variable?.Value;
-                    if (ival is Value value)
+                    if (ival is IScalarValue scalar)
                     {
                         if (substitute)
                         {
-                            t.Content = writer.FormatValue(value, _decimals);
-                            t.IsCompositeValue = value.IsComposite() || t.Content.Contains('×');
+                            t.Content = writer.FormatValue(scalar, _decimals);
+                            t.IsCompositeValue = scalar.IsComposite() || t.Content.Contains('×');
                             t.Order = Token.DefaultOrder;
-                            if (_parser._settings.IsComplex && value.IsComplex && value.Units is null)
-                                t.Order = value.Im < 0 ? MinusOrder : PlusOrder;
+                            if (_parser._settings.IsComplex && scalar.IsComplex && scalar.Units is null)
+                                t.Order = scalar.Im < 0 ? MinusOrder : PlusOrder;
                         }
                         else
                         {
                             var s = !_parser._settings.Substitute &&
                                      _parser._functionDefinitionIndex < 0 &&
                                      _parser._isCalculated ?
-                                textWriter.FormatValue(value, _decimals) :
+                                textWriter.FormatValue(scalar, _decimals) :
                                 string.Empty;
                             t.Content = writer.FormatVariable(t.Content, s);
                             _hasVariables = i > 0 || rpn[^1].Content != "=";
@@ -399,8 +399,9 @@ namespace Calcpad.Core
                         }
                         else
                         {
-                            if (!formatEquation && (
-                                b.Order > t.Order && b.Type != TokenTypes.Solver ||
+                            if (!formatEquation &&
+                                b.Type != TokenTypes.Solver && 
+                                (b.Order > t.Order ||
                                 b.Order == t.Order && (content == "-" || content == "/") ||
                                 IsNegative(b) && content != "="))
                                 sb = AddBrackets(sb, b.Level, b.MinOffset, b.MaxOffset, '(', ')');
@@ -690,10 +691,10 @@ namespace Calcpad.Core
                     var a = stackBuffer.Pop();
                     if (substitute)
                     {
-                        Value value;
+                        IScalarValue value;
                         var variableName = t.Content + '.' + t.Index;
                         if (variableName == _parser._backupVariable.Key)
-                            value = (Value)_parser._backupVariable.Value;
+                            value = (IScalarValue)_parser._backupVariable.Value;
                         else
                         {
                             var vector = (Vector)_parser._variables[t.Content].Value;
@@ -720,10 +721,10 @@ namespace Calcpad.Core
                     var j = (int)(t.Index % Vector.MaxLength);
                     if (substitute)
                     {
-                        Value value;
+                        IScalarValue value;
                         var variableName = t.Content + '.' + i + '.' + j;
                         if (variableName == _parser._backupVariable.Key)
-                            value = (Value)_parser._backupVariable.Value;
+                            value = (IScalarValue)_parser._backupVariable.Value;
                         else
                         {
                             var matrix = (Matrix)_parser._variables[t.Content].Value;
@@ -802,14 +803,14 @@ namespace Calcpad.Core
                         break;
                     }
                     var e = vector[i];
-                    var d = Math.Abs(e.Re);
+                    var d = Math.Abs(e.D);
                     sb.Append(writer.FormatMatrixValue(e, decimals, zeroSmallElements && d < zeroThreshold));
                 }
                 var last = len - 1;
                 if (maxCount < last)
                 {
                     var e = vector[last];
-                    var d = Math.Abs(e.Re);
+                    var d = Math.Abs(e.D);
                     sb.Append(writer.FormatMatrixValue(e, decimals, zeroSmallElements && d < zeroThreshold));
                 }
                 return writer.AddBrackets(sb.ToString(), 0, '[', ']');
@@ -821,14 +822,14 @@ namespace Calcpad.Core
                 var len = Math.Min(maxCount, vector.Size);
                 for (int i = 0; i < len; ++i)
                 {
-                    var d = Math.Abs(vector[i].Re);
+                    var d = Math.Abs(vector[i].D);
                     if (d > maxAbs)
                         maxAbs = d;
                 }
                 var last = vector.Length - 1;
                 if (maxCount < last)
                 {
-                    var d = Math.Abs(vector[last].Re);
+                    var d = Math.Abs(vector[last].D);
                     if (d > maxAbs)
                         maxAbs = d;
                 }
@@ -840,8 +841,8 @@ namespace Calcpad.Core
                 if (substitute)
                 {
                     var result = _solveBlocks[index].Result;
-                    if (result is Value value)
-                        return writer.FormatValue(value, _decimals);
+                    if (result is IScalarValue scalar)
+                        return writer.FormatValue(scalar, _decimals);
                     
                     if (result is Vector vector)
                         return RenderVector(vector, _decimals, writer, _maxOutputCount, _zeroSmallMatrixElements);
@@ -849,7 +850,7 @@ namespace Calcpad.Core
                     if (result is Matrix matirx)
                         return RenderMatrix(matirx, _decimals, writer, _maxOutputCount, _zeroSmallMatrixElements);
 
-                    return writer.FormatValue(Value.NaN, _decimals);
+                    return writer.FormatValue(RealValue.NaN, _decimals);
                 }
                 else
                     _hasVariables = true;

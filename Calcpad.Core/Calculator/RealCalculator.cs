@@ -1,36 +1,36 @@
 using System;
-using System.Runtime.CompilerServices;
+using System.Linq;
 
 namespace Calcpad.Core
 {
     internal class RealCalculator : Calculator
     {
-        private static readonly Operator[] Operators =
+        private static readonly Operator<RealValue>[] _operators =
             [
                 UnitPow,
-                Value.Divide,
-                Value.IntDiv,
-                (in Value a, in Value b) => a % b,
-                Value.Multiply,
-                (in Value a, in Value b) => a - b,
-                (in Value a, in Value b) => a + b,
-                (in Value a, in Value b) => a < b,
-                (in Value a, in Value b) => a > b,
-                (in Value a, in Value b) => a <= b,
-                (in Value a, in Value b) => a >= b,
-                (in Value a, in Value b) => a == b,
-                (in Value a, in Value b) => a != b,
-                (in Value a, in Value b) => a & b,
-                (in Value a, in Value b) => a | b,
-                (in Value a, in Value b) => a ^ b,
-                (in Value _, in Value b) => b
+                RealValue.Divide,
+                RealValue.IntDiv,
+                (in RealValue a, in RealValue b) => a % b,
+                RealValue.Multiply,
+                (in RealValue a, in RealValue b) => a - b,
+                (in RealValue a, in RealValue b) => a + b,
+                (in RealValue a, in RealValue b) => a < b,
+                (in RealValue a, in RealValue b) => a > b,
+                (in RealValue a, in RealValue b) => a <= b,
+                (in RealValue a, in RealValue b) => a >= b,
+                (in RealValue a, in RealValue b) => a == b,
+                (in RealValue a, in RealValue b) => a != b,
+                (in RealValue a, in RealValue b) => a & b,
+                (in RealValue a, in RealValue b) => a | b,
+                (in RealValue a, in RealValue b) => a ^ b,
+                (in RealValue _, in RealValue b) => b
             ];
-        private readonly Function[] _functions;
-        private readonly Operator[] _functions2;
-        private static readonly Func<Value[], Value>[] MultiFunctions =
+        private readonly Function<RealValue>[] _functions;
+        private readonly Operator<RealValue>[] _functions2;
+        private static readonly Func<IScalarValue[], IScalarValue>[] MultiFunctions =
             [
-                Min,
-                Max,
+                (IScalarValue[] values) => Min(values),
+                (IScalarValue[] values) => Max(values),
                 Sum,
                 SumSq,
                 Srss,
@@ -38,11 +38,11 @@ namespace Calcpad.Core
                 Product,
                 Mean,
                 Switch,
-                And,
-                Or,
-                Xor,
-                Gcd,
-                Lcm,
+                (IScalarValue[] values) => And(values),
+                (IScalarValue[] values) => Or(values),
+                (IScalarValue[] values) => Xor(values),
+                (IScalarValue[] values) => Gcd(values),
+                (IScalarValue[] values) => Lcm(values),
             ];
         internal override int Degrees
         {
@@ -95,8 +95,8 @@ namespace Calcpad.Core
                 Phase,    //39
                 Random,   //40
                 Fact,     //41
-                (in Value a) => -a, //42
-                Not,      //43
+                (in RealValue a) => -a, //42
+                (in RealValue a) => Not(a),      //43
                 Timer     //44
             ];
 
@@ -104,19 +104,19 @@ namespace Calcpad.Core
             [
                 Atan2,
                 UnitRoot,
-                Mod,
-                MandelbrotSet
+                (in RealValue a, in RealValue b) => a % b,
+                (in RealValue a, in RealValue b) => MandelbrotSet(a, b)
             ];
         }
 
-        internal override Value EvaluateOperator(long index, in Value a, in Value b) => Operators[index](a, b);
-        internal override Value EvaluateFunction(long index, in Value a) => _functions[index](a);
-        internal override Value EvaluateFunction2(long index, in Value a, in Value b) => _functions2[index](a, b);
+        internal override IScalarValue EvaluateOperator(long index, in IScalarValue a, in IScalarValue b) => _operators[index](a.AsReal(), b.AsReal());
+        internal override IScalarValue EvaluateFunction(long index, in IScalarValue a) => _functions[index](a.AsReal());
+        internal override IScalarValue EvaluateFunction2(long index, in IScalarValue a, in IScalarValue b) => _functions2[index](a.AsReal(), b.AsReal());
         internal override IValue EvaluateFunction3(long index, in IValue a, in IValue b, in IValue c) => Functions3[index](a, b, c);
-        internal override Value EvaluateMultiFunction(long index, Value[] a) => MultiFunctions[index](a);
-        internal override Value EvaluateInterpolation(long index, Value[] a) => Interpolations[index](a);
-        internal override Operator GetOperator(long index) => index == PowerIndex ? Pow : Operators[index];
-        internal override Function GetFunction(long index)
+        internal override IScalarValue EvaluateMultiFunction(long index, IScalarValue[] a) => MultiFunctions[index](a);
+        internal override IScalarValue EvaluateInterpolation(long index, IScalarValue[] a) => Interpolations[index](a);
+        internal override Operator<RealValue> GetOperator(long index) => index == PowerIndex ? Pow : _operators[index];
+        internal override Function<RealValue> GetFunction(long index)
         {
             if (index == SqrIndex || index == SqrtIndex)
                 return Sqrt;
@@ -126,258 +126,258 @@ namespace Calcpad.Core
 
             return _functions[index];
         }
-        internal override Operator GetFunction2(long index) => index == RootIndex ? Root : _functions2[index];
+        internal override Operator<RealValue> GetFunction2(long index) => index == RootIndex ? Root : _functions2[index];
         internal override Function3 GetFunction3(long index) => Functions3[index];
-        internal override Func<Value[], Value> GetMultiFunction(long index) => MultiFunctions[index];
+        internal override Func<IScalarValue[], IScalarValue> GetMultiFunction(long index) => MultiFunctions[index];
 
-        public static Value Fact(in Value a)
+        public static RealValue Fact(in RealValue a)
         {
             if (a.Units is not null)
                 Throw.FactorialArgumentUnitlessException();
 
-            return new(Fact(a.Re));
+            return new(Fact(a.D));
         }
 
-        private static Value Real(in Value value) => value;
-        private static Value Imaginary(in Value _) => Value.Zero;
-        private static Value Phase(in Value value) => new(value.Complex.Phase);
-        internal static Value Abs(in Value value) => new(Math.Abs(value.Re), value.Units);
-        private static Value Sign(in Value value) => double.IsNaN(value.Re) ? Value.NaN : new(Math.Sign(value.Re));
+        private static RealValue Real(in RealValue value) => value;
+        private static RealValue Imaginary(in RealValue _) => RealValue.Zero;
+        private static RealValue Phase(in RealValue value) => new(value.D >= 0d ? 0d : Math.PI);
+        internal static RealValue Abs(in RealValue value) => new(Math.Abs(value.D), value.Units);
+        private static RealValue Sign(in RealValue value) => double.IsNaN(value.D) ? RealValue.NaN : new(Math.Sign(value.D));
 
-        private Value Sin(in Value value)
+        private RealValue Sin(in RealValue value)
         {
             CheckFunctionUnits("sin", value.Units);
             return new(Complex.RealSin(FromAngleUnits(value)));
         }
 
-        private Value Cos(in Value value)
+        private RealValue Cos(in RealValue value)
         {
             CheckFunctionUnits("cos", value.Units);
             return new(Complex.RealCos(FromAngleUnits(value)));
         }
 
-        private Value Tan(in Value value)
+        private RealValue Tan(in RealValue value)
         {
             CheckFunctionUnits("tan", value.Units);
             return new(Math.Tan(FromAngleUnits(value)));
         }
 
-        private Value Csc(in Value value)
+        private RealValue Csc(in RealValue value)
         {
             CheckFunctionUnits("csc", value.Units);
             return new(1 / Math.Sin(FromAngleUnits(value)));
         }
 
-        private Value Sec(in Value value)
+        private RealValue Sec(in RealValue value)
         {
             CheckFunctionUnits("sec", value.Units);
             return new(1 / Math.Cos(FromAngleUnits(value)));
         }
 
-        private Value Cot(in Value value)
+        private RealValue Cot(in RealValue value)
         {
             CheckFunctionUnits("cot", value.Units);
             return new(1 / Math.Tan(FromAngleUnits(value)));
         }
 
-        private static Value Sinh(in Value value) /* Hyperbolic sin */
+        private static RealValue Sinh(in RealValue value) /* Hyperbolic sin */
         {
             CheckFunctionUnits("sinh", value.Units);
-            return new(Math.Sinh(value.Re));
+            return new(Math.Sinh(value.D));
         }
 
-        private static Value Cosh(in Value value)
+        private static RealValue Cosh(in RealValue value)
         {
             CheckFunctionUnits("cosh", value.Units);
-            return new(Math.Cosh(value.Re));
+            return new(Math.Cosh(value.D));
         }
 
-        private static Value Tanh(in Value value)
+        private static RealValue Tanh(in RealValue value)
         {
             CheckFunctionUnits("tanh", value.Units);
-            return new(Math.Tanh(value.Re));
+            return new(Math.Tanh(value.D));
         }
 
-        private static Value Csch(in Value value)
+        private static RealValue Csch(in RealValue value)
         {
             CheckFunctionUnits("csch", value.Units);
-            return new(1 / Math.Sinh(value.Re));
+            return new(1 / Math.Sinh(value.D));
         }
 
-        private static Value Sech(in Value value)
+        private static RealValue Sech(in RealValue value)
         {
             CheckFunctionUnits("sech", value.Units);
-            return new(1 / Math.Cosh(value.Re));
+            return new(1 / Math.Cosh(value.D));
         }
 
-        private static Value Coth(in Value value)
+        private static RealValue Coth(in RealValue value)
         {
             CheckFunctionUnits("coth", value.Units);
-            return new(1 / Math.Tanh(value.Re));
+            return new(1 / Math.Tanh(value.D));
         }
 
-        private Value Asin(in Value value)
+        private RealValue Asin(in RealValue value)
         {
             CheckFunctionUnits("asin", value.Units);
-            return ToAngleUnits(Math.Asin(value.Re));
+            return ToAngleUnits(Math.Asin(value.D));
         }
 
-        private Value Acos(in Value value)
+        private RealValue Acos(in RealValue value)
         {
             CheckFunctionUnits("acos", value.Units);
-            return ToAngleUnits(Math.Acos(value.Re));
+            return ToAngleUnits(Math.Acos(value.D));
         }
 
-        private Value Atan(in Value value)
+        private RealValue Atan(in RealValue value)
         {
             CheckFunctionUnits("atan", value.Units);
-            return ToAngleUnits(Math.Atan(value.Re));
+            return ToAngleUnits(Math.Atan(value.D));
         }
 
-        private Value Acsc(in Value value)
+        private RealValue Acsc(in RealValue value)
         {
             CheckFunctionUnits("acsc", value.Units);
-            return value.Re == 0d ?
-                Value.PositiveInfinity :
-                ToAngleUnits(Math.Asin(1d / value.Re));
+            return value.D == 0d ?
+                RealValue.PositiveInfinity :
+                ToAngleUnits(Math.Asin(1d / value.D));
         }
 
-        private Value Asec(in Value value)
+        private RealValue Asec(in RealValue value)
         {
             CheckFunctionUnits("asec", value.Units);
-            return value.Re == 0d ?
-                Value.PositiveInfinity :
-                ToAngleUnits(Math.Acos(1d / value.Re));
+            return value.D == 0d ?
+                RealValue.PositiveInfinity :
+                ToAngleUnits(Math.Acos(1d / value.D));
         }
 
-        private Value Acot(in Value value)
+        private RealValue Acot(in RealValue value)
         {
             CheckFunctionUnits("acot", value.Units);
-            return ToAngleUnits(Math.Atan(1d / value.Re));
+            return ToAngleUnits(Math.Atan(1d / value.D));
         }
 
-        private static Value Asinh(in Value value)
+        private static RealValue Asinh(in RealValue value)
         {
             CheckFunctionUnits("asinh", value.Units);
-            return new(Math.Asinh(value.Re));
+            return new(Math.Asinh(value.D));
         }
 
-        private static Value Acosh(in Value value)
+        private static RealValue Acosh(in RealValue value)
         {
             CheckFunctionUnits("acosh", value.Units);
-            return new(Math.Acosh(value.Re));
+            return new(Math.Acosh(value.D));
         }
 
-        private static Value Atanh(in Value value)
+        private static RealValue Atanh(in RealValue value)
         {
             CheckFunctionUnits("atanh", value.Units);
-            return new(Math.Atanh(value.Re));
+            return new(Math.Atanh(value.D));
         }
 
-        private static Value Acsch(in Value value)
+        private static RealValue Acsch(in RealValue value)
         {
             CheckFunctionUnits("acsch", value.Units);
-            return new(Math.Asinh(1d / value.Re));
+            return new(Math.Asinh(1d / value.D));
         }
 
-        private static Value Asech(in Value value)
+        private static RealValue Asech(in RealValue value)
         {
             CheckFunctionUnits("asech", value.Units);
-            return new(Math.Acosh(1d / value.Re));
+            return new(Math.Acosh(1d / value.D));
         }
 
-        private static Value Acoth(in Value value)
+        private static RealValue Acoth(in RealValue value)
         {
             CheckFunctionUnits("acoth", value.Units);
-            return new(Math.Atanh(1 / value.Re));
+            return new(Math.Atanh(1 / value.D));
         }
 
-        private static Value Log(in Value value)
+        private static RealValue Log(in RealValue value)
         {
             CheckFunctionUnits("ln", value.Units);
-            return new(Math.Log(value.Re));
+            return new(Math.Log(value.D));
         }
 
-        private static Value Log10(in Value value)
+        private static RealValue Log10(in RealValue value)
         {
             CheckFunctionUnits("log", value.Units);
-            return new(Math.Log10(value.Re));
+            return new(Math.Log10(value.D));
         }
 
-        private static Value Log2(in Value value)
+        private static RealValue Log2(in RealValue value)
         {
             CheckFunctionUnits("log_2", value.Units);
-            return new(Math.Log2(value.Re));
+            return new(Math.Log2(value.D));
         }
 
-        private static Value Exp(in Value value)
+        private static RealValue Exp(in RealValue value)
         {
             CheckFunctionUnits("exp", value.Units);
-            return new(Math.Exp(value.Re));
+            return new(Math.Exp(value.D));
         }
 
-        private static Value Pow(Value value, Value power, bool isUnit)
+        private static RealValue Pow(RealValue value, RealValue power, bool isUnit)
         {
             var u = value.Units;
             if (u is not null && u.IsDimensionless)
-                return new(Math.Pow(value.Re * u.GetDimensionlessFactor(), power.Re));
+                return new RealValue(Math.Pow(value.D * u.GetDimensionlessFactor(), power.D));
 
             return new(
-                Math.Pow(value.Re, power.Re),
+                Math.Pow(value.D, power.D),
                 Unit.Pow(u, power, isUnit),
                 isUnit
             );
         }
 
-        internal static Value Pow(in Value value, in Value power) =>
+        internal static RealValue Pow(in RealValue value, in RealValue power) =>
             Pow(value, power, false);
 
-        private static Value UnitPow(in Value value, in Value power) =>
+        private static RealValue UnitPow(in RealValue value, in RealValue power) =>
             Pow(value, power, value.IsUnit);
 
-        private static Value Sqrt(Value value, bool isUnit)
+        private static RealValue Sqrt(RealValue value, bool isUnit)
         {
             var u = value.Units;
             if (u is not null && u.IsDimensionless)
-                return new(Math.Sqrt(value.Re * u.GetDimensionlessFactor()));
+                return new(Math.Sqrt(value.D * u.GetDimensionlessFactor()));
 
-            var result = Math.Sqrt(value.Re);
+            var result = Math.Sqrt(value.D);
             return u is null ?
                 new(result) :
                 new(result, Unit.Root(u, 2, isUnit), isUnit);
         }
 
-        internal static Value Sqrt(in Value value) =>
+        internal static RealValue Sqrt(in RealValue value) =>
             Sqrt(value, false);
 
-        private static Value UnitSqrt(in Value value) =>
+        private static RealValue UnitSqrt(in RealValue value) =>
             Sqrt(value, value.IsUnit);
 
-        private static Value Cbrt(Value value, bool isUnit)
+        private static RealValue Cbrt(RealValue value, bool isUnit)
         {
             var u = value.Units;
             if (u is not null && u.IsDimensionless)
-                return new(Math.Cbrt(value.Re * u.GetDimensionlessFactor()));
+                return new(Math.Cbrt(value.D * u.GetDimensionlessFactor()));
 
-            var result = Math.Cbrt(value.Re);
+            var result = Math.Cbrt(value.D);
             return u is null ?
                 new(result) :
                 new(result, Unit.Root(u, 3, isUnit), isUnit);
         }
 
-        private static Value Cbrt(in Value value) =>
+        private static RealValue Cbrt(in RealValue value) =>
             Cbrt(value, false);
 
-        private static Value UnitCbrt(in Value value) =>
+        private static RealValue UnitCbrt(in RealValue value) =>
             Cbrt(value, value.IsUnit);
 
-        private static Value Root(in Value value, in Value root, bool isUnit)
+        private static RealValue Root(in RealValue value, in RealValue root, bool isUnit)
         {
             var n = GetRoot(root);
             var u = value.Units;
             var d = u is not null && u.IsDimensionless ?
-                value.Re * u.GetDimensionlessFactor() :
-                value.Re;
+                value.D * u.GetDimensionlessFactor() :
+                value.D;
 
             var result = int.IsOddInteger(n) && d < 0 ?
                 -Math.Pow(-d, 1d / n) :
@@ -388,117 +388,135 @@ namespace Calcpad.Core
                 new(result, Unit.Root(u, n, isUnit), isUnit);
         }
 
-        private static Value Root(in Value value, in Value root) =>
+        private static RealValue Root(in RealValue value, in RealValue root) =>
             Root(value, root, false);
 
-        private static Value UnitRoot(in Value value, in Value root) =>
+        private static RealValue UnitRoot(in RealValue value, in RealValue root) =>
             Root(value, root, value.IsUnit);
 
-        private static Value Round(in Value value) =>
-            new(Math.Round(value.Re, MidpointRounding.AwayFromZero), value.Units);
+        private static RealValue Round(in RealValue value) =>
+            new(Math.Round(value.D, MidpointRounding.AwayFromZero), value.Units);
 
-        private static Value Floor(in Value value) =>
-            new(Math.Floor(value.Re), value.Units);
+        private static RealValue Floor(in RealValue value) =>
+            new(Math.Floor(value.D), value.Units);
 
-        private static Value Ceiling(in Value value) =>
-            new(Math.Ceiling(value.Re), value.Units);
+        private static RealValue Ceiling(in RealValue value) =>
+            new(Math.Ceiling(value.D), value.Units);
 
-        private static Value Truncate(in Value value) =>
-            new(Math.Truncate(value.Re), value.Units);
+        private static RealValue Truncate(in RealValue value) =>
+            new(Math.Truncate(value.D), value.Units);
 
-        private static Value Random(in Value value) =>
-            new(Complex.RealRandom(value.Re), value.Units);
+        private static RealValue Random(in RealValue value) =>
+            new(Complex.RealRandom(value.D), value.Units);
 
-        private Value Atan2(in Value a, in Value b) =>
-            ToAngleUnits(Math.Atan2(b.Re * Unit.Convert(a.Units, b.Units, ','), a.Re));
+        private RealValue Atan2(in RealValue a, in RealValue b) =>
+            ToAngleUnits(Math.Atan2(b.D * Unit.Convert(a.Units, b.Units, ','), a.D));
 
-        private static Value Sum(Value[] v)
+        private static IScalarValue Sum(IScalarValue[] values)
         {
-            var result = v[0].Re;
-            var u = v[0].Units;
-            for (int i = 1, len = v.Length; i < len; ++i)
-                result += v[i].Re * Unit.Convert(u, v[i].Units, ',');
-
-            return new(result, u);
+            ref var value = ref values[0];
+            var result = value.Re;
+            var u = value.Units;
+            for (int i = 1, len = values.Length; i < len; ++i)
+            {
+                value = ref values[i];
+                result += value.Re * Unit.Convert(u, value.Units, ',');
+            }
+            return new RealValue(result, u);
         }
 
-        private static Value SumSq(Value[] v)
+        private static IScalarValue SumSq(IScalarValue[] values)
         {
-            var result = v[0].Re;
-            var u = v[0].Units;
+            ref var value = ref values[0];
+            var result = value.Re;
+            var u = value.Units;
             result *= result;
-            for (int i = 1, len = v.Length; i < len; ++i)
+            for (int i = 1, len = values.Length; i < len; ++i)
             {
-                var b = v[i].Re * Unit.Convert(u, v[i].Units, ',');
+                value = ref values[i];
+                var b = value.Re * Unit.Convert(u, value.Units, ',');
                 result += b * b;
             }
-            return new(result, u is null ? null : u * u);
+            return new RealValue(result, u?.Pow(2f));
         }
 
-        internal static Value Srss(Value[] v)
+        internal static IScalarValue Srss(IScalarValue[] values)
         {
-            var result = v[0].Re;
-            var u = v[0].Units;
+            ref var value = ref values[0];
+            var result = value.Re;
+            var u = value.Units;
             result *= result;
-            for (int i = 1, len = v.Length; i < len; ++i)
+            for (int i = 1, len = values.Length; i < len; ++i)
             {
-                var b = v[i].Re * Unit.Convert(u, v[i].Units, ',');
+                value = ref values[i];
+                var b = value.Re * Unit.Convert(u, value.Units, ',');
                 result += b * b;
             }
-            return new(Math.Sqrt(result), u);
+            return new RealValue(Math.Sqrt(result), u);
         }
 
-        private static Value Average(Value[] v)
+        private static IScalarValue Average(IScalarValue[] values)
         {
-            var result = v[0].Re;
-            var u = v[0].Units;
-            for (int i = 1, len = v.Length; i < len; ++i)
-                result += v[i].Re * Unit.Convert(u, v[i].Units, ',');
-
-            return new(result / v.Length, u);
-        }
-
-        private static Value Product(Value[] v)
-        {
-            var result = v[0].Re;
-            var u = v[0].Units;
-            for (int i = 1, len = v.Length; i < len; ++i)
+            ref var value = ref values[0];
+            var result = value.Re;
+            var u = value.Units;
+            for (int i = 1, len = values.Length; i < len; ++i)
             {
-                u = Unit.Multiply(u, v[i].Units, out var b);
-                result *= v[i].Re * b;
+                value = ref values[i];
+                result += value.Re * Unit.Convert(u, value.Units, ',');
             }
-            return new(result, u);
+            return new RealValue(result / values.Length, u);
         }
 
-        private static Value Mean(Value[] v)
+        private static IScalarValue Product(IScalarValue[] values)
         {
-            var result = v[0].Re;
-            var u = v[0].Units;
-            for (int i = 1, len = v.Length; i < len; ++i)
+            ref var value = ref values[0];
+            var result = value.Re;
+            var u = value.Units;
+            for (int i = 1, len = values.Length; i < len; ++i)
             {
-                ref var value = ref v[i];
+                value = ref values[i];
                 u = Unit.Multiply(u, value.Units, out var b);
                 result *= value.Re * b;
             }
-            result = Math.Pow(result, 1.0 / v.Length);
-            if (u is null)
-                return new(result);
-
-            u = Unit.Root(u, v.Length);
-            return new(result, u);
+            return new RealValue(result, u);
         }
 
-        private double FromAngleUnits(in Value value)
+        private static IScalarValue Mean(IScalarValue[] values)
+        {
+            ref var value = ref values[0];
+            var result = value.Re;
+            var u = value.Units;
+            for (int i = 1, len = values.Length; i < len; ++i)
+            {
+                value = ref values[i];
+                u = Unit.Multiply(u, value.Units, out var b);
+                result *= value.Re * b;
+            }
+            result = Math.Pow(result, 1.0 / values.Length);
+            if (u is null)
+                return new  RealValue(result);
+
+            u = Unit.Root(u, values.Length);
+            return new RealValue(result, u);
+        }
+
+        protected static RealValue Not(in RealValue value) =>
+            Math.Abs(value.D) < RealValue.LogicalZero ? RealValue.One : RealValue.Zero;
+
+        private double FromAngleUnits(in RealValue value)
         {
             if (value.Units is null)
-                return value.Re * ToRad[_degrees];
+                return value.D * ToRad[_degrees];
 
-            return value.Re * value.Units.ConvertTo(AngleUnits[1]);
+            return value.D * value.Units.ConvertTo(AngleUnits[1]);
         }
 
-        private Value ToAngleUnits(double value) =>
+        private RealValue ToAngleUnits(double value) =>
             _returnAngleUnits ?
             new(value * FromRad[_degrees], AngleUnits[_degrees]) :
             new(value * FromRad[_degrees]);
+
+        protected static RealValue Timer(in RealValue _) => new(Timer(), Unit.Get("s"));
     }
 }

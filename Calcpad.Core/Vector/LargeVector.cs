@@ -7,12 +7,12 @@ namespace Calcpad.Core
         private int _capacity;
         private int _length;
 
-        internal override Value this[int index]
+        internal override RealValue this[int index]
         {
             get
             {
                 if (index >= _size)
-                    return Value.Zero;
+                    return RealValue.Zero;
 
                 return _values[index];
             }
@@ -20,7 +20,7 @@ namespace Calcpad.Core
             {
                 if (index >= _size)
                 {
-                    if (value.Equals(Value.Zero))
+                    if (value.Equals(RealValue.Zero))
                         return;
 
                     _size = index + 1;
@@ -31,14 +31,14 @@ namespace Calcpad.Core
             }
         }
 
-        internal override Value[] Values
+        internal override RealValue[] Values
         {
             get
             {
                 if (_capacity == _length)
                     return _values;
 
-                var values = new Value[_length];
+                var values = new RealValue[_length];
                 _values.AsSpan().CopyTo(values);
                 return values;
             }
@@ -55,7 +55,7 @@ namespace Calcpad.Core
 
         internal override int Length => _length;
 
-        internal override ref Value ValueByRef(int index)
+        internal override ref RealValue ValueByRef(int index)
         {
             if (index >= _size)
             {
@@ -66,7 +66,7 @@ namespace Calcpad.Core
             return ref _values[index];
         }
 
-        internal LargeVector(Value[] values)
+        internal LargeVector(RealValue[] values)
         {
             if (values.Length > MaxLength)
                 Throw.VectorSizeLimitException();
@@ -75,7 +75,7 @@ namespace Calcpad.Core
             _length = _values.Length;
             for (int i = _length - 1; i >= 0; --i)
             {
-                if (!_values[i].Equals(Value.Zero))
+                if (!_values[i].Equals(RealValue.Zero))
                 {
                     _size = i + 1;
                     return;
@@ -91,7 +91,7 @@ namespace Calcpad.Core
             _length = length;
             _size = 0;
             _capacity = length / 100;
-            _values = new Value[_capacity];
+            _values = new RealValue[_capacity];
         }
 
         internal override LargeVector Resize(int newSize)
@@ -120,7 +120,7 @@ namespace Calcpad.Core
             var start = 0;
             while (start < _size)
             {
-                if (!_values[start].Equals(Value.Zero))
+                if (!_values[start].Equals(RealValue.Zero))
                     break;
 
                 start++;
@@ -131,9 +131,9 @@ namespace Calcpad.Core
             return vector;
         }
 
-        internal override Vector Fill(Value value)
+        internal override Vector Fill(RealValue value)
         {
-            if (value.Equals(Value.Zero))
+            if (value.Equals(RealValue.Zero))
             {
                 _size = 0;
                 _capacity = 0;
@@ -146,14 +146,14 @@ namespace Calcpad.Core
                 if (_capacity < _length)
                 {
                     _capacity = _length;
-                    _values = new Value[_capacity];
+                    _values = new RealValue[_capacity];
                 }
             }
             _values.AsSpan().Fill(value);
             return this;
         }
 
-        protected override void Fill(Value value, int start, int len)
+        protected override void Fill(RealValue value, int start, int len)
         {
             var end = start + len;
             if (_size < end)

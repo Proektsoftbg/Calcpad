@@ -17,23 +17,24 @@ namespace Calcpad.Core
         }
 
         internal const long MaxLength = 10000000;
-        protected Value[] _values;
+        protected RealValue[] _values;
         protected int _size;
 
-        internal virtual Value this[int index]
+        internal virtual RealValue this[int index]
         {
             get => _values[index];
             set => _values[index] = value;
         }
-        internal virtual ref Value ValueByRef(int index) => ref _values[index];
-        internal virtual Value[] Values => _values;
-        internal Value[] RawValues => _values;
+
+        internal virtual ref RealValue ValueByRef(int index) => ref _values[index];
+        internal virtual RealValue[] Values => _values;
+        internal RealValue[] RawValues => _values;
         internal virtual int Length => _values.Length;
         internal int Size => _size;
 
         protected Vector() { }
 
-        internal Vector(Value[] values)
+        internal Vector(RealValue[] values)
         {
             if (values.Length > MaxLength)
                 Throw.VectorSizeLimitException();
@@ -48,7 +49,7 @@ namespace Calcpad.Core
                 Throw.VectorSizeLimitException();
 
             _size = size;
-            _values = new Value[size];
+            _values = new RealValue[size];
         }
 
         public override int GetHashCode()
@@ -83,7 +84,7 @@ namespace Calcpad.Core
             var v = CreateFrom(this);
             if (_values is not null && v is not LargeVector)
             {
-                v._values = new Value[_size]; 
+                v._values = new RealValue[_size]; 
                 _values.AsSpan().CopyTo(v._values);
                 v._size = _values.Length;
             }
@@ -123,12 +124,12 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Vector operator -(Vector a, Value b)
+        public static Vector operator -(Vector a, RealValue b)
         {
             var c = CreateFrom(a);
             var na = a._size;
             var nc = c.Length;
-            if (nc > na && !b.Equals(Value.Zero))
+            if (nc > na && !b.Equals(RealValue.Zero))
                 c.Fill(-b, na, nc - na);
 
             for (int i = na - 1; i >= 0; --i)
@@ -137,12 +138,12 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Vector operator -(Value a, Vector b)
+        public static Vector operator -(RealValue a, Vector b)
         {
             var c = CreateFrom(b);
             var nb = b._size;
             var nc = c.Length;
-            if (nc > nb && !a.Equals(Value.Zero))
+            if (nc > nb && !a.Equals(RealValue.Zero))
                 c.Fill(a, nb, nc - nb);
 
             for (int i = nb - 1; i >= 0; --i)
@@ -170,12 +171,12 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Vector operator +(Vector a, Value b)
+        public static Vector operator +(Vector a, RealValue b)
         {
             var c = CreateFrom(a);
             var na = a._size;
             var nc = c.Length;
-            if (nc > na && !b.Equals(Value.Zero))
+            if (nc > na && !b.Equals(RealValue.Zero))
                 c.Fill(b, na, nc - na);
 
             for (int i = na - 1; i >= 0; --i)
@@ -203,7 +204,7 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Vector operator *(Vector a, Value b)
+        public static Vector operator *(Vector a, RealValue b)
         {
             var c = CreateFrom(a);
             var na = a._size;
@@ -224,13 +225,13 @@ namespace Calcpad.Core
             var nb = b._size;
             var nc = c.Length;
             (var n1, var n2) = MinMax(na, nb);
-            c.Fill(Value.NaN, n2, nc - n2);
+            c.Fill(RealValue.NaN, n2, nc - n2);
             if (na > nb)
                 for (int i = n2 - 1; i >= n1; --i)
-                    c[i] = a[i] / Value.Zero;
+                    c[i] = a[i] / RealValue.Zero;
             else if (nb > na)
                 for (int i = n2 - 1; i >= n1; --i)
-                    c[i] = Value.Zero / b[i];
+                    c[i] = RealValue.Zero / b[i];
 
             for (int i = n1 - 1; i >= 0; --i)
                 c[i] = a[i] / b[i];
@@ -238,15 +239,15 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Vector operator /(Vector a, Value b)
+        public static Vector operator /(Vector a, RealValue b)
         {
             var c = CreateFrom(a);
             var na = a._size;
             var nc = c.Length;
             if (nc > na)
             {
-                var v = Value.Zero / b;
-                if (!v.Equals(Value.Zero))
+                var v = RealValue.Zero / b;
+                if (!v.Equals(RealValue.Zero))
                     c.Fill(v, na, nc - na);
             }
             for (int i = na - 1; i >= 0; --i)
@@ -255,13 +256,13 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Vector operator /(Value a, Vector b)
+        public static Vector operator /(RealValue a, Vector b)
         {
             var c = CreateFrom(b);
             var nb = b._size;
             var nc = c.Length;
             if (nc > nb)
-                c.Fill(a / Value.Zero, nb, nc - nb);
+                c.Fill(a / RealValue.Zero, nb, nc - nb);
 
             for (int i = nb - 1; i >= 0; --i)
                 c[i] = a / b[i];
@@ -276,12 +277,12 @@ namespace Calcpad.Core
             var nb = b._size;
             var nc = c.Length;
             (var n1, var n2) = MinMax(na, nb);
-            c.Fill(Value.NaN, n2, nc - n2);
+            c.Fill(RealValue.NaN, n2, nc - n2);
             if (na > nb)
-                c.Fill(Value.NaN, n1, n2 - n1);
+                c.Fill(RealValue.NaN, n1, n2 - n1);
             else if (nb > na)
                 for (int i = n2 - 1; i >= n1; --i)
-                    c[i] = Value.Zero % b[i];
+                    c[i] = RealValue.Zero % b[i];
 
             for (int i = n1 - 1; i >= 0; --i)
                 c[i] = a[i] % b[i];
@@ -289,13 +290,13 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Vector operator %(Vector a, Value b)
+        public static Vector operator %(Vector a, RealValue b)
         {
             var c = CreateFrom(a);
             var na = a._size;
             var nc = c.Length;
-            if (nc > na && !b.Equals(Value.Zero))
-                c.Fill(Value.NaN, na, nc - na);
+            if (nc > na && !b.Equals(RealValue.Zero))
+                c.Fill(RealValue.NaN, na, nc - na);
 
             for (int i = na - 1; i >= 0; --i)
                 c[i] = a[i] % b;
@@ -303,13 +304,13 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Vector operator %(Value a, Vector b)
+        public static Vector operator %(RealValue a, Vector b)
         {
             var c = CreateFrom(b);
             var nb = b._size;
             var nc = c.Length;
             if (nc > nb)
-                c.Fill(Value.NaN, nb, nc - nb);
+                c.Fill(RealValue.NaN, nb, nc - nb);
 
             for (int i = nb - 1; i >= 0; --i)
                 c[i] = a % b[i];
@@ -324,8 +325,8 @@ namespace Calcpad.Core
             var nb = b._size;
             var nc = c.Length;
             (var n1, var n2) = MinMax(na, nb);
-            c.Fill(Value.One, n2, nc - n2);
-            var zero = Value.Zero;
+            c.Fill(RealValue.One, n2, nc - n2);
+            var zero = RealValue.Zero;
             if (na > nb)
                 for (int i = n2 - 1; i >= n1; --i)
                 {
@@ -351,16 +352,16 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Vector operator ==(Vector a, Value b)
+        public static Vector operator ==(Vector a, RealValue b)
         {
             var c = CreateFrom(a);
             var na = a._size;
             var nc = c.Length;
             if (nc > na)
             {
-                var zero = b.Units is null ? Value.Zero : new(0, b.Units);
+                var zero = b.Units is null ? RealValue.Zero : new(0, b.Units);
                 var v = zero == b;
-                if (!v.Equals(Value.Zero))
+                if (!v.Equals(RealValue.Zero))
                     c.Fill(v, na, nc - na);
             }
             for (int i = na - 1; i >= 0; --i)
@@ -375,7 +376,7 @@ namespace Calcpad.Core
             var na = a._size;
             var nb = b._size;
             (var n1, var n2) = MinMax(na, nb);
-            var zero = Value.Zero;
+            var zero = RealValue.Zero;
             if (na > nb)
                 for (int i = n2 - 1; i >= n1; --i)
                 {
@@ -401,16 +402,16 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Vector operator !=(Vector a, Value b)
+        public static Vector operator !=(Vector a, RealValue b)
         {
             var c = CreateFrom(a);
             var na = a._size;
             var nc = c.Length;
             if (nc > na)
             {
-                var zero = b.Units is null ? Value.Zero : new(0, b.Units);
+                var zero = b.Units is null ? RealValue.Zero : new(0, b.Units);
                 var v = b != zero;
-                if (!v.Equals(Value.Zero))
+                if (!v.Equals(RealValue.Zero))
                     c.Fill(v, na, nc - na);
             }
             for (int i = na - 1; i >= 0; --i)
@@ -425,7 +426,7 @@ namespace Calcpad.Core
             var na = a._size;
             var nb = b._size;
             (var n1, var n2) = MinMax(na, nb);
-            var zero = Value.Zero;
+            var zero = RealValue.Zero;
             if (na > nb)
                 for (int i = n2 - 1; i >= n1; --i)
                 {
@@ -451,16 +452,16 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Vector operator <(Vector a, Value b)
+        public static Vector operator <(Vector a, RealValue b)
         {
             var c = CreateFrom(a);
             var na = a._size;
             var nc = c.Length;
             if (nc > na)
             {
-                var zero = b.Units is null ? Value.Zero : new(0, b.Units);
+                var zero = b.Units is null ? RealValue.Zero : new(0, b.Units);
                 var v = zero < b;
-                if (!v.Equals(Value.Zero))
+                if (!v.Equals(RealValue.Zero))
                     c.Fill(v, na, nc - na);
             }
             for (int i = na - 1; i >= 0; --i)
@@ -469,16 +470,16 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Vector operator <(Value a, Vector b)
+        public static Vector operator <(RealValue a, Vector b)
         {
             var c = CreateFrom(b);
             var nb = b._size;
             var nc = c.Length;
             if (nc > nb)
             {
-                var zero = a.Units is null ? Value.Zero : new(0, a.Units);
+                var zero = a.Units is null ? RealValue.Zero : new(0, a.Units);
                 var v = a < zero;
-                if (!v.Equals(Value.Zero))
+                if (!v.Equals(RealValue.Zero))
                     c.Fill(v, nb, nc - nb);
             }
             for (int i = nb - 1; i >= 0; --i)
@@ -493,7 +494,7 @@ namespace Calcpad.Core
             var na = a._size;
             var nb = b._size;
             (var n1, var n2) = MinMax(na, nb);
-            var zero = Value.Zero;
+            var zero = RealValue.Zero;
             if (na > nb)
                 for (int i = n2 - 1; i >= n1; --i)
                 {
@@ -519,16 +520,16 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Vector operator >(Vector a, Value b)
+        public static Vector operator >(Vector a, RealValue b)
         {
             var c = CreateFrom(a);
             var na = a._size;
             var nc = c.Length;
             if (nc > na)
             {
-                var zero = b.Units is null ? Value.Zero : new(0, b.Units);
+                var zero = b.Units is null ? RealValue.Zero : new(0, b.Units);
                 var v = zero > b;
-                if (!v.Equals(Value.Zero))
+                if (!v.Equals(RealValue.Zero))
                     c.Fill(v, na, nc - na);
             }
             for (int i = na - 1; i >= 0; --i)
@@ -537,16 +538,16 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Vector operator >(Value a, Vector b)
+        public static Vector operator >(RealValue a, Vector b)
         {
             var c = CreateFrom(b);
             var nb = b._size;
             var nc = c.Length;
             if (nc > nb)
             {
-                var zero = a.Units is null ? Value.Zero : new(0, a.Units);
+                var zero = a.Units is null ? RealValue.Zero : new(0, a.Units);
                 var v = a > zero;
-                if (!v.Equals(Value.Zero))
+                if (!v.Equals(RealValue.Zero))
                     c.Fill(v, nb, nc - nb);
             }
             for (int i = nb - 1; i >= 0; --i)
@@ -562,8 +563,8 @@ namespace Calcpad.Core
             var nb = b._size;
             var nc = c.Length;
             (var n1, var n2) = MinMax(na, nb);
-            c.Fill(Value.One, n2, nc - n2);
-            var zero = Value.Zero;
+            c.Fill(RealValue.One, n2, nc - n2);
+            var zero = RealValue.Zero;
             if (na > nb)
                 for (int i = n2 - 1; i >= n1; --i)
                 {
@@ -589,16 +590,16 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Vector operator <=(Vector a, Value b)
+        public static Vector operator <=(Vector a, RealValue b)
         {
             var c = CreateFrom(a);
             var na = a._size;
             var nc = c.Length;
             if (nc > na)
             {
-                var zero = b.Units is null ? Value.Zero : new(0, b.Units);
+                var zero = b.Units is null ? RealValue.Zero : new(0, b.Units);
                 var v = zero <= b;
-                if (!v.Equals(Value.Zero))
+                if (!v.Equals(RealValue.Zero))
                     c.Fill(v, na, nc - na);
             }
             for (int i = na - 1; i >= 0; --i)
@@ -607,16 +608,16 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Vector operator <=(Value a, Vector b)
+        public static Vector operator <=(RealValue a, Vector b)
         {
             var c = CreateFrom(b);
             var nb = b._size;
             var nc = c.Length;
             if (nc > nb)
             {
-                var zero = a.Units is null ? Value.Zero : new(0, a.Units);
+                var zero = a.Units is null ? RealValue.Zero : new(0, a.Units);
                 var v = a <= zero;
-                if (!v.Equals(Value.Zero))
+                if (!v.Equals(RealValue.Zero))
                     c.Fill(v, nb, nc - nb);
             }
             for (int i = nb - 1; i >= 0; --i)
@@ -632,8 +633,8 @@ namespace Calcpad.Core
             var nb = b._size;
             var nc = c.Length;
             (var n1, var n2) = MinMax(na, nb);
-            c.Fill(Value.One, n2, nc - n2);
-            var zero = Value.Zero;
+            c.Fill(RealValue.One, n2, nc - n2);
+            var zero = RealValue.Zero;
             if (na > nb)
                 for (int i = n2 - 1; i >= n1; --i)
                 {
@@ -659,16 +660,16 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Vector operator >=(Vector a, Value b)
+        public static Vector operator >=(Vector a, RealValue b)
         {
             var c = CreateFrom(a);
             var na = a._size;
             var nc = c.Length;
             if (nc > na)
             {
-                var zero = b.Units is null ? Value.Zero : new(0, b.Units);
+                var zero = b.Units is null ? RealValue.Zero : new(0, b.Units);
                 var v = zero >= b;
-                if (!v.Equals(Value.Zero))
+                if (!v.Equals(RealValue.Zero))
                     c.Fill(v, na, nc - na);
             }
             for (int i = na - 1; i >= 0; --i)
@@ -677,16 +678,16 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Vector operator >=(Value a, Vector b)
+        public static Vector operator >=(RealValue a, Vector b)
         {
             var c = CreateFrom(b);
             var nb = b._size;
             var nc = c.Length;
             if (nc > nb)
             {
-                var zero = a.Units is null ? Value.Zero : new(0, a.Units);
+                var zero = a.Units is null ? RealValue.Zero : new(0, a.Units);
                 var v = a >= zero;
-                if (!v.Equals(Value.Zero))
+                if (!v.Equals(RealValue.Zero))
                     c.Fill(v, nb, nc - nb);
             }
             for (int i = nb - 1; i >= 0; --i)
@@ -705,7 +706,7 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Vector operator &(Vector a, Value b)
+        public static Vector operator &(Vector a, RealValue b)
         {
             var c = CreateFrom(a);
             for (int i = a._size - 1; i >= 0; --i)
@@ -722,10 +723,10 @@ namespace Calcpad.Core
             (var n1, var n2) = MinMax(na, nb);
             if (na > nb)
                 for (int i = n2 - 1; i >= n1; --i)
-                    c[i] = a[i] | Value.Zero;
+                    c[i] = a[i] | RealValue.Zero;
             else if (nb > na)
                 for (int i = n2 - 1; i >= n1; --i)
-                    c[i] = Value.Zero | b[i];
+                    c[i] = RealValue.Zero | b[i];
 
             for (int i = n1 - 1; i >= 0; --i)
                 c[i] = a[i] | b[i];
@@ -733,7 +734,7 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Vector operator |(Vector a, Value b)
+        public static Vector operator |(Vector a, RealValue b)
         {
             var c = CreateFrom(a);
             for (int i = a._size - 1; i >= 0; --i)
@@ -751,10 +752,10 @@ namespace Calcpad.Core
 
             if (na > nb)
                 for (int i = n2 - 1; i >= n1; --i)
-                    c[i] = a[i] ^ Value.Zero;
+                    c[i] = a[i] ^ RealValue.Zero;
             else if (nb > na)
                 for (int i = n2 - 1; i >= n1; --i)
-                    c[i] = Value.Zero ^ b[i];
+                    c[i] = RealValue.Zero ^ b[i];
 
             for (int i = n1 - 1; i >= 0; --i)
                 c[i] = a[i] ^ b[i];
@@ -762,7 +763,7 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Vector operator ^(Vector a, Value b)
+        public static Vector operator ^(Vector a, RealValue b)
         {
             var c = CreateFrom(a);
             for (int i = a._size - 1; i >= 0; --i)
@@ -771,14 +772,14 @@ namespace Calcpad.Core
             return c;
         }
 
-        internal static Vector EvaluateOperator(Calculator.Operator op, Vector a, Vector b, bool requireConsistentUnits)
+        internal static Vector EvaluateOperator(RealCalculator.Operator<RealValue> op, Vector a, Vector b, bool requireConsistentUnits)
         {
             var c = CreateFrom(a, b);
             var na = a._size;
             var nb = b._size;
             var nc = c.Length;
             (var n1, var n2) = MinMax(na, nb);
-            var zero = Value.Zero;
+            var zero = RealValue.Zero;
             if (nc > n2)
             {
                 var v = op(zero, zero);
@@ -814,7 +815,7 @@ namespace Calcpad.Core
             return c;
         }
 
-        internal static Vector EvaluateOperator(Calculator.Operator op, Vector a, in Value b, bool requireConsistentUnits)
+        internal static Vector EvaluateOperator(RealCalculator.Operator<RealValue> op, Vector a, in RealValue b, bool requireConsistentUnits)
         {
             var c = CreateFrom(a);
             var na = a._size;
@@ -823,9 +824,9 @@ namespace Calcpad.Core
             {
                 var zero =  requireConsistentUnits && b.Units is not null ? 
                     new(0, b.Units) : 
-                    Value.Zero;
+                    RealValue.Zero;
                 var v = op(zero, b);
-                if (!v.Equals(Value.Zero))
+                if (!v.Equals(RealValue.Zero))
                     c.Fill(v, na, nc - na);
             }
             for (int i = na - 1; i >= 0; --i)
@@ -834,7 +835,7 @@ namespace Calcpad.Core
             return c;
         }
 
-        internal static Vector EvaluateOperator(Calculator.Operator op, in Value a, Vector b, bool requireConsistentUnits)
+        internal static Vector EvaluateOperator(RealCalculator.Operator<RealValue> op, in RealValue a, Vector b, bool requireConsistentUnits)
         {
             var c = CreateFrom(b);
             var nb = b._size;
@@ -843,9 +844,9 @@ namespace Calcpad.Core
             {
                 var zero = requireConsistentUnits && a.Units is not null ?
                     new(0, a.Units) :
-                    Value.Zero;
+                    RealValue.Zero;
                 var v = op(a, zero);
-                if (!v.Equals(Value.Zero))
+                if (!v.Equals(RealValue.Zero))
                     c.Fill(v, nb, nc - nb);
             }
             for (int i = nb - 1; i >= 0; --i)
@@ -854,15 +855,15 @@ namespace Calcpad.Core
             return c;
         }
 
-        internal static Vector EvaluateFunction(Calculator.Function f, Vector a)
+        internal static Vector EvaluateFunction(RealCalculator.Function<RealValue> f, Vector a)
         {
             var b = CreateFrom(a);
             var na = a._size;
             var nb = b.Length;
             if (nb > na)
             {
-                var v = f(Value.Zero);
-                if (!v.Equals(Value.Zero))
+                var v = f(RealValue.Zero);
+                if (!v.Equals(RealValue.Zero))
                     b.Fill(v, na, nb - na);
             }
             for (int i = na - 1; i >= 0; --i)
@@ -874,7 +875,7 @@ namespace Calcpad.Core
         internal void SetUnits(Unit units)
         {
             for (int i = _size - 1; i >= 0; --i)
-                this[i] = new Value(this[i].Re, this[i].Im, units);
+                this[i] = new RealValue(this[i].D, units);
         }
 
         private static (int, int) MinMax(int n1, int n2)
@@ -907,11 +908,11 @@ namespace Calcpad.Core
             return c;
         }
 
-        internal static Value DotProduct(Vector a, Vector b)
+        internal static RealValue DotProduct(Vector a, Vector b)
         {
             var n = Math.Min(a._size, b._size);
             if (n == 0)
-                return Value.Zero;
+                return RealValue.Zero;
 
             var va = a._values;
             var vb = b._values;
@@ -937,8 +938,8 @@ namespace Calcpad.Core
             return sum;
         }
 
-        //private static readonly Comparison<Value> ascending = new((x, y) => x.CompareTo(y));
-        internal static readonly Comparison<Value> descending = new((x, y) => -x.CompareTo(y));
+        internal static readonly Comparison<RealValue> ascending = new((x, y) => x.CompareTo(y));
+        internal static readonly Comparison<RealValue> descending = new((x, y) => -x.CompareTo(y));
         
         internal Vector Sort(bool reverse = false)
         {
@@ -969,7 +970,7 @@ namespace Calcpad.Core
         internal int[] GetOrderIndexes(bool reverse)
         {
             var n = Length;
-            var values = new Value[n];
+            var values = new RealValue[n];
             var span = values.AsSpan();
             if (_values is not null)
                 _values.AsSpan(0, _size).CopyTo(span);
@@ -979,9 +980,9 @@ namespace Calcpad.Core
 
             var indexes = Enumerable.Range(0, n).ToArray();
             if (reverse)
-                span.Sort<Value, int>(indexes, descending);
+                span.Sort<RealValue, int>(indexes, descending);
             else
-                span.Sort<Value, int>(indexes);
+                span.Sort<RealValue, int>(indexes);
 
             return indexes;
         }
@@ -1037,13 +1038,13 @@ namespace Calcpad.Core
             return vector;
         }
 
-        internal virtual Vector Fill(Value value)
+        internal virtual Vector Fill(RealValue value)
         {
             _values.AsSpan().Fill(value);
             return this;
         }
 
-        protected virtual void Fill(Value value, int start, int len) =>
+        protected virtual void Fill(RealValue value, int start, int len) =>
             _values.AsSpan(start, len).Fill(value);
 
         internal static Vector Join(IValue[] items)
@@ -1054,7 +1055,7 @@ namespace Calcpad.Core
             {
                 if (items[i] is Vector vector)
                     len += vector.Length;
-                else if (items[i] is Value)
+                else if (items[i] is RealValue)
                     len += 1;
                 else if (items[i] is Matrix matrix)
                     len += matrix.ColCount * matrix.RowCount;
@@ -1062,7 +1063,7 @@ namespace Calcpad.Core
             if (len > MaxLength)
                 Throw.VectorSizeLimitException();
 
-            var values = new Value[len];
+            var values = new RealValue[len];
             var index = 0;
             for (int k = 0; k < n; ++k)
             {
@@ -1071,9 +1072,9 @@ namespace Calcpad.Core
                     vector._values.AsSpan(0, vector._size).CopyTo(values.AsSpan(index, vector._size));
                     index += vector.Length;
                 }
-                else if (items[k] is Value value)
+                else if (items[k] is RealValue real)
                 {
-                    values[index] = value;
+                    values[index] = real;
                     ++index;
                 }
                 else if (items[k] is Matrix matrix)
@@ -1087,12 +1088,12 @@ namespace Calcpad.Core
             return new Vector(values);
         }
 
-        internal static Vector Range(Value start, Value end, Value step)
+        internal static Vector Range(RealValue start, RealValue end, RealValue step)
         {
-            if (step.Re.AlmostEquals(0) && step.Im.AlmostEquals(0))
+            if (step.D.AlmostEquals(0))
                 Throw.StepCannotBeZeroException();
 
-            var len = ((end - start) / step).Re + 1;
+            var len = ((end - start) / step).D + 1;
             if (len <= 1)
                 return new Vector([start, end]);
 
@@ -1100,14 +1101,14 @@ namespace Calcpad.Core
                 Throw.VectorSizeLimitException();
 
             len = Math.Truncate(len);
-            Value[] values = new Value[(int)len];
+            RealValue[] values = new RealValue[(int)len];
             for (int i = 0; i < len; ++i)
                 values[i] = start + step * i;
 
             return new Vector(values);
         }
 
-        internal Value Search(Value value, int start)
+        internal RealValue Search(RealValue value, int start)
         {
             var n = Length;
             if (start < 1)
@@ -1115,28 +1116,28 @@ namespace Calcpad.Core
             else if (start > _size)
             {
                 if (start > n)
-                    return Value.Zero;
+                    return RealValue.Zero;
 
-                if (value.AlmostEquals(Value.Zero))
+                if (value.AlmostEquals(RealValue.Zero))
                     return new(start);
 
-                return Value.Zero;
+                return RealValue.Zero;
             }
             for (int i = start - 1; i < _size; ++i)
             {
                 if (value.AlmostEquals(this[i]))
-                    return new Value(i + 1);
+                    return new RealValue(i + 1);
             }
-            if (_size < n && value.AlmostEquals(Value.Zero))
-                return new Value(_size + 1);
+            if (_size < n && value.AlmostEquals(RealValue.Zero))
+                return new RealValue(_size + 1);
 
-            return Value.Zero;
+            return RealValue.Zero;
         }
 
-        internal Vector FindAll(Value value, int start, Relation rel) =>
+        internal Vector FindAll(RealValue value, int start, Relation rel) =>
             FromIndexes(FindAllIndexes(value, start, rel));
 
-        internal Vector Lookup(Vector dest, Value value, Relation rel)
+        internal Vector Lookup(Vector dest, RealValue value, Relation rel)
         {
             var indexes = FindAllIndexes(value, 1, rel);
             var vector = new Vector(indexes.Count());
@@ -1152,7 +1153,7 @@ namespace Calcpad.Core
             return vector;
         }
 
-        internal static bool Relate(Value a, Value b, Relation rel) =>
+        internal static bool Relate(RealValue a, RealValue b, Relation rel) =>
             rel switch
             {
                 Relation.Equal => a.AlmostEquals(b),
@@ -1164,7 +1165,7 @@ namespace Calcpad.Core
                 _ => false
             };
 
-        private IEnumerable<int> FindAllIndexes(Value value, int start, Relation rel)
+        private IEnumerable<int> FindAllIndexes(RealValue value, int start, Relation rel)
         {
             var n = Length;
             if (start < 1)
@@ -1174,7 +1175,7 @@ namespace Calcpad.Core
                 if (start > n)
                     return [];
 
-                if (Relate(value, Value.Zero, rel))
+                if (Relate(value, RealValue.Zero, rel))
                     return Enumerable.Range(_size, n - _size);
 
                 return [];
@@ -1185,7 +1186,7 @@ namespace Calcpad.Core
                 if (Relate(this[i], value, rel))
                     indexes.Add(i);
             }
-            if (_size < n && Relate(value, Value.Zero, rel))
+            if (_size < n && Relate(value, RealValue.Zero, rel))
                 indexes.AddRange(Enumerable.Range(_size, n - _size));
 
             return indexes;
@@ -1198,7 +1199,7 @@ namespace Calcpad.Core
             var vector = new Vector(ni);
             for (int i = 0; i < ni; ++i)
             {
-                var d = indexes[i].Re;
+                var d = indexes[i].D;
                 if (d < 1 || d > int.MaxValue)
                     Throw.MustBePositiveIntegerException(Throw.Items.Index);
                 int j = (int)d;
@@ -1210,14 +1211,14 @@ namespace Calcpad.Core
             return vector;
         }
 
-        internal Value Count(Value value, int start)
+        internal RealValue Count(RealValue value, int start)
         {
             var count = 0;
             for (int i = start - 1; i < _size; ++i)
                 if (value.AlmostEquals(this[i]))
                     ++count;
 
-            if (value.Equals(Value.Zero))
+            if (value.Equals(RealValue.Zero))
                 count += Length - _size;
 
             return new(count);
@@ -1237,68 +1238,75 @@ namespace Calcpad.Core
         }
 
         //L1 or Manhattan norm  
-        internal Value L1Norm()
+        internal RealValue L1Norm()
         {
             if (_size == 0)
-                return Value.Zero;
+                return RealValue.Zero;
 
-            Unit u = this[0].Units;
-            var norm = Math.Abs(this[0].Re);
+            var v = this[0];
+            Unit u = v.Units;
+            var norm = Math.Abs(v.D);
             for (int i = 1; i < _size; ++i)
-                norm += Math.Abs(this[i].Re) * Unit.Convert(u, this[i].Units, '+');
+            {
+                v = this[i];
+                norm += Math.Abs(v.D) * Unit.Convert(u, v.Units, '+');
+            }
             return new(norm, u);
         }
 
         //L2 or Euclidean norm  
-        internal Value Norm()
+        internal RealValue Norm()
         {
             if (_size == 0)
-                return Value.Zero;
+                return RealValue.Zero;
 
-            var norm = this[0].Re;
+            var v = this[0];
+            var norm = v.D;
             norm *= norm;
-            Unit u = this[0].Units;
+            Unit u = v.Units;
             for (int i = 1; i < _size; ++i)
             {
-                var a = this[i];
-                var d = a.Re * Unit.Convert(u, a.Units, ',');
+                v = this[i];
+                var d = v.D * Unit.Convert(u, v.Units, ',');
                 norm += d * d;
             }
             return new(Math.Sqrt(norm), u);
         }
 
         //Lp norm   
-        internal Value LpNorm(int p)
+        internal RealValue LpNorm(int p)
         {
             if (p < 1)
                 Throw.InvalidLpNormArgumentException();
 
             if (_size == 0)
-                return Value.Zero;
+                return RealValue.Zero;
 
-            var u = this[0].Units;
-            var norm = Math.Pow(Math.Abs(this[0].Re), p);
+            var v = this[0];
+            var u = v.Units;
+            var norm = Math.Pow(Math.Abs(v.D), p);
             for (int i = 1; i < _size; ++i)
             {
-                var a = this[i];
-                var d = Unit.Convert(u, a.Units, ',');
-                norm += Math.Pow(Math.Abs(a.Re) * d, p);
+                v = this[i];
+                var d = Unit.Convert(u, v.Units, ',');
+                norm += Math.Pow(Math.Abs(v.D) * d, p);
             }
             return new(Math.Pow(norm, 1d / p));
         }
 
         //L∞ (Infinity) or Chebyshev norm  
-        internal Value InfNorm()
+        internal RealValue InfNorm()
         {
             if (_size == 0)
-                return Value.Zero;
+                return RealValue.Zero;
 
-            var u = this[0].Units;
-            var norm = this[0].Abs();
+            var v = this[0];
+            var u = v.Units;
+            var norm = Math.Abs(v.D);
             for (int i = 1; i < _size; ++i)
             {
-                var a = this[i];
-                var c = a.Abs() * Unit.Convert(u, a.Units, ',');
+                v = this[i];
+                var c = Math.Abs(v.D) * Unit.Convert(u, v.Units, ',');
                 if (c > norm)
                     norm = c;
             }
@@ -1320,14 +1328,15 @@ namespace Calcpad.Core
             return vector;
         }
 
-        internal Value Min()
+        internal RealValue Min()
         {
-            var min = this[0].Re;
-            var u = this[0].Units;
+            var v = this[0];
+            var min = v.D;
+            var u = v.Units;
             for (int i = 1; i < _size; ++i)
             {
-                var v = this[i];
-                var b = v.Re * Unit.Convert(u, v.Units, ',');
+                v = this[i];
+                var b = v.D * Unit.Convert(u, v.Units, ',');
                 if (b < min)
                     min = b;
             }
@@ -1337,14 +1346,15 @@ namespace Calcpad.Core
             return new(min, u);
         }
 
-        internal Value Max()
+        internal RealValue Max()
         {
-            var max = this[0].Re;
-            var u = this[0].Units;
+            var v = this[0];
+            var max = v.D;
+            var u = v.Units;
             for (int i = 1; i < _size; ++i)
             {
-                var v = this[i];
-                var b = v.Re * Unit.Convert(u, v.Units, ',');
+                v = this[i];
+                var b = v.D * Unit.Convert(u, v.Units, ',');
                 if (b > max)
                     max = b;
             }
@@ -1354,67 +1364,72 @@ namespace Calcpad.Core
             return new(max, u);
         }
 
-        internal Value Sum()
+        internal RealValue Sum()
         {
-            var sum = this[0].Re;
-            var u = this[0].Units;
+            var v = this[0];
+            var sum = v.D;
+            var u = v.Units;
             for (int i = 1; i < _size; ++i)
             {
-                var v = this[i];
-                sum += v.Re * Unit.Convert(u, v.Units, ',');
+                v = this[i];
+                sum += v.D * Unit.Convert(u, v.Units, ',');
             }
             return new(sum, u);
         }
 
-        internal Value SumSq()
+        internal RealValue SumSq()
         {
-            var sumsq = this[0].Re;
-            var u = this[0].Units;
+            var v = this[0];
+            var sumsq = v.D;
+            var u = v.Units;
             sumsq *= sumsq;
             for (int i = 1; i < _size; ++i)
             {
-                var v = this[i];
-                var b = v.Re * Unit.Convert(u, v.Units, ',');
+                v = this[i];
+                var b = v.D * Unit.Convert(u, v.Units, ',');
                 sumsq += b * b;
             }
-            return new(sumsq, u is null ? null : u * u);
+            return new(sumsq, u?.Pow(2f));
         }
 
-        internal Value Srss()
+        internal RealValue Srss()
         {
-            var srss = this[0].Re;
-            var u = this[0].Units;
+            var v = this[0];
+            var srss = v.D;
+            var u = v.Units;
             srss *= srss;
             for (int i = 1; i < _size; ++i)
             {
-                var v = this[i];
-                var b = v.Re * Unit.Convert(u, v.Units, ',');
+                v = this[i];
+                var b = v.D * Unit.Convert(u, v.Units, ',');
                 srss += b * b;
             }
             return new(Math.Sqrt(srss), u);
         }
 
-        internal Value Average()
+        internal RealValue Average()
         {
-            var average = this[0].Re;
-            var u = this[0].Units;
+            var v = this[0];
+            var average = v.D;
+            var u = v.Units;
             for (int i = 1; i < _size; ++i)
             {
-                var v = this[i];
-                average += v.Re * Unit.Convert(u, v.Units, ',');
+                v = this[i];
+                average += v.D * Unit.Convert(u, v.Units, ',');
             }
             return new(average / Length, u);
         }
 
-        internal Value Product()
+        internal RealValue Product()
         {
-            var product = this[0].Re;
-            var u = this[0].Units;
+            var v = this[0];
+            var product = v.D;
+            var u = v.Units;
             for (int i = 1; i < _size; ++i)
             {
-                var v = this[i];
+                v = this[i];
                 u = Unit.Multiply(u, v.Units, out var b);
-                product *= v.Re * b;
+                product *= v.D * b;
             }
             if (Length > _size)
                 return new(0d, u);
@@ -1422,10 +1437,10 @@ namespace Calcpad.Core
             return new(product, u);
         }
 
-        internal Value Mean()
+        internal RealValue Mean()
         {
             var product = Product();
-            var result = Math.Pow(product.Re, 1d / Length);
+            var result = Math.Pow(product.D, 1d / Length);
             var u = product.Units;
             if (u is null)
                 return new(result);
@@ -1434,88 +1449,92 @@ namespace Calcpad.Core
             return new(result, u);
         }
 
-        internal Value And()
+        internal RealValue And()
         {
             if (Length > _size)
-                return Value.Zero;
+                return RealValue.Zero;
 
             for (int i = 0; i < _size; ++i)
-                if (Math.Abs(this[i].Re) < Value.LogicalZero)
-                    return Value.Zero;
+                if (Math.Abs(this[i].D) < RealValue.LogicalZero)
+                    return RealValue.Zero;
 
-            return Value.One;
+            return RealValue.One;
         }
 
-        internal Value Or()
+        internal RealValue Or()
         {
             for (int i = 0; i < _size; ++i)
-                if (Math.Abs(this[i].Re) >= Value.LogicalZero)
-                    return Value.One;
+                if (Math.Abs(this[i].D) >= RealValue.LogicalZero)
+                    return RealValue.One;
 
-            return Value.Zero;
+            return RealValue.Zero;
         }
 
-        internal Value Xor()
+        internal RealValue Xor()
         {
-            var b = Math.Abs(this[0].Re) >= Value.LogicalZero;
+            var b = Math.Abs(this[0].D) >= RealValue.LogicalZero;
             for (int i = 1; i < _size; ++i)
-                b = b != Math.Abs(this[i].Re) >= Value.LogicalZero;
+                b = b != Math.Abs(this[i].D) >= RealValue.LogicalZero;
 
-            return b ? Value.One : Value.Zero;
+            return b ? RealValue.One : RealValue.Zero;
         }
 
-        internal Value Gcd()
+        internal RealValue Gcd()
         {
-            var a = Calculator.AsLong(this[0].Re);
-            var u = this[0].Units;
+            var v = this[0];
+            var a = Calculator.AsLong(v.D);
+            var u = v.Units;
             for (int i = 1; i < _size; ++i)
             {
-                var b = Calculator.AsLong(this[i].Re * Unit.Convert(u, this[i].Units, ','));
+                v = this[i];
+                var b = Calculator.AsLong(v.D * Unit.Convert(u, v.Units, ','));
                 a = Calculator.Gcd(a, b);
             }
             return new(a);
         }
 
-        internal Value Lcm()
+        internal RealValue Lcm()
         {
-            var a = Calculator.AsLong(this[0].Re);
-            var u = this[0].Units;
+            var v = this[0];
+            var a = Calculator.AsLong(v.D);
+            var u = v.Units;
             for (int i = 1; i < _size; ++i)
             {
-                var v = this[i];
-                var b = Calculator.AsLong(v.Re * Unit.Convert(u, v.Units, ','));
+                v = this[i];
+                var b = Calculator.AsLong(v.D * Unit.Convert(u, v.Units, ','));
                 a = a * b / Calculator.Gcd(a, b);
             }
             return new(a);
         }
 
-        internal Value Take(in Value x)
+        internal RealValue Take(in RealValue x)
         {
-            var d = Math.Round(x.Re, MidpointRounding.AwayFromZero);
+            var d = Math.Round(x.D, MidpointRounding.AwayFromZero);
             if (!double.IsNormal(d) || d < Calculator.DeltaMinus || d > Length * Calculator.DeltaPlus)
-                return Value.NaN;
+                return RealValue.NaN;
 
             return this[(int)d - 1];
         }
 
-        internal Value Line(in Value x)
+        internal RealValue Line(in RealValue x)
         {
-            var d = x.Re;
+            var d = x.D;
             if (!double.IsNormal(d) || d < Calculator.DeltaMinus || d > Length * Calculator.DeltaPlus)
-                return Value.NaN;
+                return RealValue.NaN;
 
             var i = (int)Math.Floor(d);
             var v1 = this[i - 1];
             if (i == d || d >= Length)
                 return v1;
+
             return v1 + (this[i] - v1) * (d - i);
         }
 
-        internal Value Spline(in Value x)
+        internal RealValue Spline(in RealValue x)
         {
-            var d = x.Re;
+            var d = x.D;
             if (!double.IsNormal(d) || d < Calculator.DeltaMinus || d > Length * Calculator.DeltaPlus)
-                return Value.NaN;
+                return RealValue.NaN;
 
             var i = (int)Math.Floor(d) - 1;
             var v = this[i];
@@ -1523,9 +1542,9 @@ namespace Calcpad.Core
                 return v;
 
             var u = v.Units;
-            var y0 = v.Re;
+            var y0 = v.D;
             v = this[i + 1];
-            var y1 = v.Re * Unit.Convert(u, v.Units, ',');
+            var y1 = v.D * Unit.Convert(u, v.Units, ',');
             var dy = y1 - y0;
             var a = dy;
             var b = dy;
@@ -1533,13 +1552,13 @@ namespace Calcpad.Core
             if (i > 0)
             {
                 v = this[i - 1];
-                var y2 = v.Re * Unit.Convert(u, v.Units, ',');
+                var y2 = v.D * Unit.Convert(u, v.Units, ',');
                 a = (y1 - y2) * (Math.Sign(y0 - y2) == dy ? 0.5 : 0.25);
             }
             if (i < Length - 2)
             {
                 v = this[i + 2];
-                var y2 = v.Re * Unit.Convert(u, v.Units, ',');
+                var y2 = v.D * Unit.Convert(u, v.Units, ',');
                 b = (y2 - y0) * (Math.Sign(y2 - y1) == dy ? 0.5 : 0.25);
             }
             if (i == 0)

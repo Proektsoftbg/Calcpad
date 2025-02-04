@@ -229,7 +229,21 @@ namespace Calcpad.Core
                             {
                                 var s = tokenLiteral.ToString();
                                 if (tt == TokenTypes.BracketLeft)
+                                {
                                     t = MakeFunctionToken(s, _parser.IsCalculation && tokens.Count != 0);
+                                    if (_parser._settings.IsComplex && 
+                                           (t.Type == TokenTypes.VectorFunction ||
+                                            t.Type == TokenTypes.VectorFunction2 ||
+                                            t.Type == TokenTypes.VectorFunction3 ||
+                                            t.Type == TokenTypes.VectorMultiFunction ||
+                                            t.Type == TokenTypes.MatrixFunction ||
+                                            t.Type == TokenTypes.MatrixFunction2 ||
+                                            t.Type == TokenTypes.MatrixFunction3 ||
+                                            t.Type == TokenTypes.MatrixFunction4 ||
+                                            t.Type == TokenTypes.MatrixFunction5 ||
+                                            t.Type == TokenTypes.MatrixMultiFunction))
+                                        Throw.ComplexVectorsAndMatricesNotSupportedException();
+                                }
                                 else
                                 {
                                     if (t is not null && (
@@ -240,7 +254,7 @@ namespace Calcpad.Core
                                         if (isDivision)
                                         {
                                             t = tokens.Last();
-                                            tokens.Enqueue(new ValueToken(Value.Zero)
+                                            tokens.Enqueue(new ValueToken(RealValue.Zero)
                                             {
                                                 Content = t.Content,
                                                 Type = t.Type
@@ -297,7 +311,7 @@ namespace Calcpad.Core
                             else if (tt == TokenTypes.Input)
                             {
                                 _parser.HasInputFields = true;
-                                t = new ValueToken(Value.Zero)
+                                t = new ValueToken(RealValue.Zero)
                                 {
                                     Index = _parser.Line,
                                     Type = TokenTypes.Input,
@@ -433,7 +447,7 @@ namespace Calcpad.Core
                         {
                             t.Content = tokenLiteral.ToString();
                             if (_parser.IsEnabled)
-                                ((ValueToken)t).Value = new Value(double.Parse(t.Content, CultureInfo.InvariantCulture));
+                                ((ValueToken)t).Value = new ComplexValue(double.Parse(t.Content, CultureInfo.InvariantCulture));
 
                             tokenLiteral.Reset(i);
                             isInput = false;
@@ -624,7 +638,7 @@ namespace Calcpad.Core
             {
                 if (_units.TryGetValue(s, out var u) && u is not null)
                 {
-                    return new ValueToken(new(u))
+                    return new ValueToken(new RealValue(u))
                     {
                         Content = s,
                         Type = TokenTypes.Unit
@@ -635,7 +649,7 @@ namespace Calcpad.Core
                 else
                 {
                     _units.Add(s, null);
-                    return new ValueToken(new())
+                    return new ValueToken(new RealValue())
                     {
                         Content = s,
                         Type = TokenTypes.Unit
@@ -648,7 +662,7 @@ namespace Calcpad.Core
                 try
                 {
                     var unit = Unit.Get(units);
-                    var v = new Value(unit);
+                    var v = new RealValue(unit);
                     return new ValueToken(v)
                     {
                         Content = "<i>" + units + "</i>",
@@ -665,7 +679,7 @@ namespace Calcpad.Core
             private static ValueToken MakeRealValueToken(string value)
             {
                 var number = NumberParser.Parse(value);
-                return new ValueToken(new Value(number))
+                return new ValueToken(new RealValue(number))
                 {
                     Content = value,
                     Type = TokenTypes.Constant
@@ -675,7 +689,7 @@ namespace Calcpad.Core
             private static ValueToken MakeImaginaryValueToken(string value)
             {
                 var number = NumberParser.Parse(value);
-                return new ValueToken(new Value(0d, number, null))
+                return new ValueToken(new ComplexValue(0d, number, null))
                 {
                     Content = value,
                     Type = TokenTypes.Constant

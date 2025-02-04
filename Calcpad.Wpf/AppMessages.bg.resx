@@ -124,4 +124,7 @@ Calcpad запази вашите данни и се опита да се въз
   <data name="InvalidMacroName" xml:space="preserve">
     <value>Невалидно име на макрос.</value>
   </data>
+  <data name="NYourDataWasSavedBothToClipboardAndTempFile" xml:space="preserve">
+    <value>\nДанните са записани в клипборд-а и временен файл: </value>
+  </data>
 </root>

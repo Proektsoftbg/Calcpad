@@ -72,7 +72,7 @@ namespace Calcpad.Core
 
                     if (currentLineCache.IsCached && currentLineCache.Keyword == Keyword.None)
                     {
-                        if (_condition.IsSatisfied || !_calculate)
+                        if (IsEnabled())
                         {
                             _condition.SetCondition(-1);
                             _parser.IsCalculation = _isVal != -1;
@@ -112,10 +112,7 @@ namespace Calcpad.Core
 
                     if (textSpan.IsEmpty)
                     {
-                        if (_isVisible &&
-                            _isVal != 1 &&
-                            (_condition.IsSatisfied || !_calculate) &&
-                            _htmlLines < MaxHtmlLines)
+                        if (_isVisible && _isVal != 1 && _htmlLines < MaxHtmlLines && IsEnabled())
                             _sb.AppendLine($"<p{HtmlId}>&nbsp;</p>");
 
                         continue;
@@ -172,6 +169,10 @@ namespace Calcpad.Core
                 Finalize(lineCount);
             }
 
+            bool IsEnabled() => _condition.IsSatisfied &&
+                (_loops.Count == 0 || !_loops.Peek().IsBroken) || 
+                !_calculate;
+
             bool HasLineExtension(ReadOnlySpan<char> s) =>
                 s.Length > 1 && s[^1] == '_' && s[^2] == ' ';
 
@@ -180,7 +181,7 @@ namespace Calcpad.Core
                 if (s.StartsWith("$plot", StringComparison.OrdinalIgnoreCase) ||
                     s.StartsWith("$map", StringComparison.OrdinalIgnoreCase))
                 {
-                    if (_isVisible && (_condition.IsSatisfied || !_calculate))
+                    if (_isVisible && IsEnabled())
                     {
                         PlotParser plotParser;
                         if (s.StartsWith("$p", StringComparison.OrdinalIgnoreCase))
@@ -214,8 +215,7 @@ namespace Calcpad.Core
                 }
 
                 _condition.SetCondition(keyword - Keyword.If);
-                if (_condition.IsSatisfied &&
-                    (_loops.Count == 0 || !_loops.Peek().IsBroken) || !_calculate)
+                if (IsEnabled())
                 {
                     if (_condition.KeywordLength == s.Length)
                     {
@@ -335,7 +335,7 @@ namespace Calcpad.Core
                 _condition = new();
                 _loops.Clear();
                 _isVal = 0;
-                _parser.SetVariable("Units", new Value(UnitsFactor()));
+                _parser.SetVariable("Units", new RealValue(UnitsFactor()));
                 _previousKeyword = Keyword.None;
             }
             else

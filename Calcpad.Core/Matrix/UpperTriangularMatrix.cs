@@ -13,9 +13,9 @@ namespace Calcpad.Core
                 _rows[i] = new LargeVector(length - i);
         }
 
-        internal override Value this[int row, int col]
+        internal override RealValue this[int row, int col]
         {
-            get => row <= col ? _rows[row][col - row] : Value.Zero;
+            get => row <= col ? _rows[row][col - row] : RealValue.Zero;
             set
             {
                 if (row <= col)
@@ -62,7 +62,7 @@ namespace Calcpad.Core
             return L;
         }
 
-        internal override Value Determinant()
+        internal override RealValue Determinant()
         {
             var det = _rows[0][0];
             for (int i = 1; i < _rowCount; ++i)
@@ -78,7 +78,7 @@ namespace Calcpad.Core
             det = 1d;
             for (int i = 0; i < _rowCount; ++i)
             {
-                if (_rows[i][0].Re == 0d)
+                if (_rows[i][0].D == 0d)
                     return null;
 
                 indexes[i] = i;
@@ -94,10 +94,10 @@ namespace Calcpad.Core
             {
                 var row = _rows[i];
                 var v = row[0];
-                if (v.Re == 0)
+                if (v.D == 0)
                     Throw.MatrixSingularException();
 
-                v = Value.One / v;
+                v = RealValue.One / v;
                 U[i, i] = v;
                 for (int j = n; j > i; --j)
                 {

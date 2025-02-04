@@ -41,7 +41,9 @@ namespace Calcpad.Wpf
                 message += AppMessages.ReportUnhandledExceptionAndClose_NoUnsavedData_RecoveryAttempted;
                 try
                 {
-                    main.SaveStateAndRestart();
+                    var tempFile = Path.GetRandomFileName();
+                    main.SaveStateAndRestart(tempFile);
+                    message += AppMessages.NYourDataWasSavedBothToClipboardAndTempFile + tempFile;
                 }
                 catch
                 {
@@ -55,6 +57,7 @@ namespace Calcpad.Wpf
                 FileName = logFileName,
                 UseShellExecute = true
             });
+
             Environment.Exit(System.Runtime.InteropServices.Marshal.GetHRForException(e));
         }
 

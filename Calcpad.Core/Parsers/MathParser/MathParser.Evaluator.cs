@@ -53,7 +53,7 @@ namespace Calcpad.Core
                 if (rpn[0].Type == TokenTypes.Variable && rpn[rpnLength - 1].Content == "=")
                     i0 = 1;
 
-                _parser._backupVariable = new(null, Value.Zero);
+                _parser._backupVariable = new(null, RealValue.Zero);
                 for (int i = i0; i < rpnLength; ++i)
                 {
                     if (_tos < tos)
@@ -63,7 +63,8 @@ namespace Calcpad.Core
                     switch (t.Type)
                     {
                         case TokenTypes.Constant:
-                            StackPush(((ValueToken)t).Value);
+                            var value = ((ValueToken)t).Value;
+                            StackPush(value);
                             continue;
                         case TokenTypes.Unit:
                         case TokenTypes.Variable:
@@ -148,18 +149,17 @@ namespace Calcpad.Core
                     Throw.StackLeakException();
 
                 _parser.Units = null;
-                return Value.Zero;
+                return RealValue.Zero;
             }
 
             private IValue EvaluateToken(Token t)
             {
                 if (t.Type == TokenTypes.Unit)
                 {
-                    var v = t is ValueToken vt ?
-                        vt.Value :
-                        (Value)((VariableToken)t).Variable.ValueByRef();
+                    if (t is ValueToken vt)
+                        return vt.Value;                       
 
-                    return v;
+                    return ((VariableToken)t).Variable.ValueByRef();;
                 }
                 if (t.Type == TokenTypes.Variable)
                     return EvaluateVariableToken((VariableToken)t);
@@ -189,9 +189,6 @@ namespace Calcpad.Core
             {
                 if (t.Content == NegateString)
                 {
-                    if (_parser._settings.IsComplex && a is Value v)
-                        return ComplexCalculator.Negate(v);
-
                     return -a;
                 }
 
@@ -284,10 +281,10 @@ namespace Calcpad.Core
                             if (i < 1 || i > vector.Length)
                                 Throw.IndexOutOfRangeException(i.ToString());
 
-                            if (b is Value vb)
+                            if (b is RealValue rb)
                             {
                                 _parser._backupVariable = new(ta.Content + '.' + i, vector[i - 1]);
-                                vector[i - 1] = vb;
+                                vector[i - 1] = rb;
                             }
                             else
                                 Throw.CannotAssignVectorToScalarException();
@@ -298,10 +295,10 @@ namespace Calcpad.Core
                             if (i < 1 || i > matrix.RowCount ||
                                 j < 1 || j > matrix.ColCount)
                                 Throw.IndexOutOfRangeException($"{i}, {j}");
-                            if (b is Value vb)
+                            if (b is RealValue rb)
                             {
                                 _parser._backupVariable = new(ta.Content + '.' + i + '.' + j, matrix[i - 1, j - 1]);
-                                matrix[i - 1, j - 1] = vb;
+                                matrix[i - 1, j - 1] = rb;
                             }
                             else
                                 Throw.CannotAssignVectorToScalarException();
@@ -315,13 +312,13 @@ namespace Calcpad.Core
                     }
                 }
                 else if (t0.Type == TokenTypes.Unit &&
-                         t0 is ValueToken tc && b is Value value)
+                         t0 is ValueToken tc && b is RealValue real)
                 {
                     if (tc.Value.Units is not null)
                         Throw.CannotRewriteUnitsException(tc.Value.Units.Text);
 
-                    _parser.SetUnit(tc.Content, value);
-                    tc.Value = new(_parser.GetUnit(tc.Content));
+                    _parser.SetUnit(tc.Content, real);
+                    tc.Value = new RealValue(_parser.GetUnit(tc.Content));
                 }
                 return b;
             }
@@ -364,21 +361,21 @@ namespace Calcpad.Core
                 if (paramCount == 2 && _stackBuffer[_tos] is Vector vec1)
                 {
                     --_tos;
-                    var iValue = StackPop();
-                    if (iValue is Value xValue)
-                        return _vectorCalc.EvaluateInterpolation(t.Index, xValue, vec1);
+                    var ival = StackPop();
+                    if (ival is RealValue x)
+                        return _vectorCalc.EvaluateInterpolation(t.Index, x, vec1);
 
                     Throw.CannotInterpolateWithNonScalarValueException();
                 }
                 if (paramCount == 3 && _stackBuffer[_tos] is Matrix matrix)
                 {
                     --_tos;
-                    var iValue = StackPop();
-                    if (iValue is Value xValue)
+                    var ival = StackPop();
+                    if (ival is RealValue x)
                     {
-                        iValue = StackPop();
-                        if (iValue is Value yValue)
-                            return _matrixCalc.EvaluateInterpolation(t.Index, xValue, yValue, matrix);
+                        ival = StackPop();
+                        if (ival is RealValue y)
+                            return _matrixCalc.EvaluateInterpolation(t.Index, x, y, matrix);
                     }
                     Throw.CannotInterpolateWithNonScalarValueException();
                 }
@@ -422,7 +419,7 @@ namespace Calcpad.Core
                 if (cf.IsRecursion)
                 {
                     tos -= cfParamCount;
-                    return Value.NaN;
+                    return RealValue.NaN;
                 }
                 switch (cf.ParameterCount)
                 {
@@ -493,7 +490,7 @@ namespace Calcpad.Core
                 if (t is VectorToken vt)
                 {
                     var count = (int)t.Index;
-                    vt.Vector = new(StackPopAndExpandValues(count));
+                    vt.Vector = new(StackPopAndExpandRealValues(count));
                     return vt.Vector;
                 }
                 else
@@ -541,14 +538,38 @@ namespace Calcpad.Core
                 return values;
             }
 
-            private Value[] StackPopAndExpandValues(int count)
+            private RealValue[] StackPopAndExpandRealValues(int count)
             {
-                var values = new List<Value>(count);
+                var list = StackPopAndExpand(count);
+                var n = list.Count;
+                var values = new RealValue[n];
+                --n;
+                for (int i = n; i >= 0 ; --i)
+                    values[n - i] = (RealValue)list[i];
+
+                return values;
+            }
+
+            private IScalarValue[] StackPopAndExpandValues(int count)
+            {
+                var list = StackPopAndExpand(count);
+                var n = list.Count;
+                var values = new IScalarValue[n];
+                --n;
+                for (int i = n; i >= 0; --i)
+                    values[n - i] = list[i];
+
+                return values;
+            }
+
+            private List<IScalarValue> StackPopAndExpand(int count)
+            {
+                var values = new List<IScalarValue>(count);
                 for (int k = count - 1; k >= 0; --k)
                 {
                     IValue ival = StackPop();
-                    if (ival is Value value)
-                        values.Add(value);
+                    if (ival is IScalarValue scalar)
+                        values.Add(scalar);
                     else if (ival is Vector vector)
                     {
                         for (int j = vector.Length - 1; j >= 0; --j)
@@ -562,24 +583,31 @@ namespace Calcpad.Core
                                 values.Add(matrix[i, j]);
                     }
                 }
-                values.Reverse();
-                return [.. values];
+                return values;
             }
 
-            internal void NormalizeUnits(ref IValue v)
+            internal void NormalizeUnits(ref IValue ival)
             {
-                if (v is Value value)
+                if (ival is RealValue real)
                 {
-                    if (value.Units is not null)
+                    if (real.Units is not null)
                     {
-                        NormalizeUnits(ref value);
-                        v = value;
+                        NormalizeUnits(ref real);
+                        ival = real;
                     }
                 }
-                else if (v is Vector vector)
+                else if (ival is ComplexValue complex)
+                {
+                    if (complex.Units is not null)
+                    {
+                        NormalizeUnits(ref complex);
+                        ival = complex;
+                    }
+                }
+                else if (ival is Vector vector)
                     NormalizeUnits(vector);
-                else if (v is not null)
-                    NormalizeUnits((Matrix)v);
+                else if (ival is Matrix matrix)
+                    NormalizeUnits(matrix);
             }
 
             private void NormalizeUnits(Matrix M)
@@ -598,33 +626,51 @@ namespace Calcpad.Core
                 }
             }
 
-            private void NormalizeUnits(ref Value v)
+            private void NormalizeUnits(ref ComplexValue value)
             {
-                var d = v.Units.Normalize();
+                var d = value.Units.Normalize();
                 if (d != 1)
                 {
                     if (_parser._settings.IsComplex)
-                        v = new(v.Complex * d, v.Units);
+                        value = new(value.Complex * d, value.Units);
                     else
-                        v *= d;
+                        value *= d;
                 }
             }
 
-            internal static Unit ApplyUnits(ref IValue v, Unit u)
+            private void NormalizeUnits(ref RealValue value)
             {
-                if (v is Value value)
+                var d = value.Units.Normalize();
+                if (d != 1)
                 {
-                    var result = ApplyUnits(ref value, u);
-                    v = value;
+                    if (_parser._settings.IsComplex)
+                        value = new(value.D * d, value.Units);
+                    else
+                        value *= d;
+                }
+            }
+
+            internal static Unit ApplyUnits(ref IValue ival, Unit u)
+            {
+                if (ival is RealValue real)
+                {
+                    var result = ApplyUnits(ref real, u);
+                    ival = real;
                     return result;
                 }
-                if (v is null)
-                    return null;
-
-                if (v is Vector vector)
+                if (ival is ComplexValue complex)
+                {
+                    var result = ApplyUnits(ref complex, u);
+                    ival = complex;
+                    return result;
+                }
+                if (ival is Vector vector)
                     return ApplyUnits(vector, u);
 
-                return ApplyUnits((Matrix)v, u);
+                if (ival is Matrix matrix)
+                    return ApplyUnits(matrix, u);
+
+                return null;
             }
 
             private static Unit ApplyUnits(Matrix M, Unit u)
@@ -647,9 +693,9 @@ namespace Calcpad.Core
                 return ApplyUnits(ref v.ValueByRef(0), u);
             }
 
-            private static Unit ApplyUnits(ref Value v, Unit u)
+            private static Unit ApplyUnits(ref ComplexValue value, Unit u)
             {
-                var vu = v.Units;
+                var vu = value.Units;
                 if (u is null)
                 {
                     if (vu is null)
@@ -667,15 +713,12 @@ namespace Calcpad.Core
                         return vu;
 
                     var c = vu.ConvertTo(u);
-                    v = v.IsReal ?
-                        new Value(v.Re * c, u) :
-                        new Value(v.Complex * c, u);
-
-                    return v.Units;
+                    value = new(value.Complex * c, u);
+                    return u;
                 }
                 if (u.IsDimensionless && vu is null)
                 {
-                    v = new Value(v.Complex / u.GetDimensionlessFactor(), u);
+                    value = new(value.Complex / u.GetDimensionlessFactor(), u);
                     return u;
                 }
                 if (!Unit.IsConsistent(vu, u))
@@ -684,23 +727,56 @@ namespace Calcpad.Core
                 var d = vu.ConvertTo(u);
                 if (u.IsTemp)
                 {
-                    if (v.IsReal)
-                    {
-                        var re = v.Re * d + Unit.GetTempUnitsDelta(vu.Text, u.Text);
-                        v = new Value(re, u);
-                    }
-                    else
-                    {
-                        var c = v.Complex * d + Unit.GetTempUnitsDelta(vu.Text, u.Text);
-                        v = new Value(c, u);
-                    }
+                    var c = value.Complex * d + Unit.GetTempUnitsDelta(vu.Text, u.Text);
+                    value = new(c, u);
                 }
                 else
-                    v = v.IsReal ?
-                        new Value(v.Re * d, u) :
-                        new Value(v.Complex * d, u);
+                    value = new(value.Complex * d, u);
 
-                return v.Units;
+                return value.Units;
+            }
+
+            private static Unit ApplyUnits(ref RealValue value, Unit u)
+            {
+                var vu = value.Units;
+                if (u is null)
+                {
+                    if (vu is null)
+                        return null;
+
+                    var field = vu.GetField();
+                    if (field == Unit.Field.Mechanical)
+                        u = Unit.GetForceUnit(vu);
+                    else if (field == Unit.Field.Electrical)
+                        u = Unit.GetElectricalUnit(vu);
+                    else
+                        return vu;
+
+                    if (ReferenceEquals(u, vu))
+                        return vu;
+
+                    var c = vu.ConvertTo(u);
+                    value = new(value.D * c, u);
+                    return u;
+                }
+                if (u.IsDimensionless && vu is null)
+                {
+                    value = new(value.D / u.GetDimensionlessFactor(), u);
+                    return u;
+                }
+                if (!Unit.IsConsistent(vu, u))
+                    Throw.InconsistentTargetUnitsException(Unit.GetText(vu), Unit.GetText(u));
+
+                var d = vu.ConvertTo(u);
+                if (u.IsTemp)
+                {
+                    var re = value.D * d + Unit.GetTempUnitsDelta(vu.Text, u.Text);
+                    value = new(re, u);
+                }
+                else
+                    value = new(value.D * d, u);
+
+                return value.Units;
             }
         }
     }

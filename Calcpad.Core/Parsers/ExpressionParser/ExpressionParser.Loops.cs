@@ -32,9 +32,7 @@ namespace Calcpad.Core
 
                 return true;
             }
-
             internal void Break() => _iteration = 0;
-
             internal bool IsBroken => _iteration == 0;
         }
 
@@ -47,19 +45,19 @@ namespace Calcpad.Core
 
         private sealed class ForLoop : Loop
         {
-            private readonly Value _start;
-            private readonly Value _end;
+            private readonly IScalarValue _start;
+            private readonly IScalarValue _end;
             private readonly string _varName;
 
-            internal ForLoop(int startLine, Value start, Value end, string varName, int id) :
+            internal ForLoop(int startLine, IScalarValue start, IScalarValue end, string varName, int id) :
                 base(startLine, Math.Abs((int)(end - start).Re) + 1, id)
             {
                 _start = start;
                 _end = end;
                 _varName = varName;
             }
-            internal Value Start => _start;
-            internal Value End => _end;
+            internal IScalarValue Start => _start;
+            internal IScalarValue End => _end;
             internal string VarName => _varName;
         }
 

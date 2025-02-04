@@ -13,7 +13,7 @@
             _rows = [new LargeVector(length)];
         }
 
-        internal ColumnMatrix(int length, Value value) : this(length)
+        internal ColumnMatrix(int length, RealValue value) : this(length)
         {
             _rows[0].Fill(value);
         }
@@ -29,7 +29,7 @@
             _rows = [a];
         }
 
-        internal override Value this[int row, int col]
+        internal override RealValue this[int row, int col]
         {
             get => _rows[0][row];
             set => _rows[0][row] = value;
@@ -80,6 +80,6 @@
         }
 
         //L∞ (Infinity) or Chebyshev norm     
-        internal override Value InfNorm() => _rows[0].InfNorm();
+        internal override RealValue InfNorm() => _rows[0].InfNorm();
     }
 }
