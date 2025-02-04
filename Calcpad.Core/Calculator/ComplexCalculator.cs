@@ -4,29 +4,29 @@ namespace Calcpad.Core
 {
     internal class ComplexCalculator : Calculator
     {
-        private static readonly Operator[] Operators =
+        private static readonly Operator<ComplexValue>[] _operators =
             [
                 Pow,
-                Divide,
-                IntDiv,
-                Remainder,
-                Multiply,
-                Subtract,
-                Add,
-                LessThan,
-                GreaterThan,
-                LessThanOrEqual,
-                GreaterThanOrEqual,
-                Equal,
-                NotEqual,
-                (in Value a, in Value b) => a & b,
-                (in Value a, in Value b) => a | b,
-                (in Value a, in Value b) => a ^ b,
-                (in Value _, in Value b) => b
+                (in ComplexValue a, in ComplexValue b) =>  a / b,
+                ComplexValue.IntDiv,
+                (in ComplexValue a, in ComplexValue b) => a % b,
+                (in ComplexValue a, in ComplexValue b) => a * b,
+                (in ComplexValue a, in ComplexValue b) => a - b,
+                (in ComplexValue a, in ComplexValue b) => a + b,
+                (in ComplexValue a, in ComplexValue b) => a < b,
+                (in ComplexValue a, in ComplexValue b) => a > b,
+                (in ComplexValue a, in ComplexValue b) => a <= b,
+                (in ComplexValue a, in ComplexValue b) => a >= b,
+                (in ComplexValue a, in ComplexValue b) => a == b,
+                (in ComplexValue a, in ComplexValue b) => a != b,
+                (in ComplexValue a, in ComplexValue b) => a & b,
+                (in ComplexValue a, in ComplexValue b) => a | b,
+                (in ComplexValue a, in ComplexValue b) => a ^ b,
+                (in ComplexValue _, in ComplexValue b) => b
             ];
-        private readonly Function[] _functions;
-        private readonly Operator[] Functions2;
-        private static readonly Func<Value[], Value>[] MultiFunctions =
+        private readonly Function<ComplexValue>[] _functions;
+        private readonly Operator<ComplexValue>[] Functions2;
+        private static readonly Func<IScalarValue[], IScalarValue>[] MultiFunctions =
             [
                 Min,
                 Max,
@@ -91,12 +91,12 @@ namespace Calcpad.Core
                 Ceiling,  //35
                 Truncate, //36
                 Real,     //37
-                Imaginary,//38
+                Imaginary,//38s
                 Phase,    //39
                 Random,   //40
                 Fact,     //41
-                Negate,   //42
-                Not,      //43
+                (in ComplexValue a) => -a,   //42
+                (in ComplexValue a) => Not(a),      //43
                 Timer     //44  
             ];
 
@@ -104,24 +104,24 @@ namespace Calcpad.Core
             [
                 Atan2,
                 Root,
-                Mod,
-                MandelbrotSet
+                (in ComplexValue a, in ComplexValue b) => a % b,
+                (in ComplexValue a, in ComplexValue b) => MandelbrotSet(a, b)
             ];
         }
 
-        internal override Value EvaluateOperator(long index, in Value a, in Value b) => Operators[index](a, b);
-        internal override Value EvaluateFunction(long index, in Value a) => _functions[index](a);
-        internal override Value EvaluateFunction2(long index, in Value a, in Value b) => Functions2[index](a, b);
+        internal override IScalarValue EvaluateOperator(long index, in IScalarValue a, in IScalarValue b) => _operators[index](a.AsComplex(), b.AsComplex());
+        internal override IScalarValue EvaluateFunction(long index, in IScalarValue a) => _functions[index](a.AsComplex());
+        internal override IScalarValue EvaluateFunction2(long index, in IScalarValue a, in IScalarValue b) => Functions2[index](a.AsComplex(), b.AsComplex());
         internal override IValue EvaluateFunction3(long index, in IValue a, in IValue b, in IValue c) => Functions3[index](a, b, c);
-        internal override Value EvaluateMultiFunction(long index, Value[] a) => MultiFunctions[index](a);
-        internal override Value EvaluateInterpolation(long index, Value[] a) => Interpolations[index](a);
-        internal override Operator GetOperator(long index) => Operators[index];
-        internal override Function GetFunction(long index) => _functions[index];
-        internal override Operator GetFunction2(long index) => Functions2[index];
+        internal override IScalarValue EvaluateMultiFunction(long index, IScalarValue[] a) => MultiFunctions[index](a);
+        internal override IScalarValue EvaluateInterpolation(long index, IScalarValue[] a) => Interpolations[index](a);
+        internal override Operator<RealValue> GetOperator(long index) => (in RealValue a, in RealValue b) => (RealValue)_operators[index](a, b);
+        internal override Function<RealValue> GetFunction(long index) => (in RealValue a) => (RealValue)_functions[index](a);
+        internal override Operator<RealValue> GetFunction2(long index) => (in RealValue a, in RealValue b) => (RealValue)_operators[index](a, b);
         internal override Function3 GetFunction3(long index) => Functions3[index];
-        internal override Func<Value[], Value> GetMultiFunction(long index) => MultiFunctions[index];
+        internal override Func<IScalarValue[], IScalarValue> GetMultiFunction(long index) => MultiFunctions[index];
 
-        private static Value Fact(in Value value)
+        private static ComplexValue Fact(in ComplexValue value)
         {
             if (!(value.IsReal))
                 Throw.FactorialArgumentComplexException();
@@ -129,251 +129,171 @@ namespace Calcpad.Core
             if (value.Units is not null)
                 Throw.FactorialArgumentUnitlessException();
 
-            return new(Fact(value.Re));
+            return new(Fact(value.A));
         }
 
-        private static Value Real(in Value value) => new(value.Re, value.Units);
-        private static Value Imaginary(in Value value) => new(value.Im, value.Units);
-        private static Value Phase(in Value value) => new(value.Complex.Phase);
-        internal static Value Negate(in Value value) => new(-value.Re, -value.Im, value.Units, value.IsUnit);
-
-        internal static Value Add(in Value a, in Value b) =>
-            new(
-                a.Complex + b.Complex * Unit.Convert(a.Units, b.Units, '+'),
-                a.Units
-            );
-
-        internal static Value Subtract(in Value a, in Value b) =>
-            new(
-                a.Complex - b.Complex * Unit.Convert(a.Units, b.Units, '+'),
-                a.Units
-            );
-
-        internal static Value Multiply(in Value a, in Value b)
-        {
-            if (a.Units is null)
-            {
-                if (b.Units is not null && b.Units.IsDimensionless && !b.IsUnit)
-                    return new(a.Complex * b.Complex * b.Units.GetDimensionlessFactor(), null);
-
-                return new(a.Complex * b.Complex, b.Units);
-            }
-            var uc = Unit.Multiply(a.Units, b.Units, out var d, b.IsUnit);
-            var c = a.Complex * b.Complex * d;
-            return new(c, uc, a.IsUnit && b.IsUnit);
-        }
-
-        private static Value Divide(in Value a, in Value b)
-        {
-            var uc = Unit.Divide(a.Units, b.Units, out var d, b.IsUnit);
-            var c = a.Complex / b.Complex * d;
-            return new(c, uc, a.IsUnit && b.IsUnit);
-        }
-
-        private static Value Remainder(in Value a, in Value b)
-        {
-            if (b.Units is not null)
-                Throw.RemainderUnitsException(Unit.GetText(a.Units), Unit.GetText(b.Units));
-
-            return new(a.Complex % b.Complex, a.Units);
-        }
-
-        private static Value IntDiv(in Value a, in Value b)
-        {
-            var uc = Unit.Divide(a.Units, b.Units, out var d);
-            var c = Complex.IntDiv(a.Complex * d, b.Complex);
-            return new(c, uc, a.IsUnit && b.IsUnit);
-        }
-
-        private static Value Equal(in Value a, in Value b) =>
-            new(
-                a.Complex == b.Complex * Unit.Convert(a.Units, b.Units, '≡')
-            );
-
-        private static Value NotEqual(in Value a, in Value b) =>
-            new(
-                a.Complex != b.Complex * Unit.Convert(a.Units, b.Units, '≠')
-            );
-
-        private static Value LessThan(in Value a, in Value b) =>
-            new(
-                a.Complex < b.Complex * Unit.Convert(a.Units, b.Units, '<')
-            );
-
-        private static Value GreaterThan(in Value a, in Value b) =>
-            new(
-                a.Complex > b.Complex * Unit.Convert(a.Units, b.Units, '>')
-            );
-
-        private static Value LessThanOrEqual(in Value a, in Value b) =>
-            new(
-                a.Complex <= b.Complex * Unit.Convert(a.Units, b.Units, '≤')
-            );
-
-        private static Value GreaterThanOrEqual(in Value a, in Value b) =>
-            new(
-                a.Complex >= b.Complex * Unit.Convert(a.Units, b.Units, '≥')
-            );
-
-        internal static Value Abs(in Value value) =>
+        private static ComplexValue Real(in ComplexValue value) => new(value.A, value.Units);
+        private static ComplexValue Imaginary(in ComplexValue value) => new(value.B, value.Units);
+        private static ComplexValue Phase(in ComplexValue value) => new(value.Complex.Phase);
+        internal static ComplexValue Abs(in ComplexValue value) =>
            new(Complex.Abs(value.Complex), value.Units);
 
-        private static Value Sign(in Value value) =>
+        private static ComplexValue Sign(in ComplexValue value) =>
             new(Complex.Sign(value.Complex));
 
-        private Value Sin(in Value value)
+        private ComplexValue Sin(in ComplexValue value)
         {
             CheckFunctionUnits("sin", value.Units);
             return new(Complex.Sin(FromAngleUnits(value)));
         }
 
-        private Value Cos(in Value value)
+        private ComplexValue Cos(in ComplexValue value)
         {
             CheckFunctionUnits("cos", value.Units);
             return new(Complex.Cos(FromAngleUnits(value)));
         }
 
-        private Value Tan(in Value value)
+        private ComplexValue Tan(in ComplexValue value)
         {
             CheckFunctionUnits("tan", value.Units);
             return new(Complex.Tan(FromAngleUnits(value)));
         }
 
-        private Value Csc(in Value value)
+        private ComplexValue Csc(in ComplexValue value)
         {
             CheckFunctionUnits("csc", value.Units);
             return new(1d / Complex.Sin(FromAngleUnits(value)));
         }
 
-        private Value Sec(in Value value)
+        private ComplexValue Sec(in ComplexValue value)
         {
             CheckFunctionUnits("sec", value.Units);
             return new(1d / Complex.Cos(FromAngleUnits(value)));
         }
 
-        private Value Cot(in Value value)
+        private ComplexValue Cot(in ComplexValue value)
         {
             CheckFunctionUnits("cot", value.Units);
             return new(Complex.Cot(FromAngleUnits(value)));
         }
 
-        private static Value Sinh(in Value value) /* Hyperbolic sin */
+        private static ComplexValue Sinh(in ComplexValue value) /* Hyperbolic sin */
         {
             CheckFunctionUnits("sinh", value.Units);
             return new(Complex.Sinh(value.Complex));
         }
 
-        private static Value Cosh(in Value value)
+        private static ComplexValue Cosh(in ComplexValue value)
         {
             CheckFunctionUnits("cosh", value.Units);
             return new(Complex.Cosh(value.Complex));
         }
 
-        private static Value Tanh(in Value value)
+        private static ComplexValue Tanh(in ComplexValue value)
         {
             CheckFunctionUnits("tanh", value.Units);
             return new(Complex.Tanh(value.Complex));
         }
 
-        private static Value Csch(in Value value)
+        private static ComplexValue Csch(in ComplexValue value)
         {
             CheckFunctionUnits("csch", value.Units);
             return new(1d / Complex.Sinh(value.Complex));
         }
 
-        private static Value Sech(in Value value)
+        private static ComplexValue Sech(in ComplexValue value)
         {
             CheckFunctionUnits("sech", value.Units);
             return new(1d / Complex.Cosh(value.Complex));
         }
 
-        private static Value Coth(in Value value)
+        private static ComplexValue Coth(in ComplexValue value)
         {
             CheckFunctionUnits("coth", value.Units);
             return new(Complex.Coth(value.Complex));
         }
 
-        private Value Asin(in Value value)
+        private ComplexValue Asin(in ComplexValue value)
         {
             CheckFunctionUnits("asin", value.Units);
             return ToAngleUnits(Complex.Asin(value.Complex));
         }
 
-        private Value Acos(in Value value)
+        private ComplexValue Acos(in ComplexValue value)
         {
             CheckFunctionUnits("acos", value.Units);
             return ToAngleUnits(Complex.Acos(value.Complex));
         }
 
-        private Value Atan(in Value value)
+        private ComplexValue Atan(in ComplexValue value)
         {
             CheckFunctionUnits("atan", value.Units);
             return ToAngleUnits(Complex.Atan(value.Complex));
         }
 
-        private Value Acsc(in Value value)
+        private ComplexValue Acsc(in ComplexValue value)
         {
             CheckFunctionUnits("acsc", value.Units);
-            return value.Equals(Value.Zero) ?
-                Value.ComplexInfinity :
+            return value.IsZero ?
+                ComplexValue.ComplexInfinity :
                 ToAngleUnits(Complex.Asin(1d / value.Complex));
         }
 
-        private Value Asec(in Value value)
+        private ComplexValue Asec(in ComplexValue value)
         {
             CheckFunctionUnits("asec", value.Units);
-            return value.Equals(Value.Zero) ?
-                Value.ComplexInfinity :
+            return value.IsZero ?
+                ComplexValue.ComplexInfinity :
                 ToAngleUnits(Complex.Acos(1d / value.Complex));
         }
 
-        private Value Acot(in Value value)
+        private ComplexValue Acot(in ComplexValue value)
         {
             CheckFunctionUnits("acot", value.Units);
             return ToAngleUnits(Complex.Acot(value.Complex));
         }
 
-        private static Value Asinh(in Value value)
+        private static ComplexValue Asinh(in ComplexValue value)
         {
             CheckFunctionUnits("asinh", value.Units);
             return new(Complex.Asinh(value.Complex));
         }
 
-        private static Value Acosh(in Value value)
+        private static ComplexValue Acosh(in ComplexValue value)
         {
             CheckFunctionUnits("acosh", value.Units);
             return new(Complex.Acosh(value.Complex));
         }
 
-        private static Value Atanh(in Value value)
+        private static ComplexValue Atanh(in ComplexValue value)
         {
             CheckFunctionUnits("atanh", value.Units);
             return new(Complex.Atanh(value.Complex));
         }
 
-        private static Value Acsch(in Value value)
+        private static ComplexValue Acsch(in ComplexValue value)
         {
             CheckFunctionUnits("acsch", value.Units);
-            return value.Equals(Value.Zero) ?
-                Value.ComplexInfinity :
+            return value.IsZero ?
+                ComplexValue.ComplexInfinity :
                 new(Complex.Asinh(1d / value.Complex));
         }
 
-        private static Value Asech(in Value value)
+        private static ComplexValue Asech(in ComplexValue value)
         {
             CheckFunctionUnits("asech", value.Units);
-            return value.Equals(Value.Zero) ?
-                Value.ComplexInfinity :
+            return value.IsZero ?
+                ComplexValue.ComplexInfinity :
                 new(Complex.Acosh(1d / value.Complex));
         }
 
-        private static Value Acoth(in Value value)
+        private static ComplexValue Acoth(in ComplexValue value)
         {
             CheckFunctionUnits("acoth", value.Units);
             return new(Complex.Acoth(value.Complex));
         }
 
-        private static Value Pow(in Value value, in Value power)
+        private static ComplexValue Pow(in ComplexValue value, in ComplexValue power)
         {
             var u = value.Units;
             if (u is not null && u.IsDimensionless)
@@ -384,31 +304,31 @@ namespace Calcpad.Core
             return new(result, unit, value.IsUnit);
         }
 
-        private static Value Log(in Value value)
+        private static ComplexValue Log(in ComplexValue value)
         {
             CheckFunctionUnits("ln", value.Units);
             return new(Complex.Log(value.Complex));
         }
 
-        private static Value Log10(in Value value)
+        private static ComplexValue Log10(in ComplexValue value)
         {
             CheckFunctionUnits("log", value.Units);
             return new(Complex.Log10(value.Complex));
         }
 
-        private static Value Log2(in Value value)
+        private static ComplexValue Log2(in ComplexValue value)
         {
             CheckFunctionUnits("log_2", value.Units);
             return new(Complex.Log2(value.Complex));
         }
 
-        private static Value Exp(in Value value)
+        private static ComplexValue Exp(in ComplexValue value)
         {
             CheckFunctionUnits("exp", value.Units);
             return new(Complex.Exp(value.Complex));
         }
 
-        internal static Value Sqrt(in Value value)
+        internal static ComplexValue Sqrt(in ComplexValue value)
         {
             var u = value.Units;
             if (u is not null && u.IsDimensionless)
@@ -422,7 +342,7 @@ namespace Calcpad.Core
             return new(result, unit);
         }
 
-        private static Value Cbrt(in Value value)
+        private static ComplexValue Cbrt(in ComplexValue value)
         {
             var u = value.Units;
             if (u is not null && u.IsDimensionless)
@@ -436,7 +356,7 @@ namespace Calcpad.Core
             return new(result, unit);
         }
 
-        private static Value Root(in Value value, in Value root)
+        private static ComplexValue Root(in ComplexValue value, in ComplexValue root)
         {
             var n = GetRoot(root);
 
@@ -453,117 +373,135 @@ namespace Calcpad.Core
             return new(result, unit);
         }
 
-        private static Value Round(in Value value) => new(Complex.Round(value.Complex), value.Units);
-        private static Value Floor(in Value value) => new(Complex.Floor(value.Complex), value.Units);
-        private static Value Ceiling(in Value value) => new(Complex.Ceiling(value.Complex), value.Units);
-        private static Value Truncate(in Value value) => new(Complex.Truncate(value.Complex), value.Units);
-        private static Value Random(in Value value) => new(Complex.Random(value.Complex), value.Units);
-        private Value Atan2(in Value a, in Value b) =>
+        private static ComplexValue Round(in ComplexValue value) => new(Complex.Round(value.Complex), value.Units);
+        private static ComplexValue Floor(in ComplexValue value) => new(Complex.Floor(value.Complex), value.Units);
+        private static ComplexValue Ceiling(in ComplexValue value) => new(Complex.Ceiling(value.Complex), value.Units);
+        private static ComplexValue Truncate(in ComplexValue value) => new(Complex.Truncate(value.Complex), value.Units);
+        private static ComplexValue Random(in ComplexValue value) => new(Complex.Random(value.Complex), value.Units);
+        private ComplexValue Atan2(in ComplexValue a, in ComplexValue b) =>
             ToAngleUnits(Complex.Atan2(b.Complex * Unit.Convert(a.Units, b.Units, ','), a.Complex));
 
-        private static bool AreAllReal(Value[] v)
+        private static bool AreAllReal(IScalarValue[] values)
         {
-            for (int i = 0, len = v.Length; i < len; ++i)
+            for (int i = 0, len = values.Length; i < len; ++i)
             {
-                if (!v[i].IsReal)
+                if (!values[i].IsReal)
                     return false;
             }
             return true;
         }
 
-        private new static Value Min(Value[] v) =>
-            AreAllReal(v) ?
-                Calculator.Min(v) :
-                new(double.NaN, v[0].Units);
+        private new static IScalarValue Min(IScalarValue[] values) =>
+            AreAllReal(values) ?
+                Calculator.Min(values) :
+                new RealValue(double.NaN, values[0].Units);
 
-        private new static Value Max(Value[] v) =>
-            AreAllReal(v) ?
-                Calculator.Max(v) :
-                new(double.NaN, v[0].Units);
+        private new static IScalarValue Max(IScalarValue[] values) =>
+            AreAllReal(values) ?
+                Calculator.Max(values) :
+                new RealValue(double.NaN, values[0].Units);
 
-        private static Value Sum(Value[] v)
+        private static IScalarValue Sum(IScalarValue[] values)
         {
-            var result = v[0].Complex;
-            var u = v[0].Units;
-            for (int i = 1, len = v.Length; i < len; ++i)
-                result += v[i].Complex * Unit.Convert(u, v[i].Units, ',');
+            ref var value = ref values[0];
+            var result = value.Complex;
+            var u = value.Units;
+            for (int i = 1, len = values.Length; i < len; ++i)
+            {
+                value = ref values[i];
+                result += value.Complex * Unit.Convert(u, value.Units, ',');
+            }
 
-            return new(result, u);
+            return new ComplexValue(result, u);
         }
 
-        private static Value SumSq(Value[] v)
+        private static IScalarValue SumSq(IScalarValue[] values)
         {
-            var result = v[0].Complex;
-            var u = v[0].Units;
+            ref var value = ref values[0];
+            var result = value.Complex;
+            var u = value.Units;
             result *= result;
-            for (int i = 1, len = v.Length; i < len; ++i)
+            for (int i = 1, len = values.Length; i < len; ++i)
             {
-                var b = v[i].Complex * Unit.Convert(u, v[i].Units, ',');
+                value = ref values[i];
+                var b = value.Complex * Unit.Convert(u, value.Units, ',');
                 result += b * b;
             }
-            return new(result, u is null ? null : u * u);
+            return new ComplexValue(result, u?.Pow(2f));
         }
 
-        private static Value Srss(Value[] v)
+        private static IScalarValue Srss(IScalarValue[] values)
         {
-            var result = v[0].Complex;
-            var u = v[0].Units;
+            ref var value = ref values[0];
+            var result = value.Complex;
+            var u = value.Units;
             result *= result;
-            for (int i = 1, len = v.Length; i < len; ++i)
+            for (int i = 1, len = values.Length; i < len; ++i)
             {
-                var b = v[i].Complex * Unit.Convert(u, v[i].Units, ',');
+                value = ref values[i];
+                var b = value.Complex * Unit.Convert(u, value.Units, ',');
                 result += b * b;
             }
-            return new(Complex.Sqrt(result), u);
+            return new ComplexValue(Complex.Sqrt(result), u);
         }
 
-        private static Value Average(Value[] v)
+        private static IScalarValue Average(IScalarValue[] values)
         {
-            var result = v[0].Complex;
-            var u = v[0].Units;
-            for (int i = 1, len = v.Length; i < len; ++i)
-                result += v[i].Complex * Unit.Convert(u, v[i].Units, ',');
-
-            return new(result / v.Length, u);
-        }
-
-        private static Value Product(Value[] v)
-        {
-            var result = v[0].Complex;
-            var u = v[0].Units;
-            for (int i = 1, len = v.Length; i < len; ++i)
+            ref var value = ref values[0];
+            var result = value.Complex;
+            var u = value.Units;
+            for (int i = 1, len = values.Length; i < len; ++i)
             {
-                u = Unit.Multiply(u, v[i].Units, out var b);
-                result *= v[i].Complex * b;
+                value = ref values[i];
+                result += value.Complex * Unit.Convert(u, value.Units, ',');
             }
-            return new(result, u);
+
+            return new ComplexValue(result / values.Length, u);
         }
 
-        private static Value Mean(Value[] v)
+        private static IScalarValue Product(IScalarValue[] values)
         {
-            var result = v[0].Complex;
-            var u = v[0].Units;
-            for (int i = 1, len = v.Length; i < len; ++i)
+            ref var value = ref values[0];  
+            var result = value.Complex;
+            var u = value.Units;
+            for (int i = 1, len = values.Length; i < len; ++i)
             {
-                ref var value = ref v[i];
+                value = ref values[i];
                 u = Unit.Multiply(u, value.Units, out var b);
                 result *= value.Complex * b;
             }
-            result = Complex.Pow(result, 1.0 / v.Length);
-            if (u is null)
-                return new(result);
-
-            u = Unit.Root(u, v.Length);
-            return new(result, u);
+            return new ComplexValue(result, u);
         }
 
-        private new static Value Gcd(Value[] v) =>
-            AreAllReal(v) ? Gcd(v) : new(double.NaN, v[0].Units);
+        private static IScalarValue Mean(IScalarValue[] values)
+        {
+            ref var value = ref values[0];
+            var result = value.Complex;
+            var u = value.Units;
+            for (int i = 1, len = values.Length; i < len; ++i)
+            {
+                value = ref values[i];
+                u = Unit.Multiply(u, value.Units, out var b);
+                result *= value.Complex * b;
+            }
+            result = Complex.Pow(result, 1.0 / values.Length);
+            if (u is null)
+                return new ComplexValue(result);
 
-        private new static Value Lcm(Value[] v) =>
-            AreAllReal(v) ? Lcm(v) : new(double.NaN, v[0].Units);
+            u = Unit.Root(u, values.Length);
+            return new ComplexValue(result, u);
+        }
 
-        private Complex FromAngleUnits(in Value value)
+        private new static IScalarValue Gcd(IScalarValue[] v) =>
+            AreAllReal(v) ? Calculator.Gcd(v) : new(double.NaN, v[0].Units);
+
+        private new static IScalarValue Lcm(IScalarValue[] v) =>
+            AreAllReal(v) ? Calculator.Lcm(v) : new(double.NaN, v[0].Units);
+
+        protected static ComplexValue Not(in ComplexValue value) =>
+            Math.Abs(value.A) < RealValue.LogicalZero ? RealValue.One : RealValue.Zero;
+
+        private Complex FromAngleUnits(in ComplexValue value)
         {
             if (value.Units is null)
                 return value.Complex * ToRad[_degrees];
@@ -571,9 +509,12 @@ namespace Calcpad.Core
             return value.Complex * value.Units.ConvertTo(AngleUnits[1]);
         }
 
-        private Value ToAngleUnits(Complex value) =>
+        private ComplexValue ToAngleUnits(Complex value) =>
             _returnAngleUnits ?
             new(value * FromRad[_degrees], AngleUnits[_degrees]) :
             new(value * FromRad[_degrees]);
+
+        protected static ComplexValue Timer(in ComplexValue _) => new(Timer(), Unit.Get("s"));
+
     }
 }

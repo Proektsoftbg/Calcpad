@@ -72,7 +72,7 @@ namespace Calcpad.Core
 
         private sealed class CustomFunction1 : CustomFunction
         {
-            private readonly Dictionary<Value, IValue> _cache = [];
+            private readonly Dictionary<IScalarValue, IValue> _cache = [];
             private Parameter _x;
 
             internal override void AddParameters(List<string> parameters)
@@ -111,9 +111,9 @@ namespace Calcpad.Core
                 if (_cache.Count >= MaxCacheSize)
                     _cache.Clear();
 
-                if (x is Value v)
+                if (x is IScalarValue scalar)
                 {
-                    ref var y = ref CollectionsMarshal.GetValueRefOrAddDefault(_cache, v, out var result);
+                    ref var y = ref CollectionsMarshal.GetValueRefOrAddDefault(_cache, scalar, out var result);
                     if (!result)
                     {
                         _x.SetValue(x);
@@ -130,10 +130,10 @@ namespace Calcpad.Core
         {
             private readonly struct Tuple : IEquatable<Tuple>
             {
-                private readonly Value _x, _y;
+                private readonly IScalarValue _x, _y;
                 private readonly int _hash;
 
-                internal Tuple(in Value x, in Value y)
+                internal Tuple(in IScalarValue x, in IScalarValue y)
                 {
                     _x = x;
                     _y = y;
@@ -194,9 +194,9 @@ namespace Calcpad.Core
                 if (_cache.Count >= MaxCacheSize)
                     _cache.Clear();
 
-                if (x is Value vx && y is Value vy)
+                if (x is IScalarValue sx  && y is IScalarValue sy)
                 {
-                    Tuple arguments = new(vx, vy);
+                    Tuple arguments = new(sx, sy);
                     ref var z = ref CollectionsMarshal.GetValueRefOrAddDefault(_cache, arguments, out var result);
                     if (!result)
                     {

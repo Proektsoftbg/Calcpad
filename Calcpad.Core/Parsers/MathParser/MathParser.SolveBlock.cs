@@ -58,7 +58,7 @@ namespace Calcpad.Core
             private readonly MathParser _parser;
             private readonly SolverTypes _type;
             private Variable _var;
-            private Value _va = Value.NaN, _vb = Value.NaN;
+            private IScalarValue _va = RealValue.NaN, _vb = RealValue.NaN;
             private SolverItem[] _items;
             private Func<IValue> _a, _b, _f, _y;
             private string Script { get; }
@@ -147,7 +147,7 @@ namespace Calcpad.Core
                 if (_type == SolverTypes.Inf || _type == SolverTypes.Sup)
                 {
                     var s = _items[1].Input + (_type == SolverTypes.Sup ? "_sup" : "_inf");
-                    _parser.SetVariable(s, Value.NaN);
+                    _parser.SetVariable(s, RealValue.NaN);
                 }
                 var vt = (VariableToken)_items[1].Rpn[0];
                 Parameter[] parameters = [new(vt.Content)];
@@ -262,14 +262,14 @@ namespace Calcpad.Core
                     Compile();
 
                 ++_parser._isSolver;
-                var x1 = IValue.AsValue((_a?.Invoke() ?? _va));
+                IScalarValue x1 = IValue.AsValue((_a?.Invoke() ?? _va));
                 _parser.CheckReal(x1);
-                var x2 = Value.Zero;
+                IScalarValue x2 = RealValue.Zero;
                 var y = 0d;
                 var ux1 = x1.Units;
                 if (_type != SolverTypes.Slope)
                 {
-                    x2 = IValue.AsValue((_b?.Invoke() ?? _vb),Throw.Items.Limit);
+                    x2 = IValue.AsValue((_b?.Invoke() ?? _vb), Throw.Items.Limit);
                     _parser.CheckReal(x2);
                     var ux2 = x2.Units;
                     if (!Unit.IsConsistent(ux1, ux2))
@@ -307,48 +307,56 @@ namespace Calcpad.Core
                 solver.Function = _f;
                 solver.Precision = _parser.Precision;
                 solver.Units = null;
-                IValue result = Value.NaN;
+                IValue result = RealValue.NaN;
+                double d = 0d;
                 try
                 {
                     switch (_type)
                     {
                         case SolverTypes.Find:
-                            result = new Value(solver.Find(x1.Re, x2.Re));
+                            d = solver.Find(x1.Re, x2.Re);
+                            result = new RealValue(d);
                             break;
                         case SolverTypes.Root:
-                            result = new Value(solver.Root(x1.Re, x2.Re, y));
+                            d = solver.Root(x1.Re, x2.Re, y);
+                            result = new RealValue(d);
                             break;
                         case SolverTypes.Sup:
-                            result = new Value(solver.Sup(x1.Re, x2.Re));
+                            d = solver.Sup(x1.Re, x2.Re);
+                            result = new RealValue(d);
                             break;
                         case SolverTypes.Inf:
-                            result = new Value(solver.Inf(x1.Re, x2.Re));
+                            d = solver.Inf(x1.Re, x2.Re);
+                            result = new RealValue(d);
                             break;
                         case SolverTypes.Area:
                             solver.QuadratureMethod = QuadratureMethods.AdaptiveLobatto;
-                            result = new Value(solver.Area(x1.Re, x2.Re));
+                            d = solver.Area(x1.Re, x2.Re);
+                            result = new RealValue(d);
                             break;
                         case SolverTypes.Integral:
                             solver.QuadratureMethod = QuadratureMethods.TanhSinh;
-                            result = new Value(solver.Area(x1.Re, x2.Re));
+                            d = solver.Area(x1.Re, x2.Re);
+                            result = new RealValue(d);
                             break;
                         case SolverTypes.Repeat:
                             result = _parser._settings.IsComplex ?
-                                new Value(solver.ComplexRepeat(x1.Re, x2.Re)) :
+                                new ComplexValue(solver.ComplexRepeat(x1.Re, x2.Re)) :
                                 solver.Repeat(x1.Re, x2.Re);
                             break;
                         case SolverTypes.Sum:
                             result = _parser._settings.IsComplex ?
-                                new Value(solver.ComplexSum(x1.Re, x2.Re)) :
-                                new Value(solver.Sum(x1.Re, x2.Re));
+                                new ComplexValue(solver.ComplexSum(x1.Re, x2.Re)) :
+                                new RealValue(solver.Sum(x1.Re, x2.Re));
                             break;
                         case SolverTypes.Product:
                             result = _parser._settings.IsComplex ?
-                                new Value(solver.ComplexProduct(x1.Re, x2.Re)):
-                                new Value(solver.Product(x1.Re, x2.Re));
+                                new ComplexValue(solver.ComplexProduct(x1.Re, x2.Re)):
+                                new RealValue(solver.Product(x1.Re, x2.Re));
                             break;
                         case SolverTypes.Slope:
-                            result = new Value(solver.Slope(x1.Re));
+                            d = solver.Slope(x1.Re);
+                            result = new RealValue(d);
                             break;
                     }
                 }
@@ -364,16 +372,21 @@ namespace Calcpad.Core
                 if (_type == SolverTypes.Sup || _type == SolverTypes.Inf)
                 {
                     var s = _items[1].Input + (_type == SolverTypes.Sup ? "_sup" : "_inf");
-                    _parser.SetVariable(s, (Value)_var.Value);
+                    _parser.SetVariable(s, (RealValue)_var.Value);
                 }
                 --_parser._isSolver;
 
-                if (result is Value value)
-                {
-                    if (double.IsNaN(value.Re) && !_parser.IsPlotting)
-                        Throw.NoSolutionException(ToString());
+                if (double.IsNaN(d) && !_parser.IsPlotting)
+                    Throw.NoSolutionException(ToString());
 
-                    Result = new Value(value.Re, value.Im, solver.Units);
+                if (result is RealValue real)
+                    Result = new RealValue(real.D, solver.Units);
+                else if (result is ComplexValue complex)
+                {
+                    if (complex.B == 0d)
+                        Result = new RealValue(complex.A, solver.Units);
+                    else
+                        Result = new ComplexValue(complex.A, complex.B, solver.Units);
                 }
                 else
                     Result = result;

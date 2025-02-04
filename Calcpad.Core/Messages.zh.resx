@@ -514,4 +514,13 @@
   <data name="The_output_is_longer_than_0_lines_The_rest_will_be_skipped" xml:space="preserve">
     <value>输出超过了{0} 行,其余将略掉.</value>
   </data>
+  <data name="_must_be_real" xml:space="preserve">
+    <value> 必须是实数.</value>
+  </data>
+  <data name="Limit" xml:space="preserve">
+    <value>限制</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>价值</value>
+  </data>
 </root>

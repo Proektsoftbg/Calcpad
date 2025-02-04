@@ -6,7 +6,7 @@ namespace Calcpad.Core
     {
         private readonly Matrix _matrix;
         private readonly int _row;
-        internal override Value this[int index]
+        internal override RealValue this[int index]
         {
             get => _matrix[_row, index];
             set => _matrix[_row, index] = value;
@@ -21,7 +21,7 @@ namespace Calcpad.Core
 
         internal override int Length => _size;
 
-        internal override ref Value ValueByRef(int index)
+        internal override ref RealValue ValueByRef(int index)
         {
             if (_matrix is ColumnMatrix cm)
             {
@@ -63,12 +63,12 @@ namespace Calcpad.Core
             return ref _matrix._rows[_row].ValueByRef(index);
         }
 
-        internal override Value[] Values
+        internal override RealValue[] Values
         {
             get
             {
                 var n = Length;
-                var values = new Value[n];
+                var values = new RealValue[n];
                 for (int j = n - 1; j >= 0; --j)
                     values[j] = _matrix[_row, j];
 
@@ -76,7 +76,7 @@ namespace Calcpad.Core
             }
         }
 
-        internal override Vector Fill(Value value)
+        internal override Vector Fill(RealValue value)
         {
             for (int j = Length - 1; j >= 0; --j)
                 _matrix[_row, j] = value;

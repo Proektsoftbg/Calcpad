@@ -72,13 +72,12 @@ namespace Calcpad.Core
         {
             get
             {
-                if (_result is Value value)
-                    return value.Complex;
-
+                if (_result is IScalarValue scalar)
+                    return scalar.Complex;
                 if (_result is Vector vector && vector.Length >= 1)
-                    return vector[0].Complex;
+                    return vector[0].D;
                 if (_result is Matrix matrix && matrix.RowCount >= 1 && matrix.ColCount >= 1)
-                    return matrix[0, 0].Complex;
+                    return matrix[0, 0].D;
                 return 0;
             }
         }
@@ -116,31 +115,36 @@ namespace Calcpad.Core
 
         public void SaveAnswer()
         {
-            var v = new Value(Result, Units);
+            var v = new ComplexValue(Result, Units);
             SetVariable("ans", v);
             SetVariable("ANS", v);
         }
 
         public void ClearCustomUnits() => _units.Clear();
 
-        public void SetVariable(string name, double value) => SetVariable(name, new Value(value));
+        public void SetVariable(string name, double value) => 
+            SetVariable(name, new RealValue(value));
 
-        internal void SetVariable(string name, in Value value)
+        internal void SetVariable(string name, in IScalarValue value)
         {
-            if (_variables.TryGetValue(name, out Variable v))
-                v.Assign(value);
+            IScalarValue scalar = _settings.IsComplex ? 
+                value :
+                new RealValue(value.Re, value.Units);
+
+                if (_variables.TryGetValue(name, out Variable v))
+                    v.Assign(scalar);
             else
             {
-                _variables.Add(name, new Variable(value));
+                _variables.Add(name, new Variable(scalar));
                 _input.DefinedVariables.Add(name);
             }
         }
 
-        internal Value GetVariable(string name)
+        internal IScalarValue GetVariable(string name)
         {
             try
             {
-                return (Value)_variables[name].Value;
+                return (IScalarValue)_variables[name].Value;
             }
             catch
             {
@@ -149,9 +153,9 @@ namespace Calcpad.Core
             }
         }
 
-        internal void SetUnit(string name, Value value)
+        internal void SetUnit(string name, ComplexValue value)
         {
-            var d = value.Re;
+            var d = value.A;
             if (Math.Abs(d) == 0)
                 d = 1d;
 
@@ -180,8 +184,8 @@ namespace Calcpad.Core
 
         private void InitVariables()
         {
-            var pi = new Value(Math.PI);
-            _variables.Add("e", new Variable(new Value(Math.E)));
+            var pi = new RealValue(Math.PI);
+            _variables.Add("e", new Variable(new RealValue(Math.E)));
             _variables.Add("pi", new Variable(pi));
             _variables.Add("π", new Variable(pi));
             if (_settings.IsComplex)
@@ -194,7 +198,7 @@ namespace Calcpad.Core
 
         public void Parse(ReadOnlySpan<char> expression, bool allowAssignment = true)
         {
-            _result = Value.Zero;
+            _result = RealValue.Zero;
             _isCalculated = false;
             _functionDefinitionIndex = -1;
             var input = _input.GetInput(expression, allowAssignment);
@@ -214,7 +218,7 @@ namespace Calcpad.Core
 
         public bool ReadEquationFromCache(int cacheId)
         {
-            _result = Value.Zero;
+            _result = RealValue.Zero;
             _isCalculated = false;
             _functionDefinitionIndex = -1;
             if (cacheId >= 0 && cacheId < _equationCache.Count)
@@ -309,21 +313,25 @@ namespace Calcpad.Core
             BreakIfCanceled();
             _result = _evaluator.Evaluate(_rpn);
 
-            if (_result is Value value)
+            if (_result is RealValue real)
             {
-                CheckReal(value);
-                _result = new Value(value.Re, Units);
-                return value.Re;
+                _result = new RealValue(real.D, Units);
+                return real.D;
             }
-            else
-                Throw.MustBeScalarException(Throw.Items.Result);
 
+            if (_result is ComplexValue complex)
+            {
+                CheckReal(complex);
+                _result = new RealValue(complex.A, Units);
+                return complex.A;
+            }
+            Throw.MustBeScalarException(Throw.Items.Result);
             return double.NaN;
         }
 
         internal void ResetStack() => _evaluator.Reset();
 
-        internal void CheckReal(in Value value)
+        internal void CheckReal(in IScalarValue value)
         {
             if (_settings.IsComplex && !value.IsReal)
                 Throw.ResultNotRealException(Core.Complex.Format(value.Complex, _settings.Decimals, OutputWriter.OutputFormat.Text));
@@ -367,13 +375,7 @@ namespace Calcpad.Core
                         var index = _functions.IndexOf(name);
                         var cf = index >= 0 && _functions[index].ParameterCount == parameters.Count ?
                             _functions[index] :
-                            parameters.Count switch
-                            {
-                                1 => new CustomFunction1(),
-                                2 => new CustomFunction2(),
-                                3 => new CustomFunction3(),
-                                _ => new CustomFunctionN()
-                            };
+                            CreateFunction(parameters.Count);
 
                         cf.AddParameters(parameters);
                         cf.Rpn = rpn;
@@ -402,6 +404,17 @@ namespace Calcpad.Core
                 }
             }
             Throw.InvalidFunctionDefinitionException();
+        }
+
+        private CustomFunction CreateFunction(int parameterCount)
+        {
+            return  parameterCount switch
+            {
+                1 => new CustomFunction1(),
+                2 => new CustomFunction2(),
+                3 => new CustomFunction3(),
+                _ => new CustomFunctionN()
+            };
         }
 
         private void BindParameters(ReadOnlySpan<Parameter> parameters, Token[] rpn)
@@ -442,8 +455,8 @@ namespace Calcpad.Core
         {
             get
             {
-                if (_result is Value value)
-                    return FormatResultValue(value);
+                if (_result is IScalarValue scalar)
+                    return FormatResultValue(scalar);
 
                 var sb = new StringBuilder();
                 sb.Append('[');
@@ -468,7 +481,7 @@ namespace Calcpad.Core
                 sb.Append(']');
                 return sb.ToString();   
 
-                string FormatResultValue(in Value value)
+                string FormatResultValue(in IScalarValue value)
                 {
                     var s = Core.Complex.Format(value.Complex, _settings.Decimals, OutputWriter.OutputFormat.Text);
                     if (Units is null)
@@ -486,8 +499,8 @@ namespace Calcpad.Core
         {
             get
             {
-                if (_result is Value value)
-                    return FormatResultValue(value);
+                if (_result is IScalarValue scalar)
+                    return FormatResultValue(scalar);
 
                 var sb = new StringBuilder();
                 sb.Append('[');
@@ -516,7 +529,7 @@ namespace Calcpad.Core
                 sb.Append(']');
                 return sb.ToString();
 
-                string FormatResultValue(in Value value) =>
+                string FormatResultValue(in IScalarValue value) =>
                     Core.Complex.Format(value.Complex, _settings.Decimals, OutputWriter.OutputFormat.Text);
             }
         }
@@ -536,11 +549,11 @@ namespace Calcpad.Core
         {
             if (_variables.TryGetValue(name, out var v))
             {
-                ref var value = ref v.ValueByRef();
-                if (value is Value val)
-                    return val.Re;
+                ref var ival = ref v.ValueByRef();
+                if (ival is IScalarValue scalar)
+                    return scalar.Re;
 
-                if (value is not null)
+                if (ival is not null)
                     Throw.MustBeScalarException(Throw.Items.Variable);
             }
             return defaultValue;

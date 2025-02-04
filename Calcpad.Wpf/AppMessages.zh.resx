@@ -124,4 +124,7 @@ Calcpad已保存您的工作并尝试自动恢复.</value>
   <data name="InvalidMacroName" xml:space="preserve">
     <value>无效宏名称.</value>
   </data>
+  <data name="NYourDataWasSavedBothToClipboardAndTempFile" xml:space="preserve">
+    <value>\n您的数据已保存到剪贴板和临时文件: </value>
+  </data>
 </root>

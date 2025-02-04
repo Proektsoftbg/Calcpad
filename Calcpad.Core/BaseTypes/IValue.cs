@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Calcpad.Core
 {
@@ -7,361 +8,412 @@ namespace Calcpad.Core
     {
         public static IValue operator -(IValue a)
         {
-            if (a is Value value) return -value;
-            if (a is Vector vector) return -vector;
-            if (a is Matrix matrix) return -matrix;
-            Throw.InvalidOperand($"-{a}");
-            return null;
+            switch (a)
+            {
+                case RealValue ra: 
+                    return -ra;
+                case Vector va: 
+                    return -va;
+                case Matrix ma: 
+                    return -ma;
+                case ComplexValue ca: 
+                    return -ca;
+                default: 
+                    Throw.InvalidOperand($"-{a}");
+                    return null;
+            }
         }
 
         public static IValue operator +(IValue a, IValue b)
         {
-            if (a is Value vala)
+            if (a is RealValue ra)
             {
-                if (b is Value valb) return vala + valb;
-                if (b is Vector vecb) return vecb + vala;
-                if (b is Matrix matb) return matb + vala;
+                if (b is RealValue rb) return ra + rb;
+                if (b is Vector vb) return vb + ra;
+                if (b is Matrix mb) return mb + ra;
             }
-            else if (a is Vector veca)
+            else if (a is Vector va)
             {
-                if (b is Value valb) return veca + valb;
-                if (b is Vector vecb) return veca + vecb;
-                if (b is Matrix matb) return veca + matb;
+                if (b is RealValue rb) return va + rb;
+                if (b is Vector vb) return va + vb;
+                if (b is Matrix mb) return va + mb;
             }
-            else if (a is Matrix mata)
+            else if (a is Matrix ma)
             {
-                if (b is Value valb) return mata + valb;
-                if (b is Vector vecb) return mata + vecb;
-                if (b is Matrix matb) return mata + matb;
+                if (b is RealValue rb) return ma + rb;
+                if (b is Vector vb) return ma + vb;
+                if (b is Matrix mb) return ma + mb;
             }
+            if (a is IScalarValue sa && b is IScalarValue sb)
+                return sa.AsComplex() + sb.AsComplex();
+
             Throw.InvalidOperand($"{a} + {b}");
             return null;
         }
 
         public static IValue operator -(IValue a, IValue b)
         {
-            if (a is Value vala)
+            if (a is RealValue ra)
             {
-                if (b is Value valb) return vala - valb;
-                if (b is Vector vecb) return vala - vecb;
-                if (b is Matrix matb) return vala - matb;
+                if (b is RealValue rb) return ra - rb;
+                if (b is Vector vb) return ra - vb;
+                if (b is Matrix mb) return ra - mb;
             }
-            else if (a is Vector veca)
+            else if (a is Vector va)
             {
-                if (b is Value valb) return veca - valb;
-                if (b is Vector vecb) return veca - vecb;
-                if (b is Matrix matb) return veca - matb;
+                if (b is RealValue rb) return va - rb;
+                if (b is Vector vb) return va - vb;
+                if (b is Matrix mb) return va - mb;
             }
-            else if (a is Matrix mata)
+            else if (a is Matrix ma)
             {
-                if (b is Value valb) return mata - valb;
-                if (b is Vector vecb) return mata - vecb;
-                if (b is Matrix matb) return mata - matb;
+                if (b is RealValue rb) return ma - rb;
+                if (b is Vector vb) return ma - vb;
+                if (b is Matrix mb) return ma - mb;
             }
+            if (a is IScalarValue sa && b is IScalarValue sb)
+                return sa.AsComplex() - sb.AsComplex();
+
             Throw.InvalidOperand($"{a} - {b}");
             return null;
         }
 
         public static IValue operator *(IValue a, IValue b)
         {
-            if (a is Value vala)
+            if (a is RealValue ra)
             {
-                if (b is Value valb) return vala * valb;
-                if (b is Vector vecb) return vecb * vala;
-                if (b is Matrix matb) return matb * vala;
+                if (b is RealValue rb) return ra * rb;
+                if (b is Vector vb) return vb * ra;
+                if (b is Matrix mb) return mb * ra;
             }
-            else if (a is Vector veca)
+            else if (a is Vector va)
             {
-                if (b is Value valb) return veca * valb;
-                if (b is Vector vecb) return veca * vecb;
-                if (b is Matrix matb) return veca * matb;
+                if (b is RealValue rb) return va * rb;
+                if (b is Vector vb) return va * vb;
+                if (b is Matrix mb) return va * mb;
             }
-            else if (a is Matrix mata)
+            else if (a is Matrix ma)
             {
-                if (b is Value valb) return mata * valb;
-                if (b is Vector vecb)
+                if (b is RealValue rb) return ma * rb;
+                if (b is Vector vb)
                 {
-                    var c = mata * vecb;
+                    var c = ma * vb;
                     return c.RowCount == 1 ? c[0, 0] : c.Col(1);
                 }
-                if (b is Matrix matb) return mata * matb;
+                if (b is Matrix mb) return ma * mb;
             }
+            if (a is IScalarValue sa && b is IScalarValue sb)
+                return sa.AsComplex() * sb.AsComplex();
+
             Throw.InvalidOperand($"{a}*{b}");
             return null;
         }
 
         public static IValue operator /(IValue a, IValue b)
         {
-            if (a is Value vala)
+            if (a is RealValue ra)
             {
-                if (b is Value valb) return vala / valb;
-                if (b is Vector vecb) return vala / vecb;
-                if (b is Matrix matb) return vala / matb;
+                if (b is RealValue rb) return ra / rb;
+                if (b is Vector vb) return ra / vb;
+                if (b is Matrix mb) return ra / mb;
             }
-            else if (a is Vector veca)
+            else if (a is Vector va)
             {
-                if (b is Value valb) return veca / valb;
-                if (b is Vector vecb) return veca / vecb;
-                if (b is Matrix matb) return veca / matb;
+                if (b is RealValue rb) return va / rb;
+                if (b is Vector vb) return va / vb;
+                if (b is Matrix mb) return va / mb;
             }
-            else if (a is Matrix mata)
+            else if (a is Matrix ma)
             {
-                if (b is Value valb) return mata / valb;
-                if (b is Vector vecb) return mata / vecb;
-                if (b is Matrix matb) return mata / matb;
+                if (b is RealValue rb) return ma / rb;
+                if (b is Vector vb) return ma / vb;
+                if (b is Matrix mb) return ma / mb;
             }
+            if (a is IScalarValue sa && b is IScalarValue sb)
+                return sa.AsComplex() / sb.AsComplex();
+
             Throw.InvalidOperand($"{a}/{b}");
             return null;
         }
 
         public static IValue operator %(IValue a, IValue b)
         {
-            if (a is Value vala)
+            if (a is RealValue ra)
             {
-                if (b is Value valb) return vala % valb;
-                if (b is Vector vecb) return vala % vecb;
-                if (b is Matrix matb) return vala % matb;
+                if (b is RealValue rb) return ra % rb;
+                if (b is Vector vb) return ra % vb;
+                if (b is Matrix mb) return ra % mb;
             }
-            else if (a is Vector veca)
+            else if (a is Vector va)
             {
-                if (b is Value valb) return veca % valb;
-                if (b is Vector vecb) return veca % vecb;
-                if (b is Matrix matb) return veca % matb;
+                if (b is RealValue rb) return va % rb;
+                if (b is Vector vb) return va % vb;
+                if (b is Matrix mb) return va % mb;
             }
-            else if (a is Matrix mata)
+            else if (a is Matrix ma)
             {
-                if (b is Value valb) return mata % valb;
-                if (b is Vector vecb) return mata % vecb;
-                if (b is Matrix matb) return mata % matb;
+                if (b is RealValue rb) return ma % rb;
+                if (b is Vector vb) return ma % vb;
+                if (b is Matrix mb) return ma % mb;
             }
+            if (a is IScalarValue sa && b is IScalarValue sb)
+                return sa.AsComplex() % sb.AsComplex();
+
             Throw.InvalidOperand($"{a}%{b}");
             return null;
         }
 
         public static IValue operator <(IValue a, IValue b)
         {
-            if (a is Value vala)
+            if (a is RealValue ra)
             {
-                if (b is Value valb) return vala < valb;
-                if (b is Vector vecb) return vala < vecb;
-                if (b is Matrix matb) return vala < matb;
+                if (b is RealValue rb) return ra < rb;
+                if (b is Vector vb) return ra < vb;
+                if (b is Matrix mb) return ra < mb;
             }
-            else if (a is Vector veca)
+            else if (a is Vector va)
             {
-                if (b is Value valb) return veca < valb;
-                if (b is Vector vecb) return veca < vecb;
-                if (b is Matrix matb) return veca < matb;
+                if (b is RealValue rb) return va < rb;
+                if (b is Vector vb) return va < vb;
+                if (b is Matrix mb) return va < mb;
             }
-            else if (a is Matrix mata)
+            else if (a is Matrix ma)
             {
-                if (b is Value valb) return mata < valb;
-                if (b is Vector vecb) return mata < vecb;
-                if (b is Matrix matb) return mata < matb;
+                if (b is RealValue rb) return ma < rb;
+                if (b is Vector vb) return ma < vb;
+                if (b is Matrix mb) return ma < mb;
             }
+            if (a is IScalarValue sa && b is IScalarValue sb)
+                return sa.AsComplex() < sb.AsComplex();
+
             Throw.InvalidOperand($"{a} < {b}");
             return null;
         }
 
         public static IValue operator >(IValue a, IValue b)
         {
-            if (a is Value vala)
+            if (a is RealValue ra)
             {
-                if (b is Value valb) return vala > valb;
-                if (b is Vector vecb) return vala > vecb;
-                if (b is Matrix matb) return vala > matb;
+                if (b is RealValue rb) return ra > rb;
+                if (b is Vector vb) return ra > vb;
+                if (b is Matrix mb) return ra > mb;
             }
-            else if (a is Vector veca)
+            else if (a is Vector va)
             {
-                if (b is Value valb) return veca > valb;
-                if (b is Vector vecb) return veca > vecb;
-                if (b is Matrix matb) return veca > matb;
+                if (b is RealValue rb) return va > rb;
+                if (b is Vector vb) return va > vb;
+                if (b is Matrix mb) return va > mb;
             }
-            else if (a is Matrix mata)
+            else if (a is Matrix ma)
             {
-                if (b is Value valb) return mata > valb;
-                if (b is Vector vecb) return mata > vecb;
-                if (b is Matrix matb) return mata > matb;
+                if (b is RealValue rb) return ma > rb;
+                if (b is Vector vb) return ma > vb;
+                if (b is Matrix mb) return ma > mb;
             }
+            if (a is IScalarValue sa && b is IScalarValue sb)
+                return sa.AsComplex() > sb.AsComplex();
+
             Throw.InvalidOperand($"{a} > {b}");
             return null;
         }
 
         public static IValue operator <=(IValue a, IValue b)
         {
-            if (a is Value vala)
+            if (a is RealValue ra)
             {
-                if (b is Value valb) return vala <= valb;
-                if (b is Vector vecb) return vala <= vecb;
-                if (b is Matrix matb) return vala <= matb;
+                if (b is RealValue rb) return ra <= rb;
+                if (b is Vector vb) return ra <= vb;
+                if (b is Matrix mb) return ra <= mb;
             }
-            else if (a is Vector veca)
+            else if (a is Vector va)
             {
-                if (b is Value valb) return veca <= valb;
-                if (b is Vector vecb) return veca <= vecb;
-                if (b is Matrix matb) return veca <= matb;
+                if (b is RealValue rb) return va <= rb;
+                if (b is Vector vb) return va <= vb;
+                if (b is Matrix mb) return va <= mb;
             }
-            else if (a is Matrix mata)
+            else if (a is Matrix ma)
             {
-                if (b is Value valb) return mata <= valb;
-                if (b is Vector vecb) return mata <= vecb;
-                if (b is Matrix matb) return mata <= matb;
+                if (b is RealValue rb) return ma <= rb;
+                if (b is Vector vb) return ma <= vb;
+                if (b is Matrix mb) return ma <= mb;
             }
+            if (a is IScalarValue sa && b is IScalarValue sb)
+                return sa.AsComplex() <= sb.AsComplex();
+
             Throw.InvalidOperand($"{a} ≤ {b}");
             return null;
         }
 
         public static IValue operator >=(IValue a, IValue b)
         {
-            if (a is Value vala)
+            if (a is RealValue ra)
             {
-                if (b is Value valb) return vala >= valb;
-                if (b is Vector vecb) return vala >= vecb;
-                if (b is Matrix matb) return vala >= matb;
+                if (b is RealValue rb) return ra >= rb;
+                if (b is Vector vb) return ra >= vb;
+                if (b is Matrix mb) return ra >= mb;
             }
-            else if (a is Vector veca)
+            else if (a is Vector va)
             {
-                if (b is Value valb) return veca >= valb;
-                if (b is Vector vecb) return veca >= vecb;
-                if (b is Matrix matb) return veca >= matb;
+                if (b is RealValue rb) return va >= rb;
+                if (b is Vector vb) return va >= vb;
+                if (b is Matrix mb) return va >= mb;
             }
-            else if (a is Matrix mata)
+            else if (a is Matrix ma)
             {
-                if (b is Value valb) return mata >= valb;
-                if (b is Vector vecb) return mata >= vecb;
-                if (b is Matrix matb) return mata >= matb;
+                if (b is RealValue rb) return ma >= rb;
+                if (b is Vector vb) return ma >= vb;
+                if (b is Matrix mb) return ma >= mb;
             }
+            if (a is IScalarValue sa && b is IScalarValue sb)
+                return sa.AsComplex() >= sb.AsComplex();
+
             Throw.InvalidOperand($"{a} ≥ {b}");
             return null;
         }
 
         internal static IValue Equal(IValue a, IValue b)
         {
-            if (a is Value vala)
+            if (a is RealValue ra)
             {
-                if (b is Value valb) return vala == valb;
-                if (b is Vector vecb) return vecb == vala;
-                if (b is Matrix matb) return matb == vala;
+                if (b is RealValue rb) return ra == rb;
+                if (b is Vector vb) return vb == ra;
+                if (b is Matrix mb) return mb == ra;
             }
-            else if (a is Vector veca)
+            else if (a is Vector va)
             {
-                if (b is Value valb) return veca == valb;
-                if (b is Vector vecb) return veca == vecb;
-                if (b is Matrix matb) return veca == matb;
+                if (b is RealValue rb) return va == rb;
+                if (b is Vector vb) return va == vb;
+                if (b is Matrix mb) return va == mb;
             }
-            else if (a is Matrix mata)
+            else if (a is Matrix ma)
             {
-                if (b is Value valb) return mata == valb;
-                if (b is Vector vecb) return mata == vecb;
-                if (b is Matrix matb) return mata == matb;
+                if (b is RealValue rb) return ma == rb;
+                if (b is Vector vb) return ma == vb;
+                if (b is Matrix mb) return ma == mb;
             }
+            if (a is IScalarValue sa && b is IScalarValue sb)
+                return sa.AsComplex() == sb.AsComplex();
+
             Throw.InvalidOperand($"{a} ≡ {b}");
             return null;
         }
 
         internal static IValue NotEqual(IValue a, IValue b)
         {
-            if (a is Value vala)
+            if (a is RealValue ra)
             {
-                if (b is Value valb) return vala != valb;
-                if (b is Vector vecb) return vecb != vala;
-                if (b is Matrix matb) return matb != vala;
+                if (b is RealValue rb) return ra != rb;
+                if (b is Vector vb) return vb != ra;
+                if (b is Matrix mb) return mb != ra;
             }
-            else if (a is Vector veca)
+            else if (a is Vector va)
             {
-                if (b is Value valb) return veca != valb;
-                if (b is Vector vecb) return veca != vecb;
-                if (b is Matrix matb) return veca != matb;
+                if (b is RealValue rb) return va != rb;
+                if (b is Vector vb) return va != vb;
+                if (b is Matrix mb) return va != mb;
             }
-            else if (a is Matrix mata)
+            else if (a is Matrix ma)
             {
-                if (b is Value valb) return mata != valb;
-                if (b is Vector vecb) return mata != vecb;
-                if (b is Matrix matb) return mata != matb;
+                if (b is RealValue rb) return ma != rb;
+                if (b is Vector vb) return ma != vb;
+                if (b is Matrix mb) return ma != mb;
             }
+            if (a is IScalarValue sa && b is IScalarValue sb)
+                return sa.AsComplex() != sb.AsComplex();
+
             Throw.InvalidOperand($"{a} ≠ {b}");
             return null;
         }
 
         public static IValue operator &(IValue a, IValue b)
         {
-            if (a is Value vala)
+            if (a is RealValue ra)
             {
-                if (b is Value valb) return vala & valb;
-                if (b is Vector vecb) return vecb & vala;
-                if (b is Matrix matb) return matb & vala;
+                if (b is RealValue rb) return ra & rb;
+                if (b is Vector vb) return vb & ra;
+                if (b is Matrix mb) return mb & ra;
             }
-            else if (a is Vector veca)
+            else if (a is Vector va)
             {
-                if (b is Value valb) return veca & valb;
-                if (b is Vector vecb) return veca & vecb;
-                if (b is Matrix matb) return veca & matb;
+                if (b is RealValue rb) return va & rb;
+                if (b is Vector vb) return va & vb;
+                if (b is Matrix mb) return va & mb;
             }
-            else if (a is Matrix mata)
+            else if (a is Matrix ma)
             {
-                if (b is Value valb) return mata & valb;
-                if (b is Vector vecb) return mata & vecb;
-                if (b is Matrix matb) return mata & matb;
+                if (b is RealValue rb) return ma & rb;
+                if (b is Vector vb) return ma & vb;
+                if (b is Matrix mb) return ma & mb;
             }
+            if (a is IScalarValue sa && b is IScalarValue sb)
+                return sa.AsComplex() & sb.AsComplex();
+
             Throw.InvalidOperand($"{a}∧{b}.");
             return null;
         }
 
         public static IValue operator |(IValue a, IValue b)
         {
-            if (a is Value vala)
+            if (a is RealValue ra)
             {
-                if (b is Value valb) return vala | valb;
-                if (b is Vector vecb) return vecb | vala;
-                if (b is Matrix matb) return matb | vala;
+                if (b is RealValue rb) return ra | rb;
+                if (b is Vector vb) return vb | ra;
+                if (b is Matrix mb) return mb | ra;
             }
-            else if (a is Vector veca)
+            else if (a is Vector va)
             {
-                if (b is Value valb) return veca | valb;
-                if (b is Vector vecb) return veca | vecb;
-                if (b is Matrix matb) return veca | matb;
+                if (b is RealValue rb) return va | rb;
+                if (b is Vector vb) return va | vb;
+                if (b is Matrix mb) return va | mb;
             }
-            else if (a is Matrix mata)
+            else if (a is Matrix ma)
             {
-                if (b is Value valb) return mata | valb;
-                if (b is Vector vecb) return mata | vecb;
-                if (b is Matrix matb) return mata | matb;
+                if (b is RealValue rb) return ma | rb;
+                if (b is Vector vb) return ma | vb;
+                if (b is Matrix mb) return ma | mb;
             }
+            if (a is IScalarValue sa && b is IScalarValue sb)
+                return sa.AsComplex() | sb.AsComplex();
+
             Throw.InvalidOperand($"{a}∨{b}");
             return null;
         }
 
         public static IValue operator ^(IValue a, IValue b)
         {
-            if (a is Value vala)
+            if (a is RealValue ra)
             {
-                if (b is Value valb) return vala ^ valb;
-                if (b is Vector vecb) return vecb ^ vala;
-                if (b is Matrix matb) return matb ^ vala;
+                if (b is RealValue rb) return ra ^ rb;
+                if (b is Vector vb) return vb ^ ra;
+                if (b is Matrix mb) return mb ^ ra;
             }
-            else if (a is Vector veca)
+            else if (a is Vector va)
             {
-                if (b is Value valb) return veca ^ valb;
-                if (b is Vector vecb) return veca ^ vecb;
-                if (b is Matrix matb) return veca ^ matb;
+                if (b is RealValue rb) return va ^ rb;
+                if (b is Vector vb) return va ^ vb;
+                if (b is Matrix mb) return va ^ mb;
             }
-            else if (a is Matrix mata)
+            else if (a is Matrix ma)
             {
-                if (b is Value valb) return mata ^ valb;
-                if (b is Vector vecb) return mata ^ vecb;
-                if (b is Matrix matb) return mata ^ matb;
+                if (b is RealValue rb) return ma ^ rb;
+                if (b is Vector vb) return ma ^ vb;
+                if (b is Matrix mb) return ma ^ mb;
             }
+            if (a is IScalarValue sa && b is IScalarValue sb)
+                return sa.AsComplex() ^ sb.AsComplex();
+
             Throw.InvalidOperand($"{a}⊕{b}");
             return null;
         }
 
         internal static IValue EvaluateFunction(MatrixCalculator calc, long index, in IValue a)
         {
-            if (a is Value value)
-                return calc.Calculator.EvaluateFunction(index, value);
+            if (a is IScalarValue scalar)
+                return calc.Calculator.EvaluateFunction(index, scalar);
             if (a is Vector vector)
                 return calc.VectorCalculator.EvaluateFunction(index, vector);
-            if (a is Matrix matrix)
-                return calc.EvaluateFunction(index, matrix);
+            if (a is Matrix matrlix)
+                return calc.EvaluateFunction(index, matrlix);
 
             Throw.InvalidArgument($"{a}");
             return null;
@@ -369,39 +421,42 @@ namespace Calcpad.Core
 
         internal static IValue EvaluateOperator(MatrixCalculator calc, long index, in IValue a, in IValue b)
         {
-            if (a is Value vala)
+            if (a is IScalarValue sa)
             {
-                if (b is Value valb)
-                    return calc.Calculator.EvaluateOperator(index, vala, valb);
-                if (b is Vector vecb)
-                    return calc.VectorCalculator.EvaluateOperator(index, vala, vecb);
-                if (b is Matrix matb)
-                    return calc.EvaluateOperator(index, vala, matb);
+                if (b is IScalarValue sb)
+                    return calc.Calculator.EvaluateOperator(index, sa, sb);
+                if (sa is RealValue ra)
+                {
+                    if (b is Vector vb)
+                        return calc.VectorCalculator.EvaluateOperator(index, ra, vb);
+                    if (b is Matrix mb)
+                        return calc.EvaluateOperator(index, ra, mb);
+                }
             }
-            else if (a is Vector veca)
+            else if (a is Vector va)
             {
-                if (b is Value valb)
-                    return calc.VectorCalculator.EvaluateOperator(index, veca, valb);
-                if (b is Vector vecb)
-                    return calc.VectorCalculator.EvaluateOperator(index, veca, vecb);
-                if (b is Matrix matb)
-                    return calc.EvaluateOperator(index, veca, matb);
+                if (b is RealValue rb)
+                    return calc.VectorCalculator.EvaluateOperator(index, va, rb);
+                if (b is Vector vb)
+                    return calc.VectorCalculator.EvaluateOperator(index, va, vb);
+                if (b is Matrix mb)
+                    return calc.EvaluateOperator(index, va, mb);
 
             }
-            else if (a is Matrix mata)
+            else if (a is Matrix ma)
             {
-                if (b is Value valb)
-                    return calc.EvaluateOperator(index, mata, valb);
-                if (b is Vector vecb)
+                if (b is RealValue rb)
+                    return calc.EvaluateOperator(index, ma, rb);
+                if (b is Vector vb)
                 {
-                    var c = calc.EvaluateOperator(index, mata, vecb);
+                    var c = calc.EvaluateOperator(index, ma, vb);
                     if (index == Calculator.MultiplyIndex)
                         return c.RowCount == 1 ? c[0, 0] : c.Col(1);
 
                     return c;
                 }
-                if (b is Matrix matb)
-                    return calc.EvaluateOperator(index, mata, matb);
+                if (b is Matrix mb)
+                    return calc.EvaluateOperator(index, ma, mb);
             }
             Throw.InvalidOperand($"{a}; {b}");
             return null;
@@ -409,32 +464,35 @@ namespace Calcpad.Core
 
         internal static IValue EvaluateFunction2(MatrixCalculator calc, long index, in IValue a, in IValue b)
         {
-            if (a is Value vala)
+            if (a is IScalarValue sa)
             {
-                if (b is Value valb)
-                    return calc.Calculator.EvaluateFunction2(index, vala, valb);
-                if (b is Vector vecb)
-                    return calc.VectorCalculator.EvaluateFunction2(index, vala, vecb);
-                if (b is Matrix matb)
-                    return calc.EvaluateFunction2(index, vala, matb);
+                if (b is IScalarValue sb)
+                    return calc.Calculator.EvaluateFunction2(index, sa, sb);
+                if (sa is RealValue ra)
+                {
+                    if (b is Vector vb)
+                        return calc.VectorCalculator.EvaluateFunction2(index, ra, vb);
+                    if (b is Matrix mb)
+                        return calc.EvaluateFunction2(index, ra, mb);
+                }
             }
-            else if (a is Vector veca)
+            else if (a is Vector va)
             {
-                if (b is Value valb)
-                    return calc.VectorCalculator.EvaluateFunction2(index, veca, valb);
-                if (b is Vector vecb)
-                    return calc.VectorCalculator.EvaluateFunction2(index, veca, vecb);
-                if (b is Matrix matb)
-                    return calc.EvaluateFunction2(index, veca, matb);
+                if (b is RealValue rb)
+                    return calc.VectorCalculator.EvaluateFunction2(index, va, rb);
+                if (b is Vector vb)
+                    return calc.VectorCalculator.EvaluateFunction2(index, va, vb);
+                if (b is Matrix mb)
+                    return calc.EvaluateFunction2(index, va, mb);
             }
-            else if (a is Matrix mata)
+            else if (a is Matrix ma)
             {
-                if (b is Value valb)
-                    return calc.EvaluateFunction2(index, mata, valb);
-                if (b is Vector vecb)
-                    return calc.EvaluateFunction2(index, mata, vecb);
-                if (b is Matrix matb)
-                    return calc.EvaluateFunction2(index, mata, matb);
+                if (b is RealValue rb)
+                    return calc.EvaluateFunction2(index, ma, rb);
+                if (b is Vector vb)
+                    return calc.EvaluateFunction2(index, ma, vb);
+                if (b is Matrix mb)
+                    return calc.EvaluateFunction2(index, ma, mb);
             }
             Throw.InvalidArgument($"{a}; {b}");
             return null;
@@ -442,12 +500,12 @@ namespace Calcpad.Core
 
         internal static IValue EvaluateInterpolation(MatrixCalculator calc, long index, IValue[] values)
         {
-            if (values[0] is Value xValue)
+            if (values[0] is RealValue x)
             {
                 if (values.Length == 2 && values[1] is Vector vector)
-                    return calc.VectorCalculator.EvaluateInterpolation(index, xValue, vector);
-                if (values.Length == 3 && values[1] is Value yValue && values[2] is Matrix matrix)
-                    return calc.EvaluateInterpolation(index, yValue, xValue, matrix);
+                    return calc.VectorCalculator.EvaluateInterpolation(index, x, vector);
+                if (values.Length == 3 && values[1] is RealValue y && values[2] is Matrix matrix)
+                    return calc.EvaluateInterpolation(index, y, x, matrix);
             }
             else
                 Throw.CannotInterpolateWithNonScalarValueException();
@@ -461,21 +519,41 @@ namespace Calcpad.Core
             {
                 if (values[0] is Vector vector)
                     return calc.VectorCalculator.EvaluateMultiFunction(index, vector);
-                if (values[0] is Matrix matirx)
-                    return calc.EvaluateMultiFunction(index, matirx);
+                if (values[0] is Matrix mirx)
+                    return calc.EvaluateMultiFunction(index, mirx);
             }
             return calc.Calculator.EvaluateMultiFunction(index, ExpandValues(values));
         }
 
-        internal static Value[] ExpandValues(IValue[] values)
+        internal static IScalarValue[] ExpandValues(IValue[] values)
         {
             var len = values.Length;
-            var valList = new List<Value>(len);
+            var valList = new List<IScalarValue>(len);
             for (var i = 0; i < len; ++i)
             {
                 var ival = values[i];
-                if (ival is Value value)
-                    valList.Add(value);
+                if (ival is IScalarValue scalar)
+                    valList.Add(scalar);
+                else if (ival is Vector vector)
+                    valList.AddRange(vector.Values.Cast<IScalarValue>().ToArray());
+                else if (ival is Matrix matrix)
+                    valList.AddRange(matrix.Values.Cast<IScalarValue>().ToArray());
+                else
+                    Throw.InvalidArgument($"{ival}");
+            }
+            return [.. valList];
+        }
+
+
+        internal static RealValue[] ExpandRealValues(IValue[] values)
+        {
+            var len = values.Length;
+            var valList = new List<RealValue>(len);
+            for (var i = 0; i < len; ++i)
+            {
+                var ival = values[i];
+                if (ival is RealValue real)
+                    valList.Add(real);
                 else if (ival is Vector vector)
                     valList.AddRange(vector.Values);
                 else if (ival is Matrix matrix)
@@ -486,19 +564,33 @@ namespace Calcpad.Core
             return [.. valList];
         }
 
-        internal static Value AsValue(IValue iValue, Throw.Items item = Throw.Items.Argument)
+        internal static IScalarValue AsValue(IValue ival, Throw.Items item = Throw.Items.Argument)
         {
-            if (iValue is Value val)
-                return val;
+            if (ival is IScalarValue scalar)
+                return scalar;
             else
                 Throw.MustBeScalarException(item);
 
-            return Value.NaN;
+            return RealValue.NaN;
         }
 
-        internal static int AsInt(IValue iValue, Throw.Items item = Throw.Items.Argument)
+        internal static RealValue AsReal(IValue ival, Throw.Items item = Throw.Items.Argument)
         {
-            var value = AsValue(iValue, item);
+            if (ival is RealValue real)
+                return real;
+            else if (ival is ComplexValue complex)
+            {
+                return (RealValue)complex;
+            }
+            else
+                Throw.MustBeScalarException(item);
+
+            return RealValue.NaN;
+        }
+
+        internal static int AsInt(IValue ivalue, Throw.Items item = Throw.Items.Argument)
+        {
+            var value = AsValue(ivalue, item);
             if (value.IsReal && value.Units is null)
             {
                 var d = value.Re;
@@ -509,9 +601,9 @@ namespace Calcpad.Core
             return 1;
         }
 
-        internal static Vector AsVector(IValue iValue, Throw.Items item = Throw.Items.Argument)
+        internal static Vector AsVector(IValue ivalue, Throw.Items item = Throw.Items.Argument)
         {
-            if (iValue is Vector vec)
+            if (ivalue is Vector vec)
                 return vec;
             else
                 Throw.MustBeVectorException(item);
@@ -519,11 +611,11 @@ namespace Calcpad.Core
             return null;
         }
 
-        internal static Matrix AsMatrix(IValue iValue, Throw.Items item = Throw.Items.Argument)
+        internal static Matrix AsMatrix(IValue ivalue, Throw.Items item = Throw.Items.Argument)
         {
-            if (iValue is Matrix mat)
-                return mat;
-            else if (iValue is Vector vec)
+            if (ivalue is Matrix m)
+                return m;
+            else if (ivalue is Vector vec)
                 return new ColumnMatrix(vec);
             else
                 Throw.MustBeMatrixException(item);

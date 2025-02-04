@@ -15,8 +15,8 @@ namespace Calcpad.Core
         private readonly VectorFunction2[] VectorFunctions2;
         private readonly VectorFunction3[] VectorFunctions3;
         private readonly Func<IValue[], IValue>[] VectorMultiFunctions;
-        private readonly Func<Vector, Value>[] MultiFunctions;
-        private readonly Func<Value, Vector, Value>[] Interpolations;
+        private readonly Func<Vector, RealValue>[] MultiFunctions;
+        private readonly Func<RealValue, Vector, RealValue>[] Interpolations;
 
         internal static readonly FrozenDictionary<string, int> FunctionIndex =
         new Dictionary<string, int>()
@@ -203,10 +203,10 @@ namespace Calcpad.Core
         internal Func<IValue[], IValue> GetMultiFunction(long index) =>
             VectorMultiFunctions[index];
 
-        internal Vector EvaluateOperator(long index, Vector a, in Value b) =>
+        internal Vector EvaluateOperator(long index, Vector a, in RealValue b) =>
             Vector.EvaluateOperator(_calc.GetOperator(index), a, b, Calculator.OperatorRequireConsistentUnits(index));
 
-        internal Vector EvaluateOperator(long index, in Value a, Vector b) =>
+        internal Vector EvaluateOperator(long index, in RealValue a, Vector b) =>
             Vector.EvaluateOperator(_calc.GetOperator(index), a, b, Calculator.OperatorRequireConsistentUnits(index));
 
         internal Vector EvaluateOperator(long index, Vector a, Vector b) =>
@@ -215,10 +215,10 @@ namespace Calcpad.Core
         internal Vector EvaluateFunction(long Index, Vector a) =>
             Vector.EvaluateFunction(_calc.GetFunction(Index), a);
 
-        internal Vector EvaluateFunction2(long index, Vector a, in Value b) =>
+        internal Vector EvaluateFunction2(long index, Vector a, in RealValue b) =>
             Vector.EvaluateOperator(_calc.GetFunction2(index), a, b, false);
 
-        internal Vector EvaluateFunction2(long index, in Value a, Vector b) =>
+        internal Vector EvaluateFunction2(long index, in RealValue a, Vector b) =>
             Vector.EvaluateOperator(_calc.GetFunction2(index), a, b, false);
 
         internal Vector EvaluateFunction2(long index, Vector a, Vector b) =>
@@ -226,7 +226,7 @@ namespace Calcpad.Core
 
         internal IValue EvaluateMultiFunction(long index, Vector a) => MultiFunctions[index](a);
 
-        internal IValue EvaluateInterpolation(long index, Value a, Vector b) => Interpolations[index](a, b);
+        internal IValue EvaluateInterpolation(long index, RealValue a, Vector b) => Interpolations[index](a, b);
 
         private static Vector Create(in IValue length)
         {
@@ -237,10 +237,10 @@ namespace Calcpad.Core
             return new(n);
         }
         private static IValue Length(in IValue vector) =>
-            new Value(IValue.AsVector(vector).Length);
+            new RealValue(IValue.AsVector(vector).Length);
 
         private static IValue Size(in IValue vector) =>
-            new Value(IValue.AsVector(vector).Size);
+            new RealValue(IValue.AsVector(vector).Size);
 
         private static Vector Sort(in IValue vector) =>
             IValue.AsVector(vector).Sort();
@@ -276,7 +276,7 @@ namespace Calcpad.Core
             IValue.AsVector(vector).Resize(IValue.AsInt(length));
 
         private static Vector Fill(in IValue vector, in IValue value) =>
-            IValue.AsVector(vector).Fill(IValue.AsValue(value));
+            IValue.AsVector(vector).Fill(IValue.AsReal(value));
 
         private static Vector First(in IValue vector, in IValue length) =>
             IValue.AsVector(vector).First(IValue.AsInt(length));
@@ -297,67 +297,67 @@ namespace Calcpad.Core
             IValue.AsVector(vector).Slice(IValue.AsInt(n1), IValue.AsInt(n2));
 
         private static IValue Search(in IValue vector, in IValue value, in IValue start) =>
-            IValue.AsVector(vector).Search(IValue.AsValue(value), IValue.AsInt(start));
+            IValue.AsVector(vector).Search(IValue.AsReal(value), IValue.AsInt(start));
 
         private static Vector Find_EQ(in IValue vector, in IValue value, in IValue start) =>
-            IValue.AsVector(vector).FindAll(IValue.AsValue(value), IValue.AsInt(start), Vector.Relation.Equal);
+            IValue.AsVector(vector).FindAll(IValue.AsReal(value), IValue.AsInt(start), Vector.Relation.Equal);
 
         private static Vector Find_NE(in IValue vector, in IValue value, in IValue start) =>
-            IValue.AsVector(vector).FindAll(IValue.AsValue(value), IValue.AsInt(start), Vector.Relation.NotEqual);
+            IValue.AsVector(vector).FindAll(IValue.AsReal(value), IValue.AsInt(start), Vector.Relation.NotEqual);
 
         private static Vector Find_LT(in IValue vector, in IValue value, in IValue start) =>
-            IValue.AsVector(vector).FindAll(IValue.AsValue(value), IValue.AsInt(start), Vector.Relation.LessThan);
+            IValue.AsVector(vector).FindAll(IValue.AsReal(value), IValue.AsInt(start), Vector.Relation.LessThan);
 
         private static Vector Find_LE(in IValue vector, in IValue value, in IValue start) =>
-            IValue.AsVector(vector).FindAll(IValue.AsValue(value), IValue.AsInt(start), Vector.Relation.LessOrEqual);
+            IValue.AsVector(vector).FindAll(IValue.AsReal(value), IValue.AsInt(start), Vector.Relation.LessOrEqual);
 
         private static Vector Find_GT(in IValue vector, in IValue value, in IValue start) =>
-            IValue.AsVector(vector).FindAll(IValue.AsValue(value), IValue.AsInt(start), Vector.Relation.GreaterThan);
+            IValue.AsVector(vector).FindAll(IValue.AsReal(value), IValue.AsInt(start), Vector.Relation.GreaterThan);
 
         private static Vector Find_GE(in IValue vector, in IValue value, in IValue start) =>
-            IValue.AsVector(vector).FindAll(IValue.AsValue(value), IValue.AsInt(start), Vector.Relation.GreaterOrEqual);
+            IValue.AsVector(vector).FindAll(IValue.AsReal(value), IValue.AsInt(start), Vector.Relation.GreaterOrEqual);
 
         private static IValue Count(in IValue vector, in IValue value, in IValue start) =>
-            IValue.AsVector(vector).Count(IValue.AsValue(value), IValue.AsInt(start));
+            IValue.AsVector(vector).Count(IValue.AsReal(value), IValue.AsInt(start));
 
         private static Vector Range(in IValue start, in IValue end, in IValue step) =>
-            Vector.Range(IValue.AsValue(start), IValue.AsValue(end), IValue.AsValue(step));
+            Vector.Range(IValue.AsReal(start), IValue.AsReal(end), IValue.AsReal(step));
 
         private static Vector Lookup_EQ(in IValue x, in IValue y, in IValue value) =>
-            IValue.AsVector(x).Lookup(IValue.AsVector(y), IValue.AsValue(value), Vector.Relation.Equal);
+            IValue.AsVector(x).Lookup(IValue.AsVector(y), IValue.AsReal(value), Vector.Relation.Equal);
 
         private static Vector Lookup_NE(in IValue x, in IValue y, in IValue value) =>
-            IValue.AsVector(x).Lookup(IValue.AsVector(y), IValue.AsValue(value), Vector.Relation.NotEqual);
+            IValue.AsVector(x).Lookup(IValue.AsVector(y), IValue.AsReal(value), Vector.Relation.NotEqual);
 
         private static Vector Lookup_LT(in IValue x, in IValue y, in IValue value) =>
-            IValue.AsVector(x).Lookup(IValue.AsVector(y), IValue.AsValue(value), Vector.Relation.LessThan);
+            IValue.AsVector(x).Lookup(IValue.AsVector(y), IValue.AsReal(value), Vector.Relation.LessThan);
 
         private static Vector Lookup_LE(in IValue x, in IValue y, in IValue value) =>
-            IValue.AsVector(x).Lookup(IValue.AsVector(y), IValue.AsValue(value), Vector.Relation.LessOrEqual);
+            IValue.AsVector(x).Lookup(IValue.AsVector(y), IValue.AsReal(value), Vector.Relation.LessOrEqual);
 
         private static Vector Lookup_GT(in IValue x, in IValue y, in IValue value) =>
-            IValue.AsVector(x).Lookup(IValue.AsVector(y), IValue.AsValue(value), Vector.Relation.GreaterThan);
+            IValue.AsVector(x).Lookup(IValue.AsVector(y), IValue.AsReal(value), Vector.Relation.GreaterThan);
 
         private static Vector Lookup_GE(in IValue x, in IValue y, in IValue value) =>
-            IValue.AsVector(x).Lookup(IValue.AsVector(y), IValue.AsValue(value), Vector.Relation.GreaterOrEqual);
+            IValue.AsVector(x).Lookup(IValue.AsVector(y), IValue.AsReal(value), Vector.Relation.GreaterOrEqual);
         private static Vector Join(IValue[] items) => Vector.Join(items);
 
-        private static Value Min(Vector v) => v.Min();
-        private static Value Max(Vector v) => v.Max();
-        private static Value Sum(Vector v) => v.Sum();
-        private static Value SumSq(Vector v) => v.SumSq();
-        private static Value Srss(Vector v) => v.Srss();
-        private static Value Average(Vector v) => v.Average();
-        private static Value Product(Vector v) => v.Product();
-        private static Value Mean(Vector v) => v.Mean();
-        private static Value Switch(Vector v) => v[0];
-        private static Value And(Vector v) => v.And();
-        private static Value Or(Vector v) => v.Or();
-        private static Value Xor(Vector v) => v.Xor();
-        private static Value Gcd(Vector v) => v.Gcd();
-        private static Value Lcm(Vector v) => v.Lcm();
-        private static Value Take(Value x, Vector v) => v.Take(x);
-        private static Value Line(Value x, Vector v) => v.Line(x);
-        private static Value Spline(Value x, Vector v) => v.Spline(x);
+        private static RealValue Min(Vector v) => v.Min();
+        private static RealValue Max(Vector v) => v.Max();
+        private static RealValue Sum(Vector v) => v.Sum();
+        private static RealValue SumSq(Vector v) => v.SumSq();
+        private static RealValue Srss(Vector v) => v.Srss();
+        private static RealValue Average(Vector v) => v.Average();
+        private static RealValue Product(Vector v) => v.Product();
+        private static RealValue Mean(Vector v) => v.Mean();
+        private static RealValue Switch(Vector v) => v[0];
+        private static RealValue And(Vector v) => v.And();
+        private static RealValue Or(Vector v) => v.Or();
+        private static RealValue Xor(Vector v) => v.Xor();
+        private static RealValue Gcd(Vector v) => v.Gcd();
+        private static RealValue Lcm(Vector v) => v.Lcm();
+        private static RealValue Take(RealValue x, Vector v) => v.Take(x);
+        private static RealValue Line(RealValue x, Vector v) => v.Line(x);
+        private static RealValue Spline(RealValue x, Vector v) => v.Spline(x);
     }
 }

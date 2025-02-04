@@ -11,7 +11,7 @@ namespace Calcpad.Core
             _rows = [new LargeVector(length)];
         }
 
-        internal DiagonalMatrix(int length, in Value value) : this(length)
+        internal DiagonalMatrix(int length, in RealValue value) : this(length)
         {
             _rows[0].Fill(value);
         }
@@ -22,9 +22,9 @@ namespace Calcpad.Core
             _rows = [a];
         }
 
-        internal override Value this[int row, int col]
+        internal override RealValue this[int row, int col]
         {
-            get => row.Equals(col) ? _rows[0][row] : Value.Zero;
+            get => row.Equals(col) ? _rows[0][row] : RealValue.Zero;
             set
             {
                 if (row.Equals(col))
@@ -79,7 +79,7 @@ namespace Calcpad.Core
 
         internal override DiagonalMatrix Transpose() => RawCopy();
 
-        internal override Value Determinant()
+        internal override RealValue Determinant()
         {
             var diag = _rows[0];
             var det = diag[0];
@@ -97,7 +97,7 @@ namespace Calcpad.Core
             var diag = _rows[0];
             for (int i = 0; i < _rowCount; ++i)
             {
-                if (diag[i].Re == 0d)
+                if (diag[i].D == 0d)
                     return null;
 
                 indexes[i] = i;
@@ -119,7 +119,7 @@ namespace Calcpad.Core
         {
             CheckSingular();
             var M = new DiagonalMatrix(_rowCount);
-            M._rows[0] = Value.One / _rows[0];
+            M._rows[0] = RealValue.One / _rows[0];
             return M;
         }
 
@@ -145,12 +145,12 @@ namespace Calcpad.Core
         {
             var diag = _rows[0];
             for (int i = _rowCount - 1; i >= 0; --i)
-                if (diag[i].Re == 0)
+                if (diag[i].D == 0)
                     Throw.MatrixSingularException();
         }
 
         //L∞ (Infinity) or Chebyshev norm     
-        internal override Value InfNorm() => _rows[0].InfNorm();
+        internal override RealValue InfNorm() => _rows[0].InfNorm();
 
         internal Vector EigenValues() => _rows[0].Sort();
 
@@ -159,7 +159,7 @@ namespace Calcpad.Core
             var indexes = _rows[0].GetOrderIndexes(false);
             Matrix M = new(_rowCount, _rowCount);
             for (int i = 0; i < _rowCount; ++i)
-                M[indexes[i], i] = Value.One;
+                M[indexes[i], i] = RealValue.One;
 
             return M;
         }
@@ -171,16 +171,16 @@ namespace Calcpad.Core
             for (int i = 0; i < _rowCount; ++i)
             {
                 M[indexes[i], 0] = _rows[0][i]; 
-                M[i, indexes[i] + 1] = Value.One;
+                M[i, indexes[i] + 1] = RealValue.One;
             }
             return M;
         }
 
-        protected override Value Condition(Func<Matrix, Value> norm)
+        protected override RealValue Condition(Func<Matrix, RealValue> norm)
         {
             var det = Determinant();
-            if (det.Re == 0)
-                return Value.PositiveInfinity;
+            if (det.D == 0)
+                return RealValue.PositiveInfinity;
 
             var M = Invert();
             return norm(this) * norm(M);
@@ -189,7 +189,7 @@ namespace Calcpad.Core
         internal override Matrix Adjoint()
         {
             var det = Determinant();
-            if (det.Re == 0)
+            if (det.D == 0)
                 Throw.MatrixSingularException();
 
             var M = Invert();

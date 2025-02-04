@@ -77,8 +77,8 @@
 
         private sealed class ValueToken : Token
         {
-            internal Value Value;
-            internal ValueToken(in Value value) : base(string.Empty, TokenTypes.Constant)
+            internal IScalarValue Value;
+            internal ValueToken(in IScalarValue value) : base(string.Empty, TokenTypes.Constant)
             {
                 Value = value;
             }
@@ -156,7 +156,7 @@
                     t.Type == TokenTypes.Variable ||
                     t.Type == TokenTypes.Input)
                 {
-                    Value v = Value.Zero;
+                    IScalarValue v = RealValue.Zero;
                     if (t is ValueToken vt)
                         v = vt.Value;
                     else if (t is VariableToken vr)
@@ -172,8 +172,8 @@
                             ValType = ValueTypes.Matrix;
                             return;
                         }
-                        if (ival is Value value)
-                            v = value;
+                        if (ival is IScalarValue scalar)
+                            v = scalar;
                     }
                     if (v.IsUnit)
                         ValType = ValueTypes.Unit;

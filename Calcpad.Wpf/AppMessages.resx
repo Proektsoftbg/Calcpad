@@ -124,7 +124,7 @@ Source: "{1}"</value>
   <data name="InvalidMacroName" xml:space="preserve">
     <value>Invalid macro name.</value>
   </data>
-  <data name="" xml:space="preserve">
-    <value></value>
+  <data name="NYourDataWasSavedBothToClipboardAndTempFile" xml:space="preserve">
+    <value>\nYour data was saved both to clipboard and temp file: </value>
   </data>
 </root>

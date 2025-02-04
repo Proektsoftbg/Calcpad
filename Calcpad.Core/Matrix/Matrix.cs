@@ -65,7 +65,7 @@ namespace Calcpad.Core
             _rows = [v];
         }
 
-        internal virtual Value this[int row, int col]
+        internal virtual RealValue this[int row, int col]
         {
             get => _rows[row][col];
             set => _rows[row][col] = value;
@@ -244,10 +244,10 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Matrix operator -(Matrix a, Value b)
+        public static Matrix operator -(Matrix a, RealValue b)
         {
             Matrix c;
-            if (a.IsStructurallyConsistentType || b.Equals(Value.Zero))
+            if (a.IsStructurallyConsistentType || b.Equals(RealValue.Zero))
             {
                 c = a.Clone();
                 var m = a._rows.Length;
@@ -277,10 +277,10 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Matrix operator -(Value a, Matrix b)
+        public static Matrix operator -(RealValue a, Matrix b)
         {
             Matrix c;
-            if (b.IsStructurallyConsistentType || a.Equals(Value.Zero))
+            if (b.IsStructurallyConsistentType || a.Equals(RealValue.Zero))
             {
                 c = b.Clone();
                 var m = b._rows.Length;
@@ -344,10 +344,10 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Matrix operator +(Matrix a, Value b)
+        public static Matrix operator +(Matrix a, RealValue b)
         {
             Matrix c;
-            if (a.IsStructurallyConsistentType || b.Equals(Value.Zero))
+            if (a.IsStructurallyConsistentType || b.Equals(RealValue.Zero))
             {
                 c = a.Clone();
                 var m = a._rows.Length;
@@ -395,8 +395,7 @@ namespace Calcpad.Core
             else if (b is DiagonalMatrix bd)
                 return a * bd;
 
-            Matrix c;
-            c = new Matrix(a._rowCount, b._colCount);
+            Matrix c = new(a._rowCount, b._colCount);
             var m = a._rowCount;
             var na = a._colCount - 1;
             var nb = b._colCount - 1;
@@ -449,7 +448,7 @@ namespace Calcpad.Core
             }
         }
 
-        public static Matrix operator *(Matrix a, Value b)
+        public static Matrix operator *(Matrix a, RealValue b)
         {
             Matrix c;
             if (a.IsStructurallyConsistentType || b.Units == null)
@@ -516,10 +515,10 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Matrix operator /(Matrix a, Value b)
+        public static Matrix operator /(Matrix a, RealValue b)
         {
             Matrix c;
-            if (a.IsStructurallyConsistentType && !b.Equals(Value.Zero) && b.Units is null)
+            if (a.IsStructurallyConsistentType && !b.Equals(RealValue.Zero) && b.Units is null)
             {
                 c = a.Clone();
                 var m = a._rows.Length;
@@ -549,7 +548,7 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Matrix operator /(Value a, Matrix b)
+        public static Matrix operator /(RealValue a, Matrix b)
         {
             Matrix c;
             if (b.IsStructurallyConsistentType)
@@ -616,10 +615,10 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Matrix operator %(Matrix a, Value b)
+        public static Matrix operator %(Matrix a, RealValue b)
         {
-            if (b.Equals(Value.Zero))
-                return new Matrix(a._rowCount, a._colCount).Fill(Value.NaN);
+            if (b.Equals(RealValue.Zero))
+                return new Matrix(a._rowCount, a._colCount).Fill(RealValue.NaN);
 
             Matrix c;
             if (a.IsStructurallyConsistentType)
@@ -652,7 +651,7 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Matrix operator %(Value a, Matrix b)
+        public static Matrix operator %(RealValue a, Matrix b)
         {
             Matrix c;
             if (b.IsStructurallyConsistentType)
@@ -719,7 +718,7 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Matrix operator ==(Matrix a, Value b)
+        public static Matrix operator ==(Matrix a, RealValue b)
         {
             Matrix c;
             if (a.IsStructurallyConsistentType)
@@ -786,10 +785,10 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Matrix operator !=(Matrix a, Value b)
+        public static Matrix operator !=(Matrix a, RealValue b)
         {
             Matrix c;
-            if (a.IsStructurallyConsistentType || b.Equals(Value.Zero))
+            if (a.IsStructurallyConsistentType || b.Equals(RealValue.Zero))
             {
                 c = a.Clone();
                 var m = a._rows.Length;
@@ -853,10 +852,10 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Matrix operator <(Matrix a, Value b)
+        public static Matrix operator <(Matrix a, RealValue b)
         {
             Matrix c;
-            if (a.IsStructurallyConsistentType || b.Equals(Value.Zero))
+            if (a.IsStructurallyConsistentType || b.Equals(RealValue.Zero))
             {
                 c = a.Clone();
                 var m = a._rows.Length;
@@ -886,10 +885,10 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Matrix operator <(Value a, Matrix b)
+        public static Matrix operator <(RealValue a, Matrix b)
         {
             Matrix c;
-            if (b.IsStructurallyConsistentType || a.Equals(Value.Zero))
+            if (b.IsStructurallyConsistentType || a.Equals(RealValue.Zero))
             {
                 c = b.Clone();
                 var m = b._rows.Length;
@@ -953,10 +952,10 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Matrix operator >(Matrix a, Value b)
+        public static Matrix operator >(Matrix a, RealValue b)
         {
             Matrix c;
-            if (a.IsStructurallyConsistentType || b.Equals(Value.Zero))
+            if (a.IsStructurallyConsistentType || b.Equals(RealValue.Zero))
             {
                 c = a.Clone();
                 var m = a._rows.Length;
@@ -986,10 +985,10 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Matrix operator >(Value a, Matrix b)
+        public static Matrix operator >(RealValue a, Matrix b)
         {
             Matrix c;
-            if (b.IsStructurallyConsistentType || a.Equals(Value.Zero))
+            if (b.IsStructurallyConsistentType || a.Equals(RealValue.Zero))
             {
                 c = b.Clone();
                 var m = b._rows.Length;
@@ -1053,7 +1052,7 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Matrix operator >=(Matrix a, Value b)
+        public static Matrix operator >=(Matrix a, RealValue b)
         {
             Matrix c;
             if (a.IsStructurallyConsistentType)
@@ -1086,7 +1085,7 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Matrix operator >=(Value a, Matrix b)
+        public static Matrix operator >=(RealValue a, Matrix b)
         {
             Matrix c;
             if (b.IsStructurallyConsistentType)
@@ -1153,7 +1152,7 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Matrix operator <=(Matrix a, Value b)
+        public static Matrix operator <=(Matrix a, RealValue b)
         {
             Matrix c;
             if (a.IsStructurallyConsistentType)
@@ -1186,7 +1185,7 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Matrix operator <=(Value a, Matrix b)
+        public static Matrix operator <=(RealValue a, Matrix b)
         {
             Matrix c;
             if (b.IsStructurallyConsistentType)
@@ -1253,10 +1252,10 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Matrix operator &(Matrix a, Value b)
+        public static Matrix operator &(Matrix a, RealValue b)
         {
             Matrix c;
-            if (a.IsStructurallyConsistentType || b.Equals(Value.Zero))
+            if (a.IsStructurallyConsistentType || b.Equals(RealValue.Zero))
             {
                 c = a.Clone();
                 var m = a._rows.Length;
@@ -1320,10 +1319,10 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Matrix operator |(Matrix a, Value b)
+        public static Matrix operator |(Matrix a, RealValue b)
         {
             Matrix c;
-            if (a.IsStructurallyConsistentType || b.Equals(Value.Zero))
+            if (a.IsStructurallyConsistentType || b.Equals(RealValue.Zero))
             {
                 c = a.Clone();
                 var m = a._rows.Length;
@@ -1387,10 +1386,10 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static Matrix operator ^(Matrix a, Value b)
+        public static Matrix operator ^(Matrix a, RealValue b)
         {
             Matrix c;
-            if (a.IsStructurallyConsistentType || b.Equals(Value.Zero))
+            if (a.IsStructurallyConsistentType || b.Equals(RealValue.Zero))
             {
                 c = a.Clone();
                 var m = a._rows.Length;
@@ -1422,7 +1421,7 @@ namespace Calcpad.Core
 
         public static implicit operator Matrix(Vector vector) => new ColumnMatrix(vector);
 
-        internal static Matrix EvaluateOperator(Calculator.Operator op, Matrix a, Matrix b, bool isZeroPresrving, bool requireConsistentUnits)
+        internal static Matrix EvaluateOperator(Calculator.Operator<RealValue> op, Matrix a, Matrix b, bool isZeroPresrving, bool requireConsistentUnits)
         {
             CheckBounds(a, b);
             Matrix c;
@@ -1457,11 +1456,11 @@ namespace Calcpad.Core
             return c;
         }
 
-        internal static Matrix EvaluateOperator(Calculator.Operator op, Matrix a, Value b, bool isZeroPreserving, bool requireConsistentUnits)
+        internal static Matrix EvaluateOperator(Calculator.Operator<RealValue> op, Matrix a, RealValue b, bool isZeroPreserving, bool requireConsistentUnits)
         {
             Matrix c;
             if (a.IsStructurallyConsistentType ||
-                isZeroPreserving && a.Equals(Value.Zero))
+                isZeroPreserving && a.Equals(RealValue.Zero))
             {
                 c = a.Clone();
                 var m = a._rows.Length;
@@ -1491,11 +1490,11 @@ namespace Calcpad.Core
             return c;
         }
 
-        internal static Matrix EvaluateOperator(Calculator.Operator op, Value a, Matrix b, bool isZeroPreserving, bool requireConsistentUnits)
+        internal static Matrix EvaluateOperator(Calculator.Operator<RealValue> op, RealValue a, Matrix b, bool isZeroPreserving, bool requireConsistentUnits)
         {
             Matrix c;
             if (b.IsStructurallyConsistentType ||
-                isZeroPreserving && a.Equals(Value.Zero))
+                isZeroPreserving && a.Equals(RealValue.Zero))
             {
                 c = b.Clone();
                 var m = b._rows.Length;
@@ -1525,7 +1524,7 @@ namespace Calcpad.Core
             return c;
         }
 
-        internal static Matrix EvaluateFunction(Calculator.Function f, Matrix a)
+        internal static Matrix EvaluateFunction(Calculator.Function<RealValue> f, Matrix a)
         {
             Matrix c;
             if (a.IsStructurallyConsistentType)
@@ -1559,11 +1558,11 @@ namespace Calcpad.Core
             return c;
         }
 
-        internal Value[] Values
+        internal RealValue[] Values
         {
             get
             {
-                Value[] values = new Value[_rowCount * _colCount];
+                RealValue[] values = new RealValue[_rowCount * _colCount];
                 int k = 0;
                 for (int i = 0; i < _rowCount; ++i)
                     for (int j = 0; j < _colCount; ++j)
@@ -1644,11 +1643,11 @@ namespace Calcpad.Core
             return c;
         }
 
-        internal static Value Frobenius(Matrix a, Matrix b)
+        internal static RealValue Frobenius(Matrix a, Matrix b)
         {
             CheckBounds(a, b);
             var m = a._rows.Length;
-            Value sum = Value.Zero;
+            RealValue sum = RealValue.Zero;
             if (m > ParallelTreshold)
                 Parallel.For(0, m, i =>
                     sum += Vector.DotProduct(a._rows[i], b._rows[i]));
@@ -1703,7 +1702,7 @@ namespace Calcpad.Core
                 this[i, index] = col[i];
         }
 
-        internal void SetCol(int index, Value[] col)
+        internal void SetCol(int index, RealValue[] col)
         {
             var n = Math.Min(col.Length, _rowCount) - 1;
             for (int i = n; i >= 0; --i)
@@ -1752,7 +1751,7 @@ namespace Calcpad.Core
             if (_type == MatrixType.Full)
                 for (int i = rowCount - 1; i >= 0; --i)
                 {
-                    var rowIndex = (int)vector[i].Re;
+                    var rowIndex = (int)vector[i].D;
                     if (rowIndex < 1 || rowIndex > _rowCount)
                         Throw.IndexOutOfRangeException(rowIndex.ToString());
 
@@ -1763,7 +1762,7 @@ namespace Calcpad.Core
                 var n = _colCount - 1;
                 for (int i = rowCount - 1; i >= 0; --i)
                 {
-                    var rowIndex = (int)vector[i].Re;
+                    var rowIndex = (int)vector[i].D;
                     if (rowIndex < 1 || rowIndex > _rowCount)
                         Throw.IndexOutOfRangeException(rowIndex.ToString());
 
@@ -1782,7 +1781,7 @@ namespace Calcpad.Core
             var m = _rowCount - 1;
             for (int j = colCount - 1; j >= 0; --j)
             {
-                var colIndex = (int)vector[j].Re;
+                var colIndex = (int)vector[j].D;
                 if (colIndex < 1 || colIndex > _colCount)
                     Throw.IndexOutOfRangeException(colIndex.ToString());
 
@@ -1792,7 +1791,7 @@ namespace Calcpad.Core
             return M;
         }
 
-        internal Matrix Fill(Value value)
+        internal Matrix Fill(RealValue value)
         {
             var m = _rows.Length;
             if (m > ParallelTreshold)
@@ -1805,7 +1804,7 @@ namespace Calcpad.Core
             return this;
         }
 
-        internal Matrix FillRow(int i, in Value value)
+        internal Matrix FillRow(int i, in RealValue value)
         {
             if (i > _rowCount)
                 Throw.IndexOutOfRangeException(i.ToString());
@@ -1822,7 +1821,7 @@ namespace Calcpad.Core
             return this;
         }
 
-        internal Matrix FillCol(int j, in Value value)
+        internal Matrix FillCol(int j, in RealValue value)
         {
             if (j > _colCount)
                 Throw.IndexOutOfRangeException(j.ToString());
@@ -1896,13 +1895,13 @@ namespace Calcpad.Core
             return M;
         }
 
-        internal Vector Search(in Value value, int iStart, int jStart)
+        internal Vector Search(in RealValue value, int iStart, int jStart)
         {
             if (_type == MatrixType.Full)
                 for (int i = iStart - 1; i < _rowCount; ++i)
                 {
                     var jValue = _rows[i].Search(value, jStart);
-                    if (!jValue.Equals(Value.Zero))
+                    if (!jValue.Equals(RealValue.Zero))
                         return new([new(i + 1), jValue]);
 
                     jStart = 1;
@@ -1922,12 +1921,12 @@ namespace Calcpad.Core
             return new Vector(2);
         }
 
-        internal Value Count(in Value value)
+        internal RealValue Count(in RealValue value)
         {
             var count = 0;
             if (_type == MatrixType.Full)
                 for (int i = 0; i < _rowCount; ++i)
-                    count += (int)_rows[i].Count(value, 1).Re;
+                    count += (int)_rows[i].Count(value, 1).D;
             else
                 for (int i = 0; i < _rowCount; ++i)
                     for (int j = 0; j < _colCount; ++j)
@@ -1937,7 +1936,7 @@ namespace Calcpad.Core
             return new(count);
         }
 
-        internal Matrix FindAll(in Value value, Vector.Relation rel)
+        internal Matrix FindAll(in RealValue value, Vector.Relation rel)
         {
             var M = FromIndexes(FindAllIndexes(value, rel));
             if (M._colCount == 0)
@@ -1946,7 +1945,7 @@ namespace Calcpad.Core
             return M;
         }
 
-        internal Vector HLookup(in Value value, int searchRow, int returnRow, Vector.Relation rel)
+        internal Vector HLookup(in RealValue value, int searchRow, int returnRow, Vector.Relation rel)
         {
             if (searchRow < 1 || searchRow > _rowCount)
                 Throw.IndexOutOfRangeException(searchRow.ToString());
@@ -1968,7 +1967,7 @@ namespace Calcpad.Core
             return vector;
         }
 
-        internal Vector VLookup(in Value value, int searchCol, int returnCol, Vector.Relation rel)
+        internal Vector VLookup(in RealValue value, int searchCol, int returnCol, Vector.Relation rel)
         {
             if (searchCol > _colCount)
                 Throw.IndexOutOfRangeException(searchCol.ToString());
@@ -1989,7 +1988,7 @@ namespace Calcpad.Core
             return vector;
         }
 
-        private List<(int, int)> FindAllIndexes(in Value value, Vector.Relation rel)
+        private List<(int, int)> FindAllIndexes(in RealValue value, Vector.Relation rel)
         {
             var indexes = new List<(int, int)>();
             for (int i = 0; i < _rowCount; ++i)
@@ -2084,15 +2083,15 @@ namespace Calcpad.Core
             return row.Order(reverse);
         }
 
-        internal Value Min()
+        internal RealValue Min()
         {
             var v = _rows[0].Min();
-            var min = v.Re;
+            var min = v.D;
             var u = v.Units;
             for (int i = 1, len = _rows.Length; i < len; ++i)
             {
                 v = _rows[i].Min();
-                var b = v.Re * Unit.Convert(u, v.Units, ',');
+                var b = v.D * Unit.Convert(u, v.Units, ',');
                 if (b < min)
                     min = b;
             }
@@ -2102,15 +2101,15 @@ namespace Calcpad.Core
             return new(min, u);
         }
 
-        internal Value Max()
+        internal RealValue Max()
         {
             var v = _rows[0].Max();
-            var max = v.Re;
+            var max = v.D;
             var u = v.Units;
             for (int i = 1, len = _rows.Length; i < len; ++i)
             {
                 v = _rows[i].Max();
-                var b = v.Re * Unit.Convert(u, v.Units, ',');
+                var b = v.D * Unit.Convert(u, v.Units, ',');
                 if (b > max)
                     max = b;
             }
@@ -2120,57 +2119,57 @@ namespace Calcpad.Core
             return new(max, u);
         }
 
-        internal virtual Value Sum()
+        internal virtual RealValue Sum()
         {
             var v = _rows[0].Sum();
-            var sum = v.Re;
+            var sum = v.D;
             var u = v.Units;
             for (int i = 1, len = _rows.Length; i < len; ++i)
             {
                 v = _rows[i].Sum();
-                sum += v.Re * Unit.Convert(u, v.Units, ',');
+                sum += v.D * Unit.Convert(u, v.Units, ',');
             }
             return new(sum, u);
         }
 
-        internal virtual Value SumSq()
+        internal virtual RealValue SumSq()
         {
             var v = _rows[0].SumSq();
-            var sumsq = v.Re;
+            var sumsq = v.D;
             var u = v.Units;
             for (int i = 1, len = _rows.Length; i < len; ++i)
             {
                 v = _rows[i].SumSq();
-                sumsq += v.Re * Unit.Convert(u, v.Units, ',');
+                sumsq += v.D * Unit.Convert(u, v.Units, ',');
             }
             return new(sumsq, u);
         }
 
-        internal Value Srss()
+        internal RealValue Srss()
         {
             var sumsq = SumSq();
-            var srss = Math.Sqrt(sumsq.Re);
+            var srss = Math.Sqrt(sumsq.D);
             var u = sumsq.Units;
             return new(srss, u?.Pow(0.5f));
         }
 
-        internal Value Average()
+        internal RealValue Average()
         {
             var sum = Sum();
             var n = _rowCount * _colCount;
-            return new(sum.Re / n, sum.Units);
+            return new(sum.D / n, sum.Units);
         }
 
-        internal virtual Value Product()
+        internal virtual RealValue Product()
         {
             var v = _rows[0].Product();
-            var product = v.Re;
+            var product = v.D;
             var u = v.Units;
             for (int i = 1, len = _rows.Length; i < len; ++i)
             {
                 v = _rows[i].Product();
                 u = Unit.Multiply(u, v.Units, out var b);
-                product *= v.Re * b;
+                product *= v.D * b;
             }
             if (!IsStructurallyConsistentType)
                 return new(0d, u);
@@ -2178,11 +2177,11 @@ namespace Calcpad.Core
             return new(product, u);
         }
 
-        internal Value Mean()
+        internal RealValue Mean()
         {
             var product = Product();
             var n = _rowCount * _colCount;
-            var result = Math.Pow(product.Re, 1d / n);
+            var result = Math.Pow(product.D, 1d / n);
             var u = product.Units;
             if (u is null)
                 return new(result);
@@ -2191,82 +2190,82 @@ namespace Calcpad.Core
             return new(result, u);
         }
 
-        internal Value And()
+        internal RealValue And()
         {
             if (!IsStructurallyConsistentType)
-                return Value.Zero;
+                return RealValue.Zero;
 
             for (int i = 0, len = _rows.Length; i < len; ++i)
-                if (Math.Abs(_rows[i].And().Re) < Value.LogicalZero)
-                    return Value.Zero;
+                if (Math.Abs(_rows[i].And().D) < RealValue.LogicalZero)
+                    return RealValue.Zero;
 
-            return Value.One;
+            return RealValue.One;
         }
 
-        internal Value Or()
+        internal RealValue Or()
         {
             for (int i = 0, len = _rows.Length; i < len; ++i)
-                if (Math.Abs(_rows[i].Or().Re) >= Value.LogicalZero)
-                    return Value.One;
+                if (Math.Abs(_rows[i].Or().D) >= RealValue.LogicalZero)
+                    return RealValue.One;
 
-            return Value.Zero;
+            return RealValue.Zero;
         }
 
-        internal Value Xor()
+        internal RealValue Xor()
         {
-            var b = Math.Abs(_rows[0].Xor().Re) >= Value.LogicalZero;
+            var b = Math.Abs(_rows[0].Xor().D) >= RealValue.LogicalZero;
             for (int i = 1, len = _rows.Length; i < len; ++i)
-                b = b != Math.Abs(_rows[i].Xor().Re) >= Value.LogicalZero;
+                b = b != Math.Abs(_rows[i].Xor().D) >= RealValue.LogicalZero;
 
-            return b ? Value.One : Value.Zero;
+            return b ? RealValue.One : RealValue.Zero;
         }
 
-        internal Value Gcd()
+        internal RealValue Gcd()
         {
             var v = _rows[0].Gcd();
-            var a = Calculator.AsLong(v.Re);
+            var a = Calculator.AsLong(v.D);
             var u = v.Units;
             for (int i = 1, len = _rows.Length; i < len; ++i)
             {
                 v = _rows[i].Gcd();
-                var b = Calculator.AsLong(v.Re * Unit.Convert(u, v.Units, ','));
+                var b = Calculator.AsLong(v.D * Unit.Convert(u, v.Units, ','));
                 a = Calculator.Gcd(a, b);
             }
             return new(a);
         }
 
-        internal Value Lcm()
+        internal RealValue Lcm()
         {
             var v = _rows[0].Lcm();
-            var a = Calculator.AsLong(v.Re);
+            var a = Calculator.AsLong(v.D);
             var u = v.Units;
             for (int i = 1, len = _rows.Length; i < len; ++i)
             {
                 v = _rows[i].Lcm();
-                var b = Calculator.AsLong(v.Re * Unit.Convert(u, v.Units, ','));
+                var b = Calculator.AsLong(v.D * Unit.Convert(u, v.Units, ','));
                 a = a * b / Calculator.Gcd(a, b);
             }
             return new(a);
         }
 
-        internal Value Take(in Value x, in Value y)
+        internal RealValue Take(in RealValue x, in RealValue y)
         {
-            var dx = Math.Round(x.Re, MidpointRounding.AwayFromZero);
-            var dy = Math.Round(y.Re, MidpointRounding.AwayFromZero);
+            var dx = Math.Round(x.D, MidpointRounding.AwayFromZero);
+            var dy = Math.Round(y.D, MidpointRounding.AwayFromZero);
             if (!double.IsNormal(dy) || dy < Calculator.DeltaMinus || dy > _rowCount * Calculator.DeltaPlus ||
                 !double.IsNormal(dx) || dx < Calculator.DeltaMinus || dx > _colCount * Calculator.DeltaPlus)
-                return Value.NaN;
+                return RealValue.NaN;
 
             return this[(int)dy - 1, (int)dx - 1];
         }
 
-        internal Value Line(in Value x, in Value y)
+        internal RealValue Line(in RealValue x, in RealValue y)
         {
-            var dx = x.Re;
-            var dy = y.Re;
+            var dx = x.D;
+            var dy = y.D;
             if (!double.IsNormal(dy) || dy < Calculator.DeltaMinus || dy > _rowCount * Calculator.DeltaPlus ||
                 !double.IsNormal(dx) || dx < Calculator.DeltaMinus || dx > _colCount * Calculator.DeltaPlus)
-                return Value.NaN;
+                return RealValue.NaN;
 
             var j = (int)Math.Floor(dx);
             var i = (int)Math.Floor(dy);
@@ -2292,13 +2291,13 @@ namespace Calcpad.Core
             return z1 + (z2 - z1) * (dy - i);
         }
 
-        internal Value Spline(in Value x, in Value y)
+        internal RealValue Spline(in RealValue x, in RealValue y)
         {
-            var dx = x.Re;
-            var dy = y.Re;
+            var dx = x.D;
+            var dy = y.D;
             if (!double.IsNormal(dy) || dy < Calculator.DeltaMinus || dy > _rowCount * Calculator.DeltaPlus ||
                 !double.IsNormal(dx) || dx < Calculator.DeltaMinus || dx > _colCount * Calculator.DeltaPlus)
-                return Value.NaN;
+                return RealValue.NaN;
 
             var j = (int)Math.Floor(dx) - 1;
             var i = (int)Math.Floor(dy) - 1;
@@ -2306,9 +2305,9 @@ namespace Calcpad.Core
             if (i == dy || dy >= _rowCount)
                 return v;
             var u = v.Units;
-            var z0 = v.Re;
+            var z0 = v.D;
             v = SplineRow(i + 1, j, dx);
-            var z1 = v.Re * Unit.Convert(u, v.Units, ',');
+            var z1 = v.D * Unit.Convert(u, v.Units, ',');
             var dz = z1 - z0;
             var a = dz;
             var b = dz;
@@ -2316,13 +2315,13 @@ namespace Calcpad.Core
             if (i > 0)
             {
                 v = SplineRow(i - 1, j, dx);
-                var z2 = v.Re * Unit.Convert(u, v.Units, ',');
+                var z2 = v.D * Unit.Convert(u, v.Units, ',');
                 a = (z1 - z2) * (Math.Sign(z0 - z2) == dz ? 0.5 : 0.25);
             }
             if (i < _rowCount - 2)
             {
                 v = SplineRow(i + 2, j, dx);
-                var z2 = v.Re * Unit.Convert(u, v.Units, ',');
+                var z2 = v.D * Unit.Convert(u, v.Units, ',');
                 b = (z2 - z0) * (Math.Sign(z2 - z1) == dz ? 0.5 : 0.25);
             }
             if (i == 0)
@@ -2336,16 +2335,16 @@ namespace Calcpad.Core
             return new(z, u);
         }
 
-        private Value SplineRow(int i, int j, double dx)
+        private RealValue SplineRow(int i, int j, double dx)
         {
             var v = this[i, j];
             if (j == dx || dx >= _colCount)
                 return v;
 
             var u = v.Units;
-            var y0 = v.Re;
+            var y0 = v.D;
             v = this[i, j + 1];
-            var y1 = v.Re * Unit.Convert(u, v.Units, ',');
+            var y1 = v.D * Unit.Convert(u, v.Units, ',');
             var dy = y1 - y0;
             var a = dy;
             var b = dy;
@@ -2353,13 +2352,13 @@ namespace Calcpad.Core
             if (j > 0)
             {
                 v = this[i, j - 1];
-                var y2 = v.Re * Unit.Convert(u, v.Units, ',');
+                var y2 = v.D * Unit.Convert(u, v.Units, ',');
                 a = (y1 - y2) * (Math.Sign(y0 - y2) == dy ? 0.5 : 0.25);
             }
             if (j < _colCount - 2)
             {
                 v = this[i, j + 2];
-                var y2 = v.Re * Unit.Convert(u, v.Units, ',');
+                var y2 = v.D * Unit.Convert(u, v.Units, ',');
                 b = (y2 - y0) * (Math.Sign(y2 - y1) == dy ? 0.5 : 0.25);
             }
             if (j == 0)
@@ -2385,7 +2384,7 @@ namespace Calcpad.Core
             return M;
         }
 
-        internal Value Trace()
+        internal RealValue Trace()
         {
             if (_rowCount != _colCount)
                 Throw.MatrixNotSquareException();
@@ -2398,10 +2397,10 @@ namespace Calcpad.Core
         }
 
         //Frobenius norm
-        internal Value FrobNorm() => Srss();
+        internal RealValue FrobNorm() => Srss();
 
         //L1 norm   
-        internal Value L1Norm()
+        internal RealValue L1Norm()
         {
             var norm = new ColumnVector(this, 0).L1Norm();
             for (int j = 1; j < _colCount; ++j)
@@ -2413,14 +2412,14 @@ namespace Calcpad.Core
             return norm;
         }
 
-        internal Value L2Norm()
+        internal RealValue L2Norm()
         {
             GetSVD(out _, out Vector sig, out _);
             return sig.Max();
         }
 
         //L∞ (Infinity) or Chebyshev norm     
-        internal virtual Value InfNorm()
+        internal virtual RealValue InfNorm()
         {
             var norm = _rows[0].L1Norm();
             for (int i = 1, n = _rows.Length; i < n; ++i)
@@ -2447,9 +2446,9 @@ namespace Calcpad.Core
                 Throw.MatrixNotSquareException();
 
             var LU = new Matrix(_rowCount, _rowCount);
-            var vv = new Value[_rowCount];
+            var vv = new RealValue[_rowCount];
             indexes = new int[_rowCount];
-            Value big;
+            RealValue big;
             minPivot = double.MaxValue; //Used to determine singularity
             det = 1d; //Used to compute the sign change of determinant after pivot interchanges
             for (int i = 0; i < _rowCount; ++i)
@@ -2462,17 +2461,17 @@ namespace Calcpad.Core
             for (int i = 0; i < _rowCount; ++i)
             {
                 var row = LU._rows[i];
-                big = RealCalculator.Abs(row[0]);
+                big = RealValue.Abs(row[0]);
                 for (int j = 1; j < row.Size; j++)
                 {
-                    var temp = RealCalculator.Abs(row[j]);
+                    var temp = RealValue.Abs(row[j]);
                     if (temp.CompareTo(big) > 0)
                         big = temp;
                 }
-                if (big.Re == 0d)
+                if (big.D == 0d)
                     return null;
 
-                vv[i] = Value.One / big;
+                vv[i] = RealValue.One / big;
             }
             for (int j = 0; j < _colCount; ++j)
             {
@@ -2481,34 +2480,34 @@ namespace Calcpad.Core
                     var row = LU._rows[i];
                     var sum = row[j];
                     var k0 = 0;
-                    while (k0 < i && row[k0].Re == 0d) ++k0;
+                    while (k0 < i && row[k0].D == 0d) ++k0;
                     for (int k = k0; k < i; ++k)
                         if (j < LU._rows[k].Size)
                             sum -= row[k] * LU[k, j];
 
                     row[j] = sum;
                 }
-                big = Value.Zero;
+                big = RealValue.Zero;
                 var imax = j;
                 for (int i = j; i < _rowCount; ++i)
                 {
                     var row = LU._rows[i];
                     var sum = row[j];
                     var k0 = 0;
-                    while (k0 < j && row[k0].Re == 0d) ++k0;
+                    while (k0 < j && row[k0].D == 0d) ++k0;
                     for (int k = k0; k < j; k++)
                         if (j < LU._rows[k].Size)
                             sum -= row[k] * LU[k, j];
 
                     row[j] = sum;
-                    var dum = vv[i] * RealCalculator.Abs(sum);
+                    var dum = vv[i] * RealValue.Abs(sum);
                     if (dum.CompareTo(big) > 0)
                     {
                         big = dum;
                         imax = i;
                     }
                 }
-                var d = Math.Abs(big.Re);
+                var d = Math.Abs(big.D);
                 if (j != imax)
                 {
                     if (d < minPivot)
@@ -2521,7 +2520,7 @@ namespace Calcpad.Core
                 }
                 if (j != _rowCount - 1)
                 {
-                    var dum = Value.One / LU[j, j];
+                    var dum = RealValue.One / LU[j, j];
                     for (int i = j + 1; i < _rowCount; ++i)
                         LU[i, j] *= dum;
                 }
@@ -2541,7 +2540,7 @@ namespace Calcpad.Core
             R = Copy();
             Q = Identity(n);
             var end = n - 1;
-            var two = new Value(2);
+            var two = new RealValue(2);
             for (int i = 0; i < end; ++i)
             {
                 var H = Identity(n);
@@ -2551,14 +2550,14 @@ namespace Calcpad.Core
                     a[k++] = R[ii, i];
 
                 var normA = a.Norm();
-                if (a[0].Re < 0.0)
+                if (a[0].D < 0.0)
                     normA = -normA;
 
                 var v = new Vector(a.Length);
                 for (int j = 0; j < v.Length; ++j)
                     v[j] = a[j] / (a[0] + normA);
 
-                v[0] = Value.One;
+                v[0] = RealValue.One;
 
                 var h = Identity(a.Length);
                 var vvDot = v.SumSq();
@@ -2579,18 +2578,17 @@ namespace Calcpad.Core
                 R = H * R;
             }
         }
-
-        protected static Value CopySign(in Value a, in Value b) => 
-            b.Re >= 0.0 ? RealCalculator.Abs(a) : -RealCalculator.Abs(a);
-        protected static Value Sqr(in Value x) => x * x;
-        protected static Value Hypot(in Value a, in Value b)
+        protected static RealValue CopySign(in RealValue a, in RealValue b) => 
+            b.D >= 0.0 ? RealValue.Abs(a) : -RealValue.Abs(a);
+        protected static RealValue Sqr(in RealValue x) => x * x;
+        protected static RealValue Hypot(in RealValue a, in RealValue b)
         {
-            var a1 = RealCalculator.Abs(a);
-            var b1 = RealCalculator.Abs(b);
+            var a1 = RealValue.Abs(a);
+            var b1 = RealValue.Abs(b);
             if (a1.CompareTo(b1) > 0)
-                return a1 * RealCalculator.Sqrt(Value.One + Sqr(b1 / a1));
+                return a1 * RealValue.Sqrt(RealValue.One + Sqr(b1 / a1));
             else
-                return b1.Re == 0.0 ? b1 : b1 * RealCalculator.Sqrt(Value.One + Sqr(a1 / b1));
+                return b1.D == 0.0 ? b1 : b1 * RealValue.Sqrt(RealValue.One + Sqr(a1 / b1));
         }
 
         private void GetSVD(out Matrix U, out Vector sig, out Matrix V)
@@ -2604,28 +2602,28 @@ namespace Calcpad.Core
             U = Copy();
             sig = new Vector(_colCount);
             V = new Matrix(_colCount, _colCount);
-            SvdBidiagonalize(U, sig, rv1, m, n, out Value anorm);
+            SvdBidiagonalize(U, sig, rv1, m, n, out RealValue anorm);
             SvdRightTransform(U, V, rv1, n);
             SvdLeftTransform(U, sig, m ,n);
             SvdDiagonalize(U, sig, V, rv1,m, n, anorm);
         }
         
-        private static void SvdBidiagonalize(Matrix U, Vector sig, Vector rv1, int m, int n, out Value anorm)
+        private static void SvdBidiagonalize(Matrix U, Vector sig, Vector rv1, int m, int n, out RealValue anorm)
         {
-            Value sum;            
-            Value scale, g;
-            scale = g = anorm = Value.Zero;
+            RealValue sum;            
+            RealValue scale, g;
+            scale = g = anorm = RealValue.Zero;
             for (int i = 0; i <= n; ++i)
             {
                 var l = i + 1;
                 rv1[i] = scale * g;
                 if (i <= m)
                 {
-                    scale = RealCalculator.Abs(U[i, i]);
+                    scale = RealValue.Abs(U[i, i]);
                     for (int k = i + 1; k <= m; ++k)
-                        scale += RealCalculator.Abs(U[k, i]);
+                        scale += RealValue.Abs(U[k, i]);
 
-                    if (scale.Re != 0)
+                    if (scale.D != 0)
                     {
                         U[i, i] /= scale;
                         sum = Sqr(U[i, i]);
@@ -2635,7 +2633,7 @@ namespace Calcpad.Core
                             sum += Sqr(U[k, i]);
                         }
                         var f = U[i, i];
-                        g = -CopySign(RealCalculator.Sqrt(sum), f);
+                        g = -CopySign(RealValue.Sqrt(sum), f);
                         var h = f * g - sum;
                         U[i, i] = f - g;
                         for (int j = l; j <= n; ++j)
@@ -2655,11 +2653,11 @@ namespace Calcpad.Core
                 sig[i] = scale * g;
                 if (i <= m && i != n)
                 {
-                    scale = RealCalculator.Abs(U[i, l]);
+                    scale = RealValue.Abs(U[i, l]);
                     for (int k = l + 1; k <= n; ++k)
-                        scale += RealCalculator.Abs(U[i, k]);
+                        scale += RealValue.Abs(U[i, k]);
 
-                    if (scale.Re != 0)
+                    if (scale.D != 0)
                     {
                         U[i, l] /= scale;
                         sum = Sqr(U[i, l]);
@@ -2669,7 +2667,7 @@ namespace Calcpad.Core
                             sum += Sqr(U[i, k]);
                         }
                         var f = U[i, l];
-                        g = -CopySign(RealCalculator.Sqrt(sum), f);
+                        g = -CopySign(RealValue.Sqrt(sum), f);
                         var h = f * g - sum;
                         U[i, l] = f - g;
                         for (int k = l; k <= n; ++k)
@@ -2689,26 +2687,26 @@ namespace Calcpad.Core
                     }
                 }
 
-                var a = RealCalculator.Abs(sig[i]);
+                var a = RealValue.Abs(sig[i]);
                 var rvi = rv1[i];                
-                if (rvi.Re != 0)
-                    a += RealCalculator.Abs(rvi);
+                if (rvi.D != 0)
+                    a += RealValue.Abs(rvi);
 
-                if (anorm.Re == 0 || a.CompareTo(anorm) > 0)
+                if (anorm.D == 0 || a.CompareTo(anorm) > 0)
                     anorm = a;
             }
         }
 
         private static void SvdRightTransform(Matrix U, Matrix V, Vector rv1, int n)
         {
-            Value sum;
+            RealValue sum;
             var l = n + 1;
-            var g = Value.Zero;
+            var g = RealValue.Zero;
             for (int i = n; i >= 0; --i)
             {
                 if (i < n)
                 {
-                    if (g.Re != 0)
+                    if (g.D != 0)
                     {
                         for (int j = l; j <= n; ++j)
                             V[j, i] = (U[i, j] / U[i, l]) / g;
@@ -2724,9 +2722,9 @@ namespace Calcpad.Core
                         }
                     }
                     for (int j = l; j <= n; ++j)
-                        V[i, j] = V[j, i] = Value.Zero;
+                        V[i, j] = V[j, i] = RealValue.Zero;
                 }
-                V[i, i] = Value.One;
+                V[i, i] = RealValue.One;
                 g = rv1[i];
                 l = i;
             }
@@ -2739,11 +2737,11 @@ namespace Calcpad.Core
                 var l = i + 1;
                 var g = sig[i];
                 for (int j = l; j <= n; ++j)
-                    U[i, j] = Value.Zero;
+                    U[i, j] = RealValue.Zero;
 
-                if (g.Re != 0)
+                if (g.D != 0)
                 {
-                    g = Value.One / g;
+                    g = RealValue.One / g;
                     for (int j = l; j <= n; ++j)
                     {
                         var sum = U[l, i] * U[l, j];
@@ -2759,15 +2757,15 @@ namespace Calcpad.Core
                 }
                 else
                     for (int j = i; j <= m; ++j)
-                        U[j, i] = Value.Zero;
+                        U[j, i] = RealValue.Zero;
 
-                U[i, i] += Value.One;
+                U[i, i] += RealValue.One;
             }
         }
 
-        private static void SvdDiagonalize(Matrix U, Vector sig, Matrix V, Vector rv1, int m, int n, Value anorm)
+        private static void SvdDiagonalize(Matrix U, Vector sig, Matrix V, Vector rv1, int m, int n, RealValue anorm)
         {
-            Value g;
+            RealValue g;
             for (int k = n; k >= 0; --k)
             {
                 for (int iter = 1; iter <= 30; ++iter)
@@ -2777,31 +2775,31 @@ namespace Calcpad.Core
                     int l;
                     for (l = k; l >= 0; --l)
                     {
-                        if (rv1[l].Re == 0 || (RealCalculator.Abs(rv1[l]) + anorm).CompareTo(anorm) == 0)
+                        if (rv1[l].D == 0 || (RealValue.Abs(rv1[l]) + anorm).CompareTo(anorm) == 0)
                         {
                             flag = 0;
                             break;
                         }
-                        if ((RealCalculator.Abs(sig[nm]) + anorm).CompareTo(anorm) == 0)
+                        if ((RealValue.Abs(sig[nm]) + anorm).CompareTo(anorm) == 0)
                             break;
                     }
                     nm = l - 1;
-                    Value f, h, c, s;
+                    RealValue f, h, c, s;
                     if (flag != 0)
                     {
-                        c = Value.Zero;
-                        s = Value.One;
+                        c = RealValue.Zero;
+                        s = RealValue.One;
                         for (int i = l; i <= k; ++i)
                         {
                             f = s * rv1[i];
                             rv1[i] = c * rv1[i];
-                            if ((RealCalculator.Abs(f) + anorm).CompareTo(anorm) == 0)
+                            if ((RealValue.Abs(f) + anorm).CompareTo(anorm) == 0)
                                 break;
 
                             g = sig[i];
                             h = Hypot(f, g);
                             sig[i] = h;
-                            h = Value.One / h;
+                            h = RealValue.One / h;
                             c = g * h;
                             s = -f * h;
                             for (int j = 0; j <= m; ++j)
@@ -2816,7 +2814,7 @@ namespace Calcpad.Core
                     var z = sig[k];
                     if (l == k)
                     {
-                        if (z.Re < 0d)
+                        if (z.D < 0d)
                         {
                             sig[k] = -z;
                             for (int j = 0; j <= n; ++j)
@@ -2832,14 +2830,14 @@ namespace Calcpad.Core
                     var y = sig[nm];
                     g = rv1[nm];
                     h = rv1[k];
-                    if (g.Re == 0)
+                    if (g.D == 0)
                         f = ((y - z) * (y + z) - h * h) / (h * y * 2d);
                     else
                         f = ((y - z) * (y + z) + (g - h) * (g + h)) / (h * y * 2d);
-                    g = Hypot(f, Value.One);
+                    g = Hypot(f, RealValue.One);
                     f = ((x - z) * (x + z) + h * ((y / (f + CopySign(g, f))) - h)) / x;
-                    c = Value.One;
-                    s = Value.One;
+                    c = RealValue.One;
+                    s = RealValue.One;
                     for (int j = l; j <= nm; ++j)
                     {
                         var i = j + 1;
@@ -2864,9 +2862,9 @@ namespace Calcpad.Core
                         }
                         z = Hypot(f, h);
                         sig[j] = z;
-                        if (z.Re != 0)
+                        if (z.D != 0)
                         {
-                            z = Value.One / z;
+                            z = RealValue.One / z;
                             c = f * z;
                             s = h * z;
                         }
@@ -2880,7 +2878,7 @@ namespace Calcpad.Core
                             U[jj, i] = z * c - y * s;
                         }
                     }
-                    rv1[l] = Value.Zero;
+                    rv1[l] = RealValue.Zero;
                     rv1[k] = f;
                     sig[k] = x;
                 }
@@ -2954,12 +2952,12 @@ namespace Calcpad.Core
         {
             var M = new Matrix(n, n);
             for (int i = 0; i < n; ++i)
-                M[i, i] = Value.One;
+                M[i, i] = RealValue.One;
 
             return M;
         }
 
-        private static void FwdAndBackSubst(Matrix LU, int[] indexes, Vector v, ref Value[] x)
+        private static void FwdAndBackSubst(Matrix LU, int[] indexes, Vector v, ref RealValue[] x)
         {
             var n = LU._rowCount;
             var start = -1;
@@ -2971,7 +2969,7 @@ namespace Calcpad.Core
                 if (start >= 0)
                     for (int j = start; j < i; ++j)
                         sum -= LU[i, j] * x[j];
-                else if (!sum.Equals(Value.Zero))
+                else if (!sum.Equals(RealValue.Zero))
                     start = i;
 
                 x[i] = sum;
@@ -2997,7 +2995,7 @@ namespace Calcpad.Core
             if (minPivot < 1e-15)
                 Throw.MatrixCloseToSingularException();
 
-            var x = new Value[_rowCount];
+            var x = new RealValue[_rowCount];
             FwdAndBackSubst(LU, indexes, v, ref x);
             return new(x);
         }
@@ -3016,7 +3014,7 @@ namespace Calcpad.Core
             var v = new Vector[n];
             Parallel.For(0, n, j =>
             {
-                var x = new Value[m];
+                var x = new RealValue[m];
                 FwdAndBackSubst(LU, indexes, M.Col(j + 1), ref x);
                 v[j] = new(x);
             });
@@ -3039,33 +3037,33 @@ namespace Calcpad.Core
         private Matrix GetInverse(Matrix lu, int[] indexes)
         {
             var vector = new Vector(_rowCount);
-            var x = new Value[_rowCount];
+            var x = new RealValue[_rowCount];
             var M = new Matrix(_rowCount, _rowCount);
             for (int j = 0; j < _rowCount; ++j)  //Find inverse by columns.
             {
-                vector[j] = Value.One;
+                vector[j] = RealValue.One;
                 FwdAndBackSubst(lu, indexes, vector, ref x);
                 for (int i = 0; i < _rowCount; ++i)
                     M[i, j] = x[i];
 
-                vector[j] = Value.Zero;
+                vector[j] = RealValue.Zero;
             }
             return M;
         }
 
-        internal virtual Value Determinant()
+        internal virtual RealValue Determinant()
         {
             if (_rowCount != _colCount)
                 Throw.MatrixNotSquareException();
 
             var LU = GetLU(out int[] _, out double _, out double det);
             if (LU is null)
-                return Value.Zero;
+                return RealValue.Zero;
 
             return GetDeterminant(LU) * det;
         }
 
-        private Value GetDeterminant(Matrix lu)
+        private RealValue GetDeterminant(Matrix lu)
         {
             var det = lu._rows[0][0];
             for (int i = 1; i < _rowCount; ++i)
@@ -3074,38 +3072,38 @@ namespace Calcpad.Core
             return det;
         }
 
-        internal Value Cond2()
+        internal RealValue Cond2()
         {
             GetSVD(out Matrix _, out Vector sig, out Matrix _);
             return sig.Max() / sig.Min();
         }
 
-        internal Value Cond1() => Condition(M => M.L1Norm());
-        internal Value CondFrob() => Condition(M => M.FrobNorm());
-        internal Value CondInf() => Condition(M => M.InfNorm());
+        internal RealValue Cond1() => Condition(M => M.L1Norm());
+        internal RealValue CondFrob() => Condition(M => M.FrobNorm());
+        internal RealValue CondInf() => Condition(M => M.InfNorm());
 
-        protected virtual Value Condition(Func<Matrix, Value> norm)
+        protected virtual RealValue Condition(Func<Matrix, RealValue> norm)
         {
             if (_rowCount != _colCount)
                 Throw.MatrixNotSquareException();
 
             var LU = GetLU(out int[] indexes, out double _, out double _); //Decompose the matrix by LU decomp.
             if (LU is null)
-                return Value.PositiveInfinity;
+                return RealValue.PositiveInfinity;
 
             var M = GetInverse(LU, indexes);
             return norm(this) * norm(M);
         }
 
-        internal Value Rank()
+        internal RealValue Rank()
         {
             var rank = 0;
             GetSVD(out Matrix _, out Vector sig, out Matrix _);
-            var sigMax = sig.Max().Re; 
+            var sigMax = sig.Max().D; 
             var eps = (double.BitIncrement(sigMax) - sigMax);
             for (int i = 0, len = sig.Length; i < len; ++i)
             {
-                if (Math.Abs(sig[i].Re) > eps)
+                if (Math.Abs(sig[i].D) > eps)
                     ++rank;
             }
             return new(rank);
@@ -3155,7 +3153,7 @@ namespace Calcpad.Core
                     if (IsTarget(target._type, i1, j1))
                     {
                         var v = target[i1, j1];
-                        if (v.Equals(Value.Zero))
+                        if (v.Equals(RealValue.Zero))
                             target[i1, j1] = this[ii, jj];
                         else
                             target[i1, j1] = v + this[ii, jj];

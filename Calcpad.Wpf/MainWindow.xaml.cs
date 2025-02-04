@@ -225,10 +225,11 @@ namespace Calcpad.Wpf
                 $".{ext}" :
                 $".{_currentCultureName}.{ext}";
 
-        public bool SaveStateAndRestart()
+        public bool SaveStateAndRestart(string tempFile)
         {
-            var tempFile = Path.GetRandomFileName();
-            File.WriteAllText(tempFile, InputText);
+            var text = InputText;
+            Clipboard.SetText(text);
+            File.WriteAllText(tempFile, text);
             Properties.Settings.Default.TempFile = tempFile;
             Properties.Settings.Default.FileName = CurrentFileName;
             Properties.Settings.Default.Save();
@@ -331,7 +332,7 @@ namespace Calcpad.Wpf
             if (e.VerticalChange != 0 && !_sizeChanged && !IsWebForm)
             {
                 MoveAutoComplete();
-                Task.Run(DispatchLineNumbers);
+                DispatchLineNumbers();
                 if (e.VerticalChange > 0 && _lastModifiedParagraph is not null)
                 {
                     Rect r = _lastModifiedParagraph.ContentStart.GetCharacterRect(LogicalDirection.Forward);
@@ -601,7 +602,7 @@ namespace Calcpad.Wpf
                 RichTextBox.Selection.Select(tp, tp);
                 RichTextBox.EndChange();
                 _isTextChangedEnabled = true;
-                Task.Run(DispatchAutoIndent);
+                DispatchAutoIndent();
                 Record();
             }
             RichTextBox.Focus();
@@ -1174,7 +1175,7 @@ namespace Calcpad.Wpf
                         IsWebForm = false;
                     else
                     {
-                        Task.Run(DispatchLineNumbers);
+                        DispatchLineNumbers();
                         ForceHighlight();
                     }
                     SaveButton.Tag = null;
@@ -1689,7 +1690,7 @@ namespace Calcpad.Wpf
         private void Button_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             ResetText();
-            Task.Run(DispatchLineNumbers);
+            DispatchLineNumbers();
             if (IsAutoRun)
                 AutoRun();
         }
@@ -1918,7 +1919,7 @@ namespace Calcpad.Wpf
             HighLighter.Clear(_currentParagraph);
             RichTextBox.EndChange();
             _isTextChangedEnabled = true;
-            Task.Run(DispatchLineNumbers);
+            DispatchLineNumbers();
             if (IsAutoRun)
                 AutoRun();
         }
@@ -1980,7 +1981,7 @@ namespace Calcpad.Wpf
             {
                 var cursor = WebBrowser.Cursor;
                 WebBrowser.Cursor = Cursors.Wait;
-                Task.Run(DispatchLineNumbers);
+                DispatchLineNumbers();
                 ForceHighlight();
                 InputFrame.Visibility = Visibility.Visible;
                 FramesGrid.ColumnDefinitions[0].Width = new GridLength(1, GridUnitType.Star);
@@ -2218,7 +2219,7 @@ namespace Calcpad.Wpf
                 }
             }
             ShowHelp();
-            Task.Run(DispatchLineNumbers);
+            DispatchLineNumbers();
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
@@ -2987,7 +2988,7 @@ namespace Calcpad.Wpf
                 if (d > 4 && d < 42)
                 {
                     RichTextBox.FontSize = d;
-                    Task.Run(DispatchLineNumbers);
+                    DispatchLineNumbers();
                 }
             }
         }

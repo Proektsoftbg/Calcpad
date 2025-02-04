@@ -508,4 +508,13 @@
   <data name="BracketsNotClosed" xml:space="preserve">
     <value>Brackets not closed.</value>
   </data>
+  <data name="_must_be_real" xml:space="preserve">
+    <value> must be real.</value>
+  </data>
+  <data name="Limit" xml:space="preserve">
+    <value>Limit</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Value</value>
+  </data>
 </root>

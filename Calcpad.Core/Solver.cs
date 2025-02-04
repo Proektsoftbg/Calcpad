@@ -72,7 +72,7 @@ namespace Calcpad.Core
             Variable.SetNumber(x);
             //Since vectors and matrices are not supported in complex mode,
             //the result will always be a scalar   
-            var result = (Value)Function();
+            var result = (IScalarValue)Function();
             Units = result.Units;
 
             if (double.IsNaN(result.Re) && double.IsNaN(result.Im))
@@ -85,9 +85,9 @@ namespace Calcpad.Core
         {
             Variable.SetNumber(x);
             var result = Function();
-            Value value = Value.NaN;
-            if (result is Value val)
-                value = val;
+            IScalarValue value = RealValue.NaN;
+            if (result is IScalarValue scalar)
+                value = scalar;
             else if (result is Vector vector)
                 value = vector[0];
             else if (result is Matrix matrix)
@@ -97,14 +97,13 @@ namespace Calcpad.Core
                 Throw.FunctionNotDefinedException(x.ToString(CultureInfo.InvariantCulture));
 
             Units = value.Units;
-
             return result;
         }
 
         internal double ModAB(double left, double right, double target, out double err)
         {
             err = 0;
-            var u = ((Value)Variable.ValueByRef()).Units;
+            var u = ((IScalarValue)Variable.ValueByRef()).Units;
             double x1 = Math.Min(left, right), y1 = Fd(x1) - target;
             if (Math.Abs(y1) <= Precision)
             {
@@ -293,7 +292,7 @@ namespace Calcpad.Core
                 var y = Fd((left + right) / 2.0);
                 area = (right - left) * y * k;
             }
-            var u = ((Value)Variable.ValueByRef()).Units;
+            var u = ((IScalarValue)Variable.ValueByRef()).Units;
             if (u is null)
                 return area;
 
@@ -438,7 +437,7 @@ namespace Calcpad.Core
                 h2 = h;
                 h = h2 / 2.0;
             }
-            var u = ((Value)Variable.ValueByRef()).Units;
+            var u = ((IScalarValue)Variable.ValueByRef()).Units;
             double slope = err > maxErr ? double.NaN : r[0];
             if (u is null)
                 return slope;
@@ -456,11 +455,12 @@ namespace Calcpad.Core
         internal IValue Repeat(double start, double end)
         {
             GetBounds(start, end, out var n1, out var n2);
-            IValue result = Value.NaN;
+            IValue result = RealValue.NaN;
             for (int i = n1; i <= n2; ++i)
             {
                 result = Fi(i);
-                if (result is Value value && double.IsInfinity(value.Re))
+                if (result is IScalarValue scalar && 
+                    double.IsInfinity(scalar.Re))
                     break;
             }
             return result;

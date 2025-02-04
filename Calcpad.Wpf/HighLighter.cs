@@ -600,6 +600,14 @@ namespace Calcpad.Wpf
             for (int i = 0, len = text.Length; i < len; ++i)
             {
                 var c = text[i];
+                if (_state.CurrentType != Types.Comment)
+                {
+                    if (char.IsWhiteSpace(c))
+                        c = ' ';
+                    else if (c == '·')
+                        c = '*';
+                }
+
                 if (c == '_' && i == len - 1)
                 {
                     if (i > 0 && text[i - 1] == ' ' || _builder.Length == 0)
