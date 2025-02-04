@@ -45,75 +45,76 @@
             background-color: #e9f6ff;
         }
 
-        .eq, input, table.matrix {
-            font-family: 'Georgia Pro', Georgia, 'Times New Roman', Times, serif;
+        .eq, input[type="text"], table.matrix {
+            font-family: 'Georgia Pro Cond', Georgia, 'Times New Roman', Times, serif;
         }
 
-            .eq var {
-                color: #06c;
-                padding-right: 1pt;
-                padding-left: 1pt;
-				font-size: 11.5pt;
+        .eq var {
+            color: #06D;
+            padding-right: 1pt;
+            padding-left: 1pt;
+			font-size: 11.5pt;
+        }
+
+        .eq i {
+            color: #086;
+			font-style: normal;
+			font-size: 10pt;
+        }
+
+        .eq u, input, select {
+            background-color: LightYellow;
+        }
+
+            input[type="text"], select {
+                font-size: 10pt;
+                padding: 0.2em 0.4em;
+                border: 0.5pt solid #CCC;
+                border-radius: 0.35em;
+                text-align: right;
+                box-shadow: 0.06em 0.06em 0.5em #ddd;
+                min-width: 3em; 
             }
 
-            .eq i {
-                color: #086;
-				font-style: normal;
-				font-size: 10pt;
+            input[type="checkbox"],
+            input[type="radio"] {
+                --screen-scale-factor: 1.3;
+                zoom: var(--screen-scale-factor);
+                -moz-transform: scale(var(--screen-scale-factor));
+                -webkit-transform: scale(var(--screen-scale-factor));
+                transform: scale(var(--screen-scale-factor));
+                transform-origin: bottom;
+                position: relative;
+                bottom: 1pt;
+                margin-right: 1pt;
             }
 
-            .eq u, input, select {
-                background-color: LightYellow;
+                input[type="checkbox"].post:disabled:not(:checked),
+                input[type="checkbox"].post:disabled:not(:checked) + label,
+                input[type="radio"].post:disabled:not(:checked),
+                input[type="radio"].post:disabled:not(:checked) + label {
+                    display: none;
+                }
+
+            select.post:disabled {
+                font-size: 12pt;
+                border: none;
+                box-shadow: none;
+                color: red;
+                background: none;
+                appearance: none;
+                -webkit-appearance: none;
+                -moz-appearance: none;
             }
 
-                input[type="text"], select {
-                    font-size: 11pt;
-                    padding: 0.15em 0.3em;
-                    border: 0.5pt solid #CCC;
-                    border-radius: 0.35em;
-                    text-align: right;
-                    box-shadow: 0.06em 0.06em 0.5em #ddd;
+                select.post:disabled::-ms-expand {
+                    display: none;
                 }
 
-                input[type="checkbox"],
-                input[type="radio"] {
-                    --screen-scale-factor: 1.3;
-                    zoom: var(--screen-scale-factor);
-                    -moz-transform: scale(var(--screen-scale-factor));
-                    -webkit-transform: scale(var(--screen-scale-factor));
-                    transform: scale(var(--screen-scale-factor));
-                    transform-origin: bottom;
-                    position: relative;
-                    bottom: 1pt;
-                    margin-right: 1pt;
-                }
-
-                    input[type="checkbox"].post:disabled:not(:checked),
-                    input[type="checkbox"].post:disabled:not(:checked) + label,
-                    input[type="radio"].post:disabled:not(:checked),
-                    input[type="radio"].post:disabled:not(:checked) + label {
-                        display: none;
-                    }
-
-                select.post:disabled {
-                    font-size: 12pt;
-                    border: none;
-                    box-shadow: none;
-                    color: red;
-                    background: none;
-                    appearance: none;
-                    -webkit-appearance: none;
-                    -moz-appearance: none;
-                }
-
-                    select.post:disabled::-ms-expand {
-                        display: none;
-                    }
-
-                input[type="text"]:focus {
-                    box-shadow: 0.1em 0.1em 1em #ccc;
-                    color: black;
-                }
+            input[type="text"]:focus {
+                box-shadow: 0.1em 0.1em 1em #ccc;
+                color: black;
+            }
 
         td, th {
             padding: 2pt 4pt 2pt 4pt;
@@ -163,10 +164,11 @@
             }
 
             .matrix .td {
+                white-space: nowrap;
                 padding: 0 2pt 0 2pt;
-                min-width: 12pt;
+                min-width: 10pt;
                 display: table-cell;
-                font-size: 90%;
+                font-size: 95%;
             }
 
                 .matrix .td:first-child,
@@ -457,7 +459,7 @@
         }
 
         .nary {
-            color: #D000D0;
+            color: #E000D0;
             font-size: 240%;
             font-family: Corbel Light, sans-serif;
             font-weight: 200;
@@ -477,7 +479,7 @@
         }
 
         .cond {
-            color: #FA00FA;
+            color: #E000D0;
         }
 
         .err {
