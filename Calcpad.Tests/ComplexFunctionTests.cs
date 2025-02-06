@@ -878,7 +878,7 @@ namespace Calcpad.Tests
             var re = calc.Run("line(1.5 + 2.5i; 1 + 4i; 2 + 5i; 3 + 6i)");
             var im = calc.Imaginary;
             Assert.Equal(1.5, re, Tol);
-            Assert.Equal(0, im);
+            Assert.Equal(4.5, im);
         }
 
         [Fact]
