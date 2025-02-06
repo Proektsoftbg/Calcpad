@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:wpf="clr-namespace:Calcpad.Wpf"
     xmlns:core="clr-namespace:Calcpad.Core;assembly=Calcpad.Core"
-    Title=" Calcpad VM 7.1.7"
+    Title=" Calcpad VM 7.1.8"
     Height="800" 
     Width="1200"
     WindowStartupLocation="CenterScreen"
