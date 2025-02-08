@@ -42,7 +42,7 @@ $Plot{σ(ε) @ ε = 0‰ : ε_u}
 'Stiffness
 'Initial -'EA_0 = E_0*A', 'EA = EA_0
 'After yield -'EA_1 = E_1*A
-'<h4>Load - [възел, Fx, Fy]</h4>
+'<h4>Load - [Joint, Fx, Fy]</h4>
 #hide
 F_J = join_rows([2; 0kN; -70kN])
 #show
