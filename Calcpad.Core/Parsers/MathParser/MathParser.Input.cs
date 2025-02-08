@@ -447,7 +447,7 @@ namespace Calcpad.Core
                         {
                             t.Content = tokenLiteral.ToString();
                             if (_parser.IsEnabled)
-                                ((ValueToken)t).Value = new ComplexValue(double.Parse(t.Content, CultureInfo.InvariantCulture));
+                                ((ValueToken)t).Value = new RealValue(double.Parse(t.Content, CultureInfo.InvariantCulture));
 
                             tokenLiteral.Reset(i);
                             isInput = false;
