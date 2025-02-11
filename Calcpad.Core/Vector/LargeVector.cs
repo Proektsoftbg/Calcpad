@@ -94,6 +94,17 @@ namespace Calcpad.Core
             _values = new RealValue[_capacity];
         }
 
+        internal LargeVector(int length, int size)
+        {
+            if (length > MaxLength)
+                Throw.VectorSizeLimitException();
+
+            _length = length;
+            _size = size;
+            _capacity = size;
+            _values = new RealValue[size];
+        }
+
         internal override LargeVector Resize(int newSize)
         {
             if (newSize > MaxLength)

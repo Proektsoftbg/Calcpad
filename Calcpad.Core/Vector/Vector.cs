@@ -66,28 +66,24 @@ namespace Calcpad.Core
         public bool Equals(Vector other) =>
             _values.AsSpan().SequenceEqual(other._values);
 
-        private static Vector CreateFrom(Vector a) =>
+        private static Vector Clone(Vector a) =>
             a is LargeVector ?
-            new LargeVector(a.Length) :
+            new LargeVector(a.Length, a.Size) :
             new Vector(a.Length);
 
-        private static Vector CreateFrom(Vector a, Vector b)
+        private static Vector Clone(Vector a, Vector b)
         {
             if (a.Length > b.Length)
-                return CreateFrom(a);
+                return Clone(a);
 
-            return CreateFrom(b);
+            return Clone(b);
         }
 
         internal Vector Copy()
         {
-            var v = CreateFrom(this);
-            if (_values is not null && v is not LargeVector)
-            {
-                v._values = new RealValue[_size]; 
+            var v = Clone(this);
+            if (_values is not null)
                 _values.AsSpan().CopyTo(v._values);
-                v._size = _values.Length;
-            }
             else
                 for (int i = _size - 1; i >= 0; --i)
                     v[i] = this[i];
@@ -98,7 +94,7 @@ namespace Calcpad.Core
         //Iterations are reversed to avoid multiple resizing 
         public static Vector operator -(Vector a)
         {
-            var b = CreateFrom(a);
+            var b = Clone(a);
             for (int i = a._size - 1; i >= 0; --i)
                 b[i] = -a[i];
 
@@ -107,7 +103,7 @@ namespace Calcpad.Core
 
         public static Vector operator -(Vector a, Vector b)
         {
-            var c = CreateFrom(a, b);
+            var c = Clone(a, b);
             var na = a._size;
             var nb = b._size;
             (var n1, var n2) = MinMax(na, nb);
@@ -126,7 +122,7 @@ namespace Calcpad.Core
 
         public static Vector operator -(Vector a, RealValue b)
         {
-            var c = CreateFrom(a);
+            var c = Clone(a);
             var na = a._size;
             var nc = c.Length;
             if (nc > na && !b.Equals(RealValue.Zero))
@@ -140,7 +136,7 @@ namespace Calcpad.Core
 
         public static Vector operator -(RealValue a, Vector b)
         {
-            var c = CreateFrom(b);
+            var c = Clone(b);
             var nb = b._size;
             var nc = c.Length;
             if (nc > nb && !a.Equals(RealValue.Zero))
@@ -154,7 +150,7 @@ namespace Calcpad.Core
 
         public static Vector operator +(Vector a, Vector b)
         {
-            var c = CreateFrom(a, b);
+            var c = Clone(a, b);
             var na = a._size;
             var nb = b._size;
             (var n1, var n2) = MinMax(na, nb);
@@ -173,7 +169,7 @@ namespace Calcpad.Core
 
         public static Vector operator +(Vector a, RealValue b)
         {
-            var c = CreateFrom(a);
+            var c = Clone(a);
             var na = a._size;
             var nc = c.Length;
             if (nc > na && !b.Equals(RealValue.Zero))
@@ -187,7 +183,7 @@ namespace Calcpad.Core
 
         public static Vector operator *(Vector a, Vector b)
         {
-            var c = CreateFrom(a, b);
+            var c = Clone(a, b);
             var na = a._size;
             var nb = b._size;
             (var n1, var n2) = MinMax(na, nb);
@@ -206,7 +202,7 @@ namespace Calcpad.Core
 
         public static Vector operator *(Vector a, RealValue b)
         {
-            var c = CreateFrom(a);
+            var c = Clone(a);
             var na = a._size;
             var nc = c.Length;
             if (nc > na && b.Units is not null)
@@ -220,7 +216,7 @@ namespace Calcpad.Core
 
         public static Vector operator /(Vector a, Vector b)
         {
-            var c = CreateFrom(a, b);
+            var c = Clone(a, b);
             var na = a._size;
             var nb = b._size;
             var nc = c.Length;
@@ -241,7 +237,7 @@ namespace Calcpad.Core
 
         public static Vector operator /(Vector a, RealValue b)
         {
-            var c = CreateFrom(a);
+            var c = Clone(a);
             var na = a._size;
             var nc = c.Length;
             if (nc > na)
@@ -258,7 +254,7 @@ namespace Calcpad.Core
 
         public static Vector operator /(RealValue a, Vector b)
         {
-            var c = CreateFrom(b);
+            var c = Clone(b);
             var nb = b._size;
             var nc = c.Length;
             if (nc > nb)
@@ -272,7 +268,7 @@ namespace Calcpad.Core
 
         public static Vector operator %(Vector a, Vector b)
         {
-            var c = CreateFrom(a, b);
+            var c = Clone(a, b);
             var na = a._size;
             var nb = b._size;
             var nc = c.Length;
@@ -292,7 +288,7 @@ namespace Calcpad.Core
 
         public static Vector operator %(Vector a, RealValue b)
         {
-            var c = CreateFrom(a);
+            var c = Clone(a);
             var na = a._size;
             var nc = c.Length;
             if (nc > na && !b.Equals(RealValue.Zero))
@@ -306,7 +302,7 @@ namespace Calcpad.Core
 
         public static Vector operator %(RealValue a, Vector b)
         {
-            var c = CreateFrom(b);
+            var c = Clone(b);
             var nb = b._size;
             var nc = c.Length;
             if (nc > nb)
@@ -320,7 +316,7 @@ namespace Calcpad.Core
 
         public static Vector operator ==(Vector a, Vector b)
         {
-            var c = CreateFrom(a, b);
+            var c = Clone(a, b);
             var na = a._size;
             var nb = b._size;
             var nc = c.Length;
@@ -354,7 +350,7 @@ namespace Calcpad.Core
 
         public static Vector operator ==(Vector a, RealValue b)
         {
-            var c = CreateFrom(a);
+            var c = Clone(a);
             var na = a._size;
             var nc = c.Length;
             if (nc > na)
@@ -372,7 +368,7 @@ namespace Calcpad.Core
 
         public static Vector operator !=(Vector a, Vector b)
         {
-            var c = CreateFrom(a, b);
+            var c = Clone(a, b);
             var na = a._size;
             var nb = b._size;
             (var n1, var n2) = MinMax(na, nb);
@@ -404,7 +400,7 @@ namespace Calcpad.Core
 
         public static Vector operator !=(Vector a, RealValue b)
         {
-            var c = CreateFrom(a);
+            var c = Clone(a);
             var na = a._size;
             var nc = c.Length;
             if (nc > na)
@@ -422,7 +418,7 @@ namespace Calcpad.Core
 
         public static Vector operator <(Vector a, Vector b)
         {
-            var c = CreateFrom(a, b);
+            var c = Clone(a, b);
             var na = a._size;
             var nb = b._size;
             (var n1, var n2) = MinMax(na, nb);
@@ -454,7 +450,7 @@ namespace Calcpad.Core
 
         public static Vector operator <(Vector a, RealValue b)
         {
-            var c = CreateFrom(a);
+            var c = Clone(a);
             var na = a._size;
             var nc = c.Length;
             if (nc > na)
@@ -472,7 +468,7 @@ namespace Calcpad.Core
 
         public static Vector operator <(RealValue a, Vector b)
         {
-            var c = CreateFrom(b);
+            var c = Clone(b);
             var nb = b._size;
             var nc = c.Length;
             if (nc > nb)
@@ -490,7 +486,7 @@ namespace Calcpad.Core
 
         public static Vector operator >(Vector a, Vector b)
         {
-            var c = CreateFrom(a, b);
+            var c = Clone(a, b);
             var na = a._size;
             var nb = b._size;
             (var n1, var n2) = MinMax(na, nb);
@@ -522,7 +518,7 @@ namespace Calcpad.Core
 
         public static Vector operator >(Vector a, RealValue b)
         {
-            var c = CreateFrom(a);
+            var c = Clone(a);
             var na = a._size;
             var nc = c.Length;
             if (nc > na)
@@ -540,7 +536,7 @@ namespace Calcpad.Core
 
         public static Vector operator >(RealValue a, Vector b)
         {
-            var c = CreateFrom(b);
+            var c = Clone(b);
             var nb = b._size;
             var nc = c.Length;
             if (nc > nb)
@@ -558,7 +554,7 @@ namespace Calcpad.Core
 
         public static Vector operator <=(Vector a, Vector b)
         {
-            var c = CreateFrom(a, b);
+            var c = Clone(a, b);
             var na = a._size;
             var nb = b._size;
             var nc = c.Length;
@@ -592,7 +588,7 @@ namespace Calcpad.Core
 
         public static Vector operator <=(Vector a, RealValue b)
         {
-            var c = CreateFrom(a);
+            var c = Clone(a);
             var na = a._size;
             var nc = c.Length;
             if (nc > na)
@@ -610,7 +606,7 @@ namespace Calcpad.Core
 
         public static Vector operator <=(RealValue a, Vector b)
         {
-            var c = CreateFrom(b);
+            var c = Clone(b);
             var nb = b._size;
             var nc = c.Length;
             if (nc > nb)
@@ -628,7 +624,7 @@ namespace Calcpad.Core
 
         public static Vector operator >=(Vector a, Vector b)
         {
-            var c = CreateFrom(a, b);
+            var c = Clone(a, b);
             var na = a._size;
             var nb = b._size;
             var nc = c.Length;
@@ -662,7 +658,7 @@ namespace Calcpad.Core
 
         public static Vector operator >=(Vector a, RealValue b)
         {
-            var c = CreateFrom(a);
+            var c = Clone(a);
             var na = a._size;
             var nc = c.Length;
             if (nc > na)
@@ -680,7 +676,7 @@ namespace Calcpad.Core
 
         public static Vector operator >=(RealValue a, Vector b)
         {
-            var c = CreateFrom(b);
+            var c = Clone(b);
             var nb = b._size;
             var nc = c.Length;
             if (nc > nb)
@@ -698,7 +694,7 @@ namespace Calcpad.Core
 
         public static Vector operator &(Vector a, Vector b)
         {
-            var c = CreateFrom(a, b);
+            var c = Clone(a, b);
             var n = a._size < b._size ? a._size : b._size;
             for (int i = n - 1; i >= 0; --i)
                 c[i] = a[i] & b[i];
@@ -708,7 +704,7 @@ namespace Calcpad.Core
 
         public static Vector operator &(Vector a, RealValue b)
         {
-            var c = CreateFrom(a);
+            var c = Clone(a);
             for (int i = a._size - 1; i >= 0; --i)
                 c[i] = a[i] & b;
 
@@ -717,7 +713,7 @@ namespace Calcpad.Core
 
         public static Vector operator |(Vector a, Vector b)
         {
-            var c = CreateFrom(a, b);
+            var c = Clone(a, b);
             var na = a._size;
             var nb = b._size;
             (var n1, var n2) = MinMax(na, nb);
@@ -736,7 +732,13 @@ namespace Calcpad.Core
 
         public static Vector operator |(Vector a, RealValue b)
         {
-            var c = CreateFrom(a);
+            var c = Clone(a);
+            var na = a._size;
+            var nc = c.Length;
+            var v = RealValue.Zero | b;
+            if (nc > na && !v.Equals(RealValue.Zero))
+                c.Fill(v, na, nc - na);
+
             for (int i = a._size - 1; i >= 0; --i)
                 c[i] = a[i] | b;
 
@@ -745,7 +747,7 @@ namespace Calcpad.Core
 
         public static Vector operator ^(Vector a, Vector b)
         {
-            var c = CreateFrom(a, b);
+            var c = Clone(a, b);
             var na = a._size;
             var nb = b._size;
             (var n1, var n2) = MinMax(na, nb);
@@ -765,7 +767,13 @@ namespace Calcpad.Core
 
         public static Vector operator ^(Vector a, RealValue b)
         {
-            var c = CreateFrom(a);
+            var c = Clone(a);
+            var na = a._size;
+            var nc = c.Length;
+            var v = RealValue.Zero ^ b;
+            if (nc > na && !v.Equals(RealValue.Zero))
+                c.Fill(v, na, nc - na);
+
             for (int i = a._size - 1; i >= 0; --i)
                 c[i] = a[i] ^ b;
 
@@ -774,7 +782,7 @@ namespace Calcpad.Core
 
         internal static Vector EvaluateOperator(RealCalculator.Operator<RealValue> op, Vector a, Vector b, bool requireConsistentUnits)
         {
-            var c = CreateFrom(a, b);
+            var c = Clone(a, b);
             var na = a._size;
             var nb = b._size;
             var nc = c.Length;
@@ -817,7 +825,7 @@ namespace Calcpad.Core
 
         internal static Vector EvaluateOperator(RealCalculator.Operator<RealValue> op, Vector a, in RealValue b, bool requireConsistentUnits)
         {
-            var c = CreateFrom(a);
+            var c = Clone(a);
             var na = a._size;
             var nc = c.Length;
             if (na < nc)
@@ -837,7 +845,7 @@ namespace Calcpad.Core
 
         internal static Vector EvaluateOperator(RealCalculator.Operator<RealValue> op, in RealValue a, Vector b, bool requireConsistentUnits)
         {
-            var c = CreateFrom(b);
+            var c = Clone(b);
             var nb = b._size;
             var nc = c.Length;
             if (nb < nc)
@@ -857,7 +865,7 @@ namespace Calcpad.Core
 
         internal static Vector EvaluateFunction(RealCalculator.Function<RealValue> f, Vector a)
         {
-            var b = CreateFrom(a);
+            var b = Clone(a);
             var na = a._size;
             var nb = b.Length;
             if (nb > na)
