@@ -86,26 +86,10 @@ namespace Calcpad.Core
 
         internal void DrawPoints(SvgPoint[] points)
         {
-            const double roughness = 0.001;
-            var y1 = points[0].Y;
-            var dyLim = (points[1].X - points[0].X) * roughness;
-            var dy1 = points[1].Y - y1;
-            var n = 0;
             var nPoints = points.Length;
             _sb.Append(" points=\"" + points[0]);
             for (int i = 1; i < nPoints; ++i)
-            {
-                var dy2 = (points[i].Y - y1) / (i - n);
-                if (Math.Abs(dy2 - dy1) > dyLim)
-                {
-                    n = i - 1;
-                    _sb.Append(" " + points[n]);
-                    y1 = points[i].Y;
-                    dy1 = dy2;
-                    n = i;
-                }
-            }
-            _sb.Append(" " + points[nPoints - 1]);
+                _sb.Append(" " + points[i]);
         }
 
         internal void DrawText(string text, double x, double y, string svgClass = "")
