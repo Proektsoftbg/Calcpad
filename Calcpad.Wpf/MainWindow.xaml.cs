@@ -1184,6 +1184,11 @@ namespace Calcpad.Wpf
                         IsCalculated = true;
                         CalculateAsync();
                     }
+                    else
+                    {
+                        IsCalculated = false;
+                        ShowHelp();
+                    }
                 }
             }
             _mustPromptUnlock = IsWebForm;

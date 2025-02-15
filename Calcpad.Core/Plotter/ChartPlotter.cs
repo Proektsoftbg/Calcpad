@@ -171,7 +171,7 @@ namespace Calcpad.Core
             double x = p2.X - p1.X;
             double y = p2.Y - p1.Y;
             double l = Math.Sqrt(x * x + y * y);
-            if (l == 0)
+            if (l == 0d)
                 return new Node();
 
             return new Node(x / l, y / l);
