@@ -145,7 +145,7 @@ X = stack(matrix(1; 3); Φ)
 #hide
 PlotHeight = 400
 PlotWidth = 120
-n_T = 100
+n_T = [80; 60; 30]
 #show
 $Plot{spline(i + 1; 1; X)|i*Δx & spline(i + 1; 2; X)|i*Δx & spline(i + 1; 3; X)|i*Δx @ i = 0 : n_J}
 'Comparison with ASCE SEI 7/22 <span class="ref">(C26.11-13)</span>
@@ -158,9 +158,10 @@ T_1 = 1/n_1
 'Animation for mode'i = 3
 #val
 #rad
-#for k = 0 : n_T
-	'<div class="frame" id="frame-'k'" style="display:none;">
-	$Plot{spline(j + 1; i; X)*cos((k/n_T*2*π))|j*Δx & -0.6|0m & 0.6|0m @ j = 0 : n_J}
+'<style>[id^="fr-"]{display:none;}</style>
+#for k = 0 : n_T.i
+	'<div id="fr-'k'">
+	$Plot{spline(j + 1; i; X)*cos((k/n_T.i*2*π))|j*Δx & -0.6|0m & 0.6|0m @ j = 0 : n_J}
 	'</div>
 #loop
-'<script>var i='n_T';setInterval(function(){$("#frame-"+i).hide();++i;if(i>'n_T') i=1;$("#frame-"+i).show();},'1000/n_T*T.i');</script>
+'<script>var i='n_T.i';f=$("#fr-0");setInterval(function(){f.hide();if(++i>'n_T.i')i=1;f=$("#fr-"+i);f.show();},'1000/n_T.i*T.i');</script>
