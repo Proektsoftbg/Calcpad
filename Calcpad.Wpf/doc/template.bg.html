@@ -542,7 +542,7 @@
 
         .vec {
             font-family: 'Cambria Math', serif;
-            color: black;
+            color: #8af;
             font-style: normal;
             display: inline-block;
             vertical-align: 2pt;
@@ -810,19 +810,23 @@
                         }
                     }
                 });
+
                 $(".line:not(style, script)").each(function () {
                     var line = $(this).prop("id").split("-")[1];
                     var $lineLink = $('<a class="lineLink" href="#0" data-text="' + line + '" title="Изходен код ред ' + line + '">&larr;</a>');
                     $(this).append($lineLink);
                     $lineLink.hide();
                     $(this).hover(function () {
+                        $(".lineLink").hide();
                         $lineLink.show();
-                    }, function () {
-                        $lineLink.hide();
                     });
                     $(window).scroll(function () {
                         $lineLink.hide();
                     });
+                });
+
+                $("body").mouseleave(function () {
+                    $(".lineLink").hide();
                 });
 
                 $(".roundBox").click(function () {

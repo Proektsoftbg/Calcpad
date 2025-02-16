@@ -306,7 +306,7 @@ namespace Calcpad.Core
                     {
                         try
                         {
-                            var varHtml = new HtmlWriter().FormatVariable(varName, string.Empty);
+                            var varHtml = new HtmlWriter().FormatVariable(varName, string.Empty, false);
                             _parser.Parse(startExpr);
                             var startHtml = _parser.ToHtml();
                             _parser.Parse(endExpr);
