@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using System.Text;
 
@@ -19,7 +20,7 @@ namespace Calcpad.Core
         internal abstract string UnitString(Unit units);
         internal abstract string FormatInput(string s, Unit units, int line, bool isCalculated);
         internal abstract string FormatSubscript(string sa, string sb);
-        internal abstract string FormatVariable(string name, string value);
+        internal abstract string FormatVariable(string name, string value, bool isBold);
         internal abstract string FormatUnits(string s);
         internal abstract string FormatFunction(string s);
         internal abstract string FormatSwitch(string[] sa, int level = 0);
@@ -80,7 +81,7 @@ namespace Calcpad.Core
                                 else
                                 {
                                     var s = power[index..];
-                                    power = power.Remove(index);
+                                    power = power[..index];
                                     power += $"({s})";
                                 }
                             }
@@ -351,7 +352,7 @@ namespace Calcpad.Core
             units is null ? s : s + ' ' + units.Text;
 
         internal override string FormatSubscript(string sa, string sb) => sa + "_" + sb;
-        internal override string FormatVariable(string name, string value) => 
+        internal override string FormatVariable(string name, string value, bool isBold) => 
             name[0] == '\u20D7' ? name[1..] : name;
         internal override string FormatUnits(string s) => s;
         internal override string FormatFunction(string s) => s;
@@ -519,22 +520,27 @@ namespace Calcpad.Core
         }
 
         internal override string FormatSubscript(string sa, string sb) => $"{sa}<sub>{sb}</sub>";
-        internal override string FormatVariable(string name, string value)
+        internal override string FormatVariable(string name, string value, bool isBold)
         {
             var s = string.IsNullOrEmpty(value) ?
                 string.Empty :
                 $" class=\"value\" data-value='{value}'";
             if (name[0] == '\u20D7')
+            {
+                isBold = false;
                 name = "<span class=\"vec\">\u20D7</span>" + name[1..];
+            }
+
             var i = name.IndexOf('_');
             if (i > 0)
             {
                 var i1 = i + 1;
                 if (i1 < name.Length)
-                    return FormatSubscript($"<var{s}>{name[..i]}</var>", name[i1..]);
+                    return FormatSubscript(FormatBold($"<var{s}>{name[..i]}</var>"), name[i1..]);
             }
+            return FormatBold($"<var{s}>{name}</var>");
 
-            return $"<var{s}>{name}</var>";
+            string FormatBold(string s) => isBold ? $"<b>{s}</b>" : s;   
         }
 
         internal override string FormatUnits(string s) => $"<i>{s}</i>";
@@ -770,22 +776,30 @@ namespace Calcpad.Core
             return $"<m:sSub><m:e>{sa}</m:e><m:sub>{s}</m:sub></m:sSub>";
         }
 
-        internal override string FormatVariable(string name, string value)
+        internal override string FormatVariable(string name, string value, bool isBold)
         {
-            const string format = $"<w:rPr {wXmlns}><w:color w:val=\"0000FF\" /></w:rPr>";
+
             var i = name.IndexOf('_');
             if (i <= 0)
-                return FormatVector(name, format);
+                return FormatVector(name, isBold);
 
             var i1 = i + 1;
             return i1 < name.Length ?
-                FormatSubscript(FormatVector(name[..i], format), name[i1..]) :
-                FormatVector(name, string.Empty);
+                FormatSubscript(FormatVector(name[..i], isBold), name[i1..]) :
+                FormatVector(name, isBold);
         }
 
-        private static string FormatVector(string s, string format) => s[0] == '\u20D7' ?
-            $"<m:acc><m:accPr><m:chr m:val=\"\u20D7\"/></m:accPr><m:e>{Run(s[1..], format)}</m:e></m:acc>" :
-            Run(s, format);
+        private static string FormatVector(string s, bool isBold)
+        {
+            var isVector = s[0] == '\u20D7';
+            var format = $"<w:rPr {wXmlns}><w:color w:val=\"0066DD\"/></w:rPr>";
+            var formatBold = isBold ?
+                $"<w:rPr {wXmlns}><w:color w:val=\"0044AA\"/></w:rPr>" :
+                format;
+            return isVector ?
+                $"<m:acc><m:accPr><m:chr m:val=\"\u20D7\"/></m:accPr><m:e>{Run(s[1..], format)}</m:e></m:acc>" :
+                Run(s, formatBold);
+        }
 
         internal override string FormatUnits(string s) =>
             Run(' ' + s, $"{NormalText}<w:rPr {wXmlns}><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\" /><w:sz w:val=\"22\" /></w:rPr>");

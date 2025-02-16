@@ -43,9 +43,9 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_ShowErrorsInErrorList = False
-		RESX_Rules = {"EnabledRules":["StringFormat","WhiteSpaceLead","WhiteSpaceTail","PunctuationLead","PunctuationTail"]}
-		SolutionGuid = {DBFCECD1-1ED0-4EBB-A227-0120DB3378F4}
 		RESX_TaskErrorCategory = Message
+		SolutionGuid = {DBFCECD1-1ED0-4EBB-A227-0120DB3378F4}
+		RESX_Rules = {"EnabledRules":["StringFormat","WhiteSpaceLead","WhiteSpaceTail","PunctuationLead","PunctuationTail"]}
+		RESX_ShowErrorsInErrorList = False
 	EndGlobalSection
 EndGlobal

@@ -54,13 +54,13 @@ namespace Calcpad.Core
                     var cf = _functions[_parser._functionDefinitionIndex];
                     for (int i = 0, count = cf.ParameterCount; i < count; ++i)
                     {
-                        _stringBuilder.Append(writer.FormatVariable(cf.ParameterName(i), string.Empty));
+                        _stringBuilder.Append(writer.FormatVariable(cf.ParameterName(i), string.Empty, false));
                         if (i < cf.ParameterCount - 1)
                             _stringBuilder.Append(delimiter);
                     }
                     var s = writer.AddBrackets(_stringBuilder.ToString());
                     _stringBuilder.Clear();
-                    _stringBuilder.Append(writer.FormatVariable(_functions.LastName, string.Empty))
+                    _stringBuilder.Append(writer.FormatVariable(_functions.LastName, string.Empty, false))
                         .Append(s)
                         .Append(assignment)
                         .Append(RenderRpn(cf.Rpn, false, writer, out _));
@@ -303,7 +303,7 @@ namespace Calcpad.Core
                                      _parser._isCalculated ?
                                 textWriter.FormatValue(scalar, _decimals) :
                                 string.Empty;
-                            t.Content = writer.FormatVariable(t.Content, s);
+                            t.Content = writer.FormatVariable(t.Content, s, false);
                             _hasVariables = i > 0 || rpn[^1].Content != "=";
                         }
                     }
@@ -314,7 +314,7 @@ namespace Calcpad.Core
                                  _parser._isCalculated ?
                             RenderVector(vector, _decimals, new TextWriter(), _maxOutputCount, _zeroSmallMatrixElements) :
                             string.Empty;
-                        t.Content = writer.FormatVariable('\u20D7' + t.Content, s);
+                        t.Content = writer.FormatVariable('\u20D7' + t.Content, s, true);
                     }
                     else if (ival is Matrix matrix)
                     {
@@ -323,10 +323,10 @@ namespace Calcpad.Core
                                  _parser._isCalculated ?
                             RenderMatrix(matrix, _decimals, new TextWriter(), _maxOutputCount, _zeroSmallMatrixElements) :
                             string.Empty;
-                        t.Content = writer.FormatVariable(t.Content, s);
+                        t.Content = writer.FormatVariable(t.Content, s, true);
                     }
                     else
-                        t.Content = writer.FormatVariable(t.Content, string.Empty);
+                        t.Content = writer.FormatVariable(t.Content, string.Empty, false);
                 }
 
                 void RenderNegationToken(RenderToken t, RenderToken b, ref bool hasOperators)
@@ -472,7 +472,7 @@ namespace Calcpad.Core
                                  t.Type == TokenTypes.VectorFunction ||
                                  t.Type == TokenTypes.MatrixFunction ?
                         writer.FormatFunction(st) :
-                        writer.FormatVariable(st, string.Empty)) +
+                        writer.FormatVariable(st, string.Empty, false)) +
                         AddBrackets(b.Content, b.Level, b.MinOffset, b.MaxOffset, '(', ')');
                     t.Level = b.Level;
 
@@ -620,7 +620,7 @@ namespace Calcpad.Core
                         cfParameterCount = cf.ParameterCount - 1;
                     }
                     var s = RenderParameters(t, b, cfParameterCount);
-                    t.Content = writer.FormatVariable(t.Content, string.Empty) +
+                    t.Content = writer.FormatVariable(t.Content, string.Empty, false) +
                         AddBrackets(s, t.Level, t.MinOffset, t.MaxOffset, '(', ')');
                     t.MinOffset = 0;
                     t.MaxOffset = 0;
