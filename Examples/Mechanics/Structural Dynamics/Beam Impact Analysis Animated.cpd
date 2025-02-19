@@ -223,15 +223,16 @@ n_T = n_T/3
 #show
 'Animation of beam response (slowed down)
 #val
+'<style>[id^="fr-"]{display:none;}</style>
 #for k = 1 : n_T
 	#hide
 	z = row(Z; k)
 	#show
-	'<div class="frame" id="frame-'k'" style="display:none;">
+	'<div id="fr-'k'">
 	$Plot{j*Δx|-spline(j + 1; z) & 0m|-100mm & L|-100mm @ j = 0 : n_J + 1}
 	'</div>
 #loop
-'<script>var i='n_T';setInterval(function(){$("#frame-"+i).hide();++i; if(i>'n_T') i=1; $("#frame-"+i).show();}, 10);</script>
+'<script>var i='n_T';var fr=$("#fr-"+i);setInterval(function(){fr.hide();if(++i>'n_T')i=1;fr=$("#fr-"+i);fr.show();}, 10);</script>
 #equ
 '[1] Harris C. M., Piersol A.G., HARRIS’ SHOCK AND VIBRATION HANDBOOK, Fifth Edition, McGraw-Hill 2002, ISBN 0-07-137081-1
 '[2] Qing Peng, Xiaoming Liu, Yueguang Wei, Elastic impact of sphere on large plate, Journal of the Mechanics and Physics of Solids, Volume 156, 2021, 104604, ISSN 0022 - 5096, <a href="https://doi.org/10.1016/j.jmps.2021.104604">https://doi.org/10.1016/j.jmps.2021.104604</a>
