@@ -1,0 +1,28 @@
+#def line$(x1$; y1$; x2$; y2$; style$) = '<line x1="'x1$'" y1="'y1$'" x2="'x2$'" y2="'y2$'" style$/>
+#def rect$(x$; y$; w$; h$; style$) = '<rect x="'x$'" y="'y$'" width="'w$'" height="'h$'" style$/>
+#def point$(x$; y$; style$) = '<circle cx="'x$'" cy="'y$'" r="2" style$/>
+#def circle$(x$; y$; r$; style$) = '<circle cx="'x$'" cy="'y$'" r="'r$'" style$/>
+#def texth$(x$; y$; s$) = '<text x="'x$'" y="'y$'" text-anchor="middle">s$</text>
+#def textv$(x$; y$; s$) = '<text x="'x$'" y="'y$'" text-anchor="middle" transform="rotate(-90,'x$','y$')">s$</text>
+#def text$(x$; y$; a$; s$) = '<text x="'x$'" y="'y$'" text-anchor="middle" transform="rotate(-'a$','x$','y$')">s$</text>
+#def sec_style$ = style="stroke:black; stroke-width:3; fill:lightyellow"
+#def main_style$ = style="stroke:black; stroke-width:1.5; fill:none"
+#def axis_style$ = stroke-dasharray="60,15,10,15" style="stroke:green; stroke-width:1"
+#def dim_style$ = style="stroke:goldenrod; stroke-width:0.5; fill:goldenrod"
+#def point_style$ = style="stroke:none; fill:red"
+#def dimh$(x1$; x2$; y$; s$)
+	line$(x1$; y$ - 5; x1$; y$ + 5; dim_style$)
+	line$(x2$; y$ - 5; x2$; y$ + 5; dim_style$)
+	line$(x1$ - 5; y$; x2$ + 5; y$; dim_style$)
+	point$(x2$; y$; dim_style$)
+	point$(x1$; y$; dim_style$)
+	texth$((x1$ + x2$)/2; y$ - 2; s$)
+#end def
+#def dimv$(x$; y1$; y2$; s$)
+	line$(x$ - 5; y1$; x$ + 5; y1$; dim_style$)
+	line$(x$ - 5; y2$; x$ + 5; y2$; dim_style$)
+	line$(x$; y1$ - 5; x$; y2$ + 5; dim_style$)
+	point$(x$; y1$; dim_style$)
+	point$(x$; y2$; dim_style$)
+	textv$(x$ - 2; (y1$ + y2$)/2; s$)
+#end def
