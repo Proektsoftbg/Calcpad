@@ -128,7 +128,7 @@ $Plot{F(t) @ t = 0ms : 50ms}
 y_D(t) = 1/(M_tot*ω_1)*$Area{F(τ)*e^(-ξ*ω_1*(t - τ))*sin(ω_1*(t - τ)) @ τ = 0ms : min(t; τ_L)}|mm
 'Static displacement for the midpoint of the beam
 y_0(t) = z_0 + (z_st - z_0)*if(t < T_1/4; sin(2*π*t/T_1); 1)
-'Dynamic displacement for the midpoint of the beam
+'Time history of the midpoint displacement, [mm]
 '<!--'PlotHeight = 200'-->
 $Plot{t|-y_0(t) - y(t) & t|-y_0(t) - y_D(t) @ t = 0ms : 5s}
 '<h4>Elastic time history response of the structure as an MDOF system</h4>
@@ -197,10 +197,10 @@ y_Φ(i; t) = 1/(m_Φ.i*ω_D.i)*$Area{F_Φ(i; τ)*e^(-ξ_Φ.i*ω.i*s^-1*(t - τ))
 'Joint displacements
 y_J(j; t) = $Sum{Φ.(j; i)*y_Φ(i; t) @ i = 1 : n$}
 '<!--'PlotWidth = 500','PlotHeight = 200'-->
-'Comparison of time history records at midpoint for SDOF and MDOF systems
+'Comparison of time history records of the midpoint displacements for SDOF and MDOF systems, [mm]
 $Plot{t|-y_0(t) - y_J(j_m; t) & t|-y_0(t) - y_D(t) @ t = 0ms : 5s}
 #def y$(j$) = t|-y_J(j$; t)
-'Time history records for separate joints <!--Turn adaptive plot off for best results-->
+'Time history records for the amplitudes of separate joints, [mm] <!--Turn adaptive plot off for best results-->
 $Plot{y$(1) & y$(2) & y$(3) & y$(4) & y$(5) @ t = 0ms : 5s}
 #hide
 Y = matrix(5; n_J + 2)*mm
@@ -212,7 +212,7 @@ $Repeat{$Repeat{Y.(i; j + 1) = d(j*Δx/L)*y_0(t(i)) + y_J(j; t(i)) @ j = 1 : n_J
 n_T = 400
 #show
 #val
-'Beam deflections at the first five time steps of Δt = '2*i*τ_L/5' ms
+'<p>Beam deflections for the first five time steps at Δt = '2*i*τ_L/5' ms</p>
 #equ
 $Plot{Y$(1) & Y$(2) & Y$(3) & Y$(4) & Y$(5) @ j = 0 : n_J + 1}
 #hide
