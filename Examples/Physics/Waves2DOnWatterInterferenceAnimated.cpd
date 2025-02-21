@@ -15,11 +15,11 @@ T = λ/v','f = 1/T|Hz','ω = (2*π)/T
 Ψ_2D(x; y; t) = Ψ_2D_1(x; y; t) + Ψ_2D_2(x; y; t)
 '<!--'PlotHeight = 300','PlotWidth = 300','PlotSVG = 1','n = 10'-->
 #val
-'Animation - slowed down by 'kT = 2000' times
+'Animation - slowed down by 'kT = 2' times
 '<style>[id^="fr-"]{display:none;}</style>
 #for i = 1 : n
 	'<div id="fr-'i'">
 	$Map{Ψ_2D(x; y; i/n*T) @ x = -1m : 1m & y = -1m : 1m}
 	'</div>
 #loop
-'<script>var i='n';var fr=$("#fr-"+i);setInterval(function(){fr.hide();if(++i>'n')i=1;fr=$("#fr-"+i);fr.show();}, 'kT*T/n');</script>
+'<script>var i='n';var fr=$("#fr-"+i);setInterval(function(){fr.hide();if(++i>'n')i=1;fr=$("#fr-"+i);fr.show();}, '1000*kT*T/n');</script>
