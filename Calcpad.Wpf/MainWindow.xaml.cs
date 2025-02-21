@@ -3926,9 +3926,10 @@ namespace Calcpad.Wpf
                     string.Equals((string)nextItem.Content, s, StringComparison.Ordinal))
                     s = "." + s;
             }
-            new TextRange(_autoCompleteStart, RichTextBox.Selection.End).Text = s;
+            var selEnd = RichTextBox.Selection.End;
+            new TextRange(_autoCompleteStart, selEnd).Text = s;
             AutoCompleteListBox.Visibility = Visibility.Hidden;
-            RichTextBox.Selection.Select(_autoCompleteStart, _autoCompleteStart.GetPositionAtOffset(s.Length));
+            RichTextBox.Selection.Select(selEnd, selEnd.GetPositionAtOffset(s.Length));
             SelectInsertedText(s);
             RichTextBox.Focus();
         }
