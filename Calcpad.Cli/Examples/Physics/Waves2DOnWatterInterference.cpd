@@ -1,0 +1,23 @@
+'Assoc. prof. Tadeusz Szumiata, PhD, Radom University, Poland
+"Interference of waves on watter
+'Interferencja fal na wodzie
+#rad
+λ = 0.2m
+k = (2*π)/λ
+r(x; y) = sqrt(x^2 + y^2)
+a = 0.6m
+v = 1m/s
+T = λ/v
+f = 1/T|Hz
+ω = (2*π)/T
+Ψ_0 = 0.5*m
+t = 0.0s
+Δt = 0*T/4
+Ψ_2D_1(x; y; t) = Ψ_0*sin(k*r(x - a/2; y) - ω*t)
+Ψ_2D_2(x; y; t) = Ψ_0*sin(k*r(x + a/2; y) - ω*(t + Δt))
+Ψ_2D(x; y; t) = Ψ_2D_1(x; y; t) + Ψ_2D_2(x; y; t)
+PlotHeight = 400
+PlotWidth = 400
+$Map{Ψ_2D(x; y; t) @ x = -1m : 1m & y = -1m : 1m}
+$Map{Ψ_2D(x; y; t)^2 @ x = -1m : 1m & y = -1m : 1m}
+$Map{abs(Ψ_2D(x; y; t)) @ x = -1m : 1m & y = -1m : 1m}

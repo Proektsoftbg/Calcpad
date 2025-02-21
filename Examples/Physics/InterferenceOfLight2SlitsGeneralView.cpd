@@ -1,0 +1,20 @@
+'Assoc. prof. Tadeusz Szumiata, PhD, Radom University, Poland
+"Interference of light from two slits - spatial view
+'Interferencja światła z dwóch szczelin - widok przestrzenny
+#rad
+λ = 500nm
+k = (2*π)/λ
+r(x; y) = sqrt(x^2 + y^2)
+d = 3μm
+c = 299792458m/s
+T = λ/c
+f = 1/T|Hz
+ω = (2*π)/T
+Ψ_0 = 0.5*sqrt(W/m^2)
+t = 0s
+Ψ_2D_1(x; y; t) = Ψ_0*cos(k*r(x - d/2; y) - ω*t)
+Ψ_2D_2(x; y; t) = Ψ_0*cos(k*r(x + d/2; y) - ω*t)
+Ψ_2D(x; y; t) = Ψ_2D_1(x; y; t) + Ψ_2D_2(x; y; t)
+PlotHeight = 200
+PlotWidth = 600
+$Map{Ψ_2D(x; y; t)^2 @ x = -1m : 1m & y = 0m : 1m}

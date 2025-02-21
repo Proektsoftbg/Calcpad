@@ -1,0 +1,26 @@
+'Assoc. prof. Tadeusz Szumiata, PhD, Radom University, Poland
+"Interference of light from two slits - view on the screen
+'Interferencja światła z dwóch szczelin - widok na ekranie
+#rad
+λ = 500nm
+k = (2*π)/λ
+D = 1m
+Δr(α) = d*sin(α)
+d = 3μm
+c = 299792458m/s
+T = λ/c
+f = 1/T|Hz
+ω = (2*π)/T
+Ψ_0 = 0.5*sqrt(W/m^2)
+t = 0s
+α(x) = atan(x/D)
+Ψ_2D_1(x; t) = Ψ_0*cos(k*0*Δr(α(x)) - ω*t)
+Ψ_2D_2(x; t) = Ψ_0*cos(k*1*Δr(α(x)) - ω*t)
+Ψ_2D_3(x; t) = Ψ_0*cos(k*2*Δr(α(x)) - ω*t)
+Ψ_2D_4(x; t) = Ψ_0*cos(k*3*Δr(α(x)) - ω*t)
+Ψ_2D(x; t) = Ψ_2D_1(x; t) + Ψ_2D_2(x; t) + Ψ_2D_3(x; t) + Ψ_2D_4(x; t)
+PlotHeight = 100
+PlotWidth = 600
+x_max = 75cm
+$Plot{Ψ_2D(α; t)^2 @ α = -x_max : x_max}
+$Map{Ψ_2D(x; t)^2 @ x = -x_max : x_max & z = 0m : 0.1m}
