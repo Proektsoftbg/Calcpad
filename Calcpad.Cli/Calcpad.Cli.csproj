@@ -202,16 +202,15 @@
   <PropertyGroup>
     <PostInstallScript>
       <![CDATA[
-      mkdir -p "/home/$SUDO_USER/calcpad" \
-      && cp -a "/usr/share/Calcpad/Examples" "/home/$SUDO_USER/calcpad/Examples" \
-      && mkdir -p "/home/$SUDO_USER/calcpad/syntax/Sublime" \
-      && cp -a "/usr/share/Calcpad/Syntax/Sublime" "/home/$SUDO_USER/calcpad/syntax" \
-      && mkdir -p "/home/$SUDO_USER/.config/calcpad/" \
-      && cp "/usr/share/Calcpad/Settings.xml" "/home/$SUDO_USER/.config/calcpad/Settings.xml" \
-      && cp -a "/usr/share/Calcpad/Fonts" "/usr/share/fonts/opentype" \
-      && chown -R $SUDO_USER "/home/$SUDO_USER/calcpad" "/home/$SUDO_USER/.config/calcpad/" \
-      && rm -rf "/usr/share/Calcpad/Examples"
+      cd /usr/share/fonts/opentype && ln -s "../../Calcpad/Fonts" "calcpad"
       ]]>
     </PostInstallScript>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreRemoveScript>
+      <![CDATA[
+      rm /usr/share/fonts/opentype/calcpad
+      ]]>
+    </PreRemoveScript>
   </PropertyGroup>
 </Project>
