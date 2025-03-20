@@ -108,32 +108,32 @@ r2d = 180/π
 '<style>.PlotSeries2{stroke:DodgerBlue!Important; stroke-dasharray: 5, 10;} .PlotSeries3, .PlotSeries4{stroke:none!Important; fill:none!Important;} #start{height:1.8em; padding-top:0;} .fr{display:none;} .fr svg{margin-right:64pt; align-center;}</style>
 '<h4>Animate results &emsp;<button id="start">Start</button></h4>
 #format 0.00
-#hide
-k = W/w
-#val
-#for i_N = 1 : N
 	#hide
-	i = i_N*k_N
-	θ = θ_RK4.i
-	x = -L*sin(θ)
-	y = L*cos(θ)
-	t = i*h
-	#show
+	k = W/w
 	#val
-	'<div class="fr" id="fr-'i_N'">
+	#for i_N = 1 : N
+		#hide
+		i = i_N*k_N
+		θ = θ_RK4.i
+		x = L*sin(θ)
+		y = L*cos(θ)
+		t = i*h
+		#show
+		#val
+		'<div class="fr" id="fr-'i_N'">
+		#equ
+		#nosub
+		'Simulation time -'t'<br/>
+		$Plot{t(i)|θ_RK4.i*r2d & t(j)|θ_RK4.j*r2d & t_max|θ_0/1rad*r2d & t_max|-θ_0/1rad*r2d @ j = 1 : i}
+		#val
+		svg$
+		'<polygon points="0,0 '-δ','-δ' 'δ','-δ'" solid_style$/>
+		line$(0; 0; x; y; thick_style$)
+		circle$(0; 0; R/2; solid_style$)
+		circle$(0; 0; R/8; solid_style$)
+		circle$(x; y; R; ball_style$)
+		'</svg>
+		'</div>
+	#loop
+	'<script>$("#fr-1").show();$("#start").click(function(){$(this).hide(); var i='N';var fr=$("#fr-"+i);setInterval(function(){fr.hide();if(++i>'N')i=1;fr=$("#fr-"+i);fr.show();}, '1000*h*k_N');});</script>
 	#equ
-	#nosub
-	'Simulation time -'t'<br/>
-	$Plot{t(i)|θ_RK4.i*r2d & t(j)|θ_RK4.j*r2d & t_max|θ_0/1rad*r2d & t_max|-θ_0/1rad*r2d @ j = 1 : i}
-	#val
-	svg$
-	'<polygon points="0,0 '-δ','-δ' 'δ','-δ'" solid_style$/>
-	line$(0; 0; x; y; thick_style$)
-	circle$(0; 0; R/2; solid_style$)
-	circle$(0; 0; R/8; solid_style$)
-	circle$(x; y; R; ball_style$)
-	'</svg>
-	'</div>
-#loop
-'<script>$("#fr-1").show();$("#start").click(function(){$(this).hide(); var i='N';var fr=$("#fr-"+i);setInterval(function(){fr.hide();if(++i>'N')i=1;fr=$("#fr-"+i);fr.show();}, '1000*h*k_N');});</script>
-#equ
