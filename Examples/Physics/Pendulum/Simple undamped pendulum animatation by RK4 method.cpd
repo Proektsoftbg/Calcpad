@@ -89,7 +89,7 @@ k_1,ω = (g/l)*sin(-θ_i)'</td></tr>
 '<p class="eq" style="border-left:solid 1pt black; margin-left:24pt; padding-left:3pt;"><var>θ</var><sub>n+1</sub> ='θ_i + (h/6)*(k_1,θ + 2*k_2,θ + 2*k_3,θ + k_4,θ)'<br/> <var>ω</var><sub>n+1</sub> = 'ω_i + (h/6)*(k_1,ω + 2*k_2,ω + 2*k_3,ω + k_4,ω)'</p>
 #equ
 'Allocate vectors
-θ_RK4 = vector(n)','ω_RK4 = vector(n)','E_RK4 = vector(n)
+θ_RK4 = vector(n)'<br/>'ω_RK4 = vector(n)'<br/>'E_RK4 = vector(n)
 'Set initial conditions
 θ_RK4.1 = θ_0/1rad','ω_RK4.1 = 0/s
 'Perform Runge-Kutta 4 steps 
