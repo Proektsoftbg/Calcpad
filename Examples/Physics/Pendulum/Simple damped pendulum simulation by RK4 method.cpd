@@ -105,7 +105,7 @@ t(i) = i*h - h
 r2d = 180/π
 #show
 '...
-'<style>.PlotSeries2{stroke:DodgerBlue!Important; stroke-dasharray: 5, 10;} .PlotSeries3, .PlotSeries4{stroke:none!Important; fill:none!Important;} #start{height:1.8em; padding-top:0;} .fr{display:none;} .fr svg{margin-right:64pt; align-center;}</style>
+'<style>#start{height:1.8em; padding-top:0;} .PlotSeries2{stroke:DodgerBlue!Important; stroke-dasharray: 5, 10;} .PlotSeries3, .PlotSeries4{stroke:none!Important; fill:none!Important;} .fr{display:none;} .fr svg{margin-right:64pt; align-center;}</style>
 '<h4>Animate results &emsp;<button id="start">Start</button></h4>
 #format 0.00
 	#hide
@@ -135,5 +135,5 @@ r2d = 180/π
 		'</svg>
 		'</div>
 	#loop
-	'<script>$("#fr-1").show();$("#start").click(function(){$(this).hide(); var i='N';var fr=$("#fr-"+i);setInterval(function(){fr.hide();if(++i>'N')i=1;fr=$("#fr-"+i);fr.show();}, '1000*h*k_N');});</script>
+	'<script>$("#fr-1").show();$("#start").click(function(){$(this).hide();var i='N';var fr=$("#fr-"+i);setInterval(function(){fr.hide();if(++i>'N')i=1;fr=$("#fr-"+i);fr.show();}, '1000*h*k_N');});</script>
 	#equ

@@ -104,6 +104,7 @@ z_0 = 5*(g_b + q)*L^4/(384*E*I)|mm
 'Simplified equation for the dynamic factor
 μ_1 = 1 + v_1*ω_1/g
 'The difference will be smaller for greater heights.
+'Time before impact -'t_0 = sqrt(2*H/g)
 '<h4>Elastic time history response of the structure as an SDOF system</h4>
 'Damped vibration is assumed with factor -'ξ = 0.05
 'Vibration amplitude -'A = z_d - z_st' or
@@ -204,7 +205,8 @@ $Plot{t|-y_0(t) - y_J(j_m; t) & t|-y_0(t) - y_D(t) @ t = 0ms : 5s}
 $Plot{y$(1) & y$(2) & y$(3) & y$(4) & y$(5) @ t = 0ms : 5s}
 #hide
 Y = matrix(5; n_J + 2)*mm
-t(i) = 2*i*τ_L/5
+Δt = 2*τ_L/5
+t(i) = i*Δt
 d(ξ) = 3.2*(ξ^4 - 2*ξ^3 + ξ)
 $Repeat{$Repeat{Y.(i; j + 1) = d(j*Δx/L)*y_0(t(i)) + y_J(j; t(i)) @ j = 1 : n_J} @ i = 1 : 5}
 #def Y$(i$) = j*Δx|-spline(j + 1; row(Y;i$))
@@ -212,27 +214,40 @@ $Repeat{$Repeat{Y.(i; j + 1) = d(j*Δx/L)*y_0(t(i)) + y_J(j; t(i)) @ j = 1 : n_J
 n_T = 400
 #show
 #val
-'<p>Beam deflections for the first five time steps at Δt = '2*i*τ_L/5' ms</p>
+'<p>Beam deflections for the first five time steps at Δt = 'Δt' ms</p>
 #equ
 $Plot{Y$(1) & Y$(2) & Y$(3) & Y$(4) & Y$(5) @ j = 0 : n_J + 1}
 #hide
-t(i) = 1.5*(i - 1)*T.1/n_T
+Δt = 1.5*T.1/(n_T - 1)
+t(i) = (i - 1)*Δt
 Z = matrix(n_T; n_J + 2)*mm
 $Repeat{$Repeat{Z.(i; j + 1) = d(j*Δx/L)*y_0(t(i)) + y_J(j; t(i)) @ j = 1 : n_J} @ i = 1 : n_T}
 n_T = n_T/3
+k_t = 20
+t_0 = t_0/k_t
+n_0 = ceiling(t_0/Δt)
+t_0 = (k_t - 1)*t_0
+N = n_0 + n_T
+z_0(t) = H - g/2*(t_0 + t)^2
+z_0 = z_0(0s)
+PlotHeight = 100*(1 + z_0/100mm)
+k_R = PlotWidth*mm/L
 #show
-'Animation of beam response (slowed down)
+'Animation of beam elastic response (slowed down) <button id="start">Drop</button>
 #val
-'<style>[id^="fr-"]{display:none;}</style>
-#for k = 1 : n_T
+'<style>#start{height:1.8em; padding-top:0;} .fr{display:none;} circle{stroke-width: 0;} .fr circle.PlotSeries3{stroke-width:'5*R_s*k_R'px!Important;stroke-opacity:0.1; fill:none;}</style>
+#for k = 1 : N
 	#hide
-	z = row(Z; k)
+	k_0 = max(k - n_0; 1)
+	z = row(Z; k_0)
+	j_m = ceiling(n_J/2)
+	z_b(k) = if(k ≤ n_0; z_0((k - 1)*Δt); -spline(j_m; z)) + R_s*k_R
 	#show
-	'<div id="fr-'k'">
-	$Plot{j*Δx|-spline(j + 1; z) & 0m|-100mm & L|-100mm @ j = 0 : n_J + 1}
+	'<div class="fr" id="fr-'k'">
+	$Plot{j*Δx|-spline(j + 1; z) & 0m|-100mm & j_m*Δx|z_b(k) & L|z_0 + 50mm @ j = 0 : n_J + 1}
 	'</div>
 #loop
-'<script>var i='n_T';var fr=$("#fr-"+i);setInterval(function(){fr.hide();if(++i>'n_T')i=1;fr=$("#fr-"+i);fr.show();}, 10);</script>
+'<script>$("#fr-1").show();$("#start").click(function(){$(this).hide();var i='N';var fr=$("#fr-"+i);setInterval(function(){fr.hide();if(++i>'N')i=1;fr=$("#fr-"+i);fr.show();}, 10);});</script>
 #equ
 '[1] Harris C. M., Piersol A.G., HARRIS’ SHOCK AND VIBRATION HANDBOOK, Fifth Edition, McGraw-Hill 2002, ISBN 0-07-137081-1
 '[2] Qing Peng, Xiaoming Liu, Yueguang Wei, Elastic impact of sphere on large plate, Journal of the Mechanics and Physics of Solids, Volume 156, 2021, 104604, ISSN 0022 - 5096, <a href="https://doi.org/10.1016/j.jmps.2021.104604">https://doi.org/10.1016/j.jmps.2021.104604</a>
