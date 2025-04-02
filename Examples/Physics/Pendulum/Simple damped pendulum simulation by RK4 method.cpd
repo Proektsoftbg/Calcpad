@@ -2,7 +2,7 @@
 "Simulation of simple damped pendulum by Runge-Kutta 4 method
 '<table><tr><td>
 '<h4>Input parameters</h4>
-'Gravitational acceleration (m/s²) - 'g = 9.80665m/s^2
+'Gravitational acceleration -'g = 9.80665m/s^2
 'Pendulum length -'l = 1m
 'Pendulum mass -'m = 1kg
 'Initial angle -'θ_0 = -179°|rad
@@ -80,27 +80,27 @@ k_1,ω = (g/l)*sin(-θ_i) - b/m*k_1,θ'</td></tr>
 '<p class="eq" style="border-left:solid 1pt black; margin-left:24pt; padding-left:3pt;"><var>θ</var><sub>n+1</sub> ='θ_i + (h/6)*(k_1,θ + 2*k_2,θ + 2*k_3,θ + k_4,θ)'<br/> <var>ω</var><sub>n+1</sub> = 'ω_i + (h/6)*(k_1,ω + 2*k_2,ω + 2*k_3,ω + k_4,ω)'</p>
 #equ
 'Allocate vectors
-θ_RK4 = vector(n)'<br/>'ω_RK4 = vector(n)'<br/>'E_RK4 = vector(n)
+θ = vector(n)'<br/>'ω = vector(n)'<br/>'E = vector(n)
 'Set initial conditions
-θ_RK4.1 = θ_0/1rad','ω_RK4.1 = ω_0/1rad
+θ.1 = θ_0/1rad','ω.1 = ω_0/1rad
 'Perform Runge-Kutta 4 steps 
 #for i = 1 : n - 1
 	'RK4 factors
-	k_1,θ = ω_RK4.i', ' _
-	k_1,ω = (g/l)*sin(-θ_RK4.i) - b/m*k_1,θ
-	k_2,θ = ω_RK4.i + 0.5*h*k_1,ω
-	k_2,ω = (g/l)*sin(-(θ_RK4.i + 0.5*h*k_1,θ)) - b/m*k_2,θ
-	k_3,θ = ω_RK4.i + 0.5*h*k_2,ω
-	k_3,ω = (g/l)*sin(-(θ_RK4.i + 0.5*h*k_2,θ)) - b/m*k_3,θ
-	k_4,θ = ω_RK4.i + h*k_3,ω
-	k_4,ω = (g/l)*sin(-(θ_RK4.i + h*k_3,θ)) - b/m*k_4,θ
+	k_1,θ = ω.i', ' _
+	k_1,ω = (g/l)*sin(-θ.i) - b/m*k_1,θ
+	k_2,θ = ω.i + 0.5*h*k_1,ω
+	k_2,ω = (g/l)*sin(-(θ.i + 0.5*h*k_1,θ)) - b/m*k_2,θ
+	k_3,θ = ω.i + 0.5*h*k_2,ω
+	k_3,ω = (g/l)*sin(-(θ.i + 0.5*h*k_2,θ)) - b/m*k_3,θ
+	k_4,θ = ω.i + h*k_3,ω
+	k_4,ω = (g/l)*sin(-(θ.i + h*k_3,θ)) - b/m*k_4,θ
 	'Update values using weighted averages
-	'Rotation -'θ_RK4.(i + 1) = θ_RK4.i + (h/6)*(k_1,θ + 2*k_2,θ + 2*k_3,θ + k_4,θ)
-	'Angular velocity -'ω_RK4.(i + 1) = ω_RK4.i + (h/6)*(k_1,ω + 2*k_2,ω + 2*k_3,ω + k_4,ω)' < /p > 
-	'Energy -'E_RK4.i = m*l^2*(1/2*ω_RK4.i^2 + (g/l)*(1 - cos(θ_RK4.i)))|J
+	'Rotation -'θ.(i + 1) = θ.i + (h/6)*(k_1,θ + 2*k_2,θ + 2*k_3,θ + k_4,θ)
+	'Angular velocity -'ω.(i + 1) = ω.i + (h/6)*(k_1,ω + 2*k_2,ω + 2*k_3,ω + k_4,ω)' < /p > 
+	'Energy -'E.i = m*l^2*(1/2*ω.i^2 + (g/l)*(1 - cos(θ.i)))|J
 	#hide
 #loop
-E_RK4.n = m*l^2*(1/2*ω_RK4.n^2 + (g/l)*(1 - cos(θ_RK4.n)))|J
+E.n = m*l^2*(1/2*ω.n^2 + (g/l)*(1 - cos(θ.n)))|J
 t(i) = i*h - h
 r2d = 180/π
 #show
@@ -114,9 +114,9 @@ r2d = 180/π
 	#for i_N = 1 : N
 		#hide
 		i = i_N*k_N
-		θ = θ_RK4.i
-		x = L*sin(θ)
-		y = L*cos(θ)
+		θ_i = θ.i
+		x = L*sin(θ_i)
+		y = L*cos(θ_i)
 		t = i*h
 		#show
 		#val
@@ -124,7 +124,7 @@ r2d = 180/π
 		#equ
 		#nosub
 		'Simulation time -'t'<br/>
-		$Plot{t(i)|θ_RK4.i*r2d & t(j)|θ_RK4.j*r2d & t_max|θ_0/1rad*r2d & t_max|-θ_0/1rad*r2d @ j = 1 : i}
+		$Plot{t(i)|θ.i*r2d & t(j)|θ.j*r2d & t_max|θ_0/1rad*r2d & t_max|-θ_0/1rad*r2d @ j = 1 : i}
 		#val
 		svg$
 		'<polygon points="0,0 '-δ','-δ' 'δ','-δ'" solid_style$/>
