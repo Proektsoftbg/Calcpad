@@ -75,7 +75,7 @@ b_cr,1 = 2*m_1*l_1*sqrt(g/l_1)','b_cr,2 = 2*m_2*l_2*sqrt(g/l_2)
 b_1 = β*b_cr,1','b_2 = β*b_cr,2
 'Maximum simulation time -'t_max = 20s
 '<h4>Solution by Runge-Kutta RK4 method (explicit)</h4>
-'Differential equations
+'Differential equations (<a href="https://www.myphysicslab.com/pendulum/double-pendulum-en.html">www.myphysicslab.com</a>)
 #noc
 l_1*D*θ″_1 + g*((2*m_1 + m_2)*sin(θ_1) + m_2*sin(θ_1 - 2*θ_2)) + 2*m_2*sin(Δθ)*(l_2*θ′_2^2 + l_1*cos(Δθ)*θ′_1^2) + b_1*θ′ = 0
 l_2*D*θ″_2 - 2*sin(Δθ)*(m*(l_1*θ′_1^2 + g*cos(θ_1)) + l_2*m_2*cos(Δθ)*θ′_2^2) + b_2*θ′ = 0
@@ -164,50 +164,50 @@ $Plot{E_p(i) + E_k(i) & 0J & 0J & 0J & E_p(i) & E_k(i) @ i = 1 : n}
 '<style>.PlotSeries2{stroke:DodgerBlue!Important; stroke-dasharray: 5, 10;} .PlotSeries3, .PlotSeries4{stroke:none!Important; fill:none!Important;} #start{height:1.8em; padding-top:0;} .fr{display:none;} .fr svg{margin-right:64pt; align-center;} .trace{stroke:red; stroke-width:1; fill:red;}</style>
 '<h4>Animate results &emsp;<button id="start">Start</button></h4>
 #format 0.00
-#hide
-k = W/w
-#val
-#for i_N = 1 : N
 	#hide
-	i = i_N*k_N
-	x_1i = x_1.i*k
-	y_1i = y_1.i*k
-	x_2i = x_2.i*k
-	y_2i = y_2.i*k
-	t = t(i)
-	n_tr = 50
-	i_0 = max((i_N - n_tr)*k_N; 2)
-	#show
+	k = W/w
 	#val
-	'<div class="fr" id="fr-'i_N'">
-	#equ
-	#nosub
-	'Simulation time -'t'<br/>
-	'<table><tr><td>Top angle - <var>θ</var><sub>1</sub>(<var>t</var>), [°]
-	$Plot{t(i)|θ_1.i*r2d & t(j)|θ_1.j*r2d & t_max|θ_01/1rad*r2d & t_max|-θ_01/1rad*r2d @ j = 1 : i}
-	'Bottom angle - <var>θ</var><sub>2</sub>(<var>t</var>), [°]
-	$Plot{t(i)|θ_2.i*r2d & t(j)|θ_2.j*r2d & t_max|θ_02/1rad*r2d & t_max|-θ_02/1rad*r2d @ j = 1 : i}
-	'</td><td>
-	#val
-	svg$
-	#for j = i_0 : i
+	#for i_N = 1 : N
 		#hide
-		j1 = j - 1
-		j2 = j
-		o = round((j - i_0)/(i - i_0)*100)/100
+		i = i_N*k_N
+		x_1i = x_1.i*k
+		y_1i = y_1.i*k
+		x_2i = x_2.i*k
+		y_2i = y_2.i*k
+		t = t(i)
+		n_tr = 50
+		i_0 = max((i_N - n_tr)*k_N; 2)
 		#show
-		'<line x1="'x_2.j1*k'" y1="'y_2.j1*k'" x2="'x_2.j2*k'" y2="'y_2.j2*k'" class="trace" opacity="'o'"/>
+		#val
+		'<div class="fr" id="fr-'i_N'">
+		#equ
+		#nosub
+		'Simulation time -'t'<br/>
+		'<table><tr><td>Top angle - <var>θ</var><sub>1</sub>(<var>t</var>), [°]
+		$Plot{t(i)|θ_1.i*r2d & t(j)|θ_1.j*r2d & t_max|θ_01/1rad*r2d & t_max|-θ_01/1rad*r2d @ j = 1 : i}
+		'Bottom angle - <var>θ</var><sub>2</sub>(<var>t</var>), [°]
+		$Plot{t(i)|θ_2.i*r2d & t(j)|θ_2.j*r2d & t_max|θ_02/1rad*r2d & t_max|-θ_02/1rad*r2d @ j = 1 : i}
+		'</td><td>
+		#val
+		svg$
+		#for j = i_0 : i
+			#hide
+			j1 = j - 1
+			j2 = j
+			o = round((j - i_0)/(i - i_0)*100)/100
+			#show
+			'<line x1="'x_2.j1*k'" y1="'y_2.j1*k'" x2="'x_2.j2*k'" y2="'y_2.j2*k'" class="trace" opacity="'o'"/>
+		#loop
+		'<polygon points="0,0 '-δ','-δ' 'δ','-δ'" solid_style$/>
+		line$(0; 0; x_1i; y_1i; thick_style$)
+		line$(x_1i; y_1i; x_2i; y_2i; thick_style$)
+		circle$(0; 0; R/2; solid_style$)
+		circle$(0; 0; R/8; solid_style$)
+		circle$(x_1i; y_1i; R_1; ball_style$)
+		circle$(x_2i; y_2i; R_2; ball_style$)
+		'</svg>
+		'</td></tr></table>
+		'</div>
 	#loop
-	'<polygon points="0,0 '-δ','-δ' 'δ','-δ'" solid_style$/>
-	line$(0; 0; x_1i; y_1i; thick_style$)
-	line$(x_1i; y_1i; x_2i; y_2i; thick_style$)
-	circle$(0; 0; R/2; solid_style$)
-	circle$(0; 0; R/8; solid_style$)
-	circle$(x_1i; y_1i; R_1; ball_style$)
-	circle$(x_2i; y_2i; R_2; ball_style$)
-	'</svg>
-	'</td></tr></table>
-	'</div>
-#loop
-'<script>$("#fr-1").show();$("#start").click(function(){$(this).hide(); var i='N';var fr=$("#fr-"+i);setInterval(function(){fr.hide();if(++i>'N')i=1;fr=$("#fr-"+i);fr.show();}, '1000*h*k_N');});</script>
-#equ
+	'<script>$("#fr-1").show();$("#start").click(function(){$(this).hide(); var i='N';var fr=$("#fr-"+i);setInterval(function(){fr.hide();if(++i>'N')i=1;fr=$("#fr-"+i);fr.show();}, '1000*h*k_N');});</script>
+	#equ
