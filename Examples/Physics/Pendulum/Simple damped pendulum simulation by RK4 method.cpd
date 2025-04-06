@@ -80,7 +80,7 @@ k_1,ω = (g/l)*sin(-θ_i) - b/m*k_1,θ'</td></tr>
 '<p class="eq" style="border-left:solid 1pt black; margin-left:24pt; padding-left:3pt;"><var>θ</var><sub>n+1</sub> ='θ_i + (h/6)*(k_1,θ + 2*k_2,θ + 2*k_3,θ + k_4,θ)'<br/> <var>ω</var><sub>n+1</sub> = 'ω_i + (h/6)*(k_1,ω + 2*k_2,ω + 2*k_3,ω + k_4,ω)'</p>
 #equ
 'Allocate vectors
-θ = vector(n)'<br/>'ω = vector(n)'<br/>'E = vector(n)
+θ = vector(n)'<br/>'ω = vector(n)
 'Set initial conditions
 θ.1 = θ_0/1rad','ω.1 = ω_0/1rad
 'Perform Runge-Kutta 4 steps 
@@ -97,43 +97,51 @@ k_1,ω = (g/l)*sin(-θ_i) - b/m*k_1,θ'</td></tr>
 	'Update values using weighted averages
 	'Rotation -'θ.(i + 1) = θ.i + (h/6)*(k_1,θ + 2*k_2,θ + 2*k_3,θ + k_4,θ)
 	'Angular velocity -'ω.(i + 1) = ω.i + (h/6)*(k_1,ω + 2*k_2,ω + 2*k_3,ω + k_4,ω)' < /p > 
-	'Energy -'E.i = m*l^2*(1/2*ω.i^2 + (g/l)*(1 - cos(θ.i)))|J
 	#hide
 #loop
-E.n = m*l^2*(1/2*ω.n^2 + (g/l)*(1 - cos(θ.n)))|J
 t(i) = i*h - h
 r2d = 180/π
 #show
+'Kinetic energy -'E_k(i) = m/2*l^2*ω.i^2|J
+'Potential energy-'E_p(i) = m*l*g*(1 - cos(θ.i))|J
 '...
+'<h4>Plot results</h4>
+'Rotation - <var>θ</var>(<var>t</var>), [°]
+$Plot{t(i)|θ.i*r2d @ i = 1 : n}
+'Energy - <var>E</var>(<var>t</var>), [J]
+$Plot{t(i)|E_k(i) + E_p(i) & 0s|0J & 0s|0J & 0s|0J & t(i)|E_p(i) & t(i)|E_k(i) & 0s|0J @ i = 1 : n}
+'<br/><b style="color:Magenta">━━━━</b> Potential - <var>E</var><sub>p</sub>, 
+'<b style="color:DarkCyan">━━━━</b> Kinetic - <var>E</var><sub>k</sub>, 
+'<b style="color:Red">━━━━</b> Total - <var>E</var><sub>tot</sub>
 '<style>#start{height:1.8em; padding-top:0;} .PlotSeries2{stroke:DodgerBlue!Important; stroke-dasharray: 5, 10;} .PlotSeries3, .PlotSeries4{stroke:none!Important; fill:none!Important;} .fr{display:none;} .fr svg{margin-right:64pt; align-center;}</style>
 '<h4>Animate results &emsp;<button id="start">Start</button></h4>
 #format 0.00
+#hide
+k = W/w
+#val
+#for i_N = 1 : N
 	#hide
-	k = W/w
+	i = i_N*k_N
+	θ_i = θ.i
+	x = L*sin(θ_i)
+	y = L*cos(θ_i)
+	t = t(i)
+	#show
 	#val
-	#for i_N = 1 : N
-		#hide
-		i = i_N*k_N
-		θ_i = θ.i
-		x = L*sin(θ_i)
-		y = L*cos(θ_i)
-		t = i*h
-		#show
-		#val
-		'<div class="fr" id="fr-'i_N'">
-		#equ
-		#nosub
-		'Simulation time -'t'<br/>
-		$Plot{t(i)|θ.i*r2d & t(j)|θ.j*r2d & t_max|θ_0/1rad*r2d & t_max|-θ_0/1rad*r2d @ j = 1 : i}
-		#val
-		svg$
-		'<polygon points="0,0 '-δ','-δ' 'δ','-δ'" solid_style$/>
-		line$(0; 0; x; y; thick_style$)
-		circle$(0; 0; R/2; solid_style$)
-		circle$(0; 0; R/8; solid_style$)
-		circle$(x; y; R; ball_style$)
-		'</svg>
-		'</div>
-	#loop
-	'<script>$("#fr-1").show();$("#start").click(function(){$(this).hide();var i='N';var fr=$("#fr-"+i);setInterval(function(){fr.hide();if(++i>'N')i=1;fr=$("#fr-"+i);fr.show();}, '1000*h*k_N');});</script>
+	'<div class="fr" id="fr-'i_N'">
 	#equ
+	#nosub
+	'Simulation time -'t'<br/>
+	$Plot{t(i)|θ.i*r2d & t(j)|θ.j*r2d & t_max|θ_0/1rad*r2d & t_max|-θ_0/1rad*r2d @ j = 1 : i}
+	#val
+	svg$
+	'<polygon points="0,0 '-δ','-δ' 'δ','-δ'" solid_style$/>
+	line$(0; 0; x; y; thick_style$)
+	circle$(0; 0; R/2; solid_style$)
+	circle$(0; 0; R/8; solid_style$)
+	circle$(x; y; R; ball_style$)
+	'</svg>
+	'</div>
+#loop
+'<script>$("#fr-1").show();$("#start").click(function(){$(this).hide();var i='N';var fr=$("#fr-"+i);setInterval(function(){fr.hide();if(++i>'N')i=1;fr=$("#fr-"+i);fr.show();}, '1000*h*k_N');});</script>
+#equ
