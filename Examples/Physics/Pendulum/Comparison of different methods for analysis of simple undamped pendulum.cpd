@@ -200,23 +200,21 @@ $Plot{t(i)|θ(t(i))/deg & t(i)|θ_e(t(i))*r2d & t(i)|if(abs(θ_fwE.i*r2d) < 150;
 $Plot{0s|0J & t(i)|E_0 & t(i)|E_fwE.i & t(i)|E_bwE.i & t(i)|E_CN.i @ i = 1 : n}
 '<h4>Comparision of Crank–Nicolson and Runge-Kutta 4 methods</h4>
 '<style>.PlotSeries2{stroke-dasharray: 30, 10;}</style>
+'<table><tr><td>
 'Rotation <var>θ</var> [deg] versus time <var>t</var> [s] plot
- '<table><tr><td>
 $Plot{t(i)|θ_e(t(i))*r2d & t(i)|θ_CN.i*r2d & t(i)|θ_RK4.i*r2d @ i = 1 : n}
 '</td><td><br/><br/><br/>
 '<b style="color:Red">━━━━</b> Theoretical (large rot.)<br/>
 '<b style="color:Lime">━ ━ ━</b> Crank–Nicolson (IMEX)<br/>
 '<b style="color:DodgerBlue">· · · · ·</b> Runge-Kutta 4 (explicit)
-'</td></tr></table>
+'</td></tr><tr><td>
 'Absolute error Δθ [°] versus time <var>t</var> [s] plot
- '<table><tr><td>
 $Plot{t(i)|(θ_CN.i - θ_e(t(i)))*r2d & t(i)|(θ_RK4.i - θ_e(t(i)))*r2d @ i = 1 : n}
 '</td><td><br/><br/><br/>
 '<p><b style="color:Red">━━━━</b> Crank–Nicolson (IMEX)<br/>
 '<b style="color:Lime">━ ━ ━</b> Runge-Kutta 4 (explicit)
-'</td></tr></table>
+'</td></tr><tr><td>
 'Energy <var>E</var> [J] versus time <var>t</var> [s] plot
-'<table><tr><td>
 $Plot{t(i)|E_0 & t(i)|E_CN.i & t(i)|E_RK4.i & 0s|0.999*E_0 @ i = 1 : n}
 '</td><td><br/><br/><br/>
 '<b style="color:Red">━━━━</b> Theoretical (large rot.)<br/>
