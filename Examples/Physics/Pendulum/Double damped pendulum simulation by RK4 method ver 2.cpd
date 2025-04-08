@@ -8,7 +8,7 @@
 'Pendulum masses -'m_1 = 2kg', 'm_2 = 1kg
 'Total mass -'m = m_1 + m_2
 'Initial angles
-θ_01 = -90°|rad', 'θ_02 = -120°|rad
+θ_01 = -85°|rad', 'θ_02 = -118°|rad
 'Initial angular velocities
 ω_01 = 0rad/s', 'ω_02 = 0rad/s
 'Damping factor (normalized) -'β = 0.01
@@ -74,21 +74,21 @@ b_cr,1 = 2*m_1*sqrt(g*l_1)','b_cr,2 = 2*m_2*sqrt(g*l_2)
 b_1 = β*b_cr,1','b_2 = β*b_cr,2
 'Maximum simulation time -'t_max = 20s
 '<h4>Solution by Runge-Kutta RK4 method (explicit)</h4>
-'Differential equations (<a href="https://www.myphysicslab.com/pendulum/double-pendulum-en.html">www.myphysicslab.com</a>)
+'Differential equations (<a href="https://seamplex.com/feenox/examples/daes.html#the-double-pendulum">https://seamplex.com</a>)
 #noc
-l_1*D*θ″_1 + g*((2*m_1 + m_2)*sin(θ_1) + m_2*sin(θ_1 - 2*θ_2)) + 2*m_2*sin(Δ_θ)*(l_2*θ′_2^2 + l_1*cos(Δ_θ)*θ′_1^2) + b_1*θ′ = 0
-l_2*D*θ″_2 - 2*sin(Δ_θ)*(m*(l_1*θ′_1^2 + g*cos(θ_1)) + l_2*m_2*cos(Δ_θ)*θ′_2^2) + b_2*θ′ = 0
-'where'Δ_θ = θ_1 - θ_2'and'D = 2*(m_1 + m_2*sin(Δ_θ)^2)
+m*l_1^2*θ″_1 + m_2*l_1*l_2*θ″_2*cos(Δ_θ) + m_2*l_1*l_2*θ′_2^2*sin(Δ_θ) + l_1*m*g*sin(θ_1) + b_1*θ′_1 = 0
+m_2*l_2^2*θ″_2 + m_2*l_1*l_2*θ″_1*cos(Δ_θ) - m_2*l_1*l_2*θ′_1^2*sin(Δ_θ) + l_2*m_2*g*sin(θ_2) + b_2*θ′_2 = 0
 #equ
 'The II order system of 2 equations is first reduced to the following I order system of 4 equations
 #noc
 θ′_1 = ω_1
-ω′_1 = -(g*(2*m_1 + m_2)*sin(θ_1) + m_2*g*sin(θ_1 - 2*θ_2) + 2*m_2*sin(Δ_θ)*(l_2*ω_2^2 + l_1*cos(Δ_θ)*ω_1^2) + b_1*ω_1)*(1/(l_1*D))
+ω_1′ = -(m_2*l_1*ω_1^2*sin(2*Δ(θ_1; θ_2)) + 2*m_2*sin(Δ(θ_1; θ_2))*(l_2*ω_2^2 + g*cos(θ_2)) + 2*g*m_1*sin(θ_1) + b_1*ω_1)*(1/(l_1*D(θ_1; θ_2)))
 θ′_2 = ω_2
-ω′_2 = (2*sin(Δ_θ)*(m*(l_1*ω_1^2 + g*cos(θ_1)) + l_2*m_2*cos(Δ_θ)*ω_2^2) - b_2*ω_2)*(1/(l_2*D))
+ω_2′ = (m_2*l_2*ω_2^2*sin(2*Δ(θ_1; θ_2)) + 2*m*sin(Δ(θ_1; θ_2))*(l_1*ω_1^2 + g*cos(θ_1)) - b_2*ω_2)*(1/(l_2*D(θ_1; θ_2)))
+'where'D = 2*(m_1 + m_2*sin(Δ_θ)^2)
 #equ
 'The solution is performed iteratively
-'Step size -'h = 0.02s
+'Step size -'h = 0.002s
 'Number of steps -'n = t_max/h
 #hide
 N = min(n; 250)
@@ -102,11 +102,13 @@ N = n\k_N
 θ_1.1 = θ_01/1rad','ω_1.1 = ω_01/1rad
 θ_2.1 = θ_02/1rad','ω_2.1 = ω_02/1rad
 'Define the system of ODEs
-D(Δ_θ) = 2*(m_1 + m_2*sin(Δ_θ)^2)
+Δ(θ_1; θ_2) = θ_1 - θ_2
+D(θ_1; θ_2) = 2*(m_1 + m_2*sin(Δ(θ_1; θ_2))^2)
 f_θ1(θ_1; ω_1; θ_2; ω_2) = ω_1
-f_ω1(θ_1; ω_1; θ_2; ω_2) = -(g*(2*m_1 + m_2)*sin(θ_1) + m_2*g*sin(θ_1 - 2*θ_2) + 2*m_2*sin(θ_1 - θ_2)*(l_2*ω_2^2 + l_1*cos(θ_1 - θ_2)*ω_1^2) + b_1*ω_1)*(1/(l_1*D(θ_1 - θ_2)))
+f_ω1(θ_1; ω_1; θ_2; ω_2) = -(m_2*l_1*ω_1^2*sin(2*Δ(θ_1; θ_2)) + 2*m_2*sin(Δ(θ_1; θ_2))*(l_2*ω_2^2 + g*cos(θ_2)) + 2*g*m_1*sin(θ_1) + b_1*ω_1)*(1/(l_1*D(θ_1; θ_2)))
 f_θ2(θ_1; ω_1; θ_2; ω_2) = ω_2
-f_ω2(θ_1; ω_1; θ_2; ω_2) = (2*sin(θ_1 - θ_2)*(m*(l_1*ω_1^2 + g*cos(θ_1)) + l_2*m_2*cos(θ_1 - θ_2)*ω_2^2) - b_2*ω_2)*(1/(l_2*D(θ_1 - θ_2)))
+f_ω2(θ_1; ω_1; θ_2; ω_2) = (m_2*l_2*ω_2^2*sin(2*Δ(θ_1; θ_2)) + 2*m*sin(Δ(θ_1; θ_2))*(l_1*ω_1^2 + g*cos(θ_1)) - b_2*ω_2)*(1/(l_2*D(θ_1; θ_2)))
+#equ
 'Perform Runge-Kutta 4 steps
 #for i = 1 : n - 1
 	θ_1i = θ_1.i', 'ω_1i = ω_1.i
@@ -160,23 +162,25 @@ $Plot{t(i)|E_p(i) + E_k(i) & 0s|0J & 0s|0J & 0s|0J & t(i)|E_p(i) & t(i)|E_k(i) @
 '<b style="color:DarkCyan">━━━</b> Kinetic - <var>E</var><sub>k</sub>, 
 '<b style="color:Red">━━━</b> Total - <var>E</var><sub>tot</sub>
 '</td></tr></table>
-'<style>.PlotSeries2{stroke:DodgerBlue!Important; stroke-dasharray: 5, 10;} .PlotSeries3, .PlotSeries4{stroke:none!Important; fill:none!Important;} #start{height:1.8em; padding-top:0;} .fr{display:none;} .fr svg{margin-right:64pt; align-center;} .trace{stroke:red; stroke-width:1; fill:none;}</style>
+'<style>.PlotSeries2{stroke:DodgerBlue!Important; stroke-dasharray: 5, 10;} .PlotSeries3, .PlotSeries4{stroke:none!Important; fill:none!Important;} #start{height:1.8em; padding-top:0;} .fr{display:none;} .fr svg{margin-right:64pt; align-center;} .trace{stroke:red; stroke-width:1; fill:none; opacity:0.5;}</style>
 '<h4>Animate results &emsp;<button id="start">Start</button></h4>
 #format 0.00
 	#hide
 	k = W/w
-	x1 = round(x_1*k*100)/100','y1 = round(y_1*k*100)/100
-	x2 = round(x_2*k*100)/100','y2 = round(y_2*k*100)/100
+	x1 = round(x_1*k*10)/10','y1 = round(y_1*k*10)/10
+	x2 = round(x_2*k*10)/10','y2 = round(y_2*k*10)/10
+	p = join_cols(x2; y2)
+	n_tr = 40
 	#val
+	#show
+	'<script>var p ='p'</script>
 	#for i_N = 1 : N
 		#hide
 		i = i_N*k_N
 		x_1i = x1.i','y_1i = y1.i
 		x_2i = x2.i','y_2i = y2.i
 		t = t(i)
-		n_tr = 40
 		i_0 = max((i_N - n_tr)*k_N; 2)
-		j2 = 1
 		#show
 		#val
 		'<div class="fr" id="fr-'i_N'">
@@ -190,16 +194,7 @@ $Plot{t(i)|E_p(i) + E_k(i) & 0s|0J & 0s|0J & 0s|0J & t(i)|E_p(i) & t(i)|E_k(i) @
 		'</td><td>
 		#val
 		svg$
-		#for j = i_0 : i
-			#if j⦼2 ≡ 0
-				#hide
-				j1 = j2
-				j2 = j
-				o = round((j - i_0)/(i - i_0)*100)/100
-				#show
-				'<line x1="'x2.j1'" y1="'y2.j1'" x2="'x2.j2'" y2="'y2.j2'" class="trace" opacity="'o'"/>
-			#end if
-		#loop
+		'<polyline points="" class="trace" id="trace-'i_N'"/>' _
 		'<polygon points="0,0 '-δ','-δ' 'δ','-δ'" solid_style$/>' _
 		line$(0; 0; x_1i; y_1i; thick_style$)' _
 		line$(x_1i; y_1i; x_2i; y_2i; thick_style$)' _
@@ -210,6 +205,8 @@ $Plot{t(i)|E_p(i) + E_k(i) & 0s|0J & 0s|0J & 0s|0J & t(i)|E_p(i) & t(i)|E_k(i) @
 		'</svg>
 		'</td></tr></table>
 		'</div>
+		'<script>$("#trace-'i_N'").attr("points", p.slice('i_0','i + 1').map(function(e){return e[0]+","+e[1];}).join(" "));</script> 
 	#loop
 	'<script>$("#fr-1").show();$("#start").click(function(){$(this).hide(); var i='N';var fr=$("#fr-"+i);setInterval(function(){fr.hide();if(++i>'N')i=1;fr=$("#fr-"+i);fr.show();}, '900*h*k_N');});</script>
 	#equ
+	
