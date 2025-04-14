@@ -51,8 +51,8 @@ svg$
 line$(0; 0; 0; 5/3*r; thin_style$)
 '<path d="M 0 '0.15*L' A 'r' 'r' 0 0 'θ_01 < 0°' 'r*x_1/L_1' 'r*y_1/L_1'" thin_style$/>
 '<path d="M 'x_1' 'y_1 + r' A 'r' 'r' 0 0 'θ_02 < 0°' 'x_1 + r*(x_2 - x_1)/L_2' 'y_1 + r*(y_2 - y_1)/L_2'" thin_style$/>
-texth$(-1.2*δ*sign(θ_01);0.2*L;'-abs(θ_01)*180/π'°)
-texth$(x_1-1.2*δ*sign(θ_02);y_1+0.2*L;'-abs(θ_02)*180/π'°)
+texth$(-1.2*δ*sign(θ_01);0.2*L;'θ_01*180/π'°)
+texth$(x_1-1.2*δ*sign(θ_02);y_1+0.2*L;'θ_02*180/π'°)
 line$(0; 0; x_1; y_1; thick_style$)
 line$(x_1; y_1; x_2; y_2; thick_style$)
 text$(x_1/2-δ_x*y_1/L_1; y_1/2+δ_x*x_1/L_1;450°+θ_01;'l_1' m)

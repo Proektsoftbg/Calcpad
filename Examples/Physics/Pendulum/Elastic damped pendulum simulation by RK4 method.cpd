@@ -42,7 +42,7 @@ line$(0; 0; 0; 0.4*L; thin_style$)
 '<path d="M 0 '0.2*L' A '0.2*L' '0.2*L' 0 0 'θ_0 < 0°' '0.2*x' '0.2*y'" thin_style$/>
 texth$(-1.5*δ*sign(θ_0);0.25*L;'θ_0*180/π'°)
 line$(0; 0; x; y; thick_style$)
-text$(x/2-δ_x*y/L; y/2+δ_x*x/L;if(θ_0<0°;450°+θ_0;450°-θ_0);'r_0' ('l') m)
+text$(x/2-δ_x*y/L; y/2+δ_x*x/L;450°+θ_0;'r_0' ('l') m)
 circle$(0; 0; R/2; solid_style$)
 circle$(0; 0; R/8; solid_style$)
 circle$(l*k*sin(θ_0); l*k*cos(θ_0); R; bal0_style$)
