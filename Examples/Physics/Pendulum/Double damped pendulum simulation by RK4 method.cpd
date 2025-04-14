@@ -88,7 +88,7 @@ l_2*D*θ″_2 - 2*sin(Δ_θ)*(m*(l_1*θ′_1^2 + g*cos(θ_1)) + l_2*m_2*cos(Δ_�
 ω′_2 = (2*sin(Δ_θ)*(m*(l_1*ω_1^2 + g*cos(θ_1)) + l_2*m_2*cos(Δ_θ)*ω_2^2) - b_2*ω_2)*(1/(l_2*D))
 #equ
 'The solution is performed iteratively
-'Step size -'h = 0.02s
+'Step size -'h = 0.01s
 'Number of steps -'n = t_max/h
 #hide
 N = min(n; 250)
