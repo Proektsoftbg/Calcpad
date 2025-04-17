@@ -135,7 +135,7 @@ $Plot{t(i)|r.i @ i = 1 : n}
 '</td></tr><tr><td>Trajectory - <var>x</var>(<var>t</var>), <var>y</var>(<var>t</var>), [m]<br/>
 $Plot{r.i*sin(θ.i)|-r.i*cos(θ.i) @ i = 1 : n}
 '</td><td>Energy - <var>E</var>(<var>t</var>), [J]<br/>
-$Plot{E_p(i) + E_k(i) & 0J & 0J & 0J & E_p(i) & E_k(i) @ i = 1 : n}
+$Plot{t(i)|E_p(i) + E_k(i) & 0s|0J & 0s|0J & 0s|0J & t(i)|E_p(i) & t(i)|E_k(i) @ i = 1 : n}
 '<br/><b style="color:Magenta">━━━</b> Potential - <var>E</var><sub>p</sub>, 
 '<b style="color:DarkCyan">━━━</b> Kinetic - <var>E</var><sub>k</sub>, 
 '<b style="color:Red">━━━</b> Total - <var>E</var><sub>tot</sub>
