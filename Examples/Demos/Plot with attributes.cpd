@@ -1,0 +1,41 @@
+"Plot with title, legend and labels 
+'Functions
+f_1(x) = 1'; 'f_2(x) = -1'; 'f_3(x) = x
+f_4(x) = 2 - 2*x'; 'f_5(x) = 2 - x'; 'f_6(x) = 2*x - 2
+'Points
+x_7 = 1', 'y_7 = 0.5'; 'x_8 = 1', 'y_8 = 1.5';
+x_9 = 1', 'y_9 = -0.5'; 'x_10 = 1', 'y_10 = -1.5';
+'Interval:'a = 0','b = 2
+#def title$ = Plot Title
+#def series$ = f_1(x) & f_2(x) & x|f_3(x) & x|f_4(x) & x|f_5(x) & x|f_6(x) & x_7|y_7 & x_8|y_8 & x_9|y_9 & x_10|y_10
+#def labelX$ = Label X
+#def labelY$ = Label Y
+#def chart1$ = Line 1
+#def chart2$ = Line 2
+#def chart3$ = Line 3
+#def chart4$ = Line 4
+#def chart5$ = Line 5
+#def chart6$ = Line 6
+#def chart7$ = Point 7
+#def chart8$ = Point 8
+#def chart9$ = Point 9
+#def chart10$ = Point 10
+'<div style="width:360pt;">
+#hide
+PlotWidth = 400','PlotHeight = 200','PlotSVG = 1
+#show
+'<p><small style="float:left; position:relative; top:10pt;">labelY$</small><center><strong>title$</strong></center>
+$Plot{series$ @ x = a : b}
+'<small style="float:right;position:relative; top:-10pt;">labelX$</small>
+'<b>Legend:</b>
+'<p><b style="color:Tomato">━━━</b> chart1$ &ensp;
+'<b style="color:YellowGreen">━━━</b> chart2$ &ensp;
+'<b style="color:CornflowerBlue">━━━</b> chart3$ &ensp;
+'<b style="color:Gold">━━━</b> chart4$ &ensp;
+'<b style="color:MediumVioletRed">━━━</b> chart5$ &ensp;
+'<b style="color:MediumSpringGreen">━━━</b> chart6$
+'<br/>&ensp;<b style="color:BlueViolet">●</b> chart7$ &ensp;&ensp;
+'<b style="color:LightSalmon">●</b> chart8$ &ensp;&ensp;
+'<b style="color:DeepPink">●</b> chart9$ &ensp;&ensp;
+'<b style="color:DarkTurquoise">●</b> chart10$</p>
+'</div>
