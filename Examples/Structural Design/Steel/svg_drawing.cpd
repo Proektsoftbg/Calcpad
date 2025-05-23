@@ -1,0 +1,24 @@
+#def line$(x1$; y1$; x2$; y2$; style$) = '<line x1="'x1$'" y1="'y1$'" x2="'x2$'" y2="'y2$'" style$/>
+#def rect$(x$; y$; w$; h$; style$) = '<rect x="'x$'" y="'y$'" width="'w$'" height="'h$'" style$/>
+#def circle$(x$; y$; style$) = '<circle cx="'x$'" cy="'y$'" r="'dist*3/10'" style$/>
+#def texth$(x$; y$; s$) = '<text x="'x$'" y="'y$'" text-anchor="middle">s$</text>
+#def textv$(x$; y$; s$) = '<text x="'x$'" y="'y$'" text-anchor="middle" transform="rotate(-90,'x$','y$')">s$</text>
+#def sec_style$ = style="stroke:black; stroke-width:8; fill:lightyellow"
+#def axis_style$ = stroke-dasharray="'36*stroke','12*stroke','4*stroke','12*stroke'" style="stroke:limegreen; stroke-width:'2*stroke'"
+#def dim_style$ = style="stroke:goldenrod; stroke-width:'1.5*stroke'; fill:goldenrod"
+#def dimh$(x1$; x2$; y$; s$)
+	line$(x1$; y$ - dist; x1$; y$ + dist; dim_style$)
+	line$(x2$; y$ - dist; x2$; y$ + dist; dim_style$)
+	line$(x1$ - dist; y$; x2$ + dist; y$; dim_style$)
+	circle$(x2$; y$; dim_style$)
+	circle$(x1$; y$; dim_style$)
+	texth$((x1$ + x2$)/2; y$ - dist*3/4; s$)
+#end def
+#def dimv$(x$; y1$; y2$; s$)
+	line$(x$ - dist; y1$; x$ + dist; y1$; dim_style$)
+	line$(x$ - dist; y2$; x$ + dist; y2$; dim_style$)
+	line$(x$; y1$ - dist; x$; y2$ + dist; dim_style$)
+	circle$(x$; y1$; dim_style$)
+	circle$(x$; y2$; dim_style$)
+	textv$(x$ - dist*3/4; (y1$ + y2$)/2; s$)
+#end def
