@@ -1,4 +1,4 @@
-<svg width="185pt" height="260pt" viewBox="-299 -146 598 815" style="font-size:32pt; font-family:Segoe UI;" xmlns="http://www.w3.org/2000/svg">
+<svg width="170pt" height="240pt" viewBox="-299 -146 598 815" style="font-size:32pt; font-family:Segoe UI;" xmlns="http://www.w3.org/2000/svg">
 <style>
 .dim {stroke:goldenrod; stroke-width:1.75; fill:goldenrod;}
 .axis {stroke-dasharray:36,12,4,12; stroke:limegreen; stroke-width:2;}
@@ -46,7 +46,7 @@
 <circle cx="10.5" cy="218" r="5" class="dim"></circle>
 <circle cx="-10.5" cy="218" r="5" class="dim"></circle>
 <text x="50" y="205" text-anchor="middle">r</text>
-<line x1="18" y1="476" x2="125" y2="369.67" class="dim"></line>
-<line x1="124.83" y1="370" x2="183" y2="370" class="dim"></line>
-<text x="210" y="380" text-anchor="middle">r</text>
+<line x1="18" y1="476" x2="125" y2="370" class="dim"></line>
+<line x1="125" y1="370" x2="155" y2="370" class="dim"></line>
+<text x="185" y="380" text-anchor="middle">r</text>
 </svg>
