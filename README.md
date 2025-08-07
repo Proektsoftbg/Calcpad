@@ -336,6 +336,9 @@ Any variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;&emsp;&emsp;**msolve**(A; B) - solves the generalized matrix equation AX = B using LDLT decomposition for symmetric matrices, and LU for non-symmetric;  
 &emsp;&emsp;&emsp;&emsp;**cmsolve**(A; B) - solves the generalized matrix equation AX = B with symmetric, positive-definite matrix A using Cholesky decomposition;  
 &emsp;&emsp;&emsp;&emsp;**smsolve**(A; B) - solves the generalized matrix equation AX = B with high-performance symmetric, positive-definite matrix A using PCG method;  
+method;
+&emsp;&emsp;&emsp;&emsp;**fft**(M) - performs fast Fourier transform of row-major matrix M. It must have one row for real data and two rows for complex;
+&emsp;&emsp;&emsp;&emsp;**ift**(M) - performs inverse Fourier transform of row-major matrix M. It must have one row for real data and two rows for complex;
 &emsp;&emsp;&emsp;&emsp;**<ins>Double interpolation:</ins>**  
 &emsp;&emsp;&emsp;&emsp;**take**(x; y; M) - returns the element of matrix M at indexes x and y;  
 &emsp;&emsp;&emsp;&emsp;**line**(x; y; M) - double linear interpolation from the elements of matrix M based on the values of x and y;  
