@@ -1,0 +1,16 @@
+#md on
+'## Plotting Easter Egg With Calcpad
+a = 1'- horizontal radius
+b = 0.7'- vertical radius
+#rad
+'<!--'PlotWidth = 400', 'PlotHeight = PlotWidth _
+', 'PlotStep = 1' -->
+'<table><tr><td>
+x(t) = a*cos(t)
+y(t) = b*(1 - 0.2*cos(t))*sin(t)
+$Plot{x(t)|y(t) & -1|-1 & 1|1 @ t = 0 : 2*π}
+'</td><td>
+f(x; y) = b*(1 - 0.2*cos(acos(x/a)))*sin(acos(x/a))
+z(x; y) = sqrt(f(x; y)^2 - y^2)
+$Map{z(x; y) @ x = -1 : 1 & y = -1 : 1}
+'</td></tr></table>

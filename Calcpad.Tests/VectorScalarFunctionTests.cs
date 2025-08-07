@@ -414,7 +414,7 @@
             Assert.Equal("[1 -1 1 -1 1 -1 0]", calc.ToString());
 
         }
-        
+
         #endregion
     }
 }

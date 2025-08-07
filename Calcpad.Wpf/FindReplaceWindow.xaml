@@ -16,7 +16,6 @@
         KeyUp="Window_KeyUp" 
         Deactivated="Window_Deactivated" 
         SizeToContent="WidthAndHeight" 
-        WindowStyle="SingleBorderWindow" 
         Activated="Window_Activated" Icon="resources/find.png" Closed="Window_Closed" ContentRendered="Window_ContentRendered" PreviewKeyDown="Window_PreviewKeyDown">
     <Grid Margin="5,5,5,5" Height="234" VerticalAlignment="Top" HorizontalAlignment="Left" Width="550">
         <TabControl x:Name="FindReplaceTabControl" SelectionChanged="TabControl_SelectionChanged" Focusable="False" Margin="5,5,5,5" Height="224" VerticalAlignment="Top" Width="540" HorizontalAlignment="Left">

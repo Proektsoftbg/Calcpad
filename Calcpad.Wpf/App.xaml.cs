@@ -30,7 +30,7 @@ namespace Calcpad.Wpf
         {
 
             MainWindow main = (MainWindow)Current.MainWindow;
-            var logFileName = Path.GetRandomFileName();
+            var logFileName = Path.ChangeExtension(Path.GetTempFileName(), ".txt");
             var message = GetMessage(e);
             if (main.IsSaved)
             {
@@ -41,7 +41,7 @@ namespace Calcpad.Wpf
                 message += AppMessages.ReportUnhandledExceptionAndClose_NoUnsavedData_RecoveryAttempted;
                 try
                 {
-                    var tempFile = Path.GetRandomFileName();
+                    var tempFile = Path.ChangeExtension(Path.GetRandomFileName(), ".cpd");
                     main.SaveStateAndRestart(tempFile);
                     message += AppMessages.NYourDataWasSavedBothToClipboardAndTempFile + tempFile;
                 }
@@ -57,7 +57,6 @@ namespace Calcpad.Wpf
                 FileName = logFileName,
                 UseShellExecute = true
             });
-
             Environment.Exit(System.Runtime.InteropServices.Marshal.GetHRForException(e));
         }
 

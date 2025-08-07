@@ -1,0 +1,128 @@
+
+'<h1>Arithmetic operators</h1>'
+#hide
+m1 = matrix_hp(3; 4)*min
+m2 = 2.71s
+m1.(1; 1) = 17min
+m1.(1; 2) = -5min
+m1.(1; 3) = 0.5min
+m1.(1; 4) = -3.14min
+m1.(2; 1) = 8min
+m1.(2; 2) = -7.89min
+m1.(2; 3) = 0min
+m1.(2; 4) = 3.3min
+m1.(3; 1) = -12min
+m1.(3; 2) = 6.28min
+m1.(3; 3) = 4min
+m1.(3; 4) = -1.23min
+
+#show
+
+m1
+
+m2
+
+
+c = m1 + m2
+f(m1; m2) = m1 + m2
+c1 = f(m1; m2)
+
+
+c = m1 - m2
+f(m1; m2) = m1 - m2
+c1 = f(m1; m2)
+
+
+
+
+
+c = m1*m2
+f(m1; m2) = m1*m2
+c1 = f(m1; m2)
+
+c = m1/m2
+f(m1; m2) = m1/m2
+c1 = f(m1; m2)
+
+"Exponentiation and the remainder operators must be without a unit. Therefore we need to define an unitless scalar
+#hide
+scalar_unitless = 1.16
+#show
+scalar_unitless
+
+c = m1^scalar_unitless
+f(m1; scalar_unitless) = m1^scalar_unitless
+c = f(m1; scalar_unitless)
+
+c = scalar_unitless
+f(m1; scalar_unitless) = scalar_unitless
+c = f(m1; scalar_unitless)
+
+c = m1\m2
+f(m1; m2) = m1\m2
+c1 = f(m1; m2)
+
+c = m1÷m2
+f(m1; m2) = m1÷m2
+c1 = f(m1; m2)
+
+#hide
+fm = matrix_hp(3; 4)
+fm.(1; 1) = 11
+fm.(1; 2) = 22
+fm.(1; 3) = 33
+fm.(1; 4) = 44
+fm.(2; 1) = 55
+fm.(2; 2) = 66
+fm.(2; 3) = 77
+fm.(2; 4) = 88
+fm.(3; 1) = 99
+fm.(3; 2) = 100
+fm.(3; 3) = 111
+fm.(3; 4) = 122
+#show
+fm
+c = fm!
+f(fm) = fm!
+c1 = f(fm)
+
+'<h1>Relational operators</h1>'
+
+c = m1 ≡ m2
+f(m1; m2) = m1 ≡ m2
+c1 = f(m1; m2)
+
+c = m1 ≠ m2
+f(m1; m2) = m1 ≠ m2
+c1 = f(m1; m2)
+
+c = m1 < m2
+f(m1; m2) = m1 < m2
+c1 = f(m1; m2)
+
+c = m1 > m2
+f(m1; m2) = m1 > m2
+c1 = f(m1; m2)
+
+c = m1 ≥ m2
+f(m1; m2) = m1 ≥ m2
+c1 = f(m1; m2)
+
+c = m1 ≤ m2
+f(m1; m2) = m1 ≤ m2
+c1 = f(m1; m2)
+
+'<h1>Logical operators</h1>'
+
+c = m1 ∧ m2
+f(m1; m2) = m1 ∧ m2
+c1 = f(m1; m2)
+
+c = m1 ∨ m2
+f(m1; m2) = m1 ∨ m2
+c1 = f(m1; m2)
+
+c = m1 ⊕ m2
+f(m1; m2) = m1 ⊕ m2
+c1 = f(m1; m2)
+

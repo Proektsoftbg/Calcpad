@@ -142,6 +142,15 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Find Output.
+        /// </summary>
+        public static string FindOutput {
+            get {
+                return ResourceManager.GetString("FindOutput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid character: {0}..
         /// </summary>
         public static string Invalid_character_0 {

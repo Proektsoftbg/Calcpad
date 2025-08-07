@@ -139,7 +139,7 @@
         [Trait("Category", "Weight")]
         public void Test_slug() => Test("slug|g", 14593.90294);
         #endregion
-        
+
         #region Length
         [Fact]
         [Trait("Category", "Length")]
@@ -1901,7 +1901,7 @@
         [Trait("Category", "Arithmetics")]
         public void Test_cm_m()
         {
-            var e = Assert.Throws<MathParser.MathParserException>(
+            var e = Assert.Throws<MathParserException>(
                 () =>
                 {
                     new TestCalc(new()).Run("1|cm/m");
@@ -1962,7 +1962,7 @@
         [Trait("Category", "Arithmetics")]
         public void Test_kg_m()
         {
-            var e = Assert.Throws<MathParser.MathParserException>(
+            var e = Assert.Throws<MathParserException>(
                 () =>
                 {
                     new TestCalc(new()).Run("1kg + 1m");
@@ -1975,7 +1975,7 @@
         [Trait("Category", "Arithmetics")]
         public void Test_1_m()
         {
-            var e = Assert.Throws<MathParser.MathParserException>(
+            var e = Assert.Throws<MathParserException>(
                 () =>
                 {
                     new TestCalc(new()).Run("1 + m");
@@ -2040,7 +2040,7 @@
         [Trait("Category", "Arithmetics")]
         public void Test_atan_m()
         {
-            var e = Assert.Throws<MathParser.MathParserException>(
+            var e = Assert.Throws<MathParserException>(
                 () =>
                 {
                     new TestCalc(new()).Run("atan(1m)");
@@ -2117,7 +2117,7 @@
         [Trait("Category", "Custom Units")]
         public void Test_Custom_m()
         {
-            var e = Assert.Throws<MathParser.MathParserException>(
+            var e = Assert.Throws<MathParserException>(
                 () =>
                 {
                     new TestCalc(new()).Run(".m = 1");

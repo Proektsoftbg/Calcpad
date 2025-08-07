@@ -1,5 +1,6 @@
 ﻿using Calcpad.OpenXml;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
@@ -27,10 +28,10 @@ namespace Calcpad.Cli
                 Run(path);
         }
 
-        internal void ToOpenXml(string html, string path)
+        internal void ToOpenXml(string html, string path, List<string> expressions)
         {
             html = GetHtmlData(HtmlApplyWorksheet(html));
-            new OpenXmlWriter().Convert(html, path);
+            new OpenXmlWriter(expressions).Convert(html, path);
             if (!_isSilent && File.Exists(path))
                 Run(path);
         }

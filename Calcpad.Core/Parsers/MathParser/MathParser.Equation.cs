@@ -13,7 +13,7 @@ namespace Calcpad.Core
             {
                 Rpn = rpn;
                 TargetUnits = targetUnits;
-                Function = function;    
+                Function = function;
             }
         }
     }

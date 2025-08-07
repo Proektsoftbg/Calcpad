@@ -52,19 +52,17 @@ namespace PyCalcpad
                 converter.ToHtml(htmlResult, outputFileName);
                 return true;
             }
-            else
+            ExpressionParser parser = new()
             {
-                ExpressionParser parser = new()
-                {
-                    Settings = ConvertSettings(Settings)
-                };
-                parser.Parse(unwrappedCode, true, ext == ".docx");
-                htmlResult = parser.HtmlResult;
-            }
+                Settings = ConvertSettings(Settings)
+            };
+            parser.Parse(unwrappedCode, true, ext == ".docx");
+            htmlResult = parser.HtmlResult;
+
             if (ext == ".html" || ext == ".htm")
                 converter.ToHtml(htmlResult, outputFileName);
             else if (ext == ".docx")
-                converter.ToOpenXml(htmlResult, outputFileName);
+                converter.ToOpenXml(htmlResult, outputFileName, parser.OpenXmlExpressions);
             else if (ext == ".pdf")
                 converter.ToPdf(htmlResult, outputFileName);
             else

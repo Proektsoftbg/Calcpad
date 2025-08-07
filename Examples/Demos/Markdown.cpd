@@ -1,0 +1,18 @@
+#md on
+"Markdown in Calcpad
+'---
+'### Heading 3
+'#### Heading 4
+'##### Heading 5
+'###### Heading 6
+'A quote in comment can be escaped by entering ''another'' one
+'This text is **bold**, this is *italic* and this is ***bold-italic***.
+'You can also have ++underlined++, ~~deleted~~ and ==marked== text.
+'Adding ~sub~script and ^super^script is now easier than ever.
+'Code: 
+'`c = a + b`
+'Image:
+'![Calcpad](https://calcpad.eu/images/Calc.png) 
+'Links: <https://www.markdownguide.org>, [Calcpad website](https://calcpad.eu)
+'> Blockquote
+'>> Next level

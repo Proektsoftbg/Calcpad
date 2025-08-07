@@ -124,10 +124,10 @@ namespace Calcpad.Core
         private static ComplexValue Fact(in ComplexValue value)
         {
             if (!(value.IsReal))
-                Throw.FactorialArgumentComplexException();
+                throw Exceptions.FactorialArgumentComplex();
 
             if (value.Units is not null)
-                Throw.FactorialArgumentUnitlessException();
+                throw Exceptions.FactorialArgumentUnitless();
 
             return new(Fact(value.A));
         }
@@ -461,7 +461,7 @@ namespace Calcpad.Core
 
         private static IScalarValue Product(IScalarValue[] values)
         {
-            ref var value = ref values[0];  
+            ref var value = ref values[0];
             var result = value.Complex;
             var u = value.Units;
             for (int i = 1, len = values.Length; i < len; ++i)

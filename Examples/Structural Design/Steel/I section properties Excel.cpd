@@ -1,0 +1,325 @@
+"Design of steel I section <hr/><small>According to <strong>Eurocode</strong>: EN 1993-1-1 </small>
+'<div style="max-width:180mm">
+'
+'<table><tr><td>
+
+'<h4>Dimensions</h4>
+#pre
+'<p>Select section -
+'<select data-target="section">
+#post
+'<p>Section type -  
+'<select data-target="section" style="font-weight:bold; border:none; background: none; color: black; box-shadow:none; appearance: none;">
+#show
+'<option value=1>IPE 100A</option>
+'<option value=2>IPE 100</option>
+'<option value=3>IPE 120</option>
+'<option value=4>IPE 140 A</option>
+'<option value=5>IPE 140</option>
+'<option value=6>IPE 140 R</option>
+'<option value=7>IPE 160 A</option>
+'<option value=8>IPE 160</option>
+'<option value=9>IPE 160 R</option>
+'<option value=10>IPE 180 A</option>
+'<option value=11>IPE 180</option>
+'<option value=12>IPE 180 O</option>
+'<option value=13>IPE 180 R</option>
+'<option value=14>IPE 200 A</option>
+'<option value=15>IPE 200</option>
+'<option value=16>IPE 200 O</option>
+'<option value=17>IPE 200 R</option>
+'<option value=18>IPE 220 A</option>
+'<option value=19>IPE 220</option>
+'<option value=20>IPE 220 O</option>
+'<option value=21>IPE 220 R</option>
+'<option value=22>IPE 240 A</option>
+'<option value=23>IPE 240</option>
+'<option value=24>IPE 240 O</option>
+'<option value=25>IPE 240 R</option>
+'<option value=26>IPE 270 A</option>
+'<option value=27>IPE 270</option>
+'<option value=28>IPE 270 O</option>
+'<option value=29>IPE 270 R</option>
+'<option value=30>IPE 300 A</option>
+'<option value=31>IPE 300</option>
+'<option value=32>IPE 300O</option>
+'<option value=33>IPE 300 R</option>
+'<option value=34>IPE 330 A</option>
+'<option value=35>IPE 330</option>
+'<option value=36>IPE 330 O</option>
+'<option value=37>IPE 330 R</option>
+'<option value=38>IPE 360 A</option>
+'<option value=39>IPE 360</option>
+'<option value=40>IPE 360 O</option>
+'<option value=41>IPE 360 R</option>
+'<option value=42>IPE 400 A</option>
+'<option value=43>IPE 400</option>
+'<option value=44>IPE 400 O</option>
+'<option value=45>IPE 400 R</option>
+'<option value=46>IPE 400 V</option>
+'<option value=47>IPE 450 A</option>
+'<option value=48>IPE 450</option>
+'<option value=49>IPE 450 O</option>
+'<option value=50>IPE 450 R</option>
+'<option value=51>IPE 450 V</option>
+'<option value=52>IPE 500 A</option>
+'<option value=53>IPE 500</option>
+'<option value=54>IPE 500 O</option>
+'<option value=55>IPE 500 R</option>
+'<option value=56>IPE 500 V</option>
+'<option value=57>IPE 550 A</option>
+'<option value=58>IPE 550</option>
+'<option value=59>IPE 550 O</option>
+'<option value=60>IPE 550 R</option>
+'<option value=61>IPE 550 V</option>
+'<option value=62>IPE 600 A</option>
+'<option value=63>IPE 600</option>
+'<option value=64>IPE 600 O</option>
+'<option value=65>IPE 600 R</option>
+'<option value=66>IPE 600 V</option>
+'<option value=67>IPE 750 x 137</option>
+'<option value=68>IPE 750 x 147</option>
+'<option value=69>IPE 750 x 161</option>
+'<option value=70>IPE 750 x 174
+'<option value=71>IPE 750 x185
+'<option value=72>IPE 750 x 197
+'<option value=73>IPE 750 x 210
+'<option value=74>IPE 750 x 223
+'<option value=75>HE 100 AA
+'<option value=76>HE 100 A
+'<option value=77>HE 100 A
+'<option value=78>HE 100 B
+'<option value=79>HE 120 AA
+'<option value=80>HE 120 A
+'<option value=81>HE 120 B
+'<option value=82>HE 140 AA
+'<option value=83>HE 140 A
+'<option value=84>HE 140 B
+'<option value=85>HE 160 AA
+'<option value=86>HE 160 A
+'<option value=87>HE 160 B
+'<option value=88>HE 160 M
+'<option value=89>HE 180 AA
+'<option value=90>HE 180 A
+'<option value=91>HE 180 B
+'<option value=92>HE 180 M
+'<option value=93>HE 200 AA
+'<option value=94>HE 200 A
+'<option value=95>HE 200 B
+'<option value=96>HE 200 M
+'<option value=97>HE 220 AA
+'<option value=98>HE 220 A
+'<option value=99>HE 220 B
+'<option value=100>HE 220 M
+'<option value=101>HE 240 AA
+'<option value=102>HE 240 A
+'<option value=103>HE 240 B
+'<option value=104>HE 240 M
+'<option value=105>HE 260 AA
+'<option value=106>HE 260 A
+'<option value=107>HE 260 B
+'<option value=108>HE 260 M
+'<option value=109>HE 280 AA
+'<option value=110>HE 280 A
+'<option value=111>HE 280 B
+'<option value=112>HE 280 M
+'<option value=113>HE 300 AA
+'<option value=114>HE 300 A
+'<option value=115>HE 300 B
+'<option value=116>HE 300 C
+'<option value=117>HE 300 M
+'<option value=118>HE 320 AA
+'<option value=119>HE 320 A
+'<option value=120>HE 320 B
+'<option value=121>HE 320 M
+'<option value=122>HE 340 AA
+'<option value=123>HE 340 A
+'<option value=124>HE 340 B
+'<option value=125>HE 340 M
+'<option value=126>HE 360 AA
+'<option value=127>HE 360 A
+'<option value=128>HE 360 B
+'<option value=129>HE 360 M
+'<option value=130>HE 400 AA
+'<option value=131>HE 400 x 107
+'<option value=132>HE 400 A
+'<option value=133>HE 400 B
+'<option value=134>HE 400 M
+'<option value=135>HE 450 AA
+'<option value=136>HE 450 x 124
+'<option value=137>HE 450 A
+'<option value=138>HE 450 B
+'<option value=139>HE 450 M
+'<option value=140>HE 500 AA
+'<option value=141>HE 500 A
+'<option value=142>HE 500 B
+'<option value=143>HE 500 M
+'<option value=144>HE 550 AA
+'<option value=145>HE 550 A
+'<option value=146>HE 550 B
+'<option value=147>HE 550 M
+'<option value=148>HE 600 AA
+'<option value=149>HE 600 x 137
+'<option value=150>HE 600 x 151
+'<option value=151>HE 600 x 175
+'<option value=152>HE 600 A
+'<option value=153>HE 600 B
+'<option value=154>HE 600 M
+'<option value=155>HE 650 AA
+'<option value=156>HE 650 A
+'<option value=157>HE 650 B
+'<option value=158>HE 650 M
+'<option value=159>HE 700 AA
+'<option value=160>HE 700 x 166
+'<option value=161>HE 700 A
+'<option value=162>HE 700 B
+'<option value=163>HE 700 M
+'<option value=164>HE 800 AA
+'<option value=165>HE 800 A
+'<option value=166>HE 800 B
+'<option value=167>HE 800 M
+'<option value=168>HE 900 AA
+'<option value=169>HE 900 A
+'<option value=170>HE 900 B
+'<option value=171>HE 900 M
+'<option value=172>HE 1000 A
+'<option value=173>HE 1000 A
+'<option value=174>HE 1000 B
+'<option value=175>HE 1000 M
+'</select></p>
+'<p id="section" style="display:none;">'id = ? {22}'</p>
+#hide
+#read IPE from Steel Sections EN.xlsx@EN_IPE!B5
+#read HE from Steel Sections EN.xlsx@EN_HE!B5
+IH = stack(IPE; HE)
+M = IH.(id; 1)*kg/m
+h = IH.(id; 2)*mm
+b = IH.(id; 3)*mm
+t_w = IH.(id; 4)*mm
+t_f = IH.(id; 5)*mm
+r = IH.(id; 6)*mm
+d = IH.(id; 7)*mm
+I_y = IH.(id; 8)*cm^4
+I_z = IH.(id; 9)*cm^4
+r_y = IH.(id; 10)*cm
+r_z = IH.(id; 11)*cm
+W_y,el = IH.(id; 12)*cm^3
+W_z,el = IH.(id; 13)*cm^3
+W_y,pl = IH.(id; 14)*cm^3
+W_z,pl = IH.(id; 15)*cm^3
+u = IH.(id; 16)
+x = IH.(id; 17)
+I_w = IH.(id; 18)*dm^6
+I_t = IH.(id; 19)*cm^4
+A = IH.(id; 20)*cm^2
+y_c = b/2
+z_c = h/2
+b_f1 = b
+b_f2 = b
+t_f1 = t_f
+t_f2 = t_f
+rolled = 1
+#post
+'<table>
+'<tr><td style="padding-right: 10px;">'h'</td><td>'t_w'</td></tr>
+'<tr><td style="padding-right: 10px;">'b'</td><td>'t_f'</td></tr>
+'<tr><td style="padding-right: 10px;">'r'</td><td>'d'</td></tr>
+'</table>
+'</td><td>
+'<img style="height:165pt; width:111pt;" src="./i-profile.png" alt="i-profile.png">
+#show
+'</td></tr></table>
+#post
+'<h4>Section properties - imported</h4>
+'<table style="width:100%">
+'<tr><td>'A'</td><td>'y_c'</td><td>'z_c'</td><td>'M'</td></tr>
+'<tr><td>'I_y'</td><td>'r_y'</td><td>'W_y,el'</td><td>'W_y,pl'</td></tr>
+'<tr><td>'I_z'</td><td>'r_z'</td><td>'W_z,el'</td><td>'W_z,pl'</td></tr>
+'<tr><td>'I_t'</td><td>'I_w'</td><td></td></tr>
+'</table>
+#hide
+h_w = h - t_f1 - t_f2
+#if rolled
+	A_r = (1 - π/4)*r^2
+	y_cr = (1 - 1/(6*(1 - π/4)))*r
+	I_r = 0.00754511564159655*r^4
+#else
+	A_r = 0cm^2
+	y_cr = 0mm
+	I_r = 0cm^4
+#end if
+b_1 = b_f1 - t_w
+b_2 = b_f2 - t_w
+A_w = h*t_w
+A_f1 = b_1*t_f1
+A_f2 = b_2*t_f2
+A = A_w + A_f1 + A_f2 + 4*A_r|cm^2
+M = A*7850kg/m^3|kg/m
+η = 1.2'[EN 1993-1-5, 5.1 (2) and N.A.2.4]
+#if rolled
+	A_vz_ = A - b_f1*t_f1 - b_f2*t_f2 + (t_w + 2*r)*(t_f1 + t_f2)/2
+	A_vz = max(η*h_w*t_w; A_vz_)
+#else
+	A_vz = η*h_w*t_w
+#end if
+A_vy = b_f1*t_f1 + b_f2*t_f2
+y_c = max(b_f1; b_f2)/2
+S_y_0 = A_w*h/2 + A_f1*t_f1/2 + A_f2*(h - t_f2/2) + 2*A_r*(h + t_f1 - t_f2)
+z_c = S_y_0/A
+I_y_w = A_w*(h^2/12 + (z_c - h/2)^2)
+I_y_f1 = A_f1*(t_f1^2/12 + (z_c - t_f1/2)^2)
+I_y_f2 = A_f2*(t_f2^2/12 + (h - z_c - t_f2/2)^2)
+z_r1 = z_c - t_f1 - y_cr
+z_r2 = h - z_c - t_f2 - y_cr
+I_yr1 = 2*(I_r + A_r*z_r1^2)
+I_yr2 = 2*(I_r + A_r*z_r2^2)
+I_y = I_y_w + I_y_f1 + I_y_f2 + I_yr1 + I_yr2|cm^4
+I_z_f1 = t_f1*b_f1^3/12
+I_z_f2 = t_f2*b_f2^3/12
+y_r = t_w/2 + y_cr
+I_zr = 2*(I_r + A_r*y_r^2)
+I_z = I_z_f1 + I_z_f2 + (h - t_f1 - t_f2)*t_w^3/12 + 2*I_zr|cm^4
+r_y = sqrt(I_y/A)|cm
+r_z = sqrt(I_z/A)|cm
+W_el_y = I_y/max(z_c; h - z_c)
+W_el_z = I_z/y_c
+z_c_pl = (h*t_w + A_f2 - A_f1)/(2*t_w)
+W_pl_y = t_w*(z_c_pl^2 + (h - z_c_pl)^2)/2 + A_f1*(z_c_pl - t_f1/2) + A_f2*(h - z_c_pl - t_f2/2) + 2*A_r*(h - t_f1 - t_f2 - 2*y_cr)|cm^3
+W_pl_z = t_f1*b_f1^2/4 + t_f2*b_f2^2/4 + (h - t_f1 - t_f2)*t_w^2/4 + 4*A_r*y_r|cm^3
+h_1 = h - (t_f1 + t_f2)
+I_tf1 = b_f1*t_f1^3*(1 - 0.630*t_f1/b_f1 + 0.052*(t_f1/b_f1)^5)/3
+I_tf2 = b_f2*t_f2^3*(1 - 0.630*t_f2/b_f2 + 0.052*(t_f2/b_f2)^5)/3
+I_tw = h_1*t_w^3/3
+#if t_w < t_f1
+	α_1 = t_w/t_f1*(0.15 + 0.10*r/t_f1)
+#else
+	α_1 = t_f1/t_w*(0.15 + 0.10*r/t_f1)
+#end if
+D_1 = ((t_f1 + r)^2 + r*t_w + t_w^2/4)/(2*r + t_f1)
+#if t_w < t_f2
+	α_2 = t_w/t_f2*(0.15 + 0.10*r/t_f2)
+#else
+	α_2 = t_f2/t_w*(0.15 + 0.10*r/t_f2)
+#end if
+D_2 = ((t_f2 + r)^2 + r*t_w + t_w^2/4)/(2*r + t_f2)
+I_t = I_tw + I_tf1 + I_tf2 + α_1*D_1^4 + α_2*D_2^4|cm^4
+#if r ≡ 0mm
+	W_t = I_t/max(t_w; max(t_f1; t_f2))|cm^3
+#else
+	D = max(D_1; D_2)
+	C = D/(1 + π^2*D^4/(16*A^2))*(1 + (0.118*ln(1 + D/(2*r)) + 0.238*D/(2*r))*0.7616)
+	W_t = I_t/C|cm^3
+#end if
+h_2 = h - (t_f1 + t_f2)/2
+I_z1 = t_f1*b_f1^3/12
+I_z2 = t_f2*b_f2^3/12
+I_w = I_z1*I_z2/(I_z1 + I_z2)*h_2^2|dm^6
+e_z = t_f1/2 + h_2*I_z1/I_z
+#post
+'<h4>Section properties - calculated</h4>
+'<table style="width:100%">
+'<tr><td>'A'</td><td>'y_c'</td><td>'z_c'</td><td>'M'</td></tr>
+'<tr><td>'I_y'</td><td>'r_y'</td><td>'W_el_y'</td><td>'W_pl_y'</td></tr>
+'<tr><td>'I_z'</td><td>'r_z'</td><td>'W_el_z'</td><td>'W_pl_z'</td></tr>
+'<tr><td>'I_t'</td><td>'I_w'</td><td>'W_t'</td><td></td></tr>
+'</table>

@@ -56,13 +56,13 @@ namespace Calcpad.Core
         private double Fd(double x)
         {
             Variable.SetNumber(x);
-            var result = IValue.AsValue(Function(), Throw.Items.Result);
+            var result = IValue.AsValue(Function(), Exceptions.Items.Result);
             Units = result.Units;
             if (IsComplex && !result.IsReal)
-                Throw.CannotEvaluateFunctionException(x.ToString(CultureInfo.InvariantCulture));
+                throw Exceptions.CannotEvaluateFunction(x.ToString(CultureInfo.InvariantCulture));
 
             if (double.IsNaN(result.Re) || double.IsInfinity(result.Re))
-                Throw.FunctionNotDefinedException(x.ToString(CultureInfo.InvariantCulture));
+                throw Exceptions.FunctionNotDefined(x.ToString(CultureInfo.InvariantCulture));
 
             return result.Re;
         }
@@ -76,7 +76,7 @@ namespace Calcpad.Core
             Units = result.Units;
 
             if (double.IsNaN(result.Re) && double.IsNaN(result.Im))
-                Throw.CannotEvaluateFunctionException(x.ToString());
+                throw Exceptions.CannotEvaluateFunction(x.ToString());
 
             return result.Complex;
         }
@@ -94,7 +94,7 @@ namespace Calcpad.Core
                 value = matrix[0, 0];
 
             if (double.IsNaN(value.Re) || double.IsInfinity(value.Re))
-                Throw.FunctionNotDefinedException(x.ToString(CultureInfo.InvariantCulture));
+                throw Exceptions.FunctionNotDefined(x.ToString(CultureInfo.InvariantCulture));
 
             Units = value.Units;
             return result;
@@ -301,8 +301,7 @@ namespace Calcpad.Core
                 Units = u;
                 return area;
             }
-            double factor = Unit.GetProductOrDivisionFactor(Units, u);
-            Units *= u;
+            Units = Unit.Multiply(Units, u, out var factor, false);
             return area * factor;
         }
 
@@ -335,8 +334,10 @@ namespace Calcpad.Core
             var y6 = Fd(x6);
             var y7 = Fd(x7);
 
-            var a1 = h * k1 * (77.0 * (y1 + y3) + 432.0 * (y4 + y7) + 625.0 * (y5 + y6) + 672.0 * y2);
-            var a2 = h * k2 * (y1 + y3 + 5.0 * (y5 + y6));
+            var y13 = y1 + y3;
+            var y56 = y5 + y6;
+            var a1 = h * k1 * (77.0 * y13 + 432.0 * (y4 + y7) + 625.0 * y56 + 672.0 * y2);
+            var a2 = h * k2 * (y13 + 5.0 * y56);
 
             if (depth == 1)
             {
@@ -346,7 +347,7 @@ namespace Calcpad.Core
             else if (Math.Abs(a1 - a2) < _eps || depth > 15)
                 return a1;
 
-            depth++;
+            ++depth;
             return Lobatto(x1, x4, y1, y4, depth) +
                    Lobatto(x4, x5, y4, y5, depth) +
                    Lobatto(x5, x2, y5, y2, depth) +
@@ -447,8 +448,7 @@ namespace Calcpad.Core
                 Units = u;
                 return slope;
             }
-            double factor = Unit.GetProductOrDivisionFactor(Units, u, true);
-            Units /= u;
+            Units = Unit.Divide(Units, u, out var factor, false);
             return slope * factor;
         }
 
@@ -459,7 +459,7 @@ namespace Calcpad.Core
             for (int i = n1; i <= n2; ++i)
             {
                 result = Fi(i);
-                if (result is IScalarValue scalar && 
+                if (result is IScalarValue scalar &&
                     double.IsInfinity(scalar.Re))
                     break;
             }
@@ -499,7 +499,7 @@ namespace Calcpad.Core
         private void CheckUnits(Unit units)
         {
             if (!Unit.IsConsistent(units, Units))
-                Throw.InconsistentUnitsException(Unit.GetText(units), Unit.GetText(Units));
+                throw Exceptions.InconsistentUnits(Unit.GetText(units), Unit.GetText(Units));
         }
 
         internal double Product(double start, double end)
@@ -514,8 +514,8 @@ namespace Calcpad.Core
                 number *= Fd(i);
                 if (hasUnits && Units is not null)
                 {
-                    number *= Unit.GetProductOrDivisionFactor(units, Units);
-                    units *= Units;
+                    units = Unit.Multiply(units, Units, out var factor, false);
+                    number *= factor;
                 }
                 if (double.IsInfinity(number))
                     break;
@@ -578,8 +578,8 @@ namespace Calcpad.Core
                 number *= Fc(i);
                 if (hasUnits && Units is not null)
                 {
-                    number *= Unit.GetProductOrDivisionFactor(units, Units);
-                    units *= Units;
+                    units = Unit.Multiply(units, Units, out var factor, false);
+                    number *= factor;
                 }
                 if (IsInfinity(number))
                     break;
@@ -591,7 +591,7 @@ namespace Calcpad.Core
         private static void GetBounds(double start, double end, out int n1, out int n2)
         {
             if (Math.Abs(start) > Limits || Math.Abs(end) > Limits)
-                Throw.IterationLimitsException((-Limits).ToString(CultureInfo.InvariantCulture), Limits.ToString(CultureInfo.InvariantCulture));
+                throw Exceptions.IterationLimits((-Limits).ToString(CultureInfo.InvariantCulture), Limits.ToString(CultureInfo.InvariantCulture));
 
             n1 = (int)Math.Round(start, MidpointRounding.AwayFromZero);
             n2 = (int)Math.Round(end, MidpointRounding.AwayFromZero);

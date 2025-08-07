@@ -228,7 +228,7 @@
     <value>Код</value>
   </data>
   <data name="KeypadLabel" xml:space="preserve">
-    <value>┌──── Числа ───┐ ┌───── Оператори ────┐ ┌───────── Функции ────────┐</value>
+    <value>┌──── Числа ───┐ ┌──── Оператори ────┐ ┌───────── Функции ─────────┐</value>
   </data>
   <data name="FunctionPlot" xml:space="preserve">
     <value>Графика на функция</value>

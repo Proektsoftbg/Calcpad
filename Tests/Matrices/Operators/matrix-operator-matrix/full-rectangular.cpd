@@ -1,4 +1,3 @@
-
 '<h1>Arithmetic operators</h1>'
 #hide
 m1 = matrix(3; 4)
@@ -29,22 +28,11 @@ m2.(3; 2) = 5.67
 m2.(3; 3) = 3
 m2.(3; 4) = -0.99
 #show
-
-m1
-
-m2
-
-
+m1', 'm2
 c = m1 + m2
-f(m1; m2) = m1 + m2
-c1 = f(m1; m2)
-
-
+f(m1; m2) = m1 + m2', 'c1 = f(m1; m2)
 c = m1 - m2
-f(m1; m2) = m1 - m2
-c1 = f(m1; m2)
-
-'Multiplication must be done with matching columns from matrix1 and rows from matrix2
+f(m1; m2) = m1 - m2', 'c1 = f(m1; m2)
 #hide
 matrix1_mult = matrix(3; 4)
 matrix1_mult.(1; 1) = 9
@@ -59,7 +47,6 @@ matrix1_mult.(3; 1) = -10
 matrix1_mult.(3; 2) = 5.67
 matrix1_mult.(3; 3) = 3
 matrix1_mult.(3; 4) = 0
-
 matrix2_mult = matrix(4; 3)
 matrix2_mult.(1; 1) = 12
 matrix2_mult.(1; 2) = -3.5
@@ -73,37 +60,21 @@ matrix2_mult.(3; 3) = -9.8
 matrix2_mult.(4; 1) = 5.5
 matrix2_mult.(4; 2) = -7
 matrix2_mult.(4; 3) = 2.71
-
-
 #show
 matrix1_mult
-
 matrix2_mult
-
 c = matrix1_mult*matrix2_mult
-f(m1; m2) = matrix1_mult*matrix2_mult
-c1 = f(matrix1_mult; matrix2_mult)
-
+f(m1; m2) = matrix1_mult*matrix2_mult', 'c1 = f(matrix1_mult; matrix2_mult)
 c = m1/m2
-f(m1; m2) = m1/m2
-c1 = f(m1; m2)
-
+f(m1; m2) = m1/m2', 'c1 = f(m1; m2)
 c = m1^m2
-f(m1; m2) = m1^m2
-c = f(m1; m2)
-
+f(m1; m2) = m1^m2', 'c = f(m1; m2)
 c = m1⦼m2
-f(m1; m2) = m1⦼m2
-c = f(m1; m2)
-
+f(m1; m2) = m1⦼m2', 'c = f(m1; m2)
 c = m1\m2
-f(m1; m2) = m1\m2
-c1 = f(m1; m2)
-
+f(m1; m2) = m1\m2', 'c1 = f(m1; m2)
 c = m1÷m2
-f(m1; m2) = m1÷m2
-c1 = f(m1; m2)
-
+f(m1; m2) = m1÷m2', 'c1 = f(m1; m2)
 #hide
 fm = matrix(3; 4)
 fm.(1; 1) = 11
@@ -125,45 +96,23 @@ f(fm) = fm!
 c1 = f(fm)
 
 '<h1>Relational operators</h1>'
-
 c = m1 ≡ m2
-f(m1; m2) = m1 ≡ m2
-c1 = f(m1; m2)
-
+f(m1; m2) = m1 ≡ m2', 'c1 = f(m1; m2)
 c = m1 ≠ m2
-f(m1; m2) = m1 ≠ m2
-c1 = f(m1; m2)
-
+f(m1; m2) = m1 ≠ m2', 'c1 = f(m1; m2)
 c = m1 < m2
-f(m1; m2) = m1 < m2
-c1 = f(m1; m2)
-
+f(m1; m2) = m1 < m2', 'c1 = f(m1; m2)
 c = m1 > m2
-f(m1; m2) = m1 > m2
-c1 = f(m1; m2)
-
+f(m1; m2) = m1 > m2', 'c1 = f(m1; m2)
 c = m1 ≥ m2
-f(m1; m2) = m1 ≥ m2
-c1 = f(m1; m2)
-
+f(m1; m2) = m1 ≥ m2', 'c1 = f(m1; m2)
 c = m1 ≤ m2
-f(m1; m2) = m1 ≤ m2
-c1 = f(m1; m2)
+f(m1; m2) = m1 ≤ m2', 'c1 = f(m1; m2)
 
 '<h1>Logical operators</h1>'
-
 c = m1 ∧ m2
-f(m1; m2) = m1 ∧ m2
-c1 = f(m1; m2)
-
+f(m1; m2) = m1 ∧ m2', 'c1 = f(m1; m2)
 c = m1 ∨ m2
-f(m1; m2) = m1 ∨ m2
-c1 = f(m1; m2)
-
+f(m1; m2) = m1 ∨ m2', 'c1 = f(m1; m2)
 c = m1 ⊕ m2
-f(m1; m2) = m1 ⊕ m2
-c1 = f(m1; m2)
-
-
-
-
+f(m1; m2) = m1 ⊕ m2', 'c1 = f(m1; m2)

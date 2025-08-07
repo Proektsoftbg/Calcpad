@@ -1,0 +1,72 @@
+'<h1>Arithmetic operators</h1>'
+#hide
+m1 = diagonal_hp(5; 5)*Hz
+m2 = diagonal_hp(5; 5)*kHz
+m1.(1; 1) = 10Hz
+m1.(2; 2) = -5.5Hz
+m1.(3; 3) = 3.14Hz
+m1.(4; 4) = -7Hz
+m1.(5; 5) = 8.88Hz
+
+m2.(1; 1) = 9kHz
+m2.(2; 2) = -4.4kHz
+m2.(3; 3) = 2.71kHz
+m2.(4; 4) = -6kHz
+m2.(5; 5) = 7.77kHz
+#show
+m1', 'm2
+c = m1 + m2
+f(m1; m2) = m1 + m2', 'c1 = f(m1; m2)
+c = m1 - m2
+f(m1; m2) = m1 - m2', 'c1 = f(m1; m2)
+c = m1*m2
+f(m1; m2) = m1*m2', 'c1 = f(m1; m2)
+c = m1/m2
+f(m1; m2) = m1/m2', 'c1 = f(m1; m2)
+
+"Exponentiation and the remainder operators must be without a unit. Therefore we need to define an unitless matrix
+#hide
+matrix_unitless = diagonal_hp(5; 5)
+#show
+matrix_unitless
+c = m1⦼matrix_unitless
+f(m1; matrix_unitless) = m1⦼matrix_unitless', 'c = f(m1; matrix_unitless)
+c = m1^matrix_unitless
+f(m1; matrix_unitless) = m1^matrix_unitless', 'c = f(m1; matrix_unitless)
+c = m1\m2
+f(m1; m2) = m1\m2', 'c1 = f(m1; m2)
+c = m1÷m2
+f(m1; m2) = m1÷m2', 'c1 = f(m1; m2)
+
+#hide
+fm = diagonal_hp(3; 4)
+fm.(1; 1) = 11
+fm.(2; 2) = 66
+fm.(3; 3) = 111
+#show
+fm
+c = fm!
+f(fm) = fm!
+c1 = f(fm)
+
+'<h1>Relational operators</h1>'
+c = m1 ≡ m2
+f(m1; m2) = m1 ≡ m2', 'c1 = f(m1; m2)
+c = m1 ≠ m2
+f(m1; m2) = m1 ≠ m2', 'c1 = f(m1; m2)
+c = m1 < m2
+f(m1; m2) = m1 < m2', 'c1 = f(m1; m2)
+c = m1 > m2
+f(m1; m2) = m1 > m2', 'c1 = f(m1; m2)
+c = m1 ≥ m2
+f(m1; m2) = m1 ≥ m2', 'c1 = f(m1; m2)
+c = m1 ≤ m2
+f(m1; m2) = m1 ≤ m2', 'c1 = f(m1; m2)
+
+'<h1>Logical operators</h1>'
+c = m1 ∧ m2
+f(m1; m2) = m1 ∧ m2', 'c1 = f(m1; m2)
+c = m1 ∨ m2
+f(m1; m2) = m1 ∨ m2', 'c1 = f(m1; m2)
+c = m1 ⊕ m2
+f(m1; m2) = m1 ⊕ m2', 'c1 = f(m1; m2)

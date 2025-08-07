@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Calcpad.Core;
+using DocumentFormat.OpenXml.Wordprocessing;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -7,9 +9,6 @@ using System.Windows.Threading;
 
 namespace Calcpad.Wpf
 {
-    /// <summary>
-    /// Interaction logic for Window1.xaml
-    /// </summary>
     public partial class FindReplaceWindow : Window
     {
         internal FindReplace FindReplace { get; set; }
@@ -100,6 +99,7 @@ namespace Calcpad.Wpf
 
         private void Window_Activated(object sender, EventArgs e)
         {
+            SetReplaceVisibility();
             MatchCaseCheckbox.IsChecked = FindReplace.MatchCase;
             WholeWordsCheckbox.IsChecked = FindReplace.WholeWords;
             DirectionCombo.SelectedIndex = (int)FindReplace.Direction + 1;
@@ -113,7 +113,7 @@ namespace Calcpad.Wpf
             SearchCombo.Text = FindReplace.SearchString;
             ReplaceCombo.Text = FindReplace.ReplaceString;
             FindReplace.InitPosition();
-            FindReplace.HighlightSelection();   
+            FindReplace.HighlightSelection();
         }
 
         private void Window_KeyUp(object sender, KeyEventArgs e)
@@ -124,7 +124,7 @@ namespace Calcpad.Wpf
             {
                 if (e.Key == Key.F)
                     FindReplaceTabControl.SelectedIndex = 0;
-                else if (e.Key == Key.H)
+                else if (e.Key == Key.H && FindReplaceTabControl.Visibility == Visibility.Visible)
                     FindReplaceTabControl.SelectedIndex = 1;
             }
         }
@@ -154,7 +154,8 @@ namespace Calcpad.Wpf
         private void Window_Closed(object sender, EventArgs e)
         {
             Owner.Activate();
-            Owner.Focus();
+            if (!FindReplace.IsWebView2Focused)
+                Owner.Focus();
         }
 
         private void SearchCombo_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -195,6 +196,9 @@ namespace Calcpad.Wpf
 
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
+            if (ReplaceTabItem.Visibility == Visibility.Hidden)
+                return;
+
             if (e.Key == Key.Tab && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
             {
                 e.Handled = true;
@@ -202,7 +206,22 @@ namespace Calcpad.Wpf
             }
         }
 
-        private static bool IsShiftDown() => 
+        private static bool IsShiftDown() =>
             (Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift;
+
+        internal void SetReplaceVisibility()
+        {
+            if (FindReplace.IsWebView2Focused)
+            {
+                FindReplace.Mode = FindReplace.Modes.Find;
+                ReplaceTabItem.Visibility = Visibility.Hidden;
+                Title = FindReplaceResources.FindOutput;
+            }
+            else
+            {
+                ReplaceTabItem.Visibility = Visibility.Visible;
+                Title = FindReplaceResources.Find_And_Replace_Caption + " " + MainWindowResources.Code;
+            }
+        }
     }
 }

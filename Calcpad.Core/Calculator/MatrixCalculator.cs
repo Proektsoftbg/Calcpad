@@ -24,7 +24,8 @@ namespace Calcpad.Core
         private readonly Func<Matrix, RealValue>[] MultiFunctions;
         private readonly Func<RealValue, RealValue, Matrix, RealValue>[] Interpolations;
         private Vector _indexes;
-
+        internal MathParser Parser;
+       
         internal static readonly FrozenDictionary<string, int> FunctionIndex =
         new Dictionary<string, int>()
         {
@@ -45,7 +46,7 @@ namespace Calcpad.Core
             { "mnorm_i", 13 },
             { "cond_1", 14 },
             { "cond_2", 15 },
-            { "cond", 15 },	
+            { "cond", 15 },
             { "cond_e", 16 },
             { "cond_i", 17 },
             { "det", 18 },
@@ -55,14 +56,20 @@ namespace Calcpad.Core
             { "inverse", 22 },
             { "adj", 23 },
             { "cofactor", 24 },
-            { "eigenvals", 25 },
-            { "eigenvecs", 26 },
-            { "eigen", 27 },
-            { "lu", 28 },
-            { "qr", 29 },
-            { "svd", 30 },
-            { "cholesky", 31 },
-
+            { "lu", 25 },
+            { "qr", 26 },
+            { "svd", 27 },
+            { "cholesky", 28 },
+            { "identity_hp", 29 },
+            { "utriang_hp", 30 },
+            { "ltriang_hp", 31 },
+            { "symmetric_hp", 32 },
+            { "hp", 33 },
+            { "ishp", 34 },
+            { "getunits", 35 },
+            { "clrunits", 36 },
+            { "fft", 37 },
+            { "ift", 38 },
         }.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
 
         internal static readonly FrozenDictionary<string, int> Function2Index =
@@ -94,12 +101,27 @@ namespace Calcpad.Core
             { "mfind_ge", 23 },
             { "lsolve", 24 },
             { "clsolve", 25 },
-            { "msolve", 26 },
-            { "cmsolve", 27 },
-            { "hprod", 28 },
-            { "fprod", 29 },
-            { "kprod", 30 }
+            { "slsolve", 26 },
+            { "msolve", 27 },
+            { "cmsolve", 28 },
+            { "smsolve", 29 },
+            { "hprod", 30 },
+            { "fprod", 31 },
+            { "kprod", 32 },
+            { "eigenvals", 33 },
+            { "eigenvecs", 34 },
+            { "eigen", 35 },
+            { "matrix_hp", 36 },
+            { "diagonal_hp", 37 },
+            { "column_hp", 38 },
+            { "setunits", 39 },
         }.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
+
+        private static readonly FrozenSet<int> FunctionsWithOptionalLastParameter =
+            new HashSet<int>() { 33, 34, 35 }.ToFrozenSet();
+
+        internal static bool IsLastParameterOptional(int i) => 
+            FunctionsWithOptionalLastParameter.Contains(i);
 
         internal static readonly FrozenDictionary<string, int> Function3Index =
         new Dictionary<string, int>()
@@ -177,70 +199,89 @@ namespace Calcpad.Core
                 Invert,                 //22
                 Adjoint,                //23
                 Cofactor,               //24
-                EigenValues,            //25
-                EigenVectors,           //26
-                Eigen,                  //27
-                LUDecomposition,        //28
-                QRDecomposition,        //29
-                SVDDecomposition,       //30
-                CholeskyDecomposition,  //31
+                LUDecomposition,        //25
+                QRDecomposition,        //26
+                SVDDecomposition,       //27
+                CholeskyDecomposition,  //28
+                IdentityHp,             //29
+                UpperTriangularHp,      //30
+                LowerTriangularHp,      //31
+                SymmetricHp,            //32
+                Hp,                     //33
+                IsHp,                   //34
+                GetUnits,               //35
+                ClrUnits,               //36
+                Fft,                    //37
+                Ift,                   //38
             ];
+
             MatrixFunctions2 = [
-                Create,
-                Diagonal,
-                Column,
-                Row,
-                Col,
-                ExtractRows,
-                ExtractCols,
-                Fill,
-                SortCols,
-                RsortCols,
-                SortRows,
-                RsortRows,
-                OrderCols,
-                RevOrderCols,
-                OrderRows,
-                RevOrderRows,
-                Count,
-                FindEq,
-                FindEq,
-                FindNe,
-                FindLt,
-                FindLe,
-                FindGt,
-                FindGe,
-                LSolve,
-                ClSolve,
-                MSolve,
-                CmSolve,
-                Hadamard,
-                Frobenius,
-                Kronecker
-         ];
+                Create,                 //0
+                Diagonal,               //1
+                Column,                 //2
+                Row,                    //3
+                Col,                    //4
+                ExtractRows,            //5
+                ExtractCols,            //6
+                Fill,                   //7
+                SortCols,               //8
+                RsortCols,              //9
+                SortRows,               //10
+                RsortRows,              //11
+                OrderCols,              //12
+                RevOrderCols,           //13
+                OrderRows,              //14
+                RevOrderRows,           //15
+                Count,                  //16
+                FindEq,                 //17
+                FindEq,                 //18
+                FindNe,                 //19
+                FindLt,                 //20
+                FindLe,                 //21
+                FindGt,                 //22
+                FindGe,                 //23
+                LSolve,                 //24
+                ClSolve,                //25
+                SlSolve,                //26
+                MSolve,                 //27
+                CmSolve,                //28
+                SmSolve,                //29
+                Hadamard,               //30
+                Frobenius,              //31
+                Kronecker,              //32
+                EigenValues,            //33
+                EigenVectors,           //34
+                Eigen,                  //35
+                CreateHp,               //36
+                DiagonalHp,             //37
+                ColumnHp,               //38       
+                SetUnits,               //3
+            ];
+
             MatrixFunctions3 = [
                 FillRow,
                 FillCol,
                 Resize,
             ];
+
             MatrixFunctions4 = [
-                Search,
-                HLookupEq,
-                HLookupEq,
-                HLookupNe,
-                HLookupLt,
-                HLookupLe,
-                HLookupGt,
-                HLookupGe,
-                VLookupEq,
-                VLookupEq,
-                VLookupNe,
-                VLookupLt,
-                VLookupLe,
-                VLookupGt,
-                VLookupGe,
-                Copy,
-                Add,
+                Search,               //0
+                HLookupEq,            //1
+                HLookupEq,            //2
+                HLookupNe,            //3
+                HLookupLt,            //4
+                HLookupLe,            //5
+                HLookupGt,            //6
+                HLookupGe,            //7
+                VLookupEq,            //8
+                VLookupEq,            //9
+                VLookupNe,            //10
+                VLookupLt,            //11
+                VLookupLe,            //12
+                VLookupGt,            //13
+                VLookupGe,            //14
+                Copy,                 //15
+                Add,                  //16
             ];
 
             MatrixFunctions5 = [
@@ -323,33 +364,40 @@ namespace Calcpad.Core
             MatrixMultiFunctions[index];
 
         internal Matrix EvaluateOperator(long index, Matrix a, in RealValue b) =>
-            Matrix.EvaluateOperator(_calc.GetOperator(index), a, b,
-                Calculator.IsZeroPreservingOperator[index], Calculator.OperatorRequireConsistentUnits(index));
+            a is HpMatrix hp_m ?
+            HpMatrix.EvaluateOperator(_calc.GetOperator(index), hp_m, b, index) :
+            Matrix.EvaluateOperator(_calc.GetOperator(index), a, b, index);
 
         internal Matrix EvaluateOperator(long index, in RealValue a, Matrix b) =>
-            Matrix.EvaluateOperator(_calc.GetOperator(index), a, b,
-                Calculator.IsZeroPreservingOperator[index], Calculator.OperatorRequireConsistentUnits(index));
+            b is HpMatrix hp_m ?
+            HpMatrix.EvaluateOperator(_calc.GetOperator(index), a, hp_m, index) :
+            Matrix.EvaluateOperator(_calc.GetOperator(index), a, b, index);
 
-        internal Matrix EvaluateOperator(long index, Matrix a, Matrix b)
-        {
-            if (index == Calculator.MultiplyIndex)
-                return a * b;
-
-            return Matrix.EvaluateOperator(_calc.GetOperator(index), a, b,
-                Calculator.IsZeroPreservingOperator[index], Calculator.OperatorRequireConsistentUnits(index));
-        }
+        internal Matrix EvaluateOperator(long index, Matrix a, Matrix b) =>
+            a is HpMatrix hp_a && b is HpMatrix hp_b &&
+            (index != Calculator.PowerIndex || hp_a.Units == null) ?
+            HpMatrix.EvaluateOperator(_calc.GetOperator(index), hp_a, hp_b, index) :
+            Matrix.EvaluateOperator(_calc.GetOperator(index), a, b, index);
 
         internal Matrix EvaluateFunction(long Index, Matrix a) =>
+            a is HpMatrix hp_m ?
+            HpMatrix.EvaluateFunction(_calc.GetFunction(Index), hp_m) :
             Matrix.EvaluateFunction(_calc.GetFunction(Index), a);
 
         internal Matrix EvaluateFunction2(long index, Matrix a, Matrix b) =>
-            Matrix.EvaluateOperator(_calc.GetFunction2(index), a, b, index == 0, false);
+            a is HpMatrix hp_a && b is HpMatrix hp_b ?
+            HpMatrix.EvaluateOperator(_calc.GetFunction2(index), hp_a, hp_b, -index - 1) :
+            Matrix.EvaluateOperator(_calc.GetFunction2(index), a, b, -index - 1);
 
         internal Matrix EvaluateFunction2(long index, Matrix a, in RealValue b) =>
-            Matrix.EvaluateOperator(_calc.GetFunction2(index), a, b, index == 0, false);
+            a is HpMatrix hp_m ?
+            HpMatrix.EvaluateOperator(_calc.GetFunction2(index), hp_m, b, -index - 1) :
+            Matrix.EvaluateOperator(_calc.GetFunction2(index), a, b, -index - 1);
 
         internal Matrix EvaluateFunction2(long index, in RealValue a, Matrix b) =>
-            Matrix.EvaluateOperator(_calc.GetFunction2(index), a, b, index == 0, false);
+            b is HpMatrix hp_m ?
+            HpMatrix.EvaluateOperator(_calc.GetFunction2(index), a, hp_m, -index - 1) :
+            Matrix.EvaluateOperator(_calc.GetFunction2(index), a, b, -index - 1);
 
         internal IValue EvaluateMultiFunction(long index, Matrix a) =>
             MultiFunctions[index](a);
@@ -361,10 +409,133 @@ namespace Calcpad.Core
         private static UpperTriangularMatrix UpperTriangular(in IValue n) => new(IValue.AsInt(n));
         private static LowerTriangularMatrix LowerTriangular(in IValue n) => new(IValue.AsInt(n));
         private static SymmetricMatrix Symmetric(in IValue n) => new(IValue.AsInt(n));
-        private static DiagonalMatrix Vec2Diag(in IValue v) => new(IValue.AsVector(v));
-        private static Vector Diag2Vec(in IValue M) => IValue.AsMatrix(M).Diagonal();
-        private static Matrix Vec2Row(in IValue v) => new(IValue.AsVector(v));
-        private static ColumnMatrix Vec2Col(in IValue v) => new(IValue.AsVector(v));
+
+
+        private static Matrix Vec2Diag(in IValue v)
+        {
+            var vec = IValue.AsVector(v);
+            if (vec is HpVector hp_vec)
+                return new HpDiagonalMatrix(hp_vec);
+
+            return new DiagonalMatrix(vec);
+        }
+
+        private static Vector Diag2Vec(in IValue M)
+        {
+             var matrix = IValue.AsMatrix(M);
+             if (matrix is HpMatrix hp_m)
+                return hp_m.Diagonal();
+
+            return matrix.Diagonal();
+        }
+
+        private static Matrix Vec2Row(in IValue v)
+        {
+            var vec = IValue.AsVector(v);
+            if (vec is HpVector hp_vec)
+                return new HpMatrix(hp_vec);
+
+            return new Matrix(vec);
+        }
+
+
+        private static Matrix Vec2Col(in IValue v)
+        {
+            var vec = IValue.AsVector(v);
+            if (vec is HpVector hp_vec)
+                return new HpColumnMatrix(hp_vec);
+
+            return new ColumnMatrix(vec);
+        }
+
+        private static HpDiagonalMatrix IdentityHp(in IValue n) => new(IValue.AsInt(n), RealValue.One);
+        private static HpUpperTriangularMatrix UpperTriangularHp(in IValue n) => new(IValue.AsInt(n), null);
+        private static HpLowerTriangularMatrix LowerTriangularHp(in IValue n) => new(IValue.AsInt(n), null);
+        private static HpSymmetricMatrix SymmetricHp(in IValue n) => new(IValue.AsInt(n), null);
+
+        private static IValue Hp(in IValue v) =>
+            v switch
+            {
+                HpVector or HpMatrix => v,
+                RealValue rv => new HpVector([rv.D], rv.Units) as Vector,
+                Vector vec => new HpVector(vec, null) as Vector,
+                ColumnMatrix cm => new HpColumnMatrix(cm),
+                DiagonalMatrix dm => new HpDiagonalMatrix(dm),
+                LowerTriangularMatrix ltm => new HpLowerTriangularMatrix(ltm),
+                UpperTriangularMatrix utm => new HpUpperTriangularMatrix(utm),
+                SymmetricMatrix sm => new HpSymmetricMatrix(sm),
+                Matrix matrix => new HpMatrix(matrix), 
+                _ => v
+            };
+
+        private static IValue IsHp(in IValue v) =>
+            v is HpVector || v is HpMatrix ? RealValue.One : RealValue.Zero;
+
+        private static IValue GetUnits(in IValue v)
+        {
+            var units = v switch
+            {
+                RealValue rv => rv.Units,
+                HpVector hp_vec => hp_vec.Units,
+                HpMatrix hp_matrix => hp_matrix.Units,
+                Vector vec => vec.Length > 0 ? vec[1].Units : null,
+                Matrix matrix => matrix.RowCount > 0 && matrix.ColCount > 0 ? matrix[1, 1].Units : null,
+                _ => null
+            };
+            return new RealValue(units);
+        }
+
+        private static IValue SetUnits(in IValue v, in IValue unitsValue)
+        {
+            if (unitsValue is not RealValue rvu || rvu.D != 1d || !rvu.IsUnit )
+                throw Exceptions.InvalidUnits(unitsValue.ToString());
+
+            var units = rvu.Units ?? throw Exceptions.InvalidUnits(unitsValue.ToString());
+
+            switch (v)
+            {
+                case RealValue rv:
+                    return new RealValue(rv.D, units);
+                case HpVector hp_vec:
+                    hp_vec.Units = units;
+                    return hp_vec;
+                case HpMatrix hp_matrix:
+                    hp_matrix.Units = units;
+                    return hp_matrix;
+                case Vector vec:
+                    vec.SetUnits(units);
+                    return vec;
+                case Matrix matrix:
+                    matrix.SetUnits(units);
+                    return matrix;
+                default:
+                    return v;
+            }
+        }
+
+        private static IValue ClrUnits(in IValue v)
+        {
+            switch (v)
+            {
+                case RealValue rv:
+                    return new RealValue(rv.D, null);
+                case HpVector hp_vec:
+                    hp_vec.Units = null;
+                    return hp_vec;
+                case HpMatrix hp_matrix:
+                    hp_matrix.Units = null;
+                    return hp_matrix;
+                case Vector vec:
+                    vec.SetUnits(null);
+                    return vec;
+                case Matrix matrix:
+                    matrix.SetUnits(null);
+                    return matrix;
+                default:
+                    return v;
+            }
+        }
+
         private static IValue NRows(in IValue M) => new RealValue(IValue.AsMatrix(M).RowCount);
         private static IValue NCols(in IValue M) => new RealValue(IValue.AsMatrix(M).ColCount);
         private static IValue FrobNorm(in IValue M) => IValue.AsMatrix(M).FrobNorm();
@@ -377,45 +548,58 @@ namespace Calcpad.Core
         private static IValue CondInf(in IValue M) => IValue.AsMatrix(M).CondInf();
         private static IValue Det(in IValue M) => IValue.AsMatrix(M).Determinant();
         private static IValue Rank(in IValue M) => IValue.AsMatrix(M).Rank();
-        private static Matrix Transpose(in IValue M) => IValue.AsMatrix(M).Transpose();
+        private static Matrix Transpose(in IValue M)
+        {
+            var m = IValue.AsMatrix(M);
+            if (m is HpMatrix hp_m)
+                return hp_m.Transpose();
+
+            return m.Transpose();
+        }
         private static IValue Trace(in IValue M) => IValue.AsMatrix(M).Trace();
         private static Matrix Invert(in IValue M) => IValue.AsMatrix(M).Invert();
         private static Matrix Adjoint(in IValue M) => IValue.AsMatrix(M).Adjoint();
         private static Matrix Cofactor(in IValue M) => IValue.AsMatrix(M).Cofactor();
-        private static Vector EigenValues(in IValue M)
+        private static Vector EigenValues(in IValue M, in IValue count)
         {
             var matrix = IValue.AsMatrix(M);
-            if (matrix is SymmetricMatrix sm)
-                return sm.EigenValues();
-            if (matrix is DiagonalMatrix dm)
-                return dm.EigenValues();
-
-            Throw.MatrixMustBeSymmetricException();
-            return null;
+            var n = (int)IValue.AsReal(count).D;
+            return matrix switch
+            {
+                HpSymmetricMatrix hp_sm => hp_sm.EigenValues(n),
+                HpDiagonalMatrix hp_dm => hp_dm.EigenValues(n),
+                SymmetricMatrix sm => sm.EigenValues(n),
+                DiagonalMatrix dm => dm.EigenValues(n),
+                _ => throw Exceptions.MatrixMustBeSymmetric()
+            };
         }
 
-        private static Matrix EigenVectors(in IValue M)
+        private static Matrix EigenVectors(in IValue M, in IValue count)
         {
             var matrix = IValue.AsMatrix(M);
-            if (matrix is SymmetricMatrix sm)
-                return sm.EigenVectors();
-            if (matrix is DiagonalMatrix dm)
-                return dm.EigenVectors();
-
-            Throw.MatrixMustBeSymmetricException();
-            return null;
+            var n = (int)IValue.AsReal(count).D;
+            return matrix switch
+            {
+                HpSymmetricMatrix hp_sm => hp_sm.EigenVectors(n),
+                HpDiagonalMatrix hp_dm => hp_dm.EigenVectors(n),
+                SymmetricMatrix sm => sm.EigenVectors(n),
+                DiagonalMatrix dm => dm.EigenVectors(n),
+                _ => throw Exceptions.MatrixMustBeSymmetric()
+            };
         }
 
-        private static Matrix Eigen(in IValue M)
+        private static Matrix Eigen(in IValue M, in IValue count)
         {
             var matrix = IValue.AsMatrix(M);
-            if (matrix is SymmetricMatrix sm)
-                return sm.Eigen();
-            if (matrix is DiagonalMatrix dm)
-                return dm.Eigen();
-
-            Throw.MatrixMustBeSymmetricException();
-            return null;
+            var n = (int)IValue.AsReal(count).D;
+            return matrix switch
+            {
+                HpSymmetricMatrix hp_sm => hp_sm.Eigen(n),
+                HpDiagonalMatrix hp_dm => hp_dm.Eigen(n),
+                SymmetricMatrix sm => sm.Eigen(n),
+                DiagonalMatrix dm => dm.Eigen(n),
+                _ => throw Exceptions.MatrixMustBeSymmetric()
+            };
         }
 
         private Matrix LUDecomposition(in IValue M)
@@ -427,20 +611,24 @@ namespace Calcpad.Core
         }
         private static Matrix QRDecomposition(in IValue M) => IValue.AsMatrix(M).QRDecomposition();
         private static Matrix SVDDecomposition(in IValue M) => IValue.AsMatrix(M).SVDDecomposition();
-        private static UpperTriangularMatrix CholeskyDecomposition(in IValue a)
+        private static Matrix CholeskyDecomposition(in IValue M)
         {
-            var M = IValue.AsMatrix(a);
-            if (M is SymmetricMatrix sm)
-                return sm.CholeskyDecomposition();
-            if (M is DiagonalMatrix dm)
-                return dm.CholeskyDecomposition();
-
-            Throw.MatrixMustBeSymmetricException();
-            return null;
+            var matrix = IValue.AsMatrix(M);
+            return matrix switch
+            {
+                HpSymmetricMatrix hp_sm => hp_sm.CholeskyDecomposition(),
+                HpDiagonalMatrix hp_dm => hp_dm.CholeskyDecomposition(),
+                SymmetricMatrix sm => sm.CholeskyDecomposition(),
+                DiagonalMatrix dm => dm.CholeskyDecomposition(),
+                _ => throw Exceptions.MatrixMustBeSymmetric()
+            };
         }
         private static Matrix Create(in IValue m, in IValue n) => new(IValue.AsInt(m), IValue.AsInt(n));
         private static DiagonalMatrix Diagonal(in IValue n, in IValue value) => new(IValue.AsInt(n), IValue.AsReal(value));
         private static ColumnMatrix Column(in IValue n, in IValue value) => new(IValue.AsInt(n), IValue.AsReal(value));
+        private static HpMatrix CreateHp(in IValue m, in IValue n) => new(IValue.AsInt(m), IValue.AsInt(n), null);
+        private static HpDiagonalMatrix DiagonalHp(in IValue n, in IValue value) => new(IValue.AsInt(n), IValue.AsReal(value));
+        private static HpColumnMatrix ColumnHp(in IValue n, in IValue value) => new(IValue.AsInt(n), IValue.AsReal(value));
         private static Vector Row(in IValue M, in IValue row) => IValue.AsMatrix(M).Row(IValue.AsInt(row));
         private static Vector Col(in IValue M, in IValue col) => IValue.AsMatrix(M).Col(IValue.AsInt(col));
         private static Matrix ExtractRows(in IValue M, in IValue rows) => IValue.AsMatrix(M).ExtractRows(IValue.AsVector(rows));
@@ -466,8 +654,15 @@ namespace Calcpad.Core
             var a = IValue.AsMatrix(A);
             var b = IValue.AsVector(B);
             if (a.RowCount != b.Length)
-                Throw.MatrixDimensionsException();
+                throw Exceptions.MatrixDimensions();
 
+            if (a is HpMatrix hp_a)
+            {
+                if (b is HpVector hp_b)
+                    return hp_a.LSolve(hp_b);
+
+                throw Exceptions.MustBeHpVector(Exceptions.Items.Argument);
+            }
             return a.LSolve(b);
         }
 
@@ -476,13 +671,32 @@ namespace Calcpad.Core
             var a = IValue.AsMatrix(A);
             var b = IValue.AsVector(B);
             if (a.RowCount != b.Length)
-                Throw.MatrixDimensionsException();
+                throw Exceptions.MatrixDimensions();
 
+            if (a is HpSymmetricMatrix hp_sm)
+            {
+                 if(b is HpVector hp_b)
+                    return hp_sm.ClSolve(hp_b);
+
+                throw Exceptions.MustBeHpVector(Exceptions.Items.Argument);
+            }
             if (a is SymmetricMatrix sm)
                 return sm.ClSolve(b);
 
-            Throw.MatrixMustBeSymmetricException();
-            return null;
+            throw Exceptions.MatrixMustBeSymmetric();
+        }
+
+        private Vector SlSolve(in IValue A, in IValue B)
+        {
+            var a = IValue.AsMatrixHp(A);
+            var b = IValue.AsVectorHp(B);
+            if (a.RowCount != b.Length)
+                throw Exceptions.MatrixDimensions();
+
+            if (a is HpSymmetricMatrix sm)
+                return sm.SlSolve(b, Parser.Tol);
+
+            throw Exceptions.MatrixMustBeSymmetric();
         }
 
         private static Matrix MSolve(in IValue A, in IValue B)
@@ -490,8 +704,15 @@ namespace Calcpad.Core
             var a = IValue.AsMatrix(A);
             var b = IValue.AsMatrix(B);
             if (a.RowCount != b.RowCount)
-                Throw.MatrixDimensionsException();
+                throw Exceptions.MatrixDimensions();
 
+            if (a is HpMatrix hp_a)
+            {
+                if (b is HpMatrix hp_b)
+                    return hp_a.MSolve(hp_b);
+
+                throw Exceptions.MustBeHpMatrix(Exceptions.Items.Argument);
+            }
             return a.MSolve(b);
         }
 
@@ -500,21 +721,64 @@ namespace Calcpad.Core
             var a = IValue.AsMatrix(A);
             var b = IValue.AsMatrix(B);
             if (a.RowCount != b.RowCount)
-                Throw.MatrixDimensionsException();
+                throw Exceptions.MatrixDimensions();
 
+            if (a is HpSymmetricMatrix hp_sm)
+            {
+                if (b is HpMatrix hp_b)
+                    return hp_sm.CmSolve(hp_b);
+
+                throw Exceptions.MustBeHpMatrix(Exceptions.Items.Argument);
+            }
             if (a is SymmetricMatrix sm)
                 return sm.CmSolve(b);
 
-            Throw.MatrixMustBeSymmetricException();
-            return null;
+            throw Exceptions.MatrixMustBeSymmetric();
         }
 
+        private Matrix SmSolve(in IValue A, in IValue B)
+        {
+            var a = IValue.AsMatrixHp(A);
+            var b = IValue.AsMatrixHp(B);
+            if (a.RowCount != b.RowCount)
+                throw Exceptions.MatrixDimensions();
 
-        private static Matrix Hadamard(in IValue A, in IValue B) => Matrix.Hadamard(IValue.AsMatrix(A), IValue.AsMatrix(B));
+            if (a is HpSymmetricMatrix sm)
+                return sm.SmSolve(b, Parser.Tol);
 
-        private static IValue Frobenius(in IValue A, in IValue B) => Matrix.Frobenius(IValue.AsMatrix(A), IValue.AsMatrix(B));
+            throw Exceptions.MatrixMustBeSymmetric();
+        }
 
-        private static Matrix Kronecker(in IValue A, in IValue B) => Matrix.Kronecker(IValue.AsMatrix(A), IValue.AsMatrix(B));
+        private static Matrix Hadamard(in IValue A, in IValue B)
+        {
+            var a = IValue.AsMatrix(A);
+            var b = IValue.AsMatrix(B);
+            if (a is HpMatrix hp_a && b is HpMatrix hp_b)
+                return HpMatrix.Hadamard(hp_a, hp_b);
+
+            return Matrix.Hadamard(a, b);
+        }
+        private static IValue Frobenius(in IValue A, in IValue B)
+        {
+            var a = IValue.AsMatrix(A);
+            var b = IValue.AsMatrix(B);
+            if (a is HpMatrix hp_a && b is HpMatrix hp_b)
+                return HpMatrix.Frobenius(hp_a, hp_b);
+
+            return Matrix.Frobenius(a, b);
+        }
+        private static Matrix Kronecker(in IValue A, in IValue B)
+        {
+            var a = IValue.AsMatrix(A);
+            var b = IValue.AsMatrix(B);
+            if (a is HpMatrix hp_a && b is HpMatrix hp_b)
+                return HpMatrix.Kronecker(hp_a, hp_b);
+
+            return Matrix.Kronecker(a, b);
+        }
+
+        private static Matrix Fft(in IValue A) => IValue.AsMatrixHp(A).FFT(false);
+        private static Matrix Ift(in IValue A) => IValue.AsMatrixHp(A).FFT(true);
         private static Matrix FillRow(Matrix M, in IValue row, in IValue value) => M.FillRow(IValue.AsInt(row), IValue.AsReal(value));
         private static Matrix FillCol(Matrix M, in IValue col, in IValue value) => M.FillCol(IValue.AsInt(col), IValue.AsReal(value));
         private static Matrix Resize(Matrix M, in IValue m, in IValue n) => M.Resize(IValue.AsInt(m), IValue.AsInt(n));
@@ -531,23 +795,49 @@ namespace Calcpad.Core
         private static Vector VLookupLe(Matrix M, in IValue value, in IValue searchCol, in IValue returnCol) => M.VLookup(IValue.AsReal(value), IValue.AsInt(searchCol), IValue.AsInt(returnCol), Vector.Relation.LessOrEqual);
         private static Vector VLookupGt(Matrix M, in IValue value, in IValue searchCol, in IValue returnCol) => M.VLookup(IValue.AsReal(value), IValue.AsInt(searchCol), IValue.AsInt(returnCol), Vector.Relation.GreaterThan);
         private static Vector VLookupGe(Matrix M, in IValue value, in IValue searchCol, in IValue returnCol) => M.VLookup(IValue.AsReal(value), IValue.AsInt(searchCol), IValue.AsInt(returnCol), Vector.Relation.GreaterOrEqual);
-        private static Matrix Copy(Matrix A, in IValue B, in IValue i, in IValue j) => A.CopyTo(IValue.AsMatrix(B), IValue.AsInt(i), IValue.AsInt(j));
-        private static Matrix Add(Matrix A, in IValue B, in IValue i, in IValue j) => A.AddTo(IValue.AsMatrix(B), IValue.AsInt(i), IValue.AsInt(j));
+        private static Matrix Copy(Matrix A, in IValue B, in IValue i, in IValue j)
+        {
+            var b = IValue.AsMatrix(B);
+            var ii = IValue.AsInt(i);
+            var jj = IValue.AsInt(j);
+            if (A is HpMatrix hp_a && b is HpMatrix hp_b)
+                return hp_a.CopyTo(hp_b, ii, jj);
+
+            return A.CopyTo(b, ii, jj);
+        }
+        private static Matrix Add(Matrix A, in IValue B, in IValue i, in IValue j)
+        {
+            var b = IValue.AsMatrix(B);
+            var ii = IValue.AsInt(i);
+            var jj = IValue.AsInt(j);
+            if (A is HpMatrix hp_a && b is HpMatrix hp_b)
+                return hp_a.AddTo(hp_b, ii, jj);
+
+            return A.AddTo(b, ii, jj);
+        }
+
         private static Matrix Submatrix(Matrix M, in IValue i1, in IValue j1, in IValue i2, in IValue j2) => M.Submatrix(IValue.AsInt(i1), IValue.AsInt(j1), IValue.AsInt(i2), IValue.AsInt(j2));
         internal static Matrix JoinCols(IValue[] v)
         {
             var n = v.Length;
             var m = 0;
+            var isHp = true;
             for (int i = 0; i < n; ++i)
             {
                 if (v[i] is Vector vec)
                 {
+                    if (vec is not HpVector)
+                        isHp = false;
+
                     if (vec.Length > m)
                         m = vec.Length;
                 }
                 else
-                    Throw.MustBeVectorException(Throw.Items.Argument);
+                    throw Exceptions.MustBeVector(Exceptions.Items.Argument);
             }
+            if (isHp)
+                return HpMatrix.CreateFromCols(v.Cast<HpVector>().ToArray(), m);
+
             return Matrix.CreateFromCols(v.Cast<Vector>().ToArray(), m);
         }
 
@@ -555,20 +845,38 @@ namespace Calcpad.Core
         {
             var m = v.Length;
             var n = 0;
+            var isHp = true;
             for (int i = 0; i < m; ++i)
             {
                 if (v[i] is Vector vec)
                 {
+                    if (vec is not HpVector)
+                        isHp = false;
+
                     if (vec.Length > n)
                         n = vec.Length;
                 }
                 else
-                    Throw.MustBeVectorException(Throw.Items.Argument);
+                    throw Exceptions.MustBeVector(Exceptions.Items.Argument);
             }
+            if (isHp)
+                return HpMatrix.CreateFromRows(v.Cast<HpVector>().ToArray(), n);
+
             return Matrix.CreateFromRows(v.Cast<Vector>().ToArray(), n);
         }
 
-        private static Matrix[] CastValues(IValue[] values)
+        private static bool AreAllHp(IValue[] values)
+        {
+            for (int i = 0, n = values.Length; i < n; ++i)
+            {
+                var v = values[i];
+                if (!(v is HpVector || v is HpMatrix))
+                    return false;
+            }
+            return true;
+        }
+
+        private static Matrix[] CastToMatrices(IValue[] values)
         {
             var n = values.Length;
             var M = new Matrix[n];
@@ -577,10 +885,27 @@ namespace Calcpad.Core
 
             return M;
         }
+
+        private static HpMatrix[] CastToHpMatrices(IValue[] values)
+        {
+            var n = values.Length;
+            var M = new HpMatrix[n];
+            for (int i = 0; i < n; ++i)
+                M[i] = IValue.AsMatrixHp(values[i]);
+
+            return M;
+        }
+
         private static Matrix Augment(IValue[] values) =>
-            Matrix.Augment(CastValues(values));
+            AreAllHp(values) ?
+            HpMatrix.Augment(CastToHpMatrices(values)) :
+            Matrix.Augment(CastToMatrices(values));
+
         private static Matrix Stack(IValue[] values) =>
-            Matrix.Stack(CastValues(values));
+            AreAllHp(values) ?
+            HpMatrix.Stack(CastToHpMatrices(values)) :
+            Matrix.Stack(CastToMatrices(values));
+
         private static RealValue Min(Matrix M) => M.Min();
         private static RealValue Max(Matrix M) => M.Max();
         private static RealValue Sum(Matrix M) => M.Sum();
@@ -598,5 +923,35 @@ namespace Calcpad.Core
         private static RealValue Take(RealValue x, RealValue y, Matrix m) => m.Take(x, y);
         private static RealValue Line(RealValue x, RealValue y, Matrix m) => m.Line(x, y);
         private static RealValue Spline(RealValue x, RealValue y, Matrix m) => m.Spline(x, y);
+
+        internal static IValue GetElement(IValue matrix, IValue ii, IValue jj)
+        {
+            var mat = IValue.AsMatrix(matrix, Exceptions.Items.IndexTarget);
+            var val = IValue.AsValue(ii, Exceptions.Items.Index);
+            var i = (int)val.Re;
+            val = IValue.AsValue(jj, Exceptions.Items.Index);
+            var j = (int)val.Re;
+            if (i < 1 || i > mat.RowCount ||
+                j < 1 || j > mat.ColCount)
+                throw Exceptions.IndexOutOfRange($"{i}, {j}");
+
+            return mat[i - 1, j - 1];
+        }
+
+        internal static IValue SetElement(IValue matrix, IValue ii, IValue jj, IValue value)
+        {
+            var mat = IValue.AsMatrix(matrix, Exceptions.Items.IndexTarget);
+            var val = IValue.AsValue(ii, Exceptions.Items.Index);
+            var i = (int)val.Re;
+            val = IValue.AsValue(jj, Exceptions.Items.Index);
+            var j = (int)val.Re;
+            if (i < 1 || i > mat.RowCount ||
+                j < 1 || j > mat.ColCount)
+                throw Exceptions.IndexOutOfRange($"{i}, {j}");
+
+            var real = IValue.AsReal(value, Exceptions.Items.Value);
+            mat[i - 1, j - 1] = real;
+            return real;
+        }
     }
 }

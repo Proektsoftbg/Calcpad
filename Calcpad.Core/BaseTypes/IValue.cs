@@ -8,20 +8,16 @@ namespace Calcpad.Core
     {
         public static IValue operator -(IValue a)
         {
-            switch (a)
+            return a switch
             {
-                case RealValue ra: 
-                    return -ra;
-                case Vector va: 
-                    return -va;
-                case Matrix ma: 
-                    return -ma;
-                case ComplexValue ca: 
-                    return -ca;
-                default: 
-                    Throw.InvalidOperand($"-{a}");
-                    return null;
-            }
+                RealValue ra => -ra,
+                HpVector hp_va => -hp_va,
+                HpMatrix hp_ma => -hp_ma,
+                Vector va => -va,
+                Matrix ma => -ma,
+                ComplexValue ca => -ca,
+                _ => throw Exceptions.InvalidOperand($"-{a}"),
+            };
         }
 
         public static IValue operator +(IValue a, IValue b)
@@ -29,17 +25,31 @@ namespace Calcpad.Core
             if (a is RealValue ra)
             {
                 if (b is RealValue rb) return ra + rb;
+                if (b is HpVector hp_vb) return hp_vb + ra;
+                if (b is HpMatrix hp_mb) return hp_mb + ra;
                 if (b is Vector vb) return vb + ra;
                 if (b is Matrix mb) return mb + ra;
             }
             else if (a is Vector va)
             {
+                if (va is HpVector hp_va)
+                {
+                    if (b is RealValue hp_rb) return hp_va + hp_rb;
+                    if (b is HpVector hp_vb) return hp_va + hp_vb;
+                    if (b is HpMatrix hp_mb) return hp_va + hp_mb;
+                }
                 if (b is RealValue rb) return va + rb;
                 if (b is Vector vb) return va + vb;
                 if (b is Matrix mb) return va + mb;
             }
             else if (a is Matrix ma)
             {
+                if (ma is HpMatrix hp_ma)
+                {
+                    if (b is RealValue hp_rb) return hp_ma + hp_rb;
+                    if (b is HpVector hp_vb) return hp_ma + hp_vb;
+                    if (b is HpMatrix hp_mb) return hp_ma + hp_mb;
+                }
                 if (b is RealValue rb) return ma + rb;
                 if (b is Vector vb) return ma + vb;
                 if (b is Matrix mb) return ma + mb;
@@ -47,8 +57,7 @@ namespace Calcpad.Core
             if (a is IScalarValue sa && b is IScalarValue sb)
                 return sa.AsComplex() + sb.AsComplex();
 
-            Throw.InvalidOperand($"{a} + {b}");
-            return null;
+            throw Exceptions.InvalidOperand($"{a} + {b}");
         }
 
         public static IValue operator -(IValue a, IValue b)
@@ -56,17 +65,31 @@ namespace Calcpad.Core
             if (a is RealValue ra)
             {
                 if (b is RealValue rb) return ra - rb;
+                if (b is HpVector hp_vb) return ra - hp_vb;
+                if (b is HpMatrix hp_mb) return ra - hp_mb;
                 if (b is Vector vb) return ra - vb;
                 if (b is Matrix mb) return ra - mb;
             }
             else if (a is Vector va)
             {
+                if (va is HpVector hp_va)
+                {
+                    if (b is RealValue hp_rb) return hp_va - hp_rb;
+                    if (b is HpVector hp_vb) return hp_va - hp_vb;
+                    if (b is HpMatrix hp_mb) return hp_va - hp_mb;
+                }
                 if (b is RealValue rb) return va - rb;
                 if (b is Vector vb) return va - vb;
                 if (b is Matrix mb) return va - mb;
             }
             else if (a is Matrix ma)
             {
+                if (ma is HpMatrix hp_ma)
+                {
+                    if (b is RealValue hp_rb) return hp_ma - hp_rb;
+                    if (b is HpVector hp_vb) return hp_ma - hp_vb;
+                    if (b is HpMatrix hp_mb) return hp_ma - hp_mb;
+                }
                 if (b is RealValue rb) return ma - rb;
                 if (b is Vector vb) return ma - vb;
                 if (b is Matrix mb) return ma - mb;
@@ -74,8 +97,7 @@ namespace Calcpad.Core
             if (a is IScalarValue sa && b is IScalarValue sb)
                 return sa.AsComplex() - sb.AsComplex();
 
-            Throw.InvalidOperand($"{a} - {b}");
-            return null;
+            throw Exceptions.InvalidOperand($"{a} - {b}");
         }
 
         public static IValue operator *(IValue a, IValue b)
@@ -83,30 +105,49 @@ namespace Calcpad.Core
             if (a is RealValue ra)
             {
                 if (b is RealValue rb) return ra * rb;
+                if (b is HpVector hp_vb) return hp_vb * ra;
+                if (b is HpMatrix hp_mb) return hp_mb * ra;
                 if (b is Vector vb) return vb * ra;
                 if (b is Matrix mb) return mb * ra;
             }
             else if (a is Vector va)
             {
+                if (va is HpVector hp_va)
+                {
+                    if (b is RealValue hp_rb) return hp_va * hp_rb;
+                    if (b is HpVector hp_vb) return hp_va * hp_vb;
+                    if (b is HpMatrix hp_mb) return hp_va * hp_mb;
+                }
                 if (b is RealValue rb) return va * rb;
                 if (b is Vector vb) return va * vb;
                 if (b is Matrix mb) return va * mb;
             }
             else if (a is Matrix ma)
             {
+                if (ma is HpMatrix hp_ma)
+                {
+                    if (b is RealValue hp_rb) return hp_ma * hp_rb;
+                    if (b is HpVector hp_vb)
+                    {
+                        var hp_cm = new HpColumnMatrix(hp_vb);
+                        var c = hp_ma * hp_cm;
+                        return c.RowCount == 1 ? c[0, 0] : c.ColRef();
+                    }
+                    if (b is HpMatrix hp_mb) return hp_ma * hp_mb;
+                }
                 if (b is RealValue rb) return ma * rb;
                 if (b is Vector vb)
                 {
-                    var c = ma * vb;
-                    return c.RowCount == 1 ? c[0, 0] : c.Col(1);
+                    var cm = new ColumnMatrix(vb);
+                    var c = ma * cm;
+                    return c.RowCount == 1 ? c[0, 0] : c.ColRef();
                 }
                 if (b is Matrix mb) return ma * mb;
             }
             if (a is IScalarValue sa && b is IScalarValue sb)
                 return sa.AsComplex() * sb.AsComplex();
 
-            Throw.InvalidOperand($"{a}*{b}");
-            return null;
+            throw Exceptions.InvalidOperand($"{a}*{b}");
         }
 
         public static IValue operator /(IValue a, IValue b)
@@ -114,17 +155,31 @@ namespace Calcpad.Core
             if (a is RealValue ra)
             {
                 if (b is RealValue rb) return ra / rb;
+                if (b is HpVector hp_vb) return ra / hp_vb;
+                if (b is HpMatrix hp_mb) return ra / hp_mb;
                 if (b is Vector vb) return ra / vb;
                 if (b is Matrix mb) return ra / mb;
             }
             else if (a is Vector va)
             {
+                if (va is HpVector hp_va)
+                {
+                    if (b is RealValue hp_rb) return hp_va / hp_rb;
+                    if (b is HpVector hp_vb) return hp_va / hp_vb;
+                    if (b is HpMatrix hp_mb) return hp_va / hp_mb;
+                }
                 if (b is RealValue rb) return va / rb;
                 if (b is Vector vb) return va / vb;
                 if (b is Matrix mb) return va / mb;
             }
             else if (a is Matrix ma)
             {
+                if (ma is HpMatrix hp_ma)
+                {
+                    if (b is RealValue hp_rb) return hp_ma / hp_rb;
+                    if (b is HpVector hp_vb) return hp_ma / hp_vb;
+                    if (b is HpMatrix hp_mb) return hp_ma / hp_mb;
+                }
                 if (b is RealValue rb) return ma / rb;
                 if (b is Vector vb) return ma / vb;
                 if (b is Matrix mb) return ma / mb;
@@ -132,8 +187,7 @@ namespace Calcpad.Core
             if (a is IScalarValue sa && b is IScalarValue sb)
                 return sa.AsComplex() / sb.AsComplex();
 
-            Throw.InvalidOperand($"{a}/{b}");
-            return null;
+            throw Exceptions.InvalidOperand($"{a}/{b}");
         }
 
         public static IValue operator %(IValue a, IValue b)
@@ -141,17 +195,31 @@ namespace Calcpad.Core
             if (a is RealValue ra)
             {
                 if (b is RealValue rb) return ra % rb;
+                if (b is HpVector hp_vb) return hp_vb % ra;
+                if (b is HpMatrix hp_mb) return hp_mb % ra;
                 if (b is Vector vb) return ra % vb;
                 if (b is Matrix mb) return ra % mb;
             }
             else if (a is Vector va)
             {
+                if (va is HpVector hp_va)
+                {
+                    if (b is RealValue hp_rb) return hp_va % hp_rb;
+                    if (b is HpVector hp_vb) return hp_va % hp_vb;
+                    if (b is HpMatrix hp_mb) return hp_va % hp_mb;
+                }
                 if (b is RealValue rb) return va % rb;
                 if (b is Vector vb) return va % vb;
                 if (b is Matrix mb) return va % mb;
             }
             else if (a is Matrix ma)
             {
+                if (ma is HpMatrix hp_ma)
+                {
+                    if (b is RealValue hp_rb) return hp_ma % hp_rb;
+                    if (b is HpVector hp_vb) return hp_ma % hp_vb;
+                    if (b is HpMatrix hp_mb) return hp_ma % hp_mb;
+                }
                 if (b is RealValue rb) return ma % rb;
                 if (b is Vector vb) return ma % vb;
                 if (b is Matrix mb) return ma % mb;
@@ -159,8 +227,7 @@ namespace Calcpad.Core
             if (a is IScalarValue sa && b is IScalarValue sb)
                 return sa.AsComplex() % sb.AsComplex();
 
-            Throw.InvalidOperand($"{a}%{b}");
-            return null;
+            throw Exceptions.InvalidOperand($"{a}%{b}");
         }
 
         public static IValue operator <(IValue a, IValue b)
@@ -168,17 +235,31 @@ namespace Calcpad.Core
             if (a is RealValue ra)
             {
                 if (b is RealValue rb) return ra < rb;
+                if (b is HpVector hp_vb) return ra < hp_vb;
+                if (b is HpMatrix hp_mb) return ra < hp_mb;
                 if (b is Vector vb) return ra < vb;
                 if (b is Matrix mb) return ra < mb;
             }
             else if (a is Vector va)
             {
+                if (va is HpVector hp_va)
+                {
+                    if (b is RealValue hp_rb) return hp_va < hp_rb;
+                    if (b is HpVector hp_vb) return hp_va < hp_vb;
+                    if (b is HpMatrix hp_mb) return hp_va < hp_mb;
+                }
                 if (b is RealValue rb) return va < rb;
                 if (b is Vector vb) return va < vb;
                 if (b is Matrix mb) return va < mb;
             }
             else if (a is Matrix ma)
             {
+                if (ma is HpMatrix hp_ma)
+                {
+                    if (b is RealValue hp_rb) return hp_ma < hp_rb;
+                    if (b is HpVector hp_vb) return hp_ma < hp_vb;
+                    if (b is HpMatrix hp_mb) return hp_ma < hp_mb;
+                }
                 if (b is RealValue rb) return ma < rb;
                 if (b is Vector vb) return ma < vb;
                 if (b is Matrix mb) return ma < mb;
@@ -186,8 +267,7 @@ namespace Calcpad.Core
             if (a is IScalarValue sa && b is IScalarValue sb)
                 return sa.AsComplex() < sb.AsComplex();
 
-            Throw.InvalidOperand($"{a} < {b}");
-            return null;
+            throw Exceptions.InvalidOperand($"{a} < {b}");
         }
 
         public static IValue operator >(IValue a, IValue b)
@@ -195,17 +275,31 @@ namespace Calcpad.Core
             if (a is RealValue ra)
             {
                 if (b is RealValue rb) return ra > rb;
+                if (b is HpVector hp_vb) return ra > hp_vb;
+                if (b is HpMatrix hp_mb) return ra > hp_mb;
                 if (b is Vector vb) return ra > vb;
                 if (b is Matrix mb) return ra > mb;
             }
             else if (a is Vector va)
             {
+                if (va is HpVector hp_va)
+                {
+                    if (b is RealValue hp_rb) return hp_va > hp_rb;
+                    if (b is HpVector hp_vb) return hp_va > hp_vb;
+                    if (b is HpMatrix hp_mb) return hp_va > hp_mb;
+                }
                 if (b is RealValue rb) return va > rb;
                 if (b is Vector vb) return va > vb;
                 if (b is Matrix mb) return va > mb;
             }
             else if (a is Matrix ma)
             {
+                if (ma is HpMatrix hp_ma)
+                {
+                    if (b is RealValue hp_rb) return hp_ma > hp_rb;
+                    if (b is HpVector hp_vb) return hp_ma > hp_vb;
+                    if (b is HpMatrix hp_mb) return hp_ma > hp_mb;
+                }
                 if (b is RealValue rb) return ma > rb;
                 if (b is Vector vb) return ma > vb;
                 if (b is Matrix mb) return ma > mb;
@@ -213,8 +307,7 @@ namespace Calcpad.Core
             if (a is IScalarValue sa && b is IScalarValue sb)
                 return sa.AsComplex() > sb.AsComplex();
 
-            Throw.InvalidOperand($"{a} > {b}");
-            return null;
+            throw Exceptions.InvalidOperand($"{a} > {b}");
         }
 
         public static IValue operator <=(IValue a, IValue b)
@@ -222,17 +315,31 @@ namespace Calcpad.Core
             if (a is RealValue ra)
             {
                 if (b is RealValue rb) return ra <= rb;
+                if (b is HpVector hp_vb) return ra <= hp_vb;
+                if (b is HpMatrix hp_mb) return ra <= hp_mb;
                 if (b is Vector vb) return ra <= vb;
                 if (b is Matrix mb) return ra <= mb;
             }
             else if (a is Vector va)
             {
+                if (va is HpVector hp_va)
+                {
+                    if (b is RealValue hp_rb) return hp_va <= hp_rb;
+                    if (b is HpVector hp_vb) return hp_va <= hp_vb;
+                    if (b is HpMatrix hp_mb) return hp_va <= hp_mb;
+                }
                 if (b is RealValue rb) return va <= rb;
                 if (b is Vector vb) return va <= vb;
                 if (b is Matrix mb) return va <= mb;
             }
             else if (a is Matrix ma)
             {
+                if (ma is HpMatrix hp_ma)
+                {
+                    if (b is RealValue hp_rb) return hp_ma <= hp_rb;
+                    if (b is HpVector hp_vb) return hp_ma <= hp_vb;
+                    if (b is HpMatrix hp_mb) return hp_ma <= hp_mb;
+                }
                 if (b is RealValue rb) return ma <= rb;
                 if (b is Vector vb) return ma <= vb;
                 if (b is Matrix mb) return ma <= mb;
@@ -240,8 +347,7 @@ namespace Calcpad.Core
             if (a is IScalarValue sa && b is IScalarValue sb)
                 return sa.AsComplex() <= sb.AsComplex();
 
-            Throw.InvalidOperand($"{a} ≤ {b}");
-            return null;
+            throw Exceptions.InvalidOperand($"{a} ≤ {b}");
         }
 
         public static IValue operator >=(IValue a, IValue b)
@@ -249,17 +355,31 @@ namespace Calcpad.Core
             if (a is RealValue ra)
             {
                 if (b is RealValue rb) return ra >= rb;
+                if (b is HpVector hp_vb) return ra >= hp_vb;
+                if (b is HpMatrix hp_mb) return ra >= hp_mb;
                 if (b is Vector vb) return ra >= vb;
                 if (b is Matrix mb) return ra >= mb;
             }
             else if (a is Vector va)
             {
+                if (va is HpVector hp_va)
+                {
+                    if (b is RealValue hp_rb) return hp_va >= hp_rb;
+                    if (b is HpVector hp_vb) return hp_va >= hp_vb;
+                    if (b is HpMatrix hp_mb) return hp_va >= hp_mb;
+                }
                 if (b is RealValue rb) return va >= rb;
                 if (b is Vector vb) return va >= vb;
                 if (b is Matrix mb) return va >= mb;
             }
             else if (a is Matrix ma)
             {
+                if (ma is HpMatrix hp_ma)
+                {
+                    if (b is RealValue hp_rb) return hp_ma >= hp_rb;
+                    if (b is HpVector hp_vb) return hp_ma >= hp_vb;
+                    if (b is HpMatrix hp_mb) return hp_ma >= hp_mb;
+                }
                 if (b is RealValue rb) return ma >= rb;
                 if (b is Vector vb) return ma >= vb;
                 if (b is Matrix mb) return ma >= mb;
@@ -267,8 +387,7 @@ namespace Calcpad.Core
             if (a is IScalarValue sa && b is IScalarValue sb)
                 return sa.AsComplex() >= sb.AsComplex();
 
-            Throw.InvalidOperand($"{a} ≥ {b}");
-            return null;
+            throw Exceptions.InvalidOperand($"{a} ≥ {b}");
         }
 
         internal static IValue Equal(IValue a, IValue b)
@@ -276,17 +395,31 @@ namespace Calcpad.Core
             if (a is RealValue ra)
             {
                 if (b is RealValue rb) return ra == rb;
+                if (b is HpVector hp_vb) return hp_vb == ra;
+                if (b is HpMatrix hp_mb) return hp_mb == ra;
                 if (b is Vector vb) return vb == ra;
                 if (b is Matrix mb) return mb == ra;
             }
             else if (a is Vector va)
             {
+                if (va is HpVector hp_va)
+                {
+                    if (b is RealValue hp_rb) return hp_va == hp_rb;
+                    if (b is HpVector hp_vb) return hp_va == hp_vb;
+                    if (b is HpMatrix hp_mb) return hp_va == hp_mb;
+                }
                 if (b is RealValue rb) return va == rb;
                 if (b is Vector vb) return va == vb;
                 if (b is Matrix mb) return va == mb;
             }
             else if (a is Matrix ma)
             {
+                if (ma is HpMatrix hp_ma)
+                {
+                    if (b is RealValue hp_rb) return hp_ma == hp_rb;
+                    if (b is HpVector hp_vb) return hp_ma == hp_vb;
+                    if (b is HpMatrix hp_mb) return hp_ma == hp_mb;
+                }
                 if (b is RealValue rb) return ma == rb;
                 if (b is Vector vb) return ma == vb;
                 if (b is Matrix mb) return ma == mb;
@@ -294,8 +427,7 @@ namespace Calcpad.Core
             if (a is IScalarValue sa && b is IScalarValue sb)
                 return sa.AsComplex() == sb.AsComplex();
 
-            Throw.InvalidOperand($"{a} ≡ {b}");
-            return null;
+            throw Exceptions.InvalidOperand($"{a} ≡ {b}");
         }
 
         internal static IValue NotEqual(IValue a, IValue b)
@@ -303,17 +435,31 @@ namespace Calcpad.Core
             if (a is RealValue ra)
             {
                 if (b is RealValue rb) return ra != rb;
+                if (b is HpVector hp_vb) return hp_vb != ra;
+                if (b is HpMatrix hp_mb) return hp_mb != ra;
                 if (b is Vector vb) return vb != ra;
                 if (b is Matrix mb) return mb != ra;
             }
             else if (a is Vector va)
             {
+                if (va is HpVector hp_va)
+                {
+                    if (b is RealValue hp_rb) return hp_va != hp_rb;
+                    if (b is HpVector hp_vb) return hp_va != hp_vb;
+                    if (b is HpMatrix hp_mb) return hp_va != hp_mb;
+                }
                 if (b is RealValue rb) return va != rb;
                 if (b is Vector vb) return va != vb;
                 if (b is Matrix mb) return va != mb;
             }
             else if (a is Matrix ma)
             {
+                if (ma is HpMatrix hp_ma)
+                {
+                    if (b is RealValue hp_rb) return hp_ma != hp_rb;
+                    if (b is HpVector hp_vb) return hp_ma != hp_vb;
+                    if (b is HpMatrix hp_mb) return hp_ma != hp_mb;
+                }
                 if (b is RealValue rb) return ma != rb;
                 if (b is Vector vb) return ma != vb;
                 if (b is Matrix mb) return ma != mb;
@@ -321,8 +467,7 @@ namespace Calcpad.Core
             if (a is IScalarValue sa && b is IScalarValue sb)
                 return sa.AsComplex() != sb.AsComplex();
 
-            Throw.InvalidOperand($"{a} ≠ {b}");
-            return null;
+            throw Exceptions.InvalidOperand($"{a} ≠ {b}");
         }
 
         public static IValue operator &(IValue a, IValue b)
@@ -330,17 +475,31 @@ namespace Calcpad.Core
             if (a is RealValue ra)
             {
                 if (b is RealValue rb) return ra & rb;
+                if (b is HpVector hp_vb) return hp_vb & ra;
+                if (b is HpMatrix hp_mb) return hp_mb & ra;
                 if (b is Vector vb) return vb & ra;
                 if (b is Matrix mb) return mb & ra;
             }
             else if (a is Vector va)
             {
+                if (va is HpVector hp_va)
+                {
+                    if (b is RealValue hp_rb) return hp_va & hp_rb;
+                    if (b is HpVector hp_vb) return hp_va & hp_vb;
+                    if (b is HpMatrix hp_mb) return hp_va & hp_mb;
+                }
                 if (b is RealValue rb) return va & rb;
                 if (b is Vector vb) return va & vb;
                 if (b is Matrix mb) return va & mb;
             }
             else if (a is Matrix ma)
             {
+                if (ma is HpMatrix hp_ma)
+                {
+                    if (b is RealValue hp_rb) return hp_ma & hp_rb;
+                    if (b is HpVector hp_vb) return hp_ma & hp_vb;
+                    if (b is HpMatrix hp_mb) return hp_ma & hp_mb;
+                }
                 if (b is RealValue rb) return ma & rb;
                 if (b is Vector vb) return ma & vb;
                 if (b is Matrix mb) return ma & mb;
@@ -348,8 +507,7 @@ namespace Calcpad.Core
             if (a is IScalarValue sa && b is IScalarValue sb)
                 return sa.AsComplex() & sb.AsComplex();
 
-            Throw.InvalidOperand($"{a}∧{b}.");
-            return null;
+            throw Exceptions.InvalidOperand($"{a}∧{b}.");
         }
 
         public static IValue operator |(IValue a, IValue b)
@@ -357,17 +515,31 @@ namespace Calcpad.Core
             if (a is RealValue ra)
             {
                 if (b is RealValue rb) return ra | rb;
+                if (b is HpVector hp_vb) return hp_vb | ra;
+                if (b is HpMatrix hp_mb) return hp_mb | ra;
                 if (b is Vector vb) return vb | ra;
                 if (b is Matrix mb) return mb | ra;
             }
             else if (a is Vector va)
             {
+                if (va is HpVector hp_va)
+                {
+                    if (b is RealValue hp_rb) return hp_va | hp_rb;
+                    if (b is HpVector hp_vb) return hp_va | hp_vb;
+                    if (b is HpMatrix hp_mb) return hp_va | hp_mb;
+                }
                 if (b is RealValue rb) return va | rb;
                 if (b is Vector vb) return va | vb;
                 if (b is Matrix mb) return va | mb;
             }
             else if (a is Matrix ma)
             {
+                if (ma is HpMatrix hp_ma)
+                {
+                    if (b is RealValue hp_rb) return hp_ma | hp_rb;
+                    if (b is HpVector hp_vb) return hp_ma | hp_vb;
+                    if (b is HpMatrix hp_mb) return hp_ma | hp_mb;
+                }
                 if (b is RealValue rb) return ma | rb;
                 if (b is Vector vb) return ma | vb;
                 if (b is Matrix mb) return ma | mb;
@@ -375,8 +547,7 @@ namespace Calcpad.Core
             if (a is IScalarValue sa && b is IScalarValue sb)
                 return sa.AsComplex() | sb.AsComplex();
 
-            Throw.InvalidOperand($"{a}∨{b}");
-            return null;
+            throw Exceptions.InvalidOperand($"{a}∨{b}");
         }
 
         public static IValue operator ^(IValue a, IValue b)
@@ -384,17 +555,31 @@ namespace Calcpad.Core
             if (a is RealValue ra)
             {
                 if (b is RealValue rb) return ra ^ rb;
+                if (b is HpVector hp_vb) return hp_vb ^ ra;
+                if (b is HpMatrix hp_mb) return hp_mb ^ ra;
                 if (b is Vector vb) return vb ^ ra;
                 if (b is Matrix mb) return mb ^ ra;
             }
             else if (a is Vector va)
             {
+                if (va is HpVector hp_va)
+                {
+                    if (b is RealValue hp_rb) return hp_va ^ hp_rb;
+                    if (b is HpVector hp_vb) return hp_va ^ hp_vb;
+                    if (b is HpMatrix hp_mb) return hp_va ^ hp_mb;
+                }
                 if (b is RealValue rb) return va ^ rb;
                 if (b is Vector vb) return va ^ vb;
                 if (b is Matrix mb) return va ^ mb;
             }
             else if (a is Matrix ma)
             {
+                if (ma is HpMatrix hp_ma)
+                {
+                    if (b is RealValue hp_rb) return hp_ma ^ hp_rb;
+                    if (b is HpVector hp_vb) return hp_ma ^ hp_vb;
+                    if (b is HpMatrix hp_mb) return hp_ma ^ hp_mb;
+                }
                 if (b is RealValue rb) return ma ^ rb;
                 if (b is Vector vb) return ma ^ vb;
                 if (b is Matrix mb) return ma ^ mb;
@@ -402,8 +587,7 @@ namespace Calcpad.Core
             if (a is IScalarValue sa && b is IScalarValue sb)
                 return sa.AsComplex() ^ sb.AsComplex();
 
-            Throw.InvalidOperand($"{a}⊕{b}");
-            return null;
+            throw Exceptions.InvalidOperand($"{a}⊕{b}");
         }
 
         internal static IValue EvaluateFunction(MatrixCalculator calc, long index, in IValue a)
@@ -415,8 +599,7 @@ namespace Calcpad.Core
             if (a is Matrix matrlix)
                 return calc.EvaluateFunction(index, matrlix);
 
-            Throw.InvalidArgument($"{a}");
-            return null;
+            throw Exceptions.InvalidArgument($"{a}");
         }
 
         internal static IValue EvaluateOperator(MatrixCalculator calc, long index, in IValue a, in IValue b)
@@ -441,7 +624,6 @@ namespace Calcpad.Core
                     return calc.VectorCalculator.EvaluateOperator(index, va, vb);
                 if (b is Matrix mb)
                     return calc.EvaluateOperator(index, va, mb);
-
             }
             else if (a is Matrix ma)
             {
@@ -451,15 +633,22 @@ namespace Calcpad.Core
                 {
                     var c = calc.EvaluateOperator(index, ma, vb);
                     if (index == Calculator.MultiplyIndex)
-                        return c.RowCount == 1 ? c[0, 0] : c.Col(1);
+                    {
+                        if (c.RowCount == 1)
+                            return c[0, 0];
+                        if (c is HpColumnMatrix hp_cm)
+                            return hp_cm.ColRef();
+                        if (c is ColumnMatrix cm)
+                            return cm.ColRef();
 
+                        return c.Col(1);
+                    }
                     return c;
                 }
                 if (b is Matrix mb)
                     return calc.EvaluateOperator(index, ma, mb);
             }
-            Throw.InvalidOperand($"{a}; {b}");
-            return null;
+            throw Exceptions.InvalidOperand($"{a}; {b}");
         }
 
         internal static IValue EvaluateFunction2(MatrixCalculator calc, long index, in IValue a, in IValue b)
@@ -494,8 +683,7 @@ namespace Calcpad.Core
                 if (b is Matrix mb)
                     return calc.EvaluateFunction2(index, ma, mb);
             }
-            Throw.InvalidArgument($"{a}; {b}");
-            return null;
+            throw Exceptions.InvalidArgument($"{a}; {b}");
         }
 
         internal static IValue EvaluateInterpolation(MatrixCalculator calc, long index, IValue[] values)
@@ -508,7 +696,7 @@ namespace Calcpad.Core
                     return calc.EvaluateInterpolation(index, y, x, matrix);
             }
             else
-                Throw.CannotInterpolateWithNonScalarValueException();
+                throw Exceptions.CannotInterpolateWithNonScalarValue();
 
             return calc.Calculator.EvaluateInterpolation(index, ExpandValues(values));
         }
@@ -535,13 +723,13 @@ namespace Calcpad.Core
                 if (ival is IScalarValue scalar)
                     valList.Add(scalar);
                 else if (ival is Vector vector)
-                    valList.AddRange(vector.Values.Cast<IScalarValue>().ToArray());
+                    valList.AddRange(vector.Values.Cast<IScalarValue>());
                 else if (ival is Matrix matrix)
-                    valList.AddRange(matrix.Values.Cast<IScalarValue>().ToArray());
+                    valList.AddRange(matrix.Values.Cast<IScalarValue>());
                 else
-                    Throw.InvalidArgument($"{ival}");
+                    throw Exceptions.InvalidArgument($"{ival}");
             }
-            return [.. valList];
+            return valList.ToArray();
         }
 
 
@@ -559,36 +747,31 @@ namespace Calcpad.Core
                 else if (ival is Matrix matrix)
                     valList.AddRange(matrix.Values);
                 else
-                    Throw.InvalidArgument($"{ival}");
+                    throw Exceptions.InvalidArgument($"{ival}");
             }
-            return [.. valList];
+            return valList.ToArray();
         }
 
-        internal static IScalarValue AsValue(IValue ival, Throw.Items item = Throw.Items.Argument)
+        internal static IScalarValue AsValue(IValue ival, Exceptions.Items item = Exceptions.Items.Argument)
         {
             if (ival is IScalarValue scalar)
                 return scalar;
-            else
-                Throw.MustBeScalarException(item);
 
-            return RealValue.NaN;
+            throw Exceptions.MustBeScalar(item);
         }
 
-        internal static RealValue AsReal(IValue ival, Throw.Items item = Throw.Items.Argument)
+        internal static RealValue AsReal(IValue ival, Exceptions.Items item = Exceptions.Items.Argument)
         {
             if (ival is RealValue real)
                 return real;
-            else if (ival is ComplexValue complex)
-            {
-                return (RealValue)complex;
-            }
-            else
-                Throw.MustBeScalarException(item);
 
-            return RealValue.NaN;
+            if (ival is ComplexValue complex)
+                return (RealValue)complex;
+
+            throw Exceptions.MustBeScalar(item);
         }
 
-        internal static int AsInt(IValue ivalue, Throw.Items item = Throw.Items.Argument)
+        internal static int AsInt(IValue ivalue, Exceptions.Items item = Exceptions.Items.Argument)
         {
             var value = AsValue(ivalue, item);
             if (value.IsReal && value.Units is null)
@@ -597,30 +780,50 @@ namespace Calcpad.Core
                 if (d > 0 && d <= int.MaxValue && d.AlmostEquals(Math.Truncate(d)))
                     return (int)d;
             }
-            Throw.MustBePositiveIntegerException(item);
-            return 1;
+            throw Exceptions.MustBePositiveInteger(item);
         }
 
-        internal static Vector AsVector(IValue ivalue, Throw.Items item = Throw.Items.Argument)
+        internal static Vector AsVector(IValue ivalue, Exceptions.Items item = Exceptions.Items.Argument)
         {
             if (ivalue is Vector vec)
                 return vec;
-            else
-                Throw.MustBeVectorException(item);
 
-            return null;
+            throw Exceptions.MustBeVector(item);
         }
 
-        internal static Matrix AsMatrix(IValue ivalue, Throw.Items item = Throw.Items.Argument)
+        internal static Matrix AsMatrix(IValue ivalue, Exceptions.Items item = Exceptions.Items.Argument)
         {
             if (ivalue is Matrix m)
                 return m;
-            else if (ivalue is Vector vec)
-                return new ColumnMatrix(vec);
-            else
-                Throw.MustBeMatrixException(item);
 
-            return null;
+            if (ivalue is Vector vec)
+            {
+                if (vec is HpVector hp_vec)
+                    return new HpColumnMatrix(hp_vec);
+
+                return new ColumnMatrix(vec);
+            }
+
+            throw Exceptions.MustBeMatrix(item);
+        }
+
+        internal static HpVector AsVectorHp(IValue ivalue, Exceptions.Items item = Exceptions.Items.Argument)
+        {
+            if (ivalue is HpVector vec)
+                return vec;
+
+            throw Exceptions.MustBeHpVector(item);
+        }
+
+        internal static HpMatrix AsMatrixHp(IValue ivalue, Exceptions.Items item = Exceptions.Items.Argument)
+        {
+            if (ivalue is HpMatrix m)
+                return m;
+
+            if (ivalue is HpVector vec)
+                return new HpColumnMatrix(vec);
+
+            throw Exceptions.MustBeHpMatrix(item);
         }
     }
 }

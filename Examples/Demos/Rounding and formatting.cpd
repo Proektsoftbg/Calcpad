@@ -1,0 +1,21 @@
+"Rounding and formatting numbers in Calcpad
+#round 6
+'Custom rounding -'a = 100*sqr(2)
+#round default
+'Default rounding -'a
+#format 0.00##E+00
+'Custom worksheet level formatting -'a
+#format default
+'Default formatting -'a
+'Custom inline formatting
+a = 100*sqr(2):F4'- decimal F4
+b = 100*sqr(3):E3'- engineering E3
+b:e3'- engineering e3 (with small letter ''e'')
+c = a + b:G6'- general G6
+10000*c:N2'- numeric N3 (with thousands separator)
+P = 300:C'- currency C
+'Inline formatting overrides worksheet level formatting and both override rounding
+'Formatting with units
+a = sqr(2m^2)|cm:0.0000E0
+b = m*sqr(3):0.00000
+c = b - a|μm:N1

@@ -1,0 +1,24 @@
+"Strong motion FFT analysis
+'Accelleration data
+'Raw record length = 225.000 sec, Uncor max =    136992, at  73.050 sec.
+'Processed:2024-01-05 23:22:02 GMT, USGS, Max =    7.283 cm/sec2 at   72.590 sec
+'Record filtered below  0.10 Hz (periods over 10.00 secs), and above 40.0 Hz
+#read a_g from Anamizu Earthquake Strong Motion.txt TYPE=R_hp SEP=';'
+'Number of record points -'n = n_cols(a_g)
+'Time function 't(k) = (k - 1)/100*s
+'Input accelleration, cm/s²
+a_g
+'Sampling frequency -'Fs = 100Hz
+'Frequency step -'Δf = Fs/n
+'Frequency function -'f(k) = (k - 1)*Δf
+'Number of output points -'N = floor(n/2) + 1
+'FFT analysis -'A_f = submatrix(fft(a_g); 1; 2; 1; N)
+'Real values -'Re = row(A_f; 1)
+'Imaginary values -'Im = row(A_f; 2)
+'Power spectral density -'P_f = Re^2 + Im^2
+'Magnitude spectrum -'A_mag = sqrt(P_f)
+'<!--'PlotHeight = 120''PlotSVG = 1'-->
+'Input accelleration plot [cm/s²] vs time [s]
+$Plot{t(k)|line(k; a_g) @ k = 1 : n}
+'Power spectral density [(cm/s)²] vs frequency [Hz] in the range of 0-10 Hz
+$Plot{f(k)|line(k; P_f) @ k = 1 : N/5}

@@ -395,7 +395,6 @@
             Assert.Equal("[1 -1 -1|1 1 1|1 1 1]", calc.ToString());
 
         }
-
         #endregion
     }
 }

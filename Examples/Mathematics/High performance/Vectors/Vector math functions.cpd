@@ -1,0 +1,105 @@
+'<style>em {font-family:"Times New Roman";}</style>
+"Vector math functions
+'<p><b>Norm_p</b>(<em>vector</em>)</p><hr/>
+norm_p(hp([1; 2; 3]); 3)'- the Lp norm of the vector for 'p = 3
+
+'<p><b>Norm_1</b>(<em>vector</em>)</p><hr/>
+norm_1(hp([-1; 2; 3]))'- the L1 (Manhattan or taxicab) norm of the vector
+
+'<p><b>Norm</b>(<em>vector</em>) or <b>Norm_2</b>(<em>vector</em>) or <b>Norm_e</b>(<em>vector</em>)</p></p><hr/>
+a = hp([1; 2; 3])
+norm(a)
+norm_2(a)
+norm_e(a)'- the L2 (Euclidian) norm of vector <em>a</em>
+
+'<p><b>Norm_i</b>(<em>vector</em>)</p><hr/>
+norm_i(hp([1; 2; 3]))'- the L∞ (infinity) norm of the vector
+
+'<p><b>Unit</b>(<em>vector</em>)</p><hr/>
+unit(hp([-1; 2; 3]))'- the normalized (unit) vector
+
+'<p><b>Dot</b>(<em>vector</em>; <em>vector</em>)</p><hr/>
+a = hp([1; 2; 4])
+b = hp([5; 3; 1])
+dot(a; b)'- scalar (dot) product of vectors <em>a</em> and <em>b</em>;
+
+'<p><b>Cross</b>(<em>vector</em>; <em>vector</em>)</p><hr/>
+a = hp([1; 2; 4])
+b = hp([5; 3; 1])
+cross(a; b)'- cross product of vectors <em>a</em> and <em>b</em>;
+
+#rad
+'Trigonometric:<hr/>
+x = hp([0; 30; 45; 60; 90])*(π/180)
+sin(x)'- sine
+cos(x)'- cosine
+tan(x)'- tangent
+csc(x)'- cosecant
+sec(x)'- secant
+cot(x)'- cotangent
+
+'Hyperbolic:<hr/>
+x = hp([0; 0.5; 1])
+sinh(x)'- hyperbolic sine
+cosh(x)'- hyperbolic cosine
+tanh(x)'- hyperbolic tangent
+csch(x)'- hyperbolic cosecant
+sech(x)'- hyperbolic secant
+coth(x)'- hyperbolic cotangent
+
+'Inverse trigonometric:<hr/>
+x = hp([0; 0.5; sqrt(2)/2; sqrt(3)/2; 1])
+y = reverse(x)
+asin(x)'- inverse sine
+acos(x)'- inverse cosine
+atan(x)'- inverse tangent
+atan2(x; y)'- the angle whose tangent is the quotient of y and x
+acsc(1/x)'- inverse cosecant
+asec(1/x)'- inverse secant
+acot(x)'- inverse cotangent
+
+'Inverse hyperbolic:<hr/>
+x = hp([1; 2; 4])
+asinh(x)'- inverse hyperbolic sine
+acosh(x)'- inverse hyperbolic cosine
+atanh(x/5)'- inverse hyperbolic tangent
+acsch(1/x)'- inverse hyperbolic cosecant
+asech(1/x)'- inverse hyperbolic secant
+acoth(5/x)'- inverse hyperbolic cotangent
+
+'Logarithmic, exponential and roots:<hr/>
+log(x)'- decimal logarithm
+ln(x)'- natural logarithm 
+log_2(x)'- binary logarithm
+exp(x)'- natural exponent = eˣ
+sqr(x)'- square root
+cbrt(x)'- cubic root
+root(x; 3)'- n-th root
+
+'Rounding:<hr/>
+round(x)'- round to the nearest integer
+floor(x)'- round to the smaller integer(towards - ∞)
+ceiling(x)'- round to the greater integer(towards + ∞)
+trunc(x)'- round to the smaller integer(towards zero)
+
+'Integer:<hr/>
+x
+y = x + 2
+mod(x; y)'- the remainder of an integer division
+gcd(y)'- the greatest common divisor of several integers
+lcm(y)'- the least common multiple of several integers
+
+'Aggregate and interpolation:<hr />
+a = hp([0; 2; 6])
+b = hp([5; 3; 1])
+min(4; a; 7; b; 10; 11)'- minimum of multiple values
+max(4; a; 7; b; 10; 11)'- maximum of multiple values
+sum(4; a; 7; b; 10; 11)'- sum of multiple values
+sumsq(4; a; 7; b; 10; 11)'- sum of squares
+srss(4; a; 7; b; 10; 11)'- square root of sum of squares
+average(4; a; 7; b; 10; 11)'- average of multiple values
+product(4; a; 7; b; 10; 11)'- product of multiple values
+mean(4; a; 7; b; 10; 11)'- geometric mean
+take(3; a)'- the 3-rd element from the list
+line(1.5; a)'- linear interpolation
+spline(1.5; a)'- Hermite spline interpolation

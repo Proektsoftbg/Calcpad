@@ -48,6 +48,7 @@ namespace Calcpad.Core
                 {TokenTypes.MatrixFunction4, 3 },
                 {TokenTypes.MatrixFunction5, 3 },
                 {TokenTypes.MatrixMultiFunction, 3 },
+                {TokenTypes.MatrixOptionalFunction, 3 },
                 {TokenTypes.CustomFunction, 3 },
                 {TokenTypes.BracketLeft, 4 },
                 {TokenTypes.BracketRight, 5 },
@@ -91,6 +92,7 @@ namespace Calcpad.Core
                 var countOfDivisors = 0;
                 var isIndex = 0;
                 var multiFunctionStack = new Stack<MultiFunctionStackItem>();
+                var optionalFunctionStack = new Stack<MultiFunctionStackItem>();
                 var vectorStack = new Stack<MultiFunctionStackItem>();
                 var indexStack = new Stack<MultiFunctionStackItem>();
                 var pt = new Token(string.Empty, TokenTypes.None);
@@ -101,7 +103,12 @@ namespace Calcpad.Core
                     {
                         case TokenTypes.Function2:
                         case TokenTypes.VectorFunction2:
+                            --countOfDivisors;
+                            break;
                         case TokenTypes.MatrixFunction2:
+                            if (MatrixCalculator.IsLastParameterOptional((int)t.Index))
+                                optionalFunctionStack.Push(new MultiFunctionStackItem(t, countOfBrackets, countOfDivisors));
+
                             --countOfDivisors;
                             break;
                         case TokenTypes.Function3:
@@ -125,7 +132,7 @@ namespace Calcpad.Core
                             if (t.Index < 0)
                             {
                                 if (isFunctionDefinition && t.Content == firstToken.Content)
-                                    Throw.RecursionNotAllowedException(t.Content);
+                                    throw Exceptions.RecursionNotAllowed(t.Content);
 
                                 if (t is FunctionToken)
                                     multiFunctionStack.Push(new MultiFunctionStackItem(t, countOfBrackets, countOfDivisors));
@@ -145,7 +152,7 @@ namespace Calcpad.Core
                         case TokenTypes.BracketRight:
                             --countOfBrackets;
                             if (countOfBrackets < 0)
-                                Throw.MissingLeftBracketException();
+                                throw Exceptions.MissingLeftBracket();
 
                             if (multiFunctionStack.TryPeek(out var mfStackItem) &&
                                 countOfBrackets == mfStackItem.CountOfBrackets)
@@ -154,8 +161,8 @@ namespace Calcpad.Core
                                 if (mfStackItem.Token is FunctionToken ft)
                                     ft.ParameterCount = countOfDivisors - mfStackItem.CountOfDivisors + 1;
                                 else
-                                    Throw.InvalidFunctionException(mfStackItem.Token.Content);
-                                
+                                    throw Exceptions.InvalidFunction(mfStackItem.Token.Content);
+
                                 countOfDivisors = mfStackItem.CountOfDivisors;
                             }
                             else if (indexStack.TryPeek(out var indStackItem) &&
@@ -166,6 +173,13 @@ namespace Calcpad.Core
 
                                 indexStack.Pop();
                             }
+                            else if (optionalFunctionStack.TryPeek(out var ofStackItem) &&
+                                countOfBrackets == ofStackItem.CountOfBrackets &&
+                                countOfDivisors == ofStackItem.CountOfDivisors - 1)
+                            {
+                                ++countOfDivisors;
+                                ofStackItem.Token.Type = TokenTypes.MatrixOptionalFunction;
+                            }
 
                             break;
                         case TokenTypes.SquareBracketLeft:
@@ -174,10 +188,10 @@ namespace Calcpad.Core
                         case TokenTypes.SquareBracketRight:
 
                             if (!vectorStack.TryPop(out var vecstItem))
-                                Throw.MissingVectorOpeningBracketException();
+                                throw Exceptions.MissingVectorOpeningBracket();
 
                             if (countOfBrackets != vecstItem.CountOfBrackets)
-                                Throw.BracketMismatchException();
+                                throw Exceptions.BracketMismatch();
 
                             countOfDivisors = vecstItem.CountOfDivisors;
                             break;
@@ -202,9 +216,9 @@ namespace Calcpad.Core
                                        firstToken.Type != TokenTypes.Vector &&
                                        firstToken.Type != TokenTypes.Matrix
                                     )
-                                       Throw.AssignmentPrecededException();
+                                        throw Exceptions.AssignmentPreceded();
                                     else if (countOfOperators != 1)
-                                        Throw.AssignmentNotFirstException();
+                                        throw Exceptions.AssignmentNotFirst();
                                 }
                             }
                             break;
@@ -230,25 +244,25 @@ namespace Calcpad.Core
                     pt.Type != TokenTypes.Solver &&
                     pt.Type != TokenTypes.Error &&
                     pt.Content != "!")
-                    Throw.IncompleteExpressionException();
+                    throw Exceptions.IncompleteExpression();
 
-                if (firstToken.Type == TokenTypes.CustomFunction && 
-                    firstToken.Index < 0 && 
+                if (firstToken.Type == TokenTypes.CustomFunction &&
+                    firstToken.Index < 0 &&
                     !isFunctionDefinition &&
                     isCalculating)
-                    Throw.InvalidFunctionException(firstToken.Content);
+                    throw Exceptions.InvalidFunction(firstToken.Content);
 
                 if (countOfBrackets > 0)
-                    Throw.MissingRightBracketException();
+                    throw Exceptions.MissingRightBracket();
 
                 if (vectorStack.Count > 0)
-                    Throw.MissingVectorClosingBracketException();
+                    throw Exceptions.MissingVectorClosingBracket();
 
                 if (countOfDivisors > 0)
-                    Throw.UnexpectedDelimiterException();
+                    throw Exceptions.UnexpectedDelimiter();
 
                 if (countOfDivisors < 0)
-                    Throw.InvalidNumberOfArgumentsException();
+                    throw Exceptions.InvalidNumberOfArguments();
             }
 
             private static void CheckOrder(Token pt, Token ct)
@@ -266,7 +280,7 @@ namespace Calcpad.Core
 
                 var correctOrder = CorrectOrder[OrderIndex[ptt], OrderIndex[ctt]];
                 if (!correctOrder)
-                    Throw.InvalidSyntaxException(pt.Content, ct.Content);
+                    throw Exceptions.InvalidSyntax(pt.Content, ct.Content);
             }
         }
     }

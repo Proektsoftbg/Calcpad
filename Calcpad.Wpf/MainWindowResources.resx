@@ -228,7 +228,7 @@ You can find your unsaved data in
         <value>Code</value>
     </data>
   <data name="KeypadLabel" xml:space="preserve">
-        <value>┌── Numbers ──┐ ┌───── Operators ──────┐ ┌──────── Functions ────────┐</value>
+        <value>┌── Numbers ───┐ ┌──── Operators ─────┐ ┌───────── Functions ─────────┐</value>
         <comment>The label for the keypad at the bottom of the code section, only the words should be changed.</comment>
     </data>
   <data name="FunctionPlot" xml:space="preserve">
@@ -1016,5 +1016,104 @@ You can find your unsaved data in
   </data>
   <data name="ImperialUS" xml:space="preserve">
     <value>Imperial/US</value>
+  </data>
+  <data name="PasteAsComment" xml:space="preserve">
+    <value>Paste As Comment</value>
+  </data>
+  <data name="CommentSelectedLines" xml:space="preserve">
+    <value>Comment Selected Lines</value>
+  </data>
+  <data name="GreenColor" xml:space="preserve">
+    <value>Green Color</value>
+  </data>
+  <data name="UncommentSelectedLines" xml:space="preserve">
+    <value>Uncomment Selected Lines</value>
+  </data>
+  <data name="SetsCustomFormatStringForNumbers" xml:space="preserve">
+    <value>Sets custom format string for numbers</value>
+  </data>
+  <data name="EnablesMarkdownInComments" xml:space="preserve">
+    <value>Enables markdown in comments</value>
+  </data>
+  <data name="DisablesMarkdownInComments" xml:space="preserve">
+    <value>Disables markdown in comments</value>
+  </data>
+  <data name="ReadTextCSVFile" xml:space="preserve">
+    <value>Read Text/CSV File</value>
+  </data>
+  <data name="WriteTextCSVFile" xml:space="preserve">
+    <value>Write Text/CSV File</value>
+  </data>
+  <data name="AppendTextCSVFile" xml:space="preserve">
+    <value>Append Text/CSV File</value>
+  </data>
+  <data name="ReadExcelFile" xml:space="preserve">
+    <value>Read Excel File</value>
+  </data>
+  <data name="WriteExcelFile" xml:space="preserve">
+    <value>Write Excel File</value>
+  </data>
+  <data name="AppendExcelFile" xml:space="preserve">
+    <value>Append Excel File</value>
+  </data>
+  <data name="CreatesAnEmptyHighPerformanceVectorWithLengthN" xml:space="preserve">
+    <value>Creates an empty high performance vector with length n.</value>
+  </data>
+  <data name="CreatesAHighPerformanceVectorWithValuesSpanningFromXToXₙWithStepS" xml:space="preserve">
+    <value>Creates a high performance vector with values spanning from x₁ to xₙ with step s.</value>
+  </data>
+  <data name="HighPerformance" xml:space="preserve">
+    <value>High performance</value>
+  </data>
+  <data name="CreatesAnEmptyHighPerformanceMatrixWithDimensionsMN" xml:space="preserve">
+    <value>Creates an empty high performance matrix with dimensions m⨯n</value>
+  </data>
+  <data name="CreatesAnIdentityHighPerformanceMatrixWithDimensionsNN" xml:space="preserve">
+    <value>Creates an identity high performance matrix with dimensions n⨯n</value>
+  </data>
+  <data name="CreatesADiagonalHighPerformanceMatrixWithDimensionsNNAndFillsTheDiagonalWithValueD" xml:space="preserve">
+    <value>Creates a diagonal high performance matrix with dimensions n⨯n and fills the diagonal with value d</value>
+  </data>
+  <data name="CreatesAColumnHighPerformanceMatrixWithDimensionsM1FilledWithValueC" xml:space="preserve">
+    <value>Creates a column high performance matrix with dimensions m⨯1, filled with value c</value>
+  </data>
+  <data name="CreatesAnUpperTriangularHighPerformanceMatrixWithDimensionsNN" xml:space="preserve">
+    <value>Creates an upper triangular high performance matrix with dimensions n⨯n</value>
+  </data>
+  <data name="CreatesALowerTriangularHighPerformanceMatrixWithDimensionsNN" xml:space="preserve">
+    <value>Creates a lower triangular high performance matrix with dimensions n⨯n</value>
+  </data>
+  <data name="CreatesASymmetricHighPerformanceMatrixWithDimensionsNN" xml:space="preserve">
+    <value>Creates a symmetric high performance matrix with dimensions n⨯n</value>
+  </data>
+  <data name="ConvertsAnyVectorAndMatrixToHighPerformanceType" xml:space="preserve">
+    <value>Converts any vector and matrix to high performance type</value>
+  </data>
+  <data name="CheckIfArgumentIsAHighPerformanceType" xml:space="preserve">
+    <value>Check if argument is a high performance type</value>
+  </data>
+  <data name="GetsTheUnitsOfAScalarVactorMatrix" xml:space="preserve">
+    <value>Gets the units of a scalar/vactor/matrix</value>
+  </data>
+  <data name="SetsTheUnitsToAScalarVactorMatrix" xml:space="preserve">
+    <value>Sets the units to a scalar/vactor/matrix</value>
+  </data>
+  <data name="ClearsTheUnitsFromAScalarVactorMatrix" xml:space="preserve">
+    <value>Clears the units from a scalar/vactor/matrix</value>
+  </data>
+  <data name="BlueYellow" xml:space="preserve">
+    <value>Blue-yellow</value>
+  </data>
+  <data name="BlueRed" xml:space="preserve">
+    <value>Blue-red</value>
+  </data>
+  <data name="PurpleYellow" xml:space="preserve">
+    <value>Purple-yellow</value>
+  </data>
+  <data name="FastFourierTransfrom" xml:space="preserve">
+    <value>Fast Fourier Transfrom</value>
+  </data>
+  <data name="InverseFastFourierTransfrom" xml:space="preserve">
+    <value>Inverse Fast Fourier Transfrom</value>
   </data>
 </root>

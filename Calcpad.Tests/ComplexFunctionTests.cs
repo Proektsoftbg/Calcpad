@@ -716,7 +716,7 @@ namespace Calcpad.Tests
         public void Fact()
         {
             var calc = new TestCalc(new() { IsComplex = true });
-            var e = Assert.Throws<MathParser.MathParserException>(
+            var e = Assert.Throws<MathParserException>(
                () =>
                {
                    calc.Run("fact(5i)");

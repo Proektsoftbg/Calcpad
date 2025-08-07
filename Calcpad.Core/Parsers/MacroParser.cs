@@ -43,8 +43,8 @@ namespace Calcpad.Core
                     }
                     catch (ArgumentException)
                     {
-                        Throw.DuplicateMacroParametersException(s);
-                        return null;
+                        throw Exceptions.DuplicateMacroParameters(s);
+
                     }
                 }
                 return sorted.Values.Reverse().ToArray();
@@ -53,7 +53,7 @@ namespace Calcpad.Core
             internal string Run(List<string> arguments)
             {
                 if (arguments.Count != ParameterCount)
-                    Throw.InvalidNumberOfArgumentsException();
+                    throw Exceptions.InvalidNumberOfArguments();
 
                 if (ParameterCount == 0)
                     return _contents;
@@ -127,10 +127,10 @@ namespace Calcpad.Core
                         ++lineNumber;
                     }
 
-                    lineContent = sourceLine.Trim();
+                    lineContent = sourceLine.TrimStart();
                     if (lineContent.IsEmpty)
                     {
-                        AppendLine(sourceLine.ToString());
+                        AppendLine(sourceLine);
                         continue;
                     }
                     if (lineContent[0] == '#' && ParseKeyword(lineContent))
@@ -138,7 +138,7 @@ namespace Calcpad.Core
 
                     if (macroDefCount == 1)
                     {
-                        macroBuilder.AppendLine(sourceLine.ToString());
+                        macroBuilder.Append(sourceLine).AppendLine();
                         continue;
                     }
 
@@ -149,15 +149,15 @@ namespace Calcpad.Core
                             var insertCode = ApplyMacros(sourceLine);
                             var insertLines = insertCode.EnumerateLines();
                             foreach (var line in insertLines)
-                                AppendLine(line.ToString());
+                                AppendLine(line);
                         }
                         catch (Exception ex)
                         {
-                            AppendError(lineContent.ToString(), ex.Message);
+                            AppendError(lineContent, ex.Message);
                         }
                         continue;
                     }
-                    AppendLine(sourceLine.ToString());
+                    AppendLine(sourceLine);
                 }
                 if (includeLine == 0)
                     _lineNumbers.Add(_parsedLineNumber);
@@ -170,7 +170,7 @@ namespace Calcpad.Core
             }
             catch (Exception ex)
             {
-                AppendError(lineContent.ToString(), ex.Message);
+                AppendError(lineContent, ex.Message);
             }
             finally
             {
@@ -201,7 +201,7 @@ namespace Calcpad.Core
             {
                 int n = lineContent.Length;
                 if (n < 9)
-                    AppendError(lineContent.ToString(), Messages.Missing_source_file_for_include);
+                    AppendError(lineContent, Messages.Missing_source_file_for_include);
                 n = lineContent.IndexOfAny('\'', '"');
                 var nf1 = lineContent.LastIndexOf('#');
                 if (n < 9 || nf1 > 0 && nf1 < n)
@@ -210,16 +210,18 @@ namespace Calcpad.Core
                 if (n < 9)
                     n = lineContent.Length;
 
-                var insertFileName = Environment.ExpandEnvironmentVariables(lineContent[8..n].Trim().ToString());
-                var fileExist = File.Exists(insertFileName);
-                if (!fileExist)
-                    AppendError(lineContent.ToString(), Messages.File_not_found);
+                var includeFileName = lineContent[8..n].Trim().ToString();
+                includeFileName = Path.GetFullPath(Environment.ExpandEnvironmentVariables(includeFileName));
+                var fileExists = File.Exists(includeFileName);
+                if (!fileExists)
+                    AppendError(lineContent, Messages.File_not_found);
+
                 Queue<string> fields = new();
                 if (nf1 > 0)
                 {
                     var nf2 = lineContent.LastIndexOf('}');
                     if (nf2 < 0)
-                        AppendError(lineContent.ToString(), Messages.BracketsNotClosed);
+                        AppendError(lineContent, Messages.Brackets_not_closed);
                     else
                     {
                         SplitEnumerator split = lineContent[(nf1 + 2)..nf2].EnumerateSplits(';');
@@ -227,8 +229,8 @@ namespace Calcpad.Core
                             fields.Enqueue(item.Trim().ToString());
                     }
                 }
-                if (fileExist)
-                    Parse(Include(insertFileName, fields), out _, sb, lineNumber, addLineNumbers);
+                if (fileExists)
+                    Parse(Include(includeFileName, fields), out _, sb, lineNumber, addLineNumbers);
             }
 
             void ParseDef(ReadOnlySpan<char> lineContent)
@@ -281,7 +283,7 @@ namespace Calcpad.Core
                                 if (Validator.IsMacroLetter(c, textSpan.Length) || c == '$')
                                     textSpan.Expand();
                                 else if (c != '\n')
-                                    SymbolError(lineContent.ToString(), c);
+                                    SymbolError(lineContent, c);
 
                                 c = lineContent[++i];
                             }
@@ -294,7 +296,7 @@ namespace Calcpad.Core
                     if (c == '=')
                     {
                         c = EatSpace(lineContent, ref i);
-                        AddMacro(lineContent.ToString(), macroName, new Macro(lineContent[i..].ToString(), macroParameters));
+                        AddMacro(lineContent, macroName, new Macro(lineContent[i..].ToString(), macroParameters));
                         macroName = string.Empty;
                     }
                     else
@@ -302,7 +304,7 @@ namespace Calcpad.Core
                         if (string.IsNullOrWhiteSpace(macroName))
                         {
                             macroName = textSpan.ToString();
-                            AppendError(lineContent.ToString(), string.Format(Messages.Invalid_macro_name_0, macroName));
+                            AppendError(lineContent, string.Format(Messages.Invalid_macro_name_0, macroName));
 
                             macroName = string.Empty;
                             textSpan.Reset(i);
@@ -312,7 +314,7 @@ namespace Calcpad.Core
                 }
                 else
                 {
-                    AppendError(lineContent.ToString(), Messages.Invalid_inside_macro_definition);
+                    AppendError(lineContent, Messages.Invalid_inside_macro_definition);
                     ++macroDefCount;
                 }
             }
@@ -321,44 +323,44 @@ namespace Calcpad.Core
             {
                 if (macroDefCount < 1)
                 {
-                    AppendError(lineContent.ToString(), Messages.There_is_no_matching_def);
+                    AppendError(lineContent, Messages.There_is_no_matching_def);
                 }
                 else
                 {
                     macroBuilder.RemoveLastLineIfEmpty();
                     var macroContent = macroBuilder.ToString();
-                    AddMacro(lineContent.ToString(), macroName, new Macro(macroContent, macroParameters));
+                    AddMacro(lineContent, macroName, new Macro(macroContent, macroParameters));
                     macroName = string.Empty;
                     macroBuilder.Clear();
                 }
                 --macroDefCount;
             }
 
-            void AppendLine(string line)
+            void AppendLine(ReadOnlySpan<char> line)
             {
                 if (addLineNumbers)
-                    sb.AppendLine(line + '\v' + lineNumber.ToString());
+                    sb.Append(line).Append('\v').Append(lineNumber).AppendLine();
                 else
-                    sb.AppendLine(line);
+                    sb.Append(line).AppendLine();
 
                 ++_parsedLineNumber;
             }
 
             void SymbolError(ReadOnlySpan<char> lineContent, char c)
             {
-                AppendError(lineContent.ToString(), string.Format(Messages.Invalid_symbol_0_in_macro_name, c));
+                AppendError(lineContent, string.Format(Messages.Invalid_symbol_0_in_macro_name, c));
             }
 
-            void AppendError(string lineContent, string errorMessage)
+            void AppendError(ReadOnlySpan<char> lineContent, string errorMessage)
             {
-                sb.AppendLine(string.Format(Messages.Error_in_0_on_line_1__2, HttpUtility.HtmlEncode(lineContent), LineHtml(lineNumber), errorMessage));
+                sb.AppendLine(string.Format(Messages.Error_in_0_on_line_1_2, HttpUtility.HtmlEncode(lineContent.ToString()), LineHtml(lineNumber), errorMessage));
                 hasErrors = true;
             }
 
-            void AddMacro(string lineContent, string name, Macro macro)
+            void AddMacro(ReadOnlySpan<char> lineContent, string name, Macro macro)
             {
                 if (!Macros.TryAdd(name, macro))
-                    AppendError(lineContent, string.Format(Messages.Duplicate_macro_name_0_, name));
+                    AppendError(lineContent, string.Format(Messages.Duplicate_macro_name_0, name));
             }
             static string LineHtml(int line) => $"[<a href=\"#0\" data-text=\"{line}\">{line}</a>]";
         }
@@ -416,7 +418,7 @@ namespace Calcpad.Core
                         macroArguments.Add(s);
                         textSpan.Reset(i + 1);
                         if ((macroArguments.Count == macro.ParameterCount) != (c == ')'))
-                            Throw.InvalidNumberOfArgumentsException();
+                            throw Exceptions.InvalidNumberOfArguments();
                     }
                     else if (bracketCount > 1 || c != '(')
                         textSpan.Expand();
@@ -431,7 +433,7 @@ namespace Calcpad.Core
                             break;
 
                     if (macro.IsEmpty)
-                        Throw.UndefinedMacroException(macroName);
+                        throw Exceptions.UndefinedMacro(macroName);
                     else if (j > 0)
                         stringBuilder.Append(macroName[..j]);
 

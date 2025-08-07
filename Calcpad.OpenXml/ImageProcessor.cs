@@ -92,8 +92,9 @@ namespace Calcpad.OpenXml
             }
             else
             {
-                using var webClient = new HttpClient();
-                using var stream = webClient.GetStreamAsync(src).Result;
+                using var client = new HttpClient();
+                client.Timeout = TimeSpan.FromSeconds(2);
+                using var stream = client.GetStreamAsync(src).Result;
                 imagePart.FeedData(stream);
             }
             return imagePart;
@@ -118,8 +119,9 @@ namespace Calcpad.OpenXml
                 }
                 else
                 {
-                    using var webClient = new HttpClient();
-                    using var stream = webClient.GetStreamAsync(src).Result;
+                    using var client = new HttpClient();
+                    client.Timeout = TimeSpan.FromSeconds(2);
+                    using var stream = client.GetStreamAsync(src).Result;
                     if (isBitmap)
                     {
                         using var bmp = SKBitmap.Decode(stream);

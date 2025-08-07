@@ -237,7 +237,7 @@
         {
             string A = "[1; 3; 5|7; 2; 6|4; 8; 9]";
             string B = "[2; 4; 6|1; 3; 9|5; 7; 3]";
-            var calc = new TestCalc(new());
+            var calc = new TestCalc(new()); 
             calc.Run($"hprod({A}; {B})");
             Assert.Equal("[2 12 30|7 6 54|20 56 27]", calc.ToString());
         }
@@ -271,7 +271,7 @@
             string M = "[1; 4; 6|2; 5; 7|8; 3; 9]";
             var calc = new TestCalc(new());
             calc.Run($"mnorm({M})");
-            Assert.Equal("16.2", calc.ToString()); 
+            Assert.Equal("16.2", calc.ToString());
         }
 
         [Fact]
@@ -281,7 +281,7 @@
             string M = "[2; 3; 4|5; 1; 7|6; 8; 9]";
             var calc = new TestCalc(new());
             calc.Run($"mnorm_e({M})");
-            Assert.Equal("16.88", calc.ToString()); 
+            Assert.Equal("16.88", calc.ToString());
         }
 
         [Fact]
@@ -291,7 +291,7 @@
             string M = "[2; 3; 9|5; 6; 7|1; 8; 4]";
             var calc = new TestCalc(new());
             calc.Run($"mnorm_1({M})");
-            Assert.Equal("20", calc.ToString()); 
+            Assert.Equal("20", calc.ToString());
         }
 
         [Fact]
@@ -301,7 +301,7 @@
             string M = "[3; 5; 7|8; 2; 6|4; 1; 9]";
             var calc = new TestCalc(new());
             calc.Run($"mnorm_2({M})");
-            Assert.Equal("16.07", calc.ToString());  
+            Assert.Equal("16.07", calc.ToString());
         }
 
         [Fact]
@@ -311,7 +311,7 @@
             string M = "[4; 6; 5|3; 8; 2|7; 9; 1]";
             var calc = new TestCalc(new());
             calc.Run($"mnorm_i({M})");
-            Assert.Equal("17", calc.ToString());  
+            Assert.Equal("17", calc.ToString());
         }
 
         [Fact]
@@ -321,7 +321,7 @@
             string M = "[2; 1; 3|4; 7; 6|8; 5; 9]";
             var calc = new TestCalc(new());
             calc.Run($"cond({M})");
-            Assert.Equal("29.42", calc.ToString());  
+            Assert.Equal("29.42", calc.ToString());
         }
 
         [Fact]
@@ -331,7 +331,7 @@
             string M = "[3; 6; 5|8; 2; 4|9; 1; 7]";
             var calc = new TestCalc(new());
             calc.Run($"cond_e({M})");
-            Assert.Equal("10.71", calc.ToString());  
+            Assert.Equal("10.71", calc.ToString());
         }
 
         [Fact]
@@ -341,7 +341,7 @@
             string M = "[5; 3; 1|9; 6; 7|2; 8; 4]";
             var calc = new TestCalc(new());
             calc.Run($"cond_1({M})");
-            Assert.Equal("11.67", calc.ToString()); 
+            Assert.Equal("11.67", calc.ToString());
         }
 
         [Fact]
@@ -351,7 +351,7 @@
             string M = "[6; 4; 2|3; 9; 8|5; 1; 7]";
             var calc = new TestCalc(new());
             calc.Run($"cond_2({M})");
-            Assert.Equal("3.88", calc.ToString());  
+            Assert.Equal("3.88", calc.ToString());
         }
 
         [Fact]
@@ -361,7 +361,7 @@
             string M = "[4; 7; 9|5; 1; 6|8; 2; 3]";
             var calc = new TestCalc(new());
             calc.Run($"cond_i({M})");
-            Assert.Equal("10.7", calc.ToString()); 
+            Assert.Equal("10.7", calc.ToString());
         }
 
         [Fact]
@@ -371,7 +371,7 @@
             string M = "[2; 3; 4|5; 6; 7|8; 9; 1]";
             var calc = new TestCalc(new());
             calc.Run($"det({M})");
-            Assert.Equal("27", calc.ToString());  
+            Assert.Equal("27", calc.ToString());
         }
 
         [Fact]
@@ -381,7 +381,7 @@
             string M = "[1; 3; 5|7; 2; 6|4; 8; 9]";
             var calc = new TestCalc(new());
             calc.Run($"rank({M})");
-            Assert.Equal("3", calc.ToString());  
+            Assert.Equal("3", calc.ToString());
         }
 
         [Fact]
@@ -391,7 +391,7 @@
             string M = "[1; 2; 3|4; 5; 6|7; 8; 9]";
             var calc = new TestCalc(new());
             calc.Run($"trace({M})");
-            Assert.Equal("15", calc.ToString());  
+            Assert.Equal("15", calc.ToString());
         }
 
         [Fact]
@@ -401,7 +401,7 @@
             string M = "[4; 1; 6|7; 2; 9|3; 8; 5]";
             var calc = new TestCalc(new());
             calc.Run($"transp({M})");
-            Assert.Equal("[4 7 3|1 2 8|6 9 5]", calc.ToString());  
+            Assert.Equal("[4 7 3|1 2 8|6 9 5]", calc.ToString());
         }
 
         [Fact]
@@ -411,7 +411,7 @@
             string M = "[2; 5; 7|3; 8; 1|6; 4; 9]";
             var calc = new TestCalc(new());
             calc.Run($"adj({M})");
-            Assert.Equal("[68 -17 -51|-21 -24 19|-36 22 1]", calc.ToString());  
+            Assert.Equal("[68 -17 -51|-21 -24 19|-36 22 1]", calc.ToString());
         }
         [Fact]
         [Trait("Category", "MathFunctions")]
@@ -420,7 +420,7 @@
             string M = "[2; 4; 8|1; 7; 3|5; 9; 6]";
             var calc = new TestCalc(new());
             calc.Run($"cofactor({M})");
-            Assert.Equal("[15 9 -26|48 -28 2|-44 2 10]", calc.ToString());  
+            Assert.Equal("[15 9 -26|48 -28 2|-44 2 10]", calc.ToString());
         }
         [Fact]
         [Trait("Category", "MathFunctions")]
@@ -429,7 +429,7 @@
             var calc = new TestCalc(new());
             calc.Run(["M = copy([1; 3; 1|0; 2; 5|0; 0; 9]; symmetric(3); 1; 1)",
                       "eigenvals(M)"]);
-            Assert.Equal("[-2.27 2.19 12.09]", calc.ToString());  
+            Assert.Equal("[-2.27 2.19 12.09]", calc.ToString());
         }
         [Fact]
         [Trait("Category", "MathFunctions")]
@@ -438,7 +438,7 @@
             var calc = new TestCalc(new());
             calc.Run(["M = copy([7; 8; 9|0; 5; 6|0; 0; 3]; symmetric(3); 1; 1)",
                       "eigenvecs(M)"]);
-            Assert.Equal("[0.658 -0.359 0.661|-0.0844 0.838 0.539|-0.748 -0.411 0.521]", calc.ToString());  
+            Assert.Equal("[0.658 -0.0844 -0.748|-0.359 0.838 -0.411|0.661 0.539 0.521]", calc.ToString());
         }
         [Fact]
         [Trait("Category", "MathFunctions")]
@@ -447,7 +447,7 @@
             var calc = new TestCalc(new());
             calc.Run(["M = copy([4; 1; 2|0; 5; 3|0; 0; 6]; symmetric(3); 1; 1)",
                     "cholesky(M)"]);
-            Assert.Equal("[2 0.5 1|0 2.18 1.15|0 0 1.92]", calc.ToString()); 
+            Assert.Equal("[2 0.5 1|0 2.18 1.15|0 0 1.92]", calc.ToString());
         }
         [Fact]
         [Trait("Category", "MathFunctions")]
@@ -456,7 +456,7 @@
             string M = "[6; 2; 1|8; 7; 3|9; 5; 4]";
             var calc = new TestCalc(new());
             calc.Run($"lu({M})");
-            Assert.Equal("[6 2 1|1.33 4.33 1.67|1.5 0.462 1.73]", calc.ToString());  
+            Assert.Equal("[6 2 1|1.33 4.33 1.67|1.5 0.462 1.73]", calc.ToString());
         }
         [Fact]
         [Trait("Category", "MathFunctions")]
@@ -465,7 +465,7 @@
             string M = "[2; 4; 6|1; 5; 3|9; 7; 8]";
             var calc = new TestCalc(new());
             calc.Run($"svd({M})");
-            Assert.Equal("[-0.433 -0.526 0.732 16.38 -0.535 -0.564 -0.629|-0.32 -0.67 -0.67 3.62 0.83 -0.491 -0.266|-0.842 0.525 -0.122 1.92 -0.159 -0.664 0.73]", calc.ToString());  
+            Assert.Equal("[-0.433 -0.526 0.732 16.38 -0.535 -0.564 -0.629|-0.32 -0.67 -0.67 3.62 0.83 -0.491 -0.266|-0.842 0.525 -0.122 1.92 -0.159 -0.664 0.73]", calc.ToString());
         }
         [Fact]
         [Trait("Category", "MathFunctions")]
@@ -474,7 +474,7 @@
             string M = "[5; 3; 2|1; 4; 7|6; 8; 9]";
             var calc = new TestCalc(new());
             calc.Run($"inverse({M})");
-            Assert.Equal("[0.606 0.333 -0.394|-1 -1 1|0.485 0.667 -0.515]", calc.ToString());  
+            Assert.Equal("[0.606 0.333 -0.394|-1 -1 1|0.485 0.667 -0.515]", calc.ToString());
         }
         [Fact]
         [Trait("Category", "MathFunctions")]
@@ -482,19 +482,60 @@
         {
             string v = "[5; 10; 7]";
             var calc = new TestCalc(new());
-            calc.Run("M = copy([2; 3; 4|0; 5; 6|0; 0; 7]; symmetric(3); 1; 1)");
+            calc.Run("M = [2; 3; 4|3; 5; 6|4; 6; 7]");
             calc.Run($"lsolve(M; {v})");
-            Assert.Equal("[-11 5 3]", calc.ToString());  
+            Assert.Equal("[-11 5 3]", calc.ToString());
         }
         [Fact]
         [Trait("Category", "MathFunctions")]
-        public void MatrixClsolve()
+        public void MatrixMsolve()
+        {
+            string v = "[5; 7|10; 14|7; 22]";
+            var calc = new TestCalc(new());
+            calc.Run("M = [2; 3; 4|3; 5; 6|4; 6; 7]");
+            calc.Run($"msolve(M; {v})");
+            Assert.Equal("[-11 9|5 7|3 -8]", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "MathFunctions")]
+        public void MatrixSymLsolve()
+        {
+            string v = "[5; 10; 7]";
+            var calc = new TestCalc(new());
+            calc.Run("M = copy([2; 3; 4|0; 5; 6|0; 0; 7]; symmetric(3); 1; 1)");
+            calc.Run($"lsolve(M; {v})");
+            Assert.Equal("[-11 5 3]", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "MathFunctions")]
+        public void MatrixSymClsolve()
         {
             string v = "[7; 14; 22]";
             var calc = new TestCalc(new());
             calc.Run("M = copy([4; 1; 2|0; 5; 3|0; 0; 6]; symmetric(3); 1; 1)");
             calc.Run($"clsolve(M; {v})");
-            Assert.Equal("[-0.1 0.857 3.27]", calc.ToString());  
+            Assert.Equal("[-0.1 0.857 3.27]", calc.ToString());
+        }
+
+        [Fact]
+        [Trait("Category", "MathFunctions")]
+        public void MatrixSymMsolve()
+        {
+            string v = "[5; 7|10; 14|7; 22]";
+            var calc = new TestCalc(new());
+            calc.Run("M = copy([2; 3; 4|0; 5; 6|0; 0; 7]; symmetric(3); 1; 1)");
+            calc.Run($"msolve(M; {v})");
+            Assert.Equal("[-11 9|5 7|3 -8]", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "MathFunctions")]
+        public void MatrixSymCmsolve()
+        {
+            string v = "[5; 7|10; 14|7; 22]";
+            var calc = new TestCalc(new());
+            calc.Run("M = copy([4; 1; 2|0; 5; 3|0; 0; 6]; symmetric(3); 1; 1)");
+            calc.Run($"cmsolve(M; {v})");
+            Assert.Equal("[0.8 -0.1|1.86 0.857|-0.0286 3.27]", calc.ToString());
         }
         #endregion
 

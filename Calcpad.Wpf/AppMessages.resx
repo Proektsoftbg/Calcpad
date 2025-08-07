@@ -127,4 +127,13 @@ Source: "{1}"</value>
   <data name="NYourDataWasSavedBothToClipboardAndTempFile" xml:space="preserve">
     <value>\nYour data was saved both to clipboard and temp file: </value>
   </data>
+  <data name="InvalidOperator" xml:space="preserve">
+    <value>Invalid operator.</value>
+  </data>
+  <data name="InvalidFormatString" xml:space="preserve">
+    <value>Invalid format string.</value>
+  </data>
+  <data name="ClickToOpenFile" xml:space="preserve">
+    <value>Click to open file.</value>
+  </data>
 </root>

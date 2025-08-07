@@ -3,7 +3,7 @@
 w = 300','h = 800
 p = [0; 0|w; 0|w/2; h]
 v = [random(w); random(h)]
-n = 49990
+n = 100000
 #show
 '<svg viewbox="'0' '-40' 'w' 'h + 120'" style="width:'w'px; height:'h'px;">
 #for i = 1 : n

@@ -1,0 +1,209 @@
+'<h2>Trigonometric functions</h2>
+#rad 
+#hide
+vec1 = vector_hp(220)
+#for i = 1 : 12
+	vec1.i = (i^2 - 5*cos(i) + 2.5*(-1)^i - 3*sin(i))/3.0
+#loop
+vec1.5 = 3*π/2
+
+#show
+vec1
+
+sin(vec1)','f(vec1) = sin(vec1)
+c = f(vec1)
+cos(vec1)','f(vec1) = cos(vec1)
+c = f(vec1)
+tan(vec1)','f(vec1) = tan(vec1)
+c = f(vec1)
+cot(vec1)','f(vec1) = cot(vec1)
+c = f(vec1)
+sec(vec1)','f(vec1) = sec(vec1)
+c = f(vec1)
+csc(vec1)','f(vec1) = csc(vec1)
+c = f(vec1)
+
+'<h2>Hyperbolic functions</h2>
+
+#hide
+vec2 = vector_hp(12000)
+#for i = 1 : 12
+	vec2.i = (i^3 - 5*tan(i) + (-1)^i*log(i + 1) - 2*(i⦼3))/5.0
+#loop
+vec2.5 = 5*π/6
+#show
+vec2
+
+
+sinh(vec2)','f(vec2) = sinh(vec2)
+c = f(vec2)
+cosh(vec2)','f(vec2) = cosh(vec2)
+c = f(vec2)
+tanh(vec2)','f(vec2) = tanh(vec2)
+c = f(vec2)
+coth(vec2)','f(vec2) = coth(vec2)
+c = f(vec2)
+sech(vec2)','f(vec2) = sech(vec2)
+c = f(vec2)
+csch(vec2)','f(vec2) = csch(vec2)
+c = f(vec2)
+
+'<h2>Inverse trigonometric functions</h2>
+
+#hide
+vec3 = vector_hp(500000)
+#for i = 1 : 21
+	vec3.i = (i^3 - 5*tan(i) + (-1)^i*log(i + 1) - 2*(i⦼3))/5.0
+#loop
+vec3.3 = 7*π/8
+#show
+vec3
+
+
+asin(vec3)','f(vec3) = asin(vec3)
+c = f(vec3)
+acos(vec3)','f(vec3) = acos(vec3)
+c = f(vec3)
+atan(vec3)','f(vec3) = atan(vec3)
+c = f(vec3)
+acot(vec3)','f(vec3) = acot(vec3)
+c = f(vec3)
+asec(vec3)','f(vec3) = asec(vec3)
+c = f(vec3)
+acsc(vec3)','f(vec3) = acsc(vec3)
+c = f(vec3)
+atan2(vec1; vec2)','f(vec1; vec2) = atan2(vec1; vec2)
+c = f(vec1; vec2)
+
+'<h2>Inverse hyperbolic functions</h2>
+
+#hide
+vec4 = vector_hp(12500)
+#for i = 1 : 9
+	vec4.i = (i^2 - exp(i) + 3*sqrt(i) - (-1)^i*log(i + 1))/4.0
+#loop
+vec4.9 = 2*π/3
+#show
+vec4
+
+asinh(vec4)','f(vec4) = asinh(vec4)
+c = f(vec4)
+acosh(vec4)','f(vec4) = acosh(vec4)
+c = f(vec4)
+atanh(vec4)','f(vec4) = atanh(vec4)
+c = f(vec4)
+acoth(vec4)','f(vec4) = acoth(vec4)
+c = f(vec4)
+asech(vec4)','f(vec4) = asech(vec4)
+c = f(vec4)
+acsch(vec4)','f(vec4) = acsch(vec4)
+c = f(vec4)
+
+'<h2>Power and logarithmic functions</h2>
+
+#hide
+vec5 = vector_hp(870)
+#for i = 1 : 5
+	vec5.i = (i^3 - 2*sin(i) + 3*cos(i) - sqrt(i) + (-1)^i*log(i + 1))/5.0
+#loop
+vec5.2 = 2*π/7
+#show
+vec5
+
+ln(vec5)','f(vec5) = ln(vec5)
+c = f(vec5)
+log(vec5)','f(vec5) = log(vec5)
+c = f(vec5)
+log_2(vec5)','f(vec5) = log_2(vec5)
+c = f(vec5)
+exp(vec5)','f(vec5) = exp(vec5)
+c = f(vec5)
+sqr(vec5)','f(vec5) = sqr(vec5)
+c = f(vec5)
+sqrt(vec5)','f(vec5) = sqrt(vec5)
+c = f(vec5)
+cbrt(vec5)','f(vec5) = cbrt(vec5)
+c = f(vec5)
+n = 5
+root(vec5; n)','f(vec5; n) = root(vec5; n)
+c = f(vec5; n)
+
+'<h2>Rounding functions</h2>
+
+#hide
+vec6 = vector_hp(12870)
+#for i = 1 : 14
+	vec6.i = (i^3 - 2*sin(i) + 3*cos(i) - sqrt(i) + (-1)^i*log(i + 1))/5.0
+#loop
+vec6.12 = 4*π/5
+#show
+vec6
+
+
+
+round(vec6)','f(vec6) = round(vec6)
+c = f(vec6)
+floor(vec6)','f(vec6) = floor(vec6)
+c = f(vec6)
+ceiling(vec6)','f(vec6) = ceiling(vec6)
+c = f(vec6)
+trunc(vec6)','f(vec6) = trunc(vec6)
+c = f(vec6)
+
+'<h2>Integer functions</h2>
+
+#hide
+vec7 = vector_hp(111111)
+#for i = 1 : 16
+	vec7.i = (i^2 - 5*sin(i) + 3*cos(i) - sqrt(i) + (-1)^i*log(i + 1))/4.0
+#loop
+vec7.4 = 4*π/3
+
+vec7
+vec_int = vector_hp(1250111)
+#for i = 1 : 8
+	vec_int.i = i^2 + 12
+#loop
+n = 3
+#show
+vec_int
+mod(vec7; n)','f(vec7; n) = mod(vec7; n)
+c = f(vec7; n)
+
+gcd(vec_int; n)','f(vec_int; n) = gcd(vec_int; n)
+c = f(vec_int; n)
+lcm(vec_int)','f(vec_int) = lcm(vec_int)
+c = f(vec_int)
+
+'<h2>Unit & HP functions</h2>
+#hide
+vec8 = vector_hp(111111)*dm
+#for i = 1 : 16
+	vec8.i = ((i^2 - 5*sin(i) + 3*cos(i) - sqrt(i) + (-1)^i*log(i + 1))/4.0)*dm
+#loop
+#show
+
+vec7
+getUnits(vec7)
+vec8
+getUnits(vec8)
+setUnits(vec8; cm)
+clrUnits(vec8)
+'проверка какво може да се случи ако вектор е подаден като hp два пъти
+isHp(vec8)
+hp(vec8)
+isHp(vec8)
+
+
+'<h2>Other functions</h2>
+sign(vec7)','f(vec7) = sign(vec7)
+c = f(vec7)
+random(vec7)','f(vec7) = random(vec7)
+c = f(vec7)
+
+
+
+
+
+
+

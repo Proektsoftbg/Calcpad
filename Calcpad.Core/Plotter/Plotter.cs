@@ -16,15 +16,16 @@ namespace Calcpad.Core
         protected int Right;
         protected PlotSettings Settings;
         protected MathParser Parser;
-
+        protected TextWriter Writer;
         protected Plotter(MathParser parser, PlotSettings settings)
         {
             Settings = settings;
             Parser = parser;
-            ScreenScaleFactor = 2*(float)settings.ScreenScaleFactor;
+            ScreenScaleFactor = 2 * (float)settings.ScreenScaleFactor;
             Margin = (int)(30 * ScreenScaleFactor);
             Left = Margin;
             Right = Margin;
+            Writer = new(null);
         }
 
         protected static void FixBounds(ref double min, ref double max)
@@ -58,9 +59,10 @@ namespace Calcpad.Core
             using var gridPen = CreateGridPen();
             using var axisPen = CreateAxisPen();
             using var textPen = CreateTextPen();
+            using var textFont = CreateTextFont();
             using var framePen = CreateFramePen();
-            var sz = new SKRect();
-            textPen.MeasureText(" -0.12 ", ref sz);
+            textFont.MeasureText(" -0.12 ", out SKRect rect, textPen);
+            var sz = rect.Size;
             var tw = sz.Width / 5f;
             var th = sz.Height / 2f;
             float xn = Width - Right;
@@ -79,7 +81,7 @@ namespace Calcpad.Core
             var a = 4f * ScreenScaleFactor;
             var xt = Left - tw / 2f - a / 2f;
             string s;
-            textPen.TextAlign = SKTextAlign.Right;
+            var textAlign = SKTextAlign.Right;
             while ((yg < max) == (stepY > 0))
             {
                 var y = (float)(y0 - yg * ys);
@@ -92,15 +94,15 @@ namespace Calcpad.Core
                 if (Math.Abs(yg) < stepY * 1e-8)
                     s = "0";
                 else if (isScientific)
-                    s = yg.ToString("0.##E+0", CultureInfo.InvariantCulture);
+                    s = yg.ToString("0.##E+0", CultureInfo.CurrentCulture);
                 else
-                    s = OutputWriter.FormatNumberHelper(yg, 2);
+                    s = Writer.FormatNumberHelper(yg, null);
 
-                canvas.DrawText(s, xt, y + th, textPen);
+                canvas.DrawText(s, xt, y + th, textAlign, textFont, textPen);
                 yg += stepY;
             }
-            var sx0 = OutputWriter.FormatNumberHelper(bounds.Left, 2);
-            var sx1 = OutputWriter.FormatNumberHelper(bounds.Right, 2);
+            var sx0 = Writer.FormatNumberHelper(bounds.Left, null);
+            var sx1 = Writer.FormatNumberHelper(bounds.Right, null);
             var n = Math.Max(sx0.Length, sx1.Length) + 2;
             maxSteps = Math.Min(15, (int)((xn - Left) / (tw * n)));
             delta = bounds.Right - bounds.Left;
@@ -117,11 +119,11 @@ namespace Calcpad.Core
             isScientific = Math.Abs(bounds.Right) + Math.Abs(bounds.Left) >= 20000;
             if (midLine)
             {
-                n = OutputWriter.FormatNumberHelper(Math.Round(max / stepX) * stepX, 2).Length + 2;
+                n = Writer.FormatNumberHelper(Math.Round(max / stepX) * stepX, null).Length + 2;
                 if (tw * n < stepX * xs)
                     midLine = false;
             }
-            textPen.TextAlign = SKTextAlign.Center;
+            textAlign = SKTextAlign.Center;
             var even = true;
             while ((xg < max) == (stepX > 0))
             {
@@ -137,36 +139,36 @@ namespace Calcpad.Core
                     if (Math.Abs(xg) < stepX * 1e-8)
                         s = "0";
                     else if (isScientific)
-                        s = xg.ToString("0.##E+0", CultureInfo.InvariantCulture);
+                        s = xg.ToString("0.##E+0", CultureInfo.CurrentCulture);
                     else
-                        s = OutputWriter.FormatNumberHelper(xg, 2);
+                        s = Writer.FormatNumberHelper(xg, null);
 
-                    canvas.DrawText(s, x, yt, textPen);
+                    canvas.DrawText(s, x, yt, textAlign, textFont, textPen);
                 }
                 if (midLine)
                     even = !even;
                 xg += stepX;
             }
-            textPen.TextAlign = SKTextAlign.Left;
+            textAlign = SKTextAlign.Left;
             canvas.DrawRect(Left, Margin, xn - Left, yn - Margin, framePen);
             if (y0 >= Margin - 0.1 && y0 <= yn + 0.1)
             {
                 canvas.DrawLine(Left, (float)y0, xn, (float)y0, axisPen);
-                canvas.DrawText("x", xn + tw, (float)y0, textPen);
+                canvas.DrawText("x", xn + tw, (float)y0, textAlign, textFont, textPen);
             }
             if (x0 >= Left - 0.1 && x0 <= xn + 0.1)
             {
                 canvas.DrawLine((float)x0, Margin, (float)x0, yn, axisPen);
-                canvas.DrawText("y", (float)x0 - tw / 2f, Margin - 2f * th, textPen);
+                canvas.DrawText("y", (float)x0 - tw / 2f, Margin - 2f * th, textAlign, textFont, textPen);
             }
-            var sy0 = OutputWriter.FormatNumberHelper(bounds.Bottom, 2);
-            var sy1 = OutputWriter.FormatNumberHelper(bounds.Top, 2);
-            textPen.TextAlign = SKTextAlign.Left;
+            var sy0 = Writer.FormatNumberHelper(bounds.Bottom, null);
+            var sy1 = Writer.FormatNumberHelper(bounds.Top, null);
+            textAlign = SKTextAlign.Left;
             textPen.Color = SKColors.Gray;
             a /= 2f;
-            canvas.DrawText($"[{sx0}; {sy0}]", a, Height - 0.5f * th - a, textPen);
-            textPen.TextAlign = SKTextAlign.Right;
-            canvas.DrawText($"[{sx1}; {sy1}]", Width - a, 2f * th + a, textPen);
+            canvas.DrawText($"[{sx0}; {sy0}]", a, Height - 0.5f * th - a, textAlign, textFont, textPen);
+            textAlign = SKTextAlign.Right;
+            canvas.DrawText($"[{sx1}; {sy1}]", Width - a, 2f * th + a, textAlign, textFont, textPen);
         }
 
         protected SKPaint CreateGridPen() => new()
@@ -193,17 +195,20 @@ namespace Calcpad.Core
             IsAntialias = true
         };
 
+        protected SKFont CreateTextFont() => new()
+        {
+            Typeface = SKTypeface.FromFamilyName("Segoe UI"),
+            Size = 12f * ScreenScaleFactor,
+            Edging = SKFontEdging.Antialias,
+            Hinting = SKFontHinting.None
+        };
 
-        protected SKPaint CreateTextPen() => new()
+        protected static SKPaint CreateTextPen() => new()
         {
             Style = SKPaintStyle.StrokeAndFill,
             Color = SKColors.Black,
             StrokeWidth = 0.5f,
-            Typeface = SKTypeface.FromFamilyName("Segoe UI"),
-            TextSize = 12f * ScreenScaleFactor,
-            TextAlign = SKTextAlign.Left,
-            IsAntialias = true,
-            IsAutohinted = true
+            IsAntialias = true
         };
 
         protected void DrawGridSvg(SvgDrawing canvas, double x0, double y0, double xs, double ys, Box bounds)
@@ -226,7 +231,7 @@ namespace Calcpad.Core
             var a = 4f * ScreenScaleFactor;
             var xt = Left - tw / 2f - a / 2f;
             string s;
-            canvas.DrawRectangle(Left, Margin, xn - Left, yn - Margin, "PlotFrame");
+            canvas.DrawRectangle(Left, Margin, xn - Left, yn - Margin, "Frame");
             while ((yg < max) == (stepY > 0))
             {
                 var y = y0 - yg * ys;
@@ -234,20 +239,20 @@ namespace Calcpad.Core
                     break;
 
                 if (yg >= bounds.Bottom && yg <= bounds.Top)
-                    canvas.DrawLine(Left, y, xn, y, "PlotGrid");
+                    canvas.DrawLine(Left, y, xn, y, "Grid");
 
                 if (Math.Abs(yg) < stepY * 1e-8)
                     s = "0";
                 else if (isScientific)
-                    s = yg.ToString("0.##E+0", CultureInfo.InvariantCulture);
+                    s = yg.ToString("0.##E+0", CultureInfo.CurrentCulture);
                 else
-                    s = OutputWriter.FormatNumberHelper(yg, 2);
+                    s = Writer.FormatNumberHelper(yg, null);
 
-                canvas.DrawText(s, xt, y + th, "end");
+                canvas.DrawText(s, xt, y + th, "sm end");
                 yg += stepY;
             }
-            var sx0 = OutputWriter.FormatNumberHelper(bounds.Left, 2);
-            var sx1 = OutputWriter.FormatNumberHelper(bounds.Right, 2);
+            var sx0 = Writer.FormatNumberHelper(bounds.Left, null);
+            var sx1 = Writer.FormatNumberHelper(bounds.Right, null);
             var n = Math.Max(sx0.Length, sx1.Length) + 2;
             maxSteps = Math.Min(15, (int)((xn - Left) / (tw * n)));
             delta = bounds.Right - bounds.Left;
@@ -266,7 +271,7 @@ namespace Calcpad.Core
             isScientific = Math.Abs(bounds.Right) + Math.Abs(bounds.Left) >= 20000;
             if (midLine)
             {
-                n = OutputWriter.FormatNumberHelper(Math.Round(max / stepX) * stepX, 2).Length + 2;
+                n = Writer.FormatNumberHelper(Math.Round(max / stepX) * stepX, null).Length + 2;
                 if (tw * n < stepX * xs)
                     midLine = false;
             }
@@ -278,18 +283,18 @@ namespace Calcpad.Core
                     break;
 
                 if (xg >= bounds.Left && xg <= bounds.Right)
-                    canvas.DrawLine(x, Margin, x, yn, "PlotGrid");
+                    canvas.DrawLine(x, Margin, x, yn, "Grid");
 
                 if (even)
                 {
                     if (Math.Abs(xg) < stepX * 1e-8)
                         s = "0";
                     else if (isScientific)
-                        s = xg.ToString("0.##E+0", CultureInfo.InvariantCulture);
+                        s = xg.ToString("0.##E+0", CultureInfo.CurrentCulture);
                     else
-                        s = OutputWriter.FormatNumberHelper(xg, 2);
+                        s = Writer.FormatNumberHelper(xg, null);
 
-                    canvas.DrawText(s, x, yt, "middle");
+                    canvas.DrawText(s, x, yt, "sm mid");
                 }
                 if (midLine)
                     even = !even;
@@ -298,16 +303,16 @@ namespace Calcpad.Core
             }
             if (y0 >= Margin - 0.1 && y0 <= yn + 0.1)
             {
-                canvas.DrawLine(Left, y0, xn, y0, "PlotAxis");
+                canvas.DrawLine(Left, y0, xn, y0, "Axis");
                 canvas.DrawText("x", xn + tw, y0 - th);
             }
             if (x0 >= Left - 0.1 && x0 <= xn + 0.1)
             {
-                canvas.DrawLine(x0, Margin, x0, yn, "PlotAxis");
-                canvas.DrawText("y", x0, Margin - 2*th, "middle");
+                canvas.DrawLine(x0, Margin, x0, yn, "Axis");
+                canvas.DrawText("y", x0, Margin - 2 * th, "mid");
             }
-            var sy0 = OutputWriter.FormatNumberHelper(bounds.Bottom, 2);
-            var sy1 = OutputWriter.FormatNumberHelper(bounds.Top, 2);
+            var sy0 = Writer.FormatNumberHelper(bounds.Bottom, null);
+            var sy1 = Writer.FormatNumberHelper(bounds.Top, null);
             a /= 2f;
             canvas.DrawText($"[{sx0}; {sy0}]", a, Height - 0.5d * th - a);
             canvas.DrawText($"[{sx1}; {sy1}]", Width - a, 2d * th + a, "end");
@@ -333,8 +338,7 @@ namespace Calcpad.Core
             }
             catch
             {
-                Throw.ErrorWritingPngFileException(fullPath);
-                return null;
+                throw Exceptions.ErrorWritingPngFile(fullPath);
             }
         }
 
@@ -350,8 +354,7 @@ namespace Calcpad.Core
             }
             catch
             {
-                Throw.ErrorWritingSvgFileException(fullPath);
-                return null;
+                throw Exceptions.ErrorWritingSvgFile(fullPath);
             }
         }
 
@@ -367,8 +370,7 @@ namespace Calcpad.Core
             }
             catch
             {
-                Throw.ErrorConvertingPngToBase64Exception();
-                return null;
+                throw Exceptions.ErrorConvertingPngToBase64();
             }
         }
 

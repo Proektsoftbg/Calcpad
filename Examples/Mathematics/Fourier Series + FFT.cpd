@@ -1,0 +1,26 @@
+"Fourier series expansion
+#rad
+'Number of iterations -'n = 20
+'Interval length -'l = 10
+'Function -'f(x) = (e^x - x^2 - 2*x^4)/l
+'Coefficients -'a_0 = 2/l*$Integral{f(x) @ x = 0 : l}
+a(k) = 2/l*$Integral{f(x)*cos(2*π*k/l*x) @ x = 0 : l}', ' _
+b(k) = 2/l*$Integral{f(x)*sin(2*π*k/l*x) @ x = 0 : l}
+'Expansion to series
+f_s(x) = a_0/2 + $Sum{a(k)*cos(2*π*k/l*x) + b(k)*sin(2*π*k/l*x) @ k = 1 : n}
+'Plot the function and Fourier approximation
+$Plot{f(x) & f_s(x) @ x = 0 : l}
+"Fourier series expansion via FFT
+'Number of samples -'n = 32
+'Sampling step -'dx = l/n
+'Sample points -'x = range(0; n; 1)*dx
+'Apply FFT -'y = fft(hp([f(x)|0]))
+'Fourier coefficients from FFT:
+a_0 = y.(1; 1)/n'- first coefficient
+a(k) = y.(1; k + 1)/n'- cosine coefficients, ' _
+b(k) = -(y.(2; k + 1)/n)'-sine coefficients
+x_t(x) = l - x/2'- abscissa scalling
+'Function reconstruction
+f_fft(x) = a_0/2 + $Sum{a(k)*cos(2*π*k/l*x_t(x)) + b(k)*sin(2*π*k/l*x_t(x)) @ k = 1 : n}
+'Plot the function and its FFT-based Fourier approximation
+$Plot{f(x) & f_fft(x) @ x = 0 : l}

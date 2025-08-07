@@ -1,0 +1,215 @@
+
+'<h1>Arithmetic operators</h1>'
+#hide
+m1 = utriang_hp(7)*L
+m2 = utriang_hp(7)*mL
+m1.(1; 1) = 9L
+m1.(1; 2) = -4L
+m1.(1; 3) = 3.14L
+m1.(1; 4) = -7L
+m1.(1; 5) = 8.88L
+m1.(1; 6) = 2.4L
+m1.(1; 7) = -1.1L
+
+m1.(2; 2) = 6L
+m1.(2; 3) = -5.5L
+m1.(2; 4) = 4L
+m1.(2; 5) = 1.3L
+m1.(2; 6) = -2.7L
+m1.(2; 7) = 3.3L
+
+m1.(3; 3) = -2.22L
+m1.(3; 4) = 2.5L
+m1.(3; 5) = -2.2L
+m1.(3; 6) = 4.1L
+m1.(3; 7) = -0.6L
+
+m1.(4; 4) = 7L
+m1.(4; 5) = 1.7L
+m1.(4; 6) = -1.5L
+m1.(4; 7) = 2.8L
+
+m1.(5; 5) = 5.5L
+m1.(5; 6) = 9.9L
+m1.(5; 7) = -3.7L
+
+m1.(6; 6) = -6L
+m1.(6; 7) = 1.6L
+
+m1.(7; 7) = 11L
+
+m2.(1; 1) = 4.5mL
+m2.(1; 2) = -3.2mL
+m2.(1; 3) = 2.8mL
+m2.(1; 4) = -1.6mL
+m2.(1; 5) = 0.9mL
+m2.(1; 6) = -7.1mL
+m2.(1; 7) = 5.2mL
+
+m2.(2; 2) = -5.7mL
+m2.(2; 3) = 3.9mL
+m2.(2; 4) = -4.8mL
+m2.(2; 5) = 6.3mL
+m2.(2; 6) = -2.4mL
+m2.(2; 7) = 8.1mL
+
+m2.(3; 3) = 7.6mL
+m2.(3; 4) = -6.2mL
+m2.(3; 5) = 1.1mL
+m2.(3; 6) = -9.5mL
+m2.(3; 7) = 4.3mL
+
+m2.(4; 4) = -2.9mL
+m2.(4; 5) = 5.8mL
+m2.(4; 6) = -3.7mL
+m2.(4; 7) = 9.6mL
+
+m2.(5; 5) = 0.4mL
+m2.(5; 6) = -1.3mL
+m2.(5; 7) = 2.2mL
+
+m2.(6; 6) = 6.4mL
+m2.(6; 7) = -8.7mL
+
+m2.(7; 7) = 3.3mL
+
+#show
+
+m1
+
+m2
+
+
+c = m1 + m2
+f(m1; m2) = m1 + m2
+c1 = f(m1; m2)
+
+
+c = m1 - m2
+f(m1; m2) = m1 - m2
+c1 = f(m1; m2)
+
+'Multiplication with units is inapplicable
+'c = m1*m2
+'f(m1; m2) = m1*m2
+'c1 = f(m1; m2)
+
+c = m1/m2
+f(m1; m2) = m1/m2
+c1 = f(m1; m2)
+
+"Exponentiation and the remainder operators must be without a unit. Therefore we need to define an unitless matrix
+#hide
+matrix_unitless = symmetric_hp(7)
+matrix_unitless.(1; 1) = 9
+matrix_unitless.(2; 2) = -4
+matrix_unitless.(3; 3) = 3.14
+matrix_unitless.(4; 4) = -7
+matrix_unitless.(5; 5) = 8.88
+matrix_unitless.(6; 6) = -2.22
+matrix_unitless.(7; 7) = 10
+
+matrix_unitless.(1; 2) = 8
+matrix_unitless.(1; 3) = -3.5
+matrix_unitless.(1; 4) = 2
+matrix_unitless.(1; 5) = -1.2
+matrix_unitless.(1; 6) = 0.9
+matrix_unitless.(1; 7) = -5
+
+matrix_unitless.(2; 3) = 7
+matrix_unitless.(2; 4) = -2.5
+matrix_unitless.(2; 5) = 1.8
+matrix_unitless.(2; 6) = -1.1
+matrix_unitless.(2; 7) = 3
+
+matrix_unitless.(3; 4) = 6
+matrix_unitless.(3; 5) = -2
+matrix_unitless.(3; 6) = 1.5
+matrix_unitless.(3; 7) = -4
+
+matrix_unitless.(4; 5) = 5
+matrix_unitless.(4; 6) = -1.5
+matrix_unitless.(4; 7) = 2
+
+matrix_unitless.(5; 6) = 4
+matrix_unitless.(5; 7) = -7
+
+matrix_unitless.(6; 7) = 9
+#show
+matrix_unitless
+c = m1^matrix_unitless
+f(m1; matrix_unitless) = m1^matrix_unitless
+c = f(m1; matrix_unitless)
+
+c = m1⦼matrix_unitless
+f(m1; matrix_unitless) = m1⦼matrix_unitless
+c = f(m1; matrix_unitless)
+
+
+
+c = m1\m2
+f(m1; m2) = m1\m2
+c1 = f(m1; m2)
+
+c = m1÷m2
+f(m1; m2) = m1÷m2
+c1 = f(m1; m2)
+
+#hide
+fm = utriang_hp(5)
+fm.(1; 2) = 10
+fm.(1; 3) = 7
+fm.(1; 4) = 8
+fm.(1; 5) = 9
+fm.(2; 3) = 12
+fm.(2; 4) = 5
+fm.(2; 5) = 14
+fm.(3; 4) = 11
+fm.(3; 5) = 6
+fm.(4; 5) = 13
+
+#show
+fm
+c = fm!
+f(fm) = fm!
+c1 = f(fm)
+
+'<h1>Relational operators</h1>'
+
+c = m1 ≡ m2
+f(m1; m2) = m1 ≡ m2
+c1 = f(m1; m2)
+
+c = m1 ≠ m2
+f(m1; m2) = m1 ≠ m2
+c1 = f(m1; m2)
+
+c = m1 < m2
+f(m1; m2) = m1 < m2
+c1 = f(m1; m2)
+
+c = m1 > m2
+f(m1; m2) = m1 > m2
+c1 = f(m1; m2)
+
+c = m1 ≥ m2
+f(m1; m2) = m1 ≥ m2
+c1 = f(m1; m2)
+
+c = m1 ≤ m2
+f(m1; m2) = m1 ≤ m2
+c1 = f(m1; m2)
+
+'<h1>Logical operators</h1>'
+
+c = m1 ∧ m2
+f(m1; m2) = m1 ∧ m2
+c1 = f(m1; m2)
+
+c = m1 ∨ m2
+f(m1; m2) = m1 ∨ m2
+c1 = f(m1; m2)
+
+c = m1 ⊕ m2
+f(m1; m2) = m1 ⊕ m2
+c1 = f(m1; m2)

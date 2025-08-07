@@ -5,6 +5,8 @@ namespace Calcpad.Core
     internal class MapParser : PlotParser
     {
         private Func<IValue> _function;
+        private PlotSettings.ColorScales[] _colorScales = Enum.GetValues<PlotSettings.ColorScales>();
+        private PlotSettings.LightDirections[] _lightDirections = Enum.GetValues<PlotSettings.LightDirections>();
         internal MapParser(MathParser parser, PlotSettings settings) : base(parser, settings) { }
 
         internal override string Parse(ReadOnlySpan<char> script, bool calculate)
@@ -15,26 +17,34 @@ namespace Calcpad.Core
             string result;
             var index = 0;
             var bracketCount = 0;
+            var ts = new TextSpan(script);
+            var del = delimiters[0];
             for (int i = 0, len = script.Length; i < len; ++i)
             {
                 var c = script[i];
                 if (c == '{')
                     ++bracketCount;
 
-                if (c == delimiters[index] && bracketCount == 1)
+                if (c == del && bracketCount == 1)
                 {
-                    index++;
+                    if (index > 0)
+                        input[index - 1] = ts.Cut().Trim().ToString();
+
+                    ++index;
                     if (index > n)
                         break;
-                }
-                else if (index > 0)
-                    input[index - 1] += c;
+                    del = delimiters[index];
+                    ts.Reset(i + 1);
+                } 
+                else
+                    ts.Expand();
 
                 if (c == '}')
                     --bracketCount;
             }
             if (index <= n)
                 return string.Format(Messages.Missing_delimiter_0_in_surface_map_command_1, delimiters[index].ToString(), script.ToString());
+            
             for (int i = 0; i < n; ++i)
             {
                 if (string.IsNullOrWhiteSpace(input[i]))
@@ -43,10 +53,9 @@ namespace Calcpad.Core
                     if (part > 3)
                         part -= 3;
 
-                    Throw.MissingMapItemException(Parts[part]);
+                    throw Exceptions.MissingMapItem(Parts[part]);
                 }
             }
-
             input[1] = input[1].Trim();
             input[4] = input[4].Trim();
             if (calculate)
@@ -58,7 +67,7 @@ namespace Calcpad.Core
                 var endX = Parser.CalculateReal();
                 var endUnits = Parser.Units;
                 if (!Unit.IsConsistent(xUnits, endUnits))
-                    Throw.InconsistentUnitsException(Unit.GetText(xUnits), Unit.GetText(endUnits));
+                    throw Exceptions.InconsistentUnits(Unit.GetText(xUnits), Unit.GetText(endUnits));
 
                 if (endUnits is not null)
                 {
@@ -72,7 +81,7 @@ namespace Calcpad.Core
                 var endY = Parser.CalculateReal();
                 endUnits = Parser.Units;
                 if (!Unit.IsConsistent(yUnits, endUnits))
-                    Throw.InconsistentUnitsException(Unit.GetText(yUnits), Unit.GetText(endUnits));
+                    throw Exceptions.InconsistentUnits(Unit.GetText(yUnits), Unit.GetText(endUnits));
 
                 if (endUnits is not null)
                 {
@@ -80,7 +89,7 @@ namespace Calcpad.Core
                     endY *= factor;
                 }
                 if (startX.AlmostEquals(endX) || startY.AlmostEquals(endY))
-                    Throw.PlotLimitsIdenticalException();
+                    throw Exceptions.PlotLimitsIdentical();
 
                 ReadOnlySpan<Parameter> parameters =
                 [
@@ -98,6 +107,12 @@ namespace Calcpad.Core
 
         private string GetHtmlImage(Variable varX, Variable varY, double startX, double endX, double startY, double endY, Unit xUnits, Unit yUnits)
         {
+            int colorScale = (int)Parser.GetSettingsVariable("PlotPalette", (int)Settings.ColorScale);
+            Settings.ColorScale = _colorScales[Math.Clamp(colorScale, 0, _colorScales.Length - 1)];
+            Settings.Shadows = (int)Parser.GetSettingsVariable("PlotShadows", Settings.Shadows ? 1 : 0) != 0;
+            Settings.SmoothScale = (int)Parser.GetSettingsVariable("PlotSmooth", Settings.SmoothScale ? 1 : 0) != 0;
+            int lightDirection = (int)Parser.GetSettingsVariable("PlotLightDir", (int)Settings.LightDirection);
+            Settings.LightDirection = _lightDirections[Math.Clamp(lightDirection, 0, _lightDirections.Length - 1)];
             return new MapPlotter(Parser, Settings).Plot(_function, varX, varY, startX, endX, startY, endY, xUnits, yUnits);
         }
 

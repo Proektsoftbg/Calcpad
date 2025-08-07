@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 
 namespace Calcpad.Core
 {
@@ -29,8 +28,8 @@ namespace Calcpad.Core
         private readonly Operator<RealValue>[] _functions2;
         private static readonly Func<IScalarValue[], IScalarValue>[] MultiFunctions =
             [
-                (IScalarValue[] values) => Min(values),
-                (IScalarValue[] values) => Max(values),
+                values => Min(values),
+                values => Max(values),
                 Sum,
                 SumSq,
                 Srss,
@@ -38,11 +37,11 @@ namespace Calcpad.Core
                 Product,
                 Mean,
                 Switch,
-                (IScalarValue[] values) => And(values),
-                (IScalarValue[] values) => Or(values),
-                (IScalarValue[] values) => Xor(values),
-                (IScalarValue[] values) => Gcd(values),
-                (IScalarValue[] values) => Lcm(values),
+                values => And(values),
+                values => Or(values),
+                values => Xor(values),
+                values => Gcd(values),
+                values => Lcm(values),
             ];
         internal override int Degrees
         {
@@ -133,7 +132,7 @@ namespace Calcpad.Core
         public static RealValue Fact(in RealValue a)
         {
             if (a.Units is not null)
-                Throw.FactorialArgumentUnitlessException();
+                throw Exceptions.FactorialArgumentUnitless();
 
             return new(Fact(a.D));
         }
@@ -495,7 +494,7 @@ namespace Calcpad.Core
             }
             result = Math.Pow(result, 1.0 / values.Length);
             if (u is null)
-                return new  RealValue(result);
+                return new RealValue(result);
 
             u = Unit.Root(u, values.Length);
             return new RealValue(result, u);

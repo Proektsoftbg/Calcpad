@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -50,6 +52,20 @@ namespace Calcpad.Core
                 };
             }
         }
+        //Tolerance for PCG Solver and Eigensolver
+        internal double Tol
+        {
+            get
+            {
+                var tol = GetSettingsVariable("Tol", 1e-6);
+                return tol switch
+                {
+                    < 1e-15 => 1e-15,
+                    > 1e-2 => 1e-2,
+                    _ => tol
+                };
+            }
+        }
         internal bool HasInputFields;
         //If MathParser has input, the line is not cached in ExpressionParser
         internal int Line;
@@ -64,10 +80,10 @@ namespace Calcpad.Core
         public int Degrees { set => _calc.Degrees = value; }
         internal int PlotWidth => (int)GetSettingsVariable("PlotWidth", 500);
         internal int PlotHeight => (int)GetSettingsVariable("PlotHeight", 300);
+        internal bool PlotSVG => GetSettingsVariable("PlotSVG", 0) != 0;
         internal int PlotStep => (int)GetSettingsVariable("PlotStep", 0);
-        internal bool PlotSVG => GetSettingsVariable("PlotSVG", 0) != 0d;
 
-        public const char DecimalSymbol = '.'; //CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator[0];
+        public const char DecimalSymbol = '.';
         internal Complex Result
         {
             get
@@ -101,7 +117,7 @@ namespace Calcpad.Core
                 _calc = new RealCalculator();
 
             _vectorCalc = new VectorCalculator(_calc);
-            _matrixCalc = new MatrixCalculator(_vectorCalc);
+            _matrixCalc = new MatrixCalculator(_vectorCalc) { Parser = this };
             Degrees = settings.Degrees;
             _solver = new Solver
             {
@@ -122,24 +138,6 @@ namespace Calcpad.Core
 
         public void ClearCustomUnits() => _units.Clear();
 
-        public void SetVariable(string name, double value) => 
-            SetVariable(name, new RealValue(value));
-
-        internal void SetVariable(string name, in IScalarValue value)
-        {
-            IScalarValue scalar = _settings.IsComplex ? 
-                value :
-                new RealValue(value.Re, value.Units);
-
-                if (_variables.TryGetValue(name, out Variable v))
-                    v.Assign(scalar);
-            else
-            {
-                _variables.Add(name, new Variable(scalar));
-                _input.DefinedVariables.Add(name);
-            }
-        }
-
         internal IScalarValue GetVariable(string name)
         {
             try
@@ -148,15 +146,271 @@ namespace Calcpad.Core
             }
             catch
             {
-                Throw.VariableNotExistException(name);
-                return default;
+                throw Exceptions.VariableNotExist(name);
             }
         }
+
+        public void SetVariable(string name, double value) =>
+            SetVariable(name, new RealValue(value));
+
+        internal void SetVariable(string name, in IScalarValue value)
+        {
+            IScalarValue scalar = _settings.IsComplex ?
+                value :
+                new RealValue(value.Re, value.Units);
+
+            if (_variables.TryGetValue(name, out Variable v))
+                v.Assign(scalar);
+            else
+            {
+                _variables.Add(name, new Variable(scalar));
+                _input.DefinedVariables.Add(name);
+            }
+        }
+
+        internal string[][] GetMatrix(string name, char type)
+        {
+            if (!_variables.TryGetValue(name, out var variable))
+                throw Exceptions.VariableNotExist(name);
+
+            if (type != 'N' && type != 'Y')
+                throw Exceptions.InvalidType(type);
+
+            var value = variable.Value;
+            Matrix matrix;
+            if (value is Vector vec)
+            {
+                if (type == 'Y')
+                    matrix = new Matrix(vec);
+                else
+                    matrix = new ColumnMatrix(vec);
+            }
+            else if (value is Matrix mat)
+                matrix = mat;
+            else
+                throw Exceptions.VariableNotMatrix(name);
+
+            var rows = matrix.RowCount;
+            var cols = matrix.ColCount;
+            if (type == 'Y')
+            {
+                switch (matrix)
+                {
+                    case ColumnMatrix:
+                    case HpColumnMatrix:
+                        var cmResult = new string[1][];
+                        cmResult[0] = new string[rows];
+                        for (int i = rows - 1; i >= 0; --i)
+                            cmResult[0][i] = matrix[i, 0].ToString();
+                        return cmResult;
+                    case DiagonalMatrix:
+                    case HpDiagonalMatrix:
+                        var dmResult = new string[1][];
+                        dmResult[0] = new string[rows];
+                        for (int i = rows - 1; i >= 0; --i)
+                            dmResult[0][i] = matrix[i, i].ToString();
+                        return dmResult;
+                    case LowerTriangularMatrix:
+                    case HpLowerTriangularMatrix:
+                        var ltmResult = new string[rows][];
+                        for (int i = rows - 1; i >= 0; --i)
+                        {
+                            var size = 0;
+                            for (int j = i; j >= 0; --j)
+                                if (!Equals(matrix[i, j], RealValue.Zero))
+                                {
+                                    size = j;
+                                    break;
+                                }
+                            ltmResult[i] = new string[size + 1];
+                            for (int j = size; j >= 0; --j)
+                                ltmResult[i][j] = matrix[i, j].ToString();
+                        }
+                        return ltmResult;
+                    case UpperTriangularMatrix:
+                    case SymmetricMatrix:
+                    case HpUpperTriangularMatrix:
+                    case HpSymmetricMatrix:
+                        var utmResult = new string[rows][];
+                        for (int i = rows - 1; i >= 0; --i)
+                        {
+                            var size = i;
+                            for (int j = cols - 1; j >= i; --j)
+                                if (!Equals(matrix[i, j], RealValue.Zero))
+                                {
+                                    size = j;
+                                    break;
+                                }
+                            utmResult[i] = new string[size - i + 1];
+                            for (int j = size; j >= i; --j)
+                                utmResult[i][j - i] = matrix[i, j].ToString();
+                        }
+                        return utmResult;
+                }
+            }
+
+            var result = new string[rows][];
+            for (int i = rows - 1; i >= 0; --i)
+            {
+                var size = 0;
+                for (int j = cols - 1; j >= 0; --j)
+                    if (!Equals(matrix[i, j], RealValue.Zero))
+                    {
+                        size = j;
+                        break;
+                    }
+                result[i] = new string[size + 1];
+                for (int j = size; j >= 0; --j)
+                    result[i][j] = matrix[i, j].ToString();
+            }
+            return result;
+        }
+
+        internal void SetMatrix(ReadOnlySpan<char> name, string[][] data, char type, bool isHp)
+        {
+            if (data == null || data.Length == 0 || (data[0]?.Length ?? 0) == 0)
+                return;
+
+            int rows = data.Length;
+            var cols = data.Max(v => v.Length);
+            var n = Math.Max(rows, cols);
+            if ((type == 'C' || type == 'D') && cols != 1 && rows != 1)
+                throw Exceptions.IndexOutOfRange($"{rows}, {cols}");
+
+            Matrix matrix = isHp ?
+             type switch
+             {
+                 'R' => new HpMatrix(rows, cols, null),
+                 'C' => new HpColumnMatrix(n, null),
+                 'D' => new HpDiagonalMatrix(n, null),
+                 'L' => new HpLowerTriangularMatrix(rows, null),
+                 'U' => new HpUpperTriangularMatrix(rows, null),
+                 'S' => new HpSymmetricMatrix(rows, null),
+                 _ => throw Exceptions.InvalidType(type)
+             } :
+             type switch
+             {
+                'R' => new Matrix(rows, cols),
+                'C' => new ColumnMatrix(n),
+                'D' => new DiagonalMatrix(n),
+                'L' => new LowerTriangularMatrix(rows),
+                'U' => new UpperTriangularMatrix(rows),
+                'S' => new SymmetricMatrix(rows),
+                _ => throw Exceptions.InvalidType(type)
+            };
+            switch (type)
+            {
+                case 'C':
+                    if (rows == 1)
+                        for (int j = 0; j < cols; ++j)
+                            matrix[j, 0] = ParseValue(data[0][j]);
+                    else
+                        for (int i = 0; i < rows; ++i)
+                            matrix[i, 0] = ParseValue(data[i][0]);
+                    break;
+                case 'D':
+                    if (rows == 1)
+                        for (int j = 0; j < cols; ++j)
+                            matrix[j, j] = ParseValue(data[0][j]);
+                    else
+                        for (int i = 0; i < rows; ++i)
+                            matrix[i, i] = ParseValue(data[i][0]);
+                    break;
+                case 'L':
+                    for (int i = 0; i < rows; ++i)
+                        for (int j = 0, m = Math.Min(data[i].Length, i + 1); j < m; ++j)
+                            matrix[i, j] = ParseValue(data[i][j]);
+                    break;
+                case 'U':
+                case 'S':
+                    for (int i = 0; i < rows; ++i)
+                        for (int j = 0, m = Math.Min(data[i].Length, rows - i); j < m; ++j)
+                            matrix[i, i + j] = ParseValue(data[i][j]);
+
+                    break;
+                default:
+                    for (int i = 0; i < rows; ++i)
+                        for (int j = 0, m = data[i].Length; j < m; ++j)
+                            matrix[i, j] = ParseValue(data[i][j]);
+                    break;
+            }
+            var nameString = name.ToString();
+            if (_variables.TryGetValue(nameString, out var variable))
+                variable.Assign(matrix);
+            else
+            {
+                _variables.Add(nameString, new Variable(matrix));
+                _input.DefinedVariables.Add(nameString);
+            }
+        }
+
+        internal void SetVector(ReadOnlySpan<char> name, string[][] data, bool isHp)
+        {
+            if (data == null || data.Length == 0 || data[0].Length == 0)
+                return;
+
+            var n = data.Length;
+            var length = data.Sum(v => v.Length);
+            RealValue[] values = new RealValue[length];
+            var k = 0;
+            for (int i = 0; i < n; ++i)
+                for (int j = 0, m = data[i].Length; j < m; ++j)
+                    values[k++] = ParseValue(data[i][j]);
+
+            Vector vector = isHp ? new HpVector(values) : new LargeVector(values);
+            var nameString = name.ToString();
+            if (_variables.TryGetValue(nameString, out var variable))
+                variable.Assign(vector);
+            else
+            {
+                _variables.Add(nameString, new Variable(vector));
+                _input.DefinedVariables.Add(nameString);
+            }
+        }
+
+        private static RealValue ParseValue(ReadOnlySpan<char> s)
+        {
+            if (s.Length == 0)
+                return RealValue.Zero;
+
+            var isUnitChar = true;
+            var n = s.IndexOf('^');
+            if (n < 0)
+                n = s.Length;
+            while (n > 0)
+            {
+                var c = s[n - 1];
+                if (char.IsDigit(c) || c == DecimalSymbol)
+                {
+                    if (isUnitChar)
+                        break;
+
+                    isUnitChar = false;
+                }
+                else
+                    isUnitChar = char.IsLetter(c) || Validator.UnitChars.Contains(c);
+
+                --n;
+            }
+            var d = 1d;
+            if (n > 0 && !double.TryParse(s[..n], out d))
+                throw Exceptions.InvalidNumber(s[..n].ToString());
+
+            Unit u = null;
+            if (n < s.Length)
+            {
+                var unitSpan = s[n..];
+                if (!Unit.TryGet(unitSpan.ToString(), out u))
+                    u = UnitsParser.Parse(unitSpan, null);
+            }
+            return n == 0 ? new(u) : new(d, u);
+        }
+
 
         internal void SetUnit(string name, ComplexValue value)
         {
             var d = value.A;
-            if (Math.Abs(d) == 0)
+            if (Math.Abs(d) == 0d)
                 d = 1d;
 
             var u = d * (value.Units ?? Unit.Get(string.Empty));
@@ -175,8 +429,7 @@ namespace Calcpad.Core
             }
             catch
             {
-                Throw.UnitNotExistException(name);
-                return default;
+                throw Exceptions.UnitNotExist(name);
             }
         }
 
@@ -207,7 +460,7 @@ namespace Calcpad.Core
             if (isFunctionDefinition)
             {
                 if (_isSolver > 0)
-                    Throw.FunctionDefinitionInSolverException();
+                    throw Exceptions.FunctionDefinitionInSolver();
 
                 _rpn = null;
                 AddFunction(input);
@@ -223,7 +476,7 @@ namespace Calcpad.Core
             _functionDefinitionIndex = -1;
             if (cacheId >= 0 && cacheId < _equationCache.Count)
             {
-                _targetUnits = _equationCache[cacheId].TargetUnits;  
+                _targetUnits = _equationCache[cacheId].TargetUnits;
                 _rpn = _equationCache[cacheId].Rpn;
                 return true;
             }
@@ -258,13 +511,13 @@ namespace Calcpad.Core
         internal void BreakIfCanceled()
         {
             if (IsCanceled)
-                Throw.InteruptedByUserException();
+                throw Exceptions.InteruptedByUser();
         }
 
         public void Calculate(bool isVisible = true, int cacheId = -1)
         {
             if (!IsEnabled)
-                Throw.CalculationsNotActiveException();
+                throw Exceptions.CalculationsNotActive();
 
             BreakIfCanceled();
             if (_functionDefinitionIndex < 0)
@@ -280,8 +533,8 @@ namespace Calcpad.Core
                     _result = f();
                     if (isAssignment && _rpn[0] is VariableToken vt)
                     {
-                        ref var v = ref vt.Variable.ValueByRef();
-                        Units = Evaluator.ApplyUnits(ref v, _targetUnits);
+                        ref var val = ref vt.Variable.ValueByRef();
+                        Units = Evaluator.ApplyUnits(ref val, _targetUnits);
                     }
                 }
                 else
@@ -325,8 +578,7 @@ namespace Calcpad.Core
                 _result = new RealValue(complex.A, Units);
                 return complex.A;
             }
-            Throw.MustBeScalarException(Throw.Items.Result);
-            return double.NaN;
+            throw Exceptions.MustBeScalar(Exceptions.Items.Result);
         }
 
         internal void ResetStack() => _evaluator.Reset();
@@ -334,7 +586,7 @@ namespace Calcpad.Core
         internal void CheckReal(in IScalarValue value)
         {
             if (_settings.IsComplex && !value.IsReal)
-                Throw.ResultNotRealException(Core.Complex.Format(value.Complex, _settings.Decimals, OutputWriter.OutputFormat.Text));
+                throw Exceptions.ResultNotReal(Core.Complex.Format(value.Complex, _settings.Decimals, OutputWriter.OutputFormat.Text));
         }
 
         private void AddFunction(Queue<Token> input)
@@ -354,19 +606,19 @@ namespace Calcpad.Core
                         if (t.Type == TokenTypes.BracketRight)
                         {
                             if (pt.Type != TokenTypes.Variable)
-                                Throw.MissingFunctionParameterException();
+                                throw Exceptions.MissingFunctionParameter();
 
                             break;
                         }
                         if (t.Type == TokenTypes.Variable)
                             parameters.Add(t.Content);
                         else if (t.Type != TokenTypes.Divisor)
-                            Throw.IvalidFunctionTokenException(t.Content);
+                            throw Exceptions.InvalidFunctionToken(t.Content);
 
-                        if ((pt.Type == t.Type || 
-                            pt.Type == TokenTypes.BracketLeft && 
+                        if ((pt.Type == t.Type ||
+                            pt.Type == TokenTypes.BracketLeft &&
                             t.Type == TokenTypes.Divisor) && t.Type == TokenTypes.Divisor)
-                            Throw.MissingFunctionParameterException();
+                            throw Exceptions.MissingFunctionParameter();
                         pt = t;
                     }
                     if (input.Count != 0 && input.Dequeue().Content == "=")
@@ -385,10 +637,10 @@ namespace Calcpad.Core
                         }
                         catch
                         {
-                            Throw.CircularReferenceException(name);
+                            throw Exceptions.CircularReference(name);
                         }
                         if (cf.IsRecursion)
-                            Throw.CircularReferenceException(name);
+                            throw Exceptions.CircularReference(name);
 
                         if (IsEnabled)
                         {
@@ -403,12 +655,12 @@ namespace Calcpad.Core
                     }
                 }
             }
-            Throw.InvalidFunctionDefinitionException();
+            throw Exceptions.InvalidFunctionDefinition();
         }
 
-        private CustomFunction CreateFunction(int parameterCount)
+        private static CustomFunction CreateFunction(int parameterCount)
         {
-            return  parameterCount switch
+            return parameterCount switch
             {
                 1 => new CustomFunction1(),
                 2 => new CustomFunction2(),
@@ -465,7 +717,7 @@ namespace Calcpad.Core
                     {
                         sb.Append(FormatResultValue(vector[i]));
                         if (i < len)
-                            sb.Append(Output.VectorSpacing[0]);
+                            sb.Append(OutputWriter.VectorSpacing[0]);
                     }
                 else if (_result is Matrix matrix)
                     for (int i = 0, m = matrix.RowCount - 1; i <= m; ++i)
@@ -473,13 +725,13 @@ namespace Calcpad.Core
                         {
                             sb.Append(FormatResultValue(matrix[i, j]));
                             if (j < n)
-                                sb.Append(Output.VectorSpacing[0]);
+                                sb.Append(OutputWriter.VectorSpacing[0]);
                             else if (i < m)
                                 sb.Append('|');
                         }
 
                 sb.Append(']');
-                return sb.ToString();   
+                return sb.ToString();
 
                 string FormatResultValue(in IScalarValue value)
                 {
@@ -529,23 +781,34 @@ namespace Calcpad.Core
                 sb.Append(']');
                 return sb.ToString();
 
-                string FormatResultValue(in IScalarValue value) =>
-                    Core.Complex.Format(value.Complex, _settings.Decimals, OutputWriter.OutputFormat.Text);
+                string FormatResultValue(in IScalarValue value)
+                {
+                    var decimals = _settings.Decimals;
+                    if (value is RealValue real)
+                        return Convert(real.D);
+
+                    var c = value.Complex;
+                    if (c.IsReal)
+                        return Convert(c.Re);
+
+                    if (c.IsImaginary)
+                        return Convert(c.Im) + 'i';
+
+                    var sa = Convert(c.Re);
+                    var sb = Convert(Math.Abs(c.Im));
+                    return c.Im < 0 ? $"{sa} – {sb}i" : $"{sa} + {sb}i";
+
+                    string Convert(double d) =>
+                        Math.Round(d, decimals).ToString(CultureInfo.InvariantCulture);
+                }
             }
         }
-
-
 
         public override string ToString() => _output.Render(OutputWriter.OutputFormat.Text);
         public string ToHtml() => _output.Render(OutputWriter.OutputFormat.Html);
         public string ToXml() => _output.Render(OutputWriter.OutputFormat.Xml);
 
-        public class MathParserException : Exception
-        {
-            internal MathParserException(string message) : base(message) { }
-        }
-
-        private double GetSettingsVariable(string name, double defaultValue)
+        internal double GetSettingsVariable(string name, double defaultValue)
         {
             if (_variables.TryGetValue(name, out var v))
             {
@@ -554,7 +817,7 @@ namespace Calcpad.Core
                     return scalar.Re;
 
                 if (ival is not null)
-                    Throw.MustBeScalarException(Throw.Items.Variable);
+                    throw Exceptions.MustBeScalar(Exceptions.Items.Variable);
             }
             return defaultValue;
         }

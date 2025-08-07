@@ -89,7 +89,10 @@ namespace Calcpad.Core
 
         public override string ToString()
         {
-            var s = Units is null ? string.Empty : " " + Units.Text;
+            if (IsUnit)
+                return Units.Text;
+
+            var s = Units is null ? string.Empty : Units.Text;
             return $"{D}{s}";
         }
 
@@ -190,7 +193,7 @@ namespace Calcpad.Core
         public static RealValue operator %(RealValue a, RealValue b)
         {
             if (b.Units is not null)
-                Throw.CannotEvaluateRemainderException(Unit.GetText(a.Units), Unit.GetText(b.Units));
+                throw Exceptions.CannotEvaluateRemainder(Unit.GetText(a.Units), Unit.GetText(b.Units));
 
             return new(a.D % b.D, a.Units);
         }

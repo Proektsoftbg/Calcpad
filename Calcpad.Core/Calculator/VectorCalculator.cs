@@ -34,7 +34,8 @@ namespace Calcpad.Core
             { "norm_e", 8 },
             { "norm_1", 9 },
             { "norm_i", 10 },
-            { "unit", 11 }
+            { "unit", 11 },
+            { "vector_hp", 12 },
         }.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
 
         internal static readonly FrozenDictionary<string, int> Function2Index =
@@ -55,22 +56,23 @@ namespace Calcpad.Core
         {
             { "slice", 0 },
             { "range", 1 },
-            { "search", 2 },
-            { "count", 3 },
-            { "find", 4 },
-            { "find_eq", 4 },
-            { "find_ne", 5 },
-            { "find_lt", 6 },
-            { "find_le", 7 },
-            { "find_gt", 8 },
-            { "find_ge", 9 },
-            { "lookup", 10 },
-            { "lookup_eq", 10 },
-            { "lookup_ne", 11 },
-            { "lookup_lt", 12 },
-            { "lookup_le", 13 },
-            { "lookup_gt", 14 },
-            { "lookup_ge", 15 }
+            { "range_hp", 2 },
+            { "search", 3 },
+            { "count", 4 },
+            { "find", 5 },
+            { "find_eq", 5 },
+            { "find_ne", 6 },
+            { "find_lt", 7 },
+            { "find_le", 8 },
+            { "find_gt", 9 },
+            { "find_ge", 10 },
+            { "lookup", 11 },
+            { "lookup_eq", 11 },
+            { "lookup_ne", 12 },
+            { "lookup_lt", 13 },
+            { "lookup_le", 14 },
+            { "lookup_gt", 15 },
+            { "lookup_ge", 16 }
         }.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
 
         internal static readonly FrozenDictionary<string, int> MultiFunctionIndex =
@@ -112,7 +114,8 @@ namespace Calcpad.Core
                 Norm,
                 L1Norm,
                 InfNorm,
-                Unit
+                Unit,
+                CreateHp
             ];
 
             VectorFunctions2 = [
@@ -129,6 +132,7 @@ namespace Calcpad.Core
             VectorFunctions3 = [
                 Slice,
                 Range,
+                RangeHp,
                 Search,
                 Count,
                 Find_EQ,
@@ -146,7 +150,7 @@ namespace Calcpad.Core
            ];
 
             VectorMultiFunctions = [
-                Join
+                Join,
             ];
 
             MultiFunctions = [
@@ -204,25 +208,40 @@ namespace Calcpad.Core
             VectorMultiFunctions[index];
 
         internal Vector EvaluateOperator(long index, Vector a, in RealValue b) =>
-            Vector.EvaluateOperator(_calc.GetOperator(index), a, b, Calculator.OperatorRequireConsistentUnits(index));
+            a is HpVector hp_a ? 
+            HpVector.EvaluateOperator(_calc.GetOperator(index), hp_a, b, index) :
+            Vector.EvaluateOperator(_calc.GetOperator(index), a, b, index);
 
         internal Vector EvaluateOperator(long index, in RealValue a, Vector b) =>
-            Vector.EvaluateOperator(_calc.GetOperator(index), a, b, Calculator.OperatorRequireConsistentUnits(index));
+            b is HpVector hp_b ?
+            HpVector.EvaluateOperator(_calc.GetOperator(index), a, hp_b, index) :
+            Vector.EvaluateOperator(_calc.GetOperator(index), a, b, index);
 
         internal Vector EvaluateOperator(long index, Vector a, Vector b) =>
-            Vector.EvaluateOperator(_calc.GetOperator(index), a, b, Calculator.OperatorRequireConsistentUnits(index));
+            a is HpVector hp_a && b is HpVector hp_b && 
+            (index != Calculator.PowerIndex || hp_a.Units == null) ?
+            HpVector.EvaluateOperator(_calc.GetOperator(index), hp_a, hp_b, index) :
+            Vector.EvaluateOperator(_calc.GetOperator(index), a, b, index);
 
         internal Vector EvaluateFunction(long Index, Vector a) =>
+            a is HpVector hp_a ?
+            HpVector.EvaluateFunction(_calc.GetFunction(Index), hp_a) :
             Vector.EvaluateFunction(_calc.GetFunction(Index), a);
 
         internal Vector EvaluateFunction2(long index, Vector a, in RealValue b) =>
-            Vector.EvaluateOperator(_calc.GetFunction2(index), a, b, false);
+            a is HpVector hp_a ?
+            HpVector.EvaluateOperator(_calc.GetFunction2(index), hp_a, b, -index - 1) :
+            Vector.EvaluateOperator(_calc.GetFunction2(index), a, b, -index - 1);
 
         internal Vector EvaluateFunction2(long index, in RealValue a, Vector b) =>
-            Vector.EvaluateOperator(_calc.GetFunction2(index), a, b, false);
+            b is HpVector hp_b ?
+            HpVector.EvaluateOperator(_calc.GetFunction2(index), a, hp_b, -index - 1) :
+            Vector.EvaluateOperator(_calc.GetFunction2(index), a, b, -index - 1);
 
         internal Vector EvaluateFunction2(long index, Vector a, Vector b) =>
-            Vector.EvaluateOperator(_calc.GetFunction2(index), a, b, false);
+            a is HpVector hp_a && b is HpVector hp_b ?
+            HpVector.EvaluateOperator(_calc.GetFunction2(index), hp_a, hp_b, -index - 1) :
+            Vector.EvaluateOperator(_calc.GetFunction2(index), a, b, -index - 1);
 
         internal IValue EvaluateMultiFunction(long index, Vector a) => MultiFunctions[index](a);
 
@@ -236,6 +255,10 @@ namespace Calcpad.Core
 
             return new(n);
         }
+
+        private static HpVector CreateHp(in IValue length) => 
+            new(IValue.AsInt(length), null);
+
         private static IValue Length(in IValue vector) =>
             new RealValue(IValue.AsVector(vector).Length);
 
@@ -287,11 +310,26 @@ namespace Calcpad.Core
         private static Vector Extract(in IValue vector, in IValue indexes) =>
             IValue.AsVector(vector).Extract(IValue.AsVector(indexes));
 
-        private static IValue Dot(in IValue a, in IValue b) =>
-            Vector.DotProduct(IValue.AsVector(a), IValue.AsVector(b));
+        private static IValue Dot(in IValue a, in IValue b)
+        {
+            var va = IValue.AsVector(a);
+            var vb = IValue.AsVector(b);
+            if (va is HpVector hp_a && vb is HpVector hp_b)
+                return HpVector.DotProduct(hp_a, hp_b);
 
-        private static Vector Cross(in IValue a, in IValue b) =>
-            Vector.CrossProduct(IValue.AsVector(a), IValue.AsVector(b));
+            return Vector.DotProduct(va, vb);
+        }
+
+        private static Vector Cross(in IValue a, in IValue b)
+        {
+            var va = IValue.AsVector(a);
+            var vb = IValue.AsVector(b);
+            if (va is HpVector hp_a && vb is HpVector hp_b)
+                return HpVector.CrossProduct(hp_a, hp_b);
+
+            return Vector.CrossProduct(va, vb);
+        }
+
 
         private static Vector Slice(in IValue vector, in IValue n1, in IValue n2) =>
             IValue.AsVector(vector).Slice(IValue.AsInt(n1), IValue.AsInt(n2));
@@ -323,25 +361,39 @@ namespace Calcpad.Core
         private static Vector Range(in IValue start, in IValue end, in IValue step) =>
             Vector.Range(IValue.AsReal(start), IValue.AsReal(end), IValue.AsReal(step));
 
+        private static Vector RangeHp(in IValue start, in IValue end, in IValue step) =>
+            HpVector.Range(IValue.AsReal(start), IValue.AsReal(end), IValue.AsReal(step));
+
         private static Vector Lookup_EQ(in IValue x, in IValue y, in IValue value) =>
-            IValue.AsVector(x).Lookup(IValue.AsVector(y), IValue.AsReal(value), Vector.Relation.Equal);
+            Lookup(x, y, value, Vector.Relation.Equal);
 
         private static Vector Lookup_NE(in IValue x, in IValue y, in IValue value) =>
-            IValue.AsVector(x).Lookup(IValue.AsVector(y), IValue.AsReal(value), Vector.Relation.NotEqual);
+            Lookup(x, y, value, Vector.Relation.NotEqual);
 
         private static Vector Lookup_LT(in IValue x, in IValue y, in IValue value) =>
-            IValue.AsVector(x).Lookup(IValue.AsVector(y), IValue.AsReal(value), Vector.Relation.LessThan);
+            Lookup(x, y, value, Vector.Relation.LessThan);
 
         private static Vector Lookup_LE(in IValue x, in IValue y, in IValue value) =>
-            IValue.AsVector(x).Lookup(IValue.AsVector(y), IValue.AsReal(value), Vector.Relation.LessOrEqual);
+            Lookup(x, y, value, Vector.Relation.LessOrEqual);
 
         private static Vector Lookup_GT(in IValue x, in IValue y, in IValue value) =>
-            IValue.AsVector(x).Lookup(IValue.AsVector(y), IValue.AsReal(value), Vector.Relation.GreaterThan);
+            Lookup(x, y, value, Vector.Relation.GreaterThan);
 
         private static Vector Lookup_GE(in IValue x, in IValue y, in IValue value) =>
-            IValue.AsVector(x).Lookup(IValue.AsVector(y), IValue.AsReal(value), Vector.Relation.GreaterOrEqual);
-        private static Vector Join(IValue[] items) => Vector.Join(items);
+            Lookup(x, y, value, Vector.Relation.GreaterOrEqual);
 
+        private static Vector Lookup(in IValue x, in IValue y, in IValue value, Vector.Relation rel)
+        {
+            var vecX = IValue.AsVector(x);
+            var vecY = IValue.AsVector(y);
+            var val = IValue.AsReal(value);
+            if (vecX is HpVector hpVec)
+                return hpVec.Lookup(vecY, val, rel);
+
+            return vecX.Lookup(vecY, val, rel);
+        }
+
+        private static Vector Join(IValue[] items) => Vector.Join(items);
         private static RealValue Min(Vector v) => v.Min();
         private static RealValue Max(Vector v) => v.Max();
         private static RealValue Sum(Vector v) => v.Sum();
@@ -359,5 +411,29 @@ namespace Calcpad.Core
         private static RealValue Take(RealValue x, Vector v) => v.Take(x);
         private static RealValue Line(RealValue x, Vector v) => v.Line(x);
         private static RealValue Spline(RealValue x, Vector v) => v.Spline(x);
+
+        internal static IValue GetElement(IValue vector, IValue ii)
+        {
+            var vec = IValue.AsVector(vector, Exceptions.Items.IndexTarget);
+            var val = IValue.AsValue(ii, Exceptions.Items.Index);
+            var i = (int)val.Re;
+            if (i < 1 || i > vec.Length)
+                throw Exceptions.IndexOutOfRange(i.ToString());
+
+            return vec[i - 1];
+        }
+
+        internal static IValue SetElement(IValue vector, IValue ii, IValue value)
+        {
+            var vec = IValue.AsVector(vector, Exceptions.Items.IndexTarget);
+            var val = IValue.AsValue(ii, Exceptions.Items.Index);
+            var i = (int)val.Re;
+            if (i < 1 || i > vec.Length)
+                throw Exceptions.IndexOutOfRange(i.ToString());
+
+            var real = IValue.AsReal(value, Exceptions.Items.Value);
+            vec[i - 1] = real;
+            return value;
+        }
     }
 }

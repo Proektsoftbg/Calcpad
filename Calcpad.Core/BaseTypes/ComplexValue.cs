@@ -1,6 +1,4 @@
 ﻿using System;
-using static Calcpad.Core.Throw;
-using System.Numerics;
 
 namespace Calcpad.Core
 {
@@ -169,7 +167,7 @@ namespace Calcpad.Core
         public static ComplexValue operator %(ComplexValue a, ComplexValue b)
         {
             if (b.Units is not null)
-                Throw.RemainderUnitsException(Unit.GetText(a.Units), Unit.GetText(b.Units));
+                throw Exceptions.RemainderUnits(Unit.GetText(a.Units), Unit.GetText(b.Units));
 
             return new(a.Complex % b.Complex, a.Units);
         }
@@ -206,7 +204,7 @@ namespace Calcpad.Core
                 a.Complex <= b.Complex * Unit.Convert(a.Units, b.Units, '≤')
             );
 
-        public static ComplexValue operator  >=(ComplexValue a, ComplexValue b) =>
+        public static ComplexValue operator >=(ComplexValue a, ComplexValue b) =>
             new(
                 a.Complex >= b.Complex * Unit.Convert(a.Units, b.Units, '≥')
             );
@@ -224,7 +222,7 @@ namespace Calcpad.Core
         public static explicit operator RealValue(ComplexValue value)
         {
             if (!value.IsReal)
-                Throw.MustBeRealException(Throw.Items.Value);
+                throw Exceptions.MustBeReal(Exceptions.Items.Value);
 
             return new(value.A, value.Units);
         }

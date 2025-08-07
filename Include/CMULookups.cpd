@@ -1,0 +1,32 @@
+'<!--CMU Property Double Lookup Example. Works with multiple function calls to different output variables. -->'
+#def CMU$(thickness$; grout_spacing$; A_n$; b_eff$; r$; wgt$; I_N$)
+'<!-- 'CMU_8in = [8in; 91.5in^2; 7.63in; 2.20in; 81lbf/ft; 443.3in^4|16in; 62.0in^2; 5.17in; 2.43in; 57lbf/ft; 378.6in^4|24in; 51.3in^2; 4.28in; 2.53in; 49lbf/ft; 355.3in^4|32in; 46.0in^2; 3.83in; 2.59in; 45lbf/ft; 343.7in^4|40in; 42.8in^2; 3.57in; 2.63in; 43lbf/ft; 336.7in^4|48in; 40.7in^2; 3.39in; 2.66in; 41lbf/ft; 332.0in^4]
+CMU_12in = [8in; 139.5in^2; 11.63in; 3.36in; 125lbf/ft; 1571.0in^4|16in; 87.3in^2; 7.28in; 3.64in; 84lbf/ft; 1208.9in^4|24in; 68.2in^2; 5.68in; 3.79in; 70lbf/ft; 1076.3in^4|32in; 58.7in^2; 4.89in; 3.88in; 63lbf/ft; 1010.1in^4|40in; 52.9in^2; 4.41in; 3.95in; 59lbf/ft; 970.3in^4|48in; 49.1in^2; 4.09in; 3.99in; 56lbf/ft; 943.8in^4]
+valid = 1
+#if thickness$ ≡ 8in
+data = CMU_8in
+#else if thickness$ ≡ 12in
+data = CMU_12in
+#else
+valid = 0
+#end if
+#if valid ≡ 1
+index_v = find_eq(join(extract_cols(data; [1])); grout_spacing$; 1)
+#if index_v
+index = take(1; index_v)'
+A_n$ = take(2; row(data; index))
+b_eff$ = take(3; row(data; index))
+r$ = take(4; row(data; index))
+wgt$ = take(5; row(data; index))
+I_N$ = take(6; row(data; index))' -->'
+A_n$', 'b_eff$', 'r$', 'wgt$', 'I_N$
+#else
+'Error: grout spacing not supported'
+#end if
+#else
+#show
+'Error: thickness not supported'
+#end if
+#end def
+'<!-- Sample Syntax, Remove From this file before importing it -->'
+CMU$(8in; 24in; A_n; b_eff; r; wgt; I_n)

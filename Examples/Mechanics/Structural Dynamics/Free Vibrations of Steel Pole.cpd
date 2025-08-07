@@ -132,7 +132,7 @@ M
 'Eigenvalues
 M_sq = sqrt(M)
 C = copy(M_sq*D*M_sq; symmetric(n_J); 1; 1)
-λ = reverse(last(eigenvals(C*10^-3); 3))
+λ = eigenvals(C*10^-3; -3)
 'Natural frequencies
 ω = sqrt(1/λ)
 'Vibration frequencies
@@ -140,7 +140,8 @@ f = ω/(2*π)*Hz
 'Vibration periods
 T = 1/f
 'Mode shapes
-Φ = inverse(M_sq)*extract_cols(eigenvecs(C*10^-3); range(n_J; n_J - 2; -1))
+V = transp(eigenvecs(C*10^-3; -3))
+Φ = inverse(M_sq)*V
 X = stack(matrix(1; 3); Φ)
 #hide
 PlotHeight = 400

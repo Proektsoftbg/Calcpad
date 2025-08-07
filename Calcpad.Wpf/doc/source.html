@@ -1,11 +1,11 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Calcpad</title>
+    <title>Created with Calcpad</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-    <script src="jquery-3.6.3.min.js"></script>
+    <script src="https://calcpad.local/jquery-3.6.3.min.js"></script>
     <style>
         body {
             font-size: 12pt;
@@ -50,7 +50,7 @@
 
         .code {
             font-size: 10.5pt;
-            font-family: Consolas;
+            font-family: Consolas, monospace;
         }
 
         .const {
@@ -150,7 +150,6 @@
 </head>
 <body>
     <script>
-        function delayedLoad(path) { setTimeout(function () { document.write(path); }, 500); }
         function getVerticalPosition(line) { return document.querySelector("[data-text='" + line + "']").getBoundingClientRect().top; }
         if (window.jQuery) {
             $(document).ready(function () {
@@ -161,6 +160,14 @@
                         window.scrollTo(0, e.offsetTop - $(this).outerHeight() - 20);
                     }
                 });
+
+                $("a").click(function () {
+                    chrome.webview.postMessage('clicked');
+                });
+				
+				window.addEventListener('click', () => {
+					window.chrome.webview.postMessage('focused');
+				});
             });
         }
     </script>

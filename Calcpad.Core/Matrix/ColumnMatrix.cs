@@ -1,11 +1,13 @@
-﻿namespace Calcpad.Core
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+
+namespace Calcpad.Core
 {
     internal class ColumnMatrix : Matrix
     {
         internal ColumnMatrix(int length)
         {
             if (length > MaxSize)
-                Throw.MatrixDimensionsException();
+                throw Exceptions.MatrixDimensions();
 
             _type = MatrixType.Column;
             _rowCount = length;
@@ -18,15 +20,15 @@
             _rows[0].Fill(value);
         }
 
-        internal ColumnMatrix(Vector a)
+        internal ColumnMatrix(Vector v)
         {
-            if (a.Length > MaxSize)
-                Throw.MatrixDimensionsException();
+            if (v.Length > MaxSize)
+                throw Exceptions.MatrixDimensions();
 
             _type = MatrixType.Column;
-            _rowCount = a.Length;
+            _rowCount = v.Length;
             _colCount = 1;
-            _rows = [a];
+            _rows = v is LargeVector lv ? [lv] : [new LargeVector(v.Raw)];
         }
 
         internal override RealValue this[int row, int col]
@@ -53,7 +55,7 @@
             if (a is ColumnMatrix ac)
             {
                 if (ac._rowCount != b._rowCount)
-                    Throw.MatrixDimensionsException();
+                    throw Exceptions.MatrixDimensions();
 
                 c = new ColumnMatrix(ac._rows[0] * b._rows[0]);
             }
@@ -63,11 +65,12 @@
                 c = new ColumnMatrix(m);
                 var cr = c._rows[0];
                 var br = b._rows[0];
-                for (int i = m - 1; i >= 0; --i)
-                {
-                    var row = new RowVector(a, i);
-                    cr[i] = Vector.DotProduct(row, br);
-                }
+                if (a.Type == MatrixType.Full || a.Type == MatrixType.LowerTriangular)
+                    for (int i = m - 1; i >= 0; --i)
+                        cr[i] = Vector.DotProduct(a.Rows[i], br);
+                else
+                    for (int i = m - 1; i >= 0; --i)
+                        cr[i] = Vector.DotProduct(new RowVector(a, i), br);
             }
             return c;
         }
@@ -75,11 +78,13 @@
         internal override Matrix Transpose()
         {
             var c = new Matrix(1, _rowCount);
-            c._rows[0] = _rows[0];
+            c.Rows[0] = _rows[0].Copy();
             return c;
         }
 
         //L∞ (Infinity) or Chebyshev norm     
         internal override RealValue InfNorm() => _rows[0].InfNorm();
+
+        internal Vector ColRef() => _rows[0];
     }
 }

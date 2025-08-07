@@ -17,12 +17,13 @@ Calcpad is free software for mathematical and engineering calculations. It repre
 * powerful numerical methods for root and extremum finding, numerical integration and differentiation;
 * finite sum, product and iteration procedures;
 * modules, macros and string variables;
+* reading and writing data from/to text, CSV and Excel files;
 * program flow control with conditions and loops;
 * "titles" and 'text' comments in quotes;
 * support for Html and CSS in comments for rich formatting;
 * function plotting, images, tables, parametric SVG drawings, etc.;
 * automatic generation of Html forms for data input;
-* professional looking Html reports for viewing printing;
+* professional looking Html reports for viewing and printing;
 * export to Word (\*.docx) and PDF documents;
 * variable substitution and smart rounding of numbers;
 * output visibility control and content folding;
@@ -42,7 +43,7 @@ You can also use Calcpad directly in the browser from our website: [https://calc
 ## Licensing and terms of use  
 This software is free for both commercial and non-commercial use. It is distributed under the MIT license:  
   
-Copyright © 2024 PROEKTSOFT EOOD®  
+Copyright © 2025 PROEKTSOFT EOOD®  
   
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:  
   
@@ -71,19 +72,18 @@ You can also **export** it to **Html** <img alt="Html" height="24" src="https://
   
 Calcpad uses a simple programming language that includes the following elements:  
 * Real numbers: digits 0 - 9 and decimal point ".";  
-* Complex numbers: re ± imi (e.g. 3 - 2i); 
-* Vectors: [v₁; v₂; v₃; …; vₙ];
-* Matrices: [M₁₁; M₁₂; … ; M₁ₙ | M₂₁; M₂₂; … ; M₂ₙ | … | Mₘ₁; Mₘ₂; … ; Mₘₙ] 
+* Complex numbers: re ± imi (e.g. 3 - 2i);  
+* Vectors: [v₁; v₂; v₃; …; vₙ];  
+* Matrices: [M₁₁; M₁₂; … ; M₁ₙ | M₂₁; M₂₂; … ; M₂ₙ | … | Mₘ₁; Mₘ₂; … ; Mₘₙ]  
 * Variables:  
-&emsp;&emsp;- Latin letters: a - z, A - Z;  
-&emsp;&emsp;- Greek letters: α - ω, Α - Ω;  
+&emsp;&emsp;- all Unicode letters;  
 &emsp;&emsp;- digits: 0 - 9;  
 &emsp;&emsp;- comma: " , ";  
-&emsp;&emsp;- prime symbols: ′ , ″ , ‴ , ⁗ ;  
+&emsp;&emsp;- special symbols: ′ , ″ , ‴ , ⁗ , ‾ , ø , Ø , ° , ∡ ;  
 &emsp;&emsp;- superscripts: ⁰ , ¹ , ² , ³ , ⁴ , ⁵ , ⁶ , ⁷ , ⁸ , ⁹ , ⁿ , ⁺ , ⁻ ;  
-&emsp;&emsp;- special symbols: ‾ , ø , Ø , ° , ∡ ;  
+&emsp;&emsp;- subscripts: ₀ , ₁ , ₂ , ₃ , ₄ , ₅ , ₆ , ₇ , ₈ , ₉ , ₊ , ₋ , ₌ , ₍ , ₎;  
 &emsp;&emsp;- " _ " for subscript;  
-A variable name must start with a letter. Names are case sensitive.  
+Any variable name must start with a letter. Names are case sensitive.  
 * Operators:  
 &emsp;&emsp;"**!**" - factorial;  
 &emsp;&emsp;"**^**" - exponent;  
@@ -179,11 +179,18 @@ A variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;Other:  
 &emsp;&emsp;&emsp;&emsp;**sign**(x) - the sign of a number;  
 &emsp;&emsp;&emsp;&emsp;**random**(x) - random number between 0 and x;  
+&emsp;&emsp;&emsp;&emsp;**getunits**(x) - gets the units of x without the value. Returns 1 if x is unitless;  
+&emsp;&emsp;&emsp;&emsp;**setunits**(x; u) - sets the units u to x where x can be scalar, vector or matrix;  
+&emsp;&emsp;&emsp;&emsp;**clrunits**(x) - clears the units from a scalar, vector or matrix x;  
+&emsp;&emsp;&emsp;&emsp;**hp**(x) - converts x to its high performance (hp) equivalent type;  
+&emsp;&emsp;&emsp;&emsp;**ishp**(x) - checks if the type of x is a high-performance (hp) vector or matrix;  
 &emsp;&emsp;Vector:  
 &emsp;&emsp;&emsp;&emsp;<ins>Creational:</ins>  
 &emsp;&emsp;&emsp;&emsp;**vector**(n) - creates an empty vector with length n;  
+&emsp;&emsp;&emsp;&emsp;**vector_hp**(n) - creates an empty high performance (hp) vector with length n;  
 &emsp;&emsp;&emsp;&emsp;**fill**(v; x) - fills vector v with value x;  
 &emsp;&emsp;&emsp;&emsp;**range**(x1; xn; s) - creates a vector with values spanning from x1 to xn with step s;  
+&emsp;&emsp;&emsp;&emsp;**range_hp**(x1; xn; s) - creates a high performance (hp) from a range of values as above;  
 &emsp;&emsp;&emsp;&emsp;<ins>Structural:</ins>  
 &emsp;&emsp;&emsp;&emsp;**len**(v) - returns the length of vector v;  
 &emsp;&emsp;&emsp;&emsp;**size**(v) - the actual size of vector v - the index of the last non-zero element;  
@@ -234,6 +241,13 @@ A variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;&emsp;&emsp;**utriang**(n) - creates an upper triangular matrix with dimensions n⨯n;  
 &emsp;&emsp;&emsp;&emsp;**ltriang**(n) - creates a lower triangular matrix with dimensions n⨯n;  
 &emsp;&emsp;&emsp;&emsp;**symmetric**(n) - creates a symmetric matrix with dimensions n⨯n;  
+&emsp;&emsp;&emsp;&emsp;**matrix_hp**(m; n) - creates a high-performance matrix with dimensions m⨯n;  
+&emsp;&emsp;&emsp;&emsp;**identity_hp**(n) - creates a high-performance identity matrix with dimensions n⨯n;  
+&emsp;&emsp;&emsp;&emsp;**diagonal_hp**(n; d) - creates a high-performance n⨯n diagonal matrix filled with value d;  
+&emsp;&emsp;&emsp;&emsp;**column_hp**(m; c) - creates a high-performance m⨯1 column matrix filled with value c;  
+&emsp;&emsp;&emsp;&emsp;**utriang_hp**(n) - creates a high-performance n⨯n upper triangular matrix;  
+&emsp;&emsp;&emsp;&emsp;**ltriang_hp**(n) - creates a high-performance n⨯n lower triangular matrix;  
+&emsp;&emsp;&emsp;&emsp;**symmetric_hp**(n) - creates a high-performance symmetric matrix with dimensions n⨯n;  
 &emsp;&emsp;&emsp;&emsp;**vec2diag**(v) - creates a diagonal matrix from the elements of vector v;  
 &emsp;&emsp;&emsp;&emsp;**vec2row**(v) - creates a row matrix from the elements of vector v;   
 &emsp;&emsp;&emsp;&emsp;**vec2col**(v) - creates a column matrix from the elements of vector v;  
@@ -308,9 +322,9 @@ A variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;&emsp;&emsp;**transp**(M) - transpose of matrix M;  
 &emsp;&emsp;&emsp;&emsp;**adj**(M) - adjugate of matrix M;  
 &emsp;&emsp;&emsp;&emsp;**cofactor**(M) - cofactor matrix of M;  
-&emsp;&emsp;&emsp;&emsp;**eigenvals**(M) - eigenvalues of matrix M;  
-&emsp;&emsp;&emsp;&emsp;**eigenvecs**(M) - eigenvectors of matrix M;  
-&emsp;&emsp;&emsp;&emsp;**eigen**(M) - eigenvalues and eigenvectors of matrix M;  
+&emsp;&emsp;&emsp;&emsp;**eigenvals**(M; n_e) - the first n_e eigenvalues of matrix M (or all if omitted);  
+&emsp;&emsp;&emsp;&emsp;**eigenvecs**(M; n_e) - the first n_e eigenvectors of matrix M (or all if omitted);  
+&emsp;&emsp;&emsp;&emsp;**eigen**(M; n_e) - the first n_e eigenvalues and eigenvectors of M (or all if omitted);  
 &emsp;&emsp;&emsp;&emsp;**cholesky**(M) - Cholesky decomposition of a symmetric, positive-definite matrix M;  
 &emsp;&emsp;&emsp;&emsp;**lu**(M) - LU decomposition of matrix M;  
 &emsp;&emsp;&emsp;&emsp;**qr**(M) - QR decomposition of matrix M;  
@@ -318,12 +332,15 @@ A variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;&emsp;&emsp;**inverse**(M) - inverse of matrix M;  
 &emsp;&emsp;&emsp;&emsp;**lsolve**(A; b) - solves the system of linear equations Ax = b using LDLT decomposition for symmetric matrices, and LU for non-symmetric;  
 &emsp;&emsp;&emsp;&emsp;**clsolve**(A; b) - solves the linear matrix equation Ax = b with symmetric, positive-definite matrix A using Cholesky decomposition;  
+&emsp;&emsp;&emsp;&emsp;**slsolve**(A; b) - solves the linear matrix equation Ax = b with high-performance symmetric, positive-definite matrix A using preconditioned conjugate gradient (PCG) method;  
 &emsp;&emsp;&emsp;&emsp;**msolve**(A; B) - solves the generalized matrix equation AX = B using LDLT decomposition for symmetric matrices, and LU for non-symmetric;  
 &emsp;&emsp;&emsp;&emsp;**cmsolve**(A; B) - solves the generalized matrix equation AX = B with symmetric, positive-definite matrix A using Cholesky decomposition;  
+&emsp;&emsp;&emsp;&emsp;**smsolve**(A; B) - solves the generalized matrix equation AX = B with high-performance symmetric, positive-definite matrix A using PCG method;  
 &emsp;&emsp;&emsp;&emsp;**<ins>Double interpolation:</ins>**  
 &emsp;&emsp;&emsp;&emsp;**take**(x; y; M) - returns the element of matrix M at indexes x and y;  
 &emsp;&emsp;&emsp;&emsp;**line**(x; y; M) - double linear interpolation from the elements of matrix M based on the values of x and y;  
 &emsp;&emsp;&emsp;&emsp;**spline**(x; y; M) - double Hermite spline interpolation from the elements of matrix M based on the values of x and y.  
+&emsp;&emsp;&emsp;&emsp;*Tol* - target tolerance for the iterative PCG solver.  
 * Comments: "Title" or 'text' in double or single quotes, respectively. HTML, CSS, JS and SVG are allowed.  
 * Graphing and plotting:  
 &emsp;&emsp;$Plot { f(x) @ x = a : b } - simple plot;  
@@ -408,6 +425,18 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;*content line 2*  
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;...  
 &emsp;&emsp;&emsp;&emsp;#end def  
+* Import/Export of external data:  
+&emsp;&emsp;Text/CSV files:  
+&emsp;&emsp;&emsp;&emsp;#read M from filename.txt@R1C1:R2C2 TYPE=R SEP=',' - read matrix M from a text/CSV file;  
+&emsp;&emsp;&emsp;&emsp;#write M to filename.txt@R1C1:R2C2 TYPE=N SEP=',' - write matrix M to a text/CSV file;  
+&emsp;&emsp;&emsp;&emsp;#append M to filename.txt@R1C1:R2C2 TYPE=N SEP=',' - append matrix M to a text/CSV file;  
+&emsp;&emsp;Excel files (xlsx and xlsm):  
+&emsp;&emsp;&emsp;&emsp;#read M from filename.xlsx@Sheet1!A1:B2 TYPE=R - read matrix M from an Excel file;  
+&emsp;&emsp;&emsp;&emsp;#write M to filename.xlsx@Sheet1!A1:B2 TYPE=N - write matrix M to an Excel file;  
+&emsp;&emsp;&emsp;&emsp;#append M to filename.xlsx@Sheet1!A1:B2 TYPE=N - append matrix M to an Excel file (same as write);  
+&emsp;&emsp;Sheet, range, TYPE and SEP can be omitted.  
+&emsp;&emsp;For #read command, TYPE can be either of [R|D|C|S|U|L|V].  
+&emsp;&emsp;For #write and #append commands, TYPE can be Y or N.  
 * Output control:  
 &emsp;&emsp;#hide - hide the report contents;  
 &emsp;&emsp;#show - always show the contents (default);  
@@ -421,7 +450,12 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;&emsp;#varsub - show equations with variables and substituted values (default);  
 &emsp;&emsp;#split - split equations that do not fit on a single line;  
 &emsp;&emsp;#wrap - wrap equations that do not fit on a single line (default);  
-&emsp;&emsp;#round n - rounds to n digits after the decimal point.  
+&emsp;&emsp;#round n - rounds the output to n digits after the decimal point;
+&emsp;&emsp;#round default - restores rounding to the default settings;
+&emsp;&emsp;#format FFFF - specifies custom format string;
+&emsp;&emsp;#format default - restores the default formatting;
+&emsp;&emsp;#md on - enables markdown in comments;
+&emsp;&emsp;#md off - disables markdown in comments.
 &emsp;&emsp;Each of the above commands is effective after the current line until the end of the report or another command that overwrites it.
 * Breakpoints for step-by-step execution:  
 &emsp;&emsp;#pause - calculates to the current line and waits until resumed manually;  

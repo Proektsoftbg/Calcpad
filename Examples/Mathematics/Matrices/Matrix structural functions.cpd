@@ -67,13 +67,10 @@ A = [1; 2; 3|4; 5; 6|7; 8; 9]'- creates a 3x3 general matrix
 extract_cols(A; [3; 2; 1])'- extracts columns 3, 2 and 1 into a new matrix
 
 '<p><b>Diag2vec</b>(<em>matrix</em>)</p><hr/>
-A = [1; 2; 3|4; 5; 6|7; 8; 9]'- creates a 3x3 general matrix
 A = [1; 2|3; 4|5; 6; 7|8; 9; 10]'- creates a 4x3 rectangular matrix
 diag2vec(A)'- extracts the elements along the main diagonal into a new vector
 
 '<p><b>Submatrix</b>(<em>matrix</em>; <em>start row</em>; <em>end row</em>; <em>start column</em>; <em>end column</em>)</p><hr/>
-A = [1; 2; 3|4; 5; 6|7; 8; 9]'- creates a 3x3 general matrix
-A = [1; 2|3; 4|5; 6; 7|8; 9; 10]'- creates a 4x3 rectangular matrix
 A = [1; 2; 3; 4| _
      5; 6; 7; 8| _
      9; 10; 11; 12| _

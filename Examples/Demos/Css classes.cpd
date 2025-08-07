@@ -9,6 +9,7 @@
 'Folded content line 2
 'Folded content line 3...
 '</div>
+#novar
 'Bordered table
 '<table class="bordered">
 '<thead>
@@ -22,7 +23,7 @@
 'Data table (first col aligned left, others - right)
 '<table class="data">
 '<tbody>
-'<tr><td>Height -</td><td>111.0m</td></tr>
-'<tr><td>Thickness -</td><td>2cm</td></tr>
+'<tr><td>Height -</td><td>111.0 m</td></tr>
+'<tr><td>Thickness -</td><td>2 cm</td></tr>
 '</tbody>
 '</table>

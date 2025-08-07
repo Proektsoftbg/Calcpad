@@ -195,7 +195,7 @@ namespace Calcpad.Core
                 if (!ReferenceEquals(u, v.Units))
                 {
                     if (!Unit.IsConsistent(u, v.Units))
-                        Throw.InconsistentUnitsException(Unit.GetText(u), Unit.GetText(v.Units));
+                        throw Exceptions.InconsistentUnits(Unit.GetText(u), Unit.GetText(v.Units));
 
                     return v.D * v.Units.ConvertTo(u);
                 }
@@ -219,27 +219,27 @@ namespace Calcpad.Core
         {
             using var bitmap = new SKBitmap(Width, Height);
             using var canvas = new SKCanvas(bitmap);
-            var penWidth = 1.5f * ScreenScaleFactor;
-            var dotRadius = 2f * ScreenScaleFactor;
+            var penWidth = 1.7f * ScreenScaleFactor;
+            var dotRadius = 2.3f * ScreenScaleFactor;
             SKPaint[] chartPens =
             [
-                new() { Color = SKColors.Red, StrokeWidth = penWidth },
-                new() { Color = SKColors.Green, StrokeWidth = penWidth },
-                new() { Color = SKColors.Blue, StrokeWidth = penWidth },
-                new() { Color = SKColors.Goldenrod, StrokeWidth = penWidth },
-                new() { Color = SKColors.Magenta, StrokeWidth = penWidth },
-                new() { Color = SKColors.DarkCyan, StrokeWidth = penWidth },
-                new() { Color = SKColors.Purple, StrokeWidth = penWidth },
-                new() { Color = SKColors.DarkOrange, StrokeWidth = penWidth },
-                new() { Color = SKColors.Maroon, StrokeWidth = penWidth },
+                new() { Color = SKColors.Tomato, StrokeWidth = penWidth },
                 new() { Color = SKColors.YellowGreen, StrokeWidth = penWidth },
+                new() { Color = SKColors.CornflowerBlue, StrokeWidth = penWidth },
+                new() { Color = new SKColor(240, 208, 0), StrokeWidth = penWidth },
+                new() { Color = SKColors.MediumVioletRed, StrokeWidth = penWidth },
+                new() { Color = SKColors.MediumSpringGreen, StrokeWidth = penWidth },
+                new() { Color = SKColors.BlueViolet, StrokeWidth = penWidth },
+                new() { Color = SKColors.LightSalmon, StrokeWidth = penWidth },
+                new() { Color = SKColors.DeepPink, StrokeWidth = penWidth },
+                new() { Color = SKColors.DarkTurquoise, StrokeWidth = penWidth },
             ];
             SKPaint[] chartBrushes =
             [
                 new() { Color = chartPens[0].Color.WithAlpha(12) },
-                new() { Color = chartPens[1].Color.WithAlpha(11) },
+                new() { Color = chartPens[1].Color.WithAlpha(14) },
                 new() { Color = chartPens[2].Color.WithAlpha(10) },
-                new() { Color = chartPens[3].Color.WithAlpha(9) },
+                new() { Color = chartPens[3].Color.WithAlpha(11) },
                 new() { Color = chartPens[4].Color.WithAlpha(8) },
                 new() { Color = chartPens[5].Color.WithAlpha(7) },
                 new() { Color = chartPens[6].Color.WithAlpha(6) },
@@ -315,24 +315,24 @@ namespace Calcpad.Core
 
         private string DrawSvg(Chart[] charts, double x0, double y0, double xs, double ys, Box bounds)
         {
-            var svgDrawing = new SvgDrawing(Width, Height, ScreenScaleFactor);
+            var svgDrawing = new SvgDrawing(Width, Height, ScreenScaleFactor, charts.Length);
             DrawGridSvg(svgDrawing, x0, y0, xs, ys, bounds);
             var penNo = 1;
-            var dotRadius = 2 * ScreenScaleFactor;
+            var dotRadius = 2.5 * ScreenScaleFactor;
             foreach (var c in charts)
             {
                 if (c.PointCount <= 0)
                     continue;
 
                 if (c.Bounds.Width == 0 && c.Bounds.Height == 0)
-                    svgDrawing.DrawCircle(c.SvgPoints[0].X, c.SvgPoints[0].Y, dotRadius, "PlotSeries" + penNo);
+                    svgDrawing.DrawCircle(c.SvgPoints[0].X, c.SvgPoints[0].Y, dotRadius, "Series" + penNo);
                 else
                 {
-                    svgDrawing.DrawPolyline(c.SvgPoints, "PlotSeries" + penNo);
+                    svgDrawing.DrawPolyline(c.SvgPoints, "Series" + penNo);
                     if (c.Fill)
                     {
                         var yf = y0 - Math.Clamp(0, bounds.Bottom * ys, bounds.Top * ys);
-                        FillChartSVG(svgDrawing, "PlotFill" + penNo, yf, c.SvgPoints);
+                        FillChartSVG(svgDrawing, "Fill" + penNo, yf, c.SvgPoints);
                     }
                 }
                 penNo++;
@@ -342,10 +342,7 @@ namespace Calcpad.Core
             if (!string.IsNullOrEmpty(Settings.ImagePath))
                 return HtmlImg(Settings.ImageUri + SvgToFile(svgDrawing, Settings.ImagePath));
 
-            double d = 0.75 / ScreenScaleFactor;
-            double dw = Math.Round(d * Width);
-            double dh = Math.Round(d * Height);
-            return $"<div class=\"plot\" style=\"width:{dw}pt; height:{dh}pt;\">{svgDrawing}</div>";
+            return $"<svg class=\"plot\" {svgDrawing.ToString()[4..]}";
         }
 
         private static void FillChartSVG(SvgDrawing svgDrawing, string svgClass, double y0, SvgPoint[] points)

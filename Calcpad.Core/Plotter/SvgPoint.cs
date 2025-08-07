@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Calcpad.Core
 {
@@ -14,6 +15,7 @@ namespace Calcpad.Core
             Y = Math.Round(y, Decimals);
         }
 
-        public override string ToString() => X + "," + Y;
+        public override string ToString() =>
+            X.ToString(CultureInfo.InvariantCulture) + "," + Y.ToString(CultureInfo.InvariantCulture);
     }
 }

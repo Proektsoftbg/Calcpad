@@ -198,34 +198,9 @@ namespace Calcpad.Core
                     BindingFlags.Static | BindingFlags.NonPublic
                 );
 
-            private static readonly MethodInfo AsValueMethod =
-                typeof(IValue).GetMethod(
-                    nameof(IValue.AsValue),
-                    BindingFlags.Static | BindingFlags.NonPublic
-                );
-
-
             private static readonly MethodInfo AsRealMethod =
                 typeof(IValue).GetMethod(
                     nameof(IValue.AsReal),
-                    BindingFlags.Static | BindingFlags.NonPublic
-                );
-
-            private static readonly MethodInfo AsVectorMethod =
-                typeof(IValue).GetMethod(
-                    nameof(IValue.AsVector),
-                    BindingFlags.Static | BindingFlags.NonPublic
-                );
-
-            private static readonly MethodInfo AsMatrixMethod =
-                typeof(IValue).GetMethod(
-                    nameof(IValue.AsMatrix),
-                    BindingFlags.Static | BindingFlags.NonPublic
-                );
-
-            private static readonly MethodInfo ThrowIndexOutOfRangeException =
-                typeof(Throw).GetMethod(
-                    nameof(Throw.IndexOutOfRangeException),
                     BindingFlags.Static | BindingFlags.NonPublic
                 );
 
@@ -245,6 +220,30 @@ namespace Calcpad.Core
                 typeof(Variable).GetMethod(
                     nameof(Variable.Assign),
                     BindingFlags.Instance | BindingFlags.NonPublic
+                );
+
+            private static readonly MethodInfo GetVectorElementMethod =
+                typeof(VectorCalculator).GetMethod(
+                    nameof(VectorCalculator.GetElement),
+                    BindingFlags.Static | BindingFlags.NonPublic
+                );
+
+            private static readonly MethodInfo GetMatrixElementMethod =
+                typeof(MatrixCalculator).GetMethod(
+                    nameof(MatrixCalculator.GetElement),
+                    BindingFlags.Static | BindingFlags.NonPublic
+                );
+
+            private static readonly MethodInfo SetVectorElementMethod =
+                typeof(VectorCalculator).GetMethod(
+                    nameof(VectorCalculator.SetElement),
+                    BindingFlags.Static | BindingFlags.NonPublic
+                );
+
+            private static readonly MethodInfo SetMatrixElementMethod =
+                typeof(MatrixCalculator).GetMethod(
+                    nameof(MatrixCalculator.SetElement),
+                    BindingFlags.Static | BindingFlags.NonPublic
                 );
         }
     }

@@ -1,0 +1,78 @@
+'<style>em {font-family:"Times New Roman";}</style>
+"Matrix structural functions
+'<p><b>N_Rows</b>(<em>matrix</em>)</p><hr/>
+A = hp([1; 2|3; 4|5; 6])
+n_rows(A)'- the number of rows in A
+
+'<p><b>N_Cols</b>(<em>matrix</em>)</p><hr/>
+A = hp([1|2; 3|4; 5; 6])
+n_cols(A)'- the number of columns in A
+
+'<p><b>Mresize</b>(<em>matrix</em>; <em>m</em>; <em>n</em>)</p><hr/>
+A = hp([1; 2; 3|4; 5; 6|7; 8; 9])'- creates a general type matrix
+B = mresize(A; 2; 4)'- resizes to a general type as well  'isHp(B)
+A'- the original matrix has changed
+A = diagonal_hp(3; 5)'- creates a diagonal type matrix
+B = mresize(A; 2; 4)'- resizes to a general type
+A'- the original matrix remains unchanged
+
+'<p><b>Mfill</b>(<em>matrix</em>; <em>value</em>)</p><hr/>
+A = matrix_hp(2; 3)'- creates an empty matrix A
+B = mfill(A; 1)'- fills A with ones and assigns the result to B
+B.(1; 2) = 2'- changes a single value in B which references A
+A'- A has also changed
+L = mfill(ltriang_hp(4); 2)'- special matrices are filled only inside the designated area
+
+'<p><b>Fill_Row</b>(<em>matrix</em>; <em>row index</em>; <em>value</em>)</p><hr/>
+A = matrix_hp(3; 4)'- creates a general matrix
+fill_row(A; 2; 1)'- fills the 2-nd row with value of 1
+L = utriang_hp(4)' - creates an upper triangular matrix
+$Repeat{fill_row(L; k; k) @ k = 1 : n_rows(L)}' - fills all rows
+L' - only the designated area to the type (the upper triangle) is filled
+
+'<p><b>Fill_Col</b>(<em>matrix</em>; <em>column index</em>; <em>value</em>)</p><hr/>
+A = matrix_hp(3; 4)'- creates a general matrix
+fill_col(A; 2; 1)'- fills the 2nd column with value of 1
+B = symmetric_hp(4)'- creates a symmetric matrix
+fill_col(B; 2; 1)' - the respective row is also filled to preserve symmetry
+
+'<p><b>Copy</b>(<em>source matrix</em>; <em>target matrix</em>; <em>row index</em>; <em>column index</em>)</p><hr/>
+A = hp([1; 2; 3|4; 5; 6])'- creates a 2x3 rectangular source matrix
+B = mfill(matrix_hp(3; 4); -1)'- creates a 3x4 rectangular target  matrix and fills it with -1
+copy(A; B; 1; 1)'- copies A to B at indexes (1,1) of B
+copy(A; B; 2; 2)'- copies A to B at indexes (2,2) of B
+B'- the obtained target matrix
+
+'<p><b>Add</b>(<em>source matrix</em>; <em>target matrix</em>; <em>row index</em>; <em>column index</em>)</p><hr/>
+A = hp([1; 2; 3|4; 5; 6])'- creates a 2x3 rectangular source matrix
+B = mfill(matrix_hp(3; 4); -1)'- creates a 3x4 rectangular target  matrix and fills it with -1
+add(A; B; 1; 1)'- adds A to B at indexes (1,1) of B
+add(A; B; 2; 2)'- adds A to B at indexes (2,2) of B
+B'- the obtained target matrix
+
+'<p><b>Row</b>(<em>matrix</em>; <em>row index</em>)</p><hr/>
+A = hp([1; 2; 3|4; 5; 6|7; 8; 9])'- creates a 3x3 general matrix
+row(A; 3)'- extracts the 3-rd row into a new vector
+
+'<p><b>Col</b>(<em>matrix</em>; <em>column index</em>)</p><hr/>
+A = hp([1; 2; 3|4; 5; 6|7; 8; 9])'- creates a 3x3 general matrix
+col(A; 2)'- extracts the 2-nd column into a new vector
+
+'<p><b>Extract_Rows</b>(<em>matrix</em>; <em>row indexes vector</em>)</p><hr/>
+A = hp([1; 2; 3|4; 5; 6|7; 8; 9])'- creates a 3x3 general matrix
+extract_rows(A; [1; 2; 1])'- extracts rows 1, 2 and 1 into a new matrix
+
+'<p><b>Extract_Cols</b>(<em>matrix</em>; <em>column index vector</em>)</p><hr/>
+A = hp([1; 2; 3|4; 5; 6|7; 8; 9])'- creates a 3x3 general matrix
+extract_cols(A; [3; 2; 1])'- extracts columns 3, 2 and 1 into a new matrix
+
+'<p><b>Diag2vec</b>(<em>matrix</em>)</p><hr/>
+A = hp([1; 2|3; 4|5; 6; 7|8; 9; 10])'- creates a 4x3 rectangular matrix
+diag2vec(A)'- extracts the elements along the main diagonal into a new vector
+
+'<p><b>Submatrix</b>(<em>matrix</em>; <em>start row</em>; <em>end row</em>; <em>start column</em>; <em>end column</em>)</p><hr/>
+A = hp([1; 2; 3; 4| _
+     5; 6; 7; 8| _
+     9; 10; 11; 12| _
+    13; 14; 15; 16])'- creates a 4x4 general matrix
+submatrix(A; 2; 3; 2; 4)'- extracts the values between rows 2 and 3 and between columns 2 and 4 into a new matrix

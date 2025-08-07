@@ -6,6 +6,7 @@ using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -13,11 +14,13 @@ using M = DocumentFormat.OpenXml.Math;
 
 namespace Calcpad.OpenXml
 {
-    public class OpenXmlWriter
+    public class OpenXmlWriter(List<string> expressions)
     {
+        private readonly List<string> _expressions = expressions;
         private readonly Queue<OpenXmlElement> _buffer = new();
         private readonly TableBuilder _tableBuilder = new();
         private string _url = string.Empty;
+        private readonly Stack<(int, bool)> _listLevels = new();
         public string Convert(string html, Stream stream, string url = "")
         {
             using var doc = WordprocessingDocument.Create(stream, WordprocessingDocumentType.Document);
@@ -39,6 +42,8 @@ namespace Calcpad.OpenXml
             var mainPart = doc.AddMainDocumentPart();
             //AddSettings(mainPart);
             StyleDefinitionsWriter.CreateStyleDefinitionsPart(mainPart);
+            var numberingPart = mainPart.AddNewPart<NumberingDefinitionsPart>("rId1");
+            CreateNumberingPart(numberingPart);
             // Create the document structure and add text.
             var htmlDocument = new HtmlDocument();
             htmlDocument.LoadHtml(html);
@@ -54,6 +59,50 @@ namespace Calcpad.OpenXml
 
         }
 
+        static void CreateNumberingPart(NumberingDefinitionsPart numberingPart)
+        {
+            var abstractNumBullet = new AbstractNum(
+                new MultiLevelType() { Val = MultiLevelValues.Multilevel },
+                BulletLevel("•", 0),
+                BulletLevel("○", 1),
+                BulletLevel("▪", 2),
+                BulletLevel("-", 3)
+            )
+            { AbstractNumberId = 0 };
+
+            var abstractNumNumber = new AbstractNum(
+                new MultiLevelType() { Val = MultiLevelValues.Multilevel },
+                new Level(
+                    new StartNumberingValue() { Val = 1 },
+                    new NumberingFormat() { Val = NumberFormatValues.Decimal },
+                    new LevelText() { Val = "%1." },
+                    new LevelJustification() { Val = LevelJustificationValues.Left }
+                ){ LevelIndex = 0 }
+            ){ AbstractNumberId = 1 };
+            var numInstanceBullet = new NumberingInstance(
+                new AbstractNumId() { Val = 0 }
+            ){ NumberID = 1 };
+            var numInstanceNumber = new NumberingInstance(
+                new AbstractNumId() { Val = 1 }
+            ){ NumberID = 2 };
+            numberingPart.Numbering = new Numbering(
+                abstractNumBullet,
+                abstractNumNumber,
+                numInstanceBullet,
+                numInstanceNumber
+            );
+
+            static Level BulletLevel(string bullet, int level) =>
+                new(
+                    new StartNumberingValue() { Val = 1 },
+                    new NumberingFormat() { Val = NumberFormatValues.Bullet },
+                    new LevelText() { Val = bullet },
+                    new LevelJustification() { Val = LevelJustificationValues.Left }
+                )
+                { LevelIndex = level };
+
+        }
+
         private static string Validate(WordprocessingDocument doc)
         {
             //Validate document
@@ -64,21 +113,21 @@ namespace Calcpad.OpenXml
             foreach (var error in errors)
             {
                 ++count;
-                stringBuilder.Append("\n-------------------------------------------");
-                stringBuilder.Append("\nError: " + count);
-                stringBuilder.Append("\nDescription: " + error.Description);
-                stringBuilder.Append("\nErrorType: " + error.ErrorType);
-                stringBuilder.Append("\nNode: " + error.Node);
-                stringBuilder.Append("\nInnerXml: " + error.Node.InnerXml);
-                stringBuilder.Append("\nInnerText: " + error.Node.InnerText);
-                stringBuilder.Append("\nPath: " + error.Path.XPath);
-                stringBuilder.Append("\nPart: " + error.Part.Uri);
+                stringBuilder.Append("\n-------------------------------------------")
+                   .Append("\nError: " + count)
+                   .Append("\nDescription: " + error.Description)
+                   .Append("\nErrorType: " + error.ErrorType)
+                   .Append("\nNode: " + error.Node)
+                   .Append("\nInnerXml: " + error.Node.InnerXml)
+                   .Append("\nInnerText: " + error.Node.InnerText)
+                   .Append("\nPath: " + error.Path.XPath)
+                   .Append("\nPart: " + error.Part.Uri);
             }
             if (count == 0)
                 return string.Empty;
 
-            stringBuilder.Append("\n-------------------------------------------");
-            stringBuilder.Append("\nContent XML:\n");
+            stringBuilder.Append("\n-------------------------------------------")
+                .Append("\nContent XML:\n");
             //stringBuilder.Append(doc.MainDocumentPart.Document.OuterXml);
             return Messages.Validation_errors_in_document + stringBuilder;
         }
@@ -90,7 +139,13 @@ namespace Calcpad.OpenXml
             {
                 //if (parentElement is TableCell)
                 //    parentElement.AppendChild(AddCellParagraph());
-
+                var nodeName = domNode.Name.ToLowerInvariant();
+                var isList = nodeName == "ol" || nodeName == "ul";
+                if (isList)
+                {
+                    var numId = mainPart.NumberingDefinitionsPart.Numbering.Elements<NumberingInstance>().Select(n => n.NumberID.Value).DefaultIfEmpty(0).Max() + 1;
+                    _listLevels.Push((numId, nodeName == "ol"));
+                }
                 var childNodes = domNode.ChildNodes;
                 var n = childNodes.Count;
                 var count = _buffer.Count;
@@ -131,6 +186,8 @@ namespace Calcpad.OpenXml
                         }
                     }
                 }
+                if (isList)
+                    _listLevels.Pop();
 
                 if (parentElement is Run)
                 {
@@ -226,7 +283,7 @@ namespace Calcpad.OpenXml
             }
             else if (parentElement is TableCell)
             {
-                if (childElement is Paragraph || childElement is Table)
+                if (childElement is Paragraph || childElement is Table || childElement is CustomXmlBlock)
                     parentElement.AppendChild(childElement);
                 else
                     cellPara?.AppendChild(childElement);
@@ -245,10 +302,7 @@ namespace Calcpad.OpenXml
                     parentElement.AppendChild(new Paragraph(childElement.CloneNode(true)));
             }
             else if (childElement is Paragraph)
-            {
-                if (!IsBlankLine(childElement))
-                    parentElement.AppendChild(childElement);
-            }
+                parentElement.AppendChild(childElement);
             else if (childElement is CustomXmlElement)
                 AppendGrandChildren(parentElement, childElement);
             else
@@ -269,24 +323,6 @@ namespace Calcpad.OpenXml
                     AppendChild(parentElement, grandChild);
                 }
             } while (hasGrandChildren);
-        }
-
-        private static bool IsBlankLine(OpenXmlElement element)
-        {
-            if (!element.HasChildren)
-                return true;
-
-            if (element.ChildElements.Count == 1 && element.FirstChild is Run r)
-            {
-                if (!r.HasChildren)
-                    return true;
-
-                if (r.ChildElements.Count == 1 && 
-                    r.FirstChild is Text t && 
-                    string.IsNullOrWhiteSpace(t.Text))
-                    return true;
-            }
-            return false;
         }
 
         private OpenXmlElement Node2Element(HtmlNode domNode, MainDocumentPart mainPart)
@@ -354,6 +390,7 @@ namespace Calcpad.OpenXml
                     var rowSpan = domNode.GetAttributeValue("rowspan", 1);
                     return _tableBuilder.AddTableCell(domNode.Name == "th", colSpan, rowSpan);
                 case "li":
+                    return AddListItem();
                 case "p":
                 case "h1":
                 case "h2":
@@ -433,11 +470,21 @@ namespace Calcpad.OpenXml
             return new CustomXmlBlock() { Element = domNode.Name };
         }
 
-        private static OpenXmlElement AddSpan(HtmlNode domNode)
+        private OpenXmlElement AddSpan(HtmlNode domNode)
         {
             if (domNode.HasClass("eq"))
             {
                 var s = domNode.GetAttributeValue("data-xml", string.Empty);
+                if (string.IsNullOrEmpty(s))
+                {
+                    var ids = domNode.GetAttributeValue("id", null);
+                    if (ids is not null && ids.Length > 3)
+                    {
+                        if (int.TryParse(ids[3..], out var id) &&
+                            id >= 0 && id < _expressions.Count)
+                            s = _expressions[id];
+                    }
+                }
                 var oMath = new M.OfficeMath()
                 {
                     InnerXml = s.Replace("<<", "&lt;<")
@@ -744,6 +791,22 @@ namespace Calcpad.OpenXml
                 }
             }
             return p;
+        }
+
+        public Paragraph AddListItem()
+        {
+            var level = _listLevels.Count ;
+            var listLevel = level > 0 ? _listLevels.Peek() : (0, false);
+            var left = 240 * (level + 1);
+            return new Paragraph(
+            new ParagraphProperties(
+                new NumberingProperties(
+                    new NumberingLevelReference() { Val = Math.Min(level - 1, 3)},
+                    new NumberingId() { Val = listLevel.Item2 ? listLevel.Item1 : 1 }
+                ),
+                new Indentation() { Left = $"{left}", Hanging = "240" }
+            )
+        );
         }
 
         private static Shading MakeShading(string color) =>

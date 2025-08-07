@@ -27,6 +27,9 @@ namespace Calcpad.Core
 
         public void Expand() => ++_end;
 
+        public void ExpandBy(int count) => _end += count;
+        public void ExpandTo(int index) => _end = index;
+
         public readonly ReadOnlySpan<char> Cut() => _contents[_start.._end];
 
         public readonly override string ToString() => _contents[_start.._end].ToString();

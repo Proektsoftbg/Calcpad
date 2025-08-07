@@ -1,5 +1,8 @@
-﻿using System;
-using System.Linq.Expressions;
+﻿
+using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
 
 namespace Calcpad.Core
 {
@@ -23,10 +26,12 @@ namespace Calcpad.Core
             Deg,
             Rad,
             Gra,
+            Round,
+            Format,
             If,
-            ElseIf,
+            Else_If,
             Else,
-            EndIf,
+            End_If,
             While,
             For,
             Repeat,
@@ -35,9 +40,12 @@ namespace Calcpad.Core
             Continue,
             Local,
             Global,
-            Round,
             Pause,
-            Input
+            Input,
+            Md,
+            Read,
+            Write,
+            Append,
         }
         private enum KeywordResult
         {
@@ -47,90 +55,157 @@ namespace Calcpad.Core
         }
 
         private Keyword _previousKeyword = Keyword.None;
-        private static string[] KeywordStrings;
+        private static string[] KeywordNames;
+        private static Keyword[] KeywordValues;
+        private static List<int>[] KeywordIndex;
+        private static int MaxKeywordLength;
 
         private static void InitKeyWordStrings()
         {
-            KeywordStrings = Enum.GetNames<Keyword>();
-            for (int i = 0, len = KeywordStrings.Length; i < len; ++i)
-                KeywordStrings[i] = '#' + KeywordStrings[i].ToLowerInvariant();
-
-            KeywordStrings[(int)Keyword.ElseIf] = "#else if";
-            KeywordStrings[(int)Keyword.EndIf] = "#end if";
+            var n = 'z' - 'a';
+            KeywordNames = Enum.GetNames<Keyword>().Skip(1).ToArray();
+            MaxKeywordLength = KeywordNames.Max(s => s.Length);
+            KeywordValues = Enum.GetValues<Keyword>().Skip(1).ToArray();
+            KeywordIndex = new List<int>[n];
+            for (int i = 0, len = KeywordNames.Length; i < len; ++i)
+            {
+                var lower = KeywordNames[i].ToLowerInvariant().Replace('_', ' ');
+                KeywordNames[i] = lower;
+                var j = lower[0] - 'a';
+                if (KeywordIndex[j] is null)
+                    KeywordIndex[j] = [i];
+                else
+                    KeywordIndex[j].Add(i);
+            }
         }
 
         private static Keyword GetKeyword(ReadOnlySpan<char> s)
         {
-            for (int i = 1, len = KeywordStrings.Length; i < len; ++i)
-                if (s.StartsWith(KeywordStrings[i], StringComparison.OrdinalIgnoreCase))
-                    return (Keyword)i;
+            var n = Math.Min(MaxKeywordLength, s.Length - 1);
+            if (n < 3)
+                return Keyword.None;
 
+            var i = char.ToLowerInvariant(s[1]) - 'a';
+            if (i < 0 || i >= KeywordNames.Length)
+                return Keyword.None;
+
+            var ind = KeywordIndex[i];
+            if (ind is null)
+                return Keyword.None;
+
+            Span<char> lower = stackalloc char[n];
+            s.Slice(1, n).ToLowerInvariant(lower);
+            for (int j = 0; j < ind.Count; ++j)
+            {
+                var k = ind[j];
+                if (lower.StartsWith(KeywordNames[k]))
+                    return KeywordValues[k];
+            }
             return Keyword.None;
         }
 
-        KeywordResult ParseKeyword(ReadOnlySpan<char> s, out Keyword keyword)
+        KeywordResult ParseKeyword(ReadOnlySpan<char> s, ref Keyword keyword)
         {
-            if (s[0] == '#' || _isPausedByUser)
+            if (_isPausedByUser)
+                keyword = Keyword.Pause;
+            else if (s[0] == '#' && keyword == Keyword.None)
+                keyword = GetKeyword(s);
+
+            if (keyword == Keyword.None)
+                return KeywordResult.None;
+
+            switch (keyword)
             {
-                keyword = _isPausedByUser ? Keyword.Pause : GetKeyword(s);
-                if (keyword == Keyword.Hide)
+                case Keyword.Hide:
                     _isVisible = false;
-                else if (keyword == Keyword.Show)
+                    break;
+                case Keyword.Show:
                     _isVisible = true;
-                else if (keyword == Keyword.Pre)
+                    break;
+                case Keyword.Pre:
                     _isVisible = !_calculate;
-                else if (keyword == Keyword.Post)
+                    break;
+                case Keyword.Post:
                     _isVisible = _calculate;
-                else if (keyword == Keyword.Input)
+                    break;
+                case Keyword.Input:
                     return ParseKeywordInput();
-                else if (keyword == Keyword.Pause)
+                case Keyword.Pause:
                     return ParseKeywordPause();
-                else if (keyword == Keyword.Val)
+                case Keyword.Val:
                     _isVal = 1;
-                else if (keyword == Keyword.Equ)
+                    break;
+                case Keyword.Equ:
                     _isVal = 0;
-                else if (keyword == Keyword.Noc)
+                    break;
+                case Keyword.Noc:
                     _isVal = -1;
-                else if (keyword == Keyword.VarSub)
+                    break;
+                case Keyword.VarSub:
                     _parser.VariableSubstitution = MathParser.VariableSubstitutionOptions.VariablesAndSubstitutions;
-                else if (keyword == Keyword.NoSub)
+                    break;
+                case Keyword.NoSub:
                     _parser.VariableSubstitution = MathParser.VariableSubstitutionOptions.VariablesOnly;
-                else if (keyword == Keyword.NoVar)
+                    break;
+                case Keyword.NoVar:
                     _parser.VariableSubstitution = MathParser.VariableSubstitutionOptions.SubstitutionsOnly;
-                else if (keyword == Keyword.Split)
+                    break;
+                case Keyword.Split:
                     _parser.Split = true;
-                else if (keyword == Keyword.Wrap)
+                    break;
+                case Keyword.Wrap:
                     _parser.Split = false;
-                else if (keyword == Keyword.Deg)
+                    break;
+                case Keyword.Deg:
                     _parser.Degrees = 0;
-                else if (keyword == Keyword.Rad)
+                    break;
+                case Keyword.Rad:
                     _parser.Degrees = 1;
-                else if (keyword == Keyword.Gra)
+                    break;
+                case Keyword.Gra:
                     _parser.Degrees = 2;
-                else if (keyword == Keyword.Round)
+                    break;
+                case Keyword.Round:
                     ParseKeywordRound(s);
-                else if (keyword == Keyword.Repeat)
+                    break;
+                case Keyword.Format:
+                    ParseKeywordFormat(s);
+                    break;
+                case Keyword.Repeat:
                     ParseKeywordRepeat(s);
-                else if (keyword == Keyword.For)
+                    break;
+                case Keyword.For:
                     ParseKeywordFor(s);
-                else if (keyword == Keyword.While)
+                    break;
+                case Keyword.While:
                     ParseKeywordWhile(s);
-                else if (keyword == Keyword.Loop)
+                    break;
+                case Keyword.Loop:
                     ParseKeywordLoop(s);
-                else if (keyword == Keyword.Break)
-                {
+                    break;
+                case Keyword.Break:
                     if (ParseKeywordBreak())
                         return KeywordResult.Break;
-                }
-                else if (keyword == Keyword.Continue)
+                    break;
+                case Keyword.Continue:
                     ParseKeywordContinue(s);
-                else if (keyword != Keyword.Global && keyword != Keyword.Local)
-                    return KeywordResult.None;
-
-                return KeywordResult.Continue;
+                    break;
+                case Keyword.Md:
+                    ParseKeywordMd(s);
+                    break;
+                case Keyword.Read:
+                    ParseKeywordRead(s);
+                    break;
+                case Keyword.Write:
+                case Keyword.Append:
+                    ParseKeywordWrite(s, keyword);
+                    break;
+                default:
+                    if (keyword != Keyword.Global && keyword != Keyword.Local)
+                        return KeywordResult.None;
+                    break;
             }
-            keyword = Keyword.None;
-            return KeywordResult.None;
+            return KeywordResult.Continue;
         }
 
         KeywordResult ParseKeywordInput()
@@ -175,12 +250,14 @@ namespace Calcpad.Core
             return KeywordResult.Continue;
         }
 
-        void ParseKeywordRound(ReadOnlySpan<char> s)
+        private void ParseKeywordRound(ReadOnlySpan<char> s)
         {
             if (s.Length > 6)
             {
                 var expr = s[6..].Trim();
-                if (int.TryParse(expr, out int n))
+                if (expr.SequenceEqual("default"))
+                    Settings.Math.Decimals = _decimals;
+                else if (int.TryParse(expr, out int n))
                     Settings.Math.Decimals = n;
                 else
                 {
@@ -190,15 +267,17 @@ namespace Calcpad.Core
                         _parser.Calculate();
                         Settings.Math.Decimals = (int)Math.Round(_parser.Real, MidpointRounding.AwayFromZero);
                     }
-                    catch (MathParser.MathParserException ex)
+                    catch (MathParserException ex)
                     {
                         AppendError(s.ToString(), ex.Message, _currentLine);
                     }
                 }
             }
+            else
+                Settings.Math.Decimals = _decimals;
         }
 
-        void ParseKeywordRepeat(ReadOnlySpan<char> s)
+        private void ParseKeywordRepeat(ReadOnlySpan<char> s)
         {
             ReadOnlySpan<char> expression = s.Length > 7 ? //#repeat - 7    
                 s[7..].Trim() :
@@ -208,7 +287,7 @@ namespace Calcpad.Core
             {
                 if (_condition.IsSatisfied)
                 {
-                    var count = 0;
+                    var count = 0d;
                     if (!expression.IsWhiteSpace())
                     {
                         try
@@ -218,15 +297,15 @@ namespace Calcpad.Core
                             if (_parser.Real > int.MaxValue)
                                 AppendError(s.ToString(), string.Format(Messages.Number_of_iterations_exceeds_the_maximum_0, int.MaxValue), _currentLine);
                             else
-                                count = (int)Math.Round(_parser.Real, MidpointRounding.AwayFromZero);
+                                count = Math.Round(_parser.Real, MidpointRounding.AwayFromZero);
                         }
-                        catch (MathParser.MathParserException ex)
+                        catch (MathParserException ex)
                         {
                             AppendError(s.ToString(), ex.Message, _currentLine);
                         }
                     }
                     else
-                        count = -1;
+                        count = -1d;
 
                     _loops.Push(new RepeatLoop(_currentLine, count, _condition.Id));
                 }
@@ -242,7 +321,7 @@ namespace Calcpad.Core
                         _parser.Parse(expression);
                         _sb.Append($"<p{HtmlId}><span class=\"cond\">#repeat</span> <span class=\"eq\">{_parser.ToHtml()}</span></p><div class=\"indent\">");
                     }
-                    catch (MathParser.MathParserException ex)
+                    catch (MathParserException ex)
                     {
                         AppendError(s.ToString(), ex.Message, _currentLine);
                     }
@@ -250,14 +329,14 @@ namespace Calcpad.Core
             }
         }
 
-        void ParseKeywordFor(ReadOnlySpan<char> s)
+        private void ParseKeywordFor(ReadOnlySpan<char> s)
         {
             ReadOnlySpan<char> expression = s.Length > 4 ? //#for - 4
                 s[4..].Trim() :
                 [];
 
             if (expression.IsWhiteSpace())
-                Throw.ExpressionEmptyException();
+                throw Exceptions.ExpressionEmpty();
 
             (int loopStart, int loopEnd) = GetForLoopLimits(expression);
             if (loopStart > -1 &&
@@ -296,7 +375,7 @@ namespace Calcpad.Core
                                 _loops.Push(new ForLoop(_currentLine, start, end, varName, _condition.Id));
                                 _parser.SetVariable(varName, start);
                             }
-                            catch (MathParser.MathParserException ex)
+                            catch (MathParserException ex)
                             {
                                 AppendError(s.ToString(), ex.Message, _currentLine);
                             }
@@ -306,14 +385,14 @@ namespace Calcpad.Core
                     {
                         try
                         {
-                            var varHtml = new HtmlWriter().FormatVariable(varName, string.Empty, false);
+                            var varHtml = new HtmlWriter(null).FormatVariable(varName, string.Empty, false);
                             _parser.Parse(startExpr);
                             var startHtml = _parser.ToHtml();
                             _parser.Parse(endExpr);
                             var endHtml = _parser.ToHtml();
                             _sb.Append($"<p{HtmlId}><span class=\"cond\">#for</span> <span class=\"eq\">{varHtml} = {startHtml} : {endHtml}</span></p><div class=\"indent\">");
                         }
-                        catch (MathParser.MathParserException ex)
+                        catch (MathParserException ex)
                         {
                             AppendError(s.ToString(), ex.Message, _currentLine);
                         }
@@ -322,14 +401,14 @@ namespace Calcpad.Core
             }
         }
 
-        void ParseKeywordWhile(ReadOnlySpan<char> s)
+        private void ParseKeywordWhile(ReadOnlySpan<char> s)
         {
             ReadOnlySpan<char> expression = s.Length > 6 ? //#while - 6
                 s[7..].Trim() :
                 [];
 
             if (expression.IsWhiteSpace())
-                Throw.ExpressionEmptyException();
+                throw Exceptions.ExpressionEmpty();
 
             if (_calculate)
             {
@@ -338,7 +417,7 @@ namespace Calcpad.Core
                     try
                     {
                         var commentStart = expression.IndexOf('\'');
-                        var condition = commentStart < 0 ? expression : expression[..commentStart];    
+                        var condition = commentStart < 0 ? expression : expression[..commentStart];
                         _parser.Parse(condition);
                         _parser.Calculate();
                         _condition.SetCondition(Keyword.While - Keyword.If);
@@ -350,7 +429,7 @@ namespace Calcpad.Core
                                 ParseTokens(GetTokens(expression[commentStart..]), false, false);
                         }
                     }
-                    catch (MathParser.MathParserException ex)
+                    catch (MathParserException ex)
                     {
                         AppendError(s.ToString(), ex.Message, _currentLine);
                     }
@@ -364,14 +443,14 @@ namespace Calcpad.Core
                     ParseTokens(GetTokens(expression), true, false);
                     _sb.Append("</p><div class=\"indent\">");
                 }
-                catch (MathParser.MathParserException ex)
+                catch (MathParserException ex)
                 {
                     AppendError(s.ToString(), ex.Message, _currentLine);
                 }
             }
         }
 
-        void ParseKeywordLoop(ReadOnlySpan<char> s)
+        private void ParseKeywordLoop(ReadOnlySpan<char> s)
         {
             if (_calculate)
             {
@@ -384,7 +463,7 @@ namespace Calcpad.Core
                         var next = _loops.Peek();
                         if (next.Id != _condition.Id)
                             AppendError(s.ToString(), Messages.Entangled_if__end_if__and_repeat__loop_blocks, _currentLine);
-                        else if(!Iterate(next, true))
+                        else if (!Iterate(next, true))
                             _loops.Pop();
                     }
                 }
@@ -427,9 +506,9 @@ namespace Calcpad.Core
                     if (commentStart < expression.Length - 1)
                         ParseTokens(GetTokens(expression.AsSpan(commentStart)), false, false);
                 }
-                else 
+                else
                 {
-                    if (removeWhileCondition) 
+                    if (removeWhileCondition)
                         _condition.SetCondition(Condition.RemoveConditionKeyword);
 
                     loop.Break();
@@ -461,7 +540,7 @@ namespace Calcpad.Core
             return false;
         }
 
-        void ParseKeywordContinue(ReadOnlySpan<char> s)
+        private void ParseKeywordContinue(ReadOnlySpan<char> s)
         {
             if (_calculate)
             {
@@ -503,6 +582,98 @@ namespace Calcpad.Core
                 }
             }
             return (start, end);
+        }
+
+        private void ParseKeywordFormat(ReadOnlySpan<char> s)
+        {
+            if (s.Length > 7)
+            {
+                var expr = s[7..].Trim();
+                if (expr.SequenceEqual("default"))
+                    Settings.Math.FormatString = null;
+                else
+                {
+                    var format = expr.ToString();
+                    if (Validator.IsValidFormatString(format))
+                        Settings.Math.FormatString = format;
+                    else
+                        AppendError("#format " + format, Messages.Invalid_format_string_0, _currentLine);
+                }
+            }
+            else
+                Settings.Math.FormatString = null;
+        }
+
+        private void ParseKeywordMd(ReadOnlySpan<char> s)
+        {
+            if (s.Length > 3)
+            {
+                var expr = s[3..].Trim();
+                if (expr.Equals("on", StringComparison.OrdinalIgnoreCase))
+                    _isMarkdownOn = true;
+                else if (expr.Equals("off", StringComparison.OrdinalIgnoreCase))
+                    _isMarkdownOn = false;
+                else
+                    AppendError(s.ToString(), string.Format(Messages.Invalid_keyword_0, expr.ToString()), _currentLine);
+            }
+            else
+                _isMarkdownOn = true;
+        }
+
+        private void ParseKeywordRead(ReadOnlySpan<char> s)
+        {
+            var options = new ReadWriteOptions(s, 0);
+            if (options.Name.IsEmpty)
+                return;
+
+            var data = DataExchange.Read(options);
+            if (options.Type == 'V')
+                _parser.SetVector(options.Name, data, options.IsHp);
+            else
+                _parser.SetMatrix(options.Name, data, options.Type, options.IsHp);
+
+            if (_isVisible)
+                ReportDataExchageResult(options, "read from");
+        }
+
+        private void ParseKeywordWrite(ReadOnlySpan<char> s, Keyword keyword)
+        {
+            var options = new ReadWriteOptions(s, keyword - Keyword.Read);
+            if (options.Name.IsEmpty)
+                return;
+
+            var m = _parser.GetMatrix(options.Name.ToString(), options.Type);
+            DataExchange.Write(options, m);
+            if (_isVisible)
+                ReportDataExchageResult(options, keyword == Keyword.Write ? "written to" : "appended to");
+        }
+
+        private void ReportDataExchageResult(ReadWriteOptions options, string command)
+        {
+            var url = $"file:///{options.FullPath.Replace('\\', '/')}";
+            _sb.Append($"<p{HtmlId}>")
+               .Append($"Matrix <b class=\"eq\"><var>{options.Name}</var></b>")
+               .Append($" was successfully {command} <a href=\"{url}\">{options.Path}.{options.Ext}</a>");
+            if (options.IsExcel)
+            {
+                if (!options.Sheet.IsEmpty)
+                    _sb.Append($"@{options.Sheet}");
+                if (!options.Start.IsEmpty)
+                    _sb.Append($"!{options.Start}");
+                if (!options.End.IsEmpty)
+                    _sb.Append($":{options.End}");
+            }
+            else
+            {
+                if (!options.Start.IsEmpty)
+                    _sb.Append($"@{options.Start}");
+                if (!options.End.IsEmpty)
+                    _sb.Append($":{options.End}");
+
+                _sb.Append($" <small>SEP</small>='{options.Separator}'");
+            }
+            _sb.Append($" <small>TYPE</small>={options.Type}");
+            _sb.Append("</p>");
         }
     }
 }

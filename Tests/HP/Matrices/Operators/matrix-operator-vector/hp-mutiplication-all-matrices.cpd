@@ -1,0 +1,189 @@
+'<h1>Multiplication with matrices</h1>'
+
+'<h3>Full-rectangular</h3>'
+#hide
+matrix_rectangular = matrix_hp(5; 5)
+matrix_rectangular.(1; 1) = 4.5
+matrix_rectangular.(1; 2) = -3.2
+matrix_rectangular.(1; 3) = 2.8
+matrix_rectangular.(1; 4) = -1.6
+matrix_rectangular.(1; 5) = 0.9
+
+matrix_rectangular.(2; 1) = -5.7
+matrix_rectangular.(2; 2) = 3.4
+matrix_rectangular.(2; 3) = -6.2
+matrix_rectangular.(2; 4) = 1.9
+matrix_rectangular.(2; 5) = -4.3
+
+matrix_rectangular.(3; 1) = 7.1
+matrix_rectangular.(3; 2) = -2.3
+matrix_rectangular.(3; 3) = 4.6
+matrix_rectangular.(3; 4) = -8.9
+matrix_rectangular.(3; 5) = 3.2
+
+matrix_rectangular.(4; 1) = -9.2
+matrix_rectangular.(4; 2) = 6.5
+matrix_rectangular.(4; 3) = -3.8
+matrix_rectangular.(4; 4) = 2.1
+matrix_rectangular.(4; 5) = -7.4
+
+matrix_rectangular.(5; 1) = 0.4
+matrix_rectangular.(5; 2) = -1.3
+matrix_rectangular.(5; 3) = 2.2
+matrix_rectangular.(5; 4) = -3.5
+matrix_rectangular.(5; 5) = 6.8
+vector1 = hp([-9.2; 6.3; 0; 7.1; 3])
+#show
+
+matrix_rectangular
+
+vector1
+
+c = matrix_rectangular*vector1
+f(matrix_rectangular; vector1) = matrix_rectangular*vector1
+c = f(matrix_rectangular; vector1)
+
+'<h3>Upper-triangular</h3>'
+
+#hide
+matrix_utriang = utriang_hp(4)
+
+matrix_utriang.(1; 1) = 4.5
+matrix_utriang.(1; 2) = -3.2
+matrix_utriang.(1; 3) = 2.8
+matrix_utriang.(1; 4) = -1.6
+matrix_utriang.(2; 2) = 3.4
+matrix_utriang.(2; 3) = -6.2
+matrix_utriang.(2; 4) = 1.9
+matrix_utriang.(3; 3) = 4
+matrix_utriang.(3; 4) = -8.9
+matrix_utriang.(4; 4) = 2.1
+vector2 = [-3.2; -1.2; 0; 4]
+
+#show
+
+matrix_utriang
+
+vector2
+
+c = matrix_utriang*vector2
+f(matrix_utriang; vector2) = matrix_utriang*vector2
+c = f(matrix_utriang; vector2)
+
+'<h3>Lower-triangular</h3>'
+#hide
+matrix_ltriang = ltriang_hp(6)
+matrix_ltriang.(1; 1) = 4.5
+
+matrix_ltriang.(2; 1) = -3.2
+matrix_ltriang.(2; 2) = 3.4
+
+matrix_ltriang.(3; 1) = 2.8
+matrix_ltriang.(3; 2) = -6.2
+matrix_ltriang.(3; 3) = 4.6
+
+matrix_ltriang.(4; 1) = -1.6
+matrix_ltriang.(4; 2) = 1.9
+matrix_ltriang.(4; 3) = -8.9
+matrix_ltriang.(4; 4) = 2.1
+
+matrix_ltriang.(5; 1) = 0.9
+matrix_ltriang.(5; 2) = -4.3
+matrix_ltriang.(5; 3) = 3.2
+matrix_ltriang.(5; 4) = -7.4
+matrix_ltriang.(5; 5) = 6.8
+vector3 = [-3.2; 0; 4.3; 0.9; 4; 10]
+#show
+matrix_ltriang
+
+vector3
+
+c = matrix_ltriang*vector3
+f(matrix_ltriang; vector3) = matrix_ltriang*vector3
+c = f(matrix_ltriang; vector3)
+
+'<h3>Diagonal</h3>'
+
+#hide
+matrix_diagonal = diagonal_hp(6; 4)
+matrix_diagonal.(1; 1) = 4.5
+
+matrix_diagonal.(2; 2) = 3.4
+
+matrix_diagonal.(3; 3) = 2.8
+
+matrix_diagonal.(4; 4) = -1.6
+
+matrix_diagonal.(5; 5) = 0.9
+
+matrix_diagonal.(6; 6) = -5.7
+vector4 = hp([0; 2.8; 1.9; 7; -1.6; 7])
+
+#show
+
+matrix_diagonal
+
+vector4
+
+c = matrix_diagonal*vector4
+f(matrix_diagonal; vector4) = matrix_diagonal*vector4
+c = f(matrix_diagonal; vector4)
+
+'<h3>Column</h3>'
+#hide
+matrix_column = column_hp(7; 7)
+matrix_column.(1; 1) = 4.5
+matrix_column.(2; 1) = -3.2
+matrix_column.(3; 1) = 2.8
+matrix_column.(4; 1) = -1.6
+matrix_column.(5; 1) = 0.9
+matrix_column.(6; 1) = -5.7
+matrix_column.(7; 1) = 3.4
+'vector5 = [4.5; 0.9; 1; 3; 2; -1.4; -11.2]
+vector5 = matrix_hp(1; 5)
+vector5.(1; 1) = 4.5
+vector5.(1; 2) = 0.9
+vector5.(1; 3) = 0
+vector5.(1; 4) = 2
+vector5.(1; 5) = 4.5
+
+#show
+
+matrix_column
+vector5
+
+c = matrix_column*vector5
+f(matrix_column; vector5) = matrix_column*vector5
+c = f(matrix_column; vector5)
+
+
+'<h3>Symmetric</h3>'
+#hide
+matrix_symmetric = symmetric_hp(4)
+
+matrix_symmetric.(1; 1) = 4.5
+matrix_symmetric.(1; 2) = -3.2
+matrix_symmetric.(1; 3) = 2.8
+matrix_symmetric.(1; 4) = -1.6
+
+
+matrix_symmetric.(2; 2) = 3.4
+matrix_symmetric.(2; 3) = -6.2
+matrix_symmetric.(2; 4) = 1.9
+
+
+matrix_symmetric.(3; 3) = 4.6
+matrix_symmetric.(3; 4) = -8.9
+
+
+matrix_symmetric.(4; 4) = 2.1
+
+vector6 = [2.8; -3; 0; 1.2]
+#show
+
+matrix_symmetric
+vector6
+
+c = matrix_symmetric*vector6
+f(matrix_symmetric; vector6) = matrix_symmetric*vector6
+c = f(matrix_symmetric; vector6)

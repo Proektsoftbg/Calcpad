@@ -8,7 +8,7 @@ namespace Calcpad.Core
         internal LowerTriangularMatrix(int length) : base(length)
         {
             _type = MatrixType.LowerTriangular;
-            _rows = new Vector[length];
+            _rows = new LargeVector[length];
             for (int i = 0; i < length; ++i)
                 _rows[i] = new LargeVector(i + 1);
         }
@@ -21,7 +21,7 @@ namespace Calcpad.Core
                 if (row >= col)
                     _rows[row][col] = value;
                 else
-                    Throw.IndexOutOfRangeException($"{row + 1}, {col + 1}");
+                    throw Exceptions.IndexOutOfRange($"{row + 1}, {col + 1}");
             }
         }
         internal override Matrix Clone() => new LowerTriangularMatrix(_rowCount);
@@ -40,7 +40,7 @@ namespace Calcpad.Core
             return this;
         }
 
-        internal Vector RawCol(int col)
+        internal LargeVector RawCol(int col)
         {
             var n = _colCount - col;
             var v = new LargeVector(n);
@@ -49,11 +49,11 @@ namespace Calcpad.Core
             return v;
         }
 
-        internal override Matrix Transpose()
+        internal override UpperTriangularMatrix Transpose()
         {
             var U = new UpperTriangularMatrix(_rowCount);
             for (int i = _rowCount - 1; i >= 0; --i)
-                U._rows[i] = RawCol(i);
+                U.Rows[i] = RawCol(i);
 
             return U;
         }
@@ -90,7 +90,7 @@ namespace Calcpad.Core
                 var row = _rows[i];
                 var v = row[i];
                 if (v.D == 0)
-                    Throw.MatrixSingularException();
+                    throw Exceptions.MatrixSingular();
 
                 v = RealValue.One / v;
                 L[i, i] = v;
@@ -118,7 +118,7 @@ namespace Calcpad.Core
 
                 var ri = row[i];
                 if (ri.D == 0)
-                    Throw.MatrixSingularException();
+                    throw Exceptions.MatrixSingular();
 
                 x[i] = sum / ri;
             }
@@ -130,7 +130,7 @@ namespace Calcpad.Core
             var m = _rowCount;
             var n = M.ColCount;
             var v = new Vector[n];
-            Parallel.For(0, n, j => 
+            Parallel.For(0, n, j =>
                 v[j] = LSolve(M.Col(j + 1))
             );
             return CreateFromCols(v, m);

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
 
 namespace Calcpad.Core
@@ -33,7 +32,7 @@ namespace Calcpad.Core
             Math.PI / 200.0
         ];
 
-        protected  static readonly Unit[] AngleUnits =
+        protected static readonly Unit[] AngleUnits =
         [
             Unit.Get("deg"),
             Unit.Get("rad"),
@@ -81,7 +80,9 @@ namespace Calcpad.Core
             { '=', 16 }
         }.ToFrozenDictionary();
 
-        internal static readonly bool[] IsZeroPreservingOperator = [
+        internal static readonly char[] Operators = ['^', '/', '\\', '⦼', '*', '-', '+', '<', '>', '≤', '≥', '≡', '≠', '∧', '∨', '⊕', '='];
+
+        private static readonly bool[] _isZeroPreservingOperator = [
             false,   // ^  0
             false,   // /÷ 1
             false,   // \  2
@@ -101,7 +102,10 @@ namespace Calcpad.Core
             true     // = 16
             ];
 
-
+        internal static bool IsZeroPreservingOperator(long index) =>
+             index < 0 ? index == -1 : _isZeroPreservingOperator[index];
+        internal static char GetOperatorSymbol(long index) =>
+            index < 0 ? '\0' : Operators[index];
         internal static bool OperatorRequireConsistentUnits(long index) => index > 4 && index < 13;
 
         internal static readonly FrozenDictionary<string, int> FunctionIndex =
@@ -240,20 +244,20 @@ namespace Calcpad.Core
         protected static void CheckFunctionUnits(string func, Unit unit)
         {
             if (unit is not null && !unit.IsAngle)
-                Throw.InvalidUnitsFunctionException(func, Unit.GetText(unit));
+                throw Exceptions.InvalidUnitsFunction(func, Unit.GetText(unit));
         }
 
         protected static int GetRoot(in IScalarValue root)
         {
             if (root.Units is not null)
-                Throw.RootUnitlessException();
+                throw Exceptions.RootUnitless();
 
             if (!root.IsReal)
-                Throw.RootComplexException();
+                throw Exceptions.RootComplex();
 
             var n = (int)root.Re;
             if (n < 2 || n != root.Re)
-                Throw.RootIntegerException();
+                throw Exceptions.RootInteger();
 
             return n;
         }
@@ -269,12 +273,11 @@ namespace Calcpad.Core
         protected static double Fact(double value)
         {
             if (value < 0 || value > 170)
-                Throw.FactorialArgumentOutOfRangeException();
+                throw Exceptions.FactorialArgumentOutOfRange();
 
             var i = (int)value;
-
             if (i != value)
-                Throw.FactorialArgumentPositiveIntegerException();
+                throw Exceptions.FactorialArgumentPositiveInteger();
 
             return Factorial[i];
         }
@@ -347,7 +350,7 @@ namespace Calcpad.Core
             if (i == d || d >= y.Length)
                 return y1;
 
-            return y1 + (y[i] - y1)  * (d - i);
+            return y1 + (y[i] - y1) * (d - i);
         }
 
         protected static IScalarValue Spline(IScalarValue[] values)
@@ -422,7 +425,7 @@ namespace Calcpad.Core
         }
 
         protected static RealValue MandelbrotSet(in IScalarValue a, in IScalarValue b) =>
-            new RealValue(
+            new(
                 MandelbrotSet(
                     a.Re, b.Re * Unit.Convert(a.Units, b.Units, ',')
                 ),
@@ -499,7 +502,7 @@ namespace Calcpad.Core
         {
             var a = Math.Abs(d);
             if (a > long.MaxValue || a != Math.Truncate(a))
-                Throw.BothValuesIntegerException();
+                throw Exceptions.BothValuesInteger();
 
             return (long)a;
         }
