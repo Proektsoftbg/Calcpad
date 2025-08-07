@@ -8,7 +8,7 @@ namespace Calcpad.Core
         internal UpperTriangularMatrix(int length) : base(length)
         {
             _type = MatrixType.UpperTriangular;
-            _rows = new Vector[length];
+            _rows = new LargeVector[length];
             for (int i = length - 1; i >= 0; --i)
                 _rows[i] = new LargeVector(length - i);
         }
@@ -21,7 +21,7 @@ namespace Calcpad.Core
                 if (row <= col)
                     _rows[row][col - row] = value;
                 else
-                    Throw.IndexOutOfRangeException($"{row}, {col}");
+                    throw Exceptions.IndexOutOfRange($"{row}, {col}");
             }
         }
 
@@ -45,7 +45,7 @@ namespace Calcpad.Core
             return this;
         }
 
-        internal Vector RawCol(int col)
+        internal LargeVector RawCol(int col)
         {
             var v = new LargeVector(col + 1);
             for (int i = col; i >= 0; --i)
@@ -53,11 +53,11 @@ namespace Calcpad.Core
             return v;
         }
 
-        internal override Matrix Transpose()
+        internal override LowerTriangularMatrix Transpose()
         {
             var L = new LowerTriangularMatrix(_rowCount);
             for (int i = _rowCount - 1; i >= 0; --i)
-                L._rows[i] = RawCol(i);
+                L.Rows[i] = RawCol(i);
 
             return L;
         }
@@ -95,7 +95,7 @@ namespace Calcpad.Core
                 var row = _rows[i];
                 var v = row[0];
                 if (v.D == 0)
-                    Throw.MatrixSingularException();
+                    throw Exceptions.MatrixSingular();
 
                 v = RealValue.One / v;
                 U[i, i] = v;
@@ -143,7 +143,7 @@ namespace Calcpad.Core
             var n = _rows.Length;
             var M = new LowerTriangularMatrix(n);
             for (int i = n - 1; i >= 0; --i)
-                M._rows[i] = _rows[i].Copy();
+                M.Rows[i] = _rows[i].Copy();
 
             return M;
         }

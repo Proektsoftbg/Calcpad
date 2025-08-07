@@ -20,6 +20,7 @@ namespace Calcpad.Core
             _size = matrix.RowCount;
         }
 
+
         internal override int Length => _size;
 
         internal override ref RealValue ValueByRef(int index)
@@ -27,29 +28,29 @@ namespace Calcpad.Core
             switch (_matrix)
             {
                 case ColumnMatrix cm:
-                    return ref cm._rows[0].ValueByRef(index);
+                    return ref cm.Rows[0].ValueByRef(index);
                 case DiagonalMatrix dm:
                     if (index != _col)
-                        Throw.IndexOutOfRangeException(index.ToString());
+                        throw Exceptions.IndexOutOfRange(index.ToString());
 
-                    return ref dm._rows[index].ValueByRef(0);
+                    return ref dm.Rows[index].ValueByRef(0);
                 case SymmetricMatrix sm:
                     if (index <= _col)
-                        return ref sm._rows[index].ValueByRef(_col - index);
+                        return ref sm.Rows[index].ValueByRef(_col - index);
 
-                    return ref sm._rows[_col].ValueByRef(index - _col);
+                    return ref sm.Rows[_col].ValueByRef(index - _col);
                 case LowerTriangularMatrix ltm:
                     if (index < _col)
-                        Throw.IndexOutOfRangeException(index.ToString());
+                        throw Exceptions.IndexOutOfRange(index.ToString());
 
-                    return ref ltm._rows[index].ValueByRef(_col);
+                    return ref ltm.Rows[index].ValueByRef(_col);
                 case UpperTriangularMatrix utm:
                     if (index > _col)
-                        Throw.IndexOutOfRangeException(index.ToString());
+                        throw Exceptions.IndexOutOfRange(index.ToString());
 
-                    return ref utm._rows[index].ValueByRef(_col - index);
+                    return ref utm.Rows[index].ValueByRef(_col - index);
                 default:
-                    return ref _matrix._rows[index].ValueByRef(_col);
+                    return ref _matrix.Rows[index].ValueByRef(_col);
             }
         }
 

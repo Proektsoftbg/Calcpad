@@ -10,10 +10,10 @@ namespace Calcpad.Wpf
             IntPtr ptr = IntPtr.Zero;
             try
             {
-                int size = Marshal.SizeOf(typeof(T));
+                int size = Marshal.SizeOf<T>();
                 ptr = Marshal.AllocHGlobal(size);
                 Marshal.Copy(bytes, 0, ptr, size);
-                object obj = Marshal.PtrToStructure(ptr, typeof(T));
+                object obj = Marshal.PtrToStructure<T>(ptr);
                 return (T)obj;
             }
             finally
@@ -28,7 +28,7 @@ namespace Calcpad.Wpf
             IntPtr ptr = IntPtr.Zero;
             try
             {
-                int size = Marshal.SizeOf(typeof(T));
+                int size = Marshal.SizeOf<T>();
                 ptr = Marshal.AllocHGlobal(size);
                 Marshal.StructureToPtr(obj, ptr, true);
                 var bytes = new byte[size];

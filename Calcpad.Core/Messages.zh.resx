@@ -58,7 +58,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Invalid_syntax__0__" xml:space="preserve">
+  <data name="Invalid_syntax_0" xml:space="preserve">
     <value>无效的语法: "{0}".</value>
   </data>
   <data name="Incomplete_expression" xml:space="preserve">
@@ -70,16 +70,16 @@
   <data name="Missing_right_bracket" xml:space="preserve">
     <value>缺少右括号 ")".</value>
   </data>
-  <data name="Invalid_symbol__0__" xml:space="preserve">
+  <data name="Invalid_symbol_0" xml:space="preserve">
     <value>无效符号： "{0}".</value>
   </data>
-  <data name="Invalid_units__0__" xml:space="preserve">
+  <data name="Invalid_units_0" xml:space="preserve">
     <value>无效单位： "{0}".</value>
   </data>
-  <data name="Cannot_evaluate__0__as__1__" xml:space="preserve">
+  <data name="Cannot_evaluate_0_as_1" xml:space="preserve">
     <value>无法将 "{0}" 计算为 {1}.</value>
   </data>
-  <data name="Invalid_operator__0__" xml:space="preserve">
+  <data name="Invalid_operator_0" xml:space="preserve">
     <value>无效的运算操作:  "{0}" .</value>
   </data>
   <data name="Power_must_be_unitless" xml:space="preserve">
@@ -88,19 +88,19 @@
   <data name="The_expression_on_the_right_does_not_evaluate_to_units" xml:space="preserve">
     <value>右侧的表达式不带单位.</value>
   </data>
-  <data name="Cannot_evaluate_the_function_f_for_v_equals__0__" xml:space="preserve">
+  <data name="Cannot_evaluate_the_function_f_for_v_equals_0" xml:space="preserve">
     <value>对于 %V = {0} ，无法计算函数 %F.</value>
   </data>
-  <data name="The_function_f_is_not_defined_for_v_equals__0__" xml:space="preserve">
+  <data name="The_function_f_is_not_defined_for_v_equals_0" xml:space="preserve">
     <value>函数 %F 在%V = {0} 处无定义.</value>
   </data>
-  <data name="Inconsistent_units__0__and__1__" xml:space="preserve">
+  <data name="Inconsistent_units_0_and_1" xml:space="preserve">
     <value>单位不一致： "{0}" 和 "{1}".</value>
   </data>
-  <data name="Limits_out_of_range__0____1__" xml:space="preserve">
+  <data name="Limits_out_of_range_0_1" xml:space="preserve">
     <value>限值超出范围： [{0}; {1}].</value>
   </data>
-  <data name="Invalid_units_for_function__0__1__" xml:space="preserve">
+  <data name="Invalid_units_for_function_0_1" xml:space="preserve">
     <value>函数 "{0}({1})" 的单位无效.</value>
   </data>
   <data name="Root_index_must_be_unitless" xml:space="preserve">
@@ -127,10 +127,10 @@
   <data name="Both_values_must_be_integers" xml:space="preserve">
     <value>两个值都必须是整数.</value>
   </data>
-  <data name="Variable__0__does_not_exist" xml:space="preserve">
+  <data name="Variable_0_does_not_exist" xml:space="preserve">
     <value>变量 '{0}' 不存在.</value>
   </data>
-  <data name="Unit__0__does_not_exist" xml:space="preserve">
+  <data name="Unit_0_does_not_exist" xml:space="preserve">
     <value>单位 '{0}' 不存在.</value>
   </data>
   <data name="Interrupted_by_user" xml:space="preserve">
@@ -145,10 +145,10 @@
   <data name="Missing_operand" xml:space="preserve">
     <value>缺少操作数.</value>
   </data>
-  <data name="Invalid_function__0__" xml:space="preserve">
+  <data name="Invalid_function_0" xml:space="preserve">
     <value>无效函数： "{0}".</value>
   </data>
-  <data name="Stack_memory_leak__Invalid_expression" xml:space="preserve">
+  <data name="Stack_memory_leak_Invalid_expression" xml:space="preserve">
     <value>堆栈内存泄漏.表达式无效.</value>
   </data>
   <data name="Stack_empty_Invalid_expression" xml:space="preserve">
@@ -157,64 +157,64 @@
   <data name="Undefined_input_field" xml:space="preserve">
     <value>未定义的输入字段.</value>
   </data>
-  <data name="Undefined_variable_or_units__0__" xml:space="preserve">
+  <data name="Undefined_variable_or_units_0" xml:space="preserve">
     <value>未定义的变量或单位： "{0}".</value>
   </data>
-  <data name="Error_evaluating__0__as_function" xml:space="preserve">
+  <data name="Error_evaluating_0_as_function" xml:space="preserve">
     <value>将 "{0}" 作为函数计算时出错.</value>
   </data>
-  <data name="Error_evaluating__0__as_function_or_operator" xml:space="preserve">
+  <data name="Error_evaluating_0_as_function_or_operator" xml:space="preserve">
     <value>将 "{0}" 作为函数或运算符计算时出错.</value>
   </data>
-  <data name="Cannot_rewrite_existing_units__0__" xml:space="preserve">
+  <data name="Cannot_rewrite_existing_units_0" xml:space="preserve">
     <value>无法重写现有单位： {0}.</value>
   </data>
-  <data name="The_calculated_units__0__are_inconsistent_with_the_target_units__1__" xml:space="preserve">
+  <data name="The_calculated_units_0_are_inconsistent_with_the_target_units_1" xml:space="preserve">
     <value>计算单位 "{0}" 与目标单位 "{1}" 不一致.</value>
   </data>
-  <data name="InvalidCharacterException" xml:space="preserve">
+  <data name="Invalid_character_exception" xml:space="preserve">
     <value>无效字符： '{0}' .变量、函数和单位必须以字母或?开头，以下单位除外： ° ′ ″ % ‰.</value>
   </data>
   <data name="Improper_use_of_the_assignment_operator_equals" xml:space="preserve">
     <value>赋值运算符 '=' 使用不正确.</value>
   </data>
-  <data name="Missing_left_bracket_{_in_solver_command" xml:space="preserve">
+  <data name="Missing_left_bracket_in_solver_command" xml:space="preserve">
     <value>求解命令中缺少左括号 '{'.</value>
   </data>
-  <data name="Missing_right_bracket_}_in_solver_command" xml:space="preserve">
+  <data name="Missing_right_bracket_in_solver_command" xml:space="preserve">
     <value>求解命令中缺少右括号 '}'.</value>
   </data>
-  <data name="Invalid_macro_identifier__0__" xml:space="preserve">
+  <data name="Invalid_macro_identifier_0" xml:space="preserve">
     <value>无效的宏标识符： "{0}$".</value>
   </data>
-  <data name="Invalid_solver_command_definition__0__" xml:space="preserve">
+  <data name="Invalid_solver_command_definition_0" xml:space="preserve">
     <value>无效的求解命令定义 "{0}".</value>
   </data>
-  <data name="Error_parsing__0__as_units" xml:space="preserve">
+  <data name="Error_parsing_0_as_units" xml:space="preserve">
     <value>将 "{0}" 解析为单位时出错.</value>
   </data>
-  <data name="Error_parsing__0__as_number" xml:space="preserve">
+  <data name="Error_parsing_0_as_number" xml:space="preserve">
     <value>将 "{0}" 解析为数时出错.</value>
   </data>
-  <data name="Missing_delimiter__0__in_solver_command__1__" xml:space="preserve">
+  <data name="Missing_delimiter_0_in_solver_command_1" xml:space="preserve">
     <value>求解命令 {{1}} 中缺少分隔符 "{0}".</value>
   </data>
-  <data name="More_than_one_operator_equals_in__0__" xml:space="preserve">
+  <data name="More_than_one_operator_equals_in_0" xml:space="preserve">
     <value>'{0}' 中有多个运算符 '='.</value>
   </data>
-  <data name="The_expression_on_the_right_side_must_be_constant__0__" xml:space="preserve">
+  <data name="The_expression_on_the_right_side_must_be_constant_0" xml:space="preserve">
     <value>右侧的表达式必须是常量： "{0}".</value>
   </data>
-  <data name="Inconsistent_units_for__0__equals__1__" xml:space="preserve">
+  <data name="Inconsistent_units_for_0_equals_1" xml:space="preserve">
     <value>"{0} = {1}" 的单位不一致.</value>
   </data>
-  <data name="Inconsistent_units_for__0__equals__1__:__2__" xml:space="preserve">
+  <data name="Inconsistent_units_for_0_equals_1_2" xml:space="preserve">
     <value>"{0} = {1} : {2}" 的单位不一致.</value>
   </data>
-  <data name="No_solution_for__0__" xml:space="preserve">
+  <data name="No_solution_for_0" xml:space="preserve">
     <value>{0} 无解.</value>
   </data>
-  <data name="Recursion_is_not_allowed_in_function_definition__0__" xml:space="preserve">
+  <data name="Recursion_is_not_allowed_in_function_definition_0" xml:space="preserve">
     <value>函数定义中不允许递归： "{0}".</value>
   </data>
   <data name="The_assignment_equals_must_be_preceded_by_custom_function_or_variable" xml:space="preserve">
@@ -223,16 +223,16 @@
   <data name="Assignment_equals_must_be_the_first_operator_in_the_expression" xml:space="preserve">
     <value>赋值 '=' 必须是表达式中的第一个运算符.</value>
   </data>
-  <data name="Invalid_syntax__0__1__" xml:space="preserve">
+  <data name="Invalid_syntax_0_1" xml:space="preserve">
     <value>无效语法： "{0} {1}".</value>
   </data>
-  <data name="Unexpected_delimiter_;" xml:space="preserve">
+  <data name="Unexpected_delimiter" xml:space="preserve">
     <value>错误的分隔符 ';'.</value>
   </data>
   <data name="Invalid_number_of_arguments" xml:space="preserve">
     <value>参数值无效.</value>
   </data>
-  <data name="The_result_is_not_a_real_number__0__" xml:space="preserve">
+  <data name="The_result_is_not_a_real_number_0" xml:space="preserve">
     <value>结果不是实数： "{0}" .</value>
   </data>
   <data name="Missing_parameter_in_function_definition" xml:space="preserve">
@@ -241,22 +241,22 @@
   <data name="Missing_delimiter_in_function_definition" xml:space="preserve">
     <value>函数定义中缺少分隔符.</value>
   </data>
-  <data name="Invalid_token_in_function_definition__0__" xml:space="preserve">
+  <data name="Invalid_token_in_function_definition_0" xml:space="preserve">
     <value>函数定义中的令牌无效： "{0}" .</value>
   </data>
-  <data name="Circular_reference_detected_for_function__0__" xml:space="preserve">
+  <data name="Circular_reference_detected_for_function_0" xml:space="preserve">
     <value>检测到函数 "{0}" 的循环引用.</value>
   </data>
-  <data name="InvalidFunctionDefinitionException" xml:space="preserve">
+  <data name="Invalid_function_definition_exception" xml:space="preserve">
     <value>函数定义无效.它必须符合范式： "f (x; y; z...) =".</value>
   </data>
-  <data name="Argument_out_of_range_for__0__x_" xml:space="preserve">
+  <data name="Argument_out_of_range_for_0_x" xml:space="preserve">
     <value>{0}(x)的参数超出范围.</value>
   </data>
   <data name="Condition_cannot_be_empty" xml:space="preserve">
     <value>条件不能为空.</value>
   </data>
-  <data name="Condition_block_not_initialized_with_if_" xml:space="preserve">
+  <data name="Condition_block_not_initialized_with_if" xml:space="preserve">
     <value>条件块未用 "#if" 初始化.</value>
   </data>
   <data name="Duplicate_else_in_condition_block" xml:space="preserve">
@@ -268,37 +268,37 @@
   <data name="Condition_cannot_evaluate_to_a_complex_number" xml:space="preserve">
     <value>条件值不能计算为复数.</value>
   </data>
-  <data name="Condition_result_is_invalid_0_" xml:space="preserve">
+  <data name="Condition_result_is_invalid_0" xml:space="preserve">
     <value>条件结果无效： {0}.</value>
   </data>
-  <data name="Duplicate_macro_parameter_names__0__and__1__" xml:space="preserve">
+  <data name="Duplicate_macro_parameter_names_0_and_1" xml:space="preserve">
     <value>宏参数名称重复： {0} 和 {1}.</value>
   </data>
-  <data name="Macro_not_defined__0__" xml:space="preserve">
+  <data name="Macro_not_defined_0" xml:space="preserve">
     <value>未定义的宏：{0}.</value>
   </data>
-  <data name="Missing__0__in_surface_map_command" xml:space="preserve">
+  <data name="Missing_0_in_surface_map_command" xml:space="preserve">
     <value>曲面投影命令中缺少 {0}.</value>
   </data>
   <data name="The_limits_of_plot_area_are_identical" xml:space="preserve">
     <value>绘图区域的上下界限是相同(冲突)的.</value>
   </data>
-  <data name="Error_writing_a_png_file_to__0__" xml:space="preserve">
+  <data name="Error_writing_a_png_file_to_0" xml:space="preserve">
     <value>将png文件写入 "{0}" 时出错.</value>
   </data>
-  <data name="Error_writing_a_svg_file_to__0__" xml:space="preserve">
+  <data name="Error_writing_a_svg_file_to_0" xml:space="preserve">
     <value>将svg文件写入 "{0}" 时出错.</value>
   </data>
   <data name="Error_converting_png_to_Base64" xml:space="preserve">
     <value>将png图片转换为Base64时出错.</value>
   </data>
-  <data name="Inconsistent_units__0__1__2__" xml:space="preserve">
+  <data name="Inconsistent_units_0_1_2" xml:space="preserve">
     <value>单位不一致： "{0} {1} {2}".</value>
   </data>
   <data name="Units_cannon_be_raised_to_complex_power" xml:space="preserve">
     <value>单位无法计算复数次幂.</value>
   </data>
-  <data name="SelectAll" xml:space="preserve">
+  <data name="Select_All" xml:space="preserve">
     <value>全选</value>
   </data>
   <data name="if_block_not_closed_Missing_end_if" xml:space="preserve">
@@ -319,7 +319,7 @@
   <data name="Errors_found_on_lines" xml:space="preserve">
     <value>&lt;div class="errorHeader"&gt;在以下行发现 &lt;b&gt;{0} &lt;/b&gt;个错误：</value>
   </data>
-  <data name="Error_in_0_on_line_1__2" xml:space="preserve">
+  <data name="Error_in_0_on_line_1_2" xml:space="preserve">
     <value>第 {1}：{2} 行"{0}"出错</value>
   </data>
   <data name="Number_of_iterations_exceeds_the_maximum_0" xml:space="preserve">
@@ -355,7 +355,7 @@
   <data name="Invalid_symbol_0_in_macro_name" xml:space="preserve">
     <value>宏名称中的符号 "{0}" 无效.</value>
   </data>
-  <data name="Duplicate_macro_name_0_" xml:space="preserve">
+  <data name="Duplicate_macro_name_0" xml:space="preserve">
     <value>宏名称重复： "{0}".</value>
   </data>
   <data name="Missing_delimiter_0_in_plot_command" xml:space="preserve">
@@ -397,8 +397,8 @@
   <data name="_must_be_scalar" xml:space="preserve">
     <value> 必须为标量.</value>
   </data>
-  <data name="Index_out_of_range" xml:space="preserve">
-    <value>索引号超出范围:</value>
+  <data name="Index_out_of_range_0" xml:space="preserve">
+    <value>索引号超出范围: {0}.</value>
   </data>
   <data name="Cannot_assign_vector_to_scalar" xml:space="preserve">
     <value>无法将向量赋值给标量.</value>
@@ -415,13 +415,13 @@
   <data name="Step_cannot_be_zero" xml:space="preserve">
     <value>步长不能为0.</value>
   </data>
-  <data name="Vector_size_cannot_exceed" xml:space="preserve">
-    <value>向量尺寸超出程序能力</value>
+  <data name="Vector_size_cannot_exceed_0" xml:space="preserve">
+    <value>向量尺寸超出程序能力 {0}.</value>
   </data>
   <data name="Cross_product_is_definedonly_for_vectors_with_2_and_3_elements" xml:space="preserve">
     <value>叉积仅对2和3个元素的向量有定义.</value>
   </data>
-  <data name="Function__0__is_not_defined_in_complex_mode" xml:space="preserve">
+  <data name="Function_0_is_not_defined_in_complex_mode" xml:space="preserve">
     <value>函数{0}在复数模式下未定义.</value>
   </data>
   <data name="Matrix_dimensions_do_not_match" xml:space="preserve">
@@ -454,20 +454,20 @@
   <data name="Jacobi_iteration_failed" xml:space="preserve">
     <value>Jacobi迭代失败.</value>
   </data>
-  <data name="Invalid_operand" xml:space="preserve">
-    <value>无效运算对象:</value>
+  <data name="Invalid_operand_0" xml:space="preserve">
+    <value>无效运算对象: {0}.</value>
   </data>
-  <data name="Invalid_argument" xml:space="preserve">
-    <value>无效参数:</value>
+  <data name="Invalid_argument_0" xml:space="preserve">
+    <value>无效参数: {0}.</value>
   </data>
-  <data name="The_argument_is_not_an_eigenvalue" xml:space="preserve">
-    <value>参数不是特征值:</value>
+  <data name="The_argument_is_not_an_eigenvalue_0" xml:space="preserve">
+    <value>参数不是特征值: {0}.</value>
   </data>
   <data name="The_QL_algorithm_failed_to_converge" xml:space="preserve">
     <value>QL算法不收敛.</value>
   </data>
-  <data name="Matrix_size_cannot_exceed" xml:space="preserve">
-    <value>矩阵大小超出程序能力</value>
+  <data name="Matrix_size_cannot_exceed_0" xml:space="preserve">
+    <value>矩阵大小超出程序能力 {0}.</value>
   </data>
   <data name="The_number_of_matrix_rows_must_be_greater_than_or_equal_to_the_number_of_columns" xml:space="preserve">
     <value>矩阵行数必大于等于列数</value>
@@ -496,16 +496,16 @@
   <data name="Invalid_item" xml:space="preserve">
     <value>无效项</value>
   </data>
-  <data name="FunctionDefinitionNotAllowedInSolverBlock" xml:space="preserve">
+  <data name="Function_definition_not_allowed_in_solver_block" xml:space="preserve">
     <value>求解块中不允许定义函数.</value>
   </data>
-  <data name="BracketsNotClosed" xml:space="preserve">
+  <data name="Brackets_not_closed" xml:space="preserve">
     <value>括号未闭合.</value>
   </data>
-  <data name="Cannot_evaluate_remainder__0__1__Denominator_must_be_unitless" xml:space="preserve">
+  <data name="Cannot_evaluate_remainder_0_1_Denominator_must_be_unitless" xml:space="preserve">
     <value>无法计算:"{0}%{1}"的余子,分母必须为无单位值.</value>
   </data>
-  <data name="Cannot_evaluate_remainder__0__1__The_denominator_must_be_unitless_" xml:space="preserve">
+  <data name="Cannot_evaluate_remainder_0_1_The_denominator_must_be_unitless" xml:space="preserve">
     <value>无法计算:"{0}%{1}"的余子,分母必须为无单位值.</value>
   </data>
   <data name="repeat_block_not_closed_Missing_loop" xml:space="preserve">
@@ -522,5 +522,8 @@
   </data>
   <data name="Value" xml:space="preserve">
     <value>价值</value>
+  </data>
+  <data name="File_not_found_0" xml:space="preserve">
+    <value>文件未找到: {0}.</value>
   </data>
 </root>

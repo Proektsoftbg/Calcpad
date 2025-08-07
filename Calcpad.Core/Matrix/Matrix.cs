@@ -1,20 +1,24 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Drawing.Charts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Calcpad.Core
 {
     internal class Matrix : IValue, IEquatable<Matrix>
     {
-        internal const int ParallelTreshold = 100;
+        internal const int ParallelThreshold = 100;
         internal const int MaxSize = 1000000;
 
         protected int _rowCount;
         protected int _colCount;
-        protected internal Vector[] _rows;
-
-        protected enum MatrixType
+        protected LargeVector[] _rows;
+        internal LargeVector[] Rows => _rows; // For HpMatrix
+        protected MatrixType _type;
+        internal MatrixType Type => _type; // For HpMatrix
+        internal enum MatrixType
         {
             Full,
             UpperTriangular,
@@ -23,9 +27,8 @@ namespace Calcpad.Core
             Column,
             Symmetric
         }
-        protected MatrixType _type;
 
-        private bool IsStructurallyConsistentType =>
+        protected bool IsStructurallyConsistentType =>
             _type == MatrixType.Full ||
             _type == MatrixType.Column ||
             _type == MatrixType.Symmetric;
@@ -35,7 +38,7 @@ namespace Calcpad.Core
         protected Matrix(int length)
         {
             if (length > MaxSize)
-                Throw.MatirixSizeLimitException();
+                throw Exceptions.MatirixSizeLimit();
 
             _rowCount = length;
             _colCount = length;
@@ -44,25 +47,25 @@ namespace Calcpad.Core
         internal Matrix(int rows, int cols)
         {
             if (rows > MaxSize || cols > MaxSize)
-                Throw.MatirixSizeLimitException();
+                throw Exceptions.MatirixSizeLimit();
 
             _type = MatrixType.Full;
             _rowCount = rows;
             _colCount = cols;
-            _rows = new Vector[rows];
+            _rows = new LargeVector[rows];
             for (int i = rows - 1; i >= 0; --i)
                 _rows[i] = new LargeVector(cols);
         }
 
         internal Matrix(Vector v)
         {
-            if (v.Length > MaxSize  )
-                Throw.MatirixSizeLimitException();
+            if (v.Length > MaxSize)
+                throw Exceptions.MatirixSizeLimit();
 
             _type = MatrixType.Full;
             _rowCount = 1;
             _colCount = v.Length;
-            _rows = [v];
+            _rows = v is LargeVector lv ? [lv] : [new LargeVector(v.Raw)];
         }
 
         internal virtual RealValue this[int row, int col]
@@ -94,7 +97,7 @@ namespace Calcpad.Core
                 return false;
 
             var m = _rows.Length;
-            if (m > ParallelTreshold)
+            if (m > ParallelThreshold)
             {
                 var result = true;
                 Parallel.For(0, m, (i, state) =>
@@ -129,25 +132,43 @@ namespace Calcpad.Core
 
         private static void CheckBounds(Matrix a, Matrix b)
         {
-            if (a._rowCount != b._rowCount ||
-                a._colCount != b._colCount)
-                Throw.MatrixDimensionsException();
+            if (a._rowCount != b._rowCount || a._colCount != b._colCount)
+                throw Exceptions.MatrixDimensions();
         }
 
-        protected Matrix Copy()
+        protected virtual Matrix Copy()
         {
             var M = new Matrix(_rowCount, _colCount);
-            for (int i = _rowCount - 1; i >= 0; --i)
-                for (int j = _colCount - 1; j >= 0; --j)
-                    M[i, j] = this[i, j];
-
+            if (_type == MatrixType.Full || _type == MatrixType.LowerTriangular)
+            {
+                if (_rowCount > ParallelThreshold)
+                    Parallel.For(0, _rowCount, i => M._rows[i] = _rows[i].Copy());
+                else
+                    for (int i = 0; i < _rowCount; ++i) 
+                        M._rows[i] = _rows[i].Copy();
+            }
+            else
+            {
+                if (_rowCount > ParallelThreshold)
+                    Parallel.For(0, _rowCount, CopyRow);
+                else
+                    for (int i = _rowCount - 1; i >= 0; --i) 
+                        CopyRow(i);
+            }
             return M;
+
+            void CopyRow(int i)
+            {
+                var row = M._rows[i];
+                for (int j = _colCount - 1; j >= 0; --j)
+                    row[j] = this[i, j];
+            }
         }
 
-        internal Matrix Resize(int m, int n)
+        internal virtual Matrix Resize(int m, int n)
         {
             if (m > MaxSize || n > MaxSize)
-                Throw.MatrixDimensionsException();
+                throw Exceptions.MatrixDimensions();
 
             var m1 = Math.Min(m, _rowCount) - 1;
             if (_type == MatrixType.Full)
@@ -199,16 +220,15 @@ namespace Calcpad.Core
         {
             var c = a.Clone();
             var m = a._rows.Length;
-            if (m > ParallelTreshold)
+            if (m > ParallelThreshold)
                 Parallel.For(0, m, i =>
-                    c._rows[i] = -a._rows[i]);
+                    c._rows[i] = -a._rows[i] as LargeVector);
             else
                 for (int i = m - 1; i >= 0; --i)
-                    c._rows[i] = -a._rows[i];
+                    c._rows[i] = -a._rows[i] as LargeVector;
 
             return c;
         }
-
 
         public static Matrix operator -(Matrix a, Matrix b)
         {
@@ -216,21 +236,21 @@ namespace Calcpad.Core
             Matrix c;
             if (a._type == b._type)
             {
-                c = a.Clone();
+                c = a is HpMatrix hp_a ? hp_a.CloneAsMatrix() : a.Clone();
                 var m = a._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = a._rows[i] - b._rows[i]);
+                        c._rows[i] = a._rows[i] - b._rows[i] as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = a._rows[i] - b._rows[i];
+                        c._rows[i] = a._rows[i] - b._rows[i] as LargeVector;
             }
             else
             {
                 int m = a._rowCount, n = a._colCount;
                 c = new(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -251,19 +271,19 @@ namespace Calcpad.Core
             {
                 c = a.Clone();
                 var m = a._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = a._rows[i] - b);
+                        c._rows[i] = a._rows[i] - b as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = a._rows[i] - b;
+                        c._rows[i] = a._rows[i] - b as LargeVector;
             }
             else
             {
                 int m = a._rowCount, n = a._colCount;
                 c = new(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -284,19 +304,19 @@ namespace Calcpad.Core
             {
                 c = b.Clone();
                 var m = b._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                    c._rows[i] = a - b._rows[i]);
+                    c._rows[i] = a - b._rows[i] as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = a - b._rows[i];
+                        c._rows[i] = a - b._rows[i] as LargeVector;
             }
             else
             {
                 int m = b._rowCount, n = b._colCount;
                 c = new Matrix(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -316,21 +336,21 @@ namespace Calcpad.Core
             Matrix c;
             if (a._type == b._type)
             {
-                c = a.Clone();
+                c = a is HpMatrix hp_a ? hp_a.CloneAsMatrix() : a.Clone();
                 var m = a._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = a._rows[i] + b._rows[i]);
+                        c._rows[i] = a._rows[i] + b._rows[i] as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = a._rows[i] + b._rows[i];
+                        c._rows[i] = a._rows[i] + b._rows[i] as LargeVector;
             }
             else
             {
                 int m = a._rowCount, n = a._colCount;
                 c = new(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -351,19 +371,19 @@ namespace Calcpad.Core
             {
                 c = a.Clone();
                 var m = a._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = a._rows[i] + b);
+                        c._rows[i] = a._rows[i] + b as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = a._rows[i] + b;
+                        c._rows[i] = a._rows[i] + b as LargeVector;
             }
             else
             {
                 int m = a._rowCount, n = a._colCount;
                 c = new(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -380,7 +400,7 @@ namespace Calcpad.Core
         public static Matrix operator *(Matrix a, Matrix b)
         {
             if (a._colCount != b._rowCount)
-                Throw.MatrixDimensionsException();
+                throw Exceptions.MatrixDimensions();
 
             if (b is ColumnMatrix bc)
                 return a * bc;
@@ -399,34 +419,37 @@ namespace Calcpad.Core
             var m = a._rowCount;
             var na = a._colCount - 1;
             var nb = b._colCount - 1;
-            if (a._type == MatrixType.Full)
+            if (a._type == MatrixType.Full || a._type == MatrixType.LowerTriangular)
             {
-                var bColVector = new ColumnVector[b._colCount];
-                for (int j = nb; j >= 0; --j)
-                    bColVector[j] =  b.GetColumnVector(j);
-
-                if (m > ParallelTreshold)
+                var bColVectors = new ColumnVector[b._colCount];
+                if (m > ParallelThreshold)
+                {
+                    Parallel.For(0, b._colCount, j => bColVectors[j] = b.GetColumnVector(j));
                     Parallel.For(0, m, i =>
                     {
                         var cr = c._rows[i];
                         var ar = a._rows[i];
                         for (int j = nb; j >= 0; --j)
-                            cr[j] = Vector.DotProduct(ar, bColVector[j]);
-                    });
+                            cr[j] = Vector.DotProduct(ar, bColVectors[j]);
+                    });                
+                }
                 else
                 {
+                    for (int j = nb; j >= 0; --j)
+                        bColVectors[j] = b.GetColumnVector(j);
+
                     for (int i = m - 1; i >= 0; --i)
                     {
                         var cr = c._rows[i];
                         var ar = a._rows[i];
                         for (int j = nb; j >= 0; --j)
-                            cr[j] = Vector.DotProduct(ar, bColVector[j]);
+                            cr[j] = Vector.DotProduct(ar, bColVectors[j]);
                     }
                 }
             }
             else
             {
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, MultiplyRow);
                 else
                     for (int i = m - 1; i >= 0; --i)
@@ -455,19 +478,19 @@ namespace Calcpad.Core
             {
                 c = a.Clone();
                 var m = a._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = a._rows[i] * b);
+                        c._rows[i] = a._rows[i] * b as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = a._rows[i] * b;
+                        c._rows[i] = a._rows[i] * b as LargeVector;
             }
             else
             {
                 int m = a._rowCount, n = a._colCount;
                 c = new(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -487,21 +510,21 @@ namespace Calcpad.Core
             Matrix c;
             if (a._type == b._type && a.IsStructurallyConsistentType)
             {
-                c = a.Clone();
+                c = a is HpMatrix hp_a ? hp_a.CloneAsMatrix() : a.Clone();
                 var m = a._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = a._rows[i] / b._rows[i]);
+                        c._rows[i] = a._rows[i] / b._rows[i] as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = a._rows[i] / b._rows[i];
+                        c._rows[i] = a._rows[i] / b._rows[i] as LargeVector;
             }
             else
             {
                 int m = a._rowCount, n = a._colCount;
                 c = new(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -522,19 +545,19 @@ namespace Calcpad.Core
             {
                 c = a.Clone();
                 var m = a._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = a._rows[i] / b);
+                        c._rows[i] = a._rows[i] / b as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = a._rows[i] / b;
+                        c._rows[i] = a._rows[i] / b as LargeVector;
             }
             else
             {
                 int m = a._rowCount, n = a._colCount;
                 c = new(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -555,19 +578,19 @@ namespace Calcpad.Core
             {
                 c = b.Clone();
                 var m = b._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = a / b._rows[i]);
+                        c._rows[i] = a / b._rows[i] as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = a / b._rows[i];
+                        c._rows[i] = a / b._rows[i] as LargeVector;
             }
             else
             {
                 int m = b._rowCount, n = b._colCount;
                 c = new(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -587,21 +610,21 @@ namespace Calcpad.Core
             Matrix c;
             if (a._type == b._type && a.IsStructurallyConsistentType)
             {
-                c = a.Clone();
+                c = a is HpMatrix hp_a ? hp_a.CloneAsMatrix() : a.Clone();
                 var m = a._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = a._rows[i] % b._rows[i]);
+                        c._rows[i] = a._rows[i] % b._rows[i] as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = a._rows[i] % b._rows[i];
+                        c._rows[i] = a._rows[i] % b._rows[i] as LargeVector;
             }
             else
             {
                 int m = a._rowCount, n = a._colCount;
                 c = new(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -625,19 +648,19 @@ namespace Calcpad.Core
             {
                 c = a.Clone();
                 var m = a._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = a._rows[i] % b);
+                        c._rows[i] = a._rows[i] % b as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = a._rows[i] % b;
+                        c._rows[i] = a._rows[i] % b as LargeVector;
             }
             else
             {
                 int m = a._rowCount, n = a._colCount;
                 c = new(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -658,19 +681,19 @@ namespace Calcpad.Core
             {
                 c = b.Clone();
                 var m = b._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = a % b._rows[i]);
+                        c._rows[i] = a % b._rows[i] as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = a % b._rows[i];
+                        c._rows[i] = a % b._rows[i] as LargeVector;
             }
             else
             {
                 int m = b._rowCount, n = b._colCount;
                 c = new(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -690,21 +713,21 @@ namespace Calcpad.Core
             Matrix c;
             if (a._type == b._type && a.IsStructurallyConsistentType)
             {
-                c = a.Clone();
+                c = a is HpMatrix hp_a ? hp_a.CloneAsMatrix() : a.Clone();
                 var m = a._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = a._rows[i] == b._rows[i]);
+                        c._rows[i] = (a._rows[i] == b._rows[i]) as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = a._rows[i] == b._rows[i];
+                        c._rows[i] = (a._rows[i] == b._rows[i]) as LargeVector;
             }
             else
             {
                 int m = a._rowCount, n = a._colCount;
                 c = new Matrix(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -725,19 +748,19 @@ namespace Calcpad.Core
             {
                 c = a.Clone();
                 var m = a._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = a._rows[i] == b);
+                        c._rows[i] = (a._rows[i] == b) as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = a._rows[i] == b;
+                        c._rows[i] = (a._rows[i] == b) as LargeVector;
             }
             else
             {
                 int m = a._rowCount, n = a._colCount;
                 c = new Matrix(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -757,21 +780,21 @@ namespace Calcpad.Core
             Matrix c;
             if (a._type == b._type)
             {
-                c = a.Clone();
+                c = a is HpMatrix hp_a ? hp_a.CloneAsMatrix() : a.Clone();
                 var m = a._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = a._rows[i] != b._rows[i]);
+                        c._rows[i] = (a._rows[i] != b._rows[i]) as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = a._rows[i] != b._rows[i];
+                        c._rows[i] = (a._rows[i] != b._rows[i]) as LargeVector;
             }
             else
             {
                 int m = a._rowCount, n = a._colCount;
                 c = new Matrix(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -792,19 +815,19 @@ namespace Calcpad.Core
             {
                 c = a.Clone();
                 var m = a._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = a._rows[i] != b);
+                        c._rows[i] = (a._rows[i] != b) as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = a._rows[i] != b;
+                        c._rows[i] = (a._rows[i] != b) as LargeVector;
             }
             else
             {
                 int m = a._rowCount, n = a._colCount;
                 c = new Matrix(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -824,21 +847,21 @@ namespace Calcpad.Core
             Matrix c;
             if (a._type == b._type)
             {
-                c = a.Clone();
+                c = a is HpMatrix hp_a ? hp_a.CloneAsMatrix() : a.Clone();
                 var m = a._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = a._rows[i] < b._rows[i]);
+                        c._rows[i] = (a._rows[i] < b._rows[i]) as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = a._rows[i] < b._rows[i];
+                        c._rows[i] = (a._rows[i] < b._rows[i]) as LargeVector;
             }
             else
             {
                 int m = a._rowCount, n = a._colCount;
                 c = new Matrix(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -859,19 +882,19 @@ namespace Calcpad.Core
             {
                 c = a.Clone();
                 var m = a._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = a._rows[i] < b);
+                        c._rows[i] = a._rows[i] < b as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = a._rows[i] < b;
+                        c._rows[i] = a._rows[i] < b as LargeVector;
             }
             else
             {
                 int m = a._rowCount, n = a._colCount;
                 c = new Matrix(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -892,19 +915,19 @@ namespace Calcpad.Core
             {
                 c = b.Clone();
                 var m = b._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = a < b._rows[i]);
+                        c._rows[i] = a < b._rows[i] as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = a < b._rows[i];
+                        c._rows[i] = a < b._rows[i] as LargeVector;
             }
             else
             {
                 int m = b._rowCount, n = b._colCount;
                 c = new Matrix(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -924,21 +947,21 @@ namespace Calcpad.Core
             Matrix c;
             if (a._type == b._type)
             {
-                c = a.Clone();
+                c = a is HpMatrix hp_a ? hp_a.CloneAsMatrix() : a.Clone();
                 var m = a._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = a._rows[i] > b._rows[i]);
+                        c._rows[i] = a._rows[i] > b._rows[i] as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = a._rows[i] > b._rows[i];
+                        c._rows[i] = a._rows[i] > b._rows[i] as LargeVector;
             }
             else
             {
                 int m = a._rowCount, n = a._colCount;
                 c = new Matrix(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -959,19 +982,19 @@ namespace Calcpad.Core
             {
                 c = a.Clone();
                 var m = a._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = a._rows[i] > b);
+                        c._rows[i] = a._rows[i] > b as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = a._rows[i] > b;
+                        c._rows[i] = a._rows[i] > b as LargeVector;
             }
             else
             {
                 int m = a._rowCount, n = a._colCount;
                 c = new Matrix(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -992,19 +1015,19 @@ namespace Calcpad.Core
             {
                 c = b.Clone();
                 var m = b._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = a > b._rows[i]);
+                        c._rows[i] = a > b._rows[i] as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = a > b._rows[i];
+                        c._rows[i] = a > b._rows[i] as LargeVector;
             }
             else
             {
                 int m = b._rowCount, n = b._colCount;
                 c = new Matrix(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -1024,21 +1047,21 @@ namespace Calcpad.Core
             Matrix c;
             if (a._type == b._type && a.IsStructurallyConsistentType)
             {
-                c = a.Clone();
+                c = a is HpMatrix hp_a ? hp_a.CloneAsMatrix() : a.Clone();
                 var m = a._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = a._rows[i] >= b._rows[i]);
+                        c._rows[i] = a._rows[i] >= b._rows[i] as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = a._rows[i] >= b._rows[i];
+                        c._rows[i] = a._rows[i] >= b._rows[i] as LargeVector;
             }
             else
             {
                 int m = a._rowCount, n = a._colCount;
                 c = new Matrix(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -1059,19 +1082,19 @@ namespace Calcpad.Core
             {
                 c = a.Clone();
                 var m = a._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = a._rows[i] >= b);
+                        c._rows[i] = a._rows[i] >= b as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = a._rows[i] >= b;
+                        c._rows[i] = a._rows[i] >= b as LargeVector;
             }
             else
             {
                 int m = a._rowCount, n = a._colCount;
                 c = new Matrix(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -1092,19 +1115,19 @@ namespace Calcpad.Core
             {
                 c = b.Clone();
                 var m = b._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = a >= b._rows[i]);
+                        c._rows[i] = a >= b._rows[i] as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = a >= b._rows[i];
+                        c._rows[i] = a >= b._rows[i] as LargeVector;
             }
             else
             {
                 int m = b._rowCount, n = b._colCount;
                 c = new Matrix(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -1124,21 +1147,21 @@ namespace Calcpad.Core
             Matrix c;
             if (a._type == b._type && a.IsStructurallyConsistentType)
             {
-                c = a.Clone();
+                c = a is HpMatrix hp_a ? hp_a.CloneAsMatrix() : a.Clone();
                 var m = a._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = a._rows[i] <= b._rows[i]);
+                        c._rows[i] = a._rows[i] <= b._rows[i] as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = a._rows[i] <= b._rows[i];
+                        c._rows[i] = a._rows[i] <= b._rows[i] as LargeVector;
             }
             else
             {
                 int m = a._rowCount, n = a._colCount;
                 c = new Matrix(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -1159,19 +1182,19 @@ namespace Calcpad.Core
             {
                 c = a.Clone();
                 var m = a._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = a._rows[i] <= b);
+                        c._rows[i] = a._rows[i] <= b as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = a._rows[i] <= b;
+                        c._rows[i] = a._rows[i] <= b as LargeVector;
             }
             else
             {
                 int m = a._rowCount, n = a._colCount;
                 c = new Matrix(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -1192,19 +1215,19 @@ namespace Calcpad.Core
             {
                 c = b.Clone();
                 var m = b._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = a <= b._rows[i]);
+                        c._rows[i] = a <= b._rows[i] as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = a <= b._rows[i];
+                        c._rows[i] = a <= b._rows[i] as LargeVector;
             }
             else
             {
                 int m = b._rowCount, n = b._colCount;
                 c = new Matrix(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -1224,21 +1247,21 @@ namespace Calcpad.Core
             Matrix c;
             if (a._type == b._type)
             {
-                c = a.Clone();
+                c = a is HpMatrix hp_a ? hp_a.CloneAsMatrix() : a.Clone();
                 var m = a._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = a._rows[i] & b._rows[i]);
+                        c._rows[i] = (a._rows[i] & b._rows[i]) as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = a._rows[i] & b._rows[i];
+                        c._rows[i] = (a._rows[i] & b._rows[i]) as LargeVector;
             }
             else
             {
                 int m = a._rowCount, n = a._colCount;
                 c = new Matrix(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -1259,19 +1282,19 @@ namespace Calcpad.Core
             {
                 c = a.Clone();
                 var m = a._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = a._rows[i] & b);
+                        c._rows[i] = (a._rows[i] & b) as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = a._rows[i] & b;
+                        c._rows[i] = (a._rows[i] & b) as LargeVector;
             }
             else
             {
                 int m = a._rowCount, n = a._colCount;
                 c = new Matrix(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -1291,21 +1314,21 @@ namespace Calcpad.Core
             Matrix c;
             if (a._type == b._type)
             {
-                c = a.Clone();
+                c = a is HpMatrix hp_a ? hp_a.CloneAsMatrix() : a.Clone();
                 var m = a._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = a._rows[i] | b._rows[i]);
+                        c._rows[i] = (a._rows[i] | b._rows[i]) as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = a._rows[i] | b._rows[i];
+                        c._rows[i] = (a._rows[i] | b._rows[i]) as LargeVector;
             }
             else
             {
                 int m = a._rowCount, n = a._colCount;
                 c = new Matrix(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -1326,19 +1349,19 @@ namespace Calcpad.Core
             {
                 c = a.Clone();
                 var m = a._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = a._rows[i] | b);
+                        c._rows[i] = (a._rows[i] | b) as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = a._rows[i] | b;
+                        c._rows[i] = (a._rows[i] | b) as LargeVector;
             }
             else
             {
                 int m = a._rowCount, n = a._colCount;
                 c = new Matrix(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -1358,21 +1381,21 @@ namespace Calcpad.Core
             Matrix c;
             if (a._type == b._type)
             {
-                c = a.Clone();
+                c = a is HpMatrix hp_a ? hp_a.CloneAsMatrix() : a.Clone();
                 var m = a._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = a._rows[i] ^ b._rows[i]);
+                        c._rows[i] = (a._rows[i] ^ b._rows[i]) as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = a._rows[i] ^ b._rows[i];
+                        c._rows[i] = (a._rows[i] ^ b._rows[i]) as LargeVector;
             }
             else
             {
                 int m = a._rowCount, n = a._colCount;
                 c = new Matrix(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -1393,19 +1416,19 @@ namespace Calcpad.Core
             {
                 c = a.Clone();
                 var m = a._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = a._rows[i] ^ b);
+                        c._rows[i] = (a._rows[i] ^ b) as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = a._rows[i] ^ b;
+                        c._rows[i] = (a._rows[i] ^ b) as LargeVector;
             }
             else
             {
                 int m = a._rowCount, n = a._colCount;
                 c = new Matrix(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -1419,30 +1442,92 @@ namespace Calcpad.Core
             return c;
         }
 
-        public static implicit operator Matrix(Vector vector) => new ColumnMatrix(vector);
+        public static implicit operator Matrix(Vector vector) =>
+            vector is HpVector hp_v ?
+            new HpColumnMatrix(hp_v) :
+            new ColumnMatrix(vector);
 
-        internal static Matrix EvaluateOperator(Calculator.Operator<RealValue> op, Matrix a, Matrix b, bool isZeroPresrving, bool requireConsistentUnits)
+        internal static Matrix EvaluateOperator(Calculator.Operator<RealValue> op, Matrix a, Matrix b, long index) =>
+            Calculator.GetOperatorSymbol(index) switch
+            {
+                '/' => a / b,
+                '⦼' => a % b,
+                '*' => a * b,
+                '-' => a - b,
+                '+' => a + b,
+                '<' => a < b,
+                '>' => a > b,
+                '≤' => a <= b,
+                '≥' => a >= b,
+                '≡' => a == b,
+                '≠' => a != b,
+                '∧' => a & b,
+                '∨' => a | b,
+                '⊕' => a ^ b,
+                _ => EvaluateOperator2(op, a, b, index)
+            };
+
+        internal static Matrix EvaluateOperator(Calculator.Operator<RealValue> op, Matrix a, RealValue b, long index) =>
+            Calculator.GetOperatorSymbol(index) switch
+            {
+                '/' => a / b,
+                '⦼' => a % b,
+                '*' => a * b,
+                '-' => a - b,
+                '+' => a + b,
+                '<' => a < b,
+                '>' => a > b,
+                '≤' => a <= b,
+                '≥' => a >= b,
+                '≡' => a == b,
+                '≠' => a != b,
+                '∧' => a & b,
+                '∨' => a | b,
+                '⊕' => a ^ b,
+                _ => EvaluateOperator2(op, a, b, index)
+            };
+
+        internal static Matrix EvaluateOperator(Calculator.Operator<RealValue> op, RealValue a, Matrix b, long index) =>
+            Calculator.GetOperatorSymbol(index) switch
+            {
+                '/' => a / b,
+                '⦼' => a % b,
+                '*' => b * a,
+                '-' => a - b,
+                '+' => b + a,
+                '<' => a < b,
+                '>' => a > b,
+                '≤' => a <= b,
+                '≥' => a >= b,
+                '≡' => b == a,
+                '≠' => b != a,
+                '∧' => b & a,
+                '∨' => b | a,
+                '⊕' => b ^ a,
+                _ => EvaluateOperator2(op, a, b, index)
+            };
+
+        private static Matrix EvaluateOperator2(Calculator.Operator<RealValue> op, Matrix a, Matrix b, long index)
         {
             CheckBounds(a, b);
             Matrix c;
-            if (a._type == b._type &&
-                (a.IsStructurallyConsistentType || isZeroPresrving))
+            if (a._type == b._type && (a.IsStructurallyConsistentType || Calculator.IsZeroPreservingOperator(index)))
             {
-                c = a.Clone();
+                c = a is HpMatrix hp_a ? hp_a.CloneAsMatrix() : a.Clone();
                 var m = a._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = Vector.EvaluateOperator(op, a._rows[i], b._rows[i], requireConsistentUnits));
+                        c._rows[i] = Vector.EvaluateOperator(op, a._rows[i], b._rows[i], index) as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = Vector.EvaluateOperator(op, a._rows[i], b._rows[i], requireConsistentUnits);
+                        c._rows[i] = Vector.EvaluateOperator(op, a._rows[i], b._rows[i], index) as LargeVector;
             }
             else
             {
                 int m = a._rowCount, n = a._colCount;
                 c = new Matrix(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -1456,27 +1541,26 @@ namespace Calcpad.Core
             return c;
         }
 
-        internal static Matrix EvaluateOperator(Calculator.Operator<RealValue> op, Matrix a, RealValue b, bool isZeroPreserving, bool requireConsistentUnits)
+        internal static Matrix EvaluateOperator2(Calculator.Operator<RealValue> op, Matrix a, RealValue b, long index)
         {
             Matrix c;
-            if (a.IsStructurallyConsistentType ||
-                isZeroPreserving && a.Equals(RealValue.Zero))
+            if (a.IsStructurallyConsistentType || Calculator.IsZeroPreservingOperator(index) && a.Equals(RealValue.Zero))
             {
                 c = a.Clone();
                 var m = a._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = Vector.EvaluateOperator(op, a._rows[i], b, requireConsistentUnits));
+                        c._rows[i] = Vector.EvaluateOperator(op, a._rows[i], b, index) as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = Vector.EvaluateOperator(op, a._rows[i], b, requireConsistentUnits);
+                        c._rows[i] = Vector.EvaluateOperator(op, a._rows[i], b, index) as LargeVector;
             }
             else
             {
                 int m = a._rowCount, n = a._colCount;
                 c = new Matrix(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -1490,27 +1574,26 @@ namespace Calcpad.Core
             return c;
         }
 
-        internal static Matrix EvaluateOperator(Calculator.Operator<RealValue> op, RealValue a, Matrix b, bool isZeroPreserving, bool requireConsistentUnits)
+        internal static Matrix EvaluateOperator2(Calculator.Operator<RealValue> op, RealValue a, Matrix b, long index)
         {
             Matrix c;
-            if (b.IsStructurallyConsistentType ||
-                isZeroPreserving && a.Equals(RealValue.Zero))
+            if (b.IsStructurallyConsistentType || Calculator.IsZeroPreservingOperator(index) && a.Equals(RealValue.Zero))
             {
                 c = b.Clone();
                 var m = b._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = Vector.EvaluateOperator(op, a, b._rows[i], requireConsistentUnits));
+                        c._rows[i] = Vector.EvaluateOperator(op, a, b._rows[i], index) as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = Vector.EvaluateOperator(op, a, b._rows[i], requireConsistentUnits);
+                        c._rows[i] = Vector.EvaluateOperator(op, a, b._rows[i], index) as LargeVector;
             }
             else
             {
                 int m = b._rowCount, n = b._colCount;
                 c = new Matrix(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -1531,12 +1614,12 @@ namespace Calcpad.Core
             {
                 c = a.Clone();
                 var m = a._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = Vector.EvaluateFunction(f, a._rows[i]));
+                        c._rows[i] = Vector.EvaluateFunction(f, a._rows[i]) as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = Vector.EvaluateFunction(f, a._rows[i]);
+                        c._rows[i] = Vector.EvaluateFunction(f, a._rows[i]) as LargeVector;
 
             }
             else
@@ -1544,7 +1627,7 @@ namespace Calcpad.Core
                 int m = a._rowCount, n = a._colCount;
                 c = new(m, n);
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -1556,6 +1639,13 @@ namespace Calcpad.Core
                             c[i, j] = f(a[i, j]);
             }
             return c;
+        }
+
+        internal void SetUnits(Unit units)
+        {
+            var n = _rows.Length - 1;
+            for (int i = n; i >= 0; --i)
+                _rows[i].SetUnits(units);
         }
 
         internal RealValue[] Values
@@ -1578,14 +1668,14 @@ namespace Calcpad.Core
             Matrix c;
             if (a._type == b._type)
             {
-                c = a.Clone();
+                c = a is HpMatrix hp_a ? hp_a.CloneAsMatrix() : a.Clone();
                 var m = a._rows.Length;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
-                        c._rows[i] = a._rows[i] * b._rows[i]);
+                        c._rows[i] = a._rows[i] * b._rows[i] as LargeVector);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        c._rows[i] = a._rows[i] * b._rows[i];
+                        c._rows[i] = a._rows[i] * b._rows[i] as LargeVector;
             }
             else
             {
@@ -1596,7 +1686,7 @@ namespace Calcpad.Core
                     c = new Matrix(m, n);
 
                 --n;
-                if (m > ParallelTreshold)
+                if (m > ParallelThreshold)
                     Parallel.For(0, m, i =>
                     {
                         for (int j = n; j >= 0; --j)
@@ -1620,7 +1710,7 @@ namespace Calcpad.Core
             var p1 = p - 1;
             var q1 = q - 1;
             var c = new Matrix(m * p, n * q);
-            if (m > ParallelTreshold)
+            if (m > ParallelThreshold)
                 Parallel.For(0, m, InnerLoop);
             else
                 for (int i = m - 1; i >= 0; --i)
@@ -1648,7 +1738,7 @@ namespace Calcpad.Core
             CheckBounds(a, b);
             var m = a._rows.Length;
             RealValue sum = RealValue.Zero;
-            if (m > ParallelTreshold)
+            if (m > ParallelThreshold)
                 Parallel.For(0, m, i =>
                     sum += Vector.DotProduct(a._rows[i], b._rows[i]));
             else
@@ -1658,13 +1748,13 @@ namespace Calcpad.Core
             return sum;
         }
 
-        internal Vector Row(int index)
+        internal virtual Vector Row(int index)
         {
             if (index < 1 || index > _rowCount)
-                Throw.IndexOutOfRangeException(index.ToString());   
+                throw Exceptions.IndexOutOfRange(index.ToString());
 
             --index;
-            if (_type == MatrixType.Full)
+            if (_type == MatrixType.Full || _type == MatrixType.LowerTriangular)
                 return _rows[index].Copy();
 
             var row = new LargeVector(_colCount);
@@ -1674,10 +1764,10 @@ namespace Calcpad.Core
             return row;
         }
 
-        internal Vector Col(int index)
+        internal virtual LargeVector Col(int index)
         {
             if (index < 1 || index > _colCount)
-                Throw.IndexOutOfRangeException(index.ToString());
+                throw Exceptions.IndexOutOfRange(index.ToString());
 
             --index;
             if (this is ColumnMatrix cm)
@@ -1692,43 +1782,38 @@ namespace Calcpad.Core
 
         private ColumnVector GetColumnVector(int index) => new(this, index);
 
-        internal void SetRow(int index, Vector row) =>
-            _rows[index] = row.Resize(_colCount);
+        private void SetRow(int index, Vector row) =>
+            _rows[index] = row is LargeVector lv ?
+                lv.Resize(_colCount) :
+                new LargeVector(row.Raw).Resize(_colCount);
 
-        internal void SetCol(int index, Vector col)
+        private void SetCol(int index, Vector col)
         {
             var n = Math.Min(col.Length, _rowCount) - 1;
             for (int i = n; i >= 0; --i)
                 this[i, index] = col[i];
         }
 
-        internal void SetCol(int index, RealValue[] col)
-        {
-            var n = Math.Min(col.Length, _rowCount) - 1;
-            for (int i = n; i >= 0; --i)
-                this[i, index] = col[i];
-        }
-
-        internal Matrix Submatrix(int i1, int i2, int j1, int j2)
+        internal virtual Matrix Submatrix(int i1, int i2, int j1, int j2)
         {
             if (i2 < i1)
                 (i1, i2) = (i2, i1);
             if (j2 < j1)
                 (j1, j2) = (j2, j1);
             if (i1 < 1)
-                Throw.IndexOutOfRangeException(i1.ToString());
+                throw Exceptions.IndexOutOfRange(i1.ToString());
             if (i2 > _rowCount)
-                Throw.IndexOutOfRangeException(i2.ToString());
+                throw Exceptions.IndexOutOfRange(i2.ToString());
             if (j1 < 1)
-                Throw.IndexOutOfRangeException(j1.ToString());
+                throw Exceptions.IndexOutOfRange(j1.ToString());
             if (j2 > _colCount)
-                Throw.IndexOutOfRangeException(j2.ToString());
+                throw Exceptions.IndexOutOfRange(j2.ToString());
 
             var rows = i2 - i1;
             var cols = j2 - j1;
             var M = new Matrix(rows + 1, cols + 1);
             --i1;
-            if (_type == MatrixType.Full)
+            if (_type == MatrixType.Full || _type == MatrixType.LowerTriangular)
                 for (int i = rows; i >= 0; --i)
                     M._rows[i] = _rows[i1 + i].Slice(j1, j2);
             else
@@ -1744,16 +1829,16 @@ namespace Calcpad.Core
             return M;
         }
 
-        internal Matrix ExtractRows(Vector vector)
+        internal virtual Matrix ExtractRows(Vector vector)
         {
             var rowCount = vector.Length;
             var M = new Matrix(rowCount, _colCount);
-            if (_type == MatrixType.Full)
+            if (_type == MatrixType.Full || _type == MatrixType.LowerTriangular)
                 for (int i = rowCount - 1; i >= 0; --i)
                 {
                     var rowIndex = (int)vector[i].D;
                     if (rowIndex < 1 || rowIndex > _rowCount)
-                        Throw.IndexOutOfRangeException(rowIndex.ToString());
+                        throw Exceptions.IndexOutOfRange(rowIndex.ToString());
 
                     M._rows[i] = _rows[rowIndex - 1];
                 }
@@ -1764,7 +1849,7 @@ namespace Calcpad.Core
                 {
                     var rowIndex = (int)vector[i].D;
                     if (rowIndex < 1 || rowIndex > _rowCount)
-                        Throw.IndexOutOfRangeException(rowIndex.ToString());
+                        throw Exceptions.IndexOutOfRange(rowIndex.ToString());
 
                     var row = M._rows[i];
                     for (int j = n; j >= 0; --j)
@@ -1774,7 +1859,7 @@ namespace Calcpad.Core
             return M;
         }
 
-        internal Matrix ExtractCols(Vector vector)
+        internal virtual Matrix ExtractCols(Vector vector)
         {
             var colCount = vector.Length;
             var M = new Matrix(_rowCount, colCount);
@@ -1783,7 +1868,7 @@ namespace Calcpad.Core
             {
                 var colIndex = (int)vector[j].D;
                 if (colIndex < 1 || colIndex > _colCount)
-                    Throw.IndexOutOfRangeException(colIndex.ToString());
+                    throw Exceptions.IndexOutOfRange(colIndex.ToString());
 
                 for (int i = m; i >= 0; --i)
                     M[i, j] = this[i, colIndex - 1];
@@ -1791,10 +1876,10 @@ namespace Calcpad.Core
             return M;
         }
 
-        internal Matrix Fill(RealValue value)
+        internal virtual Matrix Fill(RealValue value)
         {
             var m = _rows.Length;
-            if (m > ParallelTreshold)
+            if (m > ParallelThreshold)
                 Parallel.For(0, m, i =>
                     _rows[i].Fill(value));
             else
@@ -1804,13 +1889,13 @@ namespace Calcpad.Core
             return this;
         }
 
-        internal Matrix FillRow(int i, in RealValue value)
+        internal virtual Matrix FillRow(int i, in RealValue value)
         {
             if (i > _rowCount)
-                Throw.IndexOutOfRangeException(i.ToString());
+                throw Exceptions.IndexOutOfRange(i.ToString());
 
             --i;
-            if (_type == MatrixType.Full || 
+            if (_type == MatrixType.Full ||
                 _type == MatrixType.Symmetric ||
                 _type == MatrixType.UpperTriangular ||
                 _type == MatrixType.LowerTriangular)
@@ -1821,10 +1906,10 @@ namespace Calcpad.Core
             return this;
         }
 
-        internal Matrix FillCol(int j, in RealValue value)
+        internal virtual Matrix FillCol(int j, in RealValue value)
         {
             if (j > _colCount)
-                Throw.IndexOutOfRangeException(j.ToString());
+                throw Exceptions.IndexOutOfRange(j.ToString());
 
             --j;
             if (_type == MatrixType.Full)
@@ -1859,13 +1944,15 @@ namespace Calcpad.Core
             for (int k = 0; k < len; ++k)
             {
                 var matrix = matrices[k];
-                m = matrix._rowCount;
-                n = matrix._colCount;
-                for (int i = 0; i < m; ++i)
-                    for (int j = 0; j < n; ++j)
-                        M[i, c + j] = matrix[i, j];
-
-                c += n;
+                m = matrix._rowCount - 1;
+                n = matrix._colCount - 1;
+                for (int i = m; i >= 0; --i)
+                {
+                    var row = M._rows[i];
+                    for (int j = n; j >= 0; --j)
+                        row[c + j] = matrix[i, j];
+                }
+                c += n + 1;
             }
             return M;
         }
@@ -1885,19 +1972,21 @@ namespace Calcpad.Core
             {
                 var matrix = matrices[k];
                 m = matrix._rowCount;
-                n = matrix._colCount;
-                for (int i = 0; i < m; ++i)
-                    for (int j = 0; j < n; ++j)
-                        M[r + i, j] = matrix[i, j];
-
+                n = matrix._colCount - 1;
+                for (int i = m - 1; i >= 0; --i)
+                {
+                    var row = M._rows[r + i];
+                    for (int j = n; j >= 0; --j)
+                        row[j] = matrix[i, j];
+                }
                 r += m;
             }
             return M;
         }
 
-        internal Vector Search(in RealValue value, int iStart, int jStart)
+        internal virtual Vector Search(in RealValue value, int iStart, int jStart)
         {
-            if (_type == MatrixType.Full)
+            if (_type == MatrixType.Full || _type == MatrixType.LowerTriangular)
                 for (int i = iStart - 1; i < _rowCount; ++i)
                 {
                     var jValue = _rows[i].Search(value, jStart);
@@ -1921,22 +2010,29 @@ namespace Calcpad.Core
             return new Vector(2);
         }
 
-        internal RealValue Count(in RealValue value)
+        internal virtual RealValue Count(RealValue value)
         {
-            var count = 0;
-            if (_type == MatrixType.Full)
-                for (int i = 0; i < _rowCount; ++i)
-                    count += (int)_rows[i].Count(value, 1).D;
+            if (_type == MatrixType.Full || _type == MatrixType.LowerTriangular || !value.Equals(RealValue.Zero))
+            {
+                var count = 0d;
+                for (int i = 0, len = _rows.Length; i < len; ++i)
+                    count += _rows[i].Count(value, 1).D;
+
+                return new(count);
+            }
             else
+            {
+                var count = 0;
                 for (int i = 0; i < _rowCount; ++i)
                     for (int j = 0; j < _colCount; ++j)
                         if (this[i, j].AlmostEquals(value))
                             ++count;
 
-            return new(count);
+                return new(count);
+            }
         }
 
-        internal Matrix FindAll(in RealValue value, Vector.Relation rel)
+        internal virtual Matrix FindAll(in RealValue value, Vector.Relation rel)
         {
             var M = FromIndexes(FindAllIndexes(value, rel));
             if (M._colCount == 0)
@@ -1945,12 +2041,12 @@ namespace Calcpad.Core
             return M;
         }
 
-        internal Vector HLookup(in RealValue value, int searchRow, int returnRow, Vector.Relation rel)
+        internal virtual Vector HLookup(in RealValue value, int searchRow, int returnRow, Vector.Relation rel)
         {
             if (searchRow < 1 || searchRow > _rowCount)
-                Throw.IndexOutOfRangeException(searchRow.ToString());
+                throw Exceptions.IndexOutOfRange(searchRow.ToString());
             if (returnRow < 1 || returnRow > _rowCount)
-                Throw.IndexOutOfRangeException(returnRow.ToString());
+                throw Exceptions.IndexOutOfRange(returnRow.ToString());
 
             var i = searchRow - 1;
             var indexes = new List<int>();
@@ -1967,12 +2063,12 @@ namespace Calcpad.Core
             return vector;
         }
 
-        internal Vector VLookup(in RealValue value, int searchCol, int returnCol, Vector.Relation rel)
+        internal virtual Vector VLookup(in RealValue value, int searchCol, int returnCol, Vector.Relation rel)
         {
             if (searchCol > _colCount)
-                Throw.IndexOutOfRangeException(searchCol.ToString());
+                throw Exceptions.IndexOutOfRange(searchCol.ToString());
             if (returnCol > _colCount)
-                Throw.IndexOutOfRangeException(returnCol.ToString());
+                throw Exceptions.IndexOutOfRange(returnCol.ToString());
 
             var j = searchCol - 1;
             var indexes = new List<int>();
@@ -1999,7 +2095,7 @@ namespace Calcpad.Core
             return indexes;
         }
 
-        internal static Matrix FromIndexes(IEnumerable<(int, int)> indexes)
+        private static Matrix FromIndexes(IEnumerable<(int, int)> indexes)
         {
             var n = indexes.Count();
             var matrix = new Matrix(2, n);
@@ -2013,18 +2109,18 @@ namespace Calcpad.Core
             return matrix;
         }
 
-        internal Matrix SortRows(int j, bool reverse = false)
+        internal virtual Matrix SortRows(int j, bool reverse = false)
         {
             --j;
             var indexes = new ColumnVector(this, j).GetOrderIndexes(reverse);
             return ReorderRows(indexes);
         }
 
-        internal Matrix ReorderRows(int[] indexes)
+        internal virtual Matrix ReorderRows(int[] indexes)
         {
             Matrix M = new(_rowCount, _colCount);
             var m = _rowCount - 1;
-            if (_type == MatrixType.Full)
+            if (_type == MatrixType.Full || _type == MatrixType.LowerTriangular)
                 for (int i = m; i >= 0; --i)
                     M._rows[i] = _rows[indexes[i]];
             else
@@ -2040,18 +2136,20 @@ namespace Calcpad.Core
             return M;
         }
 
-        internal Matrix SortCols(int i, bool reverse = false)
+        internal virtual Matrix SortCols(int i, bool reverse = false)
         {
             if (i > _rowCount)
-                Throw.IndexOutOfRangeException(i.ToString());
+                throw Exceptions.IndexOutOfRange(i.ToString());
 
             --i;
-            var row = _type == MatrixType.Full ? _rows[i] : new RowVector(this, i);
+            Vector row = _type == MatrixType.Full || _type == MatrixType.LowerTriangular ? 
+                _rows[i] : new RowVector(this, i);
+
             var indexes = row.GetOrderIndexes(reverse);
             return ReorderCols(indexes);
         }
 
-        internal Matrix ReorderCols(int[] indexes)
+        internal virtual Matrix ReorderCols(int[] indexes)
         {
             Matrix M = new(_rowCount, _colCount);
             var m = _rowCount - 1;
@@ -2065,30 +2163,38 @@ namespace Calcpad.Core
             return M;
         }
 
-        internal Vector OrderRows(int j, bool reverse = false)
+        internal virtual Vector OrderRows(int j, bool reverse = false)
         {
             if (j > _colCount)
-                Throw.IndexOutOfRangeException(j.ToString());
+                throw Exceptions.IndexOutOfRange(j.ToString());
+
             --j;
-            var col = _type == MatrixType.Column ? _rows[0] : new ColumnVector(this, j);
+            Vector col = _type == MatrixType.Column ? _rows[0] : new ColumnVector(this, j);
             return col.Order(reverse);
         }
 
-        internal Vector OrderCols(int i, bool reverse = false)
+        internal virtual Vector OrderCols(int i, bool reverse = false)
         {
             if (i > _rowCount)
-                Throw.IndexOutOfRangeException(i.ToString());
+                throw Exceptions.IndexOutOfRange(i.ToString());
+
             --i;
-            var row = _type == MatrixType.Full ? _rows[i] : new RowVector(this, i);
+            Vector row = _type == MatrixType.Full || _type == MatrixType.LowerTriangular ? 
+                _rows[i] : new RowVector(this, i);
+
             return row.Order(reverse);
         }
 
-        internal RealValue Min()
+        internal virtual RealValue Min()
         {
+            var len = _rows.Length;
+            if (len == 0)
+                return RealValue.Zero;
+
             var v = _rows[0].Min();
             var min = v.D;
             var u = v.Units;
-            for (int i = 1, len = _rows.Length; i < len; ++i)
+            for (int i = 1; i < len; ++i)
             {
                 v = _rows[i].Min();
                 var b = v.D * Unit.Convert(u, v.Units, ',');
@@ -2101,12 +2207,16 @@ namespace Calcpad.Core
             return new(min, u);
         }
 
-        internal RealValue Max()
+        internal virtual RealValue Max()
         {
+            var len = _rows.Length;
+            if (len == 0)
+                return RealValue.Zero;
+
             var v = _rows[0].Max();
             var max = v.D;
             var u = v.Units;
-            for (int i = 1, len = _rows.Length; i < len; ++i)
+            for (int i = 1; i < len; ++i)
             {
                 v = _rows[i].Max();
                 var b = v.D * Unit.Convert(u, v.Units, ',');
@@ -2121,10 +2231,14 @@ namespace Calcpad.Core
 
         internal virtual RealValue Sum()
         {
+            var len = _rows.Length;
+            if (len == 0)
+                return RealValue.Zero;
+
             var v = _rows[0].Sum();
             var sum = v.D;
             var u = v.Units;
-            for (int i = 1, len = _rows.Length; i < len; ++i)
+            for (int i = 1; i < len; ++i)
             {
                 v = _rows[i].Sum();
                 sum += v.D * Unit.Convert(u, v.Units, ',');
@@ -2134,10 +2248,14 @@ namespace Calcpad.Core
 
         internal virtual RealValue SumSq()
         {
+            var len = _rows.Length;
+            if (len == 0)
+                return RealValue.Zero;
+
             var v = _rows[0].SumSq();
             var sumsq = v.D;
             var u = v.Units;
-            for (int i = 1, len = _rows.Length; i < len; ++i)
+            for (int i = 1; i < len; ++i)
             {
                 v = _rows[i].SumSq();
                 sumsq += v.D * Unit.Convert(u, v.Units, ',');
@@ -2145,7 +2263,7 @@ namespace Calcpad.Core
             return new(sumsq, u);
         }
 
-        internal RealValue Srss()
+        internal virtual RealValue Srss()
         {
             var sumsq = SumSq();
             var srss = Math.Sqrt(sumsq.D);
@@ -2153,7 +2271,7 @@ namespace Calcpad.Core
             return new(srss, u?.Pow(0.5f));
         }
 
-        internal RealValue Average()
+        internal virtual RealValue Average()
         {
             var sum = Sum();
             var n = _rowCount * _colCount;
@@ -2162,14 +2280,18 @@ namespace Calcpad.Core
 
         internal virtual RealValue Product()
         {
-            var v = _rows[0].Product();
-            var product = v.D;
-            var u = v.Units;
-            for (int i = 1, len = _rows.Length; i < len; ++i)
+            var len = _rows.Length;
+            if (len == 0)
+                return RealValue.Zero;
+
+            var p = _rows[0].Product();
+            var product = p.D;
+            var u = p.Units;
+            for (int i = 1; i < len; ++i)
             {
-                v = _rows[i].Product();
-                u = Unit.Multiply(u, v.Units, out var b);
-                product *= v.D * b;
+                p = _rows[i].Product();
+                u = Unit.Multiply(u, p.Units, out var b);
+                product *= p.D * b;
             }
             if (!IsStructurallyConsistentType)
                 return new(0d, u);
@@ -2177,7 +2299,7 @@ namespace Calcpad.Core
             return new(product, u);
         }
 
-        internal RealValue Mean()
+        internal virtual RealValue Mean()
         {
             var product = Product();
             var n = _rowCount * _colCount;
@@ -2190,7 +2312,7 @@ namespace Calcpad.Core
             return new(result, u);
         }
 
-        internal RealValue And()
+        internal virtual RealValue And()
         {
             if (!IsStructurallyConsistentType)
                 return RealValue.Zero;
@@ -2202,7 +2324,7 @@ namespace Calcpad.Core
             return RealValue.One;
         }
 
-        internal RealValue Or()
+        internal virtual RealValue Or()
         {
             for (int i = 0, len = _rows.Length; i < len; ++i)
                 if (Math.Abs(_rows[i].Or().D) >= RealValue.LogicalZero)
@@ -2211,7 +2333,7 @@ namespace Calcpad.Core
             return RealValue.Zero;
         }
 
-        internal RealValue Xor()
+        internal virtual RealValue Xor()
         {
             var b = Math.Abs(_rows[0].Xor().D) >= RealValue.LogicalZero;
             for (int i = 1, len = _rows.Length; i < len; ++i)
@@ -2220,7 +2342,7 @@ namespace Calcpad.Core
             return b ? RealValue.One : RealValue.Zero;
         }
 
-        internal RealValue Gcd()
+        internal virtual RealValue Gcd()
         {
             var v = _rows[0].Gcd();
             var a = Calculator.AsLong(v.D);
@@ -2234,7 +2356,7 @@ namespace Calcpad.Core
             return new(a);
         }
 
-        internal RealValue Lcm()
+        internal virtual RealValue Lcm()
         {
             var v = _rows[0].Lcm();
             var a = Calculator.AsLong(v.D);
@@ -2248,7 +2370,7 @@ namespace Calcpad.Core
             return new(a);
         }
 
-        internal RealValue Take(in RealValue x, in RealValue y)
+        internal virtual RealValue Take(in RealValue x, in RealValue y)
         {
             var dx = Math.Round(x.D, MidpointRounding.AwayFromZero);
             var dy = Math.Round(y.D, MidpointRounding.AwayFromZero);
@@ -2259,7 +2381,7 @@ namespace Calcpad.Core
             return this[(int)dy - 1, (int)dx - 1];
         }
 
-        internal RealValue Line(in RealValue x, in RealValue y)
+        internal virtual RealValue Line(in RealValue x, in RealValue y)
         {
             var dx = x.D;
             var dy = y.D;
@@ -2291,7 +2413,7 @@ namespace Calcpad.Core
             return z1 + (z2 - z1) * (dy - i);
         }
 
-        internal RealValue Spline(in RealValue x, in RealValue y)
+        internal virtual RealValue Spline(in RealValue x, in RealValue y)
         {
             var dx = x.D;
             var dy = y.D;
@@ -2384,10 +2506,10 @@ namespace Calcpad.Core
             return M;
         }
 
-        internal RealValue Trace()
+        internal virtual RealValue Trace()
         {
             if (_rowCount != _colCount)
-                Throw.MatrixNotSquareException();
+                throw Exceptions.MatrixNotSquare();
 
             var trace = this[0, 0];
             for (int i = 1; i < _rowCount; ++i)
@@ -2400,7 +2522,7 @@ namespace Calcpad.Core
         internal RealValue FrobNorm() => Srss();
 
         //L1 norm   
-        internal RealValue L1Norm()
+        internal virtual RealValue L1Norm()
         {
             var norm = new ColumnVector(this, 0).L1Norm();
             for (int j = 1; j < _colCount; ++j)
@@ -2412,7 +2534,7 @@ namespace Calcpad.Core
             return norm;
         }
 
-        internal RealValue L2Norm()
+        internal virtual RealValue L2Norm()
         {
             GetSVD(out _, out Vector sig, out _);
             return sig.Max();
@@ -2431,11 +2553,10 @@ namespace Calcpad.Core
             return norm;
         }
 
-        internal Matrix LUDecomposition(out int[] indexes)
+        internal virtual Matrix LUDecomposition(out int[] indexes)
         {
-            var LU = GetLU(out indexes, out double _, out double _);
-            if (LU is null)
-                Throw.MatrixSingularException();
+            var LU = GetLU(out indexes, out double _, out double _) ?? 
+                throw Exceptions.MatrixSingular();
 
             return LU;
         }
@@ -2443,28 +2564,33 @@ namespace Calcpad.Core
         protected virtual Matrix GetLU(out int[] indexes, out double minPivot, out double det)
         {
             if (_rowCount != _colCount)
-                Throw.MatrixNotSquareException();
+                throw Exceptions.MatrixNotSquare();
 
             var LU = new Matrix(_rowCount, _rowCount);
             var vv = new RealValue[_rowCount];
             indexes = new int[_rowCount];
+            //Column buffer for faster access
+            var col_j = new RealValue[_rowCount];
             RealValue big;
-            minPivot = double.MaxValue; //Used to determine singularity
             det = 1d; //Used to compute the sign change of determinant after pivot interchanges
             for (int i = 0; i < _rowCount; ++i)
             {
                 indexes[i] = i;
-                var row = LU._rows[i];
-                for (int j = 0; j < _colCount; ++j)
-                    row[j] = this[i, j];
+                LU._rows[i] = _rows[i].Copy();
             }
+            minPivot = 0d;
             for (int i = 0; i < _rowCount; ++i)
             {
                 var row = LU._rows[i];
-                big = RealValue.Abs(row[0]);
-                for (int j = 1; j < row.Size; j++)
+                var size = row.Size;
+                if (size == 0)
+                    return null;
+
+                var raw = row.Raw;
+                big = RealValue.Abs(raw[0]);
+                for (int j = 1; j < size; j++)
                 {
-                    var temp = RealValue.Abs(row[j]);
+                    var temp = RealValue.Abs(raw[j]);
                     if (temp.CompareTo(big) > 0)
                         big = temp;
                 }
@@ -2473,33 +2599,40 @@ namespace Calcpad.Core
 
                 vv[i] = RealValue.One / big;
             }
+            minPivot = double.MaxValue; //Used to determine singularity
             for (int j = 0; j < _colCount; ++j)
             {
+                //Cache column j for faster access
+                for (int i = 0; i < _rowCount; ++i)
+                    col_j[i] = LU[i, j];
+
                 for (int i = 0; i < j; ++i)
                 {
                     var row = LU._rows[i];
-                    var sum = row[j];
+                    var size = Math.Min(row.Size, i);
+                    var raw = row.Raw;
+                    var sum = col_j[i];
                     var k0 = 0;
-                    while (k0 < i && row[k0].D == 0d) ++k0;
-                    for (int k = k0; k < i; ++k)
-                        if (j < LU._rows[k].Size)
-                            sum -= row[k] * LU[k, j];
+                    while (k0 < size && raw[k0].D == 0d) ++k0;
+                    for (int k = k0; k < size; ++k)
+                        sum -= raw[k] * col_j[k];
 
-                    row[j] = sum;
+                    col_j[i] = sum;
                 }
                 big = RealValue.Zero;
                 var imax = j;
                 for (int i = j; i < _rowCount; ++i)
                 {
                     var row = LU._rows[i];
-                    var sum = row[j];
+                    var size = Math.Min(row.Size, j);
+                    var raw = row.Raw;
+                    var sum = col_j[i];
                     var k0 = 0;
-                    while (k0 < j && row[k0].D == 0d) ++k0;
-                    for (int k = k0; k < j; k++)
-                        if (j < LU._rows[k].Size)
-                            sum -= row[k] * LU[k, j];
+                    while (k0 < size && raw[k0].D == 0d) ++k0;
+                    for (int k = k0; k < size; k++)
+                        sum -= raw[k] * col_j[k];
 
-                    row[j] = sum;
+                    col_j[i] = sum;
                     var dum = vv[i] * RealValue.Abs(sum);
                     if (dum.CompareTo(big) > 0)
                     {
@@ -2514,73 +2647,90 @@ namespace Calcpad.Core
                         minPivot = d;
 
                     (LU._rows[j], LU._rows[imax]) = (LU._rows[imax], LU._rows[j]);
+                    (col_j[j], col_j[imax]) = (col_j[imax], col_j[j]); //Swap also cached values
                     vv[imax] = vv[j];
                     (indexes[j], indexes[imax]) = (indexes[imax], indexes[j]);
                     det = -det;
                 }
                 if (j != _rowCount - 1)
                 {
-                    var dum = RealValue.One / LU[j, j];
+                    var dum = RealValue.One / col_j[j];
                     for (int i = j + 1; i < _rowCount; ++i)
-                        LU[i, j] *= dum;
+                        col_j[i] *= dum;
                 }
                 else if (d < minPivot)
                     minPivot = d;
+
+                //Restore column j from buffer
+                for (int i = 0; i < _rowCount; ++i)
+                    LU[i, j] = col_j[i];
             }
-            return LU;
+            return minPivot == 0d ? null : LU;
         }
 
         private void GetQR(out Matrix Q, out Matrix R)
         {
-            // QR decomposition, Householder algorithm.
-            if (_rowCount != _colCount)
-                Throw.MatrixNotSquareException();
-
-            var n = _rowCount;
+            var m = _rowCount;
+            var n = _colCount;
             R = Copy();
-            Q = Identity(n);
-            var end = n - 1;
-            var two = new RealValue(2);
-            for (int i = 0; i < end; ++i)
+            Q = Identity(m);
+            var v = new RealValue[m];
+            var mn = Math.Min(m, n);
+            for (int k = 0; k < mn; k++)
             {
-                var H = Identity(n);
-                var a = new Vector(n - i);
-                var k = 0;
-                for (int ii = i; ii < n; ++ii)
-                    a[k++] = R[ii, i];
+                // Build the Householder vector
+                RealValue r = R[k, k];
+                var normX = r * r;
+                for (int i = k + 1; i < m; ++i)
+                {
+                    r = R[i, k];
+                    normX += r * r;
+                }
+                normX = RealValue.Sqrt(normX);
+                if (normX.D == 0d)
+                    continue;
 
-                var normA = a.Norm();
-                if (a[0].D < 0.0)
-                    normA = -normA;
+                r = R[k, k];
+                var alpha = r.D > 0d ? -normX : normX;
+                var rs = RealValue.Sqrt(alpha * (alpha - r) * 0.5) * 2d;
+                v[k] = (r - alpha) / rs;
+                for (int i = k + 1; i < m; ++i)
+                    v[i] = R[i, k] / rs;
 
-                var v = new Vector(a.Length);
-                for (int j = 0; j < v.Length; ++j)
-                    v[j] = a[j] / (a[0] + normA);
+                // Apply reflector to R (from the left): R = (I - 2vvᵗ) * R
+                for (int j = k; j < n; ++j)
+                {
+                    var dot = v[k] * R[k, j];
+                    for (int i = k + 1; i < m; ++i)
+                        dot += v[i] * R[i, j];
 
-                v[0] = RealValue.One;
+                    r = dot * 2d;
+                    for (int i = k; i < m; ++i)
+                        R[i, j] -= r * v[i];
+                }
 
-                var h = Identity(a.Length);
-                var vvDot = v.SumSq();
-                var A = new ColumnMatrix(v);
-                var B = new Matrix(v);
-                var C = A * B;
-                for (int ii = 0; ii < h._rowCount; ++ii)
-                    for (int jj = 0; jj < h._colCount; ++jj)
-                        h[ii, jj] -= (two / vvDot) * C[ii, jj];
+                // Apply reflector to Q (from the right): Q = Q * (I - 2vvᵗ)
+                for (int i = 0; i < m; ++i)
+                {
+                    var Q_i = Q._rows[i];
+                    var size = Q_i.Size;    
+                    var dot = Q_i[k] * v[k];
+                    for (int j = k + 1; j < size; ++j)
+                        dot += Q_i[j] * v[j];
 
-                // copy h into lower right of H
-                int d = n - h._rowCount;
-                for (int ii = 0; ii < h._colCount; ++ii)
-                    for (int jj = 0; jj < h._colCount; ++jj)
-                        H[ii + d, jj + d] = h[ii, jj];
-
-                Q *= H;
-                R = H * R;
+                    r = dot * 2d;
+                    for (int j = m - 1; j >= k; --j)
+                        Q_i[j] -= r * v[j];
+                }
             }
         }
-        protected static RealValue CopySign(in RealValue a, in RealValue b) => 
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected static RealValue CopySign(in RealValue a, in RealValue b) =>
             b.D >= 0.0 ? RealValue.Abs(a) : -RealValue.Abs(a);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected static RealValue Sqr(in RealValue x) => x * x;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected static RealValue Hypot(in RealValue a, in RealValue b)
         {
             var a1 = RealValue.Abs(a);
@@ -2594,7 +2744,7 @@ namespace Calcpad.Core
         private void GetSVD(out Matrix U, out Vector sig, out Matrix V)
         {
             if (_rowCount < _colCount)
-                Throw.MatrixNotHighException();
+                throw Exceptions.MatrixNotHigh();
 
             var m = _rowCount - 1;
             var n = _colCount - 1;
@@ -2604,91 +2754,106 @@ namespace Calcpad.Core
             V = new Matrix(_colCount, _colCount);
             SvdBidiagonalize(U, sig, rv1, m, n, out RealValue anorm);
             SvdRightTransform(U, V, rv1, n);
-            SvdLeftTransform(U, sig, m ,n);
-            SvdDiagonalize(U, sig, V, rv1,m, n, anorm);
+            SvdLeftTransform(U, sig, m, n);
+            SvdDiagonalize(U, sig, V, rv1, m, n, anorm);
         }
-        
+
         private static void SvdBidiagonalize(Matrix U, Vector sig, Vector rv1, int m, int n, out RealValue anorm)
         {
-            RealValue sum;            
+            RealValue sum;
             RealValue scale, g;
             scale = g = anorm = RealValue.Zero;
+            var U_col_i = new RealValue[n + 1];
             for (int i = 0; i <= n; ++i)
             {
                 var l = i + 1;
                 rv1[i] = scale * g;
                 if (i <= m)
                 {
-                    scale = RealValue.Abs(U[i, i]);
-                    for (int k = i + 1; k <= m; ++k)
-                        scale += RealValue.Abs(U[k, i]);
+                    //Cache the i-th column of U for optimized access
+                    for (int k = i; k <= m; ++k)
+                        U_col_i[k] = U[k, i];
+
+                    scale = RealValue.Abs(U_col_i[i]);
+                    for (int k = l; k <= m; ++k)
+                        scale += RealValue.Abs(U_col_i[k]);
 
                     if (scale.D != 0)
                     {
-                        U[i, i] /= scale;
-                        sum = Sqr(U[i, i]);
-                        for (int k = i + 1; k <= m; ++k)
+
+                        var U_ii = U_col_i[i] / scale;
+                        sum = Sqr(U_ii);
+                        U_col_i[i] = U_ii;
+                        for (int k = l; k <= m; ++k)
                         {
-                            U[k, i] /= scale;
-                            sum += Sqr(U[k, i]);
+                            U_col_i[k] /= scale;
+                            sum += Sqr(U_col_i[k]);
                         }
-                        var f = U[i, i];
+                        var f = U_ii;
                         g = -CopySign(RealValue.Sqrt(sum), f);
                         var h = f * g - sum;
-                        U[i, i] = f - g;
+                        U_ii = f - g;
+                        U_col_i[i] = U_ii;
                         for (int j = l; j <= n; ++j)
                         {
-                            sum = U[i, i] * U[i, j];
+                            sum = U_ii * U[i, j];
                             for (int k = l; k <= m; ++k)
-                                sum += U[k, i] * U[k, j];
+                                sum += U_col_i[k] * U[k, j];
 
                             f = sum / h;
                             for (int k = i; k <= m; ++k)
-                                U[k, j] += f * U[k, i];
+                                U[k, j] += f * U_col_i[k];
                         }
                         for (int k = i; k <= m; ++k)
-                            U[k, i] *= scale;
+                            U_col_i[k] *= scale;
                     }
+                    //Restore the cached i-th column of U
+                    for (int k = i; k <= m; ++k)
+                        U[k, i] = U_col_i[k];
                 }
                 sig[i] = scale * g;
                 if (i <= m && i != n)
                 {
-                    scale = RealValue.Abs(U[i, l]);
+                    var U_i = U._rows[i];
+                    scale = RealValue.Abs(U_i[l]);
                     for (int k = l + 1; k <= n; ++k)
-                        scale += RealValue.Abs(U[i, k]);
+                        scale += RealValue.Abs(U_i[k]);
 
                     if (scale.D != 0)
                     {
-                        U[i, l] /= scale;
-                        sum = Sqr(U[i, l]);
+                        var U_il = U_i[l] / scale;
+                        sum = Sqr(U_il);
+                        U_i[l] = U_il;
                         for (int k = l + 1; k <= n; ++k)
                         {
-                            U[i, k] /= scale;
-                            sum += Sqr(U[i, k]);
+                            U_i[k] /= scale;
+                            sum += Sqr(U_i[k]);
                         }
-                        var f = U[i, l];
+                        var f = U_il;
                         g = -CopySign(RealValue.Sqrt(sum), f);
-                        var h = f * g - sum;
-                        U[i, l] = f - g;
+                        var h = RealValue.One / (f * g - sum);
+                        U_il = f - g;
+                        U_i[l] = U_il;
                         for (int k = l; k <= n; ++k)
-                            rv1[k] = U[i, k] / h;
+                            rv1[k] = U_i[k] * h;
 
                         for (int j = l; j <= m; ++j)
-                        {
-                            sum = U[j, l] * U[i, l];
+                        {   
+                            var U_j = U._rows[j];
+                            sum = U_j[l] * U_il;
                             for (int k = l + 1; k <= n; ++k)
-                                sum += U[j, k] * U[i, k];
+                                sum += U_j[k] * U_i[k];
 
                             for (int k = l; k <= n; ++k)
-                                U[j, k] += sum * rv1[k];
+                                U_j[k] += sum * rv1[k];
                         }
                         for (int k = l; k <= n; ++k)
-                            U[i, k] *= scale;
+                            U_i[k] *= scale;
                     }
                 }
 
                 var a = RealValue.Abs(sig[i]);
-                var rvi = rv1[i];                
+                var rvi = rv1[i];
                 if (rvi.D != 0)
                     a += RealValue.Abs(rvi);
 
@@ -2704,27 +2869,32 @@ namespace Calcpad.Core
             var g = RealValue.Zero;
             for (int i = n; i >= 0; --i)
             {
+                var V_i = V._rows[i];
                 if (i < n)
                 {
                     if (g.D != 0)
                     {
+                        g = RealValue.One / g;
+                        var U_i = U._rows[i];
                         for (int j = l; j <= n; ++j)
-                            V[j, i] = (U[i, j] / U[i, l]) / g;
+                            V_i[j] = (U_i[j] / U_i[l]) * g;
 
+                        var U_il = U_i[l];
                         for (int j = l; j <= n; ++j)
                         {
-                            sum = U[i, l] * V[l, j];
+                            var V_j = V._rows[j];
+                            sum = U_il * V_j[l];
                             for (int k = l + 1; k <= n; ++k)
-                                sum += U[i, k] * V[k, j];
+                                sum += U_i[k] * V_j[k];
 
                             for (int k = l; k <= n; ++k)
-                                V[k, j] += sum * V[k, i];
+                                V_j[k] += sum * V_i[k];
                         }
                     }
                     for (int j = l; j <= n; ++j)
-                        V[i, j] = V[j, i] = RealValue.Zero;
+                        V_i[j] = V[j, i] = RealValue.Zero;
                 }
-                V[i, i] = RealValue.One;
+                V_i[i] = RealValue.One;
                 g = rv1[i];
                 l = i;
             }
@@ -2732,34 +2902,48 @@ namespace Calcpad.Core
 
         private static void SvdLeftTransform(Matrix U, Vector sig, int m, int n)
         {
+            RealValue[] U_col_i = new RealValue[m + 1];
             for (int i = Math.Min(m, n); i >= 0; --i)
             {
                 var l = i + 1;
                 var g = sig[i];
+                var U_i = U._rows[i];
+                var U_ii = U_i[i];
                 for (int j = l; j <= n; ++j)
-                    U[i, j] = RealValue.Zero;
+                    U_i[j] = RealValue.Zero;
+
+                //Cache column of U[i] to optimize access
+                for (int k = i; k <= m; ++k)
+                    U_col_i[k] = U[k, i];
 
                 if (g.D != 0)
                 {
                     g = RealValue.One / g;
-                    for (int j = l; j <= n; ++j)
+                    if (l <= n)
                     {
-                        var sum = U[l, i] * U[l, j];
-                        for (int k = l + 1; k <= m; ++k)
-                            sum += U[k, i] * U[k, j];
+                        var U_li = U_col_i[l];
+                        for (int j = l; j <= n; ++j)
+                        {
+                            var sum = U_li * U[l, j];
+                            for (int k = l + 1; k <= m; ++k)
+                                sum += U_col_i[k] * U[k, j];
 
-                        var f = (sum / U[i, i]) * g;
-                        for (int k = i; k <= m; ++k)
-                            U[k, j] += f * U[k, i];
+                            var f = (sum / U_ii) * g;
+                            for (int k = i; k <= m; ++k)
+                                U[k, j] += f * U_col_i[k];
+                        }
                     }
                     for (int j = i; j <= m; ++j)
-                        U[j, i] *= g;
+                        U_col_i[j] *= g;
                 }
                 else
                     for (int j = i; j <= m; ++j)
-                        U[j, i] = RealValue.Zero;
+                        U_col_i[j] = RealValue.Zero;
 
-                U[i, i] += RealValue.One;
+                U_col_i[i] += RealValue.One;
+                //Restore cached column of U
+                for (int k = i; k <= m; ++k)
+                    U[k, i] = U_col_i[k];
             }
         }
 
@@ -2804,10 +2988,11 @@ namespace Calcpad.Core
                             s = -f * h;
                             for (int j = 0; j <= m; ++j)
                             {
-                                var Uy = U[j, nm];
-                                var Uz = U[j, i];
-                                U[j, nm] = Uy * c + Uz * s;
-                                U[j, i] = Uz * c - Uy * s;
+                                var U_j = U._rows[j];
+                                var Uy = U_j[nm];
+                                var Uz = U_j[i];
+                                U_j[nm] = Uy * c + Uz * s;
+                                U_j[i] = Uz * c - Uy * s;
                             }
                         }
                     }
@@ -2817,13 +3002,14 @@ namespace Calcpad.Core
                         if (z.D < 0d)
                         {
                             sig[k] = -z;
+                            var V_k = V._rows[k];   
                             for (int j = 0; j <= n; ++j)
-                                V[j, k] = -V[j, k];
+                                V_k[j] = -V_k[j];
                         }
                         break;
                     }
                     if (iter == 30)
-                        throw new MathParser.MathParserException("no convergence in 30 svdcmp iterations");
+                        throw new MathParserException("no convergence in 30 svdcmp iterations");
 
                     var x = sig[l];
                     nm = k - 1;
@@ -2853,12 +3039,14 @@ namespace Calcpad.Core
                         g = g * c - x * s;
                         h = y * s;
                         y *= c;
+                        var V_j = V._rows[j];
+                        var V_i = V._rows[i];
                         for (int jj = 0; jj <= n; ++jj)
                         {
-                            x = V[jj, j];
-                            z = V[jj, i];
-                            V[jj, j] = x * c + z * s;
-                            V[jj, i] = z * c - x * s;
+                            x = V_j[jj];
+                            z = V_i[jj];
+                            V_j[jj] = x * c + z * s;
+                            V_i[jj] = z * c - x * s;
                         }
                         z = Hypot(f, h);
                         sig[j] = z;
@@ -2871,11 +3059,12 @@ namespace Calcpad.Core
                         f = c * g + s * y;
                         x = c * y - s * g;
                         for (int jj = 0; jj <= m; ++jj)
-                        {
-                            y = U[jj, j];
-                            z = U[jj, i];
-                            U[jj, j] = y * c + z * s;
-                            U[jj, i] = z * c - y * s;
+                        {   
+                            var U_jj = U._rows[jj];
+                            y = U_jj[j];
+                            z = U_jj[i];
+                            U_jj[j] = y * c + z * s;
+                            U_jj[i] = z * c - y * s;
                         }
                     }
                     rv1[l] = RealValue.Zero;
@@ -2896,59 +3085,28 @@ namespace Calcpad.Core
                     break;
                 }
 
-            if (isSorted)
-                V = V.Transpose();
-            else
+            if (!isSorted)
             {
                 sig = sig.Sort(true);
                 U = U.ReorderCols(indexes);
-                V = V.ReorderCols(indexes).Transpose();
+                V = V.ReorderRows(indexes);
             }
         }
 
-        /*
-        private static void SvdFlipSigns(Matrix U, Matrix V)
-        {
-            var m = U._rowCount;
-            var n = U._colCount;    
-            for (int k = 0; k < n; ++k)
-            {
-                var s = 0;
-                for (int i = 0; i < m; ++i)
-                    if (U[i, k].Re < 0d)
-                        ++s;
-
-                for (int j = 0; j < n; ++j) 
-                    if (V[j, k].Re < 0d)
-                        ++s;
-
-                if (s > (m + n) / 2)
-                {
-                    for (int i = 0; i < m; ++i) 
-                        U[i, k] = -U[i, k];
-
-                    for (int j = 0; j < n; ++j) 
-                        V[j, k] = -V[j, k];
-                }
-            }
-        }
-        */
-
-        internal Matrix QRDecomposition()
+        internal virtual Matrix QRDecomposition()
         {
             GetQR(out Matrix Q, out Matrix R);
             return Augment(Q, R);
         }
 
-        internal Matrix SVDDecomposition()
+        internal virtual Matrix SVDDecomposition()
         {
             GetSVD(out Matrix U, out Vector sig, out Matrix V);
-            //SvdFlipSigns(U, V);
             SvdSortDescending(ref U, ref sig, ref V);
             return Augment(U, sig, V);
         }
 
-        protected static Matrix Identity(int n)
+        private static Matrix Identity(int n)
         {
             var M = new Matrix(n, n);
             for (int i = 0; i < n; ++i)
@@ -2957,78 +3115,102 @@ namespace Calcpad.Core
             return M;
         }
 
-        private static void FwdAndBackSubst(Matrix LU, int[] indexes, Vector v, ref RealValue[] x)
+        private static void FwdAndBackSubst(Matrix LU, int[] indexes, Vector v, RealValue[] x)
         {
-            var n = LU._rowCount;
+            var m = LU._rowCount;
             var start = -1;
             //Forward substitution. Solve Ly = v by storing y in x. 
-            for (int i = 0; i < n; ++i)
+            for (int i = 0; i < m; ++i)
             {
                 var index = indexes[i];
                 var sum = v[index];
                 if (start >= 0)
-                    for (int j = start; j < i; ++j)
-                        sum -= LU[i, j] * x[j];
+                {
+                    var row = LU._rows[i].Raw;
+                    var size = Math.Min(LU._rows[i].Size, i);
+                    for (int j = start; j < size; ++j)
+                        sum -= row[j] * x[j];
+                }
                 else if (!sum.Equals(RealValue.Zero))
                     start = i;
 
                 x[i] = sum;
             }
             //Back substitution. Solve Ux = y.
-            for (int i = n - 1; i >= 0; --i)
+            for (int i = m - 1; i >= 0; --i)
             {
                 var sum = x[i];
+                var row = LU._rows[i].Raw;
+                var n = Math.Min(LU._rows[i].Size, m);
                 for (int j = i + 1; j < n; ++j)
-                    sum -= LU[i, j] * x[j];
+                    sum -= row[j] * x[j];
 
-                var LU_ii = LU[i, i];
-                x[i] = sum / LU_ii;
+                x[i] = sum / LU[i, i];
             }
         }
 
         internal virtual Vector LSolve(Vector v)
         {
-            var LU = GetLU(out int[] indexes, out double minPivot, out double _);
-            if (LU is null)
-                Throw.MatrixSingularException();
+            var LU = GetLU(out int[] indexes, out double minPivot, out double _) ?? 
+                throw Exceptions.MatrixSingular();
 
             if (minPivot < 1e-15)
-                Throw.MatrixCloseToSingularException();
+                throw Exceptions.MatrixCloseToSingular();
 
             var x = new RealValue[_rowCount];
-            FwdAndBackSubst(LU, indexes, v, ref x);
+            FwdAndBackSubst(LU, indexes, v, x);
             return new(x);
         }
 
         internal virtual Matrix MSolve(Matrix M)
         {
-            var LU = GetLU(out int[] indexes, out double minPivot, out double _);
-            if (LU is null)
-                Throw.MatrixSingularException();
+            var LU = GetLU(out int[] indexes, out double minPivot, out double _) ?? 
+                throw Exceptions.MatrixSingular();
 
             if (minPivot < 1e-15)
-                Throw.MatrixCloseToSingularException();
+                throw Exceptions.MatrixCloseToSingular();
 
-            var m = _rowCount;
+            return MSolveForLU(LU, indexes, M);
+        }
+
+        private static Matrix MSolveForLU(Matrix LU, int[] indexes, Matrix M)
+        {
+            var m = LU._rowCount;
             var n = M._colCount;
-            var v = new Vector[n];
+            var result = new Vector[n];
             Parallel.For(0, n, j =>
             {
                 var x = new RealValue[m];
-                FwdAndBackSubst(LU, indexes, M.Col(j + 1), ref x);
-                v[j] = new(x);
+                FwdAndBackSubst(LU, indexes, new ColumnVector(M, j), x);
+                result[j] = new(x);
             });
-            return CreateFromCols(v, m);
+            return CreateFromCols(result, m);
+        }
+
+        private static Matrix MSolveForLU(Matrix LU, int[] indexes)
+        {
+            var m = LU._rowCount;
+            var I = Identity(m);
+            var result = new Vector[m];
+            Parallel.For(0, m, j =>
+            {
+                var x = new RealValue[m];
+                FwdAndBackSubst(LU, indexes, I._rows[j], x);
+                result[j] = new(x);
+            });
+            for (int j = m - 1; j >= 0; --j)
+                I.SetCol(j, result[j]);
+
+            return I;
         }
 
         internal virtual Matrix Invert()
         {
-            var LU = GetLU(out int[] indexes, out double minPivot, out double _);
-            if (LU is null)
-                Throw.MatrixSingularException();
+            var LU = GetLU(out int[] indexes, out double minPivot, out double _) ?? 
+                throw Exceptions.MatrixSingular();
 
             if (minPivot < 1e-15)
-                Throw.MatrixCloseToSingularException();
+                throw Exceptions.MatrixCloseToSingular();
 
             var M = GetInverse(LU, indexes);
             return M;
@@ -3036,13 +3218,16 @@ namespace Calcpad.Core
 
         private Matrix GetInverse(Matrix lu, int[] indexes)
         {
+            if (_rowCount > ParallelThreshold)
+                return MSolveForLU(lu, indexes);
+            
             var vector = new Vector(_rowCount);
             var x = new RealValue[_rowCount];
             var M = new Matrix(_rowCount, _rowCount);
             for (int j = 0; j < _rowCount; ++j)  //Find inverse by columns.
             {
                 vector[j] = RealValue.One;
-                FwdAndBackSubst(lu, indexes, vector, ref x);
+                FwdAndBackSubst(lu, indexes, vector, x);
                 for (int i = 0; i < _rowCount; ++i)
                     M[i, j] = x[i];
 
@@ -3054,7 +3239,7 @@ namespace Calcpad.Core
         internal virtual RealValue Determinant()
         {
             if (_rowCount != _colCount)
-                Throw.MatrixNotSquareException();
+                throw Exceptions.MatrixNotSquare();
 
             var LU = GetLU(out int[] _, out double _, out double det);
             if (LU is null)
@@ -3072,20 +3257,20 @@ namespace Calcpad.Core
             return det;
         }
 
-        internal RealValue Cond2()
+        internal virtual RealValue Cond2()
         {
             GetSVD(out Matrix _, out Vector sig, out Matrix _);
             return sig.Max() / sig.Min();
         }
 
-        internal RealValue Cond1() => Condition(M => M.L1Norm());
-        internal RealValue CondFrob() => Condition(M => M.FrobNorm());
-        internal RealValue CondInf() => Condition(M => M.InfNorm());
+        internal virtual RealValue Cond1() => Condition(M => M.L1Norm());
+        internal virtual RealValue CondFrob() => Condition(M => M.FrobNorm());
+        internal virtual RealValue CondInf() => Condition(M => M.InfNorm());
 
         protected virtual RealValue Condition(Func<Matrix, RealValue> norm)
         {
             if (_rowCount != _colCount)
-                Throw.MatrixNotSquareException();
+                throw Exceptions.MatrixNotSquare();
 
             var LU = GetLU(out int[] indexes, out double _, out double _); //Decompose the matrix by LU decomp.
             if (LU is null)
@@ -3095,11 +3280,11 @@ namespace Calcpad.Core
             return norm(this) * norm(M);
         }
 
-        internal RealValue Rank()
+        internal virtual RealValue Rank()
         {
             var rank = 0;
             GetSVD(out Matrix _, out Vector sig, out Matrix _);
-            var sigMax = sig.Max().D; 
+            var sigMax = sig.Max().D;
             var eps = (double.BitIncrement(sigMax) - sigMax);
             for (int i = 0, len = sig.Length; i < len; ++i)
             {
@@ -3111,15 +3296,113 @@ namespace Calcpad.Core
 
         internal virtual Matrix Adjoint()
         {
-            var LU = GetLU(out int[] indexes, out double _, out double det);
+            var LU = GetLU(out int[] indexes, out double minPivot, out double det);
+
+            if (Math.Abs(minPivot) < 1e-15 && _rowCount < 11)
+                return AdjointByMinors();
+
             if (LU is null)
-                Throw.MatrixSingularException();
+                throw Exceptions.MatrixSingular();
 
             var determinant = GetDeterminant(LU) * det;
             var M = GetInverse(LU, indexes);
             return M * determinant;
         }
-        internal Matrix Cofactor() => Adjoint().Transpose();
+
+        private Matrix AdjointByMinors()
+        {
+            int n = _rowCount;
+            var result = new Matrix(n, n);
+            int[] full = new int[n];
+            for (int i = 0; i < n; ++i)
+            {
+                full[i] = i;
+                result._rows[i] = new LargeVector(n, n);
+            }
+            Parallel.For(0, n, i =>
+            {
+                Span<int> subRows = stackalloc int[n - 1];
+                Span<int> subCols = stackalloc int[n - 1];
+                RemoveAt(full, i, subRows);
+                for (int j = 0; j < n; ++j)
+                {
+                    RemoveAt(full, j, subCols);
+                    double sign = ((i + j) & 1) == 0 ? 1.0 : -1.0;
+                    var det = Determinant(subRows, subCols);
+                    result[j, i] = det * sign; // note the transpose
+                }
+            });
+            return result;
+        }
+
+        private RealValue Determinant(Span<int> rows, Span<int> cols)
+        {
+            var n = rows.Length;
+            if (n == 1)
+                return this[rows[0], cols[0]];
+
+            if (n == 2)
+                return Determinant2x2(rows, cols);
+
+            if (n == 3)
+                return Determinant3x3(rows, cols);
+
+            var det = RealValue.Zero;
+            var subRows = rows[1..]; // exclude row 0
+            Span<int> subCols = stackalloc int[n - 1];
+            for (int j = 0; j < n; ++j)
+            {
+                var a = this[rows[0], cols[j]];
+                if (a.D == 0d) continue;
+                RemoveAt(cols, j, subCols);
+                var sign = (j % 2 == 0) ? 1.0 : -1.0;
+                det += a * Determinant(subRows, subCols) * sign;
+            }
+            return det;
+        }
+
+        private RealValue Determinant2x2(ReadOnlySpan<int> rows, ReadOnlySpan<int> cols)
+        {
+            var r_0 = rows[0];
+            var r_1 = rows[1];
+            var a = this[r_0, cols[0]];
+            var b = this[r_0, cols[1]];
+            var c = this[r_1, cols[0]];
+            var d = this[r_1, cols[1]];
+            return a * d - b * c;
+        }
+
+        private RealValue Determinant3x3(ReadOnlySpan<int> rows, ReadOnlySpan<int> cols)
+        {
+            var r_0 = rows[0];
+            var r_1 = rows[1];
+            var r_2 = rows[2];
+            var a = this[r_0, cols[0]];
+            var b = this[r_0, cols[1]];
+            var c = this[r_0, cols[2]];
+            var d = this[r_1, cols[0]];
+            var e = this[r_1, cols[1]];
+            var f = this[r_1, cols[2]];
+            var g = this[r_2, cols[0]];
+            var h = this[r_2, cols[1]];
+            var i = this[r_2, cols[2]];
+            return a * (e * i - f * h)
+                 - b * (d * i - f * g)
+                 + c * (d * h - e * g);
+        }
+
+        protected static void RemoveAt(ReadOnlySpan<int> source, int index, Span<int> target)
+        {
+            int n = source.Length;
+
+            if (index > 0)
+                source[..index].CopyTo(target);
+
+            if (index < n - 1)
+                source[(index + 1)..].CopyTo(target[index..]);
+        }
+
+        internal virtual Matrix Cofactor() => Adjoint().Transpose();
 
         internal virtual Matrix CopyTo(Matrix target, int i, int j)
         {
@@ -3163,12 +3446,13 @@ namespace Calcpad.Core
             return target;
         }
 
-        internal Vector Diagonal()
+        internal virtual Vector Diagonal()
         {
             var n = Math.Min(_rowCount, _colCount);
             Vector v = new(n);
+            var values = v.Raw;
             for (int i = 0; i < n; ++i)
-                v[i] = this[i, i];
+                values[i] = this[i, i];
 
             return v;
         }
@@ -3195,7 +3479,7 @@ namespace Calcpad.Core
             var n = cols.Length;
             var M = new Matrix(m, n);
             for (int j = n - 1; j >= 0; --j)
-                M.SetCol(j, cols[j]); 
+                M.SetCol(j, cols[j]);
 
             return M;
         }
@@ -3208,6 +3492,18 @@ namespace Calcpad.Core
                 M.SetRow(i, rows[i]);
 
             return M;
+        }
+
+        protected bool CheckCount(ref int count)
+        {
+            if (count < 0)
+            {
+                count = -count;
+                return true; //Reverse order
+            }
+            if (count == 0 || count > _rowCount)
+                count = _rowCount;
+            return false; //Normal order
         }
     }
 }

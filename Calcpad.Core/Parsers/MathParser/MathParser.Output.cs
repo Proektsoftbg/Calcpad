@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Xml;
 
 namespace Calcpad.Core
 {
@@ -14,37 +12,26 @@ namespace Calcpad.Core
             private readonly Container<CustomFunction> _functions;
             private readonly List<SolveBlock> _solveBlocks;
             private readonly StringBuilder _stringBuilder;
-            private readonly bool _formatEquations;
-            private readonly int _maxOutputCount;
-            private readonly bool _zeroSmallMatrixElements;  
             private int _assignmentPosition;
             private bool _hasVariables;
-            private int _decimals;
-
-            internal const string VectorSpacing = "\u2002";
             internal Output(MathParser parser)
             {
                 _parser = parser;
                 _functions = parser._functions;
                 _solveBlocks = parser._solveBlocks;
                 _stringBuilder = parser._stringBuilder;
-                _formatEquations = _parser._settings.FormatEquations;
-                _decimals = _parser._settings.Decimals;
-                _maxOutputCount = parser._settings.MaxOutputCount;
-                _zeroSmallMatrixElements = parser._settings.ZeroSmallMatrixElements;
             }
 
             internal string Render(OutputWriter.OutputFormat format)
             {
-                _decimals = _parser._settings.Decimals;
                 _assignmentPosition = 0;
                 _hasVariables = false;
                 Token[] rpn = _parser._rpn;
                 OutputWriter writer = format switch
                 {
-                    OutputWriter.OutputFormat.Html => new HtmlWriter(),
-                    OutputWriter.OutputFormat.Xml => new XmlWriter(),
-                    _ => new TextWriter()
+                    OutputWriter.OutputFormat.Html => new HtmlWriter(_parser._settings),
+                    OutputWriter.OutputFormat.Xml => new XmlWriter(_parser._settings),
+                    _ => new TextWriter(_parser._settings)
                 };
                 _stringBuilder.Clear();
                 var delimiter = writer.FormatOperator(';');
@@ -83,13 +70,11 @@ namespace Calcpad.Core
                     {
                         var subst = string.Empty;
                         var splitted = false;
-                        if (
-                            !(rpn.Length == 3 &&
-                            rpn[1].Content == "=" &&
-                            rpn[2].Type == TokenTypes.Solver
-                            || rpn.Length == 1 &&
-                            rpn[0].Type == TokenTypes.Solver)
-                        )
+                        var len = rpn.Length;
+                        if (!(len == 3 &&
+                            rpn[1].Type == TokenTypes.Solver &&
+                            rpn[2].Content == "=" ||
+                            len == 1))
                         {
                             if (_hasVariables)
                             {
@@ -97,8 +82,8 @@ namespace Calcpad.Core
                                     _parser.VariableSubstitution != VariableSubstitutionOptions.VariablesOnly))
                                 {
                                     subst = RenderRpn(rpn, true, writer, out hasOperators);
-                                    var len = equation.Length - equation.LastIndexOf(assignment) - assignment.Length;
-                                    if (subst.Length != len)
+                                    var eqlen = equation.Length - equation.LastIndexOf(assignment) - assignment.Length;
+                                    if (subst.Length != eqlen)
                                     {
                                         if (_parser.VariableSubstitution != VariableSubstitutionOptions.SubstitutionsOnly)
                                         {
@@ -113,23 +98,23 @@ namespace Calcpad.Core
                                     }
                                 }
                             }
-                            else if (_assignmentPosition > 0 && 
+                            else if (_assignmentPosition > 0 &&
                                 _assignmentPosition < _stringBuilder.Length
                                 && _parser._result is IScalarValue)
                                 subst = _stringBuilder.ToString()[_assignmentPosition..];
                         }
                         var res = _parser._result switch
                         {
-                            IScalarValue scalar => writer.FormatValue(scalar, _decimals),
-                            Vector vector => RenderVector(vector, _decimals, writer, _maxOutputCount, _zeroSmallMatrixElements),
-                            Matrix matrix => RenderMatrix(matrix, _decimals, writer, _maxOutputCount, _zeroSmallMatrixElements),
+                            IScalarValue scalar => writer.FormatValue(scalar),
+                            Vector vector => RenderVector(vector, writer),
+                            Matrix matrix => RenderMatrix(matrix, writer),
                             _ => null
                         };
                         if (hasOperators && res != subst || string.IsNullOrEmpty(subst))
                         {
                             if (_stringBuilder.Length > 0)
                                 _stringBuilder.Append(assignment);
-                                    
+
                             _stringBuilder.Append(res);
                         }
                         if (splitted)
@@ -144,10 +129,10 @@ namespace Calcpad.Core
 
             private string RenderRpn(Token[] rpn, bool substitute, OutputWriter writer, out bool hasOperators)
             {
-                var textWriter = new TextWriter();
+                var textWriter = new TextWriter(_parser._settings);
                 var stackBuffer = new Stack<RenderToken>();
                 var div = writer.FormatOperator(';');
-                var hairSpace = char.ConvertFromUtf32(0x200A)[0];
+                const char thinSpace = (char)0x2009;
                 hasOperators = _parser._targetUnits is not null;
                 for (int i = 0, len = rpn.Length; i < len; ++i)
                 {
@@ -227,7 +212,7 @@ namespace Calcpad.Core
 
                 void RenderSolverToken(RenderToken t, OutputWriter writer)
                 {
-                    t.Content = RenderSolver((int)t.Index, substitute, _formatEquations, writer);
+                    t.Content = RenderSolver((int)t.Index, substitute, writer);
                     if (_solveBlocks[(int)t.Index].IsFigure && !substitute)
                     {
                         t.Type = TokenTypes.Solver;
@@ -268,13 +253,13 @@ namespace Calcpad.Core
                             if (value.Units is null)
                             {
                                 if (_parser._isCalculated)
-                                    Throw.InvalidUnitsException(t.Content);
+                                    throw Exceptions.InvalidUnits(t.Content);
                             }
                             else
                                 t.Content = writer.UnitString(value.Units);
                         }
                         else
-                            t.Content = writer.FormatValue(value, _decimals);
+                            t.Content = writer.FormatValue(value);
 
                         t.IsCompositeValue = value.IsComposite();
                     }
@@ -290,7 +275,7 @@ namespace Calcpad.Core
                     {
                         if (substitute)
                         {
-                            t.Content = writer.FormatValue(scalar, _decimals);
+                            t.Content = writer.FormatValue(scalar);
                             t.IsCompositeValue = scalar.IsComposite() || t.Content.Contains('×');
                             t.Order = Token.DefaultOrder;
                             if (_parser._settings.IsComplex && scalar.IsComplex && scalar.Units is null)
@@ -301,7 +286,7 @@ namespace Calcpad.Core
                             var s = !_parser._settings.Substitute &&
                                      _parser._functionDefinitionIndex < 0 &&
                                      _parser._isCalculated ?
-                                textWriter.FormatValue(scalar, _decimals) :
+                                textWriter.FormatValue(scalar) :
                                 string.Empty;
                             t.Content = writer.FormatVariable(t.Content, s, false);
                             _hasVariables = i > 0 || rpn[^1].Content != "=";
@@ -312,7 +297,7 @@ namespace Calcpad.Core
                         var s = !_parser._settings.Substitute &&
                                  _parser._functionDefinitionIndex < 0 &&
                                  _parser._isCalculated ?
-                            RenderVector(vector, _decimals, new TextWriter(), _maxOutputCount, _zeroSmallMatrixElements) :
+                            RenderVector(vector, new TextWriter(_parser._settings)) :
                             string.Empty;
                         t.Content = writer.FormatVariable('\u20D7' + t.Content, s, true);
                     }
@@ -321,7 +306,7 @@ namespace Calcpad.Core
                         var s = !_parser._settings.Substitute &&
                                  _parser._functionDefinitionIndex < 0 &&
                                  _parser._isCalculated ?
-                            RenderMatrix(matrix, _decimals, new TextWriter(), _maxOutputCount, _zeroSmallMatrixElements) :
+                            RenderMatrix(matrix, new TextWriter(_parser._settings)) :
                             string.Empty;
                         t.Content = writer.FormatVariable(t.Content, s, true);
                     }
@@ -336,7 +321,7 @@ namespace Calcpad.Core
                     if (isNegative || b.Order > Token.DefaultOrder && b.Type != TokenTypes.Solver)
                     {
                         if (b.Index == 1 && b.Level > 0)
-                            sb = "\u2009" + sb;
+                            sb = thinSpace + sb;
                         else
                             sb = AddBrackets(sb, b.Level, b.MinOffset, b.MaxOffset, '(', ')');
 
@@ -369,7 +354,7 @@ namespace Calcpad.Core
                     {
                         var content = t.Content;
                         var formatEquation = writer is not TextWriter &&
-                            (_formatEquations && content == "/" || content == "÷");
+                            (_parser._settings.FormatEquations && content == "/" || content == "÷");
 
                         if (!stackBuffer.TryPop(out var a))
                             a = new RenderToken(string.Empty, content == "-" ? TokenTypes.Constant : TokenTypes.None, 0);
@@ -400,7 +385,7 @@ namespace Calcpad.Core
                         else
                         {
                             if (!formatEquation &&
-                                b.Type != TokenTypes.Solver && 
+                                b.Type != TokenTypes.Solver &&
                                 (b.Order > t.Order ||
                                 b.Order == t.Order && (content == "-" || content == "/") ||
                                 IsNegative(b) && content != "="))
@@ -441,7 +426,7 @@ namespace Calcpad.Core
                                     if (writer is TextWriter)
                                         t.Content = sa + sb;
                                     else
-                                        t.Content = sa + hairSpace + sb;
+                                        t.Content = sa + thinSpace + sb;
                                 }
                                 else
                                     t.Content = sa + writer.FormatOperator(content[0]) + sb;
@@ -470,7 +455,8 @@ namespace Calcpad.Core
                     var st = t.Content;
                     t.Content = (t.Type == TokenTypes.Function ||
                                  t.Type == TokenTypes.VectorFunction ||
-                                 t.Type == TokenTypes.MatrixFunction ?
+                                 t.Type == TokenTypes.MatrixFunction ||
+                                 t.Type == TokenTypes.MatrixOptionalFunction ?
                         writer.FormatFunction(st) :
                         writer.FormatVariable(st, string.Empty, false)) +
                         AddBrackets(b.Content, b.Level, b.MinOffset, b.MaxOffset, '(', ')');
@@ -512,7 +498,7 @@ namespace Calcpad.Core
                     var st = t.Content;
                     var b = stackBuffer.Pop();
                     var a = stackBuffer.Pop();
-                    if (_formatEquations && t.Type == TokenTypes.Function3 && t.Index == 0)
+                    if (_parser._settings.FormatEquations && t.Type == TokenTypes.Function3 && t.Index == 0)
                     {
                         t.Level = (Math.Max(a.Level, b.Level) + c.Level + 1);
                         t.Content = writer.FormatIf(a.Content, b.Content, c.Content, t.Level);
@@ -579,7 +565,7 @@ namespace Calcpad.Core
                 {
                     var st = t.Content;
                     var mfParamCount = t.ParameterCount - 1;
-                    if (string.Equals(st, "switch", StringComparison.OrdinalIgnoreCase) && _formatEquations)
+                    if (string.Equals(st, "switch", StringComparison.OrdinalIgnoreCase) && _parser._settings.FormatEquations)
                     {
                         var args = new string[mfParamCount + 1];
                         args[mfParamCount] = b.Content;
@@ -621,7 +607,7 @@ namespace Calcpad.Core
                     }
                     var s = RenderParameters(t, b, cfParameterCount);
                     t.Content = writer.FormatVariable(t.Content, string.Empty, false) +
-                        AddBrackets(s, t.Level, t.MinOffset, t.MaxOffset, '(', ')');
+                        '\u200A' + AddBrackets(s, t.Level, t.MinOffset, t.MaxOffset, '(', ')');
                     t.MinOffset = 0;
                     t.MaxOffset = 0;
                 }
@@ -676,7 +662,7 @@ namespace Calcpad.Core
                     var offset = b.MaxOffset + b.MinOffset;
                     b.Level += (b.MaxOffset - b.MinOffset) / 2;
                     var sb = offset == 0 ? b.Content : FixOffset(b.Content, offset);
-                    t.Content = writer.FormatRoot(sb, _formatEquations, b.Level, s);
+                    t.Content = writer.FormatRoot(sb, b.Level, s);
                     t.Level = b.Level;
                 }
 
@@ -700,7 +686,7 @@ namespace Calcpad.Core
                             var vector = (Vector)_parser._variables[t.Content].Value;
                             value = vector[(int)t.Index - 1];
                         }
-                        t.Content = writer.FormatValue(value, _decimals);
+                        t.Content = writer.FormatValue(value);
                     }
                     else
                     {
@@ -730,7 +716,7 @@ namespace Calcpad.Core
                             var matrix = (Matrix)_parser._variables[t.Content].Value;
                             value = matrix[i - 1, j - 1];
                         }
-                        t.Content = writer.FormatValue(value, _decimals);
+                        t.Content = writer.FormatValue(value);
                     }
                     else
                     {
@@ -763,100 +749,33 @@ namespace Calcpad.Core
                 };
             }
 
-            private static string RenderMatrix(Matrix matrix, int decimals, OutputWriter writer, int maxCount, bool zeroSmallElements) =>
-                writer.FormatMatrix(matrix, decimals, maxCount, zeroSmallElements);
+            private static string RenderMatrix(Matrix matrix, OutputWriter writer) =>
+                writer.FormatMatrix(matrix);
 
-            private static string RenderVector(Vector vector, int decimals, OutputWriter writer, int maxCount, bool zeroSmallElements)
-            {
-                var div = writer switch
-                {
-                    XmlWriter _ => XmlWriter.Run(VectorSpacing),
-                    TextWriter _ => "  ",
-                    _ => VectorSpacing
-                };
-                var sb = new StringBuilder();
-                const double tol = 1e-14;
-                var zeroThreshold = GetMaxVisibleVectorValue(vector, maxCount) * tol;
-                if (zeroThreshold > tol)
-                    zeroThreshold = tol;
+            private static string RenderVector(Vector vector, OutputWriter writer) =>
+                writer.FormatVector(vector);
 
-                var len = vector.Length;
-                for (int i = 0; i < len; ++i)
-                {
-                    if (i > 0)
-                        sb.Append(div);
-
-                    if (i == maxCount)
-                    {
-                        if (writer is HtmlWriter)
-                        {
-                            var n = len - maxCount;
-                            sb.Append($"<span title=\"{n - Math.Sign(n - 1)} elements skipped.\">...</span>");
-
-                        }
-                        else if (writer is XmlWriter)
-                            sb.Append(XmlWriter.Run("..."));
-                        else
-                            sb.Append("...");
-
-                        sb.Append(div);
-                        break;
-                    }
-                    var e = vector[i];
-                    var d = Math.Abs(e.D);
-                    sb.Append(writer.FormatMatrixValue(e, decimals, zeroSmallElements && d < zeroThreshold));
-                }
-                var last = len - 1;
-                if (maxCount < last)
-                {
-                    var e = vector[last];
-                    var d = Math.Abs(e.D);
-                    sb.Append(writer.FormatMatrixValue(e, decimals, zeroSmallElements && d < zeroThreshold));
-                }
-                return writer.AddBrackets(sb.ToString(), 0, '[', ']');
-            }
-
-            private static double GetMaxVisibleVectorValue(Vector vector, int maxCount)
-            {
-                var maxAbs = 0d;
-                var len = Math.Min(maxCount, vector.Size);
-                for (int i = 0; i < len; ++i)
-                {
-                    var d = Math.Abs(vector[i].D);
-                    if (d > maxAbs)
-                        maxAbs = d;
-                }
-                var last = vector.Length - 1;
-                if (maxCount < last)
-                {
-                    var d = Math.Abs(vector[last].D);
-                    if (d > maxAbs)
-                        maxAbs = d;
-                }
-                return maxAbs;
-            }
-
-            private string RenderSolver(int index, bool substitute, bool formatEquations, OutputWriter writer)
+            private string RenderSolver(int index, bool substitute, OutputWriter writer)
             {
                 if (substitute)
                 {
                     var result = _solveBlocks[index].Result;
                     if (result is IScalarValue scalar)
-                        return writer.FormatValue(scalar, _decimals);
-                    
+                        return writer.FormatValue(scalar);
+
                     if (result is Vector vector)
-                        return RenderVector(vector, _decimals, writer, _maxOutputCount, _zeroSmallMatrixElements);
+                        return RenderVector(vector, writer);
 
                     if (result is Matrix matirx)
-                        return RenderMatrix(matirx, _decimals, writer, _maxOutputCount, _zeroSmallMatrixElements);
+                        return RenderMatrix(matirx, writer);
 
-                    return writer.FormatValue(RealValue.NaN, _decimals);
+                    return writer.FormatValue(RealValue.NaN);
                 }
                 else
                     _hasVariables = true;
 
                 if (writer is HtmlWriter)
-                    return _solveBlocks[index].ToHtml(formatEquations);
+                    return _solveBlocks[index].ToHtml(_parser._settings.FormatEquations);
 
                 if (writer is XmlWriter)
                     return _solveBlocks[index].ToXml();
@@ -881,8 +800,8 @@ namespace Calcpad.Core
                         isTag = false;
                     else if (isTag)
                     {
-                        if (c == 'r' && 
-                            i > 8 && 
+                        if (c == 'r' &&
+                            i > 8 &&
                             string.Equals(s[(i - 7)..i], "class=\"", StringComparison.OrdinalIgnoreCase))
                             break;
                     }

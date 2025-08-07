@@ -40,6 +40,7 @@
             MatrixFunction4,
             MatrixFunction5,
             MatrixMultiFunction,
+            MatrixOptionalFunction,
             CustomFunction,
             BracketLeft,
             BracketRight,

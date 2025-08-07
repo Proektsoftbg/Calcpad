@@ -1,0 +1,64 @@
+'<style>em {font-family:"Times New Roman";}</style>
+"Matrix creational functions
+'<p><b>Matrix</b>(<em>m</em>; <em>n</em>)</p><hr/>
+matrix_hp(3; 4)'- creates a 3x4 full (rectangular) matrix
+
+'<p><b>Identity</b>(<em>n</em>)</p><hr/>
+identity_hp(3)'- creates  a 3x3 identity matrix (diagonal filled with ones)
+
+'<p><b>Diagonal</b>(<em>n</em>, <em>value</em>)</p><hr/>
+diagonal_hp(3; 2)'- creates a 3x3 diagonal matrix filled with 2
+
+'<p><b>Column</b>(<em>m</em>, <em>value</em>)</p><hr/>
+column_hp(3; 2)'- creates a 3x1 column matrix filled with 2
+
+'<p><b>Utriang</b>(<em>n</em>, <em>value</em>)</p><hr/>
+U = utriang_hp(3)'- creates a 3x3 upper triangular matrix
+mfill(U; 1)'- fills the matrix with value of 1
+
+'<p><b>Ltriang</b>(<em>n</em>, <em>value</em>)</p><hr/>
+L = ltriang_hp(3)'- creates a 3x3 lower triangular matrix
+mfill(L; 1)'- fills the matrix with value of 1
+
+'<p><b>Symmetric</b>(<em>n</em>)</p><hr/>
+A = symmetric_hp(4)'- creates a 4x4 empty symmetrix matrix
+A.(1; 1) = 5', 'A.(1; 2) = 4'- assign some values
+A.(2; 2) = 3', 'A.(2; 3) = 2
+A.(4; 2) = 1', 'A.(4; 4) = 1
+A'- symmetric values has also changed to preserve symmetry
+
+'<p><b>Vec2diag</b>(<em>vector</em>)</p><hr/>
+a = vec2diag(hp([1; 2; 3]))'- creates a 3x3 diagonal matrix from a vector
+isHp(a)
+
+'<p><b>Vec2col</b>(<em>vector</em>)</p><hr/>
+a = vec2col(hp([1; 2; 3]))'- creates a 3x3 column matrix from a vector
+isHp(a)
+
+'<p><b>Join_Cols</b>(<em>list of vectors</em>)</p><hr/>
+a = join_cols(hp([1]); hp([4; 5; 6]); hp([7; 8]); hp([10; 11; 12]))'- creates a general rectangular matrix by joining the input vectors into columns
+isHp(a)
+a = hp(join_cols([1]; [4; 5; 6]; [7; 8]; [10; 11; 12]))'- creates a general rectangular matrix by joining the input vectors into columns
+isHp(a)
+
+'<p><b>Join_Rows</b>(<em>list of vectors</em>)</p><hr/>
+a = join_rows(hp([1; 2; 3; 4]); hp([6; 7; 8; 9; 10]))'- creates a general rectangular matrix by joining the input vectors into rows
+isHp(a)
+
+'<p><b>Join_Rows</b>(<em>list of vectors</em>)</p><hr/>
+a = join_rows(hp([1; 2; 3; 4]); hp([6; 7; 8; 9; 10]))'- creates a general rectangular matrix by joining the input vectors into rows
+isHp(a)
+
+'<p><b>Augment</b>(<em>list of matrices</em>)</p><hr/>
+A = hp([1; 2|3; 4])
+B = hp([1; 2; 3|4; 5; 6|7; 8; 9])
+c = hp([10; 11; 12; 13])
+D = augment(A; B; c)'- creates a general rectangular matrix by joining the input matrices side to side
+isHp(D)
+
+'<p><b>Stack</b>(<em>list of matrices</em>)</p><hr/>
+A = hp([1; 2|3; 4])
+B = hp([1; 2; 3|4; 5; 6|7; 8; 9])
+c = hp([10; 11])
+D = stack(A; B; c)'- creates a general rectangular matrix by joining the input matrices one below the other
+isHp(D)

@@ -5,11 +5,11 @@ x = [0; 1; 0.5; 0]', 'y = [0; 0; a$; 0]
 'Number of iterations -'n = 6
 
 #val
-'<style>polygon{display:none; stroke:n8one;}</style> 
+'<style>polygon{display:none; stroke:none;}</style> 
 #hide 
-w = 300', 'h = w', 'k = 100
+w = 300', 'h = 1.2*w', 'k = 100
 #show
-'<svg viewbox="0 0 'k' 'k'" style="width:'w'pt; height:'h'pt">
+'<svg viewbox="0 10 'k' 'k'" style="width:'w'pt; height:'h'pt">
 '<defs><radialGradient id="sff" cx="50%" cy="50%"><stop offset="0%" stop-color="lightCyan"/><stop offset="70%" stop-color="lightBlue"/><stop offset="120%" stop-color="#8ac8df"/></defs>
 #for i = 1 : n
 	#hide

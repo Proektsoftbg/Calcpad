@@ -194,7 +194,7 @@ namespace Calcpad.Core
                 if (_cache.Count >= MaxCacheSize)
                     _cache.Clear();
 
-                if (x is IScalarValue sx  && y is IScalarValue sy)
+                if (x is IScalarValue sx && y is IScalarValue sy)
                 {
                     Tuple arguments = new(sx, sy);
                     ref var z = ref CollectionsMarshal.GetValueRefOrAddDefault(_cache, arguments, out var result);

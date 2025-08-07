@@ -58,6 +58,7 @@ m1.(1; 1) = 6.3
 m1.(2; 2) = -1.5
 m1.(3; 3) = -3
 #show
+m1
 c = asinh(m1)', 'f(m1) = asinh(m1)
 c = f(m1)
 c = acosh(m1)', 'f(m1) = acosh(m1)
@@ -100,10 +101,6 @@ c = f(m1)
 c = exp(m1)', 'f(m1) = exp(m1)
 c = f(m1)
 c = sqr(m1)', 'f(m1) = sqr(m1)
-c = f(m1)
-c = sqrt(m1)', 'f(m1) = sqrt(m1)
-c = f(m1)
-c = sqrt(m1)', 'f(m1) = sqrt(m1)
 c = f(m1)
 c = cbrt(m1)', 'f(m1) = cbrt(m1)
 c = f(m1)
@@ -154,11 +151,11 @@ m1.(4; 5) = -7
 m1.(5; 5) = 6
 #show
 m1
-c = mod(m1; 1)', 'f(m1) = mod(m1; 1)
+c = mod(m1; 2)', 'f(m1) = mod(m1; 2)
 c = f(m1)
-c = gcd(m1; 4; 0; -2; 5)', 'f(m1) = gcd(m1; 4; 0; -2; 5)
+c = gcd(m1; 4; -2; 5)', 'f(m1) = gcd(m1; 4; -2; 5)
 c = f(m1)
-c = lcm(m1; 0; 1; 2; 3)', 'f(m1) = lcm(m1; 0; 1; 2; 3)
+c = lcm(m1; 1; 2; 3)', 'f(m1) = lcm(m1; 1; 2; 3)
 c = f(m1)
 
 '<h2>Others</h2>'

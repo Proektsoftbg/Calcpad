@@ -14,7 +14,7 @@
 '<p><b>Concrete cover to the center of reinforcement</b></p>
 'Left -'d_1 = ?mm', Right -'d_2 = ?mm
 #post
-'Effective cross section depth -'d = h - d_1'mm
+'Effective cross section depth -'d = h - d_1
 #show
 '<p><b>Section design loads</b></p>
 'Axial force -'N_Ed = ?kN' (positive for compression)

@@ -98,7 +98,7 @@ namespace Calcpad.OpenXml
 
             try
             {
-                object o = Enum.Parse(typeof(CssUnits), units, true);
+                object o = Enum.Parse<CssUnits>(units, true);
                 if (o is CssUnits cssUnits)
                 {
                     if (cssUnits == CssUnits.EM || cssUnits == CssUnits.REM)

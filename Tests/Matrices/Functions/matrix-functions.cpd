@@ -79,7 +79,7 @@ m_invertible.(3; 1) = 6
 m_invertible.(3; 2) = 7
 m_invertible.(3; 3) = 8
 #show
-'<h3>Structural functions</h3>
+'<h3>Creational functions</h3>
 matrix(5; 5)
 identity(500)
 diagonal(5; 4)
@@ -157,11 +157,12 @@ m_definitive.(4; 4) = 3
 m_symmetric
 eigenvals(m_symmetric)
 eigenvecs(m_symmetric)
+eigen(m_symmetric)
 m_definitive
 cholesky(m_definitive)
-lu(m1)
-qr(m1)
-svd(m1)
+lu(m_definitive)
+qr(m_definitive)
+svd(m_definitive)
 inverse(m_invertible)
 vec2 = [-1; 3.4; -5.7]
 lsolve(m_invertible; vec2)

@@ -9,7 +9,7 @@ namespace Calcpad.Core
         internal SymmetricMatrix(int length) : base(length)
         {
             _type = MatrixType.Symmetric;
-            _rows = new Vector[length];
+            _rows = new LargeVector[length];
             for (int i = length - 1; i >= 0; --i)
                 _rows[i] = new LargeVector(length - i);
         }
@@ -60,9 +60,8 @@ namespace Calcpad.Core
 
         internal UpperTriangularMatrix CholeskyDecomposition()
         {
-            var U = GetCholesky();
-            if (U is null)
-                Throw.MatrixNotPositiveDefinite();
+            var U = GetCholesky() ?? 
+                throw Exceptions.MatrixNotPositiveDefinite();
 
             return U;
         }
@@ -71,42 +70,38 @@ namespace Calcpad.Core
         private UpperTriangularMatrix GetCholesky()
         {
             UpperTriangularMatrix U = new(_rowCount);
-            var maxsize = 0;
+            var maxsize = 1;
             for (int i = 0; i < _rowCount; ++i)
             {
                 var row = _rows[i];
-                if (row.Size > maxsize)
+                if (row.Size > --maxsize)
                     maxsize = row.Size;
 
                 RealValue sum = row[0];
-                for (int k = i - 1; k >= 0; --k)
-                    sum -= RealValue.Pow2(U[k, i]);
-
-                if (sum.D <= 0d)
+                for (int k = 0; k < i; ++k)
+                {
+                    var U_ki = U[k, i];
+                    sum -= U_ki * U_ki;
+                }
+                if (sum.D <= 0)
                     return null;
 
-                var U_i = U._rows[i];
+                var U_i = U.Rows[i];
                 var n = _rowCount - i;
                 if (n > maxsize)
                     n = maxsize;
 
-                --maxsize;
-                var U_ii = RealValue.Sqrt(sum);
-                var d = 1d / U_ii.D;
-                var u = U_ii.Units;
+                RealValue U_ii = new(Math.Sqrt(sum.D), sum.Units?.Pow(0.5f));
                 for (int j = 1; j < n; ++j)
                 {
                     sum = row[j];
-                    for (int k = i - 1; k >= 0; --k)
+                    for (int k = 0; k < i; ++k)
                     {
-                        var U_k = U._rows[k];
+                        var U_k = U.Rows[k];
                         var ik = i - k;
                         sum -= U_k[ik] * U_k[ik + j];
                     }
-                    if (u is null)
-                        U_i[j] = sum * d;
-                    else
-                        U_i[j] = sum / U_ii;
+                    U_i[j] = sum / U_ii;
                 }
                 U_i[0] = U_ii;
             }
@@ -122,41 +117,34 @@ namespace Calcpad.Core
             for (int i = 0; i < _rowCount; ++i)
             {
                 var row = _rows[i];
-                if (row.Size > maxsize)
+                if (row.Size > --maxsize)
                     maxsize = row.Size;
 
                 var sum = row[0];
-                for (int k = i - 1; k >= 0; --k)
-                    sum -= RealValue.Pow2(U[k, i]) * U[k, k];
-
+                for (int k = 0; k < i; ++k)
+                {
+                    var U_ki = U[k, i];
+                    sum -= U_ki * U_ki * U[k, k];
+                }
                 if (sum.D == 0d)
                     return null;
 
-                var U_i = U._rows[i];
+                var U_i = U.Rows[i];
                 var n = _rowCount - i;
                 if (n > maxsize)
                     n = maxsize;
 
-                --maxsize;
                 var U_ii = sum;
-                var u = sum.Units;
-                double d = 1d;
-                if ( u is null)
-                    d = 1d / sum.D;
-                
                 for (int j = 1; j < n; ++j)
                 {
                     sum = row[j];
-                    for (int k = i - 1; k >= 0; --k)
+                    for (int k = 0; k < i; ++k)
                     {
-                        var U_k = U._rows[k];
+                        var U_k = U.Rows[k];
                         var ik = i - k;
                         sum -= U_k[ik] * U_k[ik + j] * U[k, k];
                     }
-                    if (u is null)
-                        U_i[j] = sum * d;
-                    else
-                        U_i[j] = sum / U_ii;
+                    U_i[j] = sum / U_ii;
                 }
                 U_i[0] = U_ii;
             }
@@ -168,6 +156,7 @@ namespace Calcpad.Core
             var U = GetLDLT();
             if (U is null)
                 return RealValue.Zero;
+
             return GetDeterminant(U);
         }
 
@@ -182,81 +171,104 @@ namespace Calcpad.Core
 
         internal override Vector LSolve(Vector v)
         {
-            var U = GetLDLT();
-            if (U is null)
-                Throw.MatrixSingularException();
+            var U = GetLDLT() ?? 
+                throw Exceptions.MatrixSingular();
 
             var x = new RealValue[_rowCount];
-            FwdAndBackSubst(U, v, ref x);
+            FwdAndBackSubst(U, v, x);
             return new(x);
         }
 
         internal Vector ClSolve(Vector v)
         {
-            var U = GetCholesky();
-            if (U is null)
-                Throw.MatrixNotPositiveDefinite();
+            var U = GetCholesky() ??
+                throw Exceptions.MatrixNotPositiveDefinite();
 
             var x = new RealValue[_rowCount];
-            CholeskyFwdAndBackSubst(U, v, ref x);
+            FwdAndBackSubst(U, v, x, true);
             return new(x);
         }
 
         internal override Matrix MSolve(Matrix M)
         {
-            var U = GetLDLT();
-            if (U is null)
-                Throw.MatrixSingularException();
+            var U = GetLDLT() ?? 
+                throw Exceptions.MatrixSingular();
 
-            var m = _rowCount;
-            var n = M.ColCount;
-            var v = new Vector[n];
-            Parallel.For(0, n, j =>
-            {
-                var x = new RealValue[m];
-                FwdAndBackSubst(U, M.Col(j + 1), ref x);
-                v[j] = new(x);
-            });
-            return CreateFromCols(v, m);
+            return MSolveForU(U, M);
         }
-
 
         internal virtual Matrix CmSolve(Matrix M)
         {
-            var U = GetCholesky();
-            if (U is null)
-                Throw.MatrixNotPositiveDefinite();
+            var U = GetCholesky() ?? 
+                throw Exceptions.MatrixNotPositiveDefinite();
 
-            var m = _rowCount;
+            return MSolveForU(U, M, true);
+        }
+
+        private static Matrix MSolveForU(UpperTriangularMatrix U, Matrix M, bool Cholesky = false)
+        {
+            var m = U.RowCount;
             var n = M.ColCount;
-            var v = new Vector[n];
+            var result = new Vector[n];
             Parallel.For(0, n, j =>
             {
                 var x = new RealValue[m];
-                CholeskyFwdAndBackSubst(U, M.Col(j + 1), ref x);
-                v[j] = new(x);
+                FwdAndBackSubst(U, new ColumnVector(M, j), x, Cholesky);
+                result[j] = new(x);
             });
-            return CreateFromCols(v, m);
+            return CreateFromCols(result, m);
+        }
+
+        private static SymmetricMatrix MSolveForU(UpperTriangularMatrix U)
+        {
+            var m = U.RowCount;
+            var I = Identity(m);
+            var result = new Vector[m];
+            Parallel.For(0, m, j =>
+            {
+                var x = new RealValue[m];
+                FwdAndBackSubst(U, I._rows[j], x);
+                result[j] = new(x);
+            });
+            for (int j = m - 1; j >= 0; --j)
+            {
+                var M_j = I._rows[j];
+                var col = result[j];
+                for (int i = j; i >= 0 ; --i)
+                    M_j[i] = col[i - j];
+            }
+            return I;
+        }
+
+        private static SymmetricMatrix Identity(int n)
+        {
+            var M = new SymmetricMatrix(n);
+            for (int i = 0; i < n; ++i)
+                M[i, i] = RealValue.One;
+
+            return M;
         }
 
         internal override Matrix Invert()
         {
-            var U = GetLDLT(); //Decompose the matrix by LDLT decomp.
-            if (U is null)
-                Throw.MatrixSingularException();
+            var U = GetLDLT() ?? 
+                throw Exceptions.MatrixSingular(); //Decompose the matrix by LDLT decomp.
 
             return GetInverse(U);
         }
 
         private SymmetricMatrix GetInverse(UpperTriangularMatrix U)
         {
+            if (_rowCount > ParallelThreshold)
+                return MSolveForU(U);
+
             var vector = new Vector(_rowCount);
             var x = new RealValue[_rowCount];
             var M = new SymmetricMatrix(_rowCount);
             for (int j = 0; j < _rowCount; ++j)  //Find inverse by columns.
             {
                 vector[j] = RealValue.One;
-                FwdAndBackSubst(U, vector, ref x);
+                FwdAndBackSubst(U, vector, x);
                 for (int i = j; i < _rowCount; ++i)
                     M[i, j] = x[i];
 
@@ -265,8 +277,7 @@ namespace Calcpad.Core
             return M;
         }
 
-
-        private static void FwdAndBackSubst(UpperTriangularMatrix U, Vector v, ref RealValue[] x)
+        private static void FwdAndBackSubst(UpperTriangularMatrix U, Vector v, RealValue[] x, bool Cholesky = false)
         {
             var m = U.RowCount;
             var start = -1;
@@ -279,125 +290,127 @@ namespace Calcpad.Core
                         sum -= U[j, i] * x[j];
                 else if (!sum.Equals(RealValue.Zero))
                     start = i;
-
-                x[i] = sum;
+                //For LDLT decomposition, the diagonal ls scaled later
+                x[i] = Cholesky ? sum / U[i, i] :  sum;
             }
-            //Diagonal scalling
-            for (int i = 0; i < m; ++i)
-                x[i] /= U[i, i];
-            //Backward substitution, solving U * x = y  
-            for (int i = m - 1; i >= 0; --i)
-            {
-                var sum = x[i];
-                var row = U._rows[i];
-                var n = Math.Min(m, i + row.Size);
-                for (int j = i + 1; j < n; ++j)
-                    sum -= row[j - i] * x[j];
+            //Diagonal scalling for LDLT decomposition
+            if (!Cholesky)
+                for (int i = 0; i < m; ++i)
+                    x[i] /= U[i, i];
 
-                x[i] = sum;
-            }
-        }
-
-        private static void CholeskyFwdAndBackSubst(UpperTriangularMatrix U, Vector v, ref RealValue[] x)
-        {
-            var m = U.RowCount;
-            var start = -1;
-            //Forward substitution. Solves UT * y = v, storing y in x
-            for (int i = 0; i < m; ++i)
-            {
-                var sum = v[i];
-                if (start >= 0)
-                    for (int j = start; j < i; ++j)
-                        sum -= U[j, i] * x[j];
-                else if (!sum.Equals(RealValue.Zero))
-                    start = i;
-
-                x[i] = sum / U[i, i];
-            }
             //Backward substitution, solving U * x = y
             for (int i = m - 1; i >= 0; --i)
             {
                 var sum = x[i];
-                var row = U._rows[i];
-                var n = Math.Min(m, i + row.Size);
-                for (int j = i + 1; j < n; ++j)
-                    sum -= row[j - i] * x[j];
+                var row = U.Rows[i];
+                var r = row.Raw;
+                var n = Math.Min(m - i, row.Size);
+                for (int j = 1; j < n; ++j)
+                    sum -= r[j] * x[i + j];
 
-                x[i] = sum / row[0];
+                x[i] = Cholesky ? sum / r[0] : sum;
             }
         }
 
+        internal override RealValue Count(RealValue value)
+        {
+            var len = _rows.Length;
+            if (len == 0)
+                return RealValue.Zero;
+            
+            var count = 0d;
+            for (int i = 0; i < len; ++i)
+            {
+                var row = _rows[i];
+                count += 2d * row.Count(value, 2).D;
+                if (row[0].AlmostEquals(value))
+                    ++count;
+            }
+            return new(count);
+
+        }
         internal override RealValue Sum()
         {
-            var _row = _rows[0];
-            var v = _row.Sum();
-            var result = 2 * v.D;
+            var len = _rows.Length;
+            if (len == 0)
+                return RealValue.Zero;
+
+            var row = _rows[0];
+            var v = row.Sum();
+            var sum = 2d * v.D;
             var u = v.Units;
             RestoreMainDiagonal();
-            for (int i = 1, len = _rows.Length; i < len; ++i)
+            for (int i = 1; i < len; ++i)
             {
-                _row = _rows[i];
-                v = _row.Sum();
-                result += 2 * v.D * Unit.Convert(u, v.Units, ',');
+                row = _rows[i];
+                v = row.Sum();
+                sum += 2d * v.D * Unit.Convert(u, v.Units, ',');
                 RestoreMainDiagonal();
             }
-            return new(result, u);
+            return new(sum, u);
 
             void RestoreMainDiagonal()
             {
-                v = _row[0];
-                result -= v.D * Unit.Convert(u, v.Units, ',');
+                v = row[0];
+                sum -= v.D * Unit.Convert(u, v.Units, ',');
             }
         }
 
         internal override RealValue SumSq()
         {
-            var _row = _rows[0];
-            var v = _row.SumSq();
-            var result = 2 * v.D;
+            var len = _rows.Length;
+            if (len == 0)
+                return RealValue.Zero;
+
+            var row = _rows[0];
+            var v = row.SumSq();
+            var sumsq = 2d * v.D;
             var u = v.Units;
             RestoreMainDiagonal();
-            for (int i = 1, len = _rows.Length; i < len; ++i)
+            for (int i = 1; i < len; ++i)
             {
-                _row = _rows[i];
-                v = _row.SumSq();
-                result += 2 * v.D * Unit.Convert(u, v.Units, ',');
+                row = _rows[i];
+                v = row.SumSq();
+                sumsq += 2d * v.D * Unit.Convert(u, v.Units, ',');
                 RestoreMainDiagonal();
             }
-            return new(result, u);
+            return new(sumsq, u);
 
             void RestoreMainDiagonal()
             {
-                v = _row[0] * _row[0];
-                result -= v.D * Unit.Convert(u, v.Units, ',');
+                v = row[0] * row[0];
+                sumsq -= v.D * Unit.Convert(u, v.Units, ',');
             }
         }
 
         internal override RealValue Product()
         {
-            var _row = _rows[0];
-            var v = _row.Product();
-            var result = v.D * v.D;
-            var u = v.Units;
+            var len = _rows.Length;
+            if (len == 0)
+                return RealValue.Zero;
+
+            var row = _rows[0];
+            var p = row.Product();
+            var product = p.D * p.D;
+            var u = p.Units?.Pow(2f);
             RestoreMainDiagonal();
-            for (int i = 1, len = _rows.Length; i < len; ++i)
+            for (int i = 1; i < len; ++i)
             {
-                _row = _rows[i];
-                v = _row.Product();
-                u = Unit.Multiply(u, v.Units, out var b);
-                b *= v.D;
-                result *= b * b;
+                row = _rows[i];
+                p = row.Product();
+                u = Unit.Multiply(u, p.Units.Pow(2f), out var b);
+                product *= p.D * p.D * b;
                 RestoreMainDiagonal();
             }
-            return new(result, u);
+            return new(product, u);
 
             void RestoreMainDiagonal()
             {
-                v = _row[0];
-                u = Unit.Divide(u, v.Units, out var b);
-                result *= b;
-                if (v.D != 0)
-                    result /= v.D;
+                p = row[0];
+                u = Unit.Divide(u, p.Units, out var b);
+                product *= b;
+                if (p.D != 0)
+                    product /= p.D;
             }
         }
 
@@ -418,27 +431,29 @@ namespace Calcpad.Core
             }
             return norm;
         }
-        internal Matrix EigenVectors()
+
+        internal Matrix EigenVectors(int count)
         {
-            //Jacobi(out Matrix E);
-            //return E;
+            var reverse = CheckCount(ref count);
             var Q = Tridiagonalize(out RealValue[] d, out RealValue[] e, true);
             ImplicitQL(d, e, Q, true);
-            return SortEigenVectors(d, Q, false);
+            return SortEigenVectors(d, Q, count, reverse, false);
         }
 
-        internal Vector EigenValues()
+        internal Vector EigenValues(int count)
         {
+            var reverse = CheckCount(ref count);
             var Q = Tridiagonalize(out RealValue[] d, out RealValue[] e, false);
             ImplicitQL(d, e, Q, false);
-            return SortEigenValues(d);
+            return SortEigenValues(d, count, reverse);
         }
 
-        internal Matrix Eigen()
+        internal Matrix Eigen(int count)
         {
+            var reverse = CheckCount(ref count);
             var Q = Tridiagonalize(out RealValue[] d, out RealValue[] e, true);
             ImplicitQL(d, e, Q, true);
-            return SortEigenVectors(d, Q, true);
+            return SortEigenVectors(d, Q, count, reverse, true);
         }
 
         /*
@@ -452,13 +467,17 @@ namespace Calcpad.Core
         Cambridge University Press, USA.
         */
 
-        private RealValue[,] Tridiagonalize(out RealValue[] d, out RealValue[] e, bool eigenvecs)
-        {
+        private RealValue[][] Tridiagonalize(out RealValue[] d, out RealValue[] e, bool eigenvecs)
+        {                       
             d = new RealValue[_rowCount];
             e = new RealValue[_rowCount];
-            var Q = new RealValue[_rowCount, _rowCount];
+            var Q = new RealValue[_rowCount][];
             var n = _rowCount - 1;
-            var min = new int[_rowCount]; 
+            var min = new int[_rowCount];
+
+            for (int i = 0; i <= n; ++i)
+                Q[i] = new RealValue[_rowCount];
+
             for (int i = 0; i <= n; ++i)
             {
                 var row = _rows[i];
@@ -466,71 +485,72 @@ namespace Calcpad.Core
                 for (int j = m; j >= 0; --j)
                 {
                     var k = i + j;
-                    if (i < min[k])
-                        min[k] = i;
-                    Q[k, i] = row[j];
+                    if (i < min[k]) min[k] = i;
+                    Q[k][i] = row[j];
                 }
             }
             for (int i = n; i > 0; --i)
             {
+                var Q_i = Q[i];
                 var l = i - 1;
                 var h = RealValue.Zero;
                 var m = min[i];
                 if (l > 0)
                 {
-
-                    var scale = RealValue.Abs(Q[i, m]);
+                    var scale = RealValue.Abs(Q_i[m]);
                     for (int k = m + 1; k <= l; ++k)
-                        scale += RealValue.Abs(Q[i, k]);
+                        scale += RealValue.Abs(Q_i[k]);
 
                     if (scale.D == 0d)        //Skip transformation.
-                        e[i] = Q[i, l];
+                        e[i] = Q_i[l];
                     else
                     {
-                        Q[i, m] /= scale;      //Use scaled Q’s for transformation.
-                        h = Sqr(Q[i, m]);      //Form σ in h.
+                        Q_i[m] /= scale;      //Use scaled Q’s for transformation.
+                        h = Sqr(Q_i[m]);      //Form σ in h.
                         for (int k = m + 1; k <= l; ++k)
                         {
-                            Q[i, k] /= scale;  //Use scaled Q’s for transformation.
-                            h += Sqr(Q[i, k]); //Form σ in h.
+                            Q_i[k] /= scale;  //Use scaled Q’s for transformation.
+                            h += Sqr(Q_i[k]); //Form σ in h.
                         }
-                        var f = Q[i, l];
+                        var f = Q_i[l];
                         var g = f.D >= 0d ? -RealValue.Sqrt(h) : RealValue.Sqrt(h);
                         e[i] = scale * g;
                         h -= f * g;           // Now h is equation(11.2.4).
-                        Q[i, l] = f - g;      // Store u in the ith row of Q.
+                        Q_i[l] = f - g;      // Store u in the ith row of Q.
                         for (int j = m; j <= l; ++j)
                         {
+                            var Q_j = Q[j];
                             /* Next statement can be omitted if eigenvectors not wanted */
                             if (eigenvecs)
-                                Q[j, i] = Q[i, j] / h; //Store u/H in ith column of Q.
+                                Q_j[i] = Q_i[j] / h; //Store u/H in ith column of Q.
 
-                            g = Q[j, 0] * Q[i, 0]; //Form an element of Q · u in g.
+                            g = Q_j[0] * Q_i[0]; //Form an element of Q · u in g.
                             for (int k = 1; k <= j; ++k)
-                                g += Q[j, k] * Q[i, k];
+                                g += Q_j[k] * Q_i[k];
 
                             for (int k = j + 1; k <= l; ++k)
-                                g += Q[k, j] * Q[i, k];
+                                g += Q[k][j] * Q_i[k];
 
                             e[j] = g / h;          //Form element of p in temporarily unused element of e.
                             if (j == m)
-                                f = e[j] * Q[i, j];
+                                f = e[j] * Q_i[j];
                             else
-                                f += e[j] * Q[i, j];
+                                f += e[j] * Q_i[j];
                         }
                         var hh = f / (h + h);      //Form K, equation (11.2.11).
                         for (int j = m; j <= l; ++j)
                         {
                             //Form q and store in e overwriting p.
-                            f = Q[i, j];
+                            f = Q_i[j];
                             e[j] = g = e[j] - hh * f;
+                            var Q_j = Q[j];
                             for (int k = m; k <= j; k++) //Reduce Q, equation (11.2.13).
-                                Q[j, k] -= (f * e[k] + g * Q[i, k]);
+                                Q_j[k] -= (f * e[k] + g * Q_i[k]);
                         }
                     }
                 }
                 else
-                    e[i] = Q[i, l];
+                    e[i] = Q_i[l];
 
                 d[i] = h;
             }
@@ -544,6 +564,7 @@ namespace Calcpad.Core
             if (eigenvecs)
                 for (int i = 0; i <= n; ++i) // Begin accumulation of transformation matrices.
                 {
+                    var Q_i = Q[i];
                     var l = i - 1;
                     var m = min[i];
                     if (d[i].D != 0d)
@@ -551,22 +572,22 @@ namespace Calcpad.Core
                         //This block skipped when i = 0.
                         for (int j = m; j <= l; ++j)
                         {
-                            var g = Q[i, m] * Q[m, j];
+                            var g = Q_i[m] * Q[m][j];
                             for (int k = m + 1; k <= l; ++k) //Use u and u/H stored in a to form P·Q.
-                                g += Q[i, k] * Q[k, j];
+                                g += Q_i[k] * Q[k][j];
 
                             for (int k = 0; k <= l; ++k)
-                                Q[k, j] -= g * Q[k, i];
+                                Q[k][j] -= g * Q[k][i];
                         }
                     }
-                    d[i] = Q[i, i]; //This statement remains.
-                    Q[i, i] = RealValue.One; //Reset row and column of a to identity matrix for next iteration.
+                    d[i] = Q_i[i]; //This statement remains.
+                    Q_i[i] = RealValue.One; //Reset row and column of a to identity matrix for next iteration.
                     for (int j = 0; j <= l; j++)
-                        Q[j, i] = Q[i, j] = RealValue.Zero;
+                        Q[j][i] = Q_i[j] = RealValue.Zero;
                 }
             else
                 for (int i = 0; i <= n; ++i) // Begin accumulation of transformation matrices.
-                    d[i] = Q[i, i];          //This statement remains.
+                    d[i] = Q[i][i];          //This statement remains.
 
             return Q;
 
@@ -589,7 +610,7 @@ namespace Calcpad.Core
         William H. Press, Saul A. Teukolsky, William T. Vetterling, and Brian P. Flannery. 2007. 
         Cambridge University Press, USA.
         */
-        private static void ImplicitQL(RealValue[] d, RealValue[] e, RealValue[,] Q, bool eigenvecs)
+        private static void ImplicitQL(RealValue[] d, RealValue[] e, RealValue[][] Q, bool eigenvecs)
         {
             var n = d.Length - 1;
             //It is convenient to renumber the elements of e.
@@ -614,7 +635,7 @@ namespace Calcpad.Core
                     if (m != l)
                     {
                         if (++iter == 30)
-                            Throw.QLAlgorithmFailed();
+                            throw Exceptions.QLAlgorithmFailed();
 
                         var l1 = l + 1;
                         var g = (d[l1] - d[l]) / (e[l] * 2d); //Form shift.
@@ -639,7 +660,7 @@ namespace Calcpad.Core
                             }
                             s = f / r;
                             c = g / r;
-                            if (p.Equals(RealValue.Zero))
+                            if (p.D == 0d)
                                 g = d[i1];
                             else
                                 g = d[i1] - p;
@@ -653,9 +674,10 @@ namespace Calcpad.Core
                             if (eigenvecs)
                                 for (int k = 0; k <= n; ++k)     // Form eigenvectors.
                                 {
-                                    f = Q[k, i1];
-                                    Q[k, i1] = s * Q[k, i] + c * f;
-                                    Q[k, i] = c * Q[k, i] - s * f;
+                                    var Q_k = Q[k];
+                                    f = Q_k[i1];
+                                    Q_k[i1] = s * Q_k[i] + c * f;
+                                    Q_k[i] = c * Q_k[i] - s * f;
                                 }
 
                             --i;
@@ -671,22 +693,35 @@ namespace Calcpad.Core
             }
         }
 
-        private static Vector SortEigenValues(RealValue[] d) => new Vector(d).Sort();
-
-        private static Matrix SortEigenVectors(RealValue[] d, RealValue[,] Q, bool combine)
+        private static Vector SortEigenValues(RealValue[] d, int count, bool reverse)
         {
-            var n = d.Length;
-            var indexes = Enumerable.Range(0, n).ToArray();
+            if (reverse)
+                Array.Sort(d, Vector.Descending);
+            else
+                Array.Sort(d);
+
+            return new Vector(d[0..count]);
+        }
+
+        private static Matrix SortEigenVectors(RealValue[] d, RealValue[][] Q, int count, bool reverse, bool combine)
+        {
+            var len = d.Length;
+            if (count > len)
+                count = len;
+            var indexes = Enumerable.Range(0, len).ToArray();
             Array.Sort(d, indexes);
             var j0 = combine ? 1 : 0;
-            var m = n + j0;
-            var M = new Matrix(n, m);
-            for (int i = 0; i < n; ++i)
+            var n = Q.Length;
+            var M = new Matrix(count, n + j0);
+            for (int i = 0; i < count; ++i)
             {
+                var index = reverse ? indexes[len - 1 - i] : indexes[i];
+                var row = M.Rows[i];
+                for (int j = n - 1; j >= 0; --j)
+                    row[j + j0] = Q[j][index];
+
                 if (combine)
-                    M[i, 0] = d[i]; 
-                for (int j = 0; j < n; ++j)
-                    M[i, j + j0] = Q[i, indexes[j]];            
+                    row[0] = d[i];
             }
             return M;
         }
@@ -703,16 +738,13 @@ namespace Calcpad.Core
 
         internal override Matrix Adjoint()
         {
-            var U = GetLDLT();
-            if (U is null)
-                Throw.MatrixSingularException();
-
+            var U = GetLDLT() ?? throw Exceptions.MatrixSingular();
             var det = GetDeterminant(U);
             var M = GetInverse(U);
             return M * det;
         }
 
-        protected override Matrix GetLU(out int[] indexes, out double minPivot, out double det)
+        protected override SymmetricMatrix GetLU(out int[] indexes, out double minPivot, out double det)
         {
             indexes = new int[_rowCount];
             minPivot = double.MaxValue;
@@ -726,7 +758,7 @@ namespace Calcpad.Core
 
             var LU = new SymmetricMatrix(_rowCount);
             for (int i = 0; i < _rowCount; ++i)
-                LU._rows[i] = U._rows[i];
+                LU._rows[i] = U.Rows[i];
 
             return LU;
         }

@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.Web.WebView2.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -46,6 +48,8 @@ namespace Calcpad.Wpf
             }
         }
         internal RichTextBox RichTextBox { get; set; }
+        internal WebView2 WebViewer { get; set; }
+        internal bool IsWebView2Focused { get; set; }
         internal bool MatchCase { get; set; }
         internal bool WholeWords { get; set; }
         internal bool Selection { get; set; }
@@ -57,6 +61,9 @@ namespace Calcpad.Wpf
 
         internal void InitPosition()
         {
+            if (IsWebView2Focused)
+                return;
+
             var tp = _direction == Directions.Up ?
             RichTextBox.Selection.Start :
             RichTextBox.Selection.End;
@@ -68,12 +75,19 @@ namespace Calcpad.Wpf
         private readonly SolidColorBrush _highlightBrush = new(Color.FromArgb(40, 0, 155, 255));
         internal void HighlightSelection()
         {
+            if (IsWebView2Focused)
+                return;
+
             BeginSearch(this, null);
             RichTextBox.Selection.ApplyPropertyValue(TextElement.BackgroundProperty, _highlightBrush);
             EndSearch(this, null);
         }
+
         internal void ClearSelection()
         {
+            if (IsWebView2Focused)
+                return;
+
             BeginSearch(this, null);
             RichTextBox.Selection.ApplyPropertyValue(TextElement.BackgroundProperty, null);
             EndSearch(this, null);
@@ -137,8 +151,23 @@ namespace Calcpad.Wpf
             MessageBox.Show(string.Format(FindReplaceResources.count_matches_were_replaced, count), FindReplaceResources.Find_And_Replace_Caption);
         }
 
-        private void FindNext(bool replace)
+        private async void FindNext(bool replace)
         {
+            if (IsWebView2Focused)
+            {
+                var matchCase = MatchCase.ToString().ToLowerInvariant();           
+                var searchUpward = (Direction == FindReplace.Directions.Up).ToString().ToLowerInvariant();
+                var wrapAround = (Direction == FindReplace.Directions.All).ToString().ToLowerInvariant();
+                var wholeWord = WholeWords.ToString().ToLowerInvariant();
+                var script = $"window.find('{SearchString.Trim()}', {matchCase}, {searchUpward}, {wrapAround}, {wholeWord})";
+                var json = await WebViewer.ExecuteScriptAsync(script);
+                var isFound = JsonSerializer.Deserialize<bool>(json);
+                if (!isFound)
+                    MessageBox.Show(FindReplaceResources.Search_text_not_found, FindReplaceResources.Find_And_Replace_Caption);
+
+                return;
+            }
+
             if (!InitSearch(replace))
                 return;
 

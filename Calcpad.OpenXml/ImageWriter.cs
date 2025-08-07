@@ -32,7 +32,7 @@ namespace Calcpad.OpenXml
                     imageProcessor = new FileImageProcessor(src);
                     slash = '\\';
                 }
-                else if (Path.Exists(src))
+                else if (File.Exists(src))
                     imageProcessor = new FileImageProcessor(src);
                 else
                     imageProcessor = new UrlImageProcessor(src);

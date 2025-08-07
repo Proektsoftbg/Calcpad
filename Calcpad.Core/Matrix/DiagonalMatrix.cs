@@ -19,7 +19,7 @@ namespace Calcpad.Core
         internal DiagonalMatrix(Vector a) : base(a.Length)
         {
             _type = MatrixType.Diagonal;
-            _rows = [a];
+            _rows = a is LargeVector lv ? [lv] : [new LargeVector(a.Raw)];
         }
 
         internal override RealValue this[int row, int col]
@@ -30,7 +30,7 @@ namespace Calcpad.Core
                 if (row.Equals(col))
                     _rows[0][row] = value;
                 else
-                    Throw.IndexOutOfRangeException($"{row  + 1}, {col + 1}");
+                    throw Exceptions.IndexOutOfRange($"{row + 1}, {col + 1}");
             }
         }
         internal override Matrix Clone() => new DiagonalMatrix(_rowCount);
@@ -62,7 +62,7 @@ namespace Calcpad.Core
             var c = b.Clone();
             var diag = a._rows[0];
             for (int i = a._rowCount - 1; i >= 0; --i)
-                c._rows[i] = b._rows[i] * diag[i];
+                c.Rows[i] = b.Rows[i] * diag[i] as LargeVector;
 
             return c;
         }
@@ -72,22 +72,14 @@ namespace Calcpad.Core
             var c = a.Clone();
             var diag = b._rows[0];
             for (int i = a.RowCount - 1; i >= 0; --i)
-                c._rows[i] = a._rows[i] * diag;
+                c.Rows[i] = a.Rows[i] * diag as LargeVector;
 
             return c;
         }
 
         internal override DiagonalMatrix Transpose() => RawCopy();
 
-        internal override RealValue Determinant()
-        {
-            var diag = _rows[0];
-            var det = diag[0];
-            for (int i = 1; i < _rowCount; ++i)
-                det *= diag[i];
-
-            return det;
-        }
+        internal override RealValue Determinant() => _rows[0].Product();
 
         protected override Matrix GetLU(out int[] indexes, out double minPivot, out double det)
         {
@@ -119,7 +111,7 @@ namespace Calcpad.Core
         {
             CheckSingular();
             var M = new DiagonalMatrix(_rowCount);
-            M._rows[0] = RealValue.One / _rows[0];
+            M._rows[0] = RealValue.One / _rows[0] as LargeVector;
             return M;
         }
 
@@ -135,8 +127,8 @@ namespace Calcpad.Core
             var m = _rowCount;
             var n = M.ColCount;
             var v = new Vector[n];
-            Parallel.For(0, n, j => 
-                v[j] = M.Col(j) / _rows[0]
+            Parallel.For(0, n, j =>
+                v[j] = M.Col(j + 1) / _rows[0]
             );
             return CreateFromCols(v, m);
         }
@@ -146,31 +138,31 @@ namespace Calcpad.Core
             var diag = _rows[0];
             for (int i = _rowCount - 1; i >= 0; --i)
                 if (diag[i].D == 0)
-                    Throw.MatrixSingularException();
+                    throw Exceptions.MatrixSingular();
         }
 
         //L∞ (Infinity) or Chebyshev norm     
         internal override RealValue InfNorm() => _rows[0].InfNorm();
 
-        internal Vector EigenValues() => _rows[0].Sort();
+        internal Vector EigenValues(int count) => _rows[0].Sort().First(count);
 
-        internal Matrix EigenVectors()
+        internal Matrix EigenVectors(int count)
         {
             var indexes = _rows[0].GetOrderIndexes(false);
-            Matrix M = new(_rowCount, _rowCount);
-            for (int i = 0; i < _rowCount; ++i)
+            Matrix M = new(count, _rowCount);
+            for (int i = 0; i < count; ++i)
                 M[indexes[i], i] = RealValue.One;
 
             return M;
         }
 
-        internal Matrix Eigen()
+        internal Matrix Eigen(int count)
         {
             var indexes = _rows[0].GetOrderIndexes(false);
-            Matrix M = new(_rowCount, _rowCount + 1);
-            for (int i = 0; i < _rowCount; ++i)
+            Matrix M = new(count, _rowCount + 1);
+            for (int i = 0; i < count; ++i)
             {
-                M[indexes[i], 0] = _rows[0][i]; 
+                M[indexes[i], 0] = _rows[0][i];
                 M[i, indexes[i] + 1] = RealValue.One;
             }
             return M;
@@ -190,7 +182,7 @@ namespace Calcpad.Core
         {
             var det = Determinant();
             if (det.D == 0)
-                Throw.MatrixSingularException();
+                throw Exceptions.MatrixSingular();
 
             var M = Invert();
             return M * det;

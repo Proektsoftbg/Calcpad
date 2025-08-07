@@ -1,0 +1,102 @@
+"Vector initialization
+'Direct:
+a = hp([cos(0); 2; 3; 2*2; 6 - 1])
+'Direct with another vector:
+b = hp([0; a; 6; 7; 8])
+'From a custom function:
+a(x) = hp([1; x; x^2; x^3; x^4])
+a(2)
+a(3)
+'By creational functions:
+a = vector_hp(5)'- creates an empty vector with 5 elements
+fill(a; 5)'- fills the vector with a value of 5
+a = range_hp(0; 10; 2)'- creates a vector from a range of values, starting from 0 to 10 with step 2
+
+"Indexing
+a = hp([2; 4; 6; 8; 10])
+a.2'- simple dot operator (constant index)
+k = 3', 'a.k'- variable index
+a.(2*k - 1)'- expression index
+a.5 = 0' - assign a new value to element:'a
+a = vector_hp(6)','b = vector_hp(6)
+'Initalize values in a block loop
+#hide
+#for k = 1 : len(a)
+	a.k = k^2
+#loop
+#show
+a
+'Inline loop
+$Repeat{b.k = a.(k - 1) @ k = 2 : len(b)}
+b
+
+"Vector operators
+'<h4>Vector-vector</h4>
+a = hp([1; 2; 3; 0])', 'b = hp([0; 4; 5; 6; 7])
+'Arithmetic:
+a!'- factorial
+a^b'- exponentiation
+a/b'- floating point division
+a\b'- integer division
+a÷b'- division bar
+a⦼b'- modulo(⦼, remainder)
+a*b'- multiplication
+a - b'- subtraction
+a + b'- addition
+'Relational (comparison):
+a ≡ b'- equal to
+a ≠ b'- unequal to 
+a < b'- less then
+a > b'- greater than
+a ≤ b'- less or equal
+a ≥ b'- greater or equal
+'Logical:
+a ∧ b'- logical "and"
+a ∨ b'- logical "or"
+a ⊕ b'- logical "xor"
+
+'<h4>Vector-scalar</h4>
+a = hp([1; 2; 3; 0])', 'b = 2
+'Arithmetic:
+a^2'- exponentiation
+a/2'- floating point division
+a\2'- integer division
+a÷2'- division bar
+a⦼2'- modulo(⦼, remainder)
+a*2'- multiplication
+a - 2'- subtraction
+a + 2'- addition
+'Relational (comparison):
+a ≡ 2'- equal to
+a ≠ 2'- unequal to
+a < 2'- less then
+a > 2'- greater than
+a ≤ 2'- less or equal
+a ≥ 2'- greater or equal
+'Logical:
+a ∧ 2'- logical "and"
+a ∨ 2'- logical "or"
+a ⊕ 2'- logical "xor"
+
+'<h4>Scalar-vector</h4>
+a = 2', 'b = hp([0; 4; 5; 6; 7])
+'Arithmetic:
+2^b'- exponentiation
+2/b'- floating point division
+2\b'- integer division
+2÷b'- division bar
+2⦼b'- modulo(⦼, remainder)
+2*b'- multiplication
+2 - b'- subtraction
+2 + b'- addition
+'Relational (comparison):
+2 ≡ b'- equal to
+2 ≠ b'- unequal to
+2 < b'- less then 
+2 > b'- greater than
+2 ≤ b'- less or equal
+2 ≥ b'- greater or equal
+'Logical:
+2 ∧ b'- logical "and"
+2 ∨ b'- logical "or
+2 ⊕ b'- logical "xor"

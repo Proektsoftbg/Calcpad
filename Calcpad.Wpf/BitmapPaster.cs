@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using SD = System.Drawing;
 
 namespace Calcpad.Wpf
 {
@@ -35,16 +36,16 @@ namespace Calcpad.Wpf
             public int biClrImportant;
         }
 
-        internal static BitmapSource PasteImageFromClipboard()
+        internal static void PasteImageFromClipboard(string path)
         {
-            if (Clipboard.GetData("DeviceIndependentBitmap") is not MemoryStream ms) return null;
+            if (Clipboard.GetData("DeviceIndependentBitmap") is not MemoryStream ms) return;
             var dibBuffer = new byte[ms.Length];
-            _ = ms.Read(dibBuffer, 0, dibBuffer.Length);
+            ms.Read(dibBuffer, 0, dibBuffer.Length);
 
             BITMAPINFOHEADER infoHeader =
                 BinaryStructConverter.FromByteArray<BITMAPINFOHEADER>(dibBuffer);
 
-            var fileHeaderSize = Marshal.SizeOf(typeof(BITMAPFILEHEADER));
+            var fileHeaderSize = Marshal.SizeOf<BITMAPFILEHEADER>();
             var infoHeaderSize = infoHeader.biSize;
             var fileSize = fileHeaderSize + infoHeader.biSize + infoHeader.biSizeImage;
 
@@ -64,8 +65,13 @@ namespace Calcpad.Wpf
             msBitmap.Write(fileHeaderBytes, 0, fileHeaderSize);
             msBitmap.Write(dibBuffer, 0, dibBuffer.Length);
             msBitmap.Seek(0, SeekOrigin.Begin);
-
-            return BitmapFrame.Create(msBitmap);
+            var src = BitmapFrame.Create(msBitmap);
+            SD.Bitmap bitmap = new(src.PixelWidth, src.PixelHeight, SD.Imaging.PixelFormat.Format32bppPArgb);
+            SD.Imaging.BitmapData data = bitmap.LockBits(new SD.Rectangle(SD.Point.Empty, bitmap.Size), SD.Imaging.ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+            src.CopyPixels(Int32Rect.Empty, data.Scan0, data.Height * data.Stride, data.Stride);
+            bitmap.UnlockBits(data);
+            SD.Image image = bitmap;
+            image.Save(path, SD.Imaging.ImageFormat.Png);
         }
     }
 }

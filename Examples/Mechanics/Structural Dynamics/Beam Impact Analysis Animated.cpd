@@ -173,12 +173,13 @@ M
 'Eigenvalues
 M_sq = sqrt(M)
 C = copy(M_sq*D*M_sq; symmetric(n_J); 1; 1)
-λ = reverse(last(eigenvals(C*10^-3); n$))
+λ = eigenvals(C*10^-3; -n$)
 'Natural circular frequences -'ω = sqrt(1/λ)'<i>s</i>⁻¹
 'Natural vibration frequences -'f = ω/(2*π)*Hz
 'Natural vibration periods -'T = 1/f
 'Eigenvectors
-Φ = inverse(M_sq)*extract_cols(eigenvecs(C*10^-3); range(n_J; n_J - n$ + 1; -1))
+V = transp(eigenvecs(C*10^-3; -n$))
+Φ = inverse(M_sq)*V
 X = stack(matrix(1; 3); Φ; matrix(1; 3))
 #def X$(m$) = i*Δx|spline(i + 1; m$; X)
 $Plot{X$(1) & X$(2) & X$(3) @ i = 0 : n_J + 1}
@@ -235,7 +236,7 @@ k_R = PlotWidth*mm/L
 #show
 'Animation of beam elastic response (slowed down) <button id="start">Drop</button>
 #val
-'<style>#start{height:1.8em; padding-top:0;} .fr{display:none;} circle{stroke-width: 0;} .fr circle.PlotSeries3{stroke-width:'5*R_s*k_R'px!Important;stroke-opacity:0.1; fill:none;}</style>
+'<style>#start{height:1.8em; padding-top:0;} .fr{display:none;} circle{stroke-width: 0;} .fr circle.Series3{stroke-width:'5*R_s*k_R'px!Important;stroke-opacity:0.2; fill:none;}</style>
 #for k = 1 : N
 	#hide
 	k_0 = max(k - n_0; 1)
@@ -247,7 +248,7 @@ k_R = PlotWidth*mm/L
 	$Plot{j*Δx|-spline(j + 1; z) & 0m|-100mm & j_m*Δx|z_b(k) & L|z_0 + 50mm @ j = 0 : n_J + 1}
 	'</div>
 #loop
-'<script>$("#fr-1").show();$("#start").click(function(){$(this).hide();var i='N';var fr=$("#fr-"+i);setInterval(function(){fr.hide();if(++i>'N')i=1;fr=$("#fr-"+i);fr.show();}, 10);});</script>
+'<script>$("#fr-1").show();$("#start").click(function(){$(this).hide();var i='N';var fr=$("#fr-"+i);setInterval(function(){fr.hide();if(++i>'N')i=1;fr=$("#fr-"+i);fr.show();}, 20);});</script>
 #equ
 '[1] Harris C. M., Piersol A.G., HARRIS’ SHOCK AND VIBRATION HANDBOOK, Fifth Edition, McGraw-Hill 2002, ISBN 0-07-137081-1
 '[2] Qing Peng, Xiaoming Liu, Yueguang Wei, Elastic impact of sphere on large plate, Journal of the Mechanics and Physics of Solids, Volume 156, 2021, 104604, ISSN 0022 - 5096, <a href="https://doi.org/10.1016/j.jmps.2021.104604">https://doi.org/10.1016/j.jmps.2021.104604</a>

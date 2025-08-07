@@ -7,7 +7,7 @@ namespace Calcpad.Core
     {
         private sealed class Token
         {
-            internal string Value { get; }
+            internal string Value { get; set; }
             internal TokenTypes Type;
             internal int CacheID = -1;
             internal Token(string value, TokenTypes type)
@@ -39,6 +39,17 @@ namespace Calcpad.Core
                 {
                     if (currentSeparator == ' ' || currentSeparator == c)
                     {
+                        if (currentSeparator == c)
+                        {
+                            var i1 = i + 1;
+                            if (i1 < len && s[i1] == currentSeparator)
+                            {
+                                ts.Expand();
+                                ts.Expand();
+                                i = i1;
+                                continue;
+                            }
+                        }
                         if (!ts.IsEmpty)
                             AddToken(tokens, ts.Cut(), currentSeparator);
 
@@ -59,9 +70,8 @@ namespace Calcpad.Core
 
         private void AddToken(List<Token> tokens, ReadOnlySpan<char> value, char separator)
         {
-            var tokenValue = value.ToString();
+            var tokenValue = value.ToString().Replace("\"\"", "&quot;").Replace("''", "&apos;");
             var tokenType = GetTokenType(separator);
-
             if (tokenType == TokenTypes.Expression)
             {
                 if (value.IsWhiteSpace())

@@ -26,41 +26,41 @@ namespace Calcpad.Core
             if (_matrix is ColumnMatrix cm)
             {
                 if (index != _row)
-                    Throw.IndexOutOfRangeException((index + 1).ToString());
+                    throw Exceptions.IndexOutOfRange((index + 1).ToString());
 
-                return ref cm._rows[0].ValueByRef(_row);
+                return ref cm.Rows[0].ValueByRef(_row);
             }
 
             if (_matrix is DiagonalMatrix dm)
             {
                 if (index != _row)
-                    Throw.IndexOutOfRangeException((index + 1).ToString());
+                    throw Exceptions.IndexOutOfRange((index + 1).ToString());
 
-                return ref dm._rows[index].ValueByRef(0);
+                return ref dm.Rows[index].ValueByRef(0);
 
             }
             if (_matrix is SymmetricMatrix sm)
             {
                 if (index <= _row)
-                    return ref sm._rows[index].ValueByRef(_row - index);
+                    return ref sm.Rows[index].ValueByRef(_row - index);
 
-                return ref sm._rows[_row].ValueByRef(index - _row);
+                return ref sm.Rows[_row].ValueByRef(index - _row);
             }
             if (_matrix is LowerTriangularMatrix ltm)
             {
                 if (index > _row)
-                    Throw.IndexOutOfRangeException((index + 1).ToString());
+                    throw Exceptions.IndexOutOfRange((index + 1).ToString());
 
-                return ref ltm._rows[_row].ValueByRef(index);
+                return ref ltm.Rows[_row].ValueByRef(index);
             }
             if (_matrix is UpperTriangularMatrix utm)
             {
                 if (index < _row)
-                    Throw.IndexOutOfRangeException((index + 1).ToString());
+                    throw Exceptions.IndexOutOfRange((index + 1).ToString());
 
-                return ref utm._rows[_row].ValueByRef(index - _row);
+                return ref utm.Rows[_row].ValueByRef(index - _row);
             }
-            return ref _matrix._rows[_row].ValueByRef(index);
+            return ref _matrix.Rows[_row].ValueByRef(index);
         }
 
         internal override RealValue[] Values

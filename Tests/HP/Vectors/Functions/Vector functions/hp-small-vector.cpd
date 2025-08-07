@@ -1,0 +1,99 @@
+'<h1>Vector functions</h1>'
+
+'<h3>Structural functions</h3>'
+
+vec1 = vector_hp(56)
+fill(vec1; 10)
+range(1; 56; 1)
+
+vec2 = hp([-3.5; 5; 4.25; 0; 10; -2.3; 6.75])
+vec3 = hp([2; 8; 3; 4; 1; 6; 5; 1])
+n = 7
+join(vec2; vec3; n)
+
+resize(vec2; 20)
+len(vec2)
+size(vec2)
+slice(vec2; 2; 10)
+first(vec2; 15)
+extract(vec2; vec3)'second argument (the index) must be a positive integer!
+
+'<h3>Mathematical functions</h3>'
+
+vec4 = hp([-1.8; 9; 2.71; 0; -4; 7.3; -3.5])
+
+norm_1(vec4)
+norm(vec4)','norm_2(vec4)
+norm_e(vec4)
+p = 4
+norm_p(vec4; p)
+norm_i(vec4)
+unit(vec4)
+dot(vec2; vec3)
+
+short_vec1 = hp([10; -2.3; 6.75])
+short_vec2 = hp([-3.5; 5; 4.25])
+cross(short_vec1; short_vec1)
+
+'<h3>Functions for sorting and reordering</h3>'
+
+vec5 = hp([4.5; -7; 4.5; 0; 12; -1.2; 5.25])
+
+sort(vec5)
+rsort(vec5)
+order(vec5)
+revorder(vec5)
+reverse(vec5)
+count(vec5; 4.5; 1)
+search(vec5; -7; 2)
+find(vec5; 4.5; 1)','find_eq(vec5; 4.5; 1)
+find_ne(vec5; 4.5; 2)
+find_le(vec5; 4.5; 2)
+find_gt(vec5; 4.5; 2)
+find_ge(vec5; 4.5; 2)
+lookup(vec4; vec5; 0)','lookup_eq(vec4; vec5; 0)
+lookup_ne(vec5; vec4; 0)
+lookup_lt(vec4; vec5; 0)
+lookup_gt(vec4; vec5; 0)
+lookup_ge(vec4; vec5; 0)
+
+
+'<h3>Functions for comparison</h3>'
+vec6 = hp([12; -1.2; 5.25; 2; 8; 3; 4])
+min(vec6)
+max(vec6)
+
+'<h3>Cumulative functions</h3>'
+vec7 = hp([4.25; 0; 10; -5; 0; 3.14; 2; -1.5; 7])
+
+sum(vec7)
+sumsq(vec7)
+srss(vec7)
+average(vec7)
+product(vec7)
+mean(vec7)
+
+'<h3>Functions with interpolation</h3>'
+
+take(3; vec7)
+line(1; vec7)
+spline(3; vec7)
+
+
+'<h3>Logical functions</h3>'
+
+vec8 = hp([-8; 0; 2.71; 5; -3.6; 10])
+
+not(vec8)
+or(vec8)
+and(vec8)
+xor(vec8)
+
+
+
+
+
+
+
+
+

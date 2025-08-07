@@ -356,20 +356,17 @@ namespace Calcpad.Cli
                     htmlResult = CalcpadReader.CodeToHtml(unwrappedCode);
                     converter.ToHtml(htmlResult, outFile);
                     return true;
-                }   
-                else
-                {
-                    ExpressionParser parser = new()
-                    {
-                        Settings = settings
-                    };
-                    parser.Parse(unwrappedCode, true, ext == ".docx");
-                    htmlResult = parser.HtmlResult; 
                 }
+                ExpressionParser parser = new()
+                {
+                    Settings = settings
+                };
+                parser.Parse(unwrappedCode, true, ext == ".docx");
+                htmlResult = parser.HtmlResult;
                 if (ext == ".html" || ext == ".htm")
                     converter.ToHtml(htmlResult, outFile);
                 else if (ext == ".docx")
-                    converter.ToOpenXml(htmlResult, outFile);
+                    converter.ToOpenXml(htmlResult, outFile, parser.OpenXmlExpressions);
                 else if (ext == ".pdf")
                     converter.ToPdf(htmlResult, outFile);
                 else

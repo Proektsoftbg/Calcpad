@@ -1,0 +1,160 @@
+#hide
+'<h1>Defining vectors to work with</h1>
+x = vector_hp(150)
+y = vector_hp(500)
+z = vector_hp(9999999)
+#for i = 1 : 20
+	x.i = ((i - 1)^2 - 10*cos(i) + 3*(-1)^(i - 1) - 5*sin(i))/4.0
+	#if x.i > 50
+		x.i = exp(0.1*i)
+	#end if
+#loop
+#for i = 6 : 13
+	y.i = ((i - 8)^2 - 10*cos(i) + 3*(-1)^(i - 8) - 5*sin(i))/4.0
+#loop
+#for i = 5 : 17
+	z.i = ((i - 5)^2 - 10*cos(i) + 3*(-1)^(i - 5) - 5*sin(i))/4.0
+#loop
+#show
+'<h1>Arithmetic operators</h1>
+"Addition
+x
+b = -5
+c = x + b
+f(x; b) = x + b','c = f(x; b)
+
+"Subtraction
+x
+b = 3.14
+c = x - b
+f(x; b) = x - b','c = f(x; b)
+
+"Multiplication
+y
+b = 8.9
+c = y*b
+f(y; b) = y*b','c = f(y; b)
+
+"Division
+y
+b = -10
+c = y/b
+f(y; b) = y/b','c = f(y; b)
+
+"Exponentiation
+z
+b = -2
+c = z^b
+f(z; b) = z^b','c = f(z; b)
+
+"Division bar
+z
+b = 1
+c = z÷b
+f(z; b) = z÷b','c = f(z; b)
+
+"Integer division
+x
+c = x\b
+f(x; b) = x\b','c = f(x; b)
+
+"Modulo (remainder)
+x
+b = 2.7
+c = x⦼b
+f(x; b) = x⦼b','c = f(x; b)
+
+"Factorial
+v = vector(250)
+v = range(1; 20; 1)
+c = v!
+f(v) = v!','c = f(v)
+
+'<h1>Relational operators</h1>
+#hide
+#for i = 1 : 13
+	x.i = ((i - 1)^2 - 10*cos(i) + 3*(-1)^(i - 1) - 5*sin(i))/4.0
+	#if x.i > 50
+		x.i = exp(0.1*i)
+		
+	#end if
+#loop
+#for i = 6 : 10
+	y.i = ((i - 6)^2 - 10*cos(i) + 3*(-1)^(i - 6) - 5*sin(i))/4.0
+#loop
+#for i = 7 : 17
+	z.i = ((i - 7)^2 - 10*cos(i) + 3*(-1)^(i - 7) - 5*sin(i))/4.0
+#loop
+#show
+"Equal to
+y
+b = 8.2
+c = y ≡ b
+f(y; b) = y ≡ b','c = f(y; b)
+
+"Not equal to
+z
+b = 0
+c = z ≠ b
+f(z; b) = z ≠ b','c = f(z; b)
+
+"Less than
+z
+b = 4
+c = z < b
+f(z; b) = z < b','c = f(z; b)
+
+"Greater than
+x
+b = -3
+c = x > b
+f(x; b) = x > b','c = f(x; b)
+
+"Less than or equal 
+x
+b = -7
+c = x ≤ b
+f(x; b) = x ≤ b','c = f(x; b)
+
+"Greater than or equal
+y
+b = -19.3
+c = y ≥ b
+f(y; b) = y ≥ b','c = f(y; b)
+
+'<h1>Logical operators</h1>
+"Logical AND 
+y
+b = 0
+c = y ∧ b
+f(y; b) = y ∧ b','c = f(y; b)
+
+"Logical OR
+z
+b = 0
+c = z ∨ b
+f(z; b) = z ∨ b','c = f(z; b)
+
+"Logical XOR
+z
+b = 0
+c = z ⊕ b
+f(z; b) = z ⊕ b','c = f(z; b)
+
+'<h1>Combined operations</h1>
+x
+y = 2.7
+c = (x + y*2) ≤ 0
+f(x; y) = x + y*2','c = f(x; y)
+
+c = x^2 - y/3 ≥ 0
+f(x; y) = x^2 - y/3','c = f(x; y)
+
+c = 4*x + 5 ≡ 0
+f(x; y) = 4*x + 5','c = f(x; y)
+
+c = (x/2 > 0) - y
+f(x; y) = x/2 - y','c = f(x; y)
+
+c = x^2 + (y/4 ≤ 1)
+f(x; y) = x^2 + y^4','c = f(x; y)

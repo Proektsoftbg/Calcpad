@@ -61,6 +61,15 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to  must be matrix..
+        /// </summary>
+        public static string _must_be_matrix {
+            get {
+                return ResourceManager.GetString("_must_be_matrix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to  must be positive integer..
         /// </summary>
         public static string _must_be_positive_integer {
@@ -108,9 +117,9 @@ namespace Calcpad.Core {
         /// <summary>
         ///   Looks up a localized string similar to Argument out of range for {0}(x)..
         /// </summary>
-        public static string Argument_out_of_range_for__0__x_ {
+        public static string Argument_out_of_range_for_0_x {
             get {
-                return ResourceManager.GetString("Argument_out_of_range_for__0__x_", resourceCulture);
+                return ResourceManager.GetString("Argument_out_of_range_for_0_x", resourceCulture);
             }
         }
         
@@ -153,9 +162,9 @@ namespace Calcpad.Core {
         /// <summary>
         ///   Looks up a localized string similar to Brackets not closed..
         /// </summary>
-        public static string BracketsNotClosed {
+        public static string Brackets_not_closed {
             get {
-                return ResourceManager.GetString("BracketsNotClosed", resourceCulture);
+                return ResourceManager.GetString("Brackets_not_closed", resourceCulture);
             }
         }
         
@@ -180,36 +189,36 @@ namespace Calcpad.Core {
         /// <summary>
         ///   Looks up a localized string similar to Cannot evaluate &quot;{0}&quot; as {1}..
         /// </summary>
-        public static string Cannot_evaluate__0__as__1__ {
+        public static string Cannot_evaluate_0_as_1 {
             get {
-                return ResourceManager.GetString("Cannot_evaluate__0__as__1__", resourceCulture);
+                return ResourceManager.GetString("Cannot_evaluate_0_as_1", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Cannot evaluate remainder: &quot;{0}  %  {1}&quot;. Denominator must be unitless..
         /// </summary>
-        public static string Cannot_evaluate_remainder__0__1__Denominator_must_be_unitless {
+        public static string Cannot_evaluate_remainder_0_1_Denominator_must_be_unitless {
             get {
-                return ResourceManager.GetString("Cannot_evaluate_remainder__0__1__Denominator_must_be_unitless", resourceCulture);
+                return ResourceManager.GetString("Cannot_evaluate_remainder_0_1_Denominator_must_be_unitless", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Cannot evaluate remainder: &quot;{0}  %  {1}&quot;. The denominator must be unitless..
         /// </summary>
-        public static string Cannot_evaluate_remainder__0__1__The_denominator_must_be_unitless_ {
+        public static string Cannot_evaluate_remainder_0_1_The_denominator_must_be_unitless {
             get {
-                return ResourceManager.GetString("Cannot_evaluate_remainder__0__1__The_denominator_must_be_unitless_", resourceCulture);
+                return ResourceManager.GetString("Cannot_evaluate_remainder_0_1_The_denominator_must_be_unitless", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Cannot evaluate the function %F for %V = {0}..
         /// </summary>
-        public static string Cannot_evaluate_the_function_f_for_v_equals__0__ {
+        public static string Cannot_evaluate_the_function_f_for_v_equals_0 {
             get {
-                return ResourceManager.GetString("Cannot_evaluate_the_function_f_for_v_equals__0__", resourceCulture);
+                return ResourceManager.GetString("Cannot_evaluate_the_function_f_for_v_equals_0", resourceCulture);
             }
         }
         
@@ -225,27 +234,27 @@ namespace Calcpad.Core {
         /// <summary>
         ///   Looks up a localized string similar to Cannot rewrite existing units: {0}..
         /// </summary>
-        public static string Cannot_rewrite_existing_units__0__ {
+        public static string Cannot_rewrite_existing_units_0 {
             get {
-                return ResourceManager.GetString("Cannot_rewrite_existing_units__0__", resourceCulture);
+                return ResourceManager.GetString("Cannot_rewrite_existing_units_0", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Circular reference detected for function &quot;{0}&quot;..
         /// </summary>
-        public static string Circular_reference_detected_for_function__0__ {
+        public static string Circular_reference_detected_for_function_0 {
             get {
-                return ResourceManager.GetString("Circular_reference_detected_for_function__0__", resourceCulture);
+                return ResourceManager.GetString("Circular_reference_detected_for_function_0", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Condition block not initialized with &quot;#if&quot;..
         /// </summary>
-        public static string Condition_block_not_initialized_with_if_ {
+        public static string Condition_block_not_initialized_with_if {
             get {
-                return ResourceManager.GetString("Condition_block_not_initialized_with_if_", resourceCulture);
+                return ResourceManager.GetString("Condition_block_not_initialized_with_if", resourceCulture);
             }
         }
         
@@ -270,9 +279,9 @@ namespace Calcpad.Core {
         /// <summary>
         ///   Looks up a localized string similar to Condition result is invalid: {0}..
         /// </summary>
-        public static string Condition_result_is_invalid_0_ {
+        public static string Condition_result_is_invalid_0 {
             get {
-                return ResourceManager.GetString("Condition_result_is_invalid_0_", resourceCulture);
+                return ResourceManager.GetString("Condition_result_is_invalid_0", resourceCulture);
             }
         }
         
@@ -315,18 +324,18 @@ namespace Calcpad.Core {
         /// <summary>
         ///   Looks up a localized string similar to Duplicate macro name: &quot;{0}&quot;..
         /// </summary>
-        public static string Duplicate_macro_name_0_ {
+        public static string Duplicate_macro_name_0 {
             get {
-                return ResourceManager.GetString("Duplicate_macro_name_0_", resourceCulture);
+                return ResourceManager.GetString("Duplicate_macro_name_0", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Duplicate macro parameter names: {0} and {1}..
         /// </summary>
-        public static string Duplicate_macro_parameter_names__0__and__1__ {
+        public static string Duplicate_macro_parameter_names_0_and_1 {
             get {
-                return ResourceManager.GetString("Duplicate_macro_parameter_names__0__and__1__", resourceCulture);
+                return ResourceManager.GetString("Duplicate_macro_parameter_names_0_and_1", resourceCulture);
             }
         }
         
@@ -360,18 +369,18 @@ namespace Calcpad.Core {
         /// <summary>
         ///   Looks up a localized string similar to Error evaluating &quot;{0}&quot; as function..
         /// </summary>
-        public static string Error_evaluating__0__as_function {
+        public static string Error_evaluating_0_as_function {
             get {
-                return ResourceManager.GetString("Error_evaluating__0__as_function", resourceCulture);
+                return ResourceManager.GetString("Error_evaluating_0_as_function", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Error evaluating &quot;{0}&quot; as function or operator..
         /// </summary>
-        public static string Error_evaluating__0__as_function_or_operator {
+        public static string Error_evaluating_0_as_function_or_operator {
             get {
-                return ResourceManager.GetString("Error_evaluating__0__as_function_or_operator", resourceCulture);
+                return ResourceManager.GetString("Error_evaluating_0_as_function_or_operator", resourceCulture);
             }
         }
         
@@ -387,45 +396,45 @@ namespace Calcpad.Core {
         /// <summary>
         ///   Looks up a localized string similar to Error in &quot;{0}&quot; on line {1}: {2}.
         /// </summary>
-        public static string Error_in_0_on_line_1__2 {
+        public static string Error_in_0_on_line_1_2 {
             get {
-                return ResourceManager.GetString("Error_in_0_on_line_1__2", resourceCulture);
+                return ResourceManager.GetString("Error_in_0_on_line_1_2", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Error parsing &quot;{0}&quot; as number..
         /// </summary>
-        public static string Error_parsing__0__as_number {
+        public static string Error_parsing_0_as_number {
             get {
-                return ResourceManager.GetString("Error_parsing__0__as_number", resourceCulture);
+                return ResourceManager.GetString("Error_parsing_0_as_number", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Error parsing &quot;{0}&quot; as units..
         /// </summary>
-        public static string Error_parsing__0__as_units {
+        public static string Error_parsing_0_as_units {
             get {
-                return ResourceManager.GetString("Error_parsing__0__as_units", resourceCulture);
+                return ResourceManager.GetString("Error_parsing_0_as_units", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Error writing a png file to &quot;{0}&quot;..
         /// </summary>
-        public static string Error_writing_a_png_file_to__0__ {
+        public static string Error_writing_a_png_file_to_0 {
             get {
-                return ResourceManager.GetString("Error_writing_a_png_file_to__0__", resourceCulture);
+                return ResourceManager.GetString("Error_writing_a_png_file_to_0", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Error writing a svg file to &quot;{0}&quot;..
         /// </summary>
-        public static string Error_writing_a_svg_file_to__0__ {
+        public static string Error_writing_a_svg_file_to_0 {
             get {
-                return ResourceManager.GetString("Error_writing_a_svg_file_to__0__", resourceCulture);
+                return ResourceManager.GetString("Error_writing_a_svg_file_to_0", resourceCulture);
             }
         }
         
@@ -457,11 +466,29 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to File not found: {0}..
+        /// </summary>
+        public static string File_not_found_0 {
+            get {
+                return ResourceManager.GetString("File_not_found_0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Function {0} is not defined in complex mode..
         /// </summary>
-        public static string Function__0__is_not_defined_in_complex_mode {
+        public static string Function_0_is_not_defined_in_complex_mode {
             get {
-                return ResourceManager.GetString("Function__0__is_not_defined_in_complex_mode", resourceCulture);
+                return ResourceManager.GetString("Function_0_is_not_defined_in_complex_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Function definition not allowed in solver block..
+        /// </summary>
+        public static string Function_definition_not_allowed_in_solver_block {
+            get {
+                return ResourceManager.GetString("Function_definition_not_allowed_in_solver_block", resourceCulture);
             }
         }
         
@@ -471,15 +498,6 @@ namespace Calcpad.Core {
         public static string Function_redefined {
             get {
                 return ResourceManager.GetString("Function_redefined", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Function definition not allowed in solver block..
-        /// </summary>
-        public static string FunctionDefinitionNotAllowedInSolverBlock {
-            get {
-                return ResourceManager.GetString("FunctionDefinitionNotAllowedInSolverBlock", resourceCulture);
             }
         }
         
@@ -513,36 +531,36 @@ namespace Calcpad.Core {
         /// <summary>
         ///   Looks up a localized string similar to Inconsistent units: &quot;{0} {1} {2}&quot;..
         /// </summary>
-        public static string Inconsistent_units__0__1__2__ {
+        public static string Inconsistent_units_0_1_2 {
             get {
-                return ResourceManager.GetString("Inconsistent_units__0__1__2__", resourceCulture);
+                return ResourceManager.GetString("Inconsistent_units_0_1_2", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Inconsistent units: &quot;{0}&quot; and &quot;{1}&quot;..
         /// </summary>
-        public static string Inconsistent_units__0__and__1__ {
+        public static string Inconsistent_units_0_and_1 {
             get {
-                return ResourceManager.GetString("Inconsistent_units__0__and__1__", resourceCulture);
+                return ResourceManager.GetString("Inconsistent_units_0_and_1", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Inconsistent units for &quot;{0} = {1}&quot;..
         /// </summary>
-        public static string Inconsistent_units_for__0__equals__1__ {
+        public static string Inconsistent_units_for_0_equals_1 {
             get {
-                return ResourceManager.GetString("Inconsistent_units_for__0__equals__1__", resourceCulture);
+                return ResourceManager.GetString("Inconsistent_units_for_0_equals_1", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Inconsistent units for &quot;{0} = {1} : {2}&quot;..
         /// </summary>
-        public static string Inconsistent_units_for__0__equals__1_____2__ {
+        public static string Inconsistent_units_for_0_equals_1_2 {
             get {
-                return ResourceManager.GetString("Inconsistent_units_for__0__equals__1__:__2__", resourceCulture);
+                return ResourceManager.GetString("Inconsistent_units_for_0_equals_1_2", resourceCulture);
             }
         }
         
@@ -556,11 +574,11 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Index out of range:.
+        ///   Looks up a localized string similar to Index out of range: {0}..
         /// </summary>
-        public static string Index_out_of_range {
+        public static string Index_out_of_range_0 {
             get {
-                return ResourceManager.GetString("Index_out_of_range", resourceCulture);
+                return ResourceManager.GetString("Index_out_of_range_0", resourceCulture);
             }
         }
         
@@ -583,20 +601,47 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid argument:.
+        ///   Looks up a localized string similar to Invalid argument: {0}..
         /// </summary>
-        public static string Invalid_argument {
+        public static string Invalid_argument_0 {
             get {
-                return ResourceManager.GetString("Invalid_argument", resourceCulture);
+                return ResourceManager.GetString("Invalid_argument_0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid character: &apos;{0}&apos;. Variables, functions and units must begin with a letter or ∡, except for the following units: ° ′ ″ % ‰..
+        /// </summary>
+        public static string Invalid_character_exception {
+            get {
+                return ResourceManager.GetString("Invalid_character_exception", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid format string: {0}. .
+        /// </summary>
+        public static string Invalid_format_string_0 {
+            get {
+                return ResourceManager.GetString("Invalid_format_string_0", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Invalid function: &quot;{0}&quot;..
         /// </summary>
-        public static string Invalid_function__0__ {
+        public static string Invalid_function_0 {
             get {
-                return ResourceManager.GetString("Invalid_function__0__", resourceCulture);
+                return ResourceManager.GetString("Invalid_function_0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid function definition. It has to match the pattern: &quot;f(x; y; z...) =&quot;..
+        /// </summary>
+        public static string Invalid_function_definition_exception {
+            get {
+                return ResourceManager.GetString("Invalid_function_definition_exception", resourceCulture);
             }
         }
         
@@ -619,11 +664,20 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid keyword: {0}. .
+        /// </summary>
+        public static string Invalid_keyword_0 {
+            get {
+                return ResourceManager.GetString("Invalid_keyword_0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid macro identifier: &quot;{0}$&quot;..
         /// </summary>
-        public static string Invalid_macro_identifier__0__ {
+        public static string Invalid_macro_identifier_0 {
             get {
-                return ResourceManager.GetString("Invalid_macro_identifier__0__", resourceCulture);
+                return ResourceManager.GetString("Invalid_macro_identifier_0", resourceCulture);
             }
         }
         
@@ -646,38 +700,38 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid operand:.
+        ///   Looks up a localized string similar to Invalid operand: {0}..
         /// </summary>
-        public static string Invalid_operand {
+        public static string Invalid_operand_0 {
             get {
-                return ResourceManager.GetString("Invalid_operand", resourceCulture);
+                return ResourceManager.GetString("Invalid_operand_0", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Invalid operator: &quot;{0}&quot;..
         /// </summary>
-        public static string Invalid_operator__0__ {
+        public static string Invalid_operator_0 {
             get {
-                return ResourceManager.GetString("Invalid_operator__0__", resourceCulture);
+                return ResourceManager.GetString("Invalid_operator_0", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Invalid solver command definition &quot;{0}&quot;..
         /// </summary>
-        public static string Invalid_solver_command_definition__0__ {
+        public static string Invalid_solver_command_definition_0 {
             get {
-                return ResourceManager.GetString("Invalid_solver_command_definition__0__", resourceCulture);
+                return ResourceManager.GetString("Invalid_solver_command_definition_0", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Invalid symbol: &quot;{0}&quot;..
         /// </summary>
-        public static string Invalid_symbol__0__ {
+        public static string Invalid_symbol_0 {
             get {
-                return ResourceManager.GetString("Invalid_symbol__0__", resourceCulture);
+                return ResourceManager.GetString("Invalid_symbol_0", resourceCulture);
             }
         }
         
@@ -693,63 +747,54 @@ namespace Calcpad.Core {
         /// <summary>
         ///   Looks up a localized string similar to Invalid syntax: &quot;{0}&quot;..
         /// </summary>
-        public static string Invalid_syntax__0__ {
+        public static string Invalid_syntax_0 {
             get {
-                return ResourceManager.GetString("Invalid_syntax__0__", resourceCulture);
+                return ResourceManager.GetString("Invalid_syntax_0", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Invalid syntax: &quot;{0} {1}&quot;..
         /// </summary>
-        public static string Invalid_syntax__0__1__ {
+        public static string Invalid_syntax_0_1 {
             get {
-                return ResourceManager.GetString("Invalid_syntax__0__1__", resourceCulture);
+                return ResourceManager.GetString("Invalid_syntax_0_1", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Invalid token in function definition: &quot;{0}&quot;..
         /// </summary>
-        public static string Invalid_token_in_function_definition__0__ {
+        public static string Invalid_token_in_function_definition_0 {
             get {
-                return ResourceManager.GetString("Invalid_token_in_function_definition__0__", resourceCulture);
+                return ResourceManager.GetString("Invalid_token_in_function_definition_0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid Type: {0}..
+        /// </summary>
+        public static string Invalid_type_0 {
+            get {
+                return ResourceManager.GetString("Invalid_type_0", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Invalid units: &quot;{0}&quot;..
         /// </summary>
-        public static string Invalid_units__0__ {
+        public static string Invalid_units_0 {
             get {
-                return ResourceManager.GetString("Invalid_units__0__", resourceCulture);
+                return ResourceManager.GetString("Invalid_units_0", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Invalid units for function: &quot;{0}({1})&quot;..
         /// </summary>
-        public static string Invalid_units_for_function__0__1__ {
+        public static string Invalid_units_for_function_0_1 {
             get {
-                return ResourceManager.GetString("Invalid_units_for_function__0__1__", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Invalid character: &apos;{0}&apos;. Variables, functions and units must begin with a letter or ∡, except for the following units: ° ′ ″ % ‰..
-        /// </summary>
-        public static string InvalidCharacterException {
-            get {
-                return ResourceManager.GetString("InvalidCharacterException", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Invalid function definition. It has to match the pattern: &quot;f(x; y; z...) =&quot;..
-        /// </summary>
-        public static string InvalidFunctionDefinitionException {
-            get {
-                return ResourceManager.GetString("InvalidFunctionDefinitionException", resourceCulture);
+                return ResourceManager.GetString("Invalid_units_for_function_0_1", resourceCulture);
             }
         }
         
@@ -783,9 +828,9 @@ namespace Calcpad.Core {
         /// <summary>
         ///   Looks up a localized string similar to Limits out of range: [{0}; {1}]..
         /// </summary>
-        public static string Limits_out_of_range__0____1__ {
+        public static string Limits_out_of_range_0_1 {
             get {
-                return ResourceManager.GetString("Limits_out_of_range__0____1__", resourceCulture);
+                return ResourceManager.GetString("Limits_out_of_range_0_1", resourceCulture);
             }
         }
         
@@ -810,9 +855,9 @@ namespace Calcpad.Core {
         /// <summary>
         ///   Looks up a localized string similar to Macro not defined: {0}..
         /// </summary>
-        public static string Macro_not_defined__0__ {
+        public static string Macro_not_defined_0 {
             get {
-                return ResourceManager.GetString("Macro_not_defined__0__", resourceCulture);
+                return ResourceManager.GetString("Macro_not_defined_0", resourceCulture);
             }
         }
         
@@ -871,20 +916,11 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Matrix size cannot exceed.
+        ///   Looks up a localized string similar to Matrix size cannot exceed {0}..
         /// </summary>
-        public static string Matrix_size_cannot_exceed {
+        public static string Matrix_size_cannot_exceed_0 {
             get {
-                return ResourceManager.GetString("Matrix_size_cannot_exceed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Missing {0} in surface map command..
-        /// </summary>
-        public static string Missing__0__in_surface_map_command {
-            get {
-                return ResourceManager.GetString("Missing__0__in_surface_map_command", resourceCulture);
+                return ResourceManager.GetString("Matrix_size_cannot_exceed_0", resourceCulture);
             }
         }
         
@@ -898,11 +934,11 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Missing delimiter &quot;{0}&quot; in solver command {{1}}..
+        ///   Looks up a localized string similar to Missing {0} in surface map command..
         /// </summary>
-        public static string Missing_delimiter__0__in_solver_command__1__ {
+        public static string Missing_0_in_surface_map_command {
             get {
-                return ResourceManager.GetString("Missing_delimiter__0__in_solver_command__1__", resourceCulture);
+                return ResourceManager.GetString("Missing_0_in_surface_map_command", resourceCulture);
             }
         }
         
@@ -912,6 +948,15 @@ namespace Calcpad.Core {
         public static string Missing_delimiter_0_in_plot_command {
             get {
                 return ResourceManager.GetString("Missing_delimiter_0_in_plot_command", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing delimiter &quot;{0}&quot; in solver command {{1}}..
+        /// </summary>
+        public static string Missing_delimiter_0_in_solver_command_1 {
+            get {
+                return ResourceManager.GetString("Missing_delimiter_0_in_solver_command_1", resourceCulture);
             }
         }
         
@@ -934,6 +979,15 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Missing file name..
+        /// </summary>
+        public static string Missing_file_name {
+            get {
+                return ResourceManager.GetString("Missing_file_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Missing left bracket &quot;(&quot;..
         /// </summary>
         public static string Missing_left_bracket {
@@ -945,9 +999,9 @@ namespace Calcpad.Core {
         /// <summary>
         ///   Looks up a localized string similar to Missing left bracket &apos;{&apos; in solver command..
         /// </summary>
-        public static string Missing_left_bracket___in_solver_command {
+        public static string Missing_left_bracket_in_solver_command {
             get {
-                return ResourceManager.GetString("Missing_left_bracket_{_in_solver_command", resourceCulture);
+                return ResourceManager.GetString("Missing_left_bracket_in_solver_command", resourceCulture);
             }
         }
         
@@ -981,9 +1035,9 @@ namespace Calcpad.Core {
         /// <summary>
         ///   Looks up a localized string similar to Missing right bracket &apos;}&apos; in solver command..
         /// </summary>
-        public static string Missing_right_bracket___in_solver_command {
+        public static string Missing_right_bracket_in_solver_command {
             get {
-                return ResourceManager.GetString("Missing_right_bracket_}_in_solver_command", resourceCulture);
+                return ResourceManager.GetString("Missing_right_bracket_in_solver_command", resourceCulture);
             }
         }
         
@@ -1026,18 +1080,18 @@ namespace Calcpad.Core {
         /// <summary>
         ///   Looks up a localized string similar to More than one operators &apos;=&apos; in &apos;{0}&apos;..
         /// </summary>
-        public static string More_than_one_operator_equals_in__0__ {
+        public static string More_than_one_operator_equals_in_0 {
             get {
-                return ResourceManager.GetString("More_than_one_operator_equals_in__0__", resourceCulture);
+                return ResourceManager.GetString("More_than_one_operator_equals_in_0", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to No solution for: {0}..
         /// </summary>
-        public static string No_solution_for__0__ {
+        public static string No_solution_for_0 {
             get {
-                return ResourceManager.GetString("No_solution_for__0__", resourceCulture);
+                return ResourceManager.GetString("No_solution_for_0", resourceCulture);
             }
         }
         
@@ -1065,6 +1119,15 @@ namespace Calcpad.Core {
         public static string Number_of_rows {
             get {
                 return ResourceManager.GetString("Number_of_rows", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Path not found: {0}..
+        /// </summary>
+        public static string Path_not_found_0 {
+            get {
+                return ResourceManager.GetString("Path_not_found_0", resourceCulture);
             }
         }
         
@@ -1098,9 +1161,9 @@ namespace Calcpad.Core {
         /// <summary>
         ///   Looks up a localized string similar to Recursion is not allowed in function definition: &quot;{0}&quot;..
         /// </summary>
-        public static string Recursion_is_not_allowed_in_function_definition__0__ {
+        public static string Recursion_is_not_allowed_in_function_definition_0 {
             get {
-                return ResourceManager.GetString("Recursion_is_not_allowed_in_function_definition__0__", resourceCulture);
+                return ResourceManager.GetString("Recursion_is_not_allowed_in_function_definition_0", resourceCulture);
             }
         }
         
@@ -1152,9 +1215,9 @@ namespace Calcpad.Core {
         /// <summary>
         ///   Looks up a localized string similar to Select _All.
         /// </summary>
-        public static string SelectAll {
+        public static string Select_All {
             get {
-                return ResourceManager.GetString("SelectAll", resourceCulture);
+                return ResourceManager.GetString("Select_All", resourceCulture);
             }
         }
         
@@ -1170,9 +1233,9 @@ namespace Calcpad.Core {
         /// <summary>
         ///   Looks up a localized string similar to Stack memory leak. Invalid expression..
         /// </summary>
-        public static string Stack_memory_leak__Invalid_expression {
+        public static string Stack_memory_leak_Invalid_expression {
             get {
-                return ResourceManager.GetString("Stack_memory_leak__Invalid_expression", resourceCulture);
+                return ResourceManager.GetString("Stack_memory_leak_Invalid_expression", resourceCulture);
             }
         }
         
@@ -1186,11 +1249,11 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The argument is not an eigenvalue:.
+        ///   Looks up a localized string similar to The argument is not an eigenvalue: {0}..
         /// </summary>
-        public static string The_argument_is_not_an_eigenvalue {
+        public static string The_argument_is_not_an_eigenvalue_0 {
             get {
-                return ResourceManager.GetString("The_argument_is_not_an_eigenvalue", resourceCulture);
+                return ResourceManager.GetString("The_argument_is_not_an_eigenvalue_0", resourceCulture);
             }
         }
         
@@ -1233,9 +1296,9 @@ namespace Calcpad.Core {
         /// <summary>
         ///   Looks up a localized string similar to The calculated units &quot;{0}&quot; are inconsistent with the target units &quot;{1}&quot;..
         /// </summary>
-        public static string The_calculated_units__0__are_inconsistent_with_the_target_units__1__ {
+        public static string The_calculated_units_0_are_inconsistent_with_the_target_units_1 {
             get {
-                return ResourceManager.GetString("The_calculated_units__0__are_inconsistent_with_the_target_units__1__", resourceCulture);
+                return ResourceManager.GetString("The_calculated_units_0_are_inconsistent_with_the_target_units_1", resourceCulture);
             }
         }
         
@@ -1251,18 +1314,18 @@ namespace Calcpad.Core {
         /// <summary>
         ///   Looks up a localized string similar to The expression on the right side must be constant: &quot;{0}&quot;..
         /// </summary>
-        public static string The_expression_on_the_right_side_must_be_constant__0__ {
+        public static string The_expression_on_the_right_side_must_be_constant_0 {
             get {
-                return ResourceManager.GetString("The_expression_on_the_right_side_must_be_constant__0__", resourceCulture);
+                return ResourceManager.GetString("The_expression_on_the_right_side_must_be_constant_0", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to The function %F is not defined for %V = {0}..
         /// </summary>
-        public static string The_function_f_is_not_defined_for_v_equals__0__ {
+        public static string The_function_f_is_not_defined_for_v_equals_0 {
             get {
-                return ResourceManager.GetString("The_function_f_is_not_defined_for_v_equals__0__", resourceCulture);
+                return ResourceManager.GetString("The_function_f_is_not_defined_for_v_equals_0", resourceCulture);
             }
         }
         
@@ -1314,9 +1377,36 @@ namespace Calcpad.Core {
         /// <summary>
         ///   Looks up a localized string similar to The result is not a real number: &quot;{0}&quot;..
         /// </summary>
-        public static string The_result_is_not_a_real_number__0__ {
+        public static string The_result_is_not_a_real_number_0 {
             get {
-                return ResourceManager.GetString("The_result_is_not_a_real_number__0__", resourceCulture);
+                return ResourceManager.GetString("The_result_is_not_a_real_number_0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The variable is not a matrix: {0}. .
+        /// </summary>
+        public static string The_variable_is_not_a_matrix_0 {
+            get {
+                return ResourceManager.GetString("The_variable_is_not_a_matrix_0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The matrix is ill-conditioned. Try with lower precision (Tol) or direct Cholesky solver..
+        /// </summary>
+        public static string TheMatrixIsIllConditioned {
+            get {
+                return ResourceManager.GetString("TheMatrixIsIllConditioned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The PCG solver failed to converge in {0} iterations. Try with lower precision (Tol) or direct Cholesky solver..
+        /// </summary>
+        public static string ThePCGSolverFailedToConvergeIn_0_Iterations {
+            get {
+                return ResourceManager.GetString("ThePCGSolverFailedToConvergeIn_0_Iterations", resourceCulture);
             }
         }
         
@@ -1350,18 +1440,18 @@ namespace Calcpad.Core {
         /// <summary>
         ///   Looks up a localized string similar to Undefined variable or units: &quot;{0}&quot;..
         /// </summary>
-        public static string Undefined_variable_or_units__0__ {
+        public static string Undefined_variable_or_units_0 {
             get {
-                return ResourceManager.GetString("Undefined_variable_or_units__0__", resourceCulture);
+                return ResourceManager.GetString("Undefined_variable_or_units_0", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Unexpected delimiter &apos;;&apos;..
         /// </summary>
-        public static string Unexpected_delimiter__ {
+        public static string Unexpected_delimiter {
             get {
-                return ResourceManager.GetString("Unexpected_delimiter_;", resourceCulture);
+                return ResourceManager.GetString("Unexpected_delimiter", resourceCulture);
             }
         }
         
@@ -1377,9 +1467,9 @@ namespace Calcpad.Core {
         /// <summary>
         ///   Looks up a localized string similar to Unit &apos;{0}&apos; does not exist..
         /// </summary>
-        public static string Unit__0__does_not_exist {
+        public static string Unit_0_does_not_exist {
             get {
-                return ResourceManager.GetString("Unit__0__does_not_exist", resourceCulture);
+                return ResourceManager.GetString("Unit_0_does_not_exist", resourceCulture);
             }
         }
         
@@ -1413,18 +1503,18 @@ namespace Calcpad.Core {
         /// <summary>
         ///   Looks up a localized string similar to Variable &apos;{0}&apos; does not exist..
         /// </summary>
-        public static string Variable__0__does_not_exist {
+        public static string Variable_0_does_not_exist {
             get {
-                return ResourceManager.GetString("Variable__0__does_not_exist", resourceCulture);
+                return ResourceManager.GetString("Variable_0_does_not_exist", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Vector size cannot exceed.
+        ///   Looks up a localized string similar to Vector size cannot exceed {0}..
         /// </summary>
-        public static string Vector_size_cannot_exceed {
+        public static string Vector_size_cannot_exceed_0 {
             get {
-                return ResourceManager.GetString("Vector_size_cannot_exceed", resourceCulture);
+                return ResourceManager.GetString("Vector_size_cannot_exceed_0", resourceCulture);
             }
         }
         

@@ -50,7 +50,17 @@ namespace Calcpad.Core
             if (_capacity > _length)
                 _capacity = _length;
 
-            Array.Resize(ref _values, _capacity);
+            if (_values is null)
+            {
+                if (_length <= 10)
+                    _capacity = _length;
+                else if (_capacity < _length / 100)
+                    _capacity = _length / 100;
+
+                _values = new RealValue[_capacity];
+            }
+            else
+                Array.Resize(ref _values, _capacity);
         }
 
         internal override int Length => _length;
@@ -65,11 +75,12 @@ namespace Calcpad.Core
             }
             return ref _values[index];
         }
+        protected LargeVector() { }
 
         internal LargeVector(RealValue[] values)
         {
             if (values.Length > MaxLength)
-                Throw.VectorSizeLimitException();
+                throw Exceptions.VectorSizeLimit();
 
             _values = values;
             _length = _values.Length;
@@ -86,18 +97,15 @@ namespace Calcpad.Core
         internal LargeVector(int length)
         {
             if (length > MaxLength)
-                Throw.VectorSizeLimitException();
+                throw Exceptions.VectorSizeLimit();
 
             _length = length;
-            _size = 0;
-            _capacity = length / 100;
-            _values = new RealValue[_capacity];
         }
 
         internal LargeVector(int length, int size)
         {
             if (length > MaxLength)
-                Throw.VectorSizeLimitException();
+                throw Exceptions.VectorSizeLimit();
 
             _length = length;
             _size = size;
@@ -105,10 +113,17 @@ namespace Calcpad.Core
             _values = new RealValue[size];
         }
 
+        internal override LargeVector Copy()
+        {
+            var vector = new LargeVector(_length, _size);
+            _values.AsSpan(0, _size).CopyTo(vector._values);
+            return vector;
+        }
+
         internal override LargeVector Resize(int newSize)
         {
             if (newSize > MaxLength)
-                Throw.VectorSizeLimitException();
+                throw Exceptions.VectorSizeLimit();
 
             if (newSize != _length)
             {
@@ -125,6 +140,21 @@ namespace Calcpad.Core
             return this;
         }
 
+        internal override LargeVector Slice(int start, int end)
+        {
+            if (CheckBounds(ref start, ref end))
+                return Copy();
+
+            var length = end - start;
+            if (end > _size) end = _size;
+            LargeVector vector = new(length, end - start);
+            if (start < end)
+                _values.AsSpan(start, end - start).CopyTo(vector._values);
+
+            return vector;
+        }
+
+
         internal override Vector Reverse()
         {
             var vector = new LargeVector(_length);
@@ -134,7 +164,7 @@ namespace Calcpad.Core
                 if (!_values[start].Equals(RealValue.Zero))
                     break;
 
-                start++;
+                ++start;
             }
             for (int i = start; i < _size; ++i)
                 vector[_length - i - 1] = _values[i];
@@ -153,7 +183,7 @@ namespace Calcpad.Core
             }
             if (_size < _length)
             {
-                _size = Length;
+                _size = _length;
                 if (_capacity < _length)
                 {
                     _capacity = _length;

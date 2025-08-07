@@ -15,20 +15,27 @@ namespace Calcpad.Core
             var input = new string[4];
             var index = 0;
             var bracketCount = 0;
+            var ts = new TextSpan(script);
+            var del = delimiters[0];
             for (int i = 0, len = script.Length; i < len; ++i)
             {
                 var c = script[i];
                 if (c == '{')
                     ++bracketCount;
 
-                if (c == delimiters[index] && bracketCount == 1)
+                if (c == del && bracketCount == 1)
                 {
-                    index++;
+                    if (index > 0)
+                        input[index - 1] = ts.Cut().Trim().ToString();
+
+                    ++index;
                     if (index > n)
                         break;
+                    del = delimiters[index];
+                    ts.Reset(i + 1);
                 }
-                else if (index > 0)
-                    input[index - 1] += c.ToString();
+                else
+                    ts.Expand();
 
                 if (c == '}')
                     --bracketCount;
@@ -39,6 +46,7 @@ namespace Calcpad.Core
             for (int j = 0; j < n; ++j)
                 if (string.IsNullOrWhiteSpace(input[j]))
                     return string.Format(Messages.Missing_0_in_plot_command_1, Parts[j], script.ToString());
+            
             string result;
             if (calculate)
             {
@@ -71,7 +79,7 @@ namespace Calcpad.Core
                 var right = Parser.CalculateReal();
                 var rightUnits = Parser.Units;
                 if (!Unit.IsConsistent(leftUnits, rightUnits))
-                    Throw.InconsistentUnitsException(Unit.GetText(leftUnits), Unit.GetText(rightUnits));
+                    throw Exceptions.InconsistentUnits(Unit.GetText(leftUnits), Unit.GetText(rightUnits));
 
                 if (leftUnits is not null)
                 {

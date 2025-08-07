@@ -1,0 +1,100 @@
+'<h1>Arithmetic operators</h1>'
+#hide
+m1 = ltriang_hp(4)*kg
+m2 = ltriang_hp(4)*hg
+m1.(1; 1) = 2.31kg
+m1.(2; 1) = 10kg
+m1.(2; 2) = 4.5kg
+m1.(3; 1) = -5.5kg
+m1.(3; 2) = 3.14kg
+m1.(3; 3) = 2kg
+m1.(4; 1) = -7kg
+m1.(4; 2) = 8.88kg
+m1.(4; 3) = -2.22kg
+m1.(4; 4) = -5.4kg
+
+m2.(1; 1) = -3.5hg
+m2.(2; 1) = 8hg
+m2.(2; 2) = 6hg
+m2.(3; 1) = -3.5hg
+m2.(3; 2) = 2hg
+m2.(3; 3) = -1.1hg
+m2.(4; 1) = 1.5hg
+m2.(4; 2) = -1.2hg
+m2.(4; 3) = 0.9hg
+m2.(4; 4) = 5hg
+#show
+m1', 'm2
+c = m1 + m2
+f(m1; m2) = m1 + m2', 'c1 = f(m1; m2)
+c = m1 - m2
+f(m1; m2) = m1 - m2', 'c1 = f(m1; m2)
+c = m1*m2
+f(m1; m2) = m1*m2', 'c1 = f(m1; m2)
+c = m1/m2
+f(m1; m2) = m1/m2', 'c1 = f(m1; m2)
+#hide
+matrix_unitless = ltriang_hp(4)
+matrix_unitless.(1; 1) = 2.31
+matrix_unitless.(2; 1) = 10
+matrix_unitless.(2; 2) = 4.5
+matrix_unitless.(3; 1) = -5.5
+matrix_unitless.(3; 2) = 3.14
+matrix_unitless.(3; 3) = 2
+matrix_unitless.(4; 1) = -7
+matrix_unitless.(4; 2) = 8.88
+matrix_unitless.(4; 3) = -2.22
+matrix_unitless.(4; 4) = -5.4
+#show
+c = m1⦼matrix_unitless
+f(m1; matrix_unitless) = m1⦼matrix_unitless', 'c = f(m1; matrix_unitless)
+c = m1^matrix_unitless
+f(m1; matrix_unitless) = m1^matrix_unitless', 'c = f(m1; matrix_unitless)
+c = m1\m2
+f(m1; m2) = m1\m2', 'c1 = f(m1; m2)
+c = m1÷m2
+f(m1; m2) = m1÷m2', 'c1 = f(m1; m2)
+#hide
+fm = ltriang_hp(5)
+fm.(1; 1) = 1
+fm.(2; 1) = 10
+fm.(2; 2) = 3
+fm.(3; 1) = 7
+fm.(3; 2) = 8
+fm.(3; 3) = 6
+fm.(4; 1) = 9
+fm.(4; 2) = 12
+fm.(4; 3) = 5
+fm.(4; 4) = 8
+fm.(5; 1) = 14
+fm.(5; 2) = 11
+fm.(5; 3) = 6
+fm.(5; 4) = 13
+fm.(5; 5) = 4
+#show
+fm
+c = fm!
+f(fm) = fm!
+c1 = f(fm)
+
+'<h1>Relational operators</h1>'
+c = m1 ≡ m2
+f(m1; m2) = m1 ≡ m2', 'c1 = f(m1; m2)
+c = m1 ≠ m2
+f(m1; m2) = m1 ≠ m2', 'c1 = f(m1; m2)
+c = m1 < m2
+f(m1; m2) = m1 < m2', 'c1 = f(m1; m2)
+c = m1 > m2
+f(m1; m2) = m1 > m2', 'c1 = f(m1; m2)
+c = m1 ≥ m2
+f(m1; m2) = m1 ≥ m2', 'c1 = f(m1; m2)
+c = m1 ≤ m2
+f(m1; m2) = m1 ≤ m2', 'c1 = f(m1; m2)
+
+'<h1>Logical operators</h1>'
+c = m1 ∧ m2
+f(m1; m2) = m1 ∧ m2', 'c1 = f(m1; m2)
+c = m1 ∨ m2
+f(m1; m2) = m1 ∨ m2', 'c1 = f(m1; m2)
+c = m1 ⊕ m2
+f(m1; m2) = m1 ⊕ m2', 'c1 = f(m1; m2)

@@ -33,12 +33,14 @@ namespace Calcpad.Core
             internal Token(Token T, int order) : this(T.Content, T.Type, order) { }
         }
 
-        private class UnitToken : Token
+        private sealed class UnitToken : Token
         {
             internal readonly Unit Value;
             internal UnitToken(Unit u) : base(u.Text, TokenTypes.Units)
             {
                 Value = u;
+                if (string.IsNullOrEmpty(Content))
+                    Content = u.FormatString;
             }
         }
 
@@ -80,23 +82,23 @@ namespace Calcpad.Core
                     {
                         --countOfBrackets;
                         if (countOfBrackets < 0)
-                            Throw.MissingLeftBracketException();
+                            throw Exceptions.MatrixSingular();
                     }
 
                     if (!CorrectOrder[(int)pT.Type, (int)T.Type])
-                        Throw.InvalidSyntaxException($"{pT.Content} {T.Content}");
+                        throw Exceptions.InvalidSyntax($"{pT.Content} {T.Content}");
 
                     pT = T;
                 }
 
                 if (pT.Type == TokenTypes.Operator || pT.Type == TokenTypes.BracketLeft)
-                    Throw.IncompleteExpressionException();
+                    throw Exceptions.IncompleteExpression();
 
                 if (countOfBrackets > 0)
-                    Throw.MissingRightBracketException();
+                    throw Exceptions.MissingRightBracket();
 
                 if (countOfBrackets < 0)
-                    Throw.MissingLeftBracketException();
+                    throw Exceptions.MissingLeftBracket();
             }
         }
 
@@ -108,7 +110,7 @@ namespace Calcpad.Core
             _ => -1,
         };
 
-        internal static Unit Parse(string expression, Dictionary<string, Unit> units)
+        internal static Unit Parse(ReadOnlySpan<char> expression, Dictionary<string, Unit> units)
         {
             var input = GetInput(expression, units);
             UnitValidator.Check(input);
@@ -116,7 +118,7 @@ namespace Calcpad.Core
             return Evaluate(rpn);
         }
 
-        private static Queue<Token> GetInput(string expression, Dictionary<string, Unit> units)
+        private static Queue<Token> GetInput(ReadOnlySpan<char> expression, Dictionary<string, Unit> units)
         {
             // Tokenize input string
             // It is converted to a queue of recognizable tokens
@@ -124,11 +126,11 @@ namespace Calcpad.Core
 
             var tokens = new Queue<Token>();
             var pt = TokenTypes.None;
-            var terminatedExpression = expression + " ";
-            var literal = string.Empty;
-            for (int i = 0, len = terminatedExpression.Length; i < len; ++i)
+            var ts = new TextSpan(expression);
+            var len = expression.Length;
+            for (int i = 0; i < len; ++i)
             {
-                var c = terminatedExpression[i];
+                var c = expression[i];
                 //Get the type of the token
                 TokenTypes tt;
                 if (Validator.IsLetter(c))
@@ -141,63 +143,80 @@ namespace Calcpad.Core
                     tt = TokenTypes.BracketLeft;
                 else if (c == ')')
                     tt = TokenTypes.BracketRight;
-                else if (c == ' ')
+                else if (c == ' ' || c == ':')
                     tt = TokenTypes.None;
                 else
                     tt = TokenTypes.Error;
 
                 if (tt == TokenTypes.Error)
-                    Throw.InvalidSymbolException(c);
+                    throw Exceptions.InvalidSymbol(c);
 
                 //Collect characters in a string for text, constant, variable or function
                 if (tt == TokenTypes.Constant || tt == TokenTypes.Units)
                 {
-                    literal += c;
-                    if (literal.Length > 1 && (pt != tt || c == '-'))
-                        Throw.InvalidSymbolException(c);
+                    ts.Expand();
+                    if (ts.Length > 1 && (pt != tt || c == '-'))
+                        throw Exceptions.InvalidSymbol(c);
                 }
                 else
                 {
-                    if (!string.IsNullOrEmpty(literal))
+                    if (!ts.IsEmpty)
                     {
-                        if (pt == TokenTypes.Units)
+                        AddLiteral(ts);
+                        ts.Reset(i + 1);
+                        if (c == ':')
                         {
-                            try
+                            var s = expression[(i + 1)..].Trim().ToString();
+                            if (Validator.IsValidFormatString(s))
                             {
-                                if (!units.TryGetValue(literal, out Unit u))
-                                    u = Unit.Get(literal);
-
-                                if (u is null)
-                                    throw new NullReferenceException();
-
-                                tokens.Enqueue(new UnitToken(u));
+                                if (tokens.Count > 0)
+                                {
+                                    var t = tokens.Peek();
+                                    if (t is UnitToken tu)
+                                    {
+                                        t.Content += ':' + s;
+                                        tu.Value.Text = t.Content;
+                                        return tokens;
+                                    }
+                                }
+                                var fu = Unit.GetFormattingUnit(':' + s);
+                                tokens.Enqueue(new UnitToken(fu));
+                                return tokens;
                             }
-                            catch
-                            {
-                                Throw.InvalidUnitsException(literal);
-                            }
+                            else
+                                throw Exceptions.InvalidFormatString(s);
                         }
-                        else
-                        {
-                            try
-                            {
-                                tokens.Enqueue(new ValueToken(double.Parse(literal)));
-                            }
-                            catch
-                            {
-                                Throw.InvalidNumberException(literal);
-                            }
-                        }
-                        literal = string.Empty;
                     }
-
                     if (tt != TokenTypes.None)
                         tokens.Enqueue(new Token(c.ToString(), tt));
                 }
                 //Saves the previous token type for the next loop
                 pt = tt;
             }
+            AddLiteral(ts);
             return tokens;
+
+            void AddLiteral(TextSpan ts)
+            {
+                var literal = ts.Cut().ToString();
+                if (pt == TokenTypes.Units)
+                {
+                    if (units is null || !units.TryGetValue(literal, out var u))
+                        Unit.TryGet(literal, out u);
+
+                    if (u is null)
+                        throw Exceptions.InvalidUnits(literal);
+
+                    tokens.Enqueue(new UnitToken(u));
+                }
+                else
+                {
+                    if (double.TryParse(literal, out var d))
+                        tokens.Enqueue(new ValueToken(d));
+                    else
+                        throw Exceptions.InvalidNumber(literal);
+                }
+            }
         }
 
         private static Queue<Token> GetRpn(Queue<Token> input)
@@ -237,7 +256,6 @@ namespace Calcpad.Core
                         while (stackBuffer.Count != 0)
                         {
                             nextT = stackBuffer.Peek();
-
                             if (nextT.Type == TokenTypes.BracketLeft)
                             {
                                 if (T.Type == TokenTypes.BracketRight) stackBuffer.Pop();
@@ -270,19 +288,18 @@ namespace Calcpad.Core
                         break;
                     case TokenTypes.Operator:
                         if (stackBuffer.Count == 0)
-                            Throw.MissingOperandException();
+                            throw Exceptions.MissingOperand();
 
                         var b = stackBuffer.Pop();
                         if (stackBuffer.Count == 0)
-                            Throw.MissingOperandException();
+                            throw Exceptions.MissingOperand();
 
                         var a = stackBuffer.Pop();
                         var c = EvaluateOperator(T, a, b);
                         stackBuffer.Push(c);
                         break;
                     default:
-                        Throw.InvalidLiteralException(T.Content, T.Type.GetType().GetEnumName(T.Type));
-                        break;
+                        throw Exceptions.InvalidLiteral(T.Content, T.Type.GetType().GetEnumName(T.Type));
                 }
             }
             if (stackBuffer.Count == 0)
@@ -292,11 +309,15 @@ namespace Calcpad.Core
             if (t.Type == TokenTypes.Units)
             {
                 var u = ((UnitToken)t).Value;
-                u.Text = RenderExpression(rpn);
+                var s = RenderExpression(rpn);
+                if (s.Length > 0 && char.IsDigit(s[0]))
+                    u.Text = "\u200A·\u200A" + s;
+                else
+                    u.Text = s;
+
                 return u;
             }
-            Throw.ResultIsNotUnitsException();
-            return null;
+            throw Exceptions.ResultIsNotUnits();
         }
 
         private static Token EvaluateOperator(Token T, Token a, Token b)
@@ -317,17 +338,14 @@ namespace Calcpad.Core
         private static Token EvaluateOperator(Token T, UnitToken a, UnitToken b)
         {
             char c = T.Content[0];
-            double d = c == '^' ? 1d : Unit.GetProductOrDivisionFactor(a.Value, b.Value);
+            double d;
             var u = c switch
             {
-                '*' => a.Value * b.Value,
-                '/' => a.Value / b.Value,
-                '^' => Throw.PowerNotUnitless<Unit>(),
-                _ => Throw.InvalidOperator<Unit>(c)
+                '*' => Unit.Multiply(a.Value, b.Value, out d, false),
+                '/' => Unit.Divide(a.Value, b.Value, out d, false),
+                '^' => throw Exceptions.PowerNotUnitless(),
+                _ => throw Exceptions.InvalidOperator(c)
             };
-            if (c == '/')
-                d = 1 / d;
-
             return u is null ? new ValueToken(d) : new UnitToken(u * d);
         }
 
@@ -339,7 +357,7 @@ namespace Calcpad.Core
                 '*' => new UnitToken(a.Value * b.Value),
                 '/' => new UnitToken(a.Value / b.Value),
                 '^' => new UnitToken(a.Value.Pow((float)b.Value)),
-                _ => Throw.InvalidOperator<UnitToken>(c)
+                _ => throw Exceptions.InvalidOperator(c)
             };
         }
 
@@ -350,8 +368,8 @@ namespace Calcpad.Core
             {
                 '*' => new UnitToken(a.Value * b.Value),
                 '/' => new UnitToken(a.Value / b.Value),
-                '^' => Throw.PowerNotUnitless<UnitToken>(),
-                _ => Throw.InvalidOperator<UnitToken>(c)
+                '^' => throw Exceptions.PowerNotUnitless(),
+                _ => throw Exceptions.InvalidOperator(c)
             };
         }
 
@@ -363,7 +381,7 @@ namespace Calcpad.Core
                 '*' => new ValueToken(a.Value * b.Value),
                 '/' => new ValueToken(a.Value / b.Value),
                 '^' => new ValueToken(Math.Pow(a.Value, b.Value)),
-                _ => Throw.InvalidOperator<ValueToken>(c)
+                _ => throw Exceptions.InvalidOperator(c)
             };
         }
 
@@ -386,20 +404,23 @@ namespace Calcpad.Core
                         a.Content = AddBrackets(a.Content);
 
                     var tc = T.Content[0];
+                    var sa = a.Content;
+                    var sb = b.Content;
                     if (tc == '^')
                     {
                         if (IsNegative(a))
-                            a.Content = AddBrackets(a.Content);
+                            sa = AddBrackets(sa);
 
                         if (IsNegative(b) || b.Order != Token.DefaultOrder)
-                            b.Content = AddBrackets(b.Content);
+                            sb = AddBrackets(sb);
                     }
                     else if (b.Order > T.Order ||
                              b.Order == T.Order && tc == '/' ||
                              IsNegative(b))
-                        b.Content = AddBrackets(b.Content);
+                        sb = AddBrackets(sb);
 
-                    var c = new Token(a.Content + tc + b.Content, T.Type, T.Order);
+                    var s = sb.StartsWith(':') ? sa + sb : sa + tc + sb;
+                    var c = new Token(s, T.Type, T.Order);
                     stackBuffer.Push(c);
                 }
                 static string AddBrackets(string s) => $"({s})";

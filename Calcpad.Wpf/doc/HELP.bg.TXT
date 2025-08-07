@@ -36,7 +36,7 @@
     min(x; y; z…)         max(x; y; z…)
     sum(x; y; z…)         average(x; y; z…)       sumsq(x; y; z…)
     product(x; y; z…)     mean(x; y; z…)          srss(x; y; z…)
-    if(cond; val-if-true; val-if-false)
+    if (cond; val-if-true; val-if-false)
     switch(cond1; val1; cond2; val2; …; default)
     take(n; a; b; c…)     line(x; a; b; c…)       spline(x; a; b; c…)
 	

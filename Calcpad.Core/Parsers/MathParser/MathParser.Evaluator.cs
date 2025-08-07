@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Runtime.InteropServices;
 
 namespace Calcpad.Core
@@ -47,7 +48,7 @@ namespace Calcpad.Core
                 var tos = _tos;
                 var rpnLength = rpn.Length;
                 if (rpnLength < 1)
-                    Throw.ExpressionEmptyException();
+                    throw Exceptions.ExpressionEmpty();
 
                 var i0 = 0;
                 if (rpn[0].Type == TokenTypes.Variable && rpn[rpnLength - 1].Content == "=")
@@ -57,7 +58,7 @@ namespace Calcpad.Core
                 for (int i = i0; i < rpnLength; ++i)
                 {
                     if (_tos < tos)
-                        Throw.StackEmptyException();
+                        throw Exceptions.StackEmpty();
 
                     var t = rpn[i];
                     switch (t.Type)
@@ -75,8 +76,9 @@ namespace Calcpad.Core
                         case TokenTypes.Function:
                         case TokenTypes.VectorFunction:
                         case TokenTypes.MatrixFunction:
+                        case TokenTypes.MatrixOptionalFunction:
                             if (_tos == tos)
-                                Throw.MissingOperandException();
+                                throw Exceptions.MissingOperand();
 
                             var a = StackPop();
                             StackPush(EvaluateToken(t, a));
@@ -86,14 +88,14 @@ namespace Calcpad.Core
                         case TokenTypes.VectorFunction2:
                         case TokenTypes.MatrixFunction2:
                             if (_tos == tos)
-                                Throw.MissingOperandException();
+                                throw Exceptions.MissingOperand();
 
                             var b = StackPop();
                             if (t.Content == "=")
                                 return EvaluateAssignment(b, rpn, isVisible);
 
                             if (_tos == tos)
-                                Throw.MissingOperandException();
+                                throw Exceptions.MissingOperand();
 
                             var c = StackPop();
                             StackPush(EvaluateToken(t, c, b));
@@ -135,8 +137,7 @@ namespace Calcpad.Core
                             StackPush(EvaluateSolverToken(t));
                             continue;
                         default:
-                            Throw.CannotEvaluateAsTypeException(t.Content, t.Type.GetType().GetEnumName(t.Type));
-                            break;
+                            throw Exceptions.CannotEvaluateAsType(t.Content, t.Type.GetType().GetEnumName(t.Type));
                     }
                 }
                 if (_tos > tos)
@@ -146,7 +147,7 @@ namespace Calcpad.Core
                     return v;
                 }
                 if (_tos > tos)
-                    Throw.StackLeakException();
+                    throw Exceptions.StackLeak();
 
                 _parser.Units = null;
                 return RealValue.Zero;
@@ -157,15 +158,15 @@ namespace Calcpad.Core
                 if (t.Type == TokenTypes.Unit)
                 {
                     if (t is ValueToken vt)
-                        return vt.Value;                       
+                        return vt.Value;
 
-                    return ((VariableToken)t).Variable.ValueByRef();;
+                    return ((VariableToken)t).Variable.ValueByRef();
                 }
                 if (t.Type == TokenTypes.Variable)
                     return EvaluateVariableToken((VariableToken)t);
 
                 if (t.Type == TokenTypes.Input && t.Content == "?")
-                    Throw.UndefinedInputFieldException();
+                    throw Exceptions.UndefinedInputField();
 
                 if (t.Type == TokenTypes.Vector)
                 {
@@ -188,15 +189,16 @@ namespace Calcpad.Core
             private IValue EvaluateToken(Token t, in IValue a)
             {
                 if (t.Content == NegateString)
-                {
                     return -a;
-                }
 
                 if (t.Type == TokenTypes.Function)
                     return IValue.EvaluateFunction(_matrixCalc, t.Index, a);
 
                 if (t.Type == TokenTypes.VectorFunction)
                     return _vectorCalc.EvaluateVectorFunction(t.Index, a);
+
+                if (t.Type == TokenTypes.MatrixOptionalFunction)
+                    return _matrixCalc.EvaluateMatrixFunction2(t.Index, a, RealValue.Zero);
 
                 //MatrixFunction
                 var result = _matrixCalc.EvaluateMatrixFunction(t.Index, a);
@@ -227,11 +229,11 @@ namespace Calcpad.Core
             private IValue EvaluateVariableToken(VariableToken t)
             {
                 var v = t.Variable;
-                if (v.IsInitialized || 
-                    t.Type == TokenTypes.Vector || 
+                if (v.IsInitialized ||
+                    t.Type == TokenTypes.Vector ||
                     t.Type == TokenTypes.Matrix)
                     return v.Value;
-                
+
                 try
                 {
                     if (!_units.TryGetValue(t.Content, out var u))
@@ -243,8 +245,7 @@ namespace Calcpad.Core
                 }
                 catch
                 {
-                    Throw.UndefinedVariableOrUnitsException(t.Content);
-                    return default;
+                    throw Exceptions.UndefinedVariableOrUnits(t.Content);
                 }
             }
             private IValue EvaluateAssignment(IValue b, Token[] rpn, bool isVisible)
@@ -268,7 +269,7 @@ namespace Calcpad.Core
                                 i = (int)t.Index;
                                 break;
                             }
-                            if(t.Type == TokenTypes.MatrixIndex && t.Content == t0.Content)
+                            if (t.Type == TokenTypes.MatrixIndex && t.Content == t0.Content)
                             {
                                 i = (int)(t.Index / Vector.MaxLength);
                                 j = (int)(t.Index % Vector.MaxLength);
@@ -279,7 +280,7 @@ namespace Calcpad.Core
                         {
                             var vector = (Vector)ta.Variable.Value;
                             if (i < 1 || i > vector.Length)
-                                Throw.IndexOutOfRangeException(i.ToString());
+                                throw Exceptions.IndexOutOfRange(i.ToString());
 
                             if (b is RealValue rb)
                             {
@@ -287,21 +288,21 @@ namespace Calcpad.Core
                                 vector[i - 1] = rb;
                             }
                             else
-                                Throw.CannotAssignVectorToScalarException();
+                                throw Exceptions.CannotAssignVectorToScalar();
                         }
                         else
                         {
                             var matrix = (Matrix)ta.Variable.Value;
                             if (i < 1 || i > matrix.RowCount ||
                                 j < 1 || j > matrix.ColCount)
-                                Throw.IndexOutOfRangeException($"{i}, {j}");
+                                throw Exceptions.IndexOutOfRange($"{i}, {j}");
                             if (b is RealValue rb)
                             {
                                 _parser._backupVariable = new(ta.Content + '.' + i + '.' + j, matrix[i - 1, j - 1]);
                                 matrix[i - 1, j - 1] = rb;
                             }
                             else
-                                Throw.CannotAssignVectorToScalarException();
+                                throw Exceptions.CannotAssignVectorToScalar();
                         }
 
                     }
@@ -315,7 +316,7 @@ namespace Calcpad.Core
                          t0 is ValueToken tc && b is RealValue real)
                 {
                     if (tc.Value.Units is not null)
-                        Throw.CannotRewriteUnitsException(tc.Value.Units.Text);
+                        throw Exceptions.CannotRewriteUnits(tc.Value.Units.Text);
 
                     _parser.SetUnit(tc.Content, real);
                     tc.Value = new RealValue(_parser.GetUnit(tc.Content));
@@ -365,7 +366,7 @@ namespace Calcpad.Core
                     if (ival is RealValue x)
                         return _vectorCalc.EvaluateInterpolation(t.Index, x, vec1);
 
-                    Throw.CannotInterpolateWithNonScalarValueException();
+                    throw Exceptions.CannotInterpolateWithNonScalarValue();
                 }
                 if (paramCount == 3 && _stackBuffer[_tos] is Matrix matrix)
                 {
@@ -377,7 +378,7 @@ namespace Calcpad.Core
                         if (ival is RealValue y)
                             return _matrixCalc.EvaluateInterpolation(t.Index, x, y, matrix);
                     }
-                    Throw.CannotInterpolateWithNonScalarValueException();
+                    throw Exceptions.CannotInterpolateWithNonScalarValue();
                 }
                 var mfParams = StackPopAndExpandValues(paramCount);
                 return _calc.EvaluateInterpolation(t.Index, mfParams);
@@ -499,24 +500,24 @@ namespace Calcpad.Core
 
             private IValue EvaluateIndexToken(Token t)
             {
-                var value = IValue.AsValue(StackPop(), Throw.Items.Index);
+                var value = IValue.AsValue(StackPop(), Exceptions.Items.Index);
                 var i = (int)value.Re;
                 if (t.Type == TokenTypes.VectorIndex)
                 {
-                    var vector = IValue.AsVector(StackPop(), Throw.Items.IndexTarget);
+                    var vector = IValue.AsVector(StackPop(), Exceptions.Items.IndexTarget);
                     if (i < 1 || i > vector.Length)
-                        Throw.IndexOutOfRangeException(i.ToString());
+                        throw Exceptions.IndexOutOfRange(i.ToString());
 
                     t.Index = i;
                     return vector[i - 1];
                 }
-                value = IValue.AsValue(StackPop(), Throw.Items.Index);
-                var matrix = IValue.AsMatrix(StackPop(), Throw.Items.IndexTarget);
+                value = IValue.AsValue(StackPop(), Exceptions.Items.Index);
+                var matrix = IValue.AsMatrix(StackPop(), Exceptions.Items.IndexTarget);
                 var j = i;
                 i = (int)value.Re;
                 if (i < 1 || i > matrix.RowCount ||
                     j < 1 || j > matrix.ColCount)
-                    Throw.IndexOutOfRangeException($"{i}, {j}");
+                    throw Exceptions.IndexOutOfRange($"{i}, {j}");
 
                 t.Index = i * Vector.MaxLength + j;
                 return matrix[i - 1, j - 1];
@@ -544,7 +545,7 @@ namespace Calcpad.Core
                 var n = list.Count;
                 var values = new RealValue[n];
                 --n;
-                for (int i = n; i >= 0 ; --i)
+                for (int i = n; i >= 0; --i)
                     values[n - i] = (RealValue)list[i];
 
                 return values;
@@ -612,18 +613,38 @@ namespace Calcpad.Core
 
             private void NormalizeUnits(Matrix M)
             {
-                for (int i = 0, n = M._rows.Length; i < n; ++i)
-                    NormalizeUnits(M._rows[i]);
+                if (M is HpMatrix hpM)
+                {
+                    if (hpM.Units is not null)
+                    {
+                        var d = hpM.Units.Normalize();
+                        if (d != 1d)
+                            hpM.Scale(d);
+                    }
+                }
+                else
+                    for (int i = 0, n = M.Rows.Length; i < n; ++i)
+                        NormalizeUnits(M.Rows[i]);
             }
 
-            private void NormalizeUnits(Vector v)
+            private void NormalizeUnits(Vector vector)
             {
-                for (int i = 0, n = v.Size; i < n; ++i)
+                if (vector is HpVector hpv)
                 {
-                    ref var value = ref v.ValueByRef(i);
-                    if (value.Units is not null)
-                        NormalizeUnits(ref value);
+                    if (hpv.Units is not null)
+                    {
+                        var d = hpv.Units.Normalize();
+                        if (d != 1d)
+                            hpv.Scale(d);
+                    }
                 }
+                else
+                    for (int i = 0, n = vector.Size; i < n; ++i)
+                    {
+                        ref var value = ref vector.ValueByRef(i);
+                        if (value.Units is not null)
+                            NormalizeUnits(ref value);
+                    }
             }
 
             private void NormalizeUnits(ref ComplexValue value)
@@ -675,22 +696,49 @@ namespace Calcpad.Core
 
             private static Unit ApplyUnits(Matrix M, Unit u)
             {
-                var result = ApplyUnits(M._rows[0], u);
-                for (int i = 1, n = M._rows.Length; i < n; ++i)
-                    ApplyUnits(M._rows[i], u);
+                Unit result;
+                if (M is HpMatrix hpM)
+                {
+                    RealValue value = new(1d, hpM.Units);
+                    result = ApplyUnits(ref value, u);
+                    var d = value.D;
+                    if (d != 1d)
+                        hpM.Scale(d);
 
+                    hpM.Units = result;
+                }
+                else
+                {
+                    result = ApplyUnits(M.Rows[0], u);
+                    for (int i = 1, n = M.Rows.Length; i < n; ++i)
+                        ApplyUnits(M.Rows[i], u);
+                }
                 return result;
             }
 
-            private static Unit ApplyUnits(Vector v, Unit u)
+            private static Unit ApplyUnits(Vector vector, Unit u)
             {
-                if (v.Size == 0)
+                if (vector.Size == 0)
                     return u;
 
-                for (int i = v.Size - 1; i >= 0; --i)
-                    ApplyUnits(ref v.ValueByRef(i), u);
+                if (vector is HpVector hpv)
+                {
+                    RealValue value = new(1d, hpv.Units);
+                    var result = ApplyUnits(ref value, u);
+                    var d = value.D;
+                    if (d != 1d)
+                    {
+                        var row = hpv.Raw;
+                        for (int i = vector.Size - 1; i >= 0; --i)
+                            row[i] *= d;
+                    }
+                    hpv.Units = result;
+                    return result;
+                }
+                for (int i = vector.Size - 1; i >= 0; --i)
+                    ApplyUnits(ref vector.ValueByRef(i), u);
 
-                return ApplyUnits(ref v.ValueByRef(0), u);
+                return ApplyUnits(ref vector.ValueByRef(0), u);
             }
 
             private static Unit ApplyUnits(ref ComplexValue value, Unit u)
@@ -722,7 +770,7 @@ namespace Calcpad.Core
                     return u;
                 }
                 if (!Unit.IsConsistent(vu, u))
-                    Throw.InconsistentTargetUnitsException(Unit.GetText(vu), Unit.GetText(u));
+                    throw Exceptions.InconsistentTargetUnits(Unit.GetText(vu), Unit.GetText(u));
 
                 var d = vu.ConvertTo(u);
                 if (u.IsTemp)
@@ -759,13 +807,24 @@ namespace Calcpad.Core
                     value = new(value.D * c, u);
                     return u;
                 }
-                if (u.IsDimensionless && vu is null)
+                if (u.IsDimensionless)
                 {
-                    value = new(value.D / u.GetDimensionlessFactor(), u);
-                    return u;
+                    if (vu is null)
+                    {
+                        value = new(value.D / u.GetDimensionlessFactor(), u);
+                        return u;
+                    }
+                    var format = u.FormatString;
+                    if (format is not null)
+                    {
+                        vu = new(vu) { Text = vu.Text + ':' + format };
+                        value = new(value.D, vu);
+                        return vu;
+                    }
+
                 }
                 if (!Unit.IsConsistent(vu, u))
-                    Throw.InconsistentTargetUnitsException(Unit.GetText(vu), Unit.GetText(u));
+                    throw Exceptions.InconsistentTargetUnits(Unit.GetText(vu), Unit.GetText(u));
 
                 var d = vu.ConvertTo(u);
                 if (u.IsTemp)

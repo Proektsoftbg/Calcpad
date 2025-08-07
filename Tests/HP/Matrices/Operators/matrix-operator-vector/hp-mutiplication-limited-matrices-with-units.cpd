@@ -1,0 +1,104 @@
+'<h1>Multiplication with matrices</h1>'
+
+'<h3>Full-rectangular</h3>'
+#hide
+matrix_rectangular = matrix_hp(5; 5)*kg
+matrix_rectangular.(1; 1) = 4.5kg
+matrix_rectangular.(1; 2) = -3.2kg
+matrix_rectangular.(1; 3) = 2.8kg
+matrix_rectangular.(1; 4) = -1.6kg
+matrix_rectangular.(1; 5) = 0.9kg
+
+matrix_rectangular.(2; 1) = -5.7kg
+matrix_rectangular.(2; 2) = 3.4kg
+matrix_rectangular.(2; 3) = -6.2kg
+matrix_rectangular.(2; 4) = 1.9kg
+matrix_rectangular.(2; 5) = -4.3kg
+
+matrix_rectangular.(3; 1) = 7.1kg
+matrix_rectangular.(3; 2) = -2.3kg
+matrix_rectangular.(3; 3) = 4.6kg
+matrix_rectangular.(3; 4) = -8.9kg
+matrix_rectangular.(3; 5) = 3.2kg
+
+matrix_rectangular.(4; 1) = -9.2kg
+matrix_rectangular.(4; 2) = 6.5kg
+matrix_rectangular.(4; 3) = -3.8kg
+matrix_rectangular.(4; 4) = 2.1kg
+matrix_rectangular.(4; 5) = -7.4kg
+
+matrix_rectangular.(5; 1) = 0.4kg
+matrix_rectangular.(5; 2) = -1.3kg
+matrix_rectangular.(5; 3) = 2.2kg
+matrix_rectangular.(5; 4) = -3.5kg
+matrix_rectangular.(5; 5) = 6.8kg
+vector1 = hp([-9.2t; 6.3t; 0t; 7.1t; 3t])
+#show
+
+matrix_rectangular
+
+vector1
+
+c = matrix_rectangular*vector1
+f(matrix_rectangular; vector1) = matrix_rectangular*vector1
+c = f(matrix_rectangular; vector1)
+
+
+'<h3>Column</h3>'
+#hide
+matrix_column = column_hp(7; 7)*min
+matrix_column.(1; 1) = 4.5min
+matrix_column.(2; 1) = -3.2min
+matrix_column.(3; 1) = 2.8min
+matrix_column.(4; 1) = -1.6min
+matrix_column.(5; 1) = 0.9min
+matrix_column.(6; 1) = -5.7min
+matrix_column.(7; 1) = 3.4min
+'vector5 = [4.5; 0.9; 1; 3; 2; -1.4; -11.2]
+vector5 = matrix_hp(1; 5)*h
+vector5.(1; 1) = 4.5h
+vector5.(1; 2) = 0.9h
+vector5.(1; 3) = 0h
+vector5.(1; 4) = 2h
+vector5.(1; 5) = 4.5h
+
+#show
+
+matrix_column
+vector5
+
+c = matrix_column*vector5
+f(matrix_column; vector5) = matrix_column*vector5
+c = f(matrix_column; vector5)
+
+
+'<h3>Symmetric</h3>'
+#hide
+matrix_symmetric = symmetric_hp(4)*m
+
+matrix_symmetric.(1; 1) = 4.5m
+matrix_symmetric.(1; 2) = -3.2m
+matrix_symmetric.(1; 3) = 2.8m
+matrix_symmetric.(1; 4) = -1.6m
+
+
+matrix_symmetric.(2; 2) = 3.4m
+matrix_symmetric.(2; 3) = -6.2m
+matrix_symmetric.(2; 4) = 1.9m
+
+
+matrix_symmetric.(3; 3) = 4.6m
+matrix_symmetric.(3; 4) = -8.9m
+
+
+matrix_symmetric.(4; 4) = 2.1m
+
+vector6 = hp([2.8dm; -3dm; 0dm; 1.2dm])
+#show
+
+matrix_symmetric
+vector6
+
+c = matrix_symmetric*vector6
+f(matrix_symmetric; vector6) = matrix_symmetric*vector6
+c = f(matrix_symmetric; vector6)

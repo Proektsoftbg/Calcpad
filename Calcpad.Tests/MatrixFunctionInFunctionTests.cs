@@ -428,7 +428,7 @@
         {
             var calc = new TestCalc(new());
             calc.Run(["M = copy([1; 3; 1|0; 2; 5|0; 0; 9]; symmetric(3); 1; 1)",
-                      "f(a) = eigenvals(a)", 
+                      "f(a) = eigenvals(a)",
                       "f(M)"]);
             Assert.Equal("[-2.27 2.19 12.09]", calc.ToString());
         }
@@ -440,7 +440,7 @@
             calc.Run(["M = copy([7; 8; 9|0; 5; 6|0; 0; 3]; symmetric(3); 1; 1)",
                       "f(a) = eigenvecs(a)",
                       "f(M)"]);
-            Assert.Equal("[0.658 -0.359 0.661|-0.0844 0.838 0.539|-0.748 -0.411 0.521]", calc.ToString());
+            Assert.Equal("[0.658 -0.0844 -0.748|-0.359 0.838 -0.411|0.661 0.539 0.521]", calc.ToString());
         }
         [Fact]
         [Trait("Category", "MathFunctions")]
@@ -485,19 +485,55 @@
         {
             string v = "[5; 10; 7]";
             var calc = new TestCalc(new());
+            calc.Run("M = [2; 3; 4|3; 5; 6|4; 6; 7]");
+            calc.Run(["f(a; b) = lsolve(a; b)", $"f(M; {v})"]);
+            Assert.Equal("[-11 5 3]", calc.ToString());
+        }
+        public void MatrixMsolve()
+        {
+            string v = "[5; 7|10; 14|7; 22]";
+            var calc = new TestCalc(new());
+            calc.Run("M = [2; 3; 4|3; 5; 6|4; 6; 7]");
+            calc.Run(["f(a; b) = msolve(a; b)", $"f(M; {v})"]);
+            Assert.Equal("[-11 9|5 7|3 -8]", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "MathFunctions")]
+        public void MatrixSymLsolve()
+        {
+            string v = "[5; 10; 7]";
+            var calc = new TestCalc(new());
             calc.Run("M = copy([2; 3; 4|0; 5; 6|0; 0; 7]; symmetric(3); 1; 1)");
             calc.Run(["f(a; b) = lsolve(a; b)", $"f(M; {v})"]);
             Assert.Equal("[-11 5 3]", calc.ToString());
         }
         [Fact]
         [Trait("Category", "MathFunctions")]
-        public void MatrixClsolve()
+        public void MatrixSymClsolve()
         {
             string v = "[7; 14; 22]";
             var calc = new TestCalc(new());
             calc.Run("M = copy([4; 1; 2|0; 5; 3|0; 0; 6]; symmetric(3); 1; 1)");
             calc.Run(["f(a; b) = clsolve(a; b)", $"f(M; {v})"]);
             Assert.Equal("[-0.1 0.857 3.27]", calc.ToString());
+        }
+        public void MatrixSymMsolve()
+        {
+            string v = "[5; 7|10; 14|7; 22]";
+            var calc = new TestCalc(new());
+            calc.Run("M = copy([2; 3; 4|0; 5; 6|0; 0; 7]; symmetric(3); 1; 1)");
+            calc.Run(["f(a; b) = msolve(a; b)", $"f(M; {v})"]);
+            Assert.Equal("[-11 9|5 7|3 -8]", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "MathFunctions")]
+        public void MatrixSymCmsolve()
+        {
+            string v = "[5; 7|10; 14|7; 22]";
+            var calc = new TestCalc(new());
+            calc.Run("M = copy([4; 1; 2|0; 5; 3|0; 0; 6]; symmetric(3); 1; 1)");
+            calc.Run(["f(a; b) = cmsolve(a; b)", $"f(M; {v})"]);
+            Assert.Equal("[0.8 -0.1|1.86 0.857|-0.0286 3.27]", calc.ToString());
         }
         #endregion
 

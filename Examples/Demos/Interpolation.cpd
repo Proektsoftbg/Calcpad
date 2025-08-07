@@ -1,8 +1,8 @@
 "Interpolation
 '<h4>Data functions in Calcpad</h4>
-f_1(x) = take(x; 9; 2; -1; 1; 4.5; 6; -4)' - discrete values (vector) <span style="color:blue;">▬▬</span>
-f_2(x) = line(x; 9; 2; -1; 1; 4.5; 6; -4)' - linear interpolation <span style="color:green;">▬▬</span>
-f_3(x) = spline(x; 9; 2; -1; 1; 4.5; 6; -4)' - Hermite spline interpolation <span style="color:red;">▬▬</span>
+f_1(x) = take(x; 9; 2; -1; 1; 4.5; 6; -4)' - discrete values (vector) <span style="color:CornflowerBlue;">━━━</span>
+f_2(x) = line(x; 9; 2; -1; 1; 4.5; 6; -4)' - linear interpolation <span style="color:YellowGreen;">━━━</span>
+f_3(x) = spline(x; 9; 2; -1; 1; 4.5; 6; -4)' - Hermite spline interpolation <span style="color:Tomato;">━━━</span>
 '<!--'PlotHeight = 250','PlotWidth = 400'--> 
 $Plot{f_3(x) & f_2(x) & f_1(x) @ x = 1 : 7}
 '<h4>Application - wind load height factors</h4>

@@ -1,0 +1,120 @@
+'<h1>Arithmetic operators</h1>'
+#hide
+m1 = hp([9; -4.4; 2.71; -6; 0])
+m2 = column_hp(5; 5)
+m2.(1; 1) = 10
+m2.(2; 1) = -5.5
+m2.(3; 1) = 3.14
+m2.(4; 1) = -7
+m2.(5; 1) = 8.88
+
+
+#show
+
+m1
+
+m2
+
+
+c = m1 + m2
+f(m1; m2) = m1 + m2
+c1 = f(m1; m2)
+
+
+c = m1 - m2
+f(m1; m2) = m1 - m2
+c1 = f(m1; m2)
+
+
+"For matrix multiplication we need to make m2 a matrix row 
+#hide
+matrix_row = matrix_hp(1; 5)
+matrix_row.(1; 1) = 17
+matrix_row.(1; 2) = -2.4
+matrix_row.(1; 3) = 0
+matrix_row.(1; 4) = 3.14
+matrix_row.(1; 5) = -9
+#show
+m1
+
+matrix_row
+
+m2
+
+c = matrix_row*m2
+f(matrix_row; m2) = matrix_row*m2
+c1 = f(matrix_row; m2)
+
+c = m1/m2
+f(m1; m2) = m1/m2
+c1 = f(m1; m2)
+
+c = m1^m2
+f(m1; m2) = m1^m2
+c = f(m1; m2)
+
+c = m1\m2
+f(m1; m2) = m1\m2
+c1 = f(m1; m2)
+
+c = m1⦼m2
+f(m1; m2) = m1⦼m2
+c = f(m1; m2)
+
+
+c = m1÷m2
+f(m1; m2) = m1÷m2
+c1 = f(m1; m2)
+
+#hide
+fm = diagonal_hp(3; 4)
+fm.(1; 1) = 11
+fm.(2; 2) = 66
+fm.(3; 3) = 111
+
+#show
+fm
+c = fm!
+f(fm) = fm!
+c1 = f(fm)
+
+'<h1>Relational operators</h1>'
+
+c = m1 ≡ m2
+f(m1; m2) = m1 ≡ m2
+c1 = f(m1; m2)
+
+c = m1 ≠ m2
+f(m1; m2) = m1 ≠ m2
+c1 = f(m1; m2)
+
+c = m1 < m2
+f(m1; m2) = m1 < m2
+c1 = f(m1; m2)
+
+c = m1 > m2
+f(m1; m2) = m1 > m2
+c1 = f(m1; m2)
+
+c = m1 ≥ m2
+f(m1; m2) = m1 ≥ m2
+c1 = f(m1; m2)
+
+c = m1 ≤ m2
+f(m1; m2) = m1 ≤ m2
+c1 = f(m1; m2)
+
+'<h1>Logical operators</h1>'
+
+c = m1 ∧ m2
+f(m1; m2) = m1 ∧ m2
+c1 = f(m1; m2)
+
+c = m1 ∨ m2
+f(m1; m2) = m1 ∨ m2
+c1 = f(m1; m2)
+
+c = m1 ⊕ m2
+f(m1; m2) = m1 ⊕ m2
+c1 = f(m1; m2)
+

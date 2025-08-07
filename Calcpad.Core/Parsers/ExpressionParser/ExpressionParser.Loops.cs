@@ -8,18 +8,18 @@ namespace Calcpad.Core
         private readonly Stack<Loop> _loops = new();
         private abstract class Loop
         {
-            protected const int _maxCount = 1000000;
+            protected const int _maxCount = 10000000;
             protected readonly int _startLine;
             protected int _iteration;
             internal int Id { get; }
             internal int Iteration => _iteration;
-            private protected Loop(int startLine, int count, int id)
+            private protected Loop(int startLine, double count, int id)
             {
                 _startLine = startLine;
                 if (count < 0 || count > _maxCount)
                     count = _maxCount;
 
-                _iteration = count;
+                _iteration = (int)count;
                 Id = id;
             }
             internal bool Iterate(ref int currentLine)
@@ -38,7 +38,7 @@ namespace Calcpad.Core
 
         private sealed class RepeatLoop : Loop
         {
-            internal RepeatLoop(int startLine, int count, int id) :
+            internal RepeatLoop(int startLine, double count, int id) :
                 base(startLine, count, id)
             { }
         }
@@ -50,7 +50,7 @@ namespace Calcpad.Core
             private readonly string _varName;
 
             internal ForLoop(int startLine, IScalarValue start, IScalarValue end, string varName, int id) :
-                base(startLine, Math.Abs((int)(end - start).Re) + 1, id)
+                base(startLine, Math.Abs((end - start).Re) + 1, id)
             {
                 _start = start;
                 _end = end;

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Globalization;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 
 namespace Calcpad.Core
 {
@@ -10,14 +12,18 @@ namespace Calcpad.Core
         private const string VarSymbolChars = ",_‾‴⁗";
         private const string VarNonLetterChars = "℧∡";
         private const string VarLetterChars = "ϑϕøØ";
-        private const string SuperscriptChars = "⁰¹²³⁴⁵⁶⁷⁸⁹ⁿ⁺⁻";
+        private const string SuperscriptChars = "⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾";
+        private const string SubscriptChars = "₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎";
         internal const string UnitChars = UnitSymbolChars + CurrencyChars;
         private const string VarStartingChars = UnitChars + VarNonLetterChars;
         private const string VarChars =
             VarStartingChars +
             VarSymbolChars +
             SuperscriptChars +
+            SubscriptChars +
             VarLetterChars;
+
+        private static readonly Regex MyFormatRegex = new(@"^[FCEGN]\d{0,2}$|^[0#]+(,[0#]+)?(\.[0#]+)?([eE][+-]?0+)?$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         public static bool IsVariable(string name)
         {
@@ -59,11 +65,7 @@ namespace Calcpad.Core
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsLetter(char c) =>
-            c >= 'a' && c <= 'z' || // a - z
-            c >= 'A' && c <= 'Z' || // A - Z 
-            c >= 'α' && c <= 'ω' || // alpha - omega
-            c >= 'Α' && c <= 'Ω' || // Alpha - Omega
-            VarChars.Contains(c);
+            char.IsLetter(c) || VarChars.Contains(c);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsLatinLetter(char c) =>
@@ -91,5 +93,18 @@ namespace Calcpad.Core
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsVarChar(char c) => IsLetter(c) || IsDigit(c);
+
+        public static bool IsValidFormatString(string format)
+        {
+            try
+            {
+                1d.ToString(format, CultureInfo.CurrentCulture);
+                return MyFormatRegex.Match(format).Success;
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
+        }
     }
 }

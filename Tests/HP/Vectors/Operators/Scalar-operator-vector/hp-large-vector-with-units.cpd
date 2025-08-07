@@ -1,0 +1,162 @@
+#hide
+'<h1>Defining vectors to work with</h1>
+x = vector_hp(150)*cm^-1
+y = vector_hp(500)*dm^-1
+z = vector_hp(9999999)*km^-1
+vec_unitless = vector(1200)
+#for i = 1 : 9
+	x.i = ((i - 1)^2 - 10*cos(i) + 3*(-1)^(i - 1) - 5*sin(i))/4.0cm
+#loop
+
+#for i = 1 : 12
+	y.i = ((i - 8)^2 - 10*cos(i) + 3*(-1)^(i - 8) - 5*sin(i))/4.0dm
+#loop
+
+#for i = 1 : 15
+	z.i = ((i - 5)^2 - 10*cos(i) + 3*(-1)^(i - 5) - 5*sin(i))/4.0km
+#loop
+#for i = 1 : 10
+	vec_unitless.i = (i^2 - 10*cos(i) + 3*(-1)^i - 5*sin(i))/4.0
+#loop
+#show
+'<h1>Arithmetic operators</h1>
+"Addition
+b = -5dm^-1
+x
+c = b + x
+f(b; x) = b + x','c = f(b; x)
+
+"Subtraction
+b = 3.14dm^-1
+x
+c = b - x
+f(b; x) = b - x','c = f(b; x)
+
+"Multiplication
+b = 8.9m^-1
+y
+c = b*y
+f(b; y) = b*y','c = f(b; y)
+
+"Division
+b = -10m^-1
+y
+c = b/y
+f(b; y) = b/y','c = f(b; y)
+
+"Exponentiation
+b = -2
+vec_unitless
+c = b^vec_unitless
+f(b; vec_unitless) = b^vec_unitless','c = f(b; vec_unitless)
+
+"Division bar
+b = 1cm^-1
+z
+c = b÷z
+f(b; z) = b÷z','c = f(b; z)
+
+"Integer division
+b = 3.7cm^-1
+x
+c = b\x
+f(b; x) = b\x','c = f(b; x)
+
+"Modulo (remainder)
+b = 2.7
+vec_unitless
+c = b⦼vec_unitless
+f(b; vec_unitless) = b⦼vec_unitless','c = f(b; vec_unitless)
+
+"Factorial
+v = vector(250)
+v = range(1; 20; 1)
+c = v!
+f(v) = v!','c = f(v)
+
+'<h1>Relational operators</h1>
+#hide
+x = vector_hp(150)*s^-1
+y = vector_hp(500)*min^-1
+z = vector_hp(9999999)*h^-1
+#for i = 1 : 13
+	x.i = ((i - 1)^2 - 10*cos(i) + 3*(-1)^(i - 1) - 5*sin(i))/4.0s
+#loop
+
+#for i = 1 : 10
+	y.i = ((i - 6)^2 - 10*cos(i) + 3*(-1)^(i - 6) - 5*sin(i))/4.0min
+#loop
+
+#for i = 1 : 17
+	z.i = ((i - 7)^2 - 10*cos(i) + 3*(-1)^(i - 7) - 5*sin(i))/4.0h
+#loop
+#show
+"Equal to
+b = 8.2s^-1
+y
+c = b ≡ y
+f(b; y) = b ≡ y','c = f(b; y)
+
+"Not equal to
+b = 0min^-1
+z
+c = b ≠ z
+f(b; z) = b ≠ z','c = f(b; z)
+
+"Less than
+b = 4h^-1
+z
+c = b < z
+f(b; z) = b < z','c = f(b; z)
+
+"Greater than
+b = -3min^-1
+x
+c = b > x
+f(b; x) = b > x','c = f(b; x)
+
+"Less than or equal 
+b = -7s^-1
+x
+c = b ≤ x
+f(b; x) = b ≤ x','c = f(b; x)
+
+"Greater than or equal
+b = -19.3s^-1
+y
+c = b ≥ y
+f(b; y) = b ≥ y','c = f(b; y)
+
+'<h1>Logical operators</h1>
+"Logical AND 
+b = 0min^-1
+y
+c = b ∧ y
+f(b; y) = b ∧ y','c = f(b; y)
+
+"Logical OR
+b = 0min^-1
+z
+c = b ∨ z
+f(b; z) = b ∨ z','c = f(b; z)
+
+"Logical XOR
+b = 0h^-1
+x
+c = b ⊕ x
+f(b; x) = b ⊕ x','c = f(b; x)
+
+'<h1>Complex operations</h1>
+y = 2.7s^-1
+x
+c = (y + x*2) ≤ 0s^-1
+f(y; x) = y + x*2','c = f(y; x)
+
+c = y - x/3 ≥ 0s^-1
+f(y; x) = y - x/3','c = f(y; x)
+
+c = 4*y + 5*x ≡ 0s^-1
+f(y; x) = 4*y + 5*x','c = f(y; x)
+
+c = y^2 + (x/4 ≤ 1s^-1)*s^-2
+f(y; x) = y^4 + x^4','c = f(y; x)

@@ -4,15 +4,16 @@ namespace Calcpad.Core
 {
     internal class Variable
     {
-        public IValue Value;
-        internal ref IValue ValueByRef() => ref Value;
+        internal IValue Value => _value;
+        private IValue _value;
+        internal ref IValue ValueByRef() => ref _value;
         internal event Action OnChange;
         internal bool IsInitialized => _isIntialised;
         private bool _isIntialised;
 
         internal Variable(in IValue value)
         {
-            Value = value;
+            _value = value;
             _isIntialised = true;
         }
 
@@ -22,51 +23,51 @@ namespace Calcpad.Core
         {
             ref var ival = ref ValueByRef();
             if (ival is RealValue real)
-                Value = new ComplexValue(number, real.Units);
+                _value = new ComplexValue(number, real.Units);
             else if (ival is ComplexValue complex)
-                Value = new ComplexValue(number, complex.Units);
+                _value = new ComplexValue(number, complex.Units);
             else
-                Value = new ComplexValue(number);
+                _value = new ComplexValue(number);
 
         }
         internal void SetNumber(double number)
         {
             ref var ival = ref ValueByRef();
             if (ival is RealValue real)
-                Value = new RealValue(number, real.Units);
+                _value = new RealValue(number, real.Units);
             else if (ival is ComplexValue complex)
-                Value = new RealValue(number, complex.Units);
+                _value = new RealValue(number, complex.Units);
             else
-                Value = new ComplexValue(number);
+                _value = new ComplexValue(number);
         }
 
         internal void SetUnits(Unit units)
         {
             ref var value = ref ValueByRef();
             if (value is RealValue real)
-                Value = new RealValue(real.D, units);
+                _value = new RealValue(real.D, units);
             else if (value is ComplexValue complex)
-                Value = new ComplexValue(complex.A, complex.B, units);
+                _value = new ComplexValue(complex.A, complex.B, units);
             else
                 ((Vector)Value).SetUnits(units);
 
         }
-        internal void SetValue(Unit units) => Value = new RealValue(units);
+        internal void SetValue(Unit units) => _value = new RealValue(units);
         internal void SetValue(double number, Unit units)
         {
-            Value = new RealValue(number, units);
+            _value = new RealValue(number, units);
             _isIntialised = true;
         }
 
         internal void SetValue(in IValue value)
         {
-            Value = value;
+            _value = value;
             _isIntialised = true;
         }
 
         internal void Assign(in IValue value)
         {
-            Value = value;
+            _value = value;
             _isIntialised = true;
             OnChange?.Invoke();
         }

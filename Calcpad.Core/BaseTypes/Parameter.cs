@@ -9,6 +9,6 @@
             Name = name;
             Variable = new Variable(RealValue.Zero);
         }
-        internal void SetValue(in IValue value) => Variable.Value = value;
+        internal void SetValue(in IValue value) => Variable.SetValue(value);
     }
 }

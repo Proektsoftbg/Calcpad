@@ -25,7 +25,7 @@
         [Trait("Category", "Real")]
         public void Factorial_180()
         {
-            var e = Assert.Throws<MathParser.MathParserException>(
+            var e = Assert.Throws<MathParserException>(
                 () =>
                 {
                     new TestCalc(new()).Run("180!");
@@ -38,7 +38,7 @@
         [Trait("Category", "Real")]
         public void Factorial_Minus_10()
         {
-            var e = Assert.Throws<MathParser.MathParserException>(
+            var e = Assert.Throws<MathParserException>(
                 () =>
                 {
                     new TestCalc(new()).Run("(-10)!");

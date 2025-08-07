@@ -1,0 +1,248 @@
+'<h1>Matrix functions</h1>'
+#hide
+m1 = matrix_hp(5; 5)
+m2 = matrix_hp(4; 6)
+m3 = matrix_hp(6; 3)
+m1.(1; 1) = 0.2
+m1.(1; 2) = -3.2
+m1.(1; 3) = 2.8
+m1.(1; 4) = -1.6
+
+m1.(2; 1) = 3.4
+m1.(2; 2) = -6.2
+m1.(2; 3) = 1.9
+m1.(2; 4) = 0.9
+
+m1.(3; 1) = -4.3
+m1.(3; 2) = 4.6
+m1.(3; 3) = -8.9
+m1.(3; 4) = 3.2
+
+m1.(4; 1) = 2.1
+m1.(4; 2) = -7.4
+m1.(4; 3) = 6.8
+m1.(4; 4) = 5.5
+
+m1.(5; 1) = -2.3
+m1.(5; 2) = 1.7
+m1.(5; 3) = -3.6
+m1.(5; 4) = 4.4
+
+m2.(1; 1) = 1.1
+m2.(1; 2) = 2.2
+m2.(1; 3) = -3.3
+m2.(1; 4) = 4.4
+m2.(1; 5) = -5.5
+m2.(1; 6) = 6.6
+
+m2.(2; 1) = 7.7
+m2.(2; 2) = -8.8
+m2.(2; 3) = 9.9
+m2.(2; 4) = -1.0
+m2.(2; 5) = 1.1
+m2.(2; 6) = -2.2
+
+m2.(3; 1) = 3.3
+m2.(3; 2) = -4.4
+m2.(3; 3) = 5.5
+m2.(3; 4) = -6.6
+m2.(3; 5) = 7.7
+m2.(3; 6) = -8.8
+
+m2.(4; 1) = 9.9
+m2.(4; 2) = -1.1
+m2.(4; 3) = 2.2
+m2.(4; 4) = -3.3
+m2.(4; 5) = 4.4
+m2.(4; 6) = -5.5
+
+m3.(1; 1) = 2.5
+m3.(1; 2) = -1.7
+m3.(1; 3) = 3.3
+
+m3.(2; 1) = 4.4
+m3.(2; 2) = -5.5
+m3.(2; 3) = 6.6
+
+m3.(3; 1) = -7.7
+m3.(3; 2) = 8.8
+m3.(3; 3) = -9.9
+
+m3.(4; 1) = 1.1
+m3.(4; 2) = -2.2
+m3.(4; 3) = 3.3
+
+m3.(5; 1) = 4.4
+m3.(5; 2) = -5.5
+m3.(5; 3) = 6.6
+
+m3.(6; 1) = -7.7
+m3.(6; 2) = 8.8
+m3.(6; 3) = -9.9
+
+m_invertible = matrix_hp(3; 3)
+m_invertible.(1; 1) = 2
+m_invertible.(1; 2) = 3
+m_invertible.(1; 3) = 1
+
+m_invertible.(2; 1) = 4
+m_invertible.(2; 2) = 1
+m_invertible.(2; 3) = 5
+
+m_invertible.(3; 1) = 6
+m_invertible.(3; 2) = 7
+m_invertible.(3; 3) = 8
+#show
+'<h3>Creational functions</h3>
+matrix_hp(5; 5)
+identity_hp(500)
+diagonal_hp(5; 4)
+column_hp(24; 0)
+utriang_hp(10)
+ltriang_hp(4)
+symmetric_hp(17)
+vec2diag([12; -0.5; 4; -13.5; 1])
+vec2col([1; -3.2; -4; 0; -3.14; 5])
+join_cols([1; 23; 0; 4.6; -3; 5]; [2; -3; 4.5; 1.2; 0])
+join_rows([0; -1; -3.6; 2.8; 11]; [11; 50000; -23; -4.5; -0.99999999])
+augment(m1; m2; m3)
+stack(m1; m2; m3)
+
+'<h3>Structural functions</h3>
+mresize(m2; 4; 5)
+mfill(m2; 4)
+fill_row(m2; 4; 1)
+fill_col(m2; 4; 1)
+m1
+m2
+copy(m1; m2; 4; 4)
+add(m1; m2; 1; 1)
+n_rows(m1)
+n_cols(m1)
+row(m1; 1)
+col(m1; 4)
+submatrix(m1; 1; 3; 1; 4)
+vec1 = [1; 3; 1; 1; 3.14; 2]
+extract_rows(m1; vec1)
+extract_cols(m1; vec1)
+
+'<h3>Mathematical functions</h3>'
+m1
+mnorm(m1)
+mnorm_e(m1)
+mnorm_2(m1)
+mnorm_i(m1)
+cond(m1)
+cond_e(m1)
+cond_2(m1)
+cond_i(m1)
+det(m1)
+rank(m1)
+trace(m1)
+m2
+transp(m2)
+adj(m1)
+cofactor(m1)
+#hide
+m_symmetric = symmetric_hp(4)
+m_symmetric.(1; 1) = 4.5
+m_symmetric.(1; 2) = -3.2
+m_symmetric.(1; 3) = 2.8
+m_symmetric.(1; 4) = -1.6
+m_symmetric.(2; 2) = 3.4
+m_symmetric.(2; 3) = -6.2
+m_symmetric.(2; 4) = 1.9
+m_symmetric.(3; 3) = 4.6
+m_symmetric.(3; 4) = -8.9
+m_symmetric.(4; 4) = 2.1
+
+m_definitive = symmetric_hp(4)
+m_definitive.(1; 1) = 6
+m_definitive.(1; 2) = 2
+m_definitive.(1; 3) = 1
+m_definitive.(1; 4) = 0
+m_definitive.(2; 2) = 5
+m_definitive.(2; 3) = 1
+m_definitive.(2; 4) = 1
+m_definitive.(3; 3) = 4
+m_definitive.(3; 4) = 1
+m_definitive.(4; 4) = 3
+#show
+m_symmetric
+eigenvals(m_symmetric)
+eigenvecs(m_symmetric)
+eigen(m_symmetric)
+m_definitive
+cholesky(m_definitive)
+lu(m_definitive)
+qr(m_definitive)
+svd(m_definitive)
+inverse(m_invertible)
+vec2 = hp([-1; 3.4; -5.7])
+lsolve(m_invertible; vec2)
+vec3 = hp([-4; -2.4; 7.77; 4])
+clsolve(m_definitive; vec3)
+
+isHp(m_definitive)
+slsolve(m_definitive; vec3)
+msolve(m_definitive; vec3)
+smsolve(m_definitive; vec3)
+cmsolve(m_definitive; vec3)
+
+
+'<h3>Data functions</h3>
+m1
+sort_cols(m1; 1)
+rsort_cols(m1; 2)
+sort_rows(m1; 3)
+rsort_rows(m1; 3)
+order_cols(m1; 2)
+revorder_cols(m1; 4)
+order_rows(m1; 3)
+revorder_rows(m1; 2)
+
+m2
+mcount(m2; -1)
+msearch(m2; -15; 1; 10)
+mfind(m2; 11.8)','mfind_eq(m2; 11.8)
+mfind_ne(m2; 0)
+mfind_le(m2; -3.4)
+mfind_gt(m2; 11.8)
+mfind_ge(m2; 10)
+m2.(1; 1) = 0.2
+m2
+hlookup(m2; -1; 1; 3)','hlookup_eq(m2; -1; 1; 3)
+hlookup_ne(m2; -3.4; 1; 3)
+hlookup_lt(m2; 12; 1; 4)
+hlookup_gt(m2; -5.5; 1; 4)
+hlookup_ge(m2; -15; 1; 2)
+vlookup(m2; 0.2; 1; 1)','vlookup_eq(m2; 0.2; 1; 1)
+vlookup_ne(m2; 13.1; 1; 1)
+vlookup_lt(m2; 20; 1; 4)
+vlookup_gt(m2; -11.4; 3; 1)
+vlookup_ge(m2; -15; 3; 3)
+
+'<h3>Aggregate functions</h3>
+m3
+min(m3)
+max(m3)
+m1
+sum(m1)
+sumsq(m1)
+srss(m1)
+average(m1)
+product(m1)
+mean(m1)
+
+'<h3>Interpolational functions</h3>'
+m2
+take(2; 2; m2)
+line(4; 5; m2)
+spline(4; 6; m2)
+
+'<h3>Conditional and logical functions</h3>'
+m1
+not(m1)
+or(m1)
+and(m1)
+xor(m1)

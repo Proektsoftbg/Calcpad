@@ -61,6 +61,15 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Click to open file..
+        /// </summary>
+        public static string ClickToOpenFile {
+            get {
+                return ResourceManager.GetString("ClickToOpenFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to End of line expected..
         /// </summary>
         public static string End_of_line_expected {
@@ -137,11 +146,29 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid format string..
+        /// </summary>
+        public static string InvalidFormatString {
+            get {
+                return ResourceManager.GetString("InvalidFormatString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid macro name..
         /// </summary>
         public static string InvalidMacroName {
             get {
                 return ResourceManager.GetString("InvalidMacroName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid operator..
+        /// </summary>
+        public static string InvalidOperator {
+            get {
+                return ResourceManager.GetString("InvalidOperator", resourceCulture);
             }
         }
         

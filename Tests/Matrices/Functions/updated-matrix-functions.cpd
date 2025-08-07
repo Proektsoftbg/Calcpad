@@ -74,32 +74,26 @@ extract_rows(A; vec1)
 extract_cols(A; vec1)
 
 '<h3>Math functions</h3>'
-A
-B
+A','B
 H = hprod(A; B)
 H = matrix(3; 3)
 $Repeat{$Repeat{H.(i; j) = A.(i; j)*B.(i; j) @ j = 1 : 3} @ i = 1 : 3}
 H
-
 f = fprod(A; B)
 f = 0
 $Repeat{$Repeat{f = f + A.(i; j)*B.(i; j) @ j = 1 : 3} @ i = 1 : 3}
-
 K = kprod(A; B)
 mfill(K; 0)
 $Repeat{$Repeat{copy(A.(i; j)*B; K; 3*i - 2; 3*j - 2) @ j = 1 : 3} @ i = 1 : 3}
-
 A
 mnorm_e(A)
 sum_sq = 0
 $Repeat{$Repeat{sum_sq = sum_sq + abs(A.(i; j)^2) @ j = 1 : 3} @ i = 1 : 3}
 frobenius_norm = sqrt(sum_sq)
-
 A
 det(A)
 A_det = A.(1; 1)*A.(2; 2)*A.(3; 3) + A.(1; 2)*A.(2; 3)*A.(3; 1) + A.(1; 3)*A.(2; 1)*A.(3; 2) - A.(1; 3)*A.(2; 2)*A.(3; 1) - A.(1; 2)*A.(2; 1)*A.(3; 3) - A.(1; 1)*A.(2; 3)*A.(3; 2)
 M = [1; 2; 3|4; 5; 6|7; 8; 9]
-
 rank(M)
 M.(2; 1) = M.(2; 1) - 4*M.(1; 1)
 M.(2; 2) = M.(2; 2) - 4*M.(1; 2)
@@ -111,7 +105,6 @@ M.(3; 1) = M.(3; 1) - 2*M.(2; 1)
 M.(3; 2) = M.(3; 2) - 2*M.(2; 2)
 M.(3; 3) = M.(3; 3) - 2*M.(2; 3)
 M
-
 A
 trace(A)
 A_trace = A.(1; 1) + A.(2; 2) + A.(3; 3)
@@ -120,30 +113,25 @@ B = transp(A)
 B = [col(A; 1)|col(A; 2)|col(A; 3)]
 row(A; 2)
 row(A; 3)
-
 A
 mnorm_1(A)
 max(norm_1(col(A; 1)); norm_1(col(A; 2)); norm_1(col(A; 3)))
 n = n_cols(A)
 mn1 = 0
 $Repeat{mn1 = max(mn1; norm_1(col(A; k))) @ k = 1 : n}
-
 mnorm_2(A)
 gram_matrix = A*A
 'max(eigenvals(gram_matrix))
-
 mnorm_i(A)
 max(norm_1(row(A; 1)); norm_1(row(A; 2)); norm_1(row(A; 3)))
 n = n_rows(A)
 mn1 = 0
 $Repeat{mn1 = max(mn1; norm_1(row(A; k))) @ k = 1 : n}
-
 L_p(v; p) = ($Sum{abs(take(k; v))^p @ k = 1 : len(v)})^(1/p)
 v = [1; 2; 3; 7; -2; 10]
 L_p(v; 100)
 10 + 5
 (10^2 + 5^2)^(1/2)
-
 A
 cond_e(A)
 mnorm_inv = mnorm_e(inverse(A))
@@ -157,7 +145,6 @@ cond_2 = mnorm_2(A)*mnorm_inv
 cond_i(A)
 mnorm_inv = mnorm_i(inverse(A))
 cond_i = mnorm_i(A)*mnorm_inv
-
 A
 adj(A)
 C = cofactor(A)
@@ -178,7 +165,6 @@ L = ltriang(3)
 			L.(i; j) = (m_definitive.(i; j) - $Sum{L.(i; k)*L.(j; k) @ k = 1 : i})/L.(j; j)
 			
 		#end if
-		
 	#loop
 #loop
 L' = 'transp(L)
@@ -217,7 +203,6 @@ Q*R
 #loop
 #show
 round(M_symmetric*10^14)*10^-14','V
-
 '<h4>Eigenvalues and eigenvectors</h4>
 M_symmetric
 B
@@ -240,6 +225,7 @@ x = lsolve(A; b)
 A*x
 A = copy([8; 6; -4|6; 12; -3|-4; -3; 9]; symmetric(3); 1; 1)
 b
+x = lsolve(A; b)
 x = clsolve(A; b)
 A*x
 

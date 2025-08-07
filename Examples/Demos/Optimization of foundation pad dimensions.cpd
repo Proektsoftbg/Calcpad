@@ -47,9 +47,9 @@ k = k_inf'- equal to the theoretical value
 a = a(k)'m, 'b = a*k'm
 'The calculated minimal and maximal base stresses are:
 p_min(a; b)'kPa
-p_max(a; b)'kPa
+p_max(a; b)'kPa2
 #hide
-PlotWidth = 400','PlotHeight = 300
+PlotWidth = 300','PlotHeight = 150','PlotSVG = 1
 #show
 'Plot for target function and solution:
 $Plot{A(k) & k_inf|(k - k_min)*A_inf/(k_max - k_min) & k_inf|A_inf @ k = k_min : k_max}
@@ -99,21 +99,21 @@ k = k_inf
 a = sqrt(A_inf/k)'m, 'b = a*k'm
 #hide
 i = 0
+PlotWidth = 400','PlotHeight = 200
 #show
 'Calculated base stresses:
-#val
-'<table class="bordered">
+#novar
+'<table class="bordered data">
 '<tr><th>i</th><th>p<sub>min</sub></th><th>p<sub>max</sub></th></tr>
 #repeat 4
-	'<tr><td>'i = i + 1'</td><td>'p_min,i(a; b; i)'</td><td>'p_max,i(a; b; i)'</td></tr>
+	'<tr><td>&ensp;'i = i + 1'</td><td>'p_min,i(a; b; i):0.00'</td><td>'p_max,i(a; b; i):0.00'</td></tr>
 #loop
 '</table>
-#equ
 'Plot for target functions and solution:
 $Plot{k|A_i(k; 1) & k|A_i(k; 2) & k|A_i(k; 3) & k|A_i(k; 4) & A_max(k) & k_inf|(k - k_min)*A_inf/(k_max - k_min) & k_inf|A_inf @ k = k_min : k_max}
 'Legend:
-'<p><b style="color:Red">▬▬</b> Case 1 &emsp;&emsp; 
-'<b style="color:Green">▬▬</b> Case 2 &emsp;&emsp; 
-'<b style="color:Blue">▬▬</b> Case 3 &emsp;&emsp;
-'<b style="color:Goldenrod">▬▬</b> Case 4 &emsp;&emsp; 
-'<b style="color:Magenta">▬▬</b> max</p>
+'<p><b style="color:Tomato">━━━</b> 1 &emsp;
+'<b style="color:YellowGreen">━━━</b> 2 &emsp; 
+'<b style="color:DodgerBlue">━━━</b> 3 &emsp;
+'<b style="color:Gold">━━━</b> 4 &emsp; 
+'<b style="color:MediumVioletRed">━━━</b> max</p>

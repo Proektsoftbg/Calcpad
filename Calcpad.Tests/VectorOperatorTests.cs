@@ -76,7 +76,7 @@
         [Trait("Category", "Vector")]
         public void VectorDivisionBar()
         {
-            string vector1= "[10; 5; 2; 8; 6]";
+            string vector1 = "[10; 5; 2; 8; 6]";
             string vector2 = "[3; 4; 1; 2; 3]";
             var calc = new TestCalc(new());
             calc.Run($"{vector1}÷{vector2}");

@@ -16,7 +16,7 @@ namespace Calcpad.Core
             private readonly Calculator _calc;
             private readonly VectorCalculator _vectorCalc;
             private readonly MatrixCalculator _matrixCalc;
-            private  bool _allowAssignment;
+            private bool _allowAssignment;
 
             internal Compiler(MathParser parser)
             {
@@ -32,7 +32,8 @@ namespace Calcpad.Core
             internal Func<IValue> Compile(Token[] rpn, bool allowAssignment = false)
             {
                 if (rpn.Length < 1)
-                    Throw.ExpressionEmptyException();
+                    throw Exceptions.ExpressionEmpty();
+
                 _allowAssignment = allowAssignment;
                 var expression = Expression.Convert(Parse(rpn), typeof(IValue));
                 var lambda = Expression.Lambda<Func<IValue>>(expression);
@@ -43,12 +44,12 @@ namespace Calcpad.Core
             {
                 var stackBuffer = new Stack<Expression>();
                 var len = rpn.Length;
-                if (_allowAssignment && 
+                if (_allowAssignment &&
                     rpn[len - 1].Content == "=")
                 {
                     var rpn0 = rpn[0];
-                    if (rpn0.Type == TokenTypes.Variable && 
-                        rpn0 is  VariableToken vt)
+                    if (rpn0.Type == TokenTypes.Variable &&
+                        rpn0 is VariableToken vt)
                     {
                         var v = vt.Variable;
                         if (!v.IsInitialized)
@@ -74,8 +75,9 @@ namespace Calcpad.Core
                         case TokenTypes.Function:
                         case TokenTypes.VectorFunction:
                         case TokenTypes.MatrixFunction:
+                        case TokenTypes.MatrixOptionalFunction:
                             if (stackBuffer.Count == 0)
-                                Throw.MissingOperandException();
+                                throw Exceptions.MissingOperand();
 
                             var a1 = stackBuffer.Pop();
                             stackBuffer.Push(ParseToken(t, a1));
@@ -85,11 +87,11 @@ namespace Calcpad.Core
                         case TokenTypes.VectorFunction2:
                         case TokenTypes.MatrixFunction2:
                             if (stackBuffer.Count == 0)
-                                Throw.MissingOperandException();
+                                throw Exceptions.MissingOperand();
 
                             var b2 = stackBuffer.Pop();
                             if (!stackBuffer.TryPop(out var a2))
-                                Throw.MissingOperandException();
+                                throw Exceptions.MissingOperand();
                             else
                                 stackBuffer.Push(ParseToken(t, a2, b2));
 
@@ -131,7 +133,7 @@ namespace Calcpad.Core
                             continue;
                         case TokenTypes.CustomFunction:
                             if (t.Index < 0)
-                                Throw.InvalidFunctionException(t.Content);
+                                throw Exceptions.InvalidFunction(t.Content);
 
                             var cf = _functions[t.Index];
                             var cfValues = PopValues(stackBuffer, cf.ParameterCount);
@@ -172,12 +174,11 @@ namespace Calcpad.Core
                             stackBuffer.Push(ParseSolverToken(t));
                             continue;
                         default:
-                            Throw.CannotEvaluateAsTypeException(t.Content, t.Type.GetType().GetEnumName(t.Type));
-                            break;
+                            throw Exceptions.CannotEvaluateAsType(t.Content, t.Type.GetType().GetEnumName(t.Type));
                     }
                 }
                 if (stackBuffer.Count == 0)
-                    Throw.StackLeakException();
+                    throw Exceptions.StackLeak();
 
                 return stackBuffer.Pop();
             }
@@ -206,7 +207,7 @@ namespace Calcpad.Core
                     return ParseVariableToken((VariableToken)t);
 
                 if (t.Type == TokenTypes.Input && t.Content == "?")
-                    Throw.UndefinedInputFieldException();
+                    throw Exceptions.UndefinedInputField();
 
                 if (t.Type == TokenTypes.Matrix)
                 {
@@ -228,25 +229,19 @@ namespace Calcpad.Core
             {
                 if (a.NodeType == ExpressionType.Constant)
                 {
-                    var s = t.Content.ToLowerInvariant();
-                    if (s != "vector" &&
-                        s != "identity" &&
-                        s != "utriang" &&
-                        s != "ltriang" &&
-                        s != "symmetric")
+                    var s = t.Content.ToLowerInvariant().AsSpan();
+                    if (s.SequenceEqual("random") &&
+                        !(s.StartsWith("range") ||
+                          s.StartsWith("vector") ||
+                          s.StartsWith("identity") ||
+                          s.StartsWith("utriang") ||
+                          s.StartsWith("ltriang") ||
+                          s.StartsWith("symmetric")))
                         return EvaluateConstantExpressionToken(t, a);
                 }
 
                 if (t.Content == NegateString)
-                {
-                    //if (_parser._settings.IsComplex)
-                    //    return Expression.Call(
-                    //        EvaluateFunctionMethod,
-                    //    Expression.Constant(_matrixCalc),
-                    //    Expression.Constant(t.Index), a);
-
                     return Expression.Negate(a);
-                }
 
                 if (t.Type == TokenTypes.Function)
                     return Expression.Call(
@@ -260,6 +255,12 @@ namespace Calcpad.Core
                         EvaluateVectorFunctionMethod,
                         Expression.Constant(t.Index), a);
 
+                if (t.Type == TokenTypes.MatrixOptionalFunction)
+                    return Expression.Call(
+                    Expression.Constant(_matrixCalc),
+                    EvaluateMatrixFunction2Method,
+                    Expression.Constant(t.Index), a, Expression.Constant(RealValue.Zero, typeof(IValue)));
+
                 //TokenTypes.MatrixFunction
                 return Expression.Call(
                     Expression.Constant(_matrixCalc),
@@ -272,10 +273,10 @@ namespace Calcpad.Core
                 if (a.NodeType == ExpressionType.Constant &&
                     b.NodeType == ExpressionType.Constant)
                 {
-                    var s = t.Content.ToLowerInvariant();
-                    if (s != "matrix" &&
-                        s != "diagonal" &&
-                        s != "column")
+                    var s = t.Content.ToLowerInvariant().AsSpan();
+                    if (!(s.StartsWith("matrix") ||
+                        s.StartsWith("diagonal") ||
+                        s.StartsWith("column")))
                         return EvaluateConstantExpressionToken(t, a, b);
                 }
 
@@ -283,17 +284,15 @@ namespace Calcpad.Core
                 {
                     if (t.Content[0] == '=')
                     {
-                        if (a.NodeType == ExpressionType.Block)
+                        if (a is MethodCallExpression mce)
                         {
-                            b = Expression.Call(AsRealMethod, b, ValueItem);
-                            BlockExpression c = (BlockExpression)a;
-                            a = c.Expressions[1];
-                            if (a.NodeType == ExpressionType.Convert)
-                                a = ((UnaryExpression)a).Operand;
-
-                            return Expression.Block(
-                                c.Expressions[0],
-                                Expression.Assign(a, b));
+                            var method = mce.Method;
+                            var args = mce.Arguments;
+                            if (method == GetVectorElementMethod)
+                                return Expression.Call(SetVectorElementMethod, args[0], args[1], b);
+                        
+                            if (method == GetMatrixElementMethod)
+                                return Expression.Call(SetMatrixElementMethod, args[0], args[1], args[2], b);
                         }
                         if (a is MemberExpression ma)
                         {
@@ -304,12 +303,6 @@ namespace Calcpad.Core
                         }
                         return Expression.Assign(a, b);
                     }
-                    //if (_parser._settings.IsComplex)
-                    //    return Expression.Call(
-                    //        EvaluateOperatorMethod,
-                    //        Expression.Constant(_matrixCalc),
-                    //        Expression.Constant(t.Index), a, b);
-
                     return t.Content[0] switch
                     {
                         '+' => Expression.Add(a, b),
@@ -359,7 +352,7 @@ namespace Calcpad.Core
                     if (t.Index < 0 && !_allowAssignment)
                         return Expression.Constant(v.Value, typeof(IValue));
 
-                    return Expression.Field(Expression.Constant(v), "Value");
+                    return Expression.Property(Expression.Constant(v), typeof(Variable), "Value");
                 }
                 try
                 {
@@ -370,8 +363,7 @@ namespace Calcpad.Core
                 }
                 catch
                 {
-                    Throw.UndefinedVariableOrUnitsException(t.Content);
-                    return null;
+                    throw Exceptions.UndefinedVariableOrUnits(t.Content);
                 }
             }
 
@@ -391,6 +383,8 @@ namespace Calcpad.Core
                     vb = IValue.EvaluateFunction(_matrixCalc, t.Index, EvaluateConstantExpression(a));
                 else if (t.Type == TokenTypes.VectorFunction)
                     vb = _vectorCalc.EvaluateVectorFunction(t.Index, EvaluateConstantExpression(a));
+                else if (t.Type == TokenTypes.MatrixOptionalFunction)
+                    vb = _matrixCalc.EvaluateMatrixFunction2(t.Index, EvaluateConstantExpression(a), RealValue.Zero);
                 else //TokenTypes.MatrixFunction
                     vb = _matrixCalc.EvaluateMatrixFunction(t.Index, EvaluateConstantExpression(a));
 
@@ -605,65 +599,14 @@ namespace Calcpad.Core
                 return Expression.Call(JoinRowsMethod, args);
             }
 
-            private static readonly ConstantExpression IndexTargetItem =
-                Expression.Constant(Throw.Items.IndexTarget);
-            private static readonly ConstantExpression IndexItem =
-                Expression.Constant(Throw.Items.Index);
             private static readonly ConstantExpression ValueItem =
-                Expression.Constant(Throw.Items.Value);
+                Expression.Constant(Exceptions.Items.Value);
 
-            private static BlockExpression ParseVectorIndexToken(Expression vector, Expression value)
-            {
-                var i = Expression.Convert(
-                    Expression.Field(
-                        Expression.Call(AsRealMethod, value, IndexItem),
-                        "D"),
-                    typeof(int));
+            private static MethodCallExpression ParseVectorIndexToken(Expression vector, Expression ii) =>
+                Expression.Call(GetVectorElementMethod, vector, ii);
 
-                var vec = Expression.Call(AsVectorMethod, vector, IndexTargetItem);
-                var checkBounds = Expression.IfThen(
-                    Expression.OrElse(
-                        Expression.LessThan(i, Expression.Constant(1)),
-                        Expression.GreaterThan(i, Expression.Property(vec, "Length"))),
-                    Expression.Call(ThrowIndexOutOfRangeException, Expression.Call(i, "ToString", Type.EmptyTypes)));
-                var itemProperty = Expression.Convert(
-                        Expression.Property(
-                            vec, "item",
-                        Expression.Subtract(i, Expression.Constant(1))),
-                    typeof(IValue));
-                return Expression.Block(checkBounds, itemProperty);
-            }
-
-            private static BlockExpression ParseMatrixIndexToken(Expression matrix, Expression ivalue, Expression jvalue)
-            {
-                var i = Expression.Convert(
-                    Expression.Field(
-                        Expression.Call(AsRealMethod, ivalue, IndexItem),
-                        "D"),
-                    typeof(int));
-                var j = Expression.Convert(
-                    Expression.Field(
-                        Expression.Call(AsRealMethod, jvalue, IndexItem),
-                        "D"),
-                    typeof(int));
-                var m = Expression.Call(AsMatrixMethod, matrix, IndexTargetItem);
-                var checkRowBounds = Expression.OrElse(
-                    Expression.LessThan(i, Expression.Constant(1)),
-                    Expression.GreaterThan(i, Expression.Property(m, "RowCount")));
-                var checkColBounds = Expression.OrElse(
-                    Expression.LessThan(j, Expression.Constant(1)),
-                    Expression.GreaterThan(j, Expression.Property(m, "ColCount")));
-                var checkBounds = Expression.IfThen(
-                    Expression.OrElse(checkRowBounds, checkColBounds),
-                    Expression.Call(ThrowIndexOutOfRangeException, Expression.Call(i, "ToString", Type.EmptyTypes)));
-                var itemProperty = Expression.Convert(
-                        Expression.Property(
-                            m, "item",
-                        Expression.Subtract(i, Expression.Constant(1)),
-                        Expression.Subtract(j, Expression.Constant(1))),
-                    typeof(IValue));
-                return Expression.Block(checkBounds, itemProperty);
-            }
+            private static MethodCallExpression ParseMatrixIndexToken(Expression matrix, Expression ii, Expression jj) =>
+                Expression.Call(GetMatrixElementMethod, matrix, ii, jj);
 
             private UnaryExpression ParseSolverToken(Token t)
             {

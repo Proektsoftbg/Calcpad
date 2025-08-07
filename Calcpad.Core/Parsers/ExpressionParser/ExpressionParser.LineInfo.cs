@@ -5,7 +5,7 @@ namespace Calcpad.Core
     {
         private readonly struct LineInfo
         {
-            internal readonly Keyword Keyword;   
+            internal readonly Keyword Keyword;
             internal readonly List<Token> Tokens;
             internal bool IsCached => Tokens is not null;
 
@@ -14,7 +14,6 @@ namespace Calcpad.Core
                 Tokens = tokens;
                 Keyword = keyword;
             }
-
         }
     }
 }

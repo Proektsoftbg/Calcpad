@@ -7,7 +7,7 @@ namespace Calcpad.Core
         private Condition _condition;
         private sealed class Condition
         {
-            internal const int RemoveConditionKeyword = Keyword.EndIf - Keyword.If;
+            internal const int RemoveConditionKeyword = Keyword.End_If - Keyword.If;
             private enum Types
             {
                 None,
@@ -88,15 +88,15 @@ namespace Calcpad.Core
                 _keyword = GetConditinalKeyword(type);
                 IsUnchecked = type == Types.If || type == Types.ElseIf;
                 if (type > Types.If && type < Types.While && _count == 0)
-                    Throw.ConditionNotInitializedException();
+                    throw Exceptions.ConditionNotInitialized();
 
                 if (Type == Types.Else)
                 {
                     if (type == Types.Else)
-                        Throw.DuplicateElseException();
+                        throw Exceptions.DuplicateElse();
 
                     if (type == Types.ElseIf)
-                        Throw.ElseIfAfterElseException();
+                        throw Exceptions.ElseIfAfterElse();
                 }
                 switch (type)
                 {
@@ -122,11 +122,11 @@ namespace Calcpad.Core
             internal void Check(Complex value)
             {
                 if (!value.IsReal)
-                    Throw.ConditionComplexException();
+                    throw Exceptions.ConditionComplex();
 
                 var d = value.Re;
                 if (double.IsNaN(d) || double.IsInfinity(d))
-                    Throw.ConditionResultInvalidException(d.ToString());
+                    throw Exceptions.ConditionResultInvalid(d.ToString());
 
                 var result = Math.Abs(d) > 1e-12;
                 if (result)

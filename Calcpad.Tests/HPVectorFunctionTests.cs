@@ -1,0 +1,547 @@
+﻿namespace Calcpad.Tests
+{
+    public class HPVectorFunctionTests
+    {
+        #region HPStructuralFunctions
+        [Fact]
+        [Trait("Category", "HPStructuralFunctions")]
+        public void HPVectorCreation()
+        {
+            int n = 3;
+            var calc = new TestCalc(new());
+            calc.Run($"vector_hp({n})");
+            Assert.Equal("[0 0 0]", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPStructuralFunctions")]
+        public void HPVectorFill()
+        {
+            string vector = "hp([0; 0; 0; 1; 2; 3])";
+            int n = 4;
+            var calc = new TestCalc(new());
+            calc.Run($"fill({vector};{n})");
+            Assert.Equal("[4 4 4 4 4 4]", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPStructuralFunctions")]
+        public void HPVectorRange()
+        {
+            string x = "1";
+            int y = 4;
+            int s = 1;
+            var calc = new TestCalc(new());
+            calc.Run($"range({x}; {y}; {s})");
+            Assert.Equal("[1 2 3 4]", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPStructuralFunctions")]
+        public void HPVectorJoin()
+        {
+            string vector1 = "hp([4; 8; 5; 2; 5; 1])";
+            string vector2 = "hp([-3.5; 5; 4.25; 0])";
+            int n = 3;
+            var calc = new TestCalc(new());
+            calc.Run($"join({vector1};{vector2};{n})");
+            Assert.Equal("[4 8 5 2 5 1 -3.5 5 4.25 0 3]", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPStructuralFunctions")]
+        public void HPVectorResize()
+        {
+            string vector = "hp([0.5; 0.866; 1; -0.5; -0.866; -1; 0])";
+            int n = 3;
+            var calc = new TestCalc(new());
+            calc.Run($"resize({vector}; {n})");
+            Assert.Equal("[0.5 0.866 1]", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPStructuralFunctions")]
+        public void HPVectorLen()
+        {
+            string vector = "hp([1; 4; 4; 5; 2; 12; 54])";
+            var calc = new TestCalc(new());
+            calc.Run($"len({vector})");
+            Assert.Equal("7", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPStructuralFunctions")]
+        public void HPVectorSize()
+        {
+            string vector = "hp([1; 4; 4; 5; 2; 12; 54])";
+            var calc = new TestCalc(new());
+            calc.Run($"size({vector})");
+            Assert.Equal("7", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPStructuralFunctions")]
+        public void HPVectorSlice()
+        {
+            string vector = "hp([-3; 0; 4.5; -7; 2.25])";
+            string x = "2";
+            int y = 4;
+            var calc = new TestCalc(new());
+            calc.Run($"slice({vector};{x};{y})");
+            Assert.Equal("[0 4.5 -7]", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPStructuralFunctions")]
+        public void HPVectorFirst()
+        {
+            string vector = "hp([-0.5; 3; 0; -7.8; 5.6; 4.2; -6; 1.8; -3.1])";
+            int n = 4;
+            var calc = new TestCalc(new());
+            calc.Run($"first({vector};{n})");
+            Assert.Equal("[-0.5 3 0 -7.8]", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPStructuralFunctions")]
+        public void HPVectorLast()
+        {
+            string vector = "hp([-0.5; 3; 0; -7.8; 5.6; 4.2; -6; 1.8; -3.1])";
+            int n = 5;
+            var calc = new TestCalc(new());
+            calc.Run($"last({vector};{n})");
+            Assert.Equal("[5.6 4.2 -6 1.8 -3.1]", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPStructuralFunctions")]
+        public void HPVectorExtract()
+        {
+            string vector = "hp([8.2; 0; 6.9; -2.8; 3; 8.2; -7; 4.6])";
+            string i = "hp([1; 3; 2; 4; 4; 5])";
+            var calc = new TestCalc(new());
+            calc.Run($"extract({vector};{i})");
+            Assert.Equal("[8.2 6.9 0 -2.8 -2.8 3]", calc.ToString());
+        }
+        [Fact]
+        #endregion
+
+        #region HPMathFunctions
+        [Trait("Category", "HPMathFunctions")]
+        public void HPVectorNorm1()
+        {
+            string vector = "hp([5; -2.1; 0; 7.8; -4.6])";
+            var calc = new TestCalc(new());
+            calc.Run($"norm_1({vector})");
+            Assert.Equal("19.5", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPMathFunctions")]
+        public void HPVectorNorm2()
+        {
+            string vector = "hp([5; -2.1; 0; 7.8; -4.6])";
+            var calc = new TestCalc(new());
+            calc.Run($"norm_2({vector})");
+            Assert.Equal("10.56", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPMathFunctions")]
+        public void HPVectorNormP()
+        {
+            string vector = "hp([5; -2.1; 0; 7.8; -4.6])";
+            int p = 4;
+            var calc = new TestCalc(new());
+            calc.Run($"norm_p({vector}; {p})");
+            Assert.Equal("8.32", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPMathFunctions")]
+        public void HPVectorNormInfinity()
+        {
+            string vector = "hp([5; -2.1; 0; 7.8; -4.6])";
+            var calc = new TestCalc(new());
+            calc.Run($"norm_i({vector})");
+            Assert.Equal("7.8", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPMathFunctions")]
+        public void HPVectorUnit()
+        {
+            string vector = "hp([5; -2.1; 0; 7.8; -4.6])";
+            var calc = new TestCalc(new());
+            calc.Run($"unit({vector})");
+            Assert.Equal("[0.474 -0.199 0 0.739 -0.436]", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPMathFunctions")]
+        public void HPVectorDot()
+        {
+            string vector1 = "hp([5; -2.1; 0; 7.8; -4.6])";
+            string vector2 = "hp([-3.5; 5; 4.25; 0; 10])";
+            var calc = new TestCalc(new());
+            calc.Run($"dot({vector1}; {vector2})");
+            Assert.Equal("-74", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPMathFunctions")]
+        public void HPVectorCross()
+        {
+            string vector1 = "hp([5; -2.1; 0])";
+            string vector2 = "hp([4.25; 0; 10])";
+            var calc = new TestCalc(new());
+            calc.Run($"cross({vector1}; {vector2})");
+            Assert.Equal("[-21 -50 8.93]", calc.ToString());
+        }
+
+        #endregion
+
+        #region HPSortReorderFunctions
+        [Fact]
+        [Trait("Category", "HPSortReorderFunctions")]
+        public void HPVectorSort()
+        {
+            string vector = "hp([2.9; -8; 0; 12; -6.5])";
+            var calc = new TestCalc(new());
+            calc.Run($"sort({vector})");
+            Assert.Equal("[-8 -6.5 0 2.9 12]", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPSortReorderFunctions")]
+        public void HPVectorRsort()
+        {
+            string vector = "hp([2.9; -8; 0; 12; -6.5])";
+            var calc = new TestCalc(new());
+            calc.Run($"rsort({vector})");
+            Assert.Equal("[12 2.9 0 -6.5 -8]", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPSortReorderFunctions")]
+        public void HPVectorOrder()
+        {
+            string vector = "hp([2.9; -8; 0; 12; -6.5])";
+            var calc = new TestCalc(new());
+            calc.Run($"order({vector})");
+            Assert.Equal("[2 5 3 1 4]", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPSortReorderFunctions")]
+        public void HPVectorRevorder()
+        {
+            string vector = "hp([2.9; -8; 0; 12; -6.5])";
+            var calc = new TestCalc(new());
+            calc.Run($"revorder({vector})");
+            Assert.Equal("[4 1 3 5 2]", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPSortReorderFunctions")]
+        public void HPVectorReverse()
+        {
+            string vector = "hp([2.9; -8; 0; 12; -6.5])";
+            var calc = new TestCalc(new());
+            calc.Run($"reverse({vector})");
+            Assert.Equal("[-6.5 12 0 -8 2.9]", calc.ToString());
+        }
+        #endregion
+
+        #region HPSearchFunctions
+        [Fact]
+        [Trait("Category", "HPSearchFunctions")]
+        public void HPVectorCount()
+        {
+            string vector = "hp([12; -1.2; 5.25; 2; 8; 3; 4])";
+            string x = "5.25";
+            int i = 2;
+            var calc = new TestCalc(new());
+            calc.Run($"count({vector}; {x}; {i})");
+            Assert.Equal("1", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPSearchFunctions")]
+        public void HPVectorSearch()
+        {
+            string vector = "hp([12; -1.2; 5.25; 2; 8; 3; 4])";
+            string x = "2";
+            int i = 3;
+            var calc = new TestCalc(new());
+            calc.Run($"search({vector}; {x}; {i})");
+            Assert.Equal("4", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPSearchFunctions")]
+        public void HPVectorFind()
+        {
+            string vector = "hp([12; -1.2; 5.25; 2; 4; 4; 4])";
+            string x = "4";
+            int i = 1;
+            var calc = new TestCalc(new());
+            calc.Run($"find({vector}; {x}; {i})");
+            Assert.Equal("[5 6 7]", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPSearchFunctions")]
+        public void HPVectorFindNe()
+        {
+            string vector = "hp([12; -1.2; 5.25; 2; 8; 3; 4])";
+            string x = "2";
+            int i = 3;
+            var calc = new TestCalc(new());
+            calc.Run($"find_ne({vector}; {x}; {i})");
+            Assert.Equal("[3 5 6 7]", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPSearchFunctions")]
+        public void HPVectorFindLt()
+        {
+            string vector = "hp([12; -1.2; 5.25; 2; 8; 3; 4])";
+            string x = "8";
+            int i = 1;
+            var calc = new TestCalc(new());
+            calc.Run($"find_lt({vector}; {x}; {i})");
+            Assert.Equal("[2 3 4 6 7]", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPSearchFunctions")]
+        public void HPVectorFindLe()
+        {
+            string vector = "hp([12; -1.2; 5.25; 2; 8; 3; 4])";
+            string x = "2";
+            int i = 1;
+            var calc = new TestCalc(new());
+            calc.Run($"find_le({vector}; {x}; {i})");
+            Assert.Equal("[2 4]", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPSearchFunctions")]
+        public void HPVectorFindGt()
+        {
+            string vector = "hp([12; -1.2; 5.25; 2; 8; 3; 4])";
+            string x = "8";
+            int i = 1;
+            var calc = new TestCalc(new());
+            calc.Run($"find_gt({vector}; {x}; {i})");
+            Assert.Equal("[1]", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPSearchFunctions")]
+        public void HPVectorFindGe()
+        {
+            string vector = "hp([12; -1.2; 5.25; 2; 8; 3; 4])";
+            string x = "5.25";
+            int i = 1;
+            var calc = new TestCalc(new());
+            calc.Run($"find_ge({vector}; {x}; {i})");
+            Assert.Equal("[1 3 5]", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPSearchFunctions")]
+        public void HPVectorLookup()
+        {
+            string vector1 = "hp([6.2; 6.2; 0; 6.2; 7.4])";
+            string vector2 = "hp([5; -2.1; 0; 7.8; 11])";
+            string x = "6.2";
+            var calc = new TestCalc(new());
+            calc.Run($"lookup({vector1};{vector2}; {x})");
+            Assert.Equal("[5 -2.1 7.8]", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPSearchFunctions")]
+        public void HPVectorLookupNe()
+        {
+            string vector1 = "hp([12; -1.2; 5.25; 2; 8])";
+            string vector2 = "hp([5; -2.1; 0; 7.8; 11])";
+            string x = "5.25";
+            var calc = new TestCalc(new());
+            calc.Run($"lookup_ne({vector1}; {vector2}; {x})");
+            Assert.Equal("[5 -2.1 7.8 11]", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPSearchFunctions")]
+        public void HPVectorLookupLt()
+        {
+            string vector1 = "hp([12; -1.2; 5.25; 2; 8; 3; 4])";
+            string vector2 = "hp([1.5; 2.1; 3.2; 4.4; 5.5; 6.9; 7.111])";
+            string x = "5.25";
+            var calc = new TestCalc(new());
+            calc.Run($"lookup_lt({vector1}; {vector2}; {x})");
+            Assert.Equal("[2.1 4.4 6.9 7.11]", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPSearchFunctions")]
+        public void HPVectorLookupLe()
+        {
+            string vector1 = "hp([12; -1.2; 5.25; 2; 8])";
+            string vector2 = "hp([1; 6; 78; -24; 5.3])";
+            string x = "7";
+            var calc = new TestCalc(new());
+            calc.Run($"lookup_le({vector1}; {vector2}; {x})");
+            Assert.Equal("[6 78 -24]", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPSearchFunctions")]
+        public void HPVectorLookupGt()
+        {
+            string vector1 = "hp([12; -1.2; 5.25; 2; 8; 3; 4])";
+            string vector2 = "hp([0; -6.7; 3.8; -2; 9.5; 7.2; 0; -1.3; 5])";
+            string x = "4";
+            var calc = new TestCalc(new());
+            calc.Run($"lookup_gt({vector1}; {vector2}; {x})");
+            Assert.Equal("[0 3.8 9.5]", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPSearchFunctions")]
+        public void HPVectorLookupGe()
+        {
+            string vector1 = "hp([12; -1.2; 5.25; 2; 8])";
+            string vector2 = "hp([5; -2.1; 0; 7.8; -4.6])";
+            string x = "2";
+            var calc = new TestCalc(new());
+            calc.Run($"lookup_ge({vector1};{vector2};{x})");
+            Assert.Equal("[5 0 7.8 -4.6]", calc.ToString());
+        }
+        #endregion
+
+        #region HPComparisonFunctions
+        [Fact]
+        [Trait("Category", "HPComparisonFunctions")]
+        public void HPVectorMin()
+        {
+            string vector = "hp([77; -24; 1.1; 2.3; -5.6])";
+            var calc = new TestCalc(new());
+            calc.Run($"min({vector})");
+            Assert.Equal("-24", calc.ToString());
+
+        }
+        [Fact]
+        [Trait("Category", "HPComparisonFunctions")]
+        public void HPVectorMax()
+        {
+            string vector = "hp([12; 44; -27; 56; 199.9; -2.4])";
+            var calc = new TestCalc(new());
+            calc.Run($"max({vector})");
+            Assert.Equal("199.9", calc.ToString());
+        }
+        #endregion
+
+        #region HPCumalatativeFunctions
+        [Fact]
+        [Trait("Category", "HPCumulativeFunctions")]
+        public void HPVectorSum()
+        {
+            string vector = "hp([10.5; 23.2; -5.1; 8.4; 15.3])";
+            var calc = new TestCalc(new());
+            calc.Run($"sum({vector})");
+            Assert.Equal("52.3", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPCumulativeFunctions")]
+        public void HPVectorSumsq()
+        {
+            string vector = "hp([1.5; 2.3; -4.4; 6.2; -7.1])";
+            var calc = new TestCalc(new());
+            calc.Run($"sumsq({vector})");
+            Assert.Equal("115.75", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPCumulativeFunctions")]
+        public void HPVectorSrss()
+        {
+            string vector = "hp([3; 4; 12])";
+            var calc = new TestCalc(new());
+            calc.Run($"srss({vector})");
+            Assert.Equal("13", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPCumulativeFunctions")]
+        public void HPVectorAverage()
+        {
+            string vector = "hp([5.5; 7.3; -2.8; 4.0; 10.1])";
+            var calc = new TestCalc(new());
+            calc.Run($"average({vector})");
+            Assert.Equal("4.82", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPCumulativeFunctions")]
+        public void HPVectorProduct()
+        {
+            string vector = "hp([1.2; 3.0; -2.0; 4.5; 5.0])";
+            var calc = new TestCalc(new());
+            calc.Run($"product({vector})");
+            Assert.Equal("-162", calc.ToString());
+        }
+
+        [Fact]
+        [Trait("Category", "HPCumulativeFunctions")]
+        public void HPVectorMean()
+        {
+            string vector = "hp([9.1; 15.4; 7.3; 12.0; -3.5])";
+            var calc = new TestCalc(new());
+            calc.Run($"Mean({vector})");
+            Assert.Equal(" Undefined ", calc.ToString());
+        }
+        #endregion
+
+        #region HPInterpolationalFunctions
+        [Fact]
+        [Trait("Category", "HPInterpolationalFunctions")]
+        public void HPVectorTake()
+        {
+            string vector = "hp([0; 3.29; 2; -1.5; 7])";
+            string x = "3.8";
+            var calc = new TestCalc(new());
+            calc.Run($"take({x}; {vector})");
+            Assert.Equal("-1.5", calc.ToString());
+        }
+
+        [Fact]
+        [Trait("Category", "HPInterpolationalFunctions")]
+        public void HPVectorLine()
+        {
+            string vector = "hp([0; 3.29; 2; -1.5; 7])";
+            string x = "4.5";
+            var calc = new TestCalc(new());
+            calc.Run($"line({x}; {vector})");
+            Assert.Equal("2.75", calc.ToString());
+        }
+
+        [Fact]
+        [Trait("Category", "HPInterpolationalFunctions")]
+        public void HPVectorSpline()
+        {
+            string vector = "hp([0; 3.29; 2; -1.5; 7])";
+            string x = "4.5";
+            var calc = new TestCalc(new());
+            calc.Run($"spline({x}; {vector} )");
+            Assert.Equal("1.39", calc.ToString());
+        }
+        #endregion
+
+        #region HPLogicalFunctions
+        [Fact]
+        [Trait("Category", "HPLogicalFunctions")]
+        public void HPVectorNot()
+        {
+            string vector = "hp([1; 0; 22; 3.7; 55; -6.3; 0])";
+            var calc = new TestCalc(new());
+            calc.Run($"not({vector})");
+            Assert.Equal("[0 1 0 0 0 0 1]", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPLogicalFunctions")]
+        public void HPVectorOr()
+        {
+            string vector = "hp([1; 0; 22; 3.7; 55; -6.3; 0])";
+            var calc = new TestCalc(new());
+            calc.Run($"or({vector})");
+            Assert.Equal("1", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPLogicalFunctions")]
+        public void HPVectorAnd()
+        {
+            string vector = "hp([1; 0; 22; 3.7; 55; -6.3; 0])";
+            var calc = new TestCalc(new());
+            calc.Run($"and({vector})");
+            Assert.Equal("0", calc.ToString());
+        }
+        [Fact]
+        [Trait("Category", "HPLogicalFunctions")]
+        public void HPVectorXor()
+        {
+            string vector = "hp([1; 0; 22; 3.7; 55; -6.3; 0])";
+            var calc = new TestCalc(new());
+            calc.Run($"xor({vector})");
+            Assert.Equal("1", calc.ToString());
+        }
+        #endregion
+    }
+}

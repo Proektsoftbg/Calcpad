@@ -2,3 +2,6 @@
 
 # IDE0008: Use explicit type
 csharp_style_var_elsewhere = false
+
+# S3220: Method calls should not resolve ambiguously to overloads with "params"
+dotnet_diagnostic.S3220.severity = none

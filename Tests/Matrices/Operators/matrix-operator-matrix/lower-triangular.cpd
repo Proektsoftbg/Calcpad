@@ -1,4 +1,3 @@
-
 '<h1>Arithmetic operators</h1>'
 #hide
 m1 = ltriang(4)
@@ -24,47 +23,24 @@ m2.(4; 1) = 1.5
 m2.(4; 2) = -1.2
 m2.(4; 3) = 0.9
 m2.(4; 4) = 5
-
 #show
-m1
-
-m2
-
-
+m1', 'm2
 c = m1 + m2
-f(m1; m2) = m1 + m2
-c1 = f(m1; m2)
-
-
+f(m1; m2) = m1 + m2', 'c1 = f(m1; m2)
 c = m1 - m2
-f(m1; m2) = m1 - m2
-c1 = f(m1; m2)
-
-
+f(m1; m2) = m1 - m2', 'c1 = f(m1; m2)
 c = m1*m2
-f(m1; m2) = m1*m2
-c1 = f(m1; m2)
-
+f(m1; m2) = m1*m2', 'c1 = f(m1; m2)
 c = m1/m2
-f(m1; m2) = m1/m2
-c1 = f(m1; m2)
-
+f(m1; m2) = m1/m2', 'c1 = f(m1; m2)
 c = m1⦼m2
-f(m1; m2) = m1⦼m2
-c = f(m1; m2)
-
+f(m1; m2) = m1⦼m2', 'c = f(m1; m2)
 c = m1^m2
-f(m1; m2) = m1^m2
-c = f(m1; m2)
-
+f(m1; m2) = m1^m2', 'c = f(m1; m2)
 c = m1\m2
-f(m1; m2) = m1\m2
-c1 = f(m1; m2)
-
+f(m1; m2) = m1\m2', 'c1 = f(m1; m2)
 c = m1÷m2
-f(m1; m2) = m1÷m2
-c1 = f(m1; m2)
-
+f(m1; m2) = m1÷m2', 'c1 = f(m1; m2)
 #hide
 fm = ltriang(5)
 fm.(1; 1) = 1
@@ -82,8 +58,6 @@ fm.(5; 2) = 11
 fm.(5; 3) = 6
 fm.(5; 4) = 13
 fm.(5; 5) = 4
-
-
 #show
 fm
 c = fm!
@@ -91,44 +65,23 @@ f(fm) = fm!
 c1 = f(fm)
 
 '<h1>Relational operators</h1>'
-
 c = m1 ≡ m2
-f(m1; m2) = m1 ≡ m2
-c1 = f(m1; m2)
-
+f(m1; m2) = m1 ≡ m2', 'c1 = f(m1; m2)
 c = m1 ≠ m2
-f(m1; m2) = m1 ≠ m2
-c1 = f(m1; m2)
-
+f(m1; m2) = m1 ≠ m2', 'c1 = f(m1; m2)
 c = m1 < m2
-f(m1; m2) = m1 < m2
-c1 = f(m1; m2)
-
+f(m1; m2) = m1 < m2', 'c1 = f(m1; m2)
 c = m1 > m2
-f(m1; m2) = m1 > m2
-c1 = f(m1; m2)
-
+f(m1; m2) = m1 > m2', 'c1 = f(m1; m2)
 c = m1 ≥ m2
-f(m1; m2) = m1 ≥ m2
-c1 = f(m1; m2)
-
+f(m1; m2) = m1 ≥ m2', 'c1 = f(m1; m2)
 c = m1 ≤ m2
-f(m1; m2) = m1 ≤ m2
-c1 = f(m1; m2)
+f(m1; m2) = m1 ≤ m2', 'c1 = f(m1; m2)
 
 '<h1>Logical operators</h1>'
-
 c = m1 ∧ m2
-f(m1; m2) = m1 ∧ m2
-c1 = f(m1; m2)
-
+f(m1; m2) = m1 ∧ m2', 'c1 = f(m1; m2)
 c = m1 ∨ m2
-f(m1; m2) = m1 ∨ m2
-c1 = f(m1; m2)
-
+f(m1; m2) = m1 ∨ m2', 'c1 = f(m1; m2)
 c = m1 ⊕ m2
-f(m1; m2) = m1 ⊕ m2
-c1 = f(m1; m2)
-
-
-
+f(m1; m2) = m1 ⊕ m2', 'c1 = f(m1; m2)

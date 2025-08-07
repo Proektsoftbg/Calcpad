@@ -32,7 +32,7 @@ namespace Calcpad.Core
         public bool IsComplex { get; set; }
         public bool Substitute { get; set; }
         public bool FormatEquations { get; set; }
-        public bool ZeroSmallMatrixElements { get; set; } 
+        public bool ZeroSmallMatrixElements { get; set; }
         public int MaxOutputCount
         {
             get => _maxOutputCount;
@@ -46,6 +46,7 @@ namespace Calcpad.Core
                 };
             }
         }
+        public string FormatString { get; set; }
 
         public MathSettings()
         {
@@ -97,7 +98,10 @@ namespace Calcpad.Core
             Terrain,
             VioletToYellow,
             GreenToYellow,
-            Blues
+            Blues,
+            BlueToYellow,
+            BlueToRed,
+            PurpleToYellow,
         }
 
         public PlotSettings()

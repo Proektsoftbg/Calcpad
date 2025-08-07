@@ -11,7 +11,7 @@
         [Trait("Category", "Power")]
         public void Factorial()
         {
-            var e = Assert.Throws<MathParser.MathParserException>(
+            var e = Assert.Throws<MathParserException>(
                 () =>
                 {
                     new TestCalc(new() { IsComplex = true }).Run("1i!");
