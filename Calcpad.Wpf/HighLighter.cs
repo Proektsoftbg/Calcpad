@@ -570,6 +570,9 @@ namespace Calcpad.Wpf
 
             InitParagraph(p);
             text ??= new TextRange(p.ContentStart, p.ContentEnd).Text;
+            if (text.Length > 10000)
+                return;
+
             InitLocalValraibles(p);
             p.Inlines.Clear();
             InitState(p, text, line);
