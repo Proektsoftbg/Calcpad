@@ -187,13 +187,18 @@ namespace Calcpad.Core
                                 throw Exceptions.InvalidFormatString(s);
                         }
                     }
+                    else
+                        ts.Reset(i + 1);
+
                     if (tt != TokenTypes.None)
                         tokens.Enqueue(new Token(c.ToString(), tt));
                 }
                 //Saves the previous token type for the next loop
                 pt = tt;
             }
-            AddLiteral(ts);
+            if (!ts.IsEmpty)
+                AddLiteral(ts);
+
             return tokens;
 
             void AddLiteral(TextSpan ts)
