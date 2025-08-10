@@ -115,6 +115,15 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Algebraic complex notation.
+        /// </summary>
+        public static string AlgebraicComplexNotation {
+            get {
+                return ResourceManager.GetString("AlgebraicComplexNotation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All elements in vector a for which the corresponding elements in vector b are.
         /// </summary>
         public static string AllElementsInVectorAForWhichTheCorrespondingElementsInVectorBAre {
@@ -2083,6 +2092,24 @@ namespace Calcpad.Wpf {
         public static string PauseExecutionAndDisplayInputForm {
             get {
                 return ResourceManager.GetString("PauseExecutionAndDisplayInputForm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phasor.
+        /// </summary>
+        public static string Phasor {
+            get {
+                return ResourceManager.GetString("Phasor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phasor complex notation.
+        /// </summary>
+        public static string PhasorComplexNotation {
+            get {
+                return ResourceManager.GetString("PhasorComplexNotation", resourceCulture);
             }
         }
         

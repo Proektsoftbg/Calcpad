@@ -39,6 +39,7 @@ namespace Calcpad.Wpf
             var items = _listBox.Items;
             items.Add(new ListBoxItem() { Content = "#append", Foreground = Brushes.DarkMagenta });
             items.Add(new ListBoxItem() { Content = "#break", Foreground = Brushes.DarkMagenta });
+            items.Add(new ListBoxItem() { Content = "#complex", Foreground = Brushes.DarkMagenta });
             items.Add(new ListBoxItem() { Content = "#continue", Foreground = Brushes.DarkMagenta });
             items.Add(new ListBoxItem() { Content = "#def", Foreground = Brushes.DarkMagenta });
             items.Add(new ListBoxItem() { Content = "#deg", Foreground = Brushes.DarkMagenta });
@@ -65,6 +66,7 @@ namespace Calcpad.Wpf
             items.Add(new ListBoxItem() { Content = "#nosub", Foreground = Brushes.DarkMagenta });
             items.Add(new ListBoxItem() { Content = "#novar", Foreground = Brushes.DarkMagenta });
             items.Add(new ListBoxItem() { Content = "#pause", Foreground = Brushes.DarkMagenta });
+            items.Add(new ListBoxItem() { Content = "#phasor", Foreground = Brushes.DarkMagenta });
             items.Add(new ListBoxItem() { Content = "#post", Foreground = Brushes.DarkMagenta });
             items.Add(new ListBoxItem() { Content = "#pre", Foreground = Brushes.DarkMagenta });
             items.Add(new ListBoxItem() { Content = "#rad", Foreground = Brushes.DarkMagenta });
@@ -177,6 +179,7 @@ namespace Calcpad.Wpf
             items.Add(new ListBoxItem() { Content = "daN", Foreground = Brushes.DarkCyan });
             items.Add(new ListBoxItem() { Content = "daPa", Foreground = Brushes.DarkCyan });
             items.Add(new ListBoxItem() { Content = "deg", Foreground = Brushes.DarkCyan });
+            items.Add(new ListBoxItem() { Content = "default", Foreground = Brushes.DarkMagenta });
             items.Add(new ListBoxItem() { Content = "det(M)", FontWeight = FontWeights.Bold });
             items.Add(new ListBoxItem() { Content = "dg", Foreground = Brushes.DarkCyan });
             items.Add(new ListBoxItem() { Content = "diag2vec(M)", FontWeight = FontWeights.Bold });

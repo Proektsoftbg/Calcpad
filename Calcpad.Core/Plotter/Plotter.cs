@@ -25,7 +25,7 @@ namespace Calcpad.Core
             Margin = (int)(30 * ScreenScaleFactor);
             Left = Margin;
             Right = Margin;
-            Writer = new(null);
+            Writer = new(null, parser.Phasor);
         }
 
         protected static void FixBounds(ref double min, ref double max)

@@ -1116,4 +1116,13 @@ You can find your unsaved data in
   <data name="InverseFastFourierTransfrom" xml:space="preserve">
     <value>Inverse Fast Fourier Transfrom</value>
   </data>
+  <data name="Phasor" xml:space="preserve">
+    <value>Phasor</value>
+  </data>
+  <data name="PhasorComplexNotation" xml:space="preserve">
+    <value>Phasor complex notation</value>
+  </data>
+  <data name="AlgebraicComplexNotation" xml:space="preserve">
+    <value>Algebraic complex notation</value>
+  </data>
 </root>

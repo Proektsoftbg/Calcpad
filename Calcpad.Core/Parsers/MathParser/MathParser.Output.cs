@@ -29,9 +29,9 @@ namespace Calcpad.Core
                 Token[] rpn = _parser._rpn;
                 OutputWriter writer = format switch
                 {
-                    OutputWriter.OutputFormat.Html => new HtmlWriter(_parser._settings),
-                    OutputWriter.OutputFormat.Xml => new XmlWriter(_parser._settings),
-                    _ => new TextWriter(_parser._settings)
+                    OutputWriter.OutputFormat.Html => new HtmlWriter(_parser._settings, _parser.Phasor),
+                    OutputWriter.OutputFormat.Xml => new XmlWriter(_parser._settings, _parser.Phasor),
+                    _ => new TextWriter(_parser._settings, _parser.Phasor)
                 };
                 _stringBuilder.Clear();
                 var delimiter = writer.FormatOperator(';');
@@ -129,7 +129,7 @@ namespace Calcpad.Core
 
             private string RenderRpn(Token[] rpn, bool substitute, OutputWriter writer, out bool hasOperators)
             {
-                var textWriter = new TextWriter(_parser._settings);
+                var textWriter = new TextWriter(_parser._settings, _parser.Phasor);
                 var stackBuffer = new Stack<RenderToken>();
                 var div = writer.FormatOperator(';');
                 const char thinSpace = (char)0x2009;
@@ -297,7 +297,7 @@ namespace Calcpad.Core
                         var s = !_parser._settings.Substitute &&
                                  _parser._functionDefinitionIndex < 0 &&
                                  _parser._isCalculated ?
-                            RenderVector(vector, new TextWriter(_parser._settings)) :
+                            RenderVector(vector, new TextWriter(_parser._settings, _parser.Phasor)) :
                             string.Empty;
                         t.Content = writer.FormatVariable('\u20D7' + t.Content, s, true);
                     }
@@ -306,7 +306,7 @@ namespace Calcpad.Core
                         var s = !_parser._settings.Substitute &&
                                  _parser._functionDefinitionIndex < 0 &&
                                  _parser._isCalculated ?
-                            RenderMatrix(matrix, new TextWriter(_parser._settings)) :
+                            RenderMatrix(matrix, new TextWriter(_parser._settings, _parser.Phasor)) :
                             string.Empty;
                         t.Content = writer.FormatVariable(t.Content, s, true);
                     }
@@ -364,8 +364,6 @@ namespace Calcpad.Core
                             sa = AddBrackets(sa, a.Level, a.MinOffset, a.MaxOffset, '(', ')');
 
                         if (content == "^" &&
-                            a.ValType != ValueTypes.Vector &&
-                            a.ValType != ValueTypes.Matrix &&
                             b.ValType != ValueTypes.Vector &&
                             b.ValType != ValueTypes.Matrix)
                         {
@@ -374,6 +372,10 @@ namespace Calcpad.Core
 
                             if (writer is TextWriter && (IsNegative(b) || b.Order != Token.DefaultOrder))
                                 sb = AddBrackets(sb, b.Level, b.MinOffset, b.MaxOffset, '(', ')');
+
+                            if (a.Type == TokenTypes.Vector || a.Type == TokenTypes.Matrix || 
+                                a.ValType == ValueTypes.Vector || a.ValType == ValueTypes.Matrix)
+                                sb = writer.FormatOperator('⊙') + sb;
 
                             t.Content = writer.FormatPower(sa, sb, a.Level, a.Order);
 
@@ -423,11 +425,13 @@ namespace Calcpad.Core
 
                                 if (content == "*" && a.ValType == ValueTypes.Number && b.ValType == ValueTypes.Unit)
                                 {
-                                    if (writer is TextWriter)
-                                        t.Content = sa + sb;
-                                    else
+                                    if (writer is HtmlWriter && b.Content != "°")
                                         t.Content = sa + thinSpace + sb;
+                                    else
+                                        t.Content = sa + sb;
                                 }
+                                else if (content == "*" && a.ValType == ValueTypes.Vector && b.ValType == ValueTypes.Vector)
+                                    t.Content = sa + writer.FormatOperator('⊙') + sb;
                                 else
                                     t.Content = sa + writer.FormatOperator(content[0]) + sb;
 

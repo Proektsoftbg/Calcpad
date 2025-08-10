@@ -244,8 +244,8 @@ namespace Calcpad.Core
         }
 
         public override string ToString() => IsReal ?
-            new TextWriter(new() { Decimals = 15 }).FormatReal(_a, null, false) :
-            new TextWriter(new() { Decimals = 15 }).FormatComplex(_a, _b, null);
+            new TextWriter(new() { Decimals = 15 }, false).FormatReal(_a, null, false) :
+            new TextWriter(new() { Decimals = 15 }, false).FormatComplex(_a, _b, null);
 
         public override int GetHashCode() =>
             IsReal ? _a.GetHashCode() : HashCode.Combine(_a, _b);
@@ -500,14 +500,14 @@ namespace Calcpad.Core
                 Math.Atan2(left._a, right._a) :
                 double.NaN;
 
-        internal static string Format(in Complex c, int decimals, OutputWriter.OutputFormat mode)
+        internal static string Format(in Complex c, int decimals, bool phasor, OutputWriter.OutputFormat mode)
         {
             var settings = new MathSettings() { Decimals = decimals };
             return mode switch
             {
-                OutputWriter.OutputFormat.Text => new TextWriter(settings).FormatComplex(c._a, c._b, null),
-                OutputWriter.OutputFormat.Html => new HtmlWriter(settings).FormatComplex(c._a, c._b, null),
-                OutputWriter.OutputFormat.Xml => new XmlWriter(settings).FormatComplex(c._a, c._b, null),
+                OutputWriter.OutputFormat.Text => new TextWriter(settings, phasor).FormatComplex(c._a, c._b, null),
+                OutputWriter.OutputFormat.Html => new HtmlWriter(settings, phasor).FormatComplex(c._a, c._b, null),
+                OutputWriter.OutputFormat.Xml => new XmlWriter(settings, phasor).FormatComplex(c._a, c._b, null),
                 _ => "undefined format"
             };
         }

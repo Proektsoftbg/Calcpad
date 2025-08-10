@@ -77,6 +77,7 @@ namespace Calcpad.Core
         internal bool IsCalculation { get; set; }
         internal bool Split { get; set; }
         internal bool ShowWarnings { get; set; } = true;
+        internal bool Phasor { get; set; } = false;
         public int Degrees { set => _calc.Degrees = value; }
         internal int PlotWidth => (int)GetSettingsVariable("PlotWidth", 500);
         internal int PlotHeight => (int)GetSettingsVariable("PlotHeight", 300);
@@ -586,7 +587,7 @@ namespace Calcpad.Core
         internal void CheckReal(in IScalarValue value)
         {
             if (_settings.IsComplex && !value.IsReal)
-                throw Exceptions.ResultNotReal(Core.Complex.Format(value.Complex, _settings.Decimals, OutputWriter.OutputFormat.Text));
+                throw Exceptions.ResultNotReal(Core.Complex.Format(value.Complex, _settings.Decimals, Phasor, OutputWriter.OutputFormat.Text));
         }
 
         private void AddFunction(Queue<Token> input)
@@ -735,7 +736,7 @@ namespace Calcpad.Core
 
                 string FormatResultValue(in IScalarValue value)
                 {
-                    var s = Core.Complex.Format(value.Complex, _settings.Decimals, OutputWriter.OutputFormat.Text);
+                    var s = Core.Complex.Format(value.Complex, _settings.Decimals, Phasor, OutputWriter.OutputFormat.Text);
                     if (Units is null)
                         return s;
 

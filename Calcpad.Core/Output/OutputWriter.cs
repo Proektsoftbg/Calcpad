@@ -7,23 +7,26 @@ namespace Calcpad.Core
 {
     internal abstract class OutputWriter
     {
+        private readonly StringBuilder _stringBuilder = new(200);
+        protected static readonly double[] AngleFactors =
+        [
+            180.0 / Math.PI,
+            1.0,
+            200.0 / Math.PI
+        ];
+        protected string[] AngleUnits;
         protected const char ThinSpace = '\u2009';
         protected const char HairSpace = '\u200A';
-        internal enum OutputFormat
-        {
-            Text,
-            Html,
-            Xml
-        }
-        private readonly StringBuilder _stringBuilder = new(200);
         protected readonly int decimals = 2;
         protected readonly string formatString = null;
         protected readonly bool formatEquations;
         protected readonly bool zeroSmallElements;
         protected readonly int maxCount = 20;
+        protected readonly bool phasor = false;
+        protected readonly int degrees = 0;
         protected static readonly int PowerOrder = Calculator.OperatorOrder[Calculator.OperatorIndex['^']];
 
-        protected OutputWriter(MathSettings settings)
+        protected OutputWriter(MathSettings settings, bool phasor)
         {
             if (settings is null)
                 return;
@@ -33,6 +36,14 @@ namespace Calcpad.Core
             formatEquations = settings.FormatEquations;
             zeroSmallElements = settings.ZeroSmallMatrixElements;
             maxCount = settings.MaxOutputCount;
+            degrees = settings.Degrees;
+            this.phasor = phasor;
+        }
+        internal enum OutputFormat
+        {
+            Text,
+            Html,
+            Xml
         }
         internal const string VectorSpacing = "\u2002";
         internal abstract string UnitString(Unit units);
@@ -75,11 +86,14 @@ namespace Calcpad.Core
                 {
                     case '/':
                     case '*':
+                        if (isPower)
+                            power += c;
+                        else
                         {
                             AppendPower();
                             _stringBuilder.Append(FormatOperator(c));
-                            break;
                         }
+                        break;
                     case '^':
                         isPower = true;
                         break;
@@ -118,9 +132,7 @@ namespace Calcpad.Core
                                 power += c;
                             else
                             {
-                                var cl = string.IsNullOrEmpty(literal) ?
-                                    '\0' :
-                                    literal[^1];
+                                var cl = string.IsNullOrEmpty(literal) ? '\0' :     literal[^1];
                                 var isSub = sub switch
                                 {
                                     0 => c == '_',
@@ -224,6 +236,14 @@ namespace Calcpad.Core
             if (t == Complex.Types.Imaginary)
                 return FormatReal(im, format, false) + 'i';
 
+            if (phasor)
+            {
+                var abs = Math.Sqrt(re * re + im * im);
+                var phase = Math.Atan2(im, re) * AngleFactors[degrees];
+                var absString = FormatReal(abs, format, false);
+                var phaseString = FormatReal(phase, format, false) + AngleUnits[degrees];
+                return $"{absString}∠{phaseString}";
+            }
             var sRe = FormatReal(re, format, false);
             var sIm = FormatReal(Math.Abs(im), format, false);
             return im < 0 ? $"{sRe} – {sIm}i" : $"{sRe} + {sIm}i";

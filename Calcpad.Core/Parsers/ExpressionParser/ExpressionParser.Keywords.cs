@@ -46,8 +46,10 @@ namespace Calcpad.Core
             Read,
             Write,
             Append,
+            Phasor,
+            Complex
         }
-        private enum KeywordResult
+        private enum KeywordResult  
         {
             None,
             Continue,
@@ -200,6 +202,13 @@ namespace Calcpad.Core
                 case Keyword.Append:
                     ParseKeywordWrite(s, keyword);
                     break;
+                case Keyword.Phasor:
+                    _parser.Phasor = true;
+                    break;
+                case Keyword.Complex:
+                    _parser.Phasor = false;
+                    break;
+
                 default:
                     if (keyword != Keyword.Global && keyword != Keyword.Local)
                         return KeywordResult.None;
@@ -385,7 +394,7 @@ namespace Calcpad.Core
                     {
                         try
                         {
-                            var varHtml = new HtmlWriter(null).FormatVariable(varName, string.Empty, false);
+                            var varHtml = new HtmlWriter(null, _parser.Phasor).FormatVariable(varName, string.Empty, false);
                             _parser.Parse(startExpr);
                             var startHtml = _parser.ToHtml();
                             _parser.Parse(endExpr);

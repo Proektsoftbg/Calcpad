@@ -356,6 +356,8 @@
                               Header="{x:Static wpf:MathResources.LogicalOr}"/>
                     <MenuItem Click="Button_Click" Tag="⊕" Icon="  ⊕" 
                               Header="{x:Static wpf:MathResources.LogicalXor}"/>
+                    <MenuItem Click="Button_Click" Tag="∠" Icon=" ∠" 
+                              Header="{x:Static wpf:MainWindowResources.Phasor}"/>
                     <Separator/>
                     <MenuItem Click="Button_Click" Tag="=" Icon="  =" 
                               Header="{x:Static wpf:MathResources.Assignment}"/>
@@ -1669,6 +1671,10 @@
                               ToolTip="{x:Static wpf:MainWindowResources.EnablesMarkdownInComments}"/>
                     <MenuItem Click="Button_Click" Tag="#md off"  Header="#md off"  
                               ToolTip="{x:Static wpf:MainWindowResources.DisablesMarkdownInComments}"/>
+                    <MenuItem Click="Button_Click" Tag="#phasor"  Header="#phasor"  
+                              ToolTip="{x:Static wpf:MainWindowResources.PhasorComplexNotation}"/>
+                    <MenuItem Click="Button_Click" Tag="#complex"  Header="#complex"  
+                              ToolTip="{x:Static wpf:MainWindowResources.AlgebraicComplexNotation}"/>
                     <Separator/>
                     <MenuItem Click="Button_Click" Tag="#deg"  Header="#deg" 
                               ToolTip="{x:Static wpf:MainWindowResources.SetAngleDegrees}"/>

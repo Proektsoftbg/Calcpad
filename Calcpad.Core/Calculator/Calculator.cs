@@ -54,8 +54,8 @@ namespace Calcpad.Core
         internal abstract int Degrees { set; }
         internal bool ReturnAngleUnits { set => _returnAngleUnits = value; }
 
-        // Negation = 1                                   ^  ÷  \  ⦼  *  -  +  <  >  ≤  ≥  ≡  ≠  ∧ ∨  ⊕  =
-        internal static readonly sbyte[] OperatorOrder = [0, 3, 3, 3, 3, 4, 5, 6, 6, 6, 6, 6, 6, 7, 8, 8, 9];
+        // Negation = 1                                   ^  ÷  \  ⦼  *  -  +  <  >  ≤  ≥  ≡  ≠  ∧ ∨  ⊕  = ∠
+        internal static readonly sbyte[] OperatorOrder = [0, 4, 4, 4, 4, 5, 6, 7, 7, 7, 7, 7, 7, 8, 9, 9, 10, 3];
 
         internal static readonly FrozenDictionary<char, int> OperatorIndex =
         new Dictionary<char, int>()
@@ -77,10 +77,12 @@ namespace Calcpad.Core
             { '∧', 13 },
             { '∨', 14 },
             { '⊕', 15 },
-            { '=', 16 }
+            { '=', 16 },
+            { '∠', 17 },
+
         }.ToFrozenDictionary();
 
-        internal static readonly char[] Operators = ['^', '/', '\\', '⦼', '*', '-', '+', '<', '>', '≤', '≥', '≡', '≠', '∧', '∨', '⊕', '='];
+        internal static readonly char[] Operators = ['^', '/', '\\', '⦼', '*', '-', '+', '<', '>', '≤', '≥', '≡', '≠', '∧', '∨', '⊕', '=', '∠'];
 
         private static readonly bool[] _isZeroPreservingOperator = [
             false,   // ^  0
@@ -99,7 +101,8 @@ namespace Calcpad.Core
             true,    // ∧ 13
             true,    // ∨ 14
             true,    // ⊕ 15
-            true     // = 16
+            true,    // = 16
+            true,    // ∠ 17
             ];
 
         internal static bool IsZeroPreservingOperator(long index) =>
@@ -200,7 +203,7 @@ namespace Calcpad.Core
             { "spline", 2 },
         }.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
 
-        internal static readonly sbyte UnitMultOrder = (sbyte)(OperatorOrder[OperatorIndex['*']] - 1);
+        internal static readonly sbyte UnitMultOrder = (sbyte)(OperatorOrder[OperatorIndex['*']] - 2);
         internal static bool IsOperator(char name) => OperatorIndex.ContainsKey(name);
         internal static bool IsFunction(string name) => FunctionIndex.ContainsKey(name);
         internal static bool IsFunction2(string name) => Function2Index.ContainsKey(name);

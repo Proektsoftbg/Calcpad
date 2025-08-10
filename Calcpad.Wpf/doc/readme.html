@@ -1054,13 +1054,19 @@
                     <li>"<b>∧</b>" - logical "and" (&&);</li>
                     <li>"<b>∨</b>" - logical "or" (||);</li>
                     <li>"<b style="font-size:80%;">⊕</b>" - logical “xor”;</li>
+                </ul>s
+            </li>
+            <li>
+                Complex:
+                <ul style="list-style-type:none;">
+                    <li>"<b>∠</b>" - phasor A∠φ (&lt;&lt;);</li>
                 </ul>
             </li>
             <li>"<b>=</b>" - assignment.</li>
         </ul>
 
         <h4>Operator shortcuts</h4>
-        <p>Instead of "≡", "≠", "&le;"- and "&ge;", you can use the respective C-style equivalent operators, as follows: "==", "!=", "&lt;=" and "&gt;=". They will be automatically replaced by the corresponding Calcpad operators. The shortcut “%%” will be converted to the modulo operator “⦼”. This is necessary because “%” is reserved for the percent units. Since this symbol is not very common, it is rendered as “mod” in the output, e.g. “7 mod 5 = 2”, instead of “7 ⦼ 5 = 2”. Boolean operators also have shortcuts for easier typing: "&&" for "∧" (AND), "||" for "∨" (OR) and "^^" for "⊕" (XOR).</p>
+        <p>Instead of "≡", "≠", "&le;"- and "&ge;", you can use the respective C-style equivalent operators, as follows: "==", "!=", "&lt;=" and "&gt;=". They will be automatically replaced by the corresponding Calcpad operators. The shortcut “%%” will be converted to the modulo operator “⦼”. This is necessary because “%” is reserved for the percent units. Since this symbol is not very common, it is rendered as “mod” in the output, e.g. “7 mod 5 = 2”, instead of “7 ⦼ 5 = 2”. Boolean operators also have shortcuts for easier typing: "&&" for "∧" (AND), "||" for "∨" (OR) and "^^" for "⊕" (XOR). The shortcut for the phasor operator "∠" is "<<".</p>
 
         <h4>Operator precedence and associativity</h4>
         <p>The above operators are listed in the order of their precedence. This is the order they will be evaluated in an expression. When you have different types of operators in a single expression, exponentiation will be evaluated first, then division and multiplication, subtraction and addition and comparison will be the last. When we have a unary minus and exponentiation, the exponentiation is evaluated first. For example: "-2^2 = -(2^2) = -4" All relational operators are of equal precedence. If you need to change the order of evaluation, you can use brackets. For example, "5 + 2∙3" makes "11". If the addition has to be first, write "(5 + 2)∙3". You will get "7∙3 = 21". Operators with equal precedence are evaluated from left to right. This is called operator associativity. For example, "3 - 2 + 1" makes "(3 - 2) + 1 = 2" and not "3 - (2 + 1) = 0". Another good example is "2∙3 / 2∙3", which makes "9" and not "1".</p>
@@ -1620,7 +1626,7 @@
             <code><span class="cond">$Root</span>{<b>f</b>(<var>x</var>) = const &#64; <var>x</var> = <var>a</var> : <var>b</var>}</code><br />
             <code><span class="cond">$Root</span>{<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var> : <var>b</var>}</code>
         </p>
-        <p>It finds a single root for an equation of type "<b>f</b>(<var>x</var>) = const" within the interval [<var>a</var>, <var>b</var>]. If "const" is zero, you can omit "= const". The program uses a <a href="https://iopscience.iop.org/article/10.1088/1757-899X/1276/1/012010">hybrid bracketing method</a>, which is a combination of Bisection and Anderson-Bjork's method. It subsequently narrows the interval around the root, until it gets smaller than the specified precision. It is required that the function "<b>f</b>(<var>x</var>) - const" has opposite signs at the ends of the interval. According to the Boltzano's theorem, if the function is continuous within the interval, at least one root exists. The bracketing algorithm will find an approximation after a finite number of iterations.</p>
+        <p>It finds a single root for an equation of type "<b>f</b>(<var>x</var>) = const" within the interval [<var>a</var>, <var>b</var>]. If "const" is zero, you can omit "= const". The program uses a <a href="https://iopscience.iop.org/article/10.1088/1757-899X/1276/1/012010">hybrid bracketing method</a>, which is a combination of Bisection and Anderson-Bjork's method. It subsequently narrows the interval around the root, until it gets smaller than the specified precision. It is required that the function "<b>f</b>(<var>x</var>) - const" has opposite signs at the ends of the interval. According to Boltzano's theorem, if the function is continuous within the interval, at least one root exists. The bracketing algorithm will find an approximation after a finite number of iterations.</p>
         <p style="text-align:center;"><img style="height:130pt;" src="Images/Root.png" alt="Root.png"></p>
         <p>With this method, you can find only roots where the function crosses the line at "<var>y</var> = const". When "<b>f</b>(<var>x</var>) - const" is entirely positive or negative and only "touches" the line from one side, you cannot find the root by any bracketing method.</p>
         <p>If no roots exist inside the initial interval, the program returns an error. If there are several roots, it will find only one of them. In such case, it is better to plot the function first. Then, you can see the approximate location of roots and divide the interval into several parts - one for each root. Finally, you can call the function several times to find all the roots. In some cases, it is possible to develop an automated procedure for interval splitting.</p>

@@ -12,6 +12,7 @@ namespace Calcpad.Core
             internal readonly HashSet<string> DefinedVariables = new(StringComparer.Ordinal);
             private static readonly TokenTypes[] CharTypes = new TokenTypes[127];
             private readonly MathParser _parser;
+            private readonly bool _isComplex;
             private readonly Container<CustomFunction> _functions;
             private readonly List<SolveBlock> _solveBlocks;
             private readonly Dictionary<string, Variable> _variables;
@@ -58,6 +59,7 @@ namespace Calcpad.Core
                 _solveBlocks = parser._solveBlocks;
                 _variables = parser._variables;
                 _units = parser._units;
+                _isComplex = parser._settings.IsComplex;
                 DefineVariables();
             }
 
@@ -68,13 +70,15 @@ namespace Calcpad.Core
                     DefinedVariables.Add(keys[i]);
             }
 
-            private static TokenTypes GetCharType(char c) => c switch
+            private TokenTypes GetCharType(char c) => c switch
             {
                 <= '~' => CharTypes[c],
                 '≡' or '≠' or
                 '≤' or '≥' or
                 '÷' or '⦼' or
-                '∧' or '∨' or '⊕' => TokenTypes.Operator,
+                '∧' or '∨' or
+                '⊕' => TokenTypes.Operator,
+                '∠' when _isComplex => TokenTypes.Operator,
                 _ => Validator.IsLetter(c) ? TokenTypes.Unit :
                 TokenTypes.Error,
             };
@@ -136,7 +140,7 @@ namespace Calcpad.Core
                                 t = MakeVectorOrMatrixToken(s);
                                 if (t is not null)
                                 {
-                                    if (_parser._settings.IsComplex)
+                                    if (_isComplex)
                                         throw Exceptions.ComplexVectorsAndMatricesNotSupported();
 
                                     tokens.Enqueue(t);
@@ -151,7 +155,7 @@ namespace Calcpad.Core
                                 tokenLiteral.Expand();
                         }
                         else if (c == 'i' &&
-                            _parser._settings.IsComplex &&
+                            _isComplex &&
                             pt == TokenTypes.Constant
                             && unitsLiteral.IsEmpty)
                         {
@@ -229,7 +233,7 @@ namespace Calcpad.Core
                                 if (tt == TokenTypes.BracketLeft)
                                 {
                                     t = MakeFunctionToken(s, _parser.IsCalculation && tokens.Count != 0);
-                                    if (_parser._settings.IsComplex &&
+                                    if (_isComplex &&
                                            (t.Type == TokenTypes.VectorFunction ||
                                             t.Type == TokenTypes.VectorFunction2 ||
                                             t.Type == TokenTypes.VectorFunction3 ||
@@ -353,7 +357,7 @@ namespace Calcpad.Core
                                             tt == TokenTypes.RowDivisor)
                                     isDivision = false;
 
-                                if (tt == TokenTypes.SquareBracketLeft && _parser._settings.IsComplex)
+                                if (tt == TokenTypes.SquareBracketLeft && _isComplex)
                                     throw Exceptions.ComplexVectorsAndMatricesNotSupported();
 
                                 t = new Token(c.ToString(), tt);
@@ -458,7 +462,7 @@ namespace Calcpad.Core
                         if (!_parser.IsEnabled)
                             tokenLiteral.Expand();
                         else if (c == '-' && pt == TokenTypes.Input ||
-                            (tt == TokenTypes.Constant || c == 'i' && _parser._settings.IsComplex) &&
+                            (tt == TokenTypes.Constant || c == 'i' && _isComplex) &&
                             (pt == TokenTypes.Input || pt == TokenTypes.Constant))
                         {
                             tokenLiteral.Expand();
@@ -728,7 +732,7 @@ namespace Calcpad.Core
                 var i = 0;
                 foreach (var t in input)
                 {
-                    if (t.Type == TokenTypes.Operator)
+                    if (t.Type == TokenTypes.Operator )
                     {
                         if (t.Content == NegateString)
                             t.Order = 1;
