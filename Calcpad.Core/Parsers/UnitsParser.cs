@@ -82,7 +82,7 @@ namespace Calcpad.Core
                     {
                         --countOfBrackets;
                         if (countOfBrackets < 0)
-                            throw Exceptions.MatrixSingular();
+                            throw Exceptions.InvalidUnits(T.Content);
                     }
 
                     if (!CorrectOrder[(int)pT.Type, (int)T.Type])

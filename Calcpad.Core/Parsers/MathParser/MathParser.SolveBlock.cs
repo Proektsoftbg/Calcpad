@@ -184,8 +184,8 @@ namespace Calcpad.Core
                     var t = rpn[^1];
                     if (t.Order > order)
                     {
-                        _items[0].Html = new HtmlWriter(_parser._settings).AddBrackets(_items[0].Html, 1);
-                        _items[0].Xml = new XmlWriter(_parser._settings).AddBrackets(_items[0].Xml, 1);
+                        _items[0].Html = new HtmlWriter(_parser._settings, _parser.Phasor).AddBrackets(_items[0].Html, 1);
+                        _items[0].Xml = new XmlWriter(_parser._settings, _parser.Phasor).AddBrackets(_items[0].Xml, 1);
                     }
                 }
             }
@@ -401,7 +401,7 @@ namespace Calcpad.Core
                 if (formatEquations)
                 {
                     if (_type == SolverTypes.Integral || _type == SolverTypes.Area)
-                        return new HtmlWriter(_parser._settings).FormatNary(
+                        return new HtmlWriter(_parser._settings, _parser.Phasor).FormatNary(
                             $"<em>{TypeName(_type)}</em>",
                             _items[2].Html + "&nbsp;",
                             "&ensp;" + _items[3].Html,
@@ -409,7 +409,7 @@ namespace Calcpad.Core
                             );
 
                     if (_type == SolverTypes.Sum || _type == SolverTypes.Product)
-                        return new HtmlWriter(_parser._settings).FormatNary(
+                        return new HtmlWriter(_parser._settings, _parser.Phasor).FormatNary(
                             TypeName(_type),
                             _items[1].Html + "=&hairsp;" + _items[2].Html,
                             _items[3].Html,
@@ -418,7 +418,7 @@ namespace Calcpad.Core
 
                     if (_type == SolverTypes.Slope)
                     {
-                        var writer = new HtmlWriter(_parser._settings);
+                        var writer = new HtmlWriter(_parser._settings, _parser.Phasor);
                         return writer.FormatDivision("<em>d</em>", $"<em>d</em>\u200A{_items[1].Html}", 0) +
                             writer.AddBrackets(_items[0].Html, 1) +
                             $"<span class=\"low\"><em>{_items[1].Input}</em>\u200A=\u200A{_items[2].Html}</span>";
@@ -461,7 +461,7 @@ namespace Calcpad.Core
             internal string ToXml()
             {
                 if (_type == SolverTypes.Integral || _type == SolverTypes.Area)
-                    return new XmlWriter(_parser._settings).FormatNary(
+                    return new XmlWriter(_parser._settings, _parser.Phasor).FormatNary(
                         TypeName(_type),
                         _items[2].Xml,
                         _items[3].Xml,
@@ -469,7 +469,7 @@ namespace Calcpad.Core
                         );
 
                 if (_type == SolverTypes.Sum || _type == SolverTypes.Product)
-                    return new XmlWriter(_parser._settings).FormatNary(
+                    return new XmlWriter(_parser._settings, _parser.Phasor).FormatNary(
                         TypeName(_type),
                         _items[1].Xml + XmlWriter.Run("=") + _items[2].Xml,
                         _items[3].Xml,
@@ -478,7 +478,7 @@ namespace Calcpad.Core
 
                 if (_type == SolverTypes.Slope)
                 {
-                    var writer = new XmlWriter(_parser._settings);
+                    var writer = new XmlWriter(_parser._settings, _parser.Phasor);
                     return writer.FormatDivision(XmlWriter.Run("d"), $"{XmlWriter.Run("d")}{_items[1].Xml}", 0) +
                         writer.FormatSubscript(writer.AddBrackets(_items[0].Xml, 1),
                         $"{XmlWriter.Run(_items[1].Input)}{XmlWriter.Run("\u2009=\u2009")}{_items[2].Xml}");
@@ -521,7 +521,7 @@ namespace Calcpad.Core
                     _type == SolverTypes.Integral ||
                     _type == SolverTypes.Area ||
                     _type == SolverTypes.Repeat)
-                    return new TextWriter(_parser._settings).FormatNary(
+                    return new TextWriter(_parser._settings, _parser.Phasor).FormatNary(
                         "$" + _type.ToString(),
                         _items[1].Input + " = " + _items[2].Input,
                         _items[3].Input,

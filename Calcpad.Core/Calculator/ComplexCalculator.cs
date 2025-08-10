@@ -22,7 +22,8 @@ namespace Calcpad.Core
                 (in ComplexValue a, in ComplexValue b) => a & b,
                 (in ComplexValue a, in ComplexValue b) => a | b,
                 (in ComplexValue a, in ComplexValue b) => a ^ b,
-                (in ComplexValue _, in ComplexValue b) => b
+                (in ComplexValue _, in ComplexValue b) => b, 
+                (in ComplexValue a, in ComplexValue b) => Phasor(a, b),
             ];
         private readonly Function<ComplexValue>[] _functions;
         private readonly Operator<ComplexValue>[] Functions2;
@@ -151,6 +152,17 @@ namespace Calcpad.Core
         {
             CheckFunctionUnits("cos", value.Units);
             return new(Complex.Cos(FromAngleUnits(value)));
+        }
+
+
+        internal static ComplexValue Phasor(ComplexValue a, ComplexValue b)
+        {
+            CheckFunctionUnits("phasor", b.Units);
+            var u = b.Units;
+            var d = u is null ? 1d : u.ConvertTo(Unit.Get("rad"));
+            var phi = b.A * d;
+            var c = a.A * (Math.Cos(phi) + Complex.ImaginaryOne * Math.Sin(phi));
+            return new ComplexValue(c, a.Units, a.IsUnit);
         }
 
         private ComplexValue Tan(in ComplexValue value)

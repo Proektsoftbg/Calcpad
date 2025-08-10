@@ -318,9 +318,13 @@ namespace Calcpad.Core
                         '∧' => Expression.And(a, b),
                         '∨' => Expression.Or(a, b),
                         '⊕' => Expression.ExclusiveOr(a, b),
+                        '∠' => Expression.Call(
+                                EvaluatePhasorMethod,
+                                Expression.Constant(a),
+                                Expression.Constant(b)),
                         _ => Expression.Call(EvaluateOperatorMethod,
-                            Expression.Constant(_matrixCalc),
-                            Expression.Constant(t.Index), a, b),
+                                Expression.Constant(_matrixCalc),
+                                Expression.Constant(t.Index), a, b),
                     };
                 }
                 if (t.Type == TokenTypes.Function2)

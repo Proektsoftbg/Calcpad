@@ -137,7 +137,10 @@ namespace Calcpad.Core
                 if (_text is null)
                     return GetText(OutputWriter.OutputFormat.Html);
 
-                return new HtmlWriter(null).FormatUnitsText(Text);
+                if (_text == "°")
+                    return "°";
+
+                return new HtmlWriter(null, false).FormatUnitsText(Text);
             }
         }
 
@@ -148,7 +151,7 @@ namespace Calcpad.Core
                 if (_text is null)
                     return GetText(OutputWriter.OutputFormat.Xml);
 
-                return new XmlWriter(null).FormatUnitsText(Text);
+                return new XmlWriter(null, false).FormatUnitsText(Text);
             }
         }
 
@@ -874,9 +877,9 @@ namespace Calcpad.Core
         {
             OutputWriter writer = format switch
             {
-                OutputWriter.OutputFormat.Html => new HtmlWriter(null),
-                OutputWriter.OutputFormat.Xml => new XmlWriter(null),
-                _ => new TextWriter(null)
+                OutputWriter.OutputFormat.Html => new HtmlWriter(null, false),
+                OutputWriter.OutputFormat.Xml => new XmlWriter(null, false),
+                _ => new TextWriter(null, false)
             };
             var stringBuilder = new StringBuilder(50);
             var isFirst = true;
@@ -1726,7 +1729,7 @@ namespace Calcpad.Core
                 ReadOnlySpan<char> s = u.Text;
                 if (!s.Contains('^'))
                 {
-                    var writer = new TextWriter(null);
+                    var writer = new TextWriter(null, false);
                     var ps = d < 0 ?
                         $"({writer.FormatNumberHelper(d, null)})" :
                         writer.FormatNumberHelper(d, null);

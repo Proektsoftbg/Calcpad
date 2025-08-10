@@ -5,7 +5,15 @@ namespace Calcpad.Core
 {
     internal class HtmlWriter : OutputWriter
     {
-        internal HtmlWriter(MathSettings settings) : base(settings) { }
+        internal HtmlWriter(MathSettings settings, bool phasor) : base(settings, phasor)
+        {
+            AngleUnits =
+            [
+                "°",
+                "",
+                ThinSpace + "<i>grad</i>",
+            ];
+        }
 
         private static readonly string[] SqrPad = [
             "&ensp;&hairsp;&hairsp;",
@@ -150,10 +158,13 @@ namespace Calcpad.Core
             if (string.IsNullOrEmpty(u?.Text))
                 return s;
 
-            if (!value.IsReal)
+            if (!(value.IsReal || phasor && s.Contains('∠')))
                 s = AddBrackets(s);
 
-            return s + ThinSpace + value.Units.Html;
+            if (u.Text == "°")
+                return s + "°";
+
+            return s + ThinSpace + u.Html;
         }
 
         internal override string AddBrackets(string s, int level = 0, char left = '(', char right = ')') =>

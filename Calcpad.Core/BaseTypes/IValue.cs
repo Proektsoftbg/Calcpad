@@ -590,6 +590,14 @@ namespace Calcpad.Core
             throw Exceptions.InvalidOperand($"{a}⊕{b}");
         }
 
+        internal static IValue Phasor(IValue a, IValue b)
+        {
+            if (a is IScalarValue sa && b is IScalarValue sb)
+                return ComplexCalculator.Phasor(sa.AsComplex(), sb.AsComplex());
+
+            throw Exceptions.InvalidOperand($"{a} ≠ {b}");
+        }
+
         internal static IValue EvaluateFunction(MatrixCalculator calc, long index, in IValue a)
         {
             if (a is IScalarValue scalar)

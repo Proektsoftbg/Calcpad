@@ -6,7 +6,15 @@ namespace Calcpad.Core
 {
     internal class TextWriter : OutputWriter
     {
-        internal TextWriter(MathSettings settings) : base(settings) { }
+        internal TextWriter(MathSettings settings, bool phasor) : base(settings, phasor) 
+        {
+            AngleUnits =
+            [           
+                "°",
+                "",
+                " grad"
+            ];
+        }
         internal override string UnitString(Unit units) => units.Text.Replace("‱", "‱ ");
         internal override string FormatInput(string s, Unit units, int line, bool isCalculated) =>
             units is null ? s : s + ' ' + units.Text;
@@ -31,15 +39,19 @@ namespace Calcpad.Core
 
         internal override string FormatValue(in IScalarValue value)
         {
-            var s = FormatComplex(value.Re, value.Im, value.Units?.FormatString);
-            if (value.Units is not null)
-            {
-                if (!value.IsReal)
-                    s = AddBrackets(s);
+            var u = value.Units;
+            var s = FormatComplex(value.Re, value.Im, u?.FormatString);
+            var uText = u?.Text;
+            if (uText is null)
+                return s;
 
-                return s + value.Units.Text;
-            }
-            return s;
+            if (!(value.IsReal || phasor && s.Contains('∠')))
+                s = AddBrackets(s);
+
+            if (uText == "°")
+                return s + uText;
+
+            return s + ' ' + uText;
         }
 
         internal override string AddBrackets(string s, int level = 0, char left = '(', char right = ')') => left + s + right;

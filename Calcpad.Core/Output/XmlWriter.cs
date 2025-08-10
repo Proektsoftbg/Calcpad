@@ -5,7 +5,15 @@ namespace Calcpad.Core
 {
     internal class XmlWriter : OutputWriter
     {
-        internal XmlWriter(MathSettings settings) : base(settings) { }
+        internal XmlWriter(MathSettings settings, bool phasor) : base(settings, phasor) 
+        {
+            AngleUnits =
+[
+                FormatUnits("°"),
+                string.Empty,
+                FormatUnits("gra"),
+            ];
+        }
         private const string wXmlns = "xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"";
         private const string NormalText = "<m:rPr><m:nor/></m:rPr>";
         internal override string UnitString(Unit units) => units.Xml;
@@ -116,7 +124,7 @@ namespace Calcpad.Core
             if (value.Units is null)
                 return s;
 
-            if (!value.IsReal)
+            if (!(value.IsReal || phasor && s.Contains('∠')))
                 s = AddBrackets(s);
 
             return s + value.Units.Xml;
@@ -171,6 +179,14 @@ namespace Calcpad.Core
             if (t == Complex.Types.Imaginary)
                 return sImaginary;
 
+            if (phasor)
+            {
+                var abs = Math.Sqrt(re * re + im * im);
+                var phase = Math.Atan2(im, re) * AngleFactors[degrees];
+                var absString = FormatReal(abs, format, false);
+                var phaseString = FormatReal(phase, format, false) + AngleUnits[degrees];
+                return $"{absString}∠{phaseString}";
+            }
             var sReal = FormatReal(re, format, zeroSmallElements);
             return im < 0 ?
                 sReal + Run("–") + sImaginary :

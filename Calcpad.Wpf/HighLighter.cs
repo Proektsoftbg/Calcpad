@@ -185,7 +185,7 @@ namespace Calcpad.Wpf
              Brushes.Crimson
         ];
 
-        private static readonly FrozenSet<char> Operators = new HashSet<char>() { '!', '^', '/', '÷', '\\', '⦼', '*', '-', '+', '<', '>', '≤', '≥', '≡', '≠', '=', '∧', '∨', '⊕' }.ToFrozenSet();
+        private static readonly FrozenSet<char> Operators = new HashSet<char>() { '!', '^', '/', '÷', '\\', '⦼', '*', '-', '+', '<', '>', '≤', '≥', '≡', '≠', '=', '∧', '∨', '⊕', '∠' }.ToFrozenSet();
         private static readonly FrozenSet<char> Delimiters = new HashSet<char>() { ';', '|', '&', '@', ':' }.ToFrozenSet();
         private static readonly FrozenSet<char> Brackets = new HashSet<char>() { '(', ')', '{', '}', '[', ']' }.ToFrozenSet();
 
@@ -449,6 +449,8 @@ namespace Calcpad.Wpf
             "#read",
             "#write",
             "#append",
+            "#phasor",
+            "#complex",
         }.ToFrozenSet(StringComparer.OrdinalIgnoreCase);
 
         private static readonly FrozenSet<string> SingleExpressionKeywords =
@@ -628,21 +630,27 @@ namespace Calcpad.Wpf
                 }
                 else if (c == '$' && _builder.Length > 0)
                     ParseMacro();
-                else if (c == '%' && _builder.Length > 0 && _builder[^1] == '%')
-                    AppendRemainderShortcut();
+                else if (IsDoubleOp(c, '%'))
+                    AppendDoubleOperatorShortcut('⦼');
+                else if (IsDoubleOp(c, '<'))
+                    AppendDoubleOperatorShortcut('∠');
                 else if (Validator.IsWhiteSpace(c))
                     ParseSpace(c);
                 else if (Brackets.Contains(c))
                     ParseBrackets(c);
                 else if (Operators.Contains(c))
                 {
-                    ParseOperator(c);
-                    if (ParseMacroContent(c, i, len))
-                        return;
+                    if (c == '<' && i < len - 1 && text[i + 1] == '<')
+                        _builder.Append('<');
+                    else
+                    {
+                        ParseOperator(c);
+                        if (ParseMacroContent(c, i, len))
+                            return;
+                    }
                 }
                 else if (Delimiters.Contains(c))
                     ParseDelimiter(c);
-
                 else if (_builder.Length == 0)
                 {
                     _state.CurrentType = InitType(c, _state.CurrentType);
@@ -761,6 +769,8 @@ namespace Calcpad.Wpf
             }
         }
 
+        private bool IsDoubleOp(char c, char op) =>
+            (c == op && _builder.Length > 0 && _builder[^1] == op);
         private static void InitParagraph(Paragraph p)
         {
             p.Background = null;
@@ -1417,16 +1427,16 @@ namespace Calcpad.Wpf
             return false;
         }
 
-        private void AppendRemainderShortcut()
+        private void AppendDoubleOperatorShortcut(char op)
         {
             if (_builder.Length > 1)
             {
                 _builder.Remove(_builder.Length - 1, 1);
                 Append(_state.CurrentType);
-                _builder.Append('⦼');
+                _builder.Append(op);
             }
             else
-                _builder[0] = '⦼';
+                _builder[0] = op;
 
             _state.CurrentType = Types.Operator;
             Append(_state.CurrentType);
