@@ -1,0 +1,1189 @@
+<html lang="en"><head>
+    <title>Calcpad</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <script src="file:///C:/Users/Ned/source/repos/CalcpadVM/Calcpad.Wpf/bin/Debug/net8.0-windows/doc/jquery-3.6.3.min.js"></script>
+    <style>
+        body {
+            font-size: 12pt;
+            font-family: Calibri, sans-serif;
+            margin-left: 1.5em;
+            max-width: 190mm
+        }
+
+        h1, h2, h3, h4, h5, h6, .errorHeader, .roundBox {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0.5em 0 0.5em 0;
+            padding: 0;
+            line-height: 150%;
+        }
+
+        p, li {
+            margin: 0.3em 0 0.3em 0;
+            padding: 0;
+            line-height: 150%;
+        }
+
+        select, kbd {
+            font-family: Calibri, sans-serif;
+        }
+
+        code, kbd {
+            font-size: 9pt;
+        }
+
+        a:hover {
+            background-color: #e9f6ff;
+        }
+
+        .eq, input, table.matrix {
+            font-family: "Times New Roman", Times, serif;
+        }
+
+            .eq var {
+                color: #06c;
+                padding-right: 1pt;
+                padding-left: 1pt;
+				font-size: 13pt;
+            }
+
+            .eq i {
+                color: #086;
+				font-style: normal;
+				font-size: 11.5pt;
+            }
+
+            .eq u, input, select {
+                background-color: LightYellow;
+            }
+
+                input[type="text"], select {
+                    font-size: 11pt;
+                    padding: 0.15em 0.3em;
+                    border: 0.5pt solid #CCC;
+                    border-radius: 0.35em;
+                    text-align: right;
+                    box-shadow: 0.06em 0.06em 0.5em #ddd;
+                }
+
+                input[type="checkbox"],
+                input[type="radio"] {
+                    --ssf: 1.3;
+                    zoom: 1.42;
+                    -moz-transform: scale(1.42);
+                    -webkit-transform: scale(1.42);
+                    transform: scale(1.42);
+                    transform-origin: bottom;
+                    position: relative;
+                    bottom: 1pt;
+                    margin-right: 1pt;
+                }
+
+                    input[type="checkbox"].post:disabled:not(:checked),
+                    input[type="checkbox"].post:disabled:not(:checked) + label,
+                    input[type="radio"].post:disabled:not(:checked),
+                    input[type="radio"].post:disabled:not(:checked) + label {
+                        display: none;
+                    }
+
+                select.post:disabled {
+                    font-size: 12pt;
+                    border: none;
+                    box-shadow: none;
+                    color: red;
+                    background: none;
+                    appearance: none;
+                    -webkit-appearance: none;
+                    -moz-appearance: none;
+                }
+
+                    select.post:disabled::-ms-expand {
+                        display: none;
+                    }
+
+                input[type="text"]:focus {
+                    box-shadow: 0.1em 0.1em 1em #ccc;
+                    color: black;
+                }
+
+        td, th {
+            padding: 2pt 4pt 2pt 4pt;
+            vertical-align: top;
+        }
+
+        small {
+            font-weight: normal;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+            table.bordered {
+                margin-top: 1em;
+            }
+
+                table.bordered th {
+                    background-color: #F0F0F0;
+                    border: solid 1pt #AAAAAA;
+                }
+
+                table.bordered td {
+                    border: solid 1pt #CCCCCC;
+                }
+
+            table.centered td, .matrix .td {
+                text-align: center;
+            }
+
+            table.data td {
+                text-align: right;
+            }
+
+                table.data td:first-child {
+                    text-align: left;
+                    padding-left: 0;
+                }
+
+        .matrix {
+            display: inine-table;
+        }
+
+            .matrix .tr {
+                display: table-row;
+            }
+
+            .matrix .td {
+                padding: 0 2pt 0 2pt;
+                min-width: 12pt;
+                display: table-cell;
+            }
+
+                .matrix .td:first-child,
+                .matrix .td:last-child {
+                    width: 0.75pt;
+                    min-width: 0.75pt;
+                    max-width: 0.75pt;
+                    padding: 0 1pt 0 1pt;
+                }
+
+                .matrix .td:first-child {
+                    border-left: solid 1.25pt black;
+                }
+
+                .matrix .td:last-child {
+                    border-right: solid 1.25pt black;
+                }
+
+            .matrix .tr:first-child .td:first-child,
+            .matrix .tr:first-child .td:last-child {
+                border-top: solid 0.5pt black;
+            }
+
+            .matrix .tr:last-child .td:first-child,
+            .matrix .tr:last-child .td:last-child {
+                border-bottom: solid 0.5pt black;
+            }
+
+
+        .r0, .r1, .r2, .r3,
+        .o0, .o1, .o2, .o3,
+        .b1, .b2, .b3,
+        .c1, .c2, .c3, .c4,
+        .c5, .c6, .c7, .c8 {
+            display: inline-block;
+        }
+
+        .r0, .r1, .r2, .r3 {
+            margin-top: -1.5pt;
+            margin-right: 1.5pt;
+            vertical-align: top;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: right top;
+        }
+
+        .o0, .o1, .o2, .o3 {
+            border-top: solid 0.75pt;
+            line-height: 130%;
+            vertical-align: middle;
+            margin-top: 0.75pt;
+            padding-top: 1.25pt;
+            padding-left: 1pt;
+            padding-right: 1pt;
+        }
+
+        .r {
+            font-size: 130%;
+            display: inline-block;
+            vertical-align: top;
+            margin-left: -9pt;
+        }
+
+        .r0 {
+            content: "";
+            background-image: url("data: image/svg+xml;base64,PHN2ZyB4bWxuczpzdmc9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDEwIDIwIiBoZWlnaHQ9IjE1cHQiIHdpZHRoPSIxMHB4Ij4NCiAgPHBvbHlsaW5lIHBvaW50cz0iMCwxMyAyLDEyIDUsMTkgOSwwIiBzdHlsZT0ic3Ryb2tlOmJsYWNrOyBzdHJva2Utd2lkdGg6MC42cHQ7IHN0cm9rZS1saW5lam9pbjpyb3VuZDsgc3Ryb2tlLWxpbmVjYXA6cm91bmQ7IGZpbGw6bm9uZSIgLz4NCiAgPGxpbmUgeDE9IjIuMiIgeTE9IjEyLjMiIHgyPSI0LjYiIHkyPSIxOC43IiBzdHlsZT0ic3Ryb2tlOmJsYWNrOyBzdHJva2Utd2lkdGg6MC44cHQ7IHN0cm9rZS1saW5lY2FwOnJvdW5kOyIgLz4NCjwvc3ZnPg==");
+            width: 8pt;
+            height: 16pt;
+            margin-left: -8pt;
+        }
+
+        .r1 {
+            content: "";
+            background-image: url("data: image/svg+xml;base64,PHN2ZyB4bWxuczpzdmc9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDE1IDQwIiBoZWlnaHQ9IjMwcHQiIHdpZHRoPSIxNXB4Ij4NCiAgPHBvbHlsaW5lIHBvaW50cz0iMSwyNiAzLDI0IDgsMzggMTQsMCIgc3R5bGU9InN0cm9rZTpibGFjazsgc3Ryb2tlLXdpZHRoOjAuNnB0OyBzdHJva2UtbGluZWpvaW46cm91bmQ7IHN0cm9rZS1saW5lY2FwOnJvdW5kOyBmaWxsOm5vbmUiIC8+DQogIDxsaW5lIHgxPSIzLjIiIHkxPSIyNC40IiB4Mj0iNy42IiB5Mj0iMzcuNiIgc3R5bGU9InN0cm9rZTpibGFjazsgc3Ryb2tlLXdpZHRoOjFwdDsgc3Ryb2tlLWxpbmVjYXA6cm91bmQ7IiAvPg0KPC9zdmc+");
+            width: 12pt;
+            height: 32pt;
+            margin-left: -12pt;
+        }
+
+        .r2 {
+            content: "";
+            background-image: url("data: image/svg+xml;base64,PHN2ZyB4bWxuczpzdmc9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDIwIDYwIiBoZWlnaHQ9IjQ1cHQiIHdpZHRoPSIyMHB4Ij4NCiAgPHBvbHlsaW5lIHBvaW50cz0iMiwzNyA1LDM0IDExLDU1IDE5LDAiIHN0eWxlPSJzdHJva2U6YmxhY2s7IHN0cm9rZS13aWR0aDowLjZwdDsgc3Ryb2tlLWxpbmVqb2luOnJvdW5kOyBzdHJva2UtbGluZWNhcDpyb3VuZDsgZmlsbDpub25lIiAvPg0KICA8bGluZSB4MT0iNS4xIiB5MT0iMzQuNiIgeDI9IjEwLjYiIHkyPSI1NC40IiBzdHlsZT0ic3Ryb2tlOmJsYWNrOyBzdHJva2Utd2lkdGg6MS4ycHQ7IHN0cm9rZS1saW5lY2FwOnJvdW5kOyIgLz4NCjwvc3ZnPg==");
+            width: 16pt;
+            height: 48pt;
+            margin-left: -16pt;
+        }
+
+        .r3 {
+            content: "";
+            background-image: url("data: image/svg+xml;base64,PHN2ZyB4bWxuczpzdmc9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDI1IDgwIiBoZWlnaHQ9IjYwcHQiIHdpZHRoPSIyNXB4Ij4NCiAgPHBvbHlsaW5lIHBvaW50cz0iMyw1MCA3LDQ2IDE1LDc0IDI0LDAiIHN0eWxlPSJzdHJva2U6YmxhY2s7IHN0cm9rZS13aWR0aDowLjZwdDsgc3Ryb2tlLWxpbmVqb2luOnJvdW5kOyBzdHJva2UtbGluZWNhcDpyb3VuZDsgZmlsbDpub25lIiAvPg0KICA8bGluZSB4MT0iNy4xIiB5MT0iNDYuOCIgeDI9IjE0LjUiIHkyPSI3My4yIiBzdHlsZT0ic3Ryb2tlOmJsYWNrOyBzdHJva2Utd2lkdGg6MS4ycHQ7IHN0cm9rZS1saW5lY2FwOnJvdW5kOyIgLz4NCjwvc3ZnPg==");
+            width: 19pt;
+            height: 62pt;
+            margin-left: -19pt;
+        }
+
+        .eq sub {
+            font-family: Calibri, 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+            font-size: 92%;
+            vertical-align: -18%;
+        }
+
+        .eq sup {
+            display: inline-block;
+            margin-left: 1pt;
+            margin-top: -2pt;
+        }
+
+        .eq small {
+			font-family: Calibri, 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+            font-size: 70%;
+        }
+		
+		.eq small var {
+			font-family: "Times New Roman", Times, serif;
+            font-size: 10pt;
+        }
+
+            .eq small i {
+                font-family: "Times New Roman", Times, serif;
+                font-size: 9pt;
+            }
+
+        .nth {
+            position: relative;
+            bottom: 1pt;
+        }
+		
+        .eq small.nth{
+            font-size: 70%;
+        }
+
+        sup.raised {
+            vertical-align: top;
+        }
+
+        sup .r0, sup .r1, sup .r2, sup .r3 {
+            zoom: 0.7;
+            -moz-transform: scale(0.7);
+            -webkit-transform: scale(0.7);
+            transform: scale(0.7);
+            transform-origin: top right;
+            max-height: none;
+        }
+
+        sup .r0 {
+            margin-left: -5pt;
+        }
+
+        sup .r1 {
+            margin-left: -11pt;
+        }
+
+        sup .r2 {
+            margin-left: -13pt;
+        }
+
+        sup .r3 {
+            margin-left: -16pt;
+        }
+
+        .b1, .b2, .b3, .c1, .c2, .c3, .c4, .c5, .c6, .c7, .c8 {
+            vertical-align: middle;
+            font-weight: 100;
+            font-stretch: ultra-condensed;
+        }
+
+        .b2, .b3, .c2, .c3, .c4, .c5, .c6, .c7, .c8 {
+            font-family: "Jost* Hairline";
+        }
+
+        .b0, .b1, .c1 {
+            font-family: "Jost* Thin";
+        }
+
+        .b0 {
+            font-size: 120%;
+        }
+
+        .b1 {
+            font-size: 240%;
+            margin-top: -3pt;
+        }
+
+        .b2 {
+            font-size: 370%;
+            margin-top: -5pt;
+            margin-left: -3pt;
+            margin-right: -3pt;
+        }
+
+        .b3 {
+            font-size: 520%;
+            margin-top: -8pt;
+            margin-left: -5pt;
+            margin-right: -5pt;
+        }
+
+        .c1 {
+            font-size: 240%;
+            margin-top: -4pt;
+        }
+
+        .c2 {
+            font-size: 360%;
+            margin-top: -6pt;
+            margin-left: -2.5pt;
+            margin-right: -0.5pt;
+        }
+
+        .c3 {
+            font-size: 480%;
+            margin-top: -8pt;
+            margin-left: -3pt;
+            margin-right: -1pt;
+        }
+
+        .c4 {
+            font-size: 600%;
+            margin-top: -10pt;
+            margin-left: -4pt;
+            margin-right: -2pt;
+            transform: scaleX(0.9);
+        }
+
+        .c5 {
+            font-size: 710%;
+            margin-top: -11.5pt;
+            margin-left: -6pt;
+            margin-right: -4pt;
+            transform: scaleX(0.8);
+        }
+
+        .c6 {
+            font-size: 820%;
+            margin-top: -13pt;
+            margin-left: -7pt;
+            margin-right: -5pt;
+            transform: scaleX(0.7);
+        }
+
+        .c7 {
+            font-size: 930%;
+            margin-top: -14.5pt;
+            margin-left: -8pt;
+            margin-right: -6pt;
+            transform: scaleX(0.6);
+        }
+
+        .c8 {
+            font-size: 1040%;
+            margin-top: -16pt;
+            margin-left: -9pt;
+            margin-right: -7pt;
+            transform: scaleX(0.5);
+        }
+
+        .dvc, .dvr, .dvs{
+            display: inline-block;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        .dvc {
+            text-align: center;
+            line-height: 110%;
+        }
+
+        .dvr {
+            text-align: center;
+            line-height: 105%;
+        }
+
+        .dvs {
+            text-align: left;
+            line-height: 110%;
+        }
+
+        .dvl {
+            display: block;
+            border-bottom: solid 0.75pt black;
+            margin-top: 1pt;
+            margin-bottom: 1pt;
+        }
+
+        .nary {
+            color: #D000D0;
+            font-size: 200%;
+            font-family: "Segoe UI Light";
+            line-height: 80%;
+            display: block;
+            margin-top: -3pt;
+            margin-bottom: 5pt;
+        }
+
+        .dvc.down {
+            position: relative;
+            top: 0.5em;
+        }
+
+        .dvc.up {
+            position: relative;
+            bottom: 0.6em;
+        }
+
+        .cond {
+            color: #FA00FA;
+        }
+
+        .err {
+            color: Crimson;
+            background-color: #FEE;
+        }
+
+        .ok {
+            color: Green;
+            background-color: #F0FFF0;
+        }
+
+        .ref {
+            float: right;
+            margin-left: 18pt;
+            color: Green;
+            background-color: #F8FFF0;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        .side {
+            float: right;
+            max-width: 50%;
+        }
+
+        .plot {
+            max-width: 100%
+        }
+
+        .indent {
+            border-left: 0.75pt solid #dddddd;
+            padding-left: 2em;
+        }
+
+        span.indent {
+            display: inline-block;
+        }
+
+        .fold {
+            height: 2.4em;
+            overflow: hidden;
+        }
+
+        .unfold {
+            height: auto;
+            overflow: auto;
+        }
+
+            .fold > :first-child, .unfold > :first-child {
+                cursor: pointer;
+            }
+
+                .fold > :first-child:hover, .unfold > :first-child:hover {
+                    color: #0066bb;
+                    text-decoration: underline;
+                }
+
+                .fold > :first-child::after {
+                    content: " ... ▼";
+                    font-size: 80%;
+                }
+
+                .unfold > :first-child::after {
+                    content: " ▲";
+                    font-size: 80%;
+                }
+
+        .vec {
+            font-family: 'Cambria Math';
+            color: black;
+            font-style: normal;
+            display: inline-block;
+            vertical-align: 2pt;
+            margin-left: 3pt;
+            margin-right: -7pt;
+        }
+
+        small .vec {
+            margin-right: -6pt;
+        }
+
+        #Units {
+            float: right;
+        }
+
+        @media screen {
+            .no-screen {
+                display: none;
+            }
+        }
+
+        @media print {
+            .side {
+                zoom: 0.8;
+                -moz-transform: scale(0.8);
+            }
+
+            .no-print {
+                display: none;
+            }
+        }
+
+        .value {
+            position: relative;
+            background-color: #f4fbff;
+            border-radius: 3pt;
+        }
+
+            .value:after {
+                content: "";
+                position: absolute;
+                left: 100%;
+                top: -100%;
+                transform: translateY(-50%);
+                margin-left: 2pt;
+                height: 16pt;
+                line-height: 16pt;
+                vertical-align: middle;
+                width: fit-content;
+                white-space: nowrap;
+                min-width: 10pt;
+                z-index: 1;
+                vertical-align: middle;
+                padding: 0 6pt 0 6pt;
+                border-radius: 6pt 6pt 6pt 0;
+                background: #000;
+                color: #fff;
+                font-family: Calibri, sans-serif;
+                font-style: normal;
+                font-size: 10pt;
+                text-align: center;
+                display: none;
+                opacity: 0;
+                transition: opacity 2s;
+                user-select: none;
+                -webkit-user-select: none;
+                -ms-user-select: none;
+                -moz-user-select: none;
+            }
+
+            .value:hover:after {
+                content: attr(data-value);
+                display: block;
+                opacity: 1;
+            }
+
+        .errorHeader {
+            color: white;
+            background-color: crimson;
+            font-size: 10pt;
+            position: fixed;
+            top: 0;
+            left: 0;
+            margin-top: 0;
+            width: 100vw;
+            max-width: 100%;
+            height: 1.8em;
+            line-height: 1.2em;
+            padding-left: 6pt;
+            overflow-x: hidden;
+        }
+
+        .roundBox {
+            background-color: #fee;
+            color: crimson;
+            font-size: 9pt;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            display: inline-block;
+            border-radius: 4pt;
+            min-width: 1.1em;
+            padding-left: 2pt;
+            padding-right: 2pt;
+            margin-top: 2pt;
+        }
+
+            .roundBox:hover {
+                background-color: white;
+            }
+
+        .lineLink {
+            background: none;
+            color: #b0e0ff;
+            font-family: Calibri, sans-serif;
+            font-size: 10pt;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: left;
+            text-decoration: none;
+            display: inline-block;
+            position: absolute;
+            left: 0;
+            width: 2em;
+            height: 4em;
+            z-index: 1;
+        }
+
+            .lineLink:hover {
+                background: none;
+                color: #09e;
+            }
+    </style>
+</head>
+<body>
+    <script>
+        var contextMenu = false;
+        function delayedLoad(path) { setTimeout(function () { document.write(path); }, 1000); }
+        function getVerticalPosition(line) { return document.querySelector("[data-text='" + line + "']").getBoundingClientRect().top; }
+		function isNumeric(s) {return s.match(/^-?\d+(?:\.\d+)?$/); }
+		
+        if (window.jQuery) {
+            function getHtmlWithInput() {
+                $("input[type=text]").each(function () {
+                    $(this).attr("value", $(this).val());
+                });
+                $("input[type=hidden]").each(function () {
+                    $(this).attr("value", $(this).val());
+                });
+                $("textarea").each(function () {
+                    $(this).html($(this).val());
+                });
+                $("input[type=radio]").each(function () {
+                    if (this.checked)
+                        $(this).attr("checked", "checked");
+                    else
+                        $(this).removeAttr("checked");
+                });
+                $("input[type=checkbox]").each(function () {
+                    if (this.checked)
+                        $(this).attr("checked", "checked");
+                    else
+                        $(this).removeAttr("checked");
+                });
+                $("select option").each(function () {
+                    if (this.selected) {
+                        $(this).attr("selected", "true");
+                    }
+                    else
+                        $(this).removeAttr("selected");
+                });
+                return document.body.outerHTML;
+            }
+
+            function getTargetId(element) {
+                var id = $(element).attr("name");
+                if (id != null && id.length > 0)
+                    return id;
+
+                return $(element).data("target");
+            }
+
+            function getValue(id, source) {
+                var value = "";
+                var target = $("#" + id + " input");
+                var domObj = target.get(0);
+                if (domObj == null || domObj.Length == 0) {
+                    target = $("#" + id + " .eq u");
+                    target.each(function () {
+                        value += $(this).text() + ";";
+                    });
+                    $(source).prop('disabled', true);
+                }
+                else {
+                    target.each(function () {
+                        value += $(this).val() + ";";
+                    });
+                }
+                if (value.length > 1) {
+                    value = value.slice(0, -1);
+                }
+                return value;
+            }
+
+            $(document).ready(function () {
+
+                $("#Units").change(function () { $(".Units").text($(this).val()); });
+
+                $(".fold > :first-child").click(function () {
+                    if ($(this).parent().hasClass("fold")) {
+                        $(this).parent().removeClass("fold").addClass("unfold");
+                    }
+                    else {
+                        $(this).parent().removeClass("unfold").addClass("fold");
+                    }
+                });
+
+                $("select").each(function (index) {
+                    if ($(this).prop("id") != "Units") {
+                        var id = getTargetId(this);
+                        if (id != null && id.length > 0) {
+                            var value = getValue(id, this);
+                            $(this).val(value);
+                        }
+                    }
+
+                });
+
+                $("select").change(function () {
+                    var id = getTargetId(this);
+                    if (id != null && id.length > 0) {
+                        var target = $("#" + id + " input");
+                        if (target != null) {
+                            var values = $(this).val().split(";");
+                            target.each(function (index) {
+                                $(this).val(values[index]);
+                            });
+                        }
+                    }
+                });
+
+                $("input:radio, input:checkbox").each(function (index) {
+                    var id = getTargetId(this);
+                    if (id != null && id.length > 0) {
+                        var value = getValue(id, this);
+                        $(this).prop("checked", $(this).val() == value);
+                    }
+                });
+
+                $("input:radio, input:checkbox").change(function () {
+                    var id = getTargetId(this);
+                    if (id != null && id.length > 0) {
+                        var target = $("#" + id + " input");
+                        if (target != null) {
+                            if ($(this).prop("checked")) {
+                                var values = $(this).val().split(";");
+                                target.each(function (index) {
+                                    $(this).val(values[index]);
+                                });
+                            }
+                            else if ($(this).prop("type") == "checkbox") {
+                                target.each(function () {
+                                    $(this).val("0");
+                                });
+                            }
+                        }
+                    }
+                });
+                $(".line:not(style, script)").each(function () {
+                    var line = $(this).prop("id").split("-")[1];
+                    var $lineLink = $('<a class="lineLink" href="#0" data-text="' + line + '" title="Code line ' + line + '">&larr;</a>');
+                    $(this).append($lineLink);
+                    $lineLink.hide();
+                    $(this).hover(function () {
+                        $lineLink.show();
+                    }, function () {
+                        $lineLink.hide();
+                    });
+                    $(window).scroll(function () {
+                        $lineLink.hide();
+                    });
+                });
+
+                $(".roundBox").click(function () {
+                    var line = $(this).data("line");
+                    var e = document.getElementById("line-" + line);
+                    if (e) {
+                        window.scrollTo(0, e.offsetTop - $(this).outerHeight() - 20);
+                    }
+                });
+                $(".money").each(function () { $(this).text(Number(($(this).text())).toFixed(2)); });
+				
+				$("input").change(function(){
+					var e = $(this);
+					var s = e.val();
+					if (isNumeric(s)) {
+					    e.css("color", "black");
+					    e.removeAttr("title");
+					} else {
+					    e.css("color", "red");
+                        e.attr("title", "Invalid number");
+					}
+				});
+            });
+        }
+        document.oncontextmenu = function () { contextMenu = true; };
+        document.onmousedown = function () { contextMenu = false; };
+    </script>
+<p class="line" id="line-1"><span class="eq" data-xml='<m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>PlotSVG</m:t></m:r><m:r><m:t>=</m:t></m:r><m:r><m:t>1</m:t></m:r>'><var>PlotSVG</var> = 1</span><a title="Code line 1" class="lineLink" style="display: none;" href="#0" data-text="1">←</a></p>
+<h3 class="line" id="line-2">Analysis of continuous beam by force method <a title="Code line 2" class="lineLink" style="display: none;" href="#0" data-text="2">←</a></h3>
+<h4 class="line" id="line-3">Input data<a title="Code line 3" class="lineLink" style="display: none;" href="#0" data-text="3">←</a></h4> 
+<p class="line" id="line-4">Span lengths - <span class="eq" data-xml='<m:acc><m:accPr><m:chr m:val="⃗"/></m:accPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>l</m:t></m:r></m:e></m:acc><m:r><m:t>=</m:t></m:r><m:d><m:dPr><m:begChr m:val="["/><m:endChr m:val="]"/></m:dPr><m:e><m:r><m:t>4</m:t></m:r><m:r><m:t>;</m:t></m:r><m:r><m:t>7</m:t></m:r><m:r><m:t>;</m:t></m:r><m:r><m:t>3</m:t></m:r><m:r><m:t>;</m:t></m:r><m:r><m:t>5</m:t></m:r></m:e></m:d><m:r><m:t>·</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> m</m:t></m:r><m:r><m:t>=</m:t></m:r><m:d><m:dPr><m:begChr m:val="["/><m:endChr m:val="]"/></m:dPr><m:e><m:r><m:t>4</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> m</m:t></m:r><m:r><m:t> </m:t></m:r><m:r><m:t>7</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> m</m:t></m:r><m:r><m:t> </m:t></m:r><m:r><m:t>3</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> m</m:t></m:r><m:r><m:t> </m:t></m:r><m:r><m:t>5</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> m</m:t></m:r></m:e></m:d>'><var><span class="vec">⃗</span>l</var> = [4; 7; 3; 5]·<i>m</i> = [4 <i>m</i> 7 <i>m</i> 3 <i>m</i> 5 <i>m</i>]</span><a title="Code line 4" class="lineLink" style="display: none;" href="#0" data-text="4">←</a></p>
+<p class="line" id="line-5">Number of spans - <span class="eq" data-xml='<m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>n</m:t></m:r><m:r><m:t>=</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:b w:val="true" /></w:rPr><m:t>len</m:t></m:r><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:acc><m:accPr><m:chr m:val="⃗"/></m:accPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>l</m:t></m:r></m:e></m:acc></m:e></m:d><m:r><m:t>=</m:t></m:r><m:r><m:t>4</m:t></m:r>'><var>n</var> = <b>len</b>(<var><span class="vec">⃗</span>l</var>) = 4</span><a title="Code line 5" class="lineLink" style="display: none;" href="#0" data-text="5">←</a></p>
+<p class="line" id="line-9">Coordinates of supports - <span class="eq" data-xml='<m:acc><m:accPr><m:chr m:val="⃗"/></m:accPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:e></m:acc><m:r><m:t>=</m:t></m:r><m:d><m:dPr><m:begChr m:val="["/><m:endChr m:val="]"/></m:dPr><m:e><m:r><m:t>4</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> m</m:t></m:r><m:r><m:t> </m:t></m:r><m:r><m:t>11</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> m</m:t></m:r><m:r><m:t> </m:t></m:r><m:r><m:t>14</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> m</m:t></m:r><m:r><m:t> </m:t></m:r><m:r><m:t>19</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> m</m:t></m:r></m:e></m:d>'><var><span class="vec">⃗</span>x</var> = [4 <i>m</i> 11 <i>m</i> 14 <i>m</i> 19 <i>m</i>]</span><a title="Code line 9" class="lineLink" style="display: none;" href="#0" data-text="9">←</a></p>
+<p class="line" id="line-10">Total beam length - <span class="eq" data-xml='<m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>L</m:t></m:r><m:r><m:t>=</m:t></m:r><m:sSub><m:e><m:acc><m:accPr><m:chr m:val="⃗"/></m:accPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:e></m:acc></m:e><m:sub><m:r><m:t>4</m:t></m:r></m:sub></m:sSub><m:r><m:t>=</m:t></m:r><m:r><m:t>19</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> m</m:t></m:r>'><var>L</var> = <var><span class="vec">⃗</span>x</var><sub>4</sub> = 19 <i>m</i></span><a title="Code line 10" class="lineLink" style="display: none;" href="#0" data-text="10">←</a></p>
+<p class="line" id="line-11">Load - <span class="eq" data-xml='<m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>q</m:t></m:r><m:r><m:t>=</m:t></m:r><m:r><m:t>10</m:t></m:r> <m:f><m:num><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> kN</m:t></m:r></m:num><m:den><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> m</m:t></m:r></m:den></m:f>'><var>q</var> = 10 <span class="dvc"><i>kN</i><span class="dvl"></span><i>m</i></span></span><a title="Code line 11" class="lineLink" style="display: none;" href="#0" data-text="11">←</a></p>
+<h5 class="line" id="line-12">Material<a title="Code line 12" class="lineLink" style="display: none;" href="#0" data-text="12">←</a></h5> 
+<p class="line" id="line-13">Elastic modulus - <span class="eq" data-xml='<m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>E</m:t></m:r><m:r><m:t>=</m:t></m:r><m:r><m:t>30</m:t></m:r> <m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> GPa</m:t></m:r>'><var>E</var> = 30 <i>GPa</i></span><a title="Code line 13" class="lineLink" style="display: none;" href="#0" data-text="13">←</a></p>
+<p class="line" id="line-14">Poisson′s ratio -  <span class="eq" data-xml='<m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>ν</m:t></m:r><m:r><m:t>=</m:t></m:r><m:r><m:t>0.2</m:t></m:r>'><var>ν</var> = 0.2</span><a title="Code line 14" class="lineLink" style="display: none;" href="#0" data-text="14">←</a></p>
+<p class="line" id="line-15">Shear modulus - <span class="eq" data-xml='<m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>G</m:t></m:r><m:r><m:t>=</m:t></m:r><m:f><m:num><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>E</m:t></m:r></m:num><m:den><m:r><m:t>2</m:t></m:r><m:r><m:t>·</m:t></m:r><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><m:t>1</m:t></m:r><m:r><m:t>+</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>ν</m:t></m:r></m:e></m:d></m:den></m:f><m:r><m:t>=</m:t></m:r><m:f><m:num><m:r><m:t>30</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> GPa</m:t></m:r></m:num><m:den><m:r><m:t>2</m:t></m:r><m:r><m:t>·</m:t></m:r><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><m:t>1</m:t></m:r><m:r><m:t>+</m:t></m:r><m:r><m:t>0.2</m:t></m:r></m:e></m:d></m:den></m:f><m:r><m:t>=</m:t></m:r><m:r><m:t>12.5</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> GPa</m:t></m:r>'><var>G</var> = <span class="dvc"><var>E</var><span class="dvl"></span>2·(1 + <var>ν</var>)</span> = <span class="dvc">30 <i>GPa</i><span class="dvl"></span>2·(1 + 0.2)</span> = 12.5 <i>GPa</i></span><a title="Code line 15" class="lineLink" style="display: none;" href="#0" data-text="15">←</a></p>
+<h5 class="line" id="line-16">Cross section<a title="Code line 16" class="lineLink" style="display: none;" href="#0" data-text="16">←</a></h5> 
+<p class="line" id="line-17">Rectangular with dimensions: <span class="eq" data-xml='<m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>b</m:t></m:r><m:r><m:t>=</m:t></m:r><m:r><m:t>250</m:t></m:r> <m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> mm</m:t></m:r>'><var>b</var> = 250 <i>mm</i></span> ,  <span class="eq" data-xml='<m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>h</m:t></m:r><m:r><m:t>=</m:t></m:r><m:r><m:t>500</m:t></m:r> <m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> mm</m:t></m:r>'><var>h</var> = 500 <i>mm</i></span><a title="Code line 17" class="lineLink" style="display: none;" href="#0" data-text="17">←</a></p>
+<p class="line" id="line-18">Area - <span class="eq" data-xml='<m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>A</m:t></m:r><m:r><m:t>=</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>b</m:t></m:r><m:r><m:t>·</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>h</m:t></m:r><m:r><m:t>=</m:t></m:r><m:r><m:t>250</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> mm</m:t></m:r><m:r><m:t>·</m:t></m:r><m:r><m:t>500</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> mm</m:t></m:r><m:r><m:t>=</m:t></m:r><m:r><m:t>125000</m:t></m:r><m:sSup><m:e><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> mm</m:t></m:r></m:e><m:sup><m:r><m:t>2</m:t></m:r></m:sup></m:sSup>'><var>A</var> = <var>b</var>·<var>h</var> = 250 <i>mm</i>·500 <i>mm</i> = 125000 <i>mm</i><sup>2</sup></span><a title="Code line 18" class="lineLink" style="display: none;" href="#0" data-text="18">←</a></p>
+<p class="line" id="line-19">Moment of inertia - <span class="eq" data-xml='<m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>I</m:t></m:r><m:r><m:t>=</m:t></m:r><m:f><m:num><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>b</m:t></m:r><m:r><m:t>·</m:t></m:r><m:sSup><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>h</m:t></m:r></m:e><m:sup><m:r><m:t>3</m:t></m:r></m:sup></m:sSup></m:num><m:den><m:r><m:t>12</m:t></m:r></m:den></m:f><m:r><m:t>=</m:t></m:r><m:f><m:num><m:r><m:t>250</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> mm</m:t></m:r><m:r><m:t>·</m:t></m:r><m:sSup><m:e><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><m:t>500</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> mm</m:t></m:r></m:e></m:d></m:e><m:sup><m:r><m:t>3</m:t></m:r></m:sup></m:sSup></m:num><m:den><m:r><m:t>12</m:t></m:r></m:den></m:f><m:r><m:t>=</m:t></m:r><m:r><m:t>2604166667</m:t></m:r><m:sSup><m:e><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> mm</m:t></m:r></m:e><m:sup><m:r><m:t>4</m:t></m:r></m:sup></m:sSup>'><var>I</var> = <span class="dvc"><var>b</var>·<var>h</var><sup>3</sup><span class="dvl"></span>12</span> = <span class="dvc">250 <i>mm</i>·(500 <i>mm</i>)<sup>3</sup><span class="dvl"></span>12</span> = 2604166667 <i>mm</i><sup>4</sup></span><a title="Code line 19" class="lineLink" style="display: none;" href="#0" data-text="19">←</a></p>
+<p class="line" id="line-20">Shear area - <span class="eq" data-xml='<m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>A</m:t></m:r></m:e><m:sub><m:r><m:t>Q</m:t></m:r></m:sub></m:sSub><m:r><m:t>=</m:t></m:r><m:f><m:num><m:r><m:t>5</m:t></m:r></m:num><m:den><m:r><m:t>6</m:t></m:r></m:den></m:f><m:r><m:t>·</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>b</m:t></m:r><m:r><m:t>·</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>h</m:t></m:r><m:r><m:t>=</m:t></m:r><m:f><m:num><m:r><m:t>5</m:t></m:r></m:num><m:den><m:r><m:t>6</m:t></m:r></m:den></m:f><m:r><m:t>·</m:t></m:r><m:r><m:t>250</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> mm</m:t></m:r><m:r><m:t>·</m:t></m:r><m:r><m:t>500</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> mm</m:t></m:r><m:r><m:t>=</m:t></m:r><m:r><m:t>104167</m:t></m:r><m:sSup><m:e><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> mm</m:t></m:r></m:e><m:sup><m:r><m:t>2</m:t></m:r></m:sup></m:sSup>'><var>A</var><sub>Q</sub> = <span class="dvc">5<span class="dvl"></span>6</span>·<var>b</var>·<var>h</var> = <span class="dvc">5<span class="dvl"></span>6</span>·250 <i>mm</i>·500 <i>mm</i> = 104167 <i>mm</i><sup>2</sup></span><a title="Code line 20" class="lineLink" style="display: none;" href="#0" data-text="20">←</a></p>
+<h4 class="line" id="line-21">Solution<a title="Code line 21" class="lineLink" style="display: none;" href="#0" data-text="21">←</a></h4> 
+<p class="line" id="line-22">The solution will be performed by the force method with a primary system - simply supported beam with internal supports removed and replaced by unknown forces <em>X</em><sub>i</sub> <a title="Code line 22" class="lineLink" style="display: none;" href="#0" data-text="22">←</a></p>
+<p class="line" id="line-23">Bending moments <a title="Code line 23" class="lineLink" style="display: none;" href="#0" data-text="23">←</a></p>
+<p class="line" id="line-24">- in section <em>a</em> due to unit force at distance <em>x</em> from the beginning of the beam: <a title="Code line 24" class="lineLink" style="display: none;" href="#0" data-text="24">←</a></p>
+<p class="line" id="line-25"><span class="eq" data-xml='<m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>M</m:t></m:r></m:e><m:sub><m:r><m:t>1,max</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:e></m:d><m:r><m:t>=</m:t></m:r><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:f><m:num><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:num><m:den><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>L</m:t></m:r></m:den></m:f><m:r><m:t>-</m:t></m:r><m:r><m:t>1</m:t></m:r></m:e></m:d><m:r><m:t>·</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r>'><var>M</var><sub>1,max</sub>(<var>x</var>) = <span class="b1">(</span><span class="dvc"><var>x</var><span class="dvl"></span><var>L</var></span> − 1<span class="b1">)</span>·<var>x</var></span><a title="Code line 25" class="lineLink" style="display: none;" href="#0" data-text="25">←</a></p>
+<p class="line" id="line-26"><span class="eq" data-xml='<m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>M</m:t></m:r></m:e><m:sub><m:r><m:t>1,a</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>a</m:t></m:r><m:r><m:t>;</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:e></m:d><m:r><m:t>=</m:t></m:r><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>M</m:t></m:r></m:e><m:sub><m:r><m:t>1,max</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:e></m:d><m:r><m:t>·</m:t></m:r><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:d><m:dPr><m:begChr m:val="{"/><m:endChr m:val=" "/></m:dPr><m:e><m:m><m:mPr><m:mcs><m:mc><m:mcPr><m:count m:val="2"/><m:mcJc m:val="left"/></m:mcPr></m:mc></m:mcs></m:mPr><m:mr><m:e><m:r><m:t> if </m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>a</m:t></m:r><m:r><m:t><</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r><m:r><m:t>:</m:t></m:r></m:e><m:e><m:f><m:num><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>a</m:t></m:r></m:num><m:den><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:den></m:f></m:e></m:mr><m:mr><m:e><m:r><m:t> else:</m:t></m:r></m:e><m:e><m:f><m:num><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>L</m:t></m:r><m:r><m:t>-</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>a</m:t></m:r></m:num><m:den><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>L</m:t></m:r><m:r><m:t>-</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:den></m:f></m:e></m:mr></m:m></m:e></m:d></m:e></m:d>'><var>M</var><sub>1,a</sub>(<var>a</var>; <var>x</var>) = <var>M</var><sub>1,max</sub>(<var>x</var>)·<span class="c3">{</span><span class="dvs">if <var>a</var> &lt; <var>x</var>: <span class="dvc"><var>a</var><span class="dvl"></span><var>x</var></span><br>else: <span class="dvc"><var>L</var> − <var>a</var><span class="dvl"></span><var>L</var> − <var>x</var></span></span></span><a title="Code line 26" class="lineLink" style="display: none;" href="#0" data-text="26">←</a></p>
+<p class="line" id="line-27">- in section <em>a</em>, due to unit force <em>X</em><sub>i</sub>: <a title="Code line 27" class="lineLink" style="display: none;" href="#0" data-text="27">←</a></p>
+<p class="line" id="line-28"><span class="eq" data-xml='<m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>M</m:t></m:r></m:e><m:sub><m:r><m:t>1</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>a</m:t></m:r><m:r><m:t>;</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>i</m:t></m:r></m:e></m:d><m:r><m:t>=</m:t></m:r><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>M</m:t></m:r></m:e><m:sub><m:r><m:t>1,a</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>a</m:t></m:r><m:r><m:t>;</m:t></m:r><m:sSub><m:e><m:acc><m:accPr><m:chr m:val="⃗"/></m:accPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:e></m:acc></m:e><m:sub><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>i</m:t></m:r></m:sub></m:sSub></m:e></m:d>'><var>M</var><sub>1</sub>(<var>a</var>; <var>i</var>) = <var>M</var><sub>1,a</sub>(<var>a</var>; <var><span class="vec">⃗</span>x</var><sub><var>i</var></sub>)</span><a title="Code line 28" class="lineLink" style="display: none;" href="#0" data-text="28">←</a></p>
+<div class="plot" id="line-32" style="width: 501pt; height: 120pt;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3337 800" version="1.1">
+<line class="PlotGrid" x1="150" y1="650" x2="3225" y2="650" />
+<text class="end" x="144" y="656">0 </text>
+<line class="PlotGrid" x1="150" y1="433.97" x2="3225" y2="433.97" />
+<text class="end" x="144" y="439.97">2 </text>
+<line class="PlotGrid" x1="150" y1="217.94" x2="3225" y2="217.94" />
+<text class="end" x="144" y="223.94">4 </text>
+<line class="PlotGrid" x1="225" y1="150" x2="225" y2="650" />
+<text class="middle" x="225" y="668">0 </text>
+<line class="PlotGrid" x1="540.79" y1="150" x2="540.79" y2="650" />
+<text class="middle" x="540.79" y="668">2 </text>
+<line class="PlotGrid" x1="856.58" y1="150" x2="856.58" y2="650" />
+<text class="middle" x="856.58" y="668">4 </text>
+<line class="PlotGrid" x1="1172.37" y1="150" x2="1172.37" y2="650" />
+<text class="middle" x="1172.37" y="668">6 </text>
+<line class="PlotGrid" x1="1488.16" y1="150" x2="1488.16" y2="650" />
+<text class="middle" x="1488.16" y="668">8 </text>
+<line class="PlotGrid" x1="1803.95" y1="150" x2="1803.95" y2="650" />
+<text class="middle" x="1803.95" y="668">10 </text>
+<line class="PlotGrid" x1="2119.74" y1="150" x2="2119.74" y2="650" />
+<text class="middle" x="2119.74" y="668">12 </text>
+<line class="PlotGrid" x1="2435.53" y1="150" x2="2435.53" y2="650" />
+<text class="middle" x="2435.53" y="668">14 </text>
+<line class="PlotGrid" x1="2751.32" y1="150" x2="2751.32" y2="650" />
+<text class="middle" x="2751.32" y="668">16 </text>
+<line class="PlotGrid" x1="3067.11" y1="150" x2="3067.11" y2="650" />
+<text class="middle" x="3067.1102" y="668">18 </text>
+<line class="PlotAxis" x1="150" y1="650" x2="3225" y2="650" />
+<text x="3237" y="656">x </text>
+<line class="PlotAxis" x1="225" y1="150" x2="225" y2="650" />
+<text x="219" y="138">y </text>
+<text x="5" y="788">(0; -5.24E-15) </text>
+<text class="end" x="3322" y="18">(19; 4.63) </text>
+<polyline class="PlotFunction1" points="225,650 708.87,388.68 757.26,362.54 805.65,336.41 829.84,323.34 841.94,316.81 847.98,313.55 854.03,310.28 857.06,308.97 866.13,310.28 872.18,311.15 878.23,312.02 902.42,315.51 999.19,329.44 1095.97,343.38 3225,650" />
+<polyline class="PlotFunction2" points="225,650 1870.16,176.13 1918.55,162.2 1942.74,155.23 1948.79,153.48 1954.84,151.74 1960.89,150 1963.91,150.54 1972.98,154.14 1979.03,156.53 1991.13,161.32 2015.32,170.91 2063.71,190.07 3225,650" />
+<polyline class="PlotFunction3" points="225,650 2257.26,284.15 2305.65,275.44 2354.03,266.72 2402.42,258.01 2414.52,255.84 2426.61,253.66 2429.64,253.11 2432.66,252.57 2435.69,252.13 2444.76,256.71 2450.81,259.76 2475,271.95 2499.19,284.15 2547.58,308.54 3225,650" />
+</svg>
+</div><p class="line" id="line-33">- due to external loads in primary system: <a title="Code line 33" class="lineLink" style="display: none;" href="#0" data-text="33">←</a></p>
+<p class="line" id="line-34"><span class="eq" data-xml='<m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>M</m:t></m:r></m:e><m:sub><m:r><m:t>F</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:e></m:d><m:r><m:t>=</m:t></m:r><m:f><m:num><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>q</m:t></m:r><m:r><m:t>·</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:num><m:den><m:r><m:t>2</m:t></m:r></m:den></m:f><m:r><m:t>·</m:t></m:r><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>L</m:t></m:r><m:r><m:t>-</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:e></m:d>'><var>M</var><sub>F</sub>(<var>x</var>) = <span class="dvc"><var>q</var>·<var>x</var><span class="dvl"></span>2</span>·(<var>L</var> − <var>x</var>)</span><a title="Code line 34" class="lineLink" style="display: none;" href="#0" data-text="34">←</a></p>
+<div class="plot" id="line-35" style="width: 501pt; height: 120pt;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3337 800" version="1.1">
+<line class="PlotGrid" x1="150" y1="594.67" x2="3225" y2="594.67" />
+<text class="end" x="144" y="600.67">-400 </text>
+<line class="PlotGrid" x1="150" y1="372.84" x2="3225" y2="372.84" />
+<text class="end" x="144" y="378.84">-200 </text>
+<line class="PlotGrid" x1="150" y1="151" x2="3225" y2="151" />
+<text class="end" x="144" y="157">0 </text>
+<line class="PlotGrid" x1="225" y1="150" x2="225" y2="650" />
+<text class="middle" x="225" y="668">0 </text>
+<line class="PlotGrid" x1="540.79" y1="150" x2="540.79" y2="650" />
+<text class="middle" x="540.79" y="668">2 </text>
+<line class="PlotGrid" x1="856.58" y1="150" x2="856.58" y2="650" />
+<text class="middle" x="856.58" y="668">4 </text>
+<line class="PlotGrid" x1="1172.37" y1="150" x2="1172.37" y2="650" />
+<text class="middle" x="1172.37" y="668">6 </text>
+<line class="PlotGrid" x1="1488.16" y1="150" x2="1488.16" y2="650" />
+<text class="middle" x="1488.16" y="668">8 </text>
+<line class="PlotGrid" x1="1803.95" y1="150" x2="1803.95" y2="650" />
+<text class="middle" x="1803.95" y="668">10 </text>
+<line class="PlotGrid" x1="2119.74" y1="150" x2="2119.74" y2="650" />
+<text class="middle" x="2119.74" y="668">12 </text>
+<line class="PlotGrid" x1="2435.53" y1="150" x2="2435.53" y2="650" />
+<text class="middle" x="2435.53" y="668">14 </text>
+<line class="PlotGrid" x1="2751.32" y1="150" x2="2751.32" y2="650" />
+<text class="middle" x="2751.32" y="668">16 </text>
+<line class="PlotGrid" x1="3067.11" y1="150" x2="3067.11" y2="650" />
+<text class="middle" x="3067.1102" y="668">18 </text>
+<rect class="PlotAxis" x="150" y="150" width="3075" height="500" />
+<line class="PlotAxis" x1="150" y1="151" x2="3225" y2="151" />
+<text x="3237" y="157">x </text>
+<line class="PlotAxis" x1="225" y1="150" x2="225" y2="650" />
+<text x="219" y="138">y </text>
+<text x="5" y="788">(0; -450.78) </text>
+<text class="end" x="3322" y="18">(19; 6.75E-13) </text>
+<polyline class="PlotFunction1" points="225,151 321.77,213.5 418.55,271.83 515.32,326 612.1,376 708.87,421.83 805.65,463.5 902.42,501 999.19,534.33 1095.97,563.5 1192.74,588.5 1289.52,609.33 1386.29,626 1483.06,638.5 1579.84,646.83 1676.61,651 1773.39,651 1870.16,646.83 1966.94,638.5 2063.71,626 2160.48,609.33 2257.26,588.5 2354.03,563.5 2450.81,534.33 2547.58,501 2644.35,463.5 2741.13,421.83 2837.9,376 2934.68,326 3031.45,271.83 3128.23,213.5 3225,151" />
+</svg>
+</div><p class="line" id="line-36">Shear forces <a title="Code line 36" class="lineLink" style="display: none;" href="#0" data-text="36">←</a></p>
+<p class="line" id="line-37">- in section <em>a</em> due to unit force at distance <em>x</em> from the beginning of the beam: <a title="Code line 37" class="lineLink" style="display: none;" href="#0" data-text="37">←</a></p>
+<p class="line" id="line-38"><span class="eq" data-xml='<m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>V</m:t></m:r></m:e><m:sub><m:r><m:t>1,a</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>a</m:t></m:r><m:r><m:t>;</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:e></m:d><m:r><m:t>=</m:t></m:r><m:d><m:dPr><m:begChr m:val="{"/><m:endChr m:val=" "/></m:dPr><m:e><m:m><m:mPr><m:mcs><m:mc><m:mcPr><m:count m:val="2"/><m:mcJc m:val="left"/></m:mcPr></m:mc></m:mcs></m:mPr><m:mr><m:e><m:r><m:t> if </m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>a</m:t></m:r><m:r><m:t><</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r><m:r><m:t>:</m:t></m:r></m:e><m:e><m:f><m:num><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:num><m:den><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>L</m:t></m:r></m:den></m:f><m:r><m:t>-</m:t></m:r><m:r><m:t>1</m:t></m:r></m:e></m:mr><m:mr><m:e><m:r><m:t> else:</m:t></m:r></m:e><m:e><m:f><m:num><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:num><m:den><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>L</m:t></m:r></m:den></m:f></m:e></m:mr></m:m></m:e></m:d>'><var>V</var><sub>1,a</sub>(<var>a</var>; <var>x</var>) = <span class="c3">{</span><span class="dvs">if <var>a</var> &lt; <var>x</var>: <span class="dvc"><var>x</var><span class="dvl"></span><var>L</var></span> − 1<br>else: <span class="dvc"><var>x</var><span class="dvl"></span><var>L</var></span></span></span><a title="Code line 38" class="lineLink" style="display: none;" href="#0" data-text="38">←</a></p>
+<p class="line" id="line-39">- in section <em>a</em>, due to unit force <em>X</em><sub>i</sub>: <a title="Code line 39" class="lineLink" style="display: none;" href="#0" data-text="39">←</a></p>
+<p class="line" id="line-40"><span class="eq" data-xml='<m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>V</m:t></m:r></m:e><m:sub><m:r><m:t>1</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>a</m:t></m:r><m:r><m:t>;</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>i</m:t></m:r></m:e></m:d><m:r><m:t>=</m:t></m:r><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>V</m:t></m:r></m:e><m:sub><m:r><m:t>1,a</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>a</m:t></m:r><m:r><m:t>;</m:t></m:r><m:sSub><m:e><m:acc><m:accPr><m:chr m:val="⃗"/></m:accPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:e></m:acc></m:e><m:sub><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>i</m:t></m:r></m:sub></m:sSub></m:e></m:d>'><var>V</var><sub>1</sub>(<var>a</var>; <var>i</var>) = <var>V</var><sub>1,a</sub>(<var>a</var>; <var><span class="vec">⃗</span>x</var><sub><var>i</var></sub>)</span><a title="Code line 40" class="lineLink" style="display: none;" href="#0" data-text="40">←</a></p>
+<div class="plot" id="line-41" style="width: 501pt; height: 120pt;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3337 800" version="1.1">
+<line class="PlotGrid" x1="150" y1="637.69" x2="3225" y2="637.69" />
+<text class="end" x="144" y="643.69">-0.75 </text>
+<line class="PlotGrid" x1="150" y1="392" x2="3225" y2="392" />
+<text class="end" x="144" y="398">0 </text>
+<line class="PlotGrid" x1="150" y1="146.31" x2="3225" y2="146.31" />
+<text class="end" x="144" y="152.31">0.75 </text>
+<line class="PlotGrid" x1="225" y1="150" x2="225" y2="650" />
+<text class="middle" x="225" y="668">0 </text>
+<line class="PlotGrid" x1="540.79" y1="150" x2="540.79" y2="650" />
+<text class="middle" x="540.79" y="668">2 </text>
+<line class="PlotGrid" x1="856.58" y1="150" x2="856.58" y2="650" />
+<text class="middle" x="856.58" y="668">4 </text>
+<line class="PlotGrid" x1="1172.37" y1="150" x2="1172.37" y2="650" />
+<text class="middle" x="1172.37" y="668">6 </text>
+<line class="PlotGrid" x1="1488.16" y1="150" x2="1488.16" y2="650" />
+<text class="middle" x="1488.16" y="668">8 </text>
+<line class="PlotGrid" x1="1803.95" y1="150" x2="1803.95" y2="650" />
+<text class="middle" x="1803.95" y="668">10 </text>
+<line class="PlotGrid" x1="2119.74" y1="150" x2="2119.74" y2="650" />
+<text class="middle" x="2119.74" y="668">12 </text>
+<line class="PlotGrid" x1="2435.53" y1="150" x2="2435.53" y2="650" />
+<text class="middle" x="2435.53" y="668">14 </text>
+<line class="PlotGrid" x1="2751.32" y1="150" x2="2751.32" y2="650" />
+<text class="middle" x="2751.32" y="668">16 </text>
+<line class="PlotGrid" x1="3067.11" y1="150" x2="3067.11" y2="650" />
+<text class="middle" x="3067.1102" y="668">18 </text>
+<rect class="PlotAxis" x="150" y="150" width="3075" height="500" />
+<line class="PlotAxis" x1="150" y1="392" x2="3225" y2="392" />
+<text x="3237" y="398">x </text>
+<line class="PlotAxis" x1="225" y1="150" x2="225" y2="650" />
+<text x="219" y="138">y </text>
+<text x="5" y="788">(0; -0.789) </text>
+<text class="end" x="3322" y="18">(19; 0.737) </text>
+<polyline class="PlotFunction1" points="225,650.62 854.03,650.62 857.06,323.03 3225,323.03" />
+<polyline class="PlotFunction2" points="225,529.93 1960.89,529.93 1963.91,202.34 3225,202.34" />
+<polyline class="PlotFunction3" points="225,478.21 2432.66,478.21 2435.69,150.62 3225,150.62" />
+</svg>
+</div><p class="line" id="line-42">- due to external loads in primary system: <a title="Code line 42" class="lineLink" style="display: none;" href="#0" data-text="42">←</a></p>
+<p class="line" id="line-43"><span class="eq" data-xml='<m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>V</m:t></m:r></m:e><m:sub><m:r><m:t>F</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:e></m:d><m:r><m:t>=</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>q</m:t></m:r><m:r><m:t>·</m:t></m:r><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:f><m:num><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>L</m:t></m:r></m:num><m:den><m:r><m:t>2</m:t></m:r></m:den></m:f><m:r><m:t>-</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:e></m:d>'><var>V</var><sub>F</sub>(<var>x</var>) = <var>q</var>·<span class="b1">(</span><span class="dvc"><var>L</var><span class="dvl"></span>2</span> − <var>x</var><span class="b1">)</span></span><a title="Code line 43" class="lineLink" style="display: none;" href="#0" data-text="43">←</a></p>
+<div class="plot" id="line-44" style="width: 501pt; height: 120pt;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3337 800" version="1.1">
+<line class="PlotGrid" x1="150" y1="663.16" x2="3225" y2="663.16" />
+<text class="end" x="144" y="669.16">-100 </text>
+<line class="PlotGrid" x1="150" y1="400" x2="3225" y2="400" />
+<text class="end" x="144" y="406">0 </text>
+<line class="PlotGrid" x1="225" y1="150" x2="225" y2="650" />
+<text class="middle" x="225" y="668">0 </text>
+<line class="PlotGrid" x1="540.79" y1="150" x2="540.79" y2="650" />
+<text class="middle" x="540.79" y="668">2 </text>
+<line class="PlotGrid" x1="856.58" y1="150" x2="856.58" y2="650" />
+<text class="middle" x="856.58" y="668">4 </text>
+<line class="PlotGrid" x1="1172.37" y1="150" x2="1172.37" y2="650" />
+<text class="middle" x="1172.37" y="668">6 </text>
+<line class="PlotGrid" x1="1488.16" y1="150" x2="1488.16" y2="650" />
+<text class="middle" x="1488.16" y="668">8 </text>
+<line class="PlotGrid" x1="1803.95" y1="150" x2="1803.95" y2="650" />
+<text class="middle" x="1803.95" y="668">10 </text>
+<line class="PlotGrid" x1="2119.74" y1="150" x2="2119.74" y2="650" />
+<text class="middle" x="2119.74" y="668">12 </text>
+<line class="PlotGrid" x1="2435.53" y1="150" x2="2435.53" y2="650" />
+<text class="middle" x="2435.53" y="668">14 </text>
+<line class="PlotGrid" x1="2751.32" y1="150" x2="2751.32" y2="650" />
+<text class="middle" x="2751.32" y="668">16 </text>
+<line class="PlotGrid" x1="3067.11" y1="150" x2="3067.11" y2="650" />
+<text class="middle" x="3067.1102" y="668">18 </text>
+<rect class="PlotAxis" x="150" y="150" width="3075" height="500" />
+<line class="PlotAxis" x1="150" y1="400" x2="3225" y2="400" />
+<text x="3237" y="406">x </text>
+<line class="PlotAxis" x1="225" y1="150" x2="225" y2="650" />
+<text x="219" y="138">y </text>
+<text x="5" y="788">(0; -95) </text>
+<text class="end" x="3322" y="18">(19; 95) </text>
+<polyline class="PlotFunction1" points="225,150 3225,650" />
+</svg>
+</div><p class="line" id="line-45">Number of unknowns by force method - <span class="eq" data-xml='<m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>n</m:t></m:r></m:e><m:sub><m:r><m:t>1</m:t></m:r></m:sub></m:sSub><m:r><m:t>=</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>n</m:t></m:r><m:r><m:t>-</m:t></m:r><m:r><m:t>1</m:t></m:r><m:r><m:t>=</m:t></m:r><m:r><m:t>4</m:t></m:r><m:r><m:t>-</m:t></m:r><m:r><m:t>1</m:t></m:r><m:r><m:t>=</m:t></m:r><m:r><m:t>3</m:t></m:r>'><var>n</var><sub>1</sub> = <var>n</var> − 1 = 4 − 1 = 3</span><a title="Code line 45" class="lineLink" style="display: none;" href="#0" data-text="45">←</a></p>
+<p class="line" id="line-46">Flexibility coefficients <a title="Code line 46" class="lineLink" style="display: none;" href="#0" data-text="46">←</a></p>
+<p class="line" id="line-47"><span class="eq" data-xml='<m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>δ</m:t></m:r><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>i</m:t></m:r><m:r><m:t>;</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>j</m:t></m:r></m:e></m:d><m:r><m:t>=</m:t></m:r><m:nary><m:naryPr><m:chr m:val="∫"/><m:limLoc m:val="undOvr"/></m:naryPr><m:sub><m:r><m:t>0</m:t></m:r> <m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> m</m:t></m:r></m:sub><m:sup><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>L</m:t></m:r></m:sup><m:e><m:f><m:num><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>M</m:t></m:r></m:e><m:sub><m:r><m:t>1</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r><m:r><m:t>;</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>i</m:t></m:r></m:e></m:d><m:r><m:t>·</m:t></m:r><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>M</m:t></m:r></m:e><m:sub><m:r><m:t>1</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r><m:r><m:t>;</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>j</m:t></m:r></m:e></m:d></m:num><m:den><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>E</m:t></m:r><m:r><m:t>·</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>I</m:t></m:r></m:den></m:f><m:r><m:t> d</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:e></m:nary><m:r><m:t>+</m:t></m:r><m:nary><m:naryPr><m:chr m:val="∫"/><m:limLoc m:val="undOvr"/></m:naryPr><m:sub><m:r><m:t>0</m:t></m:r> <m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> m</m:t></m:r></m:sub><m:sup><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>L</m:t></m:r></m:sup><m:e><m:f><m:num><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>V</m:t></m:r></m:e><m:sub><m:r><m:t>1</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r><m:r><m:t>;</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>i</m:t></m:r></m:e></m:d><m:r><m:t>·</m:t></m:r><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>V</m:t></m:r></m:e><m:sub><m:r><m:t>1</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r><m:r><m:t>;</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>j</m:t></m:r></m:e></m:d></m:num><m:den><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>G</m:t></m:r><m:r><m:t>·</m:t></m:r><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>A</m:t></m:r></m:e><m:sub><m:r><m:t>Q</m:t></m:r></m:sub></m:sSub></m:den></m:f><m:r><m:t> d</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:e></m:nary>'><var>δ</var>(<var>i</var>; <var>j</var>) = <span class="dvr"><small><var>L</var></small><span class="nary"><em>∫</em></span><small>0 <i>m</i></small></span><span class="dvc"><var>M</var><sub>1</sub>(<var>x</var>; <var>i</var>)·<var>M</var><sub>1</sub>(<var>x</var>; <var>j</var>)<span class="dvl"></span><var>E</var>·<var>I</var></span> d<var>x</var> + <span class="dvr"><small><var>L</var></small><span class="nary"><em>∫</em></span><small>0 <i>m</i></small></span><span class="dvc"><var>V</var><sub>1</sub>(<var>x</var>; <var>i</var>)·<var>V</var><sub>1</sub>(<var>x</var>; <var>j</var>)<span class="dvl"></span><var>G</var>·<var>A</var><sub>Q</sub></span> d<var>x</var></span><a title="Code line 47" class="lineLink" style="display: none;" href="#0" data-text="47">←</a></p>
+<p class="line" id="line-48"><span class="eq" data-xml='<m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>Δ</m:t></m:r></m:e><m:sub><m:r><m:t>F</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>i</m:t></m:r></m:e></m:d><m:r><m:t>=</m:t></m:r><m:nary><m:naryPr><m:chr m:val="∫"/><m:limLoc m:val="undOvr"/></m:naryPr><m:sub><m:r><m:t>0</m:t></m:r> <m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> m</m:t></m:r></m:sub><m:sup><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>L</m:t></m:r></m:sup><m:e><m:f><m:num><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>M</m:t></m:r></m:e><m:sub><m:r><m:t>1</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r><m:r><m:t>;</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>i</m:t></m:r></m:e></m:d><m:r><m:t>·</m:t></m:r><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>M</m:t></m:r></m:e><m:sub><m:r><m:t>F</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:e></m:d></m:num><m:den><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>E</m:t></m:r><m:r><m:t>·</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>I</m:t></m:r></m:den></m:f><m:r><m:t> d</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:e></m:nary><m:r><m:t>+</m:t></m:r><m:nary><m:naryPr><m:chr m:val="∫"/><m:limLoc m:val="undOvr"/></m:naryPr><m:sub><m:r><m:t>0</m:t></m:r> <m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> m</m:t></m:r></m:sub><m:sup><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>L</m:t></m:r></m:sup><m:e><m:f><m:num><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>V</m:t></m:r></m:e><m:sub><m:r><m:t>1</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r><m:r><m:t>;</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>i</m:t></m:r></m:e></m:d><m:r><m:t>·</m:t></m:r><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>V</m:t></m:r></m:e><m:sub><m:r><m:t>F</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:e></m:d></m:num><m:den><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>G</m:t></m:r><m:r><m:t>·</m:t></m:r><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>A</m:t></m:r></m:e><m:sub><m:r><m:t>Q</m:t></m:r></m:sub></m:sSub></m:den></m:f><m:r><m:t> d</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:e></m:nary>'><var>Δ</var><sub>F</sub>(<var>i</var>) = <span class="dvr"><small><var>L</var></small><span class="nary"><em>∫</em></span><small>0 <i>m</i></small></span><span class="dvc"><var>M</var><sub>1</sub>(<var>x</var>; <var>i</var>)·<var>M</var><sub>F</sub>(<var>x</var>)<span class="dvl"></span><var>E</var>·<var>I</var></span> d<var>x</var> + <span class="dvr"><small><var>L</var></small><span class="nary"><em>∫</em></span><small>0 <i>m</i></small></span><span class="dvc"><var>V</var><sub>1</sub>(<var>x</var>; <var>i</var>)·<var>V</var><sub>F</sub>(<var>x</var>)<span class="dvl"></span><var>G</var>·<var>A</var><sub>Q</sub></span> d<var>x</var></span><a title="Code line 48" class="lineLink" style="display: none;" href="#0" data-text="48">←</a></p>
+<p class="line" id="line-49"><span class="eq" data-xml='<m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>δ</m:t></m:r><m:r><m:t>=</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:b w:val="true" /></w:rPr><m:t>symmetric</m:t></m:r><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>n</m:t></m:r></m:e><m:sub><m:r><m:t>1</m:t></m:r></m:sub></m:sSub></m:e></m:d><m:r><m:t>=</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:b w:val="true" /></w:rPr><m:t>symmetric</m:t></m:r><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><m:t>3</m:t></m:r></m:e></m:d><m:r><m:t>=</m:t></m:r><m:d><m:dPr><m:begChr m:val="["/><m:endChr m:val="]"/></m:dPr><m:e><m:m><m:mPr><m:mcs><m:mc><m:mcPr><m:count m:val="3"/><m:mcJc m:val="center"/></m:mcPr></m:mc></m:mcs></m:mPr><m:mr><m:e><m:r><m:t>0</m:t></m:r></m:e><m:e><m:r><m:t>0</m:t></m:r></m:e><m:e><m:r><m:t>0</m:t></m:r></m:e></m:mr><m:mr><m:e><m:r><m:t>0</m:t></m:r></m:e><m:e><m:r><m:t>0</m:t></m:r></m:e><m:e><m:r><m:t>0</m:t></m:r></m:e></m:mr><m:mr><m:e><m:r><m:t>0</m:t></m:r></m:e><m:e><m:r><m:t>0</m:t></m:r></m:e><m:e><m:r><m:t>0</m:t></m:r></m:e></m:mr></m:m></m:e></m:d>'><var>δ</var> = <b>symmetric</b>(<var>n</var><sub>1</sub>) = <b>symmetric</b>(3) = <span class="matrix">
+<span class="tr"><span class="td"></span><span class="td">0</span><span class="td">0</span><span class="td">0</span><span class="td"></span></span>
+<span class="tr"><span class="td"></span><span class="td">0</span><span class="td">0</span><span class="td">0</span><span class="td"></span></span>
+<span class="tr"><span class="td"></span><span class="td">0</span><span class="td">0</span><span class="td">0</span><span class="td"></span></span>
+</span>
+</span> , <span class="eq" data-xml='<m:sSub><m:e><m:acc><m:accPr><m:chr m:val="⃗"/></m:accPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>Δ</m:t></m:r></m:e></m:acc></m:e><m:sub><m:r><m:t>F</m:t></m:r></m:sub></m:sSub><m:r><m:t>=</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:b w:val="true" /></w:rPr><m:t>vector</m:t></m:r><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>n</m:t></m:r></m:e><m:sub><m:r><m:t>1</m:t></m:r></m:sub></m:sSub></m:e></m:d><m:r><m:t>=</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:b w:val="true" /></w:rPr><m:t>vector</m:t></m:r><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><m:t>3</m:t></m:r></m:e></m:d><m:r><m:t>=</m:t></m:r><m:d><m:dPr><m:begChr m:val="["/><m:endChr m:val="]"/></m:dPr><m:e><m:r><m:t>0</m:t></m:r><m:r><m:t> </m:t></m:r><m:r><m:t>0</m:t></m:r><m:r><m:t> </m:t></m:r><m:r><m:t>0</m:t></m:r></m:e></m:d>'><var><span class="vec">⃗</span>Δ</var><sub>F</sub> = <b>vector</b>(<var>n</var><sub>1</sub>) = <b>vector</b>(3) = [0 0 0]</span><a title="Code line 49" class="lineLink" style="display: none;" href="#0" data-text="49">←</a></p>
+<p class="line" id="line-50"><span class="eq" data-xml='<m:r><m:t>$Repeat</m:t></m:r><m:d><m:dPr><m:begChr m:val="{"/><m:endChr m:val="}"/></m:dPr><m:e><m:r><m:t>$Repeat</m:t></m:r><m:d><m:dPr><m:begChr m:val="{"/><m:endChr m:val="}"/></m:dPr><m:e><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>δ</m:t></m:r></m:e><m:sub><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>i</m:t></m:r><m:r><m:t>,</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>j</m:t></m:r></m:sub></m:sSub><m:r><m:t>=</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>δ</m:t></m:r><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>i</m:t></m:r><m:r><m:t>;</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>j</m:t></m:r></m:e></m:d><m:r><m:t>;</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>i</m:t></m:r><m:r><m:t>=</m:t></m:r><m:r><m:t>1</m:t></m:r><m:r><m:t>...</m:t></m:r><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>n</m:t></m:r></m:e><m:sub><m:r><m:t>1</m:t></m:r></m:sub></m:sSub></m:e></m:d><m:r><m:t>;</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>j</m:t></m:r><m:r><m:t>=</m:t></m:r><m:r><m:t>1</m:t></m:r><m:r><m:t>...</m:t></m:r><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>n</m:t></m:r></m:e><m:sub><m:r><m:t>1</m:t></m:r></m:sub></m:sSub></m:e></m:d><m:r><m:t>=</m:t></m:r><m:r><m:t>0.0011</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> m</m:t></m:r><m:r><m:t>/</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> kN</m:t></m:r>'><span class="cond">$Repeat</span>{<span class="cond">$Repeat</span>{<var>δ</var><sub><var>i</var>, <var>j</var></sub> = <var>δ</var>(<var>i</var>; <var>j</var>); <var>i</var> = 1...<var>n</var><sub>1</sub>}; <var>j</var> = 1...<var>n</var><sub>1</sub>} = 0.0011 <i>m</i>/<i>kN</i></span><a title="Code line 50" class="lineLink" style="display: none;" href="#0" data-text="50">←</a></p>
+<p class="line" id="line-51"><span class="eq" data-xml='<m:r><m:t>$Repeat</m:t></m:r><m:d><m:dPr><m:begChr m:val="{"/><m:endChr m:val="}"/></m:dPr><m:e><m:sSub><m:e><m:sSub><m:e><m:acc><m:accPr><m:chr m:val="⃗"/></m:accPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>Δ</m:t></m:r></m:e></m:acc></m:e><m:sub><m:r><m:t>F</m:t></m:r></m:sub></m:sSub></m:e><m:sub><m:r><m:t>.</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>i</m:t></m:r></m:sub></m:sSub><m:r><m:t>=</m:t></m:r><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>Δ</m:t></m:r></m:e><m:sub><m:r><m:t>F</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>i</m:t></m:r></m:e></m:d><m:r><m:t>;</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>i</m:t></m:r><m:r><m:t>=</m:t></m:r><m:r><m:t>1</m:t></m:r><m:r><m:t>...</m:t></m:r><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>n</m:t></m:r></m:e><m:sub><m:r><m:t>1</m:t></m:r></m:sub></m:sSub></m:e></m:d><m:r><m:t>=</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><m:t>-</m:t></m:r><m:r><m:t>0.161</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> m</m:t></m:r>'><span class="cond">$Repeat</span>{<var><span class="vec">⃗</span>Δ</var><sub>F</sub><sub>.<var>i</var></sub> = <var>Δ</var><sub>F</sub>(<var>i</var>); <var>i</var> = 1...<var>n</var><sub>1</sub>} = -0.161 <i>m</i></span><a title="Code line 51" class="lineLink" style="display: none;" href="#0" data-text="51">←</a></p>
+<p class="line" id="line-52"><span class="eq" data-xml='<m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>δ</m:t></m:r><m:r><m:t>=</m:t></m:r><m:d><m:dPr><m:begChr m:val="["/><m:endChr m:val="]"/></m:dPr><m:e><m:m><m:mPr><m:mcs><m:mc><m:mcPr><m:count m:val="3"/><m:mcJc m:val="center"/></m:mcPr></m:mc></m:mcs></m:mPr><m:mr><m:e><m:r><m:t>0.000811</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> m</m:t></m:r><m:r><m:t>/</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> kN</m:t></m:r></m:e><m:e><m:r><m:t>0.00101</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> m</m:t></m:r><m:r><m:t>/</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> kN</m:t></m:r></m:e><m:e><m:r><m:t>0.000719</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> m</m:t></m:r><m:r><m:t>/</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> kN</m:t></m:r></m:e></m:mr><m:mr><m:e><m:r><m:t>0.00101</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> m</m:t></m:r><m:r><m:t>/</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> kN</m:t></m:r></m:e><m:e><m:r><m:t>0.00174</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> m</m:t></m:r><m:r><m:t>/</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> kN</m:t></m:r></m:e><m:e><m:r><m:t>0.00133</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> m</m:t></m:r><m:r><m:t>/</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> kN</m:t></m:r></m:e></m:mr><m:mr><m:e><m:r><m:t>0.000719</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> m</m:t></m:r><m:r><m:t>/</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> kN</m:t></m:r></m:e><m:e><m:r><m:t>0.00133</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> m</m:t></m:r><m:r><m:t>/</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> kN</m:t></m:r></m:e><m:e><m:r><m:t>0.0011</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> m</m:t></m:r><m:r><m:t>/</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> kN</m:t></m:r></m:e></m:mr></m:m></m:e></m:d>'><var>δ</var> = <span class="matrix">
+<span class="tr"><span class="td"></span><span class="td">0.000811 <i>m</i>/<i>kN</i></span><span class="td">0.00101 <i>m</i>/<i>kN</i></span><span class="td">0.000719 <i>m</i>/<i>kN</i></span><span class="td"></span></span>
+<span class="tr"><span class="td"></span><span class="td">0.00101 <i>m</i>/<i>kN</i></span><span class="td">0.00174 <i>m</i>/<i>kN</i></span><span class="td">0.00133 <i>m</i>/<i>kN</i></span><span class="td"></span></span>
+<span class="tr"><span class="td"></span><span class="td">0.000719 <i>m</i>/<i>kN</i></span><span class="td">0.00133 <i>m</i>/<i>kN</i></span><span class="td">0.0011 <i>m</i>/<i>kN</i></span><span class="td"></span></span>
+</span>
+</span> , <span class="eq" data-xml='<m:sSub><m:e><m:acc><m:accPr><m:chr m:val="⃗"/></m:accPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>Δ</m:t></m:r></m:e></m:acc></m:e><m:sub><m:r><m:t>F</m:t></m:r></m:sub></m:sSub><m:r><m:t>=</m:t></m:r><m:d><m:dPr><m:begChr m:val="["/><m:endChr m:val="]"/></m:dPr><m:e><m:r><m:rPr><m:nor/></m:rPr><m:t>-</m:t></m:r><m:r><m:t>0.135</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> m</m:t></m:r><m:r><m:t> </m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><m:t>-</m:t></m:r><m:r><m:t>0.211</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> m</m:t></m:r><m:r><m:t> </m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><m:t>-</m:t></m:r><m:r><m:t>0.161</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> m</m:t></m:r></m:e></m:d>'><var><span class="vec">⃗</span>Δ</var><sub>F</sub> = [-0.135 <i>m</i> -0.211 <i>m</i> -0.161 <i>m</i>]</span><a title="Code line 52" class="lineLink" style="display: none;" href="#0" data-text="52">←</a></p>
+<p class="line" id="line-53">Calculation of the unknown forces <em>X</em><sub>i</sub> <a title="Code line 53" class="lineLink" style="display: none;" href="#0" data-text="53">←</a></p>
+<p class="line" id="line-54"><span class="eq" data-xml='<m:acc><m:accPr><m:chr m:val="⃗"/></m:accPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>X</m:t></m:r></m:e></m:acc><m:r><m:t>=</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><m:t>-</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:b w:val="true" /></w:rPr><m:t>clsolve</m:t></m:r><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>δ</m:t></m:r><m:r><m:t>;</m:t></m:r><m:sSub><m:e><m:acc><m:accPr><m:chr m:val="⃗"/></m:accPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>Δ</m:t></m:r></m:e></m:acc></m:e><m:sub><m:r><m:t>F</m:t></m:r></m:sub></m:sSub></m:e></m:d><m:r><m:t>=</m:t></m:r><m:d><m:dPr><m:begChr m:val="["/><m:endChr m:val="]"/></m:dPr><m:e><m:r><m:t>64.86</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> kN</m:t></m:r><m:r><m:t> </m:t></m:r><m:r><m:t>53.48</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> kN</m:t></m:r><m:r><m:t> </m:t></m:r><m:r><m:t>39.33</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> kN</m:t></m:r></m:e></m:d>'><var><span class="vec">⃗</span>X</var> = -<b>clsolve</b>(<var>δ</var>; <var><span class="vec">⃗</span>Δ</var><sub>F</sub>) = [64.86 <i>kN</i> 53.48 <i>kN</i> 39.33 <i>kN</i>]</span><a title="Code line 54" class="lineLink" style="display: none;" href="#0" data-text="54">←</a></p>
+<h4 class="line" id="line-55">Results<a title="Code line 55" class="lineLink" style="display: none;" href="#0" data-text="55">←</a></h4> 
+<p class="line" id="line-56">Bending moment diagram - <span class="eq" data-xml='<m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>M</m:t></m:r><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:e></m:d><m:r><m:t>=</m:t></m:r><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>M</m:t></m:r></m:e><m:sub><m:r><m:t>F</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:e></m:d><m:r><m:t>+</m:t></m:r><m:nary><m:naryPr><m:chr m:val="∑"/><m:limLoc m:val="undOvr"/></m:naryPr><m:sub><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>i</m:t></m:r><m:r><m:t>=</m:t></m:r><m:r><m:t>1</m:t></m:r></m:sub><m:sup><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>n</m:t></m:r></m:e><m:sub><m:r><m:t>1</m:t></m:r></m:sub></m:sSub></m:sup><m:e><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>M</m:t></m:r></m:e><m:sub><m:r><m:t>1</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:acc><m:accPr><m:chr m:val="⃗"/></m:accPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:e></m:acc><m:r><m:t>;</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>i</m:t></m:r></m:e></m:d><m:r><m:t>·</m:t></m:r><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>X</m:t></m:r></m:e><m:sub><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>i</m:t></m:r></m:sub></m:sSub></m:e></m:nary>'><var>M</var>(<var>x</var>) = <var>M</var><sub>F</sub>(<var>x</var>) + <span class="dvr"><small><var>n</var><sub>1</sub></small><span class="nary">∑</span><small><var>i</var>= 1</small></span><var>M</var><sub>1</sub>(<var><span class="vec">⃗</span>x</var>; <var>i</var>)·<var>X</var><sub><var>i</var></sub></span><a title="Code line 56" class="lineLink" style="display: none;" href="#0" data-text="56">←</a></p>
+<div class="plot" id="line-57" style="width: 501pt; height: 120pt;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3337 800" version="1.1">
+<line class="PlotGrid" x1="150" y1="629.61" x2="3225" y2="629.61" />
+<text class="end" x="144" y="635.61">-25 </text>
+<line class="PlotGrid" x1="150" y1="434" x2="3225" y2="434" />
+<text class="end" x="144" y="440">0 </text>
+<line class="PlotGrid" x1="150" y1="238.39" x2="3225" y2="238.39" />
+<text class="end" x="144" y="244.39">25 </text>
+<line class="PlotGrid" x1="225" y1="150" x2="225" y2="650" />
+<text class="middle" x="225" y="668">0 </text>
+<line class="PlotGrid" x1="382.89" y1="150" x2="382.89" y2="650" />
+<line class="PlotGrid" x1="540.79" y1="150" x2="540.79" y2="650" />
+<text class="middle" x="540.79" y="668">2 </text>
+<line class="PlotGrid" x1="698.68" y1="150" x2="698.68" y2="650" />
+<line class="PlotGrid" x1="856.58" y1="150" x2="856.58" y2="650" />
+<text class="middle" x="856.58" y="668">4 </text>
+<line class="PlotGrid" x1="1014.47" y1="150" x2="1014.47" y2="650" />
+<line class="PlotGrid" x1="1172.37" y1="150" x2="1172.37" y2="650" />
+<text class="middle" x="1172.37" y="668">6 </text>
+<line class="PlotGrid" x1="1330.26" y1="150" x2="1330.26" y2="650" />
+<line class="PlotGrid" x1="1488.16" y1="150" x2="1488.16" y2="650" />
+<text class="middle" x="1488.16" y="668">8 </text>
+<line class="PlotGrid" x1="1646.05" y1="150" x2="1646.05" y2="650" />
+<line class="PlotGrid" x1="1803.95" y1="150" x2="1803.95" y2="650" />
+<text class="middle" x="1803.95" y="668">10 </text>
+<line class="PlotGrid" x1="1961.84" y1="150" x2="1961.84" y2="650" />
+<line class="PlotGrid" x1="2119.74" y1="150" x2="2119.74" y2="650" />
+<text class="middle" x="2119.74" y="668">12 </text>
+<line class="PlotGrid" x1="2277.63" y1="150" x2="2277.63" y2="650" />
+<line class="PlotGrid" x1="2435.53" y1="150" x2="2435.53" y2="650" />
+<text class="middle" x="2435.53" y="668">14 </text>
+<line class="PlotGrid" x1="2593.42" y1="150" x2="2593.42" y2="650" />
+<line class="PlotGrid" x1="2751.32" y1="150" x2="2751.32" y2="650" />
+<text class="middle" x="2751.32" y="668">16 </text>
+<line class="PlotGrid" x1="2909.21" y1="150" x2="2909.21" y2="650" />
+<line class="PlotGrid" x1="3067.11" y1="150" x2="3067.11" y2="650" />
+<text class="middle" x="3067.1102" y="668">18 </text>
+<line class="PlotGrid" x1="3225" y1="150" x2="3225" y2="650" />
+<rect class="PlotAxis" x="150" y="150" width="3075" height="500" />
+<line class="PlotAxis" x1="150" y1="434" x2="3225" y2="434" />
+<text x="3237" y="440">x </text>
+<line class="PlotAxis" x1="225" y1="150" x2="225" y2="650" />
+<text x="219" y="138">y </text>
+<text x="5" y="788">(0; -27.72) </text>
+<text class="end" x="3322" y="18">(19; 36.18) </text>
+<polyline class="PlotFunction1" points="225,434 249.19,446.18 273.39,456.53 297.58,465.03 321.77,471.7 345.97,476.54 370.16,479.53 394.35,480.69 418.55,480.02 442.74,477.5 466.94,473.15 491.13,466.96 515.32,458.94 539.52,449.07 563.71,437.37 587.9,423.84 612.1,408.46 636.29,391.25 660.48,372.2 684.68,351.32 708.87,328.59 757.26,277.64 805.65,219.33 829.84,187.43 841.94,170.78 847.98,162.29 851.01,158 854.03,153.68 857.06,150.87 863.1,161.53 866.13,166.82 872.18,177.3 878.23,187.68 902.42,228.02 950.81,303.2 999.19,371.02 1047.58,431.5 1095.97,484.63 1144.35,530.41 1168.55,550.55 1192.74,568.85 1216.94,585.31 1241.13,599.94 1265.32,612.72 1289.52,623.67 1313.71,632.79 1337.9,640.06 1362.1,645.5 1386.29,649.1 1410.48,650.87 1434.68,650.8 1458.87,648.89 1483.06,645.14 1507.26,639.56 1531.45,632.14 1555.65,622.88 1579.84,611.79 1604.03,598.86 1628.23,584.09 1652.42,567.48 1676.61,549.04 1700.81,528.76 1725,506.64 1773.39,456.9 1821.77,399.81 1870.16,335.36 1918.55,263.58 1930.65,244.48 1942.74,224.93 1948.79,214.98 1954.84,204.91 1957.86,199.84 1960.89,194.73 1963.91,195.08 1966.94,197.94 1972.98,203.56 1979.03,209.06 1991.13,219.73 2015.32,239.68 2039.52,257.8 2063.71,274.08 2087.9,288.52 2112.1,301.13 2136.29,311.9 2160.48,320.83 2184.68,327.92 2208.87,333.18 2233.06,336.6 2257.26,338.19 2281.45,337.93 2305.65,335.84 2329.84,331.91 2354.03,326.15 2378.23,318.55 2402.42,309.11 2414.52,303.7 2420.56,300.82 2426.61,297.83 2432.66,294.73 2435.69,293.44 2438.71,297.71 2444.76,306.17 2450.81,314.5 2462.9,330.84 2475,346.71 2499.19,377.08 2547.58,432.32 2595.97,480.2 2620.16,501.39 2644.35,520.74 2668.55,538.25 2692.74,553.92 2716.94,567.76 2741.13,579.76 2765.32,589.93 2789.52,598.25 2813.71,604.74 2837.9,609.4 2862.1,612.21 2886.29,613.19 2910.48,612.33 2934.68,609.64 2958.87,605.1 2983.06,598.73 3007.26,590.53 3031.45,580.48 3055.65,568.6 3079.84,554.89 3104.03,539.33 3128.23,521.94 3152.42,502.71 3176.61,481.64 3225,434" />
+</svg>
+</div><p class="line" id="line-63"><span class="eq" data-xml='<m:sSub><m:e><m:acc><m:accPr><m:chr m:val="⃗"/></m:accPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>M</m:t></m:r></m:e></m:acc></m:e><m:sub><m:r><m:t>max</m:t></m:r></m:sub></m:sSub><m:r><m:t>=</m:t></m:r><m:d><m:dPr><m:begChr m:val="["/><m:endChr m:val="]"/></m:dPr><m:e><m:r><m:t>5.97</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> kNm</m:t></m:r><m:r><m:t> </m:t></m:r><m:r><m:t>27.74</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> kNm</m:t></m:r><m:r><m:t> </m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><m:t>-</m:t></m:r><m:r><m:t>12.23</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> kNm</m:t></m:r><m:r><m:t> </m:t></m:r><m:r><m:t>22.9</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> kNm</m:t></m:r></m:e></m:d>'><var><span class="vec">⃗</span>M</var><sub>max</sub> = [5.97 <i>kNm</i> 27.74 <i>kNm</i> -12.23 <i>kNm</i> 22.9 <i>kNm</i>]</span><a title="Code line 63" class="lineLink" style="display: none;" href="#0" data-text="63">←</a></p>
+<p class="line" id="line-64"><span class="eq" data-xml='<m:sSub><m:e><m:acc><m:accPr><m:chr m:val="⃗"/></m:accPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>M</m:t></m:r></m:e></m:acc></m:e><m:sub><m:r><m:t>min</m:t></m:r></m:sub></m:sSub><m:r><m:t>=</m:t></m:r><m:d><m:dPr><m:begChr m:val="["/><m:endChr m:val="]"/></m:dPr><m:e><m:r><m:rPr><m:nor/></m:rPr><m:t>-</m:t></m:r><m:r><m:t>36.29</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> kNm</m:t></m:r><m:r><m:t> </m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><m:t>-</m:t></m:r><m:r><m:t>30.79</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> kNm</m:t></m:r><m:r><m:t> </m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><m:t>-</m:t></m:r><m:r><m:t>17.99</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> kNm</m:t></m:r></m:e></m:d>'><var><span class="vec">⃗</span>M</var><sub>min</sub> = [-36.29 <i>kNm</i> -30.79 <i>kNm</i> -17.99 <i>kNm</i>]</span><a title="Code line 64" class="lineLink" style="display: none;" href="#0" data-text="64">←</a></p>
+<p class="line" id="line-65">Shear force diagram - <span class="eq" data-xml='<m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>V</m:t></m:r><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:e></m:d><m:r><m:t>=</m:t></m:r><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>V</m:t></m:r></m:e><m:sub><m:r><m:t>F</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:e></m:d><m:r><m:t>+</m:t></m:r><m:nary><m:naryPr><m:chr m:val="∑"/><m:limLoc m:val="undOvr"/></m:naryPr><m:sub><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>i</m:t></m:r><m:r><m:t>=</m:t></m:r><m:r><m:t>1</m:t></m:r></m:sub><m:sup><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>n</m:t></m:r></m:e><m:sub><m:r><m:t>1</m:t></m:r></m:sub></m:sSub></m:sup><m:e><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>V</m:t></m:r></m:e><m:sub><m:r><m:t>1</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:acc><m:accPr><m:chr m:val="⃗"/></m:accPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:e></m:acc><m:r><m:t>;</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>i</m:t></m:r></m:e></m:d><m:r><m:t>·</m:t></m:r><m:sSub><m:e><m:acc><m:accPr><m:chr m:val="⃗"/></m:accPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>X</m:t></m:r></m:e></m:acc></m:e><m:sub><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>i</m:t></m:r></m:sub></m:sSub></m:e></m:nary>'><var>V</var>(<var>x</var>) = <var>V</var><sub>F</sub>(<var>x</var>) + <span class="dvr"><small><var>n</var><sub>1</sub></small><span class="nary">∑</span><small><var>i</var>= 1</small></span><var>V</var><sub>1</sub>(<var><span class="vec">⃗</span>x</var>; <var>i</var>)·<var><span class="vec">⃗</span>X</var><sub><var>i</var></sub></span><a title="Code line 65" class="lineLink" style="display: none;" href="#0" data-text="65">←</a></p>
+<div class="plot" id="line-66" style="width: 501pt; height: 120pt;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3337 800" version="1.1">
+<line class="PlotGrid" x1="150" y1="584.8" x2="3225" y2="584.8" />
+<text class="end" x="144" y="590.8">-25 </text>
+<line class="PlotGrid" x1="150" y1="406" x2="3225" y2="406" />
+<text class="end" x="144" y="412">0 </text>
+<line class="PlotGrid" x1="150" y1="227.2" x2="3225" y2="227.2" />
+<text class="end" x="144" y="233.2">25 </text>
+<line class="PlotGrid" x1="225" y1="150" x2="225" y2="650" />
+<text class="middle" x="225" y="668">0 </text>
+<line class="PlotGrid" x1="382.89" y1="150" x2="382.89" y2="650" />
+<line class="PlotGrid" x1="540.79" y1="150" x2="540.79" y2="650" />
+<text class="middle" x="540.79" y="668">2 </text>
+<line class="PlotGrid" x1="698.68" y1="150" x2="698.68" y2="650" />
+<line class="PlotGrid" x1="856.58" y1="150" x2="856.58" y2="650" />
+<text class="middle" x="856.58" y="668">4 </text>
+<line class="PlotGrid" x1="1014.47" y1="150" x2="1014.47" y2="650" />
+<line class="PlotGrid" x1="1172.37" y1="150" x2="1172.37" y2="650" />
+<text class="middle" x="1172.37" y="668">6 </text>
+<line class="PlotGrid" x1="1330.26" y1="150" x2="1330.26" y2="650" />
+<line class="PlotGrid" x1="1488.16" y1="150" x2="1488.16" y2="650" />
+<text class="middle" x="1488.16" y="668">8 </text>
+<line class="PlotGrid" x1="1646.05" y1="150" x2="1646.05" y2="650" />
+<line class="PlotGrid" x1="1803.95" y1="150" x2="1803.95" y2="650" />
+<text class="middle" x="1803.95" y="668">10 </text>
+<line class="PlotGrid" x1="1961.84" y1="150" x2="1961.84" y2="650" />
+<line class="PlotGrid" x1="2119.74" y1="150" x2="2119.74" y2="650" />
+<text class="middle" x="2119.74" y="668">12 </text>
+<line class="PlotGrid" x1="2277.63" y1="150" x2="2277.63" y2="650" />
+<line class="PlotGrid" x1="2435.53" y1="150" x2="2435.53" y2="650" />
+<text class="middle" x="2435.53" y="668">14 </text>
+<line class="PlotGrid" x1="2593.42" y1="150" x2="2593.42" y2="650" />
+<line class="PlotGrid" x1="2751.32" y1="150" x2="2751.32" y2="650" />
+<text class="middle" x="2751.32" y="668">16 </text>
+<line class="PlotGrid" x1="2909.21" y1="150" x2="2909.21" y2="650" />
+<line class="PlotGrid" x1="3067.11" y1="150" x2="3067.11" y2="650" />
+<text class="middle" x="3067.1102" y="668">18 </text>
+<line class="PlotGrid" x1="3225" y1="150" x2="3225" y2="650" />
+<rect class="PlotAxis" x="150" y="150" width="3075" height="500" />
+<line class="PlotAxis" x1="150" y1="406" x2="3225" y2="406" />
+<text x="3237" y="412">x </text>
+<line class="PlotAxis" x1="225" y1="150" x2="225" y2="650" />
+<text x="219" y="138">y </text>
+<text x="5" y="788">(0; -34.15) </text>
+<text class="end" x="3322" y="18">(19; 35.76) </text>
+<polyline class="PlotFunction1" points="225,327.85 708.87,547.03 757.26,568.95 805.65,590.86 829.84,601.82 841.94,607.3 847.98,610.04 854.03,612.78 857.06,150.26 866.13,154.37 872.18,157.11 878.23,159.85 902.42,170.81 926.61,181.77 950.81,192.73 999.19,214.65 1773.39,565.33 1821.77,587.25 1870.16,609.17 1918.55,631.09 1930.65,636.57 1942.74,642.05 1954.84,647.53 1957.86,648.9 1960.89,650.26 1963.91,269.16 1972.98,273.27 1979.03,276 1991.13,281.48 2015.32,292.44 2063.71,314.36 2257.26,402.03 2305.65,423.95 2354.03,445.87 2402.42,467.79 2414.52,473.27 2426.61,478.74 2429.64,480.11 2432.66,481.48 2435.69,201.53 2444.76,205.64 2450.81,208.38 2475,219.34 2499.19,230.3 2547.58,252.22 3225,559.07" />
+</svg>
+</div><p class="line" id="line-72"><span class="eq" data-xml='<m:sSub><m:e><m:acc><m:accPr><m:chr m:val="⃗"/></m:accPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>V</m:t></m:r></m:e></m:acc></m:e><m:sub><m:r><m:t>max</m:t></m:r></m:sub></m:sSub><m:r><m:t>=</m:t></m:r><m:d><m:dPr><m:begChr m:val="["/><m:endChr m:val="]"/></m:dPr><m:e><m:r><m:t>10.93</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> kN</m:t></m:r><m:r><m:t> </m:t></m:r><m:r><m:t>35.79</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> kN</m:t></m:r><m:r><m:t> </m:t></m:r><m:r><m:t>19.26</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> kN</m:t></m:r><m:r><m:t> </m:t></m:r><m:r><m:t>28.6</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> kN</m:t></m:r></m:e></m:d>'><var><span class="vec">⃗</span>V</var><sub>max</sub> = [10.93 <i>kN</i> 35.79 <i>kN</i> 19.26 <i>kN</i> 28.6 <i>kN</i>]</span><a title="Code line 72" class="lineLink" style="display: none;" href="#0" data-text="72">←</a></p>
+<p class="line" id="line-73"><span class="eq" data-xml='<m:sSub><m:e><m:acc><m:accPr><m:chr m:val="⃗"/></m:accPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>V</m:t></m:r></m:e></m:acc></m:e><m:sub><m:r><m:t>min</m:t></m:r></m:sub></m:sSub><m:r><m:t>=</m:t></m:r><m:d><m:dPr><m:begChr m:val="["/><m:endChr m:val="]"/></m:dPr><m:e><m:r><m:rPr><m:nor/></m:rPr><m:t>-</m:t></m:r><m:r><m:t>29.07</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> kN</m:t></m:r><m:r><m:t> </m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><m:t>-</m:t></m:r><m:r><m:t>34.21</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> kN</m:t></m:r><m:r><m:t> </m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><m:t>-</m:t></m:r><m:r><m:t>10.74</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> kN</m:t></m:r><m:r><m:t> </m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><m:t>-</m:t></m:r><m:r><m:t>21.4</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> kN</m:t></m:r></m:e></m:d>'><var><span class="vec">⃗</span>V</var><sub>min</sub> = [-29.07 <i>kN</i> -34.21 <i>kN</i> -10.74 <i>kN</i> -21.4 <i>kN</i>]</span><a title="Code line 73" class="lineLink" style="display: none;" href="#0" data-text="73">←</a></p>
+<p class="line" id="line-74">Deflections <a title="Code line 74" class="lineLink" style="display: none;" href="#0" data-text="74">←</a></p>
+<p class="line" id="line-75">- in section <em>a</em>, due to unit force <em>X</em><sub>i</sub>: <a title="Code line 75" class="lineLink" style="display: none;" href="#0" data-text="75">←</a></p>
+<p class="line" id="line-76"><span class="eq" data-xml='<m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>d</m:t></m:r></m:e><m:sub><m:r><m:t>1</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>a</m:t></m:r><m:r><m:t>;</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>i</m:t></m:r></m:e></m:d><m:r><m:t>=</m:t></m:r><m:nary><m:naryPr><m:chr m:val="∫"/><m:limLoc m:val="undOvr"/></m:naryPr><m:sub><m:r><m:t>0</m:t></m:r> <m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> m</m:t></m:r></m:sub><m:sup><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>L</m:t></m:r></m:sup><m:e><m:f><m:num><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>M</m:t></m:r></m:e><m:sub><m:r><m:t>1,a</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r><m:r><m:t>;</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>a</m:t></m:r></m:e></m:d><m:r><m:t>·</m:t></m:r><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>M</m:t></m:r></m:e><m:sub><m:r><m:t>1</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r><m:r><m:t>;</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>i</m:t></m:r></m:e></m:d></m:num><m:den><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>E</m:t></m:r><m:r><m:t>·</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>I</m:t></m:r></m:den></m:f><m:r><m:t> d</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:e></m:nary><m:r><m:t>+</m:t></m:r><m:nary><m:naryPr><m:chr m:val="∫"/><m:limLoc m:val="undOvr"/></m:naryPr><m:sub><m:r><m:t>0</m:t></m:r> <m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> m</m:t></m:r></m:sub><m:sup><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>L</m:t></m:r></m:sup><m:e><m:f><m:num><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>V</m:t></m:r></m:e><m:sub><m:r><m:t>1,a</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r><m:r><m:t>;</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>a</m:t></m:r></m:e></m:d><m:r><m:t>·</m:t></m:r><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>V</m:t></m:r></m:e><m:sub><m:r><m:t>1</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r><m:r><m:t>;</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>i</m:t></m:r></m:e></m:d></m:num><m:den><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>G</m:t></m:r><m:r><m:t>·</m:t></m:r><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>A</m:t></m:r></m:e><m:sub><m:r><m:t>Q</m:t></m:r></m:sub></m:sSub></m:den></m:f><m:r><m:t> d</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:e></m:nary>'><var>d</var><sub>1</sub>(<var>a</var>; <var>i</var>) = <span class="dvr"><small><var>L</var></small><span class="nary"><em>∫</em></span><small>0 <i>m</i></small></span><span class="dvc"><var>M</var><sub>1,a</sub>(<var>x</var>; <var>a</var>)·<var>M</var><sub>1</sub>(<var>x</var>; <var>i</var>)<span class="dvl"></span><var>E</var>·<var>I</var></span> d<var>x</var> + <span class="dvr"><small><var>L</var></small><span class="nary"><em>∫</em></span><small>0 <i>m</i></small></span><span class="dvc"><var>V</var><sub>1,a</sub>(<var>x</var>; <var>a</var>)·<var>V</var><sub>1</sub>(<var>x</var>; <var>i</var>)<span class="dvl"></span><var>G</var>·<var>A</var><sub>Q</sub></span> d<var>x</var></span><a title="Code line 76" class="lineLink" style="display: none;" href="#0" data-text="76">←</a></p>
+<p class="line" id="line-77">- due to external loads in primary system: <a title="Code line 77" class="lineLink" style="display: none;" href="#0" data-text="77">←</a></p>
+<p class="line" id="line-78"><span class="eq" data-xml='<m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>d</m:t></m:r></m:e><m:sub><m:r><m:t>F</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>a</m:t></m:r></m:e></m:d><m:r><m:t>=</m:t></m:r><m:nary><m:naryPr><m:chr m:val="∫"/><m:limLoc m:val="undOvr"/></m:naryPr><m:sub><m:r><m:t>0</m:t></m:r> <m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> m</m:t></m:r></m:sub><m:sup><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>L</m:t></m:r></m:sup><m:e><m:f><m:num><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>M</m:t></m:r></m:e><m:sub><m:r><m:t>1,a</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r><m:r><m:t>;</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>a</m:t></m:r></m:e></m:d><m:r><m:t>·</m:t></m:r><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>M</m:t></m:r></m:e><m:sub><m:r><m:t>F</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:e></m:d></m:num><m:den><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>E</m:t></m:r><m:r><m:t>·</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>I</m:t></m:r></m:den></m:f><m:r><m:t> d</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:e></m:nary><m:r><m:t>+</m:t></m:r><m:nary><m:naryPr><m:chr m:val="∫"/><m:limLoc m:val="undOvr"/></m:naryPr><m:sub><m:r><m:t>0</m:t></m:r> <m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> m</m:t></m:r></m:sub><m:sup><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>L</m:t></m:r></m:sup><m:e><m:f><m:num><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>V</m:t></m:r></m:e><m:sub><m:r><m:t>1,a</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r><m:r><m:t>;</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>a</m:t></m:r></m:e></m:d><m:r><m:t>·</m:t></m:r><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>V</m:t></m:r></m:e><m:sub><m:r><m:t>F</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:e></m:d></m:num><m:den><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>G</m:t></m:r><m:r><m:t>·</m:t></m:r><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>A</m:t></m:r></m:e><m:sub><m:r><m:t>Q</m:t></m:r></m:sub></m:sSub></m:den></m:f><m:r><m:t> d</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:e></m:nary>'><var>d</var><sub>F</sub>(<var>a</var>) = <span class="dvr"><small><var>L</var></small><span class="nary"><em>∫</em></span><small>0 <i>m</i></small></span><span class="dvc"><var>M</var><sub>1,a</sub>(<var>x</var>; <var>a</var>)·<var>M</var><sub>F</sub>(<var>x</var>)<span class="dvl"></span><var>E</var>·<var>I</var></span> d<var>x</var> + <span class="dvr"><small><var>L</var></small><span class="nary"><em>∫</em></span><small>0 <i>m</i></small></span><span class="dvc"><var>V</var><sub>1,a</sub>(<var>x</var>; <var>a</var>)·<var>V</var><sub>F</sub>(<var>x</var>)<span class="dvl"></span><var>G</var>·<var>A</var><sub>Q</sub></span> d<var>x</var></span><a title="Code line 78" class="lineLink" style="display: none;" href="#0" data-text="78">←</a></p>
+<p class="line" id="line-79"><span class="eq" data-xml='<m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>d</m:t></m:r><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:e></m:d><m:r><m:t>=</m:t></m:r><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>d</m:t></m:r></m:e><m:sub><m:r><m:t>F</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:e></m:d><m:r><m:t>+</m:t></m:r><m:nary><m:naryPr><m:chr m:val="∑"/><m:limLoc m:val="undOvr"/></m:naryPr><m:sub><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>i</m:t></m:r><m:r><m:t>=</m:t></m:r><m:r><m:t>1</m:t></m:r></m:sub><m:sup><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>n</m:t></m:r></m:e><m:sub><m:r><m:t>1</m:t></m:r></m:sub></m:sSub></m:sup><m:e><m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>d</m:t></m:r></m:e><m:sub><m:r><m:t>1</m:t></m:r></m:sub></m:sSub><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:acc><m:accPr><m:chr m:val="⃗"/></m:accPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:e></m:acc><m:r><m:t>;</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>i</m:t></m:r></m:e></m:d><m:r><m:t>·</m:t></m:r><m:sSub><m:e><m:acc><m:accPr><m:chr m:val="⃗"/></m:accPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>X</m:t></m:r></m:e></m:acc></m:e><m:sub><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>i</m:t></m:r></m:sub></m:sSub></m:e></m:nary>'><var>d</var>(<var>x</var>) = <var>d</var><sub>F</sub>(<var>x</var>) + <span class="dvr"><small><var>n</var><sub>1</sub></small><span class="nary">∑</span><small><var>i</var>= 1</small></span><var>d</var><sub>1</sub>(<var><span class="vec">⃗</span>x</var>; <var>i</var>)·<var><span class="vec">⃗</span>X</var><sub><var>i</var></sub></span><a title="Code line 79" class="lineLink" style="display: none;" href="#0" data-text="79">←</a></p>
+<div class="plot" id="line-80" style="width: 501pt; height: 120pt;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3337 800" version="1.1">
+<line class="PlotGrid" x1="150" y1="675.58" x2="3225" y2="675.58" />
+<text class="end" x="144" y="681.58">-1.5 </text>
+<line class="PlotGrid" x1="150" y1="445.29" x2="3225" y2="445.29" />
+<text class="end" x="144" y="451.29">-0.75 </text>
+<line class="PlotGrid" x1="150" y1="215" x2="3225" y2="215" />
+<text class="end" x="144" y="221">0 </text>
+<line class="PlotGrid" x1="225" y1="150" x2="225" y2="650" />
+<text class="middle" x="225" y="668">0 </text>
+<line class="PlotGrid" x1="540.79" y1="150" x2="540.79" y2="650" />
+<text class="middle" x="540.79" y="668">2 </text>
+<line class="PlotGrid" x1="856.58" y1="150" x2="856.58" y2="650" />
+<text class="middle" x="856.58" y="668">4 </text>
+<line class="PlotGrid" x1="1172.37" y1="150" x2="1172.37" y2="650" />
+<text class="middle" x="1172.37" y="668">6 </text>
+<line class="PlotGrid" x1="1488.16" y1="150" x2="1488.16" y2="650" />
+<text class="middle" x="1488.16" y="668">8 </text>
+<line class="PlotGrid" x1="1803.95" y1="150" x2="1803.95" y2="650" />
+<text class="middle" x="1803.95" y="668">10 </text>
+<line class="PlotGrid" x1="2119.74" y1="150" x2="2119.74" y2="650" />
+<text class="middle" x="2119.74" y="668">12 </text>
+<line class="PlotGrid" x1="2435.53" y1="150" x2="2435.53" y2="650" />
+<text class="middle" x="2435.53" y="668">14 </text>
+<line class="PlotGrid" x1="2751.32" y1="150" x2="2751.32" y2="650" />
+<text class="middle" x="2751.32" y="668">16 </text>
+<line class="PlotGrid" x1="3067.11" y1="150" x2="3067.11" y2="650" />
+<text class="middle" x="3067.1102" y="668">18 </text>
+<rect class="PlotAxis" x="150" y="150" width="3075" height="500" />
+<line class="PlotAxis" x1="150" y1="215" x2="3225" y2="215" />
+<text x="3237" y="221">x </text>
+<line class="PlotAxis" x1="225" y1="150" x2="225" y2="650" />
+<text x="219" y="138">y </text>
+<text x="5" y="788">(0; -1.42) </text>
+<text class="end" x="3322" y="18">(19; 0.209) </text>
+<polyline class="PlotFunction1" points="225,215 321.77,221.98 370.16,222.88 418.55,221.43 466.94,217.62 515.32,211.77 612.1,196.98 660.48,190.42 684.68,188.04 708.87,186.59 733.06,186.32 757.26,187.53 781.45,190.53 793.55,192.81 805.65,195.66 817.74,199.13 829.84,203.26 841.94,208.11 847.98,210.81 854.03,213.72 860.08,217.16 866.13,221.06 878.23,229.41 902.42,248.21 926.61,269.38 950.81,292.47 999.19,342.71 1095.97,448.68 1144.35,499.04 1192.74,544.66 1216.94,565.11 1241.13,583.73 1265.32,600.34 1289.52,614.78 1313.71,626.93 1325.81,632.12 1337.9,636.69 1350,640.64 1362.1,643.96 1374.19,646.64 1386.29,648.68 1398.39,650.08 1410.48,650.82 1422.58,650.91 1434.68,650.34 1446.77,649.12 1458.87,647.25 1470.97,644.74 1483.06,641.58 1495.16,637.78 1507.26,633.36 1531.45,622.66 1555.65,609.57 1579.84,594.21 1604.03,576.69 1628.23,557.17 1676.61,512.98 1725,462.94 1773.39,409.51 1821.77,354.58 1870.16,301.18 1894.35,275.95 1918.55,252.24 1942.74,230.49 1954.84,220.49 1966.94,211.56 1979.03,203.86 1991.13,196.82 2015.32,184.55 2039.52,174.52 2063.71,166.52 2087.9,160.35 2112.1,155.84 2136.29,152.84 2160.48,151.23 2184.68,150.91 2208.87,151.77 2233.06,153.78 2257.26,156.88 2305.65,166.31 2329.84,172.67 2354.03,180.18 2378.23,188.91 2402.42,198.94 2426.61,210.4 2450.81,224.28 2475,240.03 2499.19,256.77 2547.58,291.75 2595.97,326.61 2644.35,359.11 2668.55,373.86 2692.74,387.32 2716.94,399.32 2741.13,409.68 2765.32,418.28 2789.52,424.98 2813.71,429.69 2837.9,432.33 2862.1,432.85 2886.29,431.21 2910.48,427.41 2934.68,421.46 2958.87,413.37 2983.06,403.22 3007.26,391.07 3031.45,377.02 3055.65,361.19 3079.84,343.72 3128.23,304.52 3176.61,260.98 3225,215" />
+</svg>
+</div><p class="line" id="line-81">Maximum deflection - <span class="eq" data-xml='<m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>d</m:t></m:r></m:e><m:sub><m:r><m:t>max</m:t></m:r></m:sub></m:sSub><m:r><m:t>=</m:t></m:r><m:r><m:t>$Inf</m:t></m:r><m:d><m:dPr><m:begChr m:val="{"/><m:endChr m:val="}"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>d</m:t></m:r><m:d><m:dPr><m:begChr m:val="("/><m:endChr m:val=")"/></m:dPr><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:e></m:d><m:r><m:t>;</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r><m:r><m:t>∈</m:t></m:r><m:d><m:dPr><m:begChr m:val="["/><m:endChr m:val="]"/></m:dPr><m:e><m:r><m:t>0</m:t></m:r> <m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> m</m:t></m:r><m:r><m:t>;</m:t></m:r><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>L</m:t></m:r></m:e></m:d></m:e></m:d><m:r><m:t>=</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><m:t>-</m:t></m:r><m:r><m:t>1.42</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> mm</m:t></m:r>'><var>d</var><sub>max</sub> = <span class="cond">$Inf</span>{<var>d</var>(<var>x</var>); <var>x</var> ∈ [0 <i>m</i>; <var>L</var>]} = -1.42 <i>mm</i></span><a title="Code line 81" class="lineLink" style="display: none;" href="#0" data-text="81">←</a></p>
+<p class="line" id="line-82">At a distance from the origin - <span class="eq" data-xml='<m:sSub><m:e><m:r><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:color w:val="0000FF" /></w:rPr><m:t>x</m:t></m:r></m:e><m:sub><m:r><m:t>inf</m:t></m:r></m:sub></m:sSub><m:r><m:t>=</m:t></m:r><m:r><m:t>7.56</m:t></m:r><m:r><m:rPr><m:nor/></m:rPr><w:rPr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:rFonts w:ascii="Cambria Math" w:hAnsi="Cambria Math" /><w:sz w:val="22" /></w:rPr><m:t> m</m:t></m:r>'><var>x</var><sub>inf</sub> = 7.56 <i>m</i></span><a title="Code line 82" class="lineLink" style="display: none;" href="#0" data-text="82">←</a></p>
+ </body></html>

@@ -1,0 +1,40 @@
+"Soil stress and deformation for arbitrary surface load
+'(by integration of the Boussinesq formula)
+'Dimensions of loaded area -'a = 2m', 'b = 3m
+'Surface load -'p(x; y) = 100kPa*(1 + (x/a))
+'Elastic modulus -'E_0 = 20MPa
+'Poisson ratio -'ν = 0.3
+'<p><strong>Stress equations</strong></p>
+R(x; y; z) = sqrt(x^2 + y^2 + z^2)
+'Vertical -'σ_z(x; y; z) = 3/(2*π)*$Integral{$Integral{p(x_p; y_p)*z^3/R(x - x_p; y - y_p; z)^5 @ x_p = -a/2 : a/2} @ y_p = -b/2 : b/2}|kPa
+'Shear -'τ_xz(x; y; z) = 3/(2*π)*$Integral{$Integral{p(x_p; y_p)*(x - x_p)*z^2/R(x - x_p; y - y_p; z)^5 @ x_p = -a/2 : a/2} @ y_p = -b/2 : b/2}|kPa
+'Shear -'τ_yz(x; y; z) = 3/(2*π)*$Integral{$Integral{p(x_p; y_p)*(y - y_p)*z^2/R(x - x_p; y - y_p; z)^5 @ x_p = -a/2 : a/2} @ y_p = -b/2 : b/2}|kPa
+'<p><strong>Deformation equations</strong></p>
+d(x; y) = (1 - ν^2)/E_0*$Integral{σ_z(x; y; z) @ z = H_0 : H}|mm
+'<h4>Results</h4>
+'Maximum depth -'H = 6m
+'<!--'Precision = 10^-4','PlotStep = 5','H_0 = 0.01*H','k = 1.5'-->
+'Plot for plane at'y = 0m
+'<!--'PlotWidth = 300','PlotHeight = 60'-->
+$Plot{p(x; y)*(abs(x) < a/2) @ x = -k*a : k*a}
+'<table><tr><td>
+'Vertical stress σ<sub>z</sub>, kPa
+'<!--'PlotHeight = PlotWidth*(H - H_0)/(2*k*a)'-->
+$Map{σ_z(x; y; z) @ x = -k*a : k*a & z = H : H_0}
+'</td><td>
+'For'x = 0m
+'<!--'PlotWidth = 60'-->
+$Plot{σ_z(x; y; z)|-z @ z = H_0 : H}
+'</td></tr><tr><td>
+'Shear stress τ<sub>xz</sub>, kPa
+'<!--'PlotWidth = 300'-->
+$Map{τ_xz(x; y; z) @ x = -k*a : k*a & z = H : H_0}
+'</td><td>
+'For'x = 0.5*a
+'<!--'PlotWidth = 60'-->
+$Plot{τ_xz(x; y; z)|-z @ z = H_0 : H}
+'</td></tr></table>
+'<!--'PlotWidth = 60'-->
+'Deformations, mm
+'<!--'PlotWidth = 300','PlotHeight = 60'-->
+$Plot{-d(x; y) & 0mm @ x = -k*a : k*a}

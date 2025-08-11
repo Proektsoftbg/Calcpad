@@ -1,0 +1,17 @@
+"FFT analysis with Calcpad
+#rad
+n = 1024
+t = range_hp(0; n - 1; 1)
+'Frequencies and amplitudes
+f_1 = 30','f_2 = 90
+X_1 = 20','X_2 = 20
+t_0 = 0.8*n
+f(t) = f_1*(t < t_0) + f_2*(t ≥ t_0)
+X(t) = X_1*(t < t_0) + X_2*(t ≥ t_0)
+'Input signal -'x(t) = X(t)*sin(2*π*f(t)*t/n)
+x = hp([x(t)|0])
+'Solution -'f = fft(x)
+a = sqrt(row(f; 1)^2 + row(f; 2)^2)
+PlotWidth = 600','PlotHeight = 150
+$Plot{line(i; row(x; 1)) & line(i; row(x; 2)) @ i = 1 : n}
+$Plot{line(i; a) @ i = 1 : n/2}

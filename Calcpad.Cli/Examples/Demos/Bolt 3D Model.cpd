@@ -1,0 +1,91 @@
+"Design Worksheet with 3D Model Demo
+'<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.0.1/model-viewer.min.js"></script>
+'<model-viewer style="height:280pt;" class="side" src="./models/bolt_and_nut.glb" alt="bolt_and_nut.glb" auto-rotate camera-controls shadow-intensity="0.5" field-of-view="8deg"></model-viewer>
+'<h4>Loads (for one bolt)</h4>
+'Tension -'F_t_Ed = ? {20}'kN
+'Shear -'F_v_Ed = ? {10}'kN
+'<h4>Bolt data</h4>
+'<p id="bolt" style="display:none;">'d = ? {12}'</p>
+#pre
+'<p>Bolt diameter - <select data-target="bolt">
+'<option value="12">M12</option>
+'<option value="14">M14</option>
+'<option value="16">M16</option>
+'<option value="18">M18</option>
+'<option value="20">M20</option>
+'<option value="22">M22</option>
+'<option value="24">M24</option>
+'<option value="27">M27</option>
+'<option value="30">M30</option>
+'<option value="36">M36</option>
+'</select></p>
+#hide
+#if d ≡ 12
+	A_s = 84'  'd_0 = 13' 'd_m = 20.5
+#else if d ≡ 14
+	A_s = 115' 'd_0 = 15' 'd_m = 23.5
+#else if d ≡ 16
+	A_s = 157' 'd_0 = 18' 'd_m = 26
+#else if d ≡ 18
+	A_s = 192' 'd_0 = 20' 'd_m = 29
+#else if d ≡ 20
+	A_s = 245' 'd_0 = 22' 'd_m = 32
+#else if d ≡ 22
+	A_s = 303' 'd_0 = 24' 'd_m = 35.5
+#else if d ≡ 24
+	A_s = 353' 'd_0 = 26' 'd_m = 39
+#else if d ≡ 27
+	A_s = 459' 'd_0 = 30' 'd_m = 44
+#else if d ≡ 30
+	A_s = 561' 'd_0 = 33' 'd_m = 50
+#else if d ≡ 36
+	A_s = 817' 'd_0 = 39' 'd_m = 60
+#end if
+#post
+'Bolt diameter -'d'mm
+'Hole diameter -'d_0'mm
+'Punching diameter-'d_m'mm
+'Area of the unthreaded part (gross) -'A = π*d^2/4'mm²
+'Area of the threaded part (net) -'A_s'mm²
+#show
+'<p id="grade" style="display:none;">'Grade = ? {10.9}'</p>
+#pre
+'<p>Bolt steel grade - <select data-target="grade">
+'<option value="4.6">4.6</option>
+'<option value="4.8">4.8</option>
+'<option value="5.6">5.6</option>
+'<option value="5.8">5.8</option>
+'<option value="6.8">6.8</option>
+'<option value="8.8">8.8</option>
+'<option value="10.9">10.9</option>
+'</select></p>
+#hide
+f_ub = floor(Grade)
+f_yb = (Grade - f_ub)*f_ub*100
+f_ub = f_ub*100
+#post
+#val
+'Bolt steel grade - 'Grade
+#equ
+'Bolt tensile strength -'f_ub'MPa
+'Bolt yield strength -'f_yb'MPa
+#show
+'<h4>Plate data</h4>
+'Plate thickness - 't = ? {18}'mm
+'Steel yield strength - 'f_y = ? {355}'MPa
+#hide
+#if f_y ≡ 235
+	f_u = 360
+#else if f_y ≡ 275
+	f_u = 430
+#else if f_y ≡ 355
+	f_u = 510
+#else if f_y ≡ 420
+	f_u = 520
+#else if f_y ≡ 460
+	f_u = 540
+#end if
+#show
+'Steel tensile strength - 'f_u'MPa
+'Partial safety factors
+γ_M0 = 1.05', 'γ_M2 = 1.25

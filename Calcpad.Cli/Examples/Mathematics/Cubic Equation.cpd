@@ -2,29 +2,29 @@
 '<hr/>
 f(x) = x^3 + a*x^2 + b*x + c'= 0
 'Coefficients:
-a = ?','b = ?','c = ?
+a = ? {-6}','b = ? {11}','c = ? {-6}
 #hide
-PlotWidth=360''PlotHeight=240
+PlotWidth = 360''PlotHeight = 240
 #post
 #rad
 'Solution:
 Q = (a^2 - 3*b)/9
 R = (2*a^3 - 9*a*b + 27*c)/54
 #if R*R < Q*Q*Q
-	'Check:'R^2 '&lt;' Q^3'
+	'Check:'R^2'&lt;'Q^3'
 	'There are three real roots.
 	θ = acos(R/sqr(Q^3))
 	x_1 = -2*sqr(Q)*cos(θ/3) - a/3
 	x_2 = -2*sqr(Q)*cos((θ - 2*π)/3) - a/3
 	x_3 = -2*sqr(Q)*cos((θ + 2*π)/3) - a/3
 	#hide
-	d = max(abs(x_3 - x_1)/4;1)
+	d = max(abs(x_3 - x_1)/4; 1)
 	x_min = min(x_1; x_3) - d
 	x_max = max(x_1; x_3) + d
 	#post
 	$Plot{f(x) & x_1|0 & x_2|0 & x_3|0 @ x = x_min : x_max}
 #else
-	'Check:'R^2 '&ge;' Q^3'
+	'Check:'R^2'&ge;'Q^3'
 	'There is one real root.
 	A = -sign(R)*(abs(R) + sqr(R^2 - Q^3))^(1/3)
 	#if A ≡ 0
@@ -33,9 +33,9 @@ R = (2*a^3 - 9*a*b + 27*c)/54
 		x_1 = A + Q/A - a/3
 	#end if
 	#hide
-	d = max(abs(a);max(abs(b);abs(c)))
+	d = max(abs(a); max(abs(b); abs(c)))
 	x_min = x_1 - d
 	x_max = x_1 + d
 	#post
 	$Plot{x|f(x) & x_1|0 @ x = x_min : x_max}
-#end if-6	11	-6
+#end if

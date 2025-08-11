@@ -1,0 +1,49 @@
+"Rayleigh quotient iteration
+'<p><strong>Input matrix</strong></p>
+A = copy( _
+    [4; 12; -16| _
+    12; 37; -43| _
+    - 16; -43; 98]; _
+    symmetric_hp(3); 1; 1)
+#hide
+A_1 = A
+n = n_rows(A)', 'I = identity_hp(n)', 'o = vector_hp(n)', 'λ_0 = 1', 'x = [1; 0; 0]
+#show
+'<p><strong>Initial guess</strong>: eigenvalue -'λ_0', eigenvector -'x'</p>
+#def rqi$
+	#for i = 1 : 10
+		#val
+		'<h4>Iteration - 'i'</h4>
+		#equ
+		x = unit(inverse(A - λ_0*I)*x)
+		λ = transp(x)*A*x
+		#if abs(λ - λ_0) < 10^-3
+			#break
+		#end if
+		'<!--'λ_0 = λ'-->
+	#loop
+#end def
+rqi$
+'<!--'λ_1 = λ', 'x_1 = x'-->
+'<h4>Results</h4>
+'Eigenvalue 1 -'λ_1
+'Eigenvector 1 -'x_1
+'Deflation -'A = A - λ*x*transp(x)
+#hide
+λ_0 = 10', 'x = [0; 1; 0]
+rqi$
+λ_2 = λ', 'x_2 = x
+#show
+'Eigenvalue 2 -'λ_2
+'Eigenvector 2 -'x_2
+'Deflation -'A = A - λ*x*transp(x)
+#hide
+λ_0 = 100', 'x = hp([0; 0; 1])
+rqi$
+λ_3 = λ', 'x_3 = x
+#show
+'Eigenvalue 3 -'λ_3
+'Eigenvector 3 -'x_3
+'Solution with Calcpad -'E = eigen(A_1)
+'(symmetric QL algorithm with implicit shifts)
+E - [λ_1; -x_1|λ_2; -x_2|λ_3; x_3]

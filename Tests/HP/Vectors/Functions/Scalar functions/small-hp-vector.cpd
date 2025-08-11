@@ -1,0 +1,139 @@
+'<h2>Trigonometric functions</h2>
+#rad 
+vec1 = hp([-3.5; 7.8; 4.25; π/2; 0; 10; -2.3; 6.75])
+
+cos(1.57)
+cos(pi/2)
+
+
+sin(vec1)','f(vec1) = sin(vec1)
+c = f(vec1)
+cos(vec1)','f(vec1) = cos(vec1)
+c = f(vec1)
+tan(vec1)','f(vec1) = tan(vec1)
+c = f(vec1)
+cot(vec1)','f(vec1) = cot(vec1)
+c = f(vec1)
+sec(vec1)','f(vec1) = sec(vec1)
+c = f(vec1)
+csc(vec1)','f(vec1) = csc(vec1)
+c = f(vec1)
+
+'<h2>Hyperbolic functions</h2>
+
+vec2 = hp([-3.5; 7.8; 4.25; π/4; 0; 10; -2.3; 6.75])
+
+
+sinh(vec2)','f(vec2) = sinh(vec2)
+c = f(vec2)
+cosh(vec2)','f(vec2) = cosh(vec2)
+c = f(vec2)
+tanh(vec2)','f(vec2) = tanh(vec2)
+c = f(vec2)
+coth(vec2)','f(vec2) = coth(vec2)
+c = f(vec2)
+sech(vec2)','f(vec2) = sech(vec2)
+c = f(vec2)
+csch(vec2)','f(vec2) = csch(vec2)
+c = f(vec2)
+
+'<h2>Inverse trigonometric functions</h2>
+
+vec3 = hp([-3.5; 7.8; 4.25; π/3; 0; 10; -2.3; 6.75])
+
+
+asin(vec3)','f(vec3) = asin(vec3)
+c = f(vec3)
+acos(vec3)','f(vec3) = acos(vec3)
+c = f(vec3)
+atan(vec3)','f(vec3) = atan(vec3)
+c = f(vec3)
+acot(vec3)','f(vec3) = acot(vec3)
+c = f(vec3)
+asec(vec3)','f(vec3) = asec(vec3)
+c = f(vec3)
+acsc(vec3)','f(vec3) = acsc(vec3)
+c = f(vec3)
+atan2(vec1; vec2)','f(vec1; vec2) = atan2(vec1; vec2)
+c = f(vec1; vec2)
+
+'<h2>Inverse hyperbolic functions</h2>
+
+vec4 = hp([-3.5; 7.8; 4.25; π/6; 0; 10; -2.3; 6.75])
+
+asinh(vec4)','f(vec4) = asinh(vec4)
+c = f(vec4)
+acosh(vec4)','f(vec4) = acosh(vec4)
+c = f(vec4)
+atanh(vec4)','f(vec4) = atanh(vec4)
+c = f(vec4)
+acoth(vec4)','f(vec4) = acoth(vec4)
+c = f(vec4)
+asech(vec4)','f(vec4) = asech(vec4)
+c = f(vec4)
+acsch(vec4)','f(vec4) = acsch(vec4)
+c = f(vec4)
+
+'<h2>Power and logarithmic functions</h2>
+
+vec5 = hp([-3.5; 7.8; 2.67; π/10; 0; 15; -1.8; 5.25])
+
+ln(vec5)','f(vec5) = ln(vec5)
+c = f(vec5)
+log(vec5)','f(vec5) = log(vec5)
+c = f(vec5)
+log_2(vec5)','f(vec5) = log_2(vec5)
+c = f(vec5)
+exp(vec5)','f(vec5) = exp(vec5)
+c = f(vec5)
+sqr(vec5)','f(vec5) = sqr(vec5)
+c = f(vec5)
+sqrt(vec5)','f(vec5) = sqrt(vec5)
+c = f(vec5)
+cbrt(vec5)','f(vec5) = cbrt(vec5)
+c = f(vec5)
+n = 5
+root(vec5; n)','f(vec5; n) = root(vec5; n)
+c = f(vec5; n)
+
+'<h2>Rounding functions</h2>
+
+vec6 = hp([6.5; -2; 3.1415; 0; 7; -1.25; π/2; -4])
+round(vec6)','f(vec6) = round(vec6)
+c = f(vec6)
+floor(vec6)','f(vec6) = floor(vec6)
+c = f(vec6)
+ceiling(vec6)','f(vec6) = ceiling(vec6)
+c = f(vec6)
+trunc(vec6)','f(vec6) = trunc(vec6)
+c = f(vec6)
+
+'<h2>Integer functions</h2>
+
+vec7 = hp([5.29; -5; 8; π/2; -1.5; 0; 4.7; -10])
+mod(vec7; n)','f(vec7; n) = mod(vec7; n)
+c = f(vec7; n)
+vec8 = hp([5; 5; 8; 1; 0; 4; 10])
+n = 3
+gcd(vec8; n)','f(vec8; n) = gcd(vec8; n)
+c = f(vec8; n)
+lcm(vec8; n)','f(vec8; n) = lcm(vec8; n)
+c = f(vec8; n)
+
+
+'<h2>Other functions</h2>
+sign(vec7)','f(vec7) = sign(vec7)
+c = f(vec7)
+random(vec7)','f(vec7) = random(vec7)
+c = f(vec7)
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,13 @@
+"Heart function animation with Calcpad"
+'Important! Turn off adaptive plot before you continue.
+#rad
+#pause
+'<!--'n = 90','PlotWidth = 400','PlotHeight = 350','k = 4','PlotSVG = 1'-->
+f(x) = root(x; 3)^2 + 1.1*sin(k*x)*sqrt(4 - x^2)
+#val
+#for i = 1 : n
+	 '<div class="frame" id="frame-'i'">
+	$Plot{f(x) @ x = -2 : 2}
+	'</div><!--'k = k + 2'-->
+#loop
+'<script>var i=1;setInterval(function(){++i; if(i>'n') i=1; $(".frame").hide(); $("#frame-"+i).show();}, 100);</script>

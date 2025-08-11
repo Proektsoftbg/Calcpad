@@ -1,0 +1,26 @@
+'Assoc. prof. Tadeusz Szumiata, PhD, Radom University, Poland
+"Interference of waves on water animation
+'Interferencja fal na wodzie
+#rad
+λ = 0.8m
+k = (2*π)/λ
+r(x; y) = sqrt(x^2 + y^2)
+a = 1.6m
+v = 2m/s
+T = λ/v','f = 1/T|Hz
+ω = (2*π)/T','ω_1 = ω','ω_2 = 0.5*ω
+Ψ_0 = 0.1*m','Ψ_01 = Ψ_0','Ψ_02 = 1.5*Ψ_0
+Δt = 0*T/4
+Ψ_2D_1(x; y; t) = Ψ_01*sin(k*r(x - a/2; y) - ω_1*t)
+Ψ_2D_2(x; y; t) = Ψ_02*sin(k*r(x + a/2; y) - ω_2*(t + Δt))
+Ψ_2D(x; y; t) = Ψ_2D_1(x; y; t) + Ψ_2D_2(x; y; t)
+'<!--'PlotHeight = 500','PlotWidth = 500','PlotSVG = 1','n = 20'-->
+#val
+'Animation - slowed down by 'kT = 2' times
+'<style>[id^="fr-"]{display:none;}</style>
+#for i = 1 : n
+	'<div id="fr-'i'">
+	$Map{Ψ_2D(x; y; 2*i/n*T) @ x = -2m : 2m & y = -2m : 2m}
+	'</div>
+#loop
+'<script>var i='n';var fr=$("#fr-"+i);setInterval(function(){fr.hide();if(++i>'n')i=1;fr=$("#fr-"+i);fr.show();}, '1000*kT*T/n');</script>

@@ -6,6 +6,6 @@
 a(k) = 2/l*$Integral{f(x)*cos(2*π*k/l*x) @ x = 0 : l}
 b(k) = 2/l*$Integral{f(x)*sin(2*π*k/l*x) @ x = 0 : l}
 'Expnsion to series
-f_s(x) = a_0/2 + $Sum{a(k)*cos(2*π*k/l*x) @ k = 1 : n} + $Sum{b(k)*sin(2*π*k/l*x) @ k = 1 : n}
+f_s(x) = a_0/2 + $Sum{a(k)*cos(2*π*k/l*x) + b(k)*sin(2*π*k/l*x) @ k = 1 : n}
 'Plot for'n = 20'iterations
 $Plot{f(x) & f_s(x) @ x = 0 : l}

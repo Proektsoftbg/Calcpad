@@ -1,0 +1,42 @@
+'<style>em {font-family:"Times New Roman";}</style>
+"Vector data functions
+'<p><b>Sort</b>(<em>vector</em>) and <b>Rsort</b>(<em>vector</em>)</p><hr/>
+a = hp([4; 0; 2; 3; -1; 1])
+b = sort(a)'- vector sorted in ascending order
+c = rsort(a)'- vector sorted in descending order
+a' - remained unchanged
+
+'<p><b>Order</b>(<em>vector</em>) and <b>Revorder</b>(<em>vector</em>)</p><hr/>
+x_a = hp([4; 0; 2; 3; -1; 1])'
+y_a = hp([1; 2; 3; 4; 5; 6])
+i_asc = order(x_a)'- indexes in ascending order of <em>x</em>-values
+i_desc = revorder(x_a)'- indexes in descending order of <em>x</em>-values
+'Sorts points by ascending order of <em>x</em>-values
+x_b = extract(x_a; i_asc)
+y_b = extract(y_a; i_asc)
+
+'<p><b>Reverse</b>(<em>vector</em>)</p><hr/>
+reverse(hp([1; 2; 3; 4; 5]))'- the elements of the vector in reverse order
+
+'<p><b>Count</b>(<em>vector</em>; <em>value</em>; <em>starting index</em>)</p><hr/>
+count(hp([0; 1; 2; 1; 4; 1]); 1; 4)'- the number of elements equal to 1 and index ≥ 4
+
+'<p><b>Search</b>(<em>vector</em>; <em>value</em>; <em>starting index</em>)</p><hr/>
+a = hp([0; 1; 2; 1; 4; 1])
+search(a; 1; 3)'- the index of the first element in <em>a</em> with value 1 and index ≥ 3
+search(a; 1; 7)'- when the index is out of range or nothing is found, returns 0
+
+'<p><b>Find</b>(<em>vector</em>; <em>value</em>; <em>starting index</em>)</p><hr/>
+a = hp([0; 1; 2; 1; 4; 1])
+find(a; 1; 2)'- the indexes of all elements with value 1, from the 2nd onwards
+find(a; 3; 2)'- if the indexes are out of range or nothing is found, returns 0
+find_lt(a; 3; 2)'- the indexes of all elements, from the 2nd onwards, that are < 3
+find_ge(a; 3; 2)'- the indexes of all elements, from the 2nd onwards, that are ≥ 3
+
+'<p><b>Lookup</b>(<em>vector_a</em>; <em>vector_b</em>; <em>value</em>)</p><hr/>
+a = hp([0; 1; 0; 0; 1; 2])
+b = hp([1; 2; 3; 4; 5; 6])
+lookup(a; b; 0)'- the values ​​from vector <em>b</em> for which the corresponding values ​​in vector <em>a</em> are equal to 0
+lookup(a; b; 2)'- the values ​​from vector <em>b</em> for which the corresponding values ​​in vector <em>a</em> are equal to 2
+lookup_ge(a; b; 1)'- the values ​​from vector <em>b</em> for which the corresponding values ​​in vector <em>a</em> are ≥ 1
+lookup_ne(a; b; 1)'- the values ​​from vector <em>b</em> for which the corresponding values ​​in vector <em>a</em> are ≠ 1

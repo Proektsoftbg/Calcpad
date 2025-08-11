@@ -1,0 +1,258 @@
+'<style>em {font-family:"Times New Roman";}</style>
+"Matrix math functions
+'<p><b>Hprod</b>(<em>first matrix</em>; <em>second matrix</em>)</p><hr/>
+A = hp([1; 2|3; 4|5; 6])'- first matrix
+B = hp([9; 8|7; 6|5; 4])'- second matrix
+C = hprod(A; B)'- The Hadamard product of matrices A and B
+
+'<p><b>Fprod</b>(<em>first matrix</em>; <em>second matrix</em>)</p><hr/>
+A = hp([1; 2|3; 4|5; 6])'- first matrix
+B = hp([9; 8|7; 6|5; 4])'- second matrix
+C = fprod(A; B)'- the Frobenius product of matrices A and B
+
+'<p><b>Kprod</b>(<em>first matrix</em>; <em>second matrix</em>)</p><hr/>
+A = hp([1; 2|3; 4])'- first matrix
+B = hp([5; 6; 7|8; 9; 10])'- second matrix
+C = kprod(A; B)'- the Kronecker product of matrices A and B
+
+'<p><b>Mnorm_1</b>(<em>matrix</em>)</p><hr/>
+A = hp([1; 2; 3|4; 5; 6|7; 8; 9])
+mnorm_1(A)'- the L1 (Manhattan or taxicab) norm of matrix A
+
+'<p><b>Mnorm</b>(<em>matrix</em>) or <b>Mnorm_2</b>(<em>matrix</em>)</p><hr/>
+A = hp([1; 2; 3|4; 5; 6|7; 8; 9])
+mnorm(A)' or
+mnorm_2(A)'- the L2 (spectral) norm of matrix A
+
+'<p><b>Mnorm_е</b>(<em>matrix</em>)</p><hr/>
+A = hp([1; 2; 3|4; 5; 6|7; 8; 9])
+mnorm_e(A)'- the Frobenius (a.k.a. Euclidean) norm of matrix A
+
+'<p><b>Mnorm_i</b>(<em>matrix</em>)</p><hr/>
+A = hp([1; 2; 3|4; 5; 6|7; 8; 9])
+mnorm_i(A)'- the L∞ (infinity) norm of matrix A
+
+'<p><b>Cond_1</b>(<em>matrix</em>)</p><hr/>
+A = hp([1; 2; 3|4; 5; 6|7; 8; 9])
+cond_1(A)'- condition number based on the L1 norm of matrix A
+
+'<p><b>Cond</b>(<em>matrix</em>) or <b>Cond_2</b>(<em>matrix</em>)</p><hr/>
+A = hp([1; 2; 3|4; 5; 6|7; 8; 9])
+cond(A)' or
+cond_2(A)'- condition number based on the L2 norm of matrix A
+
+'<p><b>Cond_е</b>(<em>matrix</em>)</p><hr/>
+A = hp([1; 2; 3|4; 5; 6|7; 8; 9])
+cond_e(A)'- condition number based on  the Frobenius norm of matrix A
+
+'<p><b>Cond_i</b>(<em>matrix</em>)</p><hr/>
+A = hp([1; 2; 3|4; 5; 6|7; 8; 9])
+cond_i(A)'- condition number based on the L∞ norm of matrix A
+
+'<p><b>Det</b>(<em>matrix</em>)</p><hr/>
+A = hp([1; 2; 3|4; 5; 6|7; 8; 9])
+det(A)'- the determinant of matrix A
+
+'<p><b>Rank</b>(<em>matrix</em>)</p><hr/>
+A = hp([1; 2; 3|4; 5; 6|7; 8; 9])
+rank(A)'- the rank of matrix A
+
+'<p><b>Trace</b>(<em>matrix</em>)</p><hr/>
+A = hp([1; 2; 3|4; 5; 6|7; 8; 9])
+trace(A)'- the trace of matrix A
+
+'<p><b>Transp</b>(<em>matrix</em>)</p><hr/>
+A = hp([1; 2; 3|4; 5; 6|7; 8; 9])
+transp(A)'- the transpose of matrix A
+
+'<p><b>Adj</b>(<em>matrix</em>)</p><hr/>
+A = hp([1; 2|3; 4])
+adj(A)'- the adjugate of matrix A 
+D = det(A)'- the determinant of matrix A 
+A_I = inverse(A)'- the inverse of matrix A 
+A_I*D'- the inverse multiplied by the determinant shoud give the adjugate
+
+'<p><b>Cofactor</b>(<em>matrix</em>)</p><hr/>
+A = hp([1; 2|3; 4])
+C = cofactor(A)'- the cofactor of matrix A 
+transp(C)'- the transpose of the cofactor shoud give the adjugate'
+adj(A)
+
+'<p><b>Eigenvals</b>(<em>matrix</em>)</p><hr/>
+ A = copy( _
+    [4; 12; -16| _
+    12; 37; -43| _
+    - 16; -43; 98]; _
+    symmetric_hp(3); 1; 1)'- creates a symmetric matrix by copying a general initializer
+eigenvals(A; 0)' - the eigenvalues of matrix A
+
+'<p><b>Eigenvecs</b>(<em>matrix</em>)</p><hr/>
+ A = copy( _
+    [4; 12; -16| _
+    12; 37; -43| _
+    - 16; -43; 98]; _
+    symmetric_hp(3); 1; 1)'- creates a symmetric matrix by copying a general initializer
+eigenvecs(A; 2)' - the eigenvectors of matrix A
+
+'<p><b>Eigen</b>(<em>matrix</em>)</p><hr/>
+ A = copy( _
+    [4; 12; -16| _
+    12; 37; -43| _
+    - 16; -43; 98]; _
+    symmetric_hp(3); 1; 1)' creates symmetric matrix by copying a general initializer
+eigen(A; 2)' - the eigenvalues (first column) and eigenvectors (other columns) of matrix A
+
+'<p><b>Cholesky</b>(<em>matrix</em>)</p><hr/>
+ A = copy( _
+    [4; 12; -16| _
+    12; 37; -43| _
+    - 16; -43; 98]; _
+    symmetric_hp(3); 1; 1)'- creates a symmetric matrix by copying a general initi_hpalizer
+LT = cholesky(A)'- the upper triangular matrix LT by Cholesky decomposition
+L = transp(LT)'- the lower triangular matrix L
+L*LT'- check: multiplying both matrices should give the original matrix
+
+'<p><b>LU</b>(<em>matrix</em>)</p><hr/>
+ A = hp([4; 12; -16|12; 37; -43| - 16; -43; 98])'- creates general matrix
+LU = lu(A)'- the combined matrix by LU decomposition
+ind'- the index permutation vector
+D = not(identity_hp(3))'- a helper matrix to remove the diagonal elements from L
+
+L = hprod(mfill(ltriang_hp(3); 1); LU)^D'- extracts the lower triangular matrix
+U = hprod(mfill(utriang_hp(3); 1); LU)'- extracts the upper triangular matrix
+extract_rows(L*U; order(ind))'- check: multiplying both matrices and reordering by the permutation vector should give the original matrix
+
+'<p><b>QR</b>(<em>matrix</em>)</p><hr/>
+A = hp([4; 12; -16|12; 37; -43| - 16; -43; 98])'- creates a general matrix
+
+QR = qr(A)'- the combined QR matrix
+Q = submatrix(QR; 1; 3; 1; 3)'- extracts the Q matrix
+R = submatrix(QR; 1; 3; 4; 6)'- extracts the R matrix
+Q*R'- check: multiplying both matrices should give the original matrix
+
+'<p><b>SVD</b>(<em>matrix</em>)</p><hr/>
+A = hp([4; 12; -16|12; 37; -43| - 16; -43; 98])'- creates a general matrix
+SVD = svd(A)'- the combined UΣV matrix, obtained by singular value decomposition
+U = submatrix(SVD; 1; 3; 1; 3)'- extracts the U matrix
+V = submatrix(SVD; 1; 3; 5; 7)'- extracts the V matrix
+σ = col(SVD; 4)'- extracts the singular values
+Σ = hp(vec2diag(σ))'- composes the singular value matrix
+'Multiplying U,Σ and V may not give the original matrix A, due to the sign ambiguity problem
+
+'<p><b>Inverse</b>(<em>matrix</em>)</p><hr/>
+A = hp([4; 12; -16|12; 37; -43| - 16; -43; 98])'- creates a general matrix
+B = inverse(A)'- the inverse of A
+A*B'- check: multiplying both matrices should give the identity matrix
+'Symmetric matrix inverse
+A = copy([4; 12; -16|12; 37; -43| - 16; -43; 98]; _
+    symmetric_hp(3); 1; 1)'- creates a symmetric matrix
+B = inverse(A)'- the inverse of A
+A*B'- check: multiplying both matrices should give the identity matrix
+
+'<p><b>Lsolve</b>(<em>matrix</em>, <em>vector</em>)</p><hr/>
+A = hp([8; 6; -4|6; 12; -3| - 4; -3; 9])'- creates a general matrix
+b = hp([10; 20; 30])'- the right hand side vector
+x = lsolve(A; b)'- the solution vector obtained by LU (LDLT) decomposition
+A*x'- check: multiplying the matrix by the solution vector should give the right hand side vector
+
+'<p><b>Clsolve</b>(<em>matrix</em>, <em>vector</em>)</p><hr/>
+A = copy([8; 6; -4|6; 12; -3| - 4; -3; 9]; _
+    symmetric_hp(3); 1; 1)'- creates a symmetric matrix
+b = hp([10; 20; 30])'- the right hand side vector
+x = clsolve(A; b)'- the solution vector obtained by Cholesky decomposition
+x = slsolve(A; b)'- the solution vector obtained by PCG method
+A*x'- check: multiplying the matrix by the solution vector should give the right hand side vector
+
+'<p><b>Msolve</b>(<em>matrix</em>, <em>matrix</em>)</p><hr/>
+A = hp([8; 6; -4|6; 12; -3| - 4; -3; 9])'- creates a general coefficients matrix
+B = join_cols(hp([10; 20; 30]); hp([40; 50; 60]))'- the right hand side matrix
+X = msolve(A; B)'- the solution matrix obtained by LU (LDLT) decomposition
+A*X'- check: multiplying the coefficients matrix by the solution matrix should give the right hand side matrix
+
+'<p><b>Cmsolve</b>(<em>matrix</em>, <em>matrix</em>)</p><hr/>
+A = copy([8; 6; -4|6; 12; -3| - 4; -3; 9]; _
+    symmetric_hp(3); 1; 1)'- creates a symmetric coefficients  matrix
+B = join_cols(hp([10; 20; 30]); hp([40; 50; 60]))'- the right hand side matrix
+X = cmsolve(A; B)'- the solution matrix obtained by Cholesky decomposition
+X = smsolve(A; B)'- the solution matrix obtained by PCG method
+A*X'- check: multiplying the coefficients matrix by the solution matrix should give the right hand side matrix 
+
+#rad
+'Trigonometric:<hr/>
+x = hp([0; 30; 45|60; 90; 180])*(π/180)
+isHp(x)
+sin(x)'- sine
+cos(x)'- cosine
+tan(x)'- tangent
+csc(x)'- cosecant
+sec(x)'- secant
+cot(x)'- cotangent
+
+'Hyperbolic:<hr/>
+x = hp([-0.5; 0|0.5; 1])
+sinh(x)'- hyperbolic sine
+cosh(x)'- hyperbolic cosine
+tanh(x)'- hyperbolic tangent
+csch(x)'- hyperbolic cosecant
+sech(x)'- hyperbolic secant
+coth(x)'- hyperbolic cotangent
+
+'Inverse trigonometric:<hr/>
+x = hp([-0.5; 0; 0.5|sqrt(2)/2; sqrt(3)/2; 1])
+y = hp([1; sqrt(3)/2; sqrt(2)/2|0.5; 0; -0.5])
+asin(x)'- inverse sine
+acos(x)'- inverse cosine
+atan(x)'- inverse tangent
+atan2(x; y)'- the angle whose tangent is the quotient of y and x
+acsc(1/x)'- inverse cosecant
+asec(1/x)'- inverse secant
+acot(x)'- inverse cotangent
+
+'Inverse hyperbolic:<hr/>
+x = hp([1; 2|4; 8])
+asinh(x)'- inverse hyperbolic sine
+acosh(x)'- inverse hyperbolic cosine
+atanh(x/5)'- inverse hyperbolic tangent
+acsch(1/x)'- inverse hyperbolic cosecant
+asech(1/x)'- inverse hyperbolic secant
+acoth(5/x)'- inverse hyperbolic cotangent
+
+'Logarithmic, exponential and roots:<hr/>
+log(x)'- decimal logarithm
+ln(x)'- natural logarithm 
+log_2(x)'- binary logarithm
+exp(x)'- natural exponent = eˣ
+sqr(x)'- square root
+cbrt(x)'- cubic root
+root(x; 3)'- n-th root
+
+'Rounding:<hr/>
+round(x)'- round to the nearest integer
+floor(x)'- round to the smaller integer(towards - ∞)
+ceiling(x)'- round to the greater integer(towards + ∞)
+trunc(x)'- round to the smaller integer(towards zero)
+
+'Integer:<hr/>
+x
+y = x + 2
+mod(x; y)'- the remainder of an integer division
+gcd(y)'- the greatest common divisor of several integers
+lcm(y)'- the least common multiple of several integers
+
+'Aggregate and interpolation:<hr />
+A = hp([0; 2; 4|6; 8; 12])
+b = hp([5; 3; 1])
+min(A)'- minimum of multiple values
+max(A)'- maximum of multiple values
+sum(A)'- sum of multiple values
+sumsq(A)'- sum of squares
+srss(A)'- square root of sum of squares
+average(A)'- average of multiple values
+product(A)'- product of multiple values
+mean(A)'- geometric mean
+take(5; A)'- the 5-th element from the matrix, linearized to list by rows
+line(5.5; A)'- linear interpolation along the linearized matrix
+spline(5.5; A)'- Hermite spline interpolation along the linearized matrix
+take(2; 2; A)'- the element on row 2 and column 2
+line(1.5; 2.5; A)'- double linear interpolation
+spline(1.5; 2.5; A)'- double Hermite spline interpolation
