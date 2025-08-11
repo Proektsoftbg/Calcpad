@@ -31,7 +31,7 @@
     sqr(x)     sqrt(x)    cbrt(x)     root(x; n)  random(x)      getunits(x)
     round(x)   floor(x)   ceiling(x)  trunc(x)    hp(x)          settunits(x; u)
     sign(x)    mod(x; y)  gcd(x; y)   lcm(x; y)   ishp(x)        clrtunits(x)
-    re(x)      im(z)      abs(z)      phase(z)    conj(z)        atan2(x; y)
+    re(z)      im(z)      abs(z)      phase(z)    conj(z)        atan2(x; y)
     and(x; y; z…)         or(x; y; z…)            xor(x; y; z…)  not(x)        
     min(x; y; z…)         max(x; y; z…)
     sum(x; y; z…)         average(x; y; z…)       sumsq(x; y; z…)
