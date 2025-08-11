@@ -154,10 +154,11 @@ Any variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;&emsp;&emsp;**gcd**(x; y; z...) - the greatest common divisor of several integers;  
 &emsp;&emsp;&emsp;&emsp;**lcm**(x; y; z...) - the least common multiple of several integers;  
 &emsp;&emsp;Complex:  
-&emsp;&emsp;&emsp;&emsp;**abs**(x)  - absolute value/magnitude;  
-&emsp;&emsp;&emsp;&emsp;**re**(x)    - the real part of a complex number;  
-&emsp;&emsp;&emsp;&emsp;**im**(x)    - the imaginary part of a complex number;  
-&emsp;&emsp;&emsp;&emsp;**phase**(x) - the phase of a complex number;  
+&emsp;&emsp;&emsp;&emsp;**re**(z)    - the real part of a complex number;  
+&emsp;&emsp;&emsp;&emsp;**im**(z)    - the imaginary part of a complex number;  
+&emsp;&emsp;&emsp;&emsp;**abs**(z)   - absolute value/magnitude;  
+&emsp;&emsp;&emsp;&emsp;**phase**(z) - the phase of a complex number;  
+&emsp;&emsp;&emsp;&emsp;**conj**(z)  - the conjugate of a complex number;  
 &emsp;&emsp;Aggregate and interpolation:  
 &emsp;&emsp;&emsp;&emsp;**min**(x; y; z...) - minimum of multiple values;  
 &emsp;&emsp;&emsp;&emsp;**max**(x; y; z...) - maximum of multiple values;  
@@ -353,6 +354,12 @@ Any variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;$Map { f(x; y) @ x = a : b & y = c : d }  - 2D color map of a 3D surface;  
 &emsp;&emsp;PlotHeight - height of plot area in pixels;  
 &emsp;&emsp;PlotWidth - width of plot area in pixels;  
+&emsp;&emsp;PlotStep - the size of the mesh for map plotting;  
+&emsp;&emsp;PlotSVG - draw plots in vector (SVG) format;  
+&emsp;&emsp;PlotPalette - the number of color palette to be used for surface plots (0-8);  
+&emsp;&emsp;PlotShadows - draw surface plots with shadows;  
+&emsp;&emsp;PlotSmooth - smooth transition of colors (= 1) or isobands (= 0) for surface plots;  
+&emsp;&emsp;PlotLightDir - direction to light source (0-7) clockwise.  
 * Iterative and numerical methods:  
 &emsp;&emsp;$Root { f(x) = const @ x = a : b } - root finding for f(x) = const;  
 &emsp;&emsp;$Root { f(x) @ x = a : b } - root finding for f(x) = 0;  
@@ -453,13 +460,15 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;&emsp;#varsub - show equations with variables and substituted values (default);  
 &emsp;&emsp;#split - split equations that do not fit on a single line;  
 &emsp;&emsp;#wrap - wrap equations that do not fit on a single line (default);  
-&emsp;&emsp;#round n - rounds the output to n digits after the decimal point;
-&emsp;&emsp;#round default - restores rounding to the default settings;
-&emsp;&emsp;#format FFFF - specifies custom format string;
-&emsp;&emsp;#format default - restores the default formatting;
-&emsp;&emsp;#md on - enables markdown in comments;
-&emsp;&emsp;#md off - disables markdown in comments.
-&emsp;&emsp;Each of the above commands is effective after the current line until the end of the report or another command that overwrites it.
+&emsp;&emsp;#round n - rounds the output to n digits after the decimal point;  
+&emsp;&emsp;#round default - restores rounding to the default settings;  
+&emsp;&emsp;#format FFFF - specifies custom format string;  
+&emsp;&emsp;#format default - restores the default formatting;  
+&emsp;&emsp;#md on - enables markdown in comments;  
+&emsp;&emsp;#md off - disables markdown in comments;  
+&emsp;&emsp;#phasor - sets output format of complex numbers to polar phasor: A∠φ;  
+&emsp;&emsp;#complex - sets output format of complex numbers to Cartesian algebraic: a + bi.  
+&emsp;&emsp;Each of the above commands is effective after the current line until the end of the report or another command that overwrites it.  
 * Breakpoints for step-by-step execution:  
 &emsp;&emsp;#pause - calculates to the current line and waits until resumed manually;  
 &emsp;&emsp;#input - renders an input form to the current line and waits for user input.  

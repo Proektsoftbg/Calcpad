@@ -476,6 +476,7 @@ namespace Calcpad.Core
             var units = v switch
             {
                 RealValue rv => rv.Units,
+                ComplexValue cv => cv.Units,
                 HpVector hp_vec => hp_vec.Units,
                 HpMatrix hp_matrix => hp_matrix.Units,
                 Vector vec => vec.Length > 0 ? vec[1].Units : null,
@@ -496,6 +497,8 @@ namespace Calcpad.Core
             {
                 case RealValue rv:
                     return new RealValue(rv.D, units);
+                case ComplexValue cv:
+                    return new ComplexValue(cv.Complex, units);
                 case HpVector hp_vec:
                     hp_vec.Units = units;
                     return hp_vec;
@@ -519,6 +522,8 @@ namespace Calcpad.Core
             {
                 case RealValue rv:
                     return new RealValue(rv.D, null);
+                case ComplexValue cv:
+                    return new ComplexValue(cv.Complex, null);
                 case HpVector hp_vec:
                     hp_vec.Units = null;
                     return hp_vec;

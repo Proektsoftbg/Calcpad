@@ -94,11 +94,12 @@ namespace Calcpad.Core
                 Real,     //37
                 Imaginary,//38s
                 Phase,    //39
-                Random,   //40
-                Fact,     //41
-                (in ComplexValue a) => -a,   //42
-                (in ComplexValue a) => Not(a),      //43
-                Timer     //44  
+                Conjugate,//40
+                Random,   //41
+                Fact,     //42
+                (in ComplexValue a) => -a,   //43
+                Not,      //44
+                Timer     //45  
             ];
 
             Functions2 =
@@ -135,9 +136,11 @@ namespace Calcpad.Core
 
         private static ComplexValue Real(in ComplexValue value) => new(value.A, value.Units);
         private static ComplexValue Imaginary(in ComplexValue value) => new(value.B, value.Units);
-        private static ComplexValue Phase(in ComplexValue value) => new(value.Complex.Phase);
         internal static ComplexValue Abs(in ComplexValue value) =>
-           new(Complex.Abs(value.Complex), value.Units);
+          new(Complex.Abs(value.Complex), value.Units);
+        private static ComplexValue Phase(in ComplexValue value) => new(value.Complex.Phase);
+        internal static ComplexValue Conjugate(in ComplexValue value) =>
+           new(value.Complex.Conjugate, value.Units);
 
         private static ComplexValue Sign(in ComplexValue value) =>
             new(Complex.Sign(value.Complex));

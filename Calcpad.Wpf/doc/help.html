@@ -336,10 +336,11 @@
                 <li style="list-style-type: none; margin-left: 18pt;">
                     <span class="exp" id="btn37">+</span>Complex:<br />
                     <span id="list37" style="display: none;">
-                        <a href="#0" data-text="abs(x)"><b>abs</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - absolute value/magnitude;<br />
-                        <a href="#0" data-text="re(x)"><b>re</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - the real part of a complex number;<br />
-                        <a href="#0" data-text="im(x)"><b>im</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - the imaginary part of a complex number;<br />
-                        <a href="#0" data-text="phase(x)"><b>phase</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - the phase of a complex number;<br />
+                        <a href="#0" data-text="re(z)"><b>re</b><span class="b">(</span><var>z</var><span class="b">)</span></a> - the real part of a complex number;<br />
+                        <a href="#0" data-text="im(z)"><b>im</b><span class="b">(</span><var>z</var><span class="b">)</span></a> - the imaginary part of a complex number;<br />
+                        <a href="#0" data-text="abs(z)"><b>abs</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - absolute value/magnitude;<br />
+                        <a href="#0" data-text="phase(z)"><b>phase</b><span class="b">(</span><var>z</var><span class="b">)</span></a> - the phase of a complex number;<br />
+                       <a href="#0" data-text="conj(z)"><b>conj</b><span class="b">(</span><var>z</var><span class="b">)</span></a> - the conjugate of a complex number;<br />
                     </span>
                 </li>
                 <li style="list-style-type: none; margin-left: 18pt;">
@@ -731,8 +732,8 @@
             </span>
         </li>
         <li style="list-style-type: none;">
-            <span class="exp" id="btn9">+</span>Output control:<br />
-            <span id="list9" style="display: none;">
+            <span class="exp" id="btn10">+</span>Output control:<br />
+            <span id="list10" style="display: none;">
                 <a href="#0" data-text="#hide"><span class="cond">#hide</span></a> - hide the report contents;<br />
                 <a href="#0" data-text="#show"><span class="cond">#show</span></a> - always show the contents (default);<br />
                 <a href="#0" data-text="#pre"><span class="cond">#pre</span></a> - show the next contents only before calculations;<br />
@@ -750,13 +751,15 @@
                 <a href="#0" data-text="#format "><span class="cond">#format <em>FFFF</em></span></a> - specifies custom format string;<br />
                 <a href="#0" data-text="#format default"><span class="cond">#format default</span></a> - restores the default formatting;<br />
                 <a href="#0" data-text="#md on"><span class="cond">#md on</span></a> - enables markdown in comments;<br />
-                <a href="#0" data-text="#md off"><span class="cond">#md off</span></a> - disables markdown in comments.<br />
+                <a href="#0" data-text="#md off"><span class="cond">#md off</span></a> - disables markdown in comments;<br />
+                <a href="#0" data-text="#phasor"><span class="cond">#phasor</span></a> - sets output format of complex numbers to polar phasor: A∠φ;<br />
+                <a href="#0" data-text="#complex"><span class="cond">#complex</span></a> - sets output format of complex numbers to Cartesian algebraic: a + bi.<br />
                 Each of the above commands is effective after the current line until the end of the report or another command that overrides it.
             </span>
         </li>
         <li style="list-style-type: none;">
-            <span class="exp" id="btn10">+</span>Breakpoints for step-by-step execution:<br />
-            <span id="list10" style="display: none;">
+            <span class="exp" id="btn11">+</span>Breakpoints for step-by-step execution:<br />
+            <span id="list11" style="display: none;">
                 <a href="#0" data-text="#pause"><span class="cond">#pause</span></a> - calculates down to the current line and waits for the user to resume manually;<br />
                 <a href="#0" data-text="#input"><span class="cond">#input</span></a> - renders an input form to the current line and waits for user input.<br />
             </span>
@@ -791,8 +794,8 @@
             <a href="#0" data-text="rev" title="revolutions"><i>rev</i></a>;
         </li>
         <li style="list-style-type: none;">
-            <span class="exp" id="btn11">+</span>Metric units (SI and compatible):<br />
-            <span id="list11" style="display: none;">
+            <span class="exp" id="btn12">+</span>Metric units (SI and compatible):<br />
+            <span id="list12" style="display: none;">
                 Mass:
                 <a href="#0" data-text="g" title="gram"><i>g</i></a>,
                 <a href="#0" data-text="hg" title="hectogram"><i>hg</i></a>,
@@ -1115,8 +1118,8 @@
             </span>
         </li>
         <li style="list-style-type: none;">
-            <span class="exp" id="btn12">+</span>Non-metric units (Imperial/US):<br />
-            <span id="list12" style="display: none;">
+            <span class="exp" id="btn13">+</span>Non-metric units (Imperial/US):<br />
+            <span id="list13" style="display: none;">
                 Mass:
                 <a href="#0" data-text="gr" title="grain"><i>gr</i></a>,
                 <a href="#0" data-text="dr" title="drachm"><i>dr</i></a>,

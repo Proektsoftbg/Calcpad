@@ -92,11 +92,12 @@ namespace Calcpad.Core
                 Real,     //37
                 Imaginary,//38
                 Phase,    //39
-                Random,   //40
-                Fact,     //41
-                (in RealValue a) => -a, //42
-                (in RealValue a) => Not(a),      //43
-                Timer     //44
+                (in RealValue a) => a, //40
+                Random,   //41
+                Fact,     //42
+                (in RealValue a) => -a, //43
+                Not,      //44
+                Timer     //45
             ];
 
             _functions2 =

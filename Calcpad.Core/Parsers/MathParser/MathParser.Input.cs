@@ -238,9 +238,9 @@ namespace Calcpad.Core
                                             t.Type == TokenTypes.VectorFunction2 ||
                                             t.Type == TokenTypes.VectorFunction3 ||
                                             t.Type == TokenTypes.VectorMultiFunction ||
-                                            t.Type == TokenTypes.MatrixFunction ||
+                                            t.Type == TokenTypes.MatrixFunction && !t.Content.EndsWith("units", StringComparison.OrdinalIgnoreCase) ||
                                             t.Type == TokenTypes.MatrixOptionalFunction ||
-                                            t.Type == TokenTypes.MatrixFunction2 ||
+                                            t.Type == TokenTypes.MatrixFunction2 && !t.Content.EndsWith("units", StringComparison.OrdinalIgnoreCase) ||
                                             t.Type == TokenTypes.MatrixFunction3 ||
                                             t.Type == TokenTypes.MatrixFunction4 ||
                                             t.Type == TokenTypes.MatrixFunction5 ||

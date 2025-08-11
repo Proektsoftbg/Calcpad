@@ -462,14 +462,16 @@
                                   ToolTip="{x:Static wpf:MathResources.LeastCommonMultiple}"/>
                     </MenuItem>
                     <MenuItem Header="{x:Static wpf:MathResources.Complex}">
-                        <MenuItem Click="Button_Click" Tag="re(x)"      Header="re(x)"      
+                        <MenuItem Click="Button_Click" Tag="re(z)"      Header="re(x)"      
                                   ToolTip="{x:Static wpf:MathResources.RealPartOfAComplexNumber}"/>
-                        <MenuItem Click="Button_Click" Tag="im(x)"      Header="im(x)"      
+                        <MenuItem Click="Button_Click" Tag="im(z)"      Header="im(x)"      
                                   ToolTip="{x:Static wpf:MathResources.ImaginaryPartOfAComplexNumber}"/>
-                        <MenuItem Click="Button_Click" Tag="phase(x)"   Header="phase(x)"   
-                                  ToolTip="{x:Static wpf:MathResources.PhaseOfAComplexNumber}"/>
-                        <MenuItem Click="Button_Click" Tag="abs(x)"     Header="abs(x)"     
+                        <MenuItem Click="Button_Click" Tag="abs(z)"     Header="abs(x)"     
                                   ToolTip="{x:Static wpf:MathResources.AbsoluteValue}"/>
+                        <MenuItem Click="Button_Click" Tag="phase(z)"   Header="phase(x)"   
+                                  ToolTip="{x:Static wpf:MathResources.PhaseOfAComplexNumber}"/>
+                        <MenuItem Click="Button_Click" Tag="conj(z)"   Header="conj(x)"   
+                                  ToolTip="{x:Static wpf:MainWindowResources.ConjugateOfAComplexNumber}"/>
                     </MenuItem>
                     <MenuItem Header="{x:Static wpf:MathResources.AggregateAndInterpolation}">
                         <MenuItem Click="Button_Click" Tag="min(M; v; x…)"     Header="min(M; v; x…)"       
