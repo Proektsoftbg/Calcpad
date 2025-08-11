@@ -484,6 +484,15 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Conjugate of a complex number.
+        /// </summary>
+        public static string ConjugateOfAComplexNumber {
+            get {
+                return ResourceManager.GetString("ConjugateOfAComplexNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Converts any vector and matrix to high performance type.
         /// </summary>
         public static string ConvertsAnyVectorAndMatrixToHighPerformanceType {

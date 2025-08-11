@@ -159,6 +159,7 @@ namespace Calcpad.Wpf
             items.Add(new ListBoxItem() { Content = "cond_2(M)", FontWeight = FontWeights.Bold });
             items.Add(new ListBoxItem() { Content = "cond_e(M)", FontWeight = FontWeights.Bold });
             items.Add(new ListBoxItem() { Content = "cond_i(M)", FontWeight = FontWeights.Bold });
+            items.Add(new ListBoxItem() { Content = "conj(z)", FontWeight = FontWeights.Bold });
             items.Add(new ListBoxItem() { Content = "copy(A; B; i; j)", FontWeight = FontWeights.Bold });
             items.Add(new ListBoxItem() { Content = "cos(x)", FontWeight = FontWeights.Bold });
             items.Add(new ListBoxItem() { Content = "cosh(x)", FontWeight = FontWeights.Bold });
@@ -295,7 +296,7 @@ namespace Calcpad.Wpf
             items.Add(new ListBoxItem() { Content = "identity(n)", FontWeight = FontWeights.Bold });
             items.Add(new ListBoxItem() { Content = "identity_hp(n)", FontWeight = FontWeights.Bold });
             items.Add(new ListBoxItem() { Content = "if(cond; vt; vf)", FontWeight = FontWeights.Bold });
-            items.Add(new ListBoxItem() { Content = "im(x)", FontWeight = FontWeights.Bold });
+            items.Add(new ListBoxItem() { Content = "im(z)", FontWeight = FontWeights.Bold });
             items.Add(new ListBoxItem() { Content = "in", Foreground = Brushes.DarkCyan });
             items.Add(new ListBoxItem() { Content = "in*lb_f", Foreground = Brushes.DarkCyan });
             items.Add(new ListBoxItem() { Content = "in*oz_f", Foreground = Brushes.DarkCyan });
@@ -567,7 +568,7 @@ namespace Calcpad.Wpf
             items.Add(new ListBoxItem() { Content = "pg", Foreground = Brushes.DarkCyan });
             items.Add(new ListBoxItem() { Content = "pGy", Foreground = Brushes.DarkCyan });
             items.Add(new ListBoxItem() { Content = "pH", Foreground = Brushes.DarkCyan });
-            items.Add(new ListBoxItem() { Content = "phase(x)", FontWeight = FontWeights.Bold });
+            items.Add(new ListBoxItem() { Content = "phase(z)", FontWeight = FontWeights.Bold });
             items.Add(new ListBoxItem() { Content = "pHz", Foreground = Brushes.DarkCyan });
             items.Add(new ListBoxItem() { Content = "pJ", Foreground = Brushes.DarkCyan });
             items.Add(new ListBoxItem() { Content = "pk", Foreground = Brushes.DarkCyan });
@@ -625,7 +626,7 @@ namespace Calcpad.Wpf
             items.Add(new ListBoxItem() { Content = "range_hp(x₁; xₙ; step)", FontWeight = FontWeights.Bold });
             items.Add(new ListBoxItem() { Content = "rank(M)", FontWeight = FontWeights.Bold });
             items.Add(new ListBoxItem() { Content = "Rd", Foreground = Brushes.DarkCyan });
-            items.Add(new ListBoxItem() { Content = "re(x)", FontWeight = FontWeights.Bold });
+            items.Add(new ListBoxItem() { Content = "re(z)", FontWeight = FontWeights.Bold });
             items.Add(new ListBoxItem() { Content = "resize(v; n)", FontWeight = FontWeights.Bold });
             items.Add(new ListBoxItem() { Content = "ReturnAngleUnits", Foreground = Brushes.Blue });
             items.Add(new ListBoxItem() { Content = "rev", Foreground = Brushes.DarkCyan });

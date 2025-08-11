@@ -1125,4 +1125,7 @@ You can find your unsaved data in
   <data name="AlgebraicComplexNotation" xml:space="preserve">
     <value>Algebraic complex notation</value>
   </data>
+  <data name="ConjugateOfAComplexNumber" xml:space="preserve">
+    <value>Conjugate of a complex number</value>
+  </data>
 </root>

@@ -154,11 +154,12 @@ namespace Calcpad.Core
             { "re", 37 },
             { "im", 38 },
             { "phase", 39 },
-            { "random", 40 },
-            { "fact", 41 },
-            { "‐", 42 },
-            { "not", 43},
-            { "timer", 44 },
+            { "conj", 40 },
+            { "random", 41 },
+            { "fact", 42 },
+            { "‐", 43 },
+            { "not", 44},
+            { "timer", 45 },
         }.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
 
         internal static readonly FrozenDictionary<string, int> Function2Index =
