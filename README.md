@@ -4,7 +4,7 @@ Project Website: [https://calcpad.eu](https://calcpad.eu)
   
 Calcpad is free software for mathematical and engineering calculations. It represents a flexible and modern programmable calculator with Html report generator. It is simple and easy to use, but it also includes many advanced features:  
   
-* real and complex numbers;
+* real and complex numbers (rectangular and polar-phasor formats);
 * units of measurement (SI, Imperial and USCS);
 * vectors and matrices: rectangular, symmetric, column, diagonal, upper/lower triangular;
 * custom variables and units;
@@ -15,7 +15,7 @@ Calcpad is free software for mathematical and engineering calculations. It repre
     * math functions: norm, condition, determinant, rank, trace, transpose, adjugate and cofactor, inverse, factorization (cholesky, ldlt, lu, qr and svd), eigenvalues/vectors and linear systems of equations;
 * custom functions of multiple parameters f(x; y; z; …);
 * powerful numerical methods for root and extremum finding, numerical integration and differentiation;
-* finite sum, product and iteration procedures;
+* finite sum, product and iteration procedures, Fourier series and FFT;;
 * modules, macros and string variables;
 * reading and writing data from/to text, CSV and Excel files;
 * program flow control with conditions and loops;
