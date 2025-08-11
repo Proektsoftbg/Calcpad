@@ -4,6 +4,7 @@
 		<Environment ignoreCase="no" startFunc="(" stopFunc=")" paramSeparator=";" terminal="" additionalWordChar="$#μ°"/>
 		<KeyWord name="#append" />
 		<KeyWord name="#break" />
+		<KeyWord name="#complex" />
 		<KeyWord name="#continue" />
 		<KeyWord name="#def" />
 		<KeyWord name="#deg" />
@@ -29,6 +30,7 @@
 		<KeyWord name="#nosub" />
 		<KeyWord name="#novar" />
 		<KeyWord name="#pause" />
+		<KeyWord name="#phasor" />
 		<KeyWord name="#post" />
 		<KeyWord name="#pre" />
 		<KeyWord name="#rad" />
@@ -116,6 +118,7 @@
 		<KeyWord name="cond_2" />
 		<KeyWord name="cond_e" />
 		<KeyWord name="cond_i" />
+		<KeyWord name="conj" />
 		<KeyWord name="copy" />
 		<KeyWord name="cos" />
 		<KeyWord name="cosh" />
@@ -463,6 +466,10 @@
 		<KeyWord name="pk_US" />
 		<KeyWord name="pL" />
 		<KeyWord name="PlotHeight" />
+		<KeyWord name="PlotLightDir" />
+		<KeyWord name="PlotPalette" />
+		<KeyWord name="PlotShadows" />
+		<KeyWord name="PlotSmooth" />
 		<KeyWord name="PlotStep" />
 		<KeyWord name="PlotSVG" />
 		<KeyWord name="PlotWidth" />
@@ -530,8 +537,6 @@
 		<KeyWord name="sinh" />
 		<KeyWord name="size" />
 		<KeyWord name="slice" />
-		<KeyWord name="slsolve" />
-		<KeyWord name="smsolve" />
 		<KeyWord name="slug" />
 		<KeyWord name="sort" />
 		<KeyWord name="sort_cols" />

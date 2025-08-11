@@ -1,0 +1,378 @@
+object SyntAnal6: TLibSyntAnalyzer
+  Formats = <
+    item
+      DisplayName = 'Comment'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGreen
+      Font.Height = -13
+      Font.Name = 'Consolas'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Function'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Consolas'
+      Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'Variable'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -13
+      Font.Name = 'Consolas'
+      Font.Style = [fsItalic]
+    end
+    item
+      DisplayName = 'Keyword'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clFuchsia
+      Font.Height = -13
+      Font.Name = 'Consolas'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Number'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -13
+      Font.Name = 'Consolas'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Units'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clTeal
+      Font.Height = -13
+      Font.Name = 'Consolas'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Operator'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clOlive
+      Font.Height = -13
+      Font.Name = 'Consolas'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Separator'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clOlive
+      Font.Height = -13
+      Font.Name = 'Consolas'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Input'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Consolas'
+      Font.Style = [fsBold]
+    end
+    item
+      DisplayName = 'Brackets'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clMaroon
+      Font.Height = -13
+      Font.Name = 'Consolas'
+      Font.Style = []
+    end
+    item
+      DisplayName = 'Macro'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clPurple
+      Font.Height = -13
+      Font.Name = 'Consolas'
+      Font.Style = []
+    end>
+  TokenRules = <
+    item
+      DisplayName = 'Title'
+      StyleName = 'Comment'
+      Expression = '".*?(["\r\n])'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Comment'
+      StyleName = 'Comment'
+      Expression = #39'.*?(['#39'\r\n])'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Operator'
+      StyleName = 'Operator'
+      TokenType = 7
+      Expression = '[\+\-\*/\\'#247'%\^'#8801#8800'<>'#8804#8805#8743#8744#8853'=!]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Separator'
+      StyleName = 'Separator'
+      TokenType = 8
+      Expression = '[;&@:\|]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Brackets {}'
+      StyleName = 'Brackets'
+      TokenType = 10
+      Expression = '[\{\}]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Brackets ()'
+      StyleName = 'Brackets'
+      TokenType = 10
+      Expression = '[\(\)]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+	item
+      DisplayName = 'Brackets []'
+      StyleName = 'Brackets'
+      TokenType = 10
+      Expression = '[\[\]]'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Input'
+      StyleName = 'Input'
+      TokenType = 9
+      Expression = '?'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Macro'
+      StyleName = 'Macro'
+      TokenType = 11
+      Expression = '[a-zA-Z]+[a-zA-Z0-9_]*\$'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Keyword'
+      StyleName = 'Keyword'
+      TokenType = 3
+      Expression = 
+        '\#([Rr]epeat|[Ll]oop|[Bb]reak|[Cc]ontinue|[Ss]how|[Hh]ide|[Pp]re' + 
+		'|[Pp]ost|[Vv]al|[Ee]qu|[Nn]oc|[Nn]osub|[Nn]ovar|[Vv]arsub|[Rr]ou' + 
+		'nd|[Rr]ad|[Dd]eg|[Ii]f|[Ee]lse\s[Ii]f|[Ee]lse|[Ee]nd\s[Ii]f|[Ii]' + 
+		'nclude|[Ll]ocal|[Gg]lobal|[Dd]ef|[Ee]nd\s[Dd]ef|[Pp]ause|[Ii]nput' + 
+		'|[Ss]plit|[Ww]rap|[Ff]or|[Ww]hile|[Ff]ormat|[Rr]read|[Ww]rite' + 
+		'|[Aa]ppend|[Mm]d|[Mm]d on|[Mm]d off)\b'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Method'
+      StyleName = 'Keyword'
+      TokenType = 3
+      Expression = 
+        '\$([Rr]oot|[Ff]ind|[Ii]nf|[Ss]up|[Aa]rea|[Ii]ntegral|[Ss]lope|[S' +
+        's]um|[Pp]roduct|[Rr]epeat|[Mm]ap|[Pp]lot)\b'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Function'
+      StyleName = 'Function'
+      TokenType = 1
+      Expression = 
+        '\b(sign|abs|sin|cos|tan|csc|sec|cot|sinh|cosh|tanh|csch|sech|cot' +
+        'h|asin|acos|atan|acsc|asec|acot|asinh|acosh|atanh|acsch|asech|ac' +
+        'oth|ln|log|log_2|exp|sqr|sqrt|cbrt|round|floor|ceiling|trunc|re|' +
+        'im|phase|random|root|atan2|min|max|sum|sumsq|srss|average|produc' +
+        't|mean|switch|take|line|spline|mod|gcd|lcm|not|and|or|xor|timer|' +
+        'im|phase|random|root|atan2|min|max|sum|sumsq|srss|average|produc' +
+        'vector|len|size|fill|range|join|resize|first|last|slice|sort|rso' +
+        'rt|order|revorder|reverse|extract|search|count|find|find_eq|find' +
+        '_ne|find_lt|find_gt|find_le|find_ge|lookup|Lookup_eq|Lookup_ne|L' +
+        'ookup_lt|Lookup_gt|Lookup_le|Lookup_ge|norm|norm_1|norm_2|norm_e' +
+        '|norm_i|norm_p|unit|dot|cross|matrix|identiy|diagonal|column|utr' +
+        'iang|ltriang|symmetric|vec2diag|diag2vec|vec2col|vec2row|join_cols|join_' +
+        'rows|augment|stack|mfill|fill_row|fill_col|mresize|copy|add|n_ro' +
+        'ws|n_cols|row|col|extrac_rows|extract_cols|submatrix|mnorm|mnorm' +
+        '_2|mnorm_e|mnorm_1|mnorm_i|cond|cond_1|cond_2|cond_e|cond_i|det|' +
+        'rank|transp|trace|inverse|adj|cofactor|eigenvals|eigenvecs|eigen' +
+        '|lu|qr|svd|cholesky|lsolve|clsolve|slsolve|msolve|cmsolve|smsolve' +
+        '|hprod|fprod|kprod|hp|ishp|vector_hp|range_hp|sort_cols|r' +
+        'sort_cols|sort_rows|rsort_rows|order_cols|revorder_cols|order_ro' +
+        'ws|revorder_rows|mcount|mfind|mfind_eq|mfind_ne|mfnd_lt|mfind_le' +
+        '|mfind_gt|mfind_ge|msearch|hlookup|hlookup_eq|hlookup_ne|hlookup' +
+        '_lt|hlookup_le|hlookup_gt|hlookup_ge|vlookup|vlookup_eq|vlookup_' +
+        'ne|vlookup_lt|vlookup_le|vlooku_gt|vlookup_ge|getunits|setunits|' +
+        'clrunits|matrix_hp|identiy_hp|diagonal_hp|column_hp|utriang_hp|' +
+        'ltriang_hp|symmetric_hp)\b'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Variable'
+      StyleName = 'Variable'
+      TokenType = 2
+      Expression = 
+        '\b[a-zA-Z\x{03B1}-\x{03C9}\x{0391}-\x{03A9}\x{00B0}\x{00F8}\x{00' +
+        'D8}\x{2221}]+[a-zA-Z\x{03B1}-\x{03C9}\x{0391}-\x{03A9}\x{00B0}\x' +
+        '{00F8}\x{00D8}\x{2221}0-9_,\x{2032}\x{2033}\x{2034}\x{2057}]*\b'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Number'
+      StyleName = 'Number'
+      TokenType = 5
+      Expression = '\b([0-9]*\.?[0-9]*)'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end
+    item
+      DisplayName = 'Units'
+      StyleName = 'Units'
+      TokenType = 6
+      Expression = '(?<=\b([\?\|0-9.]+))[A-Za-z'#1042#176#8242#8243']+'
+      ColumnFrom = 0
+      ColumnTo = 0
+    end>
+  BlockRules = <
+    item
+      DisplayName = '#repeat'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '#repeat')
+          IgnoreCase = True
+        end>
+      BlockEnd = '#loop'
+      HighlightPos = cpAny
+      DrawStaple = True
+      CollapseFmt = '%sz0'
+      IgnoreAsParent = False
+    end
+	item
+      DisplayName = '#for'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '#for')
+          IgnoreCase = True
+        end>
+      BlockEnd = '#loop'
+      HighlightPos = cpAny
+      DrawStaple = True
+      CollapseFmt = '%sz0'
+      IgnoreAsParent = False
+    end
+	item
+      DisplayName = '#for'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '#for')
+          IgnoreCase = True
+        end>
+      BlockEnd = '#loop'
+      HighlightPos = cpAny
+      DrawStaple = True
+      CollapseFmt = '%sz0'
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = '#loop'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '#loop')
+          IgnoreCase = True
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = '#if'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '#if')
+          IgnoreCase = True
+        end>
+      BlockEnd = '#end if'
+      HighlightPos = cpAny
+      DrawStaple = True
+      CollapseFmt = '%sz0'
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = '#end if'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '#end if')
+          IgnoreCase = True
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = '#def'
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '#def')
+        end>
+      BlockEnd = '#end def'
+      HighlightPos = cpAny
+      DrawStaple = True
+      CollapseFmt = '%sz0'
+      IgnoreAsParent = False
+    end
+    item
+      DisplayName = '#end def'
+      BlockType = btRangeEnd
+      ConditionList = <
+        item
+          TagList.Strings = (
+            '#end def')
+        end>
+      HighlightPos = cpAny
+      IgnoreAsParent = False
+    end>
+  CodeTemplates = <>
+  SubAnalyzers = <
+    item
+      DisplayName = 'Sub lexer rule 1'
+      StyleName = 'Comment'
+      SyntAnalyzer = SyntAnal9
+    end>
+  TokenTypeNames.Strings = (
+    'Comment'
+    'Function'
+    'Variable'
+    'Keyword'
+    'Command'
+    'Number'
+    'Unit'
+    'Operator'
+    'Separator'
+    'Input'
+    'Brackets'
+    'Macro')
+  Extentions = 'cpd'
+  LexerName = 'Calcpad'
+  Notes.Strings = (
+    'Created by Ned Ganchovski')
+  RestartFromLineStart = True
+  LineComment = #39
+  Charset = DEFAULT_CHARSET
+end

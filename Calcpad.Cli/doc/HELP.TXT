@@ -28,10 +28,10 @@
     sinh(x)    cosh(x)    tanh(x)     csch(x)     sech(x)        coth(x)
     asinh(x)   acosh(x)   atanh(x)    acsch(x)    asech(x)       acoth(x)
     log(x)     ln(x)      log_2(x)    exp(x)
-    sqr(x)     sqrt(x)    cbrt(x)     root(x; n)  atan2(x; y)    getunits(x)
-    round(x)   floor(x)   ceiling(x)  trunc(x)    random(x)      settunits(x; u)
-    sign(x)    mod(x; y)  gcd(x; y)   lcm(x; y)   hp(x)          clrtunits(x)
-    abs(x)     re(x)      im(x)       phase(x)    ishp(x)
+    sqr(x)     sqrt(x)    cbrt(x)     root(x; n)  random(x)      getunits(x)
+    round(x)   floor(x)   ceiling(x)  trunc(x)    hp(x)          settunits(x; u)
+    sign(x)    mod(x; y)  gcd(x; y)   lcm(x; y)   ishp(x)        clrtunits(x)
+    re(x)      im(z)      abs(z)      phase(z)    conj(z)        atan2(x; y)
     and(x; y; z…)         or(x; y; z…)            xor(x; y; z…)  not(x)        
     min(x; y; z…)         max(x; y; z…)
     sum(x; y; z…)         average(x; y; z…)       sumsq(x; y; z…)
@@ -100,7 +100,7 @@
     Double interpolation:        csolve(A; B)           vlookup_gt(M; x; j1; j2) 
     take(x; y; M)	             cmsolve(A; B)          vlookup_ge(M; x; j1; j2) 
     line(x; y; M)                smsolve(A; B)         
-    spline(x; y; M)				                              
+    spline(x; y; M)				 fft(M), ift(M)
 
 ————————————————————————————————————————————————————————————————————————————————
  Iterative and numerical methods:

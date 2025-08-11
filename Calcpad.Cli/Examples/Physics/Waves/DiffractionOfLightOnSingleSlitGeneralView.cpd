@@ -1,0 +1,26 @@
+'Assoc. prof. Tadeusz Szumiata, PhD, Radom University, Poland
+"Diffraction of light at a single slit - spatial view
+'Dyfrakcja światła na pojedynczej szczelinie - widok przestrzenny
+#rad
+λ = 500nm
+k = (2*π)/λ
+r(x; y) = sqrt(x^2 + y^2)
+a = 1μm
+c = 299792458m/s
+T = λ/c
+f = 1/T|Hz
+ω = (2*π)/T
+Ψ_0 = 0.5*sqrt(W/m^2)
+t = 0s
+'The slit is divided into 7 zones:'
+Ψ_2D_1(x; y; t) = Ψ_0*sin(k*r(x - 3*a/7; y) - ω*t)
+Ψ_2D_2(x; y; t) = Ψ_0*sin(k*r(x - 2*a/7; y) - ω*t)
+Ψ_2D_3(x; y; t) = Ψ_0*sin(k*r(x - a/7; y) - ω*t)
+Ψ_2D_4(x; y; t) = Ψ_0*sin(k*r(x; y) - ω*t)
+Ψ_2D_5(x; y; t) = Ψ_0*sin(k*r(x + 1*a/7; y) - ω*t)
+Ψ_2D_6(x; y; t) = Ψ_0*sin(k*r(x + 2*a/7; y) - ω*t)
+Ψ_2D_7(x; y; t) = Ψ_0*sin(k*r(x + 3*a/7; y) - ω*t)
+Ψ_2D(x; y; t) = Ψ_2D_1(x; y; t) + Ψ_2D_2(x; y; t) + Ψ_2D_3(x; y; t) + Ψ_2D_4(x; y; t) + Ψ_2D_5(x; y; t) + Ψ_2D_6(x; y; t) + Ψ_2D_7(x; y; t)
+PlotHeight = 200
+PlotWidth = 600
+$Map{Ψ_2D(x; y; t)^2 @ x = -1m : 1m & y = 0m : 1m}

@@ -1,0 +1,41 @@
+"Example for 3D plot with plotly
+n = 100
+A = matrix(n; n)
+$Repeat{$Repeat{A.(i; j) = 1 - e^-(2*n/sumsq(i - n/2; j - n/2)) @ j = 1 : n} @ i = 1 : n}
+PlotWidth = 400','PlotHeight = 400
+$Map{spline(i; j; A) @ i = 1 : n - 1 & j = 1 : n - 1}
+#val
+'<script type="text/javascript" src="plotly-2.35.2.min.js" charset="utf-8"></script>
+'<div id="myDiv"></div>
+'<script>
+'var z_data='A';
+'var data = [{
+'  z: z_data,
+'  type: "surface",
+'  contours: {
+'    z: {
+'      show:true,
+'      usecolormap: true,
+'      highlightcolor:"#42f462",
+'      project:{z: true}
+'    }
+'  }
+'}];
+'
+'var layout = {
+'  title: {
+'    text: "Calcpad plot"
+'  },
+'  scene: {camera: {eye: {x: 1.87, y: 0.88, z: -0.64}}},
+'  autosize: false,
+'  width: 500,
+'  height: 500,
+'  margin: {
+'    l: 65,
+'    r: 50,
+'    b: 65,
+'    t: 90,
+'  }
+'};
+'Plotly.newPlot("myDiv", data, layout);
+'</script>

@@ -1,0 +1,52 @@
+<svg width="170pt" height="240pt" viewBox="-299 -146 598 815" style="font-size:32pt; font-family:Segoe UI;" xmlns="http://www.w3.org/2000/svg">
+<style>
+.dim {stroke:goldenrod; stroke-width:1.75; fill:goldenrod;}
+.axis {stroke-dasharray:36,12,4,12; stroke:limegreen; stroke-width:2;}
+</style>
+<path d="M-153,0H153V40H37.5A27,27 0 0 0 10.5,67V457A27,27 0 0 0 37.5,484H153V524H-153V484H-37.5A27,27 0 0 0 -10.5,457V67A27,27 0 0 0 -37.5,40H-153Z" fill="powderblue" fill-opacity="0.8" stroke="#64A0B0" stroke-width="4"></path>
+<line x1="-255" y1="262" x2="255" y2="262" class="axis"></line>
+<text x="-269" y="268" text-anchor="middle">y</text>
+<text x="269" y="268" text-anchor="middle">y</text>
+<line x1="0" y1="-102" x2="0" y2="626" class="axis"></line>
+<text x="0" y="-116" text-anchor="middle">z</text>
+<text x="0" y="655" text-anchor="middle">z</text>
+<line x1="-214" y1="0" x2="-179" y2="0" class="dim"></line>
+<line x1="-214" y1="524" x2="-179" y2="524" class="dim"></line>
+<line x1="-197" y1="-18" x2="-197" y2="542" class="dim"></line>
+<circle cx="-197" cy="0" r="5" class="dim"></circle>
+<circle cx="-197" cy="524" r="5" class="dim"></circle>
+<text x="-210" y="230" text-anchor="middle" transform="rotate(-90,-210,230)">h</text>
+<line x1="208" y1="0" x2="243" y2="0" class="dim"></line>
+<line x1="208" y1="40" x2="243" y2="40" class="dim"></line>
+<line x1="226" y1="-18" x2="226" y2="58" class="dim"></line>
+<circle cx="226" cy="0" r="5" class="dim"></circle>
+<circle cx="226" cy="40" r="5" class="dim"></circle>
+<text x="200" y="30" text-anchor="middle" transform="rotate(-90,200,30)">t<tspan dy="12" style="font-size:24pt;"> f2</tspan></text>
+<line x1="208" y1="484" x2="243" y2="484" class="dim"></line>
+<line x1="208" y1="524" x2="243" y2="524" class="dim"></line>
+<line x1="226" y1="466.53" x2="226" y2="541.5" class="dim"></line>
+<circle cx="226" cy="484" r="5" class="dim"></circle>
+<circle cx="226" cy="524" r="5" class="dim"></circle>
+<text x="200" y="514" text-anchor="middle" transform="rotate(-90,200,514)">t<tspan dy="12" style="font-size:24pt;"> f1</tspan></text>
+<line x1="-153" y1="579" x2="-153" y2="614" class="dim"></line>
+<line x1="153" y1="579" x2="153" y2="614" class="dim"></line>
+<line x1="-170.5" y1="597" x2="170.5" y2="597" class="dim"></line>
+<circle cx="153" cy="597" r="5" class="dim"></circle>
+<circle cx="-153" cy="597" r="5" class="dim"></circle>
+<text x="40" y="575" text-anchor="middle">b<tspan dy="12" style="font-size:24pt;"> f2</tspan></text>
+<line x1="-153" y1="-61" x2="-153" y2="-2" class="dim"></line>
+<line x1="153" y1="-61" x2="153" y2="-2" class="dim"></line>
+<line x1="-170.5" y1="-44" x2="170.5" y2="-44" class="dim"></line>
+<circle cx="153" cy="-44" r="5" class="dim"></circle>
+<circle cx="-153" cy="-44" r="5" class="dim"></circle>
+<text x="40" y="-65" text-anchor="middle">b<tspan dy="12" style="font-size:24pt;"> f1</tspan></text>
+<line x1="-10.5" y1="201" x2="-10.5" y2="236" class="dim"></line>
+<line x1="10.5" y1="201" x2="10.5" y2="236" class="dim"></line>
+<line x1="-28" y1="218" x2="28" y2="218" class="dim"></line>
+<circle cx="10.5" cy="218" r="5" class="dim"></circle>
+<circle cx="-10.5" cy="218" r="5" class="dim"></circle>
+<text x="50" y="205" text-anchor="middle">r</text>
+<line x1="18" y1="476" x2="125" y2="370" class="dim"></line>
+<line x1="125" y1="370" x2="155" y2="370" class="dim"></line>
+<text x="185" y="380" text-anchor="middle">r</text>
+</svg>

@@ -1,25 +1,31 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Calcpad</title>
+    <title>Created with Calcpad</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-    <script src="jquery-3.6.3.min.js"></script>
+    <script src="https://calcpad.local/jquery-3.6.3.min.js"></script>
     <style>
         body {
-            font-size: 12pt;
-            font-family: Calibri, sans-serif;
+            font-size: 11pt;
+            font-family: 'Segoe UI', 'Arial Nova', Helvetica, sans-serif;
             margin-left: 1.5em;
-            max-width: 190mm
+            max-width: 190mm;
         }
 
         h1, h2, h3, h4, h5, h6, .errorHeader, .roundBox {
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: 'Arial Nova', Helvetica, sans-serif;
             margin: 0.5em 0 0.5em 0;
             padding: 0;
             line-height: 150%;
         }
+        h1 { font-size: 2.1em; } /* Default is ~2em */
+        h2 { font-size: 1.7em; } /* Default is ~1.5em */
+        h3 { font-size: 1.4em; } /* Default is ~1.17em */
+        h4 { font-size: 1.2em; } /* Default is ~1em */
+        h5 { font-size: 1.1em; } /* Default is ~0.83em */
+        h6 { font-size: 1em; }   /* Default is ~0.67em */
 
         p, li {
             margin: 0.3em 0 0.3em 0;
@@ -27,87 +33,112 @@
             line-height: 150%;
         }
 
-        select, kbd {
-            font-family: Calibri, sans-serif;
-        }
+        select, kbd { font-family: 'Segoe UI', sans-serif; }
+        a:hover { background-color: #e9f6ff;}
 
-        code, kbd {
-            font-size: 9pt;
-        }
-
-        a:hover {
-            background-color: #e9f6ff;
-        }
-
-        .eq, input, table.matrix {
-            font-family: "Times New Roman", Times, serif;
+        .eq, input[type="text"], table.matrix {
+            font-family: 'Georgia Pro', 'Century Schoolbook', 'Times New Roman', Times, serif;
         }
 
             .eq var {
-                color: #06c;
-                padding-right: 1pt;
-                padding-left: 1pt;
-				font-size: 13pt;
+                color: #06d;
+			    font-size: 105%;
             }
 
             .eq i {
                 color: #086;
-				font-style: normal;
-				font-size: 11.5pt;
+			    font-style: normal;
+			    font-size: 90%;
             }
 
-            .eq u, input, select {
-                background-color: LightYellow;
+            .eq b {
+                font-weight: 600;
             }
 
-                input[type="text"], select {
-                    font-size: 11pt;
-                    padding: 0.15em 0.3em;
-                    border: 0.5pt solid #CCC;
-                    border-radius: 0.35em;
-                    text-align: right;
-                    box-shadow: 0.06em 0.06em 0.5em #ddd;
+            .eq sub {
+                font-family: Calibri, Candara, Corbel, sans-serif;
+                font-size: 80%;
+                vertical-align: -18%;
+            }
+
+            .eq sup {
+                display: inline-block;
+                margin-left: 1pt;
+                margin-top: -3pt;
+                font-size: 75%;
+            }
+
+            .eq small {
+                font-family: Calibri, Candara, Corbel, sans-serif;
+                font-size: 70%;
+            }
+
+                .eq small var {
+                    font-family: 'Georgia Pro', 'Century Schoolbook', 'Times New Roman', Times, serif;
+                    font-size: 8.5pt;
                 }
 
-                input[type="checkbox"],
-                input[type="radio"] {
-                    --ssf: 1.3;
-                    zoom: var(--ssf);
-                    -moz-transform: scale(var(--ssf));
-                    -webkit-transform: scale(var(--ssf));
-                    transform: scale(var(--ssf));
-                    transform-origin: bottom;
-                    position: relative;
-                    bottom: 1pt;
-                    margin-right: 1pt;
+                .eq small i {
+                    font-family: 'Georgia Pro', 'Century Schoolbook', 'Times New Roman', Times, serif;
+                    font-size: 6pt;
                 }
 
-                    input[type="checkbox"].post:disabled:not(:checked),
-                    input[type="checkbox"].post:disabled:not(:checked) + label,
-                    input[type="radio"].post:disabled:not(:checked),
-                    input[type="radio"].post:disabled:not(:checked) + label {
-                        display: none;
-                    }
+        .eq u, input, select {
+            background-color: LightYellow;
+        }
 
-                select.post:disabled {
-                    font-size: 12pt;
-                    border: none;
-                    box-shadow: none;
-                    color: red;
-                    background: none;
-                    appearance: none;
-                    -webkit-appearance: none;
-                    -moz-appearance: none;
+            input[type="text"], select {
+                font-size: 10pt;
+                padding: 0.2em 0.4em;
+                border: 0.5pt solid #CCC;
+                border-radius: 0.35em;
+                box-shadow: 0.06em 0.06em 0.5em #ddd;
+                min-width: 3em; 
+            }
+
+            input[type="text"] {
+                text-align: right;
+            }
+
+            input[type="checkbox"],
+            input[type="radio"] {
+                --screen-scale-factor: 1.3;
+                zoom: var(--screen-scale-factor);
+                -moz-transform: scale(var(--screen-scale-factor));
+                -webkit-transform: scale(var(--screen-scale-factor));
+                transform: scale(var(--screen-scale-factor));
+                transform-origin: bottom;
+                position: relative;
+                bottom: 1pt;
+                margin-right: 1pt;
+            }
+
+                input[type="checkbox"].post:disabled:not(:checked),
+                input[type="checkbox"].post:disabled:not(:checked) + label,
+                input[type="radio"].post:disabled:not(:checked),
+                input[type="radio"].post:disabled:not(:checked) + label {
+                    display: none;
                 }
 
-                    select.post:disabled::-ms-expand {
-                        display: none;
-                    }
+            select.post:disabled {
+                font-size: 12pt;
+                border: none;
+                box-shadow: none;
+                color: red;
+                background: none;
+                appearance: none;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+            }
 
-                input[type="text"]:focus {
-                    box-shadow: 0.1em 0.1em 1em #ccc;
-                    color: black;
+                select.post:disabled::-ms-expand {
+                    display: none;
                 }
+
+            input[type="text"]:focus {
+                box-shadow: 0.1em 0.1em 1em #ccc;
+                color: black;
+            }
 
         td, th {
             padding: 2pt 4pt 2pt 4pt;
@@ -157,9 +188,11 @@
             }
 
             .matrix .td {
+                white-space: nowrap;
                 padding: 0 2pt 0 2pt;
-                min-width: 12pt;
+                min-width: 10pt;
                 display: table-cell;
+                font-size: 10pt;
             }
 
                 .matrix .td:first-child,
@@ -171,11 +204,11 @@
                 }
 
                 .matrix .td:first-child {
-                    border-left: solid 1.25pt black;
+                    border-left: solid 1pt black;
                 }
 
                 .matrix .td:last-child {
-                    border-right: solid 1.25pt black;
+                    border-right: solid 1pt black;
                 }
 
             .matrix .tr:first-child .td:first-child,
@@ -217,10 +250,13 @@
         }
 
         .r {
-            font-size: 130%;
+            font-family: 'Times New Roman';
+            font-size: 150%;
             display: inline-block;
             vertical-align: top;
             margin-left: -9pt;
+            position: relative;
+            top: 1pt;
         }
 
         .r0 {
@@ -255,33 +291,6 @@
             margin-left: -19pt;
         }
 
-        .eq sub {
-            font-family: Calibri, 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
-            font-size: 92%;
-            vertical-align: -18%;
-        }
-
-        .eq sup {
-            display: inline-block;
-            margin-left: 1pt;
-            margin-top: -2pt;
-        }
-
-        .eq small {
-			font-family: Calibri, 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
-            font-size: 70%;
-        }
-		
-		.eq small var {
-			font-family: "Times New Roman", Times, serif;
-            font-size: 10pt;
-        }
-
-            .eq small i {
-                font-family: "Times New Roman", Times, serif;
-                font-size: 9pt;
-            }
-
         .nth {
             position: relative;
             bottom: 1pt;
@@ -289,6 +298,10 @@
 		
         .eq small.nth{
             font-size: 70%;
+        }
+
+        .dvr small {
+            font-size: 65%;
         }
 
         sup.raised {
@@ -304,21 +317,10 @@
             max-height: none;
         }
 
-        sup .r0 {
-            margin-left: -5pt;
-        }
-
-        sup .r1 {
-            margin-left: -11pt;
-        }
-
-        sup .r2 {
-            margin-left: -13pt;
-        }
-
-        sup .r3 {
-            margin-left: -16pt;
-        }
+        sup .r0 {margin-left: -5pt;}
+        sup .r1 {margin-left: -11pt;}
+        sup .r2 {margin-left: -13pt;}
+        sup .r3 {margin-left: -16pt;}
 
         .b1, .b2, .b3, .c1, .c2, .c3, .c4, .c5, .c6, .c7, .c8 {
             vertical-align: middle;
@@ -327,15 +329,17 @@
         }
 
         .b2, .b3, .c2, .c3, .c4, .c5, .c6, .c7, .c8 {
-            font-family: "Jost* Hairline";
+            font-family: "Jost* Hairline", sans-serif;
         }
 
         .b0, .b1, .c1 {
-            font-family: "Jost* Thin";
+            font-family: "Jost* Thin", sans-serif;
         }
 
         .b0 {
             font-size: 120%;
+            font-weight: 400;
+            padding: 0 1pt 0 1pt;
         }
 
         .b1 {
@@ -423,13 +427,16 @@
         }
 
         .dvc {
+            padding-left: 2pt;
+            padding-right: 2pt;
             text-align: center;
             line-height: 110%;
         }
 
         .dvr {
             text-align: center;
-            line-height: 105%;
+            line-height: 110%;
+            margin-bottom: 4pt;
         }
 
         .dvs {
@@ -439,20 +446,25 @@
 
         .dvl {
             display: block;
-            border-bottom: solid 0.75pt black;
+            border-bottom: solid 1pt black;
             margin-top: 1pt;
             margin-bottom: 1pt;
         }
 
         .nary {
-            color: #D000D0;
-            font-size: 200%;
-            font-family: "Segoe UI Light";
+            color: #C080F0;
+            font-size: 240%;
+            font-family: Georgia Pro Light, serif;
+            font-weight: 200;
             line-height: 80%;
             display: block;
-            margin-top: -3pt;
-            margin-bottom: 5pt;
+            margin: -1pt 1pt 3pt 1pt;
         }
+
+            .nary em {
+                display: block;
+                transform: rotate(7deg);
+            }
 
         .dvc.down {
             position: relative;
@@ -464,8 +476,15 @@
             bottom: 0.6em;
         }
 
+        .low {
+            font-size: 70%;
+            display: inline-block;
+            position: relative;
+            top: 1.2em;
+        }
+
         .cond {
-            color: #FA00FA;
+            color: #E000D0;
         }
 
         .err {
@@ -535,12 +554,12 @@
                 }
 
         .vec {
-            font-family: 'Cambria Math';
-            color: black;
+            font-family: 'Cambria Math', serif;
+            color: #8af;
             font-style: normal;
             display: inline-block;
             vertical-align: 2pt;
-            margin-left: 7pt;
+            margin-left: 3pt;
             margin-right: -7pt;
         }
 
@@ -563,10 +582,25 @@
                 zoom: 0.8;
                 -moz-transform: scale(0.8);
             }
+            body {
+                margin: 0;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
 
             .no-print {
                 display: none;
             }
+        }
+
+        @page {
+            size: A4 portrait;
+            margin-left: 20mm;
+            margin-right: 10mm;
+            margin-top: 10mm;
+            margin-bottom: 10mm;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
         }
 
         .value {
@@ -589,12 +623,11 @@
                 white-space: nowrap;
                 min-width: 10pt;
                 z-index: 1;
-                vertical-align: middle;
                 padding: 0 6pt 0 6pt;
                 border-radius: 6pt 6pt 6pt 0;
                 background: #000;
                 color: #fff;
-                font-family: Calibri, sans-serif;
+                font-family: 'Segoe UI', sans-serif;
                 font-style: normal;
                 font-size: 10pt;
                 text-align: center;
@@ -657,7 +690,6 @@
             font-weight: bold;
             text-decoration: none;
             text-align: left;
-            text-decoration: none;
             display: inline-block;
             position: absolute;
             left: 0;
@@ -675,10 +707,8 @@
 <body>
     <script>
         var contextMenu = false;
-        function delayedLoad(path) { setTimeout(function () { document.write(path); }, 1000); }
         function getVerticalPosition(line) { return document.querySelector("[data-text='" + line + "']").getBoundingClientRect().top; }
 		function isNumeric(s) {return s.match(/^-?\d+(?:\.\d+)?$/); }
-		
         if (window.jQuery) {
             function getHtmlWithInput() {
                 $("input[type=text]").each(function () {
@@ -806,19 +836,23 @@
                         }
                     }
                 });
+
                 $(".line:not(style, script)").each(function () {
                     var line = $(this).prop("id").split("-")[1];
                     var $lineLink = $('<a class="lineLink" href="#0" data-text="' + line + '" title="Code line ' + line + '">&larr;</a>');
                     $(this).append($lineLink);
                     $lineLink.hide();
                     $(this).hover(function () {
+                        $(".lineLink").hide();
                         $lineLink.show();
-                    }, function () {
-                        $lineLink.hide();
                     });
                     $(window).scroll(function () {
                         $lineLink.hide();
                     });
+                });
+
+                $("body").mouseleave(function () {
+                    $(".lineLink").hide();
                 });
 
                 $(".roundBox").click(function () {
@@ -840,6 +874,14 @@
 					    e.css("color", "red");
                         e.attr("title", "Invalid number");
 					}
+                });
+
+                $("a").click(function () {
+                    chrome.webview.postMessage('clicked');
+                });
+				
+				window.addEventListener('click', () => {
+					window.chrome.webview.postMessage('focused');
 				});
             });
         }

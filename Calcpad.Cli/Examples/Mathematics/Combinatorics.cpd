@@ -16,7 +16,7 @@
 '(a.k.a. binomial coefficients)
 'Example -'C(5; 2)
 'Efficient method for calculation -'C(n; k) = $Product{1 + (n - k)/i @ i = 1 : k}
-'Example -'C(5; 2)' = 'C(5; 5 - 3)
+'Example -'C(5; 2)' = 'C(5; 5 - 2)
 '<h5>2.1. Combinations with repetitions</h5>
 'Number of combinations of k elements from n possible -'C(n; k) = (k + n - 1)!/((n - 1)!*k!)
 'Example -'C(5; 2)

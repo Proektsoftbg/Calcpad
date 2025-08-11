@@ -2,27 +2,27 @@
 '<div style="max-width:180mm">
 '<img class="side" style="width:150pt;"src="https://calcpad.eu/media/structures/rc/design/column-design.png" alt="column-design.png">
 '<h4>Cross section dimensions</h4>
-'Width -'b = ?'mm, Height -'h = ?'mm
+'Width -'b = ? {300}'mm, Height -'h = ? {700}'mm
 #post
 'Cross section area -'A_c = b*h'mm²
 #show
 '<p><b>Reinforcement area</b></p>
-'Left -'A_s1 = ?'mm², Right -'A_s2 = A_s1'mm²
+'Left -'A_s1 = ? {800}'mm², Right -'A_s2 = A_s1'mm²
 #post
 'Reinforcement ratio -'ρ = (A_s1 + A_s2)/A_c
 #show
 '<p><b>Concrete cover to the center of reinforcement</b></p>
-'Left -'d_1 = ?'mm, Right -'d_2 = d_1'mm
+'Left -'d_1 = ? {50}'mm, Right -'d_2 = d_1'mm
 #post
 'Effective cross section depth -'d = h - d_1'mm
 #show
 '<h4>Section design loads</h4>
 '<table>
-'<tr><td>№ 1 - </td><td>'M_Ed_1 = ?'kN·m, </td><td>'N_Ed_1 = ?'kN</td></tr>
-'<tr><td>№ 2 - </td><td>'M_Ed_2 = ?'kN·m, </td><td>'N_Ed_2 = ?'kN</td></tr>
-'<tr><td>№ 3 - </td><td>'M_Ed_3 = ?'kN·m, </td><td>'N_Ed_3 = ?'kN</td></tr>
-'<tr><td>№ 4 - </td><td>'M_Ed_4 = ?'kN·m, </td><td>'N_Ed_4 = ?'kN</td></tr>
-'<tr><td>№ 5 - </td><td>'M_Ed_5 = ?'kN·m, </td><td>'N_Ed_5 = ?'kN</td></tr>
+'<tr><td>№ 1 - </td><td>'M_Ed_1 = ? {100}'kN·m, </td><td>'N_Ed_1 = ? {500}'kN</td></tr>
+'<tr><td>№ 2 - </td><td>'M_Ed_2 = ? {100}'kN·m, </td><td>'N_Ed_2 = ? {1000}'kN</td></tr>
+'<tr><td>№ 3 - </td><td>'M_Ed_3 = ? {100}'kN·m, </td><td>'N_Ed_3 = ? {1500}'kN</td></tr>
+'<tr><td>№ 4 - </td><td>'M_Ed_4 = ? {100}'kN·m, </td><td>'N_Ed_4 = ? {2000}'kN</td></tr>
+'<tr><td>№ 5 - </td><td>'M_Ed_5 = ? {100}'kN·m, </td><td>'N_Ed_5 = ? {2500}'kN</td></tr>
 '</table>
 #pre
 'All input values for M<sub>Ed</sub> and N<sub>Ed</sub> must be positive!
@@ -31,8 +31,8 @@
 '<h4>Material properties</h4>
 '<p style="float:right">[EN 1992-1-1, <a target="_blank" href="https://calcpad.eu/reference/concrete-table.html">Table 3.1</a>]</p>
 '<p><b>Concrete</b></p>
-'Characteristic compressive cylinder strength -'f_ck = ?'MPa
-'Partial safety factor for concrete -'γ_c = 1.5','α_cc = ?
+'Characteristic compressive cylinder strength -'f_ck = ? {20}'MPa
+'Partial safety factor for concrete -'γ_c = 1.5','α_cc = ? {0.85}
 #post
 'Mean value of cylinder compressive strength -'f_cm = f_ck + 8'MPa
 'Design compressive cylinder strength -'f_cd = α_cc*f_ck/γ_c'MPa
@@ -40,7 +40,7 @@
 'Secant modulus of elasticity -'E_cm = 22*(f_cm/10)^0.3'GPa
 #show
 '<p><b>Steel</b></p>
-'Characteristic yield strength -'f_yk = ?'MPa
+'Characteristic yield strength -'f_yk = ? {500}'MPa
 #post
 'Partial safety factor for steel -'γ_s = 1.15
 'Design yield strength -'f_yd = f_yk/γ_s'MPa
@@ -54,30 +54,30 @@
 $Plot{σ_c(ε/1000) @ ε = 0 : ε_cu2*1000}
 '</td><td>
 #hide
-σ_s(ε) = max(-f_yd; min(ε*E_s*1000;f_yd))
+σ_s(ε) = max(-f_yd; min(ε*E_s*1000; f_yd))
 #post
 $Plot{σ_s(ε/1000) @ ε = -10 : 10}
 '</td></tr></table>
 #show
 '<h4>Imperfections and second order effects</h4>
-'Ratio of quasi-permanent bending moment: M<sub>0Eqp</sub>/M<sub>0Ed</sub> ='K_G = ?
+'Ratio of quasi-permanent bending moment: M<sub>0Eqp</sub>/M<sub>0Ed</sub> ='K_G = ? {0.75}
 #post
 'M<sub>0Eqp</sub> is the first order bending moment in quasi-permanent load combination (SLS)
 'M<sub>0Ed</sub> is the first order bending moment in design load combination (ULS)
 #show
-'Long term creep factor - φ(∞,t<sub>0</sub>) ='φ = ?
-'Column height -'L = ?'mm
-'Effective column  height -'L_o = ?*L'mm
-'Number of vertical elements -'m = ?
+'Long term creep factor - φ(∞,t<sub>0</sub>) ='φ = ? {2.5}
+'Column height -'L = ? {4000}'mm
+'Effective column  height -'L_o = ? {2}*L'mm
+'Number of vertical elements -'m = ? {1}
 #hide
 α_n_ = 2/sqr(L/1000)
-α_n = max(2/3;min(α_n_;1))
+α_n = max(2/3; min(α_n_; 1))
 α_m = sqr(0.5*(1 + 1/m))
 θ_o = 1/200
 θ_i = θ_o*α_n*α_m
 e_i_ = θ_i*L_o/2
-e_o = max(h/30;20)
-e_i = max(e_i_;e_o)
+e_o = max(h/30; 20)
+e_i = max(e_i_; e_o)
 I_c = (b*h^3)/12
 i = sqr(I_c/A_c)
 λ = L_o/i
@@ -89,7 +89,7 @@ E_cd = E_cm/γ_cE
 I_s = A_s1*(h/2 - d_1)^2 + A_s2*(h/2 - d_2)^2
 n(N) = N/(A_c*f_cd/1000)
 k_2_(N) = n(N)*λ/170
-k_2(N) = min(k_2_(N);0.2)
+k_2(N) = min(k_2_(N); 0.2)
 K_c(N) = k_1*k_2(N)/(1 + φ_ef)
 EI(N) = (K_c(N)*E_cd*I_c + K_s*E_s*I_s)
 N_B(N) = π^2*EI(N)/(L_o)^2
@@ -197,13 +197,13 @@ PlotHeight = 600
 $Plot{M_Rd(ε)|N_Rd(ε) & M_Rd_ei(ε)|N_Rd(ε) & M_Rd_II(ε)|N_Rd(ε) & M_Rd_ei|N_Rd_ei & M_Rd_II|N_Rd_II & M_II_1|N_Ed_1 & M_II_2|N_Ed_2 & M_II_3|N_Ed_3 & M_II_4|N_Ed_4 & M_II_5|N_Ed_5 @ ε = ε_max : -ε_c2}
 '<i>M</i><sub>Rd</sub>
 '<p><b>Legend:</b></p>
-'<p><b style="color:Red">————</b> Interaction diagram</p>
-'<p><b style="color:Green">————</b> Line of geometric imperfections</p>
-'<p><b style="color:Blue">————</b> Buckling curve</p>
-'<p><b style="color:Goldenrod">●</b> Design resistance including geometric imperfections and accidental eccentricity - <i>N</i><sub>Rd_ei</sub></p>
-'<p><b style="color:Magenta">●</b> Design buckling resistance - <i>N</i><sub>Rd_II</sub></p>
-'<p><b style="color:DarkCyan">●</b> Design load № 1, <b style="color:Purple">●</b> Design load № 2, <b style="color:DarkOrange">●</b> Design load № 3,</p>
-'<p><b style="color:Maroon">●</b> Design load № 4, <b style="color:YellowGreen">●</b> Design load № 5</p>
+'<p><b style="color:Tomato">━━</b> Interaction diagram</p>
+'<p><b style="color:YellowGreen">━━</b> Line of geometric imperfections</p>
+'<p><b style="color:CornflowerBlue">━━</b> Buckling curve</p>
+'<p><b style="color:Gold">●</b> Design resistance including geometric imperfections and accidental eccentricity - <i>N</i><sub>Rd_ei</sub></p>
+'<p><b style="color:MediumVioletRed">●</b> Design buckling resistance - <i>N</i><sub>Rd_II</sub></p>
+'<p><b style="color:MediumSpringGreen">●</b> Design load № 1, <b style="color:BlueViolet">●</b> Design load № 2, <b style="color:LightSalmon">●</b> Design load № 3,</p>
+'<p><b style="color:DeepPink">●</b> Design load № 4, <b style="color:DarkTurquoise">●</b> Design load № 5</p>
 '<h4>Design checks</h4>
 #val
 '<table class="bordered centered">
@@ -251,4 +251,4 @@ $Plot{M_Rd(ε)|N_Rd(ε) & M_Rd_ei(ε)|N_Rd(ε) & M_Rd_II(ε)|N_Rd(ε) & M_Rd_ei|
 '- column with imperfections and II order effects -'N_Rd_II'kN
 'Buckling factor -'φ = N_Rd_II/N_Rd_max
 #show
-'</div>300	700	800	50	100	500	100	1000	100	1500	100	2000	100	2500	20	0.85	500	0.75	2.5	4000	2	1
+'</div>

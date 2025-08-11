@@ -1,11 +1,11 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Calcpad</title>
+    <title>Created with Calcpad</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-    <script src="jquery-3.6.3.min.js"></script>
+    <script src="https://calcpad.local/jquery-3.6.3.min.js"></script>
     <style>
         body {
             font-size: 11pt;
@@ -34,7 +34,6 @@
         }
 
         select, kbd { font-family: 'Segoe UI', sans-serif; }
-        code, kbd { font-size: 9pt; }
         a:hover { background-color: #e9f6ff;}
 
         .eq, input[type="text"], table.matrix {
@@ -43,15 +42,13 @@
 
             .eq var {
                 color: #06d;
-                padding-right: 1pt;
-                padding-left: 1pt;
-			    font-size: 11.5pt;
+			    font-size: 105%;
             }
 
             .eq i {
                 color: #086;
 			    font-style: normal;
-			    font-size: 10pt;
+			    font-size: 90%;
             }
 
             .eq b {
@@ -59,8 +56,8 @@
             }
 
             .eq sub {
-                font-family: 'Segoe UI', 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
-                font-size: 85%;
+                font-family: Calibri, Candara, Corbel, sans-serif;
+                font-size: 80%;
                 vertical-align: -18%;
             }
 
@@ -68,10 +65,11 @@
                 display: inline-block;
                 margin-left: 1pt;
                 margin-top: -3pt;
+                font-size: 75%;
             }
 
             .eq small {
-                font-family: 'Segoe UI', 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+                font-family: Calibri, Candara, Corbel, sans-serif;
                 font-size: 70%;
             }
 
@@ -94,9 +92,12 @@
                 padding: 0.2em 0.4em;
                 border: 0.5pt solid #CCC;
                 border-radius: 0.35em;
-                text-align: right;
                 box-shadow: 0.06em 0.06em 0.5em #ddd;
                 min-width: 3em; 
+            }
+
+            input[type="text"] {
+                text-align: right;
             }
 
             input[type="checkbox"],
@@ -451,14 +452,19 @@
         }
 
         .nary {
-            color: #E000D0;
+            color: #C080F0;
             font-size: 240%;
-            font-family: Corbel Light, sans-serif;
+            font-family: Georgia Pro Light, serif;
             font-weight: 200;
             line-height: 80%;
             display: block;
             margin: -1pt 1pt 3pt 1pt;
         }
+
+            .nary em {
+                display: block;
+                transform: rotate(7deg);
+            }
 
         .dvc.down {
             position: relative;
@@ -468,6 +474,13 @@
         .dvc.up {
             position: relative;
             bottom: 0.6em;
+        }
+
+        .low {
+            font-size: 70%;
+            display: inline-block;
+            position: relative;
+            top: 1.2em;
         }
 
         .cond {
@@ -569,10 +582,25 @@
                 zoom: 0.8;
                 -moz-transform: scale(0.8);
             }
+            body {
+                margin: 0;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
 
             .no-print {
                 display: none;
             }
+        }
+
+        @page {
+            size: A4 portrait;
+            margin-left: 20mm;
+            margin-right: 10mm;
+            margin-top: 10mm;
+            margin-bottom: 10mm;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
         }
 
         .value {
@@ -679,10 +707,8 @@
 <body>
     <script>
         var contextMenu = false;
-        function delayedLoad(path) { setTimeout(function () { document.write(path); }, 1000); }
         function getVerticalPosition(line) { return document.querySelector("[data-text='" + line + "']").getBoundingClientRect().top; }
 		function isNumeric(s) {return s.match(/^-?\d+(?:\.\d+)?$/); }
-		
         if (window.jQuery) {
             function getHtmlWithInput() {
                 $("input[type=text]").each(function () {
@@ -848,6 +874,14 @@
 					    e.css("color", "red");
                         e.attr("title", "Invalid number");
 					}
+                });
+
+                $("a").click(function () {
+                    chrome.webview.postMessage('clicked');
+                });
+				
+				window.addEventListener('click', () => {
+					window.chrome.webview.postMessage('focused');
 				});
             });
         }

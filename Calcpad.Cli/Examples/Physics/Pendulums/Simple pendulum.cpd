@@ -1,0 +1,64 @@
+#rad
+"Analysis of a simple pendulum with Calcpad
+'Input parameters
+'Gravitational acceleration (m/s²) - 'g = 9.80665m/s^2
+'Pendulum length -'l = 1m
+'Pendulum mass -'m = 1kg
+'Initial angle -'θ_0 = 30°|rad
+'Initial angular velocity -'ω_0 = 0rad/s
+'Maximum simulation time -'t_max = 10s
+'Step size -'h = 0.001s
+'Analytical solution for small displacements: <span class="eq"><var>θ</var> ≪ 1 or <b>sin</b>(<var>θ</var>) ≈ <var>θ</var></span>
+'Angular frequency -'ω = sqrt(g/l)*rad|rad/s
+'Cyclic frequency -'f = ω/(2*π*rad)|Hz
+'Period -'T = 1/f
+'Equation of motion -'θ(t) = θ_0*cos(ω*t)
+'Incomplete elliptic integral of the first kind
+F(φ; k) = $Integral{1/sqrt(1 - k^2*sin(θ)^2) @ θ = 0 : φ}
+'Jacobi elliptic functions
+'Modulus -'k = sin(θ_0/2)
+am(u; k) = $Root{F(φ; k) = u @ φ = 0 : 10*π}
+sn(u; k) = sin(am(u; k))','cn(u; k) = cos(am(u; k))
+dn(u; k) = sqrt(1 - k*sn(u; k)^2)','cd(u; k) = cn(u; k)/dn(u; k)
+'Analytical (exact) solution for large displacements
+'Period -'T_e = 4*sqrt(l/g)*F(π/2; k)
+'Error -'δ_T = abs(T - T_e)/T_e|%
+'Cyclic frequency -'f_e = 1/T|Hz
+'Angular frequency -'ω_e = 2*π*rad*f_e|rad/s
+'Equation of motion -'θ_e(t) = 2*asin(k*cd(sqrt(g/l)*t; k))
+θ_e(2s)
+'Error <span class="eq"><var>δ</var><sub>T</sub></span> of small displacements period versus initial angle <span class="eq"><var>θ</var><sub>0</sub></span> plot
+#hide
+Precision = 10^-6','ε = 10^-12rad
+'Period -'T_e(θ_0) = 4/rad*sqrt(l/(2*g))*$Integral{1/sqrt(cos(θ) - cos(θ_0)) @ θ = 0rad : θ_0 - ε}
+'Error -'δ_T(θ_0) = abs(T - T_e(θ_0))/T_e(θ_0)|%
+PlotWidth = 300','PlotHeight = 200
+#show
+$Plot{δ_T(θ_0) @ θ_0 = 0.01° : 90°}
+'Solution via explicit integration method (forward Euler)
+'Number of steps -'n = t_max/h
+'Allocate arrays
+θ_fE = vector(n)','ω_fE = vector(n)
+'Set initial conditions
+t = 0s','θ_fE.1 = θ_0/1rad','ω_fE.1 = ω_0/1rad
+'Perform Euler steps
+#for i = 1 : n - 1
+	t = t + h
+	θ_fE.(i + 1) = θ_fE.i + h*ω_fE.i
+	ω_fE.(i + 1) = ω_fE.i + h*(g/l)*sin(-θ_fE.i)
+	#hide
+#loop
+#show
+'Calculate energy (not conserved with the Euler method)
+E_fE = vector(n)
+#for i = 1 : n
+	  E_fE.i = m*l^2*(1/2*ω_fE.i^2 + (g/l)*(1 - cos(θ_fE.i)))|J
+	#hide
+#loop
+t(i) = i*h - h
+#show
+'Plot results
+'Rotation, deg
+$Plot{t(i)|θ_e(t(i))*180/π & t(i)|θ_fE.i*180/π @ i = 1 : n}
+'Energy, J
+$Plot{t(i)|E_fE.i & 0s|0J @ i = 1 : n}

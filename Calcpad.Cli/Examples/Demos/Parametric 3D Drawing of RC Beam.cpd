@@ -1,0 +1,79 @@
+"Parametric 3D Drawing of RC Beam
+'Beam length -'l = 6m
+'Web width -'b = 0.25m', height -'h = 0.8m
+'Flange width -'b_f = 1.0m', height -'h_f = 0.14m
+'Rebar diameter -'Ø = 22mm|m', Concrete cover -'a = 5cm
+#val
+'<script src="https://cdn.jsdelivr.net/npm/three@0.145/build/three.min.js"></script>
+'<script src="https://cdn.jsdelivr.net/npm/three@0.145/examples/js/controls/OrbitControls.js"></script>
+'<script>
+'window.addEventListener("DOMContentLoaded", () => {
+'if (typeof THREE === "undefined"|| typeof THREE.OrbitControls === "undefined") {
+'alert("Failed to load Three.js or OrbitControls.");
+'return;
+'}
+'const l = 'l'; const a = 'a/m';
+'const b = 'b'; const h = 'h';
+'const bf = 'b_f'; const hf = 'h_f';
+'const scene = new THREE.Scene();
+'scene.background = new THREE.Color(0xffffff);
+'const camera = new THREE.PerspectiveCamera(50, 2, 0.1*l, 2*l);
+'camera.position.set(1.2*bf, 1.3*h, 0.7*l);
+'camera.lookAt(0, 0, 0);
+'const renderer = new THREE.WebGLRenderer({antialias: true});
+'renderer.setSize(700, 350);
+'document.body.appendChild(renderer.domElement);
+'const controls = new THREE.OrbitControls(camera, renderer.domElement);
+'controls.target.set(0, 0, 0);
+'controls.update();
+'const light = new THREE.DirectionalLight(0xffffff, 1);
+'light.position.set(-4, 8, 10);
+'scene.add(light);
+'scene.add(new THREE.AmbientLight(0xffffff));
+'const shape = new THREE.Shape();
+'shape.moveTo(-bf/2, 0);
+'shape.lineTo(bf/2, 0);
+'shape.lineTo(bf/2, -hf);
+'shape.lineTo(b/2, -hf);
+'shape.lineTo(b/2, -h);
+'shape.lineTo(-b/2, -h);
+'shape.lineTo(-b/2, -hf);
+'shape.lineTo(-bf/2, -hf);
+'shape.lineTo(-bf/2, 0);
+'const extrude = new THREE.ExtrudeGeometry(shape, { depth: l, bevelEnabled: false });
+'extrude.translate(0, h, -l/2);
+'const textureLoader = new THREE.TextureLoader();
+'const concreteTexture = textureLoader.load("https://cdn.polyhaven.com/asset_img/primary/concrete_layers_02.png?height=760&quality=95");
+'concreteTexture.wrapS = THREE.RepeatWrapping;
+'concreteTexture.wrapT = THREE.RepeatWrapping;
+'concreteTexture.repeat.set(b, 0.5*b);
+'const concreteMaterial = new THREE.MeshStandardMaterial({
+'map: concreteTexture, roughness: 1, metalness: 0.1, transparent: true, opacity:0.9}); 
+'const beam = new THREE.Mesh(extrude, concreteMaterial);
+'scene.add(beam);
+'const r = 'Ø/2';
+'const geometry = new THREE.CylinderGeometry(r, r, 1.04*l, 32);
+'geometry.rotateX(Math.PI / 2);
+'const steelMaterial = new THREE.MeshStandardMaterial({
+'color: 0xff0000,
+'metalness: 0.8,
+'roughness: 0.4
+'});
+'const xb1 = b/2 - a;
+'const yb1 = a; const yb2 = h - a;
+'const xb = [xb1, -xb1, xb1, -xb1];
+'const yb = [yb1, yb1, yb2, yb2];
+'const zb = 0;
+'var rebar = new THREE.Mesh(geometry, steelMaterial);
+'for(var i = 0; i < 4; ++i){
+'rebar.position.set(xb[i], yb[i], zb);
+'scene.add(rebar);
+'rebar = rebar.clone();
+'}
+'function animate() {
+'requestAnimationFrame(animate);
+'renderer.render(scene, camera);
+'}
+'animate();
+'});
+'</script>
