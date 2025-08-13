@@ -313,12 +313,12 @@ namespace Calcpad.Core
                     }
                 }
                 else if (t0.Type == TokenTypes.Unit &&
-                         t0 is ValueToken tc && b is RealValue real)
+                         t0 is ValueToken tc && b is IScalarValue iScalar)
                 {
                     if (tc.Value.Units is not null)
                         throw Exceptions.CannotRewriteUnits(tc.Value.Units.Text);
 
-                    _parser.SetUnit(tc.Content, real);
+                    _parser.SetUnit(tc.Content, iScalar.AsComplex());
                     tc.Value = new RealValue(_parser.GetUnit(tc.Content));
                 }
                 return b;
