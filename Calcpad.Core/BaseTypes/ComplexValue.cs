@@ -17,7 +17,7 @@ namespace Calcpad.Core
         bool IScalarValue.IsReal => IsReal;
         bool IScalarValue.IsComplex => IsComplex;
         Complex IScalarValue.Complex => Complex;
-        RealValue IScalarValue.AsReal() => new(A, Units);
+        RealValue IScalarValue.AsReal() => new(A, Units, IsUnit);
         ComplexValue IScalarValue.AsComplex() => this;
         bool IScalarValue.IsComposite() => Unit.IsComposite(A, Units);
 

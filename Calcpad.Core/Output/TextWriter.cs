@@ -42,7 +42,7 @@ namespace Calcpad.Core
             var u = value.Units;
             var s = FormatComplex(value.Re, value.Im, u?.FormatString);
             var uText = u?.Text;
-            if (uText is null)
+            if (string.IsNullOrEmpty(uText))
                 return s;
 
             if (!(value.IsReal || phasor && s.Contains('∠')))
@@ -86,14 +86,8 @@ namespace Calcpad.Core
         internal override string FormatNary(string symbol, string sub, string sup, string expr) =>
             $"{symbol}{{{expr}; {sub}...{sup}}}";
 
-        internal override string FormatSwitch(string[] sa, int level = 0)
-        {
-            string s = "switch(" + sa[0];
-            for (int i = 1, len = sa.Length; i < len; ++i)
-                s += "; " + sa[i];
-
-            return s + ")";
-        }
+        internal override string FormatSwitch(string[] sa, int level = 0) =>
+            "switch(" + string.Join("; ", sa) + ")";
 
         internal override string FormatIf(string sc, string sa, string sb, int level = 0) =>
             $"if({sc}; {sa}; {sb})";

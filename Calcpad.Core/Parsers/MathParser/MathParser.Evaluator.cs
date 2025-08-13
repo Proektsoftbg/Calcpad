@@ -764,10 +764,20 @@ namespace Calcpad.Core
                     value = new(value.Complex * c, u);
                     return u;
                 }
-                if (u.IsDimensionless && vu is null)
+                if (u.IsDimensionless)
                 {
-                    value = new(value.Complex / u.GetDimensionlessFactor(), u);
-                    return u;
+                    if (vu is null)
+                    {
+                        value = new(value.Complex / u.GetDimensionlessFactor(), u);
+                        return u;
+                    }
+                    var format = u.FormatString;
+                    if (format is not null)
+                    {
+                        vu = new(vu) { Text = vu.Text + ':' + format };
+                        value = new(value.Complex, vu);
+                        return vu;
+                    }
                 }
                 if (!Unit.IsConsistent(vu, u))
                     throw Exceptions.InconsistentTargetUnits(Unit.GetText(vu), Unit.GetText(u));
@@ -821,7 +831,6 @@ namespace Calcpad.Core
                         value = new(value.D, vu);
                         return vu;
                     }
-
                 }
                 if (!Unit.IsConsistent(vu, u))
                     throw Exceptions.InconsistentTargetUnits(Unit.GetText(vu), Unit.GetText(u));

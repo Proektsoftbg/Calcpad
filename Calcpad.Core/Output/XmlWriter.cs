@@ -120,14 +120,15 @@ namespace Calcpad.Core
 
         internal override string FormatValue(in IScalarValue value)
         {
-            var s = FormatComplex(value.Re, value.Im, value.Units?.FormatString);
-            if (value.Units is null)
+            var u = value.Units;
+            var s = FormatComplex(value.Re, value.Im, u?.FormatString);
+            if (u is null)
                 return s;
 
             if (!(value.IsReal || phasor && s.Contains('∠')))
                 s = AddBrackets(s);
 
-            return s + value.Units.Xml;
+            return s + u.Xml;
         }
 
         internal override string FormatAbs(string s, int level = 0) => AddBrackets(s, level, '|', '|');

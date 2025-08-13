@@ -768,7 +768,7 @@ namespace Calcpad.Core
                     else if (isUnit && (t.Type != TokenTypes.Constant || pt.Content[0] != '^'))
                     {
                         var c = t.Content[0];
-                        if (c != '*' && c != '/' && c != '^')
+                        if (c != '*' && c != '/' && c != '÷' && c != '^')
                             isUnit = false;
                     }
                     pt = t;

@@ -15,7 +15,7 @@ Calcpad is free software for mathematical and engineering calculations. It repre
     * math functions: norm, condition, determinant, rank, trace, transpose, adjugate and cofactor, inverse, factorization (cholesky, ldlt, lu, qr and svd), eigenvalues/vectors and linear systems of equations;
 * custom functions of multiple parameters f(x; y; z; …);
 * powerful numerical methods for root and extremum finding, numerical integration and differentiation;
-* finite sum, product and iteration procedures, Fourier series and FFT;;
+* finite sum, product and iteration procedures, Fourier series and FFT;
 * modules, macros and string variables;
 * reading and writing data from/to text, CSV and Excel files;
 * program flow control with conditions and loops;

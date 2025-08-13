@@ -1591,7 +1591,7 @@
         <p>它计算指定区间[<var>a</var>, <var>b</var>]内函数<b>f</b>(<var>x</var>)的定积分值.为此,应用自适应高斯-洛巴托积分与Kronrod扩展 (<a target="_blank" href="https://www.researchgate.net/publication/226706221_Adaptive_Quadrature-Revisited">Gander & Gautschi</a>, 2000).</p>
 
         <p style="margin-left: 2em;"><code><span class="cond">$Integral</span>{<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var> : <var>b</var>}</code></p>
-        <p>这个命令与上面的命令类似,但它使用了Tanh-Sinh积分(<a target="_blank" href="https://ems.press/content/serial-article-files/2719">Takahasi＆Mori</a>,1974),后来由<a target="_blank" href="https://www.ingentaconnect.com/content/tandf/jew/2016/00000030/00000003/art00001;jsessionid=55mdimh9e060a.x-ic-live-03">Michashki＆Mosig</a>(2016)和<a target="_blank" href="https://www.genivia.com/files/qthsh.pdf">Van Engelen</a>(2022)进行了进一步的改进.在Calcpad中进行了进一步的改进,通过预计算和缓存横坐标和权重,这个算法在连续和光滑函数的情况下显著优于<code class="cond">$Area</code>.但是,如果函数不满足这些要求,则<b>不应</b>使用<code class="cond">$Integral</code>方法.这时,你有两个选项:</p>
+        <p>这个命令与上面的命令类似,但它使用了Tanh-Sinh积分(<a target="_blank" href="https://ems.press/content/serial-article-files/41766">Takahasi＆Mori</a>,1974),后来由<a target="_blank" href="https://www.tandfonline.com/doi/epdf/10.1080/09205071.2015.1129915?needAccess=true">Michashki＆Mosig</a>(2016)和<a target="_blank" href="https://www.genivia.com/files/qthsh.pdf">Van Engelen</a>(2022)进行了进一步的改进.在Calcpad中进行了进一步的改进,通过预计算和缓存横坐标和权重,这个算法在连续和光滑函数的情况下显著优于<code class="cond">$Area</code>.但是,如果函数不满足这些要求,则<b>不应</b>使用<code class="cond">$Integral</code>方法.这时,你有两个选项:</p>
         <ol>
             <li>通过使用不连续点将区间[<var>a</var>,<var>b</var>]分成较小的部分,对每个部分分别应用该方法,并将结果相加;</li>
             <li>如果你不确定不连续点在哪里,请改用<code class="cond">$Area</code>方法.</li>

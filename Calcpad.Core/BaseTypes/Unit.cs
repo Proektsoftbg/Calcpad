@@ -137,7 +137,7 @@ namespace Calcpad.Core
                 if (_text is null)
                     return GetText(OutputWriter.OutputFormat.Html);
 
-                if (_text == "°")
+                if (Text == "°")
                     return "°";
 
                 return new HtmlWriter(null, false).FormatUnitsText(Text);
@@ -1723,16 +1723,18 @@ namespace Calcpad.Core
                 throw Exceptions.UnitsToComplexPower();
 
             var d = power.Re;
-            var result = u.Pow((float)d);
+            var f = (float)d;
+            var result = u.Pow(f);
             if (updateText)
             {
                 ReadOnlySpan<char> s = u.Text;
                 if (!s.Contains('^'))
                 {
                     var writer = new TextWriter(null, false);
-                    var ps = d < 0 ?
-                        $"({writer.FormatNumberHelper(d, null)})" :
-                        writer.FormatNumberHelper(d, null);
+                    var ps = GetFraction(f) ?? 
+                        (d < 0 ?
+                            $"({writer.FormatNumberHelper(d, null)})" :
+                            writer.FormatNumberHelper(d, null));
 
                     result._text =
                         s.IndexOfAny(CompositeUnitChars) >= 0.0 ?
@@ -1741,6 +1743,28 @@ namespace Calcpad.Core
                 }
             }
             return result;
+        }
+
+        private static string GetFraction(float f)
+        {
+            var uf = Math.Abs(f);
+            if (uf >= 1f) 
+                return null;
+
+            var s = f < 0 ? "-" : string.Empty;
+            return uf switch
+            {
+                1f / 2f => $"({s}1/2)",
+                1f / 3f => $"({s}1/3)",
+                2f / 3f => $"({s}2/3)",
+                1f / 4f => $"({s}1/4)",
+                3f / 4f => $"({s}3/4)",
+                1f / 5f => $"({s}1/5)",
+                2f / 5f => $"({s}2/5)",
+                3f / 5f => $"({s}3/5)",
+                4f / 5f => $"({s}4/5)",
+                _ => null
+            };
         }
 
         internal static Unit Root(Unit u, int n, bool updateText = false)
@@ -1752,8 +1776,8 @@ namespace Calcpad.Core
                 if (!s.Contains('^'))
                     result._text =
                         s.IndexOfAny(CompositeUnitChars) >= 0 ?
-                        $"({s})^1⁄{n}" :
-                        $"{s}^1⁄{n}";
+                        $"({s})^(1/{n})" :
+                        $"{s}^(1/{n})";
             }
             return result;
         }
