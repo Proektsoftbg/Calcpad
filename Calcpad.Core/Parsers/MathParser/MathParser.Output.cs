@@ -14,12 +14,14 @@ namespace Calcpad.Core
             private readonly StringBuilder _stringBuilder;
             private int _assignmentPosition;
             private bool _hasVariables;
+            private bool _formatEquations;
             internal Output(MathParser parser)
             {
                 _parser = parser;
                 _functions = parser._functions;
                 _solveBlocks = parser._solveBlocks;
                 _stringBuilder = parser._stringBuilder;
+                _formatEquations = _parser._settings.FormatEquations;
             }
 
             internal string Render(OutputWriter.OutputFormat format)
@@ -354,7 +356,7 @@ namespace Calcpad.Core
                     {
                         var content = t.Content;
                         var formatEquation = writer is not TextWriter &&
-                            (_parser._settings.FormatEquations && content == "/" || content == "÷");
+                            (_formatEquations && content == "/" || !_formatEquations && content == "÷");
 
                         if (!stackBuffer.TryPop(out var a))
                             a = new RenderToken(string.Empty, content == "-" ? TokenTypes.Constant : TokenTypes.None, 0);
@@ -502,7 +504,7 @@ namespace Calcpad.Core
                     var st = t.Content;
                     var b = stackBuffer.Pop();
                     var a = stackBuffer.Pop();
-                    if (_parser._settings.FormatEquations && t.Type == TokenTypes.Function3 && t.Index == 0)
+                    if (_formatEquations && t.Type == TokenTypes.Function3 && t.Index == 0)
                     {
                         t.Level = (Math.Max(a.Level, b.Level) + c.Level + 1);
                         t.Content = writer.FormatIf(a.Content, b.Content, c.Content, t.Level);
@@ -569,7 +571,7 @@ namespace Calcpad.Core
                 {
                     var st = t.Content;
                     var mfParamCount = t.ParameterCount - 1;
-                    if (string.Equals(st, "switch", StringComparison.OrdinalIgnoreCase) && _parser._settings.FormatEquations)
+                    if (string.Equals(st, "switch", StringComparison.OrdinalIgnoreCase) && _formatEquations)
                     {
                         var args = new string[mfParamCount + 1];
                         args[mfParamCount] = b.Content;
@@ -779,7 +781,7 @@ namespace Calcpad.Core
                     _hasVariables = true;
 
                 if (writer is HtmlWriter)
-                    return _solveBlocks[index].ToHtml(_parser._settings.FormatEquations);
+                    return _solveBlocks[index].ToHtml(_formatEquations);
 
                 if (writer is XmlWriter)
                     return _solveBlocks[index].ToXml();

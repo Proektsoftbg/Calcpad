@@ -22,7 +22,7 @@ namespace Calcpad.Core
         Complex IScalarValue.Complex => new(D, 0d);
         bool IScalarValue.IsComposite() => Unit.IsComposite(D, Units);
         RealValue IScalarValue.AsReal() => this;
-        ComplexValue IScalarValue.AsComplex() => new(D, Units);
+        ComplexValue IScalarValue.AsComplex() => new(D, Units, IsUnit);
         internal RealValue(double number)
         {
             D = number;

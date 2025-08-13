@@ -86,8 +86,8 @@ namespace Calcpad.Core
                 {
                     case '/':
                     case '*':
-                        if (isPower)
-                            power += c;
+                        if (isPower && brackets.TryPeek(out int ind) && ind < power.Length)
+                            power += c == '*' ? "\u200A·\u200A" : '/';
                         else
                         {
                             AppendPower();
@@ -187,7 +187,9 @@ namespace Calcpad.Core
 
             void AppendPower()
             {
-                literal = FormatLocal(literal);
+                if (!literal.StartsWith('°'))
+                    literal = FormatLocal(literal);
+
                 if (isPower)
                 {
                     if (this is XmlWriter)
@@ -208,6 +210,8 @@ namespace Calcpad.Core
         {
             Calculator.NegChar => "-",
             '-' => " − ",
+            '*' => "\u200A·\u200A",
+            '÷' => "/",
             '<' => " < ",
             '>' => " > ",
             '+' => " + ",
@@ -220,7 +224,6 @@ namespace Calcpad.Core
             '∧' => " and ",
             '∨' => " or ",
             '⊕' => " xor ",
-            '*' => "\u200A·\u200A",
             ';' => "; ",
             ',' => ", ",
             '|' => " | ",

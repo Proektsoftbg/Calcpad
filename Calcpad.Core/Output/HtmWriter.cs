@@ -155,16 +155,17 @@ namespace Calcpad.Core
         {
             var u = value.Units;
             var s = FormatComplex(value.Re, value.Im, u?.FormatString);
-            if (string.IsNullOrEmpty(u?.Text))
+            var uHtml = u?.Html;
+            if (string.IsNullOrEmpty(uHtml))
                 return s;
 
             if (!(value.IsReal || phasor && s.Contains('∠')))
                 s = AddBrackets(s);
 
-            if (u.Text == "°")
-                return s + "°";
+            if (u.IsAngle && uHtml.StartsWith('°'))
+                return s + uHtml;
 
-            return s + ThinSpace + u.Html;
+            return s + ThinSpace + uHtml;
         }
 
         internal override string AddBrackets(string s, int level = 0, char left = '(', char right = ')') =>

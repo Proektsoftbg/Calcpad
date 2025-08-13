@@ -354,7 +354,7 @@ namespace Calcpad.Core
                 return new(result);
 
             var unit = Unit.Root(u, 2, value.IsUnit);
-            return new(result, unit);
+            return new(result, unit, value.IsUnit);
         }
 
         private static ComplexValue Cbrt(in ComplexValue value)
@@ -368,7 +368,7 @@ namespace Calcpad.Core
                 return new(result);
 
             var unit = Unit.Root(u, 3, value.IsUnit);
-            return new(result, unit);
+            return new(result, unit, value.IsUnit);
         }
 
         private static ComplexValue Root(in ComplexValue value, in ComplexValue root)
@@ -385,7 +385,7 @@ namespace Calcpad.Core
                 return new(result);
 
             var unit = Unit.Root(u, n, value.IsUnit);
-            return new(result, unit);
+            return new(result, unit, value.IsUnit);
         }
 
         private static ComplexValue Round(in ComplexValue value) => new(Complex.Round(value.Complex), value.Units);
