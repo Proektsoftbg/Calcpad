@@ -519,49 +519,50 @@ namespace Calcpad.Core
             var m = a._rowCount;
             var na = a._colCount - 1;
             var nb = b._colCount - 1;
+            var a_hpRows = a._hpRows;
+            var b_hpRows = b._hpRows;
+            var c_hpRows = c._hpRows;
             if (a._type == MatrixType.Full || a._type == MatrixType.LowerTriangular)
             {
-                var bCols = new HpVector[b._colCount];
                 if (m > ParallelThreshold)
-                {
-                    Parallel.For(0, b._colCount, j => bCols[j] = b.Col(j + 1));
-                    Parallel.For(0, m, i =>
-                    {
-                        var cr = c._hpRows[i];
-                        var ar = a._hpRows[i];
-                        for (int j = nb; j >= 0; --j)
-                            cr.SetValue(HpVector.RawDotProduct(ar, bCols[j]), j);
-                    });
-                }
+                    Parallel.For(0, m, MultiplyRow1);
                 else
-                {
-                    for (int j = nb; j >= 0; --j)
-                        bCols[j] = b.Col(j + 1);
+                    for (int i = 0; i < m; ++i)
+                        MultiplyRow1(i);
 
-                    for (int i = m - 1; i >= 0; --i)
-                    {
-                        var cr = c._hpRows[i];
-                        var ar = a._hpRows[i];
-                        for (int j = nb; j >= 0; --j)
-                            cr.SetValue(HpVector.RawDotProduct(ar, bCols[j]), j);
-                    }
-                }
                 if (d != 1d)
                     c.Scale(d);
             }
             else
             {
                 if (m > ParallelThreshold)
-                    Parallel.For(0, m, MultiplyRow);
+                    Parallel.For(0, m, MultiplyRow2);
                 else
                     for (int i = m - 1; i >= 0; --i)
-                        MultiplyRow(i);
+                        MultiplyRow2(i);
             }
             return c;
 
-            void MultiplyRow(int i)
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            void MultiplyRow1(int i)
             {
-                var c_i = c._hpRows[i];
+                var ar = a_hpRows[i].Raw;
+                var cr = new double[nb + 1];
+                var sr = cr.AsSpan();
+                var vr = Vectorized.AsVector(sr);
+                for (int k = 0, len = ar.Length; k < len; ++k)
+                {
+                    var br = b_hpRows[k].Raw;
+                    var a_rk = ar[k];
+                    if ( a_rk != 0d)
+                        Vectorized.MultiplyAdd(br, a_rk, sr, vr);
+                }
+                c_hpRows[i] = new HpVector(cr, unit);
+            }
+
+            void MultiplyRow2(int i)
+            {
+                var c_i = c_hpRows[i];
                 for (int j = nb; j >= 0; --j)
                 {
                     var c_ij = a.GetValue(i, na) * b.GetValue(na, j) * d;
@@ -2069,6 +2070,25 @@ namespace Calcpad.Core
 
             return col;
         }
+
+        internal double[] RawCol(int index)
+        {
+            var col = new double[_rowCount];
+            int i = 0;
+            int unrollCount = _rowCount - _rowCount % 4;
+            for (; i < unrollCount; i += 4)
+            {
+                col[i] = GetValue(i, index);
+                col[i + 1] = GetValue(i + 1, index);
+                col[i + 2] = GetValue(i + 2, index);
+                col[i + 3] = GetValue(i + 3, index);
+            }
+            for (; i < _rowCount; ++i)
+                col[i] = GetValue(i, index);
+
+            return col;
+        }
+
 
         internal void SetRow(int index, HpVector row) =>
             _hpRows[index] = row.Resize(_colCount);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using SN = System.Numerics;
 
@@ -15,8 +16,9 @@ namespace Calcpad.Core
             {
                 nv = len / _vecSize;
                 Span<SN.Vector<double>> vx = MemoryMarshal.Cast<double, SN.Vector<double>>(x);
+                var vd = new SN.Vector<double>(d);
                 for (int i = 0; i < nv; ++i)
-                    vx[i] *= d;
+                    vx[i] *= vd;
 
                 nv *= _vecSize;
             }
@@ -24,15 +26,15 @@ namespace Calcpad.Core
                 x[i] *= d;
         }
 
-        internal static void Add(double[] x, double[] y)
+        internal static void Add(ReadOnlySpan<double> x, Span<double> y)
         {
             var len = x.Length;
             var nv = 0;
             if (len > 15)
             {
                 nv = len / _vecSize;
-                ReadOnlySpan<SN.Vector<double>> vx = MemoryMarshal.Cast<double, SN.Vector<double>>(x.AsSpan());
-                Span<SN.Vector<double>> vy = MemoryMarshal.Cast<double, SN.Vector<double>>(y.AsSpan());
+                ReadOnlySpan<SN.Vector<double>> vx = MemoryMarshal.Cast<double, SN.Vector<double>>(x);
+                Span<SN.Vector<double>> vy = MemoryMarshal.Cast<double, SN.Vector<double>>(y);
                 for (int i = 0; i < nv; ++i)
                     vy[i] += vx[i];
 
@@ -42,16 +44,16 @@ namespace Calcpad.Core
                 y[i] += x[i];
         }
 
-        internal static void Multiply(double[] x, double[] y, double[] z)
+        internal static void Multiply(ReadOnlySpan<double> x, ReadOnlySpan<double> y, Span<double> z)
         {
             int len = x.Length;
             int nv = 0;
             if (len > 15)
             {
                 nv = len / _vecSize;
-                ReadOnlySpan<SN.Vector<double>> vx = MemoryMarshal.Cast<double, SN.Vector<double>>(x.AsSpan());
-                ReadOnlySpan<SN.Vector<double>> vy = MemoryMarshal.Cast<double, SN.Vector<double>>(y.AsSpan());
-                Span<SN.Vector<double>> vz = MemoryMarshal.Cast<double, SN.Vector<double>>(z.AsSpan());
+                ReadOnlySpan<SN.Vector<double>> vx = MemoryMarshal.Cast<double, SN.Vector<double>>(x);
+                ReadOnlySpan<SN.Vector<double>> vy = MemoryMarshal.Cast<double, SN.Vector<double>>(y);
+                Span<SN.Vector<double>> vz = MemoryMarshal.Cast<double, SN.Vector<double>>(z);
                 for (int i = 0; i < nv; ++i)
                     vz[i] = vx[i] * vy[i];
 
@@ -177,23 +179,34 @@ namespace Calcpad.Core
         internal static double Norm(double[] a) => Math.Sqrt(SumSq(a, 0, a.Length));
 
         //y += decimal * x
-        internal static void MultiplyAdd(double[] x, double d, double[] y)
+        internal static void MultiplyAdd(ReadOnlySpan<double> x, double d, Span<double> y, Span<SN.Vector<double>> vy = default)
         {
             var len = x.Length;
             var nv = 0;
             if (len > 15)
             {
                 nv = len / _vecSize;
-                Span<SN.Vector<double>> vx = MemoryMarshal.Cast<double, SN.Vector<double>>(x.AsSpan());
-                Span<SN.Vector<double>> vy = MemoryMarshal.Cast<double, SN.Vector<double>>(y.AsSpan());
+                ReadOnlySpan<SN.Vector<double>> vx = MemoryMarshal.Cast<double, SN.Vector<double>>(x);
+                if (vy.IsEmpty)
+                    vy = MemoryMarshal.Cast<double, SN.Vector<double>>(y);
 
-                for (int i = 0; i < nv; ++i)
-                    vy[i] += d * vx[i];
-
+                if (d == 1d)
+                    for (int i = 0; i < nv; ++i)
+                        vy[i] += vx[i];
+                else
+                {
+                    var vd = new SN.Vector<double>(d);
+                    for (int i = 0; i < nv; ++i)
+                        vy[i] += vd * vx[i];
+                }
                 nv *= _vecSize;
             }
             for (int i = nv; i < len; ++i)
                 y[i] += d * x[i];
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static  Span<SN.Vector<double>> AsVector (Span<double> s) =>
+            MemoryMarshal.Cast<double, SN.Vector<double>>(s);
     }
 }

@@ -28,9 +28,8 @@ namespace Calcpad.Core
                 //Reothogonalization by modified Gram-Schmidt process
                 for (int s = 1; s <= j; ++s)
                 {
-                    var V_s = V[s];
-                    var dot = Vectorized.DotProduct(w, V_s, 0, n);
-                    Vectorized.MultiplyAdd(V_s, -dot, w);
+                    var dot = Vectorized.DotProduct(w, V[s], 0, n);
+                    Vectorized.MultiplyAdd(V[s], -dot, w);
                 }
                 beta[j] = Vectorized.Norm(w);
                 if (beta[j] < 1e-15)
@@ -62,6 +61,9 @@ namespace Calcpad.Core
             }
             // Solve tridiagonal eigenvalue problem
             ImplicitQL(d, e, Q, true);
+            //var r = new double[m];
+            //for (int i = 0; i < m; ++i)
+            //        r[i] = Math.Abs(beta[j] * Q[j - 1][i]);
 
             // Select eigenvalues
             var indexes = new int[m];
@@ -297,7 +299,7 @@ namespace Calcpad.Core
                     while (m < n) // Look for a single small subdiagonal element to split the matrix.
                     {
                         var dd = Math.Abs(d[m]) + Math.Abs(d[m + 1]);
-                        if (dd.Equals(Math.Abs(e[m]) + dd))
+                        if (Math.Abs(e[m]) <= 1e-15 * dd)
                             break;
                         ++m;
                     }

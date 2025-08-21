@@ -163,7 +163,7 @@ namespace Calcpad.Core
             if (a1.CompareTo(b1) > 0)
                 return a1 * Math.Sqrt(1 + Sqr(b1 / a1));
             else
-                return b1 == 0.0 ? b1 : b1 * Math.Sqrt(1d + Sqr(a1 / b1));
+                return b1 == 0d ? 0d : b1 * Math.Sqrt(1d + Sqr(a1 / b1));
         }
     }
 }
