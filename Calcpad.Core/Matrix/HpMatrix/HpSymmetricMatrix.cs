@@ -627,7 +627,7 @@ namespace Calcpad.Core
         internal Matrix EigenVectors(int count)
         {
             var reverse = CheckCount(ref count);
-            if (IsImplicit(count))
+            if (IsDirect(count))
             {
                 var Q = HpEigenSolver.Tridiagonalize(AsJaggedArray(), out var d, out var e, true);
                 HpEigenSolver.ImplicitQL(d, e, Q, true);
@@ -643,7 +643,7 @@ namespace Calcpad.Core
         internal HpVector EigenValues(int count)
         {
             var reverse = CheckCount(ref count);
-            if (IsImplicit(count))
+            if (IsDirect(count))
             {
                 var Q = HpEigenSolver.Tridiagonalize(AsJaggedArray(), out var d, out var e, false);
                 HpEigenSolver.ImplicitQL(d, e, Q, false);
@@ -660,7 +660,7 @@ namespace Calcpad.Core
         internal Matrix Eigen(int count)
         {
             var reverse = CheckCount(ref count);
-            if (IsImplicit(count))
+            if (IsDirect(count))
             {
                 var Q = HpEigenSolver.Tridiagonalize(AsJaggedArray(), out var d, out var e, true);
                 HpEigenSolver.ImplicitQL(d, e, Q, true);
@@ -673,7 +673,7 @@ namespace Calcpad.Core
             }
         }
 
-        private bool IsImplicit(int count) => _rowCount <= 200 || _rowCount <= 1000 && count > _rowCount / 5;
+        private bool IsDirect(int count) => _rowCount <= 200000 || _rowCount <= 1000 && count > _rowCount / 5;
 
         private static HpVector SortEigenValues(double[] d, Unit units, int count, bool reverse)
         {
