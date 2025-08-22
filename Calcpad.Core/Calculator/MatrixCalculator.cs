@@ -565,13 +565,13 @@ namespace Calcpad.Core
         private static Matrix Invert(in IValue M) => IValue.AsMatrix(M).Invert();
         private static Matrix Adjoint(in IValue M) => IValue.AsMatrix(M).Adjoint();
         private static Matrix Cofactor(in IValue M) => IValue.AsMatrix(M).Cofactor();
-        private static Vector EigenValues(in IValue M, in IValue count)
+        private Vector EigenValues(in IValue M, in IValue count)
         {
             var matrix = IValue.AsMatrix(M);
             var n = (int)IValue.AsReal(count).D;
             return matrix switch
             {
-                HpSymmetricMatrix hp_sm => hp_sm.EigenValues(n),
+                HpSymmetricMatrix hp_sm => hp_sm.EigenValues(n, Parser.Tol),
                 HpDiagonalMatrix hp_dm => hp_dm.EigenValues(n),
                 SymmetricMatrix sm => sm.EigenValues(n),
                 DiagonalMatrix dm => dm.EigenValues(n),
@@ -579,13 +579,13 @@ namespace Calcpad.Core
             };
         }
 
-        private static Matrix EigenVectors(in IValue M, in IValue count)
+        private Matrix EigenVectors(in IValue M, in IValue count)
         {
             var matrix = IValue.AsMatrix(M);
             var n = (int)IValue.AsReal(count).D;
             return matrix switch
             {
-                HpSymmetricMatrix hp_sm => hp_sm.EigenVectors(n),
+                HpSymmetricMatrix hp_sm => hp_sm.EigenVectors(n, Parser.Tol),
                 HpDiagonalMatrix hp_dm => hp_dm.EigenVectors(n),
                 SymmetricMatrix sm => sm.EigenVectors(n),
                 DiagonalMatrix dm => dm.EigenVectors(n),
@@ -593,13 +593,13 @@ namespace Calcpad.Core
             };
         }
 
-        private static Matrix Eigen(in IValue M, in IValue count)
+        private Matrix Eigen(in IValue M, in IValue count)
         {
             var matrix = IValue.AsMatrix(M);
             var n = (int)IValue.AsReal(count).D;
             return matrix switch
             {
-                HpSymmetricMatrix hp_sm => hp_sm.Eigen(n),
+                HpSymmetricMatrix hp_sm => hp_sm.Eigen(n, Parser.Tol),
                 HpDiagonalMatrix hp_dm => hp_dm.Eigen(n),
                 SymmetricMatrix sm => sm.Eigen(n),
                 DiagonalMatrix dm => dm.Eigen(n),
