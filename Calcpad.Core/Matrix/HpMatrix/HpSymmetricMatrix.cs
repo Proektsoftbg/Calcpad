@@ -673,7 +673,7 @@ namespace Calcpad.Core
             }
         }
 
-        private bool IsDirect(int count) => _rowCount <= 200000 || _rowCount <= 1000 && count > _rowCount / 5;
+        private bool IsDirect(int count) => _rowCount <= 200 || _rowCount <= 1000 && count > _rowCount / 5;
 
         private static HpVector SortEigenValues(double[] d, Unit units, int count, bool reverse)
         {
