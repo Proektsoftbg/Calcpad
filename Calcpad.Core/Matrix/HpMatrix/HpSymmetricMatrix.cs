@@ -624,7 +624,7 @@ namespace Calcpad.Core
             }
             return new(norm, _units);
         }
-        internal Matrix EigenVectors(int count)
+        internal Matrix EigenVectors(int count, double tol)
         {
             var reverse = CheckCount(ref count);
             if (IsDirect(count))
@@ -635,12 +635,12 @@ namespace Calcpad.Core
             }
             else
             {
-                var Q = HpEigenSolver.Lanczos(AsJaggedArray(), count, reverse,  out var d);
+                var Q = HpEigenSolver.Lanczos(AsJaggedArray(), count, reverse, tol,  out var d);
                 return SortEigenVectors(d, Q, count, false, false, false, _units);
             }
         }
 
-        internal HpVector EigenValues(int count)
+        internal HpVector EigenValues(int count, double tol)
         {
             var reverse = CheckCount(ref count);
             if (IsDirect(count))
@@ -651,13 +651,13 @@ namespace Calcpad.Core
             }
             else
             {
-                HpEigenSolver.Lanczos(AsJaggedArray(), count, reverse, out var d);
+                HpEigenSolver.Lanczos(AsJaggedArray(), count, reverse, tol, out var d);
                 return new HpVector(d, _units);
             }
         }
 
 
-        internal Matrix Eigen(int count)
+        internal Matrix Eigen(int count, double tol)
         {
             var reverse = CheckCount(ref count);
             if (IsDirect(count))
@@ -668,7 +668,7 @@ namespace Calcpad.Core
             }
             else
             {
-                var Q = HpEigenSolver.Lanczos(AsJaggedArray(), count, reverse, out var d);
+                var Q = HpEigenSolver.Lanczos(AsJaggedArray(), count, reverse, tol, out var d);
                 return SortEigenVectors(d, Q, count, false, false, true, _units);
             }
         }

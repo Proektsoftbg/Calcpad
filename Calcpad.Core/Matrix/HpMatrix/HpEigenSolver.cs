@@ -4,7 +4,7 @@ namespace Calcpad.Core
 {
     internal static class HpEigenSolver
     {
-        internal static double[][] Lanczos(double[][] Matrix, int eigenCount, bool reverse, out double[] eigvals)
+        internal static double[][] Lanczos(double[][] Matrix, int eigenCount, bool reverse, double tol, out double[] eigvals)
         {
             int n = Matrix.Length;
             var k = Math.Min(n, 4 * eigenCount + 100);
@@ -15,6 +15,8 @@ namespace Calcpad.Core
             var V = new double[k + 2][];
             V[0] = new double[n]; // v0 = 0 (stays zero)
             V[1] = CreateRandomNormalizedVector(n, new Random(0));
+            double[] previousTargetEigenvalues = null;
+            int initialSteps = eigenCount, checkInterval = Math.Max(eigenCount / 8, 1);
             int m = 0;
             for (int j = 1; j <= k; ++j)
             {
@@ -45,9 +47,65 @@ namespace Calcpad.Core
 
                 V[j2] = V_j2;
                 m = j;
+                // Kaniel-Paige convergence check: 
+                // After initialSteps, check every checkInterval steps
+                if (j >= initialSteps && (j - initialSteps) % checkInterval == 0)
+                {
+                    if (CheckKanielPaigeConvergence(alpha, beta, V, j, n, eigenCount, reverse,
+                        tol, ref previousTargetEigenvalues))
+                    {
+                        m = j;
+                        break;
+                    }
+                }
             }
+            eigvals = EigenSolveTridiagonalSystem(alpha, beta, V, m, n, eigenCount, reverse, true, out var eigvecs);
+            return eigvecs;
+        }
+
+        private static bool CheckKanielPaigeConvergence(double[] alpha, double[] beta, double[][] V,
+        int currentDim, int n, int eigenCount, bool reverse, double tol, ref double[] prevEVals)
+        {
+            if (currentDim < Math.Max(2, eigenCount))
+                return false;
+
+            // Use existing method for convergence check (no eigenvectors needed)
+            var currEVals = EigenSolveTridiagonalSystem(alpha, beta, V, currentDim, n, eigenCount, reverse, false, out _);
+            var hasConverged = false;
+            if (prevEVals != null && prevEVals.Length == currEVals.Length)
+            {
+                // Kaniel-Paige convergence: target eigenvalues coincide within tolerance
+                hasConverged = true;
+                for (int i = 0; i < currEVals.Length; ++i)
+                {
+                    double err = Math.Abs(currEVals[i] - prevEVals[i]) / (1.0 + Math.Abs(currEVals[i]));
+                    if (err > tol)
+                    {
+                        hasConverged = false;
+                        break;
+                    }
+                }
+                // Additional Kaniel-Paige check: β_m should be small relative to eigenvalue scale
+                if (hasConverged)
+                {
+                    double betaM = Math.Abs(beta[currentDim]);
+                    double maxEigMagnitude = 0.0;
+                    for (int i = 0; i < currEVals.Length; ++i)
+                        maxEigMagnitude = Math.Max(maxEigMagnitude, Math.Abs(currEVals[i]));
+
+                    if (betaM > tol * maxEigMagnitude)
+                        hasConverged = false;
+                }
+            }
+            // Store for next comparison
+            prevEVals = currEVals;
+            return hasConverged;
+        }
+
+        private static double[] EigenSolveTridiagonalSystem(double[] alpha, double[] beta, double[][] V, int m, int n, int eigenCount, bool reverse, bool returnVecs, out double[][] eigvecs)
+        {
             // Prepare for QL algorithm with m Lanczos steps
-            if (eigenCount > m)  eigenCount = m;
+            if (eigenCount > m) eigenCount = m;
             var d = new double[m];
             alpha.AsSpan(0, m).CopyTo(d);
             var e = new double[m];
@@ -61,11 +119,6 @@ namespace Calcpad.Core
             }
             // Solve tridiagonal eigenvalue problem
             ImplicitQL(d, e, Q, true);
-            //var r = new double[m];
-            //for (int i = 0; i < m; ++i)
-            //        r[i] = Math.Abs(beta[j] * Q[j - 1][i]);
-
-            // Select eigenvalues
             var indexes = new int[m];
             for (int i = 0; i < m; ++i)
                 indexes[i] = i;
@@ -75,32 +128,38 @@ namespace Calcpad.Core
             else
                 Array.Sort(indexes, (a, b) => d[a].CompareTo(d[b]));
 
-            eigvals = new double[eigenCount];
+            var eigvals = new double[eigenCount];
             for (int i = 0; i < eigenCount; ++i)
                 eigvals[i] = d[indexes[i]];
 
-            var eigvecs = new double[n][];
-            for (int l = 0; l < n; ++l)
-                eigvecs[l] = new double[eigenCount];
-
-            var v = new double[n];
-            for (int i = 0; i < eigenCount; ++i)
+            if (returnVecs)
             {
-                int index = indexes[i];
-                Array.Clear(v, 0, n);
-                for (int j = 0; j < m; ++j)
-                    Vectorized.MultiplyAdd(V[j + 1], Q[j][index], v); 
+                eigvecs = new double[n][];
+                for (int l = 0; l < n; ++l)
+                    eigvecs[l] = new double[eigenCount];
 
-                //Normalize v
-                var norm = Vectorized.Norm(v);
-                if (norm != 0)
-                    Vectorized.Scale(v, 1d / norm);
+                var v = new double[n];
+                for (int i = 0; i < eigenCount; ++i)
+                {
+                    int index = indexes[i];
+                    Array.Clear(v, 0, n);
+                    for (int j = 0; j < m; ++j)
+                        Vectorized.MultiplyAdd(V[j + 1], Q[j][index], v);
 
-                //Assign to eigvecs
-                for (int j = 0; j < n; ++j)
-                    eigvecs[j][i] = v[j];
+                    //Normalize v
+                    var norm = Vectorized.Norm(v);
+                    if (norm != 0)
+                        Vectorized.Scale(v, 1d / norm);
+
+                    //Assign to eigvecs
+                    for (int j = 0; j < n; ++j)
+                        eigvecs[j][i] = v[j];
+                }
             }
-            return eigvecs;
+            else
+                eigvecs = null;
+
+            return eigvals;
         }
 
         private static void SymmetricMatrixVectorProduct(double[][] A, double[] x, double[] y)
