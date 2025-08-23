@@ -69,7 +69,7 @@ namespace Calcpad.Core
             if (currentDim < Math.Max(2, eigenCount))
                 return false;
 
-            // Use existing method for convergence check (no eigenvectors needed)
+            // Use existing method for eigenvalues of a tridiagonal system (no eigenvectors needed)
             var currEVals = EigenSolveTridiagonalSystem(alpha, beta, V, currentDim, n, eigenCount, reverse, false, out _);
             var hasConverged = false;
             if (prevEVals != null && prevEVals.Length == currEVals.Length)
