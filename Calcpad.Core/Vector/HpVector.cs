@@ -219,9 +219,10 @@ namespace Calcpad.Core
             ReadOnlySpan<double> sa = a._values.AsSpan(0, na);
             Span<double> sb = b._values.AsSpan();
             ReadOnlySpan<SN.Vector<double>> va = MemoryMarshal.Cast<double, SN.Vector<double>>(sa);
-            var nv = na / _vecSize;
-            if (nv > 0)
+            var nv = 0;
+            if (na > 15)
             {
+                nv = na / _vecSize;
                 Span<SN.Vector<double>> vb = MemoryMarshal.Cast<double, SN.Vector<double>>(sb);
                 for (int i = 0; i < nv; ++i)
                     vb[i] = -va[i];
@@ -245,9 +246,10 @@ namespace Calcpad.Core
             ReadOnlySpan<double> sa = a._values.AsSpan(0, na);
             ReadOnlySpan<double> sb = b._values.AsSpan(0, nb);
             Span<double> sc = c._values.AsSpan();
-            var nv = n1 / _vecSize;
-            if ( nv > 0)
+            var nv = 0;
+            if (n1 > 15)
             {
+                nv = n1 / _vecSize;
                 ReadOnlySpan<SN.Vector<double>> va = MemoryMarshal.Cast<double, SN.Vector<double>>(sa[..n1]);
                 ReadOnlySpan<SN.Vector<double>> vb = MemoryMarshal.Cast<double, SN.Vector<double>>(sb[..n1]);
                 Span<SN.Vector<double>> vc = MemoryMarshal.Cast<double, SN.Vector<double>>(sc);
@@ -277,9 +279,10 @@ namespace Calcpad.Core
             var nc = c._length;
             ReadOnlySpan<double> sa = a._values.AsSpan(0, na);
             Span<double> sc = c._values.AsSpan();
-            var nv = na / _vecSize;
-            if (nv > 0)
+            var nv = 0;
+            if (na > 15)
             {
+                nv = na / _vecSize;
                 ReadOnlySpan<SN.Vector<double>> va = MemoryMarshal.Cast<double, SN.Vector<double>>(sa);
                 Span<SN.Vector<double>> vc = MemoryMarshal.Cast<double, SN.Vector<double>>(sc);
                 var vb = new SN.Vector<double>(db);
@@ -307,9 +310,10 @@ namespace Calcpad.Core
             var nc = c._length;
             ReadOnlySpan<double> sb = b._values.AsSpan(0, nb);
             Span<double> sc = c._values.AsSpan();
-            var nv = nb / _vecSize;
-            if (nv > 0)
+            var nv = 0;
+            if (nb > 15)
             {
+                nv = nb / _vecSize;
                 var va = new SN.Vector<double>(da);
                 ReadOnlySpan<SN.Vector<double>> vb = MemoryMarshal.Cast<double, SN.Vector<double>>(sb);
                 Span<SN.Vector<double>> vc = MemoryMarshal.Cast<double, SN.Vector<double>>(sc);
@@ -339,9 +343,10 @@ namespace Calcpad.Core
             ReadOnlySpan<double> sa = a._values.AsSpan(0, na);
             ReadOnlySpan<double> sb = b._values.AsSpan(0, nb);
             Span<double> sc = c._values.AsSpan();
-            var nv = n1 / _vecSize;
-            if (nv > 0)
+            var nv = 0;
+            if (n1 > 15)
             {
+                nv = n1 / _vecSize;
                 ReadOnlySpan<SN.Vector<double>> va = MemoryMarshal.Cast<double, SN.Vector<double>>(sa[..n1]);
                 ReadOnlySpan<SN.Vector<double>> vb = MemoryMarshal.Cast<double, SN.Vector<double>>(sb[..n1]);
                 Span<SN.Vector<double>> vc = MemoryMarshal.Cast<double, SN.Vector<double>>(sc);
@@ -370,9 +375,10 @@ namespace Calcpad.Core
             var nc = c._length;
             ReadOnlySpan<double> sa = a._values.AsSpan(0, na);
             Span<double> sc = c._values.AsSpan();
-            var nv = na / _vecSize;
-            if (nv > 0)
+            var nv = 0;
+            if (na > 15)
             {
+                nv = na / _vecSize;
                 ReadOnlySpan<SN.Vector<double>> va = MemoryMarshal.Cast<double, SN.Vector<double>>(sa);
                 Span<SN.Vector<double>> vc = MemoryMarshal.Cast<double, SN.Vector<double>>(sc);
                 var vb = new SN.Vector<double>(db);
@@ -401,9 +407,10 @@ namespace Calcpad.Core
             ReadOnlySpan<double> sa = a._values.AsSpan(0, n1);
             ReadOnlySpan<double> sb = b._values.AsSpan(0, n1);
             Span<double> sc = c._values.AsSpan(0, n1);
-            var nv = n1 / _vecSize;
-            if (nv > 0)
+            var nv = 0;
+            if (n1 > 15)
             {
+                nv = n1 / _vecSize;
                 ReadOnlySpan<SN.Vector<double>> va = MemoryMarshal.Cast<double, SN.Vector<double>>(sa);
                 ReadOnlySpan<SN.Vector<double>> vb = MemoryMarshal.Cast<double, SN.Vector<double>>(sb);
                 Span<SN.Vector<double>> vc = MemoryMarshal.Cast<double, SN.Vector<double>>(sc);
@@ -430,9 +437,10 @@ namespace Calcpad.Core
             db *= b.D; 
             ReadOnlySpan<double> sa = a._values.AsSpan(0, na);
             Span<double> sc = c._values.AsSpan();
-            var nv = na / _vecSize;
-            if (nv > 0)
+            var nv = 0;
+            if (na > 15)
             {
+                nv = na / _vecSize;
                 ReadOnlySpan<SN.Vector<double>> va = MemoryMarshal.Cast<double, SN.Vector<double>>(sa);
                 Span<SN.Vector<double>> vc = MemoryMarshal.Cast<double, SN.Vector<double>>(sc);
                 var vb = new SN.Vector<double>(db);
@@ -456,9 +464,10 @@ namespace Calcpad.Core
 
             ReadOnlySpan<double> sa = a._values.AsSpan(0, na);
             Span<double> sc = c._values.AsSpan();
-            var nv = na / _vecSize;
-            if (nv > 0)
+            var nv = 0;
+            if (na > 15)
             {
+                nv = na / _vecSize;
                 ReadOnlySpan<SN.Vector<double>> va = MemoryMarshal.Cast<double, SN.Vector<double>>(sa);
                 Span<SN.Vector<double>> vc = MemoryMarshal.Cast<double, SN.Vector<double>>(sc);
                 var vb = new SN.Vector<double>(b);
@@ -484,9 +493,10 @@ namespace Calcpad.Core
             ReadOnlySpan<double> sa = a._values.AsSpan(0, na);
             ReadOnlySpan<double> sb = b._values.AsSpan(0, nb);
             Span<double> sc = c._values.AsSpan();
-            var nv = n1 / _vecSize;
-            if (nv > 0)
+            var nv = 0;
+            if (n1 > 15)
             {
+                nv = n1 / _vecSize;
                 ReadOnlySpan<SN.Vector<double>> va = MemoryMarshal.Cast<double, SN.Vector<double>>(sa[..n1]);
                 ReadOnlySpan<SN.Vector<double>> vb = MemoryMarshal.Cast<double, SN.Vector<double>>(sb[..n1]);
                 Span<SN.Vector<double>> vc = MemoryMarshal.Cast<double, SN.Vector<double>>(sc);
@@ -519,9 +529,10 @@ namespace Calcpad.Core
             var nc = c._length;
             ReadOnlySpan<double> sa = a._values.AsSpan(0, na);
             Span<double> sc = c._values.AsSpan();
-            var nv = na / _vecSize;
-            if (nv > 0)
+            var nv = 0;
+            if (na > 15)
             {
+                nv = na / _vecSize;
                 ReadOnlySpan<SN.Vector<double>> va = MemoryMarshal.Cast<double, SN.Vector<double>>(sa);
                 Span<SN.Vector<double>> vc = MemoryMarshal.Cast<double, SN.Vector<double>>(sc);
                 var vb = new SN.Vector<double>(db);
@@ -551,9 +562,10 @@ namespace Calcpad.Core
             var nc = c._length;
             ReadOnlySpan<double> sb = b._values.AsSpan(0, nb);
             Span<double> sc = c._values.AsSpan();
-            var nv = nb / _vecSize;
-            if (nv > 0)
+            var nv = 0;
+            if (nb > 15)
             {
+                nv = nb / _vecSize;
                 var va = new SN.Vector<double>(da);
                 ReadOnlySpan<SN.Vector<double>> vb = MemoryMarshal.Cast<double, SN.Vector<double>>(sb);
                 Span<SN.Vector<double>> vc = MemoryMarshal.Cast<double, SN.Vector<double>>(sc);
@@ -596,9 +608,10 @@ namespace Calcpad.Core
             ReadOnlySpan<double> sa = a._values.AsSpan(0, na);
             ReadOnlySpan<double> sb = b._values.AsSpan(0, nb);
             Span<double> sc = c._values.AsSpan();
-            var nv = n1 / _vecSize;
-            if (nv > 0)
+            var nv = 0;
+            if (n1 > 15)
             {
+                nv = n1 / _vecSize;
                 ReadOnlySpan<SN.Vector<double>> va = MemoryMarshal.Cast<double, SN.Vector<double>>(sa[..n1]);
                 ReadOnlySpan<SN.Vector<double>> vb = MemoryMarshal.Cast<double, SN.Vector<double>>(sb[..n1]);
                 Span<SN.Vector<double>> vc = MemoryMarshal.Cast<double, SN.Vector<double>>(sc);
@@ -631,9 +644,10 @@ namespace Calcpad.Core
             var nc = c._length;
             ReadOnlySpan<double> sa = a._values.AsSpan(0, na);
             Span<double> sc = c._values.AsSpan();
-            var nv = na / _vecSize;
-            if (nv > 0)
+            var nv = 0;
+            if (na > 15)
             {
+                nv = na / _vecSize;
                 ReadOnlySpan<SN.Vector<double>> va = MemoryMarshal.Cast<double, SN.Vector<double>>(sa);
                 var vb = new SN.Vector<double>(db);
                 Span<SN.Vector<double>> vc = MemoryMarshal.Cast<double, SN.Vector<double>>(sc);
@@ -663,9 +677,10 @@ namespace Calcpad.Core
             var nc = c._length;
             ReadOnlySpan<double> sb = b._values.AsSpan(0, nb);
             Span<double> sc = c._values.AsSpan();
-            var nv = nb / _vecSize;
-            if (nv > 0)
+            var nv = 0;
+            if (nb > 15)
             {
+                nv = nb / _vecSize;
                 var va = new SN.Vector<double>(da);
                 ReadOnlySpan<SN.Vector<double>> vb = MemoryMarshal.Cast<double, SN.Vector<double>>(sb);
                 Span<SN.Vector<double>> vc = MemoryMarshal.Cast<double, SN.Vector<double>>(sc);
@@ -1385,9 +1400,10 @@ namespace Calcpad.Core
             var sum = 0d;
             ReadOnlySpan<double> sa = a._values.AsSpan(0, n1);
             ReadOnlySpan<double> sb = b._values.AsSpan(0, n1);
-            var nv = n1 / _vecSize;
-            if (nv > 0)
+            var nv = 0;
+            if (n1 > 15)
             {
+                nv = n1 / _vecSize;
                 ReadOnlySpan<SN.Vector<double>> va = MemoryMarshal.Cast<double, SN.Vector<double>>(sa);
                 ReadOnlySpan<SN.Vector<double>> vb = MemoryMarshal.Cast<double, SN.Vector<double>>(sb);
                 for (int i = 0; i < nv; ++i)
@@ -1730,9 +1746,10 @@ namespace Calcpad.Core
 
             var norm = 0d;
             ReadOnlySpan<double> sa = _values.AsSpan(0, _size);
-            var nv = _size / _vecSize;
-            if (nv > 0)
+            var nv = 0;
+            if (_size > 15)
             {
+                nv = _size / _vecSize;
                 ReadOnlySpan<SN.Vector<double>> va = MemoryMarshal.Cast<double, SN.Vector<double>>(sa);
                 SN.Vector<double> vb = SN.Vector.Abs(va[0]);
                 for (int i = 1; i < nv; ++i)
@@ -1757,9 +1774,10 @@ namespace Calcpad.Core
 
             var norm = 0d;
             ReadOnlySpan<double> sa = _values.AsSpan(0, _size);
-            var nv = _size / _vecSize;
-            if (nv > 0)
+            var nv = 0;
+            if (_size > 15)
             {
+                nv = _size / _vecSize;
                 ReadOnlySpan<SN.Vector<double>> va = MemoryMarshal.Cast<double, SN.Vector<double>>(sa);
                 for (int i = 0; i < nv; ++i)
                 {
@@ -1807,9 +1825,10 @@ namespace Calcpad.Core
         {
             var maxAbs = 0d;
             ReadOnlySpan<double> sa = _values.AsSpan(0, _size);
-            var nv = _size / _vecSize;
-            if (nv > 0)
+            var nv = 0;
+            if (_size > 15)
             {
+                nv = _size / _vecSize;
                 ReadOnlySpan<SN.Vector<double>> va = MemoryMarshal.Cast<double, SN.Vector<double>>(sa);
                 var vb = SN.Vector.Abs(va[0]);
                 for (int i = 1; i < nv; ++i)
@@ -1855,9 +1874,10 @@ namespace Calcpad.Core
 
             var min = double.MaxValue;
             ReadOnlySpan<double> sa = _values.AsSpan(0, _size);
-            var nv = _size / _vecSize;
-            if (nv > 0)
+            var nv = 0;
+            if (_size > 15)
             {
+                nv = _size / _vecSize;
                 ReadOnlySpan<SN.Vector<double>> va = MemoryMarshal.Cast<double, SN.Vector<double>>(sa);
                 var vb = va[0];
                 for (int i = 1; i < nv; ++i)
@@ -1887,9 +1907,10 @@ namespace Calcpad.Core
 
             var max = double.MinValue;
             ReadOnlySpan<double> sa = _values.AsSpan(0, _size);
-            var nv = _size / _vecSize;
-            if (nv > 0)
+            var nv = 0;
+            if (_size > 15)
             {
+                nv = _size / _vecSize;
                 ReadOnlySpan<SN.Vector<double>> va = MemoryMarshal.Cast<double, SN.Vector<double>>(sa);
                 var vb = va[0];
                 for (int i = 1; i < nv; ++i)
@@ -1919,9 +1940,10 @@ namespace Calcpad.Core
 
             var sum = 0d;
             ReadOnlySpan<double> sa = _values.AsSpan(0, _size);
-            var nv = _size / _vecSize;
-            if (nv > 0)
+            var nv = 0;
+            if (_size > 15)
             {
+                nv = _size / _vecSize;
                 ReadOnlySpan<SN.Vector<double>> va = MemoryMarshal.Cast<double, SN.Vector<double>>(sa);
                 var vb = va[0];
                 for (int i = 1; i < nv; ++i)
@@ -1943,9 +1965,10 @@ namespace Calcpad.Core
 
             var sumsq = 0d;
             ReadOnlySpan<double> sa = _values.AsSpan(0, _size);
-            var nv = _size / _vecSize;
-            if (nv > 0)
+            var nv = 0;
+            if (_size > 15)
             {
+                nv = _size / _vecSize;
                 ReadOnlySpan<SN.Vector<double>> va = MemoryMarshal.Cast<double, SN.Vector<double>>(sa);
                 for (int i = 0; i < nv; ++i)
                 {
@@ -1985,9 +2008,10 @@ namespace Calcpad.Core
 
             var product = 1d;
             ReadOnlySpan<double> sa = _values.AsSpan(0, _size);
-            var nv = _size / _vecSize;
-            if (nv > 0)
+            var nv = 0;
+            if (_size > 15)
             {
+                nv = _size / _vecSize;
                 ReadOnlySpan<SN.Vector<double>> va = MemoryMarshal.Cast<double, SN.Vector<double>>(_values);
                 var vb = va[0];
                 for (int i = 1; i < nv; ++i)
@@ -2139,9 +2163,10 @@ namespace Calcpad.Core
         internal void Scale(double d)
         {
             ReadOnlySpan<double> s = _values.AsSpan(0, _size);
-            var nv = _size / _vecSize;
-            if (nv > 0)
+            var nv = 0;
+            if (_size > 15)
             {
+                nv = _size / _vecSize;
                 ReadOnlySpan<SN.Vector<double>> v = MemoryMarshal.Cast<double, SN.Vector<double>>(s);
                 var vd = new SN.Vector<double>(d);
                 for (int i = 0; i < nv; ++i)
