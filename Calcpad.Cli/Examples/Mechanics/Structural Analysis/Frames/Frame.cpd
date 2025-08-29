@@ -14,16 +14,15 @@ n_J = len(x_J)
 #hide
 e_J = [1; 2|2; 3|3; 4|4; 5]
 #show
-transp(e_J)
-n_E = n_rows(e_J)
+transp(e_J)', 'n_E = n_rows(e_J)
 'Element endpoint coordinates
-x_1(e) = x_J.e_J.(e; 1)','y_1(e) = y_J.e_J.(e; 1)
+x_1(e) = x_J.e_J.(e; 1)','y_1(e) = y_J.e_J.(e; 1)', ' _
 x_2(e) = x_J.e_J.(e; 2)','y_2(e) = y_J.e_J.(e; 2)
 'Element length - 'l(e) = sqrt((x_2(e) - x_1(e))^2 + (y_2(e) - y_1(e))^2)
 'Element direction
 c(e) = (x_2(e) - x_1(e))/l(e)','s(e) = (y_2(e) - y_1(e))/l(e)
 'Transformation matrix
-'Diagonal 3x3 block -'t(e) = [c(e); s(e); 0|-s(e); c(e); 0|0; 0; 1]
+'Diagonal 3x3 block -'t(e) = [c(e); s(e); 0| - s(e); c(e); 0|0; 0; 1]
 'Generation of the full transformation matrix
 T(e) = add(t(e); add(t(e); matrix(6; 6); 1; 1); 4; 4)
 '<h4>Supports - [Joint; cx; cy; cr]</h4>
@@ -114,7 +113,7 @@ svg$
 	j = c.(i; 1)
 	x1 = x_J.j*k
 	y1 = (h - y_J.j)*k
-	δ = w/30*k*sign(x1 - w/2*k)
+	δ = 10*sign(x1 - w/2*k)
 	x2 = x1 - δ
 	y2 = y1 - abs(δ)
 	x3 = x1 + δ
@@ -204,14 +203,13 @@ b = vector(2)','h = vector(2)
 'Assignments on elements -'e_S = [1; 2; 2; 1]
 '<h4>Element stiffness matrix</h4>
 'Elastic properties for element "e"
-EA(e) = E.e_M.e*A.e_S.e
-EI(e) = E.e_M.e*I.e_S.e
+EA(e) = E.e_M.e*A.e_S.e', 'EI(e) = E.e_M.e*I.e_S.e', ' _
 GA_s(e) = G.e_M.e*A_s.e_S.e
-k_s(e) = 12*EI(e)/(GA_s(e)*l(e)^2)
+k_s(e) = 12*EI(e)/(GA_s(e)*l(e)^2)', ' _
 α(e) = EA(e)/l(e)','β(e) = EI(e)/(l(e)^3*(1 + k_s(e)))
 'Stiffness matrix coefficients for element "e"
 k_11(e) = α(e)*(m/kN)','k_22(e) = 12*β(e)*(m/kN)','k_23(e) = 6*β(e)*l(e)*(1/kN)
-k_33(e) = (4 + k_s(e))*β(e)*l(e)^2*(1/kNm)
+k_33(e) = (4 + k_s(e))*β(e)*l(e)^2*(1/kNm)',' _
 k_36(e) = (2 - k_s(e))*β(e)*l(e)^2*(1/kNm)
 'Assembling the 3x3 stiffness matrix blocks for element "e"
 k_ii(e) = [k_11(e)|0; k_22(e); k_23(e)|0; k_23(e); k_33(e)]
@@ -252,7 +250,7 @@ K
 'Lateral load in local CS -'q_E(e) = -q_x.e*s(e) + q_y.e*c(e)
 'Axial load in local CS -'n_E(e) = q_x.e*c(e) + q_y.e*s(e)
 'Equivalent loads at element endpoints
-F_Ex(e) = q_x.e*l(e)/2*(1/kN)','F_Ey(e) = q_y.e*l(e)/2*(1/kN)
+F_Ex(e) = q_x.e*l(e)/2*(1/kN)','F_Ey(e) = q_y.e*l(e)/2*(1/kN)' ,' _
 M_E(e) = q_E(e)*l(e)^2/12*(1/kNm)
 'Load vector -'F_E(e) = [F_Ex(e); F_Ey(e); M_E(e); F_Ex(e); F_Ey(e); -M_E(e)]
 #novar
@@ -306,7 +304,7 @@ R_E(e) = col(k_E(e)*T(e)*z_E(e) - T(e)*F_E(e); 1)*[1; 1; m; 1; 1; m]*kN
 #loop
 #varsub
 '<p><strong>Element internal forces</strong></p>
-N(e; x) = -take(1; R_E(e)) - n_E(e)*x
+N(e; x) = -take(1; R_E(e)) - n_E(e)*x', ' _
 Q(e; x) = take(2; R_E(e)) + q_E(e)*x
 M(e; x) = -take(3; R_E(e)) + take(2; R_E(e))*x + q_E(e)*x^2/2
 #hide

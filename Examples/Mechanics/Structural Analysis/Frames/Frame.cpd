@@ -14,10 +14,9 @@ n_J = len(x_J)
 #hide
 e_J = [1; 2|2; 3|3; 4|4; 5]
 #show
-transp(e_J)
-n_E = n_rows(e_J)
+transp(e_J)', 'n_E = n_rows(e_J)
 'Element endpoint coordinates
-x_1(e) = x_J.e_J.(e; 1)','y_1(e) = y_J.e_J.(e; 1)
+x_1(e) = x_J.e_J.(e; 1)','y_1(e) = y_J.e_J.(e; 1)', ' _
 x_2(e) = x_J.e_J.(e; 2)','y_2(e) = y_J.e_J.(e; 2)
 'Element length - 'l(e) = sqrt((x_2(e) - x_1(e))^2 + (y_2(e) - y_1(e))^2)
 'Element direction
@@ -210,7 +209,7 @@ k_s(e) = 12*EI(e)/(GA_s(e)*l(e)^2)', ' _
 α(e) = EA(e)/l(e)','β(e) = EI(e)/(l(e)^3*(1 + k_s(e)))
 'Stiffness matrix coefficients for element "e"
 k_11(e) = α(e)*(m/kN)','k_22(e) = 12*β(e)*(m/kN)','k_23(e) = 6*β(e)*l(e)*(1/kN)
-k_33(e) = (4 + k_s(e))*β(e)*l(e)^2*(1/kNm)
+k_33(e) = (4 + k_s(e))*β(e)*l(e)^2*(1/kNm)',' _
 k_36(e) = (2 - k_s(e))*β(e)*l(e)^2*(1/kNm)
 'Assembling the 3x3 stiffness matrix blocks for element "e"
 k_ii(e) = [k_11(e)|0; k_22(e); k_23(e)|0; k_23(e); k_33(e)]
