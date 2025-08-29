@@ -202,9 +202,9 @@ namespace Calcpad.Core
                 }
             }
 
-            private void Compile()
+            private void Compile() 
             {
-                _f = _parser.CompileRpn(_items[0].Rpn);
+                _f = _parser.CompileRpn(_items[0].Rpn, _type == SolverTypes.Repeat);
                 if (_items[2].Rpn.Length == 1 &&
                     _items[2].Rpn[0].Type == TokenTypes.Constant)
                     _va = ((ValueToken)_items[2].Rpn[0]).Value;
