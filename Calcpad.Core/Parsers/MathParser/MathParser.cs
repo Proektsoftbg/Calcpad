@@ -700,10 +700,10 @@ namespace Calcpad.Core
             _input.OrderOperators(input, true, 0);
             var rpn = Input.GetRpn(input);
             BindParameters(parameters, rpn);
-            return _compiler.Compile(rpn);
+            return _compiler.Compile(rpn, false);
         }
 
-        private Func<IValue> CompileRpn(Token[] rpn) => _compiler.Compile(rpn);
+        private Func<IValue> CompileRpn(Token[] rpn, bool allowAssignment = false) => _compiler.Compile(rpn, allowAssignment);
         public string ResultAsString
         {
             get

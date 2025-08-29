@@ -29,7 +29,7 @@ namespace Calcpad.Core
                 _matrixCalc = parser._matrixCalc;
             }
 
-            internal Func<IValue> Compile(Token[] rpn, bool allowAssignment = false)
+            internal Func<IValue> Compile(Token[] rpn, bool allowAssignment)
             {
                 if (rpn.Length < 1)
                     throw Exceptions.ExpressionEmpty();
