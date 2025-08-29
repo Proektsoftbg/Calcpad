@@ -23,7 +23,7 @@ sudo apt-get install -y <path-to-your-downloads-folder>/Calcpad.7.3.4.deb
 ```
 Instead of `<path-to-your-downloads-folder>` you must put the actual path, something like this:
 ```
-sudo apt-get install -y /home/ned/snap/chromium/2795/Downloads/Calcpad.7.3.4.deb
+sudo apt-get install -y /home/ned/snap/chromium/3235/Downloads/Calcpad.7.3.4.deb
 ```
 If you get a message like the one bellow, please ignore it:
 N: Download is performed unsandboxed as root as file '.../Calcpad.7.3.4.deb' couldn't be accessed by user '_apt'. - pkgAcquire::Run (13: Permission denied)
