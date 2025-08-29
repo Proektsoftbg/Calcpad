@@ -1,0 +1,168 @@
+#rad
+"Animation of simple undamped pendulum by Runge-Kutta 4 method
+'<table><tr><td>
+'<h4>Input parameters</h4>
+'Gravitational acceleration (m/s²) - 'g = 9.80665m/s^2
+'Pendulum length -'l = 0.5m
+'Pendulum mass -'m = 1kg
+'Initial angle -'θ_0 = 179°|rad
+'Maximum simulation time -'t_max = 11s
+'<h4>Theoretical solution for large rotations</h4>
+'</td><td>
+#hide
+Precision = 10^-5
+PlotWidth = 300','PlotHeight = 150','PlotSVG = 1
+w = 1.2*l', 'h_ = 2/3*w
+W = 150', 'H = 130
+k = W/w
+L = l*k
+R = L/10
+x = -L*sin(θ_0)
+y = L*cos(θ_0)
+δ = 16
+δ_x = 0.25*δ
+δ_y = -2*δ
+y_g = y - δ_y + R
+#def svg$ = '<svg viewbox="'-50 - W/2' '-H' 'W + 50' '2*H'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-family: Georgia Pro; font-size:14px; width:'W'pt; height:'H + 50'pt; margin-left:20pt;">
+#def thin_style$ = style="stroke:goldenrod; stroke-width:1; fill:none"
+#def thick_style$ = style="stroke:steelblue; stroke-width:2; fill:none"
+#def ball_style$ = style="stroke:steelblue; stroke-width:0.5;  fill:url(#ball)"
+#def solid_style$ = style="stroke:black; stroke-width:1; fill:#eee"
+#def load_style$ = style="stroke:steelblue; stroke-width:1; fill:steelblue;"
+#include svg_drawing.cpd
+#show
+#val
+svg$
+'<defs><radialGradient id="ball" cx="35%" cy="35%"><stop offset="0%" stop-color="lightcyan"/><stop offset="100%" stop-color="lightblue"/></radialGradient><pattern id="concrete" x="4" y="4" width="8" height="8" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="8" height="8" fill="#eae9e8" /><circle cx="1" cy="1" r="1.2" fill="#ccb" /><circle cx="5" cy="2" r="1.6" fill="#dadad0" /><circle cx="4" cy="6" r="0.8" fill="#aa9" /><circle cx="3" cy="4" r="0.4" fill="#884" /><circle cx="7" cy="5" r="1.2" fill="#cacaba" /><circle cx="5" cy="3" r="0.9" fill="#fffded" /></pattern></defs>
+'<polygon points="0,0 '-δ','-δ' 'δ','-δ'" solid_style$/>
+line$(0; 0; 0; l*k; thin_style$)
+'<path d="M 0 '0.2*L' A '0.2*L' '0.2*L' 0 0 1 '0.2*x' '0.2*y'" thin_style$/>
+texth$(δ*sign(θ_0);0.35*L;'θ_0*180/π'°)
+line$(0; 0; x; y; thick_style$)
+text$(x/2-δ_x*y/L; y/2+δ_x*x/L;450°-θ_0;'l'm)
+circle$(0; 0; R/2; solid_style$)
+circle$(0; 0; R/8; solid_style$)
+circle$(x; y; R; ball_style$)
+'<polygon points="'x','y_g + δ_y' 'x','y_g' 'x - δ_x','y_g + δ_y/3' 'x + δ_x','y_g + δ_y/3' 'x','y_g'" load_style$/>
+texth$(x+3*δ_x; y_g-δ;g)
+'</svg>
+#equ
+'</td></tr></table>
+#noc
+'Differential equation -'θ″ + g/l*sin(θ) = 0
+#equ
+'Incomplete elliptic integral of the first kind
+F(φ; k) = $Integral{1/sqrt(1 - k^2*sin(θ)^2) @ θ = 0 : φ}
+'Jacobi elliptic functions
+'Modulus -'k = sin(θ_0/2)
+am(u; k) = $Root{F(φ; k) = u @ φ = 0 : 3*π}
+sn(u; k) = sin(am(u; k))','cn(u; k) = cos(am(u; k))
+dn(u; k) = sqrt(1 - k*sn(u; k)^2)','cd(u; k) = cn(u; k)/dn(u; k)
+'Period -'T_e = 4*sqrt(l/g)*F(π/2; k)
+'Cyclic frequency -'f_e = 1/T_e|Hz
+'Angular frequency -'ω_e = 2*π*rad*f_e|rad/s
+'Equation of motion -'θ_e(t) = 2*asin(k*cd(sqrt(g/l)*t; k))
+'Energy -'E_0 = m*l*g*(1 - cos(θ_0))|J
+'<h4>Solution by Runge-Kutta RK4 method (explicit)</h4>
+'For that purpose, the II order equation is reduced to the following system of I order equations
+#noc
+θ′ = ω'and'ω′ = (g/l)*sin(-θ)
+#equ
+'The solution will be performed iteratively
+'Step size -'h = 0.02s
+'Number of steps -'n = t_max/h
+#hide
+N = min(n; 200)
+k_N = floor(n/N)
+N = n\k_N
+#show
+'For each time step'n'the values for the next step will be obtained by using the following equstions
+#noc
+'<table class="eq" style="margin-left:24pt;">
+'<tr><td>First step (k₁) -</td><td>'k_1,θ = ω_i', </td><td>' _
+k_1,ω = (g/l)*sin(-θ_i)'</td></tr>
+'<tr><td>Second step (k₂) -</td><td>'k_2,θ = ω_i + 0.5*h*k_1,ω', </td><td>'k_2,ω = (g/l)*sin(-(θ_i + 0.5*h*k_1,θ))'</td></tr>
+'<tr><td>Third step (k₃) -</td><td>'k_3,θ = ω_i + 0.5*h*k_2,ω', </td><td>'k_3,ω = (g/l)*sin(-(θ_i + 0.5*h*k_2,θ))'</td></tr>
+'<tr><td>Fourth step (k₄) -</td><td>'k_4,θ = ω_i + h*k_3,ω', </td><td>'k_4,ω = (g/l)*sin(-(θ_i + h*k_3,θ))'</td></tr>
+'</table>
+'Update values using weighted averages
+'<p class="eq" style="border-left:solid 1pt black; margin-left:24pt; padding-left:3pt;"><var>θ</var><sub>n+1</sub> ='θ_i + (h/6)*(k_1,θ + 2*k_2,θ + 2*k_3,θ + k_4,θ)'<br/> <var>ω</var><sub>n+1</sub> = 'ω_i + (h/6)*(k_1,ω + 2*k_2,ω + 2*k_3,ω + k_4,ω)'</p>
+#equ
+'Allocate vectors
+θ_RK4 = vector(n)'<br/>'ω_RK4 = vector(n)'<br/>'E_RK4 = vector(n)
+'Set initial conditions
+θ_RK4.1 = θ_0/1rad','ω_RK4.1 = 0/s
+'Perform Runge-Kutta 4 steps 
+#for i = 1 : n - 1
+	'RK4 factors
+	k_1,θ = ω_RK4.i', ' _
+	k_1,ω = (g/l)*sin(-θ_RK4.i)
+	k_2,θ = ω_RK4.i + 0.5*h*k_1,ω
+	k_2,ω = (g/l)*sin(-(θ_RK4.i + 0.5*h*k_1,θ))
+	k_3,θ = ω_RK4.i + 0.5*h*k_2,ω
+	k_3,ω = (g/l)*sin(-(θ_RK4.i + 0.5*h*k_2,θ))
+	k_4,θ = ω_RK4.i + h*k_3,ω
+	k_4,ω = (g/l)*sin(-(θ_RK4.i + h*k_3,θ))
+	'Update values using weighted averages
+	'Rotation -'θ_RK4.(i + 1) = θ_RK4.i + (h/6)*(k_1,θ + 2*k_2,θ + 2*k_3,θ + k_4,θ)
+	'Angular velocity -'ω_RK4.(i + 1) = ω_RK4.i + (h/6)*(k_1,ω + 2*k_2,ω + 2*k_3,ω + k_4,ω)
+	'Energy -'E_RK4.i = m*l^2*(1/2*ω_RK4.i^2 + (g/l)*(1 - cos(θ_RK4.i)))|J
+	#hide
+#loop
+E_RK4.n = m*l^2*(1/2*ω_RK4.n^2 + (g/l)*(1 - cos(θ_RK4.n)))|J
+t(i) = i*h - h
+r2d = 180/π
+#show
+'. . .
+'<style>.PlotSeries2{stroke:Lime!Important; stroke-dasharray: 30, 10;} .PlotSeries3{stroke:DodgerBlue!Important; stroke-dasharray: 5, 10;}</style>
+'<h4>Plot results</h4>
+'<table><tr><td>
+'Rotation - <var>θ</var>(<var>t</var>), [°]<br/>
+$Plot{t(i)|θ_e(t(i))*r2d & t(i)|θ_RK4.i*r2d @ i = 1 : min(1.5*N; n)}
+'</td><td><br/><br/><br/>
+'<b style="color:Red">━━━━</b> Theoretical<br/>
+'<b style="color:Lime">━━ ━━</b> Runge-Kutta 4
+'</td></tr><tr><td>
+'Absolute error Δθ(<var>t</var>), [°]<br/>
+$Plot{t(i)|(θ_RK4.i - θ_e(t(i)))*r2d @ i = 1 : min(1.5*N; n)}
+'</td><td><br/><br/><br/>
+'<p><b style="color:Red">━━━━</b> Runge-Kutta 4
+'</td></tr><tr><td>
+'Energy <var>E</var>(<var>t</var>), [J]<br/>
+$Plot{t(i)|E_0 & t(i)|E_RK4.i & 0s|0.99999*E_0 @ i = 1 : min(1.5*N; n)}
+'</td><td><br/><br/><br/>
+'<b style="color:Red">━━━━</b> Theoretical <br/>
+'<b style="color:Lime">━━ ━━</b> Runge-Kutta 4
+'</td></tr></table>
+'<style>.fr{display:none;} .fr svg{margin-right:64pt; align-center;} #start{height:1.8em; padding-top:0;}</style>
+'<h4>Animate results &emsp;<button id="start">Start</button></h4>
+#format 0.00
+	#hide
+	k = W/w
+	#val
+	#for i_N = 1 : N
+		#hide
+		i = i_N*k_N
+		θ = θ_RK4.i
+		x = -L*sin(θ)
+		y = L*cos(θ)
+		t = t(i)
+		#show
+		#val
+		'<div class="fr" id="fr-'i_N'">
+		#equ
+		#nosub
+		'Simulation time -'t'<br/>
+		$Plot{t(i)|θ_RK4.i*r2d & t_max|θ_0/1rad*r2d & t(j)|θ_RK4.j*r2d & t_max|-θ_0/1rad*r2d @ j = 1 : i}
+		#val
+		svg$
+		'<polygon points="0,0 '-δ','-δ' 'δ','-δ'" solid_style$/>
+		line$(0; 0; x; y; thick_style$)
+		circle$(0; 0; R/2; solid_style$)
+		circle$(0; 0; R/8; solid_style$)
+		circle$(x; y; R; ball_style$)
+		'</svg>
+		'</div>
+	#loop
+	'<script>$("#fr-1").show();$("#start").click(function(){$(this).hide(); var i='N';var fr=$("#fr-"+i);setInterval(function(){fr.hide();if(++i>'N')i=1;fr=$("#fr-"+i);fr.show();}, '1000*h*k_N');});</script>
+	#equ
