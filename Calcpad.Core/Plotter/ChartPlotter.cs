@@ -1,7 +1,9 @@
 ﻿using SkiaSharp;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Calcpad.Core
 {
@@ -73,13 +75,20 @@ namespace Calcpad.Core
                 ys = (Height - 2 * Margin) / limits.Height;
                 y0 = Height - Margin + (int)(limits.Bottom * ys);
             }
-            if (Settings.VectorGraphics || Parser.PlotSVG)
+            var isVector = Settings.VectorGraphics || Parser.PlotSVG;
+            var isFIle = !string.IsNullOrEmpty(Settings.ImagePath);
+            var ext = isVector ? "svg" : "png";
+            var fileName = isFIle ?
+                Path.ChangeExtension(Path.GetRandomFileName(), ext) :
+                null;
+
+            if (isVector)
             {
                 GetSvgPoints(charts, x0, y0, xs, ys);
-                return DrawSvg(charts, x0, y0, xs, ys, limits);
+                return DrawSvg(charts, x0, y0, xs, ys, limits, fileName);
             }
             GetPngPoints(charts, x0, y0, xs, ys);
-            return DrawPng(charts, x0, y0, xs, ys, limits);
+            return DrawPng(charts, x0, y0, xs, ys, limits, fileName);
         }
 
         private static Box FixLimits(Box limits)
@@ -215,7 +224,7 @@ namespace Calcpad.Core
                 charts[i].GetChartSvgPoints(x0, y0, xs, ys);
         }
 
-        private string DrawPng(Chart[] charts, double x0, double y0, double xs, double ys, Box bounds)
+        private string DrawPng(Chart[] charts, double x0, double y0, double xs, double ys, Box bounds, string fileName = null)
         {
             using var bitmap = new SKBitmap(Width, Height);
             using var canvas = new SKCanvas(bitmap);
@@ -264,7 +273,6 @@ namespace Calcpad.Core
                 ref var pen = ref chartPens[penNo];
                 if (c.Bounds.Width == 0 && c.Bounds.Height == 0)
                 {
-
                     pen.Style = SKPaintStyle.StrokeAndFill;
                     canvas.DrawCircle(c.PngPoints[0], dotRadius, pen);
                     pen.Style = SKPaintStyle.Stroke;
@@ -280,17 +288,18 @@ namespace Calcpad.Core
                         FillChart(canvas, chartBrushes[penNo], (float)yf, c.PngPoints);
                     }
                 }
-
                 penNo++;
                 if (penNo >= chartPens.Length)
                     penNo = 0;
             }
             string src;
-            if (string.IsNullOrEmpty(Settings.ImagePath))
+            if (string.IsNullOrEmpty(fileName))
                 src = ImageToBase64(bitmap);
             else
-                src = Settings.ImageUri + PngToFile(bitmap, Settings.ImagePath);
-
+            {
+                src = Settings.ImageUri + fileName;
+                PngToFile(bitmap, Settings.ImagePath, fileName);
+            }
             for (int j = 0, len = chartPens.Length; j < len; ++j)
             {
                 chartPens[j].Dispose();
@@ -313,7 +322,7 @@ namespace Calcpad.Core
             canvas.DrawPath(path, brush);
         }
 
-        private string DrawSvg(Chart[] charts, double x0, double y0, double xs, double ys, Box bounds)
+        private string DrawSvg(Chart[] charts, double x0, double y0, double xs, double ys, Box bounds, string fileName = null)
         {
             var svgDrawing = new SvgDrawing(Width, Height, ScreenScaleFactor, charts.Length);
             DrawGridSvg(svgDrawing, x0, y0, xs, ys, bounds);
@@ -339,10 +348,11 @@ namespace Calcpad.Core
                 if (penNo > 10)
                     penNo = 1;
             }
-            if (!string.IsNullOrEmpty(Settings.ImagePath))
-                return HtmlImg(Settings.ImageUri + SvgToFile(svgDrawing, Settings.ImagePath));
+            if (string.IsNullOrEmpty(fileName))
+                return $"<svg class=\"plot\" {svgDrawing.ToString()[4..]}";
 
-            return $"<svg class=\"plot\" {svgDrawing.ToString()[4..]}";
+            SvgToFile(svgDrawing, Settings.ImagePath, fileName);
+            return HtmlImg(Settings.ImageUri + fileName);
         }
 
         private static void FillChartSVG(SvgDrawing svgDrawing, string svgClass, double y0, SvgPoint[] points)

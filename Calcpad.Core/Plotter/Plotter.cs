@@ -198,7 +198,7 @@ namespace Calcpad.Core
         protected SKFont CreateTextFont() => new()
         {
             Typeface = SKTypeface.FromFamilyName("Segoe UI"),
-            Size = 12f * ScreenScaleFactor,
+            Size = 11f * ScreenScaleFactor,
             Edging = SKFontEdging.Antialias,
             Hinting = SKFontHinting.None
         };
@@ -324,17 +324,15 @@ namespace Calcpad.Core
             return $"<img class=\"plot\" src=\"{src}\" alt=\"Plot\" style=\"width:{w}pt;\">";
         }
 
-        protected static string PngToFile(SKBitmap bitmap, string imagePath)
+        protected static void PngToFile(SKBitmap bitmap, string imagePath, string imageFileName)
         {
-            var fileName = Path.GetRandomFileName();
-            fileName = Path.ChangeExtension(fileName, "png");
-            var fullPath = imagePath + fileName;
+            var fullPath = imagePath + imageFileName;
             try
             {
                 using var fs = new FileStream(fullPath, FileMode.Create, FileAccess.Write, FileShare.None);
-                using var data = SKImage.FromBitmap(bitmap).Encode(SKEncodedImageFormat.Png, 100);
-                data.SaveTo(fs);
-                return fileName;
+                using var wstream = new SKManagedWStream(fs);
+                using var pixmap = bitmap.PeekPixels();
+                pixmap.Encode(wstream, _pngEncoderOptions);
             }
             catch
             {
@@ -342,15 +340,12 @@ namespace Calcpad.Core
             }
         }
 
-        protected static string SvgToFile(SvgDrawing drawing, string imagePath)
-        {
-            var fileName = Path.GetRandomFileName();
-            fileName = Path.ChangeExtension(fileName, "svg");
-            var fullPath = imagePath + fileName;
+        protected static void SvgToFile(SvgDrawing drawing, string imagePath, string imageFileName)
+        {            
+            var fullPath = imagePath + imageFileName;
             try
             {
                 drawing.Save(fullPath);
-                return fileName;
             }
             catch
             {
@@ -358,12 +353,16 @@ namespace Calcpad.Core
             }
         }
 
+        private static SKPngEncoderOptions _pngEncoderOptions = new(SKPngEncoderFilterFlags.None, 4);
         protected static string ImageToBase64(SKBitmap bitmap)
         {
             try
             {
                 using var ms = new MemoryStream();
-                bitmap.Encode(ms, SKEncodedImageFormat.Png, 100);
+                using var wstream = new SKManagedWStream(ms);
+                using var pixmap = bitmap.PeekPixels();
+                pixmap.Encode(wstream, _pngEncoderOptions);
+                wstream.Flush();
                 var imageBytes = ms.ToArray();
                 var b64Str = Convert.ToBase64String(imageBytes);
                 return "data:image/png;base64," + b64Str;

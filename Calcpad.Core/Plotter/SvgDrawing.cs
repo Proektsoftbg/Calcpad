@@ -118,7 +118,7 @@ namespace Calcpad.Core
         private static string Convert(double d) =>
             Math.Round(d, 2).ToString(CultureInfo.InvariantCulture);
 
-        public override string ToString() => _sb + "</svg>\n";
+        public override string ToString() => _sb + "</g></svg>\n";
 
         private void AddStyle(int n)
         {
@@ -126,7 +126,7 @@ namespace Calcpad.Core
             string[] colors = ["Tomato", "YellowGreen", "CornflowerBlue", "#f0d000", "MediumVioletRed", "MediumSpringGreen", "BlueViolet", "LightSalmon", "DeepPink", "DarkTurquoise"];
             string[] opacities = ["0.050", "0.045", "0.040", "0.035", "0.030", "0.025", "0.020", "0.020", "0.020", "0.020"];
             _sb.AppendLine("<style type=\"text/css\">")
-            .AppendLine($".plot text {{fill:Black; font-family:'Segoe UI', Sans; font-size:{Convert(12 * ScaleFactor)}px}}")
+            .AppendLine($".plot text {{fill:Black; font-family:'Segoe UI', Sans; font-size:{Convert(11 * ScaleFactor)}px}}")
             .AppendLine(".plot text.left {text-anchor: start;}")
             .AppendLine($".plot text.sm {{font-size:{Convert(11 * ScaleFactor)}px}}")
             .AppendLine(".plot text.mid {text-anchor: middle;}")
@@ -144,7 +144,7 @@ namespace Calcpad.Core
                 .AppendLine($"circle.Series{i} {{fill:{color};}}")
                 .AppendLine($".Fill{i} {{fill:{color}; fill-opacity:{opacities[i - 1]};}}");
             }
-            _sb.AppendLine("</style>");
+            _sb.AppendLine("</style><g class=\"plot\">");
         }
 
         internal void Save(string fileName)
@@ -152,7 +152,7 @@ namespace Calcpad.Core
             using var sr = new StreamWriter(fileName);
             sr.WriteLine("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
             sr.Write(_sb.ToString());
-            sr.WriteLine("</svg>");
+            sr.WriteLine("</g></svg>");
         }
     }
 }

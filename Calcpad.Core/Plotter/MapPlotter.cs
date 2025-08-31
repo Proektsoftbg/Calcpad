@@ -1,6 +1,8 @@
 ﻿using SkiaSharp;
 using System;
+using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 
 namespace Calcpad.Core
 {
@@ -144,18 +146,20 @@ namespace Calcpad.Core
             var x0 = Left - (int)(startX * xs);
             var ys = (Height - 2 * Margin) / (endY - startY);
             var y0 = Height - Margin + (int)(startY * ys);
-
             var bounds = new Box(startX, startY, endX, endY);
-            if (Settings.VectorGraphics || Parser.PlotSVG)
+            var isVector = Settings.VectorGraphics || Parser.PlotSVG;
+            var isFIle = !string.IsNullOrEmpty(Settings.ImagePath);
+            var ext = isVector ? "svg" : "png";
+            var fileName = isFIle ?
+                Path.ChangeExtension(Path.GetRandomFileName(), ext) :
+                null;
+            if (isVector)
             {
                 m.GetSvgPoints(x0, y0, xs, ys);
-                return DrawSvg(m, x0, y0, xs, ys, bounds);
+                return DrawSvg(m, x0, y0, xs, ys, bounds, fileName);
             }
-            else
-            {
-                m.GetPngPoints(x0, y0, xs, ys);
-                return DrawPng(m, x0, y0, xs, ys, bounds);
-            }
+            m.GetPngPoints(x0, y0, xs, ys);
+            return DrawPng(m, x0, y0, xs, ys, bounds, fileName);
         }
 
         private Node[,] Calculate(Func<IValue> function, Variable varX, Variable varY, double startX, double endX, double startY, double endY, Unit xUnits, Unit yUnits)
@@ -571,7 +575,7 @@ namespace Calcpad.Core
             return pinnedArray;
         }
 
-        private string DrawPng(Map m, int x0, int y0, double xs, double ys, Box bounds)
+        private string DrawPng(Map m, int x0, int y0, double xs, double ys, Box bounds, string fileName = null)
         {
             var values = Interpolate(m);
             using var bitmap = new SKBitmap(Width, Height);
@@ -579,17 +583,19 @@ namespace Calcpad.Core
             using var canvas = new SKCanvas(bitmap);
             DrawGridPng(canvas, x0, y0, xs, ys, bounds);
             DrawColorScalePng(canvas, m);
-            string src;
-            if (string.IsNullOrEmpty(Settings.ImagePath))
+            string src = null;
+            if (string.IsNullOrEmpty(fileName))
                 src = ImageToBase64(bitmap);
             else
-                src = Settings.ImageUri + PngToFile(bitmap, Settings.ImagePath);
-
+            {
+                src = Settings.ImageUri + fileName;
+                PngToFile(bitmap, Settings.ImagePath, fileName);
+            }
             gcHandle.Free();
             return HtmlImg(src);
         }
 
-        private string DrawSvg(Map m, double x0, double y0, double xs, double ys, Box bounds)
+        private string DrawSvg(Map m, double x0, double y0, double xs, double ys, Box bounds, string fileName = null)
         {
             var g = new SvgDrawing(Width, Height, ScreenScaleFactor, 0);
             var values = Interpolate(m);
@@ -605,15 +611,15 @@ namespace Calcpad.Core
             g.DrawImage(Left, Margin, w, h, src);
             DrawGridSvg(g, x0, y0, xs, ys, bounds);
             DrawColorScaleSvg(g, m);
-            if (string.IsNullOrEmpty(Settings.ImagePath))
+            if (string.IsNullOrEmpty(fileName))
             {
                 double d = 0.75 / ScreenScaleFactor;
                 double dw = Math.Round(d * Width);
                 double dh = Math.Round(d * Height);
                 return $"<div class=\"plot\" style=\"width:{dw}pt; height:{dh}pt;\">{g}</div>";
             }
-            src = Settings.ImageUri + SvgToFile(g, Settings.ImagePath);
-            return HtmlImg(src);
+            SvgToFile(g, Settings.ImagePath, fileName);
+            return HtmlImg(Settings.ImageUri + fileName);
         }
     }
 }

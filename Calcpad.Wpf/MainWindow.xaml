@@ -4,7 +4,7 @@
     xmlns:wpf="clr-namespace:Calcpad.Wpf"
     xmlns:core="clr-namespace:Calcpad.Core;assembly=Calcpad.Core"
     xmlns:av="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="av" x:Class="Calcpad.Wpf.MainWindow"
-    Title=" Calcpad VM 7.3.4"
+    Title=" Calcpad VM 7.3.5"
     Height="800"
     Width="1200"
     WindowStartupLocation="CenterScreen"
@@ -2168,13 +2168,17 @@
             <CheckBox x:Name="SmoothCheckBox" 
                     Content="{x:Static wpf:MainWindowResources.Smooth}" 
                     ToolTip="{x:Static wpf:MainWindowResources.SmoothTooltip}" 
+                    Height="16" Margin="4,0,0,0" TabIndex="19" 
+                    VerticalAlignment="Top" HorizontalAlignment="Right" 
+                    Click="SmoothCheckBox_Click" FontSize="11"/>
+            <CheckBox x:Name="EmbedCheckBox" 
+                    Content="{x:Static wpf:MainWindowResources.Embed}" 
+                    ToolTip="{x:Static wpf:MainWindowResources.EmbedPlotsInsideTheHtmlAsBase64EncodedImagesSaveToFilesIfUnchecked}" 
                     Height="16" 
-                    VerticalAlignment="Top"
-                    HorizontalAlignment="Right" 
+                    VerticalAlignment="Top" HorizontalAlignment="Right" 
                     Margin="4,0,0,0"
-                    TabIndex="19" 
-                    Click="SmoothCheckBox_Click" FontSize="11" 
-                    />
+                    TabIndex="20"  IsChecked="True" 
+                    Click="EmbedCheckBox_Click" FontSize="11"/>
             <TextBlock Height="18" 
                        TextWrapping="Wrap" 
                        VerticalAlignment="Top" 
@@ -2183,11 +2187,10 @@
                        Margin="4,0,0,0" FontSize="11"/>
             <ComboBox x:Name="ExternalBrowserComboBox" 
                       ToolTip="{x:Static wpf:MainWindowResources.ExternalBrowserTooltip}" 
-                      Height="22"
-                      Width="75" 
+                      Height="22" Width="75" 
                       VerticalAlignment="Top" 
                       HorizontalAlignment="Right" 
-                      TabIndex="20" FontFamily="Segoe UI Semibold" FontSize="11">
+                      TabIndex="21" FontFamily="Segoe UI Semibold" FontSize="11">
                 <ComboBoxItem Width="70" Content="Chrome" HorizontalAlignment="Left" IsSelected="True"/>
                 <ComboBoxItem Width="70" Content="MSEdge" HorizontalAlignment="Left"/>
                 <ComboBoxItem Width="70" Content="Firefox" HorizontalAlignment="Left"/>
@@ -2195,17 +2198,6 @@
                 <ComboBoxItem Width="70" Content="Opera" HorizontalAlignment="Left"/>
                 <ComboBoxItem Width="70" Content="IExplore" HorizontalAlignment="Left"/>
             </ComboBox>
-            <CheckBox x:Name="CodeCheckBox" 
-                      Content="Unwrapped code" 
-                      Height="16" 
-                      VerticalAlignment="Center"
-                      ToolTip="Show unwrapped source code in the output, when macros or includes are available" 
-                      Background="White" 
-                      HorizontalAlignment="Left" 
-                      TabIndex="17" 
-                      Margin="5,0,0,0" 
-                      Click="CodeCheckBox_Click" 
-                      Visibility="Hidden"/>
             <Image x:Name="Logo" 
                    Source="Resources/logo.png" 
                    Height="16"
@@ -2764,9 +2756,23 @@
                       VerticalContentAlignment="Stretch" Margin="4,1,6,1" 
                       BorderBrush="#AACCCCCC" Background="White" 
                       Header="{x:Static wpf:MainWindowResources.Output}" >
-                <Wpf:WebView2 x:Name="WebViewer" Margin="5,5,5,5" KeyUp="WebViewer_KeyUp" PreviewKeyDown="WebViewer_PreviewKeyDown" NavigationCompleted="WebViewer_NavigationCompleted" WebMessageReceived="WebViewer_WebMessageReceived" />
+                <Wpf:WebView2 x:Name="WebViewer" Margin="5,10,5,5" KeyUp="WebViewer_KeyUp" PreviewKeyDown="WebViewer_PreviewKeyDown" NavigationCompleted="WebViewer_NavigationCompleted" WebMessageReceived="WebViewer_WebMessageReceived" />
             </GroupBox>
             <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Margin="1,5,1,0" Background="#32DDDDDD" />
+            <Border x:Name="CodeCheckBorder"
+                    CornerRadius="4" Padding="4,1,1,1" Margin="0,3,35,0" 
+                    HorizontalAlignment="Right" VerticalAlignment="Top"  
+                    Width="120" Height="18"
+                    Grid.Column="2" Visibility="Hidden">
+                <Border.Background>
+                    <SolidColorBrush Color="White" Opacity="0.4"/>
+                </Border.Background>
+                <CheckBox x:Name="CodeCheckBox" 
+                    Content="{x:Static wpf:MainWindowResources.UnwrappedCode}" 
+                    ToolTip="{x:Static wpf:MainWindowResources.ShowUnwrappedSourceCodeInTheOutputWhenMacrosOrIncludesAreAvailable}" 
+                    TabIndex="22" Click="CodeCheckBox_Click" >
+                </CheckBox>
+            </Border>
         </Grid>
         <TextBlock Grid.Row="0" TextWrapping="Wrap" FontSize="12.5" Margin="0,28,155,0" Height="16" 
             VerticalAlignment="Top"  HorizontalAlignment="Right" Width="50"

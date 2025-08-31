@@ -980,6 +980,24 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Embed.
+        /// </summary>
+        public static string Embed {
+            get {
+                return ResourceManager.GetString("Embed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Embed plots inside the Html as base64 encoded images, Save to files if unchecked..
+        /// </summary>
+        public static string EmbedPlotsInsideTheHtmlAsBase64EncodedImagesSaveToFilesIfUnchecked {
+            get {
+                return ResourceManager.GetString("EmbedPlotsInsideTheHtmlAsBase64EncodedImagesSaveToFilesIfUnchecked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enables markdown in comments.
         /// </summary>
         public static string EnablesMarkdownInComments {
@@ -2663,6 +2681,15 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show unwrapped source code in the output, when macros or includes are available.
+        /// </summary>
+        public static string ShowUnwrappedSourceCodeInTheOutputWhenMacrosOrIncludesAreAvailable {
+            get {
+                return ResourceManager.GetString("ShowUnwrappedSourceCodeInTheOutputWhenMacrosOrIncludesAreAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Simple: if-end if.
         /// </summary>
         public static string SimpleIfEndIf {
@@ -3180,6 +3207,15 @@ namespace Calcpad.Wpf {
         public static string Unwarped_code {
             get {
                 return ResourceManager.GetString("Unwarped_code", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unwrapped code.
+        /// </summary>
+        public static string UnwrappedCode {
+            get {
+                return ResourceManager.GetString("UnwrappedCode", resourceCulture);
             }
         }
         
