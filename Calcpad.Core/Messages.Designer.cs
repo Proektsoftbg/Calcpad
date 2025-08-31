@@ -1069,6 +1069,15 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Missing matrix index in {0}..
+        /// </summary>
+        public static string MissingMatrixIndexIn0 {
+            get {
+                return ResourceManager.GetString("MissingMatrixIndexIn0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;span class = &quot;err&quot;&gt;More than one delimiter &quot;|&quot; in plot command {0}.&lt;/span&gt;.
         /// </summary>
         public static string More_than_one_delimiter_in_plot_command {
@@ -1083,6 +1092,24 @@ namespace Calcpad.Core {
         public static string More_than_one_operator_equals_in_0 {
             get {
                 return ResourceManager.GetString("More_than_one_operator_equals_in_0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  must be hp matrix..
+        /// </summary>
+        public static string MustBeHpMatrix {
+            get {
+                return ResourceManager.GetString("MustBeHpMatrix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  must be hp vector..
+        /// </summary>
+        public static string MustBeHpVector {
+            get {
+                return ResourceManager.GetString("MustBeHpVector", resourceCulture);
             }
         }
         
@@ -1393,6 +1420,15 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The input matrix for FFT must have one row for real and two rows for complex data..
+        /// </summary>
+        public static string TheInputMatrixForFFTMustHaveOneRowForRealAndTwoRowsForComplexData {
+            get {
+                return ResourceManager.GetString("TheInputMatrixForFFTMustHaveOneRowForRealAndTwoRowsForComplexData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The matrix is ill-conditioned. Try with lower precision (Tol) or direct Cholesky solver..
         /// </summary>
         public static string TheMatrixIsIllConditioned {
@@ -1416,6 +1452,15 @@ namespace Calcpad.Core {
         public static string There_is_no_matching_def {
             get {
                 return ResourceManager.GetString("There_is_no_matching_def", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This file format is not supported: {0}..
+        /// </summary>
+        public static string ThisFileFormatIsNotSupported0 {
+            get {
+                return ResourceManager.GetString("ThisFileFormatIsNotSupported0", resourceCulture);
             }
         }
         

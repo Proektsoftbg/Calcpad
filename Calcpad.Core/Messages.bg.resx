@@ -296,7 +296,7 @@
         <value>Грешка при запис на svg файл като "{0}".</value>
     </data>
   <data name="Error_converting_png_to_Base64" xml:space="preserve">
-        <value>Грешка при конвертиране на png към Base64.</value>
+        <value>Грешка при конвертиране към Base64.</value>
     </data>
   <data name="Inconsistent_units_0_1_2" xml:space="preserve">
         <value>Несъвместими мерни единици: "{0} {1} {2}".</value>

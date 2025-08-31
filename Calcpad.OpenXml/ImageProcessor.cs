@@ -3,6 +3,7 @@ using SkiaSharp;
 using System;
 using System.IO;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 
 namespace Calcpad.OpenXml
 {
@@ -138,12 +139,19 @@ namespace Calcpad.OpenXml
     internal class FileImageProcessor : ImageProcessor
     {
         private readonly FileInfo _fileInfo;
+        private static readonly Regex WidthRegex = new(
+            @"<svg[^>]*\bwidth\s*=\s*['""]?(\d+)",
+            RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+        private static readonly Regex HeightRegex = new(
+            @"<svg[^>]*\bheight\s*=\s*['""]?(\d+)",
+            RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         public FileImageProcessor(string imageSrc) : base(imageSrc)
         {
             _fileInfo = new FileInfo(imageSrc);
             if (!_fileInfo.Exists)
-                throw new Exception(string.Format(Messages.Invalid_image_file_0, imageSrc));
+                throw new FileNotFoundException(string.Format(Messages.Invalid_image_file_0, imageSrc));
         }
         public override ImagePart GetImagePart(MainDocumentPart mainPart)
         {
@@ -164,10 +172,27 @@ namespace Calcpad.OpenXml
                     using var bmp = SKBitmap.Decode(src);
                     return (bmp.Width, bmp.Height);
                 }
+                if (string.Equals(Path.GetExtension(src), ".svg", StringComparison.OrdinalIgnoreCase))
+                    return GetSVGImageSize(src);
+
                 using var data = SKData.Create(src);
                 using var img = SKImage.FromEncodedData(data);
                 return new(img.Width, img.Height);
             }
+        }
+
+        private static (int, int) GetSVGImageSize(string src)
+        {
+            string svg = File.ReadAllText(src);
+            var widthMatch = WidthRegex.Match(svg);
+            var heightMatch = HeightRegex.Match(svg);
+            if (widthMatch.Success && heightMatch.Success)
+            {
+                int width = (int)CssParser.ParseSize(widthMatch.Groups[1].Value);
+                int height = (int)CssParser.ParseSize(heightMatch.Groups[1].Value);
+                return (width, height);
+            }
+            return default;
         }
     }
 

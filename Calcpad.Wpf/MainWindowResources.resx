@@ -1128,4 +1128,16 @@ You can find your unsaved data in
   <data name="ConjugateOfAComplexNumber" xml:space="preserve">
     <value>Conjugate of a complex number</value>
   </data>
+  <data name="UnwrappedCode" xml:space="preserve">
+    <value>Unwrapped code</value>
+  </data>
+  <data name="ShowUnwrappedSourceCodeInTheOutputWhenMacrosOrIncludesAreAvailable" xml:space="preserve">
+    <value>Show unwrapped source code in the output, when macros or includes are available</value>
+  </data>
+  <data name="Embed" xml:space="preserve">
+    <value>Embed</value>
+  </data>
+  <data name="EmbedPlotsInsideTheHtmlAsBase64EncodedImagesSaveToFilesIfUnchecked" xml:space="preserve">
+    <value>Embed plots inside the Html as base64 encoded images, Save to files if unchecked.</value>
+  </data>
 </root>

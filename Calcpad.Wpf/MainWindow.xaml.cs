@@ -91,6 +91,7 @@ namespace Calcpad.Wpf
         private readonly string _readmeFileName;
         private string DocumentPath { get; set; }
         private string _cfn;
+        private string _tempDir;
         private string CurrentFileName
         {
             get => _cfn;
@@ -98,7 +99,10 @@ namespace Calcpad.Wpf
             {
                 _cfn = value;
                 if (string.IsNullOrEmpty(value))
+                {
+                    _tempDir = Path.GetRandomFileName() + '\\';
                     Title = AppInfo.Title;
+                }
                 else
                 {
                     var path = Path.GetDirectoryName(value);
@@ -107,6 +111,7 @@ namespace Calcpad.Wpf
                     else
                         SetCurrentDirectory(path);
                     Title = AppInfo.Title + " - " + Path.GetFileName(value);
+                    _tempDir = Path.GetFileNameWithoutExtension(value) + '\\';
                 }
             }
         }
@@ -182,7 +187,7 @@ namespace Calcpad.Wpf
                 OutputFrame.BorderBrush = value ? SystemColors.ActiveBorderBrush : _borderBrush;
             }
         }
-        private bool DisplayUnwarpedCode => CodeCheckBox.Visibility == Visibility.Visible && CodeCheckBox.IsChecked.Value;
+        private bool DisplayUnwarpedCode => CodeCheckBorder.Visibility == Visibility.Visible && CodeCheckBox.IsChecked.Value;
         private bool IsUnwarpedCode => WebViewer.Tag is bool b && b;
         public MainWindow()
         {
@@ -214,9 +219,6 @@ namespace Calcpad.Wpf
             HypButton.Tag = false;
             RichTextBox.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(RichTextBox_Scroll));
             DataObject.AddPastingHandler(RichTextBox, RichTextBox_Paste);
-            var tmpDir = Path.GetTempPath() + "Calcpad\\";
-            if (!Directory.Exists(tmpDir))
-                Directory.CreateDirectory(tmpDir);
             _document = RichTextBox.Document;
             _currentParagraph = _document.Blocks.FirstBlock as Paragraph;
             _currentLineNumber = 1;
@@ -362,21 +364,6 @@ namespace Calcpad.Wpf
                     if (r.Top < 0.8 * RichTextBox.ActualHeight)
                         DispatchHighLightFromCurrent();
                 }
-            }
-        }
-
-        private static void ClearTempFolder()
-        {
-            try
-            {
-                var tmpDir = Path.GetTempPath() + "Calcpad\\";
-                var dir = new DirectoryInfo(tmpDir);
-                foreach (var f in dir.GetFiles())
-                    f.Delete();
-            }
-            catch (Exception e)
-            {
-                ShowErrorMessage(e.Message);
             }
         }
 
@@ -704,6 +691,7 @@ namespace Calcpad.Wpf
             ExternalBrowserComboBox.SelectedIndex = settings.Browser;
             ZeroSmallMatrixElementsCheckBox.IsChecked = settings.ZeroSmallMatrixElements;
             MaxOutputCountTextBox.Text = settings.MaxOutputCount.ToString();
+            EmbedCheckBox.IsChecked = settings.Embed;
             if (settings.WindowLeft > 0) Left = settings.WindowLeft;
             if (settings.WindowTop > 0) Top = settings.WindowTop;
             if (settings.WindowWidth > 0) Width = settings.WindowWidth;
@@ -721,8 +709,8 @@ namespace Calcpad.Wpf
             math.ZeroSmallMatrixElements = ZeroSmallMatrixElementsCheckBox.IsChecked ?? false;
             math.MaxOutputCount = int.TryParse(MaxOutputCountTextBox.Text, out int i) ? i : 20;
             var plot = _parser.Settings.Plot;
-            plot.ImagePath = string.Empty; //tmpDir;
-            plot.ImageUri = string.Empty; //tmpDir;
+            plot.ImagePath = string.Empty;
+            plot.ImageUri = string.Empty;
             plot.VectorGraphics = false;
             plot.ScreenScaleFactor = _screenScaleFactor;
             plot.IsAdaptive = AdaptiveCheckBox.IsChecked ?? false;
@@ -788,6 +776,7 @@ namespace Calcpad.Wpf
             settings.Browser = (byte)ExternalBrowserComboBox.SelectedIndex;
             settings.ZeroSmallMatrixElements = ZeroSmallMatrixElementsCheckBox.IsChecked ?? false;
             settings.MaxOutputCount = int.TryParse(MaxOutputCountTextBox.Text, out int i) ? i : (int)20;
+            settings.Embed = EmbedCheckBox.IsChecked ?? false;  
             settings.WindowLeft = Left;
             settings.WindowTop = Top;
             settings.WindowWidth = Width;
@@ -1216,11 +1205,12 @@ namespace Calcpad.Wpf
 
         private void GetMathSettings()
         {
+            var mathSettings = _parser.Settings.Math;   
             if (double.TryParse(DecimalsTextBox.Text, out var d))
             {
                 var i = (int)Math.Floor(d);
-                _parser.Settings.Math.Decimals = i;
-                DecimalsTextBox.Text = _parser.Settings.Math.Decimals.ToString();
+                mathSettings.Decimals = i;
+                DecimalsTextBox.Text = mathSettings.Decimals.ToString();
                 DecimalsTextBox.Foreground = Brushes.Black;
             }
             else
@@ -1229,23 +1219,68 @@ namespace Calcpad.Wpf
             if (double.TryParse(MaxOutputCountTextBox.Text, out var m))
             {
                 var i = (int)Math.Floor(m);
-                _parser.Settings.Math.MaxOutputCount = i;
-                MaxOutputCountTextBox.Text = _parser.Settings.Math.MaxOutputCount.ToString();
+                mathSettings.MaxOutputCount = i;
+                MaxOutputCountTextBox.Text = mathSettings.MaxOutputCount.ToString();
                 MaxOutputCountTextBox.Foreground = Brushes.Black;
             }
             else
                 MaxOutputCountTextBox.Foreground = Brushes.Red;
 
-            _parser.Settings.Math.Substitute = SubstituteCheckBox.IsChecked ?? false;
-            _parser.Settings.Math.ZeroSmallMatrixElements = ZeroSmallMatrixElementsCheckBox.IsChecked ?? false;
+            mathSettings.Substitute = SubstituteCheckBox.IsChecked ?? false;
+            mathSettings.ZeroSmallMatrixElements = ZeroSmallMatrixElementsCheckBox.IsChecked ?? false;
         }
 
         private void GetPlotSettings()
         {
-            _parser.Settings.Plot.ColorScale = (PlotSettings.ColorScales)ColorScaleComboBox.SelectedIndex;
-            _parser.Settings.Plot.Shadows = ShadowsCheckBox.IsChecked ?? false;
-            _parser.Settings.Plot.SmoothScale = SmoothCheckBox.IsChecked ?? false;
-            _parser.Settings.Plot.LightDirection = (PlotSettings.LightDirections)LightDirectionComboBox.SelectedIndex;
+            var plotSettings = _parser.Settings.Plot;
+            plotSettings.ColorScale = (PlotSettings.ColorScales)ColorScaleComboBox.SelectedIndex;
+            plotSettings.Shadows = ShadowsCheckBox.IsChecked ?? false;
+            plotSettings.SmoothScale = SmoothCheckBox.IsChecked ?? false;
+            plotSettings.LightDirection = (PlotSettings.LightDirections)LightDirectionComboBox.SelectedIndex;
+            if (EmbedCheckBox.IsChecked ?? false)
+            {
+                plotSettings.ImagePath = string.Empty;
+                plotSettings.ImageUri = string.Empty;
+            }
+            else
+            {
+                var imagePath = string.Empty;
+                if (string.IsNullOrEmpty(_cfn))
+                    imagePath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+                else
+                    imagePath = Path.GetDirectoryName(_cfn);
+
+                imagePath += "\\Calcpad Plots\\" + _tempDir;
+                if (!Directory.Exists(imagePath))
+                {
+                    try
+                    {
+                        Directory.CreateDirectory(imagePath);
+                    }
+                    catch
+                    {
+                        imagePath = Path.GetTempPath() + "\\Calcpad Plots\\";
+                        Directory.CreateDirectory(imagePath);
+                    }
+                }
+                plotSettings.ImagePath = imagePath;
+                plotSettings.ImageUri = "file:///" + imagePath.Replace('\\', '/');
+                ClearTempFolder(imagePath);
+            }
+        }
+
+        private static void ClearTempFolder(string path)
+        {
+            try
+            {
+                var dir = new DirectoryInfo(path);
+                foreach (var f in dir.GetFiles())
+                    f.Delete();
+            }
+            catch (Exception e)
+            {
+                ShowErrorMessage(e.Message);
+            }
         }
 
         private async void CalculateAsync(bool toWebForm = false)
@@ -2238,7 +2273,6 @@ namespace Calcpad.Wpf
             if (r == MessageBoxResult.Cancel)
                 e.Cancel = true;
 
-            ClearTempFolder();
             WriteSettings();
         }
 
@@ -3053,6 +3087,11 @@ namespace Calcpad.Wpf
             ClearOutput();
         }
 
+        private void EmbedCheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            ClearOutput();
+        }
+
         private void AdaptiveCheckBox_Click(object sender, RoutedEventArgs e)
         {
             _parser.Settings.Plot.IsAdaptive = AdaptiveCheckBox.IsChecked ?? false;
@@ -3671,7 +3710,7 @@ namespace Calcpad.Wpf
         }
 
         private void SetCodeCheckBoxVisibility() =>
-            CodeCheckBox.Visibility = _highlighter.Defined.HasMacros ? Visibility.Visible : Visibility.Hidden;
+            CodeCheckBorder.Visibility = _highlighter.Defined.HasMacros ? Visibility.Visible : Visibility.Hidden;
 
 
         private static void ShowErrorMessage(string message) =>

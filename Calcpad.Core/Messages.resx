@@ -547,4 +547,19 @@
   <data name="ThePCGSolverFailedToConvergeIn_0_Iterations" xml:space="preserve">
     <value>The PCG solver failed to converge in {0} iterations. Try with lower precision (Tol) or direct Cholesky solver.</value>
   </data>
+  <data name="ThisFileFormatIsNotSupported0" xml:space="preserve">
+    <value>This file format is not supported: {0}.</value>
+  </data>
+  <data name="MustBeHpMatrix" xml:space="preserve">
+    <value> must be hp matrix.</value>
+  </data>
+  <data name="MustBeHpVector" xml:space="preserve">
+    <value> must be hp vector.</value>
+  </data>
+  <data name="TheInputMatrixForFFTMustHaveOneRowForRealAndTwoRowsForComplexData" xml:space="preserve">
+    <value>The input matrix for FFT must have one row for real and two rows for complex data.</value>
+  </data>
+  <data name="MissingMatrixIndexIn0" xml:space="preserve">
+    <value>Missing matrix index in {0}.</value>
+  </data>
 </root>

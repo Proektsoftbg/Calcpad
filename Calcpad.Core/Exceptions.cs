@@ -398,17 +398,17 @@ namespace Calcpad.Core
             new(string.Format(Messages.Path_not_found_0, path));
 
         internal static MathParserException FileFormatNotSupported(string ext) =>
-            new(string.Format("This file format is not supported: {0}.", ext));
+            new(string.Format(Messages.ThisFileFormatIsNotSupported0, ext));
 
         internal static MathParserException MustBeHpMatrix(Items item) =>
-            new(ItemToString(item) + " must be hp matrix.");
+            new(ItemToString(item) + Messages.MustBeHpMatrix);
 
         internal static MathParserException MustBeHpVector(Items item) =>
-             new(ItemToString(item) + " must be hp vector.");
+             new(ItemToString(item) + Messages.MustBeHpVector);
 
         internal static MathParserException MatrixOneOrTwoRows() =>
-            new ("The input matrix for FFT must have one row for real and two rows for complex data.");
+            new (Messages.TheInputMatrixForFFTMustHaveOneRowForRealAndTwoRowsForComplexData);
         internal static MathParserException MissingMatrixIndex(string matrix) =>
-            new($"Missing matrix index in {matrix}.");
+            new(string.Format(Messages.MissingMatrixIndexIn0, matrix));
     }
 }

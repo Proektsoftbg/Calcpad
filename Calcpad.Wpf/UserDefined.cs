@@ -145,6 +145,7 @@ namespace Calcpad.Wpf
 
         private void GetVariablesUnitsAndFunctions(ReadOnlySpan<char> lineContent, int lineNumber)
         {
+            lineContent = lineContent.Trim();
             if (lineContent.StartsWith("#for ", StringComparison.OrdinalIgnoreCase))
                 lineContent = lineContent[5..];
 
@@ -259,15 +260,15 @@ namespace Calcpad.Wpf
 
         private void GetMacroVariablesAndFunctions(ReadOnlySpan<char> content, int lineNumber)
         {
-            if (content.StartsWith("#for ", StringComparison.OrdinalIgnoreCase))
-                content = content[5..];
-
-            var lines = content.EnumerateLines();
+            var lines = content.Trim().EnumerateLines();
             var i = lineNumber - content.Count(Environment.NewLine) - 1;
             foreach (var line in lines)
             {
                 ++i;
-                var commentEnumerator = line.EnumerateComments();
+                var lineSpan = line.Trim();
+                if (lineSpan.StartsWith("#for ", StringComparison.OrdinalIgnoreCase))
+                    lineSpan = lineSpan[5..];
+                var commentEnumerator = lineSpan.EnumerateComments();
                 foreach (var item in commentEnumerator)
                 {
                     if (!item.IsEmpty && item[0] != '"' && item[0] != '\'')

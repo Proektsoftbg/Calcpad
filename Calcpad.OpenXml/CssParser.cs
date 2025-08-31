@@ -52,6 +52,11 @@ namespace Calcpad.OpenXml
             if (string.IsNullOrEmpty(s))
                 return 0;
 
+            return ParseSize(s, outUnits);
+        }
+
+        internal static double ParseSize(string s, string outUnits = "PX")
+        {
             var n = s.Length - 1;
             for (int i = n; i > 0; --i)
             {
