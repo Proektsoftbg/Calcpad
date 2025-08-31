@@ -408,5 +408,7 @@ namespace Calcpad.Core
 
         internal static MathParserException MatrixOneOrTwoRows() =>
             new ("The input matrix for FFT must have one row for real and two rows for complex data.");
+        internal static MathParserException MissingMatrixIndex(string matrix) =>
+            new($"Missing matrix index in {matrix}.");
     }
 }

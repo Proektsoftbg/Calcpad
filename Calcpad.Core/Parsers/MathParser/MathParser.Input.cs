@@ -879,7 +879,7 @@ namespace Calcpad.Core
                                     if (t.Type == TokenTypes.SquareBracketRight ||
                                         t.Type == TokenTypes.RowDivisor)
                                     {
-                                        var vt = new VectorToken(null, new Vector(vectorStack[tovs]))
+                                        var vt = new VectorToken(null, null)
                                         {
                                             Index = vectorStack[tovs]
                                         };
