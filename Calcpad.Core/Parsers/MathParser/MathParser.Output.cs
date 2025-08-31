@@ -708,7 +708,9 @@ namespace Calcpad.Core
 
                 void RenderMatrixIndexToken(RenderToken t, RenderToken b, RenderToken c)
                 {
-                    var a = stackBuffer.Pop();
+                    if (!stackBuffer.TryPop(out var a))
+                        throw Exceptions.MissingMatrixIndex(t.Content);
+
                     var i = (int)(t.Index / Vector.MaxLength);
                     var j = (int)(t.Index % Vector.MaxLength);
                     if (substitute)
@@ -726,13 +728,21 @@ namespace Calcpad.Core
                     }
                     else
                     {
-                        var s = t.Content.Contains('_') ?
-                            writer.FormatOperator('.') :
-                            string.Empty;
-                        var comma = writer.FormatOperator(',');
-                        s += _parser._isCalculated && _parser._functionDefinitionIndex < 0 ?
-                            $"{i}{comma}{j}" :
-                            $"{b.Content}{comma}{c.Content}";
+                        var isSubscript = t.Content.Contains('_') && writer is not XmlWriter;
+                        string s;
+                        if (_parser._isCalculated && _parser._functionDefinitionIndex < 0)
+                        {
+                            s = isSubscript ? $".{i}, {j}" : $"{i}, {j}";
+                            if (writer is XmlWriter)
+                                s = XmlWriter.Run(s);
+                        }
+                        else
+                        {
+                            var comma = writer.FormatOperator(',');
+                            s = isSubscript ?
+                                $".{b.Content}{comma}{c.Content}" :
+                                $"{b.Content}{comma}{c.Content}";
+                        }
                         t.Content = writer.FormatSubscript(a.Content, s);
                     }
                 }
