@@ -373,7 +373,6 @@ k_3,3 = submatrix(K_e; 9; 12; 9; 12)
 k_3,4 = submatrix(K_e; 9; 12; 13; 16)
 k_4,4 = submatrix(K_e; 13; 16; 13; 16)
 n = k_1*n_j
-#hide
 K = symmetric_hp(n)
 'Addition of element stiffness matrix coefficients
 #for e = 1 : n_e
