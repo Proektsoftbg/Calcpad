@@ -450,7 +450,7 @@ $Repeat{$Repeat{W_z.(i; j) = round(w((i - 1)*n_jb + j)*1000)/1000 @ j = 1 : n_jb
 w(x; y) = spline(1 + x/a_1; 1 + y/b_1; W_z)
 PlotWidth = 450', 'PlotHeight = PlotWidth*l_b/l_a
 PlotPalette = 2', 'PlotShadows = 1
-PlotLightDir = 7', 'PlotStep = 4
+PlotLightDir = 7', 'PlotStep = 5
 #show
 transp(W_z)'mm
 $Map{-w(x; y) @ x = 0 : l_a & y = 0 : l_b}

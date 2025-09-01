@@ -2760,9 +2760,9 @@
             </GroupBox>
             <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Margin="1,5,1,0" Background="#32DDDDDD" />
             <Border x:Name="CodeCheckBorder"
-                    CornerRadius="4" Padding="4,1,1,1" Margin="0,3,35,0" 
+                    CornerRadius="4" Padding="4,2,2,2" Margin="0,2,35,0" 
                     HorizontalAlignment="Right" VerticalAlignment="Top"  
-                    Width="120" Height="18"
+                    Width="120" Height="20"
                     Grid.Column="2" Visibility="Hidden">
                 <Border.Background>
                     <SolidColorBrush Color="White" Opacity="0.4"/>
@@ -2770,7 +2770,7 @@
                 <CheckBox x:Name="CodeCheckBox" 
                     Content="{x:Static wpf:MainWindowResources.UnwrappedCode}" 
                     ToolTip="{x:Static wpf:MainWindowResources.ShowUnwrappedSourceCodeInTheOutputWhenMacrosOrIncludesAreAvailable}" 
-                    TabIndex="22" Click="CodeCheckBox_Click" >
+                    TabIndex="22" Click="CodeCheckBox_Click" FontFamily="Segoe UI Semibold" >
                 </CheckBox>
             </Border>
         </Grid>
