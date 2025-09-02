@@ -329,6 +329,9 @@ namespace Calcpad.Core
             var fullPath = imagePath + imageFileName;
             try
             {
+                if (!Directory.Exists(imagePath))
+                    Directory.CreateDirectory(imagePath);
+
                 using var fs = new FileStream(fullPath, FileMode.Create, FileAccess.Write, FileShare.None);
                 using var wstream = new SKManagedWStream(fs);
                 using var pixmap = bitmap.PeekPixels();
@@ -345,6 +348,9 @@ namespace Calcpad.Core
             var fullPath = imagePath + imageFileName;
             try
             {
+                if (!Directory.Exists(imagePath))
+                    Directory.CreateDirectory(imagePath);
+
                 drawing.Save(fullPath);
             }
             catch
