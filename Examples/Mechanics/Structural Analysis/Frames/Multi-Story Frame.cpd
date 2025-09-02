@@ -1,7 +1,7 @@
 #include svg_drawing.cpd
 "Analysis of multi-story multi-bay RC plane frame
-'Number of stories -'n_st = 5',  Story height -'h_st = 2.85m
-'Number of bays -'n_b = 3', ㅤㅤBay length-'l_b = 4m
+'Number of stories -'n_st = 5',  Number of bays - 'n_b = 3
+'Story height - 'h_st = 2.85m',ㅤBay length - 'l_b = 4m
 'Slab thickness -'h_pl = 18cm
 'Cross section of columns - 'b_c = 25cm', 'h_c = 60cm
 'Cross section of beams -ㅤ'b_b = 25cm', 'h_b = 40cm
