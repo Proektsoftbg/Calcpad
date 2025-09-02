@@ -89,6 +89,7 @@ namespace Calcpad.Core
             '≤' => Run("≤"),
             '≥' => Run("≥"),
             '*' => Run("·"),
+            '÷' => Run("/"),
             '⦼' => Run(" mod "),
             '∧' => Run(" and "),
             '∨' => Run(" or "),

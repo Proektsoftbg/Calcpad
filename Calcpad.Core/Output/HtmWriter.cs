@@ -144,7 +144,6 @@ namespace Calcpad.Core
                 }
                 return $"<span class=\"dvc\">{sa}<span class=\"dvl\"></span>{sb}</span>";
             }
-
             return sa + " ÷ " + sb;
         }
 
