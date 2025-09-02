@@ -104,9 +104,9 @@ q_y
 w = max(x_J)
 h = max(y_J)
 W = 90*n_b
-H = h*W/w
 k = W/w
-#def svg$ = '<svg viewbox="'-1.5m*k' '-2.5m*k' '(w + 3.7m)*k' '(h + 4.5m)*k'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-family: Georgia Pro; font-size:7px; width:'W + 120'pt; height:'H + 50*H/W'pt">
+H = h*k
+#def svg$ = '<svg viewbox="'-1.5m*k' '-2.5m*k' '(w + 3.7m)*k' '(h + 4.5m)*k'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-family: Georgia Pro; font-size:7px; width:'W + 50'pt; height:'H + 80'pt">
 #def thin_style$ = style = "stroke:green; stroke-width:1; fill:none"
 #def thick_style$ = style = "stroke:green; stroke-width:2; fill:none"
 k_q = 0.4*m/kN
@@ -337,7 +337,11 @@ Tol = 10^-2
 F
 '<h4>Results</h4>
 '<p><b>Solution of the system of equations by PCG method</b></p>
-Z = slsolve(K; F)
+#if n_st*n_b < 20
+	Z = clsolve(K; F)
+#else
+	Z = slsolve(K; F)
+#end if
 '<p><b>Joint displacements</b></p>
 z_J(j) = slice(Z; 3*j - 2; 3*j)
 z(j) = round(z_J(j)/δz)*δz*1000*[mm; mm; 1]
