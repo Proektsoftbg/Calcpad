@@ -88,7 +88,8 @@ namespace Calcpad.Wpf
         {
             try
             {
-                await _wv2.ExecuteScriptAsync($"window.scrollTo(0, {value});");
+                if (value > 0)
+                    await _wv2.ExecuteScriptAsync($"window.scrollTo(0, {value});");
             }
             catch { }
         }

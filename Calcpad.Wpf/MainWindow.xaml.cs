@@ -480,6 +480,9 @@ namespace Calcpad.Wpf
 
         private async Task AutoRun(bool syncScroll = false)
         {
+            if (_isParsing)
+                return;
+
             IsCalculated = true;
             if (syncScroll)
                 _scrollOutput = true;
@@ -1244,28 +1247,18 @@ namespace Calcpad.Wpf
             }
             else
             {
-                var imagePath = string.Empty;
+                string imagePath;
                 if (string.IsNullOrEmpty(_cfn))
                     imagePath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
                 else
                     imagePath = Path.GetDirectoryName(_cfn);
 
                 imagePath += "\\Calcpad Plots\\" + _tempDir;
-                if (!Directory.Exists(imagePath))
-                {
-                    try
-                    {
-                        Directory.CreateDirectory(imagePath);
-                    }
-                    catch
-                    {
-                        imagePath = Path.GetTempPath() + "\\Calcpad Plots\\";
-                        Directory.CreateDirectory(imagePath);
-                    }
-                }
+                if (Directory.Exists(imagePath))
+                    ClearTempFolder(imagePath);
+
                 plotSettings.ImagePath = imagePath;
                 plotSettings.ImageUri = "file:///" + imagePath.Replace('\\', '/');
-                ClearTempFolder(imagePath);
             }
         }
 
@@ -1340,7 +1333,6 @@ namespace Calcpad.Wpf
                     }
                     void parse() => _parser.Parse(outputText);
                     await Task.Run(parse);
-                    _isParsing = false;
                     if (!IsWebForm)
                     {
                         MenuWebForm.IsEnabled = true;
@@ -1356,7 +1348,7 @@ namespace Calcpad.Wpf
             try
             {
                 if (!string.IsNullOrEmpty(htmlResult))
-                    _wv2Warper.NavigateToStringAsync(htmlResult);
+                    await _wv2Warper.NavigateToStringAsync(htmlResult);
             }
             catch (Exception e)
             {
@@ -1504,6 +1496,11 @@ namespace Calcpad.Wpf
             var ssf = Math.Round(0.9 * Math.Sqrt(_screenScaleFactor), 2).ToString(CultureInfo.InvariantCulture);
             _stringBuilder.Append(_htmlWorksheet.Replace("var(--screen-scale-factor)", ssf));
             _stringBuilder.Append(s);
+            if (_scrollY > 0)
+            {
+                _stringBuilder.Append($"<script>window.onload = function() {{ window.scrollTo(0, {_scrollY}); }};</script>");
+                _scrollY = 0;
+            }
             _stringBuilder.Append(" </body></html>");
             return _stringBuilder.ToString();
         }
@@ -3480,6 +3477,7 @@ namespace Calcpad.Wpf
         }
         private async void WebViewer_NavigationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs e)
         {
+            _isParsing = false;
             if (!await _wv2Warper.CheckIsReportAsync())
                 return;
 
@@ -3504,7 +3502,7 @@ namespace Calcpad.Wpf
                 {
                     if (_scrollOutput)
                         await ScrollOutput();
-                    else if (_scrollY != 0)
+                    else if (_scrollY > 0)
                     {
                         await _wv2Warper.SetScrollYAsync(_scrollY);
                         _scrollY = 0;
