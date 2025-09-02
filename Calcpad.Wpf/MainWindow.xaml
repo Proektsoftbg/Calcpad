@@ -1526,7 +1526,7 @@
                     <MenuItem Click="Button_Click" Tag="#append M to filename.xlsx@Sheet1!A1:B2 TYPE=N" 
                         Header="{x:Static wpf:MainWindowResources.AppendExcelFile}"/>
                 </MenuItem>
-                <MenuItem Header="Html">s
+                <MenuItem Header="Html">
                     <MenuItem Click="Button_Click" Tag="&lt;h3&gt;‖&lt;/h3&gt;" Icon="H3" FontWeight="SemiBold" InputGestureText="Ctrl+3">
                         <MenuItem.Header>
                             <TextBlock Text="{x:Static wpf:MainWindowResources.Heading3}"  FontSize="16" />
