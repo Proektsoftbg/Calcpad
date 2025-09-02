@@ -9,7 +9,7 @@
 #def main_style$ = style="stroke:black; stroke-width:1.5; fill:none"
 #def axis_style$ = stroke-dasharray="60,15,10,15" style="stroke:green; stroke-width:1"
 #def dim_style$ = style="stroke:goldenrod; stroke-width:0.5; fill:goldenrod"
-#def point_style$ = style="stroke:none; fill:red"
+#def point_style$ = style="stroke:none; fill:crimson"
 #def dimh$(x1$; x2$; y$; s$)
 	line$(x1$; y$ - 5; x1$; y$ + 5; dim_style$)
 	line$(x2$; y$ - 5; x2$; y$ + 5; dim_style$)
