@@ -4,7 +4,7 @@
     xmlns:wpf="clr-namespace:Calcpad.Wpf"
     xmlns:core="clr-namespace:Calcpad.Core;assembly=Calcpad.Core"
     xmlns:av="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="av" x:Class="Calcpad.Wpf.MainWindow"
-    Title=" Calcpad VM 7.3.5"
+    Title=" Calcpad VM 7.3.6"
     Height="800"
     Width="1200"
     WindowStartupLocation="CenterScreen"
@@ -15,7 +15,7 @@
     Closing="Window_Closing"
     KeyUp="Window_KeyUp" 
     Unloaded="Window_Unloaded" 
-    Loaded="Window_Loaded" 
+    Loaded="Window_Loaded"
     Activated="Window_Activated" 
     ContentRendered="Window_ContentRendered">
     <Window.Resources>
@@ -2760,12 +2760,15 @@
             </GroupBox>
             <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Margin="1,5,1,0" Background="#32DDDDDD" />
             <Border x:Name="CodeCheckBorder"
-                    CornerRadius="4" Padding="4,2,2,2" Margin="0,2,35,0" 
+                    CornerRadius="4" Padding="4,2,2,2" Margin="0,2,16,0" 
                     HorizontalAlignment="Right" VerticalAlignment="Top"  
                     Width="120" Height="20"
-                    Grid.Column="2" Visibility="Hidden">
+                    Grid.Column="2" Visibility="Visible">
                 <Border.Background>
-                    <SolidColorBrush Color="White" Opacity="0.4"/>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" Opacity="0.8">
+                        <GradientStop Color="#FFF0F0F0"/>
+                        <GradientStop Color="White" Offset="1"/>
+                    </LinearGradientBrush>
                 </Border.Background>
                 <CheckBox x:Name="CodeCheckBox" 
                     Content="{x:Static wpf:MainWindowResources.UnwrappedCode}" 
