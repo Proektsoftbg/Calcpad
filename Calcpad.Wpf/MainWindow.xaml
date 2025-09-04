@@ -531,13 +531,13 @@
                         <MenuItem Header="{x:Static wpf:MainWindowResources.Creational}">
                             <MenuItem Click="Button_Click" Tag="vector(n)"          Header="vector(n)"          ToolTip="{x:Static wpf:MainWindowResources.CreatesAnEmptyVectorWithLengthN}" />
                             <MenuItem Click="Button_Click" Tag="vector_hp(n)"       Header="vector__hp(n)"       ToolTip="{x:Static wpf:MainWindowResources.CreatesAnEmptyHighPerformanceVectorWithLengthN}" />
-                            <MenuItem Click="Button_Click" Tag="fill(v; x)"         Header="fill(v; x)"         ToolTip="{x:Static wpf:MainWindowResources.FillsVectorVWithValueX}" />
                             <MenuItem Click="Button_Click" Tag="range(x₁; xₙ; step)" Header="range(x₁; xₙ; step)" ToolTip="{x:Static wpf:MainWindowResources.CreatesAVectorWithValuesSpanningFromX1ToXnWithStepS}" />
                             <MenuItem Click="Button_Click" Tag="range_hp(x₁; xₙ; step)" Header="range__hp(x₁; xₙ; step)" ToolTip="{x:Static wpf:MainWindowResources.CreatesAHighPerformanceVectorWithValuesSpanningFromXToXₙWithStepS}" />
                         </MenuItem>
                         <MenuItem Header="{x:Static wpf:MainWindowResources.Structural}">
                             <MenuItem Click="Button_Click" Tag="len(v)"          Header="len(v)"           ToolTip="{x:Static wpf:MainWindowResources.ReturnsTheLengthOfVectorV}" />
                             <MenuItem Click="Button_Click" Tag="size(v)"         Header="size(v)"          ToolTip="{x:Static wpf:MainWindowResources.TheActualSizeOfVectorVTheIndexOfTheLastNonZeroElement}" />
+                            <MenuItem Click="Button_Click" Tag="fill(v; x)"         Header="fill(v; x)"         ToolTip="{x:Static wpf:MainWindowResources.FillsVectorVWithValueX}" />
                             <MenuItem Click="Button_Click" Tag="join(M; v; x…) " Header="join(M; v; x…) "  ToolTip="{x:Static wpf:MainWindowResources.CreatesAVectorByJoiningTheArgumentsMatricesVectorsAndScalars}" />
                             <MenuItem Click="Button_Click" Tag="slice(v; i₁; i₂)" Header="slice(v; i₁; i₂)"  ToolTip="{x:Static wpf:MainWindowResources.ReturnsThePartOfVectorVBoundedByIndexesIAndIInclusive}" />
                             <MenuItem Click="Button_Click" Tag="resize(v; n)"    Header="resize(v; n)"     ToolTip="{x:Static wpf:MainWindowResources.SetsANewLengthNOfVectorV}" />
