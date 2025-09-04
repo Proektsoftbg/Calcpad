@@ -230,13 +230,13 @@ namespace Calcpad.Core
                 if (a.NodeType == ExpressionType.Constant)
                 {
                     var s = t.Content.ToLowerInvariant().AsSpan();
-                    if (s.SequenceEqual("random") &&
-                        !(s.StartsWith("range") ||
-                          s.StartsWith("vector") ||
-                          s.StartsWith("identity") ||
-                          s.StartsWith("utriang") ||
-                          s.StartsWith("ltriang") ||
-                          s.StartsWith("symmetric")))
+                    if (!(s.SequenceEqual("random") ||
+                         s.StartsWith("range") ||
+                         s.StartsWith("vector") ||
+                         s.StartsWith("identity") ||
+                         s.StartsWith("utriang") ||
+                         s.StartsWith("ltriang") ||
+                         s.StartsWith("symmetric")))
                         return EvaluateConstantExpressionToken(t, a);
                 }
 
