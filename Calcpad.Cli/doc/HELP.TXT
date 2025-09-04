@@ -46,12 +46,12 @@
     Creational:           Creational hp: 
     vector(n)             vector_hp(n) 
     range(x1; xn; s)      range_hp(x1; xn; s)
-    fill(v; x)      
-                          Math:           Data:               search(v; x; i)
-    Structural:           norm_1(v)       sort(v)             rsort(v)
-    len(v)                norm(v)         order(v)            revorder(v)
-    size(v)               norm_2(v)       reverse(v)          count(v; x; i)
-    resize(v; n)          norm_e(v)       find(v; x; i)       lookup(a; b; x)
+    
+    Structural:           Math:           Data:               search(v; x; i)
+    len(v)                norm_1(v)       sort(v)             rsort(v)
+    size(v)               norm(v)         order(v)            revorder(v)
+    resize(v; n)          norm_2(v)       reverse(v)          count(v; x; i)
+    fill(v; x)            norm_e(v)       find(v; x; i)       lookup(a; b; x)
     join(a; b; c…)        norm_p(v; p)    find_eq(v; x; i)    lookup_eq(a; b; x)
     slice(v; i1; i2)      norm_i(v)       find_ne(v; x; i)    lookup_ne(a; b; x)                       
     first(v; n)           unit(v)         find_lt(v; x; i)    lookup_lt(a; b; x)

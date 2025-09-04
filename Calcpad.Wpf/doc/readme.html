@@ -1268,7 +1268,6 @@
                         Creational:<ul style="list-style-type:none;">
                             <li><code><b>vector</b>(<var>n</var>)</code> - creates an empty vector with length <var>n</var>;</li>
                             <li><code><b>vector_hp</b>(<var>n</var>)</code> - creates an empty high performance (hp) vector with length <var>n</var>;</li>
-                            <li><code><b>fill</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>)</code> - fills vector <var><span class="vec">⃗</span>v</var> with value <var>x</var>;</li>
                             <li><code><b>range</b>(<var>x</var><sub>1</sub>; <var>x</var><sub>n</sub>; <var>s</var>)</code> - creates a vector with values spanning from <var>x</var><sub>1</sub> to <var>x</var><sub>n</sub> with step <var>s</var>;</li>
                             <li><code><b>range_hp</b>(<var>x</var><sub>1</sub>; <var>x</var><sub>n</sub>; <var>s</var>)</code> - creates a high performance (hp) vector from a range of values;</li>
                         </ul>
@@ -1278,6 +1277,7 @@
                             <li><code><b>len</b>(<var><span class="vec">⃗</span>v</var>)</code> - returns the length of vector <var><span class="vec">⃗</span>v</var>;</li>
                             <li><code><b>size</b>(<var><span class="vec">⃗</span>v</var>)</code> - the actual size of vector <var><span class="vec">⃗</span>v</var> (the index of the last non-zero element);</li>
                             <li><code><b>resize</b>(<var><span class="vec">⃗</span>v</var>; <var>n</var>)</code> - sets a new length <var>n</var> of vector <var><span class="vec">⃗</span>v</var>;</li>
+                            <li><code><b>fill</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>)</code> - fills vector <var><span class="vec">⃗</span>v</var> with value <var>x</var>;</li>
                             <li><code><b>join</b>(<var>A</var>; <var><span class="vec">⃗</span>b</var>; <var>c</var>…)</code> - creates a vector by joining the arguments in the list - matrices, vectors and scalars;</li>
                             <li><code><b>slice</b>(<var><span class="vec">⃗</span>v</var>; <var>i</var><sub>1</sub>; <var>i</var><sub>2</sub>)</code> - returns the part of vector <var><span class="vec">⃗</span>v</var>, bounded by indexes <var>i</var><sub>1</sub> and <var>i</var><sub>2</sub>, inclusively;</li>
                             <li><code><b>first</b>(<var><span class="vec">⃗</span>v</var>; <var>n</var>)</code> - the first <var>n</var> elements of vector <var><span class="vec">⃗</span>v</var>;</li>
@@ -5589,7 +5589,7 @@
         <h3 id="TOC_804">Save As…</h3>
         <p>If you need to save the current file with a different name, select the "<b>File/Save As…</b>" menu command. A file selection dialog will be displayed. Select file path and name and click "<b>Save</b>"</p>
         <hr />
-        <p>Last edited on 07.08.2025 by eng. Nedelcho Ganchovski.</p>
+        <p>Last edited on 04.09.2025 by eng. Nedelcho Ganchovski.</p>
     </div>
     <script src="jquery-3.6.3.min.js"></script>
     <script>

@@ -537,10 +537,10 @@
                         <MenuItem Header="{x:Static wpf:MainWindowResources.Structural}">
                             <MenuItem Click="Button_Click" Tag="len(v)"          Header="len(v)"           ToolTip="{x:Static wpf:MainWindowResources.ReturnsTheLengthOfVectorV}" />
                             <MenuItem Click="Button_Click" Tag="size(v)"         Header="size(v)"          ToolTip="{x:Static wpf:MainWindowResources.TheActualSizeOfVectorVTheIndexOfTheLastNonZeroElement}" />
-                            <MenuItem Click="Button_Click" Tag="fill(v; x)"         Header="fill(v; x)"         ToolTip="{x:Static wpf:MainWindowResources.FillsVectorVWithValueX}" />
+                            <MenuItem Click="Button_Click" Tag="resize(v; n)"    Header="resize(v; n)"     ToolTip="{x:Static wpf:MainWindowResources.SetsANewLengthNOfVectorV}" />
+                            <MenuItem Click="Button_Click" Tag="fill(v; x)"      Header="fill(v; x)"         ToolTip="{x:Static wpf:MainWindowResources.FillsVectorVWithValueX}" />
                             <MenuItem Click="Button_Click" Tag="join(M; v; x…) " Header="join(M; v; x…) "  ToolTip="{x:Static wpf:MainWindowResources.CreatesAVectorByJoiningTheArgumentsMatricesVectorsAndScalars}" />
                             <MenuItem Click="Button_Click" Tag="slice(v; i₁; i₂)" Header="slice(v; i₁; i₂)"  ToolTip="{x:Static wpf:MainWindowResources.ReturnsThePartOfVectorVBoundedByIndexesIAndIInclusive}" />
-                            <MenuItem Click="Button_Click" Tag="resize(v; n)"    Header="resize(v; n)"     ToolTip="{x:Static wpf:MainWindowResources.SetsANewLengthNOfVectorV}" />
                             <MenuItem Click="Button_Click" Tag="first(v; n)"     Header="first(v; n)"      ToolTip="{x:Static wpf:MainWindowResources.TheFirstNElementsOfVectorV}" />
                             <MenuItem Click="Button_Click" Tag="last(v; n)"      Header="last(v; n)"       ToolTip="{x:Static wpf:MainWindowResources.TheLastNElementsOfVectorV}" />
                             <MenuItem Click="Button_Click" Tag="extract(v; vi)"  Header="extract(v; vi)"   ToolTip="{x:Static wpf:MainWindowResources.ExtractsTheElementsFromVWhichIndexesAreContainedInI}" />
