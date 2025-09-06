@@ -3477,10 +3477,10 @@ namespace Calcpad.Wpf
         }
         private async void WebViewer_NavigationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs e)
         {
-            _isParsing = false;
             if (!await _wv2Warper.CheckIsReportAsync())
                 return;
 
+            _isParsing = false;
             if (_isSaving)
             {
                 var zip = string.Equals(Path.GetExtension(CurrentFileName), ".cpdz", StringComparison.OrdinalIgnoreCase);

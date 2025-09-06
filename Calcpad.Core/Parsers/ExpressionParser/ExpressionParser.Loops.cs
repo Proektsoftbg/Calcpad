@@ -8,7 +8,7 @@ namespace Calcpad.Core
         private readonly Stack<Loop> _loops = new();
         private abstract class Loop
         {
-            protected const int _maxCount = 10000000;
+            internal const int MaxCount = 100000000;
             protected readonly int _startLine;
             protected int _iteration;
             internal int Id { get; }
@@ -16,8 +16,8 @@ namespace Calcpad.Core
             private protected Loop(int startLine, double count, int id)
             {
                 _startLine = startLine;
-                if (count < 0 || count > _maxCount)
-                    count = _maxCount;
+                if (count < 0 || count > MaxCount)
+                    count = MaxCount;
 
                 _iteration = (int)count;
                 Id = id;
@@ -45,27 +45,40 @@ namespace Calcpad.Core
 
         private sealed class ForLoop : Loop
         {
-            private readonly IScalarValue _start;
-            private readonly IScalarValue _end;
-            private readonly string _varName;
-
-            internal ForLoop(int startLine, IScalarValue start, IScalarValue end, string varName, int id) :
+            private readonly double _incRe;
+            private readonly double _incIm;
+            private readonly Unit _incUnits;
+            private double _counterRe;
+            private double _counterIm;
+            private Variable _counter;
+            internal ForLoop(int startLine, IScalarValue start, IScalarValue end, Variable counter, int id) :
                 base(startLine, Math.Abs((end - start).Re) + 1, id)
             {
-                _start = start;
-                _end = end;
-                _varName = varName;
+                var inc = end - start;
+                _incRe = Math.Sign(inc.Re);
+                _incIm = Math.Sign(inc.Im);
+                _incUnits = inc.Units;
+                _counter = counter;
             }
-            internal IScalarValue Start => _start;
-            internal IScalarValue End => _end;
-            internal string VarName => _varName;
+
+            internal void IncrementCounter()
+            {
+                _counterRe += _incRe;
+                if (_incIm == 0d)
+                    _counter.SetValue(new RealValue(_counterRe, _incUnits));
+                else
+                {
+                    _counterIm += _incIm;
+                    _counter.SetValue(new ComplexValue(_counterRe, _counterIm, _incUnits));
+                }
+            }
         }
 
         private sealed class WhileLoop : Loop
         {
             private readonly string _condition;
             internal WhileLoop(int startLine, string condition, int id) :
-                base(startLine, _maxCount, id)
+                base(startLine, MaxCount, id)
             {
                 _condition = condition;
             }

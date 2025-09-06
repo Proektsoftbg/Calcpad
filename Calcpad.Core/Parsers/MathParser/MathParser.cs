@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -151,12 +152,23 @@ namespace Calcpad.Core
             }
         }
 
+        internal Variable GetVariableRef(string name)
+        {
+            if (_variables.TryGetValue(name, out Variable v))
+                return v;
+
+            v = new Variable();
+            _variables.Add(name, v);
+            _input.DefinedVariables.Add(name);
+            return v;
+        }
+
         public void SetVariable(string name, double value) =>
             SetVariable(name, new RealValue(value));
 
         internal void SetVariable(string name, in IScalarValue value)
         {
-            IScalarValue scalar = _settings.IsComplex ?
+            IScalarValue scalar = value is RealValue || _settings.IsComplex ?
                 value :
                 new RealValue(value.Re, value.Units);
 
@@ -378,10 +390,13 @@ namespace Calcpad.Core
             var n = s.IndexOf('^');
             if (n < 0)
                 n = s.Length;
+
+            var numFormat = CultureInfo.CurrentCulture.NumberFormat;
+            var systemDecimalSymbol = numFormat.NumberDecimalSeparator[0];
             while (n > 0)
             {
                 var c = s[n - 1];
-                if (char.IsDigit(c) || c == DecimalSymbol)
+                if (char.IsDigit(c) || c == DecimalSymbol || c == systemDecimalSymbol)
                 {
                     if (isUnitChar)
                         break;
@@ -394,8 +409,11 @@ namespace Calcpad.Core
                 --n;
             }
             var d = 1d;
-            if (n > 0 && !double.TryParse(s[..n], out d))
-                throw Exceptions.InvalidNumber(s[..n].ToString());
+            var numberSpan = s[..n];
+            if (n > 0 && 
+                !double.TryParse(numberSpan, numFormat, out d) && 
+                !double.TryParse(numberSpan, CultureInfo.InvariantCulture.NumberFormat, out d))
+                throw Exceptions.InvalidNumber(numberSpan.ToString());
 
             Unit u = null;
             if (n < s.Length)

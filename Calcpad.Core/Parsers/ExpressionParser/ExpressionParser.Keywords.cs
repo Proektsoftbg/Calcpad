@@ -303,8 +303,8 @@ namespace Calcpad.Core
                         {
                             _parser.Parse(expression);
                             _parser.Calculate();
-                            if (_parser.Real > int.MaxValue)
-                                AppendError(s.ToString(), string.Format(Messages.Number_of_iterations_exceeds_the_maximum_0, int.MaxValue), _currentLine);
+                            if (_parser.Real > Loop.MaxCount)
+                                AppendError(s.ToString(), string.Format(Messages.Number_of_iterations_exceeds_the_maximum_0, Loop.MaxCount), _currentLine);
                             else
                                 count = Math.Round(_parser.Real, MidpointRounding.AwayFromZero);
                         }
@@ -381,7 +381,14 @@ namespace Calcpad.Core
                                     start = new ComplexValue(r1, u1);
                                     end = new ComplexValue(r2, u2);
                                 }
-                                _loops.Push(new ForLoop(_currentLine, start, end, varName, _condition.Id));
+                                var count = Math.Abs((end - start).Re) + 1;
+                                if (count > Loop.MaxCount)
+                                {
+                                    AppendError(s.ToString(), string.Format(Messages.Number_of_iterations_exceeds_the_maximum_0, Loop.MaxCount), _currentLine);
+                                    return;
+                                }
+                                var counter = _parser.GetVariableRef(varName);
+                                _loops.Push(new ForLoop(_currentLine, start, end, counter, _condition.Id));
                                 _parser.SetVariable(varName, start);
                             }
                             catch (MathParserException ex)
@@ -486,19 +493,7 @@ namespace Calcpad.Core
         private bool Iterate(Loop loop, bool removeWhileCondition)
         {
             if (loop is ForLoop forLoop)
-            {
-                var value = _parser.GetVariable(forLoop.VarName);
-                var delta = forLoop.End - forLoop.Start;
-                var a = Math.Sign(delta.Re);
-                if (delta.IsReal)
-                    value += new RealValue(a, delta.Units);
-                else
-                {
-                    var b = Math.Sign(delta.Im);
-                    value += new ComplexValue(a, b, delta.Units);
-                }
-                _parser.SetVariable(forLoop.VarName, value);
-            }
+                forLoop.IncrementCounter();
             else if (loop is WhileLoop whileLoop)
             {
                 var expression = whileLoop.Condition;
