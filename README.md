@@ -190,13 +190,13 @@ Any variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;&emsp;&emsp;<ins>Creational:</ins>  
 &emsp;&emsp;&emsp;&emsp;**vector**(n) - creates an empty vector with length n;  
 &emsp;&emsp;&emsp;&emsp;**vector_hp**(n) - creates an empty high performance (hp) vector with length n;  
-&emsp;&emsp;&emsp;&emsp;**fill**(v; x) - fills vector v with value x;  
 &emsp;&emsp;&emsp;&emsp;**range**(x1; xn; s) - creates a vector with values spanning from x1 to xn with step s;  
 &emsp;&emsp;&emsp;&emsp;**range_hp**(x1; xn; s) - creates a high performance (hp) from a range of values as above;  
 &emsp;&emsp;&emsp;&emsp;<ins>Structural:</ins>  
 &emsp;&emsp;&emsp;&emsp;**len**(v) - returns the length of vector v;  
 &emsp;&emsp;&emsp;&emsp;**size**(v) - the actual size of vector v - the index of the last non-zero element;  
 &emsp;&emsp;&emsp;&emsp;**resize**(v; n) - sets a new length n of vector v;  
+&emsp;&emsp;&emsp;&emsp;**fill**(v; x) - fills vector v with value x;  
 &emsp;&emsp;&emsp;&emsp;**join**(A; b; c…) - creates a vector by joining the arguments: matrices, vectors and scalars;  
 &emsp;&emsp;&emsp;&emsp;**slice**(v; i₁; i₂) - returns the part of vector v bounded by indexes i₁ and i₂ inclusive;  
 &emsp;&emsp;&emsp;&emsp;**first**(v; n) - the first n elements of vector v;  
