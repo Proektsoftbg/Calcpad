@@ -45,20 +45,24 @@ namespace Calcpad.Core
 
         private sealed class ForLoop : Loop
         {
+            private double _counterRe;
+            private double _counterIm;
             private readonly double _incRe;
             private readonly double _incIm;
             private readonly Unit _incUnits;
-            private double _counterRe;
-            private double _counterIm;
-            private Variable _counter;
+            private readonly Variable _counter;
+
             internal ForLoop(int startLine, IScalarValue start, IScalarValue end, Variable counter, int id) :
-                base(startLine, Math.Abs((end - start).Re) + 1, id)
+                base(startLine, Math.Abs((start - end).Re) + 1, id)
             {
-                var inc = end - start;
+                var inc = -(start - end); //Reversed because of units comversion
                 _incRe = Math.Sign(inc.Re);
                 _incIm = Math.Sign(inc.Im);
                 _incUnits = inc.Units;
                 _counter = counter;
+                _counterRe = start.Re;
+                _counterIm = start.Im;
+                _counter.SetValue(start);
             }
 
             internal void IncrementCounter()

@@ -14,9 +14,9 @@
 'Damping factor (normalized) -'β = 0.01
 '</td><td>
 #hide
-PlotWidth = 200','PlotHeight = 120','PlotSVG = 1
-w = 1.4*l', 'h_ = w
-W = 180', 'H = 180
+PlotWidth = 220','PlotHeight = 140','PlotSVG = 1
+w = 1.2*l', 'h_ = w
+W = 220', 'H = 200
 k = W/w
 L_1 = l_1*k
 L_2 = l_2*k
@@ -35,7 +35,7 @@ y_2 = y_1 + L_2*cos(θ_02)
 δ_y = -2*δ
 y_g1 = y_1 - δ_y + R
 y_g2 = y_2 - δ_y + R
-#def svg$ = '<svg viewbox="'-W/2' '-H' 'W' '2*H'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-family: Georgia Pro; font-size:14px; width:'W'pt; height:'H + 50'pt;margin-left:10pt;">
+#def svg$ = '<svg viewbox="'-W/2' '-H' 'W' '2*H'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-family: Georgia Pro; font-size:14px; width:'W + 50'pt; height:'H + 50'pt;margin-left:10pt;">
 #def thin_style$ = class="thin"
 #def thick_style$ = class="thick"
 #def ball_style$ = class="ball"
@@ -153,14 +153,14 @@ $Plot{t(i)|θ_1.i*r2d @ i = 1 : n}
 '</td><td>Bottom angle - <var>θ</var><sub>2</sub>(<var>t</var>), [°]
 $Plot{t(i)|θ_2.i*r2d @ i = 1 : n}
 '</td></tr><tr><td>Trajectory - <var>x</var>(<var>t</var>), <var>y</var>(<var>t</var>), [m]
-$Plot{x_1.i|-y_1.i & x_2.i|-y_2.i @ i = 1 : n}
+$Plot{x_1.i|-y_1.i & 0m|0m & 0m|0m & 0m|0m & 0m|0m & x_2.i|-y_2.i @ i = 1 : n}
 '</td><td>Еnergy - <var>E</var>(<var>t</var>), [J]
-$Plot{t(i)|E_p(i) & t(i)|E_k(i) & 0s|0J & 0s|0J & t(i)|E_p(i) + E_k(i) @ i = 1 : n}
-'<br/><b style="color:Tomato">━━━</b> Potential - <var>E</var><sub>p</sub>, 
-'<b style="color:YellowGreen">━━━</b> Kinetic - <var>E</var><sub>k</sub>, <br/>
-'<b style="color:MediumVioletRed">━━━</b> Total - <var>E</var><sub>tot</sub>
+$Plot{t(i)|E_p(i) + E_k(i) & 0s|0J & 0s|0J & 0s|0J & t(i)|E_p(i) & t(i)|E_k(i) @ i = 1 : n}
+'<br/><b style="color:Magenta">━━</b> Potential - <var>E</var><sub>p</sub>, 
+'<b style="color:DarkCyan">━━</b> Kinetic - <var>E</var><sub>k</sub>, 
+'<b style="color:Red">━━</b> Total - <var>E</var><sub>tot</sub>
 '</td></tr></table>
-'<style>.Series3{stroke-dasharray: 5, 10;} .Series2, .Series4{fill:none!Important;} #start{height:1.8em; padding-top:0;} .fr{display:none;} .fr svg{margin-right:64pt; align-center;} .trace{stroke:red; stroke-width:1; fill:none;}</style>
+'<style>.PlotSeries2{stroke:DodgerBlue!Important; stroke-dasharray: 5, 10;} .PlotSeries3, .PlotSeries4{stroke:none!Important; fill:none!Important;} #start{height:1.8em; padding-top:0;} .fr{display:none;} .fr svg{margin-right:64pt; align-center;} .trace{stroke:red; stroke-width:1; fill:none;}</style>
 '<h4>Animate results &emsp;<button id="start">Start</button></h4>
 #format 0.00
 #hide
@@ -184,9 +184,9 @@ x2 = round(x_2*k*100)/100','y2 = round(y_2*k*100)/100
 	#nosub
 	'Simulation time -'t'<br/>
 	'<table><tr><td>Top angle - <var>θ</var><sub>1</sub>(<var>t</var>), [°]
-	$Plot{t(i)|θ_1.i*r2d & t_max|θ_01/1rad*r2d & t(j)|θ_1.j*r2d & t_max|-θ_01/1rad*r2d @ j = 1 : i}
+	$Plot{t(i)|θ_1.i*r2d & t(j)|θ_1.j*r2d & t_max|θ_01/1rad*r2d & t_max|-θ_01/1rad*r2d @ j = 1 : i}
 	'Bottom angle - <var>θ</var><sub>2</sub>(<var>t</var>), [°]
-	$Plot{t(i)|θ_2.i*r2d & t_max|θ_02/1rad*r2d & t(j)|θ_2.j*r2d & t_max|-θ_02/1rad*r2d @ j = 1 : i}
+	$Plot{t(i)|θ_2.i*r2d & t(j)|θ_2.j*r2d & t_max|θ_02/1rad*r2d & t_max|-θ_02/1rad*r2d @ j = 1 : i}
 	'</td><td>
 	#val
 	svg$
@@ -200,14 +200,16 @@ x2 = round(x_2*k*100)/100','y2 = round(y_2*k*100)/100
 			'<line x1="'x2.j1'" y1="'y2.j1'" x2="'x2.j2'" y2="'y2.j2'" class="trace" opacity="'o'"/>
 		#end if
 	#loop
-	'<polygon points="0,0 '-δ','-δ' 'δ','-δ'" solid_style$/>
+	'<polygon points="0,0 '-δ','-δ' 'δ','-δ'" solid_style$/>' _
 	line$(0; 0; x_1i; y_1i; thick_style$)' _
 	line$(x_1i; y_1i; x_2i; y_2i; thick_style$)' _
 	circle$(0; 0; R/2; solid_style$)' _
 	circle$(0; 0; R/8; solid_style$)' _
 	circle$(x_1i; y_1i; R_1; ball_style$)' _
-	circle$(x_2i; y_2i; R_2; ball_style$)
-	'</svg></td></tr></table></div>
+	circle$(x_2i; y_2i; R_2; ball_style$)' _
+	'</svg>
+	'</td></tr></table>
+	'</div>
 #loop
 '<script>$("#fr-1").show();$("#start").click(function(){$(this).hide(); var i='N';var fr=$("#fr-"+i);setInterval(function(){fr.hide();if(++i>'N')i=1;fr=$("#fr-"+i);fr.show();}, '900*h*k_N');});</script>
 #equ
