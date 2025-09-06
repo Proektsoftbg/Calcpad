@@ -2,6 +2,7 @@
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 
@@ -16,7 +17,6 @@ namespace Calcpad.OpenXml
             internal int Col;
             internal CellRef(ReadOnlySpan<char> cellRefString)
             {
-
                 if (!cellRefString.IsEmpty)
                 {
                     var index = GetColRowSepIndex(cellRefString);
@@ -234,9 +234,9 @@ namespace Calcpad.OpenXml
         private static void InsertValue(Row row, string cellRef, string value)
         {
             Cell cell = InsertCell(row, cellRef);
-            if (double.TryParse(value, out _))
+            if (double.TryParse(value, CultureInfo.CurrentCulture.NumberFormat, out var d))
             {
-                cell.CellValue = new CellValue(value);
+                cell.CellValue = new CellValue(d);
                 cell.DataType = CellValues.Number;
             }
             else
