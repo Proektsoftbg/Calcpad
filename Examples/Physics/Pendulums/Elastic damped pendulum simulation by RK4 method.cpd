@@ -10,11 +10,13 @@
 'Initial angular velocity -'ω_0 = 0rad/s
 'Initial length -'r_0 = 1.1*l
 'Initial radial velocity -'v_0 = 0m/s
+'Damping factor (normalized, radial) -'β_r = 0.05
+'Damping factor (normalized, angular) -'β_θ = 0.01
 '</td><td>
 #hide
-PlotWidth = 200','PlotHeight = 120','PlotSVG = 1
-w = 2.2*l', 'h_ = 2/3*w
-W = 180', 'H = 180
+PlotWidth = 220','PlotHeight = 140','PlotSVG = 1
+w = 1.2*l', 'h_ = 2/3*w
+W = 150', 'H = 150
 k = W/w
 L = r_0*k
 R = L/12
@@ -24,7 +26,7 @@ y = L*cos(θ_0)
 δ_x = 0.25*δ
 δ_y = -2*δ
 y_g = y - δ_y + R
-#def svg$ = '<svg viewbox="'-50 - W/2' '-H' 'W + 100' '2*H'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-family: Georgia Pro; font-size:14px; width:'W'pt; height:'H + 50'pt;">
+#def svg$ = '<svg viewbox="'-100 - W/2' '-H' 'W + 200' '2*H  + 100'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-family: Georgia Pro; font-size:14px; width:'W + 100'pt; height:'H + 100'pt;">
 #def thin_style$ = style="stroke:goldenrod; stroke-width:1; fill:none;"
 #def thick_style$ = style="stroke:steelblue; stroke-width:1.5; fill:none;"
 #def ball_style$ = style="stroke:steelblue; stroke-width:0.5;  fill:url(#ball);"
@@ -34,6 +36,7 @@ y_g = y - δ_y + R
 #include svg_drawing.cpd
 #show
 #val
+'<br/><br/>
 svg$
 '<defs><radialGradient id="ball" cx="35%" cy="35%"><stop offset="0%" stop-color="lightcyan"/><stop offset="100%" stop-color="lightblue"/></radialGradient><pattern id="concrete" x="4" y="4" width="8" height="8" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="8" height="8" fill="#eae9e8" /><circle cx="1" cy="1" r="1.2" fill="#ccb" /><circle cx="5" cy="2" r="1.6" fill="#dadad0" /><circle cx="4" cy="6" r="0.8" fill="#aa9" /><circle cx="3" cy="4" r="0.4" fill="#884" /><circle cx="7" cy="5" r="1.2" fill="#cacaba" /><circle cx="5" cy="3" r="0.9" fill="#fffded" /></pattern></defs>
 '<polygon points="0,0 '-δ','-δ' 'δ','-δ'" solid_style$/>
@@ -51,8 +54,6 @@ texth$(x+3*δ_x; y_g-δ;g)
 '</svg>
 #equ
 '</td></tr></table>
-'Damping factor (normalized, radial) -'β_r = 0.05
-'Damping factor (normalized, angular) -'β_θ = 0.01
 'Critical damping (radial) -'b_cr_r = 2*m*sqrt(k_s/m)
 'Critical damping (angular) -'b_cr_θ = 2*m*l*sqrt(g/l)
 'Radial damping -'b_r = β_r*b_cr_r
@@ -134,12 +135,12 @@ $Plot{t(i)|r.i @ i = 1 : n}
 '</td></tr><tr><td>Trajectory - <var>x</var>(<var>t</var>), <var>y</var>(<var>t</var>), [m]<br/>
 $Plot{r.i*sin(θ.i)|-r.i*cos(θ.i) @ i = 1 : n}
 '</td><td>Energy - <var>E</var>(<var>t</var>), [J]<br/>
-$Plot{t(i)|E_p(i) & t(i)|E_k(i) & 0s|0J & 0s|0J & t(i)|E_p(i) + E_k(i) @ i = 1 : n}
-'<br/><b style="color:Tomato">━━</b> Potential - <var>E</var><sub>p</sub>, 
-'<b style="color:YellowGreen">━━</b> Kinetic - <var>E</var><sub>k</sub>, <br/>
-'<b style="color:MediumVioletRed">━━</b> Total - <var>E</var><sub>tot</sub>
+$Plot{t(i)|E_p(i) + E_k(i) & 0s|0J & 0s|0J & 0s|0J & t(i)|E_p(i) & t(i)|E_k(i) @ i = 1 : n}
+'<br/><b style="color:Magenta">━━</b> Potential - <var>E</var><sub>p</sub>, 
+'<b style="color:DarkCyan">━━</b> Kinetic - <var>E</var><sub>k</sub>, 
+'<b style="color:Red">━━</b> Total - <var>E</var><sub>tot</sub>
 '</td></tr></table>
-'<style>.Series3{stroke-dasharray: 5, 10;} .Series2, .Series4{fill:none!Important;} #start{height:1.8em; padding-top:0;} .fr{display:none;} .fr svg{margin-right:64pt; align-center;} .trace{stroke:red; stroke-width:1; fill:red;}</style>
+'<style>.PlotSeries2{stroke:DodgerBlue!Important; stroke-dasharray: 5, 10;} .PlotSeries3, .PlotSeries4{stroke:none!Important; fill:none!Important;} #start{height:1.8em; padding-top:0;} .fr{display:none;} .fr svg{margin-right:64pt; align-center;} .trace{stroke:red; stroke-width:1; fill:red;}</style>
 '<h4>Animate results &emsp;<button id="start">Start</button></h4>
 #format 0.00
 #hide
@@ -163,9 +164,9 @@ n_tr = 40
 	#nosub
 	'Simulation time -'t'<br/>
 	'<table><tr><td>Angle - <var>θ</var>(<var>t</var>), [°]<br/>
-	$Plot{t(i)|θ.i*r2d & t_max|θ_0/1rad*r2d & t(j)|θ.j*r2d & t_max|-θ_0/1rad*r2d @ j = 1 : i}
+	$Plot{t(i)|θ.i*r2d & t(j)|θ.j*r2d & t_max|θ_0/1rad*r2d & t_max|-θ_0/1rad*r2d @ j = 1 : i}
 	'<br/>Length - <var>r</var>(<var>t</var>), [m]<br/>
-	$Plot{t(i)|r.i & t_max|l + Δr & t(j)|r.j & t_max|l - Δr @ j = 1 : i}
+	$Plot{t(i)|r.i & t(j)|r.j & t_max|l + Δr & t_max|l - Δr @ j = 1 : i}
 	'</td><td>
 	#val
 	svg$
