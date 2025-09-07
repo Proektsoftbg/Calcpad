@@ -270,7 +270,9 @@ EndFragment:0000000004";
 
         internal async Task NavigateToStringAsync(string html)
         {
+            var zoom = _wv2.ZoomFactor;
             _wv2.CoreWebView2.Navigate(_blankPagePath);
+            _wv2.ZoomFactor = zoom;
             string encodedHtml = JsonSerializer.Serialize(html);
             string script = $"document.open();document.write({encodedHtml});document.close();";
             await _wv2.ExecuteScriptAsync(script);

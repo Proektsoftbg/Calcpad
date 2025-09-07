@@ -1,6 +1,6 @@
 #rad
 "Simulation of damped double pendulum by Runge-Kutta 4 method
-'<table><tr><td>
+'<table width="120%"><tr><td>
 '<h4>Input parameters</h4>
 'Gravitational acceleration -'g = 9.80665m/s^2
 'Pendulum lengths -'l_1 = 1.5m', 'l_2 = 1m
@@ -183,7 +183,7 @@ x2 = round(x_2*k*100)/100','y2 = round(y_2*k*100)/100
 	#equ
 	#nosub
 	'Simulation time -'t'<br/>
-	'<table><tr><td>Top angle - <var>θ</var><sub>1</sub>(<var>t</var>), [°]
+	'<table width="120%"><tr><td>Top angle - <var>θ</var><sub>1</sub>(<var>t</var>), [°]
 	$Plot{t(i)|θ_1.i*r2d & t(j)|θ_1.j*r2d & t_max|θ_01/1rad*r2d & t_max|-θ_01/1rad*r2d @ j = 1 : i}
 	'Bottom angle - <var>θ</var><sub>2</sub>(<var>t</var>), [°]
 	$Plot{t(i)|θ_2.i*r2d & t(j)|θ_2.j*r2d & t_max|θ_02/1rad*r2d & t_max|-θ_02/1rad*r2d @ j = 1 : i}
