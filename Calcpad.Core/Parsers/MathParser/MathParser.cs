@@ -409,9 +409,9 @@ namespace Calcpad.Core
             }
             var d = 1d;
             var numberSpan = s[..n];
-            if (n > 0 && 
-                !double.TryParse(numberSpan, numFormat, out d) && 
-                !double.TryParse(numberSpan, CultureInfo.InvariantCulture.NumberFormat, out d))
+            if (n > 0 &&
+                !double.TryParse(numberSpan, CultureInfo.InvariantCulture.NumberFormat, out d) &&
+                !double.TryParse(numberSpan, numFormat, out d))
                 throw Exceptions.InvalidNumber(numberSpan.ToString());
 
             Unit u = null;
