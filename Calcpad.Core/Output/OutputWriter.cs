@@ -187,12 +187,15 @@ namespace Calcpad.Core
 
             void AppendPower()
             {
-                if (!literal.StartsWith('°'))
+                var isXmlWriter = this is XmlWriter;
+                if (!literal.EndsWith('°'))
                     literal = FormatLocal(literal);
+                else if (isXmlWriter && literal.Length == 1)
+                    literal = XmlWriter.Run(literal);
 
                 if (isPower)
                 {
-                    if (this is XmlWriter)
+                    if (isXmlWriter)
                         power = XmlWriter.Run(power);
 
                     _stringBuilder.Append(FormatPower(literal, power, 0, -1));
