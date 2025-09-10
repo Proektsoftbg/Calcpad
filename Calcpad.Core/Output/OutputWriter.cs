@@ -188,9 +188,9 @@ namespace Calcpad.Core
             void AppendPower()
             {
                 var isXmlWriter = this is XmlWriter;
-                if (!literal.EndsWith('°'))
+                if (!literal.Equals("°", StringComparison.OrdinalIgnoreCase))
                     literal = FormatLocal(literal);
-                else if (isXmlWriter && literal.Length == 1)
+                else if (isXmlWriter)
                     literal = XmlWriter.Run(literal);
 
                 if (isPower)
