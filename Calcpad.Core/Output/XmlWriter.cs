@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Text;
 
 namespace Calcpad.Core
@@ -9,7 +10,7 @@ namespace Calcpad.Core
         {
             AngleUnits =
 [
-                FormatUnits("°"),
+                Run("°"),
                 string.Empty,
                 FormatUnits("gra"),
             ];
@@ -164,7 +165,10 @@ namespace Calcpad.Core
             static string ValueRun(string s) => s.StartsWith('-') ? Run("-", NormalText) + Run(s[1..]) : Run(s);
         }
 
-
+        private static readonly string _runI = Run("i");
+        private static readonly string _runPlus = Run("+");
+        private static readonly string _runMinus = Run("-");
+        private static readonly string _runPh = Run("∠");
         internal override string FormatComplex(double re, double im, string format)
         {
             if (double.IsNaN(re) && double.IsNaN(im))
@@ -177,22 +181,23 @@ namespace Calcpad.Core
             if (t == Complex.Types.Real)
                 return FormatReal(re, format, zeroSmallElements);
 
-            var sImaginary = FormatReal(Math.Abs(im), format, zeroSmallElements) + Run("i");
-            if (t == Complex.Types.Imaginary)
-                return sImaginary;
-
             if (phasor)
             {
                 var abs = Math.Sqrt(re * re + im * im);
                 var phase = Math.Atan2(im, re) * AngleFactors[degrees];
                 var absString = FormatReal(abs, format, false);
                 var phaseString = FormatReal(phase, format, false) + AngleUnits[degrees];
-                return $"{absString}∠{phaseString}";
+                return absString + _runPh + phaseString;
             }
+
+            var sImaginary = FormatReal(Math.Abs(im), format, zeroSmallElements) + _runI;
+            if (t == Complex.Types.Imaginary)
+                return sImaginary;
+
             var sReal = FormatReal(re, format, zeroSmallElements);
             return im < 0 ?
-                sReal + Run("–") + sImaginary :
-                sReal + Run("+") + sImaginary;
+                sReal + _runMinus + sImaginary :
+                sReal + _runPlus + sImaginary;
         }
 
         internal static string Run(string content) => $"<m:r><m:t>{content}</m:t></m:r>";
