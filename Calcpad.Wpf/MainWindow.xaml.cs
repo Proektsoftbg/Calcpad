@@ -1325,7 +1325,8 @@ namespace Calcpad.Wpf
                     FreezeOutputButtons(true);
                     try
                     {
-                        await WebViewer.ExecuteScriptAsync($"setTimeout(function(){{window.location.replace(\"{_htmlParsingUrl}\");}},1000);");
+                        var delayScript = $"setTimeout(function(){{window.location.replace(\"{_htmlParsingUrl}\");}},1000);";
+                        await WebViewer.ExecuteScriptAsync(delayScript);
                     }
                     catch
                     {
@@ -2253,7 +2254,8 @@ namespace Calcpad.Wpf
                         {
                             ForceHighlight();
                             IsCalculated = true;
-                            CalculateAsync();
+                            _wv2Warper.NavigateToBlank();
+                            Dispatcher.InvokeAsync(() => CalculateAsync(), DispatcherPriority.ApplicationIdle);
                         }
                         AddRecentFile(CurrentFileName);
                         return;
