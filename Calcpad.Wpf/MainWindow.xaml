@@ -2533,22 +2533,22 @@
                                 ToolTip="{x:Static wpf:MathResources.NaturalExponent}">
                             <TextBlock><Run Text=" e" /><Run BaselineAlignment="TextTop" FontSize="10" Text=" x" /></TextBlock>
                         </Button>
-                        <Button Click="Button_Click" x:Name="SqrtButton" Tag="sqrt(" Margin="194,31,0,0"
+                        <Button Click="Button_Click" x:Name="SqrtButton" Tag="sqrt(" Margin="197,29,0,0"
                                 Style="{StaticResource RoundButton}" Visibility="Hidden"
                                 ToolTip="{x:Static wpf:MathResources.SquareRoot}" Grid.Column="1">
                             <TextBlock Margin="-2,2,0,0"><Run FontSize="15" FontFamily="Times New Roman" Text="√"/><Run TextDecorations="Overline" FontSize="15" Text="x"/></TextBlock>
                         </Button>
-                        <Button Click="Button_Click" x:Name="CbrtButton" Tag="cbrt("  
+                        <Button Click="Button_Click" x:Name="CbrtButton" Tag="cbrt(" Margin="197,57,0,0"  
                                 ToolTip="{x:Static wpf:MathResources.CubicRoot}" Visibility="Hidden"
-                                Margin="194,61,0,0" Style="{StaticResource RoundButton}" Grid.Column="1">
+                                Style="{StaticResource RoundButton}" Grid.Column="1">
                             <TextBlock Margin="-2,1,0,0"><Run BaselineAlignment="TextTop" FontSize="7" Text="3"/><InlineUIContainer><TextBlock Margin="-5,2,0,0"><Run FontSize="15" FontFamily="Times New Roman" Text="√"/><Run FontSize="15" Text="x" TextDecorations="Overline"/></TextBlock></InlineUIContainer></TextBlock>
                         </Button>
-                        <Button Click="Button_Click" Tag="root(" x:Name="RootButton" Margin="194,91,0,0"
+                        <Button Click="Button_Click" Tag="root(" x:Name="RootButton" Margin="197,85,0,0"
                                 Style="{StaticResource RoundButton}" Visibility="Hidden"
                                 ToolTip="{x:Static wpf:MathResources.NthRoot}" Grid.Column="1">
                             <TextBlock Margin="-2,1,0,0"><Run BaselineAlignment="TextTop" FontSize="8" Text="n"/><InlineUIContainer><TextBlock Margin="-5,3,0,0"><Run FontSize="15" FontFamily="Times New Roman" Text="√"/><Run FontSize="15" Text="x" TextDecorations="Overline"/></TextBlock></InlineUIContainer></TextBlock>
                         </Button>
-                        <Button Click="Button_Click" Content="ln" Tag="ln(" Margin="194,121,0,0"
+                        <Button Click="Button_Click" Content="ln" Tag="ln(" Margin="197,113,0,0"
                                 Style="{StaticResource RoundButton}"  Visibility="Hidden" FontSize="14"
                                 ToolTip="{x:Static wpf:MathResources.NaturalLogarithm}" x:Name="LnButton" Grid.Column="1"
                                 />
