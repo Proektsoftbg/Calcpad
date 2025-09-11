@@ -908,10 +908,8 @@ namespace Calcpad.Wpf
             string s;
             if (!string.IsNullOrWhiteSpace(CurrentFileName))
                 s = Path.GetExtension(CurrentFileName).ToLowerInvariant();
-            else if (MacroParser.HasInputFields(InputText))
-                s = ".cpd";
             else
-                s = ".txt";
+                s = ".cpd";
 
             var dlg = new SaveFileDialog
             {
@@ -3840,16 +3838,16 @@ namespace Calcpad.Wpf
                             FileOpen(fileName);
                     }
                     else if (ext == ".htm" ||
-                                ext == ".html" ||
-                                ext == ".png" ||
-                                ext == ".jpg" ||
-                                ext == ".jpeg" ||
-                                ext == ".gif" ||
-                                ext == ".bmp")
+                        ext == ".html" ||
+                        ext == ".png" ||
+                        ext == ".jpg" ||
+                        ext == ".jpeg" ||
+                        ext == ".gif" ||
+                        ext == ".bmp")
                         Execute(ExternalBrowserComboBox.Text.ToLower() + ".exe", s);
                 }
                 else if (s == "continue")
-                    AutoRun();
+                    await AutoRun();
                 else if (s == "cancel")
                     Cancel();
                 else if (IsCalculated || _parser.IsPaused)
