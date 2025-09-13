@@ -28,14 +28,14 @@
 	#show
 	#val
 	#if k_ ≡ 1
-		'<p>Collatz check for <b>'k$'</b> <span class="ok">succeeded</span> after 'i' steps.</p>
+		'<p>Collatz check for k = <b>'k$'</b> <span class="ok">succeeded</span> after 'i' steps.</p>
 	#else
 		'<p>Collatz check for k = <b>'k$'</b> <span class="err">failed</span> after 'n$' steps.</p>
 	#end if
 	#equ
 #end def
 Collatz_Check$(k; n)
-'<h4>Plot of steps</h4>
+'<h4>Plot of steps <small>- for 'k'</small></h4>
 '<!--'PlotHeight = 150','PlotWidth = 350','PlotSVG = 1'-->
 $Plot{take(x; v) @ x = 1 : i}
 '<h4>List of steps</h4>
