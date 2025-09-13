@@ -47,7 +47,12 @@ $Plot{take(x; v) @ x = 1 : i}
 	#val
 	'<p>Collatz check for number k = <b>'k$'</b>:</p>
 	'<table>
-	'<tr style="background:#ddd;"><th> ⚑ </th><th>Start =</th><th>&ensp;'k_'&emsp;</th><th>type</th</tr>
+	'<tr style="background:#ddd;"><th> ⚑ </th><th>Start =</th><th>&ensp;'k_'&emsp;</th>
+	#if k_⦼2 ≡ 0
+		'<th>even</th</tr>
+	#else
+		'<th>odd</th</tr>
+	#end if
 	#repeat n$
 		#hide
 		i = i + 1
@@ -65,14 +70,15 @@ $Plot{take(x; v) @ x = 1 : i}
 				'<td class="ok"><b> 🡖 </b></td>
 			#end if
 			'<td>÷ 2 =</td><td>&ensp;<b>'k_ = k_/2'</b></td>
-			#if k_ ≡ 1
-				'<td>end</td>
-			#else
-				'<td>even</td>
-			#end if
-			'</tr>
 		#else 
-			'<tr><td class="err"><b> 🡕 </b></td><td>* 3 + 1 =</td><td>&ensp;<b>'k_ = 3*k_ + 1'</b></td><td>odd</td></tr>
+			'<tr><td class="err"><b> 🡕 </b></td><td>* 3 + 1 =</td><td>&ensp;<b>'k_ = 3*k_ + 1'</b></td>
+		#end if
+		#if k_ ≡ 1
+			'<td>end</td></tr>
+		#else if k_⦼2 ≡ 0
+			'<td>even</td></tr>
+		#else
+			'<td>odd</td></tr>
 		#end if
 	#loop
 	'</table><br/>
