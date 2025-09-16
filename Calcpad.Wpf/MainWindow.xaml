@@ -2236,7 +2236,7 @@
                             </LinearGradientBrush>
                         </Border.Background>
                     </Border>
-                    <CheckBox  Style="{StaticResource MarkdownCheckBox}" x:Name="MarkdownCheckBox" Content=" M⭣"  VerticalAlignment="Top" Height="20" 
+                    <CheckBox  Style="{StaticResource MarkdownCheckBox}" x:Name="MarkdownCheckBox" Content=" M⭣"  VerticalAlignment="Top" Height="20" ToolTip="Markdown"
                             FontFamily="Roboto" Margin="0,0,5,0" FontWeight="Bold" FontSize="12" HorizontalAlignment="Right" Width="26" Focusable="False" IsTabStop="False" Checked="MarkdownCheckBox_Checked"/>
                     <Button Grid.Row="0" Style="{StaticResource FormatButton}" Margin="50,0,0,0"
                         x:Name="H3Button" Click="Button_Click" Tag="&lt;h3&gt;‖&lt;/h3&gt;␣‖### " 
@@ -2763,7 +2763,7 @@
                     CornerRadius="4" Padding="4,2,2,2" Margin="0,2,16,0" 
                     HorizontalAlignment="Right" VerticalAlignment="Top"  
                     Width="120" Height="20"
-                    Grid.Column="2" Visibility="Visible">
+                    Grid.Column="2" Visibility="Hidden">
                 <Border.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" Opacity="0.8">
                         <GradientStop Color="#FFF0F0F0"/>

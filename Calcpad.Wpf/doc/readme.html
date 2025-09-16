@@ -1053,7 +1053,7 @@
                 <ul style="list-style-type:none;">
                     <li>"<b>∧</b>" - logical "and" (&&);</li>
                     <li>"<b>∨</b>" - logical "or" (||);</li>
-                    <li>"<b style="font-size:80%;">⊕</b>" - logical “xor”;</li>
+                    <li>"<b style="font-size:80%;">⊕</b>" - logical “xor” (^^);</li>
                 </ul>
             </li>
             <li>
@@ -1221,7 +1221,6 @@
                     <li><code><b>re</b>(a + b<var>i</var>)</code> - returns the real part only, <b>re</b>(a + b<var>i</var>) = a;</li>
                     <li><code><b>im</b>(a + b<var>i</var>)</code> - returns the imaginary part as a real number, <b>im</b>(a + b<var>i</var>) = b;</li>
                     <li><code><b>abs</b>(a + b<var>i</var>)</code> - complex modulus = <b>sqrt</b>(a<sup>2</sup> + b<sup>2</sup>);</li>
-                    <li><code><b>abs</b>(<var>x</var>)</code> - absolute value (modulus) of a real number | <var>x</var> |;</li>
                     <li><code><b>phase</b>(a + b<var>i</var>)</code> - complex number phase (argument) = <b>atan2</b>(a; b);</li>
                     <li><code><b>conj</b>(a + b<var>i</var>)</code> - complex number conjugate = a - b<var>i</var>.</li>
                 </ul>
@@ -1253,6 +1252,7 @@
             </li>
             <li>
                 Other:<ul style="list-style-type:none;">
+                    <li><code><b>abs</b>(<var>x</var>)</code> - absolute value (modulus) of a real number | <var>x</var> |;</li>
                     <li><code><b>sign</b>(<var>x</var>)</code> - sign of a number = -1, if <var>x</var> &lt; 0; 1, if <var>x</var> &gt; 0; 0, if <var>x</var> = 0;</li>
                     <li><code><b>random</b>(<var>x</var>)</code> - a random number between 0 and <var>x</var>;</li>
                     <li><code><b>getunits</b>(<var>x</var>)</code> - gets the units of <var>x</var> without the value. Returns 1 if <var>x</var> is unitless;</li>
