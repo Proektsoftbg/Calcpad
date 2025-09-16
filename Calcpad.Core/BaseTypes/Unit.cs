@@ -1025,6 +1025,9 @@ namespace Calcpad.Core
 
         internal Unit Pow(float x)
         {
+            if (x == 0)
+                return null;
+
             var n = Length;
             Unit unit = new(n)
             {
@@ -1725,7 +1728,7 @@ namespace Calcpad.Core
             var d = power.Re;
             var f = (float)d;
             var result = u.Pow(f);
-            if (updateText)
+            if (updateText && result is not null)
             {
                 ReadOnlySpan<char> s = u.Text;
                 if (!s.Contains('^'))
