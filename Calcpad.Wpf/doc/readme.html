@@ -4639,100 +4639,101 @@
         </p>
         <p>
             During parsing, the marked text is converted to Html and then passed for further processing. Since this is performed line-by-line, block level formatting like lists, tables, etc. are not fully supported. You can use the following syntax elements:
-            <table border="1">
-                <thead>
-                    <tr><th>Markdown code</th><th>Html code</th><th>Output</th></tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><code><b>###</b> Heading 3</code></td>
-                        <td>&lt;h3&gt;Heading 3&lt;/h3&gt;</td>
-                        <td><h3 style="font-size: 1.4em; margin:0;">Heading 3</h3></td>
-                    </tr>
-                    <tr>
-                        <td><code><b>####</b> Heading 4</code></td>
-                        <td>&lt;h4&gt;Heading 4&lt;/h4&gt;</td>
-                        <td><h4 style="font-size: 1.2em; margin:0;">Heading 4</h4></td>
-                    </tr>
-                    <tr>
-                        <td><code><b>#####</b> Heading 5</code></td>
-                        <td>&lt;h5&gt;Heading 5&lt;/h5&gt;</td>
-                        <td><h5 style="font-size: 1.1em; margin:0;">Heading 5</h5></td>
-                    </tr>
-                    <tr>
-                        <td><code><b>######</b> Heading 6</code></td>
-                        <td>&lt;h6&gt;Heading 6&lt;/h6&gt;</td>
-                        <td><h6 style="font-size: 1em; margin:0;">Heading 6</h6></td>
-                    </tr>
-                    <tr>
-                        <td><code>---</code> (horizontal line)</td>
-                        <td>&lt;hr/&gt;</td>
-                        <td><hr /></td>
-                    </tr>
-                    <tr>
-                        <td><code><b>**</b>Bold<b>**</b></code></td>
-                        <td>&lt;strong&gt;Bold&lt;/strong&gt;</td>
-                        <td><strong>Bold</strong></td>
-                    </tr>
-                    <tr>
-                        <td><code><b>*</b>Italic<b>*</b></code></td>
-                        <td>&lt;em&gt;Italic&lt;/em&gt;</td>
-                        <td><em>Italic</em></td>
-                    </tr>
-                    <tr>
-                        <td><code><b>***</b>Bold Italic<b>***</b></code></td>
-                        <td>&lt;em&gt;&lt;strong&gt;Bold Italic&lt;/strong&gt;&lt;/em&gt;</td>
-                        <td><em><strong>Bold Italic</strong></em></td>
-                    </tr>
-                    <tr>
-                        <td><code><b>++</b>Underlined<b>++</b></code></td>
-                        <td>&lt;ins&gt;Underlined&lt;/ins&gt;</td>
-                        <td><ins>Underlined</ins></td>
-                    </tr>
-                    <tr>
-                        <td><code><b>~~</b>Struck through<b>~~</b></code></td>
-                        <td>&lt;del&gt;Struck through&lt;/del&gt;</td>
-                        <td><del>Struck through</del></td>
-                    </tr>
-                    <tr>
-                        <td><code><b>==</b>Highlighted<b>==</b></code></td>
-                        <td>&lt;mark&gt;Highlighted&lt;/mark&gt;</td>
-                        <td><mark>Highlighted</mark></td>
-                    </tr>
-                    <tr>
-                        <td><code>x<b>^</b>superscript<b>^</b></code></td>
-                        <td>x&lt;sup&gt;superscript&lt;/sup&gt;</td>
-                        <td>x<sup>superscript</sup></td>
-                    </tr>
-                    <tr>
-                        <td><code>x<b>~</b>subscript<b>~</b></code></td>
-                        <td>x&lt;sub&gt;subscript&lt;/sub&gt;</td>
-                        <td>x<sub>subscript</sub></td>
-                    </tr>
-                    <tr>
-                        <td><code><b>`</b>Code<b>`</b></code></td>
-                        <td>&lt;code&gt;Code&lt;/code&gt;</td>
-                        <td><code style="background:none;">Code</code></td>
-                    </tr>
-                    <tr>
-                        <td><code><b>[Link](</b>https://mywebsite.com<b>)</b></code></td>
-                        <td>&lt;a href="https://mywebsite.com"&gt;Link&lt;/a&gt;</td>
-                        <td><a href="https://mywebsite.com">Link</a></td>
-                    </tr>
-                    <tr>
-                        <td><code><b>![Image](</b>image.jpg<b>)</b></code></td>
-                        <td>&lt;img src="image.jpg" alt="Image" /&gt;</td>
-                        <td><img src="image.jpg" alt="Image" /></td>
-                    </tr>
-                    <tr>
-                        <td><code><b>&gt;</b> Blockquote 1<br /><b>&gt;&gt;</b> Blockquote 2</code></td>
-                        <td>&lt;blockquote&gt;Blockquote 1<br />&lt;blockquote&gt;Blockquote 2&lt;/blockquote&gt;&lt;/blockquote&gt;</td>
-                        <td><blockquote style="margin:0">Blockquote 1<br /><blockquote style="margin: 0 0 0 2em; white-space: nowrap;">Blockquote 2</blockquote></blockquote></td>
-                    </tr>
-                </tbody>
-            </table>
+		</p>
+		<table border="1">
+			<thead>
+				<tr><th>Markdown code</th><th>Html code</th><th>Output</th></tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td><code><b>###</b> Heading 3</code></td>
+					<td>&lt;h3&gt;Heading 3&lt;/h3&gt;</td>
+					<td><h3 style="font-size: 1.4em; margin:0;">Heading 3</h3></td>
+				</tr>
+				<tr>
+					<td><code><b>####</b> Heading 4</code></td>
+					<td>&lt;h4&gt;Heading 4&lt;/h4&gt;</td>
+					<td><h4 style="font-size: 1.2em; margin:0;">Heading 4</h4></td>
+				</tr>
+				<tr>
+					<td><code><b>#####</b> Heading 5</code></td>
+					<td>&lt;h5&gt;Heading 5&lt;/h5&gt;</td>
+					<td><h5 style="font-size: 1.1em; margin:0;">Heading 5</h5></td>
+				</tr>
+				<tr>
+					<td><code><b>######</b> Heading 6</code></td>
+					<td>&lt;h6&gt;Heading 6&lt;/h6&gt;</td>
+					<td><h6 style="font-size: 1em; margin:0;">Heading 6</h6></td>
+				</tr>
+				<tr>
+					<td><code>---</code> (horizontal line)</td>
+					<td>&lt;hr/&gt;</td>
+					<td><hr /></td>
+				</tr>
+				<tr>
+					<td><code><b>**</b>Bold<b>**</b></code></td>
+					<td>&lt;strong&gt;Bold&lt;/strong&gt;</td>
+					<td><strong>Bold</strong></td>
+				</tr>
+				<tr>
+					<td><code><b>*</b>Italic<b>*</b></code></td>
+					<td>&lt;em&gt;Italic&lt;/em&gt;</td>
+					<td><em>Italic</em></td>
+				</tr>
+				<tr>
+					<td><code><b>***</b>Bold Italic<b>***</b></code></td>
+					<td>&lt;em&gt;&lt;strong&gt;Bold Italic&lt;/strong&gt;&lt;/em&gt;</td>
+					<td><em><strong>Bold Italic</strong></em></td>
+				</tr>
+				<tr>
+					<td><code><b>++</b>Underlined<b>++</b></code></td>
+					<td>&lt;ins&gt;Underlined&lt;/ins&gt;</td>
+					<td><ins>Underlined</ins></td>
+				</tr>
+				<tr>
+					<td><code><b>~~</b>Struck through<b>~~</b></code></td>
+					<td>&lt;del&gt;Struck through&lt;/del&gt;</td>
+					<td><del>Struck through</del></td>
+				</tr>
+				<tr>
+					<td><code><b>==</b>Highlighted<b>==</b></code></td>
+					<td>&lt;mark&gt;Highlighted&lt;/mark&gt;</td>
+					<td><mark>Highlighted</mark></td>
+				</tr>
+				<tr>
+					<td><code>x<b>^</b>superscript<b>^</b></code></td>
+					<td>x&lt;sup&gt;superscript&lt;/sup&gt;</td>
+					<td>x<sup>superscript</sup></td>
+				</tr>
+				<tr>
+					<td><code>x<b>~</b>subscript<b>~</b></code></td>
+					<td>x&lt;sub&gt;subscript&lt;/sub&gt;</td>
+					<td>x<sub>subscript</sub></td>
+				</tr>
+				<tr>
+					<td><code><b>`</b>Code<b>`</b></code></td>
+					<td>&lt;code&gt;Code&lt;/code&gt;</td>
+					<td><code style="background:none;">Code</code></td>
+				</tr>
+				<tr>
+					<td><code><b>[Link](</b>https://mywebsite.com<b>)</b></code></td>
+					<td>&lt;a href="https://mywebsite.com"&gt;Link&lt;/a&gt;</td>
+					<td><a href="https://mywebsite.com">Link</a></td>
+				</tr>
+				<tr>
+					<td><code><b>![Image](</b>image.jpg<b>)</b></code></td>
+					<td>&lt;img src="image.jpg" alt="Image" /&gt;</td>
+					<td><img src="image.jpg" alt="Image" /></td>
+				</tr>
+				<tr>
+					<td><code><b>&gt;</b> Blockquote 1<br /><b>&gt;&gt;</b> Blockquote 2</code></td>
+					<td>&lt;blockquote&gt;Blockquote 1<br />&lt;blockquote&gt;Blockquote 2&lt;/blockquote&gt;&lt;/blockquote&gt;</td>
+					<td><blockquote style="margin:0">Blockquote 1<br /><blockquote style="margin: 0 0 0 2em; white-space: nowrap;">Blockquote 2</blockquote></blockquote></td>
+				</tr>
+			</tbody>
+		</table>
 
-            <h3 id="TOC_507">Formatting Toolbar</h3>
+		<h3 id="TOC_507">Formatting Toolbar</h3>
         <p>The formatting toolbar is located just above the code editing box. It allows quick insertion of formatting markup in comments. It can insert either Html or Markdown, depending on your choise. To enable Markdown, switch the <strong class="button"> M⭣ </strong> button on. Also, do not forget to add "<span class="cond">#md on</span>" on top of your worksheet.</p>
         <p><img src=".\Images\Formatting.png" /></p>
         <p>The formatting toolbar includes the following commands:</p>
