@@ -365,9 +365,7 @@ namespace Calcpad.Core
                         if (a.Order > t.Order && !formatEquation)
                             sa = AddBrackets(sa, a.Level, a.MinOffset, a.MaxOffset, '(', ')');
 
-                        if (content == "^" &&
-                            b.ValType != ValueTypes.Vector &&
-                            b.ValType != ValueTypes.Matrix)
+                        if (content == "^")
                         {
                             if (a.IsCompositeValue || IsNegative(a))
                                 sa = AddBrackets(sa, a.Level, a.MinOffset, a.MaxOffset, '(', ')');
@@ -377,7 +375,7 @@ namespace Calcpad.Core
 
                             if (a.Type == TokenTypes.Vector || a.Type == TokenTypes.Matrix || 
                                 a.ValType == ValueTypes.Vector || a.ValType == ValueTypes.Matrix)
-                                sb = writer.FormatOperator('⊙') + sb;
+                                sb = writer.FormatOperator('⊙') + thinSpace + sb;
 
                             t.Content = writer.FormatPower(sa, sb, a.Level, a.Order);
 

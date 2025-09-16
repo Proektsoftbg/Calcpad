@@ -3872,7 +3872,7 @@
         <p>&emsp;&emsp;<code><b>eigenvecs</b>(<var>M</var>; <var>n</var><sub>e</sub>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Parameters</em>:&emsp;<span class="hang">
                 <var>M</var> - symmetric matrix;<br />
-                <var>n</var><sub>e</sub> - the number of eigenvalues to extract (optional).
+                <var>n</var><sub>e</sub> - the number of eigenvectors to extract (optional).
             </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;a <var>n</var><sub>e</sub>×<var>n</var> matrix which rows represent the eigenvectors of <var>M</var>.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">The same rules as for <b>eigenvals</b>(<var>M</var>&hairsp;; <var>n</var><sub>e</sub>&hairsp;) apply.</span><br />
@@ -3899,7 +3899,7 @@
         <p>&emsp;&emsp;<code><b>eigen</b>(<var>M</var>; <var>n</var><sub>e</sub>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Parameters</em>:&emsp;<span class="hang">
                 <var>M</var> - symmetric matrix;<br />
-                <var>n</var><sub>e</sub> - the number of eigenvalues to extract (optional).
+                <var>n</var><sub>e</sub> - the number of eigenvalues/vectors to extract (optional).
             </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;<span class="hang">a <var>n</var><sub>e</sub>×(<var>n</var> + 1) matrix were each row contains one eigenvalue, followed by the elements of the respective eigenvector of matrix <var>M</var>.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">In case both are needed, this function is more efficient than calling <b>eigenvals</b>(<var>M</var>&hairsp;; <var>n</var><sub>e</sub>&hairsp;) and <b>eigenvecs</b>(<var>M</var>&hairsp;; <var>n</var><sub>e</sub>&hairsp;) separately. The same rules as for <b>eigenvals</b>(<var>M</var>&hairsp;; <var>n</var><sub>e</sub>&hairsp;) apply.</span><br />
