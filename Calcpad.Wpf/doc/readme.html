@@ -4140,7 +4140,7 @@
                 <var><span class="vec">⃗</span>b</var> - high-performance right-hand side vector.
             </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;<span class="hang">the solution vector <var><span class="vec">⃗</span>x</var> of the system of linear equations <var>A</var><var><span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> using preconditioned conjugate gradient (PCG) method.</span><br />
-            &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">The PCG method is iterative and is faster than the direct Cholesky decomposition method. Whenever you have larger systems with tens to hundreds of thousands equations it is recommended to use the <b>slsolve</b> function high performance matrices and vectors.</span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">The PCG method is iterative and is faster than the direct Cholesky decomposition method. Whenever you have larger systems with tens to hundreds of thousands equations it is recommended to use the <b>slsolve</b> function with high performance matrices and vectors.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <span class="hang">
                 <code>
                     <var>A</var> = <b>copy</b>([8; 6; -4|6; 12; -3|-4; -3; 9]; _<br />
@@ -4409,7 +4409,7 @@
         </p>
 
         <h3 id="TOC_412">High performance vectors and matrices</h3>
-        <p>High performance (hp) vectors and matrices were introduced in Calcpad version 7.3.0 with the purpose of solving larger engineering problems faster and with less memory consumption. But this comes with a trade-off: all elements of an hp vector or matrix must have the same units. This allows Calcpad to store and process the units only once for the whole vector/matrix and perform a lot of additional optimizations like SIMD vectorization of operations, application of more cache-friendly algorithms, etc. All this results in dozens of times improvement in speed and reduces the required memory size more than twice, even if there are no units at all.</p>
+        <p>High performance (hp) vectors and matrices were introduced in Calcpad version 7.3.0 with the purpose of solving large engineering problems faster and with less memory consumption. But this comes with a trade-off: all elements of an hp vector or matrix must have the same units. This allows Calcpad to store and process the units only once for the whole vector/matrix and perform a lot of additional optimizations like SIMD vectorization of operations, application of more cache-friendly algorithms, etc. All this results in dozens of times improvement in speed and reduces the required memory size more than twice, even if there are no units at all.</p>
         <p>Hp vectors and matrices are initially created by special functions, similar to standard creational functions, but ending with “_hp”, as follows:</p>
         <p>
             <b>Functions for creating hp vectors:</b><br />
@@ -4453,11 +4453,11 @@
         <p>Similarly to the system of equations, the direct QL algorithm with implicit shifts we use for finding the eigenvalues and eigenvectors of matrices has a complexity of O(<var>n</var><sup>3</sup>) which makes it suitable for small to medium sized problems. In addition, it always finds all eigenvalues and eigenvectors, which is not required in most cases. For example, in structural dynamics we usually need only the first of the most significant vibration frequencies and modes. The Lanczos method is much more appropriate for that purpose. It can find several of the extreme (smallest or largest) eigenvalues of a large matrix but much faster than the Implicit QL algorithm. It has a time complexity of O(<var>k</var><sup>2</sup><var>m</var>), where <var>k</var> is the number of iterations and <var>m</var> is the number of nonzero elements of the matrix. It is applied at the tridiagonalization step, replacing the Householder’s reflections method.</p>
         <p>
             In Calcpad, it is used for the same functions as the QL method, when the size of the matrix is &gt; 200:<br />
-            &emsp;&emsp;<code><b>eigenvals</b>(<var>M</var>; <var>n</var><sub>e</sub>)</code> - the first <var>n</var><sub>e</sub>eigenvalues of matrix <var>M</var>&hairsp;;<br />
-            &emsp;&emsp;<code><b>eigenvecs</b>(<var>M</var>; <var>n</var><sub>e</sub>)</code> - the first <var>n</var><sub>e</sub> eigenvectors of matrix <var>M</var>&hairsp;;<br />
-            &emsp;&emsp;<code><b>eigen</b>(<var>M</var>; <var>n</var><sub>e</sub>)</code> - the first <var>n</var><sub>e</sub>eigenvalues and eigenvectors of matrix <var>M</var>.
+            &emsp;&emsp;<code><b>eigenvals</b>(<var>M</var>; <var>n</var><sub>e</sub>)</code> - the first <var>n</var><sub>e</sub> eigenvalues of matrix <var>M</var>&hairsp;;<br />
+            &emsp;&emsp;<code><b>eigenvecs</b>(<var>M</var>; <var>n</var><sub>e</sub>)</code> - the first <var>n</var><sub>e</sub> eigenvectors of matrix <var>M</var>&hairsp;;<br />	
+            &emsp;&emsp;<code><b>eigen</b>(<var>M</var>; <var>n</var><sub>e</sub>)</code> - the first <var>n</var><sub>e</sub> eigenvalues and eigenvectors of matrix <var>M</var>.
         </p>
-        <p>The maximum number of iterations is set to be 4<var>n</var><sub>e</sub> + 50. So, if the size of the matrix is <var>n</var> &lt; 1000 and <var>n</var><sub>e</sub> &gt; <var>n</var>/5 again the QL method is used. This is because the Lanczos method is less accurate and when the number of iterations gets close to the matrix size, the performance is reduced to the one of the QL algorithm.</p>
+        <p>The maximum number of iterations is set to be 4<var>n</var><sub>e</sub> + 100. So, if the size of the matrix is <var>n</var> &lt; 1000 and <var>n</var><sub>e</sub> &gt; <var>n</var>/5 again the QL method is used. This is because the Lanczos method is less accurate and when the number of iterations gets close to the matrix size, the performance is reduced to the one of the QL algorithm.</p>
 
         <h2 id="TOC_500">Reporting</h2>
         <p>All calculations are automatically collected into a professionally formatted calculation report. You can print it or open it with MS Word for editing. Besides math expressions, you can add headings, comments, tables and images.</p>
@@ -4928,6 +4928,7 @@
             <li style="margin-left: 2em;">Code to be executed repeatedly</li>
             <li><span class="cond">#Loop</span></li>
         </ul>
+		
         <h3 id="TOC_605">Interactive (step-by-step) execution</h3>
         <p>You can make a Calcpad worksheet to execute interactively (step-by-step) by defining "breakpoints" at certain lines. It will allow the user to review the intermediate results and enter some additional input data if needed. There are two special keywords, you can use for that purpose:</p>
         <ul style="list-style-type:none;">
@@ -5548,7 +5549,6 @@
                 </tr>
             </tbody>
         </table>
-
 
         <h3 id="TOC_704">Scaling</h3>
         <p>You can scale up and down the text size in the output window. Hold the "<b>Ctrl</b>" button and rotate the mouse wheel. The forward rotation will scale up and the backward will scale down.</p>
