@@ -1511,7 +1511,7 @@
                     <MenuItem Click="Button_Click" Tag="#include filename.cpd" 
                               Header="{x:Static wpf:MainWindowResources.IncludeExternalFile}"/>
                 </MenuItem>
-                <MenuItem Header="Data import/export">
+                <MenuItem Header="{x:Static wpf:AppMessages.DataImportExport}">
                     <MenuItem Click="Button_Click" Tag="#read M from filename.txt@R1C1:R2C2 TYPE=R SEP=','" 
                         Header="{x:Static wpf:MainWindowResources.ReadTextCSVFile}"/>
                     <MenuItem Click="Button_Click" Tag="#write M to filename.txt@R1C1:R2C2 TYPE=N SEP=','" 
@@ -2236,7 +2236,7 @@
                             </LinearGradientBrush>
                         </Border.Background>
                     </Border>
-                    <CheckBox  Style="{StaticResource MarkdownCheckBox}" x:Name="MarkdownCheckBox" Content=" M⭣"  VerticalAlignment="Top" Height="20" ToolTip="Markdown"
+                    <CheckBox  Style="{StaticResource MarkdownCheckBox}" x:Name="MarkdownCheckBox" Content=" M⭣"  VerticalAlignment="Top" Height="20"  ToolTip="Markdown"
                             FontFamily="Roboto" Margin="0,0,5,0" FontWeight="Bold" FontSize="12" HorizontalAlignment="Right" Width="26" Focusable="False" IsTabStop="False" Checked="MarkdownCheckBox_Checked"/>
                     <Button Grid.Row="0" Style="{StaticResource FormatButton}" Margin="50,0,0,0"
                         x:Name="H3Button" Click="Button_Click" Tag="&lt;h3&gt;‖&lt;/h3&gt;␣‖### " 

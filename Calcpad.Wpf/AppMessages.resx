@@ -136,4 +136,7 @@ Source: "{1}"</value>
   <data name="ClickToOpenFile" xml:space="preserve">
     <value>Click to open file.</value>
   </data>
+  <data name="DataImportExport" xml:space="preserve">
+    <value>Data import/export</value>
+  </data>
 </root>

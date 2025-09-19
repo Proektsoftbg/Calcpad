@@ -147,10 +147,10 @@
     <value>_Редактор</value>
   </data>
   <data name="Find" xml:space="preserve">
-    <value>_Търсене</value>
+    <value>_Търси</value>
   </data>
   <data name="Replace" xml:space="preserve">
-    <value>_Заместване</value>
+    <value>_Замествай</value>
   </data>
   <data name="Undo" xml:space="preserve">
     <value>_Отмени</value>
@@ -363,7 +363,7 @@
     <value>Горен индекс</value>
   </data>
   <data name="RedColor" xml:space="preserve">
-    <value>Червен</value>
+    <value>Червен цвят</value>
   </data>
   <data name="FoldedDiv" xml:space="preserve">
     <value>Сгъваем Div</value>
@@ -489,7 +489,7 @@
     <value>цифри</value>
   </data>
   <data name="SubstituteTooltip" xml:space="preserve">
-    <value>Замействай стойностите на променливите във формулите</value>
+    <value>Замествай стойностите на променливите във формулите</value>
   </data>
   <data name="Substitute" xml:space="preserve">
     <value>Заместване</value>
@@ -1015,5 +1015,128 @@
   </data>
   <data name="ImperialUS" xml:space="preserve">
     <value>Imperial/US</value>
+  </data>
+  <data name="PasteAsComment" xml:space="preserve">
+    <value>Постави като коментар</value>
+  </data>
+  <data name="CommentSelectedLines" xml:space="preserve">
+    <value>Коментирай избраните редове</value>
+  </data>
+  <data name="GreenColor" xml:space="preserve">
+    <value>Зелен цвят</value>
+  </data>
+  <data name="UncommentSelectedLines" xml:space="preserve">
+    <value>Разкоментирай избраните редове</value>
+  </data>
+  <data name="SetsCustomFormatStringForNumbers" xml:space="preserve">
+    <value>Задава персонализиран форматиращ низ за числа</value>
+  </data>
+  <data name="EnablesMarkdownInComments" xml:space="preserve">
+    <value>Активира markdown в коментарите</value>
+  </data>
+  <data name="DisablesMarkdownInComments" xml:space="preserve">
+    <value>Деактивира markdown в коментарите</value>
+  </data>
+  <data name="ReadTextCSVFile" xml:space="preserve">
+    <value>Четене на текстов/CSV файл</value>
+  </data>
+  <data name="WriteTextCSVFile" xml:space="preserve">
+    <value>Запис на текстов/CSV файл</value>
+  </data>
+  <data name="AppendTextCSVFile" xml:space="preserve">
+    <value>Допълване на текстов/CSV файл</value>
+  </data>
+  <data name="ReadExcelFile" xml:space="preserve">
+    <value>Четене на Excel файл</value>
+  </data>
+  <data name="WriteExcelFile" xml:space="preserve">
+    <value>Запис на Excel файл</value>
+  </data>
+  <data name="AppendExcelFile" xml:space="preserve">
+    <value>Допълване на Excel файл</value>
+  </data>
+  <data name="CreatesAnEmptyHighPerformanceVectorWithLengthN" xml:space="preserve">
+    <value>Създава празен високопроизводителен вектор с дължина n.</value>
+  </data>
+  <data name="CreatesAHighPerformanceVectorWithValuesSpanningFromXToXₙWithStepS" xml:space="preserve">
+    <value>Създава високопроизводителен вектор със стойности в интервала от x₁ до xₙ със стъпка s.</value>
+  </data>
+  <data name="HighPerformance" xml:space="preserve">
+    <value>Висока производителност</value>
+  </data>
+  <data name="CreatesAnEmptyHighPerformanceMatrixWithDimensionsMN" xml:space="preserve">
+    <value>Създава празна матрица с висока производителност с размери m⨯n</value>
+  </data>
+  <data name="CreatesAnIdentityHighPerformanceMatrixWithDimensionsNN" xml:space="preserve">
+    <value>Създава единична матрица с висока производителност с размери n⨯n</value>
+  </data>
+  <data name="CreatesADiagonalHighPerformanceMatrixWithDimensionsNNAndFillsTheDiagonalWithValueD" xml:space="preserve">
+    <value>Създава диагонална матрица с висока производителност с размери n⨯n и запълва диагонала със стойност d</value>
+  </data>
+  <data name="CreatesAColumnHighPerformanceMatrixWithDimensionsM1FilledWithValueC" xml:space="preserve">
+    <value>Създава колонна матрица с висока производителност с размери m⨯1, запълнена със стойност c</value>
+  </data>
+  <data name="CreatesAnUpperTriangularHighPerformanceMatrixWithDimensionsNN" xml:space="preserve">
+    <value>Създава горна триъгълна матрица с висока производителност с размери n⨯n</value>
+  </data>
+  <data name="CreatesALowerTriangularHighPerformanceMatrixWithDimensionsNN" xml:space="preserve">
+    <value>Създава долна триъгълна матрица с висока производителност с размери n⨯n</value>
+  </data>
+  <data name="CreatesASymmetricHighPerformanceMatrixWithDimensionsNN" xml:space="preserve">
+    <value>Създава симетрична матрица с висока производителност с размери n⨯n</value>
+  </data>
+  <data name="ConvertsAnyVectorAndMatrixToHighPerformanceType" xml:space="preserve">
+    <value>Преобразува всякакъв вектор или матрица във високопроизводителен тип</value>
+  </data>
+  <data name="CheckIfArgumentIsAHighPerformanceType" xml:space="preserve">
+    <value>Проверява дали аргументът е от високопроизводителен тип</value>
+  </data>
+  <data name="GetsTheUnitsOfAScalarVactorMatrix" xml:space="preserve">
+    <value>Връща мерните единици на скалар/вектор/матрица</value>
+  </data>
+  <data name="SetsTheUnitsToAScalarVactorMatrix" xml:space="preserve">
+    <value>Задава мерните единици на скалар/вектор/матрица</value>
+  </data>
+  <data name="ClearsTheUnitsFromAScalarVactorMatrix" xml:space="preserve">
+    <value>Изчиства мерните единици от скалар/вектор/матрица</value>
+  </data>
+  <data name="BlueYellow" xml:space="preserve">
+    <value>Синьо-жълто</value>
+  </data>
+  <data name="BlueRed" xml:space="preserve">
+    <value>Синьо-червено</value>
+  </data>
+  <data name="PurpleYellow" xml:space="preserve">
+    <value>Лилаво-жълто</value>
+  </data>
+  <data name="FastFourierTransfrom" xml:space="preserve">
+    <value>Бързо преобразувание на Фурие</value>
+  </data>
+  <data name="InverseFastFourierTransfrom" xml:space="preserve">
+    <value>Обратно бързо преобразувание на Фурие</value>
+  </data>
+  <data name="Phasor" xml:space="preserve">
+    <value>Фазор</value>
+  </data>
+  <data name="PhasorComplexNotation" xml:space="preserve">
+    <value>Фазорна комплексна нотация</value>
+  </data>
+  <data name="AlgebraicComplexNotation" xml:space="preserve">
+    <value>Алгебрична комплексна нотация</value>
+  </data>
+  <data name="ConjugateOfAComplexNumber" xml:space="preserve">
+    <value>Спрегнатото на комплексно числ</value>
+  </data>
+  <data name="UnwrappedCode" xml:space="preserve">
+    <value>Разгънат код</value>
+  </data>
+  <data name="ShowUnwrappedSourceCodeInTheOutputWhenMacrosOrIncludesAreAvailable" xml:space="preserve">
+    <value>Показване на разгънат изходен код в изхода, когато са налични макроси или модули</value>
+  </data>
+  <data name="Embed" xml:space="preserve">
+    <value>Вграждай</value>
+  </data>
+  <data name="EmbedPlotsInsideTheHtmlAsBase64EncodedImagesSaveToFilesIfUnchecked" xml:space="preserve">
+    <value>Вграждане на графики в HTML като base64 кодирани изображения. Запазване във файлове, ако не е отметнато.</value>
   </data>
 </root>
