@@ -619,7 +619,7 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid format string: {0}. .
+        ///   Looks up a localized string similar to Invalid format string: {0}..
         /// </summary>
         public static string Invalid_format_string_0 {
             get {
@@ -664,7 +664,7 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid keyword: {0}. .
+        ///   Looks up a localized string similar to Invalid keyword: {0}..
         /// </summary>
         public static string Invalid_keyword_0 {
             get {
@@ -1411,7 +1411,7 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The variable is not a matrix: {0}. .
+        ///   Looks up a localized string similar to The variable is not a matrix: {0}..
         /// </summary>
         public static string The_variable_is_not_a_matrix_0 {
             get {
