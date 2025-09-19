@@ -520,4 +520,46 @@
   <data name="File_not_found_0" xml:space="preserve">
     <value>Файлът не е намерен: {0}.</value>
   </data>
+  <data name="Invalid_format_string_0" xml:space="preserve">
+    <value>Невалиден форматиращ низ: {0}.</value>
+  </data>
+  <data name="Invalid_keyword_0" xml:space="preserve">
+    <value>Невалидна ключова дума: {0}.</value>
+  </data>
+  <data name="_must_be_matrix" xml:space="preserve">
+    <value> трябва да бъде матрица.</value>
+  </data>
+  <data name="The_variable_is_not_a_matrix_0" xml:space="preserve">
+    <value>Променливата не е матрица: {0}.</value>
+  </data>
+  <data name="Missing_file_name" xml:space="preserve">
+    <value>Липсва име на файл.</value>
+  </data>
+  <data name="Invalid_type_0" xml:space="preserve">
+    <value>Невалиден тип: {0}.</value>
+  </data>
+  <data name="Path_not_found_0" xml:space="preserve">
+    <value>Пътят не е намерен: {0}.</value>
+  </data>
+  <data name="TheMatrixIsIllConditioned" xml:space="preserve">
+    <value>Матрицата е лошо обусловена. Опитайте с по-ниска точност (Tol) или с директен метод на Холецки.</value>
+  </data>
+  <data name="ThePCGSolverFailedToConvergeIn_0_Iterations" xml:space="preserve">
+    <value>Няма сходимост на PCG метода за {0} итерации. Опитайте с по-ниска точност (Tol) или с директен метод на Холецки.</value>
+  </data>
+  <data name="ThisFileFormatIsNotSupported0" xml:space="preserve">
+    <value>Този файлов формат не се поддържа: {0}.</value>
+  </data>
+  <data name="MustBeHpMatrix" xml:space="preserve">
+    <value> трябва да бъде hp матрица.</value>
+  </data>
+  <data name="MustBeHpVector" xml:space="preserve">
+    <value> трябва да бъде hp вектор.</value>
+  </data>
+  <data name="TheInputMatrixForFFTMustHaveOneRowForRealAndTwoRowsForComplexData" xml:space="preserve">
+    <value>Входната матрица за FFT трябва да има един ред за реални и два реда за комплексни стойности.</value>
+  </data>
+  <data name="MissingMatrixIndexIn0" xml:space="preserve">
+    <value>Липсва индекс на матрицата в {0}.</value>
+  </data>
 </root>

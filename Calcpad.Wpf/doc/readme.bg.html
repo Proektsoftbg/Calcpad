@@ -11,18 +11,17 @@
             font-size: 11pt;
             list-style: none;
             margin: 0;
-            line-height: 125%;
+			line-height: 125%;
         }
 
-        .menu li {
-            margin-left: -14px;
-        }
-
-            .menu li ul {
-                font-size: 11pt;
-                list-style: none;
-                display: none;
+            .menu li {
+                margin-left: -14px;
             }
+                .menu li ul {
+                    font-size: 11pt;
+                    list-style: none;
+                    display: none;
+                }
 
         .active {
             color: black !Important;
@@ -32,7 +31,7 @@
 
         body {
             font-size: 11pt;
-            font-family: "Segoe UI";
+            font-family: "Segoe UI", sans-serif;
         }
 
         .body {
@@ -60,6 +59,7 @@
 
         .nb td {
             border: none;
+			padding:0;
         }
 
         .tr td {
@@ -68,6 +68,8 @@
 
         p {
             line-height: 150%;
+			margin-top: 3pt;
+			margin-bottom: 3pt;
         }
 
         ul {
@@ -79,7 +81,7 @@
         }
 
         h1 {
-            font-family: "Calibri Light";
+            font-family: "Calibri Light", sans-serif;
             font-weight: normal;
             font-size: 32pt;
             margin: 0;
@@ -92,15 +94,21 @@
         li {
             margin: 6px;
         }
+		
+		h2, h3, h4, h5, h6 {
+			margin-top: 9pt;
+			margin-bottom: 6pt;
+        }
+
 
         .menu li ul {
             padding-left: 42px;
         }
 
-        var {
+        var{
             color: #06c;
-            font-family: "Times New Roman";
-            font-size: 12.5pt
+            font-family: "Times New Roman", Times, serif;
+            font-size: 12pt
         }
 
         code {
@@ -112,18 +120,18 @@
                 font-size: 12pt;
                 font-style: normal
             }
-
+		
         sub var, sup var {
             font-size: 9pt
         }
-
+		
         .small td, .small th, .small var {
             font-size: 9pt;
         }
 
         i {
             color: #086;
-            font-family: Times New Roman;
+            font-family: "Times New Roman", Times, serif;
             font-style: normal;
             font-size: 11.5pt;
         }
@@ -142,8 +150,8 @@
         }
 
         .root {
-            font-family: Times New Roman;
-            font-size: 14pt;
+            font-family: "Times New Roman", Times, serif;
+            font-size: 13pt;
         }
 
         .ovr {
@@ -154,7 +162,7 @@
 
         code .ovr {
             padding-top: 2pt;
-            font-family: "Consolas";
+            font-family: Consolas;
             font-size: 10pt;
         }
 
@@ -190,7 +198,22 @@
         }
 
         .err {
-            color: red;
+            color: Crimson;
+            background-color: #FEE;
+        }
+		
+		.ok {
+            color: Green;
+            background-color: #F0FFF0;
+        }
+
+        .ref {
+            float: right;
+            margin-left: 18pt;
+            color: Green;
+            background-color: #F8FFF0;
+            margin-top: 0;
+            margin-bottom: 0;
         }
 
         .toc {
@@ -288,17 +311,34 @@
             color: black;
         }
 
-        .exp {
+        .button, .exp {
             display: inline-block;
-            height: 13pt;
-            line-height: 80%;
-            font-size: 12pt;
-            font-weight: bold;
             border: solid 1px #cccccc;
-            padding: 0 1.5pt 0 1.5pt;
-            margin-right: 4pt;
             border-radius: 4pt;
         }
+		
+		.button {
+			height: 12pt;
+			min-width: 12pt;
+			text-align: center;
+            line-height: 100%;
+			padding: 2.5pt;
+			font-family: "Arial Nova", sans-serif;
+			box-shadow: 1pt 1pt 3pt #eee;
+        }
+		
+		.button.h {
+			font-stretch: condensed;
+        }
+		
+		.exp {
+            height: 12pt;
+            font-size: 12pt;
+            line-height: 80%;
+            font-weight: bold;
+            margin-right: 4pt;
+            padding: 0 1.5pt 0 1.5pt;
+      }
 
             .exp:hover {
                 cursor: pointer;
@@ -306,7 +346,7 @@
             }
 
         sub {
-            font-family: Arial Nova;
+            font-family: "Arial Nova", sans-serif;
             font-size: 70%;
             padding-left: 0.5pt;
             padding-right: 0.5pt;
@@ -319,7 +359,7 @@
         }
 
         .vec {
-            font-family: 'Cambria Math';
+            font-family: "Cambria Math", serif;
             color: black;
             font-style: normal;
             display: inline-block;
@@ -353,7 +393,7 @@
         .nary {
             color: #D000D0;
             font-size: 200%;
-            font-family: "Segoe UI Light";
+            font-family: "Segoe UI Light", sans-serif;
             line-height: 80%;
             display: block;
             margin-top: -3pt;
@@ -361,7 +401,7 @@
         }
 
         .eq sub {
-            font-family: Calibri, 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+            font-family: Calibri, "Gill Sans", "Gill Sans MT", "Trebuchet MS", sans-serif;
             font-size: 92%;
             vertical-align: -18%;
         }
@@ -373,7 +413,7 @@
         }
 
         .eq small {
-            font-family: Calibri, 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+            font-family: Calibri, "Gill Sans", "Gill Sans MT", "Trebuchet MS", sans-serif;
             font-size: 70%;
         }
 
@@ -475,21 +515,10 @@
             max-height: none;
         }
 
-        sup .r0 {
-            margin-left: -5pt;
-        }
-
-        sup .r1 {
-            margin-left: -11pt;
-        }
-
-        sup .r2 {
-            margin-left: -13pt;
-        }
-
-        sup .r3 {
-            margin-left: -16pt;
-        }
+        sup .r0 {margin-left: -5pt;}
+        sup .r1 {margin-left: -11pt;}
+        sup .r2 {margin-left: -13pt;}
+        sup .r3 {margin-left: -16pt;}
 
         .b1, .b2, .b3, .c1, .c2, .c3, .c4, .c5, .c6, .c7, .c8 {
             vertical-align: middle;
@@ -616,6 +645,11 @@
                     text-align: left;
                     padding-left: 0;
                 }
+				
+			table.sm td, table.sm th {
+                font-size: 10pt;
+				padding: 1pt 2pt;
+            }
 
         .matrix {
             display: inline-table;
@@ -657,17 +691,9 @@
                 border-bottom: solid 1pt black;
             }
 
-        .hl {
-            background-color: #FFFAE0;
-        }
-
-        .hl1 {
-            background-color: #FFF8CF;
-        }
-
-        .hl2 {
-            background-color: #FFEFC0;
-        }
+        .hl  {background-color: #FFFCD6;}
+        .hl1 {background-color: #FFF8C8;}
+        .hl2 {background-color: #FFF2B8;}
     </style>
 </head>
 <body>
@@ -718,6 +744,8 @@
                 <li><a class="toc" href="#TOC_409">Мерни единици</a></li>
                 <li><a class="toc" href="#TOC_410">Вектори</a></li>
                 <li><a class="toc" href="#TOC_411">Матрици</a></li>
+				<li><a class="toc" href="#TOC_412">Високопроизводителни вектори и матрици</a></li>
+				<li><a class="toc" href="#TOC_413">Високопроизводителни симетрични анализатори</a></li>
             </ul>
         </li>
         <li>
@@ -728,6 +756,8 @@
                 <li><a class="toc" href="#TOC_503">Мерни единици в коментари</a></li>
                 <li><a class="toc" href="#TOC_504">Форматиране с Html и CSS</a></li>
                 <li><a class="toc" href="#TOC_505">Изображения</a></li>
+				<li><a class="toc" href="#TOC_506">Форматиране с Markdown</a></li>
+                <li><a class="toc" href="#TOC_507">Лента за форматиране</a></li>
             </ul>
         </li>
         <li>
@@ -740,6 +770,7 @@
                 <li><a class="toc" href="#TOC_605">Интерактивно изпълнение (стъпка-по-стъпка)</a></li>
                 <li><a class="toc" href="#TOC_606">Модули (Include)</a></li>
                 <li><a class="toc" href="#TOC_607">Макроси и текстови променливи</a></li>
+				<li><a class="toc" href="#TOC_608">Вход/изход на външни данни</a></li>
             </ul>
         </li>
         <li>
@@ -789,7 +820,7 @@
                     <li>агрегатни: минимум, максимум, сума, сума от квадр., ККСК, средно аритметично, произведение, средно геометрично и др.;</li>
                     <li>
                         математически: норми, числа на обусловеност, детерминанта, ранг, следа, транспонирана, адюнгирана и обратна матрица,
-                        факторизация (Холецки, ldlt, lu, qr и svd), собствени стойности и вектори, системи линейни уравнения;
+                        факторизация (Холецки, ldlt, lu, qr и svd), собствени стойности и вектори, системи линейни уравнения, бързи преобразувания на Фурие и др.;
                     </li>
                 </ul>
             <li>дефиниране на потребителски функции с множество параметри f(x; y; z; …);</li>
@@ -990,7 +1021,7 @@
                     <li>"<code><b>/</b></code>" - деление;</li>
                     <li>"<code><b>÷</b></code>" - деление с дробна черта;</li>
                     <li>"<code><b>\</b></code>" - целочислено деление; </li>
-                    <li>"<code><b>⦼</b></code>" - остатък; </li>
+                    <li>"<code><b>⦼</b></code>" - остатък (%%); </li>
                     <li>"<code><b>*</b></code>" - умножение;</li>
                     <li>"<code><b>-</b></code>" - изваждане; </li>
                     <li>"<code><b>+</b></code>" - събиране; </li>
@@ -999,19 +1030,25 @@
             <li>
                 Релационни (сравнение):
                 <ul style="list-style-type:none;">
-                    <li>"<code><b>≡</b></code>" - равно на;</li>
-                    <li>"<code><b>≠</b></code>" - различно от;</li>
+                    <li>"<code><b>≡</b></code>" - равенство (==);</li>
+                    <li>"<code><b>≠</b></code>" - неравенство (!=);</li>
                     <li>"<code><b>&lt;</b></code>" - по-малко;</li>
                     <li>"<code><b>&gt;</b></code>" - по-голямо;</li>
-                    <li>"<code><b>&le;</b></code>" - по-малко или равно;</li>
-                    <li>"<code><b>&ge;</b></code>" - по-голямо или равно;</li>
+                    <li>"<code><b>&le;</b></code>" - по-малко или равно (&lt;=);</li>
+                    <li>"<code><b>&ge;</b></code>" - по-голямо или равно (&gt;=);</li>
                 </ul>
             <li>
                 Логически:
                 <ul style="list-style-type:none;">
-                    <li>"<code><b>∧</b></code>" - логическо "И" (AND);<br />
-                    <li>"<code><b>∨</b></code>" - логическо "ИЛИ" (OR);<br />
-                    <li>"<code><b style="font-size:80%;">⊕</b></code>" - изключващо "ИЛИ" (XOR);<br />
+                    <li>"<code><b>∧</b></code>" - логическо "И"/AND (&&);<br />
+                    <li>"<code><b>∨</b></code>" - логическо "ИЛИ"/OR (||);<br />
+                    <li>"<code><b style="font-size:80%;">⊕</b></code>" - изключващо "ИЛИ"/XOR (^^);<br />
+                </ul>
+            </li>
+			<li>
+                Комплексни:
+                <ul style="list-style-type:none;">
+                    <li>"<code><b>∠</b></code>" - фазор A∠φ (&lt;&lt;);</li>
                 </ul>
             </li>
             <li>"<code><b>=</b></code>" - присвояване.</li>
@@ -1181,6 +1218,16 @@
                     <li><code><b>lcm</b>(<var>x</var>; <var>y</var>; <var>z</var>…)</code> - най-малко общо кратно;</li>
                 </ul>
             </li>
+			<li>
+                Комплексни:<ul style="list-style-type:none;">
+                    <li><code><b>re</b>(a + b<var>i</var>)</code> - реалната част на комплексно число, <b>re</b>(a + b<var>i</var>) = a;</li>
+                    <li><code><b>im</b>(a + b<var>i</var>)</code> - имагинерната част на комплексно число, <b>im</b>(a + b<var>i</var>) = b;</li>
+                    <li><code><b>abs</b>(a + b<var>i</var>)</code> - модул на комплексно число = <b>sqrt</b>(a<sup>2</sup> + b<sup>2</sup>);</li>
+                    <li><code><b>phase</b>(a + b<var>i</var>)</code> - фаза на комплексно число (аргумент) = <b>atan2</b>(a; b);</li>
+                    <li><code><b>conj</b>(a + b<var>i</var>)</code> - спрегнато на комплексно число = a - b<var>i</var>.</li>
+                </ul>
+            </li>
+
             <li>
                 Агрегатни и интерполационни:<ul style="list-style-type:none;">
                     <li><code><b>min</b>(<var>x</var>; <var>y</var>; <var>z</var>…)</code> - минимум на множество стойности;</li>
@@ -1209,8 +1256,13 @@
             <li>
                 Други:<ul style="list-style-type:none;">
                     <li><code><b>sign</b>(<var>x</var>)</code> - знак на число = -1, if <var>x</var> &lt; 0; 1, if <var>x</var> &gt; 0; 0, if <var>x</var> = 0;</li>
-                    <li><code><b>abs</b>(<var>x</var>)</code> - абсолютна стойност (модул) |<var>x</var>|;</li>
+                    <li><code><b>abs</b>(<var>x</var>)</code> - абсолютна стойност (модул) на реално число |<var>x</var>|;</li>
                     <li><code><b>random</b>(<var>x</var>)</code> - генерира (псевдо) случайно число между 0 и <var>x</var>;</li>
+                    <li><code><b>getunits</b>(<var>x</var>)</code> - връща мерните единици на <var>x</var> без числото или 1 ако <var>x</var> e бездименсионно;</li>
+                    <li><code><b>setunits</b>(<var>x</var>; <var>u</var>)</code> - задава мерни единици <var>u</var> на <var>x</var>, където <var>x</var> може да бъде скалар, вектор или матрица;</li>
+                    <li><code><b>clrunits</b>(<var>x</var>)</code> - изчиства мерните единици от скалар, вектор или матрица <var>x</var>;</li>
+                    <li><code><b>hp</b>(<var>x</var>)</code>- преобразува <var>x</var> към еквивалентния му високопроизводителен (hp) тип;</li>
+                    <li><code><b>ishp</b>(<var>x</var>)</code> - проверява дали типа на <var>x</var> е високопроизводителен (hp) вектор или матрица;</li>
                 </ul>
             </li>
             <li>
@@ -1219,8 +1271,9 @@
                     <li>
                         Създаване и инициализация:<ul style="list-style-type:none;">
                             <li><code><b>vector</b>(<var>n</var>)</code> - създава празен вектор с дължина <var>n</var>;</li>
-                            <li><code><b>fill</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>)</code> - запълва вектора <var><span class="vec">⃗</span>v</var> със стойност <var>x</var>;</li>
+							<li><code><b>vector_hp</b>(<var>n</var>)</code> - създава празен високопроизводителен (hp) вектор с дължина <var>n</var>;</li>
                             <li><code><b>range</b>(<var>x</var><sub>1</sub>; <var>x</var><sub>n</sub>; <var>s</var>)</code> - създава вектор от стойностите в интервала от <var>x</var><sub>1</sub> до <var>x</var><sub>n</sub> със стъпка <var>s</var>;</li>
+							<li><code><b>range_hp</b>(<var>x</var><sub>1</sub>; <var>x</var><sub>n</sub>; <var>s</var>)</code> - създава високопроизводителен (hp) вектор от стойностите в интервала;</li>
                         </ul>
                     </li>
                     <li>
@@ -1228,7 +1281,7 @@
                             <li><code><b>len</b>(<var><span class="vec">⃗</span>v</var>)</code> - връща дължината на вектора <var><span class="vec">⃗</span>v</var>;</li>
                             <li><code><b>size</b>(<var><span class="vec">⃗</span>v</var>)</code> - действителния размер на вектора <var><span class="vec">⃗</span>v</var> (индекса на последния ненулев елемент);</li>
                             <li><code><b>resize</b>(<var><span class="vec">⃗</span>v</var>; <var>n</var>)</code> - задава нова дължина <var>n</var> на вектора <var><span class="vec">⃗</span>v</var>;</li>
-                            <li><code><b>join</b>(<var>A</var>; <var><span class="vec">⃗</span>b</var>; <var>c</var>…)</code> - създава вектор чрез обединяване на аргументите в списъка - матрици, вектори и скалари;</li>
+                            <li><code><b>fill</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>)</code> - запълва вектора <var><span class="vec">⃗</span>v</var> със стойност <var>x</var>;</li>                            <li><code><b>join</b>(<var>A</var>; <var><span class="vec">⃗</span>b</var>; <var>c</var>…)</code> - създава вектор чрез обединяване на аргументите в списъка - матрици, вектори и скалари;</li>
                             <li><code><b>slice</b>(<var><span class="vec">⃗</span>v</var>; <var>i</var><sub>1</sub>; <var>i</var><sub>2</sub>)</code>  - връща частта от вектора <var><span class="vec">⃗</span>v</var>, ограничена от индекси <var>i</var><sub>1</sub> и <var>i</var><sub>2</sub>, включително;</li>
                             <li><code><b>first</b>(<var><span class="vec">⃗</span>v</var>; <var>n</var>)</code> - първите <var>n</var> елемента на вектора <var><span class="vec">⃗</span>v</var>;</li>
                             <li><code><b>last</b>(<var><span class="vec">⃗</span>v</var>; <var>n</var>)</code> - последните <var>n</var> елемента на вектора <var><span class="vec">⃗</span>v</var>;</li>
@@ -1286,7 +1339,14 @@
                             <li><code><b>utriang</b>(<var>n</var>)</code> - създава горна триъгълна матрица с размери <var>n</var>⨯<var>n</var>;</li>
                             <li><code><b>ltriang</b>(<var>n</var>)</code> - създава долна триъгълна матрица с размери <var>n</var>⨯<var>n</var>;</li>
                             <li><code><b>symmetric</b>(<var>n</var>)</code> - създава симетрична матрица с размери <var>n</var>⨯<var>n</var>;</li>
-                            <li><code><b>vec2diag</b>(<var><span class="vec">⃗</span>v</var>)</code> - създава диагонална матрица от елементите на вектора <var><span class="vec">⃗</span>v</var>;</li>
+                            <li><code><b>matrix_hp</b>(<var>m</var>; <var>n</var>)</code>  - създава високопроизводителна (hp) матрица с размери <var>m</var>⨯<var>n</var>;</li>
+							<li><code><b>identity_hp</b>(<var>n</var>)</code> - създава високопроизводителна (hp) единична матрица с размери <var>n</var>⨯<var>n</var>;</li>
+							<li><code><b>diagonal_hp</b>(<var>n</var>; <var>d</var>)</code> - създава високопроизводителна (hp) <var>n</var>⨯<var>n</var> диагонална матрица и запълва диагонала със стойност <var>d</var>;</li>
+							<li><code><b>column_hp</b>(<var>m</var>; <var>c</var>)</code> - създава високопроизводителна (hp) <var>m</var>⨯1 матрица-стълб, запълнена със стойност <var>c</var>;</li>
+							<li><code><b>utriang_hp</b>(<var>n</var>)</code> - създава високопроизводителна (hp) <var>n</var>⨯<var>n</var> горна триъгълна матрица;</li>
+							<li><code><b>ltriang_hp</b>(<var>n</var>)</code> - създава високопроизводителна (hp) <var>n</var>⨯<var>n</var> долна триъгълна матрица;</li>
+							<li><code><b>symmetric_hp</b>(<var>n</var>)</code> - създава високопроизводителна (hp) симетрична матрица с размери <var>n</var>⨯<var>n</var>;</li>
+							<li><code><b>vec2diag</b>(<var><span class="vec">⃗</span>v</var>)</code> - създава диагонална матрица от елементите на вектора <var><span class="vec">⃗</span>v</var>;</li>
                             <li><code><b>vec2row</b>(<var><span class="vec">⃗</span>v</var>)</code> - създава матрица-ред от елементите на вектора <var><span class="vec">⃗</span>v</var>;</li>
                             <li><code><b>vec2col</b>(<var><span class="vec">⃗</span>v</var>)</code> - създава матрица-стълб от елементите на вектора <var><span class="vec">⃗</span>v</var>;</li>
                             <li><code><b>join_cols</b>(<var><span class="vec">⃗</span>c</var><sub>1</sub>; <var><span class="vec">⃗</span>c</var><sub>2</sub>; <var><span class="vec">⃗</span>c</var><sub>3</sub>…)</code> - създава нова матрица чрез обединяване на вектори в стълбове;</li>
@@ -1349,7 +1409,7 @@
                         </ul>
                     </li>
                     <li>
-                        Math:<ul style="list-style-type:none;">
+                        Математически:<ul style="list-style-type:none;">
                             <li><code><b>hprod</b>(<var>A</var>; <var>B</var>)</code> - произведение на Hadamard на матриците <var>A</var> и <var>B</var>;</li>
                             <li><code><b>fprod</b>(<var>A</var>; <var>B</var>)</code> - произведение на Frobenius на матриците <var>A</var> и <var>B</var>;</li>
                             <li><code><b>kprod</b>(<var>A</var>; <var>B</var>)</code> - произведение на Kronecker на матриците <var>A</var> и <var>B</var>;</li>
@@ -1369,18 +1429,22 @@
                             <li><code><b>transp</b>(<var>M</var>)</code> - транспонираната матрица на <var>M</var>;</li>
                             <li><code><b>adj</b>(<var>M</var>)</code> - адюнгираната матрица на <var>M</var>;</li>
                             <li><code><b>cofactor</b>(<var>M</var>)</code> - кофакторната матрица на <var>M</var>;</li>
-                            <li><code><b>eigenvals</b>(<var>M</var>)</code> - собствените стойности на матрицата <var>M</var>;</li>
-                            <li><code><b>eigenvecs</b>(<var>M</var>)</code> - собствените вектори на матрицата <var>M</var>;</li>
-                            <li><code><b>eigen</b>(<var>M</var>)</code> - собствените стойности и вектори на матрицата <var>M</var>;</li>
-                            <li><code><b>cholesky</b>(<var>M</var>)</code> - декомпозиция на Cholesky на симетрична, положително определена матрица <var>M</var>;</li>
+                            <li><code><b>eigenvals</b>(<var>M</var>; <var>n</var><sub>e</sub>)</code> - първите <var>n</var><sub>e</sub> собствени стойности на матрицата <var>M</var>;</li>
+                            <li><code><b>eigenvecs</b>(<var>M</var>; <var>n</var><sub>e</sub>)</code> - първите <var>n</var><sub>e</sub> собствени вектори на матрицата <var>M</var>;</li>
+                            <li><code><b>eigen</b>(<var>M</var>; <var>n</var><sub>e</sub>)</code> - първите <var>n</var><sub>e</sub> собствени стойности и вектори на матрицата <var>M</var>;</li>
+                            <li><code><b>cholesky</b>(<var>M</var>)</code> - декомпозиция на Холецки на симетрична, положително определена матрица <var>M</var>;</li>
                             <li><code><b>lu</b>(<var>M</var>)</code> - LU декомпозиция на матрицата <var>M</var>;</li>
                             <li><code><b>qr</b>(<var>M</var>)</code> - QR декомпозиция на матрицата <var>M</var>;</li>
                             <li><code><b>svd</b>(<var>M</var>)</code> - декомпозиция по особени стойности на матрицата <var>M</var>;</li>
                             <li><code><b>inverse</b>(<var>M</var>)</code> - обратната матрица на <var>M</var>;</li>
-                            <li><code><b>lsolve</b>(<var>A</var>; <var>b</var>)</code> - решава системата линейни уравнения <var>A<span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> като използва LDL<sup>T</sup> декомпозиция за симетрични матрици и LU декомпозиция за несиметрични;</li>
-                            <li><code><b>clsolve</b>(<var>A</var>; <var>b</var>)</code> - решава системата линейни уравнения <var>A<span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> със симетрична, положително определена матрица на коефициентите <var>A</var> като използва декомпозиция на Холецки;</li>
+                            <li><code><b>lsolve</b>(<var>A</var>; <span class="vec">⃗</span>b</var>)</code> - решава системата линейни уравнения <var>A<span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> като използва LDL<sup>T</sup> декомпозиция за симетрични матрици и LU декомпозиция за несиметрични;</li>
+                            <li><code><b>clsolve</b>(<var>A</var>; <span class="vec">⃗</span>b</var>)</code> - решава системата линейни уравнения <var>A<span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> със симетрична, положително определена матрица на коефициентите <var>A</var> като използва декомпозиция на Холецки;</li>
+							<li><code><b>slsolve</b>(<var>A</var>; <span class="vec">⃗</span>b</var>)</code> - решава системата линейни уравнения <var>A<span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> с високопроизводителна симетрична, положително определена матрица <var>A</var> чрез метода на преобусловения спрегнат градиент (PCG);</li>
                             <li><code><b>msolve</b>(<var>A</var>; <var>B</var>)</code> - решава обобщеното матрично уравнение <var>AX</var> = <var>B</var> като използва LDL<sup>T</sup> декомпозиция за симетрични матрици <var>A</var> и LU декомпозиция за несиметрични;</li>
                             <li><code><b>cmsolve</b>(<var>A</var>; <var>B</var>)</code> - решава системата линейни уравнения <var>AX</var> = <var>B</var> със симетрична, положително определена матрица на коефициентите <var>A</var> като използва декомпозиция на Холецки;</li>
+							<li><code><b>smsolve</b>(<var>A</var>; <var>B</var>)</code> - решава обобщеното матрично уравнение var>AX</var> = <var>B</var> с високопроизводителна симетрична, положително определена матрица на коефициентите <var>A</var> чрез метода на преобусловения спрегнат градиент (PCG);</li>
+							<li><code><b>fft</b>(<var>M</var>)</code> - извършва бързо преобразувание на Фурие на матрица <var>M</var>. За реални данни матрицата трябва да има един ред, а за комплексни - два реда;</li>
+                            <li><code><b>ift</b>(<var>M</var>)</code> - извършва обратно преобразувание на Фурие на матрица <var>M</var>. За реални данни матрицата трябва да има един ред, а за комплексни - два реда;</li>
                         </ul>
                     </li>
                     <li>
@@ -3786,10 +3850,18 @@
             </span>
         </p>
 
-        <p>&emsp;&emsp;<code><b>eigenvals</b>(<var>M</var>)</code></p><p>
-            &emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&ensp;<var>M</var> - симетрична матрица.<br />
+        <p>&emsp;&emsp;<code><b>eigenvals</b>(<var>M</var>; <var>n</var><sub>e</sub>)</code></p><p>
+			&emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&ensp;<span class="hang">
+                <var>M</var> - симетрична матрица;<br />
+                <var>n</var><sub>e</sub> - броят на собствените стойности, които търсим (по желание).
+            </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;вектор, съдържащ собствените стойности на матрицата <var>M</var>.<br />
-            &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang">Собствените стойности се връщат в нарастващ ред. Изчисленията се извършват с помощта на симетричен QL алгоритъм с неявни измествания.</span><br />
+			&emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang">
+                Ако <var>n</var><sub>e</sub> &gt; 0 се връщат първите <var>n</var><sub>e</sub> най-малки собствени стойности в нарастващ ред.
+                Ако <var>n</var><sub>e</sub> &lt; 0 се връщат първите <var>n</var><sub>e</sub> най-големи собствени стойности в намаляващ ред.
+                Ако <var>n</var><sub>e</sub> = 0 или липсва, се връщат всички собствени стойности в нарастващ ред.
+                Ако <var>M</var> е високопроизводителна симетрична матрица и броят на редовете е &gt; 200, изчисленията се извръшват чрез итеративния метод на Ланцош. Иначе се използва симетричния QL алгоритъм с неявно отместване.
+            </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Пример</em>: &emsp;&emsp;<span class="hang">
                 <code>
                     <var>A</var> = <b>copy</b>( _<br />
@@ -3806,11 +3878,14 @@
             </span>
         </p>
 
-        <p>&emsp;&emsp;<code><b>eigenvecs</b>(<var>M</var>)</code></p><p>
-            &emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&ensp;<var>M</var> - симетрична матрица.<br />
-            &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;матрица, чиито стълбове представляват собствените вектори на <var>M</var>.<br />
-            &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang">Те се връщат в същия ред, като съответните собствени стойности, получени от функцията <b>eigenvals</b>(<var>M</var>&hairsp;).</span><br />
-            &emsp;&emsp;&emsp;&emsp;<em>Пример</em>: &emsp;&emsp;<span class="hang">
+        <p>&emsp;&emsp;<code><b>eigenvecs</b>(<var>M</var>; <var>n</var><sub>e</sub>)</code></p><p>
+			&emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&ensp;<span class="hang">
+                <var>M</var> - симетрична матрица;<br />
+                <var>n</var><sub>e</sub> - броят на собствените вектори, които търсим (по желание).
+            </span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;матрица с размери <var>n</var><sub>e</sub>×<var>n</var>, чиито редове съдържат собствените вектори на <var>M</var>.<br />
+            &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang">Използват се същите предпоставки както при <b>eigenvals</b>(<var>M</var>&hairsp;; <var>n</var><sub>e</sub>&hairsp;).</span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Пример</em>:&emsp;&emsp; <span class="hang">
                 <code>
                     <var>A</var> = <b>copy</b>( _<br />
                     &nbsp;&nbsp;&nbsp;&nbsp;[4; 12; -16| _<br />
@@ -3823,19 +3898,22 @@
                     <span class="tr"><span class="td"></span><span class="td">-16</span><span class="td">-43</span><span class="td">98</span><span class="td"></span></span>
                 </span><br />
                 <code><b>eigenvecs</b>(<var>A</var>)</code>' = <span class="eq matrix">
-                    <span class="tr"><span class="td"></span><span class="td">0.963</span><span class="td">-0.213</span><span class="td">-0.163</span><span class="td"></span></span>
-                    <span class="tr"><span class="td"></span><span class="td">-0.265</span><span class="td">-0.849</span><span class="td">-0.457</span><span class="td"></span></span>
-                    <span class="tr"><span class="td"></span><span class="td">0.0411</span><span class="td">-0.484</span><span class="td">0.874</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">0.9634</span><span class="td">‑0.2648</span><span class="td">0.0411</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">‑0.2127</span><span class="td">-0.849</span><span class="td">‑0.4838</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">‑0.163</span><span class="td">‑0.4573</span><span class="td">0.8742</span><span class="td"></span></span>
                 </span>
             </span>
         </p>
 
-        <p>&emsp;&emsp;<code><b>eigen</b>(<var>M</var>)</code></p><p>
-            &emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&ensp;<var>M</var> - симетрична матрица.<br />
-            &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;<span class="hang">n×(n + 1) матрица, чийто първи стълб съдържа собствените стойности, а останалите - собствените вектори на матрицата <var>M</var>.</span><br />
-            &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang">В случай, че са нужни и двете, тази функция е по-ефективна от извикването на <b>eigenvals</b>(<var>M</var>&hairsp;) и <b>eigenvecs</b>(<var>M</var>&hairsp;) поотделно.</span><br />
+        <p>&emsp;&emsp;<code><b>eigen</b>(<var>M</var>; <var>n</var><sub>e</sub>)</code></p><p>
+			&emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&ensp;<span class="hang">
+                <var>M</var> - симетрична матрица;<br />
+                <var>n</var><sub>e</sub> - броят на собствените стойности и вектори, които търсим<br/>(по желание).
+            </span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;<span class="hang"><var>n</var><sub>e</sub>×(<var>n</var> + 1) матрица, където всеки ред съдържа една от собствените стойности на матрицата, следвана от елементите на съответния собствен вектор <var>M</var>.</span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang">В случай, че са нужни и двете, тази функция е по-ефективна от извикването на <b>eigenvals</b>(<var>M</var>&hairsp;) и <b>eigenvecs</b>(<var>M</var>&hairsp;) поотделно. Прилагат се същите предпоставки както при <b>eigenvals</b>(<var>M</var>&hairsp;; <var>n</var><sub>e</sub>&hairsp;).</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Пример</em>: &emsp;&emsp;<span class="hang">
-                <code>
+               <code>
                     <var>A</var> = <b>copy</b>( _<br />
                     &nbsp;&nbsp;&nbsp;&nbsp;[4; 12; -16| _<br />
                     &nbsp;&nbsp;&nbsp;&nbsp;12; 37; -43| _<br />
@@ -3846,18 +3924,18 @@
                     <span class="tr"><span class="td"></span><span class="td">12</span><span class="td">37</span><span class="td">-43</span><span class="td"></span></span>
                     <span class="tr"><span class="td"></span><span class="td">-16</span><span class="td">-43</span><span class="td">98</span><span class="td"></span></span>
                 </span><br />
-                <code><b>eigen</b>(<var>A</var>)</code>' =<span class="eq matrix">
-                    <span class="tr"><span class="td"></span><span class="td">0.0188</span><span class="td">0.963</span><span class="td">-0.213</span><span class="td">-0.163</span><span class="td"></span></span>
-                    <span class="tr"><span class="td"></span><span class="td">15.5</span><span class="td">-0.265</span><span class="td">-0.849</span><span class="td">-0.457</span><span class="td"></span></span>
-                    <span class="tr"><span class="td"></span><span class="td">123.48</span><span class="td">0.0411</span><span class="td">-0.484</span><span class="td">0.874</span><span class="td"></span></span>
+                <code><b>eigen</b>(<var>A</var>)</code>' = <span class="eq matrix">
+                    <span class="tr"><span class="td"></span><span class="td">0.0188</span><span class="td">0.9634</span><span class="td">‑0.2648</span><span class="td">0.0411</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">15.504</span><span class="td">‑0.2127</span><span class="td">-0.849</span><span class="td">‑0.4838</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">123.48</span><span class="td">‑0.163</span><span class="td">‑0.4573</span><span class="td">0.8742</span><span class="td"></span></span>
                 </span>
             </span>
         </p>
 
         <p>&emsp;&emsp;<code><b>cholesky</b>(<var>M</var>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&ensp;<var>M</var> - симетрична, положително определена матрица.<br />
-            &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;(горна триъгълна матрица) декомпозиция на Cholesky на <var>M</var>.<br />
-            &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang">Този вид декомпозиция представя матрицата като произведение на две триъгълни матрици: <var>M</var> = <var>L</var>&middot;<var>L</var>&hairsp;<sup>T</sup>. Текущата функция връща само горната част - <var>L</var>&hairsp;<sup>T</sup>. Декомпозицията на Cholesky е по-бърза и по-стабилна от съответната LU факторизация на същата матрица.</span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;(горна триъгълна матрица) декомпозиция на Холецки на <var>M</var>.<br />
+            &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang">Този вид декомпозиция представя матрицата като произведение на две триъгълни матрици: <var>M</var> = <var>L</var>&middot;<var>L</var>&hairsp;<sup>T</sup>. Текущата функция връща само горната част - <var>L</var>&hairsp;<sup>T</sup>. Декомпозицията на Холецки е по-бърза и по-стабилна от съответната LU факторизация на същата матрица.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Пример</em>: &emsp;&emsp;<span class="hang">
                 <code>
                     <var>A</var> = <b>copy</b>( _<br />
@@ -3894,7 +3972,7 @@
             &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang">
                 LU декомпозицията представя матрицата като произведение на две матрици: долна триъгълна <var>L</var> и горна триъгълна <var>U</var> (<var>M</var> = <var>L</var>&middot;<var>U</var>&hairsp;). То не изисква матрицата да бъде симетрична. Тъй като LU разлагането не е уникално, съществуват безброй много решения. Обикновено се приема, че всички елементи по главния диагонал на <var>L</var> са равни на единица. Функцията връща двете матрици <var>L</var> и <var>U</var>, обединени в обща квадратна матрица. Елементите по главния диагонал принадлежат на <var>U</var>, тъй като е известно, че тези на <var>L</var> са единици. Решението се извършва чрез алгоритъма на Crout и преподреждане с частичен избор на водещ елемент. Вместо обаче да изгражда пермутационна матрица <var>P</var>, Calcpad вътрешно създава вектор <var><span class="vec">⃗</span>ind</var>, съдържащ индексите на редовете след преподреждането.<br />
                 Ако са необходими двете матрици <var>L</var> и <var>U</var> поотделно, можете да ги извлечете чрез умножение на Hadamard на комбинираната матрица със съответната долна/горна триъгълна матрица. След това трябва да презапишете диагоналните елементи на <var>L</var> с единици.<br />
-                Ако типът на <var>M</var> е симетрична матрица, вместо LU се връща LDL<sup>T</sup> декомпозицията. Тя е подобна на декомпозицията на Cholesky, но се избягва коренуването на диагоналните елементи. По тази причина, не е задължително матрицата да бъде положително определена. За сметка на това пък се налага да се съхраняват диагоналните елементи в отделна диагонална матрица <var>D</var>. Вследствие на това, матрицата <var>M</var> се представя като произведение на три матрици: <var>M</var> = <var>L</var>&middot;<var>D</var>&middot;<var>L</var>&hairsp;<sup>T</sup>. Те също се връщат обединени в една обща квадратна матрица.
+                Ако типът на <var>M</var> е симетрична матрица, вместо LU се връща LDL<sup>T</sup> декомпозицията. Тя е подобна на декомпозицията на Холецки, но се избягва коренуването на диагоналните елементи. По тази причина, не е задължително матрицата да бъде положително определена. За сметка на това пък се налага да се съхраняват диагоналните елементи в отделна диагонална матрица <var>D</var>. Вследствие на това, матрицата <var>M</var> се представя като произведение на три матрици: <var>M</var> = <var>L</var>&middot;<var>D</var>&middot;<var>L</var>&hairsp;<sup>T</sup>. Те също се връщат обединени в една обща квадратна матрица.
             </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Пример</em>: &emsp;&emsp;<span class="hang">
                 <code><var>A</var> = [4; 12; -16|12; 37; -43|-16; -43; 98]</code>' = <span class="eq matrix">
@@ -4048,8 +4126,8 @@
                 <var>A</var> - симетрична, положително определена матрица на коефициентите;<br />
                 <var><span class="vec">⃗</span>b</var> - вектора на дясната страна.
             </span><br />
-            &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;<span class="hang">вектора на решението <var><span class="vec">⃗</span>x</var> на системата линейни уравнения <var>A<span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> с използване на декомпозиция на Cholesky.</span><br />
-            &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang">Декомпозицията на Cholesky е по-бърза от LU и LDL<sup>T</sup>, така че тази функция е за предпочитане пред <b>lsolve</b>, винаги когато матрицата е симетрична и положително определена.</span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;<span class="hang">вектора на решението <var><span class="vec">⃗</span>x</var> на системата линейни уравнения <var>A<span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> с използване на декомпозиция на Холецки.</span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang">Декомпозицията на Холецки е по-бърза от LU и LDL<sup>T</sup>, така че тази функция е за предпочитане пред <b>lsolve</b>, винаги когато матрицата е симетрична и положително определена.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Пример</em>: &emsp;&emsp;<span class="hang">
                 <code>
                     <var>A</var> = <b>copy</b>([8; 6; -4|6; 12; -3|-4; -3; 9]; _<br />
@@ -4064,15 +4142,37 @@
                 <code><var>A</var>*<var>x</var></code>' = [10&ensp;20&ensp;30] - проверка<br />
             </span>
         </p>
+		
+	    <p>&emsp;&emsp;<code><b>slsolve</b>(<var>A</var>; <var><span class="vec">⃗</span>b</var>)</code></p><p>
+            &emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&ensp;<span class="hang">
+                <var>A</var> - високопроизводителна симетрична, положително определена матрица на коефициентите;<br />
+                <var><span class="vec">⃗</span>b</var> - вектора на дясната страна.
+            </span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;<span class="hang">вектора на решението <var><span class="vec">⃗</span>x</var> на системата линейни уравнения <var>A</var><var><span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> чрез метода на преобусловения спрегнат градиент (PCG).</span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang">PCG методът е итерационен и е по-бърз от директния метод с декомпозиция на Холецки. Винаги, когато имате по-големи системи с десетки до стотици хиляди уравнения, се препоръчва да използвате функцията <b>slsolve</b> с високопроизводителни матрици и вектори.</span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Пример</em>: &emsp;&emsp;<span class="hang">
+                <code>
+                    <var>A</var> = <b>copy</b>([8; 6; -4|6; 12; -3|-4; -3; 9]; _<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;<b>symmetric_hp</b>(3); 1; 1)
+                </code>' = <span class="eq matrix">
+                    <span class="tr"><span class="td"></span><span class="td">8</span><span class="td">6</span><span class="td">-4</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">6</span><span class="td">12</span><span class="td">-3</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">-4</span><span class="td">-3</span><span class="td">9</span><span class="td"></span></span>
+                </span><br />
+                <code><var>b</var> = <b>hp</b>([10; 20; 30])</code>' = [10&ensp;20&ensp;30]<br />
+                <code><var>x</var> = <b>slsolve</b>(<var>A</var>; <var>b</var>)</code>' = [2.5&ensp;1.667&ensp;5]<br />
+                <code><var>A</var>*<var>x</var></code>' = [10&ensp;20&ensp;30] - check<br />
+            </span>
+        </p>
 
         <p>&emsp;&emsp;<code><b>msolve</b>(<var>A</var>; <var>B</var>)</code></p><p>
-            &emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&emsp;<span class="hang">
+            &emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&ensp;<span class="hang">
                 <var>A</var> - квадратна матрица с коефициентите на уравнението;<br />
                 <var>B</var> - матрица на дясната страна.
             </span><br />
-            &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>:&ensp;матрицата решение <var>X</var> на обобщеното матрично уравнение <var>AX</var> = <var>B</var>.<br />
-            &emsp;&emsp;&emsp;&emsp;<em>Бележки</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">Функцията е подобна на <b>lsolve</b>, при положение, че стълбовете на матрицата <var>B</var> съдържат множество десни вектори, а стълбовете на матрицата <var>X</var> представляват съответните резултантни вектори. По този начин функцията може да решава множество системи линейни уравнения паралелно. LU/LDLT декомпозицията на <var>A</var> се извършва само веднъж в началото и резултатът се преизползва многократно при обратния ход на решението.</span><br />
-            &emsp;&emsp;&emsp;&emsp;<em>Пример</em>:&emsp;&emsp; <span class="hang">
+            &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;матрицата решение <var>X</var> на обобщеното матрично уравнение <var>AX</var> = <var>B</var>.<br />
+            &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang">Функцията е подобна на <b>lsolve</b>, при положение, че стълбовете на матрицата <var>B</var> съдържат множество десни вектори, а стълбовете на матрицата <var>X</var> представляват съответните резултантни вектори. По този начин функцията може да решава множество системи линейни уравнения паралелно. LU/LDLT декомпозицията на <var>A</var> се извършва само веднъж в началото и резултатът се преизползва многократно при обратния ход на решението.</span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Пример</em>: &emsp;&emsp;<span class="hang">
                 <code><var>A</var> = [8; 6; -4|6; 12; -3|-4; -3; 9]</code>' = <span class="eq matrix">
                     <span class="tr"><span class="td"></span><span class="td">8</span><span class="td">6</span><span class="td">-4</span><span class="td"></span></span>
                     <span class="tr"><span class="td"></span><span class="td">6</span><span class="td">12</span><span class="td">-3</span><span class="td"></span></span>
@@ -4097,12 +4197,13 @@
         </p>
 
         <p>&emsp;&emsp;<code><b>cmsolve</b>(<var>A</var>; <var>B</var>)</code></p><p>
-            &emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&emsp;<span class="hang">
+            &emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&ensp;<span class="hang">
                 <var>A</var> - симетрична, положително определена матрица на коефициентите;<br />
                 <var>B</var> - матрица на дясната страна на уравнението.
             </span><br />
-            &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>:&ensp;<span class="hang">матрицата решение <var>X</var> на обобщеното матрично уравнение <var>A</var><var>X</var> = <var>B</var> чрез декомпозиция на Холецки.</span><br /> &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">Функцията е подобна на <b>clsolve</b>, при положение, че стълбовете на матрицата <var>B</var> съдържат множество десни вектори, а стълбовете на матрицата <var>X</var> представляват съответните резултантни вектори. По този начин, функцията може да решава няколко системи линейни уравнения паралелно. Декомпозицията на Холецки на матрицата <var>A</var> се извършва само веднъж в началото и резултатът се преизползва многократно при обратния ход на решението.</span><br />
-            &emsp;&emsp;&emsp;&emsp;<em>Пример</em>:&emsp;&emsp; <span class="hang">
+            &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;<span class="hang">матрицата решение <var>X</var> на обобщеното матрично уравнение <var>A</var><var>X</var> = <var>B</var> чрез декомпозиция на Холецки.</span><br /> 
+			&emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang">Функцията е подобна на <b>clsolve</b>, при положение, че стълбовете на матрицата <var>B</var> съдържат множество десни вектори, а стълбовете на матрицата <var>X</var> представляват съответните резултантни вектори. По този начин, функцията може да решава няколко системи линейни уравнения паралелно. Декомпозицията на Холецки на матрицата <var>A</var> се извършва само веднъж в началото и резултатът се преизползва многократно при обратния ход на решението.</span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Пример</em>: &emsp;&emsp;<span class="hang">
                 <code>
                     <var>A</var> = <b>copy</b>([8; 6; -4|6; 12; -3|-4; -3; 9]; _<br />
                     &nbsp;&nbsp;&nbsp;&nbsp;<b>symmetric</b>(3); 1; 1)
@@ -4126,6 +4227,76 @@
                     <span class="tr"><span class="td"></span><span class="td">20</span><span class="td">50</span><span class="td"></span></span>
                     <span class="tr"><span class="td"></span><span class="td">30</span><span class="td">60</span><span class="td"></span></span>
                 </span> - проверка<br />
+            </span>
+        </p>
+		
+			<p>&emsp;&emsp;<code><b>smsolve</b>(<var>A</var>; <var>B</var>)</code></p><p>
+             &emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&ensp;<span class="hang">
+                <var>A</var> - симетрична, положително определена матрица на коефициентите;<br />
+                <var>B</var> - матрица на дясната страна на уравнението.
+            </span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;<span class="hang">матрицата решение <var>X</var> на обобщеното матрично уравнение <var>A</var><var>X</var> = <var>B</var> чрез метода на преобусловения спрегнат градиент (PCG).</span><br /> 
+            &emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang">Подобен е на <b>slsolve</b>, при положение, че стълбовете на матрицата <var>B</var> съдържат векторите на дясната страна, а стълбовете на матрицата <var>X</var> представляват съответните вектори на решението.</span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Пример</em>: &emsp;&emsp;<span class="hang">
+                <code>
+                    <var>A</var> = <b>copy</b>([8; 6; -4|6; 12; -3|-4; -3; 9]; _<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;<b>symmetric_hp</b>(3); 1; 1)
+                </code>' = <span class="eq matrix">
+                    <span class="tr"><span class="td"></span><span class="td">8</span><span class="td">6</span><span class="td">-4</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">6</span><span class="td">12</span><span class="td">-3</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">-4</span><span class="td">-3</span><span class="td">9</span><span class="td"></span></span>
+                </span><br />
+                <code><var>B</var> = <b>hp</b>(<b>join</b><sub>cols</sub>([10; 20; 30]; [40; 50; 60]))</code>' = <span class="matrix">
+                    <span class="tr"><span class="td"></span><span class="td">10</span><span class="td">40</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">20</span><span class="td">50</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">30</span><span class="td">60</span><span class="td"></span></span>
+                </span><br />
+                <code><var>X</var> = <b>smsolve</b>(<var>A</var>; <var>B</var>)</code>' = <span class="matrix">
+                    <span class="tr"><span class="td"></span><span class="td">2.5</span><span class="td">8.71</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">1.67</span><span class="td">2.67</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">5</span><span class="td">11.43</span><span class="td"></span></span>
+                </span><br />
+                <code><var>A</var>*<var>X</var></code>' = <span class="matrix">
+                    <span class="tr"><span class="td"></span><span class="td">10</span><span class="td">40</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">20</span><span class="td">50</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">30</span><span class="td">60</span><span class="td"></span></span>
+                </span> - check<br />
+            </span>
+        </p>
+
+        <p>&emsp;&emsp;<code><b>fft</b>(<var>M</var>)</code></p><p>
+            &emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&ensp;<span class="hang">
+				<var>M</var> - hp матрица, съдържаща входния сигнал във времева област. Тя трябва да има един ред при реални стойности или два реда при комплексни. Първият ред трябва да съдържа реалната част, а вторият - съответната имагинерна част на комплексните стойности.
+			</span><br />
+			&emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;<span class="hang">бързото преобразуване на Фурие на входния сигнал в <var>M</var>. Подобно на входа, реалната част на резултата се съхранява на първия ред, а имагинерната - на втория.</span><br />
+			&emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang">Бързото преобразуване на Фурие се извършва с помощта на класическия алгоритъм на Cooley-Turkey.</span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Пример</em>: &emsp;&emsp;<span class="hang">
+                <code><var>A</var> = hp([1; 2; 3; 4|0])</code>' = <span class="eq matrix">
+                    <span class="tr"><span class="td"></span><span class="td">1</span><span class="td">2</span><span class="td">3</span><span class="td">4</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">0</span><span class="td">0</span><span class="td">0</span><span class="td">0</span><span class="td"></span></span>
+                </span><br />
+                <code><var>B</var> = <b>fft</b>(<var>A</var>)</code>' = <span class="eq matrix">
+                    <span class="tr"><span class="td"></span><span class="td">10</span><span class="td">-2</span><span class="td">-2</span><span class="td">-2</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">0</span><span class="td">-2</span><span class="td">0</span><span class="td">2</span><span class="td"></span></span>
+                </span><br />
+            </span>
+        </p>
+
+        <p>&emsp;&emsp;<code><b>ift</b>(<var>M</var>)</code></p><p>
+			&emsp;&emsp;&emsp;&emsp;<em>Параметри</em>:&ensp;<span class="hang">
+				<var>M</var> - hp матрица, съдържаща входния сигнал в честотната област. Тя трябва да има един ред при реални стойности или два реда при комплексни. Първият ред трябва да съдържа реалната част, а вторият - съответната имагинерна част на комплексните стойности.
+			</span><br />
+			&emsp;&emsp;&emsp;&emsp;<em>Резултат</em>: &emsp;<span class="hang">обратното преобразуване на Фурие на входния сигнал в <var>M</var> от честотна  към времева област. Подобно на входа, реалната част на разултата се съхранява на първия ред, а имагинерната - на втория.</span><br />
+			&emsp;&emsp;&emsp;&emsp;<em>Забележки</em>:&emsp;<span class="hang">Обратното преобразуване на Фурие се извършва с помощта на класическия алгоритъм на Cooley-Turkey.</span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Пример</em>: &emsp;&emsp;<span class="hang">
+                <code><var>A</var> = hp([10; -2; -2; -2|0; -2; 0; 2])</code>' = <span class="eq matrix">
+                    <span class="tr"><span class="td"></span><span class="td">10</span><span class="td">-2</span><span class="td">-2</span><span class="td">-2</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">0</span><span class="td">-2</span><span class="td">0</span><span class="td">2</span><span class="td"></span></span>
+                </span><br />
+                <code><var>B</var> = <b>ift</b>(<var>A</var>)</code>' = <span class="eq matrix">
+                    <span class="tr"><span class="td"></span><span class="td">1</span><span class="td">2</span><span class="td">3</span><span class="td">4</span><span class="td"></span></span>
+                    <span class="tr"><span class="td"></span><span class="td">0</span><span class="td">0</span><span class="td">0</span><span class="td">0</span><span class="td"></span></span>
+                </span><br />
             </span>
         </p>
 
@@ -4245,6 +4416,57 @@
                 <span class="tr"><span class="td"></span><span class="td">15</span><span class="td">20</span><span class="td"></span></span>
             </span>
         </p>
+		
+		<h3 id="TOC_412">Високопроизводителни вектори и матрици</h3>
+		<p>Високопроизводителните (hp) вектори и матрици бяха въведени във версия 7.3.0 на Calcpad с цел по-бързо решаване на големи инженерни задачи с по-малка консумация на памет. Но това е свързано и с известен компромис: всички елементи на hp вектора или матрицата трябва да имат едни и същи мерни единици. Това обаче позволява на Calcpad да съхранява и обработва мерните единици само веднъж за целия вектор/матрица и да направи някои допълнителни оптимизации, като SIMD векторизация на операциите, прилагане на кеш-съвместими алгоритми и др. Всичко това води до подобрение на скоростта от порядъка на десетки пъти и намалява необходимия размер на паметта повече от два пъти, дори когато изобщо няма мерни единици.</p>
+		<p>Hp векторите и матриците се създават от специално предназначени за целта функции, подобни на функциите за създаване на стандартни вектори и матрици, но завършващи с „_hp“, както следва:</p>
+		<p>
+            <b>Функции за създаване на hp вектори:</b><br />
+            &emsp;&emsp;<code><b>vector_hp</b>(<var>n</var>)</code> - създава празен hp вектор с дължина <var>n</var>;<br />
+            &emsp;&emsp;<code><b>range_hp</b>(<var>x</var><sub>1</sub>; <var>x</var><sub>n</sub>; <var>s</var>)</code> - създава hp вектор от последователност от стойности.<br />
+            <b>Функции за създаване на hp матрици:</b><br />
+            &emsp;&emsp;<code><b>matrix_hp</b>(<var>m</var>; <var>n</var>)</code> - създава празна hp матрица с размери <var>m</var>⨯<var>n</var>;<br />
+            &emsp;&emsp;<code><b>identity_hp</b>(<var>n</var>)</code> - създава единична hp матрица с размери <var>n</var>⨯<var>n</var>;<br />
+            &emsp;&emsp;<code><b>diagonal_hp</b>(<var>n</var>; <var>d</var>)</code> - създава <var>n</var>⨯<var>n</var> диагонална hp матрица, запълнена със стойност <var>d</var>;<br />
+            &emsp;&emsp;<code><b>column_hp</b>(<var>m</var>; <var>c</var>)</code> - създава <var>m</var>⨯1 hp матрица-стълб, запълнена със стойност <var>c</var>;<br />
+            &emsp;&emsp;<code><b>utriang_hp</b>(<var>n</var>)</code> - създава <var>n</var>⨯<var>n</var> горна триъгълна hp матрица;<br />
+            &emsp;&emsp;<code><b>ltriang_hp</b>(<var>n</var>)</code> - създава <var>n</var>⨯<var>n</var> долна триъгълна hp матрица;<br />
+            &emsp;&emsp;<code><b>symmetric_hp</b>(<var>n</var>)</code> - създава <var>n</var>⨯<var>n</var> hp симетрична матрица.
+        </p>
+        <p>
+			Функцията <code><b>hp</b>(<var>x</var>)</code> преобразува всеки аргумент <var>x</var> в неговия високопроизводителен еквивалент. Може да се използва заедно с оператора за квадратни скоби [] за инициализация на вектори и матрици от списък със стойности. Например:<br />
+			&emsp;&emsp;<code><var>a</var> = <b>hp</b>([1; 2; 4])</code> ще създаде високопроизводителен вектор и …<br />
+			&emsp;&emsp;<code><var>A</var> = <b>hp</b>([1; 2; 3|4; 5; 6])</code> ще създаде високопроизводителна матрица.
+        </p>
+        <p>
+            Преобразуването включва копиране на стойностите от стандартния в hp масива, така че трябва да се използва само за малки масиви. Ако стандартният масив съдържа различни, но съвместими мерни единици, те ще бъдат преобразувани в мерните единици на първия елемент. Ако мерните единици не са съвместими, преобразуването е невъзможно и вместо това се връща грешка. Например:<br />
+            &emsp;&emsp;<code><var>a</var> = <b>hp</b>([1<i>m</i>; 20<i>dm</i>; 30<i>cm</i>])</code>‘ = [1 m 2 m 0.3 m]<br />
+            &emsp;&emsp;<code><var>a</var> = <b>hp</b>([1<i>m</i>; 20<i>s</i>; 30<i>kg</i>])</code>’ = <span class="err">Inconsistent units: "m, kg"</span>.
+        </p>
+        <p>Всеки израз, който съдържа само hp вектори/матрици, ще върне също hp тип. Ако изразът съдържа само стандартни вектори/матрици или смесени: стандартни и hp, той ще върне стандартен тип. За да проверите дали типът <var>x</var> е високопроизводителен (hp) вектор или матрица, можете да използвате функцията <code><b>ishp</b>(<var>x</var>)</code>.</p>
+
+        <h3 id="TOC_413">Високопроизводителни симетрични анализатори</h3>
+        <p>Calcpad включва и усъвършенствани анализатори за две от най-често срещаните матрични задачи – решаване на системи линейни уравнения и намиране на собствените стойности и вектори на матрици:</p>
+
+		<p><b>PCG симетричен линеен анализатор</b></p>
+		<p>Директните методи, използващи факторизация на Холецки и LDL<sup>T</sup>, са подходящи за малки до средни по размер матрици. За по-големи матрици, необходимите ресурси и време за изчисляване стават твърде високи за практическо приложение, тъй като асимптотичната сложност на факторизацията е O(<var>n</var><sup>3</sup>λ). В такива случаи се предпочитат итерационните методи за решаване. Те са много по-бързи от директните, особено ако матрицата е добре обусловена. Един от най-популярните от тях е методът на преобусловения спрегнат градиент (PCG). Сложността му е O(<var>m</var>√<var>k</var>), където <var>m</var> е броят на ненулевите елементи, а <var>k</var> е числото на обусловеност на матрицата.</p>
+		<p>
+			В Calcpad, PCG методът се използва в следните функции:<br />
+			&emsp;&emsp;<code><b>slsolve</b>(<var>A</var>; <var>b</var>)</code> - решава симетричната линейна система уравнения <var>A<span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var>;<br />
+			&emsp;&emsp;<code><b>smsolve</b>(<var>A</var>; <var>B</var>)</code> - решава обобщеното симетрично матрично уравнение <var>AX</var> = <var>B</var>.
+		</p>
+		<p>Тъй като повечето инженерни методи, като крайне елементи (МКЕ) и крайни разлики (МКР), използват симетрични матрици, ние влагаме усилия за подобряване предимно на този вид задачи. Ако матрицата има лентова или профилна структура, алгоритъмът се възползва от това, като съхранява и обработва само елементите в рамките на ширината на профила. Можете да постигнете такава структура и да минимизирате ширината, като осигурите подходящо номериране на възлите на модела по МКЕ.</p>
+		<p>Итерационните методи като PCG са приблизителни и решението продължава докато се постигне определена точност. В Calcpad тя се дефинира чрез задаване на променливата <var>Tol</var>. Стойността ѝ по подразбиране е <var>Tol</var> = 10<sup>-6</sup>, също като в MATLAB. Ако необходимата точност не се достигне за по-малко от 1000 итерации, се приема че решението е разходящо и процесът прекъсва със съобщение за грешка. Предварителното обуславяне често може да подобри сходимостта чрез намаляване на числото на обусловеност <var>k</var>. В Calcpad за тази цел се използва прост предусловител на Якоби.</p>
+
+		<p><b>Симетричен анализатор за собствени числа и вектори на Ланцос</b></p>
+		<p>Подобно на системите линейни уравнения, директният QL алгоритъм с неявно отместване, който използваме за намиране на собствените стойности и вектори на матрици, има сложност O(<var>n</var><sup>3</sup>), което го прави подходящ само за малки до средни по размер задачи. Освен това, той винаги намира всички собствени стойности и собствени вектори, което в повечето случаи не е необходимо. Например, в строителната динамика обикновено се нуждаем само от първите няколко собствени честоти и форми на трептене. Методът на Ланцос е много по-подходящ за тази цел. Той може да намери няколко от екстремните (най-малките или най-големите) собствени стойности на голяма матрица, но много по-бързо от неявния QL алгоритъм. Има времева сложност O(<var>k</var><sup>2</sup><var>m</var>), където <var>k</var> е броят на итерациите, а <var>m</var> е броят на ненулевите елементи на матрицата. Прилага се на етапа на тридиагонализация, на мястото на метода с отражения на Householder.</p>
+		<p>
+			В Calcpad се използва в същите функции като QL метода, когато размерът на матрицата е &gt; 200:<br />
+			&emsp;&emsp;<code><b>eigenvals</b>(<var>M</var>; <var>n</var><sub>e</sub>)</code> - първите <var>n</var><sub>e</sub> собствени стойности на матрицата <var>M</var>&hairsp;;<br />
+			&emsp;&emsp;<code><b>eigenvecs</b>(<var>M</var>; <var>n</var><sub>e</sub>)</code> - първите <var>n</var><sub>e</sub> собствени вектори на матрицата <var>M</var>&hairsp;;<br />
+			&emsp;&emsp;<code><b>eigen</b>(<var>M</var>; <var>n</var><sub>e</sub>)</code> - първите <var>n</var><sub>e</sub> собствени стойности и  вектори на матрицата <var>M</var>.
+		</p>
+		<p>Максималният брой итерации е зададен на 4<var>n</var><sub>e</sub> + 100. Така че, ако размерът на матрицата е <var>n</var> < 1000 и <var>n</var><sub>e</sub> > <var>n</var>/5, отново се използва QL методът. Това е така, защото методът на Ланцош е по-неточен и когато броят на итерациите се доближи до размера на матрицата, производителността намалява до тази на QL алгоритъма.</p>
 
         <h2 id="TOC_500">Записка</h2>
         <p>Резултатите от изчисленията се документират автоматично като изчислителна записка, която може да разпечатате или да отворите с Word. Освен аритметични изрази, в нея може да добавите заглавия, текстови коментари, изображения и таблици.</p>
@@ -4400,6 +4622,149 @@
         <p style="margin-left:24px;"><code>'&lt;img style="float:right" src="c:/Users/Me/Pictures/Picture1.png" alt="Picture1.png"&gt;'</code></p>
         <p>Разбира се, вместо "<b>c:/Users/Me/Pictures/Picture1.png</b>" трябва да въведете действителния път към файла с картинката. Той може да бъде на локалния диск, в мрежата или в Интернет. Винаги използвайте "дясна" наклонена черта "<b>/</b>, дори и когато файлът е локален. Ако картинката се намира във същата папка, като текущия файл, може да посочите относителен път, като например: "<b>./Picture1.png</b>". Записът <b>style="float:right"</b> измества картинката вдясно, позволявайки текста да преминава свободно отляво. Иначе, по подразбиране картинката става част от текста и го прекъсва. В някои случаи това също е необходимо, например при по-големи картинки, където отляво няма достатъчно място за текста. В такъв случай, може да пропуснете записа <b>style="float:right"</b>. Алтернативно на <b>style="float:right"</b>, може да използвате и <b>class="side"</b> за същата цел.</p>
         <p>За улеснение, може да използвате бутона <img alt="Image" height="20" src="Images/Image.png">. След натискането му се появява диалог за избор на файл. Намерете и посочете картинката и натиснете "<b>Open</b>". Записът се вмъква в началото на страницата, а самата картинка ще видите след изчисленията, в прозореца с резултати.</p>
+		
+		<h3 id="TOC_506">Форматиране с Markdown</h3>
+        <p><a href="https://www.markdownguide.org/">Markdown</a> е прост и лек маркиращ език за форматиране на текст. За разлика от Html, той използва отделни символи или кратки последователности от символи за маркиране. В Calcpad можете да използвате Markdown в коментарите по желание, вместо Html. Тъй като това изисква допълнителна стъпка за синтактичен анализ, можете да го включвате и изключвате, като използвате следните ключови думи във вашия работен лист:</p>
+        <p>
+            &emsp;&emsp;<span class="cond">#md on</span> - включва използване на Markdown;<br />
+            &emsp;&emsp;<span class="cond">#md off</span> - изключва използване на Markdown.<br />
+        </p>
+        <p>
+			По време на синтактичния анализ, маркираният текст се преобразува в HTML и след това се предава за по-нататъшна обработка. Тъй като това се извършва ред по ред, форматирането на ниво блок, като списъци, таблици и др., не се поддържа изцяло. Можете да използвате следните синтактични елементи:
+		</p>
+		<table border="1">
+			<thead>
+				<tr><th>Markdown код</th><th>Html код</th><th>Резултат</th></tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td><code><b>###</b> Heading 3</code></td>
+					<td>&lt;h3&gt;Heading 3&lt;/h3&gt;</td>
+					<td><h3 style="font-size: 1.4em; margin:0;">Heading 3</h3></td>
+				</tr>
+				<tr>
+					<td><code><b>####</b> Heading 4</code></td>
+					<td>&lt;h4&gt;Heading 4&lt;/h4&gt;</td>
+					<td><h4 style="font-size: 1.2em; margin:0;">Heading 4</h4></td>
+				</tr>
+				<tr>
+					<td><code><b>#####</b> Heading 5</code></td>
+					<td>&lt;h5&gt;Heading 5&lt;/h5&gt;</td>
+					<td><h5 style="font-size: 1.1em; margin:0;">Heading 5</h5></td>
+				</tr>
+				<tr>
+					<td><code><b>######</b> Heading 6</code></td>
+					<td>&lt;h6&gt;Heading 6&lt;/h6&gt;</td>
+					<td><h6 style="font-size: 1em; margin:0;">Heading 6</h6></td>
+				</tr>
+				<tr>
+					<td><code>---</code> (horizontal line)</td>
+					<td>&lt;hr/&gt;</td>
+					<td><hr /></td>
+				</tr>
+				<tr>
+					<td><code><b>**</b>Bold<b>**</b></code></td>
+					<td>&lt;strong&gt;Bold&lt;/strong&gt;</td>
+					<td><strong>Bold</strong></td>
+				</tr>
+				<tr>
+					<td><code><b>*</b>Italic<b>*</b></code></td>
+					<td>&lt;em&gt;Italic&lt;/em&gt;</td>
+					<td><em>Italic</em></td>
+				</tr>
+				<tr>
+					<td><code><b>***</b>Bold Italic<b>***</b></code></td>
+					<td>&lt;em&gt;&lt;strong&gt;Bold Italic&lt;/strong&gt;&lt;/em&gt;</td>
+					<td><em><strong>Bold Italic</strong></em></td>
+				</tr>
+				<tr>
+					<td><code><b>++</b>Underlined<b>++</b></code></td>
+					<td>&lt;ins&gt;Underlined&lt;/ins&gt;</td>
+					<td><ins>Underlined</ins></td>
+				</tr>
+				<tr>
+					<td><code><b>~~</b>Struck through<b>~~</b></code></td>
+					<td>&lt;del&gt;Struck through&lt;/del&gt;</td>
+					<td><del>Struck through</del></td>
+				</tr>
+				<tr>
+					<td><code><b>==</b>Highlighted<b>==</b></code></td>
+					<td>&lt;mark&gt;Highlighted&lt;/mark&gt;</td>
+					<td><mark>Highlighted</mark></td>
+				</tr>
+				<tr>
+					<td><code>x<b>^</b>superscript<b>^</b></code></td>
+					<td>x&lt;sup&gt;superscript&lt;/sup&gt;</td>
+					<td>x<sup>superscript</sup></td>
+				</tr>
+				<tr>
+					<td><code>x<b>~</b>subscript<b>~</b></code></td>
+					<td>x&lt;sub&gt;subscript&lt;/sub&gt;</td>
+					<td>x<sub>subscript</sub></td>
+				</tr>
+				<tr>
+					<td><code><b>`</b>Code<b>`</b></code></td>
+					<td>&lt;code&gt;Code&lt;/code&gt;</td>
+					<td><code style="background:none;">Code</code></td>
+				</tr>
+				<tr>
+					<td><code><b>[Link](</b>https://mywebsite.com<b>)</b></code></td>
+					<td>&lt;a href="https://mywebsite.com"&gt;Link&lt;/a&gt;</td>
+					<td><a href="https://mywebsite.com">Link</a></td>
+				</tr>
+				<tr>
+					<td><code><b>![Image](</b>image.jpg<b>)</b></code></td>
+					<td>&lt;img src="image.jpg" alt="Image" /&gt;</td>
+					<td><img src="image.jpg" alt="Image" /></td>
+				</tr>
+				<tr>
+					<td><code><b>&gt;</b> Blockquote 1<br /><b>&gt;&gt;</b> Blockquote 2</code></td>
+					<td>&lt;blockquote&gt;Blockquote 1<br />&lt;blockquote&gt;Blockquote 2&lt;/blockquote&gt;&lt;/blockquote&gt;</td>
+					<td><blockquote style="margin:0">Blockquote 1<br /><blockquote style="margin: 0 0 0 2em; white-space: nowrap;">Blockquote 2</blockquote></blockquote></td>
+				</tr>
+			</tbody>
+		</table>
+
+		<h3 id="TOC_507">Лента за форматиране</h3>
+		<p>Лентата с инструменти за форматиране се намира точно над полето за редактиране на код. Тя позволява бързо вмъкване на форматиращи маркери в коментарите. Може да вмъква HTML или Markdown, в зависимост от вашия избор. За да активирате Markdown, включете бутона <strong class="button"> M⭣ </strong>. Също така, не забравяйте да добавите "<span class="cond">#md on</span>" в началото на записката.</p>
+        <p><img src=".\Images\Formatting.png" /></p>
+        <p>Лентата с инструменти за форматиране включва следните команди:</p>
+        <p>&emsp;&emsp;<span class="button h"> H3 </span> - Heading 3 (Ctrl+3), Html: <code>&lt;h3&gt;...&lt;/h3&gt;</code>, Markdown: <code>###...</code></p>
+        <p>&emsp;&emsp;<span class="button h"> H4 </span> - Heading 4 (Ctrl+4), Html: <code>&lt;h4&gt;...&lt;/h4&gt;</code>, Markdown: <code>####...</code></p>
+        <p>&emsp;&emsp;<span class="button h"> H5 </span> - Heading 5 (Ctrl+5), Html: <code>&lt;h5&gt;...&lt;/h5&gt;</code>, Markdown: <code>#####...</code></p>
+        <p>&emsp;&emsp;<span class="button h"> H6 </span> - Heading 6 (Ctrl+6), Html: <code>&lt;h6&gt;...&lt;/h6&gt;</code>, Markdown: <code>######...</code></p>
+        <p>&emsp;&emsp;<span class="button"> p </span> - Paragraph (Ctrl+L), Html: <code>&lt;p&gt;...&lt;/p&gt;</code>, Markdown: не се поддържа</p>
+        <p>&emsp;&emsp;<span class="button"> br </span> - Line Break (Ctrl+R), Html: <code>...&lt;br/&gt;...</code>, Markdown: не се поддържа</p>
+        <p>&emsp;&emsp;<span class="button"> <strong>B</strong> </span> - Bold (Ctrl+B), Html: <code>&lt;strong&gt;...&lt;/strong&gt;</code>, Markdown: <code>**...**</code></p>
+        <p>&emsp;&emsp;<span class="button"> <em style="font-family:Times">I</em> </span> - Italic (Ctrl+I), Html: <code>&lt;em&gt;...&lt;/em&gt;</code>, Markdown: <code>*...*</code></p>
+        <p>&emsp;&emsp;<span class="button"> <ins>U</ins> </span> - Underline (Ctrl+U), Html: <code>&lt;ins&gt;...&lt;/ins&gt;</code>, Markdown: <code>++...++</code></p>
+        <p>&emsp;&emsp;<span class="button"> <del>S</del> </span> - Strikethrough (няма бързи клавиши), Html: <code>&lt;del&gt;...&lt;/del&gt;</code>, Markdown: <code>~~...~~</code></p>
+        <p>&emsp;&emsp;<span class="button" style="padding-top:1.5pt;padding-bottom:3.5pt;"> x<sub>2</sub> </span> - Subscript (Ctrl+"+"), Html: <code>&lt;sub&gt;...&lt;/sub&gt;</code>, Markdown: <code>~...~</code></p>
+        <p>&emsp;&emsp;<span class="button" style="padding-top:1pt;padding-bottom:4pt;"> x<sup style="font-size:70%;">2</sup> </span> - Superscript (Ctrl+Shift+"+"), Html: <code>&lt;sup&gt;...&lt;/sup&gt;</code>, Markdown: <code>^...^</code></p>
+        <p>&emsp;&emsp;<span class="button"> <span style="color:red;">R</span> </span> - Red Color (няма бързи клавиши), Html: <code>&lt;span class="err"&gt;...&lt;/span&gt;</code>, Markdown: не се поддържа</p>
+        <p>&emsp;&emsp;<span class="button"> <span style="color:#00C800;">G</span> </span> - Green Color (няма бързи клавиши), Html: <code>&lt;span class="ok"&gt;...&lt;/span&gt;</code>, Markdown: не се поддържа</p>
+        <p>&emsp;&emsp;<span class="button"> ‹/› </span> - Span (няма бързи клавиши), Html: <code>&lt;span&gt;...&lt;/span&gt;</code>, Markdown: не се поддържа</p>
+        <p>&emsp;&emsp;<span class="button h">div</span> - Div (няма бързи клавиши), Html: <code>&lt;div&gt;...&lt;/div&gt;</code>, Markdown: не се поддържа</p>
+        <p>&emsp;&emsp;<span class="button"> ▼ </span> - Folded Div (няма бързи клавиши), Html: <code>&lt;div class="fold"&gt;...&lt;/div&gt;</code>, Markdown: не се поддържа</p>
+        <p>&emsp;&emsp;<span class="button" style="vertical-align:top;">⋮☰</span> <span style="display:inline-block;"> - Bulleted List (Ctrl+Shift+L), Html: <code>&lt;ul&gt;&lt;li&gt;...&lt;/li&gt;&lt;li&gt;...&lt;/li&gt;&lt;li&gt;...&lt;/li&gt;&lt;/ul&gt;</code>,<br />&ensp; Markdown: не се поддържа</span></p>
+        <p>&emsp;&emsp;<strong class="button h" style="font-size:6pt; vertical-align:top;">1.➖<br />2.➖</strong> <span style="display:inline-block;"> - Numbered List (Ctrl+Shift+N), Html: <code>&lt;ol&gt;&lt;li&gt;...&lt;/li&gt;&lt;li&gt;...&lt;/li&gt;&lt;li&gt;...&lt;/li&gt;&lt;/ol&gt;</code>,<br />&ensp; Markdown: не се поддържа</span></p>
+        <p>&emsp;&emsp;<span class="button" style="vertical-align:top;">🖼</span> <span style="display:inline-block;"> - Image (няма бързи клавиши),<br />&ensp; Html: <code>&lt;img style="height:...; width:..." src="..." alt="..."&gt;</code>,<br />&ensp; Markdown: не се поддържа</p>
+        <p>
+            &emsp;&emsp;<span class="button" style="vertical-align:top;">▦</span> <span style="display:inline-block;">
+                - Table (няма бързи клавиши), Html:<br />
+                &ensp; <code>&lt;table class="bordered"&gt;</code><br />
+                &ensp; <code>&lt;thead&gt;&lt;tr&gt;&lt;th&gt;...&lt;/th&gt;&lt;th&gt;...&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;</code><br />
+                &ensp; <code>&lt;tbody&gt;</code><br />
+                &ensp; <code>&lt;tr>&lt;td&gt;...&lt;/td&gt;&lt;td&gt;...&lt;/td&gt;&lt;/tr&gt;</code><br />
+                &ensp; <code>&lt;tr>&lt;td&gt;...&lt;/td&gt;&lt;td&gt;...&lt;/td&gt;&lt;/tr&gt;</code><br />
+                &ensp; <code>&lt;/tbody&gt;</code><br />
+                &ensp; <code>&lt;/table&gt;</code>,<br />
+                &ensp; Markdown: не се поддържа
+            </span>
+        </p>
+        <p>&emsp;&emsp;<span class="button">—</span> - Horizontal line (няма бързи клавиши), Html: <code>&lt;hr/&gt;</code>, Markdown: <code>---</code></p>
+        <p>За да приложите форматиране към определена част от текста, първо я изберете и след това натиснете съответния бутон. Ако го натиснете повторно, ще премахнете съществуващото форматиране от този тип. Calcpad поддържа автоматичен избор на цели думи. Ако кликнете вътре в дума и натиснете бутон за форматиране, то ще се приложи за цялата дума.</p>
+
 
         <h2 id="TOC_600">Програмиране</h2>
         <h3 id="TOC_601">Формуляри за вход на данни</h3>
@@ -4530,13 +4895,13 @@
         <p>Calcpad има възможност за циклично изпълнение на част от програмния код. За тази цел, трябва да го поставите в блок за цикъл ("<b>repeat-loop</b>"), както следва:</p>
         <ul style="list-style-type:none;">
             <li><span class="cond">#Repeat</span> <var>n</var></li>
-            <li style="margin-left: 2em;">Код, който се изпълнява циклично</li>
+            <li style="margin-left: 2em;">Код, който се изпълнява многократно</li>
             <li><span class="cond">#Loop</span></li>
         </ul>
-        <p>Символът <var>n</var> по-горе показва броя на циклите. На мястото на <var>n</var>, може да поставите число, променлива или всякакъв валиден израз. Ако резултатът от изчисляването на израза не е цяло число, ще се закръгли до най-близкото. Може да излезете преждевременно от тялото на блока, като вмъкнете ред със съдържание <span class="cond">#Break</span>. Това ще има смисъл само, ако добавите и условие, което трябва бъде удовлетворено. В противен случай, програмата ще напуска цикъла още при първата итерация и на практика няма да има никакъв цикъл. Типичен блок с условно прекъсване "<b>repeat-break-loop</b>" изглежда както следва:</p>
+        <p>Символът <var>n</var> по-горе показва броя на циклите. На мястото на <var>n</var>, може да поставите число, променлива или всякакъв валиден израз. Ако резултатът от изчисляването на израза не е цяло число, ще се закръгли до най-близкото. Може да излезете преждевременно от тялото на блока, като вмъкнете ред със съдържание <span class="cond">#Break</span>. Това ще има смисъл само ако добавите и условие, което трябва бъде удовлетворено. В противен случай, програмата ще напуска цикъла още при първата итерация и на практика няма да има никакъв цикъл. Типичен блок с условно прекъсване "<b>repeat-break-loop</b>" изглежда както следва:</p>
         <ul style="list-style-type:none;">
             <li><code class="cond">#Repeat</code></li>
-            <li style="margin-left: 2em;">Код, който се изпълнява циклично</li>
+            <li style="margin-left: 2em;">Код, който се изпълнява многократно</li>
             <li style="margin-left: 2em;"><code class="cond">#If</code> условие</li>
             <li style="margin-left: 4em;"><code class="cond">#Break</code> или <code class="cond">#Continue</code></li>
             <li style="margin-left: 2em;"><code class="cond">#End if</code></li>
@@ -4545,7 +4910,18 @@
         </ul>
         <p>Moже да използвате <code class="cond">#Continue</code> вместо <code class="cond">#Break</code>. Програмата ще пропусне оставащите редове, ще се върне в началото на блока и ще продължи със следващата итерация. Ако сте сигурни, че условието ще се изпълни за разумен брой цикли, може да пропуснете <var>n</var>. За избягване на безкраен цикъл, броят вътрешно е ограничен до 100 000, когато не е посочен изрично.</p>
         <p>Освен за итерационни изчисления, може да използвате цикли и за генериране на повтарящи се текстове от записката (като редове от таблица). Ако искате да скриете повтарящите се изчисления в цикъла, може да използвате директивите за контрол на видимостта (виж предишната точка). Например, може да заградите цикъла с <span class="cond">#Hide</span> и <span class="cond">#Show</span>.</p>
-
+        <p>Във версия VM 7.0, са добавени два нови блока за цикъл: "for-loop" и "while-loop", както следва:</p>
+        <ul style="list-style-type:none;">
+            <li><span class="cond">#For</span> <var>брояч</var> =  <var>начало</var> : <var>край</var></li>
+            <li style="margin-left: 2em;">од, който се изпълнява многократно</li>
+            <li><span class="cond">#Loop</span></li>
+        </ul>
+        <ul style="list-style-type:none;">
+            <li><span class="cond">#While</span> <b>условие</b></li>
+            <li style="margin-left: 2em;">Код, който се изпълнява многократно</li>
+            <li><span class="cond">#Loop</span></li>
+        </ul>
+		
         <h3 id="TOC_605">Интерактивно изпълнение (стъпка-по-стъпка)</h3>
         <p>Може да направите записка, която се изпълнява интерактивно (стъпка по стъпка), като дефинирате точки на прекъсване на определени редове. Това ще позволи на потребителя да прегледа междинните резултати и ако е не необходимо, да въведе допълнителни входни данни. За тази цел, може да използвате някоя от следните ключови думи за прекъсване:</p>
         <ul style="list-style-type:none;">
@@ -4596,6 +4972,371 @@
         <p>След като дадена текстова променлива е дефинирана, може да я използвате навсякъде в кода, като напишете  нейното име (с "$" накрая). Това важи и за макросите, като допълнително трябва да посочите и стойностите на параметрите. Макросите и текстовите променливи се обработват на предварителен етап. Тяхното съдържание се замества в кода, преди да започне действителната му изчисляване. Като резултат, се генерира междинен, "разгънат" код. Може да го прегледате като включите опцията "<b>Разгънат код</b>" под прозореца с резултати.</p>
 
         <p>Ако по време на обработката на макросите възникнат грешки, се показва разгънатия код, с информация за грешките. Номерата на редовете в съобщенията за грешка, реферират към първоначалния код. Ако предварителната обработка приключи успешно, разгънатия код се транслира и изпълнява както обикновено. Ако възникнат грешки на този етап, те се показват в съдържанието на изходната записка. Тук, номерата на редовете реферират към разгънатия код. Може да отидете на съответния ред, като кликнете линка върху номера на реда.</p>
+		
+		<h3 id="TOC_608">Вход/изход на външни данни</h3>
+		<p>Можете да вмъквате и изпращате числови данни от и към текстови, CSV и Excel файлове. В Calcpad данните трябва да се пазят в матрични/векторни променливи. Може също да четете и записвате частични данни, като зададете желания диапазон. Поддържа се структурирано съхранение на специални матрици за пестене на място. Налични са следните команди:</p>
+
+        <h4>Текстови/CSV файлове</h4>
+        <p>&emsp;&emsp;<code><span class="cond">#read</span> <var>M</var> from <em>filename.txt</em>@R1C1:R2C2 TYPE=<b>R</b> SEP=','</code> - чете данни от посочения текстов/CSV файл в матрицата/вектор <var>M</var>. Файлът трябва да съществува;</p>
+        <p>&emsp;&emsp;<code><span class="cond">#write</span> <var>M</var> to <em>filename.txt</em>@R1C1:R2C2 TYPE=<b>N</b> SEP=','</code> - записва данни от матрица/вектор <var>M</var> в посочения текстов/CSV файл. Ако файлът съществува, той се презаписва изцяло. В противен случай се създава нов файл. Във всички случаи пътят до файла трябва да съществува;</p>
+        <p>&emsp;&emsp;<code><span class="cond">#append</span> <var>M</var> to <em>filename.txt</em>@R1C1:R2C2 TYPE=<b>N</b> SEP=','</code> - добавя данни от матрица/вектор <var>M</var> към посочения текстов/CSV файл. Ако файлът съществува, данните се добавят в края на съществуващия файл. В противен случай се създава нов файл. Във всички случаи пътят до файла трябва да съществува.</p>
+        <p><strong>Опции на командите</strong></p>
+        <p>
+            &emsp;&emsp;<var>M</var>	- името на матрицата/вектора, който съдържа данните [<span class="err">задължително</span>];
+            <br />&emsp;&emsp;<code><em>filename.txt</em></code>	- името и пътя на входния/изходния файл [<span class="err">задължително</span>]. Ако пътят липсва, се приема, че файлът е в същата папка. Задължително трябва да се посочи разширение. Разрешено е всяко валидно разширение (с изключение на тези за Excel), включително <b>txt</b> и <b>csv</b>, стига данните във файла да са в текстов формат;
+            <br />&emsp;&emsp;<code>@R1C1:R2C2</code> - диапазон от данни във входния файл [<span class="ok">по желание</span>]:
+            <br />&emsp;&emsp;<code>R1C1</code> - начални индекси на редове и колони [<span class="ok">по желание</span>]:
+            <br />&emsp;&emsp;<code>R1</code> - индекс на ред: включва главна буква „R“, следвана от номера на реда [<span class="ok">по желание</span>];
+            <br />&emsp;&emsp;<code>C1</code> - индекс на колона: главна буква „C“, последвана от номера на колоната [<span class="ok">по желание</span>];
+            <br />&emsp;&emsp;<code>:R2C2</code> - крайни индекси на редове (R2) и колони (C2), както е показано по-горе [<span class="ok">по желание</span>];
+            <br />&emsp;&emsp;Индексирането започва от <b>1</b>. Можете да пропуснете всеки от началните и крайните индекси на редове/колони. В този случай се вземат стойностите по подразбиране от 1 и размерите на матрицата. Началните индекси могат да бъдат по-големи от крайните. По-долу са дадени някои примери:
+        </p>
+        <table class="centered nb">
+            <tr>
+                <td>
+                    <table class="bordered centered sm">
+                        <tr><th></th><th>C1</th><th>C2</th><th>C3</th><th>C4</th><th>C5</th></tr>
+                        <tr><th>R1</th><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td></tr>
+                        <tr><th>R2</th><td>21</td><td>22</td><td class="hl"><b>23</b></td><td class="hl"><b>24</b></td><td>25</td></tr>
+                        <tr><th>R3</th><td>31</td><td>32</td><td class="hl"><b>33</b></td><td class="hl"><b>34</b></td><td>35</td></tr>
+                        <tr><th>R4</th><td>41</td><td>42</td><td class="hl"><b>43</b></td><td class="hl"><b>44</b></td><td>45</td></tr>
+                        <tr><th>R5</th><td>51</td><td>52</td><td>53</td><td>54</td><td>55</td></tr>
+                    </table>
+                </td>
+                <td>&emsp;</td>
+                <td>
+                    <table class="bordered centered sm">
+                        <tr><th></th><th>C1</th><th>C2</th><th>C3</th><th>C4</th><th>C5</th></tr>
+                        <tr><th>R1</th><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td></tr>
+                        <tr><th>R2</th><td>21</td><td>22</td><td class="hl"><b>23</b></td><td class="hl"><b>24</b></td><td class="hl"><b>25</b></td></tr>
+                        <tr><th>R3</th><td>31</td><td>32</td><td class="hl"><b>33</b></td><td class="hl"><b>34</b></td><td class="hl"><b>35</b></td></tr>
+                        <tr><th>R4</th><td>41</td><td>42</td><td class="hl"><b>43</b></td><td class="hl"><b>44</b></td><td class="hl"><b>45</b></td></tr>
+                        <tr><th>R5</th><td>51</td><td>52</td><td class="hl"><b>53</b></td><td class="hl"><b>54</b></td><td class="hl"><b>55</b></td></tr>
+                    </table>
+                </td>
+                <td>&emsp;</td>
+                <td>
+                    <table class="bordered centered sm">
+                        <tr><th></th><th>C1</th><th>C2</th><th>C3</th><th>C4</th><th>C5</th></tr>
+                        <tr><th>R1</th><td class="hl"><b>11</b></td><td class="hl"><b>12</b></td><td class="hl"><b>13</b></td><td class="hl"><b>14</b></td><td>15</td></tr>
+                        <tr><th>R2</th><td class="hl"><b>21</b></td><td class="hl"><b>22</b></td><td class="hl"><b>23</b></td><td class="hl"><b>24</b></td><td>25</td></tr>
+                        <tr><th>R3</th><td class="hl"><b>31</b></td><td class="hl"><b>32</b></td><td class="hl"><b>33</b></td><td class="hl"><b>34</b></td><td>35</td></tr>
+                        <tr><th>R4</th><td>41</td><td>42</td><td>43</td><td>44</td><td>45</td></tr>
+                        <tr><th>R5</th><td>51</td><td>52</td><td>53</td><td>54</td><td>55</td></tr>
+                    </table>
+                </td>
+                <td>&emsp;</td>
+                <td>
+                    <table class="bordered centered sm">
+                        <tr><th></th><th>C1</th><th>C2</th><th>C3</th><th>C4</th><th>C5</th></tr>
+                        <tr><th>R1</th><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td> </tr>
+                        <tr><th>R2</th><td class="hl"><b>21</b></td><td class="hl"><b>22</b></td><td class="hl"><b>23</b></td><td class="hl"><b>24</b></td><td class="hl"><b>25</b></td></tr>
+                        <tr><th>R3</th><td class="hl"><b>31</b></td><td class="hl"><b>32</b></td><td class="hl"><b>33</b></td><td class="hl"><b>34</b></td><td class="hl"><b>35</b></td></tr>
+                        <tr><th>R4</th><td class="hl"><b>41</b></td><td class="hl"><b>42</b></td><td class="hl"><b>43</b></td><td class="hl"><b>44</b></td><td class="hl"><b>45</b></td></tr>
+                        <tr><th>R5</th><td>51</td><td>52</td><td>53</td><td>54</td><td>55</td></tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td><code><b>@R2C3:R4C4</b><code></td>
+                <td>&emsp;</td>
+                <td><code><b>@R2C3</b><code></td>
+                <td>&emsp;</td>
+                <td><code><b>@:R3C4</b><code></td>
+                <td>&emsp;</td>
+                <td><code><b>@R2:R4</b><code></td>
+            </tr>
+            <tr>
+                <td>
+                    <table class="bordered sm">
+                        <tr><th></th><th>C1</th><th>C2</th><th>C3</th><th>C4</th><th>C5</th></tr>
+                        <tr><th>R1</th><td>11</td><td>12</td><td class="hl"><b>13</b></td><td class="hl"><b>14</b></td><td>15</td></tr>
+                        <tr><th>R2</th><td>21</td><td>22</td><td class="hl"><b>23</b></td><td class="hl"><b>24</b></td><td>25</td></tr>
+                        <tr><th>R3</th><td>31</td><td>32</td><td class="hl"><b>33</b></td><td class="hl"><b>34</b></td><td>35</td></tr>
+                        <tr><th>R4</th><td>41</td><td>42</td><td class="hl"><b>43</b></td><td class="hl"><b>44</b></td><td>45</td></tr>
+                        <tr><th>R5</th><td>51</td><td>52</td><td class="hl"><b>53</b></td><td class="hl"><b>54</b></td><td>55</td></tr>
+                    </table>
+                </td>
+                <td>&emsp;</td>
+                <td>
+                    <table class="bordered sm">
+                        <tr><th></th><th>C1</th><th>C2</th><th>C3</th><th>C4</th><th>C5</th></tr>
+                        <tr><th>R1</th><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td></tr>
+                        <tr><th>R2</th><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td></tr>
+                        <tr><th>R3</th><td class="hl"><b>31</b></td><td class="hl"><b>32</b></td><td class="hl"><b>33</b></td><td class="hl"><b>34</b></td><td>35</td></tr>
+                        <tr><th>R4</th><td class="hl"><b>41</b></td><td class="hl"><b>42</b></td><td class="hl"><b>43</b></td><td class="hl"><b>44</b></td><td>45</td></tr>
+                        <tr><th>R5</th><td class="hl"><b>51</b></td><td class="hl"><b>52</b></td><td class="hl"><b>53</b></td><td class="hl"><b>54</b></td><td>55</td></tr>
+                    </table>
+                </td>
+                <td>&emsp;</td>
+                <td>
+                    <table class="bordered sm">
+                        <tr><th></th><th>C1</th><th>C2</th><th>C3</th><th>C4</th><th>C5</th></tr>
+                        <tr><th>R1</th><td>11</td><td>12</td><td class="hl"><b>13</b></td><td class="hl"><b>14</b></td><td class="hl"><b>15</b></td></tr>
+                        <tr><th>R2</th><td>21</td><td>22</td><td class="hl"><b>23</b></td><td class="hl"><b>24</b></td><td class="hl"><b>25</b></td></tr>
+                        <tr><th>R3</th><td>31</td><td>32</td><td class="hl"><b>33</b></td><td class="hl"><b>34</b></td><td class="hl"><b>35</b></td></tr>
+                        <tr><th>R4</th><td>41</td><td>42</td><td class="hl"><b>43</b></td><td class="hl"><b>44</b></td><td class="hl"><b>45</b></td></tr>
+                        <tr><th>R5</th><td>51</td><td>52</td><td class="hl"><b>53</b></td><td class="hl"><b>54</b></td><td class="hl"><b>55</b></td></tr>
+                    </table>
+                </td>
+                <td>&emsp;</td>
+                <td>
+                    <table class="bordered sm">
+                        <tr><th></th><th>C1</th><th>C2</th><th>C3</th><th>C4</th><th>C5</th></tr>
+                        <tr><th>R1</th><td>11</td><td class="hl"><b>12</b></td><td class="hl"><b>13</b></td><td class="hl"><b>14</b></td><td>15</td></tr>
+                        <tr><th>R2</th><td>21</td><td class="hl"><b>22</b></td><td class="hl"><b>23</b></td><td class="hl"><b>24</b></td><td>25</td></tr>
+                        <tr><th>R3</th><td>31</td><td class="hl"><b>32</b></td><td class="hl"><b>33</b></td><td class="hl"><b>34</b></td><td>35</td></tr>
+                        <tr><th>R4</th><td>41</td><td>42</td><td>43</td><td>44</td><td>45</td></tr>
+                        <tr><th>R5</th><td>51</td><td>52</td><td>53</td><td>54</td><td>55</td></tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td><code><b>@C3:C4</b><code></td>
+                <td>&emsp;</td>
+                <td><code><b>@R3:C4</b><code></td>
+                <td>&emsp;</td>
+                <td><code><b>@C3</b><code></td>
+                <td>&emsp;</td>
+                <td><code><b>@R3C4:R1C2</b><code></td>
+                </td>
+            </tr>
+        </table>
+        <p>
+            &emsp;&emsp;<code>TYPE=<b>R</b></code>	- Типът матрица/вектор за структурно съхранение [<span class="ok">по желание</span>].
+            <br />&emsp;&emsp;За командата <span class="cond">#read</span>, TYPE може да бъде всяка от следните главни букви:
+			<br />&emsp;&emsp;&emsp;&emsp;<code><b>R</b></code> - правоъгълна матрица (по подразбиране);
+			<br />&emsp;&emsp;&emsp;&emsp;<code><b>C</b></code> - матрица-стълб;
+			<br />&emsp;&emsp;&emsp;&emsp;<code><b>D</b></code> - диагонална матрица;
+			<br />&emsp;&emsp;&emsp;&emsp;<code><b>S</b></code> - симетрична профилна матрица;
+			<br />&emsp;&emsp;&emsp;&emsp;<code><b>L</b></code> - долна триъгълна матрица;
+			<br />&emsp;&emsp;&emsp;&emsp;<code><b>U</b></code> - горна триъгълна матрица;
+			<br />&emsp;&emsp;&emsp;&emsp;<code><b>V</b></code> - вектор;
+        </p>
+        <p>За стълбови и диагонални матрици стойностите могат да се съхраняват или на един ред, или в колона - по една стойност на ред. За диагонални матрици се съхраняват само стойностите по главния диагонал, за долни триъгълни - само под главния диагонал, а за симетрични и горни триъгълни - само над главния диагонал. Векторните стойности могат да бъдат разпределени по множество редове, но всички ще бъдат обединени в един вектор, последователно ред по ред. Примери за структурно съхранение са дадени по-долу:</p>
+        <table class="centered nb">
+            <tr style="text-decoration:underline;">
+                <td colspan="3" style="padding:0;"><b>Диагонална матрица (D)</b></td>
+                <td></td>
+                <td colspan="3" style="padding:0;"><b>Симетрична матрица (S)</b></td>
+                <td></td>
+                <td colspan="3" style="padding:0;"><b>Вектор (V)</b></td>
+            </tr>
+            <tr>
+                <td>
+                    <p><b>Файл</b></p>
+                    <table class="bordered centered sm">
+                        <tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>
+                        <tr><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td></tr>
+                        <tr><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td></tr>
+                        <tr><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td></tr>
+                        <tr><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td></tr>
+                    </table>
+                </td>
+                <td>&nbsp;<br />&nbsp;<br />&nbsp;<br />➔</td>
+                <td>
+                    <p><b>Матрица</b></p>
+                    <table class="bordered centered sm">
+                        <tr><th>&nbsp;1&nbsp;</th><td>&nbsp;0&nbsp;</td><td>&nbsp;0&nbsp;</td><td>&nbsp;0&nbsp;</td><td>&nbsp;0&nbsp;</td></tr>
+                        <tr><td>0</td><th>2</th><td>0</td><td>0</td><td>0</td></tr>
+                        <tr><td>0</td><td>0</td><th>3</th><td>0</td><td>0</td></tr>
+                        <tr><td>0</td><td>0</td><td>0</td><th>4</th><td>0</td></tr>
+                        <tr><td>0</td><td>0</td><td>0</td><td>0</td><th>5</th></tr>
+                    </table>
+                </td>
+                <td>&emsp;</td>
+                <td>
+                    <p><b>Файл</b></p>
+                    <table class="bordered centered sm">
+                        <tr><th>1</th><th>2</th><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td></tr>
+                        <tr><th>3</th><th>4</th><th>5</th><td>&emsp;</td><td>&emsp;</td></tr>
+                        <tr><th>6</th><th>7</th><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td></tr>
+                        <tr><th>8</th><th>9</th><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td></tr>
+                        <tr><th>10</th><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td></tr>
+                    </table>
+                </td>
+                <td>&nbsp;<br />&nbsp;<br />&nbsp;<br />➔</td>
+                <td>
+                    <p><b>Матрица</b></p>
+                    <table class="bordered centered sm">
+                        <tr><th>&nbsp;1&nbsp;</th><th>&nbsp;2&nbsp;</th><td>&nbsp;0&nbsp;</td><td>&nbsp;0&nbsp;</td><td>&nbsp;0&nbsp;</td></tr>
+                        <tr><td>2</td><th>3</th><th>4</th><th>5</th><td> 0</td></tr>
+                        <tr><td>0</td><td>4</td><th>6</th><th>7</th><td> 0</td></tr>
+                        <tr><td>0</td><td>5</td><td>7</td><th>8</th><th> 9</th></tr>
+                        <tr><td>0</td><td>0</td><td>0</td><td>9</td><th>10</th></tr>
+                    </table>
+                </td>
+                <td>&emsp;</td>
+                <td>
+                    <p><b>Файл</b></p>
+                    <table class="bordered centered sm">
+                        <tr><th>1</th><th>2</th><th>3</th></tr>
+                        <tr><th>4</th><th>5</th><td> </td></tr>
+                        <tr><th>6</th><th>7</th><th>8</th></tr>
+                        <tr><th>9</th><td>&emsp;</td><td>&emsp;</td></tr>
+                        <tr><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td></tr>
+                    </table>
+                </td>
+                <td>➔<br />&nbsp;<br />&nbsp;</td>
+                <td style="vertical-align:top;">
+                    <p><b>Вектор</b></p>
+                    <table class="bordered centered sm">
+                        <tr>
+                            <th>1</th>
+                            <th>2</th>
+                            <th>3</th>
+                            <th>4</th>
+                            <th>5</th>
+                            <th>6</th>
+                            <th>7</th>
+                            <th>8</th>
+                            <th>9</th>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <p>
+            &emsp;&emsp;За командите <span class="cond">#write</span> и <span class="cond">#append</span> TYPE може да бъде една от главните букви по-долу:
+            <br />&emsp;&emsp;&emsp;&emsp;<code><b>Y</b></code> - Yes, използва се матричната структура;
+            <br />&emsp;&emsp;&emsp;&emsp;<code><b>N</b></code> - No, матричната структура не се използва (по подразбиране);
+        </p>
+        <p>
+            &emsp;&emsp;Ако е избрано “<b>N</b>” всички матрици се съхраняват като правоъгълни, независимо от техния тип и вътрешна структура.<br />&emsp;&emsp;Всички елементи след последната ненулева стойност на реда се пропускат.
+            <br />&emsp;&emsp;<code>SEP=','</code>	- разделител [<span class="ok">по желание</span>]. Трябва да посочите единичен символ в кавички.<br />&emsp;&emsp;За командата <span class="cond">#read</span> той трябва да съответства на действителния разделител, използван във входния файл.
+            <br />&emsp;&emsp;Минималният разрешен синтаксис за горните команди, ако всички незадължителни ключови думи са пропуснати, е:
+            <br />&emsp;&emsp;&emsp;&emsp;“<code><span class="cond">#read</span> <var>M</var> from <em>filename.txt</em></code>” or
+            <br />&emsp;&emsp;&emsp;&emsp;“<code><span class="cond">#write</span> <var>M</var> to <em>filename.txt</em></code>” or
+            <br />&emsp;&emsp;&emsp;&emsp;“<code><span class="cond">#append</span> <var>M</var> to <em>filename.txt</em></code>”.
+        </p>
+
+        <h4>Excel файлове</h4>
+        <p>&emsp;&emsp;<code><span class="cond">#read</span> <var>M</var> from <em>filename.xlsx</em>@Sheet1!A1:B2 TYPE=<b>R</b></code> - чете данните от посочения Excel файл в матрицата/вектора <var>M</var>. Файлът трябва да съществува, както и посоченият работен лист;</p>
+        <p>&emsp;&emsp;<code><span class="cond">#write</span> <var>M</var> to <em>filename.xlsx</em>@Sheet1!A1:B2 TYPE=<b>N</b></code> - записва данните от матрицата/вектора <var>M</var> в посочения Excel файл. Създава се нов файл с един работен лист. Ако файлът съществува, той се презаписва изцяло. Пътят до файла трябва да съществува.;</p>
+        <p>&emsp;&emsp;<code><span class="cond">#append</span> <var>M</var> to <em>filename.xlsx</em>@Sheet1!A1:B2 TYPE=<b>N</b></code> - Добавя данните от матрицата/вектора <var>M</var> към посочения Excel файл. Ако файлът съществува, данните се записват в съществуващия файл на посоченото място. В противен случай се създава нов файл. Във всички случаи пътят до файла трябва да съществува.</p>
+
+        <p><strong>Опции за командите</strong></p>
+        <p>
+            &emsp;&emsp;<var>M</var>	- името на матрицата/вектора, който съдържа данните [<span class="err">задължително</span>];
+            <br />&emsp;&emsp;<code><em>filename.xlsx</em></code> - името и пътя на входния/изходния файл [<span class="err">задължително</span>]. Ако пътят липсва, се приема, че файлът е в същата папка. Поддържаните разширения са <b>xlsx</b> и <b>xlsm</b>;
+            <br />&emsp;&emsp;<code>@Sheet1</code> - името на отправния работен лист [<span class="ok">по желание</span>]. Ако е пропуснато, за съществуващи файлове се използва първият работен лист, а за новосъздадени се приема Sheet1.
+            <br />&emsp;&emsp;<code>!A1:B2</code> - отправна област от клетки [<span class="ok">по желание</span>]:
+            <br />&emsp;&emsp;<code>A1</code> - препратка към началната клетка [<span class="ok">по желание</span>], където A е името на колоната, а 1 е индексът на реда;
+            <br />&emsp;&emsp;<code>:B2</code> - препратка към крайната клетка, както е показано по-горе [<span class="ok">по желание</span>];
+            <br />&emsp;&emsp;Имената на колоните започват от <b>A</b>, а на редовете - от <b>1</b>. Можете да пропуснете всяка от препратките към началните или крайните колони/редове. В този случай данните се четат съответно от първата и последната запълнени клетки. Началните препратки към клетки могат да бъдат по-големи от крайните. Примери за настройки за четене на данни са дадени по-долу:
+        </p>
+        <table class="centered nb">
+            <tr>
+                <td>
+                    <table class="bordered centered sm">
+                        <tr><th>&emsp;</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr>
+                        <tr><th>1</th><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td></tr>
+                        <tr><th>2</th><td>21</td><td>22</td><td class="hl"><b>23</b></td><td class="hl"><b>24</b></td><td>25</td></tr>
+                        <tr><th>3</th><td>31</td><td>32</td><td class="hl"><b>33</b></td><td class="hl"><b>34</b></td><td>35</td></tr>
+                        <tr><th>4</th><td>41</td><td>42</td><td class="hl"><b>43</b></td><td class="hl"><b>44</b></td><td>45</td></tr>
+                        <tr><th>5</th><td>51</td><td>52</td><td>53</td><td>54</td><td>55</td></tr>
+                    </table>
+                </td>
+                <td>&emsp;</td>
+                <td>
+                    <table class="bordered centered sm">
+                        <tr><th>&emsp;</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr>
+                        <tr><th>1</th><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td></tr>
+                        <tr><th>2</th><td>21</td><td>22</td><td class="hl"><b>23</b></td><td class="hl"><b>24</b></td><td class="hl"><b>25</b></td></tr>
+                        <tr><th>3</th><td>31</td><td>32</td><td class="hl"><b>33</b></td><td class="hl"><b>34</b></td><td class="hl"><b>35</b></td></tr>
+                        <tr><th>4</th><td>41</td><td>42</td><td class="hl"><b>43</b></td><td class="hl"><b>44</b></td><td class="hl"><b>45</b></td></tr>
+                        <tr><th>5</th><td>51</td><td>52</td><td class="hl"><b>53</b></td><td class="hl"><b>54</b></td><td class="hl"><b>55</b></td></tr>
+                    </table>
+                </td>
+                <td>&emsp;</td>
+                <td>
+                    <table class="bordered centered sm">
+                        <tr><th>&emsp;</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr>
+                        <tr><th>1</th><td class="hl"><b>11</b></td><td class="hl"><b>12</b></td><td class="hl"><b>13</b></td><td class="hl"><b>14</b></td><td>15</td></tr>
+                        <tr><th>2</th><td class="hl"><b>21</b></td><td class="hl"><b>22</b></td><td class="hl"><b>23</b></td><td class="hl"><b>24</b></td><td>25</td></tr>
+                        <tr><th>3</th><td class="hl"><b>31</b></td><td class="hl"><b>32</b></td><td class="hl"><b>33</b></td><td class="hl"><b>34</b></td><td>35</td></tr>
+                        <tr><th>4</th><td>41</td><td>42</td><td>43</td><td>44</td><td>45</td></tr>
+                        <tr><th>5</th><td>51</td><td>52</td><td>53</td><td>54</td><td>55</td></tr>
+                    </table>
+                </td>
+                <td>&emsp;</td>
+                <td>
+                    <table class="bordered centered sm">
+                        <tr><th>&emsp;</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr>
+                        <tr><th>1</th><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td></tr>
+                        <tr><th>2</th><td class="hl"><b>21</b></td><td class="hl"><b>22</b></td><td class="hl"><b>23</b></td><td class="hl"><b>24</b></td><td class="hl"><b>25</b></td></tr>
+                        <tr><th>3</th><td class="hl"><b>31</b></td><td class="hl"><b>32</b></td><td class="hl"><b>33</b></td><td class="hl"><b>34</b></td><td class="hl"><b>35</b></td></tr>
+                        <tr><th>4</th><td class="hl"><b>41</b></td><td class="hl"><b>42</b></td><td class="hl"><b>43</b></td><td class="hl"><b>44</b></td><td class="hl"><b>45</b></td></tr>
+                        <tr><th>5</th><td>51</td><td>52</td><td>53</td><td>54</td><td>55</td></tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td><code><b>!C2:D4</b></code></td>
+                <td>&emsp;</td>
+                <td><code><b>!C2</b></code></td>
+                <td>&emsp;</td>
+                <td><code><b>!:D3</b></code></td>
+                <td>&emsp;</td>
+                <td><code><b>!2:4</b></code></td>
+            </tr>
+            <tr>
+                <td>
+                    <table class="bordered centered sm">
+                        <tr><th>&emsp;</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr>
+                        <tr><th>1</th><td>11</td><td>12</td><td class="hl"><b>13</b></td><td class="hl"><b>14</b></td><td>15</td></tr>
+                        <tr><th>2</th><td>21</td><td>22</td><td class="hl"><b>23</b></td><td class="hl"><b>24</b></td><td>25</td></tr>
+                        <tr><th>3</th><td>31</td><td>32</td><td class="hl"><b>33</b></td><td class="hl"><b>34</b></td><td>35</td></tr>
+                        <tr><th>4</th><td>41</td><td>42</td><td class="hl"><b>43</b></td><td class="hl"><b>44</b></td><td>45</td></tr>
+                        <tr><th>5</th><td>51</td><td>52</td><td class="hl"><b>53</b></td><td class="hl"><b>54</b></td><td>55</td></tr>
+                    </table>
+                </td>
+                <td>&emsp;</td>
+                <td>
+                    <table class="bordered centered sm">
+                        <tr><th>&emsp;</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr>
+                        <tr><th>1</th><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td></tr>
+                        <tr><th>2</th><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td></tr>
+                        <tr><th>3</th><td class="hl"><b>31</b></td><td class="hl"><b>32</b></td><td class="hl"><b>33</b></td><td class="hl"><b>34</b></td><td>35</td></tr>
+                        <tr><th>4</th><td class="hl"><b>41</b></td><td class="hl"><b>42</b></td><td class="hl"><b>43</b></td><td class="hl"><b>44</b></td><td>45</td></tr>
+                        <tr><th>5</th><td class="hl"><b>51</b></td><td class="hl"><b>52</b></td><td class="hl"><b>53</b></td><td class="hl"><b>54</b></td><td>55</td></tr>
+                    </table>
+                </td>
+                <td>&emsp;</td>
+                <td>
+                    <table class="bordered centered sm">
+                        <tr><th>&emsp;</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr>
+                        <tr><th>1</th><td>11</td><td>12</td><td class="hl"><b>13</b></td><td class="hl"><b>14</b></td><td class="hl"><b>15</b></td></tr>
+                        <tr><th>2</th><td>21</td><td>22</td><td class="hl"><b>23</b></td><td class="hl"><b>24</b></td><td class="hl"><b>25</b></td></tr>
+                        <tr><th>3</th><td>31</td><td>32</td><td class="hl"><b>33</b></td><td class="hl"><b>34</b></td><td class="hl"><b>35</b></td></tr>
+                        <tr><th>4</th><td>41</td><td>42</td><td class="hl"><b>43</b></td><td class="hl"><b>44</b></td><td class="hl"><b>45</b></td></tr>
+                        <tr><th>5</th><td>51</td><td>52</td><td class="hl"><b>53</b></td><td class="hl"><b>54</b></td><td class="hl"><b>55</b></td></tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td><code><b>!C:D</b></code></td>
+                <td>&emsp;</td>
+                <td><code><b>!3:D</b></code></td>
+                <td>&emsp;</td>
+                <td><code><b>!C</b></code></td>
+            </tr>
+        </table>
+        <p>&emsp;&emsp;Поведението на командите за изход на данни #write и #append е малко по-различно. Началната препратка показва местоположението на първия елемент <var>M</var><sub>1,1</sub> на изходната матрица. Така че, дори ако е по-голяма от A1, тя няма да отреже първите редове и колони. Освен ако не е ограничена от крайната препратка, цялата матрица ще бъде записана след посоченото местоположение. В противен случай останалите редове и колони след крайната препратка ще бъдат отрязани. Например: <code><span class="cond">#write</span> <var>M</var> to <em>filename.xlsx</em>@Sheet1!C2</code> ще доведе до следния изход:</p>
+        <table class="bordered centered sm">
+            <tr><th>&emsp;</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th><th>I</th></tr>
+            <tr><th>1</th><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td></tr>
+            <tr><th>2</th><td></td><td></td><td class="hl"><b>11</b></td><td class="hl"><b>12</b></td><td class="hl"><b>13</b></td><td class="hl"><b>14</b></td><td class="hl"><b>15</b></td><td></td><td></td></tr>
+            <tr><th>3</th><td></td><td></td><td class="hl"><b>21</b></td><td class="hl"><b>22</b></td><td class="hl"><b>23</b></td><td class="hl"><b>24</b></td><td class="hl"><b>25</b></td><td></td><td></td></tr>
+            <tr><th>4</th><td></td><td></td><td class="hl"><b>31</b></td><td class="hl"><b>32</b></td><td class="hl"><b>33</b></td><td class="hl"><b>34</b></td><td class="hl"><b>35</b></td><td></td><td></td></tr>
+            <tr><th>5</th><td></td><td></td><td class="hl"><b>41</b></td><td class="hl"><b>42</b></td><td class="hl"><b>43</b></td><td class="hl"><b>44</b></td><td class="hl"><b>45</b></td><td></td><td></td></tr>
+            <tr><th>6</th><td></td><td></td><td class="hl"><b>51</b></td><td class="hl"><b>52</b></td><td class="hl"><b>53</b></td><td class="hl"><b>54</b></td><td class="hl"><b>55</b></td><td></td><td></td></tr>
+            <tr><th>7</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        </table>
+        <p>
+            &emsp;&emsp;<code>TYPE=<b>R</b></code>	- тип на матрица/вектор за структурно съхранение [<span class="ok">по желание</span>]. Прилагат се същите правила както за текстовите/CSV файлове по-горе.
+		</p>
+
 
         <h2 id="TOC_700">Резултати</h2>
         <p>За да видите резултатите, първо трябва да стартирате решението, като натиснете "<b>F5</b>" или бутона <img alt="Play" height="20" src="Images/Play.png">. Те се показват в прозореца "<b>Резултати</b>". В него не може да редактирате съдържанието, но може да го маркирате, копирате или отпечатвате. За целта, може да използвате лентата с бутони вдясно над прозореца. С натискане на десен бутон върху резултатите се отваря контекстно меню с допълнителни функции. Подробно описание е дадено по-нататък в настоящото ръководство.</p>
@@ -4608,14 +5349,20 @@
         <p>Ако желаете да не се прави заместване, трябва да изключите опцията. Тогава резултатът се показва директно след формулата:</p>
         <p style="margin-left: 2em;"><var>x</var><sub>1</sub> = <span class="dvc"> -<var>b</var> – <span class="root">√</span><span class="ovr"><var>D</var></span><span class="dvl"></span>2·<var>a</var></span> = -1.55</span></p>
         <p>Ако поставите след това курсора на мишката над дадена променлива, ще се покаже нейната стойност като "балонче" горе вдясно от нея.</p>
+		<p>
+			Има също така и възможност за контрол на поведението при заместване на променливи в записките. Можете да използвате следните ключови думи за целта:<br />
+			&emsp;&emsp;<span class="cond">#nosub</span> - без заместване на променливи (no substitution);<br />
+			&emsp;&emsp;<span class="cond">#novar</span> - показване на уравненията без променливите само със заместени стойности (no variables);<br />
+			&emsp;&emsp;<span class="cond">#varsub</span> - показване на уравнения с променливите и заместените стойности (по подразбиране).
+		</p>
         <p>
             Ако уравнението стане прекалено дълго за да се събере на един ред, може да контролирате начина, по който то да бъде форматирано, като използвате следните ключови думи:<br />
             &emsp;&emsp;<span class="cond">#split</span></a> - уравнението се пренася на нов ред след символа "=";<br />
             &emsp;&emsp;<span class="cond">#wrap</span></a> - уравнението се пренася на нов ред, в края на текущия (по подразбиране).<br />
+		</p>
 
 
-
-            <h3 id="TOC_702">Закръгляване</h3>
+		<h3 id="TOC_702">Закръгляване</h3>
         <p>Закръгляването на резултатите се дефинира чрез броя цифри след десетичната точка <var>k</var>. Въвежда се в полето "Закръглявай на […] цифри" в долната част на екрана. Стойността на <var>k</var> може да бъде между "0" и "15". Ако въведете "0", резултатите ще се закръгляват към цели числа. Ако въведете стойност, по-малка от "0" или по-голяма от "15", ще се възприеме съответната гранична стойност.</p>
         <p>При закръгляването има и някои допълнителни особености. Ако се получи число, което е по-малко от 10<sup>-<var>k</var></sup>, тогава в резултата ще има само нули. Поради това, в Calcpad се използва интелигентно закръгляване. Ако след закръгляването остават по-малко от <var>k</var> значещи цифри, се изписват <var>k</var> значещи цифри. Ако при това се получат повече от три нули след десетичната точка, то програмата преминава в представяне с плаваща запетая, като отново оставя <var>k</var> значещи цифри. Иначе, броенето на нулите след десетичната точка става трудно. Когато общия брой цифри стане по-голям от 2<var>k</var>, дробната част се отрязва. Така остават 2<var>k</var> значещи цифри като същевременно записката става по-прегледна. По-долу са дадени различни примери, получени при закръгляване до третия знак (<var>k</var> = 3).</p>
         <ul style="list-style-type:none;">
@@ -4627,7 +5374,7 @@
             <li>1000000∙<var>π</var> = 3141593</li>
         </ul>
         <p>Всичко това се отнася само за показването на числата в текста на записката. Вътрешно, всички стойности се съхраняват с максималния възможен брой значещи цифри. По този начин се извършват и самите изчисления. Затова, ако отпечатате записката и повторите изчисленията на ръка, може да получите малка разлика в резултата. Това е защото използвате закръглените стойности, вместо действителните.</p>
-        <p>Може да предефинирате глобалните настройки за закръгляване за дадена част от записката чрез ключова дума <code class="cond">#Round</code> <var>n</var>, където <var>n</var> е желания брой цифри след десетичната точка (от "0" до "15").</p>
+        <p>Може да предефинирате глобалните настройки за закръгляване за дадена част от записката чрез ключова дума <code class="cond">#Round</code> <var>n</var>, където <var>n</var> е желания брой цифри след десетичната точка (от "0" до "15"). За да възстановите глобалните настройки за закръгляване, въведете <code class="cond">#Round default</code></p>
 
         <h3 id="TOC_703">Форматиране</h3>
         <p>Calcpad не само изчислява въведените формули. Той може да генерира автоматично и изчислителна записка, директно от програмния код. За целта се използва Html формат, който се поддържа от много софтуерни продукти и позволява да публикувате резултатите директно в Интернет. Използват се подходящи шрифтове и цветове, горен индекс за степенуване и символ за коренуване, което придава професионален изглед на формулите. Има два възможни режима за форматиране на изрази, което може да изберете от съответните настройки в долната част на екрана:</p>
@@ -4688,6 +5435,122 @@
             </tbody>
         </table>
         <p>Html форматирането не е само за красота. Това прави записката по-лесна за четене и проверка от обикновен текст. Може да вмъкнете и допълнителен Html код в коментарите което ще се отрази на окончателния и вид. Така може да вграждате Calcpad записки в уеб сайтове и да създавате професионални уеб приложения, които да се ползват само онлайн. За целта обаче ви трябва облачната версия на Calcpad, която да извършва необходимите изчисления.</p>
+		<p>За десетичен разделител Calcpad използва символа, дефиниран в регионалните настройки на Windows.</p>
+
+		<h4>Персонализирани форматиращи низове</h4>
+		<p>Можете да зададете форматиращи низове за различни части от записката и дори за отделни стойности. На ниво записка можете да направите това, като следвате командата:</p>
+        <p style="margin-left: 2em;"><code class="cond">#format</code> <em>форматиращ низ</em></p>
+        <p>За да възстановите форматирането по подразбиране, добавете следния ред:</p>
+        <p style="margin-left: 2em;"><code class="cond">#format default</code></p>
+        <p>За да зададете форматиращ низ за отделна стойност, добавете двоеточие, последвано от съответния низ, например:</p>
+        <p style="margin-left: 2em;"><code><var>x</var> = 12.345:</code><em>форматиращ низ</em></p>
+        <p>Ако имате мерни единици, спецификаторът на формата се позиционира след мерните единици:</p>
+        <p style="margin-left: 2em;"><code><var>x</var> = 12.345cm:</code><em>форматиращ низ</em></p>
+        <p>Има няколко вида форматиращи низове, които можете да използвате:</p>
+        <table style="margin-left:24px;" border="1">
+            <thead>
+                <tr>
+                    <th>Код</th>
+                    <th>Описание</th>
+                    <th style="width:35%">Примери</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>E&hairsp;<var>n</var><br />or<br />e&hairsp;<var>n</var></td>
+                    <td>
+						<b>Експоненциален</b> (т.е. инженерен или научен).<br />
+						<var>n</var> - брой десетични цифри (0-17)<br />
+						Стойността по подразбиране е <var>n</var> = 6, ако е пропусната.<br />
+						Когато се използва главна буква E, резултатът се показва като ×10<sup>⁺∕₋000</sup>
+                    </td>
+                    <td>
+                        <code>123456.789:e</code> = 1.234568e+005<br />
+                        <code>0.00123456:e2</code> = 1.23e-003<br />
+                        <code>123456789:E3</code> = 1.235×10+008
+                    </td>
+                </tr>
+                <tr>
+                    <td>F&hairsp;<var>n</var><br />or<br />f&hairsp;<var>n</var></td>
+                    <td>
+						<b>Фиксирана запетая</b>.<br />
+						<var>n</var> - брой десетични цифри (0-17)<br />
+						Стойността по подразбиране е <var>n</var> = 2, ако е пропусната.<br />
+                    </td>
+                    <td>
+                        <code>123.456789:f</code> = 123.46<br />
+                        <code>0.00123456:F5</code> = 0.00123<br />
+                        <code>123:F2</code> = 123.00
+                    </td>
+                </tr>
+                <tr>
+                    <td>G&hairsp;<var>n</var><br />or<br />g&hairsp;<var>n</var></td>
+                    <td>
+						<b>Общ</b>.<br />
+						<var>n</var> - брой значещи цифри (0-17)<br />
+						Стойността по подразбиране е <var>n</var> = 15, ако е пропусната.<br />
+						Показва или фиксирана запетая, или научен формат.
+                    </td>
+                    <td>
+                        <code>123.456789:g</code> = 123.456789<br />
+                        <code>0.0012345678:g3</code> = 0.00123<br />
+                        <code>123456m:G3</code> = 1.23×10<sup>5</sup> m<br />
+                    </td>
+                </tr>
+                <tr>
+                    <td>N&hairsp;<var>n</var><br />or<br />n&hairsp;<var>n</var></td>
+                    <td>
+						<b>Число</b> (фиксирана запетая с групиране на цифри).<br />
+						<var>n</var> - брой десетични цифри (0-17)<br />
+						Стойността по подразбиране е <var>n</var> = 2, ако е пропусната.<br />
+						Символите, дефинирани в регионалните настройки на Windows, се използват разделители на хиляди и десетична точка.
+                    </td>
+                    <td>
+                        <code>123.456789:n</code> = 123.46<br />
+                        <code>0.0012345678:N3</code> = 0.001<br />
+                        <code>123456:N3</code> = 123,456.000<br />
+                    </td>
+                </tr>
+                <tr>
+                    <td>C&hairsp;<var>n</var><br />or<br />e&hairsp;<var>n</var></td>
+                    <td>
+						<b>Валута</b> (фиксирана запетая със символ на валута и групиране на цифри).<br />
+						<var>n</var> - брой десетични цифри (0-17)<br />
+						Стойността по подразбиране е <var>n</var> = 2, ако е пропусната.<br />
+						Използва се символът на валутата, дефиниран в регионалните настройки на Windows.
+                    </td>
+                    <td>
+                        <code>123.456789:C</code> = 123.46 €<br />
+                        <code>0.0012345678:C3</code> = 0.001 €<br />
+                        <code>123456:C</code> = 123,456.00 €<br />
+                    </td>
+                </tr>
+                <tr>
+                    <td>0<br />#<br />00#<br />0.000<br />#.###<br />0,000.0##<br />0.0E+00<br />0.#e-00<br />etc.</td>
+                    <td>
+						<b>Персонализиран</b>.<br />
+						Съставен е от следните символи:<br />
+						<b>0</b> - нула. Показва цифра или нула, ако цифра не е налична.<br />
+						<b>#</b> - незадължителен символ за цифра. Показва цифра, ако е налична или нищо.<br />
+						<b>.</b> - десетичен разделител.<br />
+						<b>,</b> - разделител за групи.<br />
+						<b>E</b>, <b>e</b>, <b>E+</b>, <b>e+</b>, <b>E-</b>, <b>e-</b>
+						- експоненциална нотация.
+                    </td>
+                    <td>
+                        <code>123.456789:000000</code> = 000123<br />
+                        <code>123.45:0.0000</code> = 123.4500<br />
+                        <code>123.45:0.####</code> = 123.45<br />
+                        <code>0.00123456:#.#####</code> = .00123<br />
+                        <code>1234567:#,#.0</code> = 1,234,567.0<br />
+                        <code>1234567:0.00e+00</code> = 1.23e+06<br />
+                        <code>1234567:0.00e-0</code> = 1.23e6<br />
+                        <code>0.01234:#.##e-000</code> = 1.23e-002<br />
+                        <code>0.12:0.000e-00</code> = 1.200e-01
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
         <h3 id="TOC_704">Мащабиране</h3>
         <p>Може да увеличавате и намалявате размера на текста в прозореца с резултати, като задържите "<b>Ctrl</b>" и завъртите колелото на мишката. Завъртане напред увеличава, а завъртане назад - намалява височината на текста.</p>
@@ -4729,7 +5592,7 @@
         <h3 id="TOC_804">Запис като…</h3>
         <p>Може да запишете файла и с ново име като изберете менюто "<b>Файл/Запис като…</b>". На екрана ще се появи диалог за избор на файл. Изберете път и име на файла и натиснете "<b>Save</b>".</p>
         <hr />
-        <p>Автор: инж. Неделчо Ганчовски. Последна промяна на 23.10.2024 г.</p>
+        <p>Автор: инж. Неделчо Ганчовски. Последна промяна на 18.09.2025 г.</p>
     </div>
     <script src="jquery-3.6.3.min.js"></script>
     <script>

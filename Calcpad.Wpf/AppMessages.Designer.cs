@@ -70,6 +70,15 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Data import/export.
+        /// </summary>
+        public static string DataImportExport {
+            get {
+                return ResourceManager.GetString("DataImportExport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to End of line expected..
         /// </summary>
         public static string End_of_line_expected {

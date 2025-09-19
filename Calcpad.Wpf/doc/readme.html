@@ -108,7 +108,7 @@
         var{
             color: #06c;
             font-family: "Times New Roman", Times, serif;
-            font-size: 12.5pt
+            font-size: 12pt
         }
 
         code {
@@ -151,7 +151,7 @@
 
         .root {
             font-family: "Times New Roman", Times, serif;
-            font-size: 14pt;
+            font-size: 13pt;
         }
 
         .ovr {
@@ -691,7 +691,7 @@
                 border-bottom: solid 1pt black;
             }
 
-        .hl {background-color: #FFFCD6;}
+        .hl  {background-color: #FFFCD6;}
         .hl1 {background-color: #FFF8C8;}
         .hl2 {background-color: #FFF2B8;}
     </style>
@@ -820,7 +820,8 @@
                     <li>aggregate functions: min, max, sum, sumsq, srss, average, product, (geometric) mean, etc.;</li>
                     <li>
                         math functions: norm, condition, determinant, rank, trace, transpose, adjugate and cofactor, inverse,
-                        factorization (Cholesky, ldlt, lu, qr and svd), eigenvalues/vectors and linear systems of equations;
+                        factorization (Cholesky, ldlt, lu, qr and svd), eigenvalues/vectors, linear systems of equations, 
+						fast Forier transforms, etc.;
                     </li>
                 </ul>
             <li>custom functions of multiple parameters f(x; y; z; …);</li>
@@ -1182,7 +1183,7 @@
             </li>
             <li>
                 Inverse hyperbolic:<ul style="list-style-type:none;">
-                    <li><code><b>asinh</b> (<var>x</var>)</code> - inverted hyperbolic sine = <code><b>ln</b>(<var>x</var> + <span class="root">√</span><span class="ovr"><var>x</var><sup>2</sup> + 1</span>)</code>, defined for -∞ &le; <var>x</var> &le; +∞;</li>
+                    <li><code><b>asinh</b>(<var>x</var>)</code> - inverted hyperbolic sine = <code><b>ln</b>(<var>x</var> + <span class="root">√</span><span class="ovr"><var>x</var><sup>2</sup> + 1</span>)</code>, defined for -∞ &le; <var>x</var> &le; +∞;</li>
                     <li><code><b>acosh</b>(<var>x</var>)</code> - inverted hyperbolic cosine = <code><b>ln</b>(<var>x</var> + <span class="root">√</span><span class="ovr"><var>x</var> + 1</span>&middot;<span class="root">√</span><span class="ovr"><var>x</var> - 1</span>)</code>, defined for <var>x</var> &ge; 1;</li>
                     <li><code><b>atanh</b>(<var>x</var>)</code> - inverted hyperbolic tangent = <code>1/2&middot;<b>ln</b>[(1 + <var>x</var>)/(1 - <var>x</var>)]</code>, for -1 &lt; <var>x</var> &lt; 1;</li>
                     <li><code><b>acsch</b>(<var>x</var>)</code> - inverted hyperbolic cosecant = <code><b>atanh</b>(1/<var>x</var>)</code>;</li>
@@ -5209,7 +5210,7 @@
         </p>
         <p>
             &emsp;&emsp;If “<b>N</b>” is selected, all matrices are stored as rectangular, regardless their type and internal structure.<br />&emsp;&emsp;All elements after the last nonzero value on the row are skipped.
-            <br />&emsp;&emsp;<code>SEP=','</code>	- separator [<span class="ok">optional</span>]. You must specify a single character in quotes.<br />&emsp;&emsp;For the #read command it must correspond to the actual separator used in the input file.
+            <br />&emsp;&emsp;<code>SEP=','</code>	- separator [<span class="ok">optional</span>]. You must specify a single character in quotes.<br />&emsp;&emsp;For the <span class="cond">#read</span> command it must correspond to the actual separator used in the input file.
             <br />&emsp;&emsp;The minimal allowed syntax for the above commands if all optional keywords are skipped is:
             <br />&emsp;&emsp;&emsp;&emsp;“<code><span class="cond">#read</span> <var>M</var> from <em>filename.txt</em></code>” or
             <br />&emsp;&emsp;&emsp;&emsp;“<code><span class="cond">#write</span> <var>M</var> to <em>filename.txt</em></code>” or
@@ -5225,7 +5226,7 @@
         <p>
             &emsp;&emsp;<var>M</var>	- the name of the matrix/vector that contains the data [<span class="err">required</span>];
             <br />&emsp;&emsp;<code><em>filename.xlsx</em></code> - the name and path of the input/output file [<span class="err">required</span>]. If the path is missing, the file is assumed to be in the same folder. The supported extensions are <b>xlsx</b> and <b>xlsm</b>;
-            <br />&emsp;&emsp;<code>@Sheet1</code> - the name of the target worksheet [<span class="ok">optional</span>]. If omitted the first worksheet is used for existing files and Sheet1 is assumed for newly created worksheets.
+            <br />&emsp;&emsp;<code>@Sheet1</code> - the name of the target worksheet [<span class="ok">optional</span>]. If omitted the first worksheet is used for existing files and Sheet1 is assumed for newly created ones.
             <br />&emsp;&emsp;<code>!A1:B2</code> - target cell range [<span class="ok">optional</span>]:
             <br />&emsp;&emsp;<code>A1</code> - starting cell reference [<span class="ok">optional</span>], where A is the column name and 1 is the row index;
             <br />&emsp;&emsp;<code>:B2</code> - ending cell reference as above [<span class="ok">optional</span>];
@@ -5341,8 +5342,10 @@
         </table>
         <p>
             &emsp;&emsp;<code>TYPE=<b>R</b></code>	- type of matrix/vector for structured storage [<span class="ok">optional</span>]. The same rules apply as for text/CSV files above.
-
-            <h2 id="TOC_700">Results</h2>
+		</p>
+		
+		
+		<h2 id="TOC_700">Results</h2>
         <p>You can run the solution by pressing <b>F5</b> or clicking the <img alt="Play" height="20" src="Images/Play.png"> button. The results will appear in the "<b>Output</b>" box. You cannot edit the output content, but you can select, copy and print it. For that purpose, you can use the toolbar above the "<b>Output</b>" box on the right. You can also use additional commands from the context menu, that is displayed If you right-click inside the "<b>Output</b>" box, you will see a pop-up menu with additional commands. Detailed description is provided further in this manual.</p>
         <p>Since version 6.5.3, you can use the "☑ <b>AutoRun</b>" mode. While it is checked, the results will refresh each time you change the code and move to another line. If you need to synchronize the results manually, you can press "<b>Ctrl + Enter</b>". Additionally, the output window will scroll to match the current position in the source code. You can do the same by double clicking into the input window.</p>
 
@@ -5589,7 +5592,7 @@
         <h3 id="TOC_804">Save As…</h3>
         <p>If you need to save the current file with a different name, select the "<b>File/Save As…</b>" menu command. A file selection dialog will be displayed. Select file path and name and click "<b>Save</b>"</p>
         <hr />
-        <p>Last edited on 04.09.2025 by eng. Nedelcho Ganchovski.</p>
+        <p>Last edited on 18.09.2025 by eng. Nedelcho Ganchovski.</p>
     </div>
     <script src="jquery-3.6.3.min.js"></script>
     <script>

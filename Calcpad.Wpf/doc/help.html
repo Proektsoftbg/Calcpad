@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <title>Calcpad Quick Reference</title>
-    <script src="jquery-3.6.3.min.js"></script>
     <style>
         body {
             font-size: 11pt;
@@ -445,13 +444,13 @@
                         <a href="#0" data-text="utriang(n)"><b>utriang</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - creates an upper triangular matrix with dimensions <var>n</var>⨯<var>n</var>;<br />
                         <a href="#0" data-text="ltriang(n)"><b>ltriang</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - creates a lower triangular matrix with dimensions <var>n</var>⨯<var>n</var>;<br />
                         <a href="#0" data-text="symmetric(n)"><b>symmetric</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - creates a symmetric matrix with dimensions <var>n</var>⨯<var>n</var>;<br />
-						<a href="#0" data-text="matrix_hp(m; n)"><b>matrix_hp</b><span class="b">(</span><var>m</var><span class="o">;</span> <var>n</var><span class="b">)</span></a> - creates a high-performance matrix with dimensions <var>m</var>⨯<var>n</var>;<br />
-						<a href="#0" data-text="identity_hp(n)"><b>identity_hp</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - creates a high-performance identity matrix with dimensions <var>n</var>⨯<var>n</var>;<br />
-						<a href="#0" data-text="diagonal_hp(n; d)"><b>diagonal_hp</b><span class="b">(</span><var>n</var><span class="o">;</span> <var>d</var><span class="b">)</span></a> - creates a high-performance <var>n</var>⨯<var>n</var> diagonal matrix filled with value <var>d</var>;<br />
-						<a href="#0" data-text="column_hp(m; c)"><b>column_hp</b><span class="b">(</span><var>m</var><span class="o">;</span> <var>c</var><span class="b">)</span></a> - creates a high-performance <var>m</var>⨯1 column matrix filled with value <var>c</var>;<br />
-						<a href="#0" data-text="utriang_hp(n)"><b>utriang_hp</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - creates a high-performance <var>n</var>⨯<var>n</var> upper triangular matrix;<br />
-						<a href="#0" data-text="ltriang_hp(n)"><b>ltriang_hp</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - creates a high-performance <var>n</var>⨯<var>n</var> lower triangular matrix;<br />
-						<a href="#0" data-text="symmetric_hp(n)"><b>symmetric_hp</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - creates a high-performance symmetric matrix with dimensions <var>n</var>⨯<var>n</var>;<br />
+						<a href="#0" data-text="matrix_hp(m; n)"><b>matrix_hp</b><span class="b">(</span><var>m</var><span class="o">;</span> <var>n</var><span class="b">)</span></a> - creates a high-performance (hp) matrix with dimensions <var>m</var>⨯<var>n</var>;<br />
+						<a href="#0" data-text="identity_hp(n)"><b>identity_hp</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - creates a high-performance (hp) identity matrix with dimensions <var>n</var>⨯<var>n</var>;<br />
+						<a href="#0" data-text="diagonal_hp(n; d)"><b>diagonal_hp</b><span class="b">(</span><var>n</var><span class="o">;</span> <var>d</var><span class="b">)</span></a> - creates a high-performance (hp) <var>n</var>⨯<var>n</var> diagonal matrix filled with value <var>d</var>;<br />
+						<a href="#0" data-text="column_hp(m; c)"><b>column_hp</b><span class="b">(</span><var>m</var><span class="o">;</span> <var>c</var><span class="b">)</span></a> - creates a high-performance (hp) <var>m</var>⨯1 column matrix filled with value <var>c</var>;<br />
+						<a href="#0" data-text="utriang_hp(n)"><b>utriang_hp</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - creates a high-performance (hp) <var>n</var>⨯<var>n</var> upper triangular matrix;<br />
+						<a href="#0" data-text="ltriang_hp(n)"><b>ltriang_hp</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - creates a high-performance (hp) <var>n</var>⨯<var>n</var> lower triangular matrix;<br />
+						<a href="#0" data-text="symmetric_hp(n)"><b>symmetric_hp</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - creates a high-performance (hp) symmetric matrix with dimensions <var>n</var>⨯<var>n</var>;<br />
                         <a href="#0" data-text="vec2diag(v)"><b>vec2diag</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - creates a diagonal matrix from the elements of vector <var><span class="vec">⃗</span>v</var>;<br />
                         <a href="#0" data-text="vec2row(v)"><b>vec2row</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - creates a row matrix from the elements of vector <var><span class="vec">⃗</span>v</var>;<br />
                         <a href="#0" data-text="vec2col(v)"><b>vec2col</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - creates a column matrix from the elements of vector <var><span class="vec">⃗</span>v</var>;<br />
@@ -535,7 +534,7 @@
                         <a href="#0" data-text="inverse(M)"><b>inverse</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - inverse of matrix <var>M</var>;<br />
                         <a href="#0" data-text="lsolve(A; b)"><b>lsolve</b><span class="b">(</span><var>A</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="b">)</span></a> - solves the system of linear equations <var>A<span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> using LDL<sup>T</sup> decomposition for symmetric matrices, and LU for non-symmetric;<br />
                         <a href="#0" data-text="clsolve(A; b)"><b>clsolve</b><span class="b">(</span><var>A</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="b">)</span></a> - solves the linear matrix equation <var>A<span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> with symmetric, positive-definite coefficient matrix <var>A</var> using Cholesky decomposition;<br />
-						 <a href="#0" data-text="slsolve(A; b)"><b>slsolve</b><span class="b">(</span><var>A</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="b">)</span></a> - solves the linear matrix equation <var>A<span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> with high-performance symmetric, positive-definite matrix A using preconditioned conjugate gradient (PCG) method;<br />
+						<a href="#0" data-text="slsolve(A; b)"><b>slsolve</b><span class="b">(</span><var>A</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="b">)</span></a> - solves the linear matrix equation <var>A<span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> with high-performance symmetric, positive-definite matrix A using preconditioned conjugate gradient (PCG) method;<br />
                         <a href="#0" data-text="msolve(A; B)"><b>msolve</b><span class="b">(</span><var>A</var><span class="o">;</span> <var>B</var><span class="b">)</span></a> - solves the generalized matrix equation <var>AX</var> = <var>B</var> using LDL<sup>T</sup> decomposition for symmetric matrices, and LU for non-symmetric;<br />
                         <a href="#0" data-text="cmsolve(A; B)"><b>cmsolve</b><span class="b">(</span><var>A</var><span class="o">;</span> <var>B</var><span class="b">)</span></a> - solves the generalized matrix equation <var>AX</var> = <var>B</var> with symmetric, positive-definite coefficient matrix <var>A</var> using Cholesky decomposition;<br />
 						<a href="#0" data-text="smsolve(A; B)"><b>smsolve</b><span class="b">(</span><var>A</var><span class="o">;</span> <var>B</var><span class="b">)</span></a> - solves the generalized matrix equation <var>AX</var> = <var>B</var> with high-performance symmetric, positive-definite matrix A using preconditioned conjugate gradient (PCG) method;<br />
@@ -1249,6 +1248,7 @@
             <a href="#0" data-text="₪" title="Shekel">₪</a>.
         </li>
     </ul>
+   <script src="jquery-3.6.3.min.js"></script>
     <script>
         if (window.jQuery) {
             $(document).ready(function () {
