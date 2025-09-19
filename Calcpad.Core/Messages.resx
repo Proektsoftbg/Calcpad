@@ -518,16 +518,16 @@
     <value>Value</value>
   </data>
   <data name="Invalid_format_string_0" xml:space="preserve">
-    <value>Invalid format string: {0}. </value>
+    <value>Invalid format string: {0}.</value>
   </data>
   <data name="Invalid_keyword_0" xml:space="preserve">
-    <value>Invalid keyword: {0}. </value>
+    <value>Invalid keyword: {0}.</value>
   </data>
   <data name="_must_be_matrix" xml:space="preserve">
     <value> must be matrix.</value>
   </data>
   <data name="The_variable_is_not_a_matrix_0" xml:space="preserve">
-    <value>The variable is not a matrix: {0}. </value>
+    <value>The variable is not a matrix: {0}.</value>
   </data>
   <data name="File_not_found_0" xml:space="preserve">
     <value>File not found: {0}.</value>
