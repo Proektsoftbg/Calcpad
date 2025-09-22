@@ -552,10 +552,9 @@ namespace Calcpad.Core
                 var vr = Vectorized.AsVector(sr);
                 for (int k = 0, len = ar.Length; k < len; ++k)
                 {
-                    var br = b_hpRows[k].Raw;
                     var a_rk = ar[k];
-                    if ( a_rk != 0d)
-                        Vectorized.MultiplyAdd(br, a_rk, sr, vr);
+                    if (a_rk != 0d)
+                        Vectorized.MultiplyAdd(b_hpRows[k].Raw, a_rk, sr, vr);
                 }
                 c_hpRows[i] = new HpVector(cr, unit);
             }
