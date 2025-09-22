@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Drawing.Diagrams;
+using System;
 
 namespace Calcpad.Core
 {
@@ -23,17 +24,19 @@ namespace Calcpad.Core
                 var j1 = j - 1;
                 var V_j = V[j];
                 SymmetricMatrixVectorProduct(Matrix, V_j, w);
+                var sw = w.AsSpan();
+                var vw = Vectorized.AsVector(sw);   
                 // 3-term recurrence
-                Vectorized.MultiplyAdd(V[j1], -beta[j1], w);
+                Vectorized.MultiplyAdd(V[j1], -beta[j1], sw, vw);
                 alpha[j1] = Vectorized.DotProduct(w, V_j, 0, w.Length);
-                Vectorized.MultiplyAdd(V[j], -alpha[j1], w);
+                Vectorized.MultiplyAdd(V[j], -alpha[j1], sw, vw);
                 //Reothogonalization by modified Gram-Schmidt process
                 for (int s = 1; s <= j; ++s)
                 {
-                    var dot = Vectorized.DotProduct(w, V[s], 0, n);
-                    Vectorized.MultiplyAdd(V[s], -dot, w);
+                    var dot = Vectorized.DotProduct(sw, V[s], 0, n);
+                    Vectorized.MultiplyAdd(V[s], -dot, sw, vw);
                 }
-                beta[j] = Vectorized.Norm(w);
+                beta[j] = Vectorized.Norm(sw);
                 if (beta[j] < 1e-15)
                 {
                     m = j;
@@ -142,14 +145,16 @@ namespace Calcpad.Core
                 for (int i = 0; i < eigenCount; ++i)
                 {
                     int index = indexes[i];
-                    Array.Clear(v, 0, n);
+                    var sv = v.AsSpan();
+                    var vv = Vectorized.AsVector(sv);
+                    sv.Clear();
                     for (int j = 0; j < m; ++j)
-                        Vectorized.MultiplyAdd(V[j + 1], Q[j][index], v);
+                        Vectorized.MultiplyAdd(V[j + 1], Q[j][index], sv, vv);
 
                     //Normalize v
-                    var norm = Vectorized.Norm(v);
+                    var norm = Vectorized.Norm(sv);
                     if (norm != 0)
-                        Vectorized.Scale(v, 1d / norm);
+                        Vectorized.Scale(sv, 1d / norm);
 
                     //Assign to eigvecs
                     for (int j = 0; j < n; ++j)
@@ -190,9 +195,11 @@ namespace Calcpad.Core
             var v = new double[n];
             for (int i = 0; i < n; ++i)
                 v[i] = rnd.NextDouble() - 0.5;
+
             var norm = Vectorized.Norm(v);
             for (int i = 0; i < n; ++i)
                 v[i] /= norm;
+
             return v;
         }
 

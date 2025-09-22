@@ -164,13 +164,9 @@ namespace Calcpad.Core
 
         internal HpVector(int length, int size, Unit units)
         {
-            if (length > MaxLength)
-                throw Exceptions.VectorSizeLimit();
-
             Units = units;
             _length = length;
-            _size = size;
-            _capacity = size;
+            _capacity = _size = size;
             _values = new double[size];
         }
 

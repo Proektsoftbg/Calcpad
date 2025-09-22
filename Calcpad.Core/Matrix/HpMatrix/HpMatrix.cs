@@ -519,9 +519,9 @@ namespace Calcpad.Core
             var m = a._rowCount;
             var na = a._colCount - 1;
             var nb = b._colCount - 1;
-            var a_hpRows = a._hpRows;
-            var b_hpRows = b._hpRows;
-            var c_hpRows = c._hpRows;
+            var a_rows = a._hpRows;
+            var b_rows = b._hpRows;
+            var c_rows = c._hpRows;
             if (a._type == MatrixType.Full || a._type == MatrixType.LowerTriangular)
             {
                 if (m > ParallelThreshold)
@@ -546,22 +546,26 @@ namespace Calcpad.Core
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             void MultiplyRow1(int i)
             {
-                var ar = a_hpRows[i].Raw;
-                var cr = new double[nb + 1];
-                var sr = cr.AsSpan();
-                var vr = Vectorized.AsVector(sr);
-                for (int k = 0, len = ar.Length; k < len; ++k)
+                var size = a_rows[i].Size;
+                var ar = a_rows[i].Raw;
+                var len = nb + 1;
+                c_rows[i] = new HpVector(len, len, unit);
+                var sc = c_rows[i].Raw.AsSpan();
+                var vr = Vectorized.AsVector(sc);
+                for (int k = 0; k < size; ++k)
                 {
-                    var a_rk = ar[k];
-                    if (a_rk != 0d)
-                        Vectorized.MultiplyAdd(b_hpRows[k].Raw, a_rk, sr, vr);
+                    var a_k = ar[k];
+                    var br = b_rows[k].Raw;
+                    if (a_k == 1d)
+                        Vectorized.Add(br, sc, vr);
+                    else if (a_k != 0d)
+                        Vectorized.MultiplyAdd(br, a_k, sc, vr);
                 }
-                c_hpRows[i] = new HpVector(cr, unit);
             }
 
             void MultiplyRow2(int i)
             {
-                var c_i = c_hpRows[i];
+                var c_i = c_rows[i];
                 for (int j = nb; j >= 0; --j)
                 {
                     var c_ij = a.GetValue(i, na) * b.GetValue(na, j) * d;
