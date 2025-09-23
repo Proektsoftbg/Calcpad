@@ -101,6 +101,9 @@ namespace Calcpad.Core
             {
                 var i0 = start[i];
                 var len = i - i0 + 1;
+                if (len < 1)
+                    return null;
+
                 L[i] = new double[len];
                 var L_i = L[i];
                 ReadOnlySpan<double> sa = L_i.AsSpan(0, len);
