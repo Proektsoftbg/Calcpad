@@ -519,19 +519,38 @@ namespace Calcpad.Core
             var m = a._rowCount;
             var na = a._colCount - 1;
             var nb = b._colCount - 1;
-            var a_rows = a._hpRows;
-            var b_rows = b._hpRows;
             var c_rows = c._hpRows;
             if (a._type == MatrixType.Full || a._type == MatrixType.LowerTriangular)
             {
+                var a_rows = a._hpRows;
+                var b_rows = b._hpRows;
+                var nb1 = nb + 1;
                 if (m > ParallelThreshold)
-                    Parallel.For(0, m, MultiplyRow1);
+                    Parallel.For(0, m, MultiplyRow);
                 else
                     for (int i = 0; i < m; ++i)
-                        MultiplyRow1(i);
+                        MultiplyRow(i);
 
                 if (d != 1d)
                     c.Scale(d);
+
+                void MultiplyRow(int i)
+                {
+                    var ar = a_rows[i].Raw;
+                    var size = a_rows[i].Size;
+                    c_rows[i] = new HpVector(nb1, nb1, unit);
+                    var sc = c_rows[i].Raw.AsSpan();
+                    var vr = Vectorized.AsVector(sc);
+                    for (int k = 0; k < size; ++k)
+                    {
+                        var a_k = ar[k];
+                        var br = b_rows[k].Raw;
+                        if (a_k == 1d)
+                            Vectorized.Add(br, sc, vr);
+                        else if (a_k != 0d)
+                            Vectorized.MultiplyAdd(br, a_k, sc, vr);
+                    }
+                }
             }
             else
             {
@@ -540,41 +559,21 @@ namespace Calcpad.Core
                 else
                     for (int i = m - 1; i >= 0; --i)
                         MultiplyRow2(i);
+
+                void MultiplyRow2(int i)
+                {
+                    var c_i = c_rows[i];
+                    for (int j = nb; j >= 0; --j)
+                    {
+                        var c_ij = a.GetValue(i, na) * b.GetValue(na, j) * d;
+                        for (int k = na - 1; k >= 0; --k)
+                            c_ij += a.GetValue(i, k) * b.GetValue(k, j) * d;
+
+                        c_i.SetValue(c_ij, j);
+                    }
+                }
             }
             return c;
-
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            void MultiplyRow1(int i)
-            {
-                var size = a_rows[i].Size;
-                var ar = a_rows[i].Raw;
-                var len = nb + 1;
-                c_rows[i] = new HpVector(len, len, unit);
-                var sc = c_rows[i].Raw.AsSpan();
-                var vr = Vectorized.AsVector(sc);
-                for (int k = 0; k < size; ++k)
-                {
-                    var a_k = ar[k];
-                    var br = b_rows[k].Raw;
-                    if (a_k == 1d)
-                        Vectorized.Add(br, sc, vr);
-                    else if (a_k != 0d)
-                        Vectorized.MultiplyAdd(br, a_k, sc, vr);
-                }
-            }
-
-            void MultiplyRow2(int i)
-            {
-                var c_i = c_rows[i];
-                for (int j = nb; j >= 0; --j)
-                {
-                    var c_ij = a.GetValue(i, na) * b.GetValue(na, j) * d;
-                    for (int k = na - 1; k >= 0; --k)
-                        c_ij += a.GetValue(i, k) * b.GetValue(k, j) * d;
-
-                    c_i.SetValue(c_ij, j);
-                }
-            }
         }
 
         public static HpMatrix operator *(HpMatrix a, RealValue b)
