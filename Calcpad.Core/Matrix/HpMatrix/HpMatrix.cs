@@ -522,11 +522,20 @@ namespace Calcpad.Core
             var c_rows = c._hpRows;
             if (a._type == MatrixType.Full || a._type == MatrixType.LowerTriangular)
             {
-                var a_rows = a._hpRows;
-                var b_rows = b._hpRows;
                 var nb1 = nb + 1;
+                var a_rows = a._hpRows;
+                var b_rows = new Memory<double>[b.RowCount];
+                for (int i = 0; i <= na; ++i)
+                    b_rows[i] = b._hpRows[i].Raw;
+
+                for (int i = 0; i < m; ++i)
+                    c_rows[i] = new HpVector(nb1, nb1, unit);
+
                 if (m > ParallelThreshold)
-                    Parallel.For(0, m, MultiplyRow);
+                {
+                    var paralelOptions = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
+                    Parallel.For(0, m, paralelOptions, MultiplyRow);
+                }
                 else
                     for (int i = 0; i < m; ++i)
                         MultiplyRow(i);
@@ -538,18 +547,10 @@ namespace Calcpad.Core
                 {
                     var ar = a_rows[i].Raw;
                     var size = a_rows[i].Size;
-                    c_rows[i] = new HpVector(nb1, nb1, unit);
                     var sc = c_rows[i].Raw.AsSpan();
                     var vr = Vectorized.AsVector(sc);
                     for (int k = 0; k < size; ++k)
-                    {
-                        var a_k = ar[k];
-                        var br = b_rows[k].Raw;
-                        if (a_k == 1d)
-                            Vectorized.Add(br, sc, vr);
-                        else if (a_k != 0d)
-                            Vectorized.MultiplyAdd(br, a_k, sc, vr);
-                    }
+                        Vectorized.MultiplyAdd(b_rows[k].Span, ar[k], sc, vr);
                 }
             }
             else
