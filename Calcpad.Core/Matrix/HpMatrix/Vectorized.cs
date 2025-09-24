@@ -185,6 +185,14 @@ namespace Calcpad.Core
         //y += d * x
         internal static void MultiplyAdd(ReadOnlySpan<double> x, double d, Span<double> y, Span<SN.Vector<double>> vy = default)
         {
+            if (d == 0d)
+                return;
+
+            if (d == 1d)
+            {
+                Add(x, y, vy);
+                return;
+            }
             var len = Math.Min(x.Length, y.Length);
             var nv = 0;
             if (len > 15)
