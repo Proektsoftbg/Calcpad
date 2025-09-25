@@ -200,7 +200,7 @@
         <value>Error parsing "{0}" as number.</value>
     </data>
   <data name="Missing_delimiter_0_in_solver_command_1" xml:space="preserve">
-        <value>Missing delimiter "{0}" in solver command {{1}}.</value>
+        <value>Missing item or delimiter "{0}" in solver command: {1}.</value>
     </data>
   <data name="More_than_one_operator_equals_in_0" xml:space="preserve">
         <value>More than one operators '=' in '{0}'.</value>
@@ -561,5 +561,8 @@
   </data>
   <data name="MissingMatrixIndexIn0" xml:space="preserve">
     <value>Missing matrix index in {0}.</value>
+  </data>
+  <data name="CounterMustBeASingleVariableName" xml:space="preserve">
+    <value>Counter must be a single variable name.</value>
   </data>
 </root>

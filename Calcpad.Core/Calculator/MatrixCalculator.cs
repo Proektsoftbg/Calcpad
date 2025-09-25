@@ -638,7 +638,13 @@ namespace Calcpad.Core
         private static Vector Col(in IValue M, in IValue col) => IValue.AsMatrix(M).Col(IValue.AsInt(col));
         private static Matrix ExtractRows(in IValue M, in IValue rows) => IValue.AsMatrix(M).ExtractRows(IValue.AsVector(rows));
         private static Matrix ExtractCols(in IValue M, in IValue cols) => IValue.AsMatrix(M).ExtractCols(IValue.AsVector(cols));
-        private static Matrix Fill(in IValue M, in IValue value) => IValue.AsMatrix(M).Fill(IValue.AsReal(value));
+        private static Matrix Fill(in IValue M, in IValue value)
+        {
+            var matrix = IValue.AsMatrix(M);
+            matrix.Fill(IValue.AsReal(value));
+            matrix.Change();
+            return matrix;
+        }
         private static Matrix SortCols(in IValue M, in IValue row) => IValue.AsMatrix(M).SortCols(IValue.AsInt(row));
         private static Matrix RsortCols(in IValue M, in IValue row) => IValue.AsMatrix(M).SortCols(IValue.AsInt(row), true);
         private static Matrix SortRows(in IValue M, in IValue col) => IValue.AsMatrix(M).SortRows(IValue.AsInt(col));
@@ -784,9 +790,24 @@ namespace Calcpad.Core
 
         private static Matrix Fft(in IValue A) => IValue.AsMatrixHp(A).FFT(false);
         private static Matrix Ift(in IValue A) => IValue.AsMatrixHp(A).FFT(true);
-        private static Matrix FillRow(Matrix M, in IValue row, in IValue value) => M.FillRow(IValue.AsInt(row), IValue.AsReal(value));
-        private static Matrix FillCol(Matrix M, in IValue col, in IValue value) => M.FillCol(IValue.AsInt(col), IValue.AsReal(value));
-        private static Matrix Resize(Matrix M, in IValue m, in IValue n) => M.Resize(IValue.AsInt(m), IValue.AsInt(n));
+        private static Matrix FillRow(Matrix M, in IValue row, in IValue value)
+        {
+            M.FillRow(IValue.AsInt(row), IValue.AsReal(value));
+            M.Change();
+            return M;
+        }
+        private static Matrix FillCol(Matrix M, in IValue col, in IValue value)
+        {
+            M.FillCol(IValue.AsInt(col), IValue.AsReal(value));
+            M.Change();
+            return M;
+        }
+        private static Matrix Resize(Matrix M, in IValue m, in IValue n)
+        {
+            M.Resize(IValue.AsInt(m), IValue.AsInt(n));
+            M.Change();
+            return M;
+        }
         private static Vector Search(Matrix M, in IValue value, in IValue i, in IValue j) => M.Search(IValue.AsReal(value), IValue.AsInt(i), IValue.AsInt(j));
         private static Vector HLookupEq(Matrix M, in IValue value, in IValue searchRow, in IValue returnRow) => M.HLookup(IValue.AsReal(value), IValue.AsInt(searchRow), IValue.AsInt(returnRow), Vector.Relation.Equal);
         private static Vector HLookupNe(Matrix M, in IValue value, in IValue searchRow, in IValue returnRow) => M.HLookup(IValue.AsReal(value), IValue.AsInt(searchRow), IValue.AsInt(returnRow), Vector.Relation.NotEqual);
@@ -956,6 +977,7 @@ namespace Calcpad.Core
 
             var real = IValue.AsReal(value, Exceptions.Items.Value);
             mat[i - 1, j - 1] = real;
+            mat.Change();
             return real;
         }
     }

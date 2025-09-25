@@ -23,20 +23,6 @@ namespace Calcpad.Core
             internal abstract ReadOnlySpan<Parameter> Parameters { get; }
             internal abstract string ParameterName(int index);
 
-            internal void SubscribeCache(MathParser parser)
-            {
-                for (int i = 0, len = Rpn.Length; i < len; ++i)
-                {
-                    var t = Rpn[i];
-                    if (t is VariableToken vt)
-                        vt.Variable.OnChange += Change;
-                    else if (t.Type == TokenTypes.Solver)
-                        parser._solveBlocks[(int)t.Index].OnChange += Change;
-                    else if (t.Type == TokenTypes.CustomFunction)
-                        parser._functions[t.Index].OnChange += Change;
-                }
-            }
-
             internal bool CheckRecursion(CustomFunction f, Container<CustomFunction> functions)
             {
                 if (ReferenceEquals(f, this))
@@ -63,7 +49,7 @@ namespace Calcpad.Core
                 return false;
             }
 
-            internal void Change()
+            internal void Clear()
             {
                 ClearCache();
                 OnChange?.Invoke();
@@ -154,7 +140,6 @@ namespace Calcpad.Core
                     _x.Equals(other._x) &&
                     _y.Equals(other._y);
             }
-
 
             private readonly Dictionary<Tuple, IValue> _cache = [];
             private Parameter _x, _y;

@@ -373,10 +373,14 @@ k_w = W/w
 #for i = 1 : 3
 	#hide
 	sgn = take(i; 1; 1; -1)
-	tol = 0.01*take(i; kN; kN; kNm)
-	R_max = $Sup{$Sup{R(e; x; i) @ x = 0m : l(e)} @ e = 1 : n_E}
-	R_min = $Sup{abs($Inf{R(e; x; i) @ x = 0m : l(e)}) @ e = 1 : n_E}
-	k_R = sgn*0.8m*k_w/max(R_min; R_max)
+	unit = take(i; kN; kN; kNm)
+	tol = 0.01*unit
+	R = vector_hp(n_E)*unit
+	$Repeat{R.e = $Sup{R(e; x; i) @ x = 0m : l(e)} @ e = 1 : n_E}
+	R_max = max(R)
+	$Repeat{R.e = abs($Inf{R(e; x; i) @ x = 0m : l(e)}) @ e = 1 : n_E}
+	R_max = max(max(R); R_max)
+	k_R = sgn*0.8m*k_w/R_max
 	#show
 	#if i ≡ 1
 		'<p><b>Axial forces diagram, kN</b></p>

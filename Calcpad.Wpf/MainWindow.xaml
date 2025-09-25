@@ -4,7 +4,7 @@
     xmlns:wpf="clr-namespace:Calcpad.Wpf"
     xmlns:core="clr-namespace:Calcpad.Core;assembly=Calcpad.Core"
     xmlns:av="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="av" x:Class="Calcpad.Wpf.MainWindow"
-    Title=" Calcpad VM 7.3.9"
+    Title=" Calcpad VM 7.4.0"
     Height="800"
     Width="1200"
     WindowStartupLocation="CenterScreen"

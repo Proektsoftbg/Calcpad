@@ -64,7 +64,6 @@ namespace Calcpad.Core
             internal event Action OnChange;
             internal IValue Result { get; private set; }
             internal bool IsFigure { get; private set; }
-
             internal SolveBlock(string script, SolverTypes type, MathParser parser)
             {
                 Script = script;
@@ -123,15 +122,20 @@ namespace Calcpad.Core
                 var targetUnits = _parser._targetUnits;
                 var allowAssignment = _type == SolverTypes.Repeat || _type == SolverTypes.Root;
                 for (int i = 0; i <= n; ++i)
-                {
                     if (string.IsNullOrWhiteSpace(_items[i].Input))
-                        throw Exceptions.MissingDelimiter(delimiters[i], Script);
+                    {
+                        var j = i == 0 ? 0 : i - 1;
+                        throw Exceptions.MissingDelimiter(delimiters[j], $"{TypeName(_type)}{{{Script}}}" );
+                    }
 
-                    _items[i].Input = _items[i].Input.Trim();
+                for (int i = 0; i <= n; ++i)
+                {
+                    ref var item = ref _items[i];
+                    item.Input = item.Input.Trim();
                     if (i == 0 && _type == SolverTypes.Root)
                     {
-                        var s = _items[0].Input.Split('=');
-                        _items[0].Input = s[0];
+                        var s = item.Input.Split('=');
+                        item.Input = s[0];
                         if (s.Length == 2)
                         {
                             _items[4].Input = s[1];
@@ -140,26 +144,35 @@ namespace Calcpad.Core
                         else if (s.Length > 2)
                             throw Exceptions.MultipleAssignments(string.Join('=', s));
                     }
-                    _parser.Parse(_items[i].Input, i == 0 && allowAssignment);
-                    _items[i].Rpn = _parser._rpn;
+                    _parser.Parse(item.Input, i == 0 && allowAssignment);
+                    item.Rpn = _parser._rpn;
                 }
                 if (_type == SolverTypes.Inf || _type == SolverTypes.Sup)
                 {
                     var s = _items[1].Input + (_type == SolverTypes.Sup ? "_sup" : "_inf");
                     _parser.SetVariable(s, RealValue.NaN);
                 }
-                var vt = (VariableToken)_items[1].Rpn[0];
-                Parameter[] parameters = [new(vt.Content)];
-                vt.Variable = parameters[0].Variable;
-                _var = vt.Variable;
+                var rpn = _items[1].Rpn;
+                Parameter[] parameters;
+                if (rpn.Length == 1 && rpn[0] is VariableToken vt)
+                {
+                    parameters = [new(vt.Content)];
+                    vt.Variable = parameters[0].Variable;
+                    _var = vt.Variable;
+                }
+                else
+                    throw Exceptions.CounterMustBeASingleVariableName();
+
                 if (_parser.IsEnabled)
                 {
-                    _parser.BindParameters(parameters, _items[0].Rpn);
-                    SubscribeCompile(_items[0].Rpn);
-                    SubscribeCompile(_items[2].Rpn);
+                    rpn = _items[0].Rpn;
+                    _parser.BindParameters(parameters, rpn);
+                    _parser.SubscribeOnChange(rpn, Clear);
+                    _parser.SubscribeOnChange(_items[2].Rpn, Clear);
                     if (n == 3)
-                        SubscribeCompile(_items[3].Rpn);
+                        _parser.SubscribeOnChange(_items[3].Rpn, Clear);
                 }
+
                 if (_type == SolverTypes.Repeat)
                     FixRepeat(_items[0].Rpn);
 
@@ -184,8 +197,9 @@ namespace Calcpad.Core
                     var t = rpn[^1];
                     if (t.Order > order)
                     {
-                        _items[0].Html = new HtmlWriter(_parser._settings, _parser.Phasor).AddBrackets(_items[0].Html, 1);
-                        _items[0].Xml = new XmlWriter(_parser._settings, _parser.Phasor).AddBrackets(_items[0].Xml, 1);
+                        ref var item = ref _items[0];
+                        item.Html = new HtmlWriter(_parser._settings, _parser.Phasor).AddBrackets(item.Html, 1);
+                        item.Xml = new XmlWriter(_parser._settings, _parser.Phasor).AddBrackets(item.Xml, 1);
                     }
                 }
             }
@@ -234,18 +248,6 @@ namespace Calcpad.Core
 
                     if (_items[4].Rpn is not null)
                         parser.BindParameters(parameters, _items[4].Rpn);
-                }
-            }
-
-            private void SubscribeCompile(Token[] rpn)
-            {
-                for (int i = 0, len = rpn.Length; i < len; ++i)
-                {
-                    var t = rpn[i];
-                    if (t is VariableToken vt && vt.Variable is not null)
-                        vt.Variable.OnChange += Clear;
-                    else if (t.Type == TokenTypes.CustomFunction && t.Index != -1)
-                        _parser._functions[t.Index].OnChange += Clear;
                 }
             }
 

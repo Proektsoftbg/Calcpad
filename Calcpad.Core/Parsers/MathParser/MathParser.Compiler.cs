@@ -450,7 +450,7 @@ namespace Calcpad.Core
                 if (cf.IsRecursion)
                     return Expression.Constant(RealValue.NaN, typeof(IValue));
 
-                if (AreConstantParameters(arguments))
+                if (!_allowAssignment && AreConstantParameters(arguments))
                 {
                     var parameters = EvaluateConstantParameters(arguments).ToArray();
                     return cf.ParameterCount switch

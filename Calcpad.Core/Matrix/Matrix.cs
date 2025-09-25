@@ -14,9 +14,16 @@ namespace Calcpad.Core
         protected int _rowCount;
         protected int _colCount;
         protected LargeVector[] _rows;
-        internal LargeVector[] Rows => _rows; // For HpMatrix
+
+        internal int RowCount => _rowCount;
+        internal int ColCount => _colCount;
+        internal LargeVector[] Rows => _rows;
+
         protected MatrixType _type;
-        internal MatrixType Type => _type; // For HpMatrix
+
+        internal event Action OnChange;
+        internal void Change() => OnChange?.Invoke();
+        internal MatrixType Type => _type;
         internal enum MatrixType
         {
             Full,
@@ -74,8 +81,6 @@ namespace Calcpad.Core
         }
 
         internal virtual Matrix Clone() => new(_rowCount, _colCount);
-        internal int RowCount => _rowCount;
-        internal int ColCount => _colCount;
 
         public override bool Equals(object obj)
         {
