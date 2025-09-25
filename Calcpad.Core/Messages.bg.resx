@@ -203,7 +203,7 @@
         <value>Грешка при опит за разпознаване на "{0}" като число.</value>
     </data>
   <data name="Missing_delimiter_0_in_solver_command_1" xml:space="preserve">
-        <value>Липсва разделител "{0}" в команда за числени методи {{1}}.</value>
+        <value>Липсва елементи или разделител "{0}" в команда за числени методи: {1}.</value>
     </data>
   <data name="More_than_one_operator_equals_in_0" xml:space="preserve">
         <value>Повече от един оператор '=' в '{0}'.</value>
@@ -561,5 +561,8 @@
   </data>
   <data name="MissingMatrixIndexIn0" xml:space="preserve">
     <value>Липсва индекс на матрицата в {0}.</value>
+  </data>
+  <data name="CounterMustBeASingleVariableName" xml:space="preserve">
+    <value>Броячът трябва да е име на единствена променлива.</value>
   </data>
 </root>

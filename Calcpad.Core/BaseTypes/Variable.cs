@@ -8,6 +8,7 @@ namespace Calcpad.Core
         private IValue _value;
         internal ref IValue ValueByRef() => ref _value;
         internal event Action OnChange;
+        internal void Change() => OnChange?.Invoke();   
         internal bool IsInitialized => _isIntialised;
         private bool _isIntialised;
 
@@ -70,6 +71,10 @@ namespace Calcpad.Core
             _value = value;
             _isIntialised = true;
             OnChange?.Invoke();
+            if (value is Vector vector)
+                vector.OnChange += Change;
+            else if (value is Matrix matrix)
+                matrix.OnChange += Change;
         }
     }
 }

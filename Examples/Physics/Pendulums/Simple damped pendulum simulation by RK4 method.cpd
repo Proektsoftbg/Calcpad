@@ -16,7 +16,7 @@
 Precision = 10^-5
 PlotWidth = 300','PlotHeight = 150','PlotSVG = 1
 w = 1.2*l', 'h_ = 2/3*w
-W = 150', 'H = 130
+W = 180', 'H = 150
 k = W/w
 L = l*k
 R = L/10
@@ -26,7 +26,7 @@ y = L*cos(θ_0)
 δ_x = 0.25*δ
 δ_y = -2*δ
 y_g = y - δ_y + R
-#def svg$ = '<svg viewbox="'-50 - W/2' '-H' 'W + 50' '2*H'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-family: Georgia Pro; font-size:14px; width:'W'pt; height:'H + 50'pt; margin-left:20pt;">
+#def svg$ = '<svg viewbox="'-20-W/2' '-H-20' 'W+40' '2*H+40'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-family: Georgia Pro; font-size:14px; width:'W+50'pt; height:'H+50'pt; margin-left:20pt;">
 #def thin_style$ = style="stroke:goldenrod; stroke-width:1; fill:none"
 #def thick_style$ = style="stroke:steelblue; stroke-width:2; fill:none"
 #def ball_style$ = style="stroke:steelblue; stroke-width:0.5;  fill:url(#ball)"
@@ -110,10 +110,10 @@ r2d = 180/π
 $Plot{t(i)|θ.i*r2d @ i = 1 : n}
 'Energy - <var>E</var>(<var>t</var>), [J]
 $Plot{t(i)|E_k(i) + E_p(i) & 0s|0J & 0s|0J & 0s|0J & t(i)|E_p(i) & t(i)|E_k(i) & 0s|0J @ i = 1 : n}
-'<br/><b style="color:Magenta">━━━━</b> Potential - <var>E</var><sub>p</sub>, 
-'<b style="color:DarkCyan">━━━━</b> Kinetic - <var>E</var><sub>k</sub>, 
-'<b style="color:Red">━━━━</b> Total - <var>E</var><sub>tot</sub>
-'<style>#start{height:1.8em; padding-top:0;} .PlotSeries2{stroke:DodgerBlue!Important; stroke-dasharray: 5, 10;} .PlotSeries3, .PlotSeries4{stroke:none!Important; fill:none!Important;} .fr{display:none;} .fr svg{margin-right:64pt; align-center;}</style>
+'<br/><b style="color:MediumVioletRed">━━</b> Potential - <var>E</var><sub>p</sub>, 
+'<b style="color:MediumSpringGreen">━━</b> Kinetic - <var>E</var><sub>k</sub>, 
+'<b style="color:Tomato">━━</b> Total - <var>E</var><sub>tot</sub>
+'<style>#start{height:1.8em; padding-top:0;}.Series3, .Series4{stroke:none!Important; fill:none!Important;} .fr{display:none;} .fr svg{margin-right:64pt; align-center;}</style>
 '<h4>Animate results &emsp;<button id="start">Start</button></h4>
 #format 0.00
 #hide
