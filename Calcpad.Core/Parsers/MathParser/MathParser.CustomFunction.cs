@@ -8,7 +8,6 @@ namespace Calcpad.Core
     {
         private abstract class CustomFunction
         {
-            protected const string InvalidNumberOfParameters = "Invalid number of parameters.";
             protected const int MaxCacheSize = 1000;
             internal event Action OnChange;
             internal Token[] Rpn;
@@ -65,7 +64,7 @@ namespace Calcpad.Core
             {
                 ParameterCount = 1;
                 if (parameters.Count != ParameterCount)
-                    throw new ArgumentException(InvalidNumberOfParameters);
+                    throw new ArgumentException(Messages.InvalidNumberOfParameters);
 
                 _x = new(parameters[0]);
             }
@@ -148,7 +147,7 @@ namespace Calcpad.Core
             {
                 ParameterCount = 2;
                 if (parameters.Count != ParameterCount)
-                    throw new ArgumentException(InvalidNumberOfParameters);
+                    throw new ArgumentException(Messages.InvalidNumberOfParameters);
 
                 _x = new(parameters[0]);
                 _y = new(parameters[1]);
@@ -205,7 +204,7 @@ namespace Calcpad.Core
             {
                 ParameterCount = 3;
                 if (parameters.Count != ParameterCount)
-                    throw new ArgumentException(InvalidNumberOfParameters);
+                    throw new ArgumentException(Messages.InvalidNumberOfParameters);
 
                 _x = new(parameters[0]);
                 _y = new(parameters[1]);
