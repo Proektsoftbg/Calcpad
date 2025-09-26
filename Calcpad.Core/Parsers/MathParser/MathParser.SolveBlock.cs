@@ -251,11 +251,7 @@ namespace Calcpad.Core
                 }
             }
 
-            private void Clear()
-            {
-                _f = null;
-                OnChange?.Invoke();
-            }
+            private void Clear() => OnChange?.Invoke();
 
             internal IValue Calculate()
             {

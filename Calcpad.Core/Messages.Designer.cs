@@ -808,6 +808,15 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid number of parameters..
+        /// </summary>
+        public static string InvalidNumberOfParameters {
+            get {
+                return ResourceManager.GetString("InvalidNumberOfParameters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error: Iteration block not closed. Missing &quot;#loop&quot;..
         /// </summary>
         public static string Iteration_block_not_closed_Missing_loop {
