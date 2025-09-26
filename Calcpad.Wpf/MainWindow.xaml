@@ -1607,7 +1607,7 @@
                               Header="{x:Static wpf:MainWindowResources.DividingLine}" Icon=" —"/>
                 </MenuItem>
                 <MenuItem Header="{x:Static wpf:MainWindowResources.HtmlUI}">
-                    <MenuItem Click="Button_Click" Tag="§'Select an option: &lt;select name=&quot;target1&quot;&gt;§'&lt;option value=&quot;11;12&quot;&gt;x1; y1&lt;/option&gt;§'&lt;option value=&quot;21;22&quot;&gt;x2; y2&lt;/option&gt;§'&lt;option value=&quot;31;32&quot;&gt;x3; y3&lt;/option&gt;§'&lt;/select&gt;§'...§'&lt;p id=&quot;target1&quot;&gt; Values:'x = ? {21}','y = ? {22}'&lt;/p&gt;§" 
+                    <MenuItem Click="Button_Click" Tag="§'&lt;p&gt;Select an option: &lt;select name=&quot;target1&quot;&gt;§'&lt;option value=&quot;11;12&quot;&gt;x1; y1&lt;/option&gt;§'&lt;option value=&quot;21;22&quot;&gt;x2; y2&lt;/option&gt;§'&lt;option value=&quot;31;32&quot;&gt;x3; y3&lt;/option&gt;§'&lt;/select&gt;&lt;/p&gt;§'...§'&lt;p id=&quot;target1&quot;&gt; Values:'x = ? {21}','y = ? {22}'&lt;/p&gt;§" 
                               Header="{x:Static wpf:MainWindowResources.Selection}"/>
                     <MenuItem Click="Button_Click" Tag="§'&lt;p&gt;Select: §'&lt;input name=&quot;target2&quot; type=&quot;radio&quot; id=&quot;opt1&quot; value=&quot;1&quot;/&gt;§'&lt;label for=&quot;opt1&quot;&gt;option 1&lt;/label&gt;§'&lt;input name=&quot;target2&quot; type=&quot;radio&quot; id=&quot;opt2&quot; value=&quot;2&quot;/&gt;§'&lt;label for=&quot;opt2&quot;&gt;option 2&lt;/label&gt;§'...§'&lt;p id=&quot;target2&quot;&gt;Value -'opt = ? {2}'&lt;/p&gt;§" 
                               Header="{x:Static wpf:MainWindowResources.RadioButtons}"/>
