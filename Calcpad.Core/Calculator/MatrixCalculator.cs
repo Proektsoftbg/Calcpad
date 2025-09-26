@@ -827,9 +827,13 @@ namespace Calcpad.Core
             var ii = IValue.AsInt(i);
             var jj = IValue.AsInt(j);
             if (A is HpMatrix hp_a && b is HpMatrix hp_b)
-                return hp_a.CopyTo(hp_b, ii, jj);
+                hp_a.CopyTo(hp_b, ii, jj);
+            else
+                A.CopyTo(b, ii, jj);
 
-            return A.CopyTo(b, ii, jj);
+            b.Change();
+            return b;
+
         }
         private static Matrix Add(Matrix A, in IValue B, in IValue i, in IValue j)
         {
@@ -837,9 +841,12 @@ namespace Calcpad.Core
             var ii = IValue.AsInt(i);
             var jj = IValue.AsInt(j);
             if (A is HpMatrix hp_a && b is HpMatrix hp_b)
-                return hp_a.AddTo(hp_b, ii, jj);
+                hp_a.AddTo(hp_b, ii, jj);
+            else
+                A.AddTo(b, ii, jj);
 
-            return A.AddTo(b, ii, jj);
+            b.Change();
+            return b;
         }
 
         private static Matrix Submatrix(Matrix M, in IValue i1, in IValue j1, in IValue i2, in IValue j2) => M.Submatrix(IValue.AsInt(i1), IValue.AsInt(j1), IValue.AsInt(i2), IValue.AsInt(j2));
