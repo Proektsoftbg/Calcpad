@@ -207,7 +207,7 @@ You can find your unsaved data in
         <value>Show/hide numeric keypad</value>
     </data>
   <data name="RunAndDisplayOutput" xml:space="preserve">
-        <value>Run calculations and display output (F5</value>
+        <value>Run calculations and display output (F5)</value>
     </data>
   <data name="RefreshResultsAfterEachEdit" xml:space="preserve">
         <value>Refresh results after each edit</value>
