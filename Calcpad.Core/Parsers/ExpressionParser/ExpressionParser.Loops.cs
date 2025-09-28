@@ -62,18 +62,18 @@ namespace Calcpad.Core
                 _counter = counter;
                 _counterRe = start.Re;
                 _counterIm = start.Im;
-                _counter.SetValue(start);
+                _counter.Assign(start);
             }
 
             internal void IncrementCounter()
             {
                 _counterRe += _incRe;
                 if (_incIm == 0d)
-                    _counter.SetValue(new RealValue(_counterRe, _incUnits));
+                    _counter.Assign(new RealValue(_counterRe, _incUnits));
                 else
                 {
                     _counterIm += _incIm;
-                    _counter.SetValue(new ComplexValue(_counterRe, _counterIm, _incUnits));
+                    _counter.Assign(new ComplexValue(_counterRe, _counterIm, _incUnits));
                 }
             }
         }

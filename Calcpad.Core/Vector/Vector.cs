@@ -32,6 +32,9 @@ namespace Calcpad.Core
         internal virtual int Length => _values.Length;
         internal int Size => _size;
 
+        internal event Action OnChange;
+        internal void Change() => OnChange?.Invoke();
+
         protected Vector() { }
 
         internal Vector(RealValue[] values)

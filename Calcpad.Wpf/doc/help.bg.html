@@ -69,8 +69,8 @@
             font-style: normal;
             display: inline-block;
             vertical-align: 1.1pt;
-            margin-left: 2pt;
-            margin-right: -5.5pt;
+            margin-left: 3pt;
+            margin-right: -3pt;
         }
 
         .cond {
@@ -88,6 +88,10 @@
         .b {
             color: deeppink;
             padding: 0 1pt 0 1pt;
+        }
+		
+		.ok {
+            color: green;
         }
 
         .exp {
@@ -148,15 +152,19 @@
         <li style="list-style-type: none;">
             <span class="exp" id="btn1">+</span>Променливи:<br />
             <span id="list1" style="display: none;">
-                - латински букви: <var>a</var> – <var>z</var>, <var>A</var> – <var>Z</var>;<br />
-                - гръцки букви: <var>&alpha;</var> – <var>&omega;</var>, <var>&Alpha;</var> – <var>&Omega;</var>;<br />
+                - всякакви букви на Unicode;<br />
                 - цифри: <b>0</b> – <b>9</b>;<br />
                 - запетая: "<a href="#0" data-text=","> <b>,</b> </a>";<br />
-                - прим(ове):
+                - специални символи:
                 <a href="#0" data-text="′"> <b>′</b> </a>,
                 <a href="#0" data-text="″"> <b>″</b> </a>,
                 <a href="#0" data-text="‴"> <b>‴</b> </a>,
-                <a href="#0" data-text="⁗"> <b>⁗</b> </a>;<br />
+                <a href="#0" data-text="⁗"> <b>⁗</b> </a>,
+                <a href="#0" data-text="‾"> <b>‾</b> </a>,
+                <a href="#0" data-text="ø"> <b>ø</b> </a>,
+                <a href="#0" data-text="Ø"> <b>Ø</b> </a>,
+                <a href="#0" data-text="°"> <b>°</b> </a>,
+                <a href="#0" data-text="∡"> <b>&measuredangle;</b> </a>;<br />
                 - горни индекси:
                 <a href="#0" data-text="⁰"> <b>⁰</b> </a>,
                 <a href="#0" data-text="¹"> <b>¹</b> </a>,
@@ -171,12 +179,22 @@
                 <a href="#0" data-text="ⁿ"> <b>ⁿ</b> </a>,
                 <a href="#0" data-text="⁺"> <b>⁺</b> </a>,
                 <a href="#0" data-text="⁻"> <b>⁻</b> </a>;<br />
-                - специални символи:
-                <a href="#0" data-text="‾"> <b>‾</b> </a>,
-                <a href="#0" data-text="ø"> <b>ø</b> </a>,
-                <a href="#0" data-text="Ø"> <b>Ø</b> </a>,
-                <a href="#0" data-text="°"> <b>°</b> </a>,
-                <a href="#0" data-text="∡"> <b>&measuredangle;</b> </a>;<br />
+                - долни индекси:
+                <a href="#0" data-text="₀"> <b>₀</b> </a>,
+                <a href="#0" data-text="₁"> <b>₁</b> </a>,
+                <a href="#0" data-text="₂"> <b>₂</b> </a>,
+                <a href="#0" data-text="₃"> <b>₃</b> </a>,
+                <a href="#0" data-text="₄"> <b>₄</b> </a>,
+                <a href="#0" data-text="₅"> <b>₅</b> </a>,
+                <a href="#0" data-text="₆"> <b>₆</b> </a>,
+                <a href="#0" data-text="₇"> <b>₇</b> </a>,
+                <a href="#0" data-text="₈"> <b>₈</b> </a>,
+                <a href="#0" data-text="₉"> <b>₉</b> </a>,
+                <a href="#0" data-text="₊"> <b>₊</b> </a>,
+                <a href="#0" data-text="₋"> <b>₋</b> </a>,
+                <a href="#0" data-text="₌"> <b>₌</b> </a>,
+                <a href="#0" data-text="₍"> <b>₍</b> </a>,
+                <a href="#0" data-text="₎"> <b>₎</b> </a>;<br />
                 - "<a href="#0" data-text="_"><b>_</b></a>" за долен индекс;<br />
                 Имената на променливи трябва да започват с буква. Различава главни и малки букви.
             </span>
@@ -219,19 +237,20 @@
                 "<a href="#0" data-text="/"><b class="o">/</b></a>" - деление;<br />
                 "<a href="#0" data-text="÷"><b class="o">÷</b></a>" - дробна черта;<br />
                 "<a href="#0" data-text="\"><b class="o">\</b></a>" - целочислено деление;<br />
-                "<a href="#0" data-text="⦼"><b class="o" style="font-size:80%;">⦼</b></a>" - остатък;<br />
+                "<a href="#0" data-text="⦼"><b class="o" style="font-size:80%;">⦼</b></a>" - остатък (%%);<br />
                 "<a href="#0" data-text="*"><b class="o">*</b></a>" - умножение;<br />
                 "<a href="#0" data-text="-"><b class="o">-</b></a>" - изваждане;<br />
                 "<a href="#0" data-text="+"><b class="o">+</b></a>" - събиране;<br />
-                "<a href="#0" data-text="≡"><b class="o">≡</b></a>" - равенство;<br />
-                "<a href="#0" data-text="≠"><b class="o">≠</b></a>" - неравенство;<br />
+                "<a href="#0" data-text="≡"><b class="o">≡</b></a>" - равенство (==);<br />
+                "<a href="#0" data-text="≠"><b class="o">≠</b></a>" - неравенство (!=);<br />
                 "<a href="#0" data-text="&lt;"><b class="o">&lt;</b></a>" - по-малко;<br />
                 "<a href="#0" data-text="&gt;"><b class="o">&gt;</b></a>" - по-голямо;<br />
-                "<a href="#0" data-text="&le;"><b class="o">&le;</b></a>" - по-малко или равно;<br />
-                "<a href="#0" data-text="&ge;"><b class="o">&ge;</b></a>" - по-голямо или равно;<br />
-                "<a href="#0" data-text="∧"><b class="o">∧</b></a>" - логическо "И" (AND);<br />
-                "<a href="#0" data-text="∨"><b class="o">∨</b></a>" - логическо "ИЛИ" (OR);<br />
-                "<a href="#0" data-text="∨"><b class="o" style="font-size:80%;">⊕</b></a>" - изключващо "ИЛИ" (XOR);<br />
+                "<a href="#0" data-text="&le;"><b class="o">&le;</b></a>" - по-малко или равно (&lt;=);<br />
+                "<a href="#0" data-text="&ge;"><b class="o">&ge;</b></a>" - по-голямо или равно (&gt;=);<br />
+                "<a href="#0" data-text="∧"><b class="o">∧</b></a>" - логическо "И"/AND (&&);<br />
+                "<a href="#0" data-text="∨"><b class="o">∨</b></a>" - логическо "ИЛИ"/OR (||);<br />
+                "<a href="#0" data-text="∨"><b class="o" style="font-size:80%;">⊕</b></a>" - изключващо "ИЛИ"/XOR (^^);<br />
+                "<a href="#0" data-text="∠"><b class="o" style="font-size:80%;">∠</b></a>" - фазор A∠φ (&lt;&lt;);<br />
                 "<a href="#0" data-text="="><b class="o">=</b></a>" - присвояване;
             </span>
         </li>
@@ -320,6 +339,7 @@
                         <a href="#0" data-text="re(x)"><b>re</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - реалната част на комплексно число;<br />
                         <a href="#0" data-text="im(x)"><b>im</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - имагинерната част на комплексно число;<br />
                         <a href="#0" data-text="phase(x)"><b>phase</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - фаза на комплексно число;<br />
+					   <a href="#0" data-text="conj(z)"><b>conj</b><span class="b">(</span><var>z</var><span class="b">)</span></a> - спрегнато комплексно число;<br />
                     </span>
                 </li>
                 <li style="list-style-type: none; margin-left: 18pt;">
@@ -354,19 +374,26 @@
                     <span id="list310" style="display: none;">
                         <a href="#0" data-text="sign(x)"><b>sign</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - знак на число;<br />
                         <a href="#0" data-text="random(x)"><b>random</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - произволно число между 0 и <var>x</var><span class="o">;</span><br />
-                    </span>
+ 						<a href="#0" data-text="getunits(x)"><b>getunits</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - връща мерните единици на <var>x</var> без числото или 1 ако <var>x</var> няма мерни единици;<br />
+						<a href="#0" data-text="setunits(x; u)"><b>setunits</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>u</var><span class="b">)</span></a> - задава мерни единици <var>u</var> на <var>x</var>, където <var>x</var> може да бъде скалар, вектор или матрица;<br />
+						<a href="#0" data-text="clrunits(x)"><b>clrunits</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - изчиства мерните единици от скалар, вектор или матрица <var>x</var>;<br />
+						<a href="#0" data-text="hp(x)"><b>hp</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - преобразува <var>x</var> към еквивалентния му високопроизводителен (hp) тип;<br />
+						<a href="#0" data-text="ishp(x)"><b>ishp</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - проверява дали типа на <var>x</var> е високопроизводителен (hp) вектор или матрица;<br />
+                   </span>
                 </li>
 				<li style="list-style-type: none; margin-left: 18pt;">
 					<span class="exp" id="btn311">+</span>Векторни:<br />
                     <span id="list311" style="display: none;">
 						<u>Създаване и инициализация:</u><br />
                         <a href="#0" data-text="vector(n)"><b>vector</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - създава празен вектор с дължина <var>n</var>;<br />
-                        <a href="#0" data-text="fill(v; x)"><b>fill</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - запълва вектора <var><span class="vec">⃗</span>v</var> със стойност <var>x</var>;<br />
-                        <a href="#0" data-text="range(x₁; xₙ; step)"><b>range</b><span class="b">(</span><var>x</var><sub>1</sub><span class="o">;</span> <var>x</var><sub>n</sub><span class="o">;</span> <var>step</var><span class="b">)</span></a> - създава вектор от стойностите в интервала от <var>x</var><sub>1</sub> до <var>x</var><sub>n</sub> със стъпка <var>step</var>;<br />
+						<a href="#0" data-text="vector_hp(n)"><b>vector_hp</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - създава празен високопроизводителен (hp) вектор с дължина <var>n</var>;<br />
+						<a href="#0" data-text="range(x₁; xₙ; step)"><b>range</b><span class="b">(</span><var>x</var><sub>1</sub><span class="o">;</span> <var>x</var><sub>n</sub><span class="o">;</span> <var>step</var><span class="b">)</span></a> - създава вектор от стойностите в интервала от <var>x</var><sub>1</sub> до <var>x</var><sub>n</sub> със стъпка <var>step</var>;<br />
+						<a href="#0" data-text="range_hp (x₁; xₙ; step)"><b>range_hp</b><span class="b">(</span><var>x</var><sub>1</sub><span class="o">;</span> <var>x</var><sub>n</sub><span class="o">;</span> <var>step</var><span class="b">)</span></a>- създава високопроизводителен (hp) вектор от стойностите в посочения интервал;<br />
 						<u>Структурни:</u><br />
 						<a href="#0" data-text="len(v)"><b>len</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - връща дължината на вектора <var><span class="vec">⃗</span>v</var>;<br />
                         <a href="#0" data-text="size(v)"><b>size</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - действителния размер на вектора <var><span class="vec">⃗</span>v</var> (индекса на последния ненулев елемент);<br />
 						<a href="#0" data-text="resize(v; n)"><b>resize</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>n</var><span class="b">)</span></a> - задава нова дължина <var>n</var> на вектора <var><span class="vec">⃗</span>v</var>;<br />
+						<a href="#0" data-text="fill(v; x)"><b>fill</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - запълва вектора <var><span class="vec">⃗</span>v</var> със стойност <var>x</var>;<br />
                         <a href="#0" data-text="join(M; v; x…)"><b>join</b><span class="b">(</span><var>M</var><span class="o">;</span> <var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var>…<span class="b">)</span></a> - създава вектор чрез обединяване на аргументите в списъка - матрици, вектори и скалари;<br />
                         <a href="#0" data-text="slice(v; i₁; i₂)"><b>slice</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>i</var><sub>1</sub><span class="o">;</span> <var>i</var><sub>2</sub><span class="b">)</span></a> - връща частта от вектора <var><span class="vec">⃗</span>v</var>, ограничена от индекси <var>i</var><sub>1</sub> и <var>i</var><sub>2</sub>, включително;<br />
                         <a href="#0" data-text="first(v; n)"><b>first</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>n</var><span class="b">)</span></a> - първите <var>n</var> елемента на вектора <var><span class="vec">⃗</span>v</var>;<br />
@@ -375,8 +402,8 @@
 						<u>Данни:</u><br />
                         <a href="#0" data-text="sort(v)"><b>sort</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - сортира елементите на вектор <var><span class="vec">⃗</span>v</var> във възходящ ред;<br />
                         <a href="#0" data-text="rsort(v)"><b>rsort</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - сортира елементите на вектор <var><span class="vec">⃗</span>v</var> в низходящ ред;<br />
-                        <a href="#0" data-text="order(v)"><b>order</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - индексите на вектор <var><span class="vec">⃗</span>v</var>, подредени по възходящия ред на неговите елементи;<br />
-                        <a href="#0" data-text="revorder(v)"><b>revorder</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - индексите на вектор <var><span class="vec">⃗</span>v</var>, подредени по низходящия ред на неговите елементи;<br />
+                        <a href="#0" data-text="order(v)"><b>order</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - индексите на вектор <var><span class="vec">⃗</span>v</var>, подредени по възходящ ред на неговите елементи;<br />
+                        <a href="#0" data-text="revorder(v)"><b>revorder</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - индексите на вектор <var><span class="vec">⃗</span>v</var>, подредени по низходящ ред на неговите елементи;<br />
                         <a href="#0" data-text="reverse(v)"><b>reverse</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - нов вектор, съдържащ елементите на <var><span class="vec">⃗</span>v</var> в обратен ред;<br />
                         <a href="#0" data-text="count(v; x; i)"><b>count</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><span class="b">)</span></a> - броя на елементите в <var><span class="vec">⃗</span>v</var> от <var>i</var>-тия нататък, които са равни на <var>x</var>;<br />
                         <a href="#0" data-text="search(v; x; i)"><b>search</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><span class="b">)</span></a> - индекса на първия елемент в <var><span class="vec">⃗</span>v</var> от <var>i</var>-тия нататък, който е равен на <var>x</var>;<br />
@@ -417,6 +444,13 @@
                         <a href="#0" data-text="utriang(n)"><b>utriang</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - създава горна триъгълна матрица с размери <var>n</var>⨯<var>n</var>;<br />
                         <a href="#0" data-text="ltriang(n)"><b>ltriang</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - създава долна триъгълна матрица с размери <var>n</var>⨯<var>n</var>;<br />
                         <a href="#0" data-text="symmetric(n)"><b>symmetric</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - създава симетрична матрица с размери <var>n</var>⨯<var>n</var>;<br />
+						<a href="#0" data-text="matrix_hp(m; n)"><b>matrix_hp</b><span class="b">(</span><var>m</var><span class="o">;</span> <var>n</var><span class="b">)</span></a> - създава високопроизводителна (hp) матрица с размери <var>m</var>⨯<var>n</var>;<br />
+						<a href="#0" data-text="identity_hp(n)"><b>identity_hp</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - създава високопроизв. (hp) единична матрица с размери <var>n</var>⨯<var>n</var>;<br />
+						<a href="#0" data-text="diagonal_hp(n; d)"><b>diagonal_hp</b><span class="b">(</span><var>n</var><span class="o">;</span> <var>d</var><span class="b">)</span></a> - създава високопроизв. (hp) <var>n</var>⨯<var>n</var> диагонална матрица и запълва диагонала със стойност <var>d</var>;<br />
+						<a href="#0" data-text="column_hp(m; c)"><b>column_hp</b><span class="b">(</span><var>m</var><span class="o">;</span> <var>c</var><span class="b">)</span></a> - създава високопроизв. (hp) <var>m</var>⨯1 матрица-стълб, запълнена със стойност <var>c</var>;<br />
+						<a href="#0" data-text="utriang_hp(n)"><b>utriang_hp</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - създава високопроизв. (hp) <var>n</var>⨯<var>n</var> горна триъгълна матрица;<br />
+						<a href="#0" data-text="ltriang_hp(n)"><b>ltriang_hp</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - създава високопроизв. (hp) <var>n</var>⨯<var>n</var> долна триъгълна матрица;<br />
+						<a href="#0" data-text="symmetric_hp(n)"><b>symmetric_hp</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - създава високопроизв. (hp) симетрична матрица с размери <var>n</var>⨯<var>n</var>;<br />
                         <a href="#0" data-text="vec2diag(v)"><b>vec2diag</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - създава диагонална матрица от елементите на вектора <var><span class="vec">⃗</span>v</var>;<br />
                         <a href="#0" data-text="vec2row(v)"><b>vec2row</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - създава матрица-ред от елементите на вектора <var><span class="vec">⃗</span>v</var>;<br />
                         <a href="#0" data-text="vec2col(v)"><b>vec2col</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - създава матрица-стълб от елементите на вектора <var><span class="vec">⃗</span>v</var>;<br />
@@ -490,9 +524,9 @@
                         <a href="#0" data-text="transp(M)"><b>transp</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - транспонираната матрица на <var>M</var>;<br />
                         <a href="#0" data-text="adj(M)"><b>adj</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - адюнгираната матрица на <var>M</var>;<br />
                         <a href="#0" data-text="cofactor(M)"><b>cofactor</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - кофакторната матрица на <var>M</var>;<br />
-                        <a href="#0" data-text="eigenvals(M)"><b>eigenvals</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - собствените стойности на матрицата <var>M</var>;<br />
-                        <a href="#0" data-text="eigenvecs(M)"><b>eigenvecs</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - собствените вектори на матрицата <var>M</var>;<br />
-						<a href="#0" data-text="eigen(M)"><b>eigen</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - собствените стойности и вектори на матрицата <var>M</var>;<br />
+                        <a href="#0" data-text="eigenvals(M)"><b>eigenvals</b><span class="b">(</span><var>M</var><span class="b">;</span> <var>n</var><sub>e</sub><span class="b">)</span></a> - първите <var>n</var><sub>e</sub> собствени стойности на матрицата <var>M</var> или всички ако <var>n</var><sub>e</sub> липсва;<br />
+                        <a href="#0" data-text="eigenvecs(M)"><b>eigenvecs</b><span class="b">(</span><var>M</var><span class="b">;</span> <var>n</var><sub>e</sub><span class="b">)</span></a> - първите <var>n</var><sub>e</sub> собствени вектори на матрицата <var>M</var> или всички ако <var>n</var><sub>e</sub> липсва;<br />
+						<a href="#0" data-text="eigen(M)"><b>eigen</b><span class="b">(</span><var>M</var><span class="b">;</span> <var>n</var><sub>e</sub><span class="b">)</span></a> - първите <var>n</var><sub>e</sub> собствени стойности и вектори на матрицата <var>M</var> или всички ако <var>n</var><sub>e</sub> липсва;<br />
 						<a href="#0" data-text="cholesky(M)"><b>cholesky</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - декомпозиция на Холецки на симетрична, положително определена матрица <var>M</var>;<br />
                         <a href="#0" data-text="lu(M)"><b>lu</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - LU декомпозиция на матрицата <var>M</var>;<br />
                         <a href="#0" data-text="qr(M)"><b>qr</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - QR декомпозиция на матрицата <var>M</var>;<br />
@@ -500,8 +534,12 @@
                         <a href="#0" data-text="inverse(M)"><b>inverse</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - обратната матрица на <var>M</var>;<br />
                         <a href="#0" data-text="lsolve(A; b)"><b>lsolve</b><span class="b">(</span><var>A</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="b">)</span></a> - решава системата линейни уравнения <var>A<span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> като използва LDL<sup>T</sup> декомпозиция за симетрични матрици и LU декомпозиция за несиметрични;<br />
                         <a href="#0" data-text="clsolve(A; b)"><b>clsolve</b><span class="b">(</span><var>A</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="b">)</span></a> - решава системата линейни уравнения <var>A<span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> със симетрична, положително определена матрица на коефициентите <var>A</var> посредством декомпозиция на Холецки;<br />
+						<a href="#0" data-text="slsolve(A; b)"><b>slsolve</b><span class="b">(</span><var>A</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="b">)</span></a> - решава системата линейни уравнения <var>A<span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> с  високопроизводителна симетрична, положително определена матрица <var>A</var>  чрез метода на преобусловения спрегнат градиент (PCG);<br />
 						<a href="#0" data-text="msolve(A; B)"><b>msolve</b><span class="b">(</span><var>A</var><span class="o">;</span> <var>B</var><span class="b">)</span></a> - решава обобщеното матрично уравнение <var>AX</var> = <var>B</var> чрез LDL<sup>T</sup> декомпозиция за симетрични матрици и LU декомпозиция за несиметрични;<br />
                         <a href="#0" data-text="cmsolve(A; B)"><b>cmsolve</b><span class="b">(</span><var>A</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="b">)</span></a> - решава обобщеното матрично уравнение <var>AX</var> = <var>B</var> със симетрична, положително определена матрица на коефициентите <var>A</var> посредством декомпозиция на Холецки;<br />
+						<a href="#0" data-text="smsolve(A; B)"><b>smsolve</b><span class="b">(</span><var>A</var><span class="o">;</span> <var>B</var><span class="b">)</span></a> - решава обобщеното матрично уравнение <var>AX</var> = <var>B</var> с  високопроизводителна симетрична, положително определена матрица на коефициентите <var>A</var>  чрез метода на преобусловения спрегнат градиент (PCG);<br />
+						<a href="#0" data-text="fft(M)"><b>fft</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - извършва бързо преобразувание на Фурие на матрица <var>M</var>. За реални данни матрицата трябва да има един ред, а за комплексни - два реда;<br />
+						<a href="#0" data-text="ift(M)"><b>ift</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - извършва обратно преобразувание на Фурие на матрица <var>M</var>. За реални данни матрицата трябва да има един ред, а за комплексни - два реда;<br />
 						<u>Двойна интерполация:</u><br />
                         <a href="#0" data-text="take(x; y; M)"><b>take</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>M</var><span class="b">)</span></a> - връща елементът на матрицата <var>M</var> с индекси <var>x</var> и <var>y</var>;<br />
                         <a href="#0" data-text="line(x; y; M)"><b>line</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>M</var><span class="b">)</span></a> - двойна линейна интерполация от елементите на <var>M</var> на база на стойностите на <var>x</var> и <var>y</var>;<br />
@@ -518,11 +556,15 @@
                 <a href="#0" data-text="$Plot{x(t) | y(t) @ t = a : b}"><span class="cond">$Plot</span><span class="b">{</span><b>x</b><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">|</span> <b>y</b><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">&#64;</span> <var>t</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - параметрична;<br />
                 <a href="#0" data-text="$Plot{f_1(x) & f_2(x) @ x = a : b}"><span class="cond">$Plot</span><span class="b">{</span><b>f</b><sub>1</sub><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">&amp;</span> <b>f</b><sub>2</sub><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">&amp;</span> ... <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - паралелни;<br />
                 <a href="#0" data-text="$Plot{x_1(x) | y_1(t) & x_2(x) | y_2(t) @ t = a : b}"><span class="cond">$Plot</span><span class="b">{</span><b>x</b><sub>1</sub><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">|</span> <b>y</b><sub>1</sub><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">&amp;</span> <b>x</b><sub>2</sub><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">|</span> <b>y</b><sub>2</sub><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">&amp;</span> ... <span class="o">&#64;</span> <var>t</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b"><span class="b">}</span></span></a> - паралелни параметрични;<br />
-                <a href="#0" data-text="$Map{f(x; y) @ x = a : b & y = c : d}"><span class="cond">$Map</span><span class="b">{</span><b>f</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="b">)</span> <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var> <span class="o">&amp;</span> <var>y</var> <span class="o">=</span> <var>c</var> <span class="o">:</span> <var>d</var><span class="b">}</span></a> - изохроми на 2D функция;<br />
+                <a href="#0" data-text="$Map{f(x; y) @ x = a : b & y = c : d}"><span class="cond">$Map</span><span class="b">{</span><b>f</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="b">)</span> <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var> <span class="o">&amp;</span> <var>y</var> <span class="o">=</span> <var>c</var> <span class="o">:</span> <var>d</var><span class="b">}</span></a> - изохроми на повърхнина (2D функция);<br />
                 <a href="#0" data-text="PlotHeight ="><var>PlotHeight</var></a> - височина на полето за чертане в пиксели;<br />
                 <a href="#0" data-text="PlotWidth ="><var>PlotWidth</var></a> - ширина на полето за чертане в пиксели;	<br />
                 <a href="#0" data-text="PlotStep ="><var>PlotStep</var></a> - стъпка на мрежата за интерполиране;<br />
-                <a href="#0" data-text="PlotSVG ="><var>PlotSVG</var></a> - чертай графиките във векторен (SVG) формат.
+                <a href="#0" data-text="PlotSVG ="><var>PlotSVG</var></a> - чертай графиките във векторен (SVG) формат;<br />
+                <a href="#0" data-text="PlotPalette ="><var>PlotPalette</var></a> - номер на цветната скала за графика на повърхнина (0-8);<br />
+                <a href="#0" data-text="PlotShadows ="><var>PlotShadows</var></a> - чертай повърхнините със светлосенки;<br />
+                <a href="#0" data-text="PlotSmooth ="><var>PlotSmooth</var></a> - плавно преливане на цветовете (= 1) или изохроми (= 0) за графика на повърхнина;<br />
+                <a href="#0" data-text="PlotLightDir ="><var>PlotLightDir</var></a> - посока към източника на светлина (0-7) по часовниковата стрелка.
             </span>
         </li>
         <li style="list-style-type: none;">
@@ -674,9 +716,25 @@
                 </a><br />
             </span>
         </li>
-        <li style="list-style-type: none;">
-            <span class="exp" id="btn9">+</span>Контрол на видимостта:<br />
+		<li style="list-style-type: none;">
+            <span class="exp" id="btn9">+</span>Вход/изход на външни данни:<br />
             <span id="list9" style="display: none;">
+                <u>Текстови/CSV файлове</u>:<br />
+                <a href="#0" data-text="#read M from filename.txt@R1C1:R2C2 TYPE=R SEP=','"><span class="cond">#read</span> <var>M</var> <span class="cond">from</span> <em class="macro">filename.txt</em><span class="o">@</span><span class="macro">R1C1</span><span class="o">:</span><span class="macro">R2C2</span> <span class="cond">TYPE</span><span class="o">=</span><span class="macro">R</span> <span class="cond">SEP</span><span class="o">=</span><span class="ok">','</span></a> - четена на матрица <var>M</var> от текстов/CSV файл;<br />
+                <a href="#0" data-text="#write M to filename.txt@R1C1:R2C2 TYPE=N SEP=','"><span class="cond">#write</span> <var>M</var> <span class="cond">to</span> <em class="macro">filename.txt</em><span class="o">@</span><span class="macro">R1C1</span><span class="o">:</span><span class="macro">R2C2</span> <span class="cond">TYPE</span><span class="o">=</span><span class="macro">N</span> <span class="cond">SEP</span><span class="o">=</span><span class="ok">','</span></a> - запис на матрица <var>M</var> в текстов/CSV файл;<br />
+                <a href="#0" data-text="#append M to filename.txt@R1C1:R2C2 TYPE=N SEP=','"><span class="cond">#append</span> <var>M</var> <span class="cond">to</span> <em class="macro">filename.txt</em><span class="o">@</span><span class="macro">R1C1</span><span class="o">:</span><span class="macro">R2C2</span> <span class="cond">TYPE</span><span class="o">=</span><span class="macro">N</span> <span class="cond">SEP</span><span class="o">=</span><span class="ok">','</span></a> - добавяне на матрица <var>M</var> към текстов/CSV файл;<br />
+                <u>Excel файлове (xlsx и xlsm)</u>:<br />
+                <a href="#0" data-text="#read M from filename.xlsx@Sheet1!A1:B2 TYPE=R"><span class="cond">#read</span> <var>M</var> <span class="cond">from</span> <em class="macro">filename.xlsx</em><span class="o">@</span><span class="macro">Sheet1</span><span class="o">!</span><span class="macro">A1</span><span class="o">:</span><span class="macro">B2</span> <span class="cond">TYPE</span><span class="o">=</span><span class="macro">R</span></a> - четене на матрица <var>M</var> от Excel файл;<br />
+                <a href="#0" data-text="#write M to filename.xlsx@Sheet1!A1:B2 TYPE=N"><span class="cond">#write</span> <var>M</var> <span class="cond">to</span> <em class="macro">filename.xlsx</em><span class="o">@</span><span class="macro">Sheet1</span><span class="o">!</span><span class="macro">A1</span><span class="o">:</span><span class="macro">B2</span> <span class="cond">TYPE</span><span class="o">=</span><span class="macro">N</span></a> - запис на матрица <var>M</var> в Excel файл;<br />
+                <a href="#0" data-text="#append M to filename.xlsx@Sheet1!A1:B2 TYPE=N"><span class="cond">#append</span> <var>M</var> <span class="cond">to</span> <em class="macro">filename.xlsx</em><span class="o">@</span><span class="macro">Sheet1</span><span class="o">!</span><span class="macro">A1</span><span class="o">:</span><span class="macro">B2</span> <span class="cond">TYPE</span><span class="o">=</span><span class="macro">N</span></a> - добавяне на матрица <var>M</var> към Excel файл;<br />
+                Sheet, range, <span class="cond">TYPE</span> и <span class="cond">SEP</span> могат да бъдат пропуснати.<br />
+				За командата <span class="cond">#read</span>, <span class="cond">TYPE</span> може да бъде някое от [<span class="macro" title="Rectangular">R</span>|<span class="macro" title="Diagonal">D</span>|<span class="macro" title="Column">C</span>|<span class="macro" title="Symmetric skyline">S</span>|<span class="macro" title="Upper triangular">U</span>|<span class="macro" title="Lower triangular">L</span>|<span class="macro" title="Vector">V</span>].<br />
+				За командите <span class="cond">#write</span> и <span class="cond">#append</span>, <span class="cond">TYPE</span> може да бъде <span class="macro" title="Yes">Y</span> или <span class="macro" title="No">N</span>.
+            </span>
+        </li>
+        <li style="list-style-type: none;">
+            <span class="exp" id="btn10">+</span>Контрол на видимостта:<br />
+            <span id="list10" style="display: none;">
                 <a href="#0" data-text="#hide"><span class="cond">#hide</span></a> - скривай съдържанието на документа;<br />
                 <a href="#0" data-text="#show"><span class="cond">#show</span></a> - показвай винаги съдържанието (по подразбиране);<br />
                 <a href="#0" data-text="#pre"><span class="cond">#pre</span></a> - показвай следващото съдържание само при въвеждане;<br />
@@ -687,13 +745,22 @@
                 <a href="#0" data-text="#nosub"><span class="cond">#nosub</span></a> - не замествай стойностите на променливите (no substitution);<br />
                 <a href="#0" data-text="#novar"><span class="cond">#novar</span></a> - показвай само заместените стойности на променливите  (no variables);<br />
                 <a href="#0" data-text="#varsub"><span class="cond">#varsub</span></a> - показвай формулите с променливи и заместени стойности (по подразбиране);<br />
-                <a href="#0" data-text="#round "><span class="cond">#round</span> <em>n</em></a> - закръглявай до <em>n</em> цифри след десетичната точка.<br />
+                <a href="#0" data-text="#split"><span class="cond">#split</span></a> - разделяй уравнения, които не се събират на един ред;<br />
+                <a href="#0" data-text="#wrap"><span class="cond">#wrap</span></a> - свивай уравнения които не се събират на един ред (по подразбиране);<br />
+                <a href="#0" data-text="#round "><span class="cond">#round <em>n</em></span></a> - закръглява изходните стойности до <em>n</em> цифри след десетичната точка;<br />
+                <a href="#0" data-text="#round default"><span class="cond">#round default</span></a> - възстановява закръгляването по подразбиране;<br />
+                <a href="#0" data-text="#format "><span class="cond">#format <em>FFFF</em></span></a> - задава потребителски форматиращ низ;<br />
+                <a href="#0" data-text="#format default"><span class="cond">#format default</span></a> - възстановява форматирането по подразбиране;<br />
+                <a href="#0" data-text="#md on"><span class="cond">#md on</span></a> - включва използването на markdown в коментари;<br />
+                <a href="#0" data-text="#md off"><span class="cond">#md off</span></a> - изключва използването на markdown в коментари;<br />
+                <a href="#0" data-text="#phasor"><span class="cond">#phasor</span></a> - задава изходното форматиране на комплексни числа като полярен фазор: A∠φ;<br />
+                <a href="#0" data-text="#complex"><span class="cond">#complex</span></a> - задава изходното форматиране на комплексни числа в алгебричен формат: a + bi.<br />
                 Всяка от горните команди е валидна от мястото на използването и до края на документа или докато не бъде отменена от алтернативна команда.
             </span>
         </li>
         <li style="list-style-type: none;">
-            <span class="exp" id="btn10">+</span>Точки на прекъсване (постъпково изпълнение):<br />
-            <span id="list10" style="display: none;">
+            <span class="exp" id="btn11">+</span>Точки на прекъсване (постъпково изпълнение):<br />
+            <span id="list11" style="display: none;">
                 <a href="#0" data-text="#pause"><span class="cond">#pause</span></a> - изчислява до съответния ред и спира на пауза;<br />
                 <a href="#0" data-text="#input"><span class="cond">#input</span></a> - показва формуляр за вход на данни до съответния ред и спира на пауза.<br />
             </span>
@@ -728,8 +795,8 @@
             <a href="#0" data-text="rev" title="оборот"><i>rev</i></a>;
         </li>
         <li style="list-style-type: none;">
-            <span class="exp" id="btn11">+</span>Метрични единици (SI и съвместими):<br />
-            <span id="list11" style="display: none;">
+            <span class="exp" id="btn12">+</span>Метрични единици (SI и съвместими):<br />
+            <span id="list12" style="display: none;">
                 Маса:
                 <a href="#0" data-text="g" title="грам"><i>g</i></a>,
                 <a href="#0" data-text="hg" title="хектограм"><i>hg</i></a>,
@@ -1052,8 +1119,8 @@
             </span>
         </li>
         <li style="list-style-type: none;">
-            <span class="exp" id="btn12">+</span>Неметрични единици (Imperial/US):<br />
-            <span id="list12" style="display: none;">
+            <span class="exp" id="btn13">+</span>Неметрични единици (Imperial/US):<br />
+            <span id="list13" style="display: none;">
                 Маса:
                 <a href="#0" data-text="gr" title="grain"><i>gr</i></a>,
                 <a href="#0" data-text="dr" title="drachm"><i>dr</i></a>,
@@ -1196,12 +1263,10 @@
     <p>За заявки, пишете на:</p>
     <p><a href="mailto:proektsoft.bg@gmail.com">proektsoft.bg@gmail.com</a></p>
     <p>Заплащането е еднократно, без абонамент. Веднъж закупени, програмите могат да се ползват без ограничение.</p>
-    <script src="jquery-3.6.3.min.js"></script>
+  <script src="jquery-3.6.3.min.js"></script>
     <script>
-        function delayedLoad(path) { setTimeout(function () { document.write(path); }, 500); }
         if (window.jQuery) {
             $(document).ready(function () {
-
                 function Toggle(btn) {
                     var list = $("#list" + btn.attr("id").substring(3));
                     if (list.css("display") == "none") {
@@ -1217,8 +1282,16 @@
                 $(".exp").click(function () {
                     Toggle($(this));
                 });
+
+                $("a").click(function () {
+                    chrome.webview.postMessage('clicked');
+                });
+				
+				window.addEventListener('click', () => {
+					window.chrome.webview.postMessage('focused');
+				});
             });
         }
     </script>
 </body>
-</html>
+</html>	

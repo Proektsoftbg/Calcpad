@@ -295,11 +295,22 @@ namespace Calcpad.Core
         private static IValue LpNorm(in IValue vector, in IValue p) =>
             IValue.AsVector(vector).LpNorm(IValue.AsInt(p));
 
-        private static Vector Resize(in IValue vector, in IValue length) =>
-            IValue.AsVector(vector).Resize(IValue.AsInt(length));
+        private static Vector Resize(in IValue vector, in IValue length)
+        {
+            var vec = IValue.AsVector(vector);
+            vec.Resize(IValue.AsInt(length));
+            vec.Change();
+            return vec;
+        }
 
-        private static Vector Fill(in IValue vector, in IValue value) =>
-            IValue.AsVector(vector).Fill(IValue.AsReal(value));
+        private static Vector Fill(in IValue vector, in IValue value)
+        {
+
+            var vec = IValue.AsVector(vector);
+            vec.Fill(IValue.AsReal(value));
+            vec.Change();
+            return vec;
+        }
 
         private static Vector First(in IValue vector, in IValue length) =>
             IValue.AsVector(vector).First(IValue.AsInt(length));
@@ -433,6 +444,7 @@ namespace Calcpad.Core
 
             var real = IValue.AsReal(value, Exceptions.Items.Value);
             vec[i - 1] = real;
+            vec.Change();
             return value;
         }
     }

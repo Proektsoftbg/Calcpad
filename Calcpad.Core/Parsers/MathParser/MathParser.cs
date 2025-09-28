@@ -171,8 +171,8 @@ namespace Calcpad.Core
                 value :
                 new RealValue(value.Re, value.Units);
 
-            if (_variables.TryGetValue(name, out Variable v))
-                v.Assign(scalar);
+            if (_variables.TryGetValue(name, out var variable))
+                variable.Assign(scalar);
             else
             {
                 _variables.Add(name, new Variable(scalar));
@@ -510,7 +510,8 @@ namespace Calcpad.Core
             if (!isVisible)
                 f = _compiler.Compile(_rpn, true);
 
-            _equationCache.Add(new Equation(_rpn, _targetUnits, f));
+            var equation = new Equation(_rpn, _targetUnits, f);
+            _equationCache.Add(equation);
             return _equationCache.Count - 1;
         }
 
@@ -546,7 +547,13 @@ namespace Calcpad.Core
                 if (!isVisible && cacheId >= 0 && cacheId < _equationCache.Count)
                     f = _equationCache[cacheId].Function;
 
-                if (f is not null)
+                if (f is null)
+                {
+                    _result = _evaluator.Evaluate(_rpn, true);
+                    if (isVisible && !isAssignment)
+                        _evaluator.NormalizeUnits(ref _result);
+                }
+                else
                 {
                     _result = f();
                     if (isAssignment && _rpn[0] is VariableToken vt)
@@ -554,12 +561,6 @@ namespace Calcpad.Core
                         ref var val = ref vt.Variable.ValueByRef();
                         Units = Evaluator.ApplyUnits(ref val, _targetUnits);
                     }
-                }
-                else
-                {
-                    _result = _evaluator.Evaluate(_rpn, true);
-                    if (isVisible && !isAssignment)
-                        _evaluator.NormalizeUnits(ref _result);
                 }
                 PurgeCache();
             }
@@ -641,11 +642,12 @@ namespace Calcpad.Core
                     }
                     if (input.Count != 0 && input.Dequeue().Content == "=")
                     {
+                        var n = parameters.Count;
                         var rpn = Input.GetRpn(input);
                         var index = _functions.IndexOf(name);
-                        var cf = index >= 0 && _functions[index].ParameterCount == parameters.Count ?
+                        var cf = index >= 0 && _functions[index].ParameterCount == n ?
                             _functions[index] :
-                            CreateFunction(parameters.Count);
+                            CreateFunction(n);
 
                         cf.AddParameters(parameters);
                         cf.Rpn = rpn;
@@ -663,11 +665,11 @@ namespace Calcpad.Core
                         if (IsEnabled)
                         {
                             BindParameters(cf.Parameters, cf.Rpn);
-                            cf.SubscribeCache(this);
+                            SubscribeOnChange(cf.Rpn, cf.Clear);
                         }
                         cf.Units = _targetUnits;
                         if (index >= 0)
-                            cf.Change();
+                            cf.Clear();
                         _functionDefinitionIndex = _functions.Add(name, cf);
                         return;
                     }
@@ -838,6 +840,34 @@ namespace Calcpad.Core
                     throw Exceptions.MustBeScalar(Exceptions.Items.Variable);
             }
             return defaultValue;
+        }
+
+        private void SubscribeOnChange(Token[] rpn, Action onChange)
+        {
+            var len = rpn.Length;
+            if (len == 0)
+                return;
+
+            var last = rpn[^1];
+            var i0 = 0;
+            if (last.Content == "=")
+            {
+                var t = rpn[0].Type;
+                if (t == TokenTypes.Variable || 
+                    t == TokenTypes.Vector || 
+                    t == TokenTypes.Matrix)
+                        i0 = 1;
+            }
+            for (int i = i0; i < len; ++i)
+            {
+                var t = rpn[i];
+                if (t is VariableToken vt && vt.Variable is not null)
+                    vt.Variable.OnChange += onChange;
+                else if (t.Type == TokenTypes.Solver)
+                    _solveBlocks[(int)t.Index].OnChange += onChange;
+                else if (t.Type == TokenTypes.CustomFunction && t.Index != -1)
+                    _functions[t.Index].OnChange += onChange;
+            }
         }
     }
 }

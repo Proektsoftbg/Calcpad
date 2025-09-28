@@ -82,6 +82,7 @@ namespace Calcpad.Wpf
             internal bool IsTag;
             internal bool IsTagComment;
             internal bool IsMacro;
+            internal bool IsFunction;
             internal string Keyword;
             internal bool HasMacro;
             internal bool Redefine;
@@ -1182,7 +1183,13 @@ namespace Calcpad.Wpf
             Append(isPercent ? Types.Units : Types.Operator);
             _state.CurrentType = Types.Operator;
             if (c == '=')
-                GetLocalVariables(_state.Paragraph.Inlines.LastInline, _state.CommandCount > 0);
+            {
+                var lastInline = _state.Paragraph.Inlines.LastInline;
+                if (lastInline.PreviousInline is Run run && run.Text == ")")
+                    _state.IsFunction = true;
+
+                GetLocalVariables(lastInline, _state.CommandCount > 0);
+            }
         }
 
         private bool ParseMacroContent(char c, int i, int len)
@@ -1529,7 +1536,7 @@ namespace Calcpad.Wpf
                     s = null;
                     return Types.Error;
                 }
-                if (!IsVariable(s, _state.Line))
+                if (!_state.IsFunction && !IsVariable(s, _state.Line))
                 {
                     if (IsUnit(s, _state.Line))
                         return Types.Units;

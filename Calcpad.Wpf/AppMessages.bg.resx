@@ -127,4 +127,16 @@ Calcpad запази вашите данни и се опита да се въз
   <data name="NYourDataWasSavedBothToClipboardAndTempFile" xml:space="preserve">
     <value>\nДанните са записани в клипборд-а и временен файл: </value>
   </data>
+  <data name="InvalidOperator" xml:space="preserve">
+    <value>Невалиден оператор.</value>
+  </data>
+  <data name="InvalidFormatString" xml:space="preserve">
+    <value>Невалиден форматиращ низ.</value>
+  </data>
+  <data name="ClickToOpenFile" xml:space="preserve">
+    <value>Кликнете за да отворите файла.</value>
+  </data>
+  <data name="DataImportExport" xml:space="preserve">
+    <value>Четене/запис на данни</value>
+  </data>
 </root>

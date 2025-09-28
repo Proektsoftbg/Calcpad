@@ -4,7 +4,7 @@ namespace Calcpad.Core
 {
     public partial class MathParser
     {
-        private struct Equation
+        private sealed class Equation
         {
             internal Token[] Rpn;
             internal Unit TargetUnits;

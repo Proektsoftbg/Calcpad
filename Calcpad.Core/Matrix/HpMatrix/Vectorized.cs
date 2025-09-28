@@ -14,9 +14,9 @@ namespace Calcpad.Core
             var nv = 0;
             if (len > 0)
             {
-                nv = len / _vecSize;
                 Span<SN.Vector<double>> vx = MemoryMarshal.Cast<double, SN.Vector<double>>(x);
                 var vd = new SN.Vector<double>(d);
+                nv = vx.Length;
                 for (int i = 0; i < nv; ++i)
                     vx[i] *= vd;
 
@@ -26,15 +26,18 @@ namespace Calcpad.Core
                 x[i] *= d;
         }
 
-        internal static void Add(ReadOnlySpan<double> x, Span<double> y)
+
+        internal static void Add(ReadOnlySpan<double> x, Span<double> y, Span<SN.Vector<double>> vy = default)
         {
-            var len = x.Length;
+            var len = Math.Min(x.Length, y.Length);
             var nv = 0;
             if (len > 15)
             {
-                nv = len / _vecSize;
                 ReadOnlySpan<SN.Vector<double>> vx = MemoryMarshal.Cast<double, SN.Vector<double>>(x);
-                Span<SN.Vector<double>> vy = MemoryMarshal.Cast<double, SN.Vector<double>>(y);
+                if (vy.IsEmpty)
+                    vy = MemoryMarshal.Cast<double, SN.Vector<double>>(y);
+
+                nv = Math.Min(vx.Length, vy.Length);
                 for (int i = 0; i < nv; ++i)
                     vy[i] += vx[i];
 
@@ -46,14 +49,14 @@ namespace Calcpad.Core
 
         internal static void Multiply(ReadOnlySpan<double> x, ReadOnlySpan<double> y, Span<double> z)
         {
-            int len = x.Length;
+            var len = Math.Min(x.Length, y.Length);
             int nv = 0;
             if (len > 15)
             {
-                nv = len / _vecSize;
                 ReadOnlySpan<SN.Vector<double>> vx = MemoryMarshal.Cast<double, SN.Vector<double>>(x);
                 ReadOnlySpan<SN.Vector<double>> vy = MemoryMarshal.Cast<double, SN.Vector<double>>(y);
                 Span<SN.Vector<double>> vz = MemoryMarshal.Cast<double, SN.Vector<double>>(z);
+                nv = Math.Min(vx.Length, vy.Length);
                 for (int i = 0; i < nv; ++i)
                     vz[i] = vx[i] * vy[i];
 
@@ -74,9 +77,9 @@ namespace Calcpad.Core
             var nv = 0;
             if (len > 15)
             {
-                nv = len / _vecSize;
                 ReadOnlySpan<SN.Vector<double>> va = MemoryMarshal.Cast<double, SN.Vector<double>>(sa);
                 var vb = va[0];
+                nv = va.Length;
                 for (int i = 1; i < nv; ++i)
                     vb += SN.Vector.Abs(va[i]);
 
@@ -101,10 +104,10 @@ namespace Calcpad.Core
             var inv = 1d / scale;
             if (nv > 2)
             {
-                nv = len / _vecSize;
                 Span<SN.Vector<double>> va = MemoryMarshal.Cast<double, SN.Vector<double>>(sa);
                 var vb = SN.Vector<double>.Zero;
                 var vs = new SN.Vector<double>(inv);
+                nv = va.Length;
                 for (int i = 0; i < nv; ++i)
                 {
                     va[i] = va[i] * vs;
@@ -135,9 +138,9 @@ namespace Calcpad.Core
             var nv = 0;
             if (len > 15)
             {
-                nv = len / _vecSize;
                 ReadOnlySpan<SN.Vector<double>> va = MemoryMarshal.Cast<double, SN.Vector<double>>(sa);
                 ReadOnlySpan<SN.Vector<double>> vb = MemoryMarshal.Cast<double, SN.Vector<double>>(sb);
+                nv = Math.Min(va.Length, vb.Length);
                 for (int i = 0; i < nv; ++i)
                     sum += SN.Vector.Dot(va[i], vb[i]);
 
@@ -160,8 +163,8 @@ namespace Calcpad.Core
             var nv = 0;
             if (len > 15)
             {
-                nv = len / _vecSize;
                 ReadOnlySpan<SN.Vector<double>> va = MemoryMarshal.Cast<double, SN.Vector<double>>(sa);
+                nv = va.Length;
                 for (int i = 0; i < nv; ++i)
                 {
                     var vb = va[i];
@@ -176,29 +179,33 @@ namespace Calcpad.Core
             }
             return sumsq;
         }
-        internal static double Norm(double[] a) => Math.Sqrt(SumSq(a, 0, a.Length));
 
-        //y += decimal * x
+        internal static double Norm(ReadOnlySpan<double> x) => Math.Sqrt(SumSq(x, 0, x.Length));
+
+        //y += d * x
         internal static void MultiplyAdd(ReadOnlySpan<double> x, double d, Span<double> y, Span<SN.Vector<double>> vy = default)
         {
-            var len = x.Length;
+            if (d == 0d)
+                return;
+
+            if (d == 1d)
+            {
+                Add(x, y, vy);
+                return;
+            }
+            var len = Math.Min(x.Length, y.Length);
             var nv = 0;
             if (len > 15)
             {
-                nv = len / _vecSize;
                 ReadOnlySpan<SN.Vector<double>> vx = MemoryMarshal.Cast<double, SN.Vector<double>>(x);
                 if (vy.IsEmpty)
                     vy = MemoryMarshal.Cast<double, SN.Vector<double>>(y);
 
-                if (d == 1d)
-                    for (int i = 0; i < nv; ++i)
-                        vy[i] += vx[i];
-                else
-                {
-                    var vd = new SN.Vector<double>(d);
-                    for (int i = 0; i < nv; ++i)
-                        vy[i] += vd * vx[i];
-                }
+                nv = Math.Min(vx.Length, vy.Length);
+                var vd = new SN.Vector<double>(d);
+                for (int i = 0; i < nv; ++i)
+                    vy[i] += vd * vx[i];
+
                 nv *= _vecSize;
             }
             for (int i = nv; i < len; ++i)

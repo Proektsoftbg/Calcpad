@@ -121,4 +121,7 @@
   <data name="Invalid_character_0" xml:space="preserve">
         <value>Невалиден символ: {0}.</value>
     </data>
+  <data name="FindOutput" xml:space="preserve">
+    <value>Търсене в резултати</value>
+  </data>
 </root>

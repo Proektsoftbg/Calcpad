@@ -164,13 +164,9 @@ namespace Calcpad.Core
 
         internal HpVector(int length, int size, Unit units)
         {
-            if (length > MaxLength)
-                throw Exceptions.VectorSizeLimit();
-
             Units = units;
             _length = length;
-            _size = size;
-            _capacity = size;
+            _capacity = _size = size;
             _values = new double[size];
         }
 
@@ -253,10 +249,17 @@ namespace Calcpad.Core
                 ReadOnlySpan<SN.Vector<double>> va = MemoryMarshal.Cast<double, SN.Vector<double>>(sa[..n1]);
                 ReadOnlySpan<SN.Vector<double>> vb = MemoryMarshal.Cast<double, SN.Vector<double>>(sb[..n1]);
                 Span<SN.Vector<double>> vc = MemoryMarshal.Cast<double, SN.Vector<double>>(sc);
-                var vd = new SN.Vector<double>(d);
-                for (int i = 0; i < nv; ++i)
-                    vc[i] = va[i] - vb[i] * vd;
-
+                if (d == 1d)
+                {
+                    for (int i = 0; i < nv; ++i)
+                        vc[i] = va[i] - vb[i];
+                }
+                else
+                {
+                    var vd = new SN.Vector<double>(d);
+                    for (int i = 0; i < nv; ++i)
+                        vc[i] = va[i] - vb[i] * vd;
+                }
                 nv *= _vecSize;
             }
             for (int i = nv; i < n1; ++i)
@@ -350,9 +353,17 @@ namespace Calcpad.Core
                 ReadOnlySpan<SN.Vector<double>> va = MemoryMarshal.Cast<double, SN.Vector<double>>(sa[..n1]);
                 ReadOnlySpan<SN.Vector<double>> vb = MemoryMarshal.Cast<double, SN.Vector<double>>(sb[..n1]);
                 Span<SN.Vector<double>> vc = MemoryMarshal.Cast<double, SN.Vector<double>>(sc);
-                for (int i = 0; i < nv; ++i)
-                    vc[i] = va[i] + vb[i] * d;
-
+                if (d == 1d)
+                {
+                    for (int i = 0; i < nv; ++i)
+                        vc[i] = va[i] + vb[i];
+                }
+                else
+                {
+                    var vd = new SN.Vector<double>(d);
+                    for (int i = 0; i < nv; ++i)
+                        vc[i] = va[i] + vb[i] * vd;
+                }
                 nv *= _vecSize;
             }
             for (int i = nv; i < n1; ++i)
@@ -414,10 +425,17 @@ namespace Calcpad.Core
                 ReadOnlySpan<SN.Vector<double>> va = MemoryMarshal.Cast<double, SN.Vector<double>>(sa);
                 ReadOnlySpan<SN.Vector<double>> vb = MemoryMarshal.Cast<double, SN.Vector<double>>(sb);
                 Span<SN.Vector<double>> vc = MemoryMarshal.Cast<double, SN.Vector<double>>(sc);
-                var vd = new SN.Vector<double>(d);
-                for (int i = 0; i < nv; ++i)
-                    vc[i] = va[i] * vb[i] * vd;
-
+                if (d == 1d)
+                {
+                    for (int i = 0; i < nv; ++i)
+                        vc[i] = va[i] * vb[i];
+                }
+                else
+                {
+                    var vd = new SN.Vector<double>(d);
+                    for (int i = 0; i < nv; ++i)
+                        vc[i] = va[i] * vb[i] * vd;
+                }
                 nv *= _vecSize;
             }
             for (int i = nv; i < n1; ++i)
@@ -500,10 +518,17 @@ namespace Calcpad.Core
                 ReadOnlySpan<SN.Vector<double>> va = MemoryMarshal.Cast<double, SN.Vector<double>>(sa[..n1]);
                 ReadOnlySpan<SN.Vector<double>> vb = MemoryMarshal.Cast<double, SN.Vector<double>>(sb[..n1]);
                 Span<SN.Vector<double>> vc = MemoryMarshal.Cast<double, SN.Vector<double>>(sc);
-                var vd = new SN.Vector<double>(d);
-                for (int i = 0; i < nv; ++i)
-                    vc[i] = va[i] / vb[i] * vd;
-
+                if (d == 1d)
+                {
+                    for (int i = 0; i < nv; ++i)
+                        vc[i] = va[i] / vb[i];
+                }
+                else
+                {
+                    var vd = new SN.Vector<double>(d);
+                    for (int i = 0; i < nv; ++i)
+                        vc[i] = va[i] / vb[i] * vd;
+                }
                 nv *= _vecSize;
             }
             for (int i = nv; i < n1; ++i)

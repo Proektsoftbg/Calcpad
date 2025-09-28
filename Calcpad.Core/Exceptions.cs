@@ -410,5 +410,8 @@ namespace Calcpad.Core
             new (Messages.TheInputMatrixForFFTMustHaveOneRowForRealAndTwoRowsForComplexData);
         internal static MathParserException MissingMatrixIndex(string matrix) =>
             new(string.Format(Messages.MissingMatrixIndexIn0, matrix));
+
+        internal static MathParserException CounterMustBeASingleVariableName() =>
+            new(Messages.CounterMustBeASingleVariableName);
     }
 }

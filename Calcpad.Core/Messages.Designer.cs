@@ -304,6 +304,15 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Counter must be a single variable name..
+        /// </summary>
+        public static string CounterMustBeASingleVariableName {
+            get {
+                return ResourceManager.GetString("CounterMustBeASingleVariableName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cross product is defined only for vectors with 2 and 3 elements..
         /// </summary>
         public static string Cross_product_is_definedonly_for_vectors_with_2_and_3_elements {
@@ -619,7 +628,7 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid format string: {0}. .
+        ///   Looks up a localized string similar to Invalid format string: {0}..
         /// </summary>
         public static string Invalid_format_string_0 {
             get {
@@ -664,7 +673,7 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid keyword: {0}. .
+        ///   Looks up a localized string similar to Invalid keyword: {0}..
         /// </summary>
         public static string Invalid_keyword_0 {
             get {
@@ -795,6 +804,15 @@ namespace Calcpad.Core {
         public static string Invalid_units_for_function_0_1 {
             get {
                 return ResourceManager.GetString("Invalid_units_for_function_0_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid number of parameters..
+        /// </summary>
+        public static string InvalidNumberOfParameters {
+            get {
+                return ResourceManager.GetString("InvalidNumberOfParameters", resourceCulture);
             }
         }
         
@@ -952,7 +970,7 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Missing delimiter &quot;{0}&quot; in solver command {{1}}..
+        ///   Looks up a localized string similar to Missing item or delimiter &quot;{0}&quot; in solver command: {1}..
         /// </summary>
         public static string Missing_delimiter_0_in_solver_command_1 {
             get {
@@ -1411,7 +1429,7 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The variable is not a matrix: {0}. .
+        ///   Looks up a localized string similar to The variable is not a matrix: {0}..
         /// </summary>
         public static string The_variable_is_not_a_matrix_0 {
             get {

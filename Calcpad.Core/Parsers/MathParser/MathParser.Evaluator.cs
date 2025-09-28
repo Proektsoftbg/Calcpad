@@ -276,9 +276,10 @@ namespace Calcpad.Core
                                 break;
                             }
                         }
+                        var variable = ta.Variable;
                         if (t0.Type == TokenTypes.Vector)
                         {
-                            var vector = (Vector)ta.Variable.Value;
+                            var vector = (Vector)variable.Value;
                             if (i < 1 || i > vector.Length)
                                 throw Exceptions.IndexOutOfRange(i.ToString());
 
@@ -292,10 +293,11 @@ namespace Calcpad.Core
                         }
                         else
                         {
-                            var matrix = (Matrix)ta.Variable.Value;
+                            var matrix = (Matrix)variable.Value;
                             if (i < 1 || i > matrix.RowCount ||
                                 j < 1 || j > matrix.ColCount)
                                 throw Exceptions.IndexOutOfRange($"{i}, {j}");
+
                             if (b is RealValue rb)
                             {
                                 _parser._backupVariable = new(ta.Content + '.' + i + '.' + j, matrix[i - 1, j - 1]);
@@ -304,7 +306,7 @@ namespace Calcpad.Core
                             else
                                 throw Exceptions.CannotAssignVectorToScalar();
                         }
-
+                        variable.Change();
                     }
                     else if (t0.Type == TokenTypes.Variable)
                     {

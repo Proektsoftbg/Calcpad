@@ -219,7 +219,7 @@ n_T = 400
 #equ
 $Plot{Y$(1) & Y$(2) & Y$(3) & Y$(4) & Y$(5) @ j = 0 : n_J + 1}
 #hide
-Δt = 1.5*T.1/(n_T - 1)
+Δt = 1.1*T.1/(n_T - 1)
 t(i) = (i - 1)*Δt
 Z = matrix(n_T; n_J + 2)*mm
 $Repeat{$Repeat{Z.(i; j + 1) = d(j*Δx/L)*y_0(t(i)) + y_J(j; t(i)) @ j = 1 : n_J} @ i = 1 : n_T}

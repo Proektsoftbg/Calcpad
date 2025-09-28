@@ -108,7 +108,7 @@
         var{
             color: #06c;
             font-family: "Times New Roman", Times, serif;
-            font-size: 12.5pt
+            font-size: 12pt
         }
 
         code {
@@ -151,7 +151,7 @@
 
         .root {
             font-family: "Times New Roman", Times, serif;
-            font-size: 14pt;
+            font-size: 13pt;
         }
 
         .ovr {
@@ -691,7 +691,7 @@
                 border-bottom: solid 1pt black;
             }
 
-        .hl {background-color: #FFFCD6;}
+        .hl  {background-color: #FFFCD6;}
         .hl1 {background-color: #FFF8C8;}
         .hl2 {background-color: #FFF2B8;}
     </style>
@@ -805,7 +805,7 @@
             <li><a href="mailto:proektsoft.bg@gmail.com">proektsoft.bg@gmail.com</a></li>
         </ul>
         <h1><img alt="Calcpad.png" src="Images/Calcpad.png" height="32"> Calcpad VM</h1>
-        <p style="margin-left:42px; margin-top:0;">Version 7.3 Readme!</p>
+        <p style="margin-left:42px; margin-top:0;">Version 7.4 Readme!</p>
         <h2 id="TOC_101">About Calcpad VM</h2>
         <p>Calcpad is free software for mathematical and engineering calculations. It represents a flexible and modern programmable calculator with Html report generator. It is simple and easy to use, but it also includes many advanced features:</p>
         <ul>
@@ -820,7 +820,8 @@
                     <li>aggregate functions: min, max, sum, sumsq, srss, average, product, (geometric) mean, etc.;</li>
                     <li>
                         math functions: norm, condition, determinant, rank, trace, transpose, adjugate and cofactor, inverse,
-                        factorization (Cholesky, ldlt, lu, qr and svd), eigenvalues/vectors and linear systems of equations;
+                        factorization (Cholesky, ldlt, lu, qr and svd), eigenvalues/vectors, linear systems of equations, 
+						fast Forier transforms, etc.;
                     </li>
                 </ul>
             <li>custom functions of multiple parameters f(x; y; z; …);</li>
@@ -1053,7 +1054,7 @@
                 <ul style="list-style-type:none;">
                     <li>"<b>∧</b>" - logical "and" (&&);</li>
                     <li>"<b>∨</b>" - logical "or" (||);</li>
-                    <li>"<b style="font-size:80%;">⊕</b>" - logical “xor”;</li>
+                    <li>"<b style="font-size:80%;">⊕</b>" - logical “xor” (^^);</li>
                 </ul>
             </li>
             <li>
@@ -1171,23 +1172,23 @@
             </li>
             <li>
                 Inverse trigonometric:<ul style="list-style-type:none;">
-                    <li><code><b>asin</b>(<var>x</var>)</code> - inverted sine, defined for -1 &le; <var>x</var> &le; 1;</li>
-                    <li><code><b>acos</b>(<var>x</var>)</code> - inverted cosine, defined for -1 &le; <var>x</var> &le; 1;</li>
-                    <li><code><b>atan</b>(<var>x</var>)</code> - inverted tangent;</li>
+                    <li><code><b>asin</b>(<var>x</var>)</code> - inverse sine, defined for -1 &le; <var>x</var> &le; 1;</li>
+                    <li><code><b>acos</b>(<var>x</var>)</code> - inverse cosine, defined for -1 &le; <var>x</var> &le; 1;</li>
+                    <li><code><b>atan</b>(<var>x</var>)</code> - inverse tangent;</li>
                     <li><code><b>atan2</b>(<var>x</var>; <var>y</var>)</code>  - the angle whose tangent is the quotient of <var>y</var> and <var>x</var>;</li>
-                    <li><code><b>acsc</b>(<var>x</var>)</code> - inverted cosecant = <code><b>asin</b>(1/<var>x</var>)</code>;</li>
-                    <li><code><b>asec</b>(<var>x</var>)</code> - inverted secant = <code><b>acos</b>(1/<var>x</var>)</code>;</li>
-                    <li><code><b>acot</b>(<var>x</var>)</code> - inverted cotangent;</li>
+                    <li><code><b>acsc</b>(<var>x</var>)</code> - inverse cosecant = <code><b>asin</b>(1/<var>x</var>)</code>;</li>
+                    <li><code><b>asec</b>(<var>x</var>)</code> - inverse secant = <code><b>acos</b>(1/<var>x</var>)</code>;</li>
+                    <li><code><b>acot</b>(<var>x</var>)</code> - inverse cotangent;</li>
                 </ul>
             </li>
             <li>
                 Inverse hyperbolic:<ul style="list-style-type:none;">
-                    <li><code><b>asinh</b> (<var>x</var>)</code> - inverted hyperbolic sine = <code><b>ln</b>(<var>x</var> + <span class="root">√</span><span class="ovr"><var>x</var><sup>2</sup> + 1</span>)</code>, defined for -∞ &le; <var>x</var> &le; +∞;</li>
-                    <li><code><b>acosh</b>(<var>x</var>)</code> - inverted hyperbolic cosine = <code><b>ln</b>(<var>x</var> + <span class="root">√</span><span class="ovr"><var>x</var> + 1</span>&middot;<span class="root">√</span><span class="ovr"><var>x</var> - 1</span>)</code>, defined for <var>x</var> &ge; 1;</li>
-                    <li><code><b>atanh</b>(<var>x</var>)</code> - inverted hyperbolic tangent = <code>1/2&middot;<b>ln</b>[(1 + <var>x</var>)/(1 - <var>x</var>)]</code>, for -1 &lt; <var>x</var> &lt; 1;</li>
-                    <li><code><b>acsch</b>(<var>x</var>)</code> - inverted hyperbolic cosecant = <code><b>atanh</b>(1/<var>x</var>)</code>;</li>
-                    <li><code><b>asech</b>(<var>x</var>)</code> - inverted hyperbolic secant = <code><b>acosh</b>(1/<var>x</var>)</code>;</li>
-                    <li><code><b>acoth</b>(<var>x</var>)</code> - inverted hyperbolic cotangent = <code>1/2&middot;<b>ln</b>[(<var>x</var> + 1)/(<var>x</var> - 1)]</code>, for |<var>x</var>| &gt; 1;</li>
+                    <li><code><b>asinh</b>(<var>x</var>)</code> - inverse hyperbolic sine = <code><b>ln</b>(<var>x</var> + <span class="root">√</span><span class="ovr"><var>x</var><sup>2</sup> + 1</span>)</code>, defined for -∞ &le; <var>x</var> &le; +∞;</li>
+                    <li><code><b>acosh</b>(<var>x</var>)</code> - inverse hyperbolic cosine = <code><b>ln</b>(<var>x</var> + <span class="root">√</span><span class="ovr"><var>x</var> + 1</span>&middot;<span class="root">√</span><span class="ovr"><var>x</var> - 1</span>)</code>, defined for <var>x</var> &ge; 1;</li>
+                    <li><code><b>atanh</b>(<var>x</var>)</code> - inverse hyperbolic tangent = <code>1/2&middot;<b>ln</b>[(1 + <var>x</var>)/(1 - <var>x</var>)]</code>, for -1 &lt; <var>x</var> &lt; 1;</li>
+                    <li><code><b>acsch</b>(<var>x</var>)</code> - inverse hyperbolic cosecant = <code><b>atanh</b>(1/<var>x</var>)</code>;</li>
+                    <li><code><b>asech</b>(<var>x</var>)</code> - inverse hyperbolic secant = <code><b>acosh</b>(1/<var>x</var>)</code>;</li>
+                    <li><code><b>acoth</b>(<var>x</var>)</code> - inverse hyperbolic cotangent = <code>1/2&middot;<b>ln</b>[(<var>x</var> + 1)/(<var>x</var> - 1)]</code>, for |<var>x</var>| &gt; 1;</li>
                 </ul>
             </li>
             <li>
@@ -1221,7 +1222,6 @@
                     <li><code><b>re</b>(a + b<var>i</var>)</code> - returns the real part only, <b>re</b>(a + b<var>i</var>) = a;</li>
                     <li><code><b>im</b>(a + b<var>i</var>)</code> - returns the imaginary part as a real number, <b>im</b>(a + b<var>i</var>) = b;</li>
                     <li><code><b>abs</b>(a + b<var>i</var>)</code> - complex modulus = <b>sqrt</b>(a<sup>2</sup> + b<sup>2</sup>);</li>
-                    <li><code><b>abs</b>(<var>x</var>)</code> - absolute value (modulus) of a real number | <var>x</var> |;</li>
                     <li><code><b>phase</b>(a + b<var>i</var>)</code> - complex number phase (argument) = <b>atan2</b>(a; b);</li>
                     <li><code><b>conj</b>(a + b<var>i</var>)</code> - complex number conjugate = a - b<var>i</var>.</li>
                 </ul>
@@ -1253,6 +1253,7 @@
             </li>
             <li>
                 Other:<ul style="list-style-type:none;">
+                    <li><code><b>abs</b>(<var>x</var>)</code> - absolute value (modulus) of a real number | <var>x</var> |;</li>
                     <li><code><b>sign</b>(<var>x</var>)</code> - sign of a number = -1, if <var>x</var> &lt; 0; 1, if <var>x</var> &gt; 0; 0, if <var>x</var> = 0;</li>
                     <li><code><b>random</b>(<var>x</var>)</code> - a random number between 0 and <var>x</var>;</li>
                     <li><code><b>getunits</b>(<var>x</var>)</code> - gets the units of <var>x</var> without the value. Returns 1 if <var>x</var> is unitless;</li>
@@ -3872,7 +3873,7 @@
         <p>&emsp;&emsp;<code><b>eigenvecs</b>(<var>M</var>; <var>n</var><sub>e</sub>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Parameters</em>:&emsp;<span class="hang">
                 <var>M</var> - symmetric matrix;<br />
-                <var>n</var><sub>e</sub> - the number of eigenvalues to extract (optional).
+                <var>n</var><sub>e</sub> - the number of eigenvectors to extract (optional).
             </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;a <var>n</var><sub>e</sub>×<var>n</var> matrix which rows represent the eigenvectors of <var>M</var>.<br />
             &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">The same rules as for <b>eigenvals</b>(<var>M</var>&hairsp;; <var>n</var><sub>e</sub>&hairsp;) apply.</span><br />
@@ -3899,7 +3900,7 @@
         <p>&emsp;&emsp;<code><b>eigen</b>(<var>M</var>; <var>n</var><sub>e</sub>)</code></p><p>
             &emsp;&emsp;&emsp;&emsp;<em>Parameters</em>:&emsp;<span class="hang">
                 <var>M</var> - symmetric matrix;<br />
-                <var>n</var><sub>e</sub> - the number of eigenvalues to extract (optional).
+                <var>n</var><sub>e</sub> - the number of eigenvalues/vectors to extract (optional).
             </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;<span class="hang">a <var>n</var><sub>e</sub>×(<var>n</var> + 1) matrix were each row contains one eigenvalue, followed by the elements of the respective eigenvector of matrix <var>M</var>.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">In case both are needed, this function is more efficient than calling <b>eigenvals</b>(<var>M</var>&hairsp;; <var>n</var><sub>e</sub>&hairsp;) and <b>eigenvecs</b>(<var>M</var>&hairsp;; <var>n</var><sub>e</sub>&hairsp;) separately. The same rules as for <b>eigenvals</b>(<var>M</var>&hairsp;; <var>n</var><sub>e</sub>&hairsp;) apply.</span><br />
@@ -4140,7 +4141,7 @@
                 <var><span class="vec">⃗</span>b</var> - high-performance right-hand side vector.
             </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Return value</em>:&ensp;<span class="hang">the solution vector <var><span class="vec">⃗</span>x</var> of the system of linear equations <var>A</var><var><span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> using preconditioned conjugate gradient (PCG) method.</span><br />
-            &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">The PCG method is iterative and is faster than the direct Cholesky decomposition method. Whenever you have larger systems with tens to hundreds of thousands equations it is recommended to use the <b>slsolve</b> function high performance matrices and vectors.</span><br />
+            &emsp;&emsp;&emsp;&emsp;<em>Notes</em>:&emsp;&emsp;&emsp;&nbsp; <span class="hang">The PCG method is iterative and is faster than the direct Cholesky decomposition method. Whenever you have larger systems with tens to hundreds of thousands equations it is recommended to use the <b>slsolve</b> function with high performance matrices and vectors.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>Example</em>:&emsp;&emsp; <span class="hang">
                 <code>
                     <var>A</var> = <b>copy</b>([8; 6; -4|6; 12; -3|-4; -3; 9]; _<br />
@@ -4409,7 +4410,7 @@
         </p>
 
         <h3 id="TOC_412">High performance vectors and matrices</h3>
-        <p>High performance (hp) vectors and matrices were introduced in Calcpad version 7.3.0 with the purpose of solving larger engineering problems faster and with less memory consumption. But this comes with a trade-off: all elements of an hp vector or matrix must have the same units. This allows Calcpad to store and process the units only once for the whole vector/matrix and perform a lot of additional optimizations like SIMD vectorization of operations, application of more cache-friendly algorithms, etc. All this results in dozens of times improvement in speed and reduces the required memory size more than twice, even if there are no units at all.</p>
+        <p>High performance (hp) vectors and matrices were introduced in Calcpad version 7.3.0 with the purpose of solving large engineering problems faster and with less memory consumption. But this comes with a trade-off: all elements of an hp vector or matrix must have the same units. This allows Calcpad to store and process the units only once for the whole vector/matrix and perform a lot of additional optimizations like SIMD vectorization of operations, application of more cache-friendly algorithms, etc. All this results in dozens of times improvement in speed and reduces the required memory size more than twice, even if there are no units at all.</p>
         <p>Hp vectors and matrices are initially created by special functions, similar to standard creational functions, but ending with “_hp”, as follows:</p>
         <p>
             <b>Functions for creating hp vectors:</b><br />
@@ -4453,11 +4454,11 @@
         <p>Similarly to the system of equations, the direct QL algorithm with implicit shifts we use for finding the eigenvalues and eigenvectors of matrices has a complexity of O(<var>n</var><sup>3</sup>) which makes it suitable for small to medium sized problems. In addition, it always finds all eigenvalues and eigenvectors, which is not required in most cases. For example, in structural dynamics we usually need only the first of the most significant vibration frequencies and modes. The Lanczos method is much more appropriate for that purpose. It can find several of the extreme (smallest or largest) eigenvalues of a large matrix but much faster than the Implicit QL algorithm. It has a time complexity of O(<var>k</var><sup>2</sup><var>m</var>), where <var>k</var> is the number of iterations and <var>m</var> is the number of nonzero elements of the matrix. It is applied at the tridiagonalization step, replacing the Householder’s reflections method.</p>
         <p>
             In Calcpad, it is used for the same functions as the QL method, when the size of the matrix is &gt; 200:<br />
-            &emsp;&emsp;<code><b>eigenvals</b>(<var>M</var>; <var>n</var><sub>e</sub>)</code> - the first <var>n</var><sub>e</sub>eigenvalues of matrix <var>M</var>&hairsp;;<br />
-            &emsp;&emsp;<code><b>eigenvecs</b>(<var>M</var>; <var>n</var><sub>e</sub>)</code> - the first <var>n</var><sub>e</sub> eigenvectors of matrix <var>M</var>&hairsp;;<br />
-            &emsp;&emsp;<code><b>eigen</b>(<var>M</var>; <var>n</var><sub>e</sub>)</code> - the first <var>n</var><sub>e</sub>eigenvalues and eigenvectors of matrix <var>M</var>.
+            &emsp;&emsp;<code><b>eigenvals</b>(<var>M</var>; <var>n</var><sub>e</sub>)</code> - the first <var>n</var><sub>e</sub> eigenvalues of matrix <var>M</var>&hairsp;;<br />
+            &emsp;&emsp;<code><b>eigenvecs</b>(<var>M</var>; <var>n</var><sub>e</sub>)</code> - the first <var>n</var><sub>e</sub> eigenvectors of matrix <var>M</var>&hairsp;;<br />	
+            &emsp;&emsp;<code><b>eigen</b>(<var>M</var>; <var>n</var><sub>e</sub>)</code> - the first <var>n</var><sub>e</sub> eigenvalues and eigenvectors of matrix <var>M</var>.
         </p>
-        <p>The maximum number of iterations is set to be 4<var>n</var><sub>e</sub> + 50. So, if the size of the matrix is <var>n</var> &lt; 1000 and <var>n</var><sub>e</sub> &gt; <var>n</var>/5 again the QL method is used. This is because the Lanczos method is less accurate and when the number of iterations gets close to the matrix size, the performance is reduced to the one of the QL algorithm.</p>
+        <p>The maximum number of iterations is set to be 4<var>n</var><sub>e</sub> + 100. So, if the size of the matrix is <var>n</var> &lt; 1000 and <var>n</var><sub>e</sub> &gt; <var>n</var>/5 again the QL method is used. This is because the Lanczos method is less accurate and when the number of iterations gets close to the matrix size, the performance is reduced to the one of the QL algorithm.</p>
 
         <h2 id="TOC_500">Reporting</h2>
         <p>All calculations are automatically collected into a professionally formatted calculation report. You can print it or open it with MS Word for editing. Besides math expressions, you can add headings, comments, tables and images.</p>
@@ -4639,100 +4640,101 @@
         </p>
         <p>
             During parsing, the marked text is converted to Html and then passed for further processing. Since this is performed line-by-line, block level formatting like lists, tables, etc. are not fully supported. You can use the following syntax elements:
-            <table border="1">
-                <thead>
-                    <tr><th>Markdown code</th><th>Html code</th><th>Output</th></tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><code><b>###</b> Heading 3</code></td>
-                        <td>&lt;h3&gt;Heading 3&lt;/h3&gt;</td>
-                        <td><h3 style="font-size: 1.4em; margin:0;">Heading 3</h3></td>
-                    </tr>
-                    <tr>
-                        <td><code><b>####</b> Heading 4</code></td>
-                        <td>&lt;h4&gt;Heading 4&lt;/h4&gt;</td>
-                        <td><h4 style="font-size: 1.2em; margin:0;">Heading 4</h4></td>
-                    </tr>
-                    <tr>
-                        <td><code><b>#####</b> Heading 5</code></td>
-                        <td>&lt;h5&gt;Heading 5&lt;/h5&gt;</td>
-                        <td><h5 style="font-size: 1.1em; margin:0;">Heading 5</h5></td>
-                    </tr>
-                    <tr>
-                        <td><code><b>######</b> Heading 6</code></td>
-                        <td>&lt;h6&gt;Heading 6&lt;/h6&gt;</td>
-                        <td><h6 style="font-size: 1em; margin:0;">Heading 6</h6></td>
-                    </tr>
-                    <tr>
-                        <td><code>---</code> (horizontal line)</td>
-                        <td>&lt;hr/&gt;</td>
-                        <td><hr /></td>
-                    </tr>
-                    <tr>
-                        <td><code><b>**</b>Bold<b>**</b></code></td>
-                        <td>&lt;strong&gt;Bold&lt;/strong&gt;</td>
-                        <td><strong>Bold</strong></td>
-                    </tr>
-                    <tr>
-                        <td><code><b>*</b>Italic<b>*</b></code></td>
-                        <td>&lt;em&gt;Italic&lt;/em&gt;</td>
-                        <td><em>Italic</em></td>
-                    </tr>
-                    <tr>
-                        <td><code><b>***</b>Bold Italic<b>***</b></code></td>
-                        <td>&lt;em&gt;&lt;strong&gt;Bold Italic&lt;/strong&gt;&lt;/em&gt;</td>
-                        <td><em><strong>Bold Italic</strong></em></td>
-                    </tr>
-                    <tr>
-                        <td><code><b>++</b>Underlined<b>++</b></code></td>
-                        <td>&lt;ins&gt;Underlined&lt;/ins&gt;</td>
-                        <td><ins>Underlined</ins></td>
-                    </tr>
-                    <tr>
-                        <td><code><b>~~</b>Struck through<b>~~</b></code></td>
-                        <td>&lt;del&gt;Struck through&lt;/del&gt;</td>
-                        <td><del>Struck through</del></td>
-                    </tr>
-                    <tr>
-                        <td><code><b>==</b>Highlighted<b>==</b></code></td>
-                        <td>&lt;mark&gt;Highlighted&lt;/mark&gt;</td>
-                        <td><mark>Highlighted</mark></td>
-                    </tr>
-                    <tr>
-                        <td><code>x<b>^</b>superscript<b>^</b></code></td>
-                        <td>x&lt;sup&gt;superscript&lt;/sup&gt;</td>
-                        <td>x<sup>superscript</sup></td>
-                    </tr>
-                    <tr>
-                        <td><code>x<b>~</b>subscript<b>~</b></code></td>
-                        <td>x&lt;sub&gt;subscript&lt;/sub&gt;</td>
-                        <td>x<sub>subscript</sub></td>
-                    </tr>
-                    <tr>
-                        <td><code><b>`</b>Code<b>`</b></code></td>
-                        <td>&lt;code&gt;Code&lt;/code&gt;</td>
-                        <td><code style="background:none;">Code</code></td>
-                    </tr>
-                    <tr>
-                        <td><code><b>[Link](</b>https://mywebsite.com<b>)</b></code></td>
-                        <td>&lt;a href="https://mywebsite.com"&gt;Link&lt;/a&gt;</td>
-                        <td><a href="https://mywebsite.com">Link</a></td>
-                    </tr>
-                    <tr>
-                        <td><code><b>![Image](</b>image.jpg<b>)</b></code></td>
-                        <td>&lt;img src="image.jpg" alt="Image" /&gt;</td>
-                        <td><img src="image.jpg" alt="Image" /></td>
-                    </tr>
-                    <tr>
-                        <td><code><b>&gt;</b> Blockquote 1<br /><b>&gt;&gt;</b> Blockquote 2</code></td>
-                        <td>&lt;blockquote&gt;Blockquote 1<br />&lt;blockquote&gt;Blockquote 2&lt;/blockquote&gt;&lt;/blockquote&gt;</td>
-                        <td><blockquote style="margin:0">Blockquote 1<br /><blockquote style="margin: 0 0 0 2em; white-space: nowrap;">Blockquote 2</blockquote></blockquote></td>
-                    </tr>
-                </tbody>
-            </table>
+		</p>
+		<table border="1">
+			<thead>
+				<tr><th>Markdown code</th><th>Html code</th><th>Output</th></tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td><code><b>###</b> Heading 3</code></td>
+					<td>&lt;h3&gt;Heading 3&lt;/h3&gt;</td>
+					<td><h3 style="font-size: 1.4em; margin:0;">Heading 3</h3></td>
+				</tr>
+				<tr>
+					<td><code><b>####</b> Heading 4</code></td>
+					<td>&lt;h4&gt;Heading 4&lt;/h4&gt;</td>
+					<td><h4 style="font-size: 1.2em; margin:0;">Heading 4</h4></td>
+				</tr>
+				<tr>
+					<td><code><b>#####</b> Heading 5</code></td>
+					<td>&lt;h5&gt;Heading 5&lt;/h5&gt;</td>
+					<td><h5 style="font-size: 1.1em; margin:0;">Heading 5</h5></td>
+				</tr>
+				<tr>
+					<td><code><b>######</b> Heading 6</code></td>
+					<td>&lt;h6&gt;Heading 6&lt;/h6&gt;</td>
+					<td><h6 style="font-size: 1em; margin:0;">Heading 6</h6></td>
+				</tr>
+				<tr>
+					<td><code>---</code> (horizontal line)</td>
+					<td>&lt;hr/&gt;</td>
+					<td><hr /></td>
+				</tr>
+				<tr>
+					<td><code><b>**</b>Bold<b>**</b></code></td>
+					<td>&lt;strong&gt;Bold&lt;/strong&gt;</td>
+					<td><strong>Bold</strong></td>
+				</tr>
+				<tr>
+					<td><code><b>*</b>Italic<b>*</b></code></td>
+					<td>&lt;em&gt;Italic&lt;/em&gt;</td>
+					<td><em>Italic</em></td>
+				</tr>
+				<tr>
+					<td><code><b>***</b>Bold Italic<b>***</b></code></td>
+					<td>&lt;em&gt;&lt;strong&gt;Bold Italic&lt;/strong&gt;&lt;/em&gt;</td>
+					<td><em><strong>Bold Italic</strong></em></td>
+				</tr>
+				<tr>
+					<td><code><b>++</b>Underlined<b>++</b></code></td>
+					<td>&lt;ins&gt;Underlined&lt;/ins&gt;</td>
+					<td><ins>Underlined</ins></td>
+				</tr>
+				<tr>
+					<td><code><b>~~</b>Struck through<b>~~</b></code></td>
+					<td>&lt;del&gt;Struck through&lt;/del&gt;</td>
+					<td><del>Struck through</del></td>
+				</tr>
+				<tr>
+					<td><code><b>==</b>Highlighted<b>==</b></code></td>
+					<td>&lt;mark&gt;Highlighted&lt;/mark&gt;</td>
+					<td><mark>Highlighted</mark></td>
+				</tr>
+				<tr>
+					<td><code>x<b>^</b>superscript<b>^</b></code></td>
+					<td>x&lt;sup&gt;superscript&lt;/sup&gt;</td>
+					<td>x<sup>superscript</sup></td>
+				</tr>
+				<tr>
+					<td><code>x<b>~</b>subscript<b>~</b></code></td>
+					<td>x&lt;sub&gt;subscript&lt;/sub&gt;</td>
+					<td>x<sub>subscript</sub></td>
+				</tr>
+				<tr>
+					<td><code><b>`</b>Code<b>`</b></code></td>
+					<td>&lt;code&gt;Code&lt;/code&gt;</td>
+					<td><code style="background:none;">Code</code></td>
+				</tr>
+				<tr>
+					<td><code><b>[Link](</b>https://mywebsite.com<b>)</b></code></td>
+					<td>&lt;a href="https://mywebsite.com"&gt;Link&lt;/a&gt;</td>
+					<td><a href="https://mywebsite.com">Link</a></td>
+				</tr>
+				<tr>
+					<td><code><b>![Image](</b>image.jpg<b>)</b></code></td>
+					<td>&lt;img src="image.jpg" alt="Image" /&gt;</td>
+					<td><img src="image.jpg" alt="Image" /></td>
+				</tr>
+				<tr>
+					<td><code><b>&gt;</b> Blockquote 1<br /><b>&gt;&gt;</b> Blockquote 2</code></td>
+					<td>&lt;blockquote&gt;Blockquote 1<br />&lt;blockquote&gt;Blockquote 2&lt;/blockquote&gt;&lt;/blockquote&gt;</td>
+					<td><blockquote style="margin:0">Blockquote 1<br /><blockquote style="margin: 0 0 0 2em; white-space: nowrap;">Blockquote 2</blockquote></blockquote></td>
+				</tr>
+			</tbody>
+		</table>
 
-            <h3 id="TOC_507">Formatting Toolbar</h3>
+		<h3 id="TOC_507">Formatting Toolbar</h3>
         <p>The formatting toolbar is located just above the code editing box. It allows quick insertion of formatting markup in comments. It can insert either Html or Markdown, depending on your choise. To enable Markdown, switch the <strong class="button"> M⭣ </strong> button on. Also, do not forget to add "<span class="cond">#md on</span>" on top of your worksheet.</p>
         <p><img src=".\Images\Formatting.png" /></p>
         <p>The formatting toolbar includes the following commands:</p>
@@ -4773,7 +4775,6 @@
         <p>To apply a formatting tag to a certain part of the text, select the part first and then press the respective button. If you press it once again, you will remove the existing formatting of the same type. Calcpad supports word autoselection. If you click inside a word and press a formatting button, it is applied for the whole word.</p>
 
         <h2 id="TOC_600">Programming</h2>
-
         <h3 id="TOC_601">Input Forms</h3>
         <p>If you have a long and complicated problem or you want to share your solution with others, it is a good idea to create an input form. It is very easy to do that with Calcpad. Just replace the values that need to be entered with question marks "<b>?</b>", e.g. "<var>a</var> = ?". Please note that after that, you will not be able to calculate the results directly by clicking <img alt="Play" height="20" src="Images/Play.png">. You must compile it first to an input form. For that purpose, click the <img alt="Form" height="20" src="Images/Form.png"> button or press <b>F4</b> from the keyboard.</p>
         <p>The code will hide and the form will be loaded into the "<b>Input</b>" box at the full width of the main window. All texts and formulas will be rendered in Html format, protected from modification. Input boxes will be generated at every occurrence of the "<b>?</b>" symbol except those in comments. The ready-to-use input form will look as follows:</p>
@@ -4928,6 +4929,7 @@
             <li style="margin-left: 2em;">Code to be executed repeatedly</li>
             <li><span class="cond">#Loop</span></li>
         </ul>
+		
         <h3 id="TOC_605">Interactive (step-by-step) execution</h3>
         <p>You can make a Calcpad worksheet to execute interactively (step-by-step) by defining "breakpoints" at certain lines. It will allow the user to review the intermediate results and enter some additional input data if needed. There are two special keywords, you can use for that purpose:</p>
         <ul style="list-style-type:none;">
@@ -5208,7 +5210,7 @@
         </p>
         <p>
             &emsp;&emsp;If “<b>N</b>” is selected, all matrices are stored as rectangular, regardless their type and internal structure.<br />&emsp;&emsp;All elements after the last nonzero value on the row are skipped.
-            <br />&emsp;&emsp;<code>SEP=','</code>	- separator [<span class="ok">optional</span>]. You must specify a single character in quotes.<br />&emsp;&emsp;For the #read command it must correspond to the actual separator used in the input file.
+            <br />&emsp;&emsp;<code>SEP=','</code>	- separator [<span class="ok">optional</span>]. You must specify a single character in quotes.<br />&emsp;&emsp;For the <span class="cond">#read</span> command it must correspond to the actual separator used in the input file.
             <br />&emsp;&emsp;The minimal allowed syntax for the above commands if all optional keywords are skipped is:
             <br />&emsp;&emsp;&emsp;&emsp;“<code><span class="cond">#read</span> <var>M</var> from <em>filename.txt</em></code>” or
             <br />&emsp;&emsp;&emsp;&emsp;“<code><span class="cond">#write</span> <var>M</var> to <em>filename.txt</em></code>” or
@@ -5224,7 +5226,7 @@
         <p>
             &emsp;&emsp;<var>M</var>	- the name of the matrix/vector that contains the data [<span class="err">required</span>];
             <br />&emsp;&emsp;<code><em>filename.xlsx</em></code> - the name and path of the input/output file [<span class="err">required</span>]. If the path is missing, the file is assumed to be in the same folder. The supported extensions are <b>xlsx</b> and <b>xlsm</b>;
-            <br />&emsp;&emsp;<code>@Sheet1</code> - the name of the target worksheet [<span class="ok">optional</span>]. If omitted the first worksheet is used for existing files and Sheet1 is assumed for newly created worksheets.
+            <br />&emsp;&emsp;<code>@Sheet1</code> - the name of the target worksheet [<span class="ok">optional</span>]. If omitted the first worksheet is used for existing files and Sheet1 is assumed for newly created ones.
             <br />&emsp;&emsp;<code>!A1:B2</code> - target cell range [<span class="ok">optional</span>]:
             <br />&emsp;&emsp;<code>A1</code> - starting cell reference [<span class="ok">optional</span>], where A is the column name and 1 is the row index;
             <br />&emsp;&emsp;<code>:B2</code> - ending cell reference as above [<span class="ok">optional</span>];
@@ -5340,8 +5342,10 @@
         </table>
         <p>
             &emsp;&emsp;<code>TYPE=<b>R</b></code>	- type of matrix/vector for structured storage [<span class="ok">optional</span>]. The same rules apply as for text/CSV files above.
-
-            <h2 id="TOC_700">Results</h2>
+		</p>
+		
+		
+		<h2 id="TOC_700">Results</h2>
         <p>You can run the solution by pressing <b>F5</b> or clicking the <img alt="Play" height="20" src="Images/Play.png"> button. The results will appear in the "<b>Output</b>" box. You cannot edit the output content, but you can select, copy and print it. For that purpose, you can use the toolbar above the "<b>Output</b>" box on the right. You can also use additional commands from the context menu, that is displayed If you right-click inside the "<b>Output</b>" box, you will see a pop-up menu with additional commands. Detailed description is provided further in this manual.</p>
         <p>Since version 6.5.3, you can use the "☑ <b>AutoRun</b>" mode. While it is checked, the results will refresh each time you change the code and move to another line. If you need to synchronize the results manually, you can press "<b>Ctrl + Enter</b>". Additionally, the output window will scroll to match the current position in the source code. You can do the same by double clicking into the input window.</p>
 
@@ -5549,7 +5553,6 @@
             </tbody>
         </table>
 
-
         <h3 id="TOC_704">Scaling</h3>
         <p>You can scale up and down the text size in the output window. Hold the "<b>Ctrl</b>" button and rotate the mouse wheel. The forward rotation will scale up and the backward will scale down.</p>
 
@@ -5589,7 +5592,7 @@
         <h3 id="TOC_804">Save As…</h3>
         <p>If you need to save the current file with a different name, select the "<b>File/Save As…</b>" menu command. A file selection dialog will be displayed. Select file path and name and click "<b>Save</b>"</p>
         <hr />
-        <p>Last edited on 04.09.2025 by eng. Nedelcho Ganchovski.</p>
+        <p>Last edited on 18.09.2025 by eng. Nedelcho Ganchovski.</p>
     </div>
     <script src="jquery-3.6.3.min.js"></script>
     <script>

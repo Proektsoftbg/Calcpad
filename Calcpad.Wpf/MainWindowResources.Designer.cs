@@ -2438,7 +2438,7 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Run calculations and display output (F5.
+        ///   Looks up a localized string similar to Run calculations and display output (F5).
         /// </summary>
         public static string RunAndDisplayOutput {
             get {

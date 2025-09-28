@@ -267,6 +267,7 @@ EndFragment:0000000004";
         }
 
         internal void Navigate(string path) => _wv2.CoreWebView2.Navigate(path);
+        internal void NavigateToBlank() => _wv2.CoreWebView2.Navigate(_blankPagePath);
 
         internal async Task NavigateToStringAsync(string html)
         {

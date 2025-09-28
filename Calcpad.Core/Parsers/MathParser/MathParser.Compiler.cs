@@ -352,12 +352,7 @@ namespace Calcpad.Core
             {
                 var v = t.Variable;
                 if (v.IsInitialized || t.Type == TokenTypes.Vector || t.Type == TokenTypes.Matrix)
-                {
-                    if (t.Index < 0 && !_allowAssignment)
-                        return Expression.Constant(v.Value, typeof(IValue));
-
                     return Expression.Property(Expression.Constant(v), typeof(Variable), "Value");
-                }
                 try
                 {
                     var u = Unit.Get(t.Content);
@@ -450,29 +445,6 @@ namespace Calcpad.Core
                 if (cf.IsRecursion)
                     return Expression.Constant(RealValue.NaN, typeof(IValue));
 
-                if (AreConstantParameters(arguments))
-                {
-                    var parameters = EvaluateConstantParameters(arguments).ToArray();
-                    return cf.ParameterCount switch
-                    {
-                        1 => Expression.Constant(
-                            _parser._evaluator.EvaluateFunction(
-                                (CustomFunction1)cf, parameters[0]),
-                            typeof(IValue)),
-                        2 => Expression.Constant(
-                            _parser._evaluator.EvaluateFunction(
-                                (CustomFunction2)cf, parameters[0], parameters[1]),
-                            typeof(IValue)),
-                        3 => Expression.Constant(
-                            _parser._evaluator.EvaluateFunction(
-                                (CustomFunction3)cf, parameters[0], parameters[1], parameters[2]),
-                            typeof(IValue)),
-                        _ => Expression.Constant(
-                            _parser._evaluator.EvaluateFunction(
-                                (CustomFunctionN)cf, parameters),
-                            typeof(IValue)),
-                    };
-                }
                 var n = arguments.Length;
                 if (n == 1)
                     return Expression.Call(

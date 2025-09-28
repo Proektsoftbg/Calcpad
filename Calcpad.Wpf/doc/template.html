@@ -20,12 +20,31 @@
             padding: 0;
             line-height: 150%;
         }
-        h1 { font-size: 2.1em; } /* Default is ~2em */
-        h2 { font-size: 1.7em; } /* Default is ~1.5em */
-        h3 { font-size: 1.4em; } /* Default is ~1.17em */
-        h4 { font-size: 1.2em; } /* Default is ~1em */
-        h5 { font-size: 1.1em; } /* Default is ~0.83em */
-        h6 { font-size: 1em; }   /* Default is ~0.67em */
+
+        h1 {
+            font-size: 2.1em;
+        }
+        /* Default is ~2em */
+        h2 {
+            font-size: 1.7em;
+        }
+        /* Default is ~1.5em */
+        h3 {
+            font-size: 1.4em;
+        }
+        /* Default is ~1.17em */
+        h4 {
+            font-size: 1.2em;
+        }
+        /* Default is ~1em */
+        h5 {
+            font-size: 1.1em;
+        }
+        /* Default is ~0.83em */
+        h6 {
+            font-size: 1em;
+        }
+        /* Default is ~0.67em */
 
         p, li {
             margin: 0.3em 0 0.3em 0;
@@ -33,8 +52,13 @@
             line-height: 150%;
         }
 
-        select, kbd { font-family: 'Segoe UI', sans-serif; }
-        a:hover { background-color: #e9f6ff;}
+        select, kbd {
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        a:hover {
+            background-color: #e9f6ff;
+        }
 
         .eq, input[type="text"], table.matrix {
             font-family: 'Georgia Pro', 'Century Schoolbook', 'Times New Roman', Times, serif;
@@ -42,13 +66,13 @@
 
             .eq var {
                 color: #06d;
-			    font-size: 105%;
+                font-size: 105%;
             }
 
             .eq i {
                 color: #086;
-			    font-style: normal;
-			    font-size: 90%;
+                font-style: normal;
+                font-size: 90%;
             }
 
             .eq b {
@@ -83,62 +107,62 @@
                     font-size: 6pt;
                 }
 
-        .eq u, input, select {
-            background-color: LightYellow;
-        }
-
-            input[type="text"], select {
-                font-size: 10pt;
-                padding: 0.2em 0.4em;
-                border: 0.5pt solid #CCC;
-                border-radius: 0.35em;
-                box-shadow: 0.06em 0.06em 0.5em #ddd;
-                min-width: 3em; 
+            .eq u, input, select {
+                background-color: LightYellow;
             }
 
-            input[type="text"] {
-                text-align: right;
-            }
-
-            input[type="checkbox"],
-            input[type="radio"] {
-                --screen-scale-factor: 1.3;
-                zoom: var(--screen-scale-factor);
-                -moz-transform: scale(var(--screen-scale-factor));
-                -webkit-transform: scale(var(--screen-scale-factor));
-                transform: scale(var(--screen-scale-factor));
-                transform-origin: bottom;
-                position: relative;
-                bottom: 1pt;
-                margin-right: 1pt;
-            }
-
-                input[type="checkbox"].post:disabled:not(:checked),
-                input[type="checkbox"].post:disabled:not(:checked) + label,
-                input[type="radio"].post:disabled:not(:checked),
-                input[type="radio"].post:disabled:not(:checked) + label {
-                    display: none;
+                input[type="text"], select {
+                    font-size: 10pt;
+                    padding: 0.2em 0.4em;
+                    border: 0.5pt solid #CCC;
+                    border-radius: 0.35em;
+                    box-shadow: 0.06em 0.06em 0.5em #ddd;
+                    min-width: 3em;
                 }
 
-            select.post:disabled {
-                font-size: 12pt;
-                border: none;
-                box-shadow: none;
-                color: red;
-                background: none;
-                appearance: none;
-                -webkit-appearance: none;
-                -moz-appearance: none;
-            }
-
-                select.post:disabled::-ms-expand {
-                    display: none;
+                input[type="text"] {
+                    text-align: right;
                 }
 
-            input[type="text"]:focus {
-                box-shadow: 0.1em 0.1em 1em #ccc;
-                color: black;
-            }
+                input[type="checkbox"],
+                input[type="radio"] {
+                    --screen-scale-factor: 1.3;
+                    zoom: var(--screen-scale-factor);
+                    -moz-transform: scale(var(--screen-scale-factor));
+                    -webkit-transform: scale(var(--screen-scale-factor));
+                    transform: scale(var(--screen-scale-factor));
+                    transform-origin: bottom;
+                    position: relative;
+                    bottom: 1pt;
+                    margin-right: 1pt;
+                }
+
+                    input[type="checkbox"].post:disabled:not(:checked),
+                    input[type="checkbox"].post:disabled:not(:checked) + label,
+                    input[type="radio"].post:disabled:not(:checked),
+                    input[type="radio"].post:disabled:not(:checked) + label {
+                        display: none;
+                    }
+
+                select.post:disabled {
+                    font-size: 12pt;
+                    border: none;
+                    box-shadow: none;
+                    color: red;
+                    background: none;
+                    appearance: none;
+                    -webkit-appearance: none;
+                    -moz-appearance: none;
+                }
+
+                    select.post:disabled::-ms-expand {
+                        display: none;
+                    }
+
+                input[type="text"]:focus {
+                    box-shadow: 0.1em 0.1em 1em #ccc;
+                    color: black;
+                }
 
         td, th {
             padding: 2pt 4pt 2pt 4pt;
@@ -250,11 +274,11 @@
         }
 
         .r {
-            font-family: 'Times New Roman';
+            font-family: 'Times New Roman',  Times, serif;
             font-size: 150%;
             display: inline-block;
             vertical-align: top;
-            margin-left: -9pt;
+            margin-left: -9.5pt;
             position: relative;
             top: 1pt;
         }
@@ -295,8 +319,8 @@
             position: relative;
             bottom: 1pt;
         }
-		
-        .eq small.nth{
+
+        .eq small.nth {
             font-size: 70%;
         }
 
@@ -317,10 +341,21 @@
             max-height: none;
         }
 
-        sup .r0 {margin-left: -5pt;}
-        sup .r1 {margin-left: -11pt;}
-        sup .r2 {margin-left: -13pt;}
-        sup .r3 {margin-left: -16pt;}
+        sup .r0 {
+            margin-left: -5pt;
+        }
+
+        sup .r1 {
+            margin-left: -11pt;
+        }
+
+        sup .r2 {
+            margin-left: -13pt;
+        }
+
+        sup .r3 {
+            margin-left: -16pt;
+        }
 
         .b1, .b2, .b3, .c1, .c2, .c3, .c4, .c5, .c6, .c7, .c8 {
             vertical-align: middle;
@@ -329,11 +364,11 @@
         }
 
         .b2, .b3, .c2, .c3, .c4, .c5, .c6, .c7, .c8 {
-            font-family: "Jost* Hairline", sans-serif;
+            font-family: 'Jost* Hairline', sans-serif;
         }
 
         .b0, .b1, .c1 {
-            font-family: "Jost* Thin", sans-serif;
+            font-family: 'Jost* Thin', sans-serif;
         }
 
         .b0 {
@@ -420,7 +455,7 @@
             transform: scaleX(0.5);
         }
 
-        .dvc, .dvr, .dvs{
+        .dvc, .dvr, .dvs {
             display: inline-block;
             vertical-align: middle;
             white-space: nowrap;
@@ -563,7 +598,8 @@
             margin-right: -7pt;
         }
 
-        small .vec {
+        small .vec, sup .vec {
+            margin-left: 2pt;
             margin-right: -6pt;
         }
 
@@ -582,6 +618,7 @@
                 zoom: 0.8;
                 -moz-transform: scale(0.8);
             }
+
             body {
                 margin: 0;
                 -webkit-print-color-adjust: exact;

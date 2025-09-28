@@ -4,7 +4,7 @@
     xmlns:wpf="clr-namespace:Calcpad.Wpf"
     xmlns:core="clr-namespace:Calcpad.Core;assembly=Calcpad.Core"
     xmlns:av="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="av" x:Class="Calcpad.Wpf.MainWindow"
-    Title=" Calcpad VM 7.3.8"
+    Title=" Calcpad VM 7.4.1"
     Height="800"
     Width="1200"
     WindowStartupLocation="CenterScreen"
@@ -1511,7 +1511,7 @@
                     <MenuItem Click="Button_Click" Tag="#include filename.cpd" 
                               Header="{x:Static wpf:MainWindowResources.IncludeExternalFile}"/>
                 </MenuItem>
-                <MenuItem Header="Data import/export">
+                <MenuItem Header="{x:Static wpf:AppMessages.DataImportExport}">
                     <MenuItem Click="Button_Click" Tag="#read M from filename.txt@R1C1:R2C2 TYPE=R SEP=','" 
                         Header="{x:Static wpf:MainWindowResources.ReadTextCSVFile}"/>
                     <MenuItem Click="Button_Click" Tag="#write M to filename.txt@R1C1:R2C2 TYPE=N SEP=','" 
@@ -1607,7 +1607,7 @@
                               Header="{x:Static wpf:MainWindowResources.DividingLine}" Icon=" —"/>
                 </MenuItem>
                 <MenuItem Header="{x:Static wpf:MainWindowResources.HtmlUI}">
-                    <MenuItem Click="Button_Click" Tag="§'Select an option: &lt;select name=&quot;target1&quot;&gt;§'&lt;option value=&quot;11;12&quot;&gt;x1; y1&lt;/option&gt;§'&lt;option value=&quot;21;22&quot;&gt;x2; y2&lt;/option&gt;§'&lt;option value=&quot;31;32&quot;&gt;x3; y3&lt;/option&gt;§'&lt;/select&gt;§'...§'&lt;p id=&quot;target1&quot;&gt; Values:'x = ? {21}','y = ? {22}'&lt;/p&gt;§" 
+                    <MenuItem Click="Button_Click" Tag="§'&lt;p&gt;Select an option: &lt;select name=&quot;target1&quot;&gt;§'&lt;option value=&quot;11;12&quot;&gt;x1; y1&lt;/option&gt;§'&lt;option value=&quot;21;22&quot;&gt;x2; y2&lt;/option&gt;§'&lt;option value=&quot;31;32&quot;&gt;x3; y3&lt;/option&gt;§'&lt;/select&gt;&lt;/p&gt;§'...§'&lt;p id=&quot;target1&quot;&gt; Values:'x = ? {21}','y = ? {22}'&lt;/p&gt;§" 
                               Header="{x:Static wpf:MainWindowResources.Selection}"/>
                     <MenuItem Click="Button_Click" Tag="§'&lt;p&gt;Select: §'&lt;input name=&quot;target2&quot; type=&quot;radio&quot; id=&quot;opt1&quot; value=&quot;1&quot;/&gt;§'&lt;label for=&quot;opt1&quot;&gt;option 1&lt;/label&gt;§'&lt;input name=&quot;target2&quot; type=&quot;radio&quot; id=&quot;opt2&quot; value=&quot;2&quot;/&gt;§'&lt;label for=&quot;opt2&quot;&gt;option 2&lt;/label&gt;§'...§'&lt;p id=&quot;target2&quot;&gt;Value -'opt = ? {2}'&lt;/p&gt;§" 
                               Header="{x:Static wpf:MainWindowResources.RadioButtons}"/>
@@ -2236,7 +2236,7 @@
                             </LinearGradientBrush>
                         </Border.Background>
                     </Border>
-                    <CheckBox  Style="{StaticResource MarkdownCheckBox}" x:Name="MarkdownCheckBox" Content=" M⭣"  VerticalAlignment="Top" Height="20" 
+                    <CheckBox  Style="{StaticResource MarkdownCheckBox}" x:Name="MarkdownCheckBox" Content=" M⭣"  VerticalAlignment="Top" Height="20"  ToolTip="Markdown"
                             FontFamily="Roboto" Margin="0,0,5,0" FontWeight="Bold" FontSize="12" HorizontalAlignment="Right" Width="26" Focusable="False" IsTabStop="False" Checked="MarkdownCheckBox_Checked"/>
                     <Button Grid.Row="0" Style="{StaticResource FormatButton}" Margin="50,0,0,0"
                         x:Name="H3Button" Click="Button_Click" Tag="&lt;h3&gt;‖&lt;/h3&gt;␣‖### " 
@@ -2533,22 +2533,22 @@
                                 ToolTip="{x:Static wpf:MathResources.NaturalExponent}">
                             <TextBlock><Run Text=" e" /><Run BaselineAlignment="TextTop" FontSize="10" Text=" x" /></TextBlock>
                         </Button>
-                        <Button Click="Button_Click" x:Name="SqrtButton" Tag="sqrt(" Margin="194,31,0,0"
+                        <Button Click="Button_Click" x:Name="SqrtButton" Tag="sqrt(" Margin="197,29,0,0"
                                 Style="{StaticResource RoundButton}" Visibility="Hidden"
                                 ToolTip="{x:Static wpf:MathResources.SquareRoot}" Grid.Column="1">
                             <TextBlock Margin="-2,2,0,0"><Run FontSize="15" FontFamily="Times New Roman" Text="√"/><Run TextDecorations="Overline" FontSize="15" Text="x"/></TextBlock>
                         </Button>
-                        <Button Click="Button_Click" x:Name="CbrtButton" Tag="cbrt("  
+                        <Button Click="Button_Click" x:Name="CbrtButton" Tag="cbrt(" Margin="197,57,0,0"  
                                 ToolTip="{x:Static wpf:MathResources.CubicRoot}" Visibility="Hidden"
-                                Margin="194,61,0,0" Style="{StaticResource RoundButton}" Grid.Column="1">
+                                Style="{StaticResource RoundButton}" Grid.Column="1">
                             <TextBlock Margin="-2,1,0,0"><Run BaselineAlignment="TextTop" FontSize="7" Text="3"/><InlineUIContainer><TextBlock Margin="-5,2,0,0"><Run FontSize="15" FontFamily="Times New Roman" Text="√"/><Run FontSize="15" Text="x" TextDecorations="Overline"/></TextBlock></InlineUIContainer></TextBlock>
                         </Button>
-                        <Button Click="Button_Click" Tag="root(" x:Name="RootButton" Margin="194,91,0,0"
+                        <Button Click="Button_Click" Tag="root(" x:Name="RootButton" Margin="197,85,0,0"
                                 Style="{StaticResource RoundButton}" Visibility="Hidden"
                                 ToolTip="{x:Static wpf:MathResources.NthRoot}" Grid.Column="1">
                             <TextBlock Margin="-2,1,0,0"><Run BaselineAlignment="TextTop" FontSize="8" Text="n"/><InlineUIContainer><TextBlock Margin="-5,3,0,0"><Run FontSize="15" FontFamily="Times New Roman" Text="√"/><Run FontSize="15" Text="x" TextDecorations="Overline"/></TextBlock></InlineUIContainer></TextBlock>
                         </Button>
-                        <Button Click="Button_Click" Content="ln" Tag="ln(" Margin="194,121,0,0"
+                        <Button Click="Button_Click" Content="ln" Tag="ln(" Margin="197,113,0,0"
                                 Style="{StaticResource RoundButton}"  Visibility="Hidden" FontSize="14"
                                 ToolTip="{x:Static wpf:MathResources.NaturalLogarithm}" x:Name="LnButton" Grid.Column="1"
                                 />
@@ -2763,7 +2763,7 @@
                     CornerRadius="4" Padding="4,2,2,2" Margin="0,2,16,0" 
                     HorizontalAlignment="Right" VerticalAlignment="Top"  
                     Width="120" Height="20"
-                    Grid.Column="2" Visibility="Visible">
+                    Grid.Column="2" Visibility="Hidden">
                 <Border.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" Opacity="0.8">
                         <GradientStop Color="#FFF0F0F0"/>

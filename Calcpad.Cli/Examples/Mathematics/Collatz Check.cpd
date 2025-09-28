@@ -1,84 +1,115 @@
 "Sample program to check the Collatz conjecture
-CollatzCheck(k; n) = $Repeat{k = switch(k ≡ 1; 1; k⦼2 ≡ 0; k/2; 3*k + 1) @ i = 1 : n}
-
-CollatzCheck(100000000000001; 10000)
-
-CollatzSteps(k; n) = $Repeat{k = switch(k ≡ 1; -1/0; k⦼2 ≡ 0; k/2; 3*k + 1) @ i = 1 : n}
-
-CollatzSteps(100000000000001; 10000)
-
+'<p>For more information see <a href="https://en.wikipedia.org/wiki/Collatz_conjecture">https://en.wikipedia.org/wiki/Collatz_conjecture</a></p>
+'<h4>Check by inline loop</h4>
+'Function -'CollatzCheck(k; n) = $Repeat{k = switch(k ≡ 1; 1; k⦼2 ≡ 0; k/2; 3*k + 1) @ i = 1 : n}
+'Number to check -'k = 27
+'Maximum number of steps -'n = 10000
+'Check -'CollatzCheck(k; n)
+'<h4>Check by block loop</h4>
 #def Collatz_Check$(k$; n$)
-#hide
-i = 0
-k_ = k$
-#repeat n$
-i = i + 1
-#if k_ ≡ 1
-#break
-#else if k_⦼2 ≡ 0
-k_ = k_/2
-#else 
-k_ = 3*k_ + 1
-#end if
-#loop
-#show
-#val
-#if k_ ≡ 1
-'Collatz check for <b>'k$'</b> <span class="ok">succeeded</span> after 'i' steps.
-#else
-'Collatz check for <b>'k$'</b> <span class="err">failed</span> after 'n$' steps.
-#end if
-#equ
+	#hide
+	v = vector_hp(n$)
+	i = 0
+	k_ = k$
+	v.(1) = k$
+	#repeat n$
+		i = i + 1
+		#if k_ ≡ 1
+			i = i - 1
+			resize(v; i)
+			#break
+		#else if k_⦼2 ≡ 0
+			k_ = k_/2
+		#else 
+			k_ = 3*k_ + 1
+		#end if
+		v.(i + 1) = k_
+	#loop
+	#show
+	#val
+	#if k_ ≡ 1
+		'<p>Collatz check for k = <b>'k$'</b> <span class="ok">succeeded</span> after 'i' steps.</p>
+	#else
+		'<p>Collatz check for k = <b>'k$'</b> <span class="err">failed</span> after 'n$' steps.</p>
+	#end if
+	#equ
 #end def
-#def Collatz_Plot$(k$; n$)
-#hide
-i = 0
-k_ = k$
-#show
-#val
-'Collatz check for <b>'k$'</b>:
-'<table>
-'<tr><td>Start -</td><td>&emsp;'k_'</td></tr>
-#repeat n$
-#hide
-i = i + 1
-#show
-#if k_ ≡ 1
-#break
-#else if k_⦼2 ≡ 0
-'<tr><td>/2 =</td><td>&emsp;'k_ = k_/2'</td></tr>
-#else 
-'<tr><td>*3 + 1 =</td><td>&emsp;'k_ = 3*k_ + 1'</td></tr>
-#end if
-#loop
-'</table>
-#if k_ ≡ 1
-'Check <span class="ok">succeeded</span> after 'i' steps.
-#else
-'Check <span class="err">failed</span> after 'n$' steps.
-#end if
-#equ
+Collatz_Check$(k; n)
+'<h4>Plot of steps <small>- for 'k'</small></h4>
+'<!--'PlotHeight = 150','PlotWidth = 350','PlotSVG = 1'-->
+$Plot{take(x; v) @ x = 1 : i}
+'<h4>List of steps</h4>
+#def Collatz_List$(k$; n$)
+	#hide
+	i = 0
+	k_ = k$
+	#show
+	#val
+	'<p>Collatz check for number k = <b>'k$'</b>:</p>
+	'<table>
+	'<tr style="background:#ddd;"><th> ⚑ </th><th>Start =</th><th>&ensp;'k_'&emsp;</th>
+	#if k_⦼2 ≡ 0
+		'<th>even</th</tr>
+	#else
+		'<th>odd</th</tr>
+	#end if
+	#repeat n$
+		#hide
+		i = i + 1
+		#show
+		#if k_ ≡ 1
+			#hide
+			i = i - 1
+			#show
+			#break
+		#else if k_⦼2 ≡ 0
+			'<tr>
+			#if k_ ≡ 1
+				'<td class="ok"><b> ⚐ </b></td>
+			#else
+				'<td class="ok"><b> 🡖 </b></td>
+			#end if
+			'<td>÷ 2 =</td><td>&ensp;<b>'k_ = k_/2'</b></td>
+		#else 
+			'<tr><td class="err"><b> 🡕 </b></td><td>* 3 + 1 =</td><td>&ensp;<b>'k_ = 3*k_ + 1'</b></td>
+		#end if
+		#if k_ ≡ 1
+			'<td>end</td></tr>
+		#else if k_⦼2 ≡ 0
+			'<td>even</td></tr>
+		#else
+			'<td>odd</td></tr>
+		#end if
+	#loop
+	'</table><br/>
+	#if k_ ≡ 1
+		'Check for k = 'k$' <span class="ok">succeeded</span> after 'i' steps.
+	#else
+		'Check <span class="err">failed</span> after 'n$' steps.
+	#end if
+	#equ
 #end def
+Collatz_List$(11; 1000)
+'<h4>Check all numbers in range</h4>
 #def Collatz_Check_Between$(k0$; kn$; n$)
-#hide
-k0 = max(k0$; 1)
-i = k0 - 1
-#repeat kn$ - k0 + 1
-i = i + 1
-k_ = CollatzCheck(i; n$)
-#if k_ ≠ 1
-#break
-#end if
-#loop
-#show
-#val
-#if k_ ≡ 1
-'Collatz check <span class="ok">succeeded</span> for all numbers between 'k0' and 'kn$'.
-#else
-'Collatz check <span class="err">failed</span> for <b>'i'</b> and 'n$' steps.
-#end if
-#equ
+	#hide
+	k0 = max(k0$; 1)
+	i = k0 - 1
+	#repeat kn$ - k0 + 1
+		i = i + 1
+		k_ = CollatzCheck(i; n$)
+		#if k_ ≠ 1
+			i = i - 1
+			#break
+		#end if
+	#loop
+	#show
+	#val
+	#if k_ ≡ 1
+		'<p>Collatz check <span class="ok">succeeded</span> for all numbers between 'k0' and 'kn$'.</p>
+	#else
+		'<p>Collatz check <span class="err">failed</span> for <b>'i'</b> and 'n$' steps.</p>
+	#end if
+	#equ
 #end def
-Collatz_Check$(100000000000001; 1000)
-Collatz_Plot$(11; 1000)
-Collatz_Check_Between$(2; 100000; 400)
+Collatz_Check_Between$(2;1000; n)

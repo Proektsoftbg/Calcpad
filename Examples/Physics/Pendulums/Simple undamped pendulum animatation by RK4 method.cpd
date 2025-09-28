@@ -114,27 +114,27 @@ t(i) = i*h - h
 r2d = 180/π
 #show
 '. . .
-'<style>.PlotSeries2{stroke:Lime!Important; stroke-dasharray: 30, 10;} .PlotSeries3{stroke:DodgerBlue!Important; stroke-dasharray: 5, 10;}</style>
+'<style>.Series2{stroke:Lime!Important; stroke-dasharray: 30, 10;} .Series3{stroke:DodgerBlue!Important;}</style>
 '<h4>Plot results</h4>
 '<table><tr><td>
 'Rotation - <var>θ</var>(<var>t</var>), [°]<br/>
 $Plot{t(i)|θ_e(t(i))*r2d & t(i)|θ_RK4.i*r2d @ i = 1 : min(1.5*N; n)}
 '</td><td><br/><br/><br/>
-'<b style="color:Red">━━━━</b> Theoretical<br/>
-'<b style="color:Lime">━━ ━━</b> Runge-Kutta 4
+'<b style="color:Red">━━━</b> Theoretical <br/>
+'<b style="color:Lime">╸╸╸</b> Runge-Kutta 4
 '</td></tr><tr><td>
 'Absolute error Δθ(<var>t</var>), [°]<br/>
 $Plot{t(i)|(θ_RK4.i - θ_e(t(i)))*r2d @ i = 1 : min(1.5*N; n)}
 '</td><td><br/><br/><br/>
-'<p><b style="color:Red">━━━━</b> Runge-Kutta 4
+'<p><b style="color:Red">━━━</b> Runge-Kutta 4
 '</td></tr><tr><td>
 'Energy <var>E</var>(<var>t</var>), [J]<br/>
 $Plot{t(i)|E_0 & t(i)|E_RK4.i & 0s|0.99999*E_0 @ i = 1 : min(1.5*N; n)}
 '</td><td><br/><br/><br/>
-'<b style="color:Red">━━━━</b> Theoretical <br/>
-'<b style="color:Lime">━━ ━━</b> Runge-Kutta 4
+'<b style="color:Red">━━━</b> Theoretical <br/>
+'<b style="color:Lime">╸╸╸</b> Runge-Kutta 4
 '</td></tr></table>
-'<style>.fr{display:none;} .fr svg{margin-right:64pt; align-center;} #start{height:1.8em; padding-top:0;}</style>
+'<style>.fr{display:none;} .fr svg{margin-right:64pt; align:center;} #start{height:1.8em; padding-top:0;}</style>
 '<h4>Animate results &emsp;<button id="start">Start</button></h4>
 #format 0.00
 #hide
