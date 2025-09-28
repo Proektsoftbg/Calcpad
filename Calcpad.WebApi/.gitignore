@@ -1,0 +1,5 @@
+bin
+obj
+appsettings.Development.json
+.fake
+.temp
