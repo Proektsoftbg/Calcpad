@@ -1,6 +1,6 @@
 #rad
 "Simulation of damped double pendulum by Runge-Kutta 4 method
-'<table><tr><td>
+'<table width="120%"><tr><td>
 '<h4>Input parameters</h4>
 'Gravitational acceleration -'g = 9.80665m/s^2
 'Pendulum lengths -'l_1 = 1.5m', 'l_2 = 1m
@@ -35,7 +35,7 @@ y_2 = y_1 + L_2*cos(θ_02)
 δ_y = -2*δ
 y_g1 = y_1 - δ_y + R
 y_g2 = y_2 - δ_y + R
-#def svg$ = '<svg viewbox="'-W/2' '-H' 'W' '2*H'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-family: Georgia Pro; font-size:14px; width:'W+50'pt; height:'H + 50'pt;margin-left:10pt;">
+#def svg$ = '<svg viewbox="'-W/2' '-H' 'W' '2*H'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-family: Georgia Pro; font-size:14px; width:'W+20'pt; height:'H+50'pt;margin-left:-10pt;">
 #def thin_style$ = class="thin"
 #def thick_style$ = class="thick"
 #def ball_style$ = class="ball"
@@ -158,11 +158,11 @@ $Plot{t(i)|θ_2.i*r2d @ i = 1 : n}
 $Plot{x_1.i|-y_1.i & 0m|0m & 0m|0m & 0m|0m & 0m|0m & x_2.i|-y_2.i @ i = 1 : n}
 '</td><td>Еnergy - <var>E</var>(<var>t</var>), [J]
 $Plot{t(i)|E_p(i) + E_k(i) & 0s|0J & 0s|0J & 0s|0J & t(i)|E_p(i) & t(i)|E_k(i) @ i = 1 : n}
-'<br/><b style="color:Magenta">━━</b> Potential - <var>E</var><sub>p</sub>, 
+'<br/><b style="color:MediumVioletRed">━━</b> Potential - <var>E</var><sub>p</sub>, 
 '<b style="color:DarkCyan">━━</b> Kinetic - <var>E</var><sub>k</sub>, 
-'<b style="color:Red">━━</b> Total - <var>E</var><sub>tot</sub>
+'<b style="color:Tomato">━━</b> Total - <var>E</var><sub>tot</sub>
 '</td></tr></table>
-'<style>.PlotSeries2{stroke:DodgerBlue!Important; stroke-dasharray: 5, 10;} .PlotSeries3, .PlotSeries4{stroke:none!Important; fill:none!Important;} #start{height:1.8em; padding-top:0;} .fr{display:none;} .fr svg{margin-right:64pt; align-center;} .trace{stroke:red; stroke-width:1; fill:none; opacity:0.5;}</style>
+'<style>.Series3, .Series4{stroke:none!Important; fill:none!Important;} #start{height:1.8em; padding-top:0;} .fr{display:none;} .fr svg{margin-right:64pt; align:center;} .trace{stroke:red; stroke-width:1; fill:none; opacity:0.5;}</style>
 '<h4>Animate results &emsp;<button id="start">Start</button></h4>
 #format 0.00
 #hide
@@ -187,9 +187,9 @@ n_tr = 40
 	#equ
 	#nosub
 	'Simulation time -'t'<br/>
-	'<table><tr><td>Top angle - <var>θ</var><sub>1</sub>(<var>t</var>), [°]
+	'<table width="120%"><tr><td>Top angle - <var>θ</var><sub>1</sub>(<var>t</var>), [°]<br/>
 	$Plot{t(i)|θ_1.i*r2d & t(j)|θ_1.j*r2d & t_max|θ_01/1rad*r2d & t_max|-θ_01/1rad*r2d @ j = 1 : i}
-	'Bottom angle - <var>θ</var><sub>2</sub>(<var>t</var>), [°]
+	'Bottom angle - <var>θ</var><sub>2</sub>(<var>t</var>), [°]<br/>
 	$Plot{t(i)|θ_2.i*r2d & t(j)|θ_2.j*r2d & t_max|θ_02/1rad*r2d & t_max|-θ_02/1rad*r2d @ j = 1 : i}
 	'</td><td>
 	#val

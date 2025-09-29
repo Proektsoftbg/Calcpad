@@ -417,9 +417,10 @@ k = W/w
 z_E,loc(e) = T(e)*z_E(e)
 u_1(e) = take(1; z_E,loc(e))','v_1(e) = take(2; z_E,loc(e))','φ_1(e) = take(3; z_E,loc(e))
 u_2(e) = take(4; z_E,loc(e))','v_2(e) = take(5; z_E,loc(e))','φ_2(e) = take(6; z_E,loc(e))
-'Displacement functions
-u(e; ξ) = u_1(e)*(1 - ξ) + u_2(e)*ξ
-v(e; ξ) = v_1(e)*Φ_1(e; ξ) + φ_1(e)*Φ_2(e; ξ) + v_2(e)*Φ_3(e; ξ) + φ_2(e)*Φ_4(e; ξ)
+'Displacement functions (approximate)
+x_m(e; ξ) = 0.5*ξ*l(e)
+u(e; ξ) = u_1(e)*(1 - ξ) + u_2(e)*ξ + n_E(e; x_m(e; ξ))*.m/EA(e; x_m(e; ξ))*ξ*(1 - ξ)
+v(e; ξ) = v_1(e)*Φ_1(e; ξ) + φ_1(e)*Φ_2(e; ξ) + v_2(e)*Φ_3(e; ξ) + φ_2(e)*Φ_4(e; ξ) + q_E(e; x_m(e; ξ))*l(e)^4/(24*EI(e; x_m(e; ξ)))*(ξ^2*(1 - ξ)^2/.m) + q_E(e; x_m(e; ξ))*l(e)^2/(2*GA_Q(e; x_m(e; ξ)))*(ξ*(1 - ξ)/.m)
 'Deformed shape, mm
 #val
 #hide

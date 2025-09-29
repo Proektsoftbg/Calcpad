@@ -101,12 +101,12 @@ q_x
 q_y
 '<h4>Scheme of the structure</h4>
 #hide
-w = max(x_J)
-h = max(y_J)
-W = 90*n_b
-k = W/w
-H = h*k
-#def svg$ = '<svg viewbox="'-1.5m*k' '-2.5m*k' '(w + 3.7m)*k' '(h + 4.5m)*k'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-family: Georgia Pro; font-size:7px; width:'W + 50'pt; height:'H + 80'pt">
+w = n_b*l_b
+h = n_st*h_st
+W = 100*n_b
+k_w = W/w
+H = h*k_w + 100*(1 - n_st/20)
+#def svg$ = '<svg viewbox="'-1m*k_w' '-2.5m*k_w' '(w + 4m)*k_w' '(h + 5m)*k_w'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-family: Georgia Pro; font-size:8px; width:'W + 120'pt; height:'H + 80'pt">
 #def thin_style$ = style = "stroke:green; stroke-width:1; fill:none"
 #def thick_style$ = style = "stroke:green; stroke-width:2; fill:none"
 k_q = 0.4*m/kN
@@ -115,10 +115,10 @@ k_q = 0.4*m/kN
 svg$
 #for i = 1 : n_E
 	#hide
-	x1 = x_1(i)*k
-	y1 = (h - y_1(i))*k
-	x2 = x_2(i)*k
-	y2 = (h - y_2(i))*k
+	x1 = x_1(i)*k_w
+	y1 = (h - y_1(i))*k_w
+	x2 = x_2(i)*k_w
+	y2 = (h - y_2(i))*k_w
 	q_yi = q_y.i
 	α = atan2(c(i); s(i))
 	#if α ≥ 135
@@ -152,18 +152,18 @@ svg$
 '<g id="frame">
 #for i = 1 : n_E
 	#hide
-	x1 = x_1(i)*k
-	y1 = (h - y_1(i))*k
-	x2 = x_2(i)*k
-	y2 = (h - y_2(i))*k
+	x1 = x_1(i)*k_w
+	y1 = (h - y_1(i))*k_w
+	x2 = x_2(i)*k_w
+	y2 = (h - y_2(i))*k_w
 	#show
 	line$(x1; y1; x2; y2; main_style$)
 #loop
 #for i = 1 : n_c
 	#hide
 	j = c.(i; 1)
-	x1 = x_J.j*k
-	y1 = (h - y_J.j)*k
+	x1 = x_J.j*k_w
+	y1 = (h - y_J.j)*k_w
 	δ = 10
 	x2 = x1 - δ
 	y2 = y1 - abs(δ)
@@ -212,27 +212,27 @@ svg$
 '</g>
 #for i = 1 : n_E
 	#hide
-	x = (x_1(i) + x_2(i))*k/2
-	y = (h - (y_1(i) + y_2(i))/2)*k
+	x = (x_1(i) + x_2(i))*k_w/2
+	y = (h - (y_1(i) + y_2(i))/2)*k_w
 	#show
 	#if i ≤ n_CE
-		textv$(x - 0.15m*k; y; e'i')
+		textv$(x - 0.15m*k_w; y; e'i')
 	#else
-		texth$(x; y - 0.15m*k; e'i')
+		texth$(x; y - 0.15m*k_w; e'i')
 	#end if
 #loop
 #for i = 1 : n_J
-	texth$((x_J.i + 0.4m)*k; (h - y_J.i - 0.2m)*k; j'i')
-	point$(x_J.i*k; (h - y_J.i)*k; point_style$)
+	texth$((x_J.i + 0.4m)*k_w; (h - y_J.i - 0.2m)*k_w; j'i')
+	point$(x_J.i*k_w; (h - y_J.i)*k_w; point_style$)
 #loop
 #for i = 1 : n_st
-	dimv$((w + 1.2m)*k; (h - i*h_st)*k; (h - (i-1)*h_st)*k; 'h_st')
+	dimv$((w + 1.2m)*k_w; (h - i*h_st)*k_w; (h - (i-1)*h_st)*k_w; 'h_st')
 #loop
-dimv$((w + 2m)*k; 0; h*k; 'h - y_J.4')
+dimv$((w + 2m)*k_w; 0; h*k_w; 'h - y_J.4')
 #for i = 1 : n_b
-	dimh$((i-1)*l_b*k; i*l_b*k; (h + 0.8m)*k; 'l_b')
+	dimh$((i-1)*l_b*k_w; i*l_b*k_w; (h + 0.8m)*k_w; 'l_b')
 #loop
-dimh$(0; w*k; (h + 1.6m)*k; 'w')
+dimh$(0; w*k_w; (h + 1.6m)*k_w; 'w')
 '</svg>
 #equ
 '<h4>Materials</h4>
@@ -364,20 +364,23 @@ N(e; x) = -take(1; R_E(e)) - n_E(e)*x', ' _
 Q(e; x) = take(2; R_E(e)) + q_E(e)*x
 M(e; x) = -take(3; R_E(e)) + take(2; R_E(e))*x + q_E(e)*x^2/2
 #hide
-w = max(x_J)
-h = max(y_J)
-H = h*W/w
-k = W/w
+R(e; x; i) = take(i; N(e; x); Q(e; x); M(e; x))
+w = n_b*l_b
+h = n_st*h_st
+k_w = W/w
 #def red_style$ = style = "stroke:salmon; stroke-width:1; fill:none"
 #deg
 #for i = 1 : 3
 	#hide
-	R(e; x) = take(i; N(e; x); Q(e; x); M(e; x))
 	sgn = take(i; 1; 1; -1)
-	tol = 0.01*take(i; kN; kN; kNm)
-	R_max = $Sup{$Sup{R(e; x) @ x = 0m : l(e)} @ e = 1 : n_E}
-	R_min = $Sup{abs($Inf{R(e; x) @ x = 0m : l(e)}) @ e = 1 : n_E}
-	k_R = sgn*0.8m*k/max(R_min; R_max)
+	unit = take(i; kN; kN; kNm)
+	tol = 0.01*unit
+	R = vector_hp(n_E)*unit
+	$Repeat{R.e = $Sup{R(e; x; i) @ x = 0m : l(e)} @ e = 1 : n_E}
+	R_max = max(R)
+	$Repeat{R.e = abs($Inf{R(e; x; i) @ x = 0m : l(e)}) @ e = 1 : n_E}
+	R_max = max(max(R); R_max)
+	k_R = sgn*0.8m*k_w/R_max
 	#show
 	#if i ≡ 1
 		'<p><b>Axial forces diagram, kN</b></p>
@@ -390,10 +393,10 @@ k = W/w
 	svg$
 	#for e = 1 : n_E
 		#hide
-		x1 = x_1(e)*k
-		y1 = (h - y_1(e))*k
-		x2 = x_2(e)*k
-		y2 = (h - y_2(e))*k
+		x1 = x_1(e)*k_w
+		y1 = (h - y_1(e))*k_w
+		x2 = x_2(e)*k_w
+		y2 = (h - y_2(e))*k_w
 		c_e = c(e)
 		s_e = s(e)
 		l_e = l(e)
@@ -405,8 +408,8 @@ k = W/w
 			#hide
 			xd1 = xd2
 			yd1 = yd2
-			x = j*st*k
-			val = R(e; j*st)
+			x = j*st*k_w
+			val = R(e; j*st; i)
 			y = val*k_R
 			xd2 = x1 + x*c_e - y*s_e
 			yd2 = y1 - x*s_e - y*c_e
@@ -421,18 +424,25 @@ k = W/w
 			#end if
 			d = -(10 + 5*(i ≡ 1))*sign(val*sgn)
 			#if j ≡ 0
-				xt = xd2 + d*s_e + 0.4m*k*c_e
-				yt = yd2 + d*c_e - 0.2m*k*s_e
+				xt = xd2 + d*s_e + 0.4m*k_w*c_e
+				yt = yd2 + d*c_e - 0.2m*k_w*s_e
+			#else if j ≡ 5
+				xt = xd2 + (d + 2)*s_e + 0.1m*k_w*c_e
+				yt = yd2 + (d + 2)*c_e + 0.2m*k_w*s_e
 			#else if j ≡ 10
-				xt = xd2 + d*s_e - 0.2m*k*c_e
-				yt = yd2 + d*c_e + 0.4m*k*s_e
+				xt = xd2 + d*s_e - 0.2m*k_w*c_e
+				yt = yd2 + d*c_e + 0.4m*k_w*s_e
 			#end if
 			#show
 			line$(xd1; yd1; xd2; yd2; red_style$)
-			#if (j ≡ 0 ∨ j ≡ 10) ∧ abs(val) > tol
-				text$(xt; yt; α; 'val')
+			#if abs(val) > tol
+				#if j ≡ 0 ∨ j ≡ 10
+					text$(xt; yt; α; 'val')
+				#else if i ≡ 3 ∧ j ≡ 5 ∧ e > n_CE
+					text$(xt; yt; α; 'val')
+				#end if
+				line$(xd1; yd1; xd2; yd2; red_style$)
 			#end if
-			line$(xd1; yd1; xd2; yd2; red_style$)
 		#loop
 		#hide
 		xd1 = x2
@@ -454,23 +464,23 @@ k = W/w
 z_E,loc(e) = T(e)*z_E(e)
 u_1(e) = take(1; z_E,loc(e))','v_1(e) = take(2; z_E,loc(e))','φ_1(e) = take(3; z_E,loc(e))
 u_2(e) = take(4; z_E,loc(e))','v_2(e) = take(5; z_E,loc(e))','φ_2(e) = take(6; z_E,loc(e))
-'Displacement functions
-u(e; ξ) = u_1(e)*(1 - ξ) + u_2(e)*ξ
-v(e; ξ) = v_1(e)*Φ_1(e; ξ) + φ_1(e)*Φ_2(e; ξ) + v_2(e)*Φ_3(e; ξ) + φ_2(e)*Φ_4(e; ξ)
+'Displacement functions (with account for intermediate loads)
+u(e; ξ) = u_1(e)*(1 - ξ) + u_2(e)*ξ + n_E(e)*.m/EA(e)*ξ*(1 - ξ)
+v(e; ξ) = v_1(e)*Φ_1(e; ξ) + φ_1(e)*Φ_2(e; ξ) + v_2(e)*Φ_3(e; ξ) + φ_2(e)*Φ_4(e; ξ) + q_E(e)*l(e)^4/(24*EI(e))*(ξ^2*(1 - ξ)^2/.m) + q_E(e)*l(e)^2/(2*GA_s(e))*(ξ*(1 - ξ)/.m)
 'Deformed shape, mm
 #val
 #hide
 tol = 0.00001
-k_R = 4000
+k_R = 10/max(abs(Z))
 #show
 svg$
 '<use href="#frame" style="opacity:0.4;"/>
 #for e = 1 : n_E
 	#hide
-	x1 = x_1(e)*k
-	y1 = (h - y_1(e))*k
-	x2 = x_2(e)*k
-	y2 = (h - y_2(e))*k
+	x1 = x_1(e)*k_w
+	y1 = (h - y_1(e))*k_w
+	x2 = x_2(e)*k_w
+	y2 = (h - y_2(e))*k_w
 	c_e = c(e)
 	s_e = s(e)
 	l_e = l(e)
@@ -488,7 +498,7 @@ svg$
 		ξ = j/10
 		u_x = u(e; ξ)
 		v_y = v(e; ξ)
-		x = ξ*l_e*k + u_x*k_R
+		x = ξ*l_e*k_w + u_x*k_R
 		y = v_y*k_R
 		xd2 = x1 + x*c_e - y*s_e
 		yd2 = y1 - x*s_e - y*c_e
@@ -502,10 +512,10 @@ svg$
 	z_J = z_J(j)
 	u_x = z_J.1
 	v_y = z_J.2
-	x = x_J.j*k + u_x*k_R
-	y = (h - y_J.j)*k - v_y*k_R
-	dx = 0.5m*k*sign(u_x)
-	dy = -0.5m*k*sign(v_y)
+	x = x_J.j*k_w + u_x*k_R
+	y = (h - y_J.j)*k_w - v_y*k_R
+	dx = 0.5m*k_w*sign(u_x)
+	dy = -0.5m*k_w*sign(v_y)
 	#show
 	#if abs(u_x) > tol
 		texth$(x - dx; y - 0.2*abs(dy); 'u_x*1000')

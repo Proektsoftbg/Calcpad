@@ -1,0 +1,20 @@
+"Calculation of π by Monte-Carlo algorithm
+n = 10000
+x = random(fill(vector_hp(n); 1))
+y = random(fill(Vector_hp(n); 1))
+r = sqrt(x^2 + y^2)
+n_in = count(floor(r); 0; 1)', 'PI = 4*n_in/n
+#val
+#round 15
+'<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="-0.1 -0.1 1.2 1.2">
+#for i = 1 : n
+	'<circle cx="'x.i'" cy="'1 - y.i'" r="0.002" stroke="none" 
+	#if r.i < 1
+		'fill = "red"/>
+	#else
+		'fill = "blue"/>
+	#end if
+#loop
+'<rect x="0" y="0" width="1" height="1" fill="none" stroke="black" stroke-width="0.005"/>
+'<path d="M 0 0 A 1 1 0 0 1 1 1" fill="none" stroke="black" stroke-width="0.005"/>
+'</svg>

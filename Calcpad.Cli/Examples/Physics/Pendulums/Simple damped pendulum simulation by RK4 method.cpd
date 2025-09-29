@@ -15,7 +15,7 @@
 #hide
 Precision = 10^-5
 PlotWidth = 300','PlotHeight = 150','PlotSVG = 1
-w = 1.5*l', 'h_ = 2/3*w
+w = 1.2*l', 'h_ = 2/3*w
 W = 180', 'H = 150
 k = W/w
 L = l*k
@@ -26,7 +26,7 @@ y = L*cos(θ_0)
 δ_x = 0.25*δ
 δ_y = -2*δ
 y_g = y - δ_y + R
-#def svg$ = '<svg viewbox="'-50 - W/2' '-H' 'W + 100' '2*H'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-family: Georgia Pro; font-size:14px; width:'W'pt; height:'H + 50'pt; margin-left:20pt;">
+#def svg$ = '<svg viewbox="'-20-W/2' '-H-20' 'W+40' '2*H+40'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-family: Georgia Pro; font-size:14px; width:'W+50'pt; height:'H+50'pt; margin-left:20pt;">
 #def thin_style$ = style="stroke:goldenrod; stroke-width:1; fill:none"
 #def thick_style$ = style="stroke:steelblue; stroke-width:2; fill:none"
 #def ball_style$ = style="stroke:steelblue; stroke-width:0.5;  fill:url(#ball)"
@@ -71,7 +71,7 @@ N = n\k_N
 #noc
 '<table class="eq" style="margin-left:24pt;">
 '<tr><td>First step (k₁) -</td><td>'k_1,θ = ω_i', </td><td>' _
-k_1,ω = (g/l)*sin(-θ_i) - b/m*k_1,θ' < /td >  < /tr > 
+k_1,ω = (g/l)*sin(-θ_i) - b/m*k_1,θ'</td></tr>
 '<tr><td>Second step (k₂) -</td><td>'k_2,θ = ω_i + 0.5*h*k_1,ω', </td><td>'k_2,ω = (g/l)*sin(-(θ_i + 0.5*h*k_1,θ)) - b/m*k_2,θ'</td></tr>
 '<tr><td>Third step (k₃) -</td><td>'k_3,θ = ω_i + 0.5*h*k_2,ω', </td><td>'k_3,ω = (g/l)*sin(-(θ_i + 0.5*h*k_2,θ)) - b/m*k_3,θ'</td></tr>
 '<tr><td>Fourth step (k₄) -</td><td>'k_4,θ = ω_i + h*k_3,ω', </td><td>'k_4,ω = (g/l)*sin(-(θ_i + h*k_3,θ)) - b/m*k_4,θ'</td></tr>
@@ -109,11 +109,11 @@ r2d = 180/π
 'Rotation - <var>θ</var>(<var>t</var>), [°]
 $Plot{t(i)|θ.i*r2d @ i = 1 : n}
 'Energy - <var>E</var>(<var>t</var>), [J]
-$Plot{t(i)|E_k(i) & t(i)|E_k(i) & 0s|0J & 0s|0J & t(i)|E_p(i) + E_k(i) @ i = 1 : n}
-'<br/><b style="color:Tomato">━━</b> Potential - <var>E</var><sub>p</sub>, 
-'<b style="color:YellowGreen">━━</b> Kinetic - <var>E</var><sub>k</sub>,
-'<b style="color:MediumVioletRed">━━</b> Total - <var>E</var><sub>tot</sub>
-'<style>#start{height:1.8em; padding-top:0;} .Series3 {stroke-dasharray: 5, 10;} .Series2, .Series4{fill:none!Important;} .fr{display:none;} .fr svg{margin-right:64pt; align-center;}</style>
+$Plot{t(i)|E_k(i) + E_p(i) & 0s|0J & 0s|0J & 0s|0J & t(i)|E_p(i) & t(i)|E_k(i) & 0s|0J @ i = 1 : n}
+'<br/><b style="color:MediumVioletRed">━━</b> Potential - <var>E</var><sub>p</sub>, 
+'<b style="color:MediumSpringGreen">━━</b> Kinetic - <var>E</var><sub>k</sub>, 
+'<b style="color:Tomato">━━</b> Total - <var>E</var><sub>tot</sub>
+'<style>#start{height:1.8em; padding-top:0;}.Series3, .Series4{stroke:none!Important; fill:none!Important;} .fr{display:none;} .fr svg{margin-right:64pt; align-center;}</style>
 '<h4>Animate results &emsp;<button id="start">Start</button></h4>
 #format 0.00
 #hide

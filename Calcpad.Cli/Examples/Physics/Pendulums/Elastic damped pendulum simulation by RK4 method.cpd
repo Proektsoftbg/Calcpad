@@ -26,7 +26,7 @@ y = L*cos(θ_0)
 δ_x = 0.25*δ
 δ_y = -2*δ
 y_g = y - δ_y + R
-#def svg$ = '<svg viewbox="'-100 - W/2' '-H' 'W + 200' '2*H  + 100'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-family: Georgia Pro; font-size:14px; width:'W + 100'pt; height:'H + 100'pt;">
+#def svg$ = '<svg viewbox="'-100 - W/2' '-H' 'W + 200' '2*H  + 100'" xmlns="http://www.w3.org/2000/svg" version="1.1" style="font-family: Georgia Pro; font-size:14px; width:'W + 100'pt; height:'H + 100'pt;margin-left:-10pt;">
 #def thin_style$ = style="stroke:goldenrod; stroke-width:1; fill:none;"
 #def thick_style$ = style="stroke:steelblue; stroke-width:1.5; fill:none;"
 #def ball_style$ = style="stroke:steelblue; stroke-width:0.5;  fill:url(#ball);"
@@ -136,11 +136,11 @@ $Plot{t(i)|r.i @ i = 1 : n}
 $Plot{r.i*sin(θ.i)|-r.i*cos(θ.i) @ i = 1 : n}
 '</td><td>Energy - <var>E</var>(<var>t</var>), [J]<br/>
 $Plot{t(i)|E_p(i) + E_k(i) & 0s|0J & 0s|0J & 0s|0J & t(i)|E_p(i) & t(i)|E_k(i) @ i = 1 : n}
-'<br/><b style="color:Magenta">━━</b> Potential - <var>E</var><sub>p</sub>, 
-'<b style="color:DarkCyan">━━</b> Kinetic - <var>E</var><sub>k</sub>, 
-'<b style="color:Red">━━</b> Total - <var>E</var><sub>tot</sub>
+'<br/><b style="color:MediumVioletRed">━━</b> Potential - <var>E</var><sub>p</sub>, 
+'<b style="color:MediumSpringGreen">━━</b> Kinetic - <var>E</var><sub>k</sub>, 
+'<b style="color:Tomato">━━</b> Total - <var>E</var><sub>tot</sub>
 '</td></tr></table>
-'<style>.PlotSeries2{stroke:DodgerBlue!Important; stroke-dasharray: 5, 10;} .PlotSeries3, .PlotSeries4{stroke:none!Important; fill:none!Important;} #start{height:1.8em; padding-top:0;} .fr{display:none;} .fr svg{margin-right:64pt; align-center;} .trace{stroke:red; stroke-width:1; fill:red;}</style>
+'<style>.Series3, .Series4{stroke:none!Important; fill:none!Important;} #start{height:1.8em; padding-top:0;} .fr{display:none;} .fr svg{align:center;} .trace{stroke:red; stroke-width:1; fill:red;}</style>
 '<h4>Animate results &emsp;<button id="start">Start</button></h4>
 #format 0.00
 #hide

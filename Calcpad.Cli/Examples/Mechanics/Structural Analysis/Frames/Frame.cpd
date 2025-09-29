@@ -308,6 +308,7 @@ N(e; x) = -take(1; R_E(e)) - n_E(e)*x', ' _
 Q(e; x) = take(2; R_E(e)) + q_E(e)*x
 M(e; x) = -take(3; R_E(e)) + take(2; R_E(e))*x + q_E(e)*x^2/2
 #hide
+R(e; x; i) = take(i; N(e; x); Q(e; x); M(e; x))
 w = max(x_J)
 h = max(y_J)
 W = 240
@@ -317,12 +318,15 @@ k = W/w
 #deg
 #for i = 1 : 3
 	#hide
-	R(e; x) = take(i; N(e; x); Q(e; x); M(e; x))
 	sgn = take(i; 1; 1; -1)
-	tol = 0.01*take(i; kN; kN; kNm)
-	R_max = $Sup{$Sup{R(e; x) @ x = 0m : l(e)} @ e = 1 : n_E}
-	R_min = $Sup{abs($Inf{R(e; x) @ x = 0m : l(e)}) @ e = 1 : n_E}
-	k_R = sgn*1m*k/max(R_min; R_max)
+	unit = take(i; kN; kN; kNm)
+	tol = 0.01*unit
+	R = vector_hp(n_E)*unit
+	$Repeat{R.e = $Sup{R(e; x; i) @ x = 0m : l(e)} @ e = 1 : n_E}
+	R_max = max(R)
+	$Repeat{R.e = abs($Inf{R(e; x; i) @ x = 0m : l(e)}) @ e = 1 : n_E}
+	R_max = max(max(R); R_max)
+	k_R = sgn*1m*k/R_max
 	#show
 	#if i ≡ 1
 		'<p><strong>Axial forces diagram, kN</strong></p>
@@ -352,7 +356,7 @@ k = W/w
 			xd1 = xd2
 			yd1 = yd2
 			x = j*st*k
-			v = R(e; j*st)
+			v = R(e; j*st; i)
 			y = v*k_R
 			xd2 = x1 + x*c_e - y*s_e
 			yd2 = y1 - x*s_e - y*c_e
@@ -393,13 +397,13 @@ z_E,loc(e) = T(e)*z_E(e)
 u_1(e) = take(1; z_E,loc(e))','v_1(e) = take(2; z_E,loc(e))','φ_1(e) = take(3; z_E,loc(e))
 u_2(e) = take(4; z_E,loc(e))','v_2(e) = take(5; z_E,loc(e))','φ_2(e) = take(6; z_E,loc(e))
 'Displacement functions
-u(e; ξ) = u_1(e)*(1 - ξ) + u_2(e)*ξ
-v(e; ξ) = v_1(e)*Φ_1(e; ξ) + φ_1(e)*Φ_2(e; ξ) + v_2(e)*Φ_3(e; ξ) + φ_2(e)*Φ_4(e; ξ)
+u(e; ξ) = u_1(e)*(1 - ξ) + u_2(e)*ξ + n_E(e)*.m/EA(e)*ξ*(1 - ξ)
+v(e; ξ) = v_1(e)*Φ_1(e; ξ) + φ_1(e)*Φ_2(e; ξ) + v_2(e)*Φ_3(e; ξ) + φ_2(e)*Φ_4(e; ξ) + q_E(e)*l(e)^4/(24*EI(e))*(ξ^2*(1 - ξ)^2/.m) + q_E(e)*l(e)^2/(2*GA_s(e))*(ξ*(1 - ξ)/.m)
 'Deformed shape, mm
 #val
 #hide
 tol = 0.00001
-k_R = 1200
+k_R = 10/max(abs(Z))
 #show
 svg$
 '<use href="#frame" style="opacity:0.4;"/>
