@@ -1,4 +1,4 @@
 {
-	"shell_cmd": "$file",
+	"shell_cmd": "calcpad $file",
 	"selector": "source.calcpad"
 }
