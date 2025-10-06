@@ -203,8 +203,10 @@ namespace Calcpad.Core
 
                 nv = Math.Min(vx.Length, vy.Length);
                 var vd = new SN.Vector<double>(d);
-                for (int i = 0; i < nv; ++i)
-                    vy[i] += vd * vx[i];
+                ref var rvx = ref MemoryMarshal.GetReference(vx);
+                ref var rvy = ref MemoryMarshal.GetReference(vy);
+                for (int i = 0; i < nv; i++)
+                    Unsafe.Add(ref rvy, i) += vd * Unsafe.Add(ref rvx, i);
 
                 nv *= _vecSize;
             }

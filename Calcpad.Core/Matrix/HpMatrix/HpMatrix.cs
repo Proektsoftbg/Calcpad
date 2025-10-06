@@ -545,8 +545,9 @@ namespace Calcpad.Core
 
                 void MultiplyRow(int i)
                 {
-                    var ar = a_rows[i].Raw;
-                    var size = a_rows[i].Size;
+                    var a_i = a_rows[i];
+                    var ar = a_i.Raw;
+                    var size = a_i.Size;
                     var sc = c_rows[i].Raw.AsSpan();
                     var vr = Vectorized.AsVector(sc);
                     for (int k = 0; k < size; ++k)
