@@ -694,7 +694,7 @@ Excel
             </ul>
         </li>
         <li>
-            <span class="exp" id="button3">+</span><a class="toc" href="#TOC_300">编程辅助功能</a><br />
+            <span class="exp" id="button3">+</span><a class="toc" href="#TOC_300">辅助编程功能</a><br />
             <ul id="list3">
                 <li><a class="toc" href="#TOC_301">语法高亮</a></li>
                 <li><a class="toc" href="#TOC_302">自动缩进</a></li>
@@ -718,6 +718,8 @@ Excel
                 <li><a class="toc" href="#TOC_409">单位</a></li>
                 <li><a class="toc" href="#TOC_410">向量</a></li>
                 <li><a class="toc" href="#TOC_411">矩阵</a></li>
+				<li><a class="toc" href="#TOC_412">高性能型向量和矩阵</a></li>
+				<li><a class="toc" href="#TOC_413">高性能对称求解器</a></li>
             </ul>
         </li>
         <li>
@@ -3466,7 +3468,7 @@ Excel
         <p>
             &emsp;&emsp;&emsp;&emsp;<em>参数</em>:&emsp;&emsp;<span class="hang">
                 <var>M</var> - 矩阵;<br />
-                <var>x</var> - the value to search for.
+                <var>x</var> - 要查找的值.
             </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>返回值</em>:&emsp;<span class="hang">一个2行矩阵,包含矩阵<var>M</var> 中所有=<var>x</var>的元素的索引号.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>注意</em>:&emsp;&emsp;&nbsp;<span class="hang">输出矩阵第一行包含<var>M</var>中=<var>x</var>的元素的行号,下面一行则是相应元素的列号 . 若无匹配项,则返回一个2×1的0矩阵.</span><br />
@@ -3862,7 +3864,7 @@ Excel
         <p>&emsp;&emsp;<code><b>transp</b>(<var>M</var>)</code></p>
         <p>
             &emsp;&emsp;&emsp;&emsp;<em>参数</em>:&emsp;&emsp;<var>M</var> - 矩阵.<br />
-            &emsp;&emsp;&emsp;&emsp;<em>返回值</em>:&emsp;(matrix) the transpose of <var>M</var>.<br />
+            &emsp;&emsp;&emsp;&emsp;<em>返回值</em>:&emsp; <var>M</var>的转置矩阵.<br />
             &emsp;&emsp;&emsp;&emsp;<em>注意</em>:&emsp;&emsp;<span class="hang">转置矩阵通过将行变成列得到. 如果 <var>M</var> 为对称矩阵, 转置矩阵等于本身, 则返回<var>M</var> 的拷贝.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>示例</em>:&emsp;&emsp; <span class="hang">
                 <code><var>A</var> = [1; 2; 3|4; 5; 6|7; 8; 9]</code>' = <span class="eq matrix">
@@ -3903,7 +3905,7 @@ Excel
         <p>&emsp;&emsp;<code><b>cofactor</b>(<var>A</var>)</code></p>
         <p>
             &emsp;&emsp;&emsp;&emsp;<em>参数</em>:&emsp;&emsp;<var>A</var> - 方阵.<br />
-            &emsp;&emsp;&emsp;&emsp;<em>返回值</em>:&emsp;the cofactor matrix of <var>A</var>.<br />
+            &emsp;&emsp;&emsp;&emsp;<em>返回值</em>:&emsp;<var>A</var>的协因子矩阵(cofactor matrix).<br />
             &emsp;&emsp;&emsp;&emsp;<em>注意</em>:&emsp;&emsp;<span class="hang">协因数/共因子 <var>C</var><sub>ij</sub> 定义为相应的余子式 <var>M</var><sub>ij</sub> 乘以 (-1)<sup><var>i</var> + <var>j</var></sup>.因此通过删除第 <var>i</var> 行和第 <var>j</var> 列获得的协因数 <var>M</var><sub>ij</sub> 等于矩阵的行列式.此外,协因数矩阵等于 伴随矩阵<var>A</var>&hairsp;的转置:<br /><var>C</var> = <b>adj</b>(<var>A</var>&hairsp;)<sup>T</sup></span><br />
             &emsp;&emsp;&emsp;&emsp;<em>示例</em>:&emsp;&emsp; <span class="hang">
                 <code><b>cofactor</b>([1; 2|3; 4])</code>' = <span class="eq matrix">
@@ -4015,8 +4017,7 @@ Excel
                     <span class="tr"><span class="td"></span><span class="td">4</span><span class="td">12</span><span class="td">-16</span><span class="td"></span></span>
                     <span class="tr"><span class="td"></span><span class="td">12</span><span class="td">37</span><span class="td">-43</span><span class="td"></span></span>
                     <span class="tr"><span class="td"></span><span class="td">-16</span><span class="td">-43</span><span class="td">98</span><span class="td"></span></span>
-                </span> - 检查
-            </span>
+                </span> - 检查</span>
         </p>
 
         <p>&emsp;&emsp;<code><b>lu</b>(<var>M</var>)</code></p>
@@ -4092,8 +4093,7 @@ Excel
                 <code><var>Q</var>*<var>R</var></code>' = <span class="eq matrix">
                     <span class="tr"><span class="td"></span><span class="td">4</span><span class="td">12</span><span class="td">-16</span><span class="td"></span></span>
                     <span class="tr"><span class="td"></span><span class="td">12</span><span class="td">37</span><span class="td">-43</span><span class="td"></span></span>
-                    <span class="tr"><span class="td"></span><span class="td">-16</span><span class="td">-43</span><span class="td">98</span><span class="td"></span></span> - 检查
-                </span>
+                    <span class="tr"><span class="td"></span><span class="td">-16</span><span class="td">-43</span><span class="td">98</span><span class="td"></span></span></span> - 检查 <br/>
             </span>
         </p>
 
@@ -4389,6 +4389,59 @@ Excel
                 <span class="tr"><span class="td"></span><span class="td">15</span><span class="td">20</span><span class="td"></span></span>
             </span>
         </p>
+		<h3 id="TOC_412">高性能（hp）向量和矩阵</h3>
+        <p>高性能（hp）向量和矩阵在 Calcpad 7.3.0 版中引入，旨在更快地求解大型工程问题并降低内存消耗.但这伴随着一个权衡：hp 向量或矩阵的所有元素必须具有相同的单位.这样，Calcpad 只需为整个向量/矩阵存储和处理一次单位信息，并可进行大量额外优化，如 SIMD 向量化运算、使用更友好的缓存算法等.所有这些都使速度提升数十倍，所需内存大小降低超过一半，即使根本没有单位也能受益.</p>
+		<p>hp 向量和矩阵最初由特殊函数创建，类似于标准的创建函数，但以 “_hp” 结尾，具体如下：</p>
+        <p>
+            <b>创建 hp 向量的函数：</b><br />
+  <code><b>vector_hp</b>(<var>n</var>)</code> - 创建长度为 <var>n</var> 的空 hp 向量；<br />
+  <code><b>range_hp</b>(<var>x</var><sub>1</sub>; <var>x</var><sub>n</sub>; <var>s</var>)</code> - 根据给定范围生成 hp 向量。<br />
+<b>创建 hp 矩阵的函数：</b><br />
+  <code><b>matrix_hp</b>(<var>m</var>; <var>n</var>)</code> - 创建尺寸为 <var>m</var>⨯<var>n</var> 的空 hp 矩阵；<br />
+  <code><b>identity_hp</b>(<var>n</var>)</code> - 创建尺寸为 <var>n</var>⨯<var>n</var> 的 hp 单位矩阵；<br />
+  <code><b>diagonal_hp</b>(<var>n</var>; <var>d</var>)</code> - 创建 <var>n</var>⨯<var>n</var> 的 hp 对角矩阵，所有对角线元素均为 <var>d</var>；<br />
+  <code><b>column_hp</b>(<var>m</var>; <var>c</var>)</code> - 创建 <var>m</var>⨯1 的 hp 列矩阵，所有元素均为 <var>c</var>；<br />
+  <code><b>utriang_hp</b>(<var>n</var>)</code> - 创建 <var>n</var>⨯<var>n</var> 的 hp 上三角矩阵；<br />
+  <code><b>ltriang_hp</b>(<var>n</var>)</code> - 创建 <var>n</var>⨯<var>n</var> 的 hp 下三角矩阵；<br />
+  <code><b>symmetric_hp</b>(<var>n</var>)</code> - 创建 <var>n</var>⨯<var>n</var> 的 hp 对称矩阵。
+        </p>
+        <p>
+            函数 <code><b>hp</b>(<var>x</var>)</code> 将任意参数 <var>x</var> 转换为其高性能等价形式.它可以与方括号运算符 [] 结合使用，以列表形式初始化向量和矩阵.例如：<br />
+            &emsp;&emsp;<code><var>a</var> = <b>hp</b>([1; 2; 4])</code> 将创建一个高性能向量;<br />
+            &emsp;&emsp;<code><var>A</var> = <b>hp</b>([1; 2; 3|4; 5; 6])</code> 将创建一个高性能矩阵.
+        </p>
+        <p>转换过程会将标准数组中的数值复制到hp数组中，因此只能用于小型数组.如果标准数组包含不同但相容的单位，它们会被转换为第一个元素的单位；若单位不相容，则无法完成转换，会返回错误.例如：<br />
+            &emsp;&emsp;<code><var>a</var> = <b>hp</b>([1<i>m</i>; 20<i>dm</i>; 30<i>cm</i>])</code>‘ = [1 m 2 m 0.3 m]<br />
+            &emsp;&emsp;<code><var>a</var> = <b>hp</b>([1<i>m</i>; 20<i>s</i>; 30<i>kg</i>])</code>’ = <span class="err">不相容的单位: "m, kg"</span>.
+        </p>
+        <p>任何仅包含 hp 向量/数组的表达式也会返回 hp 类型。如果表达式只包含标准向量/数组，或同时包含标准和 hp 元素，则返回标准类型.要检查 <var>x</var> 是否为高性能（hp）向量或矩阵，可使用函数 <code><b>ishp</b>(<var>x</var>)</code>.</p>
+
+        <h3 id="TOC_413">高性能对称求解器</h3>
+        <p>Calcpad 还提供了针对两类最常见矩阵问题的高级求解器——线性方程组求解以及矩阵特征值和特征向量的计算:</p>
+
+        <p><b>PCG对称线性求解器</b></p>
+        <p>直接法（如 Cholesky 分解和 LDL<sup>T</sup> 分解）适用于小至中等规模的矩阵.对于更大的矩阵，分解的计算成本和求解时间会变得过高，难以实际使用，因为分解的渐进复杂度为 O(<var>n</var><sup>3</sup>).在这种情况下，通常会采用迭代求解方法.相较于直接法，迭代法速度更快，尤其当矩阵条件良好时更为显著.其中最常用的一种方法是预条件共轭梯度（PCG）法.其复杂度为 O(<var>m</var>√<var>k</var>)，其中 <var>m</var> 为非零元素的数量，<var>k</var> 为矩阵的条件数.</p>
+        <p>
+            在 Calcpad 中，PCG 方法用于以下函数：<br />
+&emsp;&emsp;<code><b>slsolve</b>(<var>A</var>; <var>b</var>)</code> —— 求解对称线性方程组 <var>A⃗x</var> = <var>⃗b</var>;<br />
+&emsp;&emsp;<code><b>smsolve</b>(<var>A</var>; <var>B</var>)</code> —— 求解广义对称矩阵方程 <var>AX</var> = <var>B</var>.<br/>
+        </p>
+        <p>由于大多数工程方法（如有限元法和有限差分法）使用对称矩阵，我们在这类问题上投入了大量精力进行优化.如果矩阵具有带状或天际线（skyline）结构，算法会利用这一特性，仅存储和处理带宽范围内的元素.通过为有限元模型的节点提供合适的编号，可以实现这种结构并最小化带宽.</p>
+
+	<p>像 PCG 这样的迭代方法是近似求解，求解过程会一直进行，直到达到设定的精度.在 Calcpad 中，这一精度由变量 <var>Tol</var> 控制，默认值为 <var>Tol</var> = 10<sup>-6</sup>，与 MATLAB 相同.如果在 1000 次迭代以内未达到所需精度，则认为未收敛，求解会以错误信息终止.预处理通常可以通过降低矩阵的条件数 <var>k</var> 来提升收敛速度，Calcpad 使用简单的 Jacobi 预处理器来实现这一目的.</p>
+
+<p><b>对称 Lanczos 特征值求解器</b></p>
+
+<p>与线性方程组求解类似，我们用于求取矩阵特征值和特征向量的直接 QL 算法（带隐式位移）其复杂度为 O(<var>n</var><sup>3</sup>)，适用于小至中等规模的问题.此外，它会一次性求出所有特征值和特征向量，而在多数情况下并不需要全部结果.例如，在结构动力学分析中，通常只关心最重要的前几个振动频率及其对应的振型.</p>
+
+<p>对于此类需求，Lanczos 方法更为合适.它能够在大矩阵中快速找到若干极端（最小或最大）的特征值，而速度远快于隐式 QL 算法.其时间复杂度为 O(<var>k</var><sup>2</sup><var>m</var>)，其中 <var>k</var> 为迭代次数，<var>m</var> 为矩阵的非零元素数量.Lanczos 方法在三对角化步骤中取代了 Householder 反射法的使用.</p>
+        <p>
+            在 Calcpad 中，当矩阵规模大于 200 时，Lanczos 方法用于与 QL 方法相同的函数，包括：<br />
+			&emsp;&emsp;<code><b>eigenvals</b>(<var>M</var>; <var>n</var><sub>e</sub>)</code> —— 返回矩阵 <var>M</var> 的前 <var>n</var><sub>e</sub> 个特征值;<br />
+			&emsp;&emsp;<code><b>eigenvecs</b>(<var>M</var>; <var>n</var><sub>e</sub>)</code> —— 返回矩阵 <var>M</var> 的前 <var>n</var><sub>e</sub> 个特征向量；<br />
+			&emsp;&emsp;<code><b>eigen</b>(<var>M</var>; <var>n</var><sub>e</sub>)</code> —— 同时返回矩阵 <var>M</var> 的前 <var>n</var><sub>e</sub> 个特征值和特征向量.<br />
+        </p>
+        <p>最大迭代次数设为 4 <var>n</var><sub>e</sub> + 100.因此，当矩阵规模 <var>n</var> < 1000 且 <var>n</var><sub>e</sub> > <var>n</var>/5 时，仍然使用 QL 方法.这是因为 Lanczos 方法的精度较低，当迭代次数接近矩阵规模时，其性能会下降至与 QL 算法相当的水平.</p>
         <h2 id="TOC_500">报告</h2>
         <p>所有的计算结果都会自动汇总成专业格式的计算报告.您可以打印它或使用 MS Word 打开进行编辑.除了数学表达式,您还可以添加标题、注释、表格和图片.</p>
 
@@ -4430,7 +4483,7 @@ Excel
                     </td>
                 </tr>
             </tbody>
-        </table>`
+        </table>
         <p>当您运行计算时,“单位”选项框将从输出中消失.只有单位会保留填写.程序还会创建一个变量<var>Units</var>,它将包含从选择的单位到米的转换因子.对于m、mm和cm,它们的值分别为1、100和1000.您可以在计算中使用它进行单位转换.例如,您可以创建一个条件块来显示报告中选择的单位:</p>
         <p>
             &emsp;&emsp;<span class="cond">#if</span> <var>Units</var> ≡ 1<br />
@@ -4730,7 +4783,7 @@ Excel
             </span>
         </p>
         <p>&emsp;&emsp;<span class="button">—</span> - 水平分割线(无快捷键), Html: <code>&lt;hr/&gt;</code>, Markdown: <code>---</code></p>
-        <p>要对文本的某一部分应用格式标签，先选中该部分，然后点击相应的按钮。再次点击同一按钮即可移除同类型的已有格式.Calcpad支持单词自动选取：如果在单词内部点击并按下格式按钮，整个单词都会被应用该格式.</p>
+        <p>要对文本的某一部分应用格式标签，先选中该部分，然后点击相应的按钮.再次点击同一按钮即可移除同类型的已有格式.Calcpad支持单词自动选取：如果在单词内部点击并按下格式按钮，整个单词都会被应用该格式.</p>
         <h2 id="TOC_600">编程</h2>
 
         <h3 id="TOC_601">输入表单</h3>
@@ -4884,7 +4937,7 @@ Excel
             <li><code class="cond">#Input</code> - 在当前行呈现输入表单,并等待用户输入数据和恢复.</li>
         </ul>
         <p>当计算过程中止,程序在报告的结尾给出如下提示信息:</p>
-        <p>&emsp;&emsp;<span class="err">Paused!</span> 按 <b>F5</b>  <a href="#0" data-text="continue">继续</a> 或 <b>Esc</b>  <a href="#0" data-text="cancel">取消计算</a>.</p>
+        <p>&emsp;&emsp;<span class="err">暂停!</span> 按 <b>F5</b>  <a href="#0" data-text="continue">继续</a> 或 <b>Esc</b>  <a href="#0" data-text="cancel">取消计算</a>.</p>
         <p>您可以通过按下<b>F5</b>、点击链接或再次点击<img alt="Play" height="24" src="Images/Play.png">按钮来恢复执行.在单个工作表中可以设置多个断点.当使用<code class="cond">#Input</code>关键字时,在显示当前输入表单之前,将计算前一节.通过这种方式,计算的阶段会重叠,如下面的示例所示:</p>
         <p><img alt="Interactive" height="360" src="Images/Interactive.png"></p>
         <p>此外,用户可以随时从键盘上按下"<b>Pause/Break</b>"或"<b>Ctrl + Alt + P</b>"来暂停执行.执行将在当前行暂停,就像检测到<code class="cond">#Pause</code>一样.</p>
@@ -5168,7 +5221,7 @@ Excel
         </p>
 
         <h4>Excel文件</h4>
-        <p>&emsp;&emsp;<code><span class="cond">#read</span> <var>M</var> from <em>文件名.xlsx</em>@Sheet1!A1:B2 TYPE=<b>R</b></code> - 将数据从指定的 Excel 文件读取到矩阵/向量 <var>M</var> 中.文件必须存在，并且工作表也必须是指定的。;</p>
+        <p>&emsp;&emsp;<code><span class="cond">#read</span> <var>M</var> from <em>文件名.xlsx</em>@Sheet1!A1:B2 TYPE=<b>R</b></code> - 将数据从指定的 Excel 文件读取到矩阵/向量 <var>M</var> 中.文件必须存在，并且工作表也必须是指定的.;</p>
         <p>&emsp;&emsp;<code><span class="cond">#write</span> <var>M</var> to <em>文件名.xlsx</em>@Sheet1!A1:B2 TYPE=<b>N</b></code> - 将矩阵/向量 <var>M</var> 中的数据写入指定的 Excel 文件.若文件不存在,会创建一个仅包含单个工作表的新文件；如果文件已存在，则会被完整覆盖.文件的路径必须已存在。;</p>
         <p>&emsp;&emsp;<code><span class="cond">#append</span> <var>M</var> to <em>文件名.xlsx</em>@Sheet1!A1:B2 TYPE=<b>N</b></code> - 将矩阵/向量 <var>M</var> 中的数据追加到指定的Excel文件中.如果文件已存在，则在该文件的指定位置写入数据；如果文件不存在，则会创建一个新文件.无论哪种情况，文件的路径都必须已存在.</p>
 
@@ -5279,7 +5332,7 @@ Excel
                 <td><code><b>!C</b></code></td>
             </tr>
         </table>
-        <p>&emsp;&emsp;#write 和 #append 数据导出命令的行为略有不同。起始引用指示输出矩阵 <var>M</var><sub>1,1</sub> 第一个元素的位置。因此，即使该位置大于A1，也不会截断前面的行和列.除非受到结束引用的限制，否则整个矩阵会在指定位置之后写入.否则，结束引用之后的其余行列会被截断.例如：<code><span class="cond">#write</span> <var>M</var> to <em>文件名.xlsx</em>@Sheet1!C2</code> 将产生如下输出:</p>
+        <p>&emsp;&emsp;#write 和 #append 数据导出命令的行为略有不同.起始引用指示输出矩阵 <var>M</var><sub>1,1</sub> 第一个元素的位置.因此，即使该位置大于A1，也不会截断前面的行和列.除非受到结束引用的限制，否则整个矩阵会在指定位置之后写入.否则，结束引用之后的其余行列会被截断.例如：<code><span class="cond">#write</span> <var>M</var> to <em>文件名.xlsx</em>@Sheet1!C2</code> 将产生如下输出:</p>
         <table class="bordered centered sm">
             <tr><th>&emsp;</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th><th>I</th></tr>
             <tr><th>1</th><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td></tr>
@@ -5516,7 +5569,7 @@ Excel
 
         <h3 id="TOC_801">新建</h3>
         <p>单击<img alt="New" height="24" src="Images/New.png">按钮可以开始一个新文件.这将清除文件名和源代码.如果当前文件未保存,将提示您进行保存.</p>
-        <p><img alt="PromptSave" height="160" src="Images/PromptSave.zh.png"></p>
+        <p><img alt="PromptSave" height="160" src="Images/PromptSave.png"></p>
         <p>如果您选择"<b>Yes</b>",将出现"<b>文件保存</b>"对话框.输入文件名并单击"<b>保存</b>".这样,您就可以在被清除之前保存您的数据.如果您选择"<b>Cancel</b>",您将中断命令,一切都将保持不变.</p>
 
         <h3 id="TOC_802">打开</h3>

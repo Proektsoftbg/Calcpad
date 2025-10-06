@@ -711,7 +711,14 @@
 	<a href="#0" data-text="#split"><span class="cond">#split</span></a>: 分割(从=开始)不适合单行显示的长公式为跨行显示;<br/>
     <a href="#0" data-text="#wrap"><span class="cond">#wrap</span></a>: 对不适合单行显示的方程式换行显示(默认);<br/>
     <a href="#0" data-text="#round "><span class="cond">#round <em>n</em></span></a> : 将结果的数值舍入到小数点后 <em>n</em> 位.<br />
-	上述每个命令仅在当前行以后生效,直到报告结束或另一个命令生效为止.
+	<a href="#0" data-text="#round default"><span class="cond">#round default</span></a> ：恢复默认的舍入设置;<br />
+    <a href="#0" data-text="#format "><span class="cond">#format <em>FFFF</em></span></a> - 指定要自定义的数据格式字符串;<br />
+    <a href="#0" data-text="#format default"><span class="cond">#format default</span></a> - 恢复默认数据格式;<br />
+    <a href="#0" data-text="#md on"><span class="cond">#md on</span></a> :在注释中开启Markdown;<br />
+    <a href="#0" data-text="#md off"><span class="cond">#md off</span></a> : 在注释中关闭markdown;<br />
+    <a href="#0" data-text="#phasor"><span class="cond">#phasor</span></a> ：将复数的输出格式设置为极坐标相量形式(polar phasor): A∠φ;<br/>
+    <a href="#0" data-text="#complex"><span class="cond">#complex</span></a> :将复数的输出格式设置为笛卡尔代数式(Cartesian algebraic): a + bi.<br />
+                上述每个命令仅在当前行以后生效,直到报告结束或另一个命令生效为止.
 	</span>
 </li>
 <li style="list-style-type: none;"><span class="exp" id="btn10">+</span>逐步执行的间断点:<br />
