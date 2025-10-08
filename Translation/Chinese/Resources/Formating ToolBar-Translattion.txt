@@ -1,0 +1,25 @@
+From left to right hang-over messages:
+Heading3：标题3
+Heading4：标题4
+Heading5：标题5
+Heading6：标题6
+Paragraph：段落
+Line Break：换行
+Bold：加粗
+Italic：斜体
+Underline：下划线
+Strikethrough：横贯线
+Subscript：下标
+Superscript：上标
+Red color：标红
+Green Color：标绿
+Span：格式区间
+Div：分割
+Fold div：折叠
+Bullet list：标记排列
+Numbered list：编号排列
+Image：图像
+Table：表格
+Dividing line：分割线
+Markdown：markdown格式
+
