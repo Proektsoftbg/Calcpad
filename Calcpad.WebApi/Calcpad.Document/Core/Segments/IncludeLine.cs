@@ -6,13 +6,9 @@ namespace Calcpad.Document.Core.Segments
     /// Formatted line object that include another file
     /// </summary>
     /// <param name="line"></param>
-    public class IncludeLine
+    public class IncludeLine : CpdRow
     {
         public static readonly string IncludeDirective = "#include";
-
-        public long RowIndex { get; private set; }
-
-        public string OriginLine { get; private set; } = string.Empty;
 
         public string? FilePath { get; private set; }
 
@@ -44,10 +40,9 @@ namespace Calcpad.Document.Core.Segments
         /// 3. #include file.calc'?param1=val1&param2=val2'
         /// </summary>
         /// <param name="line"></param>
-        public IncludeLine(long row, string line)
+        public IncludeLine(uint row, string line)
         {
             RowIndex = row;
-            OriginLine = line;
 
             if (!IsIncludeLine(line, out var trimedLine))
                 return;
@@ -113,10 +108,8 @@ namespace Calcpad.Document.Core.Segments
             if (string.IsNullOrEmpty(key))
                 return;
 
-            if (Queries.ContainsKey(key))
+            if (!Queries.TryAdd(key, value))
                 Queries[key] = value;
-            else
-                Queries.Add(key, value);
         }
 
         public void AddUid(string uid)
@@ -133,6 +126,18 @@ namespace Calcpad.Document.Core.Segments
             FilePath = path;
         }
 
+        /// <summary>
+        /// Returns a string representation of the object, formatted as an include directive with optional query
+        /// parameters and a default part.
+        /// </summary>
+        /// <remarks>
+        /// The returned string includes the file path, followed by query parameters (if any) in
+        /// the format `key=value` separated by `&`,  and optionally appends a default part if specified. If the file
+        /// path is null or empty, an empty string is returned.
+        /// </remarks>
+        /// <returns>
+        /// A string representing the include directive, including the file path, query parameters, and default part if applicable
+        /// </returns>
         public override string ToString()
         {
             if (string.IsNullOrEmpty(FilePath))
@@ -178,7 +183,7 @@ namespace Calcpad.Document.Core.Segments
         /// <param name="row"></param>
         /// <param name="line"></param>
         /// <returns></returns>
-        public static IncludeLine? GetIncludeLine(long row, string? line)
+        public static IncludeLine? GetIncludeLine(uint row, string? line)
         {
             if (!IsIncludeLine(line, out _))
                 return null;

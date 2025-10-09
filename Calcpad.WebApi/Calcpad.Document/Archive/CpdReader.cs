@@ -186,7 +186,7 @@ namespace Calcpad.Document.Archive
             var includes = new List<IncludeLine>();
             var includeSpan = IncludeLine.IncludeDirective.AsSpan();
 
-            long index = 0;
+            uint index = 0;
             foreach (var line in spanLines)
             {
                 var trimmed = line.TrimStart();

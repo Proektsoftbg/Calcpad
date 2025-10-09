@@ -23,12 +23,16 @@ namespace Calcpad.WebApi.Services.Calcpad
     ) : IScopedService
     {
         /// <summary>
+        /// operations:
+        /// 1. set meta info to file head
+        /// 2. resolve include path to server path
+        /// 3. resolve read from path to server path
         /// resolve include path to server path
         /// </summary>
         /// <param name="fullPath"></param>
         /// <param name="cpdUid"></param>
         /// <returns></returns>
-        public async Task<List<string>> SetMeataInfoAndResolveIncludePath(
+        public async Task<List<string>> SetMeataInfoAndResolvePath(
             string fullPath,
             string cpdUid
         )
@@ -108,6 +112,7 @@ namespace Calcpad.WebApi.Services.Calcpad
                 content = sb.ToString();
             }
 
+            // upsert meta info at head
             const string startMarker = "#local '<meta>";
             const string endMarker = "#global '</meta>";
             var startIndex = content.IndexOf(startMarker, StringComparison.OrdinalIgnoreCase);
@@ -120,7 +125,7 @@ namespace Calcpad.WebApi.Services.Calcpad
                 );
                 if (endIndex >= 0)
                 {
-                    // 删除包含 endMarker 的整段
+                    // remove old meta info
                     content = content.Remove(startIndex, endIndex + endMarker.Length - startIndex);
                 }
                 else

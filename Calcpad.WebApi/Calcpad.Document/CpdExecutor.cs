@@ -43,8 +43,12 @@ namespace Calcpad.Document
 
             var timeoutTask = Task.Run(async () =>
             {
+#if DEBUG
+                // ignore timeout in debug
+#else
                 await Task.Delay(10 * 1000);
                 _parser.Cancel();
+#endif
             });
             var parseTask = Task.Run(() =>
             {

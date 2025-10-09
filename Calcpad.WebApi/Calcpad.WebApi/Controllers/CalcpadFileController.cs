@@ -7,7 +7,6 @@ using Calcpad.WebApi.Models.Base;
 using Calcpad.WebApi.Services.Calcpad;
 using Calcpad.WebApi.Services.Token;
 using Calcpad.WebApi.Utils.Web.ResponseModel;
-using DocumentFormat.OpenXml.Drawing.Spreadsheet;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
@@ -110,7 +109,7 @@ namespace Calcpad.WebApi.Controllers
             formData.Save(tempPath);
 
             // change cpd include to service path
-            var includeUniqueIds = await contentService.SetMeataInfoAndResolveIncludePath(
+            var includeUniqueIds = await contentService.SetMeataInfoAndResolvePath(
                 tempPath,
                 existObject.UniqueId
             );
