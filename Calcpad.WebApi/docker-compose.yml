@@ -1,0 +1,37 @@
+services:
+  calcpad:
+    container_name: calcpad
+    image: calcpad/webapi:latest
+    volumes:
+      # 挂载配置
+      - ./data/config/appsettings.Production.json:/app/appsettings.Production.json
+      # 挂载数据
+      - ./data/storage:/app/StoragetRoot    
+    working_dir: /app
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - mongodb_network
+    depends_on:
+      - mongodb
+
+  # mongodb
+  mongodb:
+    hostname: mongodb
+    container_name: mongodb
+    image: mongo:8.0.3
+    ports:
+      - 27017:27017
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=calcpad_mongo
+    volumes:
+      - ./data/mongodb/data:/data/db
+      - ./data/mongodb/config:/data/config
+    networks:
+      - mongodb_network
+
+networks:
+  mongodb_network:
