@@ -296,19 +296,20 @@
 				<a href="#0" data-text="trunc(x)"><b>trunc</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 舍入(向原点方向)到整数;<br /> 
 			</span>
 		</li>
-		<li style="list-style-type: none; margin-left: 18pt;"><span class="exp" id="btn36">+</span>整数:<br />
+		<li style="list-style-type: none; margin-left: 18pt;"><span class="exp" id="btn36">+</span>整数运算:<br />
 			<span id="list36" style="display: none;">
 				<a href="#0" data-text="mod(x; y)"><b>mod</b><span class="b">(</span><var>x</var>; <var>y</var><span class="b">)</span></a> - 整除的余数;<br />
 				<a href="#0" data-text="gcd(x; y; z…)"><b>gcd</b><span class="b">(</span><var>x</var>; <var>y</var><span class="b">)</span></a> - 两整数的最大公约数;<br />
 				<a href="#0" data-text="lcm(x; y; z…)"><b>lcm</b><span class="b">(</span><var>x</var>; <var>y</var><span class="b">)</span></a> - 两整数的最小公倍数;<br />
 			</span>
 		</li>
-		<li style="list-style-type: none; margin-left: 18pt;"><span class="exp" id="btn37">+</span>复数:<br />
+		<li style="list-style-type: none; margin-left: 18pt;"><span class="exp" id="btn37">+</span>复数运算:<br />
 			<span id="list37" style="display: none;">
+				<a href="#0" data-text="re(z)"><b>re</b><span class="b">(</span><var>z</var><span class="b">)</span></a> - 复数的实部;<br />
+				<a href="#0" data-text="im(z)"><b>im</b><span class="b">(</span><var>z</var><span class="b">)</span></a> - 复数的虚部;<br />
 				<a href="#0" data-text="abs(x)"><b>abs</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 绝对值/幅值;<br />
-				<a href="#0" data-text="re(x)"><b>re</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 复数的实部;<br /> 
-				<a href="#0" data-text="im(x)"><b>im</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 复数的虚部;<br /> 
-				<a href="#0" data-text="phase(x)"><b>phase</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 复数的相位;<br />
+				<a href="#0" data-text="phase(z)"><b>phase</b><span class="b">(</span><var>z</var><span class="b">)</span></a> - 复数的相位;<br />
+				<a href="#0" data-text="conj(z)"><b>conj</b><span class="b">(</span><var>z</var><span class="b">)</span></a> - 复数的共轭复数;<br />
 			</span>
 		</li>
 		<li style="list-style-type: none; margin-left: 18pt;"><span class="exp" id="btn38">+</span>求和与插值:<br />
@@ -338,8 +339,13 @@
 		</li>
 		<li style="list-style-type: none; margin-left: 18pt;"><span class="exp" id="btn310">+</span>其他函数:<br />
 			<span id="list310" style="display: none;">
-				<a href="#0" data-text="sign(x)"><b>sign</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 数的符号;<br />
+				<a href="#0" data-text="sign(x)"><b>sign</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 数的正负号;<br />
 				<a href="#0" data-text="random(x)"><b>random</b><span class="b">(</span><var>x</var><span class="b">)</span></a> -  0 和 <var>x</var>之间的随机数.<br/>
+				<a href="#0" data-text="getunits(x)"><b>getunits</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 返回 <var>x</var> 的单位(不带数值). 若<var>x</var> 无单位则返回1;<br />
+						<a href="#0" data-text="setunits(x; u)"><b>setunits</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>u</var><span class="b">)</span></a> - 将单位 <var>u</var> 赋予 <var>x</var> ,其中 <var>x</var> 可以为标量,向量或矩阵;<br />
+						<a href="#0" data-text="clrunits(x)"><b>clrunits</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 清除标量,向量或矩阵 <var>x</var>的单位;<br />
+						<a href="#0" data-text="hp(x)"><b>hp</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 将<var>x</var>转换为其等效的高性能(hp)类型量;<br />
+						<a href="#0" data-text="ishp(x)"><b>ishp</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - 检查<var>x</var>的类型是否为高性能(hp)向量或矩阵;<br />
 			</span>
 		</li>
 		 <li style="list-style-type: none; margin-left: 18pt;">
@@ -347,12 +353,15 @@
                     <span id="list311" style="display: none;">
 						<u>创建相关:</u><br />
                         <a href="#0" data-text="vector(n)"><b>Vector</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - 创建长度为 <var>n</var>的空向量;<br/>
-						<a href="#0" data-text="fill(v; x)"><b>fill</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> -以<var>x</var>的值填充向量<var><span class="vec">⃗</span>v</var>;<br/>
-                        <a href="#0" data-text="range(x₁; xₙ; step)"><b>range</b><span class="b">(</span><var>x</var><sub>1</sub><span class="o">;</span> <var>x</var><sub>n</sub><span class="o">;</span> <var>s</var><span class="b">)</span></a> - 创建一个向量其元素值从 <var>x</var><sub>1</sub> 到 <var>x</var><sub>n</sub> 以步 <var>s</var>变化;<br />
-						<u>结构相关:</u><br />
+						<a href="#0" data-text="vector_hp(n)"><b>vector_hp</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - 创建一个长度为 <var>n</var>的空的高性能(hp)类型的空向量;<br />
+                        <a href="#0" data-text="fill(v; x)"><b>fill</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> -以<var>x</var>的值填充向量<var><span class="vec">⃗</span>v</var>;<br/>
+                        <a href="#0" data-text="range(x₁; xₙ; step)"><b>range</b><span class="b">(</span><var>x</var><sub>1</sub><span class="o">;</span> <var>x</var><sub>n</sub><span class="o">;</span> <var>s</var><span class="b">)</span></a> - 在 <var>x</var><sub>1</sub> 到 <var>x</var><sub>n</sub> 之间以步 <var>s</var>变化取值做元素创建一个向量;<br />
+						<a href="#0" data-text="range_hp (x₁; xₙ; step)"><b>range_hp</b><span class="b">(</span><var>x</var><sub>1</sub><span class="o">;</span> <var>x</var><sub>n</sub><span class="o">;</span> <var>step</var><span class="b">)</span></a>- 在 <var>x</var><sub>1</sub> 到 <var>x</var><sub>n</sub> 之间以步 <var>s</var>变化取值做元素创建一个高性能(hp)型向量;<br />
+                         <u>结构相关:</u><br/>
 						<a href="#0" data-text="len(v)"><b>len</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - 返回向量 <var><span class="vec">⃗</span>v</var>的长度(维数);<br />
                         <a href="#0" data-text="size(v)"><b>size</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - 向量的实际大小 <var><span class="vec">⃗</span>v</var> (最后一个非0元素的索引号);<br />
 						<a href="#0" data-text="resize(v; n)"><b>resize</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>n</var><span class="b">)</span></a> - 设置 <var>n</var> 为向量 <var><span class="vec">⃗</span>v</var>新的长度值;<br />
+                         <a href="#0" data-text="fill(v; x)"><b>fill</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - 用<var>x</var>值填充向量<var><span class="vec">⃗</span>v</var> ;<br />
                         <a href="#0" data-text="join(M; v; x…)"><b>join</b><span class="b">(</span><var>A</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="o">;</span> <var>c</var>…<span class="b">)</span></a> - 通过合并：矩阵,向量和标量创建一个向量;<br />
                         <a href="#0" data-text="slice(v; i₁; i₂)"><b>slice</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>i</var><sub>1</sub><span class="o">;</span> <var>i</var><sub>2</sub><span class="b">)</span></a> - 返回向量的 <var><span class="vec">⃗</span>v</var> 索引号 <var>i</var><sub>1</sub> 到 <var>i</var><sub>2</sub> (包含边界)的部分成为一个新向量;<br />
                         <a href="#0" data-text="first(v; n)"><b>first</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>n</var><span class="b">)</span></a> -向量 <var><span class="vec">⃗</span>v</var>的前 <var>n</var>个元素组成的新向量;<br />
@@ -398,12 +407,19 @@
                     <span id="list312" style="display: none;">
 						<u>创建相关:</u><br />
                         <a href="#0" data-text="matrix(m; n)"><b>matrix</b><span class="b">(</span><var>m</var><span class="o">;</span> <var>n</var><span class="b">)</span></a> - 创建一个 <var>m</var>⨯<var>n</var>的空矩阵;<br />
-                        <a href="#0" data-text="identity(n)"><b>identity</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - 创建一个 <var>n</var>⨯<var>n</var>的单位矩阵;<br />
+                        <a href="#0" data-text="identity(n)"><b>identity</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - 创建一个 <var>n</var>⨯<var>n</var>的单位矩阵;<br/>
                         <a href="#0" data-text="diagonal(n; d)"><b>diagonal</b><span class="b">(</span><var>n</var><span class="o">;</span> <var>d</var><span class="b">)</span></a> - 创建一个<var>n</var>⨯<var>n</var> 对角元素值为 <var>d</var>的对角矩阵;<br />
                         <a href="#0" data-text="column(m; c)"><b>column</b><span class="b">(</span><var>m</var><span class="o">;</span> <var>c</var><span class="b">)</span></a> - 创建一个 <var>m</var>⨯1的列矩阵, 元素值都为 <var>c</var>;<br />
                         <a href="#0" data-text="utriang(n)"><b>utriang</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - 创建一个 <var>n</var>⨯<var>n</var>的上三角矩阵;<br />
                         <a href="#0" data-text="ltriang(n)"><b>ltriang</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - 创建一个 <var>n</var>⨯<var>n</var>的下三角矩阵;<br />
                         <a href="#0" data-text="symmetric(n)"><b>symmetric</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - 创建一个 <var>n</var>⨯<var>n</var>的对称矩阵;<br />
+                        <a href="#0" data-text="matrix_hp(m; n)"><b>matrix_hp</b><span class="b">(</span><var>m</var><span class="o">;</span> <var>n</var><span class="b">)</span></a> - 创建一个高性能型(hp) <var>m</var>⨯<var>n</var>的空矩阵;<br/>
+						<a href="#0" data-text="identity_hp(n)"><b>identity_hp</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - 创建一个高性能型(hp) <var>n</var>⨯<var>n</var>的单位矩阵;<br />
+						<a href="#0" data-text="diagonal_hp(n; d)"><b>diagonal_hp</b><span class="b">(</span><var>n</var><span class="o">;</span> <var>d</var><span class="b">)</span></a> - 创建一个高性能型(hp)<var>n</var>⨯<var>n</var> 且对角元素值为 <var>d</var>的对角矩阵;<br />
+						<a href="#0" data-text="column_hp(m; c)"><b>column_hp</b><span class="b">(</span><var>m</var><span class="o">;</span> <var>c</var><span class="b">)</span></a> - 创建一个高性能型(hp)<var>m</var>⨯1的列矩阵, 元素值都为 <var>c</var>;<br />
+						<a href="#0" data-text="utriang_hp(n)"><b>utriang_hp</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - 创建一个高性能型(hp) <var>n</var>⨯<var>n</var>的上三角矩阵;<br />
+						<a href="#0" data-text="ltriang_hp(n)"><b>ltriang_hp</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - 创建一个高性能型(hp) <var>n</var>⨯<var>n</var>的下三角矩阵;<br />
+						<a href="#0" data-text="symmetric_hp(n)"><b>symmetric_hp</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - 创建一个高性能型(hp) <var>n</var>⨯<var>n</var>的对称矩阵;<br />
                         <a href="#0" data-text="vec2diag(v)"><b>vec2diag</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - 用向量 <var><span class="vec">⃗</span>v</var>的元素创建一个对角矩阵;<br />
                         <a href="#0" data-text="vec2row(v)"><b>vec2row</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - 用向量 <var><span class="vec">⃗</span>v</var>创建包含元素的行矩阵;<br />
 						<a href="#0" data-text="vec2col(v)"><b>vec2col</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - 用向量 <var><span class="vec">⃗</span>v</var>的元素创建一个列矩阵;<br />
@@ -487,13 +503,18 @@
                         <a href="#0" data-text="inverse(M)"><b>inverse</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - 矩阵 <var>M</var>的逆矩阵;<br />
                         <a href="#0" data-text="lsolve(A; b)"><b>lsolve</b><span class="b">(</span><var>A</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="b">)</span></a> - 求解线性方程组 <var>A<span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var>：对对称矩阵使用 LDL<sup>T</sup> 分解,对非对称矩阵使用 LU分解;<br />
                         <a href="#0" data-text="clsolve(A; b)"><b>clsolve</b><span class="b">(</span><var>A</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="b">)</span></a> - 求解线性矩阵方程 <var>A<span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> ：对对称且正-定系数矩阵<var>A</var> 使用Cholesky 分解;<br />
-						<a href="#0" data-text="msolve(A; B)"><b>msolve</b><span class="b">(</span><var>A</var><span class="o">;</span> <var>B</var><span class="b">)</span></a> - 求解一般矩阵方程 <var>AX</var> = <var>B</var> ：对对称矩阵使用 LDL<sup>T</sup> 分解；对非对称矩阵使用LU分解;<br />
-                        <a href="#0" data-text="cmsolve(A; B)"><b>cmsolve</b><span class="b">(</span><var>A</var><span class="o">;</span> <var>B</var><span class="b">)</span></a> - 求解一般矩阵方程 <var>AX</var> = <var>B</var> ：对对称且正-定系数矩阵<var>A</var> 使用Cholesky分解;<br />
-						<u>双重插值:</u><br />
+						<a href="#0" data-text="slsolve(A; b)"><b>slsolve</b><span class="b">(</span><var>A</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="b">)</span></a> - 对高性能型对称,正-定阵A采用预处理共轭梯度法(preconditioned conjugate gradient-PCG)求解线性矩阵方程<var>A<span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var>;<br />
+                        <a href="#0" data-text="msolve(A; B)"><b>msolve</b><span class="b">(</span><var>A</var><span class="o">;</span> <var>B</var><span class="b">)</span></a> - 求解一般矩阵方程 <var>AX</var> = <var>B</var> ：对对称矩阵使用 LDL<sup>T</sup> 分解；对非对称矩阵使用LU分解;<br />
+                        <a href="#0" data-text="cmsolve(A; B)"><b>cmsolve</b><span class="b">(</span><var>A</var><span class="o">;</span> <var>B</var><span class="b">)</span></a> - 对对称且正-定系数矩阵<var>A</var> 使用Cholesky分解求解一般矩阵方程 <var>AX</var> = <var>B</var>;<br />
+						<a href="#0" data-text="smsolve(A; B)"><b>smsolve</b><span class="b">(</span><var>A</var><span class="o">;</span> <var>B</var><span class="b">)</span></a> - 对高性能型对称,正-定阵A采用预处理共轭梯度法(preconditioned conjugate gradient-PCG)求解一般矩阵方程<var>AX</var> = <var>B</var>;<br />
+                        <a href="#0" data-text="fft(M)"><b>fft</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - 对行优先(row-major)矩阵<var>M</var>进行快速傅里叶变换. 其必须包含1实数行和2个复数行;<br />
+                        <a href="#0" data-text="ift(M)"><b>ift</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - 对行优先(row-major)矩阵<var>M</var>进行傅里叶逆变换. 其必须包含1实数行和2个复数行;<br />
+                        <u>双重插值:</u><br />
                         <a href="#0" data-text="take(x; y; M)"><b>take</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>M</var><span class="b">)</span></a> - 返回矩阵 <var>M</var> 行号 <var>x</var> 列号 <var>y</var>的元素;<br />
                         <a href="#0" data-text="line(x; y; M)"><b>line</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>M</var><span class="b">)</span></a> - 基于 <var>x</var> 和 <var>y</var>值对<var>M</var>中元素的双重线性插值;<br />
                         <a href="#0" data-text="spline(x; y; M)"><b>spline</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>M</var><span class="b">)</span></a> - 基于 <var>x</var> 和 <var>y</var>值对<var>M</var>中元素的双重Hermite样条曲线插值;<br>
-                    </span>
+						<a href="#0" data-text="Tol"><var>Tol</var> - 迭代PCG求解的允许误差.
+					</span>
                 </li>
 	</ul>
 </li>
@@ -508,8 +529,12 @@
 	<a href="#0" data-text="PlotHeight ="><var>PlotHeight</var></a> - 绘图区高度的像素数;<br />
 	<a href="#0" data-text="PlotWidth ="><var>PlotWidth</var></a> - 绘图区宽度的像素数;<br />
 	<a href="#0" data-text="PlotWidth ="><var>PlotStep</var></a> - 绘图的网格尺寸;
-	<a href="#0" data-text="PlotWidth ="><var>PlotSVG</var></a> - 以矢量 (SVG) 格式绘制图形.
-	</span>
+	<a href="#0" data-text="PlotWidth ="><var>PlotSVG</var></a> - 以矢量 (SVG) 格式绘制图形.<br />
+    <a href="#0" data-text="PlotPalette ="><var>PlotPalette</var></a> - 调色板中用于绘制三维投影面图的颜色数(0-8);<br />
+    <a href="#0" data-text="PlotShadows ="><var>PlotShadows</var></a> - 绘制三维投影面图时带光影;<br />
+    <a href="#0" data-text="PlotSmooth ="><var>PlotSmooth</var></a> - 绘制三维投影面图时颜色之间平滑过渡(= 1)或者区分色带(= 0) ;<br />
+	<a href="#0" data-text="PlotLightDir ="><var>PlotLightDir</var></a> - 顺时针方向设置光源投射方向(0-7).
+            </span>
 </li>
 <li style="list-style-type: none;"><span class="exp" id="btn5">+</span>迭代和数值方法:<br />
 	<span id="list5" style="display: none;">
@@ -654,8 +679,25 @@
 	</a><br />
 	</span>
 </li>
-<li style="list-style-type: none;"><span class="exp" id="btn9">+</span>输出控制:<br />
-	<span id="list9" style="display: none;">
+<li style="list-style-type: none;">
+            <span class="exp" id="btn9">+</span>导入/导出外部数据:<br />
+            <span id="list9" style="display: none;">
+                <u>txt文本/CSV文件</u>:<br />
+                <a href="#0" data-text="#read M from filename.txt@R1C1:R2C2 TYPE=R SEP=','"><span class="cond">#read</span> <var>M</var> <span class="cond">from</span> <em class="macro">文件名.txt</em><span class="o">@</span><span class="macro">R1C1</span><span class="o">:</span><span class="macro">R2C2</span> <span class="cond">TYPE</span><span class="o">=</span><span class="macro">R</span> <span class="cond">SEP</span><span class="o">=</span><span class="ok">','</span></a> - 从txt/CSV文件中读取矩阵<var>M</var>;<br />
+                <a href="#0" data-text="#write M to filename.txt@R1C1:R2C2 TYPE=N SEP=','"><span class="cond">#write</span> <var>M</var> <span class="cond">to</span> <em class="macro">文件名.txt</em><span class="o">@</span><span class="macro">R1C1</span><span class="o">:</span><span class="macro">R2C2</span> <span class="cond">TYPE</span><span class="o">=</span><span class="macro">N</span> <span class="cond">SEP</span><span class="o">=</span><span class="ok">','</span></a> - 将矩阵<var>M</var>写入txt/CSV文件中;<br />
+                <a href="#0" data-text="#append M to filename.txt@R1C1:R2C2 TYPE=N SEP=','"><span class="cond">#append</span> <var>M</var> <span class="cond">to</span> <em class="macro">文件名.txt</em><span class="o">@</span><span class="macro">R1C1</span><span class="o">:</span><span class="macro">R2C2</span> <span class="cond">TYPE</span><span class="o">=</span><span class="macro">N</span> <span class="cond">SEP</span><span class="o">=</span><span class="ok">','</span></a> - 将矩阵<var>M</var>追加到txt/CSV文件中;<br />
+                <u>Excel文件(xlsx和xlsm后缀)</u>:<br />
+                <a href="#0" data-text="#read M from filename.xlsx@Sheet1!A1:B2 TYPE=R"><span class="cond">#read</span> <var>M</var> <span class="cond">from</span> <em class="macro">文件名.xlsx</em><span class="o">@</span><span class="macro">Sheet1</span><span class="o">!</span><span class="macro">A1</span><span class="o">:</span><span class="macro">B2</span> <span class="cond">TYPE</span><span class="o">=</span><span class="macro">R</span></a> - 从Excel文件中读取矩阵<var>M</var>;<br />
+                <a href="#0" data-text="#write M to filename.xlsx@Sheet1!A1:B2 TYPE=N"><span class="cond">#write</span> <var>M</var> <span class="cond">to</span> <em class="macro">文件名.xlsx</em><span class="o">@</span><span class="macro">Sheet1</span><span class="o">!</span><span class="macro">A1</span><span class="o">:</span><span class="macro">B2</span> <span class="cond">TYPE</span><span class="o">=</span><span class="macro">N</span></a> - 将矩阵<var>M</var>写入到Excel文件中;<br />
+                <a href="#0" data-text="#append M to filename.xlsx@Sheet1!A1:B2 TYPE=N"><span class="cond">#append</span> <var>M</var> <span class="cond">to</span> <em class="macro">文件名.xlsx</em><span class="o">@</span><span class="macro">Sheet1</span><span class="o">!</span><span class="macro">A1</span><span class="o">:</span><span class="macro">B2</span> <span class="cond">TYPE</span><span class="o">=</span><span class="macro">N</span></a> - 将矩阵<var>M</var> 追加到Excel文件中;<br />
+                工作表, 范围, <span class="cond">TYPE</span> 和 <span class="cond">SEP</span> 可以省略.<br />
+				对 <span class="cond">#read</span> 命令, <span class="cond">TYPE</span> 可为 [<span class="macro" title="矩形阵">R</span>|<span class="macro" title="对角阵">D</span>|<span class="macro" title="列阵">C</span>|<span class="macro" title="对称skyline">S</span>|<span class="macro" title="上三角">U</span>|<span class="macro" title="下三角">L</span>|<span class="macro" title="向量">V</span>]中一种.<br />
+				对 <span class="cond">#write</span> 和 <span class="cond">#append</span>命令, <span class="cond">TYPE</span> 可为 <span class="macro" title="是">Y</span> or <span class="macro" title="否">N</span>.
+            </span>
+        </li>
+<li style="list-style-type: none;">
+	<span class="exp" id="btn90">+</span>输出控制:<br/>
+	<span id="list90" style="display: none;">
 	<a href="#0" data-text="#hide"><span class="cond">#hide</span></a> : 隐藏报告内容;<br /> 
 	<a href="#0" data-text="#show"><span class="cond">#show</span></a> : 总是显示内容(默认);<br />
 	<a href="#0" data-text="#pre"><span class="cond">#pre</span></a> : 仅在计算前显示下面的内容;<br /> 
@@ -669,7 +711,14 @@
 	<a href="#0" data-text="#split"><span class="cond">#split</span></a>: 分割(从=开始)不适合单行显示的长公式为跨行显示;<br/>
     <a href="#0" data-text="#wrap"><span class="cond">#wrap</span></a>: 对不适合单行显示的方程式换行显示(默认);<br/>
     <a href="#0" data-text="#round "><span class="cond">#round <em>n</em></span></a> : 将结果的数值舍入到小数点后 <em>n</em> 位.<br />
-	上述每个命令仅在当前行以后生效,直到报告结束或另一个命令生效为止.
+	<a href="#0" data-text="#round default"><span class="cond">#round default</span></a> ：恢复默认的舍入设置;<br />
+    <a href="#0" data-text="#format "><span class="cond">#format <em>FFFF</em></span></a> - 指定要自定义的数据格式字符串;<br />
+    <a href="#0" data-text="#format default"><span class="cond">#format default</span></a> - 恢复默认数据格式;<br />
+    <a href="#0" data-text="#md on"><span class="cond">#md on</span></a> :在注释中开启Markdown;<br />
+    <a href="#0" data-text="#md off"><span class="cond">#md off</span></a> : 在注释中关闭markdown;<br />
+    <a href="#0" data-text="#phasor"><span class="cond">#phasor</span></a> ：将复数的输出格式设置为极坐标相量形式(polar phasor): A∠φ;<br/>
+    <a href="#0" data-text="#complex"><span class="cond">#complex</span></a> :将复数的输出格式设置为笛卡尔代数式(Cartesian algebraic): a + bi.<br />
+                上述每个命令仅在当前行以后生效,直到报告结束或另一个命令生效为止.
 	</span>
 </li>
 <li style="list-style-type: none;"><span class="exp" id="btn10">+</span>逐步执行的间断点:<br />
