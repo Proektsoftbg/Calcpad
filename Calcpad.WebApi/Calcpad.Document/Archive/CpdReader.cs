@@ -175,7 +175,7 @@ namespace Calcpad.Document.Archive
         /// read include lines from cpd file
         /// </summary>
         /// <returns></returns>
-        public List<IncludeLine> ReadIncludeLines()
+        public List<IncludeLine> GetIncludeLines()
         {
             var code = ReadAllText();
             if (string.IsNullOrEmpty(code))
@@ -203,6 +203,40 @@ namespace Calcpad.Document.Archive
             }
 
             return includes;
+        }
+
+        /// <summary>
+        /// get read lines from cpd file
+        /// </summary>
+        /// <returns></returns>
+        public List<ReadLine> GetReadLines()
+        {
+            var code = ReadAllText();
+            if (string.IsNullOrEmpty(code))
+                return [];
+
+            var spanLines = ReadLines();
+
+            var reads = new List<ReadLine>();
+            var readSpan = ReadLine.ReadDirective.AsSpan();
+
+            uint index = 0;
+            foreach (var line in spanLines)
+            {
+                var trimmed = line.TrimStart();
+                if (
+                    !trimmed.IsEmpty
+                    && trimmed.Length >= readSpan.Length
+                    && trimmed.StartsWith(readSpan, StringComparison.OrdinalIgnoreCase)
+                )
+                {
+                    reads.Add(new ReadLine(index, line.ToString()));
+                }
+
+                index++;
+            }
+
+            return reads;
         }
 
         private string GetResourcesTempDir()

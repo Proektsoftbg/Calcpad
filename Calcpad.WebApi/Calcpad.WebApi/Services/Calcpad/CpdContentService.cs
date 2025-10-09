@@ -1,4 +1,5 @@
-﻿using Calcpad.Document.Archive;
+﻿using System.Text;
+using Calcpad.Document.Archive;
 using Calcpad.Document.Core.Segments;
 using Calcpad.WebApi.Configs;
 using Calcpad.WebApi.Models;
@@ -7,7 +8,6 @@ using Calcpad.WebApi.Utils.Web.Exceptions;
 using Calcpad.WebApi.Utils.Web.Service;
 using HtmlAgilityPack;
 using MongoDB.Driver.Linq;
-using System.Text;
 
 namespace Calcpad.WebApi.Services.Calcpad
 {
@@ -15,12 +15,9 @@ namespace Calcpad.WebApi.Services.Calcpad
     /// calcpad file content service
     /// </summary>
     /// <param name="db"></param>
-    /// <param name="storageConfig"></param>
-    public class CpdContentService(
-        MongoDBContext db,
-        AppSettings<StorageConfig> storageConfig,
-        CycleDetectorService cycleDetector
-    ) : IScopedService
+    /// <param name="cycleDetector"></param>
+    public class CpdContentService(MongoDBContext db, CycleDetectorService cycleDetector)
+        : IScopedService
     {
         /// <summary>
         /// operations:
@@ -32,15 +29,13 @@ namespace Calcpad.WebApi.Services.Calcpad
         /// <param name="fullPath"></param>
         /// <param name="cpdUid"></param>
         /// <returns></returns>
-        public async Task<List<string>> SetMeataInfoAndResolvePath(
-            string fullPath,
-            string cpdUid
-        )
+        public async Task<List<string>> SetMeataInfoAndResolvePath(string fullPath, string cpdUid)
         {
             var cpdReader = CpdReaderFactory.CreateCpdReader(fullPath);
-            var includes = cpdReader.ReadIncludeLines();
 
-            var includesQueue = new Queue<IncludeLine>();
+            var replacingRows = new List<CpdRow>();
+            // include lines
+            var includes = cpdReader.GetIncludeLines();
             if (includes.Count > 0)
             {
                 // replace include path to server path
@@ -57,9 +52,27 @@ namespace Calcpad.WebApi.Services.Calcpad
                     var includeFile = cpdObjects.FirstOrDefault(x => x.UniqueId == include.Uid);
                     if (includeFile != null)
                     {
-                        include.AddUid(includeFile.UniqueId);
                         include.SetFilePath(includeFile.FullName);
-                        includesQueue.Enqueue(include);
+                        replacingRows.Add(include);
+                    }
+                }
+            }
+
+            // read lines
+            var readLines = cpdReader.GetReadLines();
+            if (readLines.Count > 0)
+            {
+                var uIds = readLines.Select(x => x.Uid).ToList();
+                var cpdObjects = await db.AsQueryable<CalcpadFileModel>()
+                    .Where(x => uIds.Contains(x.UniqueId))
+                    .ToListAsync();
+                foreach (var readLine in readLines)
+                {
+                    var readFile = cpdObjects.FirstOrDefault(x => x.UniqueId == readLine.Uid);
+                    if (readFile != null)
+                    {
+                        readLine.SetFilePath(readFile.FullName);
+                        replacingRows.Add(readLine);
                     }
                 }
             }
@@ -82,23 +95,24 @@ namespace Calcpad.WebApi.Services.Calcpad
             };
             var headerInfo = string.Join(Environment.NewLine, header) + Environment.NewLine;
             var content = cpdReader.ReadAllText();
-            if (includesQueue.Count > 0)
+            if (replacingRows.Count > 0)
             {
                 var sb = new StringBuilder(
-                    cpdReader.ReadAllText().Length + headerInfo.Length + includes.Count * 40
+                    content.Length + headerInfo.Length + replacingRows.Count * 20
                 );
 
+                var replacingRowsQueue = new Queue<CpdRow>(replacingRows.OrderBy(x => x.RowIndex));
                 var index = -1;
-                var currentInclude = includesQueue.Dequeue();
+                var currentInclude = replacingRowsQueue.Dequeue();
                 foreach (var line in cpdReader.ReadStringLines())
                 {
                     index++;
                     if (currentInclude != null && index == currentInclude.RowIndex)
                     {
                         sb.AppendLine(currentInclude.ToString());
-                        if (includesQueue.Count > 0)
+                        if (replacingRows.Count > 0)
                         {
-                            currentInclude = includesQueue.Dequeue();
+                            currentInclude = replacingRowsQueue.Dequeue();
                         }
                         else
                         {

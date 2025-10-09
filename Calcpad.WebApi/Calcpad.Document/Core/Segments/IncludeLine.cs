@@ -41,9 +41,8 @@ namespace Calcpad.Document.Core.Segments
         /// </summary>
         /// <param name="line"></param>
         public IncludeLine(uint row, string line)
+            : base(row)
         {
-            RowIndex = row;
-
             if (!IsIncludeLine(line, out var trimedLine))
                 return;
 
