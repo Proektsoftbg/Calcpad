@@ -39,7 +39,7 @@ namespace Calcpad.WebApi.Services.Calcpad
         {
             var cpdReader = CpdReaderFactory.CreateCpdReader(fullPath);
 
-            var replacingRows = new List<CpdRow>();
+            var replacingRows = new List<CpdLine>();
             // include lines
             var includes = cpdReader.GetIncludeLines();
             if (includes.Count > 0)
@@ -161,7 +161,7 @@ namespace Calcpad.WebApi.Services.Calcpad
         /// <returns></returns>
         public string GetFileAccessUri(CalcpadFileModel fileObject)
         {
-            if (fileObject.IsPublic)
+            if (!fileObject.IsCpd)
             {
                 return $"api/v1/calcpad-file/stream/public/{fileObject.Id}?uid={fileObject.UniqueId}";
             }
@@ -224,20 +224,20 @@ namespace Calcpad.WebApi.Services.Calcpad
                 return true;
 
             // retain p element which contains input or select
-            if (tag == "p" && ContainsInputOrSelect(node))
+            if (tag == "p" && IsContainsInputTag(node))
                 return true;
 
             return false;
         }
 
-        private static HashSet<string> _supportTags = ["input", "select"];
+        private static HashSet<string> _supportTags = ["input", "select", "button"];
 
         /// <summary>
-        /// check if node or its children contains input or select element
+        /// check if node or its children contains input 、slect、button element
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
-        private static bool ContainsInputOrSelect(HtmlNode node)
+        private static bool IsContainsInputTag(HtmlNode node)
         {
             if (_supportTags.Contains(node.Name.ToLower()))
             {
@@ -246,7 +246,7 @@ namespace Calcpad.WebApi.Services.Calcpad
 
             foreach (var child in node.ChildNodes)
             {
-                if (ContainsInputOrSelect(child))
+                if (IsContainsInputTag(child))
                 {
                     return true;
                 }

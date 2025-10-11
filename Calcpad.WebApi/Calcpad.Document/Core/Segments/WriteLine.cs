@@ -15,5 +15,5 @@ namespace Calcpad.Document.Core.Segments
     /// Formatted line object that write or append matrix to another file
     /// </summary>
     [Obsolete("Not implemented yet")]
-    public class WriteLine() : CpdRow(0) { }
+    public class WriteLine() : CpdLine(0) { }
 }

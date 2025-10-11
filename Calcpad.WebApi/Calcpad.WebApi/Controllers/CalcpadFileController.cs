@@ -24,13 +24,13 @@ namespace Calcpad.WebApi.Controllers
     /// <param name="db"></param>
     /// <param name="tokenService"></param>
     /// <param name="storageConfig"></param>
-    /// <param name="storagetService"></param>
+    /// <param name="storageService"></param>
     /// <param name="contentService"></param>
     public class CalcpadFileController(
         MongoDBContext db,
         TokenService tokenService,
         AppSettings<StorageConfig> storageConfig,
-        CpdStorageService storagetService,
+        CpdStorageService storageService,
         CpdContentService contentService
     ) : ControllerBaseV1
     {
@@ -78,7 +78,7 @@ namespace Calcpad.WebApi.Controllers
             {
                 var fileName = formData.GetUniqueFileName();
                 // example: calcpad-files/2024/06/27/xxxxxx.calcpad
-                var relativePath = storagetService.GetCpdObjectName(fileName);
+                var relativePath = storageService.GetCpdObjectName(fileName);
 
                 existObject = new CalcpadFileModel
                 {
@@ -87,17 +87,17 @@ namespace Calcpad.WebApi.Controllers
                     FileName = formData.GetFileName(),
                     UniqueId = formData.UniqueId,
                     UserId = tokenService.GetTokenInfo().UserId,
-                    IsPublic = formData.IsPublic,
+                    IsCpd = formData.IsCpdFile,
                 };
                 await db.Collection<CalcpadFileModel>().InsertOneAsync(existObject);
             }
             else
             {
                 // updaet is public
-                if (existObject.IsPublic != formData.IsPublic)
+                if (existObject.IsCpd != formData.IsCpdFile)
                     await db.AsFluentUpdate<CalcpadFileModel>()
                         .Where(x => x.Id == existObject.Id)
-                        .Set(x => x.IsPublic, formData.IsPublic)
+                        .Set(x => x.IsCpd, formData.IsCpdFile)
                         .Set(x => x.LastUpdateDate, DateTime.UtcNow)
                         .Set(x => x.FileName, formData.GetFileName())
                         .UpdateOneAsync();
@@ -105,24 +105,31 @@ namespace Calcpad.WebApi.Controllers
 
             // save to template path
             var fullPath = Environment.ExpandEnvironmentVariables(existObject.FullName);
-            var tempPath = Path.Combine(
-                Path.GetDirectoryName(fullPath)!,
-                $"{Path.GetFileNameWithoutExtension(fullPath)}_temp{Path.GetExtension(fullPath)}"
-            );
-            formData.Save(tempPath);
 
-            // change cpd include to service path
-            var includeUniqueIds = await contentService.SetMeataInfoAndResolvePath(
-                tempPath,
-                existObject.UniqueId
-            );
-            // replace the original file
-            System.IO.File.Move(tempPath, fullPath, true);
+            if (formData.IsCpdFile)
+            {
+                var tempPath = Path.Combine(
+                    Path.GetDirectoryName(fullPath)!,
+                    $"{Path.GetFileNameWithoutExtension(fullPath)}_temp{Path.GetExtension(fullPath)}"
+                );
+                formData.Save(tempPath);
 
-            await db.AsFluentUpdate<CalcpadFileModel>()
-                .Where(x => x.Id == existObject.Id)
-                .Set(x => x.IncludeUniqueIds, includeUniqueIds)
-                .UpdateOneAsync();
+                // change cpd include to service path
+                var includeUniqueIds = await contentService.SetMeataInfoAndResolvePath(
+                    tempPath,
+                    existObject.UniqueId
+                );
+                // replace the original file
+                System.IO.File.Move(tempPath, fullPath, true);
+                await db.AsFluentUpdate<CalcpadFileModel>()
+                    .Where(x => x.Id == existObject.Id)
+                    .Set(x => x.IncludeUniqueIds, includeUniqueIds)
+                    .UpdateOneAsync();
+            }
+            else
+            {
+                formData.Save(fullPath);
+            }
 
             // if is public, return the public url
             return contentService.GetFileAccessUri(existObject).ToSuccessResponse();
@@ -147,9 +154,9 @@ namespace Calcpad.WebApi.Controllers
 
             // copy file
             var newFileName = $"{toId}{Path.GetExtension(existModel.ObjectName)}";
-            var toObjectName = storagetService.GetCpdObjectName(newFileName);
-            var toFullPath = storagetService.GetCpdAbsoluteFullName(toObjectName);
-            var fromFullPath = storagetService.GetCpdAbsoluteFullName(existModel.ObjectName);
+            var toObjectName = storageService.GetCpdObjectName(newFileName);
+            var toFullPath = storageService.GetCpdAbsoluteFullName(toObjectName);
+            var fromFullPath = storageService.GetCpdAbsoluteFullName(existModel.ObjectName);
 
             System.IO.File.Copy(fromFullPath, toFullPath, true);
 
@@ -162,6 +169,7 @@ namespace Calcpad.WebApi.Controllers
                 FileName = existModel.FileName,
                 IncludeUniqueIds = existModel.IncludeUniqueIds,
                 LastUpdateDate = existModel.LastUpdateDate,
+                IsCpd = existModel.IsCpd,
                 SourceId = existModel.Id,
             };
             await db.Collection<CalcpadFileModel>().InsertOneAsync(newModel);
@@ -189,7 +197,7 @@ namespace Calcpad.WebApi.Controllers
                 return string.Empty.ToFailResponse("calcpad file not found");
 
             // save file
-            var newFromPath = storagetService.GetReadFromPath(
+            var newFromPath = storageService.GetReadFromPath(
                 existModel.FullName,
                 formData.File.FileName
             );
@@ -205,14 +213,18 @@ namespace Calcpad.WebApi.Controllers
 
             // update read from path
             var cpdReader = CpdReaderFactory.CreateCpdReader(existModel.FullName);
-            var readLines = cpdReader.GetReadLines()
+            var readLines = cpdReader
+                .GetReadLines()
                 .Where(x => x.FilePath == formData.OldFromPath)
                 .ToList();
 
             if (readLines.Count > 0)
             {
                 readLines.ForEach(x => x.SetFilePath(newFromPath));
-                var content = CpdWriter.BuildCpdContent(cpdReader.ReadStringLines(), readLines.Cast<CpdRow>());
+                var content = CpdWriter.BuildCpdContent(
+                    cpdReader.ReadStringLines(),
+                    readLines.Cast<CpdLine>()
+                );
                 var cpdWriter = CpdWriterFactory.CreateCpdWriter();
                 cpdWriter.WriteFile(existModel.FullName, content);
             }
@@ -239,7 +251,7 @@ namespace Calcpad.WebApi.Controllers
                 return true.ToSuccessResponse();
             }
 
-            var fullPath = storagetService.GetCpdAbsoluteFullName(existModel.ObjectName);
+            var fullPath = storageService.GetCpdAbsoluteFullName(existModel.ObjectName);
             if (System.IO.File.Exists(fullPath))
             {
                 System.IO.File.Delete(fullPath);
@@ -287,6 +299,8 @@ namespace Calcpad.WebApi.Controllers
             return File(stream, contentType);
         }
 
+        #region Calculation
+
         /// <summary>
         /// compile to input form
         /// </summary>
@@ -300,7 +314,7 @@ namespace Calcpad.WebApi.Controllers
         )
         {
             var fileModel = await db.AsQueryable<CalcpadFileModel>()
-                .Where(x => x.UniqueId == uniqueId && x.IsPublic == false)
+                .Where(x => x.UniqueId == uniqueId && x.IsCpd == true)
                 .FirstOrDefaultAsync();
             if (fileModel == null)
                 return "Not Found".ToFailResponse("calcpad file not found");
@@ -312,15 +326,15 @@ namespace Calcpad.WebApi.Controllers
             var cpdExecutor = new CpdExecutor(fullPath);
             var outputText = await cpdExecutor.CompileToInputForm();
 
+            // replace local link to public path
+            outputText = contentService.FormatReadMacroResult(outputText);
+
             // simplify output html
             // remain row or p element which contains input,select,h1-h6
             if (simplify)
             {
                 outputText = contentService.SimplifyHtml(outputText);
             }
-
-            // replace local link to public path
-            outputText = contentService.FormatReadMacroResult(outputText);
 
             // compile
             return outputText.ToSuccessResponse();
@@ -339,7 +353,7 @@ namespace Calcpad.WebApi.Controllers
         )
         {
             var fileModel = await db.AsQueryable<CalcpadFileModel>()
-                .Where(x => x.UniqueId == uniqueId && x.IsPublic == false)
+                .Where(x => x.UniqueId == uniqueId && x.IsCpd == true)
                 .FirstOrDefaultAsync();
             if (fileModel == null)
                 return "Not Found".ToFailResponse("calcpad file not found");
@@ -357,6 +371,8 @@ namespace Calcpad.WebApi.Controllers
             return outputText.ToSuccessResponse();
         }
 
+        #endregion
+
         /// <summary>
         /// download cpd file and includes
         /// </summary>
@@ -365,7 +381,7 @@ namespace Calcpad.WebApi.Controllers
         [HttpGet("{uniqueId}/origin")]
         public async Task<IActionResult> DownloadCpdFile(string uniqueId)
         {
-            var (strem, fileName) = await storagetService.ZipAndDownloadCpdFile(uniqueId);
+            var (strem, fileName) = await storageService.ZipAndDownloadCpdFile(uniqueId);
             if (strem == null)
             {
                 return NotFound("file not found");
@@ -373,5 +389,123 @@ namespace Calcpad.WebApi.Controllers
 
             return File(strem, "application/zip", fileName);
         }
+
+        #region Update file path to service path
+
+        /// <summary>
+        /// get all file paths in the cpd file
+        /// </summary>
+        /// <param name="uniqueId"></param>
+        /// <returns></returns>
+        [HttpGet("{uniqueId}/file-paths")]
+        public async Task<ResponseResult<List<string>>> GetFilePathsInCpd(string uniqueId)
+        {
+            var fileModel = await db.AsQueryable<CalcpadFileModel>()
+                .Where(x => x.UniqueId == uniqueId && x.IsCpd == true)
+                .FirstOrDefaultAsync();
+            if (fileModel == null)
+                return new List<string>().ToFailResponse("calcpad file not found");
+
+            var cpdReader = CpdReaderFactory.CreateCpdReader(fileModel.FullName);
+
+            List<string> filePaths = [];
+            filePaths.AddRange(cpdReader.GetIncludeLines().Select(x => x.FilePath));
+            filePaths.AddRange(cpdReader.GetReadLines().Select(x => x.FilePath));
+            filePaths.AddRange(cpdReader.GetImageLines().Select(x => x.Src));
+
+            // remove ./ at start
+            var paths = filePaths.Where(x => !string.IsNullOrEmpty(x)).Distinct().ToList();
+            return paths.ToSuccessResponse();
+        }
+
+        /// <summary>
+        /// update file paths to service path by uniqueId
+        /// </summary>
+        /// <param name="uniqueId"></param>
+        /// <param name="filePaths"></param>
+        /// <returns></returns>
+        [HttpPut("{uniqueId}/file-paths")]
+        public async Task<ResponseResult<bool>> UpdateFilePathsToServicePath(
+            string uniqueId,
+            [FromBody] List<PathFile> filePaths
+        )
+        {
+            var fileModel = await db.AsQueryable<CalcpadFileModel>()
+                .Where(x => x.UniqueId == uniqueId && x.IsCpd == true)
+                .FirstOrDefaultAsync();
+            if (fileModel == null)
+                return false.ToFailResponse("calcpad file not found");
+
+            // find files by uniqueId
+            var pathFileModels = await db.AsQueryable<CalcpadFileModel>()
+                .Where(x => filePaths.Select(d => d.UniqueId).Contains(x.UniqueId))
+                .ToListAsync();
+
+            var cpdReader = CpdReaderFactory.CreateCpdReader(fileModel.FullName);
+            var imageLines = cpdReader.GetImageLines().ToList();
+            var includeLines = cpdReader.GetIncludeLines().ToList();
+            var readLines = cpdReader.GetReadLines().ToList();
+
+            // build path map, map all possible path to server path
+            Dictionary<string, (string, ObjectId)> filePathMap = [];
+            foreach (var path in filePaths)
+            {
+                var model = pathFileModels.FirstOrDefault(x => x.UniqueId == path.UniqueId);
+                if (model == null)
+                {
+                    continue;
+                }
+                var relativePath = storageService.GetRelativePathToCurrentDir(model.FullName);
+                filePathMap.TryAdd(path.Path, (relativePath, model.Id));
+            }
+
+            // update image lines
+            foreach (var img in imageLines)
+            {
+                // find src
+                if (filePathMap.TryGetValue(img.Src, out var newPath))
+                {
+                    // 转换成图片的 web url
+                    var subPath = $"/api/v1/calcpad-file/stream/public/{newPath.Item2}";
+                    img.SetSrc(storageService.GetWebUrl(subPath));
+                }
+            }
+
+            // update include lines
+            foreach (var include in includeLines)
+            {
+                if (string.IsNullOrEmpty(include.FilePath))
+                    continue;
+
+                if (filePathMap.TryGetValue(include.FilePath, out var newPath))
+                {
+                    include.SetFilePath(newPath.Item1);
+                }
+            }
+
+            // update read lines
+            foreach (var read in readLines)
+            {
+                if (string.IsNullOrEmpty(read.FilePath))
+                    continue;
+
+                if (filePathMap.TryGetValue(read.FilePath, out var newPath))
+                {
+                    read.SetFilePath(newPath.Item1);
+                }
+            }
+
+            var allLines = new List<CpdLine>();
+            allLines.AddRange(imageLines);
+            allLines.AddRange(includeLines);
+            allLines.AddRange(readLines);
+
+            var content = CpdWriter.BuildCpdContent(cpdReader.ReadStringLines(), allLines);
+            var cpdWriter = CpdWriterFactory.CreateCpdWriter();
+            cpdWriter.WriteFile(fileModel.FullName, content);
+
+            return true.ToSuccessResponse();
+        }
+        #endregion
     }
 }

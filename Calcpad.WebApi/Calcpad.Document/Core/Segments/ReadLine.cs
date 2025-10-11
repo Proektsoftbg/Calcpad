@@ -50,7 +50,7 @@
     ///
     /// reference:<see cref="ReadWriteOptions"/>
     /// </summary>
-    public class ReadLine : CpdRow
+    public class ReadLine : CpdLine
     {
         public static readonly string ReadDirective = "#read";
 

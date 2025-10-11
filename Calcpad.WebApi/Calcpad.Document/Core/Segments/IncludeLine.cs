@@ -6,11 +6,11 @@ namespace Calcpad.Document.Core.Segments
     /// Formatted line object that include another file
     /// </summary>
     /// <param name="line"></param>
-    public class IncludeLine : CpdRow
+    public class IncludeLine : CpdLine
     {
         public static readonly string IncludeDirective = "#include";
 
-        public string? FilePath { get; private set; }
+        public string FilePath { get; private set; }=string.Empty;
 
         // query 参数
         public Dictionary<string, string> Queries { get; private set; } = [];

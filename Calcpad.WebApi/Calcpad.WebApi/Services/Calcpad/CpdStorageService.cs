@@ -67,7 +67,7 @@ namespace Calcpad.WebApi.Services.Calcpad
         /// <returns></returns>
         public string GetCpdPublicResourceDir(string cpdPath)
         {
-            var fullPath = Path.GetFullPath(Environment.ExpandEnvironmentVariables(cpdPath));
+            var fullPath = GetFullPath(cpdPath);
             return Path.Combine(storageConfig.Value.Root, "public/cpd-resources", fullPath.ToMD5())
                 .Replace('\\', '/');
         }
@@ -108,6 +108,17 @@ namespace Calcpad.WebApi.Services.Calcpad
         }
 
         /// <summary>
+        /// get full path by file path, expand environment variables
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public string GetFullPath(string filePath)
+        {
+            var path = Path.GetFullPath(Environment.ExpandEnvironmentVariables(filePath));
+            return path;
+        }
+
+        /// <summary>
         /// get a path relative to storage root
         /// </summary>
         /// <param name="fullPath"></param>
@@ -119,6 +130,18 @@ namespace Calcpad.WebApi.Services.Calcpad
         }
 
         /// <summary>
+        /// get a path relative to current directory
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public string GetRelativePathToCurrentDir(string filePath)
+        {
+            var relativeTo = Path.GetFullPath(Environment.CurrentDirectory);
+            var fullPath = GetFullPath(filePath);
+            return Path.GetRelativePath(relativeTo, fullPath).Replace('\\', '/');
+        }
+
+        /// <summary>
         /// zip cpd file
         /// </summary>
         /// <param name="uniqueId"></param>
@@ -126,7 +149,7 @@ namespace Calcpad.WebApi.Services.Calcpad
         public async Task<(Stream?, string)> ZipAndDownloadCpdFile(string uniqueId)
         {
             var cpdModel = await db.AsQueryable<CalcpadFileModel>()
-                .Where(x => x.UniqueId == uniqueId && !x.IsPublic)
+                .Where(x => x.UniqueId == uniqueId && !x.IsCpd)
                 .FirstOrDefaultAsync();
             if (cpdModel == null)
                 return (null, string.Empty);
