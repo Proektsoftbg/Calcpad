@@ -35,7 +35,7 @@ namespace Calcpad.WebApi.Models
         /// <summary>
         /// if true, the file can be accessed without authentication
         /// </summary>
-        public bool IsPublic { get; set; }
+        public bool IsCpd { get; set; }
 
         /// <summary>
         /// include file list

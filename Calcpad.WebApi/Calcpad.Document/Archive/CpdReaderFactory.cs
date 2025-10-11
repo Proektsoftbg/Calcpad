@@ -18,14 +18,16 @@ namespace Calcpad.Document.Archive
         /// <returns></returns>
         public static CpdReader CreateCpdReader(string fullPath, CpdReaderSettings? settings = null)
         {
-            return (CpdReader)Activator.CreateInstance(_cpdReaderType, fullPath, settings ?? _cpdReaderSettings)!;
+            return (CpdReader)
+                Activator.CreateInstance(_cpdReaderType, fullPath, settings ?? _cpdReaderSettings)!;
         }
 
         /// <summary>
         /// set cpd reader type
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        public static void SetCpdReader<T>() where T : CpdReader
+        public static void SetCpdReader<T>()
+            where T : CpdReader
         {
             _cpdReaderType = typeof(T);
         }

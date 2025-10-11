@@ -1,6 +1,7 @@
 ﻿using System.IO.Compression;
 using System.Text;
 using Calcpad.Core;
+using Calcpad.Document.Core;
 using Calcpad.Document.Core.Segments;
 
 namespace Calcpad.Document.Archive
@@ -100,7 +101,7 @@ namespace Calcpad.Document.Archive
             }
 
             // replace src in text
-            text = Zip.HtmlImgAnyRegex.Replace(
+            text = RegexFactory.ImgSrcRegex.Replace(
                 text,
                 match =>
                 {
@@ -160,6 +161,10 @@ namespace Calcpad.Document.Archive
             return code.EnumerateLines();
         }
 
+        /// <summary>
+        /// read lines from cpd file as string list
+        /// </summary>
+        /// <returns></returns>
         public List<string> ReadStringLines()
         {
             var lines = new List<string>();
@@ -175,7 +180,7 @@ namespace Calcpad.Document.Archive
         /// read include lines from cpd file
         /// </summary>
         /// <returns></returns>
-        public List<IncludeLine> ReadIncludeLines()
+        public List<IncludeLine> GetIncludeLines()
         {
             var code = ReadAllText();
             if (string.IsNullOrEmpty(code))
@@ -184,17 +189,11 @@ namespace Calcpad.Document.Archive
             var spanLines = ReadLines();
 
             var includes = new List<IncludeLine>();
-            var includeSpan = IncludeLine.IncludeDirective.AsSpan();
-
-            long index = 0;
+            uint index = 0;
             foreach (var line in spanLines)
             {
                 var trimmed = line.TrimStart();
-                if (
-                    !trimmed.IsEmpty
-                    && trimmed.Length >= includeSpan.Length
-                    && trimmed.StartsWith(includeSpan, StringComparison.OrdinalIgnoreCase)
-                )
+                if (IncludeLine.IsIncludeLine(trimmed.ToString(), out _))
                 {
                     includes.Add(new IncludeLine(index, line.ToString()));
                 }
@@ -203,6 +202,64 @@ namespace Calcpad.Document.Archive
             }
 
             return includes;
+        }
+
+        /// <summary>
+        /// get read lines from cpd file
+        /// </summary>
+        /// <returns></returns>
+        public List<ReadLine> GetReadLines()
+        {
+            var code = ReadAllText();
+            if (string.IsNullOrEmpty(code))
+                return [];
+
+            var spanLines = ReadLines();
+
+            var reads = new List<ReadLine>();
+
+            uint index = 0;
+            foreach (var line in spanLines)
+            {
+                var trimmed = line.TrimStart();
+                if (ReadLine.IsReadLine(trimmed.ToString(), out _))
+                {
+                    reads.Add(new ReadLine(index, line.ToString()));
+                }
+
+                index++;
+            }
+
+            return reads;
+        }
+
+        /// <summary>
+        /// get image lines from cpd file
+        /// </summary>
+        /// <returns></returns>
+        public List<ImageLine> GetImageLines()
+        {
+            var code = ReadAllText();
+            if (string.IsNullOrEmpty(code))
+                return [];
+
+            var spanLines = ReadLines();
+
+            var images = new List<ImageLine>();
+
+            uint index = 0;
+            foreach (var line in spanLines)
+            {
+                var trimmed = line.TrimStart();
+                if (ImageLine.IsImageLine(trimmed.ToString(), out _))
+                {
+                    images.Add(new ImageLine(index, line.ToString()));
+                }
+
+                index++;
+            }
+
+            return images;
         }
 
         private string GetResourcesTempDir()

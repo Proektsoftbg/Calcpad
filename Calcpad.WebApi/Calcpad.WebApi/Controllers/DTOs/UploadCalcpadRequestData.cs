@@ -17,9 +17,10 @@
         public IFormFile File { get; set; }
 
         /// <summary>
-        /// true when the file is an image file, false when the file is a calcpad code file
+        /// true when the file is an calcpad file
         /// </summary>
-        public bool IsPublic => _pngExtensions.Contains(Path.GetExtension(File.FileName).ToLower());
+        public bool IsCpdFile =>
+            _cpdExtensions.Contains(Path.GetExtension(File.FileName).ToLower());
 
         /// <summary>
         /// save the file to server and return the file path
@@ -32,7 +33,7 @@
 
         public string GetFileName()
         {
-            if(!string.IsNullOrEmpty(FileName))
+            if (!string.IsNullOrEmpty(FileName))
             {
                 return FileName;
             }
@@ -59,8 +60,21 @@
             return savedPath;
         }
 
-        private static List<string> _cpdExtensions = [".cpd", ".cpdz", ".txt"];
-        private static List<string> _pngExtensions = [".png", ".jpg", ".jpeg", ".webp", "svg"];
+        private static readonly List<string> _cpdExtensions = [".cpd", ".cpdz", ".txt"];
+
+        // images、csv、excel、txt
+        private static readonly List<string> _otherExtensions =
+        [
+            ".png",
+            ".jpg",
+            ".jpeg",
+            ".webp",
+            ".svg",
+            ".gif",
+            ".csv",
+            ".xls",
+            ".xlsx"
+        ];
 
         /// <summary>
         /// check if the file extension is valid
@@ -71,7 +85,7 @@
         public bool IsValidExtensions()
         {
             var extension = Path.GetExtension(File.FileName).ToLower();
-            return _cpdExtensions.Contains(extension) || _pngExtensions.Contains(extension);
+            return _cpdExtensions.Contains(extension) || _otherExtensions.Contains(extension);
         }
     }
 }
