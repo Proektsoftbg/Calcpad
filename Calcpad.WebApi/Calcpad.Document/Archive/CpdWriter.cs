@@ -1,6 +1,9 @@
 ﻿using System.IO.Compression;
+using System.Reflection.PortableExecutable;
+using System.Text;
 using System.Text.RegularExpressions;
 using Calcpad.Document.Archive;
+using Calcpad.Document.Core.Segments;
 
 namespace Calcpad.Document
 {
@@ -106,6 +109,48 @@ namespace Calcpad.Document
             ms.Position = 0;
             using var ds = new DeflateStream(fs, CompressionMode.Compress);
             ms.CopyTo(ds);
+        }
+        #endregion
+
+        #region static helpers
+        /// <summary>
+        /// build cpd content from lines and updating rows
+        /// </summary>
+        /// <param name="lines"></param>
+        /// <param name="updatingRows"></param>
+        /// <returns></returns>
+        public static string BuildCpdContent(
+            IEnumerable<string> lines,
+            IEnumerable<CpdRow>? updatingRows = null
+        )
+        {
+            updatingRows ??= [];
+
+            var totalLength = lines.Sum(x => x.Length) + updatingRows.Count() * 20;
+
+            var sb = new StringBuilder(totalLength);
+
+            var updatingRowsQueue = new Queue<CpdRow>(updatingRows.OrderBy(x => x.RowIndex));
+            var index = -1;
+            CpdRow? currentInclude = null;
+            foreach (var line in lines)
+            {
+                index++;
+                if (updatingRowsQueue.Count > 0 && currentInclude == null)
+                {
+                    currentInclude = updatingRowsQueue.Dequeue();
+                }
+
+                if (currentInclude != null && index == currentInclude.RowIndex)
+                {
+                    sb.AppendLine(currentInclude.ToString());
+                    currentInclude = null;
+                    continue;
+                }
+
+                sb.AppendLine(line);
+            }
+            return sb.ToString();
         }
         #endregion
     }

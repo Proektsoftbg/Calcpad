@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Calcpad.Document.Core.Segments
+﻿namespace Calcpad.Document.Core.Segments
 {
     public enum ReadType
     {
@@ -53,6 +47,8 @@ namespace Calcpad.Document.Core.Segments
     /// #append Name to Path.Ext@Sheet!Start:End Type=T sep=S
     /// #append M to filename.csv@R1C1:R2C2 type=[Y|N] sep=,
     /// #append M to filename.txt@R1C1:R2C2 type=[Y|N] sep=
+    ///
+    /// reference:<see cref="ReadWriteOptions"/>
     /// </summary>
     public class ReadLine : CpdRow
     {
@@ -80,32 +76,37 @@ namespace Calcpad.Document.Core.Segments
             if (!IsReadLine(line, out var trimedLine))
                 return;
 
-            // get parts
-            var parts = trimedLine.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-            if (parts.Length < 4)
-                return;
+            // read variable name
+            var fromIndex = trimedLine.IndexOf("from", StringComparison.OrdinalIgnoreCase);
+            var variableStartIndex = trimedLine.IndexOf(' ');
+            Name = trimedLine[(variableStartIndex + 1)..fromIndex].Trim();
 
-            Name = parts[1];
-            // fileName
-            var atIndex = parts[3].IndexOf('@');
+            // parse options
+            string afterFrom = trimedLine[(fromIndex + 4)..].TrimStart();
+            string[] parts = afterFrom.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            List<string> optionsParts = [.. parts.Where(x => x.Contains('='))];
+            foreach (var opt in optionsParts)
+            {
+                var kv = opt.Split('=', 2);
+                if (kv.Length == 2)
+                {
+                    Options.TryAdd(kv[0].ToLower(), kv[1]);
+                }
+            }
+
+            var filterEndIndex =
+                optionsParts.Count > 0 ? trimedLine.IndexOf(optionsParts[0]) : trimedLine.Length;
+            var filePathAndFilter = trimedLine[(fromIndex + 4)..filterEndIndex].Trim();
+            var atIndex = filePathAndFilter.IndexOf('@');
             if (atIndex > 0)
             {
-                FilePath = parts[3][..atIndex];
-                Filter = parts[3][(atIndex + 1)..];
+                FilePath = filePathAndFilter[..atIndex].Trim();
+                Filter = filePathAndFilter[(atIndex + 1)..].Trim();
             }
             else
-                FilePath = parts[3];
-
-            // options
-            for (int i = 4; i < parts.Length; i++)
             {
-                var optionParts = parts[i].Split('=', 2);
-                if (optionParts.Length == 2)
-                {
-                    var key = optionParts[0].ToLower();
-                    var value = optionParts[1];
-                    Options.TryAdd(key, value);
-                }
+                FilePath = filePathAndFilter;
+                Filter = string.Empty;
             }
         }
 

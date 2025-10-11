@@ -1,9 +1,11 @@
 ﻿using System.Text;
+using Calcpad.Document;
 using Calcpad.Document.Archive;
 using Calcpad.Document.Core.Segments;
 using Calcpad.WebApi.Configs;
 using Calcpad.WebApi.Models;
 using Calcpad.WebApi.Models.Base;
+using Calcpad.WebApi.Utils.Encrypt;
 using Calcpad.WebApi.Utils.Web.Exceptions;
 using Calcpad.WebApi.Utils.Web.Service;
 using HtmlAgilityPack;
@@ -16,8 +18,12 @@ namespace Calcpad.WebApi.Services.Calcpad
     /// </summary>
     /// <param name="db"></param>
     /// <param name="cycleDetector"></param>
-    public class CpdContentService(MongoDBContext db, CycleDetectorService cycleDetector)
-        : IScopedService
+    /// <param name="storageService"></param>
+    public class CpdContentService(
+        MongoDBContext db,
+        CycleDetectorService cycleDetector,
+        CpdStorageService storageService
+    ) : IScopedService
     {
         /// <summary>
         /// operations:
@@ -68,12 +74,22 @@ namespace Calcpad.WebApi.Services.Calcpad
                     .ToListAsync();
                 foreach (var readLine in readLines)
                 {
+                    // add data source from uid
                     var readFile = cpdObjects.FirstOrDefault(x => x.UniqueId == readLine.Uid);
                     if (readFile != null)
                     {
                         readLine.SetFilePath(readFile.FullName);
-                        replacingRows.Add(readLine);
                     }
+                    else
+                    {
+                        // add default data source
+                        var defaultDataPath = storageService.GetReadFromPath(
+                            fullPath,
+                            readLine.FilePath
+                        );
+                        readLine.SetFilePath(defaultDataPath);
+                    }
+                    replacingRows.Add(readLine);
                 }
             }
 
@@ -94,37 +110,8 @@ namespace Calcpad.WebApi.Services.Calcpad
                 "#global '</meta>",
             };
             var headerInfo = string.Join(Environment.NewLine, header) + Environment.NewLine;
-            var content = cpdReader.ReadAllText();
-            if (replacingRows.Count > 0)
-            {
-                var sb = new StringBuilder(
-                    content.Length + headerInfo.Length + replacingRows.Count * 20
-                );
 
-                var replacingRowsQueue = new Queue<CpdRow>(replacingRows.OrderBy(x => x.RowIndex));
-                var index = -1;
-                var currentInclude = replacingRowsQueue.Dequeue();
-                foreach (var line in cpdReader.ReadStringLines())
-                {
-                    index++;
-                    if (currentInclude != null && index == currentInclude.RowIndex)
-                    {
-                        sb.AppendLine(currentInclude.ToString());
-                        if (replacingRows.Count > 0)
-                        {
-                            currentInclude = replacingRowsQueue.Dequeue();
-                        }
-                        else
-                        {
-                            currentInclude = null;
-                        }
-                        continue;
-                    }
-
-                    sb.AppendLine(line);
-                }
-                content = sb.ToString();
-            }
+            var content = CpdWriter.BuildCpdContent(cpdReader.ReadStringLines(), replacingRows);
 
             // upsert meta info at head
             const string startMarker = "#local '<meta>";
@@ -265,6 +252,72 @@ namespace Calcpad.WebApi.Services.Calcpad
                 }
             }
             return false;
+        }
+
+        /// <summary>
+        /// format read macro result:
+        /// 1. replace StorageRoot in a tag content to empty
+        /// 2. replace a tag href to web url
+        /// </summary>
+        /// <param name="originHtml"></param>
+        /// <param name="tagAToButton"></param>
+        /// <returns></returns>
+        public string FormatReadMacroResult(string originHtml, bool tagAToButton = true)
+        {
+            var doc = new HtmlDocument();
+            doc.LoadHtml(originHtml);
+
+            // get all a tags
+            var aTags = doc.DocumentNode.SelectNodes("//a[@href]");
+            if (aTags != null)
+            {
+                foreach (var aTag in aTags)
+                {
+                    // only file url
+                    if (!File.Exists(aTag.InnerText))
+                        continue;
+
+                    if (tagAToButton)
+                    {
+                        // create a new button element
+                        var button = doc.CreateElement("button");
+                        // copy inner HTML
+                        button.InnerHtml = Path.GetFileName(aTag.InnerText);
+                        button.SetAttributeValue("data-from", aTag.InnerText);
+                        button.SetAttributeValue("btn-type", "macroReadUpload");
+                        button.SetAttributeValue("title", "click to upload new data");
+                        // replace a tag with button
+                        aTag.ParentNode.ReplaceChild(button, aTag);
+                    }
+                    else
+                    {
+                        aTag.InnerHtml = Path.GetFileName(aTag.InnerText);
+                        var href = aTag.GetAttributeValue("href", string.Empty);
+                        if (!string.IsNullOrEmpty(href))
+                        {
+                            var publicPath = storageService.GetRelativePathToStorageRoot(
+                                href.Replace("file:///", string.Empty)
+                            );
+                            aTag.SetAttributeValue("href", storageService.GetWebUrl(publicPath));
+                        }
+                    }
+                }
+            }
+
+            return doc.DocumentNode.OuterHtml;
+        }
+
+        /// <summary>
+        /// update all read from path in cpd file
+        /// </summary>
+        /// <param name="readFromPath"></param>
+        /// <param name="newReadFromPath"></param>
+        public async void UpdateCpdReadFrom(string readFromPath, string newReadFromPath)
+        {
+            if (readFromPath == newReadFromPath)
+                return;
+
+            // read files
         }
     }
 }

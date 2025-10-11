@@ -2,6 +2,7 @@
 using Calcpad.WebApi.Configs;
 using Calcpad.WebApi.Models;
 using Calcpad.WebApi.Models.Base;
+using Calcpad.WebApi.Utils.Encrypt;
 using Calcpad.WebApi.Utils.Files;
 using Calcpad.WebApi.Utils.Web.Service;
 using MongoDB.Driver.Linq;
@@ -12,7 +13,12 @@ namespace Calcpad.WebApi.Services.Calcpad
     /// calcpad file helper service
     /// </summary>
     /// <param name="db"></param>
-    public class CpdStorageService(MongoDBContext db, AppSettings<StorageConfig> storageConfig) : IScopedService
+    /// <param name="storageConfig"></param>
+    public class CpdStorageService(
+        MongoDBContext db,
+        AppSettings<StorageConfig> storageConfig,
+        AppSettings<AppConfig> appConfig
+    ) : ISingletonService
     {
         /// <summary>
         /// get a saved path relative to storage root
@@ -55,6 +61,64 @@ namespace Calcpad.WebApi.Services.Calcpad
         }
 
         /// <summary>
+        /// get a public resource dir for calcpad
+        /// </summary>
+        /// <param name="cpdPath"></param>
+        /// <returns></returns>
+        public string GetCpdPublicResourceDir(string cpdPath)
+        {
+            var fullPath = Path.GetFullPath(Environment.ExpandEnvironmentVariables(cpdPath));
+            return Path.Combine(storageConfig.Value.Root, "public/cpd-resources", fullPath.ToMD5())
+                .Replace('\\', '/');
+        }
+
+        /// <summary>
+        /// generate a read path for calcpad #read
+        /// relative to Environment.CurrentDirectory
+        /// 1. if the file under cpdFileFullPath dir, return the readFromPath
+        /// 2. else generate a public path under public/cpd-resources/md5(cpdFileFullPath)/filename
+        /// </summary>
+        /// <param name="cpdFullPath">for generate container dir by md5 value</param>
+        /// <param name="readFromPath"></param>
+        /// <returns>read path, always exists</returns>
+        public string GetReadFromPath(string cpdFullPath, string readFromPath)
+        {
+            var resourceDir = GetCpdPublicResourceDir(cpdFullPath);
+
+            var publicPath = readFromPath;
+            if (!readFromPath.Contains(resourceDir))
+            {
+                var readFullPath = Path.GetFullPath(readFromPath);
+                publicPath = Path.Combine(
+                    resourceDir,
+                    Path.GetDirectoryName(readFullPath)!.ToMD5(),
+                    Path.GetFileName(readFromPath)
+                );
+            }
+
+            if (!File.Exists(publicPath))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(publicPath)!);
+                using var writer = new StreamWriter(publicPath, false);
+                writer.WriteLine("1,2,3,4,5,6,7,8,9");
+                writer.Close();
+            }
+
+            return publicPath.Replace('\\', '/');
+        }
+
+        /// <summary>
+        /// get a path relative to storage root
+        /// </summary>
+        /// <param name="fullPath"></param>
+        /// <returns></returns>
+        public string GetRelativePathToStorageRoot(string fullPath)
+        {
+            var relativeTo = Path.GetFullPath(storageConfig.Value.Root);
+            return Path.GetRelativePath(relativeTo, fullPath).Replace('\\', '/');
+        }
+
+        /// <summary>
         /// zip cpd file
         /// </summary>
         /// <param name="uniqueId"></param>
@@ -87,7 +151,10 @@ namespace Calcpad.WebApi.Services.Calcpad
             );
             await ZipDirectory(rootDir, zipFilePath);
 
-            return (new ReadAndDeleteStream(zipFilePath), Path.GetFileName(zipFilePath).Split("_").Last());
+            return (
+                new ReadAndDeleteStream(zipFilePath),
+                Path.GetFileName(zipFilePath).Split("_").Last()
+            );
         }
 
         private async Task CopyCpdFileToTemp(string rootDir, CalcpadFileModel cpdModel, bool isMain)
@@ -96,7 +163,11 @@ namespace Calcpad.WebApi.Services.Calcpad
 
             // copy main file to rootDir
             var fullPath = GetCpdAbsoluteFullName(cpdModel.ObjectName);
-            var targetPath = Path.Combine(rootDir, isMain ? "./" : $"./{subDir}", isMain ? cpdModel.FileName : $"{cpdModel.UniqueId}_{cpdModel.FileName}");
+            var targetPath = Path.Combine(
+                rootDir,
+                isMain ? "./" : $"./{subDir}",
+                isMain ? cpdModel.FileName : $"{cpdModel.UniqueId}_{cpdModel.FileName}"
+            );
 
             // modify include paths to includes folder
             var includeModels = await db.AsQueryable<CalcpadFileModel>()
@@ -146,6 +217,16 @@ namespace Calcpad.WebApi.Services.Calcpad
             );
             // remove temp dir
             Directory.Delete(sourceDir, true);
+        }
+
+        /// <summary>
+        /// get a web url by sub path
+        /// </summary>
+        /// <param name="subPath"></param>
+        /// <returns></returns>
+        public string GetWebUrl(string subPath)
+        {
+            return $"{appConfig.Value.BaseUrl}/{subPath.TrimStart('/')}";
         }
     }
 }

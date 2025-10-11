@@ -1,4 +1,6 @@
 ﻿using Calcpad.Document;
+using Calcpad.Document.Archive;
+using Calcpad.Document.Core.Segments;
 using Calcpad.WebApi.Configs;
 using Calcpad.WebApi.Controllers.Base;
 using Calcpad.WebApi.Controllers.DTOs;
@@ -23,6 +25,7 @@ namespace Calcpad.WebApi.Controllers
     /// <param name="tokenService"></param>
     /// <param name="storageConfig"></param>
     /// <param name="storagetService"></param>
+    /// <param name="contentService"></param>
     public class CalcpadFileController(
         MongoDBContext db,
         TokenService tokenService,
@@ -167,12 +170,66 @@ namespace Calcpad.WebApi.Controllers
         }
 
         /// <summary>
+        /// update calcpad file macro read from
+        /// user can update the read from macro to change the data source
+        /// </summary>
+        /// <param name="uniqueId"></param>
+        /// <param name="formData"></param>
+        /// <returns>new read from path</returns>
+        [HttpPut("{uniqueId}/macros/read/from")]
+        public async Task<ResponseResult<string>> UpdateCalcpadFileMacroRead(
+            [FromRoute] string uniqueId,
+            [FromForm] UpdateCpdReadFromData formData
+        )
+        {
+            var existModel = await db.AsQueryable<CalcpadFileModel>()
+                .Where(x => x.UniqueId == uniqueId)
+                .FirstOrDefaultAsync();
+            if (existModel == null)
+                return string.Empty.ToFailResponse("calcpad file not found");
+
+            // save file
+            var newFromPath = storagetService.GetReadFromPath(
+                existModel.FullName,
+                formData.File.FileName
+            );
+            using (var stream = new FileStream(newFromPath, FileMode.Create))
+            {
+                formData.File.CopyTo(stream);
+            }
+
+            if (newFromPath == formData.OldFromPath)
+            {
+                return newFromPath.ToSuccessResponse();
+            }
+
+            // update read from path
+            var cpdReader = CpdReaderFactory.CreateCpdReader(existModel.FullName);
+            var readLines = cpdReader.GetReadLines()
+                .Where(x => x.FilePath == formData.OldFromPath)
+                .ToList();
+
+            if (readLines.Count > 0)
+            {
+                readLines.ForEach(x => x.SetFilePath(newFromPath));
+                var content = CpdWriter.BuildCpdContent(cpdReader.ReadStringLines(), readLines.Cast<CpdRow>());
+                var cpdWriter = CpdWriterFactory.CreateCpdWriter();
+                cpdWriter.WriteFile(existModel.FullName, content);
+            }
+
+            // remove old from file
+            System.IO.File.Delete(formData.OldFromPath);
+
+            return newFromPath.ToSuccessResponse();
+        }
+
+        /// <summary>
         /// Delete calcpad file
         /// </summary>
         /// <param name="uniqueId"></param>
         /// <returns></returns>
         [HttpDelete("{uniqueId}")]
-        public async Task<bool> DeleteCalcpadFile(string uniqueId)
+        public async Task<ResponseResult<bool>> DeleteCalcpadFile(string uniqueId)
         {
             var existModel = await db.AsQueryable<CalcpadFileModel>()
                 .Where(x => x.UniqueId == uniqueId)
@@ -200,7 +257,7 @@ namespace Calcpad.WebApi.Controllers
         public async Task<IActionResult> GetFileStream(string fileId)
         {
             // validate objectId
-            if(!ObjectId.TryParse(fileId,out var fileObjectId))
+            if (!ObjectId.TryParse(fileId, out var fileObjectId))
             {
                 return NotFound();
             }
@@ -234,9 +291,13 @@ namespace Calcpad.WebApi.Controllers
         /// compile to input form
         /// </summary>
         /// <param name="uniqueId"></param>
+        /// <param name="simplify">simplify output html, default true</param>
         /// <returns></returns>
         [HttpGet("input-form")]
-        public async Task<ResponseResult<string>> CompileToInputForm(string uniqueId, bool simplify = true)
+        public async Task<ResponseResult<string>> CompileToInputForm(
+            string uniqueId,
+            bool simplify = true
+        )
         {
             var fileModel = await db.AsQueryable<CalcpadFileModel>()
                 .Where(x => x.UniqueId == uniqueId && x.IsPublic == false)
@@ -258,6 +319,9 @@ namespace Calcpad.WebApi.Controllers
                 outputText = contentService.SimplifyHtml(outputText);
             }
 
+            // replace local link to public path
+            outputText = contentService.FormatReadMacroResult(outputText);
+
             // compile
             return outputText.ToSuccessResponse();
         }
@@ -266,6 +330,7 @@ namespace Calcpad.WebApi.Controllers
         /// run calculations and return the result as html
         /// </summary>
         /// <param name="uniqueId"></param>
+        /// <param name="data"></param>
         /// <returns></returns>
         [HttpPost("{uniqueId}/calculate-html")]
         public async Task<ResponseResult<string>> RunCalculations(
@@ -285,6 +350,8 @@ namespace Calcpad.WebApi.Controllers
 
             var cpdExecutor = new CpdExecutor(fullPath);
             var outputText = await cpdExecutor.RunCalculation(data.InputFields);
+            // replace local link to public path
+            outputText = contentService.FormatReadMacroResult(outputText, false);
 
             // compile
             return outputText.ToSuccessResponse();
