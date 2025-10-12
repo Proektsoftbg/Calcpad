@@ -1,6 +1,7 @@
 ﻿using System.IO.Compression;
 using System.Text;
 using System.Text.RegularExpressions;
+using Calcpad.Document.Core;
 
 namespace Calcpad.Document.Archive
 {
@@ -11,15 +12,6 @@ namespace Calcpad.Document.Archive
     {
         public static readonly string ZipCodeFileName = "code.cpd";
 
-        [GeneratedRegex(
-            @"src\s*=\s*[""']([^""']*)[""']",
-            RegexOptions.IgnoreCase | RegexOptions.Compiled,
-            "zh-CN"
-        )]
-        private static partial Regex MyImageRegex();
-
-        public static readonly Regex HtmlImgAnyRegex = MyImageRegex();
-
         /// <summary>
         /// get images from src
         /// </summary>
@@ -27,7 +19,7 @@ namespace Calcpad.Document.Archive
         /// <returns></returns>
         public static string[] GetLocalUniqueSrcs(string contet)
         {
-            MatchCollection matches = HtmlImgAnyRegex.Matches(contet);
+            MatchCollection matches = RegexFactory.ImgSrcRegex.Matches(contet);
             return
             [
                 .. matches

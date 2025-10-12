@@ -1,13 +1,15 @@
-﻿using Calcpad.Document.Archive;
+﻿using System.Text;
+using Calcpad.Document;
+using Calcpad.Document.Archive;
 using Calcpad.Document.Core.Segments;
 using Calcpad.WebApi.Configs;
 using Calcpad.WebApi.Models;
 using Calcpad.WebApi.Models.Base;
+using Calcpad.WebApi.Utils.Encrypt;
 using Calcpad.WebApi.Utils.Web.Exceptions;
 using Calcpad.WebApi.Utils.Web.Service;
 using HtmlAgilityPack;
 using MongoDB.Driver.Linq;
-using System.Text;
 
 namespace Calcpad.WebApi.Services.Calcpad
 {
@@ -15,28 +17,31 @@ namespace Calcpad.WebApi.Services.Calcpad
     /// calcpad file content service
     /// </summary>
     /// <param name="db"></param>
-    /// <param name="storageConfig"></param>
+    /// <param name="cycleDetector"></param>
+    /// <param name="storageService"></param>
     public class CpdContentService(
         MongoDBContext db,
-        AppSettings<StorageConfig> storageConfig,
-        CycleDetectorService cycleDetector
+        CycleDetectorService cycleDetector,
+        CpdStorageService storageService
     ) : IScopedService
     {
         /// <summary>
+        /// operations:
+        /// 1. set meta info to file head
+        /// 2. resolve include path to server path
+        /// 3. resolve read from path to server path
         /// resolve include path to server path
         /// </summary>
         /// <param name="fullPath"></param>
         /// <param name="cpdUid"></param>
         /// <returns></returns>
-        public async Task<List<string>> SetMeataInfoAndResolveIncludePath(
-            string fullPath,
-            string cpdUid
-        )
+        public async Task<List<string>> SetMeataInfoAndResolvePath(string fullPath, string cpdUid)
         {
             var cpdReader = CpdReaderFactory.CreateCpdReader(fullPath);
-            var includes = cpdReader.ReadIncludeLines();
 
-            var includesQueue = new Queue<IncludeLine>();
+            var replacingRows = new List<CpdLine>();
+            // include lines
+            var includes = cpdReader.GetIncludeLines();
             if (includes.Count > 0)
             {
                 // replace include path to server path
@@ -53,10 +58,38 @@ namespace Calcpad.WebApi.Services.Calcpad
                     var includeFile = cpdObjects.FirstOrDefault(x => x.UniqueId == include.Uid);
                     if (includeFile != null)
                     {
-                        include.AddUid(includeFile.UniqueId);
                         include.SetFilePath(includeFile.FullName);
-                        includesQueue.Enqueue(include);
+                        replacingRows.Add(include);
                     }
+                }
+            }
+
+            // read lines
+            var readLines = cpdReader.GetReadLines();
+            if (readLines.Count > 0)
+            {
+                var uIds = readLines.Select(x => x.Uid).ToList();
+                var cpdObjects = await db.AsQueryable<CalcpadFileModel>()
+                    .Where(x => uIds.Contains(x.UniqueId))
+                    .ToListAsync();
+                foreach (var readLine in readLines)
+                {
+                    // add data source from uid
+                    var readFile = cpdObjects.FirstOrDefault(x => x.UniqueId == readLine.Uid);
+                    if (readFile != null)
+                    {
+                        readLine.SetFilePath(readFile.FullName);
+                    }
+                    else
+                    {
+                        // add default data source
+                        var defaultDataPath = storageService.GetReadFromPath(
+                            fullPath,
+                            readLine.FilePath
+                        );
+                        readLine.SetFilePath(defaultDataPath);
+                    }
+                    replacingRows.Add(readLine);
                 }
             }
 
@@ -77,37 +110,10 @@ namespace Calcpad.WebApi.Services.Calcpad
                 "#global '</meta>",
             };
             var headerInfo = string.Join(Environment.NewLine, header) + Environment.NewLine;
-            var content = cpdReader.ReadAllText();
-            if (includesQueue.Count > 0)
-            {
-                var sb = new StringBuilder(
-                    cpdReader.ReadAllText().Length + headerInfo.Length + includes.Count * 40
-                );
 
-                var index = -1;
-                var currentInclude = includesQueue.Dequeue();
-                foreach (var line in cpdReader.ReadStringLines())
-                {
-                    index++;
-                    if (currentInclude != null && index == currentInclude.RowIndex)
-                    {
-                        sb.AppendLine(currentInclude.ToString());
-                        if (includesQueue.Count > 0)
-                        {
-                            currentInclude = includesQueue.Dequeue();
-                        }
-                        else
-                        {
-                            currentInclude = null;
-                        }
-                        continue;
-                    }
+            var content = CpdWriter.BuildCpdContent(cpdReader.ReadStringLines(), replacingRows);
 
-                    sb.AppendLine(line);
-                }
-                content = sb.ToString();
-            }
-
+            // upsert meta info at head
             const string startMarker = "#local '<meta>";
             const string endMarker = "#global '</meta>";
             var startIndex = content.IndexOf(startMarker, StringComparison.OrdinalIgnoreCase);
@@ -120,7 +126,7 @@ namespace Calcpad.WebApi.Services.Calcpad
                 );
                 if (endIndex >= 0)
                 {
-                    // 删除包含 endMarker 的整段
+                    // remove old meta info
                     content = content.Remove(startIndex, endIndex + endMarker.Length - startIndex);
                 }
                 else
@@ -155,7 +161,7 @@ namespace Calcpad.WebApi.Services.Calcpad
         /// <returns></returns>
         public string GetFileAccessUri(CalcpadFileModel fileObject)
         {
-            if (fileObject.IsPublic)
+            if (!fileObject.IsCpd)
             {
                 return $"api/v1/calcpad-file/stream/public/{fileObject.Id}?uid={fileObject.UniqueId}";
             }
@@ -218,20 +224,20 @@ namespace Calcpad.WebApi.Services.Calcpad
                 return true;
 
             // retain p element which contains input or select
-            if (tag == "p" && ContainsInputOrSelect(node))
+            if (tag == "p" && IsContainsInputTag(node))
                 return true;
 
             return false;
         }
 
-        private static HashSet<string> _supportTags = ["input", "select"];
+        private static HashSet<string> _supportTags = ["input", "select", "button"];
 
         /// <summary>
-        /// check if node or its children contains input or select element
+        /// check if node or its children contains input 、slect、button element
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
-        private static bool ContainsInputOrSelect(HtmlNode node)
+        private static bool IsContainsInputTag(HtmlNode node)
         {
             if (_supportTags.Contains(node.Name.ToLower()))
             {
@@ -240,12 +246,78 @@ namespace Calcpad.WebApi.Services.Calcpad
 
             foreach (var child in node.ChildNodes)
             {
-                if (ContainsInputOrSelect(child))
+                if (IsContainsInputTag(child))
                 {
                     return true;
                 }
             }
             return false;
+        }
+
+        /// <summary>
+        /// format read macro result:
+        /// 1. replace StorageRoot in a tag content to empty
+        /// 2. replace a tag href to web url
+        /// </summary>
+        /// <param name="originHtml"></param>
+        /// <param name="tagAToButton"></param>
+        /// <returns></returns>
+        public string FormatReadMacroResult(string originHtml, bool tagAToButton = true)
+        {
+            var doc = new HtmlDocument();
+            doc.LoadHtml(originHtml);
+
+            // get all a tags
+            var aTags = doc.DocumentNode.SelectNodes("//a[@href]");
+            if (aTags != null)
+            {
+                foreach (var aTag in aTags)
+                {
+                    // only file url
+                    if (!File.Exists(aTag.InnerText))
+                        continue;
+
+                    if (tagAToButton)
+                    {
+                        // create a new button element
+                        var button = doc.CreateElement("button");
+                        // copy inner HTML
+                        button.InnerHtml = Path.GetFileName(aTag.InnerText);
+                        button.SetAttributeValue("data-from", aTag.InnerText);
+                        button.SetAttributeValue("btn-type", "macroReadUpload");
+                        button.SetAttributeValue("title", "click to upload new data");
+                        // replace a tag with button
+                        aTag.ParentNode.ReplaceChild(button, aTag);
+                    }
+                    else
+                    {
+                        aTag.InnerHtml = Path.GetFileName(aTag.InnerText);
+                        var href = aTag.GetAttributeValue("href", string.Empty);
+                        if (!string.IsNullOrEmpty(href))
+                        {
+                            var publicPath = storageService.GetRelativePathToStorageRoot(
+                                href.Replace("file:///", string.Empty)
+                            );
+                            aTag.SetAttributeValue("href", storageService.GetWebUrl(publicPath));
+                        }
+                    }
+                }
+            }
+
+            return doc.DocumentNode.OuterHtml;
+        }
+
+        /// <summary>
+        /// update all read from path in cpd file
+        /// </summary>
+        /// <param name="readFromPath"></param>
+        /// <param name="newReadFromPath"></param>
+        public async void UpdateCpdReadFrom(string readFromPath, string newReadFromPath)
+        {
+            if (readFromPath == newReadFromPath)
+                return;
+
+            // read files
         }
     }
 }

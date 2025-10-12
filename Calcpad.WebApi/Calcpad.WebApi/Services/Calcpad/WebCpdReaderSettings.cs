@@ -10,30 +10,32 @@ namespace Calcpad.WebApi.Services.Calcpad
     /// </summary>
     /// <param name="appConfig"></param>
     /// <param name="storageConfig"></param>
-    public class WebCpdReaderSettings(AppSettings<AppConfig> appConfig, AppSettings<StorageConfig> storageConfig)
-        : CpdReaderSettings,
-            ISingletonService
+    public class WebCpdReaderSettings(
+        AppSettings<AppConfig> appConfig,
+        AppSettings<StorageConfig> storageConfig
+    ) : CpdReaderSettings, ISingletonService
     {
         private readonly string _baseUrl = appConfig.Value.BaseUrl;
 
         /// <summary>
         /// override to save src as static file
         /// </summary>
-        /// <param name="zipFilePath"></param>
+        /// <param name="cpdFilePath"></param>
         /// <param name="zipSrcEntryPath"></param>
         /// <param name="zipSrcLocalPath"></param>
         /// <returns></returns>
         public override string CreateSrcPath(
-            string zipFilePath,
+            string cpdFilePath,
             string zipSrcEntryPath,
             string zipSrcLocalPath
         )
         {
             var publicPath = Path.Combine(
                 "public/cpd-resources",
-                zipFilePath.ToMD5(),
+                cpdFilePath.ToMD5(),
                 Path.GetFileName(zipSrcEntryPath)
             );
+
             // save src file to public
             var localPublicPath = Path.Combine(storageConfig.Value.Root, publicPath);
             Directory.CreateDirectory(Path.GetDirectoryName(localPublicPath)!);
