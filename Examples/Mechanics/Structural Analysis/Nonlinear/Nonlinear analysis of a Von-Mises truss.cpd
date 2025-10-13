@@ -169,7 +169,7 @@ v = $Root{2*F_y(v) = F_y @ v = 0mm : 200m}
 plot$
 '<h4>Results</h4>
 'Axial forces in bars -'N = Δl(v)/l*EA
-'Rotation angle -'α = atan2(l; v)'°
+'Rotation angle -'α = atan2(l; v)
 'Reactions in supports
 'Horizontal -'R_x = F_x(v)'='N*cos(α)
 'Vertical -'R_y = F_y(v)'='N*sin(α)
