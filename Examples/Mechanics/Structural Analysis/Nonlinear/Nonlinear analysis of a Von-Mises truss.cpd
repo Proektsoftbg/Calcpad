@@ -1,10 +1,9 @@
 "Nonlinear analysis of a Von-Mises truss
 '(solved by four different numerical methods)
 '<h4>Input data</h4>
-'Half span -'a = 2m
-'Height at middle -'h = -0.5m
-'Material - steel. Modulus of elasticity -'E = 210GPa
+'Half span -'a = 2m', ''Height -'h = -0.5m
 'Cross section - circular pipe with diameter'Φ = 100mm'and thickness't = 4mm
+'Material - steel. Modulus of elasticity -'E = 210GPa
 'Vertical force -'F_y = 2000kN
 #include svg_drawing.cpd
 #hide
