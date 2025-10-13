@@ -13,7 +13,7 @@ namespace Calcpad.Document.Include
         /// features:
         /// 1. support query, e.g. path/test.cpd?id=1
         /// 2. support web cpd
-        /// 3. support relative path
+        /// 3. support relative path relative to Environment.CurrentDirectory
         /// </summary>
         /// <param name="fileName"></param>
         /// <param name="fields"></param>
