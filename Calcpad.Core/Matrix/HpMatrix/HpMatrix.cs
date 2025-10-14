@@ -524,17 +524,14 @@ namespace Calcpad.Core
             {
                 var nb1 = nb + 1;
                 var a_rows = a._hpRows;
-                var b_rows = new Memory<double>[b.RowCount];
-                for (int i = 0; i <= na; ++i)
-                    b_rows[i] = b._hpRows[i].Raw;
-
+                var b_rows = b._hpRows;
                 for (int i = 0; i < m; ++i)
                     c_rows[i] = new HpVector(nb1, nb1, unit);
 
                 if (m > ParallelThreshold)
                 {
-                    var paralelOptions = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
-                    Parallel.For(0, m, paralelOptions, MultiplyRow);
+                    var parallelOptions = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
+                    Parallel.For(0, m, parallelOptions, MultiplyRow);
                 }
                 else
                     for (int i = 0; i < m; ++i)
@@ -543,6 +540,7 @@ namespace Calcpad.Core
                 if (d != 1d)
                     c.Scale(d);
 
+                [MethodImpl(MethodImplOptions.AggressiveInlining)]
                 void MultiplyRow(int i)
                 {
                     var a_i = a_rows[i];
@@ -551,7 +549,7 @@ namespace Calcpad.Core
                     var sc = c_rows[i].Raw.AsSpan();
                     var vr = Vectorized.AsVector(sc);
                     for (int k = 0; k < size; ++k)
-                        Vectorized.MultiplyAdd(b_rows[k].Span, ar[k], sc, vr);
+                        Vectorized.MultiplyAdd(b_rows[k].Raw, ar[k], sc, vr);
                 }
             }
             else
