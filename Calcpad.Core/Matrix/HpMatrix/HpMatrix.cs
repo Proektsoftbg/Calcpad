@@ -544,12 +544,12 @@ namespace Calcpad.Core
                 void MultiplyRow(int i)
                 {
                     var a_i = a_rows[i];
-                    var ar = a_i.Raw;
                     var size = a_i.Size;
+                    var ar = a_i.Raw;
                     var sc = c_rows[i].Raw.AsSpan();
-                    var vr = Vectorized.AsVector(sc);
+                    var vc = Vectorized.AsVector(sc);
                     for (int k = 0; k < size; ++k)
-                        Vectorized.MultiplyAdd(b_rows[k].Raw, ar[k], sc, vr);
+                        Vectorized.MultiplyAdd(b_rows[k].Raw, ar[k], sc, vc);
                 }
             }
             else
