@@ -236,8 +236,6 @@ namespace Calcpad.Wpf
             _cfn = string.Empty;
             _isTextChangedEnabled = false;
             IsSaved = true;
-            RichTextBox.Focus();
-            Keyboard.Focus(RichTextBox);
             _findReplace.RichTextBox = RichTextBox;
             _findReplace.WebViewer = WebViewer;
             _findReplace.BeginSearch += FindReplace_BeginSearch;
@@ -3719,6 +3717,8 @@ namespace Calcpad.Wpf
             await InitializeWebViewer();
             TryOpenOnStartup();
             TryRestoreState();
+            RichTextBox.Focus();
+            Keyboard.Focus(RichTextBox);
         }
 
         private async Task InitializeWebViewer()
