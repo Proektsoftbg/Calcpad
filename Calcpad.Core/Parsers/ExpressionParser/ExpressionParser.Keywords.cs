@@ -190,7 +190,7 @@ namespace Calcpad.Core
                         return KeywordResult.Break;
                     break;
                 case Keyword.Continue:
-                    ParseKeywordContinue(s);
+                    ParseKeywordContinue();
                     break;
                 case Keyword.Md:
                     ParseKeywordMd(s);
@@ -544,14 +544,14 @@ namespace Calcpad.Core
             return false;
         }
 
-        private void ParseKeywordContinue(ReadOnlySpan<char> s)
+        internal void ParseKeywordContinue()
         {
             if (_calculate)
             {
                 if (_condition.IsSatisfied)
                 {
                     if (_loops.Count == 0)
-                        AppendError(s.ToString(), Messages.continue_without_a_corresponding_repeat, _currentLine);
+                        AppendError("#continue", Messages.continue_without_a_corresponding_repeat, _currentLine);
                     else
                     {
                         var loop = _loops.Peek();

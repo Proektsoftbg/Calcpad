@@ -73,8 +73,10 @@ namespace Calcpad.Core
                 {
                     ref var currentLineCache = ref _lineCache[_currentLine];
                     if (currentLineCache.Keyword == Keyword.Continue)
+                    {
+                        ParseKeywordContinue();
                         continue;
-
+                    }
                     if (currentLineCache.IsCached && currentLineCache.Keyword == Keyword.None)
                     {
                         if (IsEnabled())
