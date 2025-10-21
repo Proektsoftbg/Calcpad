@@ -58,6 +58,7 @@ namespace Calcpad.WebApi.Controllers
         /// <summary>
         /// upload a calcpad file and return the file id
         /// if the file content is changed, you must upload it again with same fileName
+        /// if the file contains read or include from relative path, you must invoke <seealso cref="UpdateFilePathsToServicePath"/> to update paths
         /// </summary>
         /// <returns></returns>
         [HttpPost()]
@@ -78,8 +79,8 @@ namespace Calcpad.WebApi.Controllers
             {
                 var fileName = formData.GetUniqueFileName();
                 // example: calcpad-files/2024/06/27/xxxxxx.calcpad
+                // or: public//2024/06/27/xxxxxx.excel
                 var relativePath = storageService.GetCpdObjectName(fileName);
-
                 existObject = new CalcpadFileModel
                 {
                     ObjectName = relativePath,
@@ -105,7 +106,6 @@ namespace Calcpad.WebApi.Controllers
 
             // save to template path
             var fullPath = Environment.ExpandEnvironmentVariables(existObject.FullName);
-
             if (formData.IsCpdFile)
             {
                 var tempPath = Path.Combine(
@@ -153,7 +153,7 @@ namespace Calcpad.WebApi.Controllers
             }
 
             // copy file
-            var newFileName = $"{toId}{Path.GetExtension(existModel.ObjectName)}";
+            var newFileName = $"{toId}/{Path.GetFileName(existModel.ObjectName)}";
             var toObjectName = storageService.GetCpdObjectName(newFileName);
             var toFullPath = storageService.GetCpdAbsoluteFullName(toObjectName);
             var fromFullPath = storageService.GetCpdAbsoluteFullName(existModel.ObjectName);
@@ -178,7 +178,7 @@ namespace Calcpad.WebApi.Controllers
         }
 
         /// <summary>
-        /// update calcpad file macro read from
+        /// update calcpad file macro read from path
         /// user can update the read from macro to change the data source
         /// </summary>
         /// <param name="uniqueId"></param>
@@ -453,8 +453,15 @@ namespace Calcpad.WebApi.Controllers
                 var model = pathFileModels.FirstOrDefault(x => x.UniqueId == path.UniqueId);
                 if (model == null)
                 {
-                    continue;
+                    // copy default file from defaults path
+                    var defaultFilePath = storageService.GetDefaultFilePath(
+                        Path.GetExtension(path.Path)
+                    );
+                    if (!System.IO.File.Exists(defaultFilePath))
+                        continue;
+                    model = new CalcpadFileModel() { FullName = Path.GetFullPath(defaultFilePath) };
                 }
+
                 var relativePath = storageService.GetRelativePathToCurrentDir(model.FullName);
                 filePathMap.TryAdd(path.Path, (relativePath, model.Id));
             }

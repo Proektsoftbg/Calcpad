@@ -1,4 +1,6 @@
-﻿namespace Calcpad.WebApi.Controllers.DTOs
+﻿using Calcpad.Document.Core.Utils;
+
+namespace Calcpad.WebApi.Controllers.DTOs
 {
     public class UploadCalcpadRequestData
     {
@@ -19,16 +21,15 @@
         /// <summary>
         /// true when the file is an calcpad file
         /// </summary>
-        public bool IsCpdFile =>
-            _cpdExtensions.Contains(Path.GetExtension(File.FileName).ToLower());
+        public bool IsCpdFile => CpdExtensions.Contains(Path.GetExtension(File.FileName).ToLower());
 
         /// <summary>
         /// save the file to server and return the file path
         /// </summary>
-        /// <returns></returns>
+        /// <returns>uniqueId/fileName</returns>
         public string GetUniqueFileName()
         {
-            return $"{UniqueId}{Path.GetExtension(File.FileName)}";
+            return $"{UniqueId}/{GetFileName()}";
         }
 
         public string GetFileName()
@@ -60,20 +61,14 @@
             return savedPath;
         }
 
-        private static readonly List<string> _cpdExtensions = [".cpd", ".cpdz", ".txt"];
+        private static string[] CpdExtensions => FileExtensionsList.CpdFileExtensions;
 
         // images、csv、excel、txt
         private static readonly List<string> _otherExtensions =
         [
-            ".png",
-            ".jpg",
-            ".jpeg",
-            ".webp",
-            ".svg",
-            ".gif",
-            ".csv",
-            ".xls",
-            ".xlsx"
+            .. FileExtensionsList.ImageFileExtensions,
+            .. FileExtensionsList.CsvFileExtensions,
+            .. FileExtensionsList.ExcelFileExtensions,
         ];
 
         /// <summary>
@@ -85,7 +80,7 @@
         public bool IsValidExtensions()
         {
             var extension = Path.GetExtension(File.FileName).ToLower();
-            return _cpdExtensions.Contains(extension) || _otherExtensions.Contains(extension);
+            return CpdExtensions.Contains(extension) || _otherExtensions.Contains(extension);
         }
     }
 }

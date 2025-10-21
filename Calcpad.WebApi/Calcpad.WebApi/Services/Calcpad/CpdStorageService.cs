@@ -1,4 +1,5 @@
 ﻿using Calcpad.Document.Core.Segments;
+using Calcpad.Document.Core.Utils;
 using Calcpad.WebApi.Configs;
 using Calcpad.WebApi.Models;
 using Calcpad.WebApi.Models.Base;
@@ -25,7 +26,7 @@ namespace Calcpad.WebApi.Services.Calcpad
         /// </summary>
         /// <param name="bucketName"></param>
         /// <param name="fileName"></param>
-        /// <returns></returns>
+        /// <returns>StoragetRoot/bucketName/yyyy/mm/dd/fileName</returns>
         public string GetObjectName(string bucketName, string fileName)
         {
             var savedPath = Path.Combine(
@@ -46,7 +47,11 @@ namespace Calcpad.WebApi.Services.Calcpad
         /// <returns></returns>
         public string GetCpdObjectName(string fileName)
         {
-            return GetObjectName("calcpad-files", fileName);
+            var ext = Path.GetExtension(fileName);
+            return GetObjectName(
+                FileExtensionsList.CpdFileExtensions.Contains(ext) ? "calcpad-files" : "public",
+                fileName
+            );
         }
 
         /// <summary>
@@ -250,6 +255,27 @@ namespace Calcpad.WebApi.Services.Calcpad
         public string GetWebUrl(string subPath)
         {
             return $"{appConfig.Value.BaseUrl}/{subPath.TrimStart('/')}";
+        }
+
+        /// <summary>
+        /// get default file path by file extension
+        /// </summary>
+        /// <param name="fileExtension"></param>
+        /// <returns></returns>
+        public string GetDefaultFilePath(string fileExtension)
+        {
+            var extension = fileExtension.ToLower();
+            // cpd、csv、excel
+            if (FileExtensionsList.CpdFileExtensions.Contains(extension))
+                return $"{storageConfig.Value.Root}/defaults/files/default_cpd.txt";
+
+            if (FileExtensionsList.CsvFileExtensions.Contains(extension))
+                return $"{storageConfig.Value.Root}/defaults/files/default_csv.csv";
+
+            if (FileExtensionsList.ExcelFileExtensions.Contains(extension))
+                return $"{storageConfig.Value.Root}/defaults/files/default_excel.xlsx";
+
+            return string.Empty;
         }
     }
 }
