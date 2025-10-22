@@ -11,7 +11,7 @@
     <Authors>Nedelcho Ganchovski</Authors>
     <RootNamespace>Calcpad.Wpf</RootNamespace>
     <Platforms>AnyCPU</Platforms>
-		<Version>7.4.2</Version>
+		<Version>7.5.0</Version>
 		<Authors>Nedelcho Ganchovski</Authors>
 		<Company>Proektsoft EOOD</Company>
     <PackageId>Calcpad</PackageId>
@@ -555,6 +555,10 @@
     <EmbeddedResource Update="UnitsResources.zh.resx">
       <DependentUpon>UnitsResources.resx</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Calcpad.core\Parsers\MathParser\" />
   </ItemGroup>
 
   <PropertyGroup>

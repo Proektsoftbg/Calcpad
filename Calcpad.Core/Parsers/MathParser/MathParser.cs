@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -723,6 +724,7 @@ namespace Calcpad.Core
         }
 
         private Func<IValue> CompileRpn(Token[] rpn, bool allowAssignment = false) => _compiler.Compile(rpn, allowAssignment);
+        private Expression RpnToExpressionTree(Token[] rpn, bool allowAssignment = false) => _compiler.RpnToExpressionTree(rpn, allowAssignment);
         public string ResultAsString
         {
             get

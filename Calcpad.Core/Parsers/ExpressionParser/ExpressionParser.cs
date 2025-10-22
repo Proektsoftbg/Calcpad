@@ -1,6 +1,7 @@
 ﻿using Markdig;
 using Markdig.Renderers;
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -52,6 +53,7 @@ namespace Calcpad.Core
         public void Parse(string sourceCode, bool calculate = true, bool getXml = true) =>
             Parse(sourceCode.AsSpan(), calculate, getXml);
 
+        private static SearchValues<char> commentChars = SearchValues.Create(['\'', '"']);
         private void Parse(ReadOnlySpan<char> code, bool calculate, bool getXml)
         {
             var lines = new List<int> { 0 };
@@ -102,7 +104,12 @@ namespace Calcpad.Core
                     lineSpan = lineSpan.Trim();
                     if (HasLineExtension(textSpan))
                     {
-                        s = textSpan[0..^2].ToString() + lineSpan.ToString();
+                        var c = textSpan[^1];
+                        if (c == '_')
+                            s = textSpan[0..^2].ToString() + lineSpan.ToString();
+                        else
+                            s = $"{textSpan} {lineSpan}";
+
                         textSpan = s.AsSpan();
                     }
                     else
@@ -188,7 +195,7 @@ namespace Calcpad.Core
                 !_calculate;
 
             bool HasLineExtension(ReadOnlySpan<char> s) =>
-                s.Length > 1 && s[^1] == '_' && s[^2] == ' ';
+                (s.EndsWith(" _") || (s.EndsWith("{") || s.TrimEnd().EndsWith(";")) && !s.ContainsAny(commentChars));
 
             bool ParsePlot(ReadOnlySpan<char> s)
             {

@@ -63,12 +63,16 @@ namespace Calcpad.Wpf
                 ++lineNumber;
                 if (!(line.IsEmpty && string.IsNullOrEmpty(_macroName)))
                 {
-                    if (line.EndsWith(" _"))
+                    var hasLineExtension = line.EndsWith(" _");
+                    if (hasLineExtension || line.EndsWith("{") || line.TrimEnd().EndsWith(";"))
                     {
                         if (sb.Length == 0)
                             firstLine = lineNumber;
 
-                        sb.Append(line[..^2]);
+                        if (hasLineExtension)
+                            sb.Append(line);
+                        else
+                            sb.Append(line[..^2]);
                     }
                     else if (sb.Length > 0)
                     {

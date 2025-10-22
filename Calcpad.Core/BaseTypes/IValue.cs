@@ -776,7 +776,7 @@ namespace Calcpad.Core
             if (ival is ComplexValue complex)
                 return (RealValue)complex;
 
-            throw Exceptions.MustBeScalar(item);
+            throw Exceptions.MustBeReal(item);
         }
 
         internal static int AsInt(IValue ivalue, Exceptions.Items item = Exceptions.Items.Argument)

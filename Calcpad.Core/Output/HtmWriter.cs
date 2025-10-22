@@ -244,18 +244,20 @@ namespace Calcpad.Core
             if (len == 2)
                 return $"<b>switch</b>{AddBrackets($"{sa[0]}; {sa[1]}", level)}";
 
-            var s = $"if {sa[0]}: {sa[1]}";
-            for (int i = 2; i < len; i += 2)
-            {
-                if (len - i == 1)
-                    s += $"<br />else: {sa[i]}";
-                else
-                    s += $"<br />if {sa[i]}: {sa[i + 1]}";
-            }
             if (level > 8)
                 level = 8;
 
-            return $"{FormatLeftCurl(level)}<span class=\"dvs\">{s}</span>";
+            var sb = new StringBuilder(FormatLeftCurl(level))
+                .Append($"<span class=\"dvs\">if {sa[0]}: {sa[1]}");
+            for (int i = 2; i < len; i += 2)
+            {
+                if (len - i == 1)
+                    sb.Append($"<br />else: {sa[i]}");
+                else
+                    sb.Append($"<br />if {sa[i]}: {sa[i + 1]}");
+            }
+            sb.Append("</span>");
+            return sb.ToString();
         }
 
         internal override string FormatIf(string sc, string sa, string sb, int level = 0)
@@ -369,5 +371,8 @@ namespace Calcpad.Core
             var s = FormatReal(d, value.Units?.FormatString, zeroSmallElements && Math.Abs(d) < zeroThreshold);
             return value.Units is null ? s : s + ThinSpace + value.Units.Html;
         }
+
+        internal override string FormatBlock(string[] sa) =>
+            $"<small class=\"gray\">🞀</small><span class=\"block\">{string.Join("<br /> ", sa)}</span>";
     }
 }

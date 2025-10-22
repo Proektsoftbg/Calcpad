@@ -16,7 +16,7 @@ namespace Calcpad.Core
             ];
         }
         private const string wXmlns = "xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"";
-        private const string NormalText = "<m:rPr><m:nor/></m:rPr>";
+        internal const string NormalText = "<m:rPr><m:nor/></m:rPr>";
         internal override string UnitString(Unit units) => units.Xml;
         internal override string FormatInput(string s, Unit units, int line, bool isCalculated)
         {
@@ -212,20 +212,23 @@ namespace Calcpad.Core
         {
             var len = sa.Length;
             if (len == 1)
-                return Run("switch") + AddBrackets(sa[0], level);
+                return Run("switch", NormalText) + AddBrackets(sa[0], level);
 
             if (len == 2)
-                return Run("switch") + AddBrackets(sa[0] + Run("; ") + sa[1], level);
+                return Run("switch", NormalText) + AddBrackets(sa[0] + Run("; ") + sa[1], level);
 
-            var s = FormatIfRow(sa[0], sa[1]);
+            var sb = new StringBuilder("<m:d><m:dPr><m:begChr m:val=\"{\"/><m:endChr m:val=\" \"/></m:dPr><m:e><m:m>")
+                .Append(mPr)
+                .Append(FormatIfRow(sa[0], sa[1]));
             for (int i = 2; i < len; i += 2)
             {
                 if (len - i == 1)
-                    s += FormatElseRow(sa[i]);
+                    sb.Append(FormatElseRow(sa[i]));
                 else
-                    s += FormatIfRow(sa[i], sa[i + 1]);
+                    sb.Append(FormatIfRow(sa[i], sa[i + 1]));
             }
-            return $"<m:d><m:dPr><m:begChr m:val=\"{{\"/><m:endChr m:val=\" \"/></m:dPr><m:e><m:m>{mPr}{s}</m:m></m:e></m:d>";
+            sb.Append("</m:m></m:e></m:d>");
+            return sb.ToString();
         }
 
         internal override string FormatIf(string sc, string sa, string sb, int level = 0)
@@ -344,8 +347,21 @@ namespace Calcpad.Core
         private const string mPr = "<m:mPr><m:mcs><m:mc><m:mcPr><m:count m:val=\"2\"/><m:mcJc m:val=\"left\"/></m:mcPr></m:mc></m:mcs></m:mPr>";
 
         private static string FormatIfRow(string sa, string sb) =>
-            $"<m:mr><m:e>{Run(" if ")}{sa}{Run(":")}</m:e><m:e>{sb}</m:e></m:mr>";
+            $"<m:mr><m:e>{Run(" if ", NormalText)}{sa}{Run(":")}</m:e><m:e>{sb}</m:e></m:mr>";
         private static string FormatElseRow(string sa) =>
-            $"<m:mr><m:e>{Run(" else:")}</m:e><m:e>{sa}</m:e></m:mr>";
+            $"<m:mr><m:e>{Run(" else:", NormalText)}</m:e><m:e>{sa}</m:e></m:mr>";
+
+        internal override string FormatBlock(string[] sa)
+        {
+            var len = sa.Length;
+            var sb = new StringBuilder("<m:d><m:dPr><m:begChr m:val=\"|\"/><m:endChr m:val=\" \"/></m:dPr><m:e><m:m>")
+                .Append(mPr);
+
+            for (int i = 0; i < len; ++i)
+                sb.Append($"<m:mr><m:e>{sa[i]}</m:e></m:mr>");
+
+            sb.Append("</m:m></m:e></m:d>");
+            return sb.ToString();
+        }
     }
 }
