@@ -79,17 +79,8 @@ namespace Calcpad.WebApi.Services.Calcpad
                     if (readFile != null)
                     {
                         readLine.SetFilePath(readFile.FullName);
+                        replacingRows.Add(readLine);
                     }
-                    else
-                    {
-                        // add default data source
-                        var defaultDataPath = storageService.GetReadFromPath(
-                            fullPath,
-                            readLine.FilePath
-                        );
-                        readLine.SetFilePath(defaultDataPath);
-                    }
-                    replacingRows.Add(readLine);
                 }
             }
 
