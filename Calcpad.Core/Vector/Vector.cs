@@ -1343,9 +1343,6 @@ namespace Calcpad.Core
         internal static RealValue DotProduct(Vector a, Vector b)
         {
             var n = Math.Min(a._size, b._size);
-            if (n == 0)
-                return RealValue.Zero;
-
             var va = a._values;
             var vb = b._values;
             var sum = a[0] * b[0];
