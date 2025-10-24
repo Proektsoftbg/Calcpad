@@ -195,8 +195,8 @@ namespace Calcpad.Core
             if (a is RealValue ra)
             {
                 if (b is RealValue rb) return ra % rb;
-                if (b is HpVector hp_vb) return hp_vb % ra;
-                if (b is HpMatrix hp_mb) return hp_mb % ra;
+                if (b is HpVector hp_vb) return ra % hp_vb;
+                if (b is HpMatrix hp_mb) return ra % hp_mb;
                 if (b is Vector vb) return ra % vb;
                 if (b is Matrix mb) return ra % mb;
             }

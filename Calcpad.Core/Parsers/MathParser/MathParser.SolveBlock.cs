@@ -204,9 +204,12 @@ namespace Calcpad.Core
                     _parser.BindParameters(parameters, rpn);
                     _parser.SubscribeOnChange(rpn, Clear);
                     _parser.SubscribeOnChange(items[2].Rpn, Clear);
-                    rpn = items[3].Rpn;
-                    if (rpn is not null)
-                        _parser.SubscribeOnChange(rpn, Clear);
+                    if (items.Length > 3)
+                    {
+                        rpn = items[3].Rpn;
+                        if (rpn is not null)
+                            _parser.SubscribeOnChange(rpn, Clear);
+                    }
                 }
                 if (_type == SolverTypes.Repeat)
                     for(int i = 0; i < items.Length; i++)
@@ -319,10 +322,10 @@ namespace Calcpad.Core
                     _type == SolverTypes.Block;
                 _f = _parser.CompileRpn(_items[0].Rpn, allowAssignment);
 
+                var len = _items.Length;
                 if (allowAssignment)
                 {
                     var i0 = _type == SolverTypes.Repeat ? 4 : 1;
-                    var len = _items.Length;
                     if (len > i0)
                     {
                         var e = _parser.RpnToExpressionTree(_items[0].Rpn, allowAssignment);
@@ -350,7 +353,7 @@ namespace Calcpad.Core
                 else
                     _a = _parser.CompileRpn(_items[2].Rpn);
 
-                if (_items[3].Rpn is not null)
+                if (len > 3 && _items[3].Rpn is not null)
                 {
                     if (_items[3].Rpn.Length == 1 &&
                         _items[3].Rpn[0].Type == TokenTypes.Constant)
@@ -358,7 +361,7 @@ namespace Calcpad.Core
                     else
                         _b = _parser.CompileRpn(_items[3].Rpn);
                 }
-                if (_items.Length > 4 && _items[4].Rpn is not null)
+                if (len > 4 && _items[4].Rpn is not null)
                     _y = _parser.CompileRpn(_items[4].Rpn);
             }
 
