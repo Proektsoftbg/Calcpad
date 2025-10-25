@@ -11,25 +11,26 @@
     <Authors>Nedelcho Ganchovski</Authors>
     <RootNamespace>Calcpad.Wpf</RootNamespace>
     <Platforms>AnyCPU</Platforms>
-		<Version>7.5.0</Version>
-		<Authors>Nedelcho Ganchovski</Authors>
-		<Company>Proektsoft EOOD</Company>
+    <Authors>Nedelcho Ganchovski</Authors>
+    <Company>Proektsoft EOOD</Company>
     <PackageId>Calcpad</PackageId>
     <Product>Calcpad</Product>
     <AssemblyName>Calcpad</AssemblyName>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<PlatformTarget>AnyCPU</PlatformTarget>
-	</PropertyGroup>
-	
+  <Import Project="..\Version.xml" />
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+    
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
-		<Optimize>false</Optimize>
+    <Optimize>false</Optimize>
     <WarningLevel>0</WarningLevel>
   </PropertyGroup>
-	
+    
   <ItemGroup>
     <Compile Remove="resources\flags\**" />
     <EmbeddedResource Remove="resources\flags\**" />
@@ -90,7 +91,7 @@
     <None Update="doc\readme.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-	  <None Update="doc\parsing.html">
+    <None Update="doc\parsing.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="doc\template.html">
@@ -99,7 +100,7 @@
     <None Update="doc\source.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-	  <None Update="doc\blank.html">
+    <None Update="doc\blank.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="doc\jquery-3.6.3.min.js">
@@ -351,13 +352,13 @@
     <None Update="typing.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-	  <None Update="Properties\Settings.settings">
+    <None Update="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
 
     <!--Bulgarian (bg)-->
-	<None Update="appdata\LICENSE.bg.TXT">
+    <None Update="appdata\LICENSE.bg.TXT">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="doc\help.bg.html">
@@ -405,8 +406,8 @@
     <None Update="doc\Images\Sample5.bg.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-	
-	<!--Chinese (zh)-->
+    
+    <!--Chinese (zh)-->
     <None Update="doc\help.zh.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -517,14 +518,14 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>UnitsResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>	
-	
-	<EmbeddedResource Update="AppMessages.bg.resx">
+    
+    <EmbeddedResource Update="AppMessages.bg.resx">
       <DependentUpon>AppMessages.resx</DependentUpon>
     </EmbeddedResource>
-	<EmbeddedResource Update="ConstantsResources.bg.resx">
+    <EmbeddedResource Update="ConstantsResources.bg.resx">
       <DependentUpon>ConstantsResources.resx</DependentUpon>
     </EmbeddedResource>
-	<EmbeddedResource Update="FindReplaceResources.bg.resx">
+    <EmbeddedResource Update="FindReplaceResources.bg.resx">
       <DependentUpon>FindReplaceResources.resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Update="MainWindowResources.bg.resx">
@@ -536,14 +537,14 @@
     <EmbeddedResource Update="UnitsResources.bg.resx">
       <DependentUpon>UnitsResources.resx</DependentUpon>
     </EmbeddedResource>
-	
-	<EmbeddedResource Update="AppMessages.zh.resx">
+    
+    <EmbeddedResource Update="AppMessages.zh.resx">
       <DependentUpon>AppMessages.resx</DependentUpon>
     </EmbeddedResource>
-	<EmbeddedResource Update="ConstantsResourceszhbg.resx">
+    <EmbeddedResource Update="ConstantsResourceszhbg.resx">
       <DependentUpon>ConstantsResources.resx</DependentUpon>
     </EmbeddedResource>
-	<EmbeddedResource Update="FindReplaceResources.zh.resx">
+    <EmbeddedResource Update="FindReplaceResources.zh.resx">
       <DependentUpon>FindReplaceResources.resx</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Update="MainWindowResources.zh.resx">

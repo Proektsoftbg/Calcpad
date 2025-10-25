@@ -205,6 +205,7 @@ namespace Calcpad.Wpf
             UserDefined.Include = Include;
             LineNumbers.ClipToBounds = true;
             SetCurrentDirectory();
+            CurrentFileName = string.Empty;
             var docPath = AppInfo.DocPath;
             var docUrl = $"file:///{docPath.Replace("\\", "/")}";
             var htmlExt = AddCultureExt("html");
