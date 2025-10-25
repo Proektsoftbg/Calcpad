@@ -5,10 +5,11 @@
     <AnalysisLevel>latest</AnalysisLevel>
     <RootNamespace>Calcpad.OpenXml</RootNamespace>
     <OutputType>Library</OutputType>
-    <Version>7.5.0</Version>
     <Authors>Nedelcho Ganchovski</Authors>
     <Company>Proektsoft EOOD</Company>
   </PropertyGroup>
+
+  <Import Project="..\Version.xml" />
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>..\Calcpad.Wpf\bin\Release\net8.0-windows\</OutputPath>
@@ -32,7 +33,7 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Messages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-	<EmbeddedResource Update="Messages.bg.resx">
+    <EmbeddedResource Update="Messages.bg.resx">
       <DependentUpon>Messages.resx</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>

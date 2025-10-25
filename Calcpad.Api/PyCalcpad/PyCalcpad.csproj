@@ -5,11 +5,12 @@
     <AnalysisLevel>latest</AnalysisLevel>
     <RootNamespace>PyCalcpad</RootNamespace>
     <OutputType>Library</OutputType>
-    <Version>7.5.0</Version>
     <Authors>Nedelcho Ganchovski</Authors>
     <Company>Proektsoft EOOD</Company>
     <GenerateRuntimeConfigFiles>true</GenerateRuntimeConfigFiles>
   </PropertyGroup>
+
+  <Import Project="..\..\Version.xml" />
 
   <PropertyGroup>
     <ServerGarbageCollection>true</ServerGarbageCollection>
