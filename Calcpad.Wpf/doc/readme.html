@@ -8,17 +8,18 @@
             position: fixed;
             left: 780px;
             top: 0;
-            font-size: 11pt;
+            font-size: 10pt;
             list-style: none;
             margin: 0;
-			line-height: 125%;
+			line-height: 115%;
         }
 
             .menu li {
                 margin-left: -14px;
             }
+			
                 .menu li ul {
-                    font-size: 11pt;
+                    font-size: 10pt;
                     list-style: none;
                     display: none;
                 }
@@ -26,7 +27,7 @@
         .active {
             color: black !Important;
             font-weight: bold;
-            font-size: 11pt;
+            font-size: 10pt;
         }
 
         body {
@@ -107,8 +108,8 @@
 
         var{
             color: #06c;
-            font-family: "Times New Roman", Times, serif;
-            font-size: 12pt
+            font-family: "Georgia Pro", "Times New Roman", Times, serif;
+            font-size: 11.5pt
         }
 
         code {
@@ -131,7 +132,7 @@
 
         i {
             color: #086;
-            font-family: "Times New Roman", Times, serif;
+            font-family: "Georgia Pro", "Times New Roman", Times, serif;
             font-style: normal;
             font-size: 11.5pt;
         }
@@ -150,7 +151,7 @@
         }
 
         .root {
-            font-family: "Times New Roman", Times, serif;
+            font-family: "Georgia Pro", "Times New Roman", Times, serif;
             font-size: 13pt;
         }
 
@@ -165,6 +166,13 @@
             font-family: Consolas;
             font-size: 10pt;
         }
+		
+		.palette {
+			font-family: Segoe UI Semibold; 
+			display: inline-block; 
+			width:10em; 
+			padding-left:6pt; 
+		}
 
         .dvc {
             display: inline-block;
@@ -217,9 +225,9 @@
         }
 
         .toc {
-            color: #888888;
+            color: #666;
             text-decoration: none;
-            font-size: 10.5pt;
+            font-size: 10pt;
         }
 
             .toc:hover {
@@ -332,8 +340,8 @@
         }
 		
 		.exp {
-            height: 12pt;
-            font-size: 12pt;
+            height: 11pt;
+            font-size: 11pt;
             line-height: 80%;
             font-weight: bold;
             margin-right: 4pt;
@@ -418,12 +426,12 @@
         }
 
             .eq small var {
-                font-family: "Times New Roman", Times, serif;
+                font-family: "Georgia Pro", "Times New Roman", Times, serif;
                 font-size: 9pt;
             }
 
             .eq small i {
-                font-family: "Times New Roman", Times, serif;
+                font-family: "Georgia Pro", "Times New Roman", Times, serif;
                 font-size: 8pt;
             }
 
@@ -690,7 +698,19 @@
             .matrix .tr:last-child .td:last-child {
                 border-bottom: solid 1pt black;
             }
+			
+        .block {
+            display: inline-block;
+            vertical-align: middle;
+            padding-left: 4pt;
+            margin-left: -1pt;
+            border-left: solid 1pt #888;
+        }
 
+        .gray {
+            color: #aaa;
+        }
+		
         .hl  {background-color: #FFFCD6;}
         .hl1 {background-color: #FFF8C8;}
         .hl2 {background-color: #FFF2B8;}
@@ -698,7 +718,7 @@
 </head>
 <body>
     <ul class="menu">
-        <li style="font-size:12pt; font-weight:bold; border-bottom: solid 1px gray; padding-bottom:2pt; margin-bottom:4pt;">Table Of Contents</li>
+        <li style="font-size:12pt; font-weight:bold; border-bottom: solid 1px gray; padding-bottom:2pt; margin-bottom:6pt;">Table Of Contents</li>
         <li><a class="toc" href="#TOC_101">About Calcpad</a></li>
         <li><a class="toc" href="#TOC_102">Fields of application</a></li>
         <li><a class="toc" href="#TOC_103">Installation</a></li>
@@ -741,11 +761,12 @@
                 <li><a class="toc" href="#TOC_406">Plotting</a></li>
                 <li><a class="toc" href="#TOC_407">Numerical methods</a></li>
                 <li><a class="toc" href="#TOC_408">Iterative procedures</a></li>
-                <li><a class="toc" href="#TOC_409">Units</a></li>
-                <li><a class="toc" href="#TOC_410">Vectors</a></li>
-                <li><a class="toc" href="#TOC_411">Matrices</a></li>
-				<li><a class="toc" href="#TOC_412">High performance vectors and matrices</a></li>
-				<li><a class="toc" href="#TOC_413">High performance symmetric solvers</a></li>
+                <li><a class="toc" href="#TOC_409">Expression blocks</a></li>
+                <li><a class="toc" href="#TOC_410">Units</a></li>
+                <li><a class="toc" href="#TOC_411">Vectors</a></li>
+                <li><a class="toc" href="#TOC_412">Matrices</a></li>
+				<li><a class="toc" href="#TOC_413">High performance vectors and matrices</a></li>
+				<li><a class="toc" href="#TOC_414">High performance symmetric solvers</a></li>
             </ul>
         </li>
         <li>
@@ -805,7 +826,7 @@
             <li><a href="mailto:proektsoft.bg@gmail.com">proektsoft.bg@gmail.com</a></li>
         </ul>
         <h1><img alt="Calcpad.png" src="Images/Calcpad.png" height="32"> Calcpad VM</h1>
-        <p style="margin-left:42px; margin-top:0;">Version 7.4 Readme!</p>
+        <p style="margin-left:42px; margin-top:0;">Version 7.5 Readme!</p>
         <h2 id="TOC_101">About Calcpad VM</h2>
         <p>Calcpad is free software for mathematical and engineering calculations. It represents a flexible and modern programmable calculator with Html report generator. It is simple and easy to use, but it also includes many advanced features:</p>
         <ul>
@@ -931,7 +952,7 @@
         <p>You can search for a certain text inside the code and replace it with another, if needed. Select the "<b>Edit/Find</b>" menu, click the <img alt="Find" height="20" src="Images/Search.png"> button or press "<b>Ctrl+F</b>". The "<b>Find And Replace</b>" dialog will appear.</p>
         <p><img alt="Find Dialog" width="450" src="Images/FindDialog.png"></p>
         <p>Enter a word or phrase to search for and click "<b>Find Next</b>". The program starts from the current position and finds the first occurrence in the selected direction. If the searched phrase is found, it is highlighted, and the search is stopped. To find the next occurrence, click "<b>Find Next</b>" again. You can also press "<b>F3</b>" to continue searching even after you close the dialog.</p>
-        <p>If you need to replace the searched text, click the "<b>Replace</b>" tab and fill in the "<b>Replace with</b>" box. Then click the "<b>Replace</b>" button. The program will replace the current occurrence and will automatically move to the next one. If you want to replace all occurrence in the code, click the respective button instead. </p>
+        <p>If you need to replace the searched text, click the "<b>Replace</b>" tab and fill in the "<b>Replace with</b>" box. Then click the "<b>Replace</b>" button. The program will replace the current occurrence and will automatically move to the next one. If you want to replace all occurrences in the code, click the respective button instead. </p>
         <p>There are several options that affect the search results, as follows:</p>
         <ul>
             <li><b>Direction</b>: "Up", "Down" and "All". Both "All" and "Down" search towards the end of the document. The difference is that "All" jumps to the beginning and starts over, after it reaches the end of the document.</li>
@@ -1243,8 +1264,8 @@
             </li>
             <li>
                 Conditional and logical:<ul style="list-style-type:none;">
-                    <li><code><b>if</b>(&lt;<em>cond</em>&gt;; &lt;<em>value-if-true</em>&gt;; &lt;<em>value-if-false</em>&gt;)</code> - if the condition <var>cond</var> is satisfied, the function returns the first value, otherwise it returns the second value. The condition is satisfied when it evaluates to any non-zero number;</li>
-                    <li><code><b>switch</b>(&lt;<em>cond1</em>&gt;; &lt;<em>value1</em>&gt;; &lt;<em>cond2</em>&gt;; &lt;<em>value2</em>&gt;;…; &lt;<em>default-value</em>&gt;)</code> - returns the value for which the respective condition is satisfied. Conditions are checked from left to right. If none is satisfied, it returns the default value in the end;</li>
+                    <li><code><b>if</b>(<em>cond</em>; <em>value-if-true</em>; <em>value-if-false</em>)</code> - if the condition <var>cond</var> is satisfied, the function returns the first value, otherwise it returns the second value. The condition is satisfied when it evaluates to any non-zero number;</li>
+                    <li><code><b>switch</b>(<em>cond1</em>; <em>value1</em>; <em>cond2</em>; <em>value2</em>;…; <em>default-value</em>)</code> - returns the value for which the respective condition is satisfied. Conditions are checked from left to right. If none is satisfied, it returns the default value in the end;</li>
                     <li><code><b>not</b>(<var>x</var>)</code> - logical "not";</li>
                     <li><code><b>and</b>(<var>A</var>; <var><span class="vec">⃗</span>b</var>; <var>c</var>…)</code> - logical "and";</li>
                     <li><code><b>or</b>(<var>A</var>; <var><span class="vec">⃗</span>b</var>; <var>c</var>…)</code> - logical "or";</li>
@@ -1565,7 +1586,32 @@
         </p>
         <p>The <span class="cond">$Plot</span>{…} function must be the first thing in a line. You can have only spaces and tabs before, not even comments. Otherwise, the program will return an error. Any text after the closing bracket "}" will be ignored. Plotting supports only real numbers. You can use it in complex mode, only if <var>x</var> and <var>y</var> are real and the function returns real result along the plotting interval.</p>
         <p>You can specify the size of the plot area by defining two variables: <var>PlotWidth</var> and <var>PlotHeight</var> in pixels. The default values are <var>PlotWidth</var> = 400 and <var>PlotHeight</var> = 250.</p>
-        <p>The <span class="cond">$Map</span>{…} function can work with different color palettes. Select the preferred one from the "<b>Palette</b>" combo box on the bottom of the program window. If you select the "<b>Smooth</b>" checkbox, the scale will be displayed as a smooth gradient. Otherwise, the program will draw color strips. You can also add 3D effects to the graph by selecting the "<b>Shadows</b>" checkbox. You can also specify light direction by the respective combo.</p>
+		<p>You can draw plots in either raster (PNG) or vector (SVG) format. The vector format is usually smaller and faster than the raster one. However, you may have problems with export to older version of Word or other software that does not support the SVG format. You can control this option by setting the <var>PlotSVG</var> variable. If you set  <var>PlotSVG</var> = 1 or any other nonzero variable, Calcpad will draw the plots in SVG format. If you assign <var>PlotSVG</var> = 0, it will use the PNG format.<br />
+        <p>The <span class="cond">$Map</span>{…} function can work with different color palettes. Select the preferred one from the "<b>Palette</b>" combo box on the bottom of the program window. If you select the "<b>Smooth</b>" checkbox, the scale will be displayed as a smooth gradient. Otherwise, the program will draw color strips. You can also add 3D effects to the graph by selecting the "<b>Shadows</b>" checkbox. You can also specify light direction by the respective combo. Besides UI controls, you can specify these options by using variables at worksheet level, as follows:</p>
+		<p style="margin-left: 2em;">
+			<var>PlotPalette</var> - the number of color palette to be used for surface plots (0-9);<br />
+			&emsp;&emsp;0 - <b class="palette" style="width:9.9em; border: solid 0.5pt #aaa;">None</b><br />
+			&emsp;&emsp;1 - <b class="palette" style="width:9.95em; border-right: solid 0.5pt #aaa; color:white; background: linear-gradient(to left, #FFFFFF, #464646)">Gray</b><br />
+			&emsp;&emsp;2 - <b class="palette" style="background: linear-gradient(to left, #FF0000, #FFFF00, #00ee00, #00FFFF, #4060FF)">Rainbow</b><br />
+			&emsp;&emsp;3 - <b class="palette" style="background: linear-gradient(to left, #FF7F00, #FFFF00, #00FF00, #007F7F)">Terrain</b><br />
+			&emsp;&emsp;4 - <b class="palette" style="background: linear-gradient(to left, #ffff00, #a93bd4)">Violet-yellow</b><br />
+			&emsp;&emsp;5 - <b class="palette" style="background: linear-gradient(to left, #ffff20, #409070)">Green-yellow</b><br />
+			&emsp;&emsp;6 - <b class="palette" style="background: linear-gradient(to left, #60ffff, #4060FF)">Blues</b><br />
+			&emsp;&emsp;7 - <b class="palette" style="background: linear-gradient(to left, #FFFC20, #00FF40, #20A0C0, #4060FF)">Blue-yellow</b><br />
+			&emsp;&emsp;8 - <b class="palette" style="background: linear-gradient(to left, #FF6000, #DDFFDD, #4060FF)">Blue-red</b><br />
+			&emsp;&emsp;9 - <b class="palette" style="background: linear-gradient(to left, #FFFC20, #FF8080, #EA40FF, #4020FA)">Purple-yellow</b><br />
+			<var>PlotShadows</var> - draw surface plots with shadows;<br />
+			<var>PlotSmooth</var> - smooth transition of colors (= 1) or  isobands (= 0) for surface plots;<br />
+			<var>PlotLightDir</var> - direction to light source (0-7) clockwise:<br />
+			&emsp;&emsp;0 - North<br />
+            &emsp;&emsp;1 - NorthEast<br />
+            &emsp;&emsp;2 - East<br />
+            &emsp;&emsp;3 - SouthEast<br />
+            &emsp;&emsp;4 - South<br />
+            &emsp;&emsp;5 - SouthWest<br />
+            &emsp;&emsp;6 - West<br />
+            &emsp;&emsp;7 - NorthWest
+		</p>
         <p>Examples of different plotting methods are provided below:</p>
         <table class="nb">
             <tr>
@@ -1689,8 +1735,47 @@
         <p>You should not forget to switch to "Complex" mode. Then you can plot the result:
         <p style="margin-left: 2em;"><code><span class="cond">$Map</span>{<b>abs</b>(<b>f</b>(0; <var>x</var> + 1i*<var>y</var>)) &#64; <var>x</var> = -1.5:0.5 & <var>y</var> = -1:1}</code></p>
         <p style="text-align:center;"><img alt="Mandelbrot" src="Images/Mandelbrot.png" width="500"></p>
-
-        <h3 id="TOC_409">Units</h3>
+		
+		<h3 id="TOC_409">Expression blocks</h3>
+		<p>An expression block encloses a list of expressions, divided by semicolons. All expressions can assign to local variables. You can use expression blocks to embed short algorithmic procedures into function definitions, inline loops or any other expressions and expression blocks. There are two types of expression blocks that differ only in the way they are rendered in the output:</p>
+		<p style="margin-left: 2em;"><code><span class="cond">$Block</span>{<em>expr1</em>; <em>expr2</em>; <em>expr3</em>; ...}</code> - multiline block of expressions;</p>
+		<p style="margin-left: 2em;"><code><span class="cond">$Inline</span>{<em>expr1</em>; <em>expr2</em>; <em>expr3</em>; ...}</code> - inline block of expressions;</p>
+		<p>As the respective names imply, <span class="cond">$Block</span> is rendered on multiple lines so that each expression is placed on a separate line, and for <span class="cond">$Inline</span> all expressions are rendered on a single line sequentially from left to right.</p>
+		<p>You can use expression blocks to create multiline functions when a single expression is not sufficient to evaluate the result. Such is the <var>quadRoots</var> function in the example below that calculates the roots of a quadratic equation, by given coefficients <var>a</var>, <var>b</var>, <var>c</var> and returns them as a vector of two elements <span class="b0">[</span><var>x</var><sub>1</sub>; <var>x</var><sub>2</sub><span class="b0">]</span>.</p>
+		<table border="1">
+            <thead>
+                <tr>
+                    <th>
+                        Code
+                    </th>
+                    <th>
+                        Output
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+					<code><var>quadRoots</var>(<var>a</var>; <var>b</var>; <var>c</var>) = _<br />
+					<span class="cond">$block</span>{</code><br />
+						&emsp;&emsp;<code><var>D</var> = <var>b</var>^2 - 4*<var>a</var>*<var>c</var>;</code> <br />
+						&emsp;&emsp;<code><var>x_1</var> = (-<var>b</var> - <b>sqrt</b>(<var>D</var>))/(2*<var>a</var>);</code> <br />
+						&emsp;&emsp;<code><var>x_2</var> = (-<var>b</var> + <b>sqrt</b>(<var>D</var>))/(2*<var>a</var>);</code> <br />
+						&emsp;&emsp;<code>[<var>x_1</var>; <var>x_2</var>]; <br />
+					}<br />
+					<var>quadRoots</var>(2; 3; -5)</code>
+                    </td>
+                    <td style="line-height:150%;">
+						<span class="eq""><var>quadRoots</var>&hairsp;(&hairsp;<var>a</var>; <var>b</var>; <var>c</var>&hairsp;)&hairsp; = <small class="gray">🞀</small><span class="block"><var>D</var> = <var>b</var><sup>2</sup> − 4&hairsp;·&hairsp;<var>a</var>&hairsp;·&hairsp;<var>c</var><br> <var>x</var><sub>1</sub> = <span class="dvc">-<var>b</var> − &ensp;&hairsp;&hairsp;<span class="o0"><span class="r0"></span><var>D</var></span><span class="dvl"></span>2&hairsp;·&hairsp;<var>a</var></span><br> <var>x</var><sub>2</sub> = <span class="dvc">-<var>b</var> + &ensp;&hairsp;&hairsp;<span class="o0"><span class="r0"></span><var>D</var></span><span class="dvl"></span>2&hairsp;·&hairsp;<var>a</var></span><br> <span class="b0">[</span><var>x</var><sub>1</sub>; <var>x</var><sub>2</sub><span class="b0">]</span><br> </span></span><br/>
+						<span class="eq""><var>quadRoots</var>&hairsp;&hairsp;(&hairsp;2; 3; -5&hairsp;)&hairsp; = <b class="b0">[</b>-2.5&ensp;1<b class="b0">]</b></span></p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+		<p>When you have a <span class="cond">$Repeat</span> inline loop you can nest multiple expressions directly inside without enclosing them with a <span class="cond">$block</span>/<span class="cond">$inline</span> element.</p>
+		<p>All expressions inside a block or inline loop are compiled, so they are executed very fast. They are evaluated sequentially from left to right and only the last result is returned at the end. However, unlike the standard expressions you cannot see intermediate results and substituted variables. This reduces readability and verifiability of calculations. So, expression blocks should be used only where they are actually needed.</p>
+		
+        <h3 id="TOC_410">Units</h3>
         <p>Calcpad provides comprehensive support for physical units of measurement. The current version supports metric (SI and compatible), US and Imperial units. There are seven basic units that correspond to the seven physical dimensions:</p>
         <ul>
             <li>mass - kilogram (<i>kg</i>)</li>
@@ -1723,13 +1808,13 @@
             </thead>
             <tbody>
                 <tr>
-                    <td style="line-height:180%;">
-                        <code>'Distance -'<var>s</var>_1 = 50<i>m</i></code><br />
-                        <code>'Time -'<var>t</var>_1 = 2<i>s</i></code><br />
-                        <code>'Speed -'<var>V</var> = <var>s</var>_1/<var>t</var>_1|<i>km</i>/<i>h</i></code><br />
-                        <code>'What distance you will travel for'<var>t</var>_2 = 5<i>s</i>'?</code><br />
-                        <code><var>s</var>	_2 = <var>V</var>*<var>t</var>_2|<i>m</i></code>
-                    </td>
+                    <td style="line-height:180%;"><code>
+                        'Distance -'<var>s</var>_1 = 50<i>m</i><br />
+                        'Time -'<var>t</var>_1 = 2<i>s</i><br />
+                        'Speed -'<var>V</var> = <var>s</var>_1/<var>t</var>_1|<i>km</i>/<i>h</i><br />
+                        'What distance you will travel for'<var>t</var>_2 = 5<i>s</i>'?<br />
+                        <var>s</var>_2 = <var>V</var>*<var>t</var>_2|<i>m</i>
+                    </code></td>
                     <td style="line-height:150%;">
                         Distance - <var>s</var><sub>1</sub> = 50&thinsp;<i>m</i><br />
                         Time - <var>t</var><sub>1</sub> = 2&thinsp;<i>s</i><br />
@@ -2303,7 +2388,7 @@
         </p>
         <p>Custom dimensionless units exist in a special (ninth) non-physical dimension. That is how they do not cancel or convert to other dimensionless units, like percents or angles, when mixed. However, if you have two types of dimensionless units in a single file, they will exist in the same dimension, so you should avoid mixing them.</p>
 
-        <h3 id="TOC_410">Vectors</h3>
+        <h3 id="TOC_411">Vectors</h3>
         <p><b>Internal implementation and types of vectors</b></p>
         <p>There are two types of vectors in Calcpad: regular (small) and large. Vectors can contain only real numbers with units. Complex vectors are not supported in this version. A single vector can contain different types of units, even if not consistent. However, some vector functions or operators may fail due to units’ inconsistency between separate elements.</p>
         <p>Vectors with lengths that are greater than 100 are created as "large". Externally they behave just as regular vectors, so the user cannot make any difference. But internally, they operate quite differently. The structure of a large vector is displayed on the figure below:</p>
@@ -2661,7 +2746,7 @@
         <p>If the lengths of both vectors are different, the shorter vector is padded with zeros to the length of the longer one. Dot and cross products in Calcpad are implemented as functions (see above). All binary operators are supported for vector-scalar and scalar-vector operands in a similar way. For example:</p>
         <p>&emsp;&emsp;<code>[2; 4; 5]*2</code>' = [4&ensp;8&ensp;10]</p>
 
-        <h3 id="TOC_411">Matrices</h3>
+        <h3 id="TOC_412">Matrices</h3>
         <p><b>Internal implementation and types of matrices</b></p>
         <p>Calcpad includes different types of matrices: general (rectangular) and special (column, symmetric, diagonal. upper/lower triangular). Internally, each type is implemented in a different way that benefits from the specific structure for better efficiency. Externally, all of them behave in a similar way, except for a few cases.</p>
         <p>Each matrix type is implemented as an array of vectors, as displayed on the figure below. Vectors normally represent matrix rows, except for diagonal and column matrices.</p>
@@ -4409,7 +4494,7 @@
             </span>
         </p>
 
-        <h3 id="TOC_412">High performance vectors and matrices</h3>
+        <h3 id="TOC_413">High performance vectors and matrices</h3>
         <p>High performance (hp) vectors and matrices were introduced in Calcpad version 7.3.0 with the purpose of solving large engineering problems faster and with less memory consumption. But this comes with a trade-off: all elements of an hp vector or matrix must have the same units. This allows Calcpad to store and process the units only once for the whole vector/matrix and perform a lot of additional optimizations like SIMD vectorization of operations, application of more cache-friendly algorithms, etc. All this results in dozens of times improvement in speed and reduces the required memory size more than twice, even if there are no units at all.</p>
         <p>Hp vectors and matrices are initially created by special functions, similar to standard creational functions, but ending with “_hp”, as follows:</p>
         <p>
@@ -4437,7 +4522,7 @@
         </p>
         <p>Any expression that contains only hp vectors/arrays will return also an hp type. If the expression contains only standard vectors/arrays or mixed standard and hp, it will return a standard type. To check if the type of <var>x</var> is a high-performance (hp) vector or matrix you can use the function <code><b>ishp</b>(<var>x</var>)</code>.</p>
 
-        <h3 id="TOC_413">High performance symmetric solvers</h3>
+        <h3 id="TOC_414">High performance symmetric solvers</h3>
         <p>Calcpad also includes advanced solvers for two of the most common matrix problems – solution of linear systems of equations and finding the eigenvalues and eigenvector of a matrix:</p>
 
         <p><b>PCG symmetric linear solver</b></p>
@@ -5592,7 +5677,7 @@
         <h3 id="TOC_804">Save As…</h3>
         <p>If you need to save the current file with a different name, select the "<b>File/Save As…</b>" menu command. A file selection dialog will be displayed. Select file path and name and click "<b>Save</b>"</p>
         <hr />
-        <p>Last edited on 18.09.2025 by eng. Nedelcho Ganchovski.</p>
+        <p>Last edited on 26.10.2025 by eng. Nedelcho Ganchovski.</p>
     </div>
     <script src="jquery-3.6.3.min.js"></script>
     <script>
