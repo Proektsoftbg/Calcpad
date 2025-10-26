@@ -2689,7 +2689,7 @@
                                 Style="{StaticResource RoundButton}" Margin="409,57,0,0" 
                                 FontFamily="Times New Roman" FontStyle="Italic" FontSize="18"
                                 ToolTip="{x:Static wpf:ConstantsResources.Pi}" VerticalContentAlignment="Top" Padding="1,1,1,1" VerticalAlignment="Top"/>
-                        <Button Click="Button_Click" Content="g"     Tag="g"          
+                        <Button Click="Button_Click" Content="g"     Tag="g = 9.80665m/s^2"          
                                 Style="{StaticResource RoundButton}" Margin="409,85,0,0"
                                 ToolTip="{x:Static wpf:ConstantsResources.GravitationalAcceleration}"/>
                         <Button Click="Button_Click" Content="("     Tag="("         

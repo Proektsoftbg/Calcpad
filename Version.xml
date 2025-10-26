@@ -1,5 +1,5 @@
 ﻿<Project>
-	<PropertyGroup>
-		<Version>7.5.0</Version>
-	</PropertyGroup>
+  <PropertyGroup>
+    <Version>7.5.0</Version>
+  </PropertyGroup>
 </Project>
