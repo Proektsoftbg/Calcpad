@@ -29,13 +29,6 @@
 		<Optimize>false</Optimize>
     <WarningLevel>0</WarningLevel>
   </PropertyGroup>
-	
-  <ItemGroup>
-    <Compile Remove="resources\flags\**" />
-    <EmbeddedResource Remove="resources\flags\**" />
-    <None Remove="resources\flags\**" />
-    <Page Remove="resources\flags\**" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.12.2" />
@@ -555,10 +548,6 @@
     <EmbeddedResource Update="UnitsResources.zh.resx">
       <DependentUpon>UnitsResources.resx</DependentUpon>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Calcpad.core\Parsers\MathParser\" />
   </ItemGroup>
 
   <PropertyGroup>

@@ -566,7 +566,7 @@ namespace Calcpad.Wpf
             if (inline is Run r)
             {
                 var s = r.Text.AsSpan();
-                if (s.EndsWith("_") || s.EndsWith(" _") || s.EndsWith("{") || s.TrimEnd().EndsWith(";"))
+                if (s.EndsWith(" _") || (s.EndsWith("_") || s.EndsWith("{") || s.TrimEnd().EndsWith(";")) && GetTypeFromColor(r.Foreground) != Types.Comment)
                     return true;
             }
             return false;
