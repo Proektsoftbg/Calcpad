@@ -1811,7 +1811,7 @@ namespace Calcpad.Wpf
                 while (inline != null)
                 {
                     s = (inline as Run).Text.Trim();
-                    if (s == "@")
+                    if (s == "@" || s == "&")
                         break;
 
                     if (s != " ")
@@ -1819,7 +1819,7 @@ namespace Calcpad.Wpf
 
                     inline = GetPreviousInline(inline);
                 }
-                if (s == "@")
+                if (s == "@" || s == "&")
                 {
                     var bracketCount = 1;
                     inline = GetPreviousInline(inline);
