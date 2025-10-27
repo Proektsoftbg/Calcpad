@@ -56,15 +56,19 @@ namespace Calcpad.Core
         private double Fd(double x)
         {
             Variable.SetNumber(x);
-            var result = IValue.AsValue(Function(), Exceptions.Items.Result);
-            Units = result.Units;
-            if (IsComplex && !result.IsReal)
-                throw Exceptions.CannotEvaluateFunction(x.ToString(CultureInfo.InvariantCulture));
-
-            if (double.IsNaN(result.Re) || double.IsInfinity(result.Re))
+            var result = Function();
+            if (IsComplex)
+            {
+                var value = IValue.AsValue(result, Exceptions.Items.Result);
+                if (!value.IsReal)
+                    throw Exceptions.CannotEvaluateFunction(x.ToString(CultureInfo.InvariantCulture));
+            }
+            var real = IValue.AsReal(result, Exceptions.Items.Result);
+            Units = real.Units;
+            if (double.IsNaN(real.D) || double.IsInfinity(real.D))
                 throw Exceptions.FunctionNotDefined(x.ToString(CultureInfo.InvariantCulture));
 
-            return result.Re;
+            return real.D;
         }
 
         private Complex Fc(Complex x)
