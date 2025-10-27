@@ -560,12 +560,35 @@
                 <a href="#0" data-text="$Map{f(x; y) @ x = a : b & y = c : d}"><span class="cond">$Map</span><span class="b">{</span><b>f</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="b">)</span> <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var> <span class="o">&amp;</span> <var>y</var> <span class="o">=</span> <var>c</var> <span class="o">:</span> <var>d</var><span class="b">}</span></a> - 2D color map of a 3D surface;<br />
                 <a href="#0" data-text="PlotHeight ="><var>PlotHeight</var></a> - height of plot area in pixels;<br />
                 <a href="#0" data-text="PlotWidth ="><var>PlotWidth</var></a> - width of plot area in pixels;<br />
-                <a href="#0" data-text="PlotStep ="><var>PlotStep</var></a> - the size of the mesh for map plotting;<br />
                 <a href="#0" data-text="PlotSVG ="><var>PlotSVG</var></a> - draw plots in vector, SVG format (= 1) or raster, PNG (= 0);<br />
-                <a href="#0" data-text="PlotPalette ="><var>PlotPalette</var></a> - the number of color palette to be used for surface plots (0-9);<br />
+                <a href="#0" data-text="PlotAdaptive ="><var>PlotAdaptive</var></a> - use adaptive mesh (= 1) for function plotting or uniform (= 0);<br />
+                <a href="#0" data-text="PlotStep ="><var>PlotStep</var></a> - the size of the mesh for map plotting;<br />
+                <a href="#0" id="pal" data-text="PlotPalette ="><var>PlotPalette</var></a> - the number of color palette to be used for surface plots (0-9): 
+					<select name="pal" class="insert">
+					<option value="0">0 - None</option>
+					<option value="1">1 - Gray</option>
+					<option value="2">2 - Rainbow</option>
+					<option value="3">3 - Terrain</option>
+					<option value="4">4 - Violet-yellow</option>
+					<option value="5">5 - Green-yellow</option>
+					<option value="6">6 - Blues</option>
+					<option value="7">7 - Blue-yellow</option>
+					<option value="8">8 - Blue-red</option>
+					<option value="9">9 - Purple-yellow</option>
+				</select><br />
                 <a href="#0" data-text="PlotShadows ="><var>PlotShadows</var></a> - draw surface plots with shadows;<br />
-                <a href="#0" data-text="PlotSmooth ="><var>PlotSmooth</var></a> - smooth transition of colors (= 1) or  isobands (= 0) for surface plots;<br />
-                <a href="#0" data-text="PlotLightDir ="><var>PlotLightDir</var></a> - direction to light source (0-7) clockwise.
+                <a href="#0" data-text="PlotSmooth ="><var>PlotSmooth</var></a> - smooth gradient coloring (= 1) or  isobands (= 0) for surface plots;<br />
+                <a href="#0" id="dir" data-text="PlotLightDir ="><var>PlotLightDir</var></a> - direction to light source (0-7) clockwise: 
+				<select name="dir" class="insert">
+					<option value="0">0 - North</option>
+					<option value="1">1 - NorthEast</option>
+					<option value="2">2 - East</option>
+					<option value="3">3 - SouthEast</option>
+					<option value="4">4 - South</option>
+					<option value="5">5 - SouthWest</option>
+					<option value="6">6 - West</option>
+					<option value="7">7 – NorthWest</option>
+				</select>.
             </span>
         </li>
         <li style="list-style-type: none;">
@@ -1274,8 +1297,21 @@
                     chrome.webview.postMessage('clicked');
                 });
 				
+				$("select.insert").change(function () {
+                    var id = $(this).attr("name")
+                    if (id != null && id.length > 0) {
+                        var target = $("#" + id);
+                        if (target != null) {
+                            var s = target.data("text");
+                            target.data("text", s.substring(0, s.indexOf('=') + 1) + " " + $(this).val());
+                            target.focus();
+							chrome.webview.postMessage('clicked');
+                        }
+                    }
+                });
+				
 				window.addEventListener('click', () => {
-					window.chrome.webview.postMessage('focused');
+					chrome.webview.postMessage('focused');
 				});
             });
         }

@@ -147,7 +147,7 @@ namespace Calcpad.Core
             var ys = (Height - 2 * Margin) / (endY - startY);
             var y0 = Height - Margin + (int)(startY * ys);
             var bounds = new Box(startX, startY, endX, endY);
-            var isVector = Settings.VectorGraphics || Parser.PlotSVG;
+            var isVector = IsVector;
             var isFIle = !string.IsNullOrEmpty(Settings.ImagePath);
             var ext = isVector ? "svg" : "png";
             var fileName = isFIle ?

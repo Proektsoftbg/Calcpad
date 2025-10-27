@@ -1584,11 +1584,21 @@
             <code><span class="cond">$Plot</span>{<b>x</b><sub>1</sub>(<var>t</var>)|<b>y</b><sub>1</sub>(<var>t</var>) &amp; <b>x</b><sub>2</sub>(<var>t</var>)|<b>y</b><sub>2</sub>(<var>t</var>) &amp; … &#64; <var>t</var> = <var>a</var> : <var>b</var>}</code> - multiple parametric;<br />
             <code><span class="cond">$Map</span>{<b>f</b>(<var>x</var>; <var>y</var>) &#64; <var>x</var> = <var>a</var> : <var>b</var> &amp; <var>y</var> = <var>c</var> : <var>d</var>}</code> - draws a 2D color map of a 3D surface, defined by <b>f</b>(<var>x</var>; <var>y</var>).
         </p>
-        <p>The <span class="cond">$Plot</span>{…} function must be the first thing in a line. You can have only spaces and tabs before, not even comments. Otherwise, the program will return an error. Any text after the closing bracket "}" will be ignored. Plotting supports only real numbers. You can use it in complex mode, only if <var>x</var> and <var>y</var> are real and the function returns real result along the plotting interval.</p>
-        <p>You can specify the size of the plot area by defining two variables: <var>PlotWidth</var> and <var>PlotHeight</var> in pixels. The default values are <var>PlotWidth</var> = 400 and <var>PlotHeight</var> = 250.</p>
-		<p>You can draw plots in either raster (PNG) or vector (SVG) format. The vector format is usually smaller and faster than the raster one. However, you may have problems with export to older version of Word or other software that does not support the SVG format. You can control this option by setting the <var>PlotSVG</var> variable. If you set  <var>PlotSVG</var> = 1 or any other nonzero variable, Calcpad will draw the plots in SVG format. If you assign <var>PlotSVG</var> = 0, it will use the PNG format.<br />
-        <p>The <span class="cond">$Map</span>{…} function can work with different color palettes. Select the preferred one from the "<b>Palette</b>" combo box on the bottom of the program window. If you select the "<b>Smooth</b>" checkbox, the scale will be displayed as a smooth gradient. Otherwise, the program will draw color strips. You can also add 3D effects to the graph by selecting the "<b>Shadows</b>" checkbox. You can also specify light direction by the respective combo. Besides UI controls, you can specify these options by using variables at worksheet level, as follows:</p>
+        <p>The <span class="cond">$Plot</span> function must be the first thing in a line. You can have only spaces and tabs before, not even comments. Otherwise, the program will return an error. Any text after the closing bracket "}" will be ignored. Plotting supports only real numbers. You can use it in complex mode, only if <var>x</var> and <var>y</var> are real and the function returns real result along the plotting interval.</p>
+        <p>You can specify the size of the plot area by defining two variables: <var>PlotWidth</var> and <var>PlotHeight</var> in pixels. The default values are <var>PlotWidth</var> = 400 and <var>PlotHeight</var> = 250. Plots can be in either in raster (PNG) or vector (SVG) format. The vector format is usually smaller and faster than the raster one. However, you may have problems with export to older version of Word or other software that does not support SVG. You can turn this option on and off by setting the <var>PlotSVG</var> variable to 1 and  0, respectively. Any nonzero value is equivalent to setting it to one.</p>
+		<p>Plotting a function requires multiple evaluations. This is performed at uniformly spaced points of a dense mesh so that to catch any variations of function values. However, if evaluations are computationally expensive, this approach can be very time-consuming. In such cases, you can use adaptive plotting. It starts with a coarse mesh and condenses it adaptively to the curvature. Where the function is smoother, the mesh remains coarser, so that the total number of points is optimal and much less than for uniform mesh. You can switch adaptive plotting on and off by clicking the "<b>Adaptive</b>" checkbox or setting the <var>PlotAdaptive</var> variable to 1 and 0, respectively. Adaptive potting will work for relatively smooth plots with limited number of breaks and jumps. If you have rapidly oscillating functions, it is possible to miss some peaks, so it is recommended to turn it off.</p>
+		<p>The <span class="cond">$Map</span> function can work with different color palettes. Select the preferred one from the "<b>Palette</b>" combo box on the bottom of the program window. If you check the "<b>Smooth</b>" checkbox, the coloring will be displayed as a smooth gradient. Otherwise, the program will display strips. You can also add 3D effects to the graph by selecting the "<b>Shadows</b>" checkbox. You can also specify light direction by the respective combo. Besides UI controls, you can specify these options by using variables at worksheet level, as follows:</p>
 		<p style="margin-left: 2em;">
+			<var>PlotShadows</var> - draw surface plots with shadows;<br />
+			<var>PlotLightDir</var> - direction to light source (0-7) clockwise:<br />
+			&emsp;&emsp;0 - North<br />
+            &emsp;&emsp;1 - NorthEast<br />
+            &emsp;&emsp;2 - East<br />
+            &emsp;&emsp;3 - SouthEast<br />
+            &emsp;&emsp;4 - South<br />
+            &emsp;&emsp;5 - SouthWest<br />
+            &emsp;&emsp;6 - West<br />
+            &emsp;&emsp;7 - NorthWest<br />
 			<var>PlotPalette</var> - the number of color palette to be used for surface plots (0-9);<br />
 			&emsp;&emsp;0 - <b class="palette" style="width:9.9em; border: solid 0.5pt #aaa;">None</b><br />
 			&emsp;&emsp;1 - <b class="palette" style="width:9.95em; border-right: solid 0.5pt #aaa; color:white; background: linear-gradient(to left, #FFFFFF, #464646)">Gray</b><br />
@@ -1600,17 +1610,7 @@
 			&emsp;&emsp;7 - <b class="palette" style="background: linear-gradient(to left, #FFFC20, #00FF40, #20A0C0, #4060FF)">Blue-yellow</b><br />
 			&emsp;&emsp;8 - <b class="palette" style="background: linear-gradient(to left, #FF6000, #DDFFDD, #4060FF)">Blue-red</b><br />
 			&emsp;&emsp;9 - <b class="palette" style="background: linear-gradient(to left, #FFFC20, #FF8080, #EA40FF, #4020FA)">Purple-yellow</b><br />
-			<var>PlotShadows</var> - draw surface plots with shadows;<br />
-			<var>PlotSmooth</var> - smooth transition of colors (= 1) or  isobands (= 0) for surface plots;<br />
-			<var>PlotLightDir</var> - direction to light source (0-7) clockwise:<br />
-			&emsp;&emsp;0 - North<br />
-            &emsp;&emsp;1 - NorthEast<br />
-            &emsp;&emsp;2 - East<br />
-            &emsp;&emsp;3 - SouthEast<br />
-            &emsp;&emsp;4 - South<br />
-            &emsp;&emsp;5 - SouthWest<br />
-            &emsp;&emsp;6 - West<br />
-            &emsp;&emsp;7 - NorthWest
+			<var>PlotSmooth</var> - smooth transition of colors (= 1) or  isobands (= 0) for surface plots.
 		</p>
         <p>Examples of different plotting methods are provided below:</p>
         <table class="nb">

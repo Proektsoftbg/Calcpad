@@ -29,7 +29,7 @@ namespace Calcpad.Core
             GetImageSize();
             var charts = new Chart[fx.Length];
             Box limits = new();
-            var n = Settings.IsAdaptive ? 2 : 1;
+            var n = IsAdaptive ? 2 : 1;
             double x0 = 0.0, y0 = 0.0, xs = 0.0, ys = 0.0;
             for (int k = 0; k < n; ++k)
             {
@@ -75,7 +75,7 @@ namespace Calcpad.Core
                 ys = (Height - 2 * Margin) / limits.Height;
                 y0 = Height - Margin + (int)(limits.Bottom * ys);
             }
-            var isVector = Settings.VectorGraphics || Parser.PlotSVG;
+            var isVector = IsVector;
             var isFIle = !string.IsNullOrEmpty(Settings.ImagePath);
             var ext = isVector ? "svg" : "png";
             var fileName = isFIle ?
@@ -108,7 +108,7 @@ namespace Calcpad.Core
 
         private Node[] Calculate(Func<IValue> fx, Func<IValue> fy, double start, double end, Unit u)
         {
-            var n = Settings.IsAdaptive ? 31 : 512;
+            var n = IsAdaptive ? 31 : 512;
             var s = (end - start) / n;
             var points = new Node[n + 1];
             var t = start;

@@ -82,7 +82,8 @@ namespace Calcpad.Core
         public int Degrees { set => _calc.Degrees = value; }
         internal int PlotWidth => (int)GetSettingsVariable("PlotWidth", 500);
         internal int PlotHeight => (int)GetSettingsVariable("PlotHeight", 300);
-        internal bool PlotSVG => GetSettingsVariable("PlotSVG", 0) != 0;
+        internal double PlotSVG => GetSettingsVariable("PlotSVG", double.NaN);
+        internal double PlotAdaptive => GetSettingsVariable("PlotAdaptive", double.NaN);
         internal int PlotStep => (int)GetSettingsVariable("PlotStep", 0);
 
         public const char DecimalSymbol = '.';
