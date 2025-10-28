@@ -1,0 +1,28 @@
+"Cubic Equation Roots Function
+'For solving equations of type'f(x) = x^3 + a*x^2 + b*x + c'= 0
+#rad
+cubicRoots_1(a; Q; R) = $block{
+  A = -sign(R)*(abs(R) + sqr(R^2 - Q^3))^(1/3); 
+  x_1 = if(A ≡ 0; -a/3; A + Q/A - a/3); 
+  x = hp([x_1; x_1; x_1]); 
+}
+cubicRoots_3(a; Q; R) = $block{
+  θ = acos(R/sqr(Q^3)); 
+  x_1 = -2*sqr(Q)*cos(θ/3) - a/3; 
+  x_2 = -2*sqr(Q)*cos((θ - 2*π)/3) - a/3; 
+  x_3 = -2*sqr(Q)*cos((θ + 2*π)/3) - a/3; 
+  x = hp([x_1; x_2; x_3]); 
+}
+cubicRoots(a; b; c) = $block{
+  Q = (a^2 - 3*b)/9; 
+  R = (2*a^3 - 9*a*b + 27*c)/54; 
+  x = if(R^2 < Q^3; cubicRoots_3(a; Q; R); cubicRoots_1(a; Q; R)); 
+}
+x = cubicRoots(-6; 11; -6)
+#hide
+a = -6', 'b = 11', 'c = -6
+d = max(abs(x.3 - x.1)/4; 0.5)
+x_min = min(x.1; x.3) - d','x_max = max(x.1; x.3) + d
+PlotWidth = 200', 'PlotHeight = 150
+#show
+$Plot{f(ξ) & x.1|0 & x.2|0 & x.3|0 @ ξ = x_min : x_max}

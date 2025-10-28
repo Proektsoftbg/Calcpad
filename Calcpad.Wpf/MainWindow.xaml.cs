@@ -2423,11 +2423,11 @@ namespace Calcpad.Wpf
         {
             var tps = RichTextBox.Selection.Start;
             var tpe = RichTextBox.Selection.End;
-            if (tps.Paragraph is null && tpe.Paragraph is null)
-                return;
 
             var p = tps.Paragraph;
             p ??= tpe.Paragraph;
+            if (p is null)
+                return;
 
             if (!ReferenceEquals(_currentParagraph, tps.Paragraph) &&
                 !ReferenceEquals(_currentParagraph, tpe.Paragraph))

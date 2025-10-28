@@ -373,6 +373,6 @@ namespace Calcpad.Core
         }
 
         internal override string FormatBlock(string[] sa) =>
-            $"<small class=\"gray\">🞀</small><span class=\"block\">{string.Join("<br /> ", sa)}</span>";
+            $"<small class=\"arr\">🞀</small><span class=\"block\">{string.Join("<br /> ", sa)}</span>";
     }
 }
