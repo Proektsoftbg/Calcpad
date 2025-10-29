@@ -616,7 +616,7 @@ namespace Calcpad.Wpf
                         else if (c == '·')
                             c = '*';
 
-                        if (_state.IsLeading && !Validator.IsWhiteSpace(c))
+                        if (i > 0 && _state.IsLeading && !Validator.IsWhiteSpace(c))
                             Append(Types.None);
                     }
                     if (i == len - 1 &&
@@ -864,6 +864,11 @@ namespace Calcpad.Wpf
             else
             {
                 c = _builder[^1];
+                if (_state.CurrentType == Types.Comment && c == ' ')
+                {
+                    _builder.Remove(_builder.Length - 1, 1);
+                    c = '\0';
+                }
                 Append(_state.CurrentTypeOrPreviousIfCurrentIsNone);
             }
             if (c == ' ')
