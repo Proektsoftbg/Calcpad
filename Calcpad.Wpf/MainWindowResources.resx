@@ -1140,4 +1140,10 @@ You can find your unsaved data in
   <data name="EmbedPlotsInsideTheHtmlAsBase64EncodedImagesSaveToFilesIfUnchecked" xml:space="preserve">
     <value>Embed plots inside the Html as base64 encoded images, Save to files if unchecked.</value>
   </data>
+  <data name="MultilineBlockOfExpressions" xml:space="preserve">
+    <value>Multiline block of expressions</value>
+  </data>
+  <data name="InlineBlockOfExpressions" xml:space="preserve">
+    <value>Inline block of expressions</value>
+  </data>
 </root>

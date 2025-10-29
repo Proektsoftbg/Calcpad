@@ -1,8 +1,8 @@
 "Koch Snowflake Generation
 'Initial triangle coordinates
 a = sqrt(3)/2
-x = [0; 1; 0.5; 0]
-y = [0; 0; a; 0]
+x = hp([0; 1; 0.5; 0])
+y = hp([0; 0; a; 0])
 'Number of iterations -'n = 6
 #val
 '<style>polygon {stroke:steelBlue; stroke-width:0.2; stroke-opacity:0.4;}</style> 
@@ -23,18 +23,18 @@ w = 300', 'h = 1.2*w', 'k = 100
 	x1 = [x.1]', 'y1 = [y.1]
 	'Iterate over the segments
 	#for j = 1 : n_p - 1
-		p1 = [x.j; y.j]'- the first point of the current segment
-		p2 = [x.(j + 1); y.(j + 1)]'- the second point
+		p1 = hp([x.j; y.j])'- the first point of the current segment
+		p2 = hp([x.(j + 1); y.(j + 1)])'- the second point
 		Δ = p2 - p1'- difference
 		'Add three intermediate points
 		A = p1 + Δ/3
-		B = p1 + Δ/2 + [Δ.2; -Δ.1]*a/3
+		B = p1 + Δ/2 + hp([Δ.2; -Δ.1])*a/3
 		C = p1 + Δ*2/3
 		'Build new vectors by concatenation
-		x1 = [x1; A.1; B.1; C.1; p2.1]
-		y1 = [y1; A.2; B.2; C.2; p2.2]
+		x1 = hp([x1; A.1; B.1; C.1; p2.1])
+		y1 = hp([y1; A.2; B.2; C.2; p2.2])
 	#loop
 	'Reassign to the original vectors
-	x = [x1; p2.1]
-	y = [y1; p2.2]
+	x = hp([x1; p2.1])
+	y = hp([y1; p2.2])
 #loop

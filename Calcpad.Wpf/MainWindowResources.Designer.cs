@@ -1493,6 +1493,15 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Inline block of expressions.
+        /// </summary>
+        public static string InlineBlockOfExpressions {
+            get {
+                return ResourceManager.GetString("InlineBlockOfExpressions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Inline Macro.
         /// </summary>
         public static string InlineMacro {
@@ -1777,6 +1786,15 @@ namespace Calcpad.Wpf {
         public static string MaxOutputCount {
             get {
                 return ResourceManager.GetString("MaxOutputCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Multiline block of expressions.
+        /// </summary>
+        public static string MultilineBlockOfExpressions {
+            get {
+                return ResourceManager.GetString("MultilineBlockOfExpressions", resourceCulture);
             }
         }
         

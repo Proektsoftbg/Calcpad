@@ -206,10 +206,8 @@ x2 = round(x_2*k*100)/100','y2 = round(y_2*k*100)/100
 	circle$(0; 0; R/2; solid_style$)' _
 	circle$(0; 0; R/8; solid_style$)' _
 	circle$(x_1i; y_1i; R_1; ball_style$)' _
-	circle$(x_2i; y_2i; R_2; ball_style$)' _
-	'</svg>
-	'</td></tr></table>
-	'</div>
+	circle$(x_2i; y_2i; R_2; ball_style$)
+	'</svg></td></tr></table></div>
 #loop
 '<script>$("#fr-1").show();$("#start").click(function(){$(this).hide(); var i='N';var fr=$("#fr-"+i);setInterval(function(){fr.hide();if(++i>'N')i=1;fr=$("#fr-"+i);fr.show();}, '900*h*k_N');});</script>
 #equ

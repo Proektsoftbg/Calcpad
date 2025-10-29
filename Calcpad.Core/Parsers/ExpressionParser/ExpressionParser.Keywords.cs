@@ -47,7 +47,8 @@ namespace Calcpad.Core
             Write,
             Append,
             Phasor,
-            Complex
+            Complex,
+            SkipLine
         }
         private enum KeywordResult  
         {

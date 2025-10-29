@@ -40,6 +40,15 @@ namespace Calcpad.Core
                 return lambda.Compile();
             }
 
+            internal Expression RpnToExpressionTree(Token[] rpn, bool allowAssignment)
+            {
+                if (rpn.Length < 1)
+                    throw Exceptions.ExpressionEmpty();
+
+                _allowAssignment = allowAssignment;
+                return Expression.Convert(Parse(rpn), typeof(IValue));
+            }
+
             private Expression Parse(Token[] rpn)
             {
                 var stackBuffer = new Stack<Expression>();
@@ -318,6 +327,7 @@ namespace Calcpad.Core
                         '∧' => Expression.And(a, b),
                         '∨' => Expression.Or(a, b),
                         '⊕' => Expression.ExclusiveOr(a, b),
+                        '⦼' => Expression.Modulo(a, b),
                         '∠' => Expression.Call(
                                 EvaluatePhasorMethod,
                                 Expression.Constant(a),

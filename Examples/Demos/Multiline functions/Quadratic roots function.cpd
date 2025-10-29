@@ -1,0 +1,13 @@
+"Quadratic Equation Roots function
+'Multiline code block example:
+quadRoots(a; b; c) = _
+$block{
+    D = b^2 - 4*a*c; 
+    x_1 = (-b - sqrt(D))/(2*a); 
+    x_2 = (-b + sqrt(D))/(2*a); 
+    [x_1; x_2]; 
+}
+quadRoots(2; 3; -5)
+'Inline code block example:
+quadRoots(a; b; c) = $inline{D = b^2 - 4*a*c; x_1 = (-b - sqrt(D))/(2*a); x_2 = (-b + sqrt(D))/(2*a); [x_1; x_2]}
+quadRoots(2; 3; -5)
