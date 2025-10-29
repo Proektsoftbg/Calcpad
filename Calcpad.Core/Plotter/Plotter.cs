@@ -17,6 +17,9 @@ namespace Calcpad.Core
         protected PlotSettings Settings;
         protected MathParser Parser;
         protected TextWriter Writer;
+        internal bool IsVector => double.IsNaN(Parser.PlotSVG) ? Settings.VectorGraphics : Parser.PlotSVG != 0d;
+        internal bool IsAdaptive => double.IsNaN(Parser.PlotAdaptive) ? Settings.IsAdaptive : Parser.PlotAdaptive != 0d;
+
         protected Plotter(MathParser parser, PlotSettings settings)
         {
             Settings = settings;

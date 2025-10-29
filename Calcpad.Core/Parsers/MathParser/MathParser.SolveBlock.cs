@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace Calcpad.Core
@@ -22,6 +23,8 @@ namespace Calcpad.Core
                 Repeat,
                 Sum,
                 Product,
+                Inline,
+                Block,
                 Error
             }
 
@@ -36,7 +39,9 @@ namespace Calcpad.Core
                 { "$slope", SolverTypes.Slope },
                 { "$repeat", SolverTypes.Repeat },
                 { "$sum", SolverTypes.Sum },
-                { "$product", SolverTypes.Product }
+                { "$product", SolverTypes.Product },
+                { "$inline", SolverTypes.Inline },
+                { "$block", SolverTypes.Block },
             }.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
 
             private static readonly string[] TypeNames =
@@ -45,13 +50,15 @@ namespace Calcpad.Core
                 "$Find",
                 "$Root",
                 "$Sup",
-                "$Inf",
+                "$inf",
                 "∫",
                 "∫",
                 "d/dt",
                 "$Repeat",
                 "∑",
                 "∏",
+                string.Empty,
+                string.Empty,
                 "$Error"
             ];
             private readonly MathParser _parser;
@@ -92,17 +99,30 @@ namespace Calcpad.Core
 
             private void Parse()
             {
+                var targetUnits = _parser._targetUnits;
+                if (_type == SolverTypes.Inline || _type == SolverTypes.Block)
+                    _items = ParseBlockOrInline(Script);
+                else
+                    _items = ParseSolver(Script);
+
+                _parser._targetUnits = targetUnits;
+                RenderOutput();
+            }
+
+            private SolverItem[] ParseSolver(string script)
+            {
                 var n = 3;
                 if (_type == SolverTypes.Slope)
                     n = 2;
 
                 const string delimiters = "@=:";
-                _items = new SolverItem[5];
+                var items = new SolverItem[n + 1];
                 int current = 0, bracketCounter = 0;
-                var sb = new StringBuilder();
-                for (int i = 0, len = Script.Length; i < len; ++i)
+                var ts = new TextSpan(script);  
+                var len = script.Length;
+                for (int i = 0; i < len; ++i)
                 {
-                    var c = Script[i];
+                    var c = script[i];
                     if (c == '{')
                         ++bracketCounter;
                     else if (c == '}')
@@ -110,49 +130,65 @@ namespace Calcpad.Core
 
                     if (bracketCounter == 0 && current < n && c == delimiters[current])
                     {
-                        _items[current].Input = sb.ToString();
-                        sb.Clear();
+                        ts.ExpandTo(i);
+                        items[current].Input = ts.Cut().ToString();
+                        ts.Reset(i + 1);
                         ++current;
                     }
                     else
-                        sb.Append(c);
+                        ts.Expand();
                 }
-
-                _items[current].Input = sb.ToString();
-                var targetUnits = _parser._targetUnits;
-                var allowAssignment = _type == SolverTypes.Repeat || _type == SolverTypes.Root;
+                ts.ExpandTo(len);
+                items[current].Input = ts.Cut().ToString();
                 for (int i = 0; i <= n; ++i)
-                    if (string.IsNullOrWhiteSpace(_items[i].Input))
+                    if (string.IsNullOrWhiteSpace(items[i].Input))
                     {
                         var j = i == 0 ? 0 : i - 1;
-                        throw Exceptions.MissingDelimiter(delimiters[j], $"{TypeName(_type)}{{{Script}}}" );
+                        throw Exceptions.MissingDelimiter(delimiters[j], $"{TypeName(_type)}{{{script}}}");
                     }
 
+                if (_type == SolverTypes.Repeat)
+                {
+                    var additionalItems = ParseBlockOrInline(items[0].Input);
+                    len = additionalItems.Length - 1;
+                    if (len > 0)
+                    {
+                        items[0] = additionalItems[0];
+                        n = 3 + len;
+                        SolverItem[] result = new SolverItem[n + 1];
+                        Array.Copy(items, 0, result, 0, 4);
+                        Array.Copy(additionalItems, 1, result, 4, len);
+                        items = result;
+                    }
+                }
+                else if (_type == SolverTypes.Root)
+                {
+                    ref var item = ref items[0];
+                    var s = item.Input.Split('=');
+                    if (s.Length == 2)
+                    {
+                        item.Input = s[0];
+                        Array.Resize(ref items, 5);
+                        items[4].Input = s[1];
+                        n = 4;
+                    }
+                    else if (s.Length > 2)
+                        throw Exceptions.MultipleAssignments(string.Join('=', s));
+                }
+                var allowAssignment = _type == SolverTypes.Repeat || _type == SolverTypes.Root;
                 for (int i = 0; i <= n; ++i)
                 {
-                    ref var item = ref _items[i];
+                    ref var item = ref items[i];
                     item.Input = item.Input.Trim();
-                    if (i == 0 && _type == SolverTypes.Root)
-                    {
-                        var s = item.Input.Split('=');
-                        item.Input = s[0];
-                        if (s.Length == 2)
-                        {
-                            _items[4].Input = s[1];
-                            n = 4;
-                        }
-                        else if (s.Length > 2)
-                            throw Exceptions.MultipleAssignments(string.Join('=', s));
-                    }
-                    _parser.Parse(item.Input, i == 0 && allowAssignment);
+                    _parser.Parse(item.Input, (i == 0 || i > 3) && allowAssignment);
                     item.Rpn = _parser._rpn;
                 }
                 if (_type == SolverTypes.Inf || _type == SolverTypes.Sup)
                 {
-                    var s = _items[1].Input + (_type == SolverTypes.Sup ? "_sup" : "_inf");
+                    var s = items[1].Input + (_type == SolverTypes.Sup ? "_sup" : "_inf");
                     _parser.SetVariable(s, RealValue.NaN);
                 }
-                var rpn = _items[1].Rpn;
+                var rpn = items[1].Rpn;
                 Parameter[] parameters;
                 if (rpn.Length == 1 && rpn[0] is VariableToken vt)
                 {
@@ -165,24 +201,87 @@ namespace Calcpad.Core
 
                 if (_parser.IsEnabled)
                 {
-                    rpn = _items[0].Rpn;
+                    rpn = items[0].Rpn;
                     _parser.BindParameters(parameters, rpn);
                     _parser.SubscribeOnChange(rpn, Clear);
-                    _parser.SubscribeOnChange(_items[2].Rpn, Clear);
-                    if (n == 3)
-                        _parser.SubscribeOnChange(_items[3].Rpn, Clear);
+                    _parser.SubscribeOnChange(items[2].Rpn, Clear);
+                    if (items.Length > 3)
+                    {
+                        rpn = items[3].Rpn;
+                        if (rpn is not null)
+                            _parser.SubscribeOnChange(rpn, Clear);
+                    }
                 }
-
                 if (_type == SolverTypes.Repeat)
-                    FixRepeat(_items[0].Rpn);
+                    for(int i = 0; i < items.Length; i++)
+                        if (i == 0 || i > 3)
+                        {
+                            rpn = items[i].Rpn;
+                            if (rpn is not null && rpn.Length > 0)
+                            {
+                                FixRepeat(rpn);
+                                if (i > 3)
+                                {
+                                    _parser.BindParameters(parameters, rpn);
+                                    _parser.SubscribeOnChange(rpn, Clear);
+                                }
+                            }
+                        }
 
-                _parser._targetUnits = targetUnits;
                 IsFigure = _type == SolverTypes.Sum ||
                    _type == SolverTypes.Product ||
                    _type == SolverTypes.Integral ||
                    _type == SolverTypes.Area;
 
-                RenderOutput();
+                return items;
+            }
+
+            private SolverItem[] ParseBlockOrInline(string script)
+            {
+                int bracketCounter = 0, curlyBracketCounter = 0, squareBracketCounter = 0;
+                var ts = new TextSpan(script);
+                var len = script.Length;
+                var itemList = new List<SolverItem>();
+                for (int i = 0; i < len; ++i)
+                {
+                    var c = script[i];
+                    if (c == '(')
+                        ++bracketCounter;
+                    else if (c == ')')
+                        --bracketCounter;
+                    else if(c == '[')
+                        ++squareBracketCounter;
+                    else if (c == ']')
+                        --squareBracketCounter;
+                    else if(c == '{')
+                        ++curlyBracketCounter;
+                    else if (c == '}')
+                        --curlyBracketCounter;
+
+                    if (bracketCounter == 0 && 
+                        squareBracketCounter == 0 && 
+                        curlyBracketCounter == 0 && 
+                        c == ';')
+                    {
+                        ts.ExpandTo(i);
+                        itemList.Add(new SolverItem() { Input = ts.Cut().ToString() });
+                        ts.Reset(i + 1);
+                    }
+                    else
+                        ts.Expand();
+                }
+                ts.ExpandTo(len);
+                itemList.Add(new SolverItem() { Input = ts.Cut().ToString() });
+                var n = itemList.Count - 1;
+                var itemArray = itemList.ToArray();
+                for (int i = 0; i <= n; ++i)
+                {
+                    ref var item = ref itemArray[i];
+                    item.Input = item.Input.Trim();
+                    _parser.Parse(item.Input,true);
+                    item.Rpn = _parser._rpn;
+                }
+                return itemArray;
             }
 
             private void RenderOutput()
@@ -218,14 +317,44 @@ namespace Calcpad.Core
 
             private void Compile() 
             {
-                _f = _parser.CompileRpn(_items[0].Rpn, _type == SolverTypes.Repeat);
+                var allowAssignment = 
+                    _type == SolverTypes.Repeat || 
+                    _type == SolverTypes.Inline || 
+                    _type == SolverTypes.Block;
+                _f = _parser.CompileRpn(_items[0].Rpn, allowAssignment);
+
+                var len = _items.Length;
+                if (allowAssignment)
+                {
+                    var i0 = _type == SolverTypes.Repeat ? 4 : 1;
+                    if (len > i0)
+                    {
+                        var e = _parser.RpnToExpressionTree(_items[0].Rpn, allowAssignment);
+                        var expressions = new List<Expression>(len - i0 + 1) { e };
+                        for (int i = i0; i < len; ++i)
+                        {
+                            var rpn = _items[i].Rpn;
+                            if (rpn.Length > 0)
+                            {
+                                e = _parser.RpnToExpressionTree(rpn, true);
+                                expressions.Add(e);
+                            }
+                        }
+                        var body = Expression.Block(expressions);
+                        var lambda = Expression.Lambda<Func<IValue>>(body);
+                        _f = lambda.Compile();
+                    }
+                    if (i0 == 1)
+                        return;
+                }
+
                 if (_items[2].Rpn.Length == 1 &&
                     _items[2].Rpn[0].Type == TokenTypes.Constant)
                     _va = ((ValueToken)_items[2].Rpn[0]).Value;
                 else
                     _a = _parser.CompileRpn(_items[2].Rpn);
 
-                if (_items[3].Rpn is not null)
+                if (len > 3 && _items[3].Rpn is not null)
                 {
                     if (_items[3].Rpn.Length == 1 &&
                         _items[3].Rpn[0].Type == TokenTypes.Constant)
@@ -233,22 +362,16 @@ namespace Calcpad.Core
                     else
                         _b = _parser.CompileRpn(_items[3].Rpn);
                 }
-                if (_items[4].Rpn is not null)
+                if (len > 4 && _items[4].Rpn is not null)
                     _y = _parser.CompileRpn(_items[4].Rpn);
             }
 
             internal void BindParameters(ReadOnlySpan<Parameter> parameters, MathParser parser)
             {
                 if (parser.IsEnabled)
-                {
-                    parser.BindParameters(parameters, _items[0].Rpn);
-                    parser.BindParameters(parameters, _items[2].Rpn);
-                    if (_items[3].Rpn is not null)
-                        parser.BindParameters(parameters, _items[3].Rpn);
-
-                    if (_items[4].Rpn is not null)
-                        parser.BindParameters(parameters, _items[4].Rpn);
-                }
+                    for (int i = 0, len = _items.Length; i < len; ++i)
+                        if (i != 1 || _type == SolverTypes.Inline || _type == SolverTypes.Block)
+                            parser.BindParameters(parameters, _items[i].Rpn);
             }
 
             private void Clear() => OnChange?.Invoke();
@@ -258,16 +381,19 @@ namespace Calcpad.Core
                 if (_f is null)
                     Compile();
 
+                if (_type == SolverTypes.Inline || _type == SolverTypes.Block)
+                {
+                    Result = _f();
+                    return Result;
+                }
                 ++_parser._isSolver;
-                IScalarValue x1 = IValue.AsValue((_a?.Invoke() ?? _va));
-                _parser.CheckReal(x1);
-                IScalarValue x2 = RealValue.Zero;
+                var x1 = IValue.AsReal((_a?.Invoke() ?? _va));
+                var x2 = RealValue.Zero;
                 var y = 0d;
                 var ux1 = x1.Units;
                 if (_type != SolverTypes.Slope)
                 {
-                    x2 = IValue.AsValue((_b?.Invoke() ?? _vb), Exceptions.Items.Limit);
-                    _parser.CheckReal(x2);
+                    x2 = IValue.AsReal((_b?.Invoke() ?? _vb), Exceptions.Items.Limit);
                     var ux2 = x2.Units;
                     if (!Unit.IsConsistent(ux1, ux2))
                         throw Exceptions.InconsistentUnits2(_items[0].Input, Unit.GetText(ux1), Unit.GetText(ux2));
@@ -278,17 +404,15 @@ namespace Calcpad.Core
                 _var.SetValue(x1);
                 if (_type == SolverTypes.Root && _y is not null)
                 {
-                    var y1 = IValue.AsValue(_f(), Exceptions.Items.Result);
+                    var y1 = IValue.AsReal(_f(), Exceptions.Items.Result);
                     var uy1 = y1.Units;
-                    y1 = IValue.AsValue(_y(), Exceptions.Items.Result);
-                    _parser.CheckReal(y1);
-                    _var.SetNumber(x2.Re);
-                    var y2 = IValue.AsValue(_y(), Exceptions.Items.Result);
-                    _parser.CheckReal(y2);
-                    if (Math.Abs(y2.Re - y1.Re) > 1e-14)
+                    y1 = IValue.AsReal(_y(), Exceptions.Items.Result);
+                    _var.SetNumber(x2.D);
+                    var y2 = IValue.AsReal(_y(), Exceptions.Items.Result);
+                    if (Math.Abs(y2.D - y1.D) > 1e-14)
                         throw Exceptions.NotConstantExpression(_items[4].Input);
 
-                    y = y1.Re;
+                    y = y1.D;
                     var uy2 = y2.Units;
                     if (!Unit.IsConsistent(uy1, uy2))
                         throw Exceptions.InconsistentUnits1(_items[0].Input, _items[4].Input);
@@ -311,48 +435,48 @@ namespace Calcpad.Core
                     switch (_type)
                     {
                         case SolverTypes.Find:
-                            d = solver.Find(x1.Re, x2.Re);
+                            d = solver.Find(x1.D, x2.D);
                             result = new RealValue(d);
                             break;
                         case SolverTypes.Root:
-                            d = solver.Root(x1.Re, x2.Re, y);
+                            d = solver.Root(x1.D, x2.D, y);
                             result = new RealValue(d);
                             break;
                         case SolverTypes.Sup:
-                            d = solver.Sup(x1.Re, x2.Re);
+                            d = solver.Sup(x1.D, x2.D);
                             result = new RealValue(d);
                             break;
                         case SolverTypes.Inf:
-                            d = solver.Inf(x1.Re, x2.Re);
+                            d = solver.Inf(x1.D, x2.D);
                             result = new RealValue(d);
                             break;
                         case SolverTypes.Area:
                             solver.QuadratureMethod = QuadratureMethods.AdaptiveLobatto;
-                            d = solver.Area(x1.Re, x2.Re);
+                            d = solver.Area(x1.D, x2.D);
                             result = new RealValue(d);
                             break;
                         case SolverTypes.Integral:
                             solver.QuadratureMethod = QuadratureMethods.TanhSinh;
-                            d = solver.Area(x1.Re, x2.Re);
+                            d = solver.Area(x1.D, x2.D);
                             result = new RealValue(d);
                             break;
                         case SolverTypes.Repeat:
                             result = _parser._settings.IsComplex ?
-                                new ComplexValue(solver.ComplexRepeat(x1.Re, x2.Re)) :
-                                solver.Repeat(x1.Re, x2.Re);
+                                new ComplexValue(solver.ComplexRepeat(x1.D, x2.D)) :
+                                solver.Repeat(x1.D, x2.D);
                             break;
                         case SolverTypes.Sum:
                             result = _parser._settings.IsComplex ?
-                                new ComplexValue(solver.ComplexSum(x1.Re, x2.Re)) :
-                                new RealValue(solver.Sum(x1.Re, x2.Re));
+                                new ComplexValue(solver.ComplexSum(x1.D, x2.D)) :
+                                new RealValue(solver.Sum(x1.D, x2.D));
                             break;
                         case SolverTypes.Product:
                             result = _parser._settings.IsComplex ?
-                                new ComplexValue(solver.ComplexProduct(x1.Re, x2.Re)) :
-                                new RealValue(solver.Product(x1.Re, x2.Re));
+                                new ComplexValue(solver.ComplexProduct(x1.D, x2.D)) :
+                                new RealValue(solver.Product(x1.D, x2.D));
                             break;
                         case SolverTypes.Slope:
-                            d = solver.Slope(x1.Re);
+                            d = solver.Slope(x1.D);
                             result = new RealValue(d);
                             break;
                     }
@@ -396,6 +520,18 @@ namespace Calcpad.Core
 
             internal string ToHtml(bool formatEquations)
             {
+                var len = _items.Length;
+                if (_type == SolverTypes.Inline || _type == SolverTypes.Block)
+                {
+                    var html = new string[len];
+                    for (int i = 0; i < len; ++i)
+                        html[i] = _items[i].Html;
+
+                    if (_type == SolverTypes.Inline)
+                        html = [string.Join("; ",  html)];
+
+                    return new HtmlWriter(_parser._settings, _parser.Phasor).FormatBlock(html);
+                }
                 if (formatEquations)
                 {
                     if (_type == SolverTypes.Integral || _type == SolverTypes.Area)
@@ -423,16 +559,32 @@ namespace Calcpad.Core
                     }
                 }
                 var sb = new StringBuilder();
-                sb.Append("<span class=\"cond\">" + TypeName(_type) + "</span>{");
-                sb.Append(_items[0].Html);
+                sb.Append("<span class=\"cond\">" + TypeName(_type) + "</span>");
+                if (_type == SolverTypes.Repeat && len > 4)
+                {
+                    var html = new string[len - 2];
+                    html[0] = $"<span class=\"cond\">for</span> {_items[1].Html} = {_items[2].Html}...{_items[3].Html}";
+                    html[1] = _items[0].Html;
+                    for (int i = 4; i < len; ++i)
+                        html[i - 2] = _items[i].Html;
+
+                    sb.Append(' ').Append(new HtmlWriter(_parser._settings, _parser.Phasor).FormatBlock(html));
+                    return sb.ToString();
+                }
+                sb.Append('{').Append(_items[0].Html);
                 if (_type == SolverTypes.Root)
                 {
-                    if (_items[4].Html is not null)
+                    if (_items.Length  > 4 &&  _items[4].Html is not null)
                         sb.Append(" = " + _items[4].Html);
                     else
                         sb.Append(" = 0");
                 }
-                sb.Append("; ");
+
+                if (_type == SolverTypes.Repeat)
+                    sb.Append(" for ");
+                else
+                    sb.Append("; ");
+
                 sb.Append(_items[1].Html);
                 if (_type == SolverTypes.Repeat || _type == SolverTypes.Slope)
                 {
@@ -458,6 +610,18 @@ namespace Calcpad.Core
 
             internal string ToXml()
             {
+                var len = _items.Length;
+                if (_type == SolverTypes.Inline || _type == SolverTypes.Block)
+                {
+                    var xml = new string[len];
+                    for (int i = 0; i < len; ++i)
+                        xml[i] = _items[i].Xml;
+
+                    if (_type == SolverTypes.Inline)
+                        xml = [string.Join(XmlWriter.Run("; "), xml)];
+
+                    return new XmlWriter(_parser._settings, _parser.Phasor).FormatBlock(xml);
+                }
                 if (_type == SolverTypes.Integral || _type == SolverTypes.Area)
                     return new XmlWriter(_parser._settings, _parser.Phasor).FormatNary(
                         TypeName(_type),
@@ -481,17 +645,35 @@ namespace Calcpad.Core
                         writer.FormatSubscript(writer.AddBrackets(_items[0].Xml, 1),
                         $"{XmlWriter.Run(_items[1].Input)}{XmlWriter.Run("\u2009=\u2009")}{_items[2].Xml}");
                 }
-
                 var sb = new StringBuilder();
-                sb.Append(_items[0].Xml);
-                if (_type == SolverTypes.Root)
+                if (_type == SolverTypes.Repeat && len > 4)
                 {
-                    if (_items[4].Xml is not null)
-                        sb.Append(XmlWriter.Run("=") + _items[4].Xml);
-                    else
-                        sb.Append(XmlWriter.Run("=0"));
+                    sb.Append(XmlWriter.Run(TypeName(_type), XmlWriter.NormalText));
+                    var xml = new string[len - 2];
+                    xml[0] = $"{XmlWriter.Run("for ", XmlWriter.NormalText)}{_items[1].Xml}{XmlWriter.Run("=")}{_items[2].Xml}{XmlWriter.Run("...")}{_items[3].Xml}";
+                    xml[1] = _items[0].Xml;
+                    for (int i = 4; i < len; ++i)
+                        xml[i - 2] = _items[i].Xml;
+
+                    sb.Append(new XmlWriter(_parser._settings, _parser.Phasor).FormatBlock(xml));
+                    return sb.ToString();
                 }
-                sb.Append(XmlWriter.Run(";"));
+                else
+                {
+                    sb.Append(_items[0].Xml);
+                    if (_type == SolverTypes.Root)
+                    {
+                        if (_items.Length > 4 && _items[4].Xml is not null)
+                            sb.Append(XmlWriter.Run("=") + _items[4].Xml);
+                        else
+                            sb.Append(XmlWriter.Run("=0"));
+                    }
+                }
+                if (_type == SolverTypes.Repeat)
+                    sb.Append(XmlWriter.Run("for "));
+                else
+                    sb.Append(XmlWriter.Run(";"));
+
                 sb.Append(_items[1].Xml);
                 if (_type == SolverTypes.Repeat || _type == SolverTypes.Slope)
                 {
@@ -509,11 +691,23 @@ namespace Calcpad.Core
                     sb.Append(XmlWriter.Brackets(_items[2].Xml + XmlWriter.Run(";") + _items[3].Xml, '[', ']'));
                 }
                 string s = sb.ToString();
-                return XmlWriter.Run(TypeName(_type)) + XmlWriter.Brackets(s, '{', '}');
+                return XmlWriter.Run(TypeName(_type), XmlWriter.NormalText) + XmlWriter.Brackets(s, '{', '}');
             }
 
             public override string ToString()
             {
+                var len = _items.Length;
+                if (_type == SolverTypes.Inline || _type == SolverTypes.Block)
+                {
+                    var text = new string[len];
+                    for (int i = 0; i < len; ++i)
+                        text[i] = _items[i].Input;
+
+                    if (_type == SolverTypes.Inline)
+                        text = [string.Join("; ", text)];
+
+                    return new TextWriter(_parser._settings, _parser.Phasor).FormatBlock(text);
+                }
                 if (_type == SolverTypes.Sum ||
                     _type == SolverTypes.Product ||
                     _type == SolverTypes.Integral ||
@@ -529,10 +723,19 @@ namespace Calcpad.Core
                 var sb = new StringBuilder();
                 sb.Append(TypeName(_type));
                 sb.Append('{');
+                if (_type == SolverTypes.Repeat && len > 4)
+                {
+                    var text = new string[len - 3];
+                    text[0] = _items[0].Input;
+                    for (int i = 4; i < len; ++i)
+                        text[i - 3] = _items[i].Input;
+
+                    sb.Append(new TextWriter(_parser._settings, _parser.Phasor).FormatBlock(text));
+                }
                 sb.Append(_items[0].Input);
                 if (_type == SolverTypes.Root)
                 {
-                    if (_items[4].Input is not null)
+                    if (_items.Length > 4 && _items[4].Input is not null)
                         sb.Append(" = " + _items[4].Input);
                     else
                         sb.Append(" = 0");

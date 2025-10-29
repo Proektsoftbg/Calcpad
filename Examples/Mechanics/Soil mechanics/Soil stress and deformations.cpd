@@ -13,7 +13,7 @@ R(x; y; z) = sqrt(x^2 + y^2 + z^2)
 d(x; y) = (1 - ν^2)/E_0*$Integral{σ_z(x; y; z) @ z = H_0 : H}|mm
 '<h4>Results</h4>
 'Maximum depth -'H = 6m
-'<!--'Precision = 10^-4','PlotStep = 5','H_0 = 0.01*H','k = 1.5'-->
+'<!--'Precision = 2*10^-4','PlotStep = 5','H_0 = 0.01*H','k = 1.5'-->
 'Plot for plane at'y = 0m
 '<!--'PlotWidth = 300','PlotHeight = 60'-->
 $Plot{p(x; y)*(abs(x) < a/2) @ x = -k*a : k*a}
@@ -34,7 +34,6 @@ $Map{τ_xz(x; y; z) @ x = -k*a : k*a & z = H : H_0}
 '<!--'PlotWidth = 60'-->
 $Plot{τ_xz(x; y; z)|-z @ z = H_0 : H}
 '</td></tr></table>
-'<!--'PlotWidth = 60'-->
 'Deformations, mm
 '<!--'PlotWidth = 300','PlotHeight = 60'-->
 $Plot{-d(x; y) & 0mm @ x = -k*a : k*a}

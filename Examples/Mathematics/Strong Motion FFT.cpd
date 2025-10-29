@@ -17,7 +17,7 @@ a_g
 'Imaginary values -'Im = row(A_f; 2)
 'Power spectral density -'P_f = Re^2 + Im^2
 'Magnitude spectrum -'A_mag = sqrt(P_f)
-'<!--'PlotHeight = 120''PlotSVG = 1'-->
+'<!--'PlotHeight = 120','PlotSVG = 1','PlotAdaptive = 0'-->
 'Input accelleration plot [cm/s²] vs time [s]
 $Plot{t(k)|line(k; a_g) @ k = 1 : n}
 'Power spectral density [(cm/s)²] vs frequency [Hz] in the range of 0-10 Hz

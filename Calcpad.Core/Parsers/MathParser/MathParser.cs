@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -81,7 +82,8 @@ namespace Calcpad.Core
         public int Degrees { set => _calc.Degrees = value; }
         internal int PlotWidth => (int)GetSettingsVariable("PlotWidth", 500);
         internal int PlotHeight => (int)GetSettingsVariable("PlotHeight", 300);
-        internal bool PlotSVG => GetSettingsVariable("PlotSVG", 0) != 0;
+        internal double PlotSVG => GetSettingsVariable("PlotSVG", double.NaN);
+        internal double PlotAdaptive => GetSettingsVariable("PlotAdaptive", double.NaN);
         internal int PlotStep => (int)GetSettingsVariable("PlotStep", 0);
 
         public const char DecimalSymbol = '.';
@@ -723,6 +725,7 @@ namespace Calcpad.Core
         }
 
         private Func<IValue> CompileRpn(Token[] rpn, bool allowAssignment = false) => _compiler.Compile(rpn, allowAssignment);
+        private Expression RpnToExpressionTree(Token[] rpn, bool allowAssignment = false) => _compiler.RpnToExpressionTree(rpn, allowAssignment);
         public string ResultAsString
         {
             get
