@@ -18,7 +18,7 @@ x_1(e) = x_J.J_1(e)','y_1(e) = y_J.J_1(e)', 'x_2(e) = x_J.J_2(e)','y_2(e) = y_J.
 'Element lengths - 'l(e) = sqrt((x_2(e) - x_1(e))^2 + (y_2(e) - y_1(e))^2)
 'Element directions -'c(e) = (x_2(e) - x_1(e))/l(e)','s(e) = (y_2(e) - y_1(e))/l(e)
 'Transformation matrix
-t(e) = [c(e); s(e)|-s(e); c(e)]
+t(e) = [c(e); s(e)| - s(e); c(e)]
 T(e) = add(t(e); add(t(e); matrix(4; 4); 1; 1); 3; 3)
 '<h4>Supports - [Joint; cx; cy]</h4>
 #hide
@@ -169,7 +169,7 @@ F_e(e) = t(e)*[F_x(e; z_e(e)); F_y(e; z_e(e))]
 J_e(e) = t(e)*[ _
 F′_x1(e; z_e(e)); F′_x2(e; z_e(e))| _
 F′_y1(e; z_e(e)); F′_y2(e; z_e(e))]
-'Target precision -'ε_max = 10^-12
+'Target precision -'ε_max = 10^-5
 #hide
 #for n = 1 : 100
 	z_J(j) = [Z.(2*j - 1); Z.(2*j)]
@@ -201,7 +201,7 @@ F′_y1(e; z_e(e)); F′_y2(e; z_e(e))]
 		F.(j_2) = F.(j_2) + F_J.(i; 3)
 	#loop
 	'Global Jacobi matrix
-	J = matrix(2*n_J; 2*n_J)*kN/m
+	J = symmetric(2*n_J)*kN/m
 	'Add element Jacobi matrices
 	#for e = 1 : n_E
 		ε = ε(e; z_e(e))
@@ -226,7 +226,7 @@ F′_y1(e; z_e(e)); F′_y2(e; z_e(e))]
 		J.(j_2; j_2) = J.(j_2; j_2) + C_y
 	#loop
 	Z_0 = Z
-	δZ = inverse(J)*F|mm
+	δZ = clsolve(J; F)|mm
 	Z = Z_0 - δZ
 	ε = norm_e(δZ)/norm_e(Z)
 	#if ε < ε_max
@@ -236,7 +236,7 @@ F′_y1(e; z_e(e)); F′_y2(e; z_e(e))]
 #show
 'Iteratively calculate the following equations of the Newton-Raphson’s method:
 #noc
-Z_0 = Z','δZ = inverse(J(Z))*F(Z)|mm','Z = Z_0 - δZ','ε = norm_e(δZ)/norm_e(Z) < ε_max
+Z_0 = Z','δZ = clsolve(J(Z); F(Z))|mm','Z = Z_0 - δZ','ε = norm_e(δZ)/norm_e(Z) < ε_max
 #equ
 'Convergence reached at iteration -'n'. Relative error -'ε
 '<h4>Results</h4>

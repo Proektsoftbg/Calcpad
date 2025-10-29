@@ -930,7 +930,7 @@
                 });
 				
 				window.addEventListener('click', () => {
-					window.chrome.webview.postMessage('focused');
+					chrome.webview.postMessage('focused');
 				});
             });
         }

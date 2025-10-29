@@ -46,4 +46,6 @@ rqi$
 'Eigenvector 3 -'x_3
 'Solution with Calcpad -'E = eigen(A_1)
 '(symmetric QL algorithm with implicit shifts)
-E - join_cols([λ_1; λ_2; λ_3]; -x_1; -x_2; x_3)
+'Difference
+R = E - [λ_1; -x_1|λ_2; -x_2|λ_3; x_3]
+mnorm_e(R)

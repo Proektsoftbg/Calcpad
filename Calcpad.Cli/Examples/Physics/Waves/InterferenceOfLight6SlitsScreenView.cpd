@@ -21,8 +21,6 @@ t = 0s
 Ψ_2D_5(x; t) = Ψ_0*cos(k*4*Δr(α(x)) - ω*t)
 Ψ_2D_6(x; t) = Ψ_0*cos(k*5*Δr(α(x)) - ω*t)
 Ψ_2D(x; t) = Ψ_2D_1(x; t) + Ψ_2D_2(x; t) + Ψ_2D_3(x; t) + Ψ_2D_4(x; t) + Ψ_2D_5(x; t) + Ψ_2D_6(x; t)
-PlotHeight = 100
-PlotWidth = 600
-x_max = 75cm
+PlotHeight = 100','PlotWidth = 600','x_max = 75cm
 $Plot{Ψ_2D(α; t)^2 @ α = -x_max : x_max}
 $Map{Ψ_2D(x; t)^2 @ x = -x_max : x_max & z = 0m : 0.1m}
