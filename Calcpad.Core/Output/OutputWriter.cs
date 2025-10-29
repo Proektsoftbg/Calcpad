@@ -67,6 +67,7 @@ namespace Calcpad.Core
         internal abstract string FormatMatrix(Matrix matrix);
         internal abstract string FormatVector(Vector vector);
         internal abstract string FormatMatrixValue(RealValue value, double zeroThreshold);
+        internal abstract string FormatBlock(string[] sa);
 
         internal string FormatUnitsText(string text)
         {

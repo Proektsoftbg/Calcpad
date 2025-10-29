@@ -154,7 +154,7 @@ namespace Calcpad.WebApi.Services.Calcpad
         {
             if (!fileObject.IsCpd)
             {
-                return $"api/v1/calcpad-file/stream/public/{fileObject.Id}?uid={fileObject.UniqueId}";
+                return $"api/v1/calcpad-file/stream/public/ids/{fileObject.Id}?uid={fileObject.UniqueId}";
             }
 
             return $"{fileObject.FullName}'?uid={fileObject.UniqueId}";

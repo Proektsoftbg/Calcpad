@@ -33,7 +33,7 @@ namespace Calcpad.WebApi.Services.Calcpad
             var publicPath = Path.Combine(
                 "public/cpd-resources",
                 cpdFilePath.ToMD5(),
-                Path.GetFileName(zipSrcEntryPath)
+                zipSrcEntryPath
             );
 
             // save src file to public

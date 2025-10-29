@@ -101,18 +101,14 @@
 ————————————————————————————————————————————————————————————————————————————————
  Итерационни и числени методи:
 ————————————————————————————————————————————————————————————————————————————————
-    $Root{f(x) = const @ x = a : b}
-    $Root{f(x) @ x = a : b}
-    $Find{f(x) @ x = a : b}
-    $Sup{f(x) @ x = a : b}
-    $Inf{f(x) @ x = a : b}
-    $Area{f(x) @ x = a : b}
+    $Root{f(x) = const @ x = a : b}     $Sum{f(k) @ k = a : b}
+    $Root{f(x) @ x = a : b}             $Product{f(k) @ k = a : b}
+    $Find{f(x) @ x = a : b}             $Repeat{f(k) @ k = a : b}
+    $Sup{f(x) @ x = a : b}              $Block{expressions}
+    $Inf{f(x) @ x = a : b}              $Inline{expressions}
+    $Area{f(x) @ x = a : b}             Precision
     $Integral{f(x) @ x = a : b}
     $Slope{f(x) @ x = a}
-    $Sum{f(k) @ k = a : b}
-    $Product{f(k) @ k = a : b}
-    $Repeat{f(k) @ k = a : b}
-    Precision
 	
 ————————————————————————————————————————————————————————————————————————————————
  Мерни единици:

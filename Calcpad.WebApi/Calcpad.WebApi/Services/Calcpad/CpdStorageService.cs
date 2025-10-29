@@ -1,4 +1,8 @@
-﻿using Calcpad.Document.Core.Segments;
+﻿using System.IO;
+using System.Reflection.PortableExecutable;
+using Calcpad.Document;
+using Calcpad.Document.Archive;
+using Calcpad.Document.Core.Segments;
 using Calcpad.Document.Core.Utils;
 using Calcpad.WebApi.Configs;
 using Calcpad.WebApi.Models;
@@ -6,6 +10,7 @@ using Calcpad.WebApi.Models.Base;
 using Calcpad.WebApi.Utils.Encrypt;
 using Calcpad.WebApi.Utils.Files;
 using Calcpad.WebApi.Utils.Web.Service;
+using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver.Linq;
 
 namespace Calcpad.WebApi.Services.Calcpad
@@ -87,10 +92,7 @@ namespace Calcpad.WebApi.Services.Calcpad
         public string GetReadFromPath(string cpdFullPath, string readFromPath)
         {
             var resourceDir = GetCpdPublicResourceDir(cpdFullPath);
-            var publicPath = Path.Combine(
-                  resourceDir,
-                  Path.GetFileName(readFromPath)
-            );
+            var publicPath = Path.Combine(resourceDir, Path.GetFileName(readFromPath));
             // create directory
             Directory.CreateDirectory(Path.GetDirectoryName(publicPath)!);
             return publicPath.Replace('\\', '/');
@@ -138,7 +140,7 @@ namespace Calcpad.WebApi.Services.Calcpad
         public async Task<(Stream?, string)> ZipAndDownloadCpdFile(string uniqueId)
         {
             var cpdModel = await db.AsQueryable<CalcpadFileModel>()
-                .Where(x => x.UniqueId == uniqueId && !x.IsCpd)
+                .Where(x => x.UniqueId == uniqueId && x.IsCpd)
                 .FirstOrDefaultAsync();
             if (cpdModel == null)
                 return (null, string.Empty);
@@ -150,11 +152,9 @@ namespace Calcpad.WebApi.Services.Calcpad
             // create template dir
             var rootDir = Path.Combine(storageConfig.Value.Root, "temp/cpdzip", cpdModel.UniqueId);
             Directory.CreateDirectory(rootDir);
-            var includesDir = Path.Combine(rootDir, "includes");
-            Directory.CreateDirectory(includesDir);
 
-            // get all include files
-            await CopyCpdFileToTemp(rootDir, cpdModel, true);
+            // copy file and resources
+            await CopyCpdFileAndResources(rootDir, cpdModel, true);
 
             var zipFilePath = Path.Combine(
                 storageConfig.Value.Root,
@@ -169,55 +169,79 @@ namespace Calcpad.WebApi.Services.Calcpad
             );
         }
 
-        private async Task CopyCpdFileToTemp(string rootDir, CalcpadFileModel cpdModel, bool isMain)
+        /// <summary>
+        /// copy a cpd file to target dir
+        /// and its includes、excels、images to resources sub dir
+        /// </summary>
+        /// <param name="rootDir"></param>
+        /// <param name="cpdModel"></param>
+        /// <param name="isMain"></param>
+        /// <returns></returns>
+        private async Task CopyCpdFileAndResources(
+            string rootDir,
+            CalcpadFileModel cpdModel,
+            bool isMain
+        )
         {
-            var subDir = "includes";
-
             // copy main file to rootDir
             var fullPath = GetCpdAbsoluteFullName(cpdModel.ObjectName);
+
             var targetPath = Path.Combine(
                 rootDir,
-                isMain ? "./" : $"./{subDir}",
                 isMain ? cpdModel.FileName : $"{cpdModel.UniqueId}_{cpdModel.FileName}"
             );
 
-            // modify include paths to includes folder
-            var includeModels = await db.AsQueryable<CalcpadFileModel>()
-                .Where(x => cpdModel.IncludeUniqueIds.Contains(x.UniqueId))
-                .ToListAsync();
+            // copy cpd file to target path
+            var reader = CpdReaderFactory.CreateCpdReader(fullPath);
 
-            // copy main file to rootDir by lines
-            var reader = new StreamReader(fullPath);
-            var writer = new StreamWriter(targetPath, false, reader.CurrentEncoding);
-            while (!reader.EndOfStream)
+            // image is web path, so no need to copy
+
+            // copy read data
+            var readLines = reader.GetReadLines();
+            var readsPath = Path.Combine(fullPath, "reads");
+            if (readLines.Count > 0)
+                Directory.CreateDirectory(readsPath);
+            foreach (var readLine in readLines)
             {
-                var line = await reader.ReadLineAsync();
-                var includeLine = IncludeLine.GetIncludeLine(0, line);
-                if (includeLine != null)
+                var fullDataPath = Path.GetFullPath(readLine.FilePath);
+                if (File.Exists(fullDataPath))
                 {
-                    var includeModel = includeModels.FirstOrDefault(x =>
-                        x.UniqueId == includeLine.Uid
-                    );
-                    if (includeModel != null)
-                    {
-                        var includePath = isMain
-                            ? $"./{subDir}/{includeModel.UniqueId}_{includeModel.FileName}"
-                            : $"./{includeModel.UniqueId}_{includeModel.FileName}";
-                        includeLine.SetFilePath(includePath);
-                        line = includeLine.ToString();
-                    }
+                    var dataFileName = Path.GetFileName(fullDataPath);
+                    var targetDataPath = Path.Combine(readsPath, Path.GetFileName(dataFileName));
+                    File.Copy(fullDataPath, targetDataPath, true);
+                    // modify read line path
+                    readLine.SetFilePath($"./reads/{dataFileName}");
                 }
-
-                await writer.WriteLineAsync(line);
             }
-            writer.Close();
-            reader.Close();
 
-            // save includes
-            foreach (var includeModel in includeModels)
+            // save modified read lines
+            var includeLines = reader.GetIncludeLines();
+            var includesDir = Path.Combine(rootDir, "includes");
+            if (includeLines.Count > 0)
+                Directory.CreateDirectory(includesDir);
+            foreach (var includeLine in includeLines)
             {
-                await CopyCpdFileToTemp(rootDir, includeModel, false);
+                if (includeLine.Uid.IsNullOrEmpty())
+                    continue;
+
+                var includeModel = await db.AsQueryable<CalcpadFileModel>()
+                    .Where(x => x.UniqueId == includeLine.Uid)
+                    .FirstOrDefaultAsync();
+                if (includeModel != null)
+                    continue;
+
+                await CopyCpdFileAndResources(includesDir, includeModel, false);
+                includeLine.SetFilePath($"./includes/{cpdModel.UniqueId}_{cpdModel.FileName}");
             }
+
+            // 更新主文件并保存
+            var allLines = new List<CpdLine>();
+            allLines.AddRange(readLines);
+            allLines.AddRange(includeLines);
+
+            var content = CpdWriter.BuildCpdContent(reader.ReadStringLines(), allLines);
+            var cpdWriter = CpdWriterFactory.CreateCpdWriter();
+            cpdWriter.WriteFile(targetPath, content);
         }
 
         private static async Task ZipDirectory(string sourceDir, string zipFilePath)

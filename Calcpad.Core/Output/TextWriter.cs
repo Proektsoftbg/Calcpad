@@ -193,5 +193,8 @@ namespace Calcpad.Core
             var s = FormatReal(d, value.Units?.FormatString, zeroSmallElements && Math.Abs(d) < zeroThreshold);
             return value.Units is null ? s : s + value.Units.Text;
         }
+
+        internal override string FormatBlock(string[] sa) =>
+            " │ " + string.Join($" │ ", sa);
     }
 }

@@ -82,8 +82,10 @@ namespace Calcpad.Wpf
             items.Add(new ListBoxItem() { Content = "#wrap", Foreground = Brushes.DarkMagenta });
             items.Add(new ListBoxItem() { Content = "#write", Foreground = Brushes.DarkMagenta });
             items.Add(new ListBoxItem() { Content = "$Area{f(x) @ x = a : b}", Foreground = Brushes.DarkMagenta });
+            items.Add(new ListBoxItem() { Content = "$Block{ }", Foreground = Brushes.DarkMagenta });
             items.Add(new ListBoxItem() { Content = "$Find{f(x) @ x = a : b}", Foreground = Brushes.DarkMagenta });
             items.Add(new ListBoxItem() { Content = "$Inf{f(x) @ x = a : b}", Foreground = Brushes.DarkMagenta });
+            items.Add(new ListBoxItem() { Content = "$Inline{ }", Foreground = Brushes.DarkMagenta });
             items.Add(new ListBoxItem() { Content = "$Integral{f(x) @ x = a : b}", Foreground = Brushes.DarkMagenta });
             items.Add(new ListBoxItem() { Content = "$Map{f(x; y) @ x = a : b & y = c : d}", Foreground = Brushes.DarkMagenta });
             items.Add(new ListBoxItem() { Content = "$Plot{f(x) @ x = a : b}", Foreground = Brushes.DarkMagenta });
@@ -575,6 +577,7 @@ namespace Calcpad.Wpf
             items.Add(new ListBoxItem() { Content = "pk_UK", Foreground = Brushes.DarkCyan });
             items.Add(new ListBoxItem() { Content = "pk_US", Foreground = Brushes.DarkCyan });
             items.Add(new ListBoxItem() { Content = "pL", Foreground = Brushes.DarkCyan });
+            items.Add(new ListBoxItem() { Content = "PlotAdaptive", Foreground = Brushes.Blue });
             items.Add(new ListBoxItem() { Content = "PlotHeight", Foreground = Brushes.Blue });
             items.Add(new ListBoxItem() { Content = "PlotLightDir", Foreground = Brushes.Blue });
             items.Add(new ListBoxItem() { Content = "PlotPalette", Foreground = Brushes.Blue });

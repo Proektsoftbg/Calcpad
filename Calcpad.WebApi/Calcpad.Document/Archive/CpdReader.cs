@@ -84,8 +84,8 @@ namespace Calcpad.Document.Archive
                     text = DecompressToString(entryStream); //Use this if you need smaller files
                     continue;
                 }
-
-                var srcKey = $"./{entry.FullName}";
+                
+                var srcKey = $"./{entry.FullName.Replace('\\', '/')}";
                 if (srcsDic.ContainsKey(srcKey))
                     continue;
 
@@ -95,7 +95,6 @@ namespace Calcpad.Document.Archive
                 entry.ExtractToFile(entryPath, true);
 
                 var srcPath = settings.CreateSrcPath(_fullPath, entry.FullName, entryPath);
-
                 // save path
                 srcsDic.Add(srcKey, srcPath);
             }
@@ -105,7 +104,7 @@ namespace Calcpad.Document.Archive
                 text,
                 match =>
                 {
-                    var originalSrc = match.Groups[1].Value;
+                    var originalSrc = match.Groups[1].Value.Replace('\\', '/');
                     if (srcsDic.TryGetValue(originalSrc, out var value))
                     {
                         return match.Value.Replace(originalSrc, value);
