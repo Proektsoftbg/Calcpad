@@ -61,6 +61,7 @@ namespace Calcpad.Core
                 string.Empty,
                 "$Error"
             ];
+            private readonly Dictionary<string, Variable> _localVariables = [];
             private readonly MathParser _parser;
             private readonly SolverTypes _type;
             private Variable _var;
@@ -101,7 +102,11 @@ namespace Calcpad.Core
             {
                 var targetUnits = _parser._targetUnits;
                 if (_type == SolverTypes.Inline || _type == SolverTypes.Block)
+                {
+                    _parser._input.AddLocalVariables(_localVariables);
                     _items = ParseBlockOrInline(Script);
+                    _parser._input.RemoveLocalVariables();
+                }
                 else
                     _items = ParseSolver(Script);
 
