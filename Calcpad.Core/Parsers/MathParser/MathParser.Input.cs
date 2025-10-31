@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection.Metadata;
 
 namespace Calcpad.Core
 {
@@ -16,6 +17,7 @@ namespace Calcpad.Core
             private readonly Container<CustomFunction> _functions;
             private readonly List<SolveBlock> _solveBlocks;
             private readonly Dictionary<string, Variable> _variables;
+            private readonly Stack<Dictionary<string, Variable>> _localVariables = new();
             private readonly Dictionary<string, Unit> _units;
             private static readonly char[] UnitChars = Validator.UnitChars.ToCharArray();
             static Input()
@@ -60,8 +62,12 @@ namespace Calcpad.Core
                 _variables = parser._variables;
                 _units = parser._units;
                 _isComplex = parser._settings.IsComplex;
+                _localVariables.Push(_variables); //Global variables will be always on the bottom of stack
                 DefineVariables();
             }
+
+            internal void AddLocalVariables(Dictionary<string, Variable> variables) => _localVariables.Push(variables);
+            internal void RemoveLocalVariables() => _localVariables.Pop();
 
             private void DefineVariables()
             {
@@ -273,7 +279,7 @@ namespace Calcpad.Core
                                     else if (UnitChars.Contains(s[0]))
                                         t = MakeUnitToken(s, true);
                                     else
-                                        t = MakeVariableToken(s);
+                                        t = new VariableToken(s, null);
                                 }
                                 tokens.Enqueue(t);
                                 tokenLiteral.Reset(i);
@@ -344,8 +350,11 @@ namespace Calcpad.Core
 
                                         int count = tokens.Count;
                                         if (count == 1)
-                                            DefinedVariables.Add(tokens.Peek().Content);
-
+                                        {
+                                            var token = tokens.Peek();
+                                            if (token is VariableToken vt)
+                                                CreateVariable(vt);
+                                        }
                                         _parser._assignmentIndex = count;
                                     }
                                 }
@@ -371,6 +380,7 @@ namespace Calcpad.Core
                 if (isUnitDivision)
                     tokens.Enqueue(new Token(')', TokenTypes.BracketRight));
 
+                GetVariables(tokens);
                 if (!isSolver)
                     return tokens;
 
@@ -630,14 +640,40 @@ namespace Calcpad.Core
                 };
             }
 
-            private VariableToken MakeVariableToken(string s)
+            private void CreateVariable(VariableToken vt)
             {
-                if (!_variables.TryGetValue(s, out var v))
+                var s = vt.Content;
+                var topLocalVariables = _localVariables.Peek();
+                if (!topLocalVariables.TryGetValue(s, out var v))
                 {
                     v = new Variable();
-                    _variables.Add(s, v);
+                    topLocalVariables.Add(s, v);
                 }
-                return new VariableToken(s, v);
+                DefinedVariables.Add(s);
+                vt.Variable = v;
+            }
+
+            private void GetVariables(Queue<Token> tokens)
+            {
+                foreach (var token in tokens)
+                    if (token is VariableToken vt && vt.Variable is null)
+                        GetVariable(vt);
+            }
+
+            private void GetVariable(VariableToken vt)
+            {
+                var s = vt.Content;
+                foreach (var variables in _localVariables)
+                    if (variables.TryGetValue(s, out var v))
+                    {
+                        vt.Variable = v;
+                        return;
+                    }
+
+                var topLocalVariables = _localVariables.Peek();
+                var newVar = new Variable();
+                topLocalVariables.Add(s, newVar);
+                vt.Variable = newVar;
             }
 
             private VariableToken MakeVectorOrMatrixToken(string s)

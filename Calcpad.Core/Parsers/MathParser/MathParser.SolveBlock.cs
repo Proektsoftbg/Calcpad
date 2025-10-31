@@ -61,6 +61,7 @@ namespace Calcpad.Core
                 string.Empty,
                 "$Error"
             ];
+            private readonly Dictionary<string, Variable> _localVariables = [];
             private readonly MathParser _parser;
             private readonly SolverTypes _type;
             private Variable _var;
@@ -101,7 +102,11 @@ namespace Calcpad.Core
             {
                 var targetUnits = _parser._targetUnits;
                 if (_type == SolverTypes.Inline || _type == SolverTypes.Block)
+                {
+                    _parser._input.AddLocalVariables(_localVariables);
                     _items = ParseBlockOrInline(Script);
+                    _parser._input.RemoveLocalVariables();
+                }
                 else
                     _items = ParseSolver(Script);
 
@@ -168,6 +173,7 @@ namespace Calcpad.Core
                     if (s.Length == 2)
                     {
                         item.Input = s[0];
+                        Array.Resize(ref items, 5);
                         items[4].Input = s[1];
                         n = 4;
                     }
@@ -573,7 +579,7 @@ namespace Calcpad.Core
                 sb.Append('{').Append(_items[0].Html);
                 if (_type == SolverTypes.Root)
                 {
-                    if (_items[4].Html is not null)
+                    if (_items.Length  > 4 &&  _items[4].Html is not null)
                         sb.Append(" = " + _items[4].Html);
                     else
                         sb.Append(" = 0");
@@ -662,7 +668,7 @@ namespace Calcpad.Core
                     sb.Append(_items[0].Xml);
                     if (_type == SolverTypes.Root)
                     {
-                        if (_items[4].Xml is not null)
+                        if (_items.Length > 4 && _items[4].Xml is not null)
                             sb.Append(XmlWriter.Run("=") + _items[4].Xml);
                         else
                             sb.Append(XmlWriter.Run("=0"));
@@ -734,7 +740,7 @@ namespace Calcpad.Core
                 sb.Append(_items[0].Input);
                 if (_type == SolverTypes.Root)
                 {
-                    if (_items[4].Input is not null)
+                    if (_items.Length > 4 && _items[4].Input is not null)
                         sb.Append(" = " + _items[4].Input);
                     else
                         sb.Append(" = 0");

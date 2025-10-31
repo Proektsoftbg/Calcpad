@@ -543,7 +543,7 @@
     <value>Няма</value>
   </data>
   <data name="Gray" xml:space="preserve">
-    <value>Сиво</value>
+    <value>Сива</value>
   </data>
   <data name="Rainbow" xml:space="preserve">
     <value>Дъга</value>
@@ -1101,13 +1101,13 @@
     <value>Изчиства мерните единици от скалар/вектор/матрица</value>
   </data>
   <data name="BlueYellow" xml:space="preserve">
-    <value>Синьо-жълто</value>
+    <value>Синьо-жълта</value>
   </data>
   <data name="BlueRed" xml:space="preserve">
-    <value>Синьо-червено</value>
+    <value>Синьо-червена</value>
   </data>
   <data name="PurpleYellow" xml:space="preserve">
-    <value>Лилаво-жълто</value>
+    <value>Лилаво-жълта</value>
   </data>
   <data name="FastFourierTransfrom" xml:space="preserve">
     <value>Бързо преобразувание на Фурие</value>
@@ -1138,5 +1138,11 @@
   </data>
   <data name="EmbedPlotsInsideTheHtmlAsBase64EncodedImagesSaveToFilesIfUnchecked" xml:space="preserve">
     <value>Вграждане на графики в HTML като base64 кодирани изображения. Запазване във файлове, ако не е отметнато.</value>
+  </data>
+  <data name="MultilineBlockOfExpressions" xml:space="preserve">
+    <value>Многоредов блок от изрази</value>
+  </data>
+  <data name="InlineBlockOfExpressions" xml:space="preserve">
+    <value>Едноредов блок от изрази</value>
   </data>
 </root>

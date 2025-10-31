@@ -74,12 +74,15 @@ namespace Calcpad.Core
                 while (++_currentLine < lineCount)
                 {
                     ref var currentLineCache = ref _lineCache[_currentLine];
-                    if (currentLineCache.Keyword == Keyword.Continue)
+                    var keyword = currentLineCache.Keyword;
+                    if (keyword == Keyword.SkipLine)
+                        continue;
+                    if (keyword == Keyword.Continue)
                     {
                         ParseKeywordContinue();
                         continue;
                     }
-                    if (currentLineCache.IsCached && currentLineCache.Keyword == Keyword.None)
+                    if (currentLineCache.IsCached && keyword == Keyword.None)
                     {
                         if (IsEnabled())
                         {
@@ -117,7 +120,7 @@ namespace Calcpad.Core
 
                     if (HasLineExtension(lineSpan))
                     {
-                        _lineCache[_currentLine] = new(null, Keyword.Continue);
+                        _lineCache[_currentLine] = new(null, Keyword.SkipLine);
                         continue;
                     }
 
@@ -131,7 +134,6 @@ namespace Calcpad.Core
 
                         continue;
                     }
-                    var keyword = currentLineCache.Keyword;
                     var lineCache = _currentLine;
                     var result = ParseKeyword(textSpan, ref keyword);
                     if (keyword != currentLineCache.Keyword)

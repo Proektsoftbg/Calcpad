@@ -70,9 +70,9 @@ namespace Calcpad.Wpf
                             firstLine = lineNumber;
 
                         if (hasLineExtension)
-                            sb.Append(line);
-                        else
                             sb.Append(line[..^2]);
+                        else
+                            sb.Append(line);
                     }
                     else if (sb.Length > 0)
                     {

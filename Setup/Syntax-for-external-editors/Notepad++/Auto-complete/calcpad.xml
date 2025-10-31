@@ -45,8 +45,10 @@
 		<KeyWord name="#wrap" />
 		<KeyWord name="#write" />
 		<KeyWord name="$Area" />
+		<KeyWord name="$Block" />
 		<KeyWord name="$Find" />
 		<KeyWord name="$Inf" />
+		<KeyWord name="$Inline" />
 		<KeyWord name="$Integral" />
 		<KeyWord name="$Map" />
 		<KeyWord name="$Plot" />
@@ -465,6 +467,7 @@
 		<KeyWord name="pk_UK" />
 		<KeyWord name="pk_US" />
 		<KeyWord name="pL" />
+		<KeyWord name="PlotAdaptive" />
 		<KeyWord name="PlotHeight" />
 		<KeyWord name="PlotLightDir" />
 		<KeyWord name="PlotPalette" />

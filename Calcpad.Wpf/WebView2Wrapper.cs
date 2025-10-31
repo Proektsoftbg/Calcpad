@@ -55,6 +55,12 @@ namespace Calcpad.Wpf
                     if (linkData != "undefined")
                         return linkData;
                 }
+                else if (tagName == "SELECT")
+                {
+                    var linkData = await InvokeScriptAsync<string>("document.activeElement.value");
+                    if (linkData != "undefined")
+                        return linkData;
+                }
             }
             catch { }
             return null;

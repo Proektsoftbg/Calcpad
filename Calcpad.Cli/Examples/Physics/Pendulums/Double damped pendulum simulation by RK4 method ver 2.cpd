@@ -201,10 +201,8 @@ n_tr = 40
 	circle$(0; 0; R/2; solid_style$)' _
 	circle$(0; 0; R/8; solid_style$)' _
 	circle$(x_1i; y_1i; R_1; ball_style$)' _
-	circle$(x_2i; y_2i; R_2; ball_style$)' _
-	'</svg>
-	'</td></tr></table>
-	'</div>
+	circle$(x_2i; y_2i; R_2; ball_style$)
+	'</svg></td></tr></table></div>
 	'<script>$("#trace-'i_N'").attr("points", p.slice('i_0','i + 1').map(function(e){return e[0]+","+e[1];}).join(" "));</script> 
 #loop
 '<script>$("#fr-1").show();$("#start").click(function(){$(this).hide(); var i='N';var fr=$("#fr-"+i);setInterval(function(){fr.hide();if(++i>'N')i=1;fr=$("#fr-"+i);fr.show();}, '900*h*k_N');});</script>

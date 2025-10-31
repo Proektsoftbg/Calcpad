@@ -24,24 +24,17 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
-    
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <Optimize>false</Optimize>
     <WarningLevel>0</WarningLevel>
   </PropertyGroup>
-    
-  <ItemGroup>
-    <Compile Remove="resources\flags\**" />
-    <EmbeddedResource Remove="resources\flags\**" />
-    <None Remove="resources\flags\**" />
-    <Page Remove="resources\flags\**" />
-  </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="HtmlAgilityPack" Version="1.12.2" />
-    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3405.78" />
-    <PackageReference Include="System.Drawing.Common" Version="9.0.8" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.12.4" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3537.50" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.10" />
   </ItemGroup>
   
   <ItemGroup>
@@ -406,7 +399,7 @@
     <None Update="doc\Images\Sample5.bg.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    
+
     <!--Chinese (zh)-->
     <None Update="doc\help.zh.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -518,7 +511,7 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>UnitsResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>	
-    
+
     <EmbeddedResource Update="AppMessages.bg.resx">
       <DependentUpon>AppMessages.resx</DependentUpon>
     </EmbeddedResource>
@@ -537,7 +530,7 @@
     <EmbeddedResource Update="UnitsResources.bg.resx">
       <DependentUpon>UnitsResources.resx</DependentUpon>
     </EmbeddedResource>
-    
+
     <EmbeddedResource Update="AppMessages.zh.resx">
       <DependentUpon>AppMessages.resx</DependentUpon>
     </EmbeddedResource>
@@ -556,10 +549,6 @@
     <EmbeddedResource Update="UnitsResources.zh.resx">
       <DependentUpon>UnitsResources.resx</DependentUpon>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Calcpad.core\Parsers\MathParser\" />
   </ItemGroup>
 
   <PropertyGroup>

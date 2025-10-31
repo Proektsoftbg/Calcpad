@@ -100,7 +100,7 @@ namespace Calcpad.Wpf
                     PreviousType = CurrentType;
             }
 
-            internal Types PreviousTypeIfCurrentIsNone =>
+            internal Types CurrentTypeOrPreviousIfCurrentIsNone =>
                 CurrentType == Types.None ?
                 PreviousType :
                 CurrentType;
@@ -566,7 +566,7 @@ namespace Calcpad.Wpf
             if (inline is Run r)
             {
                 var s = r.Text.AsSpan();
-                if (s.EndsWith("_") || s.EndsWith(" _") || s.EndsWith("{") || s.TrimEnd().EndsWith(";"))
+                if (s.EndsWith(" _") || (s.EndsWith("_") || s.EndsWith("{") || s.TrimEnd().EndsWith(";")) && r.Foreground != Colors[(int)Types.Comment])
                     return true;
             }
             return false;
@@ -615,6 +615,9 @@ namespace Calcpad.Wpf
                             c = ' ';
                         else if (c == '·')
                             c = '*';
+
+                        if (i > 0 && _state.IsLeading && !Validator.IsWhiteSpace(c))
+                            Append(Types.None);
                     }
                     if (i == len - 1 &&
                         (i > 0 && text[i - 1] == ' ' || _builder.Length == 0) &&
@@ -769,7 +772,7 @@ namespace Calcpad.Wpf
                     else
                         _state.IsSubscript = false;
                 }
-                _state.CurrentType = _state.PreviousTypeIfCurrentIsNone;
+                _state.CurrentType = _state.CurrentTypeOrPreviousIfCurrentIsNone;
                 if (_state.CurrentType == Types.Comment)
                     CheckHtmlComment();
 
@@ -861,7 +864,12 @@ namespace Calcpad.Wpf
             else
             {
                 c = _builder[^1];
-                Append(_state.CurrentType);
+                if (_state.CurrentType == Types.Comment && c == ' ')
+                {
+                    _builder.Remove(_builder.Length - 1, 1);
+                    c = '\0';
+                }
+                Append(_state.CurrentTypeOrPreviousIfCurrentIsNone);
             }
             if (c == ' ')
                 _builder.Append('_');
@@ -1101,22 +1109,23 @@ namespace Calcpad.Wpf
 
         private void ParseSpace(char c)
         {
-            if (IsContinuedCondition(_builder.ToString()))
+            if (_state.IsLeading)
+                _builder.Append(c);
+            else if (IsContinuedCondition(_builder.ToString()))
                 _builder.Append(' ');
             else
             {
-                if (_builder.Length == 4 &&
+                var len = _builder.Length;
+                if (len == 4 &&
                      _builder[1] == 'd' &&
                      _builder[2] == 'e' &&
                      _builder[3] == 'f')
                     _state.IsMacro = true;
                 var isInclude = false;
-                //Spaces are added only if they are leading
-                if (_state.IsLeading ||
-                    _state.CurrentType == Types.Keyword ||
+                if (_state.CurrentType == Types.Keyword ||
                     _state.CurrentType == Types.Error)
                 {
-                    isInclude = _builder.Length == 8 &&
+                    isInclude = len == 8 &&
                         _builder[1] == 'i' &&
                         _builder[2] == 'n' &&
                         _builder[3] == 'c';
@@ -1137,7 +1146,7 @@ namespace Calcpad.Wpf
 
         private void ParseBrackets(char c)
         {
-            var t = _state.PreviousTypeIfCurrentIsNone;
+            var t = _state.CurrentTypeOrPreviousIfCurrentIsNone;
             if (c == '(')
             {
                 ++_state.BracketCount;
@@ -1192,7 +1201,7 @@ namespace Calcpad.Wpf
         {
             var len = _builder.Length;
             var isPercent = c == '%' && (len > 0 && _builder[len - 1] == '.' || _state.IsUnits);
-            Append(_state.PreviousTypeIfCurrentIsNone);
+            Append(_state.CurrentTypeOrPreviousIfCurrentIsNone);
             if (IsDataExchangeKeyword && c == '=')
             { 
                 AppendRun(Types.Operator, "=");
@@ -1239,7 +1248,7 @@ namespace Calcpad.Wpf
 
         private void ParseDelimiter(char c)
         {
-            Append(_state.PreviousTypeIfCurrentIsNone);
+            Append(_state.CurrentTypeOrPreviousIfCurrentIsNone);
             _builder.Append(c);
             if (_state.CommandCount > 0 || c == ';')
                 Append(Types.Operator);
@@ -1383,10 +1392,17 @@ namespace Calcpad.Wpf
                 else if (!IsDataExchangeKeyword)
                     s = FormatOperator(s);
 
-                if (s[0] == ' ' && 
-                    _state.Paragraph.Inlines.LastInline is Run r && 
-                    r.Text == " ")
-                    _state.Paragraph.Inlines.Remove(r);
+                if (s[0] == ' ' &&  _state.Paragraph.Inlines.LastInline is Run r)
+                {
+                    var text = r.Text;
+                    if (text.EndsWith(' '))
+                    {
+                        if (text.Length == 1)
+                            _state.Paragraph.Inlines.Remove(r);
+                        else
+                            r.Text = text[..^1];
+                    }
+                }
             }
             else if (t != Types.Error && t != Types.None)
             {
@@ -1684,7 +1700,9 @@ namespace Calcpad.Wpf
             p = FindStartingLine(p, ref lineNumber);
             while (p is not null)
             {
-                foreach (var inline in p.Inlines)
+                var inlines = p.Inlines;
+                var inlineCount = inlines.Count;
+                foreach (var inline in inlines)
                 {
                     if (inline is not Run r)
                         continue;
@@ -1723,9 +1741,44 @@ namespace Calcpad.Wpf
                     }
                     else if (string.Equals(s, " = "))
                         GetLocalVariables(r, commandCount > 0);
+                    else if(inlineCount == 1)
+                    {
+                        var equalityIndex = s.IndexOf('=');
+                        if (equalityIndex > 0)
+                        {
+                            var name = GetLocalVariables(s.AsSpan(0, equalityIndex), commandCount > 0);
+                            if (name is not null)
+                                 TracebackCommandVariable(r, name);
+                        }
+                        var commandIndex = s.IndexOf('$');
+                        if (commandIndex >= 0)
+                        {
+                            var bracketIndex = s.IndexOf('{', commandIndex);
+                            var hasBrackets = bracketIndex >= 0;
+                            if (bracketIndex < 0)
+                                bracketIndex = s.IndexOf(' ', commandIndex);
+                            if (bracketIndex < 0)
+                                bracketIndex = s.Length;
+                            var command = s[commandIndex..bracketIndex];
+                            if (Commands.Contains(command) &&
+                                !command.Equals("$block", StringComparison.OrdinalIgnoreCase) &&
+                                !command.Equals("$inline", StringComparison.OrdinalIgnoreCase))
+                                isCommand = true;
 
+                            if (isCommand)
+                            {
+                                var bracketCount = GetBracketCount(s, bracketIndex);
+                                if (bracketCount == 0)
+                                    isCommand = false;
+                                else
+                                    commandCount += bracketCount;
+                            }
+                        }
+                    }
                     var isFunction = r.NextInline is Run run && run.Text == "(";
-                    bool IsDefined(int lineNumber) => isFunction ? IsFunction(s, lineNumber) : IsVariable(s, lineNumber);
+                    bool IsDefined(int lineNumber) => isFunction ? 
+                        IsFunction(s, lineNumber) : 
+                        IsVariable(s, lineNumber);
                     switch (t1)
                     {
                         case Types.Error:
@@ -1780,68 +1833,92 @@ namespace Calcpad.Wpf
             return p;
         }
 
+        int GetBracketCount(string s, int start)
+        {
+            int n = 0;
+            for (int i = start, len = s.Length; i < len; ++i)
+            {
+                var c = s[i];
+                if (c == '{') ++n;
+                else if (c == '}') --n;
+            }
+            return n;
+        }
+
+
         private void GetLocalVariables(Inline currentInline, bool isCommand)
         {
             var inline = GetPreviousInline(currentInline);
             if (isCommand)
-                GetLocalCommandVariables(inline);
-            else
-                GetLocalVariableOrFunctionParameters(inline);
+            {
+                var success = GetLocalCommandVariables(inline);
+                if (success)
+                    return;
+            }
+            GetLocalVariableOrFunctionParameters(inline);
         }
 
-        private void GetLocalCommandVariables(Inline inline)
+        private bool GetLocalCommandVariables(Inline inline)
         {
             string name = null, s = null;
-            var foreground = Colors[(int)Types.Variable];
             while (inline != null)
             {
                 s = (inline as Run).Text.Trim();
                 if (Validator.IsVariable(s))
                 {
                     inline.Background = null;
-                    inline.Foreground = foreground;
+                    inline.Foreground = Colors[(int)Types.Variable];
                     name = s;
                     break;
                 }
                 inline = GetPreviousInline(inline);
             }
-            if (!string.IsNullOrEmpty(name))
+            if (string.IsNullOrEmpty(name))
+                return true;
+
+            inline = GetPreviousInline(inline);
+            while (inline != null)
             {
+                s = (inline as Run).Text.Trim();
+                if (s == "@" || s == "&")
+                    break;
+
+                if (s != " ")
+                    return false;
+
                 inline = GetPreviousInline(inline);
-                while (inline != null)
+            }
+            if (s == "@" || s == "&")
+                TracebackCommandVariable(inline, name);
+
+            return true;
+        }
+
+        private void TracebackCommandVariable(Inline inline, string name)
+        {
+            var foreground = Colors[(int)Types.Variable];
+            var bracketCount = 1;
+            inline = GetPreviousInline(inline);
+            while (inline != null)
+            {
+                var s = (inline as Run).Text.AsSpan().Trim();
+                if (!s.IsEmpty)
                 {
-                    s = (inline as Run).Text.Trim();
-                    if (s == "@")
+                    if (s.SequenceEqual("{"))
+                        --bracketCount;
+                    else if (s.SequenceEqual("}"))
+                        ++bracketCount;
+
+                    if (bracketCount == 0)
                         break;
 
-                    if (s != " ")
-                        return;
-
-                    inline = GetPreviousInline(inline);
-                }
-                if (s == "@")
-                {
-                    var bracketCount = 1;
-                    inline = GetPreviousInline(inline);
-                    while (inline != null)
+                    if (s.SequenceEqual(name))
                     {
-                        s = (inline as Run).Text.Trim();
-                        if (s == "{")
-                            --bracketCount;
-                        else if (s == "}")
-                            ++bracketCount;
-
-                        if (bracketCount == 0)
-                            break;
-
-                        if (s == name)
-                        {
-                            inline.Background = null;
-                            inline.Foreground = foreground;
-                        }
-                        inline = GetPreviousInline(inline);
+                        inline.Background = null;
+                        inline.Foreground = foreground;
                     }
                 }
+                inline = GetPreviousInline(inline);
             }
         }
 
@@ -1865,9 +1942,12 @@ namespace Calcpad.Wpf
                         brackets = true;
                     else if (Validator.IsVariable(s))
                     {
-                        LocalVariables.Add(s);
-                        inline.Background = null;
-                        inline.Foreground = foreground;
+                        if (inline.PreviousInline is not Run r || r.Text != ".")
+                        {
+                            LocalVariables.Add(s);
+                            inline.Background = null;
+                            inline.Foreground = foreground;
+                        }
                         if (!brackets)
                             return;
                     }
@@ -1883,12 +1963,58 @@ namespace Calcpad.Wpf
             {
                 var b = currentInline?.Parent as Block;
                 var p = b.PreviousBlock as Paragraph ?? _state.PreviousParagraph;
-                var lastInline = p.Inlines.LastInline;
+                var lastInline = p?.Inlines.LastInline;
                 if (CheckIsLineExtensionInline(lastInline))
                     return lastInline;
             }
             return prevInline;
         }
+
+        private string GetLocalVariables(ReadOnlySpan<char> text, bool isCommand)
+        {
+            var brackets = false;
+            int i1 = 0;
+            for (int i = text.Length - 1; i >= 0; --i)
+            {
+                var c = text[i];
+                if (c == '(')
+                    return null;
+
+                if (c == '\'' || c == '"')
+                    return null;
+
+                if (c == ')')
+                    brackets = true;
+
+                if (Validator.IsVarChar(c))
+                {
+                    if (i1 == 0)
+                        i1 = i + 1;
+                }
+                else if (i1 > i)
+                {
+                    var s = text[(i + 1)..i1].ToString();
+                    i1 = i;
+                    if (isCommand) 
+                        while (--i1 >= 0)
+                        {
+                            c = text[i1];
+                            if (c == '@' || c == '&')
+                                return s;
+                            else if (c != ' ')
+                                break;
+                        }
+
+                    LocalVariables.Add(s);
+                    if (!brackets)
+                        return null;
+
+                    i1 = 0;
+                }
+            }
+            return null;
+        }
+
 
         internal static void HighlightBrackets(Paragraph p, int position)
         {

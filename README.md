@@ -354,9 +354,10 @@ Any variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;$Map { f(x; y) @ x = a : b & y = c : d }  - 2D color map of a 3D surface;  
 &emsp;&emsp;PlotHeight - height of plot area in pixels;  
 &emsp;&emsp;PlotWidth - width of plot area in pixels;  
-&emsp;&emsp;PlotStep - the size of the mesh for map plotting;  
 &emsp;&emsp;PlotSVG - draw plots in vector (SVG) format;  
-&emsp;&emsp;PlotPalette - the number of color palette to be used for surface plots (0-8);  
+&emsp;&emsp;PlotAdaptive - use adaptive mesh (= 1) for function plotting or uniform (= 0);  
+&emsp;&emsp;PlotStep - the size of the mesh for map plotting;  
+&emsp;&emsp;PlotPalette - the number of color palette to be used for surface plots (0-9);  
 &emsp;&emsp;PlotShadows - draw surface plots with shadows;  
 &emsp;&emsp;PlotSmooth - smooth transition of colors (= 1) or isobands (= 0) for surface plots;  
 &emsp;&emsp;PlotLightDir - direction to light source (0-7) clockwise.  
@@ -372,6 +373,8 @@ Any variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;$Sum { f(k) @ k = a : b } - iterative sum;  
 &emsp;&emsp;$Product { f(k) @ k = a : b } - iterative product;  
 &emsp;&emsp;$Repeat { f(k) @ k = a : b } - general inline iterative procedure;  
+&emsp;&emsp;$Block{expressions} - multiline block of expressions;  
+&emsp;&emsp;$Inline{expressions} - inline block of expressions;  
 &emsp;&emsp;Precision - relative precision for numerical methods \[10<sup>-2</sup>; 10<sup>-16</sup>\] (default is 10<sup>-12</sup>)   
 * Program flow control:  
 &emsp;&emsp;Simple:  

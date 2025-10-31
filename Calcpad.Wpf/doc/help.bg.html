@@ -22,17 +22,22 @@
             }
 
         p, li {
-            line-height: 140%;
+            line-height: 130%;
         }
 
         p, ul, ol {
-            margin-top: 0.5em;
-            margin-bottom: 0.5em;
+            margin-top: 0;
+            margin-bottom: 3pt;
         }
 
         ol, ul {
             margin-left: 0;
             padding-left: 2em;
+        }
+
+        .tight {
+            line-height:80%; 
+            margin-top:3pt;
         }
 
         var, i, em {
@@ -89,8 +94,8 @@
             color: deeppink;
             padding: 0 1pt 0 1pt;
         }
-		
-		.ok {
+
+        .ok {
             color: green;
         }
 
@@ -147,8 +152,8 @@
     <ul>
         <li>Реални числа: цифри <b>0</b> - <b>9</b> и десетична точка "<b>.</b>";</li>
         <li>Комплексни числа: <b>re</b> &plusmn; <b>im</b><var>i</var> (например <b>3</b> - <b>2</b><var>i</var>);</li>
-		<li>Вектори: [v<sub>1</sub>; v<sub>2</sub>; v<sub>3</sub>; …; v<sub>n</sub>];</li>
-        <li>Матрици: [M<sub>11</sub>; M<sub>12</sub>; … ; M<sub>1n</sub> | M<sub>21</sub>; M<sub>22</sub>; … ; M<sub>2n</sub> | … | M<sub>m1</sub>; M<sub>m2</sub>; … ; M<sub>mn</sub>]</li>
+		<li class="tight">Вектори: [v<sub>1</sub>; v<sub>2</sub>; v<sub>3</sub>; …; v<sub>n</sub>];</li>
+        <li class="tight">Матрици: [M<sub>11</sub>; M<sub>12</sub>; … ; M<sub>1n</sub> | M<sub>21</sub>; M<sub>22</sub>; … ; M<sub>2n</sub> | … | M<sub>m1</sub>; M<sub>m2</sub>; … ; M<sub>mn</sub>]</li>
         <li style="list-style-type: none;">
             <span class="exp" id="btn1">+</span>Променливи:<br />
             <span id="list1" style="display: none;">
@@ -199,7 +204,7 @@
                 Имената на променливи трябва да започват с буква. Различава главни и малки букви.
             </span>
         </li>
-        <li>
+        <li class="tight">
             Константи:
             <a href="#0" data-text="π" title="Пи"><var>π</var></a>,
             <a href="#0" data-text="e" title="Неперово число"><var>e</var></a>,
@@ -559,12 +564,35 @@
                 <a href="#0" data-text="$Map{f(x; y) @ x = a : b & y = c : d}"><span class="cond">$Map</span><span class="b">{</span><b>f</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="b">)</span> <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var> <span class="o">&amp;</span> <var>y</var> <span class="o">=</span> <var>c</var> <span class="o">:</span> <var>d</var><span class="b">}</span></a> - изохроми на повърхнина (2D функция);<br />
                 <a href="#0" data-text="PlotHeight ="><var>PlotHeight</var></a> - височина на полето за чертане в пиксели;<br />
                 <a href="#0" data-text="PlotWidth ="><var>PlotWidth</var></a> - ширина на полето за чертане в пиксели;	<br />
-                <a href="#0" data-text="PlotStep ="><var>PlotStep</var></a> - стъпка на мрежата за интерполиране;<br />
                 <a href="#0" data-text="PlotSVG ="><var>PlotSVG</var></a> - чертай графиките във векторен (SVG) формат;<br />
-                <a href="#0" data-text="PlotPalette ="><var>PlotPalette</var></a> - номер на цветната скала за графика на повърхнина (0-8);<br />
+                <a href="#0" data-text="PlotAdaptive ="><var>PlotAdaptive</var></a> - използвай адаптивна мрежа за графики на функции;<br />
+                <a href="#0" data-text="PlotStep ="><var>PlotStep</var></a> - стъпка на мрежата за интерполиране;<br />
                 <a href="#0" data-text="PlotShadows ="><var>PlotShadows</var></a> - чертай повърхнините със светлосенки;<br />
-                <a href="#0" data-text="PlotSmooth ="><var>PlotSmooth</var></a> - плавно преливане на цветовете (= 1) или изохроми (= 0) за графика на повърхнина;<br />
-                <a href="#0" data-text="PlotLightDir ="><var>PlotLightDir</var></a> - посока към източника на светлина (0-7) по часовниковата стрелка.
+                <a href="#0" data-text="PlotLightDir ="><var>PlotLightDir</var></a> - посока към източника на светлина (0-7): 
+				<select class="insert">
+                    <option value="PlotLightDir = 0">0 - Север</option>
+                    <option value="PlotLightDir = 1">1 - Североизток</option>
+                    <option value="PlotLightDir = 2">2 - Изток</option>
+					<option value="PlotLightDir = 3">3 - Югоизток</option>
+					<option value="PlotLightDir = 4">4 - Юг</option>
+                    <option value="PlotLightDir = 5">5 - Югозапад</option>
+                    <option value="PlotLightDir = 6">6 - Запад</option>
+					<option value="PlotLightDir = 7">7 – Северозапад</option>
+				</select><br />
+                <a href="#0" data-text="PlotSmooth ="><var>PlotSmooth</var></a> - плавно преливане на цветовете (= 1) или изохроми (= 0);<br />
+                <a href="#0" data-text="PlotPalette ="><var>PlotPalette</var></a> - номер на палитра (0-9): 
+                <select class="insert">
+                    <option value="PlotPalette = 0">0 - Няма</option>
+                    <option value="PlotPalette = 1">1 - Сиво</option>
+                    <option value="PlotPalette = 2">2 - Дъга</option>
+                    <option value="PlotPalette = 3">3 - Терен</option>
+                    <option value="PlotPalette = 4">4 - Виолетово-жълта</option>
+                    <option value="PlotPalette = 5">5 - Зелено-жълта</option>
+                    <option value="PlotPalette = 6">6 - Сини</option>
+                    <option value="PlotPalette = 7">7 - Синьо-жълта</option>
+                    <option value="PlotPalette = 8">8 - Синьо-червена</option>
+                    <option value="PlotPalette = 9">9 - Лилаво-жълта</option>
+                </select><br />
             </span>
         </li>
         <li style="list-style-type: none;">
@@ -1253,17 +1281,16 @@
         </li>
     </ul>
     <p><strong style="font-size:13pt;">Готови оразмерителни програми по Еврокод</strong></p>
-    <p>Разполагаме с богата библиотека от оразмерителни програми за Calcpad по Еврокод, които може да ползвате в готов вид, на символична цена.</p>
+    <p>Разполагаме с богата библиотека от оразмерителни програми за Calcpad по Еврокод, които може да ползвате в готов вид и да спестите ценно време.</p>
     <p>Пълен списък от разработените програми, ще намерите на следния линк:</p>
-    <p><a href="https://www.proektsoft.bg/calcpad/Pricelist-2024-Calcpad.pdf" target="_blank">https://www.proektsoft.bg/calcpad/Pricelist-2024-Calcpad.pdf</a></p>
+    <p><a href="https://www.proektsoft.bg/calcpad/Pricelist-2025-Calcpad.pdf" target="_blank">https://www.proektsoft.bg/calcpad/Pricelist-2025-Calcpad.pdf</a></p>
     <p>Как да поръчаме?</p>
     <ol>
         <li>Изберете програмите, които са Ви необходими.</li>
         <li>Изпратете ни списък с номерата на избраните записки или пакети по имейл.</li>
         <li>Ще Ви подготвим и изпратим индивидуална оферта.</li>
     </ol>
-    <p>За заявки, пишете на:</p>
-    <p><a href="mailto:proektsoft.bg@gmail.com">proektsoft.bg@gmail.com</a></p>
+    <p>За заявки, молим пишете на <a href="mailto:proektsoft.bg@gmail.com">proektsoft.bg@gmail.com</a>.</p>
     <p>Заплащането е еднократно, без абонамент. Веднъж закупени, програмите могат да се ползват без ограничение.</p>
   <script src="jquery-3.6.3.min.js"></script>
     <script>
@@ -1288,9 +1315,13 @@
                 $("a").click(function () {
                     chrome.webview.postMessage('clicked');
                 });
+
+                $("select.insert").change(function () {
+                    chrome.webview.postMessage('clicked');
+                });
 				
 				window.addEventListener('click', () => {
-					window.chrome.webview.postMessage('focused');
+					chrome.webview.postMessage('focused');
 				});
             });
         }

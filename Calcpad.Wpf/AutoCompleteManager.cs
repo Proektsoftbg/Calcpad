@@ -577,6 +577,7 @@ namespace Calcpad.Wpf
             items.Add(new ListBoxItem() { Content = "pk_UK", Foreground = Brushes.DarkCyan });
             items.Add(new ListBoxItem() { Content = "pk_US", Foreground = Brushes.DarkCyan });
             items.Add(new ListBoxItem() { Content = "pL", Foreground = Brushes.DarkCyan });
+            items.Add(new ListBoxItem() { Content = "PlotAdaptive", Foreground = Brushes.Blue });
             items.Add(new ListBoxItem() { Content = "PlotHeight", Foreground = Brushes.Blue });
             items.Add(new ListBoxItem() { Content = "PlotLightDir", Foreground = Brushes.Blue });
             items.Add(new ListBoxItem() { Content = "PlotPalette", Foreground = Brushes.Blue });

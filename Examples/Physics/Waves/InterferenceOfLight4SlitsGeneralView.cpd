@@ -17,6 +17,5 @@ t = 0s
 Ψ_2D_3(x; y; t) = Ψ_0*cos(k*r(x + d/2; y) - ω*t)
 Ψ_2D_4(x; y; t) = Ψ_0*cos(k*r(x + 3*d/2; y) - ω*t)
 Ψ_2D(x; y; t) = Ψ_2D_1(x; y; t) + Ψ_2D_2(x; y; t) + Ψ_2D_3(x; y; t) + Ψ_2D_4(x; y; t)
-PlotHeight = 200
-PlotWidth = 600
+PlotHeight = 200','PlotWidth = 600','PlotStep = 1
 $Map{Ψ_2D(x; y; t)^2 @ x = -1m : 1m & y = 0m : 1m}
