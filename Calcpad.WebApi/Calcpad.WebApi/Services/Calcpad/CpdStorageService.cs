@@ -1,4 +1,5 @@
 ﻿using Calcpad.Document.Core.Segments;
+using Calcpad.Document.Core.Utils;
 using Calcpad.WebApi.Configs;
 using Calcpad.WebApi.Models;
 using Calcpad.WebApi.Models.Base;
@@ -25,7 +26,7 @@ namespace Calcpad.WebApi.Services.Calcpad
         /// </summary>
         /// <param name="bucketName"></param>
         /// <param name="fileName"></param>
-        /// <returns></returns>
+        /// <returns>StoragetRoot/bucketName/yyyy/mm/dd/fileName</returns>
         public string GetObjectName(string bucketName, string fileName)
         {
             var savedPath = Path.Combine(
@@ -46,7 +47,11 @@ namespace Calcpad.WebApi.Services.Calcpad
         /// <returns></returns>
         public string GetCpdObjectName(string fileName)
         {
-            return GetObjectName("calcpad-files", fileName);
+            var ext = Path.GetExtension(fileName);
+            return GetObjectName(
+                FileExtensionsList.CpdFileExtensions.Contains(ext) ? "calcpad-files" : "public",
+                fileName
+            );
         }
 
         /// <summary>
@@ -73,37 +78,21 @@ namespace Calcpad.WebApi.Services.Calcpad
         }
 
         /// <summary>
-        /// generate a read path for calcpad #read
-        /// relative to Environment.CurrentDirectory
-        /// 1. if the file under cpdFileFullPath dir, return the readFromPath
-        /// 2. else generate a public path under public/cpd-resources/md5(cpdFileFullPath)/filename
+        /// Generate a read path for calcpad #read
+        /// format: public/cpd-resources/md5(cpdFileFullPath)/filename
         /// </summary>
-        /// <param name="cpdFullPath">for generate container dir by md5 value</param>
+        /// <param name="cpdFullPath">for generate container dir by md5 valuem</param>
         /// <param name="readFromPath"></param>
-        /// <returns>read path, always exists</returns>
+        /// <returns>read path</returns>
         public string GetReadFromPath(string cpdFullPath, string readFromPath)
         {
             var resourceDir = GetCpdPublicResourceDir(cpdFullPath);
-
-            var publicPath = readFromPath;
-            if (!readFromPath.Contains(resourceDir))
-            {
-                var readFullPath = Path.GetFullPath(readFromPath);
-                publicPath = Path.Combine(
-                    resourceDir,
-                    Path.GetDirectoryName(readFullPath)!.ToMD5(),
-                    Path.GetFileName(readFromPath)
-                );
-            }
-
-            if (!File.Exists(publicPath))
-            {
-                Directory.CreateDirectory(Path.GetDirectoryName(publicPath)!);
-                using var writer = new StreamWriter(publicPath, false);
-                writer.WriteLine("1,2,3,4,5,6,7,8,9");
-                writer.Close();
-            }
-
+            var publicPath = Path.Combine(
+                  resourceDir,
+                  Path.GetFileName(readFromPath)
+            );
+            // create directory
+            Directory.CreateDirectory(Path.GetDirectoryName(publicPath)!);
             return publicPath.Replace('\\', '/');
         }
 
@@ -250,6 +239,27 @@ namespace Calcpad.WebApi.Services.Calcpad
         public string GetWebUrl(string subPath)
         {
             return $"{appConfig.Value.BaseUrl}/{subPath.TrimStart('/')}";
+        }
+
+        /// <summary>
+        /// get default file path by file extension
+        /// </summary>
+        /// <param name="fileExtension"></param>
+        /// <returns></returns>
+        public string GetDefaultFilePath(string fileExtension)
+        {
+            var extension = fileExtension.ToLower();
+            // cpd、csv、excel
+            if (FileExtensionsList.CpdFileExtensions.Contains(extension))
+                return $"{storageConfig.Value.Root}/defaults/files/default_cpd.txt";
+
+            if (FileExtensionsList.CsvFileExtensions.Contains(extension))
+                return $"{storageConfig.Value.Root}/defaults/files/default_csv.csv";
+
+            if (FileExtensionsList.ExcelFileExtensions.Contains(extension))
+                return $"{storageConfig.Value.Root}/defaults/files/default_excel.xlsx";
+
+            return string.Empty;
         }
     }
 }

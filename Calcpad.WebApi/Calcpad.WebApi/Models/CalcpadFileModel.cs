@@ -3,8 +3,24 @@ using MongoDB.Bson;
 
 namespace Calcpad.WebApi.Models
 {
+    public enum CpdFileStatus
+    {
+        /// <summary>
+        /// 已删除
+        /// </summary>
+        Deleted,
+
+        /// <summary>
+        /// 正常
+        /// </summary>
+        Normal
+    }
+
+
     public class CalcpadFileModel : MongoDoc
     {
+        public CpdFileStatus Status { get; set; } = CpdFileStatus.Normal;
+
         /// <summary>
         /// uploader user id
         /// </summary>

@@ -58,6 +58,7 @@ namespace Calcpad.WebApi.Controllers
         /// <summary>
         /// upload a calcpad file and return the file id
         /// if the file content is changed, you must upload it again with same fileName
+        /// if the file contains read or include from relative path, you must invoke <seealso cref="UpdateFilePathsToServicePath"/> to update paths
         /// </summary>
         /// <returns></returns>
         [HttpPost()]
@@ -78,8 +79,8 @@ namespace Calcpad.WebApi.Controllers
             {
                 var fileName = formData.GetUniqueFileName();
                 // example: calcpad-files/2024/06/27/xxxxxx.calcpad
+                // or: public//2024/06/27/xxxxxx.excel
                 var relativePath = storageService.GetCpdObjectName(fileName);
-
                 existObject = new CalcpadFileModel
                 {
                     ObjectName = relativePath,
@@ -105,7 +106,6 @@ namespace Calcpad.WebApi.Controllers
 
             // save to template path
             var fullPath = Environment.ExpandEnvironmentVariables(existObject.FullName);
-
             if (formData.IsCpdFile)
             {
                 var tempPath = Path.Combine(
@@ -153,7 +153,7 @@ namespace Calcpad.WebApi.Controllers
             }
 
             // copy file
-            var newFileName = $"{toId}{Path.GetExtension(existModel.ObjectName)}";
+            var newFileName = $"{toId}/{Path.GetFileName(existModel.ObjectName)}";
             var toObjectName = storageService.GetCpdObjectName(newFileName);
             var toFullPath = storageService.GetCpdAbsoluteFullName(toObjectName);
             var fromFullPath = storageService.GetCpdAbsoluteFullName(existModel.ObjectName);
@@ -178,7 +178,7 @@ namespace Calcpad.WebApi.Controllers
         }
 
         /// <summary>
-        /// update calcpad file macro read from
+        /// update calcpad file macro read from path
         /// user can update the read from macro to change the data source
         /// </summary>
         /// <param name="uniqueId"></param>
@@ -190,15 +190,15 @@ namespace Calcpad.WebApi.Controllers
             [FromForm] UpdateCpdReadFromData formData
         )
         {
-            var existModel = await db.AsQueryable<CalcpadFileModel>()
+            var cpdFile = await db.AsQueryable<CalcpadFileModel>()
                 .Where(x => x.UniqueId == uniqueId)
                 .FirstOrDefaultAsync();
-            if (existModel == null)
+            if (cpdFile == null)
                 return string.Empty.ToFailResponse("calcpad file not found");
 
             // save file
             var newFromPath = storageService.GetReadFromPath(
-                existModel.FullName,
+                cpdFile.FullName,
                 formData.File.FileName
             );
             using (var stream = new FileStream(newFromPath, FileMode.Create))
@@ -212,7 +212,7 @@ namespace Calcpad.WebApi.Controllers
             }
 
             // update read from path
-            var cpdReader = CpdReaderFactory.CreateCpdReader(existModel.FullName);
+            var cpdReader = CpdReaderFactory.CreateCpdReader(cpdFile.FullName);
             var readLines = cpdReader
                 .GetReadLines()
                 .Where(x => x.FilePath == formData.OldFromPath)
@@ -226,11 +226,14 @@ namespace Calcpad.WebApi.Controllers
                     readLines.Cast<CpdLine>()
                 );
                 var cpdWriter = CpdWriterFactory.CreateCpdWriter();
-                cpdWriter.WriteFile(existModel.FullName, content);
+                cpdWriter.WriteFile(cpdFile.FullName, content);
             }
 
             // remove old from file
-            System.IO.File.Delete(formData.OldFromPath);
+            if (Path.GetDirectoryName(formData.OldFromPath) == Path.GetDirectoryName(newFromPath))
+            {
+                System.IO.File.Delete(formData.OldFromPath);
+            }
 
             return newFromPath.ToSuccessResponse();
         }
@@ -239,9 +242,10 @@ namespace Calcpad.WebApi.Controllers
         /// Delete calcpad file
         /// </summary>
         /// <param name="uniqueId"></param>
+        /// <param name="force">if true will delete file</param>
         /// <returns></returns>
         [HttpDelete("{uniqueId}")]
-        public async Task<ResponseResult<bool>> DeleteCalcpadFile(string uniqueId)
+        public async Task<ResponseResult<bool>> DeleteCalcpadFile(string uniqueId, bool force = false)
         {
             var existModel = await db.AsQueryable<CalcpadFileModel>()
                 .Where(x => x.UniqueId == uniqueId)
@@ -252,10 +256,23 @@ namespace Calcpad.WebApi.Controllers
             }
 
             var fullPath = storageService.GetCpdAbsoluteFullName(existModel.ObjectName);
-            if (System.IO.File.Exists(fullPath))
+            if (force)
             {
-                System.IO.File.Delete(fullPath);
+                if (System.IO.File.Exists(fullPath))
+                    System.IO.File.Delete(fullPath);
+
+                // remove from database
+                await db.Collection<CalcpadFileModel>()
+                    .DeleteOneAsync(x => x.Id == existModel.Id);
             }
+            else
+            {
+                await db.AsFluentUpdate<CalcpadFileModel>()
+                    .Where(x => x.Id == existModel.Id)
+                    .Set(x => x.Status, CpdFileStatus.Deleted)
+                    .UpdateOneAsync();
+            }
+
             return true.ToSuccessResponse();
         }
 
@@ -453,8 +470,15 @@ namespace Calcpad.WebApi.Controllers
                 var model = pathFileModels.FirstOrDefault(x => x.UniqueId == path.UniqueId);
                 if (model == null)
                 {
-                    continue;
+                    // copy default file from defaults path
+                    var defaultFilePath = storageService.GetDefaultFilePath(
+                        Path.GetExtension(path.Path)
+                    );
+                    if (!System.IO.File.Exists(defaultFilePath))
+                        continue;
+                    model = new CalcpadFileModel() { FullName = Path.GetFullPath(defaultFilePath) };
                 }
+
                 var relativePath = storageService.GetRelativePathToCurrentDir(model.FullName);
                 filePathMap.TryAdd(path.Path, (relativePath, model.Id));
             }
