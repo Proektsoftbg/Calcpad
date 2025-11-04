@@ -1706,7 +1706,7 @@ namespace Calcpad.Core
             {
                 uc.Scale(d);
                 d = 1d;
-                if (ub.Text.Contains('·'))
+                if (ub.Text.AsSpan().ContainsAny('·', '/'))
                     uc._text = $"{ua.Text}/({ub.Text})";
                 else
                     uc._text = ua.Text + '/' + ub.Text;
