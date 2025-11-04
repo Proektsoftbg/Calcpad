@@ -205,13 +205,16 @@ namespace Calcpad.Core
                 for (int i = 0, len = s.Length; i < len; ++i)
                 {
                     var c = s[i];
-                    if (c == commentChar)
-                        ++count;
-                    else if (c == '"' || c == '\'')
+                    if (commentChar == '\0')
                     {
-                        commentChar = c;
-                        count = 1;
+                        if (c == '"' || c == '\'')
+                        {
+                            commentChar = c;
+                            count = 1;
+                        }
                     }
+                    else if (c == commentChar)
+                        ++count;
                 }
                 return count % 2 == 1;
             }

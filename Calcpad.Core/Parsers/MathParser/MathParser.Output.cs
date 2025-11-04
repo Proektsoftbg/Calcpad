@@ -160,16 +160,15 @@ namespace Calcpad.Core
                             RenderNegationToken(t, b, ref hasOperators);
                         else if (tt == TokenTypes.Operator)
                             RenderOperatorToken(t, b, ref hasOperators);
-                        else if (tt == TokenTypes.VectorIndex)
-                            RenderVectorIndexToken(t, b);
-                        else if (tt == TokenTypes.MatrixIndex)
-                        {
-                            var a = stackBuffer.Pop();
-                            RenderMatrixIndexToken(t, a, b);
-                        }
-                        else
-                        {
-                            if (tt == TokenTypes.Function2 ||
+                        else {
+                            if (tt == TokenTypes.VectorIndex)
+                                RenderVectorIndexToken(t, b);
+                            else if (tt == TokenTypes.MatrixIndex)
+                            {
+                                var a = stackBuffer.Pop();
+                                RenderMatrixIndexToken(t, a, b);
+                            }
+                            else if (tt == TokenTypes.Function2 ||
                                 tt == TokenTypes.VectorFunction2 ||
                                 tt == TokenTypes.MatrixFunction2)
                                 RenderFunction2Token(t, b);

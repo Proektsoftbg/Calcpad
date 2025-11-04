@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection.Metadata;
+using System.Runtime.CompilerServices;
 
 namespace Calcpad.Core
 {
@@ -972,13 +973,10 @@ namespace Calcpad.Core
                 return _solveBlocks.Count - 1;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static bool IsIndex(Token t) =>
                 t.Type == TokenTypes.VectorIndex ||
                 t.Type == TokenTypes.MatrixIndex;
-
-            private static bool IsArray(Token t) =>
-                t.Type == TokenTypes.Vector ||
-                t.Type == TokenTypes.Matrix;
         }
     }
 }
