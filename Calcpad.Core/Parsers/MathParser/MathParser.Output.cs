@@ -14,7 +14,7 @@ namespace Calcpad.Core
             private readonly StringBuilder _stringBuilder;
             private int _assignmentPosition;
             private bool _hasVariables;
-            private bool _formatEquations;
+            private readonly bool _formatEquations;
             internal Output(MathParser parser)
             {
                 _parser = parser;
@@ -389,7 +389,7 @@ namespace Calcpad.Core
                             if (!formatEquation &&
                                 b.Type != TokenTypes.Solver &&
                                 (b.Order > t.Order ||
-                                b.Order == t.Order && (content == "-" || content == "/") ||
+                                b.Order == t.Order && (content == "-" || content == "/" || content == "÷") ||
                                 IsNegative(b) && content != "="))
                                 sb = AddBrackets(sb, b.Level, b.MinOffset, b.MaxOffset, '(', ')');
 

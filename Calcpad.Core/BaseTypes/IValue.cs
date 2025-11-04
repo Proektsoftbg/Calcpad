@@ -754,7 +754,7 @@ namespace Calcpad.Core
                 else
                     throw Exceptions.InvalidArgument($"{ival}");
             }
-            return valList.ToArray();
+            return [.. valList];
         }
 
 
@@ -774,7 +774,7 @@ namespace Calcpad.Core
                 else
                     throw Exceptions.InvalidArgument($"{ival}");
             }
-            return valList.ToArray();
+            return [.. valList];
         }
 
         internal static IScalarValue AsValue(IValue ival, Exceptions.Items item = Exceptions.Items.Argument)

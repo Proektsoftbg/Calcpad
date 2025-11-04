@@ -1869,6 +1869,9 @@ namespace Calcpad.Wpf
                     name = s;
                     break;
                 }
+                else if (s != " ")
+                    return false;
+
                 inline = GetPreviousInline(inline);
             }
             if (string.IsNullOrEmpty(name))
@@ -1880,8 +1883,7 @@ namespace Calcpad.Wpf
                 s = (inline as Run).Text.Trim();
                 if (s == "@" || s == "&")
                     break;
-
-                if (s != " ")
+                else if (s != " ")
                     return false;
 
                 inline = GetPreviousInline(inline);

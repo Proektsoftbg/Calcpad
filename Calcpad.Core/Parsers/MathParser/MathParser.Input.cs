@@ -849,7 +849,7 @@ namespace Calcpad.Core
                                     if (next.Type == TokenTypes.Operator &&
                                        (next.Order > t.Order ||
                                         next.Order == t.Order && t.Content == "^") ||
-                                        IsIndex(next) && IsArray(t) ||
+                                        IsIndex(next) && IsIndex(t) ||
                                         next.Type == TokenTypes.BracketLeft ||
                                         next.Type == TokenTypes.SquareBracketLeft)
                                         break;
