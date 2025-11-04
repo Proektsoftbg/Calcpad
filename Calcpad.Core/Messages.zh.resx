@@ -298,9 +298,6 @@
   <data name="Units_cannon_be_raised_to_complex_power" xml:space="preserve">
     <value>单位无法计算复数次幂.</value>
   </data>
-  <data name="Select_All" xml:space="preserve">
-    <value>全选</value>
-  </data>
   <data name="if_block_not_closed_Missing_end_if" xml:space="preserve">
     <value>错误： "#if" 块未闭合.缺少 "#end if".</value>
   </data>

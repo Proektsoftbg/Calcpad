@@ -304,9 +304,6 @@
   <data name="Cannot_evaluate_remainder_0_1_The_denominator_must_be_unitless" xml:space="preserve">
         <value>Cannot evaluate remainder: "{0}  %  {1}". The denominator must be unitless.</value>
     </data>
-  <data name="Select_All" xml:space="preserve">
-        <value>Select _All</value>
-    </data>
   <data name="if_block_not_closed_Missing_end_if" xml:space="preserve">
         <value>Error: "#if" block not closed. Missing "#end if".</value>
     </data>
@@ -503,7 +500,7 @@
     <value>Invalid item</value>
   </data>
   <data name="Function_definition_not_allowed_in_solver_block" xml:space="preserve">
-    <value>Function definition not allowed in solver block.</value>
+    <value>Function definition not allowed in solver or expression block.</value>
   </data>
   <data name="Brackets_not_closed" xml:space="preserve">
     <value>Brackets not closed.</value>

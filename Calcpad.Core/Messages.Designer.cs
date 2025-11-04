@@ -493,7 +493,7 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Function definition not allowed in solver block..
+        ///   Looks up a localized string similar to Function definition not allowed in solver or expression block..
         /// </summary>
         public static string Function_definition_not_allowed_in_solver_block {
             get {

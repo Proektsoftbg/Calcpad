@@ -304,9 +304,6 @@
   <data name="Units_cannon_be_raised_to_complex_power" xml:space="preserve">
         <value>Не мога да повдигна мерни единици на комплексна степен.</value>
     </data>
-  <data name="Select_All" xml:space="preserve">
-        <value>И_збери всичко</value>
-    </data>
   <data name="if_block_not_closed_Missing_end_if" xml:space="preserve">
         <value>Грешка: Условният "#if" блок не е затворен. Липсва "#end if".</value>
     </data>
@@ -503,7 +500,7 @@
     <value>Индексирания обект</value>
   </data>
   <data name="Function_definition_not_allowed_in_solver_block" xml:space="preserve">
-    <value>Неразрешена дефиниция на функция в блок за числени методи.</value>
+    <value>Неразрешена дефиниция на функция в блок за числени методи или изрази.</value>
   </data>
   <data name="Brackets_not_closed" xml:space="preserve">
     <value>Незатворени скоби.</value>
