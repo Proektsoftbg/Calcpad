@@ -21,30 +21,12 @@
             line-height: 150%;
         }
 
-        h1 {
-            font-size: 2.1em;
-        }
-        /* Default is ~2em */
-        h2 {
-            font-size: 1.7em;
-        }
-        /* Default is ~1.5em */
-        h3 {
-            font-size: 1.4em;
-        }
-        /* Default is ~1.17em */
-        h4 {
-            font-size: 1.2em;
-        }
-        /* Default is ~1em */
-        h5 {
-            font-size: 1.1em;
-        }
-        /* Default is ~0.83em */
-        h6 {
-            font-size: 1em;
-        }
-        /* Default is ~0.67em */
+        h1 {font-size: 2.1em;}
+        h2 {font-size: 1.7em;}
+        h3 {font-size: 1.4em;}
+        h4 {font-size: 1.2em;}
+        h5 {font-size: 1.1em;}
+        h6 {font-size: 1em;}
 
         p, li {
             margin: 0.3em 0 0.3em 0;
@@ -250,12 +232,30 @@
             vertical-align: middle;
             padding-left: 4pt;
             margin-left: -1pt;
-            border-left: solid 1pt #90d0f0;
-            background: linear-gradient(to right, rgba(0, 191, 255, 0.04), rgba(0, 225, 255, 0.02));
+            border-left: solid 1pt #80b0e8;
+            background: linear-gradient(to right, rgba(0, 191, 255, 0.05), rgba(0, 225, 255, 0.03));
         }
 
-        .pale {
-            color: #a0d5f2;
+            .block .block {
+                background: linear-gradient(to right, rgba(0, 191, 255, 0.03), rgba(0, 225, 255, 0.02));
+            }
+
+        .dvcs:has(.block):not(.block *) {
+            display: inline-block;
+            border-left: solid 1pt #80b0e8;
+            padding-left: 0;
+            margin-left: 3pt;
+        }
+
+            .dvcs:has(.block):not(.block *)::before {
+                content: " 🞀";
+                font-size: 9pt;
+                color: #90c4f0;
+                margin-left: -4.5pt;
+            }
+
+        .arr {
+            color: #90c4f0;
         }
 
         .r0, .r1, .r2, .r3,
@@ -353,21 +353,10 @@
             max-height: none;
         }
 
-        sup .r0 {
-            margin-left: -5pt;
-        }
-
-        sup .r1 {
-            margin-left: -11pt;
-        }
-
-        sup .r2 {
-            margin-left: -13pt;
-        }
-
-        sup .r3 {
-            margin-left: -16pt;
-        }
+        sup .r0 { margin-left: -5pt; }
+        sup .r1 { margin-left: -11pt; }
+        sup .r2 { margin-left: -13pt; }
+        sup .r3 { margin-left: -16pt; }
 
         .b1, .b2, .b3, .c1, .c2, .c3, .c4, .c5, .c6, .c7, .c8 {
             vertical-align: middle;
@@ -823,6 +812,8 @@
 
             $(document).ready(function () {
 
+                $(".dvcs:has(.block) > :first-child").html("&hairsp;");
+
                 $("#Units").change(function () { $(".Units").text($(this).val()); });
 
                 $(".fold > :first-child").click(function () {
@@ -913,7 +904,7 @@
                 });
                 $(".money").each(function () { $(this).text(Number(($(this).text())).toFixed(2)); });
 				
-				$("input").change(function(){
+				$("input").change(function() {
 					var e = $(this);
 					var s = e.val();
 					if (isNumeric(s)) {
