@@ -565,8 +565,8 @@ namespace Calcpad.Wpf
         {
             if (inline is Run r)
             {
-                var s = r.Text.AsSpan();
-                if (s.EndsWith(" _") || (s.EndsWith("_") || s.EndsWith("{") || s.TrimEnd().EndsWith(";")) && r.Foreground != Colors[(int)Types.Comment])
+                var s = r.Text.AsSpan().TrimEnd();
+                if (s.EndsWith(" _") || (s.EndsWith("_") || s.EndsWith("{") || s.EndsWith("(") || s.EndsWith(";")) && r.Foreground != Colors[(int)Types.Comment])
                     return true;
             }
             return false;
@@ -619,8 +619,9 @@ namespace Calcpad.Wpf
                         if (i > 0 && _state.IsLeading && !Validator.IsWhiteSpace(c))
                             Append(Types.None);
                     }
-                    if (i == len - 1 &&
-                        (i > 0 && text[i - 1] == ' ' || _builder.Length == 0) &&
+                    if (c == '_'  && 
+                        (i < len - 1 || text.AsSpan(i + 1).IsWhiteSpace()) && 
+                        (i > 0 && text[i - 1] == ' ') &&
                         ParseLineBreak(c))
                         break;
 
@@ -791,7 +792,7 @@ namespace Calcpad.Wpf
                     p = p.NextBlock as Paragraph;
                     ++lineNumber;
                     newline = false;
-                    text = null;
+                    //text = null;
                 }
                 else
                     break;
@@ -802,10 +803,10 @@ namespace Calcpad.Wpf
         {
             if (p.Inlines.LastInline is Run r)
             {
-                var span = r.Text.AsSpan();
+                var span = r.Text.AsSpan().TrimEnd();
                 if (span.EndsWith(" _") ||
                     span.EndsWith("_") || 
-                    (span.EndsWith("{") || span.TrimEnd().EndsWith(";")) && 
+                    (span.EndsWith("{") || span.EndsWith("(") || span.EndsWith(";")) && 
                     _state.CurrentType != Types.Comment && 
                     _state.CurrentType != Types.HtmlComment)
                     return true;
@@ -851,9 +852,6 @@ namespace Calcpad.Wpf
 
         private bool ParseLineBreak(char c)
         {
-            if (c != '_')
-                return false;
-
             var p = _state.Paragraph;
             if (_builder.Length == 0)
             {
@@ -1962,8 +1960,13 @@ namespace Calcpad.Wpf
             if (prevInline is null)
             {
                 var b = currentInline?.Parent as Block;
-                var p = b.PreviousBlock as Paragraph ?? _state.PreviousParagraph;
-                var lastInline = p?.Inlines.LastInline;
+                var p = b.Parent is null ? 
+                    _state.PreviousParagraph :
+                    b.PreviousBlock as Paragraph;
+                if (p is null)
+                    return null;
+
+                var lastInline = p.Inlines.LastInline;
                 if (CheckIsLineExtensionInline(lastInline))
                     return lastInline;
             }

@@ -413,5 +413,8 @@ namespace Calcpad.Core
 
         internal static MathParserException CounterMustBeASingleVariableName() =>
             new(Messages.CounterMustBeASingleVariableName);
+
+        internal static Exception InvalidNumberOfIndexes() =>
+            new(Messages.InvalidNumberOfIndexes);
     }
 }

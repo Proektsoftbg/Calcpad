@@ -62,7 +62,7 @@ namespace Calcpad.Core
             return this;
         }
 
-        internal double[] RawCol(int col)
+        internal new double[] RawCol(int col)
         {
             var n = _colCount - col;
             var vector = new double[n];

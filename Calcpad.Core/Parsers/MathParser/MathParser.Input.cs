@@ -151,7 +151,12 @@ namespace Calcpad.Core
 
                                     tokens.Enqueue(t);
                                     tokenLiteral.Reset(i);
-                                    tt = t.Type == TokenTypes.Vector ? TokenTypes.VectorIndex : TokenTypes.MatrixIndex;
+                                    tt = t.Type switch
+                                    {
+                                        TokenTypes.Vector => TokenTypes.VectorIndex,
+                                        TokenTypes.Matrix => TokenTypes.MatrixIndex,
+                                        _ => TokenTypes.ArrayIndex
+                                    };
                                     tokens.Enqueue(new Token(s, tt));
                                 }
                                 else
@@ -678,25 +683,27 @@ namespace Calcpad.Core
 
             private VariableToken MakeVectorOrMatrixToken(string s)
             {
-                if (_variables.TryGetValue(s, out var v))
-                {
-                    ref var value = ref v.ValueByRef();
-                    if (value is Vector)
-                        return new VariableToken(s, v)
-                        {
-                            Type = TokenTypes.Vector
-                        };
-                    else if (value is Matrix)
-                        return new VariableToken(s, v)
-                        {
-                            Type = TokenTypes.Matrix
-                        };
-                    else if (value is null && !_parser.IsEnabled)
-                        return new VariableToken(s, null)
-                        {
-                            Type = TokenTypes.Vector
-                        };
-                }
+                foreach (var variables in _localVariables)
+                    if (variables.TryGetValue(s, out var v))
+                    {
+                        ref var value = ref v.ValueByRef();
+                        if (value is Vector)
+                            return new VariableToken(s, v)
+                            {
+                                Type = TokenTypes.Vector
+                            };
+                        else if (value is Matrix)
+                            return new VariableToken(s, v)
+                            {
+                                Type = TokenTypes.Matrix
+                            };
+                        else if (value is null && (!_parser.IsEnabled || !ReferenceEquals(variables, _variables)))
+                            return new VariableToken(s, null)
+                            {
+                                Type = TokenTypes.Array
+                            };
+                        return null;
+                    }
                 return null;
             }
 
@@ -842,8 +849,7 @@ namespace Calcpad.Core
                                     if (next.Type == TokenTypes.Operator &&
                                        (next.Order > t.Order ||
                                         next.Order == t.Order && t.Content == "^") ||
-                                        (next.Type == TokenTypes.VectorIndex || next.Type == TokenTypes.MatrixIndex) &&
-                                        (t.Type == TokenTypes.VectorIndex || t.Type == TokenTypes.MatrixIndex) ||
+                                        IsIndex(next) && IsArray(t) ||
                                         next.Type == TokenTypes.BracketLeft ||
                                         next.Type == TokenTypes.SquareBracketLeft)
                                         break;
@@ -965,6 +971,14 @@ namespace Calcpad.Core
                 --_parser._isSolver;
                 return _solveBlocks.Count - 1;
             }
+
+            private static bool IsIndex(Token t) =>
+                t.Type == TokenTypes.VectorIndex ||
+                t.Type == TokenTypes.MatrixIndex;
+
+            private static bool IsArray(Token t) =>
+                t.Type == TokenTypes.Vector ||
+                t.Type == TokenTypes.Matrix;
         }
     }
 }

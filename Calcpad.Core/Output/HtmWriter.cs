@@ -247,7 +247,8 @@ namespace Calcpad.Core
             if (level > 8)
                 level = 8;
 
-            var sb = new StringBuilder(FormatLeftCurl(level))
+            var sb = new StringBuilder("<span class=\"dvcs\">")
+                .Append(FormatLeftCurl(level))
                 .Append($"<span class=\"dvs\">if {sa[0]}: {sa[1]}");
             for (int i = 2; i < len; i += 2)
             {
@@ -256,14 +257,14 @@ namespace Calcpad.Core
                 else
                     sb.Append($"<br />if {sa[i]}: {sa[i + 1]}");
             }
-            sb.Append("</span>");
+            sb.Append("</span></span>");
             return sb.ToString();
         }
 
         internal override string FormatIf(string sc, string sa, string sb, int level = 0)
         {
             var s = $"if {sc}: {sa}<br />else: {sb}";
-            return $"{FormatLeftCurl(level)}<span class=\"dvs\">{s}</span>";
+            return $"<span class=\"dvcs\">{FormatLeftCurl(level)}<span class=\"dvs\">{s}</span></span>";
         }
 
         internal override string FormatMatrix(Matrix matrix)

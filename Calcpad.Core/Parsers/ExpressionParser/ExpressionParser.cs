@@ -53,7 +53,6 @@ namespace Calcpad.Core
         public void Parse(string sourceCode, bool calculate = true, bool getXml = true) =>
             Parse(sourceCode.AsSpan(), calculate, getXml);
 
-        private static SearchValues<char> commentChars = SearchValues.Create(['\'', '"']);
         private void Parse(ReadOnlySpan<char> code, bool calculate, bool getXml)
         {
             var lines = new List<int> { 0 };
@@ -105,7 +104,7 @@ namespace Calcpad.Core
                         _parser.Line = _currentLine + 1;
 
                     lineSpan = lineSpan.Trim();
-                    if (HasLineExtension(textSpan))
+                    if (HasLineExtension(textSpan.TrimEnd()))
                     {
                         var c = textSpan[^1];
                         if (c == '_')
@@ -118,7 +117,7 @@ namespace Calcpad.Core
                     else
                         textSpan = lineSpan;
 
-                    if (HasLineExtension(lineSpan))
+                    if (HasLineExtension(textSpan.TrimEnd()))
                     {
                         _lineCache[_currentLine] = new(null, Keyword.SkipLine);
                         continue;
@@ -197,7 +196,25 @@ namespace Calcpad.Core
                 !_calculate;
 
             bool HasLineExtension(ReadOnlySpan<char> s) =>
-                (s.EndsWith(" _") || (s.EndsWith("{") || s.TrimEnd().EndsWith(";")) && !s.ContainsAny(commentChars));
+                (s.EndsWith(" _") || (s.EndsWith("{") || s.EndsWith("(") || s.EndsWith(";")) && !IsComment(s));
+
+            bool IsComment(ReadOnlySpan<char> s)
+            {
+                var count = 0;
+                var commentChar = '\0';
+                for (int i = 0, len = s.Length; i < len; ++i)
+                {
+                    var c = s[i];
+                    if (c == commentChar)
+                        ++count;
+                    else if (c == '"' || c == '\'')
+                    {
+                        commentChar = c;
+                        count = 1;
+                    }
+                }
+                return count % 2 == 1;
+            }
 
             bool ParsePlot(ReadOnlySpan<char> s)
             {

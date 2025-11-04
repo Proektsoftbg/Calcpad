@@ -808,6 +808,15 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid number of indexes..
+        /// </summary>
+        public static string InvalidNumberOfIndexes {
+            get {
+                return ResourceManager.GetString("InvalidNumberOfIndexes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid number of parameters..
         /// </summary>
         public static string InvalidNumberOfParameters {

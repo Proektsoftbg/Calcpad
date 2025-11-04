@@ -568,4 +568,7 @@
   <data name="InvalidNumberOfParameters" xml:space="preserve">
     <value>Invalid number of parameters.</value>
   </data>
+  <data name="InvalidNumberOfIndexes" xml:space="preserve">
+    <value>Invalid number of indexes.</value>
+  </data>
 </root>

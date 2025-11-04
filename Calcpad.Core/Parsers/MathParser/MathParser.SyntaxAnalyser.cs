@@ -30,8 +30,10 @@ namespace Calcpad.Core
                 {TokenTypes.Input, 1 },
                 {TokenTypes.Vector, 7 },
                 {TokenTypes.Matrix, 7 },
+                {TokenTypes.Array, 7 },
                 {TokenTypes.VectorIndex, 8 },
                 {TokenTypes.MatrixIndex, 8 },
+                {TokenTypes.ArrayIndex, 8 },
                 {TokenTypes.Operator, 2 },
                 {TokenTypes.Function, 3 },
                 {TokenTypes.Function2, 3 },
@@ -168,10 +170,23 @@ namespace Calcpad.Core
                             else if (indexStack.TryPeek(out var indStackItem) &&
                                 countOfBrackets == indStackItem.CountOfBrackets)
                             {
-                                if (!isCalculating)
-                                    countOfDivisors = mfStackItem.CountOfDivisors;
+                                var index = indexStack.Pop();
+                                var indexToken = index.Token;
+                                var indexDivisorsCount = countOfDivisors - index.CountOfDivisors;
+                                if (indexToken.Type == TokenTypes.ArrayIndex)
+                                {
+                                    var indexParamCount = indexDivisorsCount - 1;
+                                    if (indexParamCount == 1)
+                                        indexToken.Type = TokenTypes.VectorIndex;
+                                    else if (indexParamCount == 2)
+                                        indexToken.Type = TokenTypes.MatrixIndex;
+                                    else
+                                        throw Exceptions.InvalidNumberOfIndexes();
+                                }
+                                else if (indexDivisorsCount != 0)
+                                    throw Exceptions.InvalidNumberOfIndexes();
 
-                                indexStack.Pop();
+                                countOfDivisors = index.CountOfDivisors;
                             }
                             else if (optionalFunctionStack.TryPeek(out var ofStackItem) &&
                                 countOfBrackets == ofStackItem.CountOfBrackets &&
@@ -214,7 +229,8 @@ namespace Calcpad.Core
                                        pt.Type != TokenTypes.Variable &&
                                        pt.Type != TokenTypes.Unit &&
                                        firstToken.Type != TokenTypes.Vector &&
-                                       firstToken.Type != TokenTypes.Matrix
+                                       firstToken.Type != TokenTypes.Matrix && 
+                                       firstToken.Type != TokenTypes.Array
                                     )
                                         throw Exceptions.AssignmentPreceded();
                                     else if (countOfOperators != 1)
@@ -228,8 +244,28 @@ namespace Calcpad.Core
                         case TokenTypes.MatrixIndex:
                             isIndex = 2;
                             break;
+                        case TokenTypes.ArrayIndex:
+                            isIndex = -1;
+                            break;
                     }
                     CheckOrder(pt, t);
+                    if (pt.Type == TokenTypes.ArrayIndex && t.Content != "(")
+                    {
+                        pt.Type = TokenTypes.VectorIndex;
+                        isIndex = 0;
+                    }
+                    pt = t;
+                }
+                pt = new Token(string.Empty, TokenTypes.None);
+                foreach (var t in input)
+                {
+                    if (pt.Type == TokenTypes.Array)
+                    {
+                        if (t.Type == TokenTypes.VectorIndex)
+                            pt.Type = TokenTypes.Vector;
+                        else if (t.Type == TokenTypes.MatrixIndex)
+                            pt.Type = TokenTypes.Matrix;
+                    }
                     pt = t;
                 }
                 if (pt.Type != TokenTypes.None &&
@@ -239,6 +275,7 @@ namespace Calcpad.Core
                     pt.Type != TokenTypes.Input &&
                     pt.Type != TokenTypes.Vector &&
                     pt.Type != TokenTypes.Matrix &&
+                    pt.Type != TokenTypes.Array &&
                     pt.Type != TokenTypes.BracketRight &&
                     pt.Type != TokenTypes.SquareBracketRight &&
                     pt.Type != TokenTypes.Solver &&

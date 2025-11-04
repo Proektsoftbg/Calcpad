@@ -2053,12 +2053,10 @@ namespace Calcpad.Wpf
 
             if (!SetInputFields(await _wv2Warper.GetInputFieldsAsync()))
             {
-                {
-                    ShowErrorMessage(MainWindowResources.Error_Invalid_number_Please_correct_and_then_try_again);
-                    IsCalculated = false;
-                    WebViewer.Focus();
-                    return false;
-                }
+                ShowErrorMessage(MainWindowResources.Error_Invalid_number_Please_correct_and_then_try_again);
+                IsCalculated = false;
+                WebViewer.Focus();
+                return false;
             }
             return true;
         }

@@ -565,4 +565,10 @@
   <data name="CounterMustBeASingleVariableName" xml:space="preserve">
     <value>Броячът трябва да е име на единствена променлива.</value>
   </data>
+  <data name="InvalidNumberOfParameters" xml:space="preserve">
+    <value>Невалиден брой параметри.</value>
+  </data>
+  <data name="InvalidNumberOfIndexes" xml:space="preserve">
+    <value>Невалиден брой индекси.</value>
+  </data>
 </root>
