@@ -15,7 +15,7 @@ sudo apt remove dotnet*
 sudo snap install chromium
 ```
 3. Download the Calcpad setup package from the following link:
-https://github.com/Proektsoftbg/Calcpad/releases/download/v7.5.0/Calcpad.7.5.1.deb
+https://github.com/Proektsoftbg/Calcpad/releases/download/v7.5.1/Calcpad.7.5.1.deb
 
 Then, install Calcpad, using the following command:
 ```
