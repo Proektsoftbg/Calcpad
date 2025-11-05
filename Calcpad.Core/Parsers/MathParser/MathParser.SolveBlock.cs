@@ -122,7 +122,7 @@ namespace Calcpad.Core
 
                 const string delimiters = "@=:";
                 var items = new SolverItem[n + 1];
-                int current = 0, bracketCounter = 0;
+                int current = 0, bracketCounter = 0, equalityIndex = -1;
                 var ts = new TextSpan(script);  
                 var len = script.Length;
                 for (int i = 0; i < len; ++i)
@@ -133,6 +133,13 @@ namespace Calcpad.Core
                     else if (c == '}')
                         --bracketCounter;
 
+                    if (_type == SolverTypes.Root && bracketCounter == 0 && current == 0 && c == '=')
+                    {
+                        if (equalityIndex == -1)
+                            equalityIndex = i;
+                        else
+                            throw Exceptions.MultipleAssignments($"{ts.Cut()} ...");
+                    }
                     if (bracketCounter == 0 && current < n && c == delimiters[current])
                     {
                         ts.ExpandTo(i);
@@ -168,17 +175,15 @@ namespace Calcpad.Core
                 }
                 else if (_type == SolverTypes.Root)
                 {
-                    ref var item = ref items[0];
-                    var s = item.Input.Split('=');
-                    if (s.Length == 2)
+                    if (equalityIndex != -1)
                     {
-                        item.Input = s[0];
+                        ref var item = ref items[0];
+                        var s = item.Input;
+                        item.Input = s[..equalityIndex];
                         Array.Resize(ref items, 5);
-                        items[4].Input = s[1];
+                        items[4].Input = s[(equalityIndex + 1)..];
                         n = 4;
                     }
-                    else if (s.Length > 2)
-                        throw Exceptions.MultipleAssignments(string.Join('=', s));
                 }
                 var allowAssignment = _type == SolverTypes.Repeat || _type == SolverTypes.Root;
                 for (int i = 0; i <= n; ++i)

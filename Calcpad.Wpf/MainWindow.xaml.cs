@@ -27,7 +27,7 @@ namespace Calcpad.Wpf
     public partial class MainWindow : Window
     {
         //Culture
-        private static readonly string _currentCultureName = "bg";
+        private static readonly string _currentCultureName = "en";
 
         //Static resources
         private static readonly char[] GreekLetters = ['α', 'β', 'χ', 'δ', 'ε', 'φ', 'γ', 'η', 'ι', 'ø', 'κ', 'λ', 'μ', 'ν', 'ο', 'π', 'θ', 'ρ', 'σ', 'τ', 'υ', 'ϑ', 'ω', 'ξ', 'ψ', 'ζ'];
@@ -706,8 +706,7 @@ namespace Calcpad.Wpf
             math.FormatEquations = Professional.IsChecked ?? false;
             math.IsComplex = Complex.IsChecked ?? false;
             math.Degrees = Deg.IsChecked ?? false ? 0 :
-                                            Rad.IsChecked ?? false ? 1 :
-                                            2;
+                           Rad.IsChecked ?? false ? 1 : 2;
             math.Substitute = SubstituteCheckBox.IsChecked ?? false;
             math.ZeroSmallMatrixElements = ZeroSmallMatrixElementsCheckBox.IsChecked ?? false;
             math.MaxOutputCount = int.TryParse(MaxOutputCountTextBox.Text, out int i) ? i : 20;
@@ -2191,8 +2190,7 @@ namespace Calcpad.Wpf
             if (IsInitialized)
             {
                 var deg = ReferenceEquals(sender, Deg) ? 0 :
-                          ReferenceEquals(sender, Rad) ? 1 :
-                          2;
+                          ReferenceEquals(sender, Rad) ? 1 : 2;
                 _parser.Settings.Math.Degrees = deg;
                 Deg.IsChecked = deg == 0;
                 Rad.IsChecked = deg == 1;
