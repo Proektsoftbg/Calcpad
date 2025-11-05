@@ -528,12 +528,36 @@
 	<a href="#0" data-text="$Map{f(x; y) @ x = a : b & y = c : d}"><span class="cond">$Map</span><span class="b">{</span><b>f</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="b">)</span> <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var> <span class="o">&amp;</span> <var>y</var> <span class="o">=</span> <var>c</var> <span class="o">:</span> <var>d</var><span class="b">}</span></a> - 3D曲面映射到2D彩图;<br />
 	<a href="#0" data-text="PlotHeight ="><var>PlotHeight</var></a> - 绘图区高度的像素数;<br />
 	<a href="#0" data-text="PlotWidth ="><var>PlotWidth</var></a> - 绘图区宽度的像素数;<br />
+	 <a href="#0" data-text="PlotSVG ="><var>PlotSVG</var></a> - 绘制矢量图, (= 1)时为svg格式;(= 0)为png格式;<br />
+                <a href="#0" data-text="PlotAdaptive ="><var>PlotAdaptive</var></a> - 函数绘图时设置值(= 1) 时采用自适应网格;设置为(= 0)时采用固定网格;<br/>
 	<a href="#0" data-text="PlotWidth ="><var>PlotStep</var></a> - 绘图的网格尺寸;
-	<a href="#0" data-text="PlotWidth ="><var>PlotSVG</var></a> - 以矢量 (SVG) 格式绘制图形.<br />
-    <a href="#0" data-text="PlotPalette ="><var>PlotPalette</var></a> - 调色板中用于绘制三维投影面图的颜色数(0-8);<br />
-    <a href="#0" data-text="PlotShadows ="><var>PlotShadows</var></a> - 绘制三维投影面图时带光影;<br />
-    <a href="#0" data-text="PlotSmooth ="><var>PlotSmooth</var></a> - 绘制三维投影面图时颜色之间平滑过渡(= 1)或者区分色带(= 0) ;<br />
-	<a href="#0" data-text="PlotLightDir ="><var>PlotLightDir</var></a> - 顺时针方向设置光源投射方向(0-7).
+	<a href="#0" data-text="PlotShadows ="><var>PlotShadows</var></a> - 绘制三维投影面图时带光影;<br />
+    <a href="#0" data-text="PlotLightDir ="><var>PlotLightDir</var></a> - 顺时针方向设置光源投射方向(0-7)：
+	<select class="insert">
+					<option value="PlotLightDir = 0">0 - 北</option>
+					<option value="PlotLightDir = 1">1 - 东北</option>
+					<option value="PlotLightDir = 2">2 - 东</option>
+					<option value="PlotLightDir = 3">3 - 东南</option>
+					<option value="PlotLightDir = 4">4 - 南</option>
+					<option value="PlotLightDir = 5">5 - 西南</option>
+					<option value="PlotLightDir = 6">6 - 西</option>
+					<option value="PlotLightDir = 7">7 – 西北</option>
+				</select><br/>
+	<a href="#0" data-text="PlotSmooth ="><var>PlotSmooth</var></a> - 绘制三维投影面图时颜色之间平滑过渡(= 1)或者区分色带(= 0) ;<br />
+	<a href="#0" data-text="PlotPalette ="><var>PlotPalette</var></a> - 调色板中用于绘制三维投影面图的颜色数(0-9)：
+	<select class="insert">
+                    <option value="PlotPalette = 0">0 - 无</option>
+                    <option value="PlotPalette = 1">1 - 灰</option>
+                    <option value="PlotPalette = 2">2 - 彩虹带</option>
+                    <option value="PlotPalette = 3">3 - 地质色</option>
+                    <option value="PlotPalette = 4">4 - 紫红-黄</option>
+                    <option value="PlotPalette = 5">5 - 绿-黄</option>
+                    <option value="PlotPalette = 6">6 - 蓝色</option>
+                    <option value="PlotPalette = 7">7 - 蓝-黄</option>
+                    <option value="PlotPalette = 8">8 - 蓝-红</option>
+                    <option value="PlotPalette = 9">9 - 紫-黄</option>
+                </select><br />
+    
             </span>
 </li>
 <li style="list-style-type: none;"><span class="exp" id="btn5">+</span>迭代和数值方法:<br />
@@ -549,7 +573,9 @@
 	<a href="#0" data-text="$Sum{f(k) @ k = a : b}"><span class="cond">$Sum</span><span class="b">{</span><b>f</b><span class="b">(</span><var>k</var><span class="b">)</span> <span class="o">&#64;</span> <var>k</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - 迭代求和;<br />
 	<a href="#0" data-text="$Product{f(k) @ k = a : b}"><span class="cond">$Product</span><span class="b">{</span><b>f</b><span class="b">(</span><var>k</var><span class="b">)</span> <span class="o">&#64;</span> <var>k</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - 迭代求积;<br />
 	<a href="#0" data-text="$Repeat{f(k) @ k = a : b}"><span class="cond">$Repeat</span><span class="b">{</span><b>f</b><span class="b">(</span><var>k</var><span class="b">)</span> <span class="o">&#64;</span> <var>k</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - 一般单行迭代程序;<br />
-	<a href="#0" data-text="Precision ="><var>Precision</var></a> - 数值方法的相对精度[10<sup>-2</sup>; 10<sup>-16</sup>] (默认为10<sup>-12</sup>)
+	<a href="#0" data-text="$Block{ }"><span class="cond">$Block</span><span class="b">{</span>表达式<span class="b">}</span></a> - 多行表达式块;<br />
+                <a href="#0" data-text="$Inline{ }"><span class="cond">$Inline</span><span class="b">{</span>表达式<span class="b">}</span></a> - 单行表达式块;<br />
+                <a href="#0" data-text="Precision ="><var>Precision</var></a> - 数值方法的相对精度[10<sup>-2</sup>; 10<sup>-16</sup>] (默认为10<sup>-12</sup>)
 	</span>
 </li>
 <li style="list-style-type: none;"><span class="exp" id="btn6">+</span>程序流控制:<br />
