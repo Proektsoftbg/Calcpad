@@ -27,7 +27,7 @@ namespace Calcpad.Wpf
     public partial class MainWindow : Window
     {
         //Culture
-        private static readonly string _currentCultureName = "en";
+        private static readonly string _currentCultureName = "bg";
 
         //Static resources
         private static readonly char[] GreekLetters = ['α', 'β', 'χ', 'δ', 'ε', 'φ', 'γ', 'η', 'ι', 'ø', 'κ', 'λ', 'μ', 'ν', 'ο', 'π', 'θ', 'ρ', 'σ', 'τ', 'υ', 'ϑ', 'ω', 'ξ', 'ψ', 'ζ'];
@@ -1076,7 +1076,7 @@ namespace Calcpad.Wpf
                 RestoreUndoData();
         }
 
-        private async void Command_Print(object sender, ExecutedRoutedEventArgs e)
+        private void Command_Print(object sender, ExecutedRoutedEventArgs e)
         {
             if (!_isParsing)
                 _wv2Warper.PrintPreviewAsync();
