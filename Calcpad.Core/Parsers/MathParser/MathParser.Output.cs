@@ -14,7 +14,7 @@ namespace Calcpad.Core
             private readonly StringBuilder _stringBuilder;
             private int _assignmentPosition;
             private bool _hasVariables;
-            private bool _formatEquations;
+            private readonly bool _formatEquations;
             internal Output(MathParser parser)
             {
                 _parser = parser;
@@ -160,16 +160,15 @@ namespace Calcpad.Core
                             RenderNegationToken(t, b, ref hasOperators);
                         else if (tt == TokenTypes.Operator)
                             RenderOperatorToken(t, b, ref hasOperators);
-                        else if (tt == TokenTypes.VectorIndex)
-                            RenderVectorIndexToken(t, b);
-                        else if (tt == TokenTypes.MatrixIndex)
-                        {
-                            var a = stackBuffer.Pop();
-                            RenderMatrixIndexToken(t, a, b);
-                        }
-                        else
-                        {
-                            if (tt == TokenTypes.Function2 ||
+                        else {
+                            if (tt == TokenTypes.VectorIndex)
+                                RenderVectorIndexToken(t, b);
+                            else if (tt == TokenTypes.MatrixIndex)
+                            {
+                                var a = stackBuffer.Pop();
+                                RenderMatrixIndexToken(t, a, b);
+                            }
+                            else if (tt == TokenTypes.Function2 ||
                                 tt == TokenTypes.VectorFunction2 ||
                                 tt == TokenTypes.MatrixFunction2)
                                 RenderFunction2Token(t, b);
@@ -389,7 +388,7 @@ namespace Calcpad.Core
                             if (!formatEquation &&
                                 b.Type != TokenTypes.Solver &&
                                 (b.Order > t.Order ||
-                                b.Order == t.Order && (content == "-" || content == "/") ||
+                                b.Order == t.Order && (content == "-" || content == "/" || content == "÷") ||
                                 IsNegative(b) && content != "="))
                                 sb = AddBrackets(sb, b.Level, b.MinOffset, b.MaxOffset, '(', ')');
 

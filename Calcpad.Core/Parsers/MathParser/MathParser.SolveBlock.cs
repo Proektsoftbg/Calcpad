@@ -61,6 +61,7 @@ namespace Calcpad.Core
                 string.Empty,
                 "$Error"
             ];
+            private readonly Dictionary<string, Variable> _localVariables = [];
             private readonly MathParser _parser;
             private readonly SolverTypes _type;
             private Variable _var;
@@ -101,7 +102,11 @@ namespace Calcpad.Core
             {
                 var targetUnits = _parser._targetUnits;
                 if (_type == SolverTypes.Inline || _type == SolverTypes.Block)
+                {
+                    _parser._input.AddLocalVariables(_localVariables);
                     _items = ParseBlockOrInline(Script);
+                    _parser._input.RemoveLocalVariables();
+                }
                 else
                     _items = ParseSolver(Script);
 
@@ -333,10 +338,10 @@ namespace Calcpad.Core
                         var expressions = new List<Expression>(len - i0 + 1) { e };
                         for (int i = i0; i < len; ++i)
                         {
-                            var rpn = _items[i].Rpn;
-                            if (rpn.Length > 0)
+                            var rpn_i = _items[i].Rpn;
+                            if (rpn_i.Length > 0)
                             {
-                                e = _parser.RpnToExpressionTree(rpn, true);
+                                e = _parser.RpnToExpressionTree(rpn_i, true);
                                 expressions.Add(e);
                             }
                         }
@@ -347,23 +352,33 @@ namespace Calcpad.Core
                     if (i0 == 1)
                         return;
                 }
-
-                if (_items[2].Rpn.Length == 1 &&
-                    _items[2].Rpn[0].Type == TokenTypes.Constant)
-                    _va = ((ValueToken)_items[2].Rpn[0]).Value;
+                var rpn = _items[2].Rpn;
+                if (rpn.Length == 1 &&
+                    rpn[0].Type == TokenTypes.Constant)
+                    _va = ((ValueToken)rpn[0]).Value;
                 else
-                    _a = _parser.CompileRpn(_items[2].Rpn);
+                    _a = _parser.CompileRpn(rpn);
 
-                if (len > 3 && _items[3].Rpn is not null)
+                
+                if (len > 3)
                 {
-                    if (_items[3].Rpn.Length == 1 &&
-                        _items[3].Rpn[0].Type == TokenTypes.Constant)
-                        _vb = ((ValueToken)_items[3].Rpn[0]).Value;
-                    else
-                        _b = _parser.CompileRpn(_items[3].Rpn);
+                    rpn = _items[3].Rpn;
+                    if (rpn is not null)
+                    {
+                        if (rpn.Length == 1 &&
+                            rpn[0].Type == TokenTypes.Constant)
+                            _vb = ((ValueToken)rpn[0]).Value;
+                        else
+                            _b = _parser.CompileRpn(rpn);
+                    }
                 }
-                if (len > 4 && _items[4].Rpn is not null)
-                    _y = _parser.CompileRpn(_items[4].Rpn);
+
+                if (len > 4)
+                {
+                    rpn = _items[4].Rpn;
+                    if (rpn is not null && rpn.Length > 0)
+                        _y = _parser.CompileRpn(_items[4].Rpn);
+                }
             }
 
             internal void BindParameters(ReadOnlySpan<Parameter> parameters, MathParser parser)

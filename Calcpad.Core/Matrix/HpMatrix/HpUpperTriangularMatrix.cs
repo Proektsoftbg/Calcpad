@@ -65,7 +65,7 @@ namespace Calcpad.Core
             return this;
         }
 
-        internal HpVector RawCol(int col)
+        internal new HpVector RawCol(int col)
         {
             var vector = new HpVector(col + 1, _units);
             for (int i = col; i >= 0; --i)

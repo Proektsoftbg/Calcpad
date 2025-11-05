@@ -404,6 +404,11 @@ namespace Calcpad.Core
                             return _matrixCalc.EvaluateMultiFunction(t.Index, matrix);
                         }
                     }
+                    if (t.Index == Calculator.SwitchIndex)
+                    {
+                        var swParams = StackPopValues(paramCount);
+                        return IValue.EvaluateSwitch(swParams);
+                    }
                     var mfParams = StackPopAndExpandValues(paramCount);
                     return _calc.EvaluateMultiFunction(t.Index, mfParams);
                 }

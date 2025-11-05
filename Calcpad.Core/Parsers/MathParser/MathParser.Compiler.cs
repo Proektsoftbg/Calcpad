@@ -170,14 +170,14 @@ namespace Calcpad.Core
                             continue;
                         case TokenTypes.VectorIndex:
                             var index = stackBuffer.Pop();
-                            var vtarget = stackBuffer.Pop();
-                            stackBuffer.Push(ParseVectorIndexToken(vtarget, index));
+                            var vTarget = stackBuffer.Pop();
+                            stackBuffer.Push(ParseVectorIndexToken(vTarget, index));
                             continue;
                         case TokenTypes.MatrixIndex:
                             var index2 = stackBuffer.Pop();
                             var index1 = stackBuffer.Pop();
-                            var mtarget = stackBuffer.Pop();
-                            stackBuffer.Push(ParseMatrixIndexToken(mtarget, index1, index2));
+                            var mTarget = stackBuffer.Pop();
+                            stackBuffer.Push(ParseMatrixIndexToken(mTarget, index1, index2));
                             continue;
                         case TokenTypes.Solver:
                             stackBuffer.Push(ParseSolverToken(t));

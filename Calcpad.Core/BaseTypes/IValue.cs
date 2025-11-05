@@ -715,10 +715,27 @@ namespace Calcpad.Core
             {
                 if (values[0] is Vector vector)
                     return calc.VectorCalculator.EvaluateMultiFunction(index, vector);
-                if (values[0] is Matrix mirx)
-                    return calc.EvaluateMultiFunction(index, mirx);
+                if (values[0] is Matrix matrix)
+                    return calc.EvaluateMultiFunction(index, matrix);
             }
+            else if (index == Calculator.SwitchIndex)
+                return EvaluateSwitch(values);
+
             return calc.Calculator.EvaluateMultiFunction(index, ExpandValues(values));
+        }
+
+        internal static IValue EvaluateSwitch(IValue[] values)
+        {
+            for (int i = 0, len = values.Length - 1; i < len; i += 2)
+            {
+                var scalar = AsValue(values[i], Exceptions.Items.Argument);
+                if (Math.Abs(scalar.Re) >= ComplexValue.LogicalZero)
+                    return values[i + 1];
+            }
+            if (values.Length % 2 != 0)
+                return values[^1];
+
+            return RealValue.NaN;
         }
 
         internal static IScalarValue[] ExpandValues(IValue[] values)
@@ -737,7 +754,7 @@ namespace Calcpad.Core
                 else
                     throw Exceptions.InvalidArgument($"{ival}");
             }
-            return valList.ToArray();
+            return [.. valList];
         }
 
 
@@ -757,7 +774,7 @@ namespace Calcpad.Core
                 else
                     throw Exceptions.InvalidArgument($"{ival}");
             }
-            return valList.ToArray();
+            return [.. valList];
         }
 
         internal static IScalarValue AsValue(IValue ival, Exceptions.Items item = Exceptions.Items.Argument)

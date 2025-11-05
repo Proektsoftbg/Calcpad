@@ -24,14 +24,12 @@ namespace Calcpad.Core
             new Dictionary<TokenTypes, int>()
             {
                 {TokenTypes.None, 0 },
+                {TokenTypes.Error, 0 },
+                {TokenTypes.Solver, 1 },
                 {TokenTypes.Constant, 1 },
                 {TokenTypes.Variable, 1 },
                 {TokenTypes.Unit, 1 },
                 {TokenTypes.Input, 1 },
-                {TokenTypes.Vector, 7 },
-                {TokenTypes.Matrix, 7 },
-                {TokenTypes.VectorIndex, 8 },
-                {TokenTypes.MatrixIndex, 8 },
                 {TokenTypes.Operator, 2 },
                 {TokenTypes.Function, 3 },
                 {TokenTypes.Function2, 3 },
@@ -56,9 +54,15 @@ namespace Calcpad.Core
                 {TokenTypes.SquareBracketRight, 5 },
                 {TokenTypes.Divisor, 6 },
                 {TokenTypes.RowDivisor, 6 },
-                {TokenTypes.Solver, 1 },
-                {TokenTypes.Error, 0 }
+                {TokenTypes.Vector, 7 },
+                {TokenTypes.Matrix, 7 },
+                {TokenTypes.Array, 7 },
+                {TokenTypes.VectorIndex, 8 },
+                {TokenTypes.MatrixIndex, 8 },
+                {TokenTypes.ArrayIndex, 8 },
             }.ToFrozenDictionary();
+            private static readonly int indexOrder = OrderIndex[TokenTypes.ArrayIndex];
+            private static readonly int functionOrder = OrderIndex[TokenTypes.Function];
 
             private static readonly bool[,] CorrectOrder =
             {
@@ -90,7 +94,8 @@ namespace Calcpad.Core
                 var countOfBrackets = 0;
                 var countOfOperators = 0;
                 var countOfDivisors = 0;
-                var isIndex = 0;
+                var indexNum = 0;
+                var isFunctionInIndex = false;
                 var multiFunctionStack = new Stack<MultiFunctionStackItem>();
                 var optionalFunctionStack = new Stack<MultiFunctionStackItem>();
                 var vectorStack = new Stack<MultiFunctionStackItem>();
@@ -141,11 +146,13 @@ namespace Calcpad.Core
                                 countOfDivisors += 1 - _functions[t.Index].ParameterCount;
                             break;
                         case TokenTypes.BracketLeft:
-                            if (isIndex != 0)
+                            if (indexNum != 0)
                             {
                                 indexStack.Push(new MultiFunctionStackItem(pt, countOfBrackets, countOfDivisors));
-                                countOfDivisors += 1 - isIndex;
-                                isIndex = 0;
+                                if (OrderIndex[pt.Type] == indexOrder)
+                                    countOfDivisors += 1 - indexNum;
+                                else
+                                    isFunctionInIndex = true;
                             }
                             ++countOfBrackets;
                             break;
@@ -168,10 +175,28 @@ namespace Calcpad.Core
                             else if (indexStack.TryPeek(out var indStackItem) &&
                                 countOfBrackets == indStackItem.CountOfBrackets)
                             {
-                                if (!isCalculating)
-                                    countOfDivisors = mfStackItem.CountOfDivisors;
+                                var index = indexStack.Pop();
+                                if (isFunctionInIndex)
+                                    isFunctionInIndex = false;
+                                else
+                                {
+                                    var indexToken = index.Token;
+                                    var indexDivisorsCount = countOfDivisors - index.CountOfDivisors;
+                                    if (indexToken.Type == TokenTypes.ArrayIndex)
+                                    {
+                                        var indexParamCount = indexDivisorsCount - 1;
+                                        if (indexParamCount == 1)
+                                            indexToken.Type = TokenTypes.VectorIndex;
+                                        else if (indexParamCount == 2)
+                                            indexToken.Type = TokenTypes.MatrixIndex;
+                                        else
+                                            throw Exceptions.InvalidNumberOfIndexes();
+                                    }
+                                    else if (indexDivisorsCount != 0)
+                                        throw Exceptions.InvalidNumberOfIndexes();
 
-                                indexStack.Pop();
+                                    countOfDivisors = index.CountOfDivisors;
+                                }
                             }
                             else if (optionalFunctionStack.TryPeek(out var ofStackItem) &&
                                 countOfBrackets == ofStackItem.CountOfBrackets &&
@@ -214,7 +239,8 @@ namespace Calcpad.Core
                                        pt.Type != TokenTypes.Variable &&
                                        pt.Type != TokenTypes.Unit &&
                                        firstToken.Type != TokenTypes.Vector &&
-                                       firstToken.Type != TokenTypes.Matrix
+                                       firstToken.Type != TokenTypes.Matrix && 
+                                       firstToken.Type != TokenTypes.Array
                                     )
                                         throw Exceptions.AssignmentPreceded();
                                     else if (countOfOperators != 1)
@@ -223,13 +249,39 @@ namespace Calcpad.Core
                             }
                             break;
                         case TokenTypes.VectorIndex:
-                            isIndex = 1;
+                            indexNum = 1;
                             break;
                         case TokenTypes.MatrixIndex:
-                            isIndex = 2;
+                            indexNum = 2;
+                            break;
+                        case TokenTypes.ArrayIndex:
+                            indexNum = -1;
                             break;
                     }
                     CheckOrder(pt, t);
+                    if (pt.Type == TokenTypes.ArrayIndex && t.Type != TokenTypes.BracketLeft)
+                        pt.Type = TokenTypes.VectorIndex;
+
+                    pt = t;
+                    //Only indexes and functions can open brackets without breaking previous indexes
+                    //Otherwise, indexNum is reset
+                    if (indexNum != 0)
+                    {
+                        var order = OrderIndex[t.Type];
+                        if (order != indexOrder && order != functionOrder)
+                            indexNum = 0;
+                    }
+                }
+                pt = new Token(string.Empty, TokenTypes.None);
+                foreach (var t in input)
+                {
+                    if (pt.Type == TokenTypes.Array)
+                    {
+                        if (t.Type == TokenTypes.VectorIndex)
+                            pt.Type = TokenTypes.Vector;
+                        else if (t.Type == TokenTypes.MatrixIndex)
+                            pt.Type = TokenTypes.Matrix;
+                    }
                     pt = t;
                 }
                 if (pt.Type != TokenTypes.None &&
@@ -239,6 +291,7 @@ namespace Calcpad.Core
                     pt.Type != TokenTypes.Input &&
                     pt.Type != TokenTypes.Vector &&
                     pt.Type != TokenTypes.Matrix &&
+                    pt.Type != TokenTypes.Array &&
                     pt.Type != TokenTypes.BracketRight &&
                     pt.Type != TokenTypes.SquareBracketRight &&
                     pt.Type != TokenTypes.Solver &&

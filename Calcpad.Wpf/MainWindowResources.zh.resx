@@ -1016,4 +1016,7 @@
   <data name="DoubleInterpolation" xml:space="preserve">
     <value>双重内插</value>
   </data>
+  <data name="Select_All" xml:space="preserve">
+    <value>全选</value>
+  </data>
 </root>

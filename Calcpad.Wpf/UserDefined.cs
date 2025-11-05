@@ -63,8 +63,9 @@ namespace Calcpad.Wpf
                 ++lineNumber;
                 if (!(line.IsEmpty && string.IsNullOrEmpty(_macroName)))
                 {
-                    var hasLineExtension = line.EndsWith(" _");
-                    if (hasLineExtension || line.EndsWith("{") || line.TrimEnd().EndsWith(";"))
+                    var trimmedLine = line.TrimEnd();
+                    var hasLineExtension = trimmedLine.EndsWith(" _");
+                    if (hasLineExtension || trimmedLine.EndsWith("{") || trimmedLine.EndsWith("(") || trimmedLine.EndsWith(";"))
                     {
                         if (sb.Length == 0)
                             firstLine = lineNumber;

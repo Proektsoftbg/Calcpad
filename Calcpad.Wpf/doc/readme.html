@@ -17,8 +17,9 @@
             .menu li {
                 margin-left: -14px;
             }
-			
+
                 .menu li ul {
+                    padding-left: 42px;
                     font-size: 10pt;
                     list-style: none;
                     display: none;
@@ -101,11 +102,6 @@
 			margin-bottom: 6pt;
         }
 
-
-        .menu li ul {
-            padding-left: 42px;
-        }
-
         var{
             color: #06c;
             font-family: "Georgia Pro", "Times New Roman", Times, serif;
@@ -163,12 +159,12 @@
 
         code .ovr {
             padding-top: 2pt;
-            font-family: Consolas;
+            font-family: Consolas, monospace;
             font-size: 10pt;
         }
 		
 		.palette {
-			font-family: Segoe UI Semibold; 
+			font-family: Segoe UI Semibold, sans-serif; 
 			display: inline-block; 
 			width:10em; 
 			padding-left:6pt; 
@@ -1024,6 +1020,7 @@
         </ul>
         <p>Alternatively, you can have several expressions in a single line, but they must be separated by comments, e.g.:</p>
         <p style="margin-left: 2em;"><code><span class="comment">'Length -'</span><var>a</var> = 3&thinsp;<i>m</i><span class="comment">', Width -'</span><var>b</var> = 2*<var>a</var><span class="comment">', Height -'</span><var>c</var> = 5&thinsp;<i>m</i></code></p>
+        <p>On the other hand, if an expression is too long and complex, you can split it into several lines by adding line continuation operator "<code> _</code>" at the end of each line. You can continue on new line without adding "<code> _</code>" always when the current line ends with "<code>{</code>", "<code>(</code>" or "<code>;</code>".</p>
         <p>Each expression can include constants (numbers), variables, operators, functions and brackets. They must be arranged properly in order to represent a valid expression. The commonly accepted mathematical notation and operator precedence is used as it is taught in school. Detailed description of the expression components is provided below.</p>
         <p>You can calculate separate unrelated expressions as with simple calculator or write a complete program that solves a specific problem. You can define variables and assign values to them. Further, you can use them to define other variables and so on until you reach the final result. You can also add text, Html and images to create detailed and professional-looking calculation report. You can save it to a file and use it multiple times to solve similar problems. Below, you can see a sample program for solving a quadratic equation:</p>
         <p><img alt="Sample1" src="Images/Sample1.png"></p>
@@ -1691,9 +1688,9 @@
         <p style="margin-left: 2em;"><code><span class="cond">$Area</span>{<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var> : <var>b</var>}</code></p>
         <p>It calculates the value of the definite integral of a function <b>f</b>(<var>x</var>) within the specified interval [<var>a</var>, <var>b</var>]. Adaptive Gauss-Lobbato quadrature with Kronrod extension is applied for that purpose (<a target="_blank" href="https://www.researchgate.net/publication/226706221_Adaptive_Quadrature-Revisited">Gander & Gautschi</a>, 2000).</p>
         <p style="margin-left: 2em;"><code><span class="cond">$Integral</span>{<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var> : <var>b</var>}</code></p>
-        <p>This command is similar to the above, but it uses the Tanh-Sinh quadrature (<a target="_blank" href="https://ems.press/content/serial-article-files/41766">Takahasi & Mori</a>, 1974) which has been additionally improved by <a target="_blank" href="https://www.tandfonline.com/doi/epdf/10.1080/09205071.2015.1129915?needAccess=true">Michashki & Mosig</a> (2016) and <a target="_blank" href="https://www.genivia.com/files/qthsh.pdf">Van Engelen</a> (2022). Further improvements have been made in Calcpad, by precomputing and caching the abscissas and weights. This algorithm significantly outperforms <code class="cond">$Area</code> for <b>continuous</b> and <b>smooth</b> functions. However, if the function does not satisfy these requirements, you <b>should not</b> use the <code class="cond">$Integral</code> method. Then, you have two options:</p>
+        <p>This command is similar to the above, but it uses the Tanh-Sinh quadrature (<a target="_blank" href="https://ems.press/content/serial-article-files/41766">Takahasi & Mori</a>, 1974) which has been additionally improved by <a target="_blank" href="https://www.tandfonline.com/doi/epdf/10.1080/09205071.2015.1129915?needAccess=true">Michashki & Mosig</a> (2016) and <a target="_blank" href="https://www.genivia.com/files/qthsh.pdf">Van Engelen</a> (2022). Further improvements have been made in Calcpad by precomputing and caching the abscissas and weights. This algorithm significantly outperforms <code class="cond">$Area</code> for <b>continuous</b> and <b>smooth</b> functions. However, if the function does not satisfy these requirements, you <b>should not</b> use the <code class="cond">$Integral</code> method. Then, you have two options:</p>
         <ol>
-            <li>Divide the interval [<var>a</var>, <var>b</var>] into smaller parts, by using the points of discontinuities, apply the method  for each part separately, and sum the results;</li>
+            <li>Divide the interval [<var>a</var>, <var>b</var>] into smaller parts by using the points of discontinuities, apply the method  for each part separately, and sum the results;</li>
             <li>If you are not sure where the discontinuities are, use the <code class="cond">$Area</code> method instead.</li>
         </ol>
 
@@ -1741,7 +1738,7 @@
 		<p style="margin-left: 2em;"><code><span class="cond">$Block</span>{<em>expr1</em>; <em>expr2</em>; <em>expr3</em>; ...}</code> - multiline block of expressions;</p>
 		<p style="margin-left: 2em;"><code><span class="cond">$Inline</span>{<em>expr1</em>; <em>expr2</em>; <em>expr3</em>; ...}</code> - inline block of expressions;</p>
 		<p>As the respective names imply, <span class="cond">$Block</span> is rendered on multiple lines so that each expression is placed on a separate line, and for <span class="cond">$Inline</span> all expressions are rendered on a single line sequentially from left to right.</p>
-		<p>You can use expression blocks to create multiline functions when a single expression is not sufficient to evaluate the result. Such is the <var>quadRoots</var> function in the example below that calculates the roots of a quadratic equation, by given coefficients <var>a</var>, <var>b</var>, <var>c</var> and returns them as a vector of two elements <span class="b0">[</span><var>x</var><sub>1</sub>; <var>x</var><sub>2</sub><span class="b0">]</span>.</p>
+		<p>You can use expression blocks to create multiline functions when a single expression is not sufficient to evaluate the result. Such is the <var>quadRoots</var> function in the example below that calculates the roots of a quadratic equation by given coefficients <var>a</var>, <var>b</var>, <var>c</var> and returns them as a vector of two elements <span class="b0">[</span><var>x</var><sub>1</sub>; <var>x</var><sub>2</sub><span class="b0">]</span>.</p>
 		<table border="1">
             <thead>
                 <tr>
@@ -1766,8 +1763,8 @@
 					<var>quadRoots</var>(2; 3; -5)</code>
                     </td>
                     <td style="line-height:150%;">
-						<span class="eq""><var>quadRoots</var>&hairsp;(&hairsp;<var>a</var>; <var>b</var>; <var>c</var>&hairsp;)&hairsp; = <small class="gray">🞀</small><span class="block"><var>D</var> = <var>b</var><sup>2</sup> − 4&hairsp;·&hairsp;<var>a</var>&hairsp;·&hairsp;<var>c</var><br> <var>x</var><sub>1</sub> = <span class="dvc">-<var>b</var> − &ensp;&hairsp;&hairsp;<span class="o0"><span class="r0"></span><var>D</var></span><span class="dvl"></span>2&hairsp;·&hairsp;<var>a</var></span><br> <var>x</var><sub>2</sub> = <span class="dvc">-<var>b</var> + &ensp;&hairsp;&hairsp;<span class="o0"><span class="r0"></span><var>D</var></span><span class="dvl"></span>2&hairsp;·&hairsp;<var>a</var></span><br> <span class="b0">[</span><var>x</var><sub>1</sub>; <var>x</var><sub>2</sub><span class="b0">]</span><br> </span></span><br/>
-						<span class="eq""><var>quadRoots</var>&hairsp;&hairsp;(&hairsp;2; 3; -5&hairsp;)&hairsp; = <b class="b0">[</b>-2.5&ensp;1<b class="b0">]</b></span></p>
+						<span class="eq"><var>quadRoots</var>&hairsp;(&hairsp;<var>a</var>; <var>b</var>; <var>c</var>&hairsp;)&hairsp; = <small class="gray">🞀</small><span class="block"><var>D</var> = <var>b</var><sup>2</sup> − 4&hairsp;·&hairsp;<var>a</var>&hairsp;·&hairsp;<var>c</var><br> <var>x</var><sub>1</sub> = <span class="dvc">-<var>b</var> − &ensp;&hairsp;&hairsp;<span class="o0"><span class="r0"></span><var>D</var></span><span class="dvl"></span>2&hairsp;·&hairsp;<var>a</var></span><br> <var>x</var><sub>2</sub> = <span class="dvc">-<var>b</var> + &ensp;&hairsp;&hairsp;<span class="o0"><span class="r0"></span><var>D</var></span><span class="dvl"></span>2&hairsp;·&hairsp;<var>a</var></span><br> <span class="b0">[</span><var>x</var><sub>1</sub>; <var>x</var><sub>2</sub><span class="b0">]</span><br> </span></span><br/>
+						<span class="eq"><var>quadRoots</var>&hairsp;&hairsp;(&hairsp;2; 3; -5&hairsp;)&hairsp; = <b class="b0">[</b>-2.5&ensp;1<b class="b0">]</b></span>
                     </td>
                 </tr>
             </tbody>
@@ -2774,7 +2771,7 @@
                 <span class="tr"><span class="td"></span><span class="td">7</span><span class="td">8</span><span class="td">0</span><span class="td"></span></span>
             </span>
         </p>
-        <p>You can use expressions for matrix elements that contain variables, operators, functions, vectors, other matrices, etc. For example, the following code will create a matrix of three rows, by applying a different expression for each row on a single vector:</p>
+        <p>You can use expressions for matrix elements that contain variables, operators, functions, vectors, other matrices, etc. For example, the following code will create a matrix of three rows by applying a different expression for each row on a single vector:</p>
         <p>
             &emsp;&emsp;<code><var>a</var> = [1; 2; 4]</code><br />
             &emsp;&emsp;<code><var>A</var> = [<var>a</var>|2*<var>a</var> + 1|3*<var>a</var> + 2]</code>' = <span class="eq matrix">
@@ -4664,7 +4661,7 @@
                 </tr>
                 <tr>
                     <td><code><b>&lt;span style="font:14pt Times;"&gt;</b><br />Times, 14pt<br /><b>&lt;/span&gt;</b></code></td>
-                    <td><span style="font:16pt Times;">Times, 14pt</span></td>
+                    <td><span style="font:16pt Times, serif;">Times, 14pt</span></td>
                 </tr>
             </tbody>
         </table>
@@ -4830,7 +4827,7 @@
         <p>&emsp;&emsp;<span class="button"> p </span> - Paragraph (Ctrl+L), Html: <code>&lt;p&gt;...&lt;/p&gt;</code>, Markdown: not supported</p>
         <p>&emsp;&emsp;<span class="button"> br </span> - Line Break (Ctrl+R), Html: <code>...&lt;br/&gt;...</code>, Markdown: not supported</p>
         <p>&emsp;&emsp;<span class="button"> <strong>B</strong> </span> - Bold (Ctrl+B), Html: <code>&lt;strong&gt;...&lt;/strong&gt;</code>, Markdown: <code>**...**</code></p>
-        <p>&emsp;&emsp;<span class="button"> <em style="font-family:Times">I</em> </span> - Italic (Ctrl+I), Html: <code>&lt;em&gt;...&lt;/em&gt;</code>, Markdown: <code>*...*</code></p>
+        <p>&emsp;&emsp;<span class="button"> <em style="font-family:Times, serif;">I</em> </span> - Italic (Ctrl+I), Html: <code>&lt;em&gt;...&lt;/em&gt;</code>, Markdown: <code>*...*</code></p>
         <p>&emsp;&emsp;<span class="button"> <ins>U</ins> </span> - Underline (Ctrl+U), Html: <code>&lt;ins&gt;...&lt;/ins&gt;</code>, Markdown: <code>++...++</code></p>
         <p>&emsp;&emsp;<span class="button"> <del>S</del> </span> - Strikethrough (no shortcut), Html: <code>&lt;del&gt;...&lt;/del&gt;</code>, Markdown: <code>~~...~~</code></p>
         <p>&emsp;&emsp;<span class="button" style="padding-top:1.5pt;padding-bottom:3.5pt;"> x<sub>2</sub> </span> - Subscript (Ctrl+"+"), Html: <code>&lt;sub&gt;...&lt;/sub&gt;</code>, Markdown: <code>~...~</code></p>
@@ -4842,7 +4839,7 @@
         <p>&emsp;&emsp;<span class="button"> ▼ </span> - Folded Div (no shortcut), Html: <code>&lt;div class="fold"&gt;...&lt;/div&gt;</code>, Markdown: not supported</p>
         <p>&emsp;&emsp;<span class="button" style="vertical-align:top;">⋮☰</span> <span style="display:inline-block;"> - Bulleted List (Ctrl+Shift+L), Html: <code>&lt;ul&gt;&lt;li&gt;...&lt;/li&gt;&lt;li&gt;...&lt;/li&gt;&lt;li&gt;...&lt;/li&gt;&lt;/ul&gt;</code>,<br />&ensp; Markdown: not supported</span></p>
         <p>&emsp;&emsp;<strong class="button h" style="font-size:6pt; vertical-align:top;">1.➖<br />2.➖</strong> <span style="display:inline-block;"> - Numbered List (Ctrl+Shift+N), Html: <code>&lt;ol&gt;&lt;li&gt;...&lt;/li&gt;&lt;li&gt;...&lt;/li&gt;&lt;li&gt;...&lt;/li&gt;&lt;/ol&gt;</code>,<br />&ensp; Markdown: not supported</span></p>
-        <p>&emsp;&emsp;<span class="button" style="vertical-align:top;">🖼</span> <span style="display:inline-block;"> - Image (no shortcut),<br />&ensp; Html: <code>&lt;img style="height:...; width:..." src="..." alt="..."&gt;</code>,<br />&ensp; Markdown: not supported</p>
+        <p>&emsp;&emsp;<span class="button" style="vertical-align:top;">🖼</span> <span style="display:inline-block;"> - Image (no shortcut),<br />&ensp; Html: <code>&lt;img style="height:...; width:..." src="..." alt="..."&gt;</code>,<br />&ensp; Markdown: not supported</span></p>
         <p>
             &emsp;&emsp;<span class="button" style="vertical-align:top;">▦</span> <span style="display:inline-block;">
                 - Table (no shortcut), Html:<br />
@@ -5031,10 +5028,10 @@
         <p>Calcpad allows you to include contents from external files in your worksheet. If you have pieces of code that is repeated in different worksheets, you can organize it in modules and reuse it multiple times. Also, if you have a longer worksheet, you can split it into modules that will be easier to maintain. Then, you can include them into the main file by using the following statement:</p>
         <p>&emsp;&emsp;<span class="cond">#include</span> <em class="macro">filename</em></p>
         <p>The "<em class="macro">filename</em>" must contain the full path to a local file. If the file is the same folder as the current one, you can specify only the filename.</p>
-        <p>By default, Calcpad will include the whole contents of the external module. However, you can prevent some parts from inclusion, by making them local. To start a "local" section in a module, add a new line, containing the <span class="cond">#local</span> keyword. To end a "local" section (or start a "global" one), add a new line with the <span class="cond">#global</span> keyword. Calcpad supports multiple levels of inclusions. That means that the included file, in its turn, can reference other files and so on.</p>
+        <p>By default, Calcpad will include the whole contents of the external module. However, you can prevent some parts from inclusion by making them local. To start a "local" section in a module, add a new line, containing the <span class="cond">#local</span> keyword. To end a "local" section (or start a "global" one), add a new line with the <span class="cond">#global</span> keyword. Calcpad supports multiple levels of inclusions. That means that the included file, in its turn, can reference other files and so on.</p>
 
         <h3 id="TOC_607">Macros and string variables</h3>
-        <p>Macros and string variables are convenient ways to organize your code inside a single file and prevent repetitions. They can be inline or multiline. Unlike string variables, macros can have parameters. You can define them, by using the following statements:</p>
+        <p>Macros and string variables are convenient ways to organize your code inside a single file and prevent repetitions. They can be inline or multiline. Unlike string variables, macros can have parameters. You can define them by using the following statements:</p>
         <p>
             Inline string variable:<br />
             &emsp;&emsp;<span class="cond">#def</span>
@@ -5062,8 +5059,8 @@
             &emsp;&emsp;<span class="cond">#end def</span>
         </p>
         <p>Names of string variables, macros, and their parameters can contain small and capital Latin letters and underscore "_". They must end with the "$" symbol. The contents can be virtually any string. It is not necessary to be a valid Calcpad expression, since it is not processed by the parser at this stage. However, other macro/string variable definitions are not allowed inside. You can insert only references to previously defined ones. Also, input fields "?" are not supported in macros yet. This feature will be developed in the next versions. You can use <span class="cond">#include</span> inside macros, but only if the included file does not contain other macros.</p>
-        <p>After a string variable is defined, you can use it anywhere in the code, by writing its name (with the ending "$"). The same is for macros, but you also need to specify values for parameters. Macros and string variables are preprocessed and rewritten before the actual parsing is performed. As a result, intermediate (unwrapped) code is generated. You can review it by checking the "<b>Unwrapped code</b>" checkbox below the "<b>Output</b>" window.</p>
-        <p>If any errors occur during macro preprocessing, the unwrapped code is displayed, together with the errors. Line numbers in error descriptions refer to your initial code. If preprocessing is completed successfully, the unwrapped code is parsed and calculated as normal. If errors are detected at this stage, they are displayed in the output. Line numbers in error descriptions refer to the unwrapped code. You can go to the respective line, by clicking the link on the line number.</p>
+        <p>After a string variable is defined, you can use it anywhere in the code by writing its name (with the ending "$"). The same is for macros, but you also need to specify values for parameters. Macros and string variables are preprocessed and rewritten before the actual parsing is performed. As a result, intermediate (unwrapped) code is generated. You can review it by checking the "<b>Unwrapped code</b>" checkbox below the "<b>Output</b>" window.</p>
+        <p>If any errors occur during macro preprocessing, the unwrapped code is displayed, together with the errors. Line numbers in error descriptions refer to your initial code. If preprocessing is completed successfully, the unwrapped code is parsed and calculated as normal. If errors are detected at this stage, they are displayed in the output. Line numbers in error descriptions refer to the unwrapped code. You can go to the respective line by clicking the link on the line number.</p>
 
         <h3 id="TOC_608">Import/export of external data</h3>
         <p>You can import and export numerical data from/to text, CSV and Excel files. Inside Calcpad, data should be stored in a matrix/vector variable. You can also read and write partial data by specifying the desired range. Structured storage of special matrices is supported for saving space. The following commands are available:</p>
@@ -5130,13 +5127,13 @@
                 </td>
             </tr>
             <tr>
-                <td><code><b>@R2C3:R4C4</b><code></td>
+                <td><code><b>@R2C3:R4C4</b></code></td>
                 <td>&emsp;</td>
-                <td><code><b>@R2C3</b><code></td>
+                <td><code><b>@R2C3</b></code></td>
                 <td>&emsp;</td>
-                <td><code><b>@:R3C4</b><code></td>
+                <td><code><b>@:R3C4</b></code></td>
                 <td>&emsp;</td>
-                <td><code><b>@R2:R4</b><code></td>
+                <td><code><b>@R2:R4</b></code></td>
             </tr>
             <tr>
                 <td>
@@ -5184,14 +5181,13 @@
                 </td>
             </tr>
             <tr>
-                <td><code><b>@C3:C4</b><code></td>
+                <td><code><b>@C3:C4</b></code></td>
                 <td>&emsp;</td>
-                <td><code><b>@R3:C4</b><code></td>
+                <td><code><b>@R3:C4</b></code></td>
                 <td>&emsp;</td>
-                <td><code><b>@C3</b><code></td>
+                <td><code><b>@C3</b></code></td>
                 <td>&emsp;</td>
-                <td><code><b>@R3C4:R1C2</b><code></td>
-                </td>
+                <td><code><b>@R3C4:R1C2</b></code></td>
             </tr>
         </table>
         <p>

@@ -493,7 +493,7 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Function definition not allowed in solver block..
+        ///   Looks up a localized string similar to Function definition not allowed in solver or expression block..
         /// </summary>
         public static string Function_definition_not_allowed_in_solver_block {
             get {
@@ -804,6 +804,15 @@ namespace Calcpad.Core {
         public static string Invalid_units_for_function_0_1 {
             get {
                 return ResourceManager.GetString("Invalid_units_for_function_0_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid number of indexes..
+        /// </summary>
+        public static string InvalidNumberOfIndexes {
+            get {
+                return ResourceManager.GetString("InvalidNumberOfIndexes", resourceCulture);
             }
         }
         

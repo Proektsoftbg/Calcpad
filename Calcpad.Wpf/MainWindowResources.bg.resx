@@ -1145,4 +1145,7 @@
   <data name="InlineBlockOfExpressions" xml:space="preserve">
     <value>Едноредов блок от изрази</value>
   </data>
+  <data name="Select_All" xml:space="preserve">
+    <value>И_збери всичко</value>
+  </data>
 </root>

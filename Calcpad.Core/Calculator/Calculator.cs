@@ -195,6 +195,7 @@ namespace Calcpad.Core
             { "gcd", 12 },
             { "lcm", 13 },
         }.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
+        internal static readonly int SwitchIndex = MultiFunctionIndex["switch"];
 
         internal static readonly FrozenDictionary<string, int> InterpolationIndex =
         new Dictionary<string, int>()

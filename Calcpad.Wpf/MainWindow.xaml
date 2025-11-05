@@ -2,9 +2,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:wpf="clr-namespace:Calcpad.Wpf"
-    xmlns:core="clr-namespace:Calcpad.Core;assembly=Calcpad.Core"
     xmlns:av="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="av" x:Class="Calcpad.Wpf.MainWindow"
-    Title=" Calcpad VM 7.5.0"
+    Title=" Calcpad VM 7.5.1"
     Height="800"
     Width="1200"
     WindowStartupLocation="CenterScreen"
@@ -253,7 +252,7 @@
                           Header="{x:Static wpf:MainWindowResources.UncommentSelectedLines}" Click="UncommentMenu_Click"/>
                 <Separator/>
                 <MenuItem Command="ApplicationCommands.SelectAll" 
-                          Header="{x:Static core:Messages.Select_All}"/>
+                          Header="{x:Static wpf:MainWindowResources.Select_All}"/>
             </MenuItem>
             <MenuItem x:Name="MenuInsert" 
                       Header="{x:Static wpf:MainWindowResources.Insert}">
