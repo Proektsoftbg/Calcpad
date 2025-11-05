@@ -714,12 +714,13 @@ Excel
                 <li><a class="toc" href="#TOC_405">函数</a></li>
                 <li><a class="toc" href="#TOC_406">绘图</a></li>
                 <li><a class="toc" href="#TOC_407">数值方法</a></li>
-                <li><a class="toc" href="#TOC_408">迭代程序</a></li>
-                <li><a class="toc" href="#TOC_409">单位</a></li>
-                <li><a class="toc" href="#TOC_410">向量</a></li>
-                <li><a class="toc" href="#TOC_411">矩阵</a></li>
-				<li><a class="toc" href="#TOC_412">高性能型向量和矩阵</a></li>
-				<li><a class="toc" href="#TOC_413">高性能对称求解器</a></li>
+                <li><a class="toc" href="#TOC_408">迭代过程</a></li>
+                <li><a class="toc" href="#TOC_409">表达式块</a></li>
+                <li><a class="toc" href="#TOC_410">单位</a></li>
+                <li><a class="toc" href="#TOC_411">向量</a></li>
+                <li><a class="toc" href="#TOC_412">矩阵</a></li>
+				<li><a class="toc" href="#TOC_413">高性能型向量和矩阵</a></li>
+				<li><a class="toc" href="#TOC_414">高性能对称求解器</a></li>
             </ul>
         </li>
         <li>
@@ -1534,8 +1535,33 @@ Excel
         </p>
         <p><span class="cond">$Plot</span>{...}函数必须在一行中最先出现.在它之前只能有空格和制表符,甚至不能有注释.否则,程序将返回错误.在闭括号"}"之后的任何文本都将被忽略.绘图仅支持实数.只有在绘图区间上,<var>x</var>和<var>y</var>都是实数并且函数返回实数结果时,才能在复数模式下使用.</p>
         <p>您可以通过定义两个变量:<var>PlotWidth</var>和<var>PlotHeight</var>(以像素为单位)来指定绘图区域的大小.默认值为<var>PlotWidth</var> = 400和<var>PlotHeight</var> = 250.</p>
-        <p><span class="cond">$Map</span>{...}函数可以使用不同的调色板.从程序窗口底部的"<b>调色板(Palette)</b>"组合框中选择首选项.如果选择了"<b>平滑(Smooth)</b>"复选框,刻度将显示为平滑渐变.否则,程序将绘制彩色条.您还可以通过选择相应的组合框来为图形添加3D效果.</p>
-        <p>以下是不同绘图方法的示例:</p>
+        <p><span class="cond">$Map</span>{...}函数可以使用不同的调色板.从程序窗口底部的"<b>调色板(Palette)</b>"组合框中选择需要的配色.如果选择了"<b>平滑(Smooth)</b>"复选框,刻度将显示为平滑渐变.否则,程序将绘制彩色条.您还可以通过选择相应的组合框来为图形添加3D效果.</p>
+        <p style="margin-left: 2em;">
+			<var>PlotShadows</var> - 以带阴影的方式绘制曲面的二维投影图;<br />
+			<var>PlotLightDir</var> - 顺时针变化的光源方向(0-7):<br />
+			&emsp;&emsp;0 - 北<br />
+            &emsp;&emsp;1 - 东北<br />
+            &emsp;&emsp;2 - 东<br />
+            &emsp;&emsp;3 - 东南<br />
+            &emsp;&emsp;4 - 南<br />
+            &emsp;&emsp;5 - 西南<br />
+            &emsp;&emsp;6 - 西<br />
+            &emsp;&emsp;7 - 西北<br />
+			<var>PlotPalette</var> - 用于绘制曲面二维投影图的调色板编号(0-9);<br />
+			&emsp;&emsp;0 - <b class="palette" style="width:9.9em; border: solid 0.5pt #aaa;">&emsp;&emsp;&emsp;无 &emsp;&emsp;&emsp;      </b><br/>
+			&emsp;&emsp;1 - <b class="palette" style="width:9.95em; border-right: solid 0.5pt #aaa; color:white; background: linear-gradient(to left, #FFFFFF, #464646)">&emsp;&emsp;&emsp;灰  &emsp;&emsp;&emsp;   </b><br/>
+			&emsp;&emsp;2 - <b class="palette" style="background: linear-gradient(to left, #FF0000, #FFFF00, #00ee00, #00FFFF, #4060FF)">&emsp;&emsp;彩虹带&emsp;&emsp;</b><br />
+			&emsp;&emsp;3 - <b class="palette" style="background: linear-gradient(to left, #FF7F00, #FFFF00, #00FF00, #007F7F)">&emsp;&emsp;地质色 &emsp;&emsp;  </b><br />
+			&emsp;&emsp;4 - <b class="palette" style="background: linear-gradient(to left, #ffff00, #a93bd4)"> &emsp;&emsp;紫红-黄&emsp; &emsp; </b><br />
+			&emsp;&emsp;5 - <b class="palette" style="background: linear-gradient(to left, #ffff20, #409070)">&emsp;&emsp; 绿-黄 &emsp;&emsp;  </b><br />
+			&emsp;&emsp;6 - <b class="palette" style="background: linear-gradient(to left, #60ffff, #4060FF)">&emsp;&emsp; 蓝色调   &emsp;&emsp; </b><br />
+			&emsp;&emsp;7 - <b class="palette" style="background: linear-gradient(to left, #FFFC20, #00FF40, #20A0C0, #4060FF)"> &emsp;&emsp;蓝-黄&emsp;&emsp;   </b><br />
+			&emsp;&emsp;8 - <b class="palette" style="background: linear-gradient(to left, #FF6000, #DDFFDD, #4060FF)"> &emsp;&emsp;蓝-红 &emsp;&emsp;  </b><br />
+			&emsp;&emsp;9 - <b class="palette" style="background: linear-gradient(to left, #FFFC20, #FF8080, #EA40FF, #4020FA)"> &emsp;&emsp;紫-黄&emsp;&emsp;   </b><br />
+			<var>PlotSmooth</var> - 绘制面图时不同颜色之间：平滑过渡(= 1)或不同色带(= 0).
+		</p>
+		<p>以下是不同绘图方法的示例:</p>
+		
         <table class="nb">
             <tr>
                 <td style="line-height:150%;">
@@ -1657,8 +1683,46 @@ Excel
         <p>你不应忘记切换到"Complex"模式.然后你可以绘制结果:</p>
         <p style="margin-left: 2em;"><code><span class="cond">$Map</span>{<b>abs</b>(<b>f</b>(0; <var>x</var> + 1i*<var>y</var>)) &#64; <var>x</var> = -1.5:0.5 & <var>y</var> = -1:1}</code></p>
         <p style="text-align:center;"><img alt="Mandelbrot" src="Images/Mandelbrot.png" width="500"></p>
+		<h3 id="TOC_409">表达式块</h3>
+		<p>表达式块包含一系列用分号分隔的表达式。所有表达式都可以赋值给局部变量。您可以使用表达式块将简短的算法过程嵌入到函数定义中，实现内联循环或任何其他表达式和表达式块。根据输出渲染方式的不同，有两种类型的表达式块：</p>
+		<p style="margin-left: 2em;"><code><span class="cond">$Block</span>{<em>expr1</em>; <em>expr2</em>; <em>expr3</em>; ...}</code> - 多行表达式块;</p>
+		<p style="margin-left: 2em;"><code><span class="cond">$Inline</span>{<em>expr1</em>; <em>expr2</em>; <em>expr3</em>; ...}</code> - 单行表达式块;</p>
+		<p>正如其名称所示，<span class="cond">$Block</span> 会在多行上呈现，每个表达式单独占一行；而 <span class="cond">$Inline</span> 则将所有表达式按从左到右的顺序在一行上连续显示。</p>
+		<p>当单个表达式不足以计算结果时，可以使用表达式块来创建多行函数。例如下面的 <var>quadRoots</var> 函数，它通过给定系数 <var>a</var>、<var>b</var>、<var>c</var> 来计算二次方程的根，并将它们作为两个元素的向量返回：<span class="b0">[</span><var>x</var><sub>1</sub>; <var>x</var><sub>2</sub><span class="b0">]</span>。</p>
+		<table border="1">
+            <thead>
+                <tr>
+                    <th>
+                        代码
+                    </th>
+                    <th>
+                        输出
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+					<code><var>quadRoots</var>(<var>a</var>; <var>b</var>; <var>c</var>) = _<br />
+					<span class="cond">$block</span>{</code><br />
+						&emsp;&emsp;<code><var>D</var> = <var>b</var>^2 - 4*<var>a</var>*<var>c</var>;</code> <br />
+						&emsp;&emsp;<code><var>x_1</var> = (-<var>b</var> - <b>sqrt</b>(<var>D</var>))/(2*<var>a</var>);</code> <br />
+						&emsp;&emsp;<code><var>x_2</var> = (-<var>b</var> + <b>sqrt</b>(<var>D</var>))/(2*<var>a</var>);</code> <br />
+						&emsp;&emsp;<code>[<var>x_1</var>; <var>x_2</var>]; <br />
+					}<br />
+					<var>quadRoots</var>(2; 3; -5)</code>
+                    </td>
+                    <td style="line-height:150%;">
+						<span class="eq"><var>quadRoots</var>&hairsp;(&hairsp;<var>a</var>; <var>b</var>; <var>c</var>&hairsp;)&hairsp; = <small class="gray">??</small><span class="block"><var>D</var> = <var>b</var><sup>2</sup> − 4&hairsp;·&hairsp;<var>a</var>&hairsp;·&hairsp;<var>c</var><br> <var>x</var><sub>1</sub> = <span class="dvc">-<var>b</var> − &ensp;&hairsp;&hairsp;<span class="o0"><span class="r0"></span><var>D</var></span><span class="dvl"></span>2&hairsp;·&hairsp;<var>a</var></span><br> <var>x</var><sub>2</sub> = <span class="dvc">-<var>b</var> + &ensp;&hairsp;&hairsp;<span class="o0"><span class="r0"></span><var>D</var></span><span class="dvl"></span>2&hairsp;·&hairsp;<var>a</var></span><br> <span class="b0">[</span><var>x</var><sub>1</sub>; <var>x</var><sub>2</sub><span class="b0">]</span><br> </span></span><br/>
+						<span class="eq"><var>quadRoots</var>&hairsp;&hairsp;(&hairsp;2; 3; -5&hairsp;)&hairsp; = <b class="b0">[</b>-2.5&ensp;1<b class="b0">]</b></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+		<p>当您有一个 <span class="cond">$Repeat</span> 内联循环时，可以直接在其中嵌套多个表达式，而无需将它们包裹在 <span class="cond">$block</span>/<span class="cond">$inline</span> 元素中。</p>
+		<p>块或内联循环中的所有表达式都会被编译，因此执行速度非常快。它们从左到右依次求值，最终只返回最后一个结果。然而，与标准表达式不同，您无法看到中间结果和替换后的变量。这降低了计算的可读性和可验证性。因此，应仅在实际需要的地方使用表达式块。</p>
 
-        <h3 id="TOC_409">单位</h3>
+        <h3 id="TOC_410">单位</h3>
         <p>Calcpad提供了对物理单位的全面支持.当前版本支持公制(国际单位制和兼容单位制)、美制和英制单位.有七个基本单位对应于七个物理维度:</p>
         <ul>
             <li>质量 - 千克(<i>kg</i>)</li>
@@ -2293,7 +2357,7 @@ Excel
             </code>
         </p>
         <p>自定义无量纲单位存在于特殊的(第九个)非物理维度中.这样它们在混合时不会被取消或转换为其他无量纲单位,比如百分比或角度.然而,如果您在一个文件中有两种类型的无量纲单位,它们将存在于同一个维度中,所以您应该避免混合使用它们.</p>
-        <h3 id="TOC_410">向量</h3>
+        <h3 id="TOC_411">向量</h3>
         <p><b>向量的内部存储及类型</b></p>
         <p>Calcpad中包含2种类型的向量: 常规(小)的和大的.向量可以仅包含带单位的实数.现版本不支持复数向量 . 单个向量可以包含带不同类型的单位的元素,甚至不同量纲. 然而,一些向量函数或运算可能由于不同元素间单位的冲突而无法运行.</p>
         <p>超过100个元素的向量为”大“. 整体上它们与常规的向量无异,用户感知差异不强. 但从内在机制上,它们的运行机制殊异. 大向量的结构如下图所示:</p>
@@ -2679,7 +2743,7 @@ Excel
         <p>在Calcpad中,如果两个向量的长度不同,较短的向量会用零填充到与较长向量相同的长度.点积和叉积在Calcpad中被实现为函数(如上所述).所有二元运算符都类似,支持向量-标量和标量-向量操作.例如:</p>
         <p>&emsp;&emsp;<code>[2; 4; 5]*2</code>' = [4&ensp;8&ensp;10]</p>
 
-        <h3 id="TOC_411">矩阵</h3>
+        <h3 id="TOC_412">矩阵</h3>
         <p><b>矩阵的内部存储和类型</b></p>
         <p>Calcpad 包含不同类型的矩阵:一般(矩形)和特殊(列、对称、对角、上/下三角).在内部,每种类型的矩阵以不同的方式实现,利用其特定结构来提高效率.在外部,它们的行为相似,只有少数例外情况.</p>
         <p>每种矩阵类型都以向量数组的形式实现,如下图所示.通常情况下,向量代表矩阵的行,但对角线和列矩阵除外.</p>
@@ -4389,7 +4453,7 @@ Excel
                 <span class="tr"><span class="td"></span><span class="td">15</span><span class="td">20</span><span class="td"></span></span>
             </span>
         </p>
-		<h3 id="TOC_412">高性能（hp）向量和矩阵</h3>
+		<h3 id="TOC_413">高性能（hp）向量和矩阵</h3>
         <p>高性能（hp）向量和矩阵在 Calcpad 7.3.0 版中引入，旨在更快地求解大型工程问题并降低内存消耗.但这伴随着一个权衡：hp 向量或矩阵的所有元素必须具有相同的单位.这样，Calcpad 只需为整个向量/矩阵存储和处理一次单位信息，并可进行大量额外优化，如 SIMD 向量化运算、使用更友好的缓存算法等.所有这些都使速度提升数十倍，所需内存大小降低超过一半，即使根本没有单位也能受益.</p>
 		<p>hp 向量和矩阵最初由特殊函数创建，类似于标准的创建函数，但以 “_hp” 结尾，具体如下：</p>
         <p>
@@ -4416,7 +4480,7 @@ Excel
         </p>
         <p>任何仅包含 hp 向量/数组的表达式也会返回 hp 类型。如果表达式只包含标准向量/数组，或同时包含标准和 hp 元素，则返回标准类型.要检查 <var>x</var> 是否为高性能（hp）向量或矩阵，可使用函数 <code><b>ishp</b>(<var>x</var>)</code>.</p>
 
-        <h3 id="TOC_413">高性能对称求解器</h3>
+        <h3 id="TOC_414">高性能对称求解器</h3>
         <p>Calcpad 还提供了针对两类最常见矩阵问题的高级求解器——线性方程组求解以及矩阵特征值和特征向量的计算:</p>
 
         <p><b>PCG对称线性求解器</b></p>
