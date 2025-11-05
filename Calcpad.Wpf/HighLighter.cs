@@ -620,7 +620,7 @@ namespace Calcpad.Wpf
                             Append(Types.None);
                     }
                     if (c == '_'  && 
-                        (i < len - 1 || text.AsSpan(i + 1).IsWhiteSpace()) && 
+                        (i == len - 1 || text.AsSpan(i + 1).IsWhiteSpace()) && 
                         (i > 0 && text[i - 1] == ' ') &&
                         ParseLineBreak(c))
                         break;
