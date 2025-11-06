@@ -635,7 +635,7 @@ namespace Calcpad.Core
         private static HpDiagonalMatrix DiagonalHp(in IValue n, in IValue value) => new(IValue.AsInt(n), IValue.AsReal(value));
         private static HpColumnMatrix ColumnHp(in IValue n, in IValue value) => new(IValue.AsInt(n), IValue.AsReal(value));
         private static Vector Row(in IValue M, in IValue row) => IValue.AsMatrix(M).Row(IValue.AsInt(row));
-        private static Vector Col(in IValue M, in IValue col) => IValue.AsMatrix(M).Col(IValue.AsInt(col));
+        private static LargeVector Col(in IValue M, in IValue col) => IValue.AsMatrix(M).Col(IValue.AsInt(col));
         private static Matrix ExtractRows(in IValue M, in IValue rows) => IValue.AsMatrix(M).ExtractRows(IValue.AsVector(rows));
         private static Matrix ExtractCols(in IValue M, in IValue cols) => IValue.AsMatrix(M).ExtractCols(IValue.AsVector(cols));
         private static Matrix Fill(in IValue M, in IValue value)
@@ -747,7 +747,7 @@ namespace Calcpad.Core
             throw Exceptions.MatrixMustBeSymmetric();
         }
 
-        private Matrix SmSolve(in IValue A, in IValue B)
+        private HpMatrix SmSolve(in IValue A, in IValue B)
         {
             var a = IValue.AsMatrixHp(A);
             var b = IValue.AsMatrixHp(B);
@@ -788,8 +788,8 @@ namespace Calcpad.Core
             return Matrix.Kronecker(a, b);
         }
 
-        private static Matrix Fft(in IValue A) => IValue.AsMatrixHp(A).FFT(false);
-        private static Matrix Ift(in IValue A) => IValue.AsMatrixHp(A).FFT(true);
+        private static HpMatrix Fft(in IValue A) => IValue.AsMatrixHp(A).FFT(false);
+        private static HpMatrix Ift(in IValue A) => IValue.AsMatrixHp(A).FFT(true);
         private static Matrix FillRow(Matrix M, in IValue row, in IValue value)
         {
             M.FillRow(IValue.AsInt(row), IValue.AsReal(value));

@@ -1,9 +1,11 @@
-﻿using Markdig;
+﻿using DocumentFormat.OpenXml.Presentation;
+using Markdig;
 using Markdig.Renderers;
 using System;
-using System.Buffers;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Web;
 
@@ -27,6 +29,8 @@ namespace Calcpad.Core
         private readonly StringBuilder _sb = new(10000);
         private Queue<int> _errors;
         private LineInfo[] _lineCache;
+        private static bool[] IsLineExtension = new bool[128];
+
         public Settings Settings { get; set; } = new();
         public string HtmlResult { get; private set; }
         public static bool IsUs
@@ -39,8 +43,11 @@ namespace Calcpad.Core
         public bool ShowWarnings { get; set; } = true;
         public readonly List<string> OpenXmlExpressions = new(100);
 
-        static ExpressionParser() =>
+        static ExpressionParser()
+        {
+            foreach (var c in ";|&@:({[") IsLineExtension[c] = true;
             InitKeyWordStrings();
+        }
 
         public void Cancel() => _parser?.Cancel();
         public void Pause() => _isPausedByUser = true;
@@ -191,12 +198,16 @@ namespace Calcpad.Core
                 Finalize(lineCount);
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             bool IsEnabled() => _condition.IsSatisfied &&
                 (_loops.Count == 0 || !_loops.Peek().IsBroken) ||
                 !_calculate;
 
-            bool HasLineExtension(ReadOnlySpan<char> s) =>
-                (s.EndsWith(" _") || (s.EndsWith("{") || s.EndsWith("(") || s.EndsWith(";")) && !IsComment(s));
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            bool HasLineExtension(ReadOnlySpan<char> s) => s.EndsWith(" _") || s.Length > 0 && CheckIsLineExtension(s[^1]) && !IsComment(s);
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            bool CheckIsLineExtension(char c) => c < 128 && IsLineExtension[c];
 
             bool IsComment(ReadOnlySpan<char> s)
             {

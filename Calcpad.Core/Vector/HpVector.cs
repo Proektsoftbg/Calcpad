@@ -1525,7 +1525,7 @@ namespace Calcpad.Core
         }
 
         //private static readonly Comparison<RealValue> ascending = new((x, y) => x.CompareTo(y));
-        internal static new readonly Comparison<double> descending = new((x, y) => -x.CompareTo(y));
+        internal static readonly Comparison<double> descending = new((x, y) => -x.CompareTo(y));
 
         internal override HpVector Sort(bool reverse = false)
         {

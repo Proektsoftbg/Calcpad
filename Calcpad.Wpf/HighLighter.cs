@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -187,8 +188,9 @@ namespace Calcpad.Wpf
         ];
 
         private static readonly FrozenSet<char> Operators = new HashSet<char>() { '!', '^', '/', '÷', '\\', '⦼', '*', '-', '+', '<', '>', '≤', '≥', '≡', '≠', '=', '∧', '∨', '⊕', '∠' }.ToFrozenSet();
-        private static readonly FrozenSet<char> Delimiters = new HashSet<char>() { ';', '|', '&', '@', ':' }.ToFrozenSet();
-        private static readonly FrozenSet<char> Brackets = new HashSet<char>() { '(', ')', '{', '}', '[', ']' }.ToFrozenSet();
+        private static readonly bool[] DelimitersMap = new bool[128];
+        private static readonly bool[] BracketsMap = new bool[128];
+        private static readonly bool[] LineExtensionsMap = new bool[128];
 
         private static readonly FrozenSet<string> Functions =
         new HashSet<string>()
@@ -505,6 +507,16 @@ namespace Calcpad.Wpf
             "$inline",
         }.ToFrozenSet(StringComparer.OrdinalIgnoreCase);
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static bool MapContains(bool[] map, char c) => c < map.Length && map[c];
+
+        static HighLighter()
+        {
+            foreach (var c in ";|&@:") DelimitersMap[c] = true;
+            foreach (var c in "(){}[]") BracketsMap[c] = true;
+            foreach (var c in "_;|&@:({[") LineExtensionsMap[c] = true;
+        }
+
         internal static void Clear(Paragraph p)
         {
             if (p is null)
@@ -565,8 +577,10 @@ namespace Calcpad.Wpf
         {
             if (inline is Run r)
             {
-                var s = r.Text.AsSpan().TrimEnd();
-                if (s.EndsWith(" _") || (s.EndsWith("_") || s.EndsWith("{") || s.EndsWith("(") || s.EndsWith(";")) && r.Foreground != Colors[(int)Types.Comment])
+                var span = r.Text.AsSpan().TrimEnd();
+                if (span.EndsWith(" _") ||
+                    span.Length > 0 && MapContains(LineExtensionsMap, span[^1]) && 
+                    r.Foreground != Colors[(int)Types.Comment])
                     return true;
             }
             return false;
@@ -661,7 +675,7 @@ namespace Calcpad.Wpf
                         AppendDoubleOperatorShortcut('∠');
                     else if (Validator.IsWhiteSpace(c))
                         ParseSpace(c);
-                    else if (Brackets.Contains(c))
+                    else if (MapContains(BracketsMap, c))
                         ParseBrackets(c);
                     else if (Operators.Contains(c))
                     {
@@ -674,7 +688,7 @@ namespace Calcpad.Wpf
                                 break;
                         }
                     }
-                    else if (Delimiters.Contains(c))
+                    else if (MapContains(DelimitersMap, c))
                         ParseDelimiter(c);
                     else if (_builder.Length == 0)
                     {
@@ -805,8 +819,7 @@ namespace Calcpad.Wpf
             {
                 var span = r.Text.AsSpan().TrimEnd();
                 if (span.EndsWith(" _") ||
-                    span.EndsWith("_") || 
-                    (span.EndsWith("{") || span.EndsWith("(") || span.EndsWith(";")) && 
+                    span.Length > 0 && MapContains(LineExtensionsMap, span[^1]) && 
                     _state.CurrentType != Types.Comment && 
                     _state.CurrentType != Types.HtmlComment)
                     return true;
