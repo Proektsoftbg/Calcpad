@@ -15,7 +15,7 @@ x = hp([x(t)|0])
 'Solution -'f = fft(x)
 'Squared magnitude -'S = row(f; 1)^2 + row(f; 2)^2
 'Power spectral density -'PSD = S/(N*Fs)
-'Spectral amplitude -'SA = sqrt(PSD)
+'Amplitude spectral density -'ASD = sqrt(PSD)
 '<!--'PlotWidth = 600','PlotHeight = 150','PlotAdaptive = 0'-->
 'Input signal plot
 $Plot{line(i; row(x; 1)) & spline(i; row(x; 2)) @ i = 1 : N}
