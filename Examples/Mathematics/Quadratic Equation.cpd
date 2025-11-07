@@ -2,9 +2,9 @@
 '<hr/>
 f(x) = a*x^2 + b*x + c'= 0
 'Coefficients:
-a = ?','b = ?','c = ?
+a = ? {2}','b = ? {3}','c = ? {-5}
 #hide
-PlotWidth=360''PlotHeight=240
+PlotWidth = 360''PlotHeight = 200
 #post
 #if a ≡ 0
 	'The coefficient <i>a</i> is equal to zero. The equation is linear.
@@ -15,7 +15,7 @@ PlotWidth=360''PlotHeight=240
 	#if D ≥ 0
 		'The discriminant is grater or equal to zero. Real roots exist.
 		q = -0.5*(b + sign(b)*sqr(D))
-		x_1 = q/a
+		x_1 = q/a', ' _
 		x_2 = c/q
 		#hide
 		d = abs(x_2 - x_1)/4
@@ -32,4 +32,4 @@ PlotWidth=360''PlotHeight=240
 		#post
 		$Plot{f(x) @ x = x_min : x_max}
 	#end if
-#end if 2	3	-5
+#end if 
