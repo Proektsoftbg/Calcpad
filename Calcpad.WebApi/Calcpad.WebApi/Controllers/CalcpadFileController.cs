@@ -24,25 +24,27 @@ namespace Calcpad.WebApi.Controllers
     /// <param name="db"></param>
     /// <param name="tokenService"></param>
     /// <param name="storageConfig"></param>
+    /// <param name="appConfig"></param>
     /// <param name="storageService"></param>
     /// <param name="contentService"></param>
     public class CalcpadFileController(
         MongoDBContext db,
         TokenService tokenService,
         AppSettings<StorageConfig> storageConfig,
+        AppSettings<AppConfig> appConfig,
         CpdStorageService storageService,
         CpdContentService contentService
     ) : ControllerBaseV1
     {
         /// <summary>
-        /// verify if a file with the given sha256 exists
-        /// if exists, return the file id, otherwise return empty string
-        /// if the file exists, also verify if the filePath exists for the user, if not, add a new accessor
+        /// get cpd file resource uri by uniqueId
+        /// if file is cpdFile, return formated string for #include
+        /// others, return 
         /// </summary>
         /// <param name="uniqueId"></param>
         /// <returns>file in server</returns>
-        [HttpGet("code/{uniqueId}/exists")]
-        public async Task<ResponseResult<string>> PresignedObject(string uniqueId)
+        [HttpGet("uids/{uniqueId}/uri")]
+        public async Task<ResponseResult<string>> GetCpdFileResourceUri(string uniqueId)
         {
             var fileObject = await db.AsQueryable<CalcpadFileModel>()
                 .Where(x => x.UniqueId == uniqueId)

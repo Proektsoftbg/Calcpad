@@ -1,6 +1,4 @@
-﻿using System.IO;
-using System.Reflection.PortableExecutable;
-using Calcpad.Document;
+﻿using Calcpad.Document;
 using Calcpad.Document.Archive;
 using Calcpad.Document.Core.Segments;
 using Calcpad.Document.Core.Utils;

@@ -84,17 +84,19 @@ namespace Calcpad.Document.Archive
                     text = DecompressToString(entryStream); //Use this if you need smaller files
                     continue;
                 }
-                
-                var srcKey = $"./{entry.FullName.Replace('\\', '/')}";
+
+                var formattedEntryPath = entry.FullName.Replace('\\', '/');
+
+                var srcKey = $"./{formattedEntryPath}";
                 if (srcsDic.ContainsKey(srcKey))
                     continue;
 
                 // other files, extract to temp dir
-                string entryPath = Path.Combine(resourceTempDir, entry.FullName);
+                string entryPath = Path.Combine(resourceTempDir, formattedEntryPath);
                 Directory.CreateDirectory(Path.GetDirectoryName(entryPath)!);
                 entry.ExtractToFile(entryPath, true);
 
-                var srcPath = settings.CreateSrcPath(_fullPath, entry.FullName, entryPath);
+                var srcPath = settings.CreateSrcPath(_fullPath, formattedEntryPath, entryPath);
                 // save path
                 srcsDic.Add(srcKey, srcPath);
             }
