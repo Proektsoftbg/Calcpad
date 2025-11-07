@@ -11,9 +11,9 @@ X(t) = X_1*(t < t_0) + X_2*(t ≥ t_0)
 'Input signal -'x(t) = X(t)*sin(2*π*f(t)*t/n)
 x = hp([x(t)|0])
 'Solution -'f = fft(x)
-a = sqrt(row(f; 1)^2 + row(f; 2)^2)
+a = row(f; 1)^2 + row(f; 2)^2
 '<!--'PlotWidth = 600','PlotHeight = 150','PlotAdaptive = 0'-->
 'Input signal
-$Plot{line(i; row(x; 1)) & line(i; row(x; 2)) @ i = 1 : n}
+$Plot{line(i; row(x; 1)) & spline(i; row(x; 2)) @ i = 1 : n}
 'Power spectral density
-$Plot{line(i; a) @ i = 1 : 512}
+$Plot{spline(i; a) @ i = 1 : 256}
