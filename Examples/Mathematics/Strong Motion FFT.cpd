@@ -6,8 +6,7 @@
 #read a_g from Anamizu Earthquake Strong Motion.txt TYPE=R_hp SEP=';'
 'Number of record points -'n = n_cols(a_g)
 'Time function 't(k) = (k - 1)/100*s
-'Input accelleration, cm/s²
-a_g
+'Input accelleration, cm/s² -'a_g
 'Sampling frequency -'Fs = 100Hz
 'Frequency step -'Δf = Fs/n
 'Frequency function -'f(k) = (k - 1)*Δf
@@ -16,10 +15,11 @@ a_g
 'Real values -'Re = row(A_f; 1)
 'Imaginary values -'Im = row(A_f; 2)
 'Squared magnitudes -'S = Re^2 + Im^2
-'Power spectral density -'P_f = S/(Fs*n)
-'Magnitude spectrum -'A_mag = sqrt(P_f)
+'Fourier amplitude spectrum (FAS) -'FAS = sqrt(S)/n
+'Power spectral density -'PSD = S/(Fs*n)
+'Magnitude spectral density -'ASD = sqrt(PSD)
 '<!--'PlotHeight = 120','PlotSVG = 1','PlotAdaptive = 0'-->
 'Input accelleration plot [cm/s²] vs time [s]
 $Plot{t(k)|spline(k; a_g) @ k = 1 : n}
-'Power spectral density [(cm/s²)²/Hz] vs frequency [Hz] in the range of 0-10 Hz
-$Plot{f(k)|spline(k; P_f) @ k = 1 : N/5}
+'Fourier amplitude spectrum (FAS) [cm/s] vs frequency [Hz] in the range of 0-10 Hz
+$Plot{f(k)|spline(k; FAS) @ k = 1 : N/5}
