@@ -2161,6 +2161,9 @@ namespace Calcpad.Core
             var y0 = GetValue(i);
             var y1 = GetValue(i + 1);
             var dy = y1 - y0;
+            if (double.IsNaN(dy))
+                return RealValue.NaN;
+
             var a = dy;
             var b = dy;
             dy = Math.Sign(dy);
