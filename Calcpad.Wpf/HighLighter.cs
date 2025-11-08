@@ -190,8 +190,6 @@ namespace Calcpad.Wpf
         private static readonly FrozenSet<char> Operators = new HashSet<char>() { '!', '^', '/', '÷', '\\', '⦼', '*', '-', '+', '<', '>', '≤', '≥', '≡', '≠', '=', '∧', '∨', '⊕', '∠' }.ToFrozenSet();
         private static readonly bool[] DelimitersMap = new bool[128];
         private static readonly bool[] BracketsMap = new bool[128];
-        private static readonly bool[] LineExtensionsMap = new bool[128];
-
         private static readonly FrozenSet<string> Functions =
         new HashSet<string>()
         {
@@ -514,7 +512,6 @@ namespace Calcpad.Wpf
         {
             foreach (var c in ";|&@:") DelimitersMap[c] = true;
             foreach (var c in "(){}[]") BracketsMap[c] = true;
-            foreach (var c in "_;|&@:({[") LineExtensionsMap[c] = true;
         }
 
         internal static void Clear(Paragraph p)
@@ -579,7 +576,7 @@ namespace Calcpad.Wpf
             {
                 var span = r.Text.AsSpan().TrimEnd();
                 if (span.EndsWith(" _") ||
-                    span.Length > 0 && MapContains(LineExtensionsMap, span[^1]) && 
+                    span.Length > 0 && UserDefined.IsLineExtension(span[^1]) && 
                     r.Foreground != Colors[(int)Types.Comment])
                     return true;
             }
@@ -819,7 +816,7 @@ namespace Calcpad.Wpf
             {
                 var span = r.Text.AsSpan().TrimEnd();
                 if (span.EndsWith(" _") ||
-                    span.Length > 0 && MapContains(LineExtensionsMap, span[^1]) && 
+                    span.Length > 0 && UserDefined.IsLineExtension(span[^1]) && 
                     _state.CurrentType != Types.Comment && 
                     _state.CurrentType != Types.HtmlComment)
                     return true;

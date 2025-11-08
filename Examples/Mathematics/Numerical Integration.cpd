@@ -33,10 +33,10 @@ $Plot{f(x) & x_1|0 & x_2|0 & x_3|0 & -x_2|0 & -x_1|0 @ x = -1 : 1}
 'Parameters -'t(k) = -t_a + (k - 1)*h
 'Function for abscissas -'x(k) = tanh(π/2*sinh(t(k)))
 'Weight function -'w(k) = π*h*cosh(t(k))/(2*cosh(π/2*sinh(t(k)))^2)
-'<p><strong>Abscissas,        Ordinates,             Weights</strong></p>
+'<p><strong>Abscissas,       Ordinates,         Weights</strong></p>
 x_1 = x(1)',  'y_1 = f(x_1)',  'w_1 = w(1)
 x_2 = x(2)',  'y_2 = f(x_2)',  'w_2 = w(2)
-x_3 = x(3)',     'y_3 = f(x_3)',        'w_3 = w(3)
+x_3 = x(3)',      'y_3 = f(x_3)',    'w_3 = w(3)
 '<p><strong>Integral</strong></p>
 'Value -'I_DE = 2*w_1*y_1 + 2*w_2*y_2 + w_3*y_3
 'Error -'δ_DE = abs(I_DE - I)/I|%

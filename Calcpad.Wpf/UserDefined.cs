@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -20,10 +21,17 @@ namespace Calcpad.Wpf
         internal readonly Dictionary<string, List<int>> MacroVariables = new(StringComparer.Ordinal);
         internal readonly Dictionary<string, List<int>> MacroFunctions = new(StringComparer.Ordinal);
         private readonly Dictionary<string, string> _macroContents = new(StringComparer.Ordinal);
+        private static readonly bool[] LineExtensionsMap = new bool[128];
+
         internal bool HasMacros => _hasIncludes || Macros.Count > 0;
         private readonly StringBuilder _macroBuilder = new();
         private bool _hasIncludes;
         private string _macroName;
+
+        static UserDefined()
+        {
+            foreach (var c in "_;|&@:({[") LineExtensionsMap[c] = true;
+        }
 
         internal void Clear(bool isComplex)
         {
@@ -65,7 +73,7 @@ namespace Calcpad.Wpf
                 {
                     var trimmedLine = line.TrimEnd();
                     var hasLineExtension = trimmedLine.EndsWith(" _");
-                    if (hasLineExtension || trimmedLine.EndsWith("{") || trimmedLine.EndsWith("(") || trimmedLine.EndsWith(";"))
+                    if (hasLineExtension || trimmedLine.Length > 0 && IsLineExtension(trimmedLine[^1]) && !Validator.IsComment(trimmedLine))
                     {
                         if (sb.Length == 0)
                             firstLine = lineNumber;
@@ -441,5 +449,8 @@ namespace Calcpad.Wpf
 
             return false;
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static bool IsLineExtension(char c) => c < 128 && LineExtensionsMap[c];
     }
 }

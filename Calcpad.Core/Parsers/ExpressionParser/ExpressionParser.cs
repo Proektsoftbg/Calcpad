@@ -204,31 +204,10 @@ namespace Calcpad.Core
                 !_calculate;
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            bool HasLineExtension(ReadOnlySpan<char> s) => s.EndsWith(" _") || s.Length > 0 && CheckIsLineExtension(s[^1]) && !IsComment(s);
+            bool HasLineExtension(ReadOnlySpan<char> s) => s.EndsWith(" _") || s.Length > 0 && CheckIsLineExtension(s[^1]) && !Validator.IsComment(s);
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             bool CheckIsLineExtension(char c) => c < 128 && IsLineExtension[c];
-
-            bool IsComment(ReadOnlySpan<char> s)
-            {
-                var count = 0;
-                var commentChar = '\0';
-                for (int i = 0, len = s.Length; i < len; ++i)
-                {
-                    var c = s[i];
-                    if (commentChar == '\0')
-                    {
-                        if (c == '"' || c == '\'')
-                        {
-                            commentChar = c;
-                            count = 1;
-                        }
-                    }
-                    else if (c == commentChar)
-                        ++count;
-                }
-                return count % 2 == 1;
-            }
 
             bool ParsePlot(ReadOnlySpan<char> s)
             {
