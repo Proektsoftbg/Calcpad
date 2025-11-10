@@ -79,15 +79,15 @@ namespace Calcpad.Document
         /// </summary>
         /// <param name="inputFields"></param>
         /// <returns></returns>
-        public async Task<string> RunCalculation(string[] inputFields)
-        {
+        public async Task<string> RunCalculation(string[] inputFields, bool calculate = true)
+        {               
             // update input fields
             var inputText = SetInputFields(inputFields);
             // override file
             var cpdWriter = CpdWriterFactory.CreateCpdWriter();
             cpdWriter.WriteFile(fullName, inputText);
 
-            return await CompileToInputForm(inputText, true);
+            return await CompileToInputForm(inputText, calculate);
         }
 
         /// <summary>

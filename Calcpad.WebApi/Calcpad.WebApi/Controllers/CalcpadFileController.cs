@@ -39,7 +39,7 @@ namespace Calcpad.WebApi.Controllers
         /// <summary>
         /// get cpd file resource uri by uniqueId
         /// if file is cpdFile, return formated string for #include
-        /// others, return 
+        /// others, return
         /// </summary>
         /// <param name="uniqueId"></param>
         /// <returns>file in server</returns>
@@ -366,6 +366,22 @@ namespace Calcpad.WebApi.Controllers
             bool simplify = true
         )
         {
+            return await CompileToInputForm2(uniqueId, simplify, null);
+        }
+
+        /// <summary>
+        /// compile to input form with input fields updated
+        /// </summary>
+        /// <param name="uniqueId"></param>
+        /// <param name="simplify"></param>
+        /// <returns></returns>
+        [HttpPost("input-form")]
+        public async Task<ResponseResult<string>> CompileToInputForm2(
+            string uniqueId,
+            bool simplify = true,
+            [FromBody] RunCalculationData? data = null
+        )
+        {
             var fileModel = await db.AsQueryable<CalcpadFileModel>()
                 .Where(x => x.UniqueId == uniqueId && x.IsCpd == true)
                 .FirstOrDefaultAsync();
@@ -377,7 +393,7 @@ namespace Calcpad.WebApi.Controllers
                 return "Not Found".ToFailResponse("calcpad file not found");
 
             var cpdExecutor = new CpdExecutor(fullPath);
-            var outputText = await cpdExecutor.CompileToInputForm();
+            var outputText = await cpdExecutor.RunCalculation(data?.InputFields ?? [], false);
 
             // replace local link to public path
             outputText = contentService.FormatReadMacroResult(outputText);
