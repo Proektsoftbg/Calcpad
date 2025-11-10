@@ -358,7 +358,11 @@ namespace Calcpad.Core
                 .Append(mPr);
 
             for (int i = 0; i < len; ++i)
-                sb.Append($"<m:mr><m:e>{sa[i]}</m:e></m:mr>");
+            {
+                ref var s = ref sa[i];
+                if (!string.IsNullOrEmpty(s))
+                    sb.Append($"<m:mr><m:e>{s}</m:e></m:mr>");
+            }
 
             sb.Append("</m:m></m:e></m:d>");
             return sb.ToString();

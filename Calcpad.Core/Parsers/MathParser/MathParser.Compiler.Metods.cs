@@ -204,9 +204,9 @@ namespace Calcpad.Core
                     BindingFlags.Static | BindingFlags.NonPublic
                 );
 
-            private static readonly MethodInfo AsRealMethod =
+            private static readonly MethodInfo AsValueMethod =
                 typeof(IValue).GetMethod(
-                    nameof(IValue.AsReal),
+                    nameof(IValue.AsValue),
                     BindingFlags.Static | BindingFlags.NonPublic
                 );
 
@@ -249,6 +249,12 @@ namespace Calcpad.Core
             private static readonly MethodInfo SetMatrixElementMethod =
                 typeof(MatrixCalculator).GetMethod(
                     nameof(MatrixCalculator.SetElement),
+                    BindingFlags.Static | BindingFlags.NonPublic
+                );
+
+            private static readonly MethodInfo ThrowInfiniteLoopMethod =
+                typeof(Exceptions).GetMethod(
+                    nameof(Exceptions.InfiniteLoop),
                     BindingFlags.Static | BindingFlags.NonPublic
                 );
         }

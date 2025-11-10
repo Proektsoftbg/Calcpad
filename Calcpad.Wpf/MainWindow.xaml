@@ -1476,11 +1476,13 @@
                     <MenuItem Click="Button_Click" Tag="$Product{f(k) @ k = a : b}"      
                               Header="{x:Static wpf:MainWindowResources.IterativeProduct}"/>
                     <MenuItem Click="Button_Click" Tag="$Repeat{f(k) @ k = a : b}"       
-                              Header="{x:Static wpf:MainWindowResources.GeneralInlineIterativeProcedure}"/>
+                              Header="{x:Static wpf:MainWindowResources.IterativeExprBlockWithCounter}"/>
+                    <MenuItem Click="Button_Click" Tag="$While{ }"      
+                              Header="{x:Static wpf:MainWindowResources.ConditionalLoopExpressionBlock}"/>
                     <MenuItem Click="Button_Click" Tag="$Block{ }"      
-                              Header="{x:Static wpf:MainWindowResources.MultilineBlockOfExpressions}"/>
+                              Header="{x:Static wpf:MainWindowResources.MultilineExpressionBlock}"/>
                     <MenuItem Click="Button_Click" Tag="$Inline{ }"       
-                              Header="{x:Static wpf:MainWindowResources.InlineBlockOfExpressions}"/>
+                              Header="{x:Static wpf:MainWindowResources.InlineExpressionBlock}"/>
                 </MenuItem>
                 <MenuItem Header="{x:Static wpf:MainWindowResources.ProgramFlowControl}">
                     <MenuItem Click="Button_Click" Tag="#if 'condition§'Your code here§#end if" 

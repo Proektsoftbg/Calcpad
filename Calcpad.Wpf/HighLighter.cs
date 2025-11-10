@@ -497,6 +497,7 @@ namespace Calcpad.Wpf
             "$integral",
             "$slope",
             "$repeat",
+            "$while",
             "$sum",
             "$product",
             "$plot",
@@ -1732,7 +1733,8 @@ namespace Calcpad.Wpf
                     var t2 = t1;
                     if (t1 == Types.Keyword && s[0] == '$' && 
                         !s.Equals("$block", StringComparison.OrdinalIgnoreCase) &&
-                        !s.Equals("$inline", StringComparison.OrdinalIgnoreCase))
+                        !s.Equals("$inline", StringComparison.OrdinalIgnoreCase) &&
+                        !s.Equals("$while", StringComparison.OrdinalIgnoreCase))
                         isCommand = true;
                     else if (string.Equals(s, "{"))
                     {
@@ -1770,7 +1772,8 @@ namespace Calcpad.Wpf
                             var command = s[commandIndex..bracketIndex];
                             if (Commands.Contains(command) &&
                                 !command.Equals("$block", StringComparison.OrdinalIgnoreCase) &&
-                                !command.Equals("$inline", StringComparison.OrdinalIgnoreCase))
+                                !command.Equals("$inline", StringComparison.OrdinalIgnoreCase) &&
+                                !command.Equals("$while", StringComparison.OrdinalIgnoreCase))
                                 isCommand = true;
 
                             if (isCommand)

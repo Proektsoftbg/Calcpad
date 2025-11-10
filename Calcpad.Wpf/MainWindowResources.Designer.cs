@@ -412,6 +412,15 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Conditional loop expression block.
+        /// </summary>
+        public static string ConditionalLoopExpressionBlock {
+            get {
+                return ResourceManager.GetString("ConditionalLoopExpressionBlock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Conditional: repeat-break-loop.
         /// </summary>
         public static string ConditionalRepeatBreakLoop {
@@ -1295,15 +1304,6 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to General Inline Iterative Procedure.
-        /// </summary>
-        public static string GeneralInlineIterativeProcedure {
-            get {
-                return ResourceManager.GetString("GeneralInlineIterativeProcedure", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Gets the units of a scalar/vactor/matrix.
         /// </summary>
         public static string GetsTheUnitsOfAScalarVactorMatrix {
@@ -1493,11 +1493,11 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Inline block of expressions.
+        ///   Looks up a localized string similar to Inline expression block.
         /// </summary>
-        public static string InlineBlockOfExpressions {
+        public static string InlineExpressionBlock {
             get {
-                return ResourceManager.GetString("InlineBlockOfExpressions", resourceCulture);
+                return ResourceManager.GetString("InlineExpressionBlock", resourceCulture);
             }
         }
         
@@ -1597,6 +1597,15 @@ namespace Calcpad.Wpf {
         public static string Iteration {
             get {
                 return ResourceManager.GetString("Iteration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Iterative expr. block with counter.
+        /// </summary>
+        public static string IterativeExprBlockWithCounter {
+            get {
+                return ResourceManager.GetString("IterativeExprBlockWithCounter", resourceCulture);
             }
         }
         
@@ -1790,11 +1799,11 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Multiline block of expressions.
+        ///   Looks up a localized string similar to Multiline expression block.
         /// </summary>
-        public static string MultilineBlockOfExpressions {
+        public static string MultilineExpressionBlock {
             get {
-                return ResourceManager.GetString("MultilineBlockOfExpressions", resourceCulture);
+                return ResourceManager.GetString("MultilineExpressionBlock", resourceCulture);
             }
         }
         

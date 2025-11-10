@@ -1195,6 +1195,15 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Possibly infinite loop detected, n &gt; {0} iterations..
+        /// </summary>
+        public static string PossiblyInfiniteLoopDetected {
+            get {
+                return ResourceManager.GetString("PossiblyInfiniteLoopDetected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Power must be unitless..
         /// </summary>
         public static string Power_must_be_unitless {
@@ -1263,15 +1272,6 @@ namespace Calcpad.Core {
         public static string Root_index_must_be_unitless {
             get {
                 return ResourceManager.GetString("Root_index_must_be_unitless", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Select _All.
-        /// </summary>
-        public static string Select_All {
-            get {
-                return ResourceManager.GetString("Select_All", resourceCulture);
             }
         }
         

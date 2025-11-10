@@ -275,7 +275,7 @@
   <data name="NumericalDifferentiation" xml:space="preserve">
     <value>数值微分</value>
   </data>
-  <data name="GeneralInlineIterativeProcedure" xml:space="preserve">
+  <data name="IterativeExprBlockWithCounter" xml:space="preserve">
     <value>一般行内迭代程序</value>
   </data>
   <data name="IterativeProduct" xml:space="preserve">
