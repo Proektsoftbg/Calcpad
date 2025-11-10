@@ -706,8 +706,7 @@ namespace Calcpad.Wpf
             math.FormatEquations = Professional.IsChecked ?? false;
             math.IsComplex = Complex.IsChecked ?? false;
             math.Degrees = Deg.IsChecked ?? false ? 0 :
-                                            Rad.IsChecked ?? false ? 1 :
-                                            2;
+                           Rad.IsChecked ?? false ? 1 : 2;
             math.Substitute = SubstituteCheckBox.IsChecked ?? false;
             math.ZeroSmallMatrixElements = ZeroSmallMatrixElementsCheckBox.IsChecked ?? false;
             math.MaxOutputCount = int.TryParse(MaxOutputCountTextBox.Text, out int i) ? i : 20;
@@ -1076,7 +1075,7 @@ namespace Calcpad.Wpf
                 RestoreUndoData();
         }
 
-        private async void Command_Print(object sender, ExecutedRoutedEventArgs e)
+        private void Command_Print(object sender, ExecutedRoutedEventArgs e)
         {
             if (!_isParsing)
                 _wv2Warper.PrintPreviewAsync();
@@ -2191,8 +2190,7 @@ namespace Calcpad.Wpf
             if (IsInitialized)
             {
                 var deg = ReferenceEquals(sender, Deg) ? 0 :
-                          ReferenceEquals(sender, Rad) ? 1 :
-                          2;
+                          ReferenceEquals(sender, Rad) ? 1 : 2;
                 _parser.Settings.Math.Degrees = deg;
                 Deg.IsChecked = deg == 0;
                 Rad.IsChecked = deg == 1;

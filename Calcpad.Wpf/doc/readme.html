@@ -165,9 +165,11 @@
 		
 		.palette {
 			font-family: Segoe UI Semibold, sans-serif; 
+			color: white;
 			display: inline-block; 
-			width:10em; 
-			padding-left:6pt; 
+			width: 10em; 
+			padding-left: 6pt; 
+			padding-bottom: 2pt;
 		}
 
         .dvc {
@@ -1020,7 +1022,7 @@
         </ul>
         <p>Alternatively, you can have several expressions in a single line, but they must be separated by comments, e.g.:</p>
         <p style="margin-left: 2em;"><code><span class="comment">'Length -'</span><var>a</var> = 3&thinsp;<i>m</i><span class="comment">', Width -'</span><var>b</var> = 2*<var>a</var><span class="comment">', Height -'</span><var>c</var> = 5&thinsp;<i>m</i></code></p>
-        <p>On the other hand, if an expression is too long and complex, you can split it into several lines by adding line continuation operator "<code> _</code>" at the end of each line. You can continue on new line without adding "<code> _</code>" always when the current line ends with "<code>{</code>", "<code>(</code>" or "<code>;</code>".</p>
+        <p>On the other hand, if an expression is too long and complex, you can split it into several lines by adding line continuation operator "<code> _</code>" at the end of each line. You can split a line without adding "<code> _</code>" always when it ends with an opening bracket: "<code>{</code>", "<code>(</code>", "<code>[</code>" or delimiter: "<code>;</code>",  "<code>|</code>",  "<code>&amp;</code>",  "<code>@</code>",  "<code>:</code>" that is not inside a comment.</p>
         <p>Each expression can include constants (numbers), variables, operators, functions and brackets. They must be arranged properly in order to represent a valid expression. The commonly accepted mathematical notation and operator precedence is used as it is taught in school. Detailed description of the expression components is provided below.</p>
         <p>You can calculate separate unrelated expressions as with simple calculator or write a complete program that solves a specific problem. You can define variables and assign values to them. Further, you can use them to define other variables and so on until you reach the final result. You can also add text, Html and images to create detailed and professional-looking calculation report. You can save it to a file and use it multiple times to solve similar problems. Below, you can see a sample program for solving a quadratic equation:</p>
         <p><img alt="Sample1" src="Images/Sample1.png"></p>
@@ -1597,8 +1599,8 @@
             &emsp;&emsp;6 - West<br />
             &emsp;&emsp;7 - NorthWest<br />
 			<var>PlotPalette</var> - the number of color palette to be used for surface plots (0-9);<br />
-			&emsp;&emsp;0 - <b class="palette" style="width:9.9em; border: solid 0.5pt #aaa;">None</b><br />
-			&emsp;&emsp;1 - <b class="palette" style="width:9.95em; border-right: solid 0.5pt #aaa; color:white; background: linear-gradient(to left, #FFFFFF, #464646)">Gray</b><br />
+			&emsp;&emsp;0 - <b class="palette" style="color:black; width:9.9em; border: solid 0.5pt #aaa;">None</b><br />
+			&emsp;&emsp;1 - <b class="palette" style="width:9.95em; border-right: solid 0.5pt #aaa; background: linear-gradient(to left, #FFFFFF, #464646)">Gray</b><br />
 			&emsp;&emsp;2 - <b class="palette" style="background: linear-gradient(to left, #FF0000, #FFFF00, #00ee00, #00FFFF, #4060FF)">Rainbow</b><br />
 			&emsp;&emsp;3 - <b class="palette" style="background: linear-gradient(to left, #FF7F00, #FFFF00, #00FF00, #007F7F)">Terrain</b><br />
 			&emsp;&emsp;4 - <b class="palette" style="background: linear-gradient(to left, #ffff00, #a93bd4)">Violet-yellow</b><br />

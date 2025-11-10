@@ -376,6 +376,8 @@ namespace Calcpad.Core
             v = y[i + 1];
             var y1 = v.Re * Unit.Convert(u, v.Units, ',');
             var dy = y1 - y0;
+            if (double.IsNaN(dy))
+                return RealValue.NaN;
             var a = dy;
             var b = dy;
             dy = Math.Sign(dy);

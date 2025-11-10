@@ -106,5 +106,26 @@ namespace Calcpad.Core
                 return false;
             }
         }
+
+        public static bool IsComment(ReadOnlySpan<char> s)
+        {
+            var count = 0;
+            var commentChar = '\0';
+            for (int i = 0, len = s.Length; i < len; ++i)
+            {
+                var c = s[i];
+                if (commentChar == '\0')
+                {
+                    if (c == '"' || c == '\'')
+                    {
+                        commentChar = c;
+                        count = 1;
+                    }
+                }
+                else if (c == commentChar)
+                    ++count;
+            }
+            return count % 2 == 1;
+        }
     }
 }

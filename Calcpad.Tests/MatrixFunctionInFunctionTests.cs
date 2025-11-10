@@ -489,6 +489,9 @@
             calc.Run(["f(a; b) = lsolve(a; b)", $"f(M; {v})"]);
             Assert.Equal("[-11 5 3]", calc.ToString());
         }
+
+        [Fact]
+        [Trait("Category", "MathFunctions")]
         public void MatrixMsolve()
         {
             string v = "[5; 7|10; 14|7; 22]";
@@ -497,6 +500,7 @@
             calc.Run(["f(a; b) = msolve(a; b)", $"f(M; {v})"]);
             Assert.Equal("[-11 9|5 7|3 -8]", calc.ToString());
         }
+
         [Fact]
         [Trait("Category", "MathFunctions")]
         public void MatrixSymLsolve()
@@ -507,6 +511,7 @@
             calc.Run(["f(a; b) = lsolve(a; b)", $"f(M; {v})"]);
             Assert.Equal("[-11 5 3]", calc.ToString());
         }
+
         [Fact]
         [Trait("Category", "MathFunctions")]
         public void MatrixSymClsolve()
@@ -517,6 +522,9 @@
             calc.Run(["f(a; b) = clsolve(a; b)", $"f(M; {v})"]);
             Assert.Equal("[-0.1 0.857 3.27]", calc.ToString());
         }
+
+        [Fact]
+        [Trait("Category", "MathFunctions")]
         public void MatrixSymMsolve()
         {
             string v = "[5; 7|10; 14|7; 22]";

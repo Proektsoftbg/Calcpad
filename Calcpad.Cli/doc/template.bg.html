@@ -108,14 +108,9 @@
 
                 input[type="checkbox"],
                 input[type="radio"] {
-                    --screen-scale-factor: 1.3;
-                    zoom: var(--screen-scale-factor);
-                    -moz-transform: scale(var(--screen-scale-factor));
-                    -webkit-transform: scale(var(--screen-scale-factor));
-                    transform: scale(var(--screen-scale-factor));
-                    transform-origin: bottom;
+                    vertical-align: baseline;
                     position: relative;
-                    bottom: 1pt;
+                    bottom: -1pt;
                     margin-right: 1pt;
                 }
 
@@ -125,6 +120,11 @@
                     input[type="radio"].post:disabled:not(:checked) + label {
                         display: none;
                     }
+
+                select:disabled {
+                    background: none;
+                    color: #444;
+                }
 
                 select.post:disabled {
                     font-size: 12pt;

@@ -168,10 +168,12 @@
         }
 		
 		.palette {
-			font-family: Segoe UI Semibold; 
+			font-family: Segoe UI Semibold, sans-serif; 
+			color: white;
 			display: inline-block; 
-			width:10em; 
-			padding-left:6pt; 
+			width: 10em; 
+			padding-left: 6pt; 
+			padding-bottom: 2pt;
 		}
 
         .dvc {
@@ -1004,7 +1006,7 @@
         </ul>
         <p>По изключение, може да имате няколко израза на един ред, разделени с коментари:</p>
         <p style="margin-left:24px;">'Дължина - ' <var>a</var> = 3 ' m, Ширина - ' <var>b</var> = 2*<var>a</var> ' m, Височина - ' <var>c</var> = 5 ' m</p>
-		<p>От друга страна, ако даден израз е твърде дълъг и сложен, може да го разделите на няколко реда, като добавите оператор за продължаване на реда "<code> _</code>" в края на всеки ред. Можете да продължите на нов ред, без да добавяте "<code> _</code>", винаги когато текущият ред завършва с "<code>{</code>", "<code>(</code>" или "<code>;</code>".</p>
+		<p>От друга страна, ако даден израз е твърде дълъг и сложен, може да го разделите на няколко реда, като добавите оператор за продължаване на реда "<code> _</code>" в края на всеки ред. Можете да продължите на нов ред, без да добавяте "<code> _</code>", винаги когато текущият ред завършва с отваряща скоба: "<code>{</code>", "<code>(</code>", "<code>[</code>" или разделител: "<code>;</code>",  "<code>|</code>",  "<code>&amp;</code>",  "<code>@</code>",  "<code>:</code>", които не са в коментар.</p>
         <p>Изразите могат да включват константи, променливи, оператори, функции и скоби. Те трябва да са в правилната последователност за да образуват валиден израз. Използва се общоприетата математическа нотация и приоритет на операциите, които се изучават в училище. Подробно описание на отделните елементи, които може да използвате в изрази, е дадено по-долу.</p>
         <p>Може да въвеждате отделни изрази, които да се изчисляват, или да съставите цялостна програма за решаване на задачата. За целта, може последователно да дефинирате параметри, на които да присвоявате стойности. След това, може да ги използвате в други формули, чрез които да изчислите нови параметри и така, до получаване на отговора. Чрез подходяща комбинация от изрази, коментари, схеми и малко Html, може да съставите професионална и прегледна програма-записка. Може да я запишете във файл и да я ползвате многократно. Ето една примерна задача за намиране на корените на квадратно уравнение:</p>
         <p><img alt="Sample1" width="680" src="Images/Sample1.bg.png"></p>
@@ -1600,8 +1602,8 @@
             &emsp;&emsp;6 - Запад<br />
             &emsp;&emsp;7 - Северозапад
 			<var>PlotPalette</var> - номера на цветовата палитра, която да се използва за графики на повърхнини (0-9);<br />
-			&emsp;&emsp;0 - <b class="palette" style="width:9.9em; border: solid 0.5pt #aaa;">Няма</b><br />
-			&emsp;&emsp;1 - <b class="palette" style="width:9.95em; border-right: solid 0.5pt #aaa; color:white; background: linear-gradient(to left, #FFFFFF, #464646)">Сиво</b><br />
+			&emsp;&emsp;0 - <b class="palette" style="color: black; width:9.9em; border: solid 0.5pt #aaa;">Няма</b><br />
+			&emsp;&emsp;1 - <b class="palette" style="width:9.95em; border-right: solid 0.5pt #aaa; background: linear-gradient(to left, #FFFFFF, #464646)">Сиво</b><br />
 			&emsp;&emsp;2 - <b class="palette" style="background: linear-gradient(to left, #FF0000, #FFFF00, #00ee00, #00FFFF, #4060FF)">Дъга</b><br />
 			&emsp;&emsp;3 - <b class="palette" style="background: linear-gradient(to left, #FF7F00, #FFFF00, #00FF00, #007F7F)">Терен</b><br />
 			&emsp;&emsp;4 - <b class="palette" style="background: linear-gradient(to left, #ffff00, #a93bd4)">Виолетово-жълта</b><br />

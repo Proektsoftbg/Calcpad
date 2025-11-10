@@ -1525,7 +1525,7 @@ namespace Calcpad.Core
         }
 
         //private static readonly Comparison<RealValue> ascending = new((x, y) => x.CompareTo(y));
-        internal static new readonly Comparison<double> descending = new((x, y) => -x.CompareTo(y));
+        internal static readonly Comparison<double> descending = new((x, y) => -x.CompareTo(y));
 
         internal override HpVector Sort(bool reverse = false)
         {
@@ -2161,6 +2161,9 @@ namespace Calcpad.Core
             var y0 = GetValue(i);
             var y1 = GetValue(i + 1);
             var dy = y1 - y0;
+            if (double.IsNaN(dy))
+                return RealValue.NaN;
+
             var a = dy;
             var b = dy;
             dy = Math.Sign(dy);
