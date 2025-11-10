@@ -179,7 +179,7 @@ object SyntAnal6: TLibSyntAnalyzer
       TokenType = 3
       Expression = 
         '\$([Rr]oot|[Ff]ind|[Ii]nf|[Ss]up|[Aa]rea|[Ii]ntegral|[Ss]lope|[S' +
-        's]um|[Pp]roduct|[Rr]epeat|[Mm]ap|[Pp]lot|[Bb]lock|[Ii]nline)\b'
+        's]um|[Pp]roduct|[Rr]epeat|[Mm]ap|[Pp]lot|[Bb]lock|[Ii]nline|[Ww]hile)\b'
       ColumnFrom = 0
       ColumnTo = 0
     end

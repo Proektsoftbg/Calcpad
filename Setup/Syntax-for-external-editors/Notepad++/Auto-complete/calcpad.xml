@@ -58,6 +58,7 @@
 		<KeyWord name="$Slope" />
 		<KeyWord name="$Sum" />
 		<KeyWord name="$Sup" />
+		<KeyWord name="$While" />
 		<KeyWord name="A" />
 		<KeyWord name="a" />
 		<KeyWord name="abs" />

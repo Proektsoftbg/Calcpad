@@ -198,7 +198,7 @@ F_Φ(i; t) = Φ.(j_m; i)*F(t)
 y_Φ(i; t) = 1/(m_Φ.i*ω_D.i)*$Area{F_Φ(i; τ)*e^(-ξ_Φ.i*ω.i*s^-1*(t - τ))*sin(ω_D.i*(t - τ)) @ τ = 0ms : min(t; τ_L)}|mm
 'Joint displacements
 y_J(j; t) = $Sum{Φ.(j; i)*y_Φ(i; t) @ i = 1 : n$}
-'<!--'PlotWidth = 500','PlotHeight = 200'-->
+'<!--'PlotWidth = 500','PlotHeight = 200','PlotAdaptive = 0'-->
 'Comparison of time history records of the midpoint displacements for SDOF and MDOF systems, [mm]
 $Plot{t|-y_0(t) - y_J(j_m; t) & t|-y_0(t) - y_D(t) @ t = 0ms : 5s}
 #def y$(j$) = t|-y_J(j$; t)
@@ -211,7 +211,7 @@ t(i) = i*Δt
 d(ξ) = 3.2*(ξ^4 - 2*ξ^3 + ξ)
 $Repeat{$Repeat{Y.(i; j + 1) = d(j*Δx/L)*y_0(t(i)) + y_J(j; t(i)) @ j = 1 : n_J} @ i = 1 : 5}
 #def Y$(i$) = j*Δx|-spline(j + 1; row(Y;i$))
-'<!--'PlotHeight = 100'-->
+'<!--'PlotHeight = 100','PlotAdaptive = 1'-->
 n_T = 400
 #show
 #val
@@ -236,7 +236,7 @@ k_R = PlotWidth*mm/L
 #show
 'Animation of beam elastic response (slowed down) <button id="start">Drop</button>
 #val
-'<style>#start{height:1.8em; padding-top:0;} .fr{display:none;} circle{stroke-width: 0;} .fr circle.Series3{stroke-width:'5*R_s*k_R'px!Important;stroke-opacity:1; fill:none;}</style>
+'<style>#start{height:1.8em; padding-top:0;} .fr{display:none;} circle{stroke-width: 0;} .fr circle.Series3{stroke-width:'6*R_s*k_R'px!Important;stroke-opacity:1; fill:none;}</style>
 #for k = 1 : N
 	#hide
 	k_0 = max(k - n_0; 1)
