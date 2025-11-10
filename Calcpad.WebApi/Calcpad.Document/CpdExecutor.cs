@@ -47,7 +47,8 @@ namespace Calcpad.Document
                 // ignore timeout in debug
                 await Task.Delay(60 * 60 * 1000);
 #else
-                await Task.Delay(10 * 1000);
+                // 60s milliseconds timeout
+                await Task.Delay(60 * 1000);
                 _parser.Cancel();
 #endif
             });

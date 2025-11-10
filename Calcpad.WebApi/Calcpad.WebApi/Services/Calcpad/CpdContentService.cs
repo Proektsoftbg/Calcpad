@@ -218,6 +218,10 @@ namespace Calcpad.WebApi.Services.Calcpad
             if (tag == "p" && IsContainsInputTag(node))
                 return true;
 
+            // has class="err"
+            if (node.GetAttributeValue("class", "").Contains("err"))
+                return true;
+
             return false;
         }
 
@@ -255,6 +259,11 @@ namespace Calcpad.WebApi.Services.Calcpad
         /// <returns></returns>
         public string FormatReadMacroResult(string originHtml, bool tagAToButton = true)
         {
+            if(string.IsNullOrEmpty(originHtml))
+            {
+                return string.Empty;
+            }
+
             var doc = new HtmlDocument();
             doc.LoadHtml(originHtml);
 
