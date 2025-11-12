@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
+using System.Text.RegularExpressions;
 using Calcpad.Document;
 using Calcpad.Document.Archive;
 using Calcpad.Document.Core.Segments;
@@ -8,8 +10,10 @@ using Calcpad.WebApi.Models.Base;
 using Calcpad.WebApi.Utils.Encrypt;
 using Calcpad.WebApi.Utils.Web.Exceptions;
 using Calcpad.WebApi.Utils.Web.Service;
+using DocumentFormat.OpenXml.Drawing;
 using HtmlAgilityPack;
 using MongoDB.Driver.Linq;
+using Path = System.IO.Path;
 
 namespace Calcpad.WebApi.Services.Calcpad
 {
@@ -154,7 +158,7 @@ namespace Calcpad.WebApi.Services.Calcpad
         {
             if (!fileObject.IsCpd)
             {
-                return $"api/v1/calcpad-file/stream/public/{fileObject.Id}?uid={fileObject.UniqueId}";
+                return $"api/v1/calcpad-file/stream/public/ids/{fileObject.Id}?uid={fileObject.UniqueId}&name={Path.GetFileName(fileObject.ObjectName)}";
             }
 
             return $"{fileObject.FullName}'?uid={fileObject.UniqueId}";
@@ -172,16 +176,18 @@ namespace Calcpad.WebApi.Services.Calcpad
                 return string.Empty;
             }
 
-            var doc = new HtmlDocument();
+            var doc = new HtmlDocument()
+            {
+                OptionFixNestedTags = true,
+                OptionAutoCloseOnEnd = true
+            };
             doc.LoadHtml(originHtml);
 
             // retain only nodes that should be kept
-            var nodesToKeep = new List<HtmlNode>();
-            foreach (var node in doc.DocumentNode.ChildNodes)
-            {
-                if (ShouldRetainNode(node))
-                    nodesToKeep.Add(node);
-            }
+            var nodesToKeep = doc
+                .DocumentNode.Descendants()
+                .Where(node => node.NodeType == HtmlNodeType.Element && ShouldRetainNode(node))
+                .ToList();
 
             // create new document with only the nodes to keep
             var newDoc = new HtmlDocument();
@@ -190,6 +196,7 @@ namespace Calcpad.WebApi.Services.Calcpad
                 newDoc.DocumentNode.AppendChild(node.Clone());
             }
 
+            // if empty, return origin
             if (newDoc.DocumentNode.ChildNodes.Count == 0)
             {
                 return originHtml;
@@ -199,6 +206,7 @@ namespace Calcpad.WebApi.Services.Calcpad
 
         /// <summary>
         /// check if node should be retained
+        /// retain h1-h6, img, p contains input/select/button, class contains err
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
@@ -216,6 +224,10 @@ namespace Calcpad.WebApi.Services.Calcpad
 
             // retain p element which contains input or select
             if (tag == "p" && IsContainsInputTag(node))
+                return true;
+
+            // has class="err"
+            if (node.GetAttributeValue("class", "").Contains("err"))
                 return true;
 
             return false;
@@ -255,10 +267,22 @@ namespace Calcpad.WebApi.Services.Calcpad
         /// <returns></returns>
         public string FormatReadMacroResult(string originHtml, bool tagAToButton = true)
         {
+            if (string.IsNullOrEmpty(originHtml))
+            {
+                return string.Empty;
+            }
+
             var doc = new HtmlDocument();
             doc.LoadHtml(originHtml);
 
-            // get all a tags
+            // get all a tags and convert a tags to buttons
+            // result exeample:
+            // <p> Matrix < b class="eq"><var>M</var></b> was successfully read from
+            //   <button data-from= "StoragetRoot/public/2025/11/12/1f9ebf6eaccfd82bb81278a8d72b0730/设计内力.xlsx"
+            //     btn-type= "macroReadUpload" title= "click to upload new data" data-event-bound="true">设计内力.xlsx
+            //   </button>@Sheet1!A2:E4 <small>TYPE</small>=R
+            // </p>
+
             var aTags = doc.DocumentNode.SelectNodes("//a[@href]");
             if (aTags != null)
             {
@@ -270,13 +294,7 @@ namespace Calcpad.WebApi.Services.Calcpad
 
                     if (tagAToButton)
                     {
-                        // create a new button element
-                        var button = doc.CreateElement("button");
-                        // copy inner HTML
-                        button.InnerHtml = Path.GetFileName(aTag.InnerText);
-                        button.SetAttributeValue("data-from", aTag.InnerText);
-                        button.SetAttributeValue("btn-type", "macroReadUpload");
-                        button.SetAttributeValue("title", "click to upload new data");
+                        var button = CreateReadFromButton(doc, aTag.InnerText);
                         // replace a tag with button
                         aTag.ParentNode.ReplaceChild(button, aTag);
                     }
@@ -295,7 +313,95 @@ namespace Calcpad.WebApi.Services.Calcpad
                 }
             }
 
+            // adapt to original #read result
+            // origin example:
+            // <p><span class="cond">#read</span> M from StoragetRoot/public/2025/11/12/1f9ebf6eaccfd82bb81278a8d72b0730/设计内力.xlsx @Sheet1!A2:B4 type = R </p>
+            // target example:
+            // <p>
+            //   <span class="cond">#read</span> M from <button
+            //     data-from="StoragetRoot/public/2025/11/12/1f9ebf6eaccfd82bb81278a8d72b0730/设计内力.xlsx" btn-type="macroReadUpload"
+            //     title="click to upload new data" data-event-bound="true">设计内力.xlsx
+            //   </button>
+            //   @Sheet1!A2:B4 type = R
+            // </p>
+            var pTags = doc.DocumentNode.SelectNodes("//span[contains(., '#read')]/parent::p");
+            if (pTags != null)
+            {
+                foreach (var pTag in pTags)
+                {
+                    // tag example:
+                    // "<span class=\"cond\">#read</span>  M from StoragetRoot/public/2025/11/12/1f9ebf6eaccfd82bb81278a8d72b0730/设计内力.xlsx@Sheet1!A2:B4 type=R"
+
+                    var textNode = pTag.ChildNodes.FirstOrDefault(x =>
+                        x.NodeType == HtmlNodeType.Text && x.InnerText.Contains("from")
+                    );
+                    if (textNode == null)
+                        continue;
+
+                    var fromText = textNode.InnerText;
+                    var startIndex = fromText.IndexOf("from") + 4;
+                    var endIndex = fromText.LastIndexOf('.');
+
+                    var fileNameEndIndex = fromText.Length;
+
+                    // check @
+                    var lastAtIndex = fromText.IndexOf('@', endIndex + 1);
+                    if (lastAtIndex > 0)
+                    {
+                        fileNameEndIndex = lastAtIndex;
+                    }
+                    else
+                    {
+                        // check space
+                        var lastSpaceIndex = fromText.IndexOf(' ', endIndex + 1);
+                        if (lastSpaceIndex > 0)
+                        {
+                            fileNameEndIndex = lastSpaceIndex;
+                        }
+                    }
+
+                    if (startIndex < 0 || endIndex < 0 || fileNameEndIndex < 0)
+                        continue;
+                    if (endIndex <= startIndex)
+                        continue;
+
+                    var filePath = fromText[startIndex..fileNameEndIndex].Trim();
+                    if (tagAToButton)
+                    {
+                        // create a new button element
+                        var button = CreateReadFromButton(doc, filePath);
+                        // replace file path text with button
+                        var newInnerHtml = fromText.Replace(filePath, button.OuterHtml);
+                        textNode.InnerHtml = newInnerHtml;
+                    }
+                    else
+                    {
+                        var aTag = doc.CreateElement("a");
+                        aTag.InnerHtml = Path.GetFileName(filePath);
+                        var publicPath = storageService.GetRelativePathToStorageRoot(
+                            filePath.Replace("file:///", string.Empty)
+                        );
+                        aTag.SetAttributeValue("href", storageService.GetWebUrl(publicPath));
+
+                        // replace file path text with a tag
+                        var newInnerHtml = fromText.Replace(filePath, aTag.OuterHtml);
+                        textNode.InnerHtml = newInnerHtml;
+                    }
+                }
+            }
+
             return doc.DocumentNode.OuterHtml;
+        }
+
+        private static HtmlNode CreateReadFromButton(HtmlDocument doc, string filePath)
+        {
+            var button = doc.CreateElement("button");
+            // copy inner HTML
+            button.InnerHtml = Path.GetFileName(filePath);
+            button.SetAttributeValue("data-from", filePath);
+            button.SetAttributeValue("btn-type", "macroReadUpload");
+            button.SetAttributeValue("title", "click to upload new data");
+            return button;
         }
 
         /// <summary>

@@ -24,25 +24,27 @@ namespace Calcpad.WebApi.Controllers
     /// <param name="db"></param>
     /// <param name="tokenService"></param>
     /// <param name="storageConfig"></param>
+    /// <param name="appConfig"></param>
     /// <param name="storageService"></param>
     /// <param name="contentService"></param>
     public class CalcpadFileController(
         MongoDBContext db,
         TokenService tokenService,
         AppSettings<StorageConfig> storageConfig,
+        AppSettings<AppConfig> appConfig,
         CpdStorageService storageService,
         CpdContentService contentService
     ) : ControllerBaseV1
     {
         /// <summary>
-        /// verify if a file with the given sha256 exists
-        /// if exists, return the file id, otherwise return empty string
-        /// if the file exists, also verify if the filePath exists for the user, if not, add a new accessor
+        /// get cpd file resource uri by uniqueId
+        /// if file is cpdFile, return formated string for #include
+        /// others, return
         /// </summary>
         /// <param name="uniqueId"></param>
         /// <returns>file in server</returns>
-        [HttpGet("code/{uniqueId}/exists")]
-        public async Task<ResponseResult<string>> PresignedObject(string uniqueId)
+        [HttpGet("uids/{uniqueId}/uri")]
+        public async Task<ResponseResult<string>> GetCpdFileResourceUri(string uniqueId)
         {
             var fileObject = await db.AsQueryable<CalcpadFileModel>()
                 .Where(x => x.UniqueId == uniqueId)
@@ -245,7 +247,10 @@ namespace Calcpad.WebApi.Controllers
         /// <param name="force">if true will delete file</param>
         /// <returns></returns>
         [HttpDelete("{uniqueId}")]
-        public async Task<ResponseResult<bool>> DeleteCalcpadFile(string uniqueId, bool force = false)
+        public async Task<ResponseResult<bool>> DeleteCalcpadFile(
+            string uniqueId,
+            bool force = false
+        )
         {
             var existModel = await db.AsQueryable<CalcpadFileModel>()
                 .Where(x => x.UniqueId == uniqueId)
@@ -262,8 +267,7 @@ namespace Calcpad.WebApi.Controllers
                     System.IO.File.Delete(fullPath);
 
                 // remove from database
-                await db.Collection<CalcpadFileModel>()
-                    .DeleteOneAsync(x => x.Id == existModel.Id);
+                await db.Collection<CalcpadFileModel>().DeleteOneAsync(x => x.Id == existModel.Id);
             }
             else
             {
@@ -277,13 +281,14 @@ namespace Calcpad.WebApi.Controllers
         }
 
         /// <summary>
-        /// 获取文件流
+        /// get stream of public file by fileId(_id)
+        /// not support cpd file
         /// </summary>
         /// <param name="fileId"></param>
         /// <returns></returns>
-        [HttpGet("stream/public/{fileId}")]
+        [HttpGet("stream/public/ids/{fileId}")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetFileStream(string fileId)
+        public async Task<IActionResult> GetFileStreamById(string fileId)
         {
             // validate objectId
             if (!ObjectId.TryParse(fileId, out var fileObjectId))
@@ -291,15 +296,46 @@ namespace Calcpad.WebApi.Controllers
                 return NotFound();
             }
 
-            // 获取文件流
+            // query file model
             var fileModel = await db.AsQueryable<CalcpadFileModel>()
-                .Where(x => x.Id == fileObjectId)
+                .Where(x => x.Id == fileObjectId && !x.IsCpd)
                 .FirstOrDefaultAsync();
             if (fileModel == null)
             {
                 return NotFound();
             }
 
+            return await GetFileStream(fileModel);
+        }
+
+        /// <summary>
+        /// get stream of public file by uniqueId
+        /// not support cpd file
+        /// </summary>
+        /// <param name="uniqueId"></param>
+        /// <returns></returns>
+        [HttpGet("stream/public/uids/{uniqueId}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetFileStreamByUniqueId(string uniqueId)
+        {
+            // query file model
+            var fileModel = await db.AsQueryable<CalcpadFileModel>()
+                .Where(x => x.UniqueId == uniqueId && !x.IsCpd)
+                .FirstOrDefaultAsync();
+            if (fileModel == null)
+            {
+                return NotFound();
+            }
+            return await GetFileStream(fileModel);
+        }
+
+        /// <summary>
+        /// get file stream from file model
+        /// </summary>
+        /// <param name="fileModel"></param>
+        /// <returns></returns>
+        private async Task<IActionResult> GetFileStream(CalcpadFileModel fileModel)
+        {
             string fullPath = Environment.ExpandEnvironmentVariables(fileModel.FullName);
             if (!System.IO.File.Exists(fullPath))
             {
@@ -330,6 +366,22 @@ namespace Calcpad.WebApi.Controllers
             bool simplify = true
         )
         {
+            return await CompileToInputForm2(uniqueId, simplify, null);
+        }
+
+        /// <summary>
+        /// compile to input form with input fields updated
+        /// </summary>
+        /// <param name="uniqueId"></param>
+        /// <param name="simplify"></param>
+        /// <returns></returns>
+        [HttpPost("input-form")]
+        public async Task<ResponseResult<string>> CompileToInputForm2(
+            string uniqueId,
+            bool simplify = true,
+            [FromBody] RunCalculationData? data = null
+        )
+        {
             var fileModel = await db.AsQueryable<CalcpadFileModel>()
                 .Where(x => x.UniqueId == uniqueId && x.IsCpd == true)
                 .FirstOrDefaultAsync();
@@ -341,7 +393,7 @@ namespace Calcpad.WebApi.Controllers
                 return "Not Found".ToFailResponse("calcpad file not found");
 
             var cpdExecutor = new CpdExecutor(fullPath);
-            var outputText = await cpdExecutor.CompileToInputForm();
+            var outputText = await cpdExecutor.RunCalculation(data?.InputFields ?? [], false);
 
             // replace local link to public path
             outputText = contentService.FormatReadMacroResult(outputText);
@@ -490,7 +542,7 @@ namespace Calcpad.WebApi.Controllers
                 if (filePathMap.TryGetValue(img.Src, out var newPath))
                 {
                     // 转换成图片的 web url
-                    var subPath = $"/api/v1/calcpad-file/stream/public/{newPath.Item2}";
+                    var subPath = $"/api/v1/calcpad-file/stream/public/ids/{newPath.Item2}";
                     img.SetSrc(storageService.GetWebUrl(subPath));
                 }
             }
