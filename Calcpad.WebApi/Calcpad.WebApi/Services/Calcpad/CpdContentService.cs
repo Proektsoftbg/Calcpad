@@ -154,7 +154,7 @@ namespace Calcpad.WebApi.Services.Calcpad
         {
             if (!fileObject.IsCpd)
             {
-                return $"api/v1/calcpad-file/stream/public/{fileObject.Id}?uid={fileObject.UniqueId}";
+                return $"api/v1/calcpad-file/stream/public/ids/{fileObject.Id}?uid={fileObject.UniqueId}&name={Path.GetFileName(fileObject.ObjectName)}";
             }
 
             return $"{fileObject.FullName}'?uid={fileObject.UniqueId}";
@@ -172,16 +172,18 @@ namespace Calcpad.WebApi.Services.Calcpad
                 return string.Empty;
             }
 
-            var doc = new HtmlDocument();
+            var doc = new HtmlDocument()
+            {
+                OptionFixNestedTags = true,
+                OptionAutoCloseOnEnd = true
+            };
             doc.LoadHtml(originHtml);
 
             // retain only nodes that should be kept
-            var nodesToKeep = new List<HtmlNode>();
-            foreach (var node in doc.DocumentNode.ChildNodes)
-            {
-                if (ShouldRetainNode(node))
-                    nodesToKeep.Add(node);
-            }
+            var nodesToKeep = doc
+                .DocumentNode.Descendants()
+                .Where(node => node.NodeType == HtmlNodeType.Element && ShouldRetainNode(node))
+                .ToList();
 
             // create new document with only the nodes to keep
             var newDoc = new HtmlDocument();
@@ -199,6 +201,7 @@ namespace Calcpad.WebApi.Services.Calcpad
 
         /// <summary>
         /// check if node should be retained
+        /// retain h1-h6, img, p contains input/select/button, class contains err
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
@@ -216,6 +219,10 @@ namespace Calcpad.WebApi.Services.Calcpad
 
             // retain p element which contains input or select
             if (tag == "p" && IsContainsInputTag(node))
+                return true;
+
+            // has class="err"
+            if (node.GetAttributeValue("class", "").Contains("err"))
                 return true;
 
             return false;
@@ -255,6 +262,11 @@ namespace Calcpad.WebApi.Services.Calcpad
         /// <returns></returns>
         public string FormatReadMacroResult(string originHtml, bool tagAToButton = true)
         {
+            if (string.IsNullOrEmpty(originHtml))
+            {
+                return string.Empty;
+            }
+
             var doc = new HtmlDocument();
             doc.LoadHtml(originHtml);
 
