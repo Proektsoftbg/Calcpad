@@ -85,17 +85,18 @@ namespace Calcpad.Document.Archive
                     continue;
                 }
 
-                var srcKey = $"./{entry.FullName}";
+                var formattedEntryPath = entry.FullName.Replace('\\', '/');
+
+                var srcKey = $"./{formattedEntryPath}";
                 if (srcsDic.ContainsKey(srcKey))
                     continue;
 
                 // other files, extract to temp dir
-                string entryPath = Path.Combine(resourceTempDir, entry.FullName);
+                string entryPath = Path.Combine(resourceTempDir, formattedEntryPath);
                 Directory.CreateDirectory(Path.GetDirectoryName(entryPath)!);
                 entry.ExtractToFile(entryPath, true);
 
-                var srcPath = settings.CreateSrcPath(_fullPath, entry.FullName, entryPath);
-
+                var srcPath = settings.CreateSrcPath(_fullPath, formattedEntryPath, entryPath);
                 // save path
                 srcsDic.Add(srcKey, srcPath);
             }
@@ -105,7 +106,7 @@ namespace Calcpad.Document.Archive
                 text,
                 match =>
                 {
-                    var originalSrc = match.Groups[1].Value;
+                    var originalSrc = match.Groups[1].Value.Replace('\\', '/');
                     if (srcsDic.TryGetValue(originalSrc, out var value))
                     {
                         return match.Value.Replace(originalSrc, value);
