@@ -47,7 +47,8 @@ namespace Calcpad.Document
                 // ignore timeout in debug
                 await Task.Delay(60 * 60 * 1000);
 #else
-                await Task.Delay(10 * 1000);
+                // 60s milliseconds timeout
+                await Task.Delay(60 * 1000);
                 _parser.Cancel();
 #endif
             });
@@ -78,15 +79,15 @@ namespace Calcpad.Document
         /// </summary>
         /// <param name="inputFields"></param>
         /// <returns></returns>
-        public async Task<string> RunCalculation(string[] inputFields)
-        {
+        public async Task<string> RunCalculation(string[] inputFields, bool calculate = true)
+        {               
             // update input fields
             var inputText = SetInputFields(inputFields);
             // override file
             var cpdWriter = CpdWriterFactory.CreateCpdWriter();
             cpdWriter.WriteFile(fullName, inputText);
 
-            return await CompileToInputForm(inputText, true);
+            return await CompileToInputForm(inputText, calculate);
         }
 
         /// <summary>
