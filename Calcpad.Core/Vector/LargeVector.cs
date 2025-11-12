@@ -147,9 +147,10 @@ namespace Calcpad.Core
 
             var length = end - start;
             if (end > _size) end = _size;
-            LargeVector vector = new(length, end - start);
-            if (start < end)
-                _values.AsSpan(start, end - start).CopyTo(vector._values);
+            var size = start < end ? end - start : 0;
+            LargeVector vector = new(length, size);
+            if (size > 0)
+                _values.AsSpan(start, size).CopyTo(vector._values);
 
             return vector;
         }

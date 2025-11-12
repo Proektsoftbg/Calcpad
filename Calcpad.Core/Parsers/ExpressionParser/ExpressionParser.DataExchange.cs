@@ -179,7 +179,7 @@ namespace Calcpad.Core
                     if (m > 0)
                     {
                         var row = new ArraySegment<string>(data[i], j0, m);
-                        writer.WriteLine(string.Join(options.Separator, row));
+                        writer.WriteLine(string.Join<string>(options.Separator, row));
                     }
                     else
                         writer.WriteLine();

@@ -1602,10 +1602,11 @@ namespace Calcpad.Core
 
             start--;
             var len = end - start;
-            HpVector vector = new(len, len, Units);
             if (end > _size) end = _size;
+            var size = start < end ? end - start : 0;
+            HpVector vector = new(len, size, Units);
             if (start < end)
-                _values.AsSpan(start, end - start).CopyTo(vector._values);
+                _values.AsSpan(start, size).CopyTo(vector._values);
 
             return vector;
         }

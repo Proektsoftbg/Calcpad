@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Drawing;
+using System.Windows;
+using System.Windows.Interop;
 
 namespace Calcpad.Wpf
 {
@@ -7,9 +8,11 @@ namespace Calcpad.Wpf
     {
         internal static double GetWindowsScreenScalingFactor()
         {
-            using var g = Graphics.FromHwnd(IntPtr.Zero);
-            var factor = (g.DpiX + g.DpiY) / 192.0;
-            return factor;
+            var source = PresentationSource.FromVisual(Application.Current.MainWindow);
+            if (source?.CompositionTarget != null)
+                return source.CompositionTarget.TransformToDevice.M11;
+
+            return 1.0;
         }
     }
 }

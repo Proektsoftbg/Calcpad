@@ -134,7 +134,7 @@ namespace Calcpad.Wpf
         private bool _scrollOutput;
         private double _scrollY;
         private bool _autoRun;
-        private readonly double _screenScaleFactor;
+        private double _screenScaleFactor;
         private bool _calculateOnActivate;
         private bool _isWebView2Focused;
         private Brush _borderBrush;
@@ -232,7 +232,6 @@ namespace Calcpad.Wpf
             };
             _insertManager = new(RichTextBox);
             _autoCompleteManager = new(RichTextBox, AutoCompleteListBox, Dispatcher, _insertManager);
-            _screenScaleFactor = ScreenMetrics.GetWindowsScreenScalingFactor();
             _cfn = string.Empty;
             _isTextChangedEnabled = false;
             IsSaved = true;
@@ -3137,6 +3136,7 @@ namespace Calcpad.Wpf
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            _screenScaleFactor = ScreenMetrics.GetWindowsScreenScalingFactor();
             ReadSettings();
             if (Top < 0)
                 Top = 0;
