@@ -372,9 +372,10 @@ Any variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;$Slope { f(x) @ x = a } - numerical differentiation;  
 &emsp;&emsp;$Sum { f(k) @ k = a : b } - iterative sum;  
 &emsp;&emsp;$Product { f(k) @ k = a : b } - iterative product;  
-&emsp;&emsp;$Repeat { f(k) @ k = a : b } - general inline iterative procedure;  
-&emsp;&emsp;$Block{expressions} - multiline block of expressions;  
-&emsp;&emsp;$Inline{expressions} - inline block of expressions;  
+&emsp;&emsp;$Repeat { f(k) @ k = a : b } - iterative expression block with counter;  
+&emsp;&emsp;$While{condition; expressions} - iterative expression block with condition;  
+&emsp;&emsp;$Block{expressions} - multiline expression block;  
+&emsp;&emsp;$Inline{expressions} - inline expression block;  
 &emsp;&emsp;Precision - relative precision for numerical methods \[10<sup>-2</sup>; 10<sup>-16</sup>\] (default is 10<sup>-12</sup>)   
 * Program flow control:  
 &emsp;&emsp;Simple:  

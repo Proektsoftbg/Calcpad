@@ -11,12 +11,12 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>..\Calcpad.Wpf\bin\Release\net8.0-windows\</OutputPath>
+    <OutputPath>..\Calcpad.Wpf\bin\Release\net10.0-windows\</OutputPath>
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>..\Calcpad.Wpf\bin\Debug\net8.0-windows\</OutputPath>
+    <OutputPath>..\Calcpad.Wpf\bin\Debug\net10.0-windows\</OutputPath>
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 

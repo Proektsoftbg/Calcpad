@@ -627,37 +627,53 @@ namespace Calcpad.Core
 
         private void ParseKeywordRead(ReadOnlySpan<char> s)
         {
-            var options = new ReadWriteOptions(s, 0);
-            if (options.Name.IsEmpty)
-                return;
+            if (_calculate)
+            {
+                if (_condition.IsSatisfied)
+                {
+                    var options = new ReadWriteOptions(s, 0);
+                    if (options.Name.IsEmpty)
+                        return;
 
-            var data = DataExchange.Read(options);
-            if (options.Type == 'V')
-                _parser.SetVector(options.Name, data, options.IsHp);
-            else
-                _parser.SetMatrix(options.Name, data, options.Type, options.IsHp);
+                    var data = DataExchange.Read(options);
+                    if (options.Type == 'V')
+                        _parser.SetVector(options.Name, data, options.IsHp);
+                    else
+                        _parser.SetMatrix(options.Name, data, options.Type, options.IsHp);
 
-            if (_isVisible)
-                ReportDataExchageResult(options, "read from");
+                    if (_isVisible)
+                        ReportDataExchageResult(options, "read from");
+                }
+            }
+            else if (_isVisible)
+                _sb.Append($"<p><span{HtmlId} class=\"cond\">#read</span> {s[5..]}</p>");
         }
 
         private void ParseKeywordWrite(ReadOnlySpan<char> s, Keyword keyword)
         {
-            var options = new ReadWriteOptions(s, keyword - Keyword.Read);
-            if (options.Name.IsEmpty)
-                return;
+            if (_calculate)
+            {
+                if (_condition.IsSatisfied)
+                {
+                    var options = new ReadWriteOptions(s, keyword - Keyword.Read);
+                    if (options.Name.IsEmpty)
+                        return;
 
-            var m = _parser.GetMatrix(options.Name.ToString(), options.Type);
-            DataExchange.Write(options, m);
-            if (_isVisible)
-                ReportDataExchageResult(options, keyword == Keyword.Write ? "written to" : "appended to");
+                    var m = _parser.GetMatrix(options.Name.ToString(), options.Type);
+                    DataExchange.Write(options, m);
+                    if (_isVisible)
+                        ReportDataExchageResult(options, keyword == Keyword.Write ? "written to" : "appended to");
+                }
+            }
+            else if (_isVisible)
+                _sb.Append($"<p><span{HtmlId} class=\"cond\">#write</span> {s[6..]}</p>");
         }
 
         private void ReportDataExchageResult(ReadWriteOptions options, string command)
         {
             var url = $"file:///{options.FullPath.Replace('\\', '/')}";
             _sb.Append($"<p{HtmlId}>")
-               .Append($"Matrix <b class=\"eq\"><var>{options.Name}</var></b>")
+               .Append($"Matrix <span class=\"eq\">{new HtmlWriter(Settings.Math, false).FormatVariable(options.Name.ToString(), string.Empty, true)}</span>")
                .Append($" was successfully {command} <a href=\"{url}\">{options.Path}.{options.Ext}</a>");
             if (options.IsExcel)
             {
