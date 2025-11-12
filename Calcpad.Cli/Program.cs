@@ -14,7 +14,7 @@ namespace Calcpad.Cli
 {
     class Program
     {   
-        private static readonly string _currentCultureName = "en";
+        private static readonly string _currentCultureName = "en"; //en, bg or zh
         private static readonly char _dirSeparator = Path.DirectorySeparatorChar;
         const string Prompt = " |> ";
         private static int _width;
