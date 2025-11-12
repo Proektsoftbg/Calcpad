@@ -568,4 +568,7 @@
   <data name="InvalidNumberOfIndexes" xml:space="preserve">
     <value>Невалиден брой индекси.</value>
   </data>
+  <data name="PossiblyInfiniteLoopDetected" xml:space="preserve">
+    <value>Засечен е възможен безкраен цикъл с n &gt; {0} итерации.</value>
+  </data>
 </root>

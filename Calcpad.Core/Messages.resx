@@ -568,4 +568,7 @@
   <data name="InvalidNumberOfIndexes" xml:space="preserve">
     <value>Invalid number of indexes.</value>
   </data>
+  <data name="PossiblyInfiniteLoopDetected" xml:space="preserve">
+    <value>Possibly infinite loop detected, n &gt; {0} iterations.</value>
+  </data>
 </root>

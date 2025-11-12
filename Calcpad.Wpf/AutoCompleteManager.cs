@@ -95,6 +95,7 @@ namespace Calcpad.Wpf
             items.Add(new ListBoxItem() { Content = "$Slope{f(x) @ x = a}", Foreground = Brushes.DarkMagenta });
             items.Add(new ListBoxItem() { Content = "$Sum{f(k) @ k = a : b}", Foreground = Brushes.DarkMagenta });
             items.Add(new ListBoxItem() { Content = "$Sup{f(x) @ x = a : b}", Foreground = Brushes.DarkMagenta });
+            items.Add(new ListBoxItem() { Content = "$While{ }", Foreground = Brushes.DarkMagenta });
             items.Add(new ListBoxItem() { Content = "A", Foreground = Brushes.DarkCyan });
             items.Add(new ListBoxItem() { Content = "a", Foreground = Brushes.DarkCyan });
             items.Add(new ListBoxItem() { Content = "abs(x)", FontWeight = FontWeights.Bold });

@@ -30,7 +30,7 @@ namespace Calcpad.Core
                 Vectorized.MultiplyAdd(V[j1], -beta[j1], sw, vw);
                 alpha[j1] = Vectorized.DotProduct(w, V_j, 0, w.Length);
                 Vectorized.MultiplyAdd(V[j], -alpha[j1], sw, vw);
-                //Reothogonalization by modified Gram-Schmidt process
+                // Reothogonalization by modified Gram-Schmidt process
                 for (int s = 1; s <= j; ++s)
                 {
                     var dot = Vectorized.DotProduct(sw, V[s], 0, n);
@@ -52,14 +52,12 @@ namespace Calcpad.Core
                 m = j;
                 // Kaniel-Paige convergence check: 
                 // After initialSteps, check every checkInterval steps
-                if (j >= initialSteps && (j - initialSteps) % checkInterval == 0)
-                {
-                    if (CheckKanielPaigeConvergence(alpha, beta, V, j, n, eigenCount, reverse,
+                if (j >= initialSteps && (j - initialSteps) % checkInterval == 0 &&
+                    CheckKanielPaigeConvergence(alpha, beta, V, j, n, eigenCount, reverse,
                         tol, ref previousTargetEigenvalues))
-                    {
-                        m = j;
-                        break;
-                    }
+                {
+                    m = j;
+                    break;
                 }
             }
             eigvals = EigenSolveTridiagonalSystem(alpha, beta, V, m, n, eigenCount, reverse, true, out var eigvecs);

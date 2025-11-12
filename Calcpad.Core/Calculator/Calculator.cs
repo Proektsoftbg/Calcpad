@@ -225,15 +225,16 @@ namespace Calcpad.Core
         internal abstract Func<IScalarValue[], IScalarValue> GetMultiFunction(long index);
         internal Func<IScalarValue[], IScalarValue> GetInterpolation(long index) => Interpolations[index];
 
-        internal static readonly int PowerIndex = OperatorIndex['^'];
-        internal static readonly int MultiplyIndex = OperatorIndex['*'];
-        internal static readonly int AddIndex = OperatorIndex['+'];
-        internal static readonly int SqrIndex = FunctionIndex["sqr"];
-        internal static readonly int SqrtIndex = FunctionIndex["sqrt"];
-        internal static readonly int CbrtIndex = FunctionIndex["cbrt"];
-        internal static readonly int RootIndex = Function2Index["root"];
-        internal static readonly int SrssIndex = MultiFunctionIndex["srss"];
-        internal static readonly int SumIndex = MultiFunctionIndex["sum"];
+        internal static readonly int PowerOperatorIndex = OperatorIndex['^'];
+        internal static readonly int MultiplyOperatorIndex = OperatorIndex['*'];
+        internal static readonly int AddOperatorIndex = OperatorIndex['+'];
+        internal static readonly int SqrFunctionIndex = FunctionIndex["sqr"];
+        internal static readonly int SqrtFunctionIndex = FunctionIndex["sqrt"];
+        internal static readonly int CbrtFunctionIndex = FunctionIndex["cbrt"];
+        internal static readonly int RootFunctionIndex = Function2Index["root"];
+        internal static readonly int SrssFunctionIndex = MultiFunctionIndex["srss"];
+        internal static readonly int SumFunctionIndex = MultiFunctionIndex["sum"];
+        internal static readonly int IfFunctionIndex = Function3Index["if"];
 
         private static double[] InitFactorial()
         {

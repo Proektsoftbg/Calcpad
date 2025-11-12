@@ -21,6 +21,7 @@ namespace Calcpad.Core
                 Integral,
                 Slope,
                 Repeat,
+                While,
                 Sum,
                 Product,
                 Inline,
@@ -38,6 +39,7 @@ namespace Calcpad.Core
                 { "$integral", SolverTypes.Integral },
                 { "$slope", SolverTypes.Slope },
                 { "$repeat", SolverTypes.Repeat },
+                { "$while", SolverTypes.While },
                 { "$sum", SolverTypes.Sum },
                 { "$product", SolverTypes.Product },
                 { "$inline", SolverTypes.Inline },
@@ -55,6 +57,7 @@ namespace Calcpad.Core
                 "∫",
                 "d/dt",
                 "$Repeat",
+                "$While",
                 "∑",
                 "∏",
                 string.Empty,
@@ -68,6 +71,7 @@ namespace Calcpad.Core
             private IScalarValue _va = RealValue.NaN, _vb = RealValue.NaN;
             private SolverItem[] _items;
             private Func<IValue> _a, _b, _f, _y;
+
             private string Script { get; }
             internal event Action OnChange;
             internal IValue Result { get; private set; }
@@ -79,6 +83,7 @@ namespace Calcpad.Core
                 _parser = parser;
                 Parse();
             }
+            private bool IsBlock => _type == SolverTypes.Inline || _type == SolverTypes.Block || _type == SolverTypes.While;
 
             internal static SolverTypes GetSolverType(ReadOnlySpan<char> keyword)
             {
@@ -101,7 +106,7 @@ namespace Calcpad.Core
             private void Parse()
             {
                 var targetUnits = _parser._targetUnits;
-                if (_type == SolverTypes.Inline || _type == SolverTypes.Block)
+                if (IsBlock)
                 {
                     _parser._input.AddLocalVariables(_localVariables);
                     _items = ParseBlockOrInline(Script);
@@ -327,10 +332,8 @@ namespace Calcpad.Core
 
             private void Compile() 
             {
-                var allowAssignment = 
-                    _type == SolverTypes.Repeat || 
-                    _type == SolverTypes.Inline || 
-                    _type == SolverTypes.Block;
+                var allowAssignment =
+                    _type == SolverTypes.Repeat || IsBlock;
                 _f = _parser.CompileRpn(_items[0].Rpn, allowAssignment);
 
                 var len = _items.Length;
@@ -350,9 +353,15 @@ namespace Calcpad.Core
                                 expressions.Add(e);
                             }
                         }
-                        var body = Expression.Block(expressions);
-                        var lambda = Expression.Lambda<Func<IValue>>(body);
-                        _f = lambda.Compile();
+                        if (_type == SolverTypes.While)
+                            _f = Compiler.CompileWhileBLock(expressions);
+                        else
+                        {
+                            var body = Expression.Block(expressions);
+                            var lambda = Expression.Lambda<Func<IValue>>(body);
+                            _f = lambda.Compile();
+                        }
+
                     }
                     if (i0 == 1)
                         return;
@@ -390,7 +399,7 @@ namespace Calcpad.Core
             {
                 if (parser.IsEnabled)
                     for (int i = 0, len = _items.Length; i < len; ++i)
-                        if (i != 1 || _type == SolverTypes.Inline || _type == SolverTypes.Block)
+                        if (i != 1 || IsBlock)
                             parser.BindParameters(parameters, _items[i].Rpn);
             }
 
@@ -401,7 +410,7 @@ namespace Calcpad.Core
                 if (_f is null)
                     Compile();
 
-                if (_type == SolverTypes.Inline || _type == SolverTypes.Block)
+                if (IsBlock)
                 {
                     Result = _f();
                     return Result;
@@ -541,7 +550,8 @@ namespace Calcpad.Core
             internal string ToHtml(bool formatEquations)
             {
                 var len = _items.Length;
-                if (_type == SolverTypes.Inline || _type == SolverTypes.Block)
+                var writer = new HtmlWriter(_parser._settings, _parser.Phasor);
+                if (IsBlock)
                 {
                     var html = new string[len];
                     for (int i = 0; i < len; ++i)
@@ -549,13 +559,15 @@ namespace Calcpad.Core
 
                     if (_type == SolverTypes.Inline)
                         html = [string.Join("; ",  html)];
+                    else if (_type == SolverTypes.While)
+                        html[0] = "<span class=\"cond\">while</span> " + html[0];
 
-                    return new HtmlWriter(_parser._settings, _parser.Phasor).FormatBlock(html);
+                    return writer.FormatBlock(html);
                 }
                 if (formatEquations)
                 {
                     if (_type == SolverTypes.Integral || _type == SolverTypes.Area)
-                        return new HtmlWriter(_parser._settings, _parser.Phasor).FormatNary(
+                        return writer.FormatNary(
                             $"<em>{TypeName(_type)}</em>",
                             _items[2].Html + "&nbsp;",
                             "&ensp;" + _items[3].Html,
@@ -563,7 +575,7 @@ namespace Calcpad.Core
                             );
 
                     if (_type == SolverTypes.Sum || _type == SolverTypes.Product)
-                        return new HtmlWriter(_parser._settings, _parser.Phasor).FormatNary(
+                        return writer.FormatNary(
                             TypeName(_type),
                             _items[1].Html + "=&hairsp;" + _items[2].Html,
                             _items[3].Html,
@@ -572,14 +584,12 @@ namespace Calcpad.Core
 
                     if (_type == SolverTypes.Slope)
                     {
-                        var writer = new HtmlWriter(_parser._settings, _parser.Phasor);
                         return writer.FormatDivision("<em>d</em>", $"<em>d</em>\u200A{_items[1].Html}", 0) +
                             writer.AddBrackets(_items[0].Html, 1) +
                             $"<span class=\"low\"><em>{_items[1].Input}</em>\u200A=\u200A{_items[2].Html}</span>";
                     }
                 }
-                var sb = new StringBuilder();
-                sb.Append("<span class=\"cond\">" + TypeName(_type) + "</span>");
+                var sb = new StringBuilder($"<span class=\"cond\">{TypeName(_type)}</span>");
                 if (_type == SolverTypes.Repeat && len > 4)
                 {
                     var html = new string[len - 2];
@@ -588,7 +598,7 @@ namespace Calcpad.Core
                     for (int i = 4; i < len; ++i)
                         html[i - 2] = _items[i].Html;
 
-                    sb.Append(' ').Append(new HtmlWriter(_parser._settings, _parser.Phasor).FormatBlock(html));
+                    sb.Append(' ').Append(writer.FormatBlock(html));
                     return sb.ToString();
                 }
                 sb.Append('{').Append(_items[0].Html);
@@ -608,30 +618,28 @@ namespace Calcpad.Core
                 sb.Append(_items[1].Html);
                 if (_type == SolverTypes.Repeat || _type == SolverTypes.Slope)
                 {
-                    sb.Append(" = ");
-                    sb.Append(_items[2].Html);
+                    sb.Append(" = ").Append(_items[2].Html);
                     if (_type == SolverTypes.Repeat)
                     {
-                        sb.Append("...");
-                        sb.Append(_items[3].Html);
+                        sb.Append("...").Append(_items[3].Html);
                     }
                     sb.Append('}');
                 }
                 else
-                {
-                    sb.Append(" ∈ [");
-                    sb.Append(_items[2].Html);
-                    sb.Append("; ");
-                    sb.Append(_items[3].Html);
-                    sb.Append("]}");
-                }
+                    sb.Append(" ∈ [")
+                        .Append(_items[2].Html)
+                        .Append("; ")
+                        .Append(_items[3].Html)
+                        .Append("]}");
+
                 return sb.ToString();
             }
 
             internal string ToXml()
             {
                 var len = _items.Length;
-                if (_type == SolverTypes.Inline || _type == SolverTypes.Block)
+                var writer = new XmlWriter(_parser._settings, _parser.Phasor);
+                if (IsBlock)
                 {
                     var xml = new string[len];
                     for (int i = 0; i < len; ++i)
@@ -639,11 +647,13 @@ namespace Calcpad.Core
 
                     if (_type == SolverTypes.Inline)
                         xml = [string.Join(XmlWriter.Run("; "), xml)];
+                    else if (_type == SolverTypes.While)
+                        xml[0] = XmlWriter.Run(TypeName(_type), XmlWriter.NormalText) + ' ' + xml[0];
 
-                    return new XmlWriter(_parser._settings, _parser.Phasor).FormatBlock(xml);
+                    return writer.FormatBlock(xml);
                 }
                 if (_type == SolverTypes.Integral || _type == SolverTypes.Area)
-                    return new XmlWriter(_parser._settings, _parser.Phasor).FormatNary(
+                    return writer.FormatNary(
                         TypeName(_type),
                         _items[2].Xml,
                         _items[3].Xml,
@@ -651,7 +661,7 @@ namespace Calcpad.Core
                         );
 
                 if (_type == SolverTypes.Sum || _type == SolverTypes.Product)
-                    return new XmlWriter(_parser._settings, _parser.Phasor).FormatNary(
+                    return writer.FormatNary(
                         TypeName(_type),
                         _items[1].Xml + XmlWriter.Run("=") + _items[2].Xml,
                         _items[3].Xml,
@@ -660,7 +670,6 @@ namespace Calcpad.Core
 
                 if (_type == SolverTypes.Slope)
                 {
-                    var writer = new XmlWriter(_parser._settings, _parser.Phasor);
                     return writer.FormatDivision(XmlWriter.Run("d"), $"{XmlWriter.Run("d")}{_items[1].Xml}", 0) +
                         writer.FormatSubscript(writer.AddBrackets(_items[0].Xml, 1),
                         $"{XmlWriter.Run(_items[1].Input)}{XmlWriter.Run("\u2009=\u2009")}{_items[2].Xml}");
@@ -675,7 +684,7 @@ namespace Calcpad.Core
                     for (int i = 4; i < len; ++i)
                         xml[i - 2] = _items[i].Xml;
 
-                    sb.Append(new XmlWriter(_parser._settings, _parser.Phasor).FormatBlock(xml));
+                    sb.Append(writer.FormatBlock(xml));
                     return sb.ToString();
                 }
                 else
@@ -690,34 +699,31 @@ namespace Calcpad.Core
                     }
                 }
                 if (_type == SolverTypes.Repeat)
-                    sb.Append(XmlWriter.Run("for "));
+                    sb.Append(XmlWriter.Run(" for ", XmlWriter.NormalText));
                 else
                     sb.Append(XmlWriter.Run(";"));
 
                 sb.Append(_items[1].Xml);
                 if (_type == SolverTypes.Repeat || _type == SolverTypes.Slope)
                 {
-                    sb.Append(XmlWriter.Run("="));
-                    sb.Append(_items[2].Xml);
+                    sb.Append(XmlWriter.Run("=")).Append(_items[2].Xml);
                     if (_type == SolverTypes.Repeat)
-                    {
-                        sb.Append(XmlWriter.Run("..."));
-                        sb.Append(_items[3].Xml);
-                    }
+                        sb.Append(XmlWriter.Run("...")).Append(_items[3].Xml);
                 }
                 else
                 {
-                    sb.Append(XmlWriter.Run("∈"));
-                    sb.Append(XmlWriter.Brackets(_items[2].Xml + XmlWriter.Run(";") + _items[3].Xml, '[', ']'));
+                    sb.Append(XmlWriter.Run("∈"))
+                        .Append(XmlWriter.Brackets(_items[2].Xml + XmlWriter.Run(";") + _items[3].Xml, '[', ']'));
                 }
-                string s = sb.ToString();
+                var s = sb.ToString();
                 return XmlWriter.Run(TypeName(_type), XmlWriter.NormalText) + XmlWriter.Brackets(s, '{', '}');
             }
 
             public override string ToString()
             {
                 var len = _items.Length;
-                if (_type == SolverTypes.Inline || _type == SolverTypes.Block)
+                var writer = new TextWriter(_parser._settings, _parser.Phasor);
+                if (IsBlock)
                 {
                     var text = new string[len];
                     for (int i = 0; i < len; ++i)
@@ -725,15 +731,17 @@ namespace Calcpad.Core
 
                     if (_type == SolverTypes.Inline)
                         text = [string.Join("; ", text)];
+                    else if (_type == SolverTypes.While)
+                        text[0] = "<span class=\"cond\">while</span> " + text[0];
 
-                    return new TextWriter(_parser._settings, _parser.Phasor).FormatBlock(text);
+                    return writer.FormatBlock(text);
                 }
                 if (_type == SolverTypes.Sum ||
                     _type == SolverTypes.Product ||
                     _type == SolverTypes.Integral ||
                     _type == SolverTypes.Area ||
                     _type == SolverTypes.Repeat)
-                    return new TextWriter(_parser._settings, _parser.Phasor).FormatNary(
+                    return writer.FormatNary(
                         "$" + _type.ToString(),
                         _items[1].Input + " = " + _items[2].Input,
                         _items[3].Input,
@@ -741,8 +749,7 @@ namespace Calcpad.Core
                         );
 
                 var sb = new StringBuilder();
-                sb.Append(TypeName(_type));
-                sb.Append('{');
+                sb.Append(TypeName(_type)).Append('{');
                 if (_type == SolverTypes.Repeat && len > 4)
                 {
                     var text = new string[len - 3];
@@ -750,7 +757,7 @@ namespace Calcpad.Core
                     for (int i = 4; i < len; ++i)
                         text[i - 3] = _items[i].Input;
 
-                    sb.Append(new TextWriter(_parser._settings, _parser.Phasor).FormatBlock(text));
+                    sb.Append(writer.FormatBlock(text));
                 }
                 sb.Append(_items[0].Input);
                 if (_type == SolverTypes.Root)
@@ -760,22 +767,19 @@ namespace Calcpad.Core
                     else
                         sb.Append(" = 0");
                 }
-                sb.Append("; ");
-                sb.Append(_items[1].Input);
+                sb.Append("; ").Append(_items[1].Input);
                 if (_type == SolverTypes.Slope)
-                {
-                    sb.Append(" = ");
-                    sb.Append(_items[2].Input);
-                    sb.Append('}');
-                }
+                    sb.Append(" = ")
+                        .Append(_items[2].Input)
+                        .Append('}');
+
                 else
-                {
-                    sb.Append(" ∈ [");
-                    sb.Append(_items[2].Input);
-                    sb.Append("; ");
-                    sb.Append(_items[3].Input);
-                    sb.Append("]}");
-                }
+                    sb.Append(" ∈ [")
+                        .Append(_items[2].Input)
+                        .Append("; ")
+                        .Append(_items[3].Input)
+                        .Append("]}");
+
                 return sb.ToString();
             }
 

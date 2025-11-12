@@ -201,7 +201,7 @@ namespace Calcpad.Core
                 return values;
             }
 
-            private Expression ParseToken(Token t)
+            private static Expression ParseToken(Token t)
             {
                 if (t.Type == TokenTypes.Unit)
                 {
@@ -358,11 +358,11 @@ namespace Calcpad.Core
                     Expression.Constant(t.Index), a, b);
             }
 
-            private Expression ParseVariableToken(VariableToken t)
+            private static Expression ParseVariableToken(VariableToken t)
             {
                 var v = t.Variable;
                 if (v.IsInitialized || t.Type == TokenTypes.Vector || t.Type == TokenTypes.Matrix)
-                    return Expression.Property(Expression.Constant(v), typeof(Variable), "Value");
+                    return Expression.Property(Expression.Constant(v), typeof(Variable), nameof(Variable.Value));
                 try
                 {
                     var u = Unit.Get(t.Content);
@@ -375,7 +375,6 @@ namespace Calcpad.Core
                     throw Exceptions.UndefinedVariableOrUnits(t.Content);
                 }
             }
-
 
             private static IValue EvaluateConstantExpression(Expression a) =>
                 (IValue)((ConstantExpression)a).Value;
@@ -422,8 +421,13 @@ namespace Calcpad.Core
             private Expression ParseFunction3Token(Token t, Expression a, Expression b, Expression c)
             {
                 if (t.Type == TokenTypes.Function3)
+                {
+                    if (t.Index == Calculator.IfFunctionIndex)
+                        return Expression.Condition(ToNegativeConditionExpression(a), c, b, typeof(IValue));
+
                     return Expression.Invoke(
                         Expression.Constant(_calc.GetFunction3(t.Index)), a, b, c);
+                }
 
                 if (t.Type == TokenTypes.VectorFunction3)
                     return Expression.Call(
@@ -437,6 +441,19 @@ namespace Calcpad.Core
                     EvaluateMatrixFunction3Method,
                     Expression.Constant(t.Index), a, b, c);
             }
+
+            internal static BinaryExpression ToNegativeConditionExpression(Expression c) =>
+                Expression.LessThan(
+                Expression.Property(
+                    Expression.Call(
+                        AsValueMethod,
+                        c,
+                        Expression.Constant(Exceptions.Items.Argument)
+                    ),
+                    typeof(IScalarValue),
+                    nameof(IScalarValue.Re)
+                ),
+                Expression.Constant(ComplexValue.LogicalZero));
 
             private MethodCallExpression ParseFunction4Token(Token t, Expression a, Expression b, Expression c, Expression d) =>
                 Expression.Call(
@@ -603,6 +620,43 @@ namespace Calcpad.Core
                         CalculateMethod),
                     typeof(IValue));
             }
+
+            internal static Func<IValue> CompileWhileBLock(List<Expression> expressions)
+            {
+                if (expressions.Count < 2)
+                    throw Exceptions.InvalidNumberOfArguments();
+
+                var condition = expressions[0];
+                var resultVariable = Expression.Variable(typeof(IValue), "result");
+                var counterVariable = Expression.Variable(typeof(int), "counter");
+                var breakLabel = Expression.Label(typeof(IValue), "breakLabel");
+                var checkCondition = Expression.IfThen(
+                    Compiler.ToNegativeConditionExpression(condition),
+                    Expression.Break(breakLabel, resultVariable)
+                );
+                expressions[0] = checkCondition;
+                var n = expressions.Count - 1;
+                var result = expressions[n];
+                expressions[n] = Expression.Assign(resultVariable, result);
+                var maxCountExpression = Expression.Constant(1000000000);
+                expressions.Add(Expression.PreIncrementAssign(counterVariable));
+                expressions.Add(
+                    Expression.IfThen(
+                        Expression.GreaterThan(counterVariable, maxCountExpression),
+                        Expression.Throw(Expression.Call(ThrowInfiniteLoopMethod, maxCountExpression))
+                    )
+                );
+                var loopBody = Expression.Block(expressions);
+                var whileLoop = Expression.Block(
+                     [resultVariable, counterVariable],
+                     Expression.Assign(counterVariable, Expression.Constant(0)),
+                     Expression.Assign(resultVariable, Expression.Default(typeof(IValue))),
+                     Expression.Loop(loopBody, breakLabel)
+                );
+                var lambda = Expression.Lambda<Func<IValue>>(whileLoop);
+                return lambda.Compile();
+            }
+
         }
     }
 }

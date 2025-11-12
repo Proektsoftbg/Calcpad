@@ -375,7 +375,7 @@ namespace Calcpad.Core
 
         internal Matrix EvaluateOperator(long index, Matrix a, Matrix b) =>
             a is HpMatrix hp_a && b is HpMatrix hp_b &&
-            (index != Calculator.PowerIndex || hp_a.Units == null) ?
+            (index != Calculator.PowerOperatorIndex || hp_a.Units == null) ?
             HpMatrix.EvaluateOperator(_calc.GetOperator(index), hp_a, hp_b, index) :
             Matrix.EvaluateOperator(_calc.GetOperator(index), a, b, index);
 

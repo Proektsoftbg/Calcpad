@@ -131,7 +131,7 @@ M
 'Total mass of structure -'M_tot = sum(d_M)'t
 'Eigenvalues
 M_sq = sqrt(M)
-C = copy(M_sq*D*M_sq; symmetric_hp(n_J); 1; 1)
+C = copy(M_sq*D*M_sq; symmetric(n_J); 1; 1)
 λ = eigenvals(C*10^-3; -3)
 'Natural frequencies
 ω = sqrt(1/λ)
@@ -156,7 +156,7 @@ $Plot{spline(i + 1; 1; X)|i*Δx & spline(i + 1; 2; X)|i*Δx & spline(i + 1; 3; X
 n_1 = λ_1/(2*π*L^2)*sqrt(E*I(0m)/m(0m))|Hz
 'Fundamental period of vibrations
 T_1 = 1/n_1
-'Animation for mode'i = 3
+'Animation for mode'i = 2
 #val
 #rad
 '<style>[id^="fr-"]{display:none;}</style>

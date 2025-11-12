@@ -108,10 +108,10 @@
     $Root{f(x) = const @ x = a : b}     $Sum{f(k) @ k = a : b}
     $Root{f(x) @ x = a : b}             $Product{f(k) @ k = a : b}
     $Find{f(x) @ x = a : b}             $Repeat{f(k) @ k = a : b}
-    $Sup{f(x) @ x = a : b}              $Block{expressions}
-    $Inf{f(x) @ x = a : b}              $Inline{expressions}
-    $Area{f(x) @ x = a : b}             Precision
-    $Integral{f(x) @ x = a : b}
+    $Sup{f(x) @ x = a : b}              $While{condition; expressions}
+    $Inf{f(x) @ x = a : b}              $Block{expressions}
+    $Area{f(x) @ x = a : b}             $Inline{expressions}
+    $Integral{f(x) @ x = a : b}         Precision
     $Slope{f(x) @ x = a}
     
 ————————————————————————————————————————————————————————————————————————————————

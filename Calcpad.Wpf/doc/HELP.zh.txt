@@ -36,7 +36,7 @@
     min(x; y; z…)         max(x; y; z…)
     sum(x; y; z…)         average(x; y; z…)       sumsq(x; y; z…)
     product(x; y; z…)     mean(x; y; z…)          srss(x; y; z…)
-    if (cond; val-if-true; val-if-false)
+    if(cond; val-if-true; val-if-false)
     switch(cond1; val1; cond2; val2; …; default)
     take(n; a; b; c…)     line(x; a; b; c…)       spline(x; a; b; c…)
 	
@@ -105,10 +105,10 @@
     $Root{f(x) = const @ x = a : b}     $Sum{f(k) @ k = a : b}
     $Root{f(x) @ x = a : b}             $Product{f(k) @ k = a : b}
     $Find{f(x) @ x = a : b}             $Repeat{f(k) @ k = a : b}
-    $Sup{f(x) @ x = a : b}              $Block{expressions}
-    $Inf{f(x) @ x = a : b}              $Inline{expressions}
-    $Area{f(x) @ x = a : b}             Precision
-    $Integral{f(x) @ x = a : b}
+    $Sup{f(x) @ x = a : b}              $While{condition; expressions}
+    $Inf{f(x) @ x = a : b}              $Block{expressions}
+    $Area{f(x) @ x = a : b}             $Inline{expressions}
+    $Integral{f(x) @ x = a : b}         Precision
     $Slope{f(x) @ x = a}
 	
 ————————————————————————————————————————————————————————————————————————————————

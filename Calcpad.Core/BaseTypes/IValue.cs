@@ -640,7 +640,7 @@ namespace Calcpad.Core
                 if (b is Vector vb)
                 {
                     var c = calc.EvaluateOperator(index, ma, vb);
-                    if (index == Calculator.MultiplyIndex)
+                    if (index == Calculator.MultiplyOperatorIndex)
                     {
                         if (c.RowCount == 1)
                             return c[0, 0];

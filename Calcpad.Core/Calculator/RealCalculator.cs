@@ -115,18 +115,18 @@ namespace Calcpad.Core
         internal override IValue EvaluateFunction3(long index, in IValue a, in IValue b, in IValue c) => Functions3[index](a, b, c);
         internal override IScalarValue EvaluateMultiFunction(long index, IScalarValue[] a) => MultiFunctions[index](a);
         internal override IScalarValue EvaluateInterpolation(long index, IScalarValue[] a) => Interpolations[index](a);
-        internal override Operator<RealValue> GetOperator(long index) => index == PowerIndex ? Pow : _operators[index];
+        internal override Operator<RealValue> GetOperator(long index) => index == PowerOperatorIndex ? Pow : _operators[index];
         internal override Function<RealValue> GetFunction(long index)
         {
-            if (index == SqrIndex || index == SqrtIndex)
+            if (index == SqrFunctionIndex || index == SqrtFunctionIndex)
                 return Sqrt;
 
-            if (index == CbrtIndex)
+            if (index == CbrtFunctionIndex)
                 return Cbrt;
 
             return _functions[index];
         }
-        internal override Operator<RealValue> GetFunction2(long index) => index == RootIndex ? Root : _functions2[index];
+        internal override Operator<RealValue> GetFunction2(long index) => index == RootFunctionIndex ? Root : _functions2[index];
         internal override Function3 GetFunction3(long index) => Functions3[index];
         internal override Func<IScalarValue[], IScalarValue> GetMultiFunction(long index) => MultiFunctions[index];
 

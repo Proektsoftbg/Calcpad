@@ -416,5 +416,8 @@ namespace Calcpad.Core
 
         internal static MathParserException InvalidNumberOfIndexes() =>
             new(Messages.InvalidNumberOfIndexes);
+
+        internal static MathParserException InfiniteLoop(int maxCount) =>
+            new(string.Format(Messages.PossiblyInfiniteLoopDetected, maxCount));
     }
 }

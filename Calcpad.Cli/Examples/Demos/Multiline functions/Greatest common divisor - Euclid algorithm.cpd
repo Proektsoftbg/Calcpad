@@ -1,0 +1,11 @@
+"Greatest common divisor by Euclid algorithm
+'Custom function:
+mygcd(a; b) = $while{
+  b > 0; 
+  t = b; 
+  b = a⦼b; 
+  a = t}
+'Example:
+mygcd(1071; 462)
+'Internal gcd function:
+gcd(1071; 462)

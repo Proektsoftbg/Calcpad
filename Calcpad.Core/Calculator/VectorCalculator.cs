@@ -219,7 +219,7 @@ namespace Calcpad.Core
 
         internal Vector EvaluateOperator(long index, Vector a, Vector b) =>
             a is HpVector hp_a && b is HpVector hp_b && 
-            (index != Calculator.PowerIndex || hp_a.Units == null) ?
+            (index != Calculator.PowerOperatorIndex || hp_a.Units == null) ?
             HpVector.EvaluateOperator(_calc.GetOperator(index), hp_a, hp_b, index) :
             Vector.EvaluateOperator(_calc.GetOperator(index), a, b, index);
 
