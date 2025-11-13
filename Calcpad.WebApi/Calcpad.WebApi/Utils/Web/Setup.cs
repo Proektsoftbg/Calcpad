@@ -1,16 +1,17 @@
-﻿using Calcpad.WebApi.Configs;
+using System.Reflection;
+using Calcpad.WebApi.Configs;
 using Calcpad.WebApi.Models.Base;
 using Calcpad.WebApi.Utils.Web;
 using Calcpad.WebApi.Utils.Web.Convention;
 using Calcpad.WebApi.Utils.Web.Service;
+using Calcpad.WebApi.Utils.Web.Swagger;
 using log4net;
 using log4net.Repository.Hierarchy;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using System.Reflection;
-using System.Text;
+using Microsoft.OpenApi;
+using MongoDB.Bson;
 
 namespace Calcpad.WebApi.Utils.Web
 {
@@ -25,9 +26,20 @@ namespace Calcpad.WebApi.Utils.Web
         /// <param name="builder"></param>
         public static void AttachLevelToLog4Net(this IHostApplicationBuilder builder)
         {
-            var logLevel = builder.Configuration.GetSection("Logging:LogLevel:Default").Get<LogLevel>();
+            var logLevel = builder
+                .Configuration.GetSection("Logging:LogLevel:Default")
+                .Get<LogLevel>();
 
-            var log4netLevelNames = new List<string>() { "TRACE", "DEBUG", "INFO", "WARN", "ERROR", "CRITICAL", "ALL" };
+            var log4netLevelNames = new List<string>()
+            {
+                "TRACE",
+                "DEBUG",
+                "INFO",
+                "WARN",
+                "ERROR",
+                "CRITICAL",
+                "ALL"
+            };
 
             var hierarchy = (Hierarchy)LogManager.GetRepository();
             var rootLogger = hierarchy.Root;
@@ -49,9 +61,9 @@ namespace Calcpad.WebApi.Utils.Web
         {
             services.AddControllersWithViews(options =>
             {
-                options.Conventions.Add(new RouteTokenTransformerConvention(
-                                             new SlugifyParameterTransformer()
-                                             ));
+                options.Conventions.Add(
+                    new RouteTokenTransformerConvention(new SlugifyParameterTransformer())
+                );
             });
             return services;
         }
@@ -71,14 +83,14 @@ namespace Calcpad.WebApi.Utils.Web
         /// <returns></returns>
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            // 批量注入 Services 单例            
-            var assembleyTypes = Assembly.GetCallingAssembly()
-                .GetTypes();
+            // 批量注入 Services 单例
+            var assembleyTypes = Assembly.GetCallingAssembly().GetTypes();
             var transientType = typeof(ITransientService);
             // 分多种情况，注册不同的生命周期
 
             // 瞬时类型
-            var transientTypes = assembleyTypes.Where(x => !x.IsInterface && !x.IsAbstract && transientType.IsAssignableFrom(x))
+            var transientTypes = assembleyTypes
+                .Where(x => !x.IsInterface && !x.IsAbstract && transientType.IsAssignableFrom(x))
                 .ToList();
             transientTypes.ForEach(type =>
             {
@@ -93,7 +105,10 @@ namespace Calcpad.WebApi.Utils.Web
             // 请求周期
             var scopedServiceType = typeof(IScopedService);
             // 分多种情况，注册不同的生命周期
-            var scopedServiceTypes = assembleyTypes.Where(x => !x.IsInterface && !x.IsAbstract && scopedServiceType.IsAssignableFrom(x))
+            var scopedServiceTypes = assembleyTypes
+                .Where(x =>
+                    !x.IsInterface && !x.IsAbstract && scopedServiceType.IsAssignableFrom(x)
+                )
                 .ToList();
             scopedServiceTypes.ForEach(type =>
             {
@@ -107,8 +122,11 @@ namespace Calcpad.WebApi.Utils.Web
             // 单例
             var singletonServiceType = typeof(ISingletonService);
             // 分多种情况，注册不同的生命周期
-            var singletonServiceTypes = assembleyTypes.Where(x => !x.IsInterface && !x.IsAbstract && singletonServiceType.IsAssignableFrom(x))
-               .ToList();
+            var singletonServiceTypes = assembleyTypes
+                .Where(x =>
+                    !x.IsInterface && !x.IsAbstract && singletonServiceType.IsAssignableFrom(x)
+                )
+                .ToList();
             singletonServiceTypes.ForEach(type =>
             {
                 var serviceTypes = GetServiceTypes(type);
@@ -120,7 +138,10 @@ namespace Calcpad.WebApi.Utils.Web
 
             // 后台服务,在启动时，就会运行
             var hostedServiceType = typeof(IHostedService);
-            var hostedServiceTypes = assembleyTypes.Where(x => !x.IsInterface && !x.IsAbstract && hostedServiceType.IsAssignableFrom(x))
+            var hostedServiceTypes = assembleyTypes
+                .Where(x =>
+                    !x.IsInterface && !x.IsAbstract && hostedServiceType.IsAssignableFrom(x)
+                )
                 .ToList();
             hostedServiceTypes.ForEach(type =>
             {
@@ -138,13 +159,19 @@ namespace Calcpad.WebApi.Utils.Web
         /// <returns></returns>
         private static List<Type> GetServiceTypes(Type implementationType)
         {
-            var interfaceNames = new List<Type>() {
-                typeof(ITransientService<>), typeof(IScopedService<>), typeof(ISingletonService<>),
-                typeof(ITransientService), typeof(IScopedService), typeof(ISingletonService)
+            var interfaceNames = new List<Type>()
+            {
+                typeof(ITransientService<>),
+                typeof(IScopedService<>),
+                typeof(ISingletonService<>),
+                typeof(ITransientService),
+                typeof(IScopedService),
+                typeof(ISingletonService)
             }.ConvertAll(x => x.Name);
 
             // 不断向上查找，直到找到 IService 为止
-            var interfaces = implementationType.GetInterfaces()
+            var interfaces = implementationType
+                .GetInterfaces()
                 .Where(x => x.IsInterface)
                 .Where(x => interfaceNames.Contains(x.Name))
                 .ToList();
@@ -170,20 +197,34 @@ namespace Calcpad.WebApi.Utils.Web
         /// <param name="services"></param>
         /// <param name="apiInfo"></param>
         /// <returns></returns>
-        public static IServiceCollection AddSwaggerGen(this IServiceCollection services, OpenApiInfo apiInfo, string xmlCommentsPath)
+        public static IServiceCollection AddSwaggerGen(
+            this IServiceCollection services,
+            OpenApiInfo apiInfo
+        )
         {
+            // 获取调用程序集的名称
+            var assemblyName = Assembly.GetCallingAssembly().GetName().Name;
+
             services.AddSwaggerGen(swaggerOptions =>
             {
                 swaggerOptions.SwaggerDoc("v1", apiInfo);
 
-                // Set the comments path for the Swagger JSON and UI.    
+                swaggerOptions.MapType<ObjectId>(
+                    () => new OpenApiSchema { Type = JsonSchemaType.String, Format = "hexadecimal" }
+                );
+
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlCommentsPath = $"{assemblyName}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsPath);
                 swaggerOptions.IncludeXmlComments(xmlPath);
+                
+                swaggerOptions.OperationFilter<DotNETSwaggerFilter>();
 
                 // Bearer 的scheme定义
                 var securityScheme = new OpenApiSecurityScheme()
                 {
-                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Description =
+                        "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
                     Name = "Authorization",
                     //参数添加在头部
                     In = ParameterLocation.Header,
@@ -194,25 +235,15 @@ namespace Calcpad.WebApi.Utils.Web
                     BearerFormat = "JWT"
                 };
 
-                //把所有方法配置为增加bearer头部信息
-                var securityRequirement = new OpenApiSecurityRequirement
-                {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                           Reference = new OpenApiReference
-                           {
-                               Type = ReferenceType.SecurityScheme,
-                               Id = "bearerAuth"
-                           }
-                        },
-                        Array.Empty<string>()
-                    }
-                };
-
                 //注册到swagger中
                 swaggerOptions.AddSecurityDefinition("bearerAuth", securityScheme);
-                swaggerOptions.AddSecurityRequirement(securityRequirement);
+                swaggerOptions.AddSecurityRequirement(document =>
+                {
+                    return new OpenApiSecurityRequirement
+                    {
+                        [new OpenApiSecuritySchemeReference("bearer", document)] = []
+                    };
+                });
             });
 
             return services;
@@ -226,53 +257,57 @@ namespace Calcpad.WebApi.Utils.Web
         /// <param name="secretKey"></param>
         /// <param name="redisConnection">若传递该参数，会进行 token 黑名单验证</param>
         /// <returns></returns>
-        public static IServiceCollection AddJWTAuthentication(this IServiceCollection services, SymmetricSecurityKey secretKey)
+        public static IServiceCollection AddJWTAuthentication(
+            this IServiceCollection services,
+            SymmetricSecurityKey secretKey
+        )
         {
-            services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(options =>
-            {
-                options.RequireHttpsMetadata = false;
-                options.TokenValidationParameters = new TokenValidationParameters
+            services
+                .AddAuthentication(x =>
                 {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = secretKey,
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    // 是否验证令牌有效期
-                    ValidateLifetime = true,
-                    // 每次颁发令牌，令牌有效时间
-                    ClockSkew = TimeSpan.FromMinutes(1440)
-                };
-
-                // We have to hook the OnMessageReceived event in order to
-                // allow the JWT authentication handler to read the access
-                // token from the query string when a WebSocket or 
-                // Server-Sent Events request comes in.
-
-                // Sending the access token in the query string is required when using WebSockets or ServerSentEvents
-                // due to a limitation in Browser APIs. We restrict it to only calls to the
-                // SignalR hub in this code.
-                // See https://docs.microsoft.com/aspnet/core/signalr/security#access-token-logging
-                // for more information about security considerations when using
-                // the query string to transmit the access token.
-                options.Events = new JwtBearerEvents
+                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
                 {
-                    OnMessageReceived = context =>
+                    options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters = new TokenValidationParameters
                     {
-                        if (context.Token == null)
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = secretKey,
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        // 是否验证令牌有效期
+                        ValidateLifetime = true,
+                        // 每次颁发令牌，令牌有效时间
+                        ClockSkew = TimeSpan.FromMinutes(1440)
+                    };
+
+                    // We have to hook the OnMessageReceived event in order to
+                    // allow the JWT authentication handler to read the access
+                    // token from the query string when a WebSocket or
+                    // Server-Sent Events request comes in.
+
+                    // Sending the access token in the query string is required when using WebSockets or ServerSentEvents
+                    // due to a limitation in Browser APIs. We restrict it to only calls to the
+                    // SignalR hub in this code.
+                    // See https://docs.microsoft.com/aspnet/core/signalr/security#access-token-logging
+                    // for more information about security considerations when using
+                    // the query string to transmit the access token.
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
                         {
-                            var accessToken = context.Request.Query["access_token"];
-                            context.Token = accessToken;
+                            if (context.Token == null)
+                            {
+                                var accessToken = context.Request.Query["access_token"];
+                                context.Token = accessToken;
+                            }
+                            return Task.CompletedTask;
                         }
-                        return Task.CompletedTask;
-                    }                    
-                };
-            });
+                    };
+                });
             return services;
         }
 
@@ -287,7 +322,10 @@ namespace Calcpad.WebApi.Utils.Web
         /// <param name="services"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public static IServiceCollection AddMongoDB(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddMongoDB(
+            this IServiceCollection services,
+            IConfiguration configuration
+        )
         {
             // 获取 mongodb 配置
             var mongoDBConfig = configuration.GetConfig<MongoDBConfig>();

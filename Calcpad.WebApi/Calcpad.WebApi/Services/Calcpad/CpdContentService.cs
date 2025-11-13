@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 using System.Text.RegularExpressions;
 using Calcpad.Document;
@@ -402,19 +402,6 @@ namespace Calcpad.WebApi.Services.Calcpad
             button.SetAttributeValue("btn-type", "macroReadUpload");
             button.SetAttributeValue("title", "click to upload new data");
             return button;
-        }
-
-        /// <summary>
-        /// update all read from path in cpd file
-        /// </summary>
-        /// <param name="readFromPath"></param>
-        /// <param name="newReadFromPath"></param>
-        public async void UpdateCpdReadFrom(string readFromPath, string newReadFromPath)
-        {
-            if (readFromPath == newReadFromPath)
-                return;
-
-            // read files
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Calcpad.WebApi.Models.Base;
+using Calcpad.WebApi.Models.Base;
 using MongoDB.Bson;
 
 namespace Calcpad.WebApi.Models
@@ -15,7 +15,6 @@ namespace Calcpad.WebApi.Models
         /// </summary>
         Normal
     }
-
 
     public class CalcpadFileModel : MongoDoc
     {
@@ -45,8 +44,10 @@ namespace Calcpad.WebApi.Models
 
         /// <summary>
         /// unique id for managing the file
+        /// this id can be used to access the file
+        /// other system can use this id to access the file without knowing the storage path
         /// </summary>
-        
+
         public string UniqueId { get; set; }
 
         /// <summary>
@@ -65,8 +66,18 @@ namespace Calcpad.WebApi.Models
         public ObjectId SourceId { get; set; }
 
         /// <summary>
+        /// Every time the file is updated, the version number is incremented by 1.
+        /// </summary>
+        public int Version { get; set; } = 1;
+
+        /// <summary>
         /// last update date
         /// </summary>
         public DateTime LastUpdateDate { get; set; } = DateTime.UtcNow;
+
+        /// <summary>
+        /// last calculation result in html format
+        /// </summary>
+        public string LastCalculationHtml { get; set; } = string.Empty;
     }
 }
