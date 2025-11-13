@@ -1,3 +1,4 @@
+using System.Reflection;
 using Calcpad.WebApi.Configs;
 using Calcpad.WebApi.Models.Base;
 using Calcpad.WebApi.Utils.Web;
@@ -6,9 +7,8 @@ using Calcpad.WebApi.Utils.Web.Swagger;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using MongoDB.Bson;
-using System.Reflection;
 
 // set the current directory to the base directory
 Directory.SetCurrentDirectory(AppContext.BaseDirectory);
@@ -19,19 +19,21 @@ var builder = WebApplication.CreateBuilder(args);
 var storageConfig = new AppSettings<StorageConfig>(builder.Configuration).Value;
 Environment.SetEnvironmentVariable(storageConfig.Environment, storageConfig.Root);
 
-
 // Add services to the container.
 var services = builder.Services;
+
 // replace the default logging with log4net
 services.AddLogging(loggingBuilder =>
 {
     loggingBuilder.ClearProviders();
     loggingBuilder.AddLog4Net();
 });
+
 //  Add http logging middleware
 services.AddHttpLogging(logging =>
 {
-    logging.LoggingFields = HttpLoggingFields.RequestProperties
+    logging.LoggingFields =
+        HttpLoggingFields.RequestProperties
         | HttpLoggingFields.RequestHeaders
         | HttpLoggingFields.ResponseHeaders;
     logging.RequestBodyLogLimit = 4096;
@@ -46,25 +48,25 @@ services.SetupSlugifyCaseRoute();
 
 services.AddMongoDB(builder.Configuration);
 
-// Ìí¼Ó HttpContextAccessor£¬ÒÔ¹© service »ñÈ¡µ±Ç°ÇëÇóµÄÓÃ»§ĞÅÏ¢
+// æ·»åŠ  HttpContextAccessorï¼Œä»¥ä¾› service è·å–å½“å‰è¯·æ±‚çš„ç”¨æˆ·ä¿¡æ¯
 services.AddHttpContextAccessor();
 
 // log4net: https://github.com/huorswords/Microsoft.Extensions.Logging.Log4Net.AspNetCore/blob/develop/samples/Net8.0/WebApi/log4net.config
-// ref£ºhttps://github.com/huorswords/Microsoft.Extensions.Logging.Log4Net.AspNetCore/blob/develop/samples/Net8.0/WebApi/Program.cs
+// refï¼šhttps://github.com/huorswords/Microsoft.Extensions.Logging.Log4Net.AspNetCore/blob/develop/samples/Net8.0/WebApi/Program.cs
 // map the log level from logging to log4net
 builder.AttachLevelToLog4Net();
 
-// ÅäÖÃ jwt ÑéÖ¤
+// é…ç½® jwt éªŒè¯
 var tokenParams = new AppSettings<TokenParamsConfig>(builder.Configuration).Value;
 services.AddJWTAuthentication(tokenParams.SecurityKey);
 
-// ¹Ø±Õ²ÎÊı×Ô¶¯¼ìÑé
+// å…³é—­å‚æ•°è‡ªåŠ¨æ£€éªŒ
 services.Configure<ApiBehaviorOptions>(o =>
 {
     o.SuppressModelStateInvalidFilter = true;
 });
 
-// ¼ÓÔØ±¾»ú·şÎñ
+// åŠ è½½æœ¬æœºæœåŠ¡
 services.AddServices();
 
 var mvcBuilder = builder.Services.AddControllers(options =>
@@ -82,10 +84,12 @@ mvcBuilder.AddNewtonsoftJson(x =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.MapType<ObjectId>(() => new OpenApiSchema { Type = "string", Format = "hexadecimal" });
+    c.MapType<ObjectId>(
+        () => new OpenApiSchema { Type = JsonSchemaType.String, Format = "hexadecimal" }
+    );
 
     var xmlFile = $"{Assembly.GetEntryAssembly()?.GetName().Name}.xml";
-    if(File.Exists(xmlFile))
+    if (File.Exists(xmlFile))
     {
         c.IncludeXmlComments(xmlFile);
     }
@@ -95,16 +99,19 @@ builder.Services.AddSwaggerGen(c =>
 var app = builder.Build();
 
 app.UseDefaultFiles();
-// ÉèÖÃ public Ä¿Â¼Îª¾²Ì¬ÎÄ¼şÄ¿Â¼
+
+// è®¾ç½® public ç›®å½•ä¸ºé™æ€æ–‡ä»¶ç›®å½•
 var publicPath = $"{storageConfig.Root}/public";
 Directory.CreateDirectory(publicPath);
-app.UseStaticFiles(new StaticFileOptions()
-{
-    FileProvider = new PhysicalFileProvider(Path.GetFullPath(publicPath)),
-    RequestPath = "/public"
-});
+app.UseStaticFiles(
+    new StaticFileOptions()
+    {
+        FileProvider = new PhysicalFileProvider(Path.GetFullPath(publicPath)),
+        RequestPath = "/public"
+    }
+);
 
-// ¿çÓò
+// è·¨åŸŸ
 app.UseCors();
 
 // Configure the HTTP request pipeline.
@@ -118,7 +125,6 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
 
 app.MapControllers();
 

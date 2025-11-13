@@ -1,4 +1,4 @@
-﻿using Calcpad.Document;
+using Calcpad.Document;
 using Calcpad.Document.Archive;
 using Calcpad.Document.Core.Segments;
 using Calcpad.WebApi.Configs;

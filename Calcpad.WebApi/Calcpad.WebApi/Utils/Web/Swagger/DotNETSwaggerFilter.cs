@@ -1,4 +1,4 @@
-﻿using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Calcpad.WebApi.Utils.Web.Swagger
@@ -11,7 +11,8 @@ namespace Calcpad.WebApi.Utils.Web.Swagger
     {
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
-            if (operation == null || context == null) return;
+            if (operation == null || context == null)
+                return;
 
             // 若已有 summary（来自 XML 注释），先保留到 description 中
             if (!string.IsNullOrWhiteSpace(operation.Summary))
