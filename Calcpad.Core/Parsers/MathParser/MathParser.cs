@@ -696,7 +696,7 @@ namespace Calcpad.Core
             for (int i = 0, len = rpn.Length; i < len; ++i)
             {
                 var t = rpn[i];
-                if (t.Type == TokenTypes.Variable || t.Type == TokenTypes.Vector)
+                if (t.Type == TokenTypes.Variable || t.Type == TokenTypes.Vector || t.Type == TokenTypes.Matrix)
                     foreach (var p in parameters)
                     {
                         if (t.Content == p.Name)

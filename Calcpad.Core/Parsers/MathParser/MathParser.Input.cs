@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
 
 namespace Calcpad.Core
@@ -256,7 +255,8 @@ namespace Calcpad.Core
                                             t.Type == TokenTypes.MatrixFunction3 ||
                                             t.Type == TokenTypes.MatrixFunction4 ||
                                             t.Type == TokenTypes.MatrixFunction5 ||
-                                            t.Type == TokenTypes.MatrixMultiFunction))
+                                            t.Type == TokenTypes.MatrixMultiFunction ||
+                                            t.Type == TokenTypes.Array))
                                         throw Exceptions.ComplexVectorsAndMatricesNotSupported();
                                 }
                                 else
@@ -288,6 +288,9 @@ namespace Calcpad.Core
                                         t = new VariableToken(s, null);
                                 }
                                 tokens.Enqueue(t);
+                                if (t.Type == TokenTypes.Array)
+                                    tokens.Enqueue(new Token(t.Content, TokenTypes.ArrayIndex));
+
                                 tokenLiteral.Reset(i);
                             }
                         }
@@ -631,7 +634,15 @@ namespace Calcpad.Core
                 if (index < 0)
                 {
                     if (mustExist)
+                    {
+                        if (s.EndsWith('.'))
+                            return new VariableToken(s[..^1], null)
+                            {
+                                Type = TokenTypes.Array
+                            };
+
                         throw Exceptions.InvalidFunction(s);
+                    }
 
                     if (!_parser.IsCalculation)
                         return new FunctionToken(s)
