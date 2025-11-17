@@ -90,7 +90,7 @@ namespace Calcpad.Core
 
                 switch (c)
                 {
-                    case '⁄' or '/' or '*':
+                    case '∕' or '/' or '*':
                         if (isPower && brackets.TryPeek(out int ind) && ind < power.Length)
                         {
                             string oper = FormatOperator(c);
@@ -188,7 +188,7 @@ namespace Calcpad.Core
                     sub = 0;
                     return FormatSubscript(FormatUnits(s[..^n]), HairSpace + s[^(n - 1)..]);
                 }
-                if (s.Contains('/') || s.Contains('⁄') || s.Contains('·'))
+                if (s.ContainsAny('/', '∕', '·'))
                     return s;
 
                 return FormatUnits(s);
@@ -222,7 +222,7 @@ namespace Calcpad.Core
         {
             Calculator.NegChar => "-",
             '-' => " − ",
-            '*' => "\u200A·\u200A",
+            '*' => "·",
             '÷' => "/",
             '<' => " < ",
             '>' => " > ",

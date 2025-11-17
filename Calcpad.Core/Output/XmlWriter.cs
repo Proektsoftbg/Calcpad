@@ -18,7 +18,7 @@ namespace Calcpad.Core
         protected override OutputFormat FormatType => OutputFormat.Xml;
         private const string wXmlns = "xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"";
         internal const string NormalText = "<m:rPr><m:nor/></m:rPr>";
-        internal static readonly string UnitDivision = Run("⁄", $"{NormalText}<w:rPr {wXmlns}><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\" /><w:sz w:val=\"20\" /></w:rPr>");
+        internal static readonly string UnitDivision = Run("∕", $"{NormalText}<w:rPr {wXmlns}><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\" /><w:sz w:val=\"20\" /></w:rPr>");
         internal static readonly string UnitProduct = Run("·", NormalText);
         internal static readonly string ThinSpaceRun = $"<m:r><m:t>{ThinSpace}</m:t></m:r>";
 

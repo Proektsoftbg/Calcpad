@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace Calcpad.Core
@@ -385,12 +386,15 @@ namespace Calcpad.Core
                         }
                         else
                         {
-                            if (!formatEquation &&
-                                b.Type != TokenTypes.Solver &&
-                                (b.Order > t.Order ||
-                                b.Order == t.Order && (content == "-" || content == "/" || content == "÷") ||
-                                IsNegative(b) && content != "="))
-                                sb = AddBrackets(sb, b.Level, b.MinOffset, b.MaxOffset, '(', ')');
+                            if (!formatEquation && b.Type != TokenTypes.Solver)
+                            {
+                                var isDivision = content == "/" || content == "÷";  
+                                if (b.Order > t.Order ||
+                                    b.Order == t.Order && (content == "-" || isDivision) ||
+                                    b.Order == 2 && sb.ContainsAny('·', '∕') && isDivision && writer is TextWriter ||
+                                    IsNegative(b) && content != "=")
+                                    sb = AddBrackets(sb, b.Level, b.MinOffset, b.MaxOffset, '(', ')');
+                            }
 
                             var level = 0;
                             if (formatEquation)
