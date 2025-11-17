@@ -757,7 +757,7 @@ namespace Calcpad.Core
                         }
                     }
                     if (!isDefinition &&
-                        i > assignmentIndex &&
+                        i >= assignmentIndex &&
                         t.Type == TokenTypes.Variable &&
                         !DefinedVariables.Contains(t.Content) &&
                         Unit.TryGet(t.Content, out var u)

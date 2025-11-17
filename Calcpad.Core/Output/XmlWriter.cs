@@ -15,8 +15,13 @@ namespace Calcpad.Core
                 FormatUnits("gra"),
             ];
         }
+        protected override OutputFormat FormatType => OutputFormat.Xml;
         private const string wXmlns = "xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"";
         internal const string NormalText = "<m:rPr><m:nor/></m:rPr>";
+        internal static readonly string UnitDivision = Run("⁄", $"{NormalText}<w:rPr {wXmlns}><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\" /><w:sz w:val=\"20\" /></w:rPr>");
+        internal static readonly string UnitProduct = Run("·", NormalText);
+        internal static readonly string ThinSpaceRun = $"<m:r><m:t>{ThinSpace}</m:t></m:r>";
+
         internal override string UnitString(Unit units) => units.Xml;
         internal override string FormatInput(string s, Unit units, int line, bool isCalculated)
         {
@@ -62,7 +67,7 @@ namespace Calcpad.Core
         }
 
         internal override string FormatUnits(string s) =>
-            Run(' ' + s, $"{NormalText}<w:rPr {wXmlns}><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\" /><w:sz w:val=\"22\" /></w:rPr>");
+            Run(s, $"{NormalText}<w:rPr {wXmlns}><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\" /><w:sz w:val=\"22\" /></w:rPr>");
         internal override string FormatFunction(string s)
         {
             var format = $"{NormalText}<w:rPr {wXmlns}><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\" /><w:b w:val=\"true\" /></w:rPr>";
@@ -130,7 +135,7 @@ namespace Calcpad.Core
             if (!(value.IsReal || phasor && s.Contains('∠')))
                 s = AddBrackets(s);
 
-            return s + u.Xml;
+            return s + ThinSpaceRun + u.Xml;
         }
 
         internal override string FormatAbs(string s, int level = 0) => AddBrackets(s, level, '|', '|');

@@ -46,6 +46,10 @@ namespace Calcpad.Core
             };
         }
 
+        protected override OutputFormat FormatType => OutputFormat.Html;
+        internal const string UnitDivision = "<i class=\"frac\">\u2009⁄\u2009</i>";
+        internal const string UnitProduct = "<i>\u200A·\u200A</i>";
+
         internal override string FormatInput(string s, Unit units, int line, bool isCalculated)
         {
             string output;

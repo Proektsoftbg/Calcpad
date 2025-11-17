@@ -422,15 +422,36 @@ namespace Calcpad.Core
                                 if (writer is not TextWriter)
                                     level = Math.Max(a.Level, b.Level);
 
-                                if (content == "*" && a.ValType == ValueTypes.Number && b.ValType == ValueTypes.Unit)
+                                if (content == "*")
                                 {
-                                    if (writer is HtmlWriter && b.Content != "°")
-                                        t.Content = sa + thinSpace + sb;
+                                    if (a.ValType == ValueTypes.Number && b.ValType == ValueTypes.Unit)
+                                    {
+                                        if (b.Content == "°" || writer is TextWriter)
+                                            t.Content = sa + sb;
+                                        else if (writer is XmlWriter)
+                                            t.Content = sa + XmlWriter.ThinSpaceRun + sb;
+                                        else
+                                            t.Content = sa + thinSpace + sb;
+
+                                    }
+                                    else if (a.ValType == ValueTypes.Vector && b.ValType == ValueTypes.Vector)
+                                        t.Content = sa + writer.FormatOperator('⊙') + sb;
+                                    else if(t.Order == 1 && writer is HtmlWriter)
+                                        t.Content = sa + HtmlWriter.UnitProduct + sb;
+                                    else if (t.Order == 1 && writer is XmlWriter)
+                                        t.Content = sa + XmlWriter.UnitProduct + sb;
                                     else
-                                        t.Content = sa + sb;
+                                        t.Content = sa + writer.FormatOperator('*') + sb;
                                 }
-                                else if (content == "*" && a.ValType == ValueTypes.Vector && b.ValType == ValueTypes.Vector)
-                                    t.Content = sa + writer.FormatOperator('⊙') + sb;
+                                else if ((content == "÷" || content == "/") && t.Order == 1)
+                                {
+                                    if (writer is HtmlWriter)
+                                        t.Content = sa + HtmlWriter.UnitDivision + sb;
+                                    else if (writer is XmlWriter)
+                                        t.Content = sa + XmlWriter.UnitDivision + sb;
+                                    else
+                                        t.Content = sa + TextWriter.UnitDivision + sb;
+                                }
                                 else
                                     t.Content = sa + writer.FormatOperator(content[0]) + sb;
 

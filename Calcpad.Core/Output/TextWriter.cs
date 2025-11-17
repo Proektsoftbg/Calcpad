@@ -15,6 +15,10 @@ namespace Calcpad.Core
                 " grad"
             ];
         }
+        protected override OutputFormat FormatType => OutputFormat.Text;
+        internal const string UnitDivision = "\u2009⁄\u2009";
+        internal const string UnitProduct = "\u200A·\u200A";
+
         internal override string UnitString(Unit units) => units.Text.Replace("‱", "‱ ");
         internal override string FormatInput(string s, Unit units, int line, bool isCalculated) =>
             units is null ? s : s + ' ' + units.Text;

@@ -23,7 +23,7 @@ namespace Calcpad.Core
         private int Length => _powers.Length;
 
         private static bool _isUs;
-        private static readonly string CompositeUnitChars = Calculator.NegChar + "/^";
+        private static readonly string CompositeUnitChars = Calculator.NegChar + "⁄^";
         private static readonly string[] Names = ["g", "m", "s", "A", "°C", "mol", "cd", "rad", ""];
         private static readonly Unit[] ForceUnits = new Unit[9], ForceUnits_US = new Unit[9];
         private static readonly FrozenSet<Unit> ElectricalUnits;
@@ -362,17 +362,17 @@ namespace Calcpad.Core
             ForceUnits[7] = kN * m.Pow(3f);
             ForceUnits[8] = kN * m.Pow(4f);
 
-            ForceUnits[0]._text = "kN/m^4";
-            ForceUnits[1]._text = "kN/m^3";
-            ForceUnits[3]._text = "kN/m";
+            ForceUnits[0]._text = "kN\u2009⁄\u2009m^4";
+            ForceUnits[1]._text = "kN\u2009⁄\u2009m^3";
+            ForceUnits[3]._text = "kN\u2009⁄\u2009m";
             ForceUnits[6]._text = "kN·m^2";
             ForceUnits[7]._text = "kN·m^3";
             ForceUnits[8]._text = "kN·m^4";
 
-            ForceUnits_US[0] = (kipf * m.Pow(-4f)).Scale("kip/in^4", 1d / 4.162314256E-7);
-            ForceUnits_US[1] = (kipf * m.Pow(-3f)).Scale("kip/in^3", 1d / 0.000016387064);
+            ForceUnits_US[0] = (kipf * m.Pow(-4f)).Scale("kip\u2009⁄\u2009in^4", 1d / 4.162314256E-7);
+            ForceUnits_US[1] = (kipf * m.Pow(-3f)).Scale("kip\u2009⁄\u2009in^3", 1d / 0.000016387064);
             ForceUnits_US[2] = ksi;
-            ForceUnits_US[3] = (kipf * m.Pow(-1f)).Scale("kip/ft", 1d / 0.3048);
+            ForceUnits_US[3] = (kipf * m.Pow(-1f)).Scale("kip\u2009⁄\u2009ft", 1d / 0.3048);
             ForceUnits_US[4] = kipf;
             ForceUnits_US[5] = (kipf * m).Scale("kip·ft", 0.3048);
             ForceUnits_US[6] = (kipf * m.Pow(2f)).Scale("kip·ft^2", 0.09290304);
@@ -895,17 +895,31 @@ namespace Calcpad.Core
                     if (isFirst)
                         isFirst = false;
                     else
-                    {
-                        var oper = _powers[i] > 0f ? '·' : '/';
-                        if (format == OutputWriter.OutputFormat.Xml)
-                            stringBuilder.Append($"<m:r><m:t>{oper}</m:t></m:r>");
-                        else
-                            stringBuilder.Append(oper);
-                    }
+                        stringBuilder.Append(GetProductOrDivisionOperator(format, _powers[i] > 0f));
+
                     stringBuilder.Append(s);
                 }
             }
             return stringBuilder.ToString();
+        }
+
+        internal static string GetProductOrDivisionOperator(OutputWriter.OutputFormat format, bool isProduct)
+        {
+            if (isProduct)
+            {
+                if (format == OutputWriter.OutputFormat.Xml)
+                    return XmlWriter.UnitProduct;
+                if (format == OutputWriter.OutputFormat.Html)
+                    return HtmlWriter.UnitProduct;
+
+                return TextWriter.UnitProduct;
+            }
+            if (format == OutputWriter.OutputFormat.Xml)
+                return XmlWriter.UnitDivision;
+            else if (format == OutputWriter.OutputFormat.Html)
+                return HtmlWriter.UnitDivision;
+
+            return TextWriter.UnitDivision;
         }
 
         public static Unit operator *(Unit u, double d)
@@ -1655,7 +1669,7 @@ namespace Calcpad.Core
             {
                 uc.Scale(d);
                 d = 1d;
-                uc._text = ua.Text + "\u200A·\u200A" + ub.Text;
+                uc._text = ua.Text + TextWriter.UnitProduct + ub.Text;
             }
             return uc;
         }
@@ -1706,10 +1720,10 @@ namespace Calcpad.Core
             {
                 uc.Scale(d);
                 d = 1d;
-                if (ub.Text.AsSpan().ContainsAny('·', '/'))
-                    uc._text = $"{ua.Text}/({ub.Text})";
+                if (ub.Text.AsSpan().ContainsAny('·', '⁄'))
+                    uc._text = $"{ua.Text}{TextWriter.UnitDivision}({ub.Text})";
                 else
-                    uc._text = ua.Text + '/' + ub.Text;
+                    uc._text = ua.Text + TextWriter.UnitDivision + ub.Text;
             }
             return uc;
         }
