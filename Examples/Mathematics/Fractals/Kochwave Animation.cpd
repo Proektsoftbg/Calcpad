@@ -2,7 +2,7 @@
 'Initial triangle coordinates
 #def a$ = sqrt(3)/2
 x = hp([0; 1])', 'y = hp([0; 0])
-'Number of iterations -'n = 8
+'Number of iterations -'n = 7
 'Animation&emsp;<button id="start">Start</button>
 #val
 '<style>polyline{display:none; stroke:Teal; stroke-width:0.08; stroke-linejoin:round;}</style> 
