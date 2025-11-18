@@ -394,7 +394,7 @@ namespace Calcpad.Core
                                 var isDivision = content == "/" || content == "÷";  
                                 if (b.Order > t.Order ||
                                     b.Order == t.Order && (content == "-" || isDivision) ||
-                                    b.Order == 2 && sb.ContainsAny('·', '∕') && isDivision && writer is TextWriter ||
+                                    b.Order == 2 && sb.ContainsAny('·', '∕') && isDivision ||
                                     IsNegative(b) && content != "=")
                                     sb = AddBrackets(sb, b.Level, b.MinOffset, b.MaxOffset, '(', ')');
                             }
