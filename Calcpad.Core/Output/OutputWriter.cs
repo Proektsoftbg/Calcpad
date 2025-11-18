@@ -207,7 +207,7 @@ namespace Calcpad.Core
                     if (isXmlWriter)
                         power = XmlWriter.Run(power);
 
-                    _stringBuilder.Append(FormatPower(literal, power, 0, -1));
+                    _stringBuilder.Append(FormatPower(literal, power, -1, -1));
                 }
                 else
                     _stringBuilder.Append(literal);

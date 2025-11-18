@@ -377,7 +377,10 @@ namespace Calcpad.Core
                                 a.ValType == ValueTypes.Vector || a.ValType == ValueTypes.Matrix)
                                 sb = writer.FormatOperator('⊙') + thinSpace + sb;
 
-                            t.Content = writer.FormatPower(sa, sb, a.Level, a.Order);
+                            if (a.ValType == ValueTypes.Unit)
+                                t.Content = writer.FormatPower(sa, sb, -1, -1);
+                            else
+                                t.Content = writer.FormatPower(sa, sb, a.Level, a.Order);
 
                             t.Level = a.Level;
                             t.ValType = a.ValType;

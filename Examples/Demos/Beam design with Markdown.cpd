@@ -17,7 +17,7 @@
 'Factor for effective compression zone depth -'λ = 0.8
 'Effective compressive strength factor -'η = 1.0
 'Ultimate compressive strain -'ε_cu3 = 0.0035
-'Mean value of axial tensile strength -'f_ctm = 0.30*f_ck^(2/3)*MPa^(1/3)|MPa
+'Mean value of axial tensile strength -'f_ctm = 0.30*f_ck^(2÷3)*MPa^(1÷3)|MPa
 '##### Steel
 '<p><ins>Longitudinal reinforcement</ins></p>
 'Characteristic yield strength -'f_yk = 500MPa
@@ -77,4 +77,4 @@ V_Ed'≤'V_Rd_c'. Shear reinforcement is **NOT** required by calculations!
 'Provided stirrup spacing -'s = s_max
 'Provided shear reinforcement area -'A_sw = n_w*A_sw1*(1m/s)'/m
 'Reinforcement ratio -'ρ_w = A_sw/(s*b)
-ρ_w,min = (0.08*sqr(f_ck)/f_yk)*MPa^(1/2)'<'ρ_w
+ρ_w,min = (0.08*sqr(f_ck)/f_yk)*MPa^(1÷2)'<'ρ_w

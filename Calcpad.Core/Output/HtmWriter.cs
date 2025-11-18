@@ -47,7 +47,7 @@ namespace Calcpad.Core
         }
 
         protected override OutputFormat FormatType => OutputFormat.Html;
-        internal const string UnitDivision = "<i class=\"frac\">\u2009∕\u2009</i>";
+        internal const string UnitDivision = "<i class=\"unit\">\u2009∕\u2009</i>";
         internal const string UnitProduct = "<i>\u200A·\u200A</i>";
 
         internal override string FormatInput(string s, Unit units, int line, bool isCalculated)
@@ -130,7 +130,10 @@ namespace Calcpad.Core
 
         internal override string FormatPower(string sa, string sb, int level, int order)
         {
-            var s = level > 0 ? "<sup class=\"raised\">" : "<sup>";
+            string s;
+            if (level > 0) s = "<sup class=\"raised\">";
+            else if (level < 0) s = "<sup class=\"unit\">";
+            else s = "<sup>";
 
             if (order == PowerOrder)
                 s += '∙';

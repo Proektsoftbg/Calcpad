@@ -1371,7 +1371,7 @@ namespace Calcpad.Wpf
                 return;
             }
             _builder.Clear();
-            if (AppendRelOperatorShortcut(s))
+            if (AppendOperatorShortcut(s))
                 return;
 
             if (t == Types.Include)
@@ -1406,56 +1406,48 @@ namespace Calcpad.Wpf
                 s == "(" || s == "{" || s == "[";
         }
         private bool IsDataExchangeKeyword => DataExchangeKeywords.Contains(_state.Keyword);
-        private bool AppendRelOperatorShortcut(string s)
+        private bool AppendOperatorShortcut(string s)
         {
-            if (_state.Paragraph.Inlines.Count > 0)
+            if (_state.Paragraph.Inlines.Count > 0 && s.Length > 0)
             {
-                if (s == "=")
+                switch (s[0])
                 {
-                    var r = _state.LastInline as Run;
-                    switch (r.Text)
-                    {
-                        case " = ": r.Text = " ≡ "; return true;
-                        case "!": r.Text = " ≠ "; return true;
-                        case " > ": r.Text = " ≥ "; return true;
-                        case " < ": r.Text = " ≤ "; return true;
-                    }
-                }
-                else if (s == "&")
-                {
-                    var r = _state.LastInline as Run;
-                    if (r.Text == "&")
-                    {
-                        r.Text = " ∧ ";
-                        r.Background = null;
-                        r.Foreground = Colors[(int)Types.Operator];
-                        return true;
-                    }
-                }
-                else if (s == "|")
-                {
-                    var r = _state.LastInline as Run;
-                    if (r.Text == "|")
-                    {
-                        r.Text = " ∨ ";
-                        r.Background = null;
-                        r.Foreground = Colors[(int)Types.Operator];
-                        return true;
-                    }
-                }
-                else if (s == "^")
-                {
-                    var r = _state.LastInline as Run;
-                    if (r.Text == "^")
-                    {
-                        r.Text = " ⊕ ";
-                        r.Background = null;
-                        r.Foreground = Colors[(int)Types.Operator];
-                        return true;
-                    }
+                    case '=': return replaceRelText();
+                    case '&': return replaceText("&", " ∧ ", true);
+                    case '|': return replaceText("|", " ∨ ", true);
+                    case '^': return replaceText("^", " ⊕ ", true);
+                    case '/': return replaceText("/", "÷", true);
                 }
             }
             return false;
+
+            bool replaceRelText()
+            {
+                var r = _state.LastInline as Run;
+                switch (r?.Text)
+                {
+                    case " = ": r.Text = " ≡ "; return true;
+                    case "!":   r.Text = " ≠ "; return true;
+                    case " > ": r.Text = " ≥ "; return true;
+                    case " < ": r.Text = " ≤ "; return true;
+                }
+                return false;
+            }
+
+            bool replaceText(string find, string replace, bool nullBkg = false)
+            {
+                var r = _state.LastInline as Run;
+                if (r?.Text == find)
+                {
+                    r.Text = replace;
+                    if (nullBkg)
+                        r.Background = null;
+
+                    r.Foreground = Colors[(int)Types.Operator];
+                    return true;
+                }
+                return false;
+            }
         }
 
         private void AppendDoubleOperatorShortcut(char op)

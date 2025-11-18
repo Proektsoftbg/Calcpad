@@ -1051,7 +1051,7 @@
                     <li>"<b>^</b>" - exponentiation;</li>
                     <li>"<b>/</b>" - floating point division;</li>
                     <li>"<b>\</b>" - integer division; </li>
-                    <li>"<b>÷</b>" - division bar; </li>
+                    <li>"<b>÷</b>" - force division bar in inline mode and slash in pro mode (//);</li>
                     <li>"<b style="font-size:80%;">⦼</b>" - modulo (%%, remainder);</li>
                     <li>"<b>*</b>" - multiplication;</li>
                     <li>"<b>-</b>" - subtraction; </li>
@@ -1087,7 +1087,7 @@
         </ul>
 
         <h4>Operator shortcuts</h4>
-        <p>Instead of "≡", "≠", "&le;"- and "&ge;", you can use the respective C-style equivalent operators, as follows: "==", "!=", "&lt;=" and "&gt;=". They will be automatically replaced by the corresponding Calcpad operators. The shortcut “%%” will be converted to the modulo operator “⦼”. This is necessary because “%” is reserved for the percent units. Since this symbol is not very common, it is rendered as “mod” in the output, e.g. “7 mod 5 = 2”, instead of “7 ⦼ 5 = 2”. Boolean operators also have shortcuts for easier typing: "&&" for "∧" (AND), "||" for "∨" (OR) and "^^" for "⊕" (XOR). The shortcut for the phasor operator "∠" is "<<".</p>
+        <p>Instead of "≡", "≠", "&le;"- and "&ge;", you can use the respective C-style equivalent operators, as follows: "==", "!=", "&lt;=" and "&gt;=". They will be automatically replaced by the corresponding Calcpad operators. The shortcut “%%” will be converted to the modulo operator “⦼”. This is necessary because “%” is reserved for the percent units. Since this symbol is not very common, it is rendered as “mod” in the output, e.g. “7 mod 5 = 2”, instead of “7 ⦼ 5 = 2”. in a similar way, double slash "//" is a shortcut for division bar "÷"  operator. Boolean operators also have shortcuts for easier typing: "&&" for "∧" (AND), "||" for "∨" (OR) and "^^" for "⊕" (XOR). The shortcut for the phasor operator "∠" is "&lt;&lt;".</p>
 
         <h4>Operator precedence and associativity</h4>
         <p>The above operators are listed in the order of their precedence. This is the order they will be evaluated in an expression. When you have different types of operators in a single expression, exponentiation will be evaluated first, then division and multiplication, subtraction and addition and comparison will be the last. When we have a unary minus and exponentiation, the exponentiation is evaluated first. For example: "-2^2 = -(2^2) = -4" All relational operators are of equal precedence. If you need to change the order of evaluation, you can use brackets. For example, "5 + 2∙3" makes "11". If the addition has to be first, write "(5 + 2)∙3". You will get "7∙3 = 21". Operators with equal precedence are evaluated from left to right. This is called operator associativity. For example, "3 - 2 + 1" makes "(3 - 2) + 1 = 2" and not "3 - (2 + 1) = 0". Another good example is "2∙3 / 2∙3", which makes "9" and not "1".</p>

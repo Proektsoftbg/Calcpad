@@ -1590,7 +1590,7 @@ namespace Calcpad.Core
             if (power < 0 && writer is TextWriter)
                 sp = writer.AddBrackets(sp);
 
-            return writer.FormatPower(name, sp, 0, -1);
+            return writer.FormatPower(name, sp, -1, -1);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
