@@ -1,5 +1,5 @@
 "Kochwave Animation
-'Initial triangle coordinates
+'Initial coordinates
 #def a$ = sqrt(3)/2
 x = hp([0; 1])', 'y = hp([0; 0])
 'Number of iterations -'n = 7
