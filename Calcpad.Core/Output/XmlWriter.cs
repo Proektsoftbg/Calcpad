@@ -87,21 +87,37 @@ namespace Calcpad.Core
             _ => $"<m:rad><m:deg>{n}</m:deg><m:e>{s}</m:e></m:rad>"
         };
 
+        private static readonly string[] opRuns = [
+            Run("&lt;"),
+            Run("&gt;"),
+            Run("≤"),
+            Run("≥"),
+            Run("·"),
+            Run("/"),
+            Run("/"),
+            Run(" mod "),
+            Run(" and "),
+            Run(" or "),
+            Run(" xor "),
+            Run(" | "),
+            Run("-", NormalText),
+            ];
 
         internal override string FormatOperator(char c) => c switch
         {
-            '<' => Run("&lt;"),
-            '>' => Run("&gt;"),
-            '≤' => Run("≤"),
-            '≥' => Run("≥"),
-            '*' => Run("·"),
-            '÷' => Run("/"),
-            '⦼' => Run(" mod "),
-            '∧' => Run(" and "),
-            '∨' => Run(" or "),
-            '⊕' => Run(" xor "),
-            '|' => Run(" | "),
-            Calculator.NegChar => Run("-", NormalText),
+            '<' => opRuns[0],
+            '>' => opRuns[1],
+            '≤' => opRuns[2],
+            '≥' => opRuns[3],
+            '*' => opRuns[4],
+            '/' => opRuns[5],
+            '÷' => opRuns[6],
+            '⦼' => opRuns[7],
+            '∧' => opRuns[8],
+            '∨' => opRuns[9],
+            '⊕' => opRuns[10],
+            '|' => opRuns[11],
+            Calculator.NegChar => opRuns[12],
             _ => Run(c.ToString())
         };
 

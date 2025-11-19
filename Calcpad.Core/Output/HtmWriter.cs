@@ -120,6 +120,8 @@ namespace Calcpad.Core
 
         internal override string FormatOperator(char c) => c switch
         {
+            '/' => "<em>\u200A/\u200A</em>",
+            '÷' => "<em>\u200A/\u200A</em>",
             '<' => " &lt; ",
             '>' => " &gt; ",
             '≤' => " &le; ",
