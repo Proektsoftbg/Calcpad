@@ -51,10 +51,10 @@ w = 360', 'h = w', 'k = 100
   'var timer = setInterval(
     'function(){
        'if(++i > 'n'){clearInterval(timer); return;}
-       'f.hide(800);
+       'f.hide(900);
        'f = $("#fr-"+i);
-       'f.show(600);
+       'f.show(700);
      '}
-  ',1000);
+  ',1200);
 '});
 '</script>
