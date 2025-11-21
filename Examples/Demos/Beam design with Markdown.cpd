@@ -1,0 +1,80 @@
+#def page_break$ = '<p style="break-after:page;"></p>
+#md on
+'## RC Beam Design to Eurocode 2
+'---
+'### Input data
+'#### Beam and cross section dimensions
+'Beam length -'L = 10m
+'Cross section dimensions: height -'h = 700mm _
+', width -'b = 250mm
+'#### Loads
+'Uniformly distributed load -'q = 12kN÷m'(total, factored)
+'#### Materials
+'##### Concrete
+'Characteristic compressive cylinder strength -'f_ck = 20MPa
+'Partial safety factor for concrete -'γ_c = 1.5','α_cc = 0.85
+'Design compressive cylinder strength -'f_cd = α_cc*f_ck/γ_c
+'Factor for effective compression zone depth -'λ = 0.8
+'Effective compressive strength factor -'η = 1.0
+'Ultimate compressive strain -'ε_cu3 = 0.0035
+'Mean value of axial tensile strength -'f_ctm = 0.30*f_ck^(2÷3)*MPa^(1÷3)|MPa
+'##### Steel
+'<p><ins>Longitudinal reinforcement</ins></p>
+'Characteristic yield strength -'f_yk = 500MPa
+'Partial safety factor for steel -'γ_s = 1.15
+'Design yield strength -'f_yd = f_yk/γ_s
+'Modulus of elasticity -'E_s = 200000MPa
+page_break$
+ '++Shear reinforcement++
+'Characteristic yield strength -'f_ywk = 500MPa
+'Design yield strength -'f_ywd = f_yk/γ_s
+'### Results
+'#### Internal forces
+'Support reaction -'A = q*L/2
+'Shear force diagram -'V(x) = A - q*x
+'<!--'PlotHeight = 100'-->
+$Plot{V(x) @ x = 0m : L}
+'Design shear force -'V_Ed = A
+'Bending moment diagram -'M(x) = A*x - q*x^2/2
+$Plot{M(x) @ x = 0m : L}
+'Design bending moment -'M_Ed = q*L^2/8
+page_break$
+'### Bending design
+'Concrete cover to the center of reinforcement -'d_1 = 50mm
+'Effective cross section depth -'d = h - d_1'cm
+'Relative design bending moment -'m_Ed = M_Ed/(b*d^2*η*f_cd)
+'Compressive zone depth -'x = d/λ*(1 - sqr(1 - 2*m_Ed))
+'Relative compression zone depth -'ξ = x/d
+'Design reinforcement yield strain -'ε_yd = f_yd/E_s
+'Relative depth of compression zone at yielding of bottom reinforcement 
+ξ_yd = ε_cu3/(ε_cu3 + ε_yd)
+'Limit compression zone depth -'ξ_lim = ξ_yd
+'(*ξ*~lim~ = *ξ*~yd~ for elastic and *ξ*~lim~ = 0.45 for plastic analysis)
+ξ'≤'ξ_lim'- Compressive reinforcement is **NOT** required.
+'Lever arm of internal forces -'z = d - 0.5*λ*x
+'Required main reinforcement -'A_sL,rq = M_Ed/(z*f_yd)|mm^2
+'Selected'n_b = 3'bars with size'Ø_L = 20mm
+'Provided main reinforcement'A_sL = n_b*π*Ø_L^2/4
+'Reinforcement ratio -'ρ_L = A_sL/(b*d)
+'Minimum reinforcement ratio
+ρ_min = max(0.26*f_ctm/f_yk; 0.0013)'<'ρ_L
+'Maximum reinforcement ratio -'ρ_max = 0.04'>'ρ_L
+page_break$
+'### Shear design
+'Shear capacity without reinforcement
+k = min(1 + sqr(200mm/d); 2)', 'C_Rd_c = 0.18/γ_c', 'k_1 = 0.15', 'σ_cp = 0MPa
+v_min = 0.035*k^(3/2)*sqr(f_ck)*MPa^0.5|MPa
+V_Rd_c_ = (C_Rd_c*k*(100*ρ_L*f_ck/MPa)^(1/3)*MPa + k_1*σ_cp)*b*d
+'Minimum shear resistance 
+V_Rd_c_min = (v_min + k_1*σ_cp)*b*d
+V_Rd_c = max(V_Rd_c_min; V_Rd_c_)
+'Design check:
+V_Ed'≤'V_Rd_c'. Shear reinforcement is **NOT** required by calculations!
+'Nominal reinforcement will be provided as follows:
+'Shear links with'n_w = 2'legs and diameter -'d_w = 6mm
+'Area of one leg -'A_sw1 = π*(d_w/2)^2
+'Maximum stirrup spacing -'s_max = min(0.75*d; 300mm)
+'Provided stirrup spacing -'s = s_max
+'Provided shear reinforcement area -'A_sw = n_w*A_sw1*(1m/s)'/m
+'Reinforcement ratio -'ρ_w = A_sw/(s*b)
+ρ_w,min = (0.08*sqr(f_ck)/f_yk)*MPa^(1÷2)'<'ρ_w

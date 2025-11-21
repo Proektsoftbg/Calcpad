@@ -4,8 +4,10 @@ using Calcpad.WebApi.Models.Base;
 using Calcpad.WebApi.Utils.Web;
 using Calcpad.WebApi.Utils.Web.Filters;
 using Calcpad.WebApi.Utils.Web.Swagger;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi;
 using MongoDB.Bson;
@@ -82,19 +84,19 @@ mvcBuilder.AddNewtonsoftJson(x =>
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.MapType<ObjectId>(
-        () => new OpenApiSchema { Type = JsonSchemaType.String, Format = "hexadecimal" }
-    );
 
-    var xmlFile = $"{Assembly.GetEntryAssembly()?.GetName().Name}.xml";
-    if (File.Exists(xmlFile))
+services.AddSwaggerGen(
+    new OpenApiInfo()
     {
-        c.IncludeXmlComments(xmlFile);
+        Title = "Calcpad API",
+        Contact = new OpenApiContact()
+        {
+            Name = "uyoufu",
+            Url = new Uri("https://uyoufu.uzoncloud.com"),
+            Email = "260827400@qq.com"
+        }
     }
-    c.OperationFilter<DotNETSwaggerFilter>();
-});
+);
 
 var app = builder.Build();
 

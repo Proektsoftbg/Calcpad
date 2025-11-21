@@ -94,7 +94,7 @@ namespace Calcpad.Wpf
             internal int MatrixCount;
             internal Types CurrentType;
             internal Types PreviousType;
-
+            internal Inline LastInline => Paragraph.Inlines.LastInline;
             internal void RetainType()
             {
                 if (CurrentType != Types.None)
@@ -1222,7 +1222,7 @@ namespace Calcpad.Wpf
             _state.CurrentType = Types.Operator;
             if (c == '=')
             {
-                var lastInline = _state.Paragraph.Inlines.LastInline;
+                var lastInline = _state.LastInline;
                 if (lastInline.PreviousInline is Run run && run.Text == ")")
                     _state.IsFunction = true;
 
@@ -1371,7 +1371,7 @@ namespace Calcpad.Wpf
                 return;
             }
             _builder.Clear();
-            if (AppendRelOperatorShortcut(s))
+            if (AppendOperatorShortcut(s))
                 return;
 
             if (t == Types.Include)
@@ -1382,36 +1382,12 @@ namespace Calcpad.Wpf
             else if (t == Types.Operator)
             {
                 if (_state.IsUnits)
-                {
-                    var isAllowed = s == "*" || s == "/" || s == "^";
-                    if (!isAllowed)
-                    {
-                        if (s == "-" || s == "+")
-                        {
-                            var run = _state.Paragraph.Inlines.LastInline as Run;
-                            isAllowed = run.Text == "E";
-                        }
-                        if (!isAllowed)
-                        {
-                            _state.CurrentType = Types.Error;
-                            _state.Message = AppMessages.InvalidOperator;
-                        }
-                    }
-                }
+                    CheckOperatorInUnits(s.FirstOrDefault());
                 else if (!IsDataExchangeKeyword)
                     s = FormatOperator(s);
 
-                if (s[0] == ' ' &&  _state.Paragraph.Inlines.LastInline is Run r)
-                {
-                    var text = r.Text;
-                    if (text.EndsWith(' '))
-                    {
-                        if (text.Length == 1)
-                            _state.Paragraph.Inlines.Remove(r);
-                        else
-                            r.Text = text[..^1];
-                    }
-                }
+                if (s[0] == ' ')
+                    TrimPreviousRun();
             }
             else if (t != Types.Error && t != Types.None)
             {
@@ -1419,6 +1395,9 @@ namespace Calcpad.Wpf
                 if (t == Types.Error)
                     _state.CurrentType = Types.Error;
             }
+            if (t == Types.Bracket && s == "(")
+                TryConvertErrorToArray();
+
             if (s is not null)
                 AppendRun(t, s);
 
@@ -1427,56 +1406,48 @@ namespace Calcpad.Wpf
                 s == "(" || s == "{" || s == "[";
         }
         private bool IsDataExchangeKeyword => DataExchangeKeywords.Contains(_state.Keyword);
-        private bool AppendRelOperatorShortcut(string s)
+        private bool AppendOperatorShortcut(string s)
         {
-            if (_state.Paragraph.Inlines.Count > 0)
+            if (_state.Paragraph.Inlines.Count > 0 && s.Length > 0)
             {
-                if (s == "=")
+                switch (s[0])
                 {
-                    var r = _state.Paragraph.Inlines.LastInline as Run;
-                    switch (r.Text)
-                    {
-                        case " = ": r.Text = " ≡ "; return true;
-                        case "!": r.Text = " ≠ "; return true;
-                        case " > ": r.Text = " ≥ "; return true;
-                        case " < ": r.Text = " ≤ "; return true;
-                    }
-                }
-                else if (s == "&")
-                {
-                    var r = _state.Paragraph.Inlines.LastInline as Run;
-                    if (r.Text == "&")
-                    {
-                        r.Text = " ∧ ";
-                        r.Background = null;
-                        r.Foreground = Colors[(int)Types.Operator];
-                        return true;
-                    }
-                }
-                else if (s == "|")
-                {
-                    var r = _state.Paragraph.Inlines.LastInline as Run;
-                    if (r.Text == "|")
-                    {
-                        r.Text = " ∨ ";
-                        r.Background = null;
-                        r.Foreground = Colors[(int)Types.Operator];
-                        return true;
-                    }
-                }
-                else if (s == "^")
-                {
-                    var r = _state.Paragraph.Inlines.LastInline as Run;
-                    if (r.Text == "^")
-                    {
-                        r.Text = " ⊕ ";
-                        r.Background = null;
-                        r.Foreground = Colors[(int)Types.Operator];
-                        return true;
-                    }
+                    case '=': return replaceRelText();
+                    case '&': return replaceText("&", " ∧ ", true);
+                    case '|': return replaceText("|", " ∨ ", true);
+                    case '^': return replaceText("^", " ⊕ ", true);
+                    case '/': return replaceText("/", "÷", true);
                 }
             }
             return false;
+
+            bool replaceRelText()
+            {
+                var r = _state.LastInline as Run;
+                switch (r?.Text)
+                {
+                    case " = ": r.Text = " ≡ "; return true;
+                    case "!":   r.Text = " ≠ "; return true;
+                    case " > ": r.Text = " ≥ "; return true;
+                    case " < ": r.Text = " ≤ "; return true;
+                }
+                return false;
+            }
+
+            bool replaceText(string find, string replace, bool nullBkg = false)
+            {
+                var r = _state.LastInline as Run;
+                if (r?.Text == find)
+                {
+                    r.Text = replace;
+                    if (nullBkg)
+                        r.Background = null;
+
+                    r.Foreground = Colors[(int)Types.Operator];
+                    return true;
+                }
+                return false;
+            }
         }
 
         private void AppendDoubleOperatorShortcut(char op)
@@ -1557,7 +1528,7 @@ namespace Calcpad.Wpf
                             break;
                     }
                 }
-                var r = _state.Paragraph.Inlines.LastInline as Run;
+                var r = _state.LastInline as Run;
                 var pt = r is null ? Types.None : GetTypeFromColor(r.Foreground);
                 if (IsDataExchangeKeyword && _state.Paragraph.Inlines.Count > 3)
                 {
@@ -1639,6 +1610,24 @@ namespace Calcpad.Wpf
                 _state.Message = null;
 
             return t;
+        }
+
+        private void TryConvertErrorToArray()
+        {
+            if (_state.LastInline is Run r
+                && r.Foreground == Colors[(int)Types.Error] &&
+                r.Text.EndsWith('.'))
+            {
+                var text = r.Text[..^1];
+                r.Text = text;
+                if (IsVariable(text, _state.Line))
+                {
+                    r.Background = null;
+                    r.Foreground = Colors[(int)Types.Variable];
+                    r.ToolTip = null;
+                }
+                AppendRun(Types.Operator, ".");
+            }
         }
 
         private void AppendRun(Types t, string s)
@@ -2150,6 +2139,39 @@ namespace Calcpad.Wpf
                 return s[..^2];
 
             return s;
+        }
+
+
+        private void CheckOperatorInUnits(char c)
+        {
+            var isAllowed = c == '*' || c == '/' || c == '^';
+            if (!isAllowed)
+            {
+                if ((c == '-' || c == '+') &&
+                    _state.LastInline is Run run)
+                    isAllowed = run.Text == "E";
+
+                if (!isAllowed)
+                {
+                    _state.CurrentType = Types.Error;
+                    _state.Message = AppMessages.InvalidOperator;
+                }
+            }
+        }
+
+        private void TrimPreviousRun()
+        {
+            if (_state.LastInline is Run r)
+            {
+                var text = r.Text;
+                if (text.EndsWith(' '))
+                {
+                    if (text.Length == 1)
+                        _state.Paragraph.Inlines.Remove(r);
+                    else
+                        r.Text = text[..^1];
+                }
+            }
         }
 
         private string FormatOperator(string name) =>

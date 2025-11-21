@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
 
 namespace Calcpad.Core
@@ -96,8 +95,6 @@ namespace Calcpad.Core
                 var pt = TokenTypes.None;
                 var st = SolveBlock.SolverTypes.None;
                 var isSolver = false;
-                var isDivision = false;
-                var isUnitDivision = false;
                 var isInput = false;
                 var isSubscript = false;
                 var bracketCounter = 0;
@@ -211,11 +208,6 @@ namespace Calcpad.Core
                         {
                             if (pt == TokenTypes.Constant)
                             {
-                                if (isDivision && !unitsLiteral.IsEmpty)
-                                {
-                                    isUnitDivision = true;
-                                    tokens.Enqueue(new Token('(', TokenTypes.BracketLeft));
-                                }
                                 if (tokenLiteral.Equals(".") && !unitsLiteral.IsEmpty)
                                 {
                                     var s = unitsLiteral.ToString();
@@ -256,7 +248,8 @@ namespace Calcpad.Core
                                             t.Type == TokenTypes.MatrixFunction3 ||
                                             t.Type == TokenTypes.MatrixFunction4 ||
                                             t.Type == TokenTypes.MatrixFunction5 ||
-                                            t.Type == TokenTypes.MatrixMultiFunction))
+                                            t.Type == TokenTypes.MatrixMultiFunction ||
+                                            t.Type == TokenTypes.Array))
                                         throw Exceptions.ComplexVectorsAndMatricesNotSupported();
                                 }
                                 else
@@ -266,18 +259,6 @@ namespace Calcpad.Core
                                         t.Type == TokenTypes.Constant
                                         ))
                                     {
-                                        if (isDivision)
-                                        {
-                                            t = tokens.Last();
-                                            tokens.Enqueue(new ValueToken(RealValue.Zero)
-                                            {
-                                                Content = t.Content,
-                                                Type = t.Type
-                                            });
-                                            t.Content = "(";
-                                            t.Type = TokenTypes.BracketLeft;
-                                            isUnitDivision = true;
-                                        }
                                         tokens.Enqueue(new Token("*", TokenTypes.Operator, Calculator.UnitMultOrder));
                                         if (!tokenLiteral.IsEmpty)
                                             t = MakeUnitToken(s, true);
@@ -288,6 +269,9 @@ namespace Calcpad.Core
                                         t = new VariableToken(s, null);
                                 }
                                 tokens.Enqueue(t);
+                                if (t.Type == TokenTypes.Array)
+                                    tokens.Enqueue(new Token(t.Content, TokenTypes.ArrayIndex));
+
                                 tokenLiteral.Reset(i);
                             }
                         }
@@ -335,20 +319,8 @@ namespace Calcpad.Core
                             }
                             else
                             {
-                                if (isUnitDivision &&
-                                    (
-                                        tt == TokenTypes.Operator &&
-                                        c != '^' &&
-                                        c != NegateChar
-                                        || c == ')'
-                                        || c == ';'))
-                                {
-                                    isUnitDivision = false;
-                                    tokens.Enqueue(new Token(')', TokenTypes.BracketRight));
-                                }
                                 if (tt == TokenTypes.Operator)
                                 {
-                                    isDivision = c == '/' || c == '÷';
                                     if (c == '=')
                                     {
                                         if (!allowAssignment || _parser._assignmentIndex > 0)
@@ -364,14 +336,6 @@ namespace Calcpad.Core
                                         _parser._assignmentIndex = count;
                                     }
                                 }
-                                else if (tt == TokenTypes.Divisor ||
-                                            tt == TokenTypes.BracketLeft ||
-                                            tt == TokenTypes.BracketRight ||
-                                            tt == TokenTypes.SquareBracketLeft ||
-                                            tt == TokenTypes.SquareBracketRight ||
-                                            tt == TokenTypes.RowDivisor)
-                                    isDivision = false;
-
                                 if (tt == TokenTypes.SquareBracketLeft && _isComplex)
                                     throw Exceptions.ComplexVectorsAndMatricesNotSupported();
 
@@ -383,9 +347,6 @@ namespace Calcpad.Core
                     if (pt != TokenTypes.Input || tt != TokenTypes.None)
                         pt = tt;
                 }
-                if (isUnitDivision)
-                    tokens.Enqueue(new Token(')', TokenTypes.BracketRight));
-
                 GetVariables(tokens);
                 if (!isSolver)
                     return tokens;
@@ -631,7 +592,15 @@ namespace Calcpad.Core
                 if (index < 0)
                 {
                     if (mustExist)
+                    {
+                        if (s.EndsWith('.'))
+                            return new VariableToken(s[..^1], null)
+                            {
+                                Type = TokenTypes.Array
+                            };
+
                         throw Exceptions.InvalidFunction(s);
+                    }
 
                     if (!_parser.IsCalculation)
                         return new FunctionToken(s)
@@ -788,7 +757,7 @@ namespace Calcpad.Core
                         }
                     }
                     if (!isDefinition &&
-                        i > assignmentIndex &&
+                        i >= assignmentIndex &&
                         t.Type == TokenTypes.Variable &&
                         !DefinedVariables.Contains(t.Content) &&
                         Unit.TryGet(t.Content, out var u)

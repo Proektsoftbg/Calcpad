@@ -1,0 +1,44 @@
+#md on
+"Newton's method animation
+#noc
+'**Problem:** Given the following equation:'x^x = 10'. Find'x'= ?<br/>
+#equ
+'**Solution:** Transform the equation in the form:'f(x) = x^x - 10'= 0
+'The first derivative is'f′(x) = x^x*(ln(x) + 1)
+'Initial guess -'x_0 = 4', target precision -'δ = 10^-14
+'#### Animation&emsp;<button id="start">Start</button>
+'<style>#start{height:1.8em; padding-top:0;} .fr{display:none;} .Series3, .Series6{opacity:0;} .Series7{stroke-width:6pt;}</style>
+#hide
+#val
+PlotWidth = 500','PlotHeight = 250','PlotSVG = 1','PlotAdaptive = 0
+n = 100','x = x_0','a = 2','b = 4
+#for i = 1 : n
+	y_0 = f(x_0)
+	#if i⦼2 ≡ 0
+		x = x_0 - f(x_0)/f′(x_0)
+		y = f(x)
+		y(x) = y_0 + (x - x_0)*f′(x_0)
+		#show
+		'<div class="fr" id="fr-'i'">
+		$Plot{f(ξ) & ξ|if(ξ ≥ x ∧ ξ ≤ x_0; y(ξ); 1/0) & 2|-50 & x|(ξ - a)*y/(b - a) & x|y & x_0|y_0 & x_0|y_0 @ ξ = a : b}
+		'</div>
+		#hide
+		x_0 = x
+	#else
+		#if abs(y_0) < δ
+			n = i - 4
+			#break
+		#end if
+		#show
+		'<div class="fr" id="fr-'i'">
+		$Plot{f(ξ) & x_0|y_0 & 2|-50 & x_0|(ξ - a)*y_0/(b - a) & x_0|y_0 & x_0|y_0 & x_0|y_0 @ ξ = a : b}
+		'</div>
+		#hide
+	#end if
+#loop
+#show
+#equ
+'After 'n' iterations we get:'x
+'Check -'x^x', Error -'abs(x^x - 10)'<'δ
+#val
+'<script>$("#fr-1").show();$("#start").click(function(){$(this).hide();var i='n';var fr=$("#fr-"+i);setInterval(function(){fr.hide();if(++i>'n')i=1;fr=$("#fr-"+i);fr.show();}, 1000);});</script>

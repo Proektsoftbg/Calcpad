@@ -1,10 +1,10 @@
 # How to install Calcpad on Ubuntu Linux
 
-1. Calcpad is a .NET application, so you need .NET 8.0 to run it on Linux.
-Use the following commands to install .NET 8.0 runtime:
+1. Calcpad is a .NET application, so you need .NET 10.0 to run it on Linux.
+Use the following commands to install .NET 10.0 runtime:
 ```
 sudo apt update
-sudo apt-get install -y dotnet-runtime-8.0
+sudo apt-get install -y dotnet-runtime-10.0
 ```
 If you need to uninstall older dotnet versions, run this command before the above ones:
 ```
@@ -15,18 +15,18 @@ sudo apt remove dotnet*
 sudo snap install chromium
 ```
 3. Download the Calcpad setup package from the following link:
-https://github.com/Proektsoftbg/Calcpad/releases/download/v7.5.2/Calcpad.7.5.2.deb
+https://github.com/Proektsoftbg/Calcpad/releases/download/v7.5.4/Calcpad.7.5.4.deb
 
 Then, install Calcpad, using the following command:
 ```
-sudo apt-get install -y <path-to-your-downloads-folder>/Calcpad.7.5.2.deb
+sudo apt-get install -y <path-to-your-downloads-folder>/Calcpad.7.5.4.deb
 ```
 Instead of `<path-to-your-downloads-folder>` you must put the actual path, something like this:
 ```
-sudo apt-get install -y /home/ned/snap/chromium/3235/Downloads/Calcpad.7.5.2.deb
+sudo apt-get install -y /home/ned/snap/chromium/3235/Downloads/Calcpad.7.5.4.deb
 ```
 If you get a message like the one bellow, please ignore it:
-N: Download is performed unsandboxed as root as file '.../Calcpad.7.5.2.deb' couldn't be accessed by user '_apt'. - pkgAcquire::Run (13: Permission denied)
+N: Download is performed unsandboxed as root as file '.../Calcpad.7.5.4.deb' couldn't be accessed by user '_apt'. - pkgAcquire::Run (13: Permission denied)
 
 And that's it. You can start the Calcpad command line interpreter (CLI) by simply typing:
 ```

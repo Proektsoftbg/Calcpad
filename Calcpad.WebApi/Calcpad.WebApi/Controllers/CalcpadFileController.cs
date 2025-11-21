@@ -6,6 +6,7 @@ using Calcpad.WebApi.Controllers.Base;
 using Calcpad.WebApi.Controllers.DTOs;
 using Calcpad.WebApi.Models;
 using Calcpad.WebApi.Models.Base;
+using Calcpad.WebApi.Services.AI;
 using Calcpad.WebApi.Services.Calcpad;
 using Calcpad.WebApi.Services.Token;
 using Calcpad.WebApi.Utils.Web.ResponseModel;
@@ -33,7 +34,8 @@ namespace Calcpad.WebApi.Controllers
         AppSettings<StorageConfig> storageConfig,
         AppSettings<AppConfig> appConfig,
         CpdStorageService storageService,
-        CpdContentService contentService
+        CpdContentService contentService,
+        CpdI18nContentService i18NService
     ) : ControllerBaseV1
     {
         /// <summary>
@@ -91,6 +93,7 @@ namespace Calcpad.WebApi.Controllers
                     UniqueId = formData.UniqueId,
                     UserId = tokenService.GetTokenInfo().UserId,
                     IsCpd = formData.IsCpdFile,
+                    Version = 1
                 };
                 await db.Collection<CalcpadFileModel>().InsertOneAsync(existObject);
             }
@@ -98,11 +101,12 @@ namespace Calcpad.WebApi.Controllers
             {
                 // updaet is public
                 if (existObject.IsCpd != formData.IsCpdFile)
-                    await db.AsFluentUpdate<CalcpadFileModel>()
+                    await db.AsFluentMongo<CalcpadFileModel>()
                         .Where(x => x.Id == existObject.Id)
                         .Set(x => x.IsCpd, formData.IsCpdFile)
                         .Set(x => x.LastUpdateDate, DateTime.UtcNow)
                         .Set(x => x.FileName, formData.GetFileName())
+                        .Inc(x => x.Version, 1)
                         .UpdateOneAsync();
             }
 
@@ -123,7 +127,7 @@ namespace Calcpad.WebApi.Controllers
                 );
                 // replace the original file
                 System.IO.File.Move(tempPath, fullPath, true);
-                await db.AsFluentUpdate<CalcpadFileModel>()
+                await db.AsFluentMongo<CalcpadFileModel>()
                     .Where(x => x.Id == existObject.Id)
                     .Set(x => x.IncludeUniqueIds, includeUniqueIds)
                     .UpdateOneAsync();
@@ -173,6 +177,7 @@ namespace Calcpad.WebApi.Controllers
                 LastUpdateDate = existModel.LastUpdateDate,
                 IsCpd = existModel.IsCpd,
                 SourceId = existModel.Id,
+                Version = existModel.Version
             };
             await db.Collection<CalcpadFileModel>().InsertOneAsync(newModel);
 
@@ -271,7 +276,7 @@ namespace Calcpad.WebApi.Controllers
             }
             else
             {
-                await db.AsFluentUpdate<CalcpadFileModel>()
+                await db.AsFluentMongo<CalcpadFileModel>()
                     .Where(x => x.Id == existModel.Id)
                     .Set(x => x.Status, CpdFileStatus.Deleted)
                     .UpdateOneAsync();
@@ -433,8 +438,25 @@ namespace Calcpad.WebApi.Controllers
 
             var cpdExecutor = new CpdExecutor(fullPath);
             var outputText = await cpdExecutor.RunCalculation(data.InputFields);
+
             // replace local link to public path
-            outputText = contentService.FormatReadMacroResult(outputText, false);
+            var localeResult = contentService.FormatReadMacroResult(outputText, false);
+
+            // translate to specified language
+            if (!string.IsNullOrEmpty(data.Lang))
+            {
+                outputText = await i18NService.TranslateHtmlContentToLang(
+                    fileModel.UniqueId,
+                    localeResult,
+                    data.Lang
+                );
+            }
+
+            // update last calculation result
+            await db.AsFluentMongo<CalcpadFileModel>()
+                .Where(x => x.Id == fileModel.Id)
+                .Set(x => x.LastCalculationHtml, localeResult)
+                .UpdateOneAsync();
 
             // compile
             return outputText.ToSuccessResponse();

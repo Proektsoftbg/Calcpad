@@ -1799,19 +1799,19 @@
 
         [Fact]
         [Trait("Category", "Mechanical Formulas")]
-        public void Test_kPa_cm() => Test("10kPa*200cm", "20kN/m");
+        public void Test_kPa_cm() => Test("10kPa*200cm", "20kN∕m");
 
         [Fact]
         [Trait("Category", "Mechanical Formulas")]
-        public void Test_ksf_in() => Test("10ksf*24in", "20kip/ft");
+        public void Test_ksf_in() => Test("10ksf*24in", "20kip∕ft");
 
         [Fact]
         [Trait("Category", "Mechanical Formulas")]
-        public void Test_kpa_m() => Test("300kPa/3m", "100kN/m^3");
+        public void Test_kpa_m() => Test("300kPa/3m", "100kN∕m^3");
 
         [Fact]
         [Trait("Category", "Mechanical Formulas")]
-        public void Test_ksi_in() => Test("300ksi/3in", "100kip/in^3");
+        public void Test_ksi_in() => Test("300ksi/3in", "100kip∕in^3");
         #endregion
 
         #region Electric Formulas
@@ -1895,7 +1895,7 @@
 
         [Fact]
         [Trait("Category", "Arithmetics")]
-        public void Test_kNm_m() => Test("5kNm/m", "5kNm/m");
+        public void Test_kNm_m() => Test("5kNm/m", "5kNm∕m");
 
         [Fact]
         [Trait("Category", "Arithmetics")]
@@ -1994,11 +1994,11 @@
 
         [Fact]
         [Trait("Category", "Arithmetics")]
-        public void Test_kCal() => Test("(2kcal/cm^2)/(1000kcal/kg)", "0.02t/m^2");
+        public void Test_kCal() => Test("(2kcal/cm^2)/(1000kcal/kg)", "0.02t∕m^2");
 
         [Fact]
         [Trait("Category", "Arithmetics")]
-        public void Test_kN_kg() => Test("(2kN/cm^2)/(1000kN/kg)", "0.02t/m^2");
+        public void Test_kN_kg() => Test("(2kN/cm^2)/(1000kN/kg)", "0.02t∕m^2");
         [Fact]
         [Trait("Category", "Arithmetics")]
         public void Test_Subt_F() => Test("180°F - 18°F", "162°F");
