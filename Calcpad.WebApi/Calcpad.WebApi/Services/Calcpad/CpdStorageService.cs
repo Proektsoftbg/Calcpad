@@ -1,4 +1,4 @@
-﻿using Calcpad.Document;
+using Calcpad.Document;
 using Calcpad.Document.Archive;
 using Calcpad.Document.Core.Segments;
 using Calcpad.Document.Core.Utils;
@@ -219,7 +219,7 @@ namespace Calcpad.WebApi.Services.Calcpad
                 Directory.CreateDirectory(includesDir);
             foreach (var includeLine in includeLines)
             {
-                if (includeLine.Uid.IsNullOrEmpty())
+                if (string.IsNullOrEmpty(includeLine.Uid))
                     continue;
 
                 var includeModel = await db.AsQueryable<CalcpadFileModel>()
