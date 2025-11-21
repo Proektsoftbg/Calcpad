@@ -120,7 +120,7 @@
         .small td, .small th, .small var {
             font-size: 9pt;
         }
-
+Excel
         i {
             color: #086;
             font-family: Times New Roman;
@@ -680,7 +680,7 @@
         <li><a class="toc" href="#TOC_105">如何运行</a></li>
         <li><a class="toc" href="#TOC_106">理论背景</a></li>
         <li>
-            <span class="exp" id="button2">+</span><a class="toc" href="#TOC_200">写计算代码</a><br />
+            <span class="exp" id="button2">+</span><a class="toc" href="#TOC_200">编写计算代码</a><br />
             <ul id="list2">
                 <li><a class="toc" href="#TOC_201">数字键盘</a></li>
                 <li><a class="toc" href="#TOC_202">在文本中移动</a></li>
@@ -694,7 +694,7 @@
             </ul>
         </li>
         <li>
-            <span class="exp" id="button3">+</span><a class="toc" href="#TOC_300">编程辅助功能</a><br />
+            <span class="exp" id="button3">+</span><a class="toc" href="#TOC_300">辅助编程功能</a><br />
             <ul id="list3">
                 <li><a class="toc" href="#TOC_301">语法高亮</a></li>
                 <li><a class="toc" href="#TOC_302">自动缩进</a></li>
@@ -714,10 +714,13 @@
                 <li><a class="toc" href="#TOC_405">函数</a></li>
                 <li><a class="toc" href="#TOC_406">绘图</a></li>
                 <li><a class="toc" href="#TOC_407">数值方法</a></li>
-                <li><a class="toc" href="#TOC_408">迭代程序</a></li>
-                <li><a class="toc" href="#TOC_409">单位</a></li>
-                <li><a class="toc" href="#TOC_410">向量</a></li>
-                <li><a class="toc" href="#TOC_411">矩阵</a></li>
+                <li><a class="toc" href="#TOC_408">迭代过程</a></li>
+                <li><a class="toc" href="#TOC_409">表达式块</a></li>
+                <li><a class="toc" href="#TOC_410">单位</a></li>
+                <li><a class="toc" href="#TOC_411">向量</a></li>
+                <li><a class="toc" href="#TOC_412">矩阵</a></li>
+				<li><a class="toc" href="#TOC_413">高性能型向量和矩阵</a></li>
+				<li><a class="toc" href="#TOC_414">高性能对称求解器</a></li>
             </ul>
         </li>
         <li>
@@ -727,7 +730,9 @@
                 <li><a class="toc" href="#TOC_502">文本/注释</a></li>
                 <li><a class="toc" href="#TOC_503">注释中的单位</a></li>
                 <li><a class="toc" href="#TOC_504">用Html和CSS设置格式</a></li>
-                <li><a class="toc" href="#TOC_505">图像</a></li>
+				<li><a class="toc" href="#TOC_505">图像</a></li>
+                <li><a class="toc" href="#TOC_506">用Markdown设置格式</a></li>
+                <li><a class="toc" href="#TOC_507">格式工具栏</a></li>
             </ul>
         </li>
         <li>
@@ -740,7 +745,8 @@
                 <li><a class="toc" href="#TOC_605">交互式(逐步)执行</a></li>
                 <li><a class="toc" href="#TOC_606">子程序(调用)</a></li>
                 <li><a class="toc" href="#TOC_607">宏和字符串变量</a></li>
-            </ul>
+				<li><a class="toc" href="#TOC_608">导入/导出外部数据</a></li>
+			</ul>
         </li>
         <li>
             <span class="exp" id="button7">+</span><a class="toc" href="#TOC_700">结果</a><br />
@@ -774,7 +780,7 @@
             <li><a href="mailto:proektsoft.bg@gmail.com">proektsoft.bg@gmail.com</a></li>
         </ul>
         <h1><img alt="Calcpad.png" src="Images/Calcpad.png" height="32"> Calcpad</h1>
-        <p style="margin-left:42px; margin-top:0;">7.1版自述文件</p>
+        <p style="margin-left:42px; margin-top:0;">7.4版自述文件</p>
         <h2 id="TOC_101">关于Calcpad</h2>
         <p>Calcpad是一款用于数学和工程计算的免费软件.它是一个灵活现代的可编程计算器,具有Html报告生成器.它简单易用,但也包含许多高级功能:</p>
         <ul>
@@ -786,7 +792,7 @@
             <li>
                 向量和矩阵函数: <ul>
                     <li>数据函数: 搜素, 查找, 排序, 计数等.;</li>
-                    <li>聚合函数: min, max, sum, sumsq(平方和), srss(平方和的平方根), average(均值), product(积), 几何平均等.;</li>
+                    <li>累加函数: min, max, sum, sumsq(平方和), srss(平方和的平方根), average(均值), product(积), 几何平均等.;</li>
                     <li>
                         数学函数: norm(范数), condition(条件数), determinant(行列式), rank(秩), trace(迹), transpose(转置), adjugate(伴随矩阵)及 cofactor(协因数矩阵), inverse(逆矩阵),
                         矩阵分解 (Cholesky, ldlt, lu, qr 和 svd), 特征值/特征向量和线性方程组;
@@ -798,12 +804,12 @@
             <li>模块、宏和字符串变量;</li>
             <li>带有条件和循环的程序流程控制;</li>
             <li>引号内的“标题”和'文本'注释;</li>
-            <li>注释中支持Html和CSS进行丰富格式化;</li>
+            <li>注释中支持Html,CSS和Markdown进行丰富的格式设置;</li>
             <li>函数绘图、图像、表格、参数化SVG绘图等;</li>
             <li>自动生成用于数据输入的Html表单;</li>
             <li>专业外观的Html报告,用于查看和打印;</li>
             <li>导出为Word(*.docx)和PDF文档;</li>
-            <li>变量替换和智能舍入数字;</li>
+            <li>变量代入和智能舍入数字;</li>
             <li>输出可见性控制和内容折叠;</li>
             <li>支持纯文本(*.txt,*.cpd)和二进制(*.cpdz)文件格式.</li>
         </ul>
@@ -814,7 +820,7 @@
         <p>这个软件适用于需要执行重复计算并将其呈现在官方文档(如计算说明)中的工程师和其他专业人士.他们可以通过创建强大可靠的Calcpad工作表来高效地自动化这项任务.它还可以帮助教师准备计算示例、论文、手册、书籍等等.学生可以使用它来解决各种问题、准备家庭作业、学位论文等.</p>
 
         <h2 id="TOC_103">安装</h2>
-        <p>安装由自动化安装程序<a target="_blank" href="https://calcpad.eu/download/calcpad-setup-en-x64.zip">calcpad-setup-en-x64.exe</a>执行.按照安装向导的说明进行操作.该软件需要一台64位计算机,安装有Windows 10和<a target="_blank" href="https://dotnet.microsoft.com/en-us/download/dotnet/8.0">Microsoft .NET 8.0</a>.</p>
+        <p>安装由自动化安装程序<a target="_blank" href="https://calcpad.eu/download/calcpad-setup-en-x64.zip">calcpad-setup-en-x64.exe</a>执行.按照安装向导的说明进行操作.该软件需要一台64位计算机,安装有Windows 10和<a target="_blank" href="https://dotnet.microsoft.com/en-us/download/dotnet/10.0">Microsoft .NET Desktop Runtime 10.0</a>.</p>
 
         <h2 id="TOC_104">许可和使用条款</h2>
         <p>这个软件对商业和非商业用途均免费.它是根据MIT许可证分发的:</p>
@@ -1115,10 +1121,10 @@
                 三角函数:<ul style="list-style-type:none;">
                     <li><code><b>sin</b>(<var>x</var>)</code> - 正弦;</li>
                     <li><code><b>cos</b>(<var>x</var>)</code> - 余弦;</li>
-                    <li><code><b>tan</b>(<var>x</var>)</code> - 正切 = <code><b>sin</b>(<var>x</var>)/<b>cos</b>(<var>x</var>)</code>, for each <var>x</var> ≠ kπ, k=1, 2, 3…;</li>
-                    <li><code><b>csc</b>(<var>x</var>)</code> - 余割 = <code>1/<b>sin</b>(<var>x</var>)</code>, for each <var>x</var> ≠ kπ, k=1, 2, 3…;</li>
-                    <li><code><b>sec</b>(<var>x</var>)</code> - 正割 = <code>1/<b>cos</b>(<var>x</var>)</code>, for each <var>x</var> ≠ π/2 + kπ, k=1, 2, 3…;</li>
-                    <li><code><b>cot</b>(<var>x</var>)</code> - 余切 = <code><b>cos</b>(<var>x</var>)/<b>sin</b>(<var>x</var>)</code>, for each <var>x</var> ≠ π/2 + kπ, k=1, 2, 3…;</li>
+                    <li><code><b>tan</b>(<var>x</var>)</code> - 正切 = <code><b>sin</b>(<var>x</var>)/<b>cos</b>(<var>x</var>)</code>, 对 <var>x</var> ≠ kπ, k=1, 2, 3…;</li>
+                    <li><code><b>csc</b>(<var>x</var>)</code> - 余割 = <code>1/<b>sin</b>(<var>x</var>)</code>, 对 <var>x</var> ≠ kπ, k=1, 2, 3…;</li>
+                    <li><code><b>sec</b>(<var>x</var>)</code> - 正割 = <code>1/<b>cos</b>(<var>x</var>)</code>, 对 <var>x</var> ≠ π/2 + kπ, k=1, 2, 3…;</li>
+                    <li><code><b>cot</b>(<var>x</var>)</code> - 余切 = <code><b>cos</b>(<var>x</var>)/<b>sin</b>(<var>x</var>)</code>, 对 <var>x</var> ≠ π/2 + kπ, k=1, 2, 3…;</li>
                 </ul>
             </li>
             <li>
@@ -1188,7 +1194,7 @@
                 </ul>
             </li>
             <li>
-                聚合和内插:<ul style="list-style-type:none;">
+                累加和内插:<ul style="list-style-type:none;">
                     <li><code><b>min</b>(<var>x</var>; <var>y</var>; <var>z</var>…)</code> - 最小值;</li>
                     <li><code><b>max</b>(<var>x</var>; <var>y</var>; <var>z</var>…)</code> - 最大值;</li>
                     <li><code><b>sum</b>(<var>x</var>; <var>y</var>; <var>z</var>…)</code> - 求和<code> = <var>x</var> + <var>y</var> + <var>z</var>…</code>;</li>
@@ -1216,6 +1222,11 @@
                 其他:<ul style="list-style-type:none;">
                     <li><code><b>sign</b>(<var>x</var>)</code> - 符号函数 = -1, if <var>x</var> < 0; 1, if <var>x</var> > 0, 0 if <var>x</var> = 0;</li>
                     <li><code><b>random</b>(<var>x</var>)</code> - 生成0 和 <var>x</var>之间的随机数.</li>
+					<li><code><b>getunits</b>(<var>x</var>)</code> - 返回<var>x</var>的单位(忽略其数值).若 <var>x</var>无单位则返回1;</li>
+                    <li><code><b>setunits</b>(<var>x</var>; <var>u</var>)</code> - 将单位<var>u</var>赋予 <var>x</var>, 其中 <var>x</var> 可以为标量, 向量或矩阵;</li>
+                    <li><code><b>clrunits</b>(<var>x</var>)</code> - 清除标量, 向量或矩阵<var>x</var>的单位;</li>
+                    <li><code><b>hp</b>(<var>x</var>)</code>- 将 <var>x</var> 转换为等效的高性能(hp)型;</li>
+                    <li><code><b>ishp</b>(<var>x</var>)</code> - 检查<var>x</var>是否为高性能(hp)型向量或矩阵;</li>
                 </ul>
             </li>
             <li>
@@ -1223,8 +1234,10 @@
                     <li>
                         创建相关:<ul style="list-style-type:none;">
                             <li><code><b>vector</b>(<var>n</var>)</code> - 创建长度为 <var>n</var>的空向量;</li>
-                            <li><code><b>fill</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>)</code> - 以<var>x</var>的值填充向量<var><span class="vec">⃗</span>v</var>;</li>
+							<li><code><b>vector_hp</b>(<var>n</var>)</code> - 创建长度为 <var>n</var>的高性能(hp)型的空向量;</li>
+							<li><code><b>fill</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>)</code> - 以<var>x</var>的值填充向量<var><span class="vec">⃗</span>v</var>;</li>
                             <li><code><b>range</b>(<var>x</var><sub>1</sub>; <var>x</var><sub>n</sub>; <var>s</var>)</code> - 创建一个向量其元素值从 <var>x</var><sub>1</sub> 到 <var>x</var><sub>n</sub> 以步 <var>s</var>变化;</li>
+							<li><code><b>range_hp</b>(<var>x</var><sub>1</sub>; <var>x</var><sub>n</sub>; <var>s</var>)</code> - 创建一个高性能(hp)型向量,其元素值从 <var>x</var><sub>1</sub> 到 <var>x</var><sub>n</sub> 以步 <var>s</var>变化;</li>
                         </ul>
                     </li>
                     <li>
@@ -1290,6 +1303,13 @@
                             <li><code><b>utriang</b>(<var>n</var>)</code> - 创建一个 <var>n</var>⨯<var>n</var>的上三角矩阵;</li>
                             <li><code><b>ltriang</b>(<var>n</var>)</code> - 创建一个 <var>n</var>⨯<var>n</var>的下三角矩阵;</li>
                             <li><code><b>symmetric</b>(<var>n</var>)</code> - 创建一个 <var>n</var>⨯<var>n</var>的对称矩阵;</li>
+                            <li><code><b>matrix_hp</b>(<var>m</var>; <var>n</var>)</code> - 创建一个 <var>m</var>⨯<var>n</var>的高性能(hp)型空矩阵;</li>
+                            <li><code><b>identity_hp</b>(<var>n</var>)</code> - 创建一个高性能(hp)型单位矩阵,维数 <var>n</var>⨯<var>n</var>;</li>
+                            <li><code><b>diagonal_hp</b>(<var>n</var>; <var>d</var>)</code> - 创建一个<var>n</var>⨯<var>n</var> 对角元素值为 <var>d</var>的高性能(hp)型对角矩阵;</li>
+                            <li><code><b>column_hp</b>(<var>m</var>; <var>c</var>)</code> - 创建一个 <var>m</var>⨯1的高性能(hp)型列矩阵, 元素值都为 <var>c</var>;</li>
+                            <li><code><b>utriang_hp</b>(<var>n</var>)</code> - 创建一个 <var>n</var>⨯<var>n</var>的高性能(hp)型上三角矩阵;</li>
+                            <li><code><b>ltriang_hp</b>(<var>n</var>)</code> - 创建一个 <var>n</var>⨯<var>n</var>的高性能(hp)型下三角矩阵;</li>
+                            <li><code><b>symmetric_hp</b>(<var>n</var>)</code> - 创建一个 <var>n</var>⨯<var>n</var>的高性能(hp)型对称矩阵;</li>
                             <li><code><b>vec2diag</b>(<var><span class="vec">⃗</span>v</var>)</code> - 用向量 <var><span class="vec">⃗</span>v</var>的元素创建一个对角矩阵;</li>
                             <li><code><b>vec2row</b>(<var><span class="vec">⃗</span>v</var>)</code> - 用向量 <var><span class="vec">⃗</span>v</var>创建包含元素的行矩阵;</li>
                             <li><code><b>vec2col</b>(<var><span class="vec">⃗</span>v</var>)</code> - 用向量 <var><span class="vec">⃗</span>v</var>的元素创建一个列矩阵;</li>
@@ -1389,6 +1409,9 @@
                             <li>
                                 <code><b>cmsolve</b>(<var>A</var>; <var>B</var>)</code> - 求解一般矩阵方程 <var>AX</var> = <var>B</var> :对对称且正-定系数矩阵<var>A</var> 使用Cholesky分解;<br />
                             </li>
+							<li><code><b>smsolve</b>(<var>A</var>; <var>B</var>)</code> - 对高性能型对称,正-定阵A采用预处理共轭梯度法(preconditioned conjugate gradient-PCG)求解一般矩阵方程<var>AX</var> = <var>B</var>;</li>
+                            <li><code><b>fft</b>(<var>M</var>)</code> - 对行优先(row-major)矩阵<var>M</var>进行快速傅里叶变换. 其必须包含1实数行和2个复数行;</li>
+                            <li><code><b>ift</b>(<var>M</var>)</code> - 对行优先(row-major)矩阵<var>M</var>进行傅里叶逆变换. 其必须包含1实数行和2个复数行;</li>
                     </li>
                 </ul>
             </li>
@@ -1512,8 +1535,33 @@
         </p>
         <p><span class="cond">$Plot</span>{...}函数必须在一行中最先出现.在它之前只能有空格和制表符,甚至不能有注释.否则,程序将返回错误.在闭括号"}"之后的任何文本都将被忽略.绘图仅支持实数.只有在绘图区间上,<var>x</var>和<var>y</var>都是实数并且函数返回实数结果时,才能在复数模式下使用.</p>
         <p>您可以通过定义两个变量:<var>PlotWidth</var>和<var>PlotHeight</var>(以像素为单位)来指定绘图区域的大小.默认值为<var>PlotWidth</var> = 400和<var>PlotHeight</var> = 250.</p>
-        <p><span class="cond">$Map</span>{...}函数可以使用不同的调色板.从程序窗口底部的"<b>调色板(Palette)</b>"组合框中选择首选项.如果选择了"<b>平滑(Smooth)</b>"复选框,刻度将显示为平滑渐变.否则,程序将绘制彩色条.您还可以通过选择相应的组合框来为图形添加3D效果.</p>
-        <p>以下是不同绘图方法的示例:</p>
+        <p><span class="cond">$Map</span>{...}函数可以使用不同的调色板.从程序窗口底部的"<b>调色板(Palette)</b>"组合框中选择需要的配色.如果选择了"<b>平滑(Smooth)</b>"复选框,刻度将显示为平滑渐变.否则,程序将绘制彩色条.您还可以通过选择相应的组合框来为图形添加3D效果.</p>
+        <p style="margin-left: 2em;">
+			<var>PlotShadows</var> - 以带阴影的方式绘制曲面的二维投影图;<br />
+			<var>PlotLightDir</var> - 顺时针变化的光源方向(0-7):<br />
+			&emsp;&emsp;0 - 北<br />
+            &emsp;&emsp;1 - 东北<br />
+            &emsp;&emsp;2 - 东<br />
+            &emsp;&emsp;3 - 东南<br />
+            &emsp;&emsp;4 - 南<br />
+            &emsp;&emsp;5 - 西南<br />
+            &emsp;&emsp;6 - 西<br />
+            &emsp;&emsp;7 - 西北<br />
+			<var>PlotPalette</var> - 用于绘制曲面二维投影图的调色板编号(0-9);<br />
+			&emsp;&emsp;0 - <b class="palette" style="width:9.9em; border: solid 0.5pt #aaa;">&emsp;&emsp;&emsp;无 &emsp;&emsp;&emsp;      </b><br/>
+			&emsp;&emsp;1 - <b class="palette" style="width:9.95em; border-right: solid 0.5pt #aaa; color:white; background: linear-gradient(to left, #FFFFFF, #464646)">&emsp;&emsp;&emsp;灰  &emsp;&emsp;&emsp;   </b><br/>
+			&emsp;&emsp;2 - <b class="palette" style="background: linear-gradient(to left, #FF0000, #FFFF00, #00ee00, #00FFFF, #4060FF)">&emsp;&emsp;彩虹带&emsp;&emsp;</b><br />
+			&emsp;&emsp;3 - <b class="palette" style="background: linear-gradient(to left, #FF7F00, #FFFF00, #00FF00, #007F7F)">&emsp;&emsp;地质色 &emsp;&emsp;  </b><br />
+			&emsp;&emsp;4 - <b class="palette" style="background: linear-gradient(to left, #ffff00, #a93bd4)"> &emsp;&emsp;紫红-黄&emsp; &emsp; </b><br />
+			&emsp;&emsp;5 - <b class="palette" style="background: linear-gradient(to left, #ffff20, #409070)">&emsp;&emsp; 绿-黄 &emsp;&emsp;  </b><br />
+			&emsp;&emsp;6 - <b class="palette" style="background: linear-gradient(to left, #60ffff, #4060FF)">&emsp;&emsp; 蓝色调   &emsp;&emsp; </b><br />
+			&emsp;&emsp;7 - <b class="palette" style="background: linear-gradient(to left, #FFFC20, #00FF40, #20A0C0, #4060FF)"> &emsp;&emsp;蓝-黄&emsp;&emsp;   </b><br />
+			&emsp;&emsp;8 - <b class="palette" style="background: linear-gradient(to left, #FF6000, #DDFFDD, #4060FF)"> &emsp;&emsp;蓝-红 &emsp;&emsp;  </b><br />
+			&emsp;&emsp;9 - <b class="palette" style="background: linear-gradient(to left, #FFFC20, #FF8080, #EA40FF, #4020FA)"> &emsp;&emsp;紫-黄&emsp;&emsp;   </b><br />
+			<var>PlotSmooth</var> - 绘制面图时不同颜色之间：平滑过渡(= 1)或不同色带(= 0).
+		</p>
+		<p>以下是不同绘图方法的示例:</p>
+		
         <table class="nb">
             <tr>
                 <td style="line-height:150%;">
@@ -1591,7 +1639,7 @@
         <p>它计算指定区间[<var>a</var>, <var>b</var>]内函数<b>f</b>(<var>x</var>)的定积分值.为此,应用自适应高斯-洛巴托积分与Kronrod扩展 (<a target="_blank" href="https://www.researchgate.net/publication/226706221_Adaptive_Quadrature-Revisited">Gander & Gautschi</a>, 2000).</p>
 
         <p style="margin-left: 2em;"><code><span class="cond">$Integral</span>{<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var> : <var>b</var>}</code></p>
-        <p>这个命令与上面的命令类似,但它使用了Tanh-Sinh积分(<a target="_blank" href="https://ems.press/content/serial-article-files/41766">Takahasi＆Mori</a>,1974),后来由<a target="_blank" href="https://www.tandfonline.com/doi/epdf/10.1080/09205071.2015.1129915?needAccess=true">Michashki＆Mosig</a>(2016)和<a target="_blank" href="https://www.genivia.com/files/qthsh.pdf">Van Engelen</a>(2022)进行了进一步的改进.在Calcpad中进行了进一步的改进,通过预计算和缓存横坐标和权重,这个算法在连续和光滑函数的情况下显著优于<code class="cond">$Area</code>.但是,如果函数不满足这些要求,则<b>不应</b>使用<code class="cond">$Integral</code>方法.这时,你有两个选项:</p>
+        <p>这个命令与上面的命令类似,但它使用了Tanh-Sinh积分(<a target="_blank" href="https://ems.press/content/serial-article-files/2719">Takahasi＆Mori</a>,1974),后来由<a target="_blank" href="https://www.ingentaconnect.com/content/tandf/jew/2016/00000030/00000003/art00001;jsessionid=55mdimh9e060a.x-ic-live-03">Michashki＆Mosig</a>(2016)和<a target="_blank" href="https://www.genivia.com/files/qthsh.pdf">Van Engelen</a>(2022)进行了进一步的改进.在Calcpad中进行了进一步的改进,通过预计算和缓存横坐标和权重,这个算法在连续和光滑函数的情况下显著优于<code class="cond">$Area</code>.但是,如果函数不满足这些要求,则<b>不应</b>使用<code class="cond">$Integral</code>方法.这时,你有两个选项:</p>
         <ol>
             <li>通过使用不连续点将区间[<var>a</var>,<var>b</var>]分成较小的部分,对每个部分分别应用该方法,并将结果相加;</li>
             <li>如果你不确定不连续点在哪里,请改用<code class="cond">$Area</code>方法.</li>
@@ -1635,8 +1683,46 @@
         <p>你不应忘记切换到"Complex"模式.然后你可以绘制结果:</p>
         <p style="margin-left: 2em;"><code><span class="cond">$Map</span>{<b>abs</b>(<b>f</b>(0; <var>x</var> + 1i*<var>y</var>)) &#64; <var>x</var> = -1.5:0.5 & <var>y</var> = -1:1}</code></p>
         <p style="text-align:center;"><img alt="Mandelbrot" src="Images/Mandelbrot.png" width="500"></p>
+		<h3 id="TOC_409">表达式块</h3>
+		<p>表达式块包含一系列用分号分隔的表达式。所有表达式都可以赋值给局部变量。您可以使用表达式块将简短的算法过程嵌入到函数定义中，实现内联循环或任何其他表达式和表达式块。根据输出渲染方式的不同，有两种类型的表达式块：</p>
+		<p style="margin-left: 2em;"><code><span class="cond">$Block</span>{<em>expr1</em>; <em>expr2</em>; <em>expr3</em>; ...}</code> - 多行表达式块;</p>
+		<p style="margin-left: 2em;"><code><span class="cond">$Inline</span>{<em>expr1</em>; <em>expr2</em>; <em>expr3</em>; ...}</code> - 单行表达式块;</p>
+		<p>正如其名称所示，<span class="cond">$Block</span> 会在多行上呈现，每个表达式单独占一行；而 <span class="cond">$Inline</span> 则将所有表达式按从左到右的顺序在一行上连续显示。</p>
+		<p>当单个表达式不足以计算结果时，可以使用表达式块来创建多行函数。例如下面的 <var>quadRoots</var> 函数，它通过给定系数 <var>a</var>、<var>b</var>、<var>c</var> 来计算二次方程的根，并将它们作为两个元素的向量返回：<span class="b0">[</span><var>x</var><sub>1</sub>; <var>x</var><sub>2</sub><span class="b0">]</span>。</p>
+		<table border="1">
+            <thead>
+                <tr>
+                    <th>
+                        代码
+                    </th>
+                    <th>
+                        输出
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+					<code><var>quadRoots</var>(<var>a</var>; <var>b</var>; <var>c</var>) = _<br />
+					<span class="cond">$block</span>{</code><br />
+						&emsp;&emsp;<code><var>D</var> = <var>b</var>^2 - 4*<var>a</var>*<var>c</var>;</code> <br />
+						&emsp;&emsp;<code><var>x_1</var> = (-<var>b</var> - <b>sqrt</b>(<var>D</var>))/(2*<var>a</var>);</code> <br />
+						&emsp;&emsp;<code><var>x_2</var> = (-<var>b</var> + <b>sqrt</b>(<var>D</var>))/(2*<var>a</var>);</code> <br />
+						&emsp;&emsp;<code>[<var>x_1</var>; <var>x_2</var>]; <br />
+					}<br />
+					<var>quadRoots</var>(2; 3; -5)</code>
+                    </td>
+                    <td style="line-height:150%;">
+						<span class="eq"><var>quadRoots</var>&hairsp;(&hairsp;<var>a</var>; <var>b</var>; <var>c</var>&hairsp;)&hairsp; = <small class="gray">??</small><span class="block"><var>D</var> = <var>b</var><sup>2</sup> − 4&hairsp;·&hairsp;<var>a</var>&hairsp;·&hairsp;<var>c</var><br> <var>x</var><sub>1</sub> = <span class="dvc">-<var>b</var> − &ensp;&hairsp;&hairsp;<span class="o0"><span class="r0"></span><var>D</var></span><span class="dvl"></span>2&hairsp;·&hairsp;<var>a</var></span><br> <var>x</var><sub>2</sub> = <span class="dvc">-<var>b</var> + &ensp;&hairsp;&hairsp;<span class="o0"><span class="r0"></span><var>D</var></span><span class="dvl"></span>2&hairsp;·&hairsp;<var>a</var></span><br> <span class="b0">[</span><var>x</var><sub>1</sub>; <var>x</var><sub>2</sub><span class="b0">]</span><br> </span></span><br/>
+						<span class="eq"><var>quadRoots</var>&hairsp;&hairsp;(&hairsp;2; 3; -5&hairsp;)&hairsp; = <b class="b0">[</b>-2.5&ensp;1<b class="b0">]</b></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+		<p>当您有一个 <span class="cond">$Repeat</span> 内联循环时，可以直接在其中嵌套多个表达式，而无需将它们包裹在 <span class="cond">$block</span>/<span class="cond">$inline</span> 元素中。</p>
+		<p>块或内联循环中的所有表达式都会被编译，因此执行速度非常快。它们从左到右依次求值，最终只返回最后一个结果。然而，与标准表达式不同，您无法看到中间结果和替换后的变量。这降低了计算的可读性和可验证性。因此，应仅在实际需要的地方使用表达式块。</p>
 
-        <h3 id="TOC_409">单位</h3>
+        <h3 id="TOC_410">单位</h3>
         <p>Calcpad提供了对物理单位的全面支持.当前版本支持公制(国际单位制和兼容单位制)、美制和英制单位.有七个基本单位对应于七个物理维度:</p>
         <ul>
             <li>质量 - 千克(<i>kg</i>)</li>
@@ -2271,7 +2357,7 @@
             </code>
         </p>
         <p>自定义无量纲单位存在于特殊的(第九个)非物理维度中.这样它们在混合时不会被取消或转换为其他无量纲单位,比如百分比或角度.然而,如果您在一个文件中有两种类型的无量纲单位,它们将存在于同一个维度中,所以您应该避免混合使用它们.</p>
-        <h3 id="TOC_410">向量</h3>
+        <h3 id="TOC_411">向量</h3>
         <p><b>向量的内部存储及类型</b></p>
         <p>Calcpad中包含2种类型的向量: 常规(小)的和大的.向量可以仅包含带单位的实数.现版本不支持复数向量 . 单个向量可以包含带不同类型的单位的元素,甚至不同量纲. 然而,一些向量函数或运算可能由于不同元素间单位的冲突而无法运行.</p>
         <p>超过100个元素的向量为”大“. 整体上它们与常规的向量无异,用户感知差异不强. 但从内在机制上,它们的运行机制殊异. 大向量的结构如下图所示:</p>
@@ -2626,8 +2712,8 @@
             </span>
         </p>
 
-        <p><b>聚合和插值函数</b></p>
-        <p>所有聚合函数都可以处理向量.由于它们是多变量的,每个聚合函数都可以接受一个单一的向量,也可以接受一个标量、向量和矩阵的混合列表,这些元素可以任意顺序排列.在这种情况下,所有参数都会被合并成一个单一的标量数组,从左到右依次排列.例如:</p>
+        <p><b>累加和插值函数</b></p>
+        <p>所有累加函数都可以处理向量.由于它们是多变量的,每个累加函数都可以接受一个单一的向量,也可以接受一个标量、向量和矩阵的混合列表,这些元素可以任意顺序排列.在这种情况下,所有参数都会被合并成一个单一的标量数组,从左到右依次排列.例如:</p>
         <p>
             &emsp;&emsp;<code><var>a</var> = [0; 2; 6]</code><br />
             &emsp;&emsp;<code><var>b</var> = [5; 3; 1]</code><br />
@@ -2643,13 +2729,13 @@
         &emsp;&emsp;
         <code><b>spline</b>(1.5; <var>a</var>)</code>' = 0.8125
         <br />
-        <p>与聚合函数类似, 插值函数也接受变量的混合列表,例如:</p>
+        <p>与累加函数类似, 插值函数也接受变量的混合列表,例如:</p>
         <p>
             &emsp;&emsp;<code><var>a</var> = [1; 2; 3]</code><br />
             &emsp;&emsp;<code><var>b</var> = [5; 6; 7; 8]</code><br />
             &emsp;&emsp;<code><b>take</b>(7; <var>a</var>; 4;  <var>b</var>; 9; 10)</code>' = 7
         </p>
-        <p>返回值为向量 <var><span class="vec">⃗</span>b</var>的第3个元素,但在最终序列中序号为7. 关于可用的聚合和插值函数完整列表在本手册前面给出 (见上文 "表达式/函数"部分).</p>
+        <p>返回值为向量 <var><span class="vec">⃗</span>b</var>的第3个元素,但在最终序列中序号为7. 关于可用的累加和插值函数完整列表在本手册前面给出 (见上文 "表达式/函数"部分).</p>
 
         <p><b>运算符</b></p>
         <p>所有运算符都可以用于向量.运算是逐元素进行的,结果返回到输出向量中.这也适用于乘法运算符.对乘法运算符同样如此.例如:</p>
@@ -2657,7 +2743,7 @@
         <p>在Calcpad中,如果两个向量的长度不同,较短的向量会用零填充到与较长向量相同的长度.点积和叉积在Calcpad中被实现为函数(如上所述).所有二元运算符都类似,支持向量-标量和标量-向量操作.例如:</p>
         <p>&emsp;&emsp;<code>[2; 4; 5]*2</code>' = [4&ensp;8&ensp;10]</p>
 
-        <h3 id="TOC_411">矩阵</h3>
+        <h3 id="TOC_412">矩阵</h3>
         <p><b>矩阵的内部存储和类型</b></p>
         <p>Calcpad 包含不同类型的矩阵:一般(矩形)和特殊(列、对称、对角、上/下三角).在内部,每种类型的矩阵以不同的方式实现,利用其特定结构来提高效率.在外部,它们的行为相似,只有少数例外情况.</p>
         <p>每种矩阵类型都以向量数组的形式实现,如下图所示.通常情况下,向量代表矩阵的行,但对角线和列矩阵除外.</p>
@@ -3446,7 +3532,7 @@
         <p>
             &emsp;&emsp;&emsp;&emsp;<em>参数</em>:&emsp;&emsp;<span class="hang">
                 <var>M</var> - 矩阵;<br />
-                <var>x</var> - the value to search for.
+                <var>x</var> - 要查找的值.
             </span><br />
             &emsp;&emsp;&emsp;&emsp;<em>返回值</em>:&emsp;<span class="hang">一个2行矩阵,包含矩阵<var>M</var> 中所有=<var>x</var>的元素的索引号.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>注意</em>:&emsp;&emsp;&nbsp;<span class="hang">输出矩阵第一行包含<var>M</var>中=<var>x</var>的元素的行号,下面一行则是相应元素的列号 . 若无匹配项,则返回一个2×1的0矩阵.</span><br />
@@ -3842,7 +3928,7 @@
         <p>&emsp;&emsp;<code><b>transp</b>(<var>M</var>)</code></p>
         <p>
             &emsp;&emsp;&emsp;&emsp;<em>参数</em>:&emsp;&emsp;<var>M</var> - 矩阵.<br />
-            &emsp;&emsp;&emsp;&emsp;<em>返回值</em>:&emsp;(matrix) the transpose of <var>M</var>.<br />
+            &emsp;&emsp;&emsp;&emsp;<em>返回值</em>:&emsp; <var>M</var>的转置矩阵.<br />
             &emsp;&emsp;&emsp;&emsp;<em>注意</em>:&emsp;&emsp;<span class="hang">转置矩阵通过将行变成列得到. 如果 <var>M</var> 为对称矩阵, 转置矩阵等于本身, 则返回<var>M</var> 的拷贝.</span><br />
             &emsp;&emsp;&emsp;&emsp;<em>示例</em>:&emsp;&emsp; <span class="hang">
                 <code><var>A</var> = [1; 2; 3|4; 5; 6|7; 8; 9]</code>' = <span class="eq matrix">
@@ -3883,7 +3969,7 @@
         <p>&emsp;&emsp;<code><b>cofactor</b>(<var>A</var>)</code></p>
         <p>
             &emsp;&emsp;&emsp;&emsp;<em>参数</em>:&emsp;&emsp;<var>A</var> - 方阵.<br />
-            &emsp;&emsp;&emsp;&emsp;<em>返回值</em>:&emsp;the cofactor matrix of <var>A</var>.<br />
+            &emsp;&emsp;&emsp;&emsp;<em>返回值</em>:&emsp;<var>A</var>的协因子矩阵(cofactor matrix).<br />
             &emsp;&emsp;&emsp;&emsp;<em>注意</em>:&emsp;&emsp;<span class="hang">协因数/共因子 <var>C</var><sub>ij</sub> 定义为相应的余子式 <var>M</var><sub>ij</sub> 乘以 (-1)<sup><var>i</var> + <var>j</var></sup>.因此通过删除第 <var>i</var> 行和第 <var>j</var> 列获得的协因数 <var>M</var><sub>ij</sub> 等于矩阵的行列式.此外,协因数矩阵等于 伴随矩阵<var>A</var>&hairsp;的转置:<br /><var>C</var> = <b>adj</b>(<var>A</var>&hairsp;)<sup>T</sup></span><br />
             &emsp;&emsp;&emsp;&emsp;<em>示例</em>:&emsp;&emsp; <span class="hang">
                 <code><b>cofactor</b>([1; 2|3; 4])</code>' = <span class="eq matrix">
@@ -3995,8 +4081,7 @@
                     <span class="tr"><span class="td"></span><span class="td">4</span><span class="td">12</span><span class="td">-16</span><span class="td"></span></span>
                     <span class="tr"><span class="td"></span><span class="td">12</span><span class="td">37</span><span class="td">-43</span><span class="td"></span></span>
                     <span class="tr"><span class="td"></span><span class="td">-16</span><span class="td">-43</span><span class="td">98</span><span class="td"></span></span>
-                </span> - 检查
-            </span>
+                </span> - 检查</span>
         </p>
 
         <p>&emsp;&emsp;<code><b>lu</b>(<var>M</var>)</code></p>
@@ -4072,8 +4157,7 @@
                 <code><var>Q</var>*<var>R</var></code>' = <span class="eq matrix">
                     <span class="tr"><span class="td"></span><span class="td">4</span><span class="td">12</span><span class="td">-16</span><span class="td"></span></span>
                     <span class="tr"><span class="td"></span><span class="td">12</span><span class="td">37</span><span class="td">-43</span><span class="td"></span></span>
-                    <span class="tr"><span class="td"></span><span class="td">-16</span><span class="td">-43</span><span class="td">98</span><span class="td"></span></span> - 检查
-                </span>
+                    <span class="tr"><span class="td"></span><span class="td">-16</span><span class="td">-43</span><span class="td">98</span><span class="td"></span></span></span> - 检查 <br/>
             </span>
         </p>
 
@@ -4250,8 +4334,8 @@
             </span>
         </p>
 
-        <p><b>聚合和插值函数</b></p>
-        <p>所有的聚合函数对矩阵也有效. 这些函数的多个变量只能接受1个矩阵, 但可接受一个同时包含标量,向量和矩阵的列表,且顺序随意. 示例:</p>
+        <p><b>累加和插值函数</b></p>
+        <p>所有的累加函数对矩阵也有效. 这些函数的多个变量只能接受1个矩阵, 但可接受一个同时包含标量,向量和矩阵的列表,且顺序随意. 示例:</p>
         <p>
             &emsp;&emsp;<code><var>A</var> = [0; 2| 4; 8]</code><br />
             &emsp;&emsp;<code><var>b</var> = [5; 3; 1]</code><br />
@@ -4316,7 +4400,7 @@
 
         <p>你可以用插值函数来绘制矩阵数据图,如以下示例:</p>
         <p>&emsp;&emsp;<code>$Map{<b>spline</b>(<var>x</var>; <var>y</var>; <var>A</var>) @ <var>x</var> = 1 : <b>n_rows</b>(<var>A</var>) &amp; <var>y</var> = 1 : <b>n_cols</b>(<var>A</var>)}</code></p>
-        <p>一份完整的可用的聚合和插值函数的列表在本手册前面已给出(见上文 "表达式/函数").</p>
+        <p>一份完整的可用的累加和插值函数的列表在本手册前面已给出(见上文 "表达式/函数").</p>
 
         <p><b>运算符</b></p>
         <p>所有运算符可用于矩阵运算. 2个矩阵必须维数相同. 计算时元素-元素逐个进行且结果返回到输出矩阵中. 例如:</p>
@@ -4369,6 +4453,59 @@
                 <span class="tr"><span class="td"></span><span class="td">15</span><span class="td">20</span><span class="td"></span></span>
             </span>
         </p>
+		<h3 id="TOC_413">高性能（hp）向量和矩阵</h3>
+        <p>高性能（hp）向量和矩阵在 Calcpad 7.3.0 版中引入，旨在更快地求解大型工程问题并降低内存消耗.但这伴随着一个权衡：hp 向量或矩阵的所有元素必须具有相同的单位.这样，Calcpad 只需为整个向量/矩阵存储和处理一次单位信息，并可进行大量额外优化，如 SIMD 向量化运算、使用更友好的缓存算法等.所有这些都使速度提升数十倍，所需内存大小降低超过一半，即使根本没有单位也能受益.</p>
+		<p>hp 向量和矩阵最初由特殊函数创建，类似于标准的创建函数，但以 “_hp” 结尾，具体如下：</p>
+        <p>
+            <b>创建 hp 向量的函数：</b><br />
+  <code><b>vector_hp</b>(<var>n</var>)</code> - 创建长度为 <var>n</var> 的空 hp 向量；<br />
+  <code><b>range_hp</b>(<var>x</var><sub>1</sub>; <var>x</var><sub>n</sub>; <var>s</var>)</code> - 根据给定范围生成 hp 向量。<br />
+<b>创建 hp 矩阵的函数：</b><br />
+  <code><b>matrix_hp</b>(<var>m</var>; <var>n</var>)</code> - 创建尺寸为 <var>m</var>⨯<var>n</var> 的空 hp 矩阵；<br />
+  <code><b>identity_hp</b>(<var>n</var>)</code> - 创建尺寸为 <var>n</var>⨯<var>n</var> 的 hp 单位矩阵；<br />
+  <code><b>diagonal_hp</b>(<var>n</var>; <var>d</var>)</code> - 创建 <var>n</var>⨯<var>n</var> 的 hp 对角矩阵，所有对角线元素均为 <var>d</var>；<br />
+  <code><b>column_hp</b>(<var>m</var>; <var>c</var>)</code> - 创建 <var>m</var>⨯1 的 hp 列矩阵，所有元素均为 <var>c</var>；<br />
+  <code><b>utriang_hp</b>(<var>n</var>)</code> - 创建 <var>n</var>⨯<var>n</var> 的 hp 上三角矩阵；<br />
+  <code><b>ltriang_hp</b>(<var>n</var>)</code> - 创建 <var>n</var>⨯<var>n</var> 的 hp 下三角矩阵；<br />
+  <code><b>symmetric_hp</b>(<var>n</var>)</code> - 创建 <var>n</var>⨯<var>n</var> 的 hp 对称矩阵。
+        </p>
+        <p>
+            函数 <code><b>hp</b>(<var>x</var>)</code> 将任意参数 <var>x</var> 转换为其高性能等价形式.它可以与方括号运算符 [] 结合使用，以列表形式初始化向量和矩阵.例如：<br />
+            &emsp;&emsp;<code><var>a</var> = <b>hp</b>([1; 2; 4])</code> 将创建一个高性能向量;<br />
+            &emsp;&emsp;<code><var>A</var> = <b>hp</b>([1; 2; 3|4; 5; 6])</code> 将创建一个高性能矩阵.
+        </p>
+        <p>转换过程会将标准数组中的数值复制到hp数组中，因此只能用于小型数组.如果标准数组包含不同但相容的单位，它们会被转换为第一个元素的单位；若单位不相容，则无法完成转换，会返回错误.例如：<br />
+            &emsp;&emsp;<code><var>a</var> = <b>hp</b>([1<i>m</i>; 20<i>dm</i>; 30<i>cm</i>])</code>‘ = [1 m 2 m 0.3 m]<br />
+            &emsp;&emsp;<code><var>a</var> = <b>hp</b>([1<i>m</i>; 20<i>s</i>; 30<i>kg</i>])</code>’ = <span class="err">不相容的单位: "m, kg"</span>.
+        </p>
+        <p>任何仅包含 hp 向量/数组的表达式也会返回 hp 类型。如果表达式只包含标准向量/数组，或同时包含标准和 hp 元素，则返回标准类型.要检查 <var>x</var> 是否为高性能（hp）向量或矩阵，可使用函数 <code><b>ishp</b>(<var>x</var>)</code>.</p>
+
+        <h3 id="TOC_414">高性能对称求解器</h3>
+        <p>Calcpad 还提供了针对两类最常见矩阵问题的高级求解器——线性方程组求解以及矩阵特征值和特征向量的计算:</p>
+
+        <p><b>PCG对称线性求解器</b></p>
+        <p>直接法（如 Cholesky 分解和 LDL<sup>T</sup> 分解）适用于小至中等规模的矩阵.对于更大的矩阵，分解的计算成本和求解时间会变得过高，难以实际使用，因为分解的渐进复杂度为 O(<var>n</var><sup>3</sup>).在这种情况下，通常会采用迭代求解方法.相较于直接法，迭代法速度更快，尤其当矩阵条件良好时更为显著.其中最常用的一种方法是预条件共轭梯度（PCG）法.其复杂度为 O(<var>m</var>√<var>k</var>)，其中 <var>m</var> 为非零元素的数量，<var>k</var> 为矩阵的条件数.</p>
+        <p>
+            在 Calcpad 中，PCG 方法用于以下函数：<br />
+&emsp;&emsp;<code><b>slsolve</b>(<var>A</var>; <var>b</var>)</code> —— 求解对称线性方程组 <var>A⃗x</var> = <var>⃗b</var>;<br />
+&emsp;&emsp;<code><b>smsolve</b>(<var>A</var>; <var>B</var>)</code> —— 求解广义对称矩阵方程 <var>AX</var> = <var>B</var>.<br/>
+        </p>
+        <p>由于大多数工程方法（如有限元法和有限差分法）使用对称矩阵，我们在这类问题上投入了大量精力进行优化.如果矩阵具有带状或天际线（skyline）结构，算法会利用这一特性，仅存储和处理带宽范围内的元素.通过为有限元模型的节点提供合适的编号，可以实现这种结构并最小化带宽.</p>
+
+	<p>像 PCG 这样的迭代方法是近似求解，求解过程会一直进行，直到达到设定的精度.在 Calcpad 中，这一精度由变量 <var>Tol</var> 控制，默认值为 <var>Tol</var> = 10<sup>-6</sup>，与 MATLAB 相同.如果在 1000 次迭代以内未达到所需精度，则认为未收敛，求解会以错误信息终止.预处理通常可以通过降低矩阵的条件数 <var>k</var> 来提升收敛速度，Calcpad 使用简单的 Jacobi 预处理器来实现这一目的.</p>
+
+<p><b>对称 Lanczos 特征值求解器</b></p>
+
+<p>与线性方程组求解类似，我们用于求取矩阵特征值和特征向量的直接 QL 算法（带隐式位移）其复杂度为 O(<var>n</var><sup>3</sup>)，适用于小至中等规模的问题.此外，它会一次性求出所有特征值和特征向量，而在多数情况下并不需要全部结果.例如，在结构动力学分析中，通常只关心最重要的前几个振动频率及其对应的振型.</p>
+
+<p>对于此类需求，Lanczos 方法更为合适.它能够在大矩阵中快速找到若干极端（最小或最大）的特征值，而速度远快于隐式 QL 算法.其时间复杂度为 O(<var>k</var><sup>2</sup><var>m</var>)，其中 <var>k</var> 为迭代次数，<var>m</var> 为矩阵的非零元素数量.Lanczos 方法在三对角化步骤中取代了 Householder 反射法的使用.</p>
+        <p>
+            在 Calcpad 中，当矩阵规模大于 200 时，Lanczos 方法用于与 QL 方法相同的函数，包括：<br />
+			&emsp;&emsp;<code><b>eigenvals</b>(<var>M</var>; <var>n</var><sub>e</sub>)</code> —— 返回矩阵 <var>M</var> 的前 <var>n</var><sub>e</sub> 个特征值;<br />
+			&emsp;&emsp;<code><b>eigenvecs</b>(<var>M</var>; <var>n</var><sub>e</sub>)</code> —— 返回矩阵 <var>M</var> 的前 <var>n</var><sub>e</sub> 个特征向量；<br />
+			&emsp;&emsp;<code><b>eigen</b>(<var>M</var>; <var>n</var><sub>e</sub>)</code> —— 同时返回矩阵 <var>M</var> 的前 <var>n</var><sub>e</sub> 个特征值和特征向量.<br />
+        </p>
+        <p>最大迭代次数设为 4 <var>n</var><sub>e</sub> + 100.因此，当矩阵规模 <var>n</var> < 1000 且 <var>n</var><sub>e</sub> > <var>n</var>/5 时，仍然使用 QL 方法.这是因为 Lanczos 方法的精度较低，当迭代次数接近矩阵规模时，其性能会下降至与 QL 算法相当的水平.</p>
         <h2 id="TOC_500">报告</h2>
         <p>所有的计算结果都会自动汇总成专业格式的计算报告.您可以打印它或使用 MS Word 打开进行编辑.除了数学表达式,您还可以添加标题、注释、表格和图片.</p>
 
@@ -4410,7 +4547,7 @@
                     </td>
                 </tr>
             </tbody>
-        </table>`
+        </table>
         <p>当您运行计算时,“单位”选项框将从输出中消失.只有单位会保留填写.程序还会创建一个变量<var>Units</var>,它将包含从选择的单位到米的转换因子.对于m、mm和cm,它们的值分别为1、100和1000.您可以在计算中使用它进行单位转换.例如,您可以创建一个条件块来显示报告中选择的单位:</p>
         <p>
             &emsp;&emsp;<span class="cond">#if</span> <var>Units</var> ≡ 1<br />
@@ -4422,7 +4559,7 @@
             &emsp;&emsp;<span class="cond">#end if</span>
         </p>
 
-        <h3 id="TOC_504">使用 Html 和 CSS 进行格式化</h3>
+        <h3 id="TOC_504">使用 Html 和 CSS 设置格式</h3>
         <p>Calcpad可以作为一个专业工程程序的开发平台.如果您不打算这样做,您可以跳过本章节.</p>
         <p><b>Html</b>(超文本标记语言)是一种用于格式化网页的标记语言.您可以更改字体类型、大小和粗细,文字的颜色,插入表格、图片等.这是通过添加特殊的元素,称为“标签”来完成的.每个标签都被尖括号括起来:“&lt;标签&gt;”.有些标签是成对使用的 - 开始标签“&lt;标签&gt;”和结束标签“&lt;/标签&gt;”.内容位于两者之间.例如,如果您想要将一些文本加粗,您可以使用以下标签:&lt;b&gt;<b>加粗文本</b>&lt;/b&gt;.即使您不是专业程序员,您也可以轻松学习一些基本的Html,以在Calcpad中使用:</p>
         <table border="1">
@@ -4437,6 +4574,34 @@
                 </tr>
             </thead>
             <tbody>
+				<tr>
+                    <td><code><b>&lt;h3&gt;</b>标题 3<b>&lt;/h3&gt;</b></code></td>
+                    <td><h3 style="font-size: 1.4em; margin:0;">标题 3</h3></td>
+                </tr>
+                <tr>
+                    <td><code><b>&lt;h4&gt;</b>标题 4<b>&lt;/h4&gt;</b></code></td>
+                    <td><h4 style="font-size: 1.2em; margin:0;">标题 4</h4></td>
+                </tr>
+                <tr>
+                    <td><code><b>&lt;h5&gt;</b>标题 5<b>&lt;/h5&gt;</b></code></td>
+                    <td><h5 style="font-size: 1.1em; margin:0;">标题 5</h5></td>
+                </tr>
+                <tr>
+                    <td><code><b>&lt;h6&gt;</b>标题 6<b>&lt;/h6&gt;</b></code></td>
+                    <td><h6 style="font-size: 1em; margin:0;">标题 6</h6></td>
+                </tr>
+                <tr>
+                    <td><code><b>&lt;hr/&gt;</b></code> (水平分割线)</td>
+                    <td><hr /></td>
+                </tr>
+                <tr>
+                    <td><code><b>&lt;p&gt;</b>段落<b>&lt;/p&gt;</b></code></td>
+                    <td><p>段落</p></td>
+                </tr>
+                <tr>
+                    <td><code>换<b>&lt;br/&gt;</b>行</code></td>
+                    <td>换<br />行</td>
+                </tr>
                 <tr>
                     <td>
                         <code><b>&lt;b&gt;</b>粗体文本<b>&lt;/b&gt;</b></code>
@@ -4487,10 +4652,10 @@
                 </tr>
                 <tr>
                     <td>
-                        <code><b>&lt;span style="font:16pt Times-New-Roman;"&gt;</b><br />&emsp;Times New Roman, 16pt<br /><b>&lt;/span&gt;</b></code>
+                        <code><b>&lt;span style="font:14pt Times-New-Roman;"&gt;</b><br />&emsp;Times New Roman, 16pt<br /><b>&lt;/span&gt;</b></code>
                     </td>
                     <td>
-                        <span style="font:16pt Times-New-Roman;">Times New Roman, 16pt</span>
+                        <span style="font:14pt Times-New-Roman;">Times New Roman, 14pt</span>
                     </td>
                 </tr>
             </tbody>
@@ -4503,6 +4668,25 @@
         <p><a href="http://www.w3schools.com/html/">http://www.w3schools.com/html/</a></p>
         <p><a href="http://www.w3schools.com/CSS/">http://www.w3schools.com/CSS/</a></p>
         <p>可以从互联网上找到一些免费的WYSIWYG(所见即所得)Html编辑器使用.</p>
+		<h4>预定义类</h4>
+        <p>一些在工程设计工作表中常用的格式已预先定义为 CSS 类,只需将相应的类分配给 HTML 元素即可插入这些格式.
+        <p><b>err</b> - 将文本标红:
+        <p style="margin-left: 2em;">
+            <code>'&lt;span class="err"&gt; 检查不满足要求 ✖'&lt;/span&gt;'</code><br />
+            <span class="err"> 检查不满足要求 ✖</span>
+        </p>
+        <p><b>ok</b> - 文本标绿:
+        <p style="margin-left: 2em;">
+            <code>'&lt;span class="ok"&gt; 检查满足要求 ✔'&lt;/span&gt;'</code><br />
+            <span class="ok"> 检查满足要求 ✔</span>
+        </p>
+        <p style="margin-left: 2em;">
+        <p><b>ref</b> - (靠右对齐) 用于引用设计规范和对方程式编号:</p>
+        <p style="margin-left: 2em;"><code>'&lt;span class="ref"&gt; [EN 1992-1-1, §9.2.2]'&lt;/span&gt;'</code> <span class="ref"> [EN 1992-1-1, §9.2.2]</span></p>
+        <p><b>bordered</b> - 表格有边框:
+        <p style="margin-left: 2em;"><code>'&lt;table class="bordered"&gt;'...&lt;/table&gt;'</code></p>
+        <p><b>data</b> - 使第一列靠左对齐,其余靠右对齐:</p>
+        <p style="margin-left: 2em;"><code>'&lt;table class="data"&gt;'...&lt;/table&gt;'</code></p>
 
         <h4>内容折叠</h4>
         <p>如果您有一些长而详细的计算,您可以选择将它们折叠在输出中.它们默认情况下是隐藏的,除了第一行,可以用作部分标题.您只需要将折叠部分放在一个带有类名为 "<b>fold</b>" 的 Html "<b>div</b>" 元素中,如下所示:</p>
@@ -4523,7 +4707,147 @@
         <p style="margin-left: 2em;"><code>'&lt;img style="float:right" src="c:/Users/Me/Pictures/Picture1.png" alt="Picture1.png"&gt;</code></p>
         <p>当然,您需要将"<b>c:/Users/Me/Pictures/Picture1.png</b>"替换为实际图片的路径.文件可以是本地文件、网络文件或互联网上的文件.即使文件是本地文件,也始终使用正斜杠"<b>/</b>".如果图片位于当前工作表的同一文件夹中,您可以使用相对路径指定如下:"<b>./Picture1.png</b>".文本 <b>style="float:right;"</b> 将图片对齐到右侧,使文本在左侧浮动.否则,图片将成为文本流的一部分,并导致文本分割.作为 <b>style="float:right"</b> 的替代,您可以使用 <b>class="side"</b> 来实现相同的效果.</p>
         <p>您还可以使用工具栏上的<img alt="Image" height="24" src="Images/Image.png">按钮插入图片.您将被提示选择一个文件.当您点击"<b>打开</b>"时,所需的记录将插入到代码的开头.运行计算时,图片将出现在输出窗口中.</p>
+		<h3 id="TOC_506">用Markdown设置格式</h3>
+        <p><a href="https://www.markdownguide.org/">Markdown</a> 是一种简洁轻量的标记语言，用于文本格式化.与HTML不同，它使用单个符号或简短的符号序列进行标记.在Calcpad中，你可以在注释中可选地使用Markdown代替HTML.由于它需要额外的解析步骤，你可以通过在工作表中使用以下关键字来打开或关闭 Markdown 功能：
+        <p>
+            &emsp;&emsp;<span class="cond">#md on</span> - 打开Markdown模式;<br />
+            &emsp;&emsp;<span class="cond">#md off</span> - 关闭Markdown模式.<br />
+        </p>
+        <p>
+            在解析过程中，标记的文本会被转换为 Html，然后交给后续处理.由于解析是逐行进行的，列表、表格等块级格式并未得到完整支持.您可以使用以下语法元素：
+		</p>
+		<table border="1">
+			<thead>
+				<tr><th>Markdown代码</th><th>Html代码</th><th>输出</th></tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td><code><b>###</b> 标题 3</code></td>
+					<td>&lt;h3&gt;标题 3&lt;/h3&gt;</td>
+					<td><h3 style="font-size: 1.4em; margin:0;">标题 3</h3></td>
+				</tr>
+				<tr>
+					<td><code><b>####</b> 标题 4</code></td>
+					<td>&lt;h4&gt;标题 4&lt;/h4&gt;</td>
+					<td><h4 style="font-size: 1.2em; margin:0;">标题 4</h4></td>
+				</tr>
+				<tr>
+					<td><code><b>#####</b> 标题 5</code></td>
+					<td>&lt;h5&gt;标题 5&lt;/h5&gt;</td>
+					<td><h5 style="font-size: 1.1em; margin:0;">标题 5</h5></td>
+				</tr>
+				<tr>
+					<td><code><b>######</b> 标题 6</code></td>
+					<td>&lt;h6&gt;标题 6&lt;/h6&gt;</td>
+					<td><h6 style="font-size: 1em; margin:0;">标题 6</h6></td>
+				</tr>
+				<tr>
+					<td><code>---</code> (水平分割线)</td>
+					<td>&lt;hr/&gt;</td>
+					<td><hr /></td>
+				</tr>
+				<tr>
+					<td><code><b>**</b>黑体<b>**</b></code></td>
+					<td>&lt;strong&gt;黑体&lt;/strong&gt;</td>
+					<td><strong>黑体</strong></td>
+				</tr>
+				<tr>
+					<td><code><b>*</b>斜体<b>*</b></code></td>
+					<td>&lt;em&gt;斜体&lt;/em&gt;</td>
+					<td><em>斜体</em></td>
+				</tr>
+				<tr>
+					<td><code><b>***</b>黑斜体<b>***</b></code></td>
+					<td>&lt;em&gt;&lt;strong&gt;粗斜体&lt;/strong&gt;&lt;/em&gt;</td>
+					<td><em><strong>粗斜体</strong></em></td>
+				</tr>
+				<tr>
+					<td><code><b>++</b>下划线<b>++</b></code></td>
+					<td>&lt;ins&gt;下划线&lt;/ins&gt;</td>
+					<td><ins>下划线</ins></td>
+				</tr>
+				<tr>
+					<td><code><b>~~</b>横贯线<b>~~</b></code></td>
+					<td>&lt;del&gt;横贯线&lt;/del&gt;</td>
+					<td><del>横贯线</del></td>
+				</tr>
+				<tr>
+					<td><code><b>==</b>强调<b>==</b></code></td>
+					<td>&lt;mark&gt;强调&lt;/mark&gt;</td>
+					<td><mark>强调</mark></td>
+				</tr>
+				<tr>
+					<td><code>x<b>^</b>上标<b>^</b></code></td>
+					<td>x&lt;sup&gt;上标&lt;/sup&gt;</td>
+					<td>x<sup>上标</sup></td>
+				</tr>
+				<tr>
+					<td><code>x<b>~</b>下标<b>~</b></code></td>
+					<td>x&lt;sub&gt;下标&lt;/sub&gt;</td>
+					<td>x<sub>下标</sub></td>
+				</tr>
+				<tr>
+					<td><code><b>`</b>代码<b>`</b></code></td>
+					<td>&lt;code&gt;代码&lt;/code&gt;</td>
+					<td><code style="background:none;">代码</code></td>
+				</tr>
+				<tr>
+					<td><code><b>[链接](</b>https://mywebsite.com<b>)</b></code></td>
+					<td>&lt;a href="https://mywebsite.com"&gt;链接&lt;/a&gt;</td>
+					<td><a href="https://mywebsite.com">链接</a></td>
+				</tr>
+				<tr>
+					<td><code><b>![图片](</b>图片.jpg<b>)</b></code></td>
+					<td>&lt;img src="
+					<td><code><b>![图片](</b>图片.jpg" alt="Image" /&gt;</td>
+				</tr>
+				<tr>
+					<td><code><b>&gt;</b> 块引用 1<br /><b>&gt;&gt;</b> 块引用 2</code></td>
+					<td>&lt;blockquote&gt;块引用 1<br/>&lt;/blockquote&gt;&lt;blockquote&gt;块引用 2&lt;/blockquote&gt;</td>
+					<td><blockquote style="margin:0">块引用 1<br/><blockquote style="margin: 0 0 0 2em; white-space: nowrap;">块引用 2</blockquote></blockquote></td>
+				</tr>
+			</tbody>
+		</table>
 
+		<h3 id="TOC_507">格式工具栏</h3>
+       <p>格式工具栏位于代码编辑框的正上方，方便在注释中快速插入格式标记.它可以插入 Html 或 Markdown，取决于你的选择.要启用 Markdown，只需打开 <strong class="button"> M⭣ </strong> 按钮.同时，别忘了在工作表顶部添加 “<span class="cond">#md on</span>”.</p>
+        <p><img src=".\Images\Formatting.png" /></p>
+        <p>格式工具栏包括下列命令:</p>
+        <p>&emsp;&emsp;<span class="button h"> H3 </span> - 标题 3 (Ctrl+3), Html: <code>&lt;h3&gt;...&lt;/h3&gt;</code>, Markdown: <code>###...</code></p>
+        <p>&emsp;&emsp;<span class="button h"> H4 </span> - 标题 4 (Ctrl+4), Html: <code>&lt;h4&gt;...&lt;/h4&gt;</code>, Markdown: <code>####...</code></p>
+        <p>&emsp;&emsp;<span class="button h"> H5 </span> - 标题 5 (Ctrl+5), Html: <code>&lt;h5&gt;...&lt;/h5&gt;</code>, Markdown: <code>#####...</code></p>
+        <p>&emsp;&emsp;<span class="button h"> H6 </span> - 标题 6 (Ctrl+6), Html: <code>&lt;h6&gt;...&lt;/h6&gt;</code>, Markdown: <code>######...</code></p>
+        <p>&emsp;&emsp;<span class="button"> p </span> - 段落 (Ctrl+L), Html: <code>&lt;p&gt;...&lt;/p&gt;</code>, Markdown: 不支持</p>
+        <p>&emsp;&emsp;<span class="button"> br </span> - 换行(Ctrl+R), Html: <code>...&lt;br/&gt;...</code>, Markdown: 不支持</p>
+        <p>&emsp;&emsp;<span class="button"> <strong>B</strong> </span> - 黑体(Ctrl+B), Html: <code>&lt;strong&gt;...&lt;/strong&gt;</code>, Markdown: <code>**...**</code></p>
+        <p>&emsp;&emsp;<span class="button"> <em style="font-family:Times">I</em> </span> - 斜体(Ctrl+I), Html: <code>&lt;em&gt;...&lt;/em&gt;</code>, Markdown: <code>*...*</code></p>
+        <p>&emsp;&emsp;<span class="button"> <ins>U</ins> </span> - 下划线(Ctrl+U), Html: <code>&lt;ins&gt;...&lt;/ins&gt;</code>, Markdown: <code>++...++</code></p>
+        <p>&emsp;&emsp;<span class="button"> <del>S</del> </span> - 横贯线(无快捷键), Html: <code>&lt;del&gt;...&lt;/del&gt;</code>, Markdown: <code>~~...~~</code></p>
+        <p>&emsp;&emsp;<span class="button" style="padding-top:1.5pt;padding-bottom:3.5pt;"> x<sub>2</sub> </span> - 下表(Ctrl+"+"), Html: <code>&lt;sub&gt;...&lt;/sub&gt;</code>, Markdown: <code>~...~</code></p>
+        <p>&emsp;&emsp;<span class="button" style="padding-top:1pt;padding-bottom:4pt;"> x<sup style="font-size:70%;">2</sup> </span> - 上标 (Ctrl+Shift+"+"), Html: <code>&lt;sup&gt;...&lt;/sup&gt;</code>, Markdown: <code>^...^</code></p>
+        <p>&emsp;&emsp;<span class="button"> <span style="color:red;">R</span> </span> - 红色(无快捷键), Html: <code>&lt;span class="err"&gt;...&lt;/span&gt;</code>, Markdown: 不支持</p>
+        <p>&emsp;&emsp;<span class="button"> <span style="color:#00C800;">G</span> </span> - Green Color (无快捷键), Html: <code>&lt;span class="ok"&gt;...&lt;/span&gt;</code>, Markdown: 不支持</p>
+        <p>&emsp;&emsp;<span class="button"> ‹/› </span> - Span (无快捷键), Html: <code>&lt;span&gt;...&lt;/span&gt;</code>, Markdown: 不支持</p>
+        <p>&emsp;&emsp;<span class="button h">div</span> - Div (无快捷键), Html: <code>&lt;div&gt;...&lt;/div&gt;</code>, Markdown: 不支持</p>
+        <p>&emsp;&emsp;<span class="button"> ▼ </span> - Folded Div (无快捷键), Html: <code>&lt;div class="fold"&gt;...&lt;/div&gt;</code>, Markdown: 不支持</p>
+        <p>&emsp;&emsp;<span class="button" style="vertical-align:top;">⋮☰</span> <span style="display:inline-block;"> - Bulleted List (Ctrl+Shift+L), Html: <code>&lt;ul&gt;&lt;li&gt;...&lt;/li&gt;&lt;li&gt;...&lt;/li&gt;&lt;li&gt;...&lt;/li&gt;&lt;/ul&gt;</code>,<br />&ensp; Markdown: 不支持</span></p>
+        <p>&emsp;&emsp;<strong class="button h" style="font-size:6pt; vertical-align:top;">1.➖<br />2.➖</strong> <span style="display:inline-block;"> - 编号排列(Ctrl+Shift+N), Html: <code>&lt;ol&gt;&lt;li&gt;...&lt;/li&gt;&lt;li&gt;...&lt;/li&gt;&lt;li&gt;...&lt;/li&gt;&lt;/ol&gt;</code>,<br />&ensp; Markdown: 不支持</span></p>
+        <p>&emsp;&emsp;<span class="button" style="vertical-align:top;">🖼</span> <span style="display:inline-block;"> - 图像 (无快捷键),<br />&ensp; Html: <code>&lt;img style="height:...; width:..." src="..." alt="..."&gt;</code>,<br />&ensp; Markdown: 不支持</p>
+        <p>
+            &emsp;&emsp;<span class="button" style="vertical-align:top;">▦</span> <span style="display:inline-block;">
+                - 表格 (无快捷键), Html:<br />
+                &ensp; <code>&lt;table class="bordered"&gt;</code><br />
+                &ensp; <code>&lt;thead&gt;&lt;tr&gt;&lt;th&gt;...&lt;/th&gt;&lt;th&gt;...&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;</code><br />
+                &ensp; <code>&lt;tbody&gt;</code><br />
+                &ensp; <code>&lt;tr>&lt;td&gt;...&lt;/td&gt;&lt;td&gt;...&lt;/td&gt;&lt;/tr&gt;</code><br />
+                &ensp; <code>&lt;tr>&lt;td&gt;...&lt;/td&gt;&lt;td&gt;...&lt;/td&gt;&lt;/tr&gt;</code><br />
+                &ensp; <code>&lt;/tbody&gt;</code><br />
+                &ensp; <code>&lt;/table&gt;</code>,<br />
+                &ensp; Markdown: 不支持
+            </span>
+        </p>
+        <p>&emsp;&emsp;<span class="button">—</span> - 水平分割线(无快捷键), Html: <code>&lt;hr/&gt;</code>, Markdown: <code>---</code></p>
+        <p>要对文本的某一部分应用格式标签，先选中该部分，然后点击相应的按钮.再次点击同一按钮即可移除同类型的已有格式.Calcpad支持单词自动选取：如果在单词内部点击并按下格式按钮，整个单词都会被应用该格式.</p>
         <h2 id="TOC_600">编程</h2>
 
         <h3 id="TOC_601">输入表单</h3>
@@ -4677,12 +5001,12 @@
             <li><code class="cond">#Input</code> - 在当前行呈现输入表单,并等待用户输入数据和恢复.</li>
         </ul>
         <p>当计算过程中止,程序在报告的结尾给出如下提示信息:</p>
-        <p>&emsp;&emsp;<span class="err">Paused!</span> 按 <b>F5</b>  <a href="#0" data-text="continue">继续</a> 或 <b>Esc</b>  <a href="#0" data-text="cancel">取消计算</a>.</p>
+        <p>&emsp;&emsp;<span class="err">暂停!</span> 按 <b>F5</b>  <a href="#0" data-text="continue">继续</a> 或 <b>Esc</b>  <a href="#0" data-text="cancel">取消计算</a>.</p>
         <p>您可以通过按下<b>F5</b>、点击链接或再次点击<img alt="Play" height="24" src="Images/Play.png">按钮来恢复执行.在单个工作表中可以设置多个断点.当使用<code class="cond">#Input</code>关键字时,在显示当前输入表单之前,将计算前一节.通过这种方式,计算的阶段会重叠,如下面的示例所示:</p>
         <p><img alt="Interactive" height="360" src="Images/Interactive.png"></p>
         <p>此外,用户可以随时从键盘上按下"<b>Pause/Break</b>"或"<b>Ctrl + Alt + P</b>"来暂停执行.执行将在当前行暂停,就像检测到<code class="cond">#Pause</code>一样.</p>
 
-        <h3 id="TOC_606">模块(包含)</h3>
+        <h3 id="TOC_606">模块(通过#include命令调用)</h3>
         <p>Calcpad允许您在工作表中包含来自外部文件的内容.如果您在不同的工作表中重复使用某些代码片段,您可以将其组织成模块,并多次重用.此外,如果您有一个较长的工作表,您可以将其拆分为易于维护的模块.然后,您可以使用以下语句将它们包含到主文件中:</p>
         <p>&emsp;&emsp;<span class="cond">#include</span> <em class="macro">文件名</em></p>
         <p>"<em class="macro">文件名</em>"必须包含到本地文件的完整路径.如果文件与当前文件夹相同,您只需指定文件名即可.</p>
@@ -4720,13 +5044,378 @@
         <p>字符串变量、宏及其参数的名称可以包含小写和大写的拉丁字母和下划线"_".它们必须以"$"符号开头.内容可以是任何字符串.它不一定是有效的Calcpad表达式,因为在这个阶段它不会被解析器处理.但是,在其中不允许其他的宏/字符串变量定义.您只能插入对先前定义的宏/字符串变量的引用.此外,宏内部不支持输入字段"?".这个功能将在以后的版本中开发.您可以在宏中使用<span class="cond">#include</span>,但前提是所包含的文件不包含其他宏.</p>
         <p>在定义字符串变量之后,您可以在代码的任何地方使用它,只需写入它的名称(以"$"结尾).对于宏也是一样,但您还需要为参数指定值.宏和字符串变量在实际解析之前进行预处理和重写.结果是生成中间(展开)代码.您可以通过在"<b>输出</b>"窗口下方勾选"<b>展开的代码</b>"复选框来查看它.</p>
         <p>如果在宏预处理过程中发生任何错误,将显示展开的代码以及错误信息.错误描述中的行号是指您的初始代码.如果预处理成功完成,则对展开的代码进行解析和计算,就像正常情况下一样.如果在这个阶段检测到错误,它们将显示在输出中.错误描述中的行号是指展开的代码.您可以通过点击行号上的链接转到相应的行.</p>
+ <h3 id="TOC_608">导入/导出外部数据</h3>
+        <p>用户可以从text, CSV和Excel文件中导入数据或导出数据到上述文件中. 在Calcpad中, 数据应当存储到矩阵/向量变量中.用户也可以通过定义所需的范围来写入或写出特定部分的数据. 特殊矩阵数据可以通过结构化存储来节约存储空间. 上述功能可以用下列命令实现:</p>
 
+        <h4>Text/CSV文件</h4>
+        <p>&emsp;&emsp;<code><span class="cond">#read</span> <var>M</var> from <em>文件名.txt</em>@R1C1:R2C2 TYPE=<b>R</b> SEP=','</code> - 从指定的的text/CSV文件中读取数据到矩阵/向量<var>M</var>中. 定义的文件需存在;</p>
+        <p>&emsp;&emsp;<code><span class="cond">#write</span> <var>M</var> to <em>文件名.txt</em>@R1C1:R2C2 TYPE=<b>N</b> SEP=','</code> - 将矩阵/向量 <var>M</var>的数据写入到指定的text/CSV 文件在. 若文件已存在, 其将被完全重写.否则, 将自动创建一个上述名称的新文件. 无论如何,文件的路径必须存在;</p>
+        <p>&emsp;&emsp;<code><span class="cond">#append</span> <var>M</var> to <em>文件名.txt</em>@R1C1:R2C2 TYPE=<b>N</b> SEP=','</code> - 将矩阵/向量<var>M</var>的数据追加到指定的text/CSV文件中. 若文件已存在,数据将追加在文档的末尾. 否则, 将自动创建一个上述名称的新文件. 无论如何,文件的路径必须存在.</p>
+        <p><strong>命令选项</strong></p>
+        <p>
+            &emsp;&emsp;<var>M</var>	- 包含[<span class="err">需要的</span>]数据的矩阵/向量的名称;
+            <br />&emsp;&emsp;<code><em>文件名.txt</em></code>	- 输入/输入文件的路径及名称[<span class="err">必填</span>]. 若路径缺省,则程序默认文件在计算程序相同路径下. 扩展名不可缺省，且允许任何扩展名(除了Excel文件, 包括<b>txt</b> 和 <b>csv</b>), 只要文件中的数据是文本格式即可;
+            <br />&emsp;&emsp;<code>@R1C1:R2C2</code> - 输入文件中的数据范围 [<span class="ok">可选的</span>];
+            <br />&emsp;&emsp;<code>R1C1</code> - 起始行号和列号 [<span class="ok">可选的</span>];
+            <br />&emsp;&emsp;<code>@R1C1:R2C2</code> - 输入文件中的数据范围 [<span class="ok">可选的</span>];
+            <br />&emsp;&emsp;<code>R1</code> - 行号: 由大写字母“R”和行号数构成[<span class="ok">可选的</span>];
+            <br />&emsp;&emsp;<code>@R1C1:R2C2</code> - 输入文件中的数据范围 [<span class="ok">可选的</span>];
+            <br />&emsp;&emsp;<code>C1</code> - 列号: 由大写字母“C”和列号数构成 [<span class="ok">可选的</span>];
+            <br />&emsp;&emsp;<code>@R1C1:R2C2</code> - 输入文件中的数据范围 [<span class="ok">可选的</span>];
+            <br />&emsp;&emsp;<code>:R2C2</code> - 终止行号(R2)和列号(C2)  [<span class="ok">可选的</span>];
+            <br />&emsp;&emsp;索引号始于<b>1</b>.用户可以跳过任意的起始和终止行/列索引号. 这种情况下,矩阵的维数和元素值取默认值1. 起始索引号可以比终止号大. 下面是一些示例:
+        </p>
+        <table class="centered nb">
+            <tr>
+                <td>
+                    <table class="bordered centered sm">
+                        <tr><th></th><th>C1</th><th>C2</th><th>C3</th><th>C4</th><th>C5</th></tr>
+                        <tr><th>R1</th><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td></tr>
+                        <tr><th>R2</th><td>21</td><td>22</td><td class="hl"><b>23</b></td><td class="hl"><b>24</b></td><td>25</td></tr>
+                        <tr><th>R3</th><td>31</td><td>32</td><td class="hl"><b>33</b></td><td class="hl"><b>34</b></td><td>35</td></tr>
+                        <tr><th>R4</th><td>41</td><td>42</td><td class="hl"><b>43</b></td><td class="hl"><b>44</b></td><td>45</td></tr>
+                        <tr><th>R5</th><td>51</td><td>52</td><td>53</td><td>54</td><td>55</td></tr>
+                    </table>
+                </td>
+                <td>&emsp;</td>
+                <td>
+                    <table class="bordered centered sm">
+                        <tr><th></th><th>C1</th><th>C2</th><th>C3</th><th>C4</th><th>C5</th></tr>
+                        <tr><th>R1</th><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td></tr>
+                        <tr><th>R2</th><td>21</td><td>22</td><td class="hl"><b>23</b></td><td class="hl"><b>24</b></td><td class="hl"><b>25</b></td></tr>
+                        <tr><th>R3</th><td>31</td><td>32</td><td class="hl"><b>33</b></td><td class="hl"><b>34</b></td><td class="hl"><b>35</b></td></tr>
+                        <tr><th>R4</th><td>41</td><td>42</td><td class="hl"><b>43</b></td><td class="hl"><b>44</b></td><td class="hl"><b>45</b></td></tr>
+                        <tr><th>R5</th><td>51</td><td>52</td><td class="hl"><b>53</b></td><td class="hl"><b>54</b></td><td class="hl"><b>55</b></td></tr>
+                    </table>
+                </td>
+                <td>&emsp;</td>
+                <td>
+                    <table class="bordered centered sm">
+                        <tr><th></th><th>C1</th><th>C2</th><th>C3</th><th>C4</th><th>C5</th></tr>
+                        <tr><th>R1</th><td class="hl"><b>11</b></td><td class="hl"><b>12</b></td><td class="hl"><b>13</b></td><td class="hl"><b>14</b></td><td>15</td></tr>
+                        <tr><th>R2</th><td class="hl"><b>21</b></td><td class="hl"><b>22</b></td><td class="hl"><b>23</b></td><td class="hl"><b>24</b></td><td>25</td></tr>
+                        <tr><th>R3</th><td class="hl"><b>31</b></td><td class="hl"><b>32</b></td><td class="hl"><b>33</b></td><td class="hl"><b>34</b></td><td>35</td></tr>
+                        <tr><th>R4</th><td>41</td><td>42</td><td>43</td><td>44</td><td>45</td></tr>
+                        <tr><th>R5</th><td>51</td><td>52</td><td>53</td><td>54</td><td>55</td></tr>
+                    </table>
+                </td>
+                <td>&emsp;</td>
+                <td>
+                    <table class="bordered centered sm">
+                        <tr><th></th><th>C1</th><th>C2</th><th>C3</th><th>C4</th><th>C5</th></tr>
+                        <tr><th>R1</th><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td> </tr>
+                        <tr><th>R2</th><td class="hl"><b>21</b></td><td class="hl"><b>22</b></td><td class="hl"><b>23</b></td><td class="hl"><b>24</b></td><td class="hl"><b>25</b></td></tr>
+                        <tr><th>R3</th><td class="hl"><b>31</b></td><td class="hl"><b>32</b></td><td class="hl"><b>33</b></td><td class="hl"><b>34</b></td><td class="hl"><b>35</b></td></tr>
+                        <tr><th>R4</th><td class="hl"><b>41</b></td><td class="hl"><b>42</b></td><td class="hl"><b>43</b></td><td class="hl"><b>44</b></td><td class="hl"><b>45</b></td></tr>
+                        <tr><th>R5</th><td>51</td><td>52</td><td>53</td><td>54</td><td>55</td></tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td><code><b>@R2C3:R4C4</b><code></td>
+                <td>&emsp;</td>
+                <td><code><b>@R2C3</b><code></td>
+                <td>&emsp;</td>
+                <td><code><b>@:R3C4</b><code></td>
+                <td>&emsp;</td>
+                <td><code><b>@R2:R4</b><code></td>
+            </tr>
+            <tr>
+                <td>
+                    <table class="bordered sm">
+                        <tr><th></th><th>C1</th><th>C2</th><th>C3</th><th>C4</th><th>C5</th></tr>
+                        <tr><th>R1</th><td>11</td><td>12</td><td class="hl"><b>13</b></td><td class="hl"><b>14</b></td><td>15</td></tr>
+                        <tr><th>R2</th><td>21</td><td>22</td><td class="hl"><b>23</b></td><td class="hl"><b>24</b></td><td>25</td></tr>
+                        <tr><th>R3</th><td>31</td><td>32</td><td class="hl"><b>33</b></td><td class="hl"><b>34</b></td><td>35</td></tr>
+                        <tr><th>R4</th><td>41</td><td>42</td><td class="hl"><b>43</b></td><td class="hl"><b>44</b></td><td>45</td></tr>
+                        <tr><th>R5</th><td>51</td><td>52</td><td class="hl"><b>53</b></td><td class="hl"><b>54</b></td><td>55</td></tr>
+                    </table>
+                </td>
+                <td>&emsp;</td>
+                <td>
+                    <table class="bordered sm">
+                        <tr><th></th><th>C1</th><th>C2</th><th>C3</th><th>C4</th><th>C5</th></tr>
+                        <tr><th>R1</th><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td></tr>
+                        <tr><th>R2</th><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td></tr>
+                        <tr><th>R3</th><td class="hl"><b>31</b></td><td class="hl"><b>32</b></td><td class="hl"><b>33</b></td><td class="hl"><b>34</b></td><td>35</td></tr>
+                        <tr><th>R4</th><td class="hl"><b>41</b></td><td class="hl"><b>42</b></td><td class="hl"><b>43</b></td><td class="hl"><b>44</b></td><td>45</td></tr>
+                        <tr><th>R5</th><td class="hl"><b>51</b></td><td class="hl"><b>52</b></td><td class="hl"><b>53</b></td><td class="hl"><b>54</b></td><td>55</td></tr>
+                    </table>
+                </td>
+                <td>&emsp;</td>
+                <td>
+                    <table class="bordered sm">
+                        <tr><th></th><th>C1</th><th>C2</th><th>C3</th><th>C4</th><th>C5</th></tr>
+                        <tr><th>R1</th><td>11</td><td>12</td><td class="hl"><b>13</b></td><td class="hl"><b>14</b></td><td class="hl"><b>15</b></td></tr>
+                        <tr><th>R2</th><td>21</td><td>22</td><td class="hl"><b>23</b></td><td class="hl"><b>24</b></td><td class="hl"><b>25</b></td></tr>
+                        <tr><th>R3</th><td>31</td><td>32</td><td class="hl"><b>33</b></td><td class="hl"><b>34</b></td><td class="hl"><b>35</b></td></tr>
+                        <tr><th>R4</th><td>41</td><td>42</td><td class="hl"><b>43</b></td><td class="hl"><b>44</b></td><td class="hl"><b>45</b></td></tr>
+                        <tr><th>R5</th><td>51</td><td>52</td><td class="hl"><b>53</b></td><td class="hl"><b>54</b></td><td class="hl"><b>55</b></td></tr>
+                    </table>
+                </td>
+                <td>&emsp;</td>
+                <td>
+                    <table class="bordered sm">
+                        <tr><th></th><th>C1</th><th>C2</th><th>C3</th><th>C4</th><th>C5</th></tr>
+                        <tr><th>R1</th><td>11</td><td class="hl"><b>12</b></td><td class="hl"><b>13</b></td><td class="hl"><b>14</b></td><td>15</td></tr>
+                        <tr><th>R2</th><td>21</td><td class="hl"><b>22</b></td><td class="hl"><b>23</b></td><td class="hl"><b>24</b></td><td>25</td></tr>
+                        <tr><th>R3</th><td>31</td><td class="hl"><b>32</b></td><td class="hl"><b>33</b></td><td class="hl"><b>34</b></td><td>35</td></tr>
+                        <tr><th>R4</th><td>41</td><td>42</td><td>43</td><td>44</td><td>45</td></tr>
+                        <tr><th>R5</th><td>51</td><td>52</td><td>53</td><td>54</td><td>55</td></tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td><code><b>@C3:C4</b><code></td>
+                <td>&emsp;</td>
+                <td><code><b>@R3:C4</b><code></td>
+                <td>&emsp;</td>
+                <td><code><b>@C3</b><code></td>
+                <td>&emsp;</td>
+                <td><code><b>@R3C4:R1C2</b><code></td>
+                </td>
+            </tr>
+        </table>
+        <p>
+            &emsp;&emsp;<code>TYPE=<b>R</b></code>	-矩阵/向量结构化存储的类型 [<span class="ok">可选的</span>].
+            <br />&emsp;&emsp;对<span class="cond">#read</span> 命令, TYPE可以是下列任意大写字母:
+            <br />&emsp;&emsp;&emsp;&emsp;<code><b>R</b></code> - 矩形阵(默认);
+            <br />&emsp;&emsp;&emsp;&emsp;<code><b>C</b></code> - 列阵;
+            <br />&emsp;&emsp;&emsp;&emsp;<code><b>D</b></code> - 对角阵;
+            <br />&emsp;&emsp;&emsp;&emsp;<code><b>S</b></code> - 对称skyline阵;
+            <br />&emsp;&emsp;&emsp;&emsp;<code><b>L</b></code> - 下三角阵;
+            <br />&emsp;&emsp;&emsp;&emsp;<code><b>U</b></code> - 上三角阵;
+            <br />&emsp;&emsp;&emsp;&emsp;<code><b>V</b></code> - 向量;
+        </p>
+        <p>对于列矩阵和对角矩阵，数值可以存放在单行中，也可以按每行一个数值的方式存放在一列中.对于对角矩阵，仅存储主对角线上的数值；对于下三角矩阵，仅存储主对角线以下的数值；对于对称矩阵和上三角矩阵，仅存储主对角线以上的数值.向量的数值可以分布在多行，但最终会逐行收集成一个单一向量.下面给出结构化存储的示例：</p>
+        <table class="centered nb">
+            <tr style="text-decoration:underline;">
+                <td colspan="3" style="padding:0;"><b>对角阵(D)</b></td>
+                <td></td>
+                <td colspan="3" style="padding:0;"><b>对称方阵(S)</b></td>
+                <td></td>
+                <td colspan="3" style="padding:0;"><b>向量(V)</b></td>
+            </tr>
+            <tr>
+                <td>
+                    <p><b>File</b></p>
+                    <table class="bordered centered sm">
+                        <tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>
+                        <tr><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td></tr>
+                        <tr><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td></tr>
+                        <tr><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td></tr>
+                        <tr><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td></tr>
+                    </table>
+                </td>
+                <td>&nbsp;<br />&nbsp;<br />&nbsp;<br />➔</td>
+                <td>
+                    <p><b>Matrix</b></p>
+                    <table class="bordered centered sm">
+                        <tr><th>&nbsp;1&nbsp;</th><td>&nbsp;0&nbsp;</td><td>&nbsp;0&nbsp;</td><td>&nbsp;0&nbsp;</td><td>&nbsp;0&nbsp;</td></tr>
+                        <tr><td>0</td><th>2</th><td>0</td><td>0</td><td>0</td></tr>
+                        <tr><td>0</td><td>0</td><th>3</th><td>0</td><td>0</td></tr>
+                        <tr><td>0</td><td>0</td><td>0</td><th>4</th><td>0</td></tr>
+                        <tr><td>0</td><td>0</td><td>0</td><td>0</td><th>5</th></tr>
+                    </table>
+                </td>
+                <td>&emsp;</td>
+                <td>
+                    <p><b>File</b></p>
+                    <table class="bordered centered sm">
+                        <tr><th>1</th><th>2</th><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td></tr>
+                        <tr><th>3</th><th>4</th><th>5</th><td>&emsp;</td><td>&emsp;</td></tr>
+                        <tr><th>6</th><th>7</th><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td></tr>
+                        <tr><th>8</th><th>9</th><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td></tr>
+                        <tr><th>10</th><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td></tr>
+                    </table>
+                </td>
+                <td>&nbsp;<br />&nbsp;<br />&nbsp;<br />➔</td>
+                <td>
+                    <p><b>Matrix</b></p>
+                    <table class="bordered centered sm">
+                        <tr><th>&nbsp;1&nbsp;</th><th>&nbsp;2&nbsp;</th><td>&nbsp;0&nbsp;</td><td>&nbsp;0&nbsp;</td><td>&nbsp;0&nbsp;</td></tr>
+                        <tr><td>2</td><th>3</th><th>4</th><th>5</th><td> 0</td></tr>
+                        <tr><td>0</td><td>4</td><th>6</th><th>7</th><td> 0</td></tr>
+                        <tr><td>0</td><td>5</td><td>7</td><th>8</th><th> 9</th></tr>
+                        <tr><td>0</td><td>0</td><td>0</td><td>9</td><th>10</th></tr>
+                    </table>
+                </td>
+                <td>&emsp;</td>
+                <td>
+                    <p><b>File</b></p>
+                    <table class="bordered centered sm">
+                        <tr><th>1</th><th>2</th><th>3</th></tr>
+                        <tr><th>4</th><th>5</th><td> </td></tr>
+                        <tr><th>6</th><th>7</th><th>8</th></tr>
+                        <tr><th>9</th><td>&emsp;</td><td>&emsp;</td></tr>
+                        <tr><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td></tr>
+                    </table>
+                </td>
+                <td>➔<br />&nbsp;<br />&nbsp;</td>
+                <td style="vertical-align:top;">
+                    <p><b>Vector</b></p>
+                    <table class="bordered centered sm">
+                        <tr>
+                            <th>1</th>
+                            <th>2</th>
+                            <th>3</th>
+                            <th>4</th>
+                            <th>5</th>
+                            <th>6</th>
+                            <th>7</th>
+                            <th>8</th>
+                            <th>9</th>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <p>
+            &emsp;&emsp;对于 <span class="cond">#write</span> 和<span class="cond">#append</span> 命令 TYPE可以是下列大写字母中的一种:
+            <br />&emsp;&emsp;&emsp;&emsp;<code><b>Y</b></code> - 是, 使用矩阵的结构;
+            <br />&emsp;&emsp;&emsp;&emsp;<code><b>N</b></code> - 否, 不使用矩阵的结构(默认);
+        </p>
+        <p>
+            &emsp;&emsp;若选择 “<b>N</b>”, 所有矩阵都存储为矩形阵,忽略其类型和内部结构.<br />&emsp;&emsp;所有最后一个非零行元素之后的元素都略掉.
+            <br />&emsp;&emsp;<code>SEP=','</code>	- 分隔符[<span class="ok">可选的</span>]. 用户必须在单引号中指定单个字符.<br />&emsp;&emsp;对于 <span class="cond">#read</span>命令其必须与输入文件中的实际分隔符一致.
+            <br />&emsp;&emsp;若上述命令中所有可选关键字都略去，则允许的最短语法如下:
+            <br />&emsp;&emsp;&emsp;&emsp;“<code><span class="cond">#read</span> <var>M</var> from <em>文件名.txt</em></code>” 或
+            <br />&emsp;&emsp;&emsp;&emsp;“<code><span class="cond">#write</span> <var>M</var> to <em>文件名.txt</em></code>” 或
+            <br />&emsp;&emsp;&emsp;&emsp;“<code><span class="cond">#append</span> <var>M</var> to <em>文件名.txt</em></code>”.
+        </p>
+
+        <h4>Excel文件</h4>
+        <p>&emsp;&emsp;<code><span class="cond">#read</span> <var>M</var> from <em>文件名.xlsx</em>@Sheet1!A1:B2 TYPE=<b>R</b></code> - 将数据从指定的 Excel 文件读取到矩阵/向量 <var>M</var> 中.文件必须存在，并且工作表也必须是指定的.;</p>
+        <p>&emsp;&emsp;<code><span class="cond">#write</span> <var>M</var> to <em>文件名.xlsx</em>@Sheet1!A1:B2 TYPE=<b>N</b></code> - 将矩阵/向量 <var>M</var> 中的数据写入指定的 Excel 文件.若文件不存在,会创建一个仅包含单个工作表的新文件；如果文件已存在，则会被完整覆盖.文件的路径必须已存在。;</p>
+        <p>&emsp;&emsp;<code><span class="cond">#append</span> <var>M</var> to <em>文件名.xlsx</em>@Sheet1!A1:B2 TYPE=<b>N</b></code> - 将矩阵/向量 <var>M</var> 中的数据追加到指定的Excel文件中.如果文件已存在，则在该文件的指定位置写入数据；如果文件不存在，则会创建一个新文件.无论哪种情况，文件的路径都必须已存在.</p>
+
+        <p><strong>命令选项</strong></p>
+        <p>
+            &emsp;&emsp;<var>M</var>	- 包含数据的矩阵/向量名称[<span class="err">必填</span>];
+            <br />&emsp;&emsp;<code><em>文件名.xlsx</em></code> - 输入/输出文件的名称和路径[<span class="err">必填</span>].如果未提供路径，则默认文件位于同一文件夹中.支持的文件扩展名为 <b>xlsx</b> 和 <b>xlsm</b>;
+            <br />&emsp;&emsp;<code>@Sheet1</code> - 目标工作表的名称 [<span class="ok">可选的</span>]. 如果省略，则对已有文件使用第一个工作表，而对新建文件则默认使用 Sheet1.
+            <br />&emsp;&emsp;<code>!A1:B2</code> - 目标单元格范围[<span class="ok">可选的</span>]:
+            <br />&emsp;&emsp;<code>A1</code> - 起始单元格索引[<span class="ok">可选的</span>], 其中 A为列名且行号为 1;
+            <br />&emsp;&emsp;<code>:B2</code> - 索引号如上的终止单元[<span class="ok">可选的</span>];
+            <br />&emsp;&emsp;列名从 <b>A</b> 开始，行号从 <b>1</b> 开始.您可以省略任意起始或结束的列/行引用.在这种情况下，数据会分别读取到首个和最后一个非空单元格.起始单元格的引用可以大于结束单元格的引用.下面给出数据导入设置的示例：
+        </p>
+        <table class="centered nb">
+            <tr>
+                <td>
+                    <table class="bordered centered sm">
+                        <tr><th>&emsp;</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr>
+                        <tr><th>1</th><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td></tr>
+                        <tr><th>2</th><td>21</td><td>22</td><td class="hl"><b>23</b></td><td class="hl"><b>24</b></td><td>25</td></tr>
+                        <tr><th>3</th><td>31</td><td>32</td><td class="hl"><b>33</b></td><td class="hl"><b>34</b></td><td>35</td></tr>
+                        <tr><th>4</th><td>41</td><td>42</td><td class="hl"><b>43</b></td><td class="hl"><b>44</b></td><td>45</td></tr>
+                        <tr><th>5</th><td>51</td><td>52</td><td>53</td><td>54</td><td>55</td></tr>
+                    </table>
+                </td>
+                <td>&emsp;</td>
+                <td>
+                    <table class="bordered centered sm">
+                        <tr><th>&emsp;</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr>
+                        <tr><th>1</th><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td></tr>
+                        <tr><th>2</th><td>21</td><td>22</td><td class="hl"><b>23</b></td><td class="hl"><b>24</b></td><td class="hl"><b>25</b></td></tr>
+                        <tr><th>3</th><td>31</td><td>32</td><td class="hl"><b>33</b></td><td class="hl"><b>34</b></td><td class="hl"><b>35</b></td></tr>
+                        <tr><th>4</th><td>41</td><td>42</td><td class="hl"><b>43</b></td><td class="hl"><b>44</b></td><td class="hl"><b>45</b></td></tr>
+                        <tr><th>5</th><td>51</td><td>52</td><td class="hl"><b>53</b></td><td class="hl"><b>54</b></td><td class="hl"><b>55</b></td></tr>
+                    </table>
+                </td>
+                <td>&emsp;</td>
+                <td>
+                    <table class="bordered centered sm">
+                        <tr><th>&emsp;</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr>
+                        <tr><th>1</th><td class="hl"><b>11</b></td><td class="hl"><b>12</b></td><td class="hl"><b>13</b></td><td class="hl"><b>14</b></td><td>15</td></tr>
+                        <tr><th>2</th><td class="hl"><b>21</b></td><td class="hl"><b>22</b></td><td class="hl"><b>23</b></td><td class="hl"><b>24</b></td><td>25</td></tr>
+                        <tr><th>3</th><td class="hl"><b>31</b></td><td class="hl"><b>32</b></td><td class="hl"><b>33</b></td><td class="hl"><b>34</b></td><td>35</td></tr>
+                        <tr><th>4</th><td>41</td><td>42</td><td>43</td><td>44</td><td>45</td></tr>
+                        <tr><th>5</th><td>51</td><td>52</td><td>53</td><td>54</td><td>55</td></tr>
+                    </table>
+                </td>
+                <td>&emsp;</td>
+                <td>
+                    <table class="bordered centered sm">
+                        <tr><th>&emsp;</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr>
+                        <tr><th>1</th><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td></tr>
+                        <tr><th>2</th><td class="hl"><b>21</b></td><td class="hl"><b>22</b></td><td class="hl"><b>23</b></td><td class="hl"><b>24</b></td><td class="hl"><b>25</b></td></tr>
+                        <tr><th>3</th><td class="hl"><b>31</b></td><td class="hl"><b>32</b></td><td class="hl"><b>33</b></td><td class="hl"><b>34</b></td><td class="hl"><b>35</b></td></tr>
+                        <tr><th>4</th><td class="hl"><b>41</b></td><td class="hl"><b>42</b></td><td class="hl"><b>43</b></td><td class="hl"><b>44</b></td><td class="hl"><b>45</b></td></tr>
+                        <tr><th>5</th><td>51</td><td>52</td><td>53</td><td>54</td><td>55</td></tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td><code><b>!C2:D4</b></code></td>
+                <td>&emsp;</td>
+                <td><code><b>!C2</b></code></td>
+                <td>&emsp;</td>
+                <td><code><b>!:D3</b></code></td>
+                <td>&emsp;</td>
+                <td><code><b>!2:4</b></code></td>
+            </tr>
+            <tr>
+                <td>
+                    <table class="bordered centered sm">
+                        <tr><th>&emsp;</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr>
+                        <tr><th>1</th><td>11</td><td>12</td><td class="hl"><b>13</b></td><td class="hl"><b>14</b></td><td>15</td></tr>
+                        <tr><th>2</th><td>21</td><td>22</td><td class="hl"><b>23</b></td><td class="hl"><b>24</b></td><td>25</td></tr>
+                        <tr><th>3</th><td>31</td><td>32</td><td class="hl"><b>33</b></td><td class="hl"><b>34</b></td><td>35</td></tr>
+                        <tr><th>4</th><td>41</td><td>42</td><td class="hl"><b>43</b></td><td class="hl"><b>44</b></td><td>45</td></tr>
+                        <tr><th>5</th><td>51</td><td>52</td><td class="hl"><b>53</b></td><td class="hl"><b>54</b></td><td>55</td></tr>
+                    </table>
+                </td>
+                <td>&emsp;</td>
+                <td>
+                    <table class="bordered centered sm">
+                        <tr><th>&emsp;</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr>
+                        <tr><th>1</th><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td></tr>
+                        <tr><th>2</th><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td></tr>
+                        <tr><th>3</th><td class="hl"><b>31</b></td><td class="hl"><b>32</b></td><td class="hl"><b>33</b></td><td class="hl"><b>34</b></td><td>35</td></tr>
+                        <tr><th>4</th><td class="hl"><b>41</b></td><td class="hl"><b>42</b></td><td class="hl"><b>43</b></td><td class="hl"><b>44</b></td><td>45</td></tr>
+                        <tr><th>5</th><td class="hl"><b>51</b></td><td class="hl"><b>52</b></td><td class="hl"><b>53</b></td><td class="hl"><b>54</b></td><td>55</td></tr>
+                    </table>
+                </td>
+                <td>&emsp;</td>
+                <td>
+                    <table class="bordered centered sm">
+                        <tr><th>&emsp;</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr>
+                        <tr><th>1</th><td>11</td><td>12</td><td class="hl"><b>13</b></td><td class="hl"><b>14</b></td><td class="hl"><b>15</b></td></tr>
+                        <tr><th>2</th><td>21</td><td>22</td><td class="hl"><b>23</b></td><td class="hl"><b>24</b></td><td class="hl"><b>25</b></td></tr>
+                        <tr><th>3</th><td>31</td><td>32</td><td class="hl"><b>33</b></td><td class="hl"><b>34</b></td><td class="hl"><b>35</b></td></tr>
+                        <tr><th>4</th><td>41</td><td>42</td><td class="hl"><b>43</b></td><td class="hl"><b>44</b></td><td class="hl"><b>45</b></td></tr>
+                        <tr><th>5</th><td>51</td><td>52</td><td class="hl"><b>53</b></td><td class="hl"><b>54</b></td><td class="hl"><b>55</b></td></tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td><code><b>!C:D</b></code></td>
+                <td>&emsp;</td>
+                <td><code><b>!3:D</b></code></td>
+                <td>&emsp;</td>
+                <td><code><b>!C</b></code></td>
+            </tr>
+        </table>
+        <p>&emsp;&emsp;#write 和 #append 数据导出命令的行为略有不同.起始引用指示输出矩阵 <var>M</var><sub>1,1</sub> 第一个元素的位置.因此，即使该位置大于A1，也不会截断前面的行和列.除非受到结束引用的限制，否则整个矩阵会在指定位置之后写入.否则，结束引用之后的其余行列会被截断.例如：<code><span class="cond">#write</span> <var>M</var> to <em>文件名.xlsx</em>@Sheet1!C2</code> 将产生如下输出:</p>
+        <table class="bordered centered sm">
+            <tr><th>&emsp;</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th><th>I</th></tr>
+            <tr><th>1</th><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td></tr>
+            <tr><th>2</th><td></td><td></td><td class="hl"><b>11</b></td><td class="hl"><b>12</b></td><td class="hl"><b>13</b></td><td class="hl"><b>14</b></td><td class="hl"><b>15</b></td><td></td><td></td></tr>
+            <tr><th>3</th><td></td><td></td><td class="hl"><b>21</b></td><td class="hl"><b>22</b></td><td class="hl"><b>23</b></td><td class="hl"><b>24</b></td><td class="hl"><b>25</b></td><td></td><td></td></tr>
+            <tr><th>4</th><td></td><td></td><td class="hl"><b>31</b></td><td class="hl"><b>32</b></td><td class="hl"><b>33</b></td><td class="hl"><b>34</b></td><td class="hl"><b>35</b></td><td></td><td></td></tr>
+            <tr><th>5</th><td></td><td></td><td class="hl"><b>41</b></td><td class="hl"><b>42</b></td><td class="hl"><b>43</b></td><td class="hl"><b>44</b></td><td class="hl"><b>45</b></td><td></td><td></td></tr>
+            <tr><th>6</th><td></td><td></td><td class="hl"><b>51</b></td><td class="hl"><b>52</b></td><td class="hl"><b>53</b></td><td class="hl"><b>54</b></td><td class="hl"><b>55</b></td><td></td><td></td></tr>
+            <tr><th>7</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        </table>
+        <p>
+            &emsp;&emsp;<code>TYPE=<b>R</b></code>	- 用于结构化存储的矩阵/向量的类型 [<span class="ok">可选的</span>]. 相同的规则适用于上述的text/CSV文件.
+		</p>
         <h2 id="TOC_700">结果</h2>
         <p>您可以通过按下<b>F5</b>或单击<img alt="Play" height="24" src="Images/Play.png">按钮来运行解决方案.结果将出现在"<b>输出</b>"框中.您无法编辑输出内容,但可以选择、复制和打印它.为此,您可以使用右侧"<b>输出</b>"框上方的工具栏.您还可以使用上下文菜单中的其他命令.如果您在"<b>输出</b>"框内右键单击,将显示一个弹出菜单,其中包含其他命令.本手册中提供了详细的描述.</p>
         <p>自版本6.5.3以来,您可以使用"☑<b>自动运行</b>"模式.当勾选此选项时,每次更改代码并移动到另一行时,结果都会刷新.如果需要手动同步结果,可以按"<b>Ctrl + Enter</b>".此外,输出窗口将滚动以匹配源代码中的当前位置.您也可以通过双击输入窗口来实现相同的效果.</p>
 
-        <h3 id="TOC_701">替代</h3>
-        <p>Calcpad可以在输出中的所有公式中替代变量的值,就在答案之前:</p>
+        <h3 id="TOC_701">代入</h3>
+        <p>Calcpad可以在输出最终答案之前,对所有公式代入变量的值:</p>
         <p style="margin-left: 2em;"><var>x</var><sub>1</sub> = <span class="dvc"> -<var>b</var> – <span class="root">√</span><span class="ovr"><var>D</var></span><span class="dvl"></span>2·<var>a</var></span> = <span class="dvc"> -3 – <span class="root">√</span><span class="ovr">89</span><span class="dvl"></span>2·4</span> = -1.55</p>
         <p>为此,您需要在程序窗口底部勾选"<b>替代</b>"复选框.这样可以方便地查看和检查结果.当需要由主管、教师等检查计算时,这一点非常重要.这也是与电子表格软件的优势之一,因为实际的公式是隐藏在单元格中的.</p>
         <p>如果您不需要替代,可以取消选中此选项.然后答案将直接遵循计算公式:</p>
@@ -4748,7 +5437,7 @@
         <p>舍入仅影响输出中数字的显示方式.在内部,所有数字都以最大可能的精度存储.这就是为什么,如果您打印输出并尝试使用报告中的数字重复计算,可能会得到一些小的差异.这是因为您使用的是舍入后的值而不是实际值.</p>
         <p>您可以使用<code class="cond">#Round</code> <var>n</var>关键字在工作表中覆盖全局舍入,其中<var>n</var>是小数点后的位数(从"0"到"15").</p>
 
-        <h3 id="TOC_703">格式化</h3>
+        <h3 id="TOC_703">设置格式</h3>
         <p>Calcpad不仅计算公式,还可以根据您的源代码生成专业外观的报告.它使用Html格式化输出.它被广泛认可,可以让您在Web上发布您的计算.您可以选择两种不同的方程格式化样式:"专业"和"内联".专业样式使用分数线、大括号、小括号、根号等.分子和分母显示在上下两行.内联样式使用斜线来显示除法,所有符号都排列在一行中.以下格式化规则适用:</p>
         <ul>
             <li>间隔会自动保持.</li>
@@ -4762,7 +5451,7 @@
         <table style="margin-left:24px; max-width: 300px;" border="1">
             <thead>
                 <tr>
-                    <th style="width:50%">Text</th>
+                    <th style="width:50%">文本</th>
                     <th>Html</th>
                 </tr>
             </thead>
@@ -4802,7 +5491,119 @@
             </tbody>
         </table>
         <p>Html格式使报告比相应的纯文本更易于阅读和检查.您还可以在注释中插入其他Html代码,这将影响最终的外观.通过这种方式,您可以使用Calcpad代码构建专业的Web应用程序.为此,您还需要Calcpad的云版本.</p>
-
+		<h4>自定义格式字符串</h4>
+        <p>用户可以对计算报告的不同部分甚至是某个具体的结果值定义格式. 针对计算报告这个层面可以通过如下命令来定义:</p>
+        <p style="margin-left: 2em;"><code class="cond">#format</code> <em>格式字符串</em></p>
+        <p>若要恢复默认格式，添加下列命令行即可:</p>
+        <p style="margin-left: 2em;"><code class="cond">#format default</code></p>
+        <p>对某一具体的结果值自定义格式,添加1个冒号(:)后接相应的格式字符, 例如:</p>
+        <p style="margin-left: 2em;"><code><var>x</var> = 12.345:</code><em>格式字符</em></p>
+        <p>如果有单位，则格式定义字符应置于单位后面:</p>
+        <p style="margin-left: 2em;"><code><var>x</var> = 12.345cm:</code><em>格式字符</em></p>
+        <p>用户可以使用几种类型的格式字符串:</p>
+        <table style="margin-left:24px;" border="1">
+            <thead>
+                <tr>
+                    <th>代码</th>
+                    <th>描述</th>
+                    <th style="width:35%">示例</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>E&hairsp;<var>n</var><br />or<br />e&hairsp;<var>n</var></td>
+                    <td>
+                        <b>幂指数</b> (即 工程计数 或 科学计数).<br />
+                        <var>n</var> - 小数位数(0-17)<br />
+                        缺省默认值为<var>n</var> = 6.<br />
+                        当使用大写字母 E时, 结果显示为×10<sup>⁺∕₋000</sup>
+                    </td>
+                    <td>
+                        <code>123456.789:e</code> = 1.234568e+005<br />
+                        <code>0.00123456:e2</code> = 1.23e-003<br />
+                        <code>123456789:E3</code> = 1.235×10+008
+                    </td>
+                </tr>
+                <tr>
+                    <td>F&hairsp;<var>n</var><br />or<br />f&hairsp;<var>n</var></td>
+                    <td>
+                        <b>固定点位</b>.<br />
+                        <var>n</var> -小数位数(0-17)<br />
+                        缺省默认值位 <var>n</var> = 2.<br />
+                    </td>
+                    <td>
+                        <code>123.456789:f</code> = 123.46<br />
+                        <code>0.00123456:F5</code> = 0.00123<br />
+                        <code>123:F2</code> = 123.00
+                    </td>
+                </tr>
+                <tr>
+                    <td>G&hairsp;<var>n</var><br />or<br />g&hairsp;<var>n</var></td>
+                    <td>
+                        <b>General</b>.<br />
+                        <var>n</var> - number of significant digits (0-17)<br />
+                        The default value is <var>n</var> = 15 if omitted.<br />
+                        Displays either fixed point or scientific.
+                    </td>
+                    <td>
+                        <code>123.456789:g</code> = 123.456789<br />
+                        <code>0.0012345678:g3</code> = 0.00123<br />
+                        <code>123456m:G3</code> = 1.23×10<sup>5</sup> m<br />
+                    </td>
+                </tr>
+                <tr>
+                    <td>N&hairsp;<var>n</var><br />或<br />n&hairsp;<var>n</var></td>
+                    <td>
+                        <b>数字</b>（带数字分组的定点数）.<br />
+						<var>n</var>- 小数位数（0‑17）<br />
+						如果省略，默认值为 <var>n</var>=2.<br />
+						千位分隔符和小数分隔符使用 Windows 区域设置中定义的符号.
+                    </td>
+                    <td>
+                        <code>123.456789:n</code> = 123.46<br />
+                        <code>0.0012345678:N3</code> = 0.001<br />
+                        <code>123456:N3</code> = 123,456.000<br />
+                    </td>
+                </tr>
+                <tr>
+                    <td>C&hairsp;<var>n</var><br />or<br />e&hairsp;<var>n</var></td>
+                    <td>
+                        <b>货币</b>（带货币符号和数字分组的定点数）.<br />
+						<var>n</var>- 小数位数（0‑17）<br />
+						如果省略，默认值为 <var>n</var>=2.<br />
+						使用 Windows 区域设置中定义的货币符号.
+                    </td>
+                    <td>
+                        <code>123.456789:C</code> = 123.46 €<br />
+                        <code>0.0012345678:C3</code> = 0.001 €<br />
+                        <code>123456:C</code> = 123,456.00 €<br />
+                    </td>
+                </tr>
+                <tr>
+                    <td>0<br />#<br />00#<br />0.000<br />#.###<br />0,000.0##<br />0.0E+00<br />0.#e-00<br />etc.</td>
+                    <td>
+                        <b>自定义</b>.<br />
+                       它由以下字符组成：<br />
+						<b>0</b> – 零占位符.如果有数字则显示该数字，没有数字时显示零.<br />
+						<b>#</b> – 可选的数字占位符.如果有数字则显示该数字，没有数字时不显示任何内容.<br />
+						<b>.</b> – 小数分隔符.<br />
+						<b>,</b> – 分组分隔符.<br />
+						<b>E</b>、<b>e</b>、<b>E+</b>、<b>e+</b>、<b>E-</b>、<b>e-</b> – 指数表示法.
+                    </td>
+                    <td>
+                        <code>123.456789:000000</code> = 000123<br />
+                        <code>123.45:0.0000</code> = 123.4500<br />
+                        <code>123.45:0.####</code> = 123.45<br />
+                        <code>0.00123456:#.#####</code> = .00123<br />
+                        <code>1234567:#,#.0</code> = 1,234,567.0<br />
+                        <code>1234567:0.00e+00</code> = 1.23e+06<br />
+                        <code>1234567:0.00e-0</code> = 1.23e6<br />
+                        <code>0.01234:#.##e-000</code> = 1.23e-002<br />
+                        <code>0.12:0.000e-00</code> = 1.200e-01
+                    </td>
+                </tr>
+            </tbody>
+        </table>
         <h3 id="TOC_704">缩放</h3>
         <p>您可以在输出窗口中缩放文本大小.按住"<b>Ctrl</b>"键并旋转鼠标滚轮.向前旋转将放大,向后旋转将缩小.</p>
 
@@ -4832,7 +5633,7 @@
 
         <h3 id="TOC_801">新建</h3>
         <p>单击<img alt="New" height="24" src="Images/New.png">按钮可以开始一个新文件.这将清除文件名和源代码.如果当前文件未保存,将提示您进行保存.</p>
-        <p><img alt="PromptSave" height="160" src="Images/PromptSave.zh.png"></p>
+        <p><img alt="PromptSave" height="160" src="Images/PromptSave.png"></p>
         <p>如果您选择"<b>Yes</b>",将出现"<b>文件保存</b>"对话框.输入文件名并单击"<b>保存</b>".这样,您就可以在被清除之前保存您的数据.如果您选择"<b>Cancel</b>",您将中断命令,一切都将保持不变.</p>
 
         <h3 id="TOC_802">打开</h3>
@@ -4844,7 +5645,7 @@
         <h3 id="TOC_804">另存为...</h3>
         <p>如果您需要使用不同的名称保存当前文件,请选择"<b>文件/另存为...</b>"菜单命令.将显示一个文件选择对话框.选择文件路径和名称,然后点击"<b>保存</b>".</p>
         <hr />
-        <p>2024.12.08——ChengChu编辑.</p>
+        <p>2025.10.06——ChengChu编辑.</p>
     </div>
     <script src="jquery-3.6.3.min.js"></script>
     <script>

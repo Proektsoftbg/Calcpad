@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Markdig.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
@@ -25,7 +26,6 @@ namespace Calcpad.Core
         protected readonly bool phasor = false;
         protected readonly int degrees = 0;
         protected static readonly int PowerOrder = Calculator.OperatorOrder[Calculator.OperatorIndex['^']];
-
         protected OutputWriter(MathSettings settings, bool phasor)
         {
             if (settings is null)
@@ -45,6 +45,8 @@ namespace Calcpad.Core
             Html,
             Xml
         }
+        protected abstract OutputFormat FormatType { get; }
+
         internal const string VectorSpacing = "\u2002";
         internal abstract string UnitString(Unit units);
         internal abstract string FormatInput(string s, Unit units, int line, bool isCalculated);
@@ -80,19 +82,25 @@ namespace Calcpad.Core
             for (int i = 0, len = text.Length; i < len; ++i)
             {
                 var c = text[i];
+                if (c.IsWhitespace())
+                    continue;
+
                 if (c == '·')
                     c = '*';
 
                 switch (c)
                 {
-                    case '/':
-                    case '*':
+                    case '∕' or '/' or '*':
                         if (isPower && brackets.TryPeek(out int ind) && ind < power.Length)
-                            power += c == '*' ? "\u200A·\u200A" : '/';
+                        {
+                            string oper = FormatOperator(c);
+                            power += oper;
+                        }
                         else
                         {
+                            string oper = Unit.GetProductOrDivisionOperator(FormatType, c == '*');
                             AppendPower();
-                            _stringBuilder.Append(FormatOperator(c));
+                            _stringBuilder.Append(oper);
                         }
                         break;
                     case '^':
@@ -180,7 +188,7 @@ namespace Calcpad.Core
                     sub = 0;
                     return FormatSubscript(FormatUnits(s[..^n]), HairSpace + s[^(n - 1)..]);
                 }
-                if (s.Contains('/') || s.Contains('·'))
+                if (s.ContainsAny('/', '∕', '·'))
                     return s;
 
                 return FormatUnits(s);
@@ -199,7 +207,7 @@ namespace Calcpad.Core
                     if (isXmlWriter)
                         power = XmlWriter.Run(power);
 
-                    _stringBuilder.Append(FormatPower(literal, power, 0, -1));
+                    _stringBuilder.Append(FormatPower(literal, power, -1, -1));
                 }
                 else
                     _stringBuilder.Append(literal);
@@ -214,7 +222,8 @@ namespace Calcpad.Core
         {
             Calculator.NegChar => "-",
             '-' => " − ",
-            '*' => "\u200A·\u200A",
+            '*' => "·",
+            '/' => "/",
             '÷' => "/",
             '<' => " < ",
             '>' => " > ",

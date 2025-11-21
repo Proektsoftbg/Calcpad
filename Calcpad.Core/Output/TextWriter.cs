@@ -15,6 +15,10 @@ namespace Calcpad.Core
                 " grad"
             ];
         }
+        protected override OutputFormat FormatType => OutputFormat.Text;
+        internal const char UnitDivision = '∕';
+        internal const char UnitProduct = '·';
+
         internal override string UnitString(Unit units) => units.Text.Replace("‱", "‱ ");
         internal override string FormatInput(string s, Unit units, int line, bool isCalculated) =>
             units is null ? s : s + ' ' + units.Text;

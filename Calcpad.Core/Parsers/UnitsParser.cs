@@ -316,7 +316,7 @@ namespace Calcpad.Core
                 var u = ((UnitToken)t).Value;
                 var s = RenderExpression(rpn);
                 if (s.Length > 0 && char.IsDigit(s[0]))
-                    u.Text = "\u200A·\u200A" + s;
+                    u.Text = "·" + s;
                 else
                     u.Text = s;
 
