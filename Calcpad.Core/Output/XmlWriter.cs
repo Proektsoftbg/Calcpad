@@ -15,8 +15,13 @@ namespace Calcpad.Core
                 FormatUnits("gra"),
             ];
         }
+        protected override OutputFormat FormatType => OutputFormat.Xml;
         private const string wXmlns = "xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"";
         internal const string NormalText = "<m:rPr><m:nor/></m:rPr>";
+        internal static readonly string UnitDivision = Run("∕", $"{NormalText}<w:rPr {wXmlns}><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\" /><w:sz w:val=\"20\" /></w:rPr>");
+        internal static readonly string UnitProduct = Run("·", NormalText);
+        internal static readonly string ThinSpaceRun = $"<m:r><m:t>{ThinSpace}</m:t></m:r>";
+
         internal override string UnitString(Unit units) => units.Xml;
         internal override string FormatInput(string s, Unit units, int line, bool isCalculated)
         {
@@ -62,7 +67,7 @@ namespace Calcpad.Core
         }
 
         internal override string FormatUnits(string s) =>
-            Run(' ' + s, $"{NormalText}<w:rPr {wXmlns}><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\" /><w:sz w:val=\"22\" /></w:rPr>");
+            Run(s, $"{NormalText}<w:rPr {wXmlns}><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\" /><w:sz w:val=\"22\" /></w:rPr>");
         internal override string FormatFunction(string s)
         {
             var format = $"{NormalText}<w:rPr {wXmlns}><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\" /><w:b w:val=\"true\" /></w:rPr>";
@@ -82,21 +87,37 @@ namespace Calcpad.Core
             _ => $"<m:rad><m:deg>{n}</m:deg><m:e>{s}</m:e></m:rad>"
         };
 
+        private static readonly string[] opRuns = [
+            Run("&lt;"),
+            Run("&gt;"),
+            Run("≤"),
+            Run("≥"),
+            Run("·"),
+            Run("/"),
+            Run("/"),
+            Run(" mod "),
+            Run(" and "),
+            Run(" or "),
+            Run(" xor "),
+            Run(" | "),
+            Run("-", NormalText),
+            ];
 
         internal override string FormatOperator(char c) => c switch
         {
-            '<' => Run("&lt;"),
-            '>' => Run("&gt;"),
-            '≤' => Run("≤"),
-            '≥' => Run("≥"),
-            '*' => Run("·"),
-            '÷' => Run("/"),
-            '⦼' => Run(" mod "),
-            '∧' => Run(" and "),
-            '∨' => Run(" or "),
-            '⊕' => Run(" xor "),
-            '|' => Run(" | "),
-            Calculator.NegChar => Run("-", NormalText),
+            '<' => opRuns[0],
+            '>' => opRuns[1],
+            '≤' => opRuns[2],
+            '≥' => opRuns[3],
+            '*' => opRuns[4],
+            '/' => opRuns[5],
+            '÷' => opRuns[6],
+            '⦼' => opRuns[7],
+            '∧' => opRuns[8],
+            '∨' => opRuns[9],
+            '⊕' => opRuns[10],
+            '|' => opRuns[11],
+            Calculator.NegChar => opRuns[12],
             _ => Run(c.ToString())
         };
 
@@ -130,7 +151,7 @@ namespace Calcpad.Core
             if (!(value.IsReal || phasor && s.Contains('∠')))
                 s = AddBrackets(s);
 
-            return s + u.Xml;
+            return s + ThinSpaceRun + u.Xml;
         }
 
         internal override string FormatAbs(string s, int level = 0) => AddBrackets(s, level, '|', '|');

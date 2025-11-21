@@ -4,12 +4,14 @@ using Calcpad.WebApi.Models.Base;
 using Calcpad.WebApi.Utils.Web;
 using Calcpad.WebApi.Utils.Web.Convention;
 using Calcpad.WebApi.Utils.Web.Service;
+using Calcpad.WebApi.Utils.Web.Swagger;
 using log4net;
 using log4net.Repository.Hierarchy;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
+using MongoDB.Bson;
 
 namespace Calcpad.WebApi.Utils.Web
 {
@@ -197,17 +199,26 @@ namespace Calcpad.WebApi.Utils.Web
         /// <returns></returns>
         public static IServiceCollection AddSwaggerGen(
             this IServiceCollection services,
-            OpenApiInfo apiInfo,
-            string xmlCommentsPath
+            OpenApiInfo apiInfo
         )
         {
+            // 获取调用程序集的名称
+            var assemblyName = Assembly.GetCallingAssembly().GetName().Name;
+
             services.AddSwaggerGen(swaggerOptions =>
             {
                 swaggerOptions.SwaggerDoc("v1", apiInfo);
 
+                swaggerOptions.MapType<ObjectId>(
+                    () => new OpenApiSchema { Type = JsonSchemaType.String, Format = "hexadecimal" }
+                );
+
                 // Set the comments path for the Swagger JSON and UI.
+                var xmlCommentsPath = $"{assemblyName}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsPath);
                 swaggerOptions.IncludeXmlComments(xmlPath);
+
+                swaggerOptions.OperationFilter<DotNETSwaggerFilter>();
 
                 // Bearer 的scheme定义
                 var securityScheme = new OpenApiSecurityScheme()
