@@ -522,34 +522,61 @@ namespace Calcpad.Core
             var c_rows = c._hpRows;
             if (a._type == MatrixType.Full || a._type == MatrixType.LowerTriangular)
             {
-                var nb1 = nb + 1;
-                var a_rows = a._hpRows;
-                var b_rows = b._hpRows;
-                for (int i = 0; i < m; ++i)
-                    c_rows[i] = new HpVector(nb1, nb1, unit);
-
-                if (m > ParallelThreshold)
+                if (b._type == MatrixType.Full || b._type == MatrixType.LowerTriangular)
                 {
-                    var parallelOptions = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
-                    Parallel.For(0, m, parallelOptions, MultiplyRow);
+                    var nb1 = nb + 1;
+                    var a_rows = a._hpRows;
+                    var b_rows = b._hpRows;
+                    for (int i = 0; i < m; ++i)
+                        c_rows[i] = new HpVector(nb1, nb1, unit);
+
+                    if (m > ParallelThreshold)
+                    {
+                        var parallelOptions = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
+                        Parallel.For(0, m, parallelOptions, MultiplyRow);
+                    }
+                    else
+                        for (int i = 0; i < m; ++i)
+                            MultiplyRow(i);
+
+                    if (d != 1d)
+                        c.Scale(d);
+
+                    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+                    void MultiplyRow(int i)
+                    {
+                        var a_i = a_rows[i];
+                        var size = a_i.Size;
+                        var ar = a_i.Raw;
+                        var sc = c_rows[i].Raw.AsSpan();
+                        var vc = Vectorized.AsVector(sc);
+                        for (int k = 0; k < size; ++k)
+                            Vectorized.MultiplyAdd(b_rows[k].Raw, ar[k], sc, vc);
+                    }
                 }
                 else
-                    for (int i = 0; i < m; ++i)
-                        MultiplyRow(i);
-
-                if (d != 1d)
-                    c.Scale(d);
-
-                [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                void MultiplyRow(int i)
                 {
-                    var a_i = a_rows[i];
-                    var size = a_i.Size;
-                    var ar = a_i.Raw;
-                    var sc = c_rows[i].Raw.AsSpan();
-                    var vc = Vectorized.AsVector(sc);
-                    for (int k = 0; k < size; ++k)
-                        Vectorized.MultiplyAdd(b_rows[k].Raw, ar[k], sc, vc);
+                    if (m > ParallelThreshold)
+                        Parallel.For(0, m, MultiplyRow1);
+                    else
+                        for (int i = m - 1; i >= 0; --i)
+                            MultiplyRow1(i);
+
+                    void MultiplyRow1(int i)
+                    {
+                        var c_i = c_rows[i];
+                        var a_i = a._hpRows[i];
+                        var last = a_i.Size - 1;
+                        var ar = a_i.Raw;
+                        for (int j = nb; j >= 0; --j)
+                        {
+                            var c_ij = ar[last] * b.GetValue(last, j) * d;
+                            for (int k = last - 1; k >= 0; --k)
+                                c_ij += ar[k] * b.GetValue(k, j) * d;
+
+                            c_i.SetValue(c_ij, j);
+                        }
+                    }
                 }
             }
             else

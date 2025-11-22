@@ -109,25 +109,39 @@ namespace Calcpad.Core
                 ReadOnlySpan<double> sa = L_i.AsSpan(0, len);
                 ReadOnlySpan<SN.Vector<double>> va = len >= _vecSize ?
                     MemoryMarshal.Cast<double, SN.Vector<double>>(sa):
-                    ReadOnlySpan<SN.Vector<double>>.Empty;
+                    [];
+
+                var row = _hpRows[i];
+                if (row.Size == 0)
+                    return null;
+
+                var d0 = row.Raw[0];
                 for (int j = i0; j <= i; ++j)
                 {
-                    var L_j = L[j];
-                    var j0 = start[j];
-                    var k0 = Math.Max(i0, j0);
-                    len = j - k0;
                     double sum = 0;
-                    var nv = len / _vecSize;
                     if (i == j)
                     {
+                        len = i - i0;
+                        var nv = len / _vecSize;
                         for (int k = 0; k < nv; ++k)
                             sum += SN.Vector.Dot(va[k], va[k]);
 
                         for (int k = nv * _vecSize; k < len; ++k)
                             sum += sa[k] * sa[k];
+
+                        var d = d0 - sum;
+                        if (d <= 0d)
+                            return null;
+
+                        L_i[i - i0] = Math.Sqrt(d);
                     }
                     else
                     {
+                        var L_j = L[j];
+                        var j0 = start[j];
+                        var k0 = Math.Max(i0, j0);
+                        len = j - k0;
+                        var nv = len / _vecSize;
                         ReadOnlySpan<double> sb = L_j.AsSpan(k0 - j0, len);
                         k0 -= i0;
                         if (nv > 0)
@@ -141,22 +155,9 @@ namespace Calcpad.Core
                         }
                         for (int k = nv; k < len; ++k)
                             sum += sa[k0 + k] * sb[k];
-                    }
 
-                    if (i == j)
-                    {
-                        var row = _hpRows[i];
-                        if (row.Size == 0)
-                            return null;
-
-                        var d = row.Raw[0] - sum;
-                        if (d <= 0d)
-                            return null;
-
-                        L_i[j - i0] = Math.Sqrt(d);
-                    }
-                    else
                         L_i[j - i0] = (GetValue(i, j) - sum) / L_j[j - j0];
+                    }
                 }
             }
             return L;
