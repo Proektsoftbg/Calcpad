@@ -14,7 +14,7 @@ PlotWidth = 360''PlotHeight = 200
 	D = b^2 - 4*a*c
 	#if D ≥ 0
 		'The discriminant is grater or equal to zero. Real roots exist.
-		q = -0.5*(b + sign(b)*sqr(D))
+		q = -0.5*(b + sign(b ≡ 0 + b)*sqr(D))
 		x_1 = q/a', ' _
 		x_2 = c/q
 		#hide

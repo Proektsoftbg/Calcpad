@@ -95,28 +95,80 @@ namespace Calcpad.Core
 
         private double[][] GetCholesky(out int[] start)
         {
-            start = GetRowsStart();
+            var localStart = GetRowsStart();
+            start = localStart;
             double[][] L = new double[_rowCount][];
             for (int i = 0; i < _rowCount; ++i)
             {
-                var i0 = start[i];
-                var len = i - i0 + 1;
+                var len = i - start[i] + 1;
                 if (len < 1)
                     return null;
 
                 L[i] = new double[len];
+            }
+            if (_rowCount > ParallelThreshold)
+            {
+                var blockSize = Environment.ProcessorCount;
+                var blockCount = (_rowCount + blockSize - 1) / blockSize;
+                for (int ib = 0; ib < blockCount; ++ib)
+                {
+                    var nb = ib * blockSize;
+                    var nb1 = nb - 1;
+                    var ib0 = 0;
+                    var success = true;
+                    if (ib > blockSize)
+                    {
+                        Parallel.For(0, blockSize, ii =>
+                        {
+                            int i = nb + ii;
+                            if (i < _rowCount)
+                            {
+                                var i0 = localStart[i];
+                                if (i0 <= nb1 && !ProcessRow(i, i0, nb1))
+                                    success = false;
+                            }
+                        });
+                        ib0 = nb;
+                    }
+
+                    if (!success)
+                        return null;
+
+                    for (int ii = 0; ii < blockSize; ++ii)
+                    {
+                        var i = nb + ii;
+                        if (i >= _rowCount)
+                            break;
+
+                        var i0 = Math.Max(ib0, localStart[i]);
+                        if (!ProcessRow(i, i0, i))
+                            return null;
+                    }
+                }
+            }
+            else
+                for (int i = 0; i < _rowCount; ++i)
+                    if (!ProcessRow(i, localStart[i], i))
+                        return null;
+
+            return L;
+
+            bool ProcessRow(int i, int j1, int jn)
+            {
+                var row = _hpRows[i];
+                if (row.Size == 0)
+                    return false;
+
+                var d0 = row.Raw[0];
+                var i0 = localStart[i];
+                var len = i - i0 + 1;
                 var L_i = L[i];
                 ReadOnlySpan<double> sa = L_i.AsSpan(0, len);
                 ReadOnlySpan<SN.Vector<double>> va = len >= _vecSize ?
                     MemoryMarshal.Cast<double, SN.Vector<double>>(sa):
                     [];
 
-                var row = _hpRows[i];
-                if (row.Size == 0)
-                    return null;
-
-                var d0 = row.Raw[0];
-                for (int j = i0; j <= i; ++j)
+                for (int j = j1; j <= jn; ++j)
                 {
                     double sum = 0;
                     if (i == j)
@@ -131,14 +183,14 @@ namespace Calcpad.Core
 
                         var d = d0 - sum;
                         if (d <= 0d)
-                            return null;
+                            return false;
 
                         L_i[i - i0] = Math.Sqrt(d);
                     }
                     else
                     {
                         var L_j = L[j];
-                        var j0 = start[j];
+                        var j0 = localStart[j];
                         var k0 = Math.Max(i0, j0);
                         len = j - k0;
                         var nv = len / _vecSize;
@@ -159,8 +211,8 @@ namespace Calcpad.Core
                         L_i[j - i0] = (GetValue(i, j) - sum) / L_j[j - j0];
                     }
                 }
+                return true;
             }
-            return L;
         }
 
         private int[] GetRowsStart()
@@ -220,42 +272,94 @@ namespace Calcpad.Core
         //Get LDLT decomposition by storing D in the main diagonal of L
         private double[][] GetLDLT(out int[] start)
         {
-            start = GetRowsStart();
+            var localStart = GetRowsStart();
+            start = localStart;
             double[][] L = new double[_rowCount][];
             double[] d = new double[_rowCount];
             for (int i = 0; i < _rowCount; ++i)
             {
-                var i0 = start[i];
-                var len = i - i0 + 1;
-                if (len == 0)
+                var len = i - start[i] + 1;
+                if (len < 1)
                     return null;
 
                 L[i] = new double[len];
+            }
+            if (_rowCount > ParallelThreshold)
+            {
+                var blockSize = Environment.ProcessorCount;
+                var blockCount = (_rowCount + blockSize - 1) / blockSize;
+                for (int ib = 0; ib < blockCount; ++ib)
+                {
+                    var nb = ib * blockSize;
+                    var nb1 = nb - 1;
+                    var ib0 = 0;
+                    var success = true;
+                    if (ib > blockSize)
+                    {
+                        Parallel.For(0, blockSize, ii =>
+                        {
+                            int i = nb + ii;
+                            if (i < _rowCount)
+                            {
+                                var i0 = localStart[i];
+                                if (i0 <= nb1 && !ProcessRow(i, i0, nb1))
+                                    success = false;
+                            }
+                        });
+                        ib0 = nb;
+                    }
+
+                    if (!success)
+                        return null;
+
+                    for (int ii = 0; ii < blockSize; ++ii)
+                    {
+                        var i = nb + ii;
+                        if (i >= _rowCount)
+                            break;
+
+                        var i0 = Math.Max(ib0, localStart[i]);
+                        if (!ProcessRow(i, i0, i))
+                            return null;
+                    }
+                }
+            }
+            else
+                for (int i = 0; i < _rowCount; ++i)
+                    if (!ProcessRow(i, localStart[i], i))
+                        return null;
+
+            return L;
+
+            bool ProcessRow(int i, int j1, int jn)
+            {
+                var row = _hpRows[i];
+                if (row.Size == 0)
+                    return false;
+
+                var d0 = row.Raw[0];
+                var i0 = localStart[i];
                 var L_i = L[i];
-                for (int j = i0; j <= i; ++j)
+                for (int j = j1; j <= jn; ++j)
                 {
                     var L_j = L[j];
-                    var j0 = start[j];
+                    var j0 = localStart[j];
                     var k0 = Math.Max(i0, j0);
-                    len = j + 1;
+                    var len = j + 1;
                     double sum = 0;
                     for (int k = k0; k < len; ++k)
                         sum += L_i[k - i0] * L_j[k - j0] * d[k];
 
                     if (i == j)
                     {
-                        var row = _hpRows[i];
-                        if (row.Size == 0)
-                            return null;
-                            
-                        d[i] = row.Raw[0] - sum;
+                        d[i] = d0 - sum;
                         L_j[j - j0] = d[i];
                     }
                     else
                         L_i[j - i0] = (GetValue(i, j) - sum) / L_j[j - j0];
                 }
+                return true;
             }
-            return L;
         }
 
         internal override RealValue Determinant()

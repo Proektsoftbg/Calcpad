@@ -568,14 +568,15 @@ namespace Calcpad.Core
                         var a_i = a._hpRows[i];
                         var last = a_i.Size - 1;
                         var ar = a_i.Raw;
-                        for (int j = nb; j >= 0; --j)
-                        {
-                            var c_ij = ar[last] * b.GetValue(last, j) * d;
-                            for (int k = last - 1; k >= 0; --k)
-                                c_ij += ar[k] * b.GetValue(k, j) * d;
+                        if (last >= 0)
+                            for (int j = nb; j >= 0; --j)
+                            {
+                                var c_ij = ar[last] * b.GetValue(last, j) * d;
+                                for (int k = last - 1; k >= 0; --k)
+                                    c_ij += ar[k] * b.GetValue(k, j) * d;
 
-                            c_i.SetValue(c_ij, j);
-                        }
+                                c_i.SetValue(c_ij, j);
+                            }
                     }
                 }
             }

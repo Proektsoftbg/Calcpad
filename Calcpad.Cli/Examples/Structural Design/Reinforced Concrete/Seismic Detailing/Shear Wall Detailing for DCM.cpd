@@ -25,9 +25,9 @@ A_c = A_w + 2*A_f'mm²
 f_ck = ? {25}'MPa
 'Partial safety factor -'γ_c = 1.5','α_ct = 1','α_cc = ? {1}'
 #post
-'<img class="side" src="https://calcpad.eu/media/structures/rc/detailing/shear-wall-view.png" alt="shear-wall-view.png" style="width:100pt;">
 'Mean value of axial tensile strength
-f_ctm = 0.30*f_ck^(2/3)'MPa 
+f_ctm = 0.30*f_ck^(2/3)'MPa
+'<img class="side" src="https://calcpad.eu/media/structures/rc/detailing/shear-wall-view.png" alt="shear-wall-view.png" style="width:100pt;">
 'Characteristic axial tensile strength
 f_ctk,005 = 0.7*f_ctm'MPa
 'Design compressive cylinder strength

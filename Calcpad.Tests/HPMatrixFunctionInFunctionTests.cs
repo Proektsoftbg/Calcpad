@@ -443,6 +443,7 @@
                       "f(M)"]);
             Assert.Equal("[0.658 -0.0844 -0.748|-0.359 0.838 -0.411|0.661 0.539 0.521]", calc.ToString());
         }
+
         [Fact]
         [Trait("Category", "HPMathFunctions")]
         public void HPMatrixCholeskyDecomp()
