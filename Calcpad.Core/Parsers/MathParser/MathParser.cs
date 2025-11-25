@@ -829,7 +829,8 @@ namespace Calcpad.Core
 
         public override string ToString() => _output.Render(OutputWriter.OutputFormat.Text);
         public string ToHtml() => _output.Render(OutputWriter.OutputFormat.Html);
-        public string ToXml() => _output.Render(OutputWriter.OutputFormat.Xml);
+        public string ToXml() => _output.Render(OutputWriter.OutputFormat.Xml)
+            .Replace("    ", string.Empty).ReplaceLineEndings();
 
         internal double GetSettingsVariable(string name, double defaultValue)
         {

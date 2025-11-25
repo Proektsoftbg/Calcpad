@@ -9,11 +9,11 @@ parser.Settings = settings
 
 # Find the default documents path
 from os import path
-docsPath = path.expanduser(r"~")
+docsPath = path.expanduser(r"~\Documents")
 
 # read the code from an example file: Continuous beam.txt
 print("Parsing Calcpad worksheets with Python + PyCalcpad.")
-inputFileName = docsPath + r"/calcpad/Examples/Mechanics/Structural Analysis/Continuous beam/Continuous beam.txt"
+inputFileName = docsPath + r"\Calcpad\Examples\Mechanics\Structural Analysis\Continuous beam\Continuous beam.txt"
 print("Reading the code from the example file:" + inputFileName + "'...")
 import io
 with io.open(inputFileName,'r',encoding='utf8') as f:
@@ -24,7 +24,7 @@ print("Parsing and getting the output Html code...")
 htmlOutput = parser.Parse(code)
 
 # Apply the Calcpad Html template
-templateFile = r"/usr/share/Calcpad/doc/template.html"
+templateFile = r"c:\Program Files\Calcpad\doc\template.html"
 with io.open(templateFile,'r',encoding='utf8') as f:
     htmlOutput = f.read() + htmlOutput + "</body></html>"  
     
@@ -41,3 +41,4 @@ if " " in outputFileName:
 
 import os
 os.system(outputFileName)
+os.system("pause")

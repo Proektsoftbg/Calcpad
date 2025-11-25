@@ -7,6 +7,8 @@ settings.Decimals = 15
 calc = Calculator(settings)
 
 # Initialize terminal colors
+import os
+os.system("color")
 from termcolor import colored
     
 # Caclulate expressions with Calcpad
@@ -22,3 +24,5 @@ while 1:
         print(colored(f"    {calc.Eval(expr)}", 'green'))
     except Exception as e:
         print(colored(f"    {str(e).splitlines()[0]}", 'red'))
+
+os.system("pause")

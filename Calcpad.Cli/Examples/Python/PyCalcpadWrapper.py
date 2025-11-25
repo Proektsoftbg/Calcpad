@@ -7,9 +7,9 @@ import clr
 
 # Load PyCalcpad
 import sys, os
-programPath = r"/usr/share/Calcpad"
+programPath = os.environ.get("PROGRAMFILES") + r"\Calcpad"
 sys.path.append(programPath)
-clr.AddReference(programPath + r"/PyCalcpad.dll")
+clr.AddReference(programPath + r"\PyCalcpad.dll")
 
 # Import the specific classes from the PyCalcpad namespace
 from System import Type, Activator
