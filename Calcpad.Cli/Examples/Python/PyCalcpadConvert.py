@@ -8,9 +8,9 @@ parser = Parser()
 parser.Settings = settings
 # Find the default documents path
 from os import path
-docsPath = path.expanduser(r"~")
+docsPath = path.expanduser(r"~\Documents")
 # Convert the code from an example file: Continuous beam.txt to a Word document
-inputFileName = docsPath + r"/calcpad/Examples/Mechanics/Structural Analysis/Continuous beam/Continuous beam.txt"
+inputFileName = docsPath + r"\Calcpad\Examples\Mechanics\Structural Analysis\Continuous beam\Continuous beam.txt"
 print("Convert Calcpad worksheets with Python + PyCalcpad.")
 print("Input file: '" + inputFileName + "'.")
 ext = input("Enter the extension of the output file (docx, html, pdf): ")
@@ -25,3 +25,4 @@ if " " in outputFileName:
 
 import os
 os.system(outputFileName)
+os.system("pause")

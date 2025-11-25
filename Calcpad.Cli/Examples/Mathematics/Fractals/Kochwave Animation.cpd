@@ -1,0 +1,61 @@
+"Kochwave Animation
+'Initial coordinates
+#def a$ = sqrt(3)/2
+x = hp([0; 1])', 'y = hp([0; 0])
+'Number of iterations -'n = 7
+'Animation&emsp;<button id="start">Start</button>
+#val
+'<style>polyline{display:none; stroke:Teal; stroke-width:0.08; stroke-linejoin:round;}</style> 
+#hide 8
+w = 400', 'h = w', 'k = 100
+#round 12
+#show
+'<svg viewbox="0 '0.3*k' 'k' 'k'" style="width:'w'pt; height:'h'pt">
+'<defs><linearGradient id="sff" gradientTransform="rotate(90)"><stop offset="0%" stop-color="#08C"/><stop offset="70%" stop-color="MediumTurquoise"/><stop offset="100%" stop-color="Aquamarine"/></defs>
+#for i = 1 : n
+	#hide
+	n_p = len(x)
+	#show
+	'<polyline id="fr-'i'" points="
+	#for j = 1 : n_p
+		x.j*k','(a$ + y.j)*k' '
+	#loop
+	'" fill="url(#sff)"/>
+	#hide
+	x1 = [x.1]', 'y1 = [y.1]
+	'Iterate over the segments
+	#for j = 1 : n_p - 1
+		p1 = hp([x.j; y.j])'- the first point of the current segment
+		p2 = hp([x.(j + 1); y.(j + 1)])'- the second point
+		Δ = p2 - p1'- difference
+		'Add three intermediate points
+		A = p1 + Δ/3
+		B = p1 + 5*Δ/6 + hp([Δ.2; -Δ.1])*a$/3
+		C = p1 + Δ*2/3
+		'Build new vectors by concatenation
+		x1 = hp([x1; A.1; B.1; C.1; p2.1])
+		y1 = hp([y1; A.2; B.2; C.2; p2.2])
+	#loop
+	'Reassign to the original vectors
+	x = hp([x1; p2.1])
+	y = hp([y1; p2.2])
+	#show
+#loop
+'</svg>
+'Number of points -'n_p
+'<script>
+'var i = 1;
+'var f = $("#fr-1");
+'f.show();
+'$("#start").click(function(){
+  '$(this).hide();
+  'var timer = setInterval(
+    'function(){
+       'if(++i > 'n'){clearInterval(timer); return;}
+       'f.hide(800);
+       'f = $("#fr-"+i);
+       'f.show(600);
+     '}
+  ',1000);
+'});
+'</script>

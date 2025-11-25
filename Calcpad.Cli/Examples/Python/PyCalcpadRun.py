@@ -8,6 +8,8 @@ settings.Degrees = TrigUnits.Deg
 calc = Calculator(settings)
 
 # Initialize terminal colors
+import os
+os.system("color")
 from termcolor import colored
     
 # Caclulate expressions with Calcpad
@@ -23,3 +25,5 @@ while True:
         print(colored(f"    {calc.Run(expr)}", 'green'))
     except Exception as e:
         print(colored(f"    {str(e).splitlines()[0]}", 'red'))
+
+os.system("pause")

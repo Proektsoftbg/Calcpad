@@ -1,12 +1,9 @@
-using System.ClientModel;
 using System.Text.Json;
 using Calcpad.WebApi.Configs;
 using Calcpad.WebApi.Utils.Json;
 using Calcpad.WebApi.Utils.Web.Exceptions;
 using Calcpad.WebApi.Utils.Web.Service;
 using Microsoft.Extensions.AI;
-using OpenAI;
-using OpenAI.Chat;
 
 namespace Calcpad.WebApi.Services.AI
 {
@@ -17,6 +14,12 @@ namespace Calcpad.WebApi.Services.AI
         ILogger<AIService> logger
     ) : IScopedService
     {
+        private static readonly JsonSerializerOptions _jsonSerializerOptions =
+            new()
+            {
+                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+            };
+
         public bool IsEnabled => aiConfig.Value.Enable;
 
         /// <summary>
@@ -64,7 +67,8 @@ namespace Calcpad.WebApi.Services.AI
             }
 
             var maxTokenLength = chatClient.MaxTokenLength;
-            var maxTokensPerChunk = maxTokenLength / 2 - EstimateTokens(systemPrompt);
+            // reserve tokens for system prompt and response
+            var maxTokensPerChunk = maxTokenLength / 3 - EstimateTokens(systemPrompt);
 
             var distinctContents = contents.Distinct().ToList();
             // split contents into chunks
@@ -91,7 +95,7 @@ namespace Calcpad.WebApi.Services.AI
             // handle each chunk parallel
             var tasks = chunks.Select(async chunk =>
             {
-                var jsonString = JsonSerializer.Serialize(chunk);
+                var jsonString = JsonSerializer.Serialize(chunk, _jsonSerializerOptions);
                 var chatResponse = await chatClient.GetResponseAsync(
                     [new(ChatRole.System, systemPrompt), new(ChatRole.User, jsonString)]
                 );
