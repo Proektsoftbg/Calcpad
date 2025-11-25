@@ -265,7 +265,12 @@ namespace Calcpad.WebApi.Services.AI
                     if (node.NodeType == HtmlNodeType.Text)
                     {
                         node.ParentNode.ReplaceChild(
-                            HtmlTextNode.CreateNode(HttpUtility.HtmlEncode(langModel.Value)),
+                            HtmlTextNode.CreateNode(
+                                node.InnerText.Replace(
+                                    text,
+                                    HttpUtility.HtmlEncode(langModel.Value)
+                                )
+                            ),
                             node
                         );
                     }
@@ -274,7 +279,5 @@ namespace Calcpad.WebApi.Services.AI
 
             return doc.DocumentNode.OuterHtml;
         }
-
-
     }
 }

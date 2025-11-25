@@ -1,5 +1,3 @@
-using Calcpad.Document;
-using Calcpad.Document.Core.Segments;
 using Calcpad.WebApi.Controllers.Base;
 using Calcpad.WebApi.Controllers.DTOs;
 using Calcpad.WebApi.Models;
@@ -252,6 +250,25 @@ namespace Calcpad.WebApi.Controllers
         }
 
         /// <summary>
+        /// Updates multiple language entries with new values based on the provided data list.
+        /// </summary>
+        /// <param name="langId"></param>
+        /// <param name="dataList"></param>
+        /// <returns></returns>
+        [HttpPut("langs/many")]
+        public async Task<ResponseResult<bool>> UpdateLangsValues(
+            [FromBody] List<UpdateLangValueData> dataList
+        )
+        {
+            var tasks = dataList.Select(async data =>
+            {
+                await UpdateLangValue(data.LangId, data);
+            });
+            await Task.WhenAll(tasks);
+            return true.ToSuccessResponse();
+        }
+
+        /// <summary>
         /// Updates the value of the specified language entry.
         /// </summary>
         /// <param name="langId">The unique identifier of the language entry to update.</param>
@@ -272,8 +289,10 @@ namespace Calcpad.WebApi.Controllers
             await db.AsFluentMongo<CalcpadLangModel>()
                 .Where(x => x.Id == langObjId)
                 .Set(x => x.Value, data.LangValue)
+                .Set(x => x.IsByAI, false) // mark as manually edited, so ai will not override
                 .Set(x => x.LastModifyDate, DateTime.UtcNow)
                 .UpdateOneAsync();
+
             return true.ToSuccessResponse();
         }
 
