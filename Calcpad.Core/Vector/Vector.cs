@@ -334,7 +334,6 @@ namespace Calcpad.Core
                 for (int i = n1 - 1; i >= 0; --i)
                     vc[i] = a[i] / b[i];
 
-            c.Fill(RealValue.NaN, n2, nc - n2);
             if (na > nb)
             {
                 if (va is not null)
@@ -353,6 +352,9 @@ namespace Calcpad.Core
                     for (int i = n2 - 1; i >= n1; --i)
                         vc[i] = RealValue.Zero / b[i];
             }
+            if (nc > n2)
+                c.Fill(RealValue.NaN, n2, nc - n2);
+
             return c;
         }
 
@@ -416,13 +418,12 @@ namespace Calcpad.Core
                 for (int i = n1 - 1; i >= 0; --i)
                     vc[i] = a[i] % b[i];
 
-            if (nc > n2)
-                c.Fill(RealValue.NaN, n2, nc - n2);
 
             if (na > nb)
                 c.Fill(RealValue.NaN, n1, n2 - n1);
             else if (nb > na)
             {
+                vc = c._values;
                 if (vb is not null)
                     for (int i = n2 - 1; i >= n1; --i)
                         vc[i] = RealValue.Zero % vb[i];
@@ -430,6 +431,9 @@ namespace Calcpad.Core
                     for (int i = n2 - 1; i >= n1; --i)
                         vc[i] = RealValue.Zero % b[i];
             }
+            if (nc > n2)
+                c.Fill(RealValue.NaN, n2, nc - n2);
+
             return c;
         }
 
@@ -490,7 +494,6 @@ namespace Calcpad.Core
                 for (int i = n1 - 1; i >= 0; --i)
                     vc[i] = a[i] == b[i];
 
-            c.Fill(RealValue.One, n2, nc - n2);
             var zero = RealValue.Zero;
             if (na > nb)
                 for (int i = n2 - 1; i >= n1; --i)
@@ -512,6 +515,9 @@ namespace Calcpad.Core
 
                     vc[i] = zero == b_i;
                 }
+
+            if (nc > n2)
+                c.Fill(RealValue.One, n2, nc - n2);
 
             return c;
         }
@@ -800,7 +806,6 @@ namespace Calcpad.Core
                 for (int i = n1 - 1; i >= 0; --i)
                     vc[i] = a[i] <= b[i];
 
-            c.Fill(RealValue.One, n2, nc - n2);
             var zero = RealValue.Zero;
             if (na > nb)
                 for (int i = n2 - 1; i >= n1; --i)
@@ -822,6 +827,9 @@ namespace Calcpad.Core
 
                     vc[i] = zero <= b_i;
                 }
+
+            if (nc > n2)
+                c.Fill(RealValue.One, n2, nc - n2);
 
             return c;
         }
@@ -891,7 +899,6 @@ namespace Calcpad.Core
                 for (int i = n1 - 1; i >= 0; --i)
                     vc[i] = a[i] >= b[i];
 
-            c.Fill(RealValue.One, n2, nc - n2);
             var zero = RealValue.Zero;
             if (na > nb)
                 for (int i = n2 - 1; i >= n1; --i)
@@ -913,6 +920,9 @@ namespace Calcpad.Core
 
                     vc[i] = zero >= b_i;
                 }
+
+            if (nc > n2)
+                c.Fill(RealValue.One, n2, nc - n2);
 
             return c;
         }
@@ -1194,12 +1204,6 @@ namespace Calcpad.Core
                     vc[i] = op(a[i], b[i]);
 
             var zero = RealValue.Zero;
-            if (nc > n2)
-            {
-                var v = op(zero, zero);
-                if (!v.Equals(zero))
-                    c.Fill(v, n2, nc - n2);
-            }
             var requireConsistentUnits = Calculator.OperatorRequireConsistentUnits(index);
             if (na > nb)
                 for (int i = n2 - 1; i >= n1; --i)
@@ -1211,7 +1215,7 @@ namespace Calcpad.Core
                         if (u != zero.Units)
                             zero = new(0d, u);
                     }
-                    c[i] = op(a_i, zero);
+                    vc[i] = op(a_i, zero);
                 }
             else if (nb > na)
                 for (int i = n2 - 1; i >= n1; --i)
@@ -1223,9 +1227,15 @@ namespace Calcpad.Core
                         if (u != zero.Units)
                             zero = new(0d, u);
                     }
-                    c[i] = op(zero, b_i);
+                    vc[i] = op(zero, b_i);
                 }
 
+            if (nc > n2)
+            {
+                var v = op(zero, zero);
+                if (!v.Equals(zero))
+                    c.Fill(v, n2, nc - n2);
+            }
             return c;
         }
 
@@ -1243,7 +1253,7 @@ namespace Calcpad.Core
                 for (int i = na - 1; i >= 0; --i)
                     vc[i] = op(a[i], b);
 
-            if (na < nc)
+            if (nc > na)
             {
                 var zero = Calculator.OperatorRequireConsistentUnits(index) && b.Units is not null ?
                     new(0, b.Units) :
@@ -1269,7 +1279,7 @@ namespace Calcpad.Core
                 for (int i = nb - 1; i >= 0; --i)
                     vc[i] = op(a, b[i]);
 
-            if (nb < nc)
+            if (nc > nb)
             {
                 var zero = Calculator.OperatorRequireConsistentUnits(index) && a.Units is not null ?
                     new(0, a.Units) :
