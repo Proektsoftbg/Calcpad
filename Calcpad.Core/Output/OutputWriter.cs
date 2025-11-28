@@ -282,7 +282,17 @@ namespace Calcpad.Core
             culture ??= CultureInfo.CurrentCulture;
             if (!string.IsNullOrEmpty(format))
             {
-                var s = d.ToString(format, culture);
+                string s;
+                if (format.StartsWith('D'))
+                {
+                    if (double.IsInteger(d) && d < long.MaxValue)
+                        s = ((long)d).ToString(format, culture);
+                    else
+                        throw Exceptions.InvalidFormatString(format);
+                }
+                else
+                    s = d.ToString(format, culture);
+
                 return s == "-0" ? "0" : s;
             }
 
