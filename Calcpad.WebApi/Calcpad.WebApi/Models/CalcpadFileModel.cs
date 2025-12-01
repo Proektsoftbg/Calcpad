@@ -46,12 +46,19 @@ namespace Calcpad.WebApi.Models
         /// unique id for managing the file
         /// this id can be used to access the file
         /// other system can use this id to access the file without knowing the storage path
+        /// CalcpadLangModel use this id to link the language content
         /// </summary>
 
         public string UniqueId { get; set; }
 
         /// <summary>
-        /// if true, the file can be accessed without authentication
+        /// Gets or sets the unique identifier of the ancestor entity.
+        /// If no ancestor exists, this property is set to the same value as UniqueId.
+        /// </summary>
+        public string AncestorUniqueId { get; set; }
+
+        /// <summary>
+        /// If true, the file can be accessed without authentication
         /// </summary>
         public bool IsCpd { get; set; }
 
@@ -61,7 +68,7 @@ namespace Calcpad.WebApi.Models
         public List<string> IncludeUniqueIds { get; set; } = [];
 
         /// <summary>
-        /// copy from Id
+        /// Indicate the source file id if this file is created by copying from another file
         /// </summary>
         public ObjectId SourceId { get; set; }
 
