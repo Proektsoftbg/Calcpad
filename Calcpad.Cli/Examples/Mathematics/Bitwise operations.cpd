@@ -1,0 +1,28 @@
+"Bitwize functions
+'<h5>Decimal to binary:</h5>
+dec2bin(x; n) = $sum{mod(floor(x/2^k); 2)*10^k @ k = 0 : n - 1}
+#def dec2bin$(x; n$) = dec2bin(x; n$):Dn$'₂
+'<h5>Binary to decimal:</h5>
+bin2dec(x; n) = $sum{mod(floor(x/10^k); 2)*2^k @ k = 0 : n - 1}
+'Helper function -'fl_2(x) = floor(log_2(x))
+'<h5>NOT X:</h5>
+NOT_b(x) = $sum{2^n*((floor(x/2^n)⦼2 + 1)⦼2) @ n = 0 : fl_2(x)}
+'<h5>X AND Y:</h5>
+AND_b(x; y) = $sum{2^n*(floor(x/2^n)⦼2)*(floor(y/2^n)⦼2) @ n = 0 : fl_2(x)}
+'<h5>X OR Y:</h5>
+OR_b(x; y) = $sum{2^n*(
+    floor(x/2^n)⦼2 + floor(y/2^n)⦼2 - _
+    (floor(x/2^n)⦼2)*(floor(y/2^n)⦼2) _
+  ) @ n = 0 : floor(log_2(x))}
+'<h5>X XOR Y:</h5>
+XOR_b(x; y) = $sum{2^n*((floor(x/2^n)⦼2 + floor(y/2^n)⦼2)⦼2) @ n = 0 : fl_2(x)}
+'<h5>Examples</h5>
+#nosub
+x = 74'₁₀ , 'x_2 = dec2bin$(x; 7)
+y = 53'₁₀ , 'y_2 = dec2bin$(y; 7)
+#varsub
+NOT_b(x)'(0110101 ₂)
+AND_b(x; y)'(0000000 ₂)
+OR_b(x; y)'(1111111 ₂)
+XOR_b(x; y)'(1111111 ₂)
+XOR_b(x; x)'(0000000 ₂)

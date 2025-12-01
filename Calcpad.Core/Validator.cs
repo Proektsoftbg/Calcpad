@@ -23,7 +23,7 @@ namespace Calcpad.Core
             SubscriptChars +
             VarLetterChars;
 
-        private static readonly Regex MyFormatRegex = new(@"^[FCEGN]\d{0,2}$|^[0#]+(,[0#]+)?(\.[0#]+)?([eE][+-]?0+)?$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex MyFormatRegex = new(@"^[FCEGND]\d{0,2}$|^[0#]+(,[0#]+)?(\.[0#]+)?([eE][+-]?0+)?$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         public static bool IsVariable(string name)
         {
@@ -98,7 +98,10 @@ namespace Calcpad.Core
         {
             try
             {
-                1d.ToString(format, CultureInfo.CurrentCulture);
+                if(format.StartsWith('D'))
+                    1.ToString(format, CultureInfo.CurrentCulture);
+                else
+                    1d.ToString(format, CultureInfo.CurrentCulture);
                 return MyFormatRegex.Match(format).Success;
             }
             catch (FormatException)

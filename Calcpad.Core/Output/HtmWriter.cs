@@ -127,6 +127,7 @@ namespace Calcpad.Core
             '≤' => " &le; ",
             '≥' => " &ge; ",
             '|' => ' ' + FormatBrackets('|', 0) + ' ',
+            '⊙' => "<small class=\"nth\">⊙</small>",
             _ => FormatOperatorHelper(c),
         };
 

@@ -1,64 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
@@ -155,7 +96,7 @@
     <value>Разгънат код</value>
   </data>
   <data name="Found_Errors_In_Modules_And_Macros" xml:space="preserve">
-    <value>&lt;div class=\"errorHeader\"&gt;Общо &lt;b&gt;{0}&lt;/b&gt; грешки в модули и макроси:</value>
+    <value>&lt;div class="errorHeader"&gt;Общо &lt;b&gt;{0}&lt;/b&gt; грешки в модули и макроси:</value>
   </data>
   <data name="Are_you_sure_you_want_to_unlock_the_source_code_for_editing" xml:space="preserve">
     <value>Сигурни ли сте, че искате да отключите изходния код за редактиране?</value>
@@ -206,10 +147,10 @@
     <value>_Редактор</value>
   </data>
   <data name="Find" xml:space="preserve">
-    <value>_Търсене</value>
+    <value>_Търси</value>
   </data>
   <data name="Replace" xml:space="preserve">
-    <value>_Заместване</value>
+    <value>_Замествай</value>
   </data>
   <data name="Undo" xml:space="preserve">
     <value>_Отмени</value>
@@ -287,7 +228,7 @@
     <value>Код</value>
   </data>
   <data name="KeypadLabel" xml:space="preserve">
-    <value>┌──── Числа ───┐ ┌───── Оператори ────┐ ┌───────── Функции ────────┐</value>
+    <value>┌──── Числа ───┐ ┌──── Оператори ────┐ ┌───────── Функции ─────────┐</value>
   </data>
   <data name="FunctionPlot" xml:space="preserve">
     <value>Графика на функция</value>
@@ -334,7 +275,7 @@
   <data name="NumericalDifferentiation" xml:space="preserve">
     <value>Числено диференциране</value>
   </data>
-  <data name="GeneralInlineIterativeProcedure" xml:space="preserve">
+  <data name="IterativeExprBlockWithCounter" xml:space="preserve">
     <value>Обща итеративна процедура</value>
   </data>
   <data name="IterativeSum" xml:space="preserve">
@@ -422,7 +363,7 @@
     <value>Горен индекс</value>
   </data>
   <data name="RedColor" xml:space="preserve">
-    <value>Червен</value>
+    <value>Червен цвят</value>
   </data>
   <data name="FoldedDiv" xml:space="preserve">
     <value>Сгъваем Div</value>
@@ -541,9 +482,6 @@
   <data name="Insert" xml:space="preserve">
     <value>_Вмъкни</value>
   </data>
-  <data name="RoundTo" xml:space="preserve">
-    <value>Закръгл.</value>
-  </data>
   <data name="NumberOfDigitsTooltip" xml:space="preserve">
     <value>Брой цифри след десетичната точка</value>
   </data>
@@ -551,7 +489,7 @@
     <value>цифри</value>
   </data>
   <data name="SubstituteTooltip" xml:space="preserve">
-    <value>Замействай стойностите на променливите във формулите</value>
+    <value>Замествай стойностите на променливите във формулите</value>
   </data>
   <data name="Substitute" xml:space="preserve">
     <value>Заместване</value>
@@ -605,7 +543,7 @@
     <value>Няма</value>
   </data>
   <data name="Gray" xml:space="preserve">
-    <value>Сиво</value>
+    <value>Сива</value>
   </data>
   <data name="Rainbow" xml:space="preserve">
     <value>Дъга</value>
@@ -720,5 +658,497 @@
   </data>
   <data name="RecentFileList" xml:space="preserve">
     <value>Последно отваряни файлове</value>
+  </data>
+  <data name="Round" xml:space="preserve">
+    <value>Закр.</value>
+  </data>
+  <data name="ConditionalWhileLoop" xml:space="preserve">
+    <value>Условен: while-loop</value>
+  </data>
+  <data name="WithCounterForLoop" xml:space="preserve">
+    <value>С брояч: for-loop</value>
+  </data>
+  <data name="MaxOutputCount" xml:space="preserve">
+    <value>Макс. бр. елементи:</value>
+  </data>
+  <data name="MaximumNumberOfElementsInVectorOrMatrixRowColumnToDisplayInTheOutput" xml:space="preserve">
+    <value>Максимален брой елементи във вектор или матричен ред/колона за показване в изходната записка</value>
+  </data>
+  <data name="ZeroSmallElem" xml:space="preserve">
+    <value>Нулирай малки елем.</value>
+  </data>
+  <data name="DisplaySmallMatrixElementsAsZeroInsteadOfExponent" xml:space="preserve">
+    <value>Показвай много малки елементи на матрици като нула вместо експоненциален формат.</value>
+  </data>
+  <data name="Vector" xml:space="preserve">
+    <value>Векторни</value>
+  </data>
+  <data name="Creational" xml:space="preserve">
+    <value>Създаване и инициализация</value>
+  </data>
+  <data name="Structural" xml:space="preserve">
+    <value>Структурни</value>
+  </data>
+  <data name="Data" xml:space="preserve">
+    <value>За данни</value>
+  </data>
+  <data name="Math" xml:space="preserve">
+    <value>Математически</value>
+  </data>
+  <data name="Matrix" xml:space="preserve">
+    <value>Матрични</value>
+  </data>
+  <data name="CreatesAnEmptyVectorWithLengthN" xml:space="preserve">
+    <value>Създава празен вектор с дължина n</value>
+  </data>
+  <data name="FillsVectorVWithValueX" xml:space="preserve">
+    <value>Запълва вектора v със стойност x</value>
+  </data>
+  <data name="CreatesAVectorWithValuesSpanningFromX1ToXnWithStepS" xml:space="preserve">
+    <value>Създава вектор със стойности, в диапазона от x₁ до xₙ със стъпка s</value>
+  </data>
+  <data name="ReturnsTheLengthOfVectorV" xml:space="preserve">
+    <value>Връща дължината на вектора v</value>
+  </data>
+  <data name="TheActualSizeOfVectorVTheIndexOfTheLastNonZeroElement" xml:space="preserve">
+    <value>Реалния размер на вектора v( индексът на последния ненулев елемент)</value>
+  </data>
+  <data name="CreatesAVectorByJoiningTheArgumentsMatricesVectorsAndScalars" xml:space="preserve">
+    <value>Създава нов вектор чрез обединяване на аргументите: матрици, вектори и скалари</value>
+  </data>
+  <data name="ReturnsThePartOfVectorVBoundedByIndexesIAndIInclusive" xml:space="preserve">
+    <value>Връща частта от вектора v, ограничена между индексите i₁ и i₂ включително</value>
+  </data>
+  <data name="SetsANewLengthNOfVectorV" xml:space="preserve">
+    <value>Задава нова дължина n на вектора v</value>
+  </data>
+  <data name="TheFirstNElementsOfVectorV" xml:space="preserve">
+    <value>Първите n елемента на вектора v</value>
+  </data>
+  <data name="TheLastNElementsOfVectorV" xml:space="preserve">
+    <value>Последните n елемента на вектора v</value>
+  </data>
+  <data name="ExtractsTheElementsFromVWhichIndexesAreContainedInI" xml:space="preserve">
+    <value>Извлича елементите от v, чиито индекси са дадени във вектор i</value>
+  </data>
+  <data name="SortsTheElementsOfVectorVInVectorAscendingOrder" xml:space="preserve">
+    <value>Подрежда елементите на вектора v във възходящ ред</value>
+  </data>
+  <data name="SortsTheElementsOfVectorVInDescendingOrder" xml:space="preserve">
+    <value>Подрежда елементите на вектора v в низходящ ред</value>
+  </data>
+  <data name="TheIndexesOfVectorVArrangedByTheAscendingOrderOfItsElements" xml:space="preserve">
+    <value>Индексите на вектора v, подредени във възходящия ред на елементите му</value>
+  </data>
+  <data name="TheIndexesOfVectorVArrangedByTheDescendingOrderOfItsElements" xml:space="preserve">
+    <value>Индексите на вектора v, подредени в низходящия ред на елементите му</value>
+  </data>
+  <data name="ANewVectorContainingTheElementsOfVInReverseOrder" xml:space="preserve">
+    <value>Нов вектор, съдържащ елементите на v в обратен ред</value>
+  </data>
+  <data name="TheNumberOfElementsOfVectorVStartingFromTheIThOneThatAreEqualToX" xml:space="preserve">
+    <value>Броят на елементите във вектора v, започвайки от i-тия, които са равни на x</value>
+  </data>
+  <data name="TheIndexOfTheFirstElementInVStartingFromTheIThOneThatIsEqualToX" xml:space="preserve">
+    <value>Индекса на първия елемент във v, започвайки от i-тия, който е равен на x</value>
+  </data>
+  <data name="TheIndexesOfAllElementsInVStartingFromTheIThOneThatAre" xml:space="preserve">
+    <value>Индексите на всички елементи във v, започвайки от i-тия, които са равни на x</value>
+  </data>
+  <data name="AllElementsInVectorAForWhichTheCorrespondingElementsInVectorBAre" xml:space="preserve">
+    <value>Всички елементи от вектор a, за които съответните елементи във вектор b са равни</value>
+  </data>
+  <data name="L2EuclideanNormOfVectorV" xml:space="preserve">
+    <value>L2 (Евклидова) норма на вектора v</value>
+  </data>
+  <data name="L1ManhattanNormOfVectorV" xml:space="preserve">
+    <value>L1 (Манхатън) норма на вектора v</value>
+  </data>
+  <data name="LpNormOfVectorV" xml:space="preserve">
+    <value>Lp норма на вектора v</value>
+  </data>
+  <data name="LInfinityNormOfVectorV" xml:space="preserve">
+    <value>L∞ (безкрайна) норма на вектора v</value>
+  </data>
+  <data name="TheNormalizedVectorVWithL2Norm1" xml:space="preserve">
+    <value>Нормализирания (единичен№ вектор v (с L2 норма = 1)</value>
+  </data>
+  <data name="ScalarProductOfTwoVectorsAAndB" xml:space="preserve">
+    <value>Скаларно произведение на двата вектора a и b</value>
+  </data>
+  <data name="CrossProductOfTwoVectorsAAndBWithLength2Or3" xml:space="preserve">
+    <value>Векторно произведение на двата вектора a и b (с дължина 2 или 3)</value>
+  </data>
+  <data name="CreatesAnEmptyMatrixWithDimensionsMN" xml:space="preserve">
+    <value>Създава празна матрица с размери m⨯n</value>
+  </data>
+  <data name="CreatesAnIdentityMatrixWithDimensionsNN" xml:space="preserve">
+    <value>Създава единична матрица с размери n⨯n</value>
+  </data>
+  <data name="CreatesADiagonalMatrixWithDimensionsNNAndFillsTheDiagonalWithValueD" xml:space="preserve">
+    <value>Създава диагонална матрица с размери n⨯n и запълва диагонала със стойност d</value>
+  </data>
+  <data name="CreatesAColumnMatrixWithDimensionsM1FilledWithValueC" xml:space="preserve">
+    <value>Създава стълбова матрица с размери m⨯1, запълнена със стойност c</value>
+  </data>
+  <data name="CreatesAnUpperTriangularMatrixWithDimensionsNN" xml:space="preserve">
+    <value>Създава горна триъгълна матрица с размери n⨯n</value>
+  </data>
+  <data name="CreatesALowerTriangularMatrixWithDimensionsNN" xml:space="preserve">
+    <value>Създава долна триъгълна матрица с размери n⨯n</value>
+  </data>
+  <data name="CreatesASymmetricMatrixWithDimensionsNN" xml:space="preserve">
+    <value>Създава симетрична матрица с размери n⨯n</value>
+  </data>
+  <data name="CreatesADiagonalMatrixFromTheElementsOfVectorV" xml:space="preserve">
+    <value>Създава диагонална матрица от елементите на вектор v</value>
+  </data>
+  <data name="CreatesAColumnMatrixFromTheElementsOfVectorV" xml:space="preserve">
+    <value>Създава стълбова матрица от елементите на вектор v</value>
+  </data>
+  <data name="CreatesANewMatrixByJoiningColumnVectors" xml:space="preserve">
+    <value>Създава нова матрица чрез обединяване на вектори в стълбове</value>
+  </data>
+  <data name="CreatesANewMatrixByJoiningRowVectors" xml:space="preserve">
+    <value>Създава нова матрица чрез обединяване на вектори в редове</value>
+  </data>
+  <data name="CreatesANewMatrixByAppendingMatricesABCSideBySide" xml:space="preserve">
+    <value>Създава нова матрица чрез обединяване на матриците A, B, C една до друга</value>
+  </data>
+  <data name="CreatesANewMatrixByStackingMatricesABCOneBelowTheOther" xml:space="preserve">
+    <value>Създава нова матрица чрез обединяване на матриците A, B, C една под друга</value>
+  </data>
+  <data name="NumberOfRowsInMatrixM" xml:space="preserve">
+    <value>Броя на редовете в матрицата M</value>
+  </data>
+  <data name="NumberOfColumnsInMatrixM" xml:space="preserve">
+    <value>Броя на стълбовете в матрицата M</value>
+  </data>
+  <data name="SetsNewDimensionsMAndNForMatrixM" xml:space="preserve">
+    <value>Задава нови размери m и n на матрицата M</value>
+  </data>
+  <data name="FillsMatrixMWithValueX" xml:space="preserve">
+    <value>Запълва матрицата M със стойност x</value>
+  </data>
+  <data name="FillsTheIThRowOfMatrixMWithValueX" xml:space="preserve">
+    <value>Запълва i-тия ред на матрицата M със стойност x</value>
+  </data>
+  <data name="FillsTheJThColumnOfMatrixMWithValueX" xml:space="preserve">
+    <value>Запълва j-тия стълб на матрицата M със стойност x</value>
+  </data>
+  <data name="CopiesAllElementsFromAToBStartingFromIndexesIAndJOfB" xml:space="preserve">
+    <value>Копира всички елементи от A в B, започвайки от индекси i и j на B</value>
+  </data>
+  <data name="AddsAllElementsFromAToThoseOfBStartingFromIndexesIAndJOfB" xml:space="preserve">
+    <value>Добавя всички елементи от A към тези на B, започвайки от индекси i и j на B</value>
+  </data>
+  <data name="ExtractsTheIThRowOfMatrixMAsAVector" xml:space="preserve">
+    <value>Извлича i-тия ред на матрицата M като вектор</value>
+  </data>
+  <data name="ExtractsTheJThColumnOfMatrixMAsAVector" xml:space="preserve">
+    <value>Извлича j-тия стълб на матрицата M като вектор</value>
+  </data>
+  <data name="ExtractsTheRowsFromMatrixMWhoseIndexesAreContainedInVectorI" xml:space="preserve">
+    <value>Извлича редовете от матрицата M, чиито индекси се съдържат във вектор i</value>
+  </data>
+  <data name="ExtractsTheColumnsFromMatrixMWhoseIndexesAreContainedInVectorJ" xml:space="preserve">
+    <value>Извлича стълбовете от матрицата M, чиито индекси се съдържат във вектор j</value>
+  </data>
+  <data name="ExtractsTheDiagonalElementsOfMatrixMToAVector" xml:space="preserve">
+    <value>Извлича диагоналните елементи на матрицата M като вектор</value>
+  </data>
+  <data name="ExtractsASubmatrixOfMBoundedByRowsIAndIAndColumnsJAndJIncl" xml:space="preserve">
+    <value>Извлича подматрица на M, ограничена от редовете i₁ до i₂ и стълбовете j₁ до j₂ включително</value>
+  </data>
+  <data name="SortsTheColumnsOfMBasedOnTheValuesInRowIInAscendingOrder" xml:space="preserve">
+    <value>Подрежда стълбовете на M според стойностите в ред i във възходящ ред</value>
+  </data>
+  <data name="SortsTheColumnsOfMBasedOnTheValuesInRowIInDescendingOrder" xml:space="preserve">
+    <value>Подрежда стълбовете на M според стойностите в ред i в низходящ ред</value>
+  </data>
+  <data name="SortsTheRowsOfMBasedOnTheValuesInColumnJInAscendingOrder" xml:space="preserve">
+    <value>Подрежда редовете на M според стойностите в стълб j във възходящ ред</value>
+  </data>
+  <data name="SortsTheRowsOfMBasedOnTheValuesInColumnJInDescendingOrder" xml:space="preserve">
+    <value>Подрежда редовете на M според стойностите в стълб j в низходящ ред</value>
+  </data>
+  <data name="TheIndexesOfTheColumnsOfMBasedOnTheOrderingOfTheValuesFromRowIInAscendingOrder" xml:space="preserve">
+    <value>Индексите на стълбовете на M според подреждането на стойностите от ред i във възходящ ред</value>
+  </data>
+  <data name="TheIndexesOfTheColumnsOfMBasedOnTheOrderingOfTheValuesFromRowIInDescendingOrder" xml:space="preserve">
+    <value>Индексите на стълбовете на M според подреждането на стойностите от ред i в низходящ ред</value>
+  </data>
+  <data name="TheIndexesOfTheRowsOfMBasedOnTheOrderingOfTheValuesInColumnJInAscendingOrder" xml:space="preserve">
+    <value>Индексите на редовете на M според подреждането на стойностите в стълб j във възходящ ред</value>
+  </data>
+  <data name="TheIndexesOfTheRowsOfMBasedOnTheOrderingOfTheValuesInColumnJInDescendingOrder" xml:space="preserve">
+    <value>Индексите на редовете на M според подреждането на стойностите в стълб j в низходящ ред</value>
+  </data>
+  <data name="NumberOfOccurrencesOfValueXInMatrixM" xml:space="preserve">
+    <value>Броя на срещанията на стойност x в матрицата M</value>
+  </data>
+  <data name="VectorWithTheTwoIndexesOfTheFirstOccurrenceOfXInMatrixMStartingFromIndexesIAndJ" xml:space="preserve">
+    <value>Вектор с двата индекса на първото срещане на x в матрицата M, започвайки от индекси i и j</value>
+  </data>
+  <data name="TheIndexesOfAllElementsInMThatAre" xml:space="preserve">
+    <value>Индексите на всички елементи в M, които са</value>
+  </data>
+  <data name="TheValuesFromRowIOfMForWhichTheElementsInRowIAre" xml:space="preserve">
+    <value>Стойностите от ред i₂ на M, за които елементите в ред i₁ са</value>
+  </data>
+  <data name="TheValuesFromColumnJOfMForWhichTheElementsInColumnJAre" xml:space="preserve">
+    <value>Стойностите от стълб j₂ на M, за които елементите в стълб j₁ са</value>
+  </data>
+  <data name="HadamardProductOfMatricesAAndB" xml:space="preserve">
+    <value>Произведение на Адамар на матриците A и B</value>
+  </data>
+  <data name="FrobeniusProductOfMatricesAAndB" xml:space="preserve">
+    <value>Произведение на Фробениус на матриците A и B</value>
+  </data>
+  <data name="KroneckerProductOfMatricesAAndB" xml:space="preserve">
+    <value>Произведение на Кронекер на матриците A и B</value>
+  </data>
+  <data name="L2NormOfMatrixM" xml:space="preserve">
+    <value>L2 норма на матрицата M</value>
+  </data>
+  <data name="L1NormOfMatrixM" xml:space="preserve">
+    <value>L1 норма на матрицата M</value>
+  </data>
+  <data name="FrobeniusNormOfMatrixM" xml:space="preserve">
+    <value>Норма на Фробениус на матрицата M</value>
+  </data>
+  <data name="LNormOfMatrixM" xml:space="preserve">
+    <value>L∞ норма на матрицата M</value>
+  </data>
+  <data name="ConditionNumberOfMBasedOnTheL2Norm" xml:space="preserve">
+    <value>Число на обусловеност на M на базата на L2 нормата</value>
+  </data>
+  <data name="ConditionNumberOfMBasedOnTheL1Norm" xml:space="preserve">
+    <value>Число на обусловеност на M на базата на L1 нормата</value>
+  </data>
+  <data name="ConditionNumberOfMBasedOnTheFrobeniusNorm" xml:space="preserve">
+    <value>Число на обусловеност на M на базата на нормата на Фробениус</value>
+  </data>
+  <data name="ConditionNumberOfMBasedOnTheLNorm" xml:space="preserve">
+    <value>Число на обусловеност на M на базата на L∞ нормата</value>
+  </data>
+  <data name="DeterminantOfMatrixM" xml:space="preserve">
+    <value>Детерминанта на матрицата M</value>
+  </data>
+  <data name="RankOfMatrixM" xml:space="preserve">
+    <value>Ранг на матрицата M</value>
+  </data>
+  <data name="TraceOfMatrixM" xml:space="preserve">
+    <value>Следа на матрица M</value>
+  </data>
+  <data name="TransposeOfMatrixM" xml:space="preserve">
+    <value>Транспонираната матрица на M</value>
+  </data>
+  <data name="AdjugateOfMatrixM" xml:space="preserve">
+    <value>Адюгираната матрица на M</value>
+  </data>
+  <data name="CofactorMatrixOfM" xml:space="preserve">
+    <value>Кофакторната матрица на M</value>
+  </data>
+  <data name="EigenvaluesOfMatrixM" xml:space="preserve">
+    <value>Собствените стойности на матрицата M</value>
+  </data>
+  <data name="EigenvectorsOfMatrixM" xml:space="preserve">
+    <value>Собствените вектори на матрицата M</value>
+  </data>
+  <data name="EigenvaluesAndEigenvectorsOfMatrixM" xml:space="preserve">
+    <value>Собствените стойности и вектори на матрица M</value>
+  </data>
+  <data name="CholeskyDecompositionOfASymmetricPositiveDefiniteMatrixM" xml:space="preserve">
+    <value>Декомпозиция на Холецки на симетричната, положително определена матрица M</value>
+  </data>
+  <data name="LUDecompositionOfMatrixM" xml:space="preserve">
+    <value>LU декомпозиция на матрицата M</value>
+  </data>
+  <data name="QRDecompositionOfMatrixM" xml:space="preserve">
+    <value>QR декомпозиция на матрицата M</value>
+  </data>
+  <data name="SingularValueDecompositionOfM" xml:space="preserve">
+    <value>Декомпозиция по сингулярни стойности на матрица M</value>
+  </data>
+  <data name="InverseOfMatrixM" xml:space="preserve">
+    <value>Обратната матрица на M</value>
+  </data>
+  <data name="SolvesTheSystemOfLinearEquationsAxBUsingLDLTDecompositionForSymmetricMatricesAndLUForNonSymmetric" xml:space="preserve">
+    <value>Решава линейното матрично уравнение Ax = b чрез LDLT декомпозиция за симетрични матрици и LU декомпозиция за несиметрични</value>
+  </data>
+  <data name="SolvesTheLinearMatrixEquationAxBWithASymmetricPositiveDefiniteMatrixAUsingCholeskyDecomposition" xml:space="preserve">
+    <value>Решава линейното матрично уравнение Ax = b с положително определена матрица A чрез декомпозиция на Холецки</value>
+  </data>
+  <data name="ReturnsTheElementOfMatrixMAtIndexesXAndY" xml:space="preserve">
+    <value>Връща елемента на матрица M с индекси x и y</value>
+  </data>
+  <data name="DoubleLinearInterpolationFromTheElementsOfMatrixMBasedOnTheValuesOfXAndY" xml:space="preserve">
+    <value>Двойна линейна интерполация от елементите на матрицата M на базата на стойностите на x и y</value>
+  </data>
+  <data name="DoubleHermiteSplineInterpolationFromTheElementsOfMatrixMBasedOnTheValuesOfXAndY" xml:space="preserve">
+    <value>Двойна сплайн интерполация на Ермит от елементите на матрицата M на базата на стойностите на x и y</value>
+  </data>
+  <data name="RoundTo" xml:space="preserve">
+    <value>Закр.</value>
+  </data>
+  <data name="SolvesTheGeneralizedMatrixEquationAXBUsingLDLTDecompositionForSymmetricMatricesAndLUForNonSymmetric" xml:space="preserve">
+    <value>Решава обобщеното матрично уравнение AX = B, използвайки LDLT декомпозиция за симетрични матрици и LU за несиметрични</value>
+  </data>
+  <data name="SolvesTheGeneralizedMatrixEquationAXBWithSymmetricPositiveDefiniteMatrixAUsingCholeskyDecomposition" xml:space="preserve">
+    <value>Решава обобщеното матрично уравнение AX = B със симетрична положително определена матрица A, използвайки декомпозиция на Холецки</value>
+  </data>
+  <data name="Norms" xml:space="preserve">
+    <value>Норми</value>
+  </data>
+  <data name="ConditionNumbers" xml:space="preserve">
+    <value>Числа на обусловеност</value>
+  </data>
+  <data name="EigenvaluesAndEigenvectors" xml:space="preserve">
+    <value>Собствени числа и вектори</value>
+  </data>
+  <data name="Decompositions" xml:space="preserve">
+    <value>Декомпозиции</value>
+  </data>
+  <data name="DoubleInterpolation" xml:space="preserve">
+    <value>Двойна интерполация</value>
+  </data>
+  <data name="ImperialUS" xml:space="preserve">
+    <value>Imperial/US</value>
+  </data>
+  <data name="PasteAsComment" xml:space="preserve">
+    <value>Постави като коментар</value>
+  </data>
+  <data name="CommentSelectedLines" xml:space="preserve">
+    <value>Коментирай избраните редове</value>
+  </data>
+  <data name="GreenColor" xml:space="preserve">
+    <value>Зелен цвят</value>
+  </data>
+  <data name="UncommentSelectedLines" xml:space="preserve">
+    <value>Разкоментирай избраните редове</value>
+  </data>
+  <data name="SetsCustomFormatStringForNumbers" xml:space="preserve">
+    <value>Задава персонализиран форматиращ низ за числа</value>
+  </data>
+  <data name="EnablesMarkdownInComments" xml:space="preserve">
+    <value>Активира markdown в коментарите</value>
+  </data>
+  <data name="DisablesMarkdownInComments" xml:space="preserve">
+    <value>Деактивира markdown в коментарите</value>
+  </data>
+  <data name="ReadTextCSVFile" xml:space="preserve">
+    <value>Четене на текстов/CSV файл</value>
+  </data>
+  <data name="WriteTextCSVFile" xml:space="preserve">
+    <value>Запис на текстов/CSV файл</value>
+  </data>
+  <data name="AppendTextCSVFile" xml:space="preserve">
+    <value>Допълване на текстов/CSV файл</value>
+  </data>
+  <data name="ReadExcelFile" xml:space="preserve">
+    <value>Четене на Excel файл</value>
+  </data>
+  <data name="WriteExcelFile" xml:space="preserve">
+    <value>Запис на Excel файл</value>
+  </data>
+  <data name="AppendExcelFile" xml:space="preserve">
+    <value>Допълване на Excel файл</value>
+  </data>
+  <data name="CreatesAnEmptyHighPerformanceVectorWithLengthN" xml:space="preserve">
+    <value>Създава празен високопроизводителен вектор с дължина n.</value>
+  </data>
+  <data name="CreatesAHighPerformanceVectorWithValuesSpanningFromXToXₙWithStepS" xml:space="preserve">
+    <value>Създава високопроизводителен вектор със стойности в интервала от x₁ до xₙ със стъпка s.</value>
+  </data>
+  <data name="HighPerformance" xml:space="preserve">
+    <value>Висока производителност</value>
+  </data>
+  <data name="CreatesAnEmptyHighPerformanceMatrixWithDimensionsMN" xml:space="preserve">
+    <value>Създава празна матрица с висока производителност с размери m⨯n</value>
+  </data>
+  <data name="CreatesAnIdentityHighPerformanceMatrixWithDimensionsNN" xml:space="preserve">
+    <value>Създава единична матрица с висока производителност с размери n⨯n</value>
+  </data>
+  <data name="CreatesADiagonalHighPerformanceMatrixWithDimensionsNNAndFillsTheDiagonalWithValueD" xml:space="preserve">
+    <value>Създава диагонална матрица с висока производителност с размери n⨯n и запълва диагонала със стойност d</value>
+  </data>
+  <data name="CreatesAColumnHighPerformanceMatrixWithDimensionsM1FilledWithValueC" xml:space="preserve">
+    <value>Създава колонна матрица с висока производителност с размери m⨯1, запълнена със стойност c</value>
+  </data>
+  <data name="CreatesAnUpperTriangularHighPerformanceMatrixWithDimensionsNN" xml:space="preserve">
+    <value>Създава горна триъгълна матрица с висока производителност с размери n⨯n</value>
+  </data>
+  <data name="CreatesALowerTriangularHighPerformanceMatrixWithDimensionsNN" xml:space="preserve">
+    <value>Създава долна триъгълна матрица с висока производителност с размери n⨯n</value>
+  </data>
+  <data name="CreatesASymmetricHighPerformanceMatrixWithDimensionsNN" xml:space="preserve">
+    <value>Създава симетрична матрица с висока производителност с размери n⨯n</value>
+  </data>
+  <data name="ConvertsAnyVectorAndMatrixToHighPerformanceType" xml:space="preserve">
+    <value>Преобразува всякакъв вектор или матрица във високопроизводителен тип</value>
+  </data>
+  <data name="CheckIfArgumentIsAHighPerformanceType" xml:space="preserve">
+    <value>Проверява дали аргументът е от високопроизводителен тип</value>
+  </data>
+  <data name="GetsTheUnitsOfAScalarVactorMatrix" xml:space="preserve">
+    <value>Връща мерните единици на скалар/вектор/матрица</value>
+  </data>
+  <data name="SetsTheUnitsToAScalarVactorMatrix" xml:space="preserve">
+    <value>Задава мерните единици на скалар/вектор/матрица</value>
+  </data>
+  <data name="ClearsTheUnitsFromAScalarVactorMatrix" xml:space="preserve">
+    <value>Изчиства мерните единици от скалар/вектор/матрица</value>
+  </data>
+  <data name="BlueYellow" xml:space="preserve">
+    <value>Синьо-жълта</value>
+  </data>
+  <data name="BlueRed" xml:space="preserve">
+    <value>Синьо-червена</value>
+  </data>
+  <data name="PurpleYellow" xml:space="preserve">
+    <value>Лилаво-жълта</value>
+  </data>
+  <data name="FastFourierTransfrom" xml:space="preserve">
+    <value>Бързо преобразувание на Фурие</value>
+  </data>
+  <data name="InverseFastFourierTransfrom" xml:space="preserve">
+    <value>Обратно бързо преобразувание на Фурие</value>
+  </data>
+  <data name="Phasor" xml:space="preserve">
+    <value>Фазор</value>
+  </data>
+  <data name="PhasorComplexNotation" xml:space="preserve">
+    <value>Фазорна комплексна нотация</value>
+  </data>
+  <data name="AlgebraicComplexNotation" xml:space="preserve">
+    <value>Алгебрична комплексна нотация</value>
+  </data>
+  <data name="ConjugateOfAComplexNumber" xml:space="preserve">
+    <value>Спрегнатото на комплексно числ</value>
+  </data>
+  <data name="UnwrappedCode" xml:space="preserve">
+    <value>Разгънат код</value>
+  </data>
+  <data name="ShowUnwrappedSourceCodeInTheOutputWhenMacrosOrIncludesAreAvailable" xml:space="preserve">
+    <value>Показване на разгънат изходен код в изхода, когато са налични макроси или модули</value>
+  </data>
+  <data name="Embed" xml:space="preserve">
+    <value>Вграждай</value>
+  </data>
+  <data name="EmbedPlotsInsideTheHtmlAsBase64EncodedImagesSaveToFilesIfUnchecked" xml:space="preserve">
+    <value>Вграждане на графики в HTML като base64 кодирани изображения. Запазване във файлове, ако не е отметнато.</value>
+  </data>
+  <data name="MultilineExpressionBlock" xml:space="preserve">
+    <value>Многоредов блок от изрази</value>
+  </data>
+  <data name="InlineExpressionBlock" xml:space="preserve">
+    <value>Едноредов блок от изрази</value>
+  </data>
+  <data name="Select_All" xml:space="preserve">
+    <value>И_збери всичко</value>
+  </data>
+  <data name="ConditionalLoopExpressionBlock" xml:space="preserve">
+    <value>Итеративен блок от изрази с условие</value>
   </data>
 </root>

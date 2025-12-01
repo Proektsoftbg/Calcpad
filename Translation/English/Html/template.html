@@ -1,24 +1,48 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Calcpad</title>
+    <title>Created with Calcpad</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-    <script src="jquery-3.6.3.min.js"></script>
+    <script src="https://calcpad.local/jquery-3.6.3.min.js"></script>
     <style>
         body {
-            font-size: 12pt;
-            font-family: Calibri, sans-serif;
+            font-size: 11pt;
+            font-family: 'Segoe UI', 'Arial Nova', Helvetica, sans-serif;
             margin-left: 1.5em;
-            max-width: 190mm
+            max-width: 190mm;
         }
 
         h1, h2, h3, h4, h5, h6, .errorHeader, .roundBox {
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: 'Arial Nova', Helvetica, sans-serif;
             margin: 0.5em 0 0.5em 0;
             padding: 0;
             line-height: 150%;
+        }
+
+        h1 {
+            font-size: 2.1em;
+        }
+
+        h2 {
+            font-size: 1.7em;
+        }
+
+        h3 {
+            font-size: 1.4em;
+        }
+
+        h4 {
+            font-size: 1.2em;
+        }
+
+        h5 {
+            font-size: 1.1em;
+        }
+
+        h6 {
+            font-size: 1em;
         }
 
         p, li {
@@ -28,57 +52,93 @@
         }
 
         select, kbd {
-            font-family: Calibri, sans-serif;
-        }
-
-        code, kbd {
-            font-size: 9pt;
+            font-family: 'Segoe UI', sans-serif;
         }
 
         a:hover {
             background-color: #e9f6ff;
         }
 
-        .eq, input {
-            font-family: "Times New Roman", Times, serif;
+        .eq, input[type="text"], table.matrix {
+            font-family: 'Georgia Pro', 'Century Schoolbook', 'Times New Roman', Times, serif;
         }
 
             .eq var {
-                color: #06c;
-                padding-right: 1pt;
-                padding-left: 1pt;
-				font-size: 13pt;
+                color: #06d;
+                font-size: 105%;
             }
 
             .eq i {
                 color: #086;
-				font-style: normal;
-				font-size: 11.5pt;
+                font-style: normal;
+                font-size: 90%;
             }
+
+            i.unit {
+                color: #043!important;
+                font-size: 90%!important;
+                vertical-align: -1pt;
+            }
+
+            sup.unit {
+                font-family: Calibri, Candara, Corbel, sans-serif;
+                font-size: 70%!important;
+            }
+
+            .eq b {
+                font-weight: 600;
+            }
+
+            .eq sub {
+                font-family: Calibri, Candara, Corbel, sans-serif;
+                font-size: 80%;
+                vertical-align: -18%;
+            }
+
+            .eq sup {
+                display: inline-block;
+                margin-left: 1pt;
+                margin-top: -3pt;
+                font-size: 75%;
+            }
+
+            .eq small {
+                font-family: Calibri, Candara, Corbel, sans-serif;
+                font-size: 70%;
+            }
+
+                .eq small var {
+                    font-family: 'Georgia Pro', 'Century Schoolbook', 'Times New Roman', Times, serif;
+                    font-size: 8.5pt;
+                }
+
+                .eq small i {
+                    font-family: 'Georgia Pro', 'Century Schoolbook', 'Times New Roman', Times, serif;
+                    font-size: 6pt;
+                }
 
             .eq u, input, select {
                 background-color: LightYellow;
             }
 
                 input[type="text"], select {
-                    font-size: 11pt;
-                    padding: 0.15em 0.3em;
+                    font-size: 10pt;
+                    padding: 0.2em 0.4em;
                     border: 0.5pt solid #CCC;
                     border-radius: 0.35em;
-                    text-align: right;
                     box-shadow: 0.06em 0.06em 0.5em #ddd;
+                    min-width: 3em;
+                }
+
+                input[type="text"] {
+                    text-align: right;
                 }
 
                 input[type="checkbox"],
                 input[type="radio"] {
-                    --ssf: 1.3;
-                    zoom: var(--ssf);
-                    -moz-transform: scale(var(--ssf));
-                    -webkit-transform: scale(var(--ssf));
-                    transform: scale(var(--ssf));
-                    transform-origin: bottom;
+                    vertical-align: baseline;
                     position: relative;
-                    bottom: 1pt;
+                    bottom: -1pt;
                     margin-right: 1pt;
                 }
 
@@ -88,6 +148,11 @@
                     input[type="radio"].post:disabled:not(:checked) + label {
                         display: none;
                     }
+
+                select:disabled {
+                    background: none;
+                    color: #444;
+                }
 
                 select.post:disabled {
                     font-size: 12pt;
@@ -100,9 +165,9 @@
                     -moz-appearance: none;
                 }
 
-                    select.post:disabled::-ms-expand {
-                        display: none;
-                    }
+                select.post:disabled::-ms-expand {
+                    display: none;
+                }
 
                 input[type="text"]:focus {
                     box-shadow: 0.1em 0.1em 1em #ccc;
@@ -135,7 +200,7 @@
                     border: solid 1pt #CCCCCC;
                 }
 
-            table.centered td {
+            table.centered td, .matrix .td {
                 text-align: center;
             }
 
@@ -147,6 +212,79 @@
                     text-align: left;
                     padding-left: 0;
                 }
+
+        .matrix {
+            display: inline-table;
+        }
+
+            .matrix .tr {
+                display: table-row;
+            }
+
+            .matrix .td {
+                white-space: nowrap;
+                padding: 0 2pt 0 2pt;
+                min-width: 10pt;
+                display: table-cell;
+                font-size: 10pt;
+            }
+
+                .matrix .td:first-child,
+                .matrix .td:last-child {
+                    width: 0.75pt;
+                    min-width: 0.75pt;
+                    max-width: 0.75pt;
+                    padding: 0 1pt 0 1pt;
+                }
+
+                .matrix .td:first-child {
+                    border-left: solid 1pt black;
+                }
+
+                .matrix .td:last-child {
+                    border-right: solid 1pt black;
+                }
+
+            .matrix .tr:first-child .td:first-child,
+            .matrix .tr:first-child .td:last-child {
+                border-top: solid 1pt black;
+            }
+
+            .matrix .tr:last-child .td:first-child,
+            .matrix .tr:last-child .td:last-child {
+                border-bottom: solid 1pt black;
+            }
+
+        .block {
+            display: inline-block;
+            vertical-align: middle;
+            padding-left: 4pt;
+            margin-left: -1pt;
+            border-left: solid 1pt #80b0e8;
+            background: linear-gradient(to right, rgba(0, 192, 255, 0.06), rgba(0, 192, 255, 0.03));
+        }
+
+            .block .block {
+                background: linear-gradient(to right, rgba(0, 192, 255, 0.04), rgba(0, 192, 255, 0.02));
+            }
+
+        .dvcs:has(.block):not(.block *) {
+            display: inline-block;
+            border-left: solid 1pt #80b0e8;
+            padding-left: 0;
+            margin-left: 3pt;
+        }
+
+            .dvcs:has(.block):not(.block *)::before {
+                content: " 🞀";
+                font-size: 9pt;
+                color: #90c4f0;
+                margin-left: -4.5pt;
+            }
+
+        .arr {
+            color: #90c4f0;
+        }
 
         .r0, .r1, .r2, .r3,
         .o0, .o1, .o2, .o3,
@@ -176,10 +314,13 @@
         }
 
         .r {
-            font-size: 130%;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 150%;
             display: inline-block;
             vertical-align: top;
-            margin-left: -9pt;
+            margin-left: -9.5pt;
+            position: relative;
+            top: 1pt;
         }
 
         .r0 {
@@ -214,40 +355,17 @@
             margin-left: -19pt;
         }
 
-        .eq sub {
-            font-family: Calibri, 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
-            font-size: 92%;
-            vertical-align: -18%;
-        }
-
-        .eq sup {
-            display: inline-block;
-            margin-left: 1pt;
-            margin-top: -2pt;
-        }
-
-        .eq small {
-			font-family: Calibri, 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
-            font-size: 70%;
-        }
-		
-		.eq small var {
-			font-family: "Times New Roman", Times, serif;
-            font-size: 10pt;
-        }
-
-            .eq small i {
-                font-family: "Times New Roman", Times, serif;
-                font-size: 9pt;
-            }
-
         .nth {
             position: relative;
             bottom: 1pt;
         }
-		
-        .eq small.nth{
+
+        .eq small.nth {
             font-size: 70%;
+        }
+
+        .dvr small {
+            font-size: 65%;
         }
 
         sup.raised {
@@ -286,15 +404,17 @@
         }
 
         .b2, .b3, .c2, .c3, .c4, .c5, .c6, .c7, .c8 {
-            font-family: "Jost* Hairline";
+            font-family: 'Jost* Hairline', sans-serif;
         }
 
         .b0, .b1, .c1 {
-            font-family: "Jost* Thin";
+            font-family: 'Jost* Thin', sans-serif;
         }
 
         .b0 {
             font-size: 120%;
+            font-weight: 400;
+            padding: 0 1pt 0 1pt;
         }
 
         .b1 {
@@ -375,20 +495,23 @@
             transform: scaleX(0.5);
         }
 
-        .dvc, .dvr, .dvs{
+        .dvc, .dvr, .dvs {
             display: inline-block;
             vertical-align: middle;
             white-space: nowrap;
         }
 
         .dvc {
+            padding-left: 2pt;
+            padding-right: 2pt;
             text-align: center;
             line-height: 110%;
         }
 
         .dvr {
             text-align: center;
-            line-height: 105%;
+            line-height: 110%;
+            margin-bottom: 4pt;
         }
 
         .dvs {
@@ -398,20 +521,25 @@
 
         .dvl {
             display: block;
-            border-bottom: solid 0.75pt black;
+            border-bottom: solid 1pt black;
             margin-top: 1pt;
             margin-bottom: 1pt;
         }
 
         .nary {
-            color: #D000D0;
-            font-size: 200%;
-            font-family: "Segoe UI Light";
+            color: #C080F0;
+            font-size: 240%;
+            font-family: Georgia Pro Light, serif;
+            font-weight: 200;
             line-height: 80%;
             display: block;
-            margin-top: -3pt;
-            margin-bottom: 5pt;
+            margin: -1pt 1pt 3pt 1pt;
         }
+
+            .nary em {
+                display: block;
+                transform: scaleX(0.7) rotate(7deg);
+            }
 
         .dvc.down {
             position: relative;
@@ -423,8 +551,15 @@
             bottom: 0.6em;
         }
 
+        .low {
+            font-size: 70%;
+            display: inline-block;
+            position: relative;
+            top: 1.2em;
+        }
+
         .cond {
-            color: #FA00FA;
+            color: #E000D0;
         }
 
         .err {
@@ -493,6 +628,21 @@
                     font-size: 80%;
                 }
 
+        .vec {
+            font-family: 'Cambria Math', serif;
+            color: #8af;
+            font-style: normal;
+            display: inline-block;
+            vertical-align: 2pt;
+            margin-left: 3pt;
+            margin-right: -7pt;
+        }
+
+        small .vec, sup .vec {
+            margin-left: 2pt;
+            margin-right: -6pt;
+        }
+
         #Units {
             float: right;
         }
@@ -509,9 +659,25 @@
                 -moz-transform: scale(0.8);
             }
 
+            body {
+                margin: 0;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
             .no-print {
                 display: none;
             }
+        }
+
+        @page {
+            size: A4 portrait;
+            margin-left: 20mm;
+            margin-right: 10mm;
+            margin-top: 10mm;
+            margin-bottom: 10mm;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
         }
 
         .value {
@@ -534,12 +700,11 @@
                 white-space: nowrap;
                 min-width: 10pt;
                 z-index: 1;
-                vertical-align: middle;
                 padding: 0 6pt 0 6pt;
                 border-radius: 6pt 6pt 6pt 0;
                 background: #000;
                 color: #fff;
-                font-family: Calibri, sans-serif;
+                font-family: 'Segoe UI', sans-serif;
                 font-style: normal;
                 font-size: 10pt;
                 text-align: center;
@@ -602,7 +767,6 @@
             font-weight: bold;
             text-decoration: none;
             text-align: left;
-            text-decoration: none;
             display: inline-block;
             position: absolute;
             left: 0;
@@ -620,10 +784,8 @@
 <body>
     <script>
         var contextMenu = false;
-        function delayedLoad(path) { setTimeout(function () { document.write(path); }, 1000); }
         function getVerticalPosition(line) { return document.querySelector("[data-text='" + line + "']").getBoundingClientRect().top; }
-		function isNumeric(s) {return s.match(/^-?\d+(?:\.\d+)?$/); }
-		
+        function isNumeric(s) { return s.match(/^-?\d+(?:\.\d+)?$/); }
         if (window.jQuery) {
             function getHtmlWithInput() {
                 $("input[type=text]").each(function () {
@@ -689,6 +851,8 @@
 
             $(document).ready(function () {
 
+                $(".dvcs:has(.block) > :first-child").html("&hairsp;");
+
                 $("#Units").change(function () { $(".Units").text($(this).val()); });
 
                 $(".fold > :first-child").click(function () {
@@ -751,19 +915,23 @@
                         }
                     }
                 });
-                $(".line").each(function () {
+
+                $(".line:not(style, script)").each(function () {
                     var line = $(this).prop("id").split("-")[1];
                     var $lineLink = $('<a class="lineLink" href="#0" data-text="' + line + '" title="Code line ' + line + '">&larr;</a>');
                     $(this).append($lineLink);
                     $lineLink.hide();
                     $(this).hover(function () {
+                        $(".lineLink").hide();
                         $lineLink.show();
-                    }, function () {
-                        $lineLink.hide();
                     });
                     $(window).scroll(function () {
                         $lineLink.hide();
                     });
+                });
+
+                $("body").mouseleave(function () {
+                    $(".lineLink").hide();
                 });
 
                 $(".roundBox").click(function () {
@@ -774,18 +942,26 @@
                     }
                 });
                 $(".money").each(function () { $(this).text(Number(($(this).text())).toFixed(2)); });
-				
-				$("input").change(function(){
-					var e = $(this);
-					var s = e.val();
-					if (isNumeric(s)) {
-					    e.css("color", "black");
-					    e.removeAttr("title");
-					} else {
-					    e.css("color", "red");
+
+                $("input").change(function() {
+                    var e = $(this);
+                    var s = e.val();
+                    if (isNumeric(s)) {
+                        e.css("color", "black");
+                        e.removeAttr("title");
+                    } else {
+                        e.css("color", "red");
                         e.attr("title", "Invalid number");
-					}
-				});
+                    }
+                });
+
+                $("a").click(function () {
+                    chrome.webview.postMessage('clicked');
+                });
+
+                window.addEventListener('click', () => {
+                    chrome.webview.postMessage('focused');
+                });
             });
         }
         document.oncontextmenu = function () { contextMenu = true; };

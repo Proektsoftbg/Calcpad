@@ -1,64 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
@@ -118,13 +59,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Welcome_To_Calcpad_Command_Line_Interpreter" xml:space="preserve">
-    <value> Welcome to Calcpad command line interpreter v.{0}.{1}.{2}!</value>
+    <value> Welcome to Calcpad VM command line interpreter v.{0}.{1}.{2}!</value>
   </data>
   <data name="Press_Any_Key_When_Ready" xml:space="preserve">
     <value>Press any key when ready.</value>
   </data>
   <data name="Copyright_2023_By_Proektsoft_EOOD" xml:space="preserve">
-    <value> Copyright: © 2023 by Proektsoft EOOD.</value>
+    <value> Copyright: © 2025 by Proektsoft EOOD.</value>
   </data>
   <data name="Commands" xml:space="preserve">
     <value>Commands</value>
@@ -146,5 +87,20 @@
   </data>
   <data name="Loading_The_Settings_File" xml:space="preserve">
     <value>Loading the settings file...</value>
+  </data>
+  <data name="WouldYouLikeToRestoreThePreviousSettingsYN" xml:space="preserve">
+    <value>Would you like to restore the previous settings (y/n)?</value>
+  </data>
+  <data name="PressAnyKeyToContinue" xml:space="preserve">
+    <value>Press any key to continue.</value>
+  </data>
+  <data name="InvalidInputFileExtensionMustBeCpdOrTxt" xml:space="preserve">
+    <value>Invalid input file extension. Must be 'cpd' or 'txt'.</value>
+  </data>
+  <data name="InputFileDoesNotExist" xml:space="preserve">
+    <value>Input file does not exist.</value>
+  </data>
+  <data name="InvalidOutputExtensionMustBeHtmlDocxOrPdf" xml:space="preserve">
+    <value>Invalid output extension.. Must be 'html', 'docx' or 'pdf'.</value>
   </data>
 </root>
