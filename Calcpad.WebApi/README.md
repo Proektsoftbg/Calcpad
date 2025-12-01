@@ -1,90 +1,177 @@
-# README - Calcpad.WebApi
+# User Manual
+
+[English](/README.md) | [简体中文](/README.zh-CN.md)
 
 ## Introduction
 
-Calcpad.WebApi exposes the capabilities of Calcpad.Core as an HTTP API. You can integrate this API into existing projects to provide Calcpad functionality in a web environment.
+Calcpad.WebApi provides the capabilities of Calcpad.Core via API. You can integrate this API into existing projects to achieve web-based calcpad functionality.
 
 ## Scripts
 
-This project provides cross-platform scripts based on PowerShell to simplify deployment tasks:
+This project provides cross-platform scripts based on PowerShell to simplify deployment operations:
 
 - zip.ps1
 
-  Packages the WebApi project and all dependent projects into a zip archive for easy upload to a server for build/deploy.
+  Packages the WebApi project and all dependent projects for easy upload to a server for compilation and deployment.
 
 - docker-build.ps1
 
-  Builds a Docker image. The final image name is `calcpad/webapi:latest`.
+  Builds a Docker image. The final image name is: `calcpad/webapi:latest`
 
-Note
+**Friendly Reminder**
 
-On non-Windows platforms, PowerShell may need to be installed manually. See: https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-7.5
+PowerShell needs to be installed manually on non-Windows platforms. Refer to: [Install PowerShell on Windows, Linux, and macOS](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-7.5)
 
-## Deployment (recommended: Docker)
+## Installation and Usage
 
-The recommended way to deploy is using Docker. The following steps show how to deploy WebApi inside Docker.
+Deployment using Docker is recommended. Please install MongoDB database in advance.
+
+This section introduces how to deploy WebApi in Docker.
 
 1. Package the project
 
-	From the WebApi root directory run:
+    Navigate to the WebApi root directory    
+    ``` powershell
+    # Execute packaging
+    ./zip.ps1
+    ```
 
-	```powershell
-	# run packaging script
-	./zip.ps1
-	```
+2. Upload the packaged files to the server and extract them
 
-2. Upload and extract the package on the server
-
-	If you are deploying to Docker on the same machine, you can skip this step.
+    If deploying Docker locally, this step can be skipped
 
 3. Build the image on the server
 
-	From the `Calcpad.WebApi` directory run:
+    Navigate to the Calcpad.WebApi directory
 
-	```powershell
-	./build.ps1
-	```
+    ``` powershell
+    ./build.ps1
+    ```
 
 4. Initial configuration
 
-	Copy `docker-compose.yml` and the `config` folder to the installation location. Example:
+    Copy `docker-compose.yml` and `config` to the installation location. Example:
 
-	```bash
-	cp ./data ~/app/calcpad
-	```
+    ``` bash
+    cp ./data ~/app/calcpad
+    ```
 
-	Then edit `appsettings.Production.json` according to `Calcpad.WebApi/appsettings.json` to configure production settings. If this is only for testing, these changes are optional.
+    Then refer to `Calcpad.WebApi/appsettings.json` and modify the settings in `appsettings.Production.json` for production configuration. If only for testing, no changes are needed.
 
-5. Start
+4. Start
 
-	```bash
-	cd ~/app/calcpad
-	sudo docker compose up -d
-	```
+    ``` bash
+    cd ~/app/calcpad
+    sudo docker compose up -d
+    ```
 
 ## API
 
-Swagger
+**Swagger**
 
-When the project runs in debug mode it exposes a Swagger UI. By default the UI is available at: http://localhost:5098/swagger/index.html — use it to explore the API.
+After starting the project in debug mode, the project generates a Swagger interface at: [http://localhost:5098/swagger/index.html](http://localhost:5098/swagger/index.html), where you can view the interfaces.
 
-The implemented OpenAPI spec is available as `api/swagger.json` or from the running service at http://localhost:5098/swagger/v1/swagger.json. Import this into API tools such as Apifox to inspect the endpoints.
+Currently implemented interfaces swagger.json
 
-## Integrating with an existing service
+You can import `api/swagger.json` or [http://localhost:5098/swagger/v1/swagger.json](http://localhost:5098/swagger/v1/swagger.json) into API management software for viewing, such as Apifox.
 
-1. The server should obtain a token via `/api/v1/user/sign-in` and refresh it periodically.
-2. Upload Calcpad files (for example `.txt`, `.cpd`, `.cpdz`) using the endpoints in `CalcpadFileController.cs`.
-3. For non-.cpdz files note:
-	- Image resources must be uploaded first via `/api/v1/calcpad-file` to receive a resource URL.
-	- Included files must be uploaded first. After upload, get the file's `uniqueId` and reference it in the main file like this:
+## Integrating with Existing Services
 
-	  ```tex
-	  #include ./included_cpd.txt'?uid=uniqueId'
-	  ```
+1. The server obtains a token via `/api/v1/user/sign-in` and updates it periodically
+2. Upload calcpad files through the interfaces in `CalcpadFileController.cs`, such as .txt, .cpd, .cpdz
+3. For non-.cpdz files, note:
 
-	  After a normal path, append `'?uid=xxx'` so the server can recognize the referenced file by its id before uploading the main file.
+  - Image resources need to be uploaded first via `/api/v1/calcpad-file` to obtain the resource URL  
+  - For include files, upload them first, then get the file's `uniqueId`, and use it in the main file like this
+  
+     ``` tex
+     #include ./included_cpd.txt'?uid=uniqueId'
+     ```  
+     After the normal path, use `'?uid=xxx'` format to write the included file id into the file, then upload.
+     This is to allow the server to recognize the referenced files
 
 ## Development
 
-Open the solution in Visual Studio to run and debug the project locally.
+Open the project in Visual Studio for debugging and development.
 
+## Feature Introduction
+
+### Authorization and Authentication
+
+**Configure Initial Users**
+
+Configure the `Users` field in `appsettings.Production.json` as the system's initial users, in the following format:
+
+``` json
+{
+  "Users": [
+    {
+      "Username": "admin",
+      "Password": "calcpad",
+      "Roles": [ "admin", "api" ]
+    },
+    {
+      "Username": "calcpad",
+      "Password": "calcpad1234"
+    }
+  ],
+}
+```
+
+**Authorization and Authentication**
+
+The system uses JWT for permission verification. When calling corresponding interfaces, login is required in advance.
+
+The login interface is `Post /api/v1/user/sign-in`, with body parameters:
+
+``` json
+{
+  "username":"",
+  "password":""
+}
+```
+
+### Basic Functions
+
+CalcpadFileController provides functions for file upload, copy, execution, download, etc. Please check the corresponding interfaces for details.
+
+**Special Note:**
+
+The file paths stored in the web version are automatically generated by the system. When integrating the API, do not rely on paths for management. When performing file operations, mainly rely on `UniqueId` for file lookup and access.
+
+### AI Translation
+
+I18nController provides AI translation functionality for results. A brief introduction is given here.
+
+**AI Configuration**
+
+Configure via the `AI` and `Translation` fields in `appsettings.Production.json`. Refer to the comments in `appsettings.json` for details.
+
+The translation function relies on AI to generate initial translations, so AI must be configured and enabled. Currently, only OpenAI-compatible calls are supported. If the interface adapts to OpenAI interface specifications, it can also be used.
+
+**Usage Steps**
+
+1. Configure `AI`
+2. Configure `Translation` prompts [optional]
+3. Call the interface to generate multilingual content
+4. When executing calculations, also pass the language parameters to be translated
+
+**Modify Translations**
+
+If the AI translation results are inaccurate, you can modify each translation record by calling the API. Modified fields will no longer be translated by AI.
+
+### Version Upgrade
+
+Version upgrades can be handled as copying Calcpad files.
+
+Version upgrades involve data migration. Currently, two types are known:
+
+1. User inputs generated via `?`
+2. File paths read by `#read` macro (this operation is not owned by CalcpadCore, it is a new feature of this system)
+
+To resolve the above two data migrations, the actual migration steps are:
+
+1. Copy a Calcpad file from the new template
+2. Extract the #read list from the old file
+3. Assign the #read list from the old file to the new file (do not copy separately to ensure new and old data are the same reference)
+4. Assign the variable values from the old file to the new file

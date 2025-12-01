@@ -1,4 +1,3 @@
-using Calcpad.WebApi.Configs;
 using Calcpad.WebApi.Controllers.Base;
 using Calcpad.WebApi.Controllers.DTOs;
 using Calcpad.WebApi.Models.Base;
@@ -12,7 +11,11 @@ using MongoDB.Driver.Linq;
 
 namespace Calcpad.WebApi.Controllers
 {
-    public class UserController(ILogger<UserController> logger, MongoDBContext db, TokenService tokenService) : ControllerBaseV1
+    public class UserController(
+        ILogger<UserController> logger,
+        MongoDBContext db,
+        TokenService tokenService
+    ) : ControllerBaseV1
     {
         /// <summary>
         /// sign in to get the token
@@ -25,7 +28,8 @@ namespace Calcpad.WebApi.Controllers
             data.Validate();
 
             var passwordMd5 = data.Password.ToMD5();
-            var existUser = await db.CalcpadUsers.AsQueryable()
+            var existUser = await db
+                .CalcpadUsers.AsQueryable()
                 .Where(x => x.Username == data.Username)
                 .Where(x => x.Password == passwordMd5)
                 .FirstOrDefaultAsync();

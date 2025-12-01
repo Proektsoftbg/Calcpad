@@ -91,6 +91,7 @@ namespace Calcpad.WebApi.Controllers
                     FullName = $"%{storageConfig.Value.Environment}%/{relativePath}",
                     FileName = formData.GetFileName(),
                     UniqueId = formData.UniqueId,
+                    AncestorUniqueId = formData.UniqueId,
                     UserId = tokenService.GetTokenInfo().UserId,
                     IsCpd = formData.IsCpdFile,
                     Version = 1
@@ -177,6 +178,7 @@ namespace Calcpad.WebApi.Controllers
                 LastUpdateDate = existModel.LastUpdateDate,
                 IsCpd = existModel.IsCpd,
                 SourceId = existModel.Id,
+                AncestorUniqueId = existModel.AncestorUniqueId,
                 Version = existModel.Version
             };
             await db.Collection<CalcpadFileModel>().InsertOneAsync(newModel);
