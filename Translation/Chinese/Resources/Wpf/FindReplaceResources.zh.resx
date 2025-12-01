@@ -121,4 +121,7 @@
   <data name="Invalid_character_0" xml:space="preserve">
     <value>无效字符: {0}.</value>
   </data>
+<data name="FindOutput" xml:space="preserve">
+    <value>查找结果</value>
+  </data>
 </root>
