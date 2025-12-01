@@ -65,7 +65,7 @@
     <value>准备好后按任意键.</value>
   </data>
   <data name="Copyright_2023_By_Proektsoft_EOOD" xml:space="preserve">
-    <value> 版权所有：© 2025 by Proektsoft EOOD.</value>
+    <value>版权所有:Proektsoft EOOD © 2025.</value>
   </data>
   <data name="Commands" xml:space="preserve">
     <value>命令</value>
@@ -91,16 +91,19 @@
   <data name="WouldYouLikeToRestoreThePreviousSettingsYN" xml:space="preserve">
     <value>是否要恢复以前的设置 (y/n)?</value>
   </data>
-  <data name="InvalidOutputExtensionMustBeHtmlDocxOrPdf" xml:space="preserve">
-    <value>输出扩展名无效。必须是“html”、“docx”或“pdf”.</value>
+  <data name="PressAnyKeyToContinue" xml:space="preserve">
+    <value>按任意键继续.</value>
+  </data>
+  <data name="InvalidInputFileExtensionMustBeCpdOrTxt" xml:space="preserve">
+    <value>输入文件扩展名无效！必须是“cpd”或“txt”.</value>
   </data>
   <data name="InputFileDoesNotExist" xml:space="preserve">
     <value>输入文件不存在.</value>
   </data>
-  <data name="InvalidInputFileExtensionMustBeCpdOrTxt" xml:space="preserve">
-    <value>输入文件扩展名无效。必须是“cpd”或“txt”.</value>
+  <data name="InvalidOutputExtensionMustBeHtmlDocxOrPdf" xml:space="preserve">
+    <value>输出扩展名无效！必须是“html”、“docx”或“pdf”.</value>
   </data>
-  <data name="PressAnyKeyToContinue" xml:space="preserve">
-    <value>按任意键继续.</value>
+  <data name="Key Comment" xml:space="preserve">
+    <value></value>
   </data>
 </root>
