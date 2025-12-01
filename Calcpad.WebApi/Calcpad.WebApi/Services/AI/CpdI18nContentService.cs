@@ -204,22 +204,21 @@ namespace Calcpad.WebApi.Services.AI
             if (string.IsNullOrEmpty(htmlContent))
                 return htmlContent;
 
-            // find langs
-            // langs can be from source file or cpd file
-            var (cpdFile, sourceFile) = await GetSelfAndSourceCpdFile(uniqueId);
+            var cpdFile = await db.AsQueryable<CalcpadFileModel>()
+                .Where(x => x.UniqueId == uniqueId)
+                .Where(x => x.IsCpd == true)
+                .FirstOrDefaultAsync();
 
-            var lanQuery = db.AsQueryable<CalcpadLangModel>().Where(x => x.Lang == lang);
-            if (sourceFile == null)
-            {
-                lanQuery = lanQuery.Where(x => x.UniqueId == uniqueId);
-            }
-            else
-            {
-                lanQuery = lanQuery.Where(x =>
-                    new List<string> { sourceFile.UniqueId, cpdFile.UniqueId }.Contains(x.UniqueId)
-                );
-            }
-            var langs = await lanQuery.ToListAsync();
+            var cpdUids = new HashSet<string> { cpdFile.UniqueId, cpdFile.AncestorUniqueId }.Where(
+                x => !string.IsNullOrEmpty(x)
+            );
+
+            var langs = await db.AsQueryable<CalcpadLangModel>()
+                .Where(x => x.Lang == lang)
+                .Where(x => cpdUids.Contains(x.UniqueId))
+                .Where(x => x.IsDeleted == false)
+                .ToListAsync();
+
             if (langs.Count == 0)
             {
                 return htmlContent;
@@ -265,7 +264,12 @@ namespace Calcpad.WebApi.Services.AI
                     if (node.NodeType == HtmlNodeType.Text)
                     {
                         node.ParentNode.ReplaceChild(
-                            HtmlTextNode.CreateNode(HttpUtility.HtmlEncode(langModel.Value)),
+                            HtmlTextNode.CreateNode(
+                                node.InnerText.Replace(
+                                    text,
+                                    HttpUtility.HtmlEncode(langModel.Value)
+                                )
+                            ),
                             node
                         );
                     }

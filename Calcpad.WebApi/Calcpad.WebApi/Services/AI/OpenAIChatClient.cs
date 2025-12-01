@@ -51,7 +51,6 @@ namespace Calcpad.WebApi.Services.AI
             {
                 throw new InvalidOperationException("OpenAIChatClient is not initialized.");
             }
-
             return await _chatClient.GetResponseAsync(messages, options, cancellationToken);
         }
 

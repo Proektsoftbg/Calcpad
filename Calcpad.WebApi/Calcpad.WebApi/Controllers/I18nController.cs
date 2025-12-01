@@ -1,4 +1,3 @@
-using Calcpad.Document;
 using Calcpad.WebApi.Controllers.Base;
 using Calcpad.WebApi.Controllers.DTOs;
 using Calcpad.WebApi.Models;
@@ -19,6 +18,103 @@ namespace Calcpad.WebApi.Controllers
     ) : ControllerBaseV1
     {
         /// <summary>
+        /// Generates internationalization language resources for the specified unique identifier and languages.
+        /// </summary>
+        /// <param name="uniqueId">The unique identifier for which to generate language resources.</param>
+        /// <param name="langs">A list of language codes for which to generate resources. Cannot be null or empty.</param>
+        /// <returns>A response result indicating whether the language resources were successfully generated. The value is <see
+        /// langword="true"/> if generation succeeded for all specified languages; otherwise, <see langword="false"/>.</returns>
+        [HttpPost("{uniqueId}/translations/langs")]
+        public async Task<ResponseResult<bool>> GenerateI18nLangs(
+            string uniqueId,
+            [FromBody] List<string> langs
+        )
+        {
+            if (!aIService.IsEnabled)
+            {
+                return false.ToFailResponse("AI Service is not enabled");
+            }
+
+            if (langs == null || langs.Count == 0)
+            {
+                return false.ToFailResponse("Missing langs");
+            }
+
+            var cpdFile = await db.AsQueryable<CalcpadFileModel>()
+                .Where(x => x.UniqueId == uniqueId)
+                .Where(x => x.IsCpd == true)
+                .FirstOrDefaultAsync();
+
+            if (cpdFile == null)
+            {
+                return false.ToFailResponse("Calcpad file not found");
+            }
+
+            var fullPath = Environment.ExpandEnvironmentVariables(cpdFile.FullName);
+            if (!System.IO.File.Exists(fullPath))
+                return false.ToFailResponse("Calcpad file not found");
+
+            // extract keys
+            var keys = await i18NService.GetCpdFileI18nKeys(fullPath);
+            if (keys.Count == 0)
+            {
+                return true.ToSuccessResponse();
+            }
+
+            // get existing i18n docs
+            var existingTrans = await db.AsQueryable<CalcpadLangModel>()
+                .Where(x => x.UniqueId == uniqueId && x.IsByAI == true)
+                .Where(x => langs.Contains(x.Lang))
+                .Where(x => !x.IsDeleted)
+                .ToListAsync();
+
+            // task
+            var tasks = langs.Select(async lang =>
+            {
+                // remove existing
+                var newKeys = keys.Except(
+                        existingTrans.Where(x => x.Lang == lang).Select(x => x.Key)
+                    )
+                    .ToList();
+
+                await GenerateI18nForKeys(uniqueId, cpdFile.Version, newKeys, lang);
+            });
+            await Task.WhenAll(tasks);
+
+            return true.ToSuccessResponse();
+        }
+
+        private async Task GenerateI18nForKeys(
+            string uniqueId,
+            int cpdVersion,
+            List<string> keys,
+            string lang
+        )
+        {
+            if (keys.Count == 0)
+            {
+                return;
+            }
+
+            // generate translations
+            var translations = await aIService.TranslateToLang(keys, lang);
+            // update parallelly
+            var newLangs = translations.Select(x =>
+            {
+                return new CalcpadLangModel
+                {
+                    UniqueId = uniqueId,
+                    Lang = lang,
+                    Key = x.Item1,
+                    Value = x.Item2,
+                    Version = cpdVersion,
+                    IsByAI = true,
+                };
+            });
+            await db.InserManyAsync(newLangs);
+        }
+
+        /// <summary>
         /// Generates internationalization (i18n) language resources for a specified Calcpad file using the provided
         /// language code.
         /// </summary>
@@ -32,7 +128,7 @@ namespace Calcpad.WebApi.Controllers
         /// successfully or no keys required translation; otherwise, <see langword="false"/> if the operation failed.
         /// The response includes error information if applicable.</returns>
         [HttpPost("{uniqueId}/translations/{lang}")]
-        public async Task<ResponseResult<bool>> GenerateI18nLangs(string uniqueId, string lang)
+        public async Task<ResponseResult<bool>> GenerateI18nLang(string uniqueId, string lang)
         {
             if (!aIService.IsEnabled)
             {
@@ -61,8 +157,11 @@ namespace Calcpad.WebApi.Controllers
 
             // get existing i18n docs
             var existingTrans = await db.AsQueryable<CalcpadLangModel>()
-                .Where(x => x.UniqueId == uniqueId && x.Lang == lang && x.IsByAI == true)
+                .Where(x => x.UniqueId == uniqueId && x.IsByAI == true)
+                .Where(x => x.Lang == lang)
+                .Where(x => !x.IsDeleted)
                 .ToListAsync();
+
             // remove existing
             var newKeys = keys.Except(existingTrans.Select(x => x.Key)).ToList();
             if (newKeys.Count == 0)
@@ -71,22 +170,7 @@ namespace Calcpad.WebApi.Controllers
             }
 
             // generate translations
-            var translations = await aIService.TranslateToLang(newKeys, lang);
-
-            // update parallelly
-            var newLangs = translations.Select(x =>
-            {
-                return new CalcpadLangModel
-                {
-                    UniqueId = uniqueId,
-                    Lang = lang,
-                    Key = x.Item1,
-                    Value = x.Item2,
-                    Version = cpdFile.Version,
-                    IsByAI = true,
-                };
-            });
-            await db.InserManyAsync(newLangs);
+            await GenerateI18nForKeys(uniqueId, cpdFile.Version, newKeys, lang);
 
             return true.ToSuccessResponse();
         }
@@ -150,18 +234,44 @@ namespace Calcpad.WebApi.Controllers
             string uniqueId
         )
         {
-            var (self, source) = await i18NService.GetSelfAndSourceCpdFile(uniqueId);
-            if (self == null)
-                return new List<CalcpadLangModel>().ToFailResponse("Calcpad file not found");
+            var cpdFile = await db.AsQueryable<CalcpadFileModel>()
+                .Where(x => x.UniqueId == uniqueId)
+                .Where(x => x.IsCpd == true)
+                .FirstOrDefaultAsync();
 
-            var uniqueIds = new List<string> { self.UniqueId };
-            if (source != null)
-                uniqueIds.Add(source.UniqueId);
+            if (cpdFile == null)
+                return new List<CalcpadLangModel>().ToFailResponse("Calcpad file not found");
+            var cpdUids = new HashSet<string>()
+            {
+                cpdFile.UniqueId,
+                cpdFile.AncestorUniqueId
+            }.Where(x => !string.IsNullOrEmpty(x));
+
             var langs = await db.AsQueryable<CalcpadLangModel>()
-                .Where(x => uniqueIds.Contains(x.UniqueId))
+                .Where(x => cpdUids.Contains(x.UniqueId))
+                .Where(x => !x.IsDeleted)
                 .OrderBy(x => x.Id)
                 .ToListAsync();
             return langs.ToSuccessResponse();
+        }
+
+        /// <summary>
+        /// Updates multiple language entries with new values based on the provided data list.
+        /// </summary>
+        /// <param name="langId"></param>
+        /// <param name="dataList"></param>
+        /// <returns></returns>
+        [HttpPut("langs/many")]
+        public async Task<ResponseResult<bool>> UpdateLangsValues(
+            [FromBody] List<UpdateLangValueData> dataList
+        )
+        {
+            var tasks = dataList.Select(async data =>
+            {
+                await UpdateLangValue(data.LangId, data);
+            });
+            await Task.WhenAll(tasks);
+            return true.ToSuccessResponse();
         }
 
         /// <summary>
@@ -185,8 +295,10 @@ namespace Calcpad.WebApi.Controllers
             await db.AsFluentMongo<CalcpadLangModel>()
                 .Where(x => x.Id == langObjId)
                 .Set(x => x.Value, data.LangValue)
+                .Set(x => x.IsByAI, false) // mark as manually edited, so ai will not override
                 .Set(x => x.LastModifyDate, DateTime.UtcNow)
                 .UpdateOneAsync();
+
             return true.ToSuccessResponse();
         }
 
@@ -214,16 +326,23 @@ namespace Calcpad.WebApi.Controllers
                 return false.ToFailResponse("Language document not found");
             }
 
-            var (selfCpd, sourceCpd) = await i18NService.GetSelfAndSourceCpdFile(langDoc.UniqueId);
-            var cpdUids = new List<string> { langDoc.UniqueId };
-            if (sourceCpd != null)
+            // remove self and ancestor
+            var cpdFile = await db.AsQueryable<CalcpadFileModel>()
+                .Where(x => x.UniqueId == langDoc.UniqueId)
+                .Where(x => x.IsCpd == true)
+                .FirstOrDefaultAsync();
+            var cpdUids = new HashSet<string>()
             {
-                cpdUids.Add(sourceCpd.UniqueId);
-            }
+                cpdFile.UniqueId,
+                cpdFile.AncestorUniqueId
+            }.Where(x => !string.IsNullOrEmpty(x));
 
+            // mark as deleted
             await db.AsFluentMongo<CalcpadLangModel>()
                 .Where(x => cpdUids.Contains(x.UniqueId) && x.Key == langDoc.Key)
-                .DeleteOneAsync();
+                .Set(x => x.IsDeleted, true)
+                .UpdateManyAsync();
+
             return true.ToSuccessResponse();
         }
     }

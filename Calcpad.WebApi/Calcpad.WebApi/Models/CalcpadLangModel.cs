@@ -39,5 +39,11 @@ namespace Calcpad.WebApi.Models
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
         public DateTime LastModifyDate { get; set; } = DateTime.UtcNow;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the entity is marked as deleted.
+        /// if true, the entity is considered deleted and should not be used in active operations.
+        /// </summary>
+        public bool IsDeleted { get; set; } = false;
     }
 }
