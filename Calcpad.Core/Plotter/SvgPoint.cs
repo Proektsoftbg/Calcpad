@@ -15,7 +15,6 @@ namespace Calcpad.Core
             Y = Math.Round(y, Decimals);
         }
 
-        public override string ToString() =>
-            X.ToString(CultureInfo.InvariantCulture) + "," + Y.ToString(CultureInfo.InvariantCulture);
+        public override string ToString() => FormattableString.Invariant($"{X},{Y}");
     }
 }

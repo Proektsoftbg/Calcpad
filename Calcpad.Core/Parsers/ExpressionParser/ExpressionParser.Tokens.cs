@@ -80,9 +80,9 @@ namespace Calcpad.Core
             else if (_isVal < 1)
             {
                 if (tokens.Count == 0)
-                    tokenValue += ' ';
+                    tokenValue += " ";
                 else
-                    tokenValue = ' ' + tokenValue + ' ';
+                    tokenValue = string.Concat(" ", tokenValue," ");
             }
 
             var token = new Token(tokenValue, tokenType);

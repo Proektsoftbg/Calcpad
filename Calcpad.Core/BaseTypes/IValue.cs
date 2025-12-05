@@ -696,12 +696,16 @@ namespace Calcpad.Core
 
         internal static IValue EvaluateInterpolation(MatrixCalculator calc, long index, IValue[] values)
         {
-            if (values[0] is RealValue x)
+            if (values[0] is IScalarValue sx)
             {
-                if (values.Length == 2 && values[1] is Vector vector)
-                    return calc.VectorCalculator.EvaluateInterpolation(index, x, vector);
-                if (values.Length == 3 && values[1] is RealValue y && values[2] is Matrix matrix)
-                    return calc.EvaluateInterpolation(index, y, x, matrix);
+                if (sx.IsReal)
+                {
+                    var x = sx.AsReal();
+                    if (values.Length == 2 && values[1] is Vector vector)
+                        return calc.VectorCalculator.EvaluateInterpolation(index, x, vector);
+                    if (values.Length == 3 && values[1] is IScalarValue sy && sy.IsReal && values[2] is Matrix matrix)
+                        return calc.EvaluateInterpolation(index, sy.AsReal(), x, matrix);
+                }
             }
             else
                 throw Exceptions.CannotInterpolateWithNonScalarValue();

@@ -21,9 +21,10 @@ namespace Calcpad.Core
 
         internal override string UnitString(Unit units) => units.Text.Replace("‱", "‱ ");
         internal override string FormatInput(string s, Unit units, int line, bool isCalculated) =>
-            units is null ? s : s + ' ' + units.Text;
+            units is null ? s : string.Concat(s, " ", units.Text);
 
-        internal override string FormatSubscript(string sa, string sb) => sa + "_" + sb;
+        internal override string FormatSubscript(string sa, string sb) => string.Concat(sa, "_", sb);
+        internal override string AppendSubscript(string sa, string sb) => string.Concat(sa, ".", sb);
         internal override string FormatVariable(string name, string value, bool isBold) =>
             name[0] == '\u20D7' ? name[1..] : name;
         internal override string FormatUnits(string s) => s;
@@ -38,8 +39,8 @@ namespace Calcpad.Core
             };
 
         internal override string FormatOperator(char c) => FormatOperatorHelper(c);
-        internal override string FormatPower(string sa, string sb, int level, int order) => sa + '^' + sb;
-        internal override string FormatDivision(string sa, string sb, int level) => sa + '/' + sb;
+        internal override string FormatPower(string sa, string sb, int level, int order) => string.Concat(sa, "^", sb);
+        internal override string FormatDivision(string sa, string sb, int level) => string.Concat(sa, "/", sb);
 
         internal override string FormatValue(in IScalarValue value)
         {
@@ -55,10 +56,10 @@ namespace Calcpad.Core
             if (uText == "°")
                 return s + uText;
 
-            return s + ' ' + uText;
+            return string.Concat(s, " ", uText);
         }
 
-        internal override string AddBrackets(string s, int level = 0, char left = '(', char right = ')') => left + s + right;
+        internal override string AddBrackets(string s, int level = 0, char left = '(', char right = ')') => string.Concat(left, s, right);
         internal override string FormatAbs(string s, int level = 0) => $"|{s}|";
         internal override string FormatReal(double d, string format, bool zeroSmall)
         {
@@ -91,7 +92,7 @@ namespace Calcpad.Core
             $"{symbol}{{{expr}; {sub}...{sup}}}";
 
         internal override string FormatSwitch(string[] sa, int level = 0) =>
-            "switch(" + string.Join("; ", sa) + ")";
+            string.Concat("switch(", string.Join("; ", sa), ")");
 
         internal override string FormatIf(string sc, string sa, string sb, int level = 0) =>
             $"if({sc}; {sa}; {sb})";

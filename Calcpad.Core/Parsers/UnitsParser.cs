@@ -40,7 +40,7 @@ namespace Calcpad.Core
             {
                 Value = u;
                 if (string.IsNullOrEmpty(Content))
-                    Content = u.FormatString;
+                    Content =  u.FormatStringWithPrefix;
             }
         }
 
@@ -146,10 +146,7 @@ namespace Calcpad.Core
                 else if (c == ' ' || c == ':')
                     tt = TokenTypes.None;
                 else
-                    tt = TokenTypes.Error;
-
-                if (tt == TokenTypes.Error)
-                    throw Exceptions.InvalidSymbol(c);
+                    throw Exceptions.InvalidSymbol(c); //TokenTypes.Error;
 
                 //Collect characters in a string for text, constant, variable or function
                 if (tt == TokenTypes.Constant || tt == TokenTypes.Units)
@@ -170,16 +167,9 @@ namespace Calcpad.Core
                             if (Validator.IsValidFormatString(s))
                             {
                                 if (tokens.Count > 0)
-                                {
-                                    var t = tokens.Peek();
-                                    if (t is UnitToken tu)
-                                    {
-                                        t.Content += ':' + s;
-                                        tu.Value.Text = t.Content;
-                                        return tokens;
-                                    }
-                                }
-                                var fu = Unit.GetFormattingUnit(':' + s);
+                                    tokens.Enqueue(new Token("*", TokenTypes.Operator));
+
+                                var fu = Unit.GetFormattingUnit(":" + s);
                                 tokens.Enqueue(new UnitToken(fu));
                                 return tokens;
                             }
@@ -343,11 +333,16 @@ namespace Calcpad.Core
         private static Token EvaluateOperator(Token T, UnitToken a, UnitToken b)
         {
             char c = T.Content[0];
+            var ub = b.Value;
+            if (c == '*' && ub.IsDimensionless)
+                return a;
+
+            var ua = a.Value;
             double d;
             var u = c switch
             {
-                '*' => Unit.Multiply(a.Value, b.Value, out d, false),
-                '/' => Unit.Divide(a.Value, b.Value, out d, false),
+                '*' => Unit.Multiply(ua, ub, out d, false),
+                '/' => Unit.Divide(ua, ub, out d, false),
                 '^' => throw Exceptions.PowerNotUnitless(),
                 _ => throw Exceptions.InvalidOperator(c)
             };
@@ -394,10 +389,10 @@ namespace Calcpad.Core
         {
             //Renders the expression from the reverse polish notation as text
             var stackBuffer = new Stack<Token>();
-            foreach (var T in rpn)
+            foreach (var t in rpn)
             {
-                if (T.Type == TokenTypes.Constant || T.Type == TokenTypes.Units)
-                    stackBuffer.Push(T);
+                if (t.Type == TokenTypes.Constant || t.Type == TokenTypes.Units)
+                    stackBuffer.Push(t);
                 else
                 {
                     var b = stackBuffer.Pop();
@@ -405,10 +400,10 @@ namespace Calcpad.Core
                         new Token(string.Empty, TokenTypes.None) :
                         stackBuffer.Pop();
 
-                    if (a.Order > T.Order)
+                    if (a.Order > t.Order)
                         a.Content = AddBrackets(a.Content);
 
-                    var tc = T.Content[0];
+                    var tc = t.Content[0];
                     var sa = a.Content;
                     var sb = b.Content;
                     if (tc == '^')
@@ -419,13 +414,13 @@ namespace Calcpad.Core
                         if (IsNegative(b) || b.Order != Token.DefaultOrder)
                             sb = AddBrackets(sb);
                     }
-                    else if (b.Order > T.Order ||
-                             b.Order == T.Order && tc == '/' ||
+                    else if (b.Order > t.Order ||
+                             b.Order == t.Order && tc == '/' ||
                              IsNegative(b))
                         sb = AddBrackets(sb);
 
                     var s = sb.StartsWith(':') ? sa + sb : sa + tc + sb;
-                    var c = new Token(s, T.Type, T.Order);
+                    var c = new Token(s, t.Type, t.Order);
                     stackBuffer.Push(c);
                 }
                 static string AddBrackets(string s) => $"({s})";

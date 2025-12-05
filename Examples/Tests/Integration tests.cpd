@@ -1,7 +1,7 @@
 #rad
 Γ(x) = $Integral{ln(1/t)^(x - 1) @ t = 0 : 1}
 erf(x) = 2/sqrt(π)*$Integral{exp(-t^2) @ t = 0 : x}
-"Integrals
+"Integration tests
 I_1 = $Integral{1/sqrt(x) @ x = 0 : 1}
 I_2 = $Integral{sqrt(4 - x^2) @ x = 0 : 2}
 I_3 = $Integral{ln(x) @ x = 0 : 1}
@@ -2207,6 +2207,7 @@ D_731 = (I_731 - R_731)/R_731
 #show
 "Checks
 tol = 10^-14
+#round 15
 #def td$(d$) = <td>'d$'</td>
 #def tr$(n$; c$) = '<tr class="c$" style="text-align:right;">td$(n$)td$(I_n$)td$(R_n$)td$(D_n$)</tr>
 #def check$(n$)

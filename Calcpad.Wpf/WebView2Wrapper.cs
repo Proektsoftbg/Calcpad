@@ -87,7 +87,6 @@ namespace Calcpad.Wpf
             {
                 return 0d;
             }
-
         }
 
         internal async Task SetScrollYAsync(double value)

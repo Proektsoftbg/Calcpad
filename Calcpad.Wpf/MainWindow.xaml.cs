@@ -1373,7 +1373,7 @@ namespace Calcpad.Wpf
                 Cursor = Cursors.Arrow;
         }
 
-        private static string FixHref(in string text)
+        private static string FixHref(string text)
         {
             var s = HtmlAnchorHrefRegex.Replace(text, @"#0"" data-text=""");
             s = HtmlAnchorTargetRegex.Replace(s, "");

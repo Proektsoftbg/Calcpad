@@ -30,7 +30,7 @@ namespace Calcpad.Core
         private void AddClass(string svgClass)
         {
             if (svgClass.Length > 0)
-                _sb.Append("\" class=\"" + svgClass);
+                _sb.Append("\" class=\"").Append(svgClass);
 
             _sb.Append("\" />").AppendLine();
         }

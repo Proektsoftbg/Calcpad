@@ -4,7 +4,7 @@
     {
         internal readonly string Name;
         internal readonly Variable Variable;
-        internal Parameter(in string name)
+        internal Parameter(string name)
         {
             Name = name;
             Variable = new Variable(RealValue.Zero);

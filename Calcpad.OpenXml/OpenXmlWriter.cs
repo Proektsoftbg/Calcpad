@@ -128,7 +128,7 @@ namespace Calcpad.OpenXml
 
             stringBuilder.Append("\n-------------------------------------------")
                 .Append("\nContent XML:\n");
-            //stringBuilder.Append(doc.MainDocumentPart.Document.OuterXml);
+
             return Messages.Validation_errors_in_document + stringBuilder;
         }
 

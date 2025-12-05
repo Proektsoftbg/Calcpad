@@ -560,7 +560,7 @@ namespace Calcpad.Core
                     if (_type == SolverTypes.Inline)
                         html = [string.Join("; ",  html)];
                     else if (_type == SolverTypes.While)
-                        html[0] = "<span class=\"cond\">while</span> " + html[0];
+                        html[0] = $"<span class=\"cond\">while</span> {html[0]}";
 
                     return writer.FormatBlock(html);
                 }
@@ -571,13 +571,13 @@ namespace Calcpad.Core
                             $"<em>{TypeName(_type)}</em>",
                             _items[2].Html + "&nbsp;",
                             "&ensp;" + _items[3].Html,
-                            _items[0].Html + " d" + _items[1].Html
+                            string.Concat(_items[0].Html, " d", _items[1].Html)
                             );
 
                     if (_type == SolverTypes.Sum || _type == SolverTypes.Product)
                         return writer.FormatNary(
                             TypeName(_type),
-                            _items[1].Html + "=&hairsp;" + _items[2].Html,
+                            string.Concat(_items[1].Html, "=&hairsp;", _items[2].Html),
                             _items[3].Html,
                             _items[0].Html
                             );
@@ -648,7 +648,7 @@ namespace Calcpad.Core
                     if (_type == SolverTypes.Inline)
                         xml = [string.Join(XmlWriter.Run("; "), xml)];
                     else if (_type == SolverTypes.While)
-                        xml[0] = XmlWriter.Run(TypeName(_type), XmlWriter.NormalText) + ' ' + xml[0];
+                        xml[0] = string.Concat(XmlWriter.Run(TypeName(_type), XmlWriter.NormalText), " ", xml[0]);
 
                     return writer.FormatBlock(xml);
                 }
@@ -732,7 +732,7 @@ namespace Calcpad.Core
                     if (_type == SolverTypes.Inline)
                         text = [string.Join("; ", text)];
                     else if (_type == SolverTypes.While)
-                        text[0] = "<span class=\"cond\">while</span> " + text[0];
+                        text[0] = $"<span class=\"cond\">while</span> {text[0]}";
 
                     return writer.FormatBlock(text);
                 }
@@ -743,7 +743,7 @@ namespace Calcpad.Core
                     _type == SolverTypes.Repeat)
                     return writer.FormatNary(
                         "$" + _type.ToString(),
-                        _items[1].Input + " = " + _items[2].Input,
+                        string.Concat(_items[1].Input, " = ", _items[2].Input),
                         _items[3].Input,
                         _items[0].Input
                         );

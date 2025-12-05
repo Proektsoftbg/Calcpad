@@ -285,7 +285,7 @@ namespace Calcpad.Core
 
                             if (b is RealValue rb)
                             {
-                                _parser._backupVariable = new(ta.Content + '.' + i, vector[i - 1]);
+                                _parser._backupVariable = new($"{ta.Content}.{i}", vector[i - 1]);
                                 vector[i - 1] = rb;
                             }
                             else
@@ -296,11 +296,11 @@ namespace Calcpad.Core
                             var matrix = (Matrix)variable.Value;
                             if (i < 1 || i > matrix.RowCount ||
                                 j < 1 || j > matrix.ColCount)
-                                throw Exceptions.IndexOutOfRange($"{i}, {j}");
+                                throw Exceptions.IndexOutOfRange($"{i},{j}");
 
                             if (b is RealValue rb)
                             {
-                                _parser._backupVariable = new(ta.Content + '.' + i + '.' + j, matrix[i - 1, j - 1]);
+                                _parser._backupVariable = new($"{ta.Content}.{i}.{j}", matrix[i - 1, j - 1]);
                                 matrix[i - 1, j - 1] = rb;
                             }
                             else
@@ -505,7 +505,7 @@ namespace Calcpad.Core
                     return EvaluateToken(t);
             }
 
-            private IValue EvaluateIndexToken(Token t)
+            private RealValue EvaluateIndexToken(Token t)
             {
                 var value = IValue.AsValue(StackPop(), Exceptions.Items.Index);
                 var i = (int)value.Re;
@@ -756,14 +756,7 @@ namespace Calcpad.Core
                     if (vu is null)
                         return null;
 
-                    var field = vu.GetField();
-                    if (field == Unit.Field.Mechanical)
-                        u = Unit.GetForceUnit(vu);
-                    else if (field == Unit.Field.Electrical)
-                        u = Unit.GetElectricalUnit(vu);
-                    else
-                        return vu;
-
+                    u = GetFieldUnit(vu);
                     if (ReferenceEquals(u, vu))
                         return vu;
 
@@ -778,11 +771,13 @@ namespace Calcpad.Core
                         value = new(value.Complex / u.GetDimensionlessFactor(), u);
                         return u;
                     }
-                    var format = u.FormatString;
+                    var format = u.FormatStringWithPrefix;
                     if (format is not null)
                     {
-                        vu = new(vu) { Text = vu.Text + ':' + format };
-                        value = new(value.Complex, vu);
+                        u = GetFieldUnit(vu);
+                        var c = ReferenceEquals(u, vu) ? 1d : vu.ConvertTo(u);
+                        vu = new(u) { Text = u.Text + format };
+                        value = new(value.Complex * c, vu);
                         return vu;
                     }
                 }
@@ -809,14 +804,7 @@ namespace Calcpad.Core
                     if (vu is null)
                         return null;
 
-                    var field = vu.GetField();
-                    if (field == Unit.Field.Mechanical)
-                        u = Unit.GetForceUnit(vu);
-                    else if (field == Unit.Field.Electrical)
-                        u = Unit.GetElectricalUnit(vu);
-                    else
-                        return vu;
-
+                    u = GetFieldUnit(vu);
                     if (ReferenceEquals(u, vu))
                         return vu;
 
@@ -831,11 +819,13 @@ namespace Calcpad.Core
                         value = new(value.D / u.GetDimensionlessFactor(), u);
                         return u;
                     }
-                    var format = u.FormatString;
+                    var format = u.FormatStringWithPrefix;
                     if (format is not null)
                     {
-                        vu = new(vu) { Text = vu.Text + ':' + format };
-                        value = new(value.D, vu);
+                        u = GetFieldUnit(vu);
+                        var c = ReferenceEquals(u, vu) ? 1d : vu.ConvertTo(u);
+                        vu = new(u) { Text = u.Text + format };
+                        value = new(value.D * c, vu);
                         return vu;
                     }
                 }
@@ -853,6 +843,17 @@ namespace Calcpad.Core
 
                 return value.Units;
             }
+        }
+
+        private static Unit GetFieldUnit(Unit vu)
+        {
+            var field = vu.GetField();
+            if (field == Unit.Field.Mechanical)
+               return Unit.GetForceUnit(vu);
+            if (field == Unit.Field.Electrical)
+                return Unit.GetElectricalUnit(vu);
+            else
+                return vu;
         }
     }
 }

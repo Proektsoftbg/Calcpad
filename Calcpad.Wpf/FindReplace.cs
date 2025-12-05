@@ -297,7 +297,7 @@ namespace Calcpad.Wpf
             return true;
         }
 
-        private bool IsWholeWord(in string s, int from, int to) =>
+        private bool IsWholeWord(string s, int from, int to) =>
             !WholeWords ||
             (from <= 0 || !char.IsLetter(s[from - 1])) &&
             (to >= s.Length || !char.IsLetter(s[to]));

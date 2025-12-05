@@ -46,13 +46,13 @@ namespace Calcpad.Core
         internal static MathParserException InvalidSymbol(char c) =>
             new(string.Format(Messages.Invalid_symbol_0, c));
 
-        internal static MathParserException InvalidUnits(in string s) =>
+        internal static MathParserException InvalidUnits(string s) =>
             new(string.Format(Messages.Invalid_units_0, s));
 
-        internal static MathParserException InvalidLiteral(in string s, in string literal) =>
+        internal static MathParserException InvalidLiteral(string s, string literal) =>
             new(string.Format(Messages.Cannot_evaluate_0_as_1, s, literal));
 
-        internal static MathParserException InvalidNumber(in string s) =>
+        internal static MathParserException InvalidNumber(string s) =>
             InvalidLiteral(s, "number");
 
         internal static MathParserException InvalidOperator(char c) =>
@@ -64,19 +64,19 @@ namespace Calcpad.Core
         internal static MathParserException ResultIsNotUnits() =>
             new(Messages.The_expression_on_the_right_does_not_evaluate_to_units);
 
-        internal static MathParserException CannotEvaluateFunction(in string s) =>
+        internal static MathParserException CannotEvaluateFunction(string s) =>
             new(string.Format(Messages.Cannot_evaluate_the_function_f_for_v_equals_0, s));
 
-        internal static MathParserException FunctionNotDefined(in string s) =>
+        internal static MathParserException FunctionNotDefined(string s) =>
             new(string.Format(Messages.The_function_f_is_not_defined_for_v_equals_0, s));
 
-        internal static MathParserException InconsistentUnits(in string u1, in string u2) =>
+        internal static MathParserException InconsistentUnits(string u1, string u2) =>
             new(string.Format(Messages.Inconsistent_units_0_and_1, u1, u2));
 
-        internal static MathParserException IterationLimits(in string l1, in string l2) =>
+        internal static MathParserException IterationLimits(string l1, string l2) =>
             new(string.Format(Messages.Limits_out_of_range_0_1, l1, l2));
 
-        internal static MathParserException InvalidUnitsFunction(in string function, in string unit) =>
+        internal static MathParserException InvalidUnitsFunction(string function, string unit) =>
             new(string.Format(Messages.Invalid_units_for_function_0_1, function, unit));
 
         internal static MathParserException RootUnitless() =>
@@ -100,16 +100,16 @@ namespace Calcpad.Core
         internal static MathParserException FactorialArgumentComplex() =>
             new(Messages.The_argument_of_n_factorial_cannot_be_complex);
 
-        internal static MathParserException RemainderUnits(in string u1, in string u2) =>
+        internal static MathParserException RemainderUnits(string u1, string u2) =>
             new(string.Format(Messages.Cannot_evaluate_remainder_0_1_Denominator_must_be_unitless, u1, u2));
 
         internal static MathParserException BothValuesInteger() =>
             new(Messages.Both_values_must_be_integers);
 
-        internal static MathParserException VariableNotExist(in string name) =>
+        internal static MathParserException VariableNotExist(string name) =>
             new(string.Format(Messages.Variable_0_does_not_exist, name));
 
-        internal static MathParserException UnitNotExist(in string name) =>
+        internal static MathParserException UnitNotExist(string name) =>
             new(string.Format(Messages.Unit_0_does_not_exist, name));
 
         internal static MathParserException InteruptedByUser() =>
@@ -124,10 +124,10 @@ namespace Calcpad.Core
         internal static MathParserException MissingOperand() =>
             new(Messages.Missing_operand);
 
-        internal static MathParserException InvalidFunction(in string s) =>
+        internal static MathParserException InvalidFunction(string s) =>
             new(string.Format(Messages.Invalid_function_0, s));
 
-        internal static MathParserException CannotEvaluateAsType(in string literal, in string type) =>
+        internal static MathParserException CannotEvaluateAsType(string literal, string type) =>
             new(string.Format(Messages.Cannot_evaluate_0_as_1, literal, type));
 
         internal static MathParserException StackLeak() =>
@@ -139,19 +139,19 @@ namespace Calcpad.Core
         internal static MathParserException UndefinedInputField() =>
             new(Messages.Undefined_input_field);
 
-        internal static MathParserException UndefinedVariableOrUnits(in string s) =>
+        internal static MathParserException UndefinedVariableOrUnits(string s) =>
             new(string.Format(Messages.Undefined_variable_or_units_0, s));
 
-        internal static MathParserException ErrorEvaluatingAsFunction(in string s) =>
+        internal static MathParserException ErrorEvaluatingAsFunction(string s) =>
             new(string.Format(Messages.Error_evaluating_0_as_function, s));
 
-        internal static MathParserException ErrorEvaluatingAsFunctionOrOperator(in string s) =>
+        internal static MathParserException ErrorEvaluatingAsFunctionOrOperator(string s) =>
             new(string.Format(Messages.Error_evaluating_0_as_function_or_operator, s));
 
-        internal static MathParserException CannotRewriteUnits(in string s) =>
+        internal static MathParserException CannotRewriteUnits(string s) =>
             new(string.Format(Messages.Cannot_rewrite_existing_units_0, s));
 
-        internal static MathParserException InconsistentTargetUnits(in string sourceUnits, in string targetUnits) =>
+        internal static MathParserException InconsistentTargetUnits(string sourceUnits, string targetUnits) =>
             new(string.Format(Messages.The_calculated_units_0_are_inconsistent_with_the_target_units_1, sourceUnits, targetUnits));
 
         internal static MathParserException InvalidCharacter(char c) =>
@@ -166,37 +166,37 @@ namespace Calcpad.Core
         internal static MathParserException MissingRightSolverBracket() =>
             new(Messages.Missing_right_bracket_in_solver_command);
 
-        internal static MathParserException InvalidMacro(in string s) =>
+        internal static MathParserException InvalidMacro(string s) =>
             new(string.Format(Messages.Invalid_macro_identifier_0, s));
 
-        internal static MathParserException InvalidSolver(in string s) =>
+        internal static MathParserException InvalidSolver(string s) =>
             new(string.Format(Messages.Invalid_solver_command_definition_0, s));
 
-        internal static MathParserException ErrorParsingUnits(in string s) =>
+        internal static MathParserException ErrorParsingUnits(string s) =>
             new(string.Format(Messages.Error_parsing_0_as_units, s));
 
-        internal static MathParserException ErrorParsingNumber(in string s) =>
+        internal static MathParserException ErrorParsingNumber(string s) =>
             new(string.Format(Messages.Error_parsing_0_as_number, s));
 
-        internal static MathParserException MissingDelimiter(char delimiter, in string script) =>
+        internal static MathParserException MissingDelimiter(char delimiter, string script) =>
             new(string.Format(Messages.Missing_delimiter_0_in_solver_command_1, delimiter, script));
 
-        internal static MathParserException MultipleAssignments(in string s) =>
+        internal static MathParserException MultipleAssignments(string s) =>
             new(string.Format(Messages.More_than_one_operator_equals_in_0, s));
 
-        internal static MathParserException NotConstantExpression(in string s) =>
+        internal static MathParserException NotConstantExpression(string s) =>
             new(string.Format(Messages.The_expression_on_the_right_side_must_be_constant_0, s));
 
-        internal static MathParserException InconsistentUnits1(in string variable, in string units) =>
+        internal static MathParserException InconsistentUnits1(string variable, string units) =>
             new(string.Format(Messages.Inconsistent_units_for_0_equals_1, variable, units));
 
-        internal static MathParserException InconsistentUnits2(in string variable, in string u1, in string u2) =>
+        internal static MathParserException InconsistentUnits2(string variable, string u1, string u2) =>
             new(string.Format(Messages.Inconsistent_units_for_0_equals_1_2, variable, u1, u2));
 
-        internal static MathParserException NoSolution(in string s) =>
+        internal static MathParserException NoSolution(string s) =>
             new(string.Format(Messages.No_solution_for_0, s));
 
-        internal static MathParserException RecursionNotAllowed(in string s) =>
+        internal static MathParserException RecursionNotAllowed(string s) =>
             new(string.Format(Messages.Recursion_is_not_allowed_in_function_definition_0, s));
 
         internal static MathParserException AssignmentPreceded() =>
@@ -205,10 +205,10 @@ namespace Calcpad.Core
         internal static MathParserException AssignmentNotFirst() =>
             new(Messages.Assignment_equals_must_be_the_first_operator_in_the_expression);
 
-        internal static MathParserException InvalidSyntax(in string s) =>
+        internal static MathParserException InvalidSyntax(string s) =>
            new(string.Format(Messages.Invalid_syntax_0, s));
 
-        internal static MathParserException InvalidSyntax(in string s1, in string s2) =>
+        internal static MathParserException InvalidSyntax(string s1, string s2) =>
             new(string.Format(Messages.Invalid_syntax_0_1, s1, s2));
 
         internal static MathParserException UnexpectedDelimiter() =>
@@ -217,7 +217,7 @@ namespace Calcpad.Core
         internal static MathParserException InvalidNumberOfArguments() =>
             new(Messages.Invalid_number_of_arguments);
 
-        internal static MathParserException ResultNotReal(in string s) =>
+        internal static MathParserException ResultNotReal(string s) =>
             new(string.Format(Messages.The_result_is_not_a_real_number_0, s));
 
         internal static MathParserException MissingFunctionParameter() =>
@@ -226,16 +226,16 @@ namespace Calcpad.Core
         internal static MathParserException MissingFunctionDelimiter() =>
             new(Messages.Missing_delimiter_in_function_definition);
 
-        internal static MathParserException InvalidFunctionToken(in string name) =>
+        internal static MathParserException InvalidFunctionToken(string name) =>
             new(string.Format(Messages.Invalid_token_in_function_definition_0, name));
 
-        internal static MathParserException CircularReference(in string name) =>
+        internal static MathParserException CircularReference(string name) =>
             new(string.Format(Messages.Circular_reference_detected_for_function_0, name));
 
         internal static MathParserException InvalidFunctionDefinition() =>
             new(Messages.Invalid_function_definition_exception);
 
-        internal static MathParserException ArgumentOutOfRange(in string function) =>
+        internal static MathParserException ArgumentOutOfRange(string function) =>
             new(string.Format(Messages.Argument_out_of_range_for_0_x, function));
 
         internal static MathParserException ConditionEmpty() =>
@@ -253,37 +253,37 @@ namespace Calcpad.Core
         internal static MathParserException ConditionComplex() =>
             new(Messages.Condition_cannot_evaluate_to_a_complex_number);
 
-        internal static MathParserException ConditionResultInvalid(in string s) =>
+        internal static MathParserException ConditionResultInvalid(string s) =>
             new(string.Format(Messages.Condition_result_is_invalid_0, s));
 
-        internal static MathParserException DuplicateMacroParameters(in string s) =>
+        internal static MathParserException DuplicateMacroParameters(string s) =>
             new(string.Format(Messages.Duplicate_macro_parameter_names_0_and_1, s, s));
 
-        internal static MathParserException UndefinedMacro(in string s) =>
+        internal static MathParserException UndefinedMacro(string s) =>
             new(string.Format(Messages.Macro_not_defined_0, s));
 
-        internal static MathParserException MissingMapItem(in string s) =>
+        internal static MathParserException MissingMapItem(string s) =>
             new(string.Format(Messages.Missing_0_in_surface_map_command, s));
 
         internal static MathParserException PlotLimitsIdentical() =>
             new(Messages.The_limits_of_plot_area_are_identical);
 
-        internal static MathParserException ErrorWritingPngFile(in string path) =>
+        internal static MathParserException ErrorWritingPngFile(string path) =>
             new(string.Format(Messages.Error_writing_a_png_file_to_0, path));
 
-        internal static MathParserException ErrorWritingSvgFile(in string path) =>
+        internal static MathParserException ErrorWritingSvgFile(string path) =>
             new(string.Format(Messages.Error_writing_a_svg_file_to_0, path));
 
         internal static MathParserException ErrorConvertingPngToBase64() =>
             new(Messages.Error_converting_png_to_Base64);
 
-        internal static MathParserException InconsistentUnitsOperation(in string ua, char op, in string ub) =>
+        internal static MathParserException InconsistentUnitsOperation(string ua, char op, string ub) =>
             new(string.Format(Messages.Inconsistent_units_0_1_2, ua, op, ub));
 
         internal static MathParserException UnitsToComplexPower() =>
             new(Messages.Units_cannon_be_raised_to_complex_power);
 
-        internal static MathParserException CannotEvaluateRemainder(in string ua, in string ub) =>
+        internal static MathParserException CannotEvaluateRemainder(string ua, string ub) =>
             new(string.Format(Messages.Cannot_evaluate_remainder_0_1_The_denominator_must_be_unitless, ua, ub));
 
         internal static MathParserException MissingVectorOpeningBracket() =>

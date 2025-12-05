@@ -11,20 +11,18 @@ namespace Calcpad.Core
             [
                 Run("°"),
                 string.Empty,
-                FormatUnits("gra"),
+                FormatUnitsStatic("gra"),
             ];
         }
         protected override OutputFormat FormatType => OutputFormat.Xml;
         private const string wXmlns = "xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"";
         internal const string NormalText = "<m:rPr><m:nor/></m:rPr>";
-        internal static readonly string UnitDivision = Run("∕", 
+        internal static readonly string UnitDivision = Run("∕",
             @$"{NormalText}<w:rPr {wXmlns}>
                 <w:rFonts w:ascii=""Cambria Math"" w:hAnsi=""Cambria Math"" />
                 <w:sz w:val=""20"" />
             </w:rPr>");
         internal static readonly string UnitProduct = Run("·", NormalText);
-        internal static readonly string ThinSpaceRun = $"<m:r><m:t>{ThinSpace}</m:t></m:r>";
-
         internal override string UnitString(Unit units) => units.Xml;
         internal override string FormatInput(string s, Unit units, int line, bool isCalculated)
         {
@@ -52,6 +50,16 @@ namespace Calcpad.Core
 
             return units is null ? output : output + units.Xml;
         }
+
+
+        internal override string AppendSubscript(string sa, string sb)
+        {
+            var s = sb.StartsWith('<') ? Run(".") + sb : Run("." + sb);
+            var i = sa.LastIndexOf("</m:sub>");
+            return @$"{sa[..i]}{s}</m:sub>
+            </m:sSub>";
+        }
+
         internal override string FormatSubscript(string sa, string sb)
         {
             var s = sb.StartsWith('<') ? sb : Run(sb);
@@ -97,15 +105,18 @@ namespace Calcpad.Core
         }
 
 
-        internal override string FormatUnits(string s)
+        internal override string FormatUnits(string s) => FormatUnitsStatic(s);
+
+        private static string FormatUnitsStatic(string s)
         {
-            const string format = 
+            const string format =
             @$"{NormalText}<w:rPr {wXmlns}>
                 <w:rFonts w:ascii=""Cambria Math"" w:hAnsi=""Cambria Math"" />
                 <w:sz w:val=""22"" />
             </w:rPr>";
             return Run(s, format);
         }
+
         internal override string FormatFunction(string s)
         {
             const string format = 
@@ -184,7 +195,7 @@ namespace Calcpad.Core
             if (order == PowerOrder)
             {
                 const string se = "</m:sup></m:sSup>";
-                return sa[..^se.Length] + FormatOperator('*') + sb + se;
+                return string.Concat(sa[..^se.Length], FormatOperator('*'), sb, se);
             }
             return @$"<m:sSup>
                 <m:e>{sa}</m:e>
@@ -209,6 +220,7 @@ namespace Calcpad.Core
                 <m:e>{expr}</m:e>
             </m:nary>";
 
+        internal static readonly string RunThinSpace = $"<m:r><m:t>{ThinSpace}</m:t></m:r>";
         internal override string FormatValue(in IScalarValue value)
         {
             var u = value.Units;
@@ -219,7 +231,7 @@ namespace Calcpad.Core
             if (!(value.IsReal || phasor && s.Contains('∠')))
                 s = AddBrackets(s);
 
-            return s + ThinSpaceRun + u.Xml;
+            return string.Concat(s, RunThinSpace, u.Xml);
         }
 
         internal override string FormatAbs(string s, int level = 0) => AddBrackets(s, level, '|', '|');
@@ -272,13 +284,16 @@ namespace Calcpad.Core
         private static readonly string RunPlus = Run("+");
         private static readonly string RunMinus = Run("-");
         private static readonly string RunPh = Run("∠");
+        private static readonly string RunUndefined = Run("Undefined");
+        private static readonly string RunInfinity = Run("∞");
+
         internal override string FormatComplex(double re, double im, string format)
         {
             if (double.IsNaN(re) && double.IsNaN(im))
-                return Run("Undefined");//<w:rPr><w:color w:val=\"FF0000\" /></w:rPr>
+                return RunUndefined;
 
             if (double.IsInfinity(re) && double.IsInfinity(im))
-                return Run("∞");
+                return RunInfinity;
 
             var t = Complex.GetType(re, im);
             if (t == Complex.Types.Real)
@@ -290,7 +305,7 @@ namespace Calcpad.Core
                 var phase = Math.Atan2(im, re) * AngleFactors[degrees];
                 var absString = FormatReal(abs, format, false);
                 var phaseString = FormatReal(phase, format, false) + AngleUnits[degrees];
-                return absString + RunPh + phaseString;
+                return string.Concat(absString, RunPh, phaseString);
             }
 
             var sImaginary = FormatReal(Math.Abs(im), format, zeroSmallElements) + RunI;
@@ -298,13 +313,11 @@ namespace Calcpad.Core
                 return sImaginary;
 
             var sReal = FormatReal(re, format, zeroSmallElements);
-            return im < 0 ?
-                sReal + RunMinus + sImaginary :
-                sReal + RunPlus + sImaginary;
+            return string.Concat(sReal, im < 0 ? RunMinus : RunPlus, sImaginary);
         }
-
         internal static string Run(string content) => $"<m:r><m:t>{content}</m:t></m:r>";
         internal static string Run(string content, string format) => $"<m:r>{format}<m:t>{content}</m:t></m:r>";
+        internal static string Run(StringBuilder content) => content.Insert(0, "<m:r><m:t>").Append("</m:t></m:r>").ToString();
         internal override string AddBrackets(string s, int level = 0, char left = '(', char right = ')') =>
             Brackets(s, left, right);
 
@@ -317,14 +330,17 @@ namespace Calcpad.Core
                 <m:e>{s}</m:e>
             </m:d>";
 
+
+        private static readonly string RunSwitch = Run("switch", NormalText);
+        private static readonly string RunSemicolon = Run("; ");
         internal override string FormatSwitch(string[] sa, int level = 0)
         {
             var len = sa.Length;
             if (len == 1)
-                return Run("switch", NormalText) + AddBrackets(sa[0], level);
+                return RunSwitch + AddBrackets(sa[0], level);
 
             if (len == 2)
-                return Run("switch", NormalText) + AddBrackets(sa[0] + Run("; ") + sa[1], level);
+                return RunSwitch + AddBrackets(sa[0] + RunSemicolon + sa[1], level);
 
             var sb = new StringBuilder(
                  @"<m:d>
@@ -428,9 +444,11 @@ namespace Calcpad.Core
             static string td(string s) => $"<m:e><m:r><m:t>{s}</m:t></m:r></m:e>";
         }
 
+        private static readonly string RunVectorSpacing = Run(VectorSpacing);
+        private static readonly string RunDots = Run("...");
         internal override string FormatVector(Vector vector)
         {
-            var div = Run(VectorSpacing);
+            var div = RunVectorSpacing;
             var sb = new StringBuilder();
             const double tol = 1e-14;
             var zeroThreshold = GetMaxVisibleVectorValue(vector) * tol;
@@ -449,7 +467,7 @@ namespace Calcpad.Core
 
                 if (i == maxCount)
                 {
-                    sb.Append(Run("...")).Append(div);
+                    sb.Append(RunDots).Append(div);
                     break;
                 }
                 AppendElement(i);
@@ -485,9 +503,9 @@ namespace Calcpad.Core
         }
 
         private static readonly string RunIf = Run(" if ", NormalText);
-        private static readonly string RunCln = Run(":");
+        private static readonly string RunColon = Run(":");
         private static string FormatIfRow(string sa, string sb) =>
-            $"<m:mr><m:e>{RunIf}{sa}{RunCln}</m:e><m:e>{sb}</m:e></m:mr>";
+            $"<m:mr><m:e>{RunIf}{sa}{RunColon}</m:e><m:e>{sb}</m:e></m:mr>";
 
         private static readonly string RunElse = Run(" else:", NormalText);
         private static string FormatElseRow(string sa) =>
