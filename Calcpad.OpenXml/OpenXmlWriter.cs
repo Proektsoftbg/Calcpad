@@ -485,12 +485,12 @@ namespace Calcpad.OpenXml
                             s = _expressions[id];
                     }
                 }
-                var oMath = new M.OfficeMath()
-                {
-                    InnerXml = s.Replace("<<", "&lt;<")
-                                .Replace(">>", ">&gt;")
-                                .Replace("&quot;", "\"")
-                };
+                string outerXml = $@"<m:oMath 
+                    xmlns:m=""http://schemas.openxmlformats.org/officeDocument/2006/math""
+                    xmlns:w=""http://schemas.openxmlformats.org/wordprocessingml/2006/main"">
+                    {s.Replace("<<", "&lt;<").Replace(">>", ">&gt;").Replace("&quot;", "\"")}
+                </m:oMath>";
+                var oMath = new M.OfficeMath(outerXml);
                 var oMathPara = new M.Paragraph()
                 {
                     ParagraphProperties = new M.ParagraphProperties()

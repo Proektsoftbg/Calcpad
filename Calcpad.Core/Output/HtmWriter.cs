@@ -122,7 +122,7 @@ namespace Calcpad.Core
         {
             '/' => "<em>\u200A/\u200A</em>",
             '÷' => "<em>\u200A/\u200A</em>",
-            '*' => "\u200A·\u200A",
+            '*' => "\u2006·\u2006",
             '<' => " &lt; ",
             '>' => " &gt; ",
             '≤' => " &le; ",
@@ -204,9 +204,8 @@ namespace Calcpad.Core
         {
             var s = FormatNumberHelper(d, format);
             if (double.IsNaN(d) || double.IsInfinity(d))
-            {
                 return $"<span class=\"err\">{s}</span>";
-            }
+
             var i = s.LastIndexOf('E');
             if (i <= 0)
                 return s;
@@ -218,10 +217,10 @@ namespace Calcpad.Core
 
             if (sign is '+' or '-' or '0')
             {
-                format ??= formatString;
                 if (zeroSmall && sign == '-')
                     return "0";
 
+                format ??= formatString;
                 if (s[i1] == '0' && (format is null || !format.Contains('E')))
                     i1++;
             }
@@ -231,12 +230,13 @@ namespace Calcpad.Core
             else
                 ms += '×';
 
+            var es = s[i1..];
             if (sign == '+' && format is not null && (format.Contains("E+") || format.StartsWith('E')))
-                return $"{ms}10<sup>+{s[i1..]}</sup>";
+                return $"{ms}10<sup>+{es}</sup>";
 
             return sign == '-' ?
-                $"{ms}10<sup>-{s[i1..]}</sup>" :
-                $"{ms}10<sup>{s[i1..]}</sup>";
+                $"{ms}10<sup>-{es}</sup>" :
+                $"{ms}10<sup>{es}</sup>";
         }
 
         internal override string FormatComplex(double re, double im, string format)
