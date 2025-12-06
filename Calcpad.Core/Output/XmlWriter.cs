@@ -416,7 +416,7 @@ namespace Calcpad.Core
 
         internal override string FormatMatrix(Matrix matrix)
         {
-            const string smallerFont = @"<m:r><w:rPr> <w:sz w:val=""21"" /></w:rPr>";
+            const string smallerFontProperty = @"<w:rPr><w:sz w:val=""21"" /></w:rPr>";
             var nr = matrix.RowCount;
             var nc = matrix.ColCount;
             var zeroThreshold = GetMaxVisibleMatrixValue(matrix, out int _, out int _) * 1e-14;
@@ -426,7 +426,7 @@ namespace Calcpad.Core
             var units = hp_m?.Units;
             var count = nc > maxCount ? maxCount + 2 : nc;
             var sb = new StringBuilder(
-            @$"<m:d>
+            @"<m:d>
                 <m:dPr><m:begChr m:val=""[""/><m:endChr m:val=""]""/></m:dPr>
                 <m:e>
                     <m:m>
@@ -437,14 +437,14 @@ namespace Calcpad.Core
                             <m:cGp m:val=""120""/>
                             <m:mcs>
                                 <m:mc>
-                                    <m:mcPr>
-                                        <m:count m:val=""{count}""/>
-                                        <m:mcJc m:val=""center""/>
+                                    <m:mcPr>"); //Appended constant part
+                            sb.Append($"<m:count m:val=\"{count}\"/>"); //Appended variable part
+                            sb.Append(@"<m:mcJc m:val=""center""/>
                                     </m:mcPr>
                                 </m:mc>
                             </m:mcs>
                         </m:mPr>"
-            );
+            ); //Appended second constant part
             for (int i = 0; i < nr; ++i)
             {
                 sb.Append("<m:mr>");
@@ -472,18 +472,7 @@ namespace Calcpad.Core
                         var d = hp_m.GetValue(i, j);
                         s = FormatReal(d, units?.FormatString, zeroSmallElements && Math.Abs(d) < zeroThreshold);
                     }
-                    var k = s.LastIndexOf("<m:r>");
-                    if (k == 0)
-                        sb.Append("<m:e>")
-                          .Append(smallerFont)
-                          .Append(s[5..])
-                          .Append("</m:e>");
-                    else
-                        sb.Append("<m:e>")
-                          .Append(s[..k])
-                          .Append(smallerFont)
-                          .Append(s[(k + 5)..])
-                          .Append("</m:e>");
+                    AppendMatrixElement(sb, s);
                 }
                 sb.Append("</m:mr>");
             }
@@ -493,7 +482,27 @@ namespace Calcpad.Core
 
             return sb.ToString();
 
-            static string td(string s) => $"<m:e>{smallerFont}<m:t>{s}</m:t></m:r></m:e>";
+            static string td(string s) => $"<m:e><m:r>{smallerFontProperty}<m:t>{s}</m:t></m:r></m:e>";
+
+            static void AppendMatrixElement(StringBuilder sb, string s)
+            {
+                var k1 = s.IndexOf("<m:r>") + 5;
+                var k2 = s.IndexOf("</m:r>", k1);
+                while (k1 >= 5 && k2 > k1 && s.AsSpan(k1, k2 - k1).Contains(":rPr>", StringComparison.Ordinal))
+                {
+                    k1 = s.IndexOf("<m:r>", k2) + 5;
+                    k2 = s.IndexOf("</m:r>", k1);
+                }
+                sb.Append("<m:e>");
+                if (k1 < 5)
+                    sb.Append(s);
+                else if (k1 == 5)
+                    sb.Append("<m:r>").Append(smallerFontProperty).Append(s[5..]);
+                else
+                    sb.Append(s[..k1]).Append(smallerFontProperty).Append(s[k1..]);
+
+                sb.Append("</m:e>");
+            }
         }
 
         private static readonly string RunVectorSpacing = Run(VectorSpacing);
