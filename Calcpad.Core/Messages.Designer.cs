@@ -19,7 +19,7 @@ namespace Calcpad.Core {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Messages {
@@ -205,7 +205,7 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot evaluate remainder: &quot;{0}  %  {1}&quot;. The denominator must be unitless..
+        ///   Looks up a localized string similar to Cannot evaluate remainder: &quot;{0}  ⦼  {1}&quot;. The denominator must be unitless..
         /// </summary>
         public static string Cannot_evaluate_remainder_0_1_The_denominator_must_be_unitless {
             get {

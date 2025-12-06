@@ -302,7 +302,7 @@
         <value>Units cannon be raised to complex power.</value>
     </data>
   <data name="Cannot_evaluate_remainder_0_1_The_denominator_must_be_unitless" xml:space="preserve">
-        <value>Cannot evaluate remainder: "{0}  %  {1}". The denominator must be unitless.</value>
+        <value>Cannot evaluate remainder: "{0}  ⦼  {1}". The denominator must be unitless.</value>
     </data>
   <data name="if_block_not_closed_Missing_end_if" xml:space="preserve">
         <value>Error: "#if" block not closed. Missing "#end if".</value>

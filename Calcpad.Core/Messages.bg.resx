@@ -131,7 +131,7 @@
         <value>Не мога да изчисля остатъка: "{0}  %  {1}". Делителя трябва да е бездименсионен.</value>
     </data>
   <data name="Cannot_evaluate_remainder_0_1_The_denominator_must_be_unitless" xml:space="preserve">
-        <value>Не мога да изчисля остатъка: "{0}  %  {1}". Делителя трябва да е бездименсионен.</value>
+        <value>Не мога да изчисля остатъка: "{0}  ⦼  {1}". Делителя трябва да е бездименсионен.</value>
     </data>
   <data name="Both_values_must_be_integers" xml:space="preserve">
         <value>Двете стойности трябва да са цели числа.</value>

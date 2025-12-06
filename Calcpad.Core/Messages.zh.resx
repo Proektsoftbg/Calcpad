@@ -80,7 +80,7 @@
     <value>无法将 "{0}" 计算为 {1}.</value>
   </data>
   <data name="Invalid_operator_0" xml:space="preserve">
-    <value>无效的运算操作:  "{0}" .</value>
+    <value>无效的运算符:  "{0}" .</value>
   </data>
   <data name="Power_must_be_unitless" xml:space="preserve">
     <value>指数必须是无单位的.</value>
@@ -89,7 +89,7 @@
     <value>右侧的表达式不带单位.</value>
   </data>
   <data name="Cannot_evaluate_the_function_f_for_v_equals_0" xml:space="preserve">
-    <value>对于 %V = {0} ，无法计算函数 %F.</value>
+    <value>对于 %V = {0} ，无法计算函数 %F .</value>
   </data>
   <data name="The_function_f_is_not_defined_for_v_equals_0" xml:space="preserve">
     <value>函数 %F 在%V = {0} 处无定义.</value>
@@ -116,13 +116,16 @@
     <value>n! 的参数超出范围.</value>
   </data>
   <data name="The_argument_of_n_factorial_must_be_unitless" xml:space="preserve">
-    <value>n!的参数必须是无单位的.</value>
+    <value>n! 的参数必须是无单位的.</value>
   </data>
   <data name="The_argument_of_n_factorial_must_be_a_positive_integer" xml:space="preserve">
-    <value>n!的参数必须是正整数.</value>
+    <value>n! 的参数必须是正整数.</value>
   </data>
   <data name="The_argument_of_n_factorial_cannot_be_complex" xml:space="preserve">
-    <value>n!的参数不能是复数.</value>
+    <value>n! 的参数不能是复数.</value>
+  </data>
+  <data name="Cannot_evaluate_remainder_0_1_Denominator_must_be_unitless" xml:space="preserve">
+    <value>无法计算: "{0} % {1}" 的余子,分母必须为无单位值.</value>
   </data>
   <data name="Both_values_must_be_integers" xml:space="preserve">
     <value>两个值都必须是整数.</value>
@@ -173,7 +176,7 @@
     <value>计算单位 "{0}" 与目标单位 "{1}" 不一致.</value>
   </data>
   <data name="Invalid_character_exception" xml:space="preserve">
-    <value>无效字符： '{0}' .变量、函数和单位必须以字母或?开头，以下单位除外： ° ′ ″ % ‰.</value>
+    <value>无效字符： '{0}' .变量、函数和单位必须以字母或 ∡开头，以下单位除外： ° ′ ″ % ‰.</value>
   </data>
   <data name="Improper_use_of_the_assignment_operator_equals" xml:space="preserve">
     <value>赋值运算符 '=' 使用不正确.</value>
@@ -197,7 +200,7 @@
     <value>将 "{0}" 解析为数时出错.</value>
   </data>
   <data name="Missing_delimiter_0_in_solver_command_1" xml:space="preserve">
-    <value>求解命令 {{1}} 中缺少分隔符 "{0}".</value>
+    <value>求解命令: {1} 中缺少项或缺分隔符 "{0}".</value>
   </data>
   <data name="More_than_one_operator_equals_in_0" xml:space="preserve">
     <value>'{0}' 中有多个运算符 '='.</value>
@@ -233,7 +236,7 @@
     <value>参数值无效.</value>
   </data>
   <data name="The_result_is_not_a_real_number_0" xml:space="preserve">
-    <value>结果不是实数： "{0}" .</value>
+    <value>结果： "{0}" 不是实数 .</value>
   </data>
   <data name="Missing_parameter_in_function_definition" xml:space="preserve">
     <value>函数定义中缺少参数.</value>
@@ -266,7 +269,7 @@
     <value>条件块中的 "#else"后不允许有 "#else if".</value>
   </data>
   <data name="Condition_cannot_evaluate_to_a_complex_number" xml:space="preserve">
-    <value>条件值不能计算为复数.</value>
+    <value>条件值不能评估为复数.</value>
   </data>
   <data name="Condition_result_is_invalid_0" xml:space="preserve">
     <value>条件结果无效： {0}.</value>
@@ -302,7 +305,7 @@
     <value>错误： "#if" 块未闭合.缺少 "#end if".</value>
   </data>
   <data name="Iteration_block_not_closed_Missing_loop" xml:space="preserve">
-        <value>错误:迭代块未闭合,缺失"#loop".</value>
+        <value>错误:迭代块未闭合,缺少"#loop".</value>
     </data>
   <data name="Unexpected_error_0_Please_check_the_expression_consistency" xml:space="preserve">
     <value>意外错误： {0} 请检查表达式的一致性.</value>
@@ -323,7 +326,7 @@
     <value>迭代次数超过最大值 {0} !&lt;/p&gt;</value>
   </data>
   <data name="loop_without_a_corresponding_repeat" xml:space="preserve">
-    <value>"#loop" 没有对应的 #repeat", "#for", "#while".</value>
+    <value>"#loop" 没有对应的 #repeat", "#for" 或 "#while".</value>
   </data>
   <data name="Entangled_if__end_if__and_repeat__loop_blocks" xml:space="preserve">
     <value>交错的 "#if - #end if" 和 "#repeat - #loop" 块.</value>
@@ -335,7 +338,7 @@
     <value>#错误：宏定义块未闭合.缺少 "#end def".</value>
   </data>
   <data name="Missing_source_file_for_include" xml:space="preserve">
-    <value>缺少要调用的源文件.</value>
+    <value>缺少要调用(include)的源文件.</value>
   </data>
   <data name="File_not_found" xml:space="preserve">
     <value>文件未找到.</value>
@@ -382,6 +385,12 @@
     <value>输出超过 {0} 行. 剩下的结果将略过.</value>
   </data>
     </data>
+  <data name="repeat_block_not_closed_Missing_loop" xml:space="preserve">
+    <value>错误： "#repeat" 块未闭合.缺少 "#loop".</value>
+  </data>
+  <data name="The_output_is_longer_than_0_lines_The_rest_will_be_skipped" xml:space="preserve">
+    <value>输出超过了{0} 行,其余将略掉.</value>
+  </data>
   <data name="Index" xml:space="preserve">
     <value>索引</value>
   </data>
@@ -413,7 +422,7 @@
     <value>步长不能为0.</value>
   </data>
   <data name="Vector_size_cannot_exceed_0" xml:space="preserve">
-    <value>向量尺寸超出程序能力 {0}.</value>
+    <value>向量维数不能超过 {0}.</value>
   </data>
   <data name="Cross_product_is_definedonly_for_vectors_with_2_and_3_elements" xml:space="preserve">
     <value>叉积仅对2和3个元素的向量有定义.</value>
@@ -499,18 +508,6 @@
   <data name="Brackets_not_closed" xml:space="preserve">
     <value>括号未闭合.</value>
   </data>
-  <data name="Cannot_evaluate_remainder_0_1_Denominator_must_be_unitless" xml:space="preserve">
-    <value>无法计算:"{0}%{1}"的余子,分母必须为无单位值.</value>
-  </data>
-  <data name="Cannot_evaluate_remainder_0_1_The_denominator_must_be_unitless" xml:space="preserve">
-    <value>无法计算:"{0}%{1}"的余子,分母必须为无单位值.</value>
-  </data>
-  <data name="repeat_block_not_closed_Missing_loop" xml:space="preserve">
-    <value>错误： "#repeat" 块未闭合.缺少 "#loop".</value>
-  </data>
-  <data name="The_output_is_longer_than_0_lines_The_rest_will_be_skipped" xml:space="preserve">
-    <value>输出超过了{0} 行,其余将略掉.</value>
-  </data>
   <data name="_must_be_real" xml:space="preserve">
     <value> 必须是实数.</value>
   </data>
@@ -520,7 +517,64 @@
   <data name="Value" xml:space="preserve">
     <value>价值</value>
   </data>
+  <data name="Invalid_format_string_0" xml:space="preserve">
+    <value>无效格式语句: {0}.</value>
+  </data>
+  <data name="Invalid_keyword_0" xml:space="preserve">
+    <value>无效关键字:{0}.</value>
+  </data>
+  <data name="_must_be_matrix" xml:space="preserve">
+    <value>必须为矩阵.</value>
+  </data>
+  <data name="The_variable_is_not_a_matrix_0" xml:space="preserve">
+    <value>变量不是一个矩阵:{0}.</value>
+  </data>
+  <data name="Missing_file_name" xml:space="preserve">
+    <value>文件名缺失.</value>
+  </data>
+  <data name="Invalid_type_0" xml:space="preserve">
+    <value>无效类型:{0}.</value>
+  </data>
+  <data name="Path_not_found_0" xml:space="preserve">
+    <value>路径未找到:{0}.</value>
+  </data>
+  <data name="TheMatrixIsIllConditioned" xml:space="preserve">
+    <value>矩阵为病态阵. 尝试低精度(Tol) 或者直接Cholesky求解器.</value>
+  </data>
+  <data name="ThePCGSolverFailedToConvergeIn_0_Iterations" xml:space="preserve">
+    <value>PCG求解器无法收敛在{0} 迭代中无法收敛. 尝试低精度(Tol) 或者直接Cholesky求解器.</value>
+  </data>
+  <data name="ThisFileFormatIsNotSupported0" xml:space="preserve">
+    <value>该文件格式不支持:{0}.</value>
+  </data>
+  <data name="MustBeHpMatrix" xml:space="preserve">
+    <value>必须为hp(高性能)型矩阵.</value>
+  </data>
+  <data name="MustBeHpVector" xml:space="preserve">
+    <value>必须为hp(高性能)型向量.</value>
+  </data>
+  <data name="TheInputMatrixForFFTMustHaveOneRowForRealAndTwoRowsForComplexData" xml:space="preserve">
+    <value>输入到FFT的矩阵必须含1行实数2行复数</value>
+  </data>
+  <data name="MissingMatrixIndexIn0" xml:space="preserve">
+    <value>在 {0}中缺矩阵索引号.</value>
+  </data>
+  <data name="CounterMustBeASingleVariableName" xml:space="preserve">
+    <value>计数项必须为一个变量名.</value>
+  </data>
+  <data name="InvalidNumberOfParameters" xml:space="preserve">
+    <value>参数数量无效.</value>
+  </data>
+  <data name="InvalidNumberOfIndexes" xml:space="preserve">
+    <value>索引号数无效.</value>
+  </data>
+  <data name="PossiblyInfiniteLoopDetected" xml:space="preserve">
+    <value>n &gt; {0} 迭代,可能检测到无限循环.</value>
+  </data>
+  <data name="Cannot_evaluate_remainder_0_1_The_denominator_must_be_unitless" xml:space="preserve">
+    <value>无法计算余数：“{0} ⦼ {1}”。分母必须为无量纲。</value>
+  </data>
   <data name="File_not_found_0" xml:space="preserve">
-    <value>文件未找到: {0}.</value>
+    <value>文件未找到:{0}.</value>
   </data>
 </root>
