@@ -1,6 +1,6 @@
 "Design of steel I section <hr/><small>According to <strong>Eurocode</strong>: EN 1993-1-1 </small>
 #pre
-'<div style="max-width:150mm; padding-left:5mm; background:#f0f0ee; border: solid 1pt #e4e4e0; border-radius:4pt;">
+'<div style="max-width:150mm; padding-left:5mm; background:#f0f0ee; border: solid 1pt #e4e4e0; border-radius:6pt; box-shadow: 3pt 3pt 6pt rgba(0, 0, 0, 0.4)">
 #show
 '
 '<table><tr><td>
@@ -214,9 +214,13 @@ h_w = h - t_f1 - t_f2'mm
 '<h4>Steel properties</h4>
 'Yield strength - 'f_y = ? {235}'MPa
 'Tensile strength - 'f_u = ? {360}'MPa
+#pre
+
+#post
 'Modulus of elasticity - 'E = 210000'MPa
 'Private factors of safety:
 γ_M0 = 1.05', 'γ_M2 = 1.25
+#show
 '</td><td>
 #pre
 '<img alt="I-section.svg" src="./i-section.svg">
