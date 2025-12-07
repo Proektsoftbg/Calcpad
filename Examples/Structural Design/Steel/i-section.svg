@@ -3,7 +3,7 @@
 .dim {stroke:goldenrod; stroke-width:1.75; fill:goldenrod;}
 .axis {stroke-dasharray:36,12,4,12; stroke:limegreen; stroke-width:2;}
 </style>
-<path d="M-153,0H153V40H37.5A27,27 0 0 0 10.5,67V457A27,27 0 0 0 37.5,484H153V524H-153V484H-37.5A27,27 0 0 0 -10.5,457V67A27,27 0 0 0 -37.5,40H-153Z" fill="powderblue" fill-opacity="0.8" stroke="#64A0B0" stroke-width="4"></path>
+<path d="M-153,0H153V40H37.5A27,27 0 0 0 10.5,67V457A27,27 0 0 0 37.5,484H153V524H-153V484H-37.5A27,27 0 0 0 -10.5,457V67A27,27 0 0 0 -37.5,40H-153Z" fill="LightSkyBlue" fill-opacity="0.5" stroke="#4ac" stroke-width="4"></path>
 <line x1="-255" y1="262" x2="255" y2="262" class="axis"></line>
 <text x="-269" y="268" text-anchor="middle">y</text>
 <text x="269" y="268" text-anchor="middle">y</text>
