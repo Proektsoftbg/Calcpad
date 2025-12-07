@@ -1,5 +1,7 @@
 "Design of steel I section <hr/><small>According to <strong>Eurocode</strong>: EN 1993-1-1 </small>
-'<div style="max-width:180mm">
+#pre
+'<div style="max-width:150mm; padding-left:5mm; background:#f0f0ee; border: solid 1pt #e4e4e0; border-radius:4pt;">
+#show
 '
 '<table><tr><td>
 '<h4>Dimensions</h4>

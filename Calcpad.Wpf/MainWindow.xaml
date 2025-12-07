@@ -2761,7 +2761,7 @@
                       VerticalContentAlignment="Stretch" Margin="4,1,6,1" 
                       BorderBrush="#AACCCCCC" Background="White" 
                       Header="{x:Static wpf:MainWindowResources.Output}" >
-                <Wpf:WebView2 x:Name="WebViewer" Margin="5,10,5,5" KeyUp="WebViewer_KeyUp" PreviewKeyDown="WebViewer_PreviewKeyDown" NavigationCompleted="WebViewer_NavigationCompleted" WebMessageReceived="WebViewer_WebMessageReceived" />
+                <Wpf:WebView2 x:Name="WebViewer" Margin="5,5,5,5" KeyUp="WebViewer_KeyUp" PreviewKeyDown="WebViewer_PreviewKeyDown" NavigationCompleted="WebViewer_NavigationCompleted" WebMessageReceived="WebViewer_WebMessageReceived" />
             </GroupBox>
             <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Margin="1,5,1,0" Background="#32DDDDDD" />
             <Border x:Name="CodeCheckBorder"
