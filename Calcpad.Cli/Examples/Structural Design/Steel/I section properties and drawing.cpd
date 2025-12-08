@@ -1,5 +1,7 @@
 "Design of steel I section <hr/><small>According to <strong>Eurocode</strong>: EN 1993-1-1 </small>
-'<div style="max-width:180mm">
+#pre
+'<div style="max-width:150mm; padding-left:5mm; background:#f0f0ee; border: solid 1pt #e4e4e0; border-radius:6pt; box-shadow: 3pt 3pt 6pt rgba(0, 0, 0, 0.4)">
+#show
 '
 '<table><tr><td>
 '<h4>Dimensions</h4>
@@ -186,10 +188,10 @@
 '</select></p>
 #show
 '<table id="section">
-'<tr><td style="padding-right: 10px;">'h = ? {100}'mm, </td><td>'t_w = ? {4.1}'mm </td></tr>
-'<tr><td style="padding-right: 10px;">'b_f1 = ? {55}'mm,</td><td>'t_f1 = ? {5.7}'mm</td></tr>
-'<tr><td style="padding-right: 10px;">'b_f2 = ? {55}'mm,</td><td>'t_f2 = ? {5.7}'mm</td></tr>
-'<tr><td style="padding-right: 10px;">'r = ? {7}'mm, </td><td style="display:none">'r_2 = ? {0}'mm</td></tr>
+'<tr><td style="padding-right: 10px;">'h = ? {180}'mm, </td><td>'t_w = ? {5.3}'mm </td></tr>
+'<tr><td style="padding-right: 10px;">'b_f1 = ? {91}'mm,</td><td>'t_f1 = ? {8}'mm</td></tr>
+'<tr><td style="padding-right: 10px;">'b_f2 = ? {91}'mm,</td><td>'t_f2 = ? {8}'mm</td></tr>
+'<tr><td style="padding-right: 10px;">'r = ? {9}'mm, </td><td style="display:none">'r_2 = ? {0}'mm</td></tr>
 '</table>
 h_w = h - t_f1 - t_f2'mm
 #pre
@@ -212,9 +214,13 @@ h_w = h - t_f1 - t_f2'mm
 '<h4>Steel properties</h4>
 'Yield strength - 'f_y = ? {235}'MPa
 'Tensile strength - 'f_u = ? {360}'MPa
+#pre
+
+#post
 'Modulus of elasticity - 'E = 210000'MPa
 'Private factors of safety:
 γ_M0 = 1.05', 'γ_M2 = 1.25
+#show
 '</td><td>
 #pre
 '<img alt="I-section.svg" src="./i-section.svg">
@@ -319,7 +325,7 @@ dist = 15*stroke
 #val
 #include svg_drawing.cpd
 '<svg width="'B + 80'pt" height="'H + 80'pt" viewBox="'-b/2 - 50/k' '-50/k' 'b + 100/k' 'h + 100/k'" style="font-size:'9/k'pt;" xmlns="http://www.w3.org/2000/svg">
-'<path d="M'x1','y1'H'x4'V'y2'H'x3r'A'r','r' 0 0 0 'x3','y2r'V'y3r'A'r','r' 0 0 0 'x3r','y3'H'x6'V'y4'H'x5'V'y3'H'x2r'A'r','r' 0 0 0 'x2','y3r'V'y2r'A'r','r' 0 0 0 'x2r','y2'H'x1'Z" fill="powderblue" fill-opacity="0.8" stroke="#64A0B0" stroke-width="'1.5/k'" />
+'<path d="M'x1','y1'H'x4'V'y2'H'x3r'A'r','r' 0 0 0 'x3','y2r'V'y3r'A'r','r' 0 0 0 'x3r','y3'H'x6'V'y4'H'x5'V'y3'H'x2r'A'r','r' 0 0 0 'x2','y3r'V'y2r'A'r','r' 0 0 0 'x2r','y2'H'x1'Z" fill="LightSkyBlue" fill-opacity="0.6" stroke="#4ac" stroke-width="'1.5/k'" />
 line$(-b/2 - 35/k; h - z_c; b/2 + 35/k;h - z_c; axis_style$)
 texth$(-b/2 - 40/k; h - z_c; y)
 texth$(b/2 + 40/k; h - z_c; y)

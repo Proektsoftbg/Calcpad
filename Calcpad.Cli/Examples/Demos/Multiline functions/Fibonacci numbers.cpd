@@ -1,4 +1,6 @@
 "Fibonacci numbers function
+'<hr/>
+'Function:
 fib(n) = if(n ≡ 1; 1; 
   $block{
     a = 0; 
@@ -10,7 +12,7 @@ fib(n) = if(n ≡ 1; 1;
      @ k = 1 : n - 1} _
   } _
 )
-'Results
+'Results:
 #for i = 1 : 9
 	fib(i)
 #loop

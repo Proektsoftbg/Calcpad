@@ -1,5 +1,5 @@
 "Design Worksheet with 3D Model Demo
-'<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.0.1/model-viewer.min.js"></script>
+'<hr/><script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.0.1/model-viewer.min.js"></script>
 '<model-viewer style="height:280pt;" class="side" src="./models/bolt_and_nut.glb" alt="bolt_and_nut.glb" auto-rotate camera-controls shadow-intensity="0.5" field-of-view="8deg"></model-viewer>
 '<h4>Loads (for one bolt)</h4>
 'Tension -'F_t_Ed = ? {20}'kN

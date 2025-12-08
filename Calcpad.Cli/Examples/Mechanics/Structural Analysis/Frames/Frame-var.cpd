@@ -1,5 +1,6 @@
 #include svg_drawing.cpd
 "Analysis of plane frame with variable arbitrary cross-sections
+'<hr/>
 '<h4>Joint coordinates - xJ; yJ</h4>
 #hide
 #deg

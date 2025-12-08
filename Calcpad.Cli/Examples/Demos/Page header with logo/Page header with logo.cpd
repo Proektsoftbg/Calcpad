@@ -14,7 +14,7 @@
 '<th><small>Check by:</small><br/>DEF</th></tr>
 '</thead><tbody><tr><td colspan="4" style="padding-top:6pt;">
 'Your worksheet content goes here.
-#for i = 1 : 100
-	
+#for n = 1 : 100
+	'Line - 'n
 #loop
 '</td></tr></tbody></table>

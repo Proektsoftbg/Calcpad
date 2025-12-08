@@ -1,4 +1,5 @@
-"Fourier series expansion
+"Fourier series expansion (classic)
+'<hr/>
 #rad
 'Number of iterations -'n = 20
 'Interval length -'l = 10
@@ -10,7 +11,8 @@ b(k) = 2/l*$Integral{f(x)*sin(2*π*k/l*x) @ x = 0 : l}
 f_s(x) = a_0/2 + $Sum{a(k)*cos(2*π*k/l*x) + b(k)*sin(2*π*k/l*x) @ k = 1 : n}
 'Plot the function and Fourier approximation
 $Plot{f(x) & f_s(x) @ x = 0 : l}
-"Fourier series expansion via FFT
+"Fourier series expansion (FFT)
+'<hr/>
 'Number of samples -'n = 32
 'Sampling step -'dx = l/n
 'Sample points -'x = range(0; n; 1)*dx

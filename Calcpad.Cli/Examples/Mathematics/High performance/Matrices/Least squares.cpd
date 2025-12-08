@@ -1,4 +1,5 @@
 "Least squares fitting
+'<hr/>
 'Point coordinates
 x = hp([0; 1; 2; 3; 4; 5; 6; 7; 8; 9])
 y = hp([400; 450; 440; 400; 380; 330; 250; 200; 150; 160])

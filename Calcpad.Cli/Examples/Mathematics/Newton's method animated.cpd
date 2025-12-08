@@ -1,9 +1,10 @@
 #md on
 "Newton's method animation
+'<hr/><p>
 #noc
-'**Problem:** Given the following equation:'x^x = 10'. Find'x'= ?<br/>
+'**Problem:** Given the following equation:'x^x = 10'. Find'x'= ?              </p><p>
 #equ
-'**Solution:** Transform the equation in the form:'f(x) = x^x - 10'= 0
+'**Solution:** Transform the equation in the form:'f(x) = x^x - 10'= 0</p>
 'The first derivative is'f′(x) = x^x*(ln(x) + 1)
 'Initial guess -'x_0 = 4', target precision -'δ = 10^-14
 '#### Animation&emsp;<button id="start">Start</button>
