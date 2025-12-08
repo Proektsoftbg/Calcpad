@@ -1,4 +1,5 @@
 "Rayleigh quotient iteration
+'<hr/>
 'Input matrix
 A = copy( _
     [4; 12; -16| _

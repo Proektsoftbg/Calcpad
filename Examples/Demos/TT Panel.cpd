@@ -1,5 +1,6 @@
 #include svg_drawing.cpd
 "Prestressed TT Panel
+'<hr/>
 #deg
 'Dimensions:
 'Rib height -'h = ? {750}'mm
@@ -35,13 +36,13 @@ x_8 = x_1 - 20*(n_ph - 1)
 '<polygon points="'b_f','0' 'b_f','h_f' 'x_3','h_f' 'x_2','h_f + 30' 'x_4','H' 'x_5','H' 'x_6','h_f + 30' 'x_7','h_f' '-x_7','h_f' '-x_6','h_f + 30' '-x_5','H' '-x_4','H' '-x_2','h_f + 30' '-x_3','h_f' '-b_f','h_f' '-b_f','0'" sec_style$/>
 line$(-x_1; -100; -x_1; H + 100; axis_style$)
 line$( x_1; -100; x_1; H + 100; axis_style$)
-dimh$(-b_f; b_f; -60; B = 'B' mm)
-dimv$(-b_f - 60; 0; H; H = 'H' mm)
-dimv$(-b_f + 80; 0; h_f; h<tspan dy=20>f</tspan><tspan dy=-20> = </tspan>'h_f' mm         )
-dimv$(-b_f + 80; h_f; H; <tspan dy=100>h = 'h' mm</tspan>)
-dimh$(-x_1; x_1; H + 180; B<tspan dy=5>₀</tspan><tspan dy=-5> = 'B_0'</tspan> mm)
-dimh$(-x_2; -x_6; h_f + 120;            b<tspan dy=5>₂</tspan><tspan dy=-5> = </tspan>'b_2' mm)
-dimh$(-x_4; -x_5; H + 80;            b<tspan dy=5>₁</tspan><tspan dy=-5> = </tspan>'b_1' mm)
+dimh$(-b_f; b_f; -60; B = 'B' mm)
+dimv$(-b_f - 60; 0; H; H = 'H' mm)
+dimv$(-b_f + 80; 0; h_f; h<tspan dy=20>f</tspan><tspan dy=-20> = </tspan>'h_f' mm         )
+dimv$(-b_f + 80; h_f; H; <tspan dy=100>h = 'h' mm</tspan>)
+dimh$(-x_1; x_1; H + 180; B<tspan dy=5>₀</tspan><tspan dy=-5> = 'B_0'</tspan> mm)
+dimh$(-x_2; -x_6; h_f + 120;            b<tspan dy=5>₂</tspan><tspan dy=-5> = </tspan>'b_2' mm)
+dimh$(-x_4; -x_5; H + 80;            b<tspan dy=5>₁</tspan><tspan dy=-5> = </tspan>'b_1' mm)
 #hide
 #def tendon$ = r="10" style="stroke:red; fill:red; stroke-width:1"
 i = 0

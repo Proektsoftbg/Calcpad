@@ -157,6 +157,9 @@ namespace Calcpad.Core
                 if (err < eps1 || Math.Abs(x3 - ans) < eps)
                 {
                     Units = u;
+                    if (x1 > x2)
+                        return side == 1 ? x2 : x1;
+
                     return Math.Clamp(x3, x1, x2);
                 }
                 ans = x3;
@@ -175,7 +178,7 @@ namespace Calcpad.Core
 
                     x1 = x3;
                     y1 = y3;
-                }
+                }   
                 else
                 {
                     if (side == -1)

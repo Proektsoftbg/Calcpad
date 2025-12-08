@@ -1,4 +1,5 @@
 "Analysis of continuous beam by force method
+'<hr/>
 '<h4>Input data</h4>
 'Span lengths -'l = [4; 7; 3; 5]*m
 'Number of spans -'n = len(l)

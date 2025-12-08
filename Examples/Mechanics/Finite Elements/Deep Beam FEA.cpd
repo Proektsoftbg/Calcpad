@@ -1,4 +1,5 @@
 "Finite Element Analysis of Deep Beam
+ '<hr/>
 '<h3>Input data</h3>
 '<table><tr><td style="padding:0;">
 'Length -'l = 4'm, Height -'h = 2'm
@@ -8,7 +9,7 @@
 'Load length -'b = 0.8'm 
 'Load position -'a = (l - b)/2'm
 'Load function -'q(x) = q*(x ≥ a ∧ x ≤ a + b)
-'</td><td><img src="./deep-beam-fea.png" style="height:160pt; margin-left:20pt;"></td></tr></table>
+'</td><td><img src="./deep-beam-fea.png" style="width:140; height:160pt; margin-left:20pt;"></td></tr></table>
 '<p><b>Supports</b></p>
 'Support length -'d = 0.4'm
 'Support elastic stiffness -'k_s = 50000'MN/m²

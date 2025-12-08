@@ -1,6 +1,6 @@
 #rad
 "Animation of simple undamped pendulum by Runge-Kutta 4 method
-'<table><tr><td>
+'<hr/><table><tr><td>
 '<h4>Input parameters</h4>
 'Gravitational acceleration (m/s²) - 'g = 9.80665m/s^2
 'Pendulum length -'l = 0.5m

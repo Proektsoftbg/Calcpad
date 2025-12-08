@@ -1,4 +1,5 @@
 "Third order geometric nonlinearity analysis of a double-bar Biot truss
+'<hr/>
 '(solved by four different numerical methods)
 '<h4>Input data</h4>
 'Strut length -'l = 2m

@@ -10,7 +10,7 @@
 'Distance to load start -'a = ? {1.6}m
 'Length of support -'d = ? {0.4}m
 'Number of iterations -'N = ? {21}
-'</td><td><img src="https://calcpad.eu/media/mechanics/elastic/deep-beam-fea.png" style="height:160pt; margin-left:50pt;"></td></tr></table>
+'</td><td><img src="https://calcpad.eu/media/mechanics/elastic/deep-beam-fea.png" style="height:160pt; width:150pt; margin-left:50pt;"></td></tr></table>
 #hide
 c = a + b
 q(x) = if((x < a) + (x > c); 0kN/m; q)

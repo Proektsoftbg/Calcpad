@@ -1,4 +1,5 @@
-"Finite Element Analysis of Flat Slab<hr/>
+"Finite Element Analysis of Flat Slab
+'<hr/>
 'Using numerical formulation of Bogner-Fox-Schmit (BFS)  plate element
 '<h4>Input data</h4>
 'Span lengths
