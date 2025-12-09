@@ -7,7 +7,7 @@
     <style>
         body {
             font-size: 11pt;
-            font-family: Calibri;sans-serif;	
+            font-family: Calibri, sans-serif;
             margin-top: 0;
             padding-top: 0;
         }
@@ -22,28 +22,26 @@
             }
 
         p, li {
-            line-height: 140%;
+            line-height: 130%;
         }
 
         p, ul, ol {
-            margin-top:0;
+            margin-top: 0;
             margin-bottom: 3pt;
         }
-		
-		ol, ul {margin-left: 0; padding-left: 2em;}
-		 .tight {
+
+        ol, ul {
+            margin-left: 0;
+            padding-left: 2em;
+        }
+
+        .tight {
             line-height: 80%;
             margin-top: 3pt;
         }
 
-
         var, i, em {
             font-family: 'Times New Roman', serif;
-        }
-
-        var{
-            font-size: 11.5pt;color: #06c;
-            padding-right: 0.5pt;
         }
 
         b {
@@ -55,6 +53,7 @@
         }
 
         var {
+            font-size: 11.5pt;
             color: #06c;
             padding-right: 0.5pt;
         }
@@ -75,8 +74,8 @@
             font-style: normal;
             display: inline-block;
             vertical-align: 1.1pt;
-            margin-left: 2pt;
-            margin-right: -5.5pt;
+            margin-left: 3pt;
+            margin-right: -3pt;
         }
 
         .cond {
@@ -95,6 +94,7 @@
             color: deeppink;
             padding: 0 1pt 0 1pt;
         }
+		
 		.ok {
             color: green;
         }
@@ -117,7 +117,7 @@
             }
 
         sub {
-            font-family: Arial Nova;
+            font-family: Arial Nova, serif;
             font-size: 70%;
             padding-left: 0.5pt;
             padding-right: 0.5pt;
@@ -1243,30 +1243,37 @@
 </ul>
 <script src="jquery-3.6.3.min.js"></script>
 <script>
-function delayedLoad(path) { setTimeout(function() {document.write(path);}, 500);}
-if(window.jQuery){
-	$(document).ready(function(){
-		
-		function Toggle(btn)
-		{
-			var list = $("#list" + btn.attr("id").substring(3));
-			if (list.css("display") == "none")
-			{
-				list.css("display", "inline");
-				btn.html("&minus;");			
+	if (window.jQuery) {
+		$(document).ready(function () {
+			function Toggle(btn) {
+				var list = $("#list" + btn.attr("id").substring(3));
+				if (list.css("display") == "none") {
+					list.css("display", "inline");
+					btn.html("&minus;");
+				}
+				else {
+					list.css("display", "none");
+					btn.html("+");
+				}
 			}
-			else
-			{
-				list.css("display","none");
-				btn.html("+");			
-			}
-		}
-		
-		$(".exp").click(function(){
-			Toggle($(this));
+
+			$(".exp").click(function () {
+				Toggle($(this));
+			});
+
+			$("a").click(function () {
+				chrome.webview.postMessage('clicked');
+			});
+			
+			$("select.insert").change(function () {
+				chrome.webview.postMessage('clicked');
+			});
+			
+			window.addEventListener('click', () => {
+				chrome.webview.postMessage('focused');
+			});
 		});
-	}); 
-}
+	}
 </script>
 </body>
 </html>
