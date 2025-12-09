@@ -1,7 +1,7 @@
 #md on
 #noc
 "Automatic Table of Contents
-'<style>#toc, #toc hr{border: solid 1px #8cf;} #toc{width: 400pt; background:#f0fcff; border-radius: 6pt; padding:12pt;} #toc li{list-style-type:none;} #toc ul{padding-left:1.5em;} #toc a{color:#08f;} #toc b{color:#06c;}</style>
+'<style>#toc, #toc hr{border: solid 1px #8cf;} #toc{width: 300pt; background:#f0fcff; border-radius: 6pt; padding:12pt;} #toc li{list-style-type:none;} #toc ul{padding-left:1.5em;} #toc a{color:#08f;} #toc b{color:#06c;}</style>
 '<article><div id="toc"><b>TABLE OF CONTENTS</b><hr/></div>
 '#### Classification of Root Finding Methods
 '
@@ -17,7 +17,7 @@
 '###### False Position (Regula Falsi)
 'It improves upon bisection by using linear interpolation to estimate the root`s location rather than simply bisecting. This often converges faster than bisection but can sometimes perform poorly if the function is highly nonlinear, particularly when one endpoint remains fixed while the other moves toward the root.
 '
-'###### Illinois Algorithm
+'###### Illinois Method
 'It improves convergence by halving the function value at the retained endpoint when the same endpoint is kept for consecutive iterations. This adjustment guarantees superlinear convergence with order approximately 1.442.
 '
 '###### Anderson-Björck Method
