@@ -363,6 +363,10 @@ namespace Calcpad.Core
                         var sa = a.Content;
                         if (a.Order > t.Order && !formatEquation)
                             sa = AddBrackets(sa, a.Level, a.MinOffset, a.MaxOffset, '(', ')');
+                        else if (a.Type == TokenTypes.MultiFunction && 
+                            a.Index == Calculator.SwitchIndex && 
+                            a.ParameterCount > 2)
+                            sa = writer.CloseCurlyBrackets(sa, a.Level);
 
                         if (content == "^")
                         {
@@ -372,7 +376,7 @@ namespace Calcpad.Core
                             if (writer is TextWriter && (IsNegative(b) || b.Order != Token.DefaultOrder))
                                 sb = AddBrackets(sb, b.Level, b.MinOffset, b.MaxOffset, '(', ')');
 
-                            if (a.Type == TokenTypes.Vector || a.Type == TokenTypes.Matrix || 
+                            if (a.Type == TokenTypes.Vector || a.Type == TokenTypes.Matrix ||
                                 a.ValType == ValueTypes.Vector || a.ValType == ValueTypes.Matrix)
                                 sb = writer.FormatOperator('⊙') + thinSpace + sb;
 
@@ -395,7 +399,7 @@ namespace Calcpad.Core
                         {
                             if (!formatEquation && b.Type != TokenTypes.Solver)
                             {
-                                var isDivision = content == "/" || content == "÷";  
+                                var isDivision = content == "/" || content == "÷";
                                 if (b.Order > t.Order ||
                                     b.Order == t.Order && (content == "-" || isDivision) ||
                                     b.Order == 2 && sb.ContainsAny('·', '∕') && isDivision ||
@@ -447,7 +451,7 @@ namespace Calcpad.Core
                                     }
                                     else if (a.ValType == ValueTypes.Vector && b.ValType == ValueTypes.Vector)
                                         t.Content = sa + writer.FormatOperator('⊙') + sb;
-                                    else if(t.Order == 1 && writer is HtmlWriter)
+                                    else if (t.Order == 1 && writer is HtmlWriter)
                                         t.Content = sa + HtmlWriter.UnitProduct + sb;
                                     else if (t.Order == 1 && writer is XmlWriter)
                                         t.Content = sa + XmlWriter.UnitProduct + sb;

@@ -71,7 +71,7 @@ namespace Calcpad.Core
         internal abstract string FormatVector(Vector vector);
         internal abstract string FormatMatrixValue(RealValue value, double zeroThreshold);
         internal abstract string FormatBlock(string[] sa);
-
+        internal abstract string CloseCurlyBrackets(string sa, int level);
         internal string FormatUnitsText(string text)
         {
             _stringBuilder.Clear();

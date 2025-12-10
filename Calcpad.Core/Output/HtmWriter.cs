@@ -189,7 +189,8 @@ namespace Calcpad.Core
 
         private static string FormatLeftCurl(int level) =>
             $"<span class=\"c{level}\">{{</span>";
-
+        private static string FormatRightCurl(int level) =>
+            $"<span class=\"c{level}\">}}</span>";
         private static string FormatBrackets(char symbol, int level) =>
             $"<span class=\"b{level}\">{symbol}</span>";
 
@@ -270,11 +271,14 @@ namespace Calcpad.Core
                 if (len - i == 1)
                     sb.Append($"<br />else: {sa[i]}");
                 else
-                    sb.Append($"<br />if {sa[i]}: {sa[i + 1]}");
+                    sb.Append($"<br />else if {sa[i]}: {sa[i + 1]}");
             }
             sb.Append("</span></span>");
             return sb.ToString();
         }
+
+        internal override string CloseCurlyBrackets(string sa, int level)
+            => string.Concat(sa[..^7], FormatRightCurl(level), "</span>");
 
         internal override string FormatIf(string sc, string sa, string sb, int level = 0)
         {

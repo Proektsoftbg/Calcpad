@@ -2909,17 +2909,15 @@ namespace Calcpad.Wpf
                 if (!ReferenceEquals(p, _currentParagraph))
                     p = _highlighter.CheckHighlight(p, ref lineNumber);
 
+                if (p is null)
+                    break;
+
                 p = p.NextBlock as Paragraph;
                 lineNumber++;
                 if (lineNumber >= maxNumber)
-                {
-                    _lastModifiedParagraph = p;
-                    RichTextBox.EndChange();
-                    _isTextChangedEnabled = true;
-                    return;
-                }
+                    break;
             }
-            _lastModifiedParagraph = null;
+            _lastModifiedParagraph = p;
             RichTextBox.EndChange();
             _isTextChangedEnabled = true;
         }

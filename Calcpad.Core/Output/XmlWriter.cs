@@ -388,6 +388,16 @@ namespace Calcpad.Core
             return sb.ToString();
         }
 
+        internal override string CloseCurlyBrackets(string sa, int level)
+        {
+            const string rightBracketString = "<m:endChr m:val=\" \"/>";
+            int index = sa.IndexOf(rightBracketString);
+            if (index < 0)
+                return sa;
+
+            return string.Concat(sa[..index], "<m:endChr m:val=\"}\"/>", sa[(index + rightBracketString.Length)..]);
+        }
+
         private const string mPr = 
         @"<m:mPr>
             <m:mcs>

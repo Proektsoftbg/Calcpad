@@ -94,6 +94,8 @@ namespace Calcpad.Core
         internal override string FormatSwitch(string[] sa, int level = 0) =>
             string.Concat("switch(", string.Join("; ", sa), ")");
 
+        internal override string CloseCurlyBrackets(string sa, int level) => sa;
+
         internal override string FormatIf(string sc, string sa, string sb, int level = 0) =>
             $"if({sc}; {sa}; {sb})";
 
