@@ -1,4 +1,5 @@
 "Soil stress and deformation for arbitrary surface load
+'<hr/>
 '(by integration of the Boussinesq formula)
 'Dimensions of loaded area -'a = 2m', 'b = 3m
 'Surface load -'p(x; y) = 100kPa*(1 + (x/a))

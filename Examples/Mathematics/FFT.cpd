@@ -1,4 +1,5 @@
 "FFT analysis with Calcpad
+'<hr/>
 #rad
 'Sampling frequency -'Fs = 1024Hz
 'Number of sampling points - 'N = 1024

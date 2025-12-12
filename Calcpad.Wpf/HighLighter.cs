@@ -1552,6 +1552,7 @@ namespace Calcpad.Wpf
                 }
                 if (!_state.IsFunction && !IsVariable(s, _state.Line))
                 {
+                    s = s.Replace('µ', 'μ');
                     if (IsUnit(s, _state.Line))
                         return Types.Units;
 

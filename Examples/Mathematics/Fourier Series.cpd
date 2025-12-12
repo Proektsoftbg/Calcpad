@@ -1,4 +1,5 @@
 "Fourier series expansion
+'<hr/>
 #rad
 'Interval length -'l = 10
 'Function -'f(x) = (e^x - x^2 - 2*x^4)/l

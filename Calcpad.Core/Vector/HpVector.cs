@@ -534,13 +534,15 @@ namespace Calcpad.Core
             for (int i = nv; i < n1; ++i)
                 sc[i] = sa[i] / sb[i] * d;
 
-            c.Fill(double.NaN, n2, nc - n2);
             if (na > nb)
                 for (int i = n2 - 1; i >= n1; --i)
                     sc[i] = sa[i] / 0d;
             else if (nb > na)
                 for (int i = n2 - 1; i >= n1; --i)
                     sc[i] = 0d / sb[i];
+
+            if (nc > n2)
+                c.Fill(double.NaN, n2, nc - n2);
 
             return c;
         }
@@ -648,12 +650,14 @@ namespace Calcpad.Core
             for (int i = nv; i < n1; ++i)
                 sc[i] = sa[i] % sb[i];
 
-            c.Fill(double.NaN, n2, nc - n2);
             if (na > nb)
                 c.Fill(double.NaN, n1, n2 - n1);
             else if (nb > na)
                 for (int i = n2 - 1; i >= n1; --i)
                     sc[i] = 0d % sb[i];
+
+            if (nc > n2)
+                c.Fill(double.NaN, n2, nc - n2);
 
             return c;
         }
@@ -738,13 +742,15 @@ namespace Calcpad.Core
             for (int i = n1 - 1; i >= 0; --i)
                 sc[i] = sa[i].IsEqual(sb[i] * d);
 
-            c.Fill(1d, n2, nc - n2);
             if (na > nb)
                 for (int i = n2 - 1; i >= n1; --i)
                     sc[i] = sa[i].IsEqual(0d);
             else if (nb > na)
                 for (int i = n2 - 1; i >= n1; --i)
                     sc[i] = 0d.IsEqual(sb[i] * d);
+
+            if (nc > n2)
+                c.Fill(1d, n2, nc - n2);
 
             return c;
         }
@@ -964,13 +970,15 @@ namespace Calcpad.Core
             for (int i = n1 - 1; i >= 0; --i)
                 sc[i] = sa[i].IsLessThanOrEqual(sb[i] * d);
 
-            c.Fill(1d, n2, nc - n2);
             if (na > nb)
                 for (int i = n2 - 1; i >= n1; --i)
                     sc[i] = sa[i].IsLessThanOrEqual(0d);
             else if (nb > na)
                 for (int i = n2 - 1; i >= n1; --i)
                     sc[i] = 0d.IsLessThanOrEqual(sb[i] * d);
+
+            if (nc > n2)
+                c.Fill(1d, n2, nc - n2);
 
             return c;
         }
@@ -1107,13 +1115,14 @@ namespace Calcpad.Core
             c.Units = null;
             var na = a._size;
             ReadOnlySpan<double> sa = a._values.AsSpan(0, na);
-            Span<double> sc = c._values.AsSpan();
             if (Math.Abs(b.D) < logicalZero)
                 c.Fill(0d, 0, na);
             else
+            {
+                Span<double> sc = c._values.AsSpan();
                 for (int i = na - 1; i >= 0; --i)
                     sc[i] = Math.Abs(sa[i]) < logicalZero ? 0d : 1d;
-
+            }
             return c;
         }
 
@@ -1147,14 +1156,15 @@ namespace Calcpad.Core
             var na = a._size;
             var nc = c._length;
             ReadOnlySpan<double> sa = a._values.AsSpan(0, na);
-            Span<double> sc = c._values.AsSpan();
             var v = Math.Abs(b.D) >= logicalZero;
             if (v)
                 c.Fill(1d, 0, na);
             else
+            {
+                Span<double> sc = c._values.AsSpan();
                 for (int i = na - 1; i >= 0; --i)
                     sc[i] = sa[i] >= logicalZero ? 1d : 0d;
-
+            }
             if (nc > na && v)
                 c.Fill(1d, na, nc - na);
 
@@ -1279,12 +1289,6 @@ namespace Calcpad.Core
                 sc[i] = op(new(sa[i], ua), new(sb[i], ub)).D;
 
             var zero = RealValue.Zero;
-            if (nc > n2)
-            {
-                var d = op(zero, zero).D;
-                if (d != 0d)
-                    c.Fill(d, n2, nc - n2);
-            }
             if (na > nb)
             {
 
@@ -1302,6 +1306,12 @@ namespace Calcpad.Core
                 for (int i = n2 - 1; i >= n1; --i)
                     sc[i] = op(zero, new(sb[i], ub)).D;
             }
+            if (nc > n2)
+            {
+                var d = op(zero, zero).D;
+                if (d != 0d)
+                    c.Fill(d, n2, nc - n2);
+            }
             c.Units = op(new(ua), new(ub)).Units;
             return c;
         }
@@ -1312,15 +1322,15 @@ namespace Calcpad.Core
             var na = a._size;
             var nc = c._length;
             ReadOnlySpan<double> sa = a._values.AsSpan(0, na);
-            Span<double> sc = c._values.AsSpan();
             var ua = a.Units;
-            if (na < nc)
+            if (nc > na)
             {
                 var zero = new RealValue(0d, ua) ;
                 var v = op(zero, b).D;
                 if (v != 0)
                     c.Fill(v, na, nc - na);
             }
+            Span<double> sc = c._values.AsSpan();
             for (int i = na - 1; i >= 0; --i)
                 sc[i] = op(new(sa[i], ua), b).D;
 
@@ -1334,15 +1344,15 @@ namespace Calcpad.Core
             var nb = b._size;
             var nc = c._length;
             ReadOnlySpan<double> sb = b._values.AsSpan(0, nb);
-            Span<double> sc = c._values.AsSpan();
             var ub = b.Units;
-            if (nb < nc)
+            if (nc > nb)
             {
                 var zero = new RealValue(0d, ub);
                 var d = op(a, zero).D;
                 if (d != 0d)
                     c.Fill(d, nb, nc - nb);
             }
+            Span<double> sc = c._values.AsSpan();
             for (int i = nb - 1; i >= 0; --i)
                 sc[i] = op(a, new(sb[i], ub)).D;
 

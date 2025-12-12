@@ -170,6 +170,21 @@ namespace Calcpad.Core
             }
         }
 
+        internal string FormatStringWithPrefix
+        {
+            get
+            {
+                if (_text is null)
+                    return null;
+
+                int index = _text.IndexOf(':');
+                if (index < 0)
+                    return null;
+
+                return _text[index..];
+            }
+        }
+
         public override int GetHashCode()
         {
             if (_hashCode == 0)
@@ -1578,7 +1593,7 @@ namespace Calcpad.Core
                 name = writer.FormatUnits(GetPrefix(n) + name);
                 factor /= GetScale(n);
                 if (Math.Abs(factor - 1) > 1e-12)
-                    name = writer.AddBrackets(writer.FormatReal(factor, null, false) + "·" + name);
+                    name = writer.AddBrackets(string.Concat(writer.FormatReal(factor, null, false), "·", name));
             }
             else
                 name = writer.FormatUnits(name);

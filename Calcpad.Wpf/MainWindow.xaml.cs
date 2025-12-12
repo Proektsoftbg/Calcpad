@@ -1373,7 +1373,7 @@ namespace Calcpad.Wpf
                 Cursor = Cursors.Arrow;
         }
 
-        private static string FixHref(in string text)
+        private static string FixHref(string text)
         {
             var s = HtmlAnchorHrefRegex.Replace(text, @"#0"" data-text=""");
             s = HtmlAnchorTargetRegex.Replace(s, "");
@@ -2909,17 +2909,15 @@ namespace Calcpad.Wpf
                 if (!ReferenceEquals(p, _currentParagraph))
                     p = _highlighter.CheckHighlight(p, ref lineNumber);
 
+                if (p is null)
+                    break;
+
                 p = p.NextBlock as Paragraph;
                 lineNumber++;
                 if (lineNumber >= maxNumber)
-                {
-                    _lastModifiedParagraph = p;
-                    RichTextBox.EndChange();
-                    _isTextChangedEnabled = true;
-                    return;
-                }
+                    break;
             }
-            _lastModifiedParagraph = null;
+            _lastModifiedParagraph = p;
             RichTextBox.EndChange();
             _isTextChangedEnabled = true;
         }
@@ -3144,12 +3142,6 @@ namespace Calcpad.Wpf
             var h = SystemParameters.PrimaryScreenHeight;
             if (Height > h)
                 Height = h;
-        }
-
-        private void WebViewer_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.Key >= Key.D0 && e.Key <= Key.D9 || e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9)
-                IsSaved = false;
         }
 
         private async void Include_Click(object sender, MouseButtonEventArgs e)
@@ -3469,7 +3461,7 @@ namespace Calcpad.Wpf
         }
         private async void WebViewer_NavigationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs e)
         {
-            if (!await _wv2Warper.CheckIsReportAsync())
+           if (!await _wv2Warper.CheckIsReportAsync())
                 return;
 
             _isParsing = false;
@@ -3508,6 +3500,11 @@ namespace Calcpad.Wpf
             }
         }
 
+        private void WebViewer_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key >= Key.D0 && e.Key <= Key.D9 || e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9)
+                IsSaved = false;
+        }
         internal static bool Execute(string fileName, string args = "")
         {
             var proc = new Process();

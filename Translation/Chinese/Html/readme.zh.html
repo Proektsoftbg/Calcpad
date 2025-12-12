@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-    <title>Calcpad自述文件</title>
+    <title>Calcpad VM7.5自述文件</title>
     <meta charset="UTF-8">
     <style>
         .menu {
@@ -743,7 +743,7 @@ Excel
                 <li><a class="toc" href="#TOC_603">按条件执行</a></li>
                 <li><a class="toc" href="#TOC_604">迭代块</a></li>
                 <li><a class="toc" href="#TOC_605">交互式(逐步)执行</a></li>
-                <li><a class="toc" href="#TOC_606">子程序(调用)</a></li>
+                <li><a class="toc" href="#TOC_606">模块(通过#include调用)</a></li>
                 <li><a class="toc" href="#TOC_607">宏和字符串变量</a></li>
 				<li><a class="toc" href="#TOC_608">导入/导出外部数据</a></li>
 			</ul>
@@ -779,8 +779,8 @@ Excel
             <li>+359 2 423 4455</li>
             <li><a href="mailto:proektsoft.bg@gmail.com">proektsoft.bg@gmail.com</a></li>
         </ul>
-        <h1><img alt="Calcpad.png" src="Images/Calcpad.png" height="32"> Calcpad</h1>
-        <p style="margin-left:42px; margin-top:0;">7.4版自述文件</p>
+        <h1><img alt="Calcpad.png" src="Images/Calcpad.png" height="32"> Calcpad VM</h1>
+        <p style="margin-left:42px; margin-top:0;">7.5版自述文件</p>
         <h2 id="TOC_101">关于Calcpad</h2>
         <p>Calcpad是一款用于数学和工程计算的免费软件.它是一个灵活现代的可编程计算器,具有Html报告生成器.它简单易用,但也包含许多高级功能:</p>
         <ul>
@@ -824,7 +824,7 @@ Excel
 
         <h2 id="TOC_104">许可和使用条款</h2>
         <p>这个软件对商业和非商业用途均免费.它是根据MIT许可证分发的:</p>
-        <p>版权所有 © 2021 PROEKTSOFT EOOD®</p><hr />
+        <p>版权所有 © 2024 PROEKTSOFT EOOD®</p><hr />
         <p>特此授予任何获得本软件及相关文档文件(“软件”)副本的人免费使用本软件的权限,包括但不限于使用、复制、修改、合并、发布、分发、再许可和/或销售本软件的副本,以及允许使用本软件的人这样做,但须遵守以下条件:</p>
         <p>上述版权声明和本许可声明应包含在所有副本或实质部分的软件中.</p>
         <p>本软件按“原样”提供,不附带任何形式的明示或暗示担保,包括但不限于适销性、特定用途适用性和非侵权性的担保.在任何情况下,作者或版权持有人均不对任何索赔、损害或其他责任承担责任,无论是在合同、侵权或其他方面,由于软件或使用或其他交易引起的或与之相关的软件而导致的,包括但不限于使用或其他交易的任何损失或利润损失.</p><hr />
@@ -1186,11 +1186,11 @@ Excel
             </li>
             <li>
                 复数:<ul style="list-style-type:none;">
-                    <li><code><b>abs</b>(<var>x</var>)</code> - 实数的绝对值(模)| <var>x</var> |;</li>
-                    <li><code><b>abs</b>(a + b<var>i</var>)</code> - 复数模 = <b>sqrt</b>(a<sup>2</sup> + b<sup>2</sup>);</li>
                     <li><code><b>re</b>(a + b<var>i</var>)</code> - 仅返回复数的实部, <b>re</b>(a + b<var>i</var>) = a;</li>
                     <li><code><b>im</b>(a + b<var>i</var>)</code> - 返回复数的虚部的数值(实数), <b>im</b>(a + b<var>i</var>) = b;</li>
+                    <li><code><b>abs</b>(a + b<var>i</var>)</code> - 复数模 = <b>sqrt</b>(a<sup>2</sup> + b<sup>2</sup>);</li>
                     <li><code><b>phase</b>(a + b<var>i</var>)</code> - 复数的阶(辐角) = <b>atan2</b>(a; b).</li>
+					<li><code><b>conj</b>(a + b<var>i</var>)</code> - 复数的共轭复数 = a - b<var>i</var>.</li>
                 </ul>
             </li>
             <li>
@@ -1220,6 +1220,7 @@ Excel
             </li>
             <li>
                 其他:<ul style="list-style-type:none;">
+                    <li><code><b>abs</b>(<var>x</var>)</code> - 实数的绝对值(模) | <var>x</var> |;</li>
                     <li><code><b>sign</b>(<var>x</var>)</code> - 符号函数 = -1, if <var>x</var> < 0; 1, if <var>x</var> > 0, 0 if <var>x</var> = 0;</li>
                     <li><code><b>random</b>(<var>x</var>)</code> - 生成0 和 <var>x</var>之间的随机数.</li>
 					<li><code><b>getunits</b>(<var>x</var>)</code> - 返回<var>x</var>的单位(忽略其数值).若 <var>x</var>无单位则返回1;</li>
@@ -1235,8 +1236,7 @@ Excel
                         创建相关:<ul style="list-style-type:none;">
                             <li><code><b>vector</b>(<var>n</var>)</code> - 创建长度为 <var>n</var>的空向量;</li>
 							<li><code><b>vector_hp</b>(<var>n</var>)</code> - 创建长度为 <var>n</var>的高性能(hp)型的空向量;</li>
-							<li><code><b>fill</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>)</code> - 以<var>x</var>的值填充向量<var><span class="vec">⃗</span>v</var>;</li>
-                            <li><code><b>range</b>(<var>x</var><sub>1</sub>; <var>x</var><sub>n</sub>; <var>s</var>)</code> - 创建一个向量其元素值从 <var>x</var><sub>1</sub> 到 <var>x</var><sub>n</sub> 以步 <var>s</var>变化;</li>
+							<li><code><b>range</b>(<var>x</var><sub>1</sub>; <var>x</var><sub>n</sub>; <var>s</var>)</code> - 创建一个向量其元素值从 <var>x</var><sub>1</sub> 到 <var>x</var><sub>n</sub> 以步 <var>s</var>变化;</li>
 							<li><code><b>range_hp</b>(<var>x</var><sub>1</sub>; <var>x</var><sub>n</sub>; <var>s</var>)</code> - 创建一个高性能(hp)型向量,其元素值从 <var>x</var><sub>1</sub> 到 <var>x</var><sub>n</sub> 以步 <var>s</var>变化;</li>
                         </ul>
                     </li>
@@ -1245,6 +1245,7 @@ Excel
                             <li><code><b>len</b>(<var><span class="vec">⃗</span>v</var>)</code> - 返回向量 <var><span class="vec">⃗</span>v</var>的长度(维数);</li>
                             <li><code><b>size</b>(<var><span class="vec">⃗</span>v</var>)</code> - 向量的实际大小 <var><span class="vec">⃗</span>v</var> (最后一个非0元素的索引号);</li>
                             <li><code><b>resize</b>(<var><span class="vec">⃗</span>v</var>; <var>n</var>)</code> - 设置 <var>n</var> 为向量 <var><span class="vec">⃗</span>v</var>新的长度值;</li>
+                            <li><code><b>fill</b>(<var><span class="vec">⃗</span>v</var>; <var>x</var>)</code> - 以<var>x</var>的值填充向量<var><span class="vec">⃗</span>v</var>;</li>
                             <li><code><b>join</b>(<var>A</var>; <var><span class="vec">⃗</span>b</var>; <var>c</var>…)</code> - 通过合并:矩阵,向量和标量创建一个向量;</li>
                             <li><code><b>slice</b>(<var><span class="vec">⃗</span>v</var>; <var>i</var><sub>1</sub>; <var>i</var><sub>2</sub>)</code> - 返回向量的 <var><span class="vec">⃗</span>v</var> 索引号 <var>i</var><sub>1</sub> 到 <var>i</var><sub>2</sub> (包含边界)的部分;</li>
                             <li><code><b>first</b>(<var><span class="vec">⃗</span>v</var>; <var>n</var>)</code> - 向量 <var><span class="vec">⃗</span>v</var>的前 <var>n</var>个元素;</li>
@@ -4926,7 +4927,7 @@ Excel
         <p>从第一个示例中可以看出,一个"value"属性可以包含多个值,用分号";"分隔.在这种情况下,您必须在目标段落中提供相应数量的文本框.您可以复制上面的代码,添加任意多的选项,并编写自己的标签和值.您还可以更改名称和ID,但请确保所有源名称与目标ID完全匹配,并且不存在重复的ID.</p>
 
         <h3 id="TOC_602">输出控制</h3>
-        <p>您可以轻松指定代码中哪些部分在输出中可见或隐藏.与条件执行不同,隐藏的代码始终被计算.它只是不显示出来.以下关键字可用于此目的:</p>
+        <p>您可以轻松指定代码中哪些部分在输出中可见或隐藏.与按判据条件执行不同,隐藏的代码始终被计算.它只是不显示出来.以下关键字可用于此目的:</p>
         <ul style="list-style-type:none;">
             <li><span class="cond">#Hide</span> - 从当前行后起隐藏报告内容;</li>
             <li><span class="cond">#Pre</span> - 仅在"input(输入)" 模式 (详见下文 ""<a href="#TOC_601">输入表</a>" )显示内容;</li>
@@ -4942,7 +4943,7 @@ Excel
         </ul>
         <p>上述每个关键字都会覆盖其他关键字.您可以使用<span class="cond">#Val</span>创建一个带有值但没有公式的表格,就像在Excel中一样.</p>
 
-        <h3 id="TOC_603">条件执行</h3>
+        <h3 id="TOC_603">按判据条件执行</h3>
         <p>有时解决方案必须根据一些中间值以不同的方式继续.类似于其他编程语言,Calcpad中也包含了这个功能.它被称为"条件执行块",具有以下一般形式:</p>
         <ul style="list-style-type:none;">
             <li><code><span class="cond">#If</span> <b>条件1</b></code></li>
@@ -5006,7 +5007,7 @@ Excel
         <p><img alt="Interactive" height="360" src="Images/Interactive.png"></p>
         <p>此外,用户可以随时从键盘上按下"<b>Pause/Break</b>"或"<b>Ctrl + Alt + P</b>"来暂停执行.执行将在当前行暂停,就像检测到<code class="cond">#Pause</code>一样.</p>
 
-        <h3 id="TOC_606">模块(通过#include命令调用)</h3>
+        <h3 id="TOC_606">模块(通过#include调用)</h3>
         <p>Calcpad允许您在工作表中包含来自外部文件的内容.如果您在不同的工作表中重复使用某些代码片段,您可以将其组织成模块,并多次重用.此外,如果您有一个较长的工作表,您可以将其拆分为易于维护的模块.然后,您可以使用以下语句将它们包含到主文件中:</p>
         <p>&emsp;&emsp;<span class="cond">#include</span> <em class="macro">文件名</em></p>
         <p>"<em class="macro">文件名</em>"必须包含到本地文件的完整路径.如果文件与当前文件夹相同,您只需指定文件名即可.</p>
@@ -5048,21 +5049,21 @@ Excel
         <p>用户可以从text, CSV和Excel文件中导入数据或导出数据到上述文件中. 在Calcpad中, 数据应当存储到矩阵/向量变量中.用户也可以通过定义所需的范围来写入或写出特定部分的数据. 特殊矩阵数据可以通过结构化存储来节约存储空间. 上述功能可以用下列命令实现:</p>
 
         <h4>Text/CSV文件</h4>
-        <p>&emsp;&emsp;<code><span class="cond">#read</span> <var>M</var> from <em>文件名.txt</em>@R1C1:R2C2 TYPE=<b>R</b> SEP=','</code> - 从指定的的text/CSV文件中读取数据到矩阵/向量<var>M</var>中. 定义的文件需存在;</p>
+        <p>&emsp;&emsp;<code><span class="cond">#read</span> <var>M</var> from <em>文件名.txt</em>@R1C1:R2C2 TYPE=<b>R</b> SEP=','</code> - 从指定的的text/CSV文件中读取数据到矩阵/向量<var>M</var>中. 定义的文件必须存在;</p>
         <p>&emsp;&emsp;<code><span class="cond">#write</span> <var>M</var> to <em>文件名.txt</em>@R1C1:R2C2 TYPE=<b>N</b> SEP=','</code> - 将矩阵/向量 <var>M</var>的数据写入到指定的text/CSV 文件在. 若文件已存在, 其将被完全重写.否则, 将自动创建一个上述名称的新文件. 无论如何,文件的路径必须存在;</p>
         <p>&emsp;&emsp;<code><span class="cond">#append</span> <var>M</var> to <em>文件名.txt</em>@R1C1:R2C2 TYPE=<b>N</b> SEP=','</code> - 将矩阵/向量<var>M</var>的数据追加到指定的text/CSV文件中. 若文件已存在,数据将追加在文档的末尾. 否则, 将自动创建一个上述名称的新文件. 无论如何,文件的路径必须存在.</p>
         <p><strong>命令选项</strong></p>
         <p>
-            &emsp;&emsp;<var>M</var>	- 包含[<span class="err">需要的</span>]数据的矩阵/向量的名称;
+            &emsp;&emsp;<var>M</var>	- 包含数据的矩阵/向量的名称[<span class="err">必填</span>];
             <br />&emsp;&emsp;<code><em>文件名.txt</em></code>	- 输入/输入文件的路径及名称[<span class="err">必填</span>]. 若路径缺省,则程序默认文件在计算程序相同路径下. 扩展名不可缺省，且允许任何扩展名(除了Excel文件, 包括<b>txt</b> 和 <b>csv</b>), 只要文件中的数据是文本格式即可;
-            <br />&emsp;&emsp;<code>@R1C1:R2C2</code> - 输入文件中的数据范围 [<span class="ok">可选的</span>];
-            <br />&emsp;&emsp;<code>R1C1</code> - 起始行号和列号 [<span class="ok">可选的</span>];
-            <br />&emsp;&emsp;<code>@R1C1:R2C2</code> - 输入文件中的数据范围 [<span class="ok">可选的</span>];
-            <br />&emsp;&emsp;<code>R1</code> - 行号: 由大写字母“R”和行号数构成[<span class="ok">可选的</span>];
-            <br />&emsp;&emsp;<code>@R1C1:R2C2</code> - 输入文件中的数据范围 [<span class="ok">可选的</span>];
-            <br />&emsp;&emsp;<code>C1</code> - 列号: 由大写字母“C”和列号数构成 [<span class="ok">可选的</span>];
-            <br />&emsp;&emsp;<code>@R1C1:R2C2</code> - 输入文件中的数据范围 [<span class="ok">可选的</span>];
-            <br />&emsp;&emsp;<code>:R2C2</code> - 终止行号(R2)和列号(C2)  [<span class="ok">可选的</span>];
+            <br />&emsp;&emsp;<code>@R1C1:R2C2</code> - 输入文件中的数据范围 [<span class="ok">选填</span>];
+            <br />&emsp;&emsp;<code>R1C1</code> - 起始行号和列号 [<span class="ok">选填</span>];
+            <br />&emsp;&emsp;<code>@R1C1:R2C2</code> - 输入文件中的数据范围 [<span class="ok">选填</span>];
+            <br />&emsp;&emsp;<code>R1</code> - 行号: 由大写字母“R”和行号数构成[<span class="ok">选填</span>];
+            <br />&emsp;&emsp;<code>@R1C1:R2C2</code> - 输入文件中的数据范围 [<span class="ok">选填</span>];
+            <br />&emsp;&emsp;<code>C1</code> - 列号: 由大写字母“C”和列号数构成 [<span class="ok">选填</span>];
+            <br />&emsp;&emsp;<code>@R1C1:R2C2</code> - 输入文件中的数据范围 [<span class="ok">选填</span>];
+            <br />&emsp;&emsp;<code>:R2C2</code> - 终止行号(R2)和列号(C2)  [<span class="ok">选填</span>];
             <br />&emsp;&emsp;索引号始于<b>1</b>.用户可以跳过任意的起始和终止行/列索引号. 这种情况下,矩阵的维数和元素值取默认值1. 起始索引号可以比终止号大. 下面是一些示例:
         </p>
         <table class="centered nb">
@@ -5177,7 +5178,7 @@ Excel
             </tr>
         </table>
         <p>
-            &emsp;&emsp;<code>TYPE=<b>R</b></code>	-矩阵/向量结构化存储的类型 [<span class="ok">可选的</span>].
+            &emsp;&emsp;<code>TYPE=<b>R</b></code>	-矩阵/向量结构化存储的类型 [<span class="ok">选填</span>].
             <br />&emsp;&emsp;对<span class="cond">#read</span> 命令, TYPE可以是下列任意大写字母:
             <br />&emsp;&emsp;&emsp;&emsp;<code><b>R</b></code> - 矩形阵(默认);
             <br />&emsp;&emsp;&emsp;&emsp;<code><b>C</b></code> - 列阵;
@@ -5207,7 +5208,7 @@ Excel
                         <tr><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td><td>&emsp;</td></tr>
                     </table>
                 </td>
-                <td>&nbsp;<br />&nbsp;<br />&nbsp;<br />➔</td>
+                <td>&nbsp;<br/>&nbsp;<br/>&nbsp;<br/>➔</td>
                 <td>
                     <p><b>Matrix</b></p>
                     <table class="bordered centered sm">
@@ -5277,7 +5278,7 @@ Excel
         </p>
         <p>
             &emsp;&emsp;若选择 “<b>N</b>”, 所有矩阵都存储为矩形阵,忽略其类型和内部结构.<br />&emsp;&emsp;所有最后一个非零行元素之后的元素都略掉.
-            <br />&emsp;&emsp;<code>SEP=','</code>	- 分隔符[<span class="ok">可选的</span>]. 用户必须在单引号中指定单个字符.<br />&emsp;&emsp;对于 <span class="cond">#read</span>命令其必须与输入文件中的实际分隔符一致.
+            <br />&emsp;&emsp;<code>SEP=','</code>	- 分隔符[<span class="ok">选填</span>]. 用户必须在单引号中指定单个字符.<br />&emsp;&emsp;对于 <span class="cond">#read</span>命令其必须与输入文件中的实际分隔符一致.
             <br />&emsp;&emsp;若上述命令中所有可选关键字都略去，则允许的最短语法如下:
             <br />&emsp;&emsp;&emsp;&emsp;“<code><span class="cond">#read</span> <var>M</var> from <em>文件名.txt</em></code>” 或
             <br />&emsp;&emsp;&emsp;&emsp;“<code><span class="cond">#write</span> <var>M</var> to <em>文件名.txt</em></code>” 或
@@ -5293,10 +5294,10 @@ Excel
         <p>
             &emsp;&emsp;<var>M</var>	- 包含数据的矩阵/向量名称[<span class="err">必填</span>];
             <br />&emsp;&emsp;<code><em>文件名.xlsx</em></code> - 输入/输出文件的名称和路径[<span class="err">必填</span>].如果未提供路径，则默认文件位于同一文件夹中.支持的文件扩展名为 <b>xlsx</b> 和 <b>xlsm</b>;
-            <br />&emsp;&emsp;<code>@Sheet1</code> - 目标工作表的名称 [<span class="ok">可选的</span>]. 如果省略，则对已有文件使用第一个工作表，而对新建文件则默认使用 Sheet1.
-            <br />&emsp;&emsp;<code>!A1:B2</code> - 目标单元格范围[<span class="ok">可选的</span>]:
-            <br />&emsp;&emsp;<code>A1</code> - 起始单元格索引[<span class="ok">可选的</span>], 其中 A为列名且行号为 1;
-            <br />&emsp;&emsp;<code>:B2</code> - 索引号如上的终止单元[<span class="ok">可选的</span>];
+            <br />&emsp;&emsp;<code>@Sheet1</code> - 目标工作表的名称 [<span class="ok">选填</span>]. 如果省略，则对已有文件使用第一个工作表，而对新建文件则默认使用 Sheet1.
+            <br />&emsp;&emsp;<code>!A1:B2</code> - 目标单元格范围[<span class="ok">选填</span>]:
+            <br />&emsp;&emsp;<code>A1</code> - 起始单元格索引[<span class="ok">选填</span>], 其中 A为列名且行号为 1;
+            <br />&emsp;&emsp;<code>:B2</code> - 索引号如上的终止单元[<span class="ok">选填</span>];
             <br />&emsp;&emsp;列名从 <b>A</b> 开始，行号从 <b>1</b> 开始.您可以省略任意起始或结束的列/行引用.在这种情况下，数据会分别读取到首个和最后一个非空单元格.起始单元格的引用可以大于结束单元格的引用.下面给出数据导入设置的示例：
         </p>
         <table class="centered nb">
@@ -5408,7 +5409,7 @@ Excel
             <tr><th>7</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
         </table>
         <p>
-            &emsp;&emsp;<code>TYPE=<b>R</b></code>	- 用于结构化存储的矩阵/向量的类型 [<span class="ok">可选的</span>]. 相同的规则适用于上述的text/CSV文件.
+            &emsp;&emsp;<code>TYPE=<b>R</b></code>	- 用于结构化存储的矩阵/向量的类型 [<span class="ok">选填</span>]. 相同的规则适用于上述的text/CSV文件.
 		</p>
         <h2 id="TOC_700">结果</h2>
         <p>您可以通过按下<b>F5</b>或单击<img alt="Play" height="24" src="Images/Play.png">按钮来运行解决方案.结果将出现在"<b>输出</b>"框中.您无法编辑输出内容,但可以选择、复制和打印它.为此,您可以使用右侧"<b>输出</b>"框上方的工具栏.您还可以使用上下文菜单中的其他命令.如果您在"<b>输出</b>"框内右键单击,将显示一个弹出菜单,其中包含其他命令.本手册中提供了详细的描述.</p>
@@ -5421,8 +5422,17 @@ Excel
         <p>如果您不需要替代,可以取消选中此选项.然后答案将直接遵循计算公式:</p>
         <p style="margin-left: 2em;"><var>x</var><sub>1</sub> = <span class="dvc"> -<var>b</var> – <span class="root">√</span><span class="ovr"><var>D</var></span><span class="dvl"></span>2·<var>a</var></span> = -1.55</p>
         <p>之后,如果将鼠标放在任何变量上,将显示带有相应值的工具提示.</p>
-
-
+		<p>
+            用户可以通过选项在计算文档中控制变量代入.为此可使用下列切换命令:<br />
+            &emsp;&emsp;<span class="cond">#nosub</span> - 不代入变量值(无代换);<br />
+            &emsp;&emsp;<span class="cond">#novar</span> - 仅显示包含代入值的代数式(无变量);<br />
+            &emsp;&emsp;<span class="cond">#varsub</span> - 既显示变量代数式又显示代入式(默认).
+        </p>
+        <p>
+            若计算式太长不适合单行显示，可以使用下列二命令之一来控制输出:<br />
+            &emsp;&emsp;<span class="cond">#split</span> - 代数式从"="后换行显示;<br />
+            &emsp;&emsp;<span class="cond">#wrap</span> - 代数式从末尾换行,即变量代数式和数值代数式分行输出(默认).<br />
+        </p>
         <h3 id="TOC_702">舍入</h3>
         <p>舍入是由小数点后的数字个数<var>n</var>指定的.它输入到程序窗口底部的"<b>舍入</b>"输入框中.变量<var>n</var>的值可以在"0"和"15"之间.如果输入"0",所有结果将舍入为整数.如果值小于"0"或大于"15",则会采用相应的限制.</p>
         <p>然而,舍入可能会遇到一些潜在的问题.如果结果小于10<sup>-<var>n</var></sup>并且您将其舍入为小数点后<var>n</var>位数,结果将只包含零.因此,Calcpad采用了一些高级规则:如果舍入后输出的有效数字少于<var>n</var>位数,则会扩展到<var>n</var>位有效数字.即使如此,如果数字太小,很难计算小数点后的零的个数.因此,在这种情况下,输出将转换为具有<var>n</var>位数字的浮点格式.当总位数大于2<var>n</var>时,小数部分将被截断.通过这种方式,输出变得更容易阅读,同时至少提供2<var>n</var>位有效数字.您可以在下面看到几个示例,这些示例是针对(<var>n</var> = 3)获得的.</p>
@@ -5585,7 +5595,7 @@ Excel
                         <b>自定义</b>.<br />
                        它由以下字符组成：<br />
 						<b>0</b> – 零占位符.如果有数字则显示该数字，没有数字时显示零.<br />
-						<b>#</b> – 可选的数字占位符.如果有数字则显示该数字，没有数字时不显示任何内容.<br />
+						<b>#</b> – 选填的数字占位符.如果有数字则显示该数字，没有数字时不显示任何内容.<br />
 						<b>.</b> – 小数分隔符.<br />
 						<b>,</b> – 分组分隔符.<br />
 						<b>E</b>、<b>e</b>、<b>E+</b>、<b>e+</b>、<b>E-</b>、<b>e-</b> – 指数表示法.
@@ -5645,7 +5655,7 @@ Excel
         <h3 id="TOC_804">另存为...</h3>
         <p>如果您需要使用不同的名称保存当前文件,请选择"<b>文件/另存为...</b>"菜单命令.将显示一个文件选择对话框.选择文件路径和名称,然后点击"<b>保存</b>".</p>
         <hr />
-        <p>2025.10.06——ChengChu编辑.</p>
+        <p>2025.12.02——ChengChu编辑.</p>
     </div>
     <script src="jquery-3.6.3.min.js"></script>
     <script>

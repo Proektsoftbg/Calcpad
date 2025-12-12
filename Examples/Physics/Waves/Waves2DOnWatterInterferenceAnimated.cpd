@@ -1,5 +1,6 @@
 'Assoc. prof. Tadeusz Szumiata, PhD, Radom University, Poland
 "Interference of waves on water animation
+'<hr/>
 'Interferencja fal na wodzie
 #rad
 λ = 0.8m
@@ -14,9 +15,9 @@ T = λ/v','f = 1/T|Hz
 Ψ_2D_1(x; y; t) = Ψ_01*sin(k*r(x - a/2; y) - ω_1*t)
 Ψ_2D_2(x; y; t) = Ψ_02*sin(k*r(x + a/2; y) - ω_2*(t + Δt))
 Ψ_2D(x; y; t) = Ψ_2D_1(x; y; t) + Ψ_2D_2(x; y; t)
-'<!--'PlotHeight = 300','PlotWidth = 300','PlotSVG = 1','n = 20'-->
+'<!--'PlotHeight = 300','PlotWidth = 300','PlotSVG = 1','PlotPalette = 6','n = 20'-->
 #val
-'Animation - slowed down by 'kT = 2' times
+'Animation - slowed down by 'kT = 3' times
 '<style>[id^="fr-"]{display:none;}</style>
 #for i = 1 : n
 	'<div id="fr-'i'">

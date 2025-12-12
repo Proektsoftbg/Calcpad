@@ -143,7 +143,7 @@ namespace Calcpad.Core
             {
                 if (string.IsNullOrEmpty(_keyword))
                     return _keyword;
-                return "<span class=\"cond\">" + _keyword + "</span>";
+                return $"<span class=\"cond\">{_keyword}</span>";
             }
 
             private static int GetKeywordLength(Types type)

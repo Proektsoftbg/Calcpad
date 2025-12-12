@@ -1,0 +1,52 @@
+#md on
+#noc
+"Automatic Table of Contents
+'<style>#toc, #toc hr{border: solid 1px #8cf;} #toc{width: 300pt; background:#f0fcff; border-radius: 6pt; padding:12pt;} #toc li{list-style-type:none;} #toc ul{padding-left:1.5em;} #toc a{color:#08f;} #toc b{color:#06c;}</style>
+'<article><div id="toc"><b>TABLE OF CONTENTS</b><hr/></div>
+'#### Classification of Root Finding Methods
+'
+'Root finding is a fundamental problem in numerical analysis that involves finding values of x where f(x) = 0. These methods are essential in science, engineering, and mathematics for solving equations that cannot be solved analytically.
+'
+'##### Bracketing Methods
+'
+'Bracketing methods require an initial interval [a, b] where the function changes sign, guaranteeing a root exists within that interval by the Intermediate Value Theorem.
+'
+'###### Bisection Method
+'This is the simplest bracketing approach. It repeatedly halves the interval, selecting the subinterval where the sign change occurs. While slow with linear convergence, it`s extremely reliable and always converges.
+'
+'###### False Position (Regula Falsi)
+'It improves upon bisection by using linear interpolation to estimate the root`s location rather than simply bisecting. This often converges faster than bisection but can sometimes perform poorly if the function is highly nonlinear, particularly when one endpoint remains fixed while the other moves toward the root.
+'
+'###### Illinois Method
+'It improves convergence by halving the function value at the retained endpoint when the same endpoint is kept for consecutive iterations. This adjustment guarantees superlinear convergence with order approximately 1.442.
+'
+'###### Anderson-Björck Method
+'It is more sophisticated modification that uses adaptive weighting of the retained endpoint. Instead of the fixed 0.5 factor used in Illinois, it applies a multiplier m calculated based on the current and previous function values, providing better convergence behavior.
+'
+'###### Modified Anderson-Björck (ModAB)
+'This is a recent hybrid approach that combines bisection, false position, and the Anderson-Björck method to provide both high speed and stability. This algorithm switches intelligently between methods depending on convergence behavior, offering performance comparable to the fastest methods while ensuring stable behavior in worst-case scenarios.
+'
+'##### Open Methods
+'
+'Open methods use one or more initial guesses but don`t require bracketing. They typically converge faster than bracketing methods when they work, but may fail to converge if the initial guess is poor.
+'
+'###### Newton-Raphson Method
+'This is perhaps the most famous root finding technique. It uses both the function and its derivative to achieve quadratic convergence near the root. The iteration formula:
+'>'x'~n+1~ = 'x_n - f(x_n)/f′(x_n)
+'geometrically corresponds to following the tangent line to the x-axis.
+'
+'###### Secant Method
+'It approximates the derivative numerically using two previous points, avoiding the need to compute f`(x) explicitly. It converges superlinearly with order approximately 1.618, making it an excellent alternative when derivatives are expensive or unavailable.
+'
+'##### Hybrid Methods
+'
+'Modern implementations often combine approaches to leverage their respective strengths. **Brent`s Method** is a sophisticated hybrid that uses inverse quadratic interpolation, secant method, and bisection. It maintains bracketing for guaranteed convergence while achieving superlinear convergence rates, making it one of the most robust general-purpose root finders available.
+'</article>
+#val
+#md off
+'<script src="./toc.js" type="text/javascript"></script>
+'<script>			
+'  window.addEventListener("load", function (event) {
+'    makeList({"target": "#toc", "parent": "article"});
+'  });
+'</script>

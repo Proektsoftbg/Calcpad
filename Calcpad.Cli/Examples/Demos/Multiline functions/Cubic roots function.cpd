@@ -1,5 +1,7 @@
 "Cubic Equation Roots Function
-'For solving equations of type'f(x) = x^3 + a*x^2 + b*x + c'= 0
+'<hr/>
+'For solving equations of type:'f(x) = x^3 + a*x^2 + b*x + c'= 0
+
 #rad
 cubicRoots_1(a; Q; R) = $block{
   A = -sign(R)*(abs(R) + sqr(R^2 - Q^3))^(1/3); 
@@ -25,4 +27,5 @@ d = max(abs(x.3 - x.1)/4; 0.5)
 x_min = min(x.1; x.3) - d','x_max = max(x.1; x.3) + d
 PlotWidth = 200', 'PlotHeight = 150
 #show
+'Plot
 $Plot{f(ξ) & x.1|0 & x.2|0 & x.3|0 @ ξ = x_min : x_max}

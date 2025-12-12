@@ -1,4 +1,5 @@
 "Vector initialization
+'<hr/>
 'Direct:
 a = [cos(0); 2; 3; 2*2; 6 - 1]
 'Direct with another vector:
@@ -13,6 +14,7 @@ fill(a; 5)'- fills the vector with a value of 5
 a = range(0; 10; 2)'- creates a vector from a range of values, starting from 0 to 10 with step 2
 
 "Indexing
+'<hr/>
 a = [2; 4; 6; 8; 10]
 a.2'- simple dot operator (constant index)
 k = 3', 'a.k'- variable index

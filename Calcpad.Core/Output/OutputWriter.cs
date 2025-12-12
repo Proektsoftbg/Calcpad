@@ -51,6 +51,7 @@ namespace Calcpad.Core
         internal abstract string UnitString(Unit units);
         internal abstract string FormatInput(string s, Unit units, int line, bool isCalculated);
         internal abstract string FormatSubscript(string sa, string sb);
+        internal abstract string AppendSubscript(string sa, string sb);
         internal abstract string FormatVariable(string name, string value, bool isBold);
         internal abstract string FormatUnits(string s);
         internal abstract string FormatFunction(string s);
@@ -70,12 +71,12 @@ namespace Calcpad.Core
         internal abstract string FormatVector(Vector vector);
         internal abstract string FormatMatrixValue(RealValue value, double zeroThreshold);
         internal abstract string FormatBlock(string[] sa);
-
+        internal abstract string CloseCurlyBrackets(string sa, int level);
         internal string FormatUnitsText(string text)
         {
             _stringBuilder.Clear();
-            var literal = string.Empty;
-            var power = string.Empty;
+            var literal = new StringBuilder();
+            var power = new StringBuilder();
             var isPower = false;
             byte sub = 0;
             var brackets = new Stack<int>();
@@ -94,7 +95,7 @@ namespace Calcpad.Core
                         if (isPower && brackets.TryPeek(out int ind) && ind < power.Length)
                         {
                             string oper = FormatOperator(c);
-                            power += oper;
+                            power.Append(oper);
                         }
                         else
                         {
@@ -120,10 +121,10 @@ namespace Calcpad.Core
                                 if (index == 0)
                                 {
                                     if (this is TextWriter)
-                                        power = $"({power})";
+                                        power.Insert(0,'(').Append(')');
                                 }
                                 else
-                                    power = $"{power[..index]}({power[index..]})";
+                                    power.Insert(index,'(').Append(')');
                             }
                             else
                             {
@@ -131,17 +132,17 @@ namespace Calcpad.Core
                                 var length = _stringBuilder.Length - index;
                                 var s = _stringBuilder.ToString(index, length);
                                 _stringBuilder.Remove(index, length);
-                                literal = AddBrackets(s);
+                                literal.Clear().Append(AddBrackets(s));
                             }
                             break;
                         }
                     default:
                         {
                             if (isPower)
-                                power += c;
+                                power.Append(c);
                             else
                             {
-                                var cl = string.IsNullOrEmpty(literal) ? '\0' :     literal[^1];
+                                var cl = literal.Length == 0 ? '\0' : literal[^1];
                                 var isSub = sub switch
                                 {
                                     0 => c == '_',
@@ -166,7 +167,7 @@ namespace Calcpad.Core
                                 else
                                     sub = 0;
 
-                                literal += c;
+                                literal.Append(c);
                             }
                             break;
                         }
@@ -197,23 +198,28 @@ namespace Calcpad.Core
             void AppendPower()
             {
                 var isXmlWriter = this is XmlWriter;
-                if (!literal.Equals("°", StringComparison.OrdinalIgnoreCase))
-                    literal = FormatLocal(literal);
+                string ls, ps;
+                if (literal.Length != 1 || literal[0] != '°')
+                    ls = FormatLocal(literal.ToString());
                 else if (isXmlWriter)
-                    literal = XmlWriter.Run(literal);
+                    ls = XmlWriter.Run(literal);
+                else
+                    ls = literal.ToString();
 
                 if (isPower)
                 {
                     if (isXmlWriter)
-                        power = XmlWriter.Run(power);
+                        ps = XmlWriter.Run(power);
+                    else
+                        ps = power.ToString();
 
-                    _stringBuilder.Append(FormatPower(literal, power, -1, -1));
+                    _stringBuilder.Append(FormatPower(ls, ps, -1, -1));
                 }
                 else
-                    _stringBuilder.Append(literal);
+                    _stringBuilder.Append(ls);
 
-                literal = string.Empty;
-                power = string.Empty;
+                literal.Clear();
+                power.Clear();
                 isPower = false;
             }
         }
@@ -238,7 +244,7 @@ namespace Calcpad.Core
             '∨' => " or ",
             '⊕' => " xor ",
             ';' => "; ",
-            ',' => ", ",
+            ',' => ",",
             '|' => " | ",
             _ => c.ToString()
         };
@@ -282,7 +288,17 @@ namespace Calcpad.Core
             culture ??= CultureInfo.CurrentCulture;
             if (!string.IsNullOrEmpty(format))
             {
-                var s = d.ToString(format, culture);
+                string s;
+                if (format.StartsWith('D'))
+                {
+                    if (double.IsInteger(d) && d < long.MaxValue)
+                        s = ((long)d).ToString(format, culture);
+                    else
+                        throw Exceptions.InvalidFormatString(format);
+                }
+                else
+                    s = d.ToString(format, culture);
+
                 return s == "-0" ? "0" : s;
             }
 

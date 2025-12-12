@@ -1,15 +1,16 @@
 "Koch Snowflake Animation
+'<hr/>
 'Initial triangle coordinates
 #def a$ = sqrt(3)/2
 x = [0; 1; 0.5; 0]', 'y = [0; 0; a$; 0]
-'Number of iterations -'n = 6
+'Number of iterations -'n = 6'&emsp;<button id="start">Start</button>
 
 #val
-'<style>polygon{display:none; stroke:none;}</style> 
+'<style>polygon{display:none; stroke:#08a; stroke-width:0.1}</style> 
 #hide 
 w = 300', 'h = 1.2*w', 'k = 100
 #show
-'<svg viewbox="0 10 'k' 'k'" style="width:'w'pt; height:'h'pt">
+'<center><svg viewbox="0 10 'k' 'k'" style="width:'w'pt; height:'h'pt;">
 '<defs><radialGradient id="sff" cx="50%" cy="50%"><stop offset="0%" stop-color="lightCyan"/><stop offset="70%" stop-color="lightBlue"/><stop offset="120%" stop-color="#8ac8df"/></defs>
 #for i = 1 : n
 	#hide
@@ -19,7 +20,7 @@ w = 300', 'h = 1.2*w', 'k = 100
 	#for j = 1 : n_p
 		x.j*k','(a$ - y.j)*k' '
 	#loop
-	'" fill="url(#sff)" fill-opacity="0.6"/>
+	'" fill="url(#sff)" fill-opacity="0.8"/>
 	#hide
 	x1 = [x.1]', 'y1 = [y.1]
 	'Iterate over the segments
@@ -40,5 +41,5 @@ w = 300', 'h = 1.2*w', 'k = 100
 	y = [y1; p2.2]
 	#show
 #loop
-'</svg>
-'<script>var i='1';f=$("#fr-1");f.show(950);setInterval(function(){if(++i>'n'){i=1;$("polygon:not(#fr-1)").hide(500);}f=$("#fr-"+i);f.show(950);},'1000');</script>
+'</svg></center>
+'<script>var i='1';var f=$("#fr-1");f.show();$("#start").click(function(){$("html, body").animate({scrollTop:$("#start").offset().top},800);$("#start").hide();setInterval(function(){if(++i>'n'){i=1;$("polygon:not(#fr-1)").hide();}f=$("#fr-"+i);f.show(600);},'1000');})</script> 

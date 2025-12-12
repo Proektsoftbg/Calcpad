@@ -1,5 +1,6 @@
 "Matrix operators
 '<h4>Matrix-matrix</h4>
+'<hr/>
 A = hp([0; 1; 2|3; 4; 5])', 'B = hp([11; 10; 9|8; 7; 6])
 'Arithmetic:
 A!'- factorial
@@ -28,6 +29,7 @@ B = hp([6; 5|4; 3|2; 1])
 A*B
 
 '<h4>Matrix-vector</h4>
+'<hr/>
 A = hp([0|1|2|3|4|5])', 'b = hp([11; 10; 9; 8; 7; 6])
 'Arithmetic:
 A^b'- exponentiation
@@ -54,6 +56,7 @@ A*transp(b)
 transp(A)*b
 
 '<h4>Vector-matrix</h4>
+'<hr/>
 a = hp([0; 1; 2; 3; 4; 5])', 'B = hp([11|10|9|8|7|6])
 'Arithmetic:
 a^B'- exponentiation
@@ -80,6 +83,7 @@ a*transp(b)
 transp(a)*b
 
 '<h4>Matrix-scalar</h4>
+'<hr/>
 A = hp([0; 1; 2|3; 4; 5])', 'b = 2
 'Arithmetic:
 A^2'- exponentiation
@@ -102,6 +106,7 @@ A ∨ 2'- logical "or"
 A ⊕ 2'- logical "xor"
 
 '<h4>Scalar-matrix</h4>
+'<hr/>
 a = 2', 'B = hp([11; 10; 9|8; 7; 6])
 'Arithmetic:
 2^B'-exponentiation

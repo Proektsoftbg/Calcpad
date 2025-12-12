@@ -708,7 +708,7 @@ namespace Calcpad.Core
                     var v = new RealValue(unit);
                     return new ValueToken(v)
                     {
-                        Content = "<i>" + units + "</i>",
+                        Content = $"<i>{units}</i>",
                         Type = TokenTypes.Unit
                     };
                 }

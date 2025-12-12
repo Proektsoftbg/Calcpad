@@ -1,4 +1,5 @@
 "Sample program to check the Collatz conjecture
+'<hr/>
 '<p>For more information see <a href="https://en.wikipedia.org/wiki/Collatz_conjecture">https://en.wikipedia.org/wiki/Collatz_conjecture</a></p>
 '<h4>Check by inline loop</h4>
 'Function -'CollatzCheck(k; n) = $Repeat{k = switch(k ≡ 1; 1; k⦼2 ≡ 0; k/2; 3*k + 1) @ i = 1 : n}

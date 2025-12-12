@@ -128,7 +128,7 @@ namespace Calcpad.Core
                         Parser.Parse(xy[1]);
                         sy = Parser.ToHtml();
                     }
-                    charts[index] = sx + " | " + sy;
+                    charts[index] = string.Concat(sx," | ", sy);
                     index++;
                 }
             }

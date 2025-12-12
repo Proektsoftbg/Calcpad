@@ -6,8 +6,8 @@
     <title>Calcpad Quick Reference</title>
     <style>
         body {
-            font-size: 12pt;
-            font-family: Calibri;
+            font-size: 11pt;
+            font-family: Calibri, sans-serif;
             margin-top: 0;
             padding-top: 0;
         }
@@ -22,20 +22,26 @@
             }
 
         p, li {
-            line-height: 140%;
+            line-height: 130%;
         }
 
         p, ul, ol {
-            margin-top: 0.5em;
-            margin-bottom: 0.5em;
+            margin-top: 0;
+            margin-bottom: 3pt;
         }
 
-        var, i, b, em {
-            font-family: 'Times New Roman';
+        ol, ul {
+            margin-left: 0;
+            padding-left: 2em;
         }
 
-        var, b {
-            font-size: 12.5pt;
+        .tight {
+            line-height: 80%;
+            margin-top: 3pt;
+        }
+
+        var, i, em {
+            font-family: 'Times New Roman', serif;
         }
 
         b {
@@ -47,8 +53,9 @@
         }
 
         var {
+            font-size: 11.5pt;
             color: #06c;
-            padding-right: 1pt;
+            padding-right: 0.5pt;
         }
 
         i {
@@ -59,7 +66,16 @@
 
         img {
             vertical-align: top;
-            height: 14pt;
+            height: 13pt;
+        }
+
+        .vec {
+            color: black;
+            font-style: normal;
+            display: inline-block;
+            vertical-align: 1.1pt;
+            margin-left: 3pt;
+            margin-right: -3pt;
         }
 
         .cond {
@@ -78,16 +94,20 @@
             color: deeppink;
             padding: 0 1pt 0 1pt;
         }
+		
+		.ok {
+            color: green;
+        }
 
         .exp {
             display: inline-block;
-            line-height: 100%;
-            font-size: 12pt;
+            line-height: 90%;
+            font-size: 11pt;
             font-weight: bold;
             border: solid 1px #cccccc;
-            padding: 0 3pt 1pt 3pt;
-            margin-left: -16pt;
-            margin-right: 4pt;
+            padding: 0 2pt 1pt 2pt;
+            margin-left: -14pt;
+            margin-right: 3pt;
             border-radius: 3pt;
         }
 
@@ -97,7 +117,7 @@
             }
 
         sub {
-            font-family: Arial Nova;
+            font-family: Arial Nova, serif;
             font-size: 70%;
             padding-left: 0.5pt;
             padding-right: 0.5pt;
@@ -112,36 +132,44 @@
             padding: 1pt 6pt;
             background-color: #fbf0ff;
             font-size: 11pt;
-			border: solid 1pt #edf;
+            border: solid 1pt #edf;
         }
 
-        .banner a:hover {background-color: #eacfff;}
+            .banner a:hover {
+                background-color: #eacfff;
+            }
     </style>
 </head>
 <body>
-    <p><strong style="font-size:13pt;">How it works?</strong></p>
+    <p><strong style="font-size:13pt;">How it works</strong></p>
     <ol>
-        <li><strong>Enter</strong> text and formulas into the "<strong>Code</strong>" box on the left.</li>
-        <li>Press <strong>F5</strong> or click <img alt="Play" src=" data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAt1BMVEVHcEz/yAv/yAv/yAv/yRj/yQv/yAv/wwv/yAv/yAv/yAv/yAv/0Qv/yQv/ygv/yA3/yAv/vQv/yAv/xQv/yAv/yAv/yQv/yQz/yAv/yQ3/yAv/yQz/yAv/yQz/yAv/yQ3/yQ3/yAv/yQ3/yQ3/yAv/yAv///////3//vn/yQ7/+eL/3F7/yhL/zBn/9dH/zyj/6qH/1Dv/55P/8Lj/7q3//PD/1kb/4HX/ziH/5o3/0TH/9Mn/10u+KKJTAAAAJXRSTlMA2VbgCrbdBv3vzosO4xFNsQQdF+pIvIL5b0PWy5RddHJTo5pBdeAVQgAAAX5JREFUSMfFlutygjAQhQGEAKKgonijrW03Yi9Wq733/Z+rLWBLyCahgzOen4FvNifZ7K6mnUhdIxmZ7rfMUbLoqv8nhuVASY5lECnQuugAp86kJSYCE1DZgQDwQxDqEg008EAib8ATfR2k0vsc0QGF7Eoc4oFSc/a0r6CGkjIxhFqalm7QrIeYf0d9Xl6/2z8ImclvkIhBaPp4L0CiQ5gzYBFKb24FjFEgIw6hdP2MIlbxPhwEoXSDWRr7GbJgV1cFglvKc7otQFBL7QyxhAhvycnN6BKELjevbEJniFuJTVmlb2VLUYaM5QhraVwPWX9WEcXG2GOLMPuwVNu3JMjuvfIxxK4SUvVVBgLk6WXFJ8wQS8sDspekZdVMhnxs0eQP0Sf2g6B7Kj8xwpa9lE0Rpl4QtFzAbqsuFxqZ1StKM9Kk9PHXiardtIxrXaUdz2/eklSNbz7AmmUvdkSAE/cEPXkq2Jx+/e9RgRx3IMlHhiAObRfAtcN46J9q+PoCy+3uzfsd8iwAAAAASUVORK5CYII="> to <strong>calculate</strong>. The results will appear in the "<strong>Output</strong>" box on the right as a professionally formatted Html <strong>report</strong>.</li>
-        <li>Click <img alt="PrintPreview" src=" data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAKlBMVEVHcExmZmZmZmZmZmZmZmZnZ2dmZmZmZmb////MzMxmZmZxcXGwsLB+fn7gdc34AAAACHRSTlMA5YUFh8LFwzanracAAACRSURBVEjH7ZbRDsAQDEVnsCn+/3e3CGYSsMAenFc5SdvoZdtGAwlaKmeEpSzlARMEhaAda4VABbtWEEheiARkWuDFmKZ6KVIIWakIANFf+VDYmIm1U1J3q6US35f5igq7UD2UosLcIucVu8heXISFKae848ILpfuU+QoNFBtKMwL2CIdMswqrV/75voz4w/TjApkOPCUKGaemAAAAAElFTkSuQmCC"> to <strong>print</strong> or <img alt="Copy" src=" data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAYUExURUdwTGpqamlpaWlpaf///2lpacPDw4ODg+TnpFYAAAAEdFJOUwAZ2c/7RV8SAAAAuklEQVQ4y8WT0Q2DMAxEMwIrsIsF/1RRFqg8Qbp/U8d2SExoEKp6v0/PdyBw7k485zH1iJ8NgRwrKXnNPbJurSQEjAQLIj4TEUkmBQAmIunaKNdE0uaghKWyNirJUln7aaIelnxZG2FJhLJlImupifdUBLiJeHWNpSNCUjqAlqyhIdKza6qIvD3bk3NApI1qvhOU5IUwQqprpwtwgJSa3gK4seDP76BLXPu96ZOeEPt/lvs/InWGyPW8AfZFEmse5iDyAAAAAElFTkSuQmCC"> to <strong>copy</strong> the output.<br />You can also <strong>export</strong> it to <strong>Html</strong> <img alt="Html" src=" data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAMFBMVEVHcEzv7++pv/9mZmb///91dXV/f3+cse6Ii5Kvr69ubm5qb36YqtuMpeyjuf/R2Oy2YhawAAAAAnRSTlMAIqPzjNwAAAC0SURBVEjH7dbdDsIgDAXgyQEHsJ/3f1vjUAFCoajbxbKTcPklQAvpMBwVo9DKPRNgJDUKk3gGkOUAo0oNIFpEZIYmGoDeSGZoAgDwJDU1Ij8kMUyymVsfiQybhL3xiRiBXiL2IeglUfW5JPTY/4gjH4ujyEwZN1OEkxOTRVvqlq1eikTX/jFdJBYrUX65wvY1TNQzF7nIt8SvOvHrF7L/WZqjQiATFH8gecewx55XlDlsFnsA1AEZ9J9wjU8AAAAASUVORK5CYII=">, <strong>PDF</strong> <img alt="PDF" src=" data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAhUExURUdwTKcgJcTDxP///2lpaaggQ/bg/ISEhN5tHfTNmuubYXiOrSMAAAABdFJOUwBA5thmAAAAzUlEQVQ4y63SwQ2DIBQGYA9dgAML6AT6mhR7MtGEAZqwAAt46AKMwAjdtBBo+h5IW7TvwMEv/w+iTbNvTst71qJIKjO85kxDWKQsyXxfqbRhnFxkSQCHSBvgEBUcom04lAgKJW0oRO6A3B5uCzLlEpNT3lYjLZ7uN9mzT62wrTkiCqD3y8i4BrBU4OEXm4ng2irBup5rQ9vcQy+3ay4ho8ZM3BbGi8u4Y1CxLLYlIuJmWycIlbYk/k3N4XsryMdvOhT/neGff9WSznepnScEc5ex7N8D+QAAAABJRU5ErkJggg=="> or <strong>MS Word</strong> <img alt="Word" style="height:14pt;" src=" data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAeUExURUdwTGlpaf///z1eksPDxOzt8YSEhKOrwNDU3Wt+o6siHTAAAAABdFJOUwBA5thmAAAA5klEQVQ4y9WSsQ6CMBRF8Q+ExO4+rIXVhgArOjjXxFl/AQedMfwAi/FvfZAY2j4aImHxsvXkXt67redN1cLvdXESZpIAvlqbJp0w5iKr68VBgjNzEa6bDAJb5iK6ySS6ySKaySLQj2d0YLRHyRJPZa9dz+cgm0OnYpSoUCZwkk1E0iohGwhlKQjBoxKErGKShjGVEm2oTRIuVR1JeJK0DN7wgBz2hKRwhxd+N5KWwpHn6BrYFPAvquYD7SicrFLRACkg7jaiaWXbDVJKGlylbY6mJThwhnSW+5nwDqz39k/EtzVOftMHw0aVK6IaLeUAAAAASUVORK5CYII="> document.</li>
+        <li><strong>Enter</strong> your formulas and text (in quotes) into the "<strong>Code</strong>" box on the left.</li>
+        <li>Press <strong>F5</strong> or click <img alt="Play" src=" data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAt1BMVEVHcEz/yAv/yAv/yAv/yRj/yQv/yAv/wwv/yAv/yAv/yAv/yAv/0Qv/yQv/ygv/yA3/yAv/vQv/yAv/xQv/yAv/yAv/yQv/yQz/yAv/yQ3/yAv/yQz/yAv/yQz/yAv/yQ3/yQ3/yAv/yQ3/yQ3/yAv/yAv///////3//vn/yQ7/+eL/3F7/yhL/zBn/9dH/zyj/6qH/1Dv/55P/8Lj/7q3//PD/1kb/4HX/ziH/5o3/0TH/9Mn/10u+KKJTAAAAJXRSTlMA2VbgCrbdBv3vzosO4xFNsQQdF+pIvIL5b0PWy5RddHJTo5pBdeAVQgAAAX5JREFUSMfFlutygjAQhQGEAKKgonijrW03Yi9Wq733/Z+rLWBLyCahgzOen4FvNifZ7K6mnUhdIxmZ7rfMUbLoqv8nhuVASY5lECnQuugAp86kJSYCE1DZgQDwQxDqEg008EAib8ATfR2k0vsc0QGF7Eoc4oFSc/a0r6CGkjIxhFqalm7QrIeYf0d9Xl6/2z8ImclvkIhBaPp4L0CiQ5gzYBFKb24FjFEgIw6hdP2MIlbxPhwEoXSDWRr7GbJgV1cFglvKc7otQFBL7QyxhAhvycnN6BKELjevbEJniFuJTVmlb2VLUYaM5QhraVwPWX9WEcXG2GOLMPuwVNu3JMjuvfIxxK4SUvVVBgLk6WXFJ8wQS8sDspekZdVMhnxs0eQP0Sf2g6B7Kj8xwpa9lE0Rpl4QtFzAbqsuFxqZ1StKM9Kk9PHXiardtIxrXaUdz2/eklSNbz7AmmUvdkSAE/cEPXkq2Jx+/e9RgRx3IMlHhiAObRfAtcN46J9q+PoCy+3uzfsd8iwAAAAASUVORK5CYII="> to <strong>calculate</strong>. The results will appear in the "<strong>Output</strong>" box on the right.</li>
+        <li>Click <img alt="PrintPreview" src=" data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAKlBMVEVHcExmZmZmZmZmZmZmZmZnZ2dmZmZmZmb////MzMxmZmZxcXGwsLB+fn7gdc34AAAACHRSTlMA5YUFh8LFwzanracAAACRSURBVEjH7ZbRDsAQDEVnsCn+/3e3CGYSsMAenFc5SdvoZdtGAwlaKmeEpSzlARMEhaAda4VABbtWEEheiARkWuDFmKZ6KVIIWakIANFf+VDYmIm1U1J3q6US35f5igq7UD2UosLcIucVu8heXISFKae848ILpfuU+QoNFBtKMwL2CIdMswqrV/75voz4w/TjApkOPCUKGaemAAAAAElFTkSuQmCC"> to <strong>print</strong> or <img alt="Copy" src=" data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAYUExURUdwTGpqamlpaWlpaf///2lpacPDw4ODg+TnpFYAAAAEdFJOUwAZ2c/7RV8SAAAAuklEQVQ4y8WT0Q2DMAxEMwIrsIsF/1RRFqg8Qbp/U8d2SExoEKp6v0/PdyBw7k485zH1iJ8NgRwrKXnNPbJurSQEjAQLIj4TEUkmBQAmIunaKNdE0uaghKWyNirJUln7aaIelnxZG2FJhLJlImupifdUBLiJeHWNpSNCUjqAlqyhIdKza6qIvD3bk3NApI1qvhOU5IUwQqprpwtwgJSa3gK4seDP76BLXPu96ZOeEPt/lvs/InWGyPW8AfZFEmse5iDyAAAAAElFTkSuQmCC"> to <strong>copy</strong> the output, or <strong>export</strong> it to <strong>Html</strong> <img alt="Html" src=" data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAMFBMVEVHcEzv7++pv/9mZmb///91dXV/f3+cse6Ii5Kvr69ubm5qb36YqtuMpeyjuf/R2Oy2YhawAAAAAnRSTlMAIqPzjNwAAAC0SURBVEjH7dbdDsIgDAXgyQEHsJ/3f1vjUAFCoajbxbKTcPklQAvpMBwVo9DKPRNgJDUKk3gGkOUAo0oNIFpEZIYmGoDeSGZoAgDwJDU1Ij8kMUyymVsfiQybhL3xiRiBXiL2IeglUfW5JPTY/4gjH4ujyEwZN1OEkxOTRVvqlq1eikTX/jFdJBYrUX65wvY1TNQzF7nIt8SvOvHrF7L/WZqjQiATFH8gecewx55XlDlsFnsA1AEZ9J9wjU8AAAAASUVORK5CYII=">, <strong>PDF</strong> <img alt="PDF" src=" data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAhUExURUdwTKcgJcTDxP///2lpaaggQ/bg/ISEhN5tHfTNmuubYXiOrSMAAAABdFJOUwBA5thmAAAAzUlEQVQ4y63SwQ2DIBQGYA9dgAML6AT6mhR7MtGEAZqwAAt46AKMwAjdtBBo+h5IW7TvwMEv/w+iTbNvTst71qJIKjO85kxDWKQsyXxfqbRhnFxkSQCHSBvgEBUcom04lAgKJW0oRO6A3B5uCzLlEpNT3lYjLZ7uN9mzT62wrTkiCqD3y8i4BrBU4OEXm4ng2irBup5rQ9vcQy+3ay4ho8ZM3BbGi8u4Y1CxLLYlIuJmWycIlbYk/k3N4XsryMdvOhT/neGff9WSznepnScEc5ex7N8D+QAAAABJRU5ErkJggg=="> or <strong>Word</strong> <img alt="Word" style="height:14pt;" src=" data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAeUExURUdwTGlpaf///z1eksPDxOzt8YSEhKOrwNDU3Wt+o6siHTAAAAABdFJOUwBA5thmAAAA5klEQVQ4y9WSsQ6CMBRF8Q+ExO4+rIXVhgArOjjXxFl/AQedMfwAi/FvfZAY2j4aImHxsvXkXt67redN1cLvdXESZpIAvlqbJp0w5iKr68VBgjNzEa6bDAJb5iK6ySS6ySKaySLQj2d0YLRHyRJPZa9dz+cgm0OnYpSoUCZwkk1E0iohGwhlKQjBoxKErGKShjGVEm2oTRIuVR1JeJK0DN7wgBz2hKRwhxd+N5KWwpHn6BrYFPAvquYD7SicrFLRACkg7jaiaWXbDVJKGlylbY6mJThwhnSW+5nwDqz39k/EtzVOftMHw0aVK6IaLeUAAAAASUVORK5CYII=">.</li>
     </ol>
     <p><strong style="font-size:13pt;">The language</strong></p>
     <p>The Calcpad language includes the following elements (click an item to insert):</p>
     <ul>
         <li>Real numbers: digits <b>0</b> - <b>9</b> and decimal point "<b>.</b>";</li>
         <li>Complex numbers: <b>re</b> &plusmn; <b>im</b><var>i</var> (e.g. <b>3</b> - <b>2</b><var>i</var>);</li>
+        <li class="tight">Vectors: [v<sub>1</sub>; v<sub>2</sub>; v<sub>3</sub>; …; v<sub>n</sub>];</li>
+        <li class="tight">Matrices: [M<sub>11</sub>; M<sub>12</sub>; … ; M<sub>1n</sub> | M<sub>21</sub>; M<sub>22</sub>; … ; M<sub>2n</sub> | … | M<sub>m1</sub>; M<sub>m2</sub>; … ; M<sub>mn</sub>]</li>
         <li style="list-style-type: none;">
             <span class="exp" id="btn1">+</span>Variables:<br />
             <span id="list1" style="display: none;">
-                - Latin letters: <var>a</var> - <var>z</var>, <var>A</var> - <var>Z</var>;<br />
-                - Greek letters: <var>&alpha;</var> - <var>&omega;</var>, <var>&Alpha;</var> - <var>&Omega;</var>;<br />
+                - all Unicode letters;<br />
                 - digits: <b>0</b> - <b>9</b>;<br />
                 - comma: "<a href="#0" data-text=","> <b>,</b> </a>";<br />
-                - prime symbols:
+                - special symbols:
                 <a href="#0" data-text="′"> <b>′</b> </a>,
                 <a href="#0" data-text="″"> <b>″</b> </a>,
                 <a href="#0" data-text="‴"> <b>‴</b> </a>,
-                <a href="#0" data-text="⁗"> <b>⁗</b> </a>;<br />
+                <a href="#0" data-text="⁗"> <b>⁗</b> </a>,
+                <a href="#0" data-text="‾"> <b>‾</b> </a>,
+                <a href="#0" data-text="ø"> <b>ø</b> </a>,
+                <a href="#0" data-text="Ø"> <b>Ø</b> </a>,
+                <a href="#0" data-text="°"> <b>°</b> </a>,
+                <a href="#0" data-text="∡"> <b>&measuredangle;</b> </a>;<br />
                 - superscripts:
                 <a href="#0" data-text="⁰"> <b>⁰</b> </a>,
                 <a href="#0" data-text="¹"> <b>¹</b> </a>,
@@ -156,17 +184,27 @@
                 <a href="#0" data-text="ⁿ"> <b>ⁿ</b> </a>,
                 <a href="#0" data-text="⁺"> <b>⁺</b> </a>,
                 <a href="#0" data-text="⁻"> <b>⁻</b> </a>;<br />
-                - special symbols:
-                <a href="#0" data-text="‾"> <b>‾</b> </a>,
-                <a href="#0" data-text="ø"> <b>ø</b> </a>,
-                <a href="#0" data-text="Ø"> <b>Ø</b> </a>,
-                <a href="#0" data-text="°"> <b>°</b> </a>,
-                <a href="#0" data-text="∡"> <b>&measuredangle;</b> </a>;<br />
-                - "<a href="#0" data-text="_"> <b>_</b> </a>" for subscript;<br />
-                A variable name must start with a letter or &measuredangle;. Names are case sensitive.
+                - subscripts:
+                <a href="#0" data-text="₀"> <b>₀</b> </a>,
+                <a href="#0" data-text="₁"> <b>₁</b> </a>,
+                <a href="#0" data-text="₂"> <b>₂</b> </a>,
+                <a href="#0" data-text="₃"> <b>₃</b> </a>,
+                <a href="#0" data-text="₄"> <b>₄</b> </a>,
+                <a href="#0" data-text="₅"> <b>₅</b> </a>,
+                <a href="#0" data-text="₆"> <b>₆</b> </a>,
+                <a href="#0" data-text="₇"> <b>₇</b> </a>,
+                <a href="#0" data-text="₈"> <b>₈</b> </a>,
+                <a href="#0" data-text="₉"> <b>₉</b> </a>,
+                <a href="#0" data-text="₊"> <b>₊</b> </a>,
+                <a href="#0" data-text="₋"> <b>₋</b> </a>,
+                <a href="#0" data-text="₌"> <b>₌</b> </a>,
+                <a href="#0" data-text="₍"> <b>₍</b> </a>,
+                <a href="#0" data-text="₎"> <b>₎</b> </a>;<br />
+                - "<a href="#0" data-text="_"> <b>_</b> </a>" (underscore) for subscript;<br />
+                Any variable name must start with a letter or &measuredangle;. Names are case sensitive.
             </span>
         </li>
-        <li>
+        <li class="tight">
             Constants:
             <a href="#0" data-text="π" title="Pi"><var>π</var></a>,
             <a href="#0" data-text="e" title="Euler number"><var>e</var></a>,
@@ -202,159 +240,360 @@
                 "<a href="#0" data-text="!"><b class="o">!</b></a>" - factorial;<br />
                 "<a href="#0" data-text="^"><b class="o">^</b></a>" - exponent;<br />
                 "<a href="#0" data-text="/"><b class="o">/</b></a>" - division;<br />
-                "<a href="#0" data-text="÷"><b class="o">÷</b></a>" - force division bar;<br />
-                "<a href="#0" data-text="\"><b class="o">\</b></a>" - division;<br />
-                "<a href="#0" data-text="⦼"><b class="o" style="font-size:80%;">⦼</b></a>" - modulo (reminder);<br />
+                "<a href="#0" data-text="÷"><b class="o">÷</b></a>" - force division bar in inline mode and slash in pro mode (//);<br />
+                "<a href="#0" data-text="\"><b class="o">\</b></a>" - integer division;<br />
+                "<a href="#0" data-text="⦼"><b class="o" style="font-size:80%;">⦼</b></a>" - modulo (remainder, %%);<br />
                 "<a href="#0" data-text="*"><b class="o">*</b></a>" - multiplication;<br />
                 "<a href="#0" data-text="-"><b class="o">-</b></a>" - minus;<br />
                 "<a href="#0" data-text="+"><b class="o">+</b></a>" - plus;<br />
-                "<a href="#0" data-text="≡"><b class="o">≡</b></a>" - equal to;<br />
-                "<a href="#0" data-text="≠"><b class="o">≠</b></a>" - not equal to;<br />
+                "<a href="#0" data-text="≡"><b class="o">≡</b></a>" - equal to (==);<br />
+                "<a href="#0" data-text="≠"><b class="o">≠</b></a>" - not equal to (!=);<br />
                 "<a href="#0" data-text="<"><b class="o">&lt;</b></a>" - less than;<br />
                 "<a href="#0" data-text=">"><b class="o">&gt;</b></a>" - greater than;<br />
-                "<a href="#0" data-text="&le;"><b class="o">&le;</b></a>" - less or equal;<br />
-                "<a href="#0" data-text="&ge;"><b class="o">&ge;</b></a>" - greater or equal;<br />
-                "<a href="#0" data-text="∧"><b class="o">∧</b></a>" - logical "AND";<br />
-                "<a href="#0" data-text="∨"><b class="o">∨</b></a>" - logical "OR";<br />
-                "<a href="#0" data-text="∨"><b class="o" style="font-size:80%;">⊕</b></a>" - logical "XOR";<br />
+                "<a href="#0" data-text="&le;"><b class="o">&le;</b></a>" - less or equal (&lt;=);<br />
+                "<a href="#0" data-text="&ge;"><b class="o">&ge;</b></a>" - greater or equal (&gt;=);<br />
+                "<a href="#0" data-text="∧"><b class="o">∧</b></a>" - logical "AND" (&&);<br />
+                "<a href="#0" data-text="∨"><b class="o">∨</b></a>" - logical "OR" (||);<br />
+                "<a href="#0" data-text="∨"><b class="o" style="font-size:80%;">⊕</b></a>" - logical "XOR" (^^);<br />
+                "<a href="#0" data-text="∠"><b class="o" style="font-size:80%;">∠</b></a>" - phasor A∠φ (&lt;&lt;);<br />
                 "<a href="#0" data-text="="><b class="o">=</b></a>" - assignment;
             </span>
         </li>
-        <li>Custom functions of type <b>f</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var><span class="o">;</span> ...<span class="b">)</span>;</li>
+        <li>Custom functions of type <b>f</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var><span class="o">;</span> …<span class="b">)</span>;</li>
         <li style="list-style-type: none;">
             <span class="exp" id="btn3">+</span>Built-in functions:
             <ul id="list3" style="display: none;">
                 <li style="list-style-type: none; margin-left: 18pt;">
                     <span class="exp" id="btn30">+</span>Trigonometric:<br />
                     <span id="list30" style="display: none;">
-                        <a href="#0" data-text="sin("><b>sin</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - sine;<br />
-                        <a href="#0" data-text="cos("><b>cos</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - cosine;<br />
-                        <a href="#0" data-text="tan("><b>tan</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - tangent;<br />
-                        <a href="#0" data-text="csc("><b>csc</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - cosecant;<br />
-                        <a href="#0" data-text="sec("><b>sec</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - secant;<br />
-                        <a href="#0" data-text="cot("><b>cot</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - cotangent;<br />
+                        <a href="#0" data-text="sin(x)"><b>sin</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - sine;<br />
+                        <a href="#0" data-text="cos(x)"><b>cos</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - cosine;<br />
+                        <a href="#0" data-text="tan(x)"><b>tan</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - tangent;<br />
+                        <a href="#0" data-text="csc(x)"><b>csc</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - cosecant;<br />
+                        <a href="#0" data-text="sec(x)"><b>sec</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - secant;<br />
+                        <a href="#0" data-text="cot(x)"><b>cot</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - cotangent;<br />
                     </span>
                 </li>
                 <li style="list-style-type: none; margin-left: 18pt;">
                     <span class="exp" id="btn31">+</span>Hyperbolic:<br />
                     <span id="list31" style="display: none;">
-                        <a href="#0" data-text="sinh("><b>sinh</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - hyperbolic sine;<br />
-                        <a href="#0" data-text="cosh("><b>cosh</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - hyperbolic cosine;<br />
-                        <a href="#0" data-text="tanh("><b>tanh</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - hyperbolic tangent;<br />
-                        <a href="#0" data-text="csch("><b>csch</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - hyperbolic cosecant;<br />
-                        <a href="#0" data-text="sech("><b>sech</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - hyperbolic secant;<br />
-                        <a href="#0" data-text="coth("><b>coth</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - hyperbolic cotangent;<br />
+                        <a href="#0" data-text="sinh(x)"><b>sinh</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - hyperbolic sine;<br />
+                        <a href="#0" data-text="cosh(x)"><b>cosh</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - hyperbolic cosine;<br />
+                        <a href="#0" data-text="tanh(x)"><b>tanh</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - hyperbolic tangent;<br />
+                        <a href="#0" data-text="csch(x)"><b>csch</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - hyperbolic cosecant;<br />
+                        <a href="#0" data-text="sech(x)"><b>sech</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - hyperbolic secant;<br />
+                        <a href="#0" data-text="coth(x)"><b>coth</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - hyperbolic cotangent;<br />
                     </span>
                 </li>
                 <li style="list-style-type: none; margin-left: 18pt;">
                     <span class="exp" id="btn32">+</span>Inverse trigonometric:<br />
                     <span id="list32" style="display: none;">
-                        <a href="#0" data-text="asin("><b>asin</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - inverse sine;<br />
-                        <a href="#0" data-text="acos("><b>acos</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - inverse cosine;<br />
-                        <a href="#0" data-text="atan("><b>atan</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - inverse tangent;<br />
-                        <a href="#0" data-text="atan2("><b>atan2</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="b">)</span></a> -  the angle whose tangent is the quotient of <var>y</var> and <var>x</var>;<br />
-                        <a href="#0" data-text="acsc("><b>acsc</b><span class="b">(</span><var>x</var><span class="b">)</span></a> -   inverse cosecant;<br />
-                        <a href="#0" data-text="asec("><b>asec</b><span class="b">(</span><var>x</var><span class="b">)</span></a> -   inverse secant;<br />
-                        <a href="#0" data-text="acot("><b>acot</b><span class="b">(</span><var>x</var><span class="b">)</span></a> -   inverse cotangent;<br />
+                        <a href="#0" data-text="asin(x)"><b>asin</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - inverse sine;<br />
+                        <a href="#0" data-text="acos(x)"><b>acos</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - inverse cosine;<br />
+                        <a href="#0" data-text="atan(x)"><b>atan</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - inverse tangent;<br />
+                        <a href="#0" data-text="atan2(x; y)"><b>atan2</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="b">)</span></a> -  the angle whose tangent is the quotient of <var>y</var> and <var>x</var>;<br />
+                        <a href="#0" data-text="acsc(x)"><b>acsc</b><span class="b">(</span><var>x</var><span class="b">)</span></a> -   inverse cosecant;<br />
+                        <a href="#0" data-text="asec(x)"><b>asec</b><span class="b">(</span><var>x</var><span class="b">)</span></a> -   inverse secant;<br />
+                        <a href="#0" data-text="acot(x)"><b>acot</b><span class="b">(</span><var>x</var><span class="b">)</span></a> -   inverse cotangent;<br />
                     </span>
                 </li>
                 <li style="list-style-type: none; margin-left: 18pt;">
                     <span class="exp" id="btn33">+</span>Inverse hyperbolic:<br />
                     <span id="list33" style="display: none;">
-                        <a href="#0" data-text="asinh("><b>asinh</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - inverse hyperbolic sine;<br />
-                        <a href="#0" data-text="acosh("><b>acosh</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - inverse hyperbolic cosine;<br />
-                        <a href="#0" data-text="atanh("><b>atanh</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - inverse hyperbolic tangent;<br />
-                        <a href="#0" data-text="acsch("><b>acsch</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - inverse hyperbolic cosecant;<br />
-                        <a href="#0" data-text="asech("><b>asech</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - inverse hyperbolic secant;<br />
-                        <a href="#0" data-text="acoth("><b>acoth</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - inverse hyperbolic cotangent;<br />
+                        <a href="#0" data-text="asinh(x)"><b>asinh</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - inverse hyperbolic sine;<br />
+                        <a href="#0" data-text="acosh(x)"><b>acosh</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - inverse hyperbolic cosine;<br />
+                        <a href="#0" data-text="atanh(x)"><b>atanh</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - inverse hyperbolic tangent;<br />
+                        <a href="#0" data-text="acsch(x)"><b>acsch</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - inverse hyperbolic cosecant;<br />
+                        <a href="#0" data-text="asech(x)"><b>asech</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - inverse hyperbolic secant;<br />
+                        <a href="#0" data-text="acoth(x)"><b>acoth</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - inverse hyperbolic cotangent;<br />
                     </span>
                 </li>
                 <li style="list-style-type: none; margin-left: 18pt;">
                     <span class="exp" id="btn34">+</span>Logarithmic, exponential and roots:<br />
                     <span id="list34" style="display: none;">
-                        <a href="#0" data-text="log("><b>log</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - decimal logarithm;<br />
-                        <a href="#0" data-text="ln("><b>ln</b><span class="b">(</span><var>x</var><span class="b">)</span></a>  - natural logarithm;<br />
-                        <a href="#0" data-text="log_2("><b>log_2</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - binary logarithm;<br />
-                        <a href="#0" data-text="exp("><b>exp</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - natural exponent = <var>e</var>&hairsp;ˣ&hairsp;;<br />
-                        <a href="#0" data-text="sqr("><b>sqr</b><span class="b">(</span><var>x</var><span class="b">)</span></a> or <b>sqrt</b><span class="b">(</span><var>x</var><span class="b">)</span> - square root;<br />
-                        <a href="#0" data-text="cbrt("><b>cbrt</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - cubic root;<br />
-                        <a href="#0" data-text="root("><b>root</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>n</var><span class="b">)</span></a> - n-th root;<br />
+                        <a href="#0" data-text="log(x)"><b>log</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - decimal logarithm;<br />
+                        <a href="#0" data-text="ln(x)"><b>ln</b><span class="b">(</span><var>x</var><span class="b">)</span></a>  - natural logarithm;<br />
+                        <a href="#0" data-text="log_2(x)"><b>log_2</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - binary logarithm;<br />
+                        <a href="#0" data-text="exp(x)"><b>exp</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - natural exponent = <var>e</var>&hairsp;ˣ&hairsp;;<br />
+                        <a href="#0" data-text="sqr(x)"><b>sqr</b><span class="b">(</span><var>x</var><span class="b">)</span></a> or <b>sqrt</b><span class="b">(</span><var>x</var><span class="b">)</span> - square root;<br />
+                        <a href="#0" data-text="cbrt(x)"><b>cbrt</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - cubic root;<br />
+                        <a href="#0" data-text="root(x; n)"><b>root</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>n</var><span class="b">)</span></a> - n-th root;<br />
                     </span>
                 </li>
                 <li style="list-style-type: none; margin-left: 18pt;">
                     <span class="exp" id="btn35">+</span>Rounding:<br />
                     <span id="list35" style="display: none;">
-                        <a href="#0" data-text="round("><b>round</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - round to the nearest integer;<br />
-                        <a href="#0" data-text="floor("><b>floor</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - round to the smaller integer (towards -∞);<br />
-                        <a href="#0" data-text="ceiling("><b>ceiling</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - round to the greater integer (towards +∞);<br />
-                        <a href="#0" data-text="trunc("><b>trunc</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - round to the smaller integer (towards zero);<br />
+                        <a href="#0" data-text="round(x)"><b>round</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - round to the nearest integer;<br />
+                        <a href="#0" data-text="floor(x)"><b>floor</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - round to the smaller integer (towards -∞);<br />
+                        <a href="#0" data-text="ceiling(x)"><b>ceiling</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - round to the greater integer (towards +∞);<br />
+                        <a href="#0" data-text="trunc(x)"><b>trunc</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - round to the smaller integer (towards zero);<br />
                     </span>
                 </li>
                 <li style="list-style-type: none; margin-left: 18pt;">
                     <span class="exp" id="btn36">+</span>Integer:<br />
                     <span id="list36" style="display: none;">
-                        <a href="#0" data-text="mod("><b>mod</b><span class="b">(</span><var>x</var>; <var>y</var><span class="b">)</span></a> - the reminder of an integer division;<br />
-                        <a href="#0" data-text="gcd("><b>gcd</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - the greatest common divisor of several integers;<br />
-                        <a href="#0" data-text="lcm("><b>lcm</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - the least common multiple of several integers;<br />
+                        <a href="#0" data-text="mod(x; y)"><b>mod</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="b">)</span></a> - the remainder of an integer division;<br />
+                        <a href="#0" data-text="gcd(x; y; z…)"><b>gcd</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>…<span class="b">)</span></a> - the greatest common divisor of several integers;<br />
+                        <a href="#0" data-text="lcm(x; y; z…)"><b>lcm</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>…<span class="b">)</span></a> - the least common multiple of several integers;<br />
                     </span>
                 </li>
                 <li style="list-style-type: none; margin-left: 18pt;">
                     <span class="exp" id="btn37">+</span>Complex:<br />
                     <span id="list37" style="display: none;">
-                        <a href="#0" data-text="abs("><b>abs</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - absolute value/magnitude;<br />
-                        <a href="#0" data-text="re("><b>re</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - the real part of a complex number;<br />
-                        <a href="#0" data-text="im("><b>im</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - the imaginary part of a complex number;<br />
-                        <a href="#0" data-text="phase("><b>phase</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - the phase of a complex number;<br />
+                        <a href="#0" data-text="re(z)"><b>re</b><span class="b">(</span><var>z</var><span class="b">)</span></a> - the real part of a complex number;<br />
+                        <a href="#0" data-text="im(z)"><b>im</b><span class="b">(</span><var>z</var><span class="b">)</span></a> - the imaginary part of a complex number;<br />
+                        <a href="#0" data-text="abs(z)"><b>abs</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - absolute value/magnitude;<br />
+                        <a href="#0" data-text="phase(z)"><b>phase</b><span class="b">(</span><var>z</var><span class="b">)</span></a> - the phase of a complex number;<br />
+                       <a href="#0" data-text="conj(z)"><b>conj</b><span class="b">(</span><var>z</var><span class="b">)</span></a> - the conjugate of a complex number;<br />
                     </span>
                 </li>
                 <li style="list-style-type: none; margin-left: 18pt;">
                     <span class="exp" id="btn38">+</span>Aggregate and interpolation:<br />
                     <span id="list38" style="display: none;">
-                        <a href="#0" data-text="min("><b>min</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - minimum of multiple values;<br />
-                        <a href="#0" data-text="max("><b>max</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - maximum of multiple values;<br />
-                        <a href="#0" data-text="sum("><b>sum</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - sum of multiple values = <var>x</var> <span class="o">+</span> <var>y</var> <span class="o">+</span> <var>z</var>...;<br />
-                        <a href="#0" data-text="sumsq("><b>sumsq</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - sum of squares = <var>x</var>² <span class="o">+</span> <var>y</var>² <span class="o">+</span> <var>z</var>²...;<br />
-                        <a href="#0" data-text="srss("><b>srss</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - square root of sum of squares = <b>sqrt</b><span class="b">(</span><var>x</var>² <span class="o">+</span> <var>y</var>² <span class="o">+</span> <var>z</var>²...<span class="b">)</span>;<br />
-                        <a href="#0" data-text="average("><b>average</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - average of multiple values = <span class="b">(</span><var>x</var> <span class="o">+</span> <var>y</var> <span class="o">+</span> <var>z</var>...<span class="b">)</span><span class="o">/</span><var>n</var>;<br />
-                        <a href="#0" data-text="product("><b>product</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - product of multiple values = <var>x</var><span class="o">·</span><var>y</var><span class="o">·</span><var>z</var>...;<br />
-                        <a href="#0" data-text="mean("><b>mean</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - geometric mean = n-th <b>root</b><span class="b">(</span><var>x</var><span class="o">·</span><var>y</var><span class="o">·</span><var>z</var>...<span class="b">)</span>;<br />
-                        <a href="#0" data-text="take("><b>take</b><span class="b">(</span><var>n</var><span class="o">;</span> <var>a</var><span class="o">;</span> <var>b</var><span class="o">;</span> <var>c</var>...<span class="b">)</span></a> - returns the n-th element from the list;<br />
-                        <a href="#0" data-text="line("><b>line</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>a</var><span class="o">;</span> <var>b</var><span class="o">;</span> <var>c</var>...<span class="b">)</span></a> - linear interpolation;<br />
-                        <a href="#0" data-text="spline("><b>spline</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>a</var><span class="o">;</span> <var>b</var><span class="o">;</span> <var>c</var>...<span class="b">)</span></a> - Hermite spline interpolation;
+                        <a href="#0" data-text="min(M; v; x…)"><b>min</b><span class="b">(</span><var>M</var><span class="o">;</span> <var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var>…<span class="b">)</span></a> - minimum of multiple values;<br />
+                        <a href="#0" data-text="max(M; v; x…)"><b>max</b><span class="b">(</span><var>M</var><span class="o">;</span> <var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var>…<span class="b">)</span></a> - maximum of multiple values;<br />
+                        <a href="#0" data-text="sum(M; v; x…)"><b>sum</b><span class="b">(</span><var>M</var><span class="o">;</span> <var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var>…<span class="b">)</span></a> - sum of multiple values;<br />
+                        <a href="#0" data-text="sumsq(M; v; x…)"><b>sumsq</b><span class="b">(</span><var>M</var><span class="o">;</span> <var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var>…<span class="b">)</span></a> - sum of squares;<br />
+                        <a href="#0" data-text="srss(M; v; x…)"><b>srss</b><span class="b">(</span><var>M</var><span class="o">;</span> <var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var>…<span class="b">)</span></a> - square root of sum of squares;<br />
+                        <a href="#0" data-text="average(M; v; x…)"><b>average</b><span class="b">(</span><var>M</var><span class="o">;</span> <var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var>…<span class="b">)</span></a> - average of multiple values;<br />
+                        <a href="#0" data-text="product(M; v; x…)"><b>product</b><span class="b">(</span><var>M</var><span class="o">;</span> <var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var>…<span class="b">)</span></a> - product of multiple values;<br />
+                        <a href="#0" data-text="mean(M; v; x…)"><b>mean</b><span class="b">(</span><var>M</var><span class="o">;</span> <var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var>…<span class="b">)</span></a> - geometric mean;<br />
+                        <a href="#0" data-text="take(n; M; v; x…)"><b>take</b><span class="b">(</span><var>n</var><span class="o">;</span> <var>M</var><span class="o">;</span> <var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var>…<span class="b">)</span></a> - the n-th element from the list;<br />
+                        <a href="#0" data-text="line(x; M; v; y…)"><b>line</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>M</var><span class="o">;</span> <var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>y</var>…<span class="b">)</span></a> - linear interpolation;<br />
+                        <a href="#0" data-text="spline(x; M; v; y…)"><b>spline</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>M</var><span class="o">;</span> <var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>y</var>…<span class="b">)</span></a> - Hermite spline interpolation;
                     </span>
                 </li>
                 <li style="list-style-type: none; margin-left: 18pt;">
                     <span class="exp" id="btn39">+</span>Conditional and logical:<br />
                     <span id="list39" style="display: none;">
-                        <a href="#0" data-text="if("><b>if</b><span class="b">(</span><em>cond</em><span class="o">;</span> <em>value-if-true</em><span class="o">;</span> <em>value-if-false</em><span class="b">)</span></a> - conditional evaluation;<br />
-                        <a href="#0" data-text="switch("><b>switch</b><span class="b">(</span><em>cond1</em><span class="o">;</span> <em>value1</em><span class="o">;</span> <em>cond2</em><span class="o">;</span> <em>value2</em><span class="o">;</span> ...<span class="o">;</span> <em>default</em><span class="b">)</span></a> - selective evaluation;<br />
-                        <a href="#0" data-text="not("><b>not</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - logical "NOT";<br />
-                        <a href="#0" data-text="and("><b>and</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - logical "AND";<br />
-                        <a href="#0" data-text="or("><b>or</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - logical "OR";<br />
-                        <a href="#0" data-text="xor("><b>xor</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var>...<span class="b">)</span></a> - logical "XOR";<br />
+                        <a href="#0" data-text="if(cond; vt; vf)"><b>if</b><span class="b">(</span><em>cond</em><span class="o">;</span> <em>value-if-true</em><span class="o">;</span> <em>value-if-false</em><span class="b">)</span></a> - conditional evaluation;<br />
+                        <a href="#0" data-text="switch(c₁; v₁; c₂; v₂; …; def)"><b>switch</b><span class="b">(</span><em>cond1</em><span class="o">;</span> <em>value1</em><span class="o">;</span> <em>cond2</em><span class="o">;</span> <em>value2</em><span class="o">;</span> …<span class="o">;</span> <em>default</em><span class="b">)</span></a> - selective evaluation;<br />
+                        <a href="#0" data-text="not(x)"><b>not</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - logical "NOT";<br />
+                        <a href="#0" data-text="and(M; v; x…)"><b>and</b><span class="b">(</span><var>M</var><span class="o">;</span> <var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var>…<span class="b">)</span></a> - logical "AND";<br />
+                        <a href="#0" data-text="or(M; v; x…)"><b>or</b><span class="b">(</span><var>M</var><span class="o">;</span> <var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var>…<span class="b">)</span></a> - logical "OR";<br />
+                        <a href="#0" data-text="xor(M; v; x…)"><b>xor</b><span class="b">(</span><var>M</var><span class="o">;</span> <var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var>…<span class="b">)</span></a> - logical "XOR";<br />
                     </span>
                 </li>
                 <li style="list-style-type: none; margin-left: 18pt;">
                     <span class="exp" id="btn310">+</span>Other:<br />
                     <span id="list310" style="display: none;">
-                        <a href="#0" data-text="sign("><b>sign</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - sign of a number;<br />
-                        <a href="#0" data-text="random("><b>random</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - random number between 0 and <var>x</var>.<br />
+                        <a href="#0" data-text="sign(x)"><b>sign</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - sign of a number;<br />
+                        <a href="#0" data-text="random(x)"><b>random</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - a random number between 0 and <var>x</var>;<br />
+						<a href="#0" data-text="getunits(x)"><b>getunits</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - gets the units of <var>x</var> without the value. Returns 1 if <var>x</var> is unitless;<br />
+						<a href="#0" data-text="setunits(x; u)"><b>setunits</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>u</var><span class="b">)</span></a> - sets the units <var>u</var> to <var>x</var> where <var>x</var> can be scalar, vector or matrix;<br />
+						<a href="#0" data-text="clrunits(x)"><b>clrunits</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - clears the units from a scalar, vector or matrix <var>x</var>;<br />
+						<a href="#0" data-text="hp(x)"><b>hp</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - converts <var>x</var> to its high performance (hp) equivalent type;<br />
+						<a href="#0" data-text="ishp(x)"><b>ishp</b><span class="b">(</span><var>x</var><span class="b">)</span></a> - checks if the type of <var>x</var> is a high-performance (hp) vector or matrix;<br />
                     </span>
+                </li>
+                <li style="list-style-type: none; margin-left: 18pt;">
+                    <span class="exp" id="btn311">+</span>Vector:<br />
+                    <span id="list311" style="display: none;">
+                        <u>Creational:</u><br />
+                        <a href="#0" data-text="vector(n)"><b>vector</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - creates an empty vector with length <var>n</var>;<br />
+						<a href="#0" data-text="vector_hp(n)"><b>vector_hp</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - creates an empty high performance (hp) vector with length <var>n</var>;<br />
+                        <a href="#0" data-text="range(x₁; xₙ; step)"><b>range</b><span class="b">(</span><var>x</var><sub>1</sub><span class="o">;</span> <var>x</var><sub>n</sub><span class="o">;</span> <var>step</var><span class="b">)</span></a> - creates a vector with values spanning from <var>x</var><sub>1</sub> to <var>x</var><sub>n</sub> with step <var>step</var>;<br />
+						<a href="#0" data-text="range_hp (x₁; xₙ; step)"><b>range_hp</b><span class="b">(</span><var>x</var><sub>1</sub><span class="o">;</span> <var>x</var><sub>n</sub><span class="o">;</span> <var>step</var><span class="b">)</span></a>- creates a high performance (hp) from a range of values as above;<br />
+                        <u>Structural:</u><br />
+                        <a href="#0" data-text="len(v)"><b>len</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - returns the length of vector <var><span class="vec">⃗</span>v</var>;<br />
+                        <a href="#0" data-text="size(v)"><b>size</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - the actual size of vector <var><span class="vec">⃗</span>v</var> (the index of the last non-zero element);<br />
+                        <a href="#0" data-text="resize(v; n)"><b>resize</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>n</var><span class="b">)</span></a> - sets a new length <var>n</var> of vector <var><span class="vec">⃗</span>v</var>;<br />
+                        <a href="#0" data-text="fill(v; x)"><b>fill</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - fills vector <var><span class="vec">⃗</span>v</var> with value <var>x</var>;<br />
+                        <a href="#0" data-text="join(M; v; x…)"><b>join</b><span class="b">(</span><var>M</var><span class="o">;</span> <var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var>…<span class="b">)</span></a> - creates a vector by joining the arguments: matrices, vectors and scalars;<br />
+                        <a href="#0" data-text="slice(v; i₁; i₂)"><b>slice</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>i</var><sub>1</sub><span class="o">;</span> <var>i</var><sub>2</sub><span class="b">)</span></a> - returns the part of vector <var><span class="vec">⃗</span>v</var> bounded by indexes <var>i</var><sub>1</sub> and <var>i</var><sub>2</sub> inclusive;<br />
+                        <a href="#0" data-text="first(v; n)"><b>first</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>n</var><span class="b">)</span></a> - the first <var>n</var> elements of vector <var><span class="vec">⃗</span>v</var>;<br />
+                        <a href="#0" data-text="last(v; n)"><b>last</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>n</var><span class="b">)</span></a> - the last <var>n</var> elements of vector <var><span class="vec">⃗</span>v</var>;<br />
+                        <a href="#0" data-text="extract(v; vi)"><b>extract</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var><span class="vec">⃗</span>vi</var><span class="b">)</span></a>	- extracts the elements from <var><span class="vec">⃗</span>v</var> which indexes are contained in <var><span class="vec">⃗</span>vi</var>;<br />
+                        <u>Data:</u><br />
+                        <a href="#0" data-text="sort(v)"><b>sort</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - sorts the elements of vector <var><span class="vec">⃗</span>v</var> in ascending order;<br />
+                        <a href="#0" data-text="rsort(v)"><b>rsort</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - sorts the elements of vector <var><span class="vec">⃗</span>v</var> in descending order;<br />
+                        <a href="#0" data-text="order(v)"><b>order</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - the indexes of vector <var><span class="vec">⃗</span>v</var>, arranged by the ascending order of its elements;<br />
+                        <a href="#0" data-text="revorder(v)"><b>revorder</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - the indexes of vector <var><span class="vec">⃗</span>v</var>, arranged by the descending order of its elements;<br />
+                        <a href="#0" data-text="reverse(v)"><b>reverse</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - a new vector containing the elements of <var><span class="vec">⃗</span>v</var> in reverse order;<br />
+                        <a href="#0" data-text="count(v; x; i)"><b>count</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><span class="b">)</span></a> - the number of elements in <var><span class="vec">⃗</span>v</var>, after the i-th one, that are equal to <var>x</var>;<br />
+                        <a href="#0" data-text="search(v; x; i)"><b>search</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><span class="b">)</span></a>- the index of the first element in <var><span class="vec">⃗</span>v</var>, after the i-th one, that is equal to <var>x</var>;<br />
+                        <a href="#0" data-text="find(v; x; i)"><b>find</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><span class="b">)</span></a> or <br />
+                        <a href="#0" data-text="find_eq(v; x; i)"><b>find_eq</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><span class="b">)</span></a> - the indexes of all elements in <var><span class="vec">⃗</span>v</var>, after the <var>i</var>-th one, that are = <var>x</var>;<br />
+                        <a href="#0" data-text="find_ne(v; x; i)"><b>find_ne</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><span class="b">)</span></a> - the indexes of all elements in <var><span class="vec">⃗</span>v</var>, after the <var>i</var>-th one, that are ≠ <var>x</var>;<br />
+                        <a href="#0" data-text="find_lt(v; x; i)"><b>find_lt</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><span class="b">)</span></a> - the indexes of all elements in <var><span class="vec">⃗</span>v</var>, after the <var>i</var>-th one, that are &lt; <var>x</var>;<br />
+                        <a href="#0" data-text="find_le(v; x; i)"><b>find_le</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><span class="b">)</span></a> - the indexes of all elements in <var><span class="vec">⃗</span>v</var>, after the <var>i</var>-th one, that are &le; <var>x</var>;<br />
+                        <a href="#0" data-text="find_gt(v; x; i)"><b>find_gt</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><span class="b">)</span></a> - the indexes of all elements in <var><span class="vec">⃗</span>v</var>, after the <var>i</var>-th one, that are &gt; <var>x</var>;<br />
+                        <a href="#0" data-text="find_ge(v; x; i)"><b>find_ge</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><span class="b">)</span></a> - the indexes of all elements in <var><span class="vec">⃗</span>v</var>, after the <var>i</var>-th one, that are &ge; <var>x</var>;<br />
+                        <a href="#0" data-text="lookup(a; b; x)"><b>lookup</b><span class="b">(</span><var><span class="vec">⃗</span>a</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> or<br />
+                        <a href="#0" data-text="lookup_eq(a; b; x)"><b>lookup_eq</b><span class="b">(</span><var><span class="vec">⃗</span>a</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - all elements in <var><span class="vec">⃗</span>a</var> for which the respective elements in <var><span class="vec">⃗</span>b</var> are = <var>x</var>;<br />
+                        <a href="#0" data-text="lookup_ne(a; b; x)"><b>lookup_ne</b><span class="b">(</span><var><span class="vec">⃗</span>a</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - all elements in <var><span class="vec">⃗</span>a</var> for which the respective elements in <var><span class="vec">⃗</span>b</var> are ≠ <var>x</var>;<br />
+                        <a href="#0" data-text="lookup_lt(a; b; x)"><b>lookup_lt</b><span class="b">(</span><var><span class="vec">⃗</span>a</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - all elements in <var><span class="vec">⃗</span>a</var> for which the respective elements in <var><span class="vec">⃗</span>b</var> are &lt; <var>x</var>;<br />
+                        <a href="#0" data-text="lookup_le(a; b; x)"><b>lookup_le</b><span class="b">(</span><var><span class="vec">⃗</span>a</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - all elements in <var><span class="vec">⃗</span>a</var> for which the respective elements in <var><span class="vec">⃗</span>b</var> are &le; <var>x</var>;<br />
+                        <a href="#0" data-text="lookup_gt(a; b; x)"><b>lookup_gt</b><span class="b">(</span><var><span class="vec">⃗</span>a</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - all elements in <var><span class="vec">⃗</span>a</var> for which the respective elements in <var><span class="vec">⃗</span>b</var> are &gt; <var>x</var>;<br />
+                        <a href="#0" data-text="lookup_ge(a; b; x)"><b>lookup_ge</b><span class="b">(</span><var><span class="vec">⃗</span>a</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - all elements in <var><span class="vec">⃗</span>a</var> for which the respective elements in <var><span class="vec">⃗</span>b</var> are &ge; <var>x</var>;<br />
+                        <u>Math:</u><br />
+                        <a href="#0" data-text="norm_1(v)"><b>norm_1</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - L1 (Manhattan) norm of vector <var><span class="vec">⃗</span>v</var>;<br />
+                        <a href="#0" data-text="norm("><b>norm</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> or<br />
+                        <a href="#0" data-text="norm_2(v)"><b><b>norm_2</b></b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> or<br />
+                        <a href="#0" data-text="norm_e(v)"><b>norm_e</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - L2 (Euclidean) norm of vector <var><span class="vec">⃗</span>v</var>;<br />
+                        <a href="#0" data-text="norm_p(v; p)"><b>norm_p</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="o">;</span> <var>p</var><span class="b">)</span></a> - Lp norm of vector <var><span class="vec">⃗</span>v</var>;<br />
+                        <a href="#0" data-text="norm_i(v)"><b>norm_i</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - L∞ (infinity) norm of vector <var><span class="vec">⃗</span>v</var>;<br />
+                        <a href="#0" data-text="unit(v)"><b>unit</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - the normalized vector <var><span class="vec">⃗</span>v</var> (with L2 norm = 1);<br />
+                        <a href="#0" data-text="dot(a; b)"><b>dot</b><span class="b">(</span><var><span class="vec">⃗</span>a</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="b">)</span></a> - scalar product of two vectors <var><span class="vec">⃗</span>a</var> and <var><span class="vec">⃗</span>b</var>;<br />
+                        <a href="#0" data-text="cross(a; b)"><b>cross</b><span class="b">(</span><var><span class="vec">⃗</span>a</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="b">)</span></a> - cross product of two vectors <var><span class="vec">⃗</span>a</var> and <var><span class="vec">⃗</span>b</var> (with length 2 or 3);<br />
+                    </span>
+                </li>
+                <li style="list-style-type: none; margin-left: 18pt;">
+                    <span class="exp" id="btn312">+</span>Matrix:<br />
+                    <span id="list312" style="display: none;">
+                        <u>Creational:</u><br />
+                        <a href="#0" data-text="matrix(m; n)"><b>matrix</b><span class="b">(</span><var>m</var><span class="o">;</span> <var>n</var><span class="b">)</span></a> - creates an empty matrix with dimensions <var>m</var>⨯<var>n</var>;<br />
+                        <a href="#0" data-text="identity(n)"><b>identity</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - creates an identity matrix with dimensions <var>n</var>⨯<var>n</var>;<br />
+                        <a href="#0" data-text="diagonal(n; d)"><b>diagonal</b><span class="b">(</span><var>n</var><span class="o">;</span> <var>d</var><span class="b">)</span></a> - creates a <var>n</var>⨯<var>n</var> diagonal matrix and fills the diagonal with value <var>d</var>;<br />
+                        <a href="#0" data-text="column(m; c)"><b>column</b><span class="b">(</span><var>m</var><span class="o">;</span> <var>c</var><span class="b">)</span></a> - creates a column matrix with dimensions <var>m</var>⨯1, filled with value <var>c</var>;<br />
+                        <a href="#0" data-text="utriang(n)"><b>utriang</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - creates an upper triangular matrix with dimensions <var>n</var>⨯<var>n</var>;<br />
+                        <a href="#0" data-text="ltriang(n)"><b>ltriang</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - creates a lower triangular matrix with dimensions <var>n</var>⨯<var>n</var>;<br />
+                        <a href="#0" data-text="symmetric(n)"><b>symmetric</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - creates a symmetric matrix with dimensions <var>n</var>⨯<var>n</var>;<br />
+						<a href="#0" data-text="matrix_hp(m; n)"><b>matrix_hp</b><span class="b">(</span><var>m</var><span class="o">;</span> <var>n</var><span class="b">)</span></a> - creates a high-performance (hp) matrix with dimensions <var>m</var>⨯<var>n</var>;<br />
+						<a href="#0" data-text="identity_hp(n)"><b>identity_hp</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - creates a high-performance (hp) identity matrix with dimensions <var>n</var>⨯<var>n</var>;<br />
+						<a href="#0" data-text="diagonal_hp(n; d)"><b>diagonal_hp</b><span class="b">(</span><var>n</var><span class="o">;</span> <var>d</var><span class="b">)</span></a> - creates a high-performance (hp) <var>n</var>⨯<var>n</var> diagonal matrix filled with value <var>d</var>;<br />
+						<a href="#0" data-text="column_hp(m; c)"><b>column_hp</b><span class="b">(</span><var>m</var><span class="o">;</span> <var>c</var><span class="b">)</span></a> - creates a high-performance (hp) <var>m</var>⨯1 column matrix filled with value <var>c</var>;<br />
+						<a href="#0" data-text="utriang_hp(n)"><b>utriang_hp</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - creates a high-performance (hp) <var>n</var>⨯<var>n</var> upper triangular matrix;<br />
+						<a href="#0" data-text="ltriang_hp(n)"><b>ltriang_hp</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - creates a high-performance (hp) <var>n</var>⨯<var>n</var> lower triangular matrix;<br />
+						<a href="#0" data-text="symmetric_hp(n)"><b>symmetric_hp</b><span class="b">(</span><var>n</var><span class="b">)</span></a> - creates a high-performance (hp) symmetric matrix with dimensions <var>n</var>⨯<var>n</var>;<br />
+                        <a href="#0" data-text="vec2diag(v)"><b>vec2diag</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - creates a diagonal matrix from the elements of vector <var><span class="vec">⃗</span>v</var>;<br />
+                        <a href="#0" data-text="vec2row(v)"><b>vec2row</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - creates a row matrix from the elements of vector <var><span class="vec">⃗</span>v</var>;<br />
+                        <a href="#0" data-text="vec2col(v)"><b>vec2col</b><span class="b">(</span><var><span class="vec">⃗</span>v</var><span class="b">)</span></a> - creates a column matrix from the elements of vector <var><span class="vec">⃗</span>v</var>;<br />
+                        <a href="#0" data-text="join_cols(c₁; c₂; c₃…)"><b>join_cols</b><span class="b">(</span><var><span class="vec">⃗</span>c</var><sub>1</sub><span class="o">;</span> <var><span class="vec">⃗</span>c</var><sub>2</sub><span class="o">;</span> <var><span class="vec">⃗</span>c</var><sub>3</sub>…<span class="b">)</span></a> - creates a new matrix by joining column vectors;<br />
+                        <a href="#0" data-text="join_rows(r₁; r₂; r₃…)"><b>join_rows</b><span class="b">(</span><var><span class="vec">⃗</span>r</var><sub>1</sub><span class="o">;</span> <var><span class="vec">⃗</span>r</var><sub>2</sub><span class="o">;</span> <var><span class="vec">⃗</span>r</var><sub>3</sub>…<span class="b">)</span></a> - creates a new matrix by joining row vectors;<br />
+                        <a href="#0" data-text="augment(A; B; C…)"><b>augment</b><span class="b">(</span><var>A</var><span class="o">;</span> <var>B</var><span class="o">;</span> <var>C</var>…<span class="b">)</span></a> - creates a new matrix by appending matrices <var>A</var><span class="o">;</span> <var>B</var><span class="o">;</span> <var>C</var> side by side;<br />
+                        <a href="#0" data-text="stack(A; B; C…)"><b>stack</b><span class="b">(</span><var>A</var><span class="o">;</span> <var>B</var><span class="o">;</span> <var>C</var>…<span class="b">)</span></a> - creates a new matrix by stacking matrices <var>A</var><span class="o">;</span> <var>B</var><span class="o">;</span> <var>C</var> one below the other;<br />
+                        <u>Structural:</u><br />
+                        <a href="#0" data-text="n_rows(M)"><b>n_rows</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - number of rows in matrix <var>M</var>;<br />
+                        <a href="#0" data-text="n_cols(M)"><b>n_cols</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - number of columns in matrix <var>M</var>;<br />
+                        <a href="#0" data-text="mresize(M; m; n)"><b>mresize</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>m</var><span class="o">;</span> <var>n</var><span class="b">)</span></a> - sets new dimensions <var>m</var> and <var>n</var> for matrix <var>M</var>;<br />
+                        <a href="#0" data-text="mfill(M; x)"><b>mfill</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - fills matrix <var>M</var> with value <var>x</var>;<br />
+                        <a href="#0" data-text="fill_row(M; i; x)"><b>fill_row</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>i</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - fills the <var>i</var>-th row of matrix <var>M</var> with value <var>x</var>;<br />
+                        <a href="#0" data-text="fill_col(M; j; x)"><b>fill_col</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>j</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - fills the <var>j</var>-th column of matrix <var>M</var> with value <var>x</var>;<br />
+                        <a href="#0" data-text="copy(A; B; i; j)"><b>copy</b><span class="b">(</span><var>A</var><span class="o">;</span> <var>B</var><span class="o">;</span> <var>i</var><span class="o">;</span> <var>j</var><span class="b">)</span></a> - copies all elements from <var>A</var> to <var>B</var>, starting from indexes <var>i</var> and <var>j</var> of <var>B</var>;<br />
+                        <a href="#0" data-text="add(A; B; i; j)"><b>add</b><span class="b">(</span><var>A</var><span class="o">;</span> <var>B</var><span class="o">;</span> <var>i</var><span class="o">;</span> <var>j</var><span class="b">)</span></a> - adds all elements from <var>A</var> to those of <var>B</var>, starting from indexes <var>i</var> and <var>j</var> of <var>B</var>;<br />
+                        <a href="#0" data-text="row(M; i)"><b>row</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>i</var><span class="b">)</span></a> - extracts the <var>i</var>-th row of matrix <var>M</var> as a vector;<br />
+                        <a href="#0" data-text="col(M; j)"><b>col</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>j</var><span class="b">)</span></a> - extracts the <var>j</var>-th column of matrix <var>M</var> as a vector;<br />
+                        <a href="#0" data-text="extract_rows(M; vi)"><b>extract_rows</b><span class="b">(</span><var>M</var><span class="o">;</span> <var><span class="vec">⃗</span>vi</var><span class="b">)</span></a> - extracts the rows from matrix <var>M</var> whose indexes are contained in vector <var><span class="vec">⃗</span>vi</var>;<br />
+                        <a href="#0" data-text="extract_cols(M; vj)"><b>extract_cols</b><span class="b">(</span><var>M</var><span class="o">;</span> <var><span class="vec">⃗</span>vj</var><span class="b">)</span></a> - extracts the columns from matrix <var>M</var> whose indexes are contained in vector <var><span class="vec">⃗</span>vj</var>;<br />
+                        <a href="#0" data-text="diag2vec(M)"><b>diag2vec</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - extracts the diagonal elements of matrix <var>M</var> to a vector;<br />
+                        <a href="#0" data-text="submatrix(M; i₁; i₂; j₁; j₂)"><b>submatrix</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>i</var><sub>1</sub><span class="o">;</span> <var>i</var><sub>2</sub><span class="o">;</span> <var>j</var><sub>1</sub><span class="o">;</span> <var>j</var><sub>2</sub><span class="b">)</span></a> - extracts a submatrix of <var>M</var>, bounded by rows <var>i</var><sub>1</sub> and <var>i</var><sub>2</sub> and columns <var>j</var><sub>1</sub> and <var>j</var><sub>2</sub>, incl.;<br />
+                        <u>Data:</u><br />
+                        <a href="#0" data-text="sort_cols(M; i)"><b>sort_cols</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>i</var><span class="b">)</span></a> - sorts the columns of <var>M</var> based on the values in row <var>i</var> in ascending order;<br />
+                        <a href="#0" data-text="rsort_cols(M; i)"><b>rsort_cols</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>i</var><span class="b">)</span></a> - sorts the columns of <var>M</var> based on the values in row <var>i</var> in descending order;<br />
+                        <a href="#0" data-text="sort_rows(M; j)"><b>sort_rows</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>j</var><span class="b">)</span></a> - sorts the rows of <var>M</var> based on the values in column <var>j</var> in ascending order;<br />
+                        <a href="#0" data-text="rsort_rows(M; j)"><b>rsort_rows</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>j</var><span class="b">)</span></a> - sorts the rows of <var>M</var> based on the values in column <var>j</var> in descending order;<br />
+                        <a href="#0" data-text="order_cols(M; i)"><b>order_cols</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>i</var><span class="b">)</span></a> - the indexes of the columns of <var>M</var> based on the ordering of the values from row <var>i</var> in ascending order;<br />
+                        <a href="#0" data-text="revorder_cols(M; i)"><b>revorder_cols</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>i</var><span class="b">)</span></a> - the indexes of the columns of <var>M</var> based on the ordering of the values from row <var>i</var> in descending order;<br />
+                        <a href="#0" data-text="order_rows(M; j)"><b>order_rows</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>j</var><span class="b">)</span></a> - the indexes of the rows of <var>M</var> based on the ordering of the values in column <var>j</var> in ascending order;<br />
+                        <a href="#0" data-text="revorder_rows(M; j)"><b>revorder_rows</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>j</var><span class="b">)</span></a> - the indexes of the rows of <var>M</var> based on the ordering of the values in column <var>j</var> in descending order;<br />
+                        <a href="#0" data-text="mcount(M; x)"><b>mcount</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - number of occurrences of value <var>x</var> in matrix <var>M</var>;<br />
+                        <a href="#0" data-text="msearch(M; x; i; j)"><b>msearch</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><span class="o">;</span> <var>j</var><span class="b">)</span></a> - vector with the two indexes of the first occurrence of <var>x</var> in matrix <var>M</var>, starting from indexes <var>i</var> and <var>j</var>;<br />
+                        <a href="#0" data-text="mfind(M; x)"><b>mfind</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> or<br />
+                        <a href="#0" data-text="mfind_eq(M; x)"><b>mfind_eq</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - the indexes of all elements in <var>M</var> that are = <var>x</var>;<br />
+                        <a href="#0" data-text="mfind_ne(M; x)"><b>mfind_ne</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - the indexes of all elements in <var>M</var> that are ≠ <var>x</var>;<br />
+                        <a href="#0" data-text="mfind_lt(M; x)"><b>mfind_lt</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - the indexes of all elements in <var>M</var> that are &lt; <var>x</var>;<br />
+                        <a href="#0" data-text="mfind_le(M; x)"><b>mfind_le</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - the indexes of all elements in <var>M</var> that are &le; <var>x</var>;<br />
+                        <a href="#0" data-text="mfind_gt(M; x)"><b>mfind_gt</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - the indexes of all elements in <var>M</var> that are &gt; <var>x</var>;<br />
+                        <a href="#0" data-text="mfind_ge(M; x)"><b>mfind_ge</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="b">)</span></a> - the indexes of all elements in <var>M</var> that are &ge; <var>x</var>;<br />
+                        <a href="#0" data-text="hlookup(M; x; i₁; i₂)"><b>hlookup</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><sub>1</sub><span class="o">;</span> <var>i</var><sub>2</sub><span class="b">)</span></a> or<br />
+                        <a href="#0" data-text="hlookup_eq(M; x; i₁; i₂)"><b>hlookup_eq</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><sub>1</sub><span class="o">;</span> <var>i</var><sub>2</sub><span class="b">)</span></a> - the values from row <var>i</var><sub>2</sub> of <var>M</var>, for which the elements in row <var>i</var><sub>1</sub> are = <var>x</var>;<br />
+                        <a href="#0" data-text="hlookup_ne(M; x; i₁; i₂)"><b>hlookup_ne</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><sub>1</sub><span class="o">;</span> <var>i</var><sub>2</sub><span class="b">)</span></a> - the values from row <var>i</var><sub>2</sub> of <var>M</var>, for which the elements in row <var>i</var><sub>1</sub> are ≠ <var>x</var>;<br />
+                        <a href="#0" data-text="hlookup_lt(M; x; i₁; i₂)"><b>hlookup_lt</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><sub>1</sub><span class="o">;</span> <var>i</var><sub>2</sub><span class="b">)</span></a> - the values from row <var>i</var><sub>2</sub> of <var>M</var>, for which the elements in row <var>i</var><sub>1</sub> are &lt; <var>x</var>;<br />
+                        <a href="#0" data-text="hlookup_le(M; x; i₁; i₂)"><b>hlookup_le</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><sub>1</sub><span class="o">;</span> <var>i</var><sub>2</sub><span class="b">)</span></a> - the values from row <var>i</var><sub>2</sub> of <var>M</var>, for which the elements in row <var>i</var><sub>1</sub> are &le; <var>x</var>;<br />
+                        <a href="#0" data-text="hlookup_gt(M; x; i₁; i₂)"><b>hlookup_gt</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><sub>1</sub><span class="o">;</span> <var>i</var><sub>2</sub><span class="b">)</span></a> - the values from row <var>i</var><sub>2</sub> of <var>M</var>, for which the elements in row <var>i</var><sub>1</sub> are &gt; <var>x</var>;<br />
+                        <a href="#0" data-text="hlookup_ge(M; x; i₁; i₂)"><b>hlookup_ge</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>i</var><sub>1</sub><span class="o">;</span> <var>i</var><sub>2</sub><span class="b">)</span></a> - the values from row <var>i</var><sub>2</sub> of <var>M</var>, for which the elements in row <var>i</var><sub>1</sub> are &ge; <var>x</var>;<br />
+                        <a href="#0" data-text="vlookup(M; x; j₁; j₂)"><b>vlookup</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>j</var><sub>1</sub><span class="o">;</span> <var>j</var><sub>2</sub><span class="b">)</span></a> or<br />
+                        <a href="#0" data-text="vlookup_eq(M; x; j₁; j₂)"><b>vlookup_eq</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>j</var><sub>1</sub><span class="o">;</span> <var>j</var><sub>2</sub><span class="b">)</span></a> - the values from column <var>j</var><sub>2</sub> of <var>M</var>, for which the elements in column <var>j</var><sub>1</sub> are = <var>x</var>;<br />
+                        <a href="#0" data-text="vlookup_ne(M; x; j₁; j₂)"><b>vlookup_ne</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>j</var><sub>1</sub><span class="o">;</span> <var>j</var><sub>2</sub><span class="b">)</span></a> - the values from column <var>j</var><sub>2</sub> of <var>M</var>, for which the elements in column <var>j</var><sub>1</sub> are ≠ <var>x</var>;<br />
+                        <a href="#0" data-text="vlookup_lt(M; x; j₁; j₂)"><b>vlookup_lt</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>j</var><sub>1</sub><span class="o">;</span> <var>j</var><sub>2</sub><span class="b">)</span></a> - the values from column <var>j</var><sub>2</sub> of <var>M</var>, for which the elements in column <var>j</var><sub>1</sub> are &lt; <var>x</var>;<br />
+                        <a href="#0" data-text="vlookup_le(M; x; j₁; j₂)"><b>vlookup_le</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>j</var><sub>1</sub><span class="o">;</span> <var>j</var><sub>2</sub><span class="b">)</span></a> - the values from column <var>j</var><sub>2</sub> of <var>M</var>, for which the elements in column <var>j</var><sub>1</sub> are &le; <var>x</var>;<br />
+                        <a href="#0" data-text="vlookup_gt(M; x; j₁; j₂)"><b>vlookup_gt</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>j</var><sub>1</sub><span class="o">;</span> <var>j</var><sub>2</sub><span class="b">)</span></a> - the values from column <var>j</var><sub>2</sub> of <var>M</var>, for which the elements in column <var>j</var><sub>1</sub> are &gt; <var>x</var>;<br />
+                        <a href="#0" data-text="vlookup_ge(M; x; j₁; j₂)"><b>vlookup_ge</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>x</var><span class="o">;</span> <var>j</var><sub>1</sub><span class="o">;</span> <var>j</var><sub>2</sub><span class="b">)</span></a> - the values from column <var>j</var><sub>2</sub> of <var>M</var>, for which the elements in column <var>j</var><sub>1</sub> are &ge; <var>x</var>;<br />
+                        <u>Math:</u><br />
+                        <a href="#0" data-text="hprod(A; B)"><b>hprod</b><span class="b">(</span><var>A</var><span class="o">;</span> <var>B</var><span class="b">)</span></a> - Hadamard product of matrices <var>A</var> and <var>B</var>;<br />
+                        <a href="#0" data-text="fprod(A; B)"><b>fprod</b><span class="b">(</span><var>A</var><span class="o">;</span> <var>B</var><span class="b">)</span></a> - Frobenius product of matrices <var>A</var> and <var>B</var>;<br />
+                        <a href="#0" data-text="kprod(A; B)"><b>kprod</b><span class="b">(</span><var>A</var><span class="o">;</span> <var>B</var><span class="b">)</span></a> - Kronecker product of matrices <var>A</var> and <var>B</var>;<br />
+                        <a href="#0" data-text="mnorm_1(M)"><b>mnorm_1</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - L1 norm of matrix <var>M</var>;<br />
+                        <a href="#0" data-text="mnorm(M)"><b>mnorm</b><span class="b">(</span><var>M</var><span class="b">)</span></a> or<br /><a href="#0" data-text="mnorm_2("><b>mnorm_2</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - L2 norm of matrix <var>M</var>;<br />
+                        <a href="#0" data-text="mnorm_e(M)"><b>mnorm_e</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - Frobenius norm of matrix <var>M</var>;<br />
+                        <a href="#0" data-text="mnorm_i(M)"><b>mnorm_i</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - L∞ norm of matrix <var>M</var>;<br />
+                        <a href="#0" data-text="cond_1(M)"><b>cond_1</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - condition number of <var>M</var> based on the L1 norm;<br />
+                        <a href="#0" data-text="cond(M)"><b>cond</b><span class="b">(</span><var>M</var><span class="b">)</span></a> or<br />
+                        <a href="#0" data-text="cond_2(M)"><b>cond_2</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - condition number of <var>M</var> based on the L2 norm;<br />
+                        <a href="#0" data-text="cond_e(M)"><b>cond_e</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - condition number of <var>M</var> based on the Frobenius norm;<br />
+                        <a href="#0" data-text="cond_i(M)"><b>cond_i</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - condition number of <var>M</var> based on the L∞ norm;<br />
+                        <a href="#0" data-text="det(M)"><b>det</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - determinant of matrix <var>M</var>;<br />
+                        <a href="#0" data-text="rank(M)"><b>rank</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - rank of matrix <var>M</var>;<br />
+                        <a href="#0" data-text="trace(M)"><b>trace</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - trace of matrix <var>M</var>;<br />
+                        <a href="#0" data-text="transp(M)"><b>transp</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - transpose of matrix <var>M</var>;<br />
+                        <a href="#0" data-text="adj(M)"><b>adj</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - adjugate of matrix <var>M</var>;<br />
+                        <a href="#0" data-text="cofactor(M)"><b>cofactor</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - cofactor matrix of <var>M</var>;<br />
+                        <a href="#0" data-text="eigenvals(M; nₑ)"><b>eigenvals</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>n</var><sub>e</sub><span class="b">)</span></a> - the first <var>n</var><sub>e</sub> eigenvalues of matrix <var>M</var> (or all if omitted);<br />
+                        <a href="#0" data-text="eigenvecs(M nₑ)"><b>eigenvecs</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>n</var><sub>e</sub><span class="b">)</span></a> - the first <var>n</var><sub>e</sub> eigenvectors of matrix <var>M</var> (or all if omitted);<br />
+                        <a href="#0" data-text="eigen(M nₑ)"><b>eigen</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>n</var><sub>e</sub><span class="b">)</span></a> - the first <var>n</var><sub>e</sub> eigenvalues and eigenvectors of matrix <var>M</var> (or all if omitted);<br />
+                        <a href="#0" data-text="cholesky(M)"><b>cholesky</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - Cholesky decomposition of a symmetric, positive-definite matrix <var>M</var>;<br />
+                        <a href="#0" data-text="lu(M)"><b>lu</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - LU decomposition of matrix <var>M</var>;<br />
+                        <a href="#0" data-text="qr(M)"><b>qr</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - QR decomposition of matrix <var>M</var>;<br />
+                        <a href="#0" data-text="svd(M)"><b>svd</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - singular value decomposition of <var>M</var>;<br />
+                        <a href="#0" data-text="inverse(M)"><b>inverse</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - inverse of matrix <var>M</var>;<br />
+                        <a href="#0" data-text="lsolve(A; b)"><b>lsolve</b><span class="b">(</span><var>A</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="b">)</span></a> - solves the system of linear equations <var>A<span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> using LDL<sup>T</sup> decomposition for symmetric matrices, and LU for non-symmetric;<br />
+                        <a href="#0" data-text="clsolve(A; b)"><b>clsolve</b><span class="b">(</span><var>A</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="b">)</span></a> - solves the linear matrix equation <var>A<span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> with symmetric, positive-definite coefficient matrix <var>A</var> using Cholesky decomposition;<br />
+						<a href="#0" data-text="slsolve(A; b)"><b>slsolve</b><span class="b">(</span><var>A</var><span class="o">;</span> <var><span class="vec">⃗</span>b</var><span class="b">)</span></a> - solves the linear matrix equation <var>A<span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> with high-performance symmetric, positive-definite matrix A using preconditioned conjugate gradient (PCG) method;<br />
+                        <a href="#0" data-text="msolve(A; B)"><b>msolve</b><span class="b">(</span><var>A</var><span class="o">;</span> <var>B</var><span class="b">)</span></a> - solves the generalized matrix equation <var>AX</var> = <var>B</var> using LDL<sup>T</sup> decomposition for symmetric matrices, and LU for non-symmetric;<br />
+                        <a href="#0" data-text="cmsolve(A; B)"><b>cmsolve</b><span class="b">(</span><var>A</var><span class="o">;</span> <var>B</var><span class="b">)</span></a> - solves the generalized matrix equation <var>AX</var> = <var>B</var> with symmetric, positive-definite coefficient matrix <var>A</var> using Cholesky decomposition;<br />
+						<a href="#0" data-text="smsolve(A; B)"><b>smsolve</b><span class="b">(</span><var>A</var><span class="o">;</span> <var>B</var><span class="b">)</span></a> - solves the generalized matrix equation <var>AX</var> = <var>B</var> with high-performance symmetric, positive-definite matrix A using preconditioned conjugate gradient (PCG) method;<br />
+                        <a href="#0" data-text="fft(M)"><b>fft</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - performs fast Fourier transform of row-major matrix <var>M</var>. It must have one row for real data and two rows for complex;<br />
+                        <a href="#0" data-text="ift(M)"><b>ift</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - performs inverse Fourier transform of row-major matrix <var>M</var>. It must have one row for real data and two rows for complex;<br />
+                        <u>Double interpolation:</u><br />
+                        <a href="#0" data-text="take(x; y; M)"><b>take</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>M</var><span class="b">)</span></a> - returns the element of matrix <var>M</var> at indexes <var>x</var> and <var>y</var>;<br />
+                        <a href="#0" data-text="line(x; y; M)"><b>line</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>M</var><span class="b">)</span></a> - double linear interpolation from the elements of matrix <var>M</var> based on the values of <var>x</var> and <var>y</var>;<br />
+                        <a href="#0" data-text="spline(x; y; M)"><b>spline</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>M</var><span class="b">)</span></a> - double Hermite spline interpolation from the elements of matrix <var>M</var> based on the values of <var>x</var> and <var>y</var>.<br>
+                        <a href="#0" data-text="Tol"><var>Tol</var> - target tolerance for the iterative PCG solver.
+					</span>
                 </li>
             </ul>
         </li>
-        <li>Comments: <a href="#0" data-text="&quot;Title&quot;"><b>"Title"</b></a> or <a href="#0" data-text="'text'"><b>'text'</b></a> in double or single quotes, respectively. <strong>HTML</strong>, <strong>CSS</strong>, <strong>JS</strong> and <strong>SVG</strong> are allowed.</li>
+        <li>Comments: <a href="#0" data-text="&quot;Title&quot;"><b>"Title"</b></a> or <a href="#0" data-text="'text'"><b>'text'</b></a> in double or single quotes. <strong>HTML</strong>, <strong>CSS</strong>, <strong>JS</strong> and <strong>SVG</strong> are allowed.</li>
         <li style="list-style-type: none;">
             <span class="exp" id="btn4">+</span>Graphing and plotting:<br />
             <span id="list4" style="display: none;">
                 <a href="#0" data-text="$Plot{f(x) @ x = a : b}"><span class="cond">$Plot</span><span class="b">{</span><b>f</b><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - simple plot;<br />
                 <a href="#0" data-text="$Plot{x(t) | y(t) @ t = a : b}"><span class="cond">$Plot</span><span class="b">{</span><b>x</b><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">|</span> <b>y</b><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">&#64;</span> <var>t</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - parametric;<br />
-                <a href="#0" data-text="$Plot{f_1(x) & f_2(x) @ x = a : b}"><span class="cond">$Plot</span><span class="b">{</span><b>f</b><sub>1</sub><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">&amp;</span> <b>f</b><sub>2</sub><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">&amp;</span> ... <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - multiple;<br />
-                <a href="#0" data-text="$Plot{x_1(x) | y_1(t) & x_2(x) | y_2(t) @ t = a : b}"><span class="cond">$Plot</span><span class="b">{</span><b>x</b><sub>1</sub><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">|</span> <b>y</b><sub>1</sub><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">&amp;</span> <b>x</b><sub>2</sub><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">|</span> <b>y</b><sub>2</sub><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">&amp;</span> ... <span class="o">&#64;</span> <var>t</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - multiple parametric;<br />
+                <a href="#0" data-text="$Plot{f_1(x) & f_2(x) @ x = a : b}"><span class="cond">$Plot</span><span class="b">{</span><b>f</b><sub>1</sub><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">&amp;</span> <b>f</b><sub>2</sub><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">&amp;</span> … <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - multiple;<br />
+                <a href="#0" data-text="$Plot{x_1(x) | y_1(t) & x_2(x) | y_2(t) @ t = a : b}"><span class="cond">$Plot</span><span class="b">{</span><b>x</b><sub>1</sub><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">|</span> <b>y</b><sub>1</sub><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">&amp;</span> <b>x</b><sub>2</sub><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">|</span> <b>y</b><sub>2</sub><span class="b">(</span><var>t</var><span class="b">)</span> <span class="o">&amp;</span> … <span class="o">&#64;</span> <var>t</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - multiple parametric;<br />
                 <a href="#0" data-text="$Map{f(x; y) @ x = a : b & y = c : d}"><span class="cond">$Map</span><span class="b">{</span><b>f</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="b">)</span> <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var> <span class="o">&amp;</span> <var>y</var> <span class="o">=</span> <var>c</var> <span class="o">:</span> <var>d</var><span class="b">}</span></a> - 2D color map of a 3D surface;<br />
                 <a href="#0" data-text="PlotHeight ="><var>PlotHeight</var></a> - height of plot area in pixels;<br />
                 <a href="#0" data-text="PlotWidth ="><var>PlotWidth</var></a> - width of plot area in pixels;<br />
-                <a href="#0" data-text="PlotWidth ="><var>PlotStep</var></a> - the size of the mesh for map plotting.
+                <a href="#0" data-text="PlotSVG ="><var>PlotSVG</var></a> - draw plots in vector, SVG format (= 1) or raster, PNG (= 0);<br />
+                <a href="#0" data-text="PlotAdaptive ="><var>PlotAdaptive</var></a> - use adaptive mesh (= 1) for function plotting or uniform (= 0);<br />
+                <a href="#0" data-text="PlotStep ="><var>PlotStep</var></a> - the size of the mesh for map plotting;<br />
+                <a href="#0" data-text="PlotShadows ="><var>PlotShadows</var></a> - draw surface plots with shadows;<br />
+                <a href="#0" data-text="PlotLightDir ="><var>PlotLightDir</var></a> - direction to light source (0-7) clockwise: 
+				<select class="insert">
+					<option value="PlotLightDir = 0">0 - North</option>
+					<option value="PlotLightDir = 1">1 - NorthEast</option>
+					<option value="PlotLightDir = 2">2 - East</option>
+					<option value="PlotLightDir = 3">3 - SouthEast</option>
+					<option value="PlotLightDir = 4">4 - South</option>
+					<option value="PlotLightDir = 5">5 - SouthWest</option>
+					<option value="PlotLightDir = 6">6 - West</option>
+					<option value="PlotLightDir = 7">7 – NorthWest</option>
+				</select><br/>
+                <a href="#0" data-text="PlotSmooth ="><var>PlotSmooth</var></a> - smooth gradient coloring (= 1) or  isobands (= 0) for surface plots;<br />
+                <a href="#0" data-text="PlotPalette ="><var>PlotPalette</var></a> - the number of color palette for surface plots (0-9): 
+                <select class="insert">
+                    <option value="PlotPalette = 0">0 - None</option>
+                    <option value="PlotPalette = 1">1 - Gray</option>
+                    <option value="PlotPalette = 2">2 - Rainbow</option>
+                    <option value="PlotPalette = 3">3 - Terrain</option>
+                    <option value="PlotPalette = 4">4 - Violet-yellow</option>
+                    <option value="PlotPalette = 5">5 - Green-yellow</option>
+                    <option value="PlotPalette = 6">6 - Blues</option>
+                    <option value="PlotPalette = 7">7 - Blue-yellow</option>
+                    <option value="PlotPalette = 8">8 - Blue-red</option>
+                    <option value="PlotPalette = 9">9 - Purple-yellow</option>
+                </select><br />
             </span>
         </li>
         <li style="list-style-type: none;">
@@ -370,8 +609,11 @@
                 <a href="#0" data-text="$Slope{f(x) @ x = a}"><span class="cond">$Slope</span><span class="b">{</span><b>f</b><span class="b">(</span><var>x</var><span class="b">)</span> <span class="o">&#64;</span> <var>x</var> <span class="o">=</span> <var>a</var><span class="b">}</span></a> - numerical differentiation;<br />
                 <a href="#0" data-text="$Sum{f(k) @ k = a : b}"><span class="cond">$Sum</span><span class="b">{</span><b>f</b><span class="b">(</span><var>k</var><span class="b">)</span> <span class="o">&#64;</span> <var>k</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - iterative sum;<br />
                 <a href="#0" data-text="$Product{f(k) @ k = a : b}"><span class="cond">$Product</span><span class="b">{</span><b>f</b><span class="b">(</span><var>k</var><span class="b">)</span> <span class="o">&#64;</span> <var>k</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - iterative product;<br />
-                <a href="#0" data-text="$Repeat{f(k) @ k = a : b}"><span class="cond">$Repeat</span><span class="b">{</span><b>f</b><span class="b">(</span><var>k</var><span class="b">)</span> <span class="o">&#64;</span> <var>k</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - general inline iterative procedure;<br />
-                <a href="#0" data-text="Precision ="><var>Precision</var></a> - relative precision for numerical methods [10<sup>-2</sup>; 10<sup>-16</sup>] (default is 10<sup>-12</sup>)
+                <a href="#0" data-text="$Repeat{f(k) @ k = a : b}"><span class="cond">$Repeat</span><span class="b">{</span><b>f</b><span class="b">(</span><var>k</var><span class="b">)</span> <span class="o">&#64;</span> <var>k</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - iterative expression block with counter;<br />
+                <a href="#0" data-text="$While{ }"><span class="cond">$While</span><span class="b">{</span><em>condition</em><span class="o">;</span> <em>expressions</em><span class="b">}</span></a> - iterative expression block with condition;<br />
+                <a href="#0" data-text="$Block{ }"><span class="cond">$Block</span><span class="b">{</span><em>expressions</em><span class="b">}</span></a> - multiline expression block;<br />
+                <a href="#0" data-text="$Inline{ }"><span class="cond">$Inline</span><span class="b">{</span><em>expressions</em><span class="b">}</span></a> - inline expression block;<br />
+                <a href="#0" data-text="Precision ="><var>Precision</var></a> - relative precision for numerical methods [10<sup>-2</sup>; 10<sup>-15</sup>] (default is 10<sup>-14</sup>)
             </span>
         </li>
         <li style="list-style-type: none;">
@@ -444,16 +686,29 @@
                     &emsp;&emsp;&emsp;&emsp;<em>some more code</em><br />
                     &emsp;&emsp;<span class="cond">#loop</span>
                 </a><br />
+                With counter:<br />
+                <a href="#0" data-text="#for counter = start : end
+'your code goes here
+#loop">
+                    &emsp;&emsp;<span class="cond">#for</span> <em>counter</em> = <em>start</em> : <em>end</em><br />
+                    &emsp;&emsp;&emsp;&emsp;<em>your code goes here</em><br />
+                    &emsp;&emsp;<span class="cond">#loop</span>
+                </a><br />
+                With condition:<br />
+                <a href="#0" data-text="#while 'condition
+'your code goes here
+#loop">
+                    &emsp;&emsp;<span class="cond">#while</span> <em>condition</em><br />
+                    &emsp;&emsp;&emsp;&emsp;<em>your code goes here</em><br />
+                    &emsp;&emsp;<span class="cond">#loop</span>
+                </a><br />
             </span>
         </li>
         <li style="list-style-type: none;">
             <span class="exp" id="btn8">+</span>Modules and macros/string variables:<br />
             <span id="list8" style="display: none;">
                 Modules:<br />
-                &emsp;&emsp;<a href="#0" data-text="#include filename">
-                    <span class="cond">#include</span>
-                    <em class="macro">filename</em>
-                </a> - include external file (module);<br />
+                &emsp;&emsp;<a href="#0" data-text="#include filename"><span class="cond">#include</span><em class="macro">filename</em></a> - include external file (module);<br />
                 &emsp;&emsp;<a href="#0" data-text="#local"><span class="cond">#local</span></a> - start local section (not to be included);<br />
                 &emsp;&emsp;<a href="#0" data-text="#global"><span class="cond">#global</span></a> - start global section (to be included);<br />
                 Inline string variable:<br />
@@ -464,54 +719,77 @@
                 <a href="#0" data-text="#def variable_name$
 'line 1
 'line 2
-'...
+'…
 #end def">
                     &emsp;&emsp;<span class="cond">#def</span> <em class="macro">variable_name$</em><br />
                     &emsp;&emsp;&emsp;&emsp;<em>content line 1</em><br />
                     &emsp;&emsp;&emsp;&emsp;<em>content line 2</em><br />
-                    &emsp;&emsp;&emsp;&emsp;<em>...</em><br />
+                    &emsp;&emsp;&emsp;&emsp;<em>…</em><br />
                     &emsp;&emsp;<span class="cond">#end def</span>
                 </a><br />
                 Inline macro:<br />
                 &emsp;&emsp;<a href="#0" data-text="#def macro_name$(param1$; param2$) = content">
-                    <span class="cond">#def</span> <em class="macro">macro_name$</em><span class="b">(</span><em class="macro">param1$</em><span class="o">;</span> <em class="macro">param2$</em><span class="o">;</span>...<span class="b">)</span> <span class="o">=</span> <em>content</em>
+                    <span class="cond">#def</span> <em class="macro">macro_name$</em><span class="b">(</span><em class="macro">param1$</em><span class="o">;</span> <em class="macro">param2$</em><span class="o">;</span>…<span class="b">)</span> <span class="o">=</span> <em>content</em>
                 </a><br />
                 Multiline macro:<br />
                 <a href="#0" data-text="#def macro_name$(param1$; param2$)
 'line 1
 'line 2
-'...
+'…
 #end def">
-                    &emsp;&emsp;<span class="cond">#def</span> <em class="macro">macro_name$</em><span class="b">(</span><em class="macro">param1$</em><span class="o">;</span> <em class="macro">param2$</em><span class="o">;</span>...<span class="b">)</span><br />
+                    &emsp;&emsp;<span class="cond">#def</span> <em class="macro">macro_name$</em><span class="b">(</span><em class="macro">param1$</em><span class="o">;</span> <em class="macro">param2$</em><span class="o">;</span>…<span class="b">)</span><br />
                     &emsp;&emsp;&emsp;&emsp;<em>content line 1</em><br />
                     &emsp;&emsp;&emsp;&emsp;<em>content line 2</em><br />
-                    &emsp;&emsp;&emsp;&emsp;<em>...</em><br />
+                    &emsp;&emsp;&emsp;&emsp;<em>…</em><br />
                     &emsp;&emsp;<span class="cond">#end def</span>
                 </a><br />
             </span>
         </li>
         <li style="list-style-type: none;">
-            <span class="exp" id="btn9">+</span>Output control:<br />
-		    <span id="list9" style="display: none;">
-			    <a href="#0" data-text="#hide"><span class="cond">#hide</span></a> - hide the report contents;<br />
-			    <a href="#0" data-text="#show"><span class="cond">#show</span></a> - always show the contents (default);<br />
-			    <a href="#0" data-text="#pre"><span class="cond">#pre</span></a> - show the next contents only before calculations;<br />
-			    <a href="#0" data-text="#post"><span class="cond">#post</span></a> - show the next contents only after calculations;<br />
-			    <a href="#0" data-text="#val"><span class="cond">#val</span></a> - show only the final result, without the equation;<br />
-			    <a href="#0" data-text="#equ"><span class="cond">#equ</span></a> - show complete equations and results (default);<br />
-			    <a href="#0" data-text="#noc"><span class="cond">#noc</span></a> - show only equations without results (no calculations);<br />
-			    <a href="#0" data-text="#nosub"><span class="cond">#nosub</span></a> - do not substitute variables (no substitution);<br />
-			    <a href="#0" data-text="#novar"><span class="cond">#novar</span></a> - show equations only with substituted values (no variables);<br />
-			    <a href="#0" data-text="#varsub"><span class="cond">#varsub</span></a> - show equations with variables and substituted values (default);<br />
-			    <a href="#0" data-text="#split"><span class="cond">#split</span></a> - split equations that do not fit on a single line;<br />
-			    <a href="#0" data-text="#wrap"><span class="cond">#wrap</span></a> - wrap equations that do not fit on a single line (default);<br />
-			    <a href="#0" data-text="#round "><span class="cond">#round <em>n</em></span></a> - rounds the output to <em>n</em> digits after the decimal point.<br />
-			    Each of the above commands is effective after the current line until the end of the report or another command that overwrites it.
-		    </span>
+            <span class="exp" id="btn9">+</span>Import/Export of external data:<br />
+            <span id="list9" style="display: none;">
+                <u>Text/CSV files</u>:<br />
+                <a href="#0" data-text="#read M from filename.txt@R1C1:R2C2 TYPE=R SEP=','"><span class="cond">#read</span> <var>M</var> <span class="cond">from</span> <em class="macro">filename.txt</em><span class="o">@</span><span class="macro">R1C1</span><span class="o">:</span><span class="macro">R2C2</span> <span class="cond">TYPE</span><span class="o">=</span><span class="macro">R</span> <span class="cond">SEP</span><span class="o">=</span><span class="ok">','</span></a> - read matrix <var>M</var> from a text/CSV file;<br />
+                <a href="#0" data-text="#write M to filename.txt@R1C1:R2C2 TYPE=N SEP=','"><span class="cond">#write</span> <var>M</var> <span class="cond">to</span> <em class="macro">filename.txt</em><span class="o">@</span><span class="macro">R1C1</span><span class="o">:</span><span class="macro">R2C2</span> <span class="cond">TYPE</span><span class="o">=</span><span class="macro">N</span> <span class="cond">SEP</span><span class="o">=</span><span class="ok">','</span></a> - write matrix <var>M</var> to a text/CSV file;<br />
+                <a href="#0" data-text="#append M to filename.txt@R1C1:R2C2 TYPE=N SEP=','"><span class="cond">#append</span> <var>M</var> <span class="cond">to</span> <em class="macro">filename.txt</em><span class="o">@</span><span class="macro">R1C1</span><span class="o">:</span><span class="macro">R2C2</span> <span class="cond">TYPE</span><span class="o">=</span><span class="macro">N</span> <span class="cond">SEP</span><span class="o">=</span><span class="ok">','</span></a> - append matrix <var>M</var> to a text/CSV file;<br />
+                <u>Excel files (xlsx and xlsm)</u>:<br />
+                <a href="#0" data-text="#read M from filename.xlsx@Sheet1!A1:B2 TYPE=R"><span class="cond">#read</span> <var>M</var> <span class="cond">from</span> <em class="macro">filename.xlsx</em><span class="o">@</span><span class="macro">Sheet1</span><span class="o">!</span><span class="macro">A1</span><span class="o">:</span><span class="macro">B2</span> <span class="cond">TYPE</span><span class="o">=</span><span class="macro">R</span></a> - read matrix <var>M</var> from an Excel file;<br />
+                <a href="#0" data-text="#write M to filename.xlsx@Sheet1!A1:B2 TYPE=N"><span class="cond">#write</span> <var>M</var> <span class="cond">to</span> <em class="macro">filename.xlsx</em><span class="o">@</span><span class="macro">Sheet1</span><span class="o">!</span><span class="macro">A1</span><span class="o">:</span><span class="macro">B2</span> <span class="cond">TYPE</span><span class="o">=</span><span class="macro">N</span></a> - write matrix <var>M</var> to an Excel file;<br />
+                <a href="#0" data-text="#append M to filename.xlsx@Sheet1!A1:B2 TYPE=N"><span class="cond">#append</span> <var>M</var> <span class="cond">to</span> <em class="macro">filename.xlsx</em><span class="o">@</span><span class="macro">Sheet1</span><span class="o">!</span><span class="macro">A1</span><span class="o">:</span><span class="macro">B2</span> <span class="cond">TYPE</span><span class="o">=</span><span class="macro">N</span></a> - append matrix <var>M</var> to an Excel file;<br />
+                Sheet, range, <span class="cond">TYPE</span> and <span class="cond">SEP</span> can be omitted.<br />
+				For <span class="cond">#read</span> command, <span class="cond">TYPE</span> can be either of [<span class="macro" title="Rectangular">R</span>|<span class="macro" title="Diagonal">D</span>|<span class="macro" title="Column">C</span>|<span class="macro" title="Symmetric skyline">S</span>|<span class="macro" title="Upper triangular">U</span>|<span class="macro" title="Lower triangular">L</span>|<span class="macro" title="Vector">V</span>].<br />
+				For <span class="cond">#write</span> and <span class="cond">#append</span> commands, <span class="cond">TYPE</span> can be <span class="macro" title="Yes">Y</span> or <span class="macro" title="No">N</span>.
+            </span>
         </li>
         <li style="list-style-type: none;">
-            <span class="exp" id="btn10">+</span>Breakpoints for step-by-step execution:<br />
+            <span class="exp" id="btn10">+</span>Output control:<br />
             <span id="list10" style="display: none;">
+                <a href="#0" data-text="#hide"><span class="cond">#hide</span></a> - hide the report contents;<br />
+                <a href="#0" data-text="#show"><span class="cond">#show</span></a> - always show the contents (default);<br />
+                <a href="#0" data-text="#pre"><span class="cond">#pre</span></a> - show the next contents only before calculations;<br />
+                <a href="#0" data-text="#post"><span class="cond">#post</span></a> - show the next contents only after calculations;<br />
+                <a href="#0" data-text="#val"><span class="cond">#val</span></a> - show only the final result, without the equation;<br />
+                <a href="#0" data-text="#equ"><span class="cond">#equ</span></a> - show complete equations and results (default);<br />
+                <a href="#0" data-text="#noc"><span class="cond">#noc</span></a> - show only equations without results (no calculations);<br />
+                <a href="#0" data-text="#nosub"><span class="cond">#nosub</span></a> - do not substitute variables (no substitution);<br />
+                <a href="#0" data-text="#novar"><span class="cond">#novar</span></a> - show equations only with substituted values (no variables);<br />
+                <a href="#0" data-text="#varsub"><span class="cond">#varsub</span></a> - show equations with variables and substituted values (default);<br />
+                <a href="#0" data-text="#split"><span class="cond">#split</span></a> - split equations that do not fit on a single line;<br />
+                <a href="#0" data-text="#wrap"><span class="cond">#wrap</span></a> - wrap equations that do not fit on a single line (default);<br />
+                <a href="#0" data-text="#round "><span class="cond">#round <em>n</em></span></a> - rounds the output to <em>n</em> digits after the decimal point;<br />
+                <a href="#0" data-text="#round default"><span class="cond">#round default</span></a> - restores rounding to the default settings;<br />
+                <a href="#0" data-text="#format "><span class="cond">#format <em>FFFF</em></span></a> - specifies custom format string;<br />
+                <a href="#0" data-text="#format default"><span class="cond">#format default</span></a> - restores the default formatting;<br />
+                <a href="#0" data-text="#md on"><span class="cond">#md on</span></a> - enables markdown in comments;<br />
+                <a href="#0" data-text="#md off"><span class="cond">#md off</span></a> - disables markdown in comments;<br />
+                <a href="#0" data-text="#phasor"><span class="cond">#phasor</span></a> - sets output format of complex numbers to polar phasor: A∠φ;<br />
+                <a href="#0" data-text="#complex"><span class="cond">#complex</span></a> - sets output format of complex numbers to Cartesian algebraic: a + bi.<br />
+                Each of the above commands is effective after the current line until the end of the report or another command that overrides it.
+            </span>
+        </li>
+        <li style="list-style-type: none;">
+            <span class="exp" id="btn11">+</span>Breakpoints for step-by-step execution:<br />
+            <span id="list11" style="display: none;">
                 <a href="#0" data-text="#pause"><span class="cond">#pause</span></a> - calculates down to the current line and waits for the user to resume manually;<br />
                 <a href="#0" data-text="#input"><span class="cond">#input</span></a> - renders an input form to the current line and waits for user input.<br />
             </span>
@@ -527,7 +805,13 @@
         <li>
             Dimensionless units:
             <a href="#0" data-text="%" title="percent"><i>%</i></a>,
-            <a href="#0" data-text="‰" title="permille"><i>‰</i></a>;
+            <a href="#0" data-text="‰" title="permille"><i>‰</i></a>,
+            <a href="#0" data-text="‱" title="permyriad"><i>‱</i></a>,
+            <a href="#0" data-text="pcm" title="per 100 000"><i>pcm</i></a>,
+            <a href="#0" data-text="ppm" title="per million"><i>ppm</i></a>,
+            <a href="#0" data-text="ppb" title="per billion"><i>ppb</i></a>,
+            <a href="#0" data-text="ppt" title="per trillion"><i>ppt</i></a>,
+            <a href="#0" data-text="ppq" title="per quadrillion"><i>ppq</i></a>;
         </li>
         <li>
             Angle units:
@@ -540,8 +824,8 @@
             <a href="#0" data-text="rev" title="revolutions"><i>rev</i></a>;
         </li>
         <li style="list-style-type: none;">
-            <span class="exp" id="btn11">+</span>Metric units (SI and compatible):<br />
-            <span id="list11" style="display: none;">
+            <span class="exp" id="btn12">+</span>Metric units (SI and compatible):<br />
+            <span id="list12" style="display: none;">
                 Mass:
                 <a href="#0" data-text="g" title="gram"><i>g</i></a>,
                 <a href="#0" data-text="hg" title="hectogram"><i>hg</i></a>,
@@ -864,8 +1148,8 @@
             </span>
         </li>
         <li style="list-style-type: none;">
-            <span class="exp" id="btn12">+</span>Non-metric units (Imperial/US):<br />
-            <span id="list12" style="display: none;">
+            <span class="exp" id="btn13">+</span>Non-metric units (Imperial/US):<br />
+            <span id="list13" style="display: none;">
                 Mass:
                 <a href="#0" data-text="gr" title="grain"><i>gr</i></a>,
                 <a href="#0" data-text="dr" title="drachm"><i>dr</i></a>,
@@ -995,12 +1279,10 @@
             <a href="#0" data-text="₪" title="Shekel">₪</a>.
         </li>
     </ul>
-    <script src="jquery-3.6.3.min.js"></script>
+   <script src="jquery-3.6.3.min.js"></script>
     <script>
-        function delayedLoad(path) { setTimeout(function () { document.write(path); }, 500); }
         if (window.jQuery) {
             $(document).ready(function () {
-
                 function Toggle(btn) {
                     var list = $("#list" + btn.attr("id").substring(3));
                     if (list.css("display") == "none") {
@@ -1016,6 +1298,18 @@
                 $(".exp").click(function () {
                     Toggle($(this));
                 });
+
+                $("a").click(function () {
+                    chrome.webview.postMessage('clicked');
+                });
+				
+				$("select.insert").change(function () {
+                    chrome.webview.postMessage('clicked');
+                });
+				
+				window.addEventListener('click', () => {
+					chrome.webview.postMessage('focused');
+				});
             });
         }
     </script>

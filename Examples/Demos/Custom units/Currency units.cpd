@@ -1,13 +1,14 @@
 "Currency units
-'Definition
+'<hr/>
+'<p><b>Definition</b></p>
 .EUR = 1
 .USD = 0.92EUR
 .BGN = 0.511291881196218EUR
-'Conversion
+'<p><b>Conversion</b></p>
 10BGN|USD
 20EUR|BGN
 30EUR|USD
-'Usage
+'<p><b>Usage</b></p>
 'Unit price - 'p = 15USD/m
 'Order length -'L = 100m
 'Total price in USD -'P = p*L|USD

@@ -10,7 +10,7 @@
         body {
             font-size: 11pt;
             font-family: 'Segoe UI', 'Arial Nova', Helvetica, sans-serif;
-            margin-left: 1.5em;
+            margin-left: 5mm;
             max-width: 190mm;
         }
 
@@ -21,29 +21,12 @@
             line-height: 150%;
         }
 
-        h1 {
-            font-size: 2.1em;
-        }
-
-        h2 {
-            font-size: 1.7em;
-        }
-
-        h3 {
-            font-size: 1.4em;
-        }
-
-        h4 {
-            font-size: 1.2em;
-        }
-
-        h5 {
-            font-size: 1.1em;
-        }
-
-        h6 {
-            font-size: 1em;
-        }
+        h1 {font-size: 2.1em;}
+        h2 {font-size: 1.7em;}
+        h3 {font-size: 1.4em;}
+        h4 {font-size: 1.2em;}
+        h5 {font-size: 1.1em;}
+        h6 {font-size: 1em;}
 
         p, li {
             margin: 0.3em 0 0.3em 0;
@@ -74,6 +57,17 @@
                 font-size: 90%;
             }
 
+            i.unit {
+                color: #043!important;
+                font-size: 90%!important;
+                vertical-align: -1pt;
+            }
+
+            sup.unit {
+                font-family: Calibri, Candara, Corbel, sans-serif;
+                font-size: 70%!important;
+            }
+
             .eq b {
                 font-weight: 600;
             }
@@ -82,6 +76,7 @@
                 font-family: Calibri, Candara, Corbel, sans-serif;
                 font-size: 80%;
                 vertical-align: -18%;
+                margin-left: 1pt;
             }
 
             .eq sup {
@@ -349,17 +344,9 @@
             bottom: 1pt;
         }
 
-        .eq small.nth {
-            font-size: 70%;
-        }
-
-        .dvr small {
-            font-size: 65%;
-        }
-
-        sup.raised {
-            vertical-align: top;
-        }
+        .eq small.nth {font-size: 70%;}
+        .dvr small {font-size: 65%;}
+        sup.raised {vertical-align: top;}
 
         sup .r0, sup .r1, sup .r2, sup .r3 {
             zoom: 0.7;
@@ -370,21 +357,10 @@
             max-height: none;
         }
 
-        sup .r0 {
-            margin-left: -5pt;
-        }
-
-        sup .r1 {
-            margin-left: -11pt;
-        }
-
-        sup .r2 {
-            margin-left: -13pt;
-        }
-
-        sup .r3 {
-            margin-left: -16pt;
-        }
+        sup .r0 { margin-left: -5pt; }
+        sup .r1 { margin-left: -11pt; }
+        sup .r2 { margin-left: -13pt; }
+        sup .r3 { margin-left: -16pt; }
 
         .b1, .b2, .b3, .c1, .c2, .c3, .c4, .c5, .c6, .c7, .c8 {
             vertical-align: middle;
@@ -402,13 +378,15 @@
 
         .b0 {
             font-size: 120%;
-            font-weight: 400;
+            font-weight: 600;
             padding: 0 1pt 0 1pt;
         }
 
         .b1 {
             font-size: 240%;
             margin-top: -3pt;
+            margin-left: -1pt;
+            margin-right: -1pt;
         }
 
         .b2 {

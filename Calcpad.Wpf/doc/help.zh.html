@@ -7,7 +7,7 @@
     <style>
         body {
             font-size: 11pt;
-            font-family: Calibri;	
+            font-family: Calibri, sans-serif;
             margin-top: 0;
             padding-top: 0;
         }
@@ -22,22 +22,26 @@
             }
 
         p, li {
-            line-height: 140%;
+            line-height: 130%;
         }
 
         p, ul, ol {
-            margin-top: 0.5em;
-            margin-bottom: 0.5em;
+            margin-top: 0;
+            margin-bottom: 3pt;
         }
-		
-		ol, ul {margin-left: 0; padding-left: 2em;}
+
+        ol, ul {
+            margin-left: 0;
+            padding-left: 2em;
+        }
+
+        .tight {
+            line-height: 80%;
+            margin-top: 3pt;
+        }
 
         var, i, em {
-            font-family: 'Times New Roman';
-        }
-
-        var{
-            font-size: 11.5pt;
+            font-family: 'Times New Roman', serif;
         }
 
         b {
@@ -49,6 +53,7 @@
         }
 
         var {
+            font-size: 11.5pt;
             color: #06c;
             padding-right: 0.5pt;
         }
@@ -69,8 +74,8 @@
             font-style: normal;
             display: inline-block;
             vertical-align: 1.1pt;
-            margin-left: 2pt;
-            margin-right: -5.5pt;
+            margin-left: 3pt;
+            margin-right: -3pt;
         }
 
         .cond {
@@ -88,6 +93,10 @@
         .b {
             color: deeppink;
             padding: 0 1pt 0 1pt;
+        }
+		
+		.ok {
+            color: green;
         }
 
         .exp {
@@ -108,7 +117,7 @@
             }
 
         sub {
-            font-family: Arial Nova;
+            font-family: Arial Nova, serif;
             font-size: 70%;
             padding-left: 0.5pt;
             padding-right: 0.5pt;
@@ -182,16 +191,16 @@
 </li>
 <li>
 常量:
-<a href="#0" data-text="π"                                   title="Pi"><var>π</var></a>, 
-<a href="#0" data-text="e"                                   title="欧拉数(自然底数)e"><var>e</var></a>, 
-<a href="#0" data-text="φ = 1.618033988749894"               title="黄金分割率"><var>φ</var></a>, 
-<a href="#0" data-text="γ = 0.5772156649015328"              title="欧拉常量"><var>γ</var></a>, 
-<a href="#0" data-text="g = 9.80665m/s^2"                    title="地球重力加速度"><var>g</var></a>, 
-<a href="#0" data-text="G = 6.67430*10^-11*(m^3/(kg*s^2))"   title="引力常量"><var>G</var></a>, 
-<a href="#0" data-text="M_E = 5.9722*10^24*kg"               title="地球质量"><var>M</var><sub>E</sub></a>, 
-<a href="#0" data-text="M_S = 1.98847*10^30*kg"              title="太阳质量"><var>M</var><sub>S</sub></a>, 
-<a href="#0" data-text="c = 299792458m/s"                    title="真空光速"><var>c</var></a>, 
-<a href="#0" data-text="h = 6.62607015*10^-34*J/Hz"          title="普朗克常量"><var>h</var></a>, 
+<a href="#0" data-text="π"  title="Pi"><var>π</var></a>, 
+<a href="#0" data-text="e"  title="欧拉数(自然底数)e"><var>e</var></a>, 
+<a href="#0" data-text="φ = 1.618033988749894" title="黄金分割率"><var>φ</var></a>, 
+<a href="#0" data-text="γ = 0.5772156649015328"  title="欧拉常量"><var>γ</var></a>, 
+<a href="#0" data-text="g = 9.80665m/s^2" title="地球重力加速度"><var>g</var></a>, 
+<a href="#0" data-text="G = 6.67430*10^-11*(m^3/(kg*s^2))" title="引力常量"><var>G</var></a>, 
+<a href="#0" data-text="M_E = 5.9722*10^24*kg"   title="地球质量"><var>M</var><sub>E</sub></a>, 
+<a href="#0" data-text="M_S = 1.98847*10^30*kg"  title="太阳质量"><var>M</var><sub>S</sub></a>, 
+<a href="#0" data-text="c = 299792458m/s"  title="真空光速"><var>c</var></a>, 
+<a href="#0" data-text="h = 6.62607015*10^-34*J/Hz"   title="普朗克常量"><var>h</var></a>, 
 <a href="#0" data-text="μ_0 = 1.25663706212*10^-6*N/A^2"     title="Vacuum magnetic permeability"><var>μ</var><sub>0</sub></a>, 
 <a href="#0" data-text="ε_0 = 8.8541878128*10^-12*F/m"       title="Vacuum electric permittivity"><var>ε</var><sub>0</sub></a>, 
 <a href="#0" data-text="k_e = 8.9875517923*10^9*N*m^2/C^2"   title="库伦常量"><var>k</var><sub>e</sub></a>, 
@@ -438,8 +447,8 @@
                         <a href="#0" data-text="add(A; B; i; j)"><b>add</b><span class="b">(</span><var>A</var><span class="o">;</span> <var>B</var><span class="o">;</span> <var>i</var><span class="o">;</span> <var>j</var><span class="b">)</span></a> - 将 <var>A</var> 的所有元素加到 <var>B</var>, <var>B</var>的索引起始号为行: <var>i</var> ;列: <var>j</var>;<br />
                         <a href="#0" data-text="row(M; i)"><b>row</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>i</var><span class="b">)</span></a> - 提取矩阵<var>M</var>第 <var>i</var>行为一个向量;<br />
                         <a href="#0" data-text="col(M; j)"><b>col</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>j</var><span class="b">)</span></a> - 提取矩阵<var>M</var>第 <var>j</var>列为一个向量;<br />
-                        <a href="#0" data-text="extract_rows(M; vi)"><b>extract_rows</b><span class="b">(</span><var>M</var><span class="o">;</span> <var><span class="vec">⃗</span>i</var><span class="b">)</span></a> - 从矩阵<var>M</var> 中提取行,行号包含在向量<var><span class="vec">⃗</span>i</var>中;<br />
-                        <a href="#0" data-text="extract_cols(M; vj)"><b>extract_cols</b><span class="b">(</span><var>M</var><span class="o">;</span> <var><span class="vec">⃗</span>j</var><span class="b">)</span></a> - 从矩阵<var>M</var> 中提取列,行号包含在向量<var><span class="vec">⃗</span>j</var>中;<br />                        
+                        <a href="#0" data-text="extract_rows(M; vi)"><b>extract_rows</b><span class="b">(</span><var>M</var><span class="o">;</span> <var><span class="vec">⃗</span>i</var><span class="b">)</span></a> - 从矩阵<var>M</var> 中提取行,行号在向量<var><span class="vec">⃗</span>vi</var>中给出;<br />
+                        <a href="#0" data-text="extract_cols(M; vj)"><b>extract_cols</b><span class="b">(</span><var>M</var><span class="o">;</span> <var><span class="vec">⃗</span>vj</var><span class="b">)</span></a> - 从矩阵<var>M</var> 中提取列,列号在向量<var><span class="vec">⃗</span>j</var>中给出;<br />                        
 						<a href="#0" data-text="diag2vec(M)"><b>diag2vec</b><span class="b">(</span><var>M</var><span class="b">)</span></a> - 将矩阵 <var>M</var>的对角元素提取到一个向量中;<br />
 						<a href="#0" data-text="submatrix(M; i₁; i₂; j₁; j₂)"><b>submatrix</b><span class="b">(</span><var>M</var><span class="o">;</span> <var>i</var><sub>1</sub><span class="o">;</span> <var>i</var><sub>2</sub><span class="o">;</span> <var>j</var><sub>1</sub><span class="o">;</span> <var>j</var><sub>2</sub><span class="b">)</span></a> - 在矩阵 <var>M</var>中提取一个次矩阵, 行号 <var>i</var><sub>1</sub> 到 <var>i</var><sub>2</sub> 列号 <var>j</var><sub>1</sub> 到 <var>j</var><sub>2</sub>, 上下界限包含在内;<br />
 						<u>数据相关:</u><br />
@@ -530,7 +539,7 @@
 	<a href="#0" data-text="PlotWidth ="><var>PlotWidth</var></a> - 绘图区宽度的像素数;<br />
 	 <a href="#0" data-text="PlotSVG ="><var>PlotSVG</var></a> - 绘制矢量图, (= 1)时为svg格式;(= 0)为png格式;<br />
                 <a href="#0" data-text="PlotAdaptive ="><var>PlotAdaptive</var></a> - 函数绘图时设置值(= 1) 时采用自适应网格;设置为(= 0)时采用固定网格;<br/>
-	<a href="#0" data-text="PlotWidth ="><var>PlotStep</var></a> - 绘图的网格尺寸;
+	<a href="#0" data-text="PlotWidth ="><var>PlotStep</var></a> - 绘图的网格尺寸;<br />
 	<a href="#0" data-text="PlotShadows ="><var>PlotShadows</var></a> - 绘制三维投影面图时带光影;<br />
     <a href="#0" data-text="PlotLightDir ="><var>PlotLightDir</var></a> - 顺时针方向设置光源投射方向(0-7)：
 	<select class="insert">
@@ -573,8 +582,9 @@
 	<a href="#0" data-text="$Sum{f(k) @ k = a : b}"><span class="cond">$Sum</span><span class="b">{</span><b>f</b><span class="b">(</span><var>k</var><span class="b">)</span> <span class="o">&#64;</span> <var>k</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - 迭代求和;<br />
 	<a href="#0" data-text="$Product{f(k) @ k = a : b}"><span class="cond">$Product</span><span class="b">{</span><b>f</b><span class="b">(</span><var>k</var><span class="b">)</span> <span class="o">&#64;</span> <var>k</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - 迭代求积;<br />
 	<a href="#0" data-text="$Repeat{f(k) @ k = a : b}"><span class="cond">$Repeat</span><span class="b">{</span><b>f</b><span class="b">(</span><var>k</var><span class="b">)</span> <span class="o">&#64;</span> <var>k</var> <span class="o">=</span> <var>a</var> <span class="o">:</span> <var>b</var><span class="b">}</span></a> - 一般单行迭代程序;<br />
-	<a href="#0" data-text="$Block{ }"><span class="cond">$Block</span><span class="b">{</span>表达式<span class="b">}</span></a> - 多行表达式块;<br />
-                <a href="#0" data-text="$Inline{ }"><span class="cond">$Inline</span><span class="b">{</span>表达式<span class="b">}</span></a> - 单行表达式块;<br />
+	 <a href="#0" data-text="$While{ }"><span class="cond">$While</span><span class="b">{</span><em>判据条件</em><span class="o">;</span> <em>表达式</em><span class="b">}</span></a> - 带判据条件的迭代表达式块;<br />
+     <a href="#0" data-text="$Block{ }"><span class="cond">$Block</span><span class="b">{</span><em>表达式</em><span class="b">}</span></a> - 多行表达式块;<br />
+                <a href="#0" data-text="$Inline{ }"><span class="cond">$Inline</span><span class="b">{</span><em>表达式</em><span class="b">}</span></a> - 单行表达式块;<br />
                 <a href="#0" data-text="Precision ="><var>Precision</var></a> - 数值方法的相对精度[10<sup>-2</sup>; 10<sup>-16</sup>] (默认为10<sup>-12</sup>)
 	</span>
 </li>
@@ -650,7 +660,7 @@
                 <a href="#0" data-text="#for counter = start : end
 '你要执行的代码
 #loop">
-                    &emsp;&emsp;<span class="cond">#for</span> <em>counter</em> = <em>start</em> : <em>end</em><br />
+                    &emsp;&emsp;<span class="cond">#for</span> <em>i</em> = <em>i<sub>1</sub></em> : <em>i<sub>2</sub></em><br />
                     &emsp;&emsp;&emsp;&emsp;<em>你要执行的代码</em><br />
                     &emsp;&emsp;<span class="cond">#loop</span>
                 </a><br />
@@ -659,17 +669,17 @@
 '你要执行的代码
 #loop">
                     &emsp;&emsp;<span class="cond">#while</span> <em>条件</em><br />
-                    &emsp;&emsp;&emsp;&emsp;<em>你要执行的代码 here</em><br />
+                    &emsp;&emsp;&emsp;&emsp;<em>你要执行的代码</em><br />
                     &emsp;&emsp;<span class="cond">#loop</span>
                 </a><br />
 	</span>
 </li>
-<li style="list-style-type: none;"><span class="exp" id="btn8">+</span>子程序和宏/字符串变量:<br />
+<li style="list-style-type: none;"><span class="exp" id="btn8">+</span>模块和宏/字符串变量:<br />
 	<span id="list8" style="display: none;">
-	子程序:<br />
+	模块:<br />
 	&emsp;&emsp;<a href="#0" data-text="#include filename"><span class="cond">#include</span> 
-	<em class="macro">文件名</em></a>:调用外部文件(子程序);<br />
-	&emsp;&emsp;<a href="#0" data-text="#local"><span class="cond">#local</span></a> - 局部表达式(不被外部程序调用);<br />
+	<em class="macro">文件名</em></a>:调用外部文件(模块);<br />
+	&emsp;&emsp;<a href="#0" data-text="#local"><span class="cond">#local</span></a> - 局部表达式(不能被外部程序调用);<br />
 	&emsp;&emsp;<a href="#0" data-text="#global"><span class="cond">#global</span></a> - 全局表达式(可被外部程序调用);<br />
 	单行字符串变量:<br />
 	&emsp;&emsp;<a href="#0" data-text="#def variable_name$ = content">
@@ -1233,30 +1243,37 @@
 </ul>
 <script src="jquery-3.6.3.min.js"></script>
 <script>
-function delayedLoad(path) { setTimeout(function() {document.write(path);}, 500);}
-if(window.jQuery){
-	$(document).ready(function(){
-		
-		function Toggle(btn)
-		{
-			var list = $("#list" + btn.attr("id").substring(3));
-			if (list.css("display") == "none")
-			{
-				list.css("display", "inline");
-				btn.html("&minus;");			
+	if (window.jQuery) {
+		$(document).ready(function () {
+			function Toggle(btn) {
+				var list = $("#list" + btn.attr("id").substring(3));
+				if (list.css("display") == "none") {
+					list.css("display", "inline");
+					btn.html("&minus;");
+				}
+				else {
+					list.css("display", "none");
+					btn.html("+");
+				}
 			}
-			else
-			{
-				list.css("display","none");
-				btn.html("+");			
-			}
-		}
-		
-		$(".exp").click(function(){
-			Toggle($(this));
+
+			$(".exp").click(function () {
+				Toggle($(this));
+			});
+
+			$("a").click(function () {
+				chrome.webview.postMessage('clicked');
+			});
+			
+			$("select.insert").change(function () {
+				chrome.webview.postMessage('clicked');
+			});
+			
+			window.addEventListener('click', () => {
+				chrome.webview.postMessage('focused');
+			});
 		});
-	}); 
-}
+	}
 </script>
 </body>
 </html>

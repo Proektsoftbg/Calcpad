@@ -99,7 +99,7 @@
     <value>&lt;div class="errorHeader"&gt;在模块和宏中发现 &lt;b&gt;{0}&lt;/b&gt;个错误：</value>
   </data>
   <data name="Error_Exporting_Docx_File" xml:space="preserve">
-    <value>导出docx文件时出错.显示验证日志?</value>
+    <value>导出docx文件时出错.显示检查日志?</value>
   </data>
   <data name="Are_you_sure_you_want_to_unlock_the_source_code_for_editing" xml:space="preserve">
     <value>确定要解锁源代码进行编辑吗？</value>
@@ -114,7 +114,7 @@
     <value>获取单位时出错.</value>
   </data>
   <data name="Error_Invalid_number_Please_correct_and_then_try_again" xml:space="preserve">
-    <value>错误！无效号码.请更正后重试.</value>
+    <value>错误！无效数.请更正后重试.</value>
   </data>
   <data name="Error_setting_units" xml:space="preserve">
     <value>设置单位时出错.</value>
@@ -186,7 +186,7 @@
     <value>帮助</value>
   </data>
   <data name="CopyAllOutput" xml:space="preserve">
-    <value>复制所有输出</value>
+    <value>复制所有结果</value>
   </data>
   <data name="PrintPreview" xml:space="preserve">
     <value>打印预览</value>
@@ -207,7 +207,7 @@
     <value>显示/隐藏数字键盘</value>
   </data>
   <data name="RunAndDisplayOutput" xml:space="preserve">
-    <value>运行计算并显示输出（F5)</value>
+    <value>运行计算并显示结果（F5)</value>
   </data>
   <data name="RefreshResultsAfterEachEdit" xml:space="preserve">
     <value>每次编辑后刷新结果</value>
@@ -228,7 +228,7 @@
     <value>代码</value>
   </data>
   <data name="KeypadLabel" xml:space="preserve">
-    <value>┌── 数字 ──┐ ┌───── 运算符 ──────┐ ┌──────── 函数 ────────┐</value>
+    <value>┌───── 数字 ────┐ ┌────── 运算符 ──────┐ ┌─────────── 函数 ───────────┐</value>
   </data>
   <data name="FunctionPlot" xml:space="preserve">
     <value>函数绘图</value>
@@ -275,7 +275,7 @@
   <data name="NumericalDifferentiation" xml:space="preserve">
     <value>数值微分</value>
   </data>
-  <data name="GeneralInlineIterativeProcedure" xml:space="preserve">
+  <data name="IterativeExprBlockWithCounter" xml:space="preserve">
     <value>一般行内迭代程序</value>
   </data>
   <data name="IterativeProduct" xml:space="preserve">
@@ -312,7 +312,7 @@
     <value>有条件的循环： repeat-continue-loop</value>
   </data>
   <data name="InlineStringVariable" xml:space="preserve">
-    <value>行内字符串变量</value>
+    <value>单行字符串变量</value>
   </data>
   <data name="MultilineStringVariable" xml:space="preserve">
     <value>多行字符串变量</value>
@@ -324,7 +324,7 @@
     <value>多行宏</value>
   </data>
   <data name="IncludeExternalFile" xml:space="preserve">
-    <value>包含外部文件</value>
+    <value>调用外部文件</value>
   </data>
   <data name="Heading3" xml:space="preserve">
     <value>标题 3</value>
@@ -342,7 +342,7 @@
     <value>段落</value>
   </data>
   <data name="LineBreak" xml:space="preserve">
-    <value>换行符</value>
+    <value>换行</value>
   </data>
   <data name="Bold" xml:space="preserve">
     <value>粗体</value>
@@ -399,7 +399,7 @@
     <value>图像/SVG</value>
   </data>
   <data name="Drawing" xml:space="preserve">
-    <value>图像</value>
+    <value>绘图</value>
   </data>
   <data name="Line" xml:space="preserve">
     <value>行</value>
@@ -441,7 +441,7 @@
     <value>暂停计算并等待</value>
   </data>
   <data name="PauseExecutionAndDisplayInputForm" xml:space="preserve">
-    <value>暂停执行并显示输入表单</value>
+    <value>暂停执行并显示输入框</value>
   </data>
   <data name="ShowOnlyCalculatedValues" xml:space="preserve">
     <value>仅显示计算值</value>
@@ -453,19 +453,19 @@
     <value>显示代数式，但不计算</value>
   </data>
   <data name="DoNotSubstituteVariables" xml:space="preserve">
-    <value>请勿替换变量（无替换）</value>
+    <value>不替换变量（无代入）</value>
   </data>
   <data name="ShowEquationsOnlyWithSubstitutedValues" xml:space="preserve">
-    <value>仅使用替换值（无变量）显示方程</value>
+    <value>只显示含代入值的计算式（无代数式）</value>
   </data>
   <data name="ShowEquationsWithVariablesAndSubstitutedValues" xml:space="preserve">
     <value>显示带有变量和代入值的代数式（默认）</value>
   </data>
   <data name="SplitEquations" xml:space="preserve">
-    <value>拆分不适合单线的公式</value>
+    <value>拆分不适合单行的公式</value>
   </data>
   <data name="WrapEquations" xml:space="preserve">
-    <value>换行公式不适用于单行（默认）</value>
+    <value>换行不适用于单行(默认)的公式</value>
   </data>
   <data name="RoundToTheSpecifiedDigits" xml:space="preserve">
     <value>舍入到小数点后指定位数</value>
@@ -481,9 +481,6 @@
   </data>
   <data name="Insert" xml:space="preserve">
     <value>插入</value>
-  </data>
-  <data name="RoundTo" xml:space="preserve">
-    <value>舍入到</value>
   </data>
   <data name="NumberOfDigitsTooltip" xml:space="preserve">
     <value>小数点后位数</value>
@@ -573,7 +570,7 @@
     <value>外部浏览器:</value>
   </data>
   <data name="ExternalBrowserTooltip" xml:space="preserve">
-    <value>用于在报告中打开链接的外部浏览器</value>
+    <value>用于打开报告中链接的外部浏览器</value>
   </data>
   <data name="PaletteTooltip" xml:space="preserve">
     <value>平面投影图色阶</value>
@@ -603,7 +600,7 @@
     <value>迭代计算</value>
   </data>
   <data name="FiniteSum" xml:space="preserve">
-    <value>有限连加</value>
+    <value>有限累加</value>
   </data>
   <data name="FiniteProduct" xml:space="preserve">
     <value>有限连乘</value>
@@ -642,10 +639,10 @@
     <value>保存文件</value>
   </data>
   <data name="CopyText" xml:space="preserve">
-    <value>复制选中项到剪贴板</value>
+    <value>复制选中文本项到剪贴板</value>
   </data>
   <data name="PasteText" xml:space="preserve">
-    <value>从剪贴板粘贴</value>
+    <value>从剪贴板粘贴文本</value>
   </data>
   <data name="UndoEdit" xml:space="preserve">
     <value>取消</value>
@@ -708,19 +705,19 @@
     <value>以x值填充向量v</value>
   </data>
   <data name="CreatesAVectorWithValuesSpanningFromX1ToXnWithStepS" xml:space="preserve">
-    <value>创建一个向量,元素值从 x? 到x?以步长s变化</value>
+    <value>创建一个向量,元素值从 x₁ 到 xₙ 以步长 s 变化</value>
   </data>
   <data name="ReturnsTheLengthOfVectorV" xml:space="preserve">
     <value>返回向量v的长度</value>
   </data>
   <data name="TheActualSizeOfVectorVTheIndexOfTheLastNonZeroElement" xml:space="preserve">
-    <value>向量v的实际长,即最后1个非0元素的索引号</value>
+    <value>向量 v 的实际长,即最后1个非0元素的索引号</value>
   </data>
   <data name="CreatesAVectorByJoiningTheArgumentsMatricesVectorsAndScalars" xml:space="preserve">
-    <value>通过合并矩阵、向量和标量创建1个向量</value>
+    <value>通过合并矩阵、向量和标量的元素创建1个向量</value>
   </data>
   <data name="ReturnsThePartOfVectorVBoundedByIndexesIAndIInclusive" xml:space="preserve">
-    <value>返回向量从 i?到i?的部分</value>
+    <value>返回向量从 i₁ 到 i₂ 的部分</value>
   </data>
   <data name="SetsANewLengthNOfVectorV" xml:space="preserve">
     <value>设置向量v的新长度为n</value>
@@ -741,10 +738,10 @@
     <value>将向量v中元素按照降序排列</value>
   </data>
   <data name="TheIndexesOfVectorVArrangedByTheAscendingOrderOfItsElements" xml:space="preserve">
-    <value>由向量的元素升序对应的索引号序列</value>
+    <value>由向量的元素升序排列对应的索引号序列</value>
   </data>
   <data name="TheIndexesOfVectorVArrangedByTheDescendingOrderOfItsElements" xml:space="preserve">
-    <value>由向量的元素降序对应的索引号序列</value>
+    <value>由向量的元素降序排列对应的索引号序列</value>
   </data>
   <data name="ANewVectorContainingTheElementsOfVInReverseOrder" xml:space="preserve">
     <value>一个将向量v元素逆序排列的新向量</value>
@@ -849,19 +846,19 @@
     <value>提取矩阵M的第i行为一个向量</value>
   </data>
   <data name="ExtractsTheJThColumnOfMatrixMAsAVector" xml:space="preserve">
-    <value>提取矩阵M的第i列为一个向量</value>
+    <value>提取矩阵M的第j列为一个向量</value>
   </data>
   <data name="ExtractsTheRowsFromMatrixMWhoseIndexesAreContainedInVectorI" xml:space="preserve">
-    <value>提取矩阵的行,行数包含在向量i中</value>
+    <value>提取矩阵M的行,行数在向量i中给出</value>
   </data>
   <data name="ExtractsTheColumnsFromMatrixMWhoseIndexesAreContainedInVectorJ" xml:space="preserve">
-    <value>提取矩阵的列,列数包含在向量j中</value>
+    <value>提取矩阵M的列,列数在向量j中给出</value>
   </data>
   <data name="ExtractsTheDiagonalElementsOfMatrixMToAVector" xml:space="preserve">
     <value>将矩阵M的对角元素提取为一个向量</value>
   </data>
   <data name="ExtractsASubmatrixOfMBoundedByRowsIAndIAndColumnsJAndJIncl" xml:space="preserve">
-    <value>提取矩阵M中 i? ~ i? 行、 j?~ j?的块矩阵</value>
+    <value>提取矩阵M中 i₁ ~ i₂ 行、 j₁ ~ j₂ 列的块矩阵</value>
   </data>
   <data name="SortsTheColumnsOfMBasedOnTheValuesInRowIInAscendingOrder" xml:space="preserve">
     <value>基于第i行的值对矩阵M的列按升序排列</value>
@@ -897,10 +894,10 @@
     <value>矩阵M中=x值的所有元素的索引号</value>
   </data>
   <data name="TheValuesFromRowIOfMForWhichTheElementsInRowIAre" xml:space="preserve">
-    <value>矩阵M中第 i?行中该值所在列对应i?行的值</value>
+    <value>矩阵M中第 i₁ 行中=x的元素所在列在  i₂ 行的元素值</value>
   </data>
   <data name="TheValuesFromColumnJOfMForWhichTheElementsInColumnJAre" xml:space="preserve">
-    <value>矩阵M中第 j?列中该值所在行对应 j?列的值</value>
+    <value>矩阵M中第 j₁ 列中=x的元素所在行在 j₂  列的元素值</value>
   </data>
   <data name="HadamardProductOfMatricesAAndB" xml:space="preserve">
     <value>矩阵A和B的Hadamard积</value>
@@ -912,28 +909,28 @@
     <value>矩阵A和B的Kronecker积</value>
   </data>
   <data name="L2NormOfMatrixM" xml:space="preserve">
-    <value>矩阵A和B的L2Norm积</value>
+    <value>矩阵M的L2 模</value>
   </data>
   <data name="L1NormOfMatrixM" xml:space="preserve">
-    <value>矩阵A和B的L1Norm积</value>
+    <value>矩阵M的L1 模</value>
   </data>
   <data name="FrobeniusNormOfMatrixM" xml:space="preserve">
-    <value>矩阵A和B的Frobenius积</value>
+    <value>矩阵M的Frobenius模</value>
   </data>
   <data name="LNormOfMatrixM" xml:space="preserve">
-    <value>矩阵A和B的LNorm积</value>
+    <value>矩阵M的 L∞ 模</value>
   </data>
   <data name="ConditionNumberOfMBasedOnTheL2Norm" xml:space="preserve">
-    <value>矩阵A和B的Condition积</value>
+    <value>矩阵M基于 L2 模的条件数</value>
   </data>
   <data name="ConditionNumberOfMBasedOnTheL1Norm" xml:space="preserve">
-    <value>矩阵A和B的Condition积</value>
+    <value>矩阵M基于 L1 模的条件数</value>
   </data>
   <data name="ConditionNumberOfMBasedOnTheFrobeniusNorm" xml:space="preserve">
-    <value>矩阵A和B的Condition积</value>
+    <value>矩阵M基于 Frobenius模的条件数</value>
   </data>
   <data name="ConditionNumberOfMBasedOnTheLNorm" xml:space="preserve">
-    <value>矩阵A和B的Condition积</value>
+    <value>矩阵M基于 L∞ 模的条件数</value>
   </data>
   <data name="DeterminantOfMatrixM" xml:space="preserve">
     <value>矩阵M的行列式</value>
@@ -997,5 +994,161 @@
   </data>
   <data name="SolvesTheGeneralizedMatrixEquationAXBWithSymmetricPositiveDefiniteMatrixAUsingCholeskyDecomposition" xml:space="preserve">
     <value>用Cholesky分解求解系数阵A为对称正定阵的一般方程AX=B</value>
+  </data>
+  <data name="RoundTo" xml:space="preserve">
+    <value>舍入到</value>
+  </data>
+  <data name="Norms" xml:space="preserve">
+    <value>范数(Norms)</value>
+  </data>
+  <data name="ConditionNumbers" xml:space="preserve">
+    <value>条件数</value>
+  </data>
+  <data name="EigenvaluesAndEigenvectors" xml:space="preserve">
+    <value>特征值和特征向量</value>
+  </data>
+  <data name="Decompositions" xml:space="preserve">
+    <value>分解</value>
+  </data>
+  <data name="DoubleInterpolation" xml:space="preserve">
+    <value>双重内插</value>
+  </data>
+  <data name="ImperialUS" xml:space="preserve">
+    <value>英制 / 美制</value>
+  </data>
+  <data name="PasteAsComment" xml:space="preserve">
+    <value>粘贴为注释</value>
+  </data>
+  <data name="CommentSelectedLines" xml:space="preserve">
+    <value>将选择行转为注释</value>
+  </data>
+  <data name="GreenColor" xml:space="preserve">
+    <value>绿色</value>
+  </data>
+  <data name="UncommentSelectedLines" xml:space="preserve">
+    <value>将选定行转为代码</value>
+  </data>
+  <data name="SetsCustomFormatStringForNumbers" xml:space="preserve">
+    <value>对数值设置用户自定义格式</value>
+  </data>
+  <data name="EnablesMarkdownInComments" xml:space="preserve">
+    <value>开启注释中使用markdown语法功能</value>
+  </data>
+  <data name="DisablesMarkdownInComments" xml:space="preserve">
+    <value>关闭注释中使用markdown语法功能</value>
+  </data>
+  <data name="ReadTextCSVFile" xml:space="preserve">
+    <value>读Text/CSV文件</value>
+  </data>
+  <data name="WriteTextCSVFile" xml:space="preserve">
+    <value>写Text/CSV文件</value>
+  </data>
+  <data name="AppendTextCSVFile" xml:space="preserve">
+    <value>追加到Text/CSV文件</value>
+  </data>
+  <data name="ReadExcelFile" xml:space="preserve">
+    <value>读Excel文件</value>
+  </data>
+  <data name="WriteExcelFile" xml:space="preserve">
+    <value>写Excel文件</value>
+  </data>
+  <data name="AppendExcelFile" xml:space="preserve">
+    <value>追加到Excel文件</value>
+  </data>
+  <data name="CreatesAnEmptyHighPerformanceVectorWithLengthN" xml:space="preserve">
+    <value>创建1个n维高性能空向量.</value>
+  </data>
+  <data name="CreatesAHighPerformanceVectorWithValuesSpanningFromXToXₙWithStepS" xml:space="preserve">
+    <value>创建1个高性能向量,元素值 x₁ ~ xₙ ,等差步长为 s.</value>
+  </data>
+  <data name="HighPerformance" xml:space="preserve">
+    <value>高性能</value>
+  </data>
+  <data name="CreatesAnEmptyHighPerformanceMatrixWithDimensionsMN" xml:space="preserve">
+    <value>创建1个m⨯n的高性能空矩阵 </value>
+  </data>
+  <data name="CreatesAnIdentityHighPerformanceMatrixWithDimensionsNN" xml:space="preserve">
+    <value>创建1个n⨯n的高性能单位矩阵 </value>
+  </data>
+  <data name="CreatesADiagonalHighPerformanceMatrixWithDimensionsNNAndFillsTheDiagonalWithValueD" xml:space="preserve">
+    <value>创建1个n⨯n的高性能对角阵其对角元素值都为d</value>
+  </data>
+  <data name="CreatesAColumnHighPerformanceMatrixWithDimensionsM1FilledWithValueC" xml:space="preserve">
+    <value>创建1个 m⨯1的高性能列矩阵, 元素值都为 c</value>
+  </data>
+  <data name="CreatesAnUpperTriangularHighPerformanceMatrixWithDimensionsNN" xml:space="preserve">
+    <value>创建1个n⨯n的高性能上三角矩阵</value>
+  </data>
+  <data name="CreatesALowerTriangularHighPerformanceMatrixWithDimensionsNN" xml:space="preserve">
+    <value>创建1个n⨯n的高性能下三角矩阵 </value>
+  </data>
+  <data name="CreatesASymmetricHighPerformanceMatrixWithDimensionsNN" xml:space="preserve">
+    <value>创建1个n⨯n的对称高性能矩阵</value>
+  </data>
+  <data name="ConvertsAnyVectorAndMatrixToHighPerformanceType" xml:space="preserve">
+    <value>将任意向量和矩阵转换为高性能型</value>
+  </data>
+  <data name="CheckIfArgumentIsAHighPerformanceType" xml:space="preserve">
+    <value>检查参量是否为高性能(hp)类型</value>
+  </data>
+  <data name="GetsTheUnitsOfAScalarVactorMatrix" xml:space="preserve">
+    <value>得到标量/向量/矩阵的单位</value>
+  </data>
+  <data name="SetsTheUnitsToAScalarVactorMatrix" xml:space="preserve">
+    <value>对标量/向量/矩阵设置单位</value>
+  </data>
+  <data name="ClearsTheUnitsFromAScalarVactorMatrix" xml:space="preserve">
+    <value>从标量/向量/矩阵中清除单位</value>
+  </data>
+  <data name="BlueYellow" xml:space="preserve">
+    <value>蓝-黄</value>
+  </data>
+  <data name="BlueRed" xml:space="preserve">
+    <value>蓝-红</value>
+  </data>
+  <data name="PurpleYellow" xml:space="preserve">
+    <value>紫-黄</value>
+  </data>
+  <data name="FastFourierTransfrom" xml:space="preserve">
+    <value>快速傅里叶变换(FFT)</value>
+  </data>
+  <data name="InverseFastFourierTransfrom" xml:space="preserve">
+    <value>快速傅里叶逆变换(IFFF)</value>
+  </data>
+  <data name="Phasor" xml:space="preserve">
+    <value>Phasor(相量)</value>
+  </data>
+  <data name="PhasorComplexNotation" xml:space="preserve">
+    <value>Phasor(相量)复数形式</value>
+  </data>
+  <data name="AlgebraicComplexNotation" xml:space="preserve">
+    <value>代数复数形式</value>
+  </data>
+  <data name="ConjugateOfAComplexNumber" xml:space="preserve">
+    <value>复数的共轭复数</value>
+  </data>
+  <data name="UnwrappedCode" xml:space="preserve">
+    <value>展开的代码</value>
+  </data>
+  <data name="ShowUnwrappedSourceCodeInTheOutputWhenMacrosOrIncludesAreAvailable" xml:space="preserve">
+    <value>当宏或调用文件可用时在输出中展示展开的源代码</value>
+  </data>
+  <data name="Embed" xml:space="preserve">
+    <value>嵌入</value>
+  </data>
+  <data name="EmbedPlotsInsideTheHtmlAsBase64EncodedImagesSaveToFilesIfUnchecked" xml:space="preserve">
+    <value>将图片作为base64编码图像嵌入Html,若未检查即保存为文件.</value>
+  </data>
+  <data name="MultilineExpressionBlock" xml:space="preserve">
+    <value>多行表达式块</value>
+  </data>
+  <data name="InlineExpressionBlock" xml:space="preserve">
+    <value>单行表达式块</value>
+  </data>
+  <data name="Select_All" xml:space="preserve">
+    <value>全选</value>
+  </data>
+<data name="ConditionalLoopExpressionBlock" xml:space="preserve">
+    <value>条件型循环表达式块</value>
   </data>
 </root>

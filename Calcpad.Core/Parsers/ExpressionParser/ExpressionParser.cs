@@ -611,7 +611,7 @@ namespace Calcpad.Core
         {
             string unitsHtml = calculate ?
                 Settings.Units :
-                "<span class=\"Units\">" + Settings.Units + "</span>";
+                string.Concat("<span class=\"Units\">", Settings.Units, "</span>");
 
             long len = sb.Length;
             sb.Replace("%u", unitsHtml);

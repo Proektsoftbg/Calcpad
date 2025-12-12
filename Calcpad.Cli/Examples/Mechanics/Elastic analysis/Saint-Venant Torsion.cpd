@@ -1,11 +1,12 @@
 "Saint-Venant Torsion of Rectangular Section
-'<hr /><table><tr><td>
-'<h3>Input data</h3> 
+'<hr />
+'<h3>Input data</h3>
+'<table><tr><td>
 'Dimensions of cross section
 a = ? {50}cm','b = ? {30}*(cm/2)
 'Torsional moment -'M_t = ? {20}kNm
-'</td><td><img src="https://calcpad.eu/media/mechanics/elastic/torsion.png" style="height:110pt; margin-left:50pt;"></td></tr></table>
 'Number of iterations -'n = ? {10}
+'</td><td><img src="https://calcpad.eu/media/mechanics/elastic/torsion.png" style="height:110pt; width:152pt; margin-left:50pt;"></td></tr></table>
 #post
 '<h3>Analysis</h3> 
 k(i) = 2*i + 1', 'α(i) = k(i)*π/a

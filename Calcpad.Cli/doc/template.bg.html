@@ -10,7 +10,7 @@
         body {
             font-size: 11pt;
             font-family: 'Segoe UI', 'Arial Nova', Helvetica, sans-serif;
-            margin-left: 1.5em;
+            margin-left: 5mm;
             max-width: 190mm;
         }
 
@@ -57,6 +57,17 @@
                 font-size: 90%;
             }
 
+            i.unit {
+                color: #043!important;
+                font-size: 90%!important;
+                vertical-align: -1pt;
+            }
+
+            sup.unit {
+                font-family: Calibri, Candara, Corbel, sans-serif;
+                font-size: 70%!important;
+            }
+
             .eq b {
                 font-weight: 600;
             }
@@ -65,6 +76,7 @@
                 font-family: Calibri, Candara, Corbel, sans-serif;
                 font-size: 80%;
                 vertical-align: -18%;
+                margin-left: 1pt;
             }
 
             .eq sup {
@@ -332,18 +344,9 @@
             bottom: 1pt;
         }
 
-        .eq small.nth {
-            font-size: 70%;
-        }
-
-        .dvr small {
-            font-size: 65%;
-        }
-
-        sup.raised {
-            vertical-align: top;
-        }
-
+        .eq small.nth {font-size: 70%;}
+        .dvr small {font-size: 65%;}
+        sup.raised {vertical-align: top;}
         sup .r0, sup .r1, sup .r2, sup .r3 {
             zoom: 0.7;
             -moz-transform: scale(0.7);
@@ -374,13 +377,15 @@
 
         .b0 {
             font-size: 120%;
-            font-weight: 400;
+            font-weight: 600;
             padding: 0 1pt 0 1pt;
         }
 
         .b1 {
             font-size: 240%;
             margin-top: -3pt;
+            margin-left: -1pt;
+            margin-right: -1pt;
         }
 
         .b2 {
@@ -746,7 +751,7 @@
     <script>
         var contextMenu = false;
         function getVerticalPosition(line) { return document.querySelector("[data-text='" + line + "']").getBoundingClientRect().top; }
-		function isNumeric(s) {return s.match(/^-?\d+(?:\.\d+)?$/); }
+        function isNumeric(s) {return s.match(/^-?\d+(?:\.\d+)?$/); }
         if (window.jQuery) {
             function getHtmlWithInput() {
                 $("input[type=text]").each(function () {

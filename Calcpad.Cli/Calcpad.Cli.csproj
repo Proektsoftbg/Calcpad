@@ -5,7 +5,7 @@
     <LangVersion>latest</LangVersion>
     <AnalysisLevel>latest</AnalysisLevel>
     <RootNamespace>Calcpad.Cli</RootNamespace>
-    <Version>7.5.5</Version>
+    <Version>7.5.7</Version>
     <Authors>Nedelcho Ganchovski</Authors>
     <Company>Proektsoft EOOD</Company>
     <PackageId>Cli</PackageId>
@@ -24,11 +24,11 @@
     <Content Include="start.sh" CopyToPublishDirectory="PreserveNewest" LinuxFileMode="755">
       <LinuxPath>/usr/local/bin/calcpad</LinuxPath>
     </Content>
-    <Content Include="doc\*\*" CopyToPublishDirectory="PreserveNewest" CopyToOutputDirectory="PreserveNewest"/>
-    <Content Include="Examples\*\*" CopyToPublishDirectory="PreserveNewest" CopyToOutputDirectory="PreserveNewest"/>
-    <Content Include="Syntax\*\*" CopyToPublishDirectory="PreserveNewest" CopyToOutputDirectory="PreserveNewest"/>
-    <Content Include="Fonts\*" CopyToPublishDirectory="PreserveNewest" CopyToOutputDirectory="PreserveNewest"/>
-    <Content Include="Settings.xml" CopyToPublishDirectory="PreserveNewest" CopyToOutputDirectory="PreserveNewest"/>
+    <Content Include="doc\*\*" CopyToPublishDirectory="PreserveNewest" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Examples\*\*" CopyToPublishDirectory="PreserveNewest" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Syntax\*\*" CopyToPublishDirectory="PreserveNewest" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Fonts\*" CopyToPublishDirectory="PreserveNewest" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Settings.xml" CopyToPublishDirectory="PreserveNewest" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   
   <ItemGroup>
@@ -58,6 +58,39 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="doc\HELP.bg.TXT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="doc\HELP.TXT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="doc\HELP.zh.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="doc\jquery-3.6.3.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="doc\LICENSE.bg.TXT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="doc\LICENSE.TXT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="doc\LICENSE.zh.TXT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="doc\template.bg.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="doc\template.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="doc\template.zh.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
   <PropertyGroup>
     <ServerGarbageCollection>true</ServerGarbageCollection>
     <ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
@@ -68,6 +101,7 @@
       <![CDATA[
       mkdir -p "/home/$SUDO_USER/calcpad" \
       && cp -a "/usr/share/Calcpad/Examples" "/home/$SUDO_USER/calcpad/Examples" \
+      && cp -a "/usr/share/Calcpad/doc" "/home/$SUDO_USER/calcpad/doc" \
       && mkdir -p "/home/$SUDO_USER/calcpad/syntax/Sublime" \
       && cp -a "/usr/share/Calcpad/Syntax/Sublime" "/home/$SUDO_USER/calcpad/syntax" \
       && mkdir -p "/home/$SUDO_USER/.config/calcpad/" \

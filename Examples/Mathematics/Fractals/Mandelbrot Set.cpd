@@ -1,6 +1,8 @@
 "Mandelbrot set (undocumented function)
+'<hr/>
 #hide
-PlotStep = 1','PlotWidth = 600','PlotHeight = PlotWidth
+PlotStep = 1','PlotWidth = 1200','PlotHeight = PlotWidth
+PlotShadows = 0','PlotSmooth = 1','PlotPalette = 4
 #show
-$Map{Mandelbrot(x; y) @ x = -2 : 0.5 & y = -1.25 : 1.25}
-$Map{Mandelbrot(x; y) @ x = -0.59 : -0.58 & y = 0.55 : 0.56}
+$Map{Mandelbrot(x; y)^2 @ x = -2 : 0.5 & y = -1.25 : 1.25}
+$Map{Mandelbrot(x; y)^4 @ x = -0.59 : -0.58 & y = 0.55 : 0.56}

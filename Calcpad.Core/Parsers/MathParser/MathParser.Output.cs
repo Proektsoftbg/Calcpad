@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Text;
 
 namespace Calcpad.Core
@@ -69,7 +68,7 @@ namespace Calcpad.Core
                     if (_parser.VariableSubstitution != VariableSubstitutionOptions.SubstitutionsOnly)
                         _stringBuilder.Append(equation);
 
-                    if (_parser._isCalculated && _parser._functionDefinitionIndex < 0)
+                    if (_parser._isCalculated)
                     {
                         var subst = string.Empty;
                         var splitted = false;
@@ -301,7 +300,7 @@ namespace Calcpad.Core
                                  _parser._isCalculated ?
                             RenderVector(vector, new TextWriter(_parser._settings, _parser.Phasor)) :
                             string.Empty;
-                        t.Content = writer.FormatVariable('\u20D7' + t.Content, s, true);
+                        t.Content = writer.FormatVariable("\u20D7" + t.Content, s, true);
                     }
                     else if (ival is Matrix matrix)
                     {
@@ -364,6 +363,10 @@ namespace Calcpad.Core
                         var sa = a.Content;
                         if (a.Order > t.Order && !formatEquation)
                             sa = AddBrackets(sa, a.Level, a.MinOffset, a.MaxOffset, '(', ')');
+                        else if (a.Type == TokenTypes.MultiFunction && 
+                            a.Index == Calculator.SwitchIndex && 
+                            a.ParameterCount > 2)
+                            sa = writer.CloseCurlyBrackets(sa, a.Level);
 
                         if (content == "^")
                         {
@@ -373,12 +376,17 @@ namespace Calcpad.Core
                             if (writer is TextWriter && (IsNegative(b) || b.Order != Token.DefaultOrder))
                                 sb = AddBrackets(sb, b.Level, b.MinOffset, b.MaxOffset, '(', ')');
 
-                            if (a.Type == TokenTypes.Vector || a.Type == TokenTypes.Matrix || 
+                            if (a.Type == TokenTypes.Vector || a.Type == TokenTypes.Matrix ||
                                 a.ValType == ValueTypes.Vector || a.ValType == ValueTypes.Matrix)
                                 sb = writer.FormatOperator('⊙') + thinSpace + sb;
 
                             if (a.ValType == ValueTypes.Unit)
+                            {
+                                if (_parser._settings.FormatString is not null)
+                                    sb = FixPowerFormatting(sb);
+
                                 t.Content = writer.FormatPower(sa, sb, -1, -1);
+                            }
                             else
                                 t.Content = writer.FormatPower(sa, sb, a.Level, a.Order);
 
@@ -391,7 +399,7 @@ namespace Calcpad.Core
                         {
                             if (!formatEquation && b.Type != TokenTypes.Solver)
                             {
-                                var isDivision = content == "/" || content == "÷";  
+                                var isDivision = content == "/" || content == "÷";
                                 if (b.Order > t.Order ||
                                     b.Order == t.Order && (content == "-" || isDivision) ||
                                     b.Order == 2 && sb.ContainsAny('·', '∕') && isDivision ||
@@ -436,14 +444,14 @@ namespace Calcpad.Core
                                         if (b.Content == "°" || writer is TextWriter)
                                             t.Content = sa + sb;
                                         else if (writer is XmlWriter)
-                                            t.Content = sa + XmlWriter.ThinSpaceRun + sb;
+                                            t.Content = sa + XmlWriter.RunThinSpace + sb;
                                         else
                                             t.Content = sa + thinSpace + sb;
 
                                     }
                                     else if (a.ValType == ValueTypes.Vector && b.ValType == ValueTypes.Vector)
                                         t.Content = sa + writer.FormatOperator('⊙') + sb;
-                                    else if(t.Order == 1 && writer is HtmlWriter)
+                                    else if (t.Order == 1 && writer is HtmlWriter)
                                         t.Content = sa + HtmlWriter.UnitProduct + sb;
                                     else if (t.Order == 1 && writer is XmlWriter)
                                         t.Content = sa + XmlWriter.UnitProduct + sb;
@@ -479,6 +487,26 @@ namespace Calcpad.Core
                             b.ValType == ValueTypes.Vector)
                             t.ValType = ValueTypes.Vector;
                     }
+                }
+
+                string FixPowerFormatting(string s)
+                {
+                    if (writer is XmlWriter)
+                    {
+                        ReadOnlySpan<char> span = s;
+                        int i2 = span.IndexOf("</");
+                        if (i2 > 0)
+                        { 
+                            ReadOnlySpan<char> startSpan = span[..i2];
+                            int i1 = startSpan.LastIndexOf(">") + 1;
+                            if (i1 > 0 && double.TryParse(startSpan[i1..], out var d))
+                                return string.Concat(span[..(i1 + 1)], d.ToString(), span[i2..]);
+                        }
+                    }
+                    else if (double.TryParse(s, out var d))
+                        return d.ToString();
+
+                    return s;
                 }
 
                 void RenderFunctionToken(RenderToken t, RenderToken b)
@@ -637,8 +665,10 @@ namespace Calcpad.Core
                         cfParameterCount = cf.ParameterCount - 1;
                     }
                     var s = RenderParameters(t, b, cfParameterCount);
-                    t.Content = writer.FormatVariable(t.Content, string.Empty, false) +
-                        '\u200A' + AddBrackets(s, t.Level, t.MinOffset, t.MaxOffset, '(', ')');
+                    t.Content = string.Concat(
+                        writer.FormatVariable(t.Content, string.Empty, false),
+                        "\u200A",
+                        AddBrackets(s, t.Level, t.MinOffset, t.MaxOffset, '(', ')'));
                     t.MinOffset = 0;
                     t.MaxOffset = 0;
                 }
@@ -669,7 +699,7 @@ namespace Calcpad.Core
                     for (int j = 0; j < count; ++j)
                     {
                         var a = stackBuffer.Pop();
-                        s = a.Content + d + s;
+                        s = string.Concat(a.Content, d, s);
                         if (a.Level > t.Level)
                             t.Level = a.Level;
 
@@ -709,7 +739,7 @@ namespace Calcpad.Core
                     if (substitute)
                     {
                         IScalarValue value;
-                        var variableName = t.Content + '.' + t.Index;
+                        var variableName = $"{t.Content}.{t.Index}";
                         if (variableName == _parser._backupVariable.Key)
                             value = (IScalarValue)_parser._backupVariable.Value;
                         else
@@ -721,13 +751,14 @@ namespace Calcpad.Core
                     }
                     else
                     {
-                        var s = t.Content.Contains('_') ?
-                            writer.FormatOperator('.') :
-                            string.Empty;
-                        s += _parser._isCalculated && _parser._functionDefinitionIndex < 0 ?
+                        var s = _parser._isCalculated && _parser._functionDefinitionIndex < 0 ?
                             t.Index.ToString() :
                             b.Content;
-                        t.Content = writer.FormatSubscript(a.Content, s);
+
+                        if (t.Content.Contains('_'))
+                            t.Content = writer.AppendSubscript(a.Content, s);
+                        else
+                            t.Content = writer.FormatSubscript(a.Content, s);
                     }
                 }
 
@@ -741,7 +772,7 @@ namespace Calcpad.Core
                     if (substitute)
                     {
                         IScalarValue value;
-                        var variableName = t.Content + '.' + i + '.' + j;
+                        var variableName = $"{t.Content}.{i}.{j}";
                         if (variableName == _parser._backupVariable.Key)
                             value = (IScalarValue)_parser._backupVariable.Value;
                         else
@@ -753,22 +784,13 @@ namespace Calcpad.Core
                     }
                     else
                     {
-                        var isSubscript = t.Content.Contains('_') && writer is not XmlWriter;
-                        string s;
-                        if (_parser._isCalculated && _parser._functionDefinitionIndex < 0)
-                        {
-                            s = isSubscript ? $".{i}, {j}" : $"{i}, {j}";
-                            if (writer is XmlWriter)
-                                s = XmlWriter.Run(s);
-                        }
+                        var s = _parser._isCalculated && _parser._functionDefinitionIndex < 0 ?
+                            $"{i},{j}" :
+                            string.Concat(b.Content, writer.FormatOperator(','), c.Content);
+                        if (t.Content.Contains('_'))
+                            t.Content = writer.AppendSubscript(a.Content, s);
                         else
-                        {
-                            var comma = writer.FormatOperator(',');
-                            s = isSubscript ?
-                                $".{b.Content}{comma}{c.Content}" :
-                                $"{b.Content}{comma}{c.Content}";
-                        }
-                        t.Content = writer.FormatSubscript(a.Content, s);
+                            t.Content = writer.FormatSubscript(a.Content, s);
                     }
                 }
 

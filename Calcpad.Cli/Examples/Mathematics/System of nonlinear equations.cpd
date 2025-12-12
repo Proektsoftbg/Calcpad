@@ -1,4 +1,5 @@
-"Numerical methods for solution of systems of nonlinear equations with Calcpad
+"Numerical methods for solving systems of nonlinear equations with Calcpad
+'<hr/>
 '<!--'x = [1; 1; 1; 1]','g(x) = 0','g_k(x) = 0','f′(x) = 0','J(x) = 0'-->
 #noc
 'Given the following real system of equations:

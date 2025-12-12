@@ -65,7 +65,7 @@ namespace Calcpad.Core
 
             return output;
         }
-
+        internal override string AppendSubscript(string sa, string sb) => $"{sa[..^6]}.{sb}</sub>";
         internal override string FormatSubscript(string sa, string sb) => $"{sa}<sub>{sb}</sub>";
         internal override string FormatVariable(string name, string value, bool isBold)
         {
@@ -75,7 +75,7 @@ namespace Calcpad.Core
             if (name[0] == '\u20D7')
             {
                 isBold = false;
-                name = "<span class=\"vec\">\u20D7</span>" + name[1..];
+                name = $"<span class=\"vec\">\u20D7</span>{name[1..]}";
             }
 
             var i = name.IndexOf('_');
@@ -122,24 +122,30 @@ namespace Calcpad.Core
         {
             '/' => "<em>\u200A/\u200A</em>",
             '÷' => "<em>\u200A/\u200A</em>",
+            '*' => "\u2006·\u2006",
             '<' => " &lt; ",
             '>' => " &gt; ",
             '≤' => " &le; ",
             '≥' => " &ge; ",
-            '|' => ' ' + FormatBrackets('|', 0) + ' ',
+            '|' => $" {FormatBrackets('|', 0)} ",
+            '⊙' => "<small class=\"nth\">⊙</small>",
             _ => FormatOperatorHelper(c),
         };
 
         internal override string FormatPower(string sa, string sb, int level, int order)
         {
             string s;
-            if (level > 0) s = "<sup class=\"raised\">";
-            else if (level < 0) s = "<sup class=\"unit\">";
-            else s = "<sup>";
+            if (level > 0) 
+                s = "<sup class=\"raised\">";
+            else if (level < 0) 
+                s = "<sup class=\"unit\">";
+            else 
+                s = "<sup>";
 
             if (order == PowerOrder)
-                s += '∙';
-            return sa + s + sb + "</sup>";
+                return string.Concat(sa, "∙", s, sb, "</sup>");
+
+            return string.Concat(sa, s, sb, "</sup>");
         }
 
         internal override string FormatDivision(string sa, string sb, int level)
@@ -153,7 +159,7 @@ namespace Calcpad.Core
                 }
                 return $"<span class=\"dvc\">{sa}<span class=\"dvl\"></span>{sb}</span>";
             }
-            return sa + " ÷ " + sb;
+            return string.Concat(sa, " ÷ ", sb);
         }
 
         internal override string FormatNary(string symbol, string sub, string sup, string expr) =>
@@ -173,7 +179,7 @@ namespace Calcpad.Core
             if (u.IsAngle && uHtml.StartsWith('°'))
                 return s + uHtml;
 
-            return s + ThinSpace + uHtml;
+            return string.Concat(s, ThinSpace, uHtml);
         }
 
         internal override string AddBrackets(string s, int level = 0, char left = '(', char right = ')') =>
@@ -183,7 +189,8 @@ namespace Calcpad.Core
 
         private static string FormatLeftCurl(int level) =>
             $"<span class=\"c{level}\">{{</span>";
-
+        private static string FormatRightCurl(int level) =>
+            $"<span class=\"c{level}\">}}</span>";
         private static string FormatBrackets(char symbol, int level) =>
             $"<span class=\"b{level}\">{symbol}</span>";
 
@@ -198,9 +205,8 @@ namespace Calcpad.Core
         {
             var s = FormatNumberHelper(d, format);
             if (double.IsNaN(d) || double.IsInfinity(d))
-            {
                 return $"<span class=\"err\">{s}</span>";
-            }
+
             var i = s.LastIndexOf('E');
             if (i <= 0)
                 return s;
@@ -212,10 +218,10 @@ namespace Calcpad.Core
 
             if (sign is '+' or '-' or '0')
             {
-                format ??= formatString;
                 if (zeroSmall && sign == '-')
                     return "0";
 
+                format ??= formatString;
                 if (s[i1] == '0' && (format is null || !format.Contains('E')))
                     i1++;
             }
@@ -225,12 +231,13 @@ namespace Calcpad.Core
             else
                 ms += '×';
 
+            var es = s[i1..];
             if (sign == '+' && format is not null && (format.Contains("E+") || format.StartsWith('E')))
-                return $"{ms}10<sup>+{s[i1..]}</sup>";
+                return $"{ms}10<sup>+{es}</sup>";
 
             return sign == '-' ?
-                $"{ms}10<sup>-{s[i1..]}</sup>" :
-                $"{ms}10<sup>{s[i1..]}</sup>";
+                $"{ms}10<sup>-{es}</sup>" :
+                $"{ms}10<sup>{es}</sup>";
         }
 
         internal override string FormatComplex(double re, double im, string format)
@@ -264,11 +271,14 @@ namespace Calcpad.Core
                 if (len - i == 1)
                     sb.Append($"<br />else: {sa[i]}");
                 else
-                    sb.Append($"<br />if {sa[i]}: {sa[i + 1]}");
+                    sb.Append($"<br />else if {sa[i]}: {sa[i + 1]}");
             }
             sb.Append("</span></span>");
             return sb.ToString();
         }
+
+        internal override string CloseCurlyBrackets(string sa, int level)
+            => string.Concat(sa[..^7], FormatRightCurl(level), "</span>");
 
         internal override string FormatIf(string sc, string sa, string sb, int level = 0)
         {
@@ -379,7 +389,9 @@ namespace Calcpad.Core
         {
             var d = value.D;
             var s = FormatReal(d, value.Units?.FormatString, zeroSmallElements && Math.Abs(d) < zeroThreshold);
-            return value.Units is null ? s : s + ThinSpace + value.Units.Html;
+            return value.Units is null ? 
+                s : 
+                string.Concat(s, ThinSpace, value.Units.Html);
         }
 
         internal override string FormatBlock(string[] sa) =>

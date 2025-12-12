@@ -1,6 +1,7 @@
 "Areas of Reinforcement Bars
+'<hr/>
 '<style>td:hover {color:red;} table {cursor:default;}</style>
-'Required reinforcement area -'A_s,req = ? 'cm²
+'Required reinforcement area -'A_s,req = ? {7}'cm²
 #post
 #val
 '<table class="bordered">
@@ -22,30 +23,30 @@
 		A_s = π*d*d/400*i
 		#post
 		#if A_s > A_s,req
-				'<td style="background:#EAFFCA" align="right">'A_s'</td>
+			'<td style="background:#EAFFCA" align="right">'A_s'</td>
 		#else
-				'<td align="right">'A_s'</td>
+			'<td align="right">'A_s'</td>
 		#end if
 		#if i ≡ 6
-				#hide
-				A_s = π*d*d/400*20/3
-				#post
-				#if A_s > A_s,req
-					'<td style="background:#EAFFCA" align="right">'A_s'</td>
-				#else
-					'<td align="right">'A_s'</td>
-				#end if
+			#hide
+			A_s = π*d*d/400*20/3
+			#post
+			#if A_s > A_s,req
+				'<td style="background:#EAFFCA" align="right">'A_s'</td>
+			#else
+				'<td align="right">'A_s'</td>
+			#end if
 		#else if i ≡ 8
-				#hide
-				A_s = π*d*d/400*25/3
-				#post
-				#if A_s > A_s,req
-					'<td style="background:#EAFFCA" align="right">'A_s'</td>
-				#else
-					'<td align="right">'A_s'</td>
-				#end if
+			#hide
+			A_s = π*d*d/400*25/3
+			#post
+			#if A_s > A_s,req
+				'<td style="background:#EAFFCA" align="right">'A_s'</td>
+			#else
+				'<td align="right">'A_s'</td>
+			#end if
 		#end if
 	#Loop
 #Loop
 '</table>
-'<script>var col=0;var row=0;$("td").hover(function(){$("#r"+row+",#c"+col).css("color","black").css("background-color","#F0F0F0");col=$(this).parent().children().index($(this));row=$(this).parent().parent().children().index($(this).parent());$("#r"+row+",#c"+col).css("color","red").css("background-color","#FFF0A0");;});</script>7
+'<script>var col=0;var row=0;$("td").hover(function(){$("#r"+row+",#c"+col).css("color","black").css("background-color","#F0F0F0");col=$(this).parent().children().index($(this));row=$(this).parent().parent().children().index($(this).parent());$("#r"+row+",#c"+col).css("color","red").css("background-color","#FFF0A0");;});</script>
