@@ -102,7 +102,7 @@ namespace Calcpad.Core
             var sa = sv.Slice(l, len);
             var nv = 0;
             var inv = 1d / scale;
-            if (nv > 2)
+            if (len > 15)
             {
                 Span<SN.Vector<double>> va = MemoryMarshal.Cast<double, SN.Vector<double>>(sa);
                 var vb = SN.Vector<double>.Zero;
@@ -203,10 +203,8 @@ namespace Calcpad.Core
 
                 nv = Math.Min(vx.Length, vy.Length);
                 var vd = new SN.Vector<double>(d);
-                ref var rvx = ref MemoryMarshal.GetReference(vx);
-                ref var rvy = ref MemoryMarshal.GetReference(vy);
                 for (int i = 0; i < nv; ++i)
-                    Unsafe.Add(ref rvy, i) += vd * Unsafe.Add(ref rvx, i);
+                    vy[i] += vd * vx[i];
 
                 nv *= _vecSize;
             }
