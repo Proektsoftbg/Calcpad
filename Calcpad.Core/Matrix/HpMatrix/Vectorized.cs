@@ -205,7 +205,7 @@ namespace Calcpad.Core
                 var vd = new SN.Vector<double>(d);
                 ref var rvx = ref MemoryMarshal.GetReference(vx);
                 ref var rvy = ref MemoryMarshal.GetReference(vy);
-                for (int i = 0; i < nv; i++)
+                for (int i = 0; i < nv; ++i)
                     Unsafe.Add(ref rvy, i) += vd * Unsafe.Add(ref rvx, i);
 
                 nv *= _vecSize;

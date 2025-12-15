@@ -1721,7 +1721,7 @@ namespace Calcpad.Wpf
                              Types.Function :
                              GetTypeFromColor(r.Foreground);
                     var t2 = t1;
-                    if (t1 == Types.Keyword && s[0] == '$' && 
+                    if (t1 == Types.Keyword && s.Length > 0 && s[0] == '$' && 
                         !s.Equals("$block", StringComparison.OrdinalIgnoreCase) &&
                         !s.Equals("$inline", StringComparison.OrdinalIgnoreCase) &&
                         !s.Equals("$while", StringComparison.OrdinalIgnoreCase))
@@ -1783,7 +1783,7 @@ namespace Calcpad.Wpf
                     switch (t1)
                     {
                         case Types.Error:
-                            if (s[^1] == '$')
+                            if (s.Length > 0 && s[^1] == '$')
                             {
                                 if (Defined.IsMacroOrParameter(s, lineNumber))
                                     t2 = Types.Macro;
