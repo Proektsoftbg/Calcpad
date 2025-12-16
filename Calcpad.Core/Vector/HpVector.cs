@@ -214,11 +214,11 @@ namespace Calcpad.Core
             var na = a._size;
             ReadOnlySpan<double> sa = a._values.AsSpan(0, na);
             Span<double> sb = b._values.AsSpan();
-            var va = MemoryMarshal.Cast<double, SN.Vector<double>>(sa);
             var nv = 0;
             if (na > 15)
             {
                 nv = na / _vecSize;
+                var va = MemoryMarshal.Cast<double, SN.Vector<double>>(sa);
                 var vb = MemoryMarshal.Cast<double, SN.Vector<double>>(sb);
                 for (int i = 0; i < nv; ++i)
                     vb[i] = -va[i];
