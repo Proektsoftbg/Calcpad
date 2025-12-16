@@ -2,6 +2,8 @@
 '<hr/>
 '<style>td:hover {color:red;} table {cursor:default;}</style>
 'Required reinforcement area -'A_s,req = ? {7}'cm²
+#pre
+'<img style="height:104pt; width:122pt;" src="https://calcpad.eu/media/structures/rc/design/bars.png" alt="bars.png">
 #post
 #val
 '<table class="bordered">
