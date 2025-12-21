@@ -526,6 +526,9 @@ namespace Calcpad.Core
                 if (AreConstantParameters(arguments))
                     return EvaluateMultiFunction(t, arguments);
 
+                if(t.Index == Calculator.SwitchIndex)
+                    return ParseSwitchFunctionToken(arguments, 0);
+
                 var argsExpression = Expression.NewArrayInit(typeof(IValue), arguments);
                 if (t.Type == TokenTypes.MultiFunction)
                     return Expression.Call(
@@ -545,6 +548,21 @@ namespace Calcpad.Core
                     Expression.Constant(_matrixCalc),
                     EvaluateMatrixMultiFunctionMethod,
                     Expression.Constant(t.Index), argsExpression);
+            }
+
+            private static Expression ParseSwitchFunctionToken(Expression[] arguments, int start)
+            {
+                var len = arguments.Length - start;
+                if (len == 0)
+                    return Expression.Constant(RealValue.NaN, typeof(IValue));
+
+                if (len == 1)
+                    return arguments[start];
+
+                var a = ToNegativeConditionExpression(arguments[start]);
+                var b = arguments[start + 1];
+                var c = ParseSwitchFunctionToken(arguments, start + 2);
+                return Expression.Condition(a, c, b, typeof(IValue));
             }
 
             private static bool AreConstantParameters(Expression[] parameters)
@@ -631,7 +649,7 @@ namespace Calcpad.Core
                 var counterVariable = Expression.Variable(typeof(int), "counter");
                 var breakLabel = Expression.Label(typeof(IValue), "breakLabel");
                 var checkCondition = Expression.IfThen(
-                    Compiler.ToNegativeConditionExpression(condition),
+                    ToNegativeConditionExpression(condition),
                     Expression.Break(breakLabel, resultVariable)
                 );
                 expressions[0] = checkCondition;
