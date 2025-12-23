@@ -1,4 +1,4 @@
-﻿using Calcpad.Core;
+using Calcpad.Core;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Win32;
 using System;
@@ -647,7 +647,7 @@ namespace Calcpad.Wpf
             var dlg = new OpenFileDialog
             {
                 DefaultExt = s,
-                FileName = '*' + s,
+                //FileName = '*' + s,
                 InitialDirectory = File.Exists(CurrentFileName) ? Path.GetDirectoryName(CurrentFileName) : DocumentPath,
                 CheckFileExists = true,
                 Multiselect = false,
