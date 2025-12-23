@@ -1282,21 +1282,20 @@ namespace Calcpad.Wpf
             if (IsWebForm && !toWebForm && !await GetAndSetInputFieldsAsync())
                 return;
 
-            var inputText = SetImageLocalPath(InputText);
             string outputText;
             if (_highlighter.Defined.HasMacros)
             {
-                var hasErrors = _macroParser.Parse(inputText, out outputText, null, 0, true);
+                var hasErrors = _macroParser.Parse(InputText, out outputText, null, 0, true);
+                outputText = SetImageLocalPath(outputText);
                 _htmlUnwarpedCode = hasErrors || DisplayUnwarpedCode ?
                     CodeToHtml(outputText) :
                     string.Empty;
             }
             else
             {
-                outputText = inputText;
+                outputText = SetImageLocalPath(InputText);
                 _htmlUnwarpedCode = string.Empty;
             }
-
             string htmlResult;
             if (!string.IsNullOrEmpty(_htmlUnwarpedCode) && !(IsWebForm || toWebForm))
             {
