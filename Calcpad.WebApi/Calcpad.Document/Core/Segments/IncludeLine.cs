@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 
 namespace Calcpad.Document.Core.Segments
 {
@@ -10,7 +10,7 @@ namespace Calcpad.Document.Core.Segments
     {
         public static readonly string IncludeDirective = "#include";
 
-        public string FilePath { get; private set; }=string.Empty;
+        public string FilePath { get; private set; } = string.Empty;
 
         // query 参数
         public Dictionary<string, string> Queries { get; private set; } = [];
@@ -43,9 +43,10 @@ namespace Calcpad.Document.Core.Segments
         public IncludeLine(uint row, string line)
             : base(row)
         {
-            if (!IsIncludeLine(line, out var trimedLine))
+            if (!IsIncludeLine(line))
                 return;
 
+            var trimedLine = line.Trim();
             // remove directive
             var purePath = trimedLine[IncludeDirective.Length..].Trim();
             if (string.IsNullOrEmpty(purePath))
@@ -163,11 +164,10 @@ namespace Calcpad.Document.Core.Segments
         #endregion
 
         #region static helper
-        public static bool IsIncludeLine(string? line, out string trimedLine)
+        public static bool IsIncludeLine(ReadOnlySpan<char> line)
         {
-            trimedLine = line?.Trim() ?? string.Empty;
-
-            if (string.IsNullOrEmpty(line))
+            var trimedLine = line.Trim();
+            if (trimedLine.IsEmpty)
                 return false;
 
             if (trimedLine.Length < IncludeDirective.Length)
@@ -184,7 +184,7 @@ namespace Calcpad.Document.Core.Segments
         /// <returns></returns>
         public static IncludeLine? GetIncludeLine(uint row, string? line)
         {
-            if (!IsIncludeLine(line, out _))
+            if (!IsIncludeLine(line))
                 return null;
 
             return new IncludeLine(row, line!);

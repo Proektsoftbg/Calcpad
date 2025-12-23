@@ -1,17 +1,22 @@
+using System.Text.RegularExpressions;
 using System.Web;
 using Calcpad.Document;
 using Calcpad.WebApi.Configs;
 using Calcpad.WebApi.Models;
 using Calcpad.WebApi.Models.Base;
 using Calcpad.WebApi.Utils.Web.Service;
+using DocumentFormat.OpenXml.Drawing.Charts;
+using DocumentFormat.OpenXml.EMMA;
 using HtmlAgilityPack;
 using MongoDB.Bson;
 using MongoDB.Driver.Linq;
 
 namespace Calcpad.WebApi.Services.AI
 {
-    public class CpdI18nContentService(AppSettings<TranslationConfig> config, MongoDBContext db)
-        : IScopedService
+    public partial class CpdI18nContentService(
+        AppSettings<TranslationConfig> config,
+        MongoDBContext db
+    ) : IScopedService
     {
         /// <summary>
         /// Asynchronously extracts all internationalization (i18n) keys from the specified CPD file.
@@ -52,20 +57,39 @@ namespace Calcpad.WebApi.Services.AI
             doc.LoadHtml(inputFormHtml);
 
             var i18nKeys = new HashSet<string>();
-            var extractedElements = ExtractI18nElements(doc);
+            var extractedElements = ExtractI18nElements(doc, true);
             foreach (var element in extractedElements)
             {
-                i18nKeys.Add(element.Item2);
+                foreach (var text in element.Item2)
+                {
+                    i18nKeys.Add(text);
+                }
             }
 
             return [.. i18nKeys];
         }
 
-        public List<Tuple<HtmlNode, string>> ExtractI18nElements(HtmlDocument doc)
+        /// <summary>
+        /// Extracts text elements from the specified HTML document that are relevant for internationalization (i18n)
+        /// processing.
+        /// </summary>
+        /// <remarks>Text is extracted from a predefined set of HTML tags, including standard and SVG text
+        /// elements. Elements with certain classes or values are filtered out to avoid non-translatable content. The
+        /// extraction respects configuration settings, such as ignoring pure ASCII text. The method is intended to
+        /// assist in identifying content that may require localization.</remarks>
+        /// <param name="doc">The HTML document to analyze for i18n-relevant text elements.</param>
+        /// <param name="isInputForm">Indicates whether the document represents an input form. true will extract label in svg by regex</param>
+        /// <returns>A list of tuples, each containing an HTML node and an array of extracted text strings. Only text elements
+        /// suitable for i18n are included; elements with ignored values or pure ASCII content may be excluded based on
+        /// configuration.</returns>
+        public List<Tuple<HtmlNode, string[]>> ExtractI18nElements(
+            HtmlDocument doc,
+            bool isInputForm
+        )
         {
-            var results = new List<Tuple<HtmlNode, string>>();
+            var results = new List<Tuple<HtmlNode, string[]>>();
             // Extract text from specific tags
-            var textTags = new[]
+            var textTags = new List<string>()
             {
                 "p",
                 "div",
@@ -82,6 +106,12 @@ namespace Calcpad.WebApi.Services.AI
                 "h6",
                 "label"
             };
+            if (!isInputForm)
+            {
+                // // svg text tags
+                textTags.Add("text");
+            }
+
             var trimeChars = new[]
             {
                 ' ',
@@ -96,6 +126,26 @@ namespace Calcpad.WebApi.Services.AI
                 '：',
                 '；'
             };
+
+            IEnumerable<Tuple<HtmlNode, string[]>> FilterTextChildren(HtmlNode node)
+            {
+                return node
+                    .ChildNodes.Select(child =>
+                    {
+                        if (child.NodeType != HtmlNodeType.Text)
+                            return null;
+
+                        // trim and add to list
+                        var text = HttpUtility.HtmlDecode(child.InnerText).Trim(trimeChars);
+                        if (!string.IsNullOrWhiteSpace(text))
+                        {
+                            return new Tuple<HtmlNode, string[]>(child, [text]);
+                        }
+
+                        return null;
+                    })
+                    .Where(x => x != null)!;
+            }
 
             foreach (var tag in textTags)
             {
@@ -126,16 +176,55 @@ namespace Calcpad.WebApi.Services.AI
                         }
                     }
 
-                    foreach (var child in node.ChildNodes)
-                    {
-                        if (child.NodeType != HtmlNodeType.Text)
-                            continue;
+                    results.AddRange(FilterTextChildren(node));
+                }
+            }
 
-                        // trim and add to list
-                        var text = HttpUtility.HtmlDecode(child.InnerText).Trim(trimeChars);
-                        if (!string.IsNullOrWhiteSpace(text))
+            // get all user-text elements
+            var userTextNodes = doc.DocumentNode.SelectNodes(
+                "//*[@class and contains(@class, 'user-text')]"
+            );
+            if (userTextNodes != null)
+            {
+                foreach (var node in userTextNodes)
+                {
+                    var children = FilterTextChildren(node);
+                    foreach (var child in children)
+                    {
+                        // if already exists, skip
+                        if (results.Any(x => x.Item2 == child.Item2))
+                            continue;
+                        results.Add(child);
+                    }
+                }
+            }
+
+            // because svg content are not rendered as normal html
+            // so we need to extract text from svg text tags by regex
+            if (isInputForm)
+            {
+                var svgNodes = doc.DocumentNode.SelectNodes("//svg");
+                if (svgNodes != null)
+                {
+                    var regex = SvgTextRegex();
+                    foreach (var node in svgNodes)
+                    {
+                        var matches = regex.Matches(node.OuterHtml);
+                        if (matches != null)
                         {
-                            results.Add(new Tuple<HtmlNode, string>(child, text));
+                            foreach (Match child in matches)
+                            {
+                                results.Add(
+                                    Tuple.Create<HtmlNode, string[]>(
+                                        node,
+                                        [
+                                            HttpUtility.HtmlDecode(
+                                                child.Groups[1].Value.Trim(trimeChars)
+                                            )
+                                        ]
+                                    )
+                                );
+                            }
                         }
                     }
                 }
@@ -143,12 +232,12 @@ namespace Calcpad.WebApi.Services.AI
 
             // remove special fields
             var ignoreFields = new string[] { " ", "#loop", "#continue", "#read" };
-            var temps = results.Where(x => !ignoreFields.Contains(x.Item2));
+            var temps = results.Where(x => !ignoreFields.Contains(x.Item2[0]));
 
             // ignore pure ASCII if configured
             if (config.Value.IgnorePureASCCI)
             {
-                temps = temps.Where(x => x.Item2.Any(c => c > 127));
+                temps = temps.Where(x => x.Item2.Any(str => str.Any(c => c > 127)));
             }
             return [.. temps];
         }
@@ -209,9 +298,11 @@ namespace Calcpad.WebApi.Services.AI
                 .Where(x => x.IsCpd == true)
                 .FirstOrDefaultAsync();
 
-            var cpdUids = new HashSet<string> { cpdFile.UniqueId, cpdFile.AncestorUniqueId }.Where(
-                x => !string.IsNullOrEmpty(x)
-            );
+            var cpdUids = await db.AsQueryable<CalcpadFileModel>()
+                .Where(x => x.GroupId == cpdFile.GroupId)
+                .Where(x => x.IsCpd == true)
+                .Select(x => x.UniqueId)
+                .ToListAsync();
 
             var langs = await db.AsQueryable<CalcpadLangModel>()
                 .Where(x => x.Lang == lang)
@@ -253,12 +344,12 @@ namespace Calcpad.WebApi.Services.AI
             var doc = new HtmlDocument();
             doc.LoadHtml(htmlContent);
 
-            var i18nElements = ExtractI18nElements(doc);
+            var i18nElements = ExtractI18nElements(doc, false);
             foreach (var element in i18nElements)
             {
                 var node = element.Item1;
-                var text = element.Item2;
-                if (langDict.TryGetValue(text, out CalcpadLangModel? langModel))
+                var texts = element.Item2;
+                if (langDict.TryGetValue(texts[0], out CalcpadLangModel? langModel))
                 {
                     // replace node value
                     if (node.NodeType == HtmlNodeType.Text)
@@ -266,7 +357,7 @@ namespace Calcpad.WebApi.Services.AI
                         node.ParentNode.ReplaceChild(
                             HtmlTextNode.CreateNode(
                                 node.InnerText.Replace(
-                                    text,
+                                    texts[0],
                                     HttpUtility.HtmlEncode(langModel.Value)
                                 )
                             ),
@@ -278,5 +369,12 @@ namespace Calcpad.WebApi.Services.AI
 
             return doc.DocumentNode.OuterHtml;
         }
+
+        [GeneratedRegex(
+            @">(.*?)</text>",
+            RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.RightToLeft,
+            "zh-CN"
+        )]
+        private static partial Regex SvgTextRegex();
     }
 }

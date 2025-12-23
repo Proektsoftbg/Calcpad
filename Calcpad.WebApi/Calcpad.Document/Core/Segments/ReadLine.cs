@@ -1,4 +1,4 @@
-﻿namespace Calcpad.Document.Core.Segments
+namespace Calcpad.Document.Core.Segments
 {
     public enum ReadType
     {
@@ -73,8 +73,9 @@
         public ReadLine(uint row, string line)
             : base(row)
         {
-            if (!IsReadLine(line, out var trimedLine))
+            if (!IsReadLine(line))
                 return;
+            var trimedLine = line.Trim();
 
             // read variable name
             var fromIndex = trimedLine.IndexOf("from", StringComparison.OrdinalIgnoreCase);
@@ -142,11 +143,11 @@
         /// <param name="line"></param>
         /// <param name="trimedLine"></param>
         /// <returns></returns>
-        public static bool IsReadLine(string? line, out string trimedLine)
+        public static bool IsReadLine(ReadOnlySpan<char> line)
         {
-            trimedLine = line?.Trim() ?? string.Empty;
+            var trimedLine = line.Trim();
 
-            if (string.IsNullOrEmpty(line))
+            if (trimedLine.IsEmpty)
                 return false;
 
             if (trimedLine.Length < ReadDirective.Length)

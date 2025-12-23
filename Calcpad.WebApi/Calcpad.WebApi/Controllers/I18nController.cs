@@ -241,11 +241,11 @@ namespace Calcpad.WebApi.Controllers
 
             if (cpdFile == null)
                 return new List<CalcpadLangModel>().ToFailResponse("Calcpad file not found");
-            var cpdUids = new HashSet<string>()
-            {
-                cpdFile.UniqueId,
-                cpdFile.AncestorUniqueId
-            }.Where(x => !string.IsNullOrEmpty(x));
+            var cpdUids = await db.AsQueryable<CalcpadFileModel>()
+                .Where(x => x.GroupId == cpdFile.GroupId)
+                .Where(x => x.IsCpd == true)
+                .Select(x => x.UniqueId)
+                .ToListAsync();
 
             var langs = await db.AsQueryable<CalcpadLangModel>()
                 .Where(x => cpdUids.Contains(x.UniqueId))
@@ -326,16 +326,17 @@ namespace Calcpad.WebApi.Controllers
                 return false.ToFailResponse("Language document not found");
             }
 
-            // remove self and ancestor
+            // remove all in group
             var cpdFile = await db.AsQueryable<CalcpadFileModel>()
                 .Where(x => x.UniqueId == langDoc.UniqueId)
                 .Where(x => x.IsCpd == true)
                 .FirstOrDefaultAsync();
-            var cpdUids = new HashSet<string>()
-            {
-                cpdFile.UniqueId,
-                cpdFile.AncestorUniqueId
-            }.Where(x => !string.IsNullOrEmpty(x));
+
+            var cpdUids = await db.AsQueryable<CalcpadFileModel>()
+                .Where(x => x.GroupId == cpdFile.GroupId)
+                .Where(x => x.IsCpd == true)
+                .Select(x => x.UniqueId)
+                .ToListAsync();
 
             // mark as deleted
             await db.AsFluentMongo<CalcpadLangModel>()
