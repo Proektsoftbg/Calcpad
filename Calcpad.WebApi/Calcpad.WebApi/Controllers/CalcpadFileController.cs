@@ -1,3 +1,4 @@
+using System.IO;
 using Calcpad.Document;
 using Calcpad.Document.Archive;
 using Calcpad.Document.Core.Segments;
@@ -91,7 +92,7 @@ namespace Calcpad.WebApi.Controllers
                     FullName = $"%{storageConfig.Value.Environment}%/{relativePath}",
                     FileName = formData.GetFileName(),
                     UniqueId = formData.UniqueId,
-                    AncestorUniqueId = formData.UniqueId,
+                    GroupId = formData.GroupId ?? formData.UniqueId,
                     UserId = tokenService.GetTokenInfo().UserId,
                     IsCpd = formData.IsCpdFile,
                     Version = 1
@@ -178,7 +179,7 @@ namespace Calcpad.WebApi.Controllers
                 LastUpdateDate = existModel.LastUpdateDate,
                 IsCpd = existModel.IsCpd,
                 SourceId = existModel.Id,
-                AncestorUniqueId = existModel.AncestorUniqueId,
+                GroupId = existModel.GroupId,
                 Version = existModel.Version
             };
             await db.Collection<CalcpadFileModel>().InsertOneAsync(newModel);
@@ -603,6 +604,73 @@ namespace Calcpad.WebApi.Controllers
             var content = CpdWriter.BuildCpdContent(cpdReader.ReadStringLines(), allLines);
             var cpdWriter = CpdWriterFactory.CreateCpdWriter();
             cpdWriter.WriteFile(fileModel.FullName, content);
+
+            return true.ToSuccessResponse();
+        }
+        #endregion
+
+        #region Migrate data from one to other one
+        /// <summary>
+        /// Migrates CPD data from the specified source to the specified target CPD instance.
+        /// </summary>
+        /// <param name="fromCpdUid">The unique identifier of the source CPD instance from which data will be migrated. Cannot be null or empty.</param>
+        /// <param name="toCpdUid">The unique identifier of the target CPD instance to which data will be migrated. Cannot be null or empty.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains a <see langword="true"/> value
+        /// if the migration succeeds; otherwise, <see langword="false"/>.</returns>
+        [HttpPut("migration/{fromCpdUid}/to/{toCpdUid}")]
+        public async Task<ResponseResult<bool>> MigrateCpdDataToOther(
+            string fromCpdUid,
+            string toCpdUid
+        )
+        {
+            // get cpd source file
+            var fromFile = await db.AsQueryable<CalcpadFileModel>()
+                .Where(x => x.UniqueId == fromCpdUid && x.IsCpd == true)
+                .FirstOrDefaultAsync();
+            var fromFullPath = Environment.ExpandEnvironmentVariables(fromFile.FullName);
+            var fromReader = CpdReaderFactory.CreateCpdReader(fromFullPath);
+
+            // get cpd target file
+            var toFile = await db.AsQueryable<CalcpadFileModel>()
+                .Where(x => x.UniqueId == toCpdUid && x.IsCpd == true)
+                .FirstOrDefaultAsync();
+            var toFullPath = Environment.ExpandEnvironmentVariables(toFile.FullName);
+            var toReader = CpdReaderFactory.CreateCpdReader(toFullPath);
+
+            // update #read by order
+            var fromReadLines = fromReader.GetReadLines();
+            var toReadLines = toReader.GetReadLines();
+            for (int index = 0; index < fromReadLines.Count; index++)
+            {
+                if (index >= toReadLines.Count)
+                    break;
+
+                var line = fromReadLines[index];
+                var toLine = toReadLines[index];
+                toLine.SetFilePath(line.FilePath);
+            }
+
+            // update inputField by variable name
+            var fromInputs = fromReader.GetInputLines();
+            var fromFieldsDic = fromInputs.SelectMany(x => x.Fields).ToDictionary(x => x.Name, x => x);
+            var toInputs = toReader.GetInputLines();
+            foreach (var toInput in toInputs)
+            {
+                foreach (var toField in toInput.Fields)
+                {
+                    if (fromFieldsDic.TryGetValue(toField.Name, out var fromField))
+                    {
+                        toField.UpdateValues(fromField.Values);
+                    }
+                }
+            }
+
+            var toWriter = CpdWriterFactory.CreateCpdWriter();
+            var allLines = new List<CpdLine>();
+            allLines.AddRange(toReadLines);
+            allLines.AddRange(toInputs);
+            var content = CpdWriter.BuildCpdContent(toReader.ReadStringLines(), allLines);
+            toWriter.WriteFile(toFullPath, content);
 
             return true.ToSuccessResponse();
         }

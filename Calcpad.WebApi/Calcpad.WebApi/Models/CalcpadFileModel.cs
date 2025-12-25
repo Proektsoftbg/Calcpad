@@ -48,14 +48,12 @@ namespace Calcpad.WebApi.Models
         /// other system can use this id to access the file without knowing the storage path
         /// CalcpadLangModel use this id to link the language content
         /// </summary>
-
         public string UniqueId { get; set; }
 
         /// <summary>
-        /// Gets or sets the unique identifier of the ancestor entity.
-        /// If no ancestor exists, this property is set to the same value as UniqueId.
+        /// Gets or sets the unique identifier for the group associated with this instance.
         /// </summary>
-        public string AncestorUniqueId { get; set; }
+        public string GroupId { get; set; }
 
         /// <summary>
         /// If true, the file can be accessed without authentication

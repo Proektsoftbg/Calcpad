@@ -1,10 +1,6 @@
-﻿using Calcpad.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Calcpad.Core;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Calcpad.Document
 {

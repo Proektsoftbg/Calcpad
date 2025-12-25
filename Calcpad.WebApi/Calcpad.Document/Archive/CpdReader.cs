@@ -193,10 +193,9 @@ namespace Calcpad.Document.Archive
             uint index = 0;
             foreach (var line in spanLines)
             {
-                var trimmed = line.TrimStart();
-                if (IncludeLine.IsIncludeLine(trimmed.ToString(), out _))
+                if (IncludeLine.IsIncludeLine(line))
                 {
-                    includes.Add(new IncludeLine(index, line.ToString()));
+                    includes.Add(new IncludeLine(index, line.Trim().ToString()));
                 }
 
                 index++;
@@ -222,8 +221,7 @@ namespace Calcpad.Document.Archive
             uint index = 0;
             foreach (var line in spanLines)
             {
-                var trimmed = line.TrimStart();
-                if (ReadLine.IsReadLine(trimmed.ToString(), out _))
+                if (ReadLine.IsReadLine(line))
                 {
                     reads.Add(new ReadLine(index, line.ToString()));
                 }
@@ -263,6 +261,29 @@ namespace Calcpad.Document.Archive
             return images;
         }
 
+        public List<InputLine> GetInputLines()
+        {
+            var code = ReadAllText();
+            if (string.IsNullOrEmpty(code))
+                return [];
+
+            var spanLines = ReadLines();
+            var inputs = new List<InputLine>();
+            uint index = 0;
+            foreach (var line in spanLines)
+            {
+                var trimmed = line.TrimStart();
+                if (InputLine.IsInputLine(trimmed))
+                {
+                    inputs.Add(new InputLine(index, line.ToString()));
+                }
+
+                index++;
+            }
+
+            return inputs;
+        }
+
         private string GetResourcesTempDir()
         {
             return Path.Combine(
@@ -275,7 +296,7 @@ namespace Calcpad.Document.Archive
         /// <summary>
         /// clear temp files
         /// </summary>
-        public void ClearTemp()
+        public void ClearTempFiles()
         {
             var tempDir = GetResourcesTempDir();
             if (Directory.Exists(tempDir))

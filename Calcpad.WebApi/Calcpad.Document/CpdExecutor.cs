@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using System.Text;
 using Calcpad.Core;
 using Calcpad.Document.Archive;
@@ -80,7 +80,7 @@ namespace Calcpad.Document
         /// <param name="inputFields"></param>
         /// <returns></returns>
         public async Task<string> RunCalculation(string[] inputFields, bool calculate = true)
-        {               
+        {
             // update input fields
             var inputText = SetInputFields(inputFields);
             // override file
@@ -92,6 +92,7 @@ namespace Calcpad.Document
 
         /// <summary>
         /// read cpd file and update fields
+        /// reference wpf code
         /// </summary>
         /// <param name="fields"></param>
         /// <returns></returns>
