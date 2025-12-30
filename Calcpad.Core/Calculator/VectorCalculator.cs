@@ -10,13 +10,13 @@ namespace Calcpad.Core
         internal delegate IValue VectorFunction2(in IValue a, in IValue b);
         internal delegate IValue VectorFunction3(in IValue a, in IValue b, in IValue c);
 
-        private readonly Calculator _calc;
-        private readonly VectorFunction[] VectorFunctions;
-        private readonly VectorFunction2[] VectorFunctions2;
-        private readonly VectorFunction3[] VectorFunctions3;
-        private readonly Func<IValue[], IValue>[] VectorMultiFunctions;
-        private readonly Func<Vector, RealValue>[] MultiFunctions;
-        private readonly Func<RealValue, Vector, RealValue>[] Interpolations;
+        private Calculator _calc;
+        private static readonly VectorFunction[] VectorFunctions;
+        private static readonly VectorFunction2[] VectorFunctions2;
+        private static readonly VectorFunction3[] VectorFunctions3;
+        private static readonly Func<IValue[], IValue>[] VectorMultiFunctions;
+        private static readonly Func<Vector, RealValue>[] MultiFunctions;
+        private static readonly Func<RealValue, Vector, RealValue>[] Interpolations;
 
         internal static readonly FrozenDictionary<string, int> FunctionIndex =
         new Dictionary<string, int>()
@@ -102,6 +102,15 @@ namespace Calcpad.Core
         internal VectorCalculator(Calculator calc)
         {
             _calc = calc;
+        }
+
+        internal void SetCalculator(Calculator calc)
+        {
+            _calc = calc;
+        }
+
+        static VectorCalculator()
+        {
             VectorFunctions = [
                 Create,
                 Length,
@@ -183,28 +192,28 @@ namespace Calcpad.Core
         internal static bool IsFunction3(string name) => Function3Index.ContainsKey(name);
         internal static bool IsMultiFunction(string name) => MultiFunctionIndex.ContainsKey(name);
 
-        internal IValue EvaluateVectorFunction(long index, in IValue a) =>
+        internal static IValue EvaluateVectorFunction(long index, in IValue a) =>
             VectorFunctions[index](a);
 
-        internal IValue EvaluateVectorFunction2(long index, in IValue a, in IValue b) =>
+        internal static IValue EvaluateVectorFunction2(long index, in IValue a, in IValue b) =>
             VectorFunctions2[index](a, b);
 
-        internal IValue EvaluateVectorFunction3(long index, in IValue a, in IValue b, in IValue c) =>
+        internal static IValue EvaluateVectorFunction3(long index, in IValue a, in IValue b, in IValue c) =>
             VectorFunctions3[index](a, b, c);
 
-        internal IValue EvaluateVectorMultiFunction(long index, IValue[] a) =>
+        internal static IValue EvaluateVectorMultiFunction(long index, IValue[] a) =>
             VectorMultiFunctions[index](a);
 
-        internal VectorFunction GetFunction(long index) =>
+        internal static VectorFunction GetFunction(long index) =>
             VectorFunctions[index];
 
-        internal VectorFunction2 GetFunction2(long index) =>
+        internal static VectorFunction2 GetFunction2(long index) =>
             VectorFunctions2[index];
 
-        internal VectorFunction3 GetFunction3(long index) =>
+        internal static VectorFunction3 GetFunction3(long index) =>
             VectorFunctions3[index];
 
-        internal Func<IValue[], IValue> GetMultiFunction(long index) =>
+        internal static Func<IValue[], IValue> GetMultiFunction(long index) =>
             VectorMultiFunctions[index];
 
         internal Vector EvaluateOperator(long index, Vector a, in RealValue b) =>
@@ -243,9 +252,9 @@ namespace Calcpad.Core
             HpVector.EvaluateOperator(_calc.GetFunction2(index), hp_a, hp_b, -index - 1) :
             Vector.EvaluateOperator(_calc.GetFunction2(index), a, b, -index - 1);
 
-        internal IValue EvaluateMultiFunction(long index, Vector a) => MultiFunctions[index](a);
+        internal static IValue EvaluateMultiFunction(long index, Vector a) => MultiFunctions[index](a);
 
-        internal IValue EvaluateInterpolation(long index, RealValue a, Vector b) => Interpolations[index](a, b);
+        internal static IValue EvaluateInterpolation(long index, RealValue a, Vector b) => Interpolations[index](a, b);
 
         private static Vector Create(in IValue length)
         {
@@ -340,7 +349,6 @@ namespace Calcpad.Core
 
             return Vector.CrossProduct(va, vb);
         }
-
 
         private static Vector Slice(in IValue vector, in IValue n1, in IValue n2) =>
             IValue.AsVector(vector).Slice(IValue.AsInt(n1), IValue.AsInt(n2));

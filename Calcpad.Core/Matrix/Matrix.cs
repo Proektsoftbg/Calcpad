@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Office2010.Excel.Drawing;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -143,25 +144,40 @@ namespace Calcpad.Core
         protected virtual Matrix Copy()
         {
             var M = new Matrix(_rowCount, _colCount);
-            if (_type == MatrixType.Full || _type == MatrixType.LowerTriangular)
+            if (_type == MatrixType.Full)
             {
                 if (_rowCount > ParallelThreshold)
                     Parallel.For(0, _rowCount, i => M._rows[i] = _rows[i].Copy());
                 else
-                    for (int i = 0; i < _rowCount; ++i) 
+                    for (int i = 0; i < _rowCount; ++i)
                         M._rows[i] = _rows[i].Copy();
             }
+            else if (_type == MatrixType.LowerTriangular)
+            {
+                if (_rowCount > ParallelThreshold)
+                    Parallel.For(0, _rowCount, CopyRow1);
+                else
+                    for (int i = 0; i < _rowCount; ++i)
+                        CopyRow1(i);
+            }      
             else
             {
                 if (_rowCount > ParallelThreshold)
-                    Parallel.For(0, _rowCount, CopyRow);
+                    Parallel.For(0, _rowCount, CopyRow2);
                 else
                     for (int i = _rowCount - 1; i >= 0; --i) 
-                        CopyRow(i);
+                        CopyRow2(i);
             }
             return M;
 
-            void CopyRow(int i)
+            void CopyRow1(int i)
+            {
+                var row = _rows[i].Copy();
+                row.Resize(_colCount);
+                M._rows[i] = row;
+            }
+
+            void CopyRow2(int i)
             {
                 var row = M._rows[i];
                 for (int j = _colCount - 1; j >= 0; --j)
@@ -1743,8 +1759,13 @@ namespace Calcpad.Core
             var m = a._rows.Length;
             RealValue sum = RealValue.Zero;
             if (m > ParallelThreshold)
+            {
+                var rowSums = new RealValue[m];
                 Parallel.For(0, m, i =>
-                    sum += Vector.DotProduct(a._rows[i], b._rows[i]));
+                    rowSums[i] = Vector.DotProduct(a._rows[i], b._rows[i]));
+
+                sum = new Vector(rowSums).Sum();
+            }
             else
                 for (int i = m - 1; i >= 0; --i)
                     sum += Vector.DotProduct(a._rows[i], b._rows[i]);
@@ -2198,13 +2219,24 @@ namespace Calcpad.Core
             var v = _rows[0].Min();
             var min = v.D;
             var u = v.Units;
-            for (int i = 1; i < len; ++i)
+            if (len > ParallelThreshold)
             {
-                v = _rows[i].Min();
-                var b = v.D * Unit.Convert(u, v.Units, ',');
-                if (b < min)
-                    min = b;
+                var rowMins = new double[len];
+                rowMins[0] = min;
+                Parallel.For(1, len, i => {
+                    var v = _rows[i].Min();
+                    rowMins[i] = v.D * Unit.Convert(u, v.Units, ','); ;
+                });
+                min = rowMins.Min();
             }
+            else
+                for (int i = 1; i < len; ++i)
+                {
+                    v = _rows[i].Min();
+                    var rowMin = v.D * Unit.Convert(u, v.Units, ',');
+                    if (rowMin < min)
+                        min = rowMin;
+                }
             if (!IsStructurallyConsistentType && min > 0)
                 min = 0;
 
@@ -2220,12 +2252,23 @@ namespace Calcpad.Core
             var v = _rows[0].Max();
             var max = v.D;
             var u = v.Units;
-            for (int i = 1; i < len; ++i)
+            if (len > ParallelThreshold)
+            {
+                var rowMaxes = new double[len];
+                rowMaxes[0] = max;
+                Parallel.For(1, len, i => {
+                    var v = _rows[i].Max();
+                    rowMaxes[i] = v.D * Unit.Convert(u, v.Units, ','); ;
+                });
+                max = rowMaxes.Max();
+            }
+            else
+                for (int i = 1; i < len; ++i)
             {
                 v = _rows[i].Max();
-                var b = v.D * Unit.Convert(u, v.Units, ',');
-                if (b > max)
-                    max = b;
+                var rowMax = v.D * Unit.Convert(u, v.Units, ',');
+                if (rowMax > max)
+                    max = rowMax;
             }
             if (!IsStructurallyConsistentType && max < 0)
                 max = 0;
@@ -2242,11 +2285,23 @@ namespace Calcpad.Core
             var v = _rows[0].Sum();
             var sum = v.D;
             var u = v.Units;
-            for (int i = 1; i < len; ++i)
+            if (len > ParallelThreshold)
             {
-                v = _rows[i].Sum();
-                sum += v.D * Unit.Convert(u, v.Units, ',');
+                var rowSums = new double[len];
+                rowSums[0] = sum;
+                Parallel.For(1, len, i => {
+                    var v = _rows[i].Sum();
+                    rowSums[i] = v.D * Unit.Convert(u, v.Units, ','); ;
+                });
+                sum = rowSums.Sum();
             }
+            else
+                for (int i = 1; i < len; ++i)
+                {
+                    v = _rows[i].Sum();
+                    sum += v.D * Unit.Convert(u, v.Units, ',');
+                }
+
             return new(sum, u);
         }
 
@@ -2259,11 +2314,23 @@ namespace Calcpad.Core
             var v = _rows[0].SumSq();
             var sumsq = v.D;
             var u = v.Units;
-            for (int i = 1; i < len; ++i)
+            if (len > ParallelThreshold)
             {
-                v = _rows[i].SumSq();
-                sumsq += v.D * Unit.Convert(u, v.Units, ',');
+                var rowSums = new double[len];
+                rowSums[0] = sumsq;
+                Parallel.For(1, len, i => {
+                    var v = _rows[i].SumSq();
+                    rowSums[i] = v.D * Unit.Convert(u, v.Units, ','); ;
+                });
+                sumsq = rowSums.Sum();
             }
+            else
+                for (int i = 1; i < len; ++i)
+                {
+                    v = _rows[i].SumSq();
+                    sumsq += v.D * Unit.Convert(u, v.Units, ',');
+                }
+
             return new(sumsq, u);
         }
 
@@ -2291,12 +2358,25 @@ namespace Calcpad.Core
             var p = _rows[0].Product();
             var product = p.D;
             var u = p.Units;
-            for (int i = 1; i < len; ++i)
+            if (len > ParallelThreshold)
             {
-                p = _rows[i].Product();
-                u = Unit.Multiply(u, p.Units, out var b);
-                product *= p.D * b;
+                var rowProducts = new RealValue[len];
+                rowProducts[0] = p;
+                Parallel.For(1, len, i => 
+                    rowProducts[i] = _rows[i].Product()
+                );
+                p = new Vector(rowProducts).Product();
+                product = p.D;
+                u = p.Units;
             }
+            else
+                for (int i = 1; i < len; ++i)
+                {
+                    p = _rows[i].Product();
+                    u = Unit.Multiply(u, p.Units, out var b);
+                    product *= p.D * b;
+                }
+
             if (!IsStructurallyConsistentType)
                 return new(0d, u);
 
@@ -2764,10 +2844,10 @@ namespace Calcpad.Core
 
         private static void SvdBidiagonalize(Matrix U, Vector sig, Vector rv1, int m, int n, out RealValue anorm)
         {
-            RealValue sum;
-            RealValue scale, g;
+            const double eps = 1d / double.MaxValue;
+            RealValue sum, scale, g;
             scale = g = anorm = RealValue.Zero;
-            var U_col_i = new RealValue[n + 1];
+            var U_col_i = new RealValue[m + 1];
             for (int i = 0; i <= n; ++i)
             {
                 var l = i + 1;
@@ -2782,11 +2862,10 @@ namespace Calcpad.Core
                     for (int k = l; k <= m; ++k)
                         scale += RealValue.Abs(U_col_i[k]);
 
-                    if (scale.D != 0)
+                    if (Math.Abs(scale.D) > eps)
                     {
-
                         var U_ii = U_col_i[i] / scale;
-                        sum = Sqr(U_ii);
+                        sum = U_ii * U_ii;
                         U_col_i[i] = U_ii;
                         for (int k = l; k <= m; ++k)
                         {
@@ -2816,6 +2895,7 @@ namespace Calcpad.Core
                         U[k, i] = U_col_i[k];
                 }
                 sig[i] = scale * g;
+                g = scale = RealValue.Zero;
                 if (i <= m && i != n)
                 {
                     var U_i = U._rows[i];
@@ -2823,11 +2903,11 @@ namespace Calcpad.Core
                     for (int k = l + 1; k <= n; ++k)
                         scale += RealValue.Abs(U_i[k]);
 
-                    if (scale.D != 0)
+                    if (Math.Abs(scale.D) > eps)
                     {
                         var U_il = U_i[l] / scale;
-                        sum = Sqr(U_il);
                         U_i[l] = U_il;
+                        sum = U_il * U_il;
                         for (int k = l + 1; k <= n; ++k)
                         {
                             U_i[k] /= scale;
@@ -2855,7 +2935,6 @@ namespace Calcpad.Core
                             U_i[k] *= scale;
                     }
                 }
-
                 var a = RealValue.Abs(sig[i]);
                 var rvi = rv1[i];
                 if (rvi.D != 0)

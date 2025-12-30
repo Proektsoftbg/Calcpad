@@ -69,9 +69,9 @@
         public void Slope_Sin()
         {
             var result = new TestCalc(new() { Degrees = 1 })
-                .Run("sin(1009*π)");
-            var expected = Math.Sin(1009d * Math.PI);
-            Assert.Equal(expected, result, Tol);
+                .Run("$Slope{sin(x) @ x = 1009*π}");
+            var expected = Math.Cos(1009d * Math.PI);
+            Assert.Equal(expected, result, 1e-10);
         }
 
         [Fact]
@@ -82,6 +82,38 @@
                 .Run("$Slope{cos(x^2) @ x = 1013}");
             var expected = -2d * 1013d * Math.Sin(1013d * 1013d);
             Assert.Equal(expected, result, 1e-6);
+        }
+        #endregion
+
+        #region Derivative
+        [Fact]
+        [Trait("Category", "Derivative")]
+        public void Derivative_Exp()
+        {
+            var result = new TestCalc(new())
+                .Run("$Derivative{e^x @ x = 101}");
+            var expected = Math.Exp(101d);
+            Assert.True(Math.Abs(expected - result) / Math.Abs(expected) < Tol);
+        }
+
+        [Fact]
+        [Trait("Category", "Derivative")]
+        public void Derivative_Sin()
+        {
+            var result = new TestCalc(new() { Degrees = 1 })
+                .Run("$Derivative{sin(x) @ x = 1009*π}");
+            var expected = Math.Cos(1009d * Math.PI);
+            Assert.Equal(expected, result, Tol);
+        }
+
+        [Fact]
+        [Trait("Category", "Derivative")]
+        public void Derivative_Cos_Square()
+        {
+            var result = new TestCalc(new() { Degrees = 1 })
+                .Run("$Derivative{cos(x^2) @ x = 1013}");
+            var expected = -2d * 1013d * Math.Sin(1013d * 1013d);
+            Assert.Equal(expected, result, Tol);
         }
         #endregion
 

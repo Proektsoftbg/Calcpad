@@ -398,7 +398,7 @@ namespace Calcpad.Core
             {
                 row = _rows[i];
                 p = row.Product();
-                u = Unit.Multiply(u, p.Units.Pow(2f), out var b);
+                u = Unit.Multiply(u, p.Units?.Pow(2f), out var b);
                 product *= p.D * p.D * b;
                 RestoreMainDiagonal();
             }

@@ -2,7 +2,7 @@
 '<hr/>
 'Initial triangle coordinates
 #def a$ = sqrt(3)/2
-x = [0; 1; 0.5; 0]', 'y = [0; 0; a$; 0]
+x = hp([0; 1; 0.5; 0])', 'y = hp([0; 0; a$; 0])
 'Number of iterations -'n = 6'&emsp;<button id="start">Start</button>
 
 #val
@@ -22,23 +22,23 @@ w = 300', 'h = 1.2*w', 'k = 100
 	#loop
 	'" fill="url(#sff)" fill-opacity="0.8"/>
 	#hide
-	x1 = [x.1]', 'y1 = [y.1]
+	x1 = x.1', 'y1 = y.1
 	'Iterate over the segments
 	#for j = 1 : n_p - 1
-		p1 = [x.j; y.j]'- the first point of the current segment
-		p2 = [x.(j + 1); y.(j + 1)]'- the second point
+		p1 = hp([x.j; y.j])'- the first point of the current segment
+		p2 = hp([x.(j + 1); y.(j + 1)])'- the second point
 		Δ = p2 - p1'- difference
 		'Add three intermediate points
 		A = p1 + Δ/3
-		B = p1 + Δ/2 + [Δ.2; -Δ.1]*a$/3
+		B = p1 + Δ/2 + hp([Δ.2; -Δ.1])*a$/3
 		C = p1 + Δ*2/3
 		'Build new vectors by concatenation
-		x1 = [x1; A.1; B.1; C.1; p2.1]
-		y1 = [y1; A.2; B.2; C.2; p2.2]
+		x1 = join(x1; A.1; B.1; C.1; p2.1)
+		y1 = join(y1; A.2; B.2; C.2; p2.2)
 	#loop
 	'Reassign to the original vectors
-	x = [x1; p2.1]
-	y = [y1; p2.2]
+	x = join(x1; p2.1)
+	y = join(y1; p2.2)
 	#show
 #loop
 '</svg></center>

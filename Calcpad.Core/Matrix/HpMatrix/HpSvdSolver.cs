@@ -7,7 +7,7 @@ namespace Calcpad.Core
     {
         internal static void Bidiagonalize(double[][] U, double[] sig, double[] rv1, Span<double> U_col_i, int m, int n, out double anorm)
         {
-            double sum;
+            const double eps = 1d / double.MaxValue;
             double scale, g;
             scale = g = anorm = 0d;
             for (int i = 0; i <= n; ++i)
@@ -18,37 +18,22 @@ namespace Calcpad.Core
                 {
                     //Cache column i of U for optimized access
                     CacheUColumn(U, U_col_i, i, m);
-                    var U_ii = U_col_i[i];
-                    scale = Math.Abs(U_ii);
-                    scale += Vectorized.SumAbs(U_col_i, l, m + 1);
-                    if (scale != 0)
+                    scale = Vectorized.SumAbs(U_col_i, i, m + 1);
+                    if (Math.Abs(scale) > eps)
                     {
-                        U_ii /= scale;
-                        sum = HpLinearSolver.Sqr(U_ii);
-                        U_col_i[i] = U_ii;
-                        sum += Vectorized.NormalizeAndSumSq(U_col_i, l, m + 1, scale);
-                        var f = U_ii;
+                        var sum = Vectorized.NormalizeAndSumSq(U_col_i, i, m + 1, scale);
+                        var f = U_col_i[i];
                         g = -Math.CopySign(Math.Sqrt(sum), f);
                         var h = f * g - sum;
-                        U_ii = f - g;
-                        U_col_i[i] = U_ii;
+                        U_col_i[i] = f - g;
                         for (int j = l; j <= n; ++j)
                         {
-                            sum = U_ii * U[i][j];
-                            int k = l;
-                            int limit = m - 3;
-                            for (; k <= limit; k += 4)
-                            {
-                                sum += U_col_i[k] * U[k][j] +
-                                       U_col_i[k + 1] * U[k + 1][j] +
-                                       U_col_i[k + 2] * U[k + 2][j] +
-                                       U_col_i[k + 3] * U[k + 3][j];
-                            }
-                            for (; k <= m; ++k)
+                            sum = U_col_i[i] * U[i][j];
+                            for (int k = l; k <= m; ++k)
                                 sum += U_col_i[k] * U[k][j];
 
                             f = sum / h;
-                            for (k = i; k <= m; ++k)
+                            for (int k = i; k <= m; ++k)
                                 U[k][j] += f * U_col_i[k];
                         }
                         for (int k = i; k <= m; ++k)
@@ -58,28 +43,25 @@ namespace Calcpad.Core
                     RestoreUColumn(U, U_col_i, i, m);
                 }
                 sig[i] = scale * g;
+                g = scale = 0d;
                 if (i <= m && i != n)
                 {
                     var U_i = U[i];
                     scale = Vectorized.SumAbs(U_i, l, n + 1);
-                    if (scale != 0d)
+                    if (Math.Abs(scale) > eps)
                     {
-                        var U_il = U_i[l] / scale;
-                        sum = HpLinearSolver.Sqr(U_il);
-                        U_i[l] = U_il;
-                        sum += Vectorized.NormalizeAndSumSq(U_i, l + 1, n + 1, scale);
-                        var f = U_il;
+                        var sum = Vectorized.NormalizeAndSumSq(U_i, l, n + 1, scale);
+                        var f = U_i[l];
                         g = -Math.CopySign(Math.Sqrt(sum), f);
+                        U_i[l] = f - g;
                         var h = 1d / (f * g - sum);
-                        U_il = f - g;
-                        U_i[l] = U_il;
                         for (int k = l; k <= n; ++k)
                             rv1[k] = U_i[k] * h;
 
                         for (int j = l; j <= m; ++j)
                         {
                             var U_j = U[j];
-                            sum = Vectorized.DotProduct(U_i, U[j], l, m + 1);
+                            sum = Vectorized.DotProduct(U_i, U_j, l, n + 1);
                             for (int k = l; k <= n; ++k)
                                 U_j[k] += sum * rv1[k];
                         }
@@ -154,19 +136,11 @@ namespace Calcpad.Core
                         for (int j = l; j <= n; ++j)
                         {
                             var sum = U_li * U[l][j];
-                            int k = l + 1;
-                            int limit = m - 3;
-                            for (; k <= limit; k += 4)
-                                sum += U_col_i[k] * U[k][j] +
-                                       U_col_i[k + 1] * U[k + 1][j] +
-                                       U_col_i[k + 2] * U[k + 2][j] +
-                                       U_col_i[k + 3] * U[k + 3][j];
-
-                            for (; k <= m; ++k)
+                            for (int k = l + 1; k <= m; ++k)
                                 sum += U_col_i[k] * U[k][j];
 
                             var f = (sum / U_ii) * g;
-                            for (k = i; k <= m; ++k)
+                            for (int k = i; k <= m; ++k)
                                 U[k][j] += f * U_col_i[k];
                         }
                     }

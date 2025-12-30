@@ -105,7 +105,7 @@
         var{
             color: #06c;
             font-family: "Georgia Pro", "Times New Roman", Times, serif;
-            font-size: 11.5pt
+            font-size: 12pt
         }
 
         code {
@@ -114,7 +114,7 @@
 
             code var, code i {
                 font-family: inherit;
-                font-size: 12pt;
+                font-size: 11.5pt;
                 font-style: normal
             }
 		
@@ -130,7 +130,7 @@
             color: #086;
             font-family: "Georgia Pro", "Times New Roman", Times, serif;
             font-style: normal;
-            font-size: 11.5pt;
+            font-size: 10.5pt;
         }
 
         img {
@@ -148,7 +148,7 @@
 
         .root {
             font-family: "Georgia Pro", "Times New Roman", Times, serif;
-            font-size: 13pt;
+            font-size: 14pt;
         }
 
         .ovr {
@@ -370,8 +370,8 @@
             font-style: normal;
             display: inline-block;
             vertical-align: 2pt;
-            margin-left: 2pt;
-            margin-right: -5pt;
+            margin-left: 3pt;
+            margin-right: -6pt;
         }
 
         .hang {
@@ -839,8 +839,8 @@
                     <li>aggregate functions: min, max, sum, sumsq, srss, average, product, (geometric) mean, etc.;</li>
                     <li>
                         math functions: norm, condition, determinant, rank, trace, transpose, adjugate and cofactor, inverse,
-                        factorization (Cholesky, ldlt, lu, qr and svd), eigenvalues/vectors, linear systems of equations, 
-						fast Forier transforms, etc.;
+                        factorization (Cholesky, ldlt, lu, qr and svd), eigenvalues/vectors, linear systems of equations,
+                        fast Forier transforms, etc.;
                     </li>
                 </ul>
             <li>custom functions of multiple parameters f(x; y; z; …);</li>
@@ -1585,12 +1585,12 @@
         </p>
         <p>The <span class="cond">$Plot</span> function must be the first thing in a line. You can have only spaces and tabs before, not even comments. Otherwise, the program will return an error. Any text after the closing bracket "}" will be ignored. Plotting supports only real numbers. You can use it in complex mode, only if <var>x</var> and <var>y</var> are real and the function returns real result along the plotting interval.</p>
         <p>You can specify the size of the plot area by defining two variables: <var>PlotWidth</var> and <var>PlotHeight</var> in pixels. The default values are <var>PlotWidth</var> = 400 and <var>PlotHeight</var> = 250. Plots can be in either in raster (PNG) or vector (SVG) format. The vector format is usually smaller and faster than the raster one. However, you may have problems with export to older version of Word or other software that does not support SVG. You can turn this option on and off by setting the <var>PlotSVG</var> variable to 1 and  0, respectively. Any nonzero value is equivalent to setting it to one.</p>
-		<p>Plotting a function requires multiple evaluations. This is performed at uniformly spaced points of a dense mesh so that to catch any variations of function values. However, if evaluations are computationally expensive, this approach can be very time-consuming. In such cases, you can use adaptive plotting. It starts with a coarse mesh and condenses it adaptively to the curvature. Where the function is smoother, the mesh remains coarser, so that the total number of points is optimal and much less than for uniform mesh. You can switch adaptive plotting on and off by clicking the "<b>Adaptive</b>" checkbox or setting the <var>PlotAdaptive</var> variable to 1 and 0, respectively. Adaptive potting will work for relatively smooth plots with limited number of breaks and jumps. If you have rapidly oscillating functions, it is possible to miss some peaks, so it is recommended to turn it off.</p>
-		<p>The <span class="cond">$Map</span> function can work with different color palettes. Select the preferred one from the "<b>Palette</b>" combo box on the bottom of the program window. If you check the "<b>Smooth</b>" checkbox, the coloring will be displayed as a smooth gradient. Otherwise, the program will display strips. You can also add 3D effects to the graph by selecting the "<b>Shadows</b>" checkbox. You can also specify light direction by the respective combo. Besides UI controls, you can specify these options by using variables at worksheet level, as follows:</p>
-		<p style="margin-left: 2em;">
-			<var>PlotShadows</var> - draw surface plots with shadows;<br />
-			<var>PlotLightDir</var> - direction to light source (0-7) clockwise:<br />
-			&emsp;&emsp;0 - North<br />
+        <p>Plotting a function requires multiple evaluations. This is performed at uniformly spaced points of a dense mesh so that to catch any variations of function values. However, if evaluations are computationally expensive, this approach can be very time-consuming. In such cases, you can use adaptive plotting. It starts with a coarse mesh and condenses it adaptively to the curvature. Where the function is smoother, the mesh remains coarser, so that the total number of points is optimal and much less than for uniform mesh. You can switch adaptive plotting on and off by clicking the "<b>Adaptive</b>" checkbox or setting the <var>PlotAdaptive</var> variable to 1 and 0, respectively. Adaptive potting will work for relatively smooth plots with limited number of breaks and jumps. If you have rapidly oscillating functions, it is possible to miss some peaks, so it is recommended to turn it off.</p>
+        <p>The <span class="cond">$Map</span> function can work with different color palettes. Select the preferred one from the "<b>Palette</b>" combo box on the bottom of the program window. If you check the "<b>Smooth</b>" checkbox, the coloring will be displayed as a smooth gradient. Otherwise, the program will display strips. You can also add 3D effects to the graph by selecting the "<b>Shadows</b>" checkbox. You can also specify light direction by the respective combo. Besides UI controls, you can specify these options by using variables at worksheet level, as follows:</p>
+        <p style="margin-left: 2em;">
+            <var>PlotShadows</var> - draw surface plots with shadows;<br />
+            <var>PlotLightDir</var> - direction to light source (0-7) clockwise:<br />
+            &emsp;&emsp;0 - North<br />
             &emsp;&emsp;1 - NorthEast<br />
             &emsp;&emsp;2 - East<br />
             &emsp;&emsp;3 - SouthEast<br />
@@ -1598,19 +1598,19 @@
             &emsp;&emsp;5 - SouthWest<br />
             &emsp;&emsp;6 - West<br />
             &emsp;&emsp;7 - NorthWest<br />
-			<var>PlotPalette</var> - the number of color palette to be used for surface plots (0-9);<br />
-			&emsp;&emsp;0 - <b class="palette" style="color:black; width:9.9em; border: solid 0.5pt #aaa;">None</b><br />
-			&emsp;&emsp;1 - <b class="palette" style="width:9.95em; border-right: solid 0.5pt #aaa; background: linear-gradient(to left, #FFFFFF, #464646)">Gray</b><br />
-			&emsp;&emsp;2 - <b class="palette" style="background: linear-gradient(to left, #FF0000, #FFFF00, #00ee00, #00FFFF, #4060FF)">Rainbow</b><br />
-			&emsp;&emsp;3 - <b class="palette" style="background: linear-gradient(to left, #FF7F00, #FFFF00, #00FF00, #007F7F)">Terrain</b><br />
-			&emsp;&emsp;4 - <b class="palette" style="background: linear-gradient(to left, #ffff00, #a93bd4)">Violet-yellow</b><br />
-			&emsp;&emsp;5 - <b class="palette" style="background: linear-gradient(to left, #ffff20, #409070)">Green-yellow</b><br />
-			&emsp;&emsp;6 - <b class="palette" style="background: linear-gradient(to left, #60ffff, #4060FF)">Blues</b><br />
-			&emsp;&emsp;7 - <b class="palette" style="background: linear-gradient(to left, #FFFC20, #00FF40, #20A0C0, #4060FF)">Blue-yellow</b><br />
-			&emsp;&emsp;8 - <b class="palette" style="background: linear-gradient(to left, #FF6000, #DDFFDD, #4060FF)">Blue-red</b><br />
-			&emsp;&emsp;9 - <b class="palette" style="background: linear-gradient(to left, #FFFC20, #FF8080, #EA40FF, #4020FA)">Purple-yellow</b><br />
-			<var>PlotSmooth</var> - smooth transition of colors (= 1) or  isobands (= 0) for surface plots.
-		</p>
+            <var>PlotPalette</var> - the number of color palette to be used for surface plots (0-9);<br />
+            &emsp;&emsp;0 - <b class="palette" style="color:black; width:9.9em; border: solid 0.5pt #aaa;">None</b><br />
+            &emsp;&emsp;1 - <b class="palette" style="width:9.95em; border-right: solid 0.5pt #aaa; background: linear-gradient(to left, #FFFFFF, #464646)">Gray</b><br />
+            &emsp;&emsp;2 - <b class="palette" style="background: linear-gradient(to left, #FF0000, #FFFF00, #00ee00, #00FFFF, #4060FF)">Rainbow</b><br />
+            &emsp;&emsp;3 - <b class="palette" style="background: linear-gradient(to left, #FF7F00, #FFFF00, #00FF00, #007F7F)">Terrain</b><br />
+            &emsp;&emsp;4 - <b class="palette" style="background: linear-gradient(to left, #ffff00, #a93bd4)">Violet-yellow</b><br />
+            &emsp;&emsp;5 - <b class="palette" style="background: linear-gradient(to left, #ffff20, #409070)">Green-yellow</b><br />
+            &emsp;&emsp;6 - <b class="palette" style="background: linear-gradient(to left, #60ffff, #4060FF)">Blues</b><br />
+            &emsp;&emsp;7 - <b class="palette" style="background: linear-gradient(to left, #FFFC20, #00FF40, #20A0C0, #4060FF)">Blue-yellow</b><br />
+            &emsp;&emsp;8 - <b class="palette" style="background: linear-gradient(to left, #FF6000, #DDFFDD, #4060FF)">Blue-red</b><br />
+            &emsp;&emsp;9 - <b class="palette" style="background: linear-gradient(to left, #FFFC20, #FF8080, #EA40FF, #4020FA)">Purple-yellow</b><br />
+            <var>PlotSmooth</var> - smooth transition of colors (= 1) or  isobands (= 0) for surface plots.
+        </p>
         <p>Examples of different plotting methods are provided below:</p>
         <table class="nb">
             <tr>
@@ -1697,8 +1697,9 @@
         </ol>
 
         <h4>Numerical differentiation</h4>
-        <p style="margin-left: 2em;"><code><span class="cond">$Slope</span>{<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var>}</code></p>
-        <p>It finds the value of the first derivative of a function <b>f</b>(<var>x</var>) at <var>x</var> = <var>a</var>. The derivative represents the slope of the tangent to the function at the respective point. The Richardson extrapolation method is used on a two-point stencil.</p>
+        <p>It finds the value of the first derivative of a real function <b>f</b>(<var>x</var>) at the specified point <var>x</var> = <var>a</var>. The geometric representation of derivative is the slope of the tangent to the function at point <var>a</var>. There are two methods that you can use in Calcpad for that purpose:</p>
+        <p style="margin-left: 2em;"><code><span class="cond">$Slope</span>{<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var>}</code> - uses symmetric two-point finite difference with <a href="https://royalsocietypublishing.org/doi/pdf/10.1098/rsta.1911.0009">Richardson extrapolation</a>. It evaluates the derivative within the specified <var>Precision</var>. The function must be locally continuous, smooth and differentiable in the neighborhood of <var>a</var>. It can also contain other numerical methods. In general, finite differences are susceptible to floating point round-off errors due to the subtraction of close values. Although Richardson extrapolation can improve this significantly, the accuracy for poorly behaved functions may be limited.</p>
+        <p style="margin-left: 2em;"><code><span class="cond">$Derivative</span>{<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var>}</code> - uses complex step method (<a href="https://epubs.siam.org/doi/abs/10.1137/0704019">Lyness and Moler</a>). It evaluates the derivative with nearly machine precision (about 10<sup>&hairsp;-15</sup> to 10<sup>&hairsp;-16&hairsp;</sup>) by using the equation:<br /><var>f</var>&thinsp;′(<var>a</var>) = <b>Im</b>(&thinsp;<var>f</var>&thinsp;(<var>a</var> + <var>ih</var>))/<var>h</var>, where <var>i</var> is the imaginary unit and <var>h</var> = 10<sup>-20</sup>. The function must be holomorphic in the complex plane - infinitely differentiable and locally equal to its Taylor expansion. Unlike <code class="cond">$Slope</code>, it cannot contain other numerical methods and should be defined only by analytic expressions. This limits the applicability of this method but, when possible, you can use it instead of <code class="cond">$Slope</code> to achieve higher accuracy, if needed.</p>
 
         <h4>General considerations</h4>
         <p>Unlike the plotting command, you can include numerical methods in expressions. They return values which can be used for further calculations. For example, you can store the result into a variable:</p>
@@ -1734,14 +1735,14 @@
         <p>You should not forget to switch to "Complex" mode. Then you can plot the result:
         <p style="margin-left: 2em;"><code><span class="cond">$Map</span>{<b>abs</b>(<b>f</b>(0; <var>x</var> + 1i*<var>y</var>)) &#64; <var>x</var> = -1.5:0.5 & <var>y</var> = -1:1}</code></p>
         <p style="text-align:center;"><img alt="Mandelbrot" src="Images/Mandelbrot.png" width="500"></p>
-		
-		<h3 id="TOC_409">Expression blocks</h3>
-		<p>An expression block encloses a list of expressions, divided by semicolons. All expressions can assign to local variables. You can use expression blocks to embed short algorithmic procedures into function definitions, inline loops or any other expressions and expression blocks. There are two types of expression blocks that differ only in the way they are rendered in the output:</p>
-		<p style="margin-left: 2em;"><code><span class="cond">$Block</span>{<em>expr1</em>; <em>expr2</em>; <em>expr3</em>; ...}</code> - multiline block of expressions;</p>
-		<p style="margin-left: 2em;"><code><span class="cond">$Inline</span>{<em>expr1</em>; <em>expr2</em>; <em>expr3</em>; ...}</code> - inline block of expressions.</p>
-		<p>As the respective names imply, <span class="cond">$Block</span> is rendered on multiple lines so that each expression is placed on a separate line, and for <span class="cond">$Inline</span> all expressions are rendered on a single line sequentially from left to right.</p>
-		<p>You can use expression blocks to create multiline functions when a single expression is not sufficient to evaluate the result. Such is the <var>quadRoots</var> function in the example below that calculates the roots of a quadratic equation by given coefficients <var>a</var>, <var>b</var>, <var>c</var> and returns them as a vector of two elements <span class="b0">[</span><var>x</var><sub>1</sub>; <var>x</var><sub>2</sub><span class="b0">]</span>.</p>
-		<table border="1">
+
+        <h3 id="TOC_409">Expression blocks</h3>
+        <p>An expression block encloses a list of expressions, divided by semicolons. All expressions can assign to local variables. You can use expression blocks to embed short algorithmic procedures into function definitions, inline loops or any other expressions and expression blocks. There are two types of expression blocks that differ only in the way they are rendered in the output:</p>
+        <p style="margin-left: 2em;"><code><span class="cond">$Block</span>{<em>expr1</em>; <em>expr2</em>; <em>expr3</em>; ...}</code> - multiline block of expressions;</p>
+        <p style="margin-left: 2em;"><code><span class="cond">$Inline</span>{<em>expr1</em>; <em>expr2</em>; <em>expr3</em>; ...}</code> - inline block of expressions.</p>
+        <p>As the respective names imply, <span class="cond">$Block</span> is rendered on multiple lines so that each expression is placed on a separate line, and for <span class="cond">$Inline</span> all expressions are rendered on a single line sequentially from left to right.</p>
+        <p>You can use expression blocks to create multiline functions when a single expression is not sufficient to evaluate the result. Such is the <var>quadRoots</var> function in the example below that calculates the roots of a quadratic equation by given coefficients <var>a</var>, <var>b</var>, <var>c</var> and returns them as a vector of two elements <span class="b0">[</span><var>x</var><sub>1</sub>; <var>x</var><sub>2</sub><span class="b0">]</span>.</p>
+        <table border="1">
             <thead>
                 <tr>
                     <th>
@@ -1755,26 +1756,30 @@
             <tbody>
                 <tr>
                     <td>
-					<code><var>quadRoots</var>(<var>a</var>; <var>b</var>; <var>c</var>) = _<br />
-					<span class="cond">$block</span>{</code><br />
-						&emsp;&emsp;<code><var>D</var> = <var>b</var>^2 - 4*<var>a</var>*<var>c</var>;</code> <br />
-						&emsp;&emsp;<code><var>x_1</var> = (-<var>b</var> - <b>sqrt</b>(<var>D</var>))/(2*<var>a</var>);</code> <br />
-						&emsp;&emsp;<code><var>x_2</var> = (-<var>b</var> + <b>sqrt</b>(<var>D</var>))/(2*<var>a</var>);</code> <br />
-						&emsp;&emsp;<code>[<var>x_1</var>; <var>x_2</var>]; <br />
-					}<br />
-					<var>quadRoots</var>(2; 3; -5)</code>
+                        <code>
+                            <var>quadRoots</var>(<var>a</var>; <var>b</var>; <var>c</var>) = _<br />
+                            <span class="cond">$block</span>{
+                        </code><br />
+                        &emsp;&emsp;<code><var>D</var> = <var>b</var>^2 - 4*<var>a</var>*<var>c</var>;</code> <br />
+                        &emsp;&emsp;<code><var>x_1</var> = (-<var>b</var> - <b>sqrt</b>(<var>D</var>))/(2*<var>a</var>);</code> <br />
+                        &emsp;&emsp;<code><var>x_2</var> = (-<var>b</var> + <b>sqrt</b>(<var>D</var>))/(2*<var>a</var>);</code> <br />
+                        &emsp;&emsp;<code>
+                            [<var>x_1</var>; <var>x_2</var>]; <br />
+                            }<br />
+                            <var>quadRoots</var>(2; 3; -5)
+                        </code>
                     </td>
                     <td style="line-height:150%;">
-						<span class="eq"><var>quadRoots</var>&hairsp;(&hairsp;<var>a</var>; <var>b</var>; <var>c</var>&hairsp;)&hairsp; = <small class="gray">🞀</small><span class="block"><var>D</var> = <var>b</var><sup>2</sup> − 4&hairsp;·&hairsp;<var>a</var>&hairsp;·&hairsp;<var>c</var><br> <var>x</var><sub>1</sub> = <span class="dvc">-<var>b</var> − &ensp;&hairsp;&hairsp;<span class="o0"><span class="r0"></span><var>D</var></span><span class="dvl"></span>2&hairsp;·&hairsp;<var>a</var></span><br> <var>x</var><sub>2</sub> = <span class="dvc">-<var>b</var> + &ensp;&hairsp;&hairsp;<span class="o0"><span class="r0"></span><var>D</var></span><span class="dvl"></span>2&hairsp;·&hairsp;<var>a</var></span><br> <span class="b0">[</span><var>x</var><sub>1</sub>; <var>x</var><sub>2</sub><span class="b0">]</span><br> </span></span><br/>
-						<span class="eq"><var>quadRoots</var>&hairsp;&hairsp;(&hairsp;2; 3; -5&hairsp;)&hairsp; = <b class="b0">[</b>-2.5&ensp;1<b class="b0">]</b></span>
+                        <span class="eq"><var>quadRoots</var>&hairsp;(&hairsp;<var>a</var>; <var>b</var>; <var>c</var>&hairsp;)&hairsp; = <small class="gray">🞀</small><span class="block"><var>D</var> = <var>b</var><sup>2</sup> − 4&hairsp;·&hairsp;<var>a</var>&hairsp;·&hairsp;<var>c</var><br> <var>x</var><sub>1</sub> = <span class="dvc">-<var>b</var> − &ensp;&hairsp;&hairsp;<span class="o0"><span class="r0"></span><var>D</var></span><span class="dvl"></span>2&hairsp;·&hairsp;<var>a</var></span><br> <var>x</var><sub>2</sub> = <span class="dvc">-<var>b</var> + &ensp;&hairsp;&hairsp;<span class="o0"><span class="r0"></span><var>D</var></span><span class="dvl"></span>2&hairsp;·&hairsp;<var>a</var></span><br> <span class="b0">[</span><var>x</var><sub>1</sub>; <var>x</var><sub>2</sub><span class="b0">]</span><br> </span></span><br />
+                        <span class="eq"><var>quadRoots</var>&hairsp;&hairsp;(&hairsp;2; 3; -5&hairsp;)&hairsp; = <b class="b0">[</b>-2.5&ensp;1<b class="b0">]</b></span>
                     </td>
                 </tr>
             </tbody>
         </table>
-		<p>When you have a <span class="cond">$Repeat</span> inline loop you can nest multiple expressions directly inside without enclosing them with a <span class="cond">$block</span>/<span class="cond">$inline</span> element. Alternatively, you can use a conditional  “while“ loop:</p>
-		<p style="margin-left: 2em;"><code><span class="cond">$While</span>{<em>condition</em>; <em>expr1</em>; <em>expr2</em>; ...}</code> - iterative expression block with condition.</p>
-		<p>All expressions inside a block or inline loop are compiled, so they are executed very fast. They are evaluated sequentially from left to right and only the last result is returned at the end. However, unlike the standard expressions you cannot see intermediate results and substituted variables. This reduces readability and verifiability of calculations. So, expression blocks should be used only where they are actually needed.</p>
-		
+        <p>When you have a <span class="cond">$Repeat</span> inline loop you can nest multiple expressions directly inside without enclosing them with a <span class="cond">$block</span>/<span class="cond">$inline</span> element. Alternatively, you can use a conditional  “while“ loop:</p>
+        <p style="margin-left: 2em;"><code><span class="cond">$While</span>{<em>condition</em>; <em>expr1</em>; <em>expr2</em>; ...}</code> - iterative expression block with condition.</p>
+        <p>All expressions inside a block or inline loop are compiled, so they are executed very fast. They are evaluated sequentially from left to right and only the last result is returned at the end. However, unlike the standard expressions you cannot see intermediate results and substituted variables. This reduces readability and verifiability of calculations. So, expression blocks should be used only where they are actually needed.</p>
+
         <h3 id="TOC_410">Units</h3>
         <p>Calcpad provides comprehensive support for physical units of measurement. The current version supports metric (SI and compatible), US and Imperial units. There are seven basic units that correspond to the seven physical dimensions:</p>
         <ul>
@@ -1808,13 +1813,15 @@
             </thead>
             <tbody>
                 <tr>
-                    <td style="line-height:180%;"><code>
-                        'Distance -'<var>s</var>_1 = 50<i>m</i><br />
-                        'Time -'<var>t</var>_1 = 2<i>s</i><br />
-                        'Speed -'<var>V</var> = <var>s</var>_1/<var>t</var>_1|<i>km</i>/<i>h</i><br />
-                        'What distance you will travel for'<var>t</var>_2 = 5<i>s</i>'?<br />
-                        <var>s</var>_2 = <var>V</var>*<var>t</var>_2|<i>m</i>
-                    </code></td>
+                    <td style="line-height:180%;">
+                        <code>
+                            'Distance -'<var>s</var>_1 = 50<i>m</i><br />
+                            'Time -'<var>t</var>_1 = 2<i>s</i><br />
+                            'Speed -'<var>V</var> = <var>s</var>_1/<var>t</var>_1|<i>km</i>/<i>h</i><br />
+                            'What distance you will travel for'<var>t</var>_2 = 5<i>s</i>'?<br />
+                            <var>s</var>_2 = <var>V</var>*<var>t</var>_2|<i>m</i>
+                        </code>
+                    </td>
                     <td style="line-height:150%;">
                         Distance - <var>s</var><sub>1</sub> = 50&thinsp;<i>m</i><br />
                         Time - <var>t</var><sub>1</sub> = 2&thinsp;<i>s</i><br />
@@ -4540,7 +4547,7 @@
         <p>
             In Calcpad, it is used for the same functions as the QL method, when the size of the matrix is &gt; 200:<br />
             &emsp;&emsp;<code><b>eigenvals</b>(<var>M</var>; <var>n</var><sub>e</sub>)</code> - the first <var>n</var><sub>e</sub> eigenvalues of matrix <var>M</var>&hairsp;;<br />
-            &emsp;&emsp;<code><b>eigenvecs</b>(<var>M</var>; <var>n</var><sub>e</sub>)</code> - the first <var>n</var><sub>e</sub> eigenvectors of matrix <var>M</var>&hairsp;;<br />	
+            &emsp;&emsp;<code><b>eigenvecs</b>(<var>M</var>; <var>n</var><sub>e</sub>)</code> - the first <var>n</var><sub>e</sub> eigenvectors of matrix <var>M</var>&hairsp;;<br />
             &emsp;&emsp;<code><b>eigen</b>(<var>M</var>; <var>n</var><sub>e</sub>)</code> - the first <var>n</var><sub>e</sub> eigenvalues and eigenvectors of matrix <var>M</var>.
         </p>
         <p>The maximum number of iterations is set to be 4<var>n</var><sub>e</sub> + 100. So, if the size of the matrix is <var>n</var> &lt; 1000 and <var>n</var><sub>e</sub> &gt; <var>n</var>/5 again the QL method is used. This is because the Lanczos method is less accurate and when the number of iterations gets close to the matrix size, the performance is reduced to the one of the QL algorithm.</p>
@@ -4725,101 +4732,101 @@
         </p>
         <p>
             During parsing, the marked text is converted to Html and then passed for further processing. Since this is performed line-by-line, block level formatting like lists, tables, etc. are not fully supported. You can use the following syntax elements:
-		</p>
-		<table border="1">
-			<thead>
-				<tr><th>Markdown code</th><th>Html code</th><th>Output</th></tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td><code><b>###</b> Heading 3</code></td>
-					<td>&lt;h3&gt;Heading 3&lt;/h3&gt;</td>
-					<td><h3 style="font-size: 1.4em; margin:0;">Heading 3</h3></td>
-				</tr>
-				<tr>
-					<td><code><b>####</b> Heading 4</code></td>
-					<td>&lt;h4&gt;Heading 4&lt;/h4&gt;</td>
-					<td><h4 style="font-size: 1.2em; margin:0;">Heading 4</h4></td>
-				</tr>
-				<tr>
-					<td><code><b>#####</b> Heading 5</code></td>
-					<td>&lt;h5&gt;Heading 5&lt;/h5&gt;</td>
-					<td><h5 style="font-size: 1.1em; margin:0;">Heading 5</h5></td>
-				</tr>
-				<tr>
-					<td><code><b>######</b> Heading 6</code></td>
-					<td>&lt;h6&gt;Heading 6&lt;/h6&gt;</td>
-					<td><h6 style="font-size: 1em; margin:0;">Heading 6</h6></td>
-				</tr>
-				<tr>
-					<td><code>---</code> (horizontal line)</td>
-					<td>&lt;hr/&gt;</td>
-					<td><hr /></td>
-				</tr>
-				<tr>
-					<td><code><b>**</b>Bold<b>**</b></code></td>
-					<td>&lt;strong&gt;Bold&lt;/strong&gt;</td>
-					<td><strong>Bold</strong></td>
-				</tr>
-				<tr>
-					<td><code><b>*</b>Italic<b>*</b></code></td>
-					<td>&lt;em&gt;Italic&lt;/em&gt;</td>
-					<td><em>Italic</em></td>
-				</tr>
-				<tr>
-					<td><code><b>***</b>Bold Italic<b>***</b></code></td>
-					<td>&lt;em&gt;&lt;strong&gt;Bold Italic&lt;/strong&gt;&lt;/em&gt;</td>
-					<td><em><strong>Bold Italic</strong></em></td>
-				</tr>
-				<tr>
-					<td><code><b>++</b>Underlined<b>++</b></code></td>
-					<td>&lt;ins&gt;Underlined&lt;/ins&gt;</td>
-					<td><ins>Underlined</ins></td>
-				</tr>
-				<tr>
-					<td><code><b>~~</b>Struck through<b>~~</b></code></td>
-					<td>&lt;del&gt;Struck through&lt;/del&gt;</td>
-					<td><del>Struck through</del></td>
-				</tr>
-				<tr>
-					<td><code><b>==</b>Highlighted<b>==</b></code></td>
-					<td>&lt;mark&gt;Highlighted&lt;/mark&gt;</td>
-					<td><mark>Highlighted</mark></td>
-				</tr>
-				<tr>
-					<td><code>x<b>^</b>superscript<b>^</b></code></td>
-					<td>x&lt;sup&gt;superscript&lt;/sup&gt;</td>
-					<td>x<sup>superscript</sup></td>
-				</tr>
-				<tr>
-					<td><code>x<b>~</b>subscript<b>~</b></code></td>
-					<td>x&lt;sub&gt;subscript&lt;/sub&gt;</td>
-					<td>x<sub>subscript</sub></td>
-				</tr>
-				<tr>
-					<td><code><b>`</b>Code<b>`</b></code></td>
-					<td>&lt;code&gt;Code&lt;/code&gt;</td>
-					<td><code style="background:none;">Code</code></td>
-				</tr>
-				<tr>
-					<td><code><b>[Link](</b>https://mywebsite.com<b>)</b></code></td>
-					<td>&lt;a href="https://mywebsite.com"&gt;Link&lt;/a&gt;</td>
-					<td><a href="https://mywebsite.com">Link</a></td>
-				</tr>
-				<tr>
-					<td><code><b>![Image](</b>image.jpg<b>)</b></code></td>
-					<td>&lt;img src="image.jpg" alt="Image" /&gt;</td>
-					<td><img src="image.jpg" alt="Image" /></td>
-				</tr>
-				<tr>
-					<td><code><b>&gt;</b> Blockquote 1<br /><b>&gt;&gt;</b> Blockquote 2</code></td>
-					<td>&lt;blockquote&gt;Blockquote 1<br />&lt;blockquote&gt;Blockquote 2&lt;/blockquote&gt;&lt;/blockquote&gt;</td>
-					<td><blockquote style="margin:0">Blockquote 1<br /><blockquote style="margin: 0 0 0 2em; white-space: nowrap;">Blockquote 2</blockquote></blockquote></td>
-				</tr>
-			</tbody>
-		</table>
+        </p>
+        <table border="1">
+            <thead>
+                <tr><th>Markdown code</th><th>Html code</th><th>Output</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code><b>###</b> Heading 3</code></td>
+                    <td>&lt;h3&gt;Heading 3&lt;/h3&gt;</td>
+                    <td><h3 style="font-size: 1.4em; margin:0;">Heading 3</h3></td>
+                </tr>
+                <tr>
+                    <td><code><b>####</b> Heading 4</code></td>
+                    <td>&lt;h4&gt;Heading 4&lt;/h4&gt;</td>
+                    <td><h4 style="font-size: 1.2em; margin:0;">Heading 4</h4></td>
+                </tr>
+                <tr>
+                    <td><code><b>#####</b> Heading 5</code></td>
+                    <td>&lt;h5&gt;Heading 5&lt;/h5&gt;</td>
+                    <td><h5 style="font-size: 1.1em; margin:0;">Heading 5</h5></td>
+                </tr>
+                <tr>
+                    <td><code><b>######</b> Heading 6</code></td>
+                    <td>&lt;h6&gt;Heading 6&lt;/h6&gt;</td>
+                    <td><h6 style="font-size: 1em; margin:0;">Heading 6</h6></td>
+                </tr>
+                <tr>
+                    <td><code>---</code> (horizontal line)</td>
+                    <td>&lt;hr/&gt;</td>
+                    <td><hr /></td>
+                </tr>
+                <tr>
+                    <td><code><b>**</b>Bold<b>**</b></code></td>
+                    <td>&lt;strong&gt;Bold&lt;/strong&gt;</td>
+                    <td><strong>Bold</strong></td>
+                </tr>
+                <tr>
+                    <td><code><b>*</b>Italic<b>*</b></code></td>
+                    <td>&lt;em&gt;Italic&lt;/em&gt;</td>
+                    <td><em>Italic</em></td>
+                </tr>
+                <tr>
+                    <td><code><b>***</b>Bold Italic<b>***</b></code></td>
+                    <td>&lt;em&gt;&lt;strong&gt;Bold Italic&lt;/strong&gt;&lt;/em&gt;</td>
+                    <td><em><strong>Bold Italic</strong></em></td>
+                </tr>
+                <tr>
+                    <td><code><b>++</b>Underlined<b>++</b></code></td>
+                    <td>&lt;ins&gt;Underlined&lt;/ins&gt;</td>
+                    <td><ins>Underlined</ins></td>
+                </tr>
+                <tr>
+                    <td><code><b>~~</b>Struck through<b>~~</b></code></td>
+                    <td>&lt;del&gt;Struck through&lt;/del&gt;</td>
+                    <td><del>Struck through</del></td>
+                </tr>
+                <tr>
+                    <td><code><b>==</b>Highlighted<b>==</b></code></td>
+                    <td>&lt;mark&gt;Highlighted&lt;/mark&gt;</td>
+                    <td><mark>Highlighted</mark></td>
+                </tr>
+                <tr>
+                    <td><code>x<b>^</b>superscript<b>^</b></code></td>
+                    <td>x&lt;sup&gt;superscript&lt;/sup&gt;</td>
+                    <td>x<sup>superscript</sup></td>
+                </tr>
+                <tr>
+                    <td><code>x<b>~</b>subscript<b>~</b></code></td>
+                    <td>x&lt;sub&gt;subscript&lt;/sub&gt;</td>
+                    <td>x<sub>subscript</sub></td>
+                </tr>
+                <tr>
+                    <td><code><b>`</b>Code<b>`</b></code></td>
+                    <td>&lt;code&gt;Code&lt;/code&gt;</td>
+                    <td><code style="background:none;">Code</code></td>
+                </tr>
+                <tr>
+                    <td><code><b>[Link](</b>https://mywebsite.com<b>)</b></code></td>
+                    <td>&lt;a href="https://mywebsite.com"&gt;Link&lt;/a&gt;</td>
+                    <td><a href="https://mywebsite.com">Link</a></td>
+                </tr>
+                <tr>
+                    <td><code><b>![Image](</b>image.jpg<b>)</b></code></td>
+                    <td>&lt;img src="image.jpg" alt="Image" /&gt;</td>
+                    <td><img src="image.jpg" alt="Image" /></td>
+                </tr>
+                <tr>
+                    <td><code><b>&gt;</b> Blockquote 1<br /><b>&gt;&gt;</b> Blockquote 2</code></td>
+                    <td>&lt;blockquote&gt;Blockquote 1<br />&lt;blockquote&gt;Blockquote 2&lt;/blockquote&gt;&lt;/blockquote&gt;</td>
+                    <td><blockquote style="margin:0">Blockquote 1<br /><blockquote style="margin: 0 0 0 2em; white-space: nowrap;">Blockquote 2</blockquote></blockquote></td>
+                </tr>
+            </tbody>
+        </table>
 
-		<h3 id="TOC_507">Formatting Toolbar</h3>
+        <h3 id="TOC_507">Formatting Toolbar</h3>
         <p>The formatting toolbar is located just above the code editing box. It allows quick insertion of formatting markup in comments. It can insert either Html or Markdown, depending on your choise. To enable Markdown, switch the <strong class="button"> M⭣ </strong> button on. Also, do not forget to add "<span class="cond">#md on</span>" on top of your worksheet.</p>
         <p><img src=".\Images\Formatting.png" /></p>
         <p>The formatting toolbar includes the following commands:</p>
@@ -5014,7 +5021,7 @@
             <li style="margin-left: 2em;">Code to be executed repeatedly</li>
             <li><span class="cond">#Loop</span></li>
         </ul>
-		
+
         <h3 id="TOC_605">Interactive (step-by-step) execution</h3>
         <p>You can make a Calcpad worksheet to execute interactively (step-by-step) by defining "breakpoints" at certain lines. It will allow the user to review the intermediate results and enter some additional input data if needed. There are two special keywords, you can use for that purpose:</p>
         <ul style="list-style-type:none;">
@@ -5426,10 +5433,10 @@
         </table>
         <p>
             &emsp;&emsp;<code>TYPE=<b>R</b></code>	- type of matrix/vector for structured storage [<span class="ok">optional</span>]. The same rules apply as for text/CSV files above.
-		</p>
-		
-		
-		<h2 id="TOC_700">Results</h2>
+        </p>
+
+
+        <h2 id="TOC_700">Results</h2>
         <p>You can run the solution by pressing <b>F5</b> or clicking the <img alt="Play" height="20" src="Images/Play.png"> button. The results will appear in the "<b>Output</b>" box. You cannot edit the output content, but you can select, copy and print it. For that purpose, you can use the toolbar above the "<b>Output</b>" box on the right. You can also use additional commands from the context menu, that is displayed If you right-click inside the "<b>Output</b>" box, you will see a pop-up menu with additional commands. Detailed description is provided further in this manual.</p>
         <p>Since version 6.5.3, you can use the "☑ <b>AutoRun</b>" mode. While it is checked, the results will refresh each time you change the code and move to another line. If you need to synchronize the results manually, you can press "<b>Ctrl + Enter</b>". Additionally, the output window will scroll to match the current position in the source code. You can do the same by double clicking into the input window.</p>
 
@@ -5676,7 +5683,7 @@
         <h3 id="TOC_804">Save As…</h3>
         <p>If you need to save the current file with a different name, select the "<b>File/Save As…</b>" menu command. A file selection dialog will be displayed. Select file path and name and click "<b>Save</b>"</p>
         <hr />
-        <p>Last edited on 10.11.2025 by eng. Nedelcho Ganchovski.</p>
+        <p>Last edited on 29.12.2025 by eng. Nedelcho Ganchovski.</p>
     </div>
     <script src="jquery-3.6.3.min.js"></script>
     <script>

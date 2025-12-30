@@ -10,7 +10,7 @@ namespace Calcpad.Core
         {
             private readonly MathParser _parser;
             private readonly Container<CustomFunction> _functions;
-            private readonly List<SolveBlock> _solveBlocks;
+            private readonly List<SolverBlock> _solveBlocks;
             private readonly StringBuilder _stringBuilder;
             private int _assignmentPosition;
             private bool _hasVariables;
@@ -170,7 +170,8 @@ namespace Calcpad.Core
                             }
                             else if (tt == TokenTypes.Function2 ||
                                 tt == TokenTypes.VectorFunction2 ||
-                                tt == TokenTypes.MatrixFunction2)
+                                tt == TokenTypes.MatrixFunction2 ||
+                                tt == TokenTypes.MatrixIterativeFunction)
                                 RenderFunction2Token(t, b);
                             else if (tt == TokenTypes.Function3 ||
                                      tt == TokenTypes.VectorFunction3 ||

@@ -83,6 +83,7 @@ namespace Calcpad.Wpf
             items.Add(new ListBoxItem() { Content = "#write", Foreground = Brushes.DarkMagenta });
             items.Add(new ListBoxItem() { Content = "$Area{f(x) @ x = a : b}", Foreground = Brushes.DarkMagenta });
             items.Add(new ListBoxItem() { Content = "$Block{ }", Foreground = Brushes.DarkMagenta });
+            items.Add(new ListBoxItem() { Content = "$Derivative{f(x) @ x = a}", Foreground = Brushes.DarkMagenta });
             items.Add(new ListBoxItem() { Content = "$Find{f(x) @ x = a : b}", Foreground = Brushes.DarkMagenta });
             items.Add(new ListBoxItem() { Content = "$Inf{f(x) @ x = a : b}", Foreground = Brushes.DarkMagenta });
             items.Add(new ListBoxItem() { Content = "$Inline{ }", Foreground = Brushes.DarkMagenta });

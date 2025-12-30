@@ -51,7 +51,7 @@ namespace Calcpad.Core
             Spline,
         ];
 
-        internal abstract int Degrees { set; }
+        internal abstract int Degrees { get; set; }
         internal bool ReturnAngleUnits { set => _returnAngleUnits = value; }
 
         // Negation = 1                                   ^  ÷  \  ⦼  *  -  +  <  >  ≤  ≥  ≡  ≠  ∧ ∨  ⊕  = ∠

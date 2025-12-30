@@ -14,9 +14,8 @@ namespace Calcpad.Core
             private IValue[] _stackBuffer = new IValue[100];
             private readonly MathParser _parser;
             private readonly Container<CustomFunction> _functions;
-            private readonly List<SolveBlock> _solveBlocks;
+            private readonly List<SolverBlock> _solveBlocks;
             private readonly Calculator _calc;
-            private readonly VectorCalculator _vectorCalc;
             private readonly MatrixCalculator _matrixCalc;
             private readonly Dictionary<string, Unit> _units;
 
@@ -26,7 +25,6 @@ namespace Calcpad.Core
                 _functions = parser._functions;
                 _solveBlocks = parser._solveBlocks;
                 _calc = parser._calc;
-                _vectorCalc = parser._vectorCalc;
                 _matrixCalc = parser._matrixCalc;
                 _units = parser._units;
             }
@@ -61,6 +59,7 @@ namespace Calcpad.Core
                         throw Exceptions.StackEmpty();
 
                     var t = rpn[i];
+                    var s = t.Content;
                     switch (t.Type)
                     {
                         case TokenTypes.Constant:
@@ -72,7 +71,7 @@ namespace Calcpad.Core
                         case TokenTypes.Input:
                             StackPush(EvaluateToken(t));
                             continue;
-                        case TokenTypes.Operator when t.Content == NegateString:
+                        case TokenTypes.Operator when s == NegateString:
                         case TokenTypes.Function:
                         case TokenTypes.VectorFunction:
                         case TokenTypes.MatrixFunction:
@@ -83,17 +82,21 @@ namespace Calcpad.Core
                             var a = StackPop();
                             StackPush(EvaluateToken(t, a));
                             continue;
-                        case TokenTypes.Operator:
-                        case TokenTypes.Function2:
-                        case TokenTypes.VectorFunction2:
-                        case TokenTypes.MatrixFunction2:
+                        case TokenTypes.Operator when s == "=":
                             if (_tos == tos)
                                 throw Exceptions.MissingOperand();
 
                             var b = StackPop();
-                            if (t.Content == "=")
-                                return EvaluateAssignment(b, rpn, isVisible);
+                            return EvaluateAssignment(b, rpn, isVisible);
+                        case TokenTypes.Operator:
+                        case TokenTypes.Function2:
+                        case TokenTypes.VectorFunction2:
+                        case TokenTypes.MatrixFunction2:
+                        case TokenTypes.MatrixIterativeFunction:
+                            if (_tos == tos)
+                                throw Exceptions.MissingOperand();
 
+                            b = StackPop();
                             if (_tos == tos)
                                 throw Exceptions.MissingOperand();
 
@@ -137,7 +140,7 @@ namespace Calcpad.Core
                             StackPush(EvaluateSolverToken(t));
                             continue;
                         default:
-                            throw Exceptions.CannotEvaluateAsType(t.Content, t.Type.GetType().GetEnumName(t.Type));
+                            throw Exceptions.CannotEvaluateAsType(s, t.Type.GetType().GetEnumName(t.Type));
                     }
                 }
                 if (_tos > tos)
@@ -153,91 +156,86 @@ namespace Calcpad.Core
                 return RealValue.Zero;
             }
 
-            private IValue EvaluateToken(Token t)
+            private IValue EvaluateToken(Token t) =>
+                t.Type switch
+                {
+                    TokenTypes.Unit => 
+                        t is ValueToken vt ? vt.Value : ((VariableToken)t).Variable.ValueByRef(),
+                    TokenTypes.Variable => 
+                        EvaluateVariableToken((VariableToken)t),
+                    TokenTypes.Vector => 
+                        t is VectorToken vt ? 
+                            vt.Vector : 
+                            EvaluateVariableToken(((VariableToken)t)),
+                    TokenTypes.Matrix => 
+                        t is MatrixToken mt ? 
+                            mt.Matrix : 
+                            EvaluateVariableToken(((VariableToken)t)),
+                    TokenTypes.Input when t.Content == "?" => 
+                        throw Exceptions.UndefinedInputField(),
+                    _ => 
+                        ((ValueToken)t).Value
+                };
+
+
+            private IValue EvaluateToken(Token t, in IValue a) =>
+                t.Type switch
+                {
+                    TokenTypes.Operator => 
+                        -a,
+                    TokenTypes.Function => 
+                        IValue.EvaluateFunction(_matrixCalc, t.Index, a),
+                    TokenTypes.VectorFunction => 
+                        VectorCalculator.EvaluateVectorFunction(t.Index, a),
+                    TokenTypes.MatrixOptionalFunction =>
+                        MatrixCalculator.EvaluateMatrixIterativeFunction(t.Index, a, RealValue.Zero, _parser.Tol),
+                    _ => // MatrixFunction
+                        t.Index == MatrixCalculator.LuIndex ?
+                            EvaluateLuDecomposition(a, _parser._variables) :
+                            MatrixCalculator.EvaluateMatrixFunction(t.Index, a)
+                };
+
+            private IValue EvaluateToken(Token t, in IValue a, in IValue b) =>
+                t.Type switch
+                {
+                    TokenTypes.Operator => 
+                        IValue.EvaluateOperator(_matrixCalc, t.Index, a, b),
+                    TokenTypes.Function2 => 
+                        IValue.EvaluateFunction2(_matrixCalc, t.Index, a, b),
+                    TokenTypes.VectorFunction2 => 
+                        VectorCalculator.EvaluateVectorFunction2(t.Index, a, b),
+                    TokenTypes.MatrixIterativeFunction =>
+                        MatrixCalculator.EvaluateMatrixIterativeFunction(t.Index, a, b, _parser.Tol),
+                    _ => //TokenTypes.MatrixFunction2
+                        MatrixCalculator.EvaluateMatrixFunction2(t.Index, a, b)
+                };
+
+            //LU decomposition
+            internal static Matrix EvaluateLuDecomposition(in IValue a, Dictionary<string, Variable> variables)
             {
-                if (t.Type == TokenTypes.Unit)
+                ref var indVariable = ref CollectionsMarshal.GetValueRefOrAddDefault(variables, "ind", out var _);
+                if (indVariable?.Value is not HpVector hpVector)
                 {
-                    if (t is ValueToken vt)
-                        return vt.Value;
-
-                    return ((VariableToken)t).Variable.ValueByRef();
+                    hpVector = new HpVector(0, 0, null);
+                    indVariable = new(hpVector);
                 }
-                if (t.Type == TokenTypes.Variable)
-                    return EvaluateVariableToken((VariableToken)t);
-
-                if (t.Type == TokenTypes.Input && t.Content == "?")
-                    throw Exceptions.UndefinedInputField();
-
-                if (t.Type == TokenTypes.Vector)
-                {
-                    if (t is VectorToken vt)
-                        return vt.Vector;
-
-                    return EvaluateVariableToken(((VariableToken)t));
-                }
-                if (t.Type == TokenTypes.Matrix)
-                {
-                    if (t is MatrixToken mt)
-                        return mt.Matrix;
-
-                    return EvaluateVariableToken(((VariableToken)t));
-                }
-                return ((ValueToken)t).Value;
+                return MatrixCalculator.LUDecomposition(a, hpVector);
             }
-
-
-            private IValue EvaluateToken(Token t, in IValue a)
-            {
-                if (t.Content == NegateString)
-                    return -a;
-
-                if (t.Type == TokenTypes.Function)
-                    return IValue.EvaluateFunction(_matrixCalc, t.Index, a);
-
-                if (t.Type == TokenTypes.VectorFunction)
-                    return _vectorCalc.EvaluateVectorFunction(t.Index, a);
-
-                if (t.Type == TokenTypes.MatrixOptionalFunction)
-                    return _matrixCalc.EvaluateMatrixFunction2(t.Index, a, RealValue.Zero);
-
-                //MatrixFunction
-                var result = _matrixCalc.EvaluateMatrixFunction(t.Index, a);
-                if (t.Index == MatrixCalculator.FunctionIndex["lu"])
-                {
-                    ref var indexes = ref CollectionsMarshal.GetValueRefOrAddDefault(_parser._variables, "ind", out var _);
-                    indexes = new(_matrixCalc.Indexes);
-                }
-                return result;
-            }
-
-            private IValue EvaluateToken(Token t, in IValue a, in IValue b)
-            {
-                if (t.Type == TokenTypes.Operator)
-                    return IValue.EvaluateOperator(_matrixCalc, t.Index, a, b);
-
-                if (t.Type == TokenTypes.Function2)
-                    return IValue.EvaluateFunction2(_matrixCalc, t.Index, a, b);
-
-                if (t.Type == TokenTypes.VectorFunction2)
-                    return _vectorCalc.EvaluateVectorFunction2(t.Index, a, b);
-
-                //MatrixFunction2
-                return _matrixCalc.EvaluateMatrixFunction2(t.Index, a, b);
-            }
-
 
             private IValue EvaluateVariableToken(VariableToken t)
             {
+                var type = t.Type;
                 var v = t.Variable;
                 if (v.IsInitialized ||
-                    t.Type == TokenTypes.Vector ||
-                    t.Type == TokenTypes.Matrix)
+                    type == TokenTypes.Vector ||
+                    type == TokenTypes.Matrix)
                     return v.Value;
 
+                var s = t.Content;
                 try
                 {
-                    if (!_units.TryGetValue(t.Content, out var u))
-                        u = Unit.Get(t.Content);
+                    if (!_units.TryGetValue(s, out var u))
+                        u = Unit.Get(s);
 
                     t.Type = TokenTypes.Unit;
                     v.SetValue(u);
@@ -245,7 +243,7 @@ namespace Calcpad.Core
                 }
                 catch
                 {
-                    throw Exceptions.UndefinedVariableOrUnits(t.Content);
+                    throw Exceptions.UndefinedVariableOrUnits(s);
                 }
             }
             private IValue EvaluateAssignment(IValue b, Token[] rpn, bool isVisible)
@@ -333,9 +331,12 @@ namespace Calcpad.Core
                        a = StackPop();
                 return t.Type switch
                 {
-                    TokenTypes.Function3 => _calc.EvaluateFunction3(t.Index, a, b, c),
-                    TokenTypes.VectorFunction3 => _vectorCalc.EvaluateVectorFunction3(t.Index, a, b, c),
-                    _ => _matrixCalc.EvaluateMatrixFunction3(t.Index, a, b, c)
+                    TokenTypes.Function3 => 
+                        _calc.EvaluateFunction3(t.Index, a, b, c),
+                    TokenTypes.VectorFunction3 => 
+                        VectorCalculator.EvaluateVectorFunction3(t.Index, a, b, c),
+                    _ => 
+                        MatrixCalculator.EvaluateMatrixFunction3(t.Index, a, b, c)
                 };
             }
 
@@ -345,7 +346,7 @@ namespace Calcpad.Core
                        c = StackPop(),
                        b = StackPop(),
                        a = StackPop();
-                return _matrixCalc.EvaluateMatrixFunction4(t.Index, a, b, c, d);
+                return MatrixCalculator.EvaluateMatrixFunction4(t.Index, a, b, c, d);
             }
 
             private IValue EvaluateFunction5Token(Token t)
@@ -355,7 +356,7 @@ namespace Calcpad.Core
                        c = StackPop(),
                        b = StackPop(),
                        a = StackPop();
-                return _matrixCalc.EvaluateMatrixFunction5(t.Index, a, b, c, d, e);
+                return MatrixCalculator.EvaluateMatrixFunction5(t.Index, a, b, c, d, e);
             }
 
             private IValue EvaluateInterpolationToken(Token t)
@@ -366,7 +367,7 @@ namespace Calcpad.Core
                     --_tos;
                     var ival = StackPop();
                     if (ival is RealValue x)
-                        return _vectorCalc.EvaluateInterpolation(t.Index, x, vec1);
+                        return VectorCalculator.EvaluateInterpolation(t.Index, x, vec1);
 
                     throw Exceptions.CannotInterpolateWithNonScalarValue();
                 }
@@ -378,7 +379,7 @@ namespace Calcpad.Core
                     {
                         ival = StackPop();
                         if (ival is RealValue y)
-                            return _matrixCalc.EvaluateInterpolation(t.Index, x, y, matrix);
+                            return MatrixCalculator.EvaluateInterpolation(t.Index, x, y, matrix);
                     }
                     throw Exceptions.CannotInterpolateWithNonScalarValue();
                 }
@@ -396,12 +397,12 @@ namespace Calcpad.Core
                         if (_stackBuffer[_tos] is Vector vec2)
                         {
                             --_tos;
-                            return _vectorCalc.EvaluateMultiFunction(t.Index, vec2);
+                            return VectorCalculator.EvaluateMultiFunction(t.Index, vec2);
                         }
                         if (_stackBuffer[_tos] is Matrix matrix)
                         {
                             --_tos;
-                            return _matrixCalc.EvaluateMultiFunction(t.Index, matrix);
+                            return MatrixCalculator.EvaluateMultiFunction(t.Index, matrix);
                         }
                     }
                     if (t.Index == Calculator.SwitchIndex)
@@ -414,10 +415,10 @@ namespace Calcpad.Core
                 }
                 var vmParams = StackPopValues(paramCount);
                 if (t.Type == TokenTypes.VectorMultiFunction)
-                    return _vectorCalc.EvaluateVectorMultiFunction(t.Index, vmParams);
+                    return VectorCalculator.EvaluateVectorMultiFunction(t.Index, vmParams);
 
                 //MatrixMultiFunction
-                return _matrixCalc.EvaluateMatrixMultiFunction(t.Index, vmParams);
+                return MatrixCalculator.EvaluateMatrixMultiFunction(t.Index, vmParams);
             }
 
             private IValue EvaluateFunctionToken(Token t, ref int tos)
@@ -730,15 +731,15 @@ namespace Calcpad.Core
 
                 if (vector is HpVector hpv)
                 {
+                    if (u is null && hpv.Units is null)
+                        return null;
+
                     RealValue value = new(1d, hpv.Units);
                     var result = ApplyUnits(ref value, u);
                     var d = value.D;
                     if (d != 1d)
-                    {
-                        var row = hpv.Raw;
-                        for (int i = vector.Size - 1; i >= 0; --i)
-                            row[i] *= d;
-                    }
+                        hpv.Scale(d);
+
                     hpv.Units = result;
                     return result;
                 }

@@ -10,21 +10,21 @@ namespace Calcpad.Core
         internal delegate IValue MatrixFunction(in IValue a);
         internal delegate IValue MatrixFunction2(in IValue a, in IValue b);
         internal delegate IValue MatrixFunction3(Matrix A, in IValue b, in IValue c);
+        internal delegate IValue MatrixIterativeFunction(in IValue a, in IValue b, double tol);
         internal delegate IValue MatrixFunction4(Matrix A, in IValue b, in IValue c, in IValue d);
         internal delegate IValue MatrixFunction5(Matrix A, in IValue b, in IValue c, in IValue d, in IValue e);
 
+        private Calculator _calc;
         private readonly VectorCalculator _vectorCalc;
-        private readonly Calculator _calc;
-        private readonly MatrixFunction[] MatrixFunctions;
-        private readonly MatrixFunction2[] MatrixFunctions2;
-        private readonly MatrixFunction3[] MatrixFunctions3;
-        private readonly MatrixFunction4[] MatrixFunctions4;
-        private readonly MatrixFunction5[] MatrixFunctions5;
-        private readonly Func<IValue[], Matrix>[] MatrixMultiFunctions;
-        private readonly Func<Matrix, RealValue>[] MultiFunctions;
-        private readonly Func<RealValue, RealValue, Matrix, RealValue>[] Interpolations;
-        private Vector _indexes;
-        internal MathParser Parser;
+        private static readonly MatrixFunction[] MatrixFunctions;
+        private static readonly MatrixFunction2[] MatrixFunctions2;
+        private static readonly MatrixFunction3[] MatrixFunctions3;
+        private static readonly MatrixIterativeFunction[] MatrixIterativeFunctions;
+        private static readonly MatrixFunction4[] MatrixFunctions4;
+        private static readonly MatrixFunction5[] MatrixFunctions5;
+        private static readonly Func<IValue[], Matrix>[] MatrixMultiFunctions;
+        private static readonly Func<Matrix, RealValue>[] MultiFunctions;
+        private static readonly Func<RealValue, RealValue, Matrix, RealValue>[] Interpolations;
        
         internal static readonly FrozenDictionary<string, int> FunctionIndex =
         new Dictionary<string, int>()
@@ -56,20 +56,20 @@ namespace Calcpad.Core
             { "inverse", 22 },
             { "adj", 23 },
             { "cofactor", 24 },
-            { "lu", 25 },
-            { "qr", 26 },
-            { "svd", 27 },
-            { "cholesky", 28 },
-            { "identity_hp", 29 },
-            { "utriang_hp", 30 },
-            { "ltriang_hp", 31 },
-            { "symmetric_hp", 32 },
-            { "hp", 33 },
-            { "ishp", 34 },
-            { "getunits", 35 },
-            { "clrunits", 36 },
-            { "fft", 37 },
-            { "ift", 38 },
+            { "qr", 25 },
+            { "svd", 26 },
+            { "cholesky", 27 },
+            { "identity_hp", 28 },
+            { "utriang_hp", 29 },
+            { "ltriang_hp", 30 },
+            { "symmetric_hp", 31 },
+            { "hp", 32 },
+            { "ishp", 33 },
+            { "getunits", 34 },
+            { "clrunits", 35 },
+            { "fft", 36 },
+            { "ift", 37 },
+            { "lu", 38 },
         }.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
 
         internal static readonly FrozenDictionary<string, int> Function2Index =
@@ -101,24 +101,31 @@ namespace Calcpad.Core
             { "mfind_ge", 23 },
             { "lsolve", 24 },
             { "clsolve", 25 },
-            { "slsolve", 26 },
-            { "msolve", 27 },
-            { "cmsolve", 28 },
-            { "smsolve", 29 },
-            { "hprod", 30 },
-            { "fprod", 31 },
-            { "kprod", 32 },
-            { "eigenvals", 33 },
-            { "eigenvecs", 34 },
-            { "eigen", 35 },
-            { "matrix_hp", 36 },
-            { "diagonal_hp", 37 },
-            { "column_hp", 38 },
-            { "setunits", 39 },
+            { "msolve", 26 },
+            { "cmsolve", 27 },
+            { "hprod", 28 },
+            { "fprod", 29 },
+            { "kprod", 30 },
+            { "matrix_hp", 31 },
+            { "diagonal_hp", 32 },
+            { "column_hp", 33 },
+            { "setunits", 34 },
+        }.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
+
+        internal static readonly int LuIndex = FunctionIndex["lu"];
+
+        internal static readonly FrozenDictionary<string, int> IterativeFunctionIndex =
+        new Dictionary<string, int>()
+        {
+            { "slsolve", 0 },
+            { "smsolve", 1 },
+            { "eigenvals", 2 },
+            { "eigenvecs", 3 },
+            { "eigen", 4 },
         }.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
 
         private static readonly FrozenSet<int> FunctionsWithOptionalLastParameter =
-            new HashSet<int>() { 33, 34, 35 }.ToFrozenSet();
+            new HashSet<int>() { 2, 3, 4 }.ToFrozenSet();
 
         internal static bool IsLastParameterOptional(int i) => 
             FunctionsWithOptionalLastParameter.Contains(i);
@@ -172,7 +179,12 @@ namespace Calcpad.Core
         {
             _vectorCalc = vectorCalc;
             _calc = _vectorCalc.Calculator;
+        }
 
+        internal void SetCalculator(Calculator calc) => _calc = calc;
+
+        static MatrixCalculator()
+        {
             MatrixFunctions = [
                 Identity,               //0
                 UpperTriangular,        //1
@@ -199,20 +211,19 @@ namespace Calcpad.Core
                 Invert,                 //22
                 Adjoint,                //23
                 Cofactor,               //24
-                LUDecomposition,        //25
-                QRDecomposition,        //26
-                SVDDecomposition,       //27
-                CholeskyDecomposition,  //28
-                IdentityHp,             //29
-                UpperTriangularHp,      //30
-                LowerTriangularHp,      //31
-                SymmetricHp,            //32
-                Hp,                     //33
-                IsHp,                   //34
-                GetUnits,               //35
-                ClrUnits,               //36
-                Fft,                    //37
-                Ift,                   //38
+                QRDecomposition,        //25
+                SVDDecomposition,       //26
+                CholeskyDecomposition,  //27
+                IdentityHp,             //28
+                UpperTriangularHp,      //29
+                LowerTriangularHp,      //30
+                SymmetricHp,            //31
+                Hp,                     //32
+                IsHp,                   //33
+                GetUnits,               //34
+                ClrUnits,               //35
+                Fft,                    //36
+                Ift,                    //37
             ];
 
             MatrixFunctions2 = [
@@ -242,20 +253,23 @@ namespace Calcpad.Core
                 FindGe,                 //23
                 LSolve,                 //24
                 ClSolve,                //25
-                SlSolve,                //26
-                MSolve,                 //27
-                CmSolve,                //28
-                SmSolve,                //29
-                Hadamard,               //30
-                Frobenius,              //31
-                Kronecker,              //32
-                EigenValues,            //33
-                EigenVectors,           //34
-                Eigen,                  //35
-                CreateHp,               //36
-                DiagonalHp,             //37
-                ColumnHp,               //38       
-                SetUnits,               //3
+                MSolve,                 //26
+                CmSolve,                //27
+                Hadamard,               //28
+                Frobenius,              //29
+                Kronecker,              //30
+                CreateHp,               //31
+                DiagonalHp,             //32
+                ColumnHp,               //33      
+                SetUnits,               //34
+            ];
+
+            MatrixIterativeFunctions = [
+                SlSolve,                //0
+                SmSolve,                //1
+                EigenValues,            //2
+                EigenVectors,           //3
+                Eigen,                  //4
             ];
 
             MatrixFunctions3 = [
@@ -320,47 +334,53 @@ namespace Calcpad.Core
         }
         internal Calculator Calculator => _calc;
         internal VectorCalculator VectorCalculator => _vectorCalc;
-        internal Vector Indexes => _indexes;
         internal static bool IsFunction(string name) => FunctionIndex.ContainsKey(name);
         internal static bool IsFunction2(string name) => Function2Index.ContainsKey(name);
         internal static bool IsFunction3(string name) => Function3Index.ContainsKey(name);
+        internal static bool IsIterativeFunction(string name) => IterativeFunctionIndex.ContainsKey(name);
         internal static bool IsFunction4(string name) => Function4Index.ContainsKey(name);
         internal static bool IsFunction5(string name) => Function5Index.ContainsKey(name);
         internal static bool IsMultiFunction(string name) => MultiFunctionIndex.ContainsKey(name);
-        internal IValue EvaluateMatrixFunction(long index, in IValue a) =>
+        internal static IValue EvaluateMatrixFunction(long index, in IValue a) =>
             MatrixFunctions[index](a);
 
-        internal IValue EvaluateMatrixFunction2(long index, in IValue a, in IValue b) =>
+        internal static IValue EvaluateMatrixFunction2(long index, in IValue a, in IValue b) =>
             MatrixFunctions2[index](a, b);
 
-        internal IValue EvaluateMatrixFunction3(long index, in IValue a, in IValue b, in IValue c) =>
+        internal static IValue EvaluateMatrixFunction3(long index, in IValue a, in IValue b, in IValue c) =>
             MatrixFunctions3[index](IValue.AsMatrix(a), b, c);
 
-        internal IValue EvaluateMatrixFunction4(long index, in IValue a, in IValue b, in IValue c, in IValue d) =>
+        internal static IValue EvaluateMatrixFunction4(long index, in IValue a, in IValue b, in IValue c, in IValue d) =>
             MatrixFunctions4[index](IValue.AsMatrix(a), b, c, d);
 
-        internal IValue EvaluateMatrixFunction5(long index, in IValue a, in IValue b, in IValue c, in IValue d, in IValue e) =>
+        internal static IValue EvaluateMatrixFunction5(long index, in IValue a, in IValue b, in IValue c, in IValue d, in IValue e) =>
             MatrixFunctions5[index](IValue.AsMatrix(a), b, c, d, e);
 
-        internal IValue EvaluateMatrixMultiFunction(long index, IValue[] a) =>
+        internal static IValue EvaluateMatrixIterativeFunction(long index,in IValue a, in IValue b, double tol) =>
+            MatrixIterativeFunctions[index](a, b , tol);
+
+        internal static IValue EvaluateMatrixMultiFunction(long index, IValue[] a) =>
             MatrixMultiFunctions[index](a);
 
-        internal MatrixFunction GetFunction(long index) =>
+        internal static MatrixFunction GetFunction(long index) =>
             MatrixFunctions[index];
 
-        internal MatrixFunction2 GetFunction2(long index) =>
+        internal static MatrixFunction2 GetFunction2(long index) =>
             MatrixFunctions2[index];
 
-        internal MatrixFunction3 GetFunction3(long index) =>
+        internal static MatrixFunction3 GetFunction3(long index) =>
             MatrixFunctions3[index];
 
-        internal MatrixFunction4 GetFunction4(long index) =>
+        internal static MatrixFunction4 GetFunction4(long index) =>
             MatrixFunctions4[index];
 
-        internal MatrixFunction5 GetFunction5(long index) =>
+        internal static MatrixFunction5 GetFunction5(long index) =>
             MatrixFunctions5[index];
 
-        internal Func<Vector[], Matrix> GetMultiFunction(long index) =>
+        internal static MatrixIterativeFunction GetIterativeFunction(long index) =>
+            MatrixIterativeFunctions[index];
+
+        internal static Func<Vector[], Matrix> GetMultiFunction(long index) =>
             MatrixMultiFunctions[index];
 
         internal Matrix EvaluateOperator(long index, Matrix a, in RealValue b) =>
@@ -399,10 +419,10 @@ namespace Calcpad.Core
             HpMatrix.EvaluateOperator(_calc.GetFunction2(index), a, hp_m, -index - 1) :
             Matrix.EvaluateOperator(_calc.GetFunction2(index), a, b, -index - 1);
 
-        internal IValue EvaluateMultiFunction(long index, Matrix a) =>
+        internal static IValue EvaluateMultiFunction(long index, Matrix a) =>
             MultiFunctions[index](a);
 
-        internal IValue EvaluateInterpolation(long index, RealValue a, RealValue b, Matrix c) =>
+        internal static IValue EvaluateInterpolation(long index, RealValue a, RealValue b, Matrix c) =>
             Interpolations[index](a, b, c);
 
         private static DiagonalMatrix Identity(in IValue n) => new(IValue.AsInt(n), RealValue.One);
@@ -565,13 +585,12 @@ namespace Calcpad.Core
         private static Matrix Invert(in IValue M) => IValue.AsMatrix(M).Invert();
         private static Matrix Adjoint(in IValue M) => IValue.AsMatrix(M).Adjoint();
         private static Matrix Cofactor(in IValue M) => IValue.AsMatrix(M).Cofactor();
-        private Vector EigenValues(in IValue M, in IValue count)
+        private static Vector EigenValues(in IValue M, in IValue count, double tol)
         {
-            var matrix = IValue.AsMatrix(M);
             var n = (int)IValue.AsReal(count).D;
-            return matrix switch
+            return M switch
             {
-                HpSymmetricMatrix hp_sm => hp_sm.EigenValues(n, Parser.Tol),
+                HpSymmetricMatrix hp_sm => hp_sm.EigenValues(n, tol),
                 HpDiagonalMatrix hp_dm => hp_dm.EigenValues(n),
                 SymmetricMatrix sm => sm.EigenValues(n),
                 DiagonalMatrix dm => dm.EigenValues(n),
@@ -579,13 +598,12 @@ namespace Calcpad.Core
             };
         }
 
-        private Matrix EigenVectors(in IValue M, in IValue count)
+        private static Matrix EigenVectors(in IValue M, in IValue count, double tol)
         {
-            var matrix = IValue.AsMatrix(M);
             var n = (int)IValue.AsReal(count).D;
-            return matrix switch
+            return M switch
             {
-                HpSymmetricMatrix hp_sm => hp_sm.EigenVectors(n, Parser.Tol),
+                HpSymmetricMatrix hp_sm => hp_sm.EigenVectors(n, tol),
                 HpDiagonalMatrix hp_dm => hp_dm.EigenVectors(n),
                 SymmetricMatrix sm => sm.EigenVectors(n),
                 DiagonalMatrix dm => dm.EigenVectors(n),
@@ -593,13 +611,12 @@ namespace Calcpad.Core
             };
         }
 
-        private Matrix Eigen(in IValue M, in IValue count)
+        private static Matrix Eigen(in IValue M, in IValue count, double tol)
         {
-            var matrix = IValue.AsMatrix(M);
             var n = (int)IValue.AsReal(count).D;
-            return matrix switch
+            return M switch
             {
-                HpSymmetricMatrix hp_sm => hp_sm.Eigen(n, Parser.Tol),
+                HpSymmetricMatrix hp_sm => hp_sm.Eigen(n, tol),
                 HpDiagonalMatrix hp_dm => hp_dm.Eigen(n),
                 SymmetricMatrix sm => sm.Eigen(n),
                 DiagonalMatrix dm => dm.Eigen(n),
@@ -607,13 +624,13 @@ namespace Calcpad.Core
             };
         }
 
-        private Matrix LUDecomposition(in IValue M)
+        internal static Matrix LUDecomposition(in IValue M, HpVector indexes)
         {
-            var LU = IValue.AsMatrix(M).LUDecomposition(out var indexes);
-            _indexes = Vector.FromIndexes(indexes);
-
+            var LU = IValue.AsMatrix(M).LUDecomposition(out var v);
+            indexes.SetValues(v);
             return LU;
         }
+
         private static Matrix QRDecomposition(in IValue M) => IValue.AsMatrix(M).QRDecomposition();
         private static Matrix SVDDecomposition(in IValue M) => IValue.AsMatrix(M).SVDDecomposition();
         private static Matrix CholeskyDecomposition(in IValue M)
@@ -697,15 +714,15 @@ namespace Calcpad.Core
             throw Exceptions.MatrixMustBeSymmetric();
         }
 
-        private Vector SlSolve(in IValue A, in IValue B)
+        private static HpVector SlSolve(in IValue a, in IValue B, double tol)
         {
-            var a = IValue.AsMatrixHp(A);
+            var A = IValue.AsMatrixHp(a);
             var b = IValue.AsVectorHp(B);
-            if (a.RowCount != b.Length)
+            if (A.RowCount != b.Length)
                 throw Exceptions.MatrixDimensions();
 
-            if (a is HpSymmetricMatrix sm)
-                return sm.SlSolve(b, Parser.Tol);
+            if (A is HpSymmetricMatrix sm)
+                return sm.SlSolve(b, tol);
 
             throw Exceptions.MatrixMustBeSymmetric();
         }
@@ -747,15 +764,15 @@ namespace Calcpad.Core
             throw Exceptions.MatrixMustBeSymmetric();
         }
 
-        private HpMatrix SmSolve(in IValue A, in IValue B)
+        private static HpMatrix SmSolve(in IValue a, in IValue b, double tol)
         {
-            var a = IValue.AsMatrixHp(A);
-            var b = IValue.AsMatrixHp(B);
-            if (a.RowCount != b.RowCount)
+            var A = IValue.AsMatrixHp(a);
+            var B = IValue.AsMatrixHp(b);
+            if (A.RowCount != B.RowCount)
                 throw Exceptions.MatrixDimensions();
 
-            if (a is HpSymmetricMatrix sm)
-                return sm.SmSolve(b, Parser.Tol);
+            if (A is HpSymmetricMatrix sm)
+                return sm.SmSolve(B, tol);
 
             throw Exceptions.MatrixMustBeSymmetric();
         }

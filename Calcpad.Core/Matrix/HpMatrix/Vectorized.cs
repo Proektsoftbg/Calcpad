@@ -12,7 +12,7 @@ namespace Calcpad.Core
         {
             var len = x.Length;
             var nv = 0;
-            if (len > 0)
+            if (len > 15)
             {
                 var vx = MemoryMarshal.Cast<double, SN.Vector<double>>(x);
                 var vd = new SN.Vector<double>(d);
@@ -66,7 +66,7 @@ namespace Calcpad.Core
                 z[i] = x[i] * y[i];
         }
 
-        internal static double SumAbs(Span<double> sv, int l, int m)
+         internal static double SumAbs(Span<double> sv, int l, int m)
         {
             var len = m - l;
             if (len <= 0)
@@ -78,9 +78,9 @@ namespace Calcpad.Core
             if (len > 15)
             {
                 var va = MemoryMarshal.Cast<double, SN.Vector<double>>(sa);
-                var vb = va[0];
                 nv = va.Length;
-                for (int i = 1; i < nv; ++i)
+                var vb = SN.Vector<double>.Zero;
+                for (int i = 0; i < nv; ++i)
                     vb += SN.Vector.Abs(va[i]);
 
                 sum = SN.Vector.Sum(vb);
@@ -101,17 +101,16 @@ namespace Calcpad.Core
             var sum = 0d;
             var sa = sv.Slice(l, len);
             var nv = 0;
-            var inv = 1d / scale;
             if (len > 15)
             {
                 var va = MemoryMarshal.Cast<double, SN.Vector<double>>(sa);
                 var vb = SN.Vector<double>.Zero;
-                var vs = new SN.Vector<double>(inv);
+                var vs = new SN.Vector<double>(scale);
                 nv = va.Length;
                 for (int i = 0; i < nv; ++i)
                 {
-                    va[i] = va[i] * vs;
-                    var va_i = va[i];
+                    var va_i = va[i] / vs;
+                    va[i] = va_i;
                     vb += va_i * va_i;
                 }
                 sum += SN.Vector.Sum(vb);
@@ -119,7 +118,7 @@ namespace Calcpad.Core
             }
             for (int i = nv; i < len; ++i)
             {
-                var v_j = sa[i] * inv;
+                var v_j = sa[i] / scale;
                 sa[i] = v_j;
                 sum += v_j * v_j;
             }

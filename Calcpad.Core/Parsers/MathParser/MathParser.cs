@@ -20,13 +20,15 @@ namespace Calcpad.Core
         private readonly StringBuilder _stringBuilder = new();
         private readonly MathSettings _settings;
         private Token[] _rpn;
-        private readonly List<SolveBlock> _solveBlocks = [];
+        private readonly List<SolverBlock> _solveBlocks = [];
         private readonly Container<CustomFunction> _functions = new();
         private readonly Dictionary<string, Variable> _variables = new(StringComparer.Ordinal);
         private readonly Dictionary<string, Unit> _units = new(StringComparer.Ordinal);
         private readonly Input _input;
         private readonly Evaluator _evaluator;
-        private readonly Calculator _calc;
+        private Calculator _calc;
+        private readonly RealCalculator _realCalc;
+        private readonly ComplexCalculator _complexCalc;
         private readonly VectorCalculator _vectorCalc;
         private readonly MatrixCalculator _matrixCalc;
         private readonly Solver _solver;
@@ -79,7 +81,7 @@ namespace Calcpad.Core
         internal bool Split { get; set; }
         internal bool ShowWarnings { get; set; } = true;
         internal bool Phasor { get; set; } = false;
-        public int Degrees { set => _calc.Degrees = value; }
+        public int Degrees { get => _calc.Degrees;  set => _calc.Degrees = value; }
         internal int PlotWidth => (int)GetSettingsVariable("PlotWidth", 500);
         internal int PlotHeight => (int)GetSettingsVariable("PlotHeight", 300);
         internal double PlotSVG => GetSettingsVariable("PlotSVG", double.NaN);
@@ -114,14 +116,16 @@ namespace Calcpad.Core
         {
             _settings = settings;
             InitVariables();
+            _realCalc = new RealCalculator();
+            _complexCalc = new ComplexCalculator();
             if (_settings.IsComplex)
-                _calc = new ComplexCalculator();
+                _calc = _complexCalc; 
             else
-                _calc = new RealCalculator();
+                _calc = _realCalc;
 
+            _calc.Degrees = settings.Degrees;
             _vectorCalc = new VectorCalculator(_calc);
-            _matrixCalc = new MatrixCalculator(_vectorCalc) { Parser = this };
-            Degrees = settings.Degrees;
+            _matrixCalc = new MatrixCalculator(_vectorCalc);
             _solver = new Solver
             {
                 IsComplex = _settings.IsComplex
@@ -130,6 +134,23 @@ namespace Calcpad.Core
             _evaluator = new Evaluator(this);
             _compiler = new Compiler(this);
             _output = new Output(this);
+        }
+
+        internal void SetComplex(bool isComplex)
+        {
+            if (isComplex != _settings.IsComplex)
+            {
+                _settings.IsComplex = isComplex;
+                var degrees = _calc.Degrees;
+                if (isComplex)
+                    _calc = _complexCalc;
+                else
+                    _calc = _realCalc;
+                _calc.Degrees = degrees;
+                _solver.IsComplex = isComplex;
+                _vectorCalc.SetCalculator(_calc);
+                _matrixCalc.SetCalculator(_calc);
+            }
         }
 
         public void SaveAnswer()

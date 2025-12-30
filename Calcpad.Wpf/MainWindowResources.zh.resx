@@ -822,7 +822,7 @@
     <value>矩阵M的行数</value>
   </data>
   <data name="NumberOfColumnsInMatrixM" xml:space="preserve">
-    <value>矩阵M的列数</value>
+    <value>理查森外推数值微分法</value>
   </data>
   <data name="SetsNewDimensionsMAndNForMatrixM" xml:space="preserve">
     <value>设置矩阵M的新维数m和n</value>
@@ -1148,7 +1148,10 @@
   <data name="Select_All" xml:space="preserve">
     <value>全选</value>
   </data>
-<data name="ConditionalLoopExpressionBlock" xml:space="preserve">
+  <data name="ConditionalLoopExpressionBlock" xml:space="preserve">
     <value>条件型循环表达式块</value>
+  </data>
+  <data name="ComplexStepDifferentiation" xml:space="preserve">
+    <value>复步微分法</value>
   </data>
 </root>

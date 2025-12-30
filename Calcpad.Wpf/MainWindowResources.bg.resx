@@ -273,7 +273,7 @@
     <value>Числено интегриране (Tanh-Sinh квадратура)</value>
   </data>
   <data name="NumericalDifferentiation" xml:space="preserve">
-    <value>Числено диференциране</value>
+    <value>Числено диференциране с екстраполация на Ричардсън</value>
   </data>
   <data name="IterativeExprBlockWithCounter" xml:space="preserve">
     <value>Обща итеративна процедура</value>
@@ -1150,5 +1150,8 @@
   </data>
   <data name="ConditionalLoopExpressionBlock" xml:space="preserve">
     <value>Итеративен блок от изрази с условие</value>
+  </data>
+  <data name="ComplexStepDifferentiation" xml:space="preserve">
+    <value>Диференциране с комплексна стъпка</value>
   </data>
 </root>

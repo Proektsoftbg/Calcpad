@@ -176,23 +176,38 @@ namespace Calcpad.Core
         protected override HpMatrix Copy()
         {
             var M = new HpMatrix(_rowCount, _colCount, _units);
-            if (_type == MatrixType.Full || _type == MatrixType.LowerTriangular)
+            if (_type == MatrixType.Full)
             {
                 if (_rowCount > ParallelThreshold)
                     Parallel.For(0, _rowCount, i => M._hpRows[i] = _hpRows[i].Copy());
                 else
                     for (int i = 0; i < _rowCount; ++i) M._hpRows[i] = _hpRows[i].Copy();
             }
+            else if (_type == MatrixType.LowerTriangular)
+            {
+                if (_rowCount > ParallelThreshold)
+                    Parallel.For(0, _rowCount, CopyRow1);
+                else
+                    for (int i = 0; i < _rowCount; ++i) 
+                        CopyRow1(i);
+            }
             else
             {
                 if (_rowCount > ParallelThreshold)
-                    Parallel.For(0, _rowCount, CopyRow);
+                    Parallel.For(0, _rowCount, CopyRow2);
                 else
-                    for (int i = _rowCount - 1; i >= 0; --i) CopyRow(i);
+                    for (int i = _rowCount - 1; i >= 0; --i) CopyRow2(i);
             }
             return M;
 
-            void CopyRow(int i)
+            void CopyRow1(int i)
+            {
+                var row = _hpRows[i].Copy();
+                row.Resize(_colCount);
+                M._hpRows[i] = row;
+            }
+
+            void CopyRow2(int i)
             {
                 var row = M._hpRows[i];
                 for (int j = _colCount - 1; j >= 0; --j)
@@ -206,9 +221,9 @@ namespace Calcpad.Core
             if (_type == MatrixType.Full || _type == MatrixType.LowerTriangular)
             {
                 if (_rowCount > ParallelThreshold)
-                    Parallel.For(0, _rowCount, i => M[i] = _hpRows[i].RawCopy());
+                    Parallel.For(0, _rowCount, i => M[i] = _hpRows[i].RawCopy(_colCount));
                 else
-                    for (int i = 0; i < _rowCount; ++i) M[i] = _hpRows[i].RawCopy();
+                    for (int i = 0; i < _rowCount; ++i) M[i] = _hpRows[i].RawCopy(_colCount);
             }
             else
             {
@@ -2047,8 +2062,13 @@ namespace Calcpad.Core
             var m = a._hpRows.Length;
             var sum = 0d;
             if (m > ParallelThreshold)
+            {
+                var rowSums = new double[m];
                 Parallel.For(0, m, i =>
-                    sum += HpVector.RawDotProduct(a._hpRows[i], b._hpRows[i]));
+                    rowSums[i] = HpVector.RawDotProduct(a._hpRows[i], b._hpRows[i]));
+
+                sum = rowSums.Sum();
+            }
             else
                 for (int i = m - 1; i >= 0; --i)
                     sum += HpVector.RawDotProduct(a._hpRows[i], b._hpRows[i]);
@@ -2094,11 +2114,7 @@ namespace Calcpad.Core
             if (this is HpColumnMatrix cm)
                 return cm._hpRows[index].Copy();
 
-            var col = new HpVector(_rowCount, _units);
-            for (int i = _rowCount - 1; i >= 0; --i)
-                col.SetValue(GetValue(i, index), i);
-
-            return col;
+            return new HpVector(RawCol(index), _units);
         }
 
         internal double[] RawCol(int index)
@@ -2363,11 +2379,16 @@ namespace Calcpad.Core
         internal override RealValue Count(RealValue value)
         {
             var count = 0;
-            if (_type == MatrixType.Full || _type == MatrixType.LowerTriangular)
+            if (_type == MatrixType.Full || _type == MatrixType.LowerTriangular || !value.Equals(RealValue.Zero))
             {
                 if (_rowCount > ParallelThreshold)
+                {
+                    var rowCounts = new double[_rowCount];
                     Parallel.For(0, _rowCount, i =>
-                        count += (int)_hpRows[i].Count(value, 1).D);
+                        rowCounts[i] = _hpRows[i].Count(value, 1).D);
+
+                    count = (int)rowCounts.Sum();
+                }
                 else
                     for (int i = 0; i < _rowCount; ++i)
                         count += (int)_hpRows[i].Count(value, 1).D;
@@ -2382,8 +2403,13 @@ namespace Calcpad.Core
 
                 var d = value.D * Unit.Convert(Units, value.Units, ',');
                 if (_rowCount > ParallelThreshold)
+                {
+                    var rowCounts = new double[_rowCount];
                     Parallel.For(0, _rowCount, i =>
-                        count += CountRow(i, d));
+                       rowCounts[i] = CountRow(i, d));
+
+                    count = (int)rowCounts.Sum();
+                }
                 else
                     for (int i = 0; i < _rowCount; ++i)
                         count += CountRow(i, d);
@@ -2559,13 +2585,25 @@ namespace Calcpad.Core
 
         internal override RealValue Min()
         {
+            var len = _hpRows.Length;    
             var min = _hpRows[0].Min().D;
-            for (int i = 1, len = _hpRows.Length; i < len; ++i)
+            if (len > ParallelThreshold)
             {
-                var b = _hpRows[i].Min().D;
-                if (b < min)
-                    min = b;
+                var rowMins = new double[len];
+                rowMins[0] = min;
+                Parallel.For(1, len, i =>
+                    rowMins[i] = _hpRows[i].Min().D);
+
+                min = rowMins.Min();
             }
+            else
+                for (int i = 1; i < len; ++i)
+                {
+                    var rowMin = _hpRows[i].Min().D;
+                    if (rowMin < min)
+                        min = rowMin;
+                }
+
             if (!IsStructurallyConsistentType && min > 0)
                 min = 0;
 
@@ -2574,13 +2612,25 @@ namespace Calcpad.Core
 
         internal override RealValue Max()
         {
+            var len = _hpRows.Length;
             var max = _hpRows[0].Max().D;
-            for (int i = 1, len = _hpRows.Length; i < len; ++i)
+            if (len > ParallelThreshold)
             {
-                var b = _hpRows[i].Max().D;
-                if (b > max)
-                    max = b;
+                var rowMaxs = new double[len];
+                rowMaxs[0] = max;
+                Parallel.For(1, len, i =>
+                    rowMaxs[i] = _hpRows[i].Max().D);
+
+                max = rowMaxs.Max();
             }
+            else
+                for (int i = 1; i < len; ++i)
+                {
+                    var b = _hpRows[i].Max().D;
+                    if (b > max)
+                        max = b;
+                }
+
             if (!IsStructurallyConsistentType && max < 0)
                 max = 0;
 
@@ -2589,18 +2639,40 @@ namespace Calcpad.Core
 
         internal override RealValue Sum()
         {
+            var len = _hpRows.Length;
             var sum = _hpRows[0].Sum().D;
-            for (int i = 1, len = _hpRows.Length; i < len; ++i)
-                sum += _hpRows[i].Sum().D;
+            if (len > ParallelThreshold)
+            {
+                var rowSums = new double[len];
+                rowSums[0] = sum;
+                Parallel.For(1, len, i =>
+                    rowSums[i] = _hpRows[i].Sum().D);
+
+                sum = rowSums.Sum();
+            }
+            else
+                for (int i = 1; i < len; ++i)
+                    sum += _hpRows[i].Sum().D;
 
             return new(sum, _units);
         }
 
         internal override RealValue SumSq()
         {
+            var len = _hpRows.Length;
             var sumsq = _hpRows[0].SumSq().D;
-            for (int i = 1, len = _hpRows.Length; i < len; ++i)
-                sumsq += _hpRows[i].SumSq().D;
+            if (len > ParallelThreshold)
+            {
+                var rowSumsq = new double[len];
+                rowSumsq[0] = sumsq;
+                Parallel.For(1, len, i =>
+                    rowSumsq[i] = _hpRows[i].SumSq().D);
+
+                sumsq = rowSumsq.Sum();
+            }
+            else
+                for (int i = 1; i < len; ++i)
+                    sumsq += _hpRows[i].SumSq().D;
 
             return new(sumsq, _units?.Pow(2f));
         }
@@ -2620,9 +2692,20 @@ namespace Calcpad.Core
             if (!IsStructurallyConsistentType)
                 return new(0d, u);
 
+            var len = _hpRows.Length;
             var product = _hpRows[0].Product().D;
-            for (int i = 1, len = _hpRows.Length; i < len; ++i)
-                product *= _hpRows[i].Product().D;
+            if (len > ParallelThreshold)
+            {
+                var rowProducts = new double[len];
+                rowProducts[0] = product;
+                Parallel.For(1, len, i =>
+                    rowProducts[i] = _hpRows[i].Product().D);
+
+                product = new HpVector(rowProducts, null).Product().D;
+            }
+            else
+                for (int i = 1; i < len; ++i)
+                    product *= _hpRows[i].Product().D;
 
             return new(product, u);
         }
@@ -2835,11 +2918,14 @@ namespace Calcpad.Core
         {
             var norm = Col(1).L1Norm().D;
             if (_colCount > ParallelThreshold)
+            {
+                var colNorms = new double[_colCount];
+                colNorms[0] = norm;
                 Parallel.For(1, _colCount, j =>
-                {
-                    var colNorm = Col(j + 1).L1Norm().D;
-                    if (colNorm > norm) norm = colNorm;
-                });
+                    colNorms[j] = Col(j + 1).L1Norm().D);
+
+                norm = colNorms.Max();
+            }
             else
                 for (int j = 1; j < _colCount; ++j)
                 {
@@ -2861,11 +2947,14 @@ namespace Calcpad.Core
             var norm = _hpRows[0].L1Norm().D;
             var len = _hpRows.Length;
             if (len > ParallelThreshold)
+            {
+                var rowNorms = new double[len];
+                rowNorms[0] = norm;
                 Parallel.For(1, len, i =>
-                {
-                    var rowNorm = _hpRows[i].L1Norm().D;
-                    if (rowNorm > norm) norm = rowNorm;
-                });
+                    rowNorms[i] = _hpRows[i].L1Norm().D);
+
+                norm = rowNorms.Max();
+            }
             else
                 for (int i = 1; i < len; ++i)
                 {

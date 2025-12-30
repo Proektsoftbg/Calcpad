@@ -153,10 +153,7 @@ namespace Calcpad.Core
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static double Sqr(in double x) => x * x;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static double Hypot(in double a, in double b)
+        internal static double Hypot(double a, double b)
         {
             var a1 = Math.Abs(a);
             var b1 = Math.Abs(b);
@@ -165,5 +162,8 @@ namespace Calcpad.Core
             else
                 return b1 == 0d ? 0d : b1 * Math.Sqrt(1d + Sqr(a1 / b1));
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static double Sqr(double x) => x * x;
     }
 }

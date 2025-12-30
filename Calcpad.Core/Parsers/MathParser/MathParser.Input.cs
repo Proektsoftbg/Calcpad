@@ -15,7 +15,7 @@ namespace Calcpad.Core
             private readonly MathParser _parser;
             private readonly bool _isComplex;
             private readonly Container<CustomFunction> _functions;
-            private readonly List<SolveBlock> _solveBlocks;
+            private readonly List<SolverBlock> _solveBlocks;
             private readonly Dictionary<string, Variable> _variables;
             private readonly Stack<Dictionary<string, Variable>> _localVariables = new();
             private readonly Dictionary<string, Unit> _units;
@@ -93,7 +93,7 @@ namespace Calcpad.Core
             {
                 var tokens = new Queue<Token>(expression.Length);
                 var pt = TokenTypes.None;
-                var st = SolveBlock.SolverTypes.None;
+                var st = SolverBlock.SolverTypes.None;
                 var isSolver = false;
                 var isInput = false;
                 var isSubscript = false;
@@ -243,11 +243,12 @@ namespace Calcpad.Core
                                             t.Type == TokenTypes.VectorFunction3 ||
                                             t.Type == TokenTypes.VectorMultiFunction ||
                                             t.Type == TokenTypes.MatrixFunction && !t.Content.EndsWith("units", StringComparison.OrdinalIgnoreCase) ||
-                                            t.Type == TokenTypes.MatrixOptionalFunction ||
                                             t.Type == TokenTypes.MatrixFunction2 && !t.Content.EndsWith("units", StringComparison.OrdinalIgnoreCase) ||
                                             t.Type == TokenTypes.MatrixFunction3 ||
                                             t.Type == TokenTypes.MatrixFunction4 ||
                                             t.Type == TokenTypes.MatrixFunction5 ||
+                                            t.Type == TokenTypes.MatrixOptionalFunction ||
+                                            t.Type == TokenTypes.MatrixIterativeFunction ||
                                             t.Type == TokenTypes.MatrixMultiFunction ||
                                             t.Type == TokenTypes.Array))
                                         throw Exceptions.ComplexVectorsAndMatricesNotSupported();
@@ -336,7 +337,7 @@ namespace Calcpad.Core
                                         _parser._assignmentIndex = count;
                                     }
                                 }
-                                if (tt == TokenTypes.SquareBracketLeft && _isComplex)
+                                else if (tt == TokenTypes.SquareBracketLeft && _isComplex)
                                     throw Exceptions.ComplexVectorsAndMatricesNotSupported();
 
                                 t = new Token(c.ToString(), tt);
@@ -351,7 +352,7 @@ namespace Calcpad.Core
                 if (!isSolver)
                     return tokens;
 
-                if (st == SolveBlock.SolverTypes.None)
+                if (st == SolverBlock.SolverTypes.None)
                     throw Exceptions.MissingLeftSolverBracket();
 
                 throw Exceptions.MissingRightSolverBracket();
@@ -374,8 +375,8 @@ namespace Calcpad.Core
                                 if (bracketCounter == 0)
                                 {
                                     var s = ts.Cut();
-                                    st = SolveBlock.GetSolverType(s);
-                                    if (st == SolveBlock.SolverTypes.Error)
+                                    st = SolverBlock.GetSolverType(s);
+                                    if (st == SolverBlock.SolverTypes.Error)
                                         throw Exceptions.InvalidSolver(s.ToString());
 
                                     ts.Reset(i + 1);
@@ -394,7 +395,7 @@ namespace Calcpad.Core
                                         Index = AddSolver(ts.ToString(), st)
                                     };
                                     tokens.Enqueue(t);
-                                    st = SolveBlock.SolverTypes.None;
+                                    st = SolverBlock.SolverTypes.None;
                                     isSolver = false;
                                 }
                                 else
@@ -581,6 +582,11 @@ namespace Calcpad.Core
                     return new Token(s, TokenTypes.MatrixFunction5)
                     {
                         Index = MatrixCalculator.Function5Index[s]
+                    };
+                if (MatrixCalculator.IsIterativeFunction(s))
+                    return new Token(s, TokenTypes.MatrixIterativeFunction)
+                    {
+                        Index = MatrixCalculator.IterativeFunctionIndex[s]
                     };
                 if (MatrixCalculator.IsMultiFunction(s))
                     return new FunctionToken(s)
@@ -830,9 +836,6 @@ namespace Calcpad.Core
                             stackBuffer.Push(t);
                             break;
                         case TokenTypes.Function:
-                        case TokenTypes.VectorFunction:
-                        case TokenTypes.MatrixFunction:
-                        case TokenTypes.MatrixOptionalFunction:
                             if (t.Content == "!")
                             {
                                 while (stackBuffer.Count != 0)
@@ -848,6 +851,8 @@ namespace Calcpad.Core
                             else
                                 stackBuffer.Push(t);
                             break;
+                        case TokenTypes.VectorFunction:
+                        case TokenTypes.MatrixFunction:
                         case TokenTypes.Function2:
                         case TokenTypes.Function3:
                         case TokenTypes.MultiFunction:
@@ -859,6 +864,8 @@ namespace Calcpad.Core
                         case TokenTypes.MatrixFunction3:
                         case TokenTypes.MatrixFunction4:
                         case TokenTypes.MatrixFunction5:
+                        case TokenTypes.MatrixIterativeFunction:
+                        case TokenTypes.MatrixOptionalFunction:
                         case TokenTypes.MatrixMultiFunction:
                         case TokenTypes.CustomFunction:
                             stackBuffer.Push(t);
@@ -934,10 +941,10 @@ namespace Calcpad.Core
                 return [.. output];
             }
 
-            private int AddSolver(string script, SolveBlock.SolverTypes st)
+            private int AddSolver(string script, SolverBlock.SolverTypes st)
             {
                 ++_parser._isSolver;
-                _solveBlocks.Add(new SolveBlock(script, st, _parser));
+                _solveBlocks.Add(new SolverBlock(script, st, _parser));
                 --_parser._isSolver;
                 return _solveBlocks.Count - 1;
             }

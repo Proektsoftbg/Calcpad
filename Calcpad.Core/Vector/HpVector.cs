@@ -128,13 +128,11 @@ namespace Calcpad.Core
             _values = values;
             _length = _values.Length;
             for (int i = _length - 1; i >= 0; --i)
-            {
                 if (_values[i] != 0d)
                 {
                     _size = i + 1;
                     return;
                 }
-            }
         }
 
         internal HpVector(RealValue[] values)
@@ -197,9 +195,12 @@ namespace Calcpad.Core
             return vector;
         }
 
-        internal double[] RawCopy()
+        internal double[] RawCopy(int length = -1)
         {
-            var vector = new double[_length];
+            if (length < 0)
+                length = _length;
+
+            var vector = new double[length];
             _values.AsSpan(0, _size).CopyTo(vector);
             return vector;
         }
@@ -1599,6 +1600,70 @@ namespace Calcpad.Core
             return vector;
         }
 
+        internal static bool TryJoin(IValue[] items, int len, out HpVector result)
+        {
+            var n = items.Length;
+            var units = items[0] switch
+            {
+                HpVector v => v.Units,
+                RealValue rv => rv.Units,
+                HpMatrix m => m.Units,
+                _ => null
+            };
+            var factors = new double[n];
+            factors[0] = 1;
+            for (int i = 1; i < n; ++i)
+            {
+                var u = items[i] switch
+                {
+                    HpVector v => v.Units,
+                    RealValue rv => rv.Units,
+                    HpMatrix m => m.Units,
+                    _ => null
+                };
+                if (!Unit.IsConsistent(u, units))
+                {
+                    result = null;
+                    return false;
+                }
+                factors[i] = units is null ? 1d : u.ConvertTo(units);
+            }
+            var values = new double[len];
+            var index = 0;
+            for (int k = 0; k < n; ++k)
+            {
+                var item = items[k];
+                if (item is RealValue real)
+                {
+                    values[index] = real.D * factors[k];
+                    ++index;
+                }
+                else if (item is HpVector vector)
+                {
+                    var d = factors[k];
+                    var size = vector.Size;
+                    var vv = vector._values.AsSpan(0, size);
+                    if (d == 1d)
+                        vv.CopyTo(values.AsSpan(index, size));
+                    else
+                        for (int i = 0; i < size; ++i)
+                            values[i] = vv[i] * d;
+
+                    index += vector.Length;
+                }
+                else if (item is HpMatrix matrix)
+                {
+                    var N = matrix.ColCount;
+                    var d = factors[k];
+                    for (int i = 0; i < matrix.RowCount; ++i)
+                        for (int j = 0; j < N; ++j)
+                            values[index++] = matrix.GetValue(i, j) * d;
+                }
+            }
+            result = new HpVector(values, units);
+            return true;
+        }
+
         internal override HpVector Slice(int start, int end)
         {
             if (start > end)
@@ -1889,7 +1954,7 @@ namespace Calcpad.Core
 
         internal override HpVector Normalize() => this / Norm();
 
-        internal static new HpVector FromIndexes(IEnumerable<int> indexes)
+        internal static HpVector FromIndexes(IEnumerable<int> indexes)
         {
             var n = indexes.Count();
             var vector = new HpVector(n, n, null);
@@ -2215,6 +2280,16 @@ namespace Calcpad.Core
             }
             for (int i = nv; i < _size; ++i)
                 _values[i] *= d;
+        }
+
+        internal void SetValues(int[] indexes)
+        {
+            _length = indexes.Length;
+            _size = _length;
+            _capacity = _length;
+            _values = new double[_length];
+            for(int i = 0; i < _length; ++i)
+                _values[i] = indexes[i];
         }
     }
 }

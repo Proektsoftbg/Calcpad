@@ -46,6 +46,7 @@ namespace Calcpad.Core
         internal override int Degrees
         {
             set => _degrees = value;
+            get => _degrees;
         }
 
         public RealCalculator()

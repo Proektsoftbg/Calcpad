@@ -274,7 +274,7 @@ You can find your unsaved data in
         <value>Tanh-Sinh Integration</value>
     </data>
   <data name="NumericalDifferentiation" xml:space="preserve">
-        <value>Numerical Differentiation</value>
+        <value>Numerical Differentiation by Richardson extrapolation</value>
     </data>
   <data name="IterativeExprBlockWithCounter" xml:space="preserve">
         <value>Iterative expr. block with counter</value>
@@ -1151,5 +1151,8 @@ You can find your unsaved data in
   </data>
   <data name="ConditionalLoopExpressionBlock" xml:space="preserve">
     <value>Conditional loop expression block</value>
+  </data>
+  <data name="ComplexStepDifferentiation" xml:space="preserve">
+    <value>Complex step differentiation</value>
   </data>
 </root>

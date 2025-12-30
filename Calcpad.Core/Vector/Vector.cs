@@ -1405,7 +1405,7 @@ namespace Calcpad.Core
             return vector;
         }
 
-        internal virtual Vector Order(bool reverse = false) => FromIndexes(GetOrderIndexes(reverse));
+        internal virtual HpVector Order(bool reverse = false) => HpVector.FromIndexes(GetOrderIndexes(reverse));
 
         internal virtual int[] GetOrderIndexes(bool reverse)
         {
@@ -1491,17 +1491,24 @@ namespace Calcpad.Core
         {
             var n = items.Length;
             var len = 0;
+            var isHp = true;
             for (int i = 0; i < n; ++i)
-            {
-                if (items[i] is Vector vector)
+            {   var item = items[i];
+                if (item is Vector vector)
                     len += vector.Length;
-                else if (items[i] is RealValue)
+                else if (item is RealValue)
                     len += 1;
-                else if (items[i] is Matrix matrix)
+                else if (item is Matrix matrix)
                     len += matrix.ColCount * matrix.RowCount;
+
+                if (isHp && !(item is HpMatrix or HpVector or RealValue))
+                    isHp = false;
             }
             if (len > MaxLength)
                 throw Exceptions.VectorSizeLimit();
+
+            if (isHp && HpVector.TryJoin(items, len, out var result))
+                return result;
 
             var values = new RealValue[len];
             var index = 0;
@@ -1574,8 +1581,8 @@ namespace Calcpad.Core
             return RealValue.Zero;
         }
 
-        internal virtual Vector FindAll(RealValue value, int start, Relation rel) =>
-            FromIndexes(FindAllIndexes(value, start, rel));
+        internal virtual HpVector FindAll(RealValue value, int start, Relation rel) =>
+            HpVector.FromIndexes(FindAllIndexes(value, start, rel));
 
         internal Vector Lookup(Vector dest, RealValue value, Relation rel)
         {
@@ -1754,19 +1761,6 @@ namespace Calcpad.Core
         }
 
         internal virtual Vector Normalize() => this / Norm();
-
-        internal static Vector FromIndexes(IEnumerable<int> indexes)
-        {
-            var n = indexes.Count();
-            var vector = new Vector(n);
-            var i = 0;
-            foreach (var index in indexes)
-            {
-                vector[i] = new(index + 1);
-                ++i;
-            }
-            return vector;
-        }
 
         internal virtual RealValue Min()
         {

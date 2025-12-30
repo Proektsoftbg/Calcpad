@@ -154,6 +154,8 @@ namespace Calcpad.Core
                 if (_hpRows[0].GetValue(i) == 0d)
                     throw Exceptions.MatrixSingular();
         }
+        internal override RealValue L1Norm() => _hpRows[0].InfNorm();
+
 
         //L∞ (Infinity) or Chebyshev norm     
         internal override RealValue InfNorm() => _hpRows[0].InfNorm();

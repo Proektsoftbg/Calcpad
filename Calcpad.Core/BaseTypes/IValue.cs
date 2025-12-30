@@ -702,9 +702,9 @@ namespace Calcpad.Core
                 {
                     var x = sx.AsReal();
                     if (values.Length == 2 && values[1] is Vector vector)
-                        return calc.VectorCalculator.EvaluateInterpolation(index, x, vector);
+                        return VectorCalculator.EvaluateInterpolation(index, x, vector);
                     if (values.Length == 3 && values[1] is IScalarValue sy && sy.IsReal && values[2] is Matrix matrix)
-                        return calc.EvaluateInterpolation(index, sy.AsReal(), x, matrix);
+                        return MatrixCalculator.EvaluateInterpolation(index, sy.AsReal(), x, matrix);
                 }
             }
             else
@@ -717,10 +717,11 @@ namespace Calcpad.Core
         {
             if (values.Length == 1)
             {
-                if (values[0] is Vector vector)
-                    return calc.VectorCalculator.EvaluateMultiFunction(index, vector);
-                if (values[0] is Matrix matrix)
-                    return calc.EvaluateMultiFunction(index, matrix);
+                ref var value = ref values[0];
+                if (value is Vector vector)
+                    return VectorCalculator.EvaluateMultiFunction(index, vector);
+                if (value is Matrix matrix)
+                    return MatrixCalculator.EvaluateMultiFunction(index, matrix);
             }
             else if (index == Calculator.SwitchIndex)
                 return EvaluateSwitch(values);
@@ -832,7 +833,6 @@ namespace Calcpad.Core
 
                 return new ColumnMatrix(vec);
             }
-
             throw Exceptions.MustBeMatrix(item);
         }
 

@@ -45,8 +45,9 @@ namespace Calcpad.Core
                 {TokenTypes.MatrixFunction3, 3 },
                 {TokenTypes.MatrixFunction4, 3 },
                 {TokenTypes.MatrixFunction5, 3 },
-                {TokenTypes.MatrixMultiFunction, 3 },
+                {TokenTypes.MatrixIterativeFunction, 3 },
                 {TokenTypes.MatrixOptionalFunction, 3 },
+                {TokenTypes.MatrixMultiFunction, 3 },
                 {TokenTypes.CustomFunction, 3 },
                 {TokenTypes.BracketLeft, 4 },
                 {TokenTypes.BracketRight, 5 },
@@ -108,9 +109,10 @@ namespace Calcpad.Core
                     {
                         case TokenTypes.Function2:
                         case TokenTypes.VectorFunction2:
+                        case TokenTypes.MatrixFunction2:
                             --countOfDivisors;
                             break;
-                        case TokenTypes.MatrixFunction2:
+                        case TokenTypes.MatrixIterativeFunction:
                             if (MatrixCalculator.IsLastParameterOptional((int)t.Index))
                                 optionalFunctionStack.Push(new MultiFunctionStackItem(t, countOfBrackets, countOfDivisors));
 

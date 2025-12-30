@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Office2016.Drawing.Command;
+using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -8,7 +9,7 @@ namespace Calcpad.Core
 {
     public partial class MathParser
     {
-        private sealed class SolveBlock
+        private sealed class SolverBlock
         {
             internal enum SolverTypes
             {
@@ -20,6 +21,7 @@ namespace Calcpad.Core
                 Area,
                 Integral,
                 Slope,
+                Derivative,
                 Repeat,
                 While,
                 Sum,
@@ -38,6 +40,7 @@ namespace Calcpad.Core
                 { "$area", SolverTypes.Area },
                 { "$integral", SolverTypes.Integral },
                 { "$slope", SolverTypes.Slope },
+                { "$derivative", SolverTypes.Derivative },
                 { "$repeat", SolverTypes.Repeat },
                 { "$while", SolverTypes.While },
                 { "$sum", SolverTypes.Sum },
@@ -55,6 +58,7 @@ namespace Calcpad.Core
                 "$inf",
                 "∫",
                 "∫",
+                "d/dt",
                 "d/dt",
                 "$Repeat",
                 "$While",
@@ -76,7 +80,7 @@ namespace Calcpad.Core
             internal event Action OnChange;
             internal IValue Result { get; private set; }
             internal bool IsFigure { get; private set; }
-            internal SolveBlock(string script, SolverTypes type, MathParser parser)
+            internal SolverBlock(string script, SolverTypes type, MathParser parser)
             {
                 Script = script;
                 _type = type;
@@ -122,7 +126,7 @@ namespace Calcpad.Core
             private SolverItem[] ParseSolver(string script)
             {
                 var n = 3;
-                if (_type == SolverTypes.Slope)
+                if (_type == SolverTypes.Slope || _type == SolverTypes.Derivative)
                     n = 2;
 
                 const string delimiters = "@=:";
@@ -415,8 +419,13 @@ namespace Calcpad.Core
                     Result = _f();
                     return Result;
                 }
-                ++_parser._isSolver;
                 var x1 = IValue.AsReal((_a?.Invoke() ?? _va));
+                if (_type == SolverTypes.Derivative)
+                {
+                    Result = Derivative(x1);
+                    return Result;
+                }
+
                 var x2 = RealValue.Zero;
                 var y = 0d;
                 var ux1 = x1.Units;
@@ -459,6 +468,7 @@ namespace Calcpad.Core
                 solver.Units = null;
                 IValue result = RealValue.NaN;
                 double d = 0d;
+                ++_parser._isSolver;
                 try
                 {
                     switch (_type)
@@ -547,6 +557,27 @@ namespace Calcpad.Core
                 return Result;
             }
 
+            private IValue Derivative(RealValue value)
+            {
+                var isReal = !_parser._settings.IsComplex;
+                var h = 1e-20;
+                var x = new ComplexValue(value.D, h, value.Units);
+                IValue result;
+                _var.SetValue(x);
+                if (isReal)
+                {
+                    _parser.SetComplex(true);
+                    result = _f();
+                    _parser.SetComplex(false);
+                }
+                else
+                    result = _f();
+
+                var resultValue = IValue.AsValue(result, Exceptions.Items.Result);
+                var complexValue = resultValue.AsComplex();
+                return new RealValue(complexValue.B / h, complexValue.Units / value.Units);
+            }
+
             internal string ToHtml(bool formatEquations)
             {
                 var len = _items.Length;
@@ -582,10 +613,13 @@ namespace Calcpad.Core
                             _items[0].Html
                             );
 
-                    if (_type == SolverTypes.Slope)
+                    if (_type == SolverTypes.Slope || _type == SolverTypes.Derivative)
                     {
-                        return writer.FormatDivision("<em>d</em>", $"<em>d</em>\u200A{_items[1].Html}", 0) +
-                            writer.AddBrackets(_items[0].Html, 1) +
+                        return writer.AddBrackets(
+                            string.Concat(
+                                writer.FormatDivision("<em>d</em>", $"<em>d</em>\u200A{_items[1].Html}", 0),
+                                "&nbsp;",
+                                _items[0].Html), 1,' ','|') +
                             $"<span class=\"low\"><em>{_items[1].Input}</em>\u200A=\u200A{_items[2].Html}</span>";
                     }
                 }
@@ -616,7 +650,7 @@ namespace Calcpad.Core
                     sb.Append("; ");
 
                 sb.Append(_items[1].Html);
-                if (_type == SolverTypes.Repeat || _type == SolverTypes.Slope)
+                if (_type == SolverTypes.Repeat || _type == SolverTypes.Slope || _type == SolverTypes.Derivative)
                 {
                     sb.Append(" = ").Append(_items[2].Html);
                     if (_type == SolverTypes.Repeat)
@@ -668,10 +702,11 @@ namespace Calcpad.Core
                         _items[0].Xml
                         );
 
-                if (_type == SolverTypes.Slope)
+                if (_type == SolverTypes.Slope || _type == SolverTypes.Derivative)
                 {
-                    return writer.FormatDivision(XmlWriter.Run("d"), $"{XmlWriter.Run("d")}{_items[1].Xml}", 0) +
-                        writer.FormatSubscript(writer.AddBrackets(_items[0].Xml, 1),
+                    return writer.FormatSubscript(writer.AddBrackets(
+                        writer.FormatDivision(XmlWriter.Run("d"), $"{XmlWriter.Run("d")}{_items[1].Xml}", 0) +
+                            _items[0].Xml, 1, ' ', '|'),
                         $"{XmlWriter.Run(_items[1].Input)}{XmlWriter.Run("\u2009=\u2009")}{_items[2].Xml}");
                 }
                 var sb = new StringBuilder();
@@ -704,7 +739,7 @@ namespace Calcpad.Core
                     sb.Append(XmlWriter.Run(";"));
 
                 sb.Append(_items[1].Xml);
-                if (_type == SolverTypes.Repeat || _type == SolverTypes.Slope)
+                if (_type == SolverTypes.Repeat || _type == SolverTypes.Slope || _type == SolverTypes.Derivative)
                 {
                     sb.Append(XmlWriter.Run("=")).Append(_items[2].Xml);
                     if (_type == SolverTypes.Repeat)
@@ -768,7 +803,7 @@ namespace Calcpad.Core
                         sb.Append(" = 0");
                 }
                 sb.Append("; ").Append(_items[1].Input);
-                if (_type == SolverTypes.Slope)
+                if (_type == SolverTypes.Slope || _type == SolverTypes.Derivative)
                     sb.Append(" = ")
                         .Append(_items[2].Input)
                         .Append('}');

@@ -25,30 +25,6 @@ namespace Calcpad.Core
                     BindingFlags.Static | BindingFlags.NonPublic
                 );
 
-            private static readonly MethodInfo EvaluateVectorFunctionMethod =
-                typeof(VectorCalculator).GetMethod(
-                    nameof(VectorCalculator.EvaluateVectorFunction),
-                    BindingFlags.Instance | BindingFlags.NonPublic,
-                    Type.DefaultBinder,
-                    [
-                        typeof(int),
-                        typeof(IValue).MakeByRefType()
-                    ],
-                    null
-                );
-
-            private static readonly MethodInfo EvaluateMatrixFunctionMethod =
-                typeof(MatrixCalculator).GetMethod(
-                    nameof(MatrixCalculator.EvaluateMatrixFunction),
-                    BindingFlags.Instance | BindingFlags.NonPublic,
-                    Type.DefaultBinder,
-                    [
-                        typeof(int),
-                        typeof(IValue).MakeByRefType()
-                    ],
-                    null
-                );
-
             private static readonly MethodInfo EvaluateOperatorMethod =
                 typeof(IValue).GetMethod(
                     nameof(IValue.EvaluateOperator),
@@ -67,72 +43,10 @@ namespace Calcpad.Core
                     BindingFlags.Static | BindingFlags.NonPublic
                 );
 
-            private static readonly MethodInfo EvaluateVectorFunction2Method =
-                typeof(VectorCalculator).GetMethod(
-                    nameof(VectorCalculator.EvaluateVectorFunction2),
-                    BindingFlags.Instance | BindingFlags.NonPublic,
-                    Type.DefaultBinder,
-                    [
-                        typeof(int),
-                        typeof(IValue).MakeByRefType(),
-                        typeof(IValue).MakeByRefType()
-                    ],
-                    null
-                );
-
-            private static readonly MethodInfo EvaluateMatrixFunction2Method =
-                typeof(MatrixCalculator).GetMethod(
-                    nameof(MatrixCalculator.EvaluateMatrixFunction2),
-                    BindingFlags.Instance | BindingFlags.NonPublic,
-                    Type.DefaultBinder,
-                    [
-                        typeof(int),
-                        typeof(IValue).MakeByRefType(),
-                        typeof(IValue).MakeByRefType()
-                    ],
-                    null
-                );
-
-            private static readonly MethodInfo EvaluateVectorFunction3Method =
-                typeof(VectorCalculator).GetMethod(
-                    nameof(VectorCalculator.EvaluateVectorFunction3),
-                    BindingFlags.Instance | BindingFlags.NonPublic
-                );
-
-            private static readonly MethodInfo EvaluateMatrixFunction3Method =
-                typeof(MatrixCalculator).GetMethod(
-                    nameof(MatrixCalculator.EvaluateMatrixFunction3),
-                    BindingFlags.Instance | BindingFlags.NonPublic
-                );
-
-            private static readonly MethodInfo EvaluateMatrixFunction4Method =
-                typeof(MatrixCalculator).GetMethod(
-                    nameof(MatrixCalculator.EvaluateMatrixFunction4),
-                    BindingFlags.Instance | BindingFlags.NonPublic
-                );
-
-            private static readonly MethodInfo EvaluateMatrixFunction5Method =
-                typeof(MatrixCalculator).GetMethod(
-                    nameof(MatrixCalculator.EvaluateMatrixFunction5),
-                    BindingFlags.Instance | BindingFlags.NonPublic
-                );
-
             private static readonly MethodInfo EvaluateMultiFunctionMethod =
                 typeof(IValue).GetMethod(
                     nameof(IValue.EvaluateMultiFunction),
                     BindingFlags.Static | BindingFlags.NonPublic
-                );
-
-            private static readonly MethodInfo EvaluateVectorMultiFunctionMethod =
-                typeof(VectorCalculator).GetMethod(
-                    nameof(VectorCalculator.EvaluateVectorMultiFunction),
-                    BindingFlags.Instance | BindingFlags.NonPublic
-                );
-
-            private static readonly MethodInfo EvaluateMatrixMultiFunctionMethod =
-                typeof(MatrixCalculator).GetMethod(
-                    nameof(MatrixCalculator.EvaluateMatrixMultiFunction),
-                    BindingFlags.Instance | BindingFlags.NonPublic
                 );
 
             private static readonly MethodInfo EvaluateInterpolationMethod =
@@ -193,8 +107,8 @@ namespace Calcpad.Core
                 );
 
             private static readonly MethodInfo CalculateMethod =
-                typeof(SolveBlock).GetMethod(
-                    nameof(SolveBlock.Calculate),
+                typeof(SolverBlock).GetMethod(
+                    nameof(SolverBlock.Calculate),
                     BindingFlags.Instance | BindingFlags.NonPublic
                 );
 
@@ -207,6 +121,12 @@ namespace Calcpad.Core
             private static readonly MethodInfo AsValueMethod =
                 typeof(IValue).GetMethod(
                     nameof(IValue.AsValue),
+                    BindingFlags.Static | BindingFlags.NonPublic
+                );
+
+            private static readonly MethodInfo AsMatrixMethod =
+                typeof(IValue).GetMethod(
+                    nameof(IValue.AsMatrix),
                     BindingFlags.Static | BindingFlags.NonPublic
                 );
 
@@ -255,6 +175,12 @@ namespace Calcpad.Core
             private static readonly MethodInfo ThrowInfiniteLoopMethod =
                 typeof(Exceptions).GetMethod(
                     nameof(Exceptions.InfiniteLoop),
+                    BindingFlags.Static | BindingFlags.NonPublic
+                );
+
+            private static readonly MethodInfo LuDecompositionMethod =
+                typeof(MatrixCalculator).GetMethod(
+                    nameof(MatrixCalculator.LUDecomposition),
                     BindingFlags.Static | BindingFlags.NonPublic
                 );
         }

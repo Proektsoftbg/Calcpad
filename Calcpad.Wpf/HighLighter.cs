@@ -496,6 +496,7 @@ namespace Calcpad.Wpf
             "$area",
             "$integral",
             "$slope",
+            "$derivative",
             "$repeat",
             "$while",
             "$sum",
