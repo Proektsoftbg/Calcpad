@@ -1647,9 +1647,9 @@ Excel
         </ol>
 
         <h4>数值微分</h4>
-        <p style="margin-left: 2em;"><code><span class="cond">$Slope</span>{<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var>}</code></p>
-        <p style="margin-left: 2em;"><code><span class="cond">"$Derivative</span>{<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var>}</code></p>
-        <p>它找到函数<b>f</b>(<var>x</var>)在<var>x</var>=<var>a</var>处的一阶导数值.导数表示函数在相应点的切线斜率.使用两点模板的Richardson外推法.</p>
+        <p>该函数求实函数<b>f</b>(<var>x</var>)在指定点<var>x</var> = <var>a</var>的一阶导数. 导数即函数在点 <var>a</var>的切线斜率. 在Calcpad中用户可以采用两种方法:
+        <p style="margin-left: 2em;"><code><span class="cond">$Slope</span>{<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var>}</code>:采用带<a href="https://royalsocietypublishing.org/doi/pdf/10.1098/rsta.1911.0009"> Richardson外插</a>的对称2点有限差分.该方法在指定精度<var>Precision</var>范围内计算导数.函数必须局部连续、平滑且在<var>a</var>的邻域内可导. 该方法也可以包含其他数值方法.一般有限差分法容易导致由于接近值之间的减法造成的浮点舍入误差. 即便Richardson外插可以显著地改善该问题,但对不规则函数的精度依然有限.</p>
+        <p style="margin-left: 2em;"><code><span class="cond">$Derivative</span>{<b>f</b>(<var>x</var>) &#64; <var>x</var> = <var>a</var>}</code>:采用复数(<a href="https://epubs.siam.org/doi/abs/10.1137/0704019">Lyness and Moler</a>)分步法. 其通过使用以下方程:<var>f</var>&thinsp;′(<var>a</var>) = <b>Im</b>(&thinsp;<var>f</var>&thinsp;(<var>a</var>+<var>ih</var>))/<var>h</var>从而以接近机器精度(10<sup>&hairsp;-15</sup> ~10<sup>&hairsp;-16&hairsp;</sup>)计算导数, 其中<var>i</var>为虚部单位,<var>h</var> = 10<sup>-20</sup>.函数在复平面中必须全纯(holomorphic),即无穷可导且局部等于其泰勒展开. 与 <code class="cond">$Slope</code>不同, 该方法不能包含其他数值方法且只能通过解析表达式定义. 这限制了该方法的可应用性,但是当有要求时，如果可能用户应尽可能用该函数而非<code class="cond">$Slope</code> 以获得更高精度.</p>
 
         <h4>一般性考虑</h4>
         <p>与绘图命令不同,你可以在表达式中包含数值方法.它们返回可用于进一步计算的值.例如,你可以将结果存储到一个变量中:</p>

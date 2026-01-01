@@ -23,7 +23,7 @@ x = vector(n)', '$Repeat{x.k = sum(first(l; k)) @ k = 1 : n}
 'Bending moments
 '- in section <em>a</em> due to unit force at distance <em>x</em> from the beginning of the beam:
 M_1,max(x) = (x/L - 1)*x
-M_1,a(a; x) = M_1,max(x)*if(a < x; a/x; (L - a)/(L - x))
+M_1,a(a; x) = M_1,max(x)*switch(a < x; a/x; a ≡ x; 1; (L - a)/(L - x))
 '- in section <em>a</em>, due to unit force <em>X</em><sub>i</sub>:
 M_1(a; i) = M_1,a(a; x.i)
 #hide
@@ -76,7 +76,7 @@ V_min
 d_1(a; i) = $Area{M_1,a(x; a)*M_1(x; i)/(E*I) @ x = 0m : L} + $Area{V_1,a(x; a)*V_1(x; i)/(G*A_Q) @ x = 0m : L}|m/kN
 '- due to external loads in primary system:
 d_F(a) = $Area{M_1,a(x; a)*M_F(x)/(E*I) @ x = 0m : L} + $Area{V_1,a(x; a)*V_F(x)/(G*A_Q) @ x = 0m : L}
-d(x) = d_F(x) + $Sum{d_1(x; i)*X.i @ i = 1 : n_1}|mm
+d(a) = d_F(a) + $Sum{d_1(a; i)*X.i @ i = 1 : n_1}|mm
 $Plot{d(x) @ x = 0m : L}
 'Maximum deflection -'d_max = $inf{d(x) @ x = 0m : L}|mm
 'At a distance from the origin -'x_inf
