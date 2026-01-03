@@ -526,8 +526,8 @@ namespace Calcpad.Core
         {
             var m = L.Length;
             int s0 = -1;
-            ReadOnlySpan<double> sx = ReadOnlySpan<double>.Empty;
-            ReadOnlySpan<SN.Vector<double>> vx = ReadOnlySpan<SN.Vector<double>>.Empty;
+            ReadOnlySpan<double> sx = [];
+            ReadOnlySpan<SN.Vector<double>> vx = [];
             //Forward substitution. Solves L * y = v, storing y in x
             for (int i = 0; i < m; ++i)
             {

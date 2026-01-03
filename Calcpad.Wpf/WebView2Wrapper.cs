@@ -180,7 +180,7 @@ printWindow.print();
         internal async void ClipboardCopyAsync()
         {
             if (await InvokeScriptAsync<bool>("window.getSelection().toString().length > 0"))
-                _wv2.ExecuteScriptAsync("document.execCommand('copy');");
+                await _wv2.ExecuteScriptAsync("document.execCommand('copy');");
             else
             {
                 var dataObject = new DataObject();

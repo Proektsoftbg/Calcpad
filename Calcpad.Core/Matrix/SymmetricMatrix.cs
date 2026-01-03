@@ -234,8 +234,8 @@ namespace Calcpad.Core
             {
                 var M_j = I._rows[j];
                 var col = result[j];
-                for (int i = j; i >= 0 ; --i)
-                    M_j[i] = col[i - j];
+                for (int i = m - 1; i >= j; --i)
+                    M_j[i - j] = col[i - j];
             }
             return I;
         }
