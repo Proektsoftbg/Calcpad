@@ -2381,16 +2381,17 @@ namespace Calcpad.Core
             var count = 0;
             if (_type == MatrixType.Full || _type == MatrixType.LowerTriangular || !value.Equals(RealValue.Zero))
             {
-                if (_rowCount > ParallelThreshold)
+                var len = _hpRows.Length;
+                if (len > ParallelThreshold)
                 {
-                    var rowCounts = new double[_rowCount];
-                    Parallel.For(0, _rowCount, i =>
+                    var rowCounts = new double[len];
+                    Parallel.For(0, len, i =>
                         rowCounts[i] = _hpRows[i].Count(value, 1).D);
 
                     count = (int)rowCounts.Sum();
                 }
                 else
-                    for (int i = 0; i < _rowCount; ++i)
+                    for (int i = 0; i < len; ++i)
                         count += (int)_hpRows[i].Count(value, 1).D;
             }
             else
@@ -2689,6 +2690,7 @@ namespace Calcpad.Core
         {
             var n = _rowCount * _colCount;
             var u = _units?.Pow(n);
+
             if (!IsStructurallyConsistentType)
                 return new(0d, u);
 

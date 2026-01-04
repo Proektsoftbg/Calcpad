@@ -1,6 +1,6 @@
 ﻿namespace Calcpad.Tests
 {
-    public class HPVectorComparison
+    public class HPVectorComparisonLarge
     {
         #region HPVectorOperators
 
@@ -16,21 +16,21 @@
             "check = count(r; 0; 1) ≡ 0"
         ];
 
-        private static string[] FunctionTestHelper(string s) => [
+        private static string[] FunctionTestHelper(string f) => [
             "n = 1000",
             "a = random(fill(vector(n); 1))",
-            $"c = {s}(a)",
-            $"c_hp = {s}(hp(a))",
+            $"c = {f}(a)",
+            $"c_hp = {f}(hp(a))",
             "r = c ≡ c_hp",
             "check = count(r; 0; 1) ≡ 0"
         ];
 
-        private static string[] ScalarTestHelper(string s) => [
+        private static string[] ScalarTestHelper(string f) => [
             "n = 1000",
             "a = random(fill(vector(n); 1))",
-            $"c = {s}(a)",
-            $"c_hp = {s}(hp(a))",
-            "r = c ≡ c_hp" 
+            $"c = {f}(a)",
+            $"c_hp = {f}(hp(a))",
+            "r = abs(c - c_hp) ≤ 10^-14*abs(c)"
         ];
 
 
@@ -376,13 +376,15 @@
         public void HPVectorRoot()
         {
             var calc = new TestCalc(new());
-            var result = calc.Run(["n = 1000",
-                      "nth = 100",
-                      "a = random(fill(vector(n); 1))",
-                      "c = root(a; nth)",
-                      "c_hp = root(hp(a); nth)",
-                      "r = c ≡ c_hp",
-                      "check = count(r; 0; 1) ≡ 0"]);
+            var result = calc.Run([
+                "n = 1000",
+                "nth = 100",
+                "a = random(fill(vector(n); 1))",
+                "c = root(a; nth)",
+                "c_hp = root(hp(a); nth)",
+                "r = c ≡ c_hp",
+                "check = count(r; 0; 1) ≡ 0"
+            ]);
             Assert.Equal(1, result);
         }
 
@@ -447,11 +449,7 @@
         public void HPVectorSum()
         {
             var calc = new TestCalc(new());
-            var result = calc.Run(["n = 1000",
-                      "a = random(fill(vector(n); 1))",
-                      "c = sum(a)",
-                      "c_hp = sum(hp(a))",
-                      "abs(c - c_hp) < 10^-12*abs(c)"]);
+            var result = calc.Run(ScalarTestHelper("sum"));
             Assert.Equal(1, result);
         }
 
@@ -460,11 +458,7 @@
         public void HPVectorSumsq()
         {
             var calc = new TestCalc(new());
-            var result = calc.Run(["n = 1000",
-                      "a = random(fill(vector(n); 1))",
-                      "c = sumsq(a)",
-                      "c_hp = sumsq(hp(a))",
-                      "abs(c - c_hp) < 10^-12*abs(c)"]);
+            var result = calc.Run(ScalarTestHelper("sumsq"));
             Assert.Equal(1, result);
         }
 
@@ -473,11 +467,7 @@
         public void HPVectorSrss()
         {
             var calc = new TestCalc(new());
-            var result = calc.Run(["n = 1000",
-                      "a = random(fill(vector(n); 1))",
-                      "c = srss(a)",
-                      "c_hp = srss(hp(a))",
-                      "abs(c - c_hp) < 10^-12*abs(c)"]);
+            var result = calc.Run(ScalarTestHelper("srss"));
             Assert.Equal(1, result);
         }
 
@@ -486,11 +476,7 @@
         public void HPVectorAverage()
         {
             var calc = new TestCalc(new());
-            var result = calc.Run(["n = 1000",
-                      "a = random(fill(vector(n); 1))",
-                      "c = average(a)",
-                      "c_hp = average(hp(a))",
-                      "abs(c - c_hp) < 10^-12*abs(c)"]);
+            var result = calc.Run(ScalarTestHelper("average"));
             Assert.Equal(1, result);
         }
 
@@ -589,11 +575,7 @@
         public void HPVectorNorm1()
         {
             var calc = new TestCalc(new());
-            var result = calc.Run(["n = 1000",
-                      "a = random(fill(vector(n); 1))",
-                      "c = norm_1(a)",
-                      "c_hp = norm_1(hp(a))",
-                      "abs(c - c_hp) < 10^-12*abs(c)"]);
+            var result = calc.Run(ScalarTestHelper("norm_1"));
             Assert.Equal(1, result);
         }
 
@@ -611,11 +593,13 @@
         public void HPVectorNormP()
         {
             var calc = new TestCalc(new());
-            var result = calc.Run(["n = 1000",
-                            "a = random(fill(vector(n); 1))",
-                            "c = norm_p(a; 5)",
-                            "c_hp = norm_p(hp(a); 5)",
-                            "c ≡ c_hp"]);
+            var result = calc.Run([
+                "n = 1000",
+                "a = random(fill(vector(n); 1))",
+                "c = norm_p(a; 5)",
+                "c_hp = norm_p(hp(a); 5)",
+                "c ≡ c_hp"
+            ]);
             Assert.Equal(1, result);
         }
 
@@ -633,12 +617,14 @@
         public void HPVectorUnit()
         {
             var calc = new TestCalc(new());
-            var result = calc.Run(["n = 1000",
-                            "a = random(fill(vector(n); 1))",
-                            "c = unit(a)",
-                            "c_hp = unit(hp(a))",
-                            "r = abs(c - c_hp) < 10^-12*abs(c)",
-                            "check = count(r; 0; 1) ≡ 0"]);
+            var result = calc.Run([
+                "n = 1000",
+                "a = random(fill(vector(n); 1))",
+                "c = unit(a)",
+                "c_hp = unit(hp(a))",
+                "r = abs(c - c_hp) < 10^-12*abs(c)",
+                "check = count(r; 0; 1) ≡ 0"
+            ]);
             Assert.Equal(1, result);
         }
 
@@ -647,12 +633,14 @@
         public void HPVectorDot()
         {
             var calc = new TestCalc(new());
-            var result = calc.Run(["n = 1000",
-                      "a = random(fill(vector(n); 1))",
-                      "b = random(fill(vector(n); 1))",
-                      "c = dot(a; b)",
-                      "c_hp = dot(hp(a); hp(b))",
-                      "abs(c - c_hp) < 10^-12*abs(c)"]);
+            var result = calc.Run([
+                "n = 1000",
+                "a = random(fill(vector(n); 1))",
+                "b = random(fill(vector(n); 1))",
+                "c = dot(a; b)",
+                "c_hp = dot(hp(a); hp(b))",
+                "abs(c - c_hp) < 10^-12*abs(c)"
+            ]);
             Assert.Equal(1, result);
         }
         #endregion

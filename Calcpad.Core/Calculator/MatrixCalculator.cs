@@ -708,8 +708,18 @@ namespace Calcpad.Core
 
                 throw Exceptions.MustBeHpVector(Exceptions.Items.Argument);
             }
+            if (a is HpDiagonalMatrix hp_dm)
+            {
+                if (b is HpVector hp_b)
+                    return hp_dm.LSolve(hp_b);
+
+                throw Exceptions.MustBeHpVector(Exceptions.Items.Argument);
+            }
             if (a is SymmetricMatrix sm)
                 return sm.ClSolve(b);
+
+            if (a is DiagonalMatrix dm)
+                return dm.LSolve(b);
 
             throw Exceptions.MatrixMustBeSymmetric();
         }
@@ -723,6 +733,9 @@ namespace Calcpad.Core
 
             if (A is HpSymmetricMatrix sm)
                 return sm.SlSolve(b, tol);
+
+            if (A is HpDiagonalMatrix dm)
+                return dm.LSolve(b);
 
             throw Exceptions.MatrixMustBeSymmetric();
         }
@@ -758,8 +771,18 @@ namespace Calcpad.Core
 
                 throw Exceptions.MustBeHpMatrix(Exceptions.Items.Argument);
             }
+            if (a is HpDiagonalMatrix hp_dm)
+            {
+                if (b is HpMatrix hp_b)
+                    return hp_dm.MSolve(hp_b);
+
+                throw Exceptions.MustBeHpMatrix(Exceptions.Items.Argument);
+            }
             if (a is SymmetricMatrix sm)
                 return sm.CmSolve(b);
+
+            if (a is DiagonalMatrix dm)
+                return dm.MSolve(b);
 
             throw Exceptions.MatrixMustBeSymmetric();
         }
@@ -773,6 +796,9 @@ namespace Calcpad.Core
 
             if (A is HpSymmetricMatrix sm)
                 return sm.SmSolve(B, tol);
+
+            if (A is HpDiagonalMatrix dm)
+                return dm.MSolve(B);
 
             throw Exceptions.MatrixMustBeSymmetric();
         }

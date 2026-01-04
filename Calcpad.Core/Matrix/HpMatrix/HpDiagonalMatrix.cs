@@ -159,10 +159,15 @@ namespace Calcpad.Core
 
         //L∞ (Infinity) or Chebyshev norm     
         internal override RealValue InfNorm() => _hpRows[0].InfNorm();
-        internal HpVector EigenValues(int count) => _hpRows[0].Sort().First(count);
+        internal HpVector EigenValues(int count)
+        {
+            var reverse = CheckCount(ref count);
+            return _hpRows[0].Sort(reverse).First(count);
+        }
         internal HpMatrix EigenVectors(int count)
         {
-            var indexes = _hpRows[0].GetOrderIndexes(false);
+            var reverse = CheckCount(ref count);
+            var indexes = _hpRows[0].GetOrderIndexes(reverse);
             HpMatrix M = new(count, _rowCount, null);
             for (int i = 0; i < count; ++i)
                 M.SetValue(1d, indexes[i], i);
@@ -172,7 +177,8 @@ namespace Calcpad.Core
 
         internal Matrix Eigen(int count)
         {
-            var indexes = _hpRows[0].GetOrderIndexes(false);
+            var reverse = CheckCount(ref count);
+            var indexes = _hpRows[0].GetOrderIndexes(reverse);
             Matrix M = new(count, _rowCount + 1);
             for (int i = 0; i < count; ++i)
             {

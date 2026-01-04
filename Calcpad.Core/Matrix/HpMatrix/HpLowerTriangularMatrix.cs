@@ -132,14 +132,15 @@ namespace Calcpad.Core
         internal override HpVector LSolve(HpVector vector)
         {
             var units = Unit.Divide(vector.Units, _units, out var d, true);
-            HpVector x = new(_rowCount, units);
+            HpVector x = new(_rowCount, _rowCount, units);
             var values = vector.Raw;
             var xv = x.Raw;
             for (int i = 0; i < _rowCount; ++i)
             {
                 var sum = values[i];
                 var row = _hpRows[i].Raw;
-                for (int j = 0; j < i; ++j)
+                var n = Math.Min(i, row.Length);
+                for (int j = 0; j < n; ++j)
                     sum -= row[j] * xv[j];
 
                 var ri = row[i];

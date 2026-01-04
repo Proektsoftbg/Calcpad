@@ -1998,6 +1998,9 @@ namespace Calcpad.Core
                 if (b < min)
                     min = b;
             }
+            if (_length > _size && min > 0)
+                min = 0;
+
             return new(min, Units);
         }
 
@@ -2031,6 +2034,9 @@ namespace Calcpad.Core
                 if (b > max)
                     max = b;
             }
+            if (_length > _size && max < 0)
+                max = 0;
+
             return new(max, Units);
         }
 

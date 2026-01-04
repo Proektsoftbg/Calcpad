@@ -37,8 +37,7 @@ namespace Calcpad.Core
 
         private DiagonalMatrix RawCopy()
         {
-            var n = _rows.Length;
-            var M = new DiagonalMatrix(n);
+            var M = new DiagonalMatrix(_rowCount);
             M._rows[0] = _rows[0].Copy();
             return M;
         }
@@ -144,10 +143,15 @@ namespace Calcpad.Core
         //L∞ (Infinity) or Chebyshev norm     
         internal override RealValue InfNorm() => _rows[0].InfNorm();
 
-        internal Vector EigenValues(int count) => _rows[0].Sort().First(count);
+        internal Vector EigenValues(int count)
+        {
+            var reverse = CheckCount(ref count);
+            return _rows[0].Sort(reverse).First(count);
+        }
 
         internal Matrix EigenVectors(int count)
         {
+            var reverse = CheckCount(ref count);
             var indexes = _rows[0].GetOrderIndexes(false);
             Matrix M = new(count, _rowCount);
             for (int i = 0; i < count; ++i)
@@ -158,7 +162,8 @@ namespace Calcpad.Core
 
         internal Matrix Eigen(int count)
         {
-            var indexes = _rows[0].GetOrderIndexes(false);
+            var reverse = CheckCount(ref count);
+            var indexes = _rows[0].GetOrderIndexes(reverse);
             Matrix M = new(count, _rowCount + 1);
             for (int i = 0; i < count; ++i)
             {

@@ -132,18 +132,23 @@ namespace Calcpad.Core
             return U;
         }
 
-        internal override Vector LSolve(Vector v)
+        internal override HpVector LSolve(HpVector vector)
         {
-            Vector x = new(_rowCount);
-            var n = _rowCount - 1;
-            for (int i = n; i >= 0; --i)
+            var units = Unit.Divide(vector.Units, _units, out var d, true);
+            HpVector x = new(_rowCount, _rowCount, units);
+            var values = vector.Raw;
+            var xv = x.Raw;
+            var m = _rowCount - 1;
+            for (int i = m; i >= 0; --i)
             {
-                var sum = v[i];
-                var row = _hpRows[i];
+                var sum = values[i];
+                var row = _hpRows[i].Raw;
+                var n = Math.Min(_colCount, i + row.Length) - 1;
                 for (int j = n; j > i; --j)
-                    sum -= row[j - i] * x[j];
+                    sum -= row[j - i] * xv[j];
 
-                x[i] = sum / row[0];
+
+                xv[i] = sum / row[0];
             }
             return x;
         }
@@ -152,11 +157,12 @@ namespace Calcpad.Core
         {
             var m = _rowCount;
             var n = M.ColCount;
-            var v = new HpVector[n];
-            Parallel.For(0, n, j =>
-                v[j] = LSolve(M.Col(j + 1))
-            );
-            return CreateFromCols(v, m);
+            var result = new HpVector[n];
+            Parallel.For(0, n, j => {
+                var vector = M.Col(j + 1);
+                result[j] = LSolve(vector);
+            });
+            return CreateFromCols(result, m);
         }
 
         private new HpLowerTriangularMatrix RawCopy()

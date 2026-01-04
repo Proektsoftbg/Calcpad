@@ -1,14 +1,18 @@
 ﻿namespace Calcpad.Tests
 {
-    public class HPMatrixComparison
+    public class HDiagonalPMatrixComparison
     {
-        #region HPMatrixOperators
+        #region HPDiagonalMatrixOperators
+
+        private const string RandomMatrixA = "a = random(diagonal(n; 1))";
+        private const string RandomMatrixB = "b = random(diagonal(n; 1))";
+        private const string WellConditionedMatrix = "a = vec2diag((0.55 + range(0; n - 1; 1))/n)";
+
 
         private static string[] OperatorTestHelper(char o) => [
-            "m = 500",
             "n = 500",
-            "a = random(mfill(matrix(m; n); 1))",
-            "b = random(mfill(matrix(m; n); 1))",
+            RandomMatrixA,
+            RandomMatrixB,
             $"c = a {o} b",
             "a_hp = hp(a)",
             "b_hp = hp(b)",
@@ -18,9 +22,8 @@
         ];
 
         private static string[] FunctionTestHelper(string func) => [
-            "m = 250",
             "n = 500",
-            "a = random(mfill(matrix(m; n); 1))",
+            RandomMatrixA,
             $"c = {func}(a)",
             $"c_hp = {func}(hp(a))",
             "r = c ≡ c_hp",
@@ -28,12 +31,11 @@
         ];
 
         private static string[] ScalarTestHelper(string func) => [
-            "m = 250",
             "n = 500",
-            "a = random(mfill(matrix(m; n); 1))",
+            RandomMatrixA,
             $"c = {func}(a)",
             $"c_hp = {func}(hp(a))",
-            "r = abs(c - c_hp) ≤ 10^-15*abs(c)"
+            "r = abs(c - c_hp) ≤ 10^-14*abs(c)"
         ];
 
         private static string[] InterpolationTestHelper(string func) => [
@@ -41,17 +43,15 @@
             "n = 500",
             "i = random(m - 1) + 1",
             "j = random(n - 1) + 1",
-            "a = random(mfill(matrix(m; n); 1))",
+            RandomMatrixA,
             $"c = {func}(i; j; a)",
             $"c_hp = {func}(i; j; hp(a))",
-            "r = abs(c - c_hp) ≤ 10^-15*abs(c)"
+            "r = abs(c - c_hp) ≤ 10^-14*abs(c)"
 ];
 
         private static string[] PositiveDefiniteTestHelper(string func, string tol) => [
             "n = 250",
-            "a = symmetric(n)",
-            "v = transp([50000; 20000; 10000; 5000; 2000; 1000; 500; 200; 100; 50])",
-            "$Repeat{add(v; a; i; i) @ i = 1 : n}",
+            WellConditionedMatrix,
             $"c = {func}(a)",
             $"c_hp = {func}(hp(a))",
             $"r = abs(c - c_hp) ≤ {tol}*abs(c)",
@@ -60,9 +60,7 @@
 
         private static string[] MatrixEquationTestHelper(string func, string tol) => [
             "n = 250",
-            "a = symmetric(n)",
-            "v = transp([50000; 20000; 10000; 5000; 2000; 1000; 500; 200; 100; 50])",
-            "$Repeat{add(v; a; i; i) @ i = 1 : n}",
+            WellConditionedMatrix,
             "b = random(fill(vector(n); 1))",
             $"c = {func}(a; b)",
             $"c_hp = {func}(hp(a); hp(b))",
@@ -72,9 +70,7 @@
 
         private static string[] MatrixMultiEquationTestHelper(string func, string tol) => [
             "n = 250",
-            "a = symmetric(n)",
-            "v = transp([50000; 20000; 10000; 5000; 2000; 1000; 500; 200; 100; 50])",
-            "$Repeat{add(v; a; i; i) @ i = 1 : n}",
+            WellConditionedMatrix,
             "b = random(mfill(matrix(n; 2); 1))",
             $"c = {func}(a; b)",
             $"c_hp = {func}(hp(a); hp(b))",
@@ -83,8 +79,8 @@
         ];
 
         [Fact]
-        [Trait("Category", "HPMatrixOperators")]
-        public void HPMatrixAddition()
+        [Trait("Category", "HPDiagonalMatrixOperators")]
+        public void HPDiagonalMatrixAddition()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(OperatorTestHelper('+'));
@@ -92,8 +88,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixOperators")]
-        public void HPMatrixSubtraction()
+        [Trait("Category", "HPDiagonalMatrixOperators")]
+        public void HPDiagonalMatrixSubtraction()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(OperatorTestHelper('-'));
@@ -101,8 +97,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixOperators")]
-        public void HPMatrixMultiplication()
+        [Trait("Category", "HPDiagonalMatrixOperators")]
+        public void HPDiagonalMatrixMultiplication()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(OperatorTestHelper('*'));
@@ -110,8 +106,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixOperators")]
-        public void HPMatrixDivision()
+        [Trait("Category", "HPDiagonalMatrixOperators")]
+        public void HPDiagonalMatrixDivision()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(OperatorTestHelper('/'));
@@ -119,8 +115,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixOperators")]
-        public void HPMatrixForceDivisionBar()
+        [Trait("Category", "HPDiagonalMatrixOperators")]
+        public void HPDiagonalMatrixForceDivisionBar()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(OperatorTestHelper('÷'));
@@ -128,8 +124,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixOperators")]
-        public void HPMatrixIntegerDivision()
+        [Trait("Category", "HPDiagonalMatrixOperators")]
+        public void HPDiagonalMatrixIntegerDivision()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(OperatorTestHelper('\\'));
@@ -137,8 +133,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixOperators")]
-        public void HPMatrixModulo()
+        [Trait("Category", "HPDiagonalMatrixOperators")]
+        public void HPDiagonalMatrixModulo()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(OperatorTestHelper('⦼'));
@@ -146,10 +142,10 @@
         }
         #endregion
 
-        #region HPMatrixFunctions
+        #region HPDiagonalMatrixFunctions
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixSin()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixSin()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(FunctionTestHelper("sin"));
@@ -157,8 +153,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixCos()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixCos()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(FunctionTestHelper("cos"));
@@ -166,8 +162,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixTan()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixTan()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(FunctionTestHelper("tan"));
@@ -175,8 +171,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixCsc()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixCsc()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(FunctionTestHelper("csc"));
@@ -184,8 +180,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixSec()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixSec()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(FunctionTestHelper("sec"));
@@ -193,8 +189,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixCot()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixCot()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(FunctionTestHelper("cot"));
@@ -202,8 +198,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixSinh()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixSinh()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(FunctionTestHelper("Sinh"));
@@ -211,8 +207,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixCosh()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixCosh()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(FunctionTestHelper("cosh"));
@@ -220,8 +216,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixTanh()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixTanh()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(FunctionTestHelper("Tanh"));
@@ -229,8 +225,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixCsch()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixCsch()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(FunctionTestHelper("Csch"));
@@ -238,8 +234,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixSech()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixSech()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(FunctionTestHelper("Sech"));
@@ -247,8 +243,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixCoth()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixCoth()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(FunctionTestHelper("coth"));
@@ -256,8 +252,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixAsin()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixAsin()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(FunctionTestHelper("asin"));
@@ -265,8 +261,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixAcos()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixAcos()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(FunctionTestHelper("acos"));
@@ -274,8 +270,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixAtan()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixAtan()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(FunctionTestHelper("atan"));
@@ -283,15 +279,14 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixAtan2()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixAtan2()
         {
             var calc = new TestCalc(new());
             var result = calc.Run([
                 "n = 500",
-                "m = 500",
-                "a = random(mfill(matrix(m; n); 1))",
-                "b = random(mfill(matrix(m; n); 1))",
+                RandomMatrixA,
+                RandomMatrixB,
                 "c = atan2(a; b)",
                 "c_hp = atan2(hp(a); hp(b))",
                 "r = c ≡ c_hp",
@@ -301,8 +296,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixAcsc()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixAcsc()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(FunctionTestHelper("acsc"));
@@ -310,8 +305,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixAsec()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixAsec()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(FunctionTestHelper("asec"));
@@ -319,8 +314,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixAcot()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixAcot()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(FunctionTestHelper("acot"));
@@ -328,8 +323,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixAsinh()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixAsinh()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(FunctionTestHelper("asinh"));
@@ -337,8 +332,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixAcosh()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixAcosh()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(FunctionTestHelper("acosh"));
@@ -346,8 +341,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixAtanh()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixAtanh()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(FunctionTestHelper("atanh"));
@@ -355,8 +350,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixAcsch()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixAcsch()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(FunctionTestHelper("acsch"));
@@ -364,8 +359,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixAsech()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixAsech()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(FunctionTestHelper("asech"));
@@ -373,8 +368,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixAcoth()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixAcoth()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(FunctionTestHelper("acoth"));
@@ -382,8 +377,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixLog()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixLog()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(FunctionTestHelper("log"));
@@ -391,8 +386,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixLn()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixLn()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(FunctionTestHelper("ln"));
@@ -400,8 +395,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixLog2()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixLog2()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(FunctionTestHelper("log_2"));
@@ -409,8 +404,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixExp()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixExp()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(FunctionTestHelper("exp"));
@@ -418,8 +413,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixSqrt()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixSqrt()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(FunctionTestHelper("sqrt"));
@@ -427,8 +422,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixCbrt()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixCbrt()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(FunctionTestHelper("cbrt"));
@@ -436,15 +431,14 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixRoot()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixRoot()
         {
             var calc = new TestCalc(new());
             var result = calc.Run([
                 "n = 500",
-                "m = 500",
-                "nth = 100",
-                "a = random(mfill(matrix(m; n); 1))",
+                "nth = 4",
+                RandomMatrixA,
                 "c = root(a; nth)",
                 "c_hp = root(hp(a); nth)",
                 "r = c ≡ c_hp",
@@ -454,8 +448,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixRound()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixRound()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(FunctionTestHelper("round"));
@@ -463,8 +457,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixFloor()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixFloor()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(FunctionTestHelper("floor"));
@@ -472,8 +466,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixCeiling()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixCeiling()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(FunctionTestHelper("ceiling"));
@@ -481,8 +475,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixTrunc()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixTrunc()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(FunctionTestHelper("trunc"));
@@ -490,8 +484,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixMin()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixMin()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(ScalarTestHelper("min"));
@@ -499,8 +493,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixMax()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixMax()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(ScalarTestHelper("max"));
@@ -508,8 +502,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixSum()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixSum()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(ScalarTestHelper("sum"));
@@ -517,8 +511,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixSumsq()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixSumsq()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(ScalarTestHelper("sumsq"));
@@ -526,8 +520,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixSrss()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixSrss()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(ScalarTestHelper("srss"));
@@ -535,8 +529,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixAverage()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixAverage()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(ScalarTestHelper("average"));
@@ -544,8 +538,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixProduct()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixProduct()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(ScalarTestHelper("product"));
@@ -553,8 +547,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixMean()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixMean()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(ScalarTestHelper("mean"));
@@ -562,8 +556,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixTake()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixTake()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(InterpolationTestHelper("take"));
@@ -571,8 +565,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixLine()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixLine()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(InterpolationTestHelper("line"));
@@ -580,8 +574,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixSpline()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixSpline()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(InterpolationTestHelper("spline"));
@@ -589,15 +583,14 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixSortCols()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixSortCols()
         {
             var calc = new TestCalc(new());
             var result = calc.Run([
-                "m = 250",
                 "n = 500",
                 "i = 50",
-                "a = random(mfill(matrix(m; n); 1))",
+                RandomMatrixA,
                 "c = sort_cols(a; i)",
                 "c_hp = sort_cols(hp(a); i)",
                 "r = c ≡ c_hp",
@@ -607,15 +600,14 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixRSortCols()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixRSortCols()
         {
             var calc = new TestCalc(new());
             var result = calc.Run([
-                "m = 250",
                 "n = 500",
                 "i = 50",
-                "a = random(mfill(matrix(m; n); 1))",
+                RandomMatrixA,
                 "c = rsort_cols(a; i)",
                 "c_hp = rsort_cols(hp(a); i)",
                 "r = c ≡ c_hp",
@@ -625,15 +617,14 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixSortRows()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixSortRows()
         {
             var calc = new TestCalc(new());
             var result = calc.Run([
-                "m = 250",
                 "n = 500",
                 "j = 50",
-                "a = random(mfill(matrix(m; n); 1))",
+                RandomMatrixA,
                 "c = sort_rows(a; j)",
                 "c_hp = sort_rows(hp(a); j)",
                 "r = c ≡ c_hp",
@@ -643,15 +634,14 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixRSortRows()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixRSortRows()
         {
             var calc = new TestCalc(new());
             var result = calc.Run([
-                "m = 250",
                 "n = 500",
                 "j = 50",
-                "a = random(mfill(matrix(m; n); 1))",
+                RandomMatrixA,
                 "c = rsort_rows(a; j)",
                 "c_hp = rsort_rows(hp(a); j)",
                 "r = c ≡ c_hp",
@@ -661,15 +651,14 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixOrderCols()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixOrderCols()
         {
             var calc = new TestCalc(new());
             var result = calc.Run([
-                "m = 250",
                 "n = 500",
                 "i = 50",
-                "a = random(mfill(matrix(m; n); 1))",
+                RandomMatrixA,
                 "c = order_cols(a; i)",
                 "c_hp = order_cols(hp(a); i)",
                 "r = c ≡ c_hp",
@@ -679,15 +668,14 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixRevOrderCols()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixRevOrderCols()
         {
             var calc = new TestCalc(new());
             var result = calc.Run([
-                "m = 250",
                 "n = 500",
                 "i = 50",
-                "a = random(mfill(matrix(m; n); 1))",
+                RandomMatrixA,
                 "c = revorder_cols(a; i)",
                 "c_hp = revorder_cols(hp(a); i)",
                 "r = c ≡ c_hp",
@@ -697,15 +685,14 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixOrderRows()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixOrderRows()
         {
             var calc = new TestCalc(new());
             var result = calc.Run([
-                "m = 250",
                 "n = 500",
                 "j = 50",
-                "a = random(mfill(matrix(m; n); 1))",
+                RandomMatrixA,
                 "c = order_rows(a; j)",
                 "c_hp = order_rows(hp(a); j)",
                 "r = c ≡ c_hp",
@@ -715,15 +702,14 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixMcount()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixMcount()
         {
             var calc = new TestCalc(new());
             var result = calc.Run([
-                "m = 250",
                 "n = 500",
                 "x = 1",
-                "a = round(random(mfill(matrix(m; n); 1000)))",
+                "a = round(random(diagonal(n; 1000)))",
                 "c = mcount(a; x)",
                 "c_hp = mcount(hp(a); x)",
                 "c ≡ c_hp"
@@ -732,16 +718,16 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixHprod()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixHprod()
         {
             var calc = new TestCalc(new());
             var result = calc.Run([
-                "m = 250",
                 "n = 500",
-                "a = random(mfill(matrix(m; n); 1))",
-                "c = hprod(a; a)",
-                "c_hp = hprod(hp(a); hp(a))",
+                RandomMatrixA,
+                RandomMatrixB,
+                "c = hprod(a; b)",
+                "c_hp = hprod(hp(a); hp(b))",
                 "r = c ≡ c_hp",
                 "mcount(r; 0)"
             ]);
@@ -749,32 +735,32 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixFprod()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixFprod()
         {
             var calc = new TestCalc(new());
             var result = calc.Run([
-                "m = 500",
                 "n = 500",
-                "a = random(mfill(matrix(m; n); 1))",
-                "c = fprod(a; a)",
-                "c_hp = fprod(hp(a); hp(a))",
+                RandomMatrixA,
+                RandomMatrixB,
+                "c = fprod(a; b)",
+                "c_hp = fprod(hp(a); hp(b))",
                 "abs(c - c_hp) ≤ 10^-12*abs(c)"
             ]);
             Assert.Equal(1, result);
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixKprod()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixKprod()
         {
             var calc = new TestCalc(new());
             var result = calc.Run([
-                "m = 100",
                 "n = 100",
-                "a = random(mfill(matrix(m; n); 1))",
-                "c = kprod(a; a)",
-                "c_hp = kprod(hp(a); hp(a))",
+                RandomMatrixA,
+                RandomMatrixB,
+                "c = kprod(a; b)",
+                "c_hp = kprod(hp(a); hp(b))",
                 "r = c ≡ c_hp",
                 "mcount(r; 0)"
             ]);
@@ -782,8 +768,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixMnorm1()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixMnorm1()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(ScalarTestHelper("mnorm_1"));
@@ -791,14 +777,13 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixMnorm2()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixMnorm2()
         {
             var calc = new TestCalc(new());
             var result = calc.Run([
-                "m = 200",
                 "n = 200",
-                "a = random(mfill(matrix(m; n); 1))",
+                RandomMatrixA,
                 "c = mnorm_2(a)",
                 "c_hp = mnorm_2(hp(a))",
                 "abs(c - c_hp) ≤ 10^-12*abs(c)"
@@ -807,14 +792,13 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixMnormi()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixMnormi()
         {
             var calc = new TestCalc(new());
             var result = calc.Run([
-                "m = 500",
                 "n = 500",
-                "a = random(mfill(matrix(m; n); 1))",
+                RandomMatrixA,
                 "c = mnorm_i(a)",
                 "c_hp = mnorm_i(hp(a))",
                 "r = abs(c - c_hp) ≤ 10^-12*abs(c)"
@@ -823,13 +807,13 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixCond1()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixCond1()
         {
             var calc = new TestCalc(new());
             var result = calc.Run([
                 "n = 250",
-                "a = submatrix(qr(random(mfill(matrix(n; n); 1))); 1; n; 1; n)",
+                WellConditionedMatrix,
                 "c = cond_1(a)",
                 "c_hp = cond_1(hp(a))",
                 "abs(c - c_hp) ≤ 10^-12*abs(c)"
@@ -838,13 +822,13 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixCond2()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixCond2()
         {
             var calc = new TestCalc(new());
             var result = calc.Run([
                 "n = 200",
-                "a = submatrix(qr(random(mfill(matrix(n; n); 1))); 1; n; 1; n)",
+                WellConditionedMatrix,
                 "c = cond_2(a)",
                 "c_hp = cond_2(hp(a))",
                 "abs(c - c_hp) ≤ 10^-12*abs(c)"
@@ -853,13 +837,13 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixCondE()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixCondE()
         {
             var calc = new TestCalc(new());
             var result = calc.Run([
                 "n = 250",
-                "a = submatrix(qr(random(mfill(matrix(n; n); 1))); 1; n; 1; n)",
+                WellConditionedMatrix,
                 "c = cond_e(a)",
                 "c_hp = cond_e(hp(a))",
                 "abs(c - c_hp) ≤ 10^-12*abs(c)"
@@ -868,13 +852,13 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixCondI()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixCondI()
         {
             var calc = new TestCalc(new());
             var result = calc.Run([
                 "n = 250",
-                "a = submatrix(qr(random(mfill(matrix(n; n); 1))); 1; n; 1; n)",
+                WellConditionedMatrix,
                 "c = cond_i(a)",
                 "c_hp = cond_i(hp(a))",
                 "abs(c - c_hp) ≤ 10^-12*abs(c)"
@@ -883,13 +867,13 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixDet()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixDet()
         {
             var calc = new TestCalc(new());
             var result = calc.Run([
                 "n = 250",
-                "a = random(mfill(matrix(n; n); 1))",
+                RandomMatrixA,
                 "c = det(a)",
                 "c_hp = det(hp(a))",
                 "abs(c - c_hp) ≤ 10^-12*abs(c)"
@@ -898,14 +882,13 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixRank()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixRank()
         {
             var calc = new TestCalc(new());
             var result = calc.Run([
-                "m = 100",
                 "n = 100",
-                "a = random(mfill(matrix(m; n); 1))",
+                RandomMatrixA,
                 "c = rank(a)",
                 "c_hp = rank(hp(a))",
                 "r = c ≡ c_hp"
@@ -914,13 +897,13 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixTrace()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixTrace()
         {
             var calc = new TestCalc(new());
             var result = calc.Run([
                 "n = 500",
-                "a = random(mfill(matrix(n; n); 1))",
+                RandomMatrixA,
                 "c = trace(a)",
                 "c_hp = trace(hp(a))",
                 "r = abs(c - c_hp) ≤ 10^-12"
@@ -929,8 +912,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixTransp()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixTransp()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(FunctionTestHelper("transp"));
@@ -938,13 +921,13 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixAdj()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixAdj()
         {
             var calc = new TestCalc(new());
             var result = calc.Run([
                 "n = 250",
-                "a = submatrix(qr(random(mfill(matrix(n; n); 1))); 1; n; 1; n)",
+                WellConditionedMatrix,
                 "c = adj(a)",
                 "c_hp = adj(hp(a))",
                 "r = abs(c - c_hp) ≤ 10^-8*abs(c)",
@@ -954,13 +937,13 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixCofactor()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixCofactor()
         {
             var calc = new TestCalc(new());
             var result = calc.Run([
                 "n = 250",
-                "a = submatrix(qr(random(mfill(matrix(n; n); 1))); 1; n; 1; n)",
+                WellConditionedMatrix,
                 "c = cofactor(a)",
                 "c_hp = cofactor(hp(a))",
                 "r = abs(c - c_hp) ≤ 10^-8*abs(c)",
@@ -970,13 +953,13 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixEigenvals()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixEigenvals()
         {
             var calc = new TestCalc(new());
             var result = calc.Run([
                 "n = 250",
-                "a = random(mfill(symmetric(n); 1))",
+                WellConditionedMatrix,
                 "c = eigenvals(a)",
                 "c_hp = eigenvals(hp(a))",
                 "r = abs(c - c_hp) ≤ 10^-12*abs(c)",
@@ -986,13 +969,13 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixEigenvecs()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixEigenvecs()
         {
             var calc = new TestCalc(new());
             var result = calc.Run([
                 "n = 250",
-                "a = random(mfill(symmetric(n); 1))",
+               WellConditionedMatrix,
                 "c = eigenvecs(a)",
                 "c_hp = eigenvecs(hp(a))",
                 "r = abs(abs(c) - abs(c_hp)) ≤ 10^-12",
@@ -1002,13 +985,13 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixEigen()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixEigen()
         {
             var calc = new TestCalc(new());
             var result = calc.Run([
                 "n = 200",
-                "a = random(mfill(symmetric(n); 1))",
+                WellConditionedMatrix,
                 "c = eigen(a)",
                 "c_hp = eigen(hp(a))",
                 "r = abs(abs(c) - abs(c_hp)) ≤ 10^-12*max(abs(c);1)",
@@ -1018,8 +1001,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixCholesky()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixCholesky()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(PositiveDefiniteTestHelper("cholesky", "10^-10"));
@@ -1027,8 +1010,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixLu()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixLu()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(PositiveDefiniteTestHelper("lu", "10^-14"));
@@ -1036,13 +1019,13 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixQr()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixQr()
         {
             var calc = new TestCalc(new());
             var result = calc.Run([
                 "n = 250",
-                "a = random(mfill(symmetric(n); 1))",
+                RandomMatrixA,
                 "c = qr(a)",
                 "c_hp = qr(hp(a))",
                 "r = abs(c - c_hp) ≤ 10^-12",
@@ -1052,13 +1035,13 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixSvd()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixSvd()
         {
             var calc = new TestCalc(new());
             var result = calc.Run([
                 "n = 200",
-                "a = random(mfill(matrix(n; n); 1))",
+                RandomMatrixA,
                 "c = svd(a)",
                 "c_hp = svd(hp(a))",
                 "r = abs(abs(c) - abs(c_hp)) ≤ 10^-8*max(abs(c); 1)",
@@ -1068,13 +1051,13 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixInverse()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixInverse()
         {
             var calc = new TestCalc(new());
             var result = calc.Run([
                 "n = 250",
-                "a = submatrix(qr(random(mfill(matrix(n; n); 1))); 1; n; 1; n)",
+                WellConditionedMatrix,
                 "c = inverse(a)",
                 "c_hp = inverse(hp(a))",
                 "r = abs(c - c_hp) ≤ 10^-8*abs(c)",
@@ -1082,28 +1065,10 @@
             ]);
             Assert.Equal(0, result);
         }
-        [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixLsolve()
-        {
-            var calc = new TestCalc(new());
-            var result = calc.Run([
-                "n = 250",
-                "a = symmetric(n)",
-                "v = transp([50000; 20000; 10000; 5000; 2000; 1000; 500; 200; 100; 50])",
-                "$Repeat{add(v; a; i; i) @ i = 1 : n}",
-                "b = random(fill(vector(n); 1))",
-                "c = lsolve(a; b)",
-                "c_hp = lsolve(hp(a); hp(b))",
-                "r = abs(c - c_hp) ≤ 10^-12*abs(c)",
-                "mcount(r; 0)"
-            ]);
-            Assert.Equal(0, result);
-        }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixLsolveSym()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixLsolve()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(MatrixEquationTestHelper("lsolve", "10^-12"));
@@ -1111,8 +1076,8 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixClsolve()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixClsolve()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(MatrixEquationTestHelper("clsolve", "10^-8"));
@@ -1120,16 +1085,14 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixSlsolve()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixSlsolve()
         {
             var calc = new TestCalc(new());
             var result = calc.Run([
                 "Tol = 10^-5",
                 "n = 250",
-                "a = symmetric_hp(n)",
-                "v = transp(hp([50000; 20000; 10000; 5000; 2000; 1000; 500; 200; 100; 50]))",
-                "$Repeat{ add(v; a; i; i) @ i = 1 : n}",
+                "a = vec2diag((1000 + range_hp(0; n - 1; 1))/1234)",
                 "b = random(fill(vector_hp(n); 1))",
                 "c = slsolve(a; b)",
                 "r = a * c - b ≤ 10^-5",
@@ -1139,37 +1102,17 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixMsolve()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixMsolve()
         {
             var calc = new TestCalc(new());
-            var result = calc.Run([
-                "n = 250",
-                "s = symmetric(n)",
-                "v = transp([50000; 20000; 10000; 5000; 2000; 1000; 500; 200; 100; 50])",
-                "$Repeat{add(v; s; i; i) @ i = 1 : n}",
-                "a = copy(s; matrix(n; n); 1; 1)",
-                "b = random(mfill(matrix(n; 2); 1))",
-                "c = msolve(a; b)",
-                "c_hp = msolve(hp(a); hp(b))",
-                "r = abs(c - c_hp) ≤ 10^-10*abs(c)",
-                "mcount(r; 0)"
-            ]);
+            var result = calc.Run(MatrixMultiEquationTestHelper("msolve", "10^-8"));
             Assert.Equal(0, result);
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixMsolveSym()
-        {
-            var calc = new TestCalc(new());
-            var result = calc.Run(MatrixMultiEquationTestHelper("msolve", "10^-12"));
-            Assert.Equal(0, result);
-        }
-
-        [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixCmsolve()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixCmsolve()
         {
             var calc = new TestCalc(new());
             var result = calc.Run(MatrixMultiEquationTestHelper("cmsolve", "10^-8"));
@@ -1177,16 +1120,14 @@
         }
 
         [Fact]
-        [Trait("Category", "HPMatrixFunctions")]
-        public void HPMatrixSmsolve()
+        [Trait("Category", "HPDiagonalMatrixFunctions")]
+        public void HPDiagonalMatrixSmsolve()
         {
             var calc = new TestCalc(new());
             var result = calc.Run([
                 "Tol = 10^-5",
                 "n = 250",
-                "a = symmetric_hp(n)",
-                "v = transp(hp([50000; 20000; 10000; 5000; 2000; 1000; 500; 200; 100; 50]))",
-                "$Repeat{ add(v; a; i; i) @ i = 1 : n}",
+                "a = vec2diag((1000 + range_hp(0; n - 1; 1))/1234)",
                 "b = random(mfill(matrix_hp(n; 2); 1))",
                 "c = smsolve(a; b)",
                 "r = a * c - b ≤ 10^-5",
