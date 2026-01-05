@@ -46,6 +46,7 @@
 		<KeyWord name="#write" />
 		<KeyWord name="$Area" />
 		<KeyWord name="$Block" />
+		<KeyWord name="$Derivative" />
 		<KeyWord name="$Find" />
 		<KeyWord name="$Inf" />
 		<KeyWord name="$Inline" />
