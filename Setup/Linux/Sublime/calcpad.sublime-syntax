@@ -36,7 +36,7 @@ contexts:
     - match: '\$'
       scope: punctuation.definition.method.calcpad
       push:
-      - match: '\b([Rr]oot|[Ff]ind|[Ii]nf|[Ss]up|[Aa]rea|[Ii]ntegral|[Ss]lope|[Ss]um|[Pp]roduct|[Rr]epeat|[Mm]ap|[Pp]lot|[Bb]lock|[Ii]nline)\b'
+      - match: '\b([Rr]oot|[Ff]ind|[Ii]nf|[Ss]up|[Aa]rea|[Ii]ntegral|[Ss]lope|[Dd]erivative|[Ss]um|[Pp]roduct|[Rr]epeat|[Mm]ap|[Pp]lot|[Bb]lock|[Ii]nline|[Ww]hile)\b'
         scope: support.method.calcpad
       - match: '\{'
         scope: punctuation.section.brackets.calcpad
