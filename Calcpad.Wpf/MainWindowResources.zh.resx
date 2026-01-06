@@ -81,13 +81,13 @@
     <value>停止！行内Html元素不得跨越文本行.</value>
   </data>
   <data name="Command_Open_Text_File" xml:space="preserve">
-    <value>文本文件(* .txt) | * .txt | Calcpad工作表(* .cpd) | * .cpd | Calcpad已编译(* .cpdz) | * .cpdz</value>
+    <value>文本文件(* .txt)|*.txt|Calcpad工作表(* .cpd)|*.cpd|Calcpad已编译(*.cpdz)|*.cpdz</value>
   </data>
   <data name="Command_Open_Calcpad_Worksheet" xml:space="preserve">
-    <value>Calcpad工作表(* .cpd) | * .cpd | 已编译Calcpad(* .cpdz) | * .cpdz |文本文件(* .txt) | * .txt</value>
+    <value>Calcpad工作表(*.cpd)|*.cpd|已编译Calcpad(*.cpdz)|*.cpdz|文本文件(*.txt)|* .txt</value>
   </data>
   <data name="FileSaveAs_Calcpad_Compiled" xml:space="preserve">
-    <value>已编译Calcpad(* .cpdz) | * .cpdz</value>
+    <value>已编译Calcpad(*.cpdz)|*.cpdz</value>
   </data>
   <data name="SavePrompt" xml:space="preserve">
     <value>文件未保存.保存？</value>
