@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -52,12 +53,16 @@ namespace Calcpad.Wpf
             }
             message += string.Format(AppMessages.ExceptionDetails, e);
             File.WriteAllText(logFileName, message);
-            Process.Start(new ProcessStartInfo
+            Task.Run(async () =>
             {
-                FileName = logFileName,
-                UseShellExecute = true
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = logFileName,
+                    UseShellExecute = true
+                });
             });
-            Environment.Exit(System.Runtime.InteropServices.Marshal.GetHRForException(e));
+            Application.Current.Shutdown();
+            //Environment.Exit(System.Runtime.InteropServices.Marshal.GetHRForException(e));
         }
 
         private static string GetMessage(Exception e) =>

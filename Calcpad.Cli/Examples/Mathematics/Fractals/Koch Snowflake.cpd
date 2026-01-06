@@ -20,7 +20,7 @@ w = 300', 'h = 1.2*w', 'k = 100
 	#loop
 	'" fill="url(#sff)"/></svg>
 	#hide
-	x1 = [x.1]', 'y1 = [y.1]
+	x1 = x.1', 'y1 = y.1
 	'Iterate over the segments
 	#for j = 1 : n_p - 1
 		p1 = hp([x.j; y.j])'- the first point of the current segment
@@ -31,10 +31,10 @@ w = 300', 'h = 1.2*w', 'k = 100
 		B = p1 + Δ/2 + hp([Δ.2; -Δ.1])*a/3
 		C = p1 + Δ*2/3
 		'Build new vectors by concatenation
-		x1 = hp([x1; A.1; B.1; C.1; p2.1])
-		y1 = hp([y1; A.2; B.2; C.2; p2.2])
+		x1 = join(x1; A.1; B.1; C.1; p2.1)
+		y1 = join(y1; A.2; B.2; C.2; p2.2)
 	#loop
 	'Reassign to the original vectors
-	x = hp([x1; p2.1])
-	y = hp([y1; p2.2])
+	x = join(x1; p2.1)
+	y = join(y1; p2.2)
 #loop

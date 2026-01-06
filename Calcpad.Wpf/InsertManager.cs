@@ -249,12 +249,14 @@ namespace Calcpad.Wpf
 
         private static bool InsertComment(TextPointer tp, string comment)
         {
-            var ts = tp.Paragraph?.ContentStart ?? tp;
+            var p = tp.Paragraph;
+            var ts = p?.ContentStart ?? tp;
+            var te = p?.ContentEnd ?? tp;
             var s = new TextRange(ts, tp).Text;
             var isComment = s.AsSpan().Count('\'') % 2 == 1;
             if (isComment)
                 tp.InsertTextInRun(comment);
-            else if (tp.GetOffsetToPosition(tp.Paragraph.ContentEnd) == 0)
+            else if (p is null || tp.GetOffsetToPosition(te) == 0)
                 tp.InsertTextInRun('\'' + comment);
             else
                 tp.InsertTextInRun('\'' + comment + '\'');

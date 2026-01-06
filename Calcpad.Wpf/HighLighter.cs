@@ -544,7 +544,7 @@ namespace Calcpad.Wpf
 
         private static Paragraph FindStartingLine(Paragraph paragraph, ref int lineNumber)
         {
-            var pb = paragraph.PreviousBlock;
+            var pb = paragraph?.PreviousBlock;
             if (pb is null)
                 return paragraph;
 
@@ -564,7 +564,7 @@ namespace Calcpad.Wpf
 
         private static bool CheckIsNewLineBlock(Block block)
         {
-            block = block.PreviousBlock;
+            block = block?.PreviousBlock;
             if (block is Paragraph p && 
                 CheckIsLineExtensionInline(p.Inlines.LastInline))
                 return false;

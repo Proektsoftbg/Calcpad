@@ -190,11 +190,11 @@ r2d = 180/π
 'Rotation <var>θ</var> [deg] versus time <var>t</var> [s] plot
 $Plot{t(i)|θ(t(i))/deg & t(i)|θ_e(t(i))*r2d & t(i)|if(abs(θ_fwE.i*r2d) < 150; θ_fwE.i*r2d; 1/0) & t(i)|θ_bwE.i*r2d & t(i)|θ_CN.i*r2d @ i = 1 : n}
 '</td><td><br/><br/><br/>
-'<b style="color:Tomato">━━━━</b> Small rotations<br/>
-'<b style="color:YellowGreen">━━━━</b> Large rotations<br/>
-'<b style="color:CornflowerBlue">· · · · · ·</b> Forward Euler<br/>
-'<b style="color:Gold">━ ━ ━</b> Backward Euler<br/>
-'<b style="color:MediumVioletRed">━ · ━ ·</b> Crank–Nicolson
+'<b style="color:Tomato">╺━━</b> Small rotations<br/>
+'<b style="color:YellowGreen">╺━━</b> Large rotations<br/>
+'<b style="color:CornflowerBlue">&nbsp;· · · ·</b> Forward Euler<br/>
+'<b style="color:Gold">╺╺╺</b> Backward Euler<br/>
+'<b style="color:MediumVioletRed">·╺&ensp;·╺</b> Crank–Nicolson
 '</td></tr></table>
 'Energy <var>E</var> [J] versus time <var>t</var> [s] plot
 $Plot{0s|0J & t(i)|E_0 & t(i)|E_fwE.i & t(i)|E_bwE.i & t(i)|E_CN.i @ i = 1 : n}
@@ -204,20 +204,20 @@ $Plot{0s|0J & t(i)|E_0 & t(i)|E_fwE.i & t(i)|E_bwE.i & t(i)|E_CN.i @ i = 1 : n}
 'Rotation <var>θ</var> [deg] versus time <var>t</var> [s] plot
 $Plot{t(i)|θ_e(t(i))*r2d & t(i)|θ_CN.i*r2d & t(i)|θ_RK4.i*r2d @ i = 1 : n}
 '</td><td><br/><br/><br/>
-'<b style="color:Tomato">━━━━</b> Theoretical (large rot.)<br/>
-'<b style="color:YellowGreen">━ ━ ━</b> Crank–Nicolson (IMEX)<br/>
-'<b style="color:CornflowerBlue">· · · · · ·</b> Runge-Kutta 4 (explicit)
+'<b style="color:Tomato">╺━━</b> Theoretical (large rot.)<br/>
+'<b style="color:YellowGreen">╺╺╺</b> Crank–Nicolson (IMEX)<br/>
+'<b style="color:CornflowerBlue">&nbsp;· · · ·</b> Runge-Kutta 4 (explicit)
 '</td></tr><tr><td>
 'Absolute error Δθ [°] versus time <var>t</var> [s] plot
 $Plot{t(i)|(θ_CN.i - θ_e(t(i)))*r2d & t(i)|(θ_RK4.i - θ_e(t(i)))*r2d @ i = 1 : n}
 '</td><td><br/><br/><br/>
-'<p><b style="color:Tomato">━━━━</b> Crank–Nicolson (IMEX)<br/>
-'<b style="color:YellowGreen">━ ━ ━</b> Runge-Kutta 4 (explicit)
+'<p><b style="color:Tomato">╺━━</b> Crank–Nicolson (IMEX)<br/>
+'<b style="color:YellowGreen">╺╺╺</b> Runge-Kutta 4 (explicit)
 '</td></tr><tr><td>
 'Energy <var>E</var> [J] versus time <var>t</var> [s] plot
 $Plot{t(i)|E_0 & t(i)|E_CN.i & t(i)|E_RK4.i & 0s|0.999*E_0 @ i = 1 : n}
 '</td><td><br/><br/><br/>
-'<b style="color:Tomato">━━━━</b> Theoretical (large rot.)<br/>
-'<b style="color:YellowGreen">━ ━ ━</b> Crank–Nicolson (IMEX)<br/>
-'<b style="color:CornflowerBlue">· · · · · ·</b> Runge-Kutta 4 (explicit)
+'<b style="color:Tomato">╺━━</b> Theoretical (large rot.)<br/>
+'<b style="color:YellowGreen">╺╺╺</b> Crank–Nicolson (IMEX)<br/>
+'<b style="color:CornflowerBlue">&nbsp;· · · ·</b> Runge-Kutta 4 (explicit)
 '</td></tr></table>

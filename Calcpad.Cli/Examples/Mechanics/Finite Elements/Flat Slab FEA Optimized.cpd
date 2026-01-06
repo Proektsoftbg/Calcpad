@@ -358,7 +358,7 @@ K_e.(7; 11) = K_e.(3; 15)
 'Element stiffness matrix coefficients (above the main diagonal only)
 K_e = D_1,1*K_e
 '<p><strong>Element load vector</strong></p>
-F_e = q*A_1/24*[6; a_1; b_1; A_1/6; 6; -a_1; b_1; -A_1/6; 6; -a_1; -b_1; A_1/6; 6; a_1; -b_1; -A_1/6]'kN
+F_e = q*A_1/24*hp([6; a_1; b_1; A_1/6; 6; -a_1; b_1; -A_1/6; 6; -a_1; -b_1; A_1/6; 6; a_1; -b_1; -A_1/6])'kN
 '<h4>Solution</h4>
 'Global stiffness matrix
 #hide

@@ -444,7 +444,11 @@ namespace Calcpad.Wpf
             {
                 tp = tp.InsertParagraphBreak();
                 if (selLength > 0)
-                    tp = tp.Paragraph.PreviousBlock.ContentEnd;
+                {
+                    p = tp.Paragraph;
+                    if (tp  is not null)
+                        tp = p.PreviousBlock.ContentEnd;
+                }
             }
             p = tp.Paragraph;
             var lineNumber = GetLineNumber(p);
@@ -455,13 +459,18 @@ namespace Calcpad.Wpf
             for (int i = 1, len = parts.Length; i < len; ++i)
             {
                 p = tp.Paragraph;
-                tp = p.ContentEnd.InsertParagraphBreak();
+                if (p is not null) tp = p.ContentEnd;
+                tp = tp.InsertParagraphBreak();
                 ++lineNumber;
                 InsertPart(i);
             }
             SetAutoIndent();
-            tp = tp.Paragraph.ContentEnd;
-            RichTextBox.Selection.Select(tp, tp);
+            p = tp.Paragraph;
+            if (p is not null)
+            {
+                tp = tp.Paragraph.ContentEnd;
+                RichTextBox.Selection.Select(tp, tp);
+            }
 
             void InsertPart(int i)
             {
@@ -2714,7 +2723,7 @@ namespace Calcpad.Wpf
             {
                 var tp = RichTextBox.Selection.Start;
                 var selLength = tp.GetOffsetToPosition(RichTextBox.Selection.End);
-                _forceBackSpace = tp.IsAtLineStartPosition && tp.Paragraph.TextIndent > 0 && selLength == 0;
+                _forceBackSpace = tp.IsAtLineStartPosition && tp.Paragraph?.TextIndent > 0 && selLength == 0;
             }
             else
                 _forceBackSpace = false;
@@ -2969,9 +2978,9 @@ namespace Calcpad.Wpf
             var b = (Button)sender;
             b.Tag = !(bool)b.Tag;
             if ((bool)b.Tag)
-                b.Foreground = Brushes.Teal;
+                b.Foreground = Brushes.Red;
             else
-                b.Foreground = Brushes.Black;
+                b.Foreground = SystemColors.ControlTextBrush;
 
             bool inv = (bool)InvButton.Tag, hyp = (bool)HypButton.Tag;
             string pref = string.Empty, post = string.Empty;
@@ -3007,7 +3016,7 @@ namespace Calcpad.Wpf
         private static void SetTrigButton(Button btn, string s, double fontSize, FontFamily fontFamily)
         {
             btn.Content = s;
-            btn.Tag = s + '(';
+            btn.Tag = s + "(x)";
             btn.FontSize = fontSize;
             btn.FontFamily = fontFamily;
             btn.FontStretch = fontFamily.Source.Contains("Cond") ?
