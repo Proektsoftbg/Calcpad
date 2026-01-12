@@ -41,6 +41,7 @@ namespace Calcpad.Document
             _parser.Settings = _settings;
             var sourceCodeTemp = await ParseMacros(sourceCode);
 
+            var isCancelled = false;
             var timeoutTask = Task.Run(async () =>
             {
 #if DEBUG
@@ -48,9 +49,10 @@ namespace Calcpad.Document
                 await Task.Delay(60 * 60 * 1000);
 #else
                 // 60s milliseconds timeout
-                await Task.Delay(60 * 1000);
+                await Task.Delay(5 * 60 * 1000);
                 _parser.Cancel();
 #endif
+                isCancelled = true;
             });
             var parseTask = Task.Run(() =>
             {
@@ -58,6 +60,10 @@ namespace Calcpad.Document
             });
             Task.WaitAny([timeoutTask, parseTask]);
 
+            if (isCancelled)
+            {
+                return "<p class='err'>Calculation cancelled due to timeout for 5 minutes.</p>";
+            }
             return _parser.HtmlResult;
         }
 
