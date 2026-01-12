@@ -306,7 +306,7 @@ namespace Calcpad.WebApi.Services.AI
 
             var langs = await db.AsQueryable<CalcpadLangModel>()
                 .Where(x => x.Lang == lang)
-                .Where(x => cpdUids.Contains(x.UniqueId))
+                .Where(x => cpdUids.Contains(x.GroupId))
                 .Where(x => x.IsDeleted == false)
                 .ToListAsync();
 
@@ -335,7 +335,7 @@ namespace Calcpad.WebApi.Services.AI
                     continue;
                 }
 
-                if (langModel.UniqueId == uniqueId)
+                if (langModel.GroupId == uniqueId)
                 {
                     langDict[langModel.Key] = langModel;
                 }
