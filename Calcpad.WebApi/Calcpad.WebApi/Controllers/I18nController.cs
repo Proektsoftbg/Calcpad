@@ -219,7 +219,7 @@ namespace Calcpad.WebApi.Controllers
 
             // get tranlated keys
             var translatedContent = await i18NService.TranslateHtmlContentToLang(
-                cpdFile.UniqueId,
+                cpdFile.GroupId,
                 lastHtml,
                 lang
             );
