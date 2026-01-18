@@ -836,7 +836,7 @@
                             </MenuItem>
                             <MenuItem Click="Button_Click" Tag="inverse(M)"      Header="inverse(M)"    ToolTip="{x:Static wpf:MainWindowResources.InverseOfMatrixM}" />
                             <MenuItem Click="Button_Click" Tag="lsolve(A; b)"    Header="lsolve(A; b)"  ToolTip="{x:Static wpf:MainWindowResources.SolvesTheSystemOfLinearEquationsAxBUsingLDLTDecompositionForSymmetricMatricesAndLUForNonSymmetric}" />
-                            <MenuItem Click="Button_Click" Tag="clsolve(A; B)"   Header="cmsolve(A; B)" ToolTip="{x:Static wpf:MainWindowResources.SolvesTheLinearMatrixEquationAxBWithASymmetricPositiveDefiniteMatrixAUsingCholeskyDecomposition}" />
+                            <MenuItem Click="Button_Click" Tag="clsolve(A; B)"   Header="clsolve(A; B)" ToolTip="{x:Static wpf:MainWindowResources.SolvesTheLinearMatrixEquationAxBWithASymmetricPositiveDefiniteMatrixAUsingCholeskyDecomposition}" />
                             <MenuItem Click="Button_Click" Tag="slsolve(A; b)"   Header="slsolve(A; b)" ToolTip="{x:Static wpf:MainWindowResources.SolvesTheLinearMatrixEquationAxBWithASymmetricMatrixAUsingPCGMethod}" />
                             <MenuItem Click="Button_Click" Tag="msolve(A; B)"    Header="msolve(A; B)"  ToolTip="{x:Static wpf:MainWindowResources.SolvesTheGeneralizedMatrixEquationAXBUsingLDLTDecompositionForSymmetricMatricesAndLUForNonSymmetric}" />
                             <MenuItem Click="Button_Click" Tag="cmsolve(A; B)"   Header="cmsolve(A; B)" ToolTip="{x:Static wpf:MainWindowResources.SolvesTheGeneralizedMatrixEquationAXBWithSymmetricPositiveDefiniteMatrixAUsingCholeskyDecomposition}" />
