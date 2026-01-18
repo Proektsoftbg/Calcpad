@@ -1169,6 +1169,15 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fast square matrix multiplication with parallel Winograd algorithm..
+        /// </summary>
+        public static string FastSquareMatrixMultiplicationWithParallelWinogradAlgorithm {
+            get {
+                return ResourceManager.GetString("FastSquareMatrixMultiplicationWithParallelWinogradAlgorithm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _File.
         /// </summary>
         public static string File {
@@ -2799,12 +2808,30 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Solves the generalized matrix equation AX = B with a symmetric matrix A using PCG method.
+        /// </summary>
+        public static string SolvesTheGeneralizedMatrixEquationAXBWithASymmetricMatrixAUsingPCGMethod {
+            get {
+                return ResourceManager.GetString("SolvesTheGeneralizedMatrixEquationAXBWithASymmetricMatrixAUsingPCGMethod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Solves the generalized matrix equation AX = B with symmetric positive definite matrix A using Cholesky decomposition.
         /// </summary>
         public static string SolvesTheGeneralizedMatrixEquationAXBWithSymmetricPositiveDefiniteMatrixAUsingCholeskyDecomposition {
             get {
                 return ResourceManager.GetString("SolvesTheGeneralizedMatrixEquationAXBWithSymmetricPositiveDefiniteMatrixAUsingCho" +
                         "leskyDecomposition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Solves the linear matrix equation Ax = b with a symmetric matrix A using PCG method.
+        /// </summary>
+        public static string SolvesTheLinearMatrixEquationAxBWithASymmetricMatrixAUsingPCGMethod {
+            get {
+                return ResourceManager.GetString("SolvesTheLinearMatrixEquationAxBWithASymmetricMatrixAUsingPCGMethod", resourceCulture);
             }
         }
         

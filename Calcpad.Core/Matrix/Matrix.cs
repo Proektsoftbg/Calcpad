@@ -1627,10 +1627,10 @@ namespace Calcpad.Core
             return c;
         }
 
-        internal static Matrix EvaluateFunction(Calculator.Function<RealValue> f, Matrix a)
+        internal static Matrix EvaluateFunction(Calculator.Function<RealValue> f, Matrix a, long index)
         {
             Matrix c;
-            if (a.IsStructurallyConsistentType)
+            if (a.IsStructurallyConsistentType || Calculator.IsZeroPreservingFunction(index))
             {
                 c = a.Clone();
                 var m = a._rows.Length;
@@ -1640,7 +1640,6 @@ namespace Calcpad.Core
                 else
                     for (int i = m - 1; i >= 0; --i)
                         c._rows[i] = Vector.EvaluateFunction(f, a._rows[i]) as LargeVector;
-
             }
             else
             {
@@ -2170,7 +2169,7 @@ namespace Calcpad.Core
             Vector row = _type == MatrixType.Full || _type == MatrixType.LowerTriangular ? 
                 _rows[i] : new RowVector(this, i);
 
-            var indexes = row.GetOrderIndexes(reverse);
+            var indexes = row.GetOrderIndexes(reverse, _colCount);
             return ReorderCols(indexes);
         }
 

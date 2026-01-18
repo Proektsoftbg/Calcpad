@@ -110,6 +110,7 @@ namespace Calcpad.Core
             { "diagonal_hp", 32 },
             { "column_hp", 33 },
             { "setunits", 34 },
+            { "matmul", 35 },
         }.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
 
         internal static readonly int LuIndex = FunctionIndex["lu"];
@@ -262,6 +263,7 @@ namespace Calcpad.Core
                 DiagonalHp,             //32
                 ColumnHp,               //33      
                 SetUnits,               //34
+                MatMul,                 //35
             ];
 
             MatrixIterativeFunctions = [
@@ -399,10 +401,10 @@ namespace Calcpad.Core
             HpMatrix.EvaluateOperator(_calc.GetOperator(index), hp_a, hp_b, index) :
             Matrix.EvaluateOperator(_calc.GetOperator(index), a, b, index);
 
-        internal Matrix EvaluateFunction(long Index, Matrix a) =>
+        internal Matrix EvaluateFunction(long index, Matrix a) =>
             a is HpMatrix hp_m ?
-            HpMatrix.EvaluateFunction(_calc.GetFunction(Index), hp_m) :
-            Matrix.EvaluateFunction(_calc.GetFunction(Index), a);
+            HpMatrix.EvaluateFunction(_calc.GetFunction(index), hp_m, index) :
+            Matrix.EvaluateFunction(_calc.GetFunction(index), a, index);
 
         internal Matrix EvaluateFunction2(long index, Matrix a, Matrix b) =>
             a is HpMatrix hp_a && b is HpMatrix hp_b ?
@@ -829,6 +831,20 @@ namespace Calcpad.Core
                 return HpMatrix.Kronecker(hp_a, hp_b);
 
             return Matrix.Kronecker(a, b);
+        }
+
+
+        private static HpMatrix MatMul(in IValue A, in IValue B)
+        {
+            var a = IValue.AsMatrixHp(A);
+            var b = IValue.AsMatrixHp(B);
+            if (a.ColCount != b.RowCount)
+                throw Exceptions.MatrixDimensions();
+
+            if (a.RowCount != a.ColCount || b.RowCount != b.ColCount)
+                throw Exceptions.MatrixNotSquare();
+
+            return HpMatmulWinograd.Multiply(a, b);
         }
 
         private static HpMatrix Fft(in IValue A) => IValue.AsMatrixHp(A).FFT(false);

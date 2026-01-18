@@ -9,7 +9,7 @@
         private const string RandomSquareMatrix = "a = random(mfill(matrix(n; n); 1))";
         private const string WellConditionedMatrix = "a = submatrix(qr(random(mfill(matrix(n; n); 1))); 1; n; 1; n)";
 
-        private static string[] OperatorTestHelper(char o) => [
+        private static string[] OperatorTestHelper(char o, string tol = "0") => [
             "m = 500", 
             "n = 500",
             RandomMatrixA,
@@ -18,7 +18,7 @@
             "a_hp = hp(a)",
             "b_hp = hp(b)",
             $"c_hp = a_hp {o} b_hp",
-            "r = c_hp ≡ c",
+            $"r = if({tol} ≡ 0; c_hp ≡ c; abs(c_hp - c) ≤ {tol})",
             "mcount(r; 0)"
         ];
 
@@ -109,7 +109,7 @@
         public void HPMatrixMultiplication()
         {
             var calc = new TestCalc(new());
-            var result = calc.Run(OperatorTestHelper('*'));
+            var result = calc.Run(OperatorTestHelper('*', "10^-11"));
             Assert.Equal(0, result);
         }
 
@@ -146,6 +146,158 @@
         {
             var calc = new TestCalc(new());
             var result = calc.Run(OperatorTestHelper('⦼'));
+            Assert.Equal(0, result);
+        }
+        #endregion
+
+        #region HPMatrixScalarOperators
+        private const string RandomNum = "b = random(50)";
+        private static string[] MatrixScalarTestHelper(char o) => [
+            "m = 500",
+            "n = 500",
+            RandomMatrixA,
+            RandomNum,
+            $"c = a {o} b",
+            $"c_hp = hp(a) {o} b",
+            "r = c ≡ c_hp",
+            "mcount(r; 0)"
+        ];
+        [Fact]
+        [Trait("Category", "HPMatrixScalarOperators")]
+        public void HPMatrixScalarAddition()
+        {
+            var calc = new TestCalc(new());
+            var result = calc.Run(MatrixScalarTestHelper('+'));
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        [Trait("Category", "HPMatrixScalarOperators")]
+        public void HPMatrixScalarSubtraction()
+        {
+            var calc = new TestCalc(new());
+            var result = calc.Run(MatrixScalarTestHelper('-'));
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        [Trait("Category", "HPMatrixScalarOperators")]
+        public void HPMatrixScalarMultiplication()
+        {
+            var calc = new TestCalc(new());
+            var result = calc.Run(MatrixScalarTestHelper('*'));
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        [Trait("Category", "HPMatrixScalarOperators")]
+        public void HPMatrixScalarDivision()
+        {
+            var calc = new TestCalc(new());
+            var result = calc.Run(MatrixScalarTestHelper('/'));
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        [Trait("Category", "HPMatrixScalarOperators")]
+        public void HPMatrixScalarForceDivisionBar()
+        {
+            var calc = new TestCalc(new());
+            var result = calc.Run(MatrixScalarTestHelper('÷'));
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        [Trait("Category", "HPMatrixScalarOperators")]
+        public void HPMatrixScalarIntegerDivision()
+        {
+            var calc = new TestCalc(new());
+            var result = calc.Run(MatrixScalarTestHelper('\\'));
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        [Trait("Category", "HPMatrixScalarOperators")]
+        public void HPMatrixScalarModulo()
+        {
+            var calc = new TestCalc(new());
+            var result = calc.Run(MatrixScalarTestHelper('⦼'));
+            Assert.Equal(0, result);
+        }
+
+        #endregion
+
+        #region HPScalarMatrixOperators
+        private static string[] ScalarMatrixTestHelper(char o, string tol = "0") => [
+           "m = 500",
+            "n = 500",
+            RandomMatrixA,
+            RandomNum,
+            $"c = b {o} a",
+            $"c_hp = b {o} hp(a)",
+            $"r = if({tol} ≡ 0; c_hp ≡ c; abs(c_hp - c) ≤ {tol})",
+            "mcount(r; 0)"
+        ];
+        [Fact]
+        [Trait("Category", "HPScalarMatrixOperators")]
+        public void HPScalarMatrixAddition()
+        {
+            var calc = new TestCalc(new());
+            var result = calc.Run(ScalarMatrixTestHelper('+'));
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        [Trait("Category", "HPScalarMatrixOperators")]
+        public void HPScalarMatrixSubtraction()
+        {
+            var calc = new TestCalc(new());
+            var result = calc.Run(ScalarMatrixTestHelper('-'));
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        [Trait("Category", "HPScalarMatrixOperators")]
+        public void HPScalarMatrixMultiplication()
+        {
+            var calc = new TestCalc(new());
+            var result = calc.Run(ScalarMatrixTestHelper('*'));
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        [Trait("Category", "HPScalarMatrixOperators")]
+        public void HPScalarMatrixDivision()
+        {
+            var calc = new TestCalc(new());
+            var result = calc.Run(ScalarMatrixTestHelper('/'));
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        [Trait("Category", "HPScalarMatrixOperators")]
+        public void HPScalarMatrixForceDivisionBar()
+        {
+            var calc = new TestCalc(new());
+            var result = calc.Run(ScalarMatrixTestHelper('÷'));
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        [Trait("Category", "HPScalarMatrixOperators")]
+        public void HPScalarMatrixIntegerDivision()
+        {
+            var calc = new TestCalc(new());
+            var result = calc.Run(ScalarMatrixTestHelper('\\'));
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        [Trait("Category", "HPScalarMatrixOperators")]
+        public void HPScalarMatrixModulo()
+        {
+            var calc = new TestCalc(new());
+            var result = calc.Run(ScalarMatrixTestHelper('⦼', "10^-14"));
             Assert.Equal(0, result);
         }
         #endregion

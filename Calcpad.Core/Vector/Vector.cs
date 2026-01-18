@@ -1407,10 +1407,12 @@ namespace Calcpad.Core
 
         internal virtual HpVector Order(bool reverse = false) => HpVector.FromIndexes(GetOrderIndexes(reverse));
 
-        internal virtual int[] GetOrderIndexes(bool reverse)
+        internal virtual int[] GetOrderIndexes(bool reverse, int len = -1)
         {
-            var n = Length;
-            var values = new RealValue[n];
+            if (len < 0)
+                len = Length;
+
+            var values = new RealValue[len];
             var span = values.AsSpan();
             if (_values is not null)
                 _values.AsSpan(0, _size).CopyTo(span);
@@ -1418,11 +1420,11 @@ namespace Calcpad.Core
                 for (int i = 0; i < _size; ++i)
                     span[i] = this[i];
 
-            var indexes = Enumerable.Range(0, n).ToArray();
+            var indexes = Enumerable.Range(0, len).ToArray();
             if (reverse)
-                span.Sort<RealValue, int>(indexes, Descending);
+                span.Sort(indexes, Descending);
             else
-                span.Sort<RealValue, int>(indexes);
+                span.Sort(indexes);
 
             return indexes;
         }

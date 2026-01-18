@@ -421,6 +421,7 @@ namespace Calcpad.Wpf
             items.Add(new ListBoxItem() { Content = "mA", Foreground = Brushes.DarkCyan });
             items.Add(new ListBoxItem() { Content = "MA", Foreground = Brushes.DarkCyan });
             items.Add(new ListBoxItem() { Content = "mAh", Foreground = Brushes.DarkCyan });
+            items.Add(new ListBoxItem() { Content = "matmul(A; B)", FontWeight = FontWeights.Bold });
             items.Add(new ListBoxItem() { Content = "matrix(m; n)", FontWeight = FontWeights.Bold });
             items.Add(new ListBoxItem() { Content = "matrix_hp(m; n)", FontWeight = FontWeights.Bold });
             items.Add(new ListBoxItem() { Content = "max(M; v; x…)", FontWeight = FontWeights.Bold });
@@ -660,6 +661,8 @@ namespace Calcpad.Wpf
             items.Add(new ListBoxItem() { Content = "sinh(x)", FontWeight = FontWeights.Bold });
             items.Add(new ListBoxItem() { Content = "size(v)", FontWeight = FontWeights.Bold });
             items.Add(new ListBoxItem() { Content = "slice(v; i₁; i₂)", FontWeight = FontWeights.Bold });
+            items.Add(new ListBoxItem() { Content = "slsolve(A; b)", FontWeight = FontWeights.Bold });
+            items.Add(new ListBoxItem() { Content = "smsolve(A; B)", FontWeight = FontWeights.Bold });
             items.Add(new ListBoxItem() { Content = "slug", Foreground = Brushes.DarkCyan });
             items.Add(new ListBoxItem() { Content = "slug/ft^3", Foreground = Brushes.DarkCyan });
             items.Add(new ListBoxItem() { Content = "sort(v)", FontWeight = FontWeights.Bold });

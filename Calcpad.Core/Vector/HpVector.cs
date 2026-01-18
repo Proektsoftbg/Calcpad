@@ -1556,16 +1556,19 @@ namespace Calcpad.Core
 
         internal override HpVector Order(bool reverse = false) => FromIndexes(GetOrderIndexes(reverse));
 
-        internal override int[] GetOrderIndexes(bool reverse)
+        internal override int[] GetOrderIndexes(bool reverse, int len = -1)
         {
-            var values = new double[_length];
+            if (len < 0) 
+                len = _length;
+
+            var values = new double[len];
             var span = values.AsSpan();
             _values.AsSpan(0, _size).CopyTo(span);
-            var indexes = Enumerable.Range(0, _length).ToArray();
+            var indexes = Enumerable.Range(0, len).ToArray();
             if (reverse)
-                span.Sort<double, int>(indexes, descending);
+                span.Sort(indexes, descending);
             else
-                span.Sort<double, int>(indexes);
+                span.Sort(indexes);
 
             return indexes;
         }

@@ -529,9 +529,13 @@ namespace Calcpad.Core
             else if (b is HpDiagonalMatrix bd)
                 return a * bd;
 
-            Unit unit = Unit.Multiply(a.Units, b.Units, out var d, true);
-            HpMatrix c = new(a._rowCount, b._colCount, unit);
+
             var m = a._rowCount;
+            if (m >= 10 && m == a._colCount && b._rowCount == b._colCount)
+                return HpMatmulWinograd.Multiply(a, b);
+
+            Unit unit = Unit.Multiply(a.Units, b.Units, out var d, true);
+            HpMatrix c = new(m, b._colCount, unit);
             var na = a._colCount - 1;
             var nb = b._colCount - 1;
             var c_rows = c._hpRows;
@@ -1939,11 +1943,11 @@ namespace Calcpad.Core
             return c;
         }
 
-        internal static HpMatrix EvaluateFunction(Calculator.Function<RealValue> f, HpMatrix a)
+        internal static HpMatrix EvaluateFunction(Calculator.Function<RealValue> f, HpMatrix a, long index)
         {
             Unit units = f(a[0, 0]).Units;
             HpMatrix c;
-            if (a.IsStructurallyConsistentType)
+            if (a.IsStructurallyConsistentType || Calculator.IsZeroPreservingFunction(index))
             {
                 c = a.Clone();
                 c._units = units;
@@ -2549,7 +2553,7 @@ namespace Calcpad.Core
             if (i > _rowCount)
                 throw Exceptions.IndexOutOfRange(i.ToString());
 
-            var indexes = RowRef(i - 1).GetOrderIndexes(reverse);
+            var indexes = RowRef(i - 1).GetOrderIndexes(reverse, _colCount);
             return ReorderCols(indexes);
         }
 
@@ -3653,6 +3657,17 @@ namespace Calcpad.Core
                 for (int j = 0; j < n; ++j)
                     row.SetValue(jaggedArray[j][i], j);
             });
+            return M;
+        }
+
+        internal static HpMatrix FromFlatArray(double[] flatArray, Unit units, int n, int stride)
+        {
+            var M = new HpMatrix(n, n, units);
+            for (int i = 0; i < n; ++i)
+            {
+                M._hpRows[i] = new(n, n, units);
+                flatArray.AsSpan(i * stride, n).CopyTo(M._hpRows[i].Raw);
+            }
             return M;
         }
 

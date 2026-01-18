@@ -1,6 +1,6 @@
 ﻿namespace Calcpad.Tests
 {
-    public class HDiagonalPMatrixComparison
+    public class HDiagonalMatrixComparison
     {
         #region HPDiagonalMatrixOperators
 
@@ -8,8 +8,7 @@
         private const string RandomMatrixB = "b = random(diagonal(n; 1))";
         private const string WellConditionedMatrix = "a = vec2diag((0.55 + range(0; n - 1; 1))/n)";
 
-
-        private static string[] OperatorTestHelper(char o) => [
+        private static string[] OperatorTestHelper(char o, string tol = "0") => [
             "n = 500",
             RandomMatrixA,
             RandomMatrixB,
@@ -17,7 +16,7 @@
             "a_hp = hp(a)",
             "b_hp = hp(b)",
             $"c_hp = a_hp {o} b_hp",
-            "r = c_hp ≡ c",
+            $"r = if({tol} ≡ 0; c_hp ≡ c; abs(c_hp - c) ≤ {tol})",
             "mcount(r; 0)"
         ];
 
