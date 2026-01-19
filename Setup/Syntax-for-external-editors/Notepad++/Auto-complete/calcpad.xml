@@ -331,6 +331,7 @@
 		<KeyWord name="MA" />
 		<KeyWord name="mA" />
 		<KeyWord name="mAh" />
+		<KeyWord name="matmul" />
 		<KeyWord name="matrix" />
 		<KeyWord name="matrix_hp" />
 		<KeyWord name="max" />
@@ -542,7 +543,9 @@
 		<KeyWord name="sinh" />
 		<KeyWord name="size" />
 		<KeyWord name="slice" />
+		<KeyWord name="slsolve" />
 		<KeyWord name="slug" />
+		<KeyWord name="smsolve" />
 		<KeyWord name="sort" />
 		<KeyWord name="sort_cols" />
 		<KeyWord name="sort_rows" />
