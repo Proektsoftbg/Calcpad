@@ -189,9 +189,14 @@ namespace Calcpad.WebApi.Services.Calcpad
                 .Where(node => node.NodeType == HtmlNodeType.Element && ShouldRetainNode(node))
                 .ToList();
 
-            // create new document with only the nodes to keep
+            // filter out nodes whose ancestors are also in the keep list (only keep top-level nodes)
+            var topLevelNodes = nodesToKeep
+                .Where(node => !nodesToKeep.Any(n => n != node && n.Descendants().Contains(node)))
+                .ToList();
+
+            // create new document with only the top-level nodes to keep
             var newDoc = new HtmlDocument();
-            foreach (var node in nodesToKeep)
+            foreach (var node in topLevelNodes)
             {
                 newDoc.DocumentNode.AppendChild(node.Clone());
             }
@@ -224,6 +229,10 @@ namespace Calcpad.WebApi.Services.Calcpad
 
             // retain p element which contains input or select
             if (tag == "p" && IsContainsInputTag(node))
+                return true;
+
+            // if div, check v-if attribute
+            if (tag == "div" && node.Attributes.Contains("v-if") && IsContainsInputTag(node))
                 return true;
 
             // has class="err"
