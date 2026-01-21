@@ -449,7 +449,7 @@ namespace Calcpad.WebApi.Controllers
             if (!string.IsNullOrEmpty(data.Lang))
             {
                 outputText = await i18NService.TranslateHtmlContentToLang(
-                    fileModel.UniqueId,
+                    fileModel.GroupId,
                     localeResult,
                     data.Lang
                 );

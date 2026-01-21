@@ -5,10 +5,7 @@ using Calcpad.WebApi.Configs;
 using Calcpad.WebApi.Models;
 using Calcpad.WebApi.Models.Base;
 using Calcpad.WebApi.Utils.Web.Service;
-using DocumentFormat.OpenXml.Drawing.Charts;
-using DocumentFormat.OpenXml.EMMA;
 using HtmlAgilityPack;
-using MongoDB.Bson;
 using MongoDB.Driver.Linq;
 
 namespace Calcpad.WebApi.Services.AI
@@ -243,49 +240,14 @@ namespace Calcpad.WebApi.Services.AI
         }
 
         /// <summary>
-        /// Retrieves the Calcpad file with the specified unique identifier and its associated source Calcpad file, if
-        /// available.
-        /// </summary>
-        /// <remarks>The method returns null for both items in the tuple if no Calcpad file with the
-        /// specified unique identifier exists. Only files marked as CPD are considered.</remarks>
-        /// <param name="uniqueId">The unique identifier of the Calcpad file to retrieve. Cannot be null or empty.</param>
-        /// <returns>A tuple containing the Calcpad file that matches the specified unique identifier and its source Calcpad
-        /// file, if one exists. The second item in the tuple is null if the file has no source or the source file
-        /// cannot be found.</returns>
-        public async Task<Tuple<CalcpadFileModel, CalcpadFileModel?>> GetSelfAndSourceCpdFile(
-            string uniqueId
-        )
-        {
-            var cpdFile = await db.AsQueryable<CalcpadFileModel>()
-                .Where(x => x.UniqueId == uniqueId)
-                .Where(x => x.IsCpd == true)
-                .FirstOrDefaultAsync();
-            if (cpdFile == null)
-            {
-                return Tuple.Create<CalcpadFileModel, CalcpadFileModel?>(cpdFile, null);
-            }
-
-            CalcpadFileModel? sourceFile = null;
-            if (!cpdFile.SourceId.IsEmpty())
-            {
-                sourceFile = await db.AsQueryable<CalcpadFileModel>()
-                    .Where(x => x.Id == cpdFile.SourceId)
-                    .Where(x => x.IsCpd == true)
-                    .FirstOrDefaultAsync();
-            }
-
-            return Tuple.Create(cpdFile, sourceFile);
-        }
-
-        /// <summary>
         /// translate html content to target lang
         /// </summary>
-        /// <param name="uniqueId"></param>
+        /// <param name="groupId"></param>
         /// <param name="htmlContent"></param>
         /// <param name="lang"></param>
         /// <returns></returns>
         public async Task<string> TranslateHtmlContentToLang(
-            string uniqueId,
+            string groupId,
             string htmlContent,
             string lang
         )
@@ -293,20 +255,9 @@ namespace Calcpad.WebApi.Services.AI
             if (string.IsNullOrEmpty(htmlContent))
                 return htmlContent;
 
-            var cpdFile = await db.AsQueryable<CalcpadFileModel>()
-                .Where(x => x.UniqueId == uniqueId)
-                .Where(x => x.IsCpd == true)
-                .FirstOrDefaultAsync();
-
-            var cpdUids = await db.AsQueryable<CalcpadFileModel>()
-                .Where(x => x.GroupId == cpdFile.GroupId)
-                .Where(x => x.IsCpd == true)
-                .Select(x => x.UniqueId)
-                .ToListAsync();
-
             var langs = await db.AsQueryable<CalcpadLangModel>()
                 .Where(x => x.Lang == lang)
-                .Where(x => cpdUids.Contains(x.UniqueId))
+                .Where(x => x.GroupId == groupId)
                 .Where(x => x.IsDeleted == false)
                 .ToListAsync();
 
@@ -335,7 +286,7 @@ namespace Calcpad.WebApi.Services.AI
                     continue;
                 }
 
-                if (langModel.UniqueId == uniqueId)
+                if (langModel.GroupId == groupId)
                 {
                     langDict[langModel.Key] = langModel;
                 }
@@ -354,6 +305,8 @@ namespace Calcpad.WebApi.Services.AI
                     // replace node value
                     if (node.NodeType == HtmlNodeType.Text)
                     {
+                        if (node.ParentNode == null)
+                            continue;
                         node.ParentNode.ReplaceChild(
                             HtmlTextNode.CreateNode(
                                 node.InnerText.Replace(

@@ -7,6 +7,7 @@ using Calcpad.Document.Core.Segments;
 using Calcpad.WebApi.Configs;
 using Calcpad.WebApi.Models;
 using Calcpad.WebApi.Models.Base;
+using Calcpad.WebApi.Utils.Calcpad;
 using Calcpad.WebApi.Utils.Encrypt;
 using Calcpad.WebApi.Utils.Web.Exceptions;
 using Calcpad.WebApi.Utils.Web.Service;
@@ -183,17 +184,20 @@ namespace Calcpad.WebApi.Services.Calcpad
             };
             doc.LoadHtml(originHtml);
 
-            // retain only nodes that should be kept
-            var nodesToKeep = doc
-                .DocumentNode.Descendants()
-                .Where(node => node.NodeType == HtmlNodeType.Element && ShouldRetainNode(node))
-                .ToList();
+            // process conditional blocks (#if, #else, #else if, #end if)
+            var conditionWrapper = new ConditionBlockWrapper(doc);
+            conditionWrapper.ProcessConditionalBlocks();
 
-            // create new document with only the nodes to keep
+            // recursively clean nodes
             var newDoc = new HtmlDocument();
-            foreach (var node in nodesToKeep)
+            foreach (var node in doc.DocumentNode.ChildNodes)
             {
-                newDoc.DocumentNode.AppendChild(node.Clone());
+                var cloned = node.Clone();
+                var isRetain = CleanNodeRecursively(cloned);
+                if (!isRetain)
+                    continue;
+
+                newDoc.DocumentNode.AppendChild(cloned);
             }
 
             // if empty, return origin
@@ -204,52 +208,164 @@ namespace Calcpad.WebApi.Services.Calcpad
             return newDoc.DocumentNode.OuterHtml;
         }
 
+        // private static void CleanPTagsRecursively(HtmlNode root)
+        // {
+        //     if (root == null)
+        //         return;
+
+        //     // Compute subtree maps once, then prune <p> tags in O(n).
+        //     var containsSupportTagMap = BuildContainsSupportTagMap(root);
+        //     var subtreeHasRetainableMap = BuildSubtreeHasRetainableMap(root, containsSupportTagMap);
+
+        //     var pNodes = root.Descendants()
+        //         .Where(n =>
+        //             n.NodeType == HtmlNodeType.Element
+        //             && string.Equals(n.Name, "p", StringComparison.OrdinalIgnoreCase)
+        //         )
+        //         .ToList();
+
+        //     foreach (var p in pNodes)
+        //     {
+        //         if (
+        //             containsSupportTagMap.TryGetValue(p, out var containsSupport) && containsSupport
+        //         )
+        //             continue;
+
+        //         if (subtreeHasRetainableMap.TryGetValue(p, out var hasRetainable) && hasRetainable)
+        //             continue;
+
+        //         p.Remove();
+        //     }
+        // }
+
+        private readonly static string[] _containerClasses = ["conditional-block", "indent"];
+        private static readonly string[] _containerAttr = ["v-if", "v-else-if", "v-else"];
+
+        private static bool CleanNodeRecursively(HtmlNode node)
+        {
+            if (node == null)
+                return true;
+
+            if (IsRetainingNode(node))
+                return true;
+
+            var containerType = GetContainerType(node);
+            if (containerType == 0)
+                return false;
+
+            if (containerType == 1)
+            {
+                // present tag p
+                return IsContainsSupportedTag(node);
+            }
+
+            if (containerType == 2)
+            {
+                // div with class conditional-block、indent、v-if、v-else-if、v-else
+                foreach (var child in node.ChildNodes.ToList())
+                {
+                    var isRetain = CleanNodeRecursively(child);
+                    if (!isRetain)
+                    {
+                        node.RemoveChild(child);
+                    }
+                }
+
+                return node.ChildNodes.Count > 0;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// get container type
+        /// zero -- not container
+        /// 1 -- p tag
+        /// 2 -- div tag with class conditional-block、indent、v-if、v-else-if、v-else
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        private static int GetContainerType(HtmlNode node)
+        {
+            if (node.NodeType != HtmlNodeType.Element)
+                return 0;
+
+            var tag = node.Name;
+            if (string.Equals(tag, "p", StringComparison.OrdinalIgnoreCase))
+                return 1;
+
+            if (!string.Equals(tag, "div", StringComparison.OrdinalIgnoreCase))
+                return 0;
+
+            // check class attribute
+            var classAttr = node.GetAttributeValue("class", string.Empty);
+            if (classAttr != null)
+            {
+                var classList = classAttr
+                    .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                    .Select(x => x.Trim())
+                    .ToList();
+                if (classList.Any(x => _containerClasses.Contains(x)))
+                    return 2;
+            }
+
+            // check v-if、v-else-if、v-else attribute
+            foreach (var attr in _containerAttr)
+            {
+                if (node.Attributes.Contains(attr))
+                    return 2;
+            }
+
+            return 0;
+        }
+
+        private static readonly HashSet<string> _supportTags =
+            new(StringComparer.OrdinalIgnoreCase) { "input", "select", "button", "img" };
+
         /// <summary>
         /// check if node should be retained
         /// retain h1-h6, img, p contains input/select/button, class contains err
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
-        private static bool ShouldRetainNode(HtmlNode node)
+        private static bool IsRetainingNode(HtmlNode node)
         {
             if (node.NodeType != HtmlNodeType.Element)
                 return false;
 
-            var tag = node.Name.ToLower();
-            if (tag.StartsWith('h'))
+            var tag = node.Name;
+            if (tag.Length > 0 && (tag[0] == 'h' || tag[0] == 'H'))
                 return true;
 
-            if (tag.StartsWith("img"))
+            if (_supportTags.Contains(tag.ToLower()))
                 return true;
 
-            // retain p element which contains input or select
-            if (tag == "p" && IsContainsInputTag(node))
-                return true;
-
-            // has class="err"
-            if (node.GetAttributeValue("class", "").Contains("err"))
-                return true;
+            var classAttr = node.GetAttributeValue("class", string.Empty);
+            if (!string.IsNullOrEmpty(classAttr))
+            {
+                // has class="err"
+                if (classAttr.Contains("err", StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
 
             return false;
         }
-
-        private static HashSet<string> _supportTags = ["input", "select", "button"];
 
         /// <summary>
         /// check if node or its children contains input 、slect、button element
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
-        private static bool IsContainsInputTag(HtmlNode node)
+        private static bool IsContainsSupportedTag(HtmlNode node)
         {
-            if (_supportTags.Contains(node.Name.ToLower()))
+            if (_supportTags.Contains(node.Name))
             {
                 return true;
             }
 
             foreach (var child in node.ChildNodes)
             {
-                if (IsContainsInputTag(child))
+                if (IsContainsSupportedTag(child))
                 {
                     return true;
                 }

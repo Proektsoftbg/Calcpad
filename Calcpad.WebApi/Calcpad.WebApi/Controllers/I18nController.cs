@@ -63,7 +63,7 @@ namespace Calcpad.WebApi.Controllers
 
             // get existing i18n docs
             var existingTrans = await db.AsQueryable<CalcpadLangModel>()
-                .Where(x => x.UniqueId == uniqueId && x.IsByAI == true)
+                .Where(x => x.GroupId == cpdFile.GroupId && x.IsByAI == true)
                 .Where(x => langs.Contains(x.Lang))
                 .Where(x => !x.IsDeleted)
                 .ToListAsync();
@@ -96,6 +96,11 @@ namespace Calcpad.WebApi.Controllers
                 return;
             }
 
+            var cpdFile = await db.AsQueryable<CalcpadFileModel>()
+                .Where(x => x.UniqueId == uniqueId)
+                .Where(x => x.IsCpd == true)
+                .FirstOrDefaultAsync();
+
             // generate translations
             var translations = await aIService.TranslateToLang(keys, lang);
             // update parallelly
@@ -103,7 +108,7 @@ namespace Calcpad.WebApi.Controllers
             {
                 return new CalcpadLangModel
                 {
-                    UniqueId = uniqueId,
+                    GroupId = cpdFile.GroupId,
                     Lang = lang,
                     Key = x.Item1,
                     Value = x.Item2,
@@ -157,7 +162,7 @@ namespace Calcpad.WebApi.Controllers
 
             // get existing i18n docs
             var existingTrans = await db.AsQueryable<CalcpadLangModel>()
-                .Where(x => x.UniqueId == uniqueId && x.IsByAI == true)
+                .Where(x => x.GroupId == cpdFile.GroupId && x.IsByAI == true)
                 .Where(x => x.Lang == lang)
                 .Where(x => !x.IsDeleted)
                 .ToListAsync();
@@ -214,7 +219,7 @@ namespace Calcpad.WebApi.Controllers
 
             // get tranlated keys
             var translatedContent = await i18NService.TranslateHtmlContentToLang(
-                cpdFile.UniqueId,
+                cpdFile.GroupId,
                 lastHtml,
                 lang
             );
@@ -241,14 +246,9 @@ namespace Calcpad.WebApi.Controllers
 
             if (cpdFile == null)
                 return new List<CalcpadLangModel>().ToFailResponse("Calcpad file not found");
-            var cpdUids = await db.AsQueryable<CalcpadFileModel>()
-                .Where(x => x.GroupId == cpdFile.GroupId)
-                .Where(x => x.IsCpd == true)
-                .Select(x => x.UniqueId)
-                .ToListAsync();
 
             var langs = await db.AsQueryable<CalcpadLangModel>()
-                .Where(x => cpdUids.Contains(x.UniqueId))
+                .Where(x => x.GroupId == cpdFile.GroupId)
                 .Where(x => !x.IsDeleted)
                 .OrderBy(x => x.Id)
                 .ToListAsync();
@@ -326,21 +326,9 @@ namespace Calcpad.WebApi.Controllers
                 return false.ToFailResponse("Language document not found");
             }
 
-            // remove all in group
-            var cpdFile = await db.AsQueryable<CalcpadFileModel>()
-                .Where(x => x.UniqueId == langDoc.UniqueId)
-                .Where(x => x.IsCpd == true)
-                .FirstOrDefaultAsync();
-
-            var cpdUids = await db.AsQueryable<CalcpadFileModel>()
-                .Where(x => x.GroupId == cpdFile.GroupId)
-                .Where(x => x.IsCpd == true)
-                .Select(x => x.UniqueId)
-                .ToListAsync();
-
             // mark as deleted
             await db.AsFluentMongo<CalcpadLangModel>()
-                .Where(x => cpdUids.Contains(x.UniqueId) && x.Key == langDoc.Key)
+                .Where(x => x.GroupId == langDoc.GroupId && x.Key == langDoc.Key)
                 .Set(x => x.IsDeleted, true)
                 .UpdateManyAsync();
 

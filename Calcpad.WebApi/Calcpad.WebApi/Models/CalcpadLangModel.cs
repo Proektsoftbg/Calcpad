@@ -12,7 +12,7 @@ namespace Calcpad.WebApi.Models
         /// One unique Id may owns by multiple calcpad file
         /// You can use uniqueId as calcpad file template identifier
         /// </summary>
-        public string UniqueId { get; set; }
+        public string GroupId { get; set; }
 
         public string Key { get; set; }
 
