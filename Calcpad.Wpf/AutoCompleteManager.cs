@@ -967,6 +967,21 @@ namespace Calcpad.Wpf
             var sel = _richTextBox.Selection;
             var selEnd = sel.End;
             var r = new TextRange(_autoCompleteStart, selEnd);
+            var bracketOpeningIndex = s.LastIndexOf('(');
+            if (bracketOpeningIndex > 0)
+            {
+                var nextPos = selEnd.Paragraph?.ContentEnd;
+                if (nextPos is not null)
+                {
+                    var t = new TextRange(selEnd, nextPos).Text;
+                    if (t.StartsWith('('))
+                    {
+                        var bracketClosingIndex = t.IndexOf(')');
+                        if (bracketClosingIndex < 0 || t[..bracketClosingIndex].Count(';') == s.Count(';'))
+                            s = s[..bracketOpeningIndex];
+                    }
+                }
+            }
             r.Text = s;
             _listBox.Visibility = Visibility.Hidden;
             sel.Select(r.Start, r.End);

@@ -232,7 +232,7 @@ namespace Calcpad.Core
                     }
                 }
                 if (_type == SolverTypes.Repeat)
-                    for(int i = 0; i < items.Length; i++)
+                    for(int i = 0; i < items.Length; ++i)
                         if (i == 0 || i > 3)
                         {
                             rpn = items[i].Rpn;

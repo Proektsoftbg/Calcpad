@@ -59,7 +59,7 @@ namespace Calcpad.Core
                     return _contents;
 
                 var sb = new StringBuilder(_contents);
-                for (int i = 0, count = arguments.Count; i < count; i++)
+                for (int i = 0, count = arguments.Count; i < count; ++i)
                 {
                     var j = _order[i];
                     var s = arguments[j];

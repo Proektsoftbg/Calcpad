@@ -1,0 +1,126 @@
+{
+  "name": "calcpad",
+  "displayName": "Calcpad",
+  "description": "Language support for Calcpad (.cpd files) - syntax highlighting, completions, and run support",
+  "version": "7.6.0",
+  "publisher": "Proektsoft",
+  "icon": "icon.png",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Proektsoftbg/Calcpad"
+  },
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "activationEvents": [
+    "onLanguage:calcpad"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "calcpad",
+        "aliases": [
+          "Calcpad",
+          "calcpad"
+        ],
+        "extensions": [
+          ".cpd"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "calcpad",
+        "scopeName": "source.calcpad",
+        "path": "./syntaxes/calcpad.tmLanguage.json"
+      }
+    ],
+    "themes": [
+      {
+        "label": "Calcpad Monokai",
+        "uiTheme": "vs-dark",
+        "path": "./themes/calcpad-monokai-color-theme.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "calcpad.run",
+        "title": "Run Calcpad File",
+        "category": "Calcpad"
+      },
+      {
+        "command": "calcpad.open",
+        "title": "Open in Calcpad",
+        "category": "Calcpad"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "calcpad.run",
+        "key": "ctrl+shift+b",
+        "mac": "cmd+shift+b",
+        "when": "editorLangId == calcpad"
+      },
+      {
+        "command": "calcpad.open",
+        "key": "ctrl+shift+o",
+        "mac": "cmd+shift+o",
+        "when": "editorLangId == calcpad"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "when": "editorLangId == calcpad",
+          "command": "calcpad.run",
+          "group": "navigation"
+        },
+        {
+          "when": "editorLangId == calcpad",
+          "command": "calcpad.open",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configurationDefaults": {
+      "[calcpad]": {
+        "editor.semanticHighlighting.enabled": true
+      }
+    },
+    "configuration": {
+      "title": "Calcpad",
+      "properties": {
+        "calcpad.cliPath": {
+          "type": "string",
+          "default": "C:\\Program Files\\Calcpad\\Cli.exe",
+          "description": "Path to the Calcpad CLI executable"
+        },
+        "calcpad.Path": {
+          "type": "string",
+          "default": "C:\\Program Files\\Calcpad\\Calcpad.exe",
+          "description": "Path to the Calcpad executable"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@types/vscode": "^1.74.0",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "compile": "^0.0.2",
+    "run": "^1.5.0"
+  }
+}

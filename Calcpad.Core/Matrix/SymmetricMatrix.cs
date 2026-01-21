@@ -544,7 +544,7 @@ namespace Calcpad.Core
                             f = Q_i[j];
                             e[j] = g = e[j] - hh * f;
                             var Q_j = Q[j];
-                            for (int k = m; k <= j; k++) //Reduce Q, equation (11.2.13).
+                            for (int k = m; k <= j; ++k) //Reduce Q, equation (11.2.13).
                                 Q_j[k] -= (f * e[k] + g * Q_i[k]);
                         }
                     }
@@ -582,7 +582,7 @@ namespace Calcpad.Core
                     }
                     d[i] = Q_i[i]; //This statement remains.
                     Q_i[i] = RealValue.One; //Reset row and column of a to identity matrix for next iteration.
-                    for (int j = 0; j <= l; j++)
+                    for (int j = 0; j <= l; ++j)
                         Q[j][i] = Q_i[j] = RealValue.Zero;
                 }
             else

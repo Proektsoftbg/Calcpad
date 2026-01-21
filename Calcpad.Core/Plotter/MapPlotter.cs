@@ -445,7 +445,7 @@ namespace Calcpad.Core
                     {
                         var d0 = d[i, j0, 0];
                         var d1 = (d[i, j, 0] - d0) * factor;
-                        for (int k = 1; k < _size; k++)
+                        for (int k = 1; k < _size; ++k)
                         {
                             d0 += d1;
                             d[i, j0 + k, 0] = d0;

@@ -76,19 +76,124 @@ namespace Calcpad.Core
         public static HpMatrix operator *(HpDiagonalMatrix a, HpDiagonalMatrix b) =>
             new HpDiagonalMatrix(a._hpRows[0] * b._hpRows[0]);
 
-        public static HpMatrix operator *(HpDiagonalMatrix a, HpMatrix b)
+
+        public static HpLowerTriangularMatrix operator *(HpDiagonalMatrix a, HpLowerTriangularMatrix b)
         {
-            var c = b.Clone();
+            var n = b.RowCount;
+            Unit unit = Unit.Multiply(a.Units, b.Units, out _, true);
+            var c = new HpLowerTriangularMatrix(b.RowCount, unit);
             var diag = a._hpRows[0];
-            for (int i = a._rowCount - 1; i >= 0; --i)
+            if (n > diag.Size)
+                n = diag.Size;
+
+            for (int i = n - 1; i >= 0; --i)
+                c.HpRows[i] = b.HpRows[i] * diag[i];
+
+            return c;
+        }
+        public static HpUpperTriangularMatrix operator *(HpDiagonalMatrix a, HpUpperTriangularMatrix b)
+        {
+            var n = b.RowCount;
+            Unit unit = Unit.Multiply(a.Units, b.Units, out _, true);
+            var c = new HpUpperTriangularMatrix(b.RowCount, unit);
+            var diag = a._hpRows[0];
+            if (n > diag.Size)
+                n = diag.Size;
+
+            for (int i = n - 1; i >= 0; --i)
                 c.HpRows[i] = b.HpRows[i] * diag[i];
 
             return c;
         }
 
+        public static HpMatrix operator *(HpDiagonalMatrix a, HpSymmetricMatrix b)
+        {
+            var n = b.RowCount;
+            Unit unit = Unit.Multiply(a.Units, b.Units, out var d, true);
+            var c = new HpMatrix(n, n, unit);
+            var diag = a._hpRows[0];
+            if (n > diag.Size)
+                n = diag.Size;
+
+            for (int i = n - 1; i >= 0; --i)
+            {
+                var cRow = c.HpRows[i];
+                var k = diag[i].D * d;
+                for (int j = n - 1; j >= 0; --j)
+                    cRow.SetValue(b.GetValue(i, j) * k, j);
+            }
+            return c;
+        }
+
+        public static HpMatrix operator *(HpDiagonalMatrix a, HpMatrix b)
+        {
+            var n = b.RowCount;
+            Unit unit = Unit.Multiply(a.Units, b.Units, out _, true);
+            var c = new HpMatrix(n, b.ColCount, unit);
+            var diag = a._hpRows[0];
+            if (n > diag.Size)
+                n = diag.Size;
+
+            for (int i = n - 1; i >= 0; --i)
+                c.HpRows[i] = b.HpRows[i] * diag[i];
+
+            return c;
+        }
+
+        public static HpLowerTriangularMatrix operator *(HpLowerTriangularMatrix a, HpDiagonalMatrix b)
+        {
+            var n = a.RowCount;
+            Unit unit = Unit.Multiply(a.Units, b.Units, out _, true);
+            var c = new HpLowerTriangularMatrix(n, unit);
+            var diag = b._hpRows[0];
+            for (int i = n - 1; i >= 0; --i)
+                c.HpRows[i] = a.HpRows[i] * diag;
+
+            return c;
+        }
+
+        public static HpUpperTriangularMatrix operator *(HpUpperTriangularMatrix a, HpDiagonalMatrix b)
+        {
+            var n = a.RowCount;
+            Unit unit = Unit.Multiply(a.Units, b.Units, out var d, true);
+            var c = new HpUpperTriangularMatrix(n, unit);
+            var diag = b._hpRows[0].Raw;
+            var diagSize = b._hpRows[0].Size;
+            for (int i = n - 1; i >= 0; --i)
+            {
+                var aRow = a.HpRows[i];
+                var len = aRow.Length;
+                var aRaw = aRow.Raw;
+                var size = Math.Min(aRow.Size, diagSize - i);
+                c.HpRows[i] = new(len, size, unit);
+                var cRaw = c.HpRows[i].Raw;
+                for (int j = size - 1; j >= 0; --j)
+                    cRaw[j] = aRaw[j] * diag[i + j] * d;
+            }
+            return c;
+        }
+
+        public static HpMatrix operator *(HpSymmetricMatrix a, HpDiagonalMatrix b)
+        {
+            var n = a.RowCount;
+            Unit unit = Unit.Multiply(a.Units, b.Units, out var d, true);
+            var c = new HpMatrix(n, n, unit);
+            var diag = b._hpRows[0].Raw;
+            var diagSize = b._hpRows[0].Size;
+            for (int i = n - 1; i >= 0; --i)
+            {
+                var cRow = c.HpRows[i];
+                for (int j = diagSize - 1; j >= 0; --j)
+                    cRow.SetValue(a.GetValue(i, j) * diag[j] * d, j);
+            }
+            return c;
+
+        }
+
         public static HpMatrix operator *(HpMatrix a, HpDiagonalMatrix b)
         {
-            var c = a.Clone();
+            Unit unit = Unit.Multiply(a.Units, b.Units, out _, true);
+            var c = new HpMatrix(a.RowCount, a.ColCount, unit);
             var diag = b._hpRows[0];
             for (int i = a.RowCount - 1; i >= 0; --i)
                 c.HpRows[i] = a.HpRows[i] * diag;

@@ -1,0 +1,104 @@
+{
+  "name": "Calcpad Monokai",
+  "type": "dark",
+  "colors": {},
+  "tokenColors": [
+        {
+      "name": "Calcpad Html",
+      "scope": "entity.name.tag.html",
+      "settings": {
+        "foreground": "#a500ff"
+      }
+    },
+    {
+      "name": "Calcpad String",
+      "scope": ["string.quoted.double.calcpad", "string.quoted.single.calcpad"],
+      "settings": {
+        "foreground": "#a5ff00"
+      }
+    },
+    {
+      "name": "Calcpad Operators",
+      "scope": [
+        "keyword.operator.arithmetic.calcpad",
+        "keyword.operator.comparison.calcpad",
+        "keyword.operator.logical.calcpad",
+        "keyword.operator.assignment.calcpad",
+        "punctuation.separator.calcpad"
+      ],
+      "settings": {
+        "foreground": "#ffcc33"
+      }
+    },
+    {
+      "name": "Calcpad Keywords",
+      "scope": [
+        "keyword.control.calcpad",
+        "punctuation.definition.keyword.calcpad"
+      ],
+      "settings": {
+        "foreground": "#ff66aa"
+      }
+    },
+    {
+      "name": "Calcpad Methods",
+      "scope": [
+        "support.method.calcpad",
+        "punctuation.definition.method.calcpad"
+      ],
+      "settings": {
+        "foreground": "#ff66aa"
+      }
+    },
+    {
+      "name": "Calcpad Functions",
+      "scope": "support.function.calcpad",
+      "settings": {
+        "foreground": "#5599aa"
+      }
+    },
+    {
+      "name": "Calcpad Units",
+      "scope": "entity.name.constant.calcpad",
+      "settings": {
+        "foreground": "#00ffaa"
+      }
+    },
+    {
+      "name": "Calcpad Brackets",
+      "scope": "punctuation.section.brackets.calcpad",
+      "settings": {
+        "foreground": "#ff99bb"
+      }
+    },
+    {
+      "name": "Calcpad String Variables",
+      "scope": "meta.string.calcpad",
+      "settings": {
+        "foreground": "#993399"
+      }
+    },
+    {
+      "name": "Calcpad Numbers",
+      "scope": "constant.numeric.calcpad",
+      "settings": {
+        "foreground": "#ae81ff"
+      }
+    },
+    {
+      "name": "Calcpad Variables",
+      "scope": "variable.other.calcpad",
+      "settings": {
+        "foreground": "#f8f8f2"
+      }
+    },
+    {
+      "name": "Calcpad Comments",
+      "scope": "comment.line.apostrophe.calcpad",
+      "settings": {
+        "foreground": "#75715e",
+        "fontStyle": "italic"
+      }
+    }
+  ]
+}

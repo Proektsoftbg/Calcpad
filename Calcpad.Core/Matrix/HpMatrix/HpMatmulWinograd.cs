@@ -166,11 +166,6 @@ namespace Calcpad.Core
                 var M5 = new MatrixView(m5Arr, half);
                 var M6 = new MatrixView(m6Arr, half);
                 var M7 = new MatrixView(m7Arr, half);
-
-                // ============================================================
-                // Winograd variant (15 additions)
-                // ============================================================
-
                 // A22Mod = A12 - A21 + A22
                 // B22Mod = B12 - B21 + B22
                 AddSubAdd(A12, A21, A22, A22Mod);
@@ -412,7 +407,6 @@ namespace Calcpad.Core
                 sC.Clear();
                 var vC = MemoryMarshal.Cast<double, Vector<double>>(sC);
                 ref Vector<double> c = ref MemoryMarshal.GetReference(vC);
-
                 for (int k = 0; k < n; ++k)
                 {
                     var A_ik = A[i, k];
@@ -448,14 +442,12 @@ namespace Calcpad.Core
                     Unsafe.As<double, Vector512<double>>(ref Unsafe.Add(ref rC0, j)) = Vector512<double>.Zero;
                     Unsafe.As<double, Vector512<double>>(ref Unsafe.Add(ref rC1, j)) = Vector512<double>.Zero;
                 }
-
                 for (int k = 0; k < KernelSize; ++k)
                 {
                     double a0 = A[i, k];
                     double a1 = A[i + 1, k];
                     var vA0 = Vector512.Create(a0);
                     var vA1 = Vector512.Create(a1);
-
                     ref double rB = ref MemoryMarshal.GetReference(B.GetRow(k));
 
                     // Process entire row with 8 vector registers (64 doubles)
@@ -548,12 +540,10 @@ namespace Calcpad.Core
                     double a1 = A[i + 1, k];
                     var vA0 = Vector256.Create(a0);
                     var vA1 = Vector256.Create(a1);
-
                     ref double rB = ref MemoryMarshal.GetReference(B.GetRow(k));
 
                     // Manually unrolled: process all 16 vectors (64 doubles)
                     // This creates 16 independent dependency chains
-
                     // Load all B vectors
                     var vB00 = Unsafe.As<double, Vector256<double>>(ref rB);
                     var vB01 = Unsafe.As<double, Vector256<double>>(ref Unsafe.Add(ref rB, 4));

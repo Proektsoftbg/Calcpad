@@ -53,25 +53,133 @@ namespace Calcpad.Core
             return this;
         }
 
-        public static Matrix operator *(DiagonalMatrix a, DiagonalMatrix b) =>
-            new DiagonalMatrix(a._rows[0] * b._rows[0]);
+        public static DiagonalMatrix operator *(DiagonalMatrix a, DiagonalMatrix b) =>
+            new(a._rows[0] * b._rows[0]);
 
-        public static Matrix operator *(DiagonalMatrix a, Matrix b)
+
+        public static LowerTriangularMatrix operator *(DiagonalMatrix a, LowerTriangularMatrix b)
         {
-            var c = b.Clone();
+            var n = b.RowCount;
+            var c = new LowerTriangularMatrix(n);
             var diag = a._rows[0];
-            for (int i = a._rowCount - 1; i >= 0; --i)
+            if (n > diag.Size)
+                n = diag.Size;
+
+            for (int i = n - 1; i >= 0; --i)
                 c.Rows[i] = b.Rows[i] * diag[i] as LargeVector;
 
             return c;
         }
 
+        public static UpperTriangularMatrix operator *(DiagonalMatrix a, UpperTriangularMatrix b)
+        {
+            var n = b.RowCount;
+            var c = new UpperTriangularMatrix(n);
+            var diag = a._rows[0];
+            if (n > diag.Size)
+                n = diag.Size;
+
+            for (int i = n - 1; i >= 0; --i)
+                c.Rows[i] = b.Rows[i] * diag[i] as LargeVector;
+
+            return c;
+        }
+
+        public static Matrix operator *(DiagonalMatrix a, SymmetricMatrix b)
+        {
+            var n = b.RowCount;
+            var c = new Matrix(n, n);
+            var diag = a._rows[0];
+            if (n > diag.Size)
+                n = diag.Size;
+
+            for (int i = n - 1; i >= 0; --i)
+            {
+                var cRow = new RowVector(b, i) * diag[i];
+                c.Rows[i] = new LargeVector(cRow.Values);
+            }            
+            return c;
+        }
+
+        public static Matrix operator *(DiagonalMatrix a, Matrix b)
+        {
+            var n = b.RowCount;
+            var c = new Matrix(n, b.ColCount);
+            var diag = a._rows[0];
+            if (n > diag.Size)
+                n = diag.Size;
+
+            if (b.Type == MatrixType.Full)
+                for (int i =n - 1; i >= 0; --i)
+                    c.Rows[i] = b.Rows[i] * diag[i] as LargeVector;
+            else
+                for (int i = n - 1; i >= 0; --i)
+                {
+                    var cRow = new RowVector(b, i) * diag[i];
+                    c.Rows[i] = new LargeVector(cRow.Values);
+                }
+
+            return c;
+        }
+
+        public static LowerTriangularMatrix operator *(LowerTriangularMatrix a, DiagonalMatrix b)
+        {
+            var n = a.RowCount;
+            var c = new LowerTriangularMatrix(n);
+            var diag = b._rows[0];
+            for (int i = n - 1; i >= 0; --i)
+                c.Rows[i] = a.Rows[i] * diag as LargeVector;
+
+            return c;
+        }
+
+        public static UpperTriangularMatrix operator *(UpperTriangularMatrix a, DiagonalMatrix b)
+        {
+            var n = a.RowCount;
+            var c = new UpperTriangularMatrix(n);
+            var diag = b._rows[0].Raw;
+            var diagSize = b._rows[0].Size;
+            for (int i = n - 1; i >= 0; --i)
+            {
+                var aRow = a.Rows[i];
+                var len = aRow.Length;
+                var aRaw = aRow.Raw;
+                var size = Math.Min(aRow.Size, diagSize - i); 
+                var cRaw = new RealValue[len];
+                for (int j = size - 1; j >= 0; --j)
+                    cRaw[j] = aRaw[j] * diag[i + j];
+
+                c.Rows[i] = new LargeVector(cRaw);
+            }
+            return c;
+        }
+
+        public static Matrix operator *(SymmetricMatrix a, DiagonalMatrix b)
+        {
+            var n = a.RowCount;
+            var c = new Matrix(n, n);
+            var diag = b._rows[0];
+            for (int i = n - 1; i >= 0; --i)
+            {
+                var cRow = new RowVector(a, i) * diag;
+                c.Rows[i] = new LargeVector(cRow.Values);
+            }
+            return c;
+        }
+
         public static Matrix operator *(Matrix a, DiagonalMatrix b)
         {
-            var c = a.Clone();
+            var c = new Matrix(a.RowCount, a.ColCount);
             var diag = b._rows[0];
-            for (int i = a.RowCount - 1; i >= 0; --i)
-                c.Rows[i] = a.Rows[i] * diag as LargeVector;
+            if (a.Type == MatrixType.Full)
+                for (int i = a.RowCount - 1; i >= 0; --i)
+                    c.Rows[i] = a.Rows[i] * diag as LargeVector;
+            else
+                for (int i = a.RowCount - 1; i >= 0; --i)
+                {
+                    var cRow = new RowVector(a, i) * diag;
+                    c.Rows[i] = new LargeVector(cRow.Values);
+                }
 
             return c;
         }

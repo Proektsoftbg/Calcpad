@@ -370,7 +370,8 @@ Any variable name must start with a letter. Names are case sensitive.
 &emsp;$Inf { f(x) @ x = a : b } - local minimum of a function;  
 &emsp;$Area { f(x) @ x = a : b } - adaptive Gauss-Lobatto numerical integration;  
 &emsp;$Integral { f(x) @ x = a : b } - Tanh-Sinh numerical integration;  
-&emsp;$Slope { f(x) @ x = a } - numerical differentiation;  
+&emsp;$Slope { f(x) @ x = a } - numerical differentiation by Richardson extrapolation;  
+&emsp;$Derivative { f(x) @ x = a } - numerical differentiation by complex step method;  
 &emsp;$Sum { f(k) @ k = a : b } - iterative sum;  
 &emsp;$Product { f(k) @ k = a : b } - iterative product;  
 &emsp;$Repeat { f(k) @ k = a : b } - iterative expression block with counter;  

@@ -1,0 +1,6 @@
+Use the following commands to build.
+Press Alt+D in this folder and type (press enter after each line):
+cmd
+npm install 
+npm run compile
+vsce package

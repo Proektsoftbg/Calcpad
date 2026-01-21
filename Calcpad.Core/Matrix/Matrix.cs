@@ -1,5 +1,4 @@
-﻿using DocumentFormat.OpenXml.Office2010.Excel.Drawing;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -426,14 +425,22 @@ namespace Calcpad.Core
                 return a * bc;
 
             if (a is DiagonalMatrix ad)
-            {
-                if (b is DiagonalMatrix bd)
-                    return ad * bd;
-
-                return ad * b;
-            }
+                return b switch
+                {
+                    DiagonalMatrix bd => ad * bd,
+                    LowerTriangularMatrix bl => ad * bl,
+                    UpperTriangularMatrix bu => ad * bu,
+                    SymmetricMatrix bs => ad * bs,
+                    _ => ad * b
+                };
             else if (b is DiagonalMatrix bd)
-                return a * bd;
+                return a switch
+                {
+                    LowerTriangularMatrix al => al * bd,
+                    UpperTriangularMatrix au => au * bd,
+                    SymmetricMatrix sm => sm * bd,
+                    _ => a * bd
+                };
 
             Matrix c = new(a._rowCount, b._colCount);
             var m = a._rowCount;
@@ -2671,7 +2678,7 @@ namespace Calcpad.Core
 
                 var raw = row.Raw;
                 big = RealValue.Abs(raw[0]);
-                for (int j = 1; j < size; j++)
+                for (int j = 1; j < size; ++j)
                 {
                     var temp = RealValue.Abs(raw[j]);
                     if (temp.CompareTo(big) > 0)
@@ -2712,7 +2719,7 @@ namespace Calcpad.Core
                     var sum = col_j[i];
                     var k0 = 0;
                     while (k0 < size && raw[k0].D == 0d) ++k0;
-                    for (int k = k0; k < size; k++)
+                    for (int k = k0; k < size; ++k)
                         sum -= raw[k] * col_j[k];
 
                     col_j[i] = sum;
@@ -2759,7 +2766,7 @@ namespace Calcpad.Core
             Q = Identity(m);
             var v = new RealValue[m];
             var mn = Math.Min(m, n);
-            for (int k = 0; k < mn; k++)
+            for (int k = 0; k < mn; ++k)
             {
                 // Build the Householder vector
                 RealValue r = R[k, k];

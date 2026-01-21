@@ -196,7 +196,8 @@ namespace Calcpad.Core
                 if (_rowCount > ParallelThreshold)
                     Parallel.For(0, _rowCount, CopyRow2);
                 else
-                    for (int i = _rowCount - 1; i >= 0; --i) CopyRow2(i);
+                    for (int i = _rowCount - 1; i >= 0; --i) 
+                        CopyRow2(i);
             }
             return M;
 
@@ -246,6 +247,9 @@ namespace Calcpad.Core
 
         internal override HpMatrix Resize(int m, int n)
         {
+            if (m == _rowCount && n == _colCount)
+                return this;
+
             if (m > MaxSize || n > MaxSize)
                 throw Exceptions.MatrixDimensions();
 
@@ -273,19 +277,20 @@ namespace Calcpad.Core
                 return cm.Resize(m);
 
             if (m == n)
-            {
-                if (this is HpDiagonalMatrix dm)
-                    return dm.Resize(n);
-                if (this is HpSymmetricMatrix sm)
-                    return sm.Resize(n);
-                if (this is HpUpperTriangularMatrix um)
-                    return um.Resize(n);
-                if (this is HpLowerTriangularMatrix lm)
-                    return lm.Resize(n);
-            }
-            if (m == _rowCount && n == _colCount)
-                return this;
+                return this switch
+                {
+                    HpDiagonalMatrix dm => dm.Resize(n),
+                    HpSymmetricMatrix sm => sm.Resize(n),
+                    HpUpperTriangularMatrix um => um.Resize(n),
+                    HpLowerTriangularMatrix lm => lm.Resize(n),
+                    _ => ResizeGeneral(m, n, m1)
+                };
 
+            return ResizeGeneral(m, n, m1);
+        }
+
+        private  HpMatrix ResizeGeneral(int m, int n, int m1)
+        {
             var M = new HpMatrix(m, n, _units);
             var n1 = Math.Min(n, _colCount) - 1;
             for (int i = m1; i >= 0; --i)
@@ -511,24 +516,30 @@ namespace Calcpad.Core
 
             if (b is HpColumnMatrix bc)
             {
-                if (a is HpSymmetricMatrix hp_sm)
-                    return hp_sm * bc;
-                if (a is HpUpperTriangularMatrix hp_utm)
-                    return hp_utm * bc;
-
-                return a * bc;
+                return a switch
+                {
+                    HpSymmetricMatrix hp_sm => hp_sm * bc,
+                    HpUpperTriangularMatrix hp_utm => hp_utm * bc,
+                    _ => a * bc
+                };
             }
-
             if (a is HpDiagonalMatrix ad)
-            {
-                if (b is HpDiagonalMatrix bd)
-                    return ad * bd;
-
-                return ad * b;
-            }
+                return b switch
+                {
+                    HpDiagonalMatrix bd => ad * bd,
+                    HpLowerTriangularMatrix bl => ad * bl,
+                    HpUpperTriangularMatrix bu => ad * bu,
+                    HpSymmetricMatrix bs => ad * bs,
+                    _ => ad * b
+                };
             else if (b is HpDiagonalMatrix bd)
-                return a * bd;
-
+                return a switch
+                {
+                    HpLowerTriangularMatrix al => al * bd,
+                    HpUpperTriangularMatrix au => au * bd,
+                    HpSymmetricMatrix sm => sm * bd,
+                    _ => a * bd
+                };
 
             var m = a._rowCount;
             if (m >= 10 && m == a._colCount && b._rowCount == b._colCount)
