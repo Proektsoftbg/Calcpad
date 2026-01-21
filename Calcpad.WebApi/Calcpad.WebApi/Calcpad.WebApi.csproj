@@ -29,7 +29,6 @@
 
   <ItemGroup>
     <Folder Include="Services\AI\Models\" />
-    <Folder Include="Utils\Calcpad\" />
   </ItemGroup>
 
   <ItemGroup>

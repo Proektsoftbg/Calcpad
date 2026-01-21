@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Text;
 using System.Text.RegularExpressions;
 using Calcpad.Document;
@@ -7,6 +7,7 @@ using Calcpad.Document.Core.Segments;
 using Calcpad.WebApi.Configs;
 using Calcpad.WebApi.Models;
 using Calcpad.WebApi.Models.Base;
+using Calcpad.WebApi.Utils.Calcpad;
 using Calcpad.WebApi.Utils.Encrypt;
 using Calcpad.WebApi.Utils.Web.Exceptions;
 using Calcpad.WebApi.Utils.Web.Service;
@@ -183,6 +184,10 @@ namespace Calcpad.WebApi.Services.Calcpad
             };
             doc.LoadHtml(originHtml);
 
+            // process conditional blocks (#if, #else, #else if, #end if)
+            var conditionWrapper = new ConditionBlockWrapper(doc);
+            conditionWrapper.ProcessConditionalBlocks();
+
             // retain only nodes that should be kept
             var nodesToKeep = doc
                 .DocumentNode.Descendants()
@@ -231,8 +236,23 @@ namespace Calcpad.WebApi.Services.Calcpad
             if (tag == "p" && IsContainsInputTag(node))
                 return true;
 
-            // if div, check v-if attribute
-            if (tag == "div" && node.Attributes.Contains("v-if") && IsContainsInputTag(node))
+            // retain condition
+            //if (tag == "p" && node.SelectSingleNode(".//span[contains(@class, 'cond')]") != null)
+            //    return true;
+
+            // if div, check v-if, v-else-if, v-else attributes
+            if (
+                tag == "div"
+                && (
+                    node.Attributes.Contains("v-if")
+                    || node.Attributes.Contains("v-else-if")
+                    || node.Attributes.Contains("v-else")
+                )
+            )
+                return true;
+
+            // retain conditional-block wrapper div
+            if (tag == "div" && node.GetAttributeValue("class", "").Contains("conditional-block"))
                 return true;
 
             // has class="err"
