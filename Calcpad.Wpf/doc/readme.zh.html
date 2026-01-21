@@ -1407,10 +1407,9 @@ Excel
                             <li><code><b>lsolve</b>(<var>A</var>; <var>b</var>)</code> - 求解线性方程组 <var>A <span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var>:对对称矩阵使用 LDL<sup>T</sup> 分解,对非对称矩阵使用 LU分解;</li>
                             <li><code><b>clsolve</b>(<var>A</var>; <var>b</var>)</code> - 求解线性矩阵方程 <var>A<span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> :对对称且正-定系数矩阵<var>A</var> 使用Cholesky 分解;</li>
                             <li><code><b>msolve</b>(<var>A</var>; <var>B</var>)</code> - 求解一般矩阵方程 <var>AX</var> = <var>B</var> :对对称矩阵使用 LDL<sup>T</sup> 分解;对非对称矩阵使用LU分解;</li>
-                            <li>
-                                <code><b>cmsolve</b>(<var>A</var>; <var>B</var>)</code> - 求解一般矩阵方程 <var>AX</var> = <var>B</var> :对对称且正-定系数矩阵<var>A</var> 使用Cholesky分解;<br />
-                            </li>
-                            <li><code><b>smsolve</b>(<var>A</var>; <var>B</var>)</code> - 对高性能型对称,正-定阵A采用预处理共轭梯度法(preconditioned conjugate gradient-PCG)求解一般矩阵方程<var>AX</var> = <var>B</var>;</li>
+                            <li></li><code><b>cmsolve</b>(<var>A</var>; <var>B</var>)</code> - 求解一般矩阵方程 <var>AX</var> = <var>B</var> :对对称且正-定系数矩阵<var>A</var> 使用Cholesky分解;</li>
+                            <li><code><b>matmul</b>(<var>A</var>; <var>B</var>)</code> - 2个高性能方阵之间采用平行Winograd算法（parallel Winograd algorithm）的快速乘法. 乘法算子 <var>A</var><span class="o">*</span><var>B</var> 对所有阶数不小于10的所有高性能方阵自动采用该算法;</li>
+							<li><code><b>smsolve</b>(<var>A</var>; <var>B</var>)</code> - 对高性能型对称,正-定阵A采用预处理共轭梯度法(preconditioned conjugate gradient-PCG)求解一般矩阵方程<var>AX</var> = <var>B</var>;</li>
                             <li><code><b>fft</b>(<var>M</var>)</code> - 对行优先(row-major)矩阵<var>M</var>进行快速傅里叶变换. 其必须包含1实数行和2个复数行;</li>
                             <li><code><b>ift</b>(<var>M</var>)</code> - 对行优先(row-major)矩阵<var>M</var>进行傅里叶逆变换. 其必须包含1实数行和2个复数行;</li>
                     </li>
