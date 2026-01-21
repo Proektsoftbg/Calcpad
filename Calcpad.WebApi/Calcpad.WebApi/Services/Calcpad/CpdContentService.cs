@@ -188,22 +188,52 @@ namespace Calcpad.WebApi.Services.Calcpad
             var conditionWrapper = new ConditionBlockWrapper(doc);
             conditionWrapper.ProcessConditionalBlocks();
 
-            // retain only nodes that should be kept
-            var nodesToKeep = doc
-                .DocumentNode.Descendants()
-                .Where(node => node.NodeType == HtmlNodeType.Element && ShouldRetainNode(node))
-                .ToList();
+            // Precompute subtree info once to avoid repeated recursive scans.
+            var containsSupportTagMap = BuildContainsSupportTagMap(doc.DocumentNode);
 
-            // filter out nodes whose ancestors are also in the keep list (only keep top-level nodes)
-            var topLevelNodes = nodesToKeep
-                .Where(node => !nodesToKeep.Any(n => n != node && n.Descendants().Contains(node)))
-                .ToList();
+            // Collect only top-level retained nodes in a single traversal.
+            var topLevelNodes = new List<HtmlNode>();
+            var stack = new Stack<(HtmlNode Node, bool HasRetainedAncestor)>();
+            for (var i = doc.DocumentNode.ChildNodes.Count - 1; i >= 0; i--)
+            {
+                stack.Push((doc.DocumentNode.ChildNodes[i], false));
+            }
+
+            while (stack.Count > 0)
+            {
+                var (node, hasRetainedAncestor) = stack.Pop();
+                if (node.NodeType != HtmlNodeType.Element)
+                {
+                    continue;
+                }
+
+                var isRetained = ShouldRetainNode(node, containsSupportTagMap);
+                if (isRetained && !hasRetainedAncestor)
+                {
+                    topLevelNodes.Add(node);
+                    // This node becomes the retained ancestor; no need to search deeper for top-level nodes.
+                    continue;
+                }
+
+                if (hasRetainedAncestor)
+                {
+                    // Any descendants can't be top-level retained.
+                    continue;
+                }
+
+                for (var i = node.ChildNodes.Count - 1; i >= 0; i--)
+                {
+                    stack.Push((node.ChildNodes[i], false));
+                }
+            }
 
             // create new document with only the top-level nodes to keep
             var newDoc = new HtmlDocument();
             foreach (var node in topLevelNodes)
             {
-                newDoc.DocumentNode.AppendChild(node.Clone());
+                var cloned = node.Clone();
+                CleanPTagsRecursively(cloned);
+                newDoc.DocumentNode.AppendChild(cloned);
             }
 
             // if empty, return origin
@@ -214,26 +244,146 @@ namespace Calcpad.WebApi.Services.Calcpad
             return newDoc.DocumentNode.OuterHtml;
         }
 
+        private static void CleanPTagsRecursively(HtmlNode root)
+        {
+            if (root == null)
+                return;
+
+            // Compute subtree maps once, then prune <p> tags in O(n).
+            var containsSupportTagMap = BuildContainsSupportTagMap(root);
+            var subtreeHasRetainableMap = BuildSubtreeHasRetainableMap(root, containsSupportTagMap);
+
+            var pNodes = root.Descendants()
+                .Where(n =>
+                    n.NodeType == HtmlNodeType.Element
+                    && string.Equals(n.Name, "p", StringComparison.OrdinalIgnoreCase)
+                )
+                .ToList();
+
+            foreach (var p in pNodes)
+            {
+                if (
+                    containsSupportTagMap.TryGetValue(p, out var containsSupport) && containsSupport
+                )
+                    continue;
+
+                if (subtreeHasRetainableMap.TryGetValue(p, out var hasRetainable) && hasRetainable)
+                    continue;
+
+                p.Remove();
+            }
+        }
+
+        private static Dictionary<HtmlNode, bool> BuildContainsSupportTagMap(HtmlNode root)
+        {
+            var map = new Dictionary<HtmlNode, bool>();
+            var stack = new Stack<(HtmlNode Node, bool Visited)>();
+            stack.Push((root, false));
+
+            while (stack.Count > 0)
+            {
+                var (node, visited) = stack.Pop();
+                if (!visited)
+                {
+                    stack.Push((node, true));
+                    for (var i = node.ChildNodes.Count - 1; i >= 0; i--)
+                    {
+                        stack.Push((node.ChildNodes[i], false));
+                    }
+                    continue;
+                }
+
+                if (node.NodeType != HtmlNodeType.Element)
+                {
+                    map[node] = false;
+                    continue;
+                }
+
+                var containsSupport = _supportTags.Contains(node.Name);
+                foreach (var child in node.ChildNodes)
+                {
+                    if (map.TryGetValue(child, out var childContains) && childContains)
+                    {
+                        containsSupport = true;
+                        break;
+                    }
+                }
+                map[node] = containsSupport;
+            }
+
+            return map;
+        }
+
+        private static Dictionary<HtmlNode, bool> BuildSubtreeHasRetainableMap(
+            HtmlNode root,
+            Dictionary<HtmlNode, bool> containsSupportTagMap
+        )
+        {
+            var map = new Dictionary<HtmlNode, bool>();
+            var stack = new Stack<(HtmlNode Node, bool Visited)>();
+            stack.Push((root, false));
+
+            while (stack.Count > 0)
+            {
+                var (node, visited) = stack.Pop();
+                if (!visited)
+                {
+                    stack.Push((node, true));
+                    for (var i = node.ChildNodes.Count - 1; i >= 0; i--)
+                    {
+                        stack.Push((node.ChildNodes[i], false));
+                    }
+                    continue;
+                }
+
+                if (node.NodeType != HtmlNodeType.Element)
+                {
+                    map[node] = false;
+                    continue;
+                }
+
+                var hasRetainable = ShouldRetainNode(node, containsSupportTagMap);
+                foreach (var child in node.ChildNodes)
+                {
+                    if (map.TryGetValue(child, out var childHas) && childHas)
+                    {
+                        hasRetainable = true;
+                        break;
+                    }
+                }
+                map[node] = hasRetainable;
+            }
+
+            return map;
+        }
+
         /// <summary>
         /// check if node should be retained
         /// retain h1-h6, img, p contains input/select/button, class contains err
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
-        private static bool ShouldRetainNode(HtmlNode node)
+        private static bool ShouldRetainNode(
+            HtmlNode node,
+            Dictionary<HtmlNode, bool> containsSupportTagMap
+        )
         {
             if (node.NodeType != HtmlNodeType.Element)
                 return false;
 
-            var tag = node.Name.ToLower();
-            if (tag.StartsWith('h'))
+            var tag = node.Name;
+            if (tag.Length > 0 && (tag[0] == 'h' || tag[0] == 'H'))
                 return true;
 
-            if (tag.StartsWith("img"))
+            if (tag.StartsWith("img", StringComparison.OrdinalIgnoreCase))
                 return true;
 
             // retain p element which contains input or select
-            if (tag == "p" && IsContainsInputTag(node))
+            if (
+                string.Equals(tag, "p", StringComparison.OrdinalIgnoreCase)
+                && containsSupportTagMap.TryGetValue(node, out var containsSupport)
+                && containsSupport
+            )
                 return true;
 
             // retain condition
@@ -242,7 +392,7 @@ namespace Calcpad.WebApi.Services.Calcpad
 
             // if div, check v-if, v-else-if, v-else attributes
             if (
-                tag == "div"
+                string.Equals(tag, "div", StringComparison.OrdinalIgnoreCase)
                 && (
                     node.Attributes.Contains("v-if")
                     || node.Attributes.Contains("v-else-if")
@@ -251,18 +401,26 @@ namespace Calcpad.WebApi.Services.Calcpad
             )
                 return true;
 
-            // retain conditional-block wrapper div
-            if (tag == "div" && node.GetAttributeValue("class", "").Contains("conditional-block"))
-                return true;
+            var classAttr = node.GetAttributeValue("class", string.Empty);
+            if (!string.IsNullOrEmpty(classAttr))
+            {
+                // retain conditional-block wrapper div
+                if (
+                    string.Equals(tag, "div", StringComparison.OrdinalIgnoreCase)
+                    && classAttr.Contains("conditional-block", StringComparison.OrdinalIgnoreCase)
+                )
+                    return true;
 
-            // has class="err"
-            if (node.GetAttributeValue("class", "").Contains("err"))
-                return true;
+                // has class="err"
+                if (classAttr.Contains("err", StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
 
             return false;
         }
 
-        private static HashSet<string> _supportTags = ["input", "select", "button"];
+        private static readonly HashSet<string> _supportTags =
+            new(StringComparer.OrdinalIgnoreCase) { "input", "select", "button" };
 
         /// <summary>
         /// check if node or its children contains input 、slect、button element
@@ -271,7 +429,7 @@ namespace Calcpad.WebApi.Services.Calcpad
         /// <returns></returns>
         private static bool IsContainsInputTag(HtmlNode node)
         {
-            if (_supportTags.Contains(node.Name.ToLower()))
+            if (_supportTags.Contains(node.Name))
             {
                 return true;
             }

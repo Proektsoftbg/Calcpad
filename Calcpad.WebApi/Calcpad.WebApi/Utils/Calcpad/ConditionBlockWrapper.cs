@@ -11,6 +11,13 @@ namespace Calcpad.WebApi.Utils.Calcpad
         public List<HtmlNode> NodesToRemove { get; set; } = new();
     }
 
+    class ConditionalBranchSegment
+    {
+        public string BranchType { get; set; } = "";
+        public string Condition { get; set; } = "";
+        public List<HtmlNode> ContentNodes { get; set; } = new();
+    }
+
     public class ConditionBlockWrapper(HtmlDocument doc)
     {
         /// <summary>
@@ -19,208 +26,185 @@ namespace Calcpad.WebApi.Utils.Calcpad
         /// <param name="doc"></param>
         public void ProcessConditionalBlocks()
         {
-            var allNodes = doc.DocumentNode.ChildNodes.ToList();
-            var i = 0;
-
-            while (i < allNodes.Count)
-            {
-                var node = allNodes[i];
-
-                // check if this is an #if statement
-                if (IsConditionalNode(node, out var condType, out var condition))
-                {
-                    if (condType == "if")
-                    {
-                        // find the matching #end if
-                        var blockResult = ProcessIfBlock(allNodes, i);
-                        if (blockResult != null)
-                        {
-                            // replace the #if node with the wrapped structure
-                            node.ParentNode.ReplaceChild(blockResult.WrapperDiv, node);
-
-                            // remove all nodes that were part of this conditional block
-                            for (int j = 0; j < blockResult.NodesToRemove.Count; j++)
-                            {
-                                blockResult.NodesToRemove[j].Remove();
-                            }
-
-                            // refresh the list
-                            allNodes = doc.DocumentNode.ChildNodes.ToList();
-                            continue;
-                        }
-                    }
-                }
-
-                i++;
-            }
+            ProcessConditionalBlocksInContainer(doc.DocumentNode);
         }
 
         /// <summary>
-        /// process an if block and return a wrapper div with all conditional branches
+        /// recursively process conditional blocks within a container node.
         /// </summary>
-        private ConditionalBlockResult? ProcessIfBlock(List<HtmlNode> nodes, int startIndex)
+        private void ProcessConditionalBlocksInContainer(HtmlNode container)
         {
-            var doc = nodes[startIndex].OwnerDocument;
-            var wrapperDiv = doc.CreateElement("div");
-            wrapperDiv.SetAttributeValue("class", "conditional-block");
-
-            var nodesToRemove = new List<HtmlNode>();
-            var currentBranchNodes = new List<HtmlNode>();
-            var currentCondition = "";
-            var currentBranchType = "";
-            var i = startIndex;
-            var nestLevel = 0;
-
-            while (i < nodes.Count)
-            {
-                var node = nodes[i];
-
-                if (IsConditionalNode(node, out var condType, out var condition))
-                {
-                    if (condType == "if")
-                    {
-                        if (i == startIndex)
-                        {
-                            // first #if
-                            currentCondition = condition;
-                            currentBranchType = "if";
-                            nodesToRemove.Add(node);
-                        }
-                        else
-                        {
-                            // nested #if
-                            nestLevel++;
-                            currentBranchNodes.Add(node);
-                        }
-                    }
-                    else if (condType == "else if")
-                    {
-                        if (nestLevel == 0)
-                        {
-                            // wrap previous branch
-                            WrapBranch(
-                                doc,
-                                wrapperDiv,
-                                currentBranchNodes,
-                                currentBranchType,
-                                currentCondition
-                            );
-                            currentBranchNodes.Clear();
-
-                            // start new else if branch
-                            currentCondition = condition;
-                            currentBranchType = "else if";
-                            nodesToRemove.Add(node);
-                        }
-                        else
-                        {
-                            currentBranchNodes.Add(node);
-                        }
-                    }
-                    else if (condType == "else")
-                    {
-                        if (nestLevel == 0)
-                        {
-                            // wrap previous branch
-                            WrapBranch(
-                                doc,
-                                wrapperDiv,
-                                currentBranchNodes,
-                                currentBranchType,
-                                currentCondition
-                            );
-                            currentBranchNodes.Clear();
-
-                            // start else branch
-                            currentBranchType = "else";
-                            currentCondition = "";
-                            nodesToRemove.Add(node);
-                        }
-                        else
-                        {
-                            currentBranchNodes.Add(node);
-                        }
-                    }
-                    else if (condType == "end if")
-                    {
-                        if (nestLevel == 0)
-                        {
-                            // wrap last branch
-                            WrapBranch(
-                                doc,
-                                wrapperDiv,
-                                currentBranchNodes,
-                                currentBranchType,
-                                currentCondition
-                            );
-                            nodesToRemove.Add(node);
-                            break;
-                        }
-                        else
-                        {
-                            nestLevel--;
-                            currentBranchNodes.Add(node);
-                        }
-                    }
-                }
-                else
-                {
-                    // regular node, add to current branch
-                    currentBranchNodes.Add(node);
-                }
-
-                i++;
-            }
-
-            if (nodesToRemove.Count > 0)
-            {
-                return new ConditionalBlockResult
-                {
-                    WrapperDiv = wrapperDiv,
-                    NodesToRemove = nodesToRemove
-                };
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// wrap a conditional branch in a div with appropriate Vue directive
-        /// </summary>
-        private static void WrapBranch(
-            HtmlDocument doc,
-            HtmlNode parent,
-            List<HtmlNode> nodes,
-            string branchType,
-            string condition
-        )
-        {
-            if (nodes.Count == 0)
+            if (container.ChildNodes == null || container.ChildNodes.Count == 0)
                 return;
 
-            var branchDiv = doc.CreateElement("div");
+            var siblings = container.ChildNodes.ToList();
+            var i = 0;
 
-            if (branchType == "if")
+            while (i < siblings.Count)
             {
-                branchDiv.SetAttributeValue("v-if", condition);
-            }
-            else if (branchType == "else if")
-            {
-                branchDiv.SetAttributeValue("v-else-if", condition);
-            }
-            else if (branchType == "else")
-            {
-                branchDiv.SetAttributeValue("v-else", "");
+                var node = siblings[i];
+                if (IsConditionalNode(node, out var condType, out _) && condType == "if")
+                {
+                    var blockResult = TryBuildIfBlockWrapper(siblings, i);
+                    if (blockResult != null)
+                    {
+                        // replace the #if node with the wrapped structure
+                        container.ReplaceChild(blockResult.WrapperDiv, node);
+
+                        // remove marker nodes (#if/#else if/#else/#end if) from DOM
+                        foreach (var marker in blockResult.NodesToRemove)
+                        {
+                            if (marker.ParentNode != null)
+                                marker.Remove();
+                        }
+
+                        // refresh sibling list after modifications
+                        siblings = container.ChildNodes.ToList();
+                        continue;
+                    }
+                }
+
+                i++;
             }
 
-            foreach (var node in nodes)
+            // recurse after current container is stabilized
+            var elementChildren = container
+                .ChildNodes.Where(n => n.NodeType == HtmlNodeType.Element)
+                .ToList();
+
+            foreach (var child in elementChildren)
             {
-                branchDiv.AppendChild(node.Clone());
-                // remove original node
-                node.Remove();
+                ProcessConditionalBlocksInContainer(child);
+            }
+        }
+
+        /// <summary>
+        /// build a wrapper for an if/else-if/else block starting at startIndex.
+        /// This method is two-phase: first scan to ensure a complete block exists, then mutate DOM by moving nodes.
+        /// </summary>
+        private ConditionalBlockResult? TryBuildIfBlockWrapper(
+            IList<HtmlNode> siblings,
+            int startIndex
+        )
+        {
+            if (startIndex < 0 || startIndex >= siblings.Count)
+                return null;
+
+            var startNode = siblings[startIndex];
+            if (
+                !IsConditionalNode(startNode, out var startType, out var startCondition)
+                || startType != "if"
+            )
+                return null;
+
+            var segments = new List<ConditionalBranchSegment>();
+            var markerNodesToRemove = new List<HtmlNode> { startNode };
+
+            var currentSegment = new ConditionalBranchSegment
+            {
+                BranchType = "if",
+                Condition = startCondition,
+            };
+
+            var nestLevel = 0;
+            var foundEnd = false;
+
+            for (var i = startIndex + 1; i < siblings.Count; i++)
+            {
+                var node = siblings[i];
+
+                if (IsConditionalNode(node, out var condType, out var condition))
+                {
+                    if (condType == "if")
+                    {
+                        // nested #if starts a deeper level; treat node as content
+                        nestLevel++;
+                        currentSegment.ContentNodes.Add(node);
+                        continue;
+                    }
+
+                    if (condType == "end if")
+                    {
+                        if (nestLevel == 0)
+                        {
+                            // close current block
+                            segments.Add(currentSegment);
+                            markerNodesToRemove.Add(node);
+                            foundEnd = true;
+                            break;
+                        }
+
+                        // close a nested level; treat as content
+                        nestLevel--;
+                        currentSegment.ContentNodes.Add(node);
+                        continue;
+                    }
+
+                    if ((condType == "else if" || condType == "else") && nestLevel == 0)
+                    {
+                        // switch branch at top-level of this if-block
+                        segments.Add(currentSegment);
+
+                        currentSegment = new ConditionalBranchSegment
+                        {
+                            BranchType = condType,
+                            Condition = condType == "else" ? "" : condition,
+                        };
+
+                        markerNodesToRemove.Add(node);
+                        continue;
+                    }
+
+                    // else/else-if inside nested block: treat as content
+                    currentSegment.ContentNodes.Add(node);
+                    continue;
+                }
+
+                // regular node
+                currentSegment.ContentNodes.Add(node);
             }
 
-            parent.AppendChild(branchDiv);
+            if (!foundEnd)
+                return null;
+
+            var ownerDoc = startNode.OwnerDocument;
+            if (ownerDoc == null)
+                return null;
+
+            var wrapperDiv = ownerDoc.CreateElement("div");
+            wrapperDiv.SetAttributeValue("class", "conditional-block");
+
+            foreach (var segment in segments)
+            {
+                var branchDiv = ownerDoc.CreateElement("div");
+                switch (segment.BranchType)
+                {
+                    case "if":
+                        branchDiv.SetAttributeValue("v-if", segment.Condition);
+                        break;
+                    case "else if":
+                        branchDiv.SetAttributeValue("v-else-if", segment.Condition);
+                        break;
+                    case "else":
+                        branchDiv.SetAttributeValue("v-else", "");
+                        break;
+                }
+
+                // move nodes into branch div, preserving order
+                foreach (var contentNode in segment.ContentNodes.ToList())
+                {
+                    contentNode.Remove();
+                    branchDiv.AppendChild(contentNode);
+                }
+
+                wrapperDiv.AppendChild(branchDiv);
+            }
+
+            return new ConditionalBlockResult
+            {
+                WrapperDiv = wrapperDiv,
+                NodesToRemove = markerNodesToRemove,
+            };
         }
 
         /// <summary>
