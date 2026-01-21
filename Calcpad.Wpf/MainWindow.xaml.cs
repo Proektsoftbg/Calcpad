@@ -137,7 +137,7 @@ namespace Calcpad.Wpf
         private double _screenScaleFactor;
         private bool _calculateOnActivate;
         private bool _isWebView2Focused;
-        private Brush _borderBrush;
+        private readonly Brush _borderBrush;
 
         //Private properites
         private bool IsComplex => _parser.Settings.Math.IsComplex;
@@ -763,7 +763,7 @@ namespace Calcpad.Wpf
             CloneRecentFilesList();
         }
 
-        private string GetRecentFileName(string fileName) => Path.GetFileName(fileName).Replace("_", "__");
+        private static string GetRecentFileName(string fileName) => Path.GetFileName(fileName).Replace("_", "__");
 
         private void WriteSettings()
         {
@@ -3162,8 +3162,7 @@ namespace Calcpad.Wpf
                 {
                     Mouse.SetCursor(Cursors.Wait);
                     var tt = (ToolTip)r.ToolTip;
-                    if (tt is not null)
-                        tt.Visibility = Visibility.Hidden;
+                    tt?.Visibility = Visibility.Hidden;
                     var ext = Path.GetExtension(fileName).ToLowerInvariant();
                     var path = Path.GetFullPath(fileName);
                     Process process;
@@ -3175,9 +3174,7 @@ namespace Calcpad.Wpf
                         process ??= RunExternalApp("NOTEPAD++", path);
                     }
                     process ??= RunExternalApp("NOTEPAD", path);
-                    if (tt is not null)
-                        tt.Visibility = Visibility.Visible;
-
+                    tt?.Visibility = Visibility.Visible;
                     if (process is not null)
                     {
                         _calculateOnActivate = true;

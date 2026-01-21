@@ -1460,7 +1460,8 @@
                             <li><code><b>slsolve</b>(<var>A</var>; <var><span class="vec">⃗</span>b</var>)</code> - solves the linear matrix equation <var>A<span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> with high-performance symmetric, positive-definite matrix <var>A</var> using preconditioned conjugate gradient (PCG) method;</li>
                             <li><code><b>msolve</b>(<var>A</var>; <var>B</var>)</code> - solves the generalized matrix equation <var>AX</var> = <var>B</var> using LDL<sup>T</sup> decomposition for symmetric matrices, and LU for non-symmetric;</li>
                             <li><code><b>cmsolve</b>(<var>A</var>; <var>B</var>)</code> - solves the generalized matrix equation <var>AX</var> = <var>B</var> with symmetric, positive-definite coefficient matrix <var>A</var> using Cholesky decomposition;<br /></li>
-                            <li><code><b>smsolve</b>(<var>A</var>; <var>B</var>)</code> - solves the generalized matrix equation <var>AX</var> = <var>B</var> with high-performance symmetric, positive-definite matrix <var>A</var> using preconditioned conjugate gradient (PCG) method;</li>
+							<li><code><b>smsolve</b>(<var>A</var>; <var>B</var>)</code> - solves the generalized matrix equation <var>AX</var> = <var>B</var> with high-performance symmetric, positive-definite matrix <var>A</var> using preconditioned conjugate gradient (PCG) method;</li>
+                            <li><code><b>matmul</b>(<var>A</var>; <var>B</var>)</code> - fast multiplication of square hp matrices using parallel Winograd algorithm. The multiplication operator <var>A</var><span class="o">*</span><var>B</var> uses it automatically for all square hp matrices of size 10 and larger;</li>
                             <li><code><b>fft</b>(<var>M</var>)</code> - performs fast Fourier transform of row-major matrix <var>M</var>. It must have one row for real data and two rows for complex;</li>
                             <li><code><b>ift</b>(<var>M</var>)</code> - performs inverse Fourier transform of row-major matrix <var>M</var>. It must have one row for real data and two rows for complex;</li>
                         </ul>
@@ -5683,7 +5684,7 @@
         <h3 id="TOC_804">Save As…</h3>
         <p>If you need to save the current file with a different name, select the "<b>File/Save As…</b>" menu command. A file selection dialog will be displayed. Select file path and name and click "<b>Save</b>"</p>
         <hr />
-        <p>Last edited on 29.12.2025 by eng. Nedelcho Ganchovski.</p>
+        <p>Last edited on 17.01.2026 by eng. Nedelcho Ganchovski.</p>
     </div>
     <script src="jquery-3.6.3.min.js"></script>
     <script>

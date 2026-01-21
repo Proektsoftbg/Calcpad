@@ -370,6 +370,7 @@ namespace Calcpad.Wpf
             "msolve",
             "cmsolve",
             "smsolve",
+            "matmul",
             "hprod",
             "fprod",
             "kprod",

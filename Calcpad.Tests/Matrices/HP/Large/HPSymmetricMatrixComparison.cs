@@ -12,7 +12,7 @@ namespace Calcpad.Tests
         private const string WellConditionedMatrix = "a = q*vec2diag(0.55 + range(1; n; 1)/n)*transp(q)";
 
 
-        private static string[] OperatorTestHelper(char o) => [
+        private static string[] OperatorTestHelper(char o, string tol = "0") => [
             "n = 500",
             RandomMatrixA,
             RandomMatrixB,
@@ -20,7 +20,7 @@ namespace Calcpad.Tests
             "a_hp = hp(a)",
             "b_hp = hp(b)",
             $"c_hp = a_hp {o} b_hp",
-            "r = c_hp ≡ c",
+            $"r = if({tol} ≡ 0; c_hp ≡ c; abs(c_hp - c) ≤ {tol})",
             "mcount(r; 0)"
         ];
 
@@ -107,7 +107,7 @@ namespace Calcpad.Tests
         public void HPSymmetricMatrixMultiplication()
         {
             var calc = new TestCalc(new());
-            var result = calc.Run(OperatorTestHelper('*'));
+            var result = calc.Run(OperatorTestHelper('*', "10^-11"));
             Assert.Equal(0, result);
         }
 

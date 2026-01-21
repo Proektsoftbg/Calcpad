@@ -6,8 +6,9 @@
 
         private const string RandomMatrixA = "a = random(column(n; 1))";
         private const string RandomMatrixB = "b = random(column(n; 1))";
+        
 
-        private static string[] OperatorTestHelper(char o) => [
+        private static string[] OperatorTestHelper(char o, string tol = "0") => [
             "n = 500",
             RandomMatrixA,
             RandomMatrixB,
@@ -15,7 +16,7 @@
             "a_hp = hp(a)",
             "b_hp = hp(b)",
             $"c_hp = a_hp {o} b_hp",
-            "r = c_hp ≡ c",
+            $"r = if({tol} ≡ 0; c_hp ≡ c; abs(c_hp - c) ≤ {tol})",
             "mcount(r; 0)"
         ];
 
@@ -118,6 +119,231 @@
             var result = calc.Run(OperatorTestHelper('⦼'));
             Assert.Equal(0, result);
         }
+        #endregion
+
+        #region HPColumnMatrixScalarOperators
+        private const string RandomNum = "b = random(50)";
+        private static string[] MatrixScalarOperatorTestHelper(char o) => [
+            "n = 500",
+            RandomMatrixA,
+            RandomNum,
+            $"c = a {o} b",
+            $"c_hp = hp(a) {o} b",
+            "r = c_hp ≡ c",
+            "mcount(r; 0)"
+        ];
+
+        [Fact]
+        [Trait("Category", "HPColumnMatrixScalarOperators")]
+        public void HPColumnMatrixScalarAddition()
+        {
+            var calc = new TestCalc(new());
+            var result = calc.Run(MatrixScalarOperatorTestHelper('+'));
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        [Trait("Category", "HPColumnMatrixScalarOperators")]
+        public void HPColumnMatrixScalarSubtraction()
+        {
+            var calc = new TestCalc(new());
+            var result = calc.Run(MatrixScalarOperatorTestHelper('-'));
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        [Trait("Category", "HPColumnMatrixScalarOperators")]
+        public void HPColumnMatrixScalarMultiplication()
+        {
+            var calc = new TestCalc(new());
+            var result = calc.Run(MatrixScalarOperatorTestHelper('*'));
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        [Trait("Category", "HPColumnMatrixScalarOperators")]
+        public void HPColumnMatrixScalarDivision()
+        {
+            var calc = new TestCalc(new());
+            var result = calc.Run(MatrixScalarOperatorTestHelper('/'));
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        [Trait("Category", "HPColumnMatrixScalarOperators")]
+        public void HPColumnMatrixScalarForceDivisionBar()
+        {
+            var calc = new TestCalc(new());
+            var result = calc.Run(MatrixScalarOperatorTestHelper('÷'));
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        [Trait("Category", "HPColumnMatrixScalarOperators")]
+        public void HPColumnMatrixScalarIntegerDivision()
+        {
+            var calc = new TestCalc(new());
+            var result = calc.Run(MatrixScalarOperatorTestHelper('\\'));
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        [Trait("Category", "HPColumnMatrixScalarOperators")]
+        public void HPColumnMatrixScalarModulo()
+        {
+            var calc = new TestCalc(new());
+            var result = calc.Run(MatrixScalarOperatorTestHelper('⦼'));
+            Assert.Equal(0, result);
+        }
+
+        #endregion
+
+        #region HPScalarColumnMatrixOperators
+        private static string[] ScalarMatrixOperatorTestHelper(char o) => [
+            "n = 500",
+            RandomMatrixA,
+            RandomNum,
+            $"c = b {o} a",
+            $"c_hp = b {o} hp(a)",
+            "r = c_hp ≡ c",
+            "mcount(r; 0)"
+        ];
+
+        [Fact]
+        [Trait("Category", "HPScalarColumnMatrixOperators")]
+        public void HPScalarColumnMatrixAddition()
+        {
+            var calc = new TestCalc(new());
+            var result = calc.Run(ScalarMatrixOperatorTestHelper('+'));
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        [Trait("Category", "HPScalarColumnMatrixOperators")]
+        public void HPScalarColumnMatrixSubtraction()
+        {
+            var calc = new TestCalc(new());
+            var result = calc.Run(ScalarMatrixOperatorTestHelper('-'));
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        [Trait("Category", "HPScalarColumnMatrixOperators")]
+        public void HPScalarColumnMatrixMultiplication()
+        {
+            var calc = new TestCalc(new());
+            var result = calc.Run(ScalarMatrixOperatorTestHelper('*'));
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        [Trait("Category", "HPScalarColumnMatrixOperators")]
+        public void HPScalarColumnMatrixDivision()
+        {
+            var calc = new TestCalc(new());
+            var result = calc.Run(ScalarMatrixOperatorTestHelper('/'));
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        [Trait("Category", "HPScalarColumnMatrixOperators")]
+        public void HPScalarColumnMatrixForceDivisionBar()
+        {
+            var calc = new TestCalc(new());
+            var result = calc.Run(ScalarMatrixOperatorTestHelper('÷'));
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        [Trait("Category", "HPScalarColumnMatrixOperators")]
+        public void HPScalarColumnMatrixIntegerDivision()
+        {
+            var calc = new TestCalc(new());
+            var result = calc.Run(ScalarMatrixOperatorTestHelper('\\'));
+            Assert.Equal(0, result);
+        }
+
+        #endregion
+
+        #region HPColumnMatrixVectorOperators
+        private const string RandomVector = "b = random(fill(vector(n); 1))";
+        private static string[] MatrixVectorOperatorTestHelper(char o) => [
+            "n = 500",
+            RandomMatrixA,
+            RandomVector,
+            $"c = a {o} b",
+            "a_hp = hp(a)",
+            "b_hp = hp(b)",
+            $"c_hp = a_hp {o} b_hp",
+            "r = c_hp ≡ c",
+            "mcount(r; 0)"
+        ];
+
+        [Fact]
+        [Trait("Category", "HPColumnMatrixVectorOperators")]
+        public void HPColumnMatrixVectorAddition()
+        {
+            var calc = new TestCalc(new());
+            var result = calc.Run(MatrixVectorOperatorTestHelper('+'));
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        [Trait("Category", "HPColumnMatrixVectorOperators")]
+        public void HPColumnMatrixVectorSubtraction()
+        {
+            var calc = new TestCalc(new());
+            var result = calc.Run(MatrixVectorOperatorTestHelper('-'));
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        [Trait("Category", "HPColumnMatrixVectorOperators")]
+        public void HPColumnMatrixVectorMultiplication()
+        {
+            var calc = new TestCalc(new());
+            var result = calc.Run(MatrixVectorOperatorTestHelper('+'));
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        [Trait("Category", "HPColumnMatrixVectorOperators")]
+        public void HPColumnMatrixVectorDivision()
+        {
+            var calc = new TestCalc(new());
+            var result = calc.Run(MatrixVectorOperatorTestHelper('/'));
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        [Trait("Category", "HPColumnMatrixVectorOperators")]
+        public void HPColumnMatrixVectorForceDivisionBar()
+        {
+            var calc = new TestCalc(new());
+            var result = calc.Run(MatrixVectorOperatorTestHelper('÷'));
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        [Trait("Category", "HPColumnMatrixVectorOperators")]
+        public void HPColumnMatrixVectorIntegerDivision()
+        {
+            var calc = new TestCalc(new());
+            var result = calc.Run(MatrixVectorOperatorTestHelper('\\'));
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        [Trait("Category", "HPColumnMatrixVectorOperators")]
+        public void HPColumnMatrixVectorModulo()
+        {
+            var calc = new TestCalc(new());
+            var result = calc.Run(MatrixVectorOperatorTestHelper('⦼'));
+            Assert.Equal(0, result);
+        }
+
+
+
         #endregion
 
         #region HPColumnMatrixFunctions
@@ -756,5 +982,6 @@
             Assert.Equal(0, result);
         }
         #endregion
+
     }
 }

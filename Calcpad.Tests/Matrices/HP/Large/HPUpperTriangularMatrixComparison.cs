@@ -8,7 +8,7 @@
         private const string RandomMatrixB = "b = random(mfill(utriang(n); 1))";
         private const string WellConditionedMatrix = "a = diagonal(n; 1) + random(mfill(utriang(n); 0.1))";
 
-        private static string[] OperatorTestHelper(char o) => [
+        private static string[] OperatorTestHelper(char o, string tol = "0") => [
             "n = 500",
             RandomMatrixA,
             RandomMatrixB,
@@ -16,7 +16,7 @@
             "a_hp = hp(a)",
             "b_hp = hp(b)",
             $"c_hp = a_hp {o} b_hp",
-            "r = c_hp ≡ c",
+            $"r = if({tol} ≡ 0; c_hp ≡ c; abs(c_hp - c) ≤ {tol})",
             "mcount(r; 0)"
         ];
 
@@ -106,7 +106,7 @@
         public void HPUpperTriangularMatrixMultiplication()
         {
             var calc = new TestCalc(new());
-            var result = calc.Run(OperatorTestHelper('*'));
+            var result = calc.Run(OperatorTestHelper('*', "10^-12"));
             Assert.Equal(0, result);
         }
 

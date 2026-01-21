@@ -162,6 +162,19 @@ namespace Calcpad.Core
             { "timer", 45 },
         }.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
 
+        private static readonly bool[] _isZeroPreservingFunction;
+        internal static bool IsZeroPreservingFunction(long index) =>
+            index < 0 ? index == -1 : _isZeroPreservingFunction[index];
+
+        static Calculator()
+        {
+            var n = FunctionIndex.Count;
+            _isZeroPreservingFunction = new bool[n];
+            var calc = new RealCalculator();    
+            for (int i = 0; i < n; ++i)
+                _isZeroPreservingFunction[i] = calc.GetFunction(i)(RealValue.Zero).Equals(RealValue.Zero);
+        }
+
         internal static readonly FrozenDictionary<string, int> Function2Index =
         new Dictionary<string, int>()
         {

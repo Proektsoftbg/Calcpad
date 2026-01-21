@@ -4,7 +4,7 @@
     {
         #region HPVectorOperators
 
-        private static string[] OperatorTestHelper(char o) => [
+        private static string[] OperatorTestHelper(char o, string tol = "0") => [
             "n = 1000",
             "a = random(fill(vector(n); 1))",
             "b = random(fill(vector(n); 1))",
@@ -12,7 +12,7 @@
             "a_hp = hp(a)",
             "b_hp = hp(b)",
             $"c_hp = a_hp {o} b_hp",
-            "r = c_hp ≡ c",
+            $"r = if({tol} ≡ 0; c_hp ≡ c; abs(c_hp - c) ≤ {tol})",
             "check = count(r; 0; 1) ≡ 0"
         ];
 
