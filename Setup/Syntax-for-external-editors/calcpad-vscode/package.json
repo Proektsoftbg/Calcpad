@@ -58,6 +58,11 @@
         "command": "calcpad.open",
         "title": "Open in Calcpad",
         "category": "Calcpad"
+      },
+	  {
+        "command": "calcpad.settings",
+        "title": "Open Settings",
+        "category": "Calcpad"
       }
     ],
     "keybindings": [
@@ -105,6 +110,12 @@
           "type": "string",
           "default": "C:\\Program Files\\Calcpad\\Calcpad.exe",
           "description": "Path to the Calcpad executable"
+        }
+		,
+        "calcpad.settingsPath": {
+          "type": "string",
+          "default": "C:\\Program Files\\Calcpad\\Settings.xml",
+          "description": "Path to the Calcpad settings flie"
         }
       }
     }

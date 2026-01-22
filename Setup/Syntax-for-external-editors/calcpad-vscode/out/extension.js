@@ -184,7 +184,7 @@ const functionDescriptions = {
     "product": "Product of multiple values:\n\n    product(x; y; z...) = x·y·z...",
     "mean": "Geometric mean:\n\n    mean(x; y; z...) = n-th root(x·y·z...)",
     "take": "Returns the n-th element from a list or matrix element at indexes:\n\n    take(n; a; b; c...) or take(x; y; M)",
-    "line": "Linear interpolation:\n\n    line(x; a; b; c...) or double linear for matrices:\n    line(x; y; M)",
+    "line": "Linear interpolation:\n\n    line(x; a; b; c...)\n    or double linear for matrices:\n    line(x; y; M)",
     "spline": "Hermite spline interpolation:\n\n    spline(x; a; b; c...) or double spline for matrices:\n    spline(x; y; M)",
     // Conditional and logical functions
     "if": "Conditional evaluation:\n\n    if(condition; value-if-true; value-if-false)",
@@ -591,6 +591,79 @@ function activate(context) {
             stdio: "ignore"
         }).unref();
     });
+    const settingsCommand = vscode.commands.registerCommand("calcpad.settings", async () => {
+        const config = vscode.workspace.getConfiguration('calcpad');
+        const settingsPath = config.get('settingsPath', 'C:\\Program Files\\Calcpad\\Settings.Xml');
+        const defaultSettings = `<Settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<Math>
+    <Decimals>2</Decimals>
+    <Degrees>0</Degrees>
+    <IsComplex>false</IsComplex>
+    <Substitute>true</Substitute>
+    <FormatEquations>true</FormatEquations>
+    <ZeroSmallMatrixElements>true</ZeroSmallMatrixElements>
+    <MaxOutputCount>20</MaxOutputCount>
+</Math>
+<Plot>
+    <IsAdaptive>true</IsAdaptive>
+    <ScreenScaleFactor>2</ScreenScaleFactor>
+    <ImagePath/>
+    <ImageUri/>
+    <VectorGraphics>false</VectorGraphics>
+    <ColorScale>Rainbow</ColorScale>
+    <SmoothScale>false</SmoothScale>
+    <Shadows>true</Shadows>
+    <LightDirection>NorthWest</LightDirection>
+</Plot>
+<Units>m</Units>
+</Settings>`;
+        // Create file with default content if it doesn't exist
+        if (!fs.existsSync(settingsPath)) {
+            try {
+                fs.writeFileSync(settingsPath, defaultSettings, 'utf8');
+            }
+            catch {
+                // Cannot write directly (needs admin privileges)
+                const choice = await vscode.window.showWarningMessage('Settings file does not exist and requires administrator privileges to create. Create it now?', 'Create as Admin');
+                if (choice === 'Create as Admin') {
+                    const escapedContent = defaultSettings.replace(/"/g, '\\"').replace(/\n/g, '`n');
+                    (0, child_process_1.exec)(`powershell -Command "Start-Process powershell -ArgumentList '-Command', 'Set-Content -Path \\\"${settingsPath}\\\" -Value \\\"${escapedContent}\\\"' -Verb RunAs"`, (error) => {
+                        if (error) {
+                            vscode.window.showErrorMessage(`Failed to create settings file: ${error.message}`);
+                        }
+                        else {
+                            vscode.window.showInformationMessage('Settings file created. Run the command again to open it.');
+                        }
+                    });
+                }
+                return;
+            }
+        }
+        // Check if file is writable
+        try {
+            fs.accessSync(settingsPath, fs.constants.W_OK);
+            // File is writable, open it directly
+            const document = await vscode.workspace.openTextDocument(settingsPath);
+            await vscode.window.showTextDocument(document);
+        }
+        catch {
+            // File is not writable (likely needs admin privileges)
+            const choice = await vscode.window.showWarningMessage('The settings file requires administrator privileges to edit. Would you like to open it anyway (read-only) or open VS Code as administrator?', 'Open Read-Only', 'Open as Admin');
+            if (choice === 'Open Read-Only') {
+                const document = await vscode.workspace.openTextDocument(settingsPath);
+                await vscode.window.showTextDocument(document);
+            }
+            else if (choice === 'Open as Admin') {
+                // Launch a new VS Code instance as administrator with the file
+                (0, child_process_1.exec)(`powershell -Command "Start-Process code -ArgumentList '${settingsPath}' -Verb RunAs"`, (error) => {
+                    if (error) {
+                        vscode.window.showErrorMessage(`Failed to open as administrator: ${error.message}`);
+                    }
+                });
+            }
+        }
+    });
+    context.subscriptions.push(completionProvider, hoverProvider, runCommand, openCommand, settingsCommand);
 }
 function deactivate() { }
 //# sourceMappingURL=extension.js.map
