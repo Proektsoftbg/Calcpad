@@ -74,11 +74,11 @@ The extension automatically associates with `.cpd` files. To manually set the la
 ## Requirements
 
 - VS Code 1.74.0 or higher
-- Calcpad must be installed and `.cpd` files associated with it for the Run command to work
+- Calcpad must be installed (https://calcpad.eu/download/calcpad-VM-setup-en-x64.zip)
 
-## Known Issues
+## Known issues
 
-- The Run command assumes `.cpd` files are associated with the Calcpad executable
+- $Map plots do not display in preview when PlotSVG mode is set to nonzero.
 
 ## Contributing
 

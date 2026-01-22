@@ -594,7 +594,8 @@ function activate(context) {
     const settingsCommand = vscode.commands.registerCommand("calcpad.settings", async () => {
         const config = vscode.workspace.getConfiguration('calcpad');
         const settingsPath = config.get('settingsPath', 'C:\\Program Files\\Calcpad\\Settings.Xml');
-        const defaultSettings = `<Settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        const defaultSettings = `<?xml version="1.0" encoding="utf-8"?>
+<Settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 <Math>
     <Decimals>2</Decimals>
     <Degrees>0</Degrees>

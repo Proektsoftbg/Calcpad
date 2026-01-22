@@ -3,7 +3,7 @@
   "displayName": "Calcpad",
   "description": "Language support for Calcpad (.cpd files) - syntax highlighting, completions, and run support",
   "version": "7.6.0",
-  "publisher": "Proektsoft",
+  "publisher": "ProektsoftEOOD",
   "icon": "icon.png",
   "license": "MIT",
   "repository": {
