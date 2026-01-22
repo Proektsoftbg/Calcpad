@@ -26,22 +26,23 @@ Language support for Calcpad (.cpd files) in Visual Studio Code.
 
 ## Installation
 
-### From VSIX (Recommended)
+### VS Code marketplace (Recommended)
 
-1. Download the `.vsix` file
+### From [VSIX](https://github.com/Proektsoftbg/Calcpad/tree/main/Setup/Syntax-for-external-editors/calcpad-vscode)
+1. Download the `.vsix` file 
 2. In VS Code, press `Ctrl+Shift+P` and type "Install from VSIX"
 3. Select the downloaded `.vsix` file
 
 ### Manual Installation
 
-1. Copy the entire `calcpad-vscode` folder to:
+1. Copy the entire `https://github.com/Proektsoftbg/Calcpad/tree/main/Setup/Syntax-for-external-editors/calcpad-vscode` folder to:
    - Windows: `%USERPROFILE%\.vscode\extensions\`
    - macOS/Linux: `~/.vscode/extensions/`
 2. Restart VS Code
 
 ### From Source (Development)
 
-1. Clone/copy this folder
+1. Clone/copy this folder from [GitHub](https://github.com/Proektsoftbg/Calcpad/tree/main/Setup/Syntax-for-external-editors/calcpad-vscode)
 2. Run `npm install` to install dependencies
 3. Run `npm run compile` to build the extension
 4. Press F5 to launch a new VS Code window with the extension loaded
@@ -78,7 +79,7 @@ The extension automatically associates with `.cpd` files. To manually set the la
 
 ## Known issues
 
-- $Map plots do not display in preview when PlotSVG mode is set to nonzero.
+- $Map do not display plots in preview when PlotSVG mode is set to nonzero.
 
 ## Contributing
 
