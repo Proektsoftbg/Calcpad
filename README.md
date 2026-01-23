@@ -404,7 +404,7 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;&emsp;#repeat *number of repetitions*  
 &emsp;&emsp;&emsp;*Your code goes here*  
 &emsp;&emsp;#loop  
-&emsp;With conditional break/coutinue:  
+&emsp;With conditional break/continue:  
 &emsp;&emsp;#repeat *number of repetitions*  
 &emsp;&emsp;&emsp;*Your code goes here*  
 &emsp;&emsp;&emsp;#if *condition*  
