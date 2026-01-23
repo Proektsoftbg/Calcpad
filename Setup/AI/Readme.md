@@ -16,12 +16,15 @@
 4. Create a work folder for your Calcpad project and place these two files in it:
 > https://github.com/Proektsoftbg/Calcpad/blob/main/Setup/AI/Work/CALCPAD_CLAUDE_INSTRUCTIONS.txt
 > https://github.com/Proektsoftbg/Calcpad/blob/main/Setup/AI/Work/CALCPAD_LANGUAGE_REFERENCE_FOR_CLAUDE.md
+> You can also copy the Examples folder from your \Documents\Calcpad\
 
 5. Start creating
 > Open your work folder in VS Code
 > Press Ctrl+\` to open the terminal and type: `claude`
+> Follow the steps to set up Claude in your terminal
 > Give Claude prompts, e.g.: 
 >> `Create a Calcpad program for analysis of a simply supported beam`
 >> `Calculate I-section properties with Calcpad`
+> Claude will automatically read the available files with instructions and learn to use Calcpad
 > Open the generated file and press Ctrl+Shift+B to run it with Calcpad
 > Correct errors if any or ask Claude to do it. Paste error messages from Calcpad into Claude console to give it clues.
