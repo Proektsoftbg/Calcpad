@@ -375,9 +375,9 @@ Any variable name must start with a letter. Names are case sensitive.
 &emsp;$Sum { f(k) @ k = a : b } - iterative sum;  
 &emsp;$Product { f(k) @ k = a : b } - iterative product;  
 &emsp;$Repeat { f(k) @ k = a : b } - iterative expression block with counter;  
-&emsp;$While{condition; expressions} - iterative expression block with condition;  
-&emsp;$Block{expressions} - multiline expression block;  
-&emsp;$Inline{expressions} - inline expression block;  
+&emsp;$While { condition; expressions } - iterative expression block with condition;  
+&emsp;$Block { expressions } - multiline expression block;  
+&emsp;$Inline { expressions } - inline expression block;  
 &emsp;Precision - relative precision for numerical methods \[10<sup>-2</sup>; 10<sup>-16</sup>\] (default is 10<sup>-12</sup>)   
 * Program flow control:  
 &emsp;Simple:  
