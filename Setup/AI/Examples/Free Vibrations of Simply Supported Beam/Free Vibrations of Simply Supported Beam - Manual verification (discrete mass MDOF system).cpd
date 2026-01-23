@@ -1,0 +1,73 @@
+"Dynamic response of simply supported beam with distributed mass
+'<hr/>
+'Structure type - simply supported beam
+'Beam length -'L = 6m
+'Cross section - rectangular with dimensions:
+'Width -'b = 300mm
+'Height -'h = 500mm
+'Area -'A = b*h|cm^2
+'Second moment of area -'I = b*h^3/12
+'Shear area -'A_Q = 5/6*A
+'Modulus of elasticity -'E = 30GPa
+'Poisson′s ratio -'ν = 0.2
+'Shear modulus -'G = E/(2*(1 + ν))
+'Mass density -'ρ = 2500kg/m^3
+'Distributed mass per unit length -'m = ρ*A
+'<h4>Simple solution as an equivalent SDOF system</h4>
+'The structure is reduced to a SDOF system for simplicity
+'Dynamically equivalent mass -'M_tot = 2*L/π*m
+'Structural stiffness for a vertical force applied at the middle point of the span
+K = 48*E*I/L^3
+'Natural circular frequency -'ω_1 = sqrt(K/M_tot)
+'Vibration frequency -'f_1 = ω_1/(2*π)
+'Vibration period -'T_1 = 2*π/ω_1
+'<h4>Solution as an MDOF system</h4>
+'Number of intermediate joints -'n_J = 11
+'Length of one segment -'Δx = L/(n_J + 1)
+'Coordinate of joint <var>j</var> -'x_J(j) = Δx*j
+'Shear forces due to unit vertical load <var>F</var><sub>j</sub> = 1 at joint <var>j</var>
+V_1(x; j) = if(x < x_J(j); 1 - x_J(j)/L; -x_J(j)/L)
+'<!--'PlotHeight = 100'-->
+$Plot{V_1(x; 1) & V_1(x; 2) & V_1(x; 3) @ x = 0m : L}
+'Bending moments due to unit vertical load <var>F</var><sub>j</sub> = 1 at joint <var>j</var>
+M_1,max(j) = (x_J(j)/L - 1)*x_J(j)
+M_1(x; j) = M_1,max(j)*if(x < x_J(j); x/x_J(j); (L - x)/(L - x_J(j)))
+$Plot{-M_1(x; 1) & -M_1(x; 2) & -M_1(x; 3) @ x = 0m : L}
+'Flexibility matrix
+D(i; j) = $Area{M_1(x; i)*M_1(x; j) @ x = 0m : L}*(1/(E*I))'+ $Area{V_1(x; i)*V_1(x; j) @ x = 0m : L}*(1/(G*A_Q)) (skipped for compatibility)
+#hide
+D = symmetric(n_J)
+#for i = 1 : n_J
+	#for j = 1 : n_J
+		x_min = min(x_J(i); x_J(j))
+		D.(i; j) = D(i; j)*kN/mm
+	#loop
+#loop
+#show
+D'mm/kN
+'Mass matrix
+d_M.j = m*Δx/t
+#hide
+d_M = vector(n_J)
+#for j = 1 : n_J
+	d_M.j = m*Δx/t
+#loop
+'Middle joint number -'j_m = (n_J + 1)/2
+M = vec2diag(d_M)
+#def n$ = 7
+#show
+M
+'Total mass of the structure -'sum(d_M)'t
+'Eigenvalues
+M_sq = sqrt(M)
+C = copy(M_sq*D*M_sq; symmetric(n_J); 1; 1)
+λ = eigenvals(C*10^-3; -n$)
+'Natural circular frequences -'ω = sqrt(1/λ)'<i>s</i>⁻¹
+'Natural vibration frequences -'f = ω/(2*π)*Hz
+'Natural vibration periods -'T = 1/f
+'Eigenvectors
+V = transp(eigenvecs(C*10^-3; -n$))
+Φ = inverse(M_sq)*V
+X = stack(matrix(1; 3); Φ; matrix(1; 3))
+#def X$(m$) = i*Δx|spline(i + 1; m$; X)
+$Plot{X$(1) & X$(2) & X$(3) @ i = 0 : n_J + 1}

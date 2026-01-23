@@ -1,0 +1,127 @@
+"Free Vibrations of Simply Supported Beam with Distributed Mass
+'<hr/>
+'Dynamic analysis based on Euler-Bernoulli beam theory
+#rad
+"1. Input Data
+'<h3>Beam geometry</h3>
+'Span length -'L = 6m
+'<h3>Cross-section (rectangular)</h3>
+'Width -'b = 0.3m
+'Height -'h = 0.5m
+'Cross-section area -'A = b*h
+'Second moment of area -'I = b*h^3/12
+'<h3>Material properties</h3>
+'Modulus of elasticity -'E = 30GPa
+'Mass density -'ρ = 2500kg/m^3
+'<h3>Derived quantities</h3>
+'Bending stiffness -'EI = E*I
+'Distributed mass per unit length -'m = ρ*A
+'Total mass of the beam -'M_tot = m*L
+"2. Analytical Solution
+'<h3>Theory</h3>
+'For a simply supported beam with uniformly distributed mass, the equation of free vibrations is:
+'<p><b>EI·∂⁴w/∂x⁴ + m·∂²w/∂t² = 0</b></p>
+'The solution is obtained by separation of variables:
+'<p><b>w(x, t) = φ(x)·q(t)</b></p>
+'Mode shapes: <b>φ<sub>n</sub>(x) = sin(nπx/L)</b>
+'<p>Natural circular frequencies:</p>
+'<p><b>ω<sub>n</sub> = (nπ/L)² · √(EI/m)</b></p>
+'<h3>Number of modes to compute</h3>
+n = 5
+"3. Natural Frequencies and Periods
+'<h3>Circular frequencies ω<sub>n</sub></h3>
+ω(k) = (k*π/L)^2*sqrt(EI/m)
+'<h3>Natural frequencies f<sub>n</sub></h3>
+f(k) = ω(k)/(2*π)
+'<h3>Vibration periods T<sub>n</sub></h3>
+T(k) = 1/f(k)
+'<h3>Results for the first 'n' modes:</h3>
+'<table class="bordered">
+'<tr><th>Mode</th><th>ω<sub>n</sub> [rad/s]</th><th>f<sub>n</sub> [Hz]</th><th>T<sub>n</sub> [s]</th></tr>
+#val
+#for k = 1 : n
+	#hide
+	ω_k = ω(k)/1Hz
+	f_k = f(k)/1Hz
+	T_k = T(k)/1s
+	#show 
+	'<tr><td>'k'</td><td>'ω_k'</td><td>'f_k'</td><td>'T_k'</td></tr>
+#loop
+#equ
+'</table>
+'<h3>Fundamental frequency (1st mode)</h3>
+'Circular frequency -'ω_1 = ω(1)|Hz
+'Natural frequency -'f_1 = f(1)|Hz
+'Vibration period -'T_1 = T(1)|s
+"4. Mode Shapes
+'The mode shapes are sinusoidal functions:
+'<p><b>φ<sub>n</sub>(x) = sin(nπx/L)</b></p>
+φ(k; x) = sin(k*π*x/L)
+PlotHeight = 120
+$Plot{φ(1; x) & φ(2; x) & φ(3; x) & φ(4; x) & φ(5; x) @ x = 0m : L}
+"5. Modal Properties
+'<h3>Modal mass</h3>
+'For sinusoidal mode shapes of a simply supported beam:
+'<p><b>M<sub>n</sub> = ∫₀ᴸ m·φ<sub>n</sub>²(x) dx = m·L/2</b></p>
+M_n = m*L/2
+'<h3>Modal stiffness</h3>
+'<p><b>K<sub>n</sub> = ω<sub>n</sub>²·M<sub>n</sub></b></p>
+'<table class="bordered">
+'<tr><th>Mode</th><th>M<sub>n</sub> [kg]</th><th>K<sub>n</sub> [kN/m]</th></tr>
+#val
+#for k = 1 : n
+	#hide
+	K_k = ω(k)^2*M_n
+	M_nk = M_n/1kg
+	K_kk = K_k/1kN*1m
+	#show
+	'<tr><td>'k'</td><td>'M_nk'</td><td>'K_kk'</td></tr>
+#loop
+#equ
+'</table>
+"6. Free Vibration Response
+'<h3>Initial conditions</h3>
+'Initial midspan displacement -'w_0 = 5mm
+'Initial velocity -'v_0 = 0m/s
+'<h3>Response at midspan</h3>
+'For initial displacement w₀ at midspan with zero initial velocity,
+'the modal initial conditions are:
+'<p><b>q<sub>n</sub>(0) = (2/L)·∫₀ᴸ w₀·δ(x-L/2)·sin(nπx/L) dx</b></p>
+'For concentrated initial displacement at midspan:
+'<p><b>q<sub>n</sub>(0) = w₀·sin(nπ/2)·(2/(m·L))</b></p>
+'Only odd modes are excited (modes 1, 3, 5,...).
+'<h3>Time history of midspan displacement (first mode approximation)</h3>
+'Amplitude of first mode -'A_1 = w_0
+'Response -'w(t) = A_1*sin(π*L/2/L)*cos(ω(1)*t)
+t_max = 3*T(1)
+$Plot{w(t)/1mm @ t = 0s : t_max}
+"7. Verification
+'<h3>Comparison with approximate formulas</h3>
+'Static deflection under self-weight:
+'<p><b>δ<sub>st</sub> = 5·m·g·L⁴/(384·EI)</b></p>
+g = 9.81m/s^2
+δ_st = 5*m*g*L^4/(384*EI)|mm
+'Approximate fundamental frequency (Rayleigh method):
+f_1R = 1/(2*π)*sqrt(g/δ_st)
+'<p>Exact fundamental frequency: <b>f₁ = π/(2L²)·√(EI/m)</b></p>
+'Ratio (exact/Rayleigh) -'r = f_1/f_1R
+'<p>The Rayleigh method gives a slightly different result because
+'it uses a static deflection shape (parabolic) instead of the exact
+'sinusoidal mode shape.</p>
+"8. Frequency Ratios
+'<h3>Relationship between higher modes and fundamental frequency</h3>
+'For a simply supported beam: <b>f<sub>n</sub>/f<sub>1</sub> = n²</b>
+'<table class="bordered">
+'<tr><th>Mode n</th><th>f<sub>n</sub>/f<sub>1</sub></th><th>n²</th></tr>
+#val
+#for k = 1 : n
+	#hide
+	ratio = f(k)/f(1)
+	k_sq = k^2
+	#show
+	'<tr><td>'k'</td><td>'ratio'</td><td>'k_sq'</td></tr>
+#loop
+#equ
+'</table>
+'<p>This confirms the characteristic property of simply supported beams:
+'natural frequencies increase proportionally to the square of the mode number.</p>
