@@ -324,9 +324,9 @@ Any variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;**transp**(M) - transpose of matrix M;  
 &emsp;&emsp;**adj**(M) - adjugate of matrix M;  
 &emsp;&emsp;**cofactor**(M) - cofactor matrix of M;  
-&emsp;&emsp;**eigenvals**(M; n_e) - the first n_e eigenvalues of matrix M (or all if omitted);  
-&emsp;&emsp;**eigenvecs**(M; n_e) - the first n_e eigenvectors of matrix M (or all if omitted);  
-&emsp;&emsp;**eigen**(M; n_e) - the first n_e eigenvalues and eigenvectors of M (or all if omitted);  
+&emsp;&emsp;**eigenvals**(M; n_e) - the first n_e (or all if omitted) eigenvalues of matrix M as a vector;  
+&emsp;&emsp;**eigenvecs**(M; n_e) - the first n_e (or all if omitted) eigenvectors of matrix M as a row-major matrix;  
+&emsp;&emsp;**eigen**(M; n_e) - the first n_e (or all if omitted) eigenvalues and eigenvectors of M as a row-major matrix;  
 &emsp;&emsp;**cholesky**(M) - Cholesky decomposition of a symmetric, positive-definite matrix M;  
 &emsp;&emsp;**lu**(M) - LU decomposition of matrix M;  
 &emsp;&emsp;**qr**(M) - QR decomposition of matrix M;  
