@@ -26,9 +26,9 @@ Language support for Calcpad (.cpd files) in Visual Studio Code.
 
 ## Installation
 
-### VS Code marketplace (Recommended)
+### From [VS Code marketplace](https://marketplace.visualstudio.com/items?itemName=ProektsoftEOOD.calcpad) (Recommended)
 
-### From [VSIX](https://github.com/Proektsoftbg/Calcpad/tree/main/Setup/Syntax-for-external-editors/calcpad-vscode)
+### From [VSIX](https://github.com/Proektsoftbg/Calcpad/tree/main/Setup/Syntax-for-external-editors/calcpad-vscode) file
 1. Download the `.vsix` file 
 2. In VS Code, press `Ctrl+Shift+P` and type "Install from VSIX"
 3. Select the downloaded `.vsix` file
