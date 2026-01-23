@@ -141,7 +141,7 @@ Any variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;**ln**(x)    - natural logarithm;  
 &emsp;&emsp;**log_2**(x) - binary logarithm;  
 &emsp;&emsp;**exp**(x)   - natural exponent;  
-&emsp;&emsp;**sqr**(x) / sqrt(x) - square root;  
+&emsp;&emsp;**sqr**(x) or **sqrt**(x) - square root;  
 &emsp;&emsp;**cbrt**(x) - cubic root;  
 &emsp;&emsp;**root**(x; n) - n-th root;  
 &emsp;Rounding:  
@@ -338,7 +338,7 @@ Any variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;**msolve**(A; B) - solves the generalized matrix equation AX = B using LDLT decomposition for symmetric matrices, and LU for non-symmetric;  
 &emsp;&emsp;**cmsolve**(A; B) - solves the generalized matrix equation AX = B with symmetric, positive-definite matrix A using Cholesky decomposition;  
 &emsp;&emsp;**smsolve**(A; B) - solves the generalized matrix equation AX = B with high-performance symmetric, positive-definite matrix A using PCG method;  
-&emsp;&emsp;**matmul**(A; B) - fast multiplication of square hp matrices using parallel Winograd algorithm. The multiplication operator A*B uses it automatically for square matrices of size 1000 and larger;
+&emsp;&emsp;**matmul**(A; B) - fast multiplication of square hp matrices using parallel Winograd algorithm. The multiplication operator A*B uses it automatically for all square hp matrices of size 10 and larger;
 &emsp;&emsp;**fft**(M) - performs fast Fourier transform of row-major matrix M. It must have one row for real data and two rows for complex;  
 &emsp;&emsp;**ift**(M) - performs inverse Fourier transform of row-major matrix M. It must have one row for real data and two rows for complex;  
 &emsp;&emsp;**<ins>Double interpolation:</ins>**  
