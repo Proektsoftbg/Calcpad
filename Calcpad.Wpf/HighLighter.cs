@@ -187,7 +187,7 @@ namespace Calcpad.Wpf
              Brushes.Crimson
         ];
 
-        private static readonly FrozenSet<char> Operators = new HashSet<char>() { '!', '^', '/', '÷', '\\', '⦼', '*', '-', '+', '<', '>', '≤', '≥', '≡', '≠', '=', '∧', '∨', '⊕', '∠' }.ToFrozenSet();
+        private static readonly FrozenSet<char> Operators = new HashSet<char>() { '!', '^', '/', '÷', '\\', '⦼', '*', '-', '+', '<', '>', '≤', '≥', '≡', '≠', '=', '∧', '∨', '∠', '⊕', '←' }.ToFrozenSet();
         private static readonly bool[] DelimitersMap = new bool[128];
         private static readonly bool[] BracketsMap = new bool[128];
         private static readonly FrozenSet<string> Functions =
@@ -429,9 +429,10 @@ namespace Calcpad.Wpf
             "#format",
             "#show",
             "#hide",
-            "#varsub",
             "#nosub",
             "#novar",
+            "#varsub",
+            "#const",
             "#split",
             "#wrap",
             "#pre",
@@ -1374,8 +1375,10 @@ namespace Calcpad.Wpf
             }
             _builder.Clear();
             if (AppendOperatorShortcut(s))
+            {
+                _state.CurrentType = Types.Operator;
                 return;
-
+            }
             if (t == Types.Include)
             {
                 s = s.Trim();
@@ -1419,6 +1422,7 @@ namespace Calcpad.Wpf
                     case '|': return replaceText("|", " ∨ ", true);
                     case '^': return replaceText("^", " ⊕ ", true);
                     case '/': return replaceText("/", "÷", true);
+                    case '*': return replaceText(" < ", " ← ", true);
                 }
             }
             return false;
@@ -2181,7 +2185,7 @@ namespace Calcpad.Wpf
             name switch
             {
                 "-" => _allowUnaryMinus ? "-" : " - ",
-                "+" or "=" or "≡" or "≠" or "<" or ">" or "≤" or "≥" or "&" or "@" or ":" or "∧" or "∨" or "⊕" => ' ' + name + ' ',
+                "+" or "=" or "←" or "≡" or "≠" or "<" or ">" or "≤" or "≥" or "&" or "@" or ":" or "∧" or "∨" or "⊕" => ' ' + name + ' ',
                 ";" => !_state.HasMacro && _state.MacroArgs > 0 ? ";" : "; ",
                 _ => name,
             };

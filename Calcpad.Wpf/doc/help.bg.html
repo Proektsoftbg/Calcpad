@@ -256,7 +256,8 @@
                 "<a href="#0" data-text="∨"><b class="o">∨</b></a>" - логическо "ИЛИ"/OR (||);<br />
                 "<a href="#0" data-text="∨"><b class="o" style="font-size:80%;">⊕</b></a>" - изключващо "ИЛИ"/XOR (^^);<br />
                 "<a href="#0" data-text="∠"><b class="o" style="font-size:80%;">∠</b></a>" - фазор A∠φ (&lt;&lt;);<br />
-                "<a href="#0" data-text="="><b class="o">=</b></a>" - присвояване;
+                "<a href="#0" data-text="="><b class="o">=</b></a>" - присвояване или дефиниране на променлива, функция или макрос;<br />
+                "<a href="#0" data-text="←"><b class="o">←</b></a>" - присвояване на външна променлива за блок (&lt;*);
             </span>
         </li>
         <li>Потребителски функции от вида <b>f</b><span class="b">(</span><var>x</var><span class="o">;</span> <var>y</var><span class="o">;</span> <var>z</var><span class="o">;</span> ...<span class="b">)</span>;</li>
@@ -765,6 +766,7 @@
 				За командите <span class="cond">#write</span> и <span class="cond">#append</span>, <span class="cond">TYPE</span> може да бъде <span class="macro" title="Yes">Y</span> или <span class="macro" title="No">N</span>.
             </span>
         </li>
+		<li>Защита от презапис: <a href="#0" data-text="#const"><span class="cond">#const</span></a> - декларира константа (променлива или функция само за четене);</li>
         <li style="list-style-type: none;">
             <span class="exp" id="btn10">+</span>Контрол на видимостта:<br />
             <span id="list10" style="display: none;">

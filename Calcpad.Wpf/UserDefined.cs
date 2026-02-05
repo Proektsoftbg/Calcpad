@@ -161,6 +161,8 @@ namespace Calcpad.Wpf
             lineContent = lineContent.Trim();
             if (lineContent.StartsWith("#for ", StringComparison.OrdinalIgnoreCase))
                 lineContent = lineContent[5..];
+            else if (lineContent.StartsWith("#const ", StringComparison.OrdinalIgnoreCase))
+                lineContent = lineContent[7..];
 
             var commentEnumerator = lineContent.EnumerateComments();
             foreach (var item in commentEnumerator)

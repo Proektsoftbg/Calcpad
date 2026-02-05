@@ -10,6 +10,7 @@ namespace Calcpad.Core
         internal event Action OnChange;
         internal void Change() => OnChange?.Invoke();   
         internal bool IsInitialized => _isIntialised;
+        internal bool IsReadOnly;
         private bool _isIntialised;
 
         internal Variable(in IValue value)
@@ -22,10 +23,10 @@ namespace Calcpad.Core
         public Variable() { }
         internal void SetNumber(in Complex number)
         {
-            ref var ival = ref ValueByRef();
-            if (ival is RealValue real)
+            ref var iVal = ref ValueByRef();
+            if (iVal is RealValue real)
                 _value = new ComplexValue(number, real.Units);
-            else if (ival is ComplexValue complex)
+            else if (iVal is ComplexValue complex)
                 _value = new ComplexValue(number, complex.Units);
             else
                 _value = new ComplexValue(number);
@@ -33,10 +34,10 @@ namespace Calcpad.Core
         }
         internal void SetNumber(double number)
         {
-            ref var ival = ref ValueByRef();
-            if (ival is RealValue real)
+            ref var iVal = ref ValueByRef();
+            if (iVal is RealValue real)
                 _value = new RealValue(number, real.Units);
-            else if (ival is ComplexValue complex)
+            else if (iVal is ComplexValue complex)
                 _value = new RealValue(number, complex.Units);
             else
                 _value = new ComplexValue(number);

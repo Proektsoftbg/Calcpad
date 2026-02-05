@@ -22,8 +22,8 @@ namespace Calcpad.Core
                 (in ComplexValue a, in ComplexValue b) => a & b,
                 (in ComplexValue a, in ComplexValue b) => a | b,
                 (in ComplexValue a, in ComplexValue b) => a ^ b,
-                (in ComplexValue _, in ComplexValue b) => b, 
                 (in ComplexValue a, in ComplexValue b) => Phasor(a, b),
+                //Assignments do not need implementation here
             ];
         private readonly Function<ComplexValue>[] _functions;
         private readonly Operator<ComplexValue>[] Functions2;

@@ -818,6 +818,15 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Declares a constant (readonly variable).
+        /// </summary>
+        public static string DeclaresAConstantReadonlyVariable {
+            get {
+                return ResourceManager.GetString("DeclaresAConstantReadonlyVariable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Decompositions.
         /// </summary>
         public static string Decompositions {
@@ -1169,7 +1178,7 @@ namespace Calcpad.Wpf {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fast square matrix multiplication with parallel Winograd algorithm..
+        ///   Looks up a localized string similar to Fast square matrix multiplication with parallel Winograd algorithm.
         /// </summary>
         public static string FastSquareMatrixMultiplicationWithParallelWinogradAlgorithm {
             get {
@@ -2065,6 +2074,15 @@ namespace Calcpad.Wpf {
         public static string Other {
             get {
                 return ResourceManager.GetString("Other", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Outer variable assignment in block.
+        /// </summary>
+        public static string OuterVariableAssignment {
+            get {
+                return ResourceManager.GetString("OuterVariableAssignment", resourceCulture);
             }
         }
         

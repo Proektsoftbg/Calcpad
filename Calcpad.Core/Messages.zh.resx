@@ -251,7 +251,7 @@
     <value>检测到函数 "{0}" 的循环引用.</value>
   </data>
   <data name="Invalid_function_definition_exception" xml:space="preserve">
-    <value>函数定义无效.它必须符合范式： "f (x; y; z...) =".</value>
+    <value>函数定义无效.它必须符合范式："f (x; y; z...) =公式".</value>
   </data>
   <data name="Argument_out_of_range_for_0_x" xml:space="preserve">
     <value>{0}(x)的参数超出范围.</value>
@@ -576,5 +576,8 @@
   </data>
   <data name="File_not_found_0" xml:space="preserve">
     <value>文件未找到:{0}.</value>
+  </data>
+  <data name="CannotModifyConstant" xml:space="preserve">
+    <value>无法修改常量“{0}”.</value>
   </data>
 </root>

@@ -390,17 +390,17 @@ Calcpad is free software for mathematical and engineering calculations. It repre
   `$Root{f(x) = const @ x = a : b}` - root finding for f(x) = const  
   `$Root{f(x) @ x = a : b}` - root finding for f(x) = 0  
   `$Find{f(x) @ x = a : b}` - similar to above, but x is not required to be a precise solution  
-  `$Sup{f(x) @ x = a : b}` - local maximum of a function  
-  `$Inf{f(x) @ x = a : b}` - local minimum of a function  
+  `$Sup{f(x) @ x = a : b}` - local maximum of a function. The location is implicitly assigned to a variable `x_sup`  
+  `$Inf{f(x) @ x = a : b}` - local minimum of a function. The location is implicitly assigned to a variable `x_inf`  
   `$Area{f(x) @ x = a : b}` - adaptive Gauss-Lobatto numerical integration  
   `$Integral{f(x) @ x = a : b}` - Tanh-Sinh numerical integration  
-  `$Slope{f(x) @ x = a}` - numerical differentiation by Richardson extrapolation  
-  `$Derivative{f(x) @ x = a}` - numerical differentiation by complex step method  
+  `$Slope{f(x) @ x = a}` - numerical differentiation by Richardson extrapolation (approximate)  
+  `$Derivative{f(x) @ x = a}` - numerical differentiation by complex step method (precise)  
   `$Sum{f(k) @ k = a : b}` - iterative sum  
   `$Product{f(k) @ k = a : b}` - iterative product  
   `$Repeat{f(k) @ k = a : b}` - iterative expression block with counter  
   `$While{condition; expressions}` - iterative expression block with condition  
-  `$Block{expressions}` - multiline expression block  
+  `$Block{expressions}` - multi-line expression block  
   `$Inline{expressions}` - inline expression block  
   `Precision` - relative precision for numerical methods \[10^-2; 10^-16\] (default is 10^-12)   
 	
@@ -764,9 +764,9 @@ x = $Root{x^2 - 10 @ x = 0 : 5}
 ---
 
 ## FILE EXTENSION
-- Use `.cpd` for Calcpad source files
+- Use `.cpd` for Calcpad source files.
 
 ## EXECUTION
-- Press Ctrl+Shift+B to run in VS Code or the command Calcpad: Run Calcpad File 
+- Press Ctrl+Shift+B to run in VS Code or the command `Calcpad: Run Calcpad File`. 
 
 ---

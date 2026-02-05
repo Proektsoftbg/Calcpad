@@ -18,9 +18,10 @@ namespace Calcpad.Core
             Val,
             Equ,
             Noc,
-            VarSub,
             NoSub,
             NoVar,
+            VarSub,
+            Const,
             Split,
             Wrap,
             Deg,
@@ -144,15 +145,18 @@ namespace Calcpad.Core
                 case Keyword.Noc:
                     _isVal = -1;
                     break;
-                case Keyword.VarSub:
-                    _parser.VariableSubstitution = MathParser.VariableSubstitutionOptions.VariablesAndSubstitutions;
-                    break;
                 case Keyword.NoSub:
                     _parser.VariableSubstitution = MathParser.VariableSubstitutionOptions.VariablesOnly;
                     break;
                 case Keyword.NoVar:
                     _parser.VariableSubstitution = MathParser.VariableSubstitutionOptions.SubstitutionsOnly;
                     break;
+                case Keyword.VarSub:
+                    _parser.VariableSubstitution = MathParser.VariableSubstitutionOptions.VariablesAndSubstitutions;
+                    break;
+                case Keyword.Const:
+                    _parser.IsConst = true;
+                    return KeywordResult.None;
                 case Keyword.Split:
                     _parser.Split = true;
                     break;
@@ -209,7 +213,6 @@ namespace Calcpad.Core
                 case Keyword.Complex:
                     _parser.Phasor = false;
                     break;
-
                 default:
                     if (keyword != Keyword.Global && keyword != Keyword.Local)
                         return KeywordResult.None;

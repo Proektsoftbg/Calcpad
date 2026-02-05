@@ -52,9 +52,8 @@ namespace Calcpad.Core
             {
                 var stackBuffer = new Stack<Expression>();
                 var len = rpn.Length;
-                if (_allowAssignment &&
-                    rpn[len - 1].Content == "=")
-                {
+                if (_allowAssignment && (rpn[len - 1].Content == "="))
+                { 
                     var rpn0 = rpn[0];
                     if (rpn0.Type == TokenTypes.Variable &&
                         rpn0 is VariableToken vt)
@@ -303,7 +302,7 @@ namespace Calcpad.Core
             private Expression ParseOperatorToken(Token t, Expression a, Expression b)
             {
                 var tc0 = t.Content[0];
-                if (tc0 == '=')
+                if (tc0 == '=' || tc0 == '←')
                 {
                     if (a is MethodCallExpression mce)
                     {
@@ -659,7 +658,7 @@ namespace Calcpad.Core
                 var whileLoop = Expression.Block(
                      [resultVariable, counterVariable],
                      Expression.Assign(counterVariable, Expression.Constant(0)),
-                     Expression.Assign(resultVariable, Expression.Default(typeof(IValue))),
+                     Expression.Assign(resultVariable, Expression.Constant(RealValue.Zero, typeof(IValue))),
                      Expression.Loop(loopBody, breakLabel)
                 );
                 var lambda = Expression.Lambda<Func<IValue>>(whileLoop);

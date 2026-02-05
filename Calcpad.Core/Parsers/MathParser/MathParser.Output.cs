@@ -38,6 +38,7 @@ namespace Calcpad.Core
                 _stringBuilder.Clear();
                 var delimiter = writer.FormatOperator(';');
                 var assignment = writer.FormatOperator('=');
+                var globalAssignment = writer.FormatOperator('←');
                 if (_parser._functionDefinitionIndex >= 0)
                 {
                     var cf = _functions[_parser._functionDefinitionIndex];
@@ -71,11 +72,11 @@ namespace Calcpad.Core
                     if (_parser._isCalculated)
                     {
                         var subst = string.Empty;
-                        var splitted = false;
+                        var isSplit = false;
                         var len = rpn.Length;
                         if (!(len == 3 &&
                             rpn[1].Type == TokenTypes.Solver &&
-                            rpn[2].Content == "=" ||
+                            IsAssignment(rpn[2].Content) ||
                             len == 1))
                         {
                             if (_hasVariables)
@@ -84,15 +85,19 @@ namespace Calcpad.Core
                                     _parser.VariableSubstitution != VariableSubstitutionOptions.VariablesOnly))
                                 {
                                     subst = RenderRpn(rpn, true, writer, out hasOperators);
-                                    var eqlen = equation.Length - equation.LastIndexOf(assignment) - assignment.Length;
-                                    if (subst.Length != eqlen)
+                                    var eqLen = equation.LastIndexOf(assignment);
+                                    if (eqLen < 0)
+                                        eqLen = equation.LastIndexOf(globalAssignment);
+
+                                    eqLen = equation.Length - eqLen - assignment.Length;
+                                    if (subst.Length != eqLen)
                                     {
                                         if (_parser.VariableSubstitution != VariableSubstitutionOptions.SubstitutionsOnly)
                                         {
                                             _stringBuilder.Append(assignment);
                                             if (_parser.Split && format == OutputWriter.OutputFormat.Html)
                                             {
-                                                splitted = true;
+                                                isSplit = true;
                                                 _stringBuilder.Append($"<br/><span class=\"indent\">");
                                             }
                                         }
@@ -119,7 +124,7 @@ namespace Calcpad.Core
 
                             _stringBuilder.Append(res);
                         }
-                        if (splitted)
+                        if (isSplit)
                             _stringBuilder.Append("</span>");
                     }
                 }
@@ -291,7 +296,7 @@ namespace Calcpad.Core
                                 textWriter.FormatValue(scalar) :
                                 string.Empty;
                             t.Content = writer.FormatVariable(t.Content, s, false);
-                            _hasVariables = i > 0 || rpn[^1].Content != "=";
+                            _hasVariables = i > 0 || !IsAssignment(rpn[^1].Content);
                         }
                     }
                     else if (ival is Vector vector)
@@ -347,7 +352,7 @@ namespace Calcpad.Core
                 void RenderOperatorToken(RenderToken t, RenderToken b, ref bool hasOperators)
                 {
                     var sb = b.Content;
-                    if (substitute && t.Content == "=")
+                    if (substitute && IsAssignment(t.Content))
                     {
                         t.Content = sb;
                         t.Level = b.Level;
@@ -404,7 +409,7 @@ namespace Calcpad.Core
                                 if (b.Order > t.Order ||
                                     b.Order == t.Order && (content == "-" || isDivision) ||
                                     b.Order == 2 && sb.ContainsAny('·', '∕') && isDivision ||
-                                    IsNegative(b) && content != "=")
+                                    IsNegative(b) && !IsAssignment(content))
                                     sb = AddBrackets(sb, b.Level, b.MinOffset, b.MaxOffset, '(', ')');
                             }
 
@@ -476,7 +481,7 @@ namespace Calcpad.Core
                             t.Level = level;
                             t.MinOffset = Math.Min(Math.Min(a.MinOffset, b.MinOffset), t.Offset);
                             t.MaxOffset = Math.Max(Math.Max(a.MaxOffset, b.MaxOffset), t.Offset);
-                            if (content == "=")
+                            if (IsAssignment(content))
                                 _assignmentPosition = t.Content.Length - sb.Length;
                             else
                             {

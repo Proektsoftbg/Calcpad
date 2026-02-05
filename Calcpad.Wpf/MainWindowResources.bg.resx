@@ -1154,4 +1154,19 @@
   <data name="ComplexStepDifferentiation" xml:space="preserve">
     <value>Диференциране с комплексна стъпка</value>
   </data>
+  <data name="FastSquareMatrixMultiplicationWithParallelWinogradAlgorithm" xml:space="preserve">
+    <value>Бързо умножение на квадратни матрици с паралелен алгоритъм на Виноград</value>
+  </data>
+  <data name="SolvesTheLinearMatrixEquationAxBWithASymmetricMatrixAUsingPCGMethod" xml:space="preserve">
+    <value>Решава линейното матрично уравнение Ax = b със симетрична матрица A, чрез PCG метода</value>
+  </data>
+  <data name="SolvesTheGeneralizedMatrixEquationAXBWithASymmetricMatrixAUsingPCGMethod" xml:space="preserve">
+    <value>Решава обобщеното матрично уравнение AX = B със симетрична матрица A, чрез PCG метода</value>
+  </data>
+  <data name="OuterVariableAssignment" xml:space="preserve">
+    <value>Присвояване на външна променлива за блок</value>
+  </data>
+  <data name="DeclaresAConstantReadonlyVariable" xml:space="preserve">
+    <value>Декларира константа (променлива само за четене)</value>
+  </data>
 </root>

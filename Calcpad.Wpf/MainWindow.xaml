@@ -360,6 +360,8 @@
                     <Separator/>
                     <MenuItem Click="Button_Click" Tag="=" Icon="  =" 
                               Header="{x:Static wpf:MathResources.Assignment}"/>
+                    <MenuItem Click="Button_Click" Tag="=" Icon="  ←" 
+                              Header="{x:Static wpf:MainWindowResources.OuterVariableAssignment}"/>
                 </MenuItem>
                 <MenuItem Header="{x:Static wpf:MathResources.Functions}">
                     <MenuItem Header="{x:Static wpf:MathResources.Trigonometric}">
@@ -1669,6 +1671,8 @@
                               ToolTip="{x:Static wpf:MainWindowResources.ShowEquationsOnlyWithSubstitutedValues}"/>
                     <MenuItem Click="Button_Click" Tag="#varsub" Header="#varsub" 
                               ToolTip="{x:Static wpf:MainWindowResources.ShowEquationsWithVariablesAndSubstitutedValues}"/>
+                    <MenuItem Click="Button_Click" Tag="#const" Header="#const" 
+                              ToolTip="{x:Static wpf:MainWindowResources.DeclaresAConstantReadonlyVariable}"/>
                     <Separator/>
                     <MenuItem Click="Button_Click" Tag="#split"  Header="#split"  
                               ToolTip="{x:Static wpf:MainWindowResources.SplitEquations}"/>

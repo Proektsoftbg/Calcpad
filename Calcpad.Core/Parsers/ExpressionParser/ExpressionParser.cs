@@ -141,6 +141,7 @@ namespace Calcpad.Core
                         continue;
                     }
                     var lineCache = _currentLine;
+                    _parser.IsConst = false;
                     var result = ParseKeyword(textSpan, ref keyword);
                     if (keyword != currentLineCache.Keyword)
                         _lineCache[lineCache] = new(currentLineCache.Tokens, keyword);
@@ -159,7 +160,8 @@ namespace Calcpad.Core
                             tokens = _lineCache[_currentLine].Tokens;
                         else
                         {
-                            tokens = GetTokens(textSpan[_condition.KeywordLength..]);
+                            var skipChars = keyword == Keyword.Const ? 7 : _condition.KeywordLength;
+                            tokens = GetTokens(textSpan[skipChars..]);
                             if (_isMarkdownOn)
                                 ParseMarkDown(tokens);
 

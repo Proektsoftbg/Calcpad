@@ -173,5 +173,9 @@ $Root{f(x) @ x = 0m : L}
 Vector and matrix indexing - CORRECT:
 v = [1; 2; 3]
 x = v.1
+x = v.k
+x = v.(k + 1)
 M = [1; 2 | 3; 4]
-y = M.(1;2)
+y = M.(1; 2)
+y = M.(i; j)
+y = M.(i + 1; j + 2)

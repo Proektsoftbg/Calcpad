@@ -22,7 +22,7 @@ namespace Calcpad.Core
                 (in RealValue a, in RealValue b) => a & b,
                 (in RealValue a, in RealValue b) => a | b,
                 (in RealValue a, in RealValue b) => a ^ b,
-                (in RealValue _, in RealValue b) => b
+                //Assignments do not need implementation here
             ];
         private readonly Function<RealValue>[] _functions;
         private readonly Operator<RealValue>[] _functions2;

@@ -254,7 +254,7 @@
         <value>Открита е циклична референция за функция "{0}".</value>
     </data>
   <data name="Invalid_function_definition_exception" xml:space="preserve">
-        <value>Невалидна дефиниция на функция. Трябва да съответства на шаблона: \"f(x; y; z...) =\".</value>
+        <value>Невалидна дефиниция на функция. Трябва да съответства на шаблона: \"f(x; y; z...) = израз\".</value>
     </data>
   <data name="Argument_out_of_range_for_0_x" xml:space="preserve">
         <value>Аргументът е извън допустимия интервал за {0}(x).</value>
@@ -570,5 +570,8 @@
   </data>
   <data name="PossiblyInfiniteLoopDetected" xml:space="preserve">
     <value>Засечен е възможен безкраен цикъл с n &gt; {0} итерации.</value>
+  </data>
+  <data name="CannotModifyConstant" xml:space="preserve">
+    <value>Не може да се промени константа "{0}".</value>
   </data>
 </root>

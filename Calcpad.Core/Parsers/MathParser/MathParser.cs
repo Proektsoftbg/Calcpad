@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -87,6 +88,7 @@ namespace Calcpad.Core
         internal double PlotSVG => GetSettingsVariable("PlotSVG", double.NaN);
         internal double PlotAdaptive => GetSettingsVariable("PlotAdaptive", double.NaN);
         internal int PlotStep => (int)GetSettingsVariable("PlotStep", 0);
+        internal bool IsConst { get; set; } = false;
 
         public const char DecimalSymbol = '.';
         internal Complex Result
@@ -107,6 +109,10 @@ namespace Calcpad.Core
         public double Real => Result.Re;
         public double Imaginary => Result.Im;
         public System.Numerics.Complex Complex => Result;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static bool IsAssignment(in string s) => s == "=" || s == "←";
 
         public static readonly char NegateChar = Calculator.NegChar;
         public static readonly string NegateString = Calculator.NegChar.ToString();
@@ -481,7 +487,8 @@ namespace Calcpad.Core
             var pi = new RealValue(Math.PI);
             _variables.Add("e", new Variable(new RealValue(Math.E)));
             _variables.Add("pi", new Variable(pi));
-            _variables.Add("π", new Variable(pi));
+            _variables.Add("π", new Variable(pi) { IsReadOnly = true });
+            ;
             if (_settings.IsComplex)
             {
                 _variables.Add("i", new Variable(Core.Complex.ImaginaryOne));
@@ -564,7 +571,7 @@ namespace Calcpad.Core
             BreakIfCanceled();
             if (_functionDefinitionIndex < 0)
             {
-                bool isAssignment = _rpn[0].Type == TokenTypes.Variable && _rpn[^1].Content == "=";
+                bool isAssignment = _rpn[0].Type == TokenTypes.Variable && IsAssignment(_rpn[^1].Content);
                 _calc.ReturnAngleUnits = GetSettingsVariable("ReturnAngleUnits", 0) != 0d;
                 Func<IValue> f = null;
                 if (!isVisible && cacheId >= 0 && cacheId < _equationCache.Count)
@@ -668,9 +675,19 @@ namespace Calcpad.Core
                         var n = parameters.Count;
                         var rpn = Input.GetRpn(input);
                         var index = _functions.IndexOf(name);
-                        var cf = index >= 0 && _functions[index].ParameterCount == n ?
-                            _functions[index] :
-                            CreateFunction(n);
+                        CustomFunction cf;
+                        if (index >= 0)
+                        {
+                            cf = _functions[index];
+                            if (cf.IsReadOnly)
+                                throw Exceptions.CannotModifyConstant(name);
+
+                            if (cf.ParameterCount != n)
+                                cf = CreateFunction(n, IsConst);
+                        }
+                        else  
+                            cf = CreateFunction(n, IsConst);
+
 
                         cf.AddParameters(parameters);
                         cf.Rpn = rpn;
@@ -693,6 +710,7 @@ namespace Calcpad.Core
                         cf.Units = _targetUnits;
                         if (index >= 0)
                             cf.Clear();
+
                         _functionDefinitionIndex = _functions.Add(name, cf);
                         return;
                     }
@@ -701,14 +719,14 @@ namespace Calcpad.Core
             throw Exceptions.InvalidFunctionDefinition();
         }
 
-        private static CustomFunction CreateFunction(int parameterCount)
+        private static CustomFunction CreateFunction(int parameterCount, bool isConst = false)
         {
             return parameterCount switch
             {
-                1 => new CustomFunction1(),
-                2 => new CustomFunction2(),
-                3 => new CustomFunction3(),
-                _ => new CustomFunctionN()
+                1 => new CustomFunction1() { IsReadOnly = isConst },
+                2 => new CustomFunction2() { IsReadOnly = isConst },
+                3 => new CustomFunction3() { IsReadOnly = isConst },
+                _ => new CustomFunctionN() { IsReadOnly = isConst },
             };
         }
 
@@ -875,7 +893,7 @@ namespace Calcpad.Core
 
             var last = rpn[^1];
             var i0 = 0;
-            if (last.Content == "=")
+            if (IsAssignment(last.Content))
             {
                 var t = rpn[0].Type;
                 if (t == TokenTypes.Variable || 
