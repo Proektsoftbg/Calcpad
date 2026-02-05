@@ -8,6 +8,8 @@
     <script src="https://calcpad.local/jquery-3.6.3.min.js"></script>
     <style>
         body {
+            background-color: white;
+            color: black;
             font-size: 11pt;
             font-family: 'Segoe UI', 'Arial Nova', Helvetica, sans-serif;
             margin-left: 5mm;
@@ -345,7 +347,8 @@
         }
 
         .eq small.nth {font-size: 70%;}
-        .dvr small {font-size: 65%;}
+        .dvr small {font-size: 70%;}
+        .dvr small var {font-size: 105%;}
         sup.raised {vertical-align: top;}
         sup .r0, sup .r1, sup .r2, sup .r3 {
             zoom: 0.7;
@@ -477,7 +480,8 @@
         .dvr {
             text-align: center;
             line-height: 110%;
-            margin-bottom: 4pt;
+            position: relative;
+            top: -3pt;
         }
 
         .dvs {
@@ -497,9 +501,9 @@
             font-size: 240%;
             font-family: Georgia Pro Light, serif;
             font-weight: 200;
-            line-height: 80%;
+            line-height: 70%;
             display: block;
-            margin: -1pt 1pt 3pt 1pt;
+            margin: 0 1pt 2.5pt 1pt;
         }
 
             .nary em {
