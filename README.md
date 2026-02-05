@@ -104,7 +104,8 @@ Any variable name must start with a letter. Names are case sensitive.
 &emsp;"**∨**" - logical "OR";   
 &emsp;"**⊕**" - logical "XOR";   
 &emsp;"**∠**" - phasor A∠φ (<<);   
-&emsp;"**=**" - assignment;  
+&emsp;"**=**" - assignment or definition of a variable, function or macro;  
+&emsp;"**←**" - assignment to an outer level or global variable in block (<\*);   
 * Custom functions of type f (x; y; z; ... );  
 * Built-in functions:  
 &emsp;Trigonometric:  
@@ -453,6 +454,7 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;Sheet, range, TYPE and SEP can be omitted.  
 &emsp;For #read command, TYPE can be either of [R|D|C|S|U|L|V].  
 &emsp;For #write and #append commands, TYPE can be Y or N.  
+* Write protection: #const - declares a constant (readonly) variable or function;  
 * Output control:  
 &emsp;#hide - hide the report contents;  
 &emsp;#show - always show the contents (default);  

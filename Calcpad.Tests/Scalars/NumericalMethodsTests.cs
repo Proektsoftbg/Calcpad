@@ -196,7 +196,7 @@
             var calc = new TestCalc(new());
             calc.Run("x = 1");
             var result = calc
-                .Run("$Repeat{x = 0.5*(x + 5/x) @ k = 1 : 6}");
+                .Run("x = $Repeat{x ← 0.5*(x + 5/x) @ k = 1 : 6}");
             var expected = Math.Sqrt(5d);
             Assert.Equal(expected, result, Tol);
         }
