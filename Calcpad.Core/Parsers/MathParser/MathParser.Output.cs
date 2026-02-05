@@ -224,7 +224,7 @@ namespace Calcpad.Core
                     {
                         t.Type = TokenTypes.Solver;
                         t.Order = MinusOrder;
-                        t.Level = 1;
+                        t.Level = 2;
                     }
                     else
                         t.Type = TokenTypes.Constant;

@@ -607,7 +607,7 @@ namespace Calcpad.Core
                         return writer.FormatNary(
                             $"<em>{TypeName(_type)}</em>",
                             _items[2].Html + "&nbsp;",
-                            "&ensp;" + _items[3].Html,
+                            "&emsp;" + _items[3].Html,
                             string.Concat(_items[0].Html, " d", _items[1].Html)
                             );
 

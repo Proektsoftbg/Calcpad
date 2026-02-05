@@ -1669,23 +1669,22 @@ namespace Calcpad.Wpf
                 if (!item.IsEmpty && item[0] != '"' && item[0] != '\'')
                 {
                     foreach (var c in item)
-                        switch (c)
+                    {
+                        var n = _stringBuilder.Length - 1;
+                       switch (c)
                         {
                             case '=':
-                                var n = _stringBuilder.Length - 1;
                                 if (n < 0)
-                                {
                                     _stringBuilder.Append(c);
-                                    break;
-                                }
-                                switch (_stringBuilder[n])
-                                {
-                                    case '=': _stringBuilder[n] = '≡'; break;
-                                    case '!': _stringBuilder[n] = '≠'; break;
-                                    case '>': _stringBuilder[n] = '≥'; break;
-                                    case '<': _stringBuilder[n] = '≤'; break;
-                                    default: _stringBuilder.Append(c); break;
-                                }
+                                else
+                                    switch (_stringBuilder[n])
+                                    {
+                                        case '=': _stringBuilder[n] = '≡'; break;
+                                        case '!': _stringBuilder[n] = '≠'; break;
+                                        case '>': _stringBuilder[n] = '≥'; break;
+                                        case '<': _stringBuilder[n] = '≤'; break;
+                                        default: _stringBuilder.Append(c); break;
+                                    }
                                 break;
                             case '%':
                                 ReplaceShortcut('%', '⦼');
@@ -1694,15 +1693,22 @@ namespace Calcpad.Wpf
                                 ReplaceShortcut('&', '∧');
                                 break;
                             case '|':
-                                ReplaceShortcut('^', '∨');
+                                ReplaceShortcut('|', '∨');
                                 break;
                             case '<':
-                                ReplaceShortcut('<', '←');
+                                ReplaceShortcut('<', '∠');
+                                break;
+                            case '*':
+                                if (n >= 0 && _stringBuilder[n] == '<')
+                                    _stringBuilder[n] = '←';
+                                else
+                                    _stringBuilder.Append('*');
                                 break;
                             default:
                                 _stringBuilder.Append(c);
                                 break;
                         }
+                    }
                 }
                 else
                     _stringBuilder.Append(item);
