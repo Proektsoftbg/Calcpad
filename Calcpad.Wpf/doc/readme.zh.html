@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-    <title>Calcpad VM7.5自述文件</title>
+    <title>Calcpad VM7.6自述文件</title>
     <meta charset="UTF-8">
     <style>
         .menu {
@@ -983,7 +983,7 @@ Excel
         <p>您可以像使用简单计算器一样计算单独的不相关表达式,或编写一个完整的程序来解决特定的问题.您可以定义变量并给它们赋值.此外,您可以使用它们来定义其他变量,依此类推,直到达到最终结果.您还可以添加文本、HTML和图像以创建详细且专业的计算报告.您可以将其保存到文件中,并多次使用它来解决类似的问题.下面是一个解二次方程的示例程序:</p>
         <p><img alt="Sample1" src="Images/Sample1.zh.png"></p>
 
-        <h3 id="TOC_401">常数</h3>
+        <h3 id="TOC_401">常量</h3>
         <h4>实数</h4>
         <p>实数常数可以是正负整数和小数.它们可以包括数字“<b>0</b>” - “<b>9</b>”和小数点“<b>.</b>”.您还可以将数字表示为分数,如“<b>3/4</b>”.但是,程序将将它们视为表达式(两个数字的除法).您不能以浮点格式定义数字:“<b>3.4e+6</b>”.您必须使用表达式“<b>3.4*10^6</b>”代替.</p>
         <p>所有常数和变量在内部以“双精度浮点”数字的形式存储.它们的值范围从<b>-1.7976931348623157E+308</b>到<b>1.7976931348623157E+308</b>.如果结果超出上述区间,程序将分别返回“<span class="err">-∞</span>”或“<span class="err">+∞</span>”.除以零会得到相同的结果,但“<b>0/0</b>”=“<span class="err">未定义</span>”.最小的正数是<b>4.94065645841247E-324</b>.更小的值将被精确地四舍五入为0.</p>
@@ -993,7 +993,7 @@ Excel
 		<p>写保护: <a href="#0" data-text="#const"><span class="cond">#const</span></a> : 声明一个常量（只读变量;</p>
 
         <h3 id="TOC_402">变量</h3>
-        <p>变量通过表达式“<var>a</var> = 4”来定义其名称和值.符号“<b>=</b>”是赋值运算符.左边只允许一个变量名.右边可以是任何有效的数学表达式,例如“<var>b</var> = <var>a</var> + 4”.变量的“生命周期”从其定义的位置到程序的结束.因此,在定义之前不能使用变量.这将引发错误.如果您用新值重新定义现有变量,它将替换旧变量,并且新值将继续使用.</p>
+        <p>变量通过形如表达式“<var>a</var> = 4”来定义其名称和值.符号“<b>=</b>”是赋值运算符.左边只允许一个变量名.右边可以是任何有效的数学表达式,例如“<var>b</var> = <var>a</var> + 4”.变量的“生命周期”从其定义的位置到程序的结束.因此,在定义之前不能使用变量.这将引发错误.如果您用新值重新定义现有变量,它将替换旧变量,并且新值将继续使用.</p>
         <p>变量名称可以包含小写或大写的拉丁字母“<var>a</var>”-“<var>z</var>”,“<var>A</var>”-“<var>Z</var>”,希腊字母“<var>&alpha;</var>”-“<var>&omega;</var>”,“<var>&Alpha;</var>”-“<var>&Omega;</var>”和数字.名称区分大小写.例如,“<var>a</var>”和“<var>A</var>”是不同的变量.名称必须以字母或&measuredangle;开头.您还可以使用“,”(逗号)、“<b>‾</b>”(上划线)、“<b>_</b>”(下划线)、上标:“ <b>⁰</b> ”-“ <b>⁹</b> ”、“ <b>ⁿ</b> ”、“ <b>⁺</b> ”、“ <b>⁻</b> ”和其他符号:“ <b>′</b> ”、“ <b>″</b> ”、“ <b>‴</b> ”、“ <b>⁗</b> ”、“ <b>ø</b> ”、“<b>Ø</b>”、“ <b>°</b> ”、“<b>∡</b>”.名称中下划线的第一次出现会开始一个下标.例如,“a_1_1”将显示为“<var>a</var><sub>1_1</sub>”.变量可以存储实数或复数(在“复数”模式下).</p>
 
         <h3 id="TOC_403">运算符</h3>
@@ -1414,10 +1414,9 @@ Excel
                             <li><code><b>lsolve</b>(<var>A</var>; <var>b</var>)</code> - 求解线性方程组 <var>A <span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var>:对对称矩阵使用 LDL<sup>T</sup> 分解,对非对称矩阵使用 LU分解;</li>
                             <li><code><b>clsolve</b>(<var>A</var>; <var>b</var>)</code> - 求解线性矩阵方程 <var>A<span class="vec">⃗</span>x</var> = <var><span class="vec">⃗</span>b</var> :对对称且正-定系数矩阵<var>A</var> 使用Cholesky 分解;</li>
                             <li><code><b>msolve</b>(<var>A</var>; <var>B</var>)</code> - 求解一般矩阵方程 <var>AX</var> = <var>B</var> :对对称矩阵使用 LDL<sup>T</sup> 分解;对非对称矩阵使用LU分解;</li>
-                            <li>
-                                <code><b>cmsolve</b>(<var>A</var>; <var>B</var>)</code> - 求解一般矩阵方程 <var>AX</var> = <var>B</var> :对对称且正-定系数矩阵<var>A</var> 使用Cholesky分解;<br />
-                            </li>
-                            <li><code><b>smsolve</b>(<var>A</var>; <var>B</var>)</code> - 对高性能型对称,正-定阵A采用预处理共轭梯度法(preconditioned conjugate gradient-PCG)求解一般矩阵方程<var>AX</var> = <var>B</var>;</li>
+                            <li></li><code><b>cmsolve</b>(<var>A</var>; <var>B</var>)</code> - 求解一般矩阵方程 <var>AX</var> = <var>B</var> :对对称且正-定系数矩阵<var>A</var> 使用Cholesky分解;</li>
+                            <li><code><b>matmul</b>(<var>A</var>; <var>B</var>)</code> - 2个高性能方阵之间采用平行Winograd算法（parallel Winograd algorithm）的快速乘法. 乘法算子 <var>A</var><span class="o">*</span><var>B</var> 对所有阶数不小于10的所有高性能方阵自动采用该算法;</li>
+							<li><code><b>smsolve</b>(<var>A</var>; <var>B</var>)</code> - 对高性能型对称,正-定阵A采用预处理共轭梯度法(preconditioned conjugate gradient-PCG)求解一般矩阵方程<var>AX</var> = <var>B</var>;</li>
                             <li><code><b>fft</b>(<var>M</var>)</code> - 对行优先(row-major)矩阵<var>M</var>进行快速傅里叶变换. 其必须包含1实数行和2个复数行;</li>
                             <li><code><b>ift</b>(<var>M</var>)</code> - 对行优先(row-major)矩阵<var>M</var>进行傅里叶逆变换. 其必须包含1实数行和2个复数行;</li>
                     </li>
