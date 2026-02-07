@@ -228,7 +228,7 @@ namespace Calcpad.Core
                         case TokenTypes.Operator:
                             if (indexStack.Count == 0)
                                 ++countOfOperators;
-                            if (t.Content == "=")
+                            if (IsAssignment(t.Content))
                             {
                                 if (firstToken.Type == TokenTypes.CustomFunction)
                                 {

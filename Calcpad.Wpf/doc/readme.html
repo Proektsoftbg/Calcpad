@@ -1033,7 +1033,14 @@
         <p>All constants and variables are internally stored as "double-precision floating point" numbers. Their values are ranged from <b>-1.7976931348623157E+308</b> to <b>1.7976931348623157E+308</b>. If a result is out of the above interval, the program returns "<span class="err">-∞</span>" or "<span class="err">+∞</span>, respectively". Division by zero gives the same result, but "<b>0/0</b>" = "<span class="err">Undefined</span>". The smallest positive number is <b>4.94065645841247E-324</b>. Smaller values are rounded exactly to 0.</p>
         <h4>Complex</h4>
         <p>If you select "<b>Complex</b>" mode, you can use complex numbers in calculations. Otherwise, only real arithmetic is applied. Each complex number is represented by the ordered couple (<b>a</b>; <b>b</b>), where "<b>a</b>" is real number, and "<b>b</b> = |<b>b</b>|<b><var>i</var></b>" is called "imaginary". It can be written in so called algebraic form: &plusmn;<b>a</b> &plusmn; <b>b<var>i</var></b> (e.g. "2 + 3<var>i</var>"). You can also use other forms, such as polar or exponential from, by entering the respective expressions. In Calcpad, the imaginary unit can be entered either as "<var>i</var>" or "1<var>i</var>" in case you have a variable named "<var>i</var>". The imaginary unit is a special number that satisfies the expression <var>i</var><sup> 2</sup> = -1.</p>
-
+		<h4>Custom</h4>
+		<p>You can declare any variable or function as constant (readonly) by adding "<span class="cond">#const</span>" before its definition. For example:</p>
+		<ul style="list-style: none;">
+            <li><code><span class="cond">#const</span> γ = 0.57721566490153286</code></li>
+            <li><code><span class="cond">#const</span> f(x) = x^2</code></li>
+        </ul>
+		<p>After that, any attempt to assign a new value to the variable or new expression to the function throws an error message.</p>
+		
         <h3 id="TOC_402">Variables</h3>
         <p>
             A variable is defined by its name and value using expressions like "<var>a</var> = 4". The "<b>=</b>" symbol is the assignment operator. On the left side, only a single variable name is allowed. On the right side, you can have any valid mathematical expression, e.g. "<var>b</var> = <var>a</var> + 4". A variable "lives" from the place of its definition to the end of the program. That is why you cannot use a variable before it is defined. This will raise an error.
@@ -1083,7 +1090,12 @@
                     <li>"<b>∠</b>" - phasor A∠φ (&lt;&lt;);</li>
                 </ul>
             </li>
-            <li>"<b>=</b>" - assignment.</li>
+			<li>
+                Assignment:
+				<ul style="list-style-type:none;">
+					<li>"<b>=</b>" - assignment or definition of a variable, function or macro;</li>
+					<li>"<b>←</b>" - assignment to an outer level or global variable in block (&lt;*).</li>
+				</ul>
         </ul>
 
         <h4>Operator shortcuts</h4>
@@ -1780,7 +1792,9 @@
         <p>When you have a <span class="cond">$Repeat</span> inline loop you can nest multiple expressions directly inside without enclosing them with a <span class="cond">$block</span>/<span class="cond">$inline</span> element. Alternatively, you can use a conditional  “while“ loop:</p>
         <p style="margin-left: 2em;"><code><span class="cond">$While</span>{<em>condition</em>; <em>expr1</em>; <em>expr2</em>; ...}</code> - iterative expression block with condition.</p>
         <p>All expressions inside a block or inline loop are compiled, so they are executed very fast. They are evaluated sequentially from left to right and only the last result is returned at the end. However, unlike the standard expressions you cannot see intermediate results and substituted variables. This reduces readability and verifiability of calculations. So, expression blocks should be used only where they are actually needed.</p>
-
+		<p>Each variable created by the "<b>=</b>" operator inside a code block of type <span class="cond">$block</span>, <span class="cond">$inline</span>, <span class="cond">$while</span>  and <span class="cond">$repeat</span> is local for this block and the nested ones, even if it already exists outside. In this case, the existing variable will not be overwritten and will preserve its original value after the execution of the block. All global and outer scope variables and functions are visible inside the current and inner blocks and accessible for reading.</p> 
+		<p>In general, this is considered a good language design because there are no unpredictable side effects like accidentally changing some global variables just because the names are coincident. However, in certain scenarios, we may need to update global variables deliberately, mostly inside loops. For that purpose, you have to use a special operator "<b>←</b>". Unlike "<b>=</b>", it does not create a local variable. Instead, it searches for the innermost existing variable in the current or outer scopes and updates its value. If the variable does not exist, an error is reported.</p>
+		
         <h3 id="TOC_410">Units</h3>
         <p>Calcpad provides comprehensive support for physical units of measurement. The current version supports metric (SI and compatible), US and Imperial units. There are seven basic units that correspond to the seven physical dimensions:</p>
         <ul>

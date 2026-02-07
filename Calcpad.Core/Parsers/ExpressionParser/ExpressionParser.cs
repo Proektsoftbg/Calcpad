@@ -1,8 +1,6 @@
-﻿using DocumentFormat.OpenXml.Presentation;
-using Markdig;
+﻿using Markdig;
 using Markdig.Renderers;
 using System;
-using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -141,6 +139,7 @@ namespace Calcpad.Core
                         continue;
                     }
                     var lineCache = _currentLine;
+                    _parser.IsConst = false;
                     var result = ParseKeyword(textSpan, ref keyword);
                     if (keyword != currentLineCache.Keyword)
                         _lineCache[lineCache] = new(currentLineCache.Tokens, keyword);
@@ -159,9 +158,10 @@ namespace Calcpad.Core
                             tokens = _lineCache[_currentLine].Tokens;
                         else
                         {
-                            tokens = GetTokens(textSpan[_condition.KeywordLength..]);
+                            var skipChars = keyword == Keyword.Const ? 7 : _condition.KeywordLength;
+                            tokens = GetTokens(textSpan[skipChars..]);
                             if (_isMarkdownOn)
-                                ParseMarkDown(tokens);
+                                ParseMarkdown(tokens);
 
                             _lineCache[_currentLine] = new(tokens, keyword);
                         }
@@ -239,7 +239,7 @@ namespace Calcpad.Core
                 return false;
             }
 
-            void ParseMarkDown(List<Token> tokens)
+            void ParseMarkdown(List<Token> tokens)
             {
                 if (tokens.Count == 0)
                     return;
@@ -293,7 +293,7 @@ namespace Calcpad.Core
                             break;
 
                         cs = sections.Current;
-                        if (cs.StartsWith("<"))
+                        if (tokens[i].Value.StartsWith('#'))
                             t = TokenTypes.Html;
 
                         tokens[i] = new Token(cs.ToString(), t);

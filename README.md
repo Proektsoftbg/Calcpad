@@ -104,7 +104,8 @@ Any variable name must start with a letter. Names are case sensitive.
 &emsp;"**∨**" - logical "OR";   
 &emsp;"**⊕**" - logical "XOR";   
 &emsp;"**∠**" - phasor A∠φ (<<);   
-&emsp;"**=**" - assignment;  
+&emsp;"**=**" - assignment or definition of a variable, function or macro;  
+&emsp;"**←**" - assignment to an outer level or global variable in block (<\*);   
 * Custom functions of type f (x; y; z; ... );  
 * Built-in functions:  
 &emsp;Trigonometric:  
@@ -141,7 +142,7 @@ Any variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;**ln**(x)    - natural logarithm;  
 &emsp;&emsp;**log_2**(x) - binary logarithm;  
 &emsp;&emsp;**exp**(x)   - natural exponent;  
-&emsp;&emsp;**sqr**(x) / sqrt(x) - square root;  
+&emsp;&emsp;**sqr**(x) or **sqrt**(x) - square root;  
 &emsp;&emsp;**cbrt**(x) - cubic root;  
 &emsp;&emsp;**root**(x; n) - n-th root;  
 &emsp;Rounding:  
@@ -324,9 +325,9 @@ Any variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;**transp**(M) - transpose of matrix M;  
 &emsp;&emsp;**adj**(M) - adjugate of matrix M;  
 &emsp;&emsp;**cofactor**(M) - cofactor matrix of M;  
-&emsp;&emsp;**eigenvals**(M; n_e) - the first n_e eigenvalues of matrix M (or all if omitted);  
-&emsp;&emsp;**eigenvecs**(M; n_e) - the first n_e eigenvectors of matrix M (or all if omitted);  
-&emsp;&emsp;**eigen**(M; n_e) - the first n_e eigenvalues and eigenvectors of M (or all if omitted);  
+&emsp;&emsp;**eigenvals**(M; n_e) - the first n_e (or all if omitted) eigenvalues of matrix M as a vector;  
+&emsp;&emsp;**eigenvecs**(M; n_e) - the first n_e (or all if omitted) eigenvectors of matrix M as a row-major matrix;  
+&emsp;&emsp;**eigen**(M; n_e) - the first n_e (or all if omitted) eigenvalues and eigenvectors of M as a row-major matrix;  
 &emsp;&emsp;**cholesky**(M) - Cholesky decomposition of a symmetric, positive-definite matrix M;  
 &emsp;&emsp;**lu**(M) - LU decomposition of matrix M;  
 &emsp;&emsp;**qr**(M) - QR decomposition of matrix M;  
@@ -338,7 +339,7 @@ Any variable name must start with a letter. Names are case sensitive.
 &emsp;&emsp;**msolve**(A; B) - solves the generalized matrix equation AX = B using LDLT decomposition for symmetric matrices, and LU for non-symmetric;  
 &emsp;&emsp;**cmsolve**(A; B) - solves the generalized matrix equation AX = B with symmetric, positive-definite matrix A using Cholesky decomposition;  
 &emsp;&emsp;**smsolve**(A; B) - solves the generalized matrix equation AX = B with high-performance symmetric, positive-definite matrix A using PCG method;  
-&emsp;&emsp;**matmul**(A; B) - fast multiplication of square hp matrices using parallel Winograd algorithm. The multiplication operator A*B uses it automatically for square matrices of size 1000 and larger;
+&emsp;&emsp;**matmul**(A; B) - fast multiplication of square hp matrices using parallel Winograd algorithm. The multiplication operator A*B uses it automatically for all square hp matrices of size 10 and larger;
 &emsp;&emsp;**fft**(M) - performs fast Fourier transform of row-major matrix M. It must have one row for real data and two rows for complex;  
 &emsp;&emsp;**ift**(M) - performs inverse Fourier transform of row-major matrix M. It must have one row for real data and two rows for complex;  
 &emsp;&emsp;**<ins>Double interpolation:</ins>**  
@@ -375,9 +376,9 @@ Any variable name must start with a letter. Names are case sensitive.
 &emsp;$Sum { f(k) @ k = a : b } - iterative sum;  
 &emsp;$Product { f(k) @ k = a : b } - iterative product;  
 &emsp;$Repeat { f(k) @ k = a : b } - iterative expression block with counter;  
-&emsp;$While{condition; expressions} - iterative expression block with condition;  
-&emsp;$Block{expressions} - multiline expression block;  
-&emsp;$Inline{expressions} - inline expression block;  
+&emsp;$While { condition; expressions } - iterative expression block with condition;  
+&emsp;$Block { expressions } - multiline expression block;  
+&emsp;$Inline { expressions } - inline expression block;  
 &emsp;Precision - relative precision for numerical methods \[10<sup>-2</sup>; 10<sup>-16</sup>\] (default is 10<sup>-12</sup>)   
 * Program flow control:  
 &emsp;Simple:  
@@ -404,7 +405,7 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;&emsp;#repeat *number of repetitions*  
 &emsp;&emsp;&emsp;*Your code goes here*  
 &emsp;&emsp;#loop  
-&emsp;With conditional break/coutinue:  
+&emsp;With conditional break/continue:  
 &emsp;&emsp;#repeat *number of repetitions*  
 &emsp;&emsp;&emsp;*Your code goes here*  
 &emsp;&emsp;&emsp;#if *condition*  
@@ -453,6 +454,7 @@ You can add or omit as many "#else if's" as needed. Only one "#else" is allowed.
 &emsp;Sheet, range, TYPE and SEP can be omitted.  
 &emsp;For #read command, TYPE can be either of [R|D|C|S|U|L|V].  
 &emsp;For #write and #append commands, TYPE can be Y or N.  
+* Write protection: #const - declares a constant (readonly) variable or function;  
 * Output control:  
 &emsp;#hide - hide the report contents;  
 &emsp;#show - always show the contents (default);  

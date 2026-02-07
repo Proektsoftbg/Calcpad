@@ -15,6 +15,7 @@ namespace Calcpad.Core
             internal int ParameterCount { get; set; }
             internal bool IsRecursion;
             internal Func<IValue> Function;
+            internal bool IsReadOnly;
 
             internal abstract void AddParameters(List<string> parameters);
             internal abstract void ClearCache();

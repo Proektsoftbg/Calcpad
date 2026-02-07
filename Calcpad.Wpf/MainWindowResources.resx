@@ -1156,12 +1156,18 @@ You can find your unsaved data in
     <value>Complex step differentiation</value>
   </data>
   <data name="FastSquareMatrixMultiplicationWithParallelWinogradAlgorithm" xml:space="preserve">
-    <value>Fast square matrix multiplication with parallel Winograd algorithm.</value>
+    <value>Fast square matrix multiplication with parallel Winograd algorithm</value>
   </data>
   <data name="SolvesTheLinearMatrixEquationAxBWithASymmetricMatrixAUsingPCGMethod" xml:space="preserve">
     <value>Solves the linear matrix equation Ax = b with a symmetric matrix A using PCG method</value>
   </data>
   <data name="SolvesTheGeneralizedMatrixEquationAXBWithASymmetricMatrixAUsingPCGMethod" xml:space="preserve">
     <value>Solves the generalized matrix equation AX = B with a symmetric matrix A using PCG method</value>
+  </data>
+  <data name="OuterVariableAssignment" xml:space="preserve">
+    <value>Outer variable assignment in block</value>
+  </data>
+  <data name="DeclaresAConstantReadonlyVariable" xml:space="preserve">
+    <value>Declares a constant (readonly variable)</value>
   </data>
 </root>

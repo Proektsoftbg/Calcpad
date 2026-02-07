@@ -8,7 +8,7 @@
 'The mean foundation size is determined, using the fixed point method:
 'Number of iterations -'n = 10
 'Initial value -'a = N/R_0'm
-'Solution -'$Repeat{a = cbrt((N*a + abs(M_x) + abs(M_y))/R_0) @ k = 1 : n}
+'Solution -'a = $Repeat{a = cbrt((N*a + abs(M_x) + abs(M_y))/R_0) @ k = 1 : n}
 'The target function (to be minimized) is the base area:
 '<var>A</var> = <var>a</var>·<var>b</var> = min
 'The target parameter is the ratio of the dimensions - <var>k</var> = <var>a</var>/<var>b</var>, within the limits:
@@ -66,7 +66,7 @@ n = 10
 #repeat 4
 	i = i + 1
 	a_i = N(i)/R_0
-	$Repeat{a_i = cbrt((N(i)*a_i + abs(M_x(i)) + abs(M_y(i)))/R_0) @ k = 1 : n}
+	a_i = $Repeat{a_i = cbrt((N(i)*a_i + abs(M_x(i)) + abs(M_y(i)))/R_0) @ k = 1 : n}
 	#if a_i > a
 		a = a_i
 	#end if

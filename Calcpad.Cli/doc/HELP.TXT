@@ -17,7 +17,7 @@
     HELP    - show this help file.
 
 ————————————————————————————————————————————————————————————————————————————————
- Operators: ! ^ / ÷ \ % * - + ≡ ≠ < > ≤ ≥ ∧ ∨ ⊕ = ? (input field)
+ Operators: ! ^ / ÷ \ % * - + ≡ ≠ < > ≤ ≥ ∧ ∨ ⊕ = ← ? (input field)
 ————————————————————————————————————————————————————————————————————————————————
  Custom functions: f(x; y; z…) = expression
 ————————————————————————————————————————————————————————————————————————————————
@@ -70,49 +70,50 @@
     utriang(n)                   Math:                  Data:                    
     ltriang(n)                   hprod(A; B)            sort_cols(M; i)  
     symmetric(n)                 fprod(A; B)            rsort_cols(M; i) 
-    vec2diag(v)                  kprod(A; B)            sort_rows(M; j)   
-    vec2col(v)                   mnorm(M)               rsort_rows(M; j) 
-    join_cols(c1; c2; c3…)       mnorm_e(M)             order_cols(M; i) 
-    join_rows(r1; r2; r3…)       mnorm_1(M)             revorder_cols(M; i) 
-    augment(A; B; C…)            mnorm_2(M)             order_rows(M; j) 
-    stack(A; B; C…)              mnorm_i(M)             revorder_rows(M; j) 
-	                             cond(M)                mcount(M; x) 
-    Structural:                  cond_e(M)              msearch(M; x; i; j) 
-    n_rows(M)                    cond_1(M)              mfind(M; x) 
-    n_cols(M)                    cond_2(M)              mfind_eq(M; x) 
-    resize(M; m; n)              cond_i(M)              mfind_ne(M; x) 
-    fill(M; x)                   det(M)                 mfind_lt(M; x) 
-    fill_row(M; i; x)            rank(M)                mfind_le(M; x) 
-    fill_col(M; j; x)            trace(M)               mfind_gt(M; x) 
-    copy(A; B; i; j)             transp(M)              mfind_ge(M; x) 
-    add(A; B; i; j)              adj(M)                 hlookup(M; x; i1; i2)    
-    row(M; i)                    cofactor(M)            hlookup_eq(M; x; i1; i2) 
-    col(M; j)                    eigenvals(M; ne)       hlookup_ne(M; x; i1; i2) 
-    extract_rows(M; i)           eigenvecs(M; ne)       hlookup_lt(M; x; i1; i2) 
-    extract_cols(M; j)           cholesky(M; ne)        hlookup_le(M; x; i1; i2) 
-    diag2vec(v)                  lu(M)                  hlookup_gt(M; x; i1; i2) 
-    col(M; j)                    qr(M)                  hlookup_ge(M; x; i1; i2) 
-    extract_rows(M; i)           svd(M)                 vlookup(M; x; j1; j2)    
-    extract_cols(M; j)           inverse(M)             vlookup_eq(M; x; j1; j2) 
-    diag2vec(v)                  lsolve(A; b)           vlookup_ne(M; x; j1; j2) 
-    submatrix(M; i1; i2; j1; j2) clsolve(A; b)          vlookup_lt(M; x; j1; j2) 
-                                 slolve(A; B)           vlookup_le(M; x; j1; j2) 
-    Double interpolation:        csolve(A; B)           vlookup_gt(M; x; j1; j2) 
-    take(x; y; M)	             cmsolve(A; B)          vlookup_ge(M; x; j1; j2) 
-    line(x; y; M)                smsolve(A; B)         
-    spline(x; y; M)				 fft(M), ift(M)
+    vec2diag(v)                  kprod(A; B)            sort_rows(M; j) 
+    vec2row(v)                   mnorm(M)              	
+    vec2col(v)                   mnorm_e(M)             rsort_rows(M; j) 
+    join_cols(c1; c2; c3…)       mnorm_1(M)             order_cols(M; i) 
+    join_rows(r1; r2; r3…)       mnorm_2(M)             revorder_cols(M; i) 
+    augment(A; B; C…)            mnorm_i(M)             order_rows(M; j) 
+    stack(A; B; C…)              cond(M)                revorder_rows(M; j) 
+	                             cond_e(M)              mcount(M; x) 
+    Structural:                  cond_1(M)              msearch(M; x; i; j) 
+    n_rows(M)                    cond_2(M)              mfind(M; x) 
+    n_cols(M)                    cond_i(M)              mfind_eq(M; x) 
+    resize(M; m; n)              det(M)                 mfind_ne(M; x) 
+    fill(M; x)                   rank(M)                mfind_lt(M; x) 
+    fill_row(M; i; x)            trace(M)               mfind_le(M; x) 
+    fill_col(M; j; x)            transp(M)              mfind_gt(M; x) 
+    copy(A; B; i; j)             adj(M)                 mfind_ge(M; x) 
+    add(A; B; i; j)              cofactor(M)            hlookup(M; x; i1; i2)    
+    row(M; i)                    eigenvals(M; ne)       hlookup_eq(M; x; i1; i2) 
+    col(M; j)                    eigenvecs(M; ne)       hlookup_ne(M; x; i1; i2) 
+    extract_rows(M; i)           cholesky(M; ne)        hlookup_lt(M; x; i1; i2) 
+    extract_cols(M; j)           lu(M)                  hlookup_le(M; x; i1; i2) 
+    diag2vec(v)                  qr(M)                  hlookup_gt(M; x; i1; i2) 
+    col(M; j)                    svd(M)                 hlookup_ge(M; x; i1; i2) 
+    extract_rows(M; i)           inverse(M)             vlookup(M; x; j1; j2)    
+    extract_cols(M; j)           lsolve(A; b)           vlookup_eq(M; x; j1; j2) 
+    diag2vec(v)                  clsolve(A; b)          vlookup_ne(M; x; j1; j2) 
+    submatrix(M; i1; i2; j1; j2) slolve(A; B)           vlookup_lt(M; x; j1; j2) 
+                                 csolve(A; B)           vlookup_le(M; x; j1; j2) 
+    Double interpolation:        cmsolve(A; B)          vlookup_gt(M; x; j1; j2) 
+    take(x; y; M)	             smsolve(A; B)          vlookup_ge(M; x; j1; j2) 
+    line(x; y; M)                matmul(A; B)           
+    spline(x; y; M)				 ift(M), fft(M)
 
 ————————————————————————————————————————————————————————————————————————————————
  Iterative and numerical methods:
 ————————————————————————————————————————————————————————————————————————————————
-    $Root{f(x) = const @ x = a : b}     $Sum{f(k) @ k = a : b}
-    $Root{f(x) @ x = a : b}             $Product{f(k) @ k = a : b}
-    $Find{f(x) @ x = a : b}             $Repeat{f(k) @ k = a : b}
-    $Sup{f(x) @ x = a : b}              $While{condition; expressions}
-    $Inf{f(x) @ x = a : b}              $Block{expressions}
-    $Area{f(x) @ x = a : b}             $Inline{expressions}
-    $Integral{f(x) @ x = a : b}         Precision
-    $Slope{f(x) @ x = a}
+    $Root{f(x) = const @ x = a : b}     $Derivative{f(x) @ x = a}
+    $Root{f(x) @ x = a : b}             $Sum{f(k) @ k = a : b}
+    $Find{f(x) @ x = a : b}             $Product{f(k) @ k = a : b}
+    $Sup{f(x) @ x = a : b}              $Repeat{f(k) @ k = a : b}
+    $Inf{f(x) @ x = a : b}              $While{condition; expressions}
+    $Area{f(x) @ x = a : b}             $Block{expressions}
+    $Integral{f(x) @ x = a : b}         $Inline{expressions}
+    $Slope{f(x) @ x = a}                Precision
     
 ————————————————————————————————————————————————————————————————————————————————
  Units of measurement:

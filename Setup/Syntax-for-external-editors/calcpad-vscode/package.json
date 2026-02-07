@@ -2,8 +2,8 @@
   "name": "calcpad",
   "displayName": "Calcpad",
   "description": "Language support for Calcpad (.cpd files) - syntax highlighting, completions, and run support",
-  "version": "7.6.0",
-  "publisher": "Proektsoft",
+  "version": "7.6.1",
+  "publisher": "ProektsoftEOOD",
   "icon": "icon.png",
   "license": "MIT",
   "repository": {
@@ -58,6 +58,11 @@
         "command": "calcpad.open",
         "title": "Open in Calcpad",
         "category": "Calcpad"
+      },
+	  {
+        "command": "calcpad.settings",
+        "title": "Open Settings",
+        "category": "Calcpad"
       }
     ],
     "keybindings": [
@@ -105,6 +110,12 @@
           "type": "string",
           "default": "C:\\Program Files\\Calcpad\\Calcpad.exe",
           "description": "Path to the Calcpad executable"
+        }
+		,
+        "calcpad.settingsPath": {
+          "type": "string",
+          "default": "C:\\Program Files\\Calcpad\\Settings.xml",
+          "description": "Path to the Calcpad settings flie"
         }
       }
     }

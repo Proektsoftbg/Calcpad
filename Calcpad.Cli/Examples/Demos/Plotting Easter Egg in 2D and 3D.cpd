@@ -3,8 +3,8 @@
 a = 1'- horizontal radius
 b = 0.7'- vertical radius
 #rad
-'<!--'PlotWidth = 400', 'PlotHeight = PlotWidth _
-', 'PlotStep = 1' -->
+'<!--'PlotWidth = 400', 'PlotHeight = PlotWidth', 'PlotStep = 1', ' _
+PlotShadows = 1', 'PlotPalette = 4', 'PlotLightDir = 7'-->
 '<table><tr><td>
 x(t) = a*cos(t)
 y(t) = b*(1 - 0.2*cos(t))*sin(t)

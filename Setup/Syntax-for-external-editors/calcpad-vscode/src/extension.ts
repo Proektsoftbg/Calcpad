@@ -4,15 +4,16 @@ import * as fs from 'fs';
 import { exec } from 'child_process';
 import { spawn } from "child_process";
 import * as https from 'https';
+import { registerSettingsCommand } from './settingsPanel';
 let currentPanel: vscode.WebviewPanel | undefined = undefined;
 let agentPanel: vscode.WebviewPanel | undefined = undefined;
 const completionItems: string[] = [
     // Keywords
-    "#append", "#break", "#complex", "#continue", "#def", "#deg", "#else if", "#else",
-    "#end def", "#end if", "#equ", "#for", "#while", "#global", "#gra", "#hide", "#if",
-    "#include", "#input", "#local", "#loop", "#md", "#md off", "#md on", "#noc", "#nosub",
-    "#novar", "#pause", "#phasor", "#post", "#pre", "#rad", "#read", "#repeat", "#round",
-    "#show", "#split", "#val", "#varsub", "#wrap", "#write",
+    "#append", "#break", "#complex", "#const", "#continue", "#def", "#deg", "#else if", 
+    "#else", "#end def", "#end if", "#equ", "#for", "#while", "#global", "#gra", "#hide", 
+    "#if", "#include", "#input", "#local", "#loop", "#md", "#md off", "#md on", "#noc", 
+    "#nosub", "#novar", "#pause", "#phasor", "#post", "#pre", "#rad", "#read", "#repeat", 
+    "#round","#show", "#split", "#val", "#varsub", "#wrap", "#write",
     
     // Methods
     "$Area", "$Block", "$Derivative", "$Find", "$Inf", "$Inline", "$Integral", "$Map",
@@ -163,7 +164,7 @@ const functionDescriptions: { [key: string]: string } = {
     "product": "Product of multiple values:\n\n    product(x; y; z...) = x·y·z...",
     "mean": "Geometric mean:\n\n    mean(x; y; z...) = n-th root(x·y·z...)",
     "take": "Returns the n-th element from a list or matrix element at indexes:\n\n    take(n; a; b; c...) or take(x; y; M)",
-    "line": "Linear interpolation:\n\n    line(x; a; b; c...) or double linear for matrices:\n    line(x; y; M)",
+    "line": "Linear interpolation:\n\n    line(x; a; b; c...)\n    or double linear for matrices:\n    line(x; y; M)",
     "spline": "Hermite spline interpolation:\n\n    spline(x; a; b; c...) or double spline for matrices:\n    spline(x; y; M)",
     
     // Conditional and logical functions
@@ -613,5 +614,15 @@ export function activate(context: vscode.ExtensionContext) {
             stdio: "ignore"
         }).unref();
     });
+
+    const settingsCommand = registerSettingsCommand(context);
+
+    context.subscriptions.push(
+        completionProvider,
+        hoverProvider,
+        runCommand,
+        openCommand,
+        settingsCommand
+    );
 }
 export function deactivate() {}

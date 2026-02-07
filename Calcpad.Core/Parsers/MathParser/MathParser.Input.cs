@@ -79,7 +79,7 @@ namespace Calcpad.Core
             private TokenTypes GetCharType(char c) => c switch
             {
                 <= '~' => CharTypes[c],
-                '≡' or '≠' or
+                '≡' or '≠' or '←' or
                 '≤' or '≥' or
                 '÷' or '⦼' or
                 '∧' or '∨' or
@@ -322,7 +322,7 @@ namespace Calcpad.Core
                             {
                                 if (tt == TokenTypes.Operator)
                                 {
-                                    if (c == '=')
+                                    if (c == '=' || c == '←')
                                     {
                                         if (!allowAssignment || _parser._assignmentIndex > 0)
                                             throw Exceptions.ImproperAssignment();
@@ -332,7 +332,17 @@ namespace Calcpad.Core
                                         {
                                             var token = tokens.Peek();
                                             if (token is VariableToken vt)
-                                                CreateVariable(vt);
+                                            {
+                                                if (c == '←')
+                                                    GetVariable(vt, true);
+                                                else
+                                                    CreateVariable(vt);
+
+                                                if (vt.Variable.IsReadOnly)
+                                                    throw Exceptions.CannotModifyConstant(vt.Content);
+                                                
+                                                vt.Variable.IsReadOnly = _parser.IsConst;
+                                            }
                                         }
                                         _parser._assignmentIndex = count;
                                     }
@@ -630,8 +640,8 @@ namespace Calcpad.Core
                     v = new Variable();
                     topLocalVariables.Add(s, v);
                 }
-                DefinedVariables.Add(s);
                 vt.Variable = v;
+                DefinedVariables.Add(s);
             }
 
             private void GetVariables(Queue<Token> tokens)
@@ -641,7 +651,7 @@ namespace Calcpad.Core
                         GetVariable(vt);
             }
 
-            private void GetVariable(VariableToken vt)
+            private void GetVariable(VariableToken vt, bool mustExist = false)
             {
                 var s = vt.Content;
                 foreach (var variables in _localVariables)
@@ -650,6 +660,8 @@ namespace Calcpad.Core
                         vt.Variable = v;
                         return;
                     }
+                if (mustExist)
+                    throw Exceptions.VariableNotExist(vt.Content);
 
                 var topLocalVariables = _localVariables.Peek();
                 var newVar = new Variable();

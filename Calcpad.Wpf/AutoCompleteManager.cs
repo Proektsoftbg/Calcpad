@@ -40,6 +40,7 @@ namespace Calcpad.Wpf
             items.Add(new ListBoxItem() { Content = "#append", Foreground = Brushes.DarkMagenta });
             items.Add(new ListBoxItem() { Content = "#break", Foreground = Brushes.DarkMagenta });
             items.Add(new ListBoxItem() { Content = "#complex", Foreground = Brushes.DarkMagenta });
+            items.Add(new ListBoxItem() { Content = "#const", Foreground = Brushes.DarkMagenta });
             items.Add(new ListBoxItem() { Content = "#continue", Foreground = Brushes.DarkMagenta });
             items.Add(new ListBoxItem() { Content = "#def", Foreground = Brushes.DarkMagenta });
             items.Add(new ListBoxItem() { Content = "#deg", Foreground = Brushes.DarkMagenta });
@@ -977,7 +978,7 @@ namespace Calcpad.Wpf
                     if (t.StartsWith('('))
                     {
                         var bracketClosingIndex = t.IndexOf(')');
-                        if (bracketClosingIndex < 0 || t[..bracketClosingIndex].Count(';') == s.Count(';'))
+                        if (bracketClosingIndex < 0 || t.AsSpan(0, bracketClosingIndex).Count(';') == s.Count(';'))
                             s = s[..bracketOpeningIndex];
                     }
                 }

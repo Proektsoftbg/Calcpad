@@ -241,6 +241,15 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot modify constant &quot;{0}&quot;..
+        /// </summary>
+        public static string CannotModifyConstant {
+            get {
+                return ResourceManager.GetString("CannotModifyConstant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Circular reference detected for function &quot;{0}&quot;..
         /// </summary>
         public static string Circular_reference_detected_for_function_0 {
@@ -646,7 +655,7 @@ namespace Calcpad.Core {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid function definition. It has to match the pattern: &quot;f(x; y; z...) =&quot;..
+        ///   Looks up a localized string similar to Invalid function definition. It has to match the pattern: &quot;f(x; y; z...) = expression&quot;..
         /// </summary>
         public static string Invalid_function_definition_exception {
             get {

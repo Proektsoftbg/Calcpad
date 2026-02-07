@@ -116,6 +116,12 @@ namespace Calcpad.Core
                     _items = ParseBlockOrInline(Script);
                     _parser._input.RemoveLocalVariables();
                 }
+                else if (_type == SolverTypes.Repeat)
+                {
+                    _parser._input.AddLocalVariables(_localVariables);
+                    _items = ParseSolver(Script);
+                    _parser._input.RemoveLocalVariables();
+                }
                 else
                     _items = ParseSolver(Script);
 
@@ -297,7 +303,7 @@ namespace Calcpad.Core
                 {
                     ref var item = ref itemArray[i];
                     item.Input = item.Input.Trim();
-                    _parser.Parse(item.Input,true);
+                    _parser.Parse(item.Input, true);
                     item.Rpn = _parser._rpn;
                 }
                 return itemArray;
@@ -325,7 +331,7 @@ namespace Calcpad.Core
             private static void FixRepeat(Token[] rpn)
             {
                 ref var rpn0 = ref rpn[0];
-                if (rpn[^1].Content == "=" && rpn0.Index == -1)
+                if (IsAssignment(rpn[^1].Content) && rpn0.Index == -1)
                 {
                     rpn0.Index = 1;
                     for (int i = 0, len = rpn.Length; i < len; ++i)
@@ -601,7 +607,7 @@ namespace Calcpad.Core
                         return writer.FormatNary(
                             $"<em>{TypeName(_type)}</em>",
                             _items[2].Html + "&nbsp;",
-                            "&ensp;" + _items[3].Html,
+                            "&emsp; " + _items[3].Html,
                             string.Concat(_items[0].Html, " d", _items[1].Html)
                             );
 
@@ -645,7 +651,7 @@ namespace Calcpad.Core
                 }
 
                 if (_type == SolverTypes.Repeat)
-                    sb.Append(" for ");
+                    sb.Append(" <span class=\"cond\">for</span> ");
                 else
                     sb.Append("; ");
 

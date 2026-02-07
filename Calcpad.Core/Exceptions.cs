@@ -419,5 +419,8 @@ namespace Calcpad.Core
 
         internal static MathParserException InfiniteLoop(int maxCount) =>
             new(string.Format(Messages.PossiblyInfiniteLoopDetected, maxCount));
+
+        internal static MathParserException CannotModifyConstant(string name) =>
+            new(string.Format(Messages.CannotModifyConstant, name));
     }
 }

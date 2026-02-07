@@ -17,7 +17,7 @@
 	HELP    - 显示此帮助文件.
 
 ————————————————————————————————————————————————————————————————————————————————
- 运算符: ! ^ / ÷ \ % * - + ≡ ≠ < > ≤ ≥ ∧ ∨ ⊕ = ? (输入字段)
+ 运营商: ! ^ / ÷ \ % * - + ≡ ≠ < > ≤ ≥ ∧ ∨ ⊕ = ← ? (输入字段)
 ————————————————————————————————————————————————————————————————————————————————
  自定义函数: f(x; y; z…) = 表达式
 ————————————————————————————————————————————————————————————————————————————————
@@ -106,14 +106,14 @@
 ————————————————————————————————————————————————————————————————————————————————
 迭代和数值方法:
 ————————————————————————————————————————————————————————————————————————————————
-    $Root{f(x) = const @ x = a : b}     $Sum{f(k) @ k = a : b}
-    $Root{f(x) @ x = a : b}             $Product{f(k) @ k = a : b}
-    $Find{f(x) @ x = a : b}             $Repeat{f(k) @ k = a : b}
-    $Sup{f(x) @ x = a : b}              $While{condition; expressions}
-    $Inf{f(x) @ x = a : b}              $Block{expressions}
-    $Area{f(x) @ x = a : b}             $Inline{expressions}
-    $Integral{f(x) @ x = a : b}         Precision
-    $Slope{f(x) @ x = a}
+    $Root{f(x) = const @ x = a : b}     $Derivative{f(x) @ x = a} 
+    $Root{f(x) @ x = a : b}             $Sum{f(k) @ k = a : b}
+    $Find{f(x) @ x = a : b}             $Product{f(k) @ k = a : b}
+    $Sup{f(x) @ x = a : b}              $Repeat{f(k) @ k = a : b}
+    $Inf{f(x) @ x = a : b}              $While{condition; expressions}
+    $Area{f(x) @ x = a : b}             $Block{expressions}
+    $Integral{f(x) @ x = a : b}         $Inline{expressions}
+    $Slope{f(x) @ x = a}                Precision
 	
 ————————————————————————————————————————————————————————————————————————————————
  度量单位:

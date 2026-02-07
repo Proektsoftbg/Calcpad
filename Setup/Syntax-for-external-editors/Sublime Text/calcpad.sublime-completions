@@ -4,6 +4,7 @@
 		"#append",
 		"#break",
 		"#complex",
+		"#const",
 		"#continue",
 		"#def",
 		"#deg",

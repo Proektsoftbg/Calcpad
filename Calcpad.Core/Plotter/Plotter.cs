@@ -77,7 +77,8 @@ namespace Calcpad.Core
                 stepY /= 2f;
             var tol = delta * 0.02;
             var yg = Math.Round(bounds.Bottom / stepY) * stepY;
-            if (yg < bounds.Bottom - tol)
+            var min = bounds.Bottom - tol;
+            if (yg < min)
                 yg += stepY;
             var max = bounds.Top + tol;
             var isScientific = Math.Abs(bounds.Top) + Math.Abs(bounds.Bottom) >= 20000;
@@ -106,7 +107,7 @@ namespace Calcpad.Core
             }
             var sx0 = Writer.FormatNumberHelper(bounds.Left, null);
             var sx1 = Writer.FormatNumberHelper(bounds.Right, null);
-            var n = Math.Max(sx0.Length, sx1.Length) + 2;
+            var n = Math.Max(sx0.Length, sx1.Length) + 3;
             maxSteps = Math.Min(15, (int)((xn - Left) / (tw * n)));
             delta = bounds.Right - bounds.Left;
             var stepX = GetGridStep(delta, maxSteps);
@@ -114,15 +115,18 @@ namespace Calcpad.Core
             if (midLine)
                 stepX /= 2.0;
             tol = delta * 0.02;
-            var xg = Math.Round((bounds.Left - tol) / stepX) * stepX;
-            if (xg < bounds.Left - tol)
+            min = bounds.Left - tol;
+            var xg = Math.Round(min / stepX) * stepX;
+            if (xg < min)
                 xg += stepX;
             max = bounds.Right + tol;
             var yt = yn + 2f * th + a;
             isScientific = Math.Abs(bounds.Right) + Math.Abs(bounds.Left) >= 20000;
             if (midLine)
             {
-                n = Writer.FormatNumberHelper(Math.Round(max / stepX) * stepX, null).Length + 2;
+                var n1 = Writer.FormatNumberHelper(Math.Round(max / stepX) * stepX, null).Length;
+                var n2 = Writer.FormatNumberHelper(xg + stepX, null).Length;
+                n = Math.Max(n1, n2) + 1;
                 if (tw * n < stepX * xs)
                     midLine = false;
             }
@@ -227,7 +231,8 @@ namespace Calcpad.Core
                 stepY /= 2f;
             var tol = delta * 0.02;
             var yg = Math.Round(bounds.Bottom / stepY) * stepY;
-            if (yg < bounds.Bottom - tol)
+            var min = bounds.Bottom - tol;
+            if (yg <min)
                 yg += stepY;
             var max = bounds.Top + tol;
             var isScientific = Math.Abs(bounds.Top) + Math.Abs(bounds.Bottom) >= 20000;
@@ -256,7 +261,7 @@ namespace Calcpad.Core
             }
             var sx0 = Writer.FormatNumberHelper(bounds.Left, null);
             var sx1 = Writer.FormatNumberHelper(bounds.Right, null);
-            var n = Math.Max(sx0.Length, sx1.Length) + 2;
+            var n = Math.Max(sx0.Length, sx1.Length) + 3;
             maxSteps = Math.Min(15, (int)((xn - Left) / (tw * n)));
             delta = bounds.Right - bounds.Left;
             var stepX = GetGridStep(delta, maxSteps);
@@ -265,8 +270,9 @@ namespace Calcpad.Core
                 stepX /= 2.0;
 
             tol = delta * 0.02;
-            var xg = Math.Round((bounds.Left - tol) / stepX) * stepX;
-            if (xg < bounds.Left - tol)
+            min = bounds.Left - tol;
+            var xg = Math.Round(min / stepX) * stepX;
+            if (xg < min)
                 xg += stepX;
 
             max = bounds.Right + tol;
@@ -274,7 +280,9 @@ namespace Calcpad.Core
             isScientific = Math.Abs(bounds.Right) + Math.Abs(bounds.Left) >= 20000;
             if (midLine)
             {
-                n = Writer.FormatNumberHelper(Math.Round(max / stepX) * stepX, null).Length + 2;
+                var n1 = Writer.FormatNumberHelper(Math.Round(max / stepX) * stepX, null).Length;
+                var n2 = Writer.FormatNumberHelper(xg + stepX, null).Length;
+                n = Math.Max(n1, n2) + 1;
                 if (tw * n < stepX * xs)
                     midLine = false;
             }

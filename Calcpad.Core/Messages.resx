@@ -251,7 +251,7 @@
         <value>Circular reference detected for function "{0}".</value>
     </data>
   <data name="Invalid_function_definition_exception" xml:space="preserve">
-        <value>Invalid function definition. It has to match the pattern: "f(x; y; z...) =".</value>
+        <value>Invalid function definition. It has to match the pattern: "f(x; y; z...) = expression".</value>
     </data>
   <data name="Argument_out_of_range_for_0_x" xml:space="preserve">
         <value>Argument out of range for {0}(x).</value>
@@ -570,5 +570,8 @@
   </data>
   <data name="PossiblyInfiniteLoopDetected" xml:space="preserve">
     <value>Possibly infinite loop detected, n &gt; {0} iterations.</value>
+  </data>
+  <data name="CannotModifyConstant" xml:space="preserve">
+    <value>Cannot modify constant "{0}".</value>
   </data>
 </root>

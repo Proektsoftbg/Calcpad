@@ -49,7 +49,7 @@ namespace Calcpad.Core
                     throw Exceptions.ExpressionEmpty();
 
                 var i0 = 0;
-                if (rpn[0].Type == TokenTypes.Variable && rpn[rpnLength - 1].Content == "=")
+                if (rpn[0].Type == TokenTypes.Variable && IsAssignment(rpn[rpnLength - 1].Content))
                     i0 = 1;
 
                 _parser._backupVariable = new(null, RealValue.Zero);
@@ -82,7 +82,7 @@ namespace Calcpad.Core
                             var a = StackPop();
                             StackPush(EvaluateToken(t, a));
                             continue;
-                        case TokenTypes.Operator when s == "=":
+                        case TokenTypes.Operator when IsAssignment(s):
                             if (_tos == tos)
                                 throw Exceptions.MissingOperand();
 

@@ -1065,10 +1065,10 @@
     <value>高性能</value>
   </data>
   <data name="CreatesAnEmptyHighPerformanceMatrixWithDimensionsMN" xml:space="preserve">
-    <value>创建1个m⨯n的高性能空矩阵 </value>
+    <value>创建1个m⨯n的高性能空矩阵</value>
   </data>
   <data name="CreatesAnIdentityHighPerformanceMatrixWithDimensionsNN" xml:space="preserve">
-    <value>创建1个n⨯n的高性能单位矩阵 </value>
+    <value>创建1个n⨯n的高性能单位矩阵</value>
   </data>
   <data name="CreatesADiagonalHighPerformanceMatrixWithDimensionsNNAndFillsTheDiagonalWithValueD" xml:space="preserve">
     <value>创建1个n⨯n的高性能对角阵其对角元素值都为d</value>
@@ -1080,7 +1080,7 @@
     <value>创建1个n⨯n的高性能上三角矩阵</value>
   </data>
   <data name="CreatesALowerTriangularHighPerformanceMatrixWithDimensionsNN" xml:space="preserve">
-    <value>创建1个n⨯n的高性能下三角矩阵 </value>
+    <value>创建1个n⨯n的高性能下三角矩阵</value>
   </data>
   <data name="CreatesASymmetricHighPerformanceMatrixWithDimensionsNN" xml:space="preserve">
     <value>创建1个n⨯n的对称高性能矩阵</value>
@@ -1153,5 +1153,20 @@
   </data>
   <data name="ComplexStepDifferentiation" xml:space="preserve">
     <value>复步微分法</value>
+  </data>
+  <data name="FastSquareMatrixMultiplicationWithParallelWinogradAlgorithm" xml:space="preserve">
+    <value>利用并行 Winograd 算法实现快速方阵乘法</value>
+  </data>
+  <data name="SolvesTheLinearMatrixEquationAxBWithASymmetricMatrixAUsingPCGMethod" xml:space="preserve">
+    <value>使用 PCG 方法求解具有对称矩阵 A 的线性矩阵方程 Ax = b</value>
+  </data>
+  <data name="SolvesTheGeneralizedMatrixEquationAXBWithASymmetricMatrixAUsingPCGMethod" xml:space="preserve">
+    <value>使用 PCG 方法求解具有对称矩阵 A 的广义矩阵方程 AX = B</value>
+  </data>
+  <data name="OuterVariableAssignment" xml:space="preserve">
+    <value>块中的外部变量赋值</value>
+  </data>
+  <data name="DeclaresAConstantReadonlyVariable" xml:space="preserve">
+    <value>声明一个常量（只读变量）</value>
   </data>
 </root>
