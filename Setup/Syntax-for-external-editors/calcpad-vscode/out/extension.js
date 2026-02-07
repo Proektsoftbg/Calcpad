@@ -40,15 +40,16 @@ const path = __importStar(require("path"));
 const fs = __importStar(require("fs"));
 const child_process_1 = require("child_process");
 const child_process_2 = require("child_process");
+const settingsPanel_1 = require("./settingsPanel");
 let currentPanel = undefined;
 let agentPanel = undefined;
 const completionItems = [
     // Keywords
-    "#append", "#break", "#complex", "#continue", "#def", "#deg", "#else if", "#else",
-    "#end def", "#end if", "#equ", "#for", "#while", "#global", "#gra", "#hide", "#if",
-    "#include", "#input", "#local", "#loop", "#md", "#md off", "#md on", "#noc", "#nosub",
-    "#novar", "#pause", "#phasor", "#post", "#pre", "#rad", "#read", "#repeat", "#round",
-    "#show", "#split", "#val", "#varsub", "#wrap", "#write",
+    "#append", "#break", "#complex", "#const", "#continue", "#def", "#deg", "#else if",
+    "#else", "#end def", "#end if", "#equ", "#for", "#while", "#global", "#gra", "#hide",
+    "#if", "#include", "#input", "#local", "#loop", "#md", "#md off", "#md on", "#noc",
+    "#nosub", "#novar", "#pause", "#phasor", "#post", "#pre", "#rad", "#read", "#repeat",
+    "#round", "#show", "#split", "#val", "#varsub", "#wrap", "#write",
     // Methods
     "$Area", "$Block", "$Derivative", "$Find", "$Inf", "$Inline", "$Integral", "$Map",
     "$Plot", "$Product", "$Repeat", "$Root", "$Slope", "$Sum", "$Sup", "$While",
@@ -591,79 +592,7 @@ function activate(context) {
             stdio: "ignore"
         }).unref();
     });
-    const settingsCommand = vscode.commands.registerCommand("calcpad.settings", async () => {
-        const config = vscode.workspace.getConfiguration('calcpad');
-        const settingsPath = config.get('settingsPath', 'C:\\Program Files\\Calcpad\\Settings.Xml');
-        const defaultSettings = `<?xml version="1.0" encoding="utf-8"?>
-<Settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-<Math>
-    <Decimals>2</Decimals>
-    <Degrees>0</Degrees>
-    <IsComplex>false</IsComplex>
-    <Substitute>true</Substitute>
-    <FormatEquations>true</FormatEquations>
-    <ZeroSmallMatrixElements>true</ZeroSmallMatrixElements>
-    <MaxOutputCount>20</MaxOutputCount>
-</Math>
-<Plot>
-    <IsAdaptive>true</IsAdaptive>
-    <ScreenScaleFactor>2</ScreenScaleFactor>
-    <ImagePath/>
-    <ImageUri/>
-    <VectorGraphics>false</VectorGraphics>
-    <ColorScale>Rainbow</ColorScale>
-    <SmoothScale>false</SmoothScale>
-    <Shadows>true</Shadows>
-    <LightDirection>NorthWest</LightDirection>
-</Plot>
-<Units>m</Units>
-</Settings>`;
-        // Create file with default content if it doesn't exist
-        if (!fs.existsSync(settingsPath)) {
-            try {
-                fs.writeFileSync(settingsPath, defaultSettings, 'utf8');
-            }
-            catch {
-                // Cannot write directly (needs admin privileges)
-                const choice = await vscode.window.showWarningMessage('Settings file does not exist and requires administrator privileges to create. Create it now?', 'Create as Admin');
-                if (choice === 'Create as Admin') {
-                    const escapedContent = defaultSettings.replace(/"/g, '\\"').replace(/\n/g, '`n');
-                    (0, child_process_1.exec)(`powershell -Command "Start-Process powershell -ArgumentList '-Command', 'Set-Content -Path \\\"${settingsPath}\\\" -Value \\\"${escapedContent}\\\"' -Verb RunAs"`, (error) => {
-                        if (error) {
-                            vscode.window.showErrorMessage(`Failed to create settings file: ${error.message}`);
-                        }
-                        else {
-                            vscode.window.showInformationMessage('Settings file created. Run the command again to open it.');
-                        }
-                    });
-                }
-                return;
-            }
-        }
-        // Check if file is writable
-        try {
-            fs.accessSync(settingsPath, fs.constants.W_OK);
-            // File is writable, open it directly
-            const document = await vscode.workspace.openTextDocument(settingsPath);
-            await vscode.window.showTextDocument(document);
-        }
-        catch {
-            // File is not writable (likely needs admin privileges)
-            const choice = await vscode.window.showWarningMessage('The settings file requires administrator privileges to edit. Would you like to open it anyway (read-only) or open VS Code as administrator?', 'Open Read-Only', 'Open as Admin');
-            if (choice === 'Open Read-Only') {
-                const document = await vscode.workspace.openTextDocument(settingsPath);
-                await vscode.window.showTextDocument(document);
-            }
-            else if (choice === 'Open as Admin') {
-                // Launch a new VS Code instance as administrator with the file
-                (0, child_process_1.exec)(`powershell -Command "Start-Process code -ArgumentList '${settingsPath}' -Verb RunAs"`, (error) => {
-                    if (error) {
-                        vscode.window.showErrorMessage(`Failed to open as administrator: ${error.message}`);
-                    }
-                });
-            }
-        }
-    });
+    const settingsCommand = (0, settingsPanel_1.registerSettingsCommand)(context);
     context.subscriptions.push(completionProvider, hoverProvider, runCommand, openCommand, settingsCommand);
 }
 function deactivate() { }

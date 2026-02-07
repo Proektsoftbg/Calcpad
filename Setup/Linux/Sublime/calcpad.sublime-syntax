@@ -15,7 +15,7 @@ contexts:
       scope: keyword.operator.comparison.calcpad
     - match: '[∧∨⊕]'
       scope: keyword.operator.logical.calcpad
-    - match: '='
+    - match: '[=←]'
       scope: keyword.operator.assignment.calcpad
     - match: '[;&@:|]'
       scope: punctuation.separator.calcpad
@@ -29,7 +29,7 @@ contexts:
       scope: punctuation.definition.keyword.calcpad
       pop: true
       set:
-      - match: '\b([Rr]epeat|[Ll]oop|[Bb]reak|[Cc]coutinue|[Ss]how|[Hh]ide|[Pp]re|[Pp]ost|[Vv]al|[Ee]qu|[Nn]oc|[Nn]osub|[Nn]ovar|[Vv]arsub|[Rr]ad|[Dd]eg|[Gg]ra|[Ii]f|[Ee]lse|[Ee]lse [Ii]f|[Ee]nd [Ii]f|[Ff]or|[Wh]ile|[Ii]nclude|[Ll]ocal|[Gg]lobal|[Dd]ef|[Ee]nd [Dd]ef|[Pp]ause|[Ii]nput|[Ss]plit|[Ww]rap|[Pp]hasor|[Cc]omplex)\b'
+      - match: '\b([Rr]epeat|[Ll]oop|[Bb]reak|[Cc]ontinue|[Ss]how|[Hh]ide|[Pp]re|[Pp]ost|[Vv]al|[Ee]qu|[Nn]oc|[Nn]osub|[Nn]ovar|[Vv]arsub|[Rr]ad|[Dd]eg|[Gg]ra|[Ii]f|[Ee]lse|[Ee]lse [Ii]f|[Ee]nd [Ii]f|[Ff]or|[Ww]hile|[Ii]nclude|[Ll]ocal|[Gg]lobal|[Dd]ef|[Ee]nd [Dd]ef|[Pp]ause|[Ii]nput|[Ss]plit|[Ww]rap|[Pp]hasor|[Cc]omplex|[Cc]onst|[Aa]ppend|[Rr]ead|[Ww]rite|[Rr]ound|[Mm]d|[Mm]d [Oo]n|[Mm]d [Oo]ff)\b'
         scope: keyword.control.calcpad
       - match: '[^a-zA-Z]'
         pop: true

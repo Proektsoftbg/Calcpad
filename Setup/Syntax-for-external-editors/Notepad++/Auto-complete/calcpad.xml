@@ -5,6 +5,7 @@
 		<KeyWord name="#append" />
 		<KeyWord name="#break" />
 		<KeyWord name="#complex" />
+		<KeyWord name="#const" />
 		<KeyWord name="#continue" />
 		<KeyWord name="#def" />
 		<KeyWord name="#deg" />

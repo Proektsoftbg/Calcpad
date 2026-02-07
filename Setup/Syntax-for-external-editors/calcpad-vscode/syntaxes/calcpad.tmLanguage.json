@@ -71,15 +71,15 @@
     "keywords": {
       "patterns": [
         {
-		      "name": "keyword.control.calcpad",
-          "match": "(#)([Rr]epeat|[Ll]oop|[Bb]reak|[Cc]ontinue|[Ss]how|[Hh]ide|[Pp]re|[Pp]ost|[Vv]al|[Ee]qu|[Nn]oc|[Nn]osub|[Nn]ovar|[Vv]arsub|[Rr]ad|[Dd]eg|[Gg]ra|[Ii]f|[Ee]lse|[Ee]lse\\s+[Ii]f|[Ee]nd\\s+[Ii]f|[Ff]or|[Ww]hile|[Ii]nclude|[Ll]ocal|[Gg]lobal|[Dd]ef|[Ee]nd\\s+[Dd]ef|[Pp]ause|[Ii]nput|[Ss]plit|[Ww]rap|[Pp]hasor|[Cc]omplex|[Aa]ppend|[Rr]ead|[Ww]rite|[Rr]ound|[Mm]d|[Mm]d\\s+[Oo]n|[Mm]d\\s+[Oo]ff)\\b"
+		  "name": "keyword.control.calcpad",
+          "match": "(#)([Rr]epeat|[Ll]oop|[Bb]reak|[Cc]ontinue|[Ss]how|[Hh]ide|[Pp]re|[Pp]ost|[Vv]al|[Ee]qu|[Nn]oc|[Nn]osub|[Nn]ovar|[Vv]arsub|[Rr]ad|[Dd]eg|[Gg]ra|[Ii]f|[Ee]lse|[Ee]lse [Ii]f|[Ee]nd [Ii]f|[Ff]or|[Ww]hile|[Ii]nclude|[Ll]ocal|[Gg]lobal|[Dd]ef|[Ee]nd [Dd]ef|[Pp]ause|[Ii]nput|[Ss]plit|[Ww]rap|[Pp]hasor|[Cc]omplex|[Cc]onst|[Aa]ppend|[Rr]ead|[Ww]rite|[Rr]ound|[Mm]d|[Mm]d [Oo]n|[Mm]d [Oo]ff)\\b"
         }
       ]
     },
     "methods": {
       "patterns": [
         {
-		      "name": "support.method.calcpad",
+		  "name": "support.method.calcpad",
           "match": "(\\$)([Rr]oot|[Ff]ind|[Ii]nf|[Ss]up|[Aa]rea|[Ii]ntegral|[Ss]lope|[Dd]erivative|[Ss]um|[Pp]roduct|[Rr]epeat|[Mm]ap|[Pp]lot|[Bb]lock|[Ii]nline|[Ww]hile)\\b"
         }
       ]
@@ -127,7 +127,7 @@
         },
         {
           "name": "keyword.operator.assignment.calcpad",
-          "match": "="
+          "match": "[=←]"
         }
       ]
     },

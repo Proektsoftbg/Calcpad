@@ -2,7 +2,7 @@
   "name": "calcpad",
   "displayName": "Calcpad",
   "description": "Language support for Calcpad (.cpd files) - syntax highlighting, completions, and run support",
-  "version": "7.6.0",
+  "version": "7.6.1",
   "publisher": "ProektsoftEOOD",
   "icon": "icon.png",
   "license": "MIT",
