@@ -978,7 +978,7 @@ namespace Calcpad.Wpf
                     if (t.StartsWith('('))
                     {
                         var bracketClosingIndex = t.IndexOf(')');
-                        if (bracketClosingIndex < 0 || t[..bracketClosingIndex].Count(';') == s.Count(';'))
+                        if (bracketClosingIndex < 0 || t.AsSpan(0, bracketClosingIndex).Count(';') == s.Count(';'))
                             s = s[..bracketOpeningIndex];
                     }
                 }
