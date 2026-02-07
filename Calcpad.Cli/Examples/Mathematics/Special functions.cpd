@@ -1,0 +1,234 @@
+#md on
+#rad
+'<!--'PlotWidth = 200','PlotHeight = 120','PlotAdaptive = 0'-->
+"Evaluation of special math functions in Calcpad
+'---
+'This workheet defines some of the most common special functions in ℝ, by using the existing numerical methods in Calcpad only in stable and precise way (as possible)
+'##### Gamma and related functions
+'Euler-Mascheroni constant -'γ = 0.57721566490153286
+'**Gamma function** -' _
+Γ(x) = (1/x)*$Integral{(-ln(t))^x @ t = 0 : 1}'<br/>
+$Plot{Γ(x) @ x = 0.04 : 5}
+'Checks:'Γ(0)','Γ(4)'= 3!,'Γ(5)'= 4!
+x = 50','x!','(Γ(x + 1) - x!)/x!
+'**Digamma function** -' _
+ψ(x) = $Integral{((1 - t^(x - 1))/(1 - t)) @ t = 0 : 1} - γ
+'<br/>**Polygamma function** -' _
+ψ_m(m; x) = (-1)^(m + 1)*$Integral{((-ln(t))^m*t^(x - 1))/(1 - t) @ t = ε : 1}', where'ε = 10^-300
+'<!--'PlotHeight = 200'-->
+$Plot{max(ψ(x); -15) & min(ψ_m(1; x); 15) & max(ψ_m(2; x); -15) & min(ψ_m(3; x); 15) @ x = 0.04 : 4}
+'<!--'PlotHeight = 120'-->
+'Checks:
+ψ_m(1; 1) - π^2/6
+ψ_2,1 = -2.4041138063191886'-2 times Apéry constant
+ψ_m(2; 1) - ψ_2,1
+ψ_m(3; 1) - π^4/15
+'**Incomplete Gamma functions**:
+γ(s; x) = $Integral{(-ln(t))^(s - 1) @ t = e^(-x) : 1}'or' _
+γ(s; x) = (1/s)*($Integral{(-ln(t))^s @ t = e^(-x) : 1} + x^s*e^(-x))
+Γ_(s; x) = $Integral{(-ln(t))^(s - 1) @ t = 0 : e^(-x)}'or' _
+Γ_(s; x) = (1/s)*($Integral{(-ln(t))^s @ t = 0 : e^(-x)} - x^s*e^(-x))
+$Plot{γ(2; x) & Γ_(2; x) @ x = 0 : 10}
+$Plot{γ(3; x) & Γ_(3; x) @ x = 0 : 10}
+'**Beta function** -'B(x; y) = Γ(x)*Γ(y)/Γ(x + y)
+$Map{ln(B(x; y)) @ x = 0 : 3 & y = 0 : 2}
+'Checks:'B(3; 2)*12','B(4; 3)*60
+'**Incomplete Beta function** -' _
+B(x; a; b) = $Integral{t^(a - 1)*(1 - t)^(b - 1) @ t = ε : x}
+Precision = 10^-6
+$Map{ln(B(1; x; y)) @ x = 10^-4 : 3 & y = 10^-4 : 2}
+'Checks:'B(1; 1; 1)','B(1; 2; 3)*12','-B(2; 2; 2)*3/2
+'**Riemann Zeta function** -' _
+ζ(x) = 1/Γ(x)*$Integral{(-ln(t))^(x - 1)/(1 - t) @ t = 0 : 1}
+$Plot{ζ(x) & 0^0 @ x = 1.2 : 6}
+'Checks:
+Precision = 10^-15
+ζ(2) - π^2/6
+ζ_3 = 1.2020569031595943'- Apéry constant
+ζ(3) - ζ_3
+ζ(4) - π^4/90
+Precision = 10^-4
+'**Dirichlet Eta function** -' _
+η(x) = 1/Γ(x)*$Integral{(-ln(t))^(x - 1)/(1 + t) @ t = 0 : 1}
+$Plot{η(x) & 0^0 @ x = 0 : 6}
+'Checks:
+η_0.5 = 0.60489864342163037
+η(0.5) - η_0.5
+Precision = 10^-15
+η(1) - ln(2)
+η(2) - π^2/12
+η(4) - 7*π^4/720
+'**Error function** -' _
+erf(x) = 2*sign(x)/sqrt(π)*$Integral{e^-t^2 @ t = 0 : abs(x)}', ' _
+erfc(x) = 1 - erf(x)
+$Plot{erf(x) @ x = -5 : 5}
+'##### Integral functions
+'**Fresnel integrals**:' _
+C(x) = $Integral{cos(t^2) @ t = 0 : x}', ' _
+S(x) = $Integral{sin(t^2) @ t = 0 : x}
+$Plot{C(x) & S(x) @ x = -5 : 5}
+'<!--'PlotWidth = 125'-->'
+$Plot{C(t)|S(t) @ t = 0 : 5}
+'<!--'PlotWidth = 200'-->'
+'<br/>**Sine and cosine integrals**:
+Ci(x) = if(x ≡ 0; -1÷0; γ + ln(x) + $Integral{(cos(t) - 1)/t @ t = 0 : x})', ' _
+Si(x) = if(x ≡ 0; 0; $Integral{sin(t)/t @ t = 0 : x})
+$Plot{Ci(t) @ t = 0 : 15}
+$Plot{Si(t) @ t = -15 : 15}
+'<br/>**Hyperbolic sine and cosine integrals**:
+Chi(x) = if(x ≡ 0; -1÷0; γ + ln(x) + $Integral{(cosh(t) - 1)/t @ t = 0 : x})', ' _
+Shi(x) = if(x ≡ 0; 0; $Integral{sinh(t)/t @ t = 0 : x})
+$Plot{Chi(t) @ t = 0 : 4}
+$Plot{Shi(t) @ t = -3 : 3}
+li_2 = 1.0451637801174928
+'**Logarithmic Integral** -' _
+Li(x) = $Integral{1/ln(t) @ t = 2 : x}', ' _
+li(x) = if(x < 1; $Integral{1/ln(t) @ t = 0 : x}; Li(x) + li_2)
+$Plot{li(x) @ x = 0 : 4}
+'<br/>**Exponential Integral** -' _
+E_1(x) = -$Integral{1/ln(t) @ t = 0 : e^(-x)}', ' _
+Ei(x) = switch(x < 0; -E_1(-x); x > 0; li_2 + Li(e^x))
+$Plot{Ei(x) @ x = -1 : 4}
+'<br/>**Dawson′s Integral** -' _
+F_D(x) = e^(-x^2)*$Integral{e^(t^2) @ t = 0 : x}'<br/>
+$Plot{F_D(x) @ x = -10 : 10}
+'##### Elliptic integrals
+'Incomplete elliptic integral of the first kind -'
+F(φ; m) = $Integral{1/sqrt(max(1 - m*sin(t)^2; ε)) @ t = 0 : φ}
+'Complete elliptic integral of the first kind -' _
+K(m) = F(π/2; m)
+$Plot{K(x) @ x = -1 : 1}
+'Incomplete elliptic integral of the second kind -' _
+E_(φ; m) = $Integral{sqrt(1 - m*sin(t)^2) @ t = 0 : φ}
+'Complete elliptic integral of the second kind -' _
+E(m) = E_(π/2; m)
+$Plot{E(x) @ x = -1 : 1}
+'Incomplete elliptic integral of the third kind -
+Π_(n; φ; m) = $Integral{1/(max(1 - n*sin(t)^2; ε)*sqrt(max(1 - m*sin(t)^2; ε))) @ t = 0 : φ}
+'Complete elliptic integral of the third kind' _
+Π(n; m) = Π_(n; π/2; m)
+Π(0.4; 0.6)
+$Plot{Π(x; 0.6) @ x = -1 : 1}
+'##### Jacobi elliptic functions
+'**Jacobi elliptic amplitude**
+'Gudermannian function -'gd(x) = asin(tanh(x))' = am(u; 1)
+'Approximate value for small *u*, *m*, *m*′
+am_(u; m) = gd(u) + (1 - m)/4*(sinh(u)*cosh(u) - u)*sech(u)
+'To avoid numerical instabilities, the function for larger values of u is reduced to the interval [0; K(m)] where the elliptic integral is evaluated within [0; π/2]. This is performed by using the following quasi-periodical relationships:
+'> **am**(*u* + 2K(*m*), *m*) = **am**(*u*, *m*) + π, for *u* ≥ 2K(*m*)<br/> _
+   **am**(*u*, *m*) = π - **am**(2K(*m*) - *u*, *m*), for *u* < 2K(*m*)
+'Function for evaluation of Jacobi elliptic amplitude:
+am(u; m) = switch(
+   m ≡ 0; u; 
+   m ≡ 1; asin(tanh(u)); 
+   $block{
+       K_m2 = K(m)*2; 
+       s = sign(u); u = abs(u); 
+       n = floor(u/(K_m2)); 
+       u = u - n*K_m2; 
+       y = u*π/(K_m2); 
+       am = if(
+           u > K_m2/2; 
+           π - $Root{F(φ; m) = K_m2 - u @ φ = 0 : π/2}; 
+           $Root{F(φ; m) = u @ φ = max(0; y - 1) : min(π/2; y + 1)}); 
+       s*(am + n*π) _
+    } _
+)
+'Plot for'm = 0.999999','1 - m
+Precision = 10^-15/cbrt(1 - m)^2
+$Plot{am(x; m) & x*π/(2*K(m)) @ x = -50 : 50}
+'Check: **am**(*x*; 0) = x
+$Plot{am(x; 0) @ x = -10 : 10}
+'Check: **am**(*x*; 1) = **gd**(*x*)'
+$Plot{am(x; 1) @ x = -10 : 10}
+'<br/>**Jacobi elliptic functions**
+sn(u; m) = sin(am(u; m))
+cn(u; m) = cos(am(u; m))
+'
+dn(u; m) = $block{
+  sn = sin(am(u; m)); 
+  sqrt(1 - m*sn*sn)}
+'
+cs(u; m) = $block{
+  φ = am(u; m); 
+  cos(φ)/sin(φ)}
+'
+cd(u; m) = $block{
+  φ = am(u; m); 
+  sn = sin(φ); 
+  cn = cos(φ); 
+  dn = sqrt(1 - m*sn*sn); 
+  cn÷dn}
+'
+dc(u; m) = $block{
+  φ = am(u; m); 
+  sn = sin(φ); 
+  cn = cos(φ); 
+  dn = sqrt(1 - m*sn*sn); 
+  dn÷cn}
+'
+sc(u; m) = $block{
+ φ = am(u; m); 
+ sin(φ)/cos(φ)}
+'
+sd(u; m) = $block{
+ φ = am(u; m); 
+ sn = sin(φ); 
+ dn = sqrt(1 - m*sn*sn); 
+ sn÷dn}
+'
+ds(u; m) = $block{
+ φ = am(u; m); 
+ sn = sin(φ); 
+ dn = sqrt(1 - m*sn*sn); 
+ dn÷sn}
+Precision = 10^-15
+'Checks:
+am(1; 0.5)','dn(1; 0.5)
+s = sn(1; 0.5)','c = cn(1; 0.5)
+c^2 + s^2
+'##### Reciprocal Jacobi elliptic functions
+ns(u; m) = 1/sn(u; m)',' _
+nc(u; m) = 1/cn(u; m)',' _
+nd(u; m) = 1/dn(u; m)
+'##### Bessel functions
+'Bessel functions of the first kind -' _
+J(n; x) = 1/π*$Integral{cos(n*θ - x*sin(θ)) @ θ = 0 : π}
+$Plot{J(0; x) & J(1; x) & J(2; x) @ x = 0 : 25}
+'Asymptotic expansion (use for x > 150) -' _
+J_a(n; x) = sqrt(2/(π*x))*cos(x - n*π/2 - π/4)
+$Plot{J(0; x) & J_a(0; x) @ x = 200 : 220}
+'Dynamic limit for numerical stability -' _
+inf(x) = 20/(1 + ln(max(x; e)))
+$Plot{0 & inf(x) @ x = 0 : 25}
+'Bessel functions of the second kind
+Y(n; x) = 1/π*$Integral{sin(x*sin(θ) - n*θ) @ θ = 0 : π} - 1/π*$Integral{(exp(n*t) + (-1)^n*exp(-n*t))*exp(-x*sinh(t)) @ t = 0 : inf(x)}
+'Asymptotic expansion (use for x > 150) -' _
+Y_a(n; x) = sqrt(2/(π*x))*sin(x - n*π/2 - π/4)
+$Plot{max(Y(0; x); -2) & max(Y(1; x); -2) & max(Y(2; x); -2) @ x = 0 : 25}
+$Plot{Y(0; x) & Y_a(0; x) @ x = 200 : 220}
+'Recurrence test:'n = 1', 'x = 100
+Y(n - 1; x) + Y(n + 1; x) - (2*n/x)*Y(n; x)
+$Plot{Y(n - 1; x) + Y(n + 1; x) - (2*n/x)*Y(n; x) @ x = 50 : 100}
+'Wronskian test: W(_x_) = J₁(_x_) · Y₀(_x_) − J₁(_x_) · Y₀(_x_) = 2 / (π · _x_)
+Wr(x) = J(1; x)*Y(0; x) - J(0; x)*Y(1; x)
+Wr(x) - 2/(π*x)
+$Plot{Wr(x) - 2/(π*x) @ x = 100 : 200}
+'Modified Bessel functions of the first kind
+'Modified Bessel functions of the second kind
+'Airy functions
+'<p style="page-break-before:always;"> </p>
+'##### Lambert W function
+'Helper function -'ln_2(x) = ln(ln(x))
+'Approximate value -'W_a(x) = ln(x) - ln_2(x)
+'Secondary value -'W_b(x) = ln_2(x)/ln(x)
+'Lower bound -'W_btm(x) = W_a(x) + 0.5*W_b(x)
+'Upper bound -'W_top(x) = W_a(x) + e/(e - 1)*W_b(x)
+'The function -'W(x) = if(x < e; 
+     $Root{ξ*exp(ξ) = x @ ξ = -1 : 1}; 
+     $Root{ξ*exp(ξ) = x @ ξ = W_btm(x) : W_top(x)})
+$Plot{W(x) @ x = -1 : 10}
+'Omega constant -'Ω = 0.567143290409783873
+'Check:'W(1) - Ω','W(e) - 1
+'Relative error plot
+$Plot{if(abs(x) < 1; abs(W(x*e^x) - x); abs(W(x*e^x)/x - 1)) @ x = -1 : 100}

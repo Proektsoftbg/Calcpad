@@ -7,8 +7,8 @@ fib(n) = if(n ≡ 1; 1;
     b = 1; 
     $repeat{
        c = a + b; 
-       a = b; 
-       b = c; 
+       a ← b; 
+       b ← c; 
      @ k = 1 : n - 1} _
   } _
 )

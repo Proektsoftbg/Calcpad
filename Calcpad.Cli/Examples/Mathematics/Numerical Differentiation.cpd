@@ -1,0 +1,15 @@
+"Numerical Differentiation in Calcpad
+#md on
+#rad
+'Function -'f(x) = e^x', Point - 'a = 100
+'Theoretical value -'f′(x) = e^x', 'y′_a = f′(a)
+'**$Slope** function (Richardson extrapolation) -'y′_aS = $Slope{f(x) @ x = a}
+'> Error -'δ = abs(y′_a - y′_aS)/y′_a|%'- <span class="err">Approx.</span>
+'**$Derivative** function (Complex step method) -'y′_aD = $Derivative{f(x) @ x = a}
+'> Error -'δ = abs(y′_a - y′_aD)/y′_a|%'- <span class="ok">Exact!!!</span>
+'Function -'f(x) = sin(x^2)', Point -'a = 1000
+'Theoretical value -'f′(x) = 2*x*cos(x^2)', 'y′_a = f′(a)
+'**$Slope** function (Richardson extrapolation) -'y′_aS = $Slope{f(x) @ x = a}
+'> Error -'δ = abs(y′_a - y′_aS)/y′_a|%'- <span class="err">Approx.</span>
+'**$Derivative** function (Complex step method) -'y′_aD = $Derivative{f(x) @ x = a}
+'> Error -'δ = abs(y′_a - y′_aD)/y′_a|%'- <span class="ok">Exact!!!</span>
