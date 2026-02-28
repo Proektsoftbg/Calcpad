@@ -120,15 +120,17 @@ namespace Calcpad.Core
                 Units = u;
                 return x2;
             }
-            var nMax = -(int)(Math.Log2(Precision) / 2.0) + 1;
-            double eps1 = Precision / 4, eps = Precision * (x2 - x1) / 2.0;
+            double eps1 = Precision * 1e-3, eps2 = Precision * (x2 - x1) / 2.0;
             if (Math.Abs(target) > 1)
                 eps1 *= target;
+            else
+                eps1 *= eps1;
 
             var side = 0;
             var ans = x1;
             var bisection = true;
-            const double k = 0.25;
+            var threshold = x2 - x1; 
+            const double C = 16;
             const int n = 100;
             for (int i = 1; i <= n; ++i)
             {
@@ -138,23 +140,28 @@ namespace Calcpad.Core
                     x3 = (x1 + x2) / 2.0;
                     y3 = Fd(x3) - target;
                     var ym = (y1 + y2) / 2.0;
-                    //Check if function is close to straight line
+                    var r = 1 - Math.Abs(ym / (y2 - y1));
+                    var k = r * r; 
                     if (Math.Abs(ym - y3) < k * (Math.Abs(y3) + Math.Abs(ym)))
+                    {
                         bisection = false;
+                        threshold = (x2 - x1) * C;
+                    }
                 }
                 else
                 {
                     x3 = (x1 * y2 - y1 * x2) / (y2 - y1);
-                    if (x3 < x1 - eps || x3 > x2 + eps)
+                    if (x3 < x1 - eps2 || x3 > x2 + eps2)
                     {
                         err = 1;
                         Units = u;
                         return double.NaN;
                     }
                     y3 = Fd(x3) - target;
+                    threshold /= 2.0;
                 }
                 err = Math.Abs(y3);
-                if (err < eps1 || Math.Abs(x3 - ans) < eps)
+                if (err < eps1 || Math.Abs(x3 - ans) < eps2)
                 {
                     Units = u;
                     if (x1 > x2)
@@ -176,8 +183,7 @@ namespace Calcpad.Core
                     else if (!bisection)
                         side = 1;
 
-                    x1 = x3;
-                    y1 = y3;
+                    x1 = x3; y1 = y3;
                 }   
                 else
                 {
@@ -192,10 +198,9 @@ namespace Calcpad.Core
                     else if (!bisection)
                         side = -1;
 
-                    x2 = x3;
-                    y2 = y3;
+                    x2 = x3; y2 = y3;
                 }
-                if (i % nMax == 0)
+                if (x2 - x1 > threshold)
                     bisection = true;
             }
             Units = u;

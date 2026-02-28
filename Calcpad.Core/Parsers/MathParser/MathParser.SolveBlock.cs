@@ -110,17 +110,20 @@ namespace Calcpad.Core
             private void Parse()
             {
                 var targetUnits = _parser._targetUnits;
-                if (IsBlock)
+                if (IsBlock || _type == SolverTypes.Repeat)
                 {
                     _parser._input.AddLocalVariables(_localVariables);
-                    _items = ParseBlockOrInline(Script);
-                    _parser._input.RemoveLocalVariables();
-                }
-                else if (_type == SolverTypes.Repeat)
-                {
-                    _parser._input.AddLocalVariables(_localVariables);
-                    _items = ParseSolver(Script);
-                    _parser._input.RemoveLocalVariables();
+                    try
+                    {
+                        _items = IsBlock ?
+                            ParseBlockOrInline(Script) :
+                            _items = ParseSolver(Script);
+                    }
+                    finally
+                    {
+                        _parser._input.RemoveLocalVariables();
+                    }
+
                 }
                 else
                     _items = ParseSolver(Script);

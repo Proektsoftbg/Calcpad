@@ -466,18 +466,6 @@ function getSettingsHtml(s: { [key: string]: string }): string {
         </div>
 
         <div class="field">
-            <label for="ImagePath">Image path</label>
-            <input type="text" id="ImagePath" value="${s['ImagePath'] ?? ''}" placeholder="(default)">
-            <span class="hint">Local file path for saving plot images</span>
-        </div>
-
-        <div class="field">
-            <label for="ImageUri">Image URI</label>
-            <input type="text" id="ImageUri" value="${s['ImageUri'] ?? ''}" placeholder="(default)">
-            <span class="hint">Base URI used to reference plot images in HTML output</span>
-        </div>
-
-        <div class="field">
             <label>Vector graphics (SVG)</label>
             <label class="toggle">
                 <input type="checkbox" id="VectorGraphics" ${checked(s['VectorGraphics'] ?? 'false')}>

@@ -68,6 +68,39 @@ f_59(x) = e^x - 2*x - 1
 f_60(x) = e^-x - x - sin(x)
 f_61(x) = x^2 - sin(x)^2 - 1
 f_62(x) = sin(x) - x/2
+'Oliveira I. F. D., Takahashi R. H. C.
+'An Enhancement of the Bisection Method Average Performance Preserving Minmax Optimality
+f_63(x) = x*exp(x) - 1'- Lambert
+f_64(x) = tan(x - 1/10)'- Trigonometric 1
+f_65(x) = sin(x) + 0.5'- Trigonometric 2
+f_66(x) = 4*x^5 + x*x + 1'- Polynomial 1
+f_67(x) = x + x^10 - 1'- Polynomial 2
+f_68(x) = π^x - e'- Exponential
+f_69(x) = ln(abs(x - 10/9))'- Logarithmic
+f_70(x) = 1/3 + sign(x)*cbrt(abs(x)) + x^3'- Polynomial
+f_71(x) = (x + 2/3)/(x + 101/100)'- Poly.Frac.
+f_72(x) = (x*10^6 - 1)^3'- Polynomial 3
+f_73(x) = exp(x)*(x*10^6 - 1)^3'- Exp. Poly.
+f_74(x) = (x - 1/3)^2*atan(x - 1/3)'- Tan. Poly.
+f_75(x) = sign(3*x - 1)*(1 - sqrt(1 - (3*x - 1)^2/81))'- Circles
+f_76(x) = if(x > (1 - 10^6)/10^6; (1 + 10^6)/10^6; 0) - 1'- Step Function
+f_77(x) = if(x ≠ 1/21; 1/(21*x - 1); 0)'- Geometric
+f_78(x) = x*x/4 + ceiling(x/2) - 0.5'- Trunc.Poly.
+f_79(x) = ceiling(10*x - 1) + 0.5'- Staircase
+f_80(x) = x + sin(x*10^6)/10 + 10^-3'- Noisy Line
+f_81(x) = if(x > -1; 1 + sin(1/(x + 1)); 0) - 1'- Warsaw
+f_82(x) = 202*x - 2*floor((2*x + 10^-2)/(2*10^-2)) - 0.1'- Sawtooth
+f_83(x) = (202*x - 2*floor((2*x + 10^-2)/(2*10^-2)) - 0.1)^3'- Sawtooth Cube
+'SciML Benchmarks test suite
+f_84(x) = (x - 1)*(x - 2)*(x - 3)*(x - 4)*(x - 5) - 0.05'- Polynomial with multiple roots  
+f_85(x) = sin(x) - 0.5*x - 0.3'- Trigonometric with multiple roots
+f_86(x) = exp(x) - 1 - x - x*x/2 - 0.005'- Exponential function (sensitive near zero)
+f_87(x) = 1/(x - 0.5) - 2 - 0.05'- Rational function with pole
+f_88(x) = ln(x) - x + 2 - 0.05'- Logarithmic function
+f_89(x) = sin(20*x) + 0.1*x - 0.1'- High oscillation function
+f_90(x) = x*x*x - 2*x*x + x - 0.025'- Function with very flat region
+f_91(x) = x*sin(1/x) - 0.1 - 0.01'- Bessel-like function
+f_92(x) = x^3 - 0.001
 'Sérgio Galdino: A family of regula falsi root-finding methods
 x_01 = $Root{f_01(x) @ x = 0.5 : 1.5}
 x_02 = $Root{f_02(x) @ x = 0.1 : 1}
@@ -133,7 +166,41 @@ x_59 = $Root{f_59(x) @ x = 0.2 : 3}
 x_60 = $Root{f_60(x) @ x = 0.0 : 2}
 x_61 = $Root{f_61(x) @ x = -1 : 2}
 x_62 = $Root{f_62(x) @ x = π/2 : π}
-'<!--'PlotWidth = 250','PlotHeight = 150'-->
+'Oliveira I. F. D., Takahashi R. H. C.
+'An Enhancement of the Bisection Method Average Performance Preserving Minmax Optimality
+x_63 = $Root{f_63(x) @ x = -1 : 1}
+x_64 = $Root{f_64(x) @ x = -1 : 1}
+x_65 = $Root{f_65(x) @ x = -1 : 1}
+x_66 = $Root{f_66(x) @ x = -1 : 1}
+x_67 = $Root{f_67(x) @ x = -1 : 1}
+x_68 = $Root{f_68(x) @ x = -1 : 1}
+x_69 = $Root{f_69(x) @ x = -1 : 1}
+x_70 = $Root{f_70(x) @ x = -1 : 1}
+x_71 = $Root{f_71(x) @ x = -1 : 1}
+x_72 = $Root{f_72(x) @ x = -1 : 1}
+x_73 = $Root{f_73(x) @ x = -1 : 1}
+x_74 = $Root{f_74(x) @ x = -1 : 1}
+x_75 = $Root{f_75(x) @ x = -1 : 1}
+x_76 = $Find{f_76(x) @ x = -1 : 1}
+x_77 = $Find{f_77(x) @ x = -1 : 1}
+x_78 = $Find{f_78(x) @ x = -1 : 1}
+x_79 = $Find{f_79(x) @ x = -1 : 1}
+x_80 = $Root{f_80(x) @ x = -1 : 1}
+x_81 = $Root{f_81(x) @ x = -1 : 1}
+x_82 = $Root{f_82(x) @ x = -1 : 1}
+x_83 = $Root{f_83(x) @ x = -1 : 1}
+'SciML Benchmarks test suite
+x_84 = $Root{f_84(x) @ x = 0.5 : 5.5}
+x_85 = $Root{f_85(x) @ x = -10.0 : 10.0}
+x_86 = $Root{f_86(x) @ x = -2.0 : 2.0}
+x_87 = $Root{f_87(x) @ x = 0.6 : 2.0}
+x_88 = $Root{f_88(x) @ x = 0.1 : 3.0}
+x_89 = $Root{f_89(x) @ x = -4.0 : 5.0}
+x_90 = $Root{f_90(x) @ x = -1.0 : 2.0}
+x_91 = $Root{f_91(x) @ x = 0.01 : 1.0}
+x_92 = $Root{f_92(x) @ x = -10 : 10}
+
+'<!--'PlotWidth = 250','PlotHeight = 150','PlotSVG = 1'-->
 'Sérgio Galdino: A family of regula falsi root-finding methods
 $Plot{f_01(x) & x_01|0 @ x = 0.5 : 1.5}
 $Plot{f_02(x) & x_02|0 @ x = 0.1 : 1}
@@ -201,3 +268,36 @@ $Plot{f_59(x) & x_59|0 @ x = 0.2 : 3}
 $Plot{f_60(x) & x_60|0 @ x = 0.0 : 2}
 $Plot{f_61(x) & x_61|0 @ x = -1 : 2}
 $Plot{f_62(x) & x_62|0 @ x = π/2 : π}
+'Oliveira I. F. D., Takahashi R. H. C.
+'An Enhancement of the Bisection Method Average Performance Preserving Minmax Optimality
+$Plot{f_63(x) & x_63|0 @ x = -1 : 1}
+$Plot{f_64(x) & x_64|0 @ x = -1 : 1}
+$Plot{f_65(x) & x_65|0 @ x = -1 : 1}
+$Plot{f_66(x) & x_66|0 @ x = -1 : 1}
+$Plot{f_67(x) & x_67|0 @ x = -1 : 1}
+$Plot{f_68(x) & x_68|0 @ x = -1 : 1}
+$Plot{f_69(x) & x_69|0 @ x = -1 : 1}
+$Plot{f_70(x) & x_70|0 @ x = -1 : 1}
+$Plot{f_71(x) & x_71|0 @ x = -1 : 1}
+$Plot{f_72(x) & x_72|0 @ x = -1 : 1}
+$Plot{f_73(x) & x_73|0 @ x = -1 : 1}
+$Plot{f_74(x) & x_74|0 @ x = -1 : 1}
+$Plot{f_75(x) & x_75|0 @ x = -1 : 1}
+$Plot{f_76(x) & x_76|0 @ x = -1 : 1}
+$Plot{f_77(x) & x_77|0 @ x = -1 : 1}
+$Plot{f_78(x) & x_78|0 @ x = -1 : 1}
+$Plot{f_79(x) & x_79|0 @ x = -1 : 1}
+$Plot{f_80(x) & x_80|0 @ x = -1 : 1}
+$Plot{f_81(x) & x_81|0 @ x = -1 : 1}
+$Plot{f_82(x) & x_82|0 @ x = -1 : 1}
+$Plot{f_83(x) & x_83|0 @ x = -1 : 1}
+'SciML Benchmarks test suite
+$Plot{f_84(x) & x_84|0 @ x = 0.5 : 5.5}
+$Plot{f_85(x) & x_85|0 @ x = -10.0 : 10.0}
+$Plot{f_86(x) & x_86|0 @ x = -2.0 : 2.0}
+$Plot{f_87(x) & x_87|0 @ x = 0.6 : 2.0}
+$Plot{f_88(x) & x_88|0 @ x = 0.1 : 3.0}
+$Plot{f_89(x) & 0|0 @ x = -4.0 : 5.0}
+$Plot{f_90(x) & x_90|0 @ x = -1.0 : 2.0}
+$Plot{f_91(x) & x_91|0 @ x = 0.01 : 1.0}
+$Plot{f_92(x) & x_92|0 @ x = -10 : 10}

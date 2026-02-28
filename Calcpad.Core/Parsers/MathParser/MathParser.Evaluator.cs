@@ -246,6 +246,7 @@ namespace Calcpad.Core
                     throw Exceptions.UndefinedVariableOrUnits(s);
                 }
             }
+
             private IValue EvaluateAssignment(IValue b, Token[] rpn, bool isVisible)
             {
                 _parser.Units = ApplyUnits(ref b, _parser._targetUnits);
