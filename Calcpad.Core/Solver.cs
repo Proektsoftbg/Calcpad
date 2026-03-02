@@ -160,7 +160,7 @@ namespace Calcpad.Core
                     threshold /= 2.0;
                 }
                 err = Math.Abs(y3);
-                if (err < eps1 || x2 - x1 < eps2)
+                if (err <= eps1 || x2 - x1 <= eps2)
                 {
                     Units = u;
                     return x3;
