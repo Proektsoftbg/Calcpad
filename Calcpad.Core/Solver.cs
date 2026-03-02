@@ -127,8 +127,8 @@ namespace Calcpad.Core
                 eps1 *= eps1;
 
             var side = 0;
-            var ans = x1;
-            var bisection = true;
+            var x0 = x1;
+            var bisection = true;   
             var threshold = x2 - x1; 
             const double C = 16;
             const int n = 100;
@@ -151,25 +151,21 @@ namespace Calcpad.Core
                 else
                 {
                     x3 = (x1 * y2 - y1 * x2) / (y2 - y1);
-                    if (x3 < x1 - eps2 || x3 > x2 + eps2)
-                    {
-                        err = 1;
-                        Units = u;
-                        return double.NaN;
-                    }
+                    if (x3 < x1) 
+                        x3 = x1;
+                    else if (x3 > x2) 
+                        x3 = x2;
+
                     y3 = Fd(x3) - target;
                     threshold /= 2.0;
                 }
                 err = Math.Abs(y3);
-                if (err < eps1 || Math.Abs(x3 - ans) < eps2)
+                if (err < eps1 || x2 - x1 < eps2)
                 {
                     Units = u;
-                    if (x1 > x2)
-                        return side == 1 ? x2 : x1;
-
-                    return Math.Clamp(x3, x1, x2);
+                    return x3;
                 }
-                ans = x3;
+                x0 = x3;
                 if (Math.Sign(y1) == Math.Sign(y3))
                 {
                     if (side == 1)
@@ -204,7 +200,7 @@ namespace Calcpad.Core
                     bisection = true;
             }
             Units = u;
-            return ans;
+            return x0;
         }
 
         internal double Root(double left, double right, double target)
