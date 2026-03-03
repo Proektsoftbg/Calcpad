@@ -120,7 +120,7 @@ namespace Calcpad.Core
                 Units = u;
                 return x2;
             }
-            double eps1 = Precision * 1e-3, eps2 = Precision * (x2 - x1) / 2.0;
+            double eps1 = Precision * 1e-3, eps2 = Precision * (x2 - x1);
             if (Math.Abs(target) > 1)
                 eps1 *= target;
             else
