@@ -435,7 +435,6 @@ namespace Calcpad.Core
             {
                 ref double rC0 = ref MemoryMarshal.GetReference(C.GetRow(i));
                 ref double rC1 = ref MemoryMarshal.GetReference(C.GetRow(i + 1));
-
                 // Clear the two rows
                 for (int j = 0; j < KernelSize; j += 8)
                 {
