@@ -121,8 +121,8 @@ namespace Calcpad.Core
                 return x2;
             }
             double eps1 = Precision * 1e-3, eps2 = Precision * (x2 - x1);
-            if (Math.Abs(target) > 1)
-                eps1 *= target;
+            if (Math.Abs(target) >= 1)
+                eps1 *= Math.Abs(target);
             else
                 eps1 *= eps1;
 
