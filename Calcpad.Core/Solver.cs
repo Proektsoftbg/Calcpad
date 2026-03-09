@@ -151,12 +151,19 @@ namespace Calcpad.Core
                 else
                 {
                     x3 = (x1 * y2 - y1 * x2) / (y2 - y1);
-                    if (x3 < x1) 
+                    if (x3 <= x1)
+                    {
                         x3 = x1;
-                    else if (x3 > x2) 
+                        y3 = y1;
+                    }
+                    else if (x3 >= x2)
+                    {
                         x3 = x2;
+                        y3 = y2;
+                    }
+                    else
+                        y3 = Fd(x3) - target;
 
-                    y3 = Fd(x3) - target;
                     threshold /= 2.0;
                 }
                 err = Math.Abs(y3);
